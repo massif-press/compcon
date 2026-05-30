@@ -17,32 +17,20 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'print-action',
-  props: {
-    tags: {
-      type: Array,
-      required: true,
-    },
-    options: {
-      type: Object,
-      required: true,
-    },
-    mech: {
-      type: Boolean,
-    },
-    block: {
-      type: Boolean,
-    },
-  },
-  methods: {
-    showTag(id) {
+<script setup lang="ts">
+defineOptions({ name: 'print-action' })
+
+const props = defineProps<{
+  tags: any[]
+  options: object
+  mech?: boolean
+  block?: boolean
+}>()
+
+function showTag(id) {
       const hiddenTags = ['tg_hidden', 'tg_unique', 'tg_set_damage_type'];
       return !hiddenTags.includes(id);
-    },
-  },
-};
+    }
 </script>
 
 <style scoped>

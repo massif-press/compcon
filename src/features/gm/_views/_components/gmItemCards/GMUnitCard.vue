@@ -25,18 +25,23 @@
   </gm-card-base>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import GmCardBase from './_GMCardBase.vue';
-export default {
-  name: 'gm-unit-card',
-  components: { GmCardBase },
-  props: {
-    item: { type: Object, required: true },
-    big: { type: Boolean },
-    odd: { type: Boolean },
-    grouping: { type: [Object, String], required: false, default: '' },
-    sorting: { type: Object, required: false, default: '' },
-  },
-  emits: ['open'],
-};
+
+defineOptions({ name: 'gm-unit-card' })
+
+const props = withDefaults(defineProps<{
+  item: object
+  big?: boolean
+  odd?: boolean
+  grouping?: object | string
+  sorting?: object
+}>(), {
+  grouping: '',
+  sorting: ''
+})
+
+const emit = defineEmits<{
+  'open': []
+}>()
 </script>

@@ -69,19 +69,15 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import * as _ from 'lodash-es';
 
-export default {
-  name: 'DamageConditionSelector',
-  props: {
-    controller: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    damageTypes: [
+const props = defineProps<{
+  controller: object
+}>()
+
+const damageTypes = ref([
       { ID: 1, Name: 'Kinetic', icon: 'cc:kinetic', color: 'damage--kinetic' },
       { ID: 2, Name: 'Energy', icon: 'cc:energy', color: 'damage--energy' },
       {
@@ -93,54 +89,50 @@ export default {
       { ID: 4, Name: 'Heat', icon: 'cc:heat', color: 'damage--heat' },
       { ID: 5, Name: 'Burn', icon: 'cc:burn', color: 'damage--burn' },
       { ID: 5, Name: 'AoE', icon: 'cc:blast', color: 'damage--variable' },
-    ],
-    customStatus: '',
-  }),
-  computed: {
-    vulnerabilities() {
-      return this.controller.Resistances.filter((x) => x.condition === 'vulnerability').map(
+    ])
+const customStatus = ref('')
+
+const vulnerabilities = computed(() => {
+      return props.controller.Resistances.filter((x) => x.condition === 'vulnerability').map(
         (x) => x.type
       );
-    },
-    immunities() {
-      return this.controller.Resistances.filter((x) => x.condition === 'immunity').map(
+    })
+const immunities = computed(() => {
+      return props.controller.Resistances.filter((x) => x.condition === 'immunity').map(
         (x) => x.type
       );
-    },
-    resistances() {
-      return this.controller.Resistances.filter((x) => x.condition === 'resistance').map(
+    })
+const resistances = computed(() => {
+      return props.controller.Resistances.filter((x) => x.condition === 'resistance').map(
         (x) => x.type
       );
-    },
-  },
-  methods: {
-    addResistance(resist) {
+    })
+
+function addResistance(resist) {
       let condition;
       const name = resist.Name.toLowerCase();
 
-      if (this.vulnerabilities.includes(name)) {
+      if (vulnerabilities.value.includes(name)) {
         condition = undefined;
-      } else if (this.immunities.includes(name)) {
+      } else if (immunities.value.includes(name)) {
         condition = 'vulnerability';
-      } else if (this.resistances.includes(name)) {
+      } else if (resistances.value.includes(name)) {
         condition = 'immunity';
       } else {
         condition = 'resistance';
       }
 
-      this.controller.SetResistance(name, condition, true);
-    },
-    hasResistance(resist) {
-      return this.resistances.includes(resist.Name.toLowerCase());
-    },
-    hasImmunity(resist) {
-      return this.immunities.includes(resist.Name.toLowerCase());
-    },
-    hasVulnerability(resist) {
-      return this.vulnerabilities.includes(resist.Name.toLowerCase());
-    },
-  },
-};
+      props.controller.SetResistance(name, condition, true);
+    }
+function hasResistance(resist) {
+      return resistances.value.includes(resist.Name.toLowerCase());
+    }
+function hasImmunity(resist) {
+      return immunities.value.includes(resist.Name.toLowerCase());
+    }
+function hasVulnerability(resist) {
+      return vulnerabilities.value.includes(resist.Name.toLowerCase());
+    }
 </script>
 
 <style scoped>

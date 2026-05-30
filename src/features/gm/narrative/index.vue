@@ -40,46 +40,34 @@
   </cc-solo-modal>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
 import NarrativeCollection from './_components/narrativeCollection.vue';
 import Organizer from '../_components/Organizer.vue';
 import Importer from '../_components/NpcImporter.vue';
 import ShareCodeDialog from '@/shared/ShareCodeDialog.vue';
 import { useMobile } from '@/composables/useMobile';
 
+defineOptions({ name: 'NarrativeRoster' })
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'NarrativeRoster',
-  components: {
-    NarrativeCollection,
-    Organizer,
-    Importer,
-    ShareCodeDialog,
-  },
-  props: {
-    type: {
-      type: String,
-      required: false,
-    },
-    id: {
-      type: String,
-      required: false,
-    },
-  },
-  data: () => ({
-    tab: 0,
-    importModal: false,
-    orgModal: false,
-    itemTypes: ['Character', 'Location', 'Faction'],
-    view: 'collection',
-  }),
-  created() {
-    if (this.type) {
-      this.tab = ['character', 'location', 'faction'].indexOf(this.type);
+const { mobile, portrait } = useMobile()
+
+const props = defineProps<{
+  type?: string
+  id?: string
+}>()
+
+const tab = ref(0)
+const importModal = ref(false)
+const orgModal = ref(false)
+const itemTypes = ref(['Character', 'Location', 'Faction'])
+const view = ref('collection')
+
+if (props.type) {
+      tab.value = ['character', 'location', 'faction'].indexOf(props.type);
     }
-  },
-};
+
+if (props.type) {
+      tab.value = ['character', 'location', 'faction'].indexOf(props.type);
+    }
 </script>

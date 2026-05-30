@@ -4,35 +4,46 @@
   </component>
 </template>
 
-<script lang="ts">
-import minor from './headings/cc_heading_minor.vue';
-import title from './headings/cc_title.vue';
+<script setup lang="ts">
+import { computed } from 'vue'
+import minor from './cc_heading_minor.vue';
+import title from './cc_title.vue';
+import h3 from './cc_h3.vue';
 
-import h3 from './headings/cc_h3.vue';
+defineOptions({ name: 'cc-heading' })
 
-export default {
-  name: 'cc-heading',
-  props: {
-    type: { type: String, default: 'minor' },
-    color: { type: String, default: '' },
-    textColor: { type: String, default: 'accent' },
-    line: { type: Boolean },
-    filled: { type: Boolean, default: false },
-    isTitle: { type: Boolean },
-    text: { type: String, default: '' },
-    small: { type: Boolean, default: false },
-    size: { type: String, default: 'small' },
-    tooltip: { type: String, default: '' },
-    dense: { type: Boolean, default: false },
-    center: { type: Boolean, default: false },
-  },
-  computed: {
-    component() {
-      if (this.isTitle) {
+const props = withDefaults(defineProps<{
+  type?: string
+  color?: string
+  textColor?: string
+  line?: boolean
+  filled?: boolean
+  isTitle?: boolean
+  text?: string
+  small?: boolean
+  size?: string
+  tooltip?: string
+  dense?: boolean
+  center?: boolean
+}>(), {
+  type: 'minor',
+  color: '',
+  textColor: 'accent',
+  filled: false,
+  text: '',
+  small: false,
+  size: 'small',
+  tooltip: '',
+  dense: false,
+  center: false
+})
+
+const component = computed(() => {
+      if (props.isTitle) {
         return title;
       }
 
-      switch (this.type) {
+      switch (props.type) {
         case 'minor':
           return minor;
         case 'h3':
@@ -40,7 +51,5 @@ export default {
         default:
           return title;
       }
-    },
-  },
-};
+    })
 </script>

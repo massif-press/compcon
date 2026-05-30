@@ -34,41 +34,40 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CompendiumSearchBar',
-  props: {
-    reference: {
-      type: Boolean,
-    },
-    campaign: {
-      type: Boolean,
-    },
-    disabled: {
-      type: Boolean,
-    },
-  },
-  emits: ['search'],
-  data: () => ({
-    searchText: '',
-    isHovering: false,
-    isFocused: false,
-  }),
-  computed: {
-    loc() {
-      return this.reference ? 'Reference' : 'Compendium';
-    },
-  },
-  methods: {
-    search() {
-      if (this.campaign) {
-        this.$emit('search', this.searchText);
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
+defineOptions({ name: 'CompendiumSearchBar' })
+
+const props = defineProps<{
+  reference?: boolean
+  campaign?: boolean
+  disabled?: boolean
+}>()
+
+const emit = defineEmits<{
+  'search': []
+}>()
+
+const input = ref<any>(null)
+
+const searchText = ref('')
+const isHovering = ref(false)
+const isFocused = ref(false)
+
+const loc = computed(() => {
+      return props.reference ? 'Reference' : 'Compendium';
+    })
+
+function search() {
+      if (props.campaign) {
+        emit('search', searchText.value);
         return;
       }
-      this.$router.push(`srd/${this.loc.toLowerCase()}/search?search=${this.searchText}`);
-    },
-  },
-};
+      router.push(`srd/${loc.value.toLowerCase()}/search?search=${searchText.value}`);
+    }
 </script>
 
 <style scoped>

@@ -60,37 +60,42 @@
   </cc-solo-dialog>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'LabelDialog',
-  props: {
-    allLabels: { type: Array, default: () => [] },
-    selectedLabels: { type: Array, default: () => [] },
-  },
-  emits: ['confirm'],
-  data: () => ({
-    labelTab: 'set' as 'set' | 'delete',
-    kvpKey: '' as any,
-    kvpValue: '',
-  }),
-  methods: {
-    open() {
-      this.kvpKey = '';
-      this.kvpValue = '';
-      this.labelTab = 'set';
-      (this.$refs.dialog as any).open();
-    },
-    close() {
-      (this.$refs.dialog as any).close();
-    },
-    confirm() {
-      this.$emit('confirm', {
-        key: this.kvpKey,
-        value: this.kvpValue,
-        op: this.labelTab,
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const props = withDefaults(defineProps<{
+  allLabels?: any[]
+  selectedLabels?: any[]
+}>(), {
+  allLabels: () => [],
+  selectedLabels: () => []
+})
+
+const emit = defineEmits<{
+  'confirm': []
+}>()
+
+const dialog = ref<any>(null)
+
+const labelTab = ref('set' as 'set' | 'delete')
+const kvpKey = ref('' as any)
+const kvpValue = ref('')
+
+function open() {
+      kvpKey.value = '';
+      kvpValue.value = '';
+      labelTab.value = 'set';
+      (dialog.value as any).open();
+    }
+function close() {
+      (dialog.value as any).close();
+    }
+function confirm() {
+      emit('confirm', {
+        key: kvpKey.value,
+        value: kvpValue.value,
+        op: labelTab.value,
       });
-      this.close();
-    },
-  },
-};
+      close();
+    }
 </script>

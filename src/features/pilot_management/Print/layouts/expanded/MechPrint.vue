@@ -267,7 +267,8 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import PrintAction from '../../components/PrintAction.vue';
 import PrintDeployable from '../../components/PrintDeployable.vue';
 import blankLine from '../../components/blank/line.vue';
@@ -280,51 +281,26 @@ import PrintStatBox from '../../components/PrintStatBox.vue';
 import PrintBlankLoadout from '../../components/PrintBlankLoadout.vue';
 import PrintBlankSystems from '../../components/PrintBlankSystems.vue';
 import PrintSystemsList from '../../components/PrintSystemsList.vue';
-import { usePrintOptions } from '../_usePrintOptions';
+import { usePrintOptions } from '../usePrintOptions';
 import PrintMechHpRows from '../../components/_PrintMechHpRows.vue';
 
-export default {
-  name: 'MechPrint',
-  components: {
-    PrintAction,
-    PrintDeployable,
-    blankLine,
-    notes,
-    tagBlock,
-    PageBreak,
-    PrintMechNameBlock,
-    PrintHpBlock,
-    PrintStatBox,
-    PrintBlankLoadout,
-    PrintBlankSystems,
-    PrintSystemsList,
-    PrintMechHpRows,
-  },
-  mixins: [usePrintOptions],
-  props: {
-    mech: {
-      type: Object,
-      required: true,
-    },
-    options: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    mounts() {
-      return this.mech.MechLoadoutController.ActiveLoadout.AllMounts(
-        this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-        this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
-        this.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
-      );
-    },
+const props = defineProps<{
+  mech: object
+  options: object
+}>()
 
-    getHpCols() {
+const { blank, landscape, hasPilotOption, hasMechOption, signed, showTag, showCollectedEffect } = usePrintOptions(props)
+
+const mounts = computed(() => {
+      return props.mech.MechLoadoutController.ActiveLoadout.AllMounts(
+        props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
+        props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
+        props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
+      );
+    })
+const getHpCols = computed(() => {
       return 'auto';
-    },
-  },
-};
+    })
 </script>
 
 <style scoped>

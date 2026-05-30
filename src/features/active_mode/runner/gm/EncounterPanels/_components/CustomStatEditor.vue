@@ -102,82 +102,79 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { MandatoryStats, StatController } from '@/classes/components/combat/stats/StatController';
 import { Bonus } from '@/classes/components/feature/bonus/Bonus';
 import { useMobile } from '@/composables/useMobile';
-
-
 const npcStatOrder = [
-  'hull',
-  'agi',
-  'sys',
-  'eng',
-  'size',
-  'sizes',
-  'activations',
-  'structure',
-  'stress',
-  'hp',
-  'speed',
-  'sensorRange',
-  'heat',
-  'armor',
-  'evasion',
-  'edef',
-  'attackBonus',
-  'techAttack',
-  'saveTarget',
-  'grapple',
-  'ram',
+'hull',
+'agi',
+'sys',
+'eng',
+'size',
+'sizes',
+'activations',
+'structure',
+'stress',
+'hp',
+'speed',
+'sensorRange',
+'heat',
+'armor',
+'evasion',
+'edef',
+'attackBonus',
+'techAttack',
+'saveTarget',
+'grapple',
+'ram',
 ];
-
 const trackable = [
-  { title: 'HP', key: 'hp' },
-  { title: 'Reactor', key: 'stress' },
-  { title: 'Heat Capacity', key: 'heatcap' },
-  { title: 'Structure', key: 'structure' },
-  { title: 'Repair Capacity', key: 'repairCapacity' },
-  { title: 'Overcharge', key: 'overcharge' },
-  { title: 'Activations', key: 'activations' },
-  { title: 'Speed', key: 'speed' },
+{ title: 'HP', key: 'hp' },
+{ title: 'Reactor', key: 'stress' },
+{ title: 'Heat Capacity', key: 'heatcap' },
+{ title: 'Structure', key: 'structure' },
+{ title: 'Repair Capacity', key: 'repairCapacity' },
+{ title: 'Overcharge', key: 'overcharge' },
+{ title: 'Activations', key: 'activations' },
+{ title: 'Speed', key: 'speed' },
 ];
-
 const statics = [
-  { title: 'Hull', key: 'hull' },
-  { title: 'Agility', key: 'agi' },
-  { title: 'Systems', key: 'sys' },
-  { title: 'Engineering', key: 'eng' },
-  { title: 'Size', key: 'size' },
-  { title: 'Sensor Range', key: 'sensorRange' },
-  { title: 'Evasion', key: 'evasion' },
-  { title: 'E-Defense', key: 'edef' },
-  { title: 'Attack Bonus', key: 'attackBonus' },
-  { title: 'Tech Attack', key: 'techAttack' },
-  { title: 'Save Target', key: 'saveTarget' },
-  { title: 'Grapple', key: 'grapple' },
-  { title: 'Ram', key: 'ram' },
+{ title: 'Hull', key: 'hull' },
+{ title: 'Agility', key: 'agi' },
+{ title: 'Systems', key: 'sys' },
+{ title: 'Engineering', key: 'eng' },
+{ title: 'Size', key: 'size' },
+{ title: 'Sensor Range', key: 'sensorRange' },
+{ title: 'Evasion', key: 'evasion' },
+{ title: 'E-Defense', key: 'edef' },
+{ title: 'Attack Bonus', key: 'attackBonus' },
+{ title: 'Tech Attack', key: 'techAttack' },
+{ title: 'Save Target', key: 'saveTarget' },
+{ title: 'Grapple', key: 'grapple' },
+{ title: 'Ram', key: 'ram' },
 ];
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'StatEditor',
-  props: {
-    item: { type: Object, required: true },
-    bonuses: { type: Array, default: () => [] },
-    allowCore: { type: Boolean, default: false },
-  },
-  data: () => ({
-    trackableStat: undefined,
-    trackableValue: 0,
-    staticStat: undefined,
-    staticValue: 0,
+defineOptions({ name: 'StatEditor' })
 
-    menuTab: 0,
+const { mobile, portrait } = useMobile()
 
-    hiddenKeys: [
+const props = withDefaults(defineProps<{
+  item: object
+  bonuses?: any[]
+  allowCore?: boolean
+}>(), {
+  bonuses: () => [],
+  allowCore: false
+})
+
+const trackableStat = ref(undefined)
+const trackableValue = ref(0)
+const staticStat = ref(undefined)
+const staticValue = ref(0)
+const menuTab = ref(0)
+const hiddenKeys = ref([
       'overcharge',
       'overshield',
       'attackBonus',
@@ -186,70 +183,66 @@ export default {
       'repairCapacity',
       'saveBonus',
       'resist'
-    ],
-  }),
-  computed: {
-    controller() {
-      return this.item.StatController;
-    },
-    coreStats() {
+    ])
+
+const controller = computed(() => {
+      return props.item.StatController;
+    })
+const coreStats = computed(() => {
       return StatController.CoreStats;
-    },
-    availableCoreStats() {
+    })
+const availableCoreStats = computed(() => {
       return StatController.CoreStats.filter((x) => x.key !== 'sizes');
-    },
-    displayKeys() {
+    })
+const displayKeys = computed(() => {
       const omit = ['overshield', 'overcharge', 'burn'];
-      return this.item.StatController.DisplayKeys.filter(
+      return props.item.StatController.DisplayKeys.filter(
         (x) => !omit.includes(x.key.toLowerCase())
       ).sort((a, b) => npcStatOrder.indexOf(a.key) - npcStatOrder.indexOf(b.key));
-    },
-    mandatoryStats() {
+    })
+const mandatoryStats = computed(() => {
       return MandatoryStats;
-    },
-    customStats() {
-      return Object.keys(this.item.StatController.MaxStats).filter(
-        (x) => !this.mandatoryStats.includes(x) && !this.hiddenKeys.includes(x.toLowerCase())
+    })
+const customStats = computed(() => {
+      return Object.keys(props.item.StatController.MaxStats).filter(
+        (x) => !mandatoryStats.value.includes(x) && !hiddenKeys.value.includes(x.toLowerCase())
       );
-    },
-    hasStat() {
-      return (key) => Object.keys(this.item.StatController.MaxStats).includes(key);
-    },
-    availableTrackableStats() {
-      return this.allowCore ? trackable : trackable.filter((x) => !this.isCoreStat(x.title));
-    },
-    availableStaticStats() {
-      return this.allowCore ? statics : statics.filter((x) => !this.isCoreStat(x.title));
-    },
-  },
-  methods: {
-    isCoreStat(key) {
-      return this.coreStats.map((x) => x.key).includes(key);
-    },
-    addTrackableStat() {
-      if (!this.trackableStat) return;
-      const val = Number(this.trackableValue) || 0;
-      this.item.StatController.setMax(this.trackableStat, val);
-      this.item.StatController.CurrentStats[this.trackableStat] = val;
-      this.item.save();
-      this.trackableStat = undefined;
-      this.trackableValue = 0;
-    },
-    addStaticStat() {
-      if (!this.staticStat) return;
-      const val = Number(this.staticValue) || 0;
-      this.item.StatController.setMax(this.staticStat, val);
-      this.item.StatController.CurrentStats[this.staticStat] = val;
-      this.item.save();
-      this.staticStat = undefined;
-      this.staticValue = 0;
-    },
-    removeStat(key) {
-      if (!this.hasStat(key)) return;
-      delete this.item.StatController.MaxStats[key];
-      delete this.item.StatController.CurrentStats[key];
-      this.item.save();
-    },
-  },
-};
+    })
+const hasStat = computed(() => {
+      return (key) => Object.keys(props.item.StatController.MaxStats).includes(key);
+    })
+const availableTrackableStats = computed(() => {
+      return props.allowCore ? trackable : trackable.filter((x) => !isCoreStat(x.title));
+    })
+const availableStaticStats = computed(() => {
+      return props.allowCore ? statics : statics.filter((x) => !isCoreStat(x.title));
+    })
+
+function isCoreStat(key) {
+      return coreStats.value.map((x) => x.key).includes(key);
+    }
+function addTrackableStat() {
+      if (!trackableStat.value) return;
+      const val = Number(trackableValue.value) || 0;
+      props.item.StatController.setMax(trackableStat.value, val);
+      props.item.StatController.CurrentStats[trackableStat.value] = val;
+      props.item.save();
+      trackableStat.value = undefined;
+      trackableValue.value = 0;
+    }
+function addStaticStat() {
+      if (!staticStat.value) return;
+      const val = Number(staticValue.value) || 0;
+      props.item.StatController.setMax(staticStat.value, val);
+      props.item.StatController.CurrentStats[staticStat.value] = val;
+      props.item.save();
+      staticStat.value = undefined;
+      staticValue.value = 0;
+    }
+function removeStat(key) {
+      if (!hasStat(key)) return;
+      delete props.item.StatController.MaxStats[key];
+      delete props.item.StatController.CurrentStats[key];
+      props.item.save();
+    }
 </script>

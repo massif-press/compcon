@@ -37,16 +37,15 @@
   </v-toolbar>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CardContentBase',
-  props: {
-    item: { type: Object, required: true },
-    small: { type: Boolean },
-    hover: { type: Boolean },
-    highlighted: { type: Boolean },
-  },
-};
+<script setup lang="ts">
+defineOptions({ name: 'CardContentBase' })
+
+const props = defineProps<{
+  item: object
+  small?: boolean
+  hover?: boolean
+  highlighted?: boolean
+}>()
 </script>
 
 <style scoped>

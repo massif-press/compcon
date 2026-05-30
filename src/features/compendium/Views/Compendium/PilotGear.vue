@@ -10,15 +10,12 @@
   </cc-compendium-browser>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { orderBy } from 'lodash-es';
 import { CompendiumStore, UserStore } from '@/stores';
 
-export default {
-  name: 'PilotGear',
-
-  data: () => ({
-    headers: {
+const headers = ref({
       PilotArmor: [
         { title: 'Content Pack', key: 'LcpName' },
         { title: 'Type', key: 'Type' },
@@ -45,23 +42,20 @@ export default {
         { title: 'Uses', key: 'MaxUses' },
         { title: 'Tags', align: 'center', key: 'Tags' },
       ],
-    },
-    options: {
+    })
+const options = ref({
       views: ['single', 'list', 'table', 'cards'],
       initialView: 'list',
       groups: ['lcp', 'type', 'none'],
       initialGroup: 'type',
       noSource: true,
       showExotics: UserStore().User.Option('showExotics') as boolean,
-    },
-  }),
-  computed: {
-    gear(): any[] {
+    })
+
+const gear = computed(() => {
       return orderBy(
         CompendiumStore().PilotGear.filter((x: any) => !x.IsHidden),
         'Name'
       );
-    },
-  },
-};
+    })
 </script>

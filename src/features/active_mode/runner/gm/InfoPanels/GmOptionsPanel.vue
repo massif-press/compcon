@@ -214,74 +214,71 @@
   </v-card>
 </template>
 
-<script lang="ts">
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
-import { EncounterStore } from '@/stores';
-import RunnerOptionsHeader from '../../_shared/_RunnerOptionsHeader.vue';
-import { runnerOptionsMixin } from '../../_shared/_runnerOptionsMixin';
+<script setup lang="ts">
+import { computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { EncounterStore } from '@/stores'
+import RunnerOptionsHeader from '../../_shared/_RunnerOptionsHeader.vue'
+import { useRunnerOptions } from '../../_shared/useRunnerOptions'
+import { notify } from '@kyvg/vue3-notification'
 
-export default {
-  name: 'GmOptionsPanel',
-  components: { RunnerOptionsHeader },
-  mixins: [runnerOptionsMixin],
-  props: {
-    encounterInstance: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    reinforcements() {
-      return this.encounterInstance.Combatants.filter((c) => c.reinforcement);
-    },
-  },
-  mounted() {
-    this.reset();
-  },
-  methods: {
-    removeActor(actor) {
-      const combatantIndex = this.encounterInstance.Combatants.findIndex(
-        (c) => c.actor.ID === actor.ID
-      );
-      if (combatantIndex !== -1) {
-        this.encounterInstance.Combatants.splice(combatantIndex, 1);
-      }
-    },
-    manualSave() {
-      try {
-        this.encounterInstance.Save();
-        this.saveUpdate = Date.now();
-        this.$notify({
-          title: `Save Successful`,
-          text: `Saved Encounter: ${this.encounterInstance.Encounter.Name} at Round ${this.encounterInstance.Round}`,
-          data: { icon: 'mdi-content-save', color: 'success' },
-        });
-      } catch (error) {
-        console.error('Manual Save Failed:', error);
-        this.$notify({
-          title: `Save Failed`,
-          text: `Failed to save Encounter: ${this.encounterInstance.Encounter.Name}`,
-          data: { icon: 'mdi-alert', color: 'error' },
-        });
-      }
-    },
-    exportState() {
-      this.exportStateFile(
-        this.encounterInstance.Serialize(),
-        `encounter_${this.encounterInstance.Encounter.Name || 'unknown'}_${Date.now()}.json`
-      );
-    },
-    async importState(close: () => void) {
-      if (!this.importOk || !this.importObj) return;
-      await EncounterStore().AddEncounterInstance(EncounterInstance.Deserialize(this.importObj));
-      await EncounterStore().SaveActiveEncounterData();
-      this.reset();
-      close();
-      this.$router.go(0);
-    },
-    stageImport() {
-      this.stageImportFile('EncounterInstance', 'Invalid Encounter Instance file.');
-    },
-  },
-};
+defineOptions({ name: 'GmOptionsPanel' })
+
+const props = defineProps<{
+  encounterInstance: object
+}>()
+
+const router = useRouter()
+const { fileValue, importObj, importOk, importError, saveUpdate, reset, exportStateFile, stageImportFile } = useRunnerOptions()
+
+onMounted(() => { reset() })
+
+const reinforcements = computed(() =>
+  (props.encounterInstance as any).Combatants.filter((c: any) => c.reinforcement)
+)
+
+function removeActor(actor: any) {
+  const idx = (props.encounterInstance as any).Combatants.findIndex((c: any) => c.actor.ID === actor.ID)
+  if (idx !== -1) (props.encounterInstance as any).Combatants.splice(idx, 1)
+}
+
+function manualSave() {
+  try {
+    ;(props.encounterInstance as any).Save()
+    saveUpdate.value = Date.now()
+    notify({
+      title: 'Save Successful',
+      text: `Saved Encounter: ${(props.encounterInstance as any).Encounter.Name} at Round ${(props.encounterInstance as any).Round}`,
+      data: { icon: 'mdi-content-save', color: 'success' },
+    })
+  } catch (error) {
+    console.error('Manual Save Failed:', error)
+    notify({
+      title: 'Save Failed',
+      text: `Failed to save Encounter: ${(props.encounterInstance as any).Encounter.Name}`,
+      data: { icon: 'mdi-alert', color: 'error' },
+    })
+  }
+}
+
+function exportState() {
+  exportStateFile(
+    (props.encounterInstance as any).Serialize(),
+    `encounter_${(props.encounterInstance as any).Encounter.Name || 'unknown'}_${Date.now()}.json`
+  )
+}
+
+async function importState(close: () => void) {
+  if (!importOk.value || !importObj.value) return
+  await EncounterStore().AddEncounterInstance(EncounterInstance.Deserialize(importObj.value))
+  await EncounterStore().SaveActiveEncounterData()
+  reset()
+  close()
+  router.go(0)
+}
+
+function stageImport() {
+  stageImportFile('EncounterInstance', 'Invalid Encounter Instance file.')
+}
 </script>

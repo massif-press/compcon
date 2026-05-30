@@ -128,27 +128,24 @@
   </v-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { notify } from '@/util/notify'
 import * as _ from 'lodash-es';
 
-export default {
-  name: 'EncounterInfo',
-  props: {
-    encounter: {
-      type: Object,
-      required: true,
-    },
-    encounterInstance: {
-      type: Object,
-      default: null,
-    },
-  },
-  data: () => ({
-    sitrepBlocks: ['Description', 'Deployment', 'Objective', 'Extraction', 'Conditions'],
-  }),
-  computed: {
-    reinforcementsByTurn() {
-      const source = this.encounterInstance || this.encounter;
+defineOptions({ name: 'EncounterInfo' })
+
+const props = withDefaults(defineProps<{
+  encounter: object
+  encounterInstance?: object
+}>(), {
+  encounterInstance: null
+})
+
+const sitrepBlocks = ref(['Description', 'Deployment', 'Objective', 'Extraction', 'Conditions'])
+
+const reinforcementsByTurn = computed(() => {
+      const source = props.encounterInstance || props.encounter;
       if (!source || !source.Combatants) return [];
 
       const reinforcements = {};
@@ -166,25 +163,22 @@ export default {
         combatants,
       }));
       return _.sortBy(res, 'turn');
-    },
-  },
-  methods: {
-    copy(text) {
+    })
+
+function copy(text) {
       navigator.clipboard
         .writeText(text)
         .then(() => {
-          this.$notify({
+          notify({
             text: `Copied to Clipboard`,
             data: { color: 'success' },
           });
         })
         .catch((err) => {
-          this.$notify({
+          notify({
             title: `Failed to Copy`,
             data: { color: 'error' },
           });
         });
-    },
-  },
-};
+    }
 </script>

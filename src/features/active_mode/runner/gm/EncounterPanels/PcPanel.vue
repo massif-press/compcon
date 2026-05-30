@@ -104,55 +104,43 @@
   </v-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, onMounted, ref } from 'vue'
 import { ReserveType } from '@/classes/enums'
 import MechPanel from './MechPanel.vue';
 import PilotPanel from './PilotPanel.vue';
 import { useMobile } from '@/composables/useMobile';
 
+const { mobile, portrait } = useMobile()
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'PcPanel',
-  components: {
-    MechPanel,
-    PilotPanel,
-  },
-  props: {
-    combatant: {
-      type: Object,
-      required: true,
-    },
-    encounterInstance: {
-      type: Object,
-      required: true,
-    },
-    encounter: { type: Object, required: false },
-    selected: { type: [String, Boolean, Number, Object], required: false },
-    sheet: { type: Object, required: false },
-    pc: { type: [Object, String], required: false },
-  },
-  inheritAttrs: false,
-  emits: ['deselect'],
-  data: () => ({
-    view: 'mech', // default view
-    unusedOnly: false,
-  }),
-  computed: {
-    mech() {
-      return this.combatant.actor.ActiveMech;
-    },
-    mounted() {
-      if (!this.mech) return false;
-      return this.mech.CombatController.Mounted;
-    },
-    orderedReserves() {
-      const r = this.combatant.actor.ReservesController.Reserves.filter(
+const props = defineProps<{
+  combatant: object
+  encounterInstance: object
+  encounter?: object
+  selected?: string | boolean | number | object
+  sheet?: object
+  pc?: object | string
+}>()
+
+const emit = defineEmits<{
+  'deselect': []
+}>()
+
+const view = ref('mech')
+const unusedOnly = ref(false)
+
+const mech = computed(() => {
+      return props.combatant.actor.ActiveMech;
+    })
+const mounted = computed(() => {
+      if (!mech.value) return false;
+      return mech.value.CombatController.Mounted;
+    })
+const orderedReserves = computed(() => {
+      const r = props.combatant.actor.ReservesController.Reserves.filter(
         (x) => x.Type !== ReserveType.Organization && x.Type !== ReserveType.Project
       );
-      if (!this.unusedOnly) {
+      if (!unusedOnly.value) {
         return r.filter((x) => !x.Used).sort((a, b) => a.ResourceLabel.localeCompare(b.Name));
       }
       return r.sort((a, b) => {
@@ -160,7 +148,10 @@ export default {
         if (!a.Used && b.Used) return -1;
         return a.Name.localeCompare(b.Name);
       });
-    },
-  },
-};
+    })
+
+onMounted(() => {
+if (!mech.value) return false;
+      return mech.value.CombatController.Mounted;
+})
 </script>

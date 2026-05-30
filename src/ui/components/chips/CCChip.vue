@@ -1,5 +1,5 @@
 <template>
-  <component :is="component" v-bind="$props">
+  <component :is="component" v-bind="$props" @click:close="emit('click:close')">
     <template #tooltip><slot name="tooltip" /></template>
     <slot />
   </component>
@@ -20,10 +20,16 @@ const props = withDefaults(defineProps<{
   size?: string
   variant?: string
   tooltip?: string
+  closable?: boolean
 }>(), {
   color: 'primary',
   size: 'small',
+  closable: false,
 })
+
+const emit = defineEmits<{
+  'click:close': []
+}>()
 
 const component = computed(() => {
   if ((props.title || props.icon) && props.label) return split;

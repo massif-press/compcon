@@ -30,49 +30,41 @@
   </v-card-actions>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
 import { Cropper, Preview } from 'vue-advanced-cropper';
 import 'vue-advanced-cropper/dist/style.css';
 
-export default {
-  name: 'image-crop',
-  components: {
-    Cropper,
-    Preview,
-  },
-  emits: ['confirm', 'hide'],
-  data: () => ({
-    result: {
+defineOptions({ name: 'image-crop' })
+
+const props = defineProps<{
+  src: string
+  imgKey?: string
+}>()
+
+const emit = defineEmits<{
+  'confirm': []
+  'hide': []
+}>()
+
+const result = ref({
       coordinates: null as any,
       image: null as any,
-    },
-    stencilProps: {
+    })
+const stencilProps = ref({
       aspectRatio: 1,
-    },
-  }),
-  props: {
-    src: {
-      type: String,
-      required: true,
-    },
-    imgKey: {
-      type: String,
-      required: false,
-    },
-  },
-  methods: {
-    change({ coordinates, image }) {
-      this.result = {
+    })
+
+function change({ coordinates, image }) {
+      result.value = {
         coordinates,
         image,
       };
-    },
-    set() {
-      if (this.imgKey?.length) this.result.image.src = this.imgKey;
-      this.$emit('confirm', this.result);
-    },
-  },
-};
+    }
+function set() {
+      if (props.imgKey?.length) result.value.image.src = props.imgKey;
+      emit('confirm', result.value);
+    }
 </script>
 
 <style scoped>

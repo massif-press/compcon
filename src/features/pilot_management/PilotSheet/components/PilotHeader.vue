@@ -219,27 +219,24 @@
   </cc-solo-modal>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import PilotRegistrationCard from './PilotRegistrationCard.vue'
 import LevelEditDialog from './LevelEditDialog.vue'
-
 import { Pilot } from '@/classes/pilot/Pilot'
+const router = useRouter()
+const route = useRoute()
 
-export default {
-  name: 'PilotHeader',
-  components: { LevelEditDialog, PilotRegistrationCard },
-  props: {
-    pilot: { type: Pilot, required: true },
-  },
-  data: () => ({
-    levelEdit: false,
-  }),
-  computed: {
-    isLevelingUp(): boolean {
-      return this.$route.name === 'pilot-level-wizard'
-    },
-  },
-}
+const props = defineProps<{
+  pilot: Pilot
+}>()
+
+const levelEdit = ref(false)
+
+const isLevelingUp = computed(() => {
+      return route.name === 'pilot-level-wizard'
+    })
 </script>
 
 <style scoped>

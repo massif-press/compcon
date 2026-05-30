@@ -106,41 +106,40 @@
   </v-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { notify } from '@/util/notify'
 import { Campaign } from '@/classes/campaign/Campaign';
 import JSZip from 'jszip';
 import { CampaignStore } from '../../store/campaign_store';
 import { UserStore } from '@/stores';
 
-export default {
-  name: 'campaign-current-version-export',
-  props: {
-    campaign: { type: Object, required: true },
-  },
-  data: () => ({
-    dOptions: { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
-    uploading: false,
-  }),
-  computed: {
-    latest() {
-      return this.campaign.VersionHistory.length
-        ? this.campaign.VersionHistory[this.campaign.VersionHistory.length - 1]
-        : null;
-    },
-    isLoggedIn() {
-      return UserStore().IsLoggedIn;
-    },
-    shareCode() {
-      return this.campaign.CloudController.ShareCode;
-    },
-  },
+defineOptions({ name: 'campaign-current-version-export' })
 
-  methods: {
-    async exportLcd() {
-      const filename = `${this.campaign.Name} - ${this.latest.ver}.lcd`;
+const props = defineProps<{
+  campaign: object
+}>()
+
+const dOptions = ref({ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+const uploading = ref(false)
+
+const latest = computed(() => {
+      return props.campaign.VersionHistory.length
+        ? props.campaign.VersionHistory[props.campaign.VersionHistory.length - 1]
+        : null;
+    })
+const isLoggedIn = computed(() => {
+      return UserStore().IsLoggedIn;
+    })
+const shareCode = computed(() => {
+      return props.campaign.CloudController.ShareCode;
+    })
+
+async function exportLcd() {
+      const filename = `${props.campaign.Name} - ${latest.value.ver}.lcd`;
       const zip = new JSZip();
 
-      zip.file('campaign_data.json', JSON.stringify(Campaign.Serialize(this.campaign as Campaign)));
+      zip.file('campaign_data.json', JSON.stringify(Campaign.Serialize(props.campaign as Campaign)));
 
       const content = await zip.generateAsync({ type: 'blob' });
 
@@ -152,26 +151,26 @@ export default {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-    },
-    async saveLocalCollection() {
+    }
+async function saveLocalCollection() {
       try {
-        await CampaignStore().AddCollectionCampaign(Campaign.Serialize(this.campaign as Campaign));
-        this.$notify({
+        await CampaignStore().AddCollectionCampaign(Campaign.Serialize(props.campaign as Campaign));
+        notify({
           title: 'Import Complete',
           text: `Campaign added to local collection!`,
           data: { icon: 'cc:campaign', color: 'success' },
         });
       } catch (error) {
-        this.$notify({
+        notify({
           title: 'Import Error',
           text: `Unable to transfer campaign: ${error}`,
           data: { icon: 'cc:campaign', color: 'error' },
         });
       }
-    },
-    async upload() {
-      if (!this.isLoggedIn) {
-        this.$notify({
+    }
+async function upload() {
+      if (!isLoggedIn.value) {
+        notify({
           title: 'Login Required',
           text: `You must be logged in to upload campaign data to the cloud repository.`,
           data: { icon: 'cc:campaign', color: 'error' },
@@ -179,31 +178,29 @@ export default {
         return;
       }
       try {
-        this.uploading = true;
-        await this.campaign.CloudController.UpdateCloud('campaign');
-        this.$notify({
+        uploading.value = true;
+        await props.campaign.CloudController.UpdateCloud('campaign');
+        notify({
           title: 'Upload Success',
           text: `Cloud data updated!`,
           data: { icon: 'cc:campaign', color: 'success' },
         });
       } catch (error) {
-        this.$notify({
+        notify({
           title: 'Upload Error',
           text: `Unable to update cloud: ${error}`,
           data: { icon: 'cc:campaign', color: 'error' },
         });
       } finally {
-        this.uploading = false;
+        uploading.value = false;
       }
-    },
-    copyShareCode() {
-      navigator.clipboard.writeText(this.shareCode);
-      this.$notify({
+    }
+function copyShareCode() {
+      navigator.clipboard.writeText(shareCode.value);
+      notify({
         title: 'Share Code Copied',
         text: `Share code copied to clipboard!`,
         data: { icon: 'cc:campaign', color: 'success' },
       });
-    },
-  },
-};
+    }
 </script>

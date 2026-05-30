@@ -16,18 +16,16 @@
   </v-container>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'panel-view',
-  props: {
-    noBorder: { type: Boolean },
-  },
-  methods: {
-    resetScroll() {
+<script setup lang="ts">
+defineOptions({ name: 'panel-view' })
+
+const props = defineProps<{
+  noBorder?: boolean
+}>()
+
+function resetScroll() {
       document.getElementById('scrollTarget')!.scrollTop = 0;
-    },
-  },
-};
+    }
 </script>
 
 <style scoped>

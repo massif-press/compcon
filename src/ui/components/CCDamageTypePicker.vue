@@ -19,46 +19,41 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
 import { DamageType } from '@/classes/enums'
 
-export default {
-  name: 'cc-damage-type-picker',
-  props: {
-    allowedTypes: {
-      type: Array,
-      required: false,
-      default: () => [],
-    },
-  },
-  data: () => {
-    return {
-      dialog: false,
-      availableTypes: [] as string[],
-      selected: '',
-    };
-  },
-  methods: {
-    damageTypes(): string[] {
+defineOptions({ name: 'cc-damage-type-picker' })
+
+const props = withDefaults(defineProps<{
+  allowedTypes?: any[]
+}>(), {
+  allowedTypes: () => []
+})
+
+const emit = defineEmits<{
+  'select': []
+}>()
+
+const dialog = ref(false)
+const availableTypes = ref([] as string[])
+const selected = ref('')
+
+function damageTypes() {
       return Object.keys(DamageType)
         .map((k) => DamageType[k as any])
         .sort() as string[];
-    },
-    show(): void {
-      this.dialog = true;
-    },
-    hide(): void {
-      this.dialog = false;
-    },
-    select(t: string): void {
-      this.$emit('select', t);
-      this.hide();
-    },
-  },
-  created(): void {
-    this.availableTypes = this.allowedTypes.length
-      ? this.damageTypes().filter((x) => this.allowedTypes.includes(x))
-      : this.damageTypes().filter((x) => x !== 'Variable');
-  },
-};
+    }
+function show() {
+      dialog.value = true;
+    }
+function hide() {
+      dialog.value = false;
+    }
+function select(t: string) {
+      emit('select', t);
+      hide();
+    }
+
+defineExpose({ show, hide })
 </script>

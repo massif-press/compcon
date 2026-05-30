@@ -137,59 +137,59 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { MandatoryStats, StatController } from '@/classes/components/combat/stats/StatController';
 import { Stats } from '@/classes/components/combat/stats/Stats';
 import EditableAttribute from './_subcomponents/EditableAttribute.vue';
 import { Bonus } from '@/classes/components/feature/bonus/Bonus';
 import { useMobile } from '@/composables/useMobile';
-
-
 const npcStatOrder = [
-  'hull',
-  'agi',
-  'sys',
-  'eng',
-  'size',
-  'sizes',
-  'activations',
-  'structure',
-  'stress',
-  'hp',
-  'speed',
-  'sensorRange',
-  'heatcap',
-  'armor',
-  'evasion',
-  'edef',
-  'attackBonus',
-  'techAttack',
-  'saveTarget',
-  'grapple',
-  'ram',
+'hull',
+'agi',
+'sys',
+'eng',
+'size',
+'sizes',
+'activations',
+'structure',
+'stress',
+'hp',
+'speed',
+'sensorRange',
+'heatcap',
+'armor',
+'evasion',
+'edef',
+'attackBonus',
+'techAttack',
+'saveTarget',
+'grapple',
+'ram',
 ];
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'StatEditor',
-  components: { EditableAttribute },
-  props: {
-    item: { type: Object, required: true },
-    controller: { type: Object, required: false },
-    bonuses: { type: Array, default: () => [] },
-    prefix: { type: String, default: '' },
-    readonly: { type: Boolean, default: false },
-    tierOverride: { type: Number, default: 0 },
-  },
-  data: () => ({
-    statsToAdd: [],
-    menuTab: 0,
-    customTitle: '',
-    resetMenu: false,
-    editing: false,
-    hiddenKeys: [
+const { mobile, portrait } = useMobile()
+
+const props = withDefaults(defineProps<{
+  item: object
+  controller?: object
+  bonuses?: any[]
+  prefix?: string
+  readonly?: boolean
+  tierOverride?: number
+}>(), {
+  bonuses: () => [],
+  prefix: '',
+  readonly: false,
+  tierOverride: 0
+})
+
+const statsToAdd = ref([])
+const menuTab = ref(0)
+const customTitle = ref('')
+const resetMenu = ref(false)
+const editing = ref(false)
+const hiddenKeys = ref([
       'overcharge',
       'overshield',
       'attackBonus',
@@ -197,42 +197,40 @@ export default {
       'repairCapacity',
       'saveBonus',
       'heat',
-    ],
-  }),
-  computed: {
-    coreStats() {
+    ])
+
+const coreStats = computed(() => {
       return StatController.CoreStats;
-    },
-    availableCoreStats() {
+    })
+const availableCoreStats = computed(() => {
       return StatController.CoreStats.filter(
-        (x) => !this.item.StatController.DisplayKeys.some((y) => y.key === x.key)
+        (x) => !props.item.StatController.DisplayKeys.some((y) => y.key === x.key)
       ).filter((x) => x.key !== 'sizes');
-    },
-    displayKeys() {
+    })
+const displayKeys = computed(() => {
       const omit = ['overshield', 'overcharge', 'burn'];
-      return this.item.StatController.DisplayKeys.filter(
+      return props.item.StatController.DisplayKeys.filter(
         (x) => !omit.includes(x.key.toLowerCase())
       ).sort((a, b) => npcStatOrder.indexOf(a.key) - npcStatOrder.indexOf(b.key));
-    },
-    mandatoryStats() {
+    })
+const mandatoryStats = computed(() => {
       return MandatoryStats;
-    },
-    editedKeys(): Record<string, boolean> {
-      if (!this.controller?.getClassStats) return {}
-      const maxStats = this.item.StatController.MaxStats
+    })
+const editedKeys = computed(() => {
+      if (!props.controller?.getClassStats) return {}
+      const maxStats = props.item.StatController.MaxStats
       const result: Record<string, boolean> = {}
-      this.controller.getClassStats().forEach(({ key, val }) => {
+      props.controller.getClassStats().forEach(({ key, val }) => {
         if (maxStats[key] !== undefined && maxStats[key] !== val) {
           result[key] = true
         }
       })
       return result
-    },
-  },
-  methods: {
-    getBonuses(key: string) {
-      const tier: number = this.tierOverride || (this.item as any).CombatController?.Tier || 1;
-      return (this.bonuses as Bonus[])
+    })
+
+function getBonuses(key: string) {
+      const tier: number = props.tierOverride || (props.item as any).CombatController?.Tier || 1;
+      return (props.bonuses as Bonus[])
         .filter((x) => Stats.cleanKey(x.ID) === key)
         .map((b) => {
           let resolved: number | null = null;
@@ -252,26 +250,24 @@ export default {
           const detail = String(b.Detail).replace(originalValStr, String(resolved));
           return { ...b, Value: resolved, Icon: icon, Detail: detail };
         });
-    },
-    addCoreStats() {
-      this.statsToAdd.forEach((x) => this.item.StatController.AddCoreStat(x));
-      this.statsToAdd = [];
-    },
-    addCustomStat() {
-      this.item.StatController.AddCustomStat(this.customTitle);
-      this.customTitle = '';
-    },
-    setStat(key: string, event: { value: any }) {
-      this.item.StatController.setMax(key, event.value)
-      this.item.SaveController.markModified()
-      this.item.SaveController.save()
-    },
-    toggleEditing() {
-      this.editing = !this.editing;
-      if (!this.editing) {
-        this.item.SaveController.save();
+    }
+function addCoreStats() {
+      statsToAdd.value.forEach((x) => props.item.StatController.AddCoreStat(x));
+      statsToAdd.value = [];
+    }
+function addCustomStat() {
+      props.item.StatController.AddCustomStat(customTitle.value);
+      customTitle.value = '';
+    }
+function setStat(key: string, event: { value: any }) {
+      props.item.StatController.setMax(key, event.value)
+      props.item.SaveController.markModified()
+      props.item.SaveController.save()
+    }
+function toggleEditing() {
+      editing.value = !editing.value;
+      if (!editing.value) {
+        props.item.SaveController.save();
       }
-    },
-  },
-};
+    }
 </script>

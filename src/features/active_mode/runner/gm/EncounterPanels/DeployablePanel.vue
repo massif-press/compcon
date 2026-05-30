@@ -161,81 +161,68 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import PanelBase from './_PanelBase.vue';
 import { Action } from '@/classes/Action';
 
-export default {
-  name: 'DeployablePanel',
-  components: {
-    PanelBase,
-  },
-  props: {
-    combatant: {
-      type: Object,
-      required: true,
-    },
-    encounterInstance: {
-      type: Object,
-      required: true,
-    },
-  },
-  emits: ['deselect'],
-  data() {
-    return {
-      hide: false,
-    };
-  },
-  computed: {
-    isDeployable() {
-      return this.combatant.Base.Type === 'Deployable';
-    },
-    owner() {
-      return this.combatant.Owner.actor;
-    },
-    recall() {
-      return this.combatant.Base.Recall || null;
-    },
-    canRecall() {
-      return this.owner.CombatController.CanActivate(this.recall);
-    },
-    redeploy() {
-      return this.combatant.Base.Redeploy || null;
-    },
-    canRedeploy() {
-      return this.owner.CombatController.CanActivate(this.redeploy);
-    },
-    deactivate() {
-      return this.combatant.Base.Deactivate || null;
-    }
-  },
-  methods: {
-    remove() {
-      const combatant = this.encounterInstance.Combatants.find(
-        (c) => c.id === this.combatant.Owner.id
+const props = defineProps<{
+  combatant: object
+  encounterInstance: object
+}>()
+
+const emit = defineEmits<{
+  'deselect': []
+}>()
+
+const hide = ref(false)
+
+const isDeployable = computed(() => {
+      return props.combatant.Base.Type === 'Deployable';
+    })
+const owner = computed(() => {
+      return props.combatant.Owner.actor;
+    })
+const recall = computed(() => {
+      return props.combatant.Base.Recall || null;
+    })
+const canRecall = computed(() => {
+      return owner.value.CombatController.CanActivate(recall.value);
+    })
+const redeploy = computed(() => {
+      return props.combatant.Base.Redeploy || null;
+    })
+const canRedeploy = computed(() => {
+      return owner.value.CombatController.CanActivate(redeploy.value);
+    })
+const deactivate = computed(() => {
+      return props.combatant.Base.Deactivate || null;
+    })
+
+function remove() {
+      const combatant = props.encounterInstance.Combatants.find(
+        (c) => c.id === props.combatant.Owner.id
       );
-      const idx = combatant.deployables.findIndex((d) => d.id === this.combatant.id);
+      const idx = combatant.deployables.findIndex((d) => d.id === props.combatant.id);
       if (idx === -1) return;
       combatant.deployables.splice(idx, 1);
-      this.$emit('deselect', combatant);
-    },
-    getActionIcon(action) {
+      emit('deselect', combatant);
+    }
+function getActionIcon(action) {
       return Action.getIcon(action);
-    },
-    handleRecall(isFree = false) {
-      if (!isFree && this.recall) {
-        this.owner.CombatController.ActiveActor.CombatController.toggleCombatAction(this.recall);
+    }
+function handleRecall(isFree = false) {
+      if (!isFree && recall.value) {
+        owner.value.CombatController.ActiveActor.CombatController.toggleCombatAction(recall.value);
       }
-      this.combatant.IsDeployed = false;
-      this.hide = true;
-    },
-    handleRedeploy(isFree = false) {
-      if (!isFree && this.redeploy) {
-        this.owner.CombatController.ActiveActor.CombatController.toggleCombatAction(this.redeploy);
+      props.combatant.IsDeployed = false;
+      hide.value = true;
+    }
+function handleRedeploy(isFree = false) {
+      if (!isFree && redeploy.value) {
+        owner.value.CombatController.ActiveActor.CombatController.toggleCombatAction(redeploy.value);
       }
-      this.combatant.IsDeployed = true;
-      this.hide = false;
-    },
-  },
-};
+      props.combatant.IsDeployed = true;
+      hide.value = false;
+    }
 </script>

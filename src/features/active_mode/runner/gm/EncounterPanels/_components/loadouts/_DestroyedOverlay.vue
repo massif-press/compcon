@@ -13,14 +13,12 @@
   </v-row>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'EquipmentDestroyedOverlay',
-  props: {
-    destroyed: {
-      type: Boolean,
-      default: false,
-    },
-  },
-}
+<script setup lang="ts">
+defineOptions({ name: 'EquipmentDestroyedOverlay' })
+
+const props = withDefaults(defineProps<{
+  destroyed?: boolean
+}>(), {
+  destroyed: false
+})
 </script>

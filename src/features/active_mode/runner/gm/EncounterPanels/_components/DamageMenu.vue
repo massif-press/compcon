@@ -202,32 +202,25 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
 import * as _ from 'lodash-es';
 import { useMobile } from '@/composables/useMobile';
 
+const { mobile, portrait } = useMobile()
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'DamageMenu',
-  props: {
-    controller: {
-      type: Object,
-      required: true,
-    },
-    encounter: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    incomingDamageValue: 0,
-    totalDamage: 0,
-    incomingDamageType: { ID: 1, Name: 'Kinetic', icon: 'cc:kinetic', color: 'damage--kinetic' },
-    damageMods: [] as string[],
-    damageTypes: [
+const props = defineProps<{
+  controller: object
+  encounter: object
+}>()
+
+const damageInput = ref<any>(null)
+
+const incomingDamageValue = ref(0)
+const totalDamage = ref(0)
+const incomingDamageType = ref({ ID: 1, Name: 'Kinetic', icon: 'cc:kinetic', color: 'damage--kinetic' })
+const damageMods = ref([] as string[])
+const damageTypes = ref([
       { ID: 1, Name: 'Kinetic', icon: 'cc:kinetic', color: 'damage--kinetic' },
       { ID: 2, Name: 'Energy', icon: 'cc:energy', color: 'damage--energy' },
       {
@@ -239,11 +232,10 @@ export default {
       { ID: 4, Name: 'Heat', icon: 'cc:heat', color: 'damage--heat' },
       { ID: 5, Name: 'Burn', icon: 'cc:burn', color: 'damage--burn' },
       { ID: 6, Name: 'AoE', icon: 'cc:blast', color: 'damage--variable' },
-    ],
-  }),
-  computed: {
-    getActiveStatuses() {
-      if (!this.controller || !this.controller.Statuses) return [];
+    ])
+
+const getActiveStatuses = computed(() => {
+      if (!props.controller || !props.controller.Statuses) return [];
 
       const relevantStatuses = [
         {
@@ -260,57 +252,41 @@ export default {
         }
       ]
 
-      return this.controller.Statuses.filter(x => relevantStatuses.some(r => r.id === x.status.ID)).map((s) => relevantStatuses.find((as) => as.id === s.status.ID)
+      return props.controller.Statuses.filter(x => relevantStatuses.some(r => r.id === x.status.ID)).map((s) => relevantStatuses.find((as) => as.id === s.status.ID)
       );
-    },
-  },
-  watch: {
-    incomingDamageValue() {
-      this.recalc();
-    },
-    damageMods: {
-      handler() {
-        this.recalc();
-      }, deep: true
-    },
-  },
-  getActiveResistances() {
-    if (!this.controller || !this.controller.Resistances) return [];
-    return this.controller.Resistances
-  },
-  methods: {
-    recalc() {
-      let dmg = Number(this.incomingDamageValue);
-      if (this.damageMods.includes('half')) dmg = Math.floor(dmg / 2);
+    })
 
-      this.totalDamage = this.controller.CalculateDamage(
-        this.incomingDamageType.Name.toLowerCase(),
+function recalc() {
+      let dmg = Number(incomingDamageValue.value);
+      if (damageMods.value.includes('half')) dmg = Math.floor(dmg / 2);
+
+      totalDamage.value = props.controller.CalculateDamage(
+        incomingDamageType.value.Name.toLowerCase(),
         dmg,
-        this.damageMods.includes('ap'),
-        this.damageMods.includes('force'),
+        damageMods.value.includes('ap'),
+        damageMods.value.includes('force'),
       ).total;
-    },
-    toggleDamageMod(mod) {
-      if (this.damageMods.includes(mod)) {
-        this.damageMods = _.without(this.damageMods, mod);
+    }
+function toggleDamageMod(mod) {
+      if (damageMods.value.includes(mod)) {
+        damageMods.value = _.without(damageMods.value, mod);
       } else {
-        this.damageMods.push(mod);
+        damageMods.value.push(mod);
       }
-    },
-    apply(isActive) {
-      let dmg = Number(this.incomingDamageValue);
-      if (this.damageMods.includes('half')) dmg = Math.floor(dmg / 2);
+    }
+function apply(isActive) {
+      let dmg = Number(incomingDamageValue.value);
+      if (damageMods.value.includes('half')) dmg = Math.floor(dmg / 2);
 
-      this.controller.TakeDamage(
-        this.incomingDamageType.Name.toLowerCase(),
+      props.controller.TakeDamage(
+        incomingDamageType.value.Name.toLowerCase(),
         dmg,
-        this.damageMods.includes('ap'),
-        this.damageMods.includes('force'),
+        damageMods.value.includes('ap'),
+        damageMods.value.includes('force'),
       );
       if (isActive) isActive.value = false;
-    },
-
-    damageClass(damage) {
+    }
+function damageClass(damage) {
       if (damage.condition === 'immunity') {
         return 'bg-exotic';
       } else if (damage.condition === 'resistance') {
@@ -319,7 +295,5 @@ export default {
         return 'bg-error';
       }
       return '';
-    },
-  },
-};
+    }
 </script>

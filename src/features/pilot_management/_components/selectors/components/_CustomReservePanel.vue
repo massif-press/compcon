@@ -41,38 +41,37 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
 import { Reserve } from '@/classes/pilot/components/reserves/Reserve'
 
-export default {
-  name: 'CustomReservePanel',
-  data: () => ({
-    customType: 'Resource',
-    customName: '',
-    details: '',
-  }),
-  methods: {
-    add() {
+const emit = defineEmits<{
+  'add': []
+}>()
+
+const customType = ref('Resource')
+const customName = ref('')
+const details = ref('')
+
+function add() {
       const nr = new Reserve({
         id: 'reserve_custom',
-        type: this.customType,
-        name: this.customName,
-        label: this.customName,
-        description: this.details,
+        type: customType.value,
+        name: customName.value,
+        label: customName.value,
+        description: details.value,
         resource_name: '',
         resource_note: '',
         resource_cost: '',
         used: false,
         consumable: true,
       });
-      this.clear();
-      this.$emit('add', nr);
-    },
-    clear() {
-      this.customType = 'Resources';
-      this.customName = '';
-      this.details = '';
-    },
-  },
-};
+      clear();
+      emit('add', nr);
+    }
+function clear() {
+      customType.value = 'Resources';
+      customName.value = '';
+      details.value = '';
+    }
 </script>

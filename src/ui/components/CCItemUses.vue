@@ -19,58 +19,35 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CCItemUses',
-  props: {
-    small: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    large: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    emptyIcon: {
-      type: String,
-      required: false,
-      default: 'mdi-hexagon-outline',
-    },
-    fullIcon: {
-      type: String,
-      required: false,
-      default: 'mdi-hexagon-slice-6',
-    },
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-    item: {
-      type: Object,
-      required: true,
-    },
-    bonus: {
-      type: Number,
-      required: false,
-      default: 0,
-    },
-  },
-  computed: {
-    max(): number {
-      return this.item.getTotalUses(this.bonus);
-    },
-    current(): number {
-      return this.item.Uses;
-    },
-  },
-  methods: {
-    set(val): void {
-      if (val > this.current) this.item.Uses = this.item.Uses + 1;
-      else this.item.Uses = this.item.Uses - 1;
-    },
-  },
-};
+<script setup lang="ts">
+import { computed } from 'vue'
+
+const props = withDefaults(defineProps<{
+  small?: boolean
+  large?: boolean
+  emptyIcon?: string
+  fullIcon?: string
+  color?: string
+  item: object
+  bonus?: number
+}>(), {
+  small: false,
+  large: false,
+  emptyIcon: 'mdi-hexagon-outline',
+  fullIcon: 'mdi-hexagon-slice-6',
+  color: 'primary',
+  bonus: 0
+})
+
+const max = computed(() => {
+      return props.item.getTotalUses(props.bonus);
+    })
+const current = computed(() => {
+      return props.item.Uses;
+    })
+
+function set(val) {
+      if (val > current.value) props.item.Uses = props.item.Uses + 1;
+      else props.item.Uses = props.item.Uses - 1;
+    }
 </script>

@@ -14,49 +14,42 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CcMasonryGrid',
-  props: {
-    items: {
-      type: Array,
-      required: true,
-    },
-    gap: {
-      type: Number,
-      default: 16,
-    },
-    keyMapper: {
-      type: Function,
-      default: null,
-    },
-    xlColumns: {
-      type: Number,
-      default: 3,
-    },
-  },
-  computed: {
-    columns() {
-      if (this.items.length <= 1) return 1
-      if (this.$vuetify.display.mdAndDown) return 1
-      if (this.$vuetify.display.lg) return 2
-      if (this.$vuetify.display.xl) return this.xlColumns
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
+
+const _display = useDisplay()
+
+const props = withDefaults(defineProps<{
+  items: any[]
+  gap?: number
+  keyMapper?: Function
+  xlColumns?: number
+}>(), {
+  gap: 16,
+  keyMapper: null,
+  xlColumns: 3
+})
+
+const columns = computed(() => {
+      if (props.items.length <= 1) return 1
+      if (_display.mdAndDown.value) return 1
+      if (_display.lg.value) return 2
+      if (_display.xl.value) return props.xlColumns
       return 3
-    },
-    columnItems() {
-      const cols: { item: unknown; index: number }[][] = Array.from({ length: this.columns }, () => [])
-      this.items.forEach((item, i) => {
-        cols[i % this.columns].push({ item, index: i })
+    })
+const columnItems = computed(() => {
+      const cols: { item: unknown; index: number }[][] = Array.from({ length: columns.value }, () => [])
+      props.items.forEach((item, i) => {
+        cols[i % columns.value].push({ item, index: i })
       })
       return cols
-    },
-    gridStyle() {
+    })
+const gridStyle = computed(() => {
       return {
-        '--masonry-gap': `${this.gap}px`,
+        '--masonry-gap': `${props.gap}px`,
       }
-    },
-  },
-}
+    })
 </script>
 
 <style scoped>

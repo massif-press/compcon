@@ -34,21 +34,13 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { Bonus } from '@/classes/components/feature/bonus/Bonus';
 
-export default {
-  name: 'CCBonusTooltip',
-  props: {
-    bonuses: {
-      type: Array<Bonus>,
-      required: true,
-    },
-    rightOffset: {
-      type: Number,
-      required: false,
-      default: 3,
-    },
-  },
-};
+const props = withDefaults(defineProps<{
+  bonuses: Array<Bonus>
+  rightOffset?: number
+}>(), {
+  rightOffset: 3
+})
 </script>

@@ -251,59 +251,55 @@
   </v-col>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
+import CCDamageTypePicker from '@/ui/components/CCDamageTypePicker.vue'
 import { useMobile } from '@/composables/useMobile';
 
+defineOptions({ name: 'PlPilotCardBase' })
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'PlPilotCardBase',
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    item: {
-      type: Object,
-      required: false,
-      default: null,
-    },
-    extended: {
-      type: Boolean,
-    },
-    readonly: {
-      type: Boolean,
-    },
-  },
-  emits: ['propagate-click', 'remove', 'save'],
-  data: () => ({
-    showAllFlavor: false,
-    selectorDialog: false,
-    detailDialog: false,
-  }),
-  computed: {
-    itemTitle() {
-      if (!this.item) return '';
-      if (this.item.Name !== this.item.TrueName) return `${this.item.Name} (${this.item.TrueName})`;
-      return this.item.TrueName;
-    },
-  },
-  methods: {
-    closeSelector() {
-      this.selectorDialog = false;
-    },
-    openDetail() {
-      this.detailDialog = true;
-    },
-    save(prop, newName) {
-      this.item[prop] = newName;
+const { mobile, portrait } = useMobile()
+
+const props = withDefaults(defineProps<{
+  title: string
+  item?: object
+  extended?: boolean
+  readonly?: boolean
+}>(), {
+  item: null
+})
+
+const emit = defineEmits<{
+  'propagate-click': []
+  'remove': []
+  'save': []
+}>()
+
+const cName = ref<any>(null)
+const cDesc = ref<any>(null)
+const damageTypeDialog = ref<any>(null)
+
+const showAllFlavor = ref(false)
+const selectorDialog = ref(false)
+const detailDialog = ref(false)
+
+const itemTitle = computed(() => {
+      if (!props.item) return '';
+      if (props.item.Name !== props.item.TrueName) return `${props.item.Name} (${props.item.TrueName})`;
+      return props.item.TrueName;
+    })
+
+function closeSelector() {
+      selectorDialog.value = false;
+    }
+function openDetail() {
+      detailDialog.value = true;
+    }
+function save(prop, newName) {
+      props.item[prop] = newName;
       AchievementEventSystem.emit('add_gear_description');
 
-      this.$emit('save');
-    },
-  },
-};
+      emit('save');
+    }
 </script>

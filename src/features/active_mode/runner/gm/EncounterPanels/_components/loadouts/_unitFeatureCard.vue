@@ -172,7 +172,8 @@
   </v-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, onMounted } from 'vue'
 import NpcModInset from '@/features/gm/npc_roster/npcs/_components/NpcModInset.vue'
 import EquipCommandPanel from './_equipCommandPanel.vue'
 import OnElement from '@/ui/components/cards/items/_components/OnElement.vue'
@@ -182,66 +183,44 @@ import { useMobile } from '@/composables/useMobile'
 import { externalUnitItemBonuses } from '@/composables/useExternalItemBonuses'
 import EquipmentDestroyedOverlay from './_DestroyedOverlay.vue'
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'UnitFeatureCombatCard',
-  components: {
-    NpcModInset,
-    EquipCommandPanel,
-    OnElement,
-    EquipmentFlavorDescription: FlavorDescription,
-    EquipmentActionsDeployables: ActionsDeployables,
-    EquipmentDestroyedOverlay,
-  },
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    unit: {
-      type: Object,
-      required: true,
-    },
-    encounter: {
-      type: Object,
-      required: true,
-    },
-    owner: {
-      type: Object,
-      required: true,
-    },
-  },
-  emits: ['deploy'],
-  data: () => ({
-    limitedBonus: 0,
-    collapsed: false,
-  }),
-  computed: {
-    externalUnitItemBonuses,
-    mods() {
-      return this.unit.NpcFeatureController?.GetModifiers(this.item) || []
-    },
-    tier() {
-      return this.unit.NpcClassController?.Tier || 1
-    },
-    showCommandPanel() {
-      return !this.item.IsCombatPassive
-    },
-  },
-  mounted() {
-    if (this.item.IsV2 || this.item.FlavorName || this.item.FlavorDescription)
-      this.collapsed = false
-    else
-      this.collapsed = !this.showCommandPanel
-  },
-  methods: {
-    sign(num: number) {
+defineOptions({ name: 'UnitFeatureCombatCard' })
+
+const { mobile, portrait } = useMobile()
+
+const props = defineProps<{
+  item: object
+  unit: object
+  encounter: object
+  owner: object
+}>()
+
+const emit = defineEmits<{
+  'deploy': []
+}>()
+
+const limitedBonus = ref(0)
+const collapsed = ref(false)
+
+const mods = computed(() => {
+      return props.unit.NpcFeatureController?.GetModifiers(props.item) || []
+    })
+const tier = computed(() => {
+      return props.unit.NpcClassController?.Tier || 1
+    })
+const showCommandPanel = computed(() => {
+      return !props.item.IsCombatPassive
+    })
+
+function sign(num: number) {
       return num > 0 ? '+' : '';
-    },
-  },
-}
+    }
+
+onMounted(() => {
+if (props.item.IsV2 || props.item.FlavorName || props.item.FlavorDescription)
+      collapsed.value = false
+    else
+      collapsed.value = !showCommandPanel.value
+})
 </script>
 
 <style scoped>

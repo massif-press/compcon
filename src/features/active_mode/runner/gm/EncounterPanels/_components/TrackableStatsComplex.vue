@@ -124,25 +124,14 @@
   </v-row>
 </template>
 
-<script lang="ts">
-import StatMiniPanel from './StatMiniPanel.vue';
-import { trackableStatsMixin } from './_trackableStatsMixin';
+<script setup lang="ts">
+import { computed } from 'vue'
+import StatMiniPanel from './StatMiniPanel.vue'
+import { useTrackableStats } from './useTrackableStats'
 
-export default {
-  name: 'TrackableStatsComplex',
-  components: { StatMiniPanel },
-  mixins: [trackableStatsMixin],
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    currentIcon() {
-      if (!this.item.CombatController.CorePower) return 'mdi-battery-outline';
-      return this.batteryIcons[this.batteryIndex];
-    },
-  },
-};
+const props = defineProps<{ item: object }>()
+
+const { batteryIcons, batteryIndex, overchargeTrack, getIcon, drainBattery } = useTrackableStats(props)
+
+const currentIcon = computed(() => !props.item.CombatController.CorePower ? 'mdi-battery-outline' : batteryIcons.value[batteryIndex.value])
 </script>

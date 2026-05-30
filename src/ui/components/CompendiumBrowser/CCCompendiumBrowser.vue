@@ -640,7 +640,9 @@
   </v-layout>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
+import { useDisplay } from 'vuetify'
 import ItemFilter from '@/classes/utility/ItemFilter';
 import * as _ from 'lodash-es';
 
@@ -656,7 +658,6 @@ import bViewToggle from './components/_b-view-toggle.vue';
 import bGroupToggle from './components/_b-group-toggle.vue';
 import bFilterSet from './components/_b-filter-set.vue';
 import bListGroup from './components/_b-list-group.vue';
-
 import LicenseExpandable from './components/_license-expandable.vue';
 
 import { CompendiumItem } from '@/classes/CompendiumItem'
@@ -665,6 +666,7 @@ import { Manufacturer } from '@/classes/Manufacturer'
 import { useMobile } from '@/composables/useMobile';
 import { UserStore } from '@/stores';
 
+defineOptions({ name: 'CCCompendiumBrowser' })
 
 type BrowserOptions = {
   views: string[];
@@ -678,18 +680,14 @@ type BrowserOptions = {
 
 const mfOrder = ['gms', 'ips-n', 'ssc', 'horus', 'ha'];
 
-export const ManufacturerSort = (mArr: any[]) =>
+const ManufacturerSort = (mArr: any[]) =>
   mArr.sort((a, b) => {
     const indexA = mfOrder.indexOf(a.Source?.toLowerCase() || '');
     const indexB = mfOrder.indexOf(b.Source?.toLowerCase() || '');
-
-    if (indexA !== -1 && indexB !== -1) {
-      return indexA - indexB;
-    } else if (indexA !== -1) {
-      return -1;
-    } else if (indexB !== -1) {
-      return 1;
-    } else return (a.Source?.toLowerCase() || '').localeCompare(b.Source?.toLowerCase() || '');
+    if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+    else if (indexA !== -1) return -1;
+    else if (indexB !== -1) return 1;
+    else return (a.Source?.toLowerCase() || '').localeCompare(b.Source?.toLowerCase() || '');
   });
 
 const sortFn = (a: any, b: any): number => {
@@ -702,485 +700,262 @@ const sortFn = (a: any, b: any): number => {
 const manufacturerSortFn = (a: string, b: string): number => {
   const order = ['gms', 'ips-n', 'ssc', 'horus', 'ha'];
   const excl = ['exotic'];
-
   if (!a || excl.includes(a.toLowerCase())) return 1;
   if (!b || excl.includes(b.toLowerCase())) return -1;
-
   const indexA = order.indexOf(a.toLowerCase());
   const indexB = order.indexOf(b.toLowerCase());
-
-  if (indexA !== -1 && indexB !== -1) {
-    return indexA - indexB;
-  } else if (indexA !== -1) {
-    return -1;
-  } else if (indexB !== -1) {
-    return 1;
-  } else return a.toLowerCase().localeCompare(b.toLowerCase());
+  if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+  else if (indexA !== -1) return -1;
+  else if (indexB !== -1) return 1;
+  else return a.toLowerCase().localeCompare(b.toLowerCase());
 };
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'CCCompendiumBrowser',
-  components: {
-    SelectorListItem,
-    SelectorCardItem,
-    SelectorTable,
-    SelectorScatter,
-    SelectorBar,
-    SelectorCompare,
-    bListItem,
-    bViewToggle,
-    bGroupToggle,
-    bFilterSet,
-    bListGroup,
-    LicenseExpandable,
-  },
-  props: {
-    items: {
-      type: Array as () => CompendiumItem[],
-      required: true,
-    },
-    itemType: {
-      type: String,
-      required: true,
-    },
-    tableHeaders: {
-      type: Array,
-      required: false,
-      default: () => [
-        { title: 'Content Pack', key: 'LcpName' },
-        { title: 'Name', key: 'Name' },
-      ],
-    },
-    multiHeaders: {
-      type: Object,
-      required: false,
-    },
-    options: {
-      type: Object as () => BrowserOptions,
-      required: true,
-    },
-    equippable: {
-      type: Boolean,
-    },
-    equipped: {
-      type: Object,
-      required: false,
-    },
-    tier: {
-      type: Number,
-      required: false,
-      default: 1,
-    },
-    manufacturers: {
-      type: Array as () => Manufacturer[],
-      required: false,
-      default: () => [],
-    },
-    lcpConfigs: {
-      type: Array as () => any[],
-      required: false,
-      default: () => [],
-    },
-    viewKey: {
-      type: String,
-      required: false,
-      default: '',
-    },
-  },
-  emits: ['equip', 'select', 'view-change'],
-  data: () => ({
-    open: [] as string[],
-    view: 'list',
-    group: 'source',
-    search: '',
-    otherFilter: {},
-    lcpFilter: [] as string[],
-    selectedItem: null as CompendiumItem | License | null,
-    comparisons: [] as CompendiumItem[],
-    page: 1,
-    itemsPerPage: 15,
-    showNav: true,
-  }),
-  computed: {
-    minSliceIndex() {
-      return (this.page - 1) * this.itemsPerPage;
-    },
-    maxSliceIndex() {
-      return this.page * this.itemsPerPage;
-    },
-    itemsByLcp() {
-      return _.groupBy(this.items as CompendiumItem[], 'LcpName');
-    },
-    filteredItemsByLcp() {
-      return _.groupBy(this.shownItems, 'LcpName');
-    },
-    itemsByType() {
-      return _.groupBy(this.shownItems, (x: any) => x.Type);
-    },
-    itemsBySourceGroup() {
-      return _.groupBy(this.shownItems, (x: any) => x.Source);
-    },
-    itemsByLicenseGroup() {
-      return _.groupBy(this.shownItems, (x: any) => x.License);
-    },
-    itemsByRoleGroup() {
-      return _.groupBy(this.shownItems, (x: any) => x.Role);
-    },
-    itemsByFeatureTypeGroup() {
-      return _.groupBy(this.shownItems, (x: any) => x.FeatureType);
-    },
-    itemsByOriginGroup() {
-      return _.groupBy(this.shownItems, (x: any) => x.Origin?.Name);
-    },
-    itemsByLcpBySource() {
-      const out = {} as Record<string, Record<string, any[]>>;
-      for (const lcp of this.open) {
-        if (this.filteredItemsByLcp[lcp])
-          out[lcp] = _.groupBy(this.filteredItemsByLcp[lcp], (x: any) => x.IsExotic ? 'exotic' : x.Source);
-      }
-      return out;
-    },
-    itemsByLcpByRole() {
-      const out = {} as Record<string, Record<string, any[]>>;
-      for (const lcp of this.open) {
-        if (this.filteredItemsByLcp[lcp])
-          out[lcp] = _.groupBy(
-            this.filteredItemsByLcp[lcp].filter((x: any) => x.Role),
-            (x: any) => x.Role
-          );
-      }
-      return out;
-    },
-    itemsByLcpByOrigin() {
-      const out = {} as Record<string, Record<string, any[]>>;
-      for (const lcp of this.open) {
-        if (this.filteredItemsByLcp[lcp])
-          out[lcp] = _.groupBy(this.filteredItemsByLcp[lcp], (x: any) => x.Origin?.Name);
-      }
-      return out;
-    },
-    manufacturerSources() {
-      return _.uniq(this.shownItems.map((x: any) => x.Source)).sort((a, b) =>
-        manufacturerSortFn(a, b)
-      );
-    },
-    manufacturersByLcp() {
-      const m = {} as any;
-      for (const lcp of this.open) {
-        if (this.filteredItemsByLcp[lcp])
-          m[lcp] = _.uniq(this.filteredItemsByLcp[lcp].map((x: any) => x.IsExotic ? 'exotic' : x.Source)).sort((a, b) =>
-            sortFn(a, b)
-          );
-      }
-      return m;
-    },
-    roles() {
-      return _.uniq(this.shownItems.map((x: any) => x.Role)).sort((a, b) => sortFn(a, b));
-    },
-    allRoles() {
-      if (this.itemType === 'NpcClass')
-        return _.uniq(
-          Object.entries(this.rolesByLcp).flatMap(([key, arr]) =>
-            (arr as string[]).map((str) => str)
-          )
-        );
-      return [];
-    },
-    rolesByLcp() {
-      const m = {} as any;
-      for (const lcp of this.open) {
-        if (this.filteredItemsByLcp[lcp])
-          m[lcp] = _.uniq(this.filteredItemsByLcp[lcp].map((x: any) => x.Role)).sort((a, b) => sortFn(a, b));
-      }
-      return m;
-    },
-    featureTypes() {
-      return _.uniq(this.shownItems.map((x: any) => x.FeatureType)).sort((a, b) => sortFn(a, b));
-    },
-    featureTypesByLcp() {
-      const m = {} as any;
-      for (const lcp of this.open) {
-        if (this.itemsByLcp[lcp])
-          m[lcp] = _.uniq(this.itemsByLcp[lcp].map((x: any) => x.FeatureType)).sort((a, b) =>
-            sortFn(a, b)
-          );
-      }
-      return m;
-    },
-    origins() {
-      return _.uniq(this.shownItems.map((x: any) => x.Origin?.Name).filter(Boolean)).sort((a, b) => sortFn(a, b));
-    },
-    allOrigins() {
-      if (this.itemType === 'NpcFeature')
-        return _.uniq(
-          Object.entries(this.originsByLcp).flatMap(([key, arr]) =>
-            (arr as string[]).map((str) => `${key}_${str}`)
-          )
-        );
-      return [];
-    },
-    originsByLcp() {
-      const m = {} as any;
-      for (const lcp of this.open) {
-        if (this.filteredItemsByLcp[lcp])
-          m[lcp] = _.uniq(this.filteredItemsByLcp[lcp].map((x: any) => x.Origin?.Name)).sort((a, b) =>
-            sortFn(a, b)
-          );
-      }
-      return m;
-    },
-    lcps() {
-      return Object.keys(this.itemsByLcp).sort((a, b) => sortFn(a, b));
-    },
-    filteredLcps() {
-      return Object.keys(this.filteredItemsByLcp).sort((a, b) => sortFn(a, b));
-    },
-    licenses() {
-      return _.uniq(this.shownItems.map((x: any) => x.License)).sort((a, b) => sortFn(a, b));
-    },
-    subtypes() {
-      return _.uniq(this.shownItems.map((x: any) => x.Type)).sort((a, b) => sortFn(a, b));
-    },
-    showExotics() {
-      return this.options.showExotics ?? false;
-    },
-    navOrderedItems(): any[] {
-      switch (this.group) {
-        case 'source':
-          return this.manufacturerSources.flatMap((m: string) => this.itemsBySourceGroup[m] || []);
-        case 'role':
-          return this.roles.flatMap((r: string) => this.itemsByRoleGroup[r] || []);
-        case 'featureType':
-          return this.featureTypes.flatMap((f: string) => this.itemsByFeatureTypeGroup[f] || []);
-        case 'origin':
-          return this.origins.flatMap((o: string) => this.itemsByOriginGroup[o] || []);
-        case 'license':
-          return this.licenses.flatMap((l: string) => this.itemsByLicenseGroup[l] || []);
-        case 'type':
-          return this.subtypes.flatMap((s: string) => this.itemsByType[s] || []);
-        case 'lcp':
-          return this.filteredLcps.flatMap((lcp: string) => this.filteredItemsByLcp[lcp] || []);
-        default:
-          return this.shownItems;
-      }
-    },
-    shownItems() {
-      let shown = this.items as CompendiumItem[];
+const display = useDisplay()
+const { mobile } = useMobile()
 
-      shown = shown.filter((i: any) => this.lcpFilter.includes(i.LcpName));
+const props = withDefaults(defineProps<{
+  items: CompendiumItem[]
+  itemType: string
+  tableHeaders?: any[]
+  multiHeaders?: Record<string, any>
+  options: BrowserOptions
+  equippable?: boolean
+  equipped?: object
+  tier?: number
+  manufacturers?: Manufacturer[]
+  lcpConfigs?: any[]
+  viewKey?: string
+}>(), {
+  tableHeaders: () => [
+    { title: 'Content Pack', key: 'LcpName' },
+    { title: 'Name', key: 'Name' },
+  ],
+  tier: 1,
+  manufacturers: () => [],
+  lcpConfigs: () => [],
+  viewKey: '',
+})
 
-      if (this.search) {
-        shown = shown.filter((i: any) => i.Name.toLowerCase().includes(this.search.toLowerCase()));
-      }
+const emit = defineEmits<{
+  'equip': [item: CompendiumItem]
+  'select': [item: CompendiumItem | License | null]
+  'view-change': [val: string]
+}>()
 
-      if (Object.keys(this.otherFilter).length) {
-        shown = ItemFilter.Filter(shown, this.otherFilter);
-      }
+const open = ref([] as string[])
+const view = ref('list')
+const group = ref('source')
+const search = ref('')
+const otherFilter = ref({} as Record<string, any>)
+const lcpFilter = ref([] as string[])
+const selectedItem = ref(null as CompendiumItem | License | null)
+const comparisons = ref([] as CompendiumItem[])
+const page = ref(1)
+const itemsPerPage = ref(15)
+const showNav = ref(true)
 
-      if (!this.showExotics) shown = shown.filter((i: CompendiumItem) => !i.IsExotic);
+const itemsByLcp = computed(() => _.groupBy(props.items as CompendiumItem[], 'LcpName'))
+const shownItems = computed(() => {
+  let shown = props.items as CompendiumItem[];
+  shown = shown.filter((i: any) => lcpFilter.value.includes(i.LcpName));
+  if (search.value) shown = shown.filter((i: any) => i.Name.toLowerCase().includes(search.value.toLowerCase()));
+  if (Object.keys(otherFilter.value).length) shown = ItemFilter.Filter(shown, otherFilter.value);
+  if (!showExotics.value) shown = shown.filter((i: CompendiumItem) => !i.IsExotic);
+  if (shown.some((x: any) => x.Source)) shown = ManufacturerSort(shown);
+  return shown;
+})
+const filteredItemsByLcp = computed(() => _.groupBy(shownItems.value, 'LcpName'))
+const itemsByType = computed(() => _.groupBy(shownItems.value, (x: any) => x.Type))
+const itemsBySourceGroup = computed(() => _.groupBy(shownItems.value, (x: any) => x.Source))
+const itemsByLicenseGroup = computed(() => _.groupBy(shownItems.value, (x: any) => x.License))
+const itemsByRoleGroup = computed(() => _.groupBy(shownItems.value, (x: any) => x.Role))
+const itemsByFeatureTypeGroup = computed(() => _.groupBy(shownItems.value, (x: any) => x.FeatureType))
+const itemsByOriginGroup = computed(() => _.groupBy(shownItems.value, (x: any) => x.Origin?.Name))
+const itemsByLcpBySource = computed(() => {
+  const out = {} as Record<string, Record<string, any[]>>;
+  for (const lcp of open.value) {
+    if (filteredItemsByLcp.value[lcp])
+      out[lcp] = _.groupBy(filteredItemsByLcp.value[lcp], (x: any) => x.IsExotic ? 'exotic' : x.Source);
+  }
+  return out;
+})
+const itemsByLcpByRole = computed(() => {
+  const out = {} as Record<string, Record<string, any[]>>;
+  for (const lcp of open.value) {
+    if (filteredItemsByLcp.value[lcp])
+      out[lcp] = _.groupBy(filteredItemsByLcp.value[lcp].filter((x: any) => x.Role), (x: any) => x.Role);
+  }
+  return out;
+})
+const itemsByLcpByOrigin = computed(() => {
+  const out = {} as Record<string, Record<string, any[]>>;
+  for (const lcp of open.value) {
+    if (filteredItemsByLcp.value[lcp])
+      out[lcp] = _.groupBy(filteredItemsByLcp.value[lcp], (x: any) => x.Origin?.Name);
+  }
+  return out;
+})
+const manufacturerSources = computed(() =>
+  _.uniq(shownItems.value.map((x: any) => x.Source)).sort((a, b) => manufacturerSortFn(a, b))
+)
+const manufacturersByLcp = computed(() => {
+  const m = {} as any;
+  for (const lcp of open.value) {
+    if (filteredItemsByLcp.value[lcp])
+      m[lcp] = _.uniq(filteredItemsByLcp.value[lcp].map((x: any) => x.IsExotic ? 'exotic' : x.Source)).sort(sortFn);
+  }
+  return m;
+})
+const roles = computed(() => _.uniq(shownItems.value.map((x: any) => x.Role)).sort(sortFn))
+const rolesByLcp = computed(() => {
+  const m = {} as any;
+  for (const lcp of open.value) {
+    if (filteredItemsByLcp.value[lcp])
+      m[lcp] = _.uniq(filteredItemsByLcp.value[lcp].map((x: any) => x.Role)).sort(sortFn);
+  }
+  return m;
+})
+const featureTypes = computed(() => _.uniq(shownItems.value.map((x: any) => x.FeatureType)).sort(sortFn))
+const origins = computed(() => _.uniq(shownItems.value.map((x: any) => x.Origin?.Name).filter(Boolean)).sort(sortFn))
+const originsByLcp = computed(() => {
+  const m = {} as any;
+  for (const lcp of open.value) {
+    if (filteredItemsByLcp.value[lcp])
+      m[lcp] = _.uniq(filteredItemsByLcp.value[lcp].map((x: any) => x.Origin?.Name)).sort(sortFn);
+  }
+  return m;
+})
+const lcps = computed(() => Object.keys(itemsByLcp.value).sort(sortFn))
+const filteredLcps = computed(() => Object.keys(filteredItemsByLcp.value).sort(sortFn))
+const licenses = computed(() => _.uniq(shownItems.value.map((x: any) => x.License)).sort(sortFn))
+const subtypes = computed(() => _.uniq(shownItems.value.map((x: any) => x.Type)).sort(sortFn))
+const showExotics = computed(() => props.options.showExotics ?? false)
+const navOrderedItems = computed((): any[] => {
+  switch (group.value) {
+    case 'source': return manufacturerSources.value.flatMap((m: string) => itemsBySourceGroup.value[m] || []);
+    case 'role': return roles.value.flatMap((r: string) => itemsByRoleGroup.value[r] || []);
+    case 'featureType': return featureTypes.value.flatMap((f: string) => itemsByFeatureTypeGroup.value[f] || []);
+    case 'origin': return origins.value.flatMap((o: string) => itemsByOriginGroup.value[o] || []);
+    case 'license': return licenses.value.flatMap((l: string) => itemsByLicenseGroup.value[l] || []);
+    case 'type': return subtypes.value.flatMap((s: string) => itemsByType.value[s] || []);
+    case 'lcp': return filteredLcps.value.flatMap((lcp: string) => filteredItemsByLcp.value[lcp] || []);
+    default: return shownItems.value;
+  }
+})
+const minSliceIndex = computed(() => (page.value - 1) * itemsPerPage.value)
+const maxSliceIndex = computed(() => page.value * itemsPerPage.value)
+const isInModal = computed(() => {
+  const scrim = document.querySelector('.v-overlay__scrim');
+  return scrim && window.getComputedStyle(scrim).display !== 'none';
+})
+const getHeight = computed(() => {
+  if (display.xs.value) return 40;
+  if (isInModal.value) return 98;
+  return 50;
+})
 
-      if (shown.some((x: any) => x.Source)) shown = ManufacturerSort(shown);
+watch(group, () => { open.value = []; saveView(); })
+watch(comparisons, () => {
+  const idx = comparisons.value.findIndex((x) => x.ID === selectedItem.value?.ID);
+  if (idx > -1) comparisons.value.splice(idx, 1);
+})
+watch(() => props.items, () => { lcpFilter.value = lcps.value; })
+watch(view, (val) => { emit('view-change', val); saveView(); })
+watch(showNav, () => saveView())
+watch(otherFilter, () => saveView(), { deep: true })
+watch(search, (val) => {
+  if (val) {
+    const curLcps = filteredLcps.value;
+    const subGroups: string[] = [];
+    for (const lcp of curLcps) {
+      const lcpItems: any[] = itemsByLcp.value[lcp] || [];
+      _.uniq(lcpItems.map((x: any) => x.IsExotic ? 'exotic' : x.Source).filter(Boolean))
+        .forEach((mfId: string) => subGroups.push(`${lcp}_${mfId}`));
+      _.uniq(lcpItems.filter((x: any) => x.Role).map((x: any) => x.Role))
+        .forEach((role: string) => subGroups.push(`${lcp}_${role}`));
+      _.uniq(lcpItems.filter((x: any) => x.Origin?.Name).map((x: any) => x.Origin.Name))
+        .forEach((origin: string) => subGroups.push(`${lcp}_${origin}`));
+    }
+    open.value = [
+      ...curLcps, ...subGroups,
+      ...manufacturerSources.value, ...subtypes.value,
+      ...licenses.value, ...roles.value, ...origins.value, ...featureTypes.value,
+    ];
+  }
+})
 
-      return shown;
-    },
-    isInModal() {
-      //determine if we're in a modal
-      const scrim = document.querySelector('.v-overlay__scrim');
-      return scrim && window.getComputedStyle(scrim).display !== 'none';
-    },
-    horizPadding() {
-      let pad = 24;
-      if (this.view === 'table') pad = 12;
-      if (this.$vuetify.display.xl) pad = 180;
-      if (this.$vuetify.display.lg) pad = 60;
-      if (this.$vuetify.display.md) pad = 24;
-      if (this.$vuetify.display.sm) pad = 8;
-      if (this.$vuetify.display.xs) pad = 8;
+lcpFilter.value = lcps.value
+view.value = props.options.initialView
+group.value = props.options.initialGroup
+loadView()
 
-      if (this.isInModal) pad = pad / 1.6;
-
-      return Math.round(pad);
-    },
-    getHeight() {
-      if (this.$vuetify.display.xs) return 40;
-      if (this.isInModal) return 98;
-      return 50;
-    },
-  },
-  watch: {
-    group() {
-      this.open = [];
-      this.saveView();
-    },
-    comparisons() {
-      const idx = this.comparisons.findIndex((x) => x.ID === this.selectedItem?.ID);
-      if (idx > -1) this.comparisons.splice(idx, 1);
-    },
-    items() {
-      this.lcpFilter = this.lcps;
-    },
-    view(val) {
-      this.$emit('view-change', val);
-      this.saveView();
-    },
-    showNav() {
-      this.saveView();
-    },
-    otherFilter: {
-      deep: true,
-      handler() {
-        this.saveView();
-      },
-    },
-    search(val) {
-      if (val) {
-        const lcps = this.filteredLcps;
-        const subGroups: string[] = [];
-        for (const lcp of lcps) {
-          const items: any[] = this.itemsByLcp[lcp] || [];
-          _.uniq(items.map((x: any) => x.IsExotic ? 'exotic' : x.Source).filter(Boolean))
-            .forEach((mf: string) => subGroups.push(`${lcp}_${mf}`));
-          _.uniq(items.filter((x: any) => x.Role).map((x: any) => x.Role))
-            .forEach((role: string) => subGroups.push(`${lcp}_${role}`));
-          _.uniq(items.filter((x: any) => x.Origin?.Name).map((x: any) => x.Origin.Name))
-            .forEach((origin: string) => subGroups.push(`${lcp}_${origin}`));
-        }
-        this.open = [
-          ...lcps,
-          ...subGroups,
-          ...this.manufacturerSources,
-          ...this.subtypes,
-          ...this.licenses,
-          ...this.roles,
-          ...this.origins,
-          ...this.featureTypes,
-        ];
-      }
-    },
-  },
-  created() {
-    this.lcpFilter = this.lcps;
-    this.view = this.options.initialView;
-    this.group = this.options.initialGroup;
-    this.loadView();
-  },
-  methods: {
-    saveView() {
-      if (!this.viewKey) return;
-      UserStore().User.SetView(this.viewKey, {
-        view: this.view,
-        group: this.group,
-        showNav: this.showNav,
-        otherFilter: this.otherFilter,
-      });
-    },
-    loadView() {
-      if (!this.viewKey) return;
-      const saved = UserStore().User.View(this.viewKey, null);
-      if (!saved) return;
-      if (saved.view !== undefined) this.view = saved.view;
-      if (saved.group !== undefined) this.group = saved.group;
-      if (saved.showNav !== undefined) this.showNav = saved.showNav;
-      if (saved.otherFilter !== undefined) this.otherFilter = saved.otherFilter;
-    },
-    getItems(manufacturer: string, lcp?: string): CompendiumItem[] | License[] {
-      if (lcp) return this.itemsByLcp[lcp].filter((i: any) => i.Source === manufacturer);
-
-      return this.shownItems.filter((i: any) => i.Source === manufacturer);
-    },
-    getRoleItems(role: string, lcp?: string) {
-      if (lcp) return this.itemsByLcp[lcp].filter((i: any) => i.Role && i.Role === role);
-
-      return this.shownItems.filter((i: any) => i.Role && i.Role === role);
-    },
-    getFeatureItems(featureType: string, lcp?: string) {
-      if (lcp) return this.itemsByLcp[lcp].filter((i: any) => i.FeatureType === featureType);
-
-      return this.shownItems.filter((i: any) => i.FeatureType === featureType);
-    },
-    getOriginItems(origin: string, lcp?: string) {
-      if (lcp) return this.itemsByLcp[lcp].filter((i: any) => i.Origin.Name === origin);
-
-      return this.shownItems.filter((i: any) => i.Origin.Name === origin);
-    },
-    getLicenseItems(license: string) {
-      return this.shownItems.filter((i: any) => i.License === license);
-    },
-    getSubtypeItems(t: string) {
-      return this.shownItems.filter((i: any) => i.Type === t);
-    },
-    selectItem(item: CompendiumItem | License | null) {
-      this.selectedItem = item;
-      if (item) {
-        this.page = Math.ceil(
-          (this.navOrderedItems.findIndex((x: any) => x.ID === item.ID) + 1) / this.itemsPerPage
-        );
-        this.scrollTo(item.ID);
-      }
-      if (this.mobile && this.showNav) {
-        this.showNav = false;
-      }
-      this.$emit('select', item);
-    },
-    scrollTo(id: string): void {
-      const el = document.getElementById(id);
-      if (el) {
-        // const yOffset = -70;
-        const mEl = document.getElementById('content');
-        if (!mEl) return;
-        // const y = el.getBoundingClientRect().top + mEl.scrollTop + yOffset;
-
-        const rect = el.getBoundingClientRect();
-        const y = rect.top + mEl.scrollTop - mEl.clientHeight / 2 + rect.height / 2;
-
-        mEl.scrollTo({ top: y, behavior: 'smooth' });
-      }
-    },
-    getTitle(title: string) {
-      let t = title.replace(/\b(?:book|data|lancer)\b/gi, ' ');
-      t = t.length > 20 ? t.substring(0, 19) + '…' : t;
-      return t;
-    },
-    mf(id: string) {
-      return (
-        (this.manufacturers as Manufacturer[]).find((x) => x.ID === id) || {
-          GetColor: () => 'black',
-          Name: 'err',
-          LogoIsExternal: false,
-          Icon: 'gms',
-        }
-      );
-    },
-    setAllLcps() {
-      if (this.lcpFilter.length === this.lcps.length) {
-        this.lcpFilter = [];
-      } else {
-        this.lcpFilter = this.lcps;
-      }
-    },
-    getMultiHeader(subtype: string) {
-      return this.multiHeaders && this.multiHeaders[subtype.replace(/\s/g, '')]
-        ? this.multiHeaders[subtype.replace(/\s/g, '')]
-        : this.tableHeaders;
-    },
-    searchFilter(items: any[]) {
-      if (!this.search) return items;
-      const s = this.search.toLowerCase();
-      return items.filter((i: any) => i.Name.toLowerCase().includes(s));
-    },
-    handleEquip(item: CompendiumItem) {
-      this.$emit('equip', item);
-
-      if (this.selectedItem && this.selectedItem.ID === item.ID) {
-        this.selectItem(null);
-        this.selectedItem = null;
-      }
-    },
-  },
-};
+function saveView() {
+  if (!props.viewKey) return;
+  UserStore().User.SetView(props.viewKey, {
+    view: view.value, group: group.value,
+    showNav: showNav.value, otherFilter: otherFilter.value,
+  });
+}
+function loadView() {
+  if (!props.viewKey) return;
+  const saved = UserStore().User.View(props.viewKey, null);
+  if (!saved) return;
+  if (saved.view !== undefined) view.value = saved.view;
+  if (saved.group !== undefined) group.value = saved.group;
+  if (saved.showNav !== undefined) showNav.value = saved.showNav;
+  if (saved.otherFilter !== undefined) otherFilter.value = saved.otherFilter;
+}
+function getItems(manufacturer: string, lcp?: string): CompendiumItem[] | License[] {
+  if (lcp) return itemsByLcp.value[lcp].filter((i: any) => i.Source === manufacturer);
+  return shownItems.value.filter((i: any) => i.Source === manufacturer);
+}
+function selectItem(item: CompendiumItem | License | null) {
+  selectedItem.value = item;
+  if (item) {
+    page.value = Math.ceil(
+      (navOrderedItems.value.findIndex((x: any) => x.ID === item.ID) + 1) / itemsPerPage.value
+    );
+    scrollTo(item.ID);
+  }
+  if (mobile.value && showNav.value) showNav.value = false;
+  emit('select', item);
+}
+function scrollTo(id: string): void {
+  const el = document.getElementById(id);
+  if (el) {
+    const mEl = document.getElementById('content');
+    if (!mEl) return;
+    const rect = el.getBoundingClientRect();
+    const y = rect.top + mEl.scrollTop - mEl.clientHeight / 2 + rect.height / 2;
+    mEl.scrollTo({ top: y, behavior: 'smooth' });
+  }
+}
+function mf(id: string) {
+  return (
+    (props.manufacturers as Manufacturer[]).find((x) => x.ID === id) || {
+      GetColor: () => 'black',
+      Name: 'err',
+      LogoIsExternal: false,
+      Icon: 'gms',
+    }
+  );
+}
+function setAllLcps() {
+  if (lcpFilter.value.length === lcps.value.length) lcpFilter.value = [];
+  else lcpFilter.value = lcps.value;
+}
+function getMultiHeader(subtype: string) {
+  return props.multiHeaders && props.multiHeaders[subtype.replace(/\s/g, '')]
+    ? props.multiHeaders[subtype.replace(/\s/g, '')]
+    : props.tableHeaders;
+}
+function handleEquip(item: CompendiumItem) {
+  emit('equip', item);
+  if (selectedItem.value && selectedItem.value.ID === item.ID) {
+    selectItem(null);
+    selectedItem.value = null;
+  }
+}
 </script>
 
 <style scoped>

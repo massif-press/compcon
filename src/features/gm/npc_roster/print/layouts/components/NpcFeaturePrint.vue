@@ -99,27 +99,18 @@
     :tier="tier" />
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import PrintDeployable from './PrintDeployable.vue';
 import PrintAction from './PrintAction.vue';
 
-export default {
-  name: 'PrintNpcFeature',
-  components: {
-    PrintAction,
-    PrintDeployable,
-  },
-  props: {
-    feature: {
-      type: Object,
-      required: true,
-    },
-    tier: {
-      type: Number,
-      default: 1,
-    },
-  },
-};
+defineOptions({ name: 'PrintNpcFeature' })
+
+const props = withDefaults(defineProps<{
+  feature: object
+  tier?: number
+}>(), {
+  tier: 1
+})
 </script>
 
 <style scoped>

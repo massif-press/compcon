@@ -83,51 +83,51 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import logger from '@/user/logger';
 import { signUp } from 'aws-amplify/auth';
 import { useMobile } from '@/composables/useMobile';
 
+defineOptions({ name: 'sign-up' })
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'sign-up',
-  data: () => ({
-    showError: false,
-    error: '',
-    loading: false,
-    show: false,
-    email: '',
-    password: '',
-    rules: {
+const { mobile, portrait } = useMobile()
+
+const emit = defineEmits<{
+  'success': []
+}>()
+
+const showError = ref(false)
+const error = ref('')
+const loading = ref(false)
+const show = ref(false)
+const email = ref('')
+const password = ref('')
+const rules = ref({
       required: (value) => !!value || 'Required.',
       min: (v) => v.length >= 6 || 'Min 6 characters',
       emailMatch: (v) =>
         !v ||
         /^\w+([.-]?\w+)*(\+\w+([.-]?\w+)*)?@\w+([.-]?\w+)*(\.\w{2,6})+$/.test(v) ||
         'E-mail must be valid',
-    },
-  }),
-  computed: {
-    submitOk() {
+    })
+
+const submitOk = computed(() => {
       return (
-        /^\w+([.-]?\w+)*(\+\w+([.-]?\w+)*)?@\w+([.-]?\w+)*(\.\w{2,6})+$/.test(this.email) &&
-        this.password.length >= 6
+        /^\w+([.-]?\w+)*(\+\w+([.-]?\w+)*)?@\w+([.-]?\w+)*(\.\w{2,6})+$/.test(email.value) &&
+        password.value.length >= 6
       );
-    },
-  },
-  methods: {
-    async createAccount() {
-      this.loading = true;
+    })
+
+async function createAccount() {
+      loading.value = true;
       try {
-        const userEmail = this.email.trim().toLowerCase();
-        this.email = userEmail;
+        const userEmail = email.value.trim().toLowerCase();
+        email.value = userEmail;
 
         await signUp({
           username: userEmail,
-          password: this.password,
+          password: password.value,
           options: {
             userAttributes: {
               email: userEmail,
@@ -135,16 +135,14 @@ export default {
           },
         });
 
-        this.loading = false;
-        this.showError = false;
-        this.$emit('success', userEmail);
+        loading.value = false;
+        showError.value = false;
+        emit('success', userEmail);
       } catch (error: any) {
         logger.error(`Error creating account: ${error}`, this, error);
-        this.loading = false;
-        this.showError = true;
-        this.error = error.message;
+        loading.value = false;
+        showError.value = true;
+        error.value = error.message;
       }
-    },
-  },
-};
+    }
 </script>

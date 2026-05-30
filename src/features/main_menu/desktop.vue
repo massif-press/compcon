@@ -167,7 +167,8 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, onMounted } from 'vue'
 import MainTitle from './_components/MainTitle.vue';
 import MainBtn from './_components/MainBtn.vue';
 import CCLog from './_components/CCLog.vue';
@@ -181,108 +182,87 @@ import { UserStore } from '@/stores';
 import CloudNotifications from '../nav/CloudNotifications.vue';
 import { getV2Backups } from '@/io/V2Importer';
 
-export default {
-  name: 'LandingPageDesktop',
-  components: {
-    MainTitle,
-    MainBtn,
-    CCLog,
-    ExtraContent,
-    CreditsPage,
-    AboutPage,
-    HelpPage,
-    OptionsPage,
-    SignIn,
-    CloudNotifications,
-  },
-  data: () => ({
-    importDialog: false,
-    fileValue: undefined,
-    extraContentModal: false,
-    v2BackupCount: 0,
-  }),
-  computed: {
-    isLoggedIn() {
-      return UserStore().IsLoggedIn;
-    },
-    startingUp() {
-      return UserStore().IsLoading;
-    },
-    hasV2Backups() {
-      return this.v2BackupCount > 0;
-    },
-  },
-  watch: {
-    async extraContentModal(val) {
-      if (!val) await this.loadV2BackupCount();
-    },
-  },
-  async created() {
-    await this.loadV2BackupCount();
-  },
-  methods: {
-    async loadV2BackupCount() {
-      this.v2BackupCount = (await getV2Backups()).length;
-    },
-    ccLog(btn: string) {
-      switch (btn) {
-        case 'compendium':
-          (this.$refs['log'] as any).print(
-            'man compendium',
-            'Browse the database of LANCER frames, equipment, and rules'
-          );
-          break;
-        case 'pilot':
-          (this.$refs['log'] as any).print(
-            'man pilot-sheet',
-            'Create and manage pilots and their mechs, print character sheets, and enable active play mode'
-          );
-          break;
-        case 'gm':
-          (this.$refs['log'] as any).print(
-            'man gm-tools',
-            'Build and manage NPCs and encounters, and run missions with NPCs and pilots'
-          );
-          break;
-        case 'campaign':
-          (this.$refs['log'] as any).print('man campaigns', 'work in progress');
-          break;
-        case 'content':
-          (this.$refs['log'] as any).print(
-            'man homebrew',
-            'Manage and create COMP/CON expansion data'
-          );
-          break;
-        case 'encounter':
-          (this.$refs['log'] as any).print(
-            'man activemode',
-            'GM an Encounter, open or continue an Active Character Sheet, or create or join a cloud-based Table (coming soon!)'
-          );
-          break;
-        case 'options':
-          (this.$refs['log'] as any).print(
-            'compcon -settings --verbose',
-            'Open the options manager'
-          );
-          break;
-        case 'about':
-          (this.$refs['log'] as any).print('compcon --v', 'About COMP/CON');
-          break;
-        case 'help':
-          (this.$refs['log'] as any).print('compcon --h', 'Open the COMP/CON help page');
-          break;
-        case 'update':
-          (this.$refs['log'] as any).print(
-            'gms-upm compcon changelog -l',
-            'View COMP/CON changelog and latest updates'
-          );
-          break;
-        default:
-          break;
-      }
-    },
-  },
-};
+defineOptions({ name: 'LandingPageDesktop' })
+
+const log = ref<InstanceType<typeof CCLog> & { print: (user: string, response: string) => void } | null>(null)
+
+const extraContentModal = ref(false)
+const v2BackupCount = ref(0)
+
+onMounted(async () => {
+  await loadV2BackupCount();
+});
+
+const isLoggedIn = computed(() => {
+  return UserStore().IsLoggedIn;
+})
+const startingUp = computed(() => {
+  return UserStore().IsLoading;
+})
+const hasV2Backups = computed(() => {
+  return v2BackupCount.value > 0;
+})
+
+async function loadV2BackupCount() {
+  v2BackupCount.value = (await getV2Backups()).length;
+}
+function ccLog(btn: string) {
+  switch (btn) {
+    case 'compendium':
+      log.value?.print(
+        'man compendium',
+        'Browse the database of LANCER frames, equipment, and rules'
+      );
+      break;
+    case 'pilot':
+      log.value?.print(
+        'man pilot-sheet',
+        'Create and manage pilots and their mechs, print character sheets, and enable active play mode'
+      );
+      break;
+    case 'gm':
+      log.value?.print(
+        'man gm-tools',
+        'Build and manage NPCs and encounters, and run missions with NPCs and pilots'
+      );
+      break;
+    case 'campaign':
+      log.value?.print('man campaigns', 'work in progress');
+      break;
+    case 'content':
+      log.value?.print(
+        'man homebrew',
+        'Manage and create COMP/CON expansion data'
+      );
+      break;
+    case 'encounter':
+      log.value?.print(
+        'man activemode',
+        'GM an Encounter, open or continue an Active Character Sheet, or create or join a cloud-based Table (coming soon!)'
+      );
+      break;
+    case 'options':
+      log.value?.print(
+        'compcon -settings --verbose',
+        'Open the options manager'
+      );
+      break;
+    case 'about':
+      log.value?.print('compcon --v', 'About COMP/CON');
+      break;
+    case 'help':
+      log.value?.print('compcon --h', 'Open the COMP/CON help page');
+      break;
+    case 'update':
+      log.value?.print(
+        'gms-upm compcon changelog -l',
+        'View COMP/CON changelog and latest updates'
+      );
+      break;
+    default:
+      break;
+  }
+}
 </script>
 
 <style scoped>

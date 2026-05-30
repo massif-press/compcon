@@ -164,7 +164,8 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { Sortable } from 'sortablejs-vue3';
 import UnitRunnerListItem from './ListItems/UnitRunnerListItem.vue';
 import PilotRunnerListItem from './ListItems/PilotRunnerListItem.vue';
@@ -179,61 +180,44 @@ import ReinforcementListItem from './ListItems/ReinforcementListItem.vue';
 import DestroyedListItem from './ListItems/DestroyedListItem.vue';
 import { CombatantData } from '@/classes/encounter/Encounter';
 
-export default {
-  name: 'GmEncounterRunnerInitiativePanel',
-  components: {
-    Sortable,
-    UnitRunnerListItem,
-    PilotRunnerListItem,
-    DoodadRunnerListItem,
-    GmAddNpcMenu,
-    GmAddPcMenu,
-    GmAddOtherMenu,
-    GmAddStubMenu,
-    PlaceholderRunnerListItem,
-    ReinforcementListItem,
-    EidolonRunnerListItem,
-    DestroyedListItem,
-  },
-  props: {
-    encounter: {
-      type: Object,
-      required: true,
-    },
-    expanded: {
-      type: Boolean,
-      default: true,
-    },
-    selected: {
-      type: Object,
-      default: null,
-    },
-  },
-  emits: ['select'],
-  data: () => ({
-    sort: '',
-    sortAsc: true,
-    sortableKey: `sk-0`,
-    reinforcementsCollapsed: false,
-    destroyedCollapsed: false,
-  }),
+defineOptions({ name: 'GmEncounterRunnerInitiativePanel' })
 
-  computed: {
-    combatants() {
-      if (!this.encounter || !this.encounter.Combatants) {
+const props = withDefaults(defineProps<{
+  encounter: object
+  expanded?: boolean
+  selected?: object
+}>(), {
+  expanded: true,
+  selected: null
+})
+
+const emit = defineEmits<{
+  'select': []
+}>()
+
+const sortable = ref<any>(null)
+
+const sort = ref('')
+const sortAsc = ref(true)
+const sortableKey = ref(`sk-0`)
+const reinforcementsCollapsed = ref(false)
+const destroyedCollapsed = ref(false)
+
+const combatants = computed(() => {
+      if (!props.encounter || !props.encounter.Combatants) {
         return [];
       }
-      return this.encounter.Combatants.filter((c) => !c.actor.CombatController.IsDestroyed);
-    },
-    activeCombatants(): CombatantData[] {
-      let list = this.combatants.filter((c) => !c.reinforcement);
-      if (!this.sort) return list;
+      return props.encounter.Combatants.filter((c) => !c.actor.CombatController.IsDestroyed);
+    })
+const activeCombatants = computed(() => {
+      let list = combatants.value.filter((c) => !c.reinforcement);
+      if (!sort.value) return list;
       list = [...list];
-      if (this.sort === 'name') {
+      if (sort.value === 'name') {
         list.sort((a, b) =>
           (a.actor.Callsign || a.actor.Name).localeCompare(b.actor.Callsign || b.actor.Name)
         );
-      } else if (this.sort === 'type') {
+      } else if (sort.value === 'type') {
         list.sort((a, b) => {
           if (a.actor.ItemType === 'Pilot') return -1;
           if (b.actor.ItemType === 'Pilot') return 1;
@@ -244,44 +228,41 @@ export default {
           }
           return a.actor.ItemType.localeCompare(b.actor.ItemType);
         });
-      } else if (this.sort === 'activations') {
+      } else if (sort.value === 'activations') {
         list.sort((a, b) => {
           const aVal = a.actor.CombatController?.StatController?.CurrentStats?.activations || -1;
           const bVal = b.actor.CombatController?.StatController?.CurrentStats?.activations || -1;
           return aVal - bVal;
         });
-      } else if (this.sort === 'side') {
+      } else if (sort.value === 'side') {
         list.sort((a, b) => a.side.localeCompare(b.side));
       }
-      if (!this.sortAsc) list.reverse();
+      if (!sortAsc.value) list.reverse();
       return list;
-    },
-    reinforcements() {
-      return this.combatants.filter((c) => c.reinforcement);
-    },
-    destroyedCombatants() {
-      return this.encounter.Combatants.filter((c) => c.actor.CombatController.IsDestroyed);
-    },
-  },
-  methods: {
-    itemSort(key) {
-      if (this.sort === key) {
-        this.sortAsc = !this.sortAsc;
+    })
+const reinforcements = computed(() => {
+      return combatants.value.filter((c) => c.reinforcement);
+    })
+const destroyedCombatants = computed(() => {
+      return props.encounter.Combatants.filter((c) => c.actor.CombatController.IsDestroyed);
+    })
+
+function itemSort(key) {
+      if (sort.value === key) {
+        sortAsc.value = !sortAsc.value;
       } else {
-        this.sort = key;
-        this.sortAsc = true;
+        sort.value = key;
+        sortAsc.value = true;
       }
-      this.sortableKey = `sk-${Math.floor(Math.random() * 1000)}`;
-    },
-    getItem(combatant) {
+      sortableKey.value = `sk-${Math.floor(Math.random() * 1000)}`;
+    }
+function getItem(combatant) {
       if (combatant.type === 'unit') {
         return combatant.npc;
       }
       return null;
-    },
-    activateReinforcement(combatant) {
+    }
+function activateReinforcement(combatant) {
       combatant.reinforcement = false;
-    },
-  },
-};
+    }
 </script>

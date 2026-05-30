@@ -14,18 +14,11 @@
   </v-tooltip>
 </template>
 
-    <script lang="ts">
-    export default {
-      name: 'CcNpcAccuracyElement',
-      props: {
-        accuracy: {
-          type: Number,
-          required: true,
-        },
-        small: {
-          type: Boolean,
-          default: false,
-        },
-      },
-    }
+    <script setup lang="ts">
+const props = withDefaults(defineProps<{
+  accuracy: number
+  small?: boolean
+}>(), {
+  small: false
+})
 </script>

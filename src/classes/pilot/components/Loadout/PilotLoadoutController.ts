@@ -1,3 +1,4 @@
+import type { IControllerStatic } from '@/classes/ISerializable'
 import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer'
 import { PilotEquipment } from './equipment/PilotEquipment'
 import { PilotLoadout } from './PilotLoadout'
@@ -125,5 +126,6 @@ class PilotLoadoutController implements IFeatureContainer {
   }
 }
 
+const _checkController: IControllerStatic<Pilot, IPilotLoadoutSaveData> = PilotLoadoutController
 export { PilotLoadoutController }
 export type { IPilotLoadoutSaveData }

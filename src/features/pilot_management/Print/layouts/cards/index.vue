@@ -9,36 +9,19 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import PilotPrint from './PilotPrint.vue';
 import MechPrint from './MechPrint.vue';
 import StdActionPrint from './StdActionPrint.vue';
 import StatusCards from './StatusCards.vue';
-
 import { Pilot } from '@/classes/pilot/Pilot'
 import { Mech } from '@/classes/mech/Mech'
 
-export default {
-  name: 'standard-print',
-  components: {
-    PilotPrint,
-    MechPrint,
-    StdActionPrint,
-    StatusCards,
-  },
-  props: {
-    selectedPilot: {
-      type: Pilot,
-      required: true,
-    },
-    selectedMech: {
-      type: Mech,
-      required: false,
-    },
-    options: {
-      type: Object,
-      required: true,
-    },
-  },
-};
+defineOptions({ name: 'standard-print' })
+
+const props = defineProps<{
+  selectedPilot: Pilot
+  selectedMech?: Mech
+  options: object
+}>()
 </script>

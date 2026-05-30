@@ -161,7 +161,9 @@
     @confirm="setData('label', $event)" />
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer';
 import { uniqBy } from 'lodash-es';
 import { NarrativeStore } from '../store/narrative_store';
@@ -171,96 +173,84 @@ import { EncounterStore } from '@/stores';
 import { DeleteItemPermanent, GenerateExportCollection } from '@/io/Importer';
 import FolderDialog from './_subcomponents/FolderDialog.vue';
 import LabelDialog from './_subcomponents/LabelDialog.vue';
+const router = useRouter()
 
-export default {
-  name: 'Organizer',
-  components: { FolderDialog, LabelDialog },
-  props: {
-    type: {
-      type: String,
-      required: true,
-    },
-  },
-  emits: ['exit'],
-  data: () => ({
-    headers: [
+const props = defineProps<{
+  type: string
+}>()
+
+const emit = defineEmits<{
+  'exit': []
+}>()
+
+const folderDialog = ref<any>(null)
+const labelDialog = ref<any>(null)
+
+const headers = ref([
       { key: 'select', sortable: false, width: '40px' },
       { title: 'Name', key: 'Name', sortable: true },
       { title: 'Folder', key: 'folder', sortable: true, value: (item: any) => item.FolderController?.Folder || '' },
       { title: 'GM Labels', key: 'labels', sortable: true, value: (item: any) => item.NarrativeController?.Labels?.map((l: any) => l.title).join(', ') || '' },
-    ],
-    selected: [] as any[],
-    printDialog: false,
-    deleteDialog: false,
-    shownTypes: [] as string[],
-    allTypes: [] as string[],
-    showDeleted: false,
-    showDeleteConfirm: false,
-  }),
-  computed: {
-    items() {
+    ])
+const selected = ref([] as any[])
+const printDialog = ref(false)
+const deleteDialog = ref(false)
+const shownTypes = ref([] as string[])
+const allTypes = ref([] as string[])
+const showDeleted = ref(false)
+const showDeleteConfirm = ref(false)
+
+const items = computed(() => {
       let items = [] as any[];
-      if (this.type === 'npc')
+      if (props.type === 'npc')
         items = NpcStore().Npcs.filter(
           (x: any) =>
-            this.shownTypes.includes(x.ItemType.toLowerCase()) &&
-            (this.showDeleted || !x.SaveController.IsDeleted)
+            shownTypes.value.includes(x.ItemType.toLowerCase()) &&
+            (showDeleted.value || !x.SaveController.IsDeleted)
         );
-      else if (this.type === 'narrative')
+      else if (props.type === 'narrative')
         items = NarrativeStore().CollectionItems.filter(
           (x: any) =>
-            this.shownTypes.includes(x.ItemType.toLowerCase()) &&
-            (this.showDeleted || !x.SaveController.IsDeleted)
+            shownTypes.value.includes(x.ItemType.toLowerCase()) &&
+            (showDeleted.value || !x.SaveController.IsDeleted)
         );
-      else if (this.type === 'encounter')
+      else if (props.type === 'encounter')
         items = EncounterStore().Encounters.filter(
           (x: any) =>
-            this.shownTypes.includes(x.ItemType.toLowerCase()) &&
-            (this.showDeleted || !x.SaveController.IsDeleted)
+            shownTypes.value.includes(x.ItemType.toLowerCase()) &&
+            (showDeleted.value || !x.SaveController.IsDeleted)
         );
 
       return items;
-    },
-    allFolders() {
+    })
+const allFolders = computed(() => {
       return [...NpcStore().getFolders, ...EncounterStore().getFolders, ...NarrativeStore().getFolders];
-    },
-    allLabels() {
+    })
+const allLabels = computed(() => {
       return NarrativeStore().getAllLabels;
-    },
-    selectedLabels() {
-      return this.getSelectedData('label');
-    },
-  },
-  mounted: function () {
-    if (this.type === 'npc') {
-      this.allTypes = ['unit', 'doodad', 'eidolon'];
-    } else if (this.type === 'narrative') {
-      this.allTypes = ['character', 'location', 'faction'];
-    } else if (this.type === 'encounter') {
-      this.allTypes = ['encounter'];
-    }
+    })
+const selectedLabels = computed(() => {
+      return getSelectedData('label');
+    })
 
-    this.shownTypes = this.allTypes;
-  },
-  methods: {
-    getSelectedData(prop: 'stat' | 'label') {
+function getSelectedData(prop: 'stat' | 'label') {
       return uniqBy(
-        this.items
-          .filter((x: any) => this.selected.includes(x.ID))
+        items.value
+          .filter((x: any) => selected.value.includes(x.ID))
           .flatMap((x: any) => {
             if (prop === 'stat') return (x as IStatContainer).StatController.DisplayKeys;
             if (prop === 'label') return (x as any).NarrativeController.Labels;
           }),
         prop === 'stat' ? 'key' : 'title'
       );
-    },
-    setData(prop: 'stat' | 'label', payload: any) {
+    }
+function setData(prop: 'stat' | 'label', payload: any) {
       const op = typeof payload === 'string' ? payload : payload.op;
       const kvpKey = typeof payload === 'string' ? '' : payload.key;
       const kvpValue = typeof payload === 'string' ? '' : payload.value;
 
-      this.selected.forEach((id) => {
-        const item = this.items.find((x: any) => x.ID === id) as any;
+      selected.value.forEach((id) => {
+        const item = items.value.find((x: any) => x.ID === id) as any;
         if (item) {
           if (prop === 'label') {
             const key = kvpKey?.title ? kvpKey.title : kvpKey;
@@ -278,61 +268,59 @@ export default {
       });
       NarrativeStore().SaveItemData();
       NpcStore().SaveNpcData();
-    },
-    setFolder(folderName: string) {
-      this.selected.forEach((id) => {
-        const item = this.items.find((x: any) => x.ID === id) as any;
+    }
+function setFolder(folderName: string) {
+      selected.value.forEach((id) => {
+        const item = items.value.find((x: any) => x.ID === id) as any;
         if (item) {
           item.FolderController.Folder = folderName;
         }
       });
       NarrativeStore().SaveItemData();
       NpcStore().SaveNpcData();
-    },
-    exportItems() {
+    }
+function exportItems() {
       const json = GenerateExportCollection(
-        this.selected.map((x) => this.items.find((y) => y.ID === x)),
-        this.type
+        selected.value.map((x) => items.value.find((y) => y.ID === x)),
+        props.type
       );
 
       const filename =
-        this.selected.length === 1
-          ? this.items.find((x: any) => x.ID === this.selected[0]).Name
+        selected.value.length === 1
+          ? items.value.find((x: any) => x.ID === selected.value[0]).Name
           : `GM_export_${new Date().toLocaleDateString().replaceAll('/', '-')}.json`;
 
       exportAsJson(json, filename);
-    },
-    deleteItems(undelete: boolean = false) {
-      this.selected.forEach((id) => {
-        const item = this.items.find((x: any) => x.ID === id) as any;
+    }
+function deleteItems(undelete: boolean = false) {
+      selected.value.forEach((id) => {
+        const item = items.value.find((x: any) => x.ID === id) as any;
         if (item) {
           if (undelete) item.SaveController.Restore();
           else item.SaveController.Delete();
         }
       });
-      this.selected = [];
+      selected.value = [];
       NarrativeStore().SaveItemData();
       NpcStore().SaveNpcData();
       EncounterStore().SaveEncounterData();
-    },
-    async deleteItemsPermanent() {
+    }
+async function deleteItemsPermanent() {
       const promises = [] as Promise<any>[];
-      this.selected.forEach((id) => {
-        promises.push(this.deleteItemPermanent(this.items.find((x: any) => x.ID === id)));
+      selected.value.forEach((id) => {
+        promises.push(deleteItemPermanent(items.value.find((x: any) => x.ID === id)));
       });
       await Promise.all(promises);
 
-      this.selected = [];
-      this.showDeleteConfirm = false;
-    },
-    async deleteItemPermanent(item: any) {
+      selected.value = [];
+      showDeleteConfirm.value = false;
+    }
+async function deleteItemPermanent(item: any) {
       await DeleteItemPermanent(item);
-    },
-    routePrint() {
-      if (this.type === 'narrative')
-        this.$router.push(`/gm/print/narrative/${JSON.stringify(this.selected)}`);
-      else this.$router.push(`/gm/print/${JSON.stringify(this.selected)}`);
-    },
-  },
-};
+    }
+function routePrint() {
+      if (props.type === 'narrative')
+        router.push(`/gm/print/narrative/${JSON.stringify(selected.value)}`);
+      else router.push(`/gm/print/${JSON.stringify(selected.value)}`);
+    }
 </script>

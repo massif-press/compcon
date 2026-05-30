@@ -388,39 +388,34 @@
   </cc-modal>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
+import { notify } from '@/util/notify'
+import CCSidebarLayout from '@/ui/components/layouts/CCSidebarLayout.vue'
 import MechStatblock from '@/features/pilot_management/PilotSheet/sections/mech/sections/attributes/MechStatblock.vue';
 import { PilotStore } from '@/stores';
 import vuetify from '@/ui/style';
 
-export default {
-  name: 'AddFromRoster',
-  components: {
-    MechStatblock,
-  },
-  props: {
-    encounter: {
-      type: Object,
-      required: true,
-    },
-    pilots: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  data: () => ({
-    showNav: true,
-    selected: null as any,
-    search: '',
-    collapsedGroups: {} as Record<string, boolean>,
-  }),
-  computed: {
-    addedPilots() {
-      return this.pilots.map((p) => p.ID);
-    },
-    pilotsByGroup() {
+const props = withDefaults(defineProps<{
+  encounter: object
+  pilots?: any[]
+}>(), {
+  pilots: () => []
+})
+
+const sidebar = ref<any>(null)
+
+const showNav = ref(true)
+const selected = ref(null as any)
+const search = ref('')
+const collapsedGroups = ref({} as Record<string, boolean>)
+
+const addedPilots = computed(() => {
+      return props.pilots.map((p) => p.ID);
+    })
+const pilotsByGroup = computed(() => {
       const store = PilotStore();
-      const searchLower = this.search ? this.search.toLowerCase() : '';
+      const searchLower = search.value ? search.value.toLowerCase() : '';
       const result = {};
       for (const group of store.getPilotGroups()) {
         let pilots = store.getPilots(group.ID);
@@ -434,46 +429,35 @@ export default {
         if (pilots.length) result[group.Name] = pilots;
       }
       return result;
-    },
-  },
-  watch: {
-    search(val) {
-      if (!val) return;
-      for (const group of Object.keys(this.pilotsByGroup)) {
-        this.collapsedGroups[group] = false;
-      }
-    },
-  },
-  methods: {
-    addPilot(pilot) {
-      if (this.addedPilots.includes(pilot.ID)) {
-        this.pilots.splice(
-          this.pilots.findIndex((p) => p.ID === pilot.ID),
+    })
+
+function addPilot(pilot) {
+      if (addedPilots.value.includes(pilot.ID)) {
+        props.pilots.splice(
+          props.pilots.findIndex((p) => p.ID === pilot.ID),
           1
         );
-        this.$notify({
+        notify({
           title: `Removed ${pilot.Callsign} from encounter`,
           text: 'Removal Success',
           data: { icon: 'mdi-delete', color: 'info' },
         });
       } else {
-        this.pilots.push(pilot);
-        this.$notify({
+        props.pilots.push(pilot);
+        notify({
           title: `Added ${pilot.Callsign} to encounter`,
           text: 'Success',
           data: { icon: 'mdi-check', color: 'success' },
         });
       }
-    },
-    isInEncounter(pilot) {
-      return this.addedPilots.includes(pilot.ID);
-    },
-    toggleGroup(group: string) {
-      this.collapsedGroups[group] = !this.collapsedGroups[group];
-    },
-    sortedMechs(pilot) {
+    }
+function isInEncounter(pilot) {
+      return addedPilots.value.includes(pilot.ID);
+    }
+function toggleGroup(group: string) {
+      collapsedGroups.value[group] = !collapsedGroups.value[group];
+    }
+function sortedMechs(pilot) {
       return pilot.Mechs.slice().sort((a, b) => pilot.FavoriteMech?.ID === a.ID ? -1 : pilot.FavoriteMech?.ID === b.ID ? 1 : 0)
-    },
-  },
-};
+    }
 </script>

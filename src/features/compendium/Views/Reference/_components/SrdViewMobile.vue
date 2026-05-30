@@ -80,14 +80,23 @@
   </v-btn>
 </template>
 
-<script lang="ts">
-import { useMobile } from '@/composables/useMobile';
-import { srdViewMixin } from './_srdViewMixin';
+<script setup lang="ts">
+import { useMobile } from '@/composables/useMobile'
+import { useSrdView } from './useSrdView'
 
-export default {
-  name: 'using-compcon',
-  mixins: [useMobile, srdViewMixin],
-};
+defineOptions({ name: 'using-compcon', inheritAttrs: false })
+
+const props = withDefaults(defineProps<{
+  title?: string
+  content?: any[]
+  preScroll?: string
+}>(), {
+  content: () => [],
+  preScroll: '',
+})
+
+const { mobile, portrait } = useMobile()
+const { lang, getLangItem, scrollTo } = useSrdView(props)
 </script>
 
 <style scoped>

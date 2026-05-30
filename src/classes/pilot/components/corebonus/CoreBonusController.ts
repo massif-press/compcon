@@ -1,3 +1,4 @@
+import type { IControllerStatic } from '@/classes/ISerializable'
 import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer'
 import * as _ from 'lodash-es'
 import { Bonus, BonusId } from '../../../components/feature/bonus/Bonus'
@@ -115,5 +116,6 @@ class CoreBonusController implements IFeatureContainer {
   }
 }
 
+const _checkController: IControllerStatic<Pilot, ICoreBonusSaveData> = CoreBonusController
 export { CoreBonusController }
 export type { ICoreBonusSaveData }

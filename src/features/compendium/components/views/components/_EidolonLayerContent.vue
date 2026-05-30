@@ -9,20 +9,18 @@
   </c-card-base>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { Stats } from '@/classes/components/combat/stats/Stats';
 import CCardBase from './_cCardBase.vue';
 
-export default {
-  name: 'eidolon-layer-content',
-  components: { CCardBase },
-  props: {
-    item: { type: Object, required: true },
-    small: { type: Boolean },
-    hover: { type: Boolean },
-    highlighted: { type: Boolean },
-  },
-};
+defineOptions({ name: 'eidolon-layer-content' })
+
+const props = defineProps<{
+  item: object
+  small?: boolean
+  hover?: boolean
+  highlighted?: boolean
+}>()
 </script>
 
 <style scoped>

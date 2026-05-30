@@ -11,23 +11,20 @@
   </cc-compendium-browser>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { orderBy } from 'lodash-es';
 import { CompendiumStore } from '../../store';
 import { UserStore } from '@/stores';
 
-export default {
-  name: 'Frames',
-
-  data: () => ({
-    options: {
+const options = ref({
       views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
       initialView: 'cards',
       groups: ['source', 'lcp', 'none'],
       initialGroup: 'source',
       showExotics: UserStore().User.Option('showExotics') as boolean,
-    },
-    headers: [
+    })
+const headers = ref([
       { title: '', key: 'Source' },
       { title: 'Name', key: 'Name' },
       { title: 'Size', key: 'SizeIcon', align: 'center' },
@@ -43,21 +40,18 @@ export default {
       { title: 'Save', key: 'SaveTarget', align: 'center' },
       { title: 'Speed', key: 'Speed', align: 'center' },
       { title: 'SP', key: 'SP', align: 'center' },
-    ],
-  }),
-  computed: {
-    manufacturers() {
+    ])
+
+const manufacturers = computed(() => {
       return CompendiumStore().Manufacturers;
-    },
-    frames() {
+    })
+const frames = computed(() => {
       const items = CompendiumStore().Frames;
       return orderBy(
         items.filter((x) => !x.IsHidden),
         'Name'
       );
-    },
-  },
-};
+    })
 </script>
 
 <style>

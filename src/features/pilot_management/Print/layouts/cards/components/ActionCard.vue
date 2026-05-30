@@ -19,27 +19,16 @@
   </card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import Card from './PrintCard.vue';
 import ActionInternal from './_actionInternal.vue';
 
-export default {
-  name: 'print-action',
-  components: {
-    Card,
-    ActionInternal,
-  },
-  props: {
-    action: {
-      type: Object,
-      required: true,
-    },
-    header: {
-      type: String,
-      required: false,
-    },
-  },
-};
+defineOptions({ name: 'print-action' })
+
+const props = defineProps<{
+  action: object
+  header?: string
+}>()
 </script>
 
 <style scoped>

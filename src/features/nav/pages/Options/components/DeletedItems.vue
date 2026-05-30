@@ -73,7 +73,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { CampaignStore, EncounterStore, NpcStore, PilotStore, PilotSheetStore } from '@/stores'
+import { CampaignStore, EncounterStore, NpcStore, PilotStore, PilotGroupStore, PilotSheetStore } from '@/stores'
 import { Pilot } from '@/classes/pilot/Pilot'
 import { PilotGroup } from '@/features/pilot_management/store/PilotGroup'
 import { NAV_STRINGS } from '@/features/nav/strings'
@@ -84,7 +84,7 @@ const loading = ref(false)
 const items = computed(() => [
   ...NpcStore().Npcs.filter(x => x.SaveController.IsDeleted),
   ...PilotStore().Pilots.filter(x => x.SaveController.IsDeleted),
-  ...PilotStore().PilotGroups.filter(x => x.SaveController.IsDeleted),
+  ...PilotGroupStore().PilotGroups.filter(x => x.SaveController.IsDeleted),
   ...EncounterStore().Encounters.filter(x => x.SaveController.IsDeleted),
   ...EncounterStore().ArchivedEncounters.filter(x => x.SaveController.IsDeleted),
   ...EncounterStore().ActiveEncounters.filter(x => x.SaveController.IsDeleted),
@@ -105,8 +105,8 @@ async function permanentlyDelete(item: any) {
       break
     case 'pilot_group':
     case 'pilotgroup': {
-      const group = PilotStore().PilotGroups.find(x => x.ID === item.ID) as PilotGroup
-      await PilotStore().DeleteGroupPermanent(group)
+      const group = PilotGroupStore().PilotGroups.find(x => x.ID === item.ID) as PilotGroup
+      await PilotGroupStore().DeleteGroupPermanent(group)
       break
     }
     case 'encounter':

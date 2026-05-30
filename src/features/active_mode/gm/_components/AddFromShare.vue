@@ -22,46 +22,48 @@
   </cc-share-code-importer>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useDisplay } from 'vuetify'
 import { CloudController } from '@/classes/components/cloud/CloudController';
 import { downloadFromS3 } from '@/io/apis/account';
 import { UserStore } from '@/stores';
 import ShareCodeResult from '@/shared/ShareCodeResult.vue';
 
-export default {
-  name: 'ShareCodeDialog',
-  components: { ShareCodeResult },
-  props: {
-    pilots: {
-      type: Object,
-      required: true,
-    },
-  },
-  emits: ['close', 'add'],
-  data: () => ({
-    queryResult: null as any,
-    dlLoading: false,
-  }),
-  computed: {
-    mobile() { return this.$vuetify.display.mdAndDown },
-    userId() { return UserStore().Cognito?.userId },
-    remoteItems() { return UserStore().UserMetadata?.RemoteItems ?? [] },
-  },
-  methods: {
-    async addToEncounter() {
-      this.dlLoading = true;
-      const itemData = await downloadFromS3(this.queryResult.uri);
-      const itemType = this.queryResult.sortkey.split('_')[1];
+const _display = useDisplay()
+
+defineOptions({ name: 'ShareCodeDialog' })
+
+const props = defineProps<{
+  pilots: object
+}>()
+
+const emit = defineEmits<{
+  'close': []
+  'add': []
+}>()
+
+const importer = ref<any>(null)
+
+const queryResult = ref(null as any)
+const dlLoading = ref(false)
+
+const mobile = computed(() => { return _display.mdAndDown.value })
+const userId = computed(() => { return UserStore().Cognito?.userId })
+const remoteItems = computed(() => { return UserStore().UserMetadata?.RemoteItems ?? [] })
+
+async function addToEncounter() {
+      dlLoading.value = true;
+      const itemData = await downloadFromS3(queryResult.value.uri);
+      const itemType = queryResult.value.sortkey.split('_')[1];
       const item = await CloudController.NewByType(itemType, itemData);
 
-      this.pilots.push(item);
+      props.pilots.push(item);
 
-      this.$emit('add', item);
+      emit('add', item);
 
-      this.dlLoading = false;
-      (this.$refs as any).importer.reset();
-      ((this.$refs as any).importer as any).$refs.modal.close();
-    },
-  },
-};
+      dlLoading.value = false;
+      importer.value.reset();
+      importer.value.$refs.modal.close();
+    }
 </script>

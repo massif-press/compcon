@@ -8,24 +8,15 @@
   </panel-base>
 </template>
 
-<script>
+<script setup lang="ts">
 import PanelBase from './_PanelBase.vue';
 
-export default {
-  name: 'DoodadPanel',
-  components: {
-    PanelBase,
-  },
-  emits: ['deselect'],
-  props: {
-    combatant: {
-      type: Object,
-      required: true,
-    },
-    encounterInstance: {
-      type: Object,
-      required: true,
-    },
-  },
-};
+const props = defineProps<{
+  combatant: object
+  encounterInstance: object
+}>()
+
+const emit = defineEmits<{
+  'deselect': []
+}>()
 </script>

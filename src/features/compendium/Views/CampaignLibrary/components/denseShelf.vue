@@ -154,51 +154,41 @@
   </v-sheet>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { CampaignStore } from '@/stores';
 import { orderBy } from 'lodash-es';
 
-export default {
-  name: 'campaign-library-dense',
-  props: {
-    search: {
-      type: String,
-      default: '',
-    },
-    sort: {
-      type: String,
-      default: 'title',
-    },
-    sortDir: {
-      type: Boolean,
-    },
-  },
-  data: () => ({
-    slide: null as number | null,
-    libDialog: false,
-    dOptions: { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
-  }),
+defineOptions({ name: 'campaign-library-dense' })
 
-  computed: {
-    campaigns() {
+const props = withDefaults(defineProps<{
+  search?: string
+  sort?: string
+  sortDir?: boolean
+}>(), {
+  search: '',
+  sort: 'title'
+})
+
+const slide = ref(null as number | null)
+const libDialog = ref(false)
+const dOptions = ref({ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+
+const campaigns = computed(() => {
       return orderBy(
         CampaignStore().CampaignCollection.filter((c) =>
-          c.title.toLowerCase().includes(this.search.toLowerCase())
+          c.title.toLowerCase().includes(props.search.toLowerCase())
         ),
-        this.sort,
-        this.sortDir ? 'asc' : 'desc'
+        props.sort,
+        props.sortDir ? 'asc' : 'desc'
       );
-    },
-  },
+    })
 
-  methods: {
-    removeCampaign(campaign) {
-      this.slide = null;
+function removeCampaign(campaign) {
+      slide.value = null;
       CampaignStore().DeleteCollectionCampaign(campaign);
-    },
-    getLatest(publish_info) {
+    }
+function getLatest(publish_info) {
       return publish_info.version_history[publish_info.version_history.length - 1];
-    },
-  },
-};
+    }
 </script>

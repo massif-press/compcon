@@ -1,3 +1,4 @@
+import type { IControllerStatic } from '@/classes/ISerializable'
 import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer'
 import { Mech } from '../../Mech'
 import { MechLoadout } from './MechLoadout'
@@ -145,5 +146,6 @@ class MechLoadoutController implements IFeatureContainer {
   }
 }
 
+const _checkController: IControllerStatic<Mech, IMechLoadoutSaveData> = MechLoadoutController
 export { MechLoadoutController }
 export type { IMechLoadoutSaveData }

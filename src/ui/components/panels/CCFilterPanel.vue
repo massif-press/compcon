@@ -45,6 +45,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useDisplay } from 'vuetify';
+import CCTitlebar from '../CCTitlebar.vue'
+import CCItemFilter from './filters/CCItemFilter.vue'
 
 const display = useDisplay();
 

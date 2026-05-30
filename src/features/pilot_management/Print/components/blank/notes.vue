@@ -8,19 +8,13 @@
   />
 </template>
 
-<script lang="ts">
-export default {
-  name: 'terse-print',
-  props: {
-    rows: {
-      type: Number,
-      required: true,
-    },
-    lined: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-  },
-};
+<script setup lang="ts">
+defineOptions({ name: 'terse-print' })
+
+const props = withDefaults(defineProps<{
+  rows: number
+  lined?: boolean
+}>(), {
+  lined: false
+})
 </script>

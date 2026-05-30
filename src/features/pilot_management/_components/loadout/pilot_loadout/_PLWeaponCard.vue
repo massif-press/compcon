@@ -93,64 +93,68 @@
   </pl-card-base>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import PlCardBase from './_PLCardBase.vue'
 import { PilotWeapon } from '@/classes/pilot/components/Loadout/equipment/PilotWeapon'
 import { CompendiumItem } from '@/classes/CompendiumItem'
 import { ItemType } from '@/classes/enums'
 import { PilotEquipment } from '@/classes/pilot/components/Loadout/equipment/PilotEquipment'
-import { PLCardMixin } from './_PLCardMixin'
+import { usePLCard } from './usePLCard'
+import { notify } from '@kyvg/vue3-notification'
 
-export default {
-  name: 'PlPilotWeaponCard',
-  components: { PlCardBase },
-  mixins: [PLCardMixin],
-  emits: ['equip', 'remove', 'save'],
-  data: () => ({
-    headers: [
-      { title: 'Content Pack', key: 'LcpName' },
-      { title: 'Type', key: 'Type' },
-      { title: 'Item', key: 'Name' },
-      { title: 'Range', key: 'Range' },
-      { title: 'Damage', key: 'Damage' },
-      { title: 'Tags', align: 'center', key: 'Tags' },
-    ],
-    options: {
-      views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
-      initialView: 'single',
-      groups: ['lcp', 'type', 'none'],
-      initialGroup: 'type',
-      noSource: true,
-      showExotics: true,
-    },
-  }),
-  computed: {
-    exotics(): PilotWeapon[] {
-      return this.pilot.SpecialEquipment.filter((x: any) => x.ItemType === 'PilotWeapon')
-    },
-    weapons(): PilotWeapon[] {
-      let weapon = this.allGear.filter(
-        (x: PilotEquipment) => x.ItemType === ItemType.PilotWeapon && !x.IsHidden && !x.IsExotic
-      ) as PilotWeapon[]
-      if (this.exotics.length) {
-        weapon = weapon.concat(this.exotics)
-      }
+const props = withDefaults(defineProps<{
+  item?: object | null
+  extended?: boolean
+  readonly?: boolean
+  pilot: object
+}>(), {
+  item: null,
+})
 
-      return weapon
-    },
-  },
-  methods: {
-    equip(item: PilotWeapon) {
-      this.$emit('equip', CompendiumItem.Clone(item))
-      this.$emit('save')
+const emit = defineEmits<{ equip: [item: any]; remove: [item: any]; save: [] }>()
 
-        ; (this.$refs.base as any).closeSelector()
-      this.$notify({
-        title: 'Pilot Weapon Equipped',
-        text: `${item.Name} equipped to ${this.pilot.Name}.`,
-        data: { icon: 'cc:pilot' },
-      })
-    },
-  },
+const { allGear } = usePLCard(props)
+const base = ref<InstanceType<typeof PlCardBase> | null>(null)
+
+const headers = ref([
+  { title: 'Content Pack', key: 'LcpName' },
+  { title: 'Type', key: 'Type' },
+  { title: 'Item', key: 'Name' },
+  { title: 'Range', key: 'Range' },
+  { title: 'Damage', key: 'Damage' },
+  { title: 'Tags', align: 'center', key: 'Tags' },
+])
+
+const options = ref({
+  views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
+  initialView: 'single',
+  groups: ['lcp', 'type', 'none'],
+  initialGroup: 'type',
+  noSource: true,
+  showExotics: true,
+})
+
+const exotics = computed((): PilotWeapon[] =>
+  (props.pilot as any).SpecialEquipment.filter((x: any) => x.ItemType === 'PilotWeapon')
+)
+
+const weapons = computed((): PilotWeapon[] => {
+  let result = allGear.value.filter(
+    (x: PilotEquipment) => x.ItemType === ItemType.PilotWeapon && !x.IsHidden && !(x as any).IsExotic
+  ) as PilotWeapon[]
+  if (exotics.value.length) result = result.concat(exotics.value)
+  return result
+})
+
+function equip(item: PilotWeapon) {
+  emit('equip', CompendiumItem.Clone(item))
+  emit('save')
+  ;(base.value as any)?.closeSelector()
+  notify({
+    title: 'Pilot Weapon Equipped',
+    text: `${item.Name} equipped to ${(props.pilot as any).Name}.`,
+    data: { icon: 'cc:pilot' },
+  })
 }
 </script>

@@ -96,19 +96,17 @@
   </ref-roll-table-base>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import RefRollTableBase from './_RefRollTableBase.vue';
 
-export default {
-  name: 'ref-stress-table',
-  components: { RefRollTableBase },
-  methods: {
-    show() {
-      (this.$refs.base as any).show();
-    },
-    close() {
-      (this.$refs.base as any).close();
-    },
-  },
-};
+defineOptions({ name: 'ref-stress-table' })
+
+const base = ref<any>(null)
+
+function show() {
+      (base.value as any).show();
+    }
+function close() {
+      (base.value as any).close();
+    }
 </script>

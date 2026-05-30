@@ -66,48 +66,39 @@
 
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import { ActionSummary } from '@/classes/components/feature/active_effects/EffectActionSummary';
 
+const props = defineProps<{
+  actor: object
+  encounter: object
+}>()
 
-export default {
-  name: 'ActorLogs',
-  props: {
-    actor: {
-      type: Object,
-      required: true,
-    },
-    encounter: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    summary() {
-      void this.actor.CombatController.CombatLogVersion
+const summary = computed(() => {
+      void props.actor.CombatController.CombatLogVersion
       let out = [] as { title: string; text: string }[];
-      this.actor.CombatController.CombatLog.History.forEach((log, index) => {
-        let stringSummary = log.action ? new ActionSummary(log.action).Summarize(this.actor.ID) : log.event || 'No summary available.';
+      props.actor.CombatController.CombatLog.History.forEach((log, index) => {
+        let stringSummary = log.action ? new ActionSummary(log.action).Summarize(props.actor.ID) : log.event || 'No summary available.';
         out.push({
           title: `${new Date(log.timestamp).toLocaleString()} — Round ${log.round}, Action ${index + 1}`,
           text: stringSummary,
         });
       });
       return out;
-    }
-  },
-  methods: {
-    copyContent(entry) {
+    })
+
+function copyContent(entry) {
       if (!entry) return;
-      navigator.clipboard.writeText(`${entry.title}\n${entry.text}\n`);
-    },
-    exportLog(type: 'text' | 'json' = 'text') {
+      navigator.clipboard.writeText(`${entry.title}\n${entry.text}`);
+    }
+function exportLog(type: 'text' | 'json' = 'text') {
       let out;
-      if (type === 'text') out = this.summary.map(entry => `${entry.title}\n${entry.text}\n`).join('\n');
+      if (type === 'text') out = summary.value.map(entry => `${entry.title}\n${entry.text}`).join('\n');
       else out = JSON.stringify({
-        actor: this.actor.Name,
-        actor_id: this.actor.ID,
-        log: this.actor.CombatController.CombatLog.History.map(log => ({
+        actor: props.actor.Name,
+        actor_id: props.actor.ID,
+        log: props.actor.CombatController.CombatLog.History.map(log => ({
           timestamp: log.timestamp,
           round: log.round,
           summary: log.event,
@@ -120,11 +111,8 @@ export default {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `${this.actor.Name} ${this.encounter.Name} round ${this.encounter.Round} combat log.${type === 'text' ? 'txt' : 'json'}`;
+      a.download = `${props.actor.Name} ${props.encounter.Name} round ${props.encounter.Round} combat log.${type === 'text' ? 'txt' : 'json'}`;
       a.click();
       URL.revokeObjectURL(url);
-    },
-
-  },
-};
+    }
 </script>

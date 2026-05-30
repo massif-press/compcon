@@ -43,50 +43,42 @@
   </v-col>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
 import logger from '@/user/logger';
 import * as content from './components';
 import ItemCardLink from '@/ui/components/cards/items/_components/ItemCardLink.vue';
 
-export default {
-  name: 'CompendiumLargeCard',
-  components: {
-    ItemCardLink,
-  },
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    small: {
-      type: Boolean,
-    },
-    highlighted: {
-      type: Boolean,
-    },
-    selectable: {
-      type: Boolean,
-    },
-  },
-  computed: {
-    portrait() {
-      return this.$vuetify.display.xs;
-    },
-    landscape() {
-      return this.$vuetify.display.smAndDown;
-    },
-    componentLoader(): any {
-      if (!this.item) {
+const _display = useDisplay()
+
+defineOptions({ name: 'CompendiumLargeCard' })
+
+const props = defineProps<{
+  item: object
+  small?: boolean
+  highlighted?: boolean
+  selectable?: boolean
+}>()
+
+const portrait = computed(() => {
+      return _display.xs.value;
+    })
+const landscape = computed(() => {
+      return _display.smAndDown.value;
+    })
+const componentLoader = computed(() => {
+      if (!props.item) {
         logger.error('No item provided to CompendiumCard', this);
         return null;
       }
 
-      if (!this.item.ItemType && !this.item.type) {
+      if (!props.item.ItemType && !props.item.type) {
         logger.error('No item type provided to CompendiumCard', this);
         return null;
       }
 
-      let t = this.item.ItemType ? this.item.ItemType : `Npc${this.item.type}`;
+      let t = props.item.ItemType ? props.item.ItemType : `Npc${props.item.type}`;
 
       t += 'Content';
 
@@ -96,13 +88,11 @@ export default {
       }
 
       return content[t];
-    },
-    itemDialogTitle() {
-      if (this.item.Source) return `${this.item.Source} ${this.item.Name}`;
-      return this.item.Name;
-    },
-  },
-};
+    })
+const itemDialogTitle = computed(() => {
+      if (props.item.Source) return `${props.item.Source} ${props.item.Name}`;
+      return props.item.Name;
+    })
 </script>
 
 <style scoped>

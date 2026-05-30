@@ -46,7 +46,8 @@
   </editor-base>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { Faction } from '@/classes/narrative/Faction';
 import EditorBase from '../../../gm/_components/EditorBase.vue';
 import NarrativeBlock from './narrativeBlock.vue';
@@ -54,40 +55,38 @@ import { NarrativeStore } from '@/stores';
 import RelationshipEditor from '../../_components/RelationshipEditor.vue';
 import exportAsJson from '@/util/jsonExport';
 
-export default {
-  name: 'gm-faction-editor-base',
-  components: { EditorBase, RelationshipEditor, NarrativeBlock },
-  props: {
-    item: { type: Object, required: true },
-  },
-  data: () => ({
-    readonly: false,
-  }),
-  emits: ['exit'],
-  computed: {
-    isRemote() {
-      return (this.item as any).SaveController.IsRemote;
-    },
-  },
-  methods: {
-    exit() {
-      this.$emit('exit');
-    },
-    async save() {
+defineOptions({ name: 'gm-faction-editor-base' })
+
+const props = defineProps<{
+  item: object
+}>()
+
+const emit = defineEmits<{
+  'exit': []
+}>()
+
+const readonly = ref(false)
+
+const isRemote = computed(() => {
+      return (props.item as any).SaveController.IsRemote;
+    })
+
+function exit() {
+      emit('exit');
+    }
+async function save() {
       await NarrativeStore().SaveItemData();
-      this.exit();
-    },
-    deleteItem() {
-      (this.item as Faction).SaveController.Delete();
-      this.$emit('exit');
-    },
-    dupe() {
-      NarrativeStore().CloneItem(this.item as Faction);
-      this.$emit('exit');
-    },
-    exportItem(item) {
+      exit();
+    }
+function deleteItem() {
+      (props.item as Faction).SaveController.Delete();
+      emit('exit');
+    }
+function dupe() {
+      NarrativeStore().CloneItem(props.item as Faction);
+      emit('exit');
+    }
+function exportItem(item) {
       exportAsJson(Faction.Serialize(item), `${item.Name}.json`);
-    },
-  },
-};
+    }
 </script>

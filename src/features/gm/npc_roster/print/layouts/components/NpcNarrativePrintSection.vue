@@ -97,16 +97,12 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import blankLine from '../../components/blank/line.vue';
 import notes from '../../components/blank/notes.vue';
 
-export default {
-  name: 'NpcNarrativePrintSection',
-  components: { blankLine, notes },
-  props: {
-    npc: { type: Object, required: true },
-    options: { type: Object, required: true },
-  },
-};
+const props = defineProps<{
+  npc: object
+  options: object
+}>()
 </script>

@@ -112,6 +112,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useMobile } from '@/composables/useMobile'
+import CCLicensePanel from '../../panels/CCLicensePanel.vue'
 import { LicenseController } from '@/classes/pilot/components';
 
 const props = defineProps({

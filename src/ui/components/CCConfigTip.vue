@@ -27,18 +27,14 @@
   </v-tooltip>
 </template>
 
-<script lang="ts">
-  export default {
-    props: {
-      actor: {
-        type: Object,
-        required: true,
-      },
-    },
-    computed: {
-      mobile(): boolean {
+<script setup lang="ts">
+import { computed } from 'vue'
+
+const props = defineProps<{
+  actor: object
+}>()
+
+const mobile = computed(() => {
         return 'ontouchstart' in window || navigator.maxTouchPoints > 0
-      },
-    },
-  }
+      })
 </script>

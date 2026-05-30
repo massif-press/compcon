@@ -142,61 +142,60 @@
   </cc-panel>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import TalentEmblem from './_TalentEmblem.vue';
 import TalentRankContents from './_TalentRankContents.vue';
 import { useMobile } from '@/composables/useMobile';
 
+const { mobile, portrait } = useMobile()
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'TalentFull',
-  components: { TalentEmblem, TalentRankContents },
-  props: {
-    hideLocked: { type: Boolean },
-    talent: { type: Object, required: true },
-    selectable: { type: Boolean },
-    canAdd: { type: Boolean },
-    hideChange: { type: Boolean },
-    hideTitle: { type: Boolean },
-    inColumn: { type: Boolean },
-    rank: { type: [Number, String], required: false, default: null },
-  },
-  emits: ['expand', 'add', 'remove'],
-  data: () => ({
-    showAll: false,
-  }),
-  computed: {
-    showFull() {
-      if (this.hideLocked) return this.showAll;
+const props = withDefaults(defineProps<{
+  hideLocked?: boolean
+  talent: object
+  selectable?: boolean
+  canAdd?: boolean
+  hideChange?: boolean
+  hideTitle?: boolean
+  inColumn?: boolean
+  rank?: number | string
+}>(), {
+  rank: null
+})
+
+const emit = defineEmits<{
+  'expand': []
+  'add': []
+  'remove': []
+}>()
+
+const showAll = ref(false)
+
+const showFull = computed(() => {
+      if (props.hideLocked) return showAll.value;
       return true;
-    },
-  },
-  methods: {
-    isUnlocked(rank: number) {
-      if (this.selectable) {
+    })
+
+function isUnlocked(rank: number) {
+      if (props.selectable) {
         if (rank === 1) return true;
-        if (Number(this.rank) + 1 >= rank) return true;
+        if (Number(props.rank) + 1 >= rank) return true;
         return false;
       }
 
-      if (!this.rank) {
+      if (!props.rank) {
         return true;
       }
 
-      return Number(this.rank) >= rank;
-    },
-    isCurrentlyUnlockable(rank: number) {
-      if (this.selectable) {
-        if (Number(this.rank) + 1 === rank) return true;
+      return Number(props.rank) >= rank;
+    }
+function isCurrentlyUnlockable(rank: number) {
+      if (props.selectable) {
+        if (Number(props.rank) + 1 === rank) return true;
       }
 
       return false;
-    },
-  },
-};
+    }
 </script>
 
 <style scoped>

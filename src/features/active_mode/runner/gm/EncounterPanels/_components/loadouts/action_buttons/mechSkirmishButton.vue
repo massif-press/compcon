@@ -169,7 +169,9 @@
   </combat-action-button>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
+import { useDisplay } from 'vuetify'
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 import MechMountBonusCard from '../_mechMountBonusCard.vue';
 import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
@@ -182,142 +184,94 @@ import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/A
 import StagedPanel from './_stagedPanel.vue';
 import CombatActionButton from './CombatActionButton.vue';
 
-export default {
-  name: 'MechSkirmishButton',
-  props: {
-    action: {
-      type: Object,
-      required: true,
-    },
-    owner: {
-      type: Object,
-      required: true,
-    },
-    encounter: {
-      type: Object,
-      required: true,
-    },
-    presetWeapon: {
-      type: MechWeapon,
-      required: false,
-    },
-  },
-  components: {
-    MenuInput,
-    MechMountBonusCard,
-    MechWeaponAttack,
-    ApplyButton,
-    StagedPanel,
-    CombatActionButton,
-  },
-  data: () => ({
-    event: null as WeaponAttackEvent | null,
-    auxEvents: [] as WeaponAttackEvent[],
-    selectedWeapon: null as MechWeapon | null,
-    include: [] as boolean[],
-  }),
-  created() {
-    this.reset();
-  },
-  watch: {
-    include: {
-      handler(newVal, oldVal) {
-        const self = this.encounter.Combatants.find(
-          (c: CombatantData) => c.actor.CombatController.RootActor.ID === this.owner.actor.CombatController.RootActor.ID
-        );
-        if (!self) {
-          throw new Error('Owner combatant not found in encounter');
-        }
-        const auxes = this.selectedMount?.Weapons.filter(
-          (x) =>
-            x.InstanceID !== this.selectedWeapon!.InstanceID && x.Size.toLowerCase() === 'auxiliary'
-        ) ?? [];
+const _display = useDisplay()
 
-        this.auxEvents = []
+const props = defineProps<{
+  action: object
+  owner: object
+  encounter: object
+  presetWeapon?: MechWeapon
+}>()
 
-        for (let i = 0; i < newVal.length; i++) {
-          this.auxEvents.push(
-            new WeaponAttackEvent(auxes[i].SelectedProfile as WeaponProfile, this.owner as CombatantData, this.encounter, 'Additional Aux Attack')
-          );
-        }
-      },
-      deep: true,
-    },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-    controller() {
-      return this.owner.actor.CombatController.ActiveActor.CombatController;
-    },
-    selectedMount() {
-      if (!this.selectedWeapon) return null;
-      const aa = this.owner.actor.CombatController.RootActor;
+const event = ref(null as WeaponAttackEvent | null)
+const auxEvents = ref([] as WeaponAttackEvent[])
+const selectedWeapon = ref(null as MechWeapon | null)
+const include = ref([] as boolean[])
+
+reset();
+
+reset();
+
+const mobile = computed(() => {
+      return _display.mdAndDown.value;
+    })
+const controller = computed(() => {
+      return props.owner.actor.CombatController.ActiveActor.CombatController;
+    })
+const selectedMount = computed(() => {
+      if (!selectedWeapon.value) return null;
+      const aa = props.owner.actor.CombatController.RootActor;
       if (!aa.ActiveMech) return null;
 
-      return aa.ActiveMech.MechLoadoutController.ActiveLoadout.Mounts.find((m) => m.Weapons.some((w) => w.InstanceID === this.selectedWeapon!.InstanceID));
-    },
-    ordnanceWarning() {
-      if (!this.selectedWeapon) return false;
-      if (this.selectedWeapon.ActiveTags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
-        return this.owner.actor.CombatController.CanActivate('ordnance') === false;
+      return aa.ActiveMech.MechLoadoutController.ActiveLoadout.Mounts.find((m) => m.Weapons.some((w) => w.InstanceID === selectedWeapon.value!.InstanceID));
+    })
+const ordnanceWarning = computed(() => {
+      if (!selectedWeapon.value) return false;
+      if (selectedWeapon.value.ActiveTags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
+        return props.owner.actor.CombatController.CanActivate('ordnance') === false;
       }
       return false;
-    },
-    skirmishWeapons() {
-      const mech = this.controller.ActiveActor;
+    })
+const skirmishWeapons = computed(() => {
+      const mech = controller.value.ActiveActor;
       if (!mech || !mech.MechLoadoutController) return []
       let arr = mech.MechLoadoutController.ActiveLoadout.Weapons.filter(
         (x) => x.Skirmish
       );
-      if (this.presetWeapon) {
-        arr = arr.filter(w => w.InstanceID === this.presetWeapon!.InstanceID);
+      if (props.presetWeapon) {
+        arr = arr.filter(w => w.InstanceID === props.presetWeapon!.InstanceID);
       }
       return arr;
-    },
-    eventArray() {
-      const enabledAuxes = this.auxEvents.filter((x, idx) => this.include[idx]);
-      return [this.event].concat(enabledAuxes)
-    },
-  },
-  methods: {
-    reset(clearAction = false) {
-      if (clearAction) this.owner.CombatController.ClearActionUsed(this.action.ID);
-      const self = this.encounter.Combatants.find(
-        (c: CombatantData) => c.actor.CombatController.RootActor.ID === this.owner.actor.CombatController.RootActor.ID
+    })
+const eventArray = computed(() => {
+      const enabledAuxes = auxEvents.value.filter((x, idx) => include.value[idx]);
+      return [event.value].concat(enabledAuxes)
+    })
+
+function reset(clearAction = false) {
+      if (clearAction) props.owner.CombatController.ClearActionUsed(props.action.ID);
+      const self = props.encounter.Combatants.find(
+        (c: CombatantData) => c.actor.CombatController.RootActor.ID === props.owner.actor.CombatController.RootActor.ID
       );
       if (!self) {
         throw new Error('Owner combatant not found in encounter');
       }
-      if (!this.selectedWeapon && this.presetWeapon) {
-        this.selectedWeapon = this.presetWeapon;
+      if (!selectedWeapon.value && props.presetWeapon) {
+        selectedWeapon.value = props.presetWeapon;
       }
 
-      if (!this.selectedWeapon)
+      if (!selectedWeapon.value)
         return;
 
 
-      this.event = new WeaponAttackEvent(this.selectedWeapon?.SelectedProfile as WeaponProfile, self, this.encounter, 'Skirmish');
-      const auxes = this.selectedMount?.Weapons.filter(
+      event.value = new WeaponAttackEvent(selectedWeapon.value?.SelectedProfile as WeaponProfile, self, props.encounter, 'Skirmish');
+      const auxes = selectedMount.value?.Weapons.filter(
         (x) =>
-          x.InstanceID !== this.selectedWeapon!.InstanceID && x.Size.toLowerCase() === 'auxiliary'
+          x.InstanceID !== selectedWeapon.value!.InstanceID && x.Size.toLowerCase() === 'auxiliary'
       ) ?? [];
 
-      this.auxEvents = auxes.map(x => new WeaponAttackEvent(x.SelectedProfile as WeaponProfile, this.owner as CombatantData, this.encounter, 'Additional Aux Attack'));
+      auxEvents.value = auxes.map(x => new WeaponAttackEvent(x.SelectedProfile as WeaponProfile, props.owner as CombatantData, props.encounter, 'Additional Aux Attack'));
 
-      this.include = this.auxEvents.map(() => true);
-    },
-    apply() {
-      const actor = this.owner.actor.CombatController.ActiveActor.CombatController;
-      actor.MarkActionUsed(this.selectedWeapon!.InstanceID);
-      if (this.selectedWeapon!.IsLoading) this.selectedWeapon!.Used = true;
-      this.reset();
-    },
-    onWeaponChanged(weapon: MechWeapon) {
-      this.selectedWeapon = weapon;
-      this.reset();
-    },
-  },
-};
+      include.value = auxEvents.value.map(() => true);
+    }
+function apply() {
+      const actor = props.owner.actor.CombatController.ActiveActor.CombatController;
+      actor.MarkActionUsed(selectedWeapon.value!.InstanceID);
+      if (selectedWeapon.value!.IsLoading) selectedWeapon.value!.Used = true;
+      reset();
+    }
+function onWeaponChanged(weapon: MechWeapon) {
+      selectedWeapon.value = weapon;
+      reset();
+    }
 </script>

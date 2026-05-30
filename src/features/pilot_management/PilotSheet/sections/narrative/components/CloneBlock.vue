@@ -91,30 +91,26 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { CompendiumStore } from '@/stores';
 import SectionHeader from '../../components/SectionHeader.vue';
-
 import * as _ from 'lodash-es';
 
-export default {
-  name: 'clone-block',
-  props: {
-    hideQuirks: { type: Boolean },
-    readonly: { type: Boolean },
-    pilot: { type: Object, required: true },
-  },
-  components: { SectionHeader },
-  methods: {
-    setQuirk() {
-      if (!this.pilot.Callsign.includes('※')) this.pilot.Callsign += '※';
-      if (!this.pilot.Callsign.includes('※')) this.pilot.Name += '※';
+defineOptions({ name: 'clone-block' })
+
+const props = defineProps<{
+  hideQuirks?: boolean
+  readonly?: boolean
+  pilot: object
+}>()
+
+function setQuirk() {
+      if (!props.pilot.Callsign.includes('※')) props.pilot.Callsign += '※';
+      if (!props.pilot.Callsign.includes('※')) props.pilot.Name += '※';
       const compendium = CompendiumStore();
-      this.pilot.AddQuirk(_.sample(compendium.Tables.quirks));
-    },
-    updateQuirk(index, str) {
-      this.pilot.Quirks[index] = str;
-    },
-  },
-};
+      props.pilot.AddQuirk(_.sample(compendium.Tables.quirks));
+    }
+function updateQuirk(index, str) {
+      props.pilot.Quirks[index] = str;
+    }
 </script>

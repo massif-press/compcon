@@ -58,48 +58,31 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'NpcFeatureAlerts',
-  props: {
-    templateController: {
-      type: Object,
-      required: true,
-    },
-    expanded: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    hideComplete: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    color: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    hide: {
-      type: Boolean,
-    },
-  },
-  methods: {
-    showItem(item) {
-      if (this.hideComplete) return !item.complete || !item.optional_complete;
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+  templateController: object
+  expanded?: boolean
+  hideComplete?: boolean
+  color?: string
+  hide?: boolean
+}>(), {
+  expanded: false,
+  hideComplete: false,
+  color: ''
+})
+
+function showItem(item) {
+      if (props.hideComplete) return !item.complete || !item.optional_complete;
       return item.min + item.max + item.optionalMin + item.optionalMax > 0;
-    },
-    getColor(item) {
+    }
+function getColor(item) {
       if (!item.optional_complete) return 'secondary';
       if (!item.complete) return 'error';
       return 'success';
-    },
-    getIcon(item) {
+    }
+function getIcon(item) {
       if (!item.optional_complete) return 'cc:npc_feature';
       if (!item.complete) return 'mdi-alert';
       return 'mdi-check';
-    },
-  },
-};
+    }
 </script>

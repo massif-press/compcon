@@ -17,27 +17,17 @@
   </v-tooltip>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'section-edit-chip',
-  props: {
-    highlight: {
-      type: Boolean,
-      required: true,
-    },
-    current: {
-      type: Number,
-      required: true,
-    },
-    max: {
-      type: Number,
-      required: true,
-    },
-    label: {
-      type: String,
-      required: true,
-    },
-  },
-  emits: ['open-selector'],
-};
+<script setup lang="ts">
+defineOptions({ name: 'section-edit-chip' })
+
+const props = defineProps<{
+  highlight: boolean
+  current: number
+  max: number
+  label: string
+}>()
+
+const emit = defineEmits<{
+  'open-selector': []
+}>()
 </script>

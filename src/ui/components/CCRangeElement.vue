@@ -41,32 +41,19 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { Range } from '@/classes/Range'
 import { glossary } from '@massif/lancer-data';
 
-export default {
-  name: 'CCRangeElement',
-  props: {
-    range: {
-      type: Array,
-      required: true,
-    },
-    small: {
-      type: Boolean,
-    },
-    dense: {
-      type: Boolean,
-    },
-    added: {
-      type: Boolean,
-    },
-  },
-  methods: {
-    gloss(r): any {
+const props = defineProps<{
+  range: any[]
+  small?: boolean
+  dense?: boolean
+  added?: boolean
+}>()
+
+function gloss(r) {
       if (!r?.Type) return null;
       return glossary.find((x) => x.name.toLowerCase() === r.Type.toLowerCase()) || null;
-    },
-  },
-};
+    }
 </script>

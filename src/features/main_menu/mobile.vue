@@ -144,7 +144,9 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useDisplay } from 'vuetify'
 import MobileBtn from './_components/MobileBtn.vue'
 import ExtraContent from '../nav/pages/ExtraContent/index.vue'
 import CreditsPage from '../nav/pages/Credits.vue'
@@ -155,37 +157,25 @@ import { UserStore } from '@/stores'
 import SignIn from './_components/login/index.vue'
 import V2Auto from '../nav/pages/ExtraContent/components/v2Auto.vue'
 
-export default {
-  name: 'LandingPageMobile',
-  components: {
-    MobileBtn,
-    ExtraContent,
-    AboutPage,
-    CreditsPage,
-    HelpPage,
-    OptionsPage,
-    SignIn,
-    V2Auto,
-  },
-  data: () => ({
-    extraContentModal: false,
-  }),
-  computed: {
-    userstore() {
+const _display = useDisplay()
+
+defineOptions({ name: 'LandingPageMobile' })
+
+const extraContentModal = ref(false)
+
+const userstore = computed(() => {
       return UserStore()
-    },
-    isLoggedIn() {
+    })
+const isLoggedIn = computed(() => {
       return UserStore().IsLoggedIn
-    },
-    startingUp() {
+    })
+const startingUp = computed(() => {
       return UserStore().IsLoading
-    },
-    appVersion(): string {
+    })
+const appVersion = computed(() => {
       return APP_VERSION || 'dev'
-    },
-    landscape() {
-      return this.$vuetify.display.smAndUp
-    },
-  },
-}
+    })
+const landscape = computed(() => {
+      return _display.smAndUp.value
+    })
 </script>

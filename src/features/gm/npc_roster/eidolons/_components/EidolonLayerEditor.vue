@@ -138,35 +138,34 @@
   </cc-solo-modal>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
 import StatEditor from '@/features/gm/_components/StatEditor.vue';
 import LayerSelector from './LayerSelector.vue';
 
-export default {
-  name: 'EidolonLayers',
-  components: { LayerSelector, StatEditor },
-  props: {
-    item: { type: Object, required: true },
-    readonly: { type: Boolean, default: false },
-  },
-  data: () => ({
-    tab: 0,
-    layerSelector: false,
-  }),
-  methods: {
-    removeLayer(index: number) {
-      this.item.RemoveLayer(index);
-      this.tab--;
-    },
-    addLayer(layer) {
-      this.item.AddLayer(layer);
-      this.tab = this.item.Layers.length - 1;
-      this.layerSelector = false;
-    },
-    addRandomLayer() {
-      this.item.AddRandomLayer();
-      this.tab = this.item.Layers.length - 1;
-    },
-  },
-};
+defineOptions({ name: 'EidolonLayers' })
+
+const props = withDefaults(defineProps<{
+  item: object
+  readonly?: boolean
+}>(), {
+  readonly: false
+})
+
+const tab = ref(0)
+const layerSelector = ref(false)
+
+function removeLayer(index: number) {
+      props.item.RemoveLayer(index);
+      tab.value--;
+    }
+function addLayer(layer) {
+      props.item.AddLayer(layer);
+      tab.value = props.item.Layers.length - 1;
+      layerSelector.value = false;
+    }
+function addRandomLayer() {
+      props.item.AddRandomLayer();
+      tab.value = props.item.Layers.length - 1;
+    }
 </script>

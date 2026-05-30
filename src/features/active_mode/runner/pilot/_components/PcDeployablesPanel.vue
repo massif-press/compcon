@@ -50,45 +50,28 @@
 
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import DeployableListItem from '../../gm/_components/ListItems/DeployableListItem.vue';
 import DeployablePanel from '../../gm/EncounterPanels/DeployablePanel.vue';
 
-export default {
-  name: 'PcDeployablesPanel',
-  inheritAttrs: false,
-  components: {
-    DeployableListItem,
-    DeployablePanel,
-  },
-  props: {
-    combatant: {
-      type: Object,
-      required: true,
-    },
-    encounter: {
-      type: Object,
-      required: true,
-    },
-    sheet: {
-      type: Object,
-      required: true,
-    },
-  },
-  emits: ['activate'],
-  data: () => ({
-    selected: null,
-  }),
-  computed: {
-    possessive() {
-      return this.combatant.actor.Name.endsWith('s') ? `'` : `'s`;
-    },
-  },
-  methods: {
-    select(deployable) {
-      this.selected = deployable;
-    },
-  },
+const props = defineProps<{
+  combatant: object
+  encounter: object
+  sheet: object
+}>()
 
-};
+const emit = defineEmits<{
+  'activate': []
+}>()
+
+const selected = ref(null)
+
+const possessive = computed(() => {
+      return props.combatant.actor.Name.endsWith('s') ? `'` : `'s`;
+    })
+
+function select(deployable) {
+      selected.value = deployable;
+    }
 </script>

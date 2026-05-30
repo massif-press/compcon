@@ -18,15 +18,12 @@
   </v-card>
 </template>
 
-<script>
-export default {
-  name: 'cc-panel',
-  props: {
-    status: {
-      type: Object,
-    },
-  },
-};
+<script setup lang="ts">
+defineOptions({ name: 'cc-panel' })
+
+const props = defineProps<{
+  status?: object
+}>()
 </script>
 
 <style scoped>

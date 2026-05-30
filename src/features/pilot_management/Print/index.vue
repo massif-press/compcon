@@ -90,58 +90,39 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, onMounted, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import Expanded from './layouts/expanded/index.vue';
 import Standard from './layouts/standard/index.vue';
 import Terse from './layouts/terse/index.vue';
 import Minimal from './layouts/minimal/index.vue';
 import Cards from './layouts/cards/index.vue';
-
 import TagInfoPrint from './extras/TagInfoPrint.vue';
 import TriggerInfoPrint from './extras/TriggerInfoPrint.vue';
 import CombatRef from '@/ui/components/print/CombatRef.vue';
 import ActionRef from './extras/ActionRef.vue';
 import DowntimeRef from './extras/DowntimeRef.vue';
-
 import OptionsDialog from './OptionsDialog.vue';
-
 import { PilotStore, CompendiumStore } from '@/stores';
 import { Pilot } from '@/classes/pilot/Pilot'
 import { Mech } from '@/classes/mech/Mech'
 import PageBreak from './components/PageBreak.vue';
+const router = useRouter()
 
-export default {
-  name: 'CombinedPrint',
-  components: {
-    Standard,
-    Terse,
-    Minimal,
-    Expanded,
-    OptionsDialog,
-    PageBreak,
-    TagInfoPrint,
-    TriggerInfoPrint,
-    CombatRef,
-    ActionRef,
-    DowntimeRef,
-    Cards,
-  },
-  props: {
-    presetPilot: {
-      type: String,
-      required: true,
-    },
-    presetMech: {
-      type: String,
-      required: false,
-      default: '',
-    },
-  },
-  data: () => ({
-    selectedPilot: null as Pilot | null,
-    selectedMech: null as Mech | null,
-    blank: false,
-    options: {
+defineOptions({ name: 'CombinedPrint' })
+
+const props = withDefaults(defineProps<{
+  presetPilot: string
+  presetMech?: string
+}>(), {
+  presetMech: ''
+})
+
+const selectedPilot = ref(null as Pilot | null)
+const selectedMech = ref(null as Mech | null)
+const blank = ref(false)
+const options = ref({
       layout: { title: 'Standard', icon: 'mdi-book-open' },
       orientation: { title: 'Portrait', icon: 'mdi-file' },
       content: { title: 'Pilot', icon: 'cc:pilot' },
@@ -151,25 +132,24 @@ export default {
       mechInclude: [],
       extras: [],
       card: [],
-    } as any,
-  }),
-  computed: {
-    allPilots() {
+    } as any)
+
+const allPilots = computed(() => {
       return PilotStore().Pilots.filter((x) => !x.SaveController.IsDeleted);
-    },
-    pilotMechs() {
-      return this.selectedPilot ? this.selectedPilot.Mechs : [];
-    },
-    hasBondData() {
+    })
+const pilotMechs = computed(() => {
+      return selectedPilot.value ? selectedPilot.value.Mechs : [];
+    })
+const hasBondData = computed(() => {
       return CompendiumStore().Bonds.length > 0;
-    },
-    previewWidth() {
-      const portrait = this.options.orientation.title === 'Portrait'
-      const letter = this.options.paper.title === 'Letter'
+    })
+const previewWidth = computed(() => {
+      const portrait = options.value.orientation.title === 'Portrait'
+      const letter = options.value.paper.title === 'Letter'
       if (portrait) return letter ? '216mm' : '210mm'
       return letter ? '279mm' : '297mm'
-    },
-    optionsFields() {
+    })
+const optionsFields = computed(() => {
       const titles = [] as string[];
 
       function traverse(value) {
@@ -183,29 +163,13 @@ export default {
         }
       }
 
-      traverse(this.options);
+      traverse(options.value);
       return titles;
-    },
-  },
-  watch: {
-    selectedPilot(newPilot) {
-      if (newPilot) {
-        this.selectedMech = newPilot.Mechs[0] || null;
-      } else {
-        this.selectedMech = null;
-      }
-    },
-  },
-  mounted() {
-    if (!this.presetPilot) return;
-    this.selectedPilot = PilotStore().Pilots.find((p) => p.ID === this.presetPilot) as Pilot;
-    if (this.presetMech)
-      this.selectedMech = this.selectedPilot?.Mechs.find((m) => m.ID === this.presetMech) || null;
-  },
-  methods: {
-    print() {
-      const orientation = this.options.orientation.title.toLowerCase()
-      const paper = this.options.paper.title === 'A4' ? 'A4' : 'letter'
+    })
+
+function print() {
+      const orientation = options.value.orientation.title.toLowerCase()
+      const paper = options.value.paper.title === 'A4' ? 'A4' : 'letter'
       const existing = document.getElementById('__cc-print-page')
       if (existing) existing.remove()
       const style = document.createElement('style')
@@ -213,12 +177,17 @@ export default {
       style.textContent = `@page { size: ${paper} ${orientation}; margin: 0; }`
       document.head.appendChild(style)
       window.print()
-    },
-    has(str: string) {
-      return this.optionsFields.includes(str);
-    },
-  },
-};
+    }
+function has(str: string) {
+      return optionsFields.value.includes(str);
+    }
+
+onMounted(() => {
+if (!props.presetPilot) return;
+    selectedPilot.value = PilotStore().Pilots.find((p) => p.ID === props.presetPilot) as Pilot;
+    if (props.presetMech)
+      selectedMech.value = selectedPilot.value?.Mechs.find((m) => m.ID === props.presetMech) || null;
+})
 </script>
 
 <style>

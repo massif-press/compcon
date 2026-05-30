@@ -5,25 +5,14 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import NarrativeItemPrint from './NarrativeItemPrint.vue';
 import PageBreak from '@/features/pilot_management/Print/components/PageBreak.vue';
 
-export default {
-  name: 'combined-print',
-  components: {
-    PageBreak,
-    NarrativeItemPrint,
-  },
-  props: {
-    items: {
-      type: Array,
-      required: true,
-    },
-    options: {
-      type: Object,
-      required: true,
-    },
-  },
-};
+defineOptions({ name: 'combined-print' })
+
+const props = defineProps<{
+  items: any[]
+  options: object
+}>()
 </script>

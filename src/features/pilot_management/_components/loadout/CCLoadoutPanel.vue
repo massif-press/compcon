@@ -53,46 +53,34 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
 import Loadout from '@/classes/Loadout'
 import { useMobile } from '@/composables/useMobile';
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'CcLoadoutPanel',
-  props: {
-    loadouts: {
-      type: Array,
-      required: true,
-    },
-    activeLoadout: {
-      type: Object,
-      required: true,
-    },
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-    readonly: {
-      type: Boolean,
-    },
-    noFrame: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['remove-loadout', 'add-loadout', 'set-active'],
-  data: () => ({
-    confirmMenu: false,
-  }),
-  methods: {
-    removeConfirm() {
-      this.confirmMenu = false;
-      this.$emit('remove-loadout');
-    },
-  },
-};
+const { mobile, portrait } = useMobile()
+
+const props = withDefaults(defineProps<{
+  loadouts: any[]
+  activeLoadout: object
+  color?: string
+  readonly?: boolean
+  noFrame?: boolean
+}>(), {
+  color: 'primary',
+  noFrame: false
+})
+
+const emit = defineEmits<{
+  'remove-loadout': []
+  'add-loadout': []
+  'set-active': []
+}>()
+
+const confirmMenu = ref(false)
+
+function removeConfirm() {
+      confirmMenu.value = false;
+      emit('remove-loadout');
+    }
 </script>

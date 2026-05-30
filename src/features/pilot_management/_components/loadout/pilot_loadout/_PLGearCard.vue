@@ -79,63 +79,67 @@
   </pl-card-base>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import PlCardBase from './_PLCardBase.vue'
 import { PilotGear } from '@/classes/pilot/components/Loadout/equipment/PilotGear'
 import { CompendiumItem } from '@/classes/CompendiumItem'
 import { ItemType } from '@/classes/enums'
 import { PilotEquipment } from '@/classes/pilot/components/Loadout/equipment/PilotEquipment'
-import { PLCardMixin } from './_PLCardMixin'
+import { usePLCard } from './usePLCard'
+import { notify } from '@kyvg/vue3-notification'
 
-export default {
-  name: 'PlPilotGearCard',
-  components: { PlCardBase },
-  mixins: [PLCardMixin],
-  emits: ['equip', 'remove', 'save'],
-  data: () => ({
-    headers: [
-      { title: 'Content Pack', key: 'LcpName' },
-      { title: 'Type', key: 'Type' },
-      { title: 'Item', key: 'Name' },
-      { title: 'Uses', key: 'MaxUses' },
-      { title: 'Tags', align: 'center', key: 'Tags' },
-    ],
-    options: {
-      views: ['single', 'table', 'cards'],
-      initialView: 'single',
-      groups: ['lcp', 'type', 'none'],
-      initialGroup: 'type',
-      noSource: true,
-      showExotics: true,
-    },
-  }),
-  computed: {
-    exotics(): PilotGear[] {
-      return this.pilot.SpecialEquipment.filter((x: any) => x.ItemType === 'PilotGear')
-    },
-    gear(): PilotGear[] {
-      let gear = this.allGear.filter(
-        (x: PilotEquipment) => x.ItemType === ItemType.PilotGear && !x.IsHidden && !x.IsExotic
-      ) as PilotGear[]
+const props = withDefaults(defineProps<{
+  item?: object | null
+  extended?: boolean
+  readonly?: boolean
+  pilot: object
+}>(), {
+  item: null,
+})
 
-      if (this.exotics.length) {
-        gear = gear.concat(this.exotics)
-      }
+const emit = defineEmits<{ equip: [item: any]; remove: [item: any]; save: [] }>()
 
-      return gear
-    },
-  },
-  methods: {
-    equip(item: PilotGear) {
-      this.$emit('equip', CompendiumItem.Clone(item))
-      this.$emit('save')
-        ; (this.$refs.base as any).closeSelector()
-      this.$notify({
-        title: 'Pilot Gear Equipped',
-        text: `${item.Name} equipped to ${this.pilot.Name}.`,
-        data: { icon: 'cc:pilot' },
-      })
-    },
-  },
+const { allGear } = usePLCard(props)
+const base = ref<InstanceType<typeof PlCardBase> | null>(null)
+
+const headers = ref([
+  { title: 'Content Pack', key: 'LcpName' },
+  { title: 'Type', key: 'Type' },
+  { title: 'Item', key: 'Name' },
+  { title: 'Uses', key: 'MaxUses' },
+  { title: 'Tags', align: 'center', key: 'Tags' },
+])
+
+const options = ref({
+  views: ['single', 'table', 'cards'],
+  initialView: 'single',
+  groups: ['lcp', 'type', 'none'],
+  initialGroup: 'type',
+  noSource: true,
+  showExotics: true,
+})
+
+const exotics = computed((): PilotGear[] =>
+  (props.pilot as any).SpecialEquipment.filter((x: any) => x.ItemType === 'PilotGear')
+)
+
+const gear = computed((): PilotGear[] => {
+  let result = allGear.value.filter(
+    (x: PilotEquipment) => x.ItemType === ItemType.PilotGear && !x.IsHidden && !(x as any).IsExotic
+  ) as PilotGear[]
+  if (exotics.value.length) result = result.concat(exotics.value)
+  return result
+})
+
+function equip(item: PilotGear) {
+  emit('equip', CompendiumItem.Clone(item))
+  emit('save')
+  ;(base.value as any)?.closeSelector()
+  notify({
+    title: 'Pilot Gear Equipped',
+    text: `${item.Name} equipped to ${(props.pilot as any).Name}.`,
+    data: { icon: 'cc:pilot' },
+  })
 }
 </script>

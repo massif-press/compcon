@@ -19,24 +19,23 @@
   </v-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { EncounterStore } from '@/stores';
 import GmEncounterListItem from '@/features/gm/_views/_components/gmItemCards/GMEncounterListItem.vue';
 
-export default {
-  name: 'campaign-encounter-selector',
-  components: { GmEncounterListItem },
-  data: () => ({
-    search: '',
-  }),
-  emits: ['select', 'close'],
-  computed: {
-    encounters() {
+defineOptions({ name: 'campaign-encounter-selector' })
+
+const emit = defineEmits<{
+  'select': []
+  'close': []
+}>()
+
+const search = ref('')
+
+const encounters = computed(() => {
       return EncounterStore()
         .Encounters.filter((x) => !x.SaveController.IsDeleted)
-        .filter((x) => x.Name.toLowerCase().includes(this.search.toLowerCase()));
-    },
-  },
-  methods: {},
-};
+        .filter((x) => x.Name.toLowerCase().includes(search.value.toLowerCase()));
+    })
 </script>

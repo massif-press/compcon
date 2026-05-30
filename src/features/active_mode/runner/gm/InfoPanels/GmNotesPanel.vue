@@ -29,15 +29,8 @@
   </v-card>
 </template>
 
-<script lang="ts">
-
-export default {
-  name: 'GmNotesPanel',
-  props: {
-    encounter: {
-      type: Object,
-      required: true,
-    },
-  },
-};
+<script setup lang="ts">
+const props = defineProps<{
+  encounter: object
+}>()
 </script>

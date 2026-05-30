@@ -121,66 +121,72 @@
   </pl-card-base>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import PlCardBase from './_PLCardBase.vue'
 import { PilotArmor } from '@/classes/pilot/components/Loadout/equipment/PilotArmor'
 import { CompendiumItem } from '@/classes/CompendiumItem'
 import { ItemType } from '@/classes/enums'
 import { PilotEquipment } from '@/classes/pilot/components/Loadout/equipment/PilotEquipment'
-import { PLCardMixin } from './_PLCardMixin'
+import { usePLCard } from './usePLCard'
+import { notify } from '@kyvg/vue3-notification'
 
-export default {
-  name: 'PlPilotArmorCard',
-  components: { PlCardBase },
-  mixins: [PLCardMixin],
-  emits: ['equip', 'remove', 'save'],
-  data: () => ({
-    headers: [
-      { title: 'Content Pack', key: 'LcpName' },
-      { title: 'Type', key: 'Type' },
-      { title: 'Item', key: 'Name' },
-      { title: 'Armor', key: 'ArmorString' },
-      { title: 'HP Bonus', key: 'HpString' },
-      { title: 'E-Defense', key: 'EdefString' },
-      { title: 'Evasion', key: 'EvasionString' },
-      { title: 'Speed', key: 'SpeedString' },
-      { title: 'Tags', align: 'center', key: 'Tags' },
-    ],
-    options: {
-      views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
-      initialView: 'single',
-      groups: ['lcp', 'type', 'none'],
-      initialGroup: 'type',
-      noSource: true,
-      showExotics: true,
-    },
-  }),
-  computed: {
-    exotics(): PilotArmor[] {
-      return this.pilot.SpecialEquipment.filter((x: any) => x.ItemType === 'PilotArmor')
-    },
-    armor(): PilotArmor[] {
-      let armor = this.allGear.filter(
-        (x: PilotEquipment) => x.ItemType === ItemType.PilotArmor && !x.IsHidden && !x.IsExotic
-      ) as PilotArmor[]
-      if (this.exotics.length) {
-        armor = armor.concat(this.exotics)
-      }
+const props = withDefaults(defineProps<{
+  item?: object | null
+  extended?: boolean
+  readonly?: boolean
+  pilot: object
+}>(), {
+  item: null,
+})
 
-      return armor
-    },
-  },
-  methods: {
-    equip(item: PilotArmor) {
-      this.$emit('equip', CompendiumItem.Clone(item))
-      this.$emit('save')
-        ; (this.$refs.base as any).closeSelector()
-      this.$notify({
-        title: 'Pilot Armor Equipped',
-        text: `${item.Name} equipped to ${this.pilot.Name}.`,
-        data: { icon: 'cc:pilot' },
-      })
-    },
-  },
+const emit = defineEmits<{ equip: [item: any]; remove: [item: any]; save: [] }>()
+
+const { allGear, fID } = usePLCard(props)
+
+const base = ref<InstanceType<typeof PlCardBase> | null>(null)
+
+const headers = ref([
+  { title: 'Content Pack', key: 'LcpName' },
+  { title: 'Type', key: 'Type' },
+  { title: 'Item', key: 'Name' },
+  { title: 'Armor', key: 'ArmorString' },
+  { title: 'HP Bonus', key: 'HpString' },
+  { title: 'E-Defense', key: 'EdefString' },
+  { title: 'Evasion', key: 'EvasionString' },
+  { title: 'Speed', key: 'SpeedString' },
+  { title: 'Tags', align: 'center', key: 'Tags' },
+])
+
+const options = ref({
+  views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
+  initialView: 'single',
+  groups: ['lcp', 'type', 'none'],
+  initialGroup: 'type',
+  noSource: true,
+  showExotics: true,
+})
+
+const exotics = computed((): PilotArmor[] =>
+  (props.pilot as any).SpecialEquipment.filter((x: any) => x.ItemType === 'PilotArmor')
+)
+
+const armor = computed((): PilotArmor[] => {
+  let result = allGear.value.filter(
+    (x: PilotEquipment) => x.ItemType === ItemType.PilotArmor && !x.IsHidden && !(x as any).IsExotic
+  ) as PilotArmor[]
+  if (exotics.value.length) result = result.concat(exotics.value)
+  return result
+})
+
+function equip(item: PilotArmor) {
+  emit('equip', CompendiumItem.Clone(item))
+  emit('save')
+  ;(base.value as any)?.closeSelector()
+  notify({
+    title: 'Pilot Armor Equipped',
+    text: `${item.Name} equipped to ${(props.pilot as any).Name}.`,
+    data: { icon: 'cc:pilot' },
+  })
 }
 </script>

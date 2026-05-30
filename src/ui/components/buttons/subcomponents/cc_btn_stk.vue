@@ -48,44 +48,59 @@
   </div>
 </template>
 
-<script lang="ts">
-import { btnSubMixin, calcIconSize } from './_btnSubMixin';
+<script setup lang="ts">
+import { computed } from 'vue'
+import { calcIconSize } from './_btnSubMixin'
 
-export default {
-  name: 'cc-btn-std',
-  mixins: [btnSubMixin],
-  props: {
-    optionsIcon: { type: String, default: 'mdi-chevron-down' },
-    optionsText: { type: String },
-  },
-  computed: {
-    optionsSize(this: any): number {
-      switch (this.size) {
-        case 'x-small': return 24;
-        case 'small': return 30;
-        case 'large': return 36;
-        case 'x-large': return 42;
-        case 'xx-large': return 60;
-        default: return 30;
-      }
-    },
-    colorClass(this: any) {
-      if (this.outlined || this.text || this.tonal) return '';
-      return this.bgColor;
-    },
-    text(this: any) {
-      return this.variant === 'text';
-    },
-    tonal(this: any) {
-      return this.variant === 'tonal';
-    },
-  },
-  methods: {
-    iconSize(this: any, icon: string) {
-      return calcIconSize(this.size, icon, 2);
-    },
-  },
-};
+defineOptions({ name: 'cc-btn-std' })
+
+const props = withDefaults(defineProps<{
+  color?: string
+  disabled?: boolean
+  block?: boolean
+  loading?: boolean
+  size?: string
+  variant?: string
+  prependIcon?: string
+  appendIcon?: string
+  optionsIcon?: string
+  tooltip?: string
+  tooltipIcon?: string
+  href?: string
+  to?: string | object
+  target?: string
+  optionsText?: string
+}>(), {
+  optionsIcon: 'mdi-chevron-down',
+})
+
+defineEmits<{ click: [] }>()
+
+const sizeStyle = computed(() => props.size ? `size-${props.size}` : 'size-default')
+const bgColor = computed(() => `bg-${props.color}`)
+const outlined = computed(() => props.variant === 'outlined')
+const borderColor = computed(() => {
+  if (!props.color) return ''
+  if (props.color[0] === '#') return props.color
+  return `rgb(var(--v-theme-${props.color})`
+})
+const optionsSize = computed((): number => {
+  switch (props.size) {
+    case 'x-small': return 24
+    case 'small': return 30
+    case 'large': return 36
+    case 'x-large': return 42
+    case 'xx-large': return 60
+    default: return 30
+  }
+})
+const text = computed(() => props.variant === 'text')
+const tonal = computed(() => props.variant === 'tonal')
+const colorClass = computed(() => (outlined.value || text.value || tonal.value) ? '' : bgColor.value)
+
+function iconSize(icon: string) {
+  return calcIconSize(props.size, icon, 2)
+}
 </script>
 
 <style scoped>

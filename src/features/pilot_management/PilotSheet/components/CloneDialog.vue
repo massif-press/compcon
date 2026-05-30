@@ -129,54 +129,52 @@
   </v-card-text>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { CompendiumStore, PilotStore } from '@/stores';
 import * as _ from 'lodash-es';
 import { Pilot } from '@/classes/pilot/Pilot'
 import { useMobile } from '@/composables/useMobile';
+const router = useRouter()
 
+const { mobile, portrait } = useMobile()
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'CloneDialog',
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
-  emits: ['close'],
-  data: () => ({
-    quirk: null,
-  }),
-  methods: {
-    show() {
-      (this.$refs.dialog as any).show();
-    },
-    hide() {
-      this.quirk = null;
-      this.$emit('close');
-    },
-    rollQuirk() {
+const props = defineProps<{
+  pilot: object
+}>()
+
+const emit = defineEmits<{
+  'close': []
+}>()
+
+const quirk = ref(null)
+
+function show() {
+      (dialog.value as any).show();
+    }
+function hide() {
+      quirk.value = null;
+      emit('close');
+    }
+function rollQuirk() {
       const compendium = CompendiumStore();
-      this.quirk = _.sample(compendium.Lists.quirks);
-    },
-    clonePilot() {
-      const newPilot = Pilot.Deserialize(Pilot.Serialize(this.pilot as Pilot));
+      quirk.value = _.sample(compendium.Lists.quirks);
+    }
+function clonePilot() {
+      const newPilot = Pilot.Deserialize(Pilot.Serialize(props.pilot as Pilot));
       newPilot.RenewID();
-      this.pilot.Name += '※';
-      this.pilot.AddQuirk(this.quirk);
+      props.pilot.Name += '※';
+      props.pilot.AddQuirk(quirk.value);
       for (const mech of newPilot.Mechs) {
         mech.RenewID();
       }
       PilotStore().AddPilot(newPilot);
-      this.hide();
-      this.$router.push({ name: 'pilot_sheet', params: { id: newPilot.ID } });
-    },
-    copyPilot() {
-      const newPilot = Pilot.Deserialize(Pilot.Serialize(this.pilot as Pilot));
+      hide();
+      router.push({ name: 'pilot_sheet', params: { id: newPilot.ID } });
+    }
+function copyPilot() {
+      const newPilot = Pilot.Deserialize(Pilot.Serialize(props.pilot as Pilot));
       newPilot.RenewID();
       newPilot.Callsign += '″';
       newPilot.Name += ' (COPY)';
@@ -185,9 +183,7 @@ export default {
         mech.RenewID();
       }
       PilotStore().AddPilot(newPilot);
-      this.hide();
-      this.$router.push({ name: 'pilot_sheet', params: { id: newPilot.ID } });
-    },
-  },
-};
+      hide();
+      router.push({ name: 'pilot_sheet', params: { id: newPilot.ID } });
+    }
 </script>

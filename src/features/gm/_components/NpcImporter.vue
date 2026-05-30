@@ -129,12 +129,14 @@
   </v-card-text>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { notify } from '@/util/notify'
 import { ImportData } from '@/io/Data';
 import {
-  NpcStore,
-  NarrativeStore,
-  EncounterStore,
+NpcStore,
+NarrativeStore,
+EncounterStore,
 } from '@/stores';
 import { v4 as uuid } from 'uuid';
 import { Unit } from '@/classes/npc/unit/Unit';
@@ -145,58 +147,57 @@ import { Location } from '@/classes/narrative/Location';
 import { Faction } from '@/classes/narrative/Faction';
 import { Encounter } from '@/classes/encounter/Encounter';
 import {
-  isV2Npc,
-  isV2Encounter,
-  getV2NpcMissingLcps,
-  getV2EncounterMissingNpcs,
-  preprocessNpcImport,
-  preprocessEncounterImport,
+isV2Npc,
+isV2Encounter,
+getV2NpcMissingLcps,
+getV2EncounterMissingNpcs,
+preprocessNpcImport,
+preprocessEncounterImport,
 } from '@/io/V2Importer';
 import { ImportNpcData, ImportEncounter } from '@/io/Importer';
 
-export default {
-  name: 'FileImport',
-  emits: ['complete'],
-  data: () => ({
-    selected: [] as any[],
-    // fileValue is just used to clear the file input
-    fileValue: null,
-    oldBrewsWarning: false,
-    stagedData: [] as any[],
-    stagedItems: [] as any[],
-    alreadyPresent: '',
-  }),
-  computed: {
-    missingContent() {
+defineOptions({ name: 'FileImport' })
+
+const emit = defineEmits<{
+  'complete': []
+}>()
+
+const selected = ref([] as any[])
+const fileValue = ref(null)
+const oldBrewsWarning = ref(false)
+const stagedData = ref([] as any[])
+const stagedItems = ref([] as any[])
+const alreadyPresent = ref('')
+
+const missingContent = computed(() => {
       const missing = new Set<string>();
-      this.stagedItems.forEach((item) => {
+      stagedItems.value.forEach((item) => {
         if (item.status === 'missing_content') {
           (item.missingInfo as string[]).forEach((m) => missing.add(m));
         }
       });
       return Array.from(missing).join('<br>');
-    },
-  },
-  methods: {
-    reset() {
-      this.fileValue = null;
-      this.oldBrewsWarning = false;
-      this.stagedData = [];
-      this.stagedItems = [];
-      this.selected = [];
-      this.alreadyPresent = '';
-    },
-    async stageImport(file) {
+    })
+
+function reset() {
+      fileValue.value = null;
+      oldBrewsWarning.value = false;
+      stagedData.value = [];
+      stagedItems.value = [];
+      selected.value = [];
+      alreadyPresent.value = '';
+    }
+async function stageImport(file) {
       if (!file) return;
       let content = [] as any[];
       const data = await ImportData<any>(file.target.files[0]);
       if (data.type && data.type.includes('collection')) content = data.data;
       else content.push(data);
 
-      this.stagedData = content;
-      this.stagedItems = [...content];
+      stagedData.value = content;
+      stagedItems.value = [...content];
 
-      this.stagedItems.forEach((item) => {
+      stagedItems.value.forEach((item) => {
         if (isV2Npc(item)) {
           const { missingIds, missingNames } = getV2NpcMissingLcps(item);
           item.collection = 'v2 NPC';
@@ -239,11 +240,11 @@ export default {
         }
       });
 
-      this.selected = this.stagedItems.map((x) => x.id);
-    },
-    async importFile() {
-      const staged = this.stagedData.filter((x) =>
-        this.selected.includes(x.id)
+      selected.value = stagedItems.value.map((x) => x.id);
+    }
+async function importFile() {
+      const staged = stagedData.value.filter((x) =>
+        selected.value.includes(x.id)
       );
 
       let backedUp = 0;
@@ -290,7 +291,7 @@ export default {
           }
         } catch (error) {
           console.error(error);
-          this.$notify({
+          notify({
             title: 'Import Error',
             text: `Unable to import GM Data: ${error}`,
             data: { icon: 'cc:compendium', color: 'error' },
@@ -299,19 +300,17 @@ export default {
       }
 
       if (backedUp > 0) {
-        this.$notify({
+        notify({
           title: 'v2 Import Backup',
           text: `${backedUp} item(s) saved to pending v2 imports in the Content Manager/`,
           data: { icon: 'mdi-information-box-outline', color: 'info' },
         });
       }
 
-      this.reset();
-      this.$emit('complete');
-    },
-    cancelImport() {
-      this.reset();
-    },
-  },
-};
+      reset();
+      emit('complete');
+    }
+function cancelImport() {
+      reset();
+    }
 </script>

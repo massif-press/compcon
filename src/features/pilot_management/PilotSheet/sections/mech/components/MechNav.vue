@@ -116,48 +116,37 @@
   </cc-solo-modal>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { UserStore } from '@/user/store';
 import StatblockDialog from '../../../components/StatblockDialog.vue';
 import { Pilot } from '@/classes/pilot/Pilot'
 import ShareDialog from '@/shared/ShareDialog.vue';
+const router = useRouter()
 
-export default {
-  name: 'MechNav',
-  components: { StatblockDialog, ShareDialog },
-  props: {
-    pilot: {
-      type: Pilot,
-      required: true,
-    },
-    selected: {
-      type: Number,
-      required: true,
-    },
-    mech: {
-      type: Object,
-      required: true,
-    },
-  },
-  emits: ['delete'],
-  data: () => ({
-    statblockDialog: false,
-  }),
-  computed: {
-    isAuthed(): boolean {
+const props = defineProps<{
+  pilot: Pilot
+  selected: number
+  mech: object
+}>()
+
+const emit = defineEmits<{
+  'delete': []
+}>()
+
+const statblockDialog = ref(false)
+
+const isAuthed = computed(() => {
       return UserStore().IsLoggedIn
-    },
+    })
 
-  },
-  methods: {
-    toTacticalProfile() {
-      this.$router.push({
+function toTacticalProfile() {
+      router.push({
         name: 'pilot_sheet_redirect',
-        params: { pilotID: this.pilot.ID },
+        params: { pilotID: props.pilot.ID },
       });
-    },
-  },
-};
+    }
 </script>
 
 <style scoped>

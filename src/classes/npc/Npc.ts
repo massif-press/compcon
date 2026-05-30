@@ -36,7 +36,8 @@ class NpcData implements IInstanceableData {
   config: LcpConfigData = {} as LcpConfigData
 
   // instance fields
-  instance: boolean = false
+  is_instance: boolean = false
+  instance?: boolean
   instanceId: string = ''
   originId: string = ''
 

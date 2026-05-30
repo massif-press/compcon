@@ -91,78 +91,85 @@
   </mech-item-filter-base>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, onMounted } from 'vue'
 import { WeaponType, WeaponSize, RangeType, DamageType } from '@/classes/enums'
 import MechItemFilterBase from './MechItemFilterBase.vue'
 
-export default {
-  name: 'mech-weapon-filter',
-  components: { MechItemFilterBase },
-  props: {
-    activeFilters: { type: Object, default: () => ({}) },
-    manufacturers: { type: Array, default: () => [] },
-    weaponTags: { type: Array, default: () => [] },
-    lcpNames: { type: Array, default: () => [] },
-  },
-  data: () => ({
-    sourceFilter: [] as any[],
-    tagFilter: [] as string[],
-    weaponTypeFilter: [] as WeaponType[],
-    weaponSizeFilter: [] as WeaponSize[],
-    attackTypeFilter: [] as RangeType[],
-    damageTypeFilter: [] as DamageType[],
-    spLlFilters: {} as any,
-  }),
-  emits: ['set-filters'],
-  mounted() {
-    const f = this.activeFilters;
-    if (!f || !Object.keys(f).length) return;
-    if (f.Source) this.sourceFilter = f.Source;
-    if (f.Tags) this.tagFilter = f.Tags;
-    if (f.WeaponType) this.weaponTypeFilter = f.WeaponType[0];
-    if (f.Size) this.weaponSizeFilter = f.Size[0];
-    if (f.RangeType) this.attackTypeFilter = f.RangeType;
-    if (f.DamageType) this.damageTypeFilter = f.DamageType;
-  },
-  computed: {
-    weaponTypes(): string[] {
+defineOptions({ name: 'mech-weapon-filter' })
+
+const props = withDefaults(defineProps<{
+  activeFilters?: object
+  manufacturers?: any[]
+  weaponTags?: any[]
+  lcpNames?: any[]
+}>(), {
+  activeFilters: () => ({}),
+  manufacturers: () => [],
+  weaponTags: () => [],
+  lcpNames: () => []
+})
+
+const emit = defineEmits<{
+  'set-filters': []
+}>()
+
+const base = ref<any>(null)
+
+const sourceFilter = ref([] as any[])
+const tagFilter = ref([] as string[])
+const weaponTypeFilter = ref([] as WeaponType[])
+const weaponSizeFilter = ref([] as WeaponSize[])
+const attackTypeFilter = ref([] as RangeType[])
+const damageTypeFilter = ref([] as DamageType[])
+const spLlFilters = ref({} as any)
+
+const weaponTypes = computed(() => {
       return Object.keys(WeaponType).map((k) => WeaponType[k as any]).filter((k) => k !== 'Integrated').sort() as string[];
-    },
-    weaponSizes(): string[] {
+    })
+const weaponSizes = computed(() => {
       return Object.keys(WeaponSize).map((k) => WeaponSize[k as any]).sort() as string[];
-    },
-    attackTypes(): string[] {
+    })
+const attackTypes = computed(() => {
       return Object.keys(RangeType).map((k) => RangeType[k as any]).sort() as string[];
-    },
-    damageTypes(): string[] {
+    })
+const damageTypes = computed(() => {
       return Object.keys(DamageType).map((k) => DamageType[k as any]).sort() as string[];
-    },
-  },
-  methods: {
-    onSpLlChange(partial: any) {
-      this.spLlFilters = partial;
-      this.updateFilters();
-    },
-    clear() {
-      this.sourceFilter = (this.manufacturers as any[]).map((x) => x.value);
-      this.tagFilter = [];
-      this.weaponTypeFilter = [];
-      this.weaponSizeFilter = [];
-      this.attackTypeFilter = [];
-      this.damageTypeFilter = [];
-      this.spLlFilters = {};
-      (this.$refs.base as any)?.clear();
-    },
-    updateFilters() {
-      const fObj = { ...this.spLlFilters } as any;
-      if (this.sourceFilter) fObj.Source = this.sourceFilter;
-      if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter;
-      if (this.weaponTypeFilter && this.weaponTypeFilter.length) fObj.WeaponType = [this.weaponTypeFilter];
-      if (this.weaponSizeFilter && this.weaponSizeFilter.length) fObj.Size = [this.weaponSizeFilter];
-      if (this.attackTypeFilter && this.attackTypeFilter.length) fObj.RangeType = this.attackTypeFilter;
-      if (this.damageTypeFilter && this.damageTypeFilter.length) fObj.DamageType = this.damageTypeFilter;
-      this.$emit('set-filters', fObj);
-    },
-  },
-};
+    })
+
+function onSpLlChange(partial: any) {
+      spLlFilters.value = partial;
+      updateFilters();
+    }
+function clear() {
+      sourceFilter.value = (props.manufacturers as any[]).map((x) => x.value);
+      tagFilter.value = [];
+      weaponTypeFilter.value = [];
+      weaponSizeFilter.value = [];
+      attackTypeFilter.value = [];
+      damageTypeFilter.value = [];
+      spLlFilters.value = {};
+      (base.value as any)?.clear();
+    }
+function updateFilters() {
+      const fObj = { ...spLlFilters.value } as any;
+      if (sourceFilter.value) fObj.Source = sourceFilter.value;
+      if (tagFilter.value && tagFilter.value.length) fObj.Tags = tagFilter.value;
+      if (weaponTypeFilter.value && weaponTypeFilter.value.length) fObj.WeaponType = [weaponTypeFilter.value];
+      if (weaponSizeFilter.value && weaponSizeFilter.value.length) fObj.Size = [weaponSizeFilter.value];
+      if (attackTypeFilter.value && attackTypeFilter.value.length) fObj.RangeType = attackTypeFilter.value;
+      if (damageTypeFilter.value && damageTypeFilter.value.length) fObj.DamageType = damageTypeFilter.value;
+      emit('set-filters', fObj);
+    }
+
+onMounted(() => {
+const f = props.activeFilters;
+    if (!f || !Object.keys(f).length) return;
+    if (f.Source) sourceFilter.value = f.Source;
+    if (f.Tags) tagFilter.value = f.Tags;
+    if (f.WeaponType) weaponTypeFilter.value = f.WeaponType[0];
+    if (f.Size) weaponSizeFilter.value = f.Size[0];
+    if (f.RangeType) attackTypeFilter.value = f.RangeType;
+    if (f.DamageType) damageTypeFilter.value = f.DamageType;
+})
 </script>

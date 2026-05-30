@@ -46,6 +46,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useMobile } from '@/composables/useMobile'
+import CCBonusTooltip from '@/ui/components/CCBonusTooltip.vue'
 
 const props = defineProps({
     attr: { type: String, required: true },

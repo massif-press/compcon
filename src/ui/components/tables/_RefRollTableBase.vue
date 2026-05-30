@@ -32,25 +32,21 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
-export default {
-  props: {
-    title: { type: String, required: true },
-  },
-  data() {
-    return {
-      dialog: false,
-    };
-  },
-  methods: {
-    show() {
-      this.dialog = true;
-    },
-    close() {
-      this.dialog = false;
-    },
-  },
-};
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const props = defineProps<{
+  title: string
+}>()
+
+const dialog = ref(false)
+
+function show() {
+      dialog.value = true;
+    }
+function close() {
+      dialog.value = false;
+    }
 </script>
 
 <style scoped>

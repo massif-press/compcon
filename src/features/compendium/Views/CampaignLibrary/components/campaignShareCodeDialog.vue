@@ -19,27 +19,24 @@
   </cc-share-code-importer>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { CampaignStore, UserStore } from '@/stores';
 import CampaignDetailPanel from './CampaignDetailPanel.vue';
 
-export default {
-  name: 'ShareCodeDialog',
-  components: { CampaignDetailPanel },
-  data: () => ({
-    queryResult: null as any,
-    campaign: null as any,
-  }),
-  computed: {
-    userId() { return UserStore().Cognito?.userId },
-    remoteItems() { return UserStore().UserMetadata?.RemoteItems ?? [] },
-  },
-  methods: {
-    async addCampaign() {
-      CampaignStore().AddCollectionCampaign(this.campaign);
-      (this.$refs as any).importer.reset();
-      (this.$refs as any).importer.close();
-    },
-  },
-};
+defineOptions({ name: 'ShareCodeDialog' })
+
+const importer = ref<any>(null)
+
+const queryResult = ref(null as any)
+const campaign = ref(null as any)
+
+const userId = computed(() => { return UserStore().Cognito?.userId })
+const remoteItems = computed(() => { return UserStore().UserMetadata?.RemoteItems ?? [] })
+
+async function addCampaign() {
+      CampaignStore().AddCollectionCampaign(campaign.value);
+      importer.value.reset();
+      importer.value.close();
+    }
 </script>

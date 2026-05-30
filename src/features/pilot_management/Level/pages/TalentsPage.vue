@@ -32,24 +32,19 @@
   </stepper-content>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import TalentSelector from '../../_components/selectors/TalentSelector.vue';
 import { Pilot } from '@/classes/pilot/Pilot'
 import StepperContent from '../../_components/StepperContent.vue';
 
-export default {
-  name: 'talents-page',
-  components: { TalentSelector, StepperContent },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    canContinue(): boolean {
-      return this.pilot.TalentsController.HasFullTalents;
-    },
-  },
-};
+defineOptions({ name: 'talents-page' })
+
+const props = defineProps<{
+  pilot: object
+}>()
+
+const canContinue = computed(() => {
+      return props.pilot.TalentsController.HasFullTalents;
+    })
 </script>

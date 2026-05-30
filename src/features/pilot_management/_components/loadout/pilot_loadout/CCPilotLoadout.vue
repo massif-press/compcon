@@ -43,6 +43,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useMobile } from '@/composables/useMobile'
+import CCLoadoutPanel from '@/features/pilot_management/_components/loadout/CCLoadoutPanel.vue'
 import PilotArmorCard from './_PLArmorCard.vue'
 import PilotWeaponCard from './_PLWeaponCard.vue'
 import PilotGearCard from './_PLGearCard.vue'

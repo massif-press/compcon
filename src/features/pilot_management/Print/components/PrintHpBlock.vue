@@ -28,51 +28,27 @@
   </v-col>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import BlankLine from './blank/line.vue'
 
-export default {
-  name: 'PrintHpBlock',
-  components: {
-    BlankLine
-  },
-  props: {
-    title: {
-      type: String,
-      required: true
-    },
-    value: {
-      type: [String, Number],
-      default: null
-    },
-    maxLabel: {
-      type: String,
-      default: ''
-    },
-    cols: {
-      type: [String, Number],
-      default: 4
-    },
-    blank: {
-      type: Boolean,
-      default: false
-    },
-    showUpperSection: {
-      type: Boolean,
-      default: true
-    },
-    showMaxLabel: {
-      type: Boolean,
-      default: true
-    },
-    showValue: {
-      type: Boolean,
-      default: true
-    },
-    marginClass: {
-      type: String,
-      default: 'mb-1'
-    }
-  }
-}
+const props = withDefaults(defineProps<{
+  title: string
+  value?: string | number
+  maxLabel?: string
+  cols?: string | number
+  blank?: boolean
+  showUpperSection?: boolean
+  showMaxLabel?: boolean
+  showValue?: boolean
+  marginClass?: string
+}>(), {
+  value: null,
+  maxLabel: '',
+  cols: 4,
+  blank: false,
+  showUpperSection: true,
+  showMaxLabel: true,
+  showValue: true,
+  marginClass: 'mb-1'
+})
 </script>

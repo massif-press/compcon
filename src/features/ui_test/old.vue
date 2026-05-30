@@ -194,8 +194,36 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { useTheme } from 'vuetify'
+import { notify } from '@kyvg/vue3-notification'
 import { CompendiumStore } from '@/stores';
+
+defineOptions({ name: 'ui-test' })
+
+const vuetifyTheme = useTheme()
+
+const notificationText = ref('test')
+const notificationTypes = ['success', 'warning', 'error', 'info']
+const notificationType = ref('success')
+const exampleTalents = ref([] as any[])
+
+onMounted(() => {
+  const s = CompendiumStore();
+  exampleTalents.value = s.Talents.sort(() => 0.5 - Math.random()).slice(0, 4);
+})
+
+function allIcons() { return icons; }
+function allColors(themeName: string) {
+  const t = vuetifyTheme.themes.value[themeName];
+  if (!t) return [];
+  return Object.keys(t).map((e) => ({ name: e, color: (t as any)[e] }));
+}
+function dialog1Confirm() { console.info('dialog 1 confirmed'); }
+function doNotify() {
+  notify({ title: 'test', text: notificationText.value, data: { type: notificationType.value, icon: 'cc:status_engaged' } } as any)
+}
 
 const icons = [
   'npc_template',
@@ -323,76 +351,4 @@ const icons = [
   'nhp',
   'thanks',
 ];
-export default {
-  name: 'ui-test',
-  data: () => ({
-    notificationText: 'test',
-    notificationTypes: ['success', 'warning', 'error', 'info'],
-    notificationType: 'success',
-    exampleTalents: [] as any[],
-    chargeExample: null as unknown as any,
-    deployExample: null as unknown as any,
-    droneExample: null as unknown as any,
-    multipleExample: null as unknown as any,
-    aiExample: null as unknown as any,
-    techExample: null as unknown as any,
-    reactionExample: null as unknown as any,
-    genericExample: null as unknown as any,
-    profileExample: null as unknown as any,
-    onAttackExample: null as unknown as any,
-    onHitExample: null as unknown as any,
-    onCritExample: null as unknown as any,
-    asDroneExample: null as unknown as any,
-  }),
-  computed: {
-    process() {
-      return process;
-    },
-    env() {
-      return import.meta.env;
-    },
-  },
-  created() {
-    const s = CompendiumStore();
-    this.genericExample = s.MechSystems.find((x) => x.ID === 'ms_eva_module');
-    this.chargeExample = s.MechSystems.find((x) => x.ID === 'ms_pattern_a_smoke_charges');
-    this.deployExample = s.MechSystems.find(
-      (x) => x.ID === 'ms_pattern_a_jericho_deployable_cover'
-    );
-    this.droneExample = s.MechSystems.find((x) => x.ID === 'ms_turret_drones');
-    this.multipleExample = s.MechSystems.find((x) => x.ID === 'ms_reinforced_cabling');
-    this.aiExample = s.MechSystems.find((x) => x.ID === 'ms_sekhmet_class_nhp');
-    this.techExample = s.MechSystems.find((x) => x.ID === 'ms_neurospike');
-    this.reactionExample = s.MechSystems.find((x) => x.ID === 'ms_singularity_motivator');
-    this.profileExample = s.MechWeapons.find((x) => x.ID === 'mw_siege_cannon');
-    this.onAttackExample = s.MechWeapons.find((x) => x.ID === 'mw_plasma_thrower');
-    this.onHitExample = s.MechWeapons.find((x) => x.ID === 'mw_annihilator');
-    this.onCritExample = s.MechWeapons.find((x) => x.ID === 'mw_chain_axe');
-    this.asDroneExample = s.MechWeapons.find((x) => x.ID === 'mw_ghast_nexus');
-    this.exampleTalents = s.Talents.sort(() => 0.5 - Math.random()).slice(0, 4);
-  },
-  methods: {
-    allIcons() {
-      return icons;
-    },
-    allColors(theme) {
-      const t = this.$vuetify.theme.themes[theme];
-      const output = [] as any[];
-      Object.keys(t).forEach((e) => {
-        output.push({ name: e, color: t[e] });
-      });
-      return output;
-    },
-    dialog1Confirm() {
-      console.info('dialog 1 confirmed');
-    },
-    doNotify() {
-      (this as any).$notify({
-        title: 'test',
-        text: this.notificationText,
-        data: { type: this.notificationType, icon: 'cc:status_engaged' },
-      });
-    },
-  },
-};
 </script>

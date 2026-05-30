@@ -29,12 +29,13 @@
   </v-btn>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { NavStore } from '@/stores';
-export default {
-  name: 'temp-language-selector',
-  data: () => ({
-    languages: [
+
+defineOptions({ name: 'temp-language-selector' })
+
+const languages = ref([
       {
         title: 'English',
         value: 'en',
@@ -71,21 +72,17 @@ export default {
         title: '中文',
         value: 'zh',
       },
-    ],
-  }),
-  computed: {
-    selected: {
-      get: () => NavStore().Language,
-      set: (value: string) => NavStore().setLanguage(value),
-    },
-    lang() {
+    ])
+
+const selected = computed({
+  get: () => NavStore().Language,
+  set: (value: string) => NavStore().setLanguage(value),
+})
+const lang = computed(() => {
       return NavStore().Language;
-    },
-  },
-  methods: {
-    setLang(lang: string) {
+    })
+
+function setLang(lang: string) {
       NavStore().setLanguage(lang);
-    },
-  },
-};
+    }
 </script>

@@ -29,31 +29,24 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'indented-list',
-  emits: ['clicked'],
-  props: {
-    items: {
-      type: Array,
-      required: true,
-    },
-    level: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    selected: {
-      type: Object,
-      required: false,
-    },
-  },
-  methods: {
-    calcHeight(item: any) {
+<script setup lang="ts">
+defineOptions({ name: 'indented-list' })
+
+const props = withDefaults(defineProps<{
+  items: any[]
+  level: number
+  selected?: object
+}>(), {
+  level: 0
+})
+
+const emit = defineEmits<{
+  'clicked': []
+}>()
+
+function calcHeight(item: any) {
       const len = item.Title.length;
-      const linelength = len + this.level * 3;
+      const linelength = len + props.level * 3;
       return Math.floor(linelength / 30) * 14 + 24;
-    },
-  },
-};
+    }
 </script>

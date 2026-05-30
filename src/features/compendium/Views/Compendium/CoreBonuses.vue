@@ -11,39 +11,33 @@
   </cc-compendium-browser>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { orderBy } from 'lodash-es';
 import { CompendiumStore, UserStore } from '@/stores';
 import { CoreBonus } from '@/classes/pilot/components/corebonus/CoreBonus'
 
-export default {
-  name: 'CoreBonuses',
-
-  data: () => ({
-    headers: [
+const headers = ref([
       { title: 'Content Pack', key: 'LcpName' },
       { title: 'Manufacturer', key: 'Source' },
       { title: 'Name', key: 'Name' },
       { title: 'Effect', key: 'Effect' },
-    ],
-    options: {
+    ])
+const options = ref({
       views: ['list', 'table'],
       initialView: 'list',
       groups: ['source', 'lcp', 'none'],
       initialGroup: 'source',
       showExotics: UserStore().User.Option('showExotics') as boolean,
-    },
-  }),
-  computed: {
-    manufacturers() {
+    })
+
+const manufacturers = computed(() => {
       return CompendiumStore().Manufacturers;
-    },
-    bonuses(): CoreBonus[] {
+    })
+const bonuses = computed(() => {
       return orderBy(
         CompendiumStore().CoreBonuses.filter((x: CoreBonus) => !x.IsHidden),
         'Manufacturer'
       );
-    },
-  },
-};
+    })
 </script>

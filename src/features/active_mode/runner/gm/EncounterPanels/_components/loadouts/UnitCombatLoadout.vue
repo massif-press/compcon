@@ -121,54 +121,40 @@
   </cc-masonry-grid>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
 import { useMobile } from '@/composables/useMobile';
 import UnitFeatureCard from './_unitFeatureCard.vue';
 import * as _ from 'lodash-es';
 import { UserStore } from '@/stores';
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'MechCombatLoadout',
-  components: {
-    UnitFeatureCard,
-  },
-  props: {
-    owner: {
-      type: Object,
-      required: true,
-    },
-    unit: {
-      type: Object,
-      required: true,
-    },
-    encounterInstance: {
-      type: Object,
-      required: true,
-    },
-  },
-  emits: ['deploy'],
-  data: () => ({
-    result: 0,
-    hiddenFeatureCount: 0,
-  }),
-  computed: {
-    hidePassives: {
-      get() {
-        return UserStore().User.View('npcCombatHidePassives', false);
-      },
-      set(val: boolean) {
-        UserStore().User.SetView('npcCombatHidePassives', val);
-      },
-    },
-    xlColumns() {
-      if (this.mobile) return 1
-      else return this.encounterInstance.MaxMasonryColumns
-    },
-    features() {
-      let features = this.unit.NpcFeatureController.Features.filter((x) => !x.Mod).sort((a, b) => {
+defineOptions({ name: 'MechCombatLoadout' })
+
+const { mobile, portrait } = useMobile()
+
+const props = defineProps<{
+  owner: object
+  unit: object
+  encounterInstance: object
+}>()
+
+const emit = defineEmits<{
+  'deploy': []
+}>()
+
+const result = ref(0)
+const hiddenFeatureCount = ref(0)
+
+const hidePassives = computed({
+  get: () => UserStore().User.View('npcCombatHidePassives', false),
+  set: (val: boolean) => {UserStore().User.SetView('npcCombatHidePassives', val);},
+})
+const xlColumns = computed(() => {
+      if (mobile.value) return 1
+      else return props.encounterInstance.MaxMasonryColumns
+    })
+const features = computed(() => {
+      let features = props.unit.NpcFeatureController.Features.filter((x) => !x.Mod).sort((a, b) => {
         const getPriority = (item) => {
           if (item.DamageData?.length > 0) return 1;
           if (item.Actions?.length > 0) return 2;
@@ -178,46 +164,32 @@ export default {
         return getPriority(a) - getPriority(b);
       });
 
-      if (this.hidePassives) {
+      if (hidePassives.value) {
         features = features.filter((feature: any) => !feature.IsCombatPassive);
       }
       return features;
-    },
-    rechargedFeatures() {
-      if (this.result === 0) {
+    })
+const rechargedFeatures = computed(() => {
+      if (result.value === 0) {
         return [];
       }
-      return this.features.filter(
-        (feature: any) => feature.Recharge > 0 && this.result >= feature.Recharge && feature.Used
+      return features.value.filter(
+        (feature: any) => feature.Recharge > 0 && result.value >= feature.Recharge && feature.Used
       );
-    },
-  },
-  watch: {
-    hidePassives() {
-      if (this.hidePassives) {
-        this.hiddenFeatureCount = this.unit.NpcFeatureController.Features.filter(
-          (feature: any) => feature.IsCombatPassive
-        ).length;
-      } else {
-        this.hiddenFeatureCount = 0;
-      }
-    },
-  },
-  methods: {
-    roll() {
-      this.result = Math.floor(Math.random() * 6) + 1;
-    },
-    apply() {
-      this.features.forEach((feature) => {
-        if (this.result >= feature.Recharge) {
+    })
+
+function roll() {
+      result.value = Math.floor(Math.random() * 6) + 1;
+    }
+function apply() {
+      features.value.forEach((feature) => {
+        if (result.value >= feature.Recharge) {
           feature.Used = false;
         }
       });
-      this.result = 0;
-    },
-    getModName(modId) {
-      return this.unit.NpcFeatureController.Features.find((x) => x.ID === modId).Name || 'Unknown';
-    },
-  },
-};
+      result.value = 0;
+    }
+function getModName(modId) {
+      return props.unit.NpcFeatureController.Features.find((x) => x.ID === modId).Name || 'Unknown';
+    }
 </script>

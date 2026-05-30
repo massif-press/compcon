@@ -10,22 +10,19 @@
   </v-col>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'cc-tiered-attribute',
-  props: {
-    title: { type: String, required: true },
-    arr: { type: Array, required: true },
-  },
+<script setup lang="ts">
+defineOptions({ name: 'cc-tiered-attribute' })
 
-  methods: {
-    cleanValue(v: any) {
+const props = defineProps<{
+  title: string
+  arr: any[]
+}>()
+
+function cleanValue(v: any) {
       if (Array.isArray(v))
         return v
           .join(`<span class="text-caption px-1" style="opacity: 0.6">OR</span>`)
           .replace(/0\.5/g, '½');
       return v.toString().replaceAll('0.5', '½');
-    },
-  },
-};
+    }
 </script>

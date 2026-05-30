@@ -10,8 +10,6 @@ import { Mech } from '../mech/Mech'
 import { PilotEquipment } from './components/Loadout/equipment/PilotEquipment'
 import { PilotEquipmentFactory } from './components/Loadout/equipment/PilotEquipmentFactory'
 import { IPilotLoadoutData, PilotLoadout } from './components/Loadout/PilotLoadout'
-import { Rules } from '../utility/Rules'
-import { Bonus, BonusId } from '../components/feature/bonus/Bonus'
 import {
   CoreBonusController,
   ILicenseSaveData,
@@ -49,6 +47,7 @@ import { PilotLoadoutController } from './components/Loadout/PilotLoadoutControl
 import { BrewController, BrewInfo, IBrewData } from '../components/brew/BrewController'
 import { IBrewable } from '../components/brew/IBrewable'
 import { BondController, IPilotBondData } from './components/bond/BondController'
+import { PilotStatController } from './components/PilotStatController'
 import logger from '@/user/logger'
 import { IInstanceableData } from '../components/instance/IInstanceable'
 import { IInstanceable } from '../components/instance/IInstanceable'
@@ -161,6 +160,7 @@ class Pilot
   public PilotLoadoutController: PilotLoadoutController
   public BrewController: BrewController
   public CombatController: CombatController
+  public PilotStatController: PilotStatController
 
   private _id: string
   private _callsign: string
@@ -198,6 +198,7 @@ class Pilot
     this.PilotLoadoutController = new PilotLoadoutController(this)
     this.CombatController = new CombatController(this)
     this.BrewController = new BrewController(this)
+    this.PilotStatController = new PilotStatController(this)
 
     this.SortIndex = data && !isNaN(data?.sortIndex) ? data?.sortIndex : -1
     this._lcpConfig = data?.config || ({} as LcpConfig)
@@ -487,39 +488,35 @@ class Pilot
   }
 
   public get MaxHP(): number {
-    return Bonus.Int(Rules.BasePilotHP + this.Grit, BonusId.PILOT_HP, this)
+    return this.PilotStatController.MaxHP
   }
 
   public get Armor(): number {
-    return Bonus.Int(0, BonusId.PILOT_ARMOR, this)
+    return this.PilotStatController.Armor
   }
 
   public get Speed(): number {
-    return Bonus.Int(Rules.BasePilotSpeed, BonusId.PILOT_SPEED, this)
+    return this.PilotStatController.Speed
   }
 
   public get Evasion(): number {
-    return Bonus.Int(Rules.BasePilotEvasion, BonusId.PILOT_EVASION, this)
+    return this.PilotStatController.Evasion
   }
 
   public get EDefense(): number {
-    return Bonus.Int(Rules.BasePilotEdef, BonusId.PILOT_EDEF, this)
+    return this.PilotStatController.EDefense
   }
 
   public get LimitedBonus(): number {
-    return Bonus.Int(
-      Math.floor(this.MechSkillsController.MechSkills.Eng / 2),
-      BonusId.LIMITED_BONUS,
-      this
-    )
+    return this.PilotStatController.LimitedBonus
   }
 
   public get AttackBonus(): number {
-    return Bonus.Int(this.Grit, BonusId.ATTACK, this)
+    return this.PilotStatController.AttackBonus
   }
 
   public get TechAttack(): number {
-    return Bonus.Int(this.Grit, BonusId.TECH_ATTACK, this)
+    return this.PilotStatController.TechAttack
   }
 
   public get ActiveMech(): Mech | null {
@@ -560,52 +557,15 @@ class Pilot
   }
 
   public getExpressionContext(): ExpressionContext {
-    // can't call Bonus.Int (directly or via stat getters like MaxHP, Evasion, etc)
-    // because Bonus.Int → EvaluateSpecial → getExpressionContext loops
-    return {
-      ll: this.Level,
-      grit: this.Grit,
-      hull: this.MechSkillsController.Hull,
-      agi: this.MechSkillsController.Agi,
-      sys: this.MechSkillsController.Sys,
-      eng: this.MechSkillsController.Eng,
-      hp: Rules.BasePilotHP + this.Grit,
-      armor: 0,
-      speed: Rules.BasePilotSpeed,
-      evasion: Rules.BasePilotEvasion,
-      edef: Rules.BasePilotEdef,
-    }
+    return this.PilotStatController.getExpressionContext()
   }
 
   public getEntityRef(name: string): IFeatureController | null {
-    switch (name.toLowerCase()) {
-      case 'mech':
-        return this.ActiveMech ?? null
-      case 'self':
-      case 'pilot':
-        return this
-      default:
-        return null
-    }
+    return this.PilotStatController.getEntityRef(name)
   }
 
-  public SetStats() {
-    const kvps = [
-      { key: 'grit', val: this.Grit },
-      { key: 'hp', val: this.MaxHP },
-      { key: 'armor', val: this.Armor },
-      { key: 'speed', val: this.Speed },
-      { key: 'evasion', val: this.Evasion },
-      { key: 'edef', val: this.EDefense },
-      { key: 'limitedBonus', val: this.LimitedBonus },
-      { key: 'activations', val: 1 },
-    ] as { key: string; val: number }[]
-
-    this.CombatController.setStats(kvps)
-
-    this.Mechs.forEach(m => {
-      m.SetStats()
-    })
+  public SetStats(): void {
+    this.PilotStatController.SetStats()
   }
 
   // -- Exotics and Other Equipment ---------------------------------------------------------------

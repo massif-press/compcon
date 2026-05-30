@@ -11,12 +11,14 @@
   </v-menu>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'sitrep-chip',
-  props: {
-    sitrep: { type: Object, required: true },
-    size: { type: String, default: 'x-small' },
-  },
-};
+<script setup lang="ts">
+import CCSitrepDisplay from '@/ui/components/CCSitrepDisplay.vue'
+defineOptions({ name: 'sitrep-chip' })
+
+const props = withDefaults(defineProps<{
+  sitrep: object
+  size?: string
+}>(), {
+  size: 'x-small'
+})
 </script>

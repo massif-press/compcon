@@ -170,32 +170,34 @@
     extended />
 </template>
 
-<script lang="ts">
-export default {
-  name: 'EngineerWeaponInset',
-  props: {
-    item: { type: Object, required: true },
-    mech: { type: Object, required: true },
-    readonly: { type: Boolean },
-  },
-  data: () => ({
-    weaponType: null,
-    weaponTypes: [
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
+
+defineOptions({ name: 'EngineerWeaponInset' })
+
+const props = defineProps<{
+  item: object
+  mech: object
+  readonly?: boolean
+}>()
+
+const weaponType = ref(null)
+const weaponTypes = ref([
       { title: 'Rifle', value: 'rifle', icon: 'cc:range' },
       { title: 'Cannon', value: 'cannon', icon: 'cc:range' },
       { title: 'Launcher', value: 'launcher', icon: 'cc:range' },
       { title: 'CQB', value: 'cqb', icon: 'cc:range' },
       { title: 'Nexus', value: 'nexus', icon: 'cc:range' },
       { title: 'Melee', value: 'melee', icon: 'cc:threat' },
-    ],
-    damageType: null,
-    damageTypes: [
+    ])
+const damageType = ref(null)
+const damageTypes = ref([
       { title: 'Kinetic', value: 'kinetic' },
       { title: 'Energy', value: 'energy' },
       { title: 'Explosive', value: 'explosive' },
-    ],
-    uses: 0,
-    revisions: [
+    ])
+const uses = ref(0)
+const revisions = ref([
       {
         title: 'Tweaked Optics',
         value: 'tweaked_optics',
@@ -215,92 +217,95 @@ export default {
         detail:
           'Each time you attack with your prototype weapon, you may choose – at the cost of 2 Heat – to attack with one of the following options, depending on its weapon type:<ul><li>Ranged weapon: Cone 3, Line 5, or [Blast 1, Range 10].</li><li>Melee weapon: Burst 1.</li>',
       },
-    ],
-    selectedRevisions: [] as string[],
-  }),
-  computed: {
-    level() {
-      return this.item.ID.split('_')[2] || 1;
-    },
-    itemName() {
-      return ['Prototype', 'Revision', 'Final Draft'][this.level - 1];
-    },
-    limitedBonus() {
-      return this.mech.LimitedBonus || 0
-    },
-    selectedRevisionTitles() {
-      return this.selectedRevisions
+    ])
+const selectedRevisions = ref([] as string[])
+
+weaponType.value = props.item.GetOverride('weapon_type') || null;
+    damageType.value = props.item.GetOverride('damage') || null;
+    uses.value = props.item.GetOverride('uses') || 0;
+    if (props.item.GetOverride('tags').some((t) => t.id === 'tg_accurate')) {
+      selectedRevisions.value.push('tweaked_optics');
+    }
+    if (props.item.GetOverride('tags').some((t) => t.id === 'tg_smart')) {
+      selectedRevisions.value.push('tweaked_computer');
+    }
+    if (props.item.GetOverride('effect')) {
+      selectedRevisions.value.push('stripped_reactor');
+    }
+
+weaponType.value = props.item.GetOverride('weapon_type') || null;
+    damageType.value = props.item.GetOverride('damage') || null;
+    uses.value = props.item.GetOverride('uses') || 0;
+    if (props.item.GetOverride('tags').some((t) => t.id === 'tg_accurate')) {
+      selectedRevisions.value.push('tweaked_optics');
+    }
+    if (props.item.GetOverride('tags').some((t) => t.id === 'tg_smart')) {
+      selectedRevisions.value.push('tweaked_computer');
+    }
+    if (props.item.GetOverride('effect')) {
+      selectedRevisions.value.push('stripped_reactor');
+    }
+
+const level = computed(() => {
+      return props.item.ID.split('_')[2] || 1;
+    })
+const itemName = computed(() => {
+      return ['Prototype', 'Revision', 'Final Draft'][level.value - 1];
+    })
+const limitedBonus = computed(() => {
+      return props.mech.LimitedBonus || 0
+    })
+const selectedRevisionTitles = computed(() => {
+      return selectedRevisions.value
         .map((rev) => {
-          const revision = this.revisions.find((r) => r.value === rev);
+          const revision = revisions.value.find((r) => r.value === rev);
           return revision ? revision.title : '';
         })
         .join(', ');
-    },
-  },
-  watch: {
-    uses() {
-      this.setUses();
-    },
-  },
-  created() {
-    this.weaponType = this.item.GetOverride('weapon_type') || null;
-    this.damageType = this.item.GetOverride('damage') || null;
-    this.uses = this.item.GetOverride('uses') || 0;
-    if (this.item.GetOverride('tags').some((t) => t.id === 'tg_accurate')) {
-      this.selectedRevisions.push('tweaked_optics');
-    }
-    if (this.item.GetOverride('tags').some((t) => t.id === 'tg_smart')) {
-      this.selectedRevisions.push('tweaked_computer');
-    }
-    if (this.item.GetOverride('effect')) {
-      this.selectedRevisions.push('stripped_reactor');
-    }
-  },
-  methods: {
-    setWeaponType(type) {
-      this.weaponType = type;
-      this.item.SetOverride('weapon_type', type);
+    })
+
+function setWeaponType(type) {
+      weaponType.value = type;
+      props.item.SetOverride('weapon_type', type);
       const rangeData = {
         type: type === 'melee' ? 'threat' : 'range',
         val: type === 'melee' ? 1 : 10,
       };
-      this.item.SetOverride('range', [rangeData]);
-      this.mech.SaveController.save();
-    },
-    setDamageType(type) {
-      this.damageType = type;
-      this.item.SetOverride('damage', type);
-      this.mech.SaveController.save();
-    },
-    setUses() {
-      this.item.SetOverride('uses', this.uses);
-      this.mech.SaveController.save();
-    },
-    rollUses() {
-      const max = (this.level < 3 ? 8 : 12) + this.limitedBonus;
-      this.uses = Math.floor(Math.random() * max) + 1;
-    },
-    setRevision(revision) {
-      if (this.selectedRevisions.includes(revision)) {
-        this.selectedRevisions = this.selectedRevisions.filter((rev) => rev !== revision);
+      props.item.SetOverride('range', [rangeData]);
+      props.mech.SaveController.save();
+    }
+function setDamageType(type) {
+      damageType.value = type;
+      props.item.SetOverride('damage', type);
+      props.mech.SaveController.save();
+    }
+function setUses() {
+      props.item.SetOverride('uses', uses.value);
+      props.mech.SaveController.save();
+    }
+function rollUses() {
+      const max = (level.value < 3 ? 8 : 12) + limitedBonus.value;
+      uses.value = Math.floor(Math.random() * max) + 1;
+    }
+function setRevision(revision) {
+      if (selectedRevisions.value.includes(revision)) {
+        selectedRevisions.value = selectedRevisions.value.filter((rev) => rev !== revision);
       } else {
-        this.selectedRevisions.push(revision);
+        selectedRevisions.value.push(revision);
       }
       const tags = [] as any[];
-      if (this.selectedRevisions.includes('tweaked_optics')) {
+      if (selectedRevisions.value.includes('tweaked_optics')) {
         tags.push({ id: 'tg_accurate' });
       }
-      if (this.selectedRevisions.includes('tweaked_computer')) {
+      if (selectedRevisions.value.includes('tweaked_computer')) {
         tags.push({ id: 'tg_smart' });
       }
 
-      this.item.SetOverride('tags', tags);
-      this.item.SetOverride(
+      props.item.SetOverride('tags', tags);
+      props.item.SetOverride(
         'effect',
-        this.selectedRevisions.includes('stripped_reactor') ? this.revisions[2].detail : ''
+        selectedRevisions.value.includes('stripped_reactor') ? revisions.value[2].detail : ''
       );
-      this.mech.SaveController.save();
-    },
-  },
-};
+      props.mech.SaveController.save();
+    }
 </script>

@@ -13,13 +13,13 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'doodad-builder-content',
-  components: {},
-  props: {
-    item: { type: Object, required: true },
-    readonly: { type: Boolean, default: false },
-  },
-};
+<script setup lang="ts">
+defineOptions({ name: 'doodad-builder-content' })
+
+const props = withDefaults(defineProps<{
+  item: object
+  readonly?: boolean
+}>(), {
+  readonly: false
+})
 </script>

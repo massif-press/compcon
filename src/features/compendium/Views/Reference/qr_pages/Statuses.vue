@@ -39,47 +39,43 @@
   </v-btn>
 </template>
 
-<script lang="ts">
-import scrollTo from '@/util/scrollTo';
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useDisplay } from 'vuetify'
+import _scrollTo from '@/util/scrollTo';
 import * as _ from 'lodash-es';
-
 import { CompendiumStore } from '@/stores';
 import { Status } from '@/classes/Status';
 import StatusCard from '../_components/StatusCard.vue';
 
-export default {
-  name: 'ActionEconomy',
-  components: { StatusCard },
-  props: {
-    isModal: {
-      type: Boolean,
-    },
-  },
-  data: () => ({
-    content: ['statuses', 'conditions'],
-  }),
-  computed: {
-    widescreen() {
-      return this.$vuetify.display.xlAndUp;
-    },
-    statuses() {
+const _display = useDisplay()
+
+defineOptions({ name: 'ActionEconomy' })
+
+const props = defineProps<{
+  isModal?: boolean
+}>()
+
+const content = ref(['statuses', 'conditions'])
+
+const widescreen = computed(() => {
+      return _display.xlAndUp.value;
+    })
+const statuses = computed(() => {
       return _.sortBy(
         CompendiumStore().Statuses.filter((s: Status) => s && s.StatusType !== 'Condition'),
         'Name'
       );
-    },
-    conditions() {
+    })
+const conditions = computed(() => {
       return _.sortBy(
         CompendiumStore().Statuses.filter((s: Status) => s && s.StatusType === 'Condition'),
         'Name'
       );
-    },
-  },
-  methods: {
-    scrollTo(item: any): void {
-      const el = document.getElementById(`${item.replace(/\W/g, '')}`);
-      if (el) scrollTo(el, this.isModal);
-    },
-  },
-};
+    })
+
+function scrollTo(item: any) {
+  const el = document.getElementById(`${item.replace(/\W/g, '')}`)
+  if (el) _scrollTo(el, props.isModal)
+}
 </script>

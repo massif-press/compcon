@@ -7,18 +7,22 @@
     @open="$emit('open', item)" />
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import GmCardBase from './_GMCardBase.vue';
 
-export default {
-  name: 'gm-location-card',
-  components: { GmCardBase },
-  props: {
-    item: { type: Object, required: true },
-    big: { type: Boolean },
-    grouping: { type: [Object, String], required: false, default: '' },
-    sorting: { type: Object, required: false, default: '' },
-  },
-  emits: ['open'],
-};
+defineOptions({ name: 'gm-location-card' })
+
+const props = withDefaults(defineProps<{
+  item: object
+  big?: boolean
+  grouping?: object | string
+  sorting?: object
+}>(), {
+  grouping: '',
+  sorting: ''
+})
+
+const emit = defineEmits<{
+  'open': []
+}>()
 </script>

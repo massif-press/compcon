@@ -176,31 +176,29 @@
   </v-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { notify } from '@/util/notify'
 import { UserStore } from '@/stores';
 import CollectionShareCodeDialog from './data_viewer/collectionShareCodeDialog.vue';
 import CollectionInfo from './data_viewer/collectionInfo.vue';
 import logger from '@/user/logger';
 import { useMobile } from '@/composables/useMobile';
 
+defineOptions({ name: 'collection-subscriptions' })
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'collection-subscriptions',
-  components: { CollectionShareCodeDialog, CollectionInfo },
-  data: () => ({
-    loading: false,
-    expanded: [],
-    collectionHeaders: [
+const { mobile, portrait } = useMobile()
+
+const loading = ref(false)
+const expanded = ref([])
+const collectionHeaders = ref([
       { title: '', key: 'data-table-expand', width: '0' },
       { title: 'Content Collection', key: 'name' },
       { title: 'Author', key: 'author' },
       { title: 'Version', key: 'vers', align: 'center' },
       { title: '', key: 'actions' },
-    ],
-    update_on: [
+    ])
+const update_on = ref([
       {
         title: 'On Startup',
         value: 'startup',
@@ -209,87 +207,83 @@ export default {
         title: 'Manual Only',
         value: 'manual',
       },
-    ],
-  }),
-  computed: {
-    cloudUser() {
+    ])
+
+const cloudUser = computed(() => {
       return UserStore().UserMetadata;
-    },
-    collectionItems() {
+    })
+const collectionItems = computed(() => {
       return UserStore().RemoteCollections;
-    },
-    remoteDeletedItems() {
-      return this.cloudUser.CollectionSubscriptionSettings.items.filter(
-        (sub) => !this.collectionItems.find((item) => item.id === sub.metadata.id)
+    })
+const remoteDeletedItems = computed(() => {
+      return cloudUser.value.CollectionSubscriptionSettings.items.filter(
+        (sub) => !collectionItems.value.find((item) => item.id === sub.metadata.id)
       );
-    },
-  },
-  methods: {
-    async saveUserMetadata() {
-      this.loading = true;
+    })
+
+async function saveUserMetadata() {
+      loading.value = true;
       await UserStore().setUserMetadata();
-      this.loading = false;
-    },
-    async unsubscribe(item) {
-      this.loading = true;
+      loading.value = false;
+    }
+async function unsubscribe(item) {
+      loading.value = true;
       await UserStore().removeContentSubscription(item);
-      this.loading = false;
-    },
-    async update(item) {
-      this.loading = true;
+      loading.value = false;
+    }
+async function update(item) {
+      loading.value = true;
       let errors = await UserStore().updateRemoteCollection(item);
       if (errors.length > 0) {
         logger.error(`Error updating collection: ${errors}`, this);
-        this.$notify({
+        notify({
           title: 'Error Updating Collection',
           text: 'There was an error updating the collection. Please try again later.',
           data: { color: 'error', icon: 'mdi-alert-circle-outline' },
         });
       } else {
-        this.$notify({
+        notify({
           title: 'Collection Updated',
           text: 'Collection items have been updated successfully.',
           data: { color: 'success', icon: 'mdi-check-circle-outline' },
         });
       }
-      this.loading = false;
-    },
-    async refresh() {
-      this.loading = true;
+      loading.value = false;
+    }
+async function refresh() {
+      loading.value = true;
       await UserStore().getRemoteCollectionMetadata();
-      this.loading = false;
-    },
-    async updateAll() {
-      for (let item of this.collectionItems) {
-        const localSetting = this.getLocalUserSetting(item);
+      loading.value = false;
+    }
+async function updateAll() {
+      for (let item of collectionItems.value) {
+        const localSetting = getLocalUserSetting(item);
         if (localSetting && localSetting.metadata.version === item.version) continue;
-        else await this.update(item);
+        else await update(item);
       }
-    },
-    getLocalUserSetting(item) {
-      return this.cloudUser.CollectionSubscriptionSettings.items.find(
+    }
+function getLocalUserSetting(item) {
+      return cloudUser.value.CollectionSubscriptionSettings.items.find(
         (sub) => sub.metadata.id === item.id
       );
-    },
-    isLatestVersion(item) {
-      if (!this.getLocalUserSetting(item)) return false;
-      return item.version === this.getLocalUserSetting(item)!.metadata.version;
-    },
-    copy(code) {
+    }
+function isLatestVersion(item) {
+      if (!getLocalUserSetting(item)) return false;
+      return item.version === getLocalUserSetting(item)!.metadata.version;
+    }
+function copy(code) {
       navigator.clipboard.writeText(code);
-    },
-    parsedContent(json) {
+    }
+function parsedContent(json) {
       return JSON.parse(json);
-    },
-    majorMinor(item) {
-      if (!this.getLocalUserSetting(item)) return '';
+    }
+function majorMinor(item) {
+      if (!getLocalUserSetting(item)) return '';
       if (
-        this.getLocalUserSetting(item)!.metadata.version.split('.')[0] ===
+        getLocalUserSetting(item)!.metadata.version.split('.')[0] ===
         item.version.split('.')[0]
       )
         return 'Minor';
       return 'Major';
-    },
-  },
-};
+    }
 </script>

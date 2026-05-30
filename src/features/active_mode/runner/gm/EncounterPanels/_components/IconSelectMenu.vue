@@ -34,19 +34,21 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'IconSelectMenu',
-  props: {
-    icon: {
-      type: String,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      dialog: false,
-      icons: [
+<script setup lang="ts">
+import { ref } from 'vue'
+
+defineOptions({ name: 'IconSelectMenu' })
+
+const props = defineProps<{
+  icon: string
+}>()
+
+const emit = defineEmits<{
+  'select': [icon: string]
+}>()
+
+const dialog = ref(false)
+const icons = [
         'cc:npc_template',
         'cc:license',
         'cc:squad',
@@ -445,14 +447,10 @@ export default {
         'mdi-water',
         'mdi-wrench',
         'mdi-yin-yang',
-      ],
-    };
-  },
-  methods: {
-    selectIcon(icon) {
-      this.$emit('select', icon);
-      this.dialog = false;
-    },
-  },
-};
+      ]
+
+function selectIcon(icon: string) {
+  emit('select', icon)
+  dialog.value = false
+}
 </script>

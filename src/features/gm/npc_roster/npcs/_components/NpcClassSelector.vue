@@ -41,28 +41,26 @@
   </div>
 </template>
 
-<script lang="ts">
-import { npcClassSelectorMixin } from './_npcClassSelectorMixin';
+<script setup lang="ts">
+import { useNpcClassSelector } from './useNpcClassSelector'
 
-export default {
-  name: 'NpcClassSelector',
-  mixins: [npcClassSelectorMixin],
-  props: {
-    item: { type: Object, required: true },
-  },
-  emits: ['close'],
-  created() {
-    this.selectedTier = this.item.NpcClassController?.Tier || 1;
-  },
-  methods: {
-    getRoleIcon(role: string) {
-      if (role.toLowerCase() === 'biological') return 'mdi-heart-pulse';
-      return `cc:role_${role.toLowerCase()}`;
-    },
-    SetClass(c) {
-      this.item.NpcClassController.SetClass(c, this.item.NpcClassController.Tier);
-      this.$emit('close');
-    },
-  },
-};
+const props = defineProps<{
+  item: object
+}>()
+
+const emit = defineEmits<{ close: [] }>()
+
+const { selectedTier, tieredView, options, classes, headers, toggleTieredView } = useNpcClassSelector()
+
+selectedTier.value = (props.item as any).NpcClassController?.Tier || 1
+
+function getRoleIcon(role: string) {
+  if (role.toLowerCase() === 'biological') return 'mdi-heart-pulse'
+  return `cc:role_${role.toLowerCase()}`
+}
+
+function SetClass(c: any) {
+  (props.item as any).NpcClassController.SetClass(c, (props.item as any).NpcClassController.Tier)
+  emit('close')
+}
 </script>

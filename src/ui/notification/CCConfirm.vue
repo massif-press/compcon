@@ -18,48 +18,44 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'GlobalConfirm',
-  data: () => ({
-    dialog: false,
-    resolve: null as any,
-    reject: null as any,
-    message: '',
-    title: '',
-    options: {
+<script setup lang="ts">
+import { ref } from 'vue'
+
+defineOptions({ name: 'GlobalConfirm' })
+
+const dialog = ref(false)
+const resolve = ref(null as any)
+const reject = ref(null as any)
+const message = ref('')
+const title = ref('')
+const options = ref({
       color: 'primary',
       width: 500,
       zIndex: 9999,
-    },
-  }),
-  methods: {
-    open(
-      title: string,
+    })
+
+function open(title: string,
       message: string,
       options: {
         color?: string;
         width?: number;
         zIndex?: number;
-      } = {}
-    ) {
-      this.dialog = true;
-      this.title = title;
-      this.message = message;
-      this.options = Object.assign({}, this.options, options);
+      } = {}) {
+      dialog.value = true;
+      title.value = title;
+      message.value = message;
+      options.value = Object.assign({}, options.value, options);
       return new Promise((resolve, reject) => {
-        this.resolve = resolve;
-        this.reject = reject;
+        resolve.value = resolve;
+        reject.value = reject;
       });
-    },
-    agree() {
-      this.resolve(true);
-      this.dialog = false;
-    },
-    cancel() {
-      this.resolve(false);
-      this.dialog = false;
-    },
-  },
-};
+    }
+function agree() {
+      resolve.value(true);
+      dialog.value = false;
+    }
+function cancel() {
+      resolve.value(false);
+      dialog.value = false;
+    }
 </script>

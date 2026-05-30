@@ -33,36 +33,25 @@
   </cc-panel>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
 import EquipmentHeader from '../../_EquipmentHeader.vue';
 import EquipmentDetails from '../../_EquipmentDetails.vue';
 import { useMobile } from '@/composables/useMobile';
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'mod-inset',
-  components: { EquipmentHeader, EquipmentDetails },
-  props: {
-    mod: {
-      type: Object,
-      required: true,
-    },
-    mech: {
-      type: Object,
-      required: true,
-    },
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-  },
-  data: () => ({
-    detailDialog: false,
-  }),
-};
+defineOptions({ name: 'mod-inset' })
+
+const { mobile, portrait } = useMobile()
+
+const props = withDefaults(defineProps<{
+  mod: object
+  mech: object
+  color?: string
+}>(), {
+  color: 'primary'
+})
+
+const detailDialog = ref(false)
 </script>
 
 <style scoped>

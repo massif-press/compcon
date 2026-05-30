@@ -55,31 +55,22 @@
   </cc-dialog>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'ActionCard',
-  props: {
-    action: {
-      type: Object,
-      required: true,
-    },
-    downtime: {
-      type: Boolean,
-      required: false,
-    },
-    clickable: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  computed: {
-    component() {
-      return this.clickable ? 'cc-clickable-panel' : 'cc-panel';
-    },
-    exclusive() {
-      if (this.action.IsPilotAction && !this.action.IsMechAction) return ' (Pilot Only)';
+<script setup lang="ts">
+import { computed } from 'vue'
+
+const props = withDefaults(defineProps<{
+  action: object
+  downtime?: boolean
+  clickable?: boolean
+}>(), {
+  clickable: false
+})
+
+const component = computed(() => {
+      return props.clickable ? 'cc-clickable-panel' : 'cc-panel';
+    })
+const exclusive = computed(() => {
+      if (props.action.IsPilotAction && !props.action.IsMechAction) return ' (Pilot Only)';
       return '';
-    },
-  },
-};
+    })
 </script>

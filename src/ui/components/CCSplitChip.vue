@@ -5,19 +5,11 @@
   </v-chip>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CCSplitChip',
-  props: {
-    label: {
-      type: Object,
-      required: true,
-    },
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-  },
-};
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+  label: object
+  color?: string
+}>(), {
+  color: 'primary'
+})
 </script>

@@ -81,42 +81,38 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
 import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon';
 import EffectApplicator from '@/ui/components/chips/_activeeffect/EffectApplicator.vue';
 
-export default {
-  name: 'MechWeaponAttack',
-  components: {
-    EffectApplicator,
-  },
-  props: {
-    event: { type: WeaponAttackEvent, required: true },
-    profile: { type: WeaponProfile, required: true },
-    owner: { type: Object, required: true },
-    encounter: { type: Object, required: true },
-    isAdditionalAux: { type: Boolean, default: false },
-  },
-  computed: {
-    isPilotSheet() {
-      return this.encounter.ItemType === 'PilotSheet';
-    },
-    ordnanceWarning() {
-      if (!this.profile) return false;
-      if (this.profile.Tags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
-        return this.owner.actor.CombatController.CanActivate('ordnance') === false;
+const props = withDefaults(defineProps<{
+  event: WeaponAttackEvent
+  profile: WeaponProfile
+  owner: object
+  encounter: object
+  isAdditionalAux?: boolean
+}>(), {
+  isAdditionalAux: false
+})
+
+const isPilotSheet = computed(() => {
+      return props.encounter.ItemType === 'PilotSheet';
+    })
+const ordnanceWarning = computed(() => {
+      if (!props.profile) return false;
+      if (props.profile.Tags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
+        return props.owner.actor.CombatController.CanActivate('ordnance') === false;
       }
       return false;
-    },
-    canUse() {
-      if (!this.profile) return false;
-      return !this.profile.Used && !this.profile.Parent.Destroyed &&
-        (!this.profile.Parent.IsLimited || this.profile.Uses > 0);
-    },
-    weapon() {
-      return this.profile.Parent;
-    }
-  },
-};
+    })
+const canUse = computed(() => {
+      if (!props.profile) return false;
+      return !props.profile.Used && !props.profile.Parent.Destroyed &&
+        (!props.profile.Parent.IsLimited || props.profile.Uses > 0);
+    })
+const weapon = computed(() => {
+      return props.profile.Parent;
+    })
 </script>

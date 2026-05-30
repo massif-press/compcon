@@ -33,27 +33,21 @@
   </v-btn>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import { CompendiumStore } from '@/stores';
-import scrollTo from '@/util/scrollTo'
+import _scrollTo from '@/util/scrollTo'
 
-export default {
-  name: 'DamageTables',
-  props: {
-    isModal: {
-      type: Boolean,
-    },
-  },
-  computed: {
-    tables() {
+const props = defineProps<{
+  isModal?: boolean
+}>()
+
+const tables = computed(() => {
       return CompendiumStore().Tables
-    }
-  },
-  methods: {
-    scrollTo(item: any): void {
+    })
+
+function scrollTo(item: any) {
       const el = document.getElementById(`${item.replace(/\W/g, '')}`)
-      if (el) scrollTo(el, this.isModal)
-    },
-  },
-}
+      if (el) _scrollTo(el, props.isModal)
+    }
 </script>

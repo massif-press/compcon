@@ -224,43 +224,39 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import * as _ from 'lodash-es';
 import PageContentContainer from './_components/PageContentContainer.vue';
 import sectionAddMenu from '../_components/sectionAddMenu.vue';
 
-export default {
-  name: 'campaign-editor-page',
-  components: { PageContentContainer, sectionAddMenu },
-  props: {
-    item: { type: Object, required: true },
-  },
-  data: () => ({
-    linkSelectDialog: false,
-    moveLoc: null as any,
-    encounterDialog: false,
-    sectionTypes: ['section', 'beat', 'mission', 'combat', 'downtime'],
-  }),
-  computed: {
-    moveItems() {
-      let arr = [] as any[];
-      if (this.item.Parent)
-        arr = [{ Title: 'Campaign Root' }].concat(
-          this.item.Campaign.ContentMoveLocations(this.item)
-        );
-      else arr = this.item.Campaign.ContentMoveLocations(this.item);
+defineOptions({ name: 'campaign-editor-page' })
 
-      return arr.filter((x) => _.isEqual(x, this.item.Parent) === false);
-    },
-  },
-  methods: {
-    executeMove() {
-      if (this.moveLoc) {
-        if (this.moveLoc.Title === 'Campaign Root') this.item.MoveToCampaignRoot();
-        else this.item.MoveToSection(this.moveLoc);
-        this.moveLoc = null;
+const props = defineProps<{
+  item: object
+}>()
+
+const linkSelectDialog = ref(false)
+const moveLoc = ref(null as any)
+const encounterDialog = ref(false)
+const sectionTypes = ref(['section', 'beat', 'mission', 'combat', 'downtime'])
+
+const moveItems = computed(() => {
+      let arr = [] as any[];
+      if (props.item.Parent)
+        arr = [{ Title: 'Campaign Root' }].concat(
+          props.item.Campaign.ContentMoveLocations(props.item)
+        );
+      else arr = props.item.Campaign.ContentMoveLocations(props.item);
+
+      return arr.filter((x) => _.isEqual(x, props.item.Parent) === false);
+    })
+
+function executeMove() {
+      if (moveLoc.value) {
+        if (moveLoc.value.Title === 'Campaign Root') props.item.MoveToCampaignRoot();
+        else props.item.MoveToSection(moveLoc.value);
+        moveLoc.value = null;
       }
-    },
-  },
-};
+    }
 </script>

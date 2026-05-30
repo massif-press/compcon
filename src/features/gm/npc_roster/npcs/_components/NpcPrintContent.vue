@@ -241,25 +241,23 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'NpcPrintContent',
-  props: { item: { type: Object, required: true } },
-  computed: {
-    hasClass() {
-      return !!this.item && !!this.item.NpcClassController.Class;
-    },
+<script setup lang="ts">
+import { computed } from 'vue'
 
-    items() {
-      return [...this.item.Items].sort((x: any) => x.IsVisible ? 1 : -1);
-    },
-  },
-  methods: {
-    signed(val: number) {
+const props = defineProps<{
+  item: object
+}>()
+
+const hasClass = computed(() => {
+      return !!props.item && !!props.item.NpcClassController.Class;
+    })
+const items = computed(() => {
+      return [...props.item.Items].sort((x: any) => x.IsVisible ? 1 : -1);
+    })
+
+function signed(val: number) {
       return val > -1 ? `+${val}` : `${val}`;
-    },
-  },
-};
+    }
 </script>
 
 <style scoped>

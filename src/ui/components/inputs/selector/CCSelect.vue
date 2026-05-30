@@ -149,88 +149,95 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { VSelect, VAutocomplete, VCombobox } from 'vuetify/components';
 import { useMobile } from '@/composables/useMobile';
 
+const { mobile, portrait } = useMobile()
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'CCSelect',
-  props: {
-    modelValue: { type: [String, Number, Boolean, Array, Object] },
-    items: { type: Array, default: () => [] },
-    color: { type: String, default: 'panel' },
-    size: { type: String },
-    prependInnerIcon: { type: String },
-    appendInnerIcon: { type: String },
-    block: { type: Boolean },
-    loading: { type: Boolean },
-    disabled: { type: Boolean },
-    placeholder: { type: String },
-    label: { type: String },
-    icon: { type: String },
-    clearable: { type: Boolean },
-    tooltip: { type: String },
-    tooltipIcon: { type: String },
-    autofocus: { type: Boolean },
-    details: { type: String },
-    closeableChips: { type: Boolean },
-    readonly: { type: Boolean },
-    itemTitle: { type: [String, Function] },
-    itemValue: { type: String },
-    multiple: { type: Boolean },
-    variant: { type: String, default: 'solo' },
-    chipVariant: { type: String, default: 'text' },
-    lightChip: { type: Boolean },
-    combobox: { type: Boolean },
-    autocomplete: { type: Boolean },
-    optionsIcon: { type: String },
-    returnObject: { type: Boolean },
-    small: { type: Boolean },
-    bgColor: { type: String, default: 'background' },
-    max: { type: [String, Number], required: false },
-    allText: { type: String },
-    noneText: { type: String },
-    selectAll: { type: Boolean },
-  },
-  emits: ['update:model-value'],
-  data: () => ({
-    isFocused: false,
-  }),
-  computed: {
-    getChipClass() {
-      return this.lightChip ? 'chip-light' : 'chip-dark';
-    },
-    isSelect() {
-      return !this.combobox && !this.autocomplete;
-    },
-    allSelected() {
-      return this.multiple && Array.isArray(this.modelValue) && this.modelValue.length === this.items.length;
-    },
-    noneSelected() {
-      return this.noneText && (!this.modelValue || (Array.isArray(this.modelValue) && this.modelValue.length === 0));
-    },
-    component() {
-      return this.combobox ? VCombobox : this.autocomplete ? VAutocomplete : VSelect;
-    },
-  },
-  methods: {
-    toggleAll() {
-      if (this.allSelected) {
-        this.$emit('update:model-value', []);
+const props = withDefaults(defineProps<{
+  modelValue?: string | number | boolean | any[] | object
+  items?: any[]
+  color?: string
+  size?: string
+  prependInnerIcon?: string
+  appendInnerIcon?: string
+  block?: boolean
+  loading?: boolean
+  disabled?: boolean
+  placeholder?: string
+  label?: string
+  icon?: string
+  clearable?: boolean
+  tooltip?: string
+  tooltipIcon?: string
+  autofocus?: boolean
+  details?: string
+  closeableChips?: boolean
+  readonly?: boolean
+  itemTitle?: string | Function
+  itemValue?: string
+  multiple?: boolean
+  variant?: string
+  chipVariant?: string
+  lightChip?: boolean
+  combobox?: boolean
+  autocomplete?: boolean
+  optionsIcon?: string
+  returnObject?: boolean
+  small?: boolean
+  bgColor?: string
+  max?: string | number
+  allText?: string
+  noneText?: string
+  selectAll?: boolean
+  rules?: any[]
+  prefix?: string
+  suffix?: string
+  counter?: boolean | number
+  hint?: string
+}>(), {
+  items: () => [],
+  color: 'panel',
+  variant: 'solo',
+  chipVariant: 'text',
+  bgColor: 'background'
+})
+
+const emit = defineEmits<{
+  'update:model-value': []
+}>()
+
+const isFocused = ref(false)
+
+const getChipClass = computed(() => {
+      return props.lightChip ? 'chip-light' : 'chip-dark';
+    })
+const isSelect = computed(() => {
+      return !props.combobox && !props.autocomplete;
+    })
+const allSelected = computed(() => {
+      return props.multiple && Array.isArray(props.modelValue) && props.modelValue.length === props.items.length;
+    })
+const noneSelected = computed(() => {
+      return props.noneText && (!props.modelValue || (Array.isArray(props.modelValue) && props.modelValue.length === 0));
+    })
+const component = computed(() => {
+      return props.combobox ? VCombobox : props.autocomplete ? VAutocomplete : VSelect;
+    })
+
+function toggleAll() {
+      if (allSelected.value) {
+        emit('update:model-value', []);
       } else {
-        const key = this.itemValue || 'value';
-        const allValues = this.items.map((item: any) =>
-          this.returnObject ? item : (typeof item === 'object' ? item[key] : item)
+        const key = props.itemValue || 'value';
+        const allValues = props.items.map((item: any) =>
+          props.returnObject ? item : (typeof item === 'object' ? item[key] : item)
         );
-        this.$emit('update:model-value', allValues);
+        emit('update:model-value', allValues);
       }
-    },
-  },
-};
+    }
 </script>
 
 <style scoped>

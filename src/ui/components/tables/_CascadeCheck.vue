@@ -38,28 +38,26 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'cascade-check',
-  props: {
-    mech: { type: Object, required: true },
-  },
-  data: () => ({
-    checked: [],
-  }),
-  computed: {
-    AiSystems() {
-      return this.mech.MechLoadoutController.ActiveLoadout.Equipment.filter(
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+
+defineOptions({ name: 'cascade-check' })
+
+const props = defineProps<{
+  mech: object
+}>()
+
+const checked = ref([])
+
+const AiSystems = computed(() => {
+      return props.mech.MechLoadoutController.ActiveLoadout.Equipment.filter(
         (x) => x.IsAI && !x.NoCascade && !x.Destroyed
       );
-    },
-  },
-  methods: {
-    checkCascade(roll, index) {
-      this.checked.push(index);
-      if (roll === 1) this.AiSystems[index].IsCascading = true;
-      else this.AiSystems[index].IsCascading = false;
-    },
-  },
-};
+    })
+
+function checkCascade(roll, index) {
+      checked.value.push(index);
+      if (roll === 1) AiSystems.value[index].IsCascading = true;
+      else AiSystems.value[index].IsCascading = false;
+    }
 </script>

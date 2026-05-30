@@ -34,31 +34,25 @@
   </stepper-content>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import StepperContent from '../../_components/StepperContent.vue';
 import CoreBonusSelector from '../../_components/selectors/CoreBonusSelector.vue';
 import { Pilot } from '@/classes/pilot/Pilot'
 
-export default {
-  name: 'talents-page',
-  components: {
-    StepperContent,
-    CoreBonusSelector,
-  },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    canContinue(): boolean {
-      return this.pilot.CoreBonusController.HasCBs;
-    },
-    count(): number {
-      return this.pilot.CoreBonusController.MaxCBPoints;
-    },
-    word(): string {
+defineOptions({ name: 'talents-page' })
+
+const props = defineProps<{
+  pilot: object
+}>()
+
+const canContinue = computed(() => {
+      return props.pilot.CoreBonusController.HasCBs;
+    })
+const count = computed(() => {
+      return props.pilot.CoreBonusController.MaxCBPoints;
+    })
+const word = computed(() => {
       const words = [
         'zero',
         'one',
@@ -78,8 +72,6 @@ export default {
         'fifteen',
         'sixteen',
       ];
-      return words[this.count];
-    },
-  },
-};
+      return words[count.value];
+    })
 </script>

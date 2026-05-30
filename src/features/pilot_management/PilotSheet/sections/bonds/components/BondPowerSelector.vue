@@ -158,98 +158,98 @@
   </cc-solo-modal>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, onMounted } from 'vue'
+import { useDisplay } from 'vuetify'
 import { CompendiumStore } from '@/stores'
 import { useMobile } from '@/composables/useMobile';
 import { sortBy } from 'lodash-es';
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'BondPowerSelectMenu',
-  props: {
-    pilot: { type: Object, required: true },
-  },
-  data: () => ({
-    dialog: false,
-    featureSet: 'all',
-    ignoreLimit: false,
-    allowDupes: false,
-    showNav: true,
-  }),
-  computed: {
-    widescreen() {
-      return this.$vuetify.display.lgAndUp
-    },
-    currentSelection() {
-      switch (this.featureSet) {
+const _display = useDisplay()
+
+defineOptions({ name: 'BondPowerSelectMenu' })
+
+const { mobile, portrait } = useMobile()
+
+const props = defineProps<{
+  pilot: object
+}>()
+
+const dialog = ref(false)
+const featureSet = ref('all')
+const ignoreLimit = ref(false)
+const allowDupes = ref(false)
+const showNav = ref(true)
+
+const widescreen = computed(() => {
+      return _display.lgAndUp.value
+    })
+const currentSelection = computed(() => {
+      switch (featureSet.value) {
         case 'all':
-          return this.pilot.BondController.Bond.Name
+          return props.pilot.BondController.Bond.Name
         case 'assigned':
           return 'All Assigned'
         default:
-          return this.Bonds.find(x => x.ID === this.featureSet)?.Name
+          return Bonds.value.find(x => x.ID === featureSet.value)?.Name
       }
-    },
-    shownPowers() {
+    })
+const shownPowers = computed(() => {
       let out;
-      if (!this.pilot.BondController.TotalPowerSelections && !this.ignoreLimit) {
-        if (this.featureSet === 'all')
-          out = this.pilot.BondController.Bond.Powers.filter(x =>
-            this.pilot.BondController.BondPowers.some(y => y.name === x.name)
+      if (!props.pilot.BondController.TotalPowerSelections && !ignoreLimit.value) {
+        if (featureSet.value === 'all')
+          out = props.pilot.BondController.Bond.Powers.filter(x =>
+            props.pilot.BondController.BondPowers.some(y => y.name === x.name)
           )
-        else if (this.featureSet === 'assigned') out = this.pilot.BondController.BondPowers
+        else if (featureSet.value === 'assigned') out = props.pilot.BondController.BondPowers
         else out = CompendiumStore()
-          .Bonds.find(x => x.ID === this.featureSet)
-          ?.Powers.filter(x => this.pilot.BondController.BondPowers.some(y => y.name === x.name))
+          .Bonds.find(x => x.ID === featureSet.value)
+          ?.Powers.filter(x => props.pilot.BondController.BondPowers.some(y => y.name === x.name))
       }
 
-      else if (this.featureSet === 'all') out = this.pilot.BondController.Bond.Powers
-      else if (this.featureSet === 'assigned') out = this.pilot.BondController.BondPowers
+      else if (featureSet.value === 'all') out = props.pilot.BondController.Bond.Powers
+      else if (featureSet.value === 'assigned') out = props.pilot.BondController.BondPowers
 
-      else out = CompendiumStore().Bonds.find(x => x.ID === this.featureSet)?.Powers
+      else out = CompendiumStore().Bonds.find(x => x.ID === featureSet.value)?.Powers
 
       return sortBy(out, ['master', 'veteran', 'origin', 'name']).reverse()
-    },
-    Bonds() {
+    })
+const Bonds = computed(() => {
       return CompendiumStore().Bonds.map(x => ({
         Name: x.Name,
         ID: x.ID,
       }))
-    },
-  },
-  mounted() {
-    this.showNav = !this.mobile
-  },
-  methods: {
-    allowAdd(power) {
-      if (this.hasPower(power)) return false
-      if (this.ignoreLimit) return true
+    })
+
+function allowAdd(power) {
+      if (hasPower(power)) return false
+      if (ignoreLimit.value) return true
       if (power.veteran) return false
       if (power.master) {
         let bond;
-        if (this.featureSet === 'all')
-          bond = this.pilot.BondController.Bond.ID
-        else bond = this.featureSet
-        if (bond && (this.pilot.BondController.BondPowers.filter(x => x.origin === bond).length >= 4)) return true
+        if (featureSet.value === 'all')
+          bond = props.pilot.BondController.Bond.ID
+        else bond = featureSet.value
+        if (bond && (props.pilot.BondController.BondPowers.filter(x => x.origin === bond).length >= 4)) return true
         return false
       }
-      if (!this.pilot.BondController.TotalPowerSelections) return true
-      return this.pilot.BondController.TotalPowerSelections > 0
-    },
-    hasPower(power) {
-      return this.pilot.BondController.BondPowers.some(y => y.name === power.name)
-    },
-    resetPowers() {
-      this.pilot.BondController.BondPowers.splice(0, this.pilot.BondController.BondPowers.length)
-    },
-    show() {
-      this.dialog = true
-    },
-    hide() {
-      this.dialog = false
-    },
-  },
-}
+      if (!props.pilot.BondController.TotalPowerSelections) return true
+      return props.pilot.BondController.TotalPowerSelections > 0
+    }
+function hasPower(power) {
+      return props.pilot.BondController.BondPowers.some(y => y.name === power.name)
+    }
+function resetPowers() {
+      props.pilot.BondController.BondPowers.splice(0, props.pilot.BondController.BondPowers.length)
+    }
+function show() {
+      dialog.value = true
+    }
+function hide() {
+      dialog.value = false
+    }
+
+onMounted(() => {
+showNav.value = !mobile.value
+})
 </script>

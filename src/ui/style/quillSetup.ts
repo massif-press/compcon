@@ -1,3 +1,5 @@
+import Quill from 'quill'
+
 export const register = Quill => {
   // Register toolbar button inside the theme
   const icons = Quill.import('ui/icons')
@@ -39,10 +41,11 @@ export const options = {
       ],
       handlers: {
         horusText: function () {
-          const range = this.quill.getSelection()
+          const quill = (this as any).quill as Quill
+          const range = quill.getSelection()
           if (range) {
-            const format = this.quill.getFormat(range)
-            this.quill.format('horusText', !format.horusText)
+            const format = quill.getFormat(range)
+            quill.format('horusText', !format.horusText)
           }
         },
       },

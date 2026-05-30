@@ -119,7 +119,9 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { notify } from '@/util/notify'
 import { CampaignStore } from '@/stores';
 import { orderBy } from 'lodash-es';
 import CampaignDetailPanel from './CampaignDetailPanel.vue';
@@ -127,86 +129,72 @@ import { downloadFromS3, GetFromCode } from '@/io/apis/account';
 import logger from '@/user/logger';
 import { useMobile } from '@/composables/useMobile';
 
+defineOptions({ name: 'campaign-library-compendium' })
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'campaign-library-compendium',
-  components: { CampaignDetailPanel },
-  props: {
-    search: {
-      type: String,
-      default: '',
-    },
-    sort: {
-      type: String,
-      default: 'title',
-    },
-    sortDir: {
-      type: Boolean,
-    },
-  },
-  data: () => ({
-    selected: null as any,
-    dialog: false,
-    loading: false,
-    dOptions: { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
-  }),
+const { mobile, portrait } = useMobile()
 
-  computed: {
-    campaigns() {
+const props = withDefaults(defineProps<{
+  search?: string
+  sort?: string
+  sortDir?: boolean
+}>(), {
+  search: '',
+  sort: 'title'
+})
+
+const selected = ref(null as any)
+const dialog = ref(false)
+const loading = ref(false)
+const dOptions = ref({ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+
+const campaigns = computed(() => {
       return orderBy(
         CampaignStore().CampaignCollection.filter((c) =>
-          c.title.toLowerCase().includes(this.search.toLowerCase())
+          c.title.toLowerCase().includes(props.search.toLowerCase())
         ),
-        this.sort,
-        this.sortDir ? 'asc' : 'desc'
+        props.sort,
+        props.sortDir ? 'asc' : 'desc'
       );
-    },
-  },
+    })
 
-  methods: {
-    openInfo(p) {
+function openInfo(p) {
       if (p) {
-        this.selected = p;
-        this.dialog = true;
+        selected.value = p;
+        dialog.value = true;
       }
-    },
-    removeCampaign(campaign) {
-      this.selected = null;
+    }
+function removeCampaign(campaign) {
+      selected.value = null;
       CampaignStore().DeleteCollectionCampaign(campaign);
-      this.dialog = false;
-    },
-    getLatest(publish_info) {
+      dialog.value = false;
+    }
+function getLatest(publish_info) {
       return publish_info.version_history[publish_info.version_history.length - 1];
-    },
-    async updateCampaign() {
-      this.loading = true;
+    }
+async function updateCampaign() {
+      loading.value = true;
 
       try {
-        const code = this.selected.publish_info.code;
+        const code = selected.value.publish_info.code;
         if (!code) throw new Error('No share code found');
         const queryResult = await GetFromCode(code);
         const campaign = await downloadFromS3(queryResult.uri);
         CampaignStore().AddCollectionCampaign(campaign);
-        this.selected = campaign;
-        this.$notify({
+        selected.value = campaign;
+        notify({
           title: 'Success',
           text: 'Campaign updated successfully',
           data: { color: 'success' },
         });
       } catch (err) {
         logger.error(`Error updating campaign: ${err}`, this);
-        this.$notify({
+        notify({
           title: 'Error',
           text: 'Failed to update campaign',
           data: { color: 'error' },
         });
       } finally {
-        this.loading = false;
+        loading.value = false;
       }
-    },
-  },
-};
+    }
 </script>

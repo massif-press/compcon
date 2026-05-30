@@ -226,31 +226,19 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import CcPilotLicenseStub from '@/ui/components/items/CCPilotLicenseStub.vue';
+import CCPilotLoadout from '@/features/pilot_management/_components/loadout/pilot_loadout/CCPilotLoadout.vue'
+import CCMechLoadout from '@/features/pilot_management/_components/loadout/mech_loadout/CCMechLoadout.vue'
 import LinkSheetHaseBlock from '../_components/LinkSheetHaseBlock.vue';
 import CloneBlock from '../../PilotSheet/sections/narrative/components/CloneBlock.vue';
 import LinkSheetPilotName from '../_components/LinkSheetPilotName.vue';
 import LinkSheetMechHeader from '../_components/LinkSheetMechHeader.vue';
 
-export default {
-  name: 'PilotLinkFull',
-  components: {
-    CcPilotLicenseStub,
-    LinkSheetHaseBlock,
-    CloneBlock,
-    LinkSheetPilotName,
-    LinkSheetMechHeader,
-  },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-    mech: {
-      type: Object,
-      required: false,
-    },
-  },
-};
+defineOptions({ name: 'PilotLinkFull' })
+
+const props = defineProps<{
+  pilot: object
+  mech?: object
+}>()
 </script>

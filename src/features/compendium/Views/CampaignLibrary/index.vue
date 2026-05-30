@@ -56,23 +56,20 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
 import SearchBar from '../../SearchBar.vue';
 import CampaignBookshelf from './components/CampaignBookshelf.vue';
 import { useMobile } from '@/composables/useMobile';
 
+defineOptions({ name: 'compendium-home' })
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'compendium-home',
-  components: { SearchBar, CampaignBookshelf },
-  data: () => ({
-    search: '',
-    isFocused: false,
-  }),
-};
+const { mobile, portrait } = useMobile()
+
+const input = ref<any>(null)
+
+const search = ref('')
+const isFocused = ref(false)
 </script>
 
 <style scoped>

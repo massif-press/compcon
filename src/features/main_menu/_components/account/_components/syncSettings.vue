@@ -128,29 +128,27 @@
   </v-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
+import { notify } from '@/util/notify'
 import { UserStore } from '@/stores'
 
-export default {
-  name: 'SyncSettings',
-  data: () => ({
-    settingsDirty: false,
-    loadingSync: false,
-    syncing: false,
-    selectedItems: [] as string[],
-    forceCustom: false,
-  }),
-  computed: {
-    metadata() {
+const settingsDirty = ref(false)
+const loadingSync = ref(false)
+const syncing = ref(false)
+const selectedItems = ref([] as string[])
+const forceCustom = ref(false)
+
+const metadata = computed(() => {
       return UserStore().UserMetadata
-    },
-    settings() {
+    })
+const settings = computed(() => {
       return UserStore().UserMetadata.SyncSettings
-    },
-    itemsPendingSync() {
+    })
+const itemsPendingSync = computed(() => {
       return UserStore().AllItemsToSync.length + UserStore().AllRemoteItemsToSync.length
-    },
-    syncCountLabel() {
+    })
+const syncCountLabel = computed(() => {
       const items = UserStore().AllItemsToSync
       if (!items.length) return '0 items'
       const counts: Record<string, number> = {}
@@ -160,25 +158,25 @@ export default {
       }
       const parts = Object.entries(counts).map(([t, n]) => `${n} ${t}${n > 1 ? 's' : ''}`)
       return parts.join(' · ')
-    },
-    lastSyncTime() {
+    })
+const lastSyncTime = computed(() => {
       return UserStore().SyncSettings?.lastSyncTime ?? 0
-    },
-    lastSyncLabel() {
-      if (!this.lastSyncTime) return null
-      const diff = Date.now() - this.lastSyncTime
+    })
+const lastSyncLabel = computed(() => {
+      if (!lastSyncTime.value) return null
+      const diff = Date.now() - lastSyncTime.value
       if (diff < 60_000) return 'just now'
       if (diff < 3_600_000) return `${Math.floor(diff / 60_000)} min ago`
       if (diff < 86_400_000) return `${Math.floor(diff / 3_600_000)} hr ago`
-      return new Date(this.lastSyncTime).toLocaleDateString()
-    },
-    cloudStorageFull() {
+      return new Date(lastSyncTime.value).toLocaleDateString()
+    })
+const cloudStorageFull = computed(() => {
       return UserStore().CloudStorageFull
-    },
-    patreonTier() {
+    })
+const patreonTier = computed(() => {
       return UserStore().User.PatreonTierValue
-    },
-    syncOptions() {
+    })
+const syncOptions = computed(() => {
       return [
         {
           title: 'Manual Only',
@@ -194,17 +192,17 @@ export default {
           title: 'Every 30 Minutes',
           value: 'minutes_30',
           subtitle: 'Syncs automatically every 30 minutes. Requires Patreon supporter.',
-          disabled: this.patreonTier < 1,
+          disabled: patreonTier.value < 1,
         },
         {
           title: 'Every 60 Minutes',
           value: 'minutes_60',
           subtitle: 'Syncs automatically every 60 minutes. Requires Patreon supporter.',
-          disabled: this.patreonTier < 1,
+          disabled: patreonTier.value < 1,
         },
       ]
-    },
-    syncItems() {
+    })
+const syncItems = computed(() => {
       return [
         { title: 'Pilot Data', value: 'pilot' },
         { title: 'Pilot Groups', value: 'pilotgroup' },
@@ -212,64 +210,55 @@ export default {
         { title: 'Encounter Data', value: 'encounter' },
         { title: 'Narrative Data', value: 'collectionitem' },
       ]
-    },
-    itemTypePreset() {
-      if (this.forceCustom) return 'custom'
-      const all = this.syncItems.map((i: any) => i.value)
-      const current = this.settings.itemTypes ?? []
+    })
+const itemTypePreset = computed(() => {
+      if (forceCustom.value) return 'custom'
+      const all = syncItems.value.map((i: any) => i.value)
+      const current = settings.value.itemTypes ?? []
       if (!current.length || all.every((v: string) => current.includes(v))) return 'all'
       if (current.length === 1 && current[0] === 'pilot') return 'pilots'
       return 'custom'
-    },
-  },
-  watch: {
-    settings: {
-      handler() {
-        this.settingsDirty = true
-      },
-      deep: true,
-    },
-  },
-  methods: {
-    applyItemTypePreset(preset: string) {
-      const all = this.syncItems.map((i: any) => i.value)
-      if (preset === 'all') { this.settings.itemTypes = all; this.forceCustom = false }
-      else if (preset === 'pilots') { this.settings.itemTypes = ['pilot']; this.forceCustom = false }
-      else if (preset === 'custom') { this.forceCustom = true }
-    },
-    async updateSyncSettings() {
-      this.loadingSync = true
+    })
+
+function applyItemTypePreset(preset: string) {
+      const all = syncItems.value.map((i: any) => i.value)
+      if (preset === 'all') { settings.value.itemTypes = all; forceCustom.value = false }
+      else if (preset === 'pilots') { settings.value.itemTypes = ['pilot']; forceCustom.value = false }
+      else if (preset === 'custom') { forceCustom.value = true }
+    }
+async function updateSyncSettings() {
+      loadingSync.value = true
       await UserStore().setUserMetadata()
       UserStore().setSyncTimer()
-      this.settingsDirty = false
-      this.loadingSync = false
-    },
-    async runSync(override?: 'upload' | 'download') {
+      settingsDirty.value = false
+      loadingSync.value = false
+    }
+async function runSync(override?: 'upload' | 'download') {
       const total = UserStore().AllItemsToSync.length
-      this.syncing = true
+      syncing.value = true
       const failures = await UserStore().AutoSync(override)
-      this.settingsDirty = false
-      this.syncing = false
+      settingsDirty.value = false
+      syncing.value = false
 
       if (failures.length) {
-        this.$notify({
+        notify({
           title: `${total - failures.length}/${total} Items Synced`,
           text: `Failed to fully sync ${failures.length} items. This may be due to missing local data.`,
           type: 'error',
         })
       } else {
-        this.$notify({
+        notify({
           title: `${total}/${total} Items Synced`,
           text: 'All items were successfully synced.',
           type: 'success',
         })
       }
-    },
-    async permDeleteSync() {
-      this.syncing = true
+    }
+async function permDeleteSync() {
+      syncing.value = true
       try {
         const count = await UserStore().permDeleteFlaggedItems()
-        this.$notify({
+        notify({
           title: `${count} Item${count !== 1 ? 's' : ''} Permanently Deleted`,
           text:
             count > 0
@@ -278,15 +267,13 @@ export default {
           type: count > 0 ? 'success' : 'info',
         })
       } catch (e) {
-        this.$notify({
+        notify({
           title: 'Deletion Failed',
           text: 'An error occurred while deleting flagged items.',
           type: 'error',
         })
       } finally {
-        this.syncing = false
+        syncing.value = false
       }
-    },
-  },
-}
+    }
 </script>

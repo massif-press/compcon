@@ -5,30 +5,21 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import UnitPrint from './UnitPrint.vue';
 import EidolonPrint from './EidolonPrint.vue';
 import DoodadPrint from './DoodadPrint.vue';
 import PageBreak from '@/features/pilot_management/Print/components/PageBreak.vue';
 import { Npc } from '@/classes/npc/Npc';
 
-export default {
-  name: 'combined-print',
-  components: {
-    PageBreak,
-  },
-  props: {
-    npcs: {
-      type: Array,
-      required: true,
-    },
-    options: {
-      type: Object,
-      required: true,
-    },
-  },
-  methods: {
-    getComponentByType(npc) {
+defineOptions({ name: 'combined-print' })
+
+const props = defineProps<{
+  npcs: any[]
+  options: object
+}>()
+
+function getComponentByType(npc) {
       switch (npc.ItemType) {
         case 'Unit':
           return UnitPrint;
@@ -37,7 +28,5 @@ export default {
         default:
           return DoodadPrint;
       }
-    },
-  },
-};
+    }
 </script>

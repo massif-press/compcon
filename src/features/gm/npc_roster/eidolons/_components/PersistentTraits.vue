@@ -24,15 +24,13 @@
   </v-row>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import PersistentTraits from '@/classes/npc/eidolon/persistent_traits.json';
 
-export default {
-  name: 'eidolon-persistent-traits',
-  computed: {
-    traits(): any[] {
+defineOptions({ name: 'eidolon-persistent-traits' })
+
+const traits = computed(() => {
       return PersistentTraits;
-    },
-  },
-};
+    })
 </script>

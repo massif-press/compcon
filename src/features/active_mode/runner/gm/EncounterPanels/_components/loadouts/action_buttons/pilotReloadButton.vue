@@ -27,40 +27,37 @@
   </combat-action-button>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { PilotWeapon } from '@/classes/pilot/components/Loadout/equipment/PilotWeapon';
 import CombatActionButton from './CombatActionButton.vue';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 
-export default {
-  name: 'PilotReloadButton',
-  components: { CombatActionButton, MenuInput },
-  props: {
-    action: { type: Object, required: true },
-    owner: { type: Object, required: true },
-    encounter: { type: Object, required: true },
-  },
-  emits: ['activate'],
-  data: () => ({
-    selection: null as PilotWeapon | null,
-  }),
-  computed: {
-    controller() {
-      return this.owner.actor.CombatController;
-    },
-    reloadOptions() {
-      return this.owner.actor.Loadout.Weapons.filter((x) => x.IsLoading && x.Used);
-    },
-  },
-  methods: {
-    apply(close) {
-      if (this.selection) {
-        this.selection.Used = false;
+const props = defineProps<{
+  action: object
+  owner: object
+  encounter: object
+}>()
+
+const emit = defineEmits<{
+  'activate': []
+}>()
+
+const selection = ref(null as PilotWeapon | null)
+
+const controller = computed(() => {
+      return props.owner.actor.CombatController;
+    })
+const reloadOptions = computed(() => {
+      return props.owner.actor.Loadout.Weapons.filter((x) => x.IsLoading && x.Used);
+    })
+
+function apply(close) {
+      if (selection.value) {
+        selection.value.Used = false;
       }
-    },
-    reset() {
-      this.controller.ResetActivation(this.action.Activation);
-    },
-  },
-};
+    }
+function reset() {
+      controller.value.ResetActivation(props.action.Activation);
+    }
 </script>

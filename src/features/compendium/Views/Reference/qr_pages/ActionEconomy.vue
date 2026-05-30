@@ -35,25 +35,19 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
 import ActionCard from '../_components/ActionCard.vue';
 import { useMobile } from '@/composables/useMobile';
 
+defineOptions({ name: 'action-economy' })
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'action-economy',
-  components: { ActionCard },
+const { mobile, portrait } = useMobile()
 
-  data: () => ({
-    actionTypes: [
+const actionTypes = ref([
       { action: 'move', icon: 'mdi-arrow-right-bold-hexagon-outline' },
       { action: 'overcharge', icon: 'cc:overcharge' },
       { action: 'reaction', icon: 'cc:reaction' },
       { action: 'free', icon: 'cc:free' },
-    ],
-  }),
-};
+    ])
 </script>

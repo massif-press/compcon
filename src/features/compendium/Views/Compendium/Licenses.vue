@@ -11,39 +11,33 @@
   </cc-compendium-browser>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { CompendiumStore, UserStore } from '@/stores';
 import License from '@/classes/pilot/components/license/License'
 
-export default {
-  name: 'Licenses',
-
-  data: () => ({
-    headers: [
+const headers = ref([
       { title: 'Manufacturer', key: 'Source' },
       { title: 'Name', key: 'Name' },
       { title: 'Tier I', key: 'T1', sortable: false },
       { title: 'Tier II', key: 'T2', sortable: false },
       { title: 'Tier III', key: 'T3', sortable: false },
-    ],
-    options: {
+    ])
+const options = ref({
       views: ['list', 'table'],
       initialView: 'list',
       groups: ['source', 'lcp', 'none'],
       initialGroup: 'source',
       noSource: true,
       showExotics: UserStore().User.Option('showExotics') as boolean,
-    },
-  }),
-  computed: {
-    manufacturers() {
+    })
+
+const manufacturers = computed(() => {
       return CompendiumStore().Manufacturers;
-    },
-    licenses() {
+    })
+const licenses = computed(() => {
       return CompendiumStore()
         .Licenses.filter((x) => !x.Hidden)
         .sort((a, b) => License.LicenseSort(a, b));
-    },
-  },
-};
+    })
 </script>

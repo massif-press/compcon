@@ -12,37 +12,39 @@
   </cc-panel>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import TalentEmblem from './_TalentEmblem.vue';
 import TalentRankContents from './_TalentRankContents.vue';
 import { useMobile } from '@/composables/useMobile';
 
+defineOptions({ name: 'talent-full' })
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'talent-full',
-  components: { TalentEmblem, TalentRankContents },
-  emits: ['expand', 'add', 'remove'],
-  props: {
-    hideLocked: { type: Boolean },
-    talent: { type: Object, required: true },
-    selectable: { type: Boolean },
-    canAdd: { type: Boolean },
-    hideChange: { type: Boolean },
-    hideTitle: { type: Boolean },
-    inColumn: { type: Boolean },
-    rank: { type: [Number, String], required: false, default: null },
-  },
-  data: () => ({
-    showAll: false,
-  }),
-  computed: {
-    showFull() {
-      if (this.hideLocked) return this.showAll;
+const { mobile, portrait } = useMobile()
+
+const props = withDefaults(defineProps<{
+  hideLocked?: boolean
+  talent: object
+  selectable?: boolean
+  canAdd?: boolean
+  hideChange?: boolean
+  hideTitle?: boolean
+  inColumn?: boolean
+  rank?: number | string
+}>(), {
+  rank: null
+})
+
+const emit = defineEmits<{
+  'expand': []
+  'add': []
+  'remove': []
+}>()
+
+const showAll = ref(false)
+
+const showFull = computed(() => {
+      if (props.hideLocked) return showAll.value;
       return true;
-    },
-  },
-};
+    })
 </script>

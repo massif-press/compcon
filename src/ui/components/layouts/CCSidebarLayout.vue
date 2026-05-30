@@ -26,24 +26,21 @@
   </v-layout>
 </template>
 
-<script lang="ts">
-  export default {
-    name: 'CCSidebarLayout',
-    props: {
-      initialShowNav: {
-        type: Boolean,
-        default: true,
-      },
-    },
-    data() {
-      return {
-        showNav: this.initialShowNav,
-      }
-    },
-    computed: {
-      mobile() {
-        return this.$vuetify.display.mdAndDown
-      },
-    },
-  }
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useDisplay } from 'vuetify'
+
+const _display = useDisplay()
+
+const props = withDefaults(defineProps<{
+  initialShowNav?: boolean
+}>(), {
+  initialShowNav: true
+})
+
+const showNav = ref(props.initialShowNav)
+
+const mobile = computed(() => {
+        return _display.mdAndDown.value
+      })
 </script>

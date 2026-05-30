@@ -51,15 +51,15 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import SectionEditor from '../../_components/SectionEditor.vue';
 
-export default {
-  name: 'gm-narrative-block',
-  components: { SectionEditor },
-  props: {
-    item: { type: Object, required: true },
-    readonly: { type: Boolean, default: false },
-  },
-};
+defineOptions({ name: 'gm-narrative-block' })
+
+const props = withDefaults(defineProps<{
+  item: object
+  readonly?: boolean
+}>(), {
+  readonly: false
+})
 </script>

@@ -512,7 +512,8 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import PrintAction from '../../components/PrintAction.vue';
 import PrintDeployable from '../../components/PrintDeployable.vue';
 import blankLine from '../../components/blank/line.vue';
@@ -521,35 +522,27 @@ import PageBreak from '../../components/PageBreak.vue';
 import PrintBlankLoadout from '../../components/PrintBlankLoadout.vue';
 import PrintBlankSystems from '../../components/PrintBlankSystems.vue';
 import PrintSystemsList from '../../components/PrintSystemsList.vue';
-import { usePrintOptions } from '../_usePrintOptions';
+import { usePrintOptions } from '../usePrintOptions';
 
-export default {
-  name: 'mech-print',
-  mixins: [usePrintOptions],
-  components: { PrintAction, PrintDeployable, blankLine, notes, PageBreak, PrintBlankLoadout, PrintBlankSystems, PrintSystemsList },
-  props: {
-    mech: {
-      type: Object,
-      required: true,
-    },
-    options: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    mounts() {
-      return this.mech.MechLoadoutController.ActiveLoadout.AllMounts(
-        this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-        this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
-        this.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
+defineOptions({ name: 'mech-print' })
+
+const props = defineProps<{
+  mech: object
+  options: object
+}>()
+
+const { blank, landscape, hasPilotOption, hasMechOption, signed, showTag, showCollectedEffect } = usePrintOptions(props)
+
+const mounts = computed(() => {
+      return props.mech.MechLoadoutController.ActiveLoadout.AllMounts(
+        props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
+        props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
+        props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
       );
-    },
-    getHpCols() {
+    })
+const getHpCols = computed(() => {
       return 'auto';
-    },
-  },
-};
+    })
 </script>
 
 <style scoped>

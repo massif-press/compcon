@@ -28,27 +28,24 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import { CompendiumStore } from '@/stores';
 
-export default {
-  name: 'downtime-ref-print',
-  computed: {
-    actions() {
+defineOptions({ name: 'downtime-ref-print' })
+
+const actions = computed(() => {
       return CompendiumStore().DowntimeActions;
-    },
-  },
-  methods: {
-    diceQuantity(item): number {
+    })
+
+function diceQuantity(item) {
       if (!item.Table) return 0;
       return item.Table.die.split('d')[0] || 1;
-    },
-    diceIcon(item): string {
+    }
+function diceIcon(item) {
       if (!item.Table) return 'mdi-dice-d6';
       return `mdi-dice-d${item.Table.die.split('d')[1]}`;
-    },
-  },
-};
+    }
 </script>
 
 <style scoped>

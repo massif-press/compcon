@@ -71,6 +71,7 @@
 
 <script setup lang="ts">
 import { useMobile } from '@/composables/useMobile'
+import CCDamageTypePicker from '@/ui/components/CCDamageTypePicker.vue'
 import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
 
 const props = defineProps({

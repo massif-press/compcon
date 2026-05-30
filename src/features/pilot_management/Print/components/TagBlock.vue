@@ -27,33 +27,23 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'tag-block',
-  props: {
-    tags: {
-      type: Array,
-      required: true,
-    },
-    options: {
-      type: Object,
-      required: true,
-    },
-    mech: {
-      type: Boolean,
-    },
-  },
-  methods: {
-    show() {
-      if (this.mech) return this.options.mechInclude.some((x) => x.title === 'Show Expanded Tags');
-      return this.options.pilotInclude.some((x) => x.title === 'Show Expanded Tags');
-    },
-    showTag(id) {
+<script setup lang="ts">
+defineOptions({ name: 'tag-block' })
+
+const props = defineProps<{
+  tags: any[]
+  options: object
+  mech?: boolean
+}>()
+
+function show() {
+      if (props.mech) return props.options.mechInclude.some((x) => x.title === 'Show Expanded Tags');
+      return props.options.pilotInclude.some((x) => x.title === 'Show Expanded Tags');
+    }
+function showTag(id) {
       const hiddenTags = ['tg_hidden', 'tg_unique', 'tg_set_damage_type'];
       return !hiddenTags.includes(id);
-    },
-  },
-};
+    }
 </script>
 
 <style scoped>

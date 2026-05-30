@@ -65,7 +65,9 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, onMounted, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import * as _ from 'lodash-es';
 import basics from '@/assets/srd/lib/basics.json';
 import combat from '@/assets/srd/lib/combat.json';
@@ -73,120 +75,123 @@ import mechs from '@/assets/srd/lib/mechs.json';
 import pilots from '@/assets/srd/lib/pilots.json';
 import narrative_play from '@/assets/srd/lib/narrative_play.json';
 import { useMobile } from '@/composables/useMobile';
-
-
+const router = useRouter()
 function searchObject(obj, str) {
-  const coll = [] as any[];
-  for (const key in obj) {
-    if (typeof obj[key] === 'object') {
-      return searchObject(obj[key], str);
-    }
-    if (typeof obj[key] === 'string' && obj[key].toLowerCase().includes(str)) {
-      coll.push(obj);
-    }
-  }
-  return coll;
+const coll = [] as any[];
+for (const key in obj) {
+if (typeof obj[key] === 'object') {
+return searchObject(obj[key], str);
 }
-
+if (typeof obj[key] === 'string' && obj[key].toLowerCase().includes(str)) {
+coll.push(obj);
+}
+}
+return coll;
+}
 function fillDataObject(data, refName) {
-  const out = [] as any[];
-  for (const key in data) {
-    out.push({
-      title: data[key].title.en,
-      content: data[key].content.en,
-      location: refName,
-      children: data[key].children?.map((c: any) => ({
-        title: c.title.en,
-        content: c.content.en,
-        location: refName,
-        children: c.children?.map((cb: any) => ({
-          title: cb.title.en,
-          content: cb.content.en,
-          location: refName,
-        })),
-      })),
-    });
-  }
-  return out;
+const out = [] as any[];
+for (const key in data) {
+out.push({
+title: data[key].title.en,
+content: data[key].content.en,
+location: refName,
+children: data[key].children?.map((c: any) => ({
+title: c.title.en,
+content: c.content.en,
+location: refName,
+children: c.children?.map((cb: any) => ({
+title: cb.title.en,
+content: cb.content.en,
+location: refName,
+})),
+})),
+});
 }
-
+return out;
+}
 function flatten(data) {
-  const out = [] as { title: string; content: string; location: string }[];
-  data.forEach((e) => {
-    out.push({
-      title: e.title,
-      content: e.content,
-      location: e.location,
-    });
-    if (e.children) {
-      out.push(...flatten(e.children));
-    }
-  });
-
-  return out;
+const out = [] as { title: string; content: string; location: string }[];
+data.forEach((e) => {
+out.push({
+title: e.title,
+content: e.content,
+location: e.location,
+});
+if (e.children) {
+out.push(...flatten(e.children));
 }
-
+});
+return out;
+}
 function countOccurrences(string, substring) {
-  const regex = new RegExp(substring, 'gi');
-
-  const matches = string.match(regex);
-
-  return matches ? matches.length : 0;
+const regex = new RegExp(substring, 'gi');
+const matches = string.match(regex);
+return matches ? matches.length : 0;
 }
-
 function extract(str) {
-  const pattern = '<span class="highlight">';
-  const maxLength = 500;
-
-  if (str.length <= maxLength) {
-    return str;
-  }
-
-  const patternIndex = str.indexOf(pattern);
-
-  if (patternIndex === -1) {
-    return str.substring(0, maxLength);
-  }
-
-  let start = Math.max(0, patternIndex - Math.floor(maxLength / 2));
-  let end = start + maxLength;
-
-  if (end > str.length) {
-    end = str.length;
-    start = end - maxLength;
-  }
-
-  return str.substring(start, end);
+const pattern = '<span class="highlight">';
+const maxLength = 500;
+if (str.length <= maxLength) {
+return str;
+}
+const patternIndex = str.indexOf(pattern);
+if (patternIndex === -1) {
+return str.substring(0, maxLength);
+}
+let start = Math.max(0, patternIndex - Math.floor(maxLength / 2));
+let end = start + maxLength;
+if (end > str.length) {
+end = str.length;
+start = end - maxLength;
+}
+return str.substring(start, end);
 }
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'SearchResults',
-  data: () => ({
-    lang: 'en',
-    searchText: '',
-    data: [] as any[],
-  }),
-  computed: {
-    searchResults(): any {
-      if (this.searchText.length < 3) {
+const { mobile, portrait } = useMobile()
+
+const input = ref<any>(null)
+
+const lang = ref('en')
+const searchText = ref('')
+const data = ref([] as any[])
+
+data.value = [
+      ...fillDataObject(basics, 'basics'),
+      // ...fillDataObject(using_compcon, 'compcon'),
+      ...fillDataObject(combat, 'combat'),
+      ...fillDataObject(mechs, 'mechs'),
+      ...fillDataObject(pilots, 'pilots'),
+      ...fillDataObject(narrative_play, 'narrative_play'),
+    ];
+    data.value = flatten(data.value);
+
+data.value = [
+      ...fillDataObject(basics, 'basics'),
+      // ...fillDataObject(using_compcon, 'compcon'),
+      ...fillDataObject(combat, 'combat'),
+      ...fillDataObject(mechs, 'mechs'),
+      ...fillDataObject(pilots, 'pilots'),
+      ...fillDataObject(narrative_play, 'narrative_play'),
+    ];
+    data.value = flatten(data.value);
+
+const searchResults = computed(() => {
+      if (searchText.value.length < 3) {
         return [];
       }
 
       let results = [] as any[];
-      this.data.forEach((d) => {
-        results = [...results, ...searchObject(d, this.searchText)];
+      data.value.forEach((d) => {
+        results = [...results, ...searchObject(d, searchText.value)];
       });
 
       results = _.uniqBy(results, 'title');
 
       return results.sort((a, b) => {
-        const aCount = countOccurrences(a.title, this.searchText);
-        const bCount = countOccurrences(b.title, this.searchText);
-        const aContentCount = countOccurrences(a.content, this.searchText);
-        const bContentCount = countOccurrences(b.content, this.searchText);
+        const aCount = countOccurrences(a.title, searchText.value);
+        const bCount = countOccurrences(b.title, searchText.value);
+        const aContentCount = countOccurrences(a.content, searchText.value);
+        const bContentCount = countOccurrences(b.content, searchText.value);
 
         // sort by title occurrences first, then content occurrences
         if (aCount !== bCount) {
@@ -195,56 +200,38 @@ export default {
           return bContentCount - aContentCount;
         }
       });
-    },
-  },
-  watch: {
-    searchText(newVal) {
-      this.setSearch(newVal);
-    },
-  },
-  created() {
-    this.data = [
-      ...fillDataObject(basics, 'basics'),
-      // ...fillDataObject(using_compcon, 'compcon'),
-      ...fillDataObject(combat, 'combat'),
-      ...fillDataObject(mechs, 'mechs'),
-      ...fillDataObject(pilots, 'pilots'),
-      ...fillDataObject(narrative_play, 'narrative_play'),
-    ];
-    this.data = flatten(this.data);
-  },
-  mounted() {
-    this.searchText = this.$route.query.search as string;
-  },
-  methods: {
-    highlightText(sourceText: string) {
+    })
+
+function highlightText(sourceText: string) {
       const text = sourceText.replace(/<[^>]*>/g, '');
-      const regex = new RegExp(this.searchText, 'gi');
+      const regex = new RegExp(searchText.value, 'gi');
       let out = text.replace(regex, (match) => `<span class="highlight">${match}</span>`);
       if (out.length > 500) {
         out = extract(out);
       }
       return out;
-    },
-    setSearch(value: string) {
-      if (value === this.searchText) {
+    }
+function setSearch(value: string) {
+      if (value === searchText.value) {
         return;
       }
-      this.searchText = value;
-      this.$router.replace(`search?search=${value}`);
-    },
-    forceInput() {
-      this.setSearch((this.$refs.input as HTMLInputElement as any).value);
-    },
-    itemLink(item: any) {
-      // this.$router.push(`/srd/reference/${item.location}`);
-      this.$router.push({
+      searchText.value = value;
+      router.replace(`search?search=${value}`);
+    }
+function forceInput() {
+      setSearch((input.value as HTMLInputElement as any).value);
+    }
+function itemLink(item: any) {
+      // router.push(`/srd/reference/${item.location}`);
+      router.push({
         name: `srd_${item.location}`,
         query: { preScroll: item.title },
       });
-    },
-  },
-};
+    }
+
+onMounted(() => {
+searchText.value = route.query.search as string;
+})
 </script>
 
 <style scoped>

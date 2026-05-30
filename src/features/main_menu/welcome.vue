@@ -88,55 +88,51 @@
   </v-scale-transition>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, onMounted } from 'vue'
+import { useDisplay } from 'vuetify'
 import { CompendiumStore, UserStore } from '@/stores';
 import systemMessages from '@/assets/system_messages.json';
 
-export default {
-  name: 'WelcomeDialog',
-  data: () => ({
-    panel: false,
-    tab: 0,
-  }),
-  computed: {
-    systemMessages() {
-      return systemMessages;
-    },
-    unreadMessages() {
-      const userReadMessages = UserStore().User.ReadMessages;
-      return this.systemMessages.filter((message) => !userReadMessages.includes(message.id));
-    },
-    loaded() {
-      return CompendiumStore().loaded;
-    },
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-  },
-  mounted() {
-    this.panel = this.unreadMessages.length > 0;
-    this.tab = this.systemMessages.findIndex((message) =>
-      this.unreadMessages.find((m) => m.id === message.id)
-    );
-  },
-  methods: {
-    isUnread(message) {
-      return !UserStore().User.ReadMessages.includes(message.id);
-    },
-    ack(message) {
-      UserStore().User.SetMessageRead(message.id);
-      if (this.unreadMessages.length)
-        this.tab = this.systemMessages.findIndex((m) =>
-          this.unreadMessages.find((um) => um.id === m.id)
-        );
-      else this.panel = false;
-    },
-    markAllAsRead() {
-      UserStore().User.ReadMessages = this.systemMessages.map((m) => m.id);
-      this.panel = false;
-    },
-  },
-};
+const _display = useDisplay()
+
+defineOptions({ name: 'WelcomeDialog' })
+
+const panel = ref(false)
+const tab = ref(0)
+
+const unreadMessages = computed(() => {
+  const userReadMessages = UserStore().User.ReadMessages
+  return systemMessages.filter((message: any) => !userReadMessages.includes(message.id))
+})
+
+const loaded = computed(() => CompendiumStore().loaded)
+const mobile = computed(() => _display.mdAndDown.value)
+
+function isUnread(message: any) {
+  return !UserStore().User.ReadMessages.includes(message.id)
+}
+
+function ack(message: any) {
+  UserStore().User.SetMessageRead(message.id)
+  if (unreadMessages.value.length)
+    tab.value = systemMessages.findIndex((m: any) =>
+      unreadMessages.value.find((um: any) => um.id === m.id)
+    )
+  else panel.value = false
+}
+
+function markAllAsRead() {
+  UserStore().User.ReadMessages = systemMessages.map((m: any) => m.id)
+  panel.value = false
+}
+
+onMounted(() => {
+  panel.value = unreadMessages.value.length > 0
+  tab.value = systemMessages.findIndex((message: any) =>
+    unreadMessages.value.find((m: any) => m.id === message.id)
+  )
+})
 </script>
 
 <style scoped>

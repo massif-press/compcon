@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid';
+import type { IControllerStatic } from '@/classes/ISerializable'
 import { ICounterData } from './Counter';
 import { ICounterContainer } from './ICounterContainer';
 import { CombatController } from '../CombatController';
@@ -86,5 +87,6 @@ class CounterController {
   }
 }
 
+const _checkController: IControllerStatic<ICounterContainer, ICounterCollection> = CounterController
 export { CounterController };
 export type { ICounterSaveData, ICounterCollection };

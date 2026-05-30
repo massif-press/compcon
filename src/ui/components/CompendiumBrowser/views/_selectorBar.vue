@@ -162,7 +162,9 @@
   </v-footer>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useTheme } from 'vuetify'
 import { Bar } from 'vue-chartjs';
 import {
   Chart as ChartJS,
@@ -176,7 +178,6 @@ import {
 } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import annotationPlugin from 'chartjs-plugin-annotation';
-
 import * as _ from 'lodash-es';
 import { CompendiumItem } from '@/classes/CompendiumItem'
 import { Manufacturer } from '@/classes/Manufacturer'
@@ -185,232 +186,145 @@ import { NpcClass } from '@/classes/npc/class/NpcClass';
 import { getChartAxes, findManufacturer } from './_selectorUtils';
 
 ChartJS.register(
-  LinearScale,
-  PointElement,
-  LineElement,
-  Tooltip,
-  Legend,
-  CategoryScale,
-  BarElement,
-  ChartDataLabels,
-  annotationPlugin
+  LinearScale, PointElement, LineElement, Tooltip, Legend,
+  CategoryScale, BarElement, ChartDataLabels, annotationPlugin
 );
 
-export default {
-  name: 'SelectorScatter',
-  components: { Bar },
-  props: {
-    items: {
-      type: Array,
-      required: true,
+defineOptions({ name: 'SelectorBar' })
+
+const theme = useTheme()
+
+const props = withDefaults(defineProps<{
+  items: any[]
+  group: string
+  manufacturers: any[]
+  licenses: any[]
+  lcpFilter: any[]
+  selected?: object
+  short?: boolean
+  tier?: number
+}>(), {
+  group: 'None',
+  short: false,
+  tier: 1,
+})
+
+const xAxis = ref({ title: '', value: '' })
+const mfTab = ref(0)
+const lcpTab = ref(0)
+const licenseTab = ref(0)
+const sort = ref('')
+
+const axes = computed(() => getChartAxes((props.items[0] as CompendiumItem).ItemType))
+const subtypes = computed(() => _.uniq(props.items.map((x: any) => x.Type)))
+const itemsByLcp = computed(() => _.groupBy(props.items, 'LcpName'))
+const options = computed((): any => {
+  const o = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: { offset: true, ticks: { stepSize: 1 }, title: { display: false } },
     },
-    group: {
-      type: String,
-      required: true,
-      default: 'None',
+    layout: { padding: 10 },
+    elements: { point: { radius: 6, hoverRadius: 6, borderColor: '#fff', borderWidth: 2 } },
+    plugins: {
+      legend: { display: false },
+      annotation: { annotations: {} as any },
+      datalabels: {
+        color: '#fff',
+        backgroundColor: 'rgba(0,0,0,0.8)',
+        borderRadius: 4,
+        anchor: 'start',
+        offset: 8,
+        font: { family: 'Helvetica', size: 12 },
+      },
     },
-    manufacturers: {
-      type: Array,
-      required: true,
-    },
-    licenses: {
-      type: Array,
-      required: true,
-    },
-    lcpFilter: {
-      type: Array,
-      required: true,
-    },
-    selected: {
-      type: Object,
-      required: false,
-    },
-    short: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    tier: {
-      type: Number,
-      required: false,
-      default: 1,
-    },
-  },
-  data: () => ({
-    xAxis: { title: '', value: '' },
-    mfTab: 0,
-    lcpTab: 0,
-    licenseTab: 0,
-    sort: '',
-  }),
-  computed: {
-    axes() {
-      return getChartAxes((this.items[0] as CompendiumItem).ItemType);
-    },
-    subtypes() {
-      return _.uniq(this.items.map((x: any) => x.Type));
-    },
-    itemsByLcp() {
-      return _.groupBy(this.items, 'LcpName');
-    },
-    options(): any {
-      const o = {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            offset: true,
-            ticks: {
-              stepSize: 1,
-            },
-            title: {
-              display: false,
-            },
-          },
+  };
+
+  if (props.selected) {
+    const s = props.selected as any;
+    let stats = s.Stats ? s.Stats : s.StatsByProfile[0].Stats;
+    if (s.ItemType === 'NpcClass') stats = s.Stats.AllStats(props.tier);
+    o.plugins.annotation.annotations = {
+      line1: {
+        type: 'line',
+        yMin: stats[xAxis.value.value] || 0,
+        yMax: stats[xAxis.value.value] || 0,
+        borderColor: theme.themes.value['gms']?.colors?.primary,
+        borderDash: [4, 4],
+        label: {
+          content: `${s.Source || ''} ${s.Name} (${stats[xAxis.value.value]} ${xAxis.value.title})`,
+          display: true,
         },
-        layout: {
-          padding: 10,
-        },
-        elements: {
-          point: {
-            radius: 6,
-            hoverRadius: 6,
-            borderColor: '#fff',
-            borderWidth: 2,
-          },
-        },
-        plugins: {
-          legend: {
-            display: false,
-          },
-          annotation: {
-            annotations: {},
-          },
-          datalabels: {
-            color: '#fff',
-            backgroundColor: 'rgba(0,0,0,0.8)',
-            borderRadius: 4,
-            anchor: 'start',
-            offset: 8,
-            font: {
-              family: 'Helvetica',
-              size: 12,
-            },
-          },
-        },
-      };
+      },
+    };
+  }
 
-      if (this.selected) {
-        let stats = this.selected.Stats
-          ? this.selected.Stats
-          : this.selected.StatsByProfile[0].Stats;
+  return o;
+})
 
-        if (this.selected.ItemType === 'NpcClass') {
-          stats = this.selected.Stats.AllStats(this.tier);
-        }
+xAxis.value = axes.value[0]
 
-        o.plugins.annotation.annotations = {
-          line1: {
-            type: 'line',
-            yMin: stats[this.xAxis.value] || 0,
-            yMax: stats[this.xAxis.value] || 0,
-            borderColor: this.$vuetify.theme.themes.gms.colors.primary,
-            borderDash: [4, 4],
-            label: {
-              content: `${this.selected.Source || ''} ${this.selected.Name} (${stats[this.xAxis.value]
-                } ${this.xAxis.title})`,
-              display: true,
-            },
-          },
-        };
-      }
+function sortItems(items: any[]) {
+  if (sort.value === 'ascending') return _.sortBy(items, (x: any) => x.stats[xAxis.value.value]);
+  if (sort.value === 'descending') return _.sortBy(items, (x: any) => x.stats[xAxis.value.value]).reverse();
+  return items;
+}
+function getChartData(items: any[]) {
+  const data = mapItems(items).map((x: any) => ({
+    label: x.label,
+    value: x.stats[xAxis.value.value],
+    color: theme.current.value.colors.primary,
+  }));
+  return {
+    labels: data.map((row: any) => row.label),
+    datasets: [{
+      label: xAxis.value.title,
+      data: data.map((row: any) => row.value),
+      backgroundColor: data.map((row: any) => row.color),
+    }],
+  };
+}
+function mf(id: string) {
+  return findManufacturer(props.manufacturers as Manufacturer[], id);
+}
+function mapItems(items: any[]) {
+  let arr = [] as any[];
+  if (items && items.length > 0 && (items[0] as any).StatsByProfile)
+    arr = (items as MechWeapon[]).flatMap((x: MechWeapon) => x.StatsByProfile);
+  else if (
+    props.items.length > 0 &&
+    (props.items[0] as any).ItemType === 'NpcClass' &&
+    items && items.length > 0 &&
+    (items[0] as NpcClass).Stats
+  ) {
+    arr = items.map((x: any) => ({
+      ID: x.ID,
+      Name: x.Name,
+      Source: x.Source,
+      LcpName: x.LcpName,
+      Color:
+        x.ItemType === 'NpcClass'
+          ? theme.themes.value['gms']?.colors?.[x.Color]
+          : mf(x.Source).GetColor(),
+      Stats: x.Stats.AllStats(props.tier),
+    }));
+  } else arr = items;
 
-      return o;
-    },
-  },
-  created() {
-    this.xAxis = this.axes[0];
-  },
-  methods: {
-    sortItems(items) {
-      if (this.sort === 'ascending') {
-        return _.sortBy(items, (x: any) => x.stats[this.xAxis.value]);
-      }
-      if (this.sort === 'descending') {
-        return _.sortBy(items, (x: any) => x.stats[this.xAxis.value]).reverse();
-      }
-      return items;
-    },
-    getChartData(items) {
-      const data = this.mapItems(items).map((x) => ({
-        label: x.label,
-        value: x.stats[this.xAxis.value],
-        color: this.$vuetify.theme.current.colors.primary,
-      }));
-
-      return {
-        labels: data.map((row) => row.label),
-        datasets: [
-          {
-            label: this.xAxis.title,
-            data: data.map((row) => row.value),
-            backgroundColor: data.map((row) => row.color),
-          },
-        ],
-      };
-    },
-    mf(id: string) {
-      return findManufacturer(this.manufacturers as Manufacturer[], id);
-    },
-    mapItems(items) {
-      let arr = [] as any[];
-      if (items && items.length > 0 && (items[0] as any).StatsByProfile)
-        arr = (items as MechWeapon[]).flatMap((x: MechWeapon) => x.StatsByProfile);
-      else if (
-        this.items.length > 0 &&
-        (this.items[0] as any).ItemType === 'NpcClass' &&
-        items &&
-        items.length > 0 &&
-        (items[0] as NpcClass).Stats
-      ) {
-        arr = items.map((x) => ({
-          ID: x.ID,
-          Name: x.Name,
-          Source: x.Source,
-          LcpName: x.LcpName,
-          Color:
-            x.ItemType === 'NpcClass'
-              ? this.$vuetify.theme.themes.gms.colors[x.Color]
-              : this.mf(x.Source).GetColor(),
-          Stats: x.Stats.AllStats(this.tier),
-        }));
-      } else arr = items;
-
-      return this.sortItems(
-        arr.map((x: any) => {
-          return {
-            label: x.Name,
-            stats: { ...x.Stats },
-            source: x.Source,
-            lcp: x.LcpName,
-            id: x.ID,
-            color: x.ManufacturerColor || x.Color,
-          };
-        })
-      );
-    },
-
-    getItems(manufacturer?: Manufacturer, lcp?: string) {
-      if (lcp) return this.itemsByLcp[lcp].filter((i: any) => i.LcpName === lcp);
-
-      return this.items.filter((i: any) => i.Source === manufacturer?.ID);
-    },
-    getSubtypeItems(t: string) {
-      return this.items.filter((i: any) => i.Type === t);
-    },
-    getLicenseItems(license: string) {
-      return this.items.filter((i: any) => i.License === license);
-    },
-  },
-};
+  return sortItems(arr.map((x: any) => ({
+    label: x.Name,
+    stats: { ...x.Stats },
+    source: x.Source,
+    lcp: x.LcpName,
+    id: x.ID,
+    color: x.ManufacturerColor || x.Color,
+  })));
+}
+function getItems(manufacturer?: Manufacturer, lcp?: string) {
+  if (lcp) return itemsByLcp.value[lcp].filter((i: any) => i.LcpName === lcp);
+  return props.items.filter((i: any) => i.Source === manufacturer?.ID);
+}
+function getLicenseItems(license: string) {
+  return props.items.filter((i: any) => i.License === license);
+}
 </script>

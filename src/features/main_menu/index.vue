@@ -8,19 +8,11 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import LandingPageMobile from './mobile.vue';
 import LandingPageDesktop from './desktop.vue';
 import WelcomeMessage from './welcome.vue';
 import StorageWarning from './_components/StorageWarning.vue';
 
-export default {
-  name: 'LandingPage',
-  components: {
-    LandingPageMobile,
-    LandingPageDesktop,
-    WelcomeMessage,
-    StorageWarning,
-  },
-};
+defineOptions({ name: 'LandingPage' })
 </script>

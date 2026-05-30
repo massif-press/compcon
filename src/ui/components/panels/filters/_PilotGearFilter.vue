@@ -35,45 +35,50 @@
   </v-row>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'pilot-gear-filter',
-  props: {
-    activeFilters: { type: Object, default: () => ({}) },
-    gearTags: { type: Array, default: () => [] },
-  },
-  data: () => ({
-    tagFilter: [] as string[],
-    typeFilter: [] as string[],
-  }),
-  emits: ['set-filters'],
-  mounted() {
-    const f = this.activeFilters;
-    if (!f || !Object.keys(f).length) return;
-    if (f.Tags) this.tagFilter = f.Tags;
-    if (f.ItemType) this.typeFilter = f.ItemType;
-  },
-  computed: {
-    types() {
+<script setup lang="ts">
+import { computed, ref, onMounted } from 'vue'
+
+defineOptions({ name: 'pilot-gear-filter' })
+
+const props = withDefaults(defineProps<{
+  activeFilters?: object
+  gearTags?: any[]
+}>(), {
+  activeFilters: () => ({}),
+  gearTags: () => []
+})
+
+const emit = defineEmits<{
+  'set-filters': []
+}>()
+
+const tagFilter = ref([] as string[])
+const typeFilter = ref([] as string[])
+
+const types = computed(() => {
       return [
         { title: 'Armor', value: 'PilotArmor' },
         { title: 'Gear', value: 'PilotGear' },
         { title: 'Weapon', value: 'PilotWeapon' },
       ];
-    },
-  },
-  methods: {
-    clear() {
-      this.tagFilter = [];
-      this.typeFilter = [];
-      this.updateFilters();
-    },
-    updateFilters() {
+    })
+
+function clear() {
+      tagFilter.value = [];
+      typeFilter.value = [];
+      updateFilters();
+    }
+function updateFilters() {
       const fObj = {} as any;
-      if (this.tagFilter && this.tagFilter.length > 0) fObj.Tags = this.tagFilter;
-      if (this.typeFilter && this.typeFilter.length > 0) fObj.ItemType = this.typeFilter;
-      this.$emit('set-filters', fObj);
-    },
-  },
-};
+      if (tagFilter.value && tagFilter.value.length > 0) fObj.Tags = tagFilter.value;
+      if (typeFilter.value && typeFilter.value.length > 0) fObj.ItemType = typeFilter.value;
+      emit('set-filters', fObj);
+    }
+
+onMounted(() => {
+const f = props.activeFilters;
+    if (!f || !Object.keys(f).length) return;
+    if (f.Tags) tagFilter.value = f.Tags;
+    if (f.ItemType) typeFilter.value = f.ItemType;
+})
 </script>

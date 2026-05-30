@@ -76,25 +76,18 @@
     :options="options" />
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import PrintAction from './components/PrintAction.vue';
 import NpcFeaturePrint from './components/NpcFeaturePrint.vue';
 import PrintNpcStats from './components/PrintNpcStats.vue';
 import NpcNarrativePrintSection from './components/NpcNarrativePrintSection.vue';
 
-export default {
-  name: 'npc-print',
-  components: {
-    PrintAction,
-    NpcFeaturePrint,
-    PrintNpcStats,
-    NpcNarrativePrintSection,
-  },
-  props: {
-    npc: { type: Object, required: true },
-    options: { type: Object, required: true },
-  },
-};
+defineOptions({ name: 'npc-print' })
+
+const props = defineProps<{
+  npc: object
+  options: object
+}>()
 </script>
 
 <style scoped>

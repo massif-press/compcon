@@ -134,34 +134,30 @@
   <div style="height: 50px" />
 </template>
 
-<script>
-export default {
-  name: 'gm-tool-palette',
-  props: {
-    expanded: {
-      type: Boolean,
-      default: false,
-    },
-    selected: {
-      type: String,
-      default: '',
-    },
-    pc: {
-      type: Boolean
-    },
-    combatant: {
-      type: Object,
-      default: null,
+<script setup lang="ts">
+defineOptions({ name: 'gm-tool-palette' })
+
+const props = withDefaults(defineProps<{
+  expanded?: boolean
+  selected?: string
+  pc?: boolean
+  combatant?: object
+}>(), {
+  expanded: false,
+  selected: '',
+  combatant: null
+})
+
+const emit = defineEmits<{
+  'select-panel': []
+  'open-dice-roller': []
+  'open-table-index': []
+}>()
+
+function selectPanel(panel) {
+      emit('select-panel', panel);
     }
-  },
-  emits: ['select-panel', 'open-dice-roller', 'open-table-index'],
-  methods: {
-    selectPanel(panel) {
-      this.$emit('select-panel', panel);
-    },
-    getBgClass(panel) {
-      return this.selected === panel ? 'bg-primary' : '';
-    },
-  },
-};
+function getBgClass(panel) {
+      return props.selected === panel ? 'bg-primary' : '';
+    }
 </script>

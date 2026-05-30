@@ -44,19 +44,13 @@
   </v-menu>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'section-add-menu',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    main: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-  },
-};
+<script setup lang="ts">
+defineOptions({ name: 'section-add-menu' })
+
+const props = withDefaults(defineProps<{
+  item: object
+  main?: boolean
+}>(), {
+  main: false
+})
 </script>

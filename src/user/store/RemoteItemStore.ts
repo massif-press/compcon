@@ -10,7 +10,7 @@ import { AuthStore } from './AuthStore'
 import { UserMetadataStore } from './UserMetadataStore'
 import { CloudDataStore } from './CloudDataStore'
 import { NotificationStore } from './NotificationStore'
-import { PilotStore, PilotSheetStore } from '@/features/pilot_management/store'
+import { PilotStore, PilotGroupStore, PilotSheetStore } from '@/features/pilot_management/store'
 import { NpcStore } from '@/features/gm/store/npc_store'
 import { NarrativeStore } from '@/features/gm/store/narrative_store'
 import { EncounterStore } from '@/features/gm/store/encounter_store'
@@ -55,7 +55,7 @@ export const RemoteItemStore = defineStore('remoteItems', {
     convertBrokenRemoteToLocal(code: string): void {
       const allLocalItems: any[] = [
         ...PilotStore().Pilots,
-        ...PilotStore().PilotGroups,
+        ...PilotGroupStore().PilotGroups,
         ...NpcStore().Npcs,
         ...NarrativeStore().CollectionItems,
         ...EncounterStore().Encounters,

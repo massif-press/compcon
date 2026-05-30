@@ -199,33 +199,23 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import blankLine from '../components/blank/line.vue';
 
-export default {
-  name: 'bonds-print',
-  components: {
-    blankLine,
-  },
-  props: {
-    bc: {
-      type: Object,
-      required: true,
-    },
-    options: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    blank() {
-      return this.options.content.title === 'Blank';
-    },
-    landscape() {
-      return this.options.orientation === 'landscape';
-    },
-  },
-};
+defineOptions({ name: 'bonds-print' })
+
+const props = defineProps<{
+  bc: object
+  options: object
+}>()
+
+const blank = computed(() => {
+      return props.options.content.title === 'Blank';
+    })
+const landscape = computed(() => {
+      return props.options.orientation === 'landscape';
+    })
 </script>
 
 <style scoped>

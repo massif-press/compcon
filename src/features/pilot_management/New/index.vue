@@ -100,7 +100,9 @@
   </cc-tabs>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import IdentificationPage from './pages/IdentificationPage.vue';
 import SkillsPage from './pages/SkillsPage.vue';
 import TalentsPage from './pages/TalentsPage.vue';
@@ -114,75 +116,27 @@ import CcConfirm from '@/ui/notification/CCConfirm.vue';
 import logger from '@/user/logger';
 import { PilotStore } from '../store';
 import { RemoveItem } from '@/io/Storage';
+const router = useRouter()
 
-export default {
-  name: 'NewPilotWizard',
-  components: {
-    IdentificationPage,
-    SkillsPage,
-    TalentsPage,
-    LicensesPage,
-    CoreBonusesPage,
-    MechSkillsPage,
-    ConfirmPage,
-    TemplatesPage,
-    CcConfirm,
-  },
-  beforeRouteLeave(to, from, next) {
-    if (this.done) {
-      next();
-    } else {
-      (this.$refs as any).confirm
-        .open(
-          'EXIT REGISTRATION',
-          'Are you sure you want to exit the Pilot Registration process? Your pilot will be discarded.'
-        )
-        .then((confirmed) => {
-          if (confirmed) {
-            // delete pilot if it has already been saved to local data
-            RemoveItem('pilots', this.pilot.ID)
-              .then(() => {
-                logger.info(`Deleted pilot ${this.pilot.ID} from local data`, this);
-              })
-              .catch((error) => {
-                logger.error(`Error deleting pilot ${this.pilot.ID} from local data: ${error}`, this, error);
-              });
-            next();
-          } else {
-            next(false);
-          }
-        })
-        .catch((error) => {
-          logger.error(`Error in confirm dialog: ${error}`, this, error);
-          next(false);
-        });
+defineOptions({ name: 'NewPilotWizard' })
+
+const props = withDefaults(defineProps<{
+  groupID?: string
+}>(), {
+  groupID: 'no_group'
+})
+
+const confirm = ref<any>(null)
+const tabs = ref<any>(null)
+
+const step = ref('ident')
+const pilot = ref({} as Pilot)
+const done = ref(false)
+
+pilot.value = new Pilot();
+
+function onDone() {
+      done.value = true;
+      router.push(`/pilot/${pilot.value.ID}`);
     }
-  },
-  props: {
-    groupID: {
-      type: String,
-      required: false,
-      default: 'no_group',
-    },
-  },
-  data: () => ({
-    step: 'ident',
-    pilot: {} as Pilot,
-    done: false,
-  }),
-  watch: {
-    step(newval) {
-      (this.$refs as any).tabs.setTab(newval);
-    },
-  },
-  created() {
-    this.pilot = new Pilot();
-  },
-  methods: {
-    onDone() {
-      this.done = true;
-      this.$router.push(`/pilot/${this.pilot.ID}`);
-    },
-  },
-};
 </script>

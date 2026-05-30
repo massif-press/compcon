@@ -115,52 +115,46 @@
   </end-round-dialog>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import * as _ from 'lodash-es';
 import PilotSheet from '@/features/pilot_management/store/PilotSheet';
 import EndRoundDialog from '../../_shared/_EndRoundDialog.vue';
 
-export default {
-  name: 'PcEndRoundPanel',
-  components: { EndRoundDialog },
-  props: {
-    sheet: {
-      type: PilotSheet,
-      required: true,
-    },
-  },
-  computed: {
-    nextRoundAlerts() {
-      return this.braced || this.getTimeoutStatuses().length || this.getTimeoutStatuses(true).length;
-    },
-    controller() {
-      return this.sheet.Pilot.CombatController;
-    },
-    hasRemainingActions() {
-      return this.controller.HasRemainingActions;
-    },
-    hasTimedEffects() {
-      return this.controller.TimedEffects.length > 0;
-    },
-    braced() {
-      return this.controller.Braced;
-    },
-  },
-  methods: {
-    getTimeoutStatuses(custom = false): any[] {
-      return this.controller[custom ? 'CustomStatuses' : 'Statuses'].filter(
+defineOptions({ name: 'PcEndRoundPanel' })
+
+const props = defineProps<{
+  sheet: PilotSheet
+}>()
+
+const nextRoundAlerts = computed(() => {
+      return braced.value || getTimeoutStatuses().length || getTimeoutStatuses(true).length;
+    })
+const controller = computed(() => {
+      return props.sheet.Pilot.CombatController;
+    })
+const hasRemainingActions = computed(() => {
+      return controller.value.HasRemainingActions;
+    })
+const hasTimedEffects = computed(() => {
+      return controller.value.TimedEffects.length > 0;
+    })
+const braced = computed(() => {
+      return controller.value.Braced;
+    })
+
+function getTimeoutStatuses(custom = false) {
+      return controller.value[custom ? 'CustomStatuses' : 'Statuses'].filter(
         (s) =>
           s.expires &&
           (s.expires.Period === 'turn' ||
           (s.expires.Period === 'round' &&
             s.expires.RoundEndNumber &&
-            s.expires.RoundEndNumber === this.sheet.Round + 1))
+            s.expires.RoundEndNumber === props.sheet.Round + 1))
       );
-    },
-    async endRound(isActive) {
+    }
+async function endRound(isActive) {
       isActive.value = false;
-      await this.sheet.EndRound();
-    },
-  },
-};
+      await props.sheet.EndRound();
+    }
 </script>

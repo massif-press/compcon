@@ -60,97 +60,79 @@
   </v-card-text>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import { notify } from '@/util/notify'
 import { Mech } from '@/classes/mech/Mech'
 import { Pilot } from '@/classes/pilot/Pilot'
 import Statblock from '@/classes/Statblock';
 import { useMobile } from '@/composables/useMobile';
 
+const { mobile, portrait } = useMobile()
+const route = useRoute()
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'StatblockDialog',
-  props: {
-    pilot: {
-      type: Pilot,
-      required: true,
-    },
-    mechID: {
-      type: String,
-      required: false,
-    },
-  },
-  data: () => ({
-    selected_mech: null as any,
-    discordEmoji: false,
-    genRadios: 'full',
-    genItems: [
+const props = defineProps<{
+  pilot: Pilot
+  mechID?: string
+}>()
+
+const selected_mech = ref(null as any)
+const discordEmoji = ref(false)
+const genRadios = ref('full')
+const genItems = ref([
       { title: 'Full', value: 'full' },
       { title: 'Pilot Only', value: 'pilotBuild' },
       { title: 'Mech Only', value: 'mechBuild' },
-    ],
-  }),
-  computed: {
-    defaultMechID() {
-      if (this.$route.name === 'mech-sheet') {
-        return this.mechID;
-      } else return this.pilot.Mechs[this.pilot.Mechs.length - 1]?.ID;
-    },
-    mechSelect() {
-      return this.selected_mech ?? this.defaultMechID;
-    },
-    mech() {
-      return this.mechSelect ? this.pilot.Mechs.find((x) => x.ID === this.mechSelect) : null;
-    },
-    statblock() {
-      if (this.genRadios != 'mechBuild') {
-        return Statblock.Generate(this.pilot, this.mech as Mech, this.discordEmoji, this.genRadios);
-      } else
-        return Statblock.GenerateBuildSummary(this.pilot, this.mech as Mech, this.discordEmoji);
-    },
-  },
+    ])
 
-  watch: {
-    mechSelect() {
-      this.selected_mech = this.mechSelect;
-    },
-  },
-  created() {
-    if (this.defaultMechID === null) {
-      this.genRadios = 'pilotBuild';
+const defaultMechID = computed(() => {
+      if (route.name === 'mech-sheet') {
+        return props.mechID;
+      } else return props.pilot.Mechs[props.pilot.Mechs.length - 1]?.ID;
+    })
+
+if (defaultMechID.value === null) genRadios.value = 'pilotBuild';
+selected_mech.value = defaultMechID.value;
+
+const mechSelect = computed(() => {
+      return selected_mech.value ?? defaultMechID.value;
+    })
+const mech = computed(() => {
+      return mechSelect.value ? props.pilot.Mechs.find((x) => x.ID === mechSelect.value) : null;
+    })
+const statblock = computed(() => {
+      if (genRadios.value != 'mechBuild') {
+        return Statblock.Generate(props.pilot, mech.value as Mech, discordEmoji.value, genRadios.value);
+      } else
+        return Statblock.GenerateBuildSummary(props.pilot, mech.value as Mech, discordEmoji.value);
+    })
+
+function clearSelected() {
+      selected_mech.value = null;
     }
-    this.selected_mech = this.defaultMechID;
-  },
-  methods: {
-    clearSelected() {
-      this.selected_mech = null;
-    },
-    show() {
-      (this.$refs.dialog as any).show();
-    },
-    hide() {
-      (this.$refs.dialog as any).hide();
-    },
-    copy() {
+function show() {
+      (dialog.value as any).show();
+    }
+function hide() {
+      (dialog.value as any).hide();
+    }
+function copy() {
       navigator.clipboard
-        .writeText(this.statblock)
+        .writeText(statblock.value)
         .then(() =>
-          this.$notify({
+          notify({
             title: 'Statblock Copied to Clipboard',
             text: 'Copy Success',
             data: { icon: 'mdi-clipboard-text-outline' },
           })
         )
         .catch(() =>
-          this.$notify({
+          notify({
             title: 'Error',
             text: 'Unable to copy statblocik',
             data: { icon: 'mdi-clipboard-text-outline', color: 'error' },
           })
         );
-    },
-  },
-};
+    }
 </script>

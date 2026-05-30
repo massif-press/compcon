@@ -130,67 +130,57 @@
   </v-btn-toggle>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'BrowserViewToggle',
-  props: {
-    modelValue: {
-      type: Array,
-      required: true,
-    },
-    lcps: {
-      type: Array,
-      required: true,
-    },
-    itemType: {
-      type: String,
-      required: true,
-    },
-    lcpFilter: {
-      type: Array,
-      required: true,
-    },
-    otherFilter: {
-      type: Object,
-      required: true,
-    },
-    lcpConfigs: {
-      type: Array as () => any[],
-      required: false,
-      default: () => [],
-    },
-  },
-  emits: ['update:modelValue', 'set-all', 'set-filters'],
-  computed: {
-    otherFilterCount() {
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import CCItemFilter from '../../panels/filters/CCItemFilter.vue'
+
+defineOptions({ name: 'BrowserViewToggle' })
+
+const props = withDefaults(defineProps<{
+  modelValue: any[]
+  lcps: any[]
+  itemType: string
+  lcpFilter: any[]
+  otherFilter: object
+  lcpConfigs?: any[]
+}>(), {
+  lcpConfigs: () => []
+})
+
+const emit = defineEmits<{
+  'update:modelValue': []
+  'set-all': []
+  'set-filters': []
+}>()
+
+const itemFilter = ref<any>(null)
+
+const otherFilterCount = computed(() => {
       let count = 0;
-      for (const filter of Object.keys(this.otherFilter)) {
-        count += Object.keys(this.otherFilter[filter]).length;
+      for (const filter of Object.keys(props.otherFilter)) {
+        count += Object.keys(props.otherFilter[filter]).length;
       }
       return count;
-    },
-  },
-  methods: {
-    applyLcpConfig(config: any) {
+    })
+
+function applyLcpConfig(config: any) {
       const allowed = new Set(
         config.packList.filter((p: any) => p.allowed).map((p: any) => p.packName)
       );
       allowed.add('Lancer Core Book');
-      this.$emit('update:modelValue', (this.lcps as string[]).filter(lcp => allowed.has(lcp)));
-    },
-    configMatchCount(config: any) {
+      emit('update:modelValue', (props.lcps as string[]).filter(lcp => allowed.has(lcp)));
+    }
+function configMatchCount(config: any) {
       const allowed = new Set(
         config.packList.filter((p: any) => p.allowed).map((p: any) => p.packName)
       );
-      return (this.lcps as string[]).filter(lcp => allowed.has(lcp)).length;
-    },
-    setFilters(filters: any) {
-      this.$emit('set-filters', filters);
-    },
-    clearFilters() {
-      (this.$refs.itemFilter as any).clear();
-      this.$emit('set-filters', {});
-    },
-  },
-};
+      return (props.lcps as string[]).filter(lcp => allowed.has(lcp)).length;
+    }
+function setFilters(filters: any) {
+      emit('set-filters', filters);
+    }
+function clearFilters() {
+      (itemFilter.value as any).clear();
+      emit('set-filters', {});
+    }
 </script>

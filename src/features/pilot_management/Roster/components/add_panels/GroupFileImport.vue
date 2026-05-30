@@ -106,7 +106,7 @@ import { ref } from 'vue'
 import { Pilot, PilotData } from '@/classes/pilot/Pilot'
 import { PilotGroup } from '@/features/pilot_management/store/PilotGroup'
 import { ImportData } from '@/io/Data';
-import { PilotStore } from '@/stores';
+import { PilotStore, PilotGroupStore } from '@/stores';
 import { logger } from '@sentry/vue';
 import { notify } from '@/util/notify';
 
@@ -148,14 +148,14 @@ async function stageImport(file) {
     return
   }
 
-  const exists = PilotStore().PilotGroups.find(
+  const exists = PilotGroupStore().PilotGroups.find(
     (x) => x.Name === data.name
   )
 
   if (exists && !exists.SaveController.IsDeleted) {
     alreadyPresent.value =
       'A pilot group with this name already exists in the roster. Importing will create a unique copy of this group.'
-    const num = PilotStore().PilotGroups.filter(
+    const num = PilotGroupStore().PilotGroups.filter(
       (x) => x.Name === data.name
     ).length
     data.name += ` (${num})`
@@ -171,7 +171,7 @@ function importFile() {
     const importGroup = PilotGroup.Deserialize(stagedData.value)
     newID = importGroup.RenewID()
     importGroup.Pilots = []
-    PilotStore().AddGroup(importGroup)
+    PilotGroupStore().AddGroup(importGroup)
     notify({
       title: 'Import Successful',
       text: `${importGroup.Name} successfully added.`,

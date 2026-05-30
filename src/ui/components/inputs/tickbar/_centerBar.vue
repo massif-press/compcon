@@ -105,79 +105,81 @@
   </v-row>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
+import { useDisplay } from 'vuetify'
 import TickbarMenu from './_tickbarMenu.vue';
 
-export default {
-  name: 'CcTickbarCenter',
-  components: { TickbarMenu },
-  props: {
-    modelValue: { type: Number, default: 0 },
-    label: { type: String },
-    color: { type: String, default: 'primary' },
-    bgColor: { type: String, default: 'panel' },
-    disabled: { type: Boolean },
-    loading: { type: Boolean },
-    icon: { type: String },
-    ticks: { type: Number, default: 6 },
-    controls: { type: Boolean },
-    clearable: { type: Boolean },
-    display: { type: Boolean, default: true },
-    valueTooltips: { type: Boolean, default: false },
-    stopAdd: { type: Boolean },
-    maxSelectable: { type: Number },
-    readonly: { type: Boolean },
-    reverse: { type: Boolean, default: false },
-    minWidth: { type: String },
-    noClip: { type: Boolean },
-    editable: { type: Boolean, default: false },
-  },
-  emits: ['update:modelValue', 'reset'],
-  data() {
-    return {
-      hover: null as number | null,
-      internalValue: this.modelValue,
-    };
-  },
-  computed: {
-    tickThreshold() {
-      if (this.$vuetify.display.mdAndDown) return 20;
-      if (this.$vuetify.display.lgAndDown) return 25;
-      return 35;
-    },
-    pctBackground() {
-      const pct = Math.round((this.modelValue / this.ticks) * 100);
+const _display = useDisplay()
 
-      return `background: linear-gradient(to right, rgb(var(--v-theme-${this.color})) ${pct}%, rgb(var(--v-theme-${this.bgColor})) ${pct}%)`;
-    },
-  },
-  watch: {
-    modelValue(val) {
-      this.internalValue = val;
-    },
-    internalValue(val) {
-      this.$emit('update:modelValue', val);
-    },
-  },
-  methods: {
-    isHovered(i: number) {
-      return this.hover && this.hover >= i;
-    },
-    isMouseovered(i: number) {
-      return this.hover === i;
-    },
-    isActive(i: number) {
-      return this.modelValue && this.modelValue >= i;
-    },
-    setVal(val: number) {
-      if (this.stopAdd && val > this.modelValue) return;
-      if (val > this.ticks) val = this.ticks;
+defineOptions({ name: 'CcTickbarCenter' })
+
+const props = withDefaults(defineProps<{
+  modelValue?: number
+  label?: string
+  color?: string
+  bgColor?: string
+  disabled?: boolean
+  loading?: boolean
+  icon?: string
+  ticks?: number
+  controls?: boolean
+  clearable?: boolean
+  display?: boolean
+  valueTooltips?: boolean
+  stopAdd?: boolean
+  maxSelectable?: number
+  readonly?: boolean
+  reverse?: boolean
+  minWidth?: string
+  noClip?: boolean
+  editable?: boolean
+}>(), {
+  modelValue: 0,
+  color: 'primary',
+  bgColor: 'panel',
+  ticks: 6,
+  display: true,
+  valueTooltips: false,
+  reverse: false,
+  editable: false
+})
+
+const emit = defineEmits<{
+  'update:modelValue': []
+  'reset': []
+}>()
+
+const hover = ref(null as number | null)
+const internalValue = ref(props.modelValue)
+
+const tickThreshold = computed(() => {
+      if (_display.mdAndDown.value) return 20;
+      if (_display.lgAndDown.value) return 25;
+      return 35;
+    })
+const pctBackground = computed(() => {
+      const pct = Math.round((props.modelValue / props.ticks) * 100);
+
+      return `background: linear-gradient(to right, rgb(var(--v-theme-${props.color})) ${pct}%, rgb(var(--v-theme-${props.bgColor})) ${pct}%)`;
+    })
+
+function isHovered(i: number) {
+      return hover.value && hover.value >= i;
+    }
+function isMouseovered(i: number) {
+      return hover.value === i;
+    }
+function isActive(i: number) {
+      return props.modelValue && props.modelValue >= i;
+    }
+function setVal(val: number) {
+      if (props.stopAdd && val > props.modelValue) return;
+      if (val > props.ticks) val = props.ticks;
       if (val < 0) val = 0;
-      if (this.modelValue === 1 && val === 1) val = 0;
-      this.$emit('update:modelValue', val);
-    },
-  },
-};
+      if (props.modelValue === 1 && val === 1) val = 0;
+      emit('update:modelValue', val);
+    }
 </script>
 
 <style scoped>

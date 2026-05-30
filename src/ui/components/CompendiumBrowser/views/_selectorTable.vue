@@ -146,36 +146,31 @@
   </v-data-table>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
 import License from '@/classes/pilot/components/license/License'
 import { NpcClass } from '@/classes/npc/class/NpcClass';
 
-export default {
-  name: 'SelectorTable',
-  props: {
-    headers: {
-      type: Array,
-      required: true,
-    },
-    items: {
-      type: Array,
-      required: true,
-    },
-    selected: {
-      type: Object,
-      required: false,
-      default: null,
-    },
-    selectable: {
-      type: Boolean,
-    },
-  },
-  emits: ['select'],
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-    customKeySort() {
+const _display = useDisplay()
+
+const props = withDefaults(defineProps<{
+  headers: any[]
+  items: any[]
+  selected?: object
+  selectable?: boolean
+}>(), {
+  selected: null
+})
+
+const emit = defineEmits<{
+  'select': []
+}>()
+
+const mobile = computed(() => {
+      return _display.mdAndDown.value;
+    })
+const customKeySort = computed(() => {
       const weaponSizeOrder: Record<string, number> = { Auxiliary: 0, Main: 1, Heavy: 2, Superheavy: 3 };
       return {
         Size: (a: any, b: any) => {
@@ -185,15 +180,12 @@ export default {
           return a - b;
         },
       };
-    },
-  },
-  methods: {
-    formatSize(size: number | Array<number>): string {
+    })
+
+function formatSize(size: number | Array<number>) {
       if (!Array.isArray(size)) {
         size = [size];
       }
       return size.map((s) => (s === 0.5 ? '½' : s)).join(' or ');
-    },
-  },
-};
+    }
 </script>

@@ -57,13 +57,13 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'TalentRankContents',
-  props: {
-    talentRank: { type: Object, required: true },
-    inColumn: { type: Boolean, default: false },
-    hideActions: { type: Boolean, default: false },
-  },
-};
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+  talentRank: object
+  inColumn?: boolean
+  hideActions?: boolean
+}>(), {
+  inColumn: false,
+  hideActions: false
+})
 </script>

@@ -36,55 +36,46 @@
   </cc-solo-modal>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import EquippableMount from '@/classes/mech/components/mount/EquippableMount'
 import { MountType } from '@/classes/enums'
 
-export default {
-  name: 'sh-lock-dialog',
-  props: {
-    mech: {
-      type: Object,
-      required: true,
-    },
-    mount: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    dialog: false,
-  }),
-  computed: {
-    availableMounts() {
-      let candidates = this.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
-        this.mech.Pilot.has('corebonus', 'cb_improved_armament'),
+defineOptions({ name: 'sh-lock-dialog' })
+
+const props = defineProps<{
+  mech: object
+  mount: object
+}>()
+
+const dialog = ref(false)
+
+const availableMounts = computed(() => {
+      let candidates = props.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
+        props.mech.Pilot.has('corebonus', 'cb_improved_armament'),
         false
       ) as EquippableMount[];
-      if (this.superheavySelect) {
-        candidates = this.mech.MechLoadoutController.ActiveLoadout.Mounts.filter(
+      if (superheavySelect.value) {
+        candidates = props.mech.MechLoadoutController.ActiveLoadout.Mounts.filter(
           (m) => m.Type === MountType.Heavy
         );
       }
-      return candidates.filter((x) => x.Name !== this.mount.Name);
-    },
-    superheavySelect() {
+      return candidates.filter((x) => x.Name !== props.mount.Name);
+    })
+const superheavySelect = computed(() => {
       return (
-        this.mech.Pilot.has('corebonus', 'cb_superheavy_mounting') &&
-        this.mech.MechLoadoutController.ActiveLoadout.Mounts.some(
+        props.mech.Pilot.has('corebonus', 'cb_superheavy_mounting') &&
+        props.mech.MechLoadoutController.ActiveLoadout.Mounts.some(
           (m) => m.Type === MountType.Heavy
         ) &&
-        this.mount.Type !== MountType.Heavy
+        props.mount.Type !== MountType.Heavy
       );
-    },
-  },
-  methods: {
-    show() {
-      this.dialog = true;
-    },
-    hide() {
-      this.dialog = false;
-    },
-  },
-};
+    })
+
+function show() {
+      dialog.value = true;
+    }
+function hide() {
+      dialog.value = false;
+    }
 </script>

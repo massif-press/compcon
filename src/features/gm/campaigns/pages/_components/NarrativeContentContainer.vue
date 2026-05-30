@@ -92,56 +92,54 @@
   </v-footer>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { NarrativeStore } from '@/stores';
 import NarrativeContent from './NarrativeContent.vue';
 
-export default {
-  name: 'narrative-content-container',
-  components: { NarrativeContent },
-  props: {
-    item: { type: Object, required: true },
-  },
-  data: () => ({
-    menu: false,
-    tab: 0,
-    search: '',
-  }),
-  computed: {
-    characters() {
+defineOptions({ name: 'narrative-content-container' })
+
+const props = defineProps<{
+  item: object
+}>()
+
+const menu = ref(false)
+const tab = ref(0)
+const search = ref('')
+
+const characters = computed(() => {
       const arr = NarrativeStore().getCharacters.filter((x) => !x.SaveController.IsDeleted);
-      if (this.search)
-        return arr.filter((x) => x.Name.toLowerCase().includes(this.search.toLowerCase()));
+      if (search.value)
+        return arr.filter((x) => x.Name.toLowerCase().includes(search.value.toLowerCase()));
       return arr;
-    },
-    locations() {
+    })
+const locations = computed(() => {
       const arr = NarrativeStore().getLocations.filter((x) => !x.SaveController.IsDeleted);
-      if (this.search)
-        return arr.filter((x) => x.Name.toLowerCase().includes(this.search.toLowerCase()));
+      if (search.value)
+        return arr.filter((x) => x.Name.toLowerCase().includes(search.value.toLowerCase()));
       return arr;
-    },
-    factions() {
+    })
+const factions = computed(() => {
       const arr = NarrativeStore().getFactions.filter((x) => !x.SaveController.IsDeleted);
-      if (this.search)
-        return arr.filter((x) => x.Name.toLowerCase().includes(this.search.toLowerCase()));
+      if (search.value)
+        return arr.filter((x) => x.Name.toLowerCase().includes(search.value.toLowerCase()));
       return arr;
-    },
-    isItemLinked() {
+    })
+const isItemLinked = computed(() => {
       return (
-        this.item.Data &&
-        this.item.Data.ID &&
+        props.item.Data &&
+        props.item.Data.ID &&
         NarrativeStore()
           .CollectionItems.filter((x) => !x.SaveController.IsDeleted)
-          .find((x) => x.ID === this.item.Data.ID)
+          .find((x) => x.ID === props.item.Data.ID)
       );
-    },
-  },
-  methods: {
-    select(e) {
-      this.item.Data = e;
-      this.menu = false;
-    },
-    getIcon(e) {
+    })
+
+function select(e) {
+      props.item.Data = e;
+      menu.value = false;
+    }
+function getIcon(e) {
       switch (e.ItemType) {
         case 'Character':
           return 'mdi-account';
@@ -152,8 +150,8 @@ export default {
         default:
           return '';
       }
-    },
-    getSubtitle(e) {
+    }
+function getSubtitle(e) {
       switch (e.ItemType) {
         case 'Character':
           return `${e.Title}${e.Alias ? `  //  ${e.Alias}` : ''} (${e.Pronouns})<br>${
@@ -164,7 +162,5 @@ export default {
         default:
           return e.Description;
       }
-    },
-  },
-};
+    }
 </script>

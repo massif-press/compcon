@@ -6,17 +6,9 @@
   </v-row>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CCIconDivider',
-  props: {
-    icon: {
-      type: String,
-      required: true,
-    },
-    dense: {
-      type: Boolean,
-    },
-  },
-};
+<script setup lang="ts">
+const props = defineProps<{
+  icon: string
+  dense?: boolean
+}>()
 </script>

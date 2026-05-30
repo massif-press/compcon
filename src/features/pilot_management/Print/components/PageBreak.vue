@@ -11,11 +11,10 @@
   <div style="break-after: page; page-break-after: always; height: 0;" />
 </template>
 
-<script lang="ts">
-export default {
-  name: 'PageBreak',
-  props: {
-    silent: { type: Boolean, default: false },
-  },
-};
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+  silent?: boolean
+}>(), {
+  silent: false
+})
 </script>

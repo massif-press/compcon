@@ -8,17 +8,11 @@
   </div>
 </template>
 
-<script lang="ts">
-  import SectionHeader from '../../components/SectionHeader.vue'
+<script setup lang="ts">
+import CCPilotLoadout from '@/features/pilot_management/_components/loadout/pilot_loadout/CCPilotLoadout.vue'
+import SectionHeader from '../../components/SectionHeader.vue'
 
-  export default {
-    name: 'PilotLoadoutBlock',
-    components: { SectionHeader },
-    props: {
-      pilot: {
-        type: Object,
-        required: true,
-      },
-    },
-  }
+const props = defineProps<{
+  pilot: object
+}>()
 </script>

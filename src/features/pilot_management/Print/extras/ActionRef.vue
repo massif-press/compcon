@@ -31,19 +31,17 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import { CompendiumStore } from '@/stores';
 
-export default {
-  name: 'ActionRefPrint',
-  computed: {
-    actions() {
+defineOptions({ name: 'ActionRefPrint' })
+
+const actions = computed(() => {
       return CompendiumStore()
         .Actions.filter((a) => a && !a.IsDowntimeAction)
         .sort((a, b) => (a.Name > b.Name ? 1 : -1));
-    },
-  },
-};
+    })
 </script>
 
 <style scoped>

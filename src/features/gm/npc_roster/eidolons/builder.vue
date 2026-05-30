@@ -25,12 +25,13 @@
   </v-row>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'eidolon-builder-content',
-  props: {
-    item: { type: Object, required: true },
-    readonly: { type: Boolean, default: false },
-  },
-};
+<script setup lang="ts">
+defineOptions({ name: 'eidolon-builder-content' })
+
+const props = withDefaults(defineProps<{
+  item: object
+  readonly?: boolean
+}>(), {
+  readonly: false
+})
 </script>

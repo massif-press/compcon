@@ -59,47 +59,37 @@
   </cc-masonry-grid>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
 import ShLockCard from '@/features/pilot_management/_components/loadout/mech_loadout/components/mount/_ShLockCard.vue';
 import MechSystemCard from './_mechSystemCard.vue';
 import MechWeaponCard from './_mechWeaponCard.vue';
 import MechMountBonusCard from './_mechMountBonusCard.vue';
 
-export default {
-  name: 'MechCombatLoadout',
-  components: {
-    MechWeaponCard,
-    MechSystemCard,
-    ShLockCard,
-    MechMountBonusCard
-  },
-  props: {
-    mech: {
-      type: Object,
-      required: true,
-    },
-    encounterInstance: {
-      type: Object,
-      required: true,
-    },
-    owner: {
-      type: Object,
-      required: true,
-    },
-  },
-  emits: ['deploy'],
-  computed: {
-    xlColumns() {
-      if (this.mobile) return 1
-      else return this.encounterInstance.MaxMasonryColumns
-    },
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-    systems() {
-      return this.mech.MechLoadoutController.ActiveLoadout.AllActiveSystems;
-    },
-    mounts() {
+const _display = useDisplay()
+
+const props = defineProps<{
+  mech: object
+  encounterInstance: object
+  owner: object
+}>()
+
+const emit = defineEmits<{
+  'deploy': []
+}>()
+
+const xlColumns = computed(() => {
+      if (mobile.value) return 1
+      else return props.encounterInstance.MaxMasonryColumns
+    })
+const mobile = computed(() => {
+      return _display.mdAndDown.value;
+    })
+const systems = computed(() => {
+      return props.mech.MechLoadoutController.ActiveLoadout.AllActiveSystems;
+    })
+const mounts = computed(() => {
       const items = [] as {
         mount: any;
         isIntegrated: boolean;
@@ -108,7 +98,7 @@ export default {
         isSuperheavy: boolean;
       }[];
 
-      this.mech.MechLoadoutController.ActiveLoadout.IntegratedMounts.forEach((im) => {
+      props.mech.MechLoadoutController.ActiveLoadout.IntegratedMounts.forEach((im) => {
         items.push({
           mount: im,
           isIntegrated: true,
@@ -118,27 +108,27 @@ export default {
         });
       });
 
-      if (this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'))
+      if (props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'))
         items.push({
-          mount: this.mech.MechLoadoutController.ActiveLoadout.IntegratedWeaponMount,
+          mount: props.mech.MechLoadoutController.ActiveLoadout.IntegratedWeaponMount,
           isIntegrated: false,
           isIntWeapon: true,
           isImpArm: false,
           isSuperheavy: false,
         });
 
-      if (this.mech.MechLoadoutController.ActiveLoadout.EquippableMounts.length < 3) {
-        if (this.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting'))
+      if (props.mech.MechLoadoutController.ActiveLoadout.EquippableMounts.length < 3) {
+        if (props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting'))
           items.push({
-            mount: this.mech.MechLoadoutController.ActiveLoadout.SuperheavyMount,
+            mount: props.mech.MechLoadoutController.ActiveLoadout.SuperheavyMount,
             isIntegrated: false,
             isIntWeapon: false,
             isImpArm: false,
             isSuperheavy: true,
           });
-        else if (this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'))
+        else if (props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'))
           items.push({
-            mount: this.mech.MechLoadoutController.ActiveLoadout.ImprovedArmamentMount,
+            mount: props.mech.MechLoadoutController.ActiveLoadout.ImprovedArmamentMount,
             isIntegrated: false,
             isIntWeapon: false,
             isImpArm: true,
@@ -146,7 +136,7 @@ export default {
           });
       }
 
-      for (const m of this.mech.MechLoadoutController.ActiveLoadout.EquippableMounts) {
+      for (const m of props.mech.MechLoadoutController.ActiveLoadout.EquippableMounts) {
         // if (m.Bonuses.some((b) => b.ID === 'cb_mount_retrofitting')) continue;
         items.push({
           mount: m,
@@ -158,7 +148,5 @@ export default {
       }
 
       return items;
-    },
-  },
-};
+    })
 </script>

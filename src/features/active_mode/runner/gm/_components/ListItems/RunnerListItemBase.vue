@@ -391,85 +391,61 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import DeployableListItem from './DeployableListItem.vue';
 
-export default {
-  name: 'RunnerListItemBase',
-  components: {
-    DeployableListItem,
-  },
-  props: {
-    selected: {
-      type: Boolean,
-      default: false,
-    },
-    collapsed: {
-      type: Boolean,
-      default: false,
-    },
-    side: {
-      type: String,
-      default: 'neutral',
-    },
-    icon: {
-      type: String,
-      default: 'mdi-cube',
-    },
-    portrait: {
-      type: String,
-      default: '',
-    },
-    statuses: {
-      type: Array,
-      default: () => [],
-    },
-    actor: {
-      type: Object,
-      required: true,
-    },
-    deployed: {
-      type: Array,
-      default: () => [],
-    },
-    isReinforcement: {
-      type: Boolean,
-      default: false,
-    },
-    reinforcementTurn: {
-      type: Number,
-      default: 0,
-    },
-    round: {
-      type: Number,
-      default: 1,
-    },
-    noDrag: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['click', 'deployable-click', 'activate'],
-  computed: {
-    activations() {
-      return this.actor.StatController.CurrentStats['activations'] || 0;
-    },
-    destroyed() {
-      return this.actor.CombatController.IsDestroyed;
-    },
-    customStatuses() {
-      return this.actor.CombatController.CustomStatuses || [];
-    },
-    timeToDeploy() {
-      return this.reinforcementTurn - this.round;
-    },
-  },
-  methods: {
-    onDeployableClick(e, d) {
+const props = withDefaults(defineProps<{
+  selected?: boolean
+  collapsed?: boolean
+  side?: string
+  icon?: string
+  portrait?: string
+  statuses?: any[]
+  actor: object
+  deployed?: any[]
+  isReinforcement?: boolean
+  reinforcementTurn?: number
+  round?: number
+  noDrag?: boolean
+}>(), {
+  selected: false,
+  collapsed: false,
+  side: 'neutral',
+  icon: 'mdi-cube',
+  portrait: '',
+  statuses: () => [],
+  deployed: () => [],
+  isReinforcement: false,
+  reinforcementTurn: 0,
+  round: 1,
+  noDrag: false
+})
+
+const emit = defineEmits<{
+  'click': []
+  'deployable-click': []
+  'activate': []
+}>()
+
+const activations = computed(() => {
+      return props.actor.StatController.CurrentStats['activations'] || 0;
+    })
+const destroyed = computed(() => {
+      return props.actor.CombatController.IsDestroyed;
+    })
+const customStatuses = computed(() => {
+      return props.actor.CombatController.CustomStatuses || [];
+    })
+const timeToDeploy = computed(() => {
+      return props.reinforcementTurn - props.round;
+    })
+
+function onDeployableClick(e, d) {
       if (e?.stopPropagation) e.stopPropagation()
-      this.$emit('deployable-click', d)
-    },
-    damageClass(damage) {
+      emit('deployable-click', d)
+    }
+function damageClass(damage) {
       if (damage.condition === 'immunity') {
         return 'bg-exotic';
       } else if (damage.condition === 'resistance') {
@@ -478,9 +454,7 @@ export default {
         return 'bg-error';
       }
       return '';
-    },
-  },
-};
+    }
 </script>
 
 <style scoped>

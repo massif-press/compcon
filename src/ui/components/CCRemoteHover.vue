@@ -28,28 +28,23 @@
   </v-tooltip>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CcRemoteHover',
-  props: {
-    item: {
-      type: Object,
-    },
-    color: {
-      type: String,
-      default: '',
-    },
-  },
-  computed: {
-    remoteResource() {
-      return this.item && this.item.SaveController && this.item.SaveController.IsRemote;
-    },
-    collectionResource() {
-      return this.item && this.item.SaveController && this.item.SaveController.IsCollectionItem;
-    },
-    itemType() {
-      return (this.item as any).ItemType.toLowerCase() || 'item';
-    },
-  },
-};
+<script setup lang="ts">
+import { computed } from 'vue'
+
+const props = withDefaults(defineProps<{
+  item?: object
+  color?: string
+}>(), {
+  color: ''
+})
+
+const remoteResource = computed(() => {
+      return props.item && props.item.SaveController && props.item.SaveController.IsRemote;
+    })
+const collectionResource = computed(() => {
+      return props.item && props.item.SaveController && props.item.SaveController.IsCollectionItem;
+    })
+const itemType = computed(() => {
+      return (props.item as any).ItemType.toLowerCase() || 'item';
+    })
 </script>

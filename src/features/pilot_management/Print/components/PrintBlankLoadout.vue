@@ -42,16 +42,16 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import BlankLine from './blank/line.vue';
 
-export default {
-  name: 'PrintBlankLoadout',
-  components: { BlankLine },
-  props: {
-    extraMounts: { type: Boolean, default: false },
-    lineHeight: { type: Number, default: 28 },
-    slotHeight: { type: Number, default: 80 },
-  },
-};
+const props = withDefaults(defineProps<{
+  extraMounts?: boolean
+  lineHeight?: number
+  slotHeight?: number
+}>(), {
+  extraMounts: false,
+  lineHeight: 28,
+  slotHeight: 80
+})
 </script>

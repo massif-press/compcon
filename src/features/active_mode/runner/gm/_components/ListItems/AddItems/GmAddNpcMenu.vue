@@ -76,67 +76,59 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { notify } from '@/util/notify'
 import { NpcStore } from '@/stores';
 import * as _ from 'lodash-es';
 import { v4 as uuid } from 'uuid';
 
-export default {
-  name: 'GmAddNpcMenu',
-  props: {
-    encounterInstance: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    tab: 'Roster',
-    search: '',
-    folder: null,
-  }),
-  computed: {
-    npcs() {
+const props = defineProps<{
+  encounterInstance: object
+}>()
+
+const tab = ref('Roster')
+const search = ref('')
+const folder = ref(null)
+
+const npcs = computed(() => {
       return NpcStore()
         .getUnits.filter(
-          (npc) => this.search === '' || npc.Name.toLowerCase().includes(this.search.toLowerCase())
+          (npc) => search.value === '' || npc.Name.toLowerCase().includes(search.value.toLowerCase())
         )
-        .filter((npc) => (this.folder ? npc.FolderController.Folder === this.folder : true));
-    },
-    folders() {
-      const folders = _.uniq(this.npcs.map((npc) => npc.FolderController.Folder)).filter(
+        .filter((npc) => (folder.value ? npc.FolderController.Folder === folder.value : true));
+    })
+const folders = computed(() => {
+      const folders = _.uniq(npcs.value.map((npc) => npc.FolderController.Folder)).filter(
         (f) => !!f
       );
       return folders;
-    },
-  },
+    })
 
-  methods: {
-    add(rosterItem) {
+function add(rosterItem) {
       const npc = rosterItem.Clone(false);
 
       const number =
-        this.encounterInstance.Combatants.filter((c) => c.actor.Name === npc.Name).length + 1;
+        props.encounterInstance.Combatants.filter((c) => c.actor.Name === npc.Name).length + 1;
 
       npc.CombatController.StatController.applyRegisteredCustomStats()
-      npc.FeatureController.BonusController.applyToStats(npc.CombatController.StatController, this.encounterInstance)
+      npc.FeatureController.BonusController.applyToStats(npc.CombatController.StatController, props.encounterInstance)
       npc.CombatController.StatController.resetCurrentStats()
       npc.CombatController.Reset();
 
-      this.encounterInstance.Combatants.push({
+      props.encounterInstance.Combatants.push({
         id: uuid(),
-        index: this.encounterInstance.Combatants.length,
+        index: props.encounterInstance.Combatants.length,
         number: number,
         side: 'enemy',
         type: 'unit',
         actor: npc,
         deployables: [],
       });
-      this.$notify({
+      notify({
         type: 'success',
         title: 'NPC Added',
         text: `${npc.Name} has been added to the encounter.`,
       });
-    },
-  },
-};
+    }
 </script>

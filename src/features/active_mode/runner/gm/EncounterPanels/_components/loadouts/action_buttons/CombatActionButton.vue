@@ -72,41 +72,45 @@
   </cc-dialog>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CombatActionButton',
-  props: {
-    action: { type: Object, required: true },
-    owner: { type: Object, required: true },
-    encounter: { type: Object, required: true },
-    presetWeapon: { type: Object, default: undefined },
-    mobile: { type: Boolean, default: false },
-    actionColor: { type: String, default: null },
-    actionIcon: { type: String, default: null },
-    minWidth: { type: String, default: '70vw' },
-  },
-  computed: {
-    displayColor() {
-      return this.actionColor ?? this.action.Color;
-    },
-    displayIcon() {
-      return this.actionIcon ?? this.action.Icon;
-    },
-    controller() {
-      return this.owner.actor.CombatController.ActiveActor.CombatController;
-    },
-    canActivate() {
-      return this.controller.CanActivate(this.action.Activation);
-    },
-    canUse() {
-      if (this.presetWeapon) {
-        return !this.controller.IsActionUsed(this.presetWeapon.InstanceID);
+<script setup lang="ts">
+import { computed } from 'vue'
+
+const props = withDefaults(defineProps<{
+  action: object
+  owner: object
+  encounter: object
+  presetWeapon?: object
+  mobile?: boolean
+  actionColor?: string
+  actionIcon?: string
+  minWidth?: string
+}>(), {
+  presetWeapon: undefined,
+  mobile: false,
+  actionColor: null,
+  actionIcon: null,
+  minWidth: '70vw'
+})
+
+const displayColor = computed(() => {
+      return props.actionColor ?? props.action.Color;
+    })
+const displayIcon = computed(() => {
+      return props.actionIcon ?? props.action.Icon;
+    })
+const controller = computed(() => {
+      return props.owner.actor.CombatController.ActiveActor.CombatController;
+    })
+const canActivate = computed(() => {
+      return controller.value.CanActivate(props.action.Activation);
+    })
+const canUse = computed(() => {
+      if (props.presetWeapon) {
+        return !controller.value.IsActionUsed(props.presetWeapon.InstanceID);
       }
-      return !this.controller.IsActionUsed(this.action.ID);
-    },
-    available() {
-      return this.canActivate && this.canUse;
-    },
-  },
-};
+      return !controller.value.IsActionUsed(props.action.ID);
+    })
+const available = computed(() => {
+      return canActivate.value && canUse.value;
+    })
 </script>

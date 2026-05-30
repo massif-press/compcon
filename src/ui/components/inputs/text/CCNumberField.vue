@@ -106,50 +106,56 @@
   </v-hover>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
 import { max, min } from 'lodash-es';
 
-export default {
-  name: 'CCTextField',
-  inheritAttrs: false,
-  props: {
-    modelValue: { type: [String, Number] },
-    min: { type: [Number, String], default: 0 },
-    max: { type: [Number, String], default: 100 },
-    density: { type: String },
-    dense: { type: Boolean },
-    hideDetails: { type: [Boolean, String] },
-    type: { type: String },
-    modelModifiers: { default: () => ({}) },
-    color: { type: String, default: 'panel' },
-    size: { type: String },
-    variant: { type: String, default: 'solo' },
-    controls: { type: Boolean },
-    block: { type: Boolean },
-    loading: { type: Boolean },
-    disabled: { type: Boolean },
-    placeholder: { type: String },
-    label: { type: String },
-    icon: { type: String },
-    clearable: { type: Boolean },
-    tooltip: { type: String },
-    tooltipIcon: { type: String },
-    autofocus: { type: Boolean },
-    details: { type: String },
-    readonly: { type: Boolean },
-    optionsIcon: { type: String },
-  },
-  data: () => ({
-    isFocused: false,
-  }),
-  emits: ['update:model-value'],
-  methods: {
-    setVal(val: string | number) {
-      const value = max([min([val, this.max]), this.min]);
-      this.$emit('update:model-value', value);
-    },
-  },
-};
+defineOptions({ name: 'CCTextField' })
+
+const props = withDefaults(defineProps<{
+  modelValue?: string | number
+  min?: number | string
+  max?: number | string
+  density?: string
+  dense?: boolean
+  hideDetails?: boolean | string
+  type?: string
+  modelModifiers?: any
+  color?: string
+  size?: string
+  variant?: string
+  controls?: boolean
+  block?: boolean
+  loading?: boolean
+  disabled?: boolean
+  placeholder?: string
+  label?: string
+  icon?: string
+  clearable?: boolean
+  tooltip?: string
+  tooltipIcon?: string
+  autofocus?: boolean
+  details?: string
+  readonly?: boolean
+  optionsIcon?: string
+}>(), {
+  min: 0,
+  max: 100,
+  modelModifiers: () => ({}),
+  color: 'panel',
+  variant: 'solo'
+})
+
+const emit = defineEmits<{
+  'update:model-value': []
+}>()
+
+const isFocused = ref(false)
+
+function setVal(val: string | number) {
+      const value = max([min([val, props.max]), props.min]);
+      emit('update:model-value', value);
+    }
 </script>
 
 <style scoped>

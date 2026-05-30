@@ -39,38 +39,36 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import { PilotWeapon } from '@/classes/pilot/components/Loadout/equipment/PilotWeapon'
 import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
 import EffectApplicator from '@/ui/components/chips/_activeeffect/EffectApplicator.vue';
 
-export default {
-  name: 'MechWeaponAttack',
-  props: {
-    event: { type: WeaponAttackEvent, required: true },
-    weapon: { type: PilotWeapon, required: true },
-    owner: { type: Object, required: true },
-    encounter: { type: Object, required: true },
-    isAdditionalAux: { type: Boolean, default: false },
-  },
-  components: {
-    EffectApplicator,
-  },
-  computed: {
-    isPilotSheet() {
-      return this.encounter.ItemType === 'PilotSheet';
-    },
-    ordnanceWarning() {
-      if (!this.weapon) return false;
-      if (this.weapon.Tags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
-        return this.owner.actor.CombatController.CanActivate('ordnance') === false;
+defineOptions({ name: 'MechWeaponAttack' })
+
+const props = withDefaults(defineProps<{
+  event: WeaponAttackEvent
+  weapon: PilotWeapon
+  owner: object
+  encounter: object
+  isAdditionalAux?: boolean
+}>(), {
+  isAdditionalAux: false
+})
+
+const isPilotSheet = computed(() => {
+      return props.encounter.ItemType === 'PilotSheet';
+    })
+const ordnanceWarning = computed(() => {
+      if (!props.weapon) return false;
+      if (props.weapon.Tags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
+        return props.owner.actor.CombatController.CanActivate('ordnance') === false;
       }
       return false;
-    },
-    canUse() {
-      if (!this.weapon) return false;
-      return !this.weapon.Used
-    },
-  },
-};
+    })
+const canUse = computed(() => {
+      if (!props.weapon) return false;
+      return !props.weapon.Used
+    })
 </script>

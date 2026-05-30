@@ -16,36 +16,40 @@
   </v-row>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'LayerTierSelector',
-  props: { item: { type: Object, required: true } },
-  emits: ['update'],
-  data: () => ({
-    showConfirmation: false,
-    changed: [] as string[],
-    stagedTier: 0,
-  }),
-  methods: {
-    confirm() {
-      this.showConfirmation = false;
-      this.$emit('update');
-    },
-    cancel() {
-      this.changed = [];
-      this.stagedTier = 0;
-      this.showConfirmation = false;
-    },
-    updateTier(tier: number) {
-      this.item.Tier = tier;
-      this.item.SaveController.save();
-    },
-    overwrite() {
-      this.item.Tier = this.stagedTier;
-      this.stagedTier = 0;
-      this.changed = [];
-      this.confirm();
-    },
-  },
-};
+<script setup lang="ts">
+import { ref } from 'vue'
+
+defineOptions({ name: 'LayerTierSelector' })
+
+const props = defineProps<{
+  item: object
+}>()
+
+const emit = defineEmits<{
+  'update': []
+}>()
+
+const showConfirmation = ref(false)
+const changed = ref([] as string[])
+const stagedTier = ref(0)
+
+function confirm() {
+      showConfirmation.value = false;
+      emit('update');
+    }
+function cancel() {
+      changed.value = [];
+      stagedTier.value = 0;
+      showConfirmation.value = false;
+    }
+function updateTier(tier: number) {
+      props.item.Tier = tier;
+      props.item.SaveController.save();
+    }
+function overwrite() {
+      props.item.Tier = stagedTier.value;
+      stagedTier.value = 0;
+      changed.value = [];
+      confirm();
+    }
 </script>

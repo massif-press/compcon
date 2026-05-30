@@ -61,42 +61,28 @@
   </v-menu>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CcBrokenReference',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    start: {
-      type: Boolean,
-      default: false,
-    },
-    end: {
-      type: Boolean,
-      default: false,
-    },
-    width: {
-      type: String,
-      default: '100%',
-    },
-    color: {
-      type: String,
-      default: '',
-    },
-    force: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  computed: {
-    brew() {
-      if (this.item.Brew) {
-        return this.item.Brew;
+<script setup lang="ts">
+import { computed } from 'vue'
+
+const props = withDefaults(defineProps<{
+  item: object
+  start?: boolean
+  end?: boolean
+  width?: string
+  color?: string
+  force?: boolean
+}>(), {
+  start: false,
+  end: false,
+  width: '100%',
+  color: '',
+  force: false
+})
+
+const brew = computed(() => {
+      if (props.item.Brew) {
+        return props.item.Brew;
       }
-      return this.item.ItemData.brew;
-    },
-  },
-};
+      return props.item.ItemData.brew;
+    })
 </script>

@@ -155,24 +155,14 @@
   </v-menu>
 </template>
 
-<script lang="ts">
-import SimpleMiniPanel from './SimpleMiniPanel.vue';
-import { trackableStatsMixin } from './_trackableStatsMixin';
+<script setup lang="ts">
+import { computed } from 'vue'
+import SimpleMiniPanel from './SimpleMiniPanel.vue'
+import { useTrackableStats } from './useTrackableStats'
 
-export default {
-  name: 'TrackableStatsSimple',
-  components: { SimpleMiniPanel },
-  mixins: [trackableStatsMixin],
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    currentIcon() {
-      return this.batteryIcons[this.batteryIndex];
-    },
-  },
-};
+const props = defineProps<{ item: object }>()
+
+const { batteryIcons, batteryIndex, overchargeTrack, getIcon, drainBattery } = useTrackableStats(props)
+
+const currentIcon = computed(() => batteryIcons.value[batteryIndex.value])
 </script>

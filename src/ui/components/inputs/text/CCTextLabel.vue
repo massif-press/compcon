@@ -121,50 +121,46 @@
   </v-hover>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
 import { useMobile } from '@/composables/useMobile';
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'CcTextLabel',
-  props: {
-    modelValue: { type: String },
-    label: { type: String },
-    placeholder: { type: String },
-    color: { type: String, required: false, default: 'stark' },
-    variant: { type: String, default: 'tonal' },
-    prependIcon: { type: String, default: '' },
-    appendIcon: { type: String, default: '' },
-    detail: { type: String },
-    tooltip: { type: String },
-    tooltipIcon: { type: String },
-    optionsIcon: { type: String },
-    readonly: { type: Boolean, default: false },
-  },
-  emits: ['update:model-value'],
-  data: () => ({
-    menu: false,
-    localValue: '',
-  }),
-  watch: {
-    menu(val) {
-      if (val) {
-        this.localValue = this.modelValue || ''
-      } else {
-        this.$emit('update:model-value', this.localValue)
-      }
-    },
-  },
-  computed: {
-    outlined() {
-      return this.variant === 'outlined';
-    },
-    text() {
-      return this.variant === 'text';
-    },
-  },
-};
+
+const { mobile, portrait } = useMobile()
+
+const props = withDefaults(defineProps<{
+  modelValue?: string
+  label?: string
+  placeholder?: string
+  color?: string
+  variant?: string
+  prependIcon?: string
+  appendIcon?: string
+  detail?: string
+  tooltip?: string
+  tooltipIcon?: string
+  optionsIcon?: string
+  readonly?: boolean
+}>(), {
+  color: 'stark',
+  variant: 'tonal',
+  prependIcon: '',
+  appendIcon: '',
+  readonly: false
+})
+
+const emit = defineEmits<{
+  'update:model-value': []
+}>()
+
+const menu = ref(false)
+const localValue = ref('')
+
+const outlined = computed(() => {
+      return props.variant === 'outlined';
+    })
+const text = computed(() => {
+      return props.variant === 'text';
+    })
 </script>
 
 <style scoped>

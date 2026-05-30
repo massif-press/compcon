@@ -49,43 +49,51 @@
   </v-row>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'weapon-mod-filter',
-  props: {
-    activeFilters: { type: Object, default: () => ({}) },
-    manufacturers: { type: Array, default: () => [] },
-    modTags: { type: Array, default: () => [] },
-    lcpNames: { type: Array, default: () => [] },
-  },
-  data: () => ({
-    sourceFilter: [] as string[],
-    tagFilter: [] as string[],
-    lcpFilter: [] as string[],
-    weaponTypeFilter: [] as string[],
-  }),
-  emits: ['set-filters'],
-  mounted() {
-    const f = this.activeFilters;
-    if (!f || !Object.keys(f).length) return;
-    if (f.Source) this.sourceFilter = f.Source[0] ?? [];
-    if (f.Tags) this.tagFilter = f.Tags;
-    if (f.LcpName) this.lcpFilter = f.LcpName[0] ?? [];
-  },
-  methods: {
-    clear() {
-      this.sourceFilter = [];
-      this.tagFilter = [];
-      this.weaponTypeFilter = [];
-      this.lcpFilter = [];
-    },
-    updateFilters() {
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+
+defineOptions({ name: 'weapon-mod-filter' })
+
+const props = withDefaults(defineProps<{
+  activeFilters?: object
+  manufacturers?: any[]
+  modTags?: any[]
+  lcpNames?: any[]
+}>(), {
+  activeFilters: () => ({}),
+  manufacturers: () => [],
+  modTags: () => [],
+  lcpNames: () => []
+})
+
+const emit = defineEmits<{
+  'set-filters': []
+}>()
+
+const sourceFilter = ref([] as string[])
+const tagFilter = ref([] as string[])
+const lcpFilter = ref([] as string[])
+const weaponTypeFilter = ref([] as string[])
+
+function clear() {
+      sourceFilter.value = [];
+      tagFilter.value = [];
+      weaponTypeFilter.value = [];
+      lcpFilter.value = [];
+    }
+function updateFilters() {
       const fObj = {} as any;
-      if (this.lcpFilter && this.lcpFilter.length) fObj.LcpName = [this.lcpFilter];
-      if (this.sourceFilter && this.sourceFilter.length) fObj.Source = [this.sourceFilter];
-      if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter;
-      this.$emit('set-filters', fObj);
-    },
-  },
-};
+      if (lcpFilter.value && lcpFilter.value.length) fObj.LcpName = [lcpFilter.value];
+      if (sourceFilter.value && sourceFilter.value.length) fObj.Source = [sourceFilter.value];
+      if (tagFilter.value && tagFilter.value.length) fObj.Tags = tagFilter.value;
+      emit('set-filters', fObj);
+    }
+
+onMounted(() => {
+const f = props.activeFilters;
+    if (!f || !Object.keys(f).length) return;
+    if (f.Source) sourceFilter.value = f.Source[0] ?? [];
+    if (f.Tags) tagFilter.value = f.Tags;
+    if (f.LcpName) lcpFilter.value = f.LcpName[0] ?? [];
+})
 </script>

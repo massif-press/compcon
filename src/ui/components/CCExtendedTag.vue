@@ -11,23 +11,12 @@
   </cc-alert>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CCExtendedTag',
-  props: {
-    tag: {
-      type: Object,
-      required: true,
-    },
-    color: {
-      type: String,
-      required: false,
-    },
-    bonus: {
-      type: Number,
-      required: false,
-      default: 0,
-    },
-  },
-};
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+  tag: object
+  color?: string
+  bonus?: number
+}>(), {
+  bonus: 0
+})
 </script>

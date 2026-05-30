@@ -72,38 +72,44 @@
   </v-row>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'mech-item-filter-base',
-  props: {
-    activeFilters: { type: Object, default: () => ({}) },
-    showReset: { type: Boolean, default: false },
-  },
-  emits: ['sp-ll-change'],
-  data: () => ({
-    llFilter: [] as number[],
-    sp: 0,
-    spType: '',
-  }),
-  mounted() {
-    const f = this.activeFilters;
-    if (!f || !Object.keys(f).length) return;
-    if (f.LicenseLevel) this.llFilter = f.LicenseLevel;
-    const spKey = Object.keys(f).find((k: string) => k.startsWith('SP_'));
-    if (spKey) { this.spType = spKey.slice(3); this.sp = f[spKey]; }
-  },
-  methods: {
-    clear() {
-      this.llFilter = [];
-      this.sp = 0;
-      this.spType = '';
-    },
-    emitFilters() {
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+
+defineOptions({ name: 'mech-item-filter-base' })
+
+const props = withDefaults(defineProps<{
+  activeFilters?: object
+  showReset?: boolean
+}>(), {
+  activeFilters: () => ({}),
+  showReset: false
+})
+
+const emit = defineEmits<{
+  'sp-ll-change': []
+}>()
+
+const llFilter = ref([] as number[])
+const sp = ref(0)
+const spType = ref('')
+
+function clear() {
+      llFilter.value = [];
+      sp.value = 0;
+      spType.value = '';
+    }
+function emitFilters() {
       const fObj: any = {};
-      if (this.spType && !Number.isNaN(this.sp)) fObj[`SP_${this.spType}`] = this.sp;
-      if (this.llFilter && this.llFilter.length) fObj.LicenseLevel = this.llFilter.map((x) => Number(x));
-      this.$emit('sp-ll-change', fObj);
-    },
-  },
-};
+      if (spType.value && !Number.isNaN(sp.value)) fObj[`SP_${spType.value}`] = sp.value;
+      if (llFilter.value && llFilter.value.length) fObj.LicenseLevel = llFilter.value.map((x) => Number(x));
+      emit('sp-ll-change', fObj);
+    }
+
+onMounted(() => {
+const f = props.activeFilters;
+    if (!f || !Object.keys(f).length) return;
+    if (f.LicenseLevel) llFilter.value = f.LicenseLevel;
+    const spKey = Object.keys(f).find((k: string) => k.startsWith('SP_'));
+    if (spKey) { spType.value = spKey.slice(3); sp.value = f[spKey]; }
+})
 </script>

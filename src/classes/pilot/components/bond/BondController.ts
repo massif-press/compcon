@@ -1,3 +1,4 @@
+import type { IControllerStatic } from '@/classes/ISerializable'
 import { IClockData, Clock } from '@/classes/narrative/elements/Clock'
 import { Pilot } from '../../Pilot'
 import { BondPower, Bond, IBondData } from './Bond'
@@ -300,5 +301,6 @@ class BondController {
   }
 }
 
+const _checkController: IControllerStatic<Pilot, IPilotBondData> = BondController
 export { BondController }
 export type { IPilotBondData }

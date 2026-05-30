@@ -62,7 +62,8 @@
   </editor-base>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import { Character } from '@/classes/narrative/Character';
 import EditorBase from '../../../gm/_components/EditorBase.vue';
 import NarrativeBlock from './narrativeBlock.vue';
@@ -70,37 +71,36 @@ import { NarrativeStore } from '@/stores';
 import RelationshipEditor from '../../_components/RelationshipEditor.vue';
 import exportAsJson from '@/util/jsonExport';
 
-export default {
-  name: 'GmCharacterEditorBase',
-  components: { EditorBase, RelationshipEditor, NarrativeBlock },
-  props: {
-    item: { type: Object, required: true },
-  },
-  emits: ['exit'],
-  computed: {
-    isRemote() {
-      return (this.item as any).SaveController.IsRemote;
-    },
-  },
-  methods: {
-    exit() {
-      this.$emit('exit');
-    },
-    async save() {
+defineOptions({ name: 'GmCharacterEditorBase' })
+
+const props = defineProps<{
+  item: object
+}>()
+
+const emit = defineEmits<{
+  'exit': []
+}>()
+
+const isRemote = computed(() => {
+      return (props.item as any).SaveController.IsRemote;
+    })
+
+function exit() {
+      emit('exit');
+    }
+async function save() {
       await NarrativeStore().SaveItemData();
-      this.exit();
-    },
-    deleteItem() {
-      (this.item as Character).SaveController.Delete();
-      this.exit();
-    },
-    dupe() {
-      NarrativeStore().CloneItem(this.item as Character);
-      this.exit();
-    },
-    exportItem(item) {
+      exit();
+    }
+function deleteItem() {
+      (props.item as Character).SaveController.Delete();
+      exit();
+    }
+function dupe() {
+      NarrativeStore().CloneItem(props.item as Character);
+      exit();
+    }
+function exportItem(item) {
       exportAsJson(Character.Serialize(item), `${item.Name}.json`);
-    },
-  },
-};
+    }
 </script>

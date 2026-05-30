@@ -1,3 +1,4 @@
+import type { IControllerStatic } from '@/classes/ISerializable'
 import { INpcClassData, NpcClass } from './NpcClass'
 import { CompendiumStore } from '@/features/compendium/store'
 import { Unit } from '../unit/Unit'
@@ -136,5 +137,6 @@ class NpcClassController {
   }
 }
 
+const _checkController: IControllerStatic<Unit, INpcClassSaveData> = NpcClassController
 export { NpcClassController }
 export type { INpcClassSaveData }

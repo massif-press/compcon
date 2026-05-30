@@ -5,17 +5,13 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import CCMechLoadout from '@/features/pilot_management/_components/loadout/mech_loadout/CCMechLoadout.vue'
 import SectionHeader from '../../components/SectionHeader.vue';
 
-export default {
-  name: 'license-requirements-block',
-  components: { SectionHeader },
-  props: {
-    mech: {
-      type: Object,
-      required: true,
-    },
-  },
-};
+defineOptions({ name: 'license-requirements-block' })
+
+const props = defineProps<{
+  mech: object
+}>()
 </script>

@@ -46,29 +46,32 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, onMounted, watch } from 'vue'
+import { useRouter } from 'vue-router'
+import CCSearchResultModal from '@/ui/components/cards/CCSearchResultModal.vue'
+import { useDisplay } from 'vuetify'
 import { flatten, values, pick } from 'lodash-es';
 import { CompendiumItem } from '@/classes/CompendiumItem'
 import { accentInclude } from '@/classes/utility/accent_fold';
 import { CompendiumStore } from '@/stores';
 import { useMobile } from '@/composables/useMobile';
+const router = useRouter()
 
+const _display = useDisplay()
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'SearchResults',
-  data: () => ({
-    selected: null as any,
-    searchText: '',
-    loaded: false,
-  }),
-  computed: {
-    widescreen() {
-      return this.$vuetify.display.lgAndUp;
-    },
-    validResults(): CompendiumItem[] {
+const { mobile, portrait } = useMobile()
+
+const input = ref<any>(null)
+
+const selected = ref(null as any)
+const searchText = ref('')
+const loaded = ref(false)
+
+const widescreen = computed(() => {
+      return _display.lgAndUp.value;
+    })
+const validResults = computed(() => {
       return flatten(
         values(
           pick(CompendiumStore(), [
@@ -90,36 +93,29 @@ export default {
           ])
         )
       ) as CompendiumItem[];
-    },
-    searchResults(): CompendiumItem[] {
-      if (!this.searchText || this.searchText.length < 3) {
+    })
+const searchResults = computed(() => {
+      if (!searchText.value || searchText.value.length < 3) {
         return [];
       }
-      const results = this.validResults.filter(
-        (r) => !r.IsHidden && accentInclude(r.Name, this.searchText)
+      const results = validResults.value.filter(
+        (r) => !r.IsHidden && accentInclude(r.Name, searchText.value)
       );
       return results;
-    },
-  },
-  watch: {
-    searchText(newVal) {
-      this.setSearch(newVal);
-    },
-  },
-  mounted() {
-    this.searchText = this.$route.query.search as string;
-  },
-  methods: {
-    setSearch(value: string) {
-      if (value === this.searchText) {
+    })
+
+function setSearch(value: string) {
+      if (value === searchText.value) {
         return;
       }
-      this.searchText = value;
-      this.$router.replace(`search?search=${value}`);
-    },
-    forceInput() {
-      this.setSearch((this.$refs.input as HTMLInputElement).value);
-    },
-  },
-};
+      searchText.value = value;
+      router.replace(`search?search=${value}`);
+    }
+function forceInput() {
+      setSearch((input.value as HTMLInputElement).value);
+    }
+
+onMounted(() => {
+searchText.value = route.query.search as string;
+})
 </script>

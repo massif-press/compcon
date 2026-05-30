@@ -47,49 +47,40 @@
   </v-row>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'ActiveEffectPanel',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    encounter: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    sortMode: '',
-    sortDir: 'asc',
-    hideUsed: true,
-    showTypes: ['passive', 'damage', 'status', 'save', 'resistance', 'other', 'special'],
-  }),
-  computed: {
-    sortedActiveEffects() {
-      let out = this.item.CombatController.SortedActiveEffects(this.sortMode, this.sortDir);
-      if (this.hideUsed) {
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import CCActiveEffectChip from '@/ui/components/chips/CCActiveEffectChip.vue'
+
+const props = defineProps<{
+  item: object
+  encounter: object
+}>()
+
+const sortMode = ref('')
+const sortDir = ref('asc')
+const hideUsed = ref(true)
+const showTypes = ref(['passive', 'damage', 'status', 'save', 'resistance', 'other', 'special'])
+
+const sortedActiveEffects = computed(() => {
+      let out = props.item.CombatController.SortedActiveEffects(sortMode.value, sortDir.value);
+      if (hideUsed.value) {
         out = out.filter((ae) => !ae.Applied && !ae.Origin?.Used && !ae.Origin?.Destroyed);
       }
 
       return out;
-    },
-    hidden() {
-      return this.item.CombatController.ActiveEffects.length - this.sortedActiveEffects.length;
-    },
-  },
-  methods: {
-    sortBy(criteria) {
-      if (this.sortMode === criteria) {
-        this.sortDir = this.sortDir === 'asc' ? 'desc' : 'asc';
+    })
+const hidden = computed(() => {
+      return props.item.CombatController.ActiveEffects.length - sortedActiveEffects.value.length;
+    })
+
+function sortBy(criteria) {
+      if (sortMode.value === criteria) {
+        sortDir.value = sortDir.value === 'asc' ? 'desc' : 'asc';
       } else {
-        this.sortDir = 'asc';
+        sortDir.value = 'asc';
       }
-      this.sortMode = criteria || '';
-    },
-  },
-};
+      sortMode.value = criteria || '';
+    }
 </script>
 
 <style scoped></style>

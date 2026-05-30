@@ -82,18 +82,13 @@
   </v-card>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'cc-brew-info',
-  props: {
-    controller: {
-      type: Object,
-      required: true,
-    },
-    width: {
-      type: String,
-      default: '100%',
-    },
-  },
-};
+<script setup lang="ts">
+defineOptions({ name: 'cc-brew-info' })
+
+const props = withDefaults(defineProps<{
+  controller: object
+  width?: string
+}>(), {
+  width: '100%'
+})
 </script>

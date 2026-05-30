@@ -41,73 +41,78 @@
   </v-list>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { computeItemGroupings } from '@/composables/useItemGrouping';
 import GmItemListElement from './_components/GMItemListElement.vue';
 import * as _ from 'lodash-es';
 
-export default {
-  name: 'ItemSidebarList',
-  components: { GmItemListElement },
-  props: {
-    itemType: { type: String, required: true },
-    items: { type: Array, required: true },
-    selectedId: { type: String, required: false },
-    search: { type: String, required: false, default: '' },
-    big: { type: Boolean },
-    list: { type: Boolean },
-    table: { type: Boolean },
-    grouping: { type: String, required: false, default: 'Folder' },
-    sorting: { type: String, required: false, default: 'Name' },
-    sortDir: { type: String, required: false, default: 'asc' },
-    allFolders: { type: Array, required: false, default: () => [] },
-    disabled: { type: Boolean, required: false, default: false },
-  },
-  emits: ['open', 'add-new'],
-  data: () => ({
-    collapsed: [] as string[],
-  }),
-  computed: {
-    groupings() {
-      return computeItemGroupings(this.items as any[], this.grouping, this.allFolders as string[]);
-    },
-    searchedItems() {
-      if (!this.search) return this.sort(this.items);
-      return this.sort(this.items.filter((x: any) => (x as any).Name.toLowerCase().includes(this.search?.toLowerCase() || '')));
-    },
-  },
-  methods: {
-    toggleCollapsed(key: string) {
-      const i = this.collapsed.indexOf(key)
-      if (i === -1) this.collapsed.push(key)
-      else this.collapsed.splice(i, 1)
-    },
-    groupedItems(group) {
-      if (this.grouping === 'None') return this.sort(this.searchedItems);
-      return this.sort(group.filter((x: any) => (x as any).Name.toLowerCase().includes(this.search?.toLowerCase() || '')));
-    },
-    sort(items) {
-      return _.orderBy(items, (x: any) => {
-        if (this.sorting === 'Sitrep') return x.Sitrep.Name;
-        if (this.sorting === 'Environment') return x.Environment.Name;
+const props = withDefaults(defineProps<{
+  itemType: string
+  items: any[]
+  selectedId?: string
+  search?: string
+  big?: boolean
+  list?: boolean
+  table?: boolean
+  grouping?: string
+  sorting?: string
+  sortDir?: string
+  allFolders?: any[]
+  disabled?: boolean
+}>(), {
+  search: '',
+  grouping: 'Folder',
+  sorting: 'Name',
+  sortDir: 'asc',
+  allFolders: () => [],
+  disabled: false
+})
 
-        if (x[this.sorting]) return x[this.sorting];
+const emit = defineEmits<{
+  'open': []
+  'add-new': []
+}>()
+
+const collapsed = ref([] as string[])
+
+const groupings = computed(() => {
+      return computeItemGroupings(props.items as any[], props.grouping, props.allFolders as string[]);
+    })
+const searchedItems = computed(() => {
+      if (!props.search) return sort(props.items);
+      return sort(props.items.filter((x: any) => (x as any).Name.toLowerCase().includes(props.search?.toLowerCase() || '')));
+    })
+
+function toggleCollapsed(key: string) {
+      const i = collapsed.value.indexOf(key)
+      if (i === -1) collapsed.value.push(key)
+      else collapsed.value.splice(i, 1)
+    }
+function groupedItems(group) {
+      if (props.grouping === 'None') return sort(searchedItems.value);
+      return sort(group.filter((x: any) => (x as any).Name.toLowerCase().includes(props.search?.toLowerCase() || '')));
+    }
+function sort(items) {
+      return _.orderBy(items, (x: any) => {
+        if (props.sorting === 'Sitrep') return x.Sitrep.Name;
+        if (props.sorting === 'Environment') return x.Environment.Name;
+
+        if (x[props.sorting]) return x[props.sorting];
 
         if (x.StatController) {
           const dk = x.StatController.DisplayKeys.find(
-            (k) => k.title === this.sorting || k.key === this.sorting
+            (k) => k.title === props.sorting || k.key === props.sorting
           );
           if (dk) return x.StatController.getMax(dk.key) ?? 0;
         }
-        if (x.NarrativeController && x.NarrativeController.LabelDictionary[this.sorting])
-          return x.NarrativeController.LabelDictionary[this.sorting];
+        if (x.NarrativeController && x.NarrativeController.LabelDictionary[props.sorting])
+          return x.NarrativeController.LabelDictionary[props.sorting];
         if (x.NpcClassController) {
-          if (this.sorting === 'Role') return x.NpcClassController.Class?.Role ?? '';
-          if (this.sorting === 'Tier') return x.NpcClassController.Tier ?? 0;
-          if (this.sorting === 'Tag') return x.Tag ?? '';
+          if (props.sorting === 'Role') return x.NpcClassController.Class?.Role ?? '';
+          if (props.sorting === 'Tier') return x.NpcClassController.Tier ?? 0;
+          if (props.sorting === 'Tag') return x.Tag ?? '';
         }
-      }, this.sortDir);
-    },
-  },
-};
+      }, props.sortDir);
+    }
 </script>

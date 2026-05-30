@@ -50,23 +50,17 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import V2Auto from '@/features/nav/pages/ExtraContent/components/v2Auto.vue';
 import SearchComponent from '@/features/nav/search/index.vue';
 import * as p from '../../../../package.json';
 
-export default {
-  name: 'CcBanner',
-  components: {
-    V2Auto,
-    SearchComponent,
-  },
-  computed: {
-    version() {
+defineOptions({ name: 'CcBanner' })
+
+const version = computed(() => {
       return p.version;
-    },
-  },
-};
+    })
 </script>
 
 <style scoped>

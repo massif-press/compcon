@@ -9,50 +9,29 @@
   </v-app>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, watch } from 'vue'
+import { useDisplay } from 'vuetify'
 import CcNotify from '@/ui/notification/CCNotify.vue'
 import Navbar from './features/nav/index.vue'
 import PwaUpdatePrompt from '@/ui/components/PWAUpdatePrompt.vue'
 import { UserStore } from './stores'
 
-export default {
-  name: 'Compcon',
-  components: {
-    CcNotify,
-    Navbar,
-    PwaUpdatePrompt,
-  },
-  computed: {
-    heightOffset() {
-      if (this.$vuetify.display.xs) {
+const _display = useDisplay()
+
+defineOptions({ name: 'Compcon' })
+
+document.documentElement.setAttribute('data-font', 'inter')
+    window.addEventListener('beforeunload', UserStore().OnUnload)
+
+const heightOffset = computed(() => {
+      if (_display.xs.value) {
         return '24px'
       } else {
         return '41px'
       }
-    },
-    user() {
+    })
+const user = computed(() => {
       return UserStore().User
-    },
-  },
-  watch: {
-    'user.Theme': {
-      handler: function (newVal) {
-        if (!newVal) return
-        this.$vuetify.theme.change(newVal)
-      },
-      immediate: true,
-    },
-    'user.Font': {
-      handler: function (newVal) {
-        if (!newVal) return
-        document.documentElement.setAttribute('data-font', newVal)
-      },
-      immediate: true,
-    },
-  },
-  created() {
-    document.documentElement.setAttribute('data-font', 'inter')
-    window.addEventListener('beforeunload', UserStore().OnUnload)
-  },
-}
+    })
 </script>

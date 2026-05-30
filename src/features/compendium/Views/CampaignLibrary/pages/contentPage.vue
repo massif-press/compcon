@@ -18,14 +18,12 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import PageContentContainer from './containers/campaignContentContainer.vue';
 
-export default {
-  name: 'campaign-content-page',
-  components: { PageContentContainer },
-  props: {
-    item: { type: Object, required: true },
-  },
-};
+defineOptions({ name: 'campaign-content-page' })
+
+const props = defineProps<{
+  item: object
+}>()
 </script>

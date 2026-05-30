@@ -47,7 +47,8 @@
   </print-page-shell>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, onMounted, ref } from 'vue'
 import PrintPageShell from '@/ui/components/print/PrintPageShell.vue';
 import Layout from './layouts/index.vue';
 import TagInfoPrint from './extras/TagInfoPrint.vue';
@@ -56,55 +57,42 @@ import { NpcStore } from '@/stores';
 import PageBreak from '@/features/pilot_management/Print/components/PageBreak.vue';
 import { Npc } from '@/classes/npc/Npc';
 
-export default {
-  name: 'combined-print',
-  components: {
-    PrintPageShell,
-    Layout,
-    OptionsDialog,
-    PageBreak,
-    TagInfoPrint,
-  },
-  props: {
-    ids: {
-      type: String,
-      required: false,
-    },
-  },
-  data: () => ({
-    selectedNpcs: [] as Npc[],
-    options: {
+defineOptions({ name: 'combined-print' })
+
+const props = defineProps<{
+  ids?: string
+}>()
+
+const selectedNpcs = ref([] as Npc[])
+const options = ref({
       layout: { title: 'Standard', icon: 'mdi-book-open' },
       orientation: { title: 'Portrait', icon: 'mdi-file' },
       paper: { title: 'Letter', icon: 'mdi-text-box-check-outline' },
       include: [],
       extras: [],
       card: [],
-    } as any,
-  }),
-  mounted() {
-    if (!this.ids) return;
-    let idArr = typeof this.ids === 'string' ? JSON.parse(this.ids) : this.ids;
-    this.selectedNpcs = idArr.map((x) => NpcStore().Npcs.find((p) => p.ID === x) as Npc);
-    this.selectedNpcs = this.selectedNpcs.filter((x) => !!x);
-  },
-  computed: {
-    allNpcs() {
+    } as any)
+
+const allNpcs = computed(() => {
       return NpcStore().Npcs.filter((x) => !x.SaveController.IsDeleted);
-    },
-    selectIcon() {
-      return this.selectedNpcs.length === this.allNpcs.length
+    })
+const selectIcon = computed(() => {
+      return selectedNpcs.value.length === allNpcs.value.length
         ? 'mdi-checkbox-marked'
-        : this.selectedNpcs.length
+        : selectedNpcs.value.length
           ? 'mdi-minus-box'
           : 'mdi-checkbox-blank-outline';
-    },
-  },
-  methods: {
-    toggle() {
-      if (this.selectedNpcs.length === this.allNpcs.length) this.selectedNpcs = [];
-      else this.selectedNpcs = this.allNpcs.slice();
-    },
-  },
-};
+    })
+
+function toggle() {
+      if (selectedNpcs.value.length === allNpcs.value.length) selectedNpcs.value = [];
+      else selectedNpcs.value = allNpcs.value.slice();
+    }
+
+onMounted(() => {
+if (!props.ids) return;
+    let idArr = typeof props.ids === 'string' ? JSON.parse(props.ids) : props.ids;
+    selectedNpcs.value = idArr.map((x) => NpcStore().Npcs.find((p) => p.ID === x) as Npc);
+    selectedNpcs.value = selectedNpcs.value.filter((x) => !!x);
+})
 </script>

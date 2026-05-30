@@ -8,12 +8,13 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'gm-card-sort-chip-display',
-  props: {
-    sorting: { type: [Object, String], required: false, default: '' },
-    controller: { type: Object, required: false },
-  },
-};
+<script setup lang="ts">
+defineOptions({ name: 'gm-card-sort-chip-display' })
+
+const props = withDefaults(defineProps<{
+  sorting?: object | string
+  controller?: object
+}>(), {
+  sorting: ''
+})
 </script>

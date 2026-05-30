@@ -53,23 +53,21 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
 import { useMobile } from '@/composables/useMobile';
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'campaign-detail-panel',
-  props: {
-    campaign: Object,
-  },
-  data: () => ({
-    dOptions: { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
-  }),
-  methods: {
-    getLatest(publish_info) {
+
+defineOptions({ name: 'campaign-detail-panel' })
+
+const { mobile, portrait } = useMobile()
+
+const props = defineProps<{
+  campaign?: object
+}>()
+
+const dOptions = ref({ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+
+function getLatest(publish_info) {
       return publish_info.version_history[publish_info.version_history.length - 1];
-    },
-  },
-};
+    }
 </script>

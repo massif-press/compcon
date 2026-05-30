@@ -185,23 +185,30 @@
   </mech-list-item-base>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 import MechListItemBase from './MechListItemBase.vue';
+const router = useRouter()
 
-export default {
-  name: 'mech-list-item',
-  components: { MechListItemBase },
-  props: {
-    mech: { type: Object, required: true },
-  },
-  emits: ['go', 'delete', 'copy'],
-  computed: {
-    loadoutWeapons() {
+defineOptions({ name: 'mech-list-item' })
+
+const props = defineProps<{
+  mech: object
+}>()
+
+const emit = defineEmits<{
+  'go': []
+  'delete': []
+  'copy': []
+}>()
+
+const loadoutWeapons = computed(() => {
       const output = [] as string[];
-      for (const mount of this.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
-        this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-        this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
-        this.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
+      for (const mount of props.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
+        props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
+        props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
+        props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
       )) {
         if (!mount.IsLocked) {
           let str = `<i style="opacity:0.5">${mount.Name}</i>:`;
@@ -217,10 +224,8 @@ export default {
         }
       }
       return output;
-    },
-    loadoutSystems() {
-      return this.mech.MechLoadoutController.ActiveLoadout.AllActiveSystems.map((x) => x.Name);
-    },
-  },
-};
+    })
+const loadoutSystems = computed(() => {
+      return props.mech.MechLoadoutController.ActiveLoadout.AllActiveSystems.map((x) => x.Name);
+    })
 </script>

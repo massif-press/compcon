@@ -323,7 +323,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useDisplay } from 'vuetify'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import HelpPage from './pages/Help.vue'
 import AboutPage from './pages/About.vue'
 import CreditsPage from './pages/Credits.vue'
@@ -337,6 +337,7 @@ import V2Auto from './pages/ExtraContent/components/v2Auto.vue'
 import { UserStore } from '@/stores'
 import { useOnlineStatus } from '@/composables/useOnlineStatus'
 import { NAV_STRINGS } from './strings'
+const router = useRouter()
 
 defineProps<{ pilotManagement?: boolean; encounter?: boolean }>()
 

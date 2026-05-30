@@ -41,7 +41,8 @@
   </print-page-shell>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, onMounted } from 'vue'
 import PrintPageShell from '@/ui/components/print/PrintPageShell.vue';
 import Layout from './layouts/index.vue';
 import OptionsDialog from './OptionsDialog.vue';
@@ -49,56 +50,44 @@ import { NarrativeStore } from '@/stores';
 import PageBreak from '@/features/pilot_management/Print/components/PageBreak.vue';
 import { CollectionItem } from '@/classes/narrative/CollectionItem';
 
-export default {
-  name: 'combined-print',
-  components: {
-    PrintPageShell,
-    Layout,
-    OptionsDialog,
-    PageBreak,
-  },
-  props: {
-    ids: {
-      type: String,
-      required: false,
-    },
-  },
-  data: () => ({
-    selectedItems: [] as CollectionItem[],
-    options: {
+defineOptions({ name: 'combined-print' })
+
+const props = defineProps<{
+  ids?: string
+}>()
+
+const selectedItems = ref([] as CollectionItem[])
+const options = ref({
       layout: { title: 'Standard', icon: 'mdi-book-open' },
       orientation: { title: 'Portrait', icon: 'mdi-file' },
       paper: { title: 'Letter', icon: 'mdi-text-box-check-outline' },
       include: [],
       extras: [],
       card: [],
-    } as any,
-  }),
-  mounted() {
-    if (!this.ids) return;
-    let idArr = typeof this.ids === 'string' ? JSON.parse(this.ids) : this.ids;
-    this.selectedItems = idArr.map(
-      (x) => NarrativeStore().CollectionItems.find((p) => p.ID === x) as CollectionItem
-    );
-    this.selectedItems = this.selectedItems.filter((x) => !!x);
-  },
-  computed: {
-    allItems() {
+    } as any)
+
+const allItems = computed(() => {
       return NarrativeStore().CollectionItems.filter((x) => !x.SaveController.IsDeleted);
-    },
-    selectIcon() {
-      return this.selectedItems.length === this.allItems.length
+    })
+const selectIcon = computed(() => {
+      return selectedItems.value.length === allItems.value.length
         ? 'mdi-checkbox-marked'
-        : this.selectedItems.length
+        : selectedItems.value.length
           ? 'mdi-minus-box'
           : 'mdi-checkbox-blank-outline';
-    },
-  },
-  methods: {
-    toggle() {
-      if (this.selectedItems.length === this.allItems.length) this.selectedItems = [];
-      else this.selectedItems = this.allItems.slice();
-    },
-  },
-};
+    })
+
+function toggle() {
+      if (selectedItems.value.length === allItems.value.length) selectedItems.value = [];
+      else selectedItems.value = allItems.value.slice();
+    }
+
+onMounted(() => {
+if (!props.ids) return;
+    let idArr = typeof props.ids === 'string' ? JSON.parse(props.ids) : props.ids;
+    selectedItems.value = idArr.map(
+      (x) => NarrativeStore().CollectionItems.find((p) => p.ID === x) as CollectionItem
+    );
+    selectedItems.value = selectedItems.value.filter((x) => !!x);
+})
 </script>

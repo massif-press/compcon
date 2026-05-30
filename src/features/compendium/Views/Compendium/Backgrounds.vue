@@ -10,33 +10,26 @@
   </cc-compendium-browser>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { orderBy } from 'lodash-es';
 import { Background } from '@/classes/Background'
-
 import { CompendiumStore } from '@/stores';
 
-export default {
-  name: 'Backgrounds',
-
-  data: () => ({
-    options: {
+const options = ref({
       views: ['list', 'table'],
       initialView: 'list',
       groups: ['lcp', 'none'],
       initialGroup: 'lcp',
       noSource: true,
-    },
-    headers: [
+    })
+const headers = ref([
       { title: 'Content Pack', key: 'LcpName' },
       { title: 'Name', key: 'Name' },
       { title: '', key: 'Terse' },
-    ],
-  }),
-  computed: {
-    backgrounds(): Background[] {
+    ])
+
+const backgrounds = computed(() => {
       return orderBy(CompendiumStore().Backgrounds, 'Name');
-    },
-  },
-};
+    })
 </script>

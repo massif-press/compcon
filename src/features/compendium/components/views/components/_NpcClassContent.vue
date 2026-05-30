@@ -18,52 +18,49 @@
   </c-card-base>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import { Stats } from '@/classes/components/combat/stats/Stats';
 import CCardBase from './_cCardBase.vue';
-
 const keymap = {
-  hull: 'Hull',
-  agi: 'Agi',
-  sys: 'Sys',
-  eng: 'Eng',
-  armor: 'Armor',
-  hp: 'HP',
-  heat: 'HeatCap',
-  evasion: 'Evade',
-  edef: 'E-Def',
-  speed: 'Speed',
-  sensorRange: 'Sensor',
-  saveTarget: 'Save',
+hull: 'Hull',
+agi: 'Agi',
+sys: 'Sys',
+eng: 'Eng',
+armor: 'Armor',
+hp: 'HP',
+heat: 'HeatCap',
+evasion: 'Evade',
+edef: 'E-Def',
+speed: 'Speed',
+sensorRange: 'Sensor',
+saveTarget: 'Save',
 };
 
-export default {
-  name: 'FrameCardContent',
-  components: { CCardBase },
-  props: {
-    item: { type: Object, required: true },
-    small: { type: Boolean },
-    hover: { type: Boolean },
-    highlighted: { type: Boolean },
-  },
-  computed: {
-    stats() {
+defineOptions({ name: 'FrameCardContent' })
+
+const props = defineProps<{
+  item: object
+  small?: boolean
+  hover?: boolean
+  highlighted?: boolean
+}>()
+
+const stats = computed(() => {
       const s = [] as any[];
       for (const key in keymap) {
         s.push({
           title: keymap[key],
           t: [
-            this.item.Stats.Stat(key, 1),
-            this.item.Stats.Stat(key, 2),
-            this.item.Stats.Stat(key, 3),
+            props.item.Stats.Stat(key, 1),
+            props.item.Stats.Stat(key, 2),
+            props.item.Stats.Stat(key, 3),
           ],
           icon: Stats.IconMap[key],
         });
       }
       return s;
-    },
-  },
-};
+    })
 </script>
 
 <style scoped>

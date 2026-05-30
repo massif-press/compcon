@@ -53,55 +53,43 @@
   </v-list-group>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'BrowserListItem',
-  props: {
-    parent: {
-      type: String,
-      required: false,
-    },
-    collection: {
-      type: [String, Object],
-      required: true,
-    },
-    manufacturer: {
-      type: Object,
-      required: false,
-    },
-    role: {
-      type: String,
-      required: false,
-    },
-    feature: {
-      type: String,
-      required: false,
-    },
-  },
-  emits: ['clicked', 'equip'],
-  computed: {
-    groupValue(): string {
-      if (this.parent) return `${this.parent}_${this.collection}`;
-      return this.collection.toString();
-    },
-    mName(): string {
-      if (this.collection?.toLowerCase() === 'exotic') return 'Exotic';
-      const name = this.manufacturer?.Name || 'Other';
+<script setup lang="ts">
+import { computed } from 'vue'
+
+defineOptions({ name: 'BrowserListItem' })
+
+const props = defineProps<{
+  parent?: string
+  collection: string | object
+  manufacturer?: object
+  role?: string
+  feature?: string
+}>()
+
+const emit = defineEmits<{
+  'clicked': []
+  'equip': []
+}>()
+
+const groupValue = computed(() => {
+      if (props.parent) return `${props.parent}_${props.collection}`;
+      return props.collection.toString();
+    })
+const mName = computed(() => {
+      if (props.collection?.toLowerCase() === 'exotic') return 'Exotic';
+      const name = props.manufacturer?.Name || 'Other';
       if (name === 'err') return 'Other';
       return name;
-    },
-  },
-  methods: {
-    roleIcon(): string {
-      if (!this.role) return '';
-      if (this.role.toLowerCase() === 'biological') return 'mdi-heart-pulse';
-      return `cc:role_${this.role.toLowerCase()}`;
-    },
-    featureIcon(): string {
-      if (!this.feature) return '';
-      if (this.feature.toLowerCase() === 'tech') return 'mdi-chart-donut-variant';
-      return `cc:${this.feature.toLowerCase()}`;
-    },
-  },
-};
+    })
+
+function roleIcon() {
+      if (!props.role) return '';
+      if (props.role.toLowerCase() === 'biological') return 'mdi-heart-pulse';
+      return `cc:role_${props.role.toLowerCase()}`;
+    }
+function featureIcon() {
+      if (!props.feature) return '';
+      if (props.feature.toLowerCase() === 'tech') return 'mdi-chart-donut-variant';
+      return `cc:${props.feature.toLowerCase()}`;
+    }
 </script>

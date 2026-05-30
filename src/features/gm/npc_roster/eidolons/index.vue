@@ -44,7 +44,8 @@
   </gm-split-view>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, onMounted } from 'vue'
 import GmSplitView from '../../_views/GMSplitView.vue';
 import Editor from './editor.vue';
 import Builder from './builder.vue';
@@ -54,82 +55,72 @@ import NoGmItem from '../../_views/_components/NoGmItem.vue';
 import { useMobile } from '@/composables/useMobile';
 import { ref, onUnmounted } from 'vue';
 
+defineOptions({ name: 'eidolon-roster' })
 
-export default {
-  name: 'eidolon-roster',
-  components: { GmSplitView, Editor, Builder, NoGmItem },
-  setup() {
-    const npcStore = NpcStore();
+const npcStore = NpcStore();
     const eidolons = ref(npcStore.getEidolons.filter((x) => !x.SaveController.IsDeleted));
     const unsub = npcStore.$subscribe(() => {
       eidolons.value = npcStore.getEidolons.filter((x) => !x.SaveController.IsDeleted);
     });
     onUnmounted(unsub);
-    return { ...useMobile(), npcStore, eidolons };
-  },
-  props: {
-    id: {
-      type: String,
-      required: false,
-    },
-    view: {
-      type: String,
-      required: false,
-      default: 'collection',
-    },
-  },
-  data: () => ({
-    selected: null as Eidolon | null,
-  }),
-  computed: {
-    eidolonAccess() {
+const { mobile, portrait } = useMobile()
+
+const props = withDefaults(defineProps<{
+  id?: string
+  view?: string
+}>(), {
+  view: 'collection'
+})
+
+const view = ref<any>(null)
+
+const selected = ref(null as Eidolon | null)
+
+const eidolonAccess = computed(() => {
       return CompendiumStore().hasEidolonAccess;
-    },
-    groupings() {
+    })
+const groupings = computed(() => {
       const allLabelTitles = new Set(
-        this.npcStore.getAllLabels.filter((x: any) => x.title && x.title.length > 0)
+        npcStore.getAllLabels.filter((x: any) => x.title && x.title.length > 0)
           .map((x: any) => x.title)
       );
 
       const baseGroupings = ['None', 'Class'];
 
       return [...baseGroupings, ...allLabelTitles];
-    },
-    sortings() {
+    })
+const sortings = computed(() => {
       const allLabelTitles = new Set(
-        this.npcStore.getAllLabels.filter((x: any) => x.title && x.title.length > 0)
+        npcStore.getAllLabels.filter((x: any) => x.title && x.title.length > 0)
           .map((x: any) => x.title)
       );
 
       const baseSortings = ['Name', 'Class', 'Created', 'Updated'];
 
       return [...baseSortings, ...allLabelTitles];
-    },
+    })
 
-  },
-  mounted() {
-    if (this.id) {
-      const item = NpcStore().getNpcByID(this.id);
-      if (item && item instanceof Eidolon) {
-        this.selected = item;
-        (this.$refs as any).view.dialog = true;
-      }
+function exit() {
+      selected.value = null;
     }
-  },
-  methods: {
-    exit() {
-      this.selected = null;
-    },
-    openItem(item) {
-      this.selected = item;
-      if (this.mobile) (this.$refs as any).view.minimize();
-    },
-    async addNew() {
+function openItem(item) {
+      selected.value = item;
+      if (mobile.value) view.value.minimize();
+    }
+async function addNew() {
       const e = new Eidolon();
       await NpcStore().AddNpc(e);
-      this.selected = e;
-      if (this.mobile) (this.$refs as any).view.minimize();
-    },
-  },
-};
+      selected.value = e;
+      if (mobile.value) view.value.minimize();
+    }
+
+onMounted(() => {
+if (props.id) {
+      const item = NpcStore().getNpcByID(props.id);
+      if (item && item instanceof Eidolon) {
+        selected.value = item;
+        view.value.dialog = true;
+      }
+    }
+})
 </script>

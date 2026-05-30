@@ -110,44 +110,38 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
 import { type PropType } from 'vue';
 
-export default {
-  name: 'EndEncounterPanel',
-  props: {
-    actionReport: {
-      type: Array as PropType<any[]>,
-      required: true,
-    },
-    confirmMessage: {
-      type: String,
-      required: true,
-    },
-  },
-  emits: ['end'],
-  data: () => ({
-    confirm: false,
-    result: 'PC VICTORY',
-    pilotStatusTypes: [
+const props = defineProps<{
+  actionReport: any[]
+  confirmMessage: string
+}>()
+
+const emit = defineEmits<{
+  'end': []
+}>()
+
+const confirm = ref(false)
+const result = ref('PC VICTORY')
+const pilotStatusTypes = ref([
       'COMBAT EFFECTIVE',
       'INJURED',
       'KIA',
       'MIA',
       'ESCAPED',
       'DISENGAGED',
-    ],
-    npcStatusTypes: [
+    ])
+const npcStatusTypes = ref([
       'OPERATIONAL',
       'DESTROYED',
       'ESCAPED',
       'DISENGAGED',
-    ],
-    mechStatusTypes: [
+    ])
+const mechStatusTypes = ref([
       'OPERATIONAL',
       'DESTROYED',
       'DESTROYED - REACTOR MELTDOWN',
-    ],
-  }),
-};
+    ])
 </script>

@@ -388,44 +388,40 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { notify } from '@/util/notify'
 import { ContentCollection } from '@/classes/components/cloud/ContentCollection';
 import { ContentCollectionStore, UserStore } from '@/stores';
 import CollectionItemSelector from './_components/collectionItemSelector.vue';
 import logger from '@/user/logger';
 import { useMobile } from '@/composables/useMobile';
 
+defineOptions({ name: 'CloudPublish' })
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'CloudPublish',
-  components: { CollectionItemSelector },
-  data: () => ({
-    loading: false,
-    colIdx: 0,
-    dataHeaders: [
+const { mobile, portrait } = useMobile()
+
+const loading = ref(false)
+const colIdx = ref(0)
+const dataHeaders = ref([
       { title: 'Name', key: 'name' },
       { title: 'Type', key: 'item_type' },
       { title: 'Last Updated', key: 'update' },
       { title: '', key: 'actions', width: '115px' },
-    ],
-  }),
-  computed: {
-    collectionLimit(): number {
+    ])
+
+const collectionLimit = computed(() => {
       return UserStore().CollectionPublishLimit;
-    },
-    collections(): ContentCollection[] {
+    })
+const collections = computed(() => {
       return UserStore().UserCollections;
-    },
-  },
-  methods: {
-    canPublish(collection) {
+    })
+
+function canPublish(collection) {
       return collection.Contents.length > 0 && collection.Name && collection.Author;
-    },
-    AddNew() {
-      if (this.collections.length >= this.collectionLimit) {
+    }
+function AddNew() {
+      if (collections.value.length >= collectionLimit.value) {
         return;
       }
       const col = new ContentCollection();
@@ -433,50 +429,48 @@ export default {
         col.Author = UserStore().UserMetadata.Username;
       }
       ContentCollectionStore().ContentCollections.push(col);
-    },
-    hasLocalData(item: any) {
+    }
+function hasLocalData(item: any) {
       return !!item.data;
-    },
-    newLocalData(item: any) {
-      if (!this.hasLocalData(item)) return false;
+    }
+function newLocalData(item: any) {
+      if (!hasLocalData(item)) return false;
       if (!item.data.SaveController) return false;
       return item.last_updated !== item.data.SaveController.LastModified;
-    },
-    async Publish(version: 'minor' | 'major') {
-      this.loading = true;
-      const collection = this.collections[this.colIdx];
+    }
+async function Publish(version: 'minor' | 'major') {
+      loading.value = true;
+      const collection = collections.value[colIdx.value];
       try {
         await collection.Publish(version);
         await UserStore().refreshDbData();
-        this.$notify({
+        notify({
           title: 'Published',
           text: `Collection ${collection.Name} published as version ${collection.Version}`,
           data: { color: 'success', icon: 'mdi-check-circle-outline' },
         });
       } catch (e) {
         logger.error(`Failed to publish collection ${collection.Name}: ${e}`, this, e);
-        this.$notify({
+        notify({
           title: 'Error',
           text: `Failed to publish collection ${collection.Name}`,
           data: { color: 'error', icon: 'mdi-alert' },
         });
       } finally {
-        this.loading = false;
+        loading.value = false;
       }
-    },
-    copy(code) {
+    }
+function copy(code) {
       navigator.clipboard.writeText(code);
-      this.$notify({
+      notify({
         title: 'Copied',
         text: 'Collection share code copied to clipboard',
         data: { color: 'success', icon: 'mdi-check-circle-outline' },
       });
-    },
-    async deleteCollection(collection) {
-      this.loading = true;
+    }
+async function deleteCollection(collection) {
+      loading.value = true;
       await ContentCollection.Delete(collection);
-      this.loading = false;
-    },
-  },
-};
+      loading.value = false;
+    }
 </script>

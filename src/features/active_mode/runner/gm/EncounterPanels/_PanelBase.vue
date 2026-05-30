@@ -284,7 +284,10 @@
   </v-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
+import CCCounterSet from '@/ui/components/items/features/counters/CCCounterSet.vue'
 import DamageConditionSelector from './_components/DamageConditionSelector.vue';
 import CombatActionPanel from './_components/CombatActionPanel.vue';
 import StatusConditionSelector from './_components/StatusConditionSelector.vue';
@@ -295,84 +298,55 @@ import TimedEffectPanel from './_components/TimedEffectPanel.vue';
 import TrackableStatsComplex from './_components/TrackableStatsComplex.vue';
 import TrackableStatsSimple from './_components/TrackableStatsSimple.vue';
 
-export default {
-  name: 'EncounterPanelBase',
-  components: {
-    DamageConditionSelector,
-    CombatActionPanel,
-    StatusConditionSelector,
-    DamageMenu,
-    CustomStatEditor,
-    ActiveEffectPanel,
-    TimedEffectPanel,
-    TrackableStatsComplex,
-    TrackableStatsSimple,
-  },
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    encounterInstance: {
-      type: Object,
-      required: true,
-    },
-    hidePalette: {
-      type: Boolean,
-      default: false,
-    },
-    noStats: {
-      type: Boolean,
-      default: false,
-    },
-    noActions: {
-      type: Boolean,
-      default: false,
-    },
-    noConditions: {
-      type: Boolean,
-      default: false,
-    },
-    onePanel: {
-      type: Boolean,
-      default: false,
-    },
+const _display = useDisplay()
 
-  },
-  computed: {
-    xlPanels() {
-      if (!this.encounterInstance.LayoutColumns) return 12;
-      if (this.onePanel) return 12;
-      if (this.mobile) return 12;
+defineOptions({ name: 'EncounterPanelBase' })
+
+const props = withDefaults(defineProps<{
+  item: object
+  encounterInstance: object
+  hidePalette?: boolean
+  noStats?: boolean
+  noActions?: boolean
+  noConditions?: boolean
+  onePanel?: boolean
+}>(), {
+  hidePalette: false,
+  noStats: false,
+  noActions: false,
+  noConditions: false,
+  onePanel: false
+})
+
+const xlPanels = computed(() => {
+      if (!props.encounterInstance.LayoutColumns) return 12;
+      if (props.onePanel) return 12;
+      if (mobile.value) return 12;
       return 6
-    },
-
-    extraStatSet() {
-      if (this.item.ItemType === 'mech') return []
+    })
+const extraStatSet = computed(() => {
+      if (props.item.ItemType === 'mech') return []
       return ['attackBonus', 'grapple', 'ram']
-    },
-
-    statColumns() {
+    })
+const statColumns = computed(() => {
       const spacer = { key: '__spacer__' }
-      const g1 = this.item.StatController.GetStatCollection(['hull', 'agi', 'sys', 'eng'])
-      const g2 = this.item.StatController.GetStatCollection(['evasion', 'edef', 'techAttack', 'sensorRange', 'saveTarget'])
-      const g3 = this.item.StatController.GetStatCollection(this.extraStatSet).filter((x: any) => this.item.StatController.MaxStats[x.key])
-      const g4 = this.item.StatController.CustomStats(this.item.ItemType)
+      const g1 = props.item.StatController.GetStatCollection(['hull', 'agi', 'sys', 'eng'])
+      const g2 = props.item.StatController.GetStatCollection(['evasion', 'edef', 'techAttack', 'sensorRange', 'saveTarget'])
+      const g3 = props.item.StatController.GetStatCollection(extraStatSet.value).filter((x: any) => props.item.StatController.MaxStats[x.key])
+      const g4 = props.item.StatController.CustomStats(props.item.ItemType)
       return [...g1, spacer, ...g2, ...g3, ...g4]
-    },
-
-
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-    trackableStatsComponent() {
-      if (!this.encounterInstance.ForceComplexTickbars && (this.mobile || this.encounterInstance.SimpleTickbars)) {
+    })
+const mobile = computed(() => {
+      return _display.mdAndDown.value;
+    })
+const trackableStatsComponent = computed(() => {
+      if (!props.encounterInstance.ForceComplexTickbars && (mobile.value || props.encounterInstance.SimpleTickbars)) {
         return 'TrackableStatsSimple';
       } else {
         return 'TrackableStatsComplex';
       }
-    },
-    orderedStats() {
+    })
+const orderedStats = computed(() => {
       const order = [
         'activations',
         'overshield',
@@ -386,30 +360,24 @@ export default {
 
       const hide = ['activations', 'armor', 'burn', 'overshield'];
 
-      if (!this.item.StatController.MaxStats['heatcap']) {
+      if (!props.item.StatController.MaxStats['heatcap']) {
         hide.push('heatcap');
       }
 
-      return this.item.StatController.TrackableStats.filter((s) => !hide.includes(s.key)).sort(
+      return props.item.StatController.TrackableStats.filter((s) => !hide.includes(s.key)).sort(
         (a, b) => order.indexOf(a.key) - order.indexOf(b.key)
       );
-    },
-  },
-  methods: {
+    })
 
-
-    getBonus(statKey) {
+function getBonus(statKey) {
       if (statKey === 'agi') statKey = 'agility';
       if (statKey === 'sys') statKey = 'systems';
       if (statKey === 'eng') statKey = 'engineering';
-      return this.item.CombatController.Bonuses.find((b) => b.ID === statKey);
-    },
-
-    handleActivate() {
-      this.item.CombatController.EndTurn();
-    },
-  },
-};
+      return props.item.CombatController.Bonuses.find((b) => b.ID === statKey);
+    }
+function handleActivate() {
+      props.item.CombatController.EndTurn();
+    }
 </script>
 
 <style scoped>

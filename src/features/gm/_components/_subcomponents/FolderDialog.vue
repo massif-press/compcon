@@ -26,26 +26,28 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'FolderDialog',
-  props: {
-    folders: { type: Array, default: () => [] },
-  },
-  emits: ['confirm'],
-  data: () => ({
-    dialog: false,
-    folderName: '',
-  }),
-  methods: {
-    open() {
-      this.folderName = '';
-      this.dialog = true;
-    },
-    confirm() {
-      this.$emit('confirm', this.folderName);
-      this.dialog = false;
-    },
-  },
-};
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const props = withDefaults(defineProps<{
+  folders?: any[]
+}>(), {
+  folders: () => []
+})
+
+const emit = defineEmits<{
+  'confirm': []
+}>()
+
+const dialog = ref(false)
+const folderName = ref('')
+
+function open() {
+      folderName.value = '';
+      dialog.value = true;
+    }
+function confirm() {
+      emit('confirm', folderName.value);
+      dialog.value = false;
+    }
 </script>

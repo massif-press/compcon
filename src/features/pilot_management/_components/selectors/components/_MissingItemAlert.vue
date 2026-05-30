@@ -48,31 +48,25 @@
   </cc-alert>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'MissingItemAlert',
-  props: {
-    type: {
-      type: String,
-      required: false,
-      default: 'items',
-    },
-    items: {
-      type: Array as () => any[],
-      required: true,
-    },
-  },
-  computed: {
-    itemArr() {
-      if (!this.items) return [];
-      if (this.items[0].Stub) {
-        return this.items.map((i) => i.Stub);
+<script setup lang="ts">
+import { computed } from 'vue'
+
+const props = withDefaults(defineProps<{
+  type?: string
+  items: any[]
+}>(), {
+  type: 'items'
+})
+
+const itemArr = computed(() => {
+      if (!props.items) return [];
+      if (props.items[0].Stub) {
+        return props.items.map((i) => i.Stub);
       }
-      return this.items;
-    },
-  },
-  methods: {
-    brew(item: any) {
+      return props.items;
+    })
+
+function brew(item: any) {
       if (item.Brew) {
         return item.Brew;
       }
@@ -80,7 +74,5 @@ export default {
         return item.Stub.Brew;
       }
       return item.ItemData.brew;
-    },
-  },
-};
+    }
 </script>

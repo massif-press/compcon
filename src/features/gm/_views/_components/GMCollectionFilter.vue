@@ -153,58 +153,59 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'GmCollectionFilter',
-  props: {
-    items: { type: Array, required: true },
-    filters: { type: Array, required: true },
-  },
-  emits: ['add-filter', 'remove-filter', 'set-filters'],
-  data: () => ({
-    filterDialog: false,
-    filterSets: ['Stats', 'Labels'],
-  }),
-  computed: {
-    labelFilters() {
-      if (!this.items.length || !(this.items as any)[0].NarrativeController) return [];
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+
+const props = defineProps<{
+  items: any[]
+  filters: any[]
+}>()
+
+const emit = defineEmits<{
+  'add-filter': []
+  'remove-filter': []
+  'set-filters': []
+}>()
+
+const filterDialog = ref(false)
+const filterSets = ref(['Stats', 'Labels'])
+
+const labelFilters = computed(() => {
+      if (!props.items.length || !(props.items as any)[0].NarrativeController) return [];
       return [
         ...new Set(
-          this.items
+          props.items
             .flatMap((item: any) => item.NarrativeController.Labels)
             .map((x: any) => x.title)
         ),
       ];
-    },
-    statFilters() {
-      if (!this.items.length || !(this.items as any)[0].StatController) return [];
+    })
+const statFilters = computed(() => {
+      if (!props.items.length || !(props.items as any)[0].StatController) return [];
       return [
         ...new Set(
-          this.items
+          props.items
             .flatMap((item: any) => item.StatController.DisplayKeys)
             .map((x: any) => x.title)
         ),
       ];
-    },
-  },
-  methods: {
-    all(action: 'show' | 'hide', type: 'stats' | 'labels') {
+    })
+
+function all(action: 'show' | 'hide', type: 'stats' | 'labels') {
       let f = [] as any[];
       if (type === 'stats') {
         if (action === 'show') {
-          f = this.filters.filter((x) => !this.statFilters.some((y) => y === x));
+          f = props.filters.filter((x) => !statFilters.value.some((y) => y === x));
         } else {
-          f.push(...this.statFilters);
+          f.push(...statFilters.value);
         }
       } else {
         if (action === 'show') {
-          f = this.filters.filter((x) => !this.labelFilters.some((y) => y === x));
+          f = props.filters.filter((x) => !labelFilters.value.some((y) => y === x));
         } else {
-          f.push(...this.labelFilters);
+          f.push(...labelFilters.value);
         }
       }
-      this.$emit('set-filters', f);
-    },
-  },
-};
+      emit('set-filters', f);
+    }
 </script>

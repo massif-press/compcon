@@ -56,77 +56,68 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import campaignEditorSidebar from './_components/campaignEditorSidebar.vue';
 import Overview from './pages/overview.vue';
 import Credits from '@/features/compendium/Views/CampaignLibrary/pages/credits.vue';
 import ContentPage from '@/features/compendium/Views/CampaignLibrary/pages/contentPage.vue';
-
 import Page from './pages/CampaignPage.vue';
-
 import { CampaignStore } from '@/stores';
 import { useMobile } from '@/composables/useMobile';
 
+defineOptions({ name: 'campaign-editor' })
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'campaign-editor',
-  components: { campaignEditorSidebar, Overview, Page, Credits, ContentPage },
-  props: {
-    id: { type: String, required: true },
-  },
-  data: () => ({
-    componentType: 'overview',
-    previewType: 'credits',
-    selected: null,
-    previewDialog: false,
-  }),
+const { mobile, portrait } = useMobile()
 
-  computed: {
-    itemComponent() {
-      switch (this.componentType.toLowerCase()) {
+const props = defineProps<{
+  id: string
+}>()
+
+const componentType = ref('overview')
+const previewType = ref('credits')
+const selected = ref(null)
+const previewDialog = ref(false)
+
+const itemComponent = computed(() => {
+      switch (componentType.value.toLowerCase()) {
         case 'overview':
           return Overview;
         default:
           return Page;
       }
-    },
-    previewItemComponent() {
-      switch (this.previewType.toLowerCase()) {
+    })
+const previewItemComponent = computed(() => {
+      switch (previewType.value.toLowerCase()) {
         case 'credits':
           return Credits;
         default:
           return ContentPage;
       }
-    },
-    campaign() {
-      return CampaignStore().Campaigns.find((c) => c.ID === this.id);
-    },
-    currentPage() {
-      return this.componentType;
-    },
-  },
-  methods: {
-    setPage(type) {
-      this.componentType = type;
-      this.selected = null;
-    },
-    setSelected(item) {
-      this.componentType = item.SectionType;
-      this.selected = item;
-    },
-    showPreview(preview) {
-      this.previewType = preview;
-      this.previewDialog = true;
-    },
-    deleteCampaignPage(item) {
+    })
+const campaign = computed(() => {
+      return CampaignStore().Campaigns.find((c) => c.ID === props.id);
+    })
+const currentPage = computed(() => {
+      return componentType.value;
+    })
+
+function setPage(type) {
+      componentType.value = type;
+      selected.value = null;
+    }
+function setSelected(item) {
+      componentType.value = item.SectionType;
+      selected.value = item;
+    }
+function showPreview(preview) {
+      previewType.value = preview;
+      previewDialog.value = true;
+    }
+function deleteCampaignPage(item) {
       if (item) {
-        this.componentType = 'overview';
+        componentType.value = 'overview';
         item.DeleteSelf();
       }
-    },
-  },
-};
+    }
 </script>

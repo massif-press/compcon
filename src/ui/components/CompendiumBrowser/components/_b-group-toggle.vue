@@ -28,32 +28,26 @@
   </v-btn-toggle>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'BrowserGroupToggle',
-  props: {
-    modelValue: {
-      type: String,
-      required: true,
-    },
-    options: {
-      type: Object,
-      required: true,
-    },
-  },
-  emits: ['update:modelValue'],
-  computed: {
-    internalValue: {
-      get() {
-        return this.modelValue;
-      },
-      set(value) {
-        this.$emit('update:modelValue', value);
-      },
-    },
-  },
-  methods: {
-    groupIcon(i: string) {
+<script setup lang="ts">
+import { computed } from 'vue'
+
+defineOptions({ name: 'BrowserGroupToggle' })
+
+const props = defineProps<{
+  modelValue: string
+  options: object
+}>()
+
+const emit = defineEmits<{
+  'update:modelValue': []
+}>()
+
+const internalValue = computed({
+  get: () => props.modelValue,
+  set: (value) => {emit('update:modelValue', value);},
+})
+
+function groupIcon(i: string) {
       switch (i) {
         case 'source':
           return 'cc:manufacturer';
@@ -74,8 +68,8 @@ export default {
         default:
           return '';
       }
-    },
-    groupTooltip(i: string) {
+    }
+function groupTooltip(i: string) {
       switch (i) {
         case 'source':
           return 'Group by Source';
@@ -96,7 +90,5 @@ export default {
         default:
           return '';
       }
-    },
-  },
-};
+    }
 </script>

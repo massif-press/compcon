@@ -9,14 +9,15 @@
   </v-col>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'PrintStatBox',
-  props: {
-    label: { type: String, required: true },
-    value: { type: [String, Number], default: null },
-    blank: { type: Boolean, default: false },
-    minWidth: { type: String, default: '8vw' },
-  },
-}
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+  label: string
+  value?: string | number
+  blank?: boolean
+  minWidth?: string
+}>(), {
+  value: null,
+  blank: false,
+  minWidth: '8vw'
+})
 </script>

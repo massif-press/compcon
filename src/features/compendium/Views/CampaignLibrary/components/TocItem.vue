@@ -20,29 +20,25 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'toc-item',
-  props: {
-    items: {
-      type: Array,
-      required: true,
-    },
-    level: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-  },
-  computed: {
-    textSize() {
-      let s = 24 - this.level * 2;
+<script setup lang="ts">
+import { computed } from 'vue'
+
+defineOptions({ name: 'toc-item' })
+
+const props = withDefaults(defineProps<{
+  items: any[]
+  level: number
+}>(), {
+  level: 0
+})
+
+const textSize = computed(() => {
+      let s = 24 - props.level * 2;
       if (s < 8) s = 8;
       return `${s}px`;
-    },
-  },
-  methods: {
-    getIconByType(type: string) {
+    })
+
+function getIconByType(type: string) {
       switch (type) {
         case 'section':
           return 'cc:campaign';
@@ -67,7 +63,5 @@ export default {
         case 'encounter':
           return 'mdi-sword';
       }
-    },
-  },
-};
+    }
 </script>

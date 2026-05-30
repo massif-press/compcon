@@ -10,32 +10,26 @@
   </cc-compendium-browser>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { orderBy } from 'lodash-es';
 import { CompendiumStore } from '@/stores';
 import { NpcTemplate } from '@/classes/npc/template/NpcTemplate';
 
-export default {
-  name: 'NpcTemplates',
-
-  data: () => ({
-    headers: [
+const headers = ref([
       { title: 'Content Pack', key: 'LcpName' },
       { title: 'Name', key: 'Name' },
       { title: '', key: 'Terse' },
-    ],
-    options: {
+    ])
+const options = ref({
       views: ['single', 'table', 'list'],
       initialView: 'single',
       groups: ['lcp', 'none'],
       initialGroup: 'lcp',
       noSource: true,
-    },
-  }),
-  computed: {
-    templates(): NpcTemplate[] {
+    })
+
+const templates = computed(() => {
       return orderBy(CompendiumStore().NpcTemplates, 'Name');
-    },
-  },
-};
+    })
 </script>

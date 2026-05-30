@@ -170,56 +170,57 @@
   </cc-solo-modal>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useDisplay } from 'vuetify'
 import { CompendiumStore } from '@/stores';
 import PanelView from '../../../_components/PanelView.vue';
 
-export default {
-  name: 'npc-template-selector',
-  components: { PanelView },
-  props: {
-    item: { type: Object, required: true },
-    readonly: { type: Boolean, default: false },
-  },
-  data: () => ({
-    dialog: false,
-    selected: null as any,
-    search: '',
-    showNav: true,
-  }),
-  computed: {
-    templates() {
+const _display = useDisplay()
+
+defineOptions({ name: 'npc-template-selector' })
+
+const props = withDefaults(defineProps<{
+  item: object
+  readonly?: boolean
+}>(), {
+  readonly: false
+})
+
+const dialog = ref(false)
+const selected = ref(null as any)
+const search = ref('')
+const showNav = ref(true)
+
+const templates = computed(() => {
       return CompendiumStore().NpcTemplates;
-    },
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-    filteredTemplates() {
-      const search = this.search?.toLowerCase() || '';
-      return this.templates.filter((t) => t.Name.toLowerCase().includes(search));
-    },
-  },
-  methods: {
-    templateConflict(t) {
+    })
+const mobile = computed(() => {
+      return _display.mdAndDown.value;
+    })
+const filteredTemplates = computed(() => {
+      const q = search.value?.toLowerCase() || '';
+      return templates.value.filter((t) => t.Name.toLowerCase().includes(q));
+    })
+
+function templateConflict(t) {
       if (!t) return '';
-      return this.item.NpcTemplateController.Templates.filter((x) =>
+      return props.item.NpcTemplateController.Templates.filter((x) =>
         x.ProhibitTemplates.includes(t.ID)
       )
         .map((x) => x.Name)
         .join(', ');
-    },
-    isAssigned(t) {
+    }
+function isAssigned(t) {
       if (!t) return false;
-      return this.item.NpcTemplateController.Templates.some((x) => x.ID === t.ID);
-    },
-    addTemplate(t) {
+      return props.item.NpcTemplateController.Templates.some((x) => x.ID === t.ID);
+    }
+function addTemplate(t) {
       if (!t) return;
-      this.item.NpcTemplateController.AddTemplate(t);
-    },
-    removeTemplate(t) {
+      props.item.NpcTemplateController.AddTemplate(t);
+    }
+function removeTemplate(t) {
       if (!t) return;
-      this.item.NpcTemplateController.RemoveTemplate(t);
-    },
-  },
-};
+      props.item.NpcTemplateController.RemoveTemplate(t);
+    }
 </script>

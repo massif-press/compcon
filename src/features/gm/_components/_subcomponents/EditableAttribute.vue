@@ -88,84 +88,57 @@
   </v-card>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'EditableAttribute',
-  props: {
-    stat: {
-      type: Object,
-      required: true,
-    },
-    val: {
-      type: Number,
-      required: false,
-      default: '',
-    },
-    bonuses: {
-      type: Object,
-      required: false,
-      default: () => [],
-    },
-    selections: {
-      type: Array,
-      required: false,
-      default: () => [],
-    },
-    cols: {
-      type: [String, Number],
-      required: false,
-      default: '',
-    },
-    deletable: {
-      type: Boolean,
-      default: false,
-    },
-    readonly: {
-      type: Boolean,
-      default: false,
-    },
-    edited: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['set', 'remove'],
-  data: () => ({
-    model: 0,
-    editMode: false,
-    sizeOptions: [0.5, 1, 2, 3, 4],
-  }),
-  computed: {
-    overwriteVal() {
-      const overwrite = this.bonuses.find((x) => x.Overwrite);
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
+import CCBonusTooltip from '@/ui/components/CCBonusTooltip.vue'
+
+const props = withDefaults(defineProps<{
+  stat: object
+  val?: number
+  bonuses?: object
+  selections?: any[]
+  cols?: string | number
+  deletable?: boolean
+  readonly?: boolean
+  edited?: boolean
+}>(), {
+  val: '',
+  bonuses: () => [],
+  selections: () => [],
+  cols: '',
+  deletable: false,
+  readonly: false,
+  edited: false
+})
+
+const emit = defineEmits<{
+  'set': []
+  'remove': []
+}>()
+
+const model = ref(0)
+const editMode = ref(false)
+const sizeOptions = ref([0.5, 1, 2, 3, 4])
+
+model.value = props.val;
+
+model.value = props.val;
+
+const overwriteVal = computed(() => {
+      const overwrite = props.bonuses.find((x) => x.Overwrite);
       if (overwrite) return overwrite.Value;
       return '';
-    },
-    totalWithBonus() {
-      return this.val + this.bonuses.filter(x => !x.PerPc).reduce((acc, x) => acc + x.Value || 0, 0);
-    },
-  },
-  watch: {
-    val: {
-      immediate: true,
-      handler(newval, oldval) {
-        this.model = newval;
-        if (oldval !== undefined && oldval !== newval) this.flashBackground();
-      },
-    },
-  },
-  created() {
-    this.model = this.val;
-  },
-  methods: {
-    flashBackground() {
-      const el = this.$el as HTMLElement;
+    })
+const totalWithBonus = computed(() => {
+      return props.val + props.bonuses.filter(x => !x.PerPc).reduce((acc, x) => acc + x.Value || 0, 0);
+    })
+
+function flashBackground() {
+      const el = _el as HTMLElement;
       el.classList.remove('flash-highlight');
       void el.offsetWidth; // force reflow to restart animation
       el.classList.add('flash-highlight');
-    },
-  },
-};
+    }
 </script>
 
 <style scoped>

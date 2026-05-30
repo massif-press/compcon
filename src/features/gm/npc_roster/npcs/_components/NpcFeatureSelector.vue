@@ -255,31 +255,28 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
 import * as _ from 'lodash-es'
 import { CompendiumStore } from '@/stores'
 import NpcFeatureAlerts from './NpcFeatureAlerts.vue'
 import { NpcFeature } from '@/classes/npc/feature/NpcFeature';
 
-export default {
-  name: 'NpcFeatureSelectMenu',
-  components: {
-    NpcFeatureAlerts,
-  },
-  props: {
-    npc: { type: Object, required: true },
-  },
-  data: () => ({
-    dialog: false,
-    featureSet: 'all',
-    ignoreLimit: false,
-    allowDupes: false,
-    shownOrigins: [] as any[],
-    showNav: true,
-  }),
-  computed: {
-    currentSelection() {
-      switch (this.featureSet) {
+defineOptions({ name: 'NpcFeatureSelectMenu' })
+
+const props = defineProps<{
+  npc: object
+}>()
+
+const dialog = ref(false)
+const featureSet = ref('all')
+const ignoreLimit = ref(false)
+const allowDupes = ref(false)
+const shownOrigins = ref([] as any[])
+const showNav = ref(true)
+
+const currentSelection = computed(() => {
+      switch (featureSet.value) {
         case 'all':
           return 'All Available'
         case 'assigned':
@@ -287,75 +284,65 @@ export default {
         case 'no-origin':
           return 'Other'
         default:
-          const selClass = this.allClasses.find(x => x.ID === this.featureSet)
-          const selTemp = this.allTemplates.find(x => x.ID === this.featureSet)
+          const selClass = allClasses.value.find(x => x.ID === featureSet.value)
+          const selTemp = allTemplates.value.find(x => x.ID === featureSet.value)
           return selClass ? selClass.Name : selTemp?.Name || 'all'
       }
-    },
-    featureOrigins() {
-      return _.uniqBy(this.shownFeatures, 'Origin.ID').map(x => x.Origin)
-    },
-    availableOrigins() {
-      return _.uniq(this.npc.NpcFeatureController.AvailableFeatures.map(x => x.Origin))
-    },
-    hasNoOriginFeatures() {
+    })
+const featureOrigins = computed(() => {
+      return _.uniqBy(shownFeatures.value, 'Origin.ID').map(x => x.Origin)
+    })
+const availableOrigins = computed(() => {
+      return _.uniq(props.npc.NpcFeatureController.AvailableFeatures.map(x => x.Origin))
+    })
+
+shownOrigins.value = availableOrigins.value.map(x => x.ID)
+
+const hasNoOriginFeatures = computed(() => {
       return CompendiumStore().NpcFeatures.some(x => !x._originID)
-    },
-    shownFeatures() {
-      if (this.featureSet === 'no-origin') {
+    })
+const shownFeatures = computed(() => {
+      if (featureSet.value === 'no-origin') {
         return CompendiumStore().NpcFeatures.filter(
           x =>
             x._originID === 'no-origin'
         )
       }
 
-      if (this.featureSet === 'all') {
-        const selectionsRemaining = this.npc.NpcTemplateController.FeatureRequirements.some(
+      if (featureSet.value === 'all') {
+        const selectionsRemaining = props.npc.NpcTemplateController.FeatureRequirements.some(
           x => !x.complete || !x.optional_complete
         )
 
-        if (selectionsRemaining || this.ignoreLimit) {
-          return this.npc.NpcFeatureController.AvailableFeatures.filter(
-            (x: NpcFeature) => this.shownOrigins.includes(x.Origin.ID)
+        if (selectionsRemaining || ignoreLimit.value) {
+          return props.npc.NpcFeatureController.AvailableFeatures.filter(
+            (x: NpcFeature) => shownOrigins.value.includes(x.Origin.ID)
           )
         } else return [] as NpcFeature[]
       }
 
-      if (this.featureSet === 'assigned') return this.npc.NpcFeatureController.Features
+      if (featureSet.value === 'assigned') return props.npc.NpcFeatureController.Features
 
 
-      return this.allFeatures.filter(x => x.Origin.ID === this.featureSet)
-    },
-    allFeatures() {
-      if (!this.npc.LcpConfig) return CompendiumStore().NpcFeatures
+      return allFeatures.value.filter(x => x.Origin.ID === featureSet.value)
+    })
+const allFeatures = computed(() => {
+      if (!props.npc.LcpConfig) return CompendiumStore().NpcFeatures
       return CompendiumStore().NpcFeatures.filter(
         x =>
           !x.InLcp ||
-          this.npc.LcpConfig?.packList.some(y => y.packID === x.Brew?.LcpId) ||
-          this.npc.LcpConfig?.packList.some(y => y.packName === x.Brew?.LcpName)
+          props.npc.LcpConfig?.packList.some(y => y.packID === x.Brew?.LcpId) ||
+          props.npc.LcpConfig?.packList.some(y => y.packName === x.Brew?.LcpName)
       )
-    },
-    allClasses() {
+    })
+const allClasses = computed(() => {
       return CompendiumStore().NpcClasses
-    },
-    allTemplates() {
+    })
+const allTemplates = computed(() => {
       return CompendiumStore().NpcTemplates
-    },
-  },
-  watch: {
-    dialog(val) {
-      if (val) {
-        this.shownOrigins = this.availableOrigins.map(x => x.ID)
-      }
-    },
-  },
-  created() {
-    this.shownOrigins = this.availableOrigins.map(x => x.ID)
-  },
-  methods: {
-    hasItem(feature) {
-      return feature && this.npc.NpcFeatureController.Features.some(y => y.ID === feature.ID)
-    },
-  },
-}
+    })
+
+function hasItem(feature) {
+      return feature && props.npc.NpcFeatureController.Features.some(y => y.ID === feature.ID)
+    }
 </script>

@@ -23,20 +23,23 @@
   </cc-tabs>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
 import DataTab from './data.vue';
 import Management from './management.vue';
 import Publishing from './publishing.vue';
 import Subscriptions from './subscriptions.vue';
 
-export default {
-  name: 'CloudAccount',
-  components: { DataTab, Management, Subscriptions, Publishing },
-  emits: ['set-state'],
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-  },
-};
+const _display = useDisplay()
+
+defineOptions({ name: 'CloudAccount' })
+
+const emit = defineEmits<{
+  'set-state': []
+}>()
+
+const mobile = computed(() => {
+      return _display.mdAndDown.value;
+    })
 </script>

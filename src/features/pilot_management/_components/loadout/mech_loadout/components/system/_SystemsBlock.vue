@@ -148,7 +148,8 @@
   </v-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, watch, nextTick } from 'vue'
 import * as _ from 'lodash-es';
 import { markRaw } from 'vue';
 import { Sortable } from 'sortablejs-vue3';
@@ -157,184 +158,155 @@ import SystemSlotCard from './_SystemSlotCard.vue';
 import ModEquippedCard from './_ModEquippedCard.vue';
 import SystemSelector from './_SystemSelector.vue';
 import { useMobile } from '@/composables/useMobile';
-
 const _SystemSlotCard = markRaw(SystemSlotCard);
 const _ModEquippedCard = markRaw(ModEquippedCard);
 
+const { mobile, portrait } = useMobile()
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'SystemsBlock',
-  components: { SystemSlotCard, ModEquippedCard, SystemSelector, Sortable },
-  props: {
-    mech: {
-      type: Object,
-      required: true,
-    },
-    color: {
-      type: String,
-      required: true,
-    },
-    readonly: {
-      type: Boolean,
-    },
-  },
-  data: () => ({
-    selector: false,
-    swapSystem: null as any,
-    additionalSystem: false,
-    systemItems: [] as any[],
-    reorderMode: false,
-    _SystemSlotCard,
-  }),
-  computed: {
-    moddedWeapons() {
-      return this.mech.MechLoadoutController.ActiveLoadout.Weapons.filter((x) => x.Mod);
-    },
-    activeSystems() {
-      return this.mech.MechLoadoutController.ActiveLoadout.Systems;
-    },
-    integratedSystems() {
-      return this.mech.MechLoadoutController.ActiveLoadout.IntegratedSystems;
-    },
-    staticTopItems(): any[] {
+const props = defineProps<{
+  mech: object
+  color: string
+  readonly?: boolean
+}>()
+
+const selector = ref(false)
+const swapSystem = ref(null as any)
+const additionalSystem = ref(false)
+const systemItems = ref([] as any[])
+const reorderMode = ref(false)
+
+const moddedWeapons = computed(() => {
+      return props.mech.MechLoadoutController.ActiveLoadout.Weapons.filter((x) => x.Mod);
+    })
+const activeSystems = computed(() => {
+      return props.mech.MechLoadoutController.ActiveLoadout.Systems;
+    })
+const integratedSystems = computed(() => {
+      return props.mech.MechLoadoutController.ActiveLoadout.IntegratedSystems;
+    })
+const staticTopItems = computed(() => {
       const arr: any[] = [];
-      this.integratedSystems.forEach((s) => {
+      integratedSystems.value.forEach((s) => {
         arr.push({
           component: _SystemSlotCard,
           id: s.ID,
-          props: { mech: this.mech, item: s, color: this.color, readonly: this.readonly, integrated: true },
+          props: { mech: props.mech, item: s, color: props.color, readonly: props.readonly, integrated: true },
           item: s,
         });
       });
-      this.moddedWeapons.forEach((w) => {
+      moddedWeapons.value.forEach((w) => {
         arr.push({
           component: _ModEquippedCard,
           id: w.ID,
-          props: { mech: this.mech, color: this.color, readonly: this.readonly },
+          props: { mech: props.mech, color: props.color, readonly: props.readonly },
           item: w.Mod,
           weapon: w,
         });
       });
       return arr;
-    },
-    staticBottomItems(): any[] {
-      if (this.mech.FreeSP > 0 && !this.readonly) {
+    })
+const staticBottomItems = computed(() => {
+      if (props.mech.FreeSP > 0 && !props.readonly) {
         return [{
           component: _SystemSlotCard,
           id: 'add-system',
-          props: { mech: this.mech, item: null, color: this.color, readonly: this.readonly, empty: true },
+          props: { mech: props.mech, item: null, color: props.color, readonly: props.readonly, empty: true },
           item: null,
         }];
       }
       return [];
-    },
-  },
-  watch: {
-    mech: {
-      immediate: true,
-      deep: true,
-      handler() {
-        this.updateSystemItems();
-      },
-    },
-  },
-  methods: {
-    updateSystemItems() {
+    })
+
+function updateSystemItems() {
       const arr: any[] = [];
 
-      this.integratedSystems.forEach((s) => {
+      integratedSystems.value.forEach((s) => {
         arr.push({
           component: _SystemSlotCard,
           id: s.ID,
           props: {
-            mech: this.mech,
+            mech: props.mech,
             item: s,
-            color: this.color,
-            readonly: this.readonly,
+            color: props.color,
+            readonly: props.readonly,
             integrated: true,
           },
           item: s,
         });
       });
 
-      this.moddedWeapons.forEach((w) => {
+      moddedWeapons.value.forEach((w) => {
         arr.push({
           component: _ModEquippedCard,
           id: w.ID,
           props: {
-            mech: this.mech,
-            color: this.color,
-            readonly: this.readonly,
+            mech: props.mech,
+            color: props.color,
+            readonly: props.readonly,
           },
           item: w.Mod,
           weapon: w,
         });
       });
 
-      this.activeSystems.forEach((s) => {
+      activeSystems.value.forEach((s) => {
         arr.push({
           component: _SystemSlotCard,
           id: s.ID,
           props: {
-            mech: this.mech,
+            mech: props.mech,
             item: s,
-            color: this.color,
-            readonly: this.readonly,
+            color: props.color,
+            readonly: props.readonly,
           },
           item: s,
         });
       });
 
-      if (this.mech.FreeSP > 0 && !this.readonly) {
+      if (props.mech.FreeSP > 0 && !props.readonly) {
         arr.push({
           component: _SystemSlotCard,
           id: 'add-system',
           props: {
-            mech: this.mech,
+            mech: props.mech,
             item: null,
-            color: this.color,
-            readonly: this.readonly,
+            color: props.color,
+            readonly: props.readonly,
             empty: true,
           },
           item: null,
         });
       }
 
-      this.systemItems = arr;
-    },
-    startDragScroll,
-    onSystemReorder(event: any) {
+      systemItems.value = arr;
+    }
+function onSystemReorder(event: any) {
       stopDragScroll();
       if (event.oldIndex === event.newIndex) return;
-      this.mech.MechLoadoutController.ActiveLoadout.ReorderSystem(event.oldIndex, event.newIndex);
-    },
-    moveSystem(from: number, to: number) {
-      this.mech.MechLoadoutController.ActiveLoadout.ReorderSystem(from, to);
-    },
-    switchSystem(item: any) {
-      this.swapSystem = item;
-      this.selector = true;
-    },
-    setAddAdditional() {
-      this.additionalSystem = true;
-      this.selector = true;
-    },
-    async handleDone() {
-      this.swapSystem = null;
+      props.mech.MechLoadoutController.ActiveLoadout.ReorderSystem(event.oldIndex, event.newIndex);
+    }
+function moveSystem(from: number, to: number) {
+      props.mech.MechLoadoutController.ActiveLoadout.ReorderSystem(from, to);
+    }
+function switchSystem(item: any) {
+      swapSystem.value = item;
+      selector.value = true;
+    }
+function setAddAdditional() {
+      additionalSystem.value = true;
+      selector.value = true;
+    }
+async function handleDone() {
+      swapSystem.value = null;
 
-      this.updateSystemItems(); // triggers list update
+      updateSystemItems(); // triggers list update
 
       // wait for DOM
-      await this.$nextTick();
+      await nextTick();
       await new Promise((r) => setTimeout(r, 0));
 
-      this.selector = false;
-    },
-  },
-};
+      selector.value = false;
+    }
 </script>
 
 <style scoped>

@@ -108,112 +108,102 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import * as _ from 'lodash-es';
 import ImageCrop from './components/_ImageCrop.vue';
 import CloudArchive from './image_archives/cloudArchive.vue';
 import LibraryArchive from './image_archives/libraryArchive.vue';
 import RemoteArchive from './image_archives/remoteArchive.vue';
-
 const distributor = import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR || '';
 
-export default {
-  name: 'ImageSelector',
-  components: { ImageCrop, CloudArchive, LibraryArchive, RemoteArchive },
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    type: {
-      type: String,
-      required: true,
-    },
-    avatar: {
-      type: Boolean,
-    },
-  },
-  data: () => ({
-    selectedImage: null as unknown as any,
-    selectedImageKey: null as unknown as any,
-    imageSelectTab: 0,
-    stagedImage: null as unknown as any,
-    imageUrl: '',
-    cropWindow: false,
-  }),
-  computed: {
-    displayImage() {
-      if (this.selectedImage) {
-        if (typeof this.selectedImage === 'string') return this.selectedImage;
-        if (this.selectedImage.url) return this.selectedImage.url;
-        return `${distributor}/${this.selectedImage.uri}`;
+defineOptions({ name: 'ImageSelector' })
+
+const props = defineProps<{
+  item: object
+  type: string
+  avatar?: boolean
+}>()
+
+const emit = defineEmits<{
+  'close': []
+}>()
+
+const crop_dialog = ref<any>(null)
+
+const selectedImage = ref(null as unknown as any)
+const selectedImageKey = ref(null as unknown as any)
+const imageSelectTab = ref(0)
+const stagedImage = ref(null as unknown as any)
+const imageUrl = ref('')
+const cropWindow = ref(false)
+
+const displayImage = computed(() => {
+      if (selectedImage.value) {
+        if (typeof selectedImage.value === 'string') return selectedImage.value;
+        if (selectedImage.value.url) return selectedImage.value.url;
+        return `${distributor}/${selectedImage.value.uri}`;
       }
-      if (this.item.Portrait) return this.item.Portrait;
+      if (props.item.Portrait) return props.item.Portrait;
       else return 'https://via.placeholder.com/550';
-    },
-    selectedImageUrl() {
-      if (this.selectedImage) {
-        if (typeof this.selectedImage === 'string') return this.selectedImage;
-        return this.selectedImage.url;
+    })
+const selectedImageUrl = computed(() => {
+      if (selectedImage.value) {
+        if (typeof selectedImage.value === 'string') return selectedImage.value;
+        return selectedImage.value.url;
       }
       return '';
-    },
-  },
-  methods: {
-    isSelected(url) {
-      return this.selectedImageUrl === url;
-    },
-    clearImage() {
-      this.item.PortraitController.Clear();
-      this.selectedImage = null;
-      if (!this.avatar) this.close();
-    },
-    saveImage() {
-      if (!this.selectedImage) return;
-      let img;
-      if (typeof this.selectedImage === 'string') img = this.selectedImage;
-      else if (this.selectedImage.url) img = this.selectedImage.url;
-      else img = `${distributor}/${this.selectedImage.uri}`;
+    })
 
-      this.item.PortraitController.CloudImage = img;
-      if (!this.avatar) this.close();
-    },
-    open() {
-      if ((this.$refs as any).dialog) (this.$refs as any).dialog.show();
-    },
-    close() {
-      if ((this.$refs as any).dialog) (this.$refs as any).dialog.hide();
-      else this.$emit('close');
-    },
-    clearCrop() {
-      this.item.PortraitController.Avatar = undefined;
-    },
-    setAvatar(avatar, closeFn: Function) {
-      this.item.PortraitController.Avatar = avatar;
+function isSelected(url) {
+      return selectedImageUrl.value === url;
+    }
+function clearImage() {
+      props.item.PortraitController.Clear();
+      selectedImage.value = null;
+      if (!props.avatar) close();
+    }
+function saveImage() {
+      if (!selectedImage.value) return;
+      let img;
+      if (typeof selectedImage.value === 'string') img = selectedImage.value;
+      else if (selectedImage.value.url) img = selectedImage.value.url;
+      else img = `${distributor}/${selectedImage.value.uri}`;
+
+      props.item.PortraitController.CloudImage = img;
+      if (!props.avatar) close();
+    }
+function open() {}
+function close() {
+      emit('close');
+    }
+function clearCrop() {
+      props.item.PortraitController.Avatar = undefined;
+    }
+function setAvatar(avatar, closeFn: Function) {
+      props.item.PortraitController.Avatar = avatar;
       closeFn();
-    },
-    setLocalImage(img: any) {
-      this.selectedImage = img;
-      this.selectedImageKey = img.key;
-      this.item.PortraitController.SetLocalImage(img.key);
-    },
-    setLibImage(img: any) {
-      this.selectedImageKey = '';
-      this.selectedImage = img;
-      this.saveImage();
-    },
-    setRemoteImage(img: any) {
-      this.selectedImageKey = '';
-      this.selectedImage = img;
-      this.saveImage();
-    },
-    setCloudImage(img: any) {
-      this.selectedImageKey = `${distributor}/${img.uri}`;
-      this.selectedImage = img;
-      this.saveImage();
-    },
-  },
-};
+    }
+function setLocalImage(img: any) {
+      selectedImage.value = img;
+      selectedImageKey.value = img.key;
+      props.item.PortraitController.SetLocalImage(img.key);
+    }
+function setLibImage(img: any) {
+      selectedImageKey.value = '';
+      selectedImage.value = img;
+      saveImage();
+    }
+function setRemoteImage(img: any) {
+      selectedImageKey.value = '';
+      selectedImage.value = img;
+      saveImage();
+    }
+function setCloudImage(img: any) {
+      selectedImageKey.value = `${distributor}/${img.uri}`;
+      selectedImage.value = img;
+      saveImage();
+    }
 </script>
 
 <style scoped>

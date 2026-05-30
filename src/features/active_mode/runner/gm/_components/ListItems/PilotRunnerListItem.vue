@@ -41,49 +41,44 @@
   </runner-list-item-base>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, onMounted } from 'vue'
 import RunnerListItemBase from './RunnerListItemBase.vue';
 
-export default {
-  name: 'PilotRunnerListItem',
-  components: {
-    RunnerListItemBase,
-  },
-  props: {
-    combatant: {
-      type: Object,
-      required: true,
-    },
-    collapsed: {
-      type: Boolean,
-      default: false,
-    },
-    selected: {
-      type: Boolean,
-    },
-  },
-  emits: ['select'],
-  computed: {
-    mech() {
-      return this.combatant.actor.ActiveMech;
-    },
-    activeActor() {
-      if (!this.mech) {
-        return this.combatant.actor;
-      } else if (this.mech.CombatController.Mounted) {
-        return this.mech;
+const props = withDefaults(defineProps<{
+  combatant: object
+  collapsed?: boolean
+  selected?: boolean
+}>(), {
+  collapsed: false
+})
+
+const emit = defineEmits<{
+  'select': []
+}>()
+
+const mech = computed(() => {
+      return props.combatant.actor.ActiveMech;
+    })
+const activeActor = computed(() => {
+      if (!mech.value) {
+        return props.combatant.actor;
+      } else if (mech.value.CombatController.Mounted) {
+        return mech.value;
       }
-      return this.combatant.actor;
-    },
-    aiSystems() {
-      if (!this.mech) return [];
-      return this.mech.MechLoadoutController.ActiveLoadout.AISystems;
-    },
-    mounted() {
-      return this.mech && this.mech.CombatController.Mounted;
-    },
-  },
-};
+      return props.combatant.actor;
+    })
+const aiSystems = computed(() => {
+      if (!mech.value) return [];
+      return mech.value.MechLoadoutController.ActiveLoadout.AISystems;
+    })
+const mounted = computed(() => {
+      return mech.value && mech.value.CombatController.Mounted;
+    })
+
+onMounted(() => {
+return mech.value && mech.value.CombatController.Mounted;
+})
 </script>
 
 <style scoped>

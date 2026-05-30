@@ -36,6 +36,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useDisplay } from 'vuetify'
+import CCLicensePanel from '../panels/CCLicensePanel.vue'
 
 const { smAndDown: mobile } = useDisplay()
 

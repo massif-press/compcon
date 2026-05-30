@@ -100,6 +100,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useMobile } from '@/composables/useMobile'
+import CCBondInfo from '../../CCBondInfo.vue'
 import ItemCardLink from '../../cards/items/_components/ItemCardLink.vue';
 
 const props = defineProps({

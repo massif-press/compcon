@@ -63,38 +63,35 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
 import PageContentContainer from './containers/campaignContentContainer.vue';
 
-export default {
-  name: 'campaign-credits-page',
-  components: { PageContentContainer },
-  props: {
-    campaign: { type: Object, required: true },
-  },
-  data: () => ({
-    bannerPreview: '',
-    coverPreview: '',
-    bannerDialog: false,
-    coverDialog: false,
-    socialItems: ['Discord', 'Twitch', 'Twitter', 'Email'],
-  }),
-  methods: {
-    setBannerImage() {
-      this.campaign.BannerImageUrl = this.bannerPreview;
-      this.bannerPreview = '';
-      this.bannerDialog = false;
-    },
-    setCoverImage() {
-      this.campaign.CoverImageUrl = this.coverPreview;
-      this.coverPreview = '';
-      this.coverDialog = false;
-    },
-    addContentItem() {
-      this.campaign.TitlePageContent.AddContentItem();
-    },
-  },
-};
+defineOptions({ name: 'campaign-credits-page' })
+
+const props = defineProps<{
+  campaign: object
+}>()
+
+const bannerPreview = ref('')
+const coverPreview = ref('')
+const bannerDialog = ref(false)
+const coverDialog = ref(false)
+const socialItems = ref(['Discord', 'Twitch', 'Twitter', 'Email'])
+
+function setBannerImage() {
+      props.campaign.BannerImageUrl = bannerPreview.value;
+      bannerPreview.value = '';
+      bannerDialog.value = false;
+    }
+function setCoverImage() {
+      props.campaign.CoverImageUrl = coverPreview.value;
+      coverPreview.value = '';
+      coverDialog.value = false;
+    }
+function addContentItem() {
+      props.campaign.TitlePageContent.AddContentItem();
+    }
 </script>
 
 <style scoped>

@@ -60,11 +60,11 @@
   </stepper-content>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
 import StepperContent from '../../_components/StepperContent.vue';
 import TemplateItem from '../components/TemplateItem.vue';
 import { getImagePath, ImageTag } from '@/io/ImageManagement';
-
 import { CompendiumStore } from '@/stores';
 import Templates from '../pregens.json';
 import { CompendiumItem } from '@/classes/CompendiumItem'
@@ -74,93 +74,84 @@ import { Pilot } from '@/classes/pilot/Pilot'
 import { Frame } from '@/classes/mech/components/frame/Frame'
 import { mechname } from '@/io/Generators';
 
-export default {
-  name: 'templates-page',
-  components: { TemplateItem, StepperContent },
-  emits: ['back', 'next'],
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    selected: null as any,
-  }),
-  computed: {
-    templates() {
+defineOptions({ name: 'templates-page' })
+
+const props = defineProps<{
+  pilot: object
+}>()
+
+const emit = defineEmits<{
+  'back': []
+  'next': []
+}>()
+
+const selected = ref(null as any)
+
+const templates = computed(() => {
       return Templates;
-    },
-    retrogradeLogo() {
+    })
+const retrogradeLogo = computed(() => {
       return getImagePath(ImageTag.Misc, 'retrograde_logo.webp');
-    },
-    selectionComplete(): boolean {
-      return this.selected !== null;
-    },
-  },
-  watch: {
-    selectionComplete(bool) {
-      if (bool) window.scrollTo(0, document.body.scrollHeight - 120);
-    },
-  },
-  methods: {
-    getItem(type: string, id: string) {
+    })
+const selectionComplete = computed(() => {
+      return selected.value !== null;
+    })
+
+function getItem(type: string, id: string) {
       const compendium = CompendiumStore();
       return CompendiumItem.Clone(compendium.referenceByID(type, id) as CompendiumItem);
-    },
-    async setTemplate() {
-      const t = this.selected.build;
-      this.pilot.MechSkillsController.MechSkills = MechSkills.Deserialize(t.mechSkills);
-      this.pilot.SkillsController.ClearSkills();
+    }
+async function setTemplate() {
+      const t = selected.value.build;
+      props.pilot.MechSkillsController.MechSkills = MechSkills.Deserialize(t.mechSkills);
+      props.pilot.SkillsController.ClearSkills();
       t.skills.forEach((s) => {
-        this.pilot.SkillsController.AddSkill(this.getItem('Skills', s));
+        props.pilot.SkillsController.AddSkill(getItem('Skills', s));
       });
-      this.pilot.TalentsController.ClearTalents();
+      props.pilot.TalentsController.ClearTalents();
       t.talents.forEach((t) => {
-        this.pilot.TalentsController.AddTalent(this.getItem('Talents', t));
+        props.pilot.TalentsController.AddTalent(getItem('Talents', t));
       });
 
-      this.pilot.Loadout.Armor = [this.getItem('PilotGear', t.gear.armor)];
-      this.pilot.Loadout.Weapons = t.gear.weapons.map((x) => this.getItem('PilotGear', x));
-      this.pilot.Loadout.Gear = t.gear.gear.map((x) => this.getItem('PilotGear', x));
+      props.pilot.Loadout.Armor = [getItem('PilotGear', t.gear.armor)];
+      props.pilot.Loadout.Weapons = t.gear.weapons.map((x) => getItem('PilotGear', x));
+      props.pilot.Loadout.Gear = t.gear.gear.map((x) => getItem('PilotGear', x));
 
       const m = t.mech;
       const mech = new Mech(
-        this.getItem('Frames', 'mf_standard_pattern_i_everest') as Frame,
-        this.pilot as Pilot
+        getItem('Frames', 'mf_standard_pattern_i_everest') as Frame,
+        props.pilot as Pilot
       );
 
       mech.Name = await mechname();
       mech.MechLoadoutController.ActiveLoadout.Systems = m.systems.map((x) =>
-        this.getItem('MechSystems', x)
+        getItem('MechSystems', x)
       );
 
       (mech.MechLoadoutController.ActiveLoadout.AllMounts() as any)
         .find((m) => m.Type === 'Main')
-        .Slots[0].EquipWeapon(this.getItem('MechWeapons', m.mounts[0].slots[0]));
+        .Slots[0].EquipWeapon(getItem('MechWeapons', m.mounts[0].slots[0]));
       (mech.MechLoadoutController.ActiveLoadout.AllMounts() as any)
         .find((m) => m.Type === 'Flex')
-        .Slots[0].EquipWeapon(this.getItem('MechWeapons', m.mounts[1].slots[0]));
+        .Slots[0].EquipWeapon(getItem('MechWeapons', m.mounts[1].slots[0]));
       (mech.MechLoadoutController.ActiveLoadout.AllMounts() as any)
         .find((m) => m.Type === 'Flex')
-        .Slots[1].EquipWeapon(this.getItem('MechWeapons', m.mounts[1].slots[1]));
+        .Slots[1].EquipWeapon(getItem('MechWeapons', m.mounts[1].slots[1]));
       (mech.MechLoadoutController.ActiveLoadout.AllMounts() as any)
         .find((m) => m.Type === 'Heavy')
-        .Slots[0].EquipWeapon(this.getItem('MechWeapons', m.mounts[2].slots[0]));
+        .Slots[0].EquipWeapon(getItem('MechWeapons', m.mounts[2].slots[0]));
 
-      mech.PortraitController.SetCloudImage(this.selected.image);
+      mech.PortraitController.SetCloudImage(selected.value.image);
 
-      this.pilot.Mechs.forEach((m) => {
-        this.pilot.RemoveMech(m);
+      props.pilot.Mechs.forEach((m) => {
+        props.pilot.RemoveMech(m);
       });
-      this.pilot.AddMech(mech);
+      props.pilot.AddMech(mech);
 
-      this.pilot.isTemplate = true;
+      props.pilot.isTemplate = true;
 
-      this.$emit('next');
-    },
-  },
-};
+      emit('next');
+    }
 </script>
 
 <style scoped>

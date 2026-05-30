@@ -101,78 +101,92 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { notify } from '@/util/notify'
 import { Campaign } from '@/classes/campaign/Campaign';
 import CurrentVersionExport from './currentVersionExport.vue';
 import JSZip from 'jszip';
 
-export default {
-  name: 'campaign-publisher',
-  components: { CurrentVersionExport },
-  props: {
-    campaign: { type: Object, required: true },
-  },
-  data: () => ({
-    major: 0,
-    minor: 0,
-    patch: 0,
-    changes: '',
-    dOptions: { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
-  }),
-  emits: ['published'],
-  created() {
-    if (!this.versionHistory.length) {
-      this.major = 1;
-      this.minor = 0;
-      this.patch = 0;
+defineOptions({ name: 'campaign-publisher' })
+
+const props = defineProps<{
+  campaign: object
+}>()
+
+const emit = defineEmits<{
+  'published': []
+}>()
+
+const major = ref(0)
+const minor = ref(0)
+const patch = ref(0)
+const changes = ref('')
+const dOptions = ref({ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+
+if (!versionHistory.value.length) {
+      major.value = 1;
+      minor.value = 0;
+      patch.value = 0;
     } else {
-      const latest = this.versionHistory[this.versionHistory.length - 1].ver
+      const latest = versionHistory.value[versionHistory.value.length - 1].ver
         .split('.')
         .map((n) => parseInt(n));
-      this.major = latest[0];
-      this.minor = latest[1] + 1;
-      this.patch = latest[2];
+      major.value = latest[0];
+      minor.value = latest[1] + 1;
+      patch.value = latest[2];
     }
-  },
-  computed: {
-    versionHistory() {
-      return this.campaign.VersionHistory || [];
-    },
-    version() {
-      return `${this.major}.${this.minor}.${this.patch}`;
-    },
-    latest() {
-      return this.versionHistory.length
-        ? this.versionHistory[this.versionHistory.length - 1]
+
+if (!versionHistory.value.length) {
+      major.value = 1;
+      minor.value = 0;
+      patch.value = 0;
+    } else {
+      const latest = versionHistory.value[versionHistory.value.length - 1].ver
+        .split('.')
+        .map((n) => parseInt(n));
+      major.value = latest[0];
+      minor.value = latest[1] + 1;
+      patch.value = latest[2];
+    }
+
+const versionHistory = computed(() => {
+      return props.campaign.VersionHistory || [];
+    })
+const version = computed(() => {
+      return `${major.value}.${minor.value}.${patch.value}`;
+    })
+const latest = computed(() => {
+      return versionHistory.value.length
+        ? versionHistory.value[versionHistory.value.length - 1]
         : null;
-    },
-    verifyVersion() {
-      if (Number(this.major) + Number(this.minor) + Number(this.patch) < 1) return false;
+    })
+const verifyVersion = computed(() => {
+      if (Number(major.value) + Number(minor.value) + Number(patch.value) < 1) return false;
       let res = true;
-      this.versionHistory.forEach((hist) => {
-        if (hist.ver === this.version) res = false;
+      versionHistory.value.forEach((hist) => {
+        if (hist.ver === version.value) res = false;
       });
       return res;
-    },
-  },
-  methods: {
-    async publishCampaign() {
-      (this.campaign as Campaign).Publish(this.version, this.changes);
-      if (this.campaign.CloudController.ShareCode) {
-        await this.campaign.CloudController.UpdateCloud('campaign');
+    })
+
+async function publishCampaign() {
+      (props.campaign as Campaign).Publish(version.value, changes.value);
+      if (props.campaign.CloudController.ShareCode) {
+        await props.campaign.CloudController.UpdateCloud('campaign');
       }
-      this.$emit('published');
-      this.$notify({
+      emit('published');
+      notify({
         title: 'Campaign Published',
-        text: `Version ${this.version} of ${this.campaign.Name} has been published.`,
+        text: `Version ${version.value} of ${props.campaign.Name} has been published.`,
         data: { color: 'success' },
       });
-    },
-    async exportLcd() {
-      const filename = `${this.campaign.Name} - ${this.version}.lcd`;
+    }
+async function exportLcd() {
+      const filename = `${props.campaign.Name} - ${version.value}.lcd`;
       const zip = new JSZip();
 
-      zip.file('campaign_data.json', JSON.stringify(Campaign.Serialize(this.campaign as Campaign)));
+      zip.file('campaign_data.json', JSON.stringify(Campaign.Serialize(props.campaign as Campaign)));
 
       const content = await zip.generateAsync({ type: 'blob' });
 
@@ -184,10 +198,8 @@ export default {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-    },
-    savePublished() {
-      (this.campaign as Campaign).Publish(this.version, this.changes);
-    },
-  },
-};
+    }
+function savePublished() {
+      (props.campaign as Campaign).Publish(version.value, changes.value);
+    }
 </script>

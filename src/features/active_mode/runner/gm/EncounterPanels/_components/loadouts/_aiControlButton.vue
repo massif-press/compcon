@@ -43,15 +43,17 @@
   </v-btn>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'AiControlButton',
-  props: {
-    controller: { type: Object, required: true },
-    label: { type: String, required: true },
-    tooltipText: { type: String, required: true },
-    size: { type: String, default: 'small' },
-  },
-  emits: ['action'],
-};
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+  controller: object
+  label: string
+  tooltipText: string
+  size?: string
+}>(), {
+  size: 'small'
+})
+
+const emit = defineEmits<{
+  'action': []
+}>()
 </script>

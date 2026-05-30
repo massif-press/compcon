@@ -557,52 +557,40 @@
     header="MECH" />
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import card from './components/PrintCard.vue';
 import ActionCard from './components/ActionCard.vue';
 import DeployableCard from './components/DeployableCard.vue';
 import blankLine from '../../components/blank/line.vue';
 import tagBlock from './components/TagBlock.vue';
 
-export default {
-  name: 'MechPrint',
-  components: { card, ActionCard, DeployableCard, blankLine, tagBlock },
-  props: {
-    mech: {
-      type: Object,
-      required: true,
-    },
-    options: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    mounts() {
-      return this.mech.MechLoadoutController.ActiveLoadout.AllMounts(
-        this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-        this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
-        this.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
-      );
-    },
-    allActions() {
-      return this.mech.FeatureController.Actions;
-    },
-    allDeployables() {
-      return this.mech.FeatureController.Deployables;
-    },
-  },
-  methods: {
-    signed(val: number) {
-      return val > -1 ? `+${val}` : `${val}`;
-    },
+const props = defineProps<{
+  mech: object
+  options: object
+}>()
 
-    showCollectedEffect(w) {
+const mounts = computed(() => {
+      return props.mech.MechLoadoutController.ActiveLoadout.AllMounts(
+        props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
+        props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
+        props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
+      );
+    })
+const allActions = computed(() => {
+      return props.mech.FeatureController.Actions;
+    })
+const allDeployables = computed(() => {
+      return props.mech.FeatureController.Deployables;
+    })
+
+function signed(val: number) {
+      return val > -1 ? `+${val}` : `${val}`;
+    }
+function showCollectedEffect(w) {
       if (!w.Profiles[0].Effect) return false;
       return w.Profiles.every((x) => x.Effect === w.Profiles[0].Effect);
-    },
-  },
-};
+    }
 </script>
 
 <style scoped>

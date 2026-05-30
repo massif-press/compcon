@@ -35,51 +35,56 @@
   </mech-item-filter-base>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, onMounted } from 'vue'
 import { SystemType } from '@/classes/enums'
 import MechItemFilterBase from './MechItemFilterBase.vue'
 
-export default {
-  name: 'mech-system-filter',
-  components: { MechItemFilterBase },
-  props: {
-    activeFilters: { type: Object, default: () => ({}) },
-    systemTags: { type: Array, default: () => [] },
-  },
-  data: () => ({
-    tagFilter: [] as string[],
-    systemTypeFilter: [] as SystemType[],
-    spLlFilters: {} as any,
-  }),
-  emits: ['set-filters'],
-  mounted() {
-    const f = this.activeFilters;
-    if (!f || !Object.keys(f).length) return;
-    if (f.Tags) this.tagFilter = f.Tags;
-    if (f.Type) this.systemTypeFilter = f.Type[0] ?? [];
-  },
-  computed: {
-    systemTypes(): string[] {
+defineOptions({ name: 'mech-system-filter' })
+
+const props = withDefaults(defineProps<{
+  activeFilters?: object
+  systemTags?: any[]
+}>(), {
+  activeFilters: () => ({}),
+  systemTags: () => []
+})
+
+const emit = defineEmits<{
+  'set-filters': []
+}>()
+
+const base = ref<any>(null)
+
+const tagFilter = ref([] as string[])
+const systemTypeFilter = ref([] as SystemType[])
+const spLlFilters = ref({} as any)
+
+const systemTypes = computed(() => {
       return Object.keys(SystemType).map((k) => SystemType[k as any]).filter((k) => k !== 'Integrated').sort() as string[];
-    },
-  },
-  methods: {
-    onSpLlChange(partial: any) {
-      this.spLlFilters = partial;
-      this.updateFilters();
-    },
-    clear() {
-      this.tagFilter = [];
-      this.systemTypeFilter = [];
-      this.spLlFilters = {};
-      (this.$refs.base as any)?.clear();
-    },
-    updateFilters() {
-      const fObj = { ...this.spLlFilters } as any;
-      if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter;
-      if (this.systemTypeFilter && this.systemTypeFilter.length) fObj.Type = [this.systemTypeFilter];
-      this.$emit('set-filters', fObj);
-    },
-  },
-};
+    })
+
+function onSpLlChange(partial: any) {
+      spLlFilters.value = partial;
+      updateFilters();
+    }
+function clear() {
+      tagFilter.value = [];
+      systemTypeFilter.value = [];
+      spLlFilters.value = {};
+      (base.value as any)?.clear();
+    }
+function updateFilters() {
+      const fObj = { ...spLlFilters.value } as any;
+      if (tagFilter.value && tagFilter.value.length) fObj.Tags = tagFilter.value;
+      if (systemTypeFilter.value && systemTypeFilter.value.length) fObj.Type = [systemTypeFilter.value];
+      emit('set-filters', fObj);
+    }
+
+onMounted(() => {
+const f = props.activeFilters;
+    if (!f || !Object.keys(f).length) return;
+    if (f.Tags) tagFilter.value = f.Tags;
+    if (f.Type) systemTypeFilter.value = f.Type[0] ?? [];
+})
 </script>

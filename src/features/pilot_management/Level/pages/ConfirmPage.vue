@@ -35,63 +35,50 @@
   </stepper-content>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { Pilot } from '@/classes/pilot/Pilot'
-import { PilotStore } from '@/stores';
-import PilotRegistrationCard from '../../PilotSheet/components/PilotRegistrationCard.vue';
-import StepperContent from '../../_components/StepperContent.vue';
-import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
+import { PilotStore } from '@/stores'
+import PilotRegistrationCard from '../../PilotSheet/components/PilotRegistrationCard.vue'
+import StepperContent from '../../_components/StepperContent.vue'
+import { AchievementEventSystem } from '@/user/achievements/AchievementEvent'
 
-export default {
-  name: 'ConfirmPage',
-  components: { PilotRegistrationCard, StepperContent },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-    original: {
-      type: Object,
-      required: true,
-    },
-  },
-  emits: ['back'],
-  computed: {
-    pilotReady(): boolean {
-      return (
-        this.pilot.HasIdent &&
-        this.pilot.SkillsController.HasFullSkills &&
-        this.pilot.TalentsController.HasFullTalents &&
-        this.pilot.MechSkillsController.HasFullHASE
-      );
-    },
-  },
-  methods: {
-    savePilot() {
-      const originalIndex = PilotStore().Pilots.findIndex((p) => p.ID === this.pilot.ID);
-      PilotStore().SetPilot(originalIndex, this.pilot as Pilot);
+const props = defineProps<{
+  pilot: object
+  original: object
+}>()
 
-      if (this.pilot.Level === 12) {
-        // if (this.pilot.Level === 12 && !this.pilot.IsLevelEdit) {
-        AchievementEventSystem.emit('levelup_total', 12);
-      }
+defineEmits<{ 'back': [] }>()
 
-      this.$router.push({
-        name: 'pilot_sheet_redirect',
-        params: { pilotID: this.pilot.ID },
-      });
-    },
-    canContinue() {
-      return (
-        this.pilot.Callsign &&
-        this.pilot.Name &&
-        this.pilot.SkillsController.HasFullSkills &&
-        this.pilot.TalentsController.HasFullTalents &&
-        this.pilot.MechSkillsController.HasFullHASE &&
-        this.pilot.LicenseController.HasLicenses &&
-        this.pilot.CoreBonusController.HasCBs
-      );
-    },
-  },
-};
+const router = useRouter()
+
+const pilotReady = computed(() =>
+  (props.pilot as any).HasIdent &&
+  (props.pilot as any).SkillsController.HasFullSkills &&
+  (props.pilot as any).TalentsController.HasFullTalents &&
+  (props.pilot as any).MechSkillsController.HasFullHASE
+)
+
+function canContinue() {
+  const p = props.pilot as any
+  return (
+    p.Callsign && p.Name &&
+    p.SkillsController.HasFullSkills &&
+    p.TalentsController.HasFullTalents &&
+    p.MechSkillsController.HasFullHASE &&
+    p.LicenseController.HasLicenses &&
+    p.CoreBonusController.HasCBs
+  )
+}
+
+function savePilot() {
+  const p = props.pilot as Pilot
+  const originalIndex = PilotStore().Pilots.findIndex((pi) => pi.ID === p.ID)
+  PilotStore().SetPilot(originalIndex, p)
+  if (p.Level === 12) {
+    AchievementEventSystem.emit('levelup_total', 12)
+  }
+  router.push({ name: 'pilot_sheet_redirect', params: { pilotID: p.ID } })
+}
 </script>

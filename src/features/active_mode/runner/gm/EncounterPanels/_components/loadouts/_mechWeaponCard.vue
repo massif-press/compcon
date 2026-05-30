@@ -208,7 +208,8 @@
   </v-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import { Damage } from '@/classes/Damage'
 import { ItemType } from '@/classes/enums'
 import { Mech } from '@/classes/mech/Mech'
@@ -226,67 +227,39 @@ import { useEquipmentActions } from '@/composables/useEquipmentActions'
 import { externalItemBonuses } from '@/composables/useExternalItemBonuses'
 import { Range } from '@/classes/Range'
 
-export default {
-  name: 'MechWeaponCombatCard',
-  components: {
-    EquipCommandPanel,
-    OnElement,
-    EngWeaponSettings,
-    MechModCard,
-    EquipmentDestroyedOverlay: DestroyedOverlay,
-    EquipmentFlavorDescription: FlavorDescription,
-    EquipmentActionsDeployables: ActionsDeployables,
-  },
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    mech: {
-      type: Object,
-      required: true,
-    },
-    encounter: {
-      type: Object,
-      required: true,
-    },
-    owner: {
-      type: Object,
-      required: true,
-    },
-    readonly: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['deploy'],
-  setup(props, { emit }) {
-    return {
-      ...useMobile(),
-      ...useEquipmentActions(toRef(props, 'item'), (_, d) => emit('deploy', d)),
-    }
-  },
-  computed: {
-    synergyLocation() {
-      if (!this.item) return 'none'
-      if (this.item.IsIntegrated) return 'integrated'
-      return this.item.ItemType === ItemType.MechWeapon ? 'weapon' : 'system'
-    },
-    isEngineerWeapon() {
-      return this.item && this.item.ID.includes('mw_prototype_')
-    },
-    mod() {
-      return this.item.Mod
-    },
-    externalItemBonuses,
-    getRange() {
-      return Range.CalculateRange(this.item as MechWeapon, this.mech as Mech)
-    },
-    getDamage() {
-      return Damage.CalculateDamage(this.item as MechWeapon, this.mech as Mech)
-    },
-  },
-}
+defineOptions({ name: 'MechWeaponCombatCard' })
+
+const props = withDefaults(defineProps<{
+  item: object
+  mech: object
+  encounter: object
+  owner: object
+  readonly?: boolean
+}>(), {
+  readonly: false
+})
+
+const emit = defineEmits<{
+  'deploy': []
+}>()
+
+const synergyLocation = computed(() => {
+      if (!props.item) return 'none'
+      if (props.item.IsIntegrated) return 'integrated'
+      return props.item.ItemType === ItemType.MechWeapon ? 'weapon' : 'system'
+    })
+const isEngineerWeapon = computed(() => {
+      return props.item && props.item.ID.includes('mw_prototype_')
+    })
+const mod = computed(() => {
+      return props.item.Mod
+    })
+const getRange = computed(() => {
+      return Range.CalculateRange(props.item as MechWeapon, props.mech as Mech)
+    })
+const getDamage = computed(() => {
+      return Damage.CalculateDamage(props.item as MechWeapon, props.mech as Mech)
+    })
 </script>
 
 <style scoped>

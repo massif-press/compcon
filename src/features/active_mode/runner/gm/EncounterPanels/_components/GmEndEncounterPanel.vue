@@ -5,25 +5,26 @@
     @end="end" />
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import { EncounterStore } from '@/stores';
 import EndEncounterPanel from '@/features/active_mode/_components/EndEncounterPanel.vue';
 
-export default {
-  name: 'DamageMenu',
-  components: { EndEncounterPanel },
-  props: {
-    encounterInstance: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    actionReport: [] as any[],
-  }),
-  mounted() {
-    const report = [] as any[];
-    for (const c of this.encounterInstance.Combatants) {
+defineOptions({ name: 'DamageMenu' })
+
+const props = defineProps<{
+  encounterInstance: object
+}>()
+
+const actionReport = ref([] as any[])
+
+async function end(result: string) {
+      await EncounterStore().ArchiveEncounterInstance(props.encounterInstance, JSON.stringify(actionReport.value, null, 2), result);
+    }
+
+onMounted(() => {
+const report = [] as any[];
+    for (const c of props.encounterInstance.Combatants) {
       const actor = c.actor.CombatController.RootActor;
       const out = {
         id: actor.ID,
@@ -43,12 +44,6 @@ export default {
       }
       report.push(out);
     }
-    this.actionReport = report;
-  },
-  methods: {
-    async end(result: string) {
-      await EncounterStore().ArchiveEncounterInstance(this.encounterInstance, JSON.stringify(this.actionReport, null, 2), result);
-    },
-  },
-};
+    actionReport.value = report;
+})
 </script>

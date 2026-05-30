@@ -24,35 +24,33 @@
   </combat-action-button>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import CombatActionButton from './CombatActionButton.vue';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 
-export default {
-  name: 'BasicActionButton',
-  components: { CombatActionButton, MenuInput },
-  props: {
-    action: { type: Object, required: true },
-    owner: { type: Object, required: true },
-    encounter: { type: Object, required: true },
-  },
-  emits: ['activate'],
-  computed: {
-    controller() {
-      return this.owner.actor.CombatController;
-    },
-    isTechAttack() {
-      if (this.action.ID.includes('tech_attack')) return true;
-      return this.action.ActiveEffects.some((ae) => ae.Attack && ae.Attack === 'tech');
-    },
-  },
-  methods: {
-    apply(close) {
-      this.$emit('activate', this.action.ID);
-    },
-    reset() {
-      this.controller.ResetActivation(this.action.Activation);
-    },
-  },
-};
+const props = defineProps<{
+  action: object
+  owner: object
+  encounter: object
+}>()
+
+const emit = defineEmits<{
+  'activate': []
+}>()
+
+const controller = computed(() => {
+      return props.owner.actor.CombatController;
+    })
+const isTechAttack = computed(() => {
+      if (props.action.ID.includes('tech_attack')) return true;
+      return props.action.ActiveEffects.some((ae) => ae.Attack && ae.Attack === 'tech');
+    })
+
+function apply(close) {
+      emit('activate', props.action.ID);
+    }
+function reset() {
+      controller.value.ResetActivation(props.action.Activation);
+    }
 </script>

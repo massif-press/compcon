@@ -23,19 +23,21 @@
 
 </template>
 
-<script lang="ts">
-export default {
-  name: 'mech-card-loadout-field',
-  props: {
-    mech: { type: Object, required: true }
-  },
-  computed: {
-    loadoutWeapons() {
+<script setup lang="ts">
+import { computed } from 'vue'
+
+defineOptions({ name: 'mech-card-loadout-field' })
+
+const props = defineProps<{
+  mech: object
+}>()
+
+const loadoutWeapons = computed(() => {
       const output = [] as string[];
-      for (const mount of this.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
-        this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-        this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
-        this.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
+      for (const mount of props.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
+        props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
+        props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
+        props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
       )) {
         if (!mount.IsLocked) {
           let str = `<i style="opacity:0.8">${mount.Name}</i>:`;
@@ -53,10 +55,8 @@ export default {
       }
 
       return output;
-    },
-    loadoutSystems() {
-      return this.mech.MechLoadoutController.ActiveLoadout.AllActiveSystems.map((x) => x.Name);
-    },
-  }
-}
+    })
+const loadoutSystems = computed(() => {
+      return props.mech.MechLoadoutController.ActiveLoadout.AllActiveSystems.map((x) => x.Name);
+    })
 </script>

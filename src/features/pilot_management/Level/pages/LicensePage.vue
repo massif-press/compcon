@@ -28,19 +28,14 @@
   </stepper-content>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { Pilot } from '@/classes/pilot/Pilot'
 import LicenseSelector from '../../_components/selectors/LicenseSelector.vue';
 import StepperContent from '../../_components/StepperContent.vue';
 
-export default {
-  name: 'license-page',
-  components: { LicenseSelector, StepperContent },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
-};
+defineOptions({ name: 'license-page' })
+
+const props = defineProps<{
+  pilot: object
+}>()
 </script>

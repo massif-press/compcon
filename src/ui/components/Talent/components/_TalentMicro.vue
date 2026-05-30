@@ -47,18 +47,20 @@
   </v-col>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import TalentEmblem from './_TalentEmblem.vue';
 import TalentRankContents from './_TalentRankContents.vue';
 
-export default {
-  name: 'TalentMicro',
-  components: { TalentEmblem, TalentRankContents },
-  props: {
-    talent: { type: Object, required: true },
-    rank: { type: [Number, String], required: false, default: null },
-    dark: { type: Boolean, default: false },
-  },
-  emits: ['clicked'],
-};
+const props = withDefaults(defineProps<{
+  talent: object
+  rank?: number | string
+  dark?: boolean
+}>(), {
+  rank: null,
+  dark: false
+})
+
+const emit = defineEmits<{
+  'clicked': []
+}>()
 </script>

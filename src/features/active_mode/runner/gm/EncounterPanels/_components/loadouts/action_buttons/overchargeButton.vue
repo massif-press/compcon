@@ -80,46 +80,43 @@
   </combat-action-button>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { DamageType } from '@/classes/enums';
 import { DiceRoller } from '@/classes/dice/DiceRoller';
 import CombatActionButton from './CombatActionButton.vue';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 
-export default {
-  name: 'OverchargeButton',
-  components: { CombatActionButton, MenuInput },
-  props: {
-    action: { type: Object, required: true },
-    owner: { type: Object, required: true },
-    encounter: { type: Object, required: true },
-  },
-  emits: ['activate'],
-  data: () => ({
-    heatCost: 1,
-  }),
-  computed: {
-    controller() {
-      return this.owner.actor.CombatController.ActiveActor.CombatController;
-    },
-    currentOvercharge() {
-      return this.controller.OverchargeLevel;
-    },
-  },
-  methods: {
-    roll() {
-      this.heatCost = DiceRoller.roll(this.controller.OverchargeCost);
-    },
-    apply() {
-      this.controller.toggleCombatAction('Overcharge');
-      this.controller.ResetActivation('quick')
-      this.controller.TakeDamage(DamageType.Heat, Number(this.heatCost));
-      this.controller.IncreaseOverchargeLevel();
-      this.$emit('activate', this.action.ID);
-    },
-    reset() {
-      this.controller.ResetActivation(this.action.Activation);
-    },
-  },
-};
+const props = defineProps<{
+  action: object
+  owner: object
+  encounter: object
+}>()
+
+const emit = defineEmits<{
+  'activate': []
+}>()
+
+const heatCost = ref(1)
+
+const controller = computed(() => {
+      return props.owner.actor.CombatController.ActiveActor.CombatController;
+    })
+const currentOvercharge = computed(() => {
+      return controller.value.OverchargeLevel;
+    })
+
+function roll() {
+      heatCost.value = DiceRoller.roll(controller.value.OverchargeCost);
+    }
+function apply() {
+      controller.value.toggleCombatAction('Overcharge');
+      controller.value.ResetActivation('quick')
+      controller.value.TakeDamage(DamageType.Heat, Number(heatCost.value));
+      controller.value.IncreaseOverchargeLevel();
+      emit('activate', props.action.ID);
+    }
+function reset() {
+      controller.value.ResetActivation(props.action.Activation);
+    }
 </script>

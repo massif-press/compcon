@@ -40,41 +40,42 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useDisplay } from 'vuetify'
 import { UserStore } from '@/stores';
 import CloudArchive from './_components/cloudArchive.vue';
 import CloudDataViewer from './_components/cloudDataViewer.vue';
 import SyncSettings from './_components/syncSettings.vue';
 
-export default {
-  name: 'CloudAccountData',
-  components: { SyncSettings, CloudDataViewer, CloudArchive },
-  emits: ['reset'],
-  data: () => ({
-    resetting: false,
-  }),
-  computed: {
-    cloudUseKb() {
+const _display = useDisplay()
+
+defineOptions({ name: 'CloudAccountData' })
+
+const emit = defineEmits<{
+  'reset': []
+}>()
+
+const resetting = ref(false)
+
+const cloudUseKb = computed(() => {
       return UserStore().CloudStorageUsed / 1024;
-    },
-    cloudUseMb() {
+    })
+const cloudUseMb = computed(() => {
       return UserStore().CloudStorageUsed / 1024 / 1024;
-    },
-    cloudMaxMb() {
+    })
+const cloudMaxMb = computed(() => {
       return UserStore().MaxCloudStorage / 1024 / 1024;
-    },
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-  },
-  methods: {
-    async resetMigration() {
-      this.resetting = true;
+    })
+const mobile = computed(() => {
+      return _display.mdAndDown.value;
+    })
+
+async function resetMigration() {
+      resetting.value = true;
       await UserStore().resetV2CloudMigration();
       await UserStore().checkV2CloudMigration()
-      this.resetting = false;
-      this.$emit('reset')
-    },
-  },
-};
+      resetting.value = false;
+      emit('reset')
+    }
 </script>

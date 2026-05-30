@@ -549,37 +549,38 @@
   </v-window-item>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'ui-test-buttons',
-  data: () => ({
-    label: '',
-    selectedItem: 'item-1',
-    selectedNumber: 50,
-    tickValue: 0,
-    inputText: 'hello world',
-    rteText: '<p>hello world</p>',
-    inputType: 'label',
-    selectType: 'select',
-    color: undefined,
-    bgColor: undefined,
-    variant: undefined,
-    block: false,
-    prependIcon: undefined,
-    appendIcon: undefined,
-    icon: 'cc:campaign',
-    showTooltip: false,
-    showOptions: false,
-    showClearable: false,
-    showDetails: false,
-    multiple: false,
-    selectChipVariant: undefined,
-    lightChip: false,
-    showControls: false,
-    showDisplay: true,
-    showValTooltips: false,
-    size: 'default',
-    icons: [
+<script setup lang="ts">
+import { ref } from 'vue'
+
+defineOptions({ name: 'ui-test-buttons' })
+
+const label = ref('')
+const selectedItem = ref('item-1')
+const selectedNumber = ref(50)
+const tickValue = ref(0)
+const inputText = ref('hello world')
+const rteText = ref('<p>hello world</p>')
+const inputType = ref('label')
+const selectType = ref('select')
+const color = ref(undefined)
+const bgColor = ref(undefined)
+const variant = ref(undefined)
+const block = ref(false)
+const prependIcon = ref(undefined)
+const appendIcon = ref(undefined)
+const icon = ref('cc:campaign')
+const showTooltip = ref(false)
+const showOptions = ref(false)
+const showClearable = ref(false)
+const showDetails = ref(false)
+const multiple = ref(false)
+const selectChipVariant = ref(undefined)
+const lightChip = ref(false)
+const showControls = ref(false)
+const showDisplay = ref(true)
+const showValTooltips = ref(false)
+const size = ref('default')
+const icons = ref([
       '',
       'cc:campaign',
       'mdi-alert',
@@ -589,14 +590,12 @@ export default {
       'mdi-content-save',
       'cc:encounter',
       'mdi-help',
-    ],
-    colors: ['primary', 'secondary', 'accent', 'damage--heat', 'damage--energy', 'exotic', 'cyan'],
-    variants: ['default', 'outlined'],
-    chipVariants: ['tonal', 'outlined', 'text'],
-    sizes: ['x-small', 'small', 'default', 'large', 'x-large'],
-    min: 0,
-    max: 100,
-    ticks: 6,
-  }),
-};
+    ])
+const colors = ref(['primary', 'secondary', 'accent', 'damage--heat', 'damage--energy', 'exotic', 'cyan'])
+const variants = ref(['default', 'outlined'])
+const chipVariants = ref(['tonal', 'outlined', 'text'])
+const sizes = ref(['x-small', 'small', 'default', 'large', 'x-large'])
+const min = ref(0)
+const max = ref(100)
+const ticks = ref(6)
 </script>

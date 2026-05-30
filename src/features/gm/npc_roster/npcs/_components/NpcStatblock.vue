@@ -22,46 +22,40 @@
   </v-card-text>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { notify } from '@/util/notify'
 import { Unit } from '@/classes/npc/unit/Unit';
 import Statblock from '@/classes/Statblock';
 
-export default {
-  name: 'StatblockDialog',
-  props: {
-    item: {
-      type: Unit,
-      required: true,
-    },
-  },
-  data: () => ({
-    narrativeElements: false,
-  }),
-  computed: {
-    statblock(): string {
-      return Statblock.GenerateNPC(this.item, this.narrativeElements);
-    },
-  },
+defineOptions({ name: 'StatblockDialog' })
 
-  methods: {
-    copy() {
+const props = defineProps<{
+  item: Unit
+}>()
+
+const narrativeElements = ref(false)
+
+const statblock = computed(() => {
+      return Statblock.GenerateNPC(props.item, narrativeElements.value);
+    })
+
+function copy() {
       navigator.clipboard
-        .writeText(this.statblock)
+        .writeText(statblock.value)
         .then(() =>
-          this.$notify({
+          notify({
             title: 'Statblock Copied to Clipboard',
             text: 'Copy Success',
             data: { icon: 'mdi-clipboard-text-outline' },
           })
         )
         .catch(() =>
-          this.$notify({
+          notify({
             title: 'Error',
             text: 'Unable to copy statblock',
             data: { icon: 'mdi-clipboard-text-outline', color: 'error' },
           })
         );
-    },
-  },
-};
+    }
 </script>

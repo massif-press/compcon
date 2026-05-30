@@ -39,38 +39,40 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'cc-btn-std',
-  props: {
-    color: { type: String },
-    disabled: { type: Boolean },
-    block: { type: Boolean },
-    loading: { type: Boolean },
-    size: { type: String },
-    variant: { type: String },
-    prependIcon: { type: String },
-    appendIcon: { type: String },
-    optionsIcon: { type: String },
-    tooltip: { type: String },
-    tooltipIcon: { type: String },
-    to: { type: [String, Object] },
-    href: { type: String },
-    target: { type: String },
-  },
-  emits: ['click'],
-  computed: {
-    sizeStyle() {
-      return this.size ? `size-${this.size}` : 'size-default';
-    },
-    optionsSize() {
-      return this.size ? `options-${this.size}` : 'options-default';
-    },
-    hasOptions() {
-      return !!this.$slots.options;
-    },
-  },
-};
+<script setup lang="ts">
+import { computed, useSlots } from 'vue'
+
+defineOptions({ name: 'cc-btn-std' })
+
+const props = defineProps<{
+  color?: string
+  disabled?: boolean
+  block?: boolean
+  loading?: boolean
+  size?: string
+  variant?: string
+  prependIcon?: string
+  appendIcon?: string
+  optionsIcon?: string
+  tooltip?: string
+  tooltipIcon?: string
+  to?: string | object
+  href?: string
+  target?: string
+}>()
+
+const emit = defineEmits<{
+  'click': []
+}>()
+
+const sizeStyle = computed(() => {
+      return props.size ? `size-${props.size}` : 'size-default';
+    })
+const optionsSize = computed(() => {
+      return props.size ? `options-${props.size}` : 'options-default';
+    })
+const slots = useSlots()
+const hasOptions = computed(() => !!slots.options)
 </script>
 
 <style scoped>

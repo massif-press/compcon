@@ -74,23 +74,17 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import PrintAction from './PrintAction.vue';
 
-export default {
-  name: 'print-deployable',
-  components: { PrintAction },
-  props: {
-    deployables: {
-      type: Array,
-      required: true,
-    },
-    tier: {
-      type: Number,
-      default: 1,
-    },
-  },
-};
+defineOptions({ name: 'print-deployable' })
+
+const props = withDefaults(defineProps<{
+  deployables: any[]
+  tier?: number
+}>(), {
+  tier: 1
+})
 </script>
 
 <style scoped>

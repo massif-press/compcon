@@ -1,5 +1,6 @@
 import * as _ from 'lodash-es'
 import { markRaw } from 'vue'
+import type { IControllerStatic } from '@/classes/ISerializable'
 import { IStatContainer } from './IStatContainer'
 import { Stats, StatKey } from './Stats'
 import { Rules } from '@/classes/utility/Rules'
@@ -322,5 +323,6 @@ class StatController {
   }
 }
 
+const _checkController: IControllerStatic<IStatContainer, IStatData> = StatController
 export { StatController, MandatoryStats }
 export type { IStatData, ICustomStatData }

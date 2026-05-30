@@ -30,7 +30,8 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
 import buttons from './pages/buttons.vue';
 import inputs from './pages/inputs.vue';
 import panels from './pages/panels.vue';
@@ -39,19 +40,7 @@ import modals from './pages/modals.vue';
 import chips from './pages/chips.vue';
 import textpage from './pages/text.vue';
 
-export default {
-  name: 'ui-test-new',
-  components: {
-    buttons,
-    inputs,
-    panels,
-    titles,
-    modals,
-    chips,
-    textpage,
-  },
-  data: () => ({
-    tab: 0,
-  }),
-};
+defineOptions({ name: 'ui-test-new' })
+
+const tab = ref(0)
 </script>

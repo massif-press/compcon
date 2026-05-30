@@ -96,50 +96,31 @@
   </v-layout>
 </template>
 
-<script>
+<script setup lang="ts">
+import { computed, ref, onMounted } from 'vue'
 import logger from '@/user/logger';
 import { marked } from 'marked';
 import { useMobile } from '@/composables/useMobile';
 
+const { mobile, portrait } = useMobile()
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'errata',
-  data: () => ({
-    faq: '',
-    loading: true,
-    showNav: false,
-  }),
-  computed: {
-    books() {
-      return new Set(this.faq.map((item) => item.book));
-    },
-  },
-  async mounted() {
-    this.showNav = !this.mobile;
-    const res = await fetch(
-      'https://raw.githubusercontent.com/aritsune/lancer-faq/refs/heads/master/src/index.md'
-    );
-    if (res.ok) {
-      let text = await res.text();
-      text = this.sanitize(text);
-      text = this.convertToJson(text);
-      this.faq = this.srdFormat(text[0].children);
-    } else logger.error(`Error fetching FAQ data: ${res.statusText}`, this);
-    this.loading = false;
-  },
-  methods: {
-    sanitize(text) {
+const faq = ref('')
+const loading = ref(true)
+const showNav = ref(false)
+
+const books = computed(() => {
+      return new Set(faq.value.map((item) => item.book));
+    })
+
+function sanitize(text) {
       let out = text;
 
       // remove all <wot:*> tags
       out = out.replace(/<wot:.*?>/g, '');
 
       return out;
-    },
-    convertToJson(markdown) {
+    }
+function convertToJson(markdown) {
       const lines = markdown.split('\n');
       const root = { children: [] };
       const stack = [root];
@@ -164,8 +145,8 @@ export default {
       });
 
       return root.children;
-    },
-    srdFormat(arr) {
+    }
+function srdFormat(arr) {
       return arr.map((item) => {
         let out = {
           book: 'Lancer Core Book',
@@ -185,14 +166,14 @@ export default {
         }
 
         out.body = item.body;
-        if (item.children.length) out.children = this.srdFormat(item.children);
+        if (item.children.length) out.children = srdFormat(item.children);
         return out;
       });
-    },
-    cMarkdown(str) {
+    }
+function cMarkdown(str) {
       return marked(str);
-    },
-    scrollTo(id) {
+    }
+function scrollTo(id) {
       const el = document.getElementById(id);
       const offset = 50;
       const elementPosition = el.getBoundingClientRect().top + window.pageYOffset;
@@ -202,7 +183,19 @@ export default {
         top: offsetPosition,
         behavior: 'smooth',
       });
-    },
-  },
-};
+    }
+
+onMounted(async () => {
+  showNav.value = !mobile.value
+  const res = await fetch(
+    'https://raw.githubusercontent.com/aritsune/lancer-faq/refs/heads/master/src/index.md'
+  )
+  if (res.ok) {
+    let text = await res.text()
+    text = sanitize(text)
+    text = convertToJson(text)
+    faq.value = srdFormat(text[0].children)
+  } else logger.error(`Error fetching FAQ data: ${res.statusText}`, this)
+  loading.value = false
+})
 </script>

@@ -31,48 +31,50 @@
   </v-fade-transition>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'cc-short-string-editor',
-  props: {
-    placeholder: { type: String, required: false },
-    large: { type: Boolean },
-    absolute: { type: Boolean },
-    readonly: { type: Boolean },
-    justify: { type: String, required: false, default: 'center' },
-    maxWidth: { type: [String, Boolean], required: false },
-    minWidth: { type: String, required: false },
-  },
-  data: () => ({
-    newStr: '',
-    editing: false,
-  }),
-  watch: {
-    placeholder(val) {
-      if (!this.editing) this.newStr = val || '';
-    },
-  },
-  created() {
-    if (this.placeholder) this.newStr = this.placeholder;
-  },
-  methods: {
-    edit(): void {
-      if (this.readonly) return;
-      this.editing = true;
-      if (this.$slots.default && this.$slots.default[0]) {
+<script setup lang="ts">
+import { ref, useSlots } from 'vue'
+
+defineOptions({ name: 'cc-short-string-editor' })
+
+const props = withDefaults(defineProps<{
+  placeholder?: string
+  large?: boolean
+  absolute?: boolean
+  readonly?: boolean
+  justify?: string
+  maxWidth?: string | boolean
+  minWidth?: string
+}>(), {
+  justify: 'center'
+})
+
+const emit = defineEmits<{
+  'set': []
+}>()
+
+const slots = useSlots()
+const newStr = ref('')
+const editing = ref(false)
+
+if (props.placeholder) newStr.value = props.placeholder;
+
+function edit() {
+      if (props.readonly) return;
+      editing.value = true;
+      const slotVnodes = slots.default ? slots.default() : [];
+      if (slotVnodes.length && slotVnodes[0]) {
+        const vn = slotVnodes[0];
         let prev = '';
-        if (this.$slots.default[0].text) prev = this.$slots.default[0].text.trim();
-        else if (this.$slots.default[0].children[0].text)
-          prev = this.$slots.default[0].children[0].text.trim();
-        this.newStr = prev;
+        if (typeof vn.children === 'string') prev = vn.children.trim();
+        else if (Array.isArray(vn.children) && vn.children[0] && typeof vn.children[0].children === 'string')
+          prev = vn.children[0].children.trim();
+        newStr.value = prev;
       }
-    },
-    submit(): void {
-      this.$emit('set', this.newStr);
-      this.editing = false;
-    },
-  },
-};
+    }
+function submit() {
+      emit('set', newStr.value);
+      editing.value = false;
+    }
 </script>
 
 <style scoped>

@@ -34,24 +34,19 @@
   </stepper-content>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import SkillSelector from '../../_components/selectors/SkillSelector.vue';
 import { Pilot } from '@/classes/pilot/Pilot'
 import StepperContent from '../../_components/StepperContent.vue';
 
-export default {
-  name: 'skills-page',
-  components: { SkillSelector, StepperContent },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    canContinue(): boolean {
-      return !this.pilot.SkillsController.IsMissingSkills;
-    },
-  },
-};
+defineOptions({ name: 'skills-page' })
+
+const props = defineProps<{
+  pilot: object
+}>()
+
+const canContinue = computed(() => {
+      return !props.pilot.SkillsController.IsMissingSkills;
+    })
 </script>

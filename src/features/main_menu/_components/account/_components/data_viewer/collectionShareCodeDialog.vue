@@ -21,31 +21,28 @@
   </cc-share-code-importer>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { UserStore } from '@/stores';
 import CollectionInfo from './collectionInfo.vue';
 
-export default {
-  name: 'ShareCodeDialog',
-  components: { CollectionInfo },
-  data: () => ({
-    queryResult: null as any,
-    dlLoading: false,
-  }),
-  computed: {
-    userId() { return UserStore().Cognito?.userId },
-    remoteItems() { return UserStore().UserMetadata?.RemoteItems ?? [] },
-  },
-  methods: {
-    async subscribe() {
-      this.dlLoading = true;
-      if (!this.queryResult) return;
-      await UserStore().addContentSubscription(this.queryResult);
-      await UserStore().updateRemoteCollection(this.queryResult);
-      this.dlLoading = false;
-      (this.$refs as any).importer.reset();
-      (this.$refs as any).importer.close();
-    },
-  },
-};
+defineOptions({ name: 'ShareCodeDialog' })
+
+const importer = ref<any>(null)
+
+const queryResult = ref(null as any)
+const dlLoading = ref(false)
+
+const userId = computed(() => { return UserStore().Cognito?.userId })
+const remoteItems = computed(() => { return UserStore().UserMetadata?.RemoteItems ?? [] })
+
+async function subscribe() {
+      dlLoading.value = true;
+      if (!queryResult.value) return;
+      await UserStore().addContentSubscription(queryResult.value);
+      await UserStore().updateRemoteCollection(queryResult.value);
+      dlLoading.value = false;
+      importer.value.reset();
+      importer.value.close();
+    }
 </script>

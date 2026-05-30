@@ -65,46 +65,46 @@
   </combat-action-button>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useDisplay } from 'vuetify'
 import { CompendiumStore } from '@/stores';
 import CombatActionButton from './CombatActionButton.vue';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 
-export default {
-  name: 'InvadeButton',
-  components: { CombatActionButton, MenuInput },
-  props: {
-    action: { type: Object, required: true },
-    owner: { type: Object, required: true },
-    encounter: { type: Object, required: true },
-  },
-  emits: ['activate'],
-  data: () => ({
-    tab: 'invade',
-  }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-    controller() {
-      return this.owner.actor.CombatController.ActiveActor.CombatController;
-    },
-    invadeActions() {
+const _display = useDisplay()
+
+const props = defineProps<{
+  action: object
+  owner: object
+  encounter: object
+}>()
+
+const emit = defineEmits<{
+  'activate': []
+}>()
+
+const tab = ref('invade')
+
+const mobile = computed(() => {
+      return _display.mdAndDown.value;
+    })
+const controller = computed(() => {
+      return props.owner.actor.CombatController.ActiveActor.CombatController;
+    })
+const invadeActions = computed(() => {
       return [...CompendiumStore().Actions.filter((a) => a.Activation === 'Invade'),
-        ...this.controller.AllActions('Invade')]
+        ...controller.value.AllActions('Invade')]
         .sort((a, b) => a.Name.localeCompare(b.Name));
-    },
-  },
-  methods: {
-    getSelectedAction(id) {
-      return this.invadeActions.find((a) => a.ID === id);
-    },
-    apply() {
-      this.$emit('activate', this.tab);
-    },
-    reset() {
-      this.controller.ResetActivation(this.action.Activation);
-    },
-  },
-};
+    })
+
+function getSelectedAction(id) {
+      return invadeActions.value.find((a) => a.ID === id);
+    }
+function apply() {
+      emit('activate', tab.value);
+    }
+function reset() {
+      controller.value.ResetActivation(props.action.Activation);
+    }
 </script>

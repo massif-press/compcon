@@ -42,23 +42,15 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { Action } from '@/classes/Action';
 
-
-export default {
-  name: 'PrintAction',
-  props: {
-    actions: {
-      type: Array,
-      required: true,
-    },
-    tier: {
-      type: Number,
-      default: 1,
-    },
-  },
-};
+const props = withDefaults(defineProps<{
+  actions: any[]
+  tier?: number
+}>(), {
+  tier: 1
+})
 </script>
 
 <style scoped>

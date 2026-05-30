@@ -113,7 +113,8 @@
   </combat-action-button>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 import { CombatantData } from '@/classes/encounter/Encounter';
 import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
@@ -124,107 +125,100 @@ import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/A
 import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon';
 import { NpcFeatureType } from '@/classes/npc/feature/NpcFeature';
 import CombatActionButton from './CombatActionButton.vue';
-import { barrageButtonMixin } from './_barrageButtonMixin';
 
-export default {
-  name: 'NpcBarrageButton',
-  components: {
-    MenuInput,
-    NpcWeaponAttack,
-    ApplyButton,
-    StagedPanel,
-    CombatActionButton,
-  },
-  mixins: [barrageButtonMixin],
-  props: {
-    action: {
-      type: Object,
-      required: true,
-    },
-    owner: {
-      type: Object,
-      required: true,
-    },
-    encounter: {
-      type: Object,
-      required: true,
-    },
-    presetWeapon: {
-      type: NpcWeapon,
-      required: false,
-    },
-  },
-  data: () => ({
-    events: [] as {
+const props = defineProps<{
+  action: object
+  owner: object
+  encounter: object
+  presetWeapon?: NpcWeapon
+}>()
+
+const events = ref([] as {
       weaponEvent: WeaponAttackEvent,
-    }[],
-    selectedWeapons: [] as NpcWeapon[],
-  }),
-  computed: {
-    controller() {
-      return this.owner.actor.CombatController.ActiveActor.CombatController;
-    },
-    barrageWeapons() {
-      const npc = this.controller.ActiveActor;
+    }[])
+const selectedWeapons = ref([] as NpcWeapon[])
+
+reset();
+
+reset();
+
+const controller = computed(() => {
+      return props.owner.actor.CombatController.ActiveActor.CombatController;
+    })
+const barrageWeapons = computed(() => {
+      const npc = controller.value.ActiveActor;
 
       let arr = (npc.NpcFeatureController?.Features || []).filter(x => x.FeatureType === NpcFeatureType.Weapon)
 
-      if (this.presetWeapon) {
-        arr = arr.filter(w => w.InstanceID !== this.presetWeapon!.InstanceID);
+      if (props.presetWeapon) {
+        arr = arr.filter(w => w.InstanceID !== props.presetWeapon!.InstanceID);
       }
 
       return arr;
-    },
-    eventArray() {
+    })
+const eventArray = computed(() => {
       const out = [] as any[];
-      for (let i = 0; i < this.selectedWeapons.length; i++) {
-        const ev = this.events[i];
+      for (let i = 0; i < selectedWeapons.value.length; i++) {
+        const ev = events.value[i];
         if (ev && ev.weaponEvent) {
           out.push(ev.weaponEvent);
         }
       }
       return out;
-    },
-    allEventsStaged() {
-      if (!this.eventArray.length) return false;
-      return this.eventArray.every((e) => e.BaseEvent.Staged);
-    },
-    tier() {
-      return this.owner.actor.CombatController.Tier;
+    })
+const allEventsStaged = computed(() => {
+      if (!eventArray.value.length) return false;
+      return eventArray.value.every((e) => e.BaseEvent.Staged);
+    })
+const tier = computed(() => {
+      return props.owner.actor.CombatController.Tier;
+    })
+
+function reset(clearAction = false) {
+      if (clearAction) props.owner.CombatController.ClearActionUsed(props.action.ID);
+      selectedWeapons.value = new Array(2);
+      events.value = new Array(2);
+      if (!selectedWeapons.value[0] && props.presetWeapon) {
+        setSelected(0, props.presetWeapon);
+      }
     }
-  },
-  methods: {
-    ordnanceWarning(selectedWeapon) {
+function apply() {
+      const actor = props.owner.actor.CombatController.ActiveActor.CombatController;
+      selectedWeapons.value.forEach((w) => {
+        actor.MarkActionUsed(w.InstanceID);
+        if (w.IsLoading) w.Used = true;
+      });
+      reset();
+    }
+function ordnanceWarning(selectedWeapon) {
       if (!selectedWeapon) return false;
       if (selectedWeapon.ActiveTags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
-        return this.owner.actor.CombatController.CanActivate('ordnance') === false;
+        return props.owner.actor.CombatController.CanActivate('ordnance') === false;
       }
       return false;
-    },
-    setSelected(index: number, weapon: NpcWeapon) {
+    }
+function setSelected(index: number, weapon: NpcWeapon) {
       if (!weapon) return;
 
-      const self = this.encounter.Combatants.find(
-        (c: CombatantData) => c.actor.CombatController.RootActor.ID === this.owner.actor.CombatController.RootActor.ID
+      const self = props.encounter.Combatants.find(
+        (c: CombatantData) => c.actor.CombatController.RootActor.ID === props.owner.actor.CombatController.RootActor.ID
       );
       if (!self) {
         throw new Error('Owner combatant not found in encounter');
       }
 
-      this.selectedWeapons[index] = weapon;
+      selectedWeapons.value[index] = weapon;
 
-      this.events[index] = {
-        weaponEvent: new WeaponAttackEvent(weapon, self, this.encounter, 'Barrage'),
+      events.value[index] = {
+        weaponEvent: new WeaponAttackEvent(weapon, self, props.encounter, 'Barrage'),
       };
 
       if (weapon.IsSuperheavy) {
-        this.selectedWeapons = [weapon];
-        this.events = [this.events[index]];
-      } else if (this.selectedWeapons.length === 1) {
-        this.selectedWeapons.push(undefined as any);
-        this.events.push(undefined as any);
+        selectedWeapons.value = [weapon];
+        events.value = [events.value[index]];
+      } else if (selectedWeapons.value.length === 1) {
+        selectedWeapons.value.push(undefined as any);
+        events.value.push(undefined as any);
       }
-    },
-  },
-};
+    }
 </script>

@@ -186,7 +186,8 @@
   </cc-solo-modal>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import SlotCardBase from '../../_SlotCardBase.vue'
 import WeaponSelector from './_WeaponSelector.vue'
 import ModSelector from './_ModSelector.vue'
@@ -206,120 +207,80 @@ import { Mech } from '@/classes/mech/Mech'
 import EngWeaponSettings from './_EngWeaponSettings.vue'
 import { useMobile } from '@/composables/useMobile'
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'WeaponSlotCard',
-  components: {
-    SlotCardBase,
-    WeaponSelector,
-    ModSelector,
-    ModInset,
-    // AmmoCaseInset,
-    EquipmentOptions,
-    EquipmentHeader,
-    ShLockDialog,
-    OnElement,
-    WeaponSlotToolbarItems,
-    EngWeaponSettings,
-  },
-  props: {
-    weaponSlot: {
-      type: Object,
-      required: true,
-    },
-    mech: {
-      type: Mech,
-      required: true,
-    },
-    mount: {
-      type: Object,
-      required: true,
-    },
-    readonly: {
-      type: Boolean,
-    },
-    intWeapon: {
-      type: Boolean,
-    },
-  },
-  data: () => ({
-    stagedSH: null as MechWeapon | null,
-    modDialog: false,
-    lockDialog: false,
-  }),
-  computed: {
-    isEngineerWeapon() {
-      return this.item && this.item.ID.includes('mw_prototype_')
-    },
-    item() {
-      return this.weaponSlot.Weapon
-    },
-    mod() {
-      return this.item.Mod
-    },
-    color() {
-      return this.mech.Frame.ManufacturerColor;
-    },
-    // armoryLevel() {
-    //   if (!this.item) return 0
-    //   if (this.item.Size !== WeaponSize.Main || this.item.WeaponType === WeaponType.Melee) return 0
-    //   const tal = this.mech.pilot.TalentsController.Talents.find(
-    //     (x: PilotTalent) => x.Talent.ID === 't_walking_armory'
-    //   )
-    //   if (!tal) return 0
-    //   return tal.Rank
-    // },
-    getRange() {
-      if (!this.item) return []
-      return Range.CalculateRange(this.item, this.mech as Mech)
-    },
-    getDamage() {
-      if (!this.item) return []
-      return Damage.CalculateDamage(this.item, this.mech as Mech)
-    },
-  },
-  methods: {
-    equip(item: MechWeapon) {
-      ; (this.$refs as any).base.selectorDialog = false
+const { mobile, portrait } = useMobile()
+
+const props = defineProps<{
+  weaponSlot: object
+  mech: Mech
+  mount: object
+  readonly?: boolean
+  intWeapon?: boolean
+}>()
+
+const base = ref<any>(null)
+
+const stagedSH = ref(null as MechWeapon | null)
+const modDialog = ref(false)
+const lockDialog = ref(false)
+
+const isEngineerWeapon = computed(() => {
+      return item.value && item.value.ID.includes('mw_prototype_')
+    })
+const item = computed(() => {
+      return props.weaponSlot.Weapon
+    })
+const mod = computed(() => {
+      return item.value.Mod
+    })
+const color = computed(() => {
+      return props.mech.Frame.ManufacturerColor;
+    })
+const getRange = computed(() => {
+      if (!item.value) return []
+      return Range.CalculateRange(item.value, props.mech as Mech)
+    })
+const getDamage = computed(() => {
+      if (!item.value) return []
+      return Damage.CalculateDamage(item.value, props.mech as Mech)
+    })
+
+function equip(item: MechWeapon) {
+      ; (base.value as any).selectorDialog = false
       if (item.Size === WeaponSize.Superheavy) {
-        this.equipSuperheavy(item)
+        equipSuperheavy(item)
       } else {
-        if (this.item && this.item.Size === WeaponSize.Superheavy)
-          this.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy()
-        this.weaponSlot.EquipWeapon(item, this.mech.Pilot)
+        if (item.value && item.value.Size === WeaponSize.Superheavy)
+          props.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy()
+        props.weaponSlot.EquipWeapon(item, props.mech.Pilot)
       }
-    },
-    equipSuperheavy(item: MechWeapon) {
-      this.stagedSH = item
-      this.lockDialog = true
-    },
-    finalizeSuperheavy(lockTarget: EquippableMount) {
-      if (this.item && this.item.Size === WeaponSize.Superheavy)
-        this.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy()
-      lockTarget.Lock(this.mount as EquippableMount)
-      this.weaponSlot.EquipWeapon(this.stagedSH, this.mech.Pilot)
-      this.lockDialog = false
-      this.stagedSH = null
-    },
-    install(mod: WeaponMod) {
-      this.item.Mod = mod
-      this.modDialog = false
-      this.mech.Pilot.SaveController.save()
-    },
-    uninstall() {
-      this.item.Mod = null
-    },
-    remove() {
-      if (this.item.Size === WeaponSize.Superheavy) {
-        this.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy()
+    }
+function equipSuperheavy(item: MechWeapon) {
+      stagedSH.value = item
+      lockDialog.value = true
+    }
+function finalizeSuperheavy(lockTarget: EquippableMount) {
+      if (item.value && item.value.Size === WeaponSize.Superheavy)
+        props.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy()
+      lockTarget.Lock(props.mount as EquippableMount)
+      props.weaponSlot.EquipWeapon(stagedSH.value, props.mech.Pilot)
+      lockDialog.value = false
+      stagedSH.value = null
+    }
+function install(mod: WeaponMod) {
+      item.value.Mod = mod
+      modDialog.value = false
+      props.mech.Pilot.SaveController.save()
+    }
+function uninstall() {
+      item.value.Mod = null
+    }
+function remove() {
+      if (item.value.Size === WeaponSize.Superheavy) {
+        props.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy()
       }
-      this.weaponSlot.UnequipWeapon()
-    },
-    save() {
-      this.mech.Parent.SaveController.save();
-    },
-  },
-}
+      props.weaponSlot.UnequipWeapon()
+    }
+function save() {
+      props.mech.Parent.SaveController.save();
+    }
 </script>

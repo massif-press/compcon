@@ -48,64 +48,66 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import { computeItemGroupings } from '@/composables/useItemGrouping';
 import ItemCard from './_components/GMItemCard.vue';
 import GmItemTable from './GMItemTable.vue';
 import * as _ from 'lodash-es';
 
-export default {
-  name: 'ItemCardGrid',
-  components: { ItemCard, GmItemTable },
-  props: {
-    itemType: { type: String, required: true },
-    items: { type: Array, required: true },
-    search: { type: String, required: false, default: '' },
-    big: { type: Boolean },
-    list: { type: Boolean },
-    table: { type: Boolean },
-    grouping: { type: String, required: false, default: 'None' },
-    sorting: { type: String, required: false, default: 'Name' },
-    sortDir: { type: String, required: false, default: 'asc' },
-    allFolders: { type: Array, required: false, default: () => [] },
-    folderDrag: { type: Boolean, default: false },
-  },
-  computed: {
-    groupings() {
-      return computeItemGroupings(this.items as any[], this.grouping, this.allFolders as string[]);
-    },
-    searchedItems() {
-      if (!this.search) return this.sort(this.items);
-      return this.sort(this.items.filter((x: any) => (x as any).Name.toLowerCase().includes(this.search.toLowerCase())));
-    },
-  },
-  methods: {
-    onDragStart(event: DragEvent, item: any) {
+const props = withDefaults(defineProps<{
+  itemType: string
+  items: any[]
+  search?: string
+  big?: boolean
+  list?: boolean
+  table?: boolean
+  grouping?: string
+  sorting?: string
+  sortDir?: string
+  allFolders?: any[]
+  folderDrag?: boolean
+}>(), {
+  search: '',
+  grouping: 'None',
+  sorting: 'Name',
+  sortDir: 'asc',
+  allFolders: () => [],
+  folderDrag: false
+})
+
+const groupings = computed(() => {
+      return computeItemGroupings(props.items as any[], props.grouping, props.allFolders as string[]);
+    })
+const searchedItems = computed(() => {
+      if (!props.search) return sort(props.items);
+      return sort(props.items.filter((x: any) => (x as any).Name.toLowerCase().includes(props.search.toLowerCase())));
+    })
+
+function onDragStart(event: DragEvent, item: any) {
       event.dataTransfer!.setData('text/encounter-id', (item as any).ID);
       event.dataTransfer!.effectAllowed = 'move';
-    },
-    groupedItems(group) {
-      if (this.grouping === 'None') return this.sort(this.searchedItems);
-      return group.filter((x: any) => (x as any).Name.toLowerCase().includes(this.search.toLowerCase()));
-    },
-    sort(items) {
+    }
+function groupedItems(group) {
+      if (props.grouping === 'None') return sort(searchedItems.value);
+      return group.filter((x: any) => (x as any).Name.toLowerCase().includes(props.search.toLowerCase()));
+    }
+function sort(items) {
       return _.orderBy(items, (x: any) => {
-        if (this.sorting === 'Sitrep') return x.Sitrep.Name;
-        if (this.sorting === 'Environment') return x.Environment.Name;
+        if (props.sorting === 'Sitrep') return x.Sitrep.Name;
+        if (props.sorting === 'Environment') return x.Environment.Name;
 
-        if (x[this.sorting]) return x[this.sorting];
+        if (x[props.sorting]) return x[props.sorting];
 
-        if (x.StatController && x.StatController.getMax(this.sorting))
-          return x.StatController.getMax(this.sorting);
-        if (x.NarrativeController && x.NarrativeController.LabelDictionary[this.sorting])
-          return x.NarrativeController.LabelDictionary[this.sorting];
+        if (x.StatController && x.StatController.getMax(props.sorting))
+          return x.StatController.getMax(props.sorting);
+        if (x.NarrativeController && x.NarrativeController.LabelDictionary[props.sorting])
+          return x.NarrativeController.LabelDictionary[props.sorting];
         if (x.NpcClassController) {
-          if (this.sorting === 'Role') return x.NpcClassController.Class.Role;
-          if (this.sorting === 'Tier') return x.NpcClassController.Tier;
-          if (this.sorting === 'Tag') return x.Tag;
+          if (props.sorting === 'Role') return x.NpcClassController.Class.Role;
+          if (props.sorting === 'Tier') return x.NpcClassController.Tier;
+          if (props.sorting === 'Tag') return x.Tag;
         }
       });
-    },
-  },
-};
+    }
 </script>

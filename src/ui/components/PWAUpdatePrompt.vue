@@ -12,13 +12,10 @@
   </v-snackbar>
 </template>
 
-<script lang="ts">
-  import { useRegisterSW } from 'virtual:pwa-register/vue'
+<script setup lang="ts">
+import { useRegisterSW } from 'virtual:pwa-register/vue'
 
-  export default {
-    name: 'PWAUpdatePrompt',
-    setup() {
-      const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW()
+const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW()
 
       function updateSW() {
         updateServiceWorker()
@@ -28,8 +25,4 @@
         offlineReady.value = false
         needRefresh.value = false
       }
-
-      return { offlineReady, needRefresh, updateSW, close }
-    },
-  }
 </script>

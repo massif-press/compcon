@@ -105,18 +105,22 @@
   </cc-dialog>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { notify } from '@/util/notify'
+import { useDisplay } from 'vuetify'
 import { UserStore } from '@/stores';
 import logger from '@/user/logger';
 import { authPatreon } from '@/user/oauth';
 import { NoPatreonTierError } from '@/user/store/OAuthService';
 
-export default {
-  name: 'patreon-card',
-  data: () => ({
-    dialog: false,
-    loadPatreon: false,
-    tiers: [
+const _display = useDisplay()
+
+defineOptions({ name: 'patreon-card' })
+
+const dialog = ref(false)
+const loadPatreon = ref(false)
+const tiers = ref([
       {
         title: 'Free',
         value: 0,
@@ -157,34 +161,32 @@ export default {
         value: 3,
         benefits: ['10 GB cloud storage', 'Unlimited active mode table hosting'],
       },
-    ],
-  }),
-  computed: {
-    patreon() {
+    ])
+
+const patreon = computed(() => {
       return UserStore().User.Patreon;
-    },
-    tier() {
-      return this.patreon.profile.tierData.title || 'Free';
-    },
-    tierValue() {
+    })
+const tier = computed(() => {
+      return patreon.value.profile.tierData.title || 'Free';
+    })
+const tierValue = computed(() => {
       return UserStore().User.PatreonTierValue || 0;
-    },
-    supportText() {
-      if (this.tier === 'Free') {
+    })
+const supportText = computed(() => {
+      if (tier.value === 'Free') {
         return 'Thank you for following the COMP/CON project!';
       } else {
         return 'Thank you for your generous support of COMP/CON!';
       }
-    },
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-  },
-  methods: {
-    missingTier(t: string) {
-      return this.tierValue < this.tiers.find((x) => x.title === t)!.value;
-    },
-    openOAuthPopup(url, name, width = 500, height = 600) {
+    })
+const mobile = computed(() => {
+      return _display.mdAndDown.value;
+    })
+
+function missingTier(t: string) {
+      return tierValue.value < tiers.value.find((x) => x.title === t)!.value;
+    }
+function openOAuthPopup(url, name, width = 500, height = 600) {
       const left = window.screenX + (window.outerWidth - width) / 2;
       const top = window.screenY + (window.outerHeight - height) / 2;
 
@@ -193,65 +195,62 @@ export default {
         name,
         `width=${width},height=${height},top=${top},left=${left},resizable=yes,scrollbars=yes,status=no,toolbar=no,menubar=no`
       );
-    },
-    async loginWithPatreon() {
+    }
+async function loginWithPatreon() {
       const clientId = import.meta.env.VITE_APP_PATREON_CLIENT_ID || '';
       const redirectUri = import.meta.env.VITE_APP_OAUTH_DEV_CALLBACK_URI || '';
       const state = Math.random().toString(36).substring(2); // Simple state generation
 
       const oauthUrl = `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=identity&state=${state}`;
 
-      this.openOAuthPopup(oauthUrl, 'Patreon Login');
+      openOAuthPopup(oauthUrl, 'Patreon Login');
 
       // Listen for messages from the popup
       const handleMessage = (event) => {
         if (event.origin !== window.location.origin) return; // Ensure message is from the same origin
         if (event.data.type === 'oauth-code') {
-          this.exchangePatreonToken(event.data.code);
+          exchangePatreonToken(event.data.code);
           window.removeEventListener('message', handleMessage);
         }
       };
 
       window.addEventListener('message', handleMessage);
-    },
-
-    async exchangePatreonToken(code) {
-      this.loadPatreon = true;
+    }
+async function exchangePatreonToken(code) {
+      loadPatreon.value = true;
       try {
         const data = await authPatreon(code);
         await UserStore().setPatreonData(data);
-        this.loadPatreon = false;
-        this.$notify({
+        loadPatreon.value = false;
+        notify({
           title: 'Patreon Linked',
           text: 'Your Patreon account has been linked',
           data: { color: 'success' },
         });
       } catch (error) {
         logger.error(`Error linking Patreon account: ${error}`, this, error);
-        this.loadPatreon = false;
+        loadPatreon.value = false;
         if (error instanceof NoPatreonTierError) {
-          this.$notify({
+          notify({
             title: 'No Subscription Found',
             text: 'Your Patreon account was linked but no active subscription tier was found. Please subscribe to the COMP/CON Patreon and try again.',
             data: { color: 'warning' },
           });
         } else {
-          this.$notify({
+          notify({
             title: 'Patreon Link Failed',
             text: 'There was an error linking your Patreon account',
             data: { color: 'error' },
           });
         }
       }
-    },
-    async unlinkPatreon() {
+    }
+async function unlinkPatreon() {
       UserStore().User.ClearPatreonData();
-      this.$notify({
+      notify({
         title: 'Patreon Unlinked',
         text: 'Your Patreon account has been unlinked',
         data: { color: 'success' },
       });
     }
-  },
-};
 </script>

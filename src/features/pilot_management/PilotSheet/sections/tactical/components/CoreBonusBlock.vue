@@ -27,25 +27,23 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
 import SectionHeader from '../../components/SectionHeader.vue';
 import SectionEditChip from '../../components/SectionEditChip.vue';
 import NoDataBlock from '../../components/NoDataBlock.vue';
 import CoreBonusSelector from '@/features/pilot_management/_components/selectors/CoreBonusSelector.vue';
 
-export default {
-  name: 'skill-block',
-  components: { SectionHeader, NoDataBlock, SectionEditChip, CoreBonusSelector },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    widescreen() {
-      return this.$vuetify.display.lgAndUp;
-    },
-  },
-};
+const _display = useDisplay()
+
+defineOptions({ name: 'skill-block' })
+
+const props = defineProps<{
+  pilot: object
+}>()
+
+const widescreen = computed(() => {
+      return _display.lgAndUp.value;
+    })
 </script>

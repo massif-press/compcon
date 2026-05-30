@@ -35,69 +35,56 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { useMobile } from '@/composables/useMobile';
 import { VTextarea, VTextField } from 'vuetify/components';
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'CCStringEditDialog',
-  props: {
-    label: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    placeholder: {
-      type: String,
-      required: true,
-    },
-    dark: {
-      type: Boolean,
-      required: false,
-    },
-    number: {
-      type: Boolean,
-      required: false,
-    },
-    multiline: {
-      type: Boolean,
-      required: false,
-    },
-  },
-  data: () => ({
-    newString: '',
-    dialog: false,
-  }),
-  computed: {
-    getComponent() {
-      if (this.multiline) return VTextarea;
-      if (this.number) return VTextField;
+const { mobile, portrait } = useMobile()
+
+const props = withDefaults(defineProps<{
+  label?: string
+  placeholder: string
+  dark?: boolean
+  number?: boolean
+  multiline?: boolean
+}>(), {
+  label: ''
+})
+
+const emit = defineEmits<{
+  'reset': []
+  'save': []
+}>()
+
+const newString = ref('')
+const dialog = ref(false)
+
+const getComponent = computed(() => {
+      if (props.multiline) return VTextarea;
+      if (props.number) return VTextField;
       return VTextField;
-    },
-  },
-  methods: {
-    save() {
-      if (this.newString) this.$emit('save', this.newString);
-      this.newString = '';
-    },
-    confirm() {
-      this.save();
-      this.dialog = false;
-    },
-    reset() {
-      this.$emit('reset');
-      this.dialog = false;
-    },
-    show() {
-      this.newString = this.placeholder;
-      this.dialog = true;
-    },
-    hide() {
-      this.dialog = false;
-    },
-  },
-};
+    })
+
+function save() {
+      if (newString.value) emit('save', newString.value);
+      newString.value = '';
+    }
+function confirm() {
+      save();
+      dialog.value = false;
+    }
+function reset() {
+      emit('reset');
+      dialog.value = false;
+    }
+function show() {
+      newString.value = props.placeholder;
+      dialog.value = true;
+    }
+function hide() {
+      dialog.value = false;
+    }
+
+defineExpose({ show, hide })
 </script>

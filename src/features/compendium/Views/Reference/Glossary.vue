@@ -57,31 +57,25 @@
   </v-layout>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, nextTick } from 'vue'
 import * as _ from 'lodash-es';
 import { glossary } from '@massif/lancer-data';
 
-export default {
-  name: 'glossary',
-  data: () => ({
-    showNav: null,
-    array: glossary,
-    icon: 'mdi-book-open-variant',
-    search: '',
-    selected: null,
-  }),
-  computed: {
-    glossary() {
+const showNav = ref(null)
+const array = ref(glossary)
+const icon = ref('mdi-book-open-variant')
+const search = ref('')
+const selected = ref(null)
+
+const glossary = computed(() => {
       return _.sortBy(glossary, [(x) => x.name]).filter((x) =>
-        !this.search ? true : x.name.toLowerCase().includes(this.search.toLowerCase())
+        !search.value ? true : x.name.toLowerCase().includes(search.value.toLowerCase())
       );
-    },
-  },
-  methods: {
-    scrollTo(id: string) {
+    })
+
+function scrollTo(id: string) {
       const el = document.getElementById(`e_${id.replace(/\W/g, '')}`);
       if (el) el.scrollIntoView({ behavior: 'smooth' });
-    },
-  },
-};
+    }
 </script>

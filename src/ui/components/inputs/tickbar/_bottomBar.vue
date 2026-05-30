@@ -61,29 +61,33 @@
   </div>
 </template>
 
-<script lang="ts">
-import TickbarActivator from './_TickbarActivator.vue';
-import { tickbarMixin } from './_tickbarMixin';
+<script setup lang="ts">
+import TickbarActivator from './_TickbarActivator.vue'
+import { useTickbar } from './useTickbar'
 
-export default {
-  name: 'CcTickbarBottom',
-  components: { TickbarActivator },
-  mixins: [tickbarMixin],
-  props: {
-    modelValue: { type: Number, default: 0 },
-    label: { type: String },
-    color: { type: String, default: 'secondary' },
-    bgColor: { type: String, default: 'panel' },
-    disabled: { type: Boolean },
-    icon: { type: String },
-    ticks: { type: Number, required: false },
-    stopAdd: { type: Boolean },
-    readonly: { type: Boolean },
-    editable: { type: Boolean, default: false },
-    loading: { type: Boolean, default: false },
-  },
-  emits: ['update:modelValue', 'reset'],
-};
+const props = withDefaults(defineProps<{
+  modelValue?: number
+  label?: string
+  color?: string
+  bgColor?: string
+  disabled?: boolean
+  icon?: string
+  ticks?: number
+  stopAdd?: boolean
+  readonly?: boolean
+  editable?: boolean
+  loading?: boolean
+}>(), {
+  modelValue: 0,
+  color: 'secondary',
+  bgColor: 'panel',
+  editable: false,
+  loading: false,
+})
+
+const emit = defineEmits<{ 'update:modelValue': [val: number]; reset: [] }>()
+
+const { hover, internalValue, tickThreshold, pctBackground, isHovered, isMouseovered, isActive, setVal } = useTickbar(props, emit)
 </script>
 
 <style scoped>

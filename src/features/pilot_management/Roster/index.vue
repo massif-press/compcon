@@ -181,7 +181,7 @@ import { Sortable } from 'sortablejs-vue3';
 import Organizer from './components/Organizer.vue';
 import GroupPanel from './components/GroupPanel.vue';
 import GroupMenu from './components/GroupMenu.vue';
-import { UserStore, PilotStore } from '@/stores';
+import { UserStore, PilotStore, PilotGroupStore } from '@/stores';
 import { useDragMode } from '@/composables/useDragMode';
 import { startDragScroll, stopDragScroll } from '@/composables/useScrollOnDrag';
 import GroupFileImport from './components/add_panels/GroupFileImport.vue';
@@ -211,13 +211,13 @@ const groupSortableOptions = computed(() => ({
 }))
 
 const pilotGroups = computed(() =>
-  PilotStore().getPilotGroups().filter((g: any) => g.ID !== 'no_group')
+  PilotGroupStore().getPilotGroups().filter((g: any) => g.ID !== 'no_group')
 )
 
 const groupSortableKey = computed<string>(() => `groups-${dragModeActive.value}`)
 
 const noGroup = computed(() =>
-  PilotStore().getPilotGroups().find((g: any) => g.ID === 'no_group') ?? null
+  PilotGroupStore().getPilotGroups().find((g: any) => g.ID === 'no_group') ?? null
 )
 
 const hiddenPilotCount = computed(() => {
@@ -234,6 +234,6 @@ function onGroupReorder(event: any) {
   stopDragScroll()
   if (event.oldIndex === event.newIndex) return
   const group = pilotGroups.value[event.oldIndex] as any
-  PilotStore().ReorderGroupByIndex(group, event.newIndex)
+  PilotGroupStore().ReorderGroupByIndex(group, event.newIndex)
 }
 </script>

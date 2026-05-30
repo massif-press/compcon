@@ -17,31 +17,21 @@
   </runner-list-item-base>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import RunnerListItemBase from './RunnerListItemBase.vue';
 
-export default {
-  name: 'ReinforcementListItem',
-  components: {
-    RunnerListItemBase,
-  },
-  props: {
-    combatant: {
-      type: Object,
-      required: true,
-    },
-    collapsed: {
-      type: Boolean,
-      default: false,
-    },
-    selected: {
-      type: Boolean,
-    },
-    round: {
-      type: Number,
-      default: 1,
-    },
-  },
-  emits: ['select', 'activate'],
-};
+const props = withDefaults(defineProps<{
+  combatant: object
+  collapsed?: boolean
+  selected?: boolean
+  round?: number
+}>(), {
+  collapsed: false,
+  round: 1
+})
+
+const emit = defineEmits<{
+  'select': []
+  'activate': []
+}>()
 </script>

@@ -33,15 +33,17 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'MechListItemBase',
-  props: {
-    mech: { type: Object, required: true },
-    portraitWidth: { type: Number, default: 138 },
-  },
-  emits: ['go'],
-};
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+  mech: object
+  portraitWidth?: number
+}>(), {
+  portraitWidth: 138
+})
+
+const emit = defineEmits<{
+  'go': []
+}>()
 </script>
 
 <style scoped>

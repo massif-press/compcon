@@ -195,76 +195,66 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { PilotSheetStore } from '@/stores';
 import SheetItem from './_components/SheetItem.vue';
 import PilotSheet from '@/features/pilot_management/store/PilotSheet';
 import { useMobile } from '@/composables/useMobile';
 import ActiveModeSortBar from '@/features/active_mode/_components/ActiveModeSortBar.vue';
-
+const router = useRouter()
 const sheetOrganizerColumns = [
-  { key: 'Name', title: 'Name', sortable: true, value: (s: any) => s.Name },
-  { key: 'Pilot', title: 'Pilot', value: (s: any) => s.Pilot.Callsign },
-  { key: 'Created', title: 'Created', sortable: true, value: (s: any) => new Date(s.Created).toLocaleDateString() },
-  { key: 'Updated', title: 'Updated', sortable: true, value: (s: any) => new Date(s.Updated).toLocaleDateString() },
+{ key: 'Name', title: 'Name', sortable: true, value: (s: any) => s.Name },
+{ key: 'Pilot', title: 'Pilot', value: (s: any) => s.Pilot.Callsign },
+{ key: 'Created', title: 'Created', sortable: true, value: (s: any) => new Date(s.Created).toLocaleDateString() },
+{ key: 'Updated', title: 'Updated', sortable: true, value: (s: any) => new Date(s.Updated).toLocaleDateString() },
 ];
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'SheetManager',
-  components: {
-    SheetItem,
-    ActiveModeSortBar,
-  },
-  data: () => ({
-    sort: 'Updated',
-    asc: true,
-    search: '',
-    sheetOrganizerColumns,
-  }),
-  computed: {
-    activeSheets() {
+const { mobile, portrait } = useMobile()
+
+const sort = ref('Updated')
+const asc = ref(true)
+const search = ref('')
+
+const activeSheets = computed(() => {
       let sheets = PilotSheetStore().PilotSheets.filter(x => !x.Archived && !x.SaveController.IsDeleted);
 
-      switch (this.sort) {
+      switch (sort.value) {
         case 'Name':
-          if (this.asc) sheets = sheets.sort((a, b) => a.Name.localeCompare(b.Name));
+          if (asc.value) sheets = sheets.sort((a, b) => a.Name.localeCompare(b.Name));
           else
             sheets = sheets.sort((a, b) => b.Name.localeCompare(a.Name));
           break;
         case 'Created':
-          if (this.asc) sheets = sheets.sort((a, b) => a.Created - b.Created);
+          if (asc.value) sheets = sheets.sort((a, b) => a.Created - b.Created);
           else
             sheets = sheets.sort((a, b) => b.Created - a.Created);
           break;
         case 'Updated':
-          if (this.asc) sheets = sheets.sort((a, b) => a.Updated - b.Updated);
+          if (asc.value) sheets = sheets.sort((a, b) => a.Updated - b.Updated);
           else
             sheets = sheets.sort((a, b) => b.Updated - a.Updated);
           break;
       }
       return sheets;
-    },
-    archived() {
+    })
+const archived = computed(() => {
       let archives = PilotSheetStore().PilotSheets.filter(x => x.Archived && !x.SaveController.IsDeleted);
 
-      if (this.search) {
-        const searchLower = this.search.toLowerCase();
+      if (search.value) {
+        const searchLower = search.value.toLowerCase();
         archives = archives.filter(x => x.Name.toLowerCase().includes(searchLower));
       }
 
       return archives.sort((a, b) => b.Updated - a.Updated);
-    },
+    })
 
-  },
-  methods: {
-    launch(sheet) {
+function launch(sheet) {
       PilotSheetStore().SetActiveSheet(sheet.ID);
-      this.$router.push(`pilot-runner/${sheet.ID}`);
-    },
-    exportSheet(sheet) {
+      router.push(`pilot-runner/${sheet.ID}`);
+    }
+function exportSheet(sheet) {
       const out = JSON.stringify(PilotSheet.Serialize(sheet), null, 2);
 
       const blob = new Blob([out], { type: 'application/json' });
@@ -274,20 +264,20 @@ export default {
       a.download = `${sheet.Name}_sheet.json`;
       a.click();
       URL.revokeObjectURL(url);
-    },
-    organizeArchive(ids: string[]) {
-      const targets = this.activeSheets.filter((s: any) => ids.includes(s.ID));
+    }
+function organizeArchive(ids: string[]) {
+      const targets = activeSheets.value.filter((s: any) => ids.includes(s.ID));
       targets.forEach((s: any) => s.Archive());
-    },
-    async organizeDelete(ids: string[]) {
-      const targets = this.activeSheets.filter((s: any) => ids.includes(s.ID));
+    }
+async function organizeDelete(ids: string[]) {
+      const targets = activeSheets.value.filter((s: any) => ids.includes(s.ID));
       for (const s of targets) await PilotSheetStore().RemovePilotSheet(s);
-    },
-    organizeRestore(ids: string[]) {
-      const targets = this.archived.filter((s: any) => ids.includes(s.ID));
+    }
+function organizeRestore(ids: string[]) {
+      const targets = archived.value.filter((s: any) => ids.includes(s.ID));
       targets.forEach((s: any) => s.Unarchive());
-    },
-    importSelect() {
+    }
+function importSelect() {
       const input = document.createElement('input');
       input.type = 'file';
       input.accept = '.json';
@@ -302,7 +292,7 @@ export default {
             const sheet = PilotSheet.Deserialize(json);
             PilotSheetStore().PilotSheets.push(sheet);
             PilotSheetStore().SetActiveSheet(sheet.ID);
-            this.$router.push(`pilot-runner/${sheet.ID}`);
+            router.push(`pilot-runner/${sheet.ID}`);
           } catch (error) {
             alert('Failed to import sheet: Invalid file format.');
           }
@@ -311,6 +301,4 @@ export default {
       };
       input.click();
     }
-  },
-};
 </script>

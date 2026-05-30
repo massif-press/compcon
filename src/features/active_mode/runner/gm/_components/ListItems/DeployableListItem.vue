@@ -207,49 +207,39 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'DeployableListItem',
-  props: {
-    selected: {
-      type: Boolean,
-      default: false,
-    },
-    collapsed: {
-      type: Boolean,
-      default: false,
-    },
-    deployable: {
-      type: Object,
-      required: true,
-    },
-    parent: {
-      type: Object,
-      required: true,
-    },
+<script setup lang="ts">
+import { computed } from 'vue'
 
-    statuses: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  emits: ['click'],
-  computed: {
-    activations() {
-      return this.deployable.StatController.CurrentStats['activations'] || 0;
-    },
-    destroyed() {
-      return this.deployable.CombatController.IsDestroyed;
-    },
-    customStatuses() {
-      return this.deployable.CombatController.CustomStatuses || [];
-    },
-    icon() {
-      return this.deployable.Base.Icon;
-    },
-  },
-  methods: {
-    damageClass(damage) {
+const props = withDefaults(defineProps<{
+  selected?: boolean
+  collapsed?: boolean
+  deployable: object
+  parent: object
+  statuses?: any[]
+}>(), {
+  selected: false,
+  collapsed: false,
+  statuses: () => []
+})
+
+const emit = defineEmits<{
+  'click': []
+}>()
+
+const activations = computed(() => {
+      return props.deployable.StatController.CurrentStats['activations'] || 0;
+    })
+const destroyed = computed(() => {
+      return props.deployable.CombatController.IsDestroyed;
+    })
+const customStatuses = computed(() => {
+      return props.deployable.CombatController.CustomStatuses || [];
+    })
+const icon = computed(() => {
+      return props.deployable.Base.Icon;
+    })
+
+function damageClass(damage) {
       if (damage.condition === 'immune') {
         return 'bg-exotic';
       } else if (damage.condition === 'resistant') {
@@ -258,9 +248,7 @@ export default {
         return 'bg-error';
       }
       return '';
-    },
-  },
-};
+    }
 </script>
 
 <style scoped>

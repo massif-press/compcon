@@ -17,26 +17,13 @@
   </v-col>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'MechStatItem',
-  props: {
-    cols: {
-      type: [Number, String],
-      default: 4,
-    },
-    attr: {
-      type: String,
-      required: true,
-    },
-    icon: {
-      type: String,
-      required: true,
-    },
-    val: {
-      type: [String, Number],
-      required: true,
-    },
-  },
-};
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+  cols?: number | string
+  attr: string
+  icon: string
+  val: string | number
+}>(), {
+  cols: 4
+})
 </script>

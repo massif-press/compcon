@@ -30,36 +30,22 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
 import { useMobile } from '@/composables/useMobile';
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'HasePips',
-  props: {
-    mech: {
-      type: Object,
-      required: true,
-    },
-    attr: {
-      type: String,
-      required: true,
-    },
-    val: {
-      type: Number,
-      required: true,
-    },
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-  },
-  data: () => ({
-    maxHASE: 6,
-  }),
-};
+
+const { mobile, portrait } = useMobile()
+
+const props = withDefaults(defineProps<{
+  mech: object
+  attr: string
+  val: number
+  color?: string
+}>(), {
+  color: 'primary'
+})
+
+const maxHASE = ref(6)
 </script>
 
 <style scoped>

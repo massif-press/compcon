@@ -31,30 +31,25 @@
   </stepper-content>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import StepperContent from '../../_components/StepperContent.vue';
 import TalentSelector from '../../_components/selectors/TalentSelector.vue';
 import { Pilot } from '@/classes/pilot/Pilot'
-export default {
-  name: 'talents-page',
-  components: {
-    StepperContent,
-    TalentSelector,
-  },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    canContinue(): boolean {
-      return this.pilot.TalentsController.HasFullTalents;
-    },
-    count(): number {
-      return this.pilot.TalentsController.MaxTalentPoints;
-    },
-    word(): string {
+
+defineOptions({ name: 'talents-page' })
+
+const props = defineProps<{
+  pilot: object
+}>()
+
+const canContinue = computed(() => {
+      return props.pilot.TalentsController.HasFullTalents;
+    })
+const count = computed(() => {
+      return props.pilot.TalentsController.MaxTalentPoints;
+    })
+const word = computed(() => {
       const words = [
         'zero',
         'one',
@@ -74,8 +69,6 @@ export default {
         'fifteen',
         'sixteen',
       ];
-      return words[this.count];
-    },
-  },
-};
+      return words[count.value];
+    })
 </script>

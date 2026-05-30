@@ -9,72 +9,78 @@
     @open="$emit('open', $event)" />
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import * as CardItems from './gmItemCards';
 import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer';
 
-export default {
-  name: 'gm-item-card',
-  props: {
-    item: { type: Object, required: true },
-    big: { type: Boolean },
-    list: { type: Boolean },
-    odd: { type: Boolean, default: false },
-    grouping: { type: String, required: false, default: 'None' },
-    sorting: { type: String, required: false, default: 'Name' },
-  },
-  emits: ['open'],
-  computed: {
-    type() {
-      return this.item.ItemType.charAt(0).toUpperCase() + this.item.ItemType.slice(1);
-    },
-    cardComponent() {
-      if (this.list) {
-        return CardItems[`GM${this.type}ListItem`];
+defineOptions({ name: 'gm-item-card' })
+
+const props = withDefaults(defineProps<{
+  item: object
+  big?: boolean
+  list?: boolean
+  odd?: boolean
+  grouping?: string
+  sorting?: string
+}>(), {
+  odd: false,
+  grouping: 'None',
+  sorting: 'Name'
+})
+
+const emit = defineEmits<{
+  'open': []
+}>()
+
+const type = computed(() => {
+      return props.item.ItemType.charAt(0).toUpperCase() + props.item.ItemType.slice(1);
+    })
+const cardComponent = computed(() => {
+      if (props.list) {
+        return CardItems[`GM${type.value}ListItem`];
       }
-      return CardItems[`GM${this.type}Card`];
-    },
-    groupValues() {
-      if (this.grouping === 'None') return '';
+      return CardItems[`GM${type.value}Card`];
+    })
+const groupValues = computed(() => {
+      if (props.grouping === 'None') return '';
 
       //check stats
-      if ((this.item as IStatContainer).StatController) {
-        const stat = (this.item as IStatContainer).StatController.DisplayKeys.find(
-          (x) => x.key === this.grouping || x.title === this.grouping
+      if ((props.item as IStatContainer).StatController) {
+        const stat = (props.item as IStatContainer).StatController.DisplayKeys.find(
+          (x) => x.key === props.grouping || x.title === props.grouping
         );
         if (stat)
           return {
             title: stat.title,
-            value: (this.item as IStatContainer).StatController.MaxStats[stat.key],
+            value: (props.item as IStatContainer).StatController.MaxStats[stat.key],
           };
       }
 
       // check labels
-      if ((this.item as any).NarrativeController) {
-        const label = (this.item as any).NarrativeController.Labels.find(
-          (x) => x.title === this.grouping
+      if ((props.item as any).NarrativeController) {
+        const label = (props.item as any).NarrativeController.Labels.find(
+          (x) => x.title === props.grouping
         );
         if (label) return { title: label.title, value: label.value };
       }
 
-      if (this.item[this.grouping])
-        return { title: this.grouping, value: this.item[this.grouping] };
+      if (props.item[props.grouping])
+        return { title: props.grouping, value: props.item[props.grouping] };
 
       return '';
-    },
-    sortValues() {
-      if (this.sorting === 'Name') return '';
+    })
+const sortValues = computed(() => {
+      if (props.sorting === 'Name') return '';
       let out = '' as any;
-      if (this.item[this.sorting]) out = { title: this.sorting, value: this.item[this.sorting] };
-      if (this.item.StatController)
-        out = { title: this.sorting, value: this.item.StatController.getMax(this.sorting) };
-      if (this.item.NarrativeController)
+      if (props.item[props.sorting]) out = { title: props.sorting, value: props.item[props.sorting] };
+      if (props.item.StatController)
+        out = { title: props.sorting, value: props.item.StatController.getMax(props.sorting) };
+      if (props.item.NarrativeController)
         out = {
-          title: this.sorting,
-          value: this.item.NarrativeController.LabelDictionary[this.sorting],
+          title: props.sorting,
+          value: props.item.NarrativeController.LabelDictionary[props.sorting],
         };
       return out;
-    },
-  },
-};
+    })
 </script>

@@ -10,34 +10,27 @@
   </cc-compendium-browser>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { sortBy } from 'lodash-es';
-
 import { CompendiumStore } from '@/stores';
 
-export default {
-  name: 'Tags',
-
-  data: () => ({
-    headers: [
+const headers = ref([
       { title: 'Content Pack', key: 'LcpName' },
       { title: 'Name', key: 'Name' },
-    ],
-    options: {
+    ])
+const options = ref({
       views: ['list', 'table'],
       initialView: 'list',
       groups: ['lcp', 'none'],
       initialGroup: 'lcp',
       noSource: true,
-    },
-  }),
-  computed: {
-    tags() {
+    })
+
+const tags = computed(() => {
       return sortBy(
         CompendiumStore().Tags.filter((x) => !x.IsHidden),
         'Name'
       );
-    },
-  },
-};
+    })
 </script>

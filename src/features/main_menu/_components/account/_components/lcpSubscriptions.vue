@@ -54,135 +54,133 @@
   </v-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, onMounted } from 'vue'
+import { useDisplay } from 'vuetify'
 import { CompendiumStore, UserStore } from '@/stores';
 import { collectionDataQuery } from '@/user/api';
 import MassifLcpTable from '../../MassifLcpTable.vue';
 import logger from '@/user/logger';
+import { notify } from '@/util/notify.js';
 
-export default {
-  name: 'LcpSubscriptions',
-  components: { MassifLcpTable },
-  data: () => ({
-    lcpHeaders: [
-      { title: 'LCP', key: 'title' },
-      { title: 'Author', key: 'author' },
-      { title: 'Latest Version', key: 'remote_version', align: 'center', sortable: false },
-      { title: 'Installed Version', key: 'local_version', align: 'center', sortable: false },
-      { title: 'Auto Update', key: 'auto', align: 'center', sortable: false },
-      { title: '', key: 'actions', align: 'end', sortable: false },
-    ],
-    packs: [] as any[],
-    loading: true,
-  }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-    contentPacks() {
-      return CompendiumStore().ContentPacks;
-    },
-    lcpSubscriptions() {
-      return UserStore().User.LcpSubscriptions;
-    },
-    installedPacks() {
-      return CompendiumStore().ContentPacks;
-    },
-    user() {
-      return UserStore().User;
-    },
-  },
-  async mounted() {
-    await this.refresh();
-  },
-  methods: {
-    async refresh() {
-      this.loading = true;
-      this.packs = await collectionDataQuery();
-      this.packs = this.packs.filter(x => x.sortkey.includes('massif'))
-        .sort((a, b) => a.collection.localeCompare(b.collection));
+const _display = useDisplay()
 
-      this.loading = false;
-    },
-    packDataItem(save) {
-      return this.contentPacks.find((pack) => pack.ID === save.packId);
-    },
-    getInstalledPack(pack) {
-      return this.contentPacks.find(
-        (p) => p.Manifest.name === pack.name || p.Manifest.name === pack.title
-      );
-    },
-    canDownload(pack) {
-      return !pack.paid
-        ? true
-        : this.user.Itch.gamedata.some((purchase) => purchase.game_id === pack.game_id);
-    },
-    hasSubscription(pack) {
-      return this.lcpSubscriptions.includes(pack.sortkey);
-    },
-    async toggleSubscription(pack) {
-      if (this.hasSubscription(pack)) {
-        this.lcpSubscriptions.splice(this.lcpSubscriptions.indexOf(pack.sortkey), 1);
-        this.user.save();
-      } else {
-        this.lcpSubscriptions.push(pack.sortkey);
-        this.user.save();
+const lcpHeaders = ref([
+  { title: 'LCP', key: 'title' },
+  { title: 'Author', key: 'author' },
+  { title: 'Latest Version', key: 'remote_version', align: 'center', sortable: false },
+  { title: 'Installed Version', key: 'local_version', align: 'center', sortable: false },
+  { title: 'Auto Update', key: 'auto', align: 'center', sortable: false },
+  { title: '', key: 'actions', align: 'end', sortable: false },
+])
+const packs = ref([] as any[])
+const loading = ref(true)
+
+const mobile = computed(() => {
+  return _display.mdAndDown.value;
+})
+const contentPacks = computed(() => {
+  return CompendiumStore().ContentPacks;
+})
+const lcpSubscriptions = computed(() => {
+  return UserStore().User.LcpSubscriptions;
+})
+const installedPacks = computed(() => {
+  return CompendiumStore().ContentPacks;
+})
+const user = computed(() => {
+  return UserStore().User;
+})
+
+async function refresh() {
+  loading.value = true;
+  packs.value = await collectionDataQuery();
+  packs.value = packs.value.filter(x => x.sortkey.includes('massif'))
+    .sort((a, b) => a.collection.localeCompare(b.collection));
+
+  loading.value = false;
+}
+function packDataItem(save) {
+  return contentPacks.value.find((pack) => pack.ID === save.packId);
+}
+function getInstalledPack(pack) {
+  return contentPacks.value.find(
+    (p) => p.Manifest.name === pack.name || p.Manifest.name === pack.title
+  );
+}
+function canDownload(pack) {
+  return !pack.paid
+    ? true
+    : user.value.Itch.gamedata.some((purchase) => purchase.game_id === pack.game_id);
+}
+function hasSubscription(pack) {
+  return lcpSubscriptions.value.includes(pack.sortkey);
+}
+async function toggleSubscription(pack) {
+  if (hasSubscription(pack)) {
+    lcpSubscriptions.value.splice(lcpSubscriptions.value.indexOf(pack.sortkey), 1);
+    user.value.save();
+  } else {
+    lcpSubscriptions.value.push(pack.sortkey);
+    user.value.save();
+    if (
+      !getInstalledPack(pack) ||
+      getInstalledPack(pack)?.Manifest.version !== pack.version
+    ) {
+      await installLatest(pack);
+    }
+  }
+}
+async function installLatest(pack) {
+  loading.value = true;
+  try {
+    await UserStore().downloadLcp(pack);
+    notify({
+      title: 'LCP Updated',
+      text: `The latest version of ${pack.title} has been downloaded and installed.`,
+      data: { color: 'success', icon: 'mdi-check-bold' },
+    });
+  } catch (err) {
+    logger.error(`Error downloading LCP: ${err}`, this, err);
+    notify({
+      title: 'Error Updating LCP',
+      text: `An error occurred while attempting to download ${pack.title}.`,
+      data: { color: 'error', icon: 'mdi-alert-circle-outline' },
+    });
+  } finally {
+    loading.value = false;
+  }
+}
+async function updateAll() {
+  loading.value = true;
+  try {
+    for (const pack of packs.value) {
+      if (hasSubscription(pack)) {
         if (
-          !this.getInstalledPack(pack) ||
-          this.getInstalledPack(pack)?.Manifest.version !== pack.version
-        ) {
-          await this.installLatest(pack);
-        }
+          !getInstalledPack(pack) ||
+          getInstalledPack(pack)?.Manifest.version !== pack.version
+        )
+          await installLatest(pack);
       }
-    },
-    async installLatest(pack) {
-      this.loading = true;
-      try {
-        await UserStore().downloadLcp(pack);
-        this.$notify({
-          title: 'LCP Updated',
-          text: `The latest version of ${pack.title} has been downloaded and installed.`,
-          data: { color: 'success', icon: 'mdi-check-bold' },
-        });
-      } catch (err) {
-        logger.error(`Error downloading LCP: ${err}`, this, err);
-        this.$notify({
-          title: 'Error Updating LCP',
-          text: `An error occurred while attempting to download ${pack.title}.`,
-          data: { color: 'error', icon: 'mdi-alert-circle-outline' },
-        });
-      } finally {
-        this.loading = false;
-      }
-    },
-    async updateAll() {
-      this.loading = true;
-      try {
-        for (const pack of this.packs) {
-          if (this.hasSubscription(pack)) {
-            if (
-              !this.getInstalledPack(pack) ||
-              this.getInstalledPack(pack)?.Manifest.version !== pack.version
-            )
-              await this.installLatest(pack);
-          }
-        }
-        this.$notify({
-          title: 'LCPs Updated',
-          text: `All LCPs have been updated.`,
-          data: { color: 'success', icon: 'mdi-check-bold' },
-        });
-      } catch (err) {
-        logger.error(`Error updating LCPs: ${err}`, this, err);
-        this.$notify({
-          title: 'Error Updating LCPs',
-          text: `An error occurred while attempting to update your LCPs.`,
-          data: { color: 'error', icon: 'mdi-alert-circle-outline' },
-        });
-      } finally {
-        this.loading = false;
-      }
-    },
-  },
-};
+    }
+    notify({
+      title: 'LCPs Updated',
+      text: `All LCPs have been updated.`,
+      data: { color: 'success', icon: 'mdi-check-bold' },
+    });
+  } catch (err) {
+    logger.error(`Error updating LCPs: ${err}`, this, err);
+    notify({
+      title: 'Error Updating LCPs',
+      text: `An error occurred while attempting to update your LCPs.`,
+      data: { color: 'error', icon: 'mdi-alert-circle-outline' },
+    });
+  } finally {
+    loading.value = false;
+  }
+}
+
+onMounted(async () => {
+  await refresh();
+})
 </script>

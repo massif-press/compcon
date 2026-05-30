@@ -96,100 +96,82 @@
   </div>
 </template>
 
-<script lang="ts">
-import * as _ from 'lodash-es';
-import { CompendiumStore } from '@/stores';
-import { useMobile } from '@/composables/useMobile';
-import StatusConditionItem from './StatusConditionItem.vue';
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import * as _ from 'lodash-es'
+import { CompendiumStore } from '@/stores'
+import { useMobile } from '@/composables/useMobile'
+import StatusConditionItem from './StatusConditionItem.vue'
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'StatusConditionSelector',
-  components: { StatusConditionItem },
-  props: {
-    controller: {
-      type: Object,
-      required: true,
-    },
-    encounter: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    customStatus: '',
-    customInflict: '',
-    statusesToInflict: [],
-    selectedTargets: [],
-  }),
-  computed: {
-    isPilot() {
-      return this.controller.Parent.ItemType === 'Pilot';
-    },
-    filteredTargets() {
-      return this.targets.filter((t) => !this.selectedTargets.includes(t));
-    },
-    statuses() {
-      return _.orderBy(CompendiumStore().Statuses, 'StatusType');
-    },
-    applicableStatuses() {
-      let exclude = [] as string[];
-      if (this.isPilot) {
-        exclude = [`dangerzone`, 'shut-down'];
-      } else exclude = [`dangerzone`, `downandout`];
-      return this.statuses.filter((s) => !exclude.includes(s.ID));
-    },
-    special() {
-      return this.controller.CustomStatuses;
-    },
-    targets() {
-      const target = self.side === 'enemy' ? 'ally' : 'enemy';
+defineOptions({ name: 'StatusConditionSelector' })
 
-      const out = [...this.encounter.Combatants]
-        .filter(
-          (c) =>
-            c.actor.CombatController.ActiveActor.ID !== this.owner.CombatController.ActiveActor.ID
-        )
-        .sort((a, b) => {
-          if (a.side === target && b.side !== target) {
-            return -1;
-          } else if (a.side !== target && b.side === target) {
-            return 1;
-          } else {
-            return a.actor.CombatController.CombatName.localeCompare(
-              b.actor.CombatController.CombatName
-            );
-          }
-        });
-      return out;
-    },
-  },
-  methods: {
-    setStatus(status) {
-      this.controller.ToggleStatus(status, undefined, true);
-    },
-    addCustomStatus(name) {
-      if (!name || !name.trim().length) return;
-      this.controller.SetCustomStatus({ Attribute: name.trim() });
-      this.customStatus = '';
-    },
-    setInflictStatus(status) {
-      const idx = this.statusesToInflict.indexOf(status.ID);
-      if (idx >= -1) {
-        this.statusesToInflict.splice(idx, 1);
-      } else {
-        this.statusesToInflict.push(status.ID);
-      }
-    },
-    appliedStatus(status) {
-      const applied = this.controller.Statuses.find((s) => s.status.ID === status.ID);
-      if (!applied || applied.expires) return null;
-      return applied.expires?.Text || '';
-    },
-  },
-};
+const props = defineProps<{
+  controller: object
+  encounter: object
+  owner?: object
+}>()
+
+const { mobile, portrait } = useMobile()
+
+const customStatus = ref('')
+const customInflict = ref('')
+const statusesToInflict = ref<string[]>([])
+const selectedTargets = ref<any[]>([])
+
+const isPilot = computed(() => (props.controller as any).Parent.ItemType === 'Pilot')
+
+const statuses = computed(() => _.orderBy(CompendiumStore().Statuses, 'StatusType'))
+
+const applicableStatuses = computed(() => {
+  let exclude: string[] = []
+  if (isPilot.value) {
+    exclude = [`dangerzone`, 'shut-down']
+  } else exclude = [`dangerzone`, `downandout`]
+  return statuses.value.filter((s: any) => !exclude.includes(s.ID))
+})
+
+const special = computed(() => (props.controller as any).CustomStatuses)
+
+const targets = computed(() => {
+  const target = (self as any).side === 'enemy' ? 'ally' : 'enemy'
+  const owner = props.owner as any
+  return [...(props.encounter as any).Combatants]
+    .filter((c) =>
+      !owner || c.actor.CombatController.ActiveActor.ID !== owner.CombatController.ActiveActor.ID
+    )
+    .sort((a, b) => {
+      if (a.side === target && b.side !== target) return -1
+      if (a.side !== target && b.side === target) return 1
+      return a.actor.CombatController.CombatName.localeCompare(b.actor.CombatController.CombatName)
+    })
+})
+
+const filteredTargets = computed(() => targets.value.filter((t) => !selectedTargets.value.includes(t)))
+
+function setStatus(status: any) {
+  ;(props.controller as any).ToggleStatus(status, undefined, true)
+}
+
+function addCustomStatus(name: string) {
+  if (!name || !name.trim().length) return
+  ;(props.controller as any).SetCustomStatus({ Attribute: name.trim() })
+  customStatus.value = ''
+}
+
+function setInflictStatus(status: any) {
+  const idx = statusesToInflict.value.indexOf(status.ID)
+  if (idx >= -1) {
+    statusesToInflict.value.splice(idx, 1)
+  } else {
+    statusesToInflict.value.push(status.ID)
+  }
+}
+
+function appliedStatus(status: any) {
+  const applied = (props.controller as any).Statuses.find((s: any) => s.status.ID === status.ID)
+  if (!applied || applied.expires) return null
+  return applied.expires?.Text || ''
+}
 </script>
 
 <style scoped>

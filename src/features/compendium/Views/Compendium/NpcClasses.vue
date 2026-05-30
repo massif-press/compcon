@@ -30,47 +30,42 @@
   </cc-compendium-browser>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { orderBy } from 'lodash-es';
-
 import { CompendiumStore } from '@/stores';
 import { NpcClass } from '@/classes/npc/class/NpcClass';
-
 const keymap = {
-  hull: 'Hull',
-  agi: 'Agi',
-  sys: 'Sys',
-  eng: 'Eng',
-  armor: 'Armor',
-  hp: 'HP',
-  heatcap: 'HeatCap',
-  evasion: 'Evade',
-  edef: 'E-Def',
-  speed: 'Speed',
-  sensorRange: 'Sensor',
-  saveTarget: 'Save',
-  sizes: 'Size',
+hull: 'Hull',
+agi: 'Agi',
+sys: 'Sys',
+eng: 'Eng',
+armor: 'Armor',
+hp: 'HP',
+heatcap: 'HeatCap',
+evasion: 'Evade',
+edef: 'E-Def',
+speed: 'Speed',
+sensorRange: 'Sensor',
+saveTarget: 'Save',
+sizes: 'Size',
 };
 
-export default {
-  name: 'NpcClasses',
+const browser = ref<any>(null)
 
-  data: () => ({
-    selectedTier: 1,
-    tieredView: false,
-    options: {
+const selectedTier = ref(1)
+const tieredView = ref(false)
+const options = ref({
       views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
       initialView: 'single',
       groups: ['lcp', 'role', 'none'],
       initialGroup: 'role',
-    },
-  }),
+    })
 
-  computed: {
-    classes(): NpcClass[] {
+const classes = computed(() => {
       return orderBy(CompendiumStore().NpcClasses, ['Role', 'Name']);
-    },
-    headers() {
+    })
+const headers = computed(() => {
       const h = [
         { title: 'Content Pack', key: 'LcpName' },
         { title: 'Role', key: 'Icon' },
@@ -80,21 +75,18 @@ export default {
         h.push({
           title: keymap[key],
           key,
-          tier: this.selectedTier,
+          tier: selectedTier.value,
           sortRaw: (a: NpcClass, b: NpcClass) =>
-            Number(a.Stats.Stat(key, this.selectedTier)) -
-            Number(b.Stats.Stat(key, this.selectedTier)),
+            Number(a.Stats.Stat(key, selectedTier.value)) -
+            Number(b.Stats.Stat(key, selectedTier.value)),
           align: 'center',
         });
       }
       (h)
       return h;
-    },
-  },
-  methods: {
-    toggleTieredView(evt) {
-      this.tieredView = evt === 'table' || evt === 'scatter' || evt === 'bar' || evt === 'compare';
-    },
-  },
-};
+    })
+
+function toggleTieredView(evt) {
+      tieredView.value = evt === 'table' || evt === 'scatter' || evt === 'bar' || evt === 'compare';
+    }
 </script>

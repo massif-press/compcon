@@ -15,16 +15,15 @@
   </c-card-base>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import CCardBase from './_cCardBase.vue';
-export default {
-  name: 'CoreBonusCardContent',
-  components: { CCardBase },
-  props: {
-    item: { type: Object, required: true },
-    small: { type: Boolean },
-    hover: { type: Boolean },
-    highlighted: { type: Boolean },
-  },
-};
+
+defineOptions({ name: 'CoreBonusCardContent' })
+
+const props = defineProps<{
+  item: object
+  small?: boolean
+  hover?: boolean
+  highlighted?: boolean
+}>()
 </script>

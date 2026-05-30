@@ -17,33 +17,17 @@
   </v-row>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'EquipmentHeader',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    color: {
-      type: String,
-      required: false,
-      default: null,
-    },
-    useBonus: {
-      type: Number,
-      required: false,
-      default: 0,
-    },
-    interior: {
-      type: Boolean,
-    },
-    dark: {
-      type: Boolean,
-    },
-    mod: {
-      type: Boolean,
-    },
-  },
-};
+<script setup lang="ts">
+import CCItemUses from '@/ui/components/CCItemUses.vue'
+const props = withDefaults(defineProps<{
+  item: object
+  color?: string
+  useBonus?: number
+  interior?: boolean
+  dark?: boolean
+  mod?: boolean
+}>(), {
+  color: null,
+  useBonus: 0
+})
 </script>

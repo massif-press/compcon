@@ -36,7 +36,8 @@
   </gm-split-view>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, onMounted } from 'vue'
 import GmSplitView from '../../_views/GMSplitView.vue';
 import Editor from './editor.vue';
 import Builder from './builder.vue';
@@ -45,87 +46,77 @@ import { Doodad } from '@/classes/npc/doodad/Doodad';
 import NoGmItem from '../../_views/_components/NoGmItem.vue';
 import { ref, onUnmounted } from 'vue';
 
-export default {
-  name: 'DoodadRoster',
-  components: { GmSplitView, Editor, Builder, NoGmItem },
-  setup() {
-    const npcStore = NpcStore();
+defineOptions({ name: 'DoodadRoster' })
+
+const npcStore = NpcStore();
     const doodads = ref(npcStore.getDoodads.filter((x) => !x.SaveController.IsDeleted));
     const unsub = npcStore.$subscribe(() => {
       doodads.value = npcStore.getDoodads.filter((x) => !x.SaveController.IsDeleted);
     });
     onUnmounted(unsub);
-    return { npcStore, doodads };
-  },
-  props: {
-    id: {
-      type: String,
-      required: false,
-    },
-    view: {
-      type: String,
-      required: false,
-      default: 'collection',
-    },
-  },
-  data: () => ({
-    selected: null as Doodad | null,
-  }),
-  computed: {
-    groupings() {
+
+const props = withDefaults(defineProps<{
+  id?: string
+  view?: string
+}>(), {
+  view: 'collection'
+})
+
+const view = ref<any>(null)
+
+const selected = ref(null as Doodad | null)
+
+const groupings = computed(() => {
       const allLabelTitles = new Set(
-        this.npcStore.getAllLabels.filter((x: any) => x.title && x.title.length > 0)
+        npcStore.getAllLabels.filter((x: any) => x.title && x.title.length > 0)
           .map((x: any) => x.title)
       );
 
       const baseGroupings = ['None'];
 
       return [...baseGroupings, ...allLabelTitles];
-    },
-    sortings() {
+    })
+const sortings = computed(() => {
       const allLabelTitles = new Set(
-        this.npcStore.getAllLabels.filter((x: any) => x.title && x.title.length > 0)
+        npcStore.getAllLabels.filter((x: any) => x.title && x.title.length > 0)
           .map((x: any) => x.title)
       );
 
       const statSortings = new Set(
-        this.doodads.flatMap((x) => x.StatController.DisplayKeys.map((k) => k.title))
+        doodads.value.flatMap((x) => x.StatController.DisplayKeys.map((k) => k.title))
       );
 
       const baseSortings = ['Name', 'Created', 'Updated'];
 
       return [...baseSortings, ...statSortings, ...allLabelTitles];
-    },
+    })
 
-  },
-  mounted() {
-    if (this.id) {
-      const item = NpcStore().getNpcByID(this.id);
-      if (item && item instanceof Doodad) {
-        this.selected = item;
-        (this.$refs as any).view.dialog = true;
-      }
+function openItem(item) {
+      selected.value = item;
+      view.value.dialog = true;
     }
-  },
-  methods: {
-    openItem(item) {
-      this.selected = item;
-      (this.$refs as any).view.dialog = true;
-    },
-    async addNew() {
+async function addNew() {
       const d = new Doodad();
       await NpcStore().AddNpc(d);
-      this.selected = d;
-      (this.$refs as any).view.dialog = true;
-    },
-    SaveAndClose() {
-      this.selected = null;
-      (this.$refs as any).view.dialog = false;
-    },
-    exit() {
-      this.selected = null;
-      (this.$refs as any).view.dialog = false;
-    },
-  },
-};
+      selected.value = d;
+      view.value.dialog = true;
+    }
+function SaveAndClose() {
+      selected.value = null;
+      view.value.dialog = false;
+    }
+function exit() {
+      selected.value = null;
+      view.value.dialog = false;
+    }
+
+onMounted(() => {
+if (props.id) {
+      const item = NpcStore().getNpcByID(props.id);
+      if (item && item instanceof Doodad) {
+        selected.value = item;
+        view.value.dialog = true;
+      }
+    }
+})
 </script>

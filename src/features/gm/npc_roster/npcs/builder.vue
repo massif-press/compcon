@@ -74,31 +74,30 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
 import {
   NpcClassSelector,
   NpcTemplateSelector,
   NpcTagSelector,
-} from './_components';
-import { npcClassSelectorMixin } from './_components/_npcClassSelectorMixin';
+} from './_components'
+import { useNpcClassSelector } from './_components/useNpcClassSelector'
 
-export default {
-  name: 'NpcBuilderContent',
-  mixins: [npcClassSelectorMixin],
-  components: {
-    NpcClassSelector,
-    NpcTemplateSelector,
-    NpcTagSelector,
-  },
-  props: {
-    item: { type: Object, required: true },
-    readonly: { type: Boolean, default: false },
-  },
-  methods: {
-    equip(item) {
-      this.item.NpcClassController.SetClass(item, this.item.NpcClassController.Tier);
-      (this.$refs.classSelector as any).hide();
-    },
-  },
-};
+defineOptions({ name: 'NpcBuilderContent' })
+
+const props = withDefaults(defineProps<{
+  item: object
+  readonly?: boolean
+}>(), {
+  readonly: false,
+})
+
+const { selectedTier, tieredView, options, classes, headers, toggleTieredView } = useNpcClassSelector()
+
+const classSelector = ref<any>(null)
+
+function equip(item: any) {
+  ;(props.item as any).NpcClassController.SetClass(item, (props.item as any).NpcClassController.Tier)
+  classSelector.value?.hide()
+}
 </script>

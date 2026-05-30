@@ -169,6 +169,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import CCNarrativeItemContent from './CCNarrativeItemContent.vue'
 import { CollectionItem } from '@/classes/narrative/CollectionItem'
 
 const props = withDefaults(defineProps<{

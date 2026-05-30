@@ -57,12 +57,13 @@
   </cc-panel>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CcBondInfo',
-  props: { bond: { type: Object, required: true }, hideTitle: { type: Boolean } },
-  data: () => ({
-    imageError: false,
-  }),
-};
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const props = defineProps<{
+  bond: object
+  hideTitle?: boolean
+}>()
+
+const imageError = ref(false)
 </script>

@@ -16,20 +16,24 @@
   </gm-list-item-base>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import StatChips from './_subcomponents/statChips.vue';
 import GmListItemBase from './_GMListItemBase.vue';
 
-export default {
-  name: 'gm-doodad-list-item',
-  components: { StatChips, GmListItemBase },
-  props: {
-    item: { type: Object, required: true },
-    big: { type: Boolean },
-    odd: { type: Boolean },
-    grouping: { type: [Object, String], required: false, default: '' },
-    sorting: { type: [Object, String], required: false, default: '' },
-  },
-  emits: ['open'],
-};
+defineOptions({ name: 'gm-doodad-list-item' })
+
+const props = withDefaults(defineProps<{
+  item: object
+  big?: boolean
+  odd?: boolean
+  grouping?: object | string
+  sorting?: object | string
+}>(), {
+  grouping: '',
+  sorting: ''
+})
+
+const emit = defineEmits<{
+  'open': []
+}>()
 </script>

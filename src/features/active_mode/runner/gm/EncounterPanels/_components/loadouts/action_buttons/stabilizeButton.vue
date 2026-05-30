@@ -105,71 +105,68 @@
   </combat-action-button>
 </template>
 
-<script>
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import CombatActionButton from './CombatActionButton.vue';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 
-export default {
-  name: 'StabilizeButton',
-  components: { CombatActionButton, MenuInput },
-  props: {
-    action: { type: Object, required: true },
-    owner: { type: Object, required: true },
-    encounter: { type: Object, required: true },
-  },
-  emits: ['activate'],
-  data: () => ({
-    firstChoice: 'cool',
-    secondChoice: 'reload',
-    clearSelfCondition: null,
-    clearAlliedCondition: null,
-    selectedTarget: null,
-  }),
-  computed: {
-    controller() {
-      return this.owner.actor.CombatController;
-    },
-    alliedTargets() {
-      const thisCombatant = this.encounter.Combatants.find(
-        (c) => c.actor.ID === this.controller.RootActor.ID
+const props = defineProps<{
+  action: object
+  owner: object
+  encounter: object
+}>()
+
+const emit = defineEmits<{
+  'activate': []
+}>()
+
+const firstChoice = ref('cool')
+const secondChoice = ref('reload')
+const clearSelfCondition = ref(null)
+const clearAlliedCondition = ref(null)
+const selectedTarget = ref(null)
+
+const controller = computed(() => {
+      return props.owner.actor.CombatController;
+    })
+const alliedTargets = computed(() => {
+      const thisCombatant = props.encounter.Combatants.find(
+        (c) => c.actor.ID === controller.value.RootActor.ID
       );
       if (!thisCombatant) return [];
-      return this.encounter.Combatants.filter(
+      return props.encounter.Combatants.filter(
         (c) => c.id !== thisCombatant.id && c.side === thisCombatant.side
       );
-    },
-  },
-  methods: {
-    clearableConditions(target) {
+    })
+
+function clearableConditions(target) {
       if (!target) return [];
       return target.CombatController.Statuses.filter(
         (s) => s.status.StatusType.toLowerCase() === 'condition'
       );
-    },
-    apply(close) {
-      if (this.firstChoice === 'cool') {
-        this.controller.Stabilize('cool');
-      } else if (this.firstChoice === 'repair') {
-        this.controller.Stabilize('repair');
+    }
+function apply(close) {
+      if (firstChoice.value === 'cool') {
+        controller.value.Stabilize('cool');
+      } else if (firstChoice.value === 'repair') {
+        controller.value.Stabilize('repair');
       }
 
-      if (this.secondChoice === 'reload') {
-        this.controller.Stabilize('reload');
-      } else if (this.secondChoice === 'clear_burn') {
-        this.controller.Stabilize('clear_burn');
-      } else if (this.secondChoice === 'clear_self') {
-        this.controller.Stabilize('clear_self');
-        this.controller.RemoveStatus(this.clearSelfCondition.ID);
-      } else if (this.secondChoice === 'clear_ally') {
-        this.controller.Stabilize('clear_ally');
-        this.selectedTarget.actor.CombatController.RemoveStatus(this.clearAlliedCondition.ID);
+      if (secondChoice.value === 'reload') {
+        controller.value.Stabilize('reload');
+      } else if (secondChoice.value === 'clear_burn') {
+        controller.value.Stabilize('clear_burn');
+      } else if (secondChoice.value === 'clear_self') {
+        controller.value.Stabilize('clear_self');
+        controller.value.RemoveStatus(clearSelfCondition.value.ID);
+      } else if (secondChoice.value === 'clear_ally') {
+        controller.value.Stabilize('clear_ally');
+        selectedTarget.value.actor.CombatController.RemoveStatus(clearAlliedCondition.value.ID);
       }
 
-      this.$emit('activate', this.action.ID);
-    },
-    reset() {
-      this.controller.ResetActivation(this.action.Activation);
-    },
-  },
-};
+      emit('activate', props.action.ID);
+    }
+function reset() {
+      controller.value.ResetActivation(props.action.Activation);
+    }
 </script>

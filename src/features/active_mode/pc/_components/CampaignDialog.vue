@@ -26,26 +26,28 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CampaignDialog',
-  props: {
-    campaigns: { type: Array, default: () => [] },
-  },
-  emits: ['confirm'],
-  data: () => ({
-    dialog: false,
-    campaignName: '',
-  }),
-  methods: {
-    open(current?: string) {
-      this.campaignName = current || '';
-      this.dialog = true;
-    },
-    confirm() {
-      this.$emit('confirm', this.campaignName);
-      this.dialog = false;
-    },
-  },
-};
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const props = withDefaults(defineProps<{
+  campaigns?: any[]
+}>(), {
+  campaigns: () => []
+})
+
+const emit = defineEmits<{
+  'confirm': []
+}>()
+
+const dialog = ref(false)
+const campaignName = ref('')
+
+function open(current?: string) {
+      campaignName.value = current || '';
+      dialog.value = true;
+    }
+function confirm() {
+      emit('confirm', campaignName.value);
+      dialog.value = false;
+    }
 </script>

@@ -26,21 +26,16 @@
   </card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import { CompendiumStore } from '@/stores';
 import card from './components/PrintCard.vue';
 
-export default {
-  name: 'pilot-print',
-  components: {
-    card,
-  },
-  computed: {
-    statuses() {
+defineOptions({ name: 'pilot-print' })
+
+const statuses = computed(() => {
       return CompendiumStore().Statuses;
-    },
-  },
-};
+    })
 </script>
 
 <style scoped>

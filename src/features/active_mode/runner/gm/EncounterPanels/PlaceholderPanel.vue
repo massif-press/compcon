@@ -75,27 +75,16 @@
   </panel-base>
 </template>
 
-<script>
+<script setup lang="ts">
 import IconSelectMenu from './_components/IconSelectMenu.vue';
 import PanelBase from './_PanelBase.vue';
 
-export default {
-  name: 'PlaceholderPanel',
-  components: {
-    PanelBase,
-    IconSelectMenu,
-  },
-  inheritAttrs: false,
-  emits: ['deselect'],
-  props: {
-    combatant: {
-      type: Object,
-      required: true,
-    },
-    encounterInstance: {
-      type: Object,
-      required: true,
-    },
-  },
-};
+const props = defineProps<{
+  combatant: object
+  encounterInstance: object
+}>()
+
+const emit = defineEmits<{
+  'deselect': []
+}>()
 </script>

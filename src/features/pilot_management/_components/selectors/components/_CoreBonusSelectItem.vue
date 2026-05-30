@@ -23,35 +23,25 @@
   </cc-button>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CbItem',
-  props: {
-    bonus: {
-      type: Object,
-      required: true,
-    },
-    color: {
-      type: String,
-      required: true,
-    },
-    isSelected: {
-      type: Boolean,
-      required: true,
-    },
-    isSelectable: {
-      type: Boolean,
-      required: true,
-    },
-    id: { type: String },
-  },
-  emits: ['add', 'remove'],
-  methods: {
-    ttContent() {
-      if (!this.isSelected && !this.isSelectable) return 'Locked';
-      else if (this.isSelected) return `Remove ${this.bonus.Name}`;
-      return `Add ${this.bonus.Name}`;
-    },
-  },
-};
+<script setup lang="ts">
+defineOptions({ name: 'CbItem' })
+
+const props = defineProps<{
+  bonus: object
+  color: string
+  isSelected: boolean
+  isSelectable: boolean
+  id?: string
+}>()
+
+const emit = defineEmits<{
+  'add': []
+  'remove': []
+}>()
+
+function ttContent() {
+      if (!props.isSelected && !props.isSelectable) return 'Locked';
+      else if (props.isSelected) return `Remove ${props.bonus.Name}`;
+      return `Add ${props.bonus.Name}`;
+    }
 </script>

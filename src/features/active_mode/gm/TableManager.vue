@@ -8,8 +8,6 @@
   </v-container>
 </template>
 
-<script>
-export default {
-  name: '',
-};
+<script setup lang="ts">
+
 </script>

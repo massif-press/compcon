@@ -150,7 +150,8 @@
   </v-layout>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
 import ItemSidebarList from './ItemSidebarList.vue';
 import GmCollectionFilter from './_components/GMCollectionFilter.vue';
 import { NpcStore } from '../store/npc_store';
@@ -160,109 +161,93 @@ import ShareCodeDialog from '@/shared/ShareCodeDialog.vue';
 import { Npc } from '@/classes/npc/Npc';
 import { useMobile } from '@/composables/useMobile';
 
+defineOptions({ name: 'GmCollectionView' })
 
-export default {
-  name: 'GmCollectionView',
-  components: {
-    ItemSidebarList,
-    GmCollectionFilter,
-    ShareCodeDialog,
-  },
-  props: {
-    items: { type: Array, required: true },
-    itemType: { type: String, required: true },
-    title: { type: String, required: true },
-    groupings: { type: Array, required: true, default: ['Folder'] },
-    sortings: { type: Array, required: true, default: ['Name'] },
-    selected: { type: Object, required: false },
-  },
-  emits: ['open', 'add-new', 'open-import', 'open-organizer'],
-  setup() {
-    return {
-      ...useMobile(), npcStore: NpcStore(), narrativeStore: NarrativeStore() };
-  },
-  data: () => ({
-    search: '',
-    view: 'list',
-    sorting: 'Name',
-    grouping: 'Folder',
-    filters: [] as any[],
-    openFolders: [] as string[],
-    showNoFolder: true,
-    showNav: true,
-  }),
-  computed: {
-    folderStore(): any {
-      switch (this.itemType.toLowerCase()) {
+
+const { mobile, portrait } = useMobile()
+
+const props = withDefaults(defineProps<{
+  items: any[]
+  itemType: string
+  title: string
+  groupings: any[]
+  sortings: any[]
+  selected?: object
+}>(), {
+  groupings: ['Folder'],
+  sortings: ['Name']
+})
+
+const emit = defineEmits<{
+  'open': []
+  'add-new': []
+  'open-import': []
+  'open-organizer': []
+}>()
+
+const search = ref('')
+const view = ref('list')
+const sorting = ref('Name')
+const grouping = ref('Folder')
+const filters = ref([] as any[])
+const openFolders = ref([] as string[])
+const showNoFolder = ref(true)
+const showNav = ref(true)
+
+const user = UserStore().User;
+if (user?.View) {
+  sorting.value = user.View(props.itemType.toLowerCase() + 'Sorting', 'Name');
+  grouping.value = user.View(props.itemType.toLowerCase() + 'Grouping', 'Folder');
+  filters.value = user.View(props.itemType.toLowerCase() + 'Filters', []) as any[];
+}
+
+const folderStore = computed(() => {
+      switch (props.itemType.toLowerCase()) {
         case 'npc':
         case 'unit':
         case 'doodad':
         case 'eidolon':
-          return this.npcStore;
+          return NpcStore();
         default:
-          return this.narrativeStore;
+          return NarrativeStore();
       }
-    },
-
-    canAdd(): boolean {
-      if (this.itemType.toLowerCase() === 'npc') {
+    })
+const canAdd = computed(() => {
+      if (props.itemType.toLowerCase() === 'npc') {
         return CompendiumStore().hasNpcAccess;
-      } else if (this.itemType.toLowerCase() === 'eidolon') {
+      } else if (props.itemType.toLowerCase() === 'eidolon') {
         return CompendiumStore().hasEidolonAccess;
       }
       return true;
-    },
-    folders(): string[] {
-      return this.folderStore.getFolders.filter((f) =>
-        this.items.some((i) => (i as Npc).FolderController.Folder === f)
+    })
+const folders = computed(() => {
+      return folderStore.value.getFolders.filter((f) =>
+        props.items.some((i) => (i as Npc).FolderController.Folder === f)
       );
-    },
-    filteredItems() {
-      let out = this.items;
+    })
+const filteredItems = computed(() => {
+      let out = props.items;
 
-      if (this.filters.length) {
+      if (filters.value.length) {
         out = out.filter((x: any) => {
           if (x.StatController) {
             const stats = x.StatController.DisplayKeys.map((x: any) => x.title);
-            if (this.filters.some((f) => stats.some((s) => s === f))) return false;
+            if (filters.value.some((f) => stats.some((s) => s === f))) return false;
           }
           if (x.NarrativeController) {
             const labels = x.NarrativeController.Labels.map((x: any) => x.title);
-            if (this.filters.some((f) => labels.some((s) => s === f))) return false;
+            if (filters.value.some((f) => labels.some((s) => s === f))) return false;
           }
           return true;
         });
       }
       return out;
-    },
-    hidden() {
-      return this.items.length - this.filteredItems.length;
-    },
-  },
-  watch: {
-    sorting(val) {
-      if (!val) return;
-      UserStore().User.SetView(this.itemType.toLowerCase() + 'Sorting', val);
-    },
-    grouping(val) {
-      if (!val) return;
-      UserStore().User.SetView(this.itemType.toLowerCase() + 'Grouping', val);
-    },
-    filters(val) {
-      UserStore().User.SetView(this.itemType.toLowerCase() + 'Filters', val);
-    },
-  },
-  created() {
-    const user = UserStore().User;
-    if (!user || !user.View) return;
-    this.sorting = user.View(this.itemType.toLowerCase() + 'Sorting', 'Name');
-    this.grouping = user.View(this.itemType.toLowerCase() + 'Grouping', 'Folder');
-    this.filters = user.View(this.itemType.toLowerCase() + 'Filters', []) as any[];
-  },
-  methods: {
-    minimize() {
-      this.showNav = false;
-    },
-  },
-};
+    })
+const hidden = computed(() => {
+      return props.items.length - filteredItems.value.length;
+    })
+
+function minimize() {
+      showNav.value = false;
+    }
 </script>

@@ -114,28 +114,17 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import LinkSheetHaseBlock from '../_components/LinkSheetHaseBlock.vue';
 import LinkSheetPilotName from '../_components/LinkSheetPilotName.vue';
 import LinkSheetMechHeader from '../_components/LinkSheetMechHeader.vue';
 
-export default {
-  name: 'pilot-link-build',
-  components: {
-    LinkSheetHaseBlock,
-    LinkSheetPilotName,
-    LinkSheetMechHeader,
-  },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-    mech: {
-      type: Object,
-      required: false,
-      default: null,
-    },
-  },
-};
+defineOptions({ name: 'pilot-link-build' })
+
+const props = withDefaults(defineProps<{
+  pilot: object
+  mech?: object
+}>(), {
+  mech: null
+})
 </script>

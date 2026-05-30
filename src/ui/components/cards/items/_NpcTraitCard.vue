@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import NpcTrait from '@/classes/npc/feature/NpcItem/NpcTrait';
+import { NpcTrait } from '@/classes/npc/feature/NpcItem/NpcTrait';
 import EquipmentCardBase from './_EquipmentCardBase.vue'
 withDefaults(defineProps<{
   item: NpcTrait

@@ -39,21 +39,14 @@
   </stepper-content>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import StepperContent from '../../_components/StepperContent.vue';
 import CoreBonusSelector from '../../_components/selectors/CoreBonusSelector.vue';
 
-export default {
-  name: 'core-bonus-page',
-  components: { StepperContent, CoreBonusSelector },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-    cbEligible: {
-      type: Boolean,
-    },
-  },
-};
+defineOptions({ name: 'core-bonus-page' })
+
+const props = defineProps<{
+  pilot: object
+  cbEligible?: boolean
+}>()
 </script>

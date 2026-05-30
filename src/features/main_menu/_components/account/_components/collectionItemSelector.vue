@@ -78,38 +78,44 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { notify } from '@/util/notify'
 import {
-  CampaignStore,
-  CompendiumStore,
-  EncounterStore,
-  NarrativeStore,
-  NpcStore,
-  PilotStore,
+CampaignStore,
+CompendiumStore,
+EncounterStore,
+NarrativeStore,
+NpcStore,
+PilotStore,
 } from '@/stores';
 
-export default {
-  name: 'collection-item-selector',
-  props: {
-    addedItems: { type: Array, default: () => [] },
-  },
-  emits: ['add-item'],
-  data: () => ({
-    search: '',
-    selectedType: 'pilots' as any,
-    itemTypes: [
+defineOptions({ name: 'collection-item-selector' })
+
+const props = withDefaults(defineProps<{
+  addedItems?: any[]
+}>(), {
+  addedItems: () => []
+})
+
+const emit = defineEmits<{
+  'add-item': []
+}>()
+
+const search = ref('')
+const selectedType = ref('pilots' as any)
+const itemTypes = ref([
       { title: 'Pilots', value: 'pilots' },
       { title: 'NPCs', value: 'npcs' },
       { title: 'Encounters', value: 'encounters' },
       { title: 'Narrative Elements', value: 'narrative' },
       // { title: 'Campaigns', value: 'campaigns' },
       // { title: 'LCPs', value: 'lcps' },
-    ],
-  }),
-  computed: {
-    filteredItems() {
+    ])
+
+const filteredItems = computed(() => {
       let items = [] as any;
-      switch (this.selectedType) {
+      switch (selectedType.value) {
         case 'pilots':
           items = PilotStore().Pilots;
           break;
@@ -137,18 +143,18 @@ export default {
           (!item.BrewController || (item.BrewController && !item.BrewController.IsUnableToLoad))
       );
 
-      items = items.filter((item: any) => !this.addedItems.includes(item.ID));
+      items = items.filter((item: any) => !props.addedItems.includes(item.ID));
 
-      return this.search
-        ? items.filter((item: any) => item.Name.toLowerCase().includes(this.search.toLowerCase()))
+      return search.value
+        ? items.filter((item: any) => item.Name.toLowerCase().includes(search.value.toLowerCase()))
         : items;
-    },
-    headers() {
+    })
+const headers = computed(() => {
       let base = [
         { title: 'Name', value: 'Name' },
         { title: 'Type', value: 'ItemType' },
       ] as any;
-      switch (this.selectedType) {
+      switch (selectedType.value) {
         case 'pilots':
           base = [
             ...base,
@@ -185,17 +191,14 @@ export default {
       }
       base.push({ title: 'Add Item', value: 'actions', align: 'center' });
       return base;
-    },
-  },
-  methods: {
-    AddItem(item: any) {
-      this.$emit('add-item', { type: this.selectedType, item });
-      this.$notify({
+    })
+
+function AddItem(item: any) {
+      emit('add-item', { type: selectedType.value, item });
+      notify({
         title: 'Item Added',
         text: `Item ${item.Name} added to collection`,
         data: { color: 'success', icon: 'mdi-check' },
       });
-    },
-  },
-};
+    }
 </script>

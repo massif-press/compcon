@@ -44,27 +44,22 @@
   </cc-compendium-browser>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { orderBy } from 'lodash-es';
 import { CompendiumStore } from '@/stores';
 import { Bond } from '@/classes/pilot/components/bond/Bond'
 
-export default {
-  name: 'Bonds',
-  data: () => ({
-    options: {
+const options = ref({
       views: ['single', 'table'],
       initialView: 'single',
       groups: ['lcp', 'none'],
       initialGroup: 'lcp',
       noSource: true,
       hideTitle: true,
-    },
-  }),
-  computed: {
-    bonds(): Bond[] {
+    })
+
+const bonds = computed(() => {
       return orderBy(CompendiumStore().Bonds, 'Name');
-    },
-  },
-};
+    })
 </script>

@@ -2,6 +2,7 @@ import type { Mech } from '../../mech/Mech'
 import { ImageTag } from '@/io/ImageManagement'
 import type { IPortraitContainer } from './IPortraitContainer'
 import { assertController } from '../../utility/assertController'
+import type { IControllerStatic } from '@/classes/ISerializable'
 
 interface IPortraitData {
   portrait: string
@@ -117,5 +118,6 @@ class PortraitController {
   }
 }
 
+const _checkController: IControllerStatic<IPortraitContainer, IPortraitData> = PortraitController
 export { PortraitController }
 export type { IPortraitData, IImageContainer }

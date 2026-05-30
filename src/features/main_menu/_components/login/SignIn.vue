@@ -107,156 +107,160 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useDisplay } from 'vuetify'
 import { UserStore } from '@/stores';
 import logger from '@/user/logger';
 import { signIn } from 'aws-amplify/auth';
 
-export default {
-  name: 'auth-sign-in',
-  data: () => ({
-    email: '',
-    password: '',
-    show: false,
-    error: '',
-    showError: false,
-    loading: false,
-    loginLog: [] as { str: string; time: number }[],
-    signingIn: false,
-  }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-  },
-  methods: {
-    async signIn() {
-      this.signingIn = true;
-      await this.addLoginLog('Connecting to COMP/CON authentication service...');
+const _display = useDisplay()
 
-      this.loading = true;
-      const emailTrimmed = this.email.trim();
+defineOptions({ name: 'auth-sign-in' })
+
+const emit = defineEmits<{
+  'close': []
+  'set-state': []
+}>()
+
+const email = ref('')
+const password = ref('')
+const show = ref(false)
+const error = ref('')
+const showError = ref(false)
+const loading = ref(false)
+const loginLog = ref([] as { str: string; time: number }[])
+const signingIn = ref(false)
+
+const mobile = computed(() => {
+      return _display.mdAndDown.value;
+    })
+
+async function signIn() {
+      signingIn.value = true;
+      await addLoginLog('Connecting to COMP/CON authentication service...');
+
+      loading.value = true;
+      const emailTrimmed = email.value.trim();
       const userEmail = emailTrimmed.toLowerCase();
-      this.email = userEmail;
+      email.value = userEmail;
 
       let signInResult;
       si_attempt: try {
         try {
-          signInResult = await signIn({ username: userEmail, password: this.password });
+          signInResult = await signIn({ username: userEmail, password: password.value });
         } catch (firstError: any) {
           if (firstError.name === 'UserAlreadyAuthenticatedException') throw firstError;
           // fall back to original casing for accounts registered before email normalization
           if (userEmail !== emailTrimmed) {
-            signInResult = await signIn({ username: emailTrimmed, password: this.password });
+            signInResult = await signIn({ username: emailTrimmed, password: password.value });
           } else {
             throw firstError;
           }
         }
       } catch (error: any) {
         if (error.name === 'UserAlreadyAuthenticatedException') {
-          await this.addLoginLog('Auth service reports user is already signed in', true);
-          await this.addLoginLog('Attempting to continue...', true);
+          await addLoginLog('Auth service reports user is already signed in', true);
+          await addLoginLog('Attempting to continue...', true);
           signInResult = { isSignedIn: true };
           break si_attempt;
         }
-        this.showError = true;
-        await this.addLoginLog('Auth service reports failure to connect', true);
-        await this.addLoginLog('Error: ' + error.message, true);
+        showError.value = true;
+        await addLoginLog('Auth service reports failure to connect', true);
+        await addLoginLog('Error: ' + error.message, true);
         return;
       }
 
       if (!signInResult.isSignedIn) {
-        this.showError = true;
-        await this.addLoginLog('Auth service reports failure to connect', true);
-        await this.addLoginLog('Error: sign-in failed', true);
+        showError.value = true;
+        await addLoginLog('Auth service reports failure to connect', true);
+        await addLoginLog('Error: sign-in failed', true);
         return;
       }
 
-      await this.addLoginLog('Auth service connection established');
+      await addLoginLog('Auth service connection established');
 
       try {
         await UserStore().setCognito();
-        await this.addLoginLog('User credentials verified');
+        await addLoginLog('User credentials verified');
       } catch (error: any) {
         logger.error(`Error verifying user credentials: ${error}`, this, error);
-        this.showError = true;
-        await this.addLoginLog('Failed to verify user credentials', true);
-        await this.addLoginLog('Error: ' + error.message, true);
+        showError.value = true;
+        await addLoginLog('Failed to verify user credentials', true);
+        await addLoginLog('Error: ' + error.message, true);
         return;
       }
 
-      await this.addLoginLog('Requesting user information...');
+      await addLoginLog('Requesting user information...');
 
       try {
         await UserStore().getUserMetadata();
-        await this.addLoginLog('COMP/CON user information received');
-        await this.addLoginLog('Retrieving user session...');
+        await addLoginLog('COMP/CON user information received');
+        await addLoginLog('Retrieving user session...');
       } catch (error: any) {
-        this.showError = true;
-        await this.addLoginLog('Failed to retrieve user data', true);
-        await this.addLoginLog('Error: ' + error.message, true);
+        showError.value = true;
+        await addLoginLog('Failed to retrieve user data', true);
+        await addLoginLog('Error: ' + error.message, true);
         return;
       }
 
       if (!Object.keys(UserStore().UserMetadata).length) {
-        this.showError = true;
-        this.error = 'User data not found or could not be created';
+        showError.value = true;
+        error.value = 'User data not found or could not be created';
         return;
       }
 
-      await this.addLoginLog('Collecting user data...');
+      await addLoginLog('Collecting user data...');
       try {
         await UserStore().setMetadataFromDynamo();
-        await this.addLoginLog('Updating local metadata...');
+        await addLoginLog('Updating local metadata...');
       } catch (error: any) {
-        this.showError = true;
-        await this.addLoginLog('Failed to set metadata', true);
-        await this.addLoginLog('Error: ' + error.message, true);
+        showError.value = true;
+        await addLoginLog('Failed to set metadata', true);
+        await addLoginLog('Error: ' + error.message, true);
         return;
       }
 
       await UserStore().checkV2CloudMigration();
 
-      await this.addLoginLog('Redirecting to account menu...');
+      await addLoginLog('Redirecting to account menu...');
 
       await setTimeout(() => {}, 2000);
 
-      this.signingIn = false;
-      this.$emit('set-state', 'signed-in');
-    },
-    async addLoginLog(message: string, error = false) {
+      signingIn.value = false;
+      emit('set-state', 'signed-in');
+    }
+async function addLoginLog(message: string, error = false) {
       const delay = 200;
       let str = `<b>${message}</b>`;
       if (error) str = `<span class="text-error">${str}</span>`;
-      this.loginLog.push({ str, time: Date.now() });
+      loginLog.value.push({ str, time: Date.now() });
       return new Promise((r) => setTimeout(r, delay));
-    },
-    emailValid() {
-      return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email);
-    },
-    copyLog() {
-      let log = this.loginLog.map((x) => `${x.str} / ${x.time}`).join('\n');
+    }
+function emailValid() {
+      return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email.value);
+    }
+function copyLog() {
+      let log = loginLog.value.map((x) => `${x.str} / ${x.time}`).join('\n');
       log = log.replace(/<[^>]*>?/gm, '');
       navigator.clipboard.writeText(log);
-    },
-    abort() {
-      this.reset();
-      this.signingIn = false;
-    },
-    retry() {
-      this.reset();
-      this.signIn();
-    },
-    fail() {
-      this.reset();
-      this.$emit('close');
-    },
-    reset() {
-      this.signingIn = false;
-      this.showError = false;
-      this.loading = false;
-      this.loginLog = [];
-    },
-  },
-};
+    }
+function abort() {
+      reset();
+      signingIn.value = false;
+    }
+function retry() {
+      reset();
+      signIn();
+    }
+function fail() {
+      reset();
+      emit('close');
+    }
+function reset() {
+      signingIn.value = false;
+      showError.value = false;
+      loading.value = false;
+      loginLog.value = [];
+    }
 </script>

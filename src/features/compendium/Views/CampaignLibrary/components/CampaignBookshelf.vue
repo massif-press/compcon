@@ -253,106 +253,93 @@
   </v-footer>
 </template>
 
-<script lang="ts">
-  import { CampaignStore, UserStore } from '@/stores'
-  import DenseShelf from './denseShelf.vue'
-  import CompendiumShelf from './compendiumShelf.vue'
-  import JSZip from 'jszip'
-  import CampaignShareCodeDialog from './campaignShareCodeDialog.vue'
-  import { GetFromCode } from '@/io/apis/account'
-  import logger from '@/user/logger'
+<script setup lang="ts">
+import { computed, ref, onMounted } from 'vue'
+import { CampaignStore, UserStore } from '@/stores'
+import DenseShelf from './denseShelf.vue'
+import CompendiumShelf from './compendiumShelf.vue'
+import JSZip from 'jszip'
+import CampaignShareCodeDialog from './campaignShareCodeDialog.vue'
+import { GetFromCode } from '@/io/apis/account'
+import logger from '@/user/logger'
 import { useMobile } from '@/composables/useMobile';
 
-  export default {
-  setup() {
-    return useMobile()
-  },
-    name: 'CampaignBookshelf',
-    components: { DenseShelf, CompendiumShelf, CampaignShareCodeDialog },
-    props: {
-      density: { type: String, default: 'default' },
-      search: { type: String, default: '' },
-    },
-    data: () => ({
-      importDialog: false,
-      deleteText: '',
-      fileValue: null as any,
-      stagedData: null as any,
-      errorMessage: '',
-      sort: 'title',
-      asc: true,
-      importType: 'file',
-    }),
+const { mobile, portrait } = useMobile()
 
-    computed: {
-      campaigns() {
-        if (!this.search) return CampaignStore().CampaignCollection
+const props = withDefaults(defineProps<{
+  density?: string
+  search?: string
+}>(), {
+  density: 'default',
+  search: ''
+})
+
+const importDialog = ref(false)
+const deleteText = ref('')
+const fileValue = ref(null as any)
+const stagedData = ref(null as any)
+const errorMessage = ref('')
+const sort = ref('title')
+const asc = ref(true)
+const importType = ref('file')
+
+const campaigns = computed(() => {
+        if (!props.search) return CampaignStore().CampaignCollection
         return CampaignStore().CampaignCollection.filter(c =>
-          c.title.toLowerCase().includes(this.search.toLowerCase())
+          c.title.toLowerCase().includes(props.search.toLowerCase())
         )
-      },
-      importSameId() {
-        if (!this.stagedData) return null
-        return CampaignStore().CampaignCollection.find(c => c.id === this.stagedData.id)
-      },
-
-      importIsOlder() {
-        if (!this.stagedData) return false
-        const existing = CampaignStore().CampaignCollection.find(c => c.id === this.stagedData.id)
+      })
+const importSameId = computed(() => {
+        if (!stagedData.value) return null
+        return CampaignStore().CampaignCollection.find(c => c.id === stagedData.value.id)
+      })
+const importIsOlder = computed(() => {
+        if (!stagedData.value) return false
+        const existing = CampaignStore().CampaignCollection.find(c => c.id === stagedData.value.id)
         if (!existing) return false
-        return existing.save.lastModified > this.stagedData.save.lastModified
-      },
-    },
+        return existing.save.lastModified > stagedData.value.save.lastModified
+      })
 
-    mounted() {
-      // this.checkForUpdates();
-    },
-
-    methods: {
-      reset() {
-        this.fileValue = null
-        this.stagedData = null
-        this.errorMessage = ''
-      },
-
-      setSort(sort: string) {
-        if (this.sort === sort) {
-          this.asc = !this.asc
+function reset() {
+        fileValue.value = null
+        stagedData.value = null
+        errorMessage.value = ''
+      }
+function setSort(sort: string) {
+        if (sort.value === sort) {
+          asc.value = !asc.value
         } else {
-          this.sort = sort
-          this.asc = true
+          sort.value = sort
+          asc.value = true
         }
-      },
-
-      async stageImport(file: any) {
+      }
+async function stageImport(file: any) {
         if (!file) return
         const unzipped = await JSZip.loadAsync(file.target.files[0])
         const json = await unzipped.file('campaign_data.json')?.async('text')
 
         if (!json) {
-          this.errorMessage = 'No campaign data file found in the selected .lcd file.'
+          errorMessage.value = 'No campaign data file found in the selected .lcd file.'
           return
         }
 
         const data = JSON.parse(json)
 
         try {
-          this.stagedData = data
+          stagedData.value = data
         } catch (e) {
           logger.error(`Error parsing campaign data: ${e}`, this)
-          this.stagedData = null
-          this.errorMessage = JSON.stringify(e)
+          stagedData.value = null
+          errorMessage.value = JSON.stringify(e)
         }
-      },
-
-      importCampaign() {
-        if (!this.stagedData) return
-        CampaignStore().AddCollectionCampaign(this.stagedData)
-        this.reset()
-        this.importDialog = false
-      },
-
-      async checkForUpdates() {
+      }
+function importCampaign() {
+        if (!stagedData.value) return
+        CampaignStore().AddCollectionCampaign(stagedData.value)
+        reset()
+        importDialog.value = false
+      }
+async function checkForUpdates() {
         if (!UserStore().IsLoggedIn) return
         for (const campaign of CampaignStore().CampaignCollection) {
           if (campaign.publish_info?.code) {
@@ -360,7 +347,9 @@ import { useMobile } from '@/composables/useMobile';
             if (metadata.item_modified !== campaign.save.lastModified) campaign.hasUpdate = true
           }
         }
-      },
-    },
-  }
+      }
+
+onMounted(() => {
+// checkForUpdates();
+})
 </script>

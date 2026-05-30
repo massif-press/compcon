@@ -11,18 +11,11 @@
   </v-tooltip>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CcNpcAttackBonus',
-  props: {
-    attackBonus: {
-      type: Number,
-      required: true,
-    },
-    small: {
-      type: Boolean,
-      default: false,
-    },
-  },
-}
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+  attackBonus: number
+  small?: boolean
+}>(), {
+  small: false
+})
 </script>

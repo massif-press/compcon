@@ -172,110 +172,114 @@
   </fieldset>
 </template>
 
-<script lang="ts">
-import { uniqBy } from 'lodash';
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
+import { uniqBy } from 'lodash'
 import { NarrativeStore } from '../../store/narrative_store'
 import { NpcStore } from '../../store/npc_store'
 
-export default {
-  name: 'GmLabelEditor',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    readonly: {
-      type: Boolean,
-    },
-  },
-  data: () => ({
-    dialog: false,
-    labelExpand: false,
-    alphaSortDir: 0,
-    freqSortDir: 0,
-  }),
-  computed: {
-    availableLabels() {
-      return this.allLabels.filter(label => {
-        return !this.item.NarrativeController.Labels.some(item => item.title === label.title)
-      })
-    },
-    allLabels() {
-      return uniqBy([...NarrativeStore().getAllLabels, ...NpcStore().getAllLabels].filter(
-        x => x.title && x.title.length > 0
-      ), 'title');
-    },
-    labelFrequency() {
-      const counts: Record<string, number> = {}
-      NpcStore().Npcs.forEach((npc: any) => {
-        const seen = new Set<string>()
-        npc.NarrativeController.Labels.forEach((label: any) => {
-          if (label.title && !seen.has(label.title)) {
-            seen.add(label.title)
-            counts[label.title] = (counts[label.title] || 0) + 1
-          }
-        })
-      })
-      return counts
-    },
-    sortedAvailableLabels() {
-      const labels = [...this.availableLabels]
-      if (this.alphaSortDir === 1) labels.sort((a, b) => a.title.localeCompare(b.title))
-      else if (this.alphaSortDir === 2) labels.sort((a, b) => b.title.localeCompare(a.title))
-      else if (this.freqSortDir === 1) labels.sort((a, b) => (this.labelFrequency[b.title] || 0) - (this.labelFrequency[a.title] || 0))
-      else if (this.freqSortDir === 2) labels.sort((a, b) => (this.labelFrequency[a.title] || 0) - (this.labelFrequency[b.title] || 0))
-      return labels
-    },
-    alphaSortIcon() {
-      if (this.alphaSortDir === 1) return 'mdi-sort-alphabetical-ascending'
-      if (this.alphaSortDir === 2) return 'mdi-sort-alphabetical-descending'
-      return 'mdi-sort-alphabetical-variant'
-    },
-    freqSortIcon() {
-      if (this.freqSortDir === 1) return 'mdi-sort-numeric-descending'
-      if (this.freqSortDir === 2) return 'mdi-sort-numeric-ascending'
-      return 'mdi-chart-bar'
-    },
-  },
-  watch: {
-    dialog(val) {
-      if (!val) {
-        this.item.NarrativeController.Labels = this.item.NarrativeController.Labels.filter(
-          label => label.title.length > 0
-        )
-      }
-    },
-  },
-  methods: {
-    updateMessage() {
-      this.message = 'Updated Message!'
-    },
-    getLabelValues(label) {
-      const arr = this.allLabels.filter(item => item !== label.title)
-      if (!arr || !arr.length) return []
+defineOptions({ name: 'GmLabelEditor' })
 
-      return this.allLabels
-        .filter(item => item.title === label.title)
-        .flatMap(item => item.value)
-        .filter(x => x)
-    },
-    addPaletteChip(chip) {
-      this.item.NarrativeController.Labels.push({ title: chip, value: '' })
-    },
-    addLabel() {
-      this.item.NarrativeController.Labels.push({ title: '', value: '' })
-    },
-    cycleAlphaSort() {
-      this.alphaSortDir = (this.alphaSortDir + 1) % 3
-      if (this.alphaSortDir !== 0) this.freqSortDir = 0
-    },
-    cycleFreqSort() {
-      this.freqSortDir = (this.freqSortDir + 1) % 3
-      if (this.freqSortDir !== 0) this.alphaSortDir = 0
-    },
-    labelExists(label) {
-      return this.item.NarrativeController.Labels.filter(x => x.title === label.title && x.value === label.value).length > 1
-    },
-  },
+const props = defineProps<{
+  item: object
+  readonly?: boolean
+}>()
+
+const dialog = ref(false)
+const labelExpand = ref(false)
+const alphaSortDir = ref(0)
+const freqSortDir = ref(0)
+const message = ref('')
+
+const allLabels = computed(() =>
+  uniqBy([...NarrativeStore().getAllLabels, ...NpcStore().getAllLabels].filter(
+    (x: any) => x.title && x.title.length > 0
+  ), 'title')
+)
+
+const labelFrequency = computed((): Record<string, number> => {
+  const counts: Record<string, number> = {}
+  NpcStore().Npcs.forEach((npc: any) => {
+    const seen = new Set<string>()
+    npc.NarrativeController.Labels.forEach((label: any) => {
+      if (label.title && !seen.has(label.title)) {
+        seen.add(label.title)
+        counts[label.title] = (counts[label.title] || 0) + 1
+      }
+    })
+  })
+  return counts
+})
+
+const availableLabels = computed(() =>
+  allLabels.value.filter((label: any) =>
+    !(props.item as any).NarrativeController.Labels.some((item: any) => item.title === label.title)
+  )
+)
+
+const sortedAvailableLabels = computed(() => {
+  const labels = [...availableLabels.value] as any[]
+  if (alphaSortDir.value === 1) labels.sort((a, b) => a.title.localeCompare(b.title))
+  else if (alphaSortDir.value === 2) labels.sort((a, b) => b.title.localeCompare(a.title))
+  else if (freqSortDir.value === 1) labels.sort((a, b) => (labelFrequency.value[b.title] || 0) - (labelFrequency.value[a.title] || 0))
+  else if (freqSortDir.value === 2) labels.sort((a, b) => (labelFrequency.value[a.title] || 0) - (labelFrequency.value[b.title] || 0))
+  return labels
+})
+
+const alphaSortIcon = computed(() => {
+  if (alphaSortDir.value === 1) return 'mdi-sort-alphabetical-ascending'
+  if (alphaSortDir.value === 2) return 'mdi-sort-alphabetical-descending'
+  return 'mdi-sort-alphabetical-variant'
+})
+
+const freqSortIcon = computed(() => {
+  if (freqSortDir.value === 1) return 'mdi-sort-numeric-descending'
+  if (freqSortDir.value === 2) return 'mdi-sort-numeric-ascending'
+  return 'mdi-chart-bar'
+})
+
+watch(dialog, (val) => {
+  if (!val) {
+    ;(props.item as any).NarrativeController.Labels = (props.item as any).NarrativeController.Labels.filter(
+      (label: any) => label.title.length > 0
+    )
+  }
+})
+
+function updateMessage() {
+  message.value = 'Updated Message!'
+}
+
+function getLabelValues(label: any) {
+  const arr = allLabels.value.filter((item: any) => item !== label.title)
+  if (!arr || !arr.length) return []
+  return allLabels.value
+    .filter((item: any) => item.title === label.title)
+    .flatMap((item: any) => item.value)
+    .filter((x: any) => x)
+}
+
+function addPaletteChip(chip: string) {
+  ;(props.item as any).NarrativeController.Labels.push({ title: chip, value: '' })
+}
+
+function addLabel() {
+  ;(props.item as any).NarrativeController.Labels.push({ title: '', value: '' })
+}
+
+function cycleAlphaSort() {
+  alphaSortDir.value = (alphaSortDir.value + 1) % 3
+  if (alphaSortDir.value !== 0) freqSortDir.value = 0
+}
+
+function cycleFreqSort() {
+  freqSortDir.value = (freqSortDir.value + 1) % 3
+  if (freqSortDir.value !== 0) alphaSortDir.value = 0
+}
+
+function labelExists(label: any) {
+  return (props.item as any).NarrativeController.Labels.filter(
+    (x: any) => x.title === label.title && x.value === label.value
+  ).length > 1
 }
 </script>

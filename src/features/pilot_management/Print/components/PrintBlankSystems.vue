@@ -26,16 +26,16 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import BlankLine from './blank/line.vue';
 
-export default {
-  name: 'PrintBlankSystems',
-  components: { BlankLine },
-  props: {
-    extraSystemSpace: { type: Boolean, default: false },
-    lineHeight: { type: Number, default: 28 },
-    slotHeight: { type: Number, default: 80 },
-  },
-};
+const props = withDefaults(defineProps<{
+  extraSystemSpace?: boolean
+  lineHeight?: number
+  slotHeight?: number
+}>(), {
+  extraSystemSpace: false,
+  lineHeight: 28,
+  slotHeight: 80
+})
 </script>

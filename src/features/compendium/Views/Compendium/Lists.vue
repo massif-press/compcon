@@ -19,16 +19,14 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import { CompendiumStore } from '@/stores';
 import { useMobile } from '@/composables/useMobile';
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'Lists',
-  computed: {
-    lists() {
+
+const { mobile, portrait } = useMobile()
+
+const lists = computed(() => {
       const out = [] as { name: string; data: any[]; type: string }[];
       const lists = CompendiumStore().Lists;
       for (const t in lists) {
@@ -41,7 +39,5 @@ export default {
       }
 
       return out;
-    },
-  },
-};
+    })
 </script>

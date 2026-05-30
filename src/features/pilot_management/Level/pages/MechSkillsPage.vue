@@ -35,24 +35,17 @@
   </stepper-content>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import MechSkillsSelector from '../../_components/selectors/MechSkillsSelector.vue';
 import { Pilot } from '@/classes/pilot/Pilot'
 import StepperContent from '../../_components/StepperContent.vue';
 
-export default {
-  name: 'MechSkillsPage',
-  components: { MechSkillsSelector, StepperContent },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    canContinue(): boolean {
-      return !this.pilot.MechSkillsController.IsMissingHASE;
-    },
-  },
-};
+const props = defineProps<{
+  pilot: object
+}>()
+
+const canContinue = computed(() => {
+      return !props.pilot.MechSkillsController.IsMissingHASE;
+    })
 </script>

@@ -46,7 +46,9 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useTheme } from 'vuetify'
 import {
   Chart as ChartJS,
   LinearScale,
@@ -66,237 +68,162 @@ import { getChartAxes, findManufacturer } from './_selectorUtils';
 
 ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend, ChartDataLabels);
 
-export default {
-  name: 'SelectorScatter',
-  components: { Scatter },
-  props: {
-    items: {
-      type: Array,
-      required: true,
-    },
-    group: {
-      type: String,
-      required: true,
-      default: 'None',
-    },
-    selected: {
-      type: Object,
-      required: false,
-    },
-    short: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    tier: {
-      type: Number,
-      required: false,
-      default: 1,
-    },
-    manufacturers: {
-      type: Array as () => Manufacturer[],
-      required: false,
-      default: () => [],
-    },
-  },
-  data: () => ({
-    xAxis: { title: '', value: '' },
-    yAxis: { title: '', value: '' },
-    colors: [] as string[],
-  }),
-  computed: {
-    itemMap() {
-      let arr = [] as any[];
-      if (this.items && (this.items[0] as any).StatsByProfile)
-        arr = (this.items as MechWeapon[]).flatMap((x: MechWeapon) => x.StatsByProfile);
-      else if (
-        this.items &&
-        (this.items[0] as any).ItemType === 'NpcClass' &&
-        (this.items[0] as NpcClass).Stats
-      ) {
-        arr = this.items.map((x: any) => ({
-          ID: x.ID,
-          Name: x.Name,
-          Source: x.Source,
-          LcpName: x.LcpName,
-          Color:
-            x.ItemType === 'NpcClass'
-              ? this.$vuetify.theme.themes.gms.colors[x.Color]
-              : this.mf(x.Source).GetColor(),
-          Stats: x.Stats.AllStats(this.tier),
-        }));
-      } else arr = this.items;
+defineOptions({ name: 'SelectorScatter' })
 
-      return arr.map((x: any) => {
-        return {
-          label: x.Name,
-          stats: { ...x.Stats },
-          source: x.Source,
-          lcp: x.LcpName,
-        };
-      });
+const theme = useTheme()
+
+const props = withDefaults(defineProps<{
+  items: any[]
+  group: string
+  selected?: object
+  short?: boolean
+  tier?: number
+  manufacturers?: Manufacturer[]
+}>(), {
+  group: 'None',
+  short: false,
+  tier: 1,
+  manufacturers: () => [],
+})
+
+const xAxis = ref({ title: '', value: '' })
+const yAxis = ref({ title: '', value: '' })
+const colors = ref([] as string[])
+
+const axes = computed(() => getChartAxes((props.items[0] as CompendiumItem).ItemType, { includeSize: true, heatCapKey: 'heat' }))
+const itemMap = computed(() => {
+  let arr = [] as any[];
+  if (props.items && (props.items[0] as any).StatsByProfile)
+    arr = (props.items as MechWeapon[]).flatMap((x: MechWeapon) => x.StatsByProfile);
+  else if (
+    props.items &&
+    (props.items[0] as any).ItemType === 'NpcClass' &&
+    (props.items[0] as NpcClass).Stats
+  ) {
+    arr = props.items.map((x: any) => ({
+      ID: x.ID,
+      Name: x.Name,
+      Source: x.Source,
+      LcpName: x.LcpName,
+      Color:
+        x.ItemType === 'NpcClass'
+          ? theme.themes.value['gms']?.colors?.[x.Color]
+          : mf(x.Source).GetColor(),
+      Stats: x.Stats.AllStats(props.tier),
+    }));
+  } else arr = props.items;
+
+  return arr.map((x: any) => ({
+    label: x.Name,
+    stats: { ...x.Stats },
+    source: x.Source,
+    lcp: x.LcpName,
+  }));
+})
+const chartData = computed(() => {
+  let datasets = [
+    {
+      data: collateData(itemMap.value),
+      backgroundColor: '#991E2A',
+      label: 'All Items',
     },
-    axes() {
-      return getChartAxes((this.items[0] as CompendiumItem).ItemType, { includeSize: true, heatCapKey: 'heat' });
+  ] as any[];
+
+  if (props.group === 'source' || props.group === 'license') {
+    const bySource = _.groupBy(itemMap.value, 'source');
+    datasets = Object.keys(bySource).map((key) => ({
+      id: key || 'None',
+      label: key || 'None',
+      data: collateData(bySource[key]),
+      backgroundColor: mf(key).GetColor(),
+    }));
+  }
+
+  if (props.group === 'lcp') {
+    const byLcp = _.groupBy(itemMap.value, 'lcp');
+    datasets = Object.keys(byLcp).map((key, i) => ({
+      id: key || 'None',
+      label: key || 'None',
+      data: collateData(byLcp[key]),
+      backgroundColor: colors.value[i],
+    }));
+  }
+
+  return { datasets };
+})
+const options = computed(() => {
+  const o = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: { offset: true, ticks: { stepSize: 1 }, title: { display: false } },
+      y: { offset: true, ticks: { stepSize: 1 }, title: { display: false } },
     },
-    chartData() {
-      let datasets = [
-        {
-          data: this.collateData(this.itemMap),
-          backgroundColor: '#991E2A',
-          label: 'All Items',
-        },
-      ] as any[];
-
-      if (this.group === 'source' || this.group === 'license') {
-        const bySource = _.groupBy(this.itemMap, 'source');
-
-        datasets = Object.keys(bySource).map((key) => {
-          return {
-            id: key || 'None',
-            label: key || 'None',
-            data: this.collateData(bySource[key]),
-            backgroundColor: this.mf(key).GetColor(),
-          };
-        });
-      }
-
-      if (this.group === 'lcp') {
-        const byLcp = _.groupBy(this.itemMap, 'lcp');
-        datasets = Object.keys(byLcp).map((key, i) => {
-          return {
-            id: key || 'None',
-            label: key || 'None',
-            data: this.collateData(byLcp[key]),
-            backgroundColor: this.colors[i],
-          };
-        });
-      }
-
-      return {
-        datasets,
-      };
+    layout: { padding: 10 },
+    legend: { display: false },
+    elements: { point: { radius: 6, hoverRadius: 6, borderColor: '#fff', borderWidth: 2 } },
+    plugins: {
+      annotation: { annotations: {} as any },
+      datalabels: {
+        color: '#fff',
+        backgroundColor: 'rgba(0,0,0,0.6)',
+        borderRadius: 4,
+        clamp: true,
+        align: 'bottom',
+        offset: 8,
+        font: { family: 'Helvetica', size: 15 },
+      },
     },
-    options() {
-      const o = {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            offset: true,
-            ticks: {
-              stepSize: 1,
-            },
-            title: {
-              display: false,
-            },
-          },
-          y: {
-            offset: true,
-            ticks: {
-              stepSize: 1,
-            },
-            title: {
-              display: false,
-            },
-          },
-        },
-        layout: {
-          padding: 10,
-        },
-        legend: {
-          display: false,
-        },
-        elements: {
-          point: {
-            radius: 6,
-            hoverRadius: 6,
-            borderColor: '#fff',
-            borderWidth: 2,
-          },
-        },
-        plugins: {
-          annotation: {
-            annotations: {},
-          },
-          datalabels: {
-            color: '#fff',
-            backgroundColor: 'rgba(0,0,0,0.6)',
-            borderRadius: 4,
-            clamp: true,
-            align: 'bottom',
-            offset: 8,
-            font: {
-              family: 'Helvetica',
-              size: 15,
-            },
-          },
-        },
-      } as any;
+  } as any;
 
-      if (this.selected) {
-        let stats = this.selected.Stats
-          ? this.selected.Stats
-          : this.selected.StatsByProfile[0].Stats;
+  if (props.selected) {
+    const s = props.selected as any;
+    let stats = s.Stats ? s.Stats : s.StatsByProfile[0].Stats;
+    if (s.ItemType === 'NpcClass') stats = s.Stats.AllStats(props.tier);
+    o.plugins.annotation.annotations = {
+      point1: {
+        type: 'point',
+        xValue: stats[xAxis.value.value] || 0,
+        yValue: stats[yAxis.value.value] || 0,
+        radius: 18,
+        backgroundColor: 'rgba(153, 30, 42, 0.25)',
+        borderWidth: 4,
+        borderColor: '#991E2A',
+      },
+    };
+  }
 
-        if (this.selected.ItemType === 'NpcClass') {
-          stats = this.selected.Stats.AllStats(this.tier);
+  return o;
+})
+
+xAxis.value = axes.value[0]
+yAxis.value = axes.value[1]
+colors.value = Array.from(
+  { length: props.items.length },
+  () => '#' + Math.floor(Math.random() * 16777215).toString(16)
+)
+
+function collateData(items: any[]) {
+  const map = items
+    .map((item: any) => ({
+      label: item.label,
+      x: item.stats[xAxis.value.value] || 0,
+      y: item.stats[yAxis.value.value] || 0,
+    }))
+    .reduce((result: any, obj) => {
+      if (obj.label !== undefined && obj.x !== undefined && obj.y !== undefined) {
+        const key = `${obj.x}-${obj.y}`;
+        if (!result[key]) {
+          result[key] = { label: obj.label, x: obj.x, y: obj.y };
+        } else {
+          result[key].label += `\n${obj.label}`;
         }
-
-        o.plugins.annotation.annotations = {
-          point1: {
-            type: 'point',
-            xValue: stats[this.xAxis.value] || 0,
-            yValue: stats[this.yAxis.value] || 0,
-            radius: 18,
-            backgroundColor: 'rgba(153, 30, 42, 0.25)',
-            borderWidth: 4,
-            borderColor: '#991E2A',
-          },
-        };
       }
-
-      return o;
-    },
-  },
-  created() {
-    this.xAxis = this.axes[0];
-    this.yAxis = this.axes[1];
-    this.colors = Array.from(
-      { length: this.items.length },
-      () => '#' + Math.floor(Math.random() * 16777215).toString(16)
-    );
-  },
-  methods: {
-    collateData(items: any[]) {
-      const map = items
-        .map((item: any) => {
-          return {
-            label: item.label,
-            x: item.stats[this.xAxis.value] || 0,
-            y: item.stats[this.yAxis.value] || 0,
-          };
-        })
-        .reduce((result, obj) => {
-          if (obj.label !== undefined && obj.x !== undefined && obj.y !== undefined) {
-            const key = `${obj.x}-${obj.y}`;
-            if (!result[key]) {
-              result[key] = {
-                label: obj.label,
-                x: obj.x,
-                y: obj.y,
-              };
-            } else {
-              result[key].label += `\n${obj.label}`;
-            }
-          }
-          return result;
-        }, {});
-      return Object.values(map);
-    },
-    mf(id: string) {
-      return findManufacturer(this.manufacturers as Manufacturer[], id);
-    },
-  },
-};
+      return result;
+    }, {});
+  return Object.values(map);
+}
+function mf(id: string) {
+  return findManufacturer(props.manufacturers as Manufacturer[], id);
+}
 </script>

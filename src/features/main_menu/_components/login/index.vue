@@ -26,7 +26,8 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import SignIn from './SignIn.vue';
 import PasswordReset from './PasswordReset.vue';
 import SignUp from './SignUp.vue';
@@ -34,25 +35,21 @@ import Verify from './Verify.vue';
 import SignedIn from './SignedIn.vue';
 import { UserStore } from '@/stores';
 
-export default {
-  name: 'login-auth',
-  components: { SignIn, PasswordReset, SignUp, Verify, SignedIn },
-  data: () => ({
-    state: 'sign-in',
-    email: '',
-    currentAuthedUser: null,
-    oauthCode: null,
-  }),
-  async mounted() {
-    if (UserStore().IsLoggedIn) {
-      this.state = 'signed-in';
+defineOptions({ name: 'login-auth' })
+
+const state = ref('sign-in')
+const email = ref('')
+const currentAuthedUser = ref(null)
+const oauthCode = ref(null)
+
+function verifyFlow(email) {
+      email.value = email;
+      state.value = 'verify';
     }
-  },
-  methods: {
-    verifyFlow(email) {
-      this.email = email;
-      this.state = 'verify';
-    },
-  },
-};
+
+onMounted(() => {
+if (UserStore().IsLoggedIn) {
+      state.value = 'signed-in';
+    }
+})
 </script>

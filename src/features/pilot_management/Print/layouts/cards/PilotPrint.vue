@@ -399,7 +399,8 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import card from './components/PrintCard.vue';
 import blankLine from '../../components/blank/line.vue';
 import ActionCard from './components/ActionCard.vue';
@@ -407,55 +408,38 @@ import DeployableCard from './components/DeployableCard.vue';
 import TagBlock from './components/TagBlock.vue';
 import TalentEmblem from '@/ui/components/Talent/components/_TalentEmblem.vue';
 
-export default {
-  name: 'pilot-print',
-  components: {
-    blankLine,
-    ActionCard,
-    DeployableCard,
-    card,
-    TagBlock,
-    TalentEmblem,
-  },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-    options: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    talentActions() {
-      return this.pilot.TalentsController.Talents.flatMap((t) => t.Talent.Ranks)
+defineOptions({ name: 'pilot-print' })
+
+const props = defineProps<{
+  pilot: object
+  options: object
+}>()
+
+const talentActions = computed(() => {
+      return props.pilot.TalentsController.Talents.flatMap((t) => t.Talent.Ranks)
         .filter((r) => r.Actions.length > 0)
         .flatMap((r) => r.Actions);
-    },
-    talentDeployables() {
-      return this.pilot.TalentsController.Talents.flatMap((t) => t.Talent.Ranks)
+    })
+const talentDeployables = computed(() => {
+      return props.pilot.TalentsController.Talents.flatMap((t) => t.Talent.Ranks)
         .filter((r) => r.Deployables.length > 0)
         .flatMap((r) => r.Deployables);
-    },
-    gearActions() {
-      return this.pilot.Loadout.Items.filter((i) => !!i && i.Actions.length > 0).flatMap(
+    })
+const gearActions = computed(() => {
+      return props.pilot.Loadout.Items.filter((i) => !!i && i.Actions.length > 0).flatMap(
         (i) => i.Actions
       );
-    },
-    gearDeployables() {
-      return this.pilot.Loadout.Items.filter((i) => i.Deployables.length > 0).flatMap(
+    })
+const gearDeployables = computed(() => {
+      return props.pilot.Loadout.Items.filter((i) => i.Deployables.length > 0).flatMap(
         (i) => i.Deployables
       );
-    },
-  },
-  methods: {
-    showTag(id) {
+    })
+
+function showTag(id) {
       const hiddenTags = ['tg_hidden', 'tg_unique', 'tg_set_damage_type'];
       return !hiddenTags.includes(id);
-    },
-  },
-};
+    }
 </script>
 
 <style scoped>

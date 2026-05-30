@@ -30,16 +30,17 @@
   </v-tooltip>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CombatActionIndicator',
-  props: {
-    icon: { type: String, required: true },
-    activation: { type: String, required: true },
-    color: { type: String, default: '' },
-    canActivate: { type: Boolean, required: true },
-    customDisabledText: { type: String, default: '' },
-    spanClass: { type: String, default: 'ml-1' },
-  },
-};
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+  icon: string
+  activation: string
+  color?: string
+  canActivate: boolean
+  customDisabledText?: string
+  spanClass?: string
+}>(), {
+  color: '',
+  customDisabledText: '',
+  spanClass: 'ml-1'
+})
 </script>

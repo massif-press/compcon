@@ -74,59 +74,65 @@
   </v-row>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, onMounted } from 'vue'
 import { MechType, MountType } from '@/classes/enums'
 
-export default {
-  name: 'frame-filter',
-  props: {
-    activeFilters: { type: Object, default: () => ({}) },
-    manufacturers: { type: Array, default: () => [] },
-    frameSizes: { type: Array, default: () => [] },
-    frameLicenses: { type: Array, default: () => [] },
-  },
-  data: () => ({
-    sourceFilter: [] as string[],
-    typeFilter: [] as string[],
-    mountFilter: [] as string[],
-    sizeFilter: [] as string[],
-    licenseFilter: [] as string[],
-  }),
-  emits: ['set-filters'],
-  mounted() {
-    const f = this.activeFilters;
-    if (!f || !Object.keys(f).length) return;
-    if (f.Source) this.sourceFilter = f.Source;
-    if (f.MechType) this.typeFilter = f.MechType;
-    if (f.Mounts) this.mountFilter = f.Mounts;
-    if (f.MechSize) this.sizeFilter = f.MechSize;
-    if (f.License) this.licenseFilter = f.License;
-  },
-  computed: {
-    mechTypes(): string[] {
+defineOptions({ name: 'frame-filter' })
+
+const props = withDefaults(defineProps<{
+  activeFilters?: object
+  manufacturers?: any[]
+  frameSizes?: any[]
+  frameLicenses?: any[]
+}>(), {
+  activeFilters: () => ({}),
+  manufacturers: () => [],
+  frameSizes: () => [],
+  frameLicenses: () => []
+})
+
+const emit = defineEmits<{
+  'set-filters': []
+}>()
+
+const sourceFilter = ref([] as string[])
+const typeFilter = ref([] as string[])
+const mountFilter = ref([] as string[])
+const sizeFilter = ref([] as string[])
+const licenseFilter = ref([] as string[])
+
+const mechTypes = computed(() => {
       return Object.keys(MechType).map((k) => MechType[k as any]).sort() as string[];
-    },
-    mountTypes(): string[] {
+    })
+const mountTypes = computed(() => {
       return Object.keys(MountType).map((k) => MountType[k as any]).filter((x) => x !== 'Integrated').sort() as string[];
-    },
-  },
-  methods: {
-    clear() {
-      this.typeFilter = [];
-      this.sourceFilter = [];
-      this.mountFilter = [];
-      this.sizeFilter = [];
-      this.licenseFilter = [];
-    },
-    updateFilters() {
+    })
+
+function clear() {
+      typeFilter.value = [];
+      sourceFilter.value = [];
+      mountFilter.value = [];
+      sizeFilter.value = [];
+      licenseFilter.value = [];
+    }
+function updateFilters() {
       const fObj = {} as any;
-      if (this.sourceFilter) fObj.Source = this.sourceFilter;
-      if (this.sizeFilter && this.sizeFilter.length) fObj.MechSize = this.sizeFilter;
-      if (this.typeFilter && this.typeFilter.length) fObj.MechType = this.typeFilter;
-      if (this.mountFilter && this.mountFilter.length) fObj.Mounts = this.mountFilter;
-      if (this.licenseFilter && this.licenseFilter.length) fObj.License = this.licenseFilter;
-      this.$emit('set-filters', fObj);
-    },
-  },
-};
+      if (sourceFilter.value) fObj.Source = sourceFilter.value;
+      if (sizeFilter.value && sizeFilter.value.length) fObj.MechSize = sizeFilter.value;
+      if (typeFilter.value && typeFilter.value.length) fObj.MechType = typeFilter.value;
+      if (mountFilter.value && mountFilter.value.length) fObj.Mounts = mountFilter.value;
+      if (licenseFilter.value && licenseFilter.value.length) fObj.License = licenseFilter.value;
+      emit('set-filters', fObj);
+    }
+
+onMounted(() => {
+const f = props.activeFilters;
+    if (!f || !Object.keys(f).length) return;
+    if (f.Source) sourceFilter.value = f.Source;
+    if (f.MechType) typeFilter.value = f.MechType;
+    if (f.Mounts) mountFilter.value = f.Mounts;
+    if (f.MechSize) sizeFilter.value = f.MechSize;
+    if (f.License) licenseFilter.value = f.License;
+})
 </script>

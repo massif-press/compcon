@@ -32,24 +32,19 @@
   </v-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+  modelValue?: number
+  icon?: string
+  label?: string
+}>(), {
+  modelValue: 0,
+  icon: 'mdi-keyboard-variant',
+  label: 'Value'
+})
 
-export default {
-  name: 'TickbarMenu',
-  props: {
-    modelValue: {
-      type: Number,
-      default: 0,
-    },
-    icon: {
-      type: String,
-      default: 'mdi-keyboard-variant',
-    },
-    label: {
-      type: String,
-      default: 'Value',
-    },
-  },
-  emits: ['set', 'reset'],
-};
+const emit = defineEmits<{
+  'set': []
+  'reset': []
+}>()
 </script>

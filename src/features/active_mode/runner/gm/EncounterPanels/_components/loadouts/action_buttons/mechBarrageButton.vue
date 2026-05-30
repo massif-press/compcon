@@ -166,162 +166,147 @@
   </combat-action-button>
 </template>
 
-<script lang="ts">
-import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
-import MechMountBonusCard from '../_mechMountBonusCard.vue';
+<script setup lang="ts">
+import { computed, ref, onMounted } from 'vue'
+import { useDisplay } from 'vuetify'
+import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue'
+import MechMountBonusCard from '../_mechMountBonusCard.vue'
 import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
-import { CombatantData } from '@/classes/encounter/Encounter';
-import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
-import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon';
-import MechWeaponAttack from './_mechWeaponAttack.vue';
-import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue';
-import StagedPanel from './_stagedPanel.vue';
-import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
-import CombatActionButton from './CombatActionButton.vue';
-import { barrageButtonMixin } from './_barrageButtonMixin';
+import { CombatantData } from '@/classes/encounter/Encounter'
+import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent'
+import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon'
+import MechWeaponAttack from './_mechWeaponAttack.vue'
+import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue'
+import StagedPanel from './_stagedPanel.vue'
+import CombatActionButton from './CombatActionButton.vue'
 
-export default {
-  name: 'MechBarrageButton',
-  components: {
-    MenuInput,
-    MechMountBonusCard,
-    MechWeaponAttack,
-    ApplyButton,
-    StagedPanel,
-    CombatActionButton,
-  },
-  mixins: [barrageButtonMixin],
-  props: {
-    action: {
-      type: Object,
-      required: true,
-    },
-    owner: {
-      type: Object,
-      required: true,
-    },
-    encounter: {
-      type: Object,
-      required: true,
-    },
-    presetWeapon: {
-      type: MechWeapon,
-      required: false,
-    },
-  },
-  data: () => ({
-    events: [] as {
-      weaponEvent: WeaponAttackEvent,
-      auxes: MechWeapon[],
-      auxEvents: WeaponAttackEvent[],
-      include: boolean[],
-    }[],
-    selectedWeapons: [] as MechWeapon[],
-  }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-    controller() {
-      return this.owner.actor.CombatController.ActiveActor.CombatController;
-    },
-    barrageWeapons() {
-      const mech = this.controller.ActiveActor;
-      if (!mech || !mech.MechLoadoutController) return []
-      let arr = mech.MechLoadoutController.ActiveLoadout.Weapons.filter(
-        (x) => x.Barrage
-      );
+defineOptions({ name: 'MechBarrageButton' })
 
-      arr = arr.filter(w => !this.selectedWeapons.filter(Boolean).map(x => x.InstanceID).some(y => y === w.InstanceID));
+const props = defineProps<{
+  action: object
+  owner: object
+  encounter: object
+  presetWeapon?: MechWeapon
+}>()
 
-      return arr;
-    },
-    eventArray() {
-      let out = [] as any[];
-      for (let i = 0; i < this.selectedWeapons.length; i++) {
-        const ev = this.events[i];
-        if (ev && ev.weaponEvent) {
-          out.push(ev.weaponEvent);
-          const enabledAuxes = ev.auxEvents.filter((x, idx) => ev.include[idx]);
-          out = out.concat(enabledAuxes);
-        }
-      }
-      return out;
-    },
-    allEventsStaged() {
-      if (!this.eventArray.length) return false;
-      return this.eventArray.every((e) => e.BaseEvent.Staged);
+const { mdAndDown: mobile } = useDisplay()
+
+const events = ref<{
+  weaponEvent: WeaponAttackEvent
+  auxes: MechWeapon[]
+  auxEvents: WeaponAttackEvent[]
+  include: boolean[]
+}[]>([])
+
+const selectedWeapons = ref<MechWeapon[]>([])
+
+const controller = computed(() =>
+  (props.owner as any).actor.CombatController.ActiveActor.CombatController
+)
+
+const barrageWeapons = computed(() => {
+  const mech = controller.value.ActiveActor
+  if (!mech || !mech.MechLoadoutController) return []
+  let arr = mech.MechLoadoutController.ActiveLoadout.Weapons.filter((x: any) => x.Barrage)
+  arr = arr.filter((w: any) => !selectedWeapons.value.filter(Boolean).map((x: any) => x.InstanceID).some((y: any) => y === w.InstanceID))
+  return arr
+})
+
+const eventArray = computed(() => {
+  let out: any[] = []
+  for (let i = 0; i < selectedWeapons.value.length; i++) {
+    const ev = events.value[i]
+    if (ev && ev.weaponEvent) {
+      out.push(ev.weaponEvent)
+      const enabledAuxes = ev.auxEvents.filter((x, idx) => ev.include[idx])
+      out = out.concat(enabledAuxes)
     }
-  },
-  methods: {
-    ordnanceWarning(selectedWeapon) {
-      if (!selectedWeapon) return false;
-      if (selectedWeapon.ActiveTags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
-        return this.owner.actor.CombatController.CanActivate('ordnance') === false;
-      }
-      return false;
-    },
-    selectedMount(selectedWeapon) {
-      if (!selectedWeapon) return null;
-      const aa = this.owner.actor.CombatController.RootActor;
-      if (!aa.ActiveMech) return null;
+  }
+  return out
+})
 
-      return aa.ActiveMech.MechLoadoutController.ActiveLoadout.Mounts.find((m) => m.Weapons.some((w) => w.InstanceID === selectedWeapon.InstanceID));
-    },
-    setSelected(index: number, weapon: MechWeapon) {
-      if (!weapon) return;
+const allEventsStaged = computed(() => {
+  if (!eventArray.value.length) return false
+  return eventArray.value.every((e: any) => e.BaseEvent.Staged)
+})
 
-      const self = this.encounter.Combatants.find(
-        (c: CombatantData) => c.actor.CombatController.RootActor.ID === this.owner.actor.CombatController.RootActor.ID
-      );
-      if (!self) {
-        throw new Error('Owner combatant not found in encounter');
-      }
+function reset(clearAction = false) {
+  if (clearAction) (props.owner as any).CombatController.ClearActionUsed((props.action as any).ID)
+  selectedWeapons.value = new Array(2)
+  events.value = new Array(2)
+  if (!selectedWeapons.value[0] && props.presetWeapon) {
+    setSelected(0, props.presetWeapon)
+  }
+}
 
-      this.selectedWeapons[index] = weapon;
-      const auxes = this.selectedMount(weapon)?.Weapons.filter(
-        (x) =>
-          x.InstanceID !== weapon.InstanceID && x.Size.toLowerCase() === 'auxiliary'
-      ) ?? [];
+function apply() {
+  const actor = (props.owner as any).actor.CombatController.ActiveActor.CombatController
+  selectedWeapons.value.forEach((w: any) => {
+    actor.MarkActionUsed(w.InstanceID)
+    if (w.IsLoading) w.Used = true
+  })
+  reset()
+}
 
-      const auxEvents = auxes.map(x => new WeaponAttackEvent(x.SelectedProfile as WeaponProfile, this.owner as CombatantData, this.encounter, 'Additional Aux Attack'))
+function ordnanceWarning(selectedWeapon: any) {
+  if (!selectedWeapon) return false
+  if (selectedWeapon.ActiveTags.find((t: any) => t.ID.toLowerCase() === 'tg_ordnance')) {
+    return (props.owner as any).actor.CombatController.CanActivate('ordnance') === false
+  }
+  return false
+}
 
-      this.events[index] = {
-        weaponEvent: new WeaponAttackEvent(weapon.SelectedProfile as WeaponProfile, self, this.encounter, 'Barrage'),
-        auxes,
-        auxEvents,
-        include: auxEvents.map(() => true),
-      };
+function selectedMount(selectedWeapon: any) {
+  if (!selectedWeapon) return null
+  const aa = (props.owner as any).actor.CombatController.RootActor
+  if (!aa.ActiveMech) return null
+  return aa.ActiveMech.MechLoadoutController.ActiveLoadout.Mounts.find(
+    (m: any) => m.Weapons.some((w: any) => w.InstanceID === selectedWeapon.InstanceID)
+  )
+}
 
-      if (weapon.Size.toLowerCase() === 'superheavy') {
-        this.selectedWeapons = [weapon];
-        this.events = [this.events[index]];
-      } else if (this.selectedWeapons.length === 1) {
-        this.selectedWeapons.push(undefined as any);
-        this.events.push(undefined as any);
-      }
-    },
-    setInclude(index: number, selectedWeapon: MechWeapon) {
-      const self = this.encounter.Combatants.find(
-        (c: CombatantData) => c.actor.CombatController.RootActor.ID === this.owner.actor.CombatController.RootActor.ID
-      );
-      if (!self) {
-        throw new Error('Owner combatant not found in encounter');
-      }
+function setSelected(index: number, weapon: MechWeapon) {
+  if (!weapon) return
+  const self = (props.encounter as any).Combatants.find(
+    (c: CombatantData) => c.actor.CombatController.RootActor.ID === (props.owner as any).actor.CombatController.RootActor.ID
+  )
+  if (!self) throw new Error('Owner combatant not found in encounter')
+  selectedWeapons.value[index] = weapon
+  const auxes = selectedMount(weapon)?.Weapons.filter(
+    (x: any) => x.InstanceID !== weapon.InstanceID && x.Size.toLowerCase() === 'auxiliary'
+  ) ?? []
+  const auxEvents = auxes.map((x: any) =>
+    new WeaponAttackEvent(x.SelectedProfile as WeaponProfile, props.owner as CombatantData, props.encounter, 'Additional Aux Attack')
+  )
+  events.value[index] = {
+    weaponEvent: new WeaponAttackEvent(weapon.SelectedProfile as WeaponProfile, self, props.encounter, 'Barrage'),
+    auxes, auxEvents,
+    include: auxEvents.map(() => true),
+  }
+  if (weapon.Size.toLowerCase() === 'superheavy') {
+    selectedWeapons.value = [weapon]
+    events.value = [events.value[index]]
+  } else if (selectedWeapons.value.length === 1) {
+    selectedWeapons.value.push(undefined as any)
+    events.value.push(undefined as any)
+  }
+}
 
-      const auxes = this.selectedMount(selectedWeapon)?.Weapons.filter(
-        (x) =>
-          x.InstanceID !== selectedWeapon.InstanceID && x.Size.toLowerCase() === 'auxiliary'
-      ) ?? [];
+function setInclude(index: number, selectedWeapon: MechWeapon) {
+  const self = (props.encounter as any).Combatants.find(
+    (c: CombatantData) => c.actor.CombatController.RootActor.ID === (props.owner as any).actor.CombatController.RootActor.ID
+  )
+  if (!self) throw new Error('Owner combatant not found in encounter')
+  const auxes = selectedMount(selectedWeapon)?.Weapons.filter(
+    (x: any) => x.InstanceID !== selectedWeapon.InstanceID && x.Size.toLowerCase() === 'auxiliary'
+  ) ?? []
+  events.value[index].auxEvents = []
+  for (let i = 0; i < events.value[index].include.length; i++) {
+    events.value[index].auxEvents.push(
+      new WeaponAttackEvent(auxes[i].SelectedProfile as WeaponProfile, props.owner as CombatantData, props.encounter, 'Additional Aux Attack')
+    )
+  }
+}
 
-      this.events[index].auxEvents = []
-
-      for (let i = 0; i < this.events[index].include.length; i++) {
-        this.events[index].auxEvents.push(
-          new WeaponAttackEvent(auxes[i].SelectedProfile as WeaponProfile, this.owner as CombatantData, this.encounter, 'Additional Aux Attack')
-        );
-      }
-    },
-  },
-};
+reset()
 </script>

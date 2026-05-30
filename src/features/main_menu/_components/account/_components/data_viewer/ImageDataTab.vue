@@ -121,113 +121,106 @@
   </v-data-table>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { notify } from '@/util/notify'
+import { useDisplay } from 'vuetify'
 import { UserStore } from '@/stores';
 import { cloudDelete, } from '@/io/apis/account';
 import logger from '@/user/logger';
-
 const distributor = import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR || '';
 
-export default {
-  name: 'CloudItemDataTab',
-  props: {
-    search: {
-      type: String,
-      default: '',
-    },
-    loading: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['refresh'],
-  data: () => ({
-    tab: 'Images',
-    itemSize: '200',
-    deleteLoading: false,
-    headers: [
-      { title: '', key: 'image' },
-      { title: 'Filename', key: 'name' },
-      { title: 'Upload Date', key: 'created' },
-      { title: '', key: 'actions', width: '155px' },
-    ],
-  }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-    allImages() {
-      return UserStore().CloudImages;
-    },
-    distributor() {
-      return distributor;
-    },
-    cloudStorageFull() {
-      return UserStore().CloudStorageFull;
-    },
-    images() {
-      return this.allImages.filter((item) => {
-        if (!item.uri) return false;
-        if (this.search && !item.Name.toLowerCase().includes(this.search.toLowerCase()))
-          return false;
-        return true;
-      });
-    },
-    skipDeleteWarning: {
-      get() {
-        return UserStore().User.View('skipDeleteWarning_image', false);
-      },
-      set(val) {
-        UserStore().User.SetView('skipDeleteWarning_image', val);
-      },
-    },
-  },
-  methods: {
-    async downloadImage(url) {
-      const filename = url.split('/').pop();
-      try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
+const _display = useDisplay()
 
-        const blob = await response.blob();
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = filename;
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-      } catch (error) {
-        logger.error(`Error downloading image: ${error}`, this, error);
-      }
-    },
-    async deleteImage(item) {
-      this.deleteLoading = true;
-      try {
-        const { user_id, sortkey, uri } = item;
-        await cloudDelete(user_id, sortkey, uri);
+defineOptions({ name: 'CloudItemDataTab' })
 
-        this.$emit('refresh');
-        this.$notify({
-          title: `Image Deleted`,
-          text: `Removed ${item.ItemType} ${item.Name}.`,
-          data: { icon: 'mdi-delete', color: 'success' },
-        });
-        this.deleteLoading = false;
-        return true;
-      } catch (err) {
-        logger.error(`Error deleting image: ${err}`, this, err);
-        this.$notify({
-          title: `Deletion Failed`,
-          text: `Unable to communicate with server. ${err}`,
-          data: { icon: 'mdi-alert', color: 'error' },
-        });
-      }
-      this.deleteLoading = false;
-    },
-  },
-};
+const props = withDefaults(defineProps<{
+  search?: string
+  loading?: boolean
+}>(), {
+  search: '',
+  loading: false
+})
+
+const emit = defineEmits<{
+  'refresh': []
+}>()
+
+const tab = ref('Images')
+const itemSize = ref('200')
+const deleteLoading = ref(false)
+const headers = ref([
+  { title: '', key: 'image' },
+  { title: 'Filename', key: 'name' },
+  { title: 'Upload Date', key: 'created' },
+  { title: '', key: 'actions', width: '155px' },
+])
+
+const mobile = computed(() => {
+  return _display.mdAndDown.value;
+})
+const allImages = computed(() => {
+  return UserStore().CloudImages;
+})
+const cloudStorageFull = computed(() => {
+  return UserStore().CloudStorageFull;
+})
+const images = computed(() => {
+  return allImages.value.filter((item) => {
+    if (!item.uri) return false;
+    if (props.search && !item.Name.toLowerCase().includes(props.search.toLowerCase()))
+      return false;
+    return true;
+  });
+})
+const skipDeleteWarning = computed({
+  get: () => UserStore().User.View('skipDeleteWarning_image', false),
+  set: (val) => { UserStore().User.SetView('skipDeleteWarning_image', val); },
+})
+
+async function downloadImage(url) {
+  const filename = url.split('/').pop();
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const blob = await response.blob();
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  } catch (error) {
+    logger.error(`Error downloading image: ${error}`, this, error);
+  }
+}
+async function deleteImage(item) {
+  deleteLoading.value = true;
+  try {
+    const { user_id, sortkey, uri } = item;
+    await cloudDelete(user_id, sortkey, uri);
+
+    emit('refresh');
+    notify({
+      title: `Image Deleted`,
+      text: `Removed ${item.ItemType} ${item.Name}.`,
+      data: { icon: 'mdi-delete', color: 'success' },
+    });
+    deleteLoading.value = false;
+    return true;
+  } catch (err) {
+    logger.error(`Error deleting image: ${err}`, this, err);
+    notify({
+      title: `Deletion Failed`,
+      text: `Unable to communicate with server. ${err}`,
+      data: { icon: 'mdi-alert', color: 'error' },
+    });
+  }
+  deleteLoading.value = false;
+}
 </script>
 
 <style>

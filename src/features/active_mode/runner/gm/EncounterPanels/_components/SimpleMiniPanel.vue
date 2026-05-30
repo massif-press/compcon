@@ -104,74 +104,53 @@
   </v-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
+import { useDisplay } from 'vuetify'
 
-export default {
-  name: 'StatMiniPanel',
-  props: {
-    modelValue: {
-      type: Number,
-    },
-    max: {
-      type: Number,
-    },
-    min: {
-      type: Number,
-      default: 0,
-    },
-    title: {
-      type: String,
-    },
-    icon: {
-      type: String,
-    },
-    color: {
-      type: String,
-    },
-    boolean: {
-      type: Boolean,
-    },
-    baseValue: {
-      type: Number,
-      default: 0,
-    },
-  },
-  emits: ['click', 'update:model-value'],
-  data() {
-    return {
-      internalValue: this.modelValue || 0,
-    }
-  },
-  computed: {
-    portrait() {
-      return this.$vuetify.display.xs
-    },
-    mobile() {
-      return this.$vuetify.display.mdAndDown
-    },
-  },
-  watch: {
-    modelValue(val) {
-      this.internalValue = val
-    },
-    internalValue(val) {
-      this.$emit('update:model-value', val)
-    },
-  },
-  methods: {
-    setVal(val) {
-      if (this.boolean) {
+const _display = useDisplay()
+
+defineOptions({ name: 'StatMiniPanel' })
+
+const props = withDefaults(defineProps<{
+  modelValue?: number
+  max?: number
+  min?: number
+  title?: string
+  icon?: string
+  color?: string
+  boolean?: boolean
+  baseValue?: number
+}>(), {
+  min: 0,
+  baseValue: 0
+})
+
+const emit = defineEmits<{
+  'click': []
+  'update:model-value': []
+}>()
+
+const internalValue = ref(props.modelValue || 0)
+
+const portrait = computed(() => {
+      return _display.xs.value
+    })
+const mobile = computed(() => {
+      return _display.mdAndDown.value
+    })
+
+function setVal(val) {
+      if (props.boolean) {
         val = val > 0 ? 1 : 0
       } else {
-        val = Math.max(val, this.min)
-        if (this.max !== undefined) {
-          val = Math.min(val, this.max)
+        val = Math.max(val, props.min)
+        if (props.max !== undefined) {
+          val = Math.min(val, props.max)
         }
       }
-      this.$emit('update:model-value', val)
-    },
-  },
-}
+      emit('update:model-value', val)
+    }
 </script>
 
 <style scoped>

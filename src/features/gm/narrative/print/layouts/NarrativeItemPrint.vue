@@ -124,32 +124,21 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import BlankLine from '@/features/gm/npc_roster/print/components/blank/line.vue';
 import Notes from '@/features/gm/npc_roster/print/components/blank/notes.vue';
 
-export default {
-  name: 'item-print',
-  components: {
-    BlankLine,
-    Notes,
-  },
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    options: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    landscape() {
-      return this.options.orientation === 'landscape';
-    },
-  },
-};
+defineOptions({ name: 'item-print' })
+
+const props = defineProps<{
+  item: object
+  options: object
+}>()
+
+const landscape = computed(() => {
+      return props.options.orientation === 'landscape';
+    })
 </script>
 
 <style scoped>

@@ -54,43 +54,40 @@
   </combat-action-button>
 </template>
 
-<script>
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { CompendiumStore } from '@/stores';
 import CombatActionButton from './CombatActionButton.vue';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 
-export default {
-  name: 'PilotJockeyButton',
-  components: { CombatActionButton, MenuInput },
-  props: {
-    action: { type: Object, required: true },
-    owner: { type: Object, required: true },
-    encounter: { type: Object, required: true },
-  },
-  emits: ['activate'],
-  data: () => ({
-    tab: 'jockey',
-  }),
-  computed: {
-    controller() {
-      return this.owner.actor.CombatController;
-    },
-    jockeyActions() {
+const props = defineProps<{
+  action: object
+  owner: object
+  encounter: object
+}>()
+
+const emit = defineEmits<{
+  'activate': []
+}>()
+
+const tab = ref('jockey')
+
+const controller = computed(() => {
+      return props.owner.actor.CombatController;
+    })
+const jockeyActions = computed(() => {
       return CompendiumStore()
         .Actions.filter((a) => a.Activation === 'Jockey')
         .sort((a, b) => a.Name.localeCompare(b.Name));
-    },
-  },
-  methods: {
-    selectedAction(id) {
+    })
+
+function selectedAction(id) {
       return CompendiumStore().Actions.find((a) => a.ID === id);
-    },
-    apply(close) {
-      this.$emit('activate', this.action.ID);
-    },
-    reset() {
-      this.controller.ResetActivation(this.action.Activation);
-    },
-  },
-};
+    }
+function apply(close) {
+      emit('activate', props.action.ID);
+    }
+function reset() {
+      controller.value.ResetActivation(props.action.Activation);
+    }
 </script>

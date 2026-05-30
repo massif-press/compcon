@@ -95,29 +95,23 @@
     :options="options" />
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import NpcFeaturePrint from './components/NpcFeaturePrint.vue';
 import PrintNpcStats from './components/PrintNpcStats.vue';
 import NpcNarrativePrintSection from './components/NpcNarrativePrintSection.vue';
 import persistent_traits from '@/classes/npc/eidolon/persistent_traits.json';
 
-export default {
-  name: 'npc-print',
-  components: {
-    NpcFeaturePrint,
-    PrintNpcStats,
-    NpcNarrativePrintSection,
-  },
-  props: {
-    npc: { type: Object, required: true },
-    options: { type: Object, required: true },
-  },
-  computed: {
-    persistentTraits() {
+defineOptions({ name: 'npc-print' })
+
+const props = defineProps<{
+  npc: object
+  options: object
+}>()
+
+const persistentTraits = computed(() => {
       return persistent_traits;
-    },
-  },
-};
+    })
 </script>
 
 <style scoped>

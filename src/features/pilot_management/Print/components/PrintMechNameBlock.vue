@@ -31,16 +31,15 @@
     :blank="blank" />
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import BlankLine from './blank/line.vue';
 import PrintOvercharge from './PrintOvercharge.vue';
 import PrintStatRow from './PrintStatRow.vue';
 
-export default {
-  name: 'PrintMechNameBlock',
-  components: { PrintOvercharge, PrintStatRow },
-  props: {
-    mech: { type: Object, required: true },
-    blank: { type: Boolean, default: false },
-  },
-};
+const props = withDefaults(defineProps<{
+  mech: object
+  blank?: boolean
+}>(), {
+  blank: false
+})
 </script>

@@ -101,7 +101,10 @@
   </editor-footer>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { notify } from '@/util/notify'
 import GmLabelEditor from './_subcomponents/GMLabelEditor.vue'
 import GmFolderEditor from './_subcomponents/GMFolderEditor.vue'
 import EditorFooter from './_subcomponents/EditorFooter.vue'
@@ -110,93 +113,98 @@ import { UserStore } from '@/stores'
 import LcpConfigSelector from '@/features/pilot_management/PilotSheet/components/LcpConfigSelector.vue'
 import { useMobile } from '@/composables/useMobile';
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'GmEditorBase',
-  components: {
-    GmLabelEditor,
-    GmFolderEditor,
-    EditorFooter,
-    LcpConfigSelector,
-  },
-  props: {
-    showDescription: { type: Boolean },
-    item: { type: Object, required: true },
-    readonly: { type: Boolean, default: false },
-    hideToolbar: { type: Boolean, default: false },
-    hideFooter: { type: Boolean, default: false },
-    footerOffset: { type: Boolean, default: false },
-  },
-  emits: ['exit', 'save', 'add-new', 'copy', 'delete', 'export'],
-  data: () => ({
-    printDialog: false,
-    dupeMenu: false,
-    deleteMenu: false,
-    convertMenu: false,
-    loading: false,
-  }),
-  computed: {
-    typeText() {
-      if (!this.item) return 'ERR'
-      return this.item.ItemType.toUpperCase()
-    },
-    isAuthed() {
+defineOptions({ name: 'GmEditorBase' })
+
+const { mobile, portrait } = useMobile()
+const router = useRouter()
+
+const props = withDefaults(defineProps<{
+  showDescription?: boolean
+  item: object
+  readonly?: boolean
+  hideToolbar?: boolean
+  hideFooter?: boolean
+  footerOffset?: boolean
+}>(), {
+  readonly: false,
+  hideToolbar: false,
+  hideFooter: false,
+  footerOffset: false
+})
+
+const emit = defineEmits<{
+  'exit': []
+  'save': []
+  'add-new': []
+  'copy': []
+  'delete': []
+  'export': []
+}>()
+
+const imageSelector = ref<any>(null)
+
+const printDialog = ref(false)
+const dupeMenu = ref(false)
+const deleteMenu = ref(false)
+const convertMenu = ref(false)
+const loading = ref(false)
+
+const typeText = computed(() => {
+      if (!props.item) return 'ERR'
+      return props.item.ItemType.toUpperCase()
+    })
+const isAuthed = computed(() => {
       return UserStore().IsLoggedIn
-    },
-    isNarrativeItem() {
+    })
+const isNarrativeItem = computed(() => {
       const narrativeTypes = ['character', 'location', 'faction']
-      return narrativeTypes.includes(this.item.ItemType.toLowerCase())
-    },
-  },
-  methods: {
-    deleteItem() {
-      this.$emit('delete')
-    },
-    copy() {
-      this.$emit('copy')
-      this.$emit('exit')
-    },
-    routePrint(id: string) {
+      return narrativeTypes.includes(props.item.ItemType.toLowerCase())
+    })
+
+function deleteItem() {
+      emit('delete')
+    }
+function copy() {
+      emit('copy')
+      emit('exit')
+    }
+function routePrint(id: string) {
       const narrativeTypes = ['character', 'location', 'faction']
-      if (narrativeTypes.includes(this.item.ItemType.toLowerCase()))
-        this.$router.push(`/gm/print/narrative/${JSON.stringify([id])}`)
-      else this.$router.push(`/gm/print/npcs/${JSON.stringify([id])}`)
-    },
-    async remoteUpdate() {
+      if (narrativeTypes.includes(props.item.ItemType.toLowerCase()))
+        router.push(`/gm/print/narrative/${JSON.stringify([id])}`)
+      else router.push(`/gm/print/npcs/${JSON.stringify([id])}`)
+    }
+async function remoteUpdate() {
       try {
-        await CloudController.UpdateRemote(this.item)
+        await CloudController.UpdateRemote(props.item)
         await UserStore().refreshDbData()
-        this.$notify({
+        notify({
           title: `Sync Complete`,
-          text: `${this.item.ItemType} ${this.item.Name} synced.`,
+          text: `${props.item.ItemType} ${props.item.Name} synced.`,
           data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
         })
       } catch (err) {
-        this.$notify({
+        notify({
           title: `Sync Failed`,
-          text: `Failed to sync ${this.item.ItemType} ${this.item.Name}. ${err}`,
+          text: `Failed to sync ${props.item.ItemType} ${props.item.Name}. ${err}`,
           data: { icon: 'mdi-alert', color: 'error' },
         })
       }
-    },
-    async convert() {
-      this.loading = true
-      UserStore().deleteRemoteItem(this.item.SaveController.RemoteCode)
-      this.item.CloudController.GenerateMetadata()
-      this.item.SaveController.ClearRemote()
+    }
+async function convert() {
+      loading.value = true
+      UserStore().deleteRemoteItem(props.item.SaveController.RemoteCode)
+      props.item.CloudController.GenerateMetadata()
+      props.item.SaveController.ClearRemote()
       await UserStore().refreshDbData()
-      this.loading = false
-    },
-    copyCode() {
-      navigator.clipboard.writeText(this.item.CloudController.ShareCode)
-      this.$notify({
+      loading.value = false
+    }
+function copyCode() {
+      navigator.clipboard.writeText(props.item.CloudController.ShareCode)
+      notify({
         title: 'Copied',
         text: 'Share code copied to clipboard',
         data: { icon: 'mdi-clipboard-check', color: 'success' },
       })
-    },
-  },
-}
+    }
 </script>

@@ -55,26 +55,31 @@
   </v-hover>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import CCMissingContentList from '@/ui/components/CCMissingContentList.vue'
 import SortChips from './_subcomponents/sortChips.vue';
 
-export default {
-  name: 'gm-list-item-base',
-  components: { SortChips },
-  props: {
-    item: { type: Object, required: true },
-    big: { type: Boolean },
-    odd: { type: Boolean },
-    grouping: { type: [Object, String], required: false, default: '' },
-    sorting: { type: [Object, String], required: false, default: '' },
-  },
-  emits: ['open'],
-  computed: {
-    missingContent() {
-      return this.item.BrewController?.IsUnableToLoad;
-    },
-  },
-};
+defineOptions({ name: 'gm-list-item-base' })
+
+const props = withDefaults(defineProps<{
+  item: object
+  big?: boolean
+  odd?: boolean
+  grouping?: object | string
+  sorting?: object | string
+}>(), {
+  grouping: '',
+  sorting: ''
+})
+
+const emit = defineEmits<{
+  'open': []
+}>()
+
+const missingContent = computed(() => {
+      return props.item.BrewController?.IsUnableToLoad;
+    })
 </script>
 
 <style scoped>

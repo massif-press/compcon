@@ -73,299 +73,259 @@
   </cc-dialog>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, onMounted } from 'vue'
+import { useDisplay } from 'vuetify'
 import StatblockJustifyOptions from './_StatblockJustifyOptions.vue';
 
-export default {
-  name: 'ActorLogs',
-  components: { StatblockJustifyOptions },
-  props: {
-    actor: {
-      type: Object,
-      required: true,
-    },
-    encounter: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    showUntracked: true,
-    showActions: false,
-    showLoadout: true,
-    showReserves: false,
-    enableJustify: true,
-    lineWidth: 110,
-  }),
-  computed: {
-    rootActor() {
-      return this.actor.CombatController.RootActor
-    },
-    controller() {
-      if (this.isPilot && this.actor.CombatController.Mounted)
-        return this.actor.ActiveMech.CombatController;
-      return this.actor.CombatController;
-    },
-    isPilot() {
-      return this.rootActor.ItemType === 'Pilot';
-    },
-    mech() {
-      return this.rootActor.ActiveMech;
-    },
-    cover() {
-      if (this.controller.Cover === 'none') return 'Not in cover';
-      if (this.controller.Cover === 'soft') return 'In soft cover';
-      if (this.controller.Cover === 'hard') return 'In hard cover';
-    },
-    corepower() {
-      if (!this.controller.CorePower) return '';
-      return `Core Power: ${this.controller.CoreActive ? 'CORE ACTIVE' : !!this.controller.CorePower}`;
-    },
-    combatSpecials() {
-      const out = [] as string[];
-      if (this.controller.AIControl) out.push('⟦ AI CONTROLLED ⟧');
-      if (this.controller.IsInSelfDestruct) out.push(`⟦ SELF-DESTRUCT INITIATED // T-${this.encounter.Round - this.controller.SelfDestructRound} ⟧`);
-      return out.length ? ' ' + out.join('  ') : '';
-    },
-    availableActions() {
-      if (!this.showActions) return '';
-      const actions = [] as string[];
-      if (this.controller.CanActivate('protocol')) actions.push('⦗ PROTOCOL ⦘');
-      if (this.controller.CanActivate('full')) actions.push('⦗ FULL ⦘');
-      else if (this.controller.CanActivate('full')) actions.push('⦗ QUICK ⦘');
-      if (this.controller.CanActivate('overcharge')) actions.push('⦗ OVERCHARGE ⦘');
-      if (this.controller.CanActivate('reaction')) actions.push('⦗ REACTION ⦘');
-      return actions.join(' ') + '\n';
-    },
-    statuses() {
-      let out = '';
-      out += `${this.controller.Statuses.map((s: any) => `// ${s.status.Name.toUpperCase()} //`).join('  ')}`;
-      if (this.controller.CustomStatuses.length > 0) {
-        out += `${this.controller.CustomStatuses.map((s: any) => ` // ${s.status.Attribute.toUpperCase()} //`).join(' ')}`;
+defineOptions({ name: 'ActorLogs' })
+
+const display = useDisplay()
+
+const props = defineProps<{
+  actor: object
+  encounter: object
+}>()
+
+const showUntracked = ref(true)
+const showActions = ref(false)
+const showLoadout = ref(true)
+const showReserves = ref(false)
+const enableJustify = ref(true)
+const lineWidth = ref(110)
+
+const rootActor = computed(() => (props.actor as any).CombatController.RootActor)
+const isPilot = computed(() => rootActor.value.ItemType === 'Pilot')
+const mech = computed(() => rootActor.value.ActiveMech)
+const controller = computed(() => {
+  if (isPilot.value && (props.actor as any).CombatController.Mounted)
+    return (props.actor as any).ActiveMech.CombatController;
+  return (props.actor as any).CombatController;
+})
+const cover = computed(() => {
+  if (controller.value.Cover === 'none') return 'Not in cover';
+  if (controller.value.Cover === 'soft') return 'In soft cover';
+  if (controller.value.Cover === 'hard') return 'In hard cover';
+})
+const corepower = computed(() => {
+  if (!controller.value.CorePower) return '';
+  return `Core Power: ${controller.value.CoreActive ? 'CORE ACTIVE' : !!controller.value.CorePower}`;
+})
+const combatSpecials = computed(() => {
+  const out = [] as string[];
+  if (controller.value.AIControl) out.push('⟦ AI CONTROLLED ⟧');
+  if (controller.value.IsInSelfDestruct) out.push(`⟦ SELF-DESTRUCT INITIATED // T-${(props.encounter as any).Round - controller.value.SelfDestructRound} ⟧`);
+  return out.length ? ' ' + out.join('  ') : '';
+})
+const availableActions = computed(() => {
+  if (!showActions.value) return '';
+  const actions = [] as string[];
+  if (controller.value.CanActivate('protocol')) actions.push('⦗ PROTOCOL ⦘');
+  if (controller.value.CanActivate('full')) actions.push('⦗ FULL ⦘');
+  else if (controller.value.CanActivate('full')) actions.push('⦗ QUICK ⦘');
+  if (controller.value.CanActivate('overcharge')) actions.push('⦗ OVERCHARGE ⦘');
+  if (controller.value.CanActivate('reaction')) actions.push('⦗ REACTION ⦘');
+  return actions.join(' ') + '\n';
+})
+const statuses = computed(() => {
+  let out = '';
+  out += `${controller.value.Statuses.map((s: any) => `// ${s.status.Name.toUpperCase()} //`).join('  ')}`;
+  if (controller.value.CustomStatuses.length > 0) {
+    out += `${controller.value.CustomStatuses.map((s: any) => ` // ${s.status.Attribute.toUpperCase()} //`).join(' ')}`;
+  }
+  if (controller.value.Resistances.length) {
+    out += `\n${controller.value.Resistances.map((r: any) => `${r.type} ${r.condition}`.toUpperCase()).join(', ')}`;
+  }
+  if (out.length === 0) return '';
+  return `\n${out}\n`;
+})
+const counters = computed(() => {
+  const cc = controller.value.CounterController
+  if (cc.CounterData.length === 0) return '';
+  const assembledCounters = cc.CounterData.map((c: any) => {
+    const saveData = cc.CounterSaveData.find((sd: any) => sd.id === c.id);
+    if (!saveData) return;
+    return { name: c.name, val: saveData.val, max: c.max };
+  });
+  if (assembledCounters.length === 0) return '';
+  return '\n' + assembledCounters.map((c: any) => `${c.name}: ${c.val}/${c.max}`).join('  ');
+})
+const untrackedStats = computed(() => {
+  if (!showUntracked.value) return '';
+  let out = '';
+  let firstLine = [] as string[];
+  if (isPilot.value) firstLine.push(`GRIT: ${controller.value.Grit}`);
+  firstLine = firstLine.concat([
+    getMaxStat('hull', 'H'),
+    getMaxStat('agi', 'A'),
+    getMaxStat('sys', 'S'),
+    getMaxStat('eng', 'E'),
+  ]);
+  out += justify(firstLine) + '\n';
+  const secondLine = [
+    getMaxStat('evasion', 'Evasion'),
+    getMaxStat('edef', 'E-Def'),
+    getMaxStat('sensorRange', 'Sensors'),
+    getMaxStat('saveTarget', 'Save'),
+  ];
+  if (isPilot.value) secondLine.push(getMaxStat('techAttack', 'Tech Atk.'));
+  out += justify(secondLine) + '\n';
+  return out;
+})
+const trackedStats = computed(() => {
+  let out = ''
+  const firstLine = [
+    getStat('hp', 'HP'),
+    getStat('structure', 'Structure'),
+    getCurrentStat('armor', 'Armor'),
+    getCurrentStat('overshield', 'Overshield', 0),
+  ];
+  out += justify(firstLine) + '\n';
+  const secondLine = [
+    getStat('heatcap', 'Heat'),
+    getStat('stress', 'Stress'),
+    '',
+    getCurrentStat('overcharge', 'Overcharge', 0),
+  ];
+  out += justify(secondLine) + '\n';
+  const thirdLine = [
+    getStat('speed', 'Movement'),
+    getStat('repairCapacity', 'Repairs'),
+    '',
+    corepower.value,
+  ];
+  out += justify(thirdLine);
+  return out;
+})
+const pilotLoadout = computed(() => {
+  let out = '';
+  if (controller.value.Mounted) {
+    const weapons = mech.value.MechLoadoutController.ActiveLoadout.Weapons;
+    const systems = mech.value.MechLoadoutController.ActiveLoadout.Systems;
+    weapons.forEach((w: any) => {
+      if (w.Destroyed) out += `${justify([w.Name, '', '', '', '✖ DESTROYED'])}\n`;
+      else {
+        const arr = [w.Name, w.Range.map((r: any) => r.Text).join(', '), w.Damage.map((d: any) => d.Text).join(', ')];
+        if (w.MaxUses) arr.push(`${w.Uses} / ${w.MaxUses} Uses`);
+        else arr.push('');
+        arr.push(w.Used ? w.IsLoading ? '[ reload ]' : '[   used ]' : '[  READY ]');
+        out += justify(arr) + '\n';
       }
-      if (this.controller.Resistances.length) {
-        out += `\n${this.controller.Resistances.map((r: any) => `${r.type} ${r.condition}`.toUpperCase()).join(', ')}`;
+    });
+    systems.forEach((s: any) => {
+      if (s.Destroyed) out += `${s.Name} // DESTROYED // \n`;
+      else {
+        const arr = [s.Name, '', ''];
+        if (s.MaxUses) arr.push(`${s.Uses} / ${s.MaxUses} Uses`);
+        else arr.push('');
+        arr.push(s.Used ? s.IsLoading ? '[ reload ]' : '[   used ]' : '[  READY ]');
+        out += justify(arr) + '\n';
       }
-      if (out.length === 0) return '';
-      return `\n${out}\n`;
-    },
-    counters() {
-      const cc = this.controller.CounterController
-      if (cc.CounterData.length === 0) return '';
-      const assembledCounters = cc.CounterData.map((c: any) => {
-        const saveData = cc.CounterSaveData.find((sd: any) => sd.id === c.id);
-        if (!saveData) return;
-        return { name: c.name, val: saveData.val, max: c.max };
-      });
-      if (assembledCounters.length === 0) return '';
-      return '\n' + assembledCounters.map((c: any) => `${c.name}: ${c.val}/${c.max}`).join('  ');
-    },
-    untrackedStats() {
-      if (!this.showUntracked) return '';
-      let out = '';
-      let firstLine = [] as string[];
-      if (this.isPilot) firstLine.push(`GRIT: ${this.controller.Grit}`);
-      firstLine = firstLine.concat([
-        this.getMaxStat('hull', 'H'),
-        this.getMaxStat('agi', 'A'),
-        this.getMaxStat('sys', 'S'),
-        this.getMaxStat('eng', 'E'),
-      ]);
-      out += this.justify(firstLine) + '\n';
-
-      const secondLine = [
-        this.getMaxStat('evasion', 'Evasion'),
-        this.getMaxStat('edef', 'E-Def'),
-        this.getMaxStat('sensorRange', 'Sensors'),
-        this.getMaxStat('saveTarget', 'Save'),
-      ];
-      if (this.isPilot) secondLine.push(this.getMaxStat('techAttack', 'Tech Atk.'));
-      out += this.justify(secondLine) + '\n';
-      return out;
-    },
-    trackedStats() {
-      let out = ''
-      const firstLine = [
-        this.getStat('hp', 'HP'),
-        this.getStat('structure', 'Structure'),
-        this.getCurrentStat('armor', 'Armor'),
-        this.getCurrentStat('overshield', 'Overshield', 0),
-      ];
-      out += this.justify(firstLine) + '\n';
-
-      const secondLine = [
-        this.getStat('heatcap', 'Heat'),
-        this.getStat('stress', 'Stress'),
-        '',
-        this.getCurrentStat('overcharge', 'Overcharge', 0),
-      ];
-      out += this.justify(secondLine) + '\n';
-
-      const thirdLine = [
-        this.getStat('speed', 'Movement'),
-        this.getStat('repairCapacity', 'Repairs'),
-        '',
-        this.corepower,
-      ];
-      out += this.justify(thirdLine);
-
-      return out;
-
-    },
-    features() {
-      if (!this.showLoadout) return '';
-      const out = '\n// LOADOUT\n';
-      if (this.isPilot) return out + this.pilotLoadout;
-      else return out + this.npcLoadout;
-    },
-    pilotLoadout() {
-      let out = '';
-      if (this.controller.Mounted) {
-        const weapons = this.mech.MechLoadoutController.ActiveLoadout.Weapons;
-        const systems = this.mech.MechLoadoutController.ActiveLoadout.Systems;
-        weapons.forEach(w => {
-          if (w.Destroyed) out += `${this.justify([w.Name, '', '', '', '✖ DESTROYED'])}\n`;
-          else {
-            const arr = [w.Name, w.Range.map(r => r.Text).join(', '), w.Damage.map(d => d.Text).join(', ')];
-            if (w.MaxUses) arr.push(`${w.Uses} / ${w.MaxUses} Uses`);
-            else arr.push('');
-            arr.push(w.Used ? w.IsLoading ? '[ reload ]' : '[   used ]' : '[  READY ]');
-            out += this.justify(arr) + '\n';
-          }
-        });
-        systems.forEach(s => {
-          if (s.Destroyed) out += `${s.Name} // DESTROYED // \n`;
-          else {
-            const arr = [s.Name, '', ''];
-            if (s.MaxUses) arr.push(`${s.Uses} / ${s.MaxUses} Uses`);
-            else arr.push('');
-            arr.push(s.Used ? s.IsLoading ? '[ reload ]' : '[   used ]' : '[  READY ]');
-            out += this.justify(arr) + '\n';
-          }
-        });
-      } else {
-        //pilot loadout
-      }
-      return out;
-    },
-    npcLoadout() {
-      if (!this.showLoadout) return '';
-      let out = '';
-      const features = this.actor.NpcFeatureController?.Features || [];
-      features.forEach((feature: any) => {
-        const arr = [feature.Name];
-        if (feature.RangeData) {
-          const mods = this.actor.NpcFeatureController?.GetModifiers(feature) || [];
-          arr.push(feature.Range(this.controller.Tier, mods).map((r: any) => r.Text).join(', '));
-        } else {
-          arr.push('');
-        }
-        if (feature.DamageData) {
-          const mods = this.actor.NpcFeatureController?.GetModifiers(feature) || [];
-          arr.push(feature.Damage(this.controller.Tier, mods).map((r: any) => r.Text).join(', '));
-        } else {
-          arr.push('');
-        }
-
-        arr.push(feature.Used ? feature.Recharge ? `[recharge ${feature.Recharge}+]` : '[   used ]' : '[  READY ]');
-        out += this.justify(arr) + '\n';
-      });
-      return out;
-    },
-    reserves() {
-      if (!this.showReserves) return '';
-      let out = '// RESERVES\n';
-      if (!this.actor.CombatController.ReserveController || !this.actor.CombatController.ReserveController.Reserves.length) {
-        out += 'None\n';
-        return out;
-      }
-      const reserves = this.actor.CombatController.ReserveController.Reserves.filter(
-        (x) => x.Type !== 'Organization' && x.Type !== 'Project'
-      );
-      reserves.forEach((r: any) => {
-        out += `${r.Name}: ${r.Description}\n`;
-      });
-      return out;
-    },
-    statblockPreview() {
-      return `${this.encounter.Name} - Round ${this.encounter.Round} (${new Date().toLocaleString()})
-${'-'.repeat(75)}
-${this.rootActor.ItemType} ${this.rootActor.CombatController.CombatName} ${this.rootActor.Level ? `- LL ${this.rootActor.Level} ` : this.controller.Tier ? ` - Tier ${this.controller.Tier}` : ''}${this.showActions ? ` |  ${this.getStat('activations', 'Activations')}` : ''}
-${this.mech ? `${this.mech.Name} - ${this.mech.Frame.Source} ${this.mech.Frame.Name}` : ''} ${!this.isPilot ? '' : this.controller.Mounted ? `[ MOUNTED ]` : '[ UNMOUNTED ]'}
-${this.controller.Braced ? `[ BRACED ] ` : ''}${this.controller.Overwatch ? `[ OVERWATCH ] ` : ''}${this.controller.Prepared ? `[ PREPARED ] ` : ''}⟦ ${this.cover} ⟧  ${this.combatSpecials}
-${this.untrackedStats}${this.availableActions}${this.statuses}
-${this.trackedStats}
-${this.counters}
-${this.features}
-${this.reserves}`;
-    },
-  },
-  mounted() {
-    if (this.$vuetify.display.smAndDown) {
-      this.enableJustify = false;
+    });
+  }
+  return out;
+})
+const npcLoadout = computed(() => {
+  if (!showLoadout.value) return '';
+  let out = '';
+  const features = (props.actor as any).NpcFeatureController?.Features || [];
+  features.forEach((feature: any) => {
+    const arr = [feature.Name];
+    if (feature.RangeData) {
+      const mods = (props.actor as any).NpcFeatureController?.GetModifiers(feature) || [];
+      arr.push(feature.Range(controller.value.Tier, mods).map((r: any) => r.Text).join(', '));
+    } else {
+      arr.push('');
     }
-  },
-  methods: {
-    justify(arr) {
-      if (!this.enableJustify) return arr.filter(x => x.length).join('   ');
-      if (!arr.length) return "";
+    if (feature.DamageData) {
+      const mods = (props.actor as any).NpcFeatureController?.GetModifiers(feature) || [];
+      arr.push(feature.Damage(controller.value.Tier, mods).map((r: any) => r.Text).join(', '));
+    } else {
+      arr.push('');
+    }
+    arr.push(feature.Used ? feature.Recharge ? `[recharge ${feature.Recharge}+]` : '[   used ]' : '[  READY ]');
+    out += justify(arr) + '\n';
+  });
+  return out;
+})
+const features = computed(() => {
+  if (!showLoadout.value) return '';
+  const out = '\n// LOADOUT\n';
+  if (isPilot.value) return out + pilotLoadout.value;
+  else return out + npcLoadout.value;
+})
+const reserves = computed(() => {
+  if (!showReserves.value) return '';
+  let out = '// RESERVES\n';
+  const rc = (props.actor as any).CombatController.ReserveController;
+  if (!rc || !rc.Reserves.length) { out += 'None\n'; return out; }
+  rc.Reserves.filter((x: any) => x.Type !== 'Organization' && x.Type !== 'Project')
+    .forEach((r: any) => { out += `${r.Name}: ${r.Description}\n`; });
+  return out;
+})
+const statblockPreview = computed(() => {
+  const enc = props.encounter as any;
+  return `${enc.Name} - Round ${enc.Round} (${new Date().toLocaleString()})
+${'-'.repeat(75)}
+${rootActor.value.ItemType} ${rootActor.value.CombatController.CombatName} ${rootActor.value.Level ? `- LL ${rootActor.value.Level} ` : controller.value.Tier ? ` - Tier ${controller.value.Tier}` : ''}${showActions.value ? ` |  ${getStat('activations', 'Activations')}` : ''}
+${mech.value ? `${mech.value.Name} - ${mech.value.Frame.Source} ${mech.value.Frame.Name}` : ''} ${!isPilot.value ? '' : controller.value.Mounted ? `[ MOUNTED ]` : '[ UNMOUNTED ]'}
+${controller.value.Braced ? `[ BRACED ] ` : ''}${controller.value.Overwatch ? `[ OVERWATCH ] ` : ''}${controller.value.Prepared ? `[ PREPARED ] ` : ''}⟦ ${cover.value} ⟧  ${combatSpecials.value}
+${untrackedStats.value}${availableActions.value}${statuses.value}
+${trackedStats.value}
+${counters.value}
+${features.value}
+${reserves.value}`;
+})
 
-      const cols = arr.length;
+onMounted(() => {
+  if (display.smAndDown.value) enableJustify.value = false;
+})
 
-      const step = this.lineWidth / cols;
-      const starts = [] as number[];
-
-      for (let i = 0; i < cols; i++) {
-        starts.push(Math.floor(i * step));
-      }
-
-      const line = Array(this.lineWidth).fill(" ");
-
-      for (let i = 0; i < cols; i++) {
-        const start = starts[i];
-        const text = arr[i];
-
-        for (let j = 0; j < text.length && start + j < this.lineWidth; j++) {
-          line[start + j] = text[j];
-        }
-      }
-
-      return line.join("");
-    },
-    getMaxStat(stat: string, shortHand: string, separator: string = '') {
-      const c = this.isPilot && this.controller.Mounted ? this.mech.CombatController : this.controller;
-      const max = c.StatController.MaxStats[stat];
-      return `${shortHand}: ${max}${separator}`;
-    },
-    getCurrentStat(stat: string, shortHand: string, fallback?: number) {
-      const c = this.isPilot && this.controller.Mounted ? this.mech.CombatController : this.controller;
-      let current = c.StatController.CurrentStats[stat];
-      if (!current && fallback !== undefined) current = fallback;
-      return `${shortHand}: ${current}`;
-    },
-    getStat(stat: string, shortHand: string) {
-      const c = this.isPilot && this.controller.Mounted ? this.mech.CombatController : this.controller;
-      const current = c.StatController.CurrentStats[stat];
-      const max = c.StatController.MaxStats[stat];
-      return `${shortHand}: ${current}/${max}`;
-    },
-    copyContent() {
-      navigator.clipboard.writeText(this.statblockPreview);
-    },
-    exportBlock() {
-      let out;
-      out = this.statblockPreview;
-
-
-      const blob = new Blob([out], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${this.actor.Name} ${this.encounter.Name} round ${this.encounter.Round}.txt`;
-      a.click();
-      URL.revokeObjectURL(url);
-    },
-
-  },
-};
+function justify(arr: string[]) {
+  if (!enableJustify.value) return arr.filter(x => x.length).join('   ');
+  if (!arr.length) return '';
+  const cols = arr.length;
+  const step = lineWidth.value / cols;
+  const starts = [] as number[];
+  for (let i = 0; i < cols; i++) starts.push(Math.floor(i * step));
+  const line = Array(lineWidth.value).fill(' ');
+  for (let i = 0; i < cols; i++) {
+    const start = starts[i];
+    const text = arr[i];
+    for (let j = 0; j < text.length && start + j < lineWidth.value; j++) {
+      line[start + j] = text[j];
+    }
+  }
+  return line.join('');
+}
+function getMaxStat(stat: string, shortHand: string, separator = '') {
+  const c = isPilot.value && controller.value.Mounted ? mech.value.CombatController : controller.value;
+  const max = c.StatController.MaxStats[stat];
+  return `${shortHand}: ${max}${separator}`;
+}
+function getCurrentStat(stat: string, shortHand: string, fallback?: number) {
+  const c = isPilot.value && controller.value.Mounted ? mech.value.CombatController : controller.value;
+  let current = c.StatController.CurrentStats[stat];
+  if (!current && fallback !== undefined) current = fallback;
+  return `${shortHand}: ${current}`;
+}
+function getStat(stat: string, shortHand: string) {
+  const c = isPilot.value && controller.value.Mounted ? mech.value.CombatController : controller.value;
+  const current = c.StatController.CurrentStats[stat];
+  const max = c.StatController.MaxStats[stat];
+  return `${shortHand}: ${current}/${max}`;
+}
+function copyContent() {
+  navigator.clipboard.writeText(statblockPreview.value);
+}
+function exportBlock() {
+  const out = statblockPreview.value;
+  const blob = new Blob([out], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${(props.actor as any).Name} ${(props.encounter as any).Name} round ${(props.encounter as any).Round}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
 </script>

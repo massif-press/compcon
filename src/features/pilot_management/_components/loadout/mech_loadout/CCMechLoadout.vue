@@ -33,107 +33,63 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import CCLoadoutPanel from '@/features/pilot_management/_components/loadout/CCLoadoutPanel.vue'
 import MountBlock from './components/mount/_MountBlock.vue'
 import SystemsBlock from './components/system/_SystemsBlock.vue'
 
-export default {
-  name: 'MechLoadoutBlock',
-  components: { SystemsBlock, MountBlock },
-  props: {
-    mech: {
-      type: Object,
-      required: true,
-    },
-    readonly: {
-      type: Boolean,
-    },
-    active: {
-      type: Boolean,
-    },
-    noFrame: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  computed: {
-    color() {
-      return this.mech.Frame.ManufacturerColor;
-    },
-    mounts(): {
-      mount: any
-      isIntegrated: boolean
-      isIntWeapon: boolean
-      isImpArm: boolean
-      isSuperheavy: boolean
-    }[] {
-      const items = [] as {
-        mount: any
-        isIntegrated: boolean
-        isIntWeapon: boolean
-        isImpArm: boolean
-        isSuperheavy: boolean
-      }[]
+defineOptions({ name: 'MechLoadoutBlock' })
 
-      this.mech.MechLoadoutController.ActiveLoadout.IntegratedMounts.forEach(im => {
-        items.push({
-          mount: im,
-          isIntegrated: true,
-          isIntWeapon: false,
-          isImpArm: false,
-          isSuperheavy: false,
-        })
-      })
+type MountItem = {
+  mount: any
+  isIntegrated: boolean
+  isIntWeapon: boolean
+  isImpArm: boolean
+  isSuperheavy: boolean
+}
 
-      if (this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'))
-        items.push({
-          mount: this.mech.MechLoadoutController.ActiveLoadout.IntegratedWeaponMount,
-          isIntegrated: false,
-          isIntWeapon: true,
-          isImpArm: false,
-          isSuperheavy: false,
-        })
+const props = withDefaults(defineProps<{
+  mech: object
+  readonly?: boolean
+  active?: boolean
+  noFrame?: boolean
+}>(), {
+  noFrame: false,
+})
 
-      if (this.mech.MechLoadoutController.ActiveLoadout.EquippableMounts.length < 3) {
-        if (this.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting'))
-          items.push({
-            mount: this.mech.MechLoadoutController.ActiveLoadout.SuperheavyMount,
-            isIntegrated: false,
-            isIntWeapon: false,
-            isImpArm: false,
-            isSuperheavy: true,
-          })
-        if (this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'))
-          items.push({
-            mount: this.mech.MechLoadoutController.ActiveLoadout.ImprovedArmamentMount,
-            isIntegrated: false,
-            isIntWeapon: false,
-            isImpArm: true,
-            isSuperheavy: false,
-          })
-      }
+const color = computed(() => (props.mech as any).Frame.ManufacturerColor)
 
-      for (const m of this.mech.MechLoadoutController.ActiveLoadout.EquippableMounts) {
-        items.push({
-          mount: m,
-          isIntegrated: false,
-          isIntWeapon: false,
-          isImpArm: false,
-          isSuperheavy: false,
-        })
-      }
+const mounts = computed((): MountItem[] => {
+  const m = props.mech as any
+  const items: MountItem[] = []
 
-      return items
-    },
-  },
-  methods: {
-    mountKey(item: any, index: number) {
-      if (item.isIntegrated) return `integrated-${item.mount.ID || index}`
-      if (item.isIntWeapon) return 'int-weapon'
-      if (item.isImpArm) return 'imp-arm'
-      if (item.isSuperheavy) return 'superheavy'
-      return `equippable-${index}`
-    },
-  },
+  m.MechLoadoutController.ActiveLoadout.IntegratedMounts.forEach((im: any) => {
+    items.push({ mount: im, isIntegrated: true, isIntWeapon: false, isImpArm: false, isSuperheavy: false })
+  })
+
+  if (m.Pilot.has('CoreBonus', 'cb_integrated_weapon'))
+    items.push({ mount: m.MechLoadoutController.ActiveLoadout.IntegratedWeaponMount, isIntegrated: false, isIntWeapon: true, isImpArm: false, isSuperheavy: false })
+
+  if (m.MechLoadoutController.ActiveLoadout.EquippableMounts.length < 3) {
+    if (m.Pilot.has('CoreBonus', 'cb_superheavy_mounting'))
+      items.push({ mount: m.MechLoadoutController.ActiveLoadout.SuperheavyMount, isIntegrated: false, isIntWeapon: false, isImpArm: false, isSuperheavy: true })
+    if (m.Pilot.has('CoreBonus', 'cb_improved_armament'))
+      items.push({ mount: m.MechLoadoutController.ActiveLoadout.ImprovedArmamentMount, isIntegrated: false, isIntWeapon: false, isImpArm: true, isSuperheavy: false })
+  }
+
+  for (const mount of m.MechLoadoutController.ActiveLoadout.EquippableMounts) {
+    items.push({ mount, isIntegrated: false, isIntWeapon: false, isImpArm: false, isSuperheavy: false })
+  }
+
+  return items
+})
+
+function mountKey(item: MountItem, index: number) {
+  if (item.isIntegrated) return `integrated-${item.mount.ID || index}`
+  if (item.isIntWeapon) return 'int-weapon'
+  if (item.isImpArm) return 'imp-arm'
+  if (item.isSuperheavy) return 'superheavy'
+  return `equippable-${index}`
 }
 </script>

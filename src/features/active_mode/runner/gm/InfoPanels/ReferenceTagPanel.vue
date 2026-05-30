@@ -31,40 +31,29 @@
   </v-card>
 </template>
 
-<script>
+<script setup lang="ts">
+import { computed, ref, onMounted } from 'vue'
 import * as _ from 'lodash-es';
 import { CompendiumStore } from '@/stores';
 
-export default {
-  name: 'ReferenceTagPage',
-  props: {
-    selected: {
-      type: Object,
-      required: false,
-    },
-    encounterInstance: {
-      type: Object,
-      required: true,
-    },
-    pc: {
-      type: Boolean,
-    },
-  },
-  data: () => ({
-    allTags: [],
-  }),
-  mounted() {
-    this.allTags = CompendiumStore().Tags
-  },
-  computed: {
-    actorTags() {
-      if (this.pc) return this.getActorTags(this.selected);
-      if (this.selected && this.selected.actor) return this.getActorTags(this.selected.actor);
+defineOptions({ name: 'ReferenceTagPage' })
+
+const props = defineProps<{
+  selected?: object
+  encounterInstance: object
+  pc?: boolean
+}>()
+
+const allTags = ref([])
+
+const actorTags = computed(() => {
+      if (props.pc) return getActorTags(props.selected);
+      if (props.selected && props.selected.actor) return getActorTags(props.selected.actor);
       return [];
-    },
-    relevantTags() {
+    })
+const relevantTags = computed(() => {
       const tags = [];
-      this.encounterInstance.Combatants.forEach((c) => {
+      props.encounterInstance.Combatants.forEach((c) => {
         if (c.actor) {
           if (c.actor.PilotLoadoutController) {
             tags.push(...c.actor.PilotLoadoutController.ActiveLoadout.AllTags);
@@ -78,10 +67,9 @@ export default {
         }
       });
       return _.uniqBy(tags, 'ID');
-    },
-  },
-  methods: {
-    getActorTags(actor) {
+    })
+
+function getActorTags(actor) {
       if (actor.ActiveMech && actor.ActiveMech.MechLoadoutController) {
         return _.uniqBy(actor.ActiveMech.MechLoadoutController.ActiveLoadout.AllTags, 'ID');
       }
@@ -93,7 +81,9 @@ export default {
         return _.uniqBy(actor.NpcFeatureController.AllTags, 'ID');
       }
       return [];
-    },
-  },
-};
+    }
+
+onMounted(() => {
+allTags.value = CompendiumStore().Tags
+})
 </script>

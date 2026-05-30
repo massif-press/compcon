@@ -24,13 +24,12 @@
   </v-container>
 </template>
 
-<script>
-export default {
-  name: 'active-table-configuration',
-  data: () => ({
-    table: {
+<script setup lang="ts">
+import { ref } from 'vue'
+
+defineOptions({ name: 'active-table-configuration' })
+
+const table = ref({
       name: 'New Table',
-    },
-  }),
-};
+    })
 </script>

@@ -52,46 +52,48 @@
   </v-navigation-drawer>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { Campaign } from '@/classes/campaign/Campaign';
 import IndentedList from './IndentedList.vue';
 import exportAsJson from '@/util/jsonExport';
 
-export default {
-  name: 'campaign-editor-sidebar',
-  components: { IndentedList },
-  props: {
-    campaign: { type: Object, required: true },
-    currentPage: { type: String },
-  },
-  data: () => ({
-    lastSave: '',
-    selected: null,
-  }),
-  created() {
-    this.lastSave = this.campaign.SaveController.LastModified;
-  },
-  computed: {
-    dirty() {
-      return this.lastSave !== this.campaign.SaveController.LastModified;
-    },
-  },
-  methods: {
-    setPage(type: string) {
-      this.$emit('set-page', type);
-      this.selected = null;
-    },
-    setSelected(item: any) {
-      this.selected = item;
-      this.$emit('set-selected', item);
-    },
-    exportEditable() {
+defineOptions({ name: 'campaign-editor-sidebar' })
+
+const props = defineProps<{
+  campaign: object
+  currentPage?: string
+}>()
+
+const emit = defineEmits<{
+  'set-page': []
+  'set-selected': []
+}>()
+
+const lastSave = ref('')
+const selected = ref(null)
+
+lastSave.value = props.campaign.SaveController.LastModified;
+
+lastSave.value = props.campaign.SaveController.LastModified;
+
+const dirty = computed(() => {
+      return lastSave.value !== props.campaign.SaveController.LastModified;
+    })
+
+function setPage(type: string) {
+      emit('set-page', type);
+      selected.value = null;
+    }
+function setSelected(item: any) {
+      selected.value = item;
+      emit('set-selected', item);
+    }
+function exportEditable() {
       const filename =
-        this.campaign.Title.replace(/\s/g, '_').toLowerCase() +
+        props.campaign.Title.replace(/\s/g, '_').toLowerCase() +
         new Date().toLocaleString() +
         '.json';
-      exportAsJson(Campaign.Serialize(this.campaign as Campaign), filename);
-    },
-  },
-};
+      exportAsJson(Campaign.Serialize(props.campaign as Campaign), filename);
+    }
 </script>

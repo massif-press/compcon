@@ -2,6 +2,7 @@ import { ISaveable } from './ISaveable'
 import { SetItem } from '@/io/Storage'
 import * as _ from 'lodash-es'
 import { assertController } from '../../utility/assertController'
+import type { IControllerStatic } from '@/classes/ISerializable'
 
 interface ISaveData {
   lastModified: number
@@ -141,5 +142,6 @@ class SaveController {
   }
 }
 
+const _checkController: IControllerStatic<ISaveable, ISaveData> = SaveController
 export { SaveController }
 export type { ISaveData }

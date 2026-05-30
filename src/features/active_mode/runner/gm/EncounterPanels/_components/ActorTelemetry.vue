@@ -91,66 +91,61 @@
 
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, onMounted } from 'vue'
+import { useDisplay } from 'vuetify'
 import { CombatLog } from '@/classes/components/combat/CombatLog';
 import StatblockJustifyOptions from './_StatblockJustifyOptions.vue';
 
-export default {
-  name: 'ActorLogs',
-  components: { StatblockJustifyOptions },
-  props: {
-    actor: {
-      type: Object,
-      required: true,
-    },
-    encounter: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    tab: 'encounter',
-    enableJustify: true,
-    lineWidth: 60,
-  }),
-  mounted() {
-    if (this.$vuetify.display.smAndDown) {
-      this.enableJustify = false;
-    }
-  },
-  computed: {
-    summary() {
-      void this.actor.CombatController.CombatLogVersion
-      const t = this.actor.CombatController.CombatLog.Telemetry;
-      let out = `${this.actor.CombatController.CombatName} - Round ${this.encounter.Round - 1}\n\n`;
-      out += CombatLog.FormatTelemetry(t, this.enableJustify, this.lineWidth);
+const _display = useDisplay()
+
+defineOptions({ name: 'ActorLogs' })
+
+const props = defineProps<{
+  actor: object
+  encounter: object
+}>()
+
+const tab = ref('encounter')
+const enableJustify = ref(true)
+const lineWidth = ref(60)
+
+const summary = computed(() => {
+      void props.actor.CombatController.CombatLogVersion
+      const t = props.actor.CombatController.CombatLog.Telemetry;
+      let out = `${props.actor.CombatController.CombatName} - Round ${props.encounter.Round - 1}
+
+`;
+      out += CombatLog.FormatTelemetry(t, enableJustify.value, lineWidth.value);
 
       return out
-    }
-  },
-  methods: {
-    copyContent(entry) {
+    })
+
+function copyContent(entry) {
       if (!entry) return;
-      navigator.clipboard.writeText(this.summary);
-    },
-    exportLog(type: 'text' | 'json' = 'text') {
+      navigator.clipboard.writeText(summary.value);
+    }
+function exportLog(type: 'text' | 'json' = 'text') {
       let out;
-      if (type === 'text') out = this.summary;
+      if (type === 'text') out = summary.value;
       else out = JSON.stringify({
-        actor: this.actor.Name,
-        actor_id: this.actor.ID,
-        data: this.actor.CombatController.CombatLog.Telemetry,
+        actor: props.actor.Name,
+        actor_id: props.actor.ID,
+        data: props.actor.CombatController.CombatLog.Telemetry,
       }, null, 2);
 
       const blob = new Blob([out], { type: type === 'text' ? 'text/plain' : 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `${this.actor.Name} ${this.encounter.Name} round ${this.encounter.Round} telemetry.${type === 'text' ? 'txt' : 'json'}`;
+      a.download = `${props.actor.Name} ${props.encounter.Name} round ${props.encounter.Round} telemetry.${type === 'text' ? 'txt' : 'json'}`;
       a.click();
       URL.revokeObjectURL(url);
-    },
+    }
 
-  },
-};
+onMounted(() => {
+if (_display.smAndDown.value) {
+      enableJustify.value = false;
+    }
+})
 </script>

@@ -93,7 +93,9 @@
   </cc-tabs>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import OverviewPage from './pages/OverviewPage.vue';
 import SkillsPage from './pages/SkillsPage.vue';
 import TalentsPage from './pages/TalentsPage.vue';
@@ -101,55 +103,36 @@ import MechSkillsPage from './pages/MechSkillsPage.vue';
 import LicensePage from './pages/LicensePage.vue';
 import CoreBonusPage from './pages/CoreBonusPage.vue';
 import ConfirmPage from './pages/ConfirmPage.vue';
-
 import { PilotStore } from '@/stores';
 import { Pilot } from '@/classes/pilot/Pilot'
 
-export default {
-  name: 'level-wizard',
-  components: {
-    OverviewPage,
-    SkillsPage,
-    TalentsPage,
-    MechSkillsPage,
-    LicensePage,
-    CoreBonusPage,
-    ConfirmPage,
-  },
-  props: {
-    pilotID: {
-      type: String,
-      required: true,
-    },
-  },
-  data: () => ({
-    step: 1,
-    pilot: {} as Pilot,
-    cbEligible: false,
-  }),
-  computed: {
-    currentPilot(): Pilot {
-      return PilotStore().Pilots.find((p) => p.ID === this.$route.params.pilotID) as Pilot;
-    },
-  },
-  watch: {
-    step() {
-      window.scrollTo(0, 0);
-    },
-  },
-  created() {
-    this.pilot = Pilot.Deserialize(Pilot.Serialize(this.currentPilot));
-    this.pilot.Level++;
-    this.cbEligible = this.pilot.CoreBonusController.IsMissingCBs;
-  },
-  methods: {
-    setTab(tab: number) {
-      this.step = tab;
-    },
-    setStep(step: number) {
-      this.step = step;
-      (this.$refs as any).tabs.setTab(step);
-    },
-  },
-};
+defineOptions({ name: 'level-wizard' })
+
+const route = useRoute()
+
+const props = defineProps<{
+  pilotID: string
+}>()
+
+const tabs = ref<any>(null)
+
+const step = ref(1)
+const pilot = ref({} as Pilot)
+const cbEligible = ref(false)
+
+const currentPilot = computed(() => {
+      return PilotStore().Pilots.find((p) => p.ID === props.pilotID) as Pilot;
+    })
+
+pilot.value = Pilot.Deserialize(Pilot.Serialize(currentPilot.value));
+pilot.value.Level++;
+cbEligible.value = pilot.value.CoreBonusController.IsMissingCBs;
+
+function setTab(tab: number) {
+      step.value = tab;
+    }
+function setStep(n: number) {
+      step.value = n;
+      tabs.value.setTab(n);
+    }
 </script>

@@ -68,55 +68,51 @@
   </stepper-content>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
 import PilotRegistrationCard from '../../PilotSheet/components/PilotRegistrationCard.vue';
 import StepperContent from '../../_components/StepperContent.vue';
 import { Pilot } from '@/classes/pilot/Pilot';
-
 import { PilotStore } from '@/stores';
 
-export default {
-  name: 'confirm-page',
-  components: { PilotRegistrationCard, StepperContent },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-    groupID: { type: String },
-  },
-  data: () => ({
-    default_callsign: '[NEW CALLSIGN]',
-    default_name: 'New Pilot',
-  }),
-  computed: {
-    pilotReady(): boolean {
-      return (
-        this.pilot.HasIdent &&
-        this.pilot.SkillsController.HasFullSkills &&
-        this.pilot.TalentsController.HasFullTalents &&
-        this.pilot.MechSkillsController.HasFullHASE &&
-        this.pilot.LicenseController.HasLicenses &&
-        this.pilot.CoreBonusController.HasCBs
-      );
-    },
-    missingBasicInfo(): boolean {
-      return !this.pilot.Callsign || !this.pilot.Name;
-    },
-  },
-  methods: {
-    savePilot() {
-      const store = PilotStore();
-      this.pilot.Callsign = this.pilot.Callsign ? this.pilot.Callsign : this.default_callsign;
-      this.pilot.Name = this.pilot.Name ? this.pilot.Name : this.default_name;
-      store.AddPilot(this.pilot as Pilot, this.groupID);
+defineOptions({ name: 'confirm-page' })
 
-      if (this.pilot.isTemplate) AchievementEventSystem.emit('add_template_pilot');
+const props = defineProps<{
+  pilot: object
+  groupID?: string
+}>()
+
+const emit = defineEmits<{
+  'done': []
+}>()
+
+const default_callsign = ref('[NEW CALLSIGN]')
+const default_name = ref('New Pilot')
+
+const pilotReady = computed(() => {
+      return (
+        props.pilot.HasIdent &&
+        props.pilot.SkillsController.HasFullSkills &&
+        props.pilot.TalentsController.HasFullTalents &&
+        props.pilot.MechSkillsController.HasFullHASE &&
+        props.pilot.LicenseController.HasLicenses &&
+        props.pilot.CoreBonusController.HasCBs
+      );
+    })
+const missingBasicInfo = computed(() => {
+      return !props.pilot.Callsign || !props.pilot.Name;
+    })
+
+function savePilot() {
+      const store = PilotStore();
+      props.pilot.Callsign = props.pilot.Callsign ? props.pilot.Callsign : default_callsign.value;
+      props.pilot.Name = props.pilot.Name ? props.pilot.Name : default_name.value;
+      store.AddPilot(props.pilot as Pilot, props.groupID);
+
+      if (props.pilot.isTemplate) AchievementEventSystem.emit('add_template_pilot');
       AchievementEventSystem.emit('add_pilot');
 
-      this.$emit('done');
-    },
-  },
-};
+      emit('done');
+    }
 </script>

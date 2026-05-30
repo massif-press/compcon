@@ -89,66 +89,55 @@
   </v-card-text>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import PrintOptionSelect from '@/shared/print/PrintOptionSelect.vue';
 
-export default {
-  name: 'print-options-dialog',
-  components: { PrintOptionSelect },
+defineOptions({ name: 'print-options-dialog' })
 
-  props: {
-    hasBonds: {
-      type: Boolean,
-      required: true,
-    },
-    options: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    layoutOptions: [
+const props = defineProps<{
+  hasBonds: boolean
+  options: object
+}>()
+
+const emit = defineEmits<{
+  'set': []
+}>()
+
+const layoutOptions = ref([
       { title: 'Minimal', icon: 'mdi-text-short' },
       { title: 'Terse', icon: 'mdi-file-document-outline' },
       { title: 'Standard', icon: 'mdi-book-open' },
       { title: 'Expanded', icon: 'mdi-book-open-page-variant-outline' },
       { title: 'Cards', icon: 'mdi-cards-outline' },
-    ],
-    orientationOptions: [
+    ])
+const orientationOptions = ref([
       { title: 'Portrait', icon: 'mdi-file' },
       { title: 'Landscape', icon: 'mdi-note' },
-    ],
-    contentOptions: [
+    ])
+const contentOptions = ref([
       { title: 'Pilot', icon: 'cc:pilot' },
       { title: 'Blank', icon: 'mdi-checkbox-blank-badge-outline' },
-    ],
-    bondsOptions: [
+    ])
+const bondsOptions = ref([
       { title: 'Include', icon: 'mdi-link' },
       { title: 'Omit', icon: 'mdi-link-off' },
-    ],
-    paperOptions: [
+    ])
+const paperOptions = ref([
       { title: 'Letter', icon: 'mdi-text-box-check-outline' },
       { title: 'A4', icon: 'mdi-file-star-four-points-outline' },
-    ],
-    cardOptions: [
+    ])
+const cardOptions = ref([
       { title: 'Include Standard Actions', icon: 'mdi-hexagon-slice-3 ' },
       { title: 'Include Status/Condition Cards', icon: 'cc:eclipse' },
-    ],
-  }),
-  created() {
-    this.$emit('set', this.options);
-  },
-  methods: {
-    show() {
-      (this.$refs.dialog as any).show();
-    },
-    hide() {
-      (this.$refs.dialog as any).hide();
-    },
-  },
-  computed: {
-    pilotIncludeOptions() {
-      switch (this.options.layout.title) {
+    ])
+
+emit('set', props.options);
+
+emit('set', props.options);
+
+const pilotIncludeOptions = computed(() => {
+      switch (props.options.layout.title) {
         case 'Minimal':
           return [];
         case 'Terse':
@@ -186,10 +175,10 @@ export default {
         default:
           return [];
       }
-    },
-    mechIncludeOptions() {
-      const isBlank = this.options.content.title === 'Blank';
-      switch (this.options.layout.title) {
+    })
+const mechIncludeOptions = computed(() => {
+      const isBlank = props.options.content.title === 'Blank';
+      switch (props.options.layout.title) {
         case 'Minimal':
           return isBlank ? [{ title: 'Extra Mount Panel' }, { title: 'Extra System Space' }] : [];
         case 'Terse':
@@ -216,9 +205,9 @@ export default {
         default:
           return [];
       }
-    },
-    extraOptions() {
-      switch (this.options.layout.title) {
+    })
+const extraOptions = computed(() => {
+      switch (props.options.layout.title) {
         default:
           return [
             { title: 'Relevant Tag Reference' },
@@ -228,9 +217,14 @@ export default {
             { title: 'Downtime Quick Reference' },
           ];
       }
-    },
-  },
-};
+    })
+
+function show() {
+      (dialog.value as any).show();
+    }
+function hide() {
+      (dialog.value as any).hide();
+    }
 </script>
 
 <style scoped>

@@ -105,7 +105,9 @@
   </v-footer>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { Pilot } from '@/classes/pilot/Pilot'
 import { unCamelCase } from '@/classes/utility/accent_fold';
 import { downloadFromS3, GetFromCode, RateLimitError } from '@/io/apis/account';
@@ -113,90 +115,76 @@ import { CompendiumStore } from '@/stores';
 import logger from '@/user/logger';
 import FullLinkSheet from './_views/FullLinkSheet.vue';
 import BuildLinkSheet from './_views/BuildLinkSheet.vue';
+const router = useRouter()
 
-export default {
-  name: 'PilotLink',
-  components: {
-    FullLinkSheet,
-    BuildLinkSheet,
-  },
-  props: {
-    sharecode: {
-      type: String,
-      required: true,
-    },
-    style: {
-      type: String,
-      default: 'full',
-    },
-    mechId: {
-      type: String,
-    },
-  },
-  data: () => ({
-    loading: true,
-    itemData: null as any,
-    pilot: null as Pilot | null,
-    rateLimitError: null as { retryAfter: number | null; isDaily: boolean } | null,
-  }),
-  computed: {
-    compendiumLoaded() {
+defineOptions({ name: 'PilotLink' })
+
+const props = withDefaults(defineProps<{
+  sharecode: string
+  style?: string
+  mechId?: string
+}>(), {
+  style: 'full'
+})
+
+const loading = ref(true)
+const itemData = ref(null as any)
+const pilot = ref(null as Pilot | null)
+const rateLimitError = ref(null as { retryAfter: number | null; isDaily: boolean } | null)
+
+await getFromCode();
+
+await getFromCode();
+
+const compendiumLoaded = computed(() => {
       return CompendiumStore().loaded;
-    },
-    incompatible() {
-      if (this.itemData) {
-        return !this.itemData.originId;
+    })
+const incompatible = computed(() => {
+      if (itemData.value) {
+        return !itemData.value.originId;
       } return false;
-    },
-    mech() {
-      if (this.mechId) {
-        return this.pilot?.Mechs.find((m) => m.ID === this.mechId) || undefined;
+    })
+const mech = computed(() => {
+      if (props.mechId) {
+        return pilot.value?.Mechs.find((m) => m.ID === props.mechId) || undefined;
       }
       return undefined;
-    },
-    rateLimitRetryLabel() {
-      const secs = this.rateLimitError?.retryAfter;
+    })
+const rateLimitRetryLabel = computed(() => {
+      const secs = rateLimitError.value?.retryAfter;
       if (!secs) return '';
       return secs >= 60 ? `${Math.ceil(secs / 60)} minute${Math.ceil(secs / 60) !== 1 ? 's' : ''}` : `${secs} second${secs !== 1 ? 's' : ''}`;
-    },
-    links() {
-      if (!this.pilot) return [];
+    })
+const links = computed(() => {
+      if (!pilot.value) return [];
       const links = [{ title: 'Biography', target: 'biography' }];
-      if (this.pilot.BondController.Bond) links.push({ title: 'Bond', target: 'bond' });
-      if (this.pilot.SkillsController.Skills.length > 0)
+      if (pilot.value.BondController.Bond) links.push({ title: 'Bond', target: 'bond' });
+      if (pilot.value.SkillsController.Skills.length > 0)
         links.push({ title: 'Skills', target: 'skills' });
-      if (this.pilot.ReservesController.Reserves.length > 0)
+      if (pilot.value.ReservesController.Reserves.length > 0)
         links.push({ title: 'Reserves', target: 'reserves' });
       links.push({ title: 'Loadout', target: 'loadout' });
-      if (this.pilot.LicenseController.Licenses.length > 0)
+      if (pilot.value.LicenseController.Licenses.length > 0)
         links.push({ title: 'Licenses', target: 'licenses' });
-      if (this.pilot.CoreBonusController.CoreBonuses.length > 0)
+      if (pilot.value.CoreBonusController.CoreBonuses.length > 0)
         links.push({ title: 'Core Bonuses', target: 'core-bonuses' });
-      if (this.pilot.TalentsController.Talents.length > 0)
+      if (pilot.value.TalentsController.Talents.length > 0)
         links.push({ title: 'Talents', target: 'talents' });
 
-      if (this.mech) {
+      if (mech.value) {
         links.push({ title: 'Mech', target: 'mech' });
       }
 
       return links;
-    },
-  },
-  async created() {
-    await this.getFromCode();
-  },
-  mounted() {
-    if (this.pilot) document.title = `${this.pilot.Callsign} // ${this.pilot.Name}`;
-    else document.title = 'Pilot Link';
-  },
-  methods: {
-    unCamelCase(str) {
+    })
+
+function unCamelCase(str) {
       return unCamelCase(str);
-    },
-    copyToClipboard() {
+    }
+function copyToClipboard() {
       navigator.clipboard.writeText(window.location.href);
-    },
-    scrollTo(id) {
+    }
+function scrollTo(id) {
       const el = document.getElementById(id);
       const offset = 50;
       if (!el) {
@@ -210,32 +198,35 @@ export default {
         top: offsetPosition,
         behavior: 'smooth',
       });
-    },
-    async getFromCode() {
-      this.loading = true;
-      this.rateLimitError = null;
+    }
+async function getFromCode() {
+      loading.value = true;
+      rateLimitError.value = null;
       let row;
       try {
-        row = await GetFromCode(this.sharecode);
+        row = await GetFromCode(props.sharecode);
       } catch (err) {
         if (err instanceof RateLimitError) {
-          this.rateLimitError = { retryAfter: err.retryAfter, isDaily: err.isDaily };
-          this.loading = false;
+          rateLimitError.value = { retryAfter: err.retryAfter, isDaily: err.isDaily };
+          loading.value = false;
           return;
         }
-        logger.error(`Unable to find pilot at share code ${this.sharecode}`, this, err);
+        logger.error(`Unable to find pilot at share code ${props.sharecode}`, this, err);
       }
 
       try {
         const itemData = await downloadFromS3(row.uri);
-        this.itemData = itemData;
-        this.pilot = new Pilot(itemData);
+        itemData.value = itemData;
+        pilot.value = new Pilot(itemData);
       } catch (err) {
         logger.error(`Error downloading pilot data: ${err}`, this, err);
       }
 
-      this.loading = false;
-    },
-  },
-};
+      loading.value = false;
+    }
+
+onMounted(() => {
+if (pilot.value) document.title = `${pilot.value.Callsign} // ${pilot.value.Name}`;
+    else document.title = 'Pilot Link';
+})
 </script>

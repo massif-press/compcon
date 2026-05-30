@@ -29,11 +29,10 @@
   </v-window-item>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'UiTestPanels',
-  data: () => ({
-    bool: true,
-  }),
-};
+<script setup lang="ts">
+import { ref } from 'vue'
+
+defineOptions({ name: 'UiTestPanels' })
+
+const bool = ref(true)
 </script>

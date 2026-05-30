@@ -228,114 +228,97 @@
   </v-card>
 </template>
 
-<script>
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { DiceRoller } from '@/classes/dice/DiceRoller'
-import DiceRollInterface from '@/ui/components/chips/_activeeffect/_shared/DiceRollInterface.vue';
-import { last, set } from 'lodash-es';
+import DiceRollInterface from '@/ui/components/chips/_activeeffect/_shared/DiceRollInterface.vue'
 
-export default {
-  name: 'GmDiceRoller',
-  props: {
-    selected: {
-      type: Object,
-      default: false,
-    },
-    encounter: {
-      type: Object,
-      required: true,
-    }
-  },
-  components: {
-    DiceRollInterface
-  },
-  data: () => ({
-    diceToRoll: [{ type: 'd20', accuracy: 0, bonus: 0 }],
-    lastRoll: null,
-    lastRollString: '',
-    dice: [2, 3, 4, 6, 8, 10, 12, 20, 100],
-    count: 1,
-    die: '20',
-    plus: 0,
-    isCrit: false,
-    Overkill: false,
-    accuracy: 0,
-    rollResult: null,
-    rollType: '',
-  }),
-  computed: {
-    actor() {
-      return this.selected ? this.selected.actor : null;
-    },
-  },
-  methods: {
-    reset() {
-      this.count = 1;
-      this.die = '20';
-      this.plus = 0;
-      this.accuracy = 0;
-      this.isCrit = false;
-      this.Overkill = false;
-    },
-    rollResultFormat(roll, selected) {
-      if (roll.length > 1) {
-        let str = '';
-        roll.forEach((r, idx) => {
-          if (r === selected) {
-            str += `<b class='text-accent'>${r}</b>`;
-          } else {
-            str += `<span class='text-disabled'>${r}</span>`;
-          }
-          if (idx < roll.length - 1) {
-            str += ', ';
-          }
-        });
-        return str;
+defineOptions({ name: 'GmDiceRoller' })
+
+const props = withDefaults(defineProps<{
+  selected?: object | false
+  encounter: object
+}>(), {
+  selected: false,
+})
+
+const diceToRoll = ref([{ type: 'd20', accuracy: 0, bonus: 0 }])
+const lastRoll = ref<any>(null)
+const lastRollString = ref('')
+const dice = ref([2, 3, 4, 6, 8, 10, 12, 20, 100])
+const count = ref(1)
+const die = ref('20')
+const plus = ref(0)
+const isCrit = ref(false)
+const Overkill = ref(false)
+const accuracy = ref(0)
+const rollResult = ref<any>(null)
+const rollType = ref('')
+const bonus = ref(0)
+
+const actor = computed(() => props.selected ? (props.selected as any).actor : null)
+
+function reset() {
+  count.value = 1
+  die.value = '20'
+  plus.value = 0
+  accuracy.value = 0
+  isCrit.value = false
+  Overkill.value = false
+}
+
+function rollResultFormat(roll: any[], selected: any) {
+  if (roll.length > 1) {
+    let str = ''
+    roll.forEach((r, idx) => {
+      if (r === selected) {
+        str += `<b class='text-accent'>${r}</b>`
+      } else {
+        str += `<span class='text-disabled'>${r}</span>`
       }
-      return `<b class='text-accent'>${roll[0]}</b>`;
-    },
-    setCheck(type) {
-      this.count = 1;
-      this.die = '20';
-      this.plus = this.actor.CombatController.getCheckBonus(type);
-      this.accuracy = 0;
-      this.isCrit = false;
-      this.Overkill = false;
-      this.rollType = `${type.toUpperCase()} CHECK`;
-      this.rollDice();
-    },
+      if (idx < roll.length - 1) str += ', '
+    })
+    return str
+  }
+  return `<b class='text-accent'>${roll[0]}</b>`
+}
 
-    rollDice() {
-      const diceValue = this.count && this.die ? `${this.count}d${this.die}+${this.plus || 0}` : 0;
+function setCheck(type: string) {
+  count.value = 1
+  die.value = '20'
+  plus.value = actor.value.CombatController.getCheckBonus(type)
+  accuracy.value = 0
+  isCrit.value = false
+  Overkill.value = false
+  rollType.value = `${type.toUpperCase()} CHECK`
+  rollDice()
+}
 
-      const isAcc = this.accuracy > -1;
+function rollDice() {
+  const diceValue = count.value && die.value ? `${count.value}d${die.value}+${plus.value || 0}` : 0
+  const isAcc = accuracy.value > -1
 
-      this.rollResult = DiceRoller.rollAny(
-        diceValue,
-        this.bonus,
-        this.accuracy,
-        this.isCrit,
-        this.Overkill,
-        0
-      );
+  rollResult.value = DiceRoller.rollAny(
+    diceValue,
+    bonus.value,
+    accuracy.value,
+    isCrit.value,
+    Overkill.value,
+    0
+  )
 
-      this.lastRollString = `${this.rollType ? ` [${this.rollType}] ` : ''}${this.rollResult.toString()}`
-      this.lastRoll = this.rollResult.total;
+  lastRollString.value = `${rollType.value ? ` [${rollType.value}] ` : ''}${rollResult.value.toString()}`
+  lastRoll.value = rollResult.value.total
 
-      let str = this.actor ? `<b>${this.actor.CombatController.CombatName}</b> rolled: ` : 'GM Rolled: ';
-      str += `(${diceValue}) `;
-      if (this.accuracy) {
-        str += ` [${isAcc ? '+' : '-'}${this.accuracy} ${isAcc ? 'ACC' : 'DIFF'}]`;
-      }
-      if (this.isCrit) {
-        str += ' [CRIT]';
-      }
-      if (this.Overkill) {
-        str += ' [OVERKILL]';
-      }
-      str += ` ${this.lastRollString}`;
-      this.encounter.RollHistory.unshift(str);
-      this.rollType = '';
-    },
-  },
-};
+  let str = actor.value ? `<b>${actor.value.CombatController.CombatName}</b> rolled: ` : 'GM Rolled: '
+  str += `(${diceValue}) `
+  if (accuracy.value) {
+    str += ` [${isAcc ? '+' : '-'}${accuracy.value} ${isAcc ? 'ACC' : 'DIFF'}]`
+  }
+  if (isCrit.value) str += ' [CRIT]'
+  if (Overkill.value) str += ' [OVERKILL]'
+  str += ` ${lastRollString.value}`
+  ;(props.encounter as any).RollHistory.unshift(str)
+  rollType.value = ''
+}
 </script>

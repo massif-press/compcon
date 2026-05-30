@@ -16,7 +16,8 @@
   </gm-split-view>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, onMounted } from 'vue'
 import { INarrativeElement } from '@/classes/narrative/INarrativeElement';
 import { NarrativeStore } from '../../store/narrative_store';
 import { Character } from '@/classes/narrative/Character';
@@ -28,33 +29,23 @@ import FactionEditor from './factionEditor.vue';
 import GmSplitView from '../../_views/GMSplitView.vue';
 import NoGmItem from '../../_views/_components/NoGmItem.vue';
 
-export default {
-  name: 'CharacterRoster',
-  components: { GmSplitView, NoGmItem },
-  props: {
-    itemType: {
-      type: String,
-      required: true,
-    },
-    id: {
-      type: String,
-      required: false,
-      default: null,
-    },
-    view: {
-      type: String,
-      required: false,
-      default: 'collection',
-    },
-  },
-  data: () => ({
-    selected: null as INarrativeElement | null,
-  }),
-  computed: {
-    allNarrativeItems() {
+defineOptions({ name: 'CharacterRoster' })
+
+const props = withDefaults(defineProps<{
+  itemType: string
+  id?: string
+  view?: string
+}>(), {
+  id: null,
+  view: 'collection'
+})
+
+const selected = ref(null as INarrativeElement | null)
+
+const allNarrativeItems = computed(() => {
       return NarrativeStore().CollectionItems.length;
-    },
-    groupings() {
+    })
+const groupings = computed(() => {
       const baseGroupings = ['None', 'Folder'];
 
       const allLabelTitles = new Set(
@@ -64,8 +55,8 @@ export default {
       );
 
       return [...baseGroupings, ...allLabelTitles];
-    },
-    sortings() {
+    })
+const sortings = computed(() => {
       const allLabelTitles = new Set(
         NarrativeStore()
           .getAllLabels.filter((x: any) => x.title.length > 0)
@@ -75,9 +66,9 @@ export default {
       const baseSortings = ['Name', 'Created', 'Updated'];
 
       return [...baseSortings, ...allLabelTitles];
-    },
-    editorComponent() {
-      switch (this.itemType) {
+    })
+const editorComponent = computed(() => {
+      switch (props.itemType) {
         case 'Character':
           return CharacterEditor;
         case 'Location':
@@ -87,9 +78,9 @@ export default {
         default:
           return null;
       }
-    },
-    items() {
-      switch (this.itemType) {
+    })
+const items = computed(() => {
+      switch (props.itemType) {
         case 'Character':
           return NarrativeStore().getCharacters.filter((x) => !x.SaveController.IsDeleted);
         case 'Location':
@@ -99,26 +90,17 @@ export default {
         default:
           return [];
       }
-    },
-  },
-  mounted() {
-    if (this.id) {
-      const item = NarrativeStore().getItemByID(this.id);
-      if (item) {
-        this.selected = item;
-      }
+    })
+
+function exit() {
+      selected.value = null;
     }
-  },
-  methods: {
-    exit() {
-      this.selected = null;
-    },
-    openItem(item) {
-      this.selected = item;
-    },
-    addNew() {
+function openItem(item) {
+      selected.value = item;
+    }
+function addNew() {
       let e;
-      switch (this.itemType) {
+      switch (props.itemType) {
         case 'Character':
           e = new Character();
           break;
@@ -130,8 +112,15 @@ export default {
           break;
       }
       NarrativeStore().AddItem(e);
-      this.selected = e;
-    },
-  },
-};
+      selected.value = e;
+    }
+
+onMounted(() => {
+if (props.id) {
+      const item = NarrativeStore().getItemByID(props.id);
+      if (item) {
+        selected.value = item;
+      }
+    }
+})
 </script>

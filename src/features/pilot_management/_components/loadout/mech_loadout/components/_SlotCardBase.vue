@@ -77,78 +77,57 @@
   </cc-solo-modal>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, useSlots } from 'vue'
 import { ItemType } from '@/classes/enums'
 import { useMobile } from '@/composables/useMobile'
 import EquipmentDetails from './_EquipmentDetails.vue'
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'SlotCardBase',
-  components: { EquipmentDetails },
-  props: {
-    item: {
-      type: Object,
-      required: false,
-      default: null,
-    },
-    mech: {
-      type: Object,
-      required: true,
-      default: null,
-    },
-    empty: {
-      type: Boolean,
-      default: false,
-    },
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-    titleColor: {
-      type: String,
-      required: false,
-    },
-    extended: {
-      type: Boolean,
-      default: false,
-    },
-    weapon: {
-      type: Boolean,
-      default: false,
-    },
-    readonly: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['selector-close', 'selector-open'],
-  data: () => ({
-    detailDialog: false,
-    selectorDialog: false,
-  }),
-  computed: {
-    synergyLocation() {
-      if (!this.item) return 'none'
-      return this.item.ItemType === ItemType.MechWeapon ? 'weapon' : 'system'
-    },
-    getHeight() {
-      return this.mobile ? 18 : 20
-    },
-  },
-  methods: {
-    openSelector() {
-      if (this.$slots.selector) {
-        this.selectorDialog = true
+const { mobile, portrait } = useMobile()
+const slots = useSlots()
+
+const props = withDefaults(defineProps<{
+  item?: object
+  mech: object
+  empty?: boolean
+  color?: string
+  titleColor?: string
+  extended?: boolean
+  weapon?: boolean
+  readonly?: boolean
+}>(), {
+  item: null,
+  mech: null,
+  empty: false,
+  color: 'primary',
+  extended: false,
+  weapon: false,
+  readonly: false
+})
+
+const emit = defineEmits<{
+  'selector-close': []
+  'selector-open': []
+}>()
+
+const detailDialog = ref(false)
+const selectorDialog = ref(false)
+
+const synergyLocation = computed(() => {
+      if (!props.item) return 'none'
+      return props.item.ItemType === ItemType.MechWeapon ? 'weapon' : 'system'
+    })
+const getHeight = computed(() => {
+      return mobile.value ? 18 : 20
+    })
+
+function openSelector() {
+      if (slots.selector) {
+        selectorDialog.value = true
         return
       }
-      this.$emit('selector-open')
-    },
-  },
-}
+      emit('selector-open')
+    }
 </script>
 
 <style scoped>

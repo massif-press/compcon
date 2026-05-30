@@ -185,7 +185,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useDisplay } from 'vuetify'
-import { PilotStore } from '../../store';
+import { PilotGroupStore } from '../../store';
 import { PilotGroup } from '../../store/PilotGroup';
 import { teamName } from '@/io/Generators';
 import GroupFileImport from './add_panels/GroupFileImport.vue';
@@ -204,7 +204,7 @@ async function randomName() {
 }
 
 function submit() {
-  PilotStore().AddGroup(group.value as PilotGroup)
+  PilotGroupStore().AddGroup(group.value as PilotGroup)
   emit('close')
 }
 </script>

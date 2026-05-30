@@ -28,7 +28,8 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, onMounted, nextTick } from 'vue'
 import { markRaw } from 'vue';
 import TypeIt from 'typeit';
 import GmsStart from './startup_logs/gms';
@@ -38,113 +39,103 @@ import SscStart from './startup_logs/ssc';
 import IpsnStart from './startup_logs/ipsn';
 import HaStart from './startup_logs/ha';
 import GalsimStart from './startup_logs/galsim';
-
 import { UserStore } from '@/stores';
 import { UserProfile } from '@/user';
 
-export default {
-  name: 'cc-log',
-  data: () => ({
-    typer: {},
-    title: [],
-    lock: false,
-  }),
-  computed: {
-    theme(): string {
+defineOptions({ name: 'cc-log' })
+
+const completed = ref<any>(null)
+const output = ref<any>(null)
+
+const typer = ref({})
+const title = ref([])
+const lock = ref(false)
+
+const theme = computed(() => {
       return UserStore().User.Theme || 'gms';
-    },
-  },
-  watch: {
-    theme(newval, oldval) {
-      if (newval !== oldval) this.restart();
-    },
-  },
-  async mounted() {
-    this.lock = true;
-    this.restart();
-  },
-  methods: {
-    restart() {
-      if (this.typer.hasOwnProperty('destroy')) (this.typer as any).destroy(true);
-      if ((this.$refs as any).completed.innerHTML) (this.$refs as any).completed.innerHTML = '';
-      if ((this.$refs as any).output.innerHTML) (this.$refs as any).output.innerHTML = '';
-      this.start();
-    },
-    async start() {
-      await this.$nextTick();
-      this.typer = markRaw(
-        new TypeIt((this.$refs as any).output, {
+    })
+
+function restart() {
+      if (typer.value.hasOwnProperty('destroy')) (typer.value as any).destroy(true);
+      if (completed.value.innerHTML) completed.value.innerHTML = '';
+      if (output.value.innerHTML) output.value.innerHTML = '';
+      start();
+    }
+async function start() {
+      await nextTick();
+      typer.value = markRaw(
+        new TypeIt(output.value, {
           speed: 2,
           nextStringDelay: 5,
           lifeLike: false,
           cursor: false,
           startDelete: false,
           beforeString: () => {
-            (this.$refs as any).output?.scrollIntoView({ block: 'end' });
+            output.value?.scrollIntoView({ block: 'end' });
           },
           afterString: () => {
-            (this.$refs as any).output?.scrollIntoView({ block: 'end' });
+            output.value?.scrollIntoView({ block: 'end' });
           },
           afterComplete: async () => {
-            if (this.theme === 'horus') {
-              await HorusChat((this.$refs as any).output);
+            if (theme.value === 'horus') {
+              await HorusChat(output.value);
             } else {
-              this.lock = false;
+              lock.value = false;
             }
           },
         })
       );
 
-      switch (this.theme) {
+      switch (theme.value) {
         case 'horus':
-          await HorusStart(this.typer);
+          await HorusStart(typer.value);
           break;
         case 'msmc':
-          await MsmcStart(this.typer);
+          await MsmcStart(typer.value);
           break;
         case 'ssc':
-          SscStart(this.typer);
+          SscStart(typer.value);
           break;
         case 'ipsn':
-          IpsnStart(this.typer);
+          IpsnStart(typer.value);
           break;
         case 'ha':
-          HaStart(this.typer);
+          HaStart(typer.value);
           break;
         case 'galsim':
-          GalsimStart(this.typer);
+          GalsimStart(typer.value);
           break;
         default:
-          GmsStart(this.typer);
+          GmsStart(typer.value);
           break;
       }
-    },
-    print(user: string, response: string) {
-      if (this.lock) return;
-      this.lock = true;
+    }
+function print(user: string, response: string) {
+      if (lock.value) return;
+      lock.value = true;
 
-      (this.typer as any).destroy();
+      (typer.value as any).destroy();
 
       //collect written strings so TypeIt doesn't erase them
-      if ((this.$refs as any).completed.innerHTML)
-        (this.$refs as any).completed.innerHTML += '<br>';
-      (this.$refs as any).completed.innerHTML += (this.$refs as any).output.innerHTML;
-      (this.$refs as any).output.innerHTML = '';
+      if (completed.value.innerHTML)
+        completed.value.innerHTML += '<br>';
+      completed.value.innerHTML += output.value.innerHTML;
+      output.value.innerHTML = '';
 
-      this.typer = markRaw(
-        new TypeIt((this.$refs as any).output, {
+      typer.value = markRaw(
+        new TypeIt(output.value, {
           speed: 32,
           lifeLike: true,
           nextStringDelay: 7,
           cursor: false,
           beforeString: () => {
-            (this.$refs as any).output?.scrollIntoView({ block: 'end' });
+            output.value?.scrollIntoView({ block: 'end' });
           },
           afterString: () => {
-            (this.$refs as any).output?.scrollIntoView({ block: 'end' });
+            output.value?.scrollIntoView({ block: 'end' });
           },
           afterComplete: () => {
-            this.lock = false;
+            lock.value = false;
           },
         })
       )
@@ -159,9 +150,14 @@ export default {
         )
         .type(' ')
         .go();
-    },
-  },
-};
+    }
+
+onMounted(() => {
+lock.value = true;
+    restart();
+})
+
+defineExpose({ print, restart })
 </script>
 
 <style scoped>

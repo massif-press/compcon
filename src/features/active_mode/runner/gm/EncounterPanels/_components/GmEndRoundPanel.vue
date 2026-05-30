@@ -136,72 +136,63 @@
   </end-round-dialog>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, nextTick } from 'vue'
 import EndRoundDialog from '../../../_shared/_EndRoundDialog.vue';
 
-export default {
-  name: 'GmEndRoundPanel',
-  components: { EndRoundDialog },
-  props: {
-    encounterInstance: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    loading: false,
-  }),
-  computed: {
-    nextRoundAlerts() {
-      return this.braced.length || this.activeActors.some(c => this.getTimeoutStatuses(c).length || this.getTimeoutStatuses(c, true).length);
-    },
-    activeActors() {
-      return this.encounterInstance.Combatants.filter((x) => x.type !== 'doodad' && !x.actor.CombatController.IsDestroyed && !x.reinforcement).map(
+const props = defineProps<{
+  encounterInstance: object
+}>()
+
+const loading = ref(false)
+
+const nextRoundAlerts = computed(() => {
+      return braced.value.length || activeActors.value.some(c => getTimeoutStatuses(c).length || getTimeoutStatuses(c, true).length);
+    })
+const activeActors = computed(() => {
+      return props.encounterInstance.Combatants.filter((x) => x.type !== 'doodad' && !x.actor.CombatController.IsDestroyed && !x.reinforcement).map(
         (x) => x.actor.CombatController.ActiveActor.CombatController
       )
-    },
-    hasRemainingActions() {
-      return this.activeActors.filter((c) => c.HasRemainingActions);
-    },
-    hasTimedEffects() {
-      return this.activeActors.filter((c) => c.TimedEffects.length > 0);
-    },
-    reinforcements() {
-      return this.encounterInstance.Combatants.filter(
-        (c) => c.reinforcement && c.reinforcementTurn === this.encounterInstance.Round + 1
+    })
+const hasRemainingActions = computed(() => {
+      return activeActors.value.filter((c) => c.HasRemainingActions);
+    })
+const hasTimedEffects = computed(() => {
+      return activeActors.value.filter((c) => c.TimedEffects.length > 0);
+    })
+const reinforcements = computed(() => {
+      return props.encounterInstance.Combatants.filter(
+        (c) => c.reinforcement && c.reinforcementTurn === props.encounterInstance.Round + 1
       );
-    },
-    braced() {
-      return this.activeActors.filter((c) => c.Braced);
-    },
-  },
-  methods: {
-    getTimeoutStatuses(combatant, custom = false) {
+    })
+const braced = computed(() => {
+      return activeActors.value.filter((c) => c.Braced);
+    })
+
+function getTimeoutStatuses(combatant, custom = false) {
       return combatant[custom ? 'CustomStatuses' : 'Statuses'].filter(
         (s) =>
           s.expires &&
           (s.expires.Period === 'turn' ||
           (s.expires.Period === 'round' &&
             s.expires.RoundEndNumber &&
-            s.expires.RoundEndNumber === this.encounterInstance.Round + 1))
+            s.expires.RoundEndNumber === props.encounterInstance.Round + 1))
       );
-    },
-    getStatusTarget(actorID, testName) {
-      const target = this.activeActors.find((c) => c.Parent.ID === actorID);
+    }
+function getStatusTarget(actorID, testName) {
+      const target = activeActors.value.find((c) => c.Parent.ID === actorID);
       if (!target) return 'Unknown';
       let name = target.CombatName || 'Unknown';
       if (testName && target.CombatName === testName) {
         name = 'their';
       }
       return name;
-    },
-    async endRound(isActive) {
-      this.loading = true;
-      await this.$nextTick();
-      await this.encounterInstance.EndRound();
-      this.loading = false;
+    }
+async function endRound(isActive) {
+      loading.value = true;
+      await nextTick();
+      await props.encounterInstance.EndRound();
+      loading.value = false;
       isActive.value = false;
-    },
-  },
-};
+    }
 </script>

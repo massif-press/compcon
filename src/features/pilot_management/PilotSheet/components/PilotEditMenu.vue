@@ -142,54 +142,42 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import CloneDialog from './CloneDialog.vue'
 import StatblockDialog from './StatblockDialog.vue'
 import LcpConfigSelector from './LcpConfigSelector.vue'
-import { useMobile } from '@/composables/useMobile';
-import { pilotActionsMixin } from '../pilotActionsMixin'
+import { useMobile } from '@/composables/useMobile'
+import { usePilotActions } from '../usePilotActions'
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  mixins: [pilotActionsMixin],
-  name: 'EditMenu',
-  components: {
-    StatblockDialog,
-    CloneDialog,
-    LcpConfigSelector,
-  },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-    light: {
-      type: Boolean,
-    },
-    dense: {
-      type: Boolean,
-    },
-    size: {
-      type: String,
-      default: 'small',
-    },
-  },
-  emits: ['close'],
-  data: () => ({
-    loading: false,
-    deleteDialog: false,
-    menu: false,
-  }),
-  methods: {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-    delete_pilot(close?: Function) {
-      this.menu = false
-      this.pilot.SaveController.Delete()
-      if (close) close()
-      if (this.$route.path !== '/pilot_management') this.$router.push('/pilot_management')
-    },
-  },
+defineOptions({ name: 'EditMenu' })
+
+const props = withDefaults(defineProps<{
+  pilot: object
+  light?: boolean
+  dense?: boolean
+  size?: string
+}>(), {
+  size: 'small',
+})
+
+defineEmits<{ close: [] }>()
+
+const { mobile, portrait } = useMobile()
+const { exportPilot, remoteUpdate, convert } = usePilotActions(props)
+
+const route = useRoute()
+const router = useRouter()
+
+const loading = ref(false)
+const deleteDialog = ref(false)
+const menu = ref(false)
+
+function delete_pilot(close?: Function) {
+  menu.value = false
+  ;(props.pilot as any).SaveController.Delete()
+  if (close) close()
+  if (route.path !== '/pilot_management') router.push('/pilot_management')
 }
 </script>

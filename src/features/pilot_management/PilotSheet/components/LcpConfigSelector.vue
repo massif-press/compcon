@@ -75,40 +75,29 @@
   </cc-solo-modal>
 </template>
 
-<script lang="ts">
-  import PackConfig from '@/features/nav/pages/ExtraContent/PackConfig.vue'
-  import { UserStore } from '@/stores'
-  import { LcpConfig } from '@/user'
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import PackConfig from '@/features/nav/pages/ExtraContent/PackConfig.vue'
+import { UserStore } from '@/stores'
+import { LcpConfig } from '@/user'
 
-  export default {
-    name: 'LcpConfigSelector',
-    components: {
-      PackConfig,
-    },
-    props: {
-      actor: {
-        type: Object,
-        required: true,
-      },
-    },
-    data: () => ({
-      managerDialog: false,
-    }),
-    computed: {
-      configs(): LcpConfig[] {
+const props = defineProps<{
+  actor: object
+}>()
+
+const managerDialog = ref(false)
+
+const configs = computed(() => {
         return UserStore().User.LcpConfigs
-      },
-    },
-    methods: {
-      isSelected(config: LcpConfig): boolean {
-        return this.actor.LcpConfig?.id === config.id
-      },
-      setConfig(config: LcpConfig) {
-        this.actor.LcpConfig = config
-      },
-      clearConfig() {
-        this.actor.LcpConfig = {} as LcpConfig
-      },
-    },
-  }
+      })
+
+function isSelected(config: LcpConfig) {
+        return props.actor.LcpConfig?.id === config.id
+      }
+function setConfig(config: LcpConfig) {
+        props.actor.LcpConfig = config
+      }
+function clearConfig() {
+        props.actor.LcpConfig = {} as LcpConfig
+      }
 </script>

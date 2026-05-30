@@ -45,11 +45,8 @@
   </fieldset>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CCSitrepDisplay',
-  props: {
-    sitrep: { type: Object, required: true },
-  },
-};
+<script setup lang="ts">
+const props = defineProps<{
+  sitrep: object
+}>()
 </script>

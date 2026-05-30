@@ -25,34 +25,25 @@
   </runner-list-item-base>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import RunnerListItemBase from './RunnerListItemBase.vue';
 
-export default {
-  name: 'UnitRunnerListItem',
-  components: {
-    RunnerListItemBase,
-  },
-  props: {
-    combatant: {
-      type: Object,
-      required: true,
-    },
-    collapsed: {
-      type: Boolean,
-      default: false,
-    },
-    selected: {
-      type: Boolean,
-    },
-  },
-  emits: ['select'],
-  computed: {
-    getPortrait(): string {
-      if (this.combatant.actor.PortraitController.HasImage)
-        return this.combatant.actor.Portrait || '';
+const props = withDefaults(defineProps<{
+  combatant: object
+  collapsed?: boolean
+  selected?: boolean
+}>(), {
+  collapsed: false
+})
+
+const emit = defineEmits<{
+  'select': []
+}>()
+
+const getPortrait = computed(() => {
+      if (props.combatant.actor.PortraitController.HasImage)
+        return props.combatant.actor.Portrait || '';
       return '';
-    },
-  },
-};
+    })
 </script>

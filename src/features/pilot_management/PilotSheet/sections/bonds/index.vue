@@ -348,87 +348,72 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, onMounted, watch } from 'vue'
 import BondSelector from './components/BondSelector.vue'
 import BondPowerSelector from './components/BondPowerSelector.vue'
 import SectionHeader from '../components/SectionHeader.vue'
 import SectionEditChip from '../components/SectionEditChip.vue'
-
 import { CompendiumStore } from '@/stores'
 import { useMobile } from '@/composables/useMobile';
 import { remove } from 'jszip'
 import { sortBy } from 'lodash-es'
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'BondsView',
-  components: { BondSelector, BondPowerSelector, SectionHeader, SectionEditChip },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    resetXpMenu: false,
-    addBondMenu: false,
-    masonryBondItems: [] as any[],
-    bondModal: false,
-    removeDialog: false,
-  }),
-  computed: {
-    bonds() {
+defineOptions({ name: 'BondsView' })
+
+const { mobile, portrait } = useMobile()
+
+const props = defineProps<{
+  pilot: object
+}>()
+
+const powerSelector = ref<any>(null)
+
+const resetXpMenu = ref(false)
+const addBondMenu = ref(false)
+const masonryBondItems = ref([] as any[])
+const bondModal = ref(false)
+const removeDialog = ref(false)
+
+const bonds = computed(() => {
       return CompendiumStore().Bonds
-    },
-    hasBond() {
-      return !!this.pilot.BondController.Bond
-    },
-    bid() {
-      return this.pilot.BondController.Bond ? this.pilot.BondController.Bond.ID : 'none'
-    },
-    underlevel() {
-      return this.pilot.Level < 1 && !this.pilot.BondController.ForceBonds
-    },
-    boon() {
-      return this.pilot.BondController.Bond.Boon
-    },
-  },
-  watch: {
-    'pilot.BondController.BondPowers': {
-      handler(val) {
-        this.masonryBondItems = sortBy([...this.pilot.BondController.BondPowers], ['master', 'veteran', 'origin', 'name']).reverse()
-      },
-      immediate: true,
-      deep: true,
-    },
-  },
-  mounted() {
-    this.masonryBondItems = sortBy([...this.pilot.BondController.BondPowers], ['master', 'veteran', 'origin', 'name']).reverse()
-  },
-  methods: {
-    async setBond(bond) {
-      this.pilot.BondController.Bond = bond
-      await this.$forceUpdate()
-      this.bondModal = false
-    },
-    bondConfirm() {
-      this.resetXpMenu = false
-      this.pilot.BondController.LevelUp()
-    },
-    confirmBurden() {
-      this.addBondMenu = false
-      this.pilot.BondController.AddNewBurden()
-    },
-    removeBond() {
-      this.pilot.BondController.Bond = null
-      this.pilot.BondController.PowerSelections = 0
-      this.pilot.BondController.XP = 0
-      this.pilot.BondController.Stress = 0
-      this.pilot.BondController.MaxStress = 8
-      this.removeDialog = false
-    },
-  },
-}
+    })
+const hasBond = computed(() => {
+      return !!props.pilot.BondController.Bond
+    })
+const bid = computed(() => {
+      return props.pilot.BondController.Bond ? props.pilot.BondController.Bond.ID : 'none'
+    })
+const underlevel = computed(() => {
+      return props.pilot.Level < 1 && !props.pilot.BondController.ForceBonds
+    })
+const boon = computed(() => {
+      return props.pilot.BondController.Bond.Boon
+    })
+
+async function setBond(bond) {
+      props.pilot.BondController.Bond = bond
+      await _forceUpdate()
+      bondModal.value = false
+    }
+function bondConfirm() {
+      resetXpMenu.value = false
+      props.pilot.BondController.LevelUp()
+    }
+function confirmBurden() {
+      addBondMenu.value = false
+      props.pilot.BondController.AddNewBurden()
+    }
+function removeBond() {
+      props.pilot.BondController.Bond = null
+      props.pilot.BondController.PowerSelections = 0
+      props.pilot.BondController.XP = 0
+      props.pilot.BondController.Stress = 0
+      props.pilot.BondController.MaxStress = 8
+      removeDialog.value = false
+    }
+
+onMounted(() => {
+masonryBondItems.value = sortBy([...props.pilot.BondController.BondPowers], ['master', 'veteran', 'origin', 'name']).reverse()
+})
 </script>

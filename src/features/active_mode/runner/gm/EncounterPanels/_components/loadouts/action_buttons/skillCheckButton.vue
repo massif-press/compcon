@@ -172,8 +172,8 @@
         </v-row>
       </v-card>
       <cc-alert v-if="
-        this.checkType === 'contested' &&
-        this.selectedTarget &&
+        checkType === 'contested' &&
+        selectedTarget &&
         $refs.check.roll &&
         $refs.contest.roll
       "
@@ -200,134 +200,111 @@
   </combat-action-button>
 </template>
 
-<script>
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
 import CombatActionButton from './CombatActionButton.vue';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 import SkillCheckBase from './_skillCheckBase.vue';
 
-export default {
-  name: 'SkillCheckButton',
-  components: { CombatActionButton, MenuInput, SkillCheckBase },
-  props: {
-    action: { type: Object, required: true },
-    owner: { type: Object, required: true },
-    encounter: { type: Object, required: true },
-  },
-  emits: ['activate'],
-  data: () => ({
-    roll: null,
-    bonus: 0,
-    accDiff: 0,
-    targetVal: 10,
-    rollResults: [],
-    selectedHase: 'hull',
-    checkType: 'standard',
-    difficult: false,
-    modifier: '',
-    selectedTarget: null,
-    hase: [
+const props = defineProps<{
+  action: object
+  owner: object
+  encounter: object
+}>()
+
+const emit = defineEmits<{
+  'activate': []
+}>()
+
+const check = ref<any>(null)
+const contest = ref<any>(null)
+
+const roll = ref(null)
+const bonus = ref(0)
+const accDiff = ref(0)
+const targetVal = ref(10)
+const rollResults = ref([])
+const selectedHase = ref('hull')
+const checkType = ref('standard')
+const difficult = ref(false)
+const modifier = ref('')
+const selectedTarget = ref(null)
+const hase = ref([
       { title: 'Hull', value: 'hull' },
       { title: 'Agility', value: 'agility' },
       { title: 'Systems', value: 'systems' },
       { title: 'Engineering', value: 'engineering' },
       { title: 'None', value: '' },
-    ],
-  }),
-  watch: {
-    difficult(newVal) {
-      if (newVal) {
-        this.accDiff -= 1;
-      } else {
-        this.accDiff += 1;
-      }
-    },
-    modifier(newVal) {
-      if (newVal === 'heroic') {
-        this.targetVal = 20;
-      } else {
-        this.targetVal = 10;
-      }
-    },
-    applicableBonuses: {
-      immediate: true,
-      handler(newVal) {
-        this.bonus = newVal.bonuses.reduce((acc, curr) => acc + curr.Value, 0);
-        this.accDiff = newVal.accDiff.reduce((acc, curr) => acc + curr.Accuracy, 0);
-      },
-    },
-  },
-  computed: {
-    controller() {
-      return this.owner.actor.CombatController;
-    },
-    targets() {
-      const thisCombatant = this.encounter.Combatants.find(
-        (c) => c.actor.ID === this.controller.RootActor.ID
+    ])
+
+const controller = computed(() => {
+      return props.owner.actor.CombatController;
+    })
+const targets = computed(() => {
+      const thisCombatant = props.encounter.Combatants.find(
+        (c) => c.actor.ID === controller.value.RootActor.ID
       );
       if (!thisCombatant) return [];
-      return this.encounter.Combatants.filter(
+      return props.encounter.Combatants.filter(
         (c) =>
-          c.actor.ID !== this.controller.ActiveActor.ID &&
-          c.actor.ID !== this.controller.RootActor.ID
+          c.actor.ID !== controller.value.ActiveActor.ID &&
+          c.actor.ID !== controller.value.RootActor.ID
       ).map((x) => x.actor.CombatController.ActiveActor);
-    },
-    applicableBonuses() {
+    })
+const applicableBonuses = computed(() => {
       let bonuses = [];
-      bonuses = this.controller.ActiveActor.FeatureController?.Bonuses?.filter(
-        (b) => b.ID === this.selectedHase || b.ID === 'check'
+      bonuses = controller.value.ActiveActor.FeatureController?.Bonuses?.filter(
+        (b) => b.ID === selectedHase.value || b.ID === 'check'
       );
       const result = {
         bonuses: bonuses.filter((b) => !!b.Value) || [],
         accDiff: bonuses.filter((b) => !!b.Accuracy) || [],
       };
-      if (this.selectedHase) {
-        const statBonus = this.controller.ActiveActor.CombatController.StatController.getStat(
-          this.selectedHase
+      if (selectedHase.value) {
+        const statBonus = controller.value.ActiveActor.CombatController.StatController.getStat(
+          selectedHase.value
         );
         if (statBonus) {
           result.bonuses.push({
-            Source: `${this.selectedHase.charAt(0).toUpperCase() + this.selectedHase.slice(1)} Stat`,
+            Source: `${selectedHase.value.charAt(0).toUpperCase() + selectedHase.value.slice(1)} Stat`,
             Value: statBonus,
           });
         }
       }
       return result;
-    },
-  },
-  methods: {
-    apply(close) {
-      this.$emit('activate', this.action.ID);
-    },
-    reset() {
-      this.controller.ResetActivation(this.action.Activation);
-    },
-    rollCheck(idx) {
-      this.rollResults = [];
+    })
+
+function apply(close) {
+      emit('activate', props.action.ID);
+    }
+function reset() {
+      controller.value.ResetActivation(props.action.Activation);
+    }
+function rollCheck(idx) {
+      rollResults.value = [];
       const results = [];
-      const count = 1 + Math.abs(this.accDiff);
+      const count = 1 + Math.abs(accDiff.value);
 
       for (let i = 1; i <= count; i++) {
         const roll = Math.floor(Math.random() * 20) + 1;
-        const val = roll + this.bonus;
-        results.push({ val, text: `${roll} + ${this.bonus} (${val})` });
+        const val = roll + bonus.value;
+        results.push({ val, text: `${roll} + ${bonus.value} (${val})` });
       }
 
-      if (this.accDiff < 0) {
+      if (accDiff.value < 0) {
         results.sort((a, b) => a.val - b.val);
       } else {
         results.sort((a, b) => b.val - a.val);
       }
 
-      this.rollResults = results;
-      this.roll = results[0].val;
-    },
-    overrideCheck(idx) {
-      if (this.roll < this.targetVal) {
-        this.roll = 20;
+      rollResults.value = results;
+      roll.value = results[0].val;
+    }
+function overrideCheck(idx) {
+      if (roll.value < targetVal.value) {
+        roll.value = 20;
       } else {
-        this.roll = 1;
+        roll.value = 1;
       }
-    },
-  },
-};
+    }
 </script>

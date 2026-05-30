@@ -116,41 +116,44 @@
   </v-row>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import TalentEmblem from './_TalentEmblem.vue';
 import TalentRankContents from './_TalentRankContents.vue';
 
-export default {
-  name: 'talent-terse',
-  components: { TalentEmblem, TalentRankContents },
-  props: {
-    hideLocked: { type: Boolean },
-    talent: { type: Object, required: true },
-    canAdd: { type: Boolean },
-    selectable: { type: Boolean },
-    hideChange: { type: Boolean },
-    rank: { type: [Number, String], required: false, default: null },
-  },
-  emits: ['expand', 'add', 'remove'],
-  data: () => ({
-    showAll: false,
-  }),
-  computed: {
-    showFull() {
-      if (this.hideLocked) return this.showAll;
+defineOptions({ name: 'talent-terse' })
+
+const props = withDefaults(defineProps<{
+  hideLocked?: boolean
+  talent: object
+  canAdd?: boolean
+  selectable?: boolean
+  hideChange?: boolean
+  rank?: number | string
+}>(), {
+  rank: null
+})
+
+const emit = defineEmits<{
+  'expand': []
+  'add': []
+  'remove': []
+}>()
+
+const showAll = ref(false)
+
+const showFull = computed(() => {
+      if (props.hideLocked) return showAll.value;
       return true;
-    },
-  },
-  methods: {
-    rankColor(n): string {
-      if (!this.rank) return 'primary';
-      const rank = Number(this.rank);
+    })
+
+function rankColor(n) {
+      if (!props.rank) return 'primary';
+      const rank = Number(props.rank);
       if (n <= rank) return 'primary';
-      if (this.selectable && n === rank + 1) return 'secondary';
+      if (props.selectable && n === rank + 1) return 'secondary';
       return 'grey';
-    },
-  },
-};
+    }
 </script>
 
 <style scoped>

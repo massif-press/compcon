@@ -11,23 +11,20 @@
   </cc-compendium-browser>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { orderBy } from 'lodash-es';
 import { CompendiumStore } from '../../store';
 import { UserStore } from '@/stores';
 
-export default {
-  name: 'Weapons',
-
-  data: () => ({
-    options: {
+const options = ref({
       views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
       initialView: 'single',
       groups: ['source', 'lcp', 'license', 'none'],
       initialGroup: 'license',
       showExotics: UserStore().User.Option('showExotics') as boolean,
-    },
-    headers: [
+    })
+const headers = ref([
       { title: '', align: 'left', key: 'Source' },
       { title: 'Weapon', align: 'left', key: 'Name' },
       { title: 'License', align: 'left', key: 'LicenseString' },
@@ -61,20 +58,17 @@ export default {
           return a.MaxDamage - b.MaxDamage;
         },
       },
-    ],
-  }),
-  computed: {
-    manufacturers() {
+    ])
+
+const manufacturers = computed(() => {
       return CompendiumStore().Manufacturers;
-    },
-    weapons() {
+    })
+const weapons = computed(() => {
       const items = CompendiumStore().MechWeapons;
 
       return orderBy(
         items.filter((x) => !x.IsHidden),
         'Name'
       );
-    },
-  },
-};
+    })
 </script>

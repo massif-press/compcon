@@ -40,23 +40,38 @@
   </div>
 </template>
 
-<script lang="ts">
-import { btnSubMixin } from './_btnSubMixin';
+<script setup lang="ts">
+import { computed } from 'vue'
 
-export default {
-  name: 'cc-btn-std',
-  mixins: [btnSubMixin],
-  props: {
-    pipColor: { type: String },
-  },
-  computed: {
-    lightColor(this: any) {
-      if (this.pipColor) return `bg-${this.pipColor}`;
-      if (!this.color) return '';
-      return `bg-${this.color || 'panel'}`;
-    },
-  },
-};
+defineOptions({ name: 'cc-btn-std' })
+
+const props = withDefaults(defineProps<{
+  color?: string
+  disabled?: boolean
+  block?: boolean
+  loading?: boolean
+  size?: string
+  variant?: string
+  prependIcon?: string
+  appendIcon?: string
+  optionsIcon?: string
+  tooltip?: string
+  tooltipIcon?: string
+  href?: string
+  to?: string | object
+  target?: string
+  pipColor?: string
+}>(), {})
+
+defineEmits<{ click: [] }>()
+
+const sizeStyle = computed(() => props.size ? `size-${props.size}` : 'size-default')
+const optionsSize = computed(() => props.size ? `options-${props.size}` : 'options-default')
+const lightColor = computed(() => {
+  if (props.pipColor) return `bg-${props.pipColor}`
+  if (!props.color) return ''
+  return `bg-${props.color || 'panel'}`
+})
 </script>
 
 <style scoped>

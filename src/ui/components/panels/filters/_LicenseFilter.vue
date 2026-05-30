@@ -24,36 +24,43 @@
     @update:modelValue="updateFilters()" />
 </template>
 
-<script lang="ts">
-export default {
-  name: 'license-filter',
-  props: {
-    activeFilters: { type: Object, default: () => ({}) },
-    manufacturers: { type: Array, default: () => [] },
-    lcpNames: { type: Array, default: () => [] },
-  },
-  data: () => ({
-    sourceFilter: [] as string[],
-    lcpFilter: [] as string[],
-  }),
-  emits: ['set-filters'],
-  mounted() {
-    const f = this.activeFilters;
-    if (!f || !Object.keys(f).length) return;
-    if (f.Source) this.sourceFilter = f.Source[0] ?? [];
-    if (f.LcpName) this.lcpFilter = f.LcpName[0] ?? [];
-  },
-  methods: {
-    clear() {
-      this.sourceFilter = [];
-      this.lcpFilter = [];
-    },
-    updateFilters() {
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+
+defineOptions({ name: 'license-filter' })
+
+const props = withDefaults(defineProps<{
+  activeFilters?: object
+  manufacturers?: any[]
+  lcpNames?: any[]
+}>(), {
+  activeFilters: () => ({}),
+  manufacturers: () => [],
+  lcpNames: () => []
+})
+
+const emit = defineEmits<{
+  'set-filters': []
+}>()
+
+const sourceFilter = ref([] as string[])
+const lcpFilter = ref([] as string[])
+
+function clear() {
+      sourceFilter.value = [];
+      lcpFilter.value = [];
+    }
+function updateFilters() {
       const fObj = {} as any;
-      if (this.lcpFilter && this.lcpFilter.length) fObj.LcpName = [this.lcpFilter];
-      if (this.sourceFilter && this.sourceFilter.length) fObj.Source = [this.sourceFilter];
-      this.$emit('set-filters', fObj);
-    },
-  },
-};
+      if (lcpFilter.value && lcpFilter.value.length) fObj.LcpName = [lcpFilter.value];
+      if (sourceFilter.value && sourceFilter.value.length) fObj.Source = [sourceFilter.value];
+      emit('set-filters', fObj);
+    }
+
+onMounted(() => {
+const f = props.activeFilters;
+    if (!f || !Object.keys(f).length) return;
+    if (f.Source) sourceFilter.value = f.Source[0] ?? [];
+    if (f.LcpName) lcpFilter.value = f.LcpName[0] ?? [];
+})
 </script>

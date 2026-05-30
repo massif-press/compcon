@@ -5,25 +5,30 @@
     @end="end" />
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import PilotSheet from '@/features/pilot_management/store/PilotSheet';
 import { PilotSheetStore } from '@/stores';
 import EndEncounterPanel from '@/features/active_mode/_components/EndEncounterPanel.vue';
+const router = useRouter()
 
-export default {
-  name: 'DamageMenu',
-  components: { EndEncounterPanel },
-  props: {
-    sheet: {
-      type: PilotSheet,
-      required: true,
-    },
-  },
-  data: () => ({
-    actionReport: [] as any[],
-  }),
-  mounted() {
-    const actor = this.sheet.Pilot.CombatController.RootActor;
+defineOptions({ name: 'DamageMenu' })
+
+const props = defineProps<{
+  sheet: PilotSheet
+}>()
+
+const actionReport = ref([] as any[])
+
+function end() {
+      props.sheet.Archive();
+      PilotSheetStore().SetActiveSheet('');
+      router.replace('/active-mode/sheet-manager');
+    }
+
+onMounted(() => {
+const actor = props.sheet.Pilot.CombatController.RootActor;
     const out = {
       id: actor.ID,
       name: actor.CombatController.CombatName,
@@ -40,14 +45,6 @@ export default {
       if (mech.CombatController.IsDestroyed) out.mechStatus = 'MECH DESTROYED';
       if (mech.CombatController.ReactorDestroyed) out.mechStatus = 'MECH DESTROYED - REACTOR MELTDOWN';
     }
-    this.actionReport = [out];
-  },
-  methods: {
-    end() {
-      this.sheet.Archive();
-      PilotSheetStore().SetActiveSheet('');
-      this.$router.replace('/active-mode/sheet-manager');
-    },
-  },
-};
+    actionReport.value = [out];
+})
 </script>

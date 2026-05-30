@@ -84,6 +84,7 @@
 import { ref, computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import { CompendiumStore } from '@/stores'
+import CCTieredAttribute from '../../CCTieredAttribute.vue'
 import ClassCombatChart from './_components/_NpcClassCombatChart.vue'
 
 const npcClasses = computed(() => CompendiumStore().NpcClasses)

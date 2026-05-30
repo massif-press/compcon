@@ -24,22 +24,29 @@
   </v-col>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'mobile-btn',
-  props: {
-    to: { type: String, required: false, default: '' },
-    title: { type: String, required: true },
-    icon: { type: String, required: true },
-    disabled: { type: Boolean },
-    loading: { type: Boolean },
-  },
-  computed: {
-    landscape() {
-      return this.$vuetify.display.smAndUp;
-    },
-  },
-};
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useDisplay } from 'vuetify'
+const router = useRouter()
+
+const _display = useDisplay()
+
+defineOptions({ name: 'mobile-btn' })
+
+const props = withDefaults(defineProps<{
+  to?: string
+  title: string
+  icon: string
+  disabled?: boolean
+  loading?: boolean
+}>(), {
+  to: ''
+})
+
+const landscape = computed(() => {
+      return _display.smAndUp.value;
+    })
 </script>
 
 <style scoped>

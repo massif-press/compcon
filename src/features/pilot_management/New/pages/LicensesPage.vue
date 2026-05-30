@@ -35,31 +35,25 @@
   </stepper-content>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import StepperContent from '../../_components/StepperContent.vue';
 import LicenseSelector from '../../_components/selectors/LicenseSelector.vue';
 import { Pilot } from '@/classes/pilot/Pilot'
 
-export default {
-  name: 'talents-page',
-  components: {
-    StepperContent,
-    LicenseSelector,
-  },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    canContinue(): boolean {
-      return this.pilot.LicenseController.HasLicenses;
-    },
-    count(): number {
-      return this.pilot.LicenseController.MaxLicensePoints;
-    },
-    word(): string {
+defineOptions({ name: 'talents-page' })
+
+const props = defineProps<{
+  pilot: object
+}>()
+
+const canContinue = computed(() => {
+      return props.pilot.LicenseController.HasLicenses;
+    })
+const count = computed(() => {
+      return props.pilot.LicenseController.MaxLicensePoints;
+    })
+const word = computed(() => {
       const words = [
         'zero',
         'one',
@@ -79,8 +73,6 @@ export default {
         'fifteen',
         'sixteen',
       ];
-      return words[this.count];
-    },
-  },
-};
+      return words[count.value];
+    })
 </script>

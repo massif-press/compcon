@@ -164,69 +164,53 @@
   </div>
 </template>
 
-<script lang="ts">
-import MechNav from './components/MechNav.vue';
-import RequirementItem from './components/RequirementItem.vue';
-import AttributesBlock from './sections/attributes/index.vue';
+<script setup lang="ts">
+import { computed, onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import MechNav from './components/MechNav.vue'
+import RequirementItem from './components/RequirementItem.vue'
+import AttributesBlock from './sections/attributes/index.vue'
 import { Pilot } from '@/classes/pilot/Pilot'
 import { Mech } from '@/classes/mech/Mech'
-import { PilotStore } from '@/stores';
-import LoadoutBlock from './sections/LoadoutBlock.vue';
-import SectionHeader from '../components/SectionHeader.vue';
-import StatusAlerts from './components/StatusAlerts.vue';
-import { useMobile } from '@/composables/useMobile';
+import { PilotStore } from '@/stores'
+import LoadoutBlock from './sections/LoadoutBlock.vue'
+import SectionHeader from '../components/SectionHeader.vue'
+import StatusAlerts from './components/StatusAlerts.vue'
+import { useMobile } from '@/composables/useMobile'
 
+defineOptions({ name: 'MechSheet' })
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'MechSheet',
-  components: {
-    MechNav,
-    RequirementItem,
-    AttributesBlock,
-    LoadoutBlock,
-    SectionHeader,
-    StatusAlerts,
-  },
-  props: {
-    pilotID: {
-      type: String,
-      required: true,
-    },
-    mechID: {
-      type: String,
-      required: true,
-    },
-  },
-  computed: {
-    mobile(): boolean {
-      return this.$vuetify.display.smAndDown;
-    },
-    pilot(): Pilot {
-      return PilotStore().Pilots.find((p) => p.ID === this.pilotID) as Pilot;
-    },
-    mech(): Mech {
-      if (!this.pilot) return {} as Mech;
-      return this.pilot.Mechs.find((m: Mech) => m.ID === this.mechID) as Mech;
-    },
-    color() {
-      return this.mech.Frame.ManufacturerColor;
-    },
-    reqLicenses() {
-      return this.mech.RequiredLicenses;
-    },
-  },
-  mounted() {
-    if (this.mech && this.mech.Frame)
-      document.title = `${this.mech.Name} (${this.mech.Frame.Source} ${this.mech.Frame.Name})`;
-  },
-  methods: {
-    deleteMech() {
-      this.$router.push({ name: 'pilot_sheet_redirect', params: { pilotID: this.pilot.ID } });
-      this.pilot.RemoveMech(this.mech);
-    },
-  },
-};
+const props = defineProps<{
+  pilotID: string
+  mechID: string
+}>()
+
+const router = useRouter()
+const { mobile, portrait } = useMobile()
+
+const frameInfoDialog = ref<any>(null)
+const imageSelector = ref<any>(null)
+
+const pilot = computed((): Pilot =>
+  PilotStore().Pilots.find((p) => p.ID === props.pilotID) as Pilot
+)
+
+const mech = computed((): Mech => {
+  if (!pilot.value) return {} as Mech
+  return pilot.value.Mechs.find((m: Mech) => m.ID === props.mechID) as Mech
+})
+
+const color = computed(() => mech.value.Frame.ManufacturerColor)
+
+const reqLicenses = computed(() => mech.value.RequiredLicenses)
+
+onMounted(() => {
+  if (mech.value && mech.value.Frame)
+    document.title = `${mech.value.Name} (${mech.value.Frame.Source} ${mech.value.Frame.Name})`
+})
+
+function deleteMech() {
+  router.push({ name: 'pilot_sheet_redirect', params: { pilotID: pilot.value.ID } })
+  pilot.value.RemoveMech(mech.value)
+}
 </script>

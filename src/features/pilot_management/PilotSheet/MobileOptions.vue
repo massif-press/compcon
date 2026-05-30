@@ -211,45 +211,37 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { Pilot } from '@/classes/pilot/Pilot'
 import CloneDialog from './components/CloneDialog.vue'
 import StatblockDialog from './components/StatblockDialog.vue'
 import LcpConfigSelector from './components/LcpConfigSelector.vue'
-import { useMobile } from '@/composables/useMobile';
+import { useMobile } from '@/composables/useMobile'
 import ShareDialog from '@/shared/ShareDialog.vue'
-import { pilotActionsMixin } from './pilotActionsMixin'
+import { usePilotActions } from './usePilotActions'
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'MobileOptionsMenu',
-  components: {
-    StatblockDialog,
-    CloneDialog,
-    LcpConfigSelector,
-    ShareDialog,
-  },
-  mixins: [pilotActionsMixin],
-  props: {
-    pilot: {
-      type: Pilot,
-      required: true,
-    },
-  },
-  emits: ['close'],
-  data: () => ({
-    loading: false,
-    deleteDialog: false,
-  }),
-  methods: {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-    delete_pilot(close?: Function) {
-      this.pilot.SaveController.Delete()
-      if (close) close()
-      if (this.$route.path !== '/pilot_management') this.$router.push('/pilot_management')
-    },
-  },
+defineOptions({ name: 'MobileOptionsMenu' })
+
+const props = defineProps<{
+  pilot: Pilot
+}>()
+
+const emit = defineEmits<{ close: [] }>()
+
+const { mobile, portrait } = useMobile()
+const { exportPilot, remoteUpdate, convert } = usePilotActions(props)
+
+const route = useRoute()
+const router = useRouter()
+
+const loading = ref(false)
+const deleteDialog = ref(false)
+
+function delete_pilot(close?: Function) {
+  props.pilot.SaveController.Delete()
+  if (close) close()
+  if (route.path !== '/pilot_management') router.push('/pilot_management')
 }
 </script>

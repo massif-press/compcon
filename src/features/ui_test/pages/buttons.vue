@@ -259,33 +259,34 @@
   </v-window-item>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'ui-test-buttons',
-  data: () => ({
-    toggle: false,
-    label: 'button text',
-    toggleLabel: '',
-    subtitle: 'subtitle',
-    infotext: 'details',
-    buttonType: 'std',
-    color: 'primary',
-    size: 'default',
-    variant: 'default',
-    block: false,
-    prependIcon: '',
-    appendIcon: '',
-    icon: 'cc:campaign',
-    showTooltip: false,
-    showOptions: false,
-    toggleType: 'swi',
-    bgColor: 'panel',
-    toggleActiveColor: 'success',
-    toggleColor: 'error',
-    onIcon: '',
-    offIcon: '',
+<script setup lang="ts">
+import { ref } from 'vue'
+import CCRadio from '@/ui/components/buttons/CCRadio.vue'
 
-    icons: [
+defineOptions({ name: 'ui-test-buttons' })
+
+const toggle = ref(false)
+const label = ref('button text')
+const toggleLabel = ref('')
+const subtitle = ref('subtitle')
+const infotext = ref('details')
+const buttonType = ref('std')
+const color = ref('primary')
+const size = ref('default')
+const variant = ref('default')
+const block = ref(false)
+const prependIcon = ref('')
+const appendIcon = ref('')
+const icon = ref('cc:campaign')
+const showTooltip = ref(false)
+const showOptions = ref(false)
+const toggleType = ref('swi')
+const bgColor = ref('panel')
+const toggleActiveColor = ref('success')
+const toggleColor = ref('error')
+const onIcon = ref('')
+const offIcon = ref('')
+const icons = ref([
       'cc:campaign',
       'mdi-alert',
       'cc:pilot',
@@ -296,8 +297,8 @@ export default {
       'mdi-help',
       'mdi-cancel',
       'cc:monist',
-    ],
-    colors: [
+    ])
+const colors = ref([
       'primary',
       'secondary',
       'accent',
@@ -310,8 +311,6 @@ export default {
       'success',
       'warning',
       'error',
-    ],
-    sizes: ['default', 'x-small', 'small', 'large', 'x-large', 'xx-large'],
-  }),
-};
+    ])
+const sizes = ref(['default', 'x-small', 'small', 'large', 'x-large', 'xx-large'])
 </script>

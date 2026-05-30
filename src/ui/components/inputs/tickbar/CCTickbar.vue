@@ -133,73 +133,87 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import BottomBar from './_bottomBar.vue';
 import CenterBar from './_centerBar.vue';
 import TopBar from './_topBar.vue';
 
-export default {
-  name: 'CcTickbar',
-  components: {
-    TopBar,
-    BottomBar,
-    CenterBar,
-  },
-  props: {
-    modelValue: { type: Number, default: 0 },
-    secondary: { type: Number, default: 0 },
-    tertiary: { type: Number, default: 0 },
-    label: { type: String },
-    secondaryLabel: { type: String },
-    tertiaryLabel: { type: [String, Boolean] },
-    color: { type: String, default: 'primary' },
-    secondaryColor: { type: String, default: 'secondary' },
-    tertiaryColor: { type: String, default: 'accent' },
-    bgColor: { type: String, default: 'panel' },
-    disabled: { type: Boolean },
-    loading: { type: Boolean },
-    size: { type: String, default: 'default' },
-    variant: { type: String },
-    icon: { type: String },
-    secondaryIcon: { type: String },
-    tertiaryIcon: { type: String },
-    tooltip: { type: String },
-    tooltipIcon: { type: String },
-    ticks: { type: Number, default: 6 },
-    secondaryTicks: { type: Number, required: false },
-    tertiaryTicks: { type: Number, required: false },
-    optionsIcon: { type: String, default: 'mdi-dots-vertical' },
-    details: { type: String },
-    controls: { type: Boolean },
-    clearable: { type: Boolean },
-    display: { type: Boolean, default: true },
-    valueTooltips: { type: Boolean, default: false },
-    stopAdd: { type: Boolean },
-    max: { type: Number },
-    readonly: { type: Boolean },
-    reverse: { type: Boolean, default: false },
-    minWidth: { type: String },
-    space: { type: Boolean, default: false },
-    primaryLabel: { type: String },
-    editable: { type: Boolean, default: false },
-    valueAtlas: { type: Array },
-  },
-  emits: ['update:secondary', 'update:model-value', 'update:tertiary'],
-  data: () => ({
-    hover: null as number | null,
-  }),
-  computed: {
-    angle() {
-      if (this.tertiaryLabel) return '45px';
-      if (this.secondaryLabel) return '44px';
+const props = withDefaults(defineProps<{
+  modelValue?: number
+  secondary?: number
+  tertiary?: number
+  label?: string
+  secondaryLabel?: string
+  tertiaryLabel?: string | boolean
+  color?: string
+  secondaryColor?: string
+  tertiaryColor?: string
+  bgColor?: string
+  disabled?: boolean
+  loading?: boolean
+  size?: string
+  variant?: string
+  icon?: string
+  secondaryIcon?: string
+  tertiaryIcon?: string
+  tooltip?: string
+  tooltipIcon?: string
+  ticks?: number
+  secondaryTicks?: number
+  tertiaryTicks?: number
+  optionsIcon?: string
+  details?: string
+  controls?: boolean
+  clearable?: boolean
+  display?: boolean
+  valueTooltips?: boolean
+  stopAdd?: boolean
+  max?: number
+  readonly?: boolean
+  reverse?: boolean
+  minWidth?: string
+  space?: boolean
+  primaryLabel?: string
+  editable?: boolean
+  valueAtlas?: any[]
+}>(), {
+  modelValue: 0,
+  secondary: 0,
+  tertiary: 0,
+  color: 'primary',
+  secondaryColor: 'secondary',
+  tertiaryColor: 'accent',
+  bgColor: 'panel',
+  size: 'default',
+  ticks: 6,
+  optionsIcon: 'mdi-dots-vertical',
+  display: true,
+  valueTooltips: false,
+  reverse: false,
+  space: false,
+  editable: false
+})
+
+const emit = defineEmits<{
+  'update:secondary': []
+  'update:model-value': []
+  'update:tertiary': []
+}>()
+
+const hover = ref(null as number | null)
+
+const angle = computed(() => {
+      if (props.tertiaryLabel) return '45px';
+      if (props.secondaryLabel) return '44px';
       return '38px';
-    },
-    iconOffset() {
-      if (this.size === 'x-large') return this.icon && 'mt-n2';
-      return this.icon && 'mt-n1';
-    },
-    optionsSize() {
-      switch (this.size) {
+    })
+const iconOffset = computed(() => {
+      if (props.size === 'x-large') return props.icon && 'mt-n2';
+      return props.icon && 'mt-n1';
+    })
+const optionsSize = computed(() => {
+      switch (props.size) {
         case 'x-small':
           return '20px';
         case 'small':
@@ -213,29 +227,26 @@ export default {
         default:
           return '36px';
       }
-    },
-  },
-  methods: {
-    setVal(val: number) {
-      if (this.stopAdd && val > Number(this.modelValue)) return
+    })
+
+function setVal(val: number) {
+      if (props.stopAdd && val > Number(props.modelValue)) return
       if (val < 0) val = 0
-      if (val > Math.min(this.max || 100, this.ticks)) val = Math.min(this.max || 100, this.ticks)
-      this.$emit('update:model-value', val);
-    },
-    setTertiaryVal(val: number) {
-      if (this.stopAdd && val > Number(this.tertiary)) return
+      if (val > Math.min(props.max || 100, props.ticks)) val = Math.min(props.max || 100, props.ticks)
+      emit('update:model-value', val);
+    }
+function setTertiaryVal(val: number) {
+      if (props.stopAdd && val > Number(props.tertiary)) return
       if (val < 0) val = 0
-      if (val > Math.min(this.max || 100, this.tertiaryTicks || 100)) val = Math.min(this.max || 100, this.tertiaryTicks || 100)
-      this.$emit('update:tertiary', val);
-    },
-    setSecondaryVal(val: number) {
-      if (this.stopAdd && val > Number(this.secondary)) return
+      if (val > Math.min(props.max || 100, props.tertiaryTicks || 100)) val = Math.min(props.max || 100, props.tertiaryTicks || 100)
+      emit('update:tertiary', val);
+    }
+function setSecondaryVal(val: number) {
+      if (props.stopAdd && val > Number(props.secondary)) return
       if (val < 0) val = 0
-      if (val > Math.min(this.max || 100, this.secondaryTicks || 100)) val = Math.min(this.max || 100, this.secondaryTicks || 100)
-      this.$emit('update:secondary', val);
-    },
-  },
-};
+      if (val > Math.min(props.max || 100, props.secondaryTicks || 100)) val = Math.min(props.max || 100, props.secondaryTicks || 100)
+      emit('update:secondary', val);
+    }
 </script>
 
 <style scoped>

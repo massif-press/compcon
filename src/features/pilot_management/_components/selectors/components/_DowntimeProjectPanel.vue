@@ -74,56 +74,56 @@
   </v-row>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
 import Project from '@/classes/pilot/components/reserves/Project';
 
+defineOptions({ name: 'CustomReservePanel' })
 
-export default {
-  name: 'CustomReservePanel',
-  data: () => ({
-    projectName: '',
-    details: '',
-    complicated: false,
-    finished: false,
-    costs: [],
-    projectCosts: [
+const emit = defineEmits<{
+  'add': []
+}>()
+
+const projectName = ref('')
+const details = ref('')
+const complicated = ref(false)
+const finished = ref(false)
+const costs = ref([])
+const projectCosts = ref([
       'Quality materials',
       'Specific knowledge or techniques',
       'Specialized tools',
       'A good workspace',
-    ],
-  }),
-  methods: {
-    add() {
+    ])
+
+function add() {
       const p = new Project({
         id: 'reserve_project',
         type: 'Project',
-        name: `${this.projectName} ${this.finished ? '' : ' (In Progress)'}`,
+        name: `${projectName.value} ${finished.value ? '' : ' (In Progress)'}`,
         label: 'Project',
         description: '',
-        complicated: this.complicated,
+        complicated: complicated.value,
         can_finish: false,
         finished: false,
         progress: 0,
         requirements: [],
-        resource_name: this.projectName,
-        resource_note: this.details,
+        resource_name: projectName.value,
+        resource_note: details.value,
         resource_cost: '',
         used: false,
         consumable: false,
       });
-      if (this.costs && !this.finished) p.ResourceCost = `Requires: ${this.costs.join(', ')}`;
-      p.IsFinished = this.finished;
-      this.clear();
-      this.$emit('add', p);
-    },
-    clear() {
-      this.projectName = '';
-      this.details = '';
-      this.complicated = false;
-      this.finished = false;
-      this.costs = [];
-    },
-  },
-};
+      if (costs.value && !finished.value) p.ResourceCost = `Requires: ${costs.value.join(', ')}`;
+      p.IsFinished = finished.value;
+      clear();
+      emit('add', p);
+    }
+function clear() {
+      projectName.value = '';
+      details.value = '';
+      complicated.value = false;
+      finished.value = false;
+      costs.value = [];
+    }
 </script>

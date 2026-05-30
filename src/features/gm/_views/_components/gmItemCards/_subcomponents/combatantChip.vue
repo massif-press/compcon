@@ -47,11 +47,10 @@
   </v-menu>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'combatant-chip',
-  props: {
-    item: { type: Object, required: true },
-  },
-};
+<script setup lang="ts">
+defineOptions({ name: 'combatant-chip' })
+
+const props = defineProps<{
+  item: object
+}>()
 </script>

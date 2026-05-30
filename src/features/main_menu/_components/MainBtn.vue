@@ -25,40 +25,37 @@
   </v-col>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'main-btn',
-  props: {
-    to: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    help: {
-      type: String,
-      required: true,
-    },
-    disabled: {
-      type: Boolean,
-    },
-    icon: {
-      type: String,
-      default: 'cc:pilot',
-    },
-  },
-  data: () => ({
-    mouseOver: false,
-  }),
-  methods: {
-    doAction() {
-      if (this.to) {
-        this.$router.push(this.to);
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+defineOptions({ name: 'main-btn' })
+
+const props = withDefaults(defineProps<{
+  to?: string
+  help: string
+  disabled?: boolean
+  icon?: string
+}>(), {
+  to: '',
+  icon: 'cc:pilot'
+})
+
+const emit = defineEmits<{
+  'clicked': []
+  'hover': []
+}>()
+
+const router = useRouter()
+const mouseOver = ref(false)
+
+function doAction() {
+      if (props.to) {
+        router.push(props.to);
       } else {
-        this.$emit('clicked');
+        emit('clicked');
       }
-    },
-  },
-};
+    }
 </script>
 
 <style scoped>

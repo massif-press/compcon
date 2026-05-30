@@ -77,74 +77,73 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
+import { notify } from '@/util/notify'
 import logger from '@/user/logger';
 import { confirmSignUp, resendSignUpCode } from 'aws-amplify/auth';
 
-export default {
-  name: 'auth-account-verify',
-  props: {
-    email: {
-      type: String,
-      required: true,
-    },
-  },
-  data: () => ({
-    error: '',
-    showError: false,
-    loading: false,
-    show: false,
-    verify: '',
-    verifyEmail: '',
-    preFill: false,
-    sentCode: false,
-  }),
-  created() {
-    if (this.email) {
-      this.verifyEmail = this.email;
-      this.preFill = true;
-      this.sentCode = true;
+defineOptions({ name: 'auth-account-verify' })
+
+const props = defineProps<{
+  email: string
+}>()
+
+const emit = defineEmits<{
+  'set-state': []
+}>()
+
+const error = ref('')
+const showError = ref(false)
+const loading = ref(false)
+const show = ref(false)
+const verify = ref('')
+const verifyEmail = ref('')
+const preFill = ref(false)
+const sentCode = ref(false)
+
+if (props.email) {
+      verifyEmail.value = props.email;
+      preFill.value = true;
+      sentCode.value = true;
     }
-  },
-  methods: {
-    async confirm() {
-      this.loading = true;
+
+async function confirm() {
+      loading.value = true;
 
       try {
         const { isSignUpComplete, nextStep } = await confirmSignUp({
-          username: this.verifyEmail,
-          confirmationCode: this.verify,
+          username: verifyEmail.value,
+          confirmationCode: verify.value,
         });
 
         if (isSignUpComplete) {
-          this.loading = false;
-          this.$notify('User Account created successfully. Redirecting to Sign-In.');
-          this.$emit('set-state', 'sign-in');
+          loading.value = false;
+          notify('User Account created successfully. Redirecting to Sign-In.');
+          emit('set-state', 'sign-in');
         } else {
-          this.loading = false;
-          this.showError = true;
-          this.error = 'Error confirming account. Please try again.';
+          loading.value = false;
+          showError.value = true;
+          error.value = 'Error confirming account. Please try again.';
         }
       } catch (error: any) {
         logger.error(`error confirming sign up: ${error}`, this);
-        this.showError = true;
-        this.error = error.message;
+        showError.value = true;
+        error.value = error.message;
       }
-    },
-    async resend() {
+    }
+async function resend() {
       try {
-        const res = await resendSignUpCode({ username: this.verifyEmail });
+        const res = await resendSignUpCode({ username: verifyEmail.value });
 
-        this.$notify(`New verification e-mail sent to ${this.verifyEmail}`);
+        notify(`New verification e-mail sent to ${verifyEmail.value}`);
 
-        this.sentCode = true;
-        this.preFill = true;
+        sentCode.value = true;
+        preFill.value = true;
       } catch (error: any) {
         logger.error(`error resending code: ${error}`, this, error);
-        this.showError = true;
-        this.error = error.message;
+        showError.value = true;
+        error.value = error.message;
       }
-    },
-  },
-};
+    }
 </script>

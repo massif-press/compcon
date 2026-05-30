@@ -58,20 +58,29 @@
   </v-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { useMobile } from '@/composables/useMobile'
+import DestroyedOverlay from './_DestroyedOverlay.vue'
+import FlavorDescription from './_FlavorDescription.vue'
+import PilotEquipCardBody from './_PilotEquipCardBody.vue'
 import EquipCommandPanel from './_equipCommandPanel.vue'
 import OnElement from '@/ui/components/cards/items/_components/OnElement.vue'
-import { pilotEquipCombatCardMixin } from './_pilotEquipCombatCardMixin'
 
-export default {
-  name: 'PilotWeaponCombatCard',
-  components: { EquipCommandPanel, OnElement },
-  mixins: [pilotEquipCombatCardMixin],
-  setup() {
-    return useMobile()
-  },
-}
+defineOptions({ name: 'PilotWeaponCombatCard' })
+
+const props = defineProps<{
+  item: object
+  pilot: object
+  encounter: object
+  owner: object
+}>()
+
+defineEmits<{ deploy: [] }>()
+
+const { mobile, portrait } = useMobile()
+
+const EquipmentDestroyedOverlay = DestroyedOverlay
+const EquipmentFlavorDescription = FlavorDescription
 </script>
 
 <style scoped>

@@ -201,7 +201,9 @@
   </v-row>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
 import { EffectSpecial } from '@/classes/components/feature/active_effects/effect_subtype/EffectSpecial'
 import MechSkirmishButton from './action_buttons/mechSkirmishButton.vue'
 import { CompendiumStore } from '@/stores'
@@ -213,96 +215,73 @@ import AiControlButton from './_aiControlButton.vue'
 import { CombatController } from '@/classes/components/combat/CombatController'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 
-export default {
-  name: 'EquipCommandPanel',
-  components: {
-    MechSkirmishButton,
-    MechBarrageButton,
-    NpcSkirmishButton,
-    NpcBarrageButton,
-    PilotFightButton,
-    AiControlButton,
-  },
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    owner: {
-      type: Object,
-      required: true,
-    },
-    controller: {
-      type: CombatController,
-      required: true,
-    },
-    encounter: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown
-    },
-    isFeature() {
-      if (!this.item?.ItemType) return false
-      return this.item.ItemType.toLowerCase().includes('npc')
-    },
-    isDestroyable() {
-      if (this.item.IsIndestructible || this.item.Tags?.some(x => x.IsIndestructible)) return false
-      if (this.item.ItemType === 'NpcFeature') return false
+const _display = useDisplay()
+
+const props = defineProps<{
+  item: object
+  owner: object
+  controller: CombatController
+  encounter: object
+}>()
+
+const mobile = computed(() => {
+      return _display.mdAndDown.value
+    })
+const isFeature = computed(() => {
+      if (!props.item?.ItemType) return false
+      return props.item.ItemType.toLowerCase().includes('npc')
+    })
+const isDestroyable = computed(() => {
+      if (props.item.IsIndestructible || props.item.Tags?.some(x => x.IsIndestructible)) return false
+      if (props.item.ItemType === 'NpcFeature') return false
       return true
-    },
-    canDealDamage() {
-      return !!this.item.Damage
-    },
-    skirmishAction() {
+    })
+const canDealDamage = computed(() => {
+      return !!props.item.Damage
+    })
+const skirmishAction = computed(() => {
       return CompendiumStore().Actions.find(x => x.ID === 'act_skirmish')
-    },
-    barrageAction() {
+    })
+const barrageAction = computed(() => {
       return CompendiumStore().Actions.find(x => x.ID === 'act_barrage')
-    },
-    fightAction() {
+    })
+const fightAction = computed(() => {
       return CompendiumStore().Actions.find(x => x.ID === 'act_fight')
-    },
-    totalUses() {
-      return Number(this.item.MaxUses || 0) + Number(this.controller.LimitedBonus || 0)
-    },
-  },
-  methods: {
-    setUses(n) {
-      if (this.item.Uses === 1 && n === 1) {
-        this.item.Uses = 0
-      } else if (this.totalUses && n <= this.totalUses) {
-        this.item.Uses = n
+    })
+const totalUses = computed(() => {
+      return Number(props.item.MaxUses || 0) + Number(props.controller.LimitedBonus || 0)
+    })
+
+function setUses(n) {
+      if (props.item.Uses === 1 && n === 1) {
+        props.item.Uses = 0
+      } else if (totalUses.value && n <= totalUses.value) {
+        props.item.Uses = n
       }
-    },
-    enableAI() {
-      this.controller.CombatActions.Protocol = false
-      this.controller.AIControl = true
-    },
-    disableAI() {
-      this.controller.CombatActions.Protocol = false
-      this.controller.AIControl = false
-    },
-    cascade() {
-      this.controller.AIControl = true
-      this.controller.ApplyCustomStatus(
+    }
+function enableAI() {
+      props.controller.CombatActions.Protocol = false
+      props.controller.AIControl = true
+    }
+function disableAI() {
+      props.controller.CombatActions.Protocol = false
+      props.controller.AIControl = false
+    }
+function cascade() {
+      props.controller.AIControl = true
+      props.controller.ApplyCustomStatus(
         new EffectSpecial({
           attribute: 'In Cascade',
           detail:
             'An installed NHP has entered CASCADE and has taken full control of the mech. The mech is in control of the GM until the Pilot reclaims control by choosing to Shut Down the mech.',
         }),
         '',
-        this.controller,
-        this.controller,
-        this.encounter
+        props.controller,
+        props.controller,
+        props.encounter
       )
-    },
-    onUseToggle() {
-      this.item.Use()
-    },
-  },
-}
+    }
+function onUseToggle() {
+      props.item.Use()
+    }
 </script>

@@ -17,33 +17,33 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import { Bonus } from '@/classes/components/feature/bonus/Bonus';
 
-export default {
-  name: 'gm-stat-chip-display',
-  props: {
-    statController: { type: Object, required: true },
-    bonuses: { type: Array, required: false, default: () => [] },
-  },
-  computed: {
-    sortedStats() {
-      if (!this.statController || !this.statController.DisplayKeys.length) return [];
-      return this.statController.DisplayKeys.sort((a, b) => {
+defineOptions({ name: 'gm-stat-chip-display' })
+
+const props = withDefaults(defineProps<{
+  statController: object
+  bonuses?: any[]
+}>(), {
+  bonuses: () => []
+})
+
+const sortedStats = computed(() => {
+      if (!props.statController || !props.statController.DisplayKeys.length) return [];
+      return props.statController.DisplayKeys.sort((a, b) => {
         return a.sort - b.sort;
       });
-    },
-  },
-  methods: {
-    totalWithBonus(key) {
-      const bonuses = this.getBonuses(key);
-      const value = this.statController.MaxStats[key] as number;
+    })
+
+function totalWithBonus(key) {
+      const bonuses = getBonuses(key);
+      const value = props.statController.MaxStats[key] as number;
       return value + bonuses.reduce((acc, x) => acc + Number(x.Value), 0);
-    },
-    getBonuses(key: string): Bonus[] {
-      if (!this.bonuses) return [];
-      return (this.bonuses as Bonus[]).filter((x) => x.ID === key);
-    },
-  },
-};
+    }
+function getBonuses(key: string) {
+      if (!props.bonuses) return [];
+      return (props.bonuses as Bonus[]).filter((x) => x.ID === key);
+    }
 </script>

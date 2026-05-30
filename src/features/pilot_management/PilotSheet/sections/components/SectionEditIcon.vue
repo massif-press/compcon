@@ -14,14 +14,10 @@
   </v-tooltip>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'section-edit-chip',
-  props: {
-    label: {
-      type: String,
-      required: true,
-    },
-  },
-};
+<script setup lang="ts">
+defineOptions({ name: 'section-edit-chip' })
+
+const props = defineProps<{
+  label: string
+}>()
 </script>

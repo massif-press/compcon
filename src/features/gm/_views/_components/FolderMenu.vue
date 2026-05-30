@@ -37,24 +37,20 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'FolderMenu',
-  props: {
-    item: { type: Object, required: true },
-    allFolders: { type: Array, required: true },
-  },
-  data: () => ({
-    stagedName: '',
-    menu: false,
-  }),
+<script setup lang="ts">
+import { ref } from 'vue'
 
-  methods: {
-    set() {
-      this.item.Folder = this.stagedName;
-      this.stagedName = '';
-      this.menu = false;
-    },
-  },
-};
+const props = defineProps<{
+  item: object
+  allFolders: any[]
+}>()
+
+const stagedName = ref('')
+const menu = ref(false)
+
+function set() {
+      props.item.Folder = stagedName.value;
+      stagedName.value = '';
+      menu.value = false;
+    }
 </script>

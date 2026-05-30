@@ -31,16 +31,12 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'print-action-internal',
-  props: {
-    action: {
-      type: Object,
-      required: true,
-    },
-  },
-};
+<script setup lang="ts">
+defineOptions({ name: 'print-action-internal' })
+
+const props = defineProps<{
+  action: object
+}>()
 </script>
 
 <style scoped>

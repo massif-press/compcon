@@ -39,47 +39,48 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import NarrativeContent from '@/features/gm/campaigns/pages/_components/NarrativeContent.vue';
 import EncounterContent from '@/features/gm/campaigns/pages/_components/EncounterContent.vue';
 import { campaignColorSelections, campaignColorPalette } from '@/shared/campaignColorOptions';
 
-export default {
-  name: 'campaign-page-content-container',
-  components: { NarrativeContent, EncounterContent },
-  props: { item: { type: Object, required: true } },
-  data: () => ({
-    colorTab: 0,
-    colorSelections: campaignColorSelections,
-    colorPalette: campaignColorPalette,
-  }),
-  computed: {
-    titleStyle() {
+defineOptions({ name: 'campaign-page-content-container' })
+
+const props = defineProps<{
+  item: object
+}>()
+
+const colorTab = ref(0)
+const colorSelections = ref(campaignColorSelections)
+const colorPalette = ref(campaignColorPalette)
+
+const titleStyle = computed(() => {
       let out = '';
-      switch (this.item.HeaderType) {
+      switch (props.item.HeaderType) {
         case 'header-1':
           out += 'heading h1 clipped';
-          out += this.item.Color ? ` bg-${this.item.Color}` : '';
+          out += props.item.Color ? ` bg-${props.item.Color}` : '';
           break;
         case 'header-2':
           out += 'heading h3 clipped';
-          out += this.item.Color ? ` bg-${this.item.Color}` : '';
+          out += props.item.Color ? ` bg-${props.item.Color}` : '';
           break;
         case 'header-3':
           out += 'heading h3';
-          out += this.item.Color ? ` text-${this.item.Color}` : '';
+          out += props.item.Color ? ` text-${props.item.Color}` : '';
           break;
         case 'header-4':
           out += 'heading';
-          out += this.item.Color ? ` text-${this.item.Color}` : '';
+          out += props.item.Color ? ` text-${props.item.Color}` : '';
           break;
         default:
           return 'd-none';
       }
       return out;
-    },
-    cardVariant() {
-      switch (this.item.Variant) {
+    })
+const cardVariant = computed(() => {
+      switch (props.item.Variant) {
         case 'block':
         case 'clipped':
           return 'flat';
@@ -88,18 +89,15 @@ export default {
           return 'text';
 
         default:
-          return this.item.Variant;
+          return props.item.Variant;
       }
-    },
-    cardClass() {
-      return this.item.Variant === 'clipped' ? 'clipped' : '';
-    },
-    cardColor() {
+    })
+const cardClass = computed(() => {
+      return props.item.Variant === 'clipped' ? 'clipped' : '';
+    })
+const cardColor = computed(() => {
       const noColor = ['text', 'quote', ''];
-      if (noColor.includes(this.item.Variant)) return 'transparent';
-      return this.item.Color ? this.item.Color : 'transparent';
-    },
-  },
-  methods: {},
-};
+      if (noColor.includes(props.item.Variant)) return 'transparent';
+      return props.item.Color ? props.item.Color : 'transparent';
+    })
 </script>

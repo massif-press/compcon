@@ -39,47 +39,36 @@
   </slot-card-base>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
 import SlotCardBase from '../_SlotCardBase.vue';
 import EquipmentOptions from '../_EquipmentOptions.vue';
 import { useMobile } from '@/composables/useMobile';
 
+defineOptions({ name: 'mod-equipped-card' })
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'mod-equipped-card',
-  components: {
-    SlotCardBase,
-    EquipmentOptions,
-  },
-  emits: ['remove', 'switch'],
-  props: {
-    mech: {
-      type: Object,
-      required: true,
-    },
-    weapon: {
-      type: Object,
-      required: false,
-      default: null,
-    },
-    item: {
-      type: Object,
-      required: false,
-      default: null,
-    },
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-    readonly: { type: Boolean },
-    integrated: { type: Boolean, default: false },
-  },
-  data: () => ({
-    hide: false,
-  }),
-};
+const { mobile, portrait } = useMobile()
+
+const props = withDefaults(defineProps<{
+  mech: object
+  weapon?: object
+  item?: object
+  color?: string
+  readonly?: boolean
+  integrated?: boolean
+}>(), {
+  weapon: null,
+  item: null,
+  color: 'primary',
+  integrated: false
+})
+
+const emit = defineEmits<{
+  'remove': []
+  'switch': []
+}>()
+
+const base = ref<any>(null)
+
+const hide = ref(false)
 </script>

@@ -26,40 +26,29 @@
   </cc-tabs>
 </template>
 
-<script lang="ts">
-  import ActionEconomy from './qr_pages/ActionEconomy.vue'
-  import Actions from './qr_pages/Actions.vue'
-  import DamageTables from './qr_pages/DamageTables.vue'
-  import IconGuide from './qr_pages/IconGuide.vue'
-  import Statuses from './qr_pages/Statuses.vue'
+<script setup lang="ts">
+import { onMounted } from 'vue'
+import ActionEconomy from './qr_pages/ActionEconomy.vue'
+import Actions from './qr_pages/Actions.vue'
+import DamageTables from './qr_pages/DamageTables.vue'
+import IconGuide from './qr_pages/IconGuide.vue'
+import Statuses from './qr_pages/Statuses.vue'
 
-  export default {
-    name: 'Reference',
-    components: {
-      ActionEconomy,
-      DamageTables,
-      Actions,
-      Statuses,
-      IconGuide,
-    },
-    props: {
-      isModal: {
-        type: Boolean,
-      },
-      preScroll: {
-        type: String,
-        default: '',
-      },
-    },
-    mounted() {
-      if (this.preScroll) {
-        this.$nextTick(() => {
-          const el = document.getElementById(this.preScroll)
+const props = withDefaults(defineProps<{
+  isModal?: boolean
+  preScroll?: string
+}>(), {
+  preScroll: ''
+})
+
+onMounted(() => {
+if (props.preScroll) {
+        _nextTick(() => {
+          const el = document.getElementById(props.preScroll)
           if (el) {
             el.scrollIntoView()
           }
         })
       }
-    },
-  }
+})
 </script>

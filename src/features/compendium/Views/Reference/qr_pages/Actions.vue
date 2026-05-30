@@ -75,64 +75,54 @@
   </v-btn>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useDisplay } from 'vuetify'
 import ActionCard from '../_components/ActionCard.vue'
-import scrollTo from '@/util/scrollTo'
-
+import _scrollTo from '@/util/scrollTo'
 import { CompendiumStore } from '@/stores'
 import { useMobile } from '@/composables/useMobile';
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'ActionEconomy',
-  components: { ActionCard },
-  props: {
-    isModal: {
-      type: Boolean,
-    },
-  },
-  data: () => ({
-    content: ['mech actions', 'pilot actions', 'downtime actions'],
-    actionTypes: [
+const _display = useDisplay()
+
+defineOptions({ name: 'ActionEconomy' })
+
+const { mobile, portrait } = useMobile()
+
+const props = defineProps<{
+  isModal?: boolean
+}>()
+
+const content = ref(['mech actions', 'pilot actions', 'downtime actions'])
+const actionTypes = ref([
       { action: 'move', icon: 'mdi-arrow-right-bold-hexagon-outline' },
       { action: 'overcharge', icon: 'cc:overcharge' },
       { action: 'reaction', icon: 'cc:reaction' },
       { action: 'free', icon: 'cc:free' },
-    ],
-    pilotOnlyActions: ['act_fight', 'act_jockey', 'act_reload', 'act_mount', 'act_search_pilot'],
-    mechOnlyActions: ['act_grapple', 'act_ram', 'act_skirmish', 'act_barrage', 'act_improvised_attack', 'act_stabilize', 'act_boot_up', 'act_stabilize', 'act_dismount', 'act_eject', 'act_self_destruct', 'act_shut_down', 'act_overcharge', 'act_brace', 'act_quick_tech', 'act_full_tech', 'act_lock_on', 'act_bolster', 'act_scan', 'act_search'],
-    expanded: false,
-  }),
-  computed: {
-    widescreen() {
-      return this.$vuetify.display.lgAndUp
-    },
-    allActions() {
+    ])
+const pilotOnlyActions = ref(['act_fight', 'act_jockey', 'act_reload', 'act_mount', 'act_search_pilot'])
+const mechOnlyActions = ref(['act_grapple', 'act_ram', 'act_skirmish', 'act_barrage', 'act_improvised_attack', 'act_stabilize', 'act_boot_up', 'act_stabilize', 'act_dismount', 'act_eject', 'act_self_destruct', 'act_shut_down', 'act_overcharge', 'act_brace', 'act_quick_tech', 'act_full_tech', 'act_lock_on', 'act_bolster', 'act_scan', 'act_search'])
+const widescreen = computed(() => _display.lgAndUp.value)
+const expanded = ref(widescreen.value)
+
+const allActions = computed(() => {
       return CompendiumStore().Actions.filter(a => a && !a.Hidden && !a.ID.includes('_npc'))
-    },
-    bothActions() {
-      return this.allActions.filter(a => a && !a.IsDowntimeAction && !this.pilotOnlyActions.includes(a.ID) && !this.mechOnlyActions.includes(a.ID) && !a.ID.includes('jockey_') && !a.ID.includes('_inv_'))
-    },
-    mechActions() {
-      return this.allActions.filter(a => a && this.mechOnlyActions.includes(a.ID))
-    },
-    pilotActions() {
-      return this.allActions.filter(a => a && this.pilotOnlyActions.includes(a.ID))
-    },
-    downtimeActions() {
+    })
+const bothActions = computed(() => {
+      return allActions.value.filter(a => a && !a.IsDowntimeAction && !pilotOnlyActions.value.includes(a.ID) && !mechOnlyActions.value.includes(a.ID) && !a.ID.includes('jockey_') && !a.ID.includes('_inv_'))
+    })
+const mechActions = computed(() => {
+      return allActions.value.filter(a => a && mechOnlyActions.value.includes(a.ID))
+    })
+const pilotActions = computed(() => {
+      return allActions.value.filter(a => a && pilotOnlyActions.value.includes(a.ID))
+    })
+const downtimeActions = computed(() => {
       return CompendiumStore().DowntimeActions
-    },
-  },
-  created() {
-    this.expanded = this.widescreen
-  },
-  methods: {
-    scrollTo(item: any): void {
-      const el = document.getElementById(`${item.replace(/\W/g, '')}`)
-      if (el) scrollTo(el, this.isModal)
-    },
-  },
+    })
+
+function scrollTo(item: any) {
+  const el = document.getElementById(`${item.replace(/\W/g, '')}`)
+  if (el) _scrollTo(el, props.isModal)
 }
 </script>

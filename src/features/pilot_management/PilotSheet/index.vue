@@ -31,13 +31,13 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, onMounted, watch } from 'vue'
+import { useDisplay } from 'vuetify'
 import PilotHeader from './components/PilotHeader.vue';
 import { PilotStore } from '../store';
-
 import PilotNav from './components/PilotNav.vue';
 import PilotNavMobile from './components/PilotNavMobile.vue';
-
 import NarrativeView from './sections/narrative/index.vue';
 import TacticalView from './sections/tactical/index.vue';
 import MechHangarView from './sections/hangar/index.vue';
@@ -47,45 +47,25 @@ import PilotHeaderMobile from './components/PilotHeaderMobile.vue';
 import MobileOptionsView from './MobileOptions.vue';
 import { debug } from 'console';
 
-export default {
-  name: 'PilotSheet',
-  components: {
-    PilotHeader,
-    PilotHeaderMobile,
-    PilotNav,
-    PilotNavMobile,
-    NarrativeView,
-    TacticalView,
-    MechHangarView,
-    BondsView,
-    MobileOptionsView,
-  },
-  props: {
-    pilotID: {
-      type: String,
-      required: true,
-    },
-  },
-  data: () => ({
-    page: 0,
-  }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-    pilot() {
-      return PilotStore().getPilotByID(this.pilotID);
-    },
-  },
-  watch: {
-    page(val) {
-      if (!val) return;
-      UserStore().User.SetView('pilotSheetPage', val);
-    },
-  },
-  mounted() {
-    this.page = parseInt(UserStore().User.View('pilotSheetPage', 1));
-    if (this.pilot) document.title = `${this.pilot.Callsign} (${this.pilot.Name})`;
-  },
-};
+const _display = useDisplay()
+
+defineOptions({ name: 'PilotSheet' })
+
+const props = defineProps<{
+  pilotID: string
+}>()
+
+const page = ref(0)
+
+const mobile = computed(() => {
+      return _display.mdAndDown.value;
+    })
+const pilot = computed(() => {
+      return PilotStore().getPilotByID(props.pilotID);
+    })
+
+onMounted(() => {
+page.value = parseInt(UserStore().User.View('pilotSheetPage', 1));
+    if (pilot.value) document.title = `${pilot.value.Callsign} (${pilot.value.Name})`;
+})
 </script>

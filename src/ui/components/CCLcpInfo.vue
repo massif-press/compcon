@@ -20,23 +20,18 @@
   </span>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'cc-brew-info',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    color: {
-      type: String,
-    },
-  },
-  computed: {
-    getColor() {
-      if (this.item.InLcp) return 'exotic';
-      return this.color;
-    },
-  }
-};
+<script setup lang="ts">
+import { computed } from 'vue'
+
+defineOptions({ name: 'cc-brew-info' })
+
+const props = defineProps<{
+  item: object
+  color?: string
+}>()
+
+const getColor = computed(() => {
+      if (props.item.InLcp) return 'exotic';
+      return props.color;
+    })
 </script>

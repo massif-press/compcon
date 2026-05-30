@@ -20,34 +20,35 @@
   </div>
 </template>
 
-<script lang="ts">
-import line from '../../components/blank/line.vue';
+<script setup lang="ts">
+import BlankLine from '../../components/blank/line.vue';
 import { Bonus } from '@/classes/components/feature/bonus/Bonus';
 
-export default {
-  name: 'npc-stat-print',
-  components: { blankLine: line },
-  props: {
-    item: { type: Object, required: true },
-    bonuses: { type: Array, default: () => [] },
-    tier: { type: Number, default: 1 },
-    hideZero: { type: Boolean, default: false },
-  },
-  methods: {
-    getBonusVal(key: string) {
-      const baseVal = this.item.StatController.getMax(key);
-      const bonuses = (this.bonuses as Bonus[]).filter((x) => x.ID === key);
+defineOptions({ name: 'npc-stat-print' })
+
+const props = withDefaults(defineProps<{
+  item: object
+  bonuses?: any[]
+  tier?: number
+  hideZero?: boolean
+}>(), {
+  bonuses: () => [],
+  tier: 1,
+  hideZero: false
+})
+
+function getBonusVal(key: string) {
+      const baseVal = props.item.StatController.getMax(key);
+      const bonuses = (props.bonuses as Bonus[]).filter((x) => x.ID === key);
       if (bonuses.some((b) => b.Overwrite)) return bonuses.find((b) => b.Overwrite)!.Value;
       let bonusVal = 0;
       bonuses.forEach((b) => {
         if (Array.isArray(b.Value)) {
-          bonusVal += Number(b.Value[this.tier]);
+          bonusVal += Number(b.Value[props.tier]);
         } else {
           bonusVal += Number(b.Value);
         }
       });
       return (baseVal || 0) + bonusVal;
-    },
-  },
-};
+    }
 </script>

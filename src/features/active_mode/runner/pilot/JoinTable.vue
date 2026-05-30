@@ -274,18 +274,18 @@
   </v-container>
 </template>
 
-<script>
-export default {
-  name: '',
-  data: () => ({
-    mobile: false,
-    sort: 'Updated',
-    asc: true,
-    tables: [
+<script setup lang="ts">
+import { ref } from 'vue'
+
+defineOptions({ name: 'Beef' })
+
+const mobile = ref(false)
+const sort = ref('Updated')
+const asc = ref(true)
+const tables = ref([
       {
         id: 'table-1',
         name: "Beef's Table",
-        campaign: 'No Room for a Wallflower',
         gm: {
           name: 'Beef',
           online: true,
@@ -330,9 +330,7 @@ export default {
         Portrait: 'https://placebear.com/250/250',
         MechPortrait: 'https://d2c79xe1p61csc.cloudfront.net/frames/mf_goblin.png',
       },
-    ],
-  }),
-};
+    ])
 </script>
 
 <style scoped>

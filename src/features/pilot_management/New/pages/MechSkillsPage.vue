@@ -31,31 +31,25 @@
   </stepper-content>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import StepperContent from '../../_components/StepperContent.vue';
 import MechSkillsSelector from '../../_components/selectors/MechSkillsSelector.vue';
 import { Pilot } from '@/classes/pilot/Pilot'
 
-export default {
-  name: 'mech-skills-page',
-  components: {
-    StepperContent,
-    MechSkillsSelector,
-  },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    canContinue(): boolean {
-      return !this.pilot.MechSkillsController.IsMissingHASE;
-    },
-    count(): number {
-      return this.pilot.MechSkillsController.MaxHASEPoints;
-    },
-    word(): string {
+defineOptions({ name: 'mech-skills-page' })
+
+const props = defineProps<{
+  pilot: object
+}>()
+
+const canContinue = computed(() => {
+      return !props.pilot.MechSkillsController.IsMissingHASE;
+    })
+const count = computed(() => {
+      return props.pilot.MechSkillsController.MaxHASEPoints;
+    })
+const word = computed(() => {
       const words = [
         'zero',
         'one',
@@ -75,8 +69,6 @@ export default {
         'fifteen',
         'sixteen',
       ];
-      return words[this.count];
-    },
-  },
-};
+      return words[count.value];
+    })
 </script>

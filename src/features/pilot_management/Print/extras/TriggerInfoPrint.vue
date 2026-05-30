@@ -17,25 +17,21 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import { CompendiumStore } from '@/stores';
 
-export default {
-  name: 'tag-info-print',
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    triggers() {
+defineOptions({ name: 'tag-info-print' })
+
+const props = defineProps<{
+  pilot: object
+}>()
+
+const triggers = computed(() => {
       return CompendiumStore().Skills.filter((s) =>
-        this.pilot.SkillsController.Skills.some((x) => x.Skill.ID === s.ID)
+        props.pilot.SkillsController.Skills.some((x) => x.Skill.ID === s.ID)
       );
-    },
-  },
-};
+    })
 </script>
 
 <style scoped>

@@ -25,5 +25,5 @@ const props = defineProps({
 
 const { mobile, portrait } = useMobile()
 
-const component = computed(() => {return (this as any).mobile ? SrdViewMobile : SrdViewDesktop;})
+const component = computed(() => mobile.value ? SrdViewMobile : SrdViewDesktop)
 </script>

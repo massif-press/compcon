@@ -130,15 +130,20 @@
   </mech-list-item-base>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import MechListItemBase from './MechListItemBase.vue';
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
-export default {
-  name: 'mech-list-item-mobile',
-  components: { MechListItemBase },
-  props: {
-    mech: { type: Object, required: true },
-  },
-  emits: ['go', 'delete', 'copy'],
-};
+defineOptions({ name: 'mech-list-item-mobile' })
+
+const props = defineProps<{
+  mech: object
+}>()
+
+const emit = defineEmits<{
+  'go': []
+  'delete': []
+  'copy': []
+}>()
 </script>

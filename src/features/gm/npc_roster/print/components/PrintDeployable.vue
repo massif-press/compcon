@@ -62,26 +62,19 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { Action } from '@/classes/Action';
-
 import PrintAction from './PrintAction.vue';
 
-export default {
-  name: 'print-deployable',
-  components: { PrintAction },
-  props: {
-    deployables: {
-      type: Array,
-      required: true,
-    },
-  },
-  methods: {
-    actions(deployable) {
+defineOptions({ name: 'print-deployable' })
+
+const props = defineProps<{
+  deployables: any[]
+}>()
+
+function actions(deployable) {
       return deployable.actions ? deployable.actions.map((x) => new Action(x)) : [];
-    },
-  },
-};
+    }
 </script>
 
 <style scoped>

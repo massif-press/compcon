@@ -59,7 +59,7 @@ class Unit extends Npc implements ICombatant, IInstanceable {
     this._name = data?.name || ''
     this._tag = data?.tag || 'Mech'
 
-    this.IsInstance = !!(data?.instance && data?.instanceId)
+    this.IsInstance = !!(data?.is_instance || (data?.instance && data?.instanceId))
     this.InstanceID = data?.instanceId || ''
     this.OriginId = data?.originId || ''
 
@@ -151,7 +151,7 @@ class Unit extends Npc implements ICombatant, IInstanceable {
     ;(data as any).instanceId = uuid()
     data.originId = this.ID
     data.id = data.instanceId
-    data.instance = true
+    data.is_instance = true
 
     return data as UnitData
   }
@@ -170,7 +170,7 @@ class Unit extends Npc implements ICombatant, IInstanceable {
     const data = {
       npcType: 'unit',
       id: unit.ID,
-      instance: unit.IsInstance || !!asInstance,
+      is_instance: unit.IsInstance || !!asInstance,
       instanceId: unit.InstanceID,
       originId: unit.OriginId,
       name: unit._name,

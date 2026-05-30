@@ -25,22 +25,18 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+const props = defineProps<{
+  events: object
+}>()
 
-export default {
-  name: 'StagedPanel',
-  props: {
-    events: {
-      type: Object,
-      required: true
-    }
-  },
-  methods: {
-    copyText() {
-      const text = this.events.map((e: any) => e.Summary).join('\n');
+const emit = defineEmits<{
+  'notify': []
+}>()
+
+function copyText() {
+      const text = props.events.map((e: any) => e.Summary).join('\n');
       navigator.clipboard.writeText(text);
-      this.$emit('notify', 'Copied to clipboard');
+      emit('notify', 'Copied to clipboard');
     }
-  }
-};
 </script>

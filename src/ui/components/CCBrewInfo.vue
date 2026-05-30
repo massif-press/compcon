@@ -79,26 +79,21 @@
   </v-menu>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'cc-brew-info',
-  props: {
-    controller: {
-      type: Object,
-      required: true,
-    },
-    color: {
-      type: String,
-      default: '',
-      required: false,
-    },
-  },
-  computed: {
-    hasMissing() {
-      return this.controller.Brews.some(
+<script setup lang="ts">
+import { computed } from 'vue'
+
+defineOptions({ name: 'cc-brew-info' })
+
+const props = withDefaults(defineProps<{
+  controller: object
+  color?: string
+}>(), {
+  color: ''
+})
+
+const hasMissing = computed(() => {
+      return props.controller.Brews.some(
         (b) => b.Status === 'MISSING' || b.Status === 'OLD' || b.Status === 'OFF'
       );
-    },
-  },
-};
+    })
 </script>

@@ -14,15 +14,13 @@
   </v-row>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import { CompendiumStore } from '@/stores';
 
-export default {
-  name: 'no-gm-item',
-  computed: {
-    canAddNpc(): boolean {
+defineOptions({ name: 'no-gm-item' })
+
+const canAddNpc = computed(() => {
       return CompendiumStore().hasNpcAccess;
-    },
-  },
-};
+    })
 </script>

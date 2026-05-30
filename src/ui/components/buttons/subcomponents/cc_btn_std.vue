@@ -47,32 +47,47 @@
   </div>
 </template>
 
-<script lang="ts">
-import { btnSubMixin, calcIconSize } from './_btnSubMixin';
+<script setup lang="ts">
+import { computed } from 'vue'
+import { calcIconSize } from './_btnSubMixin'
 
-export default {
-  name: 'CcBtnStd',
-  mixins: [btnSubMixin],
-  props: {
-    pipColor: { type: String },
-    color: { type: String, default: 'panel' },
-  },
-  computed: {
-    colorClass(this: any) {
-      if (this.outlined) return '';
-      return this.bgColor;
-    },
-    lightColor(this: any) {
-      if (this.pipColor) return `bg-${this.pipColor}`;
-      return `bg-${this.color}`;
-    },
-  },
-  methods: {
-    iconSize(this: any, icon: string) {
-      return calcIconSize(this.size, icon, 4);
-    },
-  },
-};
+const props = withDefaults(defineProps<{
+  color?: string
+  disabled?: boolean
+  block?: boolean
+  loading?: boolean
+  size?: string
+  variant?: string
+  prependIcon?: string
+  appendIcon?: string
+  optionsIcon?: string
+  tooltip?: string
+  tooltipIcon?: string
+  href?: string
+  to?: string | object
+  target?: string
+  pipColor?: string
+}>(), {
+  color: 'panel',
+})
+
+defineEmits<{ click: [] }>()
+
+const sizeStyle = computed(() => props.size ? `size-${props.size}` : 'size-default')
+const optionsSize = computed(() => props.size ? `options-${props.size}` : 'options-default')
+const bgColor = computed(() => `bg-${props.color}`)
+const outlined = computed(() => props.variant === 'outlined')
+const borderColor = computed(() => {
+  if (!props.color) return ''
+  if (props.color[0] === '#') return props.color
+  return `rgb(var(--v-theme-${props.color})`
+})
+const colorClass = computed(() => outlined.value ? '' : bgColor.value)
+const lightColor = computed(() => props.pipColor ? `bg-${props.pipColor}` : `bg-${props.color}`)
+
+function iconSize(icon: string) {
+  return calcIconSize(props.size, icon, 4)
+}
 </script>
 
 <style scoped>

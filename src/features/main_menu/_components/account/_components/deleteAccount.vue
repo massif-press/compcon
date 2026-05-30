@@ -66,25 +66,23 @@
   </v-card-text>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { UserStore } from '@/stores';
 import logger from '@/user/logger';
 import { deleteUser } from 'aws-amplify/auth';
 
-export default {
-  name: 'DeleteCloudAccount',
-  data: () => ({
-    confirm: '',
-    loading: false,
-  }),
-  computed: {
-    confirmValid() {
-      return this.confirm.toLowerCase() === 'delete account';
-    },
-  },
-  methods: {
-    async handleDeleteUser() {
-      this.loading = true;
+defineOptions({ name: 'DeleteCloudAccount' })
+
+const confirm = ref('')
+const loading = ref(false)
+
+const confirmValid = computed(() => {
+      return confirm.value.toLowerCase() === 'delete account';
+    })
+
+async function handleDeleteUser() {
+      loading.value = true;
       try {
         await UserStore().deleteAllCloudData();
         await deleteUser();
@@ -92,7 +90,5 @@ export default {
       } catch (error) {
         logger.error(`Error deleting user: ${error}`, this, error);
       }
-    },
-  },
-};
+    }
 </script>

@@ -73,74 +73,73 @@
   </v-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import * as _ from 'lodash-es';
 import artistMap from '@/assets/artistmap.json';
 
-export default {
-  name: 'LibraryImageArchive',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    type: {
-      type: String,
-      required: true,
-    },
-    avatar: {
-      type: Boolean,
-    },
-  },
-  emits: ['set-staged'],
-  data: () => ({
-    currentUserPage: 1,
-    currentArtistPage: 1,
-    itemsPerPage: 12,
-    selectedImage: null as unknown as any,
-    loading: false,
-    imageSelectTab: 0,
-    userStorageData: null as unknown as any,
-    stagedImage: null as unknown as any,
-    imageUrl: '',
-    selectedTags: [] as string[],
-  }),
-  computed: {
-    displayedUserImages() {
-      const startIndex = (this.currentUserPage - 1) * this.itemsPerPage;
-      const endIndex = startIndex + this.itemsPerPage;
-      return this.userImages.slice(startIndex, endIndex);
-    },
-    totalUserPages() {
-      return Math.ceil(this.userImages.length / this.itemsPerPage);
-    },
-    displayedArtistImages() {
-      const startIndex = (this.currentArtistPage - 1) * this.itemsPerPage;
-      const endIndex = startIndex + this.itemsPerPage;
-      return this.artistImages.slice(startIndex, endIndex);
-    },
-    totalArtistPages() {
-      return Math.ceil(this.artistImages.length / this.itemsPerPage);
-    },
-    displayImage() {
-      if (this.selectedImage) return this.selectedImage.url;
-      if (this.item.Portrait) return this.item.Portrait;
+defineOptions({ name: 'LibraryImageArchive' })
+
+const props = defineProps<{
+  item: object
+  type: string
+  avatar?: boolean
+}>()
+
+const emit = defineEmits<{
+  'set-staged': []
+}>()
+
+const currentUserPage = ref(1)
+const currentArtistPage = ref(1)
+const itemsPerPage = ref(12)
+const selectedImage = ref(null as unknown as any)
+const loading = ref(false)
+const imageSelectTab = ref(0)
+const userStorageData = ref(null as unknown as any)
+const stagedImage = ref(null as unknown as any)
+const imageUrl = ref('')
+const selectedTags = ref([] as string[])
+
+selectedTags.value = [props.type];
+
+selectedTags.value = [props.type];
+
+const displayedUserImages = computed(() => {
+      const startIndex = (currentUserPage.value - 1) * itemsPerPage.value;
+      const endIndex = startIndex + itemsPerPage.value;
+      return userImages.value.slice(startIndex, endIndex);
+    })
+const totalUserPages = computed(() => {
+      return Math.ceil(userImages.value.length / itemsPerPage.value);
+    })
+const displayedArtistImages = computed(() => {
+      const startIndex = (currentArtistPage.value - 1) * itemsPerPage.value;
+      const endIndex = startIndex + itemsPerPage.value;
+      return artistImages.value.slice(startIndex, endIndex);
+    })
+const totalArtistPages = computed(() => {
+      return Math.ceil(artistImages.value.length / itemsPerPage.value);
+    })
+const displayImage = computed(() => {
+      if (selectedImage.value) return selectedImage.value.url;
+      if (props.item.Portrait) return props.item.Portrait;
       else return 'https://via.placeholder.com/550';
-    },
-    isAuthed() {
+    })
+const isAuthed = computed(() => {
       return false;
-      // return getModule(UserStore, this.$store).IsLoggedIn;
-    },
-    isOverCapacity() {
+      // return getModule(UserStore, _store).IsLoggedIn;
+    })
+const isOverCapacity = computed(() => {
       return (
-        this.isAuthed &&
-        this.userStorageData &&
-        this.userStorageData.totalSize >= this.userStorageData.max
+        isAuthed.value &&
+        userStorageData.value &&
+        userStorageData.value.totalSize >= userStorageData.value.max
       );
-    },
-    userImages() {
-      if (!this.userStorageData || this.userStorageData.contents.length === 0) return [];
-      const contents = this.userStorageData.contents
+    })
+const userImages = computed(() => {
+      if (!userStorageData.value || userStorageData.value.contents.length === 0) return [];
+      const contents = userStorageData.value.contents
         .flatMap((x) => x.objects)
         .map((x) => ({
           url: `https://d1nurxym97qk9o.cloudfront.net/${x.Key}`,
@@ -150,21 +149,21 @@ export default {
           key: x.Key,
         }));
       return contents;
-    },
-    imageTags() {
+    })
+const imageTags = computed(() => {
       return _.uniq([...artistMap.flatMap((x) => Object.keys(x.images))]);
-    },
-    artistImages() {
+    })
+const artistImages = computed(() => {
       const out = [] as any[];
 
       artistMap.forEach((artist) => {
-        this.selectedTags.forEach((t) => {
+        selectedTags.value.forEach((t) => {
           if (artist.images[t])
             artist.images[t].forEach((image) => {
               out.push({
                 url: image.img,
                 filename: image.name,
-                tag: this.type,
+                tag: props.type,
                 artist: artist.artist,
                 website: artist.website || '',
                 twitter: artist.twitter || '',
@@ -173,22 +172,16 @@ export default {
         });
       });
       return out;
-    },
-    selectedImageUrl() {
-      return this.selectedImage ? this.selectedImage.url : '';
-    },
-  },
-  async created() {
-    this.selectedTags = [this.type];
-  },
-  methods: {
-    isSelected(url) {
-      return this.selectedImageUrl === url;
-    },
-    stage(image) {
-      this.selectedImage = image;
-      this.$emit('set-staged', image);
-    },
-  },
-};
+    })
+const selectedImageUrl = computed(() => {
+      return selectedImage.value ? selectedImage.value.url : '';
+    })
+
+function isSelected(url) {
+      return selectedImageUrl.value === url;
+    }
+function stage(image) {
+      selectedImage.value = image;
+      emit('set-staged', image);
+    }
 </script>

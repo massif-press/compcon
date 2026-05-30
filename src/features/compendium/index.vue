@@ -24,42 +24,36 @@
   </cc-tabs>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import { UserStore } from '@/stores'
 import CompendiumView from './Views/Compendium/index.vue'
 import ReferenceView from './Views/Reference/index.vue'
 import CampaignLibrary from './Views/CampaignLibrary/index.vue'
-import { useMobile } from '@/composables/useMobile';
+import { useMobile } from '@/composables/useMobile'
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'CompendiumIndex',
-  components: { CompendiumView, ReferenceView, CampaignLibrary },
-  computed: {
-    mobile(): boolean {
-      return this.$vuetify.display.smAndDown
-    },
-    isDevsite() {
-      return (
-        window.location.hostname === 'dev.compcon.app' || window.location.hostname === 'localhost'
-      )
-    },
-  },
-  mounted() {
-    if (this.$route.query.tab) {
-      ; (this.$refs.tabs as any).setTab(parseInt(this.$route.query.tab as string))
-    } else {
-      this.setTab(UserStore().User.View('CompendiumTab', 0))
-    }
-  },
-  methods: {
-    setTab(tab: number) {
-      if (!this.$refs.tabs) return
-      UserStore().User.SetView('CompendiumTab', tab)
-        ; (this.$refs as any).tabs.setTab(tab)
-    },
-  },
+defineOptions({ name: 'CompendiumIndex' })
+
+const route = useRoute()
+const { mobile, portrait } = useMobile()
+const tabs = ref<any>(null)
+
+const isDevsite = computed(() =>
+  window.location.hostname === 'dev.compcon.app' || window.location.hostname === 'localhost'
+)
+
+function setTab(tab: number) {
+  if (!tabs.value) return
+  UserStore().User.SetView('CompendiumTab', tab)
+  tabs.value.setTab(tab)
 }
+
+onMounted(() => {
+  if (route.query.tab) {
+    tabs.value?.setTab(parseInt(route.query.tab as string))
+  } else {
+    setTab(UserStore().User.View('CompendiumTab', 0))
+  }
+})
 </script>

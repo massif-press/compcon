@@ -26,32 +26,26 @@
   </v-btn-toggle>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'browser-view-toggle',
-  props: {
-    modelValue: {
-      type: String,
-      required: true,
-    },
-    options: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    internalValue: {
-      get() {
-        return this.modelValue;
-      },
-      set(value) {
-        this.$emit('update:modelValue', value);
-      },
-    },
-  },
-  emits: ['update:modelValue'],
-  methods: {
-    viewIcon(i: string) {
+<script setup lang="ts">
+import { computed } from 'vue'
+
+defineOptions({ name: 'browser-view-toggle' })
+
+const props = defineProps<{
+  modelValue: string
+  options: object
+}>()
+
+const emit = defineEmits<{
+  'update:modelValue': [value: string]
+}>()
+
+const internalValue = computed({
+  get: () => props.modelValue,
+  set: (value: string) => emit('update:modelValue', value),
+})
+
+function viewIcon(i: string) {
       switch (i) {
         case 'single':
           return 'mdi-card-bulleted-outline';
@@ -70,8 +64,8 @@ export default {
         default:
           return '';
       }
-    },
-    viewTooltip(i: string) {
+    }
+function viewTooltip(i: string) {
       switch (i) {
         case 'single':
           return 'Single View';
@@ -90,7 +84,5 @@ export default {
         default:
           return '';
       }
-    },
-  },
-};
+    }
 </script>

@@ -10,26 +10,20 @@
   </cc-title>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import SectionEditIcon from './SectionEditIcon.vue';
 
-export default {
-  name: 'section-header',
-  components: { SectionEditIcon },
-  emits: ['edit'],
-  props: {
-    editable: {
-      type: Boolean,
-    },
-    tooltip: {
-      type: String,
-      required: false,
-      default: 'Edit',
-    },
-    title: {
-      type: String,
-      required: true,
-    },
-  },
-};
+defineOptions({ name: 'section-header' })
+
+const props = withDefaults(defineProps<{
+  editable?: boolean
+  tooltip?: string
+  title: string
+}>(), {
+  tooltip: 'Edit'
+})
+
+const emit = defineEmits<{
+  'edit': []
+}>()
 </script>

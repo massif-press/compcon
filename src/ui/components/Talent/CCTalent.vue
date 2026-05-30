@@ -19,59 +19,52 @@
   </component>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
 import TalentMicro from './components/_TalentMicro.vue';
 import TalentSmall from './components/_TalentSmall.vue';
 import TalentTerse from './components/_TalentTerse.vue';
 import TalentFull from './components/_TalentFull.vue';
 import TalentRankView from './components/_TalentRankView.vue';
 
-export default {
-  name: 'Talent',
-  components: {
-    TalentMicro,
-    TalentSmall,
-    TalentTerse,
-    TalentFull,
-    TalentRankView,
-  },
-  props: {
-    talent: { type: Object, required: true },
-    hideLocked: { type: Boolean },
-    canAdd: { type: Boolean },
-    micro: { type: Boolean },
-    small: { type: Boolean },
-    terse: { type: Boolean },
-    rankView: { type: Boolean, default: false },
-    selectable: { type: Boolean },
-    inColumn: { type: Boolean },
-    hideChange: { type: Boolean },
-    hideTitle: { type: Boolean },
-    rank: { type: [Number, String], required: false, default: null },
-    dark: { type: Boolean, default: false },
-  },
-  emits: ['expand', 'clicked', 'add', 'remove'],
-  data: () => ({
-    expand: '',
-  }),
-  computed: {
-    type() {
-      if (this.rankView) return TalentRankView;
-      if (this.expand === 'full') return TalentFull;
-      if (this.expand === 'terse') return TalentTerse;
-      if (this.micro) return TalentMicro;
-      if (this.small) return TalentSmall;
-      if (this.terse) return TalentTerse;
+defineOptions({ name: 'Talent' })
+
+const props = withDefaults(defineProps<{
+  talent: object
+  hideLocked?: boolean
+  canAdd?: boolean
+  micro?: boolean
+  small?: boolean
+  terse?: boolean
+  rankView?: boolean
+  selectable?: boolean
+  inColumn?: boolean
+  hideChange?: boolean
+  hideTitle?: boolean
+  rank?: number | string
+  dark?: boolean
+}>(), {
+  rankView: false,
+  rank: null,
+  dark: false
+})
+
+const emit = defineEmits<{
+  'expand': []
+  'clicked': []
+  'add': []
+  'remove': []
+}>()
+
+const expand = ref('')
+
+const type = computed(() => {
+      if (props.rankView) return TalentRankView;
+      if (expand.value === 'full') return TalentFull;
+      if (expand.value === 'terse') return TalentTerse;
+      if (props.micro) return TalentMicro;
+      if (props.small) return TalentSmall;
+      if (props.terse) return TalentTerse;
       return TalentFull;
-    },
-  },
-  watch: {
-    small() {
-      this.expand = '';
-    },
-    terse() {
-      this.expand = '';
-    },
-  },
-};
+    })
 </script>

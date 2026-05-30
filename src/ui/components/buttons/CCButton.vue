@@ -52,6 +52,9 @@ interface Props {
   to?: string | object
   href?: string
   target?: string
+  type?: string
+  ripple?: boolean | object
+  exact?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {

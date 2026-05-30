@@ -53,67 +53,67 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
+import { notify } from '@/util/notify'
 import logger from '@/user/logger';
 import {
-  resetPassword,
-  type ResetPasswordOutput,
-  confirmResetPassword,
-  type ConfirmResetPasswordInput,
+resetPassword,
+type ResetPasswordOutput,
+confirmResetPassword,
+type ConfirmResetPasswordInput,
 } from 'aws-amplify/auth';
-
 async function handleResetPassword(username: string) {
-  try {
-    const output = await resetPassword({ username });
-    handleResetPasswordNextSteps(output);
-  } catch (error) {
-    logger.info(`Error resetting password: ${error}`);
-  }
+try {
+const output = await resetPassword({ username });
+handleResetPasswordNextSteps(output);
+} catch (error) {
+logger.info(`Error resetting password: ${error}`);
 }
-
+}
 function handleResetPasswordNextSteps(output: ResetPasswordOutput) {
-  const { nextStep } = output;
-  switch (nextStep.resetPasswordStep) {
-    case 'CONFIRM_RESET_PASSWORD_WITH_CODE':
-      const codeDeliveryDetails = nextStep.codeDeliveryDetails;
-      logger.info(`Confirmation code was sent to ${codeDeliveryDetails.deliveryMedium}`);
-      // Collect the confirmation code from the user and pass to confirmResetPassword.
-      break;
-    case 'DONE':
-      logger.info('Successfully reset password.');
-      break;
-  }
+const { nextStep } = output;
+switch (nextStep.resetPasswordStep) {
+case 'CONFIRM_RESET_PASSWORD_WITH_CODE':
+const codeDeliveryDetails = nextStep.codeDeliveryDetails;
+logger.info(`Confirmation code was sent to ${codeDeliveryDetails.deliveryMedium}`);
+break;
+case 'DONE':
+logger.info('Successfully reset password.');
+break;
 }
-
+}
 async function handleConfirmResetPassword({
-  username,
-  confirmationCode,
-  newPassword,
+username,
+confirmationCode,
+newPassword,
 }: ConfirmResetPasswordInput) {
-  try {
-    await confirmResetPassword({ username, confirmationCode, newPassword });
-  } catch (error) {
-    logger.info(`Error confirming reset password: ${error}`);
-  }
+try {
+await confirmResetPassword({ username, confirmationCode, newPassword });
+} catch (error) {
+logger.info(`Error confirming reset password: ${error}`);
+}
 }
 
-export default {
-  name: 'auth-password-reset',
-  data: () => ({
-    loading: false,
-    sent: false,
-    email: '',
-    show: false,
-    newPass: '',
-    code: '',
-    rules: {
+defineOptions({ name: 'auth-password-reset' })
+
+const emit = defineEmits<{
+  'set-state': []
+}>()
+
+const loading = ref(false)
+const sent = ref(false)
+const email = ref('')
+const show = ref(false)
+const newPass = ref('')
+const code = ref('')
+const rules = ref({
       passLength: (v) => (v && v.length >= 6) || 'Minimum 6 characters',
-    },
-  }),
-  methods: {
-    reset() {
-      this.loading = true;
-      const emailTrimmed = this.email.trim();
+    })
+
+function reset() {
+      loading.value = true;
+      const emailTrimmed = email.value.trim();
       const emailLower = emailTrimmed.toLowerCase();
       handleResetPassword(emailLower)
         .catch((err) => {
@@ -121,38 +121,36 @@ export default {
           throw err;
         })
         .then((data) => {
-          this.loading = false;
-          this.sent = true;
+          loading.value = false;
+          sent.value = true;
         })
         .catch((err) => {
           logger.error(`Error sending reset password email: ${err}`, this, err);
-          this.loading = false;
-          this.sent = false;
-          this.$notify(`Unable to send reset e-mail: ${err.message}`, 'error');
+          loading.value = false;
+          sent.value = false;
+          notify(`Unable to send reset e-mail: ${err.message}`, 'error');
         });
-    },
-    setNewPassword() {
-      this.loading = true;
+    }
+function setNewPassword() {
+      loading.value = true;
       handleConfirmResetPassword({
-        username: this.email.trim().toLowerCase(),
-        confirmationCode: this.code,
-        newPassword: this.newPass,
+        username: email.value.trim().toLowerCase(),
+        confirmationCode: code.value,
+        newPassword: newPass.value,
       })
         .then((data) => {
-          this.loading = false;
-          this.$notify({
+          loading.value = false;
+          notify({
             icon: 'mdi-check',
             color: 'success',
             title: 'Success',
             text: 'Password changed successfully.',
           });
-          this.$emit('set-state', 'sign-in');
+          emit('set-state', 'sign-in');
         })
         .catch((err) => {
-          this.$notify(`Unable to change password: ${err.message}`, 'error');
-          this.loading = false;
+          notify(`Unable to change password: ${err.message}`, 'error');
+          loading.value = false;
         });
-    },
-  },
-};
+    }
 </script>

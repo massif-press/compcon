@@ -168,62 +168,52 @@
   </v-card>
 </template>
 
-<script lang="ts">
-import { UserStore } from '@/stores';
-import { NpcFeatureSelector } from './_components';
-import NpcFeatureAlerts from './_components/NpcFeatureAlerts.vue';
-import NpcModInset from './_components/NpcModInset.vue';
-import { Sortable } from 'sortablejs-vue3';
-import { startDragScroll, stopDragScroll } from '@/composables/useScrollOnDrag';
-import * as _ from 'lodash-es';
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { UserStore } from '@/stores'
+import { NpcFeatureSelector } from './_components'
+import NpcFeatureAlerts from './_components/NpcFeatureAlerts.vue'
+import NpcModInset from './_components/NpcModInset.vue'
+import { Sortable } from 'sortablejs-vue3'
+import { startDragScroll, stopDragScroll } from '@/composables/useScrollOnDrag'
+import * as _ from 'lodash-es'
 
-export default {
-  name: 'NpcBuilderContent',
-  components: {
-    NpcFeatureSelector,
-    NpcFeatureAlerts,
-    NpcModInset,
-    Sortable,
-  },
-  props: {
-    npc: { type: Object, required: true },
-    readonly: { type: Boolean, default: false },
-  },
-  data: () => ({
-    reorderMode: false,
-  }),
-  computed: {
-    showPassives: {
-      get: function () {
-        return UserStore().User.View('showNpcPassives', true);
-      },
-      set: function (newVal) {
-        UserStore().User.SetView('showNpcPassives', newVal);
-      },
-    },
-    passiveCount() {
-      return this.npc.NpcFeatureController.Passives.length;
-    },
-    allFeatures() {
-      return this.npc.NpcFeatureController.Features.filter((f: any) => !!f);
-    },
-    shownFeatures() {
-      const arr = this.showPassives
-        ? this.npc.NpcFeatureController.Features.filter((f: any) => !!f)
-        : this.npc.NpcFeatureController.Features.filter((f: any) => !!f && !f.Passive);
-      return _.orderBy(arr, 'FeatureType', 'desc');
-    },
-  },
-  methods: {
-    startDragScroll,
-    onFeatureReorder(event: any) {
-      stopDragScroll();
-      if (event.oldIndex === event.newIndex) return;
-      this.npc.NpcFeatureController.ReorderFeature(event.oldIndex, event.newIndex);
-    },
-    moveFeature(from: number, to: number) {
-      this.npc.NpcFeatureController.ReorderFeature(from, to);
-    },
-  },
-};
+defineOptions({ name: 'NpcBuilderContent' })
+
+const props = withDefaults(defineProps<{
+  npc: object
+  readonly?: boolean
+}>(), {
+  readonly: false,
+})
+
+const reorderMode = ref(false)
+
+const showPassives = computed({
+  get: () => UserStore().User.View('showNpcPassives', true),
+  set: (newVal) => UserStore().User.SetView('showNpcPassives', newVal),
+})
+
+const passiveCount = computed(() => (props.npc as any).NpcFeatureController.Passives.length)
+
+const allFeatures = computed(() =>
+  (props.npc as any).NpcFeatureController.Features.filter((f: any) => !!f)
+)
+
+const shownFeatures = computed(() => {
+  const arr = showPassives.value
+    ? (props.npc as any).NpcFeatureController.Features.filter((f: any) => !!f)
+    : (props.npc as any).NpcFeatureController.Features.filter((f: any) => !!f && !f.Passive)
+  return _.orderBy(arr, 'FeatureType', 'desc')
+})
+
+function onFeatureReorder(event: any) {
+  stopDragScroll()
+  if (event.oldIndex === event.newIndex) return
+  ;(props.npc as any).NpcFeatureController.ReorderFeature(event.oldIndex, event.newIndex)
+}
+
+function moveFeature(from: number, to: number) {
+  ;(props.npc as any).NpcFeatureController.ReorderFeature(from, to)
+}
 </script>

@@ -101,44 +101,44 @@
   </v-row>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { OrgType } from '@/classes/enums'
 import Organization from '@/classes/pilot/components/reserves/Organization';
 
-export default {
-  name: 'CustomReservePanel',
-  data: () => ({
-    orgName: '',
-    orgType: '' as any,
-    orgStart: '',
-    orgDetails: '',
-  }),
-  computed: {
-    orgTypes() {
+defineOptions({ name: 'CustomReservePanel' })
+
+const emit = defineEmits<{
+  'add': []
+}>()
+
+const orgName = ref('')
+const orgType = ref('' as any)
+const orgStart = ref('')
+const orgDetails = ref('')
+
+const orgTypes = computed(() => {
       return Object.keys(OrgType)
         .map((k) => OrgType[k as string])
         .sort() as OrgType[];
-    },
-  },
-  methods: {
-    add() {
+    })
+
+function add() {
       const o = new Organization({
-        name: this.orgName,
-        purpose: this.orgType,
-        efficiency: this.orgStart === 'efficiency' ? 2 : 0,
-        influence: this.orgStart === 'influence' ? 2 : 0,
-        description: this.orgDetails,
+        name: orgName.value,
+        purpose: orgType.value,
+        efficiency: orgStart.value === 'efficiency' ? 2 : 0,
+        influence: orgStart.value === 'influence' ? 2 : 0,
+        description: orgDetails.value,
         actions: '',
       });
-      this.clear();
-      this.$emit('add', o);
-    },
-    clear() {
-      this.orgName = '';
-      this.orgType = '';
-      this.orgStart = '';
-      this.orgDetails = '';
-    },
-  },
-};
+      clear();
+      emit('add', o);
+    }
+function clear() {
+      orgName.value = '';
+      orgType.value = '';
+      orgStart.value = '';
+      orgDetails.value = '';
+    }
 </script>

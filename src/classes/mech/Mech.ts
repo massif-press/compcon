@@ -7,7 +7,6 @@ import { CoreBonus } from '../pilot/components/corebonus/CoreBonus'
 import { Pilot } from '../pilot/Pilot'
 import { Rules } from '../utility/Rules'
 import { ImageTag } from '@/io/ImageManagement'
-import { Bonus, BonusId } from '../components/feature/bonus/Bonus'
 import { IMechLoadoutData } from './components/loadout/MechLoadout'
 import {
   IPortraitContainer,
@@ -28,6 +27,7 @@ import { CombatController, CombatData } from '../components/combat/CombatControl
 import { ICombatant } from '../components/combat/ICombatant'
 import { StatController } from '../components/combat/stats/StatController'
 import { ExpressionContext } from '../utility/ExpressionContext'
+import { MechStatProvider } from './components/MechStatProvider'
 
 class IMechData implements IMechLoadoutSaveData {
   img: IPortraitData = {} as IPortraitData
@@ -50,6 +50,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   public FeatureController: FeatureController
   public MechLoadoutController: MechLoadoutController
   public CombatController: CombatController
+  public StatProvider: MechStatProvider
 
   private _id: string
   private _name: string
@@ -68,6 +69,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
     this.FeatureController = new FeatureController(this)
     this.MechLoadoutController = new MechLoadoutController(this)
     this.CombatController = new CombatController(this)
+    this.StatProvider = new MechStatProvider(this)
 
     this._name = ''
     this._notes = ''
@@ -186,197 +188,32 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
     return Rules.SizeIcon(this.Size)
   }
 
-  public get Size(): number {
-    let size =
-      this._frame.Size >= Rules.MaxFrameSize
-        ? this._frame.Size
-        : Bonus.Int(this._frame.Size, BonusId.SIZE, this)
-    if (size < 0.5) size = 0.5
-    if (size > 0.5 && size % 1 !== 0) size = Math.floor(size)
-    return size
-  }
-
-  public get SizeContributors(): string[] {
-    const output = [`FRAME Base Size: ${this.Frame.Size}`]
-    Bonus.Contributors(BonusId.SIZE, this).forEach(b => {
-      const sign = b.val > -1 ? '+' : ''
-      output.push(`${b.name}: ${sign}${b.val}`)
-    })
-    return output
-  }
-
-  public get Armor(): number {
-    const armor = Bonus.Int(this._frame.Armor, BonusId.ARMOR, this)
-    return armor > Rules.MaxMechArmor ? Rules.MaxMechArmor : armor
-  }
-
-  public get ArmorContributors(): string[] {
-    const output = [`FRAME Base Armor: ${this.Frame.Armor}`]
-    Bonus.Contributors(BonusId.ARMOR, this).forEach(b => {
-      const sign = b.val > -1 ? '+' : ''
-      output.push(`${b.name}: ${sign}${b.val}`)
-    })
-    return output
-  }
-
-  public get SaveTarget(): number {
-    return Bonus.Int(this._frame.SaveTarget, BonusId.SAVE, this) + this._pilot.Grit
-  }
-
-  public get SaveTargetContributors(): string[] {
-    const output = [
-      `FRAME Base Save Target: ${this.Frame.SaveTarget}`,
-      `Pilot GRIT Bonus: +${this._pilot.Grit}`,
-    ]
-    Bonus.Contributors(BonusId.SAVE, this).forEach(b => {
-      const sign = b.val > -1 ? '+' : ''
-      output.push(`${b.name}: ${sign}${b.val}`)
-    })
-    return output
-  }
-
-  public get Evasion(): number {
-    // if (this.IsStunned) return 5
-    return Bonus.Int(this._frame.Evasion + this.Agi, BonusId.EVASION, this)
-  }
-
-  public get EvasionContributors(): string[] {
-    const output = [
-      `FRAME Base Evasion: ${this.Frame.Evasion}`,
-      `Pilot AGILITY Bonus: +${this.Agi}`,
-    ]
-    Bonus.Contributors(BonusId.EVASION, this).forEach(b => {
-      const sign = b.val > -1 ? '+' : ''
-      output.push(`${b.name}: ${sign}${b.val}`)
-    })
-    return output
-  }
-
-  public get Speed(): number {
-    return Bonus.Int(this._frame.Speed + Math.floor(this.Agi / 2), BonusId.SPEED, this)
-  }
-
-  public get SpeedContributors(): string[] {
-    const output = [
-      `FRAME Base Speed: ${this.Frame.Speed}`,
-      `Pilot AGILITY Bonus: +${Math.floor(this.Agi / 2)}`,
-    ]
-    Bonus.Contributors(BonusId.SPEED, this).forEach(b => {
-      const sign = b.val > -1 ? '+' : ''
-      output.push(`${b.name}: ${sign}${b.val}`)
-    })
-    return output
-  }
-
-  public get SensorRange(): number {
-    return Bonus.Int(this._frame.SensorRange, BonusId.SENSOR, this)
-  }
-
-  public get SensorRangeContributors(): string[] {
-    const output = [`FRAME Base Sensor Range: ${this.Frame.SensorRange}`]
-    Bonus.Contributors(BonusId.SENSOR, this).forEach(b => {
-      const sign = b.val > -1 ? '+' : ''
-      output.push(`${b.name}: ${sign}${b.val}`)
-    })
-    return output
-  }
-
-  public get EDefense(): number {
-    return Bonus.Int(this._frame.EDefense + this.Sys, BonusId.EDEF, this)
-  }
-
-  public get EDefenseContributors(): string[] {
-    const output = [
-      `FRAME Base E-Defense: ${this.Frame.EDefense}`,
-      `Pilot SYSTEMS Bonus: +${this.Sys}`,
-    ]
-    Bonus.Contributors(BonusId.EDEF, this).forEach(b => {
-      const sign = b.val > -1 ? '+' : ''
-      output.push(`${b.name}: ${sign}${b.val}`)
-    })
-    return output
-  }
-
-  public get LimitedBonus(): number {
-    return Bonus.Int(Math.floor(this.Eng / 2), BonusId.LIMITED_BONUS, this)
-  }
-
-  public get LimitedContributors(): string[] {
-    const output = [`Pilot ENGINEERING Bonus: +${Math.floor(this.Eng / 2)}`]
-    Bonus.Contributors(BonusId.LIMITED_BONUS, this).forEach(b => {
-      const sign = b.val > -1 ? '+' : ''
-      output.push(`${b.name}: ${sign}${b.val}`)
-    })
-    return output
-  }
-
-  public get AttackBonus(): number {
-    return Bonus.Int(this._pilot.Grit, BonusId.ATTACK, this)
-  }
-
-  public get AttackBonusContributors(): string[] {
-    const output = [`Pilot GRIT Bonus: ${this._pilot.Grit}`]
-    Bonus.Contributors(BonusId.ATTACK, this).forEach(b => {
-      const sign = b.val > -1 ? '+' : ''
-      output.push(`${b.name}: ${sign}${b.val}`)
-    })
-    return output
-  }
-
-  public get TechAttack(): number {
-    return Bonus.Int(this._frame.TechAttack + this.Sys, BonusId.TECH_ATTACK, this)
-  }
-
-  public get TechAttackContributors(): string[] {
-    const output = [
-      `FRAME Base Tech Attack: ${this.Frame.TechAttack}`,
-      `Pilot SYSTEMS Bonus: +${this.Sys}`,
-    ]
-    Bonus.Contributors(BonusId.TECH_ATTACK, this).forEach(b => {
-      const sign = b.val > -1 ? '+' : ''
-      output.push(`${b.name}: ${sign}${b.val}`)
-    })
-    return output
-  }
-
-  public get Grapple(): number {
-    return Bonus.Int(Rules.BaseGrapple, BonusId.GRAPPLE, this)
-  }
-
-  public get GrappleContributors(): string[] {
-    const output = [`Base Grapple Value: ${this.Grapple}`]
-    Bonus.Contributors(BonusId.GRAPPLE, this).forEach(b => {
-      const sign = b.val > -1 ? '+' : ''
-      output.push(`${b.name}: ${sign}${b.val}`)
-    })
-    return output
-  }
-
-  public get Ram(): number {
-    return Bonus.Int(Rules.BaseRam, BonusId.RAM, this)
-  }
-
-  public get RamContributors(): string[] {
-    const output = [`Base Ram Value: ${this.Ram}`]
-    Bonus.Contributors(BonusId.RAM, this).forEach(b => {
-      const sign = b.val > -1 ? '+' : ''
-      output.push(`${b.name}: ${sign}${b.val}`)
-    })
-    return output
-  }
-
-  public get SaveBonus(): number {
-    return Bonus.Int(this._pilot.Grit, BonusId.SAVE, this)
-  }
-
-  public get SaveBonusContributors(): string[] {
-    const output = [`Pilot GRIT Bonus: ${this._pilot.Grit}`]
-    Bonus.Contributors(BonusId.SAVE, this).forEach(b => {
-      const sign = b.val > -1 ? '+' : ''
-      output.push(`${b.name}: ${sign}${b.val}`)
-    })
-    return output
-  }
+  public get Size(): number { return this.StatProvider.Size }
+  public get SizeContributors(): string[] { return this.StatProvider.SizeContributors }
+  public get Armor(): number { return this.StatProvider.Armor }
+  public get ArmorContributors(): string[] { return this.StatProvider.ArmorContributors }
+  public get SaveTarget(): number { return this.StatProvider.SaveTarget }
+  public get SaveTargetContributors(): string[] { return this.StatProvider.SaveTargetContributors }
+  public get Evasion(): number { return this.StatProvider.Evasion }
+  public get EvasionContributors(): string[] { return this.StatProvider.EvasionContributors }
+  public get Speed(): number { return this.StatProvider.Speed }
+  public get SpeedContributors(): string[] { return this.StatProvider.SpeedContributors }
+  public get SensorRange(): number { return this.StatProvider.SensorRange }
+  public get SensorRangeContributors(): string[] { return this.StatProvider.SensorRangeContributors }
+  public get EDefense(): number { return this.StatProvider.EDefense }
+  public get EDefenseContributors(): string[] { return this.StatProvider.EDefenseContributors }
+  public get LimitedBonus(): number { return this.StatProvider.LimitedBonus }
+  public get LimitedContributors(): string[] { return this.StatProvider.LimitedContributors }
+  public get AttackBonus(): number { return this.StatProvider.AttackBonus }
+  public get AttackBonusContributors(): string[] { return this.StatProvider.AttackBonusContributors }
+  public get TechAttack(): number { return this.StatProvider.TechAttack }
+  public get TechAttackContributors(): string[] { return this.StatProvider.TechAttackContributors }
+  public get Grapple(): number { return this.StatProvider.Grapple }
+  public get GrappleContributors(): string[] { return this.StatProvider.GrappleContributors }
+  public get Ram(): number { return this.StatProvider.Ram }
+  public get RamContributors(): string[] { return this.StatProvider.RamContributors }
+  public get SaveBonus(): number { return this.StatProvider.SaveBonus }
+  public get SaveBonusContributors(): string[] { return this.StatProvider.SaveBonusContributors }
 
   // -- HASE passthroughs -------------------------------------------------------------------------
   public get Hull(): number {
@@ -396,188 +233,37 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   // -- Stats -------------------------------------------------------------------------------------
-  public get MaxStructure(): number {
-    return Bonus.Int(this._frame.Structure, BonusId.STRUCTURE, this)
-  }
-
-  public get StructureContributors(): string[] {
-    const output = [`FRAME Base Structure: ${this.Frame.Structure}`]
-    Bonus.Contributors(BonusId.STRUCTURE, this).forEach(b => {
-      const sign = b.val > -1 ? '+' : ''
-      output.push(`${b.name}: ${sign}${b.val}`)
-    })
-    return output
-  }
-
-  public get MaxHP(): number {
-    return Bonus.Int(this._frame.HP + this._pilot.Grit + this.Hull * 2, BonusId.HP, this)
-  }
-
-  public get HPContributors(): string[] {
-    const output = [
-      `FRAME Base HP: ${this.Frame.HP}`,
-      `Pilot GRIT Bonus: +${this._pilot.Grit}`,
-      `Pilot HULL Bonus: +${this.Hull * 2}`,
-    ]
-    Bonus.Contributors(BonusId.HP, this).forEach(b => {
-      const sign = b.val > -1 ? '+' : ''
-      output.push(`${b.name}: ${sign}${b.val}`)
-    })
-    return output
-  }
+  public get MaxStructure(): number { return this.StatProvider.MaxStructure }
+  public get StructureContributors(): string[] { return this.StatProvider.StructureContributors }
+  public get MaxHP(): number { return this.StatProvider.MaxHP }
+  public get HPContributors(): string[] { return this.StatProvider.HPContributors }
 
   public get CurrentSP(): number {
     if (!this.MechLoadoutController.ActiveLoadout) return this.MaxSP
     return this.MechLoadoutController.ActiveLoadout.TotalSP
   }
 
-  public get MaxSP(): number {
-    return Bonus.Int(this.Frame.SP + this._pilot.Grit + Math.floor(this.Sys / 2), BonusId.SP, this)
-  }
-
-  public get FreeSP(): number {
-    return this.MaxSP - this.CurrentSP
-  }
-
-  public get SPContributors(): string[] {
-    const output = [
-      `FRAME Base SP: ${this.Frame.SP}`,
-      `Pilot GRIT Bonus: +${this._pilot.Grit}`,
-      `Pilot SYSTEMS Bonus: +${Math.floor(this.Sys / 2)}`,
-    ]
-    Bonus.Contributors(BonusId.SP, this).forEach(b => {
-      const sign = b.val > -1 ? '+' : ''
-      output.push(`${b.name}: ${sign}${b.val}`)
-    })
-    return output
-  }
-
-  public get HeatCapacity(): number {
-    return Bonus.Int(this._frame.HeatCap + this.Eng, BonusId.HEATCAP, this)
-  }
-
-  public get HeatCapContributors(): string[] {
-    const output = [
-      `FRAME Base Heat Capacity: ${this.Frame.HeatCap}`,
-      `Pilot ENGINEERING Bonus: +${this.Eng}`,
-    ]
-    Bonus.Contributors(BonusId.HEATCAP, this).forEach(b => {
-      const sign = b.val > -1 ? '+' : ''
-      output.push(`${b.name}: ${sign}${b.val}`)
-    })
-    return output
-  }
-
-  public get MaxStress(): number {
-    return Bonus.Int(this._frame.HeatStress, BonusId.STRESS, this)
-  }
-
-  public get StressContributors(): string[] {
-    const output = [`FRAME Base Reactor Stress: ${this.Frame.HeatStress}`]
-    Bonus.Contributors(BonusId.STRESS, this).forEach(b => {
-      const sign = b.val > -1 ? '+' : ''
-      output.push(`${b.name}: ${sign}${b.val}`)
-    })
-    return output
-  }
-
-  public get RepairCapacity(): number {
-    return Bonus.Int(this._frame.RepCap + Math.floor(this.Hull / 2), BonusId.REPCAP, this)
-  }
-
-  public get RepCapContributors(): string[] {
-    const output = [
-      `FRAME Base Repair Capacity: ${this.Frame.RepCap}`,
-      `Pilot HULL Bonus: +${Math.floor(this.Hull / 2)}`,
-    ]
-    Bonus.Contributors(BonusId.REPCAP, this).forEach(b => {
-      const sign = b.val > -1 ? '+' : ''
-      output.push(`${b.name}: ${sign}${b.val}`)
-    })
-    return output
-  }
-
-  public get OverchargeTrack(): string[] {
-    const b = Bonus.getUneval(BonusId.OVERCHARGE, this)
-    return b.length ? b[0].Value : Rules.Overcharge
-  }
+  public get MaxSP(): number { return this.StatProvider.MaxSP }
+  public get FreeSP(): number { return this.MaxSP - this.CurrentSP }
+  public get SPContributors(): string[] { return this.StatProvider.SPContributors }
+  public get HeatCapacity(): number { return this.StatProvider.HeatCapacity }
+  public get HeatCapContributors(): string[] { return this.StatProvider.HeatCapContributors }
+  public get MaxStress(): number { return this.StatProvider.MaxStress }
+  public get StressContributors(): string[] { return this.StatProvider.StressContributors }
+  public get RepairCapacity(): number { return this.StatProvider.RepairCapacity }
+  public get RepCapContributors(): string[] { return this.StatProvider.RepCapContributors }
+  public get OverchargeTrack(): string[] { return this.StatProvider.OverchargeTrack }
 
   public getExpressionContext(): ExpressionContext {
-    // can't call Bonus.Int (directly or via stat getters like MaxHP, Evasion, etc)
-    // because Bonus.Int → EvaluateSpecial → getExpressionContext loops
-    const grit = this._pilot?.Grit ?? 0
-    const hull = this.Hull
-    const agi = this.Agi
-    const sys = this.Sys
-    const eng = this.Eng
-    return {
-      grit,
-      ll: this._pilot?.Level ?? 0,
-      hull,
-      agi,
-      sys,
-      eng,
-      size: this._frame.Size,
-      structure: this._frame.Structure,
-      stress: this._frame.HeatStress,
-      hp: this._frame.HP + grit + hull * 2,
-      armor: this._frame.Armor,
-      speed: this._frame.Speed + Math.floor(agi / 2),
-      evasion: this._frame.Evasion + agi,
-      edef: this._frame.EDefense + sys,
-      heatcap: this._frame.HeatCap + eng,
-      sensors: this._frame.SensorRange,
-      repcap: this._frame.RepCap + Math.floor(hull / 2),
-      save: this._frame.SaveTarget + grit,
-      sp: this._frame.SP + grit + Math.floor(sys / 2),
-      overshield: 0,
-    }
+    return this.StatProvider.getExpressionContext()
   }
 
   public getEntityRef(name: string): IFeatureController | null {
-    switch (name.toLowerCase()) {
-      case 'pilot':
-        return this._pilot ?? null
-      case 'self':
-      case 'mech':
-        return this
-      default:
-        return null
-    }
+    return this.StatProvider.getEntityRef(name)
   }
 
-  public SetStats() {
-    const kvps = [
-      { key: 'size', val: this.Size },
-      { key: 'armor', val: this.Armor },
-      { key: 'save', val: this.SaveTarget },
-      { key: 'structure', val: this.MaxStructure },
-      { key: 'hull', val: this.Hull },
-      { key: 'agi', val: this.Agi },
-      { key: 'sys', val: this.Sys },
-      { key: 'eng', val: this.Eng },
-      { key: 'evasion', val: this.Evasion },
-      { key: 'speed', val: this.Speed },
-      { key: 'sensors', val: this.SensorRange },
-      { key: 'edef', val: this.EDefense },
-      { key: 'limitedBonus', val: this.LimitedBonus },
-      { key: 'attack', val: this.AttackBonus },
-      { key: 'techAttack', val: this.TechAttack },
-      { key: 'grapple', val: this.Grapple },
-      { key: 'ram', val: this.Ram },
-      { key: 'hp', val: this.MaxHP },
-      { key: 'sp', val: this.MaxSP },
-      { key: 'heatcap', val: this.HeatCapacity },
-      { key: 'stress', val: this.MaxStress },
-      { key: 'repcap', val: this.RepairCapacity },
-      { key: 'saveTarget', val: this.SaveTarget },
-      { key: 'activations', val: 1 },
-      { key: 'burn', val: 0 },
-      { key: 'overshield', val: 0 },
-      { key: 'overcharge', val: 0 },
-    ]
-
-    this.CombatController.setStats(kvps)
+  public SetStats(): void {
+    this.StatProvider.SetStats()
   }
 
   // -- Loadouts ----------------------------------------------------------------------------------

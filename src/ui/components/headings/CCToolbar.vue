@@ -16,28 +16,30 @@
   </component>
 </template>
 
-<script lang="ts">
-import minor from './toolbars/cc_toolbar_minor.vue';
-import major from './toolbars/cc_toolbar_major.vue';
+<script setup lang="ts">
+import { computed } from 'vue'
+import minor from './cc_toolbar_minor.vue';
+import major from './cc_toolbar_major.vue';
 
-export default {
-  name: 'cc-toolbar',
-  props: {
-    type: { type: String, default: 'minor' },
-    title: { type: String },
-    color: { type: String },
-    minor: { type: Boolean },
-    hideClose: { type: Boolean },
-    extended: { type: Boolean },
-    extensionHeight: { type: String, default: 'auto' },
-  },
-  computed: {
-    component() {
-      if (this.minor) {
+defineOptions({ name: 'cc-toolbar' })
+
+const props = withDefaults(defineProps<{
+  type?: string
+  title?: string
+  color?: string
+  minor?: boolean
+  hideClose?: boolean
+  extended?: boolean
+  extensionHeight?: string
+}>(), {
+  type: 'minor',
+  extensionHeight: 'auto'
+})
+
+const component = computed(() => {
+      if (props.minor) {
         return minor;
       }
       return major;
-    },
-  },
-};
+    })
 </script>

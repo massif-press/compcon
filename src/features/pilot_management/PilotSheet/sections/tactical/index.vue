@@ -8,27 +8,16 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import MechSkillsBlock from './components/MechSkillsBlock.vue';
 import LicenseBlock from './components/LicenseBlock.vue';
 import SpecialBlock from './components/SpecialBlock.vue';
 import CoreBonusBlock from './components/CoreBonusBlock.vue';
 import TalentBlock from './components/TalentBlock.vue';
 
-export default {
-  name: 'tactical-view',
-  components: {
-    MechSkillsBlock,
-    SpecialBlock,
-    LicenseBlock,
-    CoreBonusBlock,
-    TalentBlock,
-  },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
-};
+defineOptions({ name: 'tactical-view' })
+
+const props = defineProps<{
+  pilot: object
+}>()
 </script>

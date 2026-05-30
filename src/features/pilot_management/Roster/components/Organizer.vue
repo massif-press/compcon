@@ -173,7 +173,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import * as _ from 'lodash-es';
-import { PilotStore } from '../../store';
+import { PilotStore, PilotGroupStore } from '../../store';
 import exportAsJson from '@/util/jsonExport';
 import { PilotGroup } from '../../store/PilotGroup';
 
@@ -204,19 +204,19 @@ const items = computed(() =>
   )
 )
 
-const allGroups = computed(() => PilotStore().getPilotGroups())
+const allGroups = computed(() => PilotGroupStore().getPilotGroups())
 
 async function setGroup() {
   for (const id of selected.value) {
     const item = items.value.find((x: any) => x.ID === id) as any;
     if (item) {
-      await PilotStore().TransferPilot(item, stagedGroup.value ? (stagedGroup.value as PilotGroup).ID : undefined);
+      await PilotGroupStore().TransferPilot(item, stagedGroup.value ? (stagedGroup.value as PilotGroup).ID : undefined);
     }
   }
 
   stagedGroup.value = null;
   setGroupDialog.value = false;
-  await PilotStore().SaveGroupData();
+  await PilotGroupStore().SaveGroupData();
   await PilotStore().SavePilotData();
 }
 
@@ -252,7 +252,7 @@ function deleteItems(undelete: boolean = false) {
   });
   selected.value = [];
   PilotStore().SavePilotData();
-  PilotStore().SaveGroupData();
+  PilotGroupStore().SaveGroupData();
 }
 
 async function deleteItemsPermanent() {
@@ -270,7 +270,7 @@ async function deleteItemsPermanent() {
 }
 
 function getPilotGroup(item: any) {
-  const group = PilotStore().PilotGroups.find((x) => x.Pilots.some((y) => y.id === item.ID));
+  const group = PilotGroupStore().PilotGroups.find((x) => x.Pilots.some((y) => y.id === item.ID));
   return group ? group.Name : 'None';
 }
 

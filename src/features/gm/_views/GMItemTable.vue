@@ -47,26 +47,34 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import * as _ from 'lodash-es';
 import * as headers from './_components/gmItemHeaders';
 
-export default {
-  name: 'item-card-grid',
-  props: {
-    items: { type: Array, required: true },
-    itemType: { type: String, required: true },
-    grouping: { type: String, required: false, default: 'None' },
-    sorting: { type: String, required: false, default: 'Name' },
-    sortDir: { type: String, required: false, default: 'asc' },
-  },
-  emits: ['open'],
-  computed: {
-    headers() {
+defineOptions({ name: 'item-card-grid' })
+
+const props = withDefaults(defineProps<{
+  items: any[]
+  itemType: string
+  grouping?: string
+  sorting?: string
+  sortDir?: string
+}>(), {
+  grouping: 'None',
+  sorting: 'Name',
+  sortDir: 'asc'
+})
+
+const emit = defineEmits<{
+  'open': []
+}>()
+
+const headers = computed(() => {
       const statHeaders = [] as any[];
-      if (this.items.length && (this.items[0] as any).StatController) {
+      if (props.items.length && (props.items[0] as any).StatController) {
         const stats = _.uniqBy(
-          this.items.map((x: any) => x.StatController.DisplayKeys).flat(),
+          props.items.map((x: any) => x.StatController.DisplayKeys).flat(),
           'key'
         );
 
@@ -81,9 +89,9 @@ export default {
       }
 
       const labelHeaders = [] as any[];
-      if (this.items.length && (this.items[0] as any).NarrativeController) {
+      if (props.items.length && (props.items[0] as any).NarrativeController) {
         const labels = new Set(
-          this.items.flatMap((x: any) => x.NarrativeController.Labels).map((x) => x.title)
+          props.items.flatMap((x: any) => x.NarrativeController.Labels).map((x) => x.title)
         );
 
         labels.forEach((l) => {
@@ -96,15 +104,13 @@ export default {
         });
       }
 
-      return headers[this.itemType].concat(statHeaders).concat(labelHeaders);
-    },
-    groupings() {
-      if (this.grouping === 'None') return [`All`];
-      return _.uniq(this.items.flatMap((x) => (x as any)[this.grouping]));
-    },
-    sortBy() {
-      return [{ key: this.sorting, order: 'asc' }];
-    },
-  },
-};
+      return headers[props.itemType].concat(statHeaders).concat(labelHeaders);
+    })
+const groupings = computed(() => {
+      if (props.grouping === 'None') return [`All`];
+      return _.uniq(props.items.flatMap((x) => (x as any)[props.grouping]));
+    })
+const sortBy = computed(() => {
+      return [{ key: props.sorting, order: 'asc' }];
+    })
 </script>

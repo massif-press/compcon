@@ -89,6 +89,7 @@
 </template>
 
 <script setup lang="ts">
+import BlankLine from './blank/line.vue';
 defineProps<{
   mech: any
   blank: boolean

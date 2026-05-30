@@ -38,35 +38,29 @@
   </v-menu>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'cc-brew-info',
-  props: {
-    item: {
-      type: Object,
-    },
-    simple: {
-      type: Boolean,
-    },
-    width: {
-      type: String,
-      default: '100%',
-    },
-    color: {
-      type: String,
-      default: '',
-    },
-  },
-  computed: {
-    controller() {
-      return this.item && this.item.BrewController;
-    },
-    missingContent() {
-      return this.controller && this.controller.IsUnableToLoad;
-    },
-    itemType() {
-      return (this.item as any).ItemType.toLowerCase() || 'item';
-    },
-  },
-};
+<script setup lang="ts">
+import { computed } from 'vue'
+import CCMissingContentList from './CCMissingContentList.vue'
+
+defineOptions({ name: 'cc-brew-info' })
+
+const props = withDefaults(defineProps<{
+  item?: object
+  simple?: boolean
+  width?: string
+  color?: string
+}>(), {
+  width: '100%',
+  color: ''
+})
+
+const controller = computed(() => {
+      return props.item && props.item.BrewController;
+    })
+const missingContent = computed(() => {
+      return controller.value && controller.value.IsUnableToLoad;
+    })
+const itemType = computed(() => {
+      return (props.item as any).ItemType.toLowerCase() || 'item';
+    })
 </script>

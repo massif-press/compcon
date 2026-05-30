@@ -16,33 +16,16 @@
   </v-row>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CCTitledDivider',
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    subtitle: {
-      type: String,
-      required: false,
-    },
-    offset: {
-      type: Number,
-      required: false,
-      default: 1,
-    },
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-    heading: {
-      type: String,
-      required: false,
-      default: '3',
-    },
-  },
-};
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+  title: string
+  subtitle?: string
+  offset?: number
+  color?: string
+  heading?: string
+}>(), {
+  offset: 1,
+  color: 'primary',
+  heading: '3'
+})
 </script>

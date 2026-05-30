@@ -44,39 +44,33 @@
   </v-row>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { Pilot } from '@/classes/pilot/Pilot'
 import BackgroundSelector from '../../../../_components/selectors/BackgroundSelector.vue';
 import { useMobile } from '@/composables/useMobile';
 
+defineOptions({ name: 'ident-block' })
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'ident-block',
-  components: { BackgroundSelector },
-  props: {
-    pilot: {
-      type: Pilot,
-      required: true,
-    },
-  },
-  data: () => ({
-    pilotStatuses: [
+const { mobile, portrait } = useMobile()
+
+const props = defineProps<{
+  pilot: Pilot
+}>()
+
+const pilotStatuses = ref([
       { title: 'Active', value: 'ACTIVE' },
       { title: 'Inactive', value: 'INACTIVE' },
       { title: 'Retired', value: 'RET' },
       { title: 'Missing In Action', value: 'MIA' },
       { title: 'Killed In Action', value: 'KIA' },
       { title: 'Unknown', value: 'UNKNOWN' },
-    ],
-    noteColor: '',
-    notification: '',
-  }),
-  computed: {
-    statusColor(): string {
-      switch (this.pilot.Status.toLowerCase()) {
+    ])
+const noteColor = ref('')
+const notification = ref('')
+
+const statusColor = computed(() => {
+      switch (props.pilot.Status.toLowerCase()) {
         case 'active':
           return 'success';
         case 'mia':
@@ -85,7 +79,5 @@ export default {
         default:
           return 'text';
       }
-    },
-  },
-};
+    })
 </script>

@@ -22,10 +22,9 @@
   </editor-base>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import EditorBase from '../../../gm/_components/EditorBase.vue';
 import EidolonLayerEditor from './_components/EidolonLayerEditor.vue';
-
 import { NpcStore } from '@/stores';
 import Builder from './builder.vue';
 import { Eidolon } from '@/classes/npc/eidolon/Eidolon';
@@ -33,35 +32,39 @@ import PersistentTraits from './_components/PersistentTraits.vue';
 import TierSelector from './_components/TierSelector.vue';
 import exportAsJson from '@/util/jsonExport';
 
-export default {
-  name: 'GmEidolonEditorBase',
-  components: { Builder, EditorBase, EidolonLayerEditor, PersistentTraits, TierSelector },
-  props: {
-    item: { type: Object, required: true },
-    readonly: { type: Boolean, default: false },
-    hideToolbar: { type: Boolean, default: false },
-    hideFooter: { type: Boolean, default: false },
-  },
-  emits: ['exit'],
-  methods: {
-    exit() {
-      this.$emit('exit');
-    },
-    async save() {
+defineOptions({ name: 'GmEidolonEditorBase' })
+
+const props = withDefaults(defineProps<{
+  item: object
+  readonly?: boolean
+  hideToolbar?: boolean
+  hideFooter?: boolean
+}>(), {
+  readonly: false,
+  hideToolbar: false,
+  hideFooter: false
+})
+
+const emit = defineEmits<{
+  'exit': []
+}>()
+
+function exit() {
+      emit('exit');
+    }
+async function save() {
       await NpcStore().SaveNpcData();
-      this.$emit('exit');
-    },
-    deleteItem() {
-      (this.item as Eidolon).SaveController.Delete();
-      this.$emit('exit');
-    },
-    dupe() {
-      NpcStore().CloneNpc(this.item as Eidolon);
-      this.$emit('exit');
-    },
-    exportItem(item) {
+      emit('exit');
+    }
+function deleteItem() {
+      (props.item as Eidolon).SaveController.Delete();
+      emit('exit');
+    }
+function dupe() {
+      NpcStore().CloneNpc(props.item as Eidolon);
+      emit('exit');
+    }
+function exportItem(item) {
       exportAsJson(Eidolon.Serialize(item), `${item.Name}.json`);
-    },
-  },
-};
+    }
 </script>

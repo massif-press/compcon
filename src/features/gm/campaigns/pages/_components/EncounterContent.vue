@@ -76,35 +76,36 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { EncounterStore } from '@/stores';
+import CCEnvironmentDisplay from '@/ui/components/CCEnvironmentDisplay.vue'
+import CCSitrepDisplay from '@/ui/components/CCSitrepDisplay.vue'
 import MapPreview from '@/features/gm/encounters/_components/map/MapPreview.vue';
 import CombatantEditor from '@/features/gm/encounters/_components/combatants/CombatantEditor.vue';
 
-export default {
-  name: 'narrative-content',
-  components: { MapPreview, CombatantEditor },
-  props: {
-    data: { type: Object, required: true },
-  },
-  data: () => ({
-    mapTab: 0,
-  }),
-  computed: {
-    item() {
+defineOptions({ name: 'narrative-content' })
+
+const props = defineProps<{
+  data: object
+}>()
+
+const mapPreview = ref<any>(null)
+
+const mapTab = ref(0)
+
+const item = computed(() => {
       const refElement = EncounterStore()
         .Encounters.filter((x) => !x.SaveController.IsDeleted)
-        .find((x) => x.ID === this.data?.ID);
+        .find((x) => x.ID === props.data?.ID);
       if (refElement) return refElement;
-      return this.data;
-    },
-    combatants() {
+      return props.data;
+    })
+const combatants = computed(() => {
       return {
-        Enemies: this.item.Combatants.filter((x) => x.side === 'enemy'),
-        Allies: this.item.Combatants.filter((x) => x.side === 'ally'),
-        Neutral: this.item.Combatants.filter((x) => x.side === 'neutral'),
+        Enemies: item.value.Combatants.filter((x) => x.side === 'enemy'),
+        Allies: item.value.Combatants.filter((x) => x.side === 'ally'),
+        Neutral: item.value.Combatants.filter((x) => x.side === 'neutral'),
       };
-    },
-  },
-};
+    })
 </script>

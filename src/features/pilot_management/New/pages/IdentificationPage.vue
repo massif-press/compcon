@@ -257,7 +257,9 @@
   </stepper-content>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
+import CCTextEditorDialog from '@/ui/components/CCTextEditorDialog.vue'
 import { PilotStore } from '@/stores';
 import StepperContent from '../../_components/StepperContent.vue';
 import BackgroundSelector from '../../_components/selectors/BackgroundSelector.vue';
@@ -265,42 +267,41 @@ import { name, callsign } from '@/io/Generators';
 import { Pilot } from '@/classes/pilot/Pilot'
 import { useMobile } from '@/composables/useMobile';
 
+defineOptions({ name: 'identification-page' })
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'identification-page',
-  components: { StepperContent, BackgroundSelector },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-    groupID: { type: String },
-  },
-  data: () => ({
-    bioDialog: false,
-    appearanceDialog: false,
-  }),
-  emits: ['set', 'templates', 'next', 'done'],
-  methods: {
-    async randomCallsign() {
+const { mobile, portrait } = useMobile()
+
+const props = defineProps<{
+  pilot: object
+  groupID?: string
+}>()
+
+const emit = defineEmits<{
+  'set': []
+  'templates': []
+  'next': []
+  'done': []
+}>()
+
+const imageSelector = ref<any>(null)
+
+const bioDialog = ref(false)
+const appearanceDialog = ref(false)
+
+async function randomCallsign() {
       const generatedCallsign = await callsign();
-      this.$emit('set', { attr: 'Callsign', val: generatedCallsign });
-      this.$forceUpdate();
-    },
-    async randomName() {
+      emit('set', { attr: 'Callsign', val: generatedCallsign });
+      _forceUpdate();
+    }
+async function randomName() {
       const generatedName = await name();
-      this.$emit('set', { attr: 'Name', val: generatedName });
-      this.$forceUpdate();
-    },
-    async savePilot() {
-      this.pilot.Callsign = this.pilot.Callsign;
-      this.pilot.Name = this.pilot.Name;
-      PilotStore().AddPilot(this.pilot as Pilot, this.groupID);
-      await this.$emit('done');
-    },
-  },
-};
+      emit('set', { attr: 'Name', val: generatedName });
+      _forceUpdate();
+    }
+async function savePilot() {
+      props.pilot.Callsign = props.pilot.Callsign;
+      props.pilot.Name = props.pilot.Name;
+      PilotStore().AddPilot(props.pilot as Pilot, props.groupID);
+      await emit('done');
+    }
 </script>

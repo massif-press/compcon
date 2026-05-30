@@ -90,53 +90,33 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { useMobile } from '@/composables/useMobile';
-  export default {
-  setup() {
-    return useMobile()
-  },
-    name: 'Selector',
-    props: {
-      title: {
-        type: String,
-        required: true,
-      },
-      success: {
-        type: Boolean,
-        required: false,
-      },
-      modal: {
-        type: Boolean,
-        required: false,
-      },
-      selected: {
-        type: Number,
-        required: false,
-      },
-      total: {
-        type: Number,
-        required: false,
-      },
-      flat: {
-        type: Boolean,
-        required: false,
-      },
-    },
-    data: () => ({
-      floating: false,
-      expanded: false,
-      showNav: null,
-    }),
-    computed: {
-      floatSize() {
-        const unit = this.modal ? '%' : 'vw'
 
-        if (this.mobile) return this.expanded ? '4px' : `calc(100${unit} - 120px)`
-        return this.expanded ? '22px' : `calc(100${unit} - 135px)`
-      },
-    },
-  }
+defineOptions({ name: 'Selector' })
+
+const { mobile, portrait } = useMobile()
+
+const props = defineProps<{
+  title: string
+  success?: boolean
+  modal?: boolean
+  selected?: number
+  total?: number
+  flat?: boolean
+}>()
+
+const floating = ref(false)
+const expanded = ref(false)
+const showNav = ref(null)
+
+const floatSize = computed(() => {
+        const unit = props.modal ? '%' : 'vw'
+
+        if (mobile.value) return expanded.value ? '4px' : `calc(100${unit} - 120px)`
+        return expanded.value ? '22px' : `calc(100${unit} - 135px)`
+      })
 </script>
 
 <style scoped>

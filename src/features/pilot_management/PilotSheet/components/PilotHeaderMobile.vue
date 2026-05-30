@@ -124,30 +124,31 @@
   </cc-solo-modal>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useDisplay } from 'vuetify'
 import PilotRegistrationCard from './PilotRegistrationCard.vue';
 import LevelEditDialog from './LevelEditDialog.vue';
-
 import { Pilot } from '@/classes/pilot/Pilot'
+const router = useRouter()
 
-export default {
-  name: 'pilot-header',
-  components: { LevelEditDialog, PilotRegistrationCard },
-  props: {
-    pilot: { type: Pilot, required: true },
-  },
-  data: () => ({
-    levelEdit: false,
-  }),
-  computed: {
-    portrait() {
-      return this.$vuetify.display.xs;
-    },
-    isLevelingUp(): boolean {
-      return this.$route.name === 'pilot-level-wizard';
-    },
-  },
-};
+const _display = useDisplay()
+
+defineOptions({ name: 'pilot-header' })
+
+const props = defineProps<{
+  pilot: Pilot
+}>()
+
+const levelEdit = ref(false)
+
+const portrait = computed(() => {
+      return _display.xs.value;
+    })
+const isLevelingUp = computed(() => {
+      return route.name === 'pilot-level-wizard';
+    })
 </script>
 
 <style scoped>

@@ -6,6 +6,7 @@
     :fullscreen="mobile"
     :max-width="mobile ? '' : maxWidth"
     :min-width="mobile ? '' : minWidth"
+    :persistent="persistent"
     :close-on-content-click="closeOnClick">
     <v-card tile
       flat
@@ -50,6 +51,7 @@ withDefaults(defineProps<{
   icon?: string;
   color?: string;
   closeOnClick?: boolean;
+  persistent?: boolean;
   maxWidth?: string | number;
   minWidth?: string | number;
   noGutters?: boolean;

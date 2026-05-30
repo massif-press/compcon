@@ -62,27 +62,23 @@
   </v-row>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'collection-info',
-  props: {
-    collection: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    showMore: false,
-  }),
-  methods: {
-    sortedChangelog(changelog: string) {
+<script setup lang="ts">
+import { ref } from 'vue'
+
+defineOptions({ name: 'collection-info' })
+
+const props = defineProps<{
+  collection: object
+}>()
+
+const showMore = ref(false)
+
+function sortedChangelog(changelog: string) {
       let log = JSON.parse(changelog).sort((a: any, b: any) => b.version - a.version);
-      if (!this.showMore) {
+      if (!showMore.value) {
         return log.slice(0, 3);
       } else {
         return log.slice(0, 10);
       }
-    },
-  },
-};
+    }
 </script>

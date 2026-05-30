@@ -68,26 +68,19 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { CompendiumStore } from '@/stores';
 import { useMobile } from '@/composables/useMobile';
 
+const { mobile, portrait } = useMobile()
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'Manufacturers',
-  data: () => ({
-    tabModel: 0,
-    loading: false,
-  }),
-  computed: {
-    manufacturers() {
+const tabModel = ref(0)
+const loading = ref(false)
+
+const manufacturers = computed(() => {
       return CompendiumStore().Manufacturers.filter((x) => !x.IsHidden);
-    },
-  },
-};
+    })
 </script>
 
 <style scoped>

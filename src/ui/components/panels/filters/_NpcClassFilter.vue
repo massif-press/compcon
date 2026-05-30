@@ -19,31 +19,37 @@
   </v-row>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'npc-class-filter',
-  props: {
-    activeFilters: { type: Object, default: () => ({}) },
-    roles: { type: Array, default: () => [] },
-  },
-  data: () => ({
-    roleFilter: [] as string[],
-  }),
-  emits: ['set-filters'],
-  mounted() {
-    const f = this.activeFilters;
-    if (!f || !Object.keys(f).length) return;
-    if (f.Role) this.roleFilter = f.Role;
-  },
-  methods: {
-    clear() {
-      this.roleFilter = [];
-    },
-    updateFilters() {
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+
+defineOptions({ name: 'npc-class-filter' })
+
+const props = withDefaults(defineProps<{
+  activeFilters?: object
+  roles?: any[]
+}>(), {
+  activeFilters: () => ({}),
+  roles: () => []
+})
+
+const emit = defineEmits<{
+  'set-filters': []
+}>()
+
+const roleFilter = ref([] as string[])
+
+function clear() {
+      roleFilter.value = [];
+    }
+function updateFilters() {
       const fObj = {} as any;
-      if (this.roleFilter && this.roleFilter.length > 0) fObj.Role = this.roleFilter;
-      this.$emit('set-filters', fObj);
-    },
-  },
-};
+      if (roleFilter.value && roleFilter.value.length > 0) fObj.Role = roleFilter.value;
+      emit('set-filters', fObj);
+    }
+
+onMounted(() => {
+const f = props.activeFilters;
+    if (!f || !Object.keys(f).length) return;
+    if (f.Role) roleFilter.value = f.Role;
+})
 </script>

@@ -1,4 +1,5 @@
 import * as _ from 'lodash-es'
+import type { IControllerStatic } from '@/classes/ISerializable'
 import { Pilot } from '../../Pilot'
 import License, { IRankedData } from './License'
 import { PilotLicense } from './PilotLicense'
@@ -183,5 +184,6 @@ class LicenseController extends RankedCollectionController<License, PilotLicense
   }
 }
 
+const _checkController: IControllerStatic<Pilot, ILicenseSaveData> = LicenseController
 export { LicenseController }
 export type { ILicenseSaveData }

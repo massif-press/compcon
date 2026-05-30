@@ -98,30 +98,17 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'StorageWarning',
-  data: () => ({
-    show: false,
-    showIosWarning: false,
-    hasStorage: false,
-    allowedStorage: false,
-    allowedStorageState: '',
-    hasQuota: false,
-  }),
-  async created() {
-    if (this.isIosBrowser()) {
-      this.showIosWarning = true;
-      return;
-    }
-    this.hasStorage = await this.hasPermanentStorage();
-    this.allowedStorageState = await this.hasPermanentStoragePermission();
-    this.allowedStorage = this.allowedStorageState === 'granted';
-    this.hasQuota = await this.storageQuota();
-    this.show = (!this.hasStorage || !this.allowedStorage) && !this.hasQuota;
-  },
-  methods: {
-    isIosBrowser() {
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+
+const show = ref(false)
+const showIosWarning = ref(false)
+const hasStorage = ref(false)
+const allowedStorage = ref(false)
+const allowedStorageState = ref('')
+const hasQuota = ref(false)
+
+function isIosBrowser() {
       const isIos =
         /iPad|iPhone|iPod/.test(navigator.userAgent) ||
         (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -130,12 +117,12 @@ export default {
         (navigator as any).standalone === true ||
         window.matchMedia('(display-mode: standalone)').matches;
       return !isStandalone;
-    },
-    async hasPermanentStorage() {
+    }
+async function hasPermanentStorage() {
       await navigator.storage.persist();
       return await navigator.storage.persisted();
-    },
-    async hasPermanentStoragePermission() {
+    }
+async function hasPermanentStoragePermission() {
       try {
         const res = await navigator.permissions.query({
           name: 'persistent-storage',
@@ -144,12 +131,22 @@ export default {
       } catch {
         return 'granted';
       }
-    },
-    async storageQuota() {
-      const est = await navigator.storage.estimate();
-      if (!est.quota) return false;
-      return est.quota / 1048576 > 5;
-    },
-  },
-};
+    }
+async function storageQuota() {
+  const est = await navigator.storage.estimate()
+  if (!est.quota) return false
+  return est.quota / 1048576 > 5
+}
+
+onMounted(async () => {
+  if (isIosBrowser()) {
+    showIosWarning.value = true
+    return
+  }
+  hasStorage.value = await hasPermanentStorage()
+  allowedStorageState.value = await hasPermanentStoragePermission()
+  allowedStorage.value = allowedStorageState.value === 'granted'
+  hasQuota.value = await storageQuota()
+  show.value = (!hasStorage.value || !allowedStorage.value) && !hasQuota.value
+})
 </script>

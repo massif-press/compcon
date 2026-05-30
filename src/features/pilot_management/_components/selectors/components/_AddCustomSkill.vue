@@ -37,38 +37,36 @@
   </v-row>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import CustomSkill from '@/classes/pilot/components/skill/CustomSkill';
 import { Pilot } from '@/classes/pilot/Pilot'
 
-export default {
-  name: 'AddCustomSkill',
-  props: {
-    pilot: { type: Pilot, required: true },
-  },
-  emits: ['add-custom'],
-  data: () => ({
-    newSkill: '',
-    newDesc: '',
-    newDetail: '',
-  }),
-  computed: {
-    canAdd(): boolean {
-      const custSkill = new CustomSkill(this.newSkill, this.newDesc, this.newDetail);
-      return this.pilot.SkillsController.CanAddSkill(custSkill);
-    },
-  },
-  methods: {
-    addSkill() {
-      this.$emit('add-custom', {
-        skill: this.newSkill,
-        description: this.newDesc,
-        detail: this.newDetail,
+const props = defineProps<{
+  pilot: Pilot
+}>()
+
+const emit = defineEmits<{
+  'add-custom': []
+}>()
+
+const newSkill = ref('')
+const newDesc = ref('')
+const newDetail = ref('')
+
+const canAdd = computed(() => {
+      const custSkill = new CustomSkill(newSkill.value, newDesc.value, newDetail.value);
+      return props.pilot.SkillsController.CanAddSkill(custSkill);
+    })
+
+function addSkill() {
+      emit('add-custom', {
+        skill: newSkill.value,
+        description: newDesc.value,
+        detail: newDetail.value,
       });
-      this.newSkill = '';
-      this.newDesc = '';
-      this.newDetail = '';
-    },
-  },
-};
+      newSkill.value = '';
+      newDesc.value = '';
+      newDetail.value = '';
+    }
 </script>

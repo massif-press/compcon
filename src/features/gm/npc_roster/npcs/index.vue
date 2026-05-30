@@ -27,31 +27,21 @@
   </gm-split-view>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, onMounted } from 'vue'
 import GmSplitView from '../../_views/GMSplitView.vue';
 import Editor from './editor.vue';
 import Builder from './builder.vue';
 import Features from './features.vue';
 import { Unit } from '@/classes/npc/unit/Unit';
-
 import { NpcStore } from '@/stores';
 import NoGmItem from '../../_views/_components/NoGmItem.vue';
 import { useMobile } from '@/composables/useMobile';
 import { ref, onUnmounted } from 'vue';
 
+defineOptions({ name: 'NpcRoster' })
 
-export default {
-  name: 'NpcRoster',
-  components: { GmSplitView, NoGmItem, Editor, Builder, Features },
-  props: {
-    id: {
-      type: String,
-      required: false,
-      default: null,
-    },
-  },
-  setup() {
-    const npcStore = NpcStore();
+const npcStore = NpcStore();
     const selected = ref<Unit | null>(null);
     const npcs = ref(npcStore.getUnits.filter((x) => !x.SaveController.IsDeleted));
     const unsub = npcStore.$subscribe(() => {
@@ -62,57 +52,62 @@ export default {
       }
     });
     onUnmounted(unsub);
-    return { ...useMobile(), npcStore, npcs, selected };
-  },
-  computed: {
-    groupings() {
+const { mobile, portrait } = useMobile()
+
+const props = withDefaults(defineProps<{
+  id?: string
+}>(), {
+  id: null
+})
+
+const view = ref<any>(null)
+
+const groupings = computed(() => {
       const allLabelTitles = new Set(
-        this.npcStore.getAllLabels.filter((x: any) => x.title && x.title.length > 0)
+        npcStore.getAllLabels.filter((x: any) => x.title && x.title.length > 0)
           .map((x: any) => x.title)
       );
 
       const baseGroupings = ['None', 'Tier', 'Role', 'Tag', 'Folder'];
 
       return [...baseGroupings, ...allLabelTitles];
-    },
-    sortings() {
+    })
+const sortings = computed(() => {
       const allLabelTitles = new Set(
-        this.npcStore.getAllLabels.filter((x: any) => x.title && x.title.length > 0)
+        npcStore.getAllLabels.filter((x: any) => x.title && x.title.length > 0)
           .map((x: any) => x.title)
       );
 
       const baseSortings = ['Name', 'Created', 'Updated', 'Tier', 'Role', 'Tag'];
 
       const statSortings = new Set(
-        this.npcs.flatMap((x) => x.StatController.DisplayKeys.map((k) => k.title)).filter((t) => t !== 'Burn')
+        npcs.value.flatMap((x) => x.StatController.DisplayKeys.map((k) => k.title)).filter((t) => t !== 'Burn')
       );
 
       return [...baseSortings, ...statSortings, ...allLabelTitles];
-    },
-  },
-  mounted() {
-    if (this.id) {
-      const item = NpcStore().getNpcByID(this.id);
-      if (item && item instanceof Unit) {
-        this.selected = item;
-        (this.$refs as any).view.dialog = true;
-      }
+    })
+
+function openItem(item) {
+      selected.value = item;
+      if (mobile.value) view.value.minimize();
     }
-  },
-  methods: {
-    openItem(item) {
-      this.selected = item;
-      if (this.mobile) (this.$refs as any).view.minimize();
-    },
-    async addNew() {
+async function addNew() {
       const u = new Unit();
       await NpcStore().AddNpc(u);
-      this.selected = u;
-      if (this.mobile) (this.$refs as any).view.minimize();
-    },
-    exit() {
-      this.selected = null;
-    },
-  },
-};
+      selected.value = u;
+      if (mobile.value) view.value.minimize();
+    }
+function exit() {
+      selected.value = null;
+    }
+
+onMounted(() => {
+if (props.id) {
+      const item = NpcStore().getNpcByID(props.id);
+      if (item && item instanceof Unit) {
+        selected.value = item;
+        view.value.dialog = true;
+      }
+    }
+})
 </script>

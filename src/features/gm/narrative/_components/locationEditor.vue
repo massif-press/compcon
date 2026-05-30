@@ -36,7 +36,8 @@
   </editor-base>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import { Location } from '@/classes/narrative/Location';
 import EditorBase from '../../../gm/_components/EditorBase.vue';
 import NarrativeBlock from './narrativeBlock.vue';
@@ -44,37 +45,36 @@ import { NarrativeStore } from '@/stores';
 import RelationshipEditor from '../../_components/RelationshipEditor.vue';
 import exportAsJson from '@/util/jsonExport';
 
-export default {
-  name: 'gm-location-editor-base',
-  components: { EditorBase, RelationshipEditor, NarrativeBlock },
-  props: {
-    item: { type: Object, required: true },
-  },
-  emits: ['exit'],
-  computed: {
-    isRemote() {
-      return (this.item as any).SaveController.IsRemote;
-    },
-  },
-  methods: {
-    exit() {
-      this.$emit('exit');
-    },
-    async save() {
+defineOptions({ name: 'gm-location-editor-base' })
+
+const props = defineProps<{
+  item: object
+}>()
+
+const emit = defineEmits<{
+  'exit': []
+}>()
+
+const isRemote = computed(() => {
+      return (props.item as any).SaveController.IsRemote;
+    })
+
+function exit() {
+      emit('exit');
+    }
+async function save() {
       await NarrativeStore().SaveItemData();
-      this.exit();
-    },
-    deleteItem() {
-      (this.item as Location).SaveController.Delete();
-      this.$emit('exit');
-    },
-    dupe() {
-      NarrativeStore().CloneItem(this.item as Location);
-      this.$emit('exit');
-    },
-    exportItem(item) {
+      exit();
+    }
+function deleteItem() {
+      (props.item as Location).SaveController.Delete();
+      emit('exit');
+    }
+function dupe() {
+      NarrativeStore().CloneItem(props.item as Location);
+      emit('exit');
+    }
+function exportItem(item) {
       exportAsJson(Location.Serialize(item), `${item.Name}.json`);
-    },
-  },
-};
+    }
 </script>

@@ -3,7 +3,7 @@ import { INpcFeatureData, NpcFeature } from './NpcFeature'
 import { NpcReaction, INpcReactionData } from './NpcItem/NpcReaction'
 import { NpcSystem, INpcSystemData } from './NpcItem/NpcSystem'
 import { NpcTech, INpcTechData } from './NpcItem/NpcTech'
-import NpcTrait from './NpcItem/NpcTrait'
+import { NpcTrait } from './NpcItem/NpcTrait'
 import { NpcWeapon, INpcWeaponData } from './NpcItem/NpcWeapon'
 import { transformV2NpcFeatureData } from './v2compat'
 

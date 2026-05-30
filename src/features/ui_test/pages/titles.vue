@@ -66,18 +66,19 @@
   </v-window-item>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'ui-test-titles',
-  data: () => ({
-    headingType: 'minor',
-    color: '',
-    size: '',
-    density: '',
-    line: false,
-    filled: false,
-    icon: 'cc:campaign',
-    icons: [
+<script setup lang="ts">
+import { ref } from 'vue'
+
+defineOptions({ name: 'ui-test-titles' })
+
+const headingType = ref('minor')
+const color = ref('')
+const size = ref('')
+const density = ref('')
+const line = ref(false)
+const filled = ref(false)
+const icon = ref('cc:campaign')
+const icons = ref([
       'cc:campaign',
       'mdi-alert',
       'cc:pilot',
@@ -86,9 +87,7 @@ export default {
       'mdi-content-save',
       'cc:encounter',
       'mdi-help',
-    ],
-    colors: ['primary', 'secondary', 'accent', 'damage--heat', 'damage--energy', 'exotic', 'cyan'],
-    densities: ['default', 'compact', 'comfortable'],
-  }),
-};
+    ])
+const colors = ref(['primary', 'secondary', 'accent', 'damage--heat', 'damage--energy', 'exotic', 'cyan'])
+const densities = ref(['default', 'compact', 'comfortable'])
 </script>

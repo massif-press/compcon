@@ -279,27 +279,29 @@
   </v-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
+import { notify } from '@/util/notify'
+import { useDisplay } from 'vuetify'
 import { PostCloudArchive } from '@/classes/components/cloud/CloudArchive';
 import { cloudDelete, downloadFromS3, updateItem } from '@/io/apis/account';
 import { importAll } from '@/io/BulkData';
 import { UserStore } from '@/stores';
 
-export default {
-  name: 'CloudArchive',
-  data: () => ({
-    loading: false,
-    updateLoading: false,
-    working: false,
-    headers: [
+const _display = useDisplay()
+
+const loading = ref(false)
+const updateLoading = ref(false)
+const working = ref(false)
+const headers = ref([
       { title: 'Created', key: 'created' },
       { title: 'Source', key: 'source' },
       { title: 'Size', key: 'size' },
       { title: 'Preserve', key: 'preserve' },
       { title: '', key: 'actions', sortable: false, width: '155px' },
-    ],
-    pruneSetting: 30,
-    pruneOptions: [
+    ])
+const pruneSetting = ref(30)
+const pruneOptions = ref([
       { title: 'Keep All', subtitle: 'Do not automatically delete any archives.', value: -1 },
       { title: 'Last 30', subtitle: 'Keep the 30 newest archives.', value: 30 },
       { title: 'Last 10', subtitle: 'Keep the 10 newest archives.', value: 10 },
@@ -309,96 +311,77 @@ export default {
         subtitle: 'Keep only the most recent archive.',
         value: 1,
       },
-    ],
-    backupFrequency: [
+    ])
+const backupFrequency = ref([
       { title: 'Off', value: 'none' },
       { title: 'On App Start', value: 'appstart' },
       { title: 'Daily', value: 'daily' },
       { title: 'Weekly', value: 'weekly' },
       { title: 'Monthly', value: 'monthly' },
-    ],
-    prunePct: 50,
-  }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-    hasArchiveAccess() {
-      return UserStore().User.PatreonTierValue > 0;
-    },
-    archives() {
-      return UserStore().CloudArchives;
-    },
-    settings() {
-      return UserStore().UserMetadata.SyncSettings;
-    },
-    prunableItemCount() {
-      return UserStore().PrunableBackups.length;
-    },
-    cloudStorageFull() {
-      return UserStore().CloudStorageFull;
-    },
-    skipDeleteWarning: {
-      get() {
-        return UserStore().User.View('skipDeleteWarning_archive', false);
-      },
-      set(val) {
-        UserStore().User.SetView('skipDeleteWarning_archive', val);
-      },
-    },
-  },
-  watch: {
-    'settings.autoBackupLimit': {
-      async handler(val) {
-        await this.updateUserMetadata();
-      },
-    },
-    'settings.autoBackupFrequency': {
-      async handler(val) {
-        await this.updateUserMetadata();
-      },
-    },
-  },
+    ])
+const prunePct = ref(50)
 
-  methods: {
-    async createNew() {
-      this.working = true;
+const mobile = computed(() => {
+      return _display.mdAndDown.value;
+    })
+const hasArchiveAccess = computed(() => {
+      return UserStore().User.PatreonTierValue > 0;
+    })
+const archives = computed(() => {
+      return UserStore().CloudArchives;
+    })
+const settings = computed(() => {
+      return UserStore().UserMetadata.SyncSettings;
+    })
+const prunableItemCount = computed(() => {
+      return UserStore().PrunableBackups.length;
+    })
+const cloudStorageFull = computed(() => {
+      return UserStore().CloudStorageFull;
+    })
+const skipDeleteWarning = computed({
+  get: () => UserStore().User.View('skipDeleteWarning_archive', false),
+  set: (val) => {UserStore().User.SetView('skipDeleteWarning_archive', val);},
+})
+
+async function createNew() {
+      working.value = true;
       const cooldownTime = 10 * 60 * 1000; // 10 minutes
 
       const cooldown = Number(sessionStorage.getItem('cloud-archive-cooldown')) || 0;
 
       if (cooldown + cooldownTime > Date.now()) {
-        this.$notify({
+        notify({
           title: 'Cloud Archive',
           text: `You must wait ${Math.ceil(
             (cooldown + cooldownTime - Date.now()) / 1000
           )} seconds before creating a new archive.`,
           data: { icon: 'mdi-clock', type: 'error' },
         });
-        this.working = false;
+        working.value = false;
         return;
       }
 
       sessionStorage.setItem('cloud-archive-cooldown', Date.now().toString());
 
       await PostCloudArchive('Manual');
-      this.working = false;
+      working.value = false;
 
-      await this.refresh();
-    },
-    async refresh() {
-      this.loading = true;
+      await refresh();
+    }
+async function refresh() {
+      loading.value = true;
 
       await UserStore().refreshDbData();
-      this.loading = false;
-    },
-    async deleteArchive(item) {
-      this.loading = true;
+      loading.value = false;
+    }
+async function deleteArchive(item) {
+      loading.value = true;
       await cloudDelete(item.user_id, item.sortkey, item.uri);
-      await this.refresh();
-      this.loading = false;
-    },
-    async downloadArchive(item) {
+      await refresh();
+      loading.value = false;
+    }
+async function downloadArchive(item) {
       item.downloading = true;
       const data = await downloadFromS3(item.uri);
 
@@ -411,32 +394,30 @@ export default {
       window.URL.revokeObjectURL(url);
 
       item.downloading = false;
-    },
-    async revertCC(item) {
-      this.loading = true;
+    }
+async function revertCC(item) {
+      loading.value = true;
       const data = await downloadFromS3(item.uri);
 
       await importAll(data, true);
 
-      this.loading = false;
-    },
-    async prune() {
-      this.loading = true;
+      loading.value = false;
+    }
+async function prune() {
+      loading.value = true;
       await UserStore().PruneBackups();
-      await this.refresh();
-      this.loading = false;
-    },
-    async setPreserve(item) {
-      this.loading = true;
+      await refresh();
+      loading.value = false;
+    }
+async function setPreserve(item) {
+      loading.value = true;
       item.preserve = !item.preserve;
       await updateItem(item);
-      this.loading = false;
-    },
-    async updateUserMetadata() {
-      this.updateLoading = true;
+      loading.value = false;
+    }
+async function updateUserMetadata() {
+      updateLoading.value = true;
       await UserStore().setUserMetadata();
-      this.updateLoading = false;
-    },
-  },
-};
+      updateLoading.value = false;
+    }
 </script>

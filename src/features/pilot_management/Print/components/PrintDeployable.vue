@@ -60,28 +60,21 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import PrintAction from './PrintAction.vue';
 
-export default {
-  name: 'print-deployable',
-  components: { PrintAction },
-  props: {
-    deployables: {
-      type: Array,
-      required: true,
-    },
-    compact: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  methods: {
-    actions(deployable) {
+defineOptions({ name: 'print-deployable' })
+
+const props = withDefaults(defineProps<{
+  deployables: any[]
+  compact?: boolean
+}>(), {
+  compact: false
+})
+
+function actions(deployable) {
       return deployable.Actions;
-    },
-  },
-};
+    }
 </script>
 
 <style scoped>

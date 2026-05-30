@@ -173,51 +173,43 @@
   </v-fade-transition>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { UserStore } from '@/stores';
 import { runV2CloudMigration, type V2CloudMigrationResult } from '@/io/V2CloudImporter'
 
-export default {
-  name: 'V2CloudMigrationPanel',
-  data() {
-    return {
-      isMigrating: false,
-      migrationResult: null as V2CloudMigrationResult | null,
-    };
-  },
-  computed: {
-    showAccountMigration(): boolean {
+const isMigrating = ref(false)
+const migrationResult = ref(null as V2CloudMigrationResult | null)
+
+const showAccountMigration = computed(() => {
       const status = UserStore().UserMetadata?.V2CloudImportStatus
       return status === 'pending' || status === 'error'
-    },
-    isError(): boolean {
+    })
+const isError = computed(() => {
       return UserStore().UserMetadata?.V2CloudImportStatus === 'error'
-    },
-    detectionData() {
+    })
+const detectionData = computed(() => {
       return UserStore().V2CloudDetectData
-    },
-  },
-  methods: {
-    async debugResetMigration() {
+    })
+
+async function debugResetMigration() {
       await UserStore().resetV2CloudMigration()
-    },
-    async startMigration() {
+    }
+async function startMigration() {
       const store = UserStore()
-      this.isMigrating = true
-      this.migrationResult = null
+      isMigrating.value = true
+      migrationResult.value = null
       try {
         const result = await runV2CloudMigration(store.Cognito.userId)
-        this.migrationResult = result
+        migrationResult.value = result
       } finally {
-        this.isMigrating = false
+        isMigrating.value = false
       }
-    },
-    async dismiss() {
+    }
+async function dismiss() {
       const store = UserStore()
       store.UserMetadata.V2CloudImportStatus =
-        this.migrationResult?.status === 'error' ? 'error' : 'complete'
+        migrationResult.value?.status === 'error' ? 'error' : 'complete'
       await store.setUserMetadata()
-    },
-  },
-};
+    }
 </script>

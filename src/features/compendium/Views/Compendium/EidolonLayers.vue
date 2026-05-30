@@ -39,36 +39,31 @@
     view-key="cb-eidolon-layers" />
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { CompendiumStore } from '@/stores';
 import { EidolonLayer } from '@/classes/npc/eidolon/EidolonLayer';
 
-export default {
-  name: 'EidolonLayers',
+const browser = ref<any>(null)
 
-  data: () => ({
-    selectedTier: 1,
-    tieredView: false,
-    options: {
+const selectedTier = ref(1)
+const tieredView = ref(false)
+const options = ref({
       views: ['single', 'table', 'cards'],
       initialView: 'single',
       groups: ['lcp', 'none'],
       initialGroup: 'none',
-    },
-    headers: [
+    })
+const headers = ref([
       { title: 'Content Pack', key: 'LcpName' },
       { title: 'Name', key: 'Name' },
       {
         title: 'Shards',
         key: 'ShardCount',
       },
-    ],
-  }),
+    ])
 
-  computed: {
-    layers(): EidolonLayer[] {
+const layers = computed(() => {
       return CompendiumStore().EidolonLayers;
-    },
-  },
-};
+    })
 </script>

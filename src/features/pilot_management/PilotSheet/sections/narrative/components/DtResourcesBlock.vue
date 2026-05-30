@@ -31,19 +31,15 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import CCOrgItem from '@/ui/components/items/CCOrgItem.vue'
 import SectionHeader from '../../components/SectionHeader.vue';
 import NoDataBlock from '../../components/NoDataBlock.vue';
 import ReserveSelector from '@/features/pilot_management/_components/selectors/ReserveSelector.vue';
 
-export default {
-  name: 'dt-resources-block',
-  components: { SectionHeader, NoDataBlock, ReserveSelector },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
-};
+defineOptions({ name: 'dt-resources-block' })
+
+const props = defineProps<{
+  pilot: object
+}>()
 </script>

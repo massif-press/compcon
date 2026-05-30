@@ -107,51 +107,30 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
+import { ref, watch } from 'vue'
 
-export default {
-  name: 'StatMiniPanel',
-  props: {
-    modelValue: {
-      type: [Number, Boolean],
-    },
-    title: {
-      type: String,
-    },
-    icon: {
-      type: String,
-    },
-    color: {
-      type: String,
-    },
-    boolean: {
-      type: Boolean,
-    },
-    baseValue: {
-      type: Number,
-      default: 0,
-    },
-  },
-  emits: ['click', 'update:model-value'],
-  data() {
-    return {
-      internalValue: this.modelValue || 0,
-    };
-  },
-  watch: {
-    modelValue(val) {
-      this.internalValue = val;
-    },
-    internalValue(val) {
-      this.$emit('update:model-value', val);
-    },
-  },
-  methods: {
-    setVal(val) {
-      this.$emit('update:model-value', val);
-    },
-  },
-};
+const props = withDefaults(defineProps<{
+  modelValue?: number | boolean
+  title?: string
+  icon?: string
+  color?: string
+  boolean?: boolean
+  baseValue?: number
+}>(), {
+  baseValue: 0
+})
+
+const emit = defineEmits<{
+  'click': []
+  'update:model-value': []
+}>()
+
+const internalValue = ref(props.modelValue || 0)
+
+function setVal(val) {
+      emit('update:model-value', val);
+    }
 </script>
 
 <style scoped>

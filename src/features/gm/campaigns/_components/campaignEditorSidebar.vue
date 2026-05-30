@@ -106,7 +106,8 @@
   </v-navigation-drawer>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { Campaign } from '@/classes/campaign/Campaign';
 import { CampaignStore } from '../../store/campaign_store';
 import CampaignPublisher from './campaignPublisher.vue';
@@ -115,46 +116,47 @@ import IndentedList from '@/features/compendium/Views/CampaignLibrary/components
 import exportAsJson from '@/util/jsonExport';
 import sectionAddMenu from './sectionAddMenu.vue';
 
-export default {
-  name: 'campaign-editor-sidebar',
-  components: { IndentedList, CampaignPublisher, CurrentVersionExport, sectionAddMenu },
-  props: {
-    campaign: { type: Object, required: true },
-    currentPage: { type: String },
-  },
-  data: () => ({
-    lastSave: '',
-    selected: null,
-    showNav: true,
-  }),
-  created() {
-    this.lastSave = this.campaign.SaveController.LastModified;
-  },
-  computed: {
-    dirty() {
-      return this.lastSave !== this.campaign.SaveController.LastModified;
-    },
-  },
-  methods: {
-    async save() {
-      this.campaign.SaveController.save();
-      CampaignStore().SaveCampaign(this.campaign as Campaign);
-    },
-    setPage(type: string) {
-      this.$emit('set-page', type);
-      this.selected = null;
-    },
-    setSelected(item: any) {
-      this.selected = item;
-      this.$emit('set-selected', item);
-    },
-    exportEditable() {
+defineOptions({ name: 'campaign-editor-sidebar' })
+
+const props = defineProps<{
+  campaign: object
+  currentPage?: string
+}>()
+
+const emit = defineEmits<{
+  'set-page': []
+  'set-selected': []
+}>()
+
+const lastSave = ref('')
+const selected = ref(null)
+const showNav = ref(true)
+
+lastSave.value = props.campaign.SaveController.LastModified;
+
+lastSave.value = props.campaign.SaveController.LastModified;
+
+const dirty = computed(() => {
+      return lastSave.value !== props.campaign.SaveController.LastModified;
+    })
+
+async function save() {
+      props.campaign.SaveController.save();
+      CampaignStore().SaveCampaign(props.campaign as Campaign);
+    }
+function setPage(type: string) {
+      emit('set-page', type);
+      selected.value = null;
+    }
+function setSelected(item: any) {
+      selected.value = item;
+      emit('set-selected', item);
+    }
+function exportEditable() {
       const filename =
-        this.campaign.Title.replace(/\s/g, '_').toLowerCase() +
+        props.campaign.Title.replace(/\s/g, '_').toLowerCase() +
         new Date().toLocaleString() +
         '.json';
-      exportAsJson(Campaign.Serialize(this.campaign as Campaign), filename);
-    },
-  },
-};
+      exportAsJson(Campaign.Serialize(props.campaign as Campaign), filename);
+    }
 </script>

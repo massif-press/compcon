@@ -62,35 +62,28 @@
   </stepper-content>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { CompendiumStore } from '@/stores';
 import StepperContent from '../../_components/StepperContent.vue';
 import SkillSelector from '../../_components/selectors/SkillSelector.vue';
 import { Pilot } from '@/classes/pilot/Pilot'
 
-export default {
-  name: 'skills-page',
-  components: {
-    StepperContent,
-    SkillSelector,
-  },
-  data: () => ({
-    suggestedSet: false,
-  }),
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    canContinue(): boolean {
-      return !this.pilot.SkillsController.IsMissingSkills;
-    },
-    count(): number {
-      return this.pilot.SkillsController.MaxSkillPoints;
-    },
-    word(): string {
+defineOptions({ name: 'skills-page' })
+
+const props = defineProps<{
+  pilot: object
+}>()
+
+const suggestedSet = ref(false)
+
+const canContinue = computed(() => {
+      return !props.pilot.SkillsController.IsMissingSkills;
+    })
+const count = computed(() => {
+      return props.pilot.SkillsController.MaxSkillPoints;
+    })
+const word = computed(() => {
       const words = [
         'zero',
         'one',
@@ -110,33 +103,30 @@ export default {
         'fifteen',
         'sixteen',
       ];
-      return words[this.count];
-    },
-  },
-  methods: {
-    setSuggestedSkills() {
+      return words[count.value];
+    })
+
+function setSuggestedSkills() {
       const bgItem = CompendiumStore().Backgrounds.find(
-        (b) => b.Name.toLowerCase() === this.pilot.Background.toLowerCase()
+        (b) => b.Name.toLowerCase() === props.pilot.Background.toLowerCase()
       );
       if (!bgItem || !bgItem.SuggestedSkills?.length) return;
 
-      if (this.suggestedSet) {
+      if (suggestedSet.value) {
         bgItem.SuggestedSkills.forEach((skill) => {
-          this.pilot.SkillsController.RemoveSkill(skill);
+          props.pilot.SkillsController.RemoveSkill(skill);
         });
-        this.suggestedSet = false;
+        suggestedSet.value = false;
         return;
       }
 
-      this.pilot.SkillsController.ClearSkills();
+      props.pilot.SkillsController.ClearSkills();
       bgItem.SuggestedSkills.forEach((skill) => {
-        this.pilot.SkillsController.AddSkill(skill);
+        props.pilot.SkillsController.AddSkill(skill);
       });
-      this.suggestedSet = true;
-    },
-    reset() {
-      this.suggestedSet = false;
-    },
-  },
-};
+      suggestedSet.value = true;
+    }
+function reset() {
+      suggestedSet.value = false;
+    }
 </script>

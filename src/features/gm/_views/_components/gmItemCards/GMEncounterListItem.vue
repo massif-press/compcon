@@ -79,23 +79,28 @@
   </v-hover>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import SortChips from './_subcomponents/sortChips.vue';
 import SitrepChip from './_subcomponents/sitrepChip.vue';
 import EnvironmentChip from './_subcomponents/envChip.vue';
 import CombatantChip from './_subcomponents/combatantChip.vue';
 
-export default {
-  name: 'GmLocationListItem',
-  components: { SortChips, SitrepChip, EnvironmentChip, CombatantChip },
-  props: {
-    item: { type: Object, required: true },
-    big: { type: Boolean },
-    odd: { type: Boolean },
-    grouping: { type: [Object, String], required: false, default: '' },
-    sorting: { type: [Object, String], required: false, default: '' },
-    isSelected: { type: Boolean, default: false },
-  },
-  emits: ['open'],
-};
+defineOptions({ name: 'GmLocationListItem' })
+
+const props = withDefaults(defineProps<{
+  item: object
+  big?: boolean
+  odd?: boolean
+  grouping?: object | string
+  sorting?: object | string
+  isSelected?: boolean
+}>(), {
+  grouping: '',
+  sorting: '',
+  isSelected: false
+})
+
+const emit = defineEmits<{
+  'open': []
+}>()
 </script>

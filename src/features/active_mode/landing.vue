@@ -102,14 +102,19 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useDisplay } from 'vuetify'
 import { EncounterStore, PilotSheetStore } from '@/stores';
+const router = useRouter()
 
-export default {
-  name: 'home',
-  data: () => ({
-    dialog: true,
-    headers: [
+const _display = useDisplay()
+
+defineOptions({ name: 'home' })
+
+const dialog = ref(true)
+const headers = ref([
       {
         icon: 'cc:lancer',
         title: 'LANCER',
@@ -123,8 +128,8 @@ export default {
         title: 'OBSERVER',
         subtitle: 'In Development (release v3.2)',
       },
-    ],
-    lists: [
+    ])
+const lists = ref([
       [
         {
           title: 'Active Character Sheets',
@@ -198,30 +203,26 @@ export default {
           to: '',
         },
       ],
-    ],
-  }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-    lastLocalEncounter() {
+    ])
+
+const mobile = computed(() => {
+      return _display.mdAndDown.value;
+    })
+const lastLocalEncounter = computed(() => {
       return EncounterStore().getActiveEncounter(EncounterStore().CurrentActiveID);
-    },
-    lastLocalSheet() {
+    })
+const lastLocalSheet = computed(() => {
       return PilotSheetStore().GetSheet(PilotSheetStore().CurrentActiveID);
-    },
-  },
-  methods: {
-    loadLastLocalEncounter() {
-      if (this.lastLocalEncounter) {
-        this.$router.push(`active-mode/gm-encounter-runner/${this.lastLocalEncounter.ID}`);
-      }
-    },
-    loadLastLocalSheet() {
-      if ((this.lastLocalSheet)) {
-        this.$router.push(`active-mode/pilot-runner/${this.lastLocalSheet.ID}`);
+    })
+
+function loadLastLocalEncounter() {
+      if (lastLocalEncounter.value) {
+        router.push(`active-mode/gm-encounter-runner/${lastLocalEncounter.value.ID}`);
       }
     }
-  },
-};
+function loadLastLocalSheet() {
+      if ((lastLocalSheet.value)) {
+        router.push(`active-mode/pilot-runner/${lastLocalSheet.value.ID}`);
+      }
+    }
 </script>

@@ -576,17 +576,14 @@
   </v-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import { CompendiumStore } from '@/stores';
-
 import { Status } from '@/classes/Status';
 
-export default {
-  name: 'CombatRefEncounter',
-  computed: {
-    statuses(): Status[] {
+defineOptions({ name: 'CombatRefEncounter' })
+
+const statuses = computed(() => {
       return CompendiumStore().Statuses;
-    },
-  },
-};
+    })
 </script>

@@ -61,32 +61,37 @@
   </v-tooltip>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, watch } from 'vue'
 import TickbarMenu from './_tickbarMenu.vue';
 
-export default {
-  name: 'TickbarActivator',
-  components: { TickbarMenu },
-  props: {
-    label: { type: String },
-    icon: { type: String },
-    readonly: { type: Boolean },
-    bgColor: { type: String, default: 'panel' },
-    editable: { type: Boolean, default: false },
-    modelValue: { type: Number, default: 0 },
-    internalValue: { type: Number, default: 0 },
-    width: { type: String, default: '158px' },
-    clip: { type: Boolean, default: false },
-    valueAtlas: { type: Array, default: null },
-  },
-  emits: ['set', 'reset'],
-  data() {
-    return { localValue: this.internalValue };
-  },
-  watch: {
-    internalValue(val) { this.localValue = val; },
-  },
-};
+const props = withDefaults(defineProps<{
+  label?: string
+  icon?: string
+  readonly?: boolean
+  bgColor?: string
+  editable?: boolean
+  modelValue?: number
+  internalValue?: number
+  width?: string
+  clip?: boolean
+  valueAtlas?: any[]
+}>(), {
+  bgColor: 'panel',
+  editable: false,
+  modelValue: 0,
+  internalValue: 0,
+  width: '158px',
+  clip: false,
+  valueAtlas: null
+})
+
+const emit = defineEmits<{
+  'set': []
+  'reset': []
+}>()
+
+const localValue = ref(props.internalValue)
 </script>
 
 <style scoped>

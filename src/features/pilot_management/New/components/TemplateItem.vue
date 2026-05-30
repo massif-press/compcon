@@ -134,34 +134,29 @@
   </v-row>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { CompendiumStore } from '@/stores';
 import { useMobile } from '@/composables/useMobile';
 
+defineOptions({ name: 'template-item' })
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'template-item',
-  props: {
-    template: { type: Object, required: true },
-    isSelected: { type: Boolean },
-  },
-  data: () => ({
-    expanded: false,
-  }),
-  computed: {
-    frameImage() {
-      return this.template.image;
-    },
-  },
-  methods: {
-    item(type: string, id: string) {
+const { mobile, portrait } = useMobile()
+
+const props = defineProps<{
+  template: object
+  isSelected?: boolean
+}>()
+
+const expanded = ref(false)
+
+const frameImage = computed(() => {
+      return props.template.image;
+    })
+
+function item(type: string, id: string) {
       return CompendiumStore().referenceByID(type, id) as any;
-    },
-  },
-};
+    }
 </script>
 
 <style scoped>

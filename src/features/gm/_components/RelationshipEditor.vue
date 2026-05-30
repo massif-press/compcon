@@ -31,6 +31,7 @@
 
 <script setup lang="ts">
 import { ref, computed, nextTick } from 'vue'
+import CCRelationshipItem from '@/ui/components/CCRelationshipItem.vue'
 import { NarrativeStore } from '../store/narrative_store'
 
 const props = withDefaults(defineProps<{

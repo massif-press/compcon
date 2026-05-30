@@ -5,366 +5,59 @@
     @dragenter.prevent="onDragEnter"
     @dragleave="onDragLeave">
     <div class="light bg-primary" />
-    <v-toolbar density="compact"
-      :class="['mt-2', 'title-hover', { 'title-drag-active': dropActive }, { 'pl-4': mobile && !noGroup }]"
-      height="48"
-      style="position: relative; clip-path: polygon(16px 0, 100% 0, 100% 100%, 0 100%, 0 16px)"
-      @click="setGroupExpand()"
-      @dragover.prevent
-      @drop.prevent="onDropOnTitle">
-      <v-icon v-if="!noGroup && (!mobile || dragModeActive)"
-        icon="mdi-drag"
-        class="group-drag-handle mr-1 ml-2"
-        aria-label="Drag to reorder group"
-        tabindex="0"
-        style="cursor: move; opacity: 0.5; transition: opacity 0.2s"
-        @click.stop />
-      <v-avatar v-if="group.PortraitController.HasImage"
-        size="30px"
-        class="mr-2">
-        <cc-img :src="group.Portrait" />
-      </v-avatar>
-      <div v-else-if="noGroup"
-        class="mr-2"
-        style="width: 30px; height: 30px;" />
-
-      <span class="heading h3">{{ group.Name }}</span>
-      <v-btn v-if="mobile"
-        :icon="edit ? 'mdi-pencil-off' : 'mdi-pencil'"
-        size="x-small"
-        v-bind="props"
-        @click.stop="setEdit()" />
-      <span class="pl-4 text-caption">
-        ({{ pilots.length }} Pilot{{ pilots.length === 1 ? '' : 's' }})
-      </span>
-      <v-spacer />
-      <v-divider v-if="!mobile"
-        vertical
-        class="ts mx-4"
-        style="transform: skew(-45deg); opacity: 1 !important" />
-      <v-icon :icon="group.Expanded ? 'mdi-chevron-up' : 'mdi-chevron-down'" />
-    </v-toolbar>
+    <group-header
+      :group="group"
+      :no-group="noGroup"
+      :mobile="mobile.value"
+      :drag-mode-active="dragModeActive"
+      :drop-active="dropActive"
+      :pilot-count="pilots.length"
+      @toggle-expand="setGroupExpand"
+      @drop="onDropOnTitle"
+      @delete="deleteGroup"
+      @transfer-pilot="transferPilot"
+      @export="exportGroup" />
     <v-expand-transition>
       <v-card v-if="group.Expanded"
         style="overflow: visible">
-        <div class="pa-2">
-          <v-row v-if="!noGroup"
-            align="start">
-            <v-col cols="12"
-              md=""
-              :order="mobile ? 1 : 0">
-              <v-expand-transition>
-                <cc-text-field v-if="edit"
-                  v-model="group.Name"
-                  label="Group Name"
-                  variant="outlined"
-                  color="primary"
-                  density="compact"
-                  hide-details
-                  class="mb-2" />
-              </v-expand-transition>
-              <v-expand-transition>
-
-                <fieldset v-if="group.Description || edit"
-                  class="py-1 px-2 my-1"
-                  style="border-radius: 4px">
-                  <legend class="text-overline px-2"
-                    style="line-height: 0">Description</legend>
-                  <div class="py-1 px-2 flavor-text">
-                    <cc-text-editor-inline v-if="edit"
-                      :original="group.Description"
-                      @save="group.Description = $event" />
-                    <div v-else
-                      v-html-safe="group.Description" />
-                  </div>
-                </fieldset>
-              </v-expand-transition>
-              <v-expand-transition>
-                <fieldset v-if="group.History || edit"
-                  class="py-1 px-2 my-4"
-                  style="border-radius: 4px">
-                  <legend class="text-overline px-2"
-                    style="line-height: 0">History</legend>
-                  <div class="py-1 px-2 flavor-text">
-                    <cc-text-editor-inline v-if="edit"
-                      :original="group.History"
-                      @save="group.History = $event" />
-                    <div v-else
-                      v-html-safe="group.History" />
-                  </div>
-                </fieldset>
-              </v-expand-transition>
-              <cc-button v-if="mobile && edit"
-                prepend-icon="mdi-pencil-circle-outline"
-                block
-                size="x-small"
-                color="primary"
-                @click="edit = false">
-                Finish Editing
-              </cc-button>
-            </v-col>
-            <v-col v-if="group.PortraitController.CloudImage || edit"
-              cols="12"
-              md="3"
-              :order="mobile ? 0 : 1"
-              :class="!mobile ? 'mb-2' : ''"
-              class="text-right pa-3">
-              <div class="d-flex justify-center">
-                <cc-img :src="group.Portrait"
-                  :max-width="mobile ? 200 : ''" />
-              </div>
-              <div v-if="edit"
-                class="text-right mb-2">
-                <group-emblem-modal :group="group" />
-              </div>
-            </v-col>
-          </v-row>
-          <v-card-text class="py-0"
-            style="overflow:visible"
-            :class="[rosterView.includes('card') ? 'text-center' : '', mobile ? 'px-0' : 'px-2']">
-            <sortable :key="groupSortableKey"
-              :list="filteredPilots"
-              item-key="ID"
-              :class="rosterView === 'cards' ? 'd-flex flex-wrap' : ''"
-              :options="sortableOptions"
-              @start="startDragScroll"
-              @end="onPilotReorder"
-              @add="onPilotAdded">
-              <template #item="{ element }">
-                <div :data-pilot-id="element.ID"
-                  @pointerdown="mobile ? onPointerDown() : undefined"
-                  @pointerup="mobile ? onPointerUp() : undefined"
-                  @pointercancel="mobile ? onPointerCancel() : undefined">
-                  <component :is="pilotCardType"
-                    :pilot="element"
-                    @go-to="toPilotSheet(element.ID)" />
-                </div>
-              </template>
-            </sortable>
-          </v-card-text>
-          <v-expand-transition>
-            <v-row v-if="edit"
-              class="pa-1">
-              <v-spacer />
-              <v-col cols="auto">
-                <v-dialog v-model="deleteDialog"
-                  width="auto">
-                  <template #activator="{ props }">
-                    <cc-button color="error"
-                      size="small"
-                      prepend-icon="mdi-delete"
-                      v-bind="props">Delete Group
-                    </cc-button>
-                  </template>
-
-                  <v-card tile>
-                    <v-card-text>
-                      <cc-alert color="error"
-                        icon="mdi-alert"
-                        :title="`Delete ${group.Name}?`">
-                        <div v-if="pilots.length"
-                          class="pa-1">
-                          <span v-if="deletePilotsToggle">
-                            All pilots assigned to this group will be permanently deleted.
-                          </span>
-                          <span v-else>
-                            All pilots assigned to this group will be moved to the "No Group"
-                            section
-                          </span>
-                        </div>
-                      </cc-alert>
-                      <v-row v-if="pilots.length"
-                        justify="end">
-                        <v-col cols="auto">
-                          <cc-switch v-model="deletePilotsToggle"
-                            inset
-                            color="error"
-                            label="Delete pilots"
-                            density="compact"
-                            hide-details />
-                        </v-col>
-                      </v-row>
-                    </v-card-text>
-
-                    <v-divider />
-                    <v-card-actions>
-                      <v-btn color="accent"
-                        variant="plain"
-                        tile
-                        @click="deleteDialog = false">
-                        Dismiss
-                      </v-btn>
-                      <v-spacer />
-                      <cc-button v-if="!noGroup"
-                        color="error"
-                        variant="tonal"
-                        prepend-icon="mdi-delete"
-                        @click="deleteGroup()">
-                        Delete Group
-                      </cc-button>
-                    </v-card-actions>
-
-                  </v-card>
-                </v-dialog>
-              </v-col>
-            </v-row>
-          </v-expand-transition>
-        </div>
-        <v-slide-y-reverse-transition>
-          <div v-if="!dragModeActive">
-            <v-divider />
-            <v-row justify="space-between"
-              align="center"
-              class="py-2 px-4 text-center"
-              :dense="mobile">
-              <v-col v-if="!noGroup"
-                cols="12"
-                sm="auto">
-                <v-tooltip :text="edit ? 'Finish Editing' : 'Edit Group Information'">
-                  <template #activator="{ props }">
-                    <cc-button v-if="!mobile"
-                      :icon="edit ? 'mdi-pencil-off' : 'mdi-pencil'"
-                      color="primary"
-                      size="small"
-                      variant="outlined"
-                      v-bind="props"
-                      @click="edit = !edit" />
-                  </template>
-                </v-tooltip>
-              </v-col>
-
-              <v-col v-if="transferrable.length"
-                cols="auto"
-                :order="mobile ? 1 : ''">
-                <cc-button color="primary"
-                  :size="mobile ? 'x-small' : 'small'"
-                  :stacked="!mobile"
-                  prepend-icon="mdi-transfer"
-                  :disabled="!transferrable.length">
-                  {{ mobile ? 'Transfer' : 'Transfer Pilots' }}
-                  <v-menu activator="parent"
-                    :close-on-content-click="false">
-                    <v-card flat
-                      tile
-                      border>
-                      <v-text-field v-model="search"
-                        variant="outlined"
-                        density="compact"
-                        clearable
-                        hide-details
-                        prepend-inner-icon="mdi-magnify" />
-                      <v-divider class="mt-2" />
-                      <v-list max-height="400px"
-                        density="compact">
-                        <v-list-item v-for="pilot in transferrable"
-                          :key="`transfer_${pilot.ID}`"
-                          :title="pilot.Callsign"
-                          :subtitle="pilot.Name"
-                          slim
-                          @click="transferPilot(pilot as Pilot)" />
-                      </v-list>
-                    </v-card>
-                  </v-menu>
-                </cc-button>
-              </v-col>
-
-              <v-col cols="12"
-                md=""
-                class="text-left">
-                <cc-button color="success"
-                  block
-                  prepend-icon="mdi-plus"
-                  @click="router.push({ name: 'new', params: { groupID: group.ID } })">
-                  Create New Pilot
-                  <template #info>
-                    <v-icon size="small"
-                      icon="cc:pilot" />
-                  </template>
-                  <template #subtitle>
-                    <div class="text-cc-overline"
-                      style="font-size: max(8px, calc(8px + 0.2vw)) !important">
-                      <span v-if="group.ID === 'no_group'">Add a new pilot to the roster</span>
-                      <span v-else>Add a new pilot to {{ group.Name }}</span>
-                    </div>
-                  </template>
-                </cc-button>
-              </v-col>
-
-              <v-col cols="auto">
-                <v-menu offset-y>
-                  <template #activator="{ props }">
-                    <cc-button color="primary"
-                      :size="mobile ? 'x-small' : 'small'"
-                      :stacked="!mobile"
-                      prepend-icon="mdi-dots-vertical"
-                      @click="props.onClick($event)">
-                      Import
-                    </cc-button>
-                  </template>
-                  <v-card tile
-                    border>
-                    <v-card-text>
-                      <cc-modal title="Import"
-                        icon="mdi-import"
-                        max-width="900">
-                        <template #activator="{ open }">
-                          <cc-button color="primary"
-                            size="small"
-                            block
-                            prepend-icon="mdi-import"
-                            @click="open">
-                            File Import
-                          </cc-button>
-                        </template>
-                        <template #default="{ close }">
-                          <file-import :group-id="group.ID"
-                            @done="close" />
-                        </template>
-                      </cc-modal>
-                      <br />
-                      <share-code-dialog import-type="pilot"
-                        block-btn />
-                    </v-card-text>
-                  </v-card>
-                </v-menu>
-              </v-col>
-              <cc-button color="primary"
-                :size="mobile ? 'x-small' : 'small'"
-                :stacked="!mobile"
-                prepend-icon="mdi-export"
-                @click="exportGroup()">
-                Export
-              </cc-button>
-            </v-row>
-          </div>
-        </v-slide-y-reverse-transition>
+        <pilot-sortable-list
+          :filtered-pilots="filteredPilots"
+          :group-sortable-key="groupSortableKey"
+          :sortable-options="sortableOptions"
+          :pilot-card-type="pilotCardType"
+          :roster-view="rosterView"
+          :mobile="mobile.value"
+          @reorder="onPilotReorder"
+          @added="onPilotAdded"
+          @start="startDragScroll"
+          @pointer-down="onPointerDown"
+          @pointer-up="onPointerUp"
+          @pointer-cancel="onPointerCancel"
+          @go-to="toPilotSheet" />
       </v-card>
     </v-expand-transition>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useDisplay } from 'vuetify'
-import { Sortable } from 'sortablejs-vue3';
-import { PilotStore, UserStore } from '@/stores';
-import PilotCard from './PilotCard.vue';
-import PilotListItem from './PilotListItem.vue';
+import { PilotStore, PilotGroupStore, UserStore } from '@/stores'
+import PilotCard from './PilotCard.vue'
+import PilotListItem from './PilotListItem.vue'
 import { Pilot } from '@/classes/pilot/Pilot'
 import { PilotGroup } from '@/features/pilot_management/store/PilotGroup'
-import { saveFile } from '@/io/Data';
-import FileImport from './add_panels/FileImport.vue';
-import ShareCodeDialog from '@/shared/ShareCodeDialog.vue';
-import { useDragMode } from '@/composables/useDragMode';
-import { startDragScroll, stopDragScroll } from '@/composables/useScrollOnDrag';
-import GroupEmblemModal from './_GroupEmblemModal.vue';
+import { saveFile } from '@/io/Data'
+import { useGroupSortable } from './useGroupSortable'
+import GroupHeader from './GroupHeader.vue'
+import PilotSortableList from './PilotSortableList.vue'
 
 const props = withDefaults(defineProps<{
-  group: any;
-  rosterSearch?: string;
-  transferKey?: number;
-  dragModeActive?: boolean;
+  group: any
+  rosterSearch?: string
+  transferKey?: number
+  dragModeActive?: boolean
 }>(), {
   rosterSearch: '',
   transferKey: 0,
@@ -376,30 +69,7 @@ const emit = defineEmits<{ 'pilot-transferred': [] }>()
 const router = useRouter()
 const mobile = useDisplay().smAndDown
 
-const { onPointerDown, onPointerUp, onPointerCancel } = useDragMode(600, { shared: true })
-
-const rootEl = ref<HTMLElement | null>(null)
-const edit = ref(false)
-const deleteDialog = ref(false)
-const deletePilotsToggle = ref(false)
-const search = ref('')
-const dropActive = ref(false)
-
 const noGroup = computed(() => props.group.ID === 'no_group')
-
-const groupSortableKey = computed(() => `${props.group.ID}-${props.transferKey}-${props.dragModeActive}`)
-
-const sortableOptions = computed(() => {
-  const needsHandle = !mobile.value || !props.dragModeActive
-  return {
-    animation: 250,
-    easing: 'cubic-bezier(1, 0, 0, 1)',
-    handle: needsHandle ? '.drag-handle' : undefined,
-    group: { name: 'pilots', pull: true, put: ['pilots'] },
-    scroll: false,
-    disabled: !!props.rosterSearch,
-  }
-})
 
 const pilots = computed<Pilot[]>(() => {
   const store = PilotStore()
@@ -417,29 +87,44 @@ const filteredPilots = computed<Pilot[]>(() => {
 })
 
 const profile = computed(() => UserStore().User)
-
 const rosterView = computed<string>(() => {
   if (!profile.value || !profile.value.View) return 'list'
   return profile.value.View('roster', 'list')
 })
-
 const pilotCardType = computed<any>(() => {
   switch (rosterView.value) {
-    case 'cards':
-      return PilotCard;
-    case 'list':
-    default:
-      return PilotListItem;
+    case 'cards': return PilotCard
+    default: return PilotListItem
   }
 })
 
-const transferrable = computed(() =>
-  PilotStore().Pilots.filter(
-    (pilot) =>
-      !pilot.SaveController.IsDeleted &&
-      !props.group.Pilots.map((x) => x.id).includes(pilot.ID) &&
-      (!search.value || (pilot.Name + pilot.Callsign).toLowerCase().includes(search.value.toLowerCase()))
-  )
+
+const rosterSearchRef = computed(() => props.rosterSearch)
+const transferKeyRef = computed(() => props.transferKey)
+const dragModeActiveRef = computed(() => props.dragModeActive)
+
+const {
+  rootEl,
+  dropActive,
+  groupSortableKey,
+  sortableOptions,
+  onPilotReorder,
+  onDropOnTitle,
+  onDragEnter,
+  onDragLeave,
+  onPilotAdded,
+  onPointerDown,
+  onPointerUp,
+  onPointerCancel,
+  startDragScroll,
+} = useGroupSortable(
+  props.group,
+  filteredPilots,
+  rosterSearchRef,
+  mobile,
+  dragModeActiveRef,
+  transferKeyRef,
+  () => emit('pilot-transferred')
 )
 
 watch(() => props.rosterSearch, (val: string) => {
@@ -449,123 +134,31 @@ watch(() => props.rosterSearch, (val: string) => {
 function toPilotSheet(pilotID: string) {
   router.push({ name: 'pilot_sheet_redirect', params: { pilotID } })
 }
-
-function onPilotReorder(event: any) {
-  stopDragScroll()
-  dropActive.value = false
-  if (event.from !== event.to) return
-  if (event.oldIndex === event.newIndex) return
-  if (props.rosterSearch) return
-
-  const fromPilot = filteredPilots.value[event.oldIndex]
-  const toPilot = filteredPilots.value[event.newIndex]
-  if (!fromPilot || !toPilot) return
-
-  const fromIdx = props.group.Pilots.findIndex((p: any) => p.id === fromPilot.ID)
-  const toIdx = props.group.Pilots.findIndex((p: any) => p.id === toPilot.ID)
-  if (fromIdx === -1 || toIdx === -1) return
-
-  PilotStore().movePilotIndex(props.group as PilotGroup, fromIdx, toIdx)
-  PilotStore().SaveGroupData()
-}
-
-function onDropOnTitle() {
-  if (!dropActive.value) return
-  const dragEl = document.querySelector('[data-pilot-id].sortable-chosen') ||
-    document.querySelector('[data-pilot-id].sortable-ghost')
-  const pilotId = (dragEl as HTMLElement)?.dataset?.pilotId
-  if (!pilotId) return
-  if (props.group.Pilots.some((p: any) => p.id === pilotId)) {
-    dropActive.value = false
-    return
-  }
-  const pilot = PilotStore().getPilotByID(pilotId) as any
-  if (!pilot) return
-  PilotStore().TransferPilot(pilot, props.group.ID)
-  emit('pilot-transferred')
-  dropActive.value = false
-}
-
-function onDragEnter() {
-  if (document.querySelector('.sortable-chosen .group-drag-handle')) return
-  dropActive.value = true
-}
-
-function onDragLeave(event: DragEvent) {
-  if (rootEl.value && rootEl.value.contains(event.relatedTarget as Node)) return
-  dropActive.value = false
-}
-
-async function onPilotAdded(event: any) {
-  stopDragScroll()
-  dropActive.value = false
-  const pilotId = event.item.dataset.pilotId
-  if (!pilotId) return
-  const pilot = PilotStore().getPilotByID(pilotId) as any
-  if (!pilot) return
-  await PilotStore().TransferPilot(pilot, props.group.ID)
-  emit('pilot-transferred')
-}
-
 async function transferPilot(pilot: Pilot) {
-  await PilotStore().TransferPilot(pilot, props.group.ID)
+  await PilotGroupStore().TransferPilot(pilot, props.group.ID)
 }
-
-function deleteGroup() {
-  PilotStore().DeleteGroup(props.group as PilotGroup, deletePilotsToggle.value)
-  deleteDialog.value = false
+function deleteGroup(deletePilots: boolean) {
+  PilotGroupStore().DeleteGroup(props.group as PilotGroup, deletePilots)
 }
-
 function setGroupExpand() {
   props.group.Expanded = !props.group.Expanded
-  PilotStore().SaveGroupData()
+  PilotGroupStore().SaveGroupData()
 }
-
 function exportGroup() {
-  const pilots = PilotStore().getPilots(props.group.ID)
-
+  const groupPilots = PilotStore().getPilots(props.group.ID)
   const exportObj = {
     groupData: PilotGroup.Serialize(props.group as PilotGroup),
-    pilotData: pilots.map((x: Pilot) => Pilot.Serialize(x)),
+    pilotData: groupPilots.map((x: Pilot) => Pilot.Serialize(x)),
   }
-
   saveFile(
     props.group.Name.toUpperCase().replace(/\W/g, '') + '.json',
     JSON.stringify(exportObj, null, 2) as any,
     'Pilot Group'
   )
 }
-
-function move(direction: 'top' | 'up' | 'down' | 'bottom') {
-  PilotStore().ReorderGroup(props.group as PilotGroup, direction)
-}
-
-function setEdit() {
-  if (!props.group.Expanded) setGroupExpand()
-  edit.value = !edit.value
-  if (!edit.value) {
-    PilotStore().SaveGroupData()
-  }
-}
 </script>
 
 <style scoped>
-.title-hover {
-  background-color: rgb(var(--v-theme-primary));
-  color: white;
-
-  transition: background-color 0.3s ease-in-out;
-}
-
-.title-hover:hover {
-  cursor: pointer;
-  background-color: rgb(var(--v-theme-active));
-}
-
-.title-drag-active {
-  background-color: rgb(var(--v-theme-success)) !important;
-}
-
 .light {
   position: absolute;
   width: 13.5px;

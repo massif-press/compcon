@@ -202,141 +202,121 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import TableWindowItem from './_TableWindowItem.vue';
 import CascadeCheck from './_CascadeCheck.vue';
 import { MechLoadout } from '@/classes/mech/components/loadout/MechLoadout'
 import { MechSystem } from '@/classes/mech/components/equipment/MechSystem'
 import { MechInstance } from '@/classes/components/combat/MechInstance';
 
-export default {
-  name: 'StructureTable',
-  components: { TableWindowItem, CascadeCheck },
+defineOptions({ name: 'StructureTable' })
 
-  data: () => ({
-    dialog: false,
-    window: 0,
-    rolls: [],
-    resultData: [],
-    systemTraumaRoll: null,
-    destroyedSystem: null,
-    destroyedMount: null,
-    results: [
+const dialog = ref(false)
+const window = ref(0)
+const rolls = ref([])
+const resultData = ref([])
+const systemTraumaRoll = ref(null)
+const destroyedSystem = ref(null)
+const destroyedMount = ref(null)
+const results = ref([
       'Direct Hit',
       'System Trauma',
       'System Trauma',
       'System Trauma',
       'Glancing Blow',
       'Glancing Blow',
-    ],
-  }),
-  computed: {
-    mech(): MechInstance {
+    ])
+
+const mech = computed(() => {
       return CompendiumStore()().activeMech;
-    },
-    destroyableMounts(): { name: string; index: number }[] {
-      return this.loadout
-        .AllMounts
-        // this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-        // this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
-        // this.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
-        ()
-        .filter((x) => x.Weapons.some((w) => !w.Destroyed && !(w.IsLimited && w.Uses === 0)))
-        .map((m, i) => ({ name: m.Name, index: i }));
-    },
-    destroyableSystems(): MechSystem[] {
-      return this.loadout.AllActiveSystems.filter(
+    })
+const destroyableMounts = computed(() => { name: string; index: number })
+const name = computed(() => {
+      return loadout.value.AllActiveSystems.filter(
         (x) => !x.IsIndestructible && !x.Destroyed && !(x.IsLimited && x.Uses === 0)
       );
-    },
-    loadout(): MechLoadout {
-      return this.mech.Loadout;
-    },
-    totalRolls(): number {
+    })
+const loadout = computed(() => {
+      return mech.value.Loadout;
+    })
+const totalRolls = computed(() => {
       return (
-        (this.mech.ActiveStatController.CurrentStructure - this.mech.StatController.MaxStructure) *
+        (mech.value.ActiveStatController.CurrentStructure - mech.value.StatController.MaxStructure) *
         -1
       );
-    },
-    result(): string {
-      return this.results[this.totalRolls - 2];
-    },
-    resultDescription(): string {
-      return this.resultData.find((x) => x.name === this.result).description;
-    },
-    resultWindow(): number {
-      if (this.rolls.filter((x) => x === 1).length > 1) return 4;
-      switch (Math.min(...this.rolls)) {
+    })
+const result = computed(() => {
+      return results.value[totalRolls.value - 2];
+    })
+const resultDescription = computed(() => {
+      return resultData.value.find((x) => x.name === result.value).description;
+    })
+const resultWindow = computed(() => {
+      if (rolls.value.filter((x) => x === 1).length > 1) return 4;
+      switch (Math.min(...rolls.value)) {
         case 6:
         case 5:
           return 1;
         case 4:
         case 3:
         case 2:
-          if (!this.destroyableMounts.length && !this.destroyableSystems.length) return 3;
+          if (!destroyableMounts.value.length && !destroyableSystems.value.length) return 3;
           return 2;
         case 1:
-          return this.mech.ActiveStatController.CurrentStructure <= 1 ? 4 : 3;
+          return mech.value.ActiveStatController.CurrentStructure <= 1 ? 4 : 3;
       }
       return 4;
-    },
-  },
-  methods: {
-    rollRandom(): number {
+    })
+
+function rollRandom() {
       return Math.floor(Math.random() * 6) + 1;
-    },
-
-    applyGlancingBlow(): void {
-      if (!this.mech.ActiveStatController.Conditions.includes('IMPAIRED'))
-        this.mech.ActiveStatController.Conditions.push('IMPAIRED');
-      this.close();
-    },
-
-    applyDirectHit(): void {
-      if (!this.mech.ActiveStatController.Conditions.includes('STUNNED'))
-        this.mech.ActiveStatController.Conditions.push('STUNNED');
-      this.close();
-    },
-
-    applyDestroyed(): void {
-      // this.mech.Destroy()
-      this.close();
-    },
-
-    applySystemTrauma(): void {
-      if (this.systemTraumaRoll > 3) {
-        let s = this.loadout.Systems.find((x) => x.ID === this.destroyedSystem);
+    }
+function applyGlancingBlow() {
+      if (!mech.value.ActiveStatController.Conditions.includes('IMPAIRED'))
+        mech.value.ActiveStatController.Conditions.push('IMPAIRED');
+      close();
+    }
+function applyDirectHit() {
+      if (!mech.value.ActiveStatController.Conditions.includes('STUNNED'))
+        mech.value.ActiveStatController.Conditions.push('STUNNED');
+      close();
+    }
+function applyDestroyed() {
+      // mech.value.Destroy()
+      close();
+    }
+function applySystemTrauma() {
+      if (systemTraumaRoll.value > 3) {
+        let s = loadout.value.Systems.find((x) => x.ID === destroyedSystem.value);
         if (!s) {
-          s = this.loadout.IntegratedSystems.find((x) => x.ID === this.destroyedSystem);
+          s = loadout.value.IntegratedSystems.find((x) => x.ID === destroyedSystem.value);
         }
         s.Destroy();
       } else {
-        const m = this.loadout
+        const m = loadout.value
           .AllMounts
-          // this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-          // this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
-          // this.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
-          ()[this.destroyedMount];
+          // mech.value.Pilot.has('CoreBonus', 'cb_improved_armament'),
+          // mech.value.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
+          // mech.value.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
+          ()[destroyedMount.value];
         m.Weapons.forEach((w) => {
           w.Destroy();
         });
       }
-      this.close();
-    },
-
-    show(): void {
-      this.dialog = true;
-    },
-    close(): void {
-      this.window = 0;
-      this.rolls = [];
-      this.systemTraumaRoll = null;
-      this.destroyedSystem = null;
-      this.destroyedMount = null;
-      this.dialog = false;
-    },
-  },
-};
+      close();
+    }
+function show() {
+      dialog.value = true;
+    }
+function close() {
+      window.value = 0;
+      rolls.value = [];
+      systemTraumaRoll.value = null;
+      destroyedSystem.value = null;
+      destroyedMount.value = null;
+      dialog.value = false;
+    }
 </script>
 
 <style scoped>

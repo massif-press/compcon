@@ -106,30 +106,34 @@
   </v-menu>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import TalentRankContents from './_TalentRankContents.vue';
 import TalentEmblem from './_TalentEmblem.vue';
-export default {
-  name: 'talent-small',
-  components: { TalentRankContents, TalentEmblem },
-  emits: ['add', 'remove'],
-  props: {
-    hideLocked: { type: Boolean },
-    talent: { type: Object, required: true },
-    canAdd: { type: Boolean },
-    selectable: { type: Boolean },
-    rank: { type: [Number, String], required: false, default: null },
-  },
-  data: () => ({
-    showAll: false,
-  }),
-  computed: {
-    showFull() {
-      if (this.hideLocked) return this.showAll;
+
+defineOptions({ name: 'talent-small' })
+
+const props = withDefaults(defineProps<{
+  hideLocked?: boolean
+  talent: object
+  canAdd?: boolean
+  selectable?: boolean
+  rank?: number | string
+}>(), {
+  rank: null
+})
+
+const emit = defineEmits<{
+  'add': []
+  'remove': []
+}>()
+
+const showAll = ref(false)
+
+const showFull = computed(() => {
+      if (props.hideLocked) return showAll.value;
       return true;
-    },
-  },
-};
+    })
 </script>
 
 <style scoped>

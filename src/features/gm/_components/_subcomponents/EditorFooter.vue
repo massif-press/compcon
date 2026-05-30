@@ -126,50 +126,54 @@
   </v-footer>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { NpcStore, UserStore } from '@/stores';
 import { useMobile } from '@/composables/useMobile';
 import ShareDialog from '@/shared/ShareDialog.vue';
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'GmEditorFooter',
-  components: { ShareDialog },
-  props: {
-    item: { type: Object, required: true },
-    readonly: { type: Boolean, default: false },
-    hideToolbar: { type: Boolean, default: false },
-  },
-  emits: ['exit', 'export', 'convert', 'print'],
-  data: () => ({
-    deleteMenu: false,
-    dupeMenu: false,
-    convertMenu: false,
-  }),
-  computed: {
-    isRemote() {
-      return this.item.SaveController.IsRemote;
-    },
-    isAuthed() {
+defineOptions({ name: 'GmEditorFooter' })
+
+const { mobile, portrait } = useMobile()
+
+const props = withDefaults(defineProps<{
+  item: object
+  readonly?: boolean
+  hideToolbar?: boolean
+}>(), {
+  readonly: false,
+  hideToolbar: false
+})
+
+const emit = defineEmits<{
+  'exit': []
+  'export': []
+  'convert': []
+  'print': []
+}>()
+
+const deleteMenu = ref(false)
+const dupeMenu = ref(false)
+const convertMenu = ref(false)
+
+const isRemote = computed(() => {
+      return props.item.SaveController.IsRemote;
+    })
+const isAuthed = computed(() => {
       return UserStore().IsLoggedIn;
-    },
-  },
-  methods: {
-    async save() {
-      await this.item.SaveController.Save();
-    },
-    deleteItem() {
-      this.item.SaveController.Delete();
-      this.deleteMenu = false;
-      this.$emit('exit');
-    },
-    dupe() {
-      const dupe = this.item.Clone();
+    })
+
+async function save() {
+      await props.item.SaveController.Save();
+    }
+function deleteItem() {
+      props.item.SaveController.Delete();
+      deleteMenu.value = false;
+      emit('exit');
+    }
+function dupe() {
+      const dupe = props.item.Clone();
       NpcStore().AddNpc(dupe);
-      this.dupeMenu = false;
-    },
-  },
-};
+      dupeMenu.value = false;
+    }
 </script>

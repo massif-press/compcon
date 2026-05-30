@@ -43,48 +43,48 @@
   </v-menu>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import npcTags from '@/assets/npc_tags.json';
 
-export default {
-  name: 'npc-class-selector',
-  props: {
-    item: { type: Object, required: true },
-    readonly: { type: Boolean, default: false },
-  },
-  computed: {
-    locked() {
+defineOptions({ name: 'npc-class-selector' })
+
+const props = withDefaults(defineProps<{
+  item: object
+  readonly?: boolean
+}>(), {
+  readonly: false
+})
+
+const locked = computed(() => {
       let lockTemplate = '';
-      if (this.item.NpcClassController) {
-        lockTemplate = this.item.NpcClassController.ForceTag;
+      if (props.item.NpcClassController) {
+        lockTemplate = props.item.NpcClassController.ForceTag;
       }
 
       if (lockTemplate && lockTemplate.length > 0) {
         return lockTemplate;
       }
 
-      if (this.item.NpcTemplateController) {
-        if (this.item.NpcTemplateController.Templates)
-          lockTemplate = this.item.NpcTemplateController.Templates.find((t) => t.ForceTag)?.Name;
+      if (props.item.NpcTemplateController) {
+        if (props.item.NpcTemplateController.Templates)
+          lockTemplate = props.item.NpcTemplateController.Templates.find((t) => t.ForceTag)?.Name;
       }
 
       return lockTemplate;
-    },
-    tags() {
+    })
+const tags = computed(() => {
       return npcTags;
-    },
-    getTagIcon() {
-      if (!this.item.Tag) return 'mdi-tag-outline';
-      const tag = this.tags.find((t) => t.name.toLowerCase() === this.item.Tag.toLowerCase());
+    })
+const getTagIcon = computed(() => {
+      if (!props.item.Tag) return 'mdi-tag-outline';
+      const tag = tags.value.find((t) => t.name.toLowerCase() === props.item.Tag.toLowerCase());
       if (!tag) return 'mdi-tag-outline';
       return tag.icon;
-    },
-  },
-  methods: {
-    tagDisabled(tag) {
-      if (!this.locked) return false;
-      return this.locked !== tag.name;
-    },
-  },
-};
+    })
+
+function tagDisabled(tag) {
+      if (!locked.value) return false;
+      return locked.value !== tag.name;
+    }
 </script>

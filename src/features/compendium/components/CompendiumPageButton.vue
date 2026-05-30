@@ -29,6 +29,8 @@
 
 <script setup lang="ts">
 import { useMobile } from '@/composables/useMobile'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 const props = defineProps({
     name: {

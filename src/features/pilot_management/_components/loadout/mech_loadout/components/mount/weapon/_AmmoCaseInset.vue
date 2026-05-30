@@ -39,17 +39,25 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'AmmoCaseInset',
-  props: {
-    level: { type: Number, required: true, default: 0 },
-    uses: { type: Number, required: false, default: 0 },
-    readonly: { type: Boolean },
-  },
-  data: () => ({
-    selected: null,
-    allAmmo: [
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+
+const props = withDefaults(defineProps<{
+  level: number
+  uses?: number
+  readonly?: boolean
+}>(), {
+  level: 0,
+  uses: 0
+})
+
+const emit = defineEmits<{
+  'set-cost': []
+  'set-damage': []
+}>()
+
+const selected = ref(null)
+const allAmmo = ref([
       {
         name: 'Standard',
         cost: 0,
@@ -94,22 +102,17 @@ export default {
         damage: 'kinetic',
         effect: 'This weapon gains AP and deals Kinetic damage.',
       },
-    ],
-  }),
-  computed: {
-    ammoItems() {
-      if (this.level < 2) return this.allAmmo.slice(0, 4);
-      return this.allAmmo;
-    },
-  },
-  created() {
-    this.selected = this.allAmmo[0];
-  },
-  methods: {
-    setSelection(ammo) {
-      this.$emit('set-cost', ammo.cost);
-      this.$emit('set-damage', ammo.damage);
-    },
-  },
-};
+    ])
+
+selected.value = allAmmo.value[0];
+
+const ammoItems = computed(() => {
+      if (props.level < 2) return allAmmo.value.slice(0, 4);
+      return allAmmo.value;
+    })
+
+function setSelection(ammo) {
+      emit('set-cost', ammo.cost);
+      emit('set-damage', ammo.damage);
+    }
 </script>

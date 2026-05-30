@@ -22,6 +22,11 @@
       :autocomplete="autocomplete"
       :type="type"
       :max="max"
+      :rules="rules"
+      :prefix="prefix"
+      :suffix="suffix"
+      :counter="counter"
+      :hint="hint"
       rounded="0"
       :max-width="maxWidth"
       :bg-color="isFocused ? 'surface-variant' : bgColor"
@@ -102,52 +107,65 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CCTextField',
-  inheritAttrs: false,
-  props: {
-    modelValue: { type: [String, Number] },
-    color: { type: String, default: 'panel' },
-    size: { type: String },
-    variant: { type: String, default: 'solo' },
-    prependInnerIcon: { type: String },
-    appendInnerIcon: { type: String },
-    block: { type: Boolean },
-    loading: { type: Boolean },
-    disabled: { type: Boolean },
-    placeholder: { type: String },
-    label: { type: String },
-    icon: { type: String },
-    clearable: { type: Boolean },
-    tooltip: { type: String },
-    tooltipIcon: { type: String },
-    autofocus: { type: Boolean },
-    details: { type: String },
-    readonly: { type: Boolean },
-    optionsIcon: { type: String },
-    type: { type: String },
-    autocomplete: { type: String },
-    width: { type: String, default: '100%' },
-    height: { type: String },
-    itemTitle: { type: String },
-    itemValue: { type: String },
-    hideDetails: { type: Boolean },
-    maxWidth: { type: String },
-    items: { type: Array, default: () => [] },
-    max: { type: [Number, String] },
-    density: { type: String },
-    dense: { type: Boolean },
-    hideDetails: { type: [Boolean, String] },
-    modelModifiers: { default: () => ({}) },
-    bgColor: { type: String, default: 'panel' },
-  },
-  emits: ['update:model-value', 'click-append-inner'],
-  data: () => ({
-    isFocused: false,
-    isHovering: false,
-  }),
-};
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const props = withDefaults(defineProps<{
+  modelValue?: string | number
+  color?: string
+  size?: string
+  variant?: string
+  prependInnerIcon?: string
+  appendInnerIcon?: string
+  block?: boolean
+  loading?: boolean
+  disabled?: boolean
+  placeholder?: string
+  label?: string
+  icon?: string
+  clearable?: boolean
+  tooltip?: string
+  tooltipIcon?: string
+  autofocus?: boolean
+  details?: string
+  readonly?: boolean
+  optionsIcon?: string
+  type?: string
+  autocomplete?: string
+  width?: string
+  height?: string
+  itemTitle?: string
+  itemValue?: string
+  hideDetails?: boolean
+  maxWidth?: string
+  items?: any[]
+  max?: number | string
+  density?: string
+  dense?: boolean
+  hideDetails?: boolean | string
+  modelModifiers?: any
+  bgColor?: string
+  rules?: any[]
+  prefix?: string
+  suffix?: string
+  counter?: boolean | number
+  hint?: string
+}>(), {
+  color: 'panel',
+  variant: 'solo',
+  width: '100%',
+  items: () => [],
+  modelModifiers: () => ({}),
+  bgColor: 'panel'
+})
+
+const emit = defineEmits<{
+  'update:model-value': []
+  'click-append-inner': []
+}>()
+
+const isFocused = ref(false)
+const isHovering = ref(false)
 </script>
 
 <style scoped>

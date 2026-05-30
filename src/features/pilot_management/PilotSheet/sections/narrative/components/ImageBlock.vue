@@ -15,15 +15,12 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { Pilot } from '@/classes/pilot/Pilot'
-export default {
-  name: 'image-block',
-  props: {
-    pilot: {
-      type: Pilot,
-      required: true,
-    },
-  },
-};
+
+defineOptions({ name: 'image-block' })
+
+const props = defineProps<{
+  pilot: Pilot
+}>()
 </script>

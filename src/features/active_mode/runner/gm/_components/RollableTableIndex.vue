@@ -104,58 +104,50 @@
   </v-card>
 </template>
 
-<script>
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useDisplay } from 'vuetify'
 import { RollableTable } from '@/classes/narrative/elements/RollableTable';
 import { CompendiumStore } from '@/stores';
 
-export default {
-  name: 'RollableTableIndex',
-  props: {
-    selected: {
-      type: Object,
-      required: false,
-    },
-    instance: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    selectedTable: null,
-    results: [],
-  }),
-  computed: {
-    portrait() {
-      return !this.$vuetify.display.mdAndUp
-    },
-    isCoreTable() {
+const _display = useDisplay()
+
+const props = defineProps<{
+  selected?: object
+  instance: object
+}>()
+
+const selectedTable = ref(null)
+const results = ref([])
+
+const portrait = computed(() => {
+      return !_display.mdAndUp.value
+    })
+const isCoreTable = computed(() => {
       const core = ['core-structure-damage', 'core-overheating'];
-      return this.selectedTable && this.selectedTable.ID;
-    },
-    tables() {
+      return selectedTable.value && selectedTable.value.ID;
+    })
+const tables = computed(() => {
       return CompendiumStore().Tables;
-    },
-    otherTables() {
-      return this.instance.Encounter.NarrativeController.Tables;
-    },
-    allTables() {
-      return [...this.tables, ...this.otherTables];
-    },
-    actor() {
-      return this.selected ? this.selected.actor : null;
-    },
-  },
-  created() {
-    this.selectedTable = this.tables[0] || this.otherTables[0] || null;
-    this.results = this.allTables.reduce((acc, t) => {
-      acc[t.ID] = { roll: null, result: null };
-      return acc;
-    }, {});
-  },
-  methods: {
-    roll(t) {
-      this.results[t.ID] = t.Roll();
-    },
-  },
-};
+    })
+const otherTables = computed(() => {
+      return props.instance.Encounter.NarrativeController.Tables;
+    })
+const allTables = computed(() => {
+      return [...tables.value, ...otherTables.value];
+    })
+
+selectedTable.value = tables.value[0] || otherTables.value[0] || null;
+results.value = allTables.value.reduce((acc, t) => {
+  acc[t.ID] = { roll: null, result: null };
+  return acc;
+}, {});
+
+const actor = computed(() => {
+      return props.selected ? props.selected.actor : null;
+    })
+
+function roll(t) {
+      results.value[t.ID] = t.Roll();
+    }
 </script>

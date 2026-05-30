@@ -10,31 +10,24 @@
   </cc-compendium-browser>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { CompendiumStore } from '@/stores';
-
 import { orderBy } from 'lodash-es';
 
-export default {
-  name: 'DowntimeActions',
-
-  data: () => ({
-    headers: [
+const headers = ref([
       { title: 'Content Pack', key: 'LcpName' },
       { title: 'Name', key: 'Name' },
-    ],
-    options: {
+    ])
+const options = ref({
       views: ['list', 'table'],
       initialView: 'list',
       groups: ['lcp', 'none'],
       initialGroup: 'none',
       noSource: true,
-    },
-  }),
-  computed: {
-    downtimeActions() {
+    })
+
+const downtimeActions = computed(() => {
       return orderBy(CompendiumStore().DowntimeActions, 'Name');
-    },
-  },
-};
+    })
 </script>

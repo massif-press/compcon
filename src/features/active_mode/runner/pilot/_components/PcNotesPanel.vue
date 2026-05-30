@@ -15,20 +15,11 @@
   </v-card>
 </template>
 
-<script>
+<script setup lang="ts">
 import { Clock } from '@/classes/narrative/elements/Clock';
 
-export default {
-  name: 'PcNotesPanel',
-  props: {
-    selected: {
-      type: Object,
-      required: true,
-    },
-    encounter: {
-      type: Object,
-      required: true,
-    },
-  },
-};
+const props = defineProps<{
+  selected: object
+  encounter: object
+}>()
 </script>

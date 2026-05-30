@@ -90,47 +90,41 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { Placeholder } from '@/classes/encounter/Placeholder';
 import * as _ from 'lodash-es';
 
-export default {
-  name: 'GmAddStubMenu',
-  props: {
-    encounterInstance: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    newPlaceholder: {
+const props = defineProps<{
+  encounterInstance: object
+}>()
+
+const newPlaceholder = ref({
       name: '',
       type: 'NPC',
       side: 'enemy',
       Mechname: '',
       notes: '',
-    },
-  }),
-  computed: {
-    canAdd(): boolean {
-      if (this.newPlaceholder.type === 'pilot') {
-        return !this.newPlaceholder.name.trim().length || !this.newPlaceholder.Mechname.trim().length;
+    })
+
+const canAdd = computed(() => {
+      if (newPlaceholder.value.type === 'pilot') {
+        return !newPlaceholder.value.name.trim().length || !newPlaceholder.value.Mechname.trim().length;
       }
-      return !this.newPlaceholder.name.trim().length;
-    },
-  },
-  methods: {
-    add() {
+      return !newPlaceholder.value.name.trim().length;
+    })
+
+function add() {
       const ph = new Placeholder({
         id: _.uniqueId('placeholder-'),
-        name: this.newPlaceholder.name,
-        type: this.newPlaceholder.type,
-        side: this.newPlaceholder.side,
-        Mechname: this.newPlaceholder.Mechname,
-        notes: this.newPlaceholder.notes,
+        name: newPlaceholder.value.name,
+        type: newPlaceholder.value.type,
+        side: newPlaceholder.value.side,
+        Mechname: newPlaceholder.value.Mechname,
+        notes: newPlaceholder.value.notes,
       });
 
-      this.encounterInstance.Combatants.push({
+      props.encounterInstance.Combatants.push({
         id: ph.ID,
         index: -1,
         number: -1,
@@ -139,7 +133,5 @@ export default {
         actor: ph,
         deployables: [],
       });
-    },
-  },
-};
+    }
 </script>

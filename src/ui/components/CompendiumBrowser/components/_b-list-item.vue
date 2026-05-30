@@ -34,31 +34,24 @@
   </v-list-item>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { CompendiumItem } from '@/classes/CompendiumItem'
 
-export default {
-  name: 'BrowserListItem',
-  props: {
-    comparisons: {
-      type: Array,
-      default: () => [],
-    },
-    item: {
-      type: Object,
-      required: true,
-    },
-    compare: {
-      type: Boolean,
-    },
-    selected: {
-      type: Boolean,
-    },
-    equippable: {
-      type: Boolean,
-    },
-  },
-  emits: ['clicked', 'equip'],
-};
+defineOptions({ name: 'BrowserListItem' })
+
+const props = withDefaults(defineProps<{
+  comparisons?: any[]
+  item: object
+  compare?: boolean
+  selected?: boolean
+  equippable?: boolean
+}>(), {
+  comparisons: () => []
+})
+
+const emit = defineEmits<{
+  'clicked': []
+  'equip': []
+}>()
 </script>

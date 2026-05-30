@@ -27,5 +27,3 @@ export class NpcTrait extends NpcFeature {
   //   return rechargingTag ? rechargingTag.Value.toString() : '';
   // }
 }
-
-export default NpcTrait;

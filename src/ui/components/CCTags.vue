@@ -33,6 +33,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useMobile } from '@/composables/useMobile'
+import CCExtendedTag from './CCExtendedTag.vue'
 import Tag from '@/classes/Tag'
 
 const props = defineProps({

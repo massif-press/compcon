@@ -43,50 +43,54 @@
   </cc-compendium-browser>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { CompendiumStore } from '@/stores';
 
-export default {
-  name: 'npc-class-selector',
-  props: {
-    item: { type: Object, required: true },
-    readonly: { type: Boolean, default: false },
-  },
-  data: () => ({
-    allowDupes: false,
-    options: {
+defineOptions({ name: 'npc-class-selector' })
+
+const props = withDefaults(defineProps<{
+  item: object
+  readonly?: boolean
+}>(), {
+  readonly: false
+})
+
+const emit = defineEmits<{
+  'add-layer': []
+}>()
+
+const browser = ref<any>(null)
+
+const allowDupes = ref(false)
+const options = ref({
       views: ['single', 'table', 'cards'],
       initialView: 'single',
       groups: ['lcp', 'none'],
       initialGroup: 'none',
-    },
-    headers: [
+    })
+const headers = ref([
       { title: 'Content Pack', key: 'LcpName' },
       { title: 'Name', key: 'Name' },
       {
         title: 'Shards',
         key: 'ShardCount',
       },
-    ],
-  }),
-  emits: ['add-layer'],
-  computed: {
-    hasLayerData() {
+    ])
+
+const hasLayerData = computed(() => {
       return CompendiumStore().EidolonLayers.length > 0;
-    },
-    layers() {
-      const layers = this.allowDupes
+    })
+const layers = computed(() => {
+      const layers = allowDupes.value
         ? CompendiumStore().EidolonLayers
         : CompendiumStore().EidolonLayers.filter(
-          (x) => !this.item.Layers.some((y) => x.ID === y.ID)
+          (x) => !props.item.Layers.some((y) => x.ID === y.ID)
         );
       return layers;
-    },
-  },
-  methods: {
-    AddLayer(layer) {
-      this.$emit('add-layer', layer);
-    },
-  },
-};
+    })
+
+function AddLayer(layer) {
+      emit('add-layer', layer);
+    }
 </script>

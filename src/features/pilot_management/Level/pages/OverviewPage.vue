@@ -67,22 +67,15 @@
   </stepper-content>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import StepperContent from '../../_components/StepperContent.vue';
 
-export default {
-  name: 'overview-page',
-  components: { StepperContent },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-    cbEligible: {
-      type: Boolean,
-    },
-  },
-};
+defineOptions({ name: 'overview-page' })
+
+const props = defineProps<{
+  pilot: object
+  cbEligible?: boolean
+}>()
 </script>
 
 <style scoped>

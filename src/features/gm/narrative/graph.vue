@@ -21,13 +21,8 @@
   </v-footer>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import Importer from '../_components/NpcImporter.vue';
 
-export default {
-  name: 'narrative-graph',
-  components: {
-    Importer,
-  },
-};
+defineOptions({ name: 'narrative-graph' })
 </script>

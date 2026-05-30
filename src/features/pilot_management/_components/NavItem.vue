@@ -14,24 +14,18 @@
   </v-btn>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'nav-item',
-  props: {
-    to: {
-      type: String,
-      default: '',
-    },
-    selected: {
-      type: Boolean,
-      default: false,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-  },
-};
+<script setup lang="ts">
+defineOptions({ name: 'nav-item' })
+
+const props = withDefaults(defineProps<{
+  to?: string
+  selected?: boolean
+  disabled?: boolean
+}>(), {
+  to: '',
+  selected: false,
+  disabled: false
+})
 </script>
 
 <style scoped>

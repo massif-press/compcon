@@ -59,20 +59,17 @@
   </v-btn>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import { Status } from '@/classes/Status'
 import { CompendiumStore } from '@/stores'
-import scrollTo from '@/util/scrollTo'
+import _scrollTo from '@/util/scrollTo'
 
-export default {
-  name: 'IconGuide',
-  props: {
-    isModal: {
-      type: Boolean,
-    },
-  },
-  computed: {
-    content(): any {
+const props = defineProps<{
+  isModal?: boolean
+}>()
+
+const content = computed(() => {
       return {
         'Damage Types': [
           {
@@ -383,13 +380,10 @@ export default {
           },
         ],
       }
-    },
-  },
-  methods: {
-    scrollTo(item: any): void {
+    })
+
+function scrollTo(item: any) {
       const el = document.getElementById(`${item}`)
-      if (el) scrollTo(el, this.isModal)
-    },
-  },
-}
+      if (el) _scrollTo(el, props.isModal)
+    }
 </script>

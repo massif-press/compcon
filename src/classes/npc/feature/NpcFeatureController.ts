@@ -5,10 +5,12 @@ import { IFeatureContainer } from '@/classes/components/feature/IFeatureContaine
 import { NpcClass } from '../class/NpcClass'
 import { NpcTemplate } from '../template/NpcTemplate'
 import { NpcFeatureFactory } from './NpcFeatureFactory'
+import type { IControllerStatic } from '@/classes/ISerializable'
 import Tag from '../../Tag'
 import { assertController } from '../../utility/assertController'
 interface INpcFeatureSaveData {
-  instance: boolean
+  is_instance?: boolean
+  instance?: boolean
   features: { id: string; data: INpcFeatureData }[]
 }
 
@@ -166,5 +168,6 @@ class NpcFeatureController implements IFeatureContainer {
   }
 }
 
+const _checkController: IControllerStatic<Unit, INpcFeatureSaveData> = NpcFeatureController
 export { NpcFeatureController }
 export type { INpcFeatureSaveData }

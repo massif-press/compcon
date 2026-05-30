@@ -297,74 +297,66 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { Mech } from '@/classes/mech/Mech'
 import { Pilot } from '@/classes/pilot/Pilot'
 import { PilotGroup } from '@/features/pilot_management/store/PilotGroup'
 import MechCardLoadoutField from '@/features/pilot_management/PilotSheet/sections/hangar/components/MechCardLoadoutField.vue';
 import PilotListItemDetails from '@/features/pilot_management/Roster/components/_pilotListItemDetails.vue';
-import { PilotStore, PilotSheetStore } from '@/stores';
+import { PilotStore, PilotGroupStore, PilotSheetStore } from '@/stores';
 import { useMobile } from '@/composables/useMobile';
+const router = useRouter()
 
+const { mobile, portrait } = useMobile()
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'NewSheet',
-  components: {
-    PilotListItemDetails,
-    MechCardLoadoutField,
-  },
-  data: () => ({
-    selectedPilot: null as Pilot | null,
-    selectedMech: null as Mech | null,
-    confirmed: false,
-    search: '',
-    group: null,
-    campaign: '',
-  }),
-  computed: {
-    groups() {
+const selectedPilot = ref(null as Pilot | null)
+const selectedMech = ref(null as Mech | null)
+const confirmed = ref(false)
+const search = ref('')
+const group = ref(null)
+const campaign = ref('')
+
+const groups = computed(() => {
       let groups = [{ title: 'All Pilots', value: null }];
       return [...groups,
-      ...(PilotStore().PilotGroups as PilotGroup[]).map((g: PilotGroup) => ({ title: g.Name, value: g.ID }))
+      ...(PilotGroupStore().PilotGroups as PilotGroup[]).map((g: PilotGroup) => ({ title: g.Name, value: g.ID }))
       ];
-    },
-    pilots() {
+    })
+const pilots = computed(() => {
       let pilots = PilotStore().Pilots.filter((p) => !p.SaveController.IsDeleted);
-      if (this.group) {
-        pilots = pilots.filter((p) => PilotStore().PilotGroups.find((g) => g.ID === this.group)?.Pilots.some((gp) => gp.id === p.ID));
+      if (group.value) {
+        pilots = pilots.filter((p) => PilotGroupStore().PilotGroups.find((g) => g.ID === group.value)?.Pilots.some((gp) => gp.id === p.ID));
       }
-      if (this.search) {
+      if (search.value) {
         pilots = pilots.filter(
           (p) =>
-            p.Callsign.toLowerCase().includes(this.search.toLowerCase()) ||
-            p.Name.toLowerCase().includes(this.search.toLowerCase())
+            p.Callsign.toLowerCase().includes(search.value.toLowerCase()) ||
+            p.Name.toLowerCase().includes(search.value.toLowerCase())
         );
       }
       return pilots;
-    },
-    mechs() {
-      return this.selectedPilot
-        ? this.selectedPilot.Mechs.filter((m) => !m.SaveController.IsDeleted)
+    })
+const mechs = computed(() => {
+      return selectedPilot.value
+        ? selectedPilot.value.Mechs.filter((m) => !m.SaveController.IsDeleted)
         : [];
-    },
-    sortedMechs(): Mech[] {
-      if (!this.selectedPilot) return [];
-      return this.selectedPilot.Mechs
+    })
+const sortedMechs = computed(() => {
+      if (!selectedPilot.value) return [];
+      return selectedPilot.value.Mechs
         .filter((m) => !m.SaveController.IsDeleted)
-        .sort((a, b) => (a.ID === this.selectedPilot?.FavoriteMech?.ID ? -1 : 0) + (b.ID === this.selectedPilot?.FavoriteMech?.ID ? 1 : 0));
-    },
-  },
-  methods: {
-    setPilot(pilot) {
-      this.selectedPilot = pilot;
-    },
-    setMech(mech) {
-      this.selectedMech = mech;
-    },
-    statusColor(status) {
+        .sort((a, b) => (a.ID === selectedPilot.value?.FavoriteMech?.ID ? -1 : 0) + (b.ID === selectedPilot.value?.FavoriteMech?.ID ? 1 : 0));
+    })
+
+function setPilot(pilot) {
+      selectedPilot.value = pilot;
+    }
+function setMech(mech) {
+      selectedMech.value = mech;
+    }
+function statusColor(status) {
       switch (status.toLowerCase()) {
         case 'active':
           return 'success';
@@ -375,21 +367,19 @@ export default {
         default:
           return 'text';
       }
-    },
-    async createSheet(launch) {
-      if (!this.selectedPilot || !this.selectedMech) return;
-      this.selectedPilot.ActiveMech = this.selectedMech;
-
-      await PilotSheetStore().AddPilotSheet(this.selectedPilot as Pilot, this.campaign);
-      if (launch) this.$router.push(`pilot-runner/${PilotSheetStore().CurrentActiveID}`);
-      else this.$router.push('sheet-manager');
-    },
-    reset() {
-      this.selectedPilot = null;
-      this.selectedMech = null;
     }
-  }
-}
+async function createSheet(launch) {
+      if (!selectedPilot.value || !selectedMech.value) return;
+      selectedPilot.value.ActiveMech = selectedMech.value;
+
+      await PilotSheetStore().AddPilotSheet(selectedPilot.value as Pilot, campaign.value);
+      if (launch) router.push(`pilot-runner/${PilotSheetStore().CurrentActiveID}`);
+      else router.push('sheet-manager');
+    }
+function reset() {
+      selectedPilot.value = null;
+      selectedMech.value = null;
+    }
 </script>
 
 <style scoped>

@@ -33,6 +33,8 @@
 
 <script setup lang="ts">
 import { useMobile } from '@/composables/useMobile'
+import CCPilotLicenseItem from '@/ui/components/items/CCPilotLicenseItem.vue'
+import CCPilotLicenseStub from '@/ui/components/items/CCPilotLicenseStub.vue'
 import SectionHeader from '../../components/SectionHeader.vue';
 import SectionEditChip from '../../components/SectionEditChip.vue';
 import NoDataBlock from '../../components/NoDataBlock.vue';

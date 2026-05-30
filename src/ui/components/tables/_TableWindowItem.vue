@@ -29,31 +29,14 @@
   </v-window-item>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'TableWindowItem',
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    content: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    disabled: {
-      type: Boolean,
-      required: false,
-    },
-    otherBtn: {
-      type: Boolean,
-      required: false,
-    },
-    hidePrevious: {
-      type: Boolean,
-      required: false,
-    },
-  },
-};
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+  title: string
+  content?: string
+  disabled?: boolean
+  otherBtn?: boolean
+  hidePrevious?: boolean
+}>(), {
+  content: ''
+})
 </script>

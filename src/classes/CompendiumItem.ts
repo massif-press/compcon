@@ -16,6 +16,22 @@ import { DEFAULT_LCP_NAME } from './LcpItemMixin'
 import { ActiveEffect, IActiveEffectData } from './components/feature/active_effects/ActiveEffect'
 import { ICounterData } from './components'
 
+/** Minimal shape of the compendium store needed for lookups, avoiding circular imports */
+interface CompendiumLookup {
+  MechWeapons: MechEquipment[]
+  MechSystems: MechEquipment[]
+  WeaponMods: MechEquipment[]
+  PilotGear: CompendiumItem[]
+}
+
+function getCompendiumLookup(): CompendiumLookup | undefined {
+  const pinia = getActivePinia()
+  if (!pinia) return undefined
+  // Access Pinia's internal store map to avoid importing the store (circular dep)
+  const stores = (pinia as unknown as { _s: Map<string, unknown> })._s
+  return stores?.get('compendium') as CompendiumLookup | undefined
+}
+
 interface ICompendiumItemData {
   id: string
   name: string
@@ -206,37 +222,31 @@ abstract class CompendiumItem {
 
   public get SpecialEquipment(): CompendiumItem[] {
     if (!this._special_equipment) return []
-    // HACK get compendium store without causing circular dependencies
-    const cs: any = getActivePinia()?._s?.get('compendium')
-
+    const cs = getCompendiumLookup()
     if (!cs) return []
-    const res = this._special_equipment.map(x => {
-      const w = cs.MechWeapons.find((item: any) => item.ID === x)
-      if (w) return w
-      const s = cs.MechSystems.find((item: any) => item.ID === x)
-      if (s) return s
-      const wm = cs.WeaponMods.find((item: any) => item.ID === x)
-      if (wm) return wm
-      const pg = cs.PilotGear.find((item: any) => item.ID === x)
-      if (pg) return pg
-      return false
-    })
-    return res as CompendiumItem[]
+    return this._special_equipment
+      .map(x => {
+        return (
+          cs.MechWeapons.find(item => item.ID === x) ||
+          cs.MechSystems.find(item => item.ID === x) ||
+          cs.WeaponMods.find(item => item.ID === x) ||
+          cs.PilotGear.find(item => item.ID === x)
+        )
+      })
+      .filter((x): x is CompendiumItem => !!x)
   }
 
   public get IntegratedEquipment(): MechEquipment[] {
     if (!this._integrated) return []
-    // HACK get compendium store without causing circular dependencies
-    const cs: any = getActivePinia()?._s?.get('compendium')
-
+    const cs = getCompendiumLookup()
     if (!cs) return []
     const map = this._integrated
       .map(x => {
-        const w = cs.MechWeapons.find((item: any) => item.ID === x)
-        if (w) return w as MechEquipment
-        return cs.MechSystems.find((item: any) => item.ID === x) as MechEquipment
+        return (
+          cs.MechWeapons.find(item => item.ID === x) || cs.MechSystems.find(item => item.ID === x)
+        )
       })
-      .filter(x => x != null) as MechEquipment[]
+      .filter((x): x is MechEquipment => x != null)
 
     map.forEach(x => {
       x.IsIntegrated = true

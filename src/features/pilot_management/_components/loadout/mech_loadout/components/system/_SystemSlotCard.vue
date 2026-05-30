@@ -111,69 +111,61 @@
   </slot-card-base>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, useSlots } from 'vue';
+import { notify } from '@/util/notify'
 import SlotCardBase from '../_SlotCardBase.vue';
 import EquipmentOptions from '../_EquipmentOptions.vue';
 import { Mech } from '@/classes/mech/Mech'
 import { MechSystem } from '@/classes/mech/components/equipment/MechSystem'
 import { useMobile } from '@/composables/useMobile';
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'SystemSlotCard',
-  components: { SlotCardBase, EquipmentOptions },
-  props: {
-    mech: {
-      type: Mech,
-      required: true,
-    },
-    item: {
-      type: Object,
-      required: false,
-      default: null,
-    },
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-    empty: {
-      type: Boolean,
-    },
-    readonly: {
-      type: Boolean,
-    },
-    integrated: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['remove', 'done', 'equip', 'selector-open', 'switch'],
-  methods: {
-    remove(sys: MechSystem) {
-      this.mech.MechLoadoutController.ActiveLoadout.RemoveSystem(sys);
-      this.$emit('remove', sys);
-    },
-    handleEquip(sys: MechSystem) {
-      this.$notify({
+const { mobile, portrait } = useMobile()
+const slots = useSlots()
+
+const props = withDefaults(defineProps<{
+  mech: Mech
+  item?: object
+  color?: string
+  empty?: boolean
+  readonly?: boolean
+  integrated?: boolean
+}>(), {
+  item: null,
+  color: 'primary',
+  integrated: false
+})
+
+const emit = defineEmits<{
+  'remove': []
+  'done': []
+  'equip': []
+  'selector-open': []
+  'switch': []
+}>()
+
+const base = ref<any>(null)
+
+function remove(sys: MechSystem) {
+      props.mech.MechLoadoutController.ActiveLoadout.RemoveSystem(sys);
+      emit('remove', sys);
+    }
+function handleEquip(sys: MechSystem) {
+      notify({
         title: 'Mech System Installed',
         text: `${sys.Name} added.`,
         data: { icon: 'cc:system', color: 'system' },
       });
 
-      if (this.mech.FreeSP <= 0) this.$emit('done');
-      else this.$emit('equip', sys);
-    },
-    handleSwap() {
-      if (this.$slots.selector) {
-        (this.$refs as any).base.selectorDialog = true;
-      } else this.$emit('switch', this.item);
-    },
-    save() {
-      this.mech.Parent.SaveController.save();
-    },
-  },
-};
+      if (props.mech.FreeSP <= 0) emit('done');
+      else emit('equip', sys);
+    }
+function handleSwap() {
+      if (slots.selector) {
+        base.value.selectorDialog = true;
+      } else emit('switch', props.item);
+    }
+function save() {
+      props.mech.Parent.SaveController.save();
+    }
 </script>

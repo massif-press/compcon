@@ -49,33 +49,31 @@
   </v-bottom-navigation>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useDisplay } from 'vuetify'
 import { Pilot } from '@/classes/pilot/Pilot'
 import { CompendiumStore } from '@/stores';
 
-export default {
-  name: 'PilotNav',
-  props: {
-    pilot: {
-      type: Pilot,
-      required: true,
-    },
-    selected: {
-      type: Number,
-      required: true,
-    },
-  },
-  emits: ['to'],
-  data: () => ({
-    loading: false,
-  }),
-  computed: {
-    xs() {
-      return this.$vuetify.display.smOrDown;
-    },
-    hasBonds() {
+const _display = useDisplay()
+
+defineOptions({ name: 'PilotNav' })
+
+const props = defineProps<{
+  pilot: Pilot
+  selected: number
+}>()
+
+const emit = defineEmits<{
+  'to': []
+}>()
+
+const loading = ref(false)
+
+const xs = computed(() => {
+      return _display.smOrDown.value;
+    })
+const hasBonds = computed(() => {
       return CompendiumStore().Bonds.length > 0;
-    },
-  },
-};
+    })
 </script>

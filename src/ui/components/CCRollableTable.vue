@@ -224,42 +224,41 @@
   </v-card>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CcRollableTable',
-  props: {
-    table: { type: Object, required: true },
-    color: { type: String, required: false, default: 'primary' },
-    print: { type: Boolean },
-    noDelete: { type: Boolean },
-    readonly: { type: Boolean },
-    density: { type: String, default: '' },
-    hideTitle: { type: Boolean, default: false },
-    showDescription: { type: Boolean, default: false },
-  },
-  data: () => ({
-    editDialog: false,
-    step: 2,
-    dice: [2, 3, 6, 8, 10, 12, 20],
-    mults: [1, 2, 3, 4, 5],
-  }),
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-    dense() {
-      return this.density === 'compact';
-    },
-  },
-  watch: {
-    step() {
-      if (this.step < 1) this.step = 1;
-    },
-  },
-  methods: {
-    generate() {
-      this.table.setArray(parseInt(this.step as any));
-    },
-  },
-};
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
+import { useDisplay } from 'vuetify'
+
+const _display = useDisplay()
+
+const props = withDefaults(defineProps<{
+  table: object
+  color?: string
+  print?: boolean
+  noDelete?: boolean
+  readonly?: boolean
+  density?: string
+  hideTitle?: boolean
+  showDescription?: boolean
+}>(), {
+  color: 'primary',
+  density: '',
+  hideTitle: false,
+  showDescription: false
+})
+
+const editDialog = ref(false)
+const step = ref(2)
+const dice = ref([2, 3, 6, 8, 10, 12, 20])
+const mults = ref([1, 2, 3, 4, 5])
+
+const mobile = computed(() => {
+      return _display.mdAndDown.value;
+    })
+const dense = computed(() => {
+      return props.density === 'compact';
+    })
+
+function generate() {
+      props.table.setArray(parseInt(step.value as any));
+    }
 </script>

@@ -67,72 +67,77 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'NpcTierSelector',
-  props: { item: { type: Object, required: true }, readonly: { type: Boolean, default: false } },
-  emits: ['update'],
-  data: () => ({
-    showConfirmation: false,
-    stagedTier: 0,
-  }),
-  methods: {
-    hasEditedStats(): boolean {
-      const maxStats = this.item.StatController.MaxStats
-      return this.item.NpcClassController.getClassStats?.().some(
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const props = withDefaults(defineProps<{
+  item: object
+  readonly?: boolean
+}>(), {
+  readonly: false
+})
+
+const emit = defineEmits<{
+  'update': []
+}>()
+
+const showConfirmation = ref(false)
+const stagedTier = ref(0)
+
+function hasEditedStats() {
+      const maxStats = props.item.StatController.MaxStats
+      return props.item.NpcClassController.getClassStats?.().some(
         ({ key, val }) => maxStats[key] !== undefined && maxStats[key] !== val
       ) ?? false
-    },
-    updateTier(tier: number) {
-      if (tier === this.item.NpcClassController.Tier) return
-      this.stagedTier = tier
-      if (this.hasEditedStats()) {
-        this.showConfirmation = true
+    }
+function updateTier(tier: number) {
+      if (tier === props.item.NpcClassController.Tier) return
+      stagedTier.value = tier
+      if (hasEditedStats()) {
+        showConfirmation.value = true
       } else {
-        this.resetAndChange()
+        resetAndChange()
       }
-    },
-    resetAndChange() {
-      this.item.NpcClassController.Tier = this.stagedTier
-      this.cancel()
-    },
-    preserveAndChange() {
+    }
+function resetAndChange() {
+      props.item.NpcClassController.Tier = stagedTier.value
+      cancel()
+    }
+function preserveAndChange() {
       const oldDefaults: Record<string, any> = {}
-      this.item.NpcClassController.getClassStats?.().forEach(({ key, val }) => {
+      props.item.NpcClassController.getClassStats?.().forEach(({ key, val }) => {
         oldDefaults[key] = val
       })
-      const snapshot = { ...this.item.StatController.MaxStats }
-      this.item.NpcClassController.Tier = this.stagedTier
+      const snapshot = { ...props.item.StatController.MaxStats }
+      props.item.NpcClassController.Tier = stagedTier.value
       Object.keys(snapshot).forEach(key => {
         if (key in oldDefaults && snapshot[key] === oldDefaults[key]) return
-        this.item.StatController.setMax(key, snapshot[key])
+        props.item.StatController.setMax(key, snapshot[key])
       })
-      this.item.SaveController.save()
-      this.cancel()
-    },
-    projectAndChange() {
+      props.item.SaveController.save()
+      cancel()
+    }
+function projectAndChange() {
       const oldDefaults: Record<string, any> = {}
-      this.item.NpcClassController.getClassStats?.().forEach(({ key, val }) => {
+      props.item.NpcClassController.getClassStats?.().forEach(({ key, val }) => {
         oldDefaults[key] = val
       })
-      const snapshot = { ...this.item.StatController.MaxStats }
-      this.item.NpcClassController.Tier = this.stagedTier
+      const snapshot = { ...props.item.StatController.MaxStats }
+      props.item.NpcClassController.Tier = stagedTier.value
       const newDefaults: Record<string, any> = {}
-      this.item.NpcClassController.getClassStats?.().forEach(({ key, val }) => {
+      props.item.NpcClassController.getClassStats?.().forEach(({ key, val }) => {
         newDefaults[key] = val
       })
       Object.keys(snapshot).forEach(key => {
         if (!(key in oldDefaults) || snapshot[key] === oldDefaults[key]) return
         const diff = snapshot[key] - oldDefaults[key]
-        this.item.StatController.setMax(key, (newDefaults[key] ?? snapshot[key]) + diff)
+        props.item.StatController.setMax(key, (newDefaults[key] ?? snapshot[key]) + diff)
       })
-      this.item.SaveController.save()
-      this.cancel()
-    },
-    cancel() {
-      this.stagedTier = 0
-      this.showConfirmation = false
-    },
-  },
-};
+      props.item.SaveController.save()
+      cancel()
+    }
+function cancel() {
+      stagedTier.value = 0
+      showConfirmation.value = false
+    }
 </script>

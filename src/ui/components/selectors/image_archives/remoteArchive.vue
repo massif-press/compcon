@@ -105,77 +105,76 @@
   </v-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import * as _ from 'lodash-es';
 import { SetItem, RemoveItem, GetKeys } from '@/io/Storage';
 
-export default {
-  name: 'RemoteImageArchive',
-  emits: ['set-staged'],
-  data: () => ({
-    currentRemotePage: 1,
-    itemsPerPage: 12,
-    selectedImage: null as unknown as any,
-    loading: false,
-    imageSelectTab: 0,
-    remoteInput: '',
-    remoteError: '',
-    iid: '',
-    stagedImage: null as unknown as any,
-    showAll: false,
-    imageUrl: '',
-    remoteImages: [] as string[],
-    urls: [] as string[],
-  }),
-  computed: {
-    displayedRemoteImages() {
-      const startIndex = (this.currentRemotePage - 1) * this.itemsPerPage;
-      const endIndex = startIndex + this.itemsPerPage;
-      return this.remoteImages.slice(startIndex, endIndex);
-    },
-    totalRemotePages() {
-      return Math.ceil(this.remoteImages.length / this.itemsPerPage);
-    },
-  },
-  async created() {
-    await this.getRemoteImages();
-  },
-  methods: {
-    async getRemoteImages() {
-      this.remoteImages = await GetKeys('remote_images');
-    },
-    async deleteRemoteImage(key) {
+defineOptions({ name: 'RemoteImageArchive' })
+
+const emit = defineEmits<{
+  'set-staged': []
+}>()
+
+const currentRemotePage = ref(1)
+const itemsPerPage = ref(12)
+const selectedImage = ref(null as unknown as any)
+const loading = ref(false)
+const imageSelectTab = ref(0)
+const remoteInput = ref('')
+const remoteError = ref('')
+const iid = ref('')
+const stagedImage = ref(null as unknown as any)
+const showAll = ref(false)
+const imageUrl = ref('')
+const remoteImages = ref([] as string[])
+const urls = ref([] as string[])
+
+await getRemoteImages();
+
+await getRemoteImages();
+
+const displayedRemoteImages = computed(() => {
+      const startIndex = (currentRemotePage.value - 1) * itemsPerPage.value;
+      const endIndex = startIndex + itemsPerPage.value;
+      return remoteImages.value.slice(startIndex, endIndex);
+    })
+const totalRemotePages = computed(() => {
+      return Math.ceil(remoteImages.value.length / itemsPerPage.value);
+    })
+
+async function getRemoteImages() {
+      remoteImages.value = await GetKeys('remote_images');
+    }
+async function deleteRemoteImage(key) {
       RemoveItem('remote_images', key);
-      await this.getRemoteImages();
-    },
-    stage(image) {
-      this.selectedImage = image;
-      this.$emit('set-staged', image);
-    },
-    async setRemoteImage() {
-      if (!this.remoteInput || !this.validURL(this.remoteInput)) {
-        this.remoteError = 'Invalid URL';
+      await getRemoteImages();
+    }
+function stage(image) {
+      selectedImage.value = image;
+      emit('set-staged', image);
+    }
+async function setRemoteImage() {
+      if (!remoteInput.value || !validURL(remoteInput.value)) {
+        remoteError.value = 'Invalid URL';
         return;
       }
-      this.remoteError = '';
-      this.selectedImage = this.remoteInput;
-      await SetItem('remote_images', this.remoteInput);
-      await this.getRemoteImages();
-      this.currentRemotePage = this.totalRemotePages;
-    },
-    // Pulled from Stackoverflow: https://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-url
-    validURL(str: string): boolean {
+      remoteError.value = '';
+      selectedImage.value = remoteInput.value;
+      await SetItem('remote_images', remoteInput.value);
+      await getRemoteImages();
+      currentRemotePage.value = totalRemotePages.value;
+    }
+function Stackoverflow() {
       const pattern = new RegExp(
-        '^(https?:\\/\\/)?' + // protocol
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-        '(\\#[-a-z\\d_]*)?$',
+        '^(https?:\/\/)?' + // protocol
+        '((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|' + // domain name
+        '((\d{1,3}\.){3}\d{1,3}))' + // OR ip (v4) address
+        '(\:\d+)?(\/[-a-z\d%_.~+]*)*' + // port and path
+        '(\?[;&a-z\d%_.~+=-]*)?' + // query string
+        '(\#[-a-z\d_]*)?$',
         'i'
       ); // fragment locator
       return !!pattern.test(str);
-    },
-  },
-};
+    }
 </script>

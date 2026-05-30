@@ -1,4 +1,5 @@
 import * as _ from 'lodash-es'
+import type { IControllerStatic } from '@/classes/ISerializable'
 import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer'
 import { Pilot } from '../../Pilot'
 import Organization, { IOrganizationData } from './Organization'
@@ -101,5 +102,6 @@ class ReservesController implements IFeatureContainer {
   }
 }
 
+const _checkController: IControllerStatic<Pilot, IReservesSaveData> = ReservesController
 export { ReservesController }
 export type { IReservesSaveData }

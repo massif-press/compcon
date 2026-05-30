@@ -141,36 +141,25 @@
   </card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import { Action } from '@/classes/Action';
 import Card from './PrintCard.vue';
 import ActionInternal from './_actionInternal.vue';
 
-export default {
-  name: 'PrintDeployable',
-  components: {
-    Card,
-    ActionInternal,
-  },
-  props: {
-    deployable: {
-      type: Object,
-      required: true,
-    },
-    header: {
-      type: String,
-      required: true,
-    },
-  },
-  computed: {
-    getSize(): string {
-      return this.deployable.Size === 0.5 ? '½' : this.deployable.Size;
-    },
-    actions() {
-      return this.deployable.actions ? this.deployable.actions.map((x) => new Action(x)) : [];
-    },
-  },
-};
+defineOptions({ name: 'PrintDeployable' })
+
+const props = defineProps<{
+  deployable: object
+  header: string
+}>()
+
+const getSize = computed(() => {
+      return props.deployable.Size === 0.5 ? '½' : props.deployable.Size;
+    })
+const actions = computed(() => {
+      return props.deployable.actions ? props.deployable.actions.map((x) => new Action(x)) : [];
+    })
 </script>
 
 <style scoped>

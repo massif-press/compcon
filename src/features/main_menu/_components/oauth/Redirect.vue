@@ -2,10 +2,11 @@
   <div class="my-12 heading h3">Linking account...</div>
 </template>
 
-<script>
-export default {
-  mounted() {
-    const params = new URLSearchParams(window.location.search);
+<script setup lang="ts">
+import { onMounted } from 'vue'
+
+onMounted(() => {
+const params = new URLSearchParams(window.location.search);
     const hash = window.location.hash;
     const code = params.get('code');
     const access_token = hash.split('=')[1];
@@ -17,6 +18,5 @@ export default {
       window.opener.postMessage({ type: 'access_token', access_token }, window.location.origin);
       window.close();
     }
-  },
-};
+})
 </script>

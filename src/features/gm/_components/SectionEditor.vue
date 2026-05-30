@@ -111,41 +111,42 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CampaignItemTextItemEditor',
-  props: {
-    item: { type: Object, required: true },
-    readonly: { type: Boolean, default: false },
-  },
-  data: () => ({
-    textItemMenu: false,
-    newTextItemHeader: '',
-    _saveTimer: null as ReturnType<typeof setTimeout> | null,
-  }),
-  methods: {
-    save() {
-      this.item.SaveController.save();
-    },
-    debouncedSave() {
-      if (this._saveTimer) clearTimeout(this._saveTimer)
-      this._saveTimer = setTimeout(() => { this.save() }, 500)
-    },
-    addTextItem() {
-      this.item.NarrativeController.AddTextItem({
-        header: this.newTextItemHeader,
+<script setup lang="ts">
+import { ref } from 'vue'
+
+defineOptions({ name: 'CampaignItemTextItemEditor' })
+
+const props = withDefaults(defineProps<{
+  item: object
+  readonly?: boolean
+}>(), {
+  readonly: false
+})
+
+const textItemMenu = ref(false)
+const newTextItemHeader = ref('')
+const _saveTimer = ref(null as ReturnType<typeof setTimeout> | null)
+
+function save() {
+      props.item.SaveController.save();
+    }
+function debouncedSave() {
+      if (_saveTimer.value) clearTimeout(_saveTimer.value)
+      _saveTimer.value = setTimeout(() => { save() }, 500)
+    }
+function addTextItem() {
+      props.item.NarrativeController.AddTextItem({
+        header: newTextItemHeader.value,
         body: '',
       });
-      this.newTextItemHeader = '';
-      this.textItemMenu = false;
-    },
-    deleteTextItem(s) {
-      const idx = this.item.NarrativeController.TextItems.findIndex(
+      newTextItemHeader.value = '';
+      textItemMenu.value = false;
+    }
+function deleteTextItem(s) {
+      const idx = props.item.NarrativeController.TextItems.findIndex(
         (x) => x.header === s.header && x.body === s.body
       );
       if (idx === -1) return;
-      this.item.NarrativeController.TextItems.splice(idx, 1);
-    },
-  },
-};
+      props.item.NarrativeController.TextItems.splice(idx, 1);
+    }
 </script>

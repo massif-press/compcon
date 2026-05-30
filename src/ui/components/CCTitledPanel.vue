@@ -43,33 +43,19 @@
   </v-hover>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CCTitledPanel',
-  emits: ['click'],
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    icon: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    color: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    clickable: {
-      type: Boolean,
-      required: false,
-    },
-    density: {
-      type: String,
-      required: false,
-    },
-  },
-};
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+  title: string
+  icon?: string
+  color?: string
+  clickable?: boolean
+  density?: string
+}>(), {
+  icon: '',
+  color: ''
+})
+
+const emit = defineEmits<{
+  'click': []
+}>()
 </script>

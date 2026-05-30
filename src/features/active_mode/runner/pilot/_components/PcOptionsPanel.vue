@@ -139,75 +139,76 @@
   </v-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { Mech } from '@/classes/mech/Mech'
-import PilotSheet from '@/features/pilot_management/store/PilotSheet';
-import { PilotSheetStore } from '@/stores';
-import RunnerOptionsHeader from '../../_shared/_RunnerOptionsHeader.vue';
-import { runnerOptionsMixin } from '../../_shared/_runnerOptionsMixin';
+import PilotSheet from '@/features/pilot_management/store/PilotSheet'
+import { PilotSheetStore } from '@/stores'
+import RunnerOptionsHeader from '../../_shared/_RunnerOptionsHeader.vue'
+import { useRunnerOptions } from '../../_shared/useRunnerOptions'
+import { notify } from '@kyvg/vue3-notification'
 
-export default {
-  name: 'PcOptionsPanel',
-  components: { RunnerOptionsHeader },
-  mixins: [runnerOptionsMixin],
-  props: {
-    sheet: {
-      type: Object,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      activeMech: null,
-    };
-  },
-  mounted() {
-    this.reset();
-    this.activeMech = this.sheet.Combatant.actor.ActiveMech;
-  },
-  methods: {
-    setActiveMech() {
-      if (!this.activeMech) return;
-      this.sheet.SetActiveMech(this.activeMech);
-      this.$notify({
-        title: 'Active Mech Changed',
-        text: `Active mech changed to ${(this.activeMech as Mech).Name}. Character sheet state has been reset.`,
-        data: { icon: 'cc:mech', color: 'info' },
-      });
-      this.manualSave();
-    },
-    manualSave() {
-      try {
-        this.sheet.Save();
-        this.saveUpdate = Date.now();
-        this.$notify({
-          title: `Save Successful`,
-          text: `Saved Character Sheet: ${this.sheet.Combatant.actor.Callsign} at Round ${this.sheet.Round}`,
-          data: { icon: 'mdi-content-save', color: 'success' },
-        });
-      } catch (error) {
-        console.error('Manual Save Failed:', error);
-        this.$notify({
-          title: `Save Failed`,
-          text: `Failed to save Character Sheet: ${this.sheet.Combatant.actor.Callsign}`,
-          data: { icon: 'mdi-alert', color: 'error' },
-        });
-      }
-    },
-    exportState() {
-      this.exportStateFile(
-        this.sheet.Serialize(),
-        `Character Sheet_${this.sheet.Combatant.actor.Callsign || 'unknown'}_${Date.now()}.json`
-      );
-    },
-    importState() {
-      if (!this.importOk || !this.importObj) return;
-      PilotSheetStore().ImportPilotSheet(PilotSheet.Deserialize(this.importObj as any));
-      this.$router.go();
-    },
-    stageImport() {
-      this.stageImportFile('sheet', 'Invalid Character Sheet Instance file.');
-    },
-  },
-};
+defineOptions({ name: 'PcOptionsPanel' })
+
+const props = defineProps<{
+  sheet: object
+}>()
+
+const router = useRouter()
+const { fileValue, importObj, importOk, importError, saveUpdate, reset, exportStateFile, stageImportFile } = useRunnerOptions()
+
+const activeMech = ref<Mech | null>(null)
+
+onMounted(() => {
+  reset()
+  activeMech.value = (props.sheet as any).Combatant.actor.ActiveMech
+})
+
+function setActiveMech() {
+  if (!activeMech.value) return
+  ;(props.sheet as any).SetActiveMech(activeMech.value)
+  notify({
+    title: 'Active Mech Changed',
+    text: `Active mech changed to ${activeMech.value.Name}. Character sheet state has been reset.`,
+    data: { icon: 'cc:mech', color: 'info' },
+  })
+  manualSave()
+}
+
+function manualSave() {
+  try {
+    ;(props.sheet as any).Save()
+    saveUpdate.value = Date.now()
+    notify({
+      title: 'Save Successful',
+      text: `Saved Character Sheet: ${(props.sheet as any).Combatant.actor.Callsign} at Round ${(props.sheet as any).Round}`,
+      data: { icon: 'mdi-content-save', color: 'success' },
+    })
+  } catch (error) {
+    console.error('Manual Save Failed:', error)
+    notify({
+      title: 'Save Failed',
+      text: `Failed to save Character Sheet: ${(props.sheet as any).Combatant.actor.Callsign}`,
+      data: { icon: 'mdi-alert', color: 'error' },
+    })
+  }
+}
+
+function exportState() {
+  exportStateFile(
+    (props.sheet as any).Serialize(),
+    `Character Sheet_${(props.sheet as any).Combatant.actor.Callsign || 'unknown'}_${Date.now()}.json`
+  )
+}
+
+function importState() {
+  if (!importOk.value || !importObj.value) return
+  PilotSheetStore().ImportPilotSheet(PilotSheet.Deserialize(importObj.value as any))
+  router.go(0)
+}
+
+function stageImport() {
+  stageImportFile('sheet', 'Invalid Character Sheet Instance file.')
+}
 </script>

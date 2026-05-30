@@ -51,47 +51,41 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { notify } from '@/util/notify'
 import * as _ from 'lodash-es';
 import Statblock from '@/classes/Statblock'
 import { Unit } from '@/classes/npc/unit/Unit';
 
-export default {
-  name: 'DamageMenu',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    includeFeatureDetails: false,
-  }),
-  computed: {
-    statblock() {
-      return Statblock.ScanNpc(this.item as Unit, this.includeFeatureDetails);
-    },
-  },
+defineOptions({ name: 'DamageMenu' })
 
-  methods: {
-    copy() {
+const props = defineProps<{
+  item: object
+}>()
+
+const includeFeatureDetails = ref(false)
+
+const statblock = computed(() => {
+      return Statblock.ScanNpc(props.item as Unit, includeFeatureDetails.value);
+    })
+
+function copy() {
       navigator.clipboard
-        .writeText(this.statblock)
+        .writeText(statblock.value)
         .then(() =>
-          this.$notify({
+          notify({
             title: 'Statblock Copied to Clipboard',
             text: 'Copy Success',
             data: { icon: 'mdi-clipboard-text-outline' },
           })
         )
         .catch(() =>
-          this.$notify({
+          notify({
             title: 'Error',
             text: 'Unable to copy statblock',
             data: { icon: 'mdi-clipboard-text-outline', color: 'error' },
           })
         );
-    },
-  },
-};
+    }
 </script>

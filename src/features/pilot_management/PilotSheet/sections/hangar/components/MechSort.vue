@@ -65,31 +65,30 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
 import { UserStore } from '@/stores';
 
-export default {
-  name: 'HangarSort',
-  data: () => ({
-    sort: 'Name',
-    asc: true,
-  }),
-  created() {
-    this.sort = UserStore().User.View('hangarSort', 'Created');
-    this.asc = UserStore().User.View('hangarAsc', false);
-  },
-  methods: {
-    setSort(sort: string) {
-      if (this.sort === sort) {
-        this.asc = !this.asc;
+defineOptions({ name: 'HangarSort' })
+
+const sort = ref('Name')
+const asc = ref(true)
+
+sort.value = UserStore().User.View('hangarSort', 'Created');
+    asc.value = UserStore().User.View('hangarAsc', false);
+
+sort.value = UserStore().User.View('hangarSort', 'Created');
+    asc.value = UserStore().User.View('hangarAsc', false);
+
+function setSort(sort: string) {
+      if (sort.value === sort) {
+        asc.value = !asc.value;
       } else {
-        this.sort = sort;
-        this.asc = true;
+        sort.value = sort;
+        asc.value = true;
       }
 
-      UserStore().User.SetView('hangarSort', this.sort);
-      UserStore().User.SetView('hangarAsc', this.asc);
-    },
-  },
-};
+      UserStore().User.SetView('hangarSort', sort.value);
+      UserStore().User.SetView('hangarAsc', asc.value);
+    }
 </script>

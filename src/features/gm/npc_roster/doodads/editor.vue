@@ -20,45 +20,47 @@
   </editor-base>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { Doodad } from '@/classes/npc/doodad/Doodad';
 import EditorBase from '../../../gm/_components/EditorBase.vue';
-
 import Builder from './builder.vue';
-
 import { NpcStore } from '@/stores';
 import StatEditor from '../../_components/StatEditor.vue';
 import exportAsJson from '@/util/jsonExport';
 
-export default {
-  name: 'GmDoodadEditorBase',
-  components: { Builder, EditorBase, StatEditor },
-  props: {
-    item: { type: Object, required: true },
-    readonly: { type: Boolean, default: false },
-    hideToolbar: { type: Boolean, default: false },
-    hideFooter: { type: Boolean, default: false },
-  },
-  emits: ['exit'],
-  methods: {
-    exit() {
-      this.$emit('exit');
-    },
-    async save() {
+defineOptions({ name: 'GmDoodadEditorBase' })
+
+const props = withDefaults(defineProps<{
+  item: object
+  readonly?: boolean
+  hideToolbar?: boolean
+  hideFooter?: boolean
+}>(), {
+  readonly: false,
+  hideToolbar: false,
+  hideFooter: false
+})
+
+const emit = defineEmits<{
+  'exit': []
+}>()
+
+function exit() {
+      emit('exit');
+    }
+async function save() {
       await NpcStore().SaveNpcData();
-      this.$emit('exit');
-    },
-    deleteItem() {
-      (this.item as Doodad).SaveController.Delete();
-      this.$emit('exit');
-    },
-    dupe() {
-      NpcStore().CloneNpc(this.item as Doodad);
-      this.$emit('exit');
-    },
-    exportItem(item) {
+      emit('exit');
+    }
+function deleteItem() {
+      (props.item as Doodad).SaveController.Delete();
+      emit('exit');
+    }
+function dupe() {
+      NpcStore().CloneNpc(props.item as Doodad);
+      emit('exit');
+    }
+function exportItem(item) {
       exportAsJson(Doodad.Serialize(item, false), `${item.Name}.json`);
-    },
-  },
-};
+    }
 </script>

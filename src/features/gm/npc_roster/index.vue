@@ -52,7 +52,8 @@
   </cc-solo-modal>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
 import NpcIndex from './npcs/index.vue';
 import DoodadIndex from './doodads/index.vue';
 import EidolonIndex from './eidolons/index.vue';
@@ -60,33 +61,25 @@ import Organizer from '../_components/Organizer.vue';
 import Importer from '../_components/NpcImporter.vue';
 import { useMobile } from '@/composables/useMobile';
 
+defineOptions({ name: 'NpcRoster' })
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'NpcRoster',
-  components: { NpcIndex, DoodadIndex, EidolonIndex, Organizer, Importer },
-  props: {
-    type: {
-      type: String,
-      required: false,
-    },
-    id: {
-      type: String,
-      required: false,
-    },
-  },
-  data: () => ({
-    tab: 0,
-    importModal: false,
-    shareModal: false,
-    orgModal: false,
-  }),
-  created() {
-    if (this.type) {
-      this.tab = ['npc', 'doodad', 'eidolon'].indexOf(this.type);
+const { mobile, portrait } = useMobile()
+
+const props = defineProps<{
+  type?: string
+  id?: string
+}>()
+
+const tab = ref(0)
+const importModal = ref(false)
+const shareModal = ref(false)
+const orgModal = ref(false)
+
+if (props.type) {
+      tab.value = ['npc', 'doodad', 'eidolon'].indexOf(props.type);
     }
-  },
-};
+
+if (props.type) {
+      tab.value = ['npc', 'doodad', 'eidolon'].indexOf(props.type);
+    }
 </script>

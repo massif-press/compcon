@@ -257,9 +257,11 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
+import { useDisplay } from 'vuetify'
+import { notify } from '@kyvg/vue3-notification'
 import { UserStore } from '@/stores';
-import * as _ from 'lodash-es';
 import { updateUser } from '@/io/apis/account';
 import {
   signOut,
@@ -275,210 +277,112 @@ import CloudNotificationList from '@/features/nav/_components/CloudNotificationL
 import logger from '@/user/logger';
 import V2CloudMigrationPanel from './_components/v2CloudMigrationPanel.vue';
 
-export default {
-  name: 'AccountManagement',
-  components: { DeleteAccount, PatreonCard, ItchCard, CloudNotificationList, V2CloudMigrationPanel },
-  emits: ['set-state'],
-  data: () => ({
-    loading: false,
-    showAccountMigration: true,
-    nameLoading: false,
-    nameDirty: false,
-    showError: false,
-    error: '',
-    iid: '',
-    username: '',
-    oldPass: '',
-    showOld: false,
-    newPass: '',
-    showNew: false,
-    newEmail: '',
-    newEmailConfirm: '',
-    sendingVerify: false,
-    verifyCode: '',
-    rules: {
-      passLength: (v) => (v && v.length >= 6) || 'Minimum 6 characters',
-    },
-    authedUser: null,
-  }),
+defineOptions({ name: 'AccountManagement' })
 
-  computed: {
-    cognito() {
-      return UserStore().Cognito;
-    },
-    meta() {
-      return UserStore().UserMetadata;
-    },
-    passMatch() {
-      return () =>
-        (this.oldPass && this.newPass && this.oldPass !== this.newPass) ||
-        'Password must be different';
-    },
-    user() {
-      return UserStore().User;
-    },
-    notifications() {
-      return UserStore().CloudNotifications;
-    },
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-  },
-  mounted() {
-    window.addEventListener('keydown', this._onJwtShortcut)
-  },
-  beforeUnmount() {
-    window.removeEventListener('keydown', this._onJwtShortcut)
-  },
-  methods: {
-    async _onJwtShortcut(e: KeyboardEvent) {
-      // this is a temporary debug tool for VTT/API development
-      if (e.ctrlKey && e.altKey && e.key === 'j') {
-        try {
-          const session = await fetchAuthSession()
-          const token = session.tokens?.idToken?.toString()
-          if (!token) throw new Error('No token available')
-          await navigator.clipboard.writeText(token)
-          this.$notify({
-            title: 'JWT Copied',
-            text: 'ID token copied to clipboard',
-            data: { icon: 'mdi-key', color: 'success-darken-2' },
-          })
-        } catch (err) {
-          this.$notify({
-            title: 'JWT Copy Failed',
-            text: String(err),
-            data: { icon: 'mdi-alert', color: 'error' },
-          })
-        }
-      }
-    },
-    copy(str: string) {
-      navigator.clipboard.writeText(str);
-      this.$notify({
-        title: `Data Copied`,
-        text: `Copied ${str} to clipboard`,
-        data: { icon: 'mdi-clipboard-text-outline', color: 'success-darken-2' },
-      });
-    },
-    async changePass() {
-      this.loading = true;
+const { mdAndDown: mobile } = useDisplay()
 
-      try {
-        await updatePassword({ oldPassword: this.oldPass, newPassword: this.newPass });
-        this.$notify({
-          title: 'Update complete',
-          text: 'User password changed',
-          data: { color: 'success' },
-        });
-      } catch (err) {
-        logger.error(`Failed to change password: ${err}`, this, err);
-        this.$notify({
-          title: 'Password update failed',
-          text: 'The server returned an error',
-          data: { color: 'error' },
-        });
-      }
+const emit = defineEmits<{
+  'set-state': [state: string]
+}>()
 
-      this.loading = false;
-    },
-    async sendVerify(open) {
-      this.sendingVerify = true;
-      try {
-        await updateUserAttributes({ userAttributes: { email: this.newEmail } });
-        this.$notify({
-          title: 'Verification e-mail sent',
-          text: 'Please check your inbox for the verification code',
-          data: { color: 'success' },
-        });
-        open();
+const loading = ref(false)
+const nameLoading = ref(false)
+const nameDirty = ref(false)
+const oldPass = ref('')
+const showOld = ref(false)
+const newPass = ref('')
+const showNew = ref(false)
+const newEmail = ref('')
+const newEmailConfirm = ref('')
+const sendingVerify = ref(false)
+const verifyCode = ref('')
 
-      } catch (err) {
-        logger.error(`Failed to initiate email change: ${err}`, this, err);
-        this.$notify({
-          title: 'Failed to initiate email change',
-          text: 'The server returned an error',
-          data: { color: 'error' },
-        });
-      }
-      this.sendingVerify = false;
-    },
-    ccSignOut() {
-      signOut()
-        .then(() => {
-          this.$notify({
-            title: 'Sign Out Successful',
-            text: 'Auth service reports successful logout',
-            data: { color: 'success' },
-          });
-          UserStore().signOut();
-          window.location.reload();
-          this.$emit('set-state', 'sign-in');
-        })
-        .catch((err) => {
-          logger.error(`Error signing out: ${err}`, this, err);
-        });
-    },
-    async userUpdate(key: string) {
-      if (key === 'Username') this.nameLoading = true;
+const cognito = computed(() => UserStore().Cognito)
+const meta = computed(() => UserStore().UserMetadata)
+const notifications = computed(() => UserStore().CloudNotifications)
 
-      const backendKeys = { Username: 'username' };
-      const res = await updateUser(this.cognito.userId, { [backendKeys[key] || key]: this.meta[key] });
-      if (res && res.status === 200) {
-        this.$notify({
-          title: 'Update complete',
-          text: 'User data updated',
-          data: { color: 'success' },
-        });
-      } else {
-        this.$notify({
-          title: 'Update failed',
-          text: 'The server returned an error',
-          data: { color: 'error' },
-        });
-      }
+async function _onJwtShortcut(e: KeyboardEvent) {
+  if (e.ctrlKey && e.altKey && e.key === 'j') {
+    try {
+      const session = await fetchAuthSession()
+      const token = session.tokens?.idToken?.toString()
+      if (!token) throw new Error('No token available')
+      await navigator.clipboard.writeText(token)
+      notify({ title: 'JWT Copied', text: 'ID token copied to clipboard', data: { icon: 'mdi-key', color: 'success-darken-2' } } as any)
+    } catch (err) {
+      notify({ title: 'JWT Copy Failed', text: String(err), data: { icon: 'mdi-alert', color: 'error' } } as any)
+    }
+  }
+}
 
-      this.nameLoading = false;
-      this.nameDirty = false;
-    },
-    async completeVerify() {
-      this.loading = true;
-      try {
-        await confirmUserAttribute({
-          userAttributeKey: 'email',
-          confirmationCode: this.verifyCode,
-        });
-        this.$notify({
-          title: 'E-mail change complete',
-          text: 'Your e-mail address has been changed',
-          data: { color: 'success' },
-        });
-      } catch (err) {
-        logger.error(`Failed to initiate email change: ${err}`, this, err);
-        this.$notify({
-          title: 'E-mail change failed',
-          text: 'The server returned an error',
-          data: { color: 'error' },
-        });
-      } finally {
-        this.loading = false;
-      }
-    },
-    resetEmail(close) {
-      close();
-      this.sendingVerify = false;
-      this.verifyCode = '';
-      this.newEmail = '';
-      this.newEmailConfirm = '';
-      this.$notify({
-        title: 'E-mail change cancelled',
-        text: 'The e-mail change has been cancelled',
-        data: { color: 'info' },
-      });
-    },
+onMounted(() => window.addEventListener('keydown', _onJwtShortcut))
+onBeforeUnmount(() => window.removeEventListener('keydown', _onJwtShortcut))
 
-  },
-};
+async function changePass() {
+  loading.value = true;
+  try {
+    await updatePassword({ oldPassword: oldPass.value, newPassword: newPass.value });
+    notify({ title: 'Update complete', text: 'User password changed', data: { color: 'success' } } as any)
+  } catch (err) {
+    logger.error(`Failed to change password: ${err}`, null, err);
+    notify({ title: 'Password update failed', text: 'The server returned an error', data: { color: 'error' } } as any)
+  }
+  loading.value = false;
+}
+async function sendVerify(open: () => void) {
+  sendingVerify.value = true;
+  try {
+    await updateUserAttributes({ userAttributes: { email: newEmail.value } });
+    notify({ title: 'Verification e-mail sent', text: 'Please check your inbox for the verification code', data: { color: 'success' } } as any)
+    open();
+  } catch (err) {
+    logger.error(`Failed to initiate email change: ${err}`, null, err);
+    notify({ title: 'Failed to initiate email change', text: 'The server returned an error', data: { color: 'error' } } as any)
+  }
+  sendingVerify.value = false;
+}
+function ccSignOut() {
+  signOut()
+    .then(() => {
+      notify({ title: 'Sign Out Successful', text: 'Auth service reports successful logout', data: { color: 'success' } } as any)
+      UserStore().signOut();
+      window.location.reload();
+      emit('set-state', 'sign-in');
+    })
+    .catch((err) => { logger.error(`Error signing out: ${err}`, null, err); });
+}
+async function userUpdate(key: string) {
+  if (key === 'Username') nameLoading.value = true;
+  const backendKeys: Record<string, string> = { Username: 'username' };
+  const res = await updateUser(cognito.value.userId, { [backendKeys[key] || key]: meta.value[key] });
+  if (res && res.status === 200) {
+    notify({ title: 'Update complete', text: 'User data updated', data: { color: 'success' } } as any)
+  } else {
+    notify({ title: 'Update failed', text: 'The server returned an error', data: { color: 'error' } } as any)
+  }
+  nameLoading.value = false;
+  nameDirty.value = false;
+}
+async function completeVerify() {
+  loading.value = true;
+  try {
+    await confirmUserAttribute({ userAttributeKey: 'email', confirmationCode: verifyCode.value });
+    notify({ title: 'E-mail change complete', text: 'Your e-mail address has been changed', data: { color: 'success' } } as any)
+  } catch (err) {
+    logger.error(`Failed to initiate email change: ${err}`, null, err);
+    notify({ title: 'E-mail change failed', text: 'The server returned an error', data: { color: 'error' } } as any)
+  } finally {
+    loading.value = false;
+  }
+}
+function resetEmail(close: () => void) {
+  close();
+  sendingVerify.value = false;
+  verifyCode.value = '';
+  newEmail.value = '';
+  newEmailConfirm.value = '';
+  notify({ title: 'E-mail change cancelled', text: 'The e-mail change has been cancelled', data: { color: 'info' } } as any)
+}
 </script>
 
 <style scoped>

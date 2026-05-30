@@ -159,27 +159,25 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
 import { mission } from '@/io/Generators';
 
-export default {
-  name: 'pilot-registration-card',
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-    pilotReady: {
-      type: Boolean,
-    },
-  },
-  computed: {
-    portrait(): boolean {
-      return this.$vuetify.display.xs;
-    },
-  },
-  methods: {
-    flipName(name: string): string {
+const _display = useDisplay()
+
+defineOptions({ name: 'pilot-registration-card' })
+
+const props = defineProps<{
+  pilot: object
+  pilotReady?: boolean
+}>()
+
+const portrait = computed(() => {
+      return _display.xs.value;
+    })
+
+function flipName(name: string) {
       const suffixes = ['II', 'III', 'IV', 'V', 'VI', 'VII'];
       const nArr = name.split(' ');
       let last = nArr.pop() || '';
@@ -187,20 +185,18 @@ export default {
       if (suffixes.includes(last)) last = nArr.pop() || '';
       nArr.unshift(last);
       return nArr.join('.').replace('-', '.');
-    },
-    missionName(): string {
+    }
+function missionName() {
       return mission().replace(' ', '-');
-    },
-    futureDate(): string {
+    }
+function futureDate() {
       const d = new Date();
       d.setFullYear(d.getFullYear() + 3000);
       return d.toISOString();
-    },
-    randomNumber(max, min): number {
+    }
+function randomNumber(max, min) {
       const rand = Math.random() * (max - min) + min;
       const power = Math.pow(10, 2);
       return Math.floor(rand * power) / power;
-    },
-  },
-};
+    }
 </script>

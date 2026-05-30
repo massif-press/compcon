@@ -491,35 +491,21 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import blankLine from '../../components/blank/line.vue';
 import notes from '../../components/blank/notes.vue';
 import PrintAction from '../../components/PrintAction.vue';
 import PrintDeployable from '../../components/PrintDeployable.vue';
-import { usePrintOptions } from '../_usePrintOptions';
+import { usePrintOptions } from '../usePrintOptions';
 
-export default {
-  name: 'pilot-print',
-  mixins: [usePrintOptions],
-  components: {
-    blankLine,
-    notes,
-    PrintAction,
-    PrintDeployable,
-  },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-    options: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-  },
-};
+defineOptions({ name: 'pilot-print' })
+
+const props = defineProps<{
+  pilot: object
+  options: object
+}>()
+
+const { blank, landscape, hasPilotOption, hasMechOption, signed, showTag, showCollectedEffect } = usePrintOptions(props)
 </script>
 
 <style scoped>

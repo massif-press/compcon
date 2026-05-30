@@ -47,32 +47,31 @@
   </v-card-text>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import { Rules } from '@/classes/utility/Rules'
 
-export default {
-  name: 'level-edit-dialog',
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
-  emits: ['close'],
-  data: () => ({
-    alert: true,
-    newLevel: 0,
-    levels: Array.from(Array(Rules.MaxPilotLevel + 1).keys()),
-  }),
-  mounted() {
-    this.newLevel = this.pilot.Level;
-  },
-  methods: {
-    setLevel() {
-      this.pilot.Level = (this.newLevel as Number) || 0;
-      this.pilot.IsLevelEdit = true;
-      this.$emit('close');
-    },
-  },
-};
+defineOptions({ name: 'level-edit-dialog' })
+
+const props = defineProps<{
+  pilot: object
+}>()
+
+const emit = defineEmits<{
+  'close': []
+}>()
+
+const alert = ref(true)
+const newLevel = ref(0)
+const levels = ref(Array.from(Array(Rules.MaxPilotLevel + 1).keys()))
+
+function setLevel() {
+      props.pilot.Level = (newLevel.value as Number) || 0;
+      props.pilot.IsLevelEdit = true;
+      emit('close');
+    }
+
+onMounted(() => {
+newLevel.value = props.pilot.Level;
+})
 </script>

@@ -8,14 +8,12 @@
   </v-card>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'EquipmentFlavorDescription',
-  props: {
-    description: {
-      type: String,
-      default: null,
-    },
-  },
-}
+<script setup lang="ts">
+defineOptions({ name: 'EquipmentFlavorDescription' })
+
+const props = withDefaults(defineProps<{
+  description?: string
+}>(), {
+  description: null
+})
 </script>

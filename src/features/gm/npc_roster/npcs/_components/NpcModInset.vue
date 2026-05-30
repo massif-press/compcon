@@ -33,12 +33,11 @@
   </v-card>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'NpcModInset',
-  props: {
-    mod: { type: Object, required: true },
-    tier: { type: Number, required: false, default: 1 },
-  },
-};
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+  mod: object
+  tier?: number
+}>(), {
+  tier: 1
+})
 </script>

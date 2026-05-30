@@ -176,8 +176,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useMobile } from '@/composables/useMobile'
 import MechCardLoadoutField from './MechCardLoadoutField.vue';
+const router = useRouter()
 
 const props = defineProps({
     mech: {

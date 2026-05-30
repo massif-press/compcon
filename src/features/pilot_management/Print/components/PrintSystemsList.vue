@@ -45,17 +45,13 @@
   </fieldset>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import PrintAction from './PrintAction.vue';
 import PrintDeployable from './PrintDeployable.vue';
 import TagBlock from './TagBlock.vue';
 
-export default {
-  name: 'PrintSystemsList',
-  components: { PrintAction, PrintDeployable, TagBlock },
-  props: {
-    mech: { type: Object, required: true },
-    options: { type: Object, required: true },
-  },
-};
+const props = defineProps<{
+  mech: object
+  options: object
+}>()
 </script>

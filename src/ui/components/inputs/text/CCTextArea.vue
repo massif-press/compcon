@@ -107,35 +107,39 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CcTextArea',
-  props: {
-    modelValue: { type: [String, Number] },
-    color: { type: String, default: 'panel' },
-    size: { type: String },
-    variant: { type: String, default: 'solo' },
-    prependInnerIcon: { type: String },
-    appendInnerIcon: { type: String },
-    block: { type: Boolean },
-    loading: { type: Boolean },
-    disabled: { type: Boolean },
-    placeholder: { type: String },
-    label: { type: String },
-    icon: { type: String },
-    clearable: { type: Boolean },
-    tooltip: { type: String },
-    tooltipIcon: { type: String },
-    details: { type: String },
-    readonly: { type: Boolean },
-    optionsIcon: { type: String },
-    optionsText: { type: String },
-  },
-  emits: ['update:model-value'],
-  data: () => ({
-    isFocused: false,
-  }),
-};
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const props = withDefaults(defineProps<{
+  modelValue?: string | number
+  color?: string
+  size?: string
+  variant?: string
+  prependInnerIcon?: string
+  appendInnerIcon?: string
+  block?: boolean
+  loading?: boolean
+  disabled?: boolean
+  placeholder?: string
+  label?: string
+  icon?: string
+  clearable?: boolean
+  tooltip?: string
+  tooltipIcon?: string
+  details?: string
+  readonly?: boolean
+  optionsIcon?: string
+  optionsText?: string
+}>(), {
+  color: 'panel',
+  variant: 'solo'
+})
+
+const emit = defineEmits<{
+  'update:model-value': []
+}>()
+
+const isFocused = ref(false)
 </script>
 
 <style scoped>

@@ -56,40 +56,27 @@
   </panel-base>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import UnitCombatLoadout from './_components/loadouts/UnitCombatLoadout.vue';
 import NpcActionsPanel from './_components/NpcActionsPanel.vue';
 import ScanMenu from './_components/ScanMenu.vue';
 import PanelBase from './_PanelBase.vue';
 
-export default {
-  name: 'UnitPanel',
-  components: {
-    PanelBase,
-    ScanMenu,
-    UnitCombatLoadout,
-    NpcActionsPanel,
-  },
-  props: {
-    combatant: {
-      type: Object,
-      required: true,
-    },
-    encounterInstance: {
-      type: Object,
-      required: true,
-    },
-  },
-  emits: ['deselect'],
-  computed: {
-    actor() {
-      return this.combatant.actor;
-    },
-  },
-  methods: {
-    deploy(deployable) {
-      this.encounterInstance.Deploy(deployable, this.combatant);
-    },
-  },
-};
+const props = defineProps<{
+  combatant: object
+  encounterInstance: object
+}>()
+
+const emit = defineEmits<{
+  'deselect': []
+}>()
+
+const actor = computed(() => {
+      return props.combatant.actor;
+    })
+
+function deploy(deployable) {
+      props.encounterInstance.Deploy(deployable, props.combatant);
+    }
 </script>

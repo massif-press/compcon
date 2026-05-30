@@ -140,39 +140,40 @@
   </cc-dialog>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { notify } from '@/util/notify'
+import { useDisplay } from 'vuetify'
 import { UserStore } from '@/stores';
 import logger from '@/user/logger';
 import { authItch } from '@/user/oauth';
 
-export default {
-  name: 'ItchCard',
-  props: {
-    active: Boolean,
-  },
-  data: () => ({
-    dialog: false,
-    loading: false,
-    loadItch: false,
-  }),
-  computed: {
-    itch() {
+const _display = useDisplay()
+
+const props = defineProps<{
+  active?: boolean
+}>()
+
+const dialog = ref(false)
+const loading = ref(false)
+const loadItch = ref(false)
+
+const itch = computed(() => {
       return UserStore().User.Itch;
-    },
-    map() {
+    })
+const map = computed(() => {
       return UserStore().User.ItchMap;
-    },
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-  },
-  methods: {
-    async updateItch() {
-      this.loading = true;
+    })
+const mobile = computed(() => {
+      return _display.mdAndDown.value;
+    })
+
+async function updateItch() {
+      loading.value = true;
       await UserStore().refreshItchData();
-      this.loading = false;
-    },
-    async loginWithItch() {
+      loading.value = false;
+    }
+async function loginWithItch() {
       const isDevSite = window.location.origin.includes('dev.compcon.app');
       const clientId = isDevSite
         ? import.meta.env.VITE_APP_ITCH_DEV_CLIENT_ID || ''
@@ -185,42 +186,42 @@ export default {
 
       const oauthUrl = `https://itch.io/user/oauth?client_id=${clientId}&scope=${scope}&response_type=token&redirect_uri=${redirectUri}`;
 
-      this.openOAuthPopup(oauthUrl, 'Itch.io Login');
+      openOAuthPopup(oauthUrl, 'Itch.io Login');
 
       // Listen for messages from the popup
       const handleMessage = (event) => {
         if (event.origin !== window.location.origin) return; // Ensure message is from the same origin
         if (event.data.type === 'access_token') {
-          this.exchangeItchToken(event.data.access_token);
+          exchangeItchToken(event.data.access_token);
           window.removeEventListener('message', handleMessage);
         }
       };
 
       window.addEventListener('message', handleMessage);
-    },
-    async exchangeItchToken(access_token) {
-      this.loadItch = true;
+    }
+async function exchangeItchToken(access_token) {
+      loadItch.value = true;
       try {
         await UserStore().getUserMetadata();
         const data = await authItch(access_token);
         await UserStore().setItchData(access_token, data);
-        this.loadItch = false;
-        this.$notify({
+        loadItch.value = false;
+        notify({
           title: 'Itch.io Linked',
           text: 'Your itch.io account has been linked',
           data: { color: 'success' },
         });
       } catch (error) {
         logger.error(`Error linking itch.io account: ${error}`, this, error);
-        this.loadItch = false;
-        this.$notify({
+        loadItch.value = false;
+        notify({
           title: 'Itch.io Link Failed',
           text: 'There was an error linking your itch.io account',
           data: { color: 'error' },
         });
       }
-    },
-    openOAuthPopup(url, name, width = 500, height = 600) {
+    }
+function openOAuthPopup(url, name, width = 500, height = 600) {
       const left = window.screenX + (window.outerWidth - width) / 2;
       const top = window.screenY + (window.outerHeight - height) / 2;
 
@@ -229,15 +230,13 @@ export default {
         name,
         `width=${width},height=${height},top=${top},left=${left},resizable=yes,scrollbars=yes,status=no,toolbar=no,menubar=no`
       );
-    },
-    async unlinkItch() {
+    }
+async function unlinkItch() {
       await UserStore().setItchData('', null);
-      this.$notify({
+      notify({
         title: 'Itch.io Unlinked',
         text: 'Your itch.io account has been unlinked',
         data: { color: 'success' },
       });
-    },
-  }
-};
+    }
 </script>

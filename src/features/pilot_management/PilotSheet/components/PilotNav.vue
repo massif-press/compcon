@@ -113,80 +113,69 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { notify } from '@/util/notify'
 import EditMenu from './PilotEditMenu.vue'
 import ShareDialog from '@/shared/ShareDialog.vue'
 import { Pilot } from '@/classes/pilot/Pilot'
 import { CompendiumStore, UserStore } from '@/stores'
 import NavItem from '../../_components/NavItem.vue'
 import { CloudController } from '@/classes/components/cloud/CloudController'
+const router = useRouter()
 
-export default {
-  name: 'PilotNav',
-  components: {
-    EditMenu,
-    ShareDialog,
-    NavItem,
-  },
-  props: {
-    pilot: {
-      type: Pilot,
-      required: true,
-    },
-    selected: {
-      type: Number,
-      required: true,
-    },
-  },
-  emits: ['to'],
-  data: () => ({
-    loading: false,
-  }),
+const props = defineProps<{
+  pilot: Pilot
+  selected: number
+}>()
 
-  computed: {
-    bondClass() {
-      return this.hasBonds ? 'bonds' : 'nobonds'
-    },
-    isAuthed() {
+const emit = defineEmits<{
+  'to': []
+}>()
+
+const loading = ref(false)
+
+const bondClass = computed(() => {
+      return hasBonds.value ? 'bonds' : 'nobonds'
+    })
+const isAuthed = computed(() => {
       return UserStore().IsLoggedIn
-    },
-    hasBonds() {
+    })
+const hasBonds = computed(() => {
       return CompendiumStore().Bonds.length > 0
-    },
-  },
-  methods: {
-    delete_pilot() {
-      this.pilot.SaveController.Delete()
-      this.$router.push('/pilot_management')
-    },
-    async remoteUpdate() {
-      if (!this.isAuthed) return;
-      if (!this.pilot.CloudController.isSynced) {
-        this.$notify({
+    })
+
+function delete_pilot() {
+      props.pilot.SaveController.Delete()
+      router.push('/pilot_management')
+    }
+async function remoteUpdate() {
+      if (!isAuthed.value) return;
+      if (!props.pilot.CloudController.isSynced) {
+        notify({
           title: `Pilot Up-to-date`,
-          text: `Pilot ${this.pilot.Callsign} // ${this.pilot.Name} already has the most recent cloud data. No update needed.`,
+          text: `Pilot ${props.pilot.Callsign} // ${props.pilot.Name} already has the most recent cloud data. No update needed.`,
           data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
         })
       } else {
         try {
-          await CloudController.UpdateRemote(this.pilot)
+          await CloudController.UpdateRemote(props.pilot)
           await UserStore().refreshDbData()
-          this.$notify({
+          notify({
             title: `Sync Complete`,
-            text: `Pilot ${this.pilot.Callsign} // ${this.pilot.Name} synced.`,
+            text: `Pilot ${props.pilot.Callsign} // ${props.pilot.Name} synced.`,
             data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
           })
         } catch (err) {
-          this.$notify({
+          notify({
             title: `Sync Failed`,
-            text: `Failed to sync Pilot ${this.pilot.Callsign} // ${this.pilot.Name}. ${err}`,
+            text: `Failed to sync Pilot ${props.pilot.Callsign} // ${props.pilot.Name}. ${err}`,
             data: { icon: 'mdi-alert', color: 'error' },
           })
         }
       }
-    },
-  },
-}
+    }
 </script>
 
 <style scoped>

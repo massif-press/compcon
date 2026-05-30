@@ -78,38 +78,34 @@
   </v-footer>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { EncounterStore } from '@/stores';
 import EncounterSelector from './EncounterSelector.vue';
 import EncounterContent from './EncounterContent.vue';
 
-export default {
-  name: 'EncounterContentContainer',
-  components: { EncounterSelector, EncounterContent },
-  props: {
-    item: { type: Object, required: true },
-  },
-  data: () => ({
-    menu: false,
-    tab: 0,
-    search: '',
-    encounterDialog: false,
-  }),
-  computed: {
-    isItemLinked() {
+defineOptions({ name: 'EncounterContentContainer' })
+
+const props = defineProps<{
+  item: object
+}>()
+
+const menu = ref(false)
+const tab = ref(0)
+const search = ref('')
+const encounterDialog = ref(false)
+
+const isItemLinked = computed(() => {
       return (
-        this.item.Data &&
-        this.item.Data.ID &&
+        props.item.Data &&
+        props.item.Data.ID &&
         EncounterStore()
           .Encounters.filter((x) => !x.SaveController.IsDeleted)
-          .find((x) => x.ID === this.item.Data.ID)
+          .find((x) => x.ID === props.item.Data.ID)
       );
-    },
-  },
-  methods: {
-    addEncounter(encounter) {
-      this.item.Data = encounter;
-    },
-  },
-};
+    })
+
+function addEncounter(encounter) {
+      props.item.Data = encounter;
+    }
 </script>

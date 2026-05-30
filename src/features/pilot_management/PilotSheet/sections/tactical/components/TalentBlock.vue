@@ -31,26 +31,20 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
 import SectionHeader from '../../components/SectionHeader.vue';
 import SectionEditChip from '../../components/SectionEditChip.vue';
 import NoDataBlock from '../../components/NoDataBlock.vue';
 import TalentSelector from '@/features/pilot_management/_components/selectors/TalentSelector.vue';
 import { Pilot } from '@/classes/pilot/Pilot'
-
 import { UserStore } from '@/stores';
 
-export default {
-  name: 'skill-block',
-  components: { SectionHeader, SectionEditChip, NoDataBlock, TalentSelector },
-  props: {
-    pilot: {
-      type: Object as () => Pilot,
-      required: true,
-    },
-  },
-  data: () => ({
-    view: 'full',
-  }),
-};
+defineOptions({ name: 'skill-block' })
+
+const props = defineProps<{
+  pilot: object
+}>()
+
+const view = ref('full')
 </script>

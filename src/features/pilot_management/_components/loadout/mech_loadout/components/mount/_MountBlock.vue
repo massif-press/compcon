@@ -28,46 +28,24 @@
   </fieldset>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import WeaponSlotCard from './weapon/_WeaponSlotCard.vue';
 import CbMountMenu from './_CbMountMenu.vue';
 import CbCard from './_CbCard.vue';
 import ShLockCard from './_ShLockCard.vue';
 
-export default {
-  name: 'MountBlock',
-  components: { WeaponSlotCard, CbMountMenu, CbCard, ShLockCard },
-  props: {
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-    mount: {
-      type: Object,
-      required: true,
-    },
-    mech: {
-      type: Object,
-      required: true,
-    },
-    integrated: {
-      type: Boolean,
-    },
-    intWeapon: {
-      type: Boolean,
-    },
-    impArm: {
-      type: Boolean,
-    },
-    readonly: {
-      type: Boolean,
-    },
-    superheavy: {
-      type: Boolean,
-    },
-  },
-};
+const props = withDefaults(defineProps<{
+  color?: string
+  mount: object
+  mech: object
+  integrated?: boolean
+  intWeapon?: boolean
+  impArm?: boolean
+  readonly?: boolean
+  superheavy?: boolean
+}>(), {
+  color: 'primary'
+})
 </script>
 
 <style scoped>

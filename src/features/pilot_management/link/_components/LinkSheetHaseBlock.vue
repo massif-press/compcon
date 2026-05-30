@@ -84,21 +84,11 @@
   </v-row>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import MechStatItem from './MechStatItem.vue';
 
-export default {
-  name: 'LinkSheetHaseBlock',
-  components: { MechStatItem },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-    mech: {
-      type: Object,
-      required: true,
-    },
-  },
-};
+const props = defineProps<{
+  pilot: object
+  mech: object
+}>()
 </script>

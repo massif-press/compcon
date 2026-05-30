@@ -1,0 +1,64 @@
+/* CC Quark utilities — small, composable CSS primitives */
+
+/* ── clip-path cuts (top-left corner) ─────────────────────────── */
+.cc-cut-xs {
+  clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%, 0 6px);
+}
+.cc-cut-sm {
+  clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
+}
+.cc-cut-md {
+  clip-path: polygon(16px 0, 100% 0, 100% 100%, 0 100%, 0 16px);
+}
+.cc-cut-lg {
+  clip-path: polygon(24px 0, 100% 0, 100% 100%, 0 100%, 0 24px);
+}
+
+/* ── clip-path cuts (bottom-right corner) ─────────────────────── */
+.cc-cut-br-xs {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%);
+}
+.cc-cut-br-sm {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+}
+.cc-cut-br-md {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%);
+}
+.cc-cut-br-lg {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%);
+}
+
+/* ── clip-path cuts (both corners: top-left + bottom-right) ────── */
+.cc-cut-both-sm {
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+.cc-cut-both-md {
+  clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px);
+}
+
+/* ── corner accent (the triangular pip) ─────────────────────────── */
+.cc-corner-pip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
+  border-top-left-radius: 1px;
+  pointer-events: none;
+  transition: filter 0.2s ease-in-out;
+}
+
+/* ── end-accent (thin color bar on the trailing edge) ───────────── */
+.cc-end-accent {
+  width: 3px;
+  height: 100%;
+  z-index: 1;
+  transition: filter 0.2s ease-in-out;
+}
+
+/* ── hover brightening for pip / tail ───────────────────────────── */
+.cc-glow-parent:hover .cc-corner-pip,
+.cc-glow-parent:hover .cc-end-accent {
+  filter: brightness(3) saturate(200%) hue-rotate(40deg);
+}

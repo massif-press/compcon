@@ -38,7 +38,9 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
 import SectionHeader from '../components/SectionHeader.vue';
 import SkillBlock from './components/SkillBlock.vue';
 import DtResourcesBlock from './components/DtResourcesBlock.vue';
@@ -48,27 +50,15 @@ import CloneBlock from './components/CloneBlock.vue';
 import ImageBlock from './components/ImageBlock.vue';
 import { Pilot } from '@/classes/pilot/Pilot'
 
-export default {
-  name: 'narrative-view',
-  components: {
-    SkillBlock,
-    DtResourcesBlock,
-    PilotLoadoutBlock,
-    IdentBlock,
-    CloneBlock,
-    ImageBlock,
-    SectionHeader,
-  },
-  props: {
-    pilot: {
-      type: Pilot,
-      required: true,
-    },
-  },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.mdAndDown;
-    },
-  },
-};
+const _display = useDisplay()
+
+defineOptions({ name: 'narrative-view' })
+
+const props = defineProps<{
+  pilot: Pilot
+}>()
+
+const mobile = computed(() => {
+      return _display.mdAndDown.value;
+    })
 </script>

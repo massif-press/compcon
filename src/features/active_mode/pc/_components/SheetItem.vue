@@ -266,32 +266,32 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { useMobile } from '@/composables/useMobile';
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'SheetListItem',
-  props: {
-    sheet: {
-      type: Object,
-      required: true,
-    },
-  },
-  emits: ['archive', 'delete', 'launch'],
-  data: () => ({
-    loading: false,
-  }),
-  computed: {
-    pilot() {
-      return this.sheet.Combatant.actor;
-    },
-    mech() {
-      return this.sheet.Combatant.actor.ActiveMech;
-    },
-  },
-}
+
+defineOptions({ name: 'SheetListItem' })
+
+const { mobile, portrait } = useMobile()
+
+const props = defineProps<{
+  sheet: object
+}>()
+
+const emit = defineEmits<{
+  'archive': []
+  'delete': []
+  'launch': []
+}>()
+
+const loading = ref(false)
+
+const pilot = computed(() => {
+      return props.sheet.Combatant.actor;
+    })
+const mech = computed(() => {
+      return props.sheet.Combatant.actor.ActiveMech;
+    })
 </script>
 
 <style scoped>

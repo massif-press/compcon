@@ -9,23 +9,14 @@
   />
 </template>
 
-<script lang="ts">
-export default {
-  name: 'terse-print',
-  props: {
-    height: {
-      type: Number,
-      required: true,
-    },
-    width: {
-      type: Number,
-      required: false,
-    },
-    inline: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-  },
-};
+<script setup lang="ts">
+defineOptions({ name: 'terse-print' })
+
+const props = withDefaults(defineProps<{
+  height: number
+  width?: number
+  inline?: boolean
+}>(), {
+  inline: false
+})
 </script>

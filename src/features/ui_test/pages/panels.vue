@@ -131,26 +131,27 @@
   </v-window-item>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'ui-test-panels',
-  data: () => ({
-    title: '',
-    label: 'button text',
-    subtitle: 'subtitle',
-    infotext: 'info text',
-    buttonType: 'std',
-    color: 'primary',
-    size: 'default',
-    variant: 'default',
-    block: false,
-    prependIcon: '',
-    appendIcon: '',
-    icon: 'cc:campaign',
-    showTooltip: false,
-    border: false,
-    prominent: false,
-    icons: [
+<script setup lang="ts">
+import { ref } from 'vue'
+
+defineOptions({ name: 'ui-test-panels' })
+
+const title = ref('')
+const label = ref('button text')
+const subtitle = ref('subtitle')
+const infotext = ref('info text')
+const buttonType = ref('std')
+const color = ref('primary')
+const size = ref('default')
+const variant = ref('default')
+const block = ref(false)
+const prependIcon = ref('')
+const appendIcon = ref('')
+const icon = ref('cc:campaign')
+const showTooltip = ref(false)
+const border = ref(false)
+const prominent = ref(false)
+const icons = ref([
       'cc:campaign',
       'mdi-alert',
       'cc:pilot',
@@ -159,11 +160,8 @@ export default {
       'mdi-content-save',
       'cc:encounter',
       'mdi-help',
-    ],
-    colors: ['primary', 'secondary', 'accent', 'damage--heat', 'damage--energy', 'exotic', 'cyan'],
-    variants: ['default', 'flavor', 'fluff', 'admin', 'emphasis', 'subtle'],
-    loremIpsum:
-      '<p>Lorem ipsum odor amet, consectetuer adipiscing elit. Nisi aliquet venenatis egestas mi dictum. Etiam enim iaculis eleifend eu facilisi mauris vitae dictum. Duis dictum ultrices montes laoreet scelerisque sapien habitant. Fermentum nisi condimentum habitant porta ex platea. Fringilla vel mollis fusce congue ac quisque hac rhoncus. Hac consequat torquent velit parturient proin maecenas mollis nascetur porta. Adipiscing posuere turpis fames aliquet facilisis, hac integer netus. Venenatis nulla aptent accumsan, sed hendrerit fusce varius. Habitant conubia egestas nulla placerat ac montes.</p><p>Nulla sociosqu cras nibh sociosqu nam ex platea platea. Felis adipiscing duis; suspendisse facilisi duis felis iaculis risus malesuada. Cubilia morbi ad dui commodo maximus. Auctor tincidunt condimentum quisque nullam blandit aliquam leo aenean. Hendrerit cras rutrum neque sit, urna volutpat. Erat parturient pellentesque, tempor ultricies aptent gravida. Proin purus magna lacus cras volutpat nascetur nulla mi. Magnis nullam malesuada ac mi imperdiet tempus magnis euismod vel.</p>',
-  }),
-};
+    ])
+const colors = ref(['primary', 'secondary', 'accent', 'damage--heat', 'damage--energy', 'exotic', 'cyan'])
+const variants = ref(['default', 'flavor', 'fluff', 'admin', 'emphasis', 'subtle'])
+const loremIpsum = ref('<p>Lorem ipsum odor amet, consectetuer adipiscing elit. Nisi aliquet venenatis egestas mi dictum. Etiam enim iaculis eleifend eu facilisi mauris vitae dictum. Duis dictum ultrices montes laoreet scelerisque sapien habitant. Fermentum nisi condimentum habitant porta ex platea. Fringilla vel mollis fusce congue ac quisque hac rhoncus. Hac consequat torquent velit parturient proin maecenas mollis nascetur porta. Adipiscing posuere turpis fames aliquet facilisis, hac integer netus. Venenatis nulla aptent accumsan, sed hendrerit fusce varius. Habitant conubia egestas nulla placerat ac montes.</p><p>Nulla sociosqu cras nibh sociosqu nam ex platea platea. Felis adipiscing duis; suspendisse facilisi duis felis iaculis risus malesuada. Cubilia morbi ad dui commodo maximus. Auctor tincidunt condimentum quisque nullam blandit aliquam leo aenean. Hendrerit cras rutrum neque sit, urna volutpat. Erat parturient pellentesque, tempor ultricies aptent gravida. Proin purus magna lacus cras volutpat nascetur nulla mi. Magnis nullam malesuada ac mi imperdiet tempus magnis euismod vel.</p>')
 </script>

@@ -45,22 +45,21 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import { NarrativeStore } from '@/stores';
 
-export default {
-  name: 'narrative-content',
-  props: {
-    data: { type: Object, required: true },
-  },
-  computed: {
-    item() {
+defineOptions({ name: 'narrative-content' })
+
+const props = defineProps<{
+  data: object
+}>()
+
+const item = computed(() => {
       const refElement = NarrativeStore()
         .CollectionItems.filter((x) => !x.SaveController.IsDeleted)
-        .find((x) => x.ID === this.data?.ID);
+        .find((x) => x.ID === props.data?.ID);
       if (refElement) return refElement;
-      return this.data;
-    },
-  },
-};
+      return props.data;
+    })
 </script>

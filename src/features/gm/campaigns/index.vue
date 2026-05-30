@@ -218,85 +218,75 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { Campaign } from '@/classes/campaign/Campaign';
 import CampaignBookshelf from '@/features/compendium/Views/CampaignLibrary/components/CampaignBookshelf.vue';
 import { ImportData } from '@/io/Data';
 import { CampaignStore } from '@/stores';
 import logger from '@/user/logger';
+const router = useRouter()
 
-export default {
-  name: 'campaign-landing',
-  components: { CampaignBookshelf },
-  data: () => ({
-    slide: null,
-    libDialog: false,
-    deleteDialog: false,
-    importDialog: false,
-    deleteText: '',
-    fileValue: null as any,
-    stagedData: null as any,
-    errorMessage: '',
-  }),
-  computed: {
-    campaigns() {
+defineOptions({ name: 'campaign-landing' })
+
+const slide = ref(null)
+const libDialog = ref(false)
+const deleteDialog = ref(false)
+const importDialog = ref(false)
+const deleteText = ref('')
+const fileValue = ref(null as any)
+const stagedData = ref(null as any)
+const errorMessage = ref('')
+
+const campaigns = computed(() => {
       return CampaignStore().Campaigns.filter((x) => !x.SaveController.IsDeleted);
-    },
-
-    importSameId() {
-      if (!this.stagedData) return null;
-      return CampaignStore().Campaigns.find((c) => c.ID === this.stagedData.ID);
-    },
-
-    importIsOlder() {
-      if (!this.stagedData) return false;
-      const existing = CampaignStore().Campaigns.find((c) => c.ID === this.stagedData.ID);
+    })
+const importSameId = computed(() => {
+      if (!stagedData.value) return null;
+      return CampaignStore().Campaigns.find((c) => c.ID === stagedData.value.ID);
+    })
+const importIsOlder = computed(() => {
+      if (!stagedData.value) return false;
+      const existing = CampaignStore().Campaigns.find((c) => c.ID === stagedData.value.ID);
       if (!existing) return false;
-      return existing.SaveController.LastModified > this.stagedData.SaveController.LastModified;
-    },
-  },
-  methods: {
-    addCampaign() {
+      return existing.SaveController.LastModified > stagedData.value.SaveController.LastModified;
+    })
+
+function addCampaign() {
       const c = new Campaign();
       CampaignStore().AddCampaign(c);
-    },
-
-    async openEditCampaign(c: Campaign) {
-      this.$router.push(`campaigns/edit/${c.ID}`);
-    },
-
-    async deleteCampaign(c: Campaign, isActive: any) {
+    }
+async function openEditCampaign(c: Campaign) {
+      router.push(`campaigns/edit/${c.ID}`);
+    }
+async function deleteCampaign(c: Campaign, isActive: any) {
       CampaignStore().DeleteCampaign(c);
       isActive.value = false;
-      this.deleteText = '';
-    },
-
-    reset() {
-      this.fileValue = null;
-      this.stagedData = null;
-      this.errorMessage = '';
-    },
-
-    async stageImport(file: any) {
+      deleteText.value = '';
+    }
+function reset() {
+      fileValue.value = null;
+      stagedData.value = null;
+      errorMessage.value = '';
+    }
+async function stageImport(file: any) {
       if (!file) return;
       const data = await ImportData<any>(file.target.files[0]);
 
       try {
         const c = new Campaign(data);
-        this.stagedData = c;
+        stagedData.value = c;
       } catch (e) {
         logger.error(`Error staging import: ${e}`, this);
-        this.stagedData = null;
-        this.errorMessage = JSON.stringify(e);
+        stagedData.value = null;
+        errorMessage.value = JSON.stringify(e);
       }
-    },
-
-    importCampaign() {
-      if (!this.stagedData) return;
-      CampaignStore().AddCampaign(this.stagedData);
-      this.reset();
-      this.importDialog = false;
-    },
-  },
-};
+    }
+function importCampaign() {
+      if (!stagedData.value) return;
+      CampaignStore().AddCampaign(stagedData.value);
+      reset();
+      importDialog.value = false;
+    }
 </script>

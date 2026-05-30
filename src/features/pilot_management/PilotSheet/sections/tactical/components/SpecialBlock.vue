@@ -76,28 +76,20 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import SectionHeader from '../../components/SectionHeader.vue';
 import NoDataBlock from '../../components/NoDataBlock.vue';
 import EquipmentSelector from '../../../../_components/selectors/EquipmentSelector.vue';
 
-export default {
-  name: 'SpecialBlock',
-  components: { SectionHeader, NoDataBlock, EquipmentSelector },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
-  methods: {
-    addItem(item, close) {
-      this.pilot.AddSpecialEquipment(item);
+const props = defineProps<{
+  pilot: object
+}>()
+
+function addItem(item, close) {
+      props.pilot.AddSpecialEquipment(item);
       close();
-    },
-    removeItem(item) {
-      this.pilot.RemoveSpecialEquipment(item);
-    },
-  },
-};
+    }
+function removeItem(item) {
+      props.pilot.RemoveSpecialEquipment(item);
+    }
 </script>

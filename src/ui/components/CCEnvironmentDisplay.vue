@@ -17,11 +17,8 @@
   </fieldset>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'CCEnvironmentDisplay',
-  props: {
-    environment: { type: Object, required: true },
-  },
-};
+<script setup lang="ts">
+const props = defineProps<{
+  environment: object
+}>()
 </script>

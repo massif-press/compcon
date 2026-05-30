@@ -1,3 +1,4 @@
+import type { IControllerStatic } from '@/classes/ISerializable'
 import { Bonus, BonusId } from '../../../components/feature/bonus/Bonus'
 import { Rules } from '../../../utility/Rules'
 import CustomSkill from './CustomSkill'
@@ -127,5 +128,6 @@ class SkillsController extends RankedCollectionController<Skill | CustomSkill, P
   }
 }
 
+const _checkController: IControllerStatic<Pilot, ISkillsData> = SkillsController
 export { SkillsController }
 export type { ISkillsData }

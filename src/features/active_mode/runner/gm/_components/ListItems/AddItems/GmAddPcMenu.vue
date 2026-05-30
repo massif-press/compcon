@@ -90,63 +90,56 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import { Pilot } from '@/classes/pilot/Pilot';
-import { PilotStore } from '@/stores';
+import { PilotStore, PilotGroupStore } from '@/stores';
 import * as _ from 'lodash-es';
 
-export default {
-  name: 'GmAddPcMenu',
-  props: {
-    encounterInstance: {
-      type: EncounterInstance,
-      required: true,
-    },
-  },
-  data: () => ({
-    tab: 'Roster',
-    search: '',
-    group: null as any,
-  }),
-  computed: {
-    pilots() {
+const props = defineProps<{
+  encounterInstance: EncounterInstance
+}>()
+
+const tab = ref('Roster')
+const search = ref('')
+const group = ref(null as any)
+
+const pilots = computed(() => {
       return PilotStore()
         .Pilots.filter(
           (p) =>
             !p.SaveController.IsDeleted && p.Mechs.length > 0 &&
-            !this.encounterInstance.Combatants.filter((x) => x.type === 'pilot').some(
+            !props.encounterInstance.Combatants.filter((x) => x.type === 'pilot').some(
               (c) => c.actor.Name === p.Name
             ) &&
-            (!this.search ||
-              p.Callsign.toLowerCase().includes(this.search.toLowerCase()) ||
-              p.Name.toLowerCase().includes(this.search.toLowerCase()))
+            (!search.value ||
+              p.Callsign.toLowerCase().includes(search.value.toLowerCase()) ||
+              p.Name.toLowerCase().includes(search.value.toLowerCase()))
         )
         .filter((p) =>
-          this.group && this.group.ID !== 'no_group'
-            ? this.group.Pilots.some((x) => x.id === p.ID)
+          group.value && group.value.ID !== 'no_group'
+            ? group.value.Pilots.some((x) => x.id === p.ID)
             : true
         )
         .sort((a, b) => a.Callsign.localeCompare(b.Callsign));
-    },
-    groups() {
-      return PilotStore().getPilotGroups();
-    },
-  },
+    })
+const groups = computed(() => {
+      return PilotGroupStore().getPilotGroups();
+    })
 
-  methods: {
-    addPc(rosterItem) {
-      if (this.encounterInstance.Combatants.some((p) => p.actor.ID === rosterItem.ID)) return;
+function addPc(rosterItem) {
+      if (props.encounterInstance.Combatants.some((p) => p.actor.ID === rosterItem.ID)) return;
 
       const pc = Pilot.Deserialize(JSON.parse(JSON.stringify(Pilot.Serialize(rosterItem))));
 
 
       pc.SetStats();
-      pc.FeatureController.BonusController.applyToStats(pc.CombatController.StatController, this.encounterInstance)
+      pc.FeatureController.BonusController.applyToStats(pc.CombatController.StatController, props.encounterInstance)
       pc.CombatController.StatController.resetCurrentStats()
       pc.CombatController.Reset();
 
-      this.encounterInstance.Combatants.push({
+      props.encounterInstance.Combatants.push({
         id: pc.ID,
         index: -1,
         number: -1,
@@ -155,13 +148,11 @@ export default {
         actor: pc,
         deployables: [],
       });
-    },
-    sortedMechs(pc) {
+    }
+function sortedMechs(pc) {
       return _.orderBy(
         pc.Mechs,
         (m) => m.ID === pc.FavoriteMech?.ID ? 0 : 1
       );
-    },
-  },
-};
+    }
 </script>

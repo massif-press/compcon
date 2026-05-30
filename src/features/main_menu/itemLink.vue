@@ -57,60 +57,34 @@
   </v-footer>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref, onMounted, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import { unCamelCase } from '@/classes/utility/accent_fold';
 import { CompendiumStore } from '@/stores';
 import logger from '@/user/logger';
+const router = useRouter()
 
-export default {
-  name: 'itemLink',
-  props: {
-    pack: {
-      type: String,
-      required: true,
-    },
-    id: {
-      type: String,
-      required: true,
-    },
-    type: {
-      type: String,
-      required: true,
-    },
-  },
-  data: () => ({
-    item: null,
-  }),
-  watch: {
-    compendiumLoaded: {
-      immediate: true,
-      deep: true,
-      handler(val) {
-        if (val) {
-          try {
-            this.item = CompendiumStore().referenceFromID(this.type, this.id) as any;
-          } catch (e) {
-            logger.error(`Error loading item with ID ${this.id}: ${e}`, this, e);
-          }
-        }
-      },
-    },
-  },
-  mounted() {
-    document.title = (this.item as any)?.Name || 'Item Link';
-  },
-  computed: {
-    compendiumLoaded() {
+const props = defineProps<{
+  pack: string
+  id: string
+  type: string
+}>()
+
+const item = ref(null)
+
+const compendiumLoaded = computed(() => {
       return CompendiumStore().loaded;
-    },
-  },
-  methods: {
-    unCamelCase(str) {
+    })
+
+function unCamelCase(str) {
       return unCamelCase(str);
-    },
-    copyToClipboard() {
+    }
+function copyToClipboard() {
       navigator.clipboard.writeText(window.location.href);
-    },
-  },
-};
+    }
+
+onMounted(() => {
+document.title = (item.value as any)?.Name || 'Item Link';
+})
 </script>

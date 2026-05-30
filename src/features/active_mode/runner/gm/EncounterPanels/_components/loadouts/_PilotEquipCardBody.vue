@@ -36,24 +36,19 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
 import ActionsDeployables from './_ActionsDeployables.vue'
 import { externalPilotItemBonuses } from '@/composables/useExternalItemBonuses'
 
-export default {
-  name: 'PilotEquipCardBody',
-  components: {
-    EquipmentActionsDeployables: ActionsDeployables,
-  },
-  props: {
-    item: { type: Object, required: true },
-    pilot: { type: Object, required: true },
-    encounter: { type: Object, required: true },
-    owner: { type: Object, required: true },
-  },
-  emits: ['deploy'],
-  computed: {
-    externalPilotItemBonuses,
-  },
-}
+const props = defineProps<{
+  item: object
+  pilot: object
+  encounter: object
+  owner: object
+}>()
+
+const emit = defineEmits<{
+  'deploy': []
+}>()
 </script>

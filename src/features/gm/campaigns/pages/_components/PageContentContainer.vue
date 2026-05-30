@@ -245,22 +245,23 @@
   </v-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
 import NarrativeContentContainer from './NarrativeContentContainer.vue';
 import EncounterContainer from './EncounterContainer.vue';
 import { campaignColorSelections, campaignColorPalette } from '@/shared/campaignColorOptions';
 
-export default {
-  name: 'campaign-page-content-container',
-  components: { NarrativeContentContainer, EncounterContainer },
-  props: { item: { type: Object, required: true } },
-  data: () => ({
-    colorTab: 0,
-    colorSelections: campaignColorSelections,
-    colorPalette: campaignColorPalette,
-  }),
-  methods: {
-    getIcon(variant: string) {
+defineOptions({ name: 'campaign-page-content-container' })
+
+const props = defineProps<{
+  item: object
+}>()
+
+const colorTab = ref(0)
+const colorSelections = ref(campaignColorSelections)
+const colorPalette = ref(campaignColorPalette)
+
+function getIcon(variant: string) {
       switch (variant) {
         case 'outlined':
           return 'mdi-card-outline';
@@ -275,8 +276,8 @@ export default {
         default:
           return 'mdi-square-off-outline';
       }
-    },
-    getTypeIcon(type: string) {
+    }
+function getTypeIcon(type: string) {
       switch (type) {
         case 'text':
           return 'mdi-text';
@@ -291,10 +292,8 @@ export default {
         default:
           return 'mdi-puzzle';
       }
-    },
-    setContentType(type: string) {
-      this.item.ContentType = type;
-    },
-  },
-};
+    }
+function setContentType(type: string) {
+      props.item.ContentType = type;
+    }
 </script>

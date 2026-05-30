@@ -13,12 +13,14 @@
   </v-menu>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'environment-chip',
-  props: {
-    environment: { type: Object, required: true },
-    size: { type: String, default: 'x-small' },
-  },
-};
+<script setup lang="ts">
+import CCEnvironmentDisplay from '@/ui/components/CCEnvironmentDisplay.vue'
+defineOptions({ name: 'environment-chip' })
+
+const props = withDefaults(defineProps<{
+  environment: object
+  size?: string
+}>(), {
+  size: 'x-small'
+})
 </script>

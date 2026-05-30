@@ -76,6 +76,7 @@ withDefaults(defineProps<{
   extended?: boolean;
   shrink?: boolean;
   persistent?: boolean;
+  scrollable?: boolean;
   clip?: boolean;
   tabs?: boolean;
   id?: string;

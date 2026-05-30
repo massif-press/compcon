@@ -1,3 +1,4 @@
+import type { IControllerStatic } from '@/classes/ISerializable'
 import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer'
 import { Bonus, BonusId } from '../../../components/feature/bonus/Bonus'
 import { Rules } from '../../../utility/Rules'
@@ -148,5 +149,6 @@ class TalentsController
   }
 }
 
+const _checkController: IControllerStatic<Pilot, ITalentsData> = TalentsController
 export { TalentsController }
 export type { ITalentsData }

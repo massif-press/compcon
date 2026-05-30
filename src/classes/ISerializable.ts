@@ -3,3 +3,9 @@ export interface ISerializableStatic<TData, TInstance> {
 
   Deserialize(data: TData, ...args: any[]): TInstance
 }
+
+export interface IControllerStatic<TParent, TData> {
+  Serialize(parent: TParent, target: any, ...args: any[]): void
+
+  Deserialize(parent: TParent, data: TData): void
+}

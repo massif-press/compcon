@@ -74,9 +74,9 @@
   </cc-solo-modal>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import * as _ from 'lodash-es'
-
 import { CompendiumStore } from '@/stores'
 import { Pilot } from '@/classes/pilot/Pilot'
 import { Frame } from '@/classes/mech/components/frame/Frame'
@@ -85,24 +85,25 @@ import { ItemType } from '@/classes/enums'
 import { mechname } from '@/io/Generators'
 import { AchievementEventSystem } from '@/user/achievements/AchievementEvent'
 
-export default {
-  name: 'NewMechMenu',
-  props: {
-    pilot: { type: Pilot, required: true },
-  },
-  emits: ['close'],
-  data: () => ({
-    nameDialog: false,
-    mechName: '',
-    showAll: false,
-    selectedFrame: null as any,
-    options: {
+const props = defineProps<{
+  pilot: Pilot
+}>()
+
+const emit = defineEmits<{
+  'close': []
+}>()
+
+const nameDialog = ref(false)
+const mechName = ref('')
+const showAll = ref(false)
+const selectedFrame = ref(null as any)
+const options = ref({
       views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
       initialView: 'cards',
       groups: ['source', 'lcp', 'none'],
       initialGroup: 'source',
-    },
-    headers: [
+    })
+const headers = ref([
       { title: 'Manufacturer', key: 'Source' },
       { title: 'Name', key: 'Name' },
       { title: 'Size', key: 'Size' },
@@ -117,14 +118,13 @@ export default {
       { title: 'Save', key: 'SaveTarget' },
       { title: 'Speed', key: 'Speed' },
       { title: 'SP', key: 'SP' },
-    ],
-  }),
-  computed: {
-    manufacturers() {
+    ])
+
+const manufacturers = computed(() => {
       return CompendiumStore().Manufacturers;
-    },
-    allFrames() {
-      if (!this.pilot.LcpConfig) return CompendiumStore().Frames
+    })
+const allFrames = computed(() => {
+      if (!props.pilot.LcpConfig) return CompendiumStore().Frames
       return CompendiumStore().Frames.filter(
         x => {
           if (!x.InLcp) return true
@@ -133,37 +133,34 @@ export default {
             const baseFrame = CompendiumStore().Frames.find(y => y.Name === x.Variant)
             if (baseFrame) target = baseFrame
           }
-          return this.pilot.LcpConfig?.packList.some(y => y.packID === target.Brew?.LcpId) ||
-            this.pilot.LcpConfig?.packList.some(y => y.packName === target.Brew?.LcpName)
+          return props.pilot.LcpConfig?.packList.some(y => y.packID === target.Brew?.LcpId) ||
+            props.pilot.LcpConfig?.packList.some(y => y.packName === target.Brew?.LcpName)
         }
 
       )
-    },
-    filteredFrames() {
-      if (this.showAll) return this.allFrames.filter(x => !x.IsHidden)
+    })
+const filteredFrames = computed(() => {
+      if (showAll.value) return allFrames.value.filter(x => !x.IsHidden)
 
-      return this.pilot.LicenseController.AllowedItems(ItemType.Frame)
-    },
-  },
-  methods: {
-    select(frame: Frame) {
-      this.nameDialog = true
-      this.selectedFrame = frame
-    },
-    async randomName() {
-      this.mechName = await mechname()
-    },
-    addMech() {
-      const newMech = new Mech(this.selectedFrame, this.pilot)
-      newMech.Name = this.mechName
-      this.pilot.AddMech(newMech)
+      return props.pilot.LicenseController.AllowedItems(ItemType.Frame)
+    })
+
+function select(frame: Frame) {
+      nameDialog.value = true
+      selectedFrame.value = frame
+    }
+async function randomName() {
+      mechName.value = await mechname()
+    }
+function addMech() {
+      const newMech = new Mech(selectedFrame.value, props.pilot)
+      newMech.Name = mechName.value
+      props.pilot.AddMech(newMech)
       AchievementEventSystem.emit('add_mech')
-      this.mechName = ''
-      this.selectedFrame = null
-      this.showAll = false
-      this.nameDialog = false
-      this.$emit('close')
-    },
-  },
-}
+      mechName.value = ''
+      selectedFrame.value = null
+      showAll.value = false
+      nameDialog.value = false
+      emit('close')
+    }
 </script>

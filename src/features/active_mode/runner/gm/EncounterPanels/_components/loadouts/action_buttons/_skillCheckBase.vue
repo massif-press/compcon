@@ -102,86 +102,69 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'SkillCheckBase',
-  props: {
-    controller: { type: Object, required: true },
-    difficult: { type: Boolean, default: false },
-    selectedHase: { type: String, default: null },
-  },
-  data: () => ({
-    roll: null,
-    bonus: 0,
-    accDiff: 0,
-    rollResults: [],
-  }),
-  computed: {
-    applicableBonuses() {
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
+
+const props = withDefaults(defineProps<{
+  controller: object
+  difficult?: boolean
+  selectedHase?: string
+}>(), {
+  difficult: false,
+  selectedHase: null
+})
+
+const roll = ref(null)
+const bonus = ref(0)
+const accDiff = ref(0)
+const rollResults = ref([])
+
+const applicableBonuses = computed(() => {
       let bonuses = [];
-      bonuses = this.controller.ActiveActor.FeatureController?.Bonuses?.filter(
-        (b) => b.ID === this.selectedHase || b.ID === 'check'
+      bonuses = props.controller.ActiveActor.FeatureController?.Bonuses?.filter(
+        (b) => b.ID === props.selectedHase || b.ID === 'check'
       );
       const result = {
         bonuses: bonuses.filter((b) => !!b.Value) || [],
         accDiff: bonuses.filter((b) => !!b.Accuracy) || [],
       };
-      if (this.selectedHase) {
-        const statBonus = this.controller.ActiveActor.CombatController.StatController.getStat(
-          this.selectedHase
+      if (props.selectedHase) {
+        const statBonus = props.controller.ActiveActor.CombatController.StatController.getStat(
+          props.selectedHase
         );
         if (statBonus) {
           result.bonuses.push({
-            Source: `${this.selectedHase.charAt(0).toUpperCase() + this.selectedHase.slice(1)} Stat`,
+            Source: `${props.selectedHase.charAt(0).toUpperCase() + props.selectedHase.slice(1)} Stat`,
             Value: statBonus,
           });
         }
       }
 
       return result;
-    },
-  },
-  watch: {
-    difficult(newVal) {
-      if (newVal) {
-        this.accDiff -= 1;
-      } else {
-        this.accDiff += 1;
-      }
-    },
-    applicableBonuses: {
-      immediate: true,
-      handler(newVal) {
-        this.bonus = newVal.bonuses.reduce((acc, curr) => acc + curr.Value, 0);
-        this.accDiff = newVal.accDiff.reduce((acc, curr) => acc + curr.Accuracy, 0);
-      },
-    },
-  },
-  methods: {
-    rollCheck() {
-      this.rollResults = [];
+    })
+
+function rollCheck() {
+      rollResults.value = [];
       const results = [];
-      const count = 1 + Math.abs(this.accDiff);
+      const count = 1 + Math.abs(accDiff.value);
 
       for (let i = 1; i <= count; i++) {
         const roll = Math.floor(Math.random() * 20) + 1;
-        const val = roll + this.bonus;
+        const val = roll + bonus.value;
         results.push({
           val,
-          text: `${roll} + ${this.bonus} (${val})`,
+          text: `${roll} + ${bonus.value} (${val})`,
         });
       }
 
-      if (this.accDiff < 0) {
+      if (accDiff.value < 0) {
         results.sort((a, b) => a.val - b.val);
       } else {
         results.sort((a, b) => b.val - a.val);
       }
 
-      this.rollResults = results;
+      rollResults.value = results;
 
-      this.roll = results[0].val;
-    },
-  },
-};
+      roll.value = results[0].val;
+    }
 </script>

@@ -46,23 +46,15 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { Action } from '@/classes/Action';
 
-
-export default {
-  name: 'PrintAction',
-  props: {
-    actions: {
-      type: Array,
-      required: true,
-    },
-    compact: {
-      type: Boolean,
-      default: false,
-    },
-  },
-};
+const props = withDefaults(defineProps<{
+  actions: any[]
+  compact?: boolean
+}>(), {
+  compact: false
+})
 </script>
 
 <style scoped>

@@ -108,104 +108,98 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { notify } from '@/util/notify'
 import { NpcStore } from '@/stores';
 import * as _ from 'lodash-es';
 import { v4 as uuid } from 'uuid';
 
-export default {
-  name: 'GmAddNpcMenu',
-  props: {
-    encounterInstance: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    tab: 'Doodad',
-    search: '',
-    folder: null,
-  }),
-  computed: {
-    folders() {
+defineOptions({ name: 'GmAddNpcMenu' })
+
+const props = defineProps<{
+  encounterInstance: object
+}>()
+
+const tab = ref('Doodad')
+const search = ref('')
+const folder = ref(null)
+
+const folders = computed(() => {
       return NpcStore().getFolders;
-    },
-    doodads() {
+    })
+const doodads = computed(() => {
       return NpcStore()
         .getDoodads.filter(
-          (npc) => !this.search || npc.Name.toLowerCase().includes(this.search.toLowerCase())
+          (npc) => !search.value || npc.Name.toLowerCase().includes(search.value.toLowerCase())
         )
-        .filter((npc) => (this.folder ? npc.FolderController.Folder === this.folder : true));
-    },
-    eidolons() {
+        .filter((npc) => (folder.value ? npc.FolderController.Folder === folder.value : true));
+    })
+const eidolons = computed(() => {
       return NpcStore()
         .getEidolons.filter(
-          (npc) => !this.search || npc.Name.toLowerCase().includes(this.search.toLowerCase())
+          (npc) => !search.value || npc.Name.toLowerCase().includes(search.value.toLowerCase())
         )
-        .filter((npc) => (this.folder ? npc.FolderController.Folder === this.folder : true));
-    },
-  },
+        .filter((npc) => (folder.value ? npc.FolderController.Folder === folder.value : true));
+    })
 
-  methods: {
-    add(rosterItem) {
+function add(rosterItem) {
       const doodad = rosterItem.Clone(false);
 
       const number =
-        this.encounterInstance.Combatants.filter((c) => c.actor.Name === doodad.Name).length + 1;
+        props.encounterInstance.Combatants.filter((c) => c.actor.Name === doodad.Name).length + 1;
 
-      this.encounterInstance.Combatants.push({
+      props.encounterInstance.Combatants.push({
         id: uuid(),
-        index: this.encounterInstance.Combatants.length,
+        index: props.encounterInstance.Combatants.length,
         number: number,
         side: 'neutral',
         type: 'doodad',
         actor: doodad,
         deployables: [],
       });
-      this.$notify({
+      notify({
         type: 'success',
         title: 'Doodad Added',
         text: `${doodad.Name} has been added to the encounter.`,
       });
-    },
-    addEidolon(rosterItem) {
+    }
+function addEidolon(rosterItem) {
       const eidolon = rosterItem.Clone(false);
 
       const number =
-        this.encounterInstance.Combatants.filter((c) => c.actor.Name === eidolon.Name).length + 1;
+        props.encounterInstance.Combatants.filter((c) => c.actor.Name === eidolon.Name).length + 1;
 
-      const playerCount = this.encounterInstance.Combatants.filter(c => c.side === 'ally').length
+      const playerCount = props.encounterInstance.Combatants.filter(c => c.side === 'ally').length
 
       eidolon.CombatController.StatController.applyRegisteredCustomStats()
-      eidolon.FeatureController.BonusController.applyToStats(eidolon.CombatController.StatController, this.encounterInstance)
+      eidolon.FeatureController.BonusController.applyToStats(eidolon.CombatController.StatController, props.encounterInstance)
       eidolon.ApplyEidolonBonuses(playerCount)
       eidolon.CombatController.StatController.resetCurrentStats()
       eidolon.CombatController.Reset();
 
       eidolon.Layers.forEach((l) => {
         l.CombatController.StatController.applyRegisteredCustomStats()
-        l.FeatureController.BonusController.applyToStats(l.CombatController.StatController, this.encounterInstance)
+        l.FeatureController.BonusController.applyToStats(l.CombatController.StatController, props.encounterInstance)
         l.ResetHp(playerCount, true)
         l.SetActivations(playerCount)
         l.CombatController.StatController.resetCurrentStats()
         l.CombatController.Reset()
       });
 
-      this.encounterInstance.Combatants.push({
+      props.encounterInstance.Combatants.push({
         id: uuid(),
-        index: this.encounterInstance.Combatants.length,
+        index: props.encounterInstance.Combatants.length,
         number: number,
         side: 'enemy',
         type: 'eidolon',
         actor: eidolon,
         deployables: [],
       });
-      this.$notify({
+      notify({
         type: 'success',
         title: 'Eidolon Added',
         text: `${eidolon.Name} has been added to the encounter.`,
       });
-    },
-  },
-};
+    }
 </script>

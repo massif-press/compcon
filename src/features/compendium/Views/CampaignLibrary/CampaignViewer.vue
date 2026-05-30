@@ -31,41 +31,35 @@
   </v-layout>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { Campaign } from '@/classes/campaign/Campaign';
 import sidebar from './components/sidebar.vue';
 import Credits from './pages/credits.vue';
 import Page from './pages/contentPage.vue';
 import Indices from './pages/indices.vue';
-
 import { CampaignStore } from '@/stores';
 import { useMobile } from '@/composables/useMobile';
 
+defineOptions({ name: 'campaign-viewer' })
 
-export default {
-  setup() {
-    return useMobile()
-  },
-  name: 'campaign-viewer',
-  components: { sidebar, Credits, Page, Indices },
-  props: {
-    id: { type: String, required: true },
-  },
-  data: () => ({
-    showNav: true,
-    componentType: 'Credits',
-    selected: null,
-    campaign: null as any,
-  }),
-  async created() {
-    await CampaignStore().LoadCampaigns();
-    const data = CampaignStore().CampaignCollection.find((c) => c.id === this.id);
-    this.campaign = new Campaign(data);
-  },
+const { mobile, portrait } = useMobile()
 
-  computed: {
-    itemComponent() {
-      switch (this.componentType.toLowerCase()) {
+const props = defineProps<{
+  id: string
+}>()
+
+const showNav = ref(true)
+const componentType = ref('Credits')
+const selected = ref(null)
+const campaign = ref(null as any)
+
+await CampaignStore().LoadCampaigns();
+    const data = CampaignStore().CampaignCollection.find((c) => c.id === props.id);
+    campaign.value = new Campaign(data);
+
+const itemComponent = computed(() => {
+      switch (componentType.value.toLowerCase()) {
         case 'credits':
           return Credits;
         case 'index':
@@ -73,20 +67,17 @@ export default {
         default:
           return Page;
       }
-    },
-    currentPage() {
-      return this.componentType;
-    },
-  },
-  methods: {
-    setPage(type) {
-      this.componentType = type;
-      this.selected = null;
-    },
-    setSelected(item) {
-      this.componentType = item.SectionType;
-      this.selected = item;
-    },
-  },
-};
+    })
+const currentPage = computed(() => {
+      return componentType.value;
+    })
+
+function setPage(type) {
+      componentType.value = type;
+      selected.value = null;
+    }
+function setSelected(item) {
+      componentType.value = item.SectionType;
+      selected.value = item;
+    }
 </script>

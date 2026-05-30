@@ -158,43 +158,39 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import TableWindowItem from './_TableWindowItem.vue';
 import ResultData from './_stress_results.json';
 import CascadeCheck from './_CascadeCheck.vue';
 
-export default {
-  name: 'StressTable',
-  components: { TableWindowItem, CascadeCheck },
-  props: {
-    mech: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    dialog: false,
-    window: 0,
-    rolls: [],
-    resultData: ResultData,
-    results: [
+defineOptions({ name: 'StressTable' })
+
+const props = defineProps<{
+  mech: object
+}>()
+
+const dialog = ref(false)
+const window = ref(0)
+const rolls = ref([])
+const resultData = ref(ResultData)
+const results = ref([
       'Meltdown',
       'Power Plant Destabilize',
       'Power Plant Destabilize',
       'Power Plant Destabilize',
       'Emergency Shunt',
       'Emergency Shunt',
-    ],
-  }),
-  computed: {
-    totalRolls(): number {
+    ])
+
+const totalRolls = computed(() => {
       return (
-        (this.mech.ActiveStatController.CurrentStress - this.mech.StatController.MaxStress) * -1
+        (props.mech.ActiveStatController.CurrentStress - props.mech.StatController.MaxStress) * -1
       );
-    },
-    resultWindow(): number {
-      if (this.rolls.filter((x) => x === 1).length > 1) return 4;
-      switch (Math.min(...this.rolls)) {
+    })
+const resultWindow = computed(() => {
+      if (rolls.value.filter((x) => x === 1).length > 1) return 4;
+      switch (Math.min(...rolls.value)) {
         case 6:
         case 5:
           return 1;
@@ -203,40 +199,36 @@ export default {
         case 2:
           return 2;
         case 1:
-          return this.mech.ActiveStatController.CurrentStress <= 1 ? 4 : 3;
+          return props.mech.ActiveStatController.CurrentStress <= 1 ? 4 : 3;
       }
       return 4;
-    },
-  },
-  methods: {
-    show(): void {
-      this.dialog = true;
-    },
-    close(): void {
-      this.window = 0;
-      this.rolls = [];
-      this.dialog = false;
-    },
-    rollRandom(): number {
-      return Math.floor(Math.random() * 6) + 1;
-    },
+    })
 
-    applyES(): void {
-      if (!this.mech.ActiveStatController.Conditions.includes('IMPAIRED'))
-        this.mech.ActiveStatController.Conditions.push('IMPAIRED');
-      this.close();
-    },
-    applyPPD(): void {
-      if (!this.mech.ActiveStatController.Conditions.includes('EXPOSED'))
-        this.mech.ActiveStatController.Conditions.push('EXPOSED');
-      this.close();
-    },
-    applyMeltdown(): void {
-      // this.mech.Pilot.State.ReactorCriticalDestruct()
-      this.close();
-    },
-  },
-};
+function show() {
+      dialog.value = true;
+    }
+function close() {
+      window.value = 0;
+      rolls.value = [];
+      dialog.value = false;
+    }
+function rollRandom() {
+      return Math.floor(Math.random() * 6) + 1;
+    }
+function applyES() {
+      if (!props.mech.ActiveStatController.Conditions.includes('IMPAIRED'))
+        props.mech.ActiveStatController.Conditions.push('IMPAIRED');
+      close();
+    }
+function applyPPD() {
+      if (!props.mech.ActiveStatController.Conditions.includes('EXPOSED'))
+        props.mech.ActiveStatController.Conditions.push('EXPOSED');
+      close();
+    }
+function applyMeltdown() {
+      // props.mech.Pilot.State.ReactorCriticalDestruct()
+      close();
+    }
 </script>
 
 <style scoped>

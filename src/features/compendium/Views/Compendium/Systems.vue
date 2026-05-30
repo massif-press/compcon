@@ -11,44 +11,37 @@
   </cc-compendium-browser>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { orderBy } from 'lodash-es';
-
 import { CompendiumStore, UserStore } from '@/stores';
 import { MechEquipment } from '@/classes/mech/components/equipment/MechEquipment'
 
-export default {
-  name: 'Systems',
-
-  data: () => ({
-    options: {
+const options = ref({
       views: ['single', 'table'],
       initialView: 'single',
       groups: ['source', 'lcp', 'license', 'none'],
       initialGroup: 'license',
       showExotics: UserStore().User.Option('showExotics') as boolean,
-    },
-    headers: [
+    })
+const headers = ref([
       { title: '', align: 'left', key: 'Source' },
       { title: 'System', align: 'left', key: 'Name' },
       { title: 'License', key: 'License' },
       { title: 'License Level', align: 'center', key: 'LicenseLevel' },
       { title: 'Tags', align: 'center', key: 'Tags' },
       { title: 'SP Cost', align: 'center', key: 'SP' },
-    ],
-  }),
-  computed: {
-    manufacturers() {
+    ])
+
+const manufacturers = computed(() => {
       return CompendiumStore().Manufacturers;
-    },
-    systems(): MechEquipment[] {
+    })
+const systems = computed(() => {
       return orderBy(
         [...CompendiumStore().MechSystems, ...CompendiumStore().WeaponMods].filter(
           (x) => !x.IsHidden
         ),
         'Name'
       );
-    },
-  },
-};
+    })
 </script>

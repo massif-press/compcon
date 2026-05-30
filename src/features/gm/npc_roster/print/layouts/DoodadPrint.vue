@@ -52,21 +52,16 @@
     :options="options" />
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import PrintNpcStats from './components/PrintNpcStats.vue';
 import NpcNarrativePrintSection from './components/NpcNarrativePrintSection.vue';
 
-export default {
-  name: 'NpcPrint',
-  components: {
-    PrintNpcStats,
-    NpcNarrativePrintSection,
-  },
-  props: {
-    npc: { type: Object, required: true },
-    options: { type: Object, required: true },
-  },
-};
+defineOptions({ name: 'NpcPrint' })
+
+const props = defineProps<{
+  npc: object
+  options: object
+}>()
 </script>
 
 <style scoped>

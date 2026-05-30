@@ -21,48 +21,39 @@
   </v-tooltip>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'HasePips',
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    skillPoints: {
-      type: Number,
-      required: true,
-    },
-  },
-  computed: {
-    filled(): number {
-      return this.skillPoints;
-    },
-    empty(): number {
-      return 6 - this.filled;
-    },
-  },
-  methods: {
-    tooltip(): string {
-      switch (this.title) {
+<script setup lang="ts">
+import { computed } from 'vue'
+
+const props = defineProps<{
+  title: string
+  skillPoints: number
+}>()
+
+const filled = computed(() => {
+      return props.skillPoints;
+    })
+const empty = computed(() => {
+      return 6 - filled.value;
+    })
+
+function tooltip() {
+      switch (props.title) {
         case 'hull':
-          return `MECH HP <b>+${this.skillPoints * 2}</b><br>REPAIR CAPACITY <b>+${Math.floor(
-            this.skillPoints / 2
+          return `MECH HP <b>+${props.skillPoints * 2}</b><br>REPAIR CAPACITY <b>+${Math.floor(
+            props.skillPoints / 2
           )}</b>`;
         case 'agility':
-          return `EVASION <b>+${this.skillPoints}</b><br>SPEED <b>+${Math.floor(
-            this.skillPoints / 2
+          return `EVASION <b>+${props.skillPoints}</b><br>SPEED <b>+${Math.floor(
+            props.skillPoints / 2
           )}</b>`;
         case 'systems':
-          return `E-DEFENSE <b>+${this.skillPoints}</b><br>TECH ATTACK <b>+${this.skillPoints
-            }</b><br>SP <b>+${Math.floor(this.skillPoints / 2)}</b>`;
+          return `E-DEFENSE <b>+${props.skillPoints}</b><br>TECH ATTACK <b>+${props.skillPoints
+            }</b><br>SP <b>+${Math.floor(props.skillPoints / 2)}</b>`;
         case 'engineering':
-          return `HEAT CAPACITY <b>+${this.skillPoints
-            }</b><br>LIMITED SYSTEMS BONUS <b>+${Math.floor(this.skillPoints / 2)}</b>`;
+          return `HEAT CAPACITY <b>+${props.skillPoints
+            }</b><br>LIMITED SYSTEMS BONUS <b>+${Math.floor(props.skillPoints / 2)}</b>`;
         default:
           return '';
       }
-    },
-  },
-};
+    }
 </script>

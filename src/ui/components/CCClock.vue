@@ -193,33 +193,36 @@
   </v-card>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'cc-clock',
-  props: {
-    size: { type: Number, required: false, default: 100 },
-    clock: { type: Object, required: true },
-    color: { type: String, required: false, default: 'accent' },
-    print: { type: Boolean },
-    noDelete: { type: Boolean },
-    readonly: { type: Boolean },
-    density: { type: String, default: '' },
-  },
-  data: () => ({
-    editDialog: false,
-  }),
-  computed: {
-    dense() {
-      return this.density === 'compact';
-    },
-    progress() {
-      if (this.print) return 0;
-      return parseInt(this.clock.Progress);
-    },
-    total() {
-      if (this.print) return 0;
-      return (parseInt(this.progress as any) / parseInt(this.clock.Segments)) * 100;
-    },
-  },
-};
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+
+defineOptions({ name: 'cc-clock' })
+
+const props = withDefaults(defineProps<{
+  size?: number
+  clock: object
+  color?: string
+  print?: boolean
+  noDelete?: boolean
+  readonly?: boolean
+  density?: string
+}>(), {
+  size: 100,
+  color: 'accent',
+  density: ''
+})
+
+const editDialog = ref(false)
+
+const dense = computed(() => {
+      return props.density === 'compact';
+    })
+const progress = computed(() => {
+      if (props.print) return 0;
+      return parseInt(props.clock.Progress);
+    })
+const total = computed(() => {
+      if (props.print) return 0;
+      return (parseInt(progress.value as any) / parseInt(props.clock.Segments)) * 100;
+    })
 </script>
