@@ -178,7 +178,6 @@ export default {
 
       eidolon.CombatController.StatController.applyRegisteredCustomStats()
       eidolon.FeatureController.BonusController.applyToStats(eidolon.CombatController.StatController, this.encounterInstance)
-      eidolon.ApplyEidolonBonuses(playerCount)
       eidolon.CombatController.StatController.resetCurrentStats()
       eidolon.CombatController.Reset();
 
