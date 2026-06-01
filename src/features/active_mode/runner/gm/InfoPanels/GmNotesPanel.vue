@@ -30,7 +30,8 @@
 </template>
 
 <script setup lang="ts">
+import type { Encounter } from '@/classes/encounter/Encounter'
 const props = defineProps<{
-  encounter: object
+  encounter: Encounter
 }>()
 </script>

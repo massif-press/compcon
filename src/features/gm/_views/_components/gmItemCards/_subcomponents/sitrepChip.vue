@@ -5,7 +5,7 @@
     </template>
     <v-card>
       <v-card-text>
-        <cc-sitrep-display :sitrep="sitrep" />
+        <CCSitrepDisplay :sitrep="sitrep" />
       </v-card-text>
     </v-card>
   </v-menu>

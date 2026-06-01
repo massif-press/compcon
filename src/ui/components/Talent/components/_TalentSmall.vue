@@ -107,6 +107,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Talent } from '@/classes/pilot/components/talent/Talent'
 import { computed, ref } from 'vue'
 import TalentRankContents from './_TalentRankContents.vue';
 import TalentEmblem from './_TalentEmblem.vue';
@@ -115,7 +116,7 @@ defineOptions({ name: 'talent-small' })
 
 const props = withDefaults(defineProps<{
   hideLocked?: boolean
-  talent: object
+  talent: Talent
   canAdd?: boolean
   selectable?: boolean
   rank?: number | string

@@ -171,13 +171,14 @@
 </template>
 
 <script setup lang="ts">
+import type { Mech } from '@/classes/mech/Mech'
 import { computed, ref, watch } from 'vue'
 
 defineOptions({ name: 'EngineerWeaponInset' })
 
 const props = defineProps<{
   item: object
-  mech: object
+  mech: Mech
   readonly?: boolean
 }>()
 

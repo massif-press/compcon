@@ -105,6 +105,8 @@
 </template>
 
 <script setup lang="ts">
+import type { CombatantData } from '@/classes/encounter/Encounter'
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed, onMounted, ref } from 'vue'
 import { ReserveType } from '@/classes/enums'
 import MechPanel from './MechPanel.vue';
@@ -114,9 +116,8 @@ import { useMobile } from '@/composables/useMobile';
 const { mobile, portrait } = useMobile()
 
 const props = defineProps<{
-  combatant: object
-  encounterInstance: object
-  encounter?: object
+  combatant: CombatantData
+  encounterInstance: EncounterInstance
   selected?: string | boolean | number | object
   sheet?: object
   pc?: object | string

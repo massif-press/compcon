@@ -31,27 +31,27 @@
     </template>
   </cc-compendium-browser>
 
-  <cc-solo-modal v-model="CustomDialog"
+  <cc-modal v-model="CustomDialog"
     max-width="60vw"
     shrink
     title="Add Custom Reserve"
     icon="cc:orbital">
     <custom-reserve-panel @add="add($event)" />
-  </cc-solo-modal>
-  <cc-solo-modal v-model="ProjectDialog"
+  </cc-modal>
+  <cc-modal v-model="ProjectDialog"
     max-width="60vw"
     shrink
     title="Add Project"
     icon="cc:orbital">
     <downtime-project-panel @add="add($event)" />
-  </cc-solo-modal>
-  <cc-solo-modal v-model="OrgDialog"
+  </cc-modal>
+  <cc-modal v-model="OrgDialog"
     max-width="60vw"
     shrink
     title="Add Organization"
     icon="cc:orbital">
     <organization-panel @add="addOrg($event)" />
-  </cc-solo-modal>
+  </cc-modal>
 </template>
 
 <script setup lang="ts">

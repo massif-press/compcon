@@ -317,14 +317,14 @@ import FileImport from './add_panels/FileImport.vue'
 import ShareCodeDialog from '@/shared/ShareCodeDialog.vue'
 import GroupEmblemModal from './_GroupEmblemModal.vue'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   group: any
   noGroup: boolean
-  mobile: boolean
+  mobile?: boolean
   dragModeActive: boolean
   dropActive: boolean
   pilotCount: number
-}>()
+}>(), { mobile: false })
 
 const emit = defineEmits<{
   'toggle-expand': []

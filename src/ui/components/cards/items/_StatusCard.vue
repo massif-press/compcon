@@ -5,7 +5,8 @@
 </template>
 
 <script setup lang="ts">
+import type { Status } from '@/classes/Status'
 defineProps<{
-  item: object
+  item: Status
 }>()
 </script>

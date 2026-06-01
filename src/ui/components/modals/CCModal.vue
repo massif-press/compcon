@@ -61,12 +61,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch, nextTick } from 'vue';
+
+defineOptions({ inheritAttrs: false });
 import { useDisplay } from 'vuetify';
 
 const { smAndDown: mobile } = useDisplay();
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   title?: string;
   icon?: string;
   color?: string;
@@ -94,9 +96,26 @@ withDefaults(defineProps<{
 const emit = defineEmits<{
   cancel: [];
   confirm: [];
+  'update:modelValue': [value: boolean];
+  close: [];
 }>();
 
 const modal = ref(false);
+const savedScrollY = ref(0);
+
+watch(() => props.modelValue, val => { if (val !== undefined) modal.value = !!val; }, { immediate: true });
+
+watch(modal, val => {
+  if (props.modelValue !== undefined) {
+    if (val) {
+      savedScrollY.value = window.scrollY;
+    } else {
+      nextTick(() => window.scrollTo({ top: savedScrollY.value, behavior: 'instant' }));
+    }
+    emit('update:modelValue', val);
+    if (!val) emit('close');
+  }
+});
 
 function open() { modal.value = true; }
 function close() { modal.value = false; }

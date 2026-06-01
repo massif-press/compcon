@@ -1,6 +1,6 @@
 <template>
   <div class="text-overline">RELATIONSHIPS</div>
-  <cc-relationship-item
+  <CCRelationshipItem
     v-for="(r, idx) in item.NarrativeController.Relationships"
     :key="`relationship-${idx}`"
     :item="r"
@@ -22,7 +22,7 @@
   </div>
 
   <div class="text-overline">LINKED ENTITIES</div>
-  <cc-relationship-item v-for="(l, index) in linkedRelationships"
+  <CCRelationshipItem v-for="(l, index) in linkedRelationships"
     :key="`linked-${index}`"
     :item="l.item"
     :origin-item="l.origin"

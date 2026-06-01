@@ -203,6 +203,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Encounter } from '@/classes/encounter/Encounter'
 import { computed, ref, watch } from 'vue'
 import * as _ from 'lodash-es';
 import { useMobile } from '@/composables/useMobile';
@@ -211,7 +212,7 @@ const { mobile, portrait } = useMobile()
 
 const props = defineProps<{
   controller: object
-  encounter: object
+  encounter: Encounter
 }>()
 
 const damageInput = ref<any>(null)

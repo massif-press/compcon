@@ -63,6 +63,7 @@
         :group="noGroup"
         :roster-search="rosterSearch"
         :transfer-key="rosterTransferKey"
+        :drag-mode-active="dragModeActive"
         @pilot-transferred="rosterTransferKey++" />
     </div>
     <v-divider />

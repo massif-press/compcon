@@ -50,13 +50,15 @@
 
     <template #actions>
       <npc-actions-panel :owner="combatant"
-        :encounter="encounterInstance"
+        :encounter-instance="encounterInstance"
         @deploy="deploy($event)" />
     </template>
   </panel-base>
 </template>
 
 <script setup lang="ts">
+import type { CombatantData } from '@/classes/encounter/Encounter'
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed } from 'vue'
 import UnitCombatLoadout from './_components/loadouts/UnitCombatLoadout.vue';
 import NpcActionsPanel from './_components/NpcActionsPanel.vue';
@@ -64,8 +66,8 @@ import ScanMenu from './_components/ScanMenu.vue';
 import PanelBase from './_PanelBase.vue';
 
 const props = defineProps<{
-  combatant: object
-  encounterInstance: object
+  combatant: CombatantData
+  encounterInstance: EncounterInstance
 }>()
 
 const emit = defineEmits<{

@@ -2,7 +2,7 @@
   <combat-action-button
     :action="action"
     :owner="owner"
-    :encounter="encounter">
+    :encounter-instance="encounterInstance">
     <template #default="{ close }">
       <div class="text-cc-overline text-disabled">Select a weapon to reload</div>
       <div v-if="!reloadOptions.length">
@@ -17,7 +17,7 @@
       <menu-input :key="controller.ID"
         hide-input
         :active-effect="action"
-        :encounter="encounter"
+        :encounter-instance="encounterInstance"
         :disabled="!selection"
         :owner="owner"
         :close="close"
@@ -28,15 +28,18 @@
 </template>
 
 <script setup lang="ts">
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import type { CombatantData } from '@/classes/encounter/Encounter'
+import type { Action } from '@/classes/Action'
 import { computed, ref } from 'vue'
 import { PilotWeapon } from '@/classes/pilot/components/Loadout/equipment/PilotWeapon';
 import CombatActionButton from './CombatActionButton.vue';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 
 const props = defineProps<{
-  action: object
-  owner: object
-  encounter: object
+  action: Action
+  owner: CombatantData
+  encounterInstance: EncounterInstance
 }>()
 
 const emit = defineEmits<{

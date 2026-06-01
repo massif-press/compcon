@@ -32,10 +32,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Action } from '@/classes/Action'
 defineOptions({ name: 'print-action-internal' })
 
 const props = defineProps<{
-  action: object
+  action: Action
 }>()
 </script>
 

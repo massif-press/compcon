@@ -23,17 +23,18 @@
         :color="color"
         synergy-location="mod" />
 
-      <cc-solo-modal v-model="detailDialog"
+      <cc-modal v-model="detailDialog"
         :title="mod.Name"
         icon="cc:weaponmod"
         shrink>
         <cc-item-card :item="mod" />
-      </cc-solo-modal>
+      </cc-modal>
     </v-card-text>
   </cc-panel>
 </template>
 
 <script setup lang="ts">
+import type { Mech } from '@/classes/mech/Mech'
 import { ref } from 'vue'
 import EquipmentHeader from '../../_EquipmentHeader.vue';
 import EquipmentDetails from '../../_EquipmentDetails.vue';
@@ -45,7 +46,7 @@ const { mobile, portrait } = useMobile()
 
 const props = withDefaults(defineProps<{
   mod: object
-  mech: object
+  mech: Mech
   color?: string
 }>(), {
   color: 'primary'

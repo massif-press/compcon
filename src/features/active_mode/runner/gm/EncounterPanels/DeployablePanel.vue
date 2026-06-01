@@ -73,7 +73,7 @@
             :key="action.ID"
             :action="action"
             :owner="combatant.Owner"
-            :encounter="encounterInstance" />
+            :encounter-instance="encounterInstance" />
 
         </cc-panel>
 
@@ -162,13 +162,15 @@
 </template>
 
 <script setup lang="ts">
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import type { DeployableInstance } from '@/classes/components/feature/deployable/DeployableInstance'
 import { computed, ref } from 'vue'
 import PanelBase from './_PanelBase.vue';
 import { Action } from '@/classes/Action';
 
 const props = defineProps<{
-  combatant: object
-  encounterInstance: object
+  combatant: DeployableInstance
+  encounterInstance: EncounterInstance
 }>()
 
 const emit = defineEmits<{

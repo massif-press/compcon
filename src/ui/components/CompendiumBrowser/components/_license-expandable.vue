@@ -58,7 +58,7 @@
         </div>
       </v-alert>
 
-      <cc-license-panel :license="item"
+      <CCLicensePanel :license="item"
         :ranked="isRanked"
         :rank="isRanked ? getControllerRank(item) : undefined" />
 

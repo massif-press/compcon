@@ -42,8 +42,11 @@
 </template>
 
 <script setup lang="ts">
+import BonusBase from './_bonusBase.vue'
+import type { Bonus } from '@/classes/components/feature/bonus/Bonus'
+
 const props = withDefaults(defineProps<{
-  bonus: object
+  bonus: Bonus
   icon?: boolean
 }>(), {
   icon: false,

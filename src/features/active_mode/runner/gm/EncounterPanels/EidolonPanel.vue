@@ -124,7 +124,7 @@
         <fieldset class="px-2 pb-2"
           style="border-color: rgba(155, 155, 155, 0.6)">
           <unit-feature-card :key="item.ID"
-            :encounter="encounterInstance"
+            :encounter-instance="encounterInstance"
             :item="item"
             :unit="layer"
             :owner="combatant"

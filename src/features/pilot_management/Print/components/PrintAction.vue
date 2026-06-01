@@ -50,7 +50,7 @@
 import { Action } from '@/classes/Action';
 
 const props = withDefaults(defineProps<{
-  actions: any[]
+  actions: Action[]
   compact?: boolean
 }>(), {
   compact: false

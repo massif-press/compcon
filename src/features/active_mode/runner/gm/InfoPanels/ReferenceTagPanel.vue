@@ -32,6 +32,7 @@
 </template>
 
 <script setup lang="ts">
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed, ref, onMounted } from 'vue'
 import * as _ from 'lodash-es';
 import { CompendiumStore } from '@/stores';
@@ -40,7 +41,7 @@ defineOptions({ name: 'ReferenceTagPage' })
 
 const props = defineProps<{
   selected?: object
-  encounterInstance: object
+  encounterInstance: EncounterInstance
   pc?: boolean
 }>()
 

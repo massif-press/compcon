@@ -93,15 +93,16 @@
 </template>
 
 <script setup lang="ts">
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { TimedEffect } from '@/classes/components/feature/active_effects/TimedEffect';
 
 const props = defineProps<{
   item: any;
-  encounter: any;
+  encounterInstance: EncounterInstance;
 }>();
 
 function getRoundsRemaining(effect: TimedEffect) {
-  return Math.max(effect.Round - props.encounter.Round, 0);
+  return Math.max(effect.Round - props.encounterInstance.Round, 0);
 }
 
 function apply(effect: TimedEffect, index: number) {

@@ -9,11 +9,13 @@
 </template>
 
 <script setup lang="ts">
+import type { CombatantData } from '@/classes/encounter/Encounter'
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import PanelBase from './_PanelBase.vue';
 
 const props = defineProps<{
-  combatant: object
-  encounterInstance: object
+  combatant: CombatantData
+  encounterInstance: EncounterInstance
 }>()
 
 const emit = defineEmits<{

@@ -12,12 +12,13 @@
 </template>
 
 <script setup lang="ts">
+import type { Pilot } from '@/classes/pilot/Pilot'
 import { computed, ref } from 'vue'
 import { Bond } from '@/classes/pilot/components/bond/Bond'
 import { CompendiumStore } from '@/stores'
 
 const props = defineProps<{
-  pilot: object
+  pilot: Pilot
 }>()
 
 const options = ref({

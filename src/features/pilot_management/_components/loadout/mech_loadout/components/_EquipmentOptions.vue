@@ -56,7 +56,7 @@
       label="Custom Item Description"
       @save="save('FlavorDescription', $event)"
       @reset="save('FlavorDescription', '')" />
-    <cc-damage-type-picker v-if="item"
+    <CCDamageTypePicker v-if="item"
       ref="damageTypeDialog"
       :allowed-types="['Explosive', 'Energy', 'Kinetic']"
       @select="item.DamageTypeOverride = $event" />

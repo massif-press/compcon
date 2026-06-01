@@ -53,7 +53,7 @@
 
         <pilot-equip-card-body :item="item"
           :pilot="pilot"
-          :encounter="encounter"
+          :encounter-instance="encounterInstance"
           :owner="owner"
           @deploy="$emit('deploy', $event)" />
       </v-card-text>
@@ -62,6 +62,9 @@
 </template>
 
 <script setup lang="ts">
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import type { CombatantData } from '@/classes/encounter/Encounter'
+import type { Pilot } from '@/classes/pilot/Pilot'
 import { useMobile } from '@/composables/useMobile'
 import DestroyedOverlay from './_DestroyedOverlay.vue'
 import FlavorDescription from './_FlavorDescription.vue'
@@ -71,9 +74,9 @@ defineOptions({ name: 'PilotArmorCombatCard' })
 
 const props = defineProps<{
   item: object
-  pilot: object
-  encounter: object
-  owner: object
+  pilot: Pilot
+  encounterInstance: EncounterInstance
+  owner: CombatantData
 }>()
 
 defineEmits<{ deploy: [] }>()

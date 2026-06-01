@@ -1,16 +1,17 @@
 <template>
-  <component :is="chip || icon ? 'bonusChip' : 'bonusPopup'"
+  <component :is="cType"
     :bonus="bonus"
     :tier="tier"
     :icon="icon" />
 </template>
 
 <script setup lang="ts">
-import bonusPopup from './_bonusPopup.vue';
-import bonusChip from './_bonusChip.vue';
+import { computed } from 'vue'
+import { getFeatureRenderer } from '../featureRenderers'
+import type { Bonus } from '@/classes/components/feature/bonus/Bonus'
 
 const props = withDefaults(defineProps<{
-  bonus: object
+  bonus: Bonus
   popup?: boolean
   panel?: boolean
   chip?: boolean
@@ -21,4 +22,8 @@ const props = withDefaults(defineProps<{
   icon: false,
   tier: 1,
 })
+
+const cType = computed(() =>
+  props.chip || props.icon ? getFeatureRenderer('bonus', 'button') : getFeatureRenderer('bonus', 'popup')
+)
 </script>

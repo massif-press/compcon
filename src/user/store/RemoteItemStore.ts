@@ -23,7 +23,7 @@ export const RemoteItemStore = defineStore('remoteItems', {
   }),
   actions: {
     addRemoteItem(code: string): void {
-      logger.info(`addRemoteItem: tracking code ${code}`, new Error().stack)
+      logger.info(`addRemoteItem: tracking code ${code}`)
       UserMetadataStore().UserMetadata.RemoteItems.push(code)
       UserMetadataStore().setUserMetadata()
     },

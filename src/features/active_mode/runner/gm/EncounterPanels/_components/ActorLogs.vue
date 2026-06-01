@@ -67,12 +67,14 @@
 </template>
 
 <script setup lang="ts">
+import type { ICombatant } from '@/classes/components/combat/ICombatant'
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed } from 'vue'
 import { ActionSummary } from '@/classes/components/feature/active_effects/EffectActionSummary';
 
 const props = defineProps<{
-  actor: object
-  encounter: object
+  actor: ICombatant
+  encounterInstance: EncounterInstance
 }>()
 
 const summary = computed(() => {
@@ -111,7 +113,7 @@ function exportLog(type: 'text' | 'json' = 'text') {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `${props.actor.Name} ${props.encounter.Name} round ${props.encounter.Round} combat log.${type === 'text' ? 'txt' : 'json'}`;
+      a.download = `${props.actor.Name} ${props.encounterInstance.Name} round ${props.encounterInstance.Round} combat log.${type === 'text' ? 'txt' : 'json'}`;
       a.click();
       URL.revokeObjectURL(url);
     }

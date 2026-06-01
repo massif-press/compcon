@@ -26,7 +26,6 @@
           :sortable-options="sortableOptions"
           :pilot-card-type="pilotCardType"
           :roster-view="rosterView"
-          :mobile="mobile.value"
           @reorder="onPilotReorder"
           @added="onPilotAdded"
           @start="startDragScroll"

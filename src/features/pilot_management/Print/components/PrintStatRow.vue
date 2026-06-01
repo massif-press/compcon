@@ -67,6 +67,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Mech } from '@/classes/mech/Mech'
 import { h } from 'vue'
 
 const BlankLine = {
@@ -77,7 +78,7 @@ const BlankLine = {
 }
 
 withDefaults(defineProps<{
-  mech: object
+  mech: Mech
   blank?: boolean
 }>(), {
   blank: false,

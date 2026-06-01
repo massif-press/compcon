@@ -1,5 +1,5 @@
 <template>
-  <cc-solo-modal
+  <cc-modal
     v-model="dialog"
     width="50vw"
     shrink
@@ -33,10 +33,11 @@
         <i>The SUPERHEAVY MOUNTING Core Bonus requires bracing on a Heavy Mount, if available.</i>
       </div>
     </v-card-text>
-  </cc-solo-modal>
+  </cc-modal>
 </template>
 
 <script setup lang="ts">
+import type { Mech } from '@/classes/mech/Mech'
 import { computed, ref } from 'vue'
 import EquippableMount from '@/classes/mech/components/mount/EquippableMount'
 import { MountType } from '@/classes/enums'
@@ -44,7 +45,7 @@ import { MountType } from '@/classes/enums'
 defineOptions({ name: 'sh-lock-dialog' })
 
 const props = defineProps<{
-  mech: object
+  mech: Mech
   mount: object
 }>()
 

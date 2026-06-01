@@ -79,7 +79,7 @@
         </v-col>
       </v-row>
 
-      <cc-bonus-tooltip v-if="bonuses.length"
+      <CCBonusTooltip v-if="bonuses.length"
         :bonuses="bonuses"
         :stat-title="stat.title"
         :readonly="readonly" />

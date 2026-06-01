@@ -1,5 +1,5 @@
 <template>
-  <cc-solo-modal v-model="dialog"
+  <cc-modal v-model="dialog"
     color="blue-grey darken-4"
     title="Select Bond powers">
     <v-layout :style="!mobile && 'overflow-y: scroll; height: 89vh'">
@@ -155,10 +155,11 @@
         </v-card-text>
       </v-main>
     </v-layout>
-  </cc-solo-modal>
+  </cc-modal>
 </template>
 
 <script setup lang="ts">
+import type { Pilot } from '@/classes/pilot/Pilot'
 import { computed, ref, onMounted } from 'vue'
 import { useDisplay } from 'vuetify'
 import { CompendiumStore } from '@/stores'
@@ -172,7 +173,7 @@ defineOptions({ name: 'BondPowerSelectMenu' })
 const { mobile, portrait } = useMobile()
 
 const props = defineProps<{
-  pilot: object
+  pilot: Pilot
 }>()
 
 const dialog = ref(false)

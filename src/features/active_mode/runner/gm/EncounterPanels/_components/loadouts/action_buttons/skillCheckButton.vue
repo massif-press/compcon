@@ -2,7 +2,7 @@
   <combat-action-button
     :action="action"
     :owner="owner"
-    :encounter="encounter">
+    :encounter-instance="encounterInstance">
     <template #default="{ close }">
       <p v-html-safe="action.Detail"
         class="text-text mb-4" />
@@ -191,7 +191,7 @@
       <menu-input hide-input
         :key="controller.ID"
         :active-effect="action"
-        :encounter="encounter"
+        :encounter-instance="encounterInstance"
         :owner="owner"
         :close="close"
         @apply="apply"
@@ -201,15 +201,18 @@
 </template>
 
 <script setup lang="ts">
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import type { CombatantData } from '@/classes/encounter/Encounter'
+import type { Action } from '@/classes/Action'
 import { computed, ref, watch } from 'vue'
 import CombatActionButton from './CombatActionButton.vue';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 import SkillCheckBase from './_skillCheckBase.vue';
 
 const props = defineProps<{
-  action: object
-  owner: object
-  encounter: object
+  action: Action
+  owner: CombatantData
+  encounterInstance: EncounterInstance
 }>()
 
 const emit = defineEmits<{
@@ -241,11 +244,11 @@ const controller = computed(() => {
       return props.owner.actor.CombatController;
     })
 const targets = computed(() => {
-      const thisCombatant = props.encounter.Combatants.find(
+      const thisCombatant = props.encounterInstance.Combatants.find(
         (c) => c.actor.ID === controller.value.RootActor.ID
       );
       if (!thisCombatant) return [];
-      return props.encounter.Combatants.filter(
+      return props.encounterInstance.Combatants.filter(
         (c) =>
           c.actor.ID !== controller.value.ActiveActor.ID &&
           c.actor.ID !== controller.value.RootActor.ID

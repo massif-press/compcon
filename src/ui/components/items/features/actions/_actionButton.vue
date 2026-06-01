@@ -42,14 +42,16 @@
 import { computed } from 'vue'
 import { ByTier } from '@/util/tierFormat';
 import { ActivationType } from '@/classes/enums';
+import type { Action } from '@/classes/Action'
+import type { Pilot } from '@/classes/pilot/Pilot'
 
 const props = withDefaults(defineProps<{
-  action: object
+  action: Action
   activations?: number
   disabled?: boolean
   unusable?: boolean
   noAction?: boolean
-  pilot?: object
+  pilot?: Pilot
   tier?: number
   hideIcon?: boolean
 }>(), {

@@ -198,7 +198,7 @@
       </v-col>
     </v-row>
 
-    <cc-solo-dialog v-model="confirmDialog"
+    <cc-dialog v-model="confirmDialog"
       title="sitrep modified"
       icon="mdi-undo-variant"
       :close-on-click="false"
@@ -216,9 +216,9 @@
           size="small"
           @click="confirm()">confirm</cc-button>
       </div>
-    </cc-solo-dialog>
+    </cc-dialog>
 
-    <cc-solo-dialog v-model="deleteConfirmDialog"
+    <cc-dialog v-model="deleteConfirmDialog"
       title="delete preset"
       icon="mdi-delete"
       :close-on-click="false"
@@ -237,7 +237,7 @@
           size="small"
           @click="confirmDeletePreset">delete</cc-button>
       </div>
-    </cc-solo-dialog>
+    </cc-dialog>
   </v-card>
 </template>
 

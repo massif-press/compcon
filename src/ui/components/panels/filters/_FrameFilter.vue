@@ -75,6 +75,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Manufacturer } from '@/classes/Manufacturer'
 import { computed, ref, onMounted } from 'vue'
 import { MechType, MountType } from '@/classes/enums'
 
@@ -82,7 +83,7 @@ defineOptions({ name: 'frame-filter' })
 
 const props = withDefaults(defineProps<{
   activeFilters?: object
-  manufacturers?: any[]
+  manufacturers?: Manufacturer[]
   frameSizes?: any[]
   frameLicenses?: any[]
 }>(), {

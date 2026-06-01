@@ -109,6 +109,7 @@
 </template>
 
 <script setup lang="ts">
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed, ref } from 'vue'
 import { notify } from '@/util/notify'
 import { NpcStore } from '@/stores';
@@ -118,7 +119,7 @@ import { v4 as uuid } from 'uuid';
 defineOptions({ name: 'GmAddNpcMenu' })
 
 const props = defineProps<{
-  encounterInstance: object
+  encounterInstance: EncounterInstance
 }>()
 
 const tab = ref('Doodad')
@@ -126,80 +127,79 @@ const search = ref('')
 const folder = ref(null)
 
 const folders = computed(() => {
-      return NpcStore().getFolders;
-    })
+  return NpcStore().getFolders;
+})
 const doodads = computed(() => {
-      return NpcStore()
-        .getDoodads.filter(
-          (npc) => !search.value || npc.Name.toLowerCase().includes(search.value.toLowerCase())
-        )
-        .filter((npc) => (folder.value ? npc.FolderController.Folder === folder.value : true));
-    })
+  return NpcStore()
+    .getDoodads.filter(
+      (npc) => !search.value || npc.Name.toLowerCase().includes(search.value.toLowerCase())
+    )
+    .filter((npc) => (folder.value ? npc.FolderController.Folder === folder.value : true));
+})
 const eidolons = computed(() => {
-      return NpcStore()
-        .getEidolons.filter(
-          (npc) => !search.value || npc.Name.toLowerCase().includes(search.value.toLowerCase())
-        )
-        .filter((npc) => (folder.value ? npc.FolderController.Folder === folder.value : true));
-    })
+  return NpcStore()
+    .getEidolons.filter(
+      (npc) => !search.value || npc.Name.toLowerCase().includes(search.value.toLowerCase())
+    )
+    .filter((npc) => (folder.value ? npc.FolderController.Folder === folder.value : true));
+})
 
 function add(rosterItem) {
-      const doodad = rosterItem.Clone(false);
+  const doodad = rosterItem.Clone(false);
 
-      const number =
-        props.encounterInstance.Combatants.filter((c) => c.actor.Name === doodad.Name).length + 1;
+  const number =
+    props.encounterInstance.Combatants.filter((c) => c.actor.Name === doodad.Name).length + 1;
 
-      props.encounterInstance.Combatants.push({
-        id: uuid(),
-        index: props.encounterInstance.Combatants.length,
-        number: number,
-        side: 'neutral',
-        type: 'doodad',
-        actor: doodad,
-        deployables: [],
-      });
-      notify({
-        type: 'success',
-        title: 'Doodad Added',
-        text: `${doodad.Name} has been added to the encounter.`,
-      });
-    }
+  props.encounterInstance.Combatants.push({
+    id: uuid(),
+    index: props.encounterInstance.Combatants.length,
+    number: number,
+    side: 'neutral',
+    type: 'doodad',
+    actor: doodad,
+    deployables: [],
+  });
+  notify({
+    type: 'success',
+    title: 'Doodad Added',
+    text: `${doodad.Name} has been added to the encounter.`,
+  });
+}
 function addEidolon(rosterItem) {
-      const eidolon = rosterItem.Clone(false);
+  const eidolon = rosterItem.Clone(false);
 
-      const number =
-        props.encounterInstance.Combatants.filter((c) => c.actor.Name === eidolon.Name).length + 1;
+  const number =
+    props.encounterInstance.Combatants.filter((c) => c.actor.Name === eidolon.Name).length + 1;
 
-      const playerCount = props.encounterInstance.Combatants.filter(c => c.side === 'ally').length
+  const playerCount = props.encounterInstance.Combatants.filter(c => c.side === 'ally').length
 
-      eidolon.CombatController.StatController.applyRegisteredCustomStats()
-      eidolon.FeatureController.BonusController.applyToStats(eidolon.CombatController.StatController, props.encounterInstance)
-      eidolon.ApplyEidolonBonuses(playerCount)
-      eidolon.CombatController.StatController.resetCurrentStats()
-      eidolon.CombatController.Reset();
+  eidolon.CombatController.StatController.applyRegisteredCustomStats()
+  eidolon.FeatureController.BonusController.applyToStats(eidolon.CombatController.StatController, props.encounterInstance)
+  eidolon.CombatController.StatController.resetCurrentStats()
+  eidolon.CombatController.Reset();
 
-      eidolon.Layers.forEach((l) => {
-        l.CombatController.StatController.applyRegisteredCustomStats()
-        l.FeatureController.BonusController.applyToStats(l.CombatController.StatController, props.encounterInstance)
-        l.ResetHp(playerCount, true)
-        l.SetActivations(playerCount)
-        l.CombatController.StatController.resetCurrentStats()
-        l.CombatController.Reset()
-      });
+  eidolon.Layers.forEach((l) => {
+    l.CombatController.StatController.applyRegisteredCustomStats()
+    l.FeatureController.BonusController.applyToStats(l.CombatController.StatController, props.encounterInstance)
+    l.ResetHp(playerCount, true)
+    l.SetActivations(playerCount)
+    l.CombatController.StatController.resetCurrentStats()
+    l.CombatController.Reset()
+  });
 
-      props.encounterInstance.Combatants.push({
-        id: uuid(),
-        index: props.encounterInstance.Combatants.length,
-        number: number,
-        side: 'enemy',
-        type: 'eidolon',
-        actor: eidolon,
-        deployables: [],
-      });
-      notify({
-        type: 'success',
-        title: 'Eidolon Added',
-        text: `${eidolon.Name} has been added to the encounter.`,
-      });
-    }
+  props.encounterInstance.Combatants.push({
+    id: uuid(),
+    index: props.encounterInstance.Combatants.length,
+    number: number,
+    side: 'enemy',
+    type: 'eidolon',
+    actor: eidolon,
+    deployables: [],
+  });
+  notify({
+    type: 'success',
+    title: 'Eidolon Added',
+    text: `${eidolon.Name} has been added to the encounter.`,
+  });
+}
 </script>

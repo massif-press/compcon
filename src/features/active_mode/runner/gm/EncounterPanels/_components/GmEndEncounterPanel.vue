@@ -6,6 +6,7 @@
 </template>
 
 <script setup lang="ts">
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { ref, onMounted } from 'vue'
 import { EncounterStore } from '@/stores';
 import EndEncounterPanel from '@/features/active_mode/_components/EndEncounterPanel.vue';
@@ -13,7 +14,7 @@ import EndEncounterPanel from '@/features/active_mode/_components/EndEncounterPa
 defineOptions({ name: 'DamageMenu' })
 
 const props = defineProps<{
-  encounterInstance: object
+  encounterInstance: EncounterInstance
 }>()
 
 const actionReport = ref([] as any[])

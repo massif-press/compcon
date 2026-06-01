@@ -89,11 +89,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useDisplay } from 'vuetify'
+import type { Reserve } from '@/classes/pilot/components/reserves/Reserve'
 
 const { smAndDown: mobile } = useDisplay()
 
 const props = withDefaults(defineProps<{
-  reserve: object
+  reserve: Reserve
   small?: boolean
 }>(), {
   small: false,

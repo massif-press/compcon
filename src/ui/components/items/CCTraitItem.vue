@@ -36,14 +36,16 @@
 
 <script setup lang="ts">
 import { useDisplay } from 'vuetify'
+import type { FrameTrait } from '@/classes/mech/components/frame/FrameTrait'
+import type { Mech } from '@/classes/mech/Mech'
 
 const { smAndDown: mobile } = useDisplay()
 
 const props = withDefaults(defineProps<{
-  trait: object
+  trait: FrameTrait
   color?: string
   combat?: boolean
-  mech?: object | null
+  mech?: Mech | null
 }>(), {
   color: 'primary',
   mech: null,

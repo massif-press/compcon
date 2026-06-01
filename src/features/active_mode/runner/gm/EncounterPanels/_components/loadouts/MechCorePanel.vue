@@ -36,7 +36,7 @@
         <v-col>
           <cc-combat-action-chip :action="cs.ActivateAction"
             :owner="owner"
-            :encounter="encounterInstance"
+            :encounter-instance="encounterInstance"
             :disabled="!mech.CombatController.CorePower"
             custom-disabled-text="Core Power Depleted"
             @activate="mech.CombatController.SetCore(true, encounterInstance.CurrentRound)"
@@ -65,7 +65,7 @@
             :key="a.ID"
             :action="a"
             :owner="owner"
-            :encounter="encounterInstance" />
+            :encounter-instance="encounterInstance" />
         </div>
       </v-scroll-y-transition>
 
@@ -112,7 +112,7 @@
           :key="a.ID"
           :action="a"
           :owner="owner"
-          :encounter="encounterInstance" />
+          :encounter-instance="encounterInstance" />
       </div>
     </div>
   </v-card>

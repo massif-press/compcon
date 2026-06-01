@@ -6,9 +6,10 @@
     :sortings="sortings"
     @add-new="addNew()"
     @open="openItem($event)">
-    <component :is="editorComponent"
+    <narrative-item-editor
       v-if="selected"
       :item="selected"
+      :item-type="itemType"
       :footer-offset="view !== 'collection'"
       hide-toolbar
       @exit="exit()" />
@@ -23,9 +24,7 @@ import { NarrativeStore } from '../../store/narrative_store';
 import { Character } from '@/classes/narrative/Character';
 import { Location } from '@/classes/narrative/Location';
 import { Faction } from '@/classes/narrative/Faction';
-import CharacterEditor from './characterEditor.vue';
-import LocationEditor from './locationEditor.vue';
-import FactionEditor from './factionEditor.vue';
+import NarrativeItemEditor from './NarrativeItemEditor.vue';
 import GmSplitView from '../../_views/GMSplitView.vue';
 import NoGmItem from '../../_views/_components/NoGmItem.vue';
 
@@ -67,18 +66,7 @@ const sortings = computed(() => {
 
       return [...baseSortings, ...allLabelTitles];
     })
-const editorComponent = computed(() => {
-      switch (props.itemType) {
-        case 'Character':
-          return CharacterEditor;
-        case 'Location':
-          return LocationEditor;
-        case 'Faction':
-          return FactionEditor;
-        default:
-          return null;
-      }
-    })
+const editorComponent = computed(() => NarrativeItemEditor)
 const items = computed(() => {
       switch (props.itemType) {
         case 'Character':

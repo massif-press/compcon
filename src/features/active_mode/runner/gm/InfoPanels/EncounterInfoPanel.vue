@@ -129,6 +129,8 @@
 </template>
 
 <script setup lang="ts">
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import type { Encounter } from '@/classes/encounter/Encounter'
 import { computed, ref } from 'vue'
 import { notify } from '@/util/notify'
 import * as _ from 'lodash-es';
@@ -136,8 +138,8 @@ import * as _ from 'lodash-es';
 defineOptions({ name: 'EncounterInfo' })
 
 const props = withDefaults(defineProps<{
-  encounter: object
-  encounterInstance?: object
+  encounter: Encounter
+  encounterInstance?: EncounterInstance
 }>(), {
   encounterInstance: null
 })

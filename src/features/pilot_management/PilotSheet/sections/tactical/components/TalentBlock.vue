@@ -43,7 +43,7 @@ import { UserStore } from '@/stores';
 defineOptions({ name: 'skill-block' })
 
 const props = defineProps<{
-  pilot: object
+  pilot: Pilot
 }>()
 
 const view = ref('full')

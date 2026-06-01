@@ -44,7 +44,7 @@
 import { Action } from '@/classes/Action';
 
 const props = defineProps<{
-  actions: any[]
+  actions: Action[]
 }>()
 </script>
 

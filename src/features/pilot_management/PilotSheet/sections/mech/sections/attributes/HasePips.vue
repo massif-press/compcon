@@ -31,13 +31,14 @@
 </template>
 
 <script setup lang="ts">
+import type { Mech } from '@/classes/mech/Mech'
 import { ref } from 'vue'
 import { useMobile } from '@/composables/useMobile';
 
 const { mobile, portrait } = useMobile()
 
 const props = withDefaults(defineProps<{
-  mech: object
+  mech: Mech
   attr: string
   val: number
   color?: string

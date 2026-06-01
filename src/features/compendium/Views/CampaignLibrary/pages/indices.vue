@@ -31,6 +31,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Campaign } from '@/classes/campaign/Campaign'
 import { ref } from 'vue'
 import PageContentContainer from './containers/campaignContentContainer.vue';
 import TocItem from '../components/TocItem.vue';
@@ -38,7 +39,7 @@ import TocItem from '../components/TocItem.vue';
 defineOptions({ name: 'campaign-overview-page' })
 
 const props = defineProps<{
-  campaign: object
+  campaign: Campaign
 }>()
 
 const bannerPreview = ref('')

@@ -85,7 +85,7 @@
   </v-slide-y-transition>
 
   <apply-button :event="<ActiveEffectEvent>event"
-    :encounter="encounter"
+    :encounter-instance="encounterInstance"
     :owner="owner"
     :close="close"
     @reset="reset($event)"
@@ -106,15 +106,15 @@ import { Action } from '@/classes/Action';
 
 const props = withDefaults(defineProps<{
   activeEffect: any
-  encounter: EncounterInstance
-  owner: object
+  encounterInstance: EncounterInstance
+  owner: CombatantData
   close: Function
   hideInput?: boolean
   embedded?: boolean
   color?: string
   overrideMissingInputs?: boolean
   initialTargets?: any[]
-  action?: object
+  action?: Action
 }>(), {
   hideInput: false,
   embedded: false,
@@ -132,7 +132,7 @@ const event = ref({} as ActiveEffectEvent)
 const ready = ref(false)
 const isFree = ref(false)
 
-const isPilotSheet = computed(() => props.encounter.ItemType === 'PilotSheet')
+const isPilotSheet = computed(() => props.encounterInstance.ItemType === 'PilotSheet')
 
 const isApplied = computed((): boolean =>
   props.owner.actor.CombatController.IsActionUsed(props.activeEffect.ID)
@@ -175,13 +175,13 @@ const frequencyText = computed((): string => {
 
 function reset(clearAction = false) {
   if (clearAction) props.owner.actor.CombatController.ClearActionUsed(props.activeEffect.ID);
-  const self = props.encounter.Combatants.find(
+  const self = props.encounterInstance.Combatants.find(
     (c: CombatantData) => c.actor.CombatController.RootActor.ID === props.owner.actor.CombatController.RootActor.ID
   );
   if (!self) {
-    throw new Error('Owner combatant not found in encounter');
+    throw new Error('Owner combatant not found in encounterInstance');
   }
-  event.value = new ActiveEffectEvent(self, props.activeEffect, props.encounter);
+  event.value = new ActiveEffectEvent(self, props.activeEffect, props.encounterInstance);
 }
 
 function copyText(text: string) {

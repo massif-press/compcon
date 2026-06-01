@@ -122,6 +122,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Pilot } from '@/classes/pilot/Pilot'
 import { computed, ref } from 'vue'
 import PlCardBase from './_PLCardBase.vue'
 import { PilotArmor } from '@/classes/pilot/components/Loadout/equipment/PilotArmor'
@@ -135,7 +136,7 @@ const props = withDefaults(defineProps<{
   item?: object | null
   extended?: boolean
   readonly?: boolean
-  pilot: object
+  pilot: Pilot
 }>(), {
   item: null,
 })

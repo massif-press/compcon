@@ -4,11 +4,9 @@
 </template>
 
 <script setup lang="ts">
-import { MechEquipment } from '@/classes/mech/components/equipment/MechEquipment';
-import integratedInfoHover from './_integratedInfoHover.vue';
-import integratedInfoPanel from './_integratedInfoPanel.vue';
-import integratedInfoPopup from './_integratedInfoPopup.vue';
 import { computed } from 'vue';
+import { MechEquipment } from '@/classes/mech/components/equipment/MechEquipment';
+import { getFeatureRenderer } from '../featureRenderers'
 
 const props = withDefaults(defineProps<{
   item: MechEquipment
@@ -19,9 +17,9 @@ const props = withDefaults(defineProps<{
   popup: true,
 })
 
-const getComponent = computed(() => {
-  if (props.hover) return integratedInfoHover
-  else if (props.panel) return integratedInfoPanel
-  else return integratedInfoPopup
-})
+const getComponent = computed(() =>
+  props.hover ? getFeatureRenderer('integrated', 'hover')
+  : props.panel ? getFeatureRenderer('integrated', 'panel')
+  : getFeatureRenderer('integrated', 'popup')
+)
 </script>

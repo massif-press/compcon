@@ -39,12 +39,13 @@
 </template>
 
 <script setup lang="ts">
+import type { Mech } from '@/classes/mech/Mech'
 import { computed, ref } from 'vue'
 
 defineOptions({ name: 'cascade-check' })
 
 const props = defineProps<{
-  mech: object
+  mech: Mech
 }>()
 
 const checked = ref([])

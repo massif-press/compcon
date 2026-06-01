@@ -558,6 +558,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Mech } from '@/classes/mech/Mech'
 import { computed } from 'vue'
 import card from './components/PrintCard.vue';
 import ActionCard from './components/ActionCard.vue';
@@ -566,7 +567,7 @@ import blankLine from '../../components/blank/line.vue';
 import tagBlock from './components/TagBlock.vue';
 
 const props = defineProps<{
-  mech: object
+  mech: Mech
   options: object
 }>()
 

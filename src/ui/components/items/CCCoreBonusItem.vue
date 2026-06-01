@@ -89,8 +89,9 @@
 </template>
 
 <script setup lang="ts">
+import type { CoreBonus } from '@/classes/pilot/components/corebonus/CoreBonus'
 const props = withDefaults(defineProps<{
-  bonus: object
+  bonus: CoreBonus
   terse?: boolean
   readonly?: boolean
   combat?: boolean

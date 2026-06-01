@@ -1,5 +1,5 @@
 <template>
-  <cc-solo-dialog :model-value="modelValue"
+  <cc-dialog :model-value="modelValue"
     :close-on-click="false"
     title="Exit Active Mode?"
     :z-index="9999"
@@ -24,7 +24,7 @@
           @click="$emit('save')">Save and Exit</cc-button>
       </v-card-actions>
     </v-card>
-  </cc-solo-dialog>
+  </cc-dialog>
 </template>
 
 <script setup lang="ts">

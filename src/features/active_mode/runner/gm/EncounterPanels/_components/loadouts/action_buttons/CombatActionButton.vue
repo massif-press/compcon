@@ -73,12 +73,15 @@
 </template>
 
 <script setup lang="ts">
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import type { CombatantData } from '@/classes/encounter/Encounter'
+import type { Action } from '@/classes/Action'
 import { computed } from 'vue'
 
 const props = withDefaults(defineProps<{
-  action: object
-  owner: object
-  encounter: object
+  action: Action
+  owner: CombatantData
+  encounterInstance: EncounterInstance
   presetWeapon?: object
   mobile?: boolean
   actionColor?: string

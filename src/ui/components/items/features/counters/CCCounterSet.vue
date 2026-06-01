@@ -23,13 +23,14 @@
 </template>
 
 <script setup lang="ts">
+import type { ICombatant } from '@/classes/components/combat/ICombatant'
 import { computed } from 'vue'
 import CounterComponent from './_Counter.vue';
 import NewCounter from './_NewCounter.vue';
 import { Counter } from '@/classes/components/combat/counters/Counter'
 
 const props = defineProps<{
-  actor: object
+  actor: ICombatant
 }>()
 
 const controller = computed(() => {

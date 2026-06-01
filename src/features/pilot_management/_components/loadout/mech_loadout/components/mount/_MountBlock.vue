@@ -29,6 +29,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Mech } from '@/classes/mech/Mech'
 import WeaponSlotCard from './weapon/_WeaponSlotCard.vue';
 import CbMountMenu from './_CbMountMenu.vue';
 import CbCard from './_CbCard.vue';
@@ -37,7 +38,7 @@ import ShLockCard from './_ShLockCard.vue';
 const props = withDefaults(defineProps<{
   color?: string
   mount: object
-  mech: object
+  mech: Mech
   integrated?: boolean
   intWeapon?: boolean
   impArm?: boolean

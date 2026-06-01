@@ -74,6 +74,8 @@
 </template>
 
 <script setup lang="ts">
+import type { ICombatant } from '@/classes/components/combat/ICombatant'
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed, ref, onMounted } from 'vue'
 import { useDisplay } from 'vuetify'
 import StatblockJustifyOptions from './_StatblockJustifyOptions.vue';
@@ -83,8 +85,8 @@ defineOptions({ name: 'ActorLogs' })
 const display = useDisplay()
 
 const props = defineProps<{
-  actor: object
-  encounter: object
+  actor: ICombatant
+  encounterInstance: EncounterInstance
 }>()
 
 const showUntracked = ref(true)
@@ -114,7 +116,7 @@ const corepower = computed(() => {
 const combatSpecials = computed(() => {
   const out = [] as string[];
   if (controller.value.AIControl) out.push('⟦ AI CONTROLLED ⟧');
-  if (controller.value.IsInSelfDestruct) out.push(`⟦ SELF-DESTRUCT INITIATED // T-${(props.encounter as any).Round - controller.value.SelfDestructRound} ⟧`);
+  if (controller.value.IsInSelfDestruct) out.push(`⟦ SELF-DESTRUCT INITIATED // T-${(props.encounterInstance as any).Round - controller.value.SelfDestructRound} ⟧`);
   return out.length ? ' ' + out.join('  ') : '';
 })
 const availableActions = computed(() => {
@@ -264,7 +266,7 @@ const reserves = computed(() => {
   return out;
 })
 const statblockPreview = computed(() => {
-  const enc = props.encounter as any;
+  const enc = props.encounterInstance as any;
   return `${enc.Name} - Round ${enc.Round} (${new Date().toLocaleString()})
 ${'-'.repeat(75)}
 ${rootActor.value.ItemType} ${rootActor.value.CombatController.CombatName} ${rootActor.value.Level ? `- LL ${rootActor.value.Level} ` : controller.value.Tier ? ` - Tier ${controller.value.Tier}` : ''}${showActions.value ? ` |  ${getStat('activations', 'Activations')}` : ''}
@@ -324,7 +326,7 @@ function exportBlock() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `${(props.actor as any).Name} ${(props.encounter as any).Name} round ${(props.encounter as any).Round}.txt`;
+  a.download = `${(props.actor as any).Name} ${(props.encounterInstance as any).Name} round ${(props.encounterInstance as any).Round}.txt`;
   a.click();
   URL.revokeObjectURL(url);
 }

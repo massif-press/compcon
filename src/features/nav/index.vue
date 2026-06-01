@@ -104,10 +104,10 @@
 
     &nbsp;
 
-    <cc-solo-modal v-model="refModal"
+    <cc-modal v-model="refModal"
       :title="n.quickReference">
       <reference is-modal />
-    </cc-solo-modal>
+    </cc-modal>
 
     <v-divider v-if="!mobile"
       vertical

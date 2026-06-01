@@ -46,9 +46,9 @@
           </cc-button>
         </template>
         <template #default="{ close }">
-          <menu-input :key="owner.ID"
+          <menu-input :key="owner.actor.ID"
             :active-effect="<any>action"
-            :encounter="encounter"
+            :encounter-instance="encounterInstance"
             :owner="owner"
             :action="action"
             :close="close"
@@ -74,12 +74,13 @@ import { Action } from '@/classes/Action';
 import MenuInput from './_activeeffect/_ae_menu_input.vue';
 import CombatActionIndicator from './_CombatActionIndicator.vue';
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
+import type { CombatantData } from '@/classes/encounter/Encounter';
 
 const props = withDefaults(defineProps<{
   action: Action
   tier?: number
-  encounter: EncounterInstance
-  owner: object
+  encounterInstance: EncounterInstance
+  owner: CombatantData
   disabled?: boolean
   customDisabledText?: string
 }>(), {

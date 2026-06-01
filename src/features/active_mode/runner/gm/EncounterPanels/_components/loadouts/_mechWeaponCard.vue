@@ -83,7 +83,7 @@
                 :key="a.ID"
                 :action="a"
                 :owner="owner"
-                :encounter="encounter"
+                :encounter-instance="encounterInstance"
                 @activate="handleActivation($event)"
                 @reset="handleRefund($event)">
                 <template #icon>
@@ -133,7 +133,7 @@
             <mech-mod-card :mod="mod"
               :owner="owner"
               :mech="mech"
-              :encounter="encounter"
+              :encounter-instance="encounterInstance"
               @deploy="$emit('deploy', $event)" />
           </div>
         </div>
@@ -147,7 +147,7 @@
           <equipment-actions-deployables :item="item"
             :actor="mech"
             :owner="owner"
-            :encounter="encounter"
+            :encounter-instance="encounterInstance"
             action-icon="cc:weapon"
             @deploy="$emit('deploy', $event)" />
 
@@ -203,12 +203,14 @@
     </div>
     <equip-command-panel :owner="owner"
       :controller="mech.CombatController"
-      :encounter="encounter"
+      :encounter-instance="encounterInstance"
       :item="item" />
   </v-card>
 </template>
 
 <script setup lang="ts">
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import type { CombatantData } from '@/classes/encounter/Encounter'
 import { computed } from 'vue'
 import { Damage } from '@/classes/Damage'
 import { ItemType } from '@/classes/enums'
@@ -231,9 +233,9 @@ defineOptions({ name: 'MechWeaponCombatCard' })
 
 const props = withDefaults(defineProps<{
   item: object
-  mech: object
-  encounter: object
-  owner: object
+  mech: Mech
+  encounterInstance: EncounterInstance
+  owner: CombatantData
   readonly?: boolean
 }>(), {
   readonly: false

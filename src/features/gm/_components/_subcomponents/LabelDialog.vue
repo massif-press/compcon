@@ -1,5 +1,5 @@
 <template>
-  <cc-solo-dialog ref="dialog"
+  <cc-dialog ref="dialog"
     title="Set GM Label"
     :close-on-click="false"
     max-width="500px">
@@ -57,7 +57,7 @@
         {{ labelTab }}
       </v-btn>
     </v-card-actions>
-  </cc-solo-dialog>
+  </cc-dialog>
 </template>
 
 <script setup lang="ts">

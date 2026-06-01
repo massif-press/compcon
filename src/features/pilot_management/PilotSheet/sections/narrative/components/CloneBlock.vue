@@ -92,6 +92,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Pilot } from '@/classes/pilot/Pilot'
 import { CompendiumStore } from '@/stores';
 import SectionHeader from '../../components/SectionHeader.vue';
 import * as _ from 'lodash-es';
@@ -101,7 +102,7 @@ defineOptions({ name: 'clone-block' })
 const props = defineProps<{
   hideQuirks?: boolean
   readonly?: boolean
-  pilot: object
+  pilot: Pilot
 }>()
 
 function setQuirk() {

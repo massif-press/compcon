@@ -316,12 +316,12 @@
         :pilot="pilot"
         @set="setBond($event)" />
 
-      <cc-solo-modal v-model="bondModal"
+      <cc-modal v-model="bondModal"
         title="Select Pilot Bond"
         clip>
         <bond-selector :pilot="pilot"
           @set="setBond($event)" />
-      </cc-solo-modal>
+      </cc-modal>
     </div>
     <v-row justify="end"
       class="mt-12">
@@ -349,6 +349,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Pilot } from '@/classes/pilot/Pilot'
 import { computed, ref, onMounted, watch } from 'vue'
 import BondSelector from './components/BondSelector.vue'
 import BondPowerSelector from './components/BondPowerSelector.vue'
@@ -364,7 +365,7 @@ defineOptions({ name: 'BondsView' })
 const { mobile, portrait } = useMobile()
 
 const props = defineProps<{
-  pilot: object
+  pilot: Pilot
 }>()
 
 const powerSelector = ref<any>(null)

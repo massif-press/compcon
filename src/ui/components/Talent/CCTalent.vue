@@ -20,6 +20,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Talent } from '@/classes/pilot/components/talent/Talent'
 import { computed, ref, watch } from 'vue'
 import TalentMicro from './components/_TalentMicro.vue';
 import TalentSmall from './components/_TalentSmall.vue';
@@ -30,7 +31,7 @@ import TalentRankView from './components/_TalentRankView.vue';
 defineOptions({ name: 'Talent' })
 
 const props = withDefaults(defineProps<{
-  talent: object
+  talent: Talent
   hideLocked?: boolean
   canAdd?: boolean
   micro?: boolean

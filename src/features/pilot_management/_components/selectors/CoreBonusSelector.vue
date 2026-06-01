@@ -159,9 +159,9 @@ const manufacturersWithCBs = computed<{ manufacturer: Manufacturer; coreBonuses:
 
 const selectionComplete = computed(() => props.levelUp && !props.pilot.CoreBonusController.IsMissingCBs)
 
-watch(() => props.pilot.CoreBonusController.CoreBonuses, () => {
-  emit('update:selectionComplete', selectionComplete.value)
-}, { deep: true })
+watch(selectionComplete, (val) => {
+  emit('update:selectionComplete', val)
+})
 
 watch(jump, (val) => scrollTo(String(val)))
 

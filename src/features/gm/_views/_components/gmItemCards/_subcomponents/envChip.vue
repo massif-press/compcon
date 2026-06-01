@@ -7,7 +7,7 @@
     </template>
     <v-card>
       <v-card-text>
-        <cc-environment-display :environment="environment" />
+        <CCEnvironmentDisplay :environment="environment" />
       </v-card-text>
     </v-card>
   </v-menu>

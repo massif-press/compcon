@@ -2,7 +2,7 @@
   <combat-action-button
     :action="action"
     :owner="owner"
-    :encounter="encounter"
+    :encounter-instance="encounterInstance"
     min-width="1000">
     <template #default="{ close }">
       <cc-synergy-display :location="action.ID.replace('act_', '')"
@@ -15,7 +15,7 @@
         alert />
 
       <menu-input :active-effect="action"
-        :encounter="encounter"
+        :encounter-instance="encounterInstance"
         :owner="owner"
         :close="close"
         @apply="apply"
@@ -25,14 +25,17 @@
 </template>
 
 <script setup lang="ts">
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import type { CombatantData } from '@/classes/encounter/Encounter'
+import type { Action } from '@/classes/Action'
 import { computed } from 'vue'
 import CombatActionButton from './CombatActionButton.vue';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 
 const props = defineProps<{
-  action: object
-  owner: object
-  encounter: object
+  action: Action
+  owner: CombatantData
+  encounterInstance: EncounterInstance
 }>()
 
 const emit = defineEmits<{

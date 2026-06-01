@@ -162,7 +162,7 @@ const { mobile, portrait } = useMobile()
 
 const props = withDefaults(defineProps<{
   item: object
-  bonuses?: any[]
+  bonuses?: Bonus[]
   allowCore?: boolean
 }>(), {
   bonuses: () => [],
@@ -226,7 +226,7 @@ function addTrackableStat() {
       const val = Number(trackableValue.value) || 0;
       props.item.StatController.setMax(trackableStat.value, val);
       props.item.StatController.CurrentStats[trackableStat.value] = val;
-      props.item.save();
+      props.item.SaveController.save();
       trackableStat.value = undefined;
       trackableValue.value = 0;
     }
@@ -235,7 +235,7 @@ function addStaticStat() {
       const val = Number(staticValue.value) || 0;
       props.item.StatController.setMax(staticStat.value, val);
       props.item.StatController.CurrentStats[staticStat.value] = val;
-      props.item.save();
+      props.item.SaveController.save();
       staticStat.value = undefined;
       staticValue.value = 0;
     }
@@ -243,6 +243,6 @@ function removeStat(key) {
       if (!hasStat(key)) return;
       delete props.item.StatController.MaxStats[key];
       delete props.item.StatController.CurrentStats[key];
-      props.item.save();
+      props.item.SaveController.save();
     }
 </script>

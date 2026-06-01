@@ -2,7 +2,7 @@
   <combat-action-button
     :action="action"
     :owner="owner"
-    :encounter="encounter"
+    :encounter-instance="encounterInstance"
     :preset-weapon="presetWeapon">
     <template #default="{ close }">
       <div class="px-3">
@@ -82,7 +82,7 @@
         <npc-weapon-attack v-if="selectedWeapon && event"
           :event="<WeaponAttackEvent>event"
           :owner="owner"
-          :encounter="encounter"
+          :encounter-instance="encounterInstance"
           :weapon="<NpcWeapon>event.Weapon" />
 
       </div>
@@ -98,7 +98,7 @@
         <apply-button v-if="event"
           :event="<ActiveEffectEvent>event.BaseEvent"
           :weapon-event="<WeaponAttackEvent>event"
-          :encounter="encounter"
+          :encounter-instance="encounterInstance"
           :owner="owner"
           :close="close"
           :action="action"
@@ -113,6 +113,8 @@
 </template>
 
 <script setup lang="ts">
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import type { Action } from '@/classes/Action'
 import { computed, ref } from 'vue'
 import { CombatantData } from '@/classes/encounter/Encounter';
 import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
@@ -124,9 +126,9 @@ import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/A
 import CombatActionButton from './CombatActionButton.vue';
 
 const props = defineProps<{
-  action: object
-  owner: object
-  encounter: object
+  action: Action
+  owner: CombatantData
+  encounterInstance: EncounterInstance
   presetWeapon?: NpcWeapon
 }>()
 
@@ -169,11 +171,11 @@ const tier = computed(() => {
 
 function reset(clearAction = false) {
       if (clearAction) props.owner.CombatController.ClearActionUsed(props.action.ID);
-      const self = props.encounter.Combatants.find(
+      const self = props.encounterInstance.Combatants.find(
         (c: CombatantData) => c.actor.CombatController.RootActor.ID === props.owner.actor.CombatController.RootActor.ID
       );
       if (!self) {
-        throw new Error('Owner combatant not found in encounter');
+        throw new Error('Owner combatant not found in encounterInstance');
       }
       if (!selectedWeapon.value && props.presetWeapon) {
         selectedWeapon.value = props.presetWeapon;
@@ -183,7 +185,7 @@ function reset(clearAction = false) {
         return;
 
       if (selectedWeapon.value)
-        event.value = new WeaponAttackEvent(selectedWeapon.value as NpcWeapon, self, props.encounter, 'Skirmish');
+        event.value = new WeaponAttackEvent(selectedWeapon.value as NpcWeapon, self, props.encounterInstance, 'Skirmish');
     }
 function apply() {
       const actor = props.owner.actor.CombatController.ActiveActor.CombatController;

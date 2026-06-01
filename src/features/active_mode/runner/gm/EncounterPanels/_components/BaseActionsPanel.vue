@@ -18,7 +18,7 @@
             <basic-action-button v-else
               :action="pa"
               :owner="owner"
-              :encounter="encounter"
+              :encounter-instance="encounterInstance"
               @activate="$emit('activate', $event)" />
           </v-col>
           <v-col v-for="fa in controller.AllActions('Free')"
@@ -31,7 +31,7 @@
             <basic-action-button v-else
               :action="fa"
               :owner="owner"
-              :encounter="encounter"
+              :encounter-instance="encounterInstance"
               @activate="$emit('activate', $event)" />
           </v-col>
         </v-row>
@@ -49,7 +49,7 @@
                   :action="getBaseAction(action)">
                   <basic-action-button :action="getBaseAction(action)"
                     :owner="owner"
-                    :encounter="encounter"
+                    :encounter-instance="encounterInstance"
                     @activate="$emit('activate', $event)" />
                 </slot>
               </v-col>
@@ -64,7 +64,7 @@
                 <basic-action-button v-else
                   :action="qa"
                   :owner="owner"
-                  :encounter="encounter"
+                  :encounter-instance="encounterInstance"
                   @activate="$emit('activate', $event)" />
               </v-col>
               <v-col v-for="qta in controller.AllActions('Quick Tech')"
@@ -77,7 +77,7 @@
                 <basic-action-button v-else
                   :action="qta"
                   :owner="owner"
-                  :encounter="encounter"
+                  :encounter-instance="encounterInstance"
                   @activate="$emit('activate', $event)" />
               </v-col>
             </v-row>
@@ -90,7 +90,7 @@
                   :action="getBaseAction(action)">
                   <basic-action-button :action="getBaseAction(action)"
                     :owner="owner"
-                    :encounter="encounter"
+                    :encounter-instance="encounterInstance"
                     @activate="$emit('activate', $event)" />
                 </slot>
               </v-col>
@@ -105,7 +105,7 @@
                 <basic-action-button v-else
                   :action="fa"
                   :owner="owner"
-                  :encounter="encounter"
+                  :encounter-instance="encounterInstance"
                   @activate="$emit('activate', $event)" />
               </v-col>
               <v-col v-for="fta in controller.AllActions('Full Tech')"
@@ -118,7 +118,7 @@
                 <basic-action-button v-else
                   :action="fta"
                   :owner="owner"
-                  :encounter="encounter"
+                  :encounter-instance="encounterInstance"
                   @activate="$emit('activate', $event)" />
               </v-col>
             </v-row>
@@ -130,7 +130,7 @@
           <v-col>
             <basic-action-button :action="getBaseAction('act_overwatch')"
               :owner="owner"
-              :encounter="encounter" />
+              :encounter-instance="encounterInstance" />
           </v-col>
           <v-col v-for="ra in controller.AllActions('Reaction')"
             :key="ra.ID">
@@ -142,7 +142,7 @@
             <basic-action-button v-else
               :action="ra"
               :owner="owner"
-              :encounter="encounter"
+              :encounter-instance="encounterInstance"
               @activate="$emit('activate', $event)" />
           </v-col>
         </v-row>
@@ -152,6 +152,8 @@
 </template>
 
 <script setup lang="ts">
+import type { CombatantData } from '@/classes/encounter/Encounter'
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed } from 'vue';
 import { CompendiumStore } from '@/stores';
 import { Deployable } from '@/classes/components/feature/deployable/Deployable';
@@ -159,8 +161,8 @@ import BasicActionButton from './loadouts/action_buttons/basicActionButton.vue';
 import DeployButton from './loadouts/_deployButton.vue';
 
 const props = defineProps<{
-  owner: any;
-  encounter: any;
+  owner: CombatantData;
+  encounterInstance: EncounterInstance;
   quickActions: string[];
   fullActions: string[];
 }>();

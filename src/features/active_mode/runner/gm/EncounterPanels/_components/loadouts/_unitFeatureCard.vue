@@ -124,7 +124,7 @@
             <equipment-actions-deployables :item="item"
               :actor="unit"
               :owner="owner"
-              :encounter="encounter"
+              :encounter-instance="encounterInstance"
               :action-icon="item.Icon"
               @deploy="$emit('deploy', $event)" />
 
@@ -167,12 +167,14 @@
       :owner="owner"
       class="mb-2"
       :controller="unit.CombatController"
-      :encounter="encounter"
+      :encounter-instance="encounterInstance"
       :item="item" />
   </v-card>
 </template>
 
 <script setup lang="ts">
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import type { CombatantData } from '@/classes/encounter/Encounter'
 import { computed, ref, onMounted } from 'vue'
 import NpcModInset from '@/features/gm/npc_roster/npcs/_components/NpcModInset.vue'
 import EquipCommandPanel from './_equipCommandPanel.vue'
@@ -190,8 +192,8 @@ const { mobile, portrait } = useMobile()
 const props = defineProps<{
   item: object
   unit: object
-  encounter: object
-  owner: object
+  encounterInstance: EncounterInstance
+  owner: CombatantData
 }>()
 
 const emit = defineEmits<{

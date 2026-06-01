@@ -105,12 +105,13 @@
 </template>
 
 <script setup lang="ts">
+import type { ICombatant } from '@/classes/components/combat/ICombatant'
 import { ref, computed } from 'vue';
 import CombatActionIndicator from '@/ui/components/chips/_CombatActionIndicator.vue';
 
 const props = withDefaults(defineProps<{
   deployable: any;
-  actor: any;
+  actor: ICombatant;
   disabled?: boolean;
   customDisabledText?: string;
   actionOnly?: boolean;

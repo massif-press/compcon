@@ -21,10 +21,10 @@
     location="bottom"
     temporary>
     <v-sheet>
-      <cc-titlebar dark
-        icon="mdi-filter-variant">Set Item Filters</cc-titlebar>
+      <CCTitlebar dark
+        icon="mdi-filter-variant">Set Item Filters</CCTitlebar>
       <v-card-text>
-        <cc-item-filter ref="controls"
+        <CCItemFilter ref="controls"
           :item-type="itemType"
           :active-filters="activeFilters"
           @set-filters="applyFilters($event)" />

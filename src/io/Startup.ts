@@ -73,12 +73,6 @@ export default async function (skipSync = false): Promise<void> {
 
   if (UserStore().IsLoggedIn) {
     try {
-      await UserStore().refreshDbData()
-    } catch (error: any) {
-      logger.warn(`Failed to refresh cloud data on startup: ${error}`)
-    }
-
-    try {
       await UserStore().AutoSync(undefined, true, skipSync)
       await UserStore().getRemoteCollectionMetadata(true)
       if (UserStore().UserMetadata.CollectionSubscriptionSettings.updateOn === 'startup') {

@@ -91,7 +91,7 @@ import { ref, watch } from 'vue'
 import { Counter, ICounterData } from '@/classes/components/combat/counters/Counter'
 
 const props = defineProps<{
-  counterData: object
+  counterData: ICounterData
   saveData: any[]
 }>()
 

@@ -18,10 +18,11 @@
 </template>
 
 <script setup lang="ts">
+import type { CombatantData } from '@/classes/encounter/Encounter'
 import RunnerListItemBase from './RunnerListItemBase.vue';
 
 const props = withDefaults(defineProps<{
-  combatant: object
+  combatant: CombatantData
   collapsed?: boolean
   selected?: boolean
   round?: number

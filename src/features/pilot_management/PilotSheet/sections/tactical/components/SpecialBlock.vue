@@ -77,12 +77,13 @@
 </template>
 
 <script setup lang="ts">
+import type { Pilot } from '@/classes/pilot/Pilot'
 import SectionHeader from '../../components/SectionHeader.vue';
 import NoDataBlock from '../../components/NoDataBlock.vue';
 import EquipmentSelector from '../../../../_components/selectors/EquipmentSelector.vue';
 
 const props = defineProps<{
-  pilot: object
+  pilot: Pilot
 }>()
 
 function addItem(item, close) {

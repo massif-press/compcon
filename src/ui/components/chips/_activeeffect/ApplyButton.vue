@@ -151,7 +151,7 @@ const props = withDefaults(defineProps<{
   action?: Action
   actionId?: string | string[]
   activationOverride?: string
-  encounter: EncounterInstance
+  encounterInstance: EncounterInstance
   owner: CombatantData
   close: () => void
   embedded?: boolean

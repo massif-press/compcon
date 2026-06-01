@@ -136,19 +136,20 @@
         </v-col>
       </v-row>
 
-      <cc-solo-modal v-model="selector"
+      <cc-modal v-model="selector"
         icon="cc:system"
         title="SELECT EQUIPMENT"
         clip>
         <system-selector :mech="mech"
           :swap-system="swapSystem"
           @done="handleDone" />
-      </cc-solo-modal>
+      </cc-modal>
     </fieldset>
   </v-card>
 </template>
 
 <script setup lang="ts">
+import type { Mech } from '@/classes/mech/Mech'
 import { computed, ref, watch, nextTick } from 'vue'
 import * as _ from 'lodash-es';
 import { markRaw } from 'vue';
@@ -164,7 +165,7 @@ const _ModEquippedCard = markRaw(ModEquippedCard);
 const { mobile, portrait } = useMobile()
 
 const props = defineProps<{
-  mech: object
+  mech: Mech
   color: string
   readonly?: boolean
 }>()
@@ -176,137 +177,147 @@ const systemItems = ref([] as any[])
 const reorderMode = ref(false)
 
 const moddedWeapons = computed(() => {
-      return props.mech.MechLoadoutController.ActiveLoadout.Weapons.filter((x) => x.Mod);
-    })
+  return props.mech.MechLoadoutController.ActiveLoadout.Weapons.filter((x) => x.Mod);
+})
 const activeSystems = computed(() => {
-      return props.mech.MechLoadoutController.ActiveLoadout.Systems;
-    })
+  return props.mech.MechLoadoutController.ActiveLoadout.Systems;
+})
 const integratedSystems = computed(() => {
-      return props.mech.MechLoadoutController.ActiveLoadout.IntegratedSystems;
-    })
+  return props.mech.MechLoadoutController.ActiveLoadout.IntegratedSystems;
+})
 const staticTopItems = computed(() => {
-      const arr: any[] = [];
-      integratedSystems.value.forEach((s) => {
-        arr.push({
-          component: _SystemSlotCard,
-          id: s.ID,
-          props: { mech: props.mech, item: s, color: props.color, readonly: props.readonly, integrated: true },
-          item: s,
-        });
-      });
-      moddedWeapons.value.forEach((w) => {
-        arr.push({
-          component: _ModEquippedCard,
-          id: w.ID,
-          props: { mech: props.mech, color: props.color, readonly: props.readonly },
-          item: w.Mod,
-          weapon: w,
-        });
-      });
-      return arr;
-    })
+  const arr: any[] = [];
+  integratedSystems.value.forEach((s) => {
+    arr.push({
+      component: _SystemSlotCard,
+      id: s.ID,
+      props: { mech: props.mech, item: s, color: props.color, readonly: props.readonly, integrated: true },
+      item: s,
+    });
+  });
+  moddedWeapons.value.forEach((w) => {
+    arr.push({
+      component: _ModEquippedCard,
+      id: w.ID,
+      props: { mech: props.mech, color: props.color, readonly: props.readonly },
+      item: w.Mod,
+      weapon: w,
+    });
+  });
+  return arr;
+})
 const staticBottomItems = computed(() => {
-      if (props.mech.FreeSP > 0 && !props.readonly) {
-        return [{
-          component: _SystemSlotCard,
-          id: 'add-system',
-          props: { mech: props.mech, item: null, color: props.color, readonly: props.readonly, empty: true },
-          item: null,
-        }];
-      }
-      return [];
-    })
+  if (props.mech.FreeSP > 0 && !props.readonly) {
+    return [{
+      component: _SystemSlotCard,
+      id: 'add-system',
+      props: { mech: props.mech, item: null, color: props.color, readonly: props.readonly, empty: true },
+      item: null,
+    }];
+  }
+  return [];
+})
+
+watch(
+  () => [
+    ...activeSystems.value,
+    ...integratedSystems.value,
+    ...moddedWeapons.value,
+  ].map((x) => x.ID).join('|') + `:${activeSystems.value.length}:${integratedSystems.value.length}`,
+  updateSystemItems,
+  { immediate: true }
+)
 
 function updateSystemItems() {
-      const arr: any[] = [];
+  const arr: any[] = [];
 
-      integratedSystems.value.forEach((s) => {
-        arr.push({
-          component: _SystemSlotCard,
-          id: s.ID,
-          props: {
-            mech: props.mech,
-            item: s,
-            color: props.color,
-            readonly: props.readonly,
-            integrated: true,
-          },
-          item: s,
-        });
-      });
+  integratedSystems.value.forEach((s) => {
+    arr.push({
+      component: _SystemSlotCard,
+      id: s.ID,
+      props: {
+        mech: props.mech,
+        item: s,
+        color: props.color,
+        readonly: props.readonly,
+        integrated: true,
+      },
+      item: s,
+    });
+  });
 
-      moddedWeapons.value.forEach((w) => {
-        arr.push({
-          component: _ModEquippedCard,
-          id: w.ID,
-          props: {
-            mech: props.mech,
-            color: props.color,
-            readonly: props.readonly,
-          },
-          item: w.Mod,
-          weapon: w,
-        });
-      });
+  moddedWeapons.value.forEach((w) => {
+    arr.push({
+      component: _ModEquippedCard,
+      id: w.ID,
+      props: {
+        mech: props.mech,
+        color: props.color,
+        readonly: props.readonly,
+      },
+      item: w.Mod,
+      weapon: w,
+    });
+  });
 
-      activeSystems.value.forEach((s) => {
-        arr.push({
-          component: _SystemSlotCard,
-          id: s.ID,
-          props: {
-            mech: props.mech,
-            item: s,
-            color: props.color,
-            readonly: props.readonly,
-          },
-          item: s,
-        });
-      });
+  activeSystems.value.forEach((s) => {
+    arr.push({
+      component: _SystemSlotCard,
+      id: s.ID,
+      props: {
+        mech: props.mech,
+        item: s,
+        color: props.color,
+        readonly: props.readonly,
+      },
+      item: s,
+    });
+  });
 
-      if (props.mech.FreeSP > 0 && !props.readonly) {
-        arr.push({
-          component: _SystemSlotCard,
-          id: 'add-system',
-          props: {
-            mech: props.mech,
-            item: null,
-            color: props.color,
-            readonly: props.readonly,
-            empty: true,
-          },
-          item: null,
-        });
-      }
+  if (props.mech.FreeSP > 0 && !props.readonly) {
+    arr.push({
+      component: _SystemSlotCard,
+      id: 'add-system',
+      props: {
+        mech: props.mech,
+        item: null,
+        color: props.color,
+        readonly: props.readonly,
+        empty: true,
+      },
+      item: null,
+    });
+  }
 
-      systemItems.value = arr;
-    }
+  systemItems.value = arr;
+}
 function onSystemReorder(event: any) {
-      stopDragScroll();
-      if (event.oldIndex === event.newIndex) return;
-      props.mech.MechLoadoutController.ActiveLoadout.ReorderSystem(event.oldIndex, event.newIndex);
-    }
+  stopDragScroll();
+  if (event.oldIndex === event.newIndex) return;
+  props.mech.MechLoadoutController.ActiveLoadout.ReorderSystem(event.oldIndex, event.newIndex);
+}
 function moveSystem(from: number, to: number) {
-      props.mech.MechLoadoutController.ActiveLoadout.ReorderSystem(from, to);
-    }
+  props.mech.MechLoadoutController.ActiveLoadout.ReorderSystem(from, to);
+}
 function switchSystem(item: any) {
-      swapSystem.value = item;
-      selector.value = true;
-    }
+  swapSystem.value = item;
+  selector.value = true;
+}
 function setAddAdditional() {
-      additionalSystem.value = true;
-      selector.value = true;
-    }
+  additionalSystem.value = true;
+  selector.value = true;
+}
 async function handleDone() {
-      swapSystem.value = null;
+  swapSystem.value = null;
 
-      updateSystemItems(); // triggers list update
+  updateSystemItems(); // triggers list update
 
-      // wait for DOM
-      await nextTick();
-      await new Promise((r) => setTimeout(r, 0));
+  // wait for DOM
+  await nextTick();
+  await new Promise((r) => setTimeout(r, 0));
 
-      selector.value = false;
-    }
+  selector.value = false;
+}
 </script>
 
 <style scoped>

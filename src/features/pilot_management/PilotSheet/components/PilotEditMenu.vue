@@ -143,6 +143,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Pilot } from '@/classes/pilot/Pilot'
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import CloneDialog from './CloneDialog.vue'
@@ -154,7 +155,7 @@ import { usePilotActions } from '../usePilotActions'
 defineOptions({ name: 'EditMenu' })
 
 const props = withDefaults(defineProps<{
-  pilot: object
+  pilot: Pilot
   light?: boolean
   dense?: boolean
   size?: string

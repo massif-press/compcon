@@ -113,6 +113,8 @@ const _debouncedSetUserMetadata = debounce(
         v2_cloud_import_status: umStore.UserMetadata.V2CloudImportStatus,
       }
       await patchItem('meta', payload)
+    } catch (e) {
+      logger.error('setUserMetadata: failed to patch cloud metadata', e)
     } finally {
       const resolvers = _pendingMetadataResolvers
       _pendingMetadataResolvers = []
@@ -172,7 +174,10 @@ export const UserMetadataStore = defineStore('userMetadata', {
       const cloudLcpConfigs = this.UserMetadata.LcpConfigs?.length
         ? this.UserMetadata.LcpConfigs
         : (this.UserMetadata.UserSettingData?.lcp_configs ?? [])
-      if (cloudLcpConfigs.length) {
+      if (
+        cloudLcpConfigs.length &&
+        (this.UserMetadata.UserSettingData?.latest_change ?? 0) > uStore.User.latest_change
+      ) {
         uStore.User.LcpConfigs = cloudLcpConfigs
         uStore.User.save()
       }

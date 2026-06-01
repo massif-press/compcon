@@ -160,6 +160,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Pilot } from '@/classes/pilot/Pilot'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import { mission } from '@/io/Generators';
@@ -169,7 +170,7 @@ const _display = useDisplay()
 defineOptions({ name: 'pilot-registration-card' })
 
 const props = defineProps<{
-  pilot: object
+  pilot: Pilot
   pilotReady?: boolean
 }>()
 

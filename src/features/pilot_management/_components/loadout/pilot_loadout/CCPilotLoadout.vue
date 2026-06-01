@@ -1,7 +1,7 @@
 <template>
   <div :key="controller.ActiveLoadoutIndex"
     :class="noFrame ? '' : mobile ? 'px-2 mt-3' : 'px-6 mt-3'">
-    <cc-loadout-panel :loadouts="controller.Loadouts"
+    <CCLoadoutPanel :loadouts="controller.Loadouts"
       :active-loadout="controller.ActiveLoadout"
       color="primary"
       :readonly="readonly"
@@ -36,7 +36,7 @@
           @remove="controller.ActiveLoadout.Remove($event)"
           @save="pilot.SaveController.save()" />
       </v-row>
-    </cc-loadout-panel>
+    </CCLoadoutPanel>
   </div>
 </template>
 

@@ -1,15 +1,14 @@
 <template>
-  <component :is="hover ? deployableInfoHover : panel ? deployableInfoPanel : deployableInfoPopup"
+  <component :is="cType"
     :deployable="deployable"
     :tier="tier"
     :owner="owner" />
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { Deployable } from '@/classes/components/feature/deployable/Deployable';
-import deployableInfoHover from './_deployableInfoHover.vue';
-import deployableInfoPanel from './_deployableInfoPanel.vue';
-import deployableInfoPopup from './_deployableInfoPopup.vue';
+import { getFeatureRenderer } from '../featureRenderers'
 
 const props = withDefaults(defineProps<{
   deployable: Deployable
@@ -22,4 +21,10 @@ const props = withDefaults(defineProps<{
   popup: true,
   owner: null,
 })
+
+const cType = computed(() =>
+  props.hover ? getFeatureRenderer('deployable', 'hover')
+  : props.panel ? getFeatureRenderer('deployable', 'panel')
+  : getFeatureRenderer('deployable', 'popup')
+)
 </script>

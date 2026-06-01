@@ -97,7 +97,7 @@
 
             <slot name="subtitle" />
 
-            <timed-effect-panel :encounter="encounterInstance"
+            <timed-effect-panel :encounter-instance="encounterInstance"
               :item="item" />
 
             <v-row class="mt-n1"
@@ -173,7 +173,7 @@
 
 
             <active-effect-panel v-if="item.CombatController.ActiveEffects.length"
-              :encounter="encounterInstance"
+              :encounter-instance="encounterInstance"
               :item="item" />
 
             <v-row v-if="!hidePalette"
@@ -242,7 +242,7 @@
                   style="min-width: 20px" />
                 <v-col class="mx-auto">
                   <status-condition-selector :controller="item.CombatController"
-                    :encounter="encounterInstance" />
+                    :encounter-instance="encounterInstance" />
                 </v-col>
               </v-row>
 
@@ -262,7 +262,7 @@
                     class="heading h4 ">Statuses/Conditions</v-expansion-panel-title>
                   <v-expansion-panel-text style="border: 2px solid rgb(var(--v-theme-panel))">
                     <status-condition-selector :controller="item.CombatController"
-                      :encounter="encounterInstance" />
+                      :encounter-instance="encounterInstance" />
                   </v-expansion-panel-text>
                 </v-expansion-panel>
               </v-expansion-panels>
@@ -274,7 +274,7 @@
         <slot name="pre" />
 
         <div class="text-cc-overline mt-4 text-disabled">COUNTERS</div>
-        <cc-counter-set :actor="item" />
+        <CCCounterSet :actor="item" />
       </v-col>
       <v-col cols="12"
         :xl="xlPanels">
@@ -285,7 +285,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { computed, markRaw } from 'vue'
 import { useDisplay } from 'vuetify'
 import CCCounterSet from '@/ui/components/items/features/counters/CCCounterSet.vue'
 import DamageConditionSelector from './_components/DamageConditionSelector.vue';
@@ -298,13 +299,16 @@ import TimedEffectPanel from './_components/TimedEffectPanel.vue';
 import TrackableStatsComplex from './_components/TrackableStatsComplex.vue';
 import TrackableStatsSimple from './_components/TrackableStatsSimple.vue';
 
+const _TrackableStatsComplex = markRaw(TrackableStatsComplex)
+const _TrackableStatsSimple = markRaw(TrackableStatsSimple)
+
 const _display = useDisplay()
 
 defineOptions({ name: 'EncounterPanelBase' })
 
 const props = withDefaults(defineProps<{
   item: object
-  encounterInstance: object
+  encounterInstance: EncounterInstance
   hidePalette?: boolean
   noStats?: boolean
   noActions?: boolean
@@ -341,9 +345,9 @@ const mobile = computed(() => {
     })
 const trackableStatsComponent = computed(() => {
       if (!props.encounterInstance.ForceComplexTickbars && (mobile.value || props.encounterInstance.SimpleTickbars)) {
-        return 'TrackableStatsSimple';
+        return _TrackableStatsSimple;
       } else {
-        return 'TrackableStatsComplex';
+        return _TrackableStatsComplex;
       }
     })
 const orderedStats = computed(() => {

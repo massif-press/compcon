@@ -111,7 +111,7 @@ import JSZip from 'jszip';
 defineOptions({ name: 'campaign-publisher' })
 
 const props = defineProps<{
-  campaign: object
+  campaign: Campaign
 }>()
 
 const emit = defineEmits<{

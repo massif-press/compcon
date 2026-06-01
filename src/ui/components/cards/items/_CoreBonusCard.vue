@@ -6,9 +6,10 @@
 
 <script setup lang="ts">
 import InfoCardBase from './_InfoCardBase.vue'
+import type { CoreBonus } from '@/classes/pilot/components/corebonus/CoreBonus'
 
 defineProps<{
-  item: object
+  item: CoreBonus
   notes?: boolean
   charts?: boolean
   collapseActions?: boolean

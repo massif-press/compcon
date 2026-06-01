@@ -197,7 +197,7 @@ const theme = useTheme()
 const props = withDefaults(defineProps<{
   items: any[]
   group: string
-  manufacturers: any[]
+  manufacturers: Manufacturer[]
   licenses: any[]
   lcpFilter: any[]
   selected?: object

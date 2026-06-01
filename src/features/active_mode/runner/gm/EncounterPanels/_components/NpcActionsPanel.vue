@@ -1,6 +1,6 @@
 <template>
   <base-actions-panel :owner="owner"
-    :encounter="encounter"
+    :encounter-instance="encounterInstance"
     :quick-actions="quickNpcActions"
     :full-actions="fullNpcActions"
     @deploy="$emit('deploy', $event)"
@@ -9,18 +9,20 @@
       <invade-button v-if="action.ID === 'act_invade'"
         :action="action"
         :owner="owner"
-        :encounter="encounter"
+        :encounter-instance="encounterInstance"
         @activate="activate($event)" />
       <basic-action-button v-else
         :action="action"
         :owner="owner"
-        :encounter="encounter"
+        :encounter-instance="encounterInstance"
         @activate="activate($event)" />
     </template>
   </base-actions-panel>
 </template>
 
 <script setup lang="ts">
+import type { CombatantData } from '@/classes/encounter/Encounter'
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed } from 'vue';
 import { CompendiumStore } from '@/stores';
 import { notify } from '@/util/notify';
@@ -29,8 +31,8 @@ import BasicActionButton from './loadouts/action_buttons/basicActionButton.vue';
 import InvadeButton from './loadouts/action_buttons/invadeButton.vue';
 
 const props = defineProps<{
-  owner: any;
-  encounter: any;
+  owner: CombatantData;
+  encounterInstance: EncounterInstance;
 }>();
 
 const emit = defineEmits<{ deploy: [event: any] }>();

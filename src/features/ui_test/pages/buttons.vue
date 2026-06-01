@@ -166,7 +166,7 @@
                   :prepend-icon="prependIcon"
                   :on-icon="onIcon"
                   :off-icon="offIcon" />
-                <cc-radio
+                <CCRadio
                   v-else-if="toggleType === 'rad'"
                   v-model="toggle"
                   :label="toggleLabel"

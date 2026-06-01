@@ -40,6 +40,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Mech } from '@/classes/mech/Mech'
 import { ref } from 'vue'
 import SlotCardBase from '../_SlotCardBase.vue';
 import EquipmentOptions from '../_EquipmentOptions.vue';
@@ -50,7 +51,7 @@ defineOptions({ name: 'mod-equipped-card' })
 const { mobile, portrait } = useMobile()
 
 const props = withDefaults(defineProps<{
-  mech: object
+  mech: Mech
   weapon?: object
   item?: object
   color?: string

@@ -1,5 +1,5 @@
 <template>
-  <cc-solo-modal v-model="dialogValue"
+  <cc-modal v-model="dialogValue"
     :title="title"
     icon="mdi-circle-edit-outline"
     :max-width="width"
@@ -21,7 +21,7 @@
         </cc-button>
       </v-col>
     </v-row>
-  </cc-solo-modal>
+  </cc-modal>
 </template>
 
 <script setup lang="ts">

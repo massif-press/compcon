@@ -199,7 +199,7 @@
       <menu-input v-if="getCombatant"
         :key="owner.ID"
         :active-effect="activeEffect"
-        :encounter="encounter"
+        :encounter-instance="encounterInstance"
         :owner="getCombatant"
         :close="close" />
     </template>
@@ -207,23 +207,25 @@
 </template>
 
 <script setup lang="ts">
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed } from 'vue';
 import { ActiveEffect } from '@/classes/components/feature/active_effects/ActiveEffect';
 import { CombatantData } from '@/classes/encounter/Encounter';
+import type { ICombatant } from '@/classes/components/combat/ICombatant';
 import { ByTier } from '@/util/tierFormat';
 import MenuInput from './_activeeffect/_ae_menu_input.vue';
 
 const props = withDefaults(defineProps<{
   activeEffect: ActiveEffect
   tier?: number
-  encounter: object
-  owner: object
+  encounterInstance: EncounterInstance
+  owner: ICombatant
 }>(), {
   tier: 1,
 })
 
 const getCombatant = computed((): CombatantData | undefined =>
-  props.encounter.Combatants.find(
+  props.encounterInstance.Combatants.find(
     (c: CombatantData) => c.actor.ID === props.owner.ID || c.actor.CombatController.ActiveActor.ID === props.owner.ID || c.actor.CombatController.RootActor.ID === props.owner.ID
   )
 )
@@ -250,7 +252,7 @@ function frequencyIcon(frequency: string): string {
     case '1/turn':
       return 'mdi-alpha-t-circle';
     case '1/scene':
-    case '1/encounter':
+    case '1/encounterInstance':
       return 'mdi-alpha-e-circle';
     case '1/mission':
       return 'mdi-alpha-m-circle';
@@ -267,7 +269,7 @@ function frequencyText(frequency: string): string {
     case '1/turn':
       return 'Usable once per Turn';
     case '1/scene':
-    case '1/encounter':
+    case '1/encounterInstance':
       return 'Usable once per Encounter';
     case '1/mission':
       return 'Usable once per Mission';

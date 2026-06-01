@@ -18,7 +18,7 @@
           :bonus="b"
           :mech="mech"
           :owner="owner"
-          :encounter="encounterInstance"
+          :encounter-instance="encounterInstance"
           @deploy="$emit('deploy', $event)" />
 
         <sh-lock-card v-if="item.mount.IsLocked" />
@@ -32,7 +32,7 @@
             :item="s.Weapon"
             :mech="mech"
             :mount="item.mount"
-            :encounter="encounterInstance"
+            :encounter-instance="encounterInstance"
             :int-weapon="item.isIntWeapon || item.isIntegrated"
             @deploy="$emit('deploy', $event)" />
         </div>
@@ -52,7 +52,7 @@
           :owner="owner"
           :item="<any>item"
           :mech="mech"
-          :encounter="encounterInstance"
+          :encounter-instance="encounterInstance"
           @deploy="$emit('deploy', $event)" />
       </fieldset>
     </template>
@@ -60,6 +60,9 @@
 </template>
 
 <script setup lang="ts">
+import type { CombatantData } from '@/classes/encounter/Encounter'
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import type { Mech } from '@/classes/mech/Mech'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import ShLockCard from '@/features/pilot_management/_components/loadout/mech_loadout/components/mount/_ShLockCard.vue';
@@ -70,9 +73,9 @@ import MechMountBonusCard from './_mechMountBonusCard.vue';
 const _display = useDisplay()
 
 const props = defineProps<{
-  mech: object
-  encounterInstance: object
-  owner: object
+  mech: Mech
+  encounterInstance: EncounterInstance
+  owner: CombatantData
 }>()
 
 const emit = defineEmits<{

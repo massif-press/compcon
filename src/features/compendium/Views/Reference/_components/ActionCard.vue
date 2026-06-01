@@ -56,10 +56,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Action } from '@/classes/Action'
 import { computed } from 'vue'
 
 const props = withDefaults(defineProps<{
-  action: object
+  action: Action
   downtime?: boolean
   clickable?: boolean
 }>(), {

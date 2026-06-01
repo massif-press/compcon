@@ -60,24 +60,25 @@
     </v-card-text>
   </v-card>
 
-  <cc-solo-modal v-model="detailDialog"
+  <cc-modal v-model="detailDialog"
     :title="item?.Name || ''"
     :icon="item?.Icon || ''"
     shrink>
     <cc-item-card :item="item"
       notes />
     <slot name="detail" />
-  </cc-solo-modal>
+  </cc-modal>
 
-  <cc-solo-modal v-model="selectorDialog"
+  <cc-modal v-model="selectorDialog"
     title="select equipment"
     clip
     @close="$emit('selector-close')">
     <slot name="selector" />
-  </cc-solo-modal>
+  </cc-modal>
 </template>
 
 <script setup lang="ts">
+import type { Mech } from '@/classes/mech/Mech'
 import { computed, ref, useSlots } from 'vue'
 import { ItemType } from '@/classes/enums'
 import { useMobile } from '@/composables/useMobile'
@@ -88,7 +89,7 @@ const slots = useSlots()
 
 const props = withDefaults(defineProps<{
   item?: object
-  mech: object
+  mech: Mech
   empty?: boolean
   color?: string
   titleColor?: string
@@ -128,6 +129,8 @@ function openSelector() {
       }
       emit('selector-open')
     }
+
+defineExpose({ selectorDialog, openSelector })
 </script>
 
 <style scoped>

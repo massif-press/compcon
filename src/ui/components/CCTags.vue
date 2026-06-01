@@ -3,7 +3,7 @@
     v-if="extended && (!mobile || forceExtended)"
     :key="t.ID"
     class="mb-1">
-    <cc-extended-tag :tag="t"
+    <CCExtendedTag :tag="t"
       :color="t.IsExotic ? 'exotic' : color" />
   </div>
 

@@ -11,7 +11,7 @@
         add from roster
       </cc-button>
     </template>
-    <cc-sidebar-layout ref="sidebar">
+    <CCSidebarLayout ref="sidebar">
       <template #sidebar>
         <v-text-field v-model="search"
           density="compact"
@@ -384,11 +384,13 @@
           <v-col cols="auto"><i class="text-disabled">Select a Pilot</i></v-col>
         </v-row>
       </div>
-    </cc-sidebar-layout>
+    </CCSidebarLayout>
   </cc-modal>
 </template>
 
 <script setup lang="ts">
+import type { Pilot } from '@/classes/pilot/Pilot'
+import type { Encounter } from '@/classes/encounter/Encounter'
 import { computed, ref, watch } from 'vue'
 import { notify } from '@/util/notify'
 import CCSidebarLayout from '@/ui/components/layouts/CCSidebarLayout.vue'
@@ -397,8 +399,8 @@ import { PilotStore } from '@/stores';
 import vuetify from '@/ui/style';
 
 const props = withDefaults(defineProps<{
-  encounter: object
-  pilots?: any[]
+  encounter: Encounter
+  pilots?: Pilot[]
 }>(), {
   pilots: () => []
 })

@@ -54,8 +54,9 @@
 </template>
 
 <script setup lang="ts">
+import type { EidolonLayer } from '@/classes/npc/eidolon/EidolonLayer'
 defineProps<{
-  item: object
+  item: EidolonLayer
   notes?: boolean
   smallTags?: boolean
   dense?: boolean

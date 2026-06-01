@@ -61,7 +61,7 @@ import exportAsJson from '@/util/jsonExport';
 defineOptions({ name: 'campaign-editor-sidebar' })
 
 const props = defineProps<{
-  campaign: object
+  campaign: Campaign
   currentPage?: string
 }>()
 

@@ -25,7 +25,7 @@
     <v-card class="pb-2"
       flat>
       <v-card-text>
-        <cc-license-panel :license="pilotLicense.License"
+        <CCLicensePanel :license="pilotLicense.License"
           ranked
           :rank="pilotLicense.Rank" />
       </v-card-text>
@@ -37,11 +37,12 @@
 import { ref } from 'vue'
 import { useDisplay } from 'vuetify'
 import CCLicensePanel from '../panels/CCLicensePanel.vue'
+import type { PilotLicense } from '@/classes/pilot/components/license/PilotLicense'
 
 const { smAndDown: mobile } = useDisplay()
 
 const props = defineProps<{
-  pilotLicense: object
+  pilotLicense: PilotLicense
   title?: boolean
 }>()
 

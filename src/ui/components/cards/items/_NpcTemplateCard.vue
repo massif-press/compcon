@@ -2,23 +2,17 @@
   <v-card-text class="pt-0"
     :class="{ 'px-0': mobile }">
     <cc-panel v-if="item.Description"
-      title="Description"
-      :title-color="item.Color"
-      class="mb-2">
+      title="Description"      class="mb-2">
       <p v-html-safe="item.Description" />
     </cc-panel>
 
     <cc-panel v-if="item.Tactics"
-      title="Tactics"
-      :title-color="item.Color"
-      class="mb-2">
+      title="Tactics"      class="mb-2">
       <p v-html-safe="item.Tactics" />
     </cc-panel>
 
     <cc-panel v-if="item.ClassFeatureSelectionInfo || item.FeatureSelectionInfo"
-      title="Feature Selection"
-      :title-color="item.Color"
-      class="mb-2">
+      title="Feature Selection"      class="mb-2">
       <p v-html-safe="item.ClassFeatureSelectionInfo" />
       <p v-html-safe="item.FeatureSelectionInfo" />
     </cc-panel>
@@ -57,11 +51,12 @@
 
 <script setup lang="ts">
 import { useDisplay } from 'vuetify'
+import type { NpcTemplate } from '@/classes/npc/template/NpcTemplate'
 
 const { smAndDown: mobile } = useDisplay()
 
 defineProps<{
-  item: object
+  item: NpcTemplate
   notes?: boolean
   smallTags?: boolean
   dense?: boolean

@@ -77,7 +77,7 @@ import { mechname } from '@/io/Generators';
 defineOptions({ name: 'templates-page' })
 
 const props = defineProps<{
-  pilot: object
+  pilot: Pilot
 }>()
 
 const emit = defineEmits<{

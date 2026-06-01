@@ -48,13 +48,14 @@
 </template>
 
 <script setup lang="ts">
+import type { Pilot } from '@/classes/pilot/Pilot'
 import { ref, onMounted } from 'vue'
 import { Rules } from '@/classes/utility/Rules'
 
 defineOptions({ name: 'level-edit-dialog' })
 
 const props = defineProps<{
-  pilot: object
+  pilot: Pilot
 }>()
 
 const emit = defineEmits<{

@@ -97,6 +97,8 @@
 </template>
 
 <script setup lang="ts">
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import type { CombatantData } from '@/classes/encounter/Encounter'
 import { computed, ref } from 'vue'
 import * as _ from 'lodash-es'
 import { CompendiumStore } from '@/stores'
@@ -107,8 +109,8 @@ defineOptions({ name: 'StatusConditionSelector' })
 
 const props = defineProps<{
   controller: object
-  encounter: object
-  owner?: object
+  encounterInstance: EncounterInstance
+  owner?: CombatantData
 }>()
 
 const { mobile, portrait } = useMobile()
@@ -135,7 +137,7 @@ const special = computed(() => (props.controller as any).CustomStatuses)
 const targets = computed(() => {
   const target = (self as any).side === 'enemy' ? 'ally' : 'enemy'
   const owner = props.owner as any
-  return [...(props.encounter as any).Combatants]
+  return [...(props.encounterInstance as any).Combatants]
     .filter((c) =>
       !owner || c.actor.CombatController.ActiveActor.ID !== owner.CombatController.ActiveActor.ID
     )

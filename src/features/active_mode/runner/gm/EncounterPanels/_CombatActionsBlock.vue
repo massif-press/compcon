@@ -5,7 +5,7 @@
       :key="a.ID"
       :action="a"
       :owner="combatant"
-      :encounter="encounterInstance" />
+      :encounter-instance="encounterInstance" />
   </div>
   <div v-if="item.Deployables?.length"
     class="mb-2">
@@ -18,11 +18,16 @@
 </template>
 
 <script setup lang="ts">
+import type { ICombatant } from '@/classes/components/combat/ICombatant'
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import type { CombatantData } from '@/classes/encounter/Encounter'
+import DeployButton from './_components/loadouts/_deployButton.vue'
+
 defineProps<{
   item: any
-  combatant: any
-  encounterInstance: any
-  actor: any
+  combatant: CombatantData
+  encounterInstance: EncounterInstance
+  actor: ICombatant
 }>()
 defineEmits<{ deploy: [deployable: any] }>()
 </script>

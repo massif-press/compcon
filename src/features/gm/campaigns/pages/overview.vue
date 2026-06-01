@@ -283,13 +283,14 @@
 </template>
 
 <script setup lang="ts">
+import type { Campaign } from '@/classes/campaign/Campaign'
 import { ref } from 'vue'
 import PageContentContainer from './_components/PageContentContainer.vue';
 
 defineOptions({ name: 'campaign-overview-page' })
 
 const props = defineProps<{
-  campaign: object
+  campaign: Campaign
 }>()
 
 const bannerPreview = ref('')

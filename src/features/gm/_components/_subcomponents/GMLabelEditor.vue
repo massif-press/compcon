@@ -1,4 +1,5 @@
 <template>
+  <div>
   <fieldset class="pb-2 px-2"
     style="position: relative">
     <legend class="text-caption text-left ml-2 px-2">GM LABELS</legend>
@@ -170,6 +171,7 @@
       :label="label"
       class="mx-1" />
   </fieldset>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -240,7 +242,7 @@ const freqSortIcon = computed(() => {
 
 watch(dialog, (val) => {
   if (!val) {
-    ;(props.item as any).NarrativeController.Labels = (props.item as any).NarrativeController.Labels.filter(
+    ; (props.item as any).NarrativeController.Labels = (props.item as any).NarrativeController.Labels.filter(
       (label: any) => label.title.length > 0
     )
   }
@@ -260,11 +262,11 @@ function getLabelValues(label: any) {
 }
 
 function addPaletteChip(chip: string) {
-  ;(props.item as any).NarrativeController.Labels.push({ title: chip, value: '' })
+  ; (props.item as any).NarrativeController.Labels.push({ title: chip, value: '' })
 }
 
 function addLabel() {
-  ;(props.item as any).NarrativeController.Labels.push({ title: '', value: '' })
+  ; (props.item as any).NarrativeController.Labels.push({ title: '', value: '' })
 }
 
 function cycleAlphaSort() {

@@ -33,7 +33,8 @@
 </template>
 
 <script setup lang="ts">
+import type { Sitrep } from '@/classes/encounter/Sitrep'
 defineProps<{
-  item: object
+  item: Sitrep
 }>()
 </script>

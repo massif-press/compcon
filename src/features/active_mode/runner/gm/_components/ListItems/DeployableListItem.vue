@@ -208,6 +208,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Status } from '@/classes/Status'
 import { computed } from 'vue'
 
 const props = withDefaults(defineProps<{
@@ -215,7 +216,7 @@ const props = withDefaults(defineProps<{
   collapsed?: boolean
   deployable: object
   parent: object
-  statuses?: any[]
+  statuses?: Status[]
 }>(), {
   selected: false,
   collapsed: false,

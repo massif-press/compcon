@@ -13,7 +13,6 @@ Thank you for your interest in contributing to COMP/CON, the official digital to
 - [Project Structure](#project-structure)
 - [Development Workflow](#development-workflow)
 - [Coding Standards](#coding-standards)
-- [Commit Guidelines](#commit-guidelines)
 - [Submitting a Pull Request](#submitting-a-pull-request)
 - [Reporting Bugs](#reporting-bugs)
 
@@ -166,7 +165,7 @@ If your change touches the UI, include screenshots in your PR.
 
 ## Coding Standards
 
-- All new code must be typescript. Try to avoid `any` — the linter is set at warn, and future work will upgrade this to an error.
+- All new code must be typescript. Try to avoid `any`. The linter is set at warn, and in the future will be updated to an error.
 - **New components use the Composition API** (`<script setup lang="ts">`). Do not introduce new Options API components.
 - Existing Options API components may be migrated to Composition API as part of related feature work, but not as standalone PRs.
 - **Do not add new `dependencies` or `devDependencies` without first discussing it**
@@ -179,19 +178,7 @@ Run `yarn format && yarn lint` before committing if you want to avoid unexpected
 
 ---
 
-## Commit Guidelines
-
-This project uses [Conventional Commits](https://www.conventionalcommits.org/). Every commit message must follow this format:
-
-```
-<type>[optional scope]: <description>
-
-[optional body]
-
-[optional footer(s)]
-```
-
-### Allowed Types
+### Commit Types
 
 | Type       | Usage                                                   |
 | ---------- | ------------------------------------------------------- |

@@ -11,9 +11,9 @@
       <v-icon start icon="mdi-download" />
       Import
     </v-btn>
-    <cc-solo-dialog ref="import" icon="mdi-download-multiple" no-confirm large title="Import">
+    <cc-dialog ref="import" icon="mdi-download-multiple" no-confirm large title="Import">
       <importer @complete="($refs as any).import.hide()" />
-    </cc-solo-dialog>
+    </cc-dialog>
     <v-btn variant="tonal" color="accent" class="mx-4">
       <v-icon start icon="mdi-printer" />
       Print

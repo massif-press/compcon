@@ -1,4 +1,5 @@
 <template>
+  <div>
   <div class="heading"> {{ combatant.actor.CombatController.CombatName }}{{ possessive }}
     Deployed Equipment: </div>
   <v-card class="pb-2 px-2">
@@ -14,7 +15,7 @@
           :selected="!!selected && selected.ID === d.ID"
           :parent="combatant"
           :deployable="d"
-          :encounter="encounter"
+          :encounter-instance="encounterInstance"
           @click="select(d)"
           @activate="$emit('activate', $event)" />
       </v-col>
@@ -33,7 +34,6 @@
       <div class="heading h2">{{ selected.Name }}</div>
       <v-divider class="mt-2 mb-4" />
       <deployable-panel :combatant="selected"
-        :encounter="encounter"
         :encounter-instance="sheet"
         :parent="combatant"
         @deselect="selected = null" />
@@ -47,17 +47,19 @@
       </v-card-text>
     </v-card>
   </v-scroll-x-reverse-transition>
-
+  </div>
 </template>
 
 <script setup lang="ts">
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import type { CombatantData } from '@/classes/encounter/Encounter'
 import { computed, ref } from 'vue'
 import DeployableListItem from '../../gm/_components/ListItems/DeployableListItem.vue';
 import DeployablePanel from '../../gm/EncounterPanels/DeployablePanel.vue';
 
 const props = defineProps<{
-  combatant: object
-  encounter: object
+  combatant: CombatantData
+  encounterInstance: EncounterInstance
   sheet: object
 }>()
 

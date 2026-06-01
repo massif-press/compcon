@@ -24,7 +24,7 @@
           <cc-reserve-item :reserve="r" @remove="pilot.ReservesController.RemoveReserve(i)" />
         </v-col>
         <v-col cols="12" md="6" lg="4" v-for="(o, i) in pilot.ReservesController.Organizations" :key="`org-${i}`">
-          <cc-org-item :org="o" @remove="pilot.ReservesController.RemoveOrganization(i)" />
+          <CCOrgItem :org="o" @remove="pilot.ReservesController.RemoveOrganization(i)" />
         </v-col>
       </v-row>
     </v-container>
@@ -32,6 +32,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Pilot } from '@/classes/pilot/Pilot'
 import CCOrgItem from '@/ui/components/items/CCOrgItem.vue'
 import SectionHeader from '../../components/SectionHeader.vue';
 import NoDataBlock from '../../components/NoDataBlock.vue';
@@ -40,6 +41,6 @@ import ReserveSelector from '@/features/pilot_management/_components/selectors/R
 defineOptions({ name: 'dt-resources-block' })
 
 const props = defineProps<{
-  pilot: object
+  pilot: Pilot
 }>()
 </script>

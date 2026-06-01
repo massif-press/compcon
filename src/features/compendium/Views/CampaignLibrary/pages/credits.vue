@@ -64,13 +64,14 @@
 </template>
 
 <script setup lang="ts">
+import type { Campaign } from '@/classes/campaign/Campaign'
 import { ref } from 'vue'
 import PageContentContainer from './containers/campaignContentContainer.vue';
 
 defineOptions({ name: 'campaign-credits-page' })
 
 const props = defineProps<{
-  campaign: object
+  campaign: Campaign
 }>()
 
 const bannerPreview = ref('')

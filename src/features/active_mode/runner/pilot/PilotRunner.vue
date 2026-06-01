@@ -28,15 +28,15 @@
                 justify="end">
                 <v-col cols="auto">
                   <actor-telemetry :actor="pilot"
-                    :encounter="encounterInstance" />
+                    :encounter-instance="encounterInstance" />
                 </v-col>
                 <v-col cols="auto">
                   <actor-logs :actor="pilot"
-                    :encounter="encounterInstance" />
+                    :encounter-instance="encounterInstance" />
                 </v-col>
                 <v-col cols="auto">
                   <combat-statblock-export :actor="pilot"
-                    :encounter="encounterInstance" />
+                    :encounter-instance="encounterInstance" />
                 </v-col>
               </v-row>
             </div>
@@ -98,7 +98,7 @@
       :fullscreen="mobile"
       max-height="80vh"
       max-width="80vw">
-      <gm-dice-roller :encounter="encounterInstance"
+      <gm-dice-roller :encounter-instance="encounterInstance"
         :selected="combatant"
         @close="diceDialog = false" />
     </v-dialog>

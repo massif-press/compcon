@@ -21,7 +21,7 @@
         <div class="px-2 heading h4">Missing Content Detected</div>
       </v-toolbar>
       <div v-if="controller && controller.NonfunctionalBrews.length" class="pa-1">
-        <cc-missing-content-list :controller="controller" :width="width" />
+        <CCMissingContentList :controller="controller" :width="width" />
       </div>
       <v-card-text v-else class="text-caption">
         <span v-if="itemType.toLowerCase === 'eidolon'">

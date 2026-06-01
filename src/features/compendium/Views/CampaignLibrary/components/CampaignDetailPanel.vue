@@ -54,6 +54,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Campaign } from '@/classes/campaign/Campaign'
 import { ref } from 'vue'
 import { useMobile } from '@/composables/useMobile';
 
@@ -62,7 +63,7 @@ defineOptions({ name: 'campaign-detail-panel' })
 const { mobile, portrait } = useMobile()
 
 const props = defineProps<{
-  campaign?: object
+  campaign?: Campaign
 }>()
 
 const dOptions = ref({ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })

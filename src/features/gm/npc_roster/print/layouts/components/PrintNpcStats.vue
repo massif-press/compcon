@@ -28,7 +28,7 @@ defineOptions({ name: 'npc-stat-print' })
 
 const props = withDefaults(defineProps<{
   item: object
-  bonuses?: any[]
+  bonuses?: Bonus[]
   tier?: number
   hideZero?: boolean
 }>(), {

@@ -44,7 +44,7 @@
                   <span class="text-cc-overline text-disabled">
                     <cc-slashes />
                     {{ p.Name }}
-                    <span v-if="p.Player">({{ p.Player }})</span>
+                    <span v-if="p.PlayerName">({{ p.PlayerName }})</span>
                   </span>
                 </span>
               </cc-title>
@@ -176,14 +176,17 @@
 </template>
 
 <script setup lang="ts">
+import type { Placeholder } from '@/classes/encounter/Placeholder'
+import type { Pilot } from '@/classes/pilot/Pilot'
+import type { Encounter } from '@/classes/encounter/Encounter'
 import AddFromRoster from './AddFromRoster.vue';
 import AddFromShare from './AddFromShare.vue';
 import FileImport from '@/features/pilot_management/Roster/components/add_panels/FileImport.vue';
 
 defineProps<{
-  encounter: any
-  pilots: any[]
-  placeholders: any[]
+  encounter: Encounter
+  pilots: Pilot[]
+  placeholders: Placeholder[]
 }>()
 
 const emit = defineEmits<{

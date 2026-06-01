@@ -31,6 +31,7 @@
 import { ref, computed, watch } from 'vue'
 import { useTheme } from 'vuetify'
 import DOMPurify from 'dompurify';
+import type { Manufacturer } from '@/classes/Manufacturer'
 
 enum sizeMap {
   xSmall = '16px',
@@ -42,7 +43,7 @@ enum sizeMap {
 }
 
 const props = withDefaults(defineProps<{
-  source: object
+  source: Manufacturer
   size?: string
   width?: string
   color?: string
@@ -74,7 +75,7 @@ const getFilter = computed((): string => {
 })
 
 const isLinkedSvg = computed((): boolean => {
-  return props.source.Logo && props.source.Logo.endsWith('svg');
+  return !!props.source.Logo && props.source.Logo.endsWith('svg');
 })
 
 function cleanSvg(svg: string): string {

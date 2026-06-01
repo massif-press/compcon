@@ -106,7 +106,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import * as _ from 'lodash-es';
 import { SetItem, RemoveItem, GetKeys } from '@/io/Storage';
 
@@ -130,9 +130,7 @@ const imageUrl = ref('')
 const remoteImages = ref([] as string[])
 const urls = ref([] as string[])
 
-await getRemoteImages();
-
-await getRemoteImages();
+onMounted(() => getRemoteImages());
 
 const displayedRemoteImages = computed(() => {
       const startIndex = (currentRemotePage.value - 1) * itemsPerPage.value;

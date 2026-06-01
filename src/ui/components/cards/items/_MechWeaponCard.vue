@@ -5,7 +5,8 @@
       <v-chip-group v-model="tab"
         mandatory
         column
-        class="my-2">
+        class="my-2"
+        @click.stop>
         <v-chip v-for="(p, index) in item.Profiles"
           :key="p.Name"
           :value="index"

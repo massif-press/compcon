@@ -139,7 +139,7 @@ import { OrgType } from '@/classes/enums'
 const { smAndDown: mobile } = useDisplay()
 
 const props = withDefaults(defineProps<{
-  org: object
+  org: Organization
   small?: boolean
 }>(), {
   small: false,

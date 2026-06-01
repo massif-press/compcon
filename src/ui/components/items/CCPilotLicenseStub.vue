@@ -20,11 +20,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useDisplay } from 'vuetify'
+import type { PilotLicense } from '@/classes/pilot/components/license/PilotLicense'
 
 const { smAndDown: mobile } = useDisplay()
 
 const props = defineProps<{
-  pilotLicense: object
+  pilotLicense: PilotLicense
   readonly?: boolean
 }>()
 

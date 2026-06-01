@@ -55,36 +55,42 @@
         <v-window-item :key="1"
           value="skills">
           <skills-page :pilot="pilot"
+            context="new"
             @next="step = 'talents'"
             @back="step = 'ident'" />
         </v-window-item>
         <v-window-item :key="2"
           value="talents">
           <talents-page :pilot="pilot"
+            context="new"
             @next="step = 'mechskills'"
             @back="step = 'skills'" />
         </v-window-item>
         <v-window-item :key="3"
           value="mechskills">
           <mech-skills-page :pilot="pilot"
+            context="new"
             @next="step = pilot.Level > 0 ? 'licenses' : 'confirm'"
             @back="step = 'talents'" />
         </v-window-item>
         <v-window-item :key="4"
           value="licenses">
           <licenses-page :pilot="pilot"
+            context="new"
             @next="step = pilot.Level > 2 ? 'corebonuses' : 'confirm'"
             @back="step = 'mechskills'" />
         </v-window-item>
         <v-window-item :key="5"
           value="corebonuses">
           <core-bonuses-page :pilot="pilot"
+            context="new"
             @next="step = 'confirm'"
             @back="step = 'licenses'" />
         </v-window-item>
         <v-window-item :key="6"
           value="confirm">
           <confirm-page :pilot="pilot"
+            context="new"
             :group-i-d="groupID"
             @back="pilot.Level < 2 ? 'corebonuses' : pilot.Level > 0 ? 'licenses' : 'mechskills'"
             @done="onDone()" />
@@ -104,12 +110,12 @@
 import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import IdentificationPage from './pages/IdentificationPage.vue';
-import SkillsPage from './pages/SkillsPage.vue';
-import TalentsPage from './pages/TalentsPage.vue';
-import MechSkillsPage from './pages/MechSkillsPage.vue';
-import LicensesPage from './pages/LicensesPage.vue';
-import CoreBonusesPage from './pages/CoreBonusesPage.vue';
-import ConfirmPage from './pages/ConfirmPage.vue';
+import SkillsPage from '../_shared/pages/SkillsPage.vue';
+import TalentsPage from '../_shared/pages/TalentsPage.vue';
+import MechSkillsPage from '../_shared/pages/MechSkillsPage.vue';
+import LicensesPage from '../_shared/pages/LicensePage.vue';
+import CoreBonusesPage from '../_shared/pages/CoreBonusPage.vue';
+import ConfirmPage from '../_shared/pages/ConfirmPage.vue';
 import TemplatesPage from './pages/TemplatesPage.vue';
 import { Pilot } from '@/classes/pilot/Pilot'
 import CcConfirm from '@/ui/notification/CCConfirm.vue';

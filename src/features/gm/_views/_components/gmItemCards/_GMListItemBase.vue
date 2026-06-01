@@ -44,7 +44,7 @@
             </slot>
           </div>
           <slot />
-          <cc-missing-content-list v-if="missingContent" :controller="item.BrewController" />
+          <CCMissingContentList v-if="missingContent" :controller="item.BrewController" />
         </v-col>
         <v-col v-if="item.NpcClassController?.Class" cols="auto">
           <v-icon size="40" :icon="item.NpcClassController?.Class.Icon" />

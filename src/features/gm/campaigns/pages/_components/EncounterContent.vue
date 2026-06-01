@@ -9,8 +9,8 @@
             </div>
           </v-col>
         </v-row>
-        <cc-sitrep-display :sitrep="item.Sitrep" />
-        <cc-environment-display :environment="item.Environment" />
+        <CCSitrepDisplay :sitrep="item.Sitrep" />
+        <CCEnvironmentDisplay :environment="item.Environment" />
       </v-col>
       <v-col cols="3" class="text-center ml-auto">
         <v-card>

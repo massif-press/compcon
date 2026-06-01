@@ -3,7 +3,8 @@
 </template>
 
 <script setup lang="ts">
+import type Tag from '@/classes/Tag'
 defineProps<{
-  item: object
+  item: Tag
 }>()
 </script>

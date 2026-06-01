@@ -584,7 +584,7 @@
       </template>
     </v-data-table>
 
-    <cc-solo-dialog v-model="bulkDeleteDialog"
+    <cc-dialog v-model="bulkDeleteDialog"
       title="Confirm Delete"
       :close-on-click="false">
       <cc-alert color="error">
@@ -615,7 +615,7 @@
           Delete
         </cc-button>
       </v-card-actions>
-    </cc-solo-dialog>
+    </cc-dialog>
   </div>
 </template>
 

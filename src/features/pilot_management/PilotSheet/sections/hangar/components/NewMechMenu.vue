@@ -21,7 +21,7 @@
     </template>
   </cc-compendium-browser>
 
-  <cc-solo-modal v-model="nameDialog"
+  <cc-modal v-model="nameDialog"
     shrink
     title="register new mech"
     icon="cc:frame">
@@ -71,7 +71,7 @@
         Register New Mech
       </cc-button>
     </div>
-  </cc-solo-modal>
+  </cc-modal>
 </template>
 
 <script setup lang="ts">

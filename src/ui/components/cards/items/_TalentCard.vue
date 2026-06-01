@@ -5,7 +5,8 @@
 </template>
 
 <script setup lang="ts">
+import type { Talent } from '@/classes/pilot/components/talent/Talent'
 defineProps<{
-  item: object
+  item: Talent
 }>()
 </script>

@@ -141,7 +141,7 @@ const router = useRouter()
 const { mobile, portrait } = useMobile()
 
 const props = defineProps<{
-  pilot: object
+  pilot: Pilot
 }>()
 
 const emit = defineEmits<{

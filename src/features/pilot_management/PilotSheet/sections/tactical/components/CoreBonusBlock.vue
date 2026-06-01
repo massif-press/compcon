@@ -28,6 +28,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Pilot } from '@/classes/pilot/Pilot'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import SectionHeader from '../../components/SectionHeader.vue';
@@ -40,7 +41,7 @@ const _display = useDisplay()
 defineOptions({ name: 'skill-block' })
 
 const props = defineProps<{
-  pilot: object
+  pilot: Pilot
 }>()
 
 const widescreen = computed(() => {

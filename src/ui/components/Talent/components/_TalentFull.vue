@@ -143,6 +143,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Talent } from '@/classes/pilot/components/talent/Talent'
 import { computed, ref } from 'vue'
 import TalentEmblem from './_TalentEmblem.vue';
 import TalentRankContents from './_TalentRankContents.vue';
@@ -152,7 +153,7 @@ const { mobile, portrait } = useMobile()
 
 const props = withDefaults(defineProps<{
   hideLocked?: boolean
-  talent: object
+  talent: Talent
   selectable?: boolean
   canAdd?: boolean
   hideChange?: boolean

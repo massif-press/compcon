@@ -131,6 +131,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Mech } from '@/classes/mech/Mech'
 import MechListItemBase from './MechListItemBase.vue';
 import { useRouter } from 'vue-router'
 const router = useRouter()
@@ -138,7 +139,7 @@ const router = useRouter()
 defineOptions({ name: 'mech-list-item-mobile' })
 
 const props = defineProps<{
-  mech: object
+  mech: Mech
 }>()
 
 const emit = defineEmits<{

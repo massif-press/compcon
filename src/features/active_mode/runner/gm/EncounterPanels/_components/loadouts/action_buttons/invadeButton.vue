@@ -2,7 +2,7 @@
   <combat-action-button
     :action="action"
     :owner="owner"
-    :encounter="encounter">
+    :encounter-instance="encounterInstance">
     <template #default="{ close }">
       <v-row>
         <v-col cols="12"
@@ -52,7 +52,7 @@
 
               <menu-input :key="controller.ID"
                 :active-effect="getSelectedAction(tab)"
-                :encounter="encounter"
+                :encounter-instance="encounterInstance"
                 :owner="owner"
                 :close="close"
                 @apply="apply"
@@ -66,6 +66,9 @@
 </template>
 
 <script setup lang="ts">
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import type { CombatantData } from '@/classes/encounter/Encounter'
+import type { Action } from '@/classes/Action'
 import { computed, ref } from 'vue'
 import { useDisplay } from 'vuetify'
 import { CompendiumStore } from '@/stores';
@@ -75,9 +78,9 @@ import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 const _display = useDisplay()
 
 const props = defineProps<{
-  action: object
-  owner: object
-  encounter: object
+  action: Action
+  owner: CombatantData
+  encounterInstance: EncounterInstance
 }>()
 
 const emit = defineEmits<{

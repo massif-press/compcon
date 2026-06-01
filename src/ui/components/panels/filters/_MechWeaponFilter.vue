@@ -92,6 +92,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Manufacturer } from '@/classes/Manufacturer'
 import { computed, ref, onMounted } from 'vue'
 import { WeaponType, WeaponSize, RangeType, DamageType } from '@/classes/enums'
 import MechItemFilterBase from './MechItemFilterBase.vue'
@@ -100,7 +101,7 @@ defineOptions({ name: 'mech-weapon-filter' })
 
 const props = withDefaults(defineProps<{
   activeFilters?: object
-  manufacturers?: any[]
+  manufacturers?: Manufacturer[]
   weaponTags?: any[]
   lcpNames?: any[]
 }>(), {

@@ -27,16 +27,16 @@
               class="pb-4">
               <div class="heading" h3><cc-slashes /> pilots</div>
               <v-divider class="mb-2" />
-              <v-row v-for="(p, i) in pilots.concat(placeholders)"
-                :key="p.ID"
+              <v-row v-for="(p, i) in participants"
+                :key="p.key"
                 :class="i % 2 === 0 ? 'bg-background' : 'bg-surface'"
                 flat tile dense class="px-2">
                 <v-col cols="auto" class="mr-1">
-                  <cc-avatar v-if="p.PortraitController && p.PortraitController.Avatar"
-                    :avatar="p.PortraitController.Avatar"
+                  <cc-avatar v-if="p.avatar"
+                    :avatar="p.avatar"
                     size="48" />
-                  <cc-img v-else-if="p.Portrait"
-                    :src="p.Portrait"
+                  <cc-img v-else-if="p.portrait"
+                    :src="p.portrait"
                     height="48"
                     width="48" />
                   <v-icon v-else
@@ -46,16 +46,14 @@
                 </v-col>
                 <v-col>
                   <div class="heading h3">
-                    {{ p.Callsign || p.Name || 'Unnamed Pilot' }}
-                    <span v-if="p.PlayerName"
-                      class="text-cc-overline text-disabled">({{ p.PlayerName }})</span>
+                    {{ p.title }}
+                    <span v-if="p.player"
+                      class="text-cc-overline text-disabled">({{ p.player }})</span>
                   </div>
                   <div class="text-cc-overline">
                     <cc-slashes />
-                    <span v-if="p.Mechname">{{ p.Mechname }}</span>
-                    {{ p.ActiveMech && p.ActiveMech.Frame
-                      ? `${p.ActiveMech.Frame.Source} ${p.ActiveMech.Frame.Name}`
-                      : p.Mechname ? '' : 'No Active Mech' }}
+                    <span v-if="p.mechName">{{ p.mechName }}</span>
+                    {{ p.frameInfo }}
                   </div>
                 </v-col>
               </v-row>
@@ -148,11 +146,38 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+import { computed } from 'vue'
+import type { Placeholder } from '@/classes/encounter/Placeholder'
+import type { Pilot } from '@/classes/pilot/Pilot'
+import type { Encounter } from '@/classes/encounter/Encounter'
+const props = defineProps<{
   encounter: any
-  pilots: any[]
-  placeholders: any[]
+  pilots: Pilot[]
+  placeholders: Placeholder[]
 }>()
+
+const participants = computed(() => [
+  ...props.pilots.map((p) => ({
+    key: p.ID,
+    avatar: p.PortraitController?.Avatar,
+    portrait: p.Portrait as string | undefined,
+    title: p.Callsign || p.Name || 'Unnamed Pilot',
+    player: p.PlayerName as string | undefined,
+    mechName: undefined as string | undefined,
+    frameInfo: p.ActiveMech && p.ActiveMech.Frame
+      ? `${p.ActiveMech.Frame.Source} ${p.ActiveMech.Frame.Name}`
+      : 'No Active Mech',
+  })),
+  ...props.placeholders.map((p) => ({
+    key: p.ID,
+    avatar: undefined,
+    portrait: undefined as string | undefined,
+    title: p.Name || 'Unnamed Pilot',
+    player: undefined as string | undefined,
+    mechName: p.Mechname,
+    frameInfo: p.Mechname ? '' : 'No Active Mech',
+  })),
+])
 
 const emit = defineEmits<{
   'create': [launch: boolean]

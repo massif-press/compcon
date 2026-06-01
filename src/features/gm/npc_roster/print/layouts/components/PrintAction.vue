@@ -46,7 +46,7 @@
 import { Action } from '@/classes/Action';
 
 const props = withDefaults(defineProps<{
-  actions: any[]
+  actions: Action[]
   tier?: number
 }>(), {
   tier: 1

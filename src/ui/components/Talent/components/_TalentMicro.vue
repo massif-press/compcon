@@ -48,11 +48,12 @@
 </template>
 
 <script setup lang="ts">
+import type { Talent } from '@/classes/pilot/components/talent/Talent'
 import TalentEmblem from './_TalentEmblem.vue';
 import TalentRankContents from './_TalentRankContents.vue';
 
 const props = withDefaults(defineProps<{
-  talent: object
+  talent: Talent
   rank?: number | string
   dark?: boolean
 }>(), {

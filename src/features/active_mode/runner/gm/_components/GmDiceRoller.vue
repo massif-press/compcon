@@ -217,7 +217,7 @@
           <v-divider class="my-2" />
           <div class="text-cc-overline mb-2">Session History</div>
           <div style="max-height: 300px; overflow-y: scroll">
-            <div v-for="(n, index) in encounter.RollHistory"
+            <div v-for="(n, index) in encounterInstance.RollHistory"
               :key="`roll-${index}`"
               class="text-cc-overline bg-panel mb-1 pa-1"
               v-html-safe="n" />
@@ -229,6 +229,7 @@
 </template>
 
 <script setup lang="ts">
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed, ref } from 'vue'
 import { DiceRoller } from '@/classes/dice/DiceRoller'
 import DiceRollInterface from '@/ui/components/chips/_activeeffect/_shared/DiceRollInterface.vue'
@@ -237,7 +238,7 @@ defineOptions({ name: 'GmDiceRoller' })
 
 const props = withDefaults(defineProps<{
   selected?: object | false
-  encounter: object
+  encounterInstance: EncounterInstance
 }>(), {
   selected: false,
 })
@@ -318,7 +319,7 @@ function rollDice() {
   if (isCrit.value) str += ' [CRIT]'
   if (Overkill.value) str += ' [OVERKILL]'
   str += ` ${lastRollString.value}`
-  ;(props.encounter as any).RollHistory.unshift(str)
+  ;(props.encounterInstance as any).RollHistory.unshift(str)
   rollType.value = ''
 }
 </script>

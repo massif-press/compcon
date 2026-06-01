@@ -40,13 +40,14 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
+
 import { useDisplay } from 'vuetify';
 
 defineOptions({ inheritAttrs: false });
 
 const { smAndDown: mobile } = useDisplay();
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   title?: string;
   icon?: string;
   color?: string;
@@ -58,6 +59,7 @@ withDefaults(defineProps<{
   noActions?: boolean;
   large?: boolean;
   controller?: object;
+  modelValue?: boolean;
 }>(), {
   title: 'Default Title',
   color: 'primary',
@@ -69,11 +71,16 @@ withDefaults(defineProps<{
 const emit = defineEmits<{
   activate: [];
   close: [];
+  'update:modelValue': [value: boolean];
 }>();
 
 const dialog = ref(false);
 
-watch(dialog, val => { if (!val) emit('close'); });
+watch(() => props.modelValue, val => { if (val !== undefined) dialog.value = !!val; }, { immediate: true });
+watch(dialog, val => {
+  if (!val) emit('close');
+  if (props.modelValue !== undefined) emit('update:modelValue', val);
+});
 
 function open() { dialog.value = true; }
 function close() { dialog.value = false; }

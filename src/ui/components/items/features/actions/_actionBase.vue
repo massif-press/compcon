@@ -43,9 +43,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import type { Action } from '@/classes/Action'
 
 const props = defineProps<{
-  action: object
+  action: Action
   tier?: number
 }>()
 

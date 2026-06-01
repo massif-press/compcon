@@ -89,9 +89,10 @@
 </template>
 
 <script setup lang="ts">
+import type { Mech } from '@/classes/mech/Mech'
 import BlankLine from './blank/line.vue';
 defineProps<{
-  mech: any
+  mech: Mech
   blank: boolean
   compact?: boolean
 }>()

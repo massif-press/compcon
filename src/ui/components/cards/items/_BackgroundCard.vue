@@ -1,6 +1,5 @@
 <template>
-  <div v-if="item.Detail" v-html-safe="item.Detail" class="body-text" />
-  <div v-else v-html-safe="item.Description" class="body-text" />
+  <div v-html-safe="item.Description" class="body-text" />
   <div v-if="item.SuggestedSkills.length">
     <v-divider class="my-1" />
     <div class="text-cc-overline text-accent">Suggested Skills</div>
@@ -26,11 +25,12 @@
 
 <script setup lang="ts">
 import { useDisplay } from 'vuetify'
+import type { Background } from '@/classes/Background'
 
 const { smAndDown: mobile } = useDisplay()
 
 defineProps<{
-  item: object
+  item: Background
   notes?: boolean
   smallTags?: boolean
   dense?: boolean

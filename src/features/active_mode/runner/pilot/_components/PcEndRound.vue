@@ -9,39 +9,8 @@
             title="You have remaining actions!">
             <v-row class="my-1 mx-4 px-2 text-text bg-panel"
               justify="space-around">
-              <v-col cols="auto"
-                v-if="controller.CanActivate('protocol')">
-                <v-chip color="protocol"
-                  class="ml-2"
-                  size="large"
-                  tile
-                  prepend-icon="cc:protocol"
-                  variant="flat">
-                  Protocol
-                </v-chip>
-              </v-col>
-              <v-col cols="auto"
-                v-if="controller.CanActivate('full')">
-                <v-chip color="action--full"
-                  prepend-icon="mdi-hexagon-slice-6"
-                  class="ml-2"
-                  size="large"
-                  tile
-                  variant="flat">
-                  Full Action
-                </v-chip>
-              </v-col>
-              <v-col cols="auto"
-                v-else-if="controller.CanActivate('quick')">
-                <v-chip color="action--quick"
-                  prepend-icon="mdi-hexagon-slice-3"
-                  class="ml-2"
-                  size="large"
-                  tile
-                  variant="flat">
-                  Quick Action
-                </v-chip>
-              </v-col>
+              <end-round-action-chips :controller="controller"
+                large />
             </v-row>
             <div class="heading text-center">
               Ending the round will forfeit any unused actions.
@@ -120,6 +89,7 @@ import { computed } from 'vue'
 import * as _ from 'lodash-es';
 import PilotSheet from '@/features/pilot_management/store/PilotSheet';
 import EndRoundDialog from '../../_shared/_EndRoundDialog.vue';
+import EndRoundActionChips from '../../_components/EndRoundActionChips.vue';
 
 defineOptions({ name: 'PcEndRoundPanel' })
 

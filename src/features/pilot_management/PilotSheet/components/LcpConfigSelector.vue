@@ -65,24 +65,25 @@
       </v-row>
     </v-card>
   </div>
-  <cc-solo-modal
+  <cc-modal
     v-model="managerDialog"
     icon="mdi-list-status"
     title="LCP Configuration Manager"
     fullscreen
   >
     <pack-config />
-  </cc-solo-modal>
+  </cc-modal>
 </template>
 
 <script setup lang="ts">
+import type { ICombatant } from '@/classes/components/combat/ICombatant'
 import { computed, ref } from 'vue'
 import PackConfig from '@/features/nav/pages/ExtraContent/PackConfig.vue'
 import { UserStore } from '@/stores'
 import { LcpConfig } from '@/user'
 
 const props = defineProps<{
-  actor: object
+  actor: ICombatant
 }>()
 
 const managerDialog = ref(false)

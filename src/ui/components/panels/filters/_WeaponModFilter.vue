@@ -50,13 +50,14 @@
 </template>
 
 <script setup lang="ts">
+import type { Manufacturer } from '@/classes/Manufacturer'
 import { ref, onMounted } from 'vue'
 
 defineOptions({ name: 'weapon-mod-filter' })
 
 const props = withDefaults(defineProps<{
   activeFilters?: object
-  manufacturers?: any[]
+  manufacturers?: Manufacturer[]
   modTags?: any[]
   lcpNames?: any[]
 }>(), {

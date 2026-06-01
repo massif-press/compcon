@@ -24,12 +24,13 @@
 </template>
 
 <script setup lang="ts">
+import type { Mech } from '@/classes/mech/Mech'
 import { computed } from 'vue'
 
 defineOptions({ name: 'mech-card-loadout-field' })
 
 const props = defineProps<{
-  mech: object
+  mech: Mech
 }>()
 
 const loadoutWeapons = computed(() => {

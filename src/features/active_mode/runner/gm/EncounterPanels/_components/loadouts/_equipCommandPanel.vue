@@ -6,7 +6,7 @@
       <pilot-fight-button :owner="owner"
         :action="fightAction"
         :controller="controller"
-        :encounter="encounter"
+        :encounter-instance="encounterInstance"
         :preset-weapon="item"
         @activate="activate($event)" />
     </v-col>
@@ -14,7 +14,7 @@
       <npc-skirmish-button :owner="owner"
         :action="skirmishAction"
         :controller="controller"
-        :encounter="encounter"
+        :encounter-instance="encounterInstance"
         :preset-weapon="item"
         @activate="activate($event)" />
     </v-col>
@@ -22,7 +22,7 @@
       <npc-barrage-button :owner="owner"
         :action="barrageAction"
         :controller="controller"
-        :encounter="encounter"
+        :encounter-instance="encounterInstance"
         :preset-weapon="item"
         @activate="activate($event)" />
     </v-col>
@@ -32,7 +32,7 @@
         :owner="owner"
         :action="skirmishAction"
         :controller="controller"
-        :encounter="encounter"
+        :encounter-instance="encounterInstance"
         :preset-weapon="item"
         @activate="activate($event)" />
     </v-col>
@@ -43,7 +43,7 @@
         :owner="owner"
         :action="barrageAction"
         :controller="controller"
-        :encounter="encounter"
+        :encounter-instance="encounterInstance"
         :preset-weapon="item"
         @activate="activate($event)" />
     </v-col>
@@ -202,6 +202,7 @@
 </template>
 
 <script setup lang="ts">
+import type { CombatantData } from '@/classes/encounter/Encounter'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import { EffectSpecial } from '@/classes/components/feature/active_effects/effect_subtype/EffectSpecial'
@@ -219,9 +220,9 @@ const _display = useDisplay()
 
 const props = defineProps<{
   item: object
-  owner: object
+  owner: CombatantData
   controller: CombatController
-  encounter: object
+  encounterInstance: EncounterInstance
 }>()
 
 const mobile = computed(() => {
@@ -278,7 +279,7 @@ function cascade() {
         '',
         props.controller,
         props.controller,
-        props.encounter
+        props.encounterInstance
       )
     }
 function onUseToggle() {

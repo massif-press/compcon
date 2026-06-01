@@ -202,13 +202,13 @@
       </div>
     </v-card>
 
-    <cc-solo-modal v-model="selectorDialog"
+    <cc-modal v-model="selectorDialog"
       :title="`Equip ${title}`"
       clip>
       <slot name="selector" />
-    </cc-solo-modal>
+    </cc-modal>
 
-    <cc-solo-modal v-model="detailDialog"
+    <cc-modal v-model="detailDialog"
       no-confirm
       :title="itemTitle"
       large>
@@ -228,7 +228,7 @@
             class="mt-2" />
         </div>
       </div>
-    </cc-solo-modal>
+    </cc-modal>
 
     <cc-string-edit-dialog v-if="item"
       ref="cName"
@@ -244,7 +244,7 @@
       label="Custom Item Description"
       @save="save('FlavorDescription', $event)"
       @reset="save('FlavorDescription', '')" />
-    <cc-damage-type-picker v-if="item"
+    <CCDamageTypePicker v-if="item"
       ref="damageTypeDialog"
       :allowed-types="['Explosive', 'Energy', 'Kinetic']"
       @select="save('DamageTypeOverride', $event)" />
@@ -296,6 +296,8 @@ function closeSelector() {
 function openDetail() {
       detailDialog.value = true;
     }
+
+defineExpose({ closeSelector, openDetail })
 function save(prop, newName) {
       props.item[prop] = newName;
       AchievementEventSystem.emit('add_gear_description');

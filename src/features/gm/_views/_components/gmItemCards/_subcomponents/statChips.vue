@@ -25,7 +25,7 @@ defineOptions({ name: 'gm-stat-chip-display' })
 
 const props = withDefaults(defineProps<{
   statController: object
-  bonuses?: any[]
+  bonuses?: Bonus[]
 }>(), {
   bonuses: () => []
 })

@@ -29,10 +29,10 @@
         <v-col>
           <v-btn flat
             block
-            :color="tab === 'encounter' ? 'primary' : 'panel'"
+            :color="tab === 'encounterInstance' ? 'primary' : 'panel'"
             tile
             size="small"
-            @click="tab = 'encounter'">encounter</v-btn>
+            @click="tab = 'encounterInstance'">encounterInstance</v-btn>
         </v-col>
         <v-col>
           <v-btn flat
@@ -57,7 +57,7 @@
           tile
           class="fade-select"
           style="position: absolute; bottom: 0; right: 0;"
-          @click.stop="copyContent('encounter')" />
+          @click.stop="copyContent('encounterInstance')" />
       </cc-panel>
 
       <div>
@@ -92,6 +92,8 @@
 </template>
 
 <script setup lang="ts">
+import type { ICombatant } from '@/classes/components/combat/ICombatant'
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed, ref, onMounted } from 'vue'
 import { useDisplay } from 'vuetify'
 import { CombatLog } from '@/classes/components/combat/CombatLog';
@@ -102,18 +104,18 @@ const _display = useDisplay()
 defineOptions({ name: 'ActorLogs' })
 
 const props = defineProps<{
-  actor: object
-  encounter: object
+  actor: ICombatant
+  encounterInstance: EncounterInstance
 }>()
 
-const tab = ref('encounter')
+const tab = ref('encounterInstance')
 const enableJustify = ref(true)
 const lineWidth = ref(60)
 
 const summary = computed(() => {
       void props.actor.CombatController.CombatLogVersion
       const t = props.actor.CombatController.CombatLog.Telemetry;
-      let out = `${props.actor.CombatController.CombatName} - Round ${props.encounter.Round - 1}
+      let out = `${props.actor.CombatController.CombatName} - Round ${props.encounterInstance.Round - 1}
 
 `;
       out += CombatLog.FormatTelemetry(t, enableJustify.value, lineWidth.value);
@@ -138,7 +140,7 @@ function exportLog(type: 'text' | 'json' = 'text') {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `${props.actor.Name} ${props.encounter.Name} round ${props.encounter.Round} telemetry.${type === 'text' ? 'txt' : 'json'}`;
+      a.download = `${props.actor.Name} ${props.encounterInstance.Name} round ${props.encounterInstance.Round} telemetry.${type === 'text' ? 'txt' : 'json'}`;
       a.click();
       URL.revokeObjectURL(url);
     }

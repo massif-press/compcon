@@ -226,7 +226,7 @@ import { notify } from '@kyvg/vue3-notification'
 defineOptions({ name: 'GmOptionsPanel' })
 
 const props = defineProps<{
-  encounterInstance: object
+  encounterInstance: EncounterInstance
 }>()
 
 const router = useRouter()

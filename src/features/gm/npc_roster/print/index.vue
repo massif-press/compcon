@@ -51,7 +51,7 @@
 import { computed, onMounted, ref } from 'vue'
 import PrintPageShell from '@/ui/components/print/PrintPageShell.vue';
 import Layout from './layouts/index.vue';
-import TagInfoPrint from './extras/TagInfoPrint.vue';
+import TagInfoPrint from '@/ui/components/print/TagInfoPrint.vue';
 import OptionsDialog from './OptionsDialog.vue';
 import { NpcStore } from '@/stores';
 import PageBreak from '@/features/pilot_management/Print/components/PageBreak.vue';

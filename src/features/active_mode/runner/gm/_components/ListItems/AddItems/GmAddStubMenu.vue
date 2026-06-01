@@ -91,12 +91,13 @@
 </template>
 
 <script setup lang="ts">
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed, ref } from 'vue'
 import { Placeholder } from '@/classes/encounter/Placeholder';
 import * as _ from 'lodash-es';
 
 const props = defineProps<{
-  encounterInstance: object
+  encounterInstance: EncounterInstance
 }>()
 
 const newPlaceholder = ref({

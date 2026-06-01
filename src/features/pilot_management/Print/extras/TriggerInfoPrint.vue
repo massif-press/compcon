@@ -18,13 +18,14 @@
 </template>
 
 <script setup lang="ts">
+import type { Pilot } from '@/classes/pilot/Pilot'
 import { computed } from 'vue'
 import { CompendiumStore } from '@/stores';
 
 defineOptions({ name: 'tag-info-print' })
 
 const props = defineProps<{
-  pilot: object
+  pilot: Pilot
 }>()
 
 const triggers = computed(() => {

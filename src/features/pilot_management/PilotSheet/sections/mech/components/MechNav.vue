@@ -108,15 +108,16 @@
 
     <div id="end-cap" />
   </div>
-  <cc-solo-modal v-model="statblockDialog"
+  <cc-modal v-model="statblockDialog"
     title="Generate Statblock"
     icon="mdi-code-block-tags">
     <statblock-dialog :pilot="<Pilot>pilot"
       :mech-i-d="mech.ID" />
-  </cc-solo-modal>
+  </cc-modal>
 </template>
 
 <script setup lang="ts">
+import type { Mech } from '@/classes/mech/Mech'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { UserStore } from '@/user/store';
@@ -128,7 +129,7 @@ const router = useRouter()
 const props = defineProps<{
   pilot: Pilot
   selected: number
-  mech: object
+  mech: Mech
 }>()
 
 const emit = defineEmits<{

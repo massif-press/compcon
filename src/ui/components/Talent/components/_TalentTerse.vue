@@ -117,6 +117,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Talent } from '@/classes/pilot/components/talent/Talent'
 import { computed, ref } from 'vue'
 import TalentEmblem from './_TalentEmblem.vue';
 import TalentRankContents from './_TalentRankContents.vue';
@@ -125,7 +126,7 @@ defineOptions({ name: 'talent-terse' })
 
 const props = withDefaults(defineProps<{
   hideLocked?: boolean
-  talent: object
+  talent: Talent
   canAdd?: boolean
   selectable?: boolean
   hideChange?: boolean

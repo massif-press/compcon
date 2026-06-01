@@ -48,9 +48,10 @@
 </template>
 
 <script setup lang="ts">
+import type { Skill } from '@/classes/pilot/components/skill/Skill'
 const props = withDefaults(defineProps<{
   bonus?: number
-  skill: object
+  skill: Skill
   noBorder?: boolean
   pilot?: boolean
 }>(), {

@@ -24,10 +24,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Bonus } from '@/classes/components/feature/bonus/Bonus'
 defineOptions({ name: 'CbItem' })
 
 const props = defineProps<{
-  bonus: object
+  bonus: Bonus
   color: string
   isSelected: boolean
   isSelectable: boolean

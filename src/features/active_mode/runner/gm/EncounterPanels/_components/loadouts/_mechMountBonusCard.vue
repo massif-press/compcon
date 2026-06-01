@@ -33,7 +33,7 @@
           :action="a"
           :owner="owner"
           class="mt-1"
-          :encounter="encounter">
+          :encounter-instance="encounterInstance">
           <template #icon>
             <v-tooltip location="top"
               text="Equipment Action">
@@ -92,7 +92,7 @@ const props = defineProps({
       type: Object,
       required: true,
     },
-    encounter: {
+    encounterInstance: {
       type: Object,
       required: true,
     },

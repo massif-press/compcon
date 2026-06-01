@@ -25,13 +25,14 @@
 </template>
 
 <script setup lang="ts">
+import type { Manufacturer } from '@/classes/Manufacturer'
 import { ref, onMounted } from 'vue'
 
 defineOptions({ name: 'license-filter' })
 
 const props = withDefaults(defineProps<{
   activeFilters?: object
-  manufacturers?: any[]
+  manufacturers?: Manufacturer[]
   lcpNames?: any[]
 }>(), {
   activeFilters: () => ({}),

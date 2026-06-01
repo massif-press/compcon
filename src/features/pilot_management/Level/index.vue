@@ -59,33 +59,38 @@
         </v-window-item>
         <v-window-item>
           <skills-page :pilot="pilot"
+            context="level"
             @next="setStep(2)"
             @back="setStep(0)" />
         </v-window-item>
         <v-window-item>
           <talents-page :pilot="pilot"
+            context="level"
             @next="setStep(3)"
             @back="setStep(1)" />
         </v-window-item>
         <v-window-item>
           <mech-skills-page :pilot="pilot"
+            context="level"
             @next="setStep(4)"
             @back="setStep(2)" />
         </v-window-item>
         <v-window-item>
           <license-page :pilot="pilot"
+            context="level"
             @next="setStep(5)"
             @back="setStep(3)" />
         </v-window-item>
         <v-window-item>
           <core-bonus-page :pilot="pilot"
+            context="level"
             :cb-eligible="cbEligible"
             @next="setStep(6)"
             @back="setStep(4)" />
         </v-window-item>
         <v-window-item>
           <confirm-page :pilot="pilot"
-            :original="currentPilot"
+            context="level"
             @back="setStep(5)" />
         </v-window-item>
       </template>
@@ -97,12 +102,12 @@
 import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import OverviewPage from './pages/OverviewPage.vue';
-import SkillsPage from './pages/SkillsPage.vue';
-import TalentsPage from './pages/TalentsPage.vue';
-import MechSkillsPage from './pages/MechSkillsPage.vue';
-import LicensePage from './pages/LicensePage.vue';
-import CoreBonusPage from './pages/CoreBonusPage.vue';
-import ConfirmPage from './pages/ConfirmPage.vue';
+import SkillsPage from '../_shared/pages/SkillsPage.vue';
+import TalentsPage from '../_shared/pages/TalentsPage.vue';
+import MechSkillsPage from '../_shared/pages/MechSkillsPage.vue';
+import LicensePage from '../_shared/pages/LicensePage.vue';
+import CoreBonusPage from '../_shared/pages/CoreBonusPage.vue';
+import ConfirmPage from '../_shared/pages/ConfirmPage.vue';
 import { PilotStore } from '@/stores';
 import { Pilot } from '@/classes/pilot/Pilot'
 

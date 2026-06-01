@@ -13,36 +13,7 @@
                   {{ c.CombatName }}
                 </span>
               </v-col>
-              <v-col v-if="c.CanActivate('protocol')"
-                cols="auto">
-                <v-chip color="protocol"
-                  class="ml-2"
-                  size="small"
-                  prepend-icon="cc:protocol"
-                  variant="flat">
-                  Protocol
-                </v-chip>
-              </v-col>
-              <v-col v-if="c.CanActivate('full')"
-                cols="auto">
-                <v-chip color="action--full"
-                  prepend-icon="mdi-hexagon-slice-6"
-                  class="ml-2"
-                  size="small"
-                  variant="flat">
-                  Full Action
-                </v-chip>
-              </v-col>
-              <v-col v-else-if="c.CanActivate('quick')"
-                cols="auto">
-                <v-chip color="action--quick"
-                  prepend-icon="mdi-hexagon-slice-3"
-                  class="ml-2"
-                  size="small"
-                  variant="flat">
-                  Quick Action
-                </v-chip>
-              </v-col>
+              <end-round-action-chips :controller="c" />
             </v-row>
           </div>
           <i v-else
@@ -137,11 +108,13 @@
 </template>
 
 <script setup lang="ts">
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed, ref, nextTick } from 'vue'
 import EndRoundDialog from '../../../_shared/_EndRoundDialog.vue';
+import EndRoundActionChips from '../../../_components/EndRoundActionChips.vue';
 
 const props = defineProps<{
-  encounterInstance: object
+  encounterInstance: EncounterInstance
 }>()
 
 const loading = ref(false)

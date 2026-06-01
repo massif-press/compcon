@@ -119,7 +119,7 @@ import sectionAddMenu from './sectionAddMenu.vue';
 defineOptions({ name: 'campaign-editor-sidebar' })
 
 const props = defineProps<{
-  campaign: object
+  campaign: Campaign
   currentPage?: string
 }>()
 

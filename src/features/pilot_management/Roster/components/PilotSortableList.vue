@@ -26,7 +26,10 @@
 
 <script setup lang="ts">
 import { Sortable } from 'sortablejs-vue3'
+import { useDisplay } from 'vuetify'
 import { Pilot } from '@/classes/pilot/Pilot'
+
+const { smAndDown: mobile } = useDisplay()
 
 const props = defineProps<{
   filteredPilots: Pilot[]
@@ -34,7 +37,6 @@ const props = defineProps<{
   sortableOptions: object
   pilotCardType: any
   rosterView: string
-  mobile: boolean
 }>()
 
 const emit = defineEmits<{

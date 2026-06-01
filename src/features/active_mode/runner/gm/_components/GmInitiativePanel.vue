@@ -81,7 +81,7 @@
           :combatant="r"
           :collapsed="!expanded"
           :selected="selected && selected.id === r.id"
-          :round="encounter.Round"
+          :round="encounterInstance.Round"
           is-reinforcement
           no-drag
           @activate="activateReinforcement(r)"
@@ -151,13 +151,15 @@
       <v-card tile
         border
         color="background">
-        <gm-add-npc-menu :encounter-instance="encounter" />
+        <gm-add-from-roster-menu :encounter-instance="encounterInstance"
+          item-type="npc" />
         <v-divider />
-        <gm-add-pc-menu :encounter-instance="encounter" />
+        <gm-add-from-roster-menu :encounter-instance="encounterInstance"
+          item-type="pc" />
         <v-divider />
-        <gm-add-other-menu :encounter-instance="encounter" />
+        <gm-add-other-menu :encounter-instance="encounterInstance" />
         <v-divider />
-        <gm-add-stub-menu :encounter-instance="encounter" />
+        <gm-add-stub-menu :encounter-instance="encounterInstance" />
         <v-divider />
       </v-card>
     </v-menu>
@@ -165,14 +167,14 @@
 </template>
 
 <script setup lang="ts">
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed, ref } from 'vue'
 import { Sortable } from 'sortablejs-vue3';
 import UnitRunnerListItem from './ListItems/UnitRunnerListItem.vue';
 import PilotRunnerListItem from './ListItems/PilotRunnerListItem.vue';
 import DoodadRunnerListItem from './ListItems/DoodadRunnerListItem.vue';
 import EidolonRunnerListItem from './ListItems/EidolonRunnerListItem.vue';
-import GmAddNpcMenu from './ListItems/AddItems/GmAddNpcMenu.vue';
-import GmAddPcMenu from './ListItems/AddItems/GmAddPcMenu.vue';
+import GmAddFromRosterMenu from './ListItems/AddItems/GmAddFromRosterMenu.vue';
 import GmAddOtherMenu from './ListItems/AddItems/GmAddOtherMenu.vue';
 import GmAddStubMenu from './ListItems/AddItems/GmAddStubMenu.vue';
 import PlaceholderRunnerListItem from './ListItems/PlaceholderRunnerListItem.vue';
@@ -183,7 +185,7 @@ import { CombatantData } from '@/classes/encounter/Encounter';
 defineOptions({ name: 'GmEncounterRunnerInitiativePanel' })
 
 const props = withDefaults(defineProps<{
-  encounter: object
+  encounterInstance: EncounterInstance
   expanded?: boolean
   selected?: object
 }>(), {
@@ -204,10 +206,10 @@ const reinforcementsCollapsed = ref(false)
 const destroyedCollapsed = ref(false)
 
 const combatants = computed(() => {
-      if (!props.encounter || !props.encounter.Combatants) {
+      if (!props.encounterInstance || !props.encounterInstance.Combatants) {
         return [];
       }
-      return props.encounter.Combatants.filter((c) => !c.actor.CombatController.IsDestroyed);
+      return props.encounterInstance.Combatants.filter((c) => !c.actor.CombatController.IsDestroyed);
     })
 const activeCombatants = computed(() => {
       let list = combatants.value.filter((c) => !c.reinforcement);
@@ -244,7 +246,7 @@ const reinforcements = computed(() => {
       return combatants.value.filter((c) => c.reinforcement);
     })
 const destroyedCombatants = computed(() => {
-      return props.encounter.Combatants.filter((c) => c.actor.CombatController.IsDestroyed);
+      return props.encounterInstance.Combatants.filter((c) => c.actor.CombatController.IsDestroyed);
     })
 
 function itemSort(key) {

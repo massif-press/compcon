@@ -44,7 +44,7 @@
 
     <v-row dense
       justify="space-around">
-      <cc-tiered-attribute v-for="i in statArr"
+      <CCTieredAttribute v-for="i in statArr"
         :key="i"
         :title="i"
         :arr="item.Stats.StatArr(i)" />
@@ -86,13 +86,14 @@ import { useDisplay } from 'vuetify'
 import { CompendiumStore } from '@/stores'
 import CCTieredAttribute from '../../CCTieredAttribute.vue'
 import ClassCombatChart from './_components/_NpcClassCombatChart.vue'
+import type { NpcClass } from '@/classes/npc/class/NpcClass'
 
 const npcClasses = computed(() => CompendiumStore().NpcClasses)
 
 const { smAndDown: mobile } = useDisplay()
 
 defineProps<{
-  item: object
+  item: NpcClass
   notes?: boolean
   smallTags?: boolean
   dense?: boolean

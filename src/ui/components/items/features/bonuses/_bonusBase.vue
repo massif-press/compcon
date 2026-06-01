@@ -8,8 +8,9 @@
 </template>
 
 <script setup lang="ts">
+import type { Bonus } from '@/classes/components/feature/bonus/Bonus'
 const props = defineProps<{
-  bonus: object
+  bonus: Bonus
   tier?: number
 }>()
 </script>

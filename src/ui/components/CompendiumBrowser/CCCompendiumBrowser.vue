@@ -36,7 +36,7 @@
           @set-all="setAllLcps()"
           @set-filters="otherFilter = $event" />
 
-        <v-text-field v-model="search"
+        <v-text-field v-model="searchRaw"
           item-title="Name"
           prepend-icon="mdi-magnify"
           variant="outlined"
@@ -66,6 +66,7 @@
             <template v-if="open.includes(lcp)">
               <b-list-item v-for="item in filteredItemsByLcp[lcp]"
                 v-if="options.noSource"
+                v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
                 :key="item.ID"
                 :selected="!!selectedItem && selectedItem.ID === item.ID"
                 :compare="view === 'compare'"
@@ -86,19 +87,12 @@
 
               <b-list-group v-for="role in rolesByLcp[lcp]"
                 v-else-if="itemType === 'NpcClass'"
-                v-show="search
-                  ? (itemsByLcpByRole[lcp]?.[role] ?? []).some((i) =>
-                    i.Name.toLowerCase().includes(search.toLowerCase())
-                  )
-                  : true
-                  "
                 :key="`role-${lcp}-${role}`"
                 :parent="lcp"
                 :collection="role"
                 :role="role">
-                <b-list-item v-for="item in (itemsByLcpByRole[lcp]?.[role] ?? []).filter((i) =>
-                  search ? i.Name.toLowerCase().includes(search.toLowerCase()) : true
-                )"
+                <b-list-item v-for="item in (itemsByLcpByRole[lcp]?.[role] ?? [])"
+                  v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
                   :key="item.ID"
                   :selected="!!selectedItem && selectedItem.ID === item.ID"
                   :compare="view === 'compare'"
@@ -120,18 +114,11 @@
 
               <b-list-group v-for="origin in originsByLcp[lcp]"
                 v-else-if="itemType === 'NpcFeature'"
-                v-show="search
-                  ? (itemsByLcpByOrigin[lcp]?.[origin] ?? []).some((i) =>
-                    i.Name.toLowerCase().includes(search.toLowerCase())
-                  )
-                  : true
-                  "
                 :key="`origin-${lcp}-${origin}`"
                 :parent="lcp"
                 :collection="origin">
-                <b-list-item v-for="item in (itemsByLcpByOrigin[lcp]?.[origin] ?? []).filter((i) =>
-                  search ? i.Name.toLowerCase().includes(search.toLowerCase()) : true
-                )"
+                <b-list-item v-for="item in (itemsByLcpByOrigin[lcp]?.[origin] ?? [])"
+                  v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
                   :key="item.ID"
                   :selected="!!selectedItem && selectedItem.ID === item.ID"
                   :compare="view === 'compare'"
@@ -153,19 +140,12 @@
 
               <b-list-group v-for="manufacturer in manufacturersByLcp[lcp]"
                 v-else
-                v-show="search
-                  ? (itemsByLcpBySource[lcp]?.[manufacturer] ?? []).some((i) =>
-                    i.Name.toLowerCase().includes(search.toLowerCase())
-                  )
-                  : true
-                  "
                 :key="`mf-${lcp}-${manufacturer}`"
                 :parent="lcp"
                 :collection="manufacturer"
                 :manufacturer="mf(manufacturer)">
-                <b-list-item v-for="item in (itemsByLcpBySource[lcp]?.[manufacturer] ?? []).filter((i) =>
-                  search ? i.Name.toLowerCase().includes(search.toLowerCase()) : true
-                )"
+                <b-list-item v-for="item in (itemsByLcpBySource[lcp]?.[manufacturer] ?? [])"
+                  v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
                   :key="item.ID"
                   :selected="!!selectedItem && selectedItem.ID === item.ID"
                   :compare="view === 'compare'"
@@ -211,6 +191,7 @@
             </template>
 
             <b-list-item v-for="item in itemsBySourceGroup[manufacturer]"
+              v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
               :key="item.ID"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
@@ -238,6 +219,7 @@
             :collection="role"
             :role="role">
             <b-list-item v-for="item in itemsByRoleGroup[role]"
+              v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
               :key="item.ID"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
@@ -264,6 +246,7 @@
             :collection="featureType"
             :feature="featureType">
             <b-list-item v-for="item in itemsByFeatureTypeGroup[featureType]"
+              v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
               :key="item.ID"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
@@ -289,6 +272,7 @@
             :key="`origin-${origin}`"
             :collection="origin">
             <b-list-item v-for="item in itemsByOriginGroup[origin]"
+              v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
               :key="item.ID"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
@@ -326,6 +310,7 @@
               </v-list-item>
             </template>
             <b-list-item v-for="item in itemsByLicenseGroup[license]"
+              v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
               :key="item.ID"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
@@ -363,6 +348,7 @@
               </v-list-item>
             </template>
             <b-list-item v-for="item in itemsByType[subtype]"
+              v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
               :key="item.ID"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
@@ -385,6 +371,7 @@
 
         <div v-else>
           <b-list-item v-for="item in shownItems"
+            v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
             :key="item.ID"
             :selected="!!selectedItem && selectedItem.ID === item.ID"
             :compare="view === 'compare'"
@@ -408,9 +395,8 @@
 
     <v-main class="mt-2">
       <div id="content"
-        :style="`height: calc(100vh - ${getHeight}px)!important;`"
-        style="overflow-y: scroll; padding-bottom: 40px">
-        <div id="content"
+        :style="`height: calc(100vh - ${getHeight}px)!important; overflow-y: ${view === 'list' ? 'hidden' : 'scroll'}; padding-bottom: ${view === 'list' ? '0' : '40'}px`">
+        <div
           :style="view === 'table' ? '' : 'max-width: 1200px'"
           class="pa-4 mx-auto">
           <v-alert v-show="!!$slots.top"
@@ -474,17 +460,23 @@
             </v-row>
           </div>
 
-          <div v-for="item in <any[]>navOrderedItems"
+          <v-virtual-scroll
             v-else-if="view === 'list'"
-            :id="item.ID"
-            :key="item.ID"
-            class="mb-4">
-            <selector-list-item :hide-title="options.hideTitle"
-              :highlighted="selectedItem ? selectedItem.ID === item.ID : false"
-              :selectable="equippable"
-              :item="item"
-              @select="$emit('equip', $event)" />
-          </div>
+            ref="listScroller"
+            :items="navOrderedItems"
+            :style="`height: calc(100vh - ${getHeight}px - 32px)`"
+            class="vscroll-list">
+            <template #default="{ item }">
+              <div class="mb-4">
+                <selector-list-item
+                  :hide-title="options.hideTitle"
+                  :highlighted="selectedItem ? selectedItem.ID === item.ID : false"
+                  :selectable="equippable"
+                  :item="item"
+                  @select="$emit('equip', $event)" />
+              </div>
+            </template>
+          </v-virtual-scroll>
 
           <div v-else-if="view === 'table'">
             <div v-if="group === 'lcp'">
@@ -641,8 +633,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, onMounted } from 'vue'
 import { useDisplay } from 'vuetify'
+import type { VVirtualScroll } from 'vuetify/components'
 import ItemFilter from '@/classes/utility/ItemFilter';
 import * as _ from 'lodash-es';
 
@@ -742,10 +735,15 @@ const emit = defineEmits<{
   'view-change': [val: string]
 }>()
 
+const listScroller = ref<InstanceType<typeof VVirtualScroll> | null>(null)
+
 const open = ref([] as string[])
 const view = ref('list')
 const group = ref('source')
+const searchRaw = ref('')
 const search = ref('')
+const _debouncedSetSearch = _.debounce((val: string) => { search.value = val }, 200)
+watch(searchRaw, _debouncedSetSearch)
 const otherFilter = ref({} as Record<string, any>)
 const lcpFilter = ref([] as string[])
 const selectedItem = ref(null as CompendiumItem | License | null)
@@ -753,6 +751,8 @@ const comparisons = ref([] as CompendiumItem[])
 const page = ref(1)
 const itemsPerPage = ref(15)
 const showNav = ref(true)
+
+const showExotics = computed(() => props.options.showExotics ?? false)
 
 const itemsByLcp = computed(() => _.groupBy(props.items as CompendiumItem[], 'LcpName'))
 const shownItems = computed(() => {
@@ -771,65 +771,62 @@ const itemsByLicenseGroup = computed(() => _.groupBy(shownItems.value, (x: any) 
 const itemsByRoleGroup = computed(() => _.groupBy(shownItems.value, (x: any) => x.Role))
 const itemsByFeatureTypeGroup = computed(() => _.groupBy(shownItems.value, (x: any) => x.FeatureType))
 const itemsByOriginGroup = computed(() => _.groupBy(shownItems.value, (x: any) => x.Origin?.Name))
-const itemsByLcpBySource = computed(() => {
-  const out = {} as Record<string, Record<string, any[]>>;
+function _groupLcpItems(items: any[]): Record<string, any[]> {
+  if (props.itemType === 'NpcClass') return _.groupBy(items.filter((x: any) => x.Role), (x: any) => x.Role)
+  if (props.itemType === 'NpcFeature') return _.groupBy(items, (x: any) => x.Origin?.Name)
+  return _.groupBy(items, (x: any) => x.IsExotic ? 'exotic' : x.Source)
+}
+
+const _lcpGroupCache = ref(new Map<string, Record<string, any[]>>())
+
+watch(filteredItemsByLcp, (newFiltered) => {
+  const cache = new Map<string, Record<string, any[]>>()
   for (const lcp of open.value) {
-    if (filteredItemsByLcp.value[lcp])
-      out[lcp] = _.groupBy(filteredItemsByLcp.value[lcp], (x: any) => x.IsExotic ? 'exotic' : x.Source);
+    if (newFiltered[lcp]) cache.set(lcp, _groupLcpItems(newFiltered[lcp]))
   }
-  return out;
+  _lcpGroupCache.value = cache
 })
-const itemsByLcpByRole = computed(() => {
-  const out = {} as Record<string, Record<string, any[]>>;
-  for (const lcp of open.value) {
-    if (filteredItemsByLcp.value[lcp])
-      out[lcp] = _.groupBy(filteredItemsByLcp.value[lcp].filter((x: any) => x.Role), (x: any) => x.Role);
-  }
-  return out;
-})
-const itemsByLcpByOrigin = computed(() => {
-  const out = {} as Record<string, Record<string, any[]>>;
-  for (const lcp of open.value) {
-    if (filteredItemsByLcp.value[lcp])
-      out[lcp] = _.groupBy(filteredItemsByLcp.value[lcp], (x: any) => x.Origin?.Name);
-  }
-  return out;
-})
+
+watch(open, (newOpen) => {
+  const cachedLcps = new Set(_lcpGroupCache.value.keys())
+  const openSet = new Set(newOpen)
+  const added = newOpen.filter(lcp => !cachedLcps.has(lcp) && !!filteredItemsByLcp.value[lcp])
+  const removed = [...cachedLcps].filter(lcp => !openSet.has(lcp))
+  if (!added.length && !removed.length) return
+  const cache = new Map(_lcpGroupCache.value)
+  for (const lcp of removed) cache.delete(lcp)
+  for (const lcp of added) cache.set(lcp, _groupLcpItems(filteredItemsByLcp.value[lcp]))
+  _lcpGroupCache.value = cache
+}, { immediate: true })
+
+const itemsByLcpBySource = computed(() => Object.fromEntries(_lcpGroupCache.value))
+const itemsByLcpByRole = computed(() => Object.fromEntries(_lcpGroupCache.value))
+const itemsByLcpByOrigin = computed(() => Object.fromEntries(_lcpGroupCache.value))
 const manufacturerSources = computed(() =>
   _.uniq(shownItems.value.map((x: any) => x.Source)).sort((a, b) => manufacturerSortFn(a, b))
 )
 const manufacturersByLcp = computed(() => {
-  const m = {} as any;
-  for (const lcp of open.value) {
-    if (filteredItemsByLcp.value[lcp])
-      m[lcp] = _.uniq(filteredItemsByLcp.value[lcp].map((x: any) => x.IsExotic ? 'exotic' : x.Source)).sort(sortFn);
-  }
-  return m;
+  const m: Record<string, string[]> = {}
+  for (const [lcp, groups] of _lcpGroupCache.value) m[lcp] = Object.keys(groups).filter(Boolean).sort(sortFn)
+  return m
 })
 const roles = computed(() => _.uniq(shownItems.value.map((x: any) => x.Role)).sort(sortFn))
 const rolesByLcp = computed(() => {
-  const m = {} as any;
-  for (const lcp of open.value) {
-    if (filteredItemsByLcp.value[lcp])
-      m[lcp] = _.uniq(filteredItemsByLcp.value[lcp].map((x: any) => x.Role)).sort(sortFn);
-  }
-  return m;
+  const m: Record<string, string[]> = {}
+  for (const [lcp, groups] of _lcpGroupCache.value) m[lcp] = Object.keys(groups).filter(Boolean).sort(sortFn)
+  return m
 })
 const featureTypes = computed(() => _.uniq(shownItems.value.map((x: any) => x.FeatureType)).sort(sortFn))
 const origins = computed(() => _.uniq(shownItems.value.map((x: any) => x.Origin?.Name).filter(Boolean)).sort(sortFn))
 const originsByLcp = computed(() => {
-  const m = {} as any;
-  for (const lcp of open.value) {
-    if (filteredItemsByLcp.value[lcp])
-      m[lcp] = _.uniq(filteredItemsByLcp.value[lcp].map((x: any) => x.Origin?.Name)).sort(sortFn);
-  }
-  return m;
+  const m: Record<string, string[]> = {}
+  for (const [lcp, groups] of _lcpGroupCache.value) m[lcp] = Object.keys(groups).filter(Boolean).sort(sortFn)
+  return m
 })
 const lcps = computed(() => Object.keys(itemsByLcp.value).sort(sortFn))
 const filteredLcps = computed(() => Object.keys(filteredItemsByLcp.value).sort(sortFn))
 const licenses = computed(() => _.uniq(shownItems.value.map((x: any) => x.License)).sort(sortFn))
 const subtypes = computed(() => _.uniq(shownItems.value.map((x: any) => x.Type)).sort(sortFn))
-const showExotics = computed(() => props.options.showExotics ?? false)
 const navOrderedItems = computed((): any[] => {
   switch (group.value) {
     case 'source': return manufacturerSources.value.flatMap((m: string) => itemsBySourceGroup.value[m] || []);
@@ -844,9 +841,10 @@ const navOrderedItems = computed((): any[] => {
 })
 const minSliceIndex = computed(() => (page.value - 1) * itemsPerPage.value)
 const maxSliceIndex = computed(() => page.value * itemsPerPage.value)
-const isInModal = computed(() => {
-  const scrim = document.querySelector('.v-overlay__scrim');
-  return scrim && window.getComputedStyle(scrim).display !== 'none';
+const isInModal = ref(false)
+onMounted(() => {
+  const scrim = document.querySelector('.v-overlay__scrim')
+  isInModal.value = !!(scrim && window.getComputedStyle(scrim).display !== 'none')
 })
 const getHeight = computed(() => {
   if (display.xs.value) return 40;
@@ -862,7 +860,10 @@ watch(comparisons, () => {
 watch(() => props.items, () => { lcpFilter.value = lcps.value; })
 watch(view, (val) => { emit('view-change', val); saveView(); })
 watch(showNav, () => saveView())
-watch(otherFilter, () => saveView(), { deep: true })
+watch(otherFilter, () => saveView())
+watch(shownItems, () => {
+  if (view.value === 'list') listScroller.value?.scrollToIndex(0)
+})
 watch(search, (val) => {
   if (val) {
     const curLcps = filteredLcps.value;
@@ -912,10 +913,13 @@ function getItems(manufacturer: string, lcp?: string): CompendiumItem[] | Licens
 function selectItem(item: CompendiumItem | License | null) {
   selectedItem.value = item;
   if (item) {
-    page.value = Math.ceil(
-      (navOrderedItems.value.findIndex((x: any) => x.ID === item.ID) + 1) / itemsPerPage.value
-    );
-    scrollTo(item.ID);
+    const idx = navOrderedItems.value.findIndex((x: any) => x.ID === item.ID);
+    if (view.value === 'list') {
+      if (idx >= 0) listScroller.value?.scrollToIndex(idx);
+    } else {
+      page.value = Math.ceil((idx + 1) / itemsPerPage.value);
+      scrollTo(item.ID);
+    }
   }
   if (mobile.value && showNav.value) showNav.value = false;
   emit('select', item);
@@ -930,15 +934,10 @@ function scrollTo(id: string): void {
     mEl.scrollTo({ top: y, behavior: 'smooth' });
   }
 }
+const _mfFallback = { GetColor: () => 'black', Name: 'err', LogoIsExternal: false, Icon: 'gms' }
+const _mfMap = computed(() => new Map((props.manufacturers as Manufacturer[]).map((m) => [m.ID, m])))
 function mf(id: string) {
-  return (
-    (props.manufacturers as Manufacturer[]).find((x) => x.ID === id) || {
-      GetColor: () => 'black',
-      Name: 'err',
-      LogoIsExternal: false,
-      Icon: 'gms',
-    }
-  );
+  return _mfMap.value.get(id) ?? _mfFallback
 }
 function setAllLcps() {
   if (lcpFilter.value.length === lcps.value.length) lcpFilter.value = [];
@@ -961,6 +960,10 @@ function handleEquip(item: CompendiumItem) {
 <style scoped>
 .side-fixed {
   overflow-y: scroll;
+}
+
+.vscroll-list {
+  overflow-y: auto;
 }
 
 .img-hover {

@@ -126,7 +126,7 @@
                 @click="bioDialog = true">
                 <div v-if="!pilot.History">Add Pilot Biography</div>
                 <div v-else>Edit Pilot Biography</div>
-                <cc-text-editor-dialog v-model="bioDialog"
+                <CCTextEditorDialog v-model="bioDialog"
                   title="Edit Pilot Biography"
                   :original="pilot.History"
                   @save="$emit('set', { attr: 'History', val: $event })" />
@@ -158,7 +158,7 @@
                 @click="appearanceDialog = true">
                 <div v-if="!pilot.TextAppearance">Add Pilot Description</div>
                 <div v-else>Edit Pilot Description</div>
-                <cc-text-editor-dialog v-model="appearanceDialog"
+                <CCTextEditorDialog v-model="appearanceDialog"
                   title="edit Pilot Description"
                   :original="pilot.TextAppearance"
                   @save="$emit('set', { attr: 'TextAppearance', val: $event })" />
@@ -272,7 +272,7 @@ defineOptions({ name: 'identification-page' })
 const { mobile, portrait } = useMobile()
 
 const props = defineProps<{
-  pilot: object
+  pilot: Pilot
   groupID?: string
 }>()
 

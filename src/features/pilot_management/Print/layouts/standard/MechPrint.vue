@@ -292,7 +292,7 @@ import PrintMechHpRows from '../../components/_PrintMechHpRows.vue';
 defineOptions({ name: 'mech-print' })
 
 const props = defineProps<{
-  mech: object
+  mech: Mech
   options: object
 }>()
 

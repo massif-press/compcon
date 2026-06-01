@@ -17,7 +17,7 @@
         </cc-button>
       </v-col>
     </v-row>
-    <cc-solo-modal v-model="dialog"
+    <cc-modal v-model="dialog"
       title="Set NPC Features"
       icon="cc:npc_feature">
       <template #toolbar-items>
@@ -251,7 +251,7 @@
           </v-container>
         </v-main>
       </v-layout>
-    </cc-solo-modal>
+    </cc-modal>
   </div>
 </template>
 

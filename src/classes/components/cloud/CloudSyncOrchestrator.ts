@@ -2,6 +2,7 @@ import { toRaw } from 'vue'
 import { UserStore } from '@/user/store'
 import {
   downloadFromS3,
+  invalidateETagCache,
   updateItem,
   uploadToS3,
   batchUpsert,
@@ -254,6 +255,8 @@ class CloudSyncOrchestrator {
         ? { ...item.raw }
         : null
 
+    const forceUri = item.IsCloudOnly ? item.raw.uri : item.CloudController.Metadata.Uri
+    if (forceUri) invalidateETagCache(forceUri)
     const data = item.IsCloudOnly
       ? await downloadFromS3(item.raw.uri)
       : await item.CloudController.Download()

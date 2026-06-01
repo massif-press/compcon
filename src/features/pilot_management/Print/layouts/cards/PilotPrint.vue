@@ -400,6 +400,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Pilot } from '@/classes/pilot/Pilot'
 import { computed } from 'vue'
 import card from './components/PrintCard.vue';
 import blankLine from '../../components/blank/line.vue';
@@ -411,7 +412,7 @@ import TalentEmblem from '@/ui/components/Talent/components/_TalentEmblem.vue';
 defineOptions({ name: 'pilot-print' })
 
 const props = defineProps<{
-  pilot: object
+  pilot: Pilot
   options: object
 }>()
 

@@ -1,5 +1,5 @@
 <template>
-  <cc-solo-modal v-model="modal"
+  <cc-modal v-model="modal"
     :title="CM.packManagement"
     icon="cc:content_manager">
     <cc-tabs modal
@@ -42,7 +42,7 @@
         <pack-config />
       </v-window-item>
     </cc-tabs>
-  </cc-solo-modal>
+  </cc-modal>
 </template>
 
 <script setup lang="ts">

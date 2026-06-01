@@ -37,19 +37,19 @@
     </v-window-item>
   </v-window>
 
-  <cc-solo-modal v-model="importModal"
+  <cc-modal v-model="importModal"
     icon="mdi-download-multiple"
     title="Import"
     shrink>
     <importer @complete="importModal = false" />
-  </cc-solo-modal>
+  </cc-modal>
 
-  <cc-solo-modal v-model="orgModal"
+  <cc-modal v-model="orgModal"
     icon="mdi-queue-first-in-last-out"
     shrink
     title="Organize">
     <organizer type="npc" />
-  </cc-solo-modal>
+  </cc-modal>
 </template>
 
 <script setup lang="ts">

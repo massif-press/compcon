@@ -72,7 +72,7 @@
 
     <template #actions>
       <pilot-actions-panel :owner="combatant"
-        :encounter="encounterInstance"
+        :encounter-instance="encounterInstance"
         @deploy="deploy($event)" />
     </template>
 
@@ -108,7 +108,7 @@
                       :key="a.ID"
                       :action="a"
                       :owner="combatant"
-                      :encounter="encounterInstance" />
+                      :encounter-instance="encounterInstance" />
                   </div>
                   <div v-if="item.Talent.AllDeployables?.length"
                     class="mb-2">

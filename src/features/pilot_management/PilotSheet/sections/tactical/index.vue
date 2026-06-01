@@ -9,6 +9,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Pilot } from '@/classes/pilot/Pilot'
 import MechSkillsBlock from './components/MechSkillsBlock.vue';
 import LicenseBlock from './components/LicenseBlock.vue';
 import SpecialBlock from './components/SpecialBlock.vue';
@@ -18,6 +19,6 @@ import TalentBlock from './components/TalentBlock.vue';
 defineOptions({ name: 'tactical-view' })
 
 const props = defineProps<{
-  pilot: object
+  pilot: Pilot
 }>()
 </script>

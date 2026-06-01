@@ -28,10 +28,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Status } from '@/classes/Status'
 import { useDisplay } from 'vuetify';
 
 defineProps<{
-  status: any;
+  status: Status;
   active: boolean;
   appliedDetail?: string | null;
 }>();

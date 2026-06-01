@@ -1,11 +1,11 @@
 <template>
   <div>
-    <cc-loadout-panel :loadouts="mech.MechLoadoutController.Loadouts"
+    <CCLoadoutPanel :loadouts="mech.MechLoadoutController.Loadouts"
       :active-loadout="mech.MechLoadoutController.ActiveLoadout"
       :color="color"
       :readonly="readonly"
       :no-frame="noFrame"
-      @set-active="mech.MechLoadoutController.ActiveLoadout = $event"
+      @set-active="$event ? mech.MechLoadoutController.ActiveLoadout = $event : null"
       @add-loadout="mech.MechLoadoutController.AddLoadout()"
       @clone-loadout="mech.MechLoadoutController.CloneLoadout()"
       @remove-loadout="mech.MechLoadoutController.RemoveLoadout()">
@@ -29,7 +29,7 @@
       <systems-block :mech="mech"
         :color="color"
         :readonly="readonly" />
-    </cc-loadout-panel>
+    </CCLoadoutPanel>
   </div>
 </template>
 
@@ -38,11 +38,13 @@ import { computed } from 'vue'
 import CCLoadoutPanel from '@/features/pilot_management/_components/loadout/CCLoadoutPanel.vue'
 import MountBlock from './components/mount/_MountBlock.vue'
 import SystemsBlock from './components/system/_SystemsBlock.vue'
+import { Mech } from '@/classes/mech/Mech.js'
+import Mount from '@/classes/mech/components/mount/Mount.js'
 
 defineOptions({ name: 'MechLoadoutBlock' })
 
 type MountItem = {
-  mount: any
+  mount: Mount
   isIntegrated: boolean
   isIntWeapon: boolean
   isImpArm: boolean
@@ -50,7 +52,7 @@ type MountItem = {
 }
 
 const props = withDefaults(defineProps<{
-  mech: object
+  mech: Mech
   readonly?: boolean
   active?: boolean
   noFrame?: boolean
@@ -86,7 +88,7 @@ const mounts = computed((): MountItem[] => {
 })
 
 function mountKey(item: MountItem, index: number) {
-  if (item.isIntegrated) return `integrated-${item.mount.ID || index}`
+  if (item.isIntegrated) return `integrated-${index}`
   if (item.isIntWeapon) return 'int-weapon'
   if (item.isImpArm) return 'imp-arm'
   if (item.isSuperheavy) return 'superheavy'

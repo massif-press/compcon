@@ -38,7 +38,7 @@
         <cc-masonry-grid :key="searchText"
           :items="searchResults">
           <template #default="{ item }">
-            <cc-search-result-modal :item="item" />
+            <CCSearchResultModal :item="item" />
           </template>
         </cc-masonry-grid>
       </v-slide-y-reverse-transition>

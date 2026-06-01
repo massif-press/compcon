@@ -12,13 +12,11 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import ActionPanel from './_actionPanel.vue';
-import ActionPopup from './_actionPopup.vue';
-import ActionHover from './_actionHover.vue';
-import ActionButton from './_actionButton.vue';
+import { getFeatureRenderer } from '../featureRenderers'
+import type { Action } from '@/classes/Action'
 
 const props = withDefaults(defineProps<{
-  action: object
+  action: Action
   hover?: boolean
   popup?: boolean
   panel?: boolean
@@ -38,8 +36,8 @@ const props = withDefaults(defineProps<{
 })
 
 const cType = computed(() => {
-  if (props.active) return ActionButton;
-  if (props.hover) return ActionHover;
-  return props.panel ? ActionPanel : ActionPopup;
+  if (props.active) return getFeatureRenderer('action', 'button')
+  if (props.hover) return getFeatureRenderer('action', 'hover')
+  return props.panel ? getFeatureRenderer('action', 'panel') : getFeatureRenderer('action', 'popup')
 })
 </script>

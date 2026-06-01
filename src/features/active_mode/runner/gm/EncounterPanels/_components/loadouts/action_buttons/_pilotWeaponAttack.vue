@@ -40,6 +40,8 @@
 </template>
 
 <script setup lang="ts">
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import type { CombatantData } from '@/classes/encounter/Encounter'
 import { computed } from 'vue'
 import { PilotWeapon } from '@/classes/pilot/components/Loadout/equipment/PilotWeapon'
 import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
@@ -50,15 +52,15 @@ defineOptions({ name: 'MechWeaponAttack' })
 const props = withDefaults(defineProps<{
   event: WeaponAttackEvent
   weapon: PilotWeapon
-  owner: object
-  encounter: object
+  owner: CombatantData
+  encounterInstance: EncounterInstance
   isAdditionalAux?: boolean
 }>(), {
   isAdditionalAux: false
 })
 
 const isPilotSheet = computed(() => {
-      return props.encounter.ItemType === 'PilotSheet';
+      return props.encounterInstance.ItemType === 'PilotSheet';
     })
 const ordnanceWarning = computed(() => {
       if (!props.weapon) return false;

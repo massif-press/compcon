@@ -392,6 +392,8 @@
 </template>
 
 <script setup lang="ts">
+import type { ICombatant } from '@/classes/components/combat/ICombatant'
+import type { Status } from '@/classes/Status'
 import { computed } from 'vue'
 import DeployableListItem from './DeployableListItem.vue';
 
@@ -401,8 +403,8 @@ const props = withDefaults(defineProps<{
   side?: string
   icon?: string
   portrait?: string
-  statuses?: any[]
-  actor: object
+  statuses?: Status[]
+  actor: ICombatant
   deployed?: any[]
   isReinforcement?: boolean
   reinforcementTurn?: number

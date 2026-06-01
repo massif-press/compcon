@@ -9,7 +9,7 @@
         :key="a.ID || a.Name"
         :action="a"
         :owner="owner"
-        :encounter="encounter"
+        :encounter-instance="encounterInstance"
         @activate="handleActivation($event)"
         @reset="handleRefund($event)"
       >
@@ -45,15 +45,18 @@
 </template>
 
 <script setup lang="ts">
+import type { CombatantData } from '@/classes/encounter/Encounter'
+import type { ICombatant } from '@/classes/components/combat/ICombatant'
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { toRef } from 'vue'
 import DeployButton from './_deployButton.vue'
 import { useEquipmentActions } from '@/composables/useEquipmentActions'
 
 const props = withDefaults(defineProps<{
   item: any
-  actor: any
-  owner: any
-  encounter: any
+  actor: ICombatant
+  owner: CombatantData
+  encounterInstance: EncounterInstance
   actionIcon?: string
 }>(), {
   actionIcon: 'cc:system',

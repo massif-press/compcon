@@ -135,13 +135,14 @@
 </template>
 
 <script setup lang="ts">
+import type { CombatantData } from '@/classes/encounter/Encounter'
 defineOptions({ name: 'gm-tool-palette' })
 
 const props = withDefaults(defineProps<{
   expanded?: boolean
   selected?: string
   pc?: boolean
-  combatant?: object
+  combatant?: CombatantData
 }>(), {
   expanded: false,
   selected: '',

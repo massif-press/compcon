@@ -40,7 +40,7 @@
     </v-col>
   </v-row>
 
-  <cc-solo-modal v-model="dialog"
+  <cc-modal v-model="dialog"
     title="select template"
     icon="cc:npc_template">
     <v-card-text v-if="!templates.length">
@@ -167,7 +167,7 @@
         </v-row>
       </v-main>
     </v-layout>
-  </cc-solo-modal>
+  </cc-modal>
 </template>
 
 <script setup lang="ts">

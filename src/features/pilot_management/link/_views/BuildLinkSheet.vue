@@ -115,6 +115,8 @@
 </template>
 
 <script setup lang="ts">
+import type { Mech } from '@/classes/mech/Mech'
+import type { Pilot } from '@/classes/pilot/Pilot'
 import LinkSheetHaseBlock from '../_components/LinkSheetHaseBlock.vue';
 import LinkSheetPilotName from '../_components/LinkSheetPilotName.vue';
 import LinkSheetMechHeader from '../_components/LinkSheetMechHeader.vue';
@@ -122,8 +124,8 @@ import LinkSheetMechHeader from '../_components/LinkSheetMechHeader.vue';
 defineOptions({ name: 'pilot-link-build' })
 
 const props = withDefaults(defineProps<{
-  pilot: object
-  mech?: object
+  pilot: Pilot
+  mech?: Mech
 }>(), {
   mech: null
 })

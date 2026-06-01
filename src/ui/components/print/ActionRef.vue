@@ -33,15 +33,15 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { CompendiumStore } from '@/stores';
+import { CompendiumStore } from '@/stores'
 
 defineOptions({ name: 'ActionRefPrint' })
 
-const actions = computed(() => {
-      return CompendiumStore()
-        .Actions.filter((a) => a && !a.IsDowntimeAction)
-        .sort((a, b) => (a.Name > b.Name ? 1 : -1));
-    })
+const actions = computed(() =>
+  CompendiumStore().Actions.filter((a: any) => a && !a.IsDowntimeAction).sort((a: any, b: any) =>
+    a.Name > b.Name ? 1 : -1
+  )
+)
 </script>
 
 <style scoped>

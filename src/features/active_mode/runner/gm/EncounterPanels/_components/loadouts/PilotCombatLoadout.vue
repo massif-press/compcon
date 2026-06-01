@@ -11,19 +11,19 @@
           :item="item"
           :pilot="pilot"
           :owner="owner"
-          :encounter="encounterInstance"
+          :encounter-instance="encounterInstance"
           @deploy="$emit('deploy', $event)" />
         <pilot-armor-card v-else-if="item.ItemType.toLowerCase() === 'pilotarmor'"
           :item="item"
           :pilot="pilot"
           :owner="owner"
-          :encounter="encounterInstance"
+          :encounter-instance="encounterInstance"
           @deploy="$emit('deploy', $event)" />
         <pilot-gear-card v-else
           :owner="owner"
           :item="item"
           :pilot="pilot"
-          :encounter="encounterInstance"
+          :encounter-instance="encounterInstance"
           @deploy="$emit('deploy', $event)" />
       </fieldset>
     </template>

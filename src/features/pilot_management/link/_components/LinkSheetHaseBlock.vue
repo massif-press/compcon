@@ -85,10 +85,12 @@
 </template>
 
 <script setup lang="ts">
+import type { Mech } from '@/classes/mech/Mech'
+import type { Pilot } from '@/classes/pilot/Pilot'
 import MechStatItem from './MechStatItem.vue';
 
 const props = defineProps<{
-  pilot: object
-  mech: object
+  pilot: Pilot
+  mech: Mech
 }>()
 </script>

@@ -31,7 +31,7 @@
           76px);
           overflow-y:
           auto">
-          <gm-initiative-panel :encounter="instance"
+          <gm-initiative-panel :encounter-instance="instance"
             :selected="selected"
             :expanded="showLeft"
             @select="selectActor($event)" />
@@ -63,18 +63,18 @@
                   <actor-telemetry
                     v-if="selected.actor && selected.actor.CombatController.RootActor.ItemType === 'Pilot'"
                     :actor="selected.actor.CombatController.RootActor"
-                    :encounter="instance" />
+                    :encounter-instance="instance" />
                 </v-col>
                 <v-col cols="auto">
 
                   <actor-logs v-if="selected.actor"
                     :actor="selected.actor.CombatController.RootActor"
-                    :encounter="instance" />
+                    :encounter-instance="instance" />
                 </v-col>
                 <v-col cols="auto">
                   <combat-statblock-export v-if="selected.actor"
                     :actor="selected.actor.CombatController.RootActor"
-                    :encounter="instance" />
+                    :encounter-instance="instance" />
                 </v-col>
               </v-row>
             </div>
@@ -118,7 +118,7 @@
     <v-dialog v-model="diceDialog"
       max-height="80vh"
       max-width="80vw">
-      <gm-dice-roller :encounter="instance"
+      <gm-dice-roller :encounter-instance="instance"
         :selected="selected"
         @close="diceDialog = false" />
     </v-dialog>

@@ -130,12 +130,12 @@
 
   <div class="my-4" />
 
-  <cc-solo-modal v-model="layerSelector"
+  <cc-modal v-model="layerSelector"
     title="Select Layer"
     icon="mdi-layers-triple">
     <layer-selector :item="item"
       @add-layer="addLayer($event)" />
-  </cc-solo-modal>
+  </cc-modal>
 </template>
 
 <script setup lang="ts">

@@ -68,12 +68,13 @@
 </template>
 
 <script setup lang="ts">
+import type { Pilot } from '@/classes/pilot/Pilot'
 import StepperContent from '../../_components/StepperContent.vue';
 
 defineOptions({ name: 'overview-page' })
 
 const props = defineProps<{
-  pilot: object
+  pilot: Pilot
   cbEligible?: boolean
 }>()
 </script>

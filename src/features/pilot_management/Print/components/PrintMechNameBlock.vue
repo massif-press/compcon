@@ -32,12 +32,13 @@
 </template>
 
 <script setup lang="ts">
+import type { Mech } from '@/classes/mech/Mech'
 import BlankLine from './blank/line.vue';
 import PrintOvercharge from './PrintOvercharge.vue';
 import PrintStatRow from './PrintStatRow.vue';
 
 const props = withDefaults(defineProps<{
-  mech: object
+  mech: Mech
   blank?: boolean
 }>(), {
   blank: false

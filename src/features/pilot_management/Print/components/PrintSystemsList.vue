@@ -46,12 +46,13 @@
 </template>
 
 <script setup lang="ts">
+import type { Mech } from '@/classes/mech/Mech'
 import PrintAction from './PrintAction.vue';
 import PrintDeployable from './PrintDeployable.vue';
 import TagBlock from './TagBlock.vue';
 
 const props = defineProps<{
-  mech: object
+  mech: Mech
   options: object
 }>()
 </script>

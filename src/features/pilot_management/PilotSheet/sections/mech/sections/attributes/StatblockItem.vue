@@ -35,7 +35,7 @@
           :style="`font-size: ${mobile ? '20px' : '32px'}`">
           {{ `${signed ? (val > -1 ? '+' : '-') : ''}${Math.abs(val)}` }}
         </span>
-        <cc-bonus-tooltip v-if="bonuses && bonuses.length > 0"
+        <CCBonusTooltip v-if="bonuses && bonuses.length > 0"
           :bonuses="bonuses"
           :right-offset="15" />
       </v-card-text>

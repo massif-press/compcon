@@ -34,6 +34,7 @@ export interface SyncableItem {
 }
 
 let _isFirstMetadataLoad = true
+let _metadataFetchInFlight: Promise<void> | null = null
 
 export const CloudDataStore = defineStore('cloudData', {
   state: () => ({
@@ -157,6 +158,15 @@ export const CloudDataStore = defineStore('cloudData', {
       else (this as any)[arrType].push(item)
     },
     async setMetadataFromDynamo(): Promise<void> {
+      if (_metadataFetchInFlight) return _metadataFetchInFlight
+      _metadataFetchInFlight = this._setMetadataFromDynamoImpl()
+      try {
+        await _metadataFetchInFlight
+      } finally {
+        _metadataFetchInFlight = null
+      }
+    },
+    async _setMetadataFromDynamoImpl(): Promise<void> {
       const authStore = AuthStore()
       const umStore = UserMetadataStore()
       const notifStore = NotificationStore()

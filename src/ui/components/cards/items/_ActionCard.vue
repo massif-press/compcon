@@ -3,8 +3,9 @@
 </template>
 
 <script setup lang="ts">
+import type { Action } from '@/classes/Action'
 defineProps<{
-  item: object
+  item: Action
   notes?: boolean
   smallTags?: boolean
   dense?: boolean

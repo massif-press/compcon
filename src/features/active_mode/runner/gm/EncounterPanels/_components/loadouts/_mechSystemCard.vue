@@ -58,7 +58,7 @@
         <ActionsDeployables :item="item"
           :actor="mech"
           :owner="owner"
-          :encounter="encounter"
+          :encounter-instance="encounterInstance"
           action-icon="cc:system"
           @deploy="$emit('deploy', $event)" />
 
@@ -90,7 +90,7 @@
     </v-card-text>
     <equip-command-panel :owner="owner"
       :controller="mech.CombatController"
-      :encounter="encounter"
+      :encounter-instance="encounterInstance"
       :item="item" />
   </v-card>
 </template>
@@ -118,7 +118,7 @@ const props = defineProps({
       type: Object,
       required: true,
     },
-    encounter: {
+    encounterInstance: {
       type: Object,
       required: true,
     },

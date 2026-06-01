@@ -1,6 +1,6 @@
 <template>
   <base-actions-panel :owner="owner"
-    :encounter="encounter"
+    :encounter-instance="encounterInstance"
     :quick-actions="quickPilotActions"
     :full-actions="fullPilotActions"
     @deploy="$emit('deploy', $event)"
@@ -10,7 +10,7 @@
         <v-col>
           <pilot-fight-button :action="getBaseAction('act_fight')"
             :owner="owner"
-            :encounter="encounter"
+            :encounter-instance="encounterInstance"
             @activate="activate($event)" />
         </v-col>
       </v-row>
@@ -20,40 +20,42 @@
       <invade-button v-if="action.ID === 'act_invade'"
         :action="action"
         :owner="owner"
-        :encounter="encounter"
+        :encounter-instance="encounterInstance"
         @activate="activate($event)" />
       <pilot-reload-button v-else-if="action.ID === 'act_reload'"
         :action="action"
         :owner="owner"
-        :encounter="encounter"
+        :encounter-instance="encounterInstance"
         @activate="activate($event)" />
       <basic-action-button v-else
         :action="action"
         :owner="owner"
-        :encounter="encounter"
+        :encounter-instance="encounterInstance"
         @activate="activate($event)" />
     </template>
     <template #full-action-btn="{ action }">
       <skill-check-button v-if="action.ID === 'act_skill_check'"
         :action="action"
         :owner="owner"
-        :encounter="encounter"
+        :encounter-instance="encounterInstance"
         @activate="activate($event)" />
       <pilot-jockey-button v-else-if="action.ID === 'act_jockey'"
         :action="action"
         :owner="owner"
-        :encounter="encounter"
+        :encounter-instance="encounterInstance"
         @activate="activate($event)" />
       <basic-action-button v-else
         :action="action"
         :owner="owner"
-        :encounter="encounter"
+        :encounter-instance="encounterInstance"
         @activate="activate($event)" />
     </template>
   </base-actions-panel>
 </template>
 
 <script setup lang="ts">
+import type { CombatantData } from '@/classes/encounter/Encounter'
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed } from 'vue';
 import { CompendiumStore } from '@/stores';
 import { notify } from '@/util/notify';
@@ -66,8 +68,8 @@ import PilotFightButton from './loadouts/action_buttons/pilotFightButton.vue';
 import InvadeButton from './loadouts/action_buttons/invadeButton.vue';
 
 const props = defineProps<{
-  owner: any;
-  encounter: any;
+  owner: CombatantData;
+  encounterInstance: EncounterInstance;
 }>();
 
 defineEmits<{ deploy: [event: any] }>();

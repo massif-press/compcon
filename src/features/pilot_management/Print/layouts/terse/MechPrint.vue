@@ -513,6 +513,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Mech } from '@/classes/mech/Mech'
 import { computed } from 'vue'
 import PrintAction from '../../components/PrintAction.vue';
 import PrintDeployable from '../../components/PrintDeployable.vue';
@@ -527,7 +528,7 @@ import { usePrintOptions } from '../usePrintOptions';
 defineOptions({ name: 'mech-print' })
 
 const props = defineProps<{
-  mech: object
+  mech: Mech
   options: object
 }>()
 

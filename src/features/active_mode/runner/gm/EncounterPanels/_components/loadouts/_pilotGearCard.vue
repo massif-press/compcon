@@ -25,7 +25,7 @@
           :item="item"
           :actor="pilot"
           :owner="owner"
-          :encounter="encounter"
+          :encounter-instance="encounterInstance"
           action-icon="cc:system"
           @deploy="$emit('deploy', $event)" />
 
@@ -79,7 +79,7 @@ const props = defineProps({
       type: Object,
       required: true,
     },
-    encounter: {
+    encounterInstance: {
       type: Object,
       required: true,
     },

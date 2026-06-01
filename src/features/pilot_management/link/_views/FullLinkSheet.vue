@@ -142,7 +142,7 @@
 
   <cc-title id="loadout"
     class="mt-4 mb-2">Pilot Loadout</cc-title>
-  <cc-pilot-loadout :pilot="pilot"
+  <CCPilotLoadout :pilot="pilot"
     readonly
     no-frame />
 
@@ -220,13 +220,15 @@
         terse />
     </div>
 
-    <cc-mech-loadout :mech="mech"
+    <CCMechLoadout :mech="mech"
       readonly
       no-frame />
   </div>
 </template>
 
 <script setup lang="ts">
+import type { Mech } from '@/classes/mech/Mech'
+import type { Pilot } from '@/classes/pilot/Pilot'
 import CcPilotLicenseStub from '@/ui/components/items/CCPilotLicenseStub.vue';
 import CCPilotLoadout from '@/features/pilot_management/_components/loadout/pilot_loadout/CCPilotLoadout.vue'
 import CCMechLoadout from '@/features/pilot_management/_components/loadout/mech_loadout/CCMechLoadout.vue'
@@ -238,7 +240,7 @@ import LinkSheetMechHeader from '../_components/LinkSheetMechHeader.vue';
 defineOptions({ name: 'PilotLinkFull' })
 
 const props = defineProps<{
-  pilot: object
-  mech?: object
+  pilot: Pilot
+  mech?: Mech
 }>()
 </script>

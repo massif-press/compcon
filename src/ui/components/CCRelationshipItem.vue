@@ -153,7 +153,7 @@
         </v-card-actions>
       </v-card>
       <v-card v-else>
-        <cc-narrative-item-content :item="item"
+        <CCNarrativeItemContent :item="item"
           :origin-item="originItem"
           :linked-item="linkedItem" />
         <v-card-actions>

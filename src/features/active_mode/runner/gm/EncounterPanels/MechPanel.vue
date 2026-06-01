@@ -11,7 +11,7 @@
     </p>
     <cc-combat-action-chip :action="mech.CombatController.MeltdownAction"
       :owner="combatant"
-      :encounter="encounterInstance" />
+      :encounter-instance="encounterInstance" />
 
     <div class="text-right">
       <v-btn size="x-small"
@@ -100,7 +100,7 @@
     <template #actions>
       <mech-actions-panel :owner=combatant
         :controller="mech.CombatController"
-        :encounter="encounterInstance"
+        :encounter-instance="encounterInstance"
         @deploy="deploy($event)" />
     </template>
 
@@ -199,7 +199,7 @@
                         :key="a.ID"
                         :action="a"
                         :owner="combatant"
-                        :encounter="encounterInstance" />
+                        :encounter-instance="encounterInstance" />
                       <deploy-button v-for="d in rank.Deployables"
                         :key="d.ID"
                         :deployable="d"
@@ -230,6 +230,8 @@
 </template>
 
 <script setup lang="ts">
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import type { CombatantData } from '@/classes/encounter/Encounter'
 import { ref, computed } from 'vue';
 import { useDisplay } from 'vuetify';
 import { CompendiumStore } from '@/stores';
@@ -242,8 +244,8 @@ import CombatActionsBlock from './_CombatActionsBlock.vue';
 import { orderBy, sampleSize } from 'lodash-es';
 
 const props = defineProps<{
-  combatant: any;
-  encounterInstance: any;
+  combatant: CombatantData
+  encounterInstance: EncounterInstance;
 }>();
 
 const { smAndDown: mobile } = useDisplay();

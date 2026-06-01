@@ -112,7 +112,7 @@
         style="border-color: rgba(155, 155, 155, 0.6)">
         <unit-feature-card :key="item.ID"
           :owner="owner"
-          :encounter="encounterInstance"
+          :encounter-instance="encounterInstance"
           :item="item"
           :unit="unit"
           @deploy="$emit('deploy', $event)" />
@@ -122,6 +122,8 @@
 </template>
 
 <script setup lang="ts">
+import type { CombatantData } from '@/classes/encounter/Encounter'
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed, ref, watch } from 'vue'
 import { useMobile } from '@/composables/useMobile';
 import UnitFeatureCard from './_unitFeatureCard.vue';
@@ -133,9 +135,9 @@ defineOptions({ name: 'MechCombatLoadout' })
 const { mobile, portrait } = useMobile()
 
 const props = defineProps<{
-  owner: object
+  owner: CombatantData
   unit: object
-  encounterInstance: object
+  encounterInstance: EncounterInstance
 }>()
 
 const emit = defineEmits<{

@@ -2,10 +2,7 @@ import { markRaw } from 'vue'
 import { Status } from '@/classes/Status'
 import { CompendiumStore } from '@/features/compendium/store'
 import { expiration } from './Expiration'
-import {
-  EffectSpecial,
-  IEffectSpecialData,
-} from '../feature/active_effects/effect_subtype/EffectSpecial'
+import { EffectSpecial } from '../feature/active_effects/effect_subtype/EffectSpecial'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import type { CombatController } from './CombatController'
 
@@ -109,9 +106,7 @@ class StatusController {
   }
 
   public HasCustomStatus(attribute: string): boolean {
-    return this._active.StatusController.CustomStatuses.some(
-      s => s.status.Attribute === attribute
-    )
+    return this._active.StatusController.CustomStatuses.some(s => s.status.Attribute === attribute)
   }
 
   public get InCascade(): boolean {

@@ -21,7 +21,7 @@
       </v-col>
     </v-row>
 
-    <cc-solo-dialog v-model="showConfirmation"
+    <cc-dialog v-model="showConfirmation"
       title="Confirm Tier Change"
       icon="mdi-alert"
       min-width="600px"
@@ -63,7 +63,7 @@
           Cancel
         </cc-button>
       </v-card-actions>
-    </cc-solo-dialog>
+    </cc-dialog>
   </div>
 </template>
 

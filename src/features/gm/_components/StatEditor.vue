@@ -173,7 +173,7 @@ const { mobile, portrait } = useMobile()
 const props = withDefaults(defineProps<{
   item: object
   controller?: object
-  bonuses?: any[]
+  bonuses?: Bonus[]
   prefix?: string
   readonly?: boolean
   tierOverride?: number

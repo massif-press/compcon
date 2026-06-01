@@ -8,7 +8,7 @@
     <equipment-actions-deployables :item="item"
       :actor="pilot"
       :owner="owner"
-      :encounter="encounter"
+      :encounter-instance="encounterInstance"
       action-icon="cc:weapon"
       @deploy="$emit('deploy', $event)" />
 
@@ -37,15 +37,18 @@
 </template>
 
 <script setup lang="ts">
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import type { CombatantData } from '@/classes/encounter/Encounter'
+import type { Pilot } from '@/classes/pilot/Pilot'
 import { computed } from 'vue'
 import ActionsDeployables from './_ActionsDeployables.vue'
 import { externalPilotItemBonuses } from '@/composables/useExternalItemBonuses'
 
 const props = defineProps<{
   item: object
-  pilot: object
-  encounter: object
-  owner: object
+  pilot: Pilot
+  encounterInstance: EncounterInstance
+  owner: CombatantData
 }>()
 
 const emit = defineEmits<{

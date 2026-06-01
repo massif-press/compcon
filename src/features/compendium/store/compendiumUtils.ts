@@ -76,7 +76,7 @@ export function getLancerData<T>(itemType: string, constructor?: { new (Y: any):
       ? lancerData[itemType].map((x: any) => new constructor(x))
       : lancerData[itemType]
     : []
-  _lancerDataCache.set(cacheKey, result)
+  _lancerDataCache.set(cacheKey, markRaw(result))
   return result
 }
 

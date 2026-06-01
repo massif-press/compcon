@@ -80,6 +80,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Pilot } from '@/classes/pilot/Pilot'
 import { computed, ref } from 'vue'
 import PlCardBase from './_PLCardBase.vue'
 import { PilotGear } from '@/classes/pilot/components/Loadout/equipment/PilotGear'
@@ -93,14 +94,14 @@ const props = withDefaults(defineProps<{
   item?: object | null
   extended?: boolean
   readonly?: boolean
-  pilot: object
+  pilot: Pilot
 }>(), {
   item: null,
 })
 
 const emit = defineEmits<{ equip: [item: any]; remove: [item: any]; save: [] }>()
 
-const { allGear } = usePLCard(props)
+const { allGear, fID } = usePLCard(props)
 const base = ref<InstanceType<typeof PlCardBase> | null>(null)
 
 const headers = ref([

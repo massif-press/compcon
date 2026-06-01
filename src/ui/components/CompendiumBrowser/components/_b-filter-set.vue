@@ -115,7 +115,7 @@
       </template>
       <v-card>
         <v-card-text>
-          <cc-item-filter ref="itemFilter"
+          <CCItemFilter ref="itemFilter"
             :item-type="itemType"
             :active-filters="otherFilter"
             @set-filters="setFilters($event)" />

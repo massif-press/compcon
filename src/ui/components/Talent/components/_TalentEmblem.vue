@@ -21,11 +21,12 @@
 </template>
 
 <script setup lang="ts">
+import type { Talent } from '@/classes/pilot/components/talent/Talent'
 import { computed, ref } from 'vue'
 import DOMPurify from 'dompurify';
 
 const props = withDefaults(defineProps<{
-  talent: object
+  talent: Talent
   size?: string
   dark?: boolean
 }>(), {
