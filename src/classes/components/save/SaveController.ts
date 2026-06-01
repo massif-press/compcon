@@ -1,5 +1,6 @@
 import { ISaveable } from './ISaveable'
-import { SetItem } from '@/io/Storage'
+import { SetItem, RemoveItem } from '@/io/Storage'
+import logger from '@/user/logger'
 import * as _ from 'lodash-es'
 import { assertController } from '../../utility/assertController'
 import type { IControllerStatic } from '@/classes/ISerializable'
@@ -87,9 +88,35 @@ class SaveController {
   }
 
   public Delete() {
+    if (this.RemoteCode) {
+      this.DeleteRemote()
+      return
+    }
     this.DeleteTime = new Date().getTime()
     this.LastModified = this.DeleteTime
     this.save()
+  }
+
+  private DeleteRemote() {
+    const code = this.RemoteCode
+    const parent = this.Parent
+
+    void (async () => {
+      try {
+        const [{ getItemRegistration }, { RemoteItemStore }] = await Promise.all([
+          import('@/classes/components/cloud/ItemRegistry'),
+          import('@/user/store/RemoteItemStore'),
+        ])
+        RemoteItemStore().deleteRemoteItem(code)
+        const cc = (parent as any).CloudController
+        if (cc?.Metadata) cc.Metadata.Code = ''
+        const reg = getItemRegistration(parent.ItemType)
+        if (reg) await reg.deleteLocal(parent as any)
+        else await RemoveItem(parent.StorageType, parent.ID)
+      } catch (e) {
+        logger.error('SaveController.DeleteRemote: failed to permanently delete remote item', e)
+      }
+    })()
   }
 
   public SetRemote(code, author = '', collection = '', item_modified = 0) {
