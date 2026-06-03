@@ -47,7 +47,7 @@
         </template>
         <template #default="{ close }">
           <menu-input :key="owner.actor.ID"
-            :active-effect="<any>action"
+            :active-effect="action"
             :encounter-instance="encounterInstance"
             :owner="owner"
             :action="action"

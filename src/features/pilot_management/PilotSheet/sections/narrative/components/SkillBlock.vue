@@ -30,19 +30,19 @@
 </template>
 
 <script setup lang="ts">
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import SectionHeader from '../../components/SectionHeader.vue';
 import SectionEditChip from '../../components/SectionEditChip.vue';
 import NoDataBlock from '../../components/NoDataBlock.vue';
 import SkillSelector from '@/features/pilot_management/_components/selectors/SkillSelector.vue';
 import { Pilot } from '@/classes/pilot/Pilot'
 
-const props = defineProps({
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  })
+defineProps({
+  pilot: {
+    type: Pilot,
+    required: true,
+  },
+})
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile } = useDisplay()
 </script>

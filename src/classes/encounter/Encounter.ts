@@ -45,7 +45,7 @@ interface IEncounterData {
   combatants?: CombatantSaveData[]
 }
 
-type CombatantData = {
+export type CombatantData = {
   id: string
   index: number
   type: 'unit' | 'doodad' | 'eidolon' | 'pilot' | 'placeholder'
@@ -401,4 +401,4 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
 }
 
 export { Encounter }
-export type { IEncounterData, CombatantData, CombatantSaveData }
+export type { IEncounterData, CombatantSaveData }

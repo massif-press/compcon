@@ -264,7 +264,6 @@
 import { computed, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useDisplay } from 'vuetify'
-import { useMobile } from '@/composables/useMobile'
 import PilotRegistrationCard from './PilotRegistrationCard.vue'
 import LevelEditDialog from './LevelEditDialog.vue'
 import { Pilot } from '@/classes/pilot/Pilot'
@@ -272,7 +271,7 @@ import { Pilot } from '@/classes/pilot/Pilot'
 const router = useRouter()
 const route = useRoute()
 const _display = useDisplay()
-const { mobile } = useMobile()
+const { smAndDown: mobile } = useDisplay()
 
 defineOptions({ name: 'pilot-header' })
 

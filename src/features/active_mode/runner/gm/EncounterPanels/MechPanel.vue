@@ -9,9 +9,7 @@
     <p class="text-text mb-3">
       This mech has suffered a reactor meltdown. It is permanently destroyed and cannot be repaired.
     </p>
-    <cc-combat-action-chip :action="mech.CombatController.MeltdownAction"
-      :owner="combatant"
-      :encounter-instance="encounterInstance" />
+    <cc-combat-action-chip :owner="combatant" :encounter-instance="encounterInstance" :action="mech.CombatController.MeltdownAction" />
 
     <div class="text-right">
       <v-btn size="x-small"
@@ -24,7 +22,6 @@
   </cc-alert>
 
   <panel-base v-else
-    :encounter-instance="encounterInstance"
     :item="mech">
     <template #name-block>
       <div class="heading h2">{{ mech.Name }}</div>
@@ -98,9 +95,8 @@
     </template>
 
     <template #actions>
-      <mech-actions-panel :owner=combatant
+      <mech-actions-panel
         :controller="mech.CombatController"
-        :encounter-instance="encounterInstance"
         @deploy="deploy($event)" />
     </template>
 
@@ -130,7 +126,6 @@
                 <template #combat>
                   <combat-actions-block :item="item"
                     :combatant="combatant"
-                    :encounter-instance="encounterInstance"
                     :actor="mech"
                     @deploy="deploy($event)" />
                 </template>
@@ -160,7 +155,6 @@
                 <template #combat>
                   <combat-actions-block :item="item"
                     :combatant="combatant"
-                    :encounter-instance="encounterInstance"
                     :actor="mech"
                     @deploy="deploy($event)" />
                 </template>
@@ -195,11 +189,9 @@
                     <div
                       v-if="item.Rank >= n + 1 && (rank.Actions?.length || rank.Deployables?.length)"
                       class="mb-2 mt-1">
-                      <cc-combat-action-chip v-for="a in rank.Actions"
+                      <cc-combat-action-chip :owner="combatant" :encounter-instance="encounterInstance" v-for="a in rank.Actions"
                         :key="a.ID"
-                        :action="a"
-                        :owner="combatant"
-                        :encounter-instance="encounterInstance" />
+                        :action="a" />
                       <deploy-button v-for="d in rank.Deployables"
                         :key="d.ID"
                         :deployable="d"
@@ -217,118 +209,51 @@
 
     <div class="text-cc-overline mt-4 text-disabled">Core</div>
     <mech-core-panel :mech="mech"
-      :owner="combatant"
-      :encounter-instance="encounterInstance"
       @deploy="deploy($event)" />
 
     <div class="text-cc-overline mt-4 text-disabled">Loadout</div>
-    <mech-combat-loadout :encounter-instance="encounterInstance"
-      :owner="combatant"
+    <mech-combat-loadout
       :mech="mech"
-      @deploy="deploy($event)" />
+      @deploy="deploy($event!)" />
   </panel-base>
 </template>
 
 <script setup lang="ts">
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import type { CombatantData } from '@/classes/encounter/Encounter'
-import { ref, computed } from 'vue';
+import { computed, provide } from 'vue';
 import { useDisplay } from 'vuetify';
-import { CompendiumStore } from '@/stores';
+import { EncounterContextKey } from './encounterContext';
 import PanelBase from './_PanelBase.vue';
 import MechCombatLoadout from './_components/loadouts/MechCombatLoadout.vue';
 import MechCorePanel from './_components/loadouts/MechCorePanel.vue';
 import MechActionsPanel from './_components/MechActionsPanel.vue';
 import DeployButton from './_components/loadouts/_deployButton.vue';
 import CombatActionsBlock from './_CombatActionsBlock.vue';
-import { orderBy, sampleSize } from 'lodash-es';
+import { Deployable } from '@/classes/components/feature/deployable/Deployable.js';
 
 const props = defineProps<{
   combatant: CombatantData
   encounterInstance: EncounterInstance;
 }>();
 
-const { smAndDown: mobile } = useDisplay();
+provide(EncounterContextKey, {
+  owner: computed(() => props.combatant),
+  encounterInstance: computed(() => props.encounterInstance),
+});
 
-const usedActions = ref<string[]>([]);
-const movement = ref(0);
+const { smAndDown: mobile } = useDisplay();
 
 const xlColumns = computed(() => mobile.value ? 1 : props.encounterInstance.MaxMasonryColumns);
 const mech = computed(() => props.combatant.actor.ActiveMech);
-const pilot = computed(() => props.combatant.actor);
-const statuses = computed(() => orderBy(CompendiumStore().Statuses, 'StatusType'));
-const randomTalents = computed(() => sampleSize(CompendiumStore().Talents, 3));
-const applicableStatuses = computed(() => {
-  const exclude = ['dangerzone', 'downandout', 'engaged', 'hidden', 'invisible'];
-  return statuses.value.filter((s: any) => !exclude.includes(s.ID));
-});
+
 const aiSystems = computed(() => mech.value.MechLoadoutController.ActiveLoadout.AISystems);
 
-function deploy(deployable: any) {
+function deploy(deployable: Deployable) {
   props.encounterInstance.Deploy(deployable, props.combatant);
 }
 
-function getIcon(stat: string) {
-  const icons: Record<string, string> = {
-    structure: 'cc:structure', armor: 'mdi-shield-outline', hp: 'mdi-heart-outline',
-    reactor: 'cc:reactor', heat: 'cc:heat', repair: 'cc:repair',
-  };
-  return icons[stat];
-}
-
-function addStatus(status: any) {
-  const idx = pilot.value.statuses.indexOf(status);
-  if (idx > -1) pilot.value.statuses.splice(idx, 1);
-  else pilot.value.statuses.push(status);
-}
-
-function addCustomStatus(status: any) {
-  const idx = pilot.value.special.indexOf(status.Name);
-  if (idx > -1) { pilot.value.special.splice(idx, 1); return; }
-  pilot.value.special.push(status.Name);
-}
-
-function addResistance(resist: any) {
-  const vuln = pilot.value.vulnerabilities;
-  const imm = pilot.value.immunities;
-  const res = pilot.value.resistances;
-  const vi = vuln.indexOf(resist.Name);
-  if (vi > -1) { vuln.splice(vi, 1); return; }
-  const ii = imm.indexOf(resist.Name);
-  if (ii > -1) { imm.splice(ii, 1); vuln.push(resist.Name); return; }
-  const ri = res.indexOf(resist.Name);
-  if (ri > -1) { res.splice(ri, 1); imm.push(resist.Name); }
-  else res.push(resist.Name);
-}
-
-function hasResistance(resist: any) { return pilot.value.resistances.includes(resist.Name); }
-function hasImmunity(resist: any) { return pilot.value.immunities.includes(resist.Name); }
-function hasVulnerability(resist: any) { return pilot.value.vulnerabilities.includes(resist.Name); }
-
-function actionStatus(action: string) {
-  if (action === 'full') return usedActions.value.includes('full') || usedActions.value.includes('quick');
-  if (action === 'quick') return usedActions.value.includes('full') || usedActions.value.filter(x => x === 'quick').length === 2;
-  if (action === 'protocol') return usedActions.value.length;
-  if (action === 'move') return usedActions.value.includes('move') || movement.value === 0;
-  return usedActions.value.includes(action);
-}
-
-function setAction(action: string) {
-  if (action === 'quick') {
-    if (usedActions.value.filter(x => x === 'quick').length === 2) {
-      usedActions.value = usedActions.value.filter(x => x !== 'quick');
-    } else {
-      usedActions.value.push('quick');
-    }
-    return;
-  }
-  const idx = usedActions.value.indexOf(action);
-  if (idx > -1) usedActions.value.splice(idx, 1);
-  else usedActions.value.push(action);
-}
-
 function setMounted() { mech.value.CombatController.ToggleMounted(); }
-function turnDiff(targetRound: number) { return targetRound - props.encounterInstance.Round; }
 </script>
 
 <style scoped>

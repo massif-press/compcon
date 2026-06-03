@@ -66,7 +66,7 @@
                   [{{ t.Name }}]
                 </span>
                 <span v-for="t in selected.Tags.filter(
-                  x => !weaponSlot.Weapon.Tags.some(y => y.ID === x.ID)
+                  x => !weaponSlot.Weapon!.Tags.some(y => y.ID === x.ID)
                 )"
                   :key="`ws-tag-b_${t.Name}`"
                   class="text-success">
@@ -110,11 +110,12 @@ import { Mech } from '@/classes/mech/Mech'
 import { Range } from '@/classes/Range'
 import { Damage } from '@/classes/Damage'
 import Tag from '@/classes/Tag'
+import WeaponSlot from '@/classes/mech/components/mount/WeaponSlot'
 import { useLcpFilter } from '../../_composables/useLcpFilter'
 import SelectorFilterSwitches from '../../_SelectorFilterSwitches.vue'
 
 const props = defineProps<{
-  weaponSlot: any
+  weaponSlot: WeaponSlot
   mech: Mech
 }>()
 
@@ -155,7 +156,7 @@ const availableWeapons = computed((): MechWeapon[] => {
     x => x.Source && fittings.includes(x.Size) && !x.IsHidden && !x.IsExotic
   )
 
-  if (props.weaponSlot.Weapon) i = i.filter(x => x.ID !== props.weaponSlot.Weapon.ID)
+  if (props.weaponSlot.Weapon) i = i.filter(x => x.ID !== props.weaponSlot.Weapon!.ID)
   if (!showUnlicensed.value) i = i.filter(x => isLicensed(x))
 
   i = i.concat(

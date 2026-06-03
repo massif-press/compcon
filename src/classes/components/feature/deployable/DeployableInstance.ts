@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid'
+import logger from '@/user/logger'
 import { CombatantData } from '@/classes/encounter/Encounter'
 import type { SaveController } from '../../save/SaveController'
 import { CombatController } from '../../combat/CombatController'
@@ -59,7 +60,7 @@ class DeployableInstance implements ICombatant {
   private stringEval(val: number | string | undefined): number {
     const ownerController = this.Owner.actor?.CombatController.ActiveActor.CombatController
     if (!ownerController) {
-      console.error('No CombatController found on Deployable owner.')
+      logger.error('No CombatController found on Deployable owner.')
       return 0
     }
     if (val === undefined) return 0
@@ -89,7 +90,7 @@ class DeployableInstance implements ICombatant {
       }
 
       if (rightValue === undefined) {
-        console.error(`Stat key "${statKey}" not found in MaxStats`)
+        logger.error(`Stat key "${statKey}" not found in MaxStats`)
         return 0
       }
 
@@ -101,7 +102,7 @@ class DeployableInstance implements ICombatant {
       const leftValue = Number(leftOperand || 0)
 
       if (rightValue === undefined) {
-        console.error(`Stat key "${statKey}" not found in MaxStats`)
+        logger.error(`Stat key "${statKey}" not found in MaxStats`)
         return 0
       }
 
@@ -128,12 +129,12 @@ class DeployableInstance implements ICombatant {
             result = Math.pow(leftValue, rightValue)
             break
           default:
-            console.warn(`Unsupported operator: ${operator}`)
+            logger.warn(`Unsupported operator: ${operator}`)
             return 0
         }
         return Math.floor(result)
       } catch (error) {
-        console.warn(`Invalid mathematical expression: ${leftValue} ${operator} ${rightValue}`)
+        logger.warn(`Invalid mathematical expression: ${leftValue} ${operator} ${rightValue}`)
         return 0
       }
     }

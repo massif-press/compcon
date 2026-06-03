@@ -27,7 +27,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
-import { CompendiumStore } from '@/stores'
+import { useCompendiumData } from '@/ui/providers'
 import BaseDurationDisplay from './BaseDurationDisplay.vue'
 
 withDefaults(defineProps<{
@@ -35,6 +35,7 @@ withDefaults(defineProps<{
   cols?: number | string
 }>(), { cols: 'auto' })
 
+const compendium = useCompendiumData()
 const { mdAndDown: mobile } = useDisplay()
-const statusOptions = computed(() => CompendiumStore().Statuses)
+const statusOptions = computed(() => compendium.Statuses)
 </script>

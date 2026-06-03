@@ -15,7 +15,7 @@ import { Npc } from '@/classes/npc/Npc';
 defineOptions({ name: 'combined-print' })
 
 const props = defineProps<{
-  npcs: any[]
+  npcs: Npc[]
   options: object
 }>()
 

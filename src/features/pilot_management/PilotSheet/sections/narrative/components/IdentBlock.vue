@@ -48,11 +48,11 @@
 import { computed, ref } from 'vue'
 import { Pilot } from '@/classes/pilot/Pilot'
 import BackgroundSelector from '../../../../_components/selectors/BackgroundSelector.vue';
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 
 defineOptions({ name: 'ident-block' })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = defineProps<{
   pilot: Pilot

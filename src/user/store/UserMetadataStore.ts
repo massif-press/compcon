@@ -146,7 +146,9 @@ export const UserMetadataStore = defineStore('userMetadata', {
           logger.warn('Unauthorized response from server, signing out')
           try {
             await signOut()
-          } catch (_) {}
+          } catch (signOutErr) {
+            logger.warn(`Best-effort signOut during unauthorized handling failed: ${signOutErr}`)
+          }
           authStore.signOut()
           throw e
         }
@@ -200,7 +202,7 @@ export const UserMetadataStore = defineStore('userMetadata', {
           await this.setUserMetadata()
         }
       } catch (err) {
-        console.warn('V2 cloud migration check skipped:', err)
+        logger.warn(`V2 cloud migration check skipped: ${err}`)
       }
     },
     async resetV2CloudMigration(): Promise<void> {

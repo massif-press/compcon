@@ -64,11 +64,11 @@ import Credits from '@/features/compendium/Views/CampaignLibrary/pages/credits.v
 import ContentPage from '@/features/compendium/Views/CampaignLibrary/pages/contentPage.vue';
 import Page from './pages/CampaignPage.vue';
 import { CampaignStore } from '@/stores';
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 
 defineOptions({ name: 'campaign-editor' })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = defineProps<{
   id: string

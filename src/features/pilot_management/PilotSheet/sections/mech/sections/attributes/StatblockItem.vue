@@ -45,7 +45,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import CCBonusTooltip from '@/ui/components/CCBonusTooltip.vue'
 
 const props = defineProps({
@@ -80,7 +80,7 @@ const props = defineProps({
     },
   })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const title = computed(() => {
   const value = props.signed ? (props.val > -1 ? '+' : '') + props.val : props.val

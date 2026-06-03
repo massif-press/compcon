@@ -1,8 +1,6 @@
 <template>
   <combat-action-button
     :action="action"
-    :owner="owner"
-    :encounter-instance="encounterInstance"
     min-width="1000">
     <template #default="{ close }">
       <cc-synergy-display :location="action.ID.replace('act_', '')"
@@ -14,9 +12,7 @@
         :mech="controller.Parent"
         alert />
 
-      <menu-input :active-effect="action"
-        :encounter-instance="encounterInstance"
-        :owner="owner"
+      <menu-input :owner="owner" :encounter-instance="encounterInstance" :active-effect="action"
         :close="close"
         @apply="apply"
         @reset="reset" />
@@ -26,16 +22,17 @@
 
 <script setup lang="ts">
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { useEncounterContext } from '../../../encounterContext'
 import type { CombatantData } from '@/classes/encounter/Encounter'
 import type { Action } from '@/classes/Action'
 import { computed } from 'vue'
 import CombatActionButton from './CombatActionButton.vue';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 
+const { owner, encounterInstance } = useEncounterContext()
+
 const props = defineProps<{
   action: Action
-  owner: CombatantData
-  encounterInstance: EncounterInstance
 }>()
 
 const emit = defineEmits<{
@@ -43,7 +40,7 @@ const emit = defineEmits<{
 }>()
 
 const controller = computed(() => {
-      return props.owner.actor.CombatController;
+      return owner.value.actor.CombatController;
     })
 const isTechAttack = computed(() => {
       if (props.action.ID.includes('tech_attack')) return true;

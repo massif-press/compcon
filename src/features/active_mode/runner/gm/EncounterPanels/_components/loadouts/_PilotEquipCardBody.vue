@@ -5,10 +5,8 @@
         class="mb-1 px-2" />
     </div>
 
-    <equipment-actions-deployables :item="item"
+    <ActionsDeployables :item="item"
       :actor="pilot"
-      :owner="owner"
-      :encounter-instance="encounterInstance"
       action-icon="cc:weapon"
       @deploy="$emit('deploy', $event)" />
 
@@ -38,20 +36,21 @@
 
 <script setup lang="ts">
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { useEncounterContext } from '../../encounterContext'
 import type { CombatantData } from '@/classes/encounter/Encounter'
 import type { Pilot } from '@/classes/pilot/Pilot'
-import { computed } from 'vue'
 import ActionsDeployables from './_ActionsDeployables.vue'
 import { externalPilotItemBonuses } from '@/composables/useExternalItemBonuses'
+import { PilotEquipment } from '@/classes/pilot/components/Loadout/equipment/PilotEquipment.js'
 
-const props = defineProps<{
-  item: object
+const { owner, encounterInstance } = useEncounterContext()
+
+defineProps<{
+  item: PilotEquipment
   pilot: Pilot
-  encounterInstance: EncounterInstance
-  owner: CombatantData
 }>()
 
-const emit = defineEmits<{
-  'deploy': []
+defineEmits<{
+  'deploy': [value: any]
 }>()
 </script>

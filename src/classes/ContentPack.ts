@@ -199,6 +199,25 @@ class ContentPack {
     self._Reserves = self._data.reserves?.map(x => new Reserve(x, self)) || []
 
     self._DowntimeActions = self._data.downtimeActions?.map(x => new DowntimeAction(x, self)) || []
+
+    this._syncVisibility()
+  }
+
+  private _syncVisibility(): void {
+    const hidden = !this.Active
+    const collections: { IsHidden: boolean }[][] = [
+      this._Manufacturers,
+      this._CoreBonuses,
+      this._Frames,
+      this._MechWeapons,
+      this._MechSystems,
+      this._WeaponMods,
+      this._PilotGear,
+      this._Talents,
+    ]
+    for (const collection of collections) {
+      for (const item of collection) item.IsHidden = hidden
+    }
   }
 
   public get ID(): string {
@@ -245,7 +264,6 @@ class ContentPack {
 
   private _Manufacturers: Manufacturer[] = []
   public get Manufacturers(): Manufacturer[] {
-    this._Manufacturers.forEach(x => (x.IsHidden = !this.Active))
     return this._Manufacturers
   }
 
@@ -261,43 +279,36 @@ class ContentPack {
 
   private _CoreBonuses: CoreBonus[] = []
   public get CoreBonuses(): CoreBonus[] {
-    this._CoreBonuses.forEach(x => (x.IsHidden = !this.Active))
     return this._CoreBonuses
   }
 
   private _Frames: Frame[] = []
   public get Frames(): Frame[] {
-    this._Frames.forEach(x => (x.IsHidden = !this.Active))
     return this._Frames
   }
 
   private _MechWeapons: MechWeapon[] = []
   public get MechWeapons(): MechWeapon[] {
-    this._MechWeapons.forEach(x => (x.IsHidden = !this.Active))
     return this._MechWeapons
   }
 
   private _MechSystems: MechSystem[] = []
   public get MechSystems(): MechSystem[] {
-    this._MechSystems.forEach(x => (x.IsHidden = !this.Active))
     return this._MechSystems
   }
 
   private _WeaponMods: WeaponMod[] = []
   public get WeaponMods(): WeaponMod[] {
-    this._WeaponMods.forEach(x => (x.IsHidden = !this.Active))
     return this._WeaponMods
   }
 
   private _PilotGear: PilotEquipment[] = []
   public get PilotGear(): PilotEquipment[] {
-    this._PilotGear.forEach(x => (x.IsHidden = !this.Active))
     return this._PilotGear
   }
 
   private _Talents: Talent[] = []
   public get Talents(): Talent[] {
-    this._Talents.forEach(x => (x.IsHidden = !this.Active))
     return this._Talents
   }
 
@@ -400,6 +411,7 @@ class ContentPack {
   public SetActive(active: boolean): void {
     if (this._missing) return
     this._active = active
+    this._syncVisibility()
   }
 
   public get Dependencies(): ContentPackDependency[] {

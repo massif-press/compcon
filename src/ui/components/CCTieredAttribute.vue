@@ -15,7 +15,7 @@ defineOptions({ name: 'cc-tiered-attribute' })
 
 const props = defineProps<{
   title: string
-  arr: any[]
+  arr: number[]
 }>()
 
 function cleanValue(v: any) {

@@ -171,18 +171,30 @@ class Action {
   private _uses: number
   private _ignore_used: boolean
 
+  private static normalizeData(data: IActionData): IActionData {
+    const toArray = <T>(v: T | T[] | undefined): T[] | undefined =>
+      v === undefined ? undefined : Array.isArray(v) ? v : [v]
+    return {
+      ...data,
+      synergy_locations: toArray(data.synergy_locations),
+      damage: toArray(data.damage),
+      range: toArray(data.range),
+      add_status: toArray(data.add_status as any) as IActionData['add_status'],
+      add_special: toArray(data.add_special),
+      add_resist: toArray(data.add_resist as any) as IActionData['add_resist'],
+      add_other: toArray(data.add_other),
+    }
+  }
+
   public constructor(data: IActionData, origin?: string, heat?: number) {
+    data = Action.normalizeData(data)
     if (data.name) this.Name = data.name
     else this.Name = origin ? `Activate ${origin}` : 'Unknown Action'
     this.Description = data.description || ''
     this.ID = data.id ? data.id : `act_${this.Name.toLowerCase().replace(/\s/g, '')}_${uuid()}`
     this.Origin = origin || ''
     this.IsItemAction = !!origin
-    if (data.synergy_locations)
-      this.SynergyLocations = Array.isArray(data.synergy_locations)
-        ? data.synergy_locations
-        : [data.synergy_locations]
-    else this.SynergyLocations = []
+    this.SynergyLocations = data.synergy_locations ?? []
     this.Activation = data.activation
       ? ((Object.values(ActivationType).find(
           v => v.toLowerCase() === (data.activation as string).toLowerCase().replace(/_/g, ' ')
@@ -205,17 +217,9 @@ class Action {
     this._uses = this.Frequency.Uses
     this.Init = data.init || ''
     this.Trigger = data.trigger || ''
-    this.Damage = []
-    if (data.damage) {
-      if (!Array.isArray(data.damage)) data.damage = [data.damage]
-      this.Damage = data.damage ? data.damage.map(x => new Damage(x)) : []
-    }
+    this.Damage = data.damage ? data.damage.map(x => new Damage(x)) : []
     if (this.Damage.length) this.Damage.forEach(d => d.setDamageAttributes(this))
-    this.Range = []
-    if (data.range) {
-      if (!Array.isArray(data.range)) data.range = [data.range]
-      this.Range = data.range ? data.range.map(x => new Range(x)) : []
-    }
+    this.Range = data.range ? data.range.map(x => new Range(x)) : []
     this.IsPilotAction =
       data.pilot ||
       data.id?.includes('jockey') ||
@@ -229,27 +233,11 @@ class Action {
     this.ActiveEffects = data.active_effects
       ? data.active_effects.map(x => new ActiveEffect(x, this, true))
       : []
-    this.AddStatus = []
-    if (data.add_status) {
-      if (!Array.isArray(data.add_status)) data.add_status = [data.add_status]
-      this.AddStatus = data.add_status.map(x => new EffectStatus(x))
-    }
-    this.AddSpecial = []
-    if (data.add_special) {
-      if (!Array.isArray(data.add_special)) data.add_special = [data.add_special]
-      this.AddSpecial = data.add_special.map(x => new EffectSpecial(x))
-    }
+    this.AddStatus = data.add_status ? data.add_status.map(x => new EffectStatus(x)) : []
+    this.AddSpecial = data.add_special ? data.add_special.map(x => new EffectSpecial(x)) : []
     if (data.remove_special) this.RemoveSpecial = data.remove_special
-    this.AddResist = []
-    if (data.add_resist) {
-      if (!Array.isArray(data.add_resist)) data.add_resist = [data.add_resist]
-      this.AddResist = data.add_resist.map(x => new EffectResist(x))
-    }
-    this.AddOther = []
-    if (data.add_other) {
-      if (!Array.isArray(data.add_other)) data.add_other = [data.add_other]
-      this.AddOther = data.add_other.map(x => new EffectOther(x))
-    }
+    this.AddResist = data.add_resist ? data.add_resist.map(x => new EffectResist(x)) : []
+    this.AddOther = data.add_other ? data.add_other.map(x => new EffectOther(x)) : []
     if (data.bonus_damage) this.BonusDamage = new BonusDamage(data.bonus_damage, this.Name)
 
     this._ignore_used = data.ignore_used || false

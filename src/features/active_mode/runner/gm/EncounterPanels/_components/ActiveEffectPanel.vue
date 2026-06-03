@@ -31,9 +31,7 @@
     <v-col v-for="(ae, idx) in sortedActiveEffects"
       :key="`ae_${idx}_${ae.Name}`"
       cols="auto">
-      <CCActiveEffectChip :active-effect="ae"
-        :owner="item"
-        :encounter-instance="encounterInstance" />
+      <CCActiveEffectChip :owner="item" :encounter-instance="encounterInstance" :active-effect="ae" />
     </v-col>
     <v-col v-if="hidden > 0"
       cols="auto">
@@ -49,13 +47,15 @@
 
 <script setup lang="ts">
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { useEncounterContext } from '../encounterContext'
 import type { ICombatant } from '@/classes/components/combat/ICombatant'
 import { computed, ref } from 'vue'
 import CCActiveEffectChip from '@/ui/components/chips/CCActiveEffectChip.vue'
 
+const { encounterInstance } = useEncounterContext()
+
 const props = defineProps<{
   item: ICombatant
-  encounterInstance: EncounterInstance
 }>()
 
 const sortMode = ref('')

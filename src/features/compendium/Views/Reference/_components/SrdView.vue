@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import { NavStore } from '@/stores';
 import SrdViewMobile from './SrdViewMobile.vue';
 import SrdViewDesktop from './SrdViewDesktop.vue';
@@ -23,7 +23,7 @@ const props = defineProps({
     },
   })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const component = computed(() => mobile.value ? SrdViewMobile : SrdViewDesktop)
 </script>

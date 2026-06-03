@@ -14,11 +14,12 @@
 </template>
 
 <script setup lang="ts">
+import type { Environment } from '@/classes/Environment'
 import CCEnvironmentDisplay from '@/ui/components/CCEnvironmentDisplay.vue'
 defineOptions({ name: 'environment-chip' })
 
 const props = withDefaults(defineProps<{
-  environment: object
+  environment: Environment
   size?: string
 }>(), {
   size: 'x-small'

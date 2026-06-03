@@ -191,7 +191,7 @@
 import { ref, computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import { notify } from '@/util/notify'
-import { CompendiumStore, UserStore } from '@/stores'
+import { useCompendiumData, useUserData } from '@/ui/providers'
 import logger from '@/user/logger'
 
 const props = defineProps<{
@@ -223,11 +223,14 @@ const { smAndDown: mobile } = useDisplay()
 const expanded = ref<any[]>([])
 const downloadingPacks = ref<string[]>([])
 
+const compendium = useCompendiumData()
+const userData = useUserData()
+
 const tableHeaders = computed(() => mobile.value ? props.headers.slice(1) : props.headers)
-const contentPacks = computed(() => CompendiumStore().ContentPacks)
-const lcpSubscriptions = computed(() => UserStore().User.LcpSubscriptions)
-const user = computed(() => UserStore().User)
-const loggedIn = computed(() => UserStore().IsLoggedIn)
+const contentPacks = computed(() => compendium.ContentPacks)
+const lcpSubscriptions = computed(() => userData.User.LcpSubscriptions)
+const user = computed(() => userData.User)
+const loggedIn = computed(() => userData.IsLoggedIn)
 
 function getInstalledPack(pack: any) {
   return contentPacks.value.find(({ Manifest }) =>
@@ -268,7 +271,7 @@ async function installLatest(pack: any) {
   if (isLatest(pack) || downloadingPacks.value.includes(pack.sortkey)) return
   downloadingPacks.value.push(pack.sortkey)
   try {
-    await UserStore().downloadLcp(pack)
+    await userData.downloadLcp(pack)
     notify({
       title: 'LCP Updated',
       text: `The latest version of ${pack.title} has been downloaded and installed.`,

@@ -17,8 +17,6 @@
           :key="b.ID"
           :bonus="b"
           :mech="mech"
-          :owner="owner"
-          :encounter-instance="encounterInstance"
           @deploy="$emit('deploy', $event)" />
 
         <sh-lock-card v-if="item.mount.IsLocked" />
@@ -28,11 +26,9 @@
             class="my-4" />
           <mech-weapon-card v-if="s && s.Weapon"
             :key="s.ID"
-            :owner="owner"
             :item="s.Weapon"
             :mech="mech"
             :mount="item.mount"
-            :encounter-instance="encounterInstance"
             :int-weapon="item.isIntWeapon || item.isIntegrated"
             @deploy="$emit('deploy', $event)" />
         </div>
@@ -49,10 +45,8 @@
           {{ (item as any).Name }}
         </legend>
         <mech-system-card :key="(item as any).ID"
-          :owner="owner"
           :item="<any>item"
           :mech="mech"
-          :encounter-instance="encounterInstance"
           @deploy="$emit('deploy', $event)" />
       </fieldset>
     </template>
@@ -61,8 +55,10 @@
 
 <script setup lang="ts">
 import type { CombatantData } from '@/classes/encounter/Encounter'
+import { useEncounterContext } from '../../encounterContext'
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import type { Mech } from '@/classes/mech/Mech'
+import type Mount from '@/classes/mech/components/mount/Mount'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import ShLockCard from '@/features/pilot_management/_components/loadout/mech_loadout/components/mount/_ShLockCard.vue';
@@ -72,84 +68,85 @@ import MechMountBonusCard from './_mechMountBonusCard.vue';
 
 const _display = useDisplay()
 
+const { owner, encounterInstance } = useEncounterContext()
+
 const props = defineProps<{
   mech: Mech
-  encounterInstance: EncounterInstance
-  owner: CombatantData
 }>()
 
 const emit = defineEmits<{
-  'deploy': []
+  'deploy': [value: any]
+
 }>()
 
 const xlColumns = computed(() => {
-      if (mobile.value) return 1
-      else return props.encounterInstance.MaxMasonryColumns
-    })
+  if (mobile.value) return 1
+  else return encounterInstance.value.MaxMasonryColumns
+})
 const mobile = computed(() => {
-      return _display.mdAndDown.value;
-    })
+  return _display.mdAndDown.value;
+})
 const systems = computed(() => {
-      return props.mech.MechLoadoutController.ActiveLoadout.AllActiveSystems;
-    })
+  return props.mech.MechLoadoutController.ActiveLoadout.AllActiveSystems;
+})
 const mounts = computed(() => {
-      const items = [] as {
-        mount: any;
-        isIntegrated: boolean;
-        isIntWeapon: boolean;
-        isImpArm: boolean;
-        isSuperheavy: boolean;
-      }[];
+  const items = [] as {
+    mount: Mount;
+    isIntegrated: boolean;
+    isIntWeapon: boolean;
+    isImpArm: boolean;
+    isSuperheavy: boolean;
+  }[];
 
-      props.mech.MechLoadoutController.ActiveLoadout.IntegratedMounts.forEach((im) => {
-        items.push({
-          mount: im,
-          isIntegrated: true,
-          isIntWeapon: false,
-          isImpArm: false,
-          isSuperheavy: false,
-        });
+  props.mech.MechLoadoutController.ActiveLoadout.IntegratedMounts.forEach((im) => {
+    items.push({
+      mount: im,
+      isIntegrated: true,
+      isIntWeapon: false,
+      isImpArm: false,
+      isSuperheavy: false,
+    });
+  });
+
+  if (props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'))
+    items.push({
+      mount: props.mech.MechLoadoutController.ActiveLoadout.IntegratedWeaponMount,
+      isIntegrated: false,
+      isIntWeapon: true,
+      isImpArm: false,
+      isSuperheavy: false,
+    });
+
+  if (props.mech.MechLoadoutController.ActiveLoadout.EquippableMounts.length < 3) {
+    if (props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting'))
+      items.push({
+        mount: props.mech.MechLoadoutController.ActiveLoadout.SuperheavyMount,
+        isIntegrated: false,
+        isIntWeapon: false,
+        isImpArm: false,
+        isSuperheavy: true,
       });
+    else if (props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'))
+      items.push({
+        mount: props.mech.MechLoadoutController.ActiveLoadout.ImprovedArmamentMount,
+        isIntegrated: false,
+        isIntWeapon: false,
+        isImpArm: true,
+        isSuperheavy: false,
+      });
+  }
 
-      if (props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'))
-        items.push({
-          mount: props.mech.MechLoadoutController.ActiveLoadout.IntegratedWeaponMount,
-          isIntegrated: false,
-          isIntWeapon: true,
-          isImpArm: false,
-          isSuperheavy: false,
-        });
+  for (const m of props.mech.MechLoadoutController.ActiveLoadout.EquippableMounts) {
+    // if (m.Bonuses.some((b) => b.ID === 'cb_mount_retrofitting')) continue;
+    items.push({
+      mount: m,
+      isIntegrated: false,
+      isIntWeapon: false,
+      isImpArm: false,
+      isSuperheavy: false,
+    });
+  }
 
-      if (props.mech.MechLoadoutController.ActiveLoadout.EquippableMounts.length < 3) {
-        if (props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting'))
-          items.push({
-            mount: props.mech.MechLoadoutController.ActiveLoadout.SuperheavyMount,
-            isIntegrated: false,
-            isIntWeapon: false,
-            isImpArm: false,
-            isSuperheavy: true,
-          });
-        else if (props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'))
-          items.push({
-            mount: props.mech.MechLoadoutController.ActiveLoadout.ImprovedArmamentMount,
-            isIntegrated: false,
-            isIntWeapon: false,
-            isImpArm: true,
-            isSuperheavy: false,
-          });
-      }
-
-      for (const m of props.mech.MechLoadoutController.ActiveLoadout.EquippableMounts) {
-        // if (m.Bonuses.some((b) => b.ID === 'cb_mount_retrofitting')) continue;
-        items.push({
-          mount: m,
-          isIntegrated: false,
-          isIntWeapon: false,
-          isImpArm: false,
-          isSuperheavy: false,
-        });
-      }
-
-      return items;
-    })
+  return items;
+})
 </script>

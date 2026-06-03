@@ -177,30 +177,23 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
 import { useDisplay } from 'vuetify'
 import StatblockItem from './StatblockItem.vue';
 import { Mech } from '@/classes/mech/Mech'
-import Pilot from '@/assets/icons/svg/pilot.vue';
 
 const props = defineProps({
-    mech: {
-      type: Mech,
-      required: true,
-    },
-    pilot: {
-      type: Pilot,
-      required: true,
-    },
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-  })
+  mech: {
+    type: Mech,
+    required: true,
+  },
+  color: {
+    type: String,
+    required: false,
+    default: 'primary',
+  },
+})
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 const { lgAndUp: widescreen } = useDisplay()
 
 function getBonuses(key: string): any[] {

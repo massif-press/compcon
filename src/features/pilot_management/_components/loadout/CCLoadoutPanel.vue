@@ -56,12 +56,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import Loadout from '@/classes/Loadout'
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = withDefaults(defineProps<{
-  loadouts: any[]
+  loadouts: Loadout[]
   activeLoadout: object
   color?: string
   readonly?: boolean

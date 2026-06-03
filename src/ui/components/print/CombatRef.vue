@@ -408,11 +408,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { CompendiumStore } from '@/stores'
 import { Status } from '@/classes/Status'
 
-const statuses = computed<Status[]>(() => CompendiumStore().Statuses)
+const { statuses } = defineProps<{ statuses: Status[] }>()
 </script>
 
 <style scoped>

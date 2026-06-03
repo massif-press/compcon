@@ -395,11 +395,11 @@ import { ContentCollection } from '@/classes/components/cloud/ContentCollection'
 import { ContentCollectionStore, UserStore } from '@/stores';
 import CollectionItemSelector from './_components/collectionItemSelector.vue';
 import logger from '@/user/logger';
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 
 defineOptions({ name: 'CloudPublish' })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const loading = ref(false)
 const colIdx = ref(0)

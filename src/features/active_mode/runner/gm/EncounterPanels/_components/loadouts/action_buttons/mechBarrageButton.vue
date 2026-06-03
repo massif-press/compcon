@@ -1,8 +1,6 @@
 <template>
   <combat-action-button
     :action="action"
-    :owner="owner"
-    :encounter-instance="encounterInstance"
     :preset-weapon="presetWeapon"
     :mobile="mobile">
     <template #default="{ close }">
@@ -66,9 +64,7 @@
           :key="b.ID"
           expanded
           :bonus="b"
-          :owner="owner"
-          :mech="owner.actor.CombatController.Parent"
-          :encounter-instance="encounterInstance" />
+          :mech="owner.actor.CombatController.Parent" />
 
         <div class="px-6">
 
@@ -80,8 +76,6 @@
 
           <mech-weapon-attack v-if="selectedWeapon && events[idx]?.weaponEvent"
             :event="<WeaponAttackEvent>events[idx].weaponEvent"
-            :owner="owner"
-            :encounter-instance="encounterInstance"
             :profile="<WeaponProfile>events[idx].weaponEvent.Weapon" />
 
           <div
@@ -129,8 +123,6 @@
 
                   <mech-weapon-attack v-if="selectedWeapon"
                     :event="<WeaponAttackEvent>aux"
-                    :owner="owner"
-                    :encounter-instance="encounterInstance"
                     :profile="<WeaponProfile>aux.Weapon" />
 
                 </div>
@@ -149,11 +141,9 @@
       <v-divider />
       <div class="pa-4">
 
-        <apply-button v-if="events.some(e => e?.weaponEvent)"
+        <apply-button :owner="owner" :encounter-instance="encounterInstance" v-if="events.some(e => e?.weaponEvent)"
           :event="<ActiveEffectEvent[]>events.filter(e => e?.weaponEvent).map(e => e.weaponEvent.BaseEvent)"
           :weapon-event="<WeaponAttackEvent[]>events.filter(e => e?.weaponEvent).map(e => e.weaponEvent)"
-          :encounter-instance="encounterInstance"
-          :owner="owner"
           :close="close"
           :action="action"
           :action-id="selectedWeapons.filter(Boolean).map(w => w.InstanceID)"
@@ -168,6 +158,7 @@
 
 <script setup lang="ts">
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { useEncounterContext } from '../../../encounterContext'
 import type { Action } from '@/classes/Action'
 import { computed, ref, onMounted } from 'vue'
 import { useDisplay } from 'vuetify'
@@ -184,10 +175,10 @@ import CombatActionButton from './CombatActionButton.vue'
 
 defineOptions({ name: 'MechBarrageButton' })
 
+const { owner, encounterInstance } = useEncounterContext()
+
 const props = defineProps<{
   action: Action
-  owner: CombatantData
-  encounterInstance: EncounterInstance
   presetWeapon?: MechWeapon
 }>()
 
@@ -203,7 +194,7 @@ const events = ref<{
 const selectedWeapons = ref<MechWeapon[]>([])
 
 const controller = computed(() =>
-  (props.owner as any).actor.CombatController.ActiveActor.CombatController
+  (owner.value as any).actor.CombatController.ActiveActor.CombatController
 )
 
 const barrageWeapons = computed(() => {
@@ -233,7 +224,7 @@ const allEventsStaged = computed(() => {
 })
 
 function reset(clearAction = false) {
-  if (clearAction) (props.owner as any).CombatController.ClearActionUsed((props.action as any).ID)
+  if (clearAction) (owner.value as any).CombatController.ClearActionUsed((props.action as any).ID)
   selectedWeapons.value = new Array(2)
   events.value = new Array(2)
   if (!selectedWeapons.value[0] && props.presetWeapon) {
@@ -242,7 +233,7 @@ function reset(clearAction = false) {
 }
 
 function apply() {
-  const actor = (props.owner as any).actor.CombatController.ActiveActor.CombatController
+  const actor = (owner.value as any).actor.CombatController.ActiveActor.CombatController
   selectedWeapons.value.forEach((w: any) => {
     actor.MarkActionUsed(w.InstanceID)
     if (w.IsLoading) w.Used = true
@@ -253,14 +244,14 @@ function apply() {
 function ordnanceWarning(selectedWeapon: any) {
   if (!selectedWeapon) return false
   if (selectedWeapon.ActiveTags.find((t: any) => t.ID.toLowerCase() === 'tg_ordnance')) {
-    return (props.owner as any).actor.CombatController.CanActivate('ordnance') === false
+    return (owner.value as any).actor.CombatController.CanActivate('ordnance') === false
   }
   return false
 }
 
 function selectedMount(selectedWeapon: any) {
   if (!selectedWeapon) return null
-  const aa = (props.owner as any).actor.CombatController.RootActor
+  const aa = (owner.value as any).actor.CombatController.RootActor
   if (!aa.ActiveMech) return null
   return aa.ActiveMech.MechLoadoutController.ActiveLoadout.Mounts.find(
     (m: any) => m.Weapons.some((w: any) => w.InstanceID === selectedWeapon.InstanceID)
@@ -269,8 +260,8 @@ function selectedMount(selectedWeapon: any) {
 
 function setSelected(index: number, weapon: MechWeapon) {
   if (!weapon) return
-  const self = (props.encounterInstance as any).Combatants.find(
-    (c: CombatantData) => c.actor.CombatController.RootActor.ID === (props.owner as any).actor.CombatController.RootActor.ID
+  const self = (encounterInstance.value as any).Combatants.find(
+    (c: CombatantData) => c.actor.CombatController.RootActor.ID === (owner.value as any).actor.CombatController.RootActor.ID
   )
   if (!self) throw new Error('Owner combatant not found in encounterInstance')
   selectedWeapons.value[index] = weapon
@@ -278,10 +269,10 @@ function setSelected(index: number, weapon: MechWeapon) {
     (x: any) => x.InstanceID !== weapon.InstanceID && x.Size.toLowerCase() === 'auxiliary'
   ) ?? []
   const auxEvents = auxes.map((x: any) =>
-    new WeaponAttackEvent(x.SelectedProfile as WeaponProfile, props.owner as CombatantData, props.encounterInstance, 'Additional Aux Attack')
+    new WeaponAttackEvent(x.SelectedProfile as WeaponProfile, owner.value as CombatantData, encounterInstance.value, 'Additional Aux Attack')
   )
   events.value[index] = {
-    weaponEvent: new WeaponAttackEvent(weapon.SelectedProfile as WeaponProfile, self, props.encounterInstance, 'Barrage'),
+    weaponEvent: new WeaponAttackEvent(weapon.SelectedProfile as WeaponProfile, self, encounterInstance.value, 'Barrage'),
     auxes, auxEvents,
     include: auxEvents.map(() => true),
   }
@@ -295,8 +286,8 @@ function setSelected(index: number, weapon: MechWeapon) {
 }
 
 function setInclude(index: number, selectedWeapon: MechWeapon) {
-  const self = (props.encounterInstance as any).Combatants.find(
-    (c: CombatantData) => c.actor.CombatController.RootActor.ID === (props.owner as any).actor.CombatController.RootActor.ID
+  const self = (encounterInstance.value as any).Combatants.find(
+    (c: CombatantData) => c.actor.CombatController.RootActor.ID === (owner.value as any).actor.CombatController.RootActor.ID
   )
   if (!self) throw new Error('Owner combatant not found in encounterInstance')
   const auxes = selectedMount(selectedWeapon)?.Weapons.filter(
@@ -305,7 +296,7 @@ function setInclude(index: number, selectedWeapon: MechWeapon) {
   events.value[index].auxEvents = []
   for (let i = 0; i < events.value[index].include.length; i++) {
     events.value[index].auxEvents.push(
-      new WeaponAttackEvent(auxes[i].SelectedProfile as WeaponProfile, props.owner as CombatantData, props.encounterInstance, 'Additional Aux Attack')
+      new WeaponAttackEvent(auxes[i].SelectedProfile as WeaponProfile, owner.value as CombatantData, encounterInstance.value, 'Additional Aux Attack')
     )
   }
 }

@@ -135,10 +135,10 @@ import { useRouter } from 'vue-router'
 import { CompendiumStore, PilotStore } from '@/stores';
 import * as _ from 'lodash-es';
 import { Pilot } from '@/classes/pilot/Pilot'
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 const router = useRouter()
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = defineProps<{
   pilot: Pilot

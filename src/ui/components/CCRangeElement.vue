@@ -1,5 +1,5 @@
 <template>
-  <div v-for="r in <Range[]>range"
+  <div v-for="r in range"
     :key="r.Type"
     class="text-center d-inline-block mr-4">
     <v-tooltip max-width="600">
@@ -46,7 +46,7 @@ import { Range } from '@/classes/Range'
 import { glossary } from '@massif/lancer-data';
 
 const props = defineProps<{
-  range: any[]
+  range: Range[]
   small?: boolean
   dense?: boolean
   added?: boolean

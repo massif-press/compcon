@@ -44,8 +44,10 @@
 </template>
 
 <script setup lang="ts">
+import { CombatController } from '@/classes/components/combat/CombatController';
+
 const props = withDefaults(defineProps<{
-  controller: object
+  controller: CombatController
   label: string
   tooltipText: string
   size?: string

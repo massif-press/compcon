@@ -69,23 +69,20 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import MechCard from './components/MechCard.vue'
 import MechListItem from './components/MechListItem.vue'
 import MechListItemMobile from './components/MechListItemMobile.vue'
 import NewMechMenu from './components/NewMechMenu.vue'
 import MechSort from './components/MechSort.vue'
 import { UserStore } from '@/stores'
-import { Pilot } from '@/classes/pilot/Pilot'
+import type { Pilot } from '@/classes/pilot/Pilot'
 
-const props = defineProps({
-    pilot: {
-      type: Pilot,
-      required: true,
-    },
-  })
+const props = defineProps<{
+  pilot: Pilot
+}>()
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 import { useRouter } from 'vue-router'
 

@@ -1,6 +1,5 @@
 <template>
-  <base-actions-panel :owner="owner"
-    :encounter-instance="encounterInstance"
+  <base-actions-panel
     :quick-actions="quickPilotActions"
     :full-actions="fullPilotActions"
     @deploy="$emit('deploy', $event)"
@@ -9,8 +8,6 @@
       <v-row dense>
         <v-col>
           <pilot-fight-button :action="getBaseAction('act_fight')"
-            :owner="owner"
-            :encounter-instance="encounterInstance"
             @activate="activate($event)" />
         </v-col>
       </v-row>
@@ -19,35 +16,23 @@
     <template #quick-action-btn="{ action }">
       <invade-button v-if="action.ID === 'act_invade'"
         :action="action"
-        :owner="owner"
-        :encounter-instance="encounterInstance"
         @activate="activate($event)" />
       <pilot-reload-button v-else-if="action.ID === 'act_reload'"
         :action="action"
-        :owner="owner"
-        :encounter-instance="encounterInstance"
         @activate="activate($event)" />
       <basic-action-button v-else
         :action="action"
-        :owner="owner"
-        :encounter-instance="encounterInstance"
         @activate="activate($event)" />
     </template>
     <template #full-action-btn="{ action }">
       <skill-check-button v-if="action.ID === 'act_skill_check'"
         :action="action"
-        :owner="owner"
-        :encounter-instance="encounterInstance"
         @activate="activate($event)" />
       <pilot-jockey-button v-else-if="action.ID === 'act_jockey'"
         :action="action"
-        :owner="owner"
-        :encounter-instance="encounterInstance"
         @activate="activate($event)" />
       <basic-action-button v-else
         :action="action"
-        :owner="owner"
-        :encounter-instance="encounterInstance"
         @activate="activate($event)" />
     </template>
   </base-actions-panel>
@@ -55,6 +40,7 @@
 
 <script setup lang="ts">
 import type { CombatantData } from '@/classes/encounter/Encounter'
+import { useEncounterContext } from '../encounterContext'
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed } from 'vue';
 import { CompendiumStore } from '@/stores';
@@ -67,9 +53,9 @@ import PilotJockeyButton from './loadouts/action_buttons/pilotJockeyButton.vue';
 import PilotFightButton from './loadouts/action_buttons/pilotFightButton.vue';
 import InvadeButton from './loadouts/action_buttons/invadeButton.vue';
 
+const { owner, encounterInstance } = useEncounterContext()
+
 const props = defineProps<{
-  owner: CombatantData;
-  encounterInstance: EncounterInstance;
 }>();
 
 defineEmits<{ deploy: [event: any] }>();
@@ -80,7 +66,7 @@ const quickPilotActions = [
 ];
 const fullPilotActions = ['act_skill_check', 'act_mount', 'act_disengage', 'act_jockey'];
 
-const controller = computed(() => props.owner.actor.CombatController);
+const controller = computed(() => owner.value.actor.CombatController);
 
 function getBaseAction(actionId: string) {
   return CompendiumStore().Actions.find((a: any) => a.ID === actionId);

@@ -56,11 +56,11 @@
 <script setup lang="ts">
 import type { Campaign } from '@/classes/campaign/Campaign'
 import { ref } from 'vue'
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 
 defineOptions({ name: 'campaign-detail-panel' })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = defineProps<{
   campaign?: Campaign

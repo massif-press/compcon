@@ -21,12 +21,13 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { CompendiumStore } from '@/stores'
+import { useCompendiumData } from '@/ui/providers'
 import { notify } from '@/util/notify'
 
 const props = defineProps<{ item: Record<string, any> }>()
 
-const link = computed(() => CompendiumStore().referenceLink(props.item as any))
+const compendium = useCompendiumData()
+const link = computed(() => compendium.referenceLink(props.item as any))
 
 function copyToClipboard() {
   navigator.clipboard.writeText(encodeURI(link.value))

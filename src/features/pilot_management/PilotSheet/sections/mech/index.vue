@@ -106,7 +106,7 @@
           <div class="pt-1">
             <requirement-item v-for="l in reqLicenses.filter(x => x.source)"
               :key="l.source"
-              :license="l" />
+              :license-requirement="l" />
           </div>
 
           <status-alerts :mech="mech" />
@@ -176,7 +176,7 @@ import { PilotStore } from '@/stores'
 import LoadoutBlock from './sections/LoadoutBlock.vue'
 import SectionHeader from '../components/SectionHeader.vue'
 import StatusAlerts from './components/StatusAlerts.vue'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 
 defineOptions({ name: 'MechSheet' })
 
@@ -186,7 +186,7 @@ const props = defineProps<{
 }>()
 
 const router = useRouter()
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const frameInfoDialog = ref<any>(null)
 const imageSelector = ref<any>(null)

@@ -63,9 +63,9 @@ import { useLcpFilter } from '../_composables/useLcpFilter'
 import SelectorFilterSwitches from '../_SelectorFilterSwitches.vue'
 
 const props = defineProps<{
-  equipped?: any
+  equipped?: MechSystem
   mech: Mech
-  swapSystem?: any
+  swapSystem?: MechSystem
 }>()
 
 const emit = defineEmits<{
@@ -128,14 +128,14 @@ function handleEquip(sys: MechSystem) {
   if (props.equipped) {
     props.mech.MechLoadoutController.ActiveLoadout.ChangeSystem(
       props.mech.MechLoadoutController.ActiveLoadout.Systems.findIndex(
-        x => x.InstanceID === props.equipped.InstanceID
+        x => x.InstanceID === props.equipped!.InstanceID
       ),
       sys
     )
   } else if (props.swapSystem) {
     props.mech.MechLoadoutController.ActiveLoadout.ChangeSystem(
       props.mech.MechLoadoutController.ActiveLoadout.Systems.findIndex(
-        x => x.InstanceID === props.swapSystem.InstanceID
+        x => x.InstanceID === props.swapSystem!.InstanceID
       ),
       sys
     )

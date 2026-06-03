@@ -1,10 +1,11 @@
 <template>
-  <v-dialog v-model="dialog" width="35vw">
-    <v-card tile class="text-center">
+  <v-dialog v-model="dialog"
+    width="35vw">
+    <v-card tile
+      class="text-center">
       <v-card-text>
         <span class="heading h2">Select Damage Type</span>
-        <cc-button
-          v-for="t in availableTypes"
+        <cc-button v-for="t in availableTypes"
           :key="t"
           block
           size="small"
@@ -40,20 +41,20 @@ const availableTypes = ref([] as string[])
 const selected = ref('')
 
 function damageTypes() {
-      return Object.keys(DamageType)
-        .map((k) => DamageType[k as any])
-        .sort() as string[];
-    }
+  return Object.keys(DamageType)
+    .map((k) => DamageType[k as any])
+    .sort() as string[];
+}
 function show() {
-      dialog.value = true;
-    }
+  dialog.value = true;
+}
 function hide() {
-      dialog.value = false;
-    }
+  dialog.value = false;
+}
 function select(t: string) {
-      emit('select', t);
-      hide();
-    }
+  emit('select', t);
+  hide();
+}
 
 defineExpose({ show, hide })
 </script>

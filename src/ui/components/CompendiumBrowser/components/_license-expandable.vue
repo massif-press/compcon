@@ -41,69 +41,70 @@
     </v-expansion-panel-title>
     <v-expansion-panel-text>
       <v-lazy min-height="200">
-      <div>
-      <v-alert v-if="item && item.Prerequisite"
-        variant="outlined"
-        density="compact"
-        class="text-center mx-10 mt-2 mb-n1"
-        color="warning">
-        <div v-if="item.Prerequisite.cumulative">
-          This License requires at least
-          {{ item.Prerequisite.min_rank }} cumulative Ranks of
-          {{ item.Prerequisite.source }} licenses
+        <div>
+          <v-alert v-if="item && item.Prerequisite"
+            variant="outlined"
+            density="compact"
+            class="text-center mx-10 mt-2 mb-n1"
+            color="warning">
+            <div v-if="item.Prerequisite.cumulative">
+              This License requires at least
+              {{ item.Prerequisite.min_rank }} cumulative Ranks of
+              {{ item.Prerequisite.source }} licenses
+            </div>
+            <div v-else>
+              This License requires at least one other
+              {{ item.Prerequisite.source }} License at Rank {{ item.Prerequisite.min_rank }} or
+              above
+            </div>
+          </v-alert>
+
+          <CCLicensePanel :license="item"
+            :ranked="isRanked"
+            :rank="isRanked ? getControllerRank(item) : undefined" />
+
+          <v-row v-if="selectable"
+            dense>
+            <v-slide-x-transition>
+              <v-col cols="12"
+                md="auto">
+                <cc-button block
+                  :size="mobile ? 'x-small' : 'small'"
+                  color="error"
+                  :disabled="!getControllerRank(item)"
+                  prepend-icon="mdi-minus"
+                  @click="$emit('remove', item)">
+                  <span v-if="getControllerRank(item)">
+                    Remove {{ item.Name }} {{ 'I'.repeat(getControllerRank(item)) }}
+                  </span>
+                  <span v-else>
+                    No License Ranks
+                  </span>
+
+                </cc-button>
+              </v-col>
+            </v-slide-x-transition>
+
+
+            <v-col cols="12"
+              md="">
+              <cc-button block
+                size="small"
+                color="success"
+                :disabled="!controller.IsMissingLicenses || getControllerRank(item) >= item.Unlocks.length"
+                prepend-icon="mdi-plus"
+                @click="$emit('add', item)">
+                <span v-if="getControllerRank(item) < item.Unlocks.length">
+                  Unlock {{ item.Name }} {{ 'I'.repeat(getControllerRank(item) + 1) }}
+                </span>
+                <span v-else>
+                  All Ranks Unlocked
+                </span>
+
+              </cc-button>
+            </v-col>
+          </v-row>
         </div>
-        <div v-else>
-          This License requires at least one other
-          {{ item.Prerequisite.source }} License at Rank {{ item.Prerequisite.min_rank }} or above
-        </div>
-      </v-alert>
-
-      <CCLicensePanel :license="item"
-        :ranked="isRanked"
-        :rank="isRanked ? getControllerRank(item) : undefined" />
-
-      <v-row dense
-        v-if="selectable">
-        <v-slide-x-transition>
-          <v-col cols="12"
-            md="auto">
-            <cc-button block
-              :size="mobile ? 'x-small' : 'small'"
-              color="error"
-              :disabled="!getControllerRank(item)"
-              prepend-icon="mdi-minus"
-              @click="$emit('remove', item)">
-              <span v-if="getControllerRank(item)">
-                Remove {{ item.Name }} {{ 'I'.repeat(getControllerRank(item)) }}
-              </span>
-              <span v-else>
-                No License Ranks
-              </span>
-
-            </cc-button>
-          </v-col>
-        </v-slide-x-transition>
-
-
-        <v-col cols="12"
-          md="">
-          <cc-button block
-            size="small"
-            color="success"
-            :disabled="!controller.IsMissingLicenses || getControllerRank(item) >= item.Unlocks.length"
-            prepend-icon="mdi-plus"
-            @click="$emit('add', item)">
-            <span v-if="getControllerRank(item) < item.Unlocks.length">
-              Unlock {{ item.Name }} {{ 'I'.repeat(getControllerRank(item) + 1) }}
-            </span>
-            <span v-else>
-              All Ranks Unlocked
-            </span>
-
-          </cc-button>
-        </v-col>
-      </v-row>
-      </div>
       </v-lazy>
     </v-expansion-panel-text>
   </v-expansion-panel>
@@ -111,35 +112,35 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import CCLicensePanel from '../../panels/CCLicensePanel.vue'
-import { LicenseController } from '@/classes/pilot/components';
+import { License, LicenseController } from '@/classes/pilot/components';
 
 const props = defineProps({
-    items: {
-      type: Array,
-      required: true,
-    },
-    controller: {
-      type: LicenseController,
-      required: false,
-      default: null,
-    },
-    selectable: {
-      type: Boolean,
-    },
-    selected: {
-      type: Object,
-      required: false,
-      default: null,
-    },
-  })
+  items: {
+    type: Array<License>,
+    required: true,
+  },
+  controller: {
+    type: LicenseController,
+    required: false,
+    default: null,
+  },
+  selectable: {
+    type: Boolean,
+  },
+  selected: {
+    type: License,
+    required: false,
+    default: null,
+  },
+})
 
-const emit = defineEmits(['add', 'remove'])
+defineEmits(['add', 'remove'])
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile } = useDisplay()
 
-const isRanked = computed(() => {return !!props.controller;})
+const isRanked = computed(() => { return !!props.controller; })
 
 function getBgStyle(item) {
   let style = `background-image: url('${item.Frame.DefaultImage}');`
@@ -149,8 +150,10 @@ function getBgStyle(item) {
     style += `height:80px; width:100%; background-position: top ${item.Frame.YPosition}% left calc(50% + 8vw)`
   return style
 }
-function getControllerRank(item) {if (!props.controller) return 0;
-      return props.controller.getLicenseRank(item.Name);}
+function getControllerRank(item) {
+  if (!props.controller) return 0;
+  return props.controller.getLicenseRank(item.Name);
+}
 </script>
 
 <style scoped>

@@ -1,13 +1,13 @@
 <template>
-  <span v-if="item">
+  <span>
     <v-menu offset-y
       top
       @click.stop>
-      <template #activator="{ props }">
+      <template #activator="{ props: activatorProps }">
         <v-btn size="small"
           variant="plain"
           icon
-          v-bind="props"
+          v-bind="activatorProps"
           @click.stop>
           <v-icon icon="mdi-cog" />
         </v-btn>
@@ -42,52 +42,48 @@
         </div>
       </v-list>
     </v-menu>
-    <cc-string-edit-dialog v-if="item"
-      ref="cName"
+    <cc-string-edit-dialog ref="cName"
       :placeholder="item.Name"
       label="Custom Item Name"
       @save="save('Name', $event)"
       @reset="save('Name', '')" />
-    <cc-string-edit-dialog v-if="item"
-      ref="cDesc"
+    <cc-string-edit-dialog ref="cDesc"
       multiline
       auto-grow
       :placeholder="item.FlavorDescription || item.Description"
       label="Custom Item Description"
       @save="save('FlavorDescription', $event)"
       @reset="save('FlavorDescription', '')" />
-    <CCDamageTypePicker v-if="item"
-      ref="damageTypeDialog"
+    <CCDamageTypePicker ref="damageTypeDialog"
       :allowed-types="['Explosive', 'Energy', 'Kinetic']"
-      @select="item.DamageTypeOverride = $event" />
-    <cc-string-edit-dialog v-if="item"
-      ref="maxUseDialog"
+      @select="item.DamageTypeOverride = ($event as DamageType)" />
+    <cc-string-edit-dialog ref="maxUseDialog"
       number
-      :placeholder="(item.MaxUseOverride || item.MaxUses).toString()"
+      :placeholder="(item.max_use_override || item.MaxUses).toString()"
       label="Set Maximum Uses"
-      @save="item.MaxUseOverride = Number($event)" />
+      @save="item.max_use_override = Number($event)" />
   </span>
 </template>
 
 <script setup lang="ts">
-import { useMobile } from '@/composables/useMobile'
+import { DamageType } from '@/classes/enums';
+import { MechSystem } from '@/classes/mech/components/equipment/MechSystem';
+import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon';
 import CCDamageTypePicker from '@/ui/components/CCDamageTypePicker.vue'
 import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
 
 const props = defineProps({
-    item: {
-      type: Object,
-      required: true,
-    },
-  })
+  item: {
+    type: MechWeapon || MechSystem,
+    required: true,
+  },
+})
 
 const emit = defineEmits(['update', 'swap', 'remove'])
 
-const { mobile, portrait } = useMobile()
-
 function save(prop, newName) {
   AchievementEventSystem.emit('add_equipment_description')
-  ;(props.item as any)[prop] = newName
+    ; (props.item as any)[prop] = newName
   emit('update')
 }
 </script>

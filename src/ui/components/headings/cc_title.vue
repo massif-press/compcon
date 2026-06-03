@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 
 const props = defineProps({
     textColor: { type: String, default: 'accent' },
@@ -19,5 +19,5 @@ const props = defineProps({
     tooltip: { type: String, default: '' },
   })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 </script>

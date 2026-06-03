@@ -1,8 +1,6 @@
 <template>
   <combat-action-button
     :action="action"
-    :owner="owner"
-    :encounter-instance="encounterInstance"
     :preset-weapon="presetWeapon">
     <template #default="{ close }">
 
@@ -81,8 +79,6 @@
 
           <npc-weapon-attack v-if="selectedWeapon && events[idx]?.weaponEvent"
             :event="<WeaponAttackEvent>events[idx].weaponEvent"
-            :owner="owner"
-            :encounter-instance="encounterInstance"
             :weapon="<NpcWeapon>events[idx].weaponEvent.Weapon" />
 
         </div>
@@ -96,11 +92,9 @@
       <v-divider />
       <div class="pa-4">
 
-        <apply-button v-if="events.length"
+        <apply-button :owner="owner" :encounter-instance="encounterInstance" v-if="events.length"
           :event="<ActiveEffectEvent[]>events.map(e => e.weaponEvent.BaseEvent)"
           :weapon-event="<WeaponAttackEvent[]>events.map(e => e.weaponEvent)"
-          :encounter-instance="encounterInstance"
-          :owner="owner"
           :close="close"
           :action="action"
           :action-id="selectedWeapons.length ? selectedWeapons.map(w => w.InstanceID) : []"
@@ -115,6 +109,7 @@
 
 <script setup lang="ts">
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { useEncounterContext } from '../../../encounterContext'
 import type { Action } from '@/classes/Action'
 import { computed, ref } from 'vue'
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
@@ -128,10 +123,10 @@ import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon';
 import { NpcFeatureType } from '@/classes/npc/feature/NpcFeature';
 import CombatActionButton from './CombatActionButton.vue';
 
+const { owner, encounterInstance } = useEncounterContext()
+
 const props = defineProps<{
   action: Action
-  owner: CombatantData
-  encounterInstance: EncounterInstance
   presetWeapon?: NpcWeapon
 }>()
 
@@ -145,7 +140,7 @@ reset();
 reset();
 
 const controller = computed(() => {
-      return props.owner.actor.CombatController.ActiveActor.CombatController;
+      return owner.value.actor.CombatController.ActiveActor.CombatController;
     })
 const barrageWeapons = computed(() => {
       const npc = controller.value.ActiveActor;
@@ -173,11 +168,11 @@ const allEventsStaged = computed(() => {
       return eventArray.value.every((e) => e.BaseEvent.Staged);
     })
 const tier = computed(() => {
-      return props.owner.actor.CombatController.Tier;
+      return owner.value.actor.CombatController.Tier;
     })
 
 function reset(clearAction = false) {
-      if (clearAction) props.owner.CombatController.ClearActionUsed(props.action.ID);
+      if (clearAction) owner.value.CombatController.ClearActionUsed(props.action.ID);
       selectedWeapons.value = new Array(2);
       events.value = new Array(2);
       if (!selectedWeapons.value[0] && props.presetWeapon) {
@@ -185,7 +180,7 @@ function reset(clearAction = false) {
       }
     }
 function apply() {
-      const actor = props.owner.actor.CombatController.ActiveActor.CombatController;
+      const actor = owner.value.actor.CombatController.ActiveActor.CombatController;
       selectedWeapons.value.forEach((w) => {
         actor.MarkActionUsed(w.InstanceID);
         if (w.IsLoading) w.Used = true;
@@ -195,15 +190,15 @@ function apply() {
 function ordnanceWarning(selectedWeapon) {
       if (!selectedWeapon) return false;
       if (selectedWeapon.ActiveTags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
-        return props.owner.actor.CombatController.CanActivate('ordnance') === false;
+        return owner.value.actor.CombatController.CanActivate('ordnance') === false;
       }
       return false;
     }
 function setSelected(index: number, weapon: NpcWeapon) {
       if (!weapon) return;
 
-      const self = props.encounterInstance.Combatants.find(
-        (c: CombatantData) => c.actor.CombatController.RootActor.ID === props.owner.actor.CombatController.RootActor.ID
+      const self = encounterInstance.value.Combatants.find(
+        (c: CombatantData) => c.actor.CombatController.RootActor.ID === owner.value.actor.CombatController.RootActor.ID
       );
       if (!self) {
         throw new Error('Owner combatant not found in encounterInstance');
@@ -212,7 +207,7 @@ function setSelected(index: number, weapon: NpcWeapon) {
       selectedWeapons.value[index] = weapon;
 
       events.value[index] = {
-        weaponEvent: new WeaponAttackEvent(weapon, self, props.encounterInstance, 'Barrage'),
+        weaponEvent: new WeaponAttackEvent(weapon, self, encounterInstance.value, 'Barrage'),
       };
 
       if (weapon.IsSuperheavy) {

@@ -68,8 +68,8 @@
               <v-divider class="mb-2" />
               <v-row v-for="(n, i) in encounter.Combatants.sort((a, b) =>
                 a.side.localeCompare(b.side)
-              ).filter((c) => c.playerCount <= 1 || c.playerCount <= pilots.length)"
-                :key="n.ID"
+              ).filter((c) => (c.playerCount ?? 1) <= 1 || (c.playerCount ?? 1) <= pilots.length)"
+                :key="n.id"
                 :class="Number(i) % 2 === 0 ? 'bg-background' : 'bg-surface'"
                 flat tile dense class="px-2">
                 <v-col cols="auto" class="mr-n2">
@@ -151,7 +151,7 @@ import type { Placeholder } from '@/classes/encounter/Placeholder'
 import type { Pilot } from '@/classes/pilot/Pilot'
 import type { Encounter } from '@/classes/encounter/Encounter'
 const props = defineProps<{
-  encounter: any
+  encounter: Encounter
   pilots: Pilot[]
   placeholders: Placeholder[]
 }>()

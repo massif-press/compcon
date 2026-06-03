@@ -201,7 +201,7 @@ import { useRouter } from 'vue-router'
 import { PilotSheetStore } from '@/stores';
 import SheetItem from './_components/SheetItem.vue';
 import PilotSheet from '@/features/pilot_management/store/PilotSheet';
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 import ActiveModeSortBar from '@/features/active_mode/_components/ActiveModeSortBar.vue';
 const router = useRouter()
 const sheetOrganizerColumns = [
@@ -211,7 +211,7 @@ const sheetOrganizerColumns = [
 { key: 'Updated', title: 'Updated', sortable: true, value: (s: any) => new Date(s.Updated).toLocaleDateString() },
 ];
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const sort = ref('Updated')
 const asc = ref(true)

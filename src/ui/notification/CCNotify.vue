@@ -34,9 +34,9 @@
 </template>
 
 <script setup lang="ts">
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 function color(item) {
   if (item.type) {

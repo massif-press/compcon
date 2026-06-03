@@ -159,12 +159,12 @@ import { NarrativeStore } from '../store/narrative_store';
 import { CompendiumStore, UserStore } from '@/stores';
 import ShareCodeDialog from '@/shared/ShareCodeDialog.vue';
 import { Npc } from '@/classes/npc/Npc';
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 
 defineOptions({ name: 'GmCollectionView' })
 
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = withDefaults(defineProps<{
   items: any[]

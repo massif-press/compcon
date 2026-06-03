@@ -111,8 +111,6 @@
       <fieldset class="px-2"
         style="border-color: rgba(155, 155, 155, 0.6)">
         <unit-feature-card :key="item.ID"
-          :owner="owner"
-          :encounter-instance="encounterInstance"
           :item="item"
           :unit="unit"
           @deploy="$emit('deploy', $event)" />
@@ -122,26 +120,29 @@
 </template>
 
 <script setup lang="ts">
+import type { Unit } from '@/classes/npc/unit/Unit'
+import { useEncounterContext } from '../../encounterContext'
 import type { CombatantData } from '@/classes/encounter/Encounter'
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed, ref, watch } from 'vue'
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 import UnitFeatureCard from './_unitFeatureCard.vue';
 import * as _ from 'lodash-es';
 import { UserStore } from '@/stores';
 
 defineOptions({ name: 'MechCombatLoadout' })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
+
+const { owner, encounterInstance } = useEncounterContext()
 
 const props = defineProps<{
-  owner: CombatantData
-  unit: object
-  encounterInstance: EncounterInstance
+  unit: Unit
 }>()
 
 const emit = defineEmits<{
-  'deploy': []
+  'deploy': [value: any]
+
 }>()
 
 const result = ref(0)
@@ -149,49 +150,49 @@ const hiddenFeatureCount = ref(0)
 
 const hidePassives = computed({
   get: () => UserStore().User.View('npcCombatHidePassives', false),
-  set: (val: boolean) => {UserStore().User.SetView('npcCombatHidePassives', val);},
+  set: (val: boolean) => { UserStore().User.SetView('npcCombatHidePassives', val); },
 })
 const xlColumns = computed(() => {
-      if (mobile.value) return 1
-      else return props.encounterInstance.MaxMasonryColumns
-    })
+  if (mobile.value) return 1
+  else return encounterInstance.value.MaxMasonryColumns
+})
 const features = computed(() => {
-      let features = props.unit.NpcFeatureController.Features.filter((x) => !x.Mod).sort((a, b) => {
-        const getPriority = (item) => {
-          if (item.DamageData?.length > 0) return 1;
-          if (item.Actions?.length > 0) return 2;
-          if (item.Deployables?.length > 0) return 3;
-          return 4;
-        };
-        return getPriority(a) - getPriority(b);
-      });
+  let features = props.unit.NpcFeatureController.Features.filter((x) => !x.Mod).sort((a, b) => {
+    const getPriority = (item) => {
+      if (item.DamageData?.length > 0) return 1;
+      if (item.Actions?.length > 0) return 2;
+      if (item.Deployables?.length > 0) return 3;
+      return 4;
+    };
+    return getPriority(a) - getPriority(b);
+  });
 
-      if (hidePassives.value) {
-        features = features.filter((feature: any) => !feature.IsCombatPassive);
-      }
-      return features;
-    })
+  if (hidePassives.value) {
+    features = features.filter((feature: any) => !feature.IsCombatPassive);
+  }
+  return features;
+})
 const rechargedFeatures = computed(() => {
-      if (result.value === 0) {
-        return [];
-      }
-      return features.value.filter(
-        (feature: any) => feature.Recharge > 0 && result.value >= feature.Recharge && feature.Used
-      );
-    })
+  if (result.value === 0) {
+    return [];
+  }
+  return features.value.filter(
+    (feature: any) => feature.Recharge > 0 && result.value >= feature.Recharge && feature.Used
+  );
+})
 
 function roll() {
-      result.value = Math.floor(Math.random() * 6) + 1;
-    }
+  result.value = Math.floor(Math.random() * 6) + 1;
+}
 function apply() {
-      features.value.forEach((feature) => {
-        if (result.value >= feature.Recharge) {
-          feature.Used = false;
-        }
-      });
-      result.value = 0;
+  features.value.forEach((feature) => {
+    if (result.value >= feature.Recharge) {
+      feature.Used = false;
     }
+  });
+  result.value = 0;
+}
 function getModName(modId) {
-      return props.unit.NpcFeatureController.Features.find((x) => x.ID === modId).Name || 'Unknown';
-    }
+  return props.unit.NpcFeatureController.Features.find((x) => x.ID === modId).Name || 'Unknown';
+}
 </script>

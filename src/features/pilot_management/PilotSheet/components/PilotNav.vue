@@ -168,7 +168,6 @@
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useDisplay } from 'vuetify'
-import { useMobile } from '@/composables/useMobile'
 import { notify } from '@/util/notify'
 import EditMenu from './PilotEditMenu.vue'
 import ShareDialog from '@/shared/ShareDialog.vue'
@@ -179,7 +178,7 @@ import { CloudController } from '@/classes/components/cloud/CloudController'
 
 const router = useRouter()
 const _display = useDisplay()
-const { mobile } = useMobile()
+const { smAndDown: mobile } = useDisplay()
 
 defineOptions({ name: 'PilotNav' })
 

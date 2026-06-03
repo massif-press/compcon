@@ -85,9 +85,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import type { CombatController } from '@/classes/components/combat/CombatController'
 
 const props = withDefaults(defineProps<{
-  controller: any;
+  controller: CombatController;
   hideOvercharge?: boolean;
 }>(), {
   hideOvercharge: false,

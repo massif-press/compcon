@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import * as _ from 'lodash-es'
-import { CompendiumStore } from '@/stores'
+import { useCompendiumData } from '@/ui/providers'
 import logger from '@/user/logger'
 import * as filters from './'
 
@@ -30,6 +30,8 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{ 'set-filters': [filters: Record<string, unknown>] }>()
+
+const compendium = useCompendiumData()
 
 const c = ref<{ clear: () => void } | null>(null)
 
@@ -47,7 +49,7 @@ const componentLoader = computed(() => {
 })
 
 const filterData = computed(() => {
-  const store = CompendiumStore()
+  const store = compendium
   const nameSort = (a: { title: string }, b: { title: string }) =>
     a.title.toUpperCase() < b.title.toUpperCase() ? -1 : a.title.toUpperCase() > b.title.toUpperCase() ? 1 : 0
 

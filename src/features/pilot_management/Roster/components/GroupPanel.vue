@@ -5,10 +5,9 @@
     @dragenter.prevent="onDragEnter"
     @dragleave="onDragLeave">
     <div class="light bg-primary" />
-    <group-header
-      :group="group"
+    <group-header :group="group"
       :no-group="noGroup"
-      :mobile="mobile.value"
+      :mobile="mobile"
       :drag-mode-active="dragModeActive"
       :drop-active="dropActive"
       :pilot-count="pilots.length"
@@ -20,8 +19,7 @@
     <v-expand-transition>
       <v-card v-if="group.Expanded"
         style="overflow: visible">
-        <pilot-sortable-list
-          :filtered-pilots="filteredPilots"
+        <pilot-sortable-list :filtered-pilots="filteredPilots"
           :group-sortable-key="groupSortableKey"
           :sortable-options="sortableOptions"
           :pilot-card-type="pilotCardType"
@@ -46,14 +44,14 @@ import { PilotStore, PilotGroupStore, UserStore } from '@/stores'
 import PilotCard from './PilotCard.vue'
 import PilotListItem from './PilotListItem.vue'
 import { Pilot } from '@/classes/pilot/Pilot'
-import { PilotGroup } from '@/features/pilot_management/store/PilotGroup'
+import { PilotGroup, PilotIndexItem } from '@/features/pilot_management/store/PilotGroup'
 import { saveFile } from '@/io/Data'
 import { useGroupSortable } from './useGroupSortable'
 import GroupHeader from './GroupHeader.vue'
 import PilotSortableList from './PilotSortableList.vue'
 
 const props = withDefaults(defineProps<{
-  group: any
+  group: PilotGroup
   rosterSearch?: string
   transferKey?: number
   dragModeActive?: boolean
@@ -66,23 +64,26 @@ const props = withDefaults(defineProps<{
 const emit = defineEmits<{ 'pilot-transferred': [] }>()
 
 const router = useRouter()
-const mobile = useDisplay().smAndDown
+const { smAndDown: mobile } = useDisplay()
 
 const noGroup = computed(() => props.group.ID === 'no_group')
 
 const pilots = computed<Pilot[]>(() => {
   const store = PilotStore()
-  return (props.group.Pilots as any[])
-    .map((pi: any) => store.getPilotByID(pi.id))
-    .filter((p: any): p is Pilot => !!p && !p.SaveController.IsDeleted)
+  return (props.group.Pilots as PilotIndexItem[])
+    .map((pi) => store.getPilotByID(pi.id))
+    .filter((p): p is Pilot => !!p && !p.SaveController.IsDeleted)
 })
 
-const filteredPilots = computed<Pilot[]>(() => {
-  if (!props.rosterSearch) return pilots.value
-  const s = props.rosterSearch.toLowerCase()
-  return pilots.value.filter(
-    (p) => p.Name.toLowerCase().includes(s) || p.Callsign.toLowerCase().includes(s)
-  )
+const filteredPilots = computed<Pilot[]>({
+  get: () => {
+    if (!props.rosterSearch) return pilots.value
+    const s = props.rosterSearch.toLowerCase()
+    return pilots.value.filter(
+      (p) => p.Name.toLowerCase().includes(s) || p.Callsign.toLowerCase().includes(s)
+    )
+  },
+  set: () => { },
 })
 
 const profile = computed(() => UserStore().User)
@@ -96,7 +97,6 @@ const pilotCardType = computed<any>(() => {
     default: return PilotListItem
   }
 })
-
 
 const rosterSearchRef = computed(() => props.rosterSearch)
 const transferKeyRef = computed(() => props.transferKey)

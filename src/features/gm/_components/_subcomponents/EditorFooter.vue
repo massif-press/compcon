@@ -129,12 +129,12 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { NpcStore, UserStore } from '@/stores';
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 import ShareDialog from '@/shared/ShareDialog.vue';
 
 defineOptions({ name: 'GmEditorFooter' })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = withDefaults(defineProps<{
   item: object

@@ -64,11 +64,6 @@ const storeRegistry = {
     storeName: 'narrative',
     description: 'Stores Narrative data',
   }),
-  images: localforage.createInstance({
-    name: dbName,
-    storeName: 'images',
-    description: 'Stores user images',
-  }),
   remote_images: localforage.createInstance({
     name: dbName,
     storeName: 'remote_images',

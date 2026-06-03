@@ -17,8 +17,6 @@
               @deploy="$emit('deploy', $event)" />
             <basic-action-button v-else
               :action="pa"
-              :owner="owner"
-              :encounter-instance="encounterInstance"
               @activate="activate($event)" />
           </v-col>
           <v-col v-for="fa in controller.AllActions('Free')"
@@ -30,8 +28,6 @@
               @deploy="$emit('deploy', $event)" />
             <basic-action-button v-else
               :action="fa"
-              :owner="owner"
-              :encounter-instance="encounterInstance"
               @activate="activate($event)" />
           </v-col>
         </v-row>
@@ -39,14 +35,10 @@
         <v-row dense>
           <v-col>
             <mech-skirmish-button :action="getBaseAction('act_skirmish')"
-              :owner="owner"
-              :encounter-instance="encounterInstance"
               @activate="activate($event)" />
           </v-col>
           <v-col>
             <mech-barrage-button :action="getBaseAction('act_barrage')"
-              :owner="owner"
-              :encounter-instance="encounterInstance"
               @activate="activate($event)" />
           </v-col>
         </v-row>
@@ -60,14 +52,10 @@
                 :key="`quick-${index}`">
                 <invade-button v-if="action === 'act_invade'"
                   :action="getBaseAction(action)"
-                  :owner="owner"
-                  :encounter-instance="encounterInstance"
                   @activate="activate($event)" />
 
                 <basic-action-button v-else
                   :action="getBaseAction(action)"
-                  :owner="owner"
-                  :encounter-instance="encounterInstance"
                   @activate="activate($event)" />
               </v-col>
               <v-divider class="my-1" />
@@ -80,8 +68,6 @@
                   @deploy="$emit('deploy', $event)" />
                 <basic-action-button v-else
                   :action="qa"
-                  :owner="owner"
-                  :encounter-instance="encounterInstance"
                   @activate="activate($event)" />
               </v-col>
               <v-col v-for="qta in controller.AllActions('Quick Tech')"
@@ -93,8 +79,6 @@
                   @deploy="$emit('deploy', $event)" />
                 <basic-action-button v-else
                   :action="qta"
-                  :owner="owner"
-                  :encounter-instance="encounterInstance"
                   @activate="activate($event)" />
               </v-col>
             </v-row>
@@ -105,18 +89,12 @@
                 :key="`full-${index}`">
                 <stabilize-button v-if="action === 'act_stabilize'"
                   :action="getBaseAction(action)"
-                  :owner="owner"
-                  :encounter-instance="encounterInstance"
                   @activate="activate($event)" />
                 <skill-check-button v-else-if="action === 'act_skill_check'"
                   :action="getBaseAction(action)"
-                  :owner="owner"
-                  :encounter-instance="encounterInstance"
                   @activate="activate($event)" />
                 <basic-action-button v-else
                   :action="getBaseAction(action)"
-                  :owner="owner"
-                  :encounter-instance="encounterInstance"
                   @activate="activate($event)" />
               </v-col>
               <v-divider class="my-1" />
@@ -129,8 +107,6 @@
                   @deploy="$emit('deploy', $event)" />
                 <basic-action-button v-else
                   :action="fa"
-                  :owner="owner"
-                  :encounter-instance="encounterInstance"
                   @activate="activate($event)" />
               </v-col>
               <v-col v-for="fta in controller.AllActions('Full Tech')"
@@ -142,8 +118,6 @@
                   @deploy="$emit('deploy', $event)" />
                 <basic-action-button v-else
                   :action="fta"
-                  :owner="owner"
-                  :encounter-instance="encounterInstance"
                   @activate="activate($event)" />
               </v-col>
             </v-row>
@@ -153,20 +127,14 @@
 
         <v-row dense>
           <v-col>
-            <overcharge-button :action="getBaseAction('act_overcharge')"
-              :owner="owner"
-              :encounter-instance="encounterInstance" />
+            <overcharge-button :action="getBaseAction('act_overcharge')" />
           </v-col>
           <v-col>
             <basic-action-button :action="getBaseAction('act_brace')"
-              :owner="owner"
-              :encounter-instance="encounterInstance"
               @activate="activate($event)" />
           </v-col>
           <v-col>
-            <basic-action-button :action="getBaseAction('act_overwatch')"
-              :owner="owner"
-              :encounter-instance="encounterInstance" />
+            <basic-action-button :action="getBaseAction('act_overwatch')" />
           </v-col>
           <v-col v-for="ra in controller.AllActions('Reaction')"
             :key="ra.ID">
@@ -177,14 +145,10 @@
               @deploy="$emit('deploy', $event)" />
             <basic-action-button v-else
               :action="ra"
-              :owner="owner"
-              :encounter-instance="encounterInstance"
               @activate="activate($event)" />
           </v-col>
           <v-col>
             <basic-action-button :action="getBaseAction('act_self_destruct')"
-              :owner="owner"
-              :encounter-instance="encounterInstance"
               @activate="activate($event)" />
           </v-col>
         </v-row>
@@ -195,6 +159,7 @@
 
 <script setup lang="ts">
 import type { CombatantData } from '@/classes/encounter/Encounter'
+import { useEncounterContext } from '../encounterContext'
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed } from 'vue';
 import { CompendiumStore } from '@/stores';
@@ -210,9 +175,9 @@ import OverchargeButton from './loadouts/action_buttons/overchargeButton.vue';
 import MechSkirmishButton from './loadouts/action_buttons/mechSkirmishButton.vue';
 import MechBarrageButton from './loadouts/action_buttons/mechBarrageButton.vue';
 
+const { owner, encounterInstance } = useEncounterContext()
+
 const props = defineProps<{
-  owner: CombatantData;
-  encounterInstance: EncounterInstance;
 }>();
 
 defineEmits<{ deploy: [event: any] }>();
@@ -226,7 +191,7 @@ const fullMechActions = [
   'act_skill_check', 'act_dismount', 'act_boot_up',
 ];
 
-const controller = computed(() => props.owner.actor.ActiveMech.CombatController);
+const controller = computed(() => owner.value.actor.ActiveMech.CombatController);
 
 function getBaseAction(actionId: string) {
   return CompendiumStore().Actions.find((a: any) => a.ID === actionId) || null;

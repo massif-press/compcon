@@ -183,11 +183,11 @@ import { UserStore } from '@/stores';
 import CollectionShareCodeDialog from './data_viewer/collectionShareCodeDialog.vue';
 import CollectionInfo from './data_viewer/collectionInfo.vue';
 import logger from '@/user/logger';
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 
 defineOptions({ name: 'collection-subscriptions' })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const loading = ref(false)
 const expanded = ref([])

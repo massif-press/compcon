@@ -51,10 +51,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import LandingCard from './_components/LandingCard.vue'
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const isDevsite = computed(() => {return (
         window.location.hostname === 'dev.compcon.app' || window.location.hostname === 'localhost'

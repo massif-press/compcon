@@ -1,5 +1,5 @@
 <template>
-  <div v-show="!item || (item && !item.NoSynergies)"
+  <div v-if="item && !item.NoSynergies"
     :class="inline ? 'd-inline-block' : ''">
     <div v-if="alert">
       <div v-for="(s, index) in synergies"
@@ -53,31 +53,21 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
 import { Mech } from '@/classes/mech/Mech'
 import { Synergy } from '@/classes/components/feature/synergy/Synergy'
+import { MechEquipment } from '@/classes/mech/components/equipment/MechEquipment';
 
-const props = defineProps({
-    item: {
-      type: Object,
-      required: false,
-    },
-    mech: {
-      type: Object,
-      required: true,
-    },
-    location: {
-      type: String,
-      required: true,
-    },
-    large: { type: Boolean },
-    small: { type: Boolean },
-    inline: { type: Boolean },
-    showNone: { type: Boolean },
-    alert: { type: Boolean },
-  })
+const props = defineProps<{
+  item?: MechEquipment
+  mech: Mech
+  location: string
+  large?: boolean
+  small?: boolean
+  inline?: boolean
+  showNone?: boolean
+  alert?: boolean
+}>()
 
-const { mobile, portrait } = useMobile()
 
-const synergies = computed(() => {return Synergy.Collect(props.location, props.mech as Mech, props.item as any);})
+const synergies = computed(() => { return Synergy.Collect(props.location, props.mech as Mech, props.item); })
 </script>

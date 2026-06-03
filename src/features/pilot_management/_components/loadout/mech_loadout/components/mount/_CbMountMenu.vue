@@ -60,25 +60,28 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
+import { Mech } from '@/classes/mech/Mech'
+import EquippableMount from '@/classes/mech/components/mount/EquippableMount'
 
 const props = defineProps({
-    mech: {
-      type: Object,
-      required: true,
-    },
-    mount: {
-      type: Object,
-      required: true,
-    },
-  })
+  mech: {
+    type: Mech,
+    required: true,
+  },
+  mount: {
+    type: EquippableMount,
+    required: true,
+  },
+})
 
-const { mobile, portrait } = useMobile()
+const { xs: portrait } = useDisplay()
 
-const hasEffect = computed(() => (props.mount as any).Bonuses.length)
-const color = computed(() => (props.mech as any).Frame.ManufacturerColor)
-const visible = computed(() => (props.mech as any).AvailableBonuses.length || (props.mount as any).Bonuses.length)
-const isAvailable = computed(() => (props.mech as any).AvailableBonuses.length > 0)
+const hasEffect = computed(() => props.mount.Bonuses.length)
+const color = computed(() => props.mech.Frame.ManufacturerColor)
+const visible = computed(() => props.mech.AvailableBonuses.length || props.mount.Bonuses.length)
+const isAvailable = computed(() => props.mech.AvailableBonuses.length > 0)
+
 </script>
 
 <style scoped>

@@ -1,48 +1,58 @@
 <template>
-  <v-menu :open-on-hover="!mobile" offset-y max-width="600px">
+  <v-menu :open-on-hover="!mobile"
+    offset-y
+    max-width="600px">
     <template #activator="{ props }">
-      <v-chip
-        slot="activator"
-        label
+      <v-chip label
         tile
-        :color="license.missing ? 'warning' : 'success'"
+        :color="licenseRequirement.missing ? 'warning' : 'success'"
         class="ma-1"
         v-bind="props">
-        <span v-if="license.source === 'GMS'">
-          <v-icon start size="large" icon="cc:gms" />
+        <span v-if="licenseRequirement.source === 'GMS'">
+          <v-icon start
+            size="large"
+            icon="cc:gms" />
           GMS
         </span>
         <span v-else>
-          <v-icon start :icon="`cc:rank_${license.rank}`" />
-          {{ license.source }} {{ license.name }} {{ 'I'.repeat(license.rank) }}
+          <v-icon start
+            :icon="`cc:rank_${licenseRequirement.rank}`" />
+          {{ licenseRequirement.source }} {{ licenseRequirement.name }} {{
+            'I'.repeat(licenseRequirement.rank) }}
         </span>
       </v-chip>
     </template>
 
-    <v-card flat tile border>
-      <v-toolbar v-if="license.missing" color="error" class="px-2 heading h3" height="32">
+    <v-card flat
+      tile
+      border>
+      <v-toolbar v-if="licenseRequirement.missing"
+        color="error"
+        class="px-2 heading h3"
+        height="32">
         WARNING: LICENSE MISSING
       </v-toolbar>
       <v-card-text class="pa-2 text-text">
-        <b v-if="license.source === 'GMS'">GMS STANDARD PILOT'S LICENSE</b>
-        <b v-else>{{ license.name }} RANK {{ license.rank }}</b>
+        <b v-if="licenseRequirement.source === 'GMS'">GMS STANDARD PILOT'S LICENSE</b>
+        <b v-else>{{ licenseRequirement.name }} RANK {{ licenseRequirement.rank }}</b>
         <v-divider class="my-1" />
         <div class="text-cc-overline text-disabled">Required for:</div>
-        <cc-chip size="small" v-for="(item, index) in license.items" :key="`item-${index}`" class="ma-1">{{ item }}</cc-chip>
+        <cc-chip v-for="(item, index) in licenseRequirement.items"
+          :key="`item-${index}`"
+          size="small"
+          class="ma-1">{{ item }}</cc-chip>
       </v-card-text>
     </v-card>
   </v-menu>
 </template>
 
 <script setup lang="ts">
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
+import type { ILicenseRequirement } from '@/classes/pilot/components/license/LicensedItem'
 
-const props = defineProps({
-    license: {
-      type: Object,
-      required: true,
-    },
-  })
+defineProps<{
+  licenseRequirement: ILicenseRequirement
+}>()
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 </script>

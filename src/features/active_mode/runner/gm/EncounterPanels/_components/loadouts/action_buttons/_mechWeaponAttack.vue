@@ -83,29 +83,30 @@
 
 <script setup lang="ts">
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { useEncounterContext } from '../../../encounterContext'
 import type { CombatantData } from '@/classes/encounter/Encounter'
 import { computed } from 'vue'
 import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
 import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon';
 import EffectApplicator from '@/ui/components/chips/_activeeffect/EffectApplicator.vue';
 
+const { owner, encounterInstance } = useEncounterContext()
+
 const props = withDefaults(defineProps<{
   event: WeaponAttackEvent
   profile: WeaponProfile
-  owner: CombatantData
-  encounterInstance: EncounterInstance
   isAdditionalAux?: boolean
 }>(), {
   isAdditionalAux: false
 })
 
 const isPilotSheet = computed(() => {
-      return props.encounterInstance.ItemType === 'PilotSheet';
+      return encounterInstance.value.ItemType === 'PilotSheet';
     })
 const ordnanceWarning = computed(() => {
       if (!props.profile) return false;
       if (props.profile.Tags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
-        return props.owner.actor.CombatController.CanActivate('ordnance') === false;
+        return owner.value.actor.CombatController.CanActivate('ordnance') === false;
       }
       return false;
     })

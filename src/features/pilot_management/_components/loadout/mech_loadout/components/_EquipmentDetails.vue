@@ -94,29 +94,29 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import { externalItemBonuses } from '@/composables/useExternalItemBonuses'
+import { Mech } from '@/classes/mech/Mech';
 
 const props = defineProps({
-    item: {
-      type: Object,
-      required: true,
-    },
-    mech: {
-      type: Object,
-      required: true,
-    },
-    color: {
-      type: String,
-      default: 'primary',
-    },
-    synergyLocation: {
-      type: String,
-      required: true,
-    },
-  })
+  item: {
+    type: Object,
+    required: true,
+  },
+  mech: {
+    type: Mech,
+    required: true,
+  },
+  color: {
+    type: String,
+    default: 'primary',
+  },
+  synergyLocation: {
+    type: String,
+    required: true,
+  },
+})
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 </script>

@@ -38,11 +38,11 @@ import type { Mech } from '@/classes/mech/Mech'
 import { ref } from 'vue'
 import EquipmentHeader from '../../_EquipmentHeader.vue';
 import EquipmentDetails from '../../_EquipmentDetails.vue';
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 
 defineOptions({ name: 'mod-inset' })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = withDefaults(defineProps<{
   mod: object

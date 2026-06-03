@@ -1,6 +1,5 @@
 <template>
-  <base-actions-panel :owner="owner"
-    :encounter-instance="encounterInstance"
+  <base-actions-panel
     :quick-actions="quickNpcActions"
     :full-actions="fullNpcActions"
     @deploy="$emit('deploy', $event)"
@@ -8,13 +7,9 @@
     <template #quick-action-btn="{ action }">
       <invade-button v-if="action.ID === 'act_invade'"
         :action="action"
-        :owner="owner"
-        :encounter-instance="encounterInstance"
         @activate="activate($event)" />
       <basic-action-button v-else
         :action="action"
-        :owner="owner"
-        :encounter-instance="encounterInstance"
         @activate="activate($event)" />
     </template>
   </base-actions-panel>
@@ -22,6 +17,7 @@
 
 <script setup lang="ts">
 import type { CombatantData } from '@/classes/encounter/Encounter'
+import { useEncounterContext } from '../encounterContext'
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed } from 'vue';
 import { CompendiumStore } from '@/stores';
@@ -30,9 +26,9 @@ import BaseActionsPanel from './BaseActionsPanel.vue';
 import BasicActionButton from './loadouts/action_buttons/basicActionButton.vue';
 import InvadeButton from './loadouts/action_buttons/invadeButton.vue';
 
+const { owner, encounterInstance } = useEncounterContext()
+
 const props = defineProps<{
-  owner: CombatantData;
-  encounterInstance: EncounterInstance;
 }>();
 
 const emit = defineEmits<{ deploy: [event: any] }>();
@@ -43,7 +39,7 @@ const quickNpcActions = [
 ];
 const fullNpcActions = ['act_disengage', 'act_improvised_attack_npc', 'act_stabilize_npc'];
 
-const controller = computed(() => props.owner.actor.CombatController);
+const controller = computed(() => owner.value.actor.CombatController);
 
 function activate(event: string) {
   controller.value.MarkActionUsed(event);

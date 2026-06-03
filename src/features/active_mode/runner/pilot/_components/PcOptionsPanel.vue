@@ -141,6 +141,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import logger from '@/user/logger'
 import { useRouter } from 'vue-router'
 import { Mech } from '@/classes/mech/Mech'
 import PilotSheet from '@/features/pilot_management/store/PilotSheet'
@@ -186,7 +187,7 @@ function manualSave() {
       data: { icon: 'mdi-content-save', color: 'success' },
     })
   } catch (error) {
-    console.error('Manual Save Failed:', error)
+    logger.error('Manual Save Failed', null, error)
     notify({
       title: 'Save Failed',
       text: `Failed to save Character Sheet: ${(props.sheet as any).Combatant.actor.Callsign}`,

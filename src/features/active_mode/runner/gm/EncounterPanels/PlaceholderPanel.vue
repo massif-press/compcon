@@ -19,7 +19,7 @@
   <cc-rich-text-area v-model="combatant.actor.Notes" />
   <br />
 
-  <panel-base :encounter-instance="encounterInstance" :item="combatant.actor" no-stats>
+  <panel-base :item="combatant.actor" no-stats>
     <template #action-palette>
       <v-row dense>
         <v-col>
@@ -78,6 +78,8 @@
 <script setup lang="ts">
 import type { CombatantData } from '@/classes/encounter/Encounter'
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { computed, provide } from 'vue'
+import { EncounterContextKey } from './encounterContext';
 import IconSelectMenu from './_components/IconSelectMenu.vue';
 import PanelBase from './_PanelBase.vue';
 
@@ -85,6 +87,11 @@ const props = defineProps<{
   combatant: CombatantData
   encounterInstance: EncounterInstance
 }>()
+
+provide(EncounterContextKey, {
+  owner: computed(() => props.combatant),
+  encounterInstance: computed(() => props.encounterInstance),
+})
 
 const emit = defineEmits<{
   'deselect': []

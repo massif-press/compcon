@@ -31,12 +31,12 @@ import { UserStore } from '@/stores'
 import CompendiumView from './Views/Compendium/index.vue'
 import ReferenceView from './Views/Reference/index.vue'
 import CampaignLibrary from './Views/CampaignLibrary/index.vue'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 
 defineOptions({ name: 'CompendiumIndex' })
 
 const route = useRoute()
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 const tabs = ref<any>(null)
 
 const isDevsite = computed(() =>

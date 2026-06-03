@@ -125,7 +125,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { UserStore } from '@/stores'
+import { useUserData } from '@/ui/providers'
 import { cloudDelete, updateItem, uploadToS3 } from '@/io/apis/account'
 import { CloudController } from '@/classes/components/cloud/CloudController'
 import logger from '@/user/logger'
@@ -142,12 +142,12 @@ const loading = ref(false)
 const stagedImage = ref<any>(null)
 const file = ref<any>(null)
 
-const store = computed(() => UserStore())
+const store = useUserData()
 
-const accountUsage = computed(() => store.value.CloudStorageUsed / 1024 / 1024)
-const accountMax = computed(() => store.value.MaxCloudStorage / 1024 / 1024)
+const accountUsage = computed(() => store.CloudStorageUsed / 1024 / 1024)
+const accountMax = computed(() => store.MaxCloudStorage / 1024 / 1024)
 
-const userImages = computed(() => UserStore().CloudImages.filter((x: any) => x.uri))
+const userImages = computed(() => store.CloudImages.filter((x: any) => x.uri))
 
 const totalUserPages = computed(() => Math.ceil(userImages.value.length / itemsPerPage))
 
@@ -192,7 +192,7 @@ async function uploadImage() {
   if (!res.presign.upload) throw new Error('Failed to get presigned uri')
 
   await uploadToS3(stagedImage.value, res.presign.upload, type)
-  await UserStore().refreshDbData()
+  await store.refreshDbData()
   notify({
     type: 'success',
     title: 'Image Uploaded',
@@ -209,7 +209,7 @@ async function deleteCloudImage(item: any) {
   try {
     const { user_id, sortkey, uri } = item
     await cloudDelete(user_id, sortkey, uri)
-    await UserStore().refreshDbData()
+    await store.refreshDbData()
     notify({
       type: 'success',
       title: 'Image Deleted',

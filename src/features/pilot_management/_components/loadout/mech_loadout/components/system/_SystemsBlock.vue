@@ -158,11 +158,11 @@ import { startDragScroll, stopDragScroll } from '@/composables/useScrollOnDrag';
 import SystemSlotCard from './_SystemSlotCard.vue';
 import ModEquippedCard from './_ModEquippedCard.vue';
 import SystemSelector from './_SystemSelector.vue';
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 const _SystemSlotCard = markRaw(SystemSlotCard);
 const _ModEquippedCard = markRaw(ModEquippedCard);
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = defineProps<{
   mech: Mech

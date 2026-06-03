@@ -38,11 +38,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import ActionCard from '../_components/ActionCard.vue';
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 
 defineOptions({ name: 'action-economy' })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const actionTypes = ref([
       { action: 'move', icon: 'mdi-arrow-right-bold-hexagon-outline' },

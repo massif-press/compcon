@@ -30,7 +30,7 @@
   </v-row>
 
   <div v-if="!hideInput">
-    <cc-alert v-if="activeEffect.Condition"
+    <cc-alert v-if="activeEffect.getCondition(owner.actor.CombatController.Tier)"
       color="primary">
       <b class="text-accent">IF:&nbsp;</b>
       <b v-html-safe="activeEffect.getCondition(owner.actor.CombatController.Tier)" />
@@ -100,15 +100,15 @@ import { CombatantData } from '@/classes/encounter/Encounter';
 import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
 import EffectApplicator from './EffectApplicator.vue';
 import ApplyButton from './ApplyButton.vue'
-import { ActiveEffect } from '@/classes/components/feature/active_effects/ActiveEffect';
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import { Action } from '@/classes/Action';
+import { ActiveEffect, ActiveEffectLike } from '@/classes/components/feature/active_effects/ActiveEffect.js';
 
 const props = withDefaults(defineProps<{
-  activeEffect: any
+  activeEffect: ActiveEffectLike
   encounterInstance: EncounterInstance
   owner: CombatantData
-  close: Function
+  close: () => void
   hideInput?: boolean
   embedded?: boolean
   color?: string
@@ -119,7 +119,7 @@ const props = withDefaults(defineProps<{
   hideInput: false,
   embedded: false,
   color: 'panel',
-  overrideMissingInputs: null,
+  overrideMissingInputs: false,
   initialTargets: () => [],
 })
 
@@ -129,49 +129,11 @@ const emit = defineEmits<{
 }>()
 
 const event = ref({} as ActiveEffectEvent)
-const ready = ref(false)
-const isFree = ref(false)
+
 
 const isPilotSheet = computed(() => props.encounterInstance.ItemType === 'PilotSheet')
 
-const isApplied = computed((): boolean =>
-  props.owner.actor.CombatController.IsActionUsed(props.activeEffect.ID)
-)
 
-const isRam = computed((): boolean => props.activeEffect.ID === 'act_ram')
-
-const canOverride = computed(() =>
-  props.activeEffect.AddOther?.length ||
-  props.activeEffect.AddResist?.length ||
-  props.activeEffect.AddStatus?.length ||
-  props.activeEffect.AddSpecial?.length ||
-  props.activeEffect.Damage.length > 0
-)
-
-const hasAction = computed(() =>
-  props.activeEffect.AddOther ||
-  props.activeEffect.AddResist ||
-  props.activeEffect.AddStatus ||
-  props.activeEffect.AddSpecial ||
-  props.activeEffect.Damage.length ||
-  props.activeEffect.Save
-)
-
-const activation = computed((): boolean => (props.activeEffect as any).Activation != null)
-
-const frequencyText = computed((): string => {
-  if (props.activeEffect.Frequency) {
-    if (
-      typeof props.activeEffect.Frequency === 'object' &&
-      (props.activeEffect.Frequency as any).FreqText
-    ) {
-      return (props.activeEffect.Frequency as any).FreqText;
-    } else if (typeof props.activeEffect.Frequency === 'string') {
-      return props.activeEffect.Frequency;
-    }
-  }
-  return '';
-})
 
 function reset(clearAction = false) {
   if (clearAction) props.owner.actor.CombatController.ClearActionUsed(props.activeEffect.ID);
@@ -181,7 +143,7 @@ function reset(clearAction = false) {
   if (!self) {
     throw new Error('Owner combatant not found in encounterInstance');
   }
-  event.value = new ActiveEffectEvent(self, props.activeEffect, props.encounterInstance);
+  event.value = new ActiveEffectEvent(self, props.activeEffect as ActiveEffect, props.encounterInstance);
 }
 
 function copyText(text: string) {

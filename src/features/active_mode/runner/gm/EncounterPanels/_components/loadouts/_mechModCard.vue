@@ -10,12 +10,10 @@
         class="mb-n1"
         :class="!mobile && 'px-2'" />
 
-      <cc-combat-action-chip v-for="a in mod.Actions"
+      <cc-combat-action-chip :owner="owner" :encounter-instance="encounterInstance" v-for="a in mod.Actions"
         :key="a.ID"
         :action="a"
-        :owner="owner"
         class="mt-1"
-        :encounter-instance="encounterInstance"
         @activate="handleActivation($event)"
         @reset="handleRefund($event)">
         <template #icon>
@@ -72,46 +70,48 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
+import { useEncounterContext } from '../../encounterContext'
+import { useDisplay } from 'vuetify'
 import DeployButton from './_deployButton.vue'
+import { WeaponMod } from '@/classes/mech/components/equipment/WeaponMod.js'
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance.js'
+import { Mech } from '@/classes/mech/Mech.js'
+
+const { owner, encounterInstance } = useEncounterContext()
 
 const props = defineProps({
-    mod: {
-      type: Object,
-      required: true,
-    },
-    owner: {
-      type: Object,
-      required: true,
-    },
-    mech: {
-      type: Object,
-      required: true,
-    },
-    encounterInstance: {
-      type: Object,
-      required: true,
-    },
-  })
+  mod: {
+    type: WeaponMod,
+    required: true,
+  },
+  mech: {
+    type: Mech,
+    required: true,
+  },
+})
 
 const emit = defineEmits(['deploy'])
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
-const totalUses = computed(() => {return Number(props.mod.MaxUses || 0) + Number(props.owner.actor.CombatController.LimitedBonus || 0)})
+const totalUses = computed(() => { return Number(props.mod.MaxUses || 0) + Number(owner.value.actor.CombatController.LimitedBonus || 0) })
 
 function setUses(n) {
   if ((props.mod as any).Uses === 1 && n === 1) {
-    ;(props.mod as any).Uses = 0
+    ; (props.mod as any).Uses = 0
   } else if (totalUses.value && n <= totalUses.value) {
-    ;(props.mod as any).Uses = n
+    ; (props.mod as any).Uses = n
   }
 }
-function handleActivation(cost: number) {if (cost && props.mod.MaxUses) {
-        props.mod.Uses = (props.mod.Uses || 0) + cost
-      }}
-function handleRefund(cost: number) {if (cost && props.mod.MaxUses) {
-        props.mod.Uses = (props.mod.Uses || 0) - cost
-      }
-      if (props.mod.Uses < 0) props.mod.Uses = 0}
+function handleActivation(cost: number) {
+  if (cost && props.mod.MaxUses) {
+    props.mod.Uses = (props.mod.Uses || 0) + cost
+  }
+}
+function handleRefund(cost: number) {
+  if (cost && props.mod.MaxUses) {
+    props.mod.Uses = (props.mod.Uses || 0) - cost
+  }
+  if (props.mod.Uses < 0) props.mod.Uses = 0
+}
 </script>

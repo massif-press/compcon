@@ -83,12 +83,13 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useDisplay } from 'vuetify'
-import { CompendiumStore } from '@/stores'
+import { useCompendiumData } from '@/ui/providers'
 import CCTieredAttribute from '../../CCTieredAttribute.vue'
 import ClassCombatChart from './_components/_NpcClassCombatChart.vue'
 import type { NpcClass } from '@/classes/npc/class/NpcClass'
 
-const npcClasses = computed(() => CompendiumStore().NpcClasses)
+const compendium = useCompendiumData()
+const npcClasses = computed(() => compendium.NpcClasses)
 
 const { smAndDown: mobile } = useDisplay()
 

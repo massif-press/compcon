@@ -21,7 +21,6 @@
   </cc-alert>
 
   <panel-base v-else
-    :encounter-instance="encounterInstance"
     :item="pilot">
     <template #name-block>
       <div class="heading h2">{{ pilot.Callsign }}</div>
@@ -71,8 +70,7 @@
     </template>
 
     <template #actions>
-      <pilot-actions-panel :owner="combatant"
-        :encounter-instance="encounterInstance"
+      <pilot-actions-panel
         @deploy="deploy($event)" />
     </template>
 
@@ -104,11 +102,9 @@
                 <template #combat>
                   <div v-if="item.Talent.AllActions?.length"
                     class="mb-2 mt-1">
-                    <cc-combat-action-chip v-for="a in item.Talent.AllActions"
+                    <cc-combat-action-chip :owner="combatant" :encounter-instance="encounterInstance" v-for="a in item.Talent.AllActions"
                       :key="a.ID"
-                      :action="a"
-                      :owner="combatant"
-                      :encounter-instance="encounterInstance" />
+                      :action="a" />
                   </div>
                   <div v-if="item.Talent.AllDeployables?.length"
                     class="mb-2">
@@ -127,34 +123,41 @@
     </v-expansion-panels>
 
     <div class="text-cc-overline mt-4 text-disabled">Loadout</div>
-    <pilot-combat-loadout :encounter-instance="encounterInstance"
-      :owner="combatant"
+    <pilot-combat-loadout
       @deploy="deploy($event)" />
   </panel-base>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
+import { computed, provide } from 'vue'
+import { useDisplay } from 'vuetify'
+import { EncounterContextKey } from './encounterContext';
+import type { CombatantData } from '@/classes/encounter/Encounter';
 import PanelBase from './_PanelBase.vue';
 import PilotActionsPanel from './_components/PilotActionsPanel.vue';
 import PilotCombatLoadout from './_components/loadouts/PilotCombatLoadout.vue';
 import DeployButton from './_components/loadouts/_deployButton.vue';
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance.js';
 
 const props = defineProps({
-    combatant: {
-      type: Object,
-      required: true,
-    },
-    encounterInstance: {
-      type: Object,
-      required: true,
-    },
-  })
+  combatant: {
+    type: Object,
+    required: true,
+  },
+  encounterInstance: {
+    type: EncounterInstance,
+    required: true,
+  },
+})
+
+provide(EncounterContextKey, {
+  owner: computed(() => props.combatant as CombatantData),
+  encounterInstance: computed(() => props.encounterInstance),
+})
 
 const emit = defineEmits(['deselect'])
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const xlColumns = computed(() => {
   if (mobile.value) return 1

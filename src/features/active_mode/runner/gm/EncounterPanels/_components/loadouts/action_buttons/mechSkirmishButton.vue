@@ -1,8 +1,6 @@
 <template>
   <combat-action-button
     :action="action"
-    :owner="owner"
-    :encounter-instance="encounterInstance"
     :preset-weapon="presetWeapon"
     :mobile="mobile">
     <template #default="{ close }">
@@ -18,9 +16,7 @@
           :key="b.ID"
           expanded
           :bonus="b"
-          :owner="owner"
-          :mech="owner.actor.CombatController.Parent"
-          :encounter-instance="encounterInstance" />
+          :mech="owner.actor.CombatController.Parent" />
       </div>
 
 
@@ -86,8 +82,6 @@
 
         <mech-weapon-attack v-if="selectedWeapon && event"
           :event="<WeaponAttackEvent>event"
-          :owner="owner"
-          :encounter-instance="encounterInstance"
           :profile="<WeaponProfile>event.Weapon" />
 
         <div v-if="auxEvents && auxEvents.length"
@@ -133,8 +127,6 @@
 
                 <mech-weapon-attack v-if="selectedWeapon"
                   :event="<WeaponAttackEvent>aux"
-                  :owner="owner"
-                  :encounter-instance="encounterInstance"
                   :profile="<WeaponProfile>aux.Weapon" />
 
               </div>
@@ -152,11 +144,9 @@
       <v-divider />
       <div class="pa-4">
 
-        <apply-button v-if="event"
+        <apply-button :owner="owner" :encounter-instance="encounterInstance" v-if="event"
           :event="<ActiveEffectEvent>event.BaseEvent"
           :weapon-event="<WeaponAttackEvent>event"
-          :encounter-instance="encounterInstance"
-          :owner="owner"
           :close="close"
           :action="action"
           :action-id="selectedWeapon ? selectedWeapon.InstanceID : ''"
@@ -171,6 +161,7 @@
 
 <script setup lang="ts">
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { useEncounterContext } from '../../../encounterContext'
 import type { Action } from '@/classes/Action'
 import { computed, ref, watch } from 'vue'
 import { useDisplay } from 'vuetify'
@@ -188,10 +179,10 @@ import CombatActionButton from './CombatActionButton.vue';
 
 const _display = useDisplay()
 
+const { owner, encounterInstance } = useEncounterContext()
+
 const props = defineProps<{
   action: Action
-  owner: CombatantData
-  encounterInstance: EncounterInstance
   presetWeapon?: MechWeapon
 }>()
 
@@ -208,11 +199,11 @@ const mobile = computed(() => {
       return _display.mdAndDown.value;
     })
 const controller = computed(() => {
-      return props.owner.actor.CombatController.ActiveActor.CombatController;
+      return owner.value.actor.CombatController.ActiveActor.CombatController;
     })
 const selectedMount = computed(() => {
       if (!selectedWeapon.value) return null;
-      const aa = props.owner.actor.CombatController.RootActor;
+      const aa = owner.value.actor.CombatController.RootActor;
       if (!aa.ActiveMech) return null;
 
       return aa.ActiveMech.MechLoadoutController.ActiveLoadout.Mounts.find((m) => m.Weapons.some((w) => w.InstanceID === selectedWeapon.value!.InstanceID));
@@ -220,7 +211,7 @@ const selectedMount = computed(() => {
 const ordnanceWarning = computed(() => {
       if (!selectedWeapon.value) return false;
       if (selectedWeapon.value.ActiveTags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
-        return props.owner.actor.CombatController.CanActivate('ordnance') === false;
+        return owner.value.actor.CombatController.CanActivate('ordnance') === false;
       }
       return false;
     })
@@ -241,9 +232,9 @@ const eventArray = computed(() => {
     })
 
 function reset(clearAction = false) {
-      if (clearAction) props.owner.CombatController.ClearActionUsed(props.action.ID);
-      const self = props.encounterInstance.Combatants.find(
-        (c: CombatantData) => c.actor.CombatController.RootActor.ID === props.owner.actor.CombatController.RootActor.ID
+      if (clearAction) owner.value.CombatController.ClearActionUsed(props.action.ID);
+      const self = encounterInstance.value.Combatants.find(
+        (c: CombatantData) => c.actor.CombatController.RootActor.ID === owner.value.actor.CombatController.RootActor.ID
       );
       if (!self) {
         throw new Error('Owner combatant not found in encounterInstance');
@@ -256,18 +247,18 @@ function reset(clearAction = false) {
         return;
 
 
-      event.value = new WeaponAttackEvent(selectedWeapon.value?.SelectedProfile as WeaponProfile, self, props.encounterInstance, 'Skirmish');
+      event.value = new WeaponAttackEvent(selectedWeapon.value?.SelectedProfile as WeaponProfile, self, encounterInstance.value, 'Skirmish');
       const auxes = selectedMount.value?.Weapons.filter(
         (x) =>
           x.InstanceID !== selectedWeapon.value!.InstanceID && x.Size.toLowerCase() === 'auxiliary'
       ) ?? [];
 
-      auxEvents.value = auxes.map(x => new WeaponAttackEvent(x.SelectedProfile as WeaponProfile, props.owner as CombatantData, props.encounterInstance, 'Additional Aux Attack'));
+      auxEvents.value = auxes.map(x => new WeaponAttackEvent(x.SelectedProfile as WeaponProfile, owner.value as CombatantData, encounterInstance.value, 'Additional Aux Attack'));
 
       include.value = auxEvents.value.map(() => true);
     }
 function apply() {
-      const actor = props.owner.actor.CombatController.ActiveActor.CombatController;
+      const actor = owner.value.actor.CombatController.ActiveActor.CombatController;
       actor.MarkActionUsed(selectedWeapon.value!.InstanceID);
       if (selectedWeapon.value!.IsLoading) selectedWeapon.value!.Used = true;
       reset();

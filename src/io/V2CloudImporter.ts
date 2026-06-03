@@ -1,4 +1,5 @@
 import { fetchAuthSession } from 'aws-amplify/auth'
+import logger from '@/user/logger'
 import { getHeaders } from '@/io/apis/account'
 import { processFullBackup } from '@/io/FullImporter'
 import { UserStore } from '@/stores'
@@ -64,7 +65,7 @@ export async function runV2CloudMigration(userId: string): Promise<V2CloudMigrat
     const result = await processFullBackup(backup)
     return { status: result.errors?.length ? 'error' : 'complete', ...result }
   } catch (err) {
-    console.error('V2 cloud migration error:', err)
+    logger.error('V2 cloud migration error', null, err)
     return { status: 'error', errors: [String(err)] }
   }
 }

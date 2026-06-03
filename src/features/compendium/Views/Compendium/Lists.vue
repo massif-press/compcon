@@ -22,9 +22,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { CompendiumStore } from '@/stores';
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const lists = computed(() => {
       const out = [] as { name: string; data: any[]; type: string }[];

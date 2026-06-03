@@ -34,7 +34,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import { Anchor } from 'vuetify';
 
 const props = defineProps({
@@ -56,7 +56,7 @@ const props = defineProps({
 
 const emit = defineEmits(['click'])
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const tonal = computed(() => props.variant === 'tonal')
 const getColor = computed(() => {

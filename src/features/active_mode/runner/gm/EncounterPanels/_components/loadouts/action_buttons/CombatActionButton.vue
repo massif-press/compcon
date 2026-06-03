@@ -74,14 +74,15 @@
 
 <script setup lang="ts">
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { useEncounterContext } from '../../../encounterContext'
 import type { CombatantData } from '@/classes/encounter/Encounter'
 import type { Action } from '@/classes/Action'
 import { computed } from 'vue'
 
+const { owner, encounterInstance } = useEncounterContext()
+
 const props = withDefaults(defineProps<{
   action: Action
-  owner: CombatantData
-  encounterInstance: EncounterInstance
   presetWeapon?: object
   mobile?: boolean
   actionColor?: string
@@ -102,7 +103,7 @@ const displayIcon = computed(() => {
       return props.actionIcon ?? props.action.Icon;
     })
 const controller = computed(() => {
-      return props.owner.actor.CombatController.ActiveActor.CombatController;
+      return owner.value.actor.CombatController.ActiveActor.CombatController;
     })
 const canActivate = computed(() => {
       return controller.value.CanActivate(props.action.Activation);

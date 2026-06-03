@@ -1,134 +1,134 @@
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from 'uuid'
 import { CloudController, ICloudData } from '@/classes/components/cloud/CloudController'
 import { IPortraitContainer } from '@/classes/components/portrait/IPortraitContainer'
 import { IPortraitData, PortraitController } from '@/classes/components/portrait/PortraitController'
 import { ISaveable } from '@/classes/components/save/ISaveable'
 import { ISaveData, SaveController } from '@/classes/components/save/SaveController'
-import { ImageTag } from '@/classes/enums';
+import { ImageTag } from '@/classes/enums'
 
-type PilotGroupData = {
-  id: string;
-  sortIndex: number;
-  save: ISaveData;
-  img: IPortraitData;
-  cloud: ICloudData;
-  name: string;
-  pilots: PilotIndexItem[];
-  description: string;
-  history: string;
-  expanded: boolean;
-};
+export type PilotGroupData = {
+  id: string
+  sortIndex: number
+  save: ISaveData
+  img: IPortraitData
+  cloud: ICloudData
+  name: string
+  pilots: PilotIndexItem[]
+  description: string
+  history: string
+  expanded: boolean
+}
 
-type PilotIndexItem = {
-  id: string;
-  index: number;
-};
+export type PilotIndexItem = {
+  id: string
+  index: number
+}
 
 class PilotGroup implements ISaveable, IPortraitContainer {
-  save!: ISaveData;
-  img!: IPortraitData;
+  save!: ISaveData
+  img!: IPortraitData
 
-  public SortIndex: number;
+  public SortIndex: number
 
-  public SaveController: SaveController;
-  public PortraitController: PortraitController;
-  public CloudController: CloudController;
+  public SaveController: SaveController
+  public PortraitController: PortraitController
+  public CloudController: CloudController
 
-  private _id: string;
-  private _name: string;
-  private _pilots: PilotIndexItem[];
-  private _description: string;
-  private _history: string;
-  public readonly ImageTag: ImageTag = ImageTag.Emblem;
-  public readonly DataType: string = 'savedata';
-  public readonly ItemType: string = 'pilotgroup';
-  public readonly StorageType: string = 'pilot_groups';
+  private _id: string
+  private _name: string
+  private _pilots: PilotIndexItem[]
+  private _description: string
+  private _history: string
+  public readonly ImageTag: ImageTag = ImageTag.Emblem
+  public readonly DataType: string = 'savedata'
+  public readonly ItemType: string = 'pilotgroup'
+  public readonly StorageType: string = 'pilot_groups'
 
   // controls whether the group is expanded in the UI
-  private _expanded: boolean;
+  private _expanded: boolean
 
   constructor(data?: PilotGroupData) {
-    this._id = data?.id || uuid();
-    this.SortIndex = data && !isNaN(data.sortIndex) ? data.sortIndex : -1;
+    this._id = data?.id || uuid()
+    this.SortIndex = data && !isNaN(data.sortIndex) ? data.sortIndex : -1
 
-    this.SaveController = new SaveController(this);
-    this.PortraitController = new PortraitController(this);
-    this.CloudController = new CloudController(this);
+    this.SaveController = new SaveController(this)
+    this.PortraitController = new PortraitController(this)
+    this.CloudController = new CloudController(this)
 
-    this._name = data?.name || '';
-    this._pilots = (data?.pilots || []).filter(Boolean) as PilotIndexItem[];
-    this._description = data?.description || '';
-    this._history = data?.history || '';
-    this._expanded = data?.expanded || false;
+    this._name = data?.name || ''
+    this._pilots = (data?.pilots || []).filter(Boolean) as PilotIndexItem[]
+    this._description = data?.description || ''
+    this._history = data?.history || ''
+    this._expanded = data?.expanded || false
   }
 
   private Save(): void {
-    this.SaveController.save();
+    this.SaveController.save()
   }
 
   public get ID(): string {
-    return this._id;
+    return this._id
   }
 
   public RenewID(): string {
-    this._id = uuid();
-    this.Save();
-    return this._id;
+    this._id = uuid()
+    this.Save()
+    return this._id
   }
 
   public get Portrait(): string {
-    return this.PortraitController.Portrait;
+    return this.PortraitController.Portrait
   }
 
   public get Name(): string {
-    return this._name;
+    return this._name
   }
 
   public set Name(val: string) {
-    this._name = val;
-    this.Save();
+    this._name = val
+    this.Save()
   }
 
   public get Pilots(): PilotIndexItem[] {
-    return this._pilots;
+    return this._pilots
   }
 
   public set Pilots(val: PilotIndexItem[]) {
-    const now = Date.now();
-    const currentIds = new Set(this._pilots.map(p => p.id));
-    const newIds = new Set(val.map(p => p.id));
+    const now = Date.now()
+    const currentIds = new Set(this._pilots.map(p => p.id))
+    const newIds = new Set(val.map(p => p.id))
     for (const id of currentIds) {
-      if (!newIds.has(id)) this.CloudController.stampTombstone(`pilots.${id}`);
+      if (!newIds.has(id)) this.CloudController.stampTombstone(`pilots.${id}`)
     }
-    this._pilots = val;
-    this.Save();
+    this._pilots = val
+    this.Save()
   }
 
   public get Description(): string {
-    return this._description;
+    return this._description
   }
 
   public set Description(val: string) {
-    this._description = val;
-    this.Save();
+    this._description = val
+    this.Save()
   }
 
   public get History(): string {
-    return this._history;
+    return this._history
   }
 
   public set History(val: string) {
-    this._history = val;
-    this.Save();
+    this._history = val
+    this.Save()
   }
 
   public get Expanded(): boolean {
-    return this._expanded;
+    return this._expanded
   }
 
   public set Expanded(val: boolean) {
-    this._expanded = val;
-    this.Save();
+    this._expanded = val
+    this.Save()
   }
 
   public static Serialize = (group: PilotGroup): PilotGroupData => {
@@ -140,32 +140,31 @@ class PilotGroup implements ISaveable, IPortraitContainer {
       pilots: group._pilots,
       sortIndex: group.SortIndex,
       expanded: group.Expanded,
-    };
+    }
 
-    SaveController.Serialize(group, data);
-    PortraitController.Serialize(group, data);
-    CloudController.Serialize(group, data);
+    SaveController.Serialize(group, data)
+    PortraitController.Serialize(group, data)
+    CloudController.Serialize(group, data)
 
-    return data as PilotGroupData;
-  };
+    return data as PilotGroupData
+  }
 
   public static Deserialize = (data: PilotGroupData): PilotGroup => {
-    const group = new PilotGroup(data);
-    PortraitController.Deserialize(group, data.img);
-    SaveController.Deserialize(group, data.save);
-    CloudController.Deserialize(group, data.cloud);
+    const group = new PilotGroup(data)
+    PortraitController.Deserialize(group, data.img)
+    SaveController.Deserialize(group, data.save)
+    CloudController.Deserialize(group, data.cloud)
 
-    return group;
-  };
+    return group
+  }
 
   public Serialize(): PilotGroupData {
-    return PilotGroup.Serialize(this);
+    return PilotGroup.Serialize(this)
   }
 
   public Clone = (): PilotGroup => {
-    throw new Error('Cannot clone PilotGroup');
-  };
+    throw new Error('Cannot clone PilotGroup')
+  }
 }
 
-export { PilotGroup };
-export type { PilotGroupData };
+export { PilotGroup }

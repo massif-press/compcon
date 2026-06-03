@@ -94,15 +94,18 @@
 
 <script setup lang="ts">
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { useEncounterContext } from '../encounterContext'
+import type { ICombatant } from '@/classes/components/combat/ICombatant'
 import { TimedEffect } from '@/classes/components/feature/active_effects/TimedEffect';
 
+const { encounterInstance } = useEncounterContext()
+
 const props = defineProps<{
-  item: any;
-  encounterInstance: EncounterInstance;
+  item: ICombatant;
 }>();
 
 function getRoundsRemaining(effect: TimedEffect) {
-  return Math.max(effect.Round - props.encounterInstance.Round, 0);
+  return Math.max(effect.Round - encounterInstance.value.Round, 0);
 }
 
 function apply(effect: TimedEffect, index: number) {

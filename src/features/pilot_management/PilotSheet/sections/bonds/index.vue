@@ -356,13 +356,13 @@ import BondPowerSelector from './components/BondPowerSelector.vue'
 import SectionHeader from '../components/SectionHeader.vue'
 import SectionEditChip from '../components/SectionEditChip.vue'
 import { CompendiumStore } from '@/stores'
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 import { remove } from 'jszip'
 import { sortBy } from 'lodash-es'
 
 defineOptions({ name: 'BondsView' })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = defineProps<{
   pilot: Pilot

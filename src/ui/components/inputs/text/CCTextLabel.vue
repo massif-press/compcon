@@ -123,9 +123,9 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = withDefaults(defineProps<{
   modelValue?: string

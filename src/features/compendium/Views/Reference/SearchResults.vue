@@ -74,7 +74,7 @@ import combat from '@/assets/srd/lib/combat.json';
 import mechs from '@/assets/srd/lib/mechs.json';
 import pilots from '@/assets/srd/lib/pilots.json';
 import narrative_play from '@/assets/srd/lib/narrative_play.json';
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 const router = useRouter()
 function searchObject(obj, str) {
 const coll = [] as any[];
@@ -147,7 +147,7 @@ start = end - maxLength;
 return str.substring(start, end);
 }
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const input = ref<any>(null)
 

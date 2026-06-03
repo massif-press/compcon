@@ -149,7 +149,7 @@ import { useRoute, useRouter } from 'vue-router'
 import CloneDialog from './CloneDialog.vue'
 import StatblockDialog from './StatblockDialog.vue'
 import LcpConfigSelector from './LcpConfigSelector.vue'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import { usePilotActions } from '../usePilotActions'
 
 defineOptions({ name: 'EditMenu' })
@@ -165,7 +165,7 @@ const props = withDefaults(defineProps<{
 
 defineEmits<{ close: [] }>()
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 const { exportPilot, remoteUpdate, convert } = usePilotActions(props)
 
 const route = useRoute()

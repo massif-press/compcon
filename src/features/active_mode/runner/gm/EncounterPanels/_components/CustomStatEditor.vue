@@ -106,7 +106,7 @@
 import { computed, ref } from 'vue'
 import { MandatoryStats, StatController } from '@/classes/components/combat/stats/StatController';
 import { Bonus } from '@/classes/components/feature/bonus/Bonus';
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 const npcStatOrder = [
 'hull',
 'agi',
@@ -158,7 +158,7 @@ const statics = [
 
 defineOptions({ name: 'StatEditor' })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = withDefaults(defineProps<{
   item: object

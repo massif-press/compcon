@@ -182,7 +182,6 @@ export const NpcStore = defineStore('npc', {
         await SetItem('npcs', toRaw(npc).Serialize())
         logger.info(`NPC ${npc.ID} (${npc.Name}) saved`, this)
       } catch (err) {
-        console.error(err)
         logger.error(`Error saving NPC ${npc.ID} (${npc.Name})`, err)
       }
     },

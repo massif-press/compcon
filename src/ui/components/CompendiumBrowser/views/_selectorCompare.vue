@@ -78,7 +78,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import { CompendiumItem } from '@/classes/CompendiumItem'
 
 const props = defineProps({
@@ -100,7 +100,7 @@ const props = defineProps({
 
 const emit = defineEmits(['clear'])
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const isNpcClass = computed(() => (props.selected as CompendiumItem)?.ItemType === 'NpcClass')
 

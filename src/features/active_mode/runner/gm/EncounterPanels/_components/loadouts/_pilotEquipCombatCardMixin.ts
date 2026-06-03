@@ -1,7 +1,9 @@
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import DestroyedOverlay from './_DestroyedOverlay.vue'
 import FlavorDescription from './_FlavorDescription.vue'
 import PilotEquipCardBody from './_PilotEquipCardBody.vue'
+import { PilotEquipment } from '@/classes/pilot/components/Loadout/equipment/PilotEquipment.js'
+import { Pilot } from '@/classes/pilot/Pilot.js'
 
 export const pilotEquipCombatCardMixin = {
   components: {
@@ -10,15 +12,16 @@ export const pilotEquipCombatCardMixin = {
     PilotEquipCardBody,
   },
   setup() {
-    return useMobile()
+    const { smAndDown: mobile, xs: portrait } = useDisplay()
+    return { mobile, portrait }
   },
   props: {
     item: {
-      type: Object,
+      type: PilotEquipment,
       required: true,
     },
     pilot: {
-      type: Object,
+      type: Pilot,
       required: true,
     },
     encounter: {

@@ -218,7 +218,7 @@ import { Pilot } from '@/classes/pilot/Pilot'
 import CloneDialog from './components/CloneDialog.vue'
 import StatblockDialog from './components/StatblockDialog.vue'
 import LcpConfigSelector from './components/LcpConfigSelector.vue'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import ShareDialog from '@/shared/ShareDialog.vue'
 import { usePilotActions } from './usePilotActions'
 
@@ -230,7 +230,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{ close: [] }>()
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 const { exportPilot, remoteUpdate, convert } = usePilotActions(props)
 
 const route = useRoute()

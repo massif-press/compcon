@@ -12,11 +12,12 @@
 </template>
 
 <script setup lang="ts">
+import type { Sitrep } from '@/classes/encounter/Sitrep'
 import CCSitrepDisplay from '@/ui/components/CCSitrepDisplay.vue'
 defineOptions({ name: 'sitrep-chip' })
 
 const props = withDefaults(defineProps<{
-  sitrep: object
+  sitrep: Sitrep
   size?: string
 }>(), {
   size: 'x-small'

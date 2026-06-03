@@ -85,6 +85,7 @@ import CCMissingGmLcpText from './components/CCMissingGmLcpText.vue'
 import CCShareCodeImporter from './components/CCShareCodeImporter.vue'
 import CCBrokenReference from './components/CCBrokenReference.vue'
 import CCMasonryGrid from './components/CCMasonryGrid.vue'
+import CCOrganizer from './components/CCOrganizer.vue'
 
 import CCCombatActionChip from './components/chips/CCCombatActionChip.vue'
 
@@ -179,6 +180,7 @@ export {
   CCCombatActionChip,
   CCConfigTip,
   CCMasonryGrid,
+  CCOrganizer,
   CCDivider,
   CCTooltipWrapper,
   CCExpansionPanel,

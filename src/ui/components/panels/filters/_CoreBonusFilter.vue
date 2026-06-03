@@ -27,11 +27,13 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { uniq } from 'lodash-es'
-import { CompendiumStore } from '@/stores'
+import { useCompendiumData } from '@/ui/providers'
 
 const props = withDefaults(defineProps<{
   activeFilters?: Record<string, any>
 }>(), { activeFilters: () => ({}) })
+
+const compendium = useCompendiumData()
 
 const emit = defineEmits<{ 'set-filters': [filters: Record<string, any>] }>()
 
@@ -42,14 +44,14 @@ const nameSort = (a: { title: string }, b: { title: string }) =>
   a.title.toUpperCase() < b.title.toUpperCase() ? -1 : a.title.toUpperCase() > b.title.toUpperCase() ? 1 : 0
 
 const manufacturers = computed(() =>
-  CompendiumStore()
+  compendium
     .getItemCollection('Manufacturers')
     .map((x: any) => ({ title: x.Name, value: x.ID }))
     .sort(nameSort)
 )
 
 const lcpNames = computed(() =>
-  uniq(CompendiumStore().Frames.map((x: any) => x.LcpName))
+  uniq(compendium.Frames.map((x: any) => x.LcpName))
 )
 
 onMounted(() => {

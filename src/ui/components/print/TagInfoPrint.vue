@@ -10,7 +10,8 @@ import * as _ from 'lodash-es'
 import { Eidolon } from '@/classes/npc/eidolon/Eidolon'
 import { NpcFeature } from '@/classes/npc/feature/NpcFeature'
 import { Unit } from '@/classes/npc/unit/Unit'
-import { CompendiumStore } from '@/stores'
+import type { Npc } from '@/classes/npc/Npc'
+import Tag from '@/classes/Tag'
 import TagInfoDisplay from '@/ui/components/print/TagInfoDisplay.vue'
 
 defineOptions({ name: 'tag-info-print' })
@@ -18,7 +19,8 @@ defineOptions({ name: 'tag-info-print' })
 const props = defineProps<{
   pilot?: Pilot
   mech?: Mech
-  npcs?: any[]
+  npcs?: Npc[]
+  allTags?: Tag[]
 }>()
 
 const tags = computed(() => {
@@ -50,6 +52,6 @@ const tags = computed(() => {
     return _.uniqBy(arr, 'ID')
   }
 
-  return (CompendiumStore().Tags as any[]).filter((x) => !x.IsHidden).sort((a, b) => a.Name.localeCompare(b.Name))
+  return (props.allTags ?? []).filter((x) => !x.IsHidden).sort((a, b) => a.Name.localeCompare(b.Name))
 })
 </script>

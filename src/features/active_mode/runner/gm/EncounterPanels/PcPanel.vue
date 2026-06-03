@@ -105,23 +105,30 @@
 </template>
 
 <script setup lang="ts">
-import type { CombatantData } from '@/classes/encounter/Encounter'
+import type { CombatantData, Encounter } from '@/classes/encounter/Encounter'
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, provide, ref } from 'vue'
 import { ReserveType } from '@/classes/enums'
+import { EncounterContextKey } from './encounterContext';
 import MechPanel from './MechPanel.vue';
 import PilotPanel from './PilotPanel.vue';
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = defineProps<{
   combatant: CombatantData
   encounterInstance: EncounterInstance
+  encounter?: Encounter
   selected?: string | boolean | number | object
   sheet?: object
   pc?: object | string
 }>()
+
+provide(EncounterContextKey, {
+  owner: computed(() => props.combatant),
+  encounterInstance: computed(() => props.encounterInstance),
+})
 
 const emit = defineEmits<{
   'deselect': []

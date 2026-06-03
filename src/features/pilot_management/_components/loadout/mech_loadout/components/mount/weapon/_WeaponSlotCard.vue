@@ -201,16 +201,17 @@ import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
 import { WeaponMod } from '@/classes/mech/components/equipment/WeaponMod'
 import { WeaponSize } from '@/classes/enums'
 import EquippableMount from '@/classes/mech/components/mount/EquippableMount'
+import WeaponSlot from '@/classes/mech/components/mount/WeaponSlot'
 import { Range } from '@/classes/Range'
 import { Damage } from '@/classes/Damage'
 import { Mech } from '@/classes/mech/Mech'
 import EngWeaponSettings from './_EngWeaponSettings.vue'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = defineProps<{
-  weaponSlot: object
+  weaponSlot: WeaponSlot
   mech: Mech
   mount: object
   readonly?: boolean

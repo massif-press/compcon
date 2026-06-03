@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 
 const props = defineProps({
     to: { type: String, required: true },
@@ -51,7 +51,7 @@ const props = defineProps({
     disabled: { type: Boolean, required: false, default: false },
   })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 </script>
 
 <style scoped>

@@ -262,9 +262,9 @@ import JSZip from 'jszip'
 import CampaignShareCodeDialog from './campaignShareCodeDialog.vue'
 import { GetFromCode } from '@/io/apis/account'
 import logger from '@/user/logger'
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = withDefaults(defineProps<{
   density?: string

@@ -27,30 +27,28 @@
           </v-col>
         </v-row>
 
-        <cc-combat-action-chip v-for="a in bonus.Actions"
-          :key="a.ID"
-          v-if="!expanded"
-          :action="a"
-          :owner="owner"
-          class="mt-1"
-          :encounter-instance="encounterInstance">
-          <template #icon>
-            <v-tooltip location="top"
-              text="Equipment Action">
-              <template #activator="{ props }">
-                <v-icon v-bind="props"
-                  icon="cc:system" />
-              </template>
-            </v-tooltip>
-          </template>
-        </cc-combat-action-chip>
+        <template v-if="!expanded">
+          <cc-combat-action-chip :owner="owner" :encounter-instance="encounterInstance" v-for="a in bonus.Actions"
+            :key="a.ID"
+            :action="a"
+            class="mt-1">
+            <template #icon>
+              <v-tooltip location="top"
+                text="Equipment Action">
+                <template #activator="{ props }">
+                  <v-icon v-bind="props"
+                    icon="cc:system" />
+                </template>
+              </v-tooltip>
+            </template>
+          </cc-combat-action-chip>
 
-        <deploy-button v-for="d in bonus.Deployables"
-          :key="d.ID"
-          v-if="!expanded"
-          :deployable="d"
-          :actor="mech"
-          @deploy="$emit('deploy', d)" />
+          <deploy-button v-for="(d, i) in bonus.Deployables"
+            :key="d.Name + i"
+            :deployable="d"
+            :actor="mech"
+            @deploy="$emit('deploy', d)" />
+        </template>
       </v-card-text>
 
 
@@ -75,34 +73,27 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
 import DeployButton from './_deployButton.vue';
+import { useEncounterContext } from '../../encounterContext'
+import { Mech } from '@/classes/mech/Mech.js';
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance.js';
+import { CoreBonus } from '@/classes/pilot/components/index.js';
 
-const props = defineProps({
-    bonus: {
-      type: Object,
-      required: true,
-    },
-    mech: {
-      type: Object,
-      required: true,
-    },
-    owner: {
-      type: Object,
-      required: true,
-    },
-    encounterInstance: {
-      type: Object,
-      required: true,
-    },
-    expanded: {
-      type: Boolean,
-    },
-  })
+const { owner, encounterInstance } = useEncounterContext()
 
-const emit = defineEmits(['deploy'])
+defineProps({
+  bonus: {
+    type: CoreBonus,
+    required: true,
+  },
+  mech: {
+    type: Mech,
+    required: true,
+  },
+  expanded: {
+    type: Boolean,
+  },
+})
 
-const { mobile, portrait } = useMobile()
-
+defineEmits(['deploy'])
 </script>

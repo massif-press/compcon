@@ -81,13 +81,12 @@ import { useDisplay } from 'vuetify'
 import ActionCard from '../_components/ActionCard.vue'
 import _scrollTo from '@/util/scrollTo'
 import { CompendiumStore } from '@/stores'
-import { useMobile } from '@/composables/useMobile';
 
 const _display = useDisplay()
 
 defineOptions({ name: 'ActionEconomy' })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = defineProps<{
   isModal?: boolean

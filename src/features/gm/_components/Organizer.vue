@@ -122,7 +122,6 @@ import { EncounterStore } from '@/stores'
 import { DeleteItemPermanent, GenerateExportCollection } from '@/io/Importer'
 import FolderDialog from './_subcomponents/FolderDialog.vue'
 import LabelDialog from './_subcomponents/LabelDialog.vue'
-import CCOrganizer from '@/ui/components/CCOrganizer.vue'
 
 const router = useRouter()
 

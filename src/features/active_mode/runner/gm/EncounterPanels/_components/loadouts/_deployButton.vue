@@ -106,11 +106,12 @@
 
 <script setup lang="ts">
 import type { ICombatant } from '@/classes/components/combat/ICombatant'
+import type { Deployable } from '@/classes/components/feature/deployable/Deployable'
 import { ref, computed } from 'vue';
 import CombatActionIndicator from '@/ui/components/chips/_CombatActionIndicator.vue';
 
 const props = withDefaults(defineProps<{
-  deployable: any;
+  deployable: Deployable;
   actor: ICombatant;
   disabled?: boolean;
   customDisabledText?: string;
@@ -121,7 +122,7 @@ const props = withDefaults(defineProps<{
   actionOnly: false,
 });
 
-const emit = defineEmits<{ deploy: [deployable: any] }>();
+const emit = defineEmits<{ deploy: [deployable: Deployable] }>();
 
 const menu = ref(false);
 

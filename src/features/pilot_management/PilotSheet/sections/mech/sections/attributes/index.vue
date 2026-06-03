@@ -1,6 +1,5 @@
 <template>
   <mech-statblock :mech="mech"
-    :pilot="pilot"
     :color="color">
     <template #prepend>
       <hase-pips :mech="mech"
@@ -41,28 +40,26 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
+import { Pilot } from '@/classes/pilot/Pilot.js';
 import HasePips from './HasePips.vue';
 import MechStatblock from './MechStatblock.vue';
+import { Mech } from '@/classes/mech/Mech.js';
 
-const props = defineProps({
-    mech: {
-      type: Object,
-      required: true,
-    },
-    pilot: {
-      type: Object,
-      required: true,
-    },
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-  })
-
-const { mobile, portrait } = useMobile()
+defineProps({
+  mech: {
+    type: Mech,
+    required: true,
+  },
+  pilot: {
+    type: Pilot,
+    required: true,
+  },
+  color: {
+    type: String,
+    required: false,
+    default: 'primary',
+  },
+})
 
 </script>
 

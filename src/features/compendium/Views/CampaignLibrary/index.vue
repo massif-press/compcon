@@ -60,11 +60,11 @@
 import { ref } from 'vue'
 import SearchBar from '../../SearchBar.vue';
 import CampaignBookshelf from './components/CampaignBookshelf.vue';
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 
 defineOptions({ name: 'compendium-home' })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const input = ref<any>(null)
 

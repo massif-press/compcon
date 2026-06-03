@@ -112,7 +112,7 @@ import { computed, ref } from 'vue'
 import { useDisplay } from 'vuetify'
 import { UserStore } from '@/stores';
 import logger from '@/user/logger';
-import { signIn } from 'aws-amplify/auth';
+import { signIn as amplifySignIn } from 'aws-amplify/auth';
 
 const _display = useDisplay()
 
@@ -148,12 +148,12 @@ async function signIn() {
       let signInResult;
       si_attempt: try {
         try {
-          signInResult = await signIn({ username: userEmail, password: password.value });
+          signInResult = await amplifySignIn({ username: userEmail, password: password.value });
         } catch (firstError: any) {
           if (firstError.name === 'UserAlreadyAuthenticatedException') throw firstError;
           // fall back to original casing for accounts registered before email normalization
           if (userEmail !== emailTrimmed) {
-            signInResult = await signIn({ username: emailTrimmed, password: password.value });
+            signInResult = await amplifySignIn({ username: emailTrimmed, password: password.value });
           } else {
             throw firstError;
           }

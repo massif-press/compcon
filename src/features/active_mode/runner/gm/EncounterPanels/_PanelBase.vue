@@ -97,7 +97,7 @@
 
             <slot name="subtitle" />
 
-            <timed-effect-panel :encounter-instance="encounterInstance"
+            <timed-effect-panel
               :item="item" />
 
             <v-row class="mt-n1"
@@ -173,7 +173,6 @@
 
 
             <active-effect-panel v-if="item.CombatController.ActiveEffects.length"
-              :encounter-instance="encounterInstance"
               :item="item" />
 
             <v-row v-if="!hidePalette"
@@ -241,8 +240,7 @@
                   md="auto"
                   style="min-width: 20px" />
                 <v-col class="mx-auto">
-                  <status-condition-selector :controller="item.CombatController"
-                    :encounter-instance="encounterInstance" />
+                  <status-condition-selector :controller="item.CombatController" />
                 </v-col>
               </v-row>
 
@@ -261,8 +259,7 @@
                   <v-expansion-panel-title
                     class="heading h4 ">Statuses/Conditions</v-expansion-panel-title>
                   <v-expansion-panel-text style="border: 2px solid rgb(var(--v-theme-panel))">
-                    <status-condition-selector :controller="item.CombatController"
-                      :encounter-instance="encounterInstance" />
+                    <status-condition-selector :controller="item.CombatController" />
                   </v-expansion-panel-text>
                 </v-expansion-panel>
               </v-expansion-panels>
@@ -286,6 +283,7 @@
 
 <script setup lang="ts">
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { useEncounterContext } from './encounterContext'
 import { computed, markRaw } from 'vue'
 import { useDisplay } from 'vuetify'
 import CCCounterSet from '@/ui/components/items/features/counters/CCCounterSet.vue'
@@ -306,9 +304,10 @@ const _display = useDisplay()
 
 defineOptions({ name: 'EncounterPanelBase' })
 
+const { encounterInstance } = useEncounterContext()
+
 const props = withDefaults(defineProps<{
   item: object
-  encounterInstance: EncounterInstance
   hidePalette?: boolean
   noStats?: boolean
   noActions?: boolean
@@ -323,7 +322,7 @@ const props = withDefaults(defineProps<{
 })
 
 const xlPanels = computed(() => {
-      if (!props.encounterInstance.LayoutColumns) return 12;
+      if (!encounterInstance.value.LayoutColumns) return 12;
       if (props.onePanel) return 12;
       if (mobile.value) return 12;
       return 6
@@ -344,7 +343,7 @@ const mobile = computed(() => {
       return _display.mdAndDown.value;
     })
 const trackableStatsComponent = computed(() => {
-      if (!props.encounterInstance.ForceComplexTickbars && (mobile.value || props.encounterInstance.SimpleTickbars)) {
+      if (!encounterInstance.value.ForceComplexTickbars && (mobile.value || encounterInstance.value.SimpleTickbars)) {
         return _TrackableStatsSimple;
       } else {
         return _TrackableStatsComplex;

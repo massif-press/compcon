@@ -99,7 +99,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import CCBondInfo from '../../CCBondInfo.vue'
 import ItemCardLink from '../../cards/items/_components/ItemCardLink.vue';
 
@@ -121,7 +121,7 @@ const props = defineProps({
 
 const emit = defineEmits(['select'])
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const useCard = computed(() => {
   switch (props.item && (props.item as any).ItemType) {

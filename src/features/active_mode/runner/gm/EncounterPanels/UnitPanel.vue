@@ -1,7 +1,7 @@
 <template>
   <scan-menu :item="actor" />
 
-  <panel-base :encounter-instance="encounterInstance"
+  <panel-base
     :item="actor">
     <template #name-block>
       <div class="heading h2">
@@ -43,14 +43,12 @@
       </v-row>
     </template>
 
-    <unit-combat-loadout :encounter-instance="encounterInstance"
+    <unit-combat-loadout
       :unit="actor"
-      :owner="combatant"
       @deploy="deploy($event)" />
 
     <template #actions>
-      <npc-actions-panel :owner="combatant"
-        :encounter-instance="encounterInstance"
+      <npc-actions-panel
         @deploy="deploy($event)" />
     </template>
   </panel-base>
@@ -59,7 +57,8 @@
 <script setup lang="ts">
 import type { CombatantData } from '@/classes/encounter/Encounter'
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-import { computed } from 'vue'
+import { computed, provide } from 'vue'
+import { EncounterContextKey } from './encounterContext';
 import UnitCombatLoadout from './_components/loadouts/UnitCombatLoadout.vue';
 import NpcActionsPanel from './_components/NpcActionsPanel.vue';
 import ScanMenu from './_components/ScanMenu.vue';
@@ -69,6 +68,11 @@ const props = defineProps<{
   combatant: CombatantData
   encounterInstance: EncounterInstance
 }>()
+
+provide(EncounterContextKey, {
+  owner: computed(() => props.combatant),
+  encounterInstance: computed(() => props.encounterInstance),
+})
 
 const emit = defineEmits<{
   'deselect': []

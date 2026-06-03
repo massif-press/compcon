@@ -521,7 +521,7 @@ class Pilot
 
   public get ActiveMech(): Mech | null {
     if (!this.Mechs.length) {
-      console.error('No mechs found for pilot', this)
+      logger.error('No mechs found for pilot', this)
       return null
     }
     return this.Mechs[0]

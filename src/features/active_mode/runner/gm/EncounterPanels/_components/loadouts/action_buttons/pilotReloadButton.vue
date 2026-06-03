@@ -1,8 +1,6 @@
 <template>
   <combat-action-button
-    :action="action"
-    :owner="owner"
-    :encounter-instance="encounterInstance">
+    :action="action">
     <template #default="{ close }">
       <div class="text-cc-overline text-disabled">Select a weapon to reload</div>
       <div v-if="!reloadOptions.length">
@@ -14,12 +12,10 @@
         item-title="Name"
         return-object
         size="small" />
-      <menu-input :key="controller.ID"
+      <menu-input :owner="owner" :encounter-instance="encounterInstance" :key="controller.ID"
         hide-input
         :active-effect="action"
-        :encounter-instance="encounterInstance"
         :disabled="!selection"
-        :owner="owner"
         :close="close"
         @apply="apply"
         @reset="reset" />
@@ -29,6 +25,7 @@
 
 <script setup lang="ts">
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { useEncounterContext } from '../../../encounterContext'
 import type { CombatantData } from '@/classes/encounter/Encounter'
 import type { Action } from '@/classes/Action'
 import { computed, ref } from 'vue'
@@ -36,10 +33,10 @@ import { PilotWeapon } from '@/classes/pilot/components/Loadout/equipment/PilotW
 import CombatActionButton from './CombatActionButton.vue';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 
+const { owner, encounterInstance } = useEncounterContext()
+
 const props = defineProps<{
   action: Action
-  owner: CombatantData
-  encounterInstance: EncounterInstance
 }>()
 
 const emit = defineEmits<{
@@ -49,10 +46,10 @@ const emit = defineEmits<{
 const selection = ref(null as PilotWeapon | null)
 
 const controller = computed(() => {
-      return props.owner.actor.CombatController;
+      return owner.value.actor.CombatController;
     })
 const reloadOptions = computed(() => {
-      return props.owner.actor.Loadout.Weapons.filter((x) => x.IsLoading && x.Used);
+      return owner.value.actor.Loadout.Weapons.filter((x) => x.IsLoading && x.Used);
     })
 
 function apply(close) {

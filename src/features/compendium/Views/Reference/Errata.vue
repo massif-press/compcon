@@ -100,9 +100,9 @@
 import { computed, ref, onMounted } from 'vue'
 import logger from '@/user/logger';
 import { marked } from 'marked';
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const faq = ref('')
 const loading = ref(true)

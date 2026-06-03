@@ -42,29 +42,29 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import CCLoadoutPanel from '@/features/pilot_management/_components/loadout/CCLoadoutPanel.vue'
 import PilotArmorCard from './_PLArmorCard.vue'
 import PilotWeaponCard from './_PLWeaponCard.vue'
 import PilotGearCard from './_PLGearCard.vue'
+import { Pilot } from '@/classes/pilot/Pilot.js'
 
 const props = defineProps({
-    pilot: {
-      type: Object,
-      required: true,
-    },
-    readonly: {
-      type: Boolean,
-    },
-    noFrame: {
-      type: Boolean,
-      default: false,
-    },
-  })
+  pilot: {
+    type: Pilot,
+    required: true,
+  },
+  readonly: {
+    type: Boolean,
+  },
+  noFrame: {
+    type: Boolean,
+    default: false,
+  },
+})
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile } = useDisplay()
 
-const controller = computed(() => {return props.pilot.PilotLoadoutController})
+const controller = computed(() => { return props.pilot.PilotLoadoutController })
 
-function exotics(type: string) {return props.pilot.SpecialEquipment.filter(x => x.ItemType === type)}
 </script>

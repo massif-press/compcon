@@ -147,9 +147,9 @@ import type { Talent } from '@/classes/pilot/components/talent/Talent'
 import { computed, ref } from 'vue'
 import TalentEmblem from './_TalentEmblem.vue';
 import TalentRankContents from './_TalentRankContents.vue';
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = withDefaults(defineProps<{
   hideLocked?: boolean

@@ -1,8 +1,6 @@
 <template>
   <combat-action-button
     :action="action"
-    :owner="owner"
-    :encounter-instance="encounterInstance"
     :preset-weapon="presetWeapon"
     :action-color="fightColor"
     :action-icon="fightIcon">
@@ -53,8 +51,6 @@
       <div class="px-6">
         <pilot-weapon-attack v-if="selectedWeapon && event"
           :event="<WeaponAttackEvent>event"
-          :owner="owner"
-          :encounter-instance="encounterInstance"
           :weapon="<PilotWeapon>event.Weapon" />
       </div>
       <v-slide-y-transition>
@@ -64,11 +60,9 @@
 
       <v-divider />
       <div class="pa-4">
-        <apply-button v-if="event"
+        <apply-button :owner="owner" :encounter-instance="encounterInstance" v-if="event"
           :event="<ActiveEffectEvent>event.BaseEvent"
           :weapon-event="<WeaponAttackEvent>event"
-          :encounter-instance="encounterInstance"
-          :owner="owner"
           :close="close"
           :action="action"
           :action-id="selectedWeapon ? selectedWeapon.InstanceID : ''"
@@ -82,6 +76,7 @@
 
 <script setup lang="ts">
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { useEncounterContext } from '../../../encounterContext'
 import type { Action } from '@/classes/Action'
 import { computed, ref } from 'vue'
 import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
@@ -93,10 +88,10 @@ import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue';
 import StagedPanel from './_stagedPanel.vue';
 import PilotWeaponAttack from './_pilotWeaponAttack.vue';
 
+const { owner, encounterInstance } = useEncounterContext()
+
 const props = defineProps<{
   action: Action
-  owner: CombatantData
-  encounterInstance: EncounterInstance
   presetWeapon?: PilotWeapon
 }>()
 
@@ -108,7 +103,7 @@ reset();
 reset();
 
 const controller = computed(() => {
-      return props.owner.actor.CombatController.ActiveActor.CombatController;
+      return owner.value.actor.CombatController.ActiveActor.CombatController;
     })
 const fightIcon = computed(() => {
       if (props.presetWeapon && props.presetWeapon.IsSidearm) return 'mdi-hexagon-slice-3';
@@ -123,7 +118,7 @@ const fightColor = computed(() => {
 const ordnanceWarning = computed(() => {
       if (!selectedWeapon.value) return false;
       if (selectedWeapon.value.Tags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
-        return props.owner.actor.CombatController.CanActivate('ordnance') === false;
+        return owner.value.actor.CombatController.CanActivate('ordnance') === false;
       }
       return false;
     })
@@ -140,17 +135,17 @@ const eventArray = computed(() => {
     })
 
 function reset(clearAction = false) {
-      if (clearAction) props.owner.CombatController.ClearActionUsed(props.action.ID);
-      const self = props.encounterInstance.Combatants.find(
-        (c: CombatantData) => c.actor.CombatController.RootActor.ID === props.owner.actor.CombatController.RootActor.ID
+      if (clearAction) owner.value.CombatController.ClearActionUsed(props.action.ID);
+      const self = encounterInstance.value.Combatants.find(
+        (c: CombatantData) => c.actor.CombatController.RootActor.ID === owner.value.actor.CombatController.RootActor.ID
       );
       if (!self) throw new Error('Owner combatant not found in encounterInstance');
       if (!selectedWeapon.value && props.presetWeapon) selectedWeapon.value = props.presetWeapon;
       if (!selectedWeapon.value) return;
-      event.value = new WeaponAttackEvent(selectedWeapon.value as PilotWeapon, self, props.encounterInstance, 'Skirmish');
+      event.value = new WeaponAttackEvent(selectedWeapon.value as PilotWeapon, self, encounterInstance.value, 'Skirmish');
     }
 function apply() {
-      const actor = props.owner.actor.CombatController.ActiveActor.CombatController;
+      const actor = owner.value.actor.CombatController.ActiveActor.CombatController;
       actor.MarkActionUsed(selectedWeapon.value!.InstanceID);
       if (selectedWeapon.value!.IsLoading) selectedWeapon.value!.Used = true;
       reset();

@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import { Anchor } from 'vuetify';
 
 const props = defineProps({
@@ -55,7 +55,7 @@ const props = defineProps({
 
 const emit = defineEmits(['click'])
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const getColor = computed(() => {return props.disabled ? 'grey' : props.color;})
 const outlined = computed(() => {return props.variant === 'outlined';})

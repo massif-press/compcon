@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 
@@ -61,7 +61,7 @@ const props = defineProps({
     },
   })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 </script>
 
 <style scoped>

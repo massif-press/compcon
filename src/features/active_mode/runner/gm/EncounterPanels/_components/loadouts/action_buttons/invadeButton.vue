@@ -1,8 +1,6 @@
 <template>
   <combat-action-button
-    :action="action"
-    :owner="owner"
-    :encounter-instance="encounterInstance">
+    :action="action">
     <template #default="{ close }">
       <v-row>
         <v-col cols="12"
@@ -50,10 +48,8 @@
                 :mech="controller.Parent"
                 alert />
 
-              <menu-input :key="controller.ID"
+              <menu-input :owner="owner" :encounter-instance="encounterInstance" :key="controller.ID"
                 :active-effect="getSelectedAction(tab)"
-                :encounter-instance="encounterInstance"
-                :owner="owner"
                 :close="close"
                 @apply="apply"
                 @reset="reset" />
@@ -67,6 +63,7 @@
 
 <script setup lang="ts">
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { useEncounterContext } from '../../../encounterContext'
 import type { CombatantData } from '@/classes/encounter/Encounter'
 import type { Action } from '@/classes/Action'
 import { computed, ref } from 'vue'
@@ -77,10 +74,10 @@ import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 
 const _display = useDisplay()
 
+const { owner, encounterInstance } = useEncounterContext()
+
 const props = defineProps<{
   action: Action
-  owner: CombatantData
-  encounterInstance: EncounterInstance
 }>()
 
 const emit = defineEmits<{
@@ -93,7 +90,7 @@ const mobile = computed(() => {
       return _display.mdAndDown.value;
     })
 const controller = computed(() => {
-      return props.owner.actor.CombatController.ActiveActor.CombatController;
+      return owner.value.actor.CombatController.ActiveActor.CombatController;
     })
 const invadeActions = computed(() => {
       return [...CompendiumStore().Actions.filter((a) => a.Activation === 'Invade'),

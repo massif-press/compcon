@@ -13,11 +13,11 @@
         <div v-if="selectedPilot && options && options.extras">
           <template v-if="has('combat quick reference')">
             <page-break />
-            <combat-ref />
+            <combat-ref :statuses="CompendiumStore().Statuses" />
           </template>
           <template v-if="has('action reference')">
             <page-break />
-            <action-ref />
+            <action-ref :all-actions="CompendiumStore().Actions" />
           </template>
           <template v-if="has('downtime quick reference')">
             <page-break />

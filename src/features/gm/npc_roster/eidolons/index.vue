@@ -52,7 +52,7 @@ import Builder from './builder.vue';
 import { Eidolon } from '@/classes/npc/eidolon/Eidolon';
 import { CompendiumStore, NpcStore } from '@/stores';
 import NoGmItem from '../../_views/_components/NoGmItem.vue';
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 import { ref, onUnmounted } from 'vue';
 
 defineOptions({ name: 'eidolon-roster' })
@@ -63,7 +63,7 @@ const npcStore = NpcStore();
       eidolons.value = npcStore.getEidolons.filter((x) => !x.SaveController.IsDeleted);
     });
     onUnmounted(unsub);
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = withDefaults(defineProps<{
   id?: string

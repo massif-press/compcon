@@ -71,7 +71,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import { useSrdView } from './useSrdView'
 
 defineOptions({ name: 'using-compcon', inheritAttrs: false })
@@ -85,7 +85,7 @@ const props = withDefaults(defineProps<{
   preScroll: '',
 })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 const { lang, getLangItem, scrollTo } = useSrdView(props)
 
 const open = ref<any[]>([])

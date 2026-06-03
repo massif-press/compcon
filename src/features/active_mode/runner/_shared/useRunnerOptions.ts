@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+import logger from '@/user/logger'
 
 function useRunnerOptions() {
   const fileValue = ref<File | null>(null)
@@ -44,7 +45,7 @@ function useRunnerOptions() {
         }
         importOk.value = true
       } catch (error) {
-        console.error('Failed to parse import file:', error)
+        logger.error('Failed to parse import file', null, error)
         importError.value = 'Invalid JSON file.'
         importOk.value = false
       }

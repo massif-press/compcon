@@ -177,7 +177,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import MechCardLoadoutField from './MechCardLoadoutField.vue';
 const router = useRouter()
 
@@ -190,7 +190,7 @@ const props = defineProps({
 
 const emit = defineEmits(['go', 'delete', 'copy'])
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const copy = ref<any>(null)
 

@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [master, dev]
+  pull_request:
+    branches: [master, dev]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Hard gate: the production bundle must compile.
+      # Uses build-nocheck (= `vite build`) deliberately: the default
+      # `npm run build` chains `vue-tsc --noEmit`, which currently reports a
+      # large pre-existing error backlog (see the informational step below).
+      # Gate on what must stay green; surface the backlog separately.
+      - name: Build
+        run: npm run build-nocheck
+
+      # Informational signals — visible, not yet blocking. Ratchet these to
+      # hard gates once the counts are driven down (Theme A for tsc).
+      - name: Type-check (informational)
+        continue-on-error: true
+        run: |
+          npx vue-tsc --noEmit 2>&1 | tee /tmp/tsc.log || true
+          echo "vue-tsc error count: $(grep -c 'error TS' /tmp/tsc.log || echo 0)"
+
+      - name: Lint (informational)
+        continue-on-error: true
+        run: npx eslint src/
+
+      - name: Dependency audit (informational)
+        continue-on-error: true
+        run: npm audit --omit=dev
+
+      - name: Bundle size report
+        run: |
+          echo "Total dist size:"
+          du -sh dist
+          echo "Largest JS chunks:"
+          find dist -name '*.js' -printf '%s\t%p\n' 2>/dev/null \
+            | sort -rn | head -15 \
+            | awk '{printf "%8.1f KiB  %s\n", $1/1024, $2}'

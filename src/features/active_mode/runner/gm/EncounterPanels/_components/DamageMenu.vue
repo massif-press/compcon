@@ -124,8 +124,7 @@
                 :class="damageClass(damage)"
                 class="text-center my-1 px-2">
                 <v-col cols="auto">
-                  <v-icon
-                    :icon="`cc:${damage.type.toLowerCase()}`" />
+                  <v-icon :icon="`cc:${damage.type.toLowerCase()}`" />
                 </v-col>
                 <v-col class="text-cc-overline mt-1">
                   {{ damage.type }} {{ damage.condition }}
@@ -204,14 +203,15 @@
 
 <script setup lang="ts">
 import type { Encounter } from '@/classes/encounter/Encounter'
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import * as _ from 'lodash-es';
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
+import { CombatController } from '@/classes/components/combat/CombatController';
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = defineProps<{
-  controller: object
+  controller: CombatController;
   encounter: Encounter
 }>()
 
@@ -222,79 +222,79 @@ const totalDamage = ref(0)
 const incomingDamageType = ref({ ID: 1, Name: 'Kinetic', icon: 'cc:kinetic', color: 'damage--kinetic' })
 const damageMods = ref([] as string[])
 const damageTypes = ref([
-      { ID: 1, Name: 'Kinetic', icon: 'cc:kinetic', color: 'damage--kinetic' },
-      { ID: 2, Name: 'Energy', icon: 'cc:energy', color: 'damage--energy' },
-      {
-        ID: 3,
-        Name: 'Explosive',
-        icon: 'cc:explosive',
-        color: 'damage--explosive',
-      },
-      { ID: 4, Name: 'Heat', icon: 'cc:heat', color: 'damage--heat' },
-      { ID: 5, Name: 'Burn', icon: 'cc:burn', color: 'damage--burn' },
-      { ID: 6, Name: 'AoE', icon: 'cc:blast', color: 'damage--variable' },
-    ])
+  { ID: 1, Name: 'Kinetic', icon: 'cc:kinetic', color: 'damage--kinetic' },
+  { ID: 2, Name: 'Energy', icon: 'cc:energy', color: 'damage--energy' },
+  {
+    ID: 3,
+    Name: 'Explosive',
+    icon: 'cc:explosive',
+    color: 'damage--explosive',
+  },
+  { ID: 4, Name: 'Heat', icon: 'cc:heat', color: 'damage--heat' },
+  { ID: 5, Name: 'Burn', icon: 'cc:burn', color: 'damage--burn' },
+  { ID: 6, Name: 'AoE', icon: 'cc:blast', color: 'damage--variable' },
+])
 
 const getActiveStatuses = computed(() => {
-      if (!props.controller || !props.controller.Statuses) return [];
+  if (!props.controller || !props.controller.Statuses) return [];
 
-      const relevantStatuses = [
-        {
-          id: 'exposed',
-          icon: 'cc:status_exposed',
-          title: 'Exposed',
-          description: 'Kinetic, explosive, and heat damage doubled.',
-        },
-        {
-          id: 'shredded',
-          icon: 'cc:condition_shredded',
-          title: 'Shredded',
-          description: 'Damage ignores armor and resistance.',
-        }
-      ]
+  const relevantStatuses = [
+    {
+      id: 'exposed',
+      icon: 'cc:status_exposed',
+      title: 'Exposed',
+      description: 'Kinetic, explosive, and heat damage doubled.',
+    },
+    {
+      id: 'shredded',
+      icon: 'cc:condition_shredded',
+      title: 'Shredded',
+      description: 'Damage ignores armor and resistance.',
+    }
+  ]
 
-      return props.controller.Statuses.filter(x => relevantStatuses.some(r => r.id === x.status.ID)).map((s) => relevantStatuses.find((as) => as.id === s.status.ID)
-      );
-    })
+  return props.controller.Statuses.filter(x => relevantStatuses.some(r => r.id === x.status.ID)).map((s) => relevantStatuses.find((as) => as.id === s.status.ID)
+  );
+})
 
 function recalc() {
-      let dmg = Number(incomingDamageValue.value);
-      if (damageMods.value.includes('half')) dmg = Math.floor(dmg / 2);
+  let dmg = Number(incomingDamageValue.value);
+  if (damageMods.value.includes('half')) dmg = Math.floor(dmg / 2);
 
-      totalDamage.value = props.controller.CalculateDamage(
-        incomingDamageType.value.Name.toLowerCase(),
-        dmg,
-        damageMods.value.includes('ap'),
-        damageMods.value.includes('force'),
-      ).total;
-    }
+  totalDamage.value = props.controller.CalculateDamage(
+    incomingDamageType.value.Name.toLowerCase(),
+    dmg,
+    damageMods.value.includes('ap'),
+    damageMods.value.includes('force'),
+  ).total;
+}
 function toggleDamageMod(mod) {
-      if (damageMods.value.includes(mod)) {
-        damageMods.value = _.without(damageMods.value, mod);
-      } else {
-        damageMods.value.push(mod);
-      }
-    }
+  if (damageMods.value.includes(mod)) {
+    damageMods.value = _.without(damageMods.value, mod);
+  } else {
+    damageMods.value.push(mod);
+  }
+}
 function apply(isActive) {
-      let dmg = Number(incomingDamageValue.value);
-      if (damageMods.value.includes('half')) dmg = Math.floor(dmg / 2);
+  let dmg = Number(incomingDamageValue.value);
+  if (damageMods.value.includes('half')) dmg = Math.floor(dmg / 2);
 
-      props.controller.TakeDamage(
-        incomingDamageType.value.Name.toLowerCase(),
-        dmg,
-        damageMods.value.includes('ap'),
-        damageMods.value.includes('force'),
-      );
-      if (isActive) isActive.value = false;
-    }
+  props.controller.TakeDamage(
+    incomingDamageType.value.Name.toLowerCase(),
+    dmg,
+    damageMods.value.includes('ap'),
+    damageMods.value.includes('force'),
+  );
+  if (isActive) isActive.value = false;
+}
 function damageClass(damage) {
-      if (damage.condition === 'immunity') {
-        return 'bg-exotic';
-      } else if (damage.condition === 'resistance') {
-        return `bg-success`;
-      } else if (damage.condition === 'vulnerability') {
-        return 'bg-error';
-      }
-      return '';
-    }
+  if (damage.condition === 'immunity') {
+    return 'bg-exotic';
+  } else if (damage.condition === 'resistance') {
+    return `bg-success`;
+  } else if (damage.condition === 'vulnerability') {
+    return 'bg-error';
+  }
+  return '';
+}
 </script>

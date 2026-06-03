@@ -35,10 +35,12 @@
 </template>
 
 <script setup lang="ts">
+import type { CombatController } from '@/classes/components/combat/CombatController'
+
 defineOptions({ name: 'EndRoundActionChips' })
 
 defineProps<{
-  controller: any
+  controller: CombatController
   large?: boolean
 }>()
 </script>

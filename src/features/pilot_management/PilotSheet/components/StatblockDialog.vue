@@ -67,9 +67,9 @@ import { notify } from '@/util/notify'
 import { Mech } from '@/classes/mech/Mech'
 import { Pilot } from '@/classes/pilot/Pilot'
 import Statblock from '@/classes/Statblock';
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 const route = useRoute()
 
 const props = defineProps<{

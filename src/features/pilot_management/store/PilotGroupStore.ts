@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia'
-import { SetItem, RemoveItem, saveAll } from '@/io/Storage'
+import { RemoveItem, saveAll } from '@/io/Storage'
 import { Pilot } from '@/classes/pilot/Pilot'
 import { PilotGroup } from './PilotGroup'
 import { PortraitController } from '@/classes/components/portrait/PortraitController'
 import { SaveController } from '@/classes/components/save/SaveController'
 import { GetAll } from '@/io/Storage'
 import * as _ from 'lodash-es'
+import { ICloudData } from '@/classes/components/cloud/CloudTypes'
 
 function moveItemInArray<T>(array: T[], from: number, to: number): void {
   const item = array.splice(from, 1)[0]
@@ -17,17 +18,23 @@ export const PilotGroupStore = defineStore('pilot_group', {
     PilotGroups: [] as PilotGroup[],
   }),
   getters: {
-    getPilotGroups: state => (showDeleted?: boolean) => {
-      let out = _.orderBy(state.PilotGroups, 'SortIndex', 'asc')
-      if (!showDeleted) out = out.filter(x => !x.SaveController.IsDeleted)
-      return out
-    },
-    getGroupByID: state => (id: string) => {
-      return state.PilotGroups.find(p => p.ID === id)
-    },
-    getGroupByPilotID: state => (pilotID: string) => {
-      return state.PilotGroups.find(x => x.Pilots.map(x => x.id).includes(pilotID))
-    },
+    getPilotGroups:
+      state =>
+      (showDeleted?: boolean): PilotGroup[] => {
+        let out = _.orderBy(state.PilotGroups, 'SortIndex', 'asc')
+        if (!showDeleted) out = out.filter(x => !x.SaveController.IsDeleted)
+        return out as PilotGroup[]
+      },
+    getGroupByID:
+      state =>
+      (id: string): PilotGroup => {
+        return state.PilotGroups.find(p => p.ID === id) as PilotGroup
+      },
+    getGroupByPilotID:
+      state =>
+      (pilotID: string): PilotGroup => {
+        return state.PilotGroups.find(x => x.Pilots.map(x => x.id).includes(pilotID)) as PilotGroup
+      },
   },
   actions: {
     async LoadGroups(): Promise<void> {
@@ -46,6 +53,7 @@ export const PilotGroupStore = defineStore('pilot_group', {
             img: PortraitController.NewPortraitData(),
             save: SaveController.NewSaveData(),
             expanded: true,
+            cloud: {} as ICloudData,
           })
         )
       }
@@ -55,8 +63,8 @@ export const PilotGroupStore = defineStore('pilot_group', {
       let dirty = false
 
       const ordered = [
-        ...this.PilotGroups.filter((g: PilotGroup) => g.ID !== 'no_group'),
-        ...this.PilotGroups.filter((g: PilotGroup) => g.ID === 'no_group'),
+        ...this.PilotGroups.filter(g => g.ID !== 'no_group'),
+        ...this.PilotGroups.filter(g => g.ID === 'no_group'),
       ]
 
       for (const group of ordered) {
@@ -123,13 +131,18 @@ export const PilotGroupStore = defineStore('pilot_group', {
     },
     async DeleteGroupPermanent(group: PilotGroup): Promise<void> {
       this.PilotGroups.splice(this.PilotGroups.indexOf(group), 1)
-      await RemoveItem('pilot_groups', group.ID || (group as any)._id)
+      await RemoveItem('pilot_groups', group.ID)
     },
     async SaveGroupData(): Promise<void> {
       this.PilotGroups.forEach((group, idx) => {
         group.SortIndex = idx
       })
-      await saveAll('pilot_groups', this.PilotGroups, x => PilotGroup.Serialize(x as PilotGroup), 'Pilot group data')
+      await saveAll(
+        'pilot_groups',
+        this.PilotGroups,
+        x => PilotGroup.Serialize(x as PilotGroup),
+        'Pilot group data'
+      )
     },
     async TransferPilot(p: Pilot, destinationID?: string): Promise<void> {
       const dest = destinationID ?? 'no_group'

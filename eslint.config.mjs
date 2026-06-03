@@ -38,9 +38,32 @@ export default [
         {
           patterns: [
             {
-              group: ['@/class', '**/class'],
+              // Match only the bare `@/class` / `*/class` barrel specifier
+              // itself — not any path that happens to contain a `class/`
+              // segment (e.g. `@/classes/npc/class/NpcClass` is legitimate).
+              regex: '(^|/)@?/?class$|(^|/)class$',
               message:
                 "Import directly from the source module — not the @/class barrel — inside src/classes/. Run 'grep' to find the canonical path.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    // R-020 / Theme C1: src/ui/ is a reusable component library and must not
+    // reach into feature stores. Components receive data via typed props or by
+    // injecting one of the providers in '@/ui/providers'.
+    files: ['src/ui/**/*.{ts,vue}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              regex: '^@/stores$|(^|/)features/[^/]+/store',
+              message:
+                "src/ui/ must not import feature stores (R-020). Receive data via a typed prop, or inject a provider from '@/ui/providers'.",
             },
           ],
         },

@@ -55,12 +55,11 @@ import { flatten, values, pick } from 'lodash-es';
 import { CompendiumItem } from '@/classes/CompendiumItem'
 import { accentInclude } from '@/classes/utility/accent_fold';
 import { CompendiumStore } from '@/stores';
-import { useMobile } from '@/composables/useMobile';
 const router = useRouter()
 
 const _display = useDisplay()
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const input = ref<any>(null)
 

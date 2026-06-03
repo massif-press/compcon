@@ -1,4 +1,5 @@
 import type { IControllerStatic } from '@/classes/ISerializable'
+import logger from '@/user/logger'
 import { INpcClassData, NpcClass } from './NpcClass'
 import { CompendiumStore } from '@/features/compendium/store'
 import { Unit } from '../unit/Unit'
@@ -54,7 +55,7 @@ class NpcClassController {
         const sizeVal = c?.Stats.Stat('sizes', this.Tier) || c?.Stats.Stat('size', this.Tier) || 1
         statVal = Array.isArray(sizeVal) ? sizeVal[0] : sizeVal
       }
-      kvps.push({ key, val: statVal })
+      kvps.push({ key, val: statVal as number })
 
       // this.Parent.StatController.setMax(key, statVal);
     })
@@ -124,11 +125,11 @@ class NpcClassController {
     try {
       id = typeof data.class === 'string' ? data.class : data.class.id
     } catch (e) {
-      console.error(e)
+      logger.error('Failed to resolve NpcClass id from data', null, e)
     }
 
     parent.NpcClassController._class = CompendiumStore().has('NpcClasses', id)
-      ? CompendiumStore().referenceByID('NpcClasses', id) as unknown as NpcClass
+      ? (CompendiumStore().referenceByID('NpcClasses', id) as unknown as NpcClass)
       : data?.class?.data && Object.keys(data.class.data).length
         ? new NpcClass(data.class.data)
         : null

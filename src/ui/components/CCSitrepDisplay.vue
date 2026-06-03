@@ -46,7 +46,8 @@
 </template>
 
 <script setup lang="ts">
+import type { Sitrep } from '@/classes/encounter/Sitrep'
 const props = defineProps<{
-  sitrep: object
+  sitrep: Sitrep
 }>()
 </script>

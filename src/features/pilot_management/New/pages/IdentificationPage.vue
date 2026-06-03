@@ -265,11 +265,11 @@ import StepperContent from '../../_components/StepperContent.vue';
 import BackgroundSelector from '../../_components/selectors/BackgroundSelector.vue';
 import { name, callsign } from '@/io/Generators';
 import { Pilot } from '@/classes/pilot/Pilot'
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 
 defineOptions({ name: 'identification-page' })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = defineProps<{
   pilot: Pilot

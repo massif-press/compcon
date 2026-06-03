@@ -23,11 +23,11 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import { CompendiumStore } from '@/stores';
 import { sortBy } from 'lodash-es';
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const tables = computed(() => {return sortBy(CompendiumStore().Tables, 'LcpName', 'Title');})
 </script>

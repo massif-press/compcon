@@ -67,7 +67,7 @@
       </v-row>
     </template>
 
-    <cc-alert v-if="item && integrated"
+    <cc-alert v-if="item && integrated && item.IntegratedOrigin"
       class="mt-2"
       icon="mdi-link">
       <div class="text-cc-overline">
@@ -118,14 +118,14 @@ import SlotCardBase from '../_SlotCardBase.vue';
 import EquipmentOptions from '../_EquipmentOptions.vue';
 import { Mech } from '@/classes/mech/Mech'
 import { MechSystem } from '@/classes/mech/components/equipment/MechSystem'
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 const slots = useSlots()
 
 const props = withDefaults(defineProps<{
   mech: Mech
-  item?: object
+  item?: MechSystem | null
   color?: string
   empty?: boolean
   readonly?: boolean
@@ -147,25 +147,15 @@ const emit = defineEmits<{
 const base = ref<any>(null)
 
 function remove(sys: MechSystem) {
-      props.mech.MechLoadoutController.ActiveLoadout.RemoveSystem(sys);
-      emit('remove', sys);
-    }
-function handleEquip(sys: MechSystem) {
-      notify({
-        title: 'Mech System Installed',
-        text: `${sys.Name} added.`,
-        data: { icon: 'cc:system', color: 'system' },
-      });
-
-      if (props.mech.FreeSP <= 0) emit('done');
-      else emit('equip', sys);
-    }
+  props.mech.MechLoadoutController.ActiveLoadout.RemoveSystem(sys);
+  emit('remove', sys);
+}
 function handleSwap() {
-      if (slots.selector) {
-        base.value.selectorDialog = true;
-      } else emit('switch', props.item);
-    }
+  if (slots.selector) {
+    base.value.selectorDialog = true;
+  } else emit('switch', props.item);
+}
 function save() {
-      props.mech.Parent.SaveController.save();
-    }
+  props.mech.Parent.SaveController.save();
+}
 </script>

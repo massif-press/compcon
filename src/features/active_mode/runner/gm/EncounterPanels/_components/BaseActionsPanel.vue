@@ -17,8 +17,6 @@
               @deploy="$emit('deploy', $event)" />
             <basic-action-button v-else
               :action="pa"
-              :owner="owner"
-              :encounter-instance="encounterInstance"
               @activate="$emit('activate', $event)" />
           </v-col>
           <v-col v-for="fa in controller.AllActions('Free')"
@@ -30,8 +28,6 @@
               @deploy="$emit('deploy', $event)" />
             <basic-action-button v-else
               :action="fa"
-              :owner="owner"
-              :encounter-instance="encounterInstance"
               @activate="$emit('activate', $event)" />
           </v-col>
         </v-row>
@@ -48,8 +44,6 @@
                 <slot name="quick-action-btn"
                   :action="getBaseAction(action)">
                   <basic-action-button :action="getBaseAction(action)"
-                    :owner="owner"
-                    :encounter-instance="encounterInstance"
                     @activate="$emit('activate', $event)" />
                 </slot>
               </v-col>
@@ -63,8 +57,6 @@
                   @deploy="$emit('deploy', $event)" />
                 <basic-action-button v-else
                   :action="qa"
-                  :owner="owner"
-                  :encounter-instance="encounterInstance"
                   @activate="$emit('activate', $event)" />
               </v-col>
               <v-col v-for="qta in controller.AllActions('Quick Tech')"
@@ -76,8 +68,6 @@
                   @deploy="$emit('deploy', $event)" />
                 <basic-action-button v-else
                   :action="qta"
-                  :owner="owner"
-                  :encounter-instance="encounterInstance"
                   @activate="$emit('activate', $event)" />
               </v-col>
             </v-row>
@@ -89,8 +79,6 @@
                 <slot name="full-action-btn"
                   :action="getBaseAction(action)">
                   <basic-action-button :action="getBaseAction(action)"
-                    :owner="owner"
-                    :encounter-instance="encounterInstance"
                     @activate="$emit('activate', $event)" />
                 </slot>
               </v-col>
@@ -104,8 +92,6 @@
                   @deploy="$emit('deploy', $event)" />
                 <basic-action-button v-else
                   :action="fa"
-                  :owner="owner"
-                  :encounter-instance="encounterInstance"
                   @activate="$emit('activate', $event)" />
               </v-col>
               <v-col v-for="fta in controller.AllActions('Full Tech')"
@@ -117,8 +103,6 @@
                   @deploy="$emit('deploy', $event)" />
                 <basic-action-button v-else
                   :action="fta"
-                  :owner="owner"
-                  :encounter-instance="encounterInstance"
                   @activate="$emit('activate', $event)" />
               </v-col>
             </v-row>
@@ -128,9 +112,7 @@
 
         <v-row dense>
           <v-col>
-            <basic-action-button :action="getBaseAction('act_overwatch')"
-              :owner="owner"
-              :encounter-instance="encounterInstance" />
+            <basic-action-button :action="getBaseAction('act_overwatch')" />
           </v-col>
           <v-col v-for="ra in controller.AllActions('Reaction')"
             :key="ra.ID">
@@ -141,8 +123,6 @@
               @deploy="$emit('deploy', $event)" />
             <basic-action-button v-else
               :action="ra"
-              :owner="owner"
-              :encounter-instance="encounterInstance"
               @activate="$emit('activate', $event)" />
           </v-col>
         </v-row>
@@ -153,6 +133,7 @@
 
 <script setup lang="ts">
 import type { CombatantData } from '@/classes/encounter/Encounter'
+import { useEncounterContext } from '../encounterContext'
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed } from 'vue';
 import { CompendiumStore } from '@/stores';
@@ -160,16 +141,16 @@ import { Deployable } from '@/classes/components/feature/deployable/Deployable';
 import BasicActionButton from './loadouts/action_buttons/basicActionButton.vue';
 import DeployButton from './loadouts/_deployButton.vue';
 
+const { owner, encounterInstance } = useEncounterContext()
+
 const props = defineProps<{
-  owner: CombatantData;
-  encounterInstance: EncounterInstance;
   quickActions: string[];
   fullActions: string[];
 }>();
 
 defineEmits<{ deploy: [event: any]; activate: [event: string] }>();
 
-const controller = computed(() => props.owner.actor.CombatController);
+const controller = computed(() => owner.value.actor.CombatController);
 
 function getBaseAction(actionId: string) {
   return CompendiumStore().Actions.find((a: any) => a.ID === actionId);

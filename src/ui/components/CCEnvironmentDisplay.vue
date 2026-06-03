@@ -18,7 +18,8 @@
 </template>
 
 <script setup lang="ts">
+import type { Environment } from '@/classes/Environment'
 const props = defineProps<{
-  environment: object
+  environment: Environment
 }>()
 </script>

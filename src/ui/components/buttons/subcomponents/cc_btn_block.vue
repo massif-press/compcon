@@ -86,7 +86,7 @@
 
 <script setup lang="ts">
 import { computed, useSlots } from 'vue'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 
 const props = defineProps({
     color: { type: String },
@@ -107,7 +107,7 @@ const props = defineProps({
 
 const emit = defineEmits(['click'])
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 const slots = useSlots()
 
 function _hasContent(prop: string) {

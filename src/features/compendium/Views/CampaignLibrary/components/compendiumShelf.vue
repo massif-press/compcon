@@ -127,11 +127,11 @@ import { orderBy } from 'lodash-es';
 import CampaignDetailPanel from './CampaignDetailPanel.vue';
 import { downloadFromS3, GetFromCode } from '@/io/apis/account';
 import logger from '@/user/logger';
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 
 defineOptions({ name: 'campaign-library-compendium' })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = withDefaults(defineProps<{
   search?: string

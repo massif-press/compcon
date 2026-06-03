@@ -107,9 +107,9 @@
 </template>
 
 <script setup lang="ts">
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import SearchBar from '../../SearchBar.vue';
 import CompendiumPageButton from '../../components/CompendiumPageButton.vue';
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 </script>

@@ -1,4 +1,5 @@
 import { CompendiumItem } from '../CompendiumItem'
+import logger from '@/user/logger'
 import { MechEquipment } from '../mech/components/equipment/MechEquipment'
 import { MechWeapon } from '../mech/components/equipment/MechWeapon'
 import { Frame } from '../mech/components/frame/Frame'
@@ -46,7 +47,7 @@ class ItemFilter {
             filter[p].includes(i.License) || filter[p].includes((i as Frame).Variant)
         )
       } else if (filter[p].length) items = items.filter(x => filter[p].some(e => x[p].includes(e)))
-      else console.warn(`ItemFilter: unrecognized filter key "${p}"`)
+      else logger.warn(`ItemFilter: unrecognized filter key "${p}"`)
     })
     return items
   }

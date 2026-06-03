@@ -25,12 +25,12 @@
             }`">
             <slot name="title">
               {{ item.Name }}
-              <span v-if="item.NpcClassController.Class">
+              <span v-if="item.NpcClassController?.Class">
                 &mdash; T{{ item.NpcClassController.Tier }} {{ item.NpcClassController.Class.Name }}
               </span>
               <span class="px-4">
                 <v-chip
-                  v-for="t in item.NpcTemplateController.Templates"
+                  v-for="t in item.NpcTemplateController?.Templates"
                   :key="t.ID"
                   size="x-small"
                   variant="plain"

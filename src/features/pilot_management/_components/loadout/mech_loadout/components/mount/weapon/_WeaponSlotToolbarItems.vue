@@ -50,29 +50,33 @@
 </template>
 
 <script setup lang="ts">
-import { useMobile } from '@/composables/useMobile'
+import { type PropType } from 'vue'
+import { useDisplay } from 'vuetify'
+import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
+import { Range } from '@/classes/Range'
+import { Damage } from '@/classes/Damage'
 
-const props = defineProps({
-    item: {
-      type: Object,
-      required: true,
-    },
-    range: {
-      type: Array,
-      required: false,
-      default: () => [],
-    },
-    damage: {
-      type: Array,
-      required: false,
-      default: () => [],
-    },
-    readonly: {
-      type: Boolean,
-    },
-  })
+defineProps({
+  item: {
+    type: Object as PropType<MechWeapon>,
+    required: true,
+  },
+  range: {
+    type: Array as PropType<Range[]>,
+    required: false,
+    default: () => [],
+  },
+  damage: {
+    type: Array as PropType<Damage[]>,
+    required: false,
+    default: () => [],
+  },
+  readonly: {
+    type: Boolean,
+  },
+})
 
-const emit = defineEmits(['remove', 'swap'])
+defineEmits(['remove', 'swap'])
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile } = useDisplay()
 </script>

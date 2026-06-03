@@ -1,9 +1,7 @@
 <template>
-  <v-card
-    flat
+  <v-card flat
     tile>
-    <v-card-text
-      class="pa-0"
+    <v-card-text class="pa-0"
       style="position: relative"
       :style="item.Used ? 'opacity: 0.4' : ''">
       <DestroyedOverlay :destroyed="item.Destroyed" />
@@ -12,29 +10,22 @@
 
       <div v-if="item">
         <div v-if="item.Effect">
-          <p
-            v-html-safe="item.Effect"
+          <p v-html-safe="item.Effect"
             class="mb-1 px-2" />
         </div>
 
-        <p
-          v-html-safe="item.Description"
+        <p v-html-safe="item.Description"
           class="mb-1 px-2" />
 
-        <ActionsDeployables
-          :item="item"
+        <ActionsDeployables :item="item"
           :actor="pilot"
-          :owner="owner"
-          :encounter-instance="encounterInstance"
           action-icon="cc:system"
           @deploy="$emit('deploy', $event)" />
 
-        <v-row
-          dense
+        <v-row dense
           align="center">
           <v-col cols="auto">
-            <cc-tags
-              v-if="item.Tags"
+            <cc-tags v-if="item.Tags"
               :tags="item.Tags"
               color="pilot"
               :bonus="pilot.LimitedBonus"
@@ -58,40 +49,33 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
-import DeployButton from './_deployButton.vue'
 import DestroyedOverlay from './_DestroyedOverlay.vue'
+import { useEncounterContext } from '../../encounterContext'
 import FlavorDescription from './_FlavorDescription.vue'
 import ActionsDeployables from './_ActionsDeployables.vue'
 import { externalPilotItemBonuses } from '@/composables/useExternalItemBonuses'
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance.js'
+import { PilotGear } from '@/classes/pilot/components/Loadout/equipment/PilotGear.js'
+import { Pilot } from '@/classes/pilot/Pilot.js'
 
-const props = defineProps({
-    item: {
-      type: Object,
-      required: true,
-    },
-    integrated: {
-      type: Boolean,
-      default: false,
-    },
-    pilot: {
-      type: Object,
-      required: true,
-    },
-    encounterInstance: {
-      type: Object,
-      required: true,
-    },
-    owner: {
-      type: Object,
-      required: true,
-    },
-  })
+const { owner, encounterInstance } = useEncounterContext()
 
-const emit = defineEmits(['deploy'])
+defineProps({
+  item: {
+    type: PilotGear,
+    required: true,
+  },
+  integrated: {
+    type: Boolean,
+    default: false,
+  },
+  pilot: {
+    type: Pilot,
+    required: true,
+  },
+})
 
-const { mobile, portrait } = useMobile()
+defineEmits(['deploy'])
 
 </script>
 

@@ -111,11 +111,11 @@ import EditorFooter from './_subcomponents/EditorFooter.vue'
 import { CloudController } from '@/classes/components/cloud/CloudController'
 import { UserStore } from '@/stores'
 import LcpConfigSelector from '@/features/pilot_management/PilotSheet/components/LcpConfigSelector.vue'
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 
 defineOptions({ name: 'GmEditorBase' })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 const router = useRouter()
 
 const props = withDefaults(defineProps<{

@@ -22,10 +22,10 @@ export const usePrintLayout = {
   },
   computed: {
     showBondPrint(this: any) {
-      if (!this.selectedPilot) return false;
-      if (!this.hasBonds) return false;
-      if (this.options.bonds.title === 'Omit') return false;
-      return this.options.content.title === 'Blank' || this.selectedPilot.BondController.Bond;
+      if (!this.selectedPilot) return false
+      if (!this.hasBonds) return false
+      if (this.options.bonds.title === 'Omit') return false
+      return this.options.content.title === 'Blank' || this.selectedPilot.BondController.Bond
     },
   },
-};
+}

@@ -1,8 +1,6 @@
 <template>
   <combat-action-button
-    :action="action"
-    :owner="owner"
-    :encounter-instance="encounterInstance">
+    :action="action">
     <template #default="{ close }">
       <p v-html-safe="action.Detail"
         class="text-text mb-4" />
@@ -188,11 +186,9 @@
           </span>
         </div>
       </cc-alert>
-      <menu-input hide-input
+      <menu-input :owner="owner" :encounter-instance="encounterInstance" hide-input
         :key="controller.ID"
         :active-effect="action"
-        :encounter-instance="encounterInstance"
-        :owner="owner"
         :close="close"
         @apply="apply"
         @reset="reset" />
@@ -202,6 +198,7 @@
 
 <script setup lang="ts">
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { useEncounterContext } from '../../../encounterContext'
 import type { CombatantData } from '@/classes/encounter/Encounter'
 import type { Action } from '@/classes/Action'
 import { computed, ref, watch } from 'vue'
@@ -209,10 +206,10 @@ import CombatActionButton from './CombatActionButton.vue';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 import SkillCheckBase from './_skillCheckBase.vue';
 
+const { owner, encounterInstance } = useEncounterContext()
+
 const props = defineProps<{
   action: Action
-  owner: CombatantData
-  encounterInstance: EncounterInstance
 }>()
 
 const emit = defineEmits<{
@@ -241,14 +238,14 @@ const hase = ref([
     ])
 
 const controller = computed(() => {
-      return props.owner.actor.CombatController;
+      return owner.value.actor.CombatController;
     })
 const targets = computed(() => {
-      const thisCombatant = props.encounterInstance.Combatants.find(
+      const thisCombatant = encounterInstance.value.Combatants.find(
         (c) => c.actor.ID === controller.value.RootActor.ID
       );
       if (!thisCombatant) return [];
-      return props.encounterInstance.Combatants.filter(
+      return encounterInstance.value.Combatants.filter(
         (c) =>
           c.actor.ID !== controller.value.ActiveActor.ID &&
           c.actor.ID !== controller.value.RootActor.ID

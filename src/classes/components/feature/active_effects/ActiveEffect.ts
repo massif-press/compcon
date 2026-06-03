@@ -9,6 +9,10 @@ import { IEffectStatusData, EffectStatus } from './effect_subtype/EffectStatus'
 import { EffectSave } from './effect_subtype/EffectSave'
 import { BonusDamage, IBonusDamageData } from './BonusDamage'
 import { ByTier } from '@/util/tierFormat'
+import { Action } from '@/classes/Action'
+
+// used for combat menu components for actions that have AE components
+export type ActiveEffectLike = ActiveEffect | Action
 
 interface IActiveEffectData {
   id?: string

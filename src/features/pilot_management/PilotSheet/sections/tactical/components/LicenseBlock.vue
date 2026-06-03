@@ -1,10 +1,11 @@
 <template>
   <div>
     <section-header title="Licenses">
-      <cc-modal title="Set Pilot Licenses" icon="cc:frame" ref="licenseSelector">
+      <cc-modal title="Set Pilot Licenses"
+        icon="cc:frame"
+        ref="licenseSelector">
         <template #activator="{ open }">
-          <section-edit-chip
-            v-if="!pilot.IsRemote"
+          <section-edit-chip v-if="!pilot.IsRemote"
             :highlight="!pilot.LicenseController.HasLicenses"
             :current="pilot.LicenseController.CurrentLicensePoints"
             :max="pilot.LicenseController.MaxLicensePoints"
@@ -13,18 +14,26 @@
         </template>
         <template #default>
           <div id="content">
-            <license-selector :pilot="<Pilot>pilot" modal />
+            <license-selector :pilot="<Pilot>pilot"
+              modal />
           </div>
         </template>
       </cc-modal>
     </section-header>
 
-    <div class="mt-4 mb-6" :style="!mobile && 'padding-right: 180px'">
+    <div class="mt-4 mb-6"
+      :style="!mobile && 'padding-right: 180px'">
       <no-data-block v-if="!pilot.LicenseController.Licenses.length" />
       <v-row v-else>
-        <v-col v-for="l in pilot.LicenseController.Licenses" :key="l.Stub.ID" cols="12" md="4">
-          <CCPilotLicenseItem v-if="inCompendium(l)" :pilot-license="l" title />
-          <CCPilotLicenseStub v-else :pilot-license="l" />
+        <v-col v-for="l in pilot.LicenseController.Licenses"
+          :key="l.Stub.ID"
+          cols="12"
+          md="4">
+          <CCPilotLicenseItem v-if="inCompendium(l)"
+            :pilot-license="l"
+            title />
+          <CCPilotLicenseStub v-else
+            :pilot-license="l" />
         </v-col>
       </v-row>
     </div>
@@ -32,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import CCPilotLicenseItem from '@/ui/components/items/CCPilotLicenseItem.vue'
 import CCPilotLicenseStub from '@/ui/components/items/CCPilotLicenseStub.vue'
 import SectionHeader from '../../components/SectionHeader.vue';
@@ -43,13 +52,13 @@ import { Pilot } from '@/classes/pilot/Pilot'
 import { CompendiumStore } from '@/stores';
 
 const props = defineProps({
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  })
+  pilot: {
+    type: Pilot,
+    required: true,
+  },
+})
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
-function inCompendium(license) {return CompendiumStore().has('Frames', license.Stub.ID);}
+function inCompendium(license) { return CompendiumStore().has('Frames', license.Stub.ID); }
 </script>

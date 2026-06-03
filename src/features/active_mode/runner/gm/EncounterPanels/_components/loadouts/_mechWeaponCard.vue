@@ -79,11 +79,9 @@
                 </div>
               </div>
 
-              <cc-combat-action-chip v-for="a in item.Profiles[item.ProfileIndex].Actions"
+              <cc-combat-action-chip :owner="owner" :encounter-instance="encounterInstance" v-for="a in item.Profiles[item.ProfileIndex].Actions"
                 :key="a.ID"
                 :action="a"
-                :owner="owner"
-                :encounter-instance="encounterInstance"
                 @activate="handleActivation($event)"
                 @reset="handleRefund($event)">
                 <template #icon>
@@ -131,9 +129,7 @@
 
           <div v-if="mod">
             <mech-mod-card :mod="mod"
-              :owner="owner"
               :mech="mech"
-              :encounter-instance="encounterInstance"
               @deploy="$emit('deploy', $event)" />
           </div>
         </div>
@@ -144,10 +140,8 @@
               class="mb-1 px-2" />
           </div>
 
-          <equipment-actions-deployables :item="item"
+          <ActionsDeployables :item="item"
             :actor="mech"
-            :owner="owner"
-            :encounter-instance="encounterInstance"
             action-icon="cc:weapon"
             @deploy="$emit('deploy', $event)" />
 
@@ -161,8 +155,8 @@
             </v-col>
 
             <v-col v-for="p in item.Profiles"
-              :key="p.ID"
               v-show="item.Profiles.length > 1"
+              :key="p.ID"
               class="mr-4"
               cols="auto">
               <div v-if="p.Tags.length">
@@ -201,15 +195,15 @@
         </div>
       </v-card-text>
     </div>
-    <equip-command-panel :owner="owner"
+    <equip-command-panel
       :controller="mech.CombatController"
-      :encounter-instance="encounterInstance"
       :item="item" />
   </v-card>
 </template>
 
 <script setup lang="ts">
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { useEncounterContext } from '../../encounterContext'
 import type { CombatantData } from '@/classes/encounter/Encounter'
 import { computed } from 'vue'
 import { Damage } from '@/classes/Damage'
@@ -220,48 +214,44 @@ import EquipCommandPanel from './_equipCommandPanel.vue'
 import OnElement from '@/ui/components/cards/items/_components/OnElement.vue'
 import EngWeaponSettings from '@/features/pilot_management/_components/loadout/mech_loadout/components/mount/weapon/_EngWeaponSettings.vue'
 import MechModCard from './_mechModCard.vue'
-import DestroyedOverlay from './_DestroyedOverlay.vue'
-import FlavorDescription from './_FlavorDescription.vue'
 import ActionsDeployables from './_ActionsDeployables.vue'
-import { toRef } from 'vue'
-import { useMobile } from '@/composables/useMobile'
-import { useEquipmentActions } from '@/composables/useEquipmentActions'
 import { externalItemBonuses } from '@/composables/useExternalItemBonuses'
 import { Range } from '@/classes/Range'
 
 defineOptions({ name: 'MechWeaponCombatCard' })
 
+const { owner, encounterInstance } = useEncounterContext()
+
 const props = withDefaults(defineProps<{
-  item: object
+  item: MechWeapon
   mech: Mech
-  encounterInstance: EncounterInstance
-  owner: CombatantData
   readonly?: boolean
 }>(), {
   readonly: false
 })
 
-const emit = defineEmits<{
-  'deploy': []
+defineEmits<{
+  'deploy': [value: any]
+
 }>()
 
 const synergyLocation = computed(() => {
-      if (!props.item) return 'none'
-      if (props.item.IsIntegrated) return 'integrated'
-      return props.item.ItemType === ItemType.MechWeapon ? 'weapon' : 'system'
-    })
+  if (!props.item) return 'none'
+  if (props.item.IsIntegrated) return 'integrated'
+  return props.item.ItemType === ItemType.MechWeapon ? 'weapon' : 'system'
+})
 const isEngineerWeapon = computed(() => {
-      return props.item && props.item.ID.includes('mw_prototype_')
-    })
+  return props.item && props.item.ID.includes('mw_prototype_')
+})
 const mod = computed(() => {
-      return props.item.Mod
-    })
+  return props.item.Mod
+})
 const getRange = computed(() => {
-      return Range.CalculateRange(props.item as MechWeapon, props.mech as Mech)
-    })
+  return Range.CalculateRange(props.item as MechWeapon, props.mech as Mech)
+})
 const getDamage = computed(() => {
-      return Damage.CalculateDamage(props.item as MechWeapon, props.mech as Mech)
-    })
+  return Damage.CalculateDamage(props.item as MechWeapon, props.mech as Mech)
+})
 </script>
 
 <style scoped>

@@ -10,20 +10,14 @@
         <pilot-weapon-card v-if="item.ItemType.toLowerCase() === 'pilotweapon'"
           :item="item"
           :pilot="pilot"
-          :owner="owner"
-          :encounter-instance="encounterInstance"
           @deploy="$emit('deploy', $event)" />
         <pilot-armor-card v-else-if="item.ItemType.toLowerCase() === 'pilotarmor'"
           :item="item"
           :pilot="pilot"
-          :owner="owner"
-          :encounter-instance="encounterInstance"
           @deploy="$emit('deploy', $event)" />
         <pilot-gear-card v-else
-          :owner="owner"
           :item="item"
           :pilot="pilot"
-          :encounter-instance="encounterInstance"
           @deploy="$emit('deploy', $event)" />
       </fieldset>
     </template>
@@ -32,28 +26,24 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
+import { useEncounterContext } from '../../encounterContext'
+import { useDisplay } from 'vuetify'
 import PilotGearCard from './_pilotGearCard.vue'
 import PilotWeaponCard from './_pilotWeaponCard.vue'
 import PilotArmorCard from './_pilotArmorCard.vue'
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance.js'
+
+const { owner, encounterInstance } = useEncounterContext()
 
 const props = defineProps({
-    owner: {
-      type: Object,
-      required: true,
-    },
-    encounterInstance: {
-      type: Object,
-      required: true,
-    },
-  })
+})
 
 const emit = defineEmits(['deploy'])
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
-const xlColumns = computed(() => mobile.value ? 1 : props.encounterInstance.MaxMasonryColumns)
-const pilot = computed(() => props.owner.actor)
+const xlColumns = computed(() => mobile.value ? 1 : encounterInstance.value.MaxMasonryColumns)
+const pilot = computed(() => (owner.value as any).actor)
 const armor = computed(() => pilot.value.Loadout.Armor)
 const weapons = computed(() => pilot.value.Loadout.Weapons)
 const gear = computed(() => pilot.value.Loadout.Gear)

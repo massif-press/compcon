@@ -131,6 +131,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import logger from '@/user/logger'
 import { notify } from '@/util/notify'
 import { ImportData } from '@/io/Data';
 import {
@@ -290,7 +291,7 @@ async function importFile() {
             }
           }
         } catch (error) {
-          console.error(error);
+          logger.error('Failed to import NPC', null, error);
           notify({
             title: 'Import Error',
             text: `Unable to import GM Data: ${error}`,

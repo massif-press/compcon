@@ -1,7 +1,5 @@
 <template>
-  <combat-action-button :action="action"
-    :owner="owner"
-    :encounter-instance="encounterInstance">
+  <combat-action-button :action="action">
     <template #default="{ close }">
       <v-card color="panel"
         flat
@@ -68,11 +66,9 @@
           <v-col cols="auto">Heat</v-col>
         </v-row>
       </v-card>
-      <menu-input :key="controller.ID"
+      <menu-input :owner="owner" :encounter-instance="encounterInstance" :key="controller.ID"
         hide-input
         :active-effect="action"
-        :encounter-instance="encounterInstance"
-        :owner="owner"
         :close="close"
         @apply="apply"
         @reset="reset" />
@@ -82,6 +78,7 @@
 
 <script setup lang="ts">
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { useEncounterContext } from '../../../encounterContext'
 import type { CombatantData } from '@/classes/encounter/Encounter'
 import type { Action } from '@/classes/Action'
 import { computed, ref } from 'vue'
@@ -90,10 +87,10 @@ import { DiceRoller } from '@/classes/dice/DiceRoller';
 import CombatActionButton from './CombatActionButton.vue';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 
+const { owner, encounterInstance } = useEncounterContext()
+
 const props = defineProps<{
   action: Action
-  owner: CombatantData
-  encounterInstance: EncounterInstance
 }>()
 
 const emit = defineEmits<{
@@ -103,7 +100,7 @@ const emit = defineEmits<{
 const heatCost = ref(1)
 
 const controller = computed(() => {
-      return props.owner.actor.CombatController.ActiveActor.CombatController;
+      return owner.value.actor.CombatController.ActiveActor.CombatController;
     })
 const currentOvercharge = computed(() => {
       return controller.value.OverchargeLevel;

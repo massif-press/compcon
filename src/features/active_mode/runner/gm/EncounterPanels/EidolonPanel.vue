@@ -30,7 +30,7 @@
       </v-tooltip>
     </v-col>
   </v-row>
-  <panel-base :encounter-instance="encounterInstance"
+  <panel-base
     :item="layer"
     hide-palette>
     <template #name-block>
@@ -124,10 +124,8 @@
         <fieldset class="px-2 pb-2"
           style="border-color: rgba(155, 155, 155, 0.6)">
           <unit-feature-card :key="item.ID"
-            :encounter-instance="encounterInstance"
             :item="item"
             :unit="layer"
-            :owner="combatant"
             @deploy="deploy($event)" />
         </fieldset>
       </template>
@@ -136,11 +134,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
+import { computed, provide } from 'vue'
+import { useDisplay } from 'vuetify'
+import { EncounterContextKey } from './encounterContext';
+import type { CombatantData } from '@/classes/encounter/Encounter';
 import UnitFeatureCard from './_components/loadouts/_unitFeatureCard.vue';
 import PanelBase from './_PanelBase.vue';
 import PersistentTraits from '@/classes/npc/eidolon/persistent_traits.json';
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance.js';
 
 const props = defineProps({
   combatant: {
@@ -148,14 +149,19 @@ const props = defineProps({
     required: true,
   },
   encounterInstance: {
-    type: Object,
+    type: EncounterInstance,
     required: true,
   },
 })
 
+provide(EncounterContextKey, {
+  owner: computed(() => props.combatant as CombatantData),
+  encounterInstance: computed(() => props.encounterInstance),
+})
+
 const emit = defineEmits(['deselect'])
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const xlColumns = computed(() => {
   if (mobile.value) return 1

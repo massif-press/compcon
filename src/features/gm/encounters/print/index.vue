@@ -8,11 +8,17 @@
           v-if="options.extras.some((x) => x.title === 'GM Tracker')"
           :encounter="selectedEncounter" />
         <page-break v-if="options.extras.some((x) => x.title === 'Combat Quick Reference')" />
-        <combat-ref v-if="options.extras.some((x) => x.title === 'Combat Quick Reference')" />
+        <combat-ref
+          v-if="options.extras.some((x) => x.title === 'Combat Quick Reference')"
+          :statuses="CompendiumStore().Statuses" />
         <page-break v-if="options.extras.some((x) => x.title === 'Action Reference')" />
-        <action-ref v-if="options.extras.some((x) => x.title === 'Action Reference')" />
+        <action-ref
+          v-if="options.extras.some((x) => x.title === 'Action Reference')"
+          :all-actions="CompendiumStore().Actions" />
         <page-break v-if="options.extras.some((x) => x.title === 'Tag Reference')" />
-        <tag-info-print v-if="options.extras.some((x) => x.title === 'Tag Reference')" />
+        <tag-info-print
+          v-if="options.extras.some((x) => x.title === 'Tag Reference')"
+          :all-tags="CompendiumStore().Tags" />
       </div>
     </div>
 
@@ -45,7 +51,7 @@ import CombatRef from '@/ui/components/print/CombatRef.vue'
 import ActionRef from '@/ui/components/print/ActionRef.vue'
 import GmTracker from './extras/GmTracker.vue'
 import OptionsDialog from './OptionsDialog.vue'
-import { EncounterStore } from '@/stores'
+import { EncounterStore, CompendiumStore } from '@/stores'
 import PageBreak from '@/features/pilot_management/Print/components/PageBreak.vue'
 import { Encounter } from '@/classes/encounter/Encounter'
 

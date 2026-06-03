@@ -36,7 +36,7 @@ import Features from './features.vue';
 import { Unit } from '@/classes/npc/unit/Unit';
 import { NpcStore } from '@/stores';
 import NoGmItem from '../../_views/_components/NoGmItem.vue';
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 import { ref, onUnmounted } from 'vue';
 
 defineOptions({ name: 'NpcRoster' })
@@ -52,7 +52,7 @@ const npcStore = NpcStore();
       }
     });
     onUnmounted(unsub);
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = withDefaults(defineProps<{
   id?: string

@@ -4,7 +4,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import basics from '@/assets/srd/lib/basics.json';
 import SrdView from './_components/SrdView.vue';
 import SwitchLangTemp from './_components/SwitchLangTEMP.vue';
@@ -16,7 +16,7 @@ const props = defineProps({
     },
   })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 </script>
 

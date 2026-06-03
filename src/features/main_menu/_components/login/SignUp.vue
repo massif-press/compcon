@@ -87,11 +87,11 @@
 import { computed, ref } from 'vue'
 import logger from '@/user/logger';
 import { signUp } from 'aws-amplify/auth';
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 
 defineOptions({ name: 'sign-up' })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const emit = defineEmits<{
   'success': []

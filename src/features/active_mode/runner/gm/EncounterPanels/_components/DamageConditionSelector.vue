@@ -72,67 +72,67 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import * as _ from 'lodash-es';
+import { CombatController } from '@/classes/components/combat/CombatController';
 
 const props = defineProps<{
-  controller: object
+  controller: CombatController;
 }>()
 
 const damageTypes = ref([
-      { ID: 1, Name: 'Kinetic', icon: 'cc:kinetic', color: 'damage--kinetic' },
-      { ID: 2, Name: 'Energy', icon: 'cc:energy', color: 'damage--energy' },
-      {
-        ID: 3,
-        Name: 'Explosive',
-        icon: 'cc:explosive',
-        color: 'damage--explosive',
-      },
-      { ID: 4, Name: 'Heat', icon: 'cc:heat', color: 'damage--heat' },
-      { ID: 5, Name: 'Burn', icon: 'cc:burn', color: 'damage--burn' },
-      { ID: 5, Name: 'AoE', icon: 'cc:blast', color: 'damage--variable' },
-    ])
-const customStatus = ref('')
+  { ID: 1, Name: 'Kinetic', icon: 'cc:kinetic', color: 'damage--kinetic' },
+  { ID: 2, Name: 'Energy', icon: 'cc:energy', color: 'damage--energy' },
+  {
+    ID: 3,
+    Name: 'Explosive',
+    icon: 'cc:explosive',
+    color: 'damage--explosive',
+  },
+  { ID: 4, Name: 'Heat', icon: 'cc:heat', color: 'damage--heat' },
+  { ID: 5, Name: 'Burn', icon: 'cc:burn', color: 'damage--burn' },
+  { ID: 5, Name: 'AoE', icon: 'cc:blast', color: 'damage--variable' },
+])
 
 const vulnerabilities = computed(() => {
-      return props.controller.Resistances.filter((x) => x.condition === 'vulnerability').map(
-        (x) => x.type
-      );
-    })
+  return props.controller.Resistances.filter((x) => x.condition === 'vulnerability').map(
+    (x) => x.type
+  );
+})
 const immunities = computed(() => {
-      return props.controller.Resistances.filter((x) => x.condition === 'immunity').map(
-        (x) => x.type
-      );
-    })
+  return props.controller.Resistances.filter((x) => x.condition === 'immunity').map(
+    (x) => x.type
+  );
+})
 const resistances = computed(() => {
-      return props.controller.Resistances.filter((x) => x.condition === 'resistance').map(
-        (x) => x.type
-      );
-    })
+  return props.controller.Resistances.filter((x) => x.condition === 'resistance').map(
+    (x) => x.type
+  );
+})
 
 function addResistance(resist) {
-      let condition;
-      const name = resist.Name.toLowerCase();
+  let condition;
+  const name = resist.Name.toLowerCase();
 
-      if (vulnerabilities.value.includes(name)) {
-        condition = undefined;
-      } else if (immunities.value.includes(name)) {
-        condition = 'vulnerability';
-      } else if (resistances.value.includes(name)) {
-        condition = 'immunity';
-      } else {
-        condition = 'resistance';
-      }
+  if (vulnerabilities.value.includes(name)) {
+    condition = undefined;
+  } else if (immunities.value.includes(name)) {
+    condition = 'vulnerability';
+  } else if (resistances.value.includes(name)) {
+    condition = 'immunity';
+  } else {
+    condition = 'resistance';
+  }
 
-      props.controller.SetResistance(name, condition, true);
-    }
+  props.controller.SetResistance(name, condition, true);
+}
 function hasResistance(resist) {
-      return resistances.value.includes(resist.Name.toLowerCase());
-    }
+  return resistances.value.includes(resist.Name.toLowerCase());
+}
 function hasImmunity(resist) {
-      return immunities.value.includes(resist.Name.toLowerCase());
-    }
+  return immunities.value.includes(resist.Name.toLowerCase());
+}
 function hasVulnerability(resist) {
-      return vulnerabilities.value.includes(resist.Name.toLowerCase());
-    }
+  return vulnerabilities.value.includes(resist.Name.toLowerCase());
+}
 </script>
 
 <style scoped>

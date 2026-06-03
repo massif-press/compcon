@@ -34,7 +34,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useDisplay, useTheme } from 'vuetify'
-import { CompendiumStore } from '@/stores'
+import { useCompendiumData } from '@/ui/providers'
 import { Radar } from 'vue-chartjs'
 import {
   Chart as ChartJS,
@@ -52,6 +52,7 @@ ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, 
 
 const props = defineProps<{ frame: Frame }>()
 
+const compendium = useCompendiumData()
 const { smAndDown: mobile } = useDisplay()
 const theme = useTheme()
 
@@ -70,7 +71,7 @@ const colors = ['#328E6E', '#ff00fa', '#4F1C51', '#F7374F', '#3A59D1', '#FF9B17'
 const isDark = computed(() => theme.current.value.dark)
 
 const frames = computed(() =>
-  CompendiumStore().Frames.filter(
+  compendium.Frames.filter(
     (x) => x.Name !== props.frame.Name && !x.ID.startsWith('missing_')
   )
 )
@@ -87,7 +88,7 @@ const chartOptions = computed(() => ({
       callbacks: {
         label: (tooltipItem: any) => {
           const label = tooltipItem.dataset.label || ''
-          const frame = CompendiumStore().Frames.find((x) => x.ID === tooltipItem.dataset.id)
+          const frame = compendium.Frames.find((x) => x.ID === tooltipItem.dataset.id)
           if (!frame) return label
           const value = (frame as any)[statProps[tooltipItem.dataIndex]]
           return `${label}: ${value}`

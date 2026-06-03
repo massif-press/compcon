@@ -443,6 +443,14 @@ class MechWeapon extends MechEquipment {
     return null
   }
 
+  public set DamageTypeOverride(val: DamageType | null) {
+    if (val) {
+      this._custom_damage_type = val
+    } else {
+      this._custom_damage_type = null
+    }
+  }
+
   public get RangeType(): RangeType[] {
     if (this._custom_range) return this.Range.map(x => x.Type)
     return this.SelectedProfile.Range ? this.SelectedProfile.Range.map(x => x.Type) : []

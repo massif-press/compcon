@@ -18,10 +18,12 @@
 </template>
 
 <script setup lang="ts">
+import Tag from '@/classes/Tag'
+
 defineOptions({ name: 'print-action' })
 
 const props = defineProps<{
-  tags: any[]
+  tags: Tag[]
   options: object
   mech?: boolean
   block?: boolean

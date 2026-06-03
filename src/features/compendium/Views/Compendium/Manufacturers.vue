@@ -71,9 +71,9 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { CompendiumStore } from '@/stores';
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const tabModel = ref(0)
 const loading = ref(false)

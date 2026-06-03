@@ -8,7 +8,7 @@
 
       <FlavorDescription :description="item.FlavorDescription" />
 
-      <cc-alert v-if="integrated"
+      <cc-alert v-if="integrated && item.IntegratedOrigin"
         class="mt-2"
         icon="mdi-link">
         <div class="text-cc-overline">
@@ -57,8 +57,6 @@
 
         <ActionsDeployables :item="item"
           :actor="mech"
-          :owner="owner"
-          :encounter-instance="encounterInstance"
           action-icon="cc:system"
           @deploy="$emit('deploy', $event)" />
 
@@ -88,52 +86,51 @@
         </v-row>
       </div>
     </v-card-text>
-    <equip-command-panel :owner="owner"
+    <equip-command-panel
       :controller="mech.CombatController"
-      :encounter-instance="encounterInstance"
       :item="item" />
   </v-card>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
+import { useEncounterContext } from '../../encounterContext'
+import { useDisplay } from 'vuetify'
 import { ItemType } from '@/classes/enums'
 import EquipCommandPanel from './_equipCommandPanel.vue'
 import DestroyedOverlay from './_DestroyedOverlay.vue'
 import FlavorDescription from './_FlavorDescription.vue'
 import ActionsDeployables from './_ActionsDeployables.vue'
 import { externalItemBonuses } from '@/composables/useExternalItemBonuses'
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance.js'
+import { Mech } from '@/classes/mech/Mech.js'
+import { MechSystem } from '@/classes/mech/components/equipment/MechSystem.js'
+
+const { owner, encounterInstance } = useEncounterContext()
 
 const props = defineProps({
-    item: {
-      type: Object,
-      required: true,
-    },
-    integrated: {
-      type: Boolean,
-      default: false,
-    },
-    mech: {
-      type: Object,
-      required: true,
-    },
-    encounterInstance: {
-      type: Object,
-      required: true,
-    },
-    owner: {
-      type: Object,
-      required: true,
-    },
-  })
+  item: {
+    type: MechSystem,
+    required: true,
+  },
+  integrated: {
+    type: Boolean,
+    default: false,
+  },
+  mech: {
+    type: Mech,
+    required: true,
+  },
+})
 
-const emit = defineEmits(['deploy'])
+defineEmits(['deploy'])
 
-const { mobile, portrait } = useMobile()
+const { xs: portrait } = useDisplay()
 
-const synergyLocation = computed(() => {if (!props.item) return 'none'
-      return props.item.ItemType === ItemType.MechWeapon ? 'weapon' : 'system'})
+const synergyLocation = computed(() => {
+  if (!props.item) return 'none'
+  return props.item.ItemType === ItemType.MechWeapon ? 'weapon' : 'system'
+})
 </script>
 
 <style scoped>

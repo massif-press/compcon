@@ -1,11 +1,12 @@
-import { CompendiumStore } from '@/stores';
-import { PilotEquipment } from '@/classes/pilot/components/Loadout/equipment/PilotEquipment';
-import { flavorID } from '@/io/Generators';
+import { CompendiumStore } from '@/stores'
+import { PilotEquipment } from '@/classes/pilot/components/Loadout/equipment/PilotEquipment'
+import { flavorID } from '@/io/Generators'
+import { Pilot } from '@/classes/pilot/Pilot'
 
 export const PLCardMixin = {
   props: {
     item: {
-      type: Object,
+      type: PilotEquipment,
       required: false,
       default: null,
     },
@@ -17,24 +18,24 @@ export const PLCardMixin = {
       type: Boolean,
     },
     pilot: {
-      type: Object,
+      type: Pilot,
       required: true,
     },
   },
   computed: {
     allGear(this: any): PilotEquipment[] {
-      if (!this.pilot.LcpConfig) return CompendiumStore().PilotGear as PilotEquipment[];
+      if (!this.pilot.LcpConfig) return CompendiumStore().PilotGear as PilotEquipment[]
       return CompendiumStore().PilotGear.filter(
-        (x: any) =>
+        x =>
           !x.InLcp ||
           this.pilot.LcpConfig?.packList.some((y: any) => y.packID === x.Brew?.LcpId) ||
           this.pilot.LcpConfig?.packList.some((y: any) => y.packName === x.Brew?.LcpName)
-      ) as PilotEquipment[];
+      ) as PilotEquipment[]
     },
   },
   methods: {
     fID(this: any, template: string): string {
-      return flavorID(template);
+      return flavorID(template)
     },
   },
-};
+}

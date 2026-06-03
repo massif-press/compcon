@@ -81,10 +81,10 @@
 import type { Mech } from '@/classes/mech/Mech'
 import { computed, ref, useSlots } from 'vue'
 import { ItemType } from '@/classes/enums'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import EquipmentDetails from './_EquipmentDetails.vue'
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 const slots = useSlots()
 
 const props = withDefaults(defineProps<{

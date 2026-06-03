@@ -32,7 +32,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import CCExtendedTag from './CCExtendedTag.vue'
 import Tag from '@/classes/Tag'
 
@@ -84,7 +84,7 @@ const props = defineProps({
     },
   })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const filteredTags = computed(() => {
   const tArr: Tag[] = (props.tags as any[]).filter(x => x) as Tag[]

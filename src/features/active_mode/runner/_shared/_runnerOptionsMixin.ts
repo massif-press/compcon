@@ -1,3 +1,5 @@
+import logger from '@/user/logger'
+
 export const runnerOptionsMixin = {
   data() {
     return {
@@ -44,7 +46,7 @@ export const runnerOptionsMixin = {
           }
           this.importOk = true
         } catch (error) {
-          console.error('Failed to parse import file:', error)
+          logger.error('Failed to parse import file', null, error)
           this.importError = 'Invalid JSON file.'
           this.importOk = false
         }

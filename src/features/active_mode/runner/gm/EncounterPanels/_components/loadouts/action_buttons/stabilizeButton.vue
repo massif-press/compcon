@@ -1,8 +1,6 @@
 <template>
   <combat-action-button
-    :action="action"
-    :owner="owner"
-    :encounter-instance="encounterInstance">
+    :action="action">
     <template #default="{ close }">
       <v-card color="panel"
         flat
@@ -93,11 +91,9 @@
           </v-col>
         </v-row>
       </v-card>
-      <menu-input hide-input
+      <menu-input :owner="owner" :encounter-instance="encounterInstance" hide-input
         :key="controller.ID"
         :active-effect="action"
-        :encounter-instance="encounterInstance"
-        :owner="owner"
         :close="close"
         @apply="apply"
         @reset="reset" />
@@ -107,16 +103,17 @@
 
 <script setup lang="ts">
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { useEncounterContext } from '../../../encounterContext'
 import type { CombatantData } from '@/classes/encounter/Encounter'
 import type { Action } from '@/classes/Action'
 import { computed, ref } from 'vue'
 import CombatActionButton from './CombatActionButton.vue';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 
+const { owner, encounterInstance } = useEncounterContext()
+
 const props = defineProps<{
   action: Action
-  owner: CombatantData
-  encounterInstance: EncounterInstance
 }>()
 
 const emit = defineEmits<{
@@ -130,14 +127,14 @@ const clearAlliedCondition = ref(null)
 const selectedTarget = ref(null)
 
 const controller = computed(() => {
-      return props.owner.actor.CombatController;
+      return owner.value.actor.CombatController;
     })
 const alliedTargets = computed(() => {
-      const thisCombatant = props.encounterInstance.Combatants.find(
+      const thisCombatant = encounterInstance.value.Combatants.find(
         (c) => c.actor.ID === controller.value.RootActor.ID
       );
       if (!thisCombatant) return [];
-      return props.encounterInstance.Combatants.filter(
+      return encounterInstance.value.Combatants.filter(
         (c) => c.id !== thisCombatant.id && c.side === thisCombatant.side
       );
     })

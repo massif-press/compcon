@@ -34,9 +34,7 @@
     <div class="pa-2">
       <v-row no-gutters>
         <v-col>
-          <cc-combat-action-chip :action="cs.ActivateAction"
-            :owner="owner"
-            :encounter-instance="encounterInstance"
+          <cc-combat-action-chip :owner="owner" :encounter-instance="encounterInstance" :action="cs.ActivateAction"
             :disabled="!mech.CombatController.CorePower"
             custom-disabled-text="Core Power Depleted"
             @activate="mech.CombatController.SetCore(true, encounterInstance.CurrentRound)"
@@ -61,11 +59,9 @@
       <v-scroll-y-transition>
         <div v-if="active && cs.ActiveActions?.length"
           class="mb-2 mt-1">
-          <cc-combat-action-chip v-for="a in cs.ActiveActions"
+          <cc-combat-action-chip :owner="owner" :encounter-instance="encounterInstance" v-for="a in cs.ActiveActions"
             :key="a.ID"
-            :action="a"
-            :owner="owner"
-            :encounter-instance="encounterInstance" />
+            :action="a" />
         </div>
       </v-scroll-y-transition>
 
@@ -101,18 +97,16 @@
           </v-expansion-panel-title>
           <v-expansion-panel-text>
             <div v-if="cs.PassiveEffect"
-              class="mb-2 text-text"
-              v-html-safe="cs.PassiveEffect" />
+              v-html-safe="cs.PassiveEffect"
+              class="mb-2 text-text" />
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
       <div v-if="cs.PassiveActions?.length"
         class="mb-2 mt-1">
-        <cc-combat-action-chip v-for="a in cs.PassiveActions"
+        <cc-combat-action-chip :owner="owner" :encounter-instance="encounterInstance" v-for="a in cs.PassiveActions"
           :key="a.ID"
-          :action="a"
-          :owner="owner"
-          :encounter-instance="encounterInstance" />
+          :action="a" />
       </div>
     </div>
   </v-card>
@@ -120,26 +114,20 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
+import { useEncounterContext } from '../../encounterContext'
 import DeployButton from './_deployButton.vue';
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance.js';
+import { Mech } from '@/classes/mech/Mech.js';
+
+const { owner, encounterInstance } = useEncounterContext()
 
 const props = defineProps({
-    mech: {
-      type: Object,
-      required: true,
-    },
-    owner: {
-      type: Object,
-      required: true,
-    },
-    encounterInstance: {
-      type: Object,
-      required: true,
-    },
-  })
+  mech: {
+    type: Mech,
+    required: true,
+  },
+})
 
-const { mobile, portrait } = useMobile()
-
-const cs = computed(() => {return props.mech.Frame.CoreSystem;})
-const active = computed(() => {return props.mech.CombatController.CoreActive;})
+const cs = computed(() => { return props.mech.Frame.CoreSystem; })
+const active = computed(() => { return props.mech.CombatController.CoreActive; })
 </script>

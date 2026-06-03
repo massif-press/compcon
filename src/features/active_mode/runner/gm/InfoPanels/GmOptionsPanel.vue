@@ -216,6 +216,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
+import logger from '@/user/logger'
 import { useRouter } from 'vue-router'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { EncounterStore } from '@/stores'
@@ -253,7 +254,7 @@ function manualSave() {
       data: { icon: 'mdi-content-save', color: 'success' },
     })
   } catch (error) {
-    console.error('Manual Save Failed:', error)
+    logger.error('Manual Save Failed', null, error)
     notify({
       title: 'Save Failed',
       text: `Failed to save Encounter: ${(props.encounterInstance as any).Encounter.Name}`,

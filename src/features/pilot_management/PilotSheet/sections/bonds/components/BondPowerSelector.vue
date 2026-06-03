@@ -163,14 +163,13 @@ import type { Pilot } from '@/classes/pilot/Pilot'
 import { computed, ref, onMounted } from 'vue'
 import { useDisplay } from 'vuetify'
 import { CompendiumStore } from '@/stores'
-import { useMobile } from '@/composables/useMobile';
 import { sortBy } from 'lodash-es';
 
 const _display = useDisplay()
 
 defineOptions({ name: 'BondPowerSelectMenu' })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = defineProps<{
   pilot: Pilot

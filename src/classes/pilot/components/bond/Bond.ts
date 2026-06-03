@@ -9,12 +9,13 @@ type prompt = {
   options: string[]
 }
 
-type BondPower = {
+export type BondPower = {
   name: string
   description: string
   frequency: string
   veteran: boolean
   master: boolean
+  prerequisite?: string
   origin?: string
 }
 
@@ -101,4 +102,4 @@ class Bond implements ILcpTracked {
 }
 
 export { Bond }
-export type { IBondData, BondPower }
+export type { IBondData }

@@ -3,36 +3,31 @@
     class="bg-panel"
     align="center">
     <v-col v-if="canDealDamage && item.ItemType === 'PilotWeapon'">
-      <pilot-fight-button :owner="owner"
+      <pilot-fight-button
         :action="fightAction"
         :controller="controller"
-        :encounter-instance="encounterInstance"
         :preset-weapon="item"
         @activate="activate($event)" />
     </v-col>
     <v-col v-if="canDealDamage && isFeature && !item.IsSuperheavy">
-      <npc-skirmish-button :owner="owner"
+      <npc-skirmish-button
         :action="skirmishAction"
         :controller="controller"
-        :encounter-instance="encounterInstance"
         :preset-weapon="item"
         @activate="activate($event)" />
     </v-col>
     <v-col v-if="canDealDamage && isFeature">
-      <npc-barrage-button :owner="owner"
+      <npc-barrage-button
         :action="barrageAction"
         :controller="controller"
-        :encounter-instance="encounterInstance"
         :preset-weapon="item"
         @activate="activate($event)" />
     </v-col>
     <v-col v-if="!isFeature && canDealDamage && item.Skirmish"
       cols="auto">
       <mech-skirmish-button v-if="item.Skirmish"
-        :owner="owner"
         :action="skirmishAction"
         :controller="controller"
-        :encounter-instance="encounterInstance"
         :preset-weapon="item"
         @activate="activate($event)" />
     </v-col>
@@ -40,10 +35,8 @@
       cols="auto"
       class="ml-1">
       <mech-barrage-button v-if="item.Barrage"
-        :owner="owner"
         :action="barrageAction"
         :controller="controller"
-        :encounter-instance="encounterInstance"
         :preset-weapon="item"
         @activate="activate($event)" />
     </v-col>
@@ -203,6 +196,7 @@
 
 <script setup lang="ts">
 import type { CombatantData } from '@/classes/encounter/Encounter'
+import { useEncounterContext } from '../../encounterContext'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import { EffectSpecial } from '@/classes/components/feature/active_effects/effect_subtype/EffectSpecial'
@@ -215,74 +209,76 @@ import PilotFightButton from './action_buttons/pilotFightButton.vue'
 import AiControlButton from './_aiControlButton.vue'
 import { CombatController } from '@/classes/components/combat/CombatController'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { MechEquipment } from '@/classes/mech/components/equipment/MechEquipment.js'
+import { NpcFeature } from '@/classes/npc/feature/NpcFeature.js'
 
 const _display = useDisplay()
 
+const { owner, encounterInstance } = useEncounterContext()
+
 const props = defineProps<{
-  item: object
-  owner: CombatantData
+  item: MechEquipment | NpcFeature
   controller: CombatController
-  encounterInstance: EncounterInstance
 }>()
 
 const mobile = computed(() => {
-      return _display.mdAndDown.value
-    })
+  return _display.mdAndDown.value
+})
 const isFeature = computed(() => {
-      if (!props.item?.ItemType) return false
-      return props.item.ItemType.toLowerCase().includes('npc')
-    })
+  if (!props.item?.ItemType) return false
+  return props.item.ItemType.toLowerCase().includes('npc')
+})
 const isDestroyable = computed(() => {
-      if (props.item.IsIndestructible || props.item.Tags?.some(x => x.IsIndestructible)) return false
-      if (props.item.ItemType === 'NpcFeature') return false
-      return true
-    })
+  if (props.item.IsIndestructible || props.item.Tags?.some(x => x.IsIndestructible)) return false
+  if (props.item.ItemType === 'NpcFeature') return false
+  return true
+})
 const canDealDamage = computed(() => {
-      return !!props.item.Damage
-    })
+  return !!props.item.Damage
+})
 const skirmishAction = computed(() => {
-      return CompendiumStore().Actions.find(x => x.ID === 'act_skirmish')
-    })
+  return CompendiumStore().Actions.find(x => x.ID === 'act_skirmish')
+})
 const barrageAction = computed(() => {
-      return CompendiumStore().Actions.find(x => x.ID === 'act_barrage')
-    })
+  return CompendiumStore().Actions.find(x => x.ID === 'act_barrage')
+})
 const fightAction = computed(() => {
-      return CompendiumStore().Actions.find(x => x.ID === 'act_fight')
-    })
+  return CompendiumStore().Actions.find(x => x.ID === 'act_fight')
+})
 const totalUses = computed(() => {
-      return Number(props.item.MaxUses || 0) + Number(props.controller.LimitedBonus || 0)
-    })
+  return Number(props.item.MaxUses || 0) + Number(props.controller.LimitedBonus || 0)
+})
 
 function setUses(n) {
-      if (props.item.Uses === 1 && n === 1) {
-        props.item.Uses = 0
-      } else if (totalUses.value && n <= totalUses.value) {
-        props.item.Uses = n
-      }
-    }
+  if (props.item.Uses === 1 && n === 1) {
+    props.item.Uses = 0
+  } else if (totalUses.value && n <= totalUses.value) {
+    props.item.Uses = n
+  }
+}
 function enableAI() {
-      props.controller.CombatActions.Protocol = false
-      props.controller.AIControl = true
-    }
+  props.controller.CombatActions.Protocol = false
+  props.controller.AIControl = true
+}
 function disableAI() {
-      props.controller.CombatActions.Protocol = false
-      props.controller.AIControl = false
-    }
+  props.controller.CombatActions.Protocol = false
+  props.controller.AIControl = false
+}
 function cascade() {
-      props.controller.AIControl = true
-      props.controller.ApplyCustomStatus(
-        new EffectSpecial({
-          attribute: 'In Cascade',
-          detail:
-            'An installed NHP has entered CASCADE and has taken full control of the mech. The mech is in control of the GM until the Pilot reclaims control by choosing to Shut Down the mech.',
-        }),
-        '',
-        props.controller,
-        props.controller,
-        props.encounterInstance
-      )
-    }
+  props.controller.AIControl = true
+  props.controller.ApplyCustomStatus(
+    new EffectSpecial({
+      attribute: 'In Cascade',
+      detail:
+        'An installed NHP has entered CASCADE and has taken full control of the mech. The mech is in control of the GM until the Pilot reclaims control by choosing to Shut Down the mech.',
+    }),
+    '',
+    props.controller,
+    props.controller,
+    encounterInstance.value
+  )
+}
 function onUseToggle() {
-      props.item.Use()
-    }
+  props.item.Use()
+}
 </script>

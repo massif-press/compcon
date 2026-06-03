@@ -39,11 +39,12 @@
 
 <script setup lang="ts">
 import { Sortable } from 'sortablejs-vue3'
+import type { CombatantData } from '@/classes/encounter/Encounter'
 import CombatantListItem from './listItemContent/CombatantListItem.vue'
 
 defineProps<{
   type: string
-  list: any[]
+  list: CombatantData[]
   label: string
   transferKey: number
   readonly: boolean

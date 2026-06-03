@@ -1,4 +1,5 @@
 import { markRaw } from 'vue'
+import logger from '@/user/logger'
 import { v4 as uuid } from 'uuid'
 import {
   CloudController,
@@ -132,7 +133,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
         combatant.index = index
         if (combatant.type === 'pilot') {
           combatant.actor.SetStats()
-        } else if ((combatant.actor as any).Layers) {
+        } else if (combatant.actor.Layers) {
           const eidolon = combatant.actor as unknown as Eidolon
           eidolon.CombatController.StatController.applyRegisteredCustomStats()
           eidolon.Layers.forEach(l => {
@@ -218,7 +219,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     await new Promise<void>(r => setTimeout(r, 100))
     for (const c of this.Combatants) {
       c.actor.CombatController.EndRound(this)
-      if ((c.actor as any).ActiveMech) (c.actor as any).ActiveMech.CombatController.EndRound(this)
+      if (c.actor.ActiveMech) c.actor.ActiveMech.CombatController.EndRound(this)
     }
     this._round += 1
     if (this.Autosave) {
@@ -304,7 +305,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
 
   public static Serialize(instance: EncounterInstance): IEncounterInstanceData {
     if (!instance) {
-      console.error('Attempted to serialize null EncounterInstance')
+      logger.error('Attempted to serialize null EncounterInstance')
       return {} as IEncounterInstanceData
     }
 

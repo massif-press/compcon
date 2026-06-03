@@ -48,6 +48,7 @@
 
 <script setup lang="ts">
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { useEncounterContext } from '../../../encounterContext'
 import type { CombatantData } from '@/classes/encounter/Encounter'
 import { computed } from 'vue'
 import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
@@ -57,11 +58,11 @@ import EffectApplicator from '@/ui/components/chips/_activeeffect/EffectApplicat
 
 defineOptions({ name: 'MechWeaponAttack' })
 
+const { owner, encounterInstance } = useEncounterContext()
+
 const props = withDefaults(defineProps<{
   event: WeaponAttackEvent
   weapon: NpcWeapon
-  owner: CombatantData
-  encounterInstance: EncounterInstance
   isAdditionalAux?: boolean
 }>(), {
   isAdditionalAux: false
@@ -69,12 +70,12 @@ const props = withDefaults(defineProps<{
 
 const mods = computed(() => {
       if (!props.weapon) return null;
-      return props.owner.actor.NpcFeatureController?.GetModifiers(props.weapon) || [];
+      return owner.value.actor.NpcFeatureController?.GetModifiers(props.weapon) || [];
     })
 const ordnanceWarning = computed(() => {
       if (!props.weapon) return false;
       if (props.weapon.Tags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
-        return props.owner.actor.CombatController.CanActivate('ordnance') === false;
+        return owner.value.actor.CombatController.CanActivate('ordnance') === false;
       }
       return false;
     })

@@ -318,7 +318,7 @@ import ShareCodeDialog from '@/shared/ShareCodeDialog.vue'
 import GroupEmblemModal from './_GroupEmblemModal.vue'
 
 const props = withDefaults(defineProps<{
-  group: any
+  group: PilotGroup
   noGroup: boolean
   mobile?: boolean
   dragModeActive: boolean

@@ -68,12 +68,13 @@ import { ref, computed, reactive, onMounted, toRef } from 'vue'
 import { useDisplay } from 'vuetify'
 import { CompendiumStore } from '@/stores'
 import { WeaponMod } from '@/classes/mech/components/equipment/WeaponMod'
+import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
 import { Mech } from '@/classes/mech/Mech'
 import { useLcpFilter } from '../../_composables/useLcpFilter'
 import SelectorFilterSwitches from '../../_SelectorFilterSwitches.vue'
 
 const props = defineProps<{
-  weapon: any
+  weapon: MechWeapon
   mech: Mech
 }>()
 
@@ -113,7 +114,7 @@ const availableMods = computed((): WeaponMod[] => {
     i = i.filter(x => x.AllowedSizes && x.AllowedSizes.includes(props.weapon.ModSize))
   }
 
-  if (props.weapon.Mod) i = i.filter(x => x.ID !== props.weapon.Mod.ID)
+  if (props.weapon.Mod) i = i.filter(x => x.ID !== props.weapon.Mod!.ID)
 
   i = i.filter(
     x =>

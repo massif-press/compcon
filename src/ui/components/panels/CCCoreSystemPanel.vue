@@ -159,33 +159,34 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
+import { Frame } from '@/classes/mech/components/frame/Frame'
 
 const props = defineProps({
-    frame: {
-      type: Object,
-      required: true,
-    },
-    color: {
-      type: String,
-      default: 'panel',
-    },
-    terse: {
-      type: Boolean,
-    },
-    small: {
-      type: Boolean,
-      default: false,
-    },
-    owner: {
-      type: Object,
-      required: false,
-      default: null,
-    },
-  })
+  frame: {
+    type: Frame,
+    required: true,
+  },
+  color: {
+    type: String,
+    default: 'panel',
+  },
+  terse: {
+    type: Boolean,
+  },
+  small: {
+    type: Boolean,
+    default: false,
+  },
+  owner: {
+    type: Object,
+    required: false,
+    default: null,
+  },
+})
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
-const cs = computed(() => {return props.frame.CoreSystem;})
-const isTerse = computed(() => {return props.terse || props.small;})
+const cs = computed(() => { return props.frame.CoreSystem; })
+const isTerse = computed(() => { return props.terse || props.small; })
 </script>

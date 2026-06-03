@@ -306,10 +306,10 @@ import { PilotGroup } from '@/features/pilot_management/store/PilotGroup'
 import MechCardLoadoutField from '@/features/pilot_management/PilotSheet/sections/hangar/components/MechCardLoadoutField.vue';
 import PilotListItemDetails from '@/features/pilot_management/Roster/components/_pilotListItemDetails.vue';
 import { PilotStore, PilotGroupStore, PilotSheetStore } from '@/stores';
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 const router = useRouter()
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const selectedPilot = ref(null as Pilot | null)
 const selectedMech = ref(null as Mech | null)

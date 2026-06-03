@@ -1,8 +1,6 @@
 <template>
   <combat-action-button
-    :action="action"
-    :owner="owner"
-    :encounter-instance="encounterInstance">
+    :action="action">
     <template #default="{ close }">
       <v-row>
         <v-col cols="auto">
@@ -39,10 +37,8 @@
             </div>
 
             <div v-else>
-              <menu-input :key="controller.ID"
+              <menu-input :owner="owner" :encounter-instance="encounterInstance" :key="controller.ID"
                 :active-effect="selectedAction(tab)"
-                :encounter-instance="encounterInstance"
-                :owner="owner"
                 :close="close"
                 @apply="apply"
                 @reset="reset" />
@@ -56,6 +52,7 @@
 
 <script setup lang="ts">
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { useEncounterContext } from '../../../encounterContext'
 import type { CombatantData } from '@/classes/encounter/Encounter'
 import type { Action } from '@/classes/Action'
 import { computed, ref } from 'vue'
@@ -63,10 +60,10 @@ import { CompendiumStore } from '@/stores';
 import CombatActionButton from './CombatActionButton.vue';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
 
+const { owner, encounterInstance } = useEncounterContext()
+
 const props = defineProps<{
   action: Action
-  owner: CombatantData
-  encounterInstance: EncounterInstance
 }>()
 
 const emit = defineEmits<{
@@ -76,7 +73,7 @@ const emit = defineEmits<{
 const tab = ref('jockey')
 
 const controller = computed(() => {
-      return props.owner.actor.CombatController;
+      return owner.value.actor.CombatController;
     })
 const jockeyActions = computed(() => {
       return CompendiumStore()

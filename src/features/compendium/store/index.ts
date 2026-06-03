@@ -40,7 +40,7 @@ import { IPilotEquipmentData } from '@/classes/pilot/components/Loadout/equipmen
 import { ContentPackStore } from './ContentPackStore'
 import { ContentCollectionStore } from './ContentCollectionStore'
 import { collect, itemTypeMap, lancerData } from './compendiumUtils'
-import type { ContentPack } from '@/classes/ContentPack'
+import type { ContentPack, IContentPack, IContentPackData } from '@/classes/ContentPack'
 import type { ContentCollection } from '@/classes/components/cloud/ContentCollection'
 
 export { ContentPackStore } from './ContentPackStore'
@@ -155,9 +155,9 @@ export const CompendiumStore = defineStore('compendium', {
       this._packs
         .filter(pack => pack.Active)
         .forEach(pack => {
-          for (const t in (pack as any).Lists) {
-            if (lists[t] !== undefined) lists[t] = [...lists[t], ...(pack as any).Lists[t]]
-            else lists[t] = (pack as any).Lists[t]
+          for (const t in pack.Lists) {
+            if (lists[t] !== undefined) lists[t] = [...lists[t], ...pack.Lists[t]]
+            else lists[t] = pack.Lists[t]
           }
         })
       return lists
@@ -190,9 +190,9 @@ export const CompendiumStore = defineStore('compendium', {
     },
 
     Licenses(): License[] {
-      return (this.Frames as any)
-        .filter((x: any) => x.LicenseLevel !== 0 && !x.IsHidden)
-        .map((frame: Frame) => new License(frame))
+      return (this.Frames as Frame[])
+        .filter(x => x.LicenseLevel !== 0 && !x.IsHidden)
+        .map(x => new License(x))
     },
 
     instantiate(): (itemType: string, id: string) => CompendiumItem | null {
@@ -324,8 +324,7 @@ export const CompendiumStore = defineStore('compendium', {
       StatController.ClearCustomStats()
       clearBonusExtensions()
       for (const pack of packStore.ContentPacks.filter(p => p.Active)) {
-        for (const stat of (pack as any).CustomStats)
-          StatController.RegisterCustomStat(stat)
+        for (const stat of (pack as any).CustomStats) StatController.RegisterCustomStat(stat)
         for (const entry of (pack as any).BonusDictionary) registerBonus(entry)
       }
 

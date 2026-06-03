@@ -37,10 +37,10 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { useMobile } from '@/composables/useMobile';
+import { useDisplay } from 'vuetify';
 import { VTextarea, VTextField } from 'vuetify/components';
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = withDefaults(defineProps<{
   label?: string

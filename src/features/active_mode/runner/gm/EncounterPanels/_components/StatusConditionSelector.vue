@@ -102,18 +102,19 @@ import type { CombatantData } from '@/classes/encounter/Encounter'
 import { computed, ref } from 'vue'
 import * as _ from 'lodash-es'
 import { CompendiumStore } from '@/stores'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
+import { useEncounterContext } from '../encounterContext'
 import StatusConditionItem from './StatusConditionItem.vue'
 
 defineOptions({ name: 'StatusConditionSelector' })
 
+const { owner, encounterInstance } = useEncounterContext()
+
 const props = defineProps<{
   controller: object
-  encounterInstance: EncounterInstance
-  owner?: CombatantData
 }>()
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const customStatus = ref('')
 const customInflict = ref('')
@@ -136,10 +137,10 @@ const special = computed(() => (props.controller as any).CustomStatuses)
 
 const targets = computed(() => {
   const target = (self as any).side === 'enemy' ? 'ally' : 'enemy'
-  const owner = props.owner as any
-  return [...(props.encounterInstance as any).Combatants]
+  const ownerVal = owner.value as any
+  return [...(encounterInstance.value as any).Combatants]
     .filter((c) =>
-      !owner || c.actor.CombatController.ActiveActor.ID !== owner.CombatController.ActiveActor.ID
+      !ownerVal || c.actor.CombatController.ActiveActor.ID !== ownerVal.CombatController.ActiveActor.ID
     )
     .sort((a, b) => {
       if (a.side === target && b.side !== target) return -1

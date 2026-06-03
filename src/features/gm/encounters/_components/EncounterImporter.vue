@@ -118,6 +118,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import logger from '@/user/logger'
 import { ImportData } from '@/io/Data'
 import { EncounterStore } from '@/stores'
 import { v4 as uuid } from 'uuid'
@@ -214,7 +215,7 @@ async function importFile() {
         EncounterStore().AddEncounter(Encounter.Deserialize(item))
       }
     } catch (error) {
-      console.error(error)
+      logger.error('Failed to import encounter', null, error)
       notify({ title: GM_STRINGS.import.importErrorTitle, text: GM_STRINGS.import.encounterImportErrorText(String(error)), data: { icon: 'cc:compendium', color: 'error' } })
     }
   }

@@ -106,7 +106,6 @@ import * as _ from 'lodash-es'
 import { PilotStore, PilotGroupStore } from '../../store'
 import exportAsJson from '@/util/jsonExport'
 import { PilotGroup } from '../../store/PilotGroup'
-import CCOrganizer from '@/ui/components/CCOrganizer.vue'
 
 defineProps<{ type: string }>()
 

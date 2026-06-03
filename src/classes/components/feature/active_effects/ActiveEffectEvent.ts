@@ -65,7 +65,7 @@ class ActiveEffectEvent {
     // For NPC actors, add the feature-level tier accuracy/attack_bonus (e.g. NpcTech arrays).
     // NpcWeapon already bakes these into the ActiveEffectData via toActiveEffectData(), so the
     // lookup will find no match and is a no-op for weapon attacks.
-    const npcFeatures = (initiator.actor as any).NpcFeatureController?.Features
+    const npcFeatures = initiator.actor.NpcFeatureController?.Features
     if (npcFeatures?.length) {
       const tier = initiator.actor.CombatController.Tier
       const matchingFeature = npcFeatures.find(

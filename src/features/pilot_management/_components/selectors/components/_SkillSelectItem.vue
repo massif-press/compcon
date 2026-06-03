@@ -1,14 +1,17 @@
 <template>
-  <v-row no-gutters align="center">
+  <v-row no-gutters
+    align="center">
     <v-col>
-      <cc-skill-item :bonus="bonus" :skill="skill" />
+      <cc-skill-item :bonus="bonus"
+        :skill="skill" />
     </v-col>
-    <v-col cols="auto" class="py-2">
+    <v-col cols="auto"
+      class="py-2">
       <span class="px-2">
-        <v-tooltip location="top" text="Increase Skill Bonus">
+        <v-tooltip location="top"
+          text="Increase Skill Bonus">
           <template #activator="{ props }">
-            <cc-button
-              v-bind="props"
+            <cc-button v-bind="props"
               icon="mdi-plus"
               size="small"
               color="success"
@@ -18,12 +21,13 @@
           </template>
         </v-tooltip>
       </span>
-      <div v-if="mobile" class="my-2" />
+      <div v-if="mobile"
+        class="my-2" />
       <span class="px-2">
-        <v-tooltip location="top" text="Decrease Skill Bonus">
+        <v-tooltip location="top"
+          text="Decrease Skill Bonus">
           <template #activator="{ props }">
-            <cc-button
-              v-bind="props"
+            <cc-button v-bind="props"
               icon="mdi-minus"
               size="small"
               color="error"
@@ -38,27 +42,33 @@
 </template>
 
 <script setup lang="ts">
-import { useMobile } from '@/composables/useMobile'
+import { Skill } from '@/classes/pilot/components';
+import { useDisplay } from 'vuetify'
 
-const props = defineProps({
-    skill: {
-      type: Object,
-      required: true,
-    },
-    canAdd: {
-      type: Boolean,
-      required: true,
-    },
-    canRemove: {
-      type: Boolean,
-      required: true,
-    },
-    bonus: {
-      type: Number,
-      required: false,
-      default: 0,
-    },
-  })
+defineProps({
+  skill: {
+    type: Skill,
+    required: true,
+  },
+  canAdd: {
+    type: Boolean,
+    required: true,
+  },
+  canRemove: {
+    type: Boolean,
+    required: true,
+  },
+  bonus: {
+    type: Number,
+    required: false,
+    default: 0,
+  },
+})
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile } = useDisplay()
+
+defineEmits<{
+  add: []
+  remove: []
+}>()
 </script>

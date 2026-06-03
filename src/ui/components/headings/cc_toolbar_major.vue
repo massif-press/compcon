@@ -52,7 +52,7 @@
 
 <script setup lang="ts">
 import { computed, useSlots } from 'vue'
-import { useMobile } from '@/composables/useMobile'
+import { useDisplay } from 'vuetify'
 import { useTheme } from 'vuetify'
 
 const props = defineProps({
@@ -64,7 +64,7 @@ const props = defineProps({
     extensionHeight: { type: String, default: 'auto' },
   })
 
-const { mobile, portrait } = useMobile()
+const { smAndDown: mobile, xs: portrait } = useDisplay()
 const slots = useSlots()
 const theme = useTheme()
 
