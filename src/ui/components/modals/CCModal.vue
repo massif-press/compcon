@@ -4,6 +4,7 @@
   <v-dialog
     v-model="modal"
     :id="id"
+    :aria-label="title || undefined"
     :fullscreen="fullscreen || mobile"
     :max-width="mobile ? '100vw' : maxWidth"
     :min-height="mobile ? '100vh' : shrink ? '' : '95vh'"

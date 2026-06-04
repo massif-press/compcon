@@ -20,11 +20,14 @@
           <v-btn
             icon
             tile
+            role="checkbox"
+            :aria-checked="isOn"
+            :aria-label="ariaLabel"
             :size="iconSize('btn')"
             :class="`${size} ${isOn && 'on'} size-${size} bg-${bgColor}`"
             @click="toggle">
             <v-fade-transition leave-absolute>
-              <v-btn v-if="isOn" icon tile :color="activeColor" :size="iconSize('btn')" />
+              <v-btn v-if="isOn" icon tile aria-hidden="true" tabindex="-1" :color="activeColor" :size="iconSize('btn')" />
             </v-fade-transition>
           </v-btn>
         </div>
@@ -71,6 +74,8 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{ 'update:modelValue': [value: boolean] }>()
 
 const isOn = computed(() => props.modelValue)
+
+const ariaLabel = computed(() => props.label || props.tooltip || undefined)
 
 function toggle() {
   emit('update:modelValue', !isOn.value)

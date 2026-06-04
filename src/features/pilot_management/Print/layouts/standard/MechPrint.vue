@@ -11,20 +11,47 @@
       <v-col cols="8">
         <v-row dense
           :class="blank ? 'mt-n3' : ''">
-          <print-stat-box label="ATTACK BONUS" :value="signed(mech.AttackBonus)" :blank="blank" min-width="11vw" />
-          <print-stat-box label="TECH ATTACK" :value="signed(mech.TechAttack)" :blank="blank" min-width="11vw" />
-          <print-stat-box label="SAVE" :value="mech.SaveTarget" :blank="blank" min-width="11vw" />
-          <print-stat-box label="SPEED" :value="mech.Speed" :blank="blank" min-width="11vw" />
-          <print-stat-box label="E-DEFENSE" :value="mech.EDefense" :blank="blank" min-width="12vw" />
-          <print-stat-box label="EVASION" :value="mech.Evasion" :blank="blank" min-width="11vw" />
-          <print-stat-box label="SENSOR RANGE" :value="mech.SensorRange" :blank="blank" min-width="11vw" />
-          <print-stat-box label="LIMITED BONUS" :value="signed(mech.LimitedBonus)" :blank="blank" min-width="11vw" />
-          <print-stat-box v-if="blank" label="SYSTEM POINTS" :blank="blank" min-width="11vw" />
+          <print-stat-box label="ATTACK BONUS"
+            :value="signed(mech.AttackBonus)"
+            :blank="blank"
+            min-width="11vw" />
+          <print-stat-box label="TECH ATTACK"
+            :value="signed(mech.TechAttack)"
+            :blank="blank"
+            min-width="11vw" />
+          <print-stat-box label="SAVE"
+            :value="mech.SaveTarget"
+            :blank="blank"
+            min-width="11vw" />
+          <print-stat-box label="SPEED"
+            :value="mech.Speed"
+            :blank="blank"
+            min-width="11vw" />
+          <print-stat-box label="E-DEFENSE"
+            :value="mech.EDefense"
+            :blank="blank"
+            min-width="12vw" />
+          <print-stat-box label="EVASION"
+            :value="mech.Evasion"
+            :blank="blank"
+            min-width="11vw" />
+          <print-stat-box label="SENSOR RANGE"
+            :value="mech.SensorRange"
+            :blank="blank"
+            min-width="11vw" />
+          <print-stat-box label="LIMITED BONUS"
+            :value="signed(mech.LimitedBonus)"
+            :blank="blank"
+            min-width="11vw" />
+          <print-stat-box v-if="blank"
+            label="SYSTEM POINTS"
+            :blank="blank"
+            min-width="11vw" />
         </v-row>
 
         <div class="text-overline mb-n3 text-primary">FRAME TRAITS</div>
-        <v-row dense
-          v-if="blank">
+        <v-row v-if="blank"
+          dense>
           <v-col v-for="n in 4"
             :key="`trait-${n}`"
             cols="6">
@@ -35,10 +62,10 @@
           dense
           justify="space-between"
           class="caption mt-n1">
-          <v-col :cols="t.Actions.length + t.Deployables.length > 0 ? '12' : ''"
-            class="no-print-break"
-            v-for="t in mech.Frame.Traits"
-            :key="t.Name">
+          <v-col v-for="t in mech.Frame.Traits"
+            :key="t.Name"
+            :cols="t.Actions.length + t.Deployables.length > 0 ? '12' : ''"
+            class="no-print-break">
             <fieldset>
               <legend class="heading ml-1 px-2">{{ t.Name }}</legend>
               <p v-html-safe="t.Description" />
@@ -49,8 +76,8 @@
         </v-row>
 
         <div class="text-overline mb-n1 text-primary mt-n1">CORE SYSTEM</div>
-        <div dense
-          v-if="blank"
+        <div v-if="blank"
+          dense
           class="mt-n2">
           <blank-line :height="112" />
         </div>
@@ -135,9 +162,9 @@
     <print-blank-loadout v-if="blank"
       :extra-mounts="hasMechOption('Extra Mount Panel')" />
 
-    <fieldset v-else
-      v-for="m in mounts"
-      :key="m.ID"
+    <fieldset v-for="(m, i) in mounts"
+      v-else
+      :key="`mount-${i}`"
       class="no-print-break">
       <legend class="heading h4 ml-1 px-2">{{ m.Name }}</legend>
       <div v-if="m.IsLocked"
@@ -146,8 +173,8 @@
         <br />
         <span class="text-overline">// SUPERHEAVY WEAPON BRACING //</span>
       </div>
-      <div v-else
-        v-for="w in m.Weapons.filter(Boolean)"
+      <div v-for="w in m.Weapons.filter(Boolean)"
+        v-else
         :key="w.ID"
         class="px-1">
         <v-row dense
@@ -272,7 +299,6 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Synergy } from '@/classes/components/feature/synergy/Synergy'
 import { Mech } from '@/classes/mech/Mech'
 import PrintAction from '../../components/PrintAction.vue';
 import PrintDeployable from '../../components/PrintDeployable.vue';
@@ -281,7 +307,6 @@ import notes from '../../components/blank/notes.vue';
 import tagBlock from '../../components/TagBlock.vue';
 import PageBreak from '../../components/PageBreak.vue';
 import PrintMechNameBlock from '../../components/PrintMechNameBlock.vue';
-import PrintHpBlock from '../../components/PrintHpBlock.vue';
 import PrintStatBox from '../../components/PrintStatBox.vue';
 import PrintBlankLoadout from '../../components/PrintBlankLoadout.vue';
 import PrintBlankSystems from '../../components/PrintBlankSystems.vue';
@@ -289,29 +314,23 @@ import PrintSystemsList from '../../components/PrintSystemsList.vue';
 import { usePrintOptions } from '../usePrintOptions';
 import PrintMechHpRows from '../../components/_PrintMechHpRows.vue';
 
-defineOptions({ name: 'mech-print' })
+defineOptions({ name: 'MechPrint' })
 
 const props = defineProps<{
   mech: Mech
   options: object
 }>()
 
-const { blank, landscape, hasPilotOption, hasMechOption, signed, showTag, showCollectedEffect } = usePrintOptions(props)
+const { blank, hasMechOption, signed, showCollectedEffect } = usePrintOptions(props)
 
 const mounts = computed(() => {
-      return props.mech.MechLoadoutController.ActiveLoadout.AllMounts(
-        props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-        props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
-        props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
-      );
-    })
-const getHpCols = computed(() => {
-      return 'auto';
-    })
+  return props.mech.MechLoadoutController.ActiveLoadout.AllMounts(
+    props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
+    props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
+    props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
+  );
+})
 
-function synergies(location: 'weapon' | 'system', item: any) {
-      return Synergy.Collect(location, props.mech as Mech, item);
-    }
 </script>
 
 <style scoped>

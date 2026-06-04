@@ -5,7 +5,7 @@
       class="print-card"
       :style="{ marginLeft: 'auto', marginRight: 'auto', width: previewWidth }">
       <div>
-        <component :is="options.layout.title"
+        <component :is="resolveComponent()"
           :options="options"
           :selected-mech="<Mech>selectedMech"
           :selected-pilot="<Pilot>selectedPilot"
@@ -47,7 +47,7 @@
         </v-btn>
         <v-select v-model="selectedPilot"
           :items="allPilots"
-          :item-title="(x: Pilot) => `${x.Name} // ${x.Callsign}`"
+          :item-title="(x) => `${x.Name} // ${x.Callsign}`"
           return-object
           density="compact"
           hide-details
@@ -58,7 +58,7 @@
           style="width: 10vw" />
         <v-select v-model="selectedMech"
           :items="pilotMechs"
-          :item-title="(x: Mech) => `${x.Name} // ${x.Frame.Name}`"
+          :item-title="(x) => `${x.Name} // ${x.Frame.Name}`"
           return-object
           density="compact"
           hide-details
@@ -91,10 +91,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, watch } from 'vue'
-import { useRouter } from 'vue-router'
-import Expanded from './layouts/expanded/index.vue';
+import { computed, ref, onMounted } from 'vue'
 import Standard from './layouts/standard/index.vue';
+import Expanded from './layouts/expanded/index.vue';
 import Terse from './layouts/terse/index.vue';
 import Minimal from './layouts/minimal/index.vue';
 import Cards from './layouts/cards/index.vue';
@@ -108,7 +107,6 @@ import { PilotStore, CompendiumStore } from '@/stores';
 import { Pilot } from '@/classes/pilot/Pilot'
 import { Mech } from '@/classes/mech/Mech'
 import PageBreak from './components/PageBreak.vue';
-const router = useRouter()
 
 defineOptions({ name: 'CombinedPrint' })
 
@@ -121,72 +119,86 @@ const props = withDefaults(defineProps<{
 
 const selectedPilot = ref(null as Pilot | null)
 const selectedMech = ref(null as Mech | null)
-const blank = ref(false)
 const options = ref({
-      layout: { title: 'Standard', icon: 'mdi-book-open' },
-      orientation: { title: 'Portrait', icon: 'mdi-file' },
-      content: { title: 'Pilot', icon: 'cc:pilot' },
-      bonds: { title: 'Include', icon: 'mdi-link' },
-      paper: { title: 'Letter', icon: 'mdi-text-box-check-outline' },
-      pilotInclude: [],
-      mechInclude: [],
-      extras: [],
-      card: [],
-    } as any)
-
+  layout: { title: 'Standard', icon: 'mdi-book-open' },
+  orientation: { title: 'Portrait', icon: 'mdi-file' },
+  content: { title: 'Pilot', icon: 'cc:pilot' },
+  bonds: { title: 'Include', icon: 'mdi-link' },
+  paper: { title: 'Letter', icon: 'mdi-text-box-check-outline' },
+  pilotInclude: [],
+  mechInclude: [],
+  extras: [],
+  card: [],
+} as any)
+const resolveComponent = () => {
+  switch (options.value.layout.title) {
+    case 'Standard':
+      return Standard;
+    case 'Expanded':
+      return Expanded;
+    case 'Terse':
+      return Terse;
+    case 'Minimal':
+      return Minimal;
+    case 'Cards':
+      return Cards;
+    default:
+      return Standard;
+  }
+}
 const allPilots = computed(() => {
-      return PilotStore().Pilots.filter((x) => !x.SaveController.IsDeleted);
-    })
+  return PilotStore().Pilots.filter((x) => !x.SaveController.IsDeleted);
+})
 const pilotMechs = computed(() => {
-      return selectedPilot.value ? selectedPilot.value.Mechs : [];
-    })
+  return selectedPilot.value ? selectedPilot.value.Mechs : [];
+})
 const hasBondData = computed(() => {
-      return CompendiumStore().Bonds.length > 0;
-    })
+  return CompendiumStore().Bonds.length > 0;
+})
 const previewWidth = computed(() => {
-      const portrait = options.value.orientation.title === 'Portrait'
-      const letter = options.value.paper.title === 'Letter'
-      if (portrait) return letter ? '216mm' : '210mm'
-      return letter ? '279mm' : '297mm'
-    })
+  const portrait = options.value.orientation.title === 'Portrait'
+  const letter = options.value.paper.title === 'Letter'
+  if (portrait) return letter ? '216mm' : '210mm'
+  return letter ? '279mm' : '297mm'
+})
 const optionsFields = computed(() => {
-      const titles = [] as string[];
+  const titles = [] as string[];
 
-      function traverse(value) {
-        if (Array.isArray(value)) {
-          value.forEach(traverse);
-        } else if (value && typeof value === 'object') {
-          if ('title' in value) {
-            titles.push(value.title.toLowerCase());
-          }
-          Object.values(value).forEach(traverse);
-        }
+  function traverse(value) {
+    if (Array.isArray(value)) {
+      value.forEach(traverse);
+    } else if (value && typeof value === 'object') {
+      if ('title' in value) {
+        titles.push(value.title.toLowerCase());
       }
+      Object.values(value).forEach(traverse);
+    }
+  }
 
-      traverse(options.value);
-      return titles;
-    })
+  traverse(options.value);
+  return titles;
+})
 
 function print() {
-      const orientation = options.value.orientation.title.toLowerCase()
-      const paper = options.value.paper.title === 'A4' ? 'A4' : 'letter'
-      const existing = document.getElementById('__cc-print-page')
-      if (existing) existing.remove()
-      const style = document.createElement('style')
-      style.id = '__cc-print-page'
-      style.textContent = `@page { size: ${paper} ${orientation}; margin: 0; }`
-      document.head.appendChild(style)
-      window.print()
-    }
+  const orientation = options.value.orientation.title.toLowerCase()
+  const paper = options.value.paper.title === 'A4' ? 'A4' : 'letter'
+  const existing = document.getElementById('__cc-print-page')
+  if (existing) existing.remove()
+  const style = document.createElement('style')
+  style.id = '__cc-print-page'
+  style.textContent = `@page { size: ${paper} ${orientation}; margin: 0; }`
+  document.head.appendChild(style)
+  window.print()
+}
 function has(str: string) {
-      return optionsFields.value.includes(str);
-    }
+  return optionsFields.value.includes(str);
+}
 
 onMounted(() => {
-if (!props.presetPilot) return;
-    selectedPilot.value = PilotStore().Pilots.find((p) => p.ID === props.presetPilot) as Pilot;
-    if (props.presetMech)
-      selectedMech.value = selectedPilot.value?.Mechs.find((m) => m.ID === props.presetMech) || null;
+  if (!props.presetPilot) return;
+  selectedPilot.value = PilotStore().Pilots.find((p) => p.ID === props.presetPilot) as Pilot;
+  if (props.presetMech)
+    selectedMech.value = selectedPilot.value?.Mechs.find((m) => m.ID === props.presetMech) || null;
 })
 </script>
 

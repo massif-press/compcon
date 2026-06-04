@@ -1,8 +1,7 @@
 <template>
   <fieldset>
     <legend class="heading h3 ml-1 px-2">Systems</legend>
-    <v-card
-      v-for="s in mech.MechLoadoutController.ActiveLoadout.AllActiveSystems.filter(Boolean)"
+    <v-card v-for="s in mech.MechLoadoutController.ActiveLoadout.AllActiveSystems.filter(Boolean)"
       :key="s.ID"
       variant="outlined"
       class="pa-1 my-1 no-print-break"
@@ -22,8 +21,7 @@
         <v-col v-if="s.Uses"
           cols="auto"
           class="ml-auto">
-          <v-icon
-            v-for="n in s.getTotalUses(mech.LimitedBonus)"
+          <v-icon v-for="n in s.getTotalUses(mech.LimitedBonus)"
             :key="`use-${n}`"
             size="small"
             color="primary">
@@ -33,8 +31,8 @@
       </v-row>
       <div class="pl-7">
         <p v-if="s.Effect"
-          class="caption mb-n1"
-          v-html-safe="s.Effect" />
+          v-html-safe="s.Effect"
+          class="caption mb-n1" />
         <print-action :actions="s.Actions" />
         <print-deployable :deployables="s.Deployables" />
         <tag-block :tags="s.Tags"
@@ -51,8 +49,8 @@ import PrintAction from './PrintAction.vue';
 import PrintDeployable from './PrintDeployable.vue';
 import TagBlock from './TagBlock.vue';
 
-const props = defineProps<{
+defineProps<{
   mech: Mech
-  options: object
+  options: any
 }>()
 </script>

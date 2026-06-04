@@ -24,9 +24,7 @@ import type { Action } from '@/classes/Action'
 import Card from './PrintCard.vue';
 import ActionInternal from './_actionInternal.vue';
 
-defineOptions({ name: 'print-action' })
-
-const props = defineProps<{
+defineProps<{
   action: Action
   header?: string
 }>()

@@ -12,6 +12,7 @@
           :variant="variant ? 'tonal' : undefined"
           :color="getColor"
           icon
+          :aria-label="tooltip || undefined"
           :size="buttonSize"
           rounded="0"
           :disabled="disabled"

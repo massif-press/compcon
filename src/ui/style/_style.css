@@ -8,13 +8,8 @@
   font-family: 'Helvetica Regular', sans-serif;
 } */
 * {
-  scrollbar-width: thin;
+  scrollbar-width: thin !important;
   scrollbar-color: #888 transparent;
-}
-
-/* width */
-::-webkit-scrollbar {
-  width: 6px;
 }
 
 /* Track */

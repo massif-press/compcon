@@ -37,7 +37,7 @@ import BlankLine from './blank/line.vue';
 import PrintOvercharge from './PrintOvercharge.vue';
 import PrintStatRow from './PrintStatRow.vue';
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   mech: Mech
   blank?: boolean
 }>(), {

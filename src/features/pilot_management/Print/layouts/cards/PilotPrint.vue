@@ -13,7 +13,7 @@
           </v-col>
           <v-col><v-divider /></v-col>
         </v-row>
-        <div :style="pilot.hasImage ? `background-image: url('${pilot.Portrait}')` : ''"
+        <div :style="pilot.HasPortrait ? `background-image: url('${pilot.Portrait}')` : ''"
           style="
             height: 100px;
             width: 100%;
@@ -85,26 +85,26 @@
           <v-col>
             <div class="font-weight-bold caption text-primary">HULL</div>
 
-            <div class="heading"
-              v-html-safe="pilot.MechSkillsController.MechSkills.Hull" />
+            <div v-html-safe="pilot.MechSkillsController.MechSkills.Hull"
+              class="heading" />
           </v-col>
           <v-col>
             <div class="font-weight-bold caption text-primary text-primary">AGI</div>
 
-            <div class="heading"
-              v-html-safe="pilot.MechSkillsController.MechSkills.Agi" />
+            <div v-html-safe="pilot.MechSkillsController.MechSkills.Agi"
+              class="heading" />
           </v-col>
           <v-col>
             <div class="font-weight-bold caption text-primary">SYS</div>
 
-            <div class="heading"
-              v-html-safe="pilot.MechSkillsController.MechSkills.Sys" />
+            <div v-html-safe="pilot.MechSkillsController.MechSkills.Sys"
+              class="heading" />
           </v-col>
           <v-col>
             <div class="font-weight-bold caption text-primary">ENG</div>
 
-            <div class="heading"
-              v-html-safe="pilot.MechSkillsController.MechSkills.Eng" />
+            <div v-html-safe="pilot.MechSkillsController.MechSkills.Eng"
+              class="heading" />
           </v-col>
         </v-row>
       </card>
@@ -144,7 +144,8 @@
           </v-avatar>
         </div>
       </card>
-      <card v-for="t in pilot.TalentsController.Talents" :key="t.Talent.ID">
+      <card v-for="t in pilot.TalentsController.Talents"
+        :key="t.Talent.ID">
         <div class="caption text-center mt-n1"
           style="letter-spacing: 10px; font-size: 10px">
           PILOT&emsp;TALENT
@@ -204,7 +205,8 @@
             size="40" />
         </v-avatar>
       </card>
-      <card v-for="a in pilot.Loadout.Armor.filter((x) => x)" :key="a.ID">
+      <card v-for="a in pilot.Loadout.Armor.filter((x) => x)"
+        :key="a.ID">
         <div class="caption text-center mt-n1"
           style="letter-spacing: 10px; font-size: 10px">
           PILOT ARMOR
@@ -225,16 +227,16 @@
               <v-card variant="tonal"
                 class="py-2">
                 <v-icon icon="mdi-shield-outline" />
-                <span v-text="`+${a.Armor(pilot) || 0}`"
-                  class="heading h3" />
+                <span class="heading h3"
+                  v-text="`+${a.Armor(pilot) || 0}`" />
               </v-card>
             </v-col>
             <v-col cols="6">
               <v-card variant="tonal"
                 class="py-2">
                 <v-icon icon="mdi-heart-outline" />
-                <span v-text="`+${a.HPBonus(pilot) || 0}`"
-                  class="heading h3" />
+                <span class="heading h3"
+                  v-text="`+${a.HPBonus(pilot) || 0}`" />
               </v-card>
             </v-col>
             <v-col cols="4">
@@ -242,8 +244,8 @@
                 class="py-2">
                 <v-icon icon="cc:edef"
                   class="mt-n1" />
-                <span v-text="`${a.EDefense(pilot) || 'N/A'} `"
-                  class="heading h3" />
+                <span class="heading h3"
+                  v-text="`${a.EDefense(pilot) || 'N/A'} `" />
               </v-card>
             </v-col>
             <v-col cols="4">
@@ -251,16 +253,16 @@
                 class="py-2">
                 <v-icon icon="cc:evasion"
                   class="mt-n1" />
-                <span v-text="`${a.Evasion(pilot) || 'N/A'} `"
-                  class="heading h3" />
+                <span class="heading h3"
+                  v-text="`${a.Evasion(pilot) || 'N/A'} `" />
               </v-card>
             </v-col>
             <v-col cols="4">
               <v-card variant="tonal"
                 class="py-2">
                 <v-icon icon="mdi-arrow-right-bold-hexagon-outline" />
-                <span v-text="`${a.Speed(pilot) || 'N/A'} `"
-                  class="heading h3" />
+                <span class="heading h3"
+                  v-text="`${a.Speed(pilot) || 'N/A'} `" />
               </v-card>
             </v-col>
           </v-row>
@@ -269,7 +271,8 @@
             :options="options" />
         </div>
       </card>
-      <card v-for="w in pilot.Loadout.Weapons.filter((x) => x)" :key="w.ID">
+      <card v-for="w in pilot.Loadout.Weapons.filter((x) => x)"
+        :key="w.ID">
         <div class="caption text-center mt-n1"
           style="letter-spacing: 10px; font-size: 10px">
           PILOT WEAPON
@@ -300,7 +303,8 @@
           <v-col>
             <v-card variant="tonal"
               class="py-2">
-              <b v-for="(d, di) in w.Damage" :key="`damage-${di}`">
+              <b v-for="(d, di) in w.Damage"
+                :key="`damage-${di}`">
                 <v-icon class="mt-n1"
                   :icon="d.Icon"
                   :color="d.Color" />
@@ -315,7 +319,8 @@
         <tag-block :tags="w.Tags"
           :options="options" />
       </card>
-      <card v-for="g in pilot.Loadout.Gear.filter((x) => x)" :key="g.ID">
+      <card v-for="g in pilot.Loadout.Gear.filter((x) => x)"
+        :key="g.ID">
         <div class="caption text-center mt-n1"
           style="letter-spacing: 10px; font-size: 10px">
           PILOT GEAR
@@ -348,7 +353,8 @@
         <tag-block :tags="g.Tags"
           :options="options" />
       </card>
-      <card v-for="r in pilot.ReservesController.Reserves.filter((x) => x.Type !== 'Bonus')" :key="r.ID">
+      <card v-for="r in pilot.ReservesController.Reserves.filter((x) => x.Type !== 'Bonus')"
+        :key="r.ID">
         <div class="caption text-center mt-n1"
           style="letter-spacing: 10px; font-size: 10px">
           RESERVE
@@ -387,13 +393,13 @@
         :key="a.ID"
         :action="a"
         header="PILOT TALENT" />
-      <deployable-card v-for="d in gearDeployables"
-        :key="d.ID"
-        :deployable="d"
+      <deployable-card v-for="(d, i) in gearDeployables"
+        :key="`gear-deployable-${i}`"
+        :deployable="d.ItemData"
         header="PILOT GEAR" />
-      <deployable-card v-for="d in talentDeployables"
-        :key="d.ID"
-        :deployable="d"
+      <deployable-card v-for="(d, i) in talentDeployables"
+        :key="`talent-deployable-${i}`"
+        :deployable="d.ItemData"
         header="PILOT TALENT" />
     </v-row>
   </div>
@@ -409,7 +415,7 @@ import DeployableCard from './components/DeployableCard.vue';
 import TagBlock from './components/TagBlock.vue';
 import TalentEmblem from '@/ui/components/Talent/components/_TalentEmblem.vue';
 
-defineOptions({ name: 'pilot-print' })
+defineOptions({ name: 'PilotPrint' })
 
 const props = defineProps<{
   pilot: Pilot
@@ -417,30 +423,26 @@ const props = defineProps<{
 }>()
 
 const talentActions = computed(() => {
-      return props.pilot.TalentsController.Talents.flatMap((t) => t.Talent.Ranks)
-        .filter((r) => r.Actions.length > 0)
-        .flatMap((r) => r.Actions);
-    })
+  return props.pilot.TalentsController.Talents.flatMap((t) => t.Talent.Ranks)
+    .filter((r) => r.Actions.length > 0)
+    .flatMap((r) => r.Actions);
+})
 const talentDeployables = computed(() => {
-      return props.pilot.TalentsController.Talents.flatMap((t) => t.Talent.Ranks)
-        .filter((r) => r.Deployables.length > 0)
-        .flatMap((r) => r.Deployables);
-    })
+  return props.pilot.TalentsController.Talents.flatMap((t) => t.Talent.Ranks)
+    .filter((r) => r.Deployables.length > 0)
+    .flatMap((r) => r.Deployables);
+})
 const gearActions = computed(() => {
-      return props.pilot.Loadout.Items.filter((i) => !!i && i.Actions.length > 0).flatMap(
-        (i) => i.Actions
-      );
-    })
+  return props.pilot.Loadout.Items.filter((i) => !!i && i.Actions.length > 0).flatMap(
+    (i) => i.Actions
+  );
+})
 const gearDeployables = computed(() => {
-      return props.pilot.Loadout.Items.filter((i) => i.Deployables.length > 0).flatMap(
-        (i) => i.Deployables
-      );
-    })
+  return props.pilot.Loadout.Items.filter((i) => i.Deployables.length > 0).flatMap(
+    (i) => i.Deployables
+  );
+})
 
-function showTag(id) {
-      const hiddenTags = ['tg_hidden', 'tg_unique', 'tg_set_damage_type'];
-      return !hiddenTags.includes(id);
-    }
 </script>
 
 <style scoped>

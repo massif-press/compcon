@@ -91,6 +91,7 @@
 <script setup lang="ts">
 import type { Mech } from '@/classes/mech/Mech'
 import BlankLine from './blank/line.vue';
+import PrintHpBlock from './PrintHpBlock.vue';
 defineProps<{
   mech: Mech
   blank: boolean

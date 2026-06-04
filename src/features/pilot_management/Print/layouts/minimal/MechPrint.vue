@@ -391,11 +391,12 @@
               :deployables="mech.Frame.CoreSystem.Deployables" />
           </template>
 
-          <div v-if="mech.Frame.CoreSystem.Tag"
+          <div v-if="mech.Frame.CoreSystem.Tags.length"
             class="text-right">
             <span v-for="t in mech.Frame.CoreSystem.Tags"
+              :key="t.ID"
               class="mx-1">
-              {{ t.Name() }}
+              {{ t.GetName() }}
             </span>
           </div>
         </fieldset>
@@ -448,8 +449,8 @@
           </v-row>
         </legend>
         <v-row dense>
-          <v-col v-for="n in 2"
-            :key="`slot-${n}`">
+          <v-col v-for="j in 2"
+            :key="`slot-${j}`">
             <v-row dense>
               <v-col>
                 <div class="caption text-grey">WEAPON</div>
@@ -478,8 +479,8 @@
     <v-row v-else
       dense
       class="mb-1">
-      <v-col v-for="m in mounts"
-        :key="m.ID"
+      <v-col v-for="(m, i) in mounts"
+        :key="`mount-${i}`"
         style="min-width: 30vw; position: relative"
         class="pa-0 no-print-break">
         <fieldset>
@@ -695,18 +696,16 @@ const props = defineProps<{
   options: object
 }>()
 
-const { blank, landscape, hasPilotOption, hasMechOption, signed, showTag, showCollectedEffect } = usePrintOptions(props)
+const { blank, landscape, hasMechOption, signed, showTag, showCollectedEffect } = usePrintOptions(props)
 
 const mounts = computed(() => {
-      return props.mech.MechLoadoutController.ActiveLoadout.AllMounts(
-        props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-        props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
-        props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
-      );
-    })
-const getHpCols = computed(() => {
-      return 'auto';
-    })
+  return props.mech.MechLoadoutController.ActiveLoadout.AllMounts(
+    props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
+    props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
+    props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
+  );
+})
+
 </script>
 
 <style scoped>

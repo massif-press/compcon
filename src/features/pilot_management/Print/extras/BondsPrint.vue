@@ -57,8 +57,8 @@
       justify="space-between"
       class="pt-4">
       <v-col v-for="(q, i) in bc.Bond.Questions"
-        :key="`question-${i}`"
-        v-show="bc.Answers[i]">
+        v-show="bc.Answers[i]"
+        :key="`question-${i}`">
         <div class="text-overline mt-n5"
           style="line-height: 12px">{{ q.question }}</div>
         <div class="text-left caption"
@@ -119,29 +119,30 @@
       style="line-height: 0">
       OTHER CLOCKS
     </div>
-    <v-row v-if="!blank"
-      v-for="(b, index) in bc.Clocks"
-      :key="`clock-${index}`"
-      density="compact"
-      justify="space-between"
-      class="mt-n1 caption"
-      style="position: relative">
-      <v-col>
-        <fieldset>
-          <legend class="heading ml-1 px-2">{{ b.Title }}</legend>
-          <v-row no-gutters
-            class="pb-1">
-            <v-col cols="auto"
-              class="mr-4">
-              <span class="heading h2 text-grey">&emsp;/{{ b.Segments }}</span>
-            </v-col>
-            <v-col>
-              <div v-html-safe="b.Description" />
-            </v-col>
-          </v-row>
-        </fieldset>
-      </v-col>
-    </v-row>
+    <div v-if="!blank">
+      <v-row v-for="(b, index) in bc.Clocks"
+        :key="`clock-${index}`"
+        density="compact"
+        justify="space-between"
+        class="mt-n1 caption"
+        style="position: relative">
+        <v-col>
+          <fieldset>
+            <legend class="heading ml-1 px-2">{{ b.Title }}</legend>
+            <v-row no-gutters
+              class="pb-1">
+              <v-col cols="auto"
+                class="mr-4">
+                <span class="heading h2 text-grey">&emsp;/{{ b.Segments }}</span>
+              </v-col>
+              <v-col>
+                <div v-html-safe="b.Description" />
+              </v-col>
+            </v-row>
+          </fieldset>
+        </v-col>
+      </v-row>
+    </div>
 
     <div class="text-overline text-primary mt-4"
       style="line-height: 8px">BOND POWERS</div>
@@ -191,8 +192,8 @@
             {{ p.name }}
             {{ p.veteran ? '(VETERAN POWER)' : p.master ? '(MASTER POWER)' : '' }}
           </legend>
-          <div class="pa-1 mt-n1"
-            v-html-safe="p.description" />
+          <div v-html-safe="p.description"
+            class="pa-1 mt-n1" />
         </fieldset>
       </v-col>
     </v-row>
@@ -202,20 +203,19 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import blankLine from '../components/blank/line.vue';
-
-defineOptions({ name: 'bonds-print' })
+import { BondController } from '@/classes/pilot/components/bond/BondController.js';
 
 const props = defineProps<{
-  bc: object
-  options: object
+  bc: BondController
+  options: any
 }>()
 
 const blank = computed(() => {
-      return props.options.content.title === 'Blank';
-    })
+  return props.options.content.title === 'Blank';
+})
 const landscape = computed(() => {
-      return props.options.orientation === 'landscape';
-    })
+  return props.options.orientation === 'landscape';
+})
 </script>
 
 <style scoped>

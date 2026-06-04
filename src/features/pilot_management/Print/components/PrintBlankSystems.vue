@@ -29,7 +29,7 @@
 <script setup lang="ts">
 import BlankLine from './blank/line.vue';
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   extraSystemSpace?: boolean
   lineHeight?: number
   slotHeight?: number

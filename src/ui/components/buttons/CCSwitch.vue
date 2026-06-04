@@ -24,8 +24,14 @@
           <span :class="`light ${size} bg-${getLightColor(isHovering)}`"
             style="position: absolute; left: 0" />
           <div class="toggle"
+            role="switch"
+            :aria-checked="isOn"
+            :aria-label="ariaLabel"
+            tabindex="0"
             :class="`${size} ${isOn && 'on'} size-${size} bg-${bgColor}`"
-            @click="toggle">
+            @click="toggle"
+            @keydown.enter.prevent="toggle"
+            @keydown.space.prevent="toggle">
             <div class="toggle-knob"
               :class="`${size} bg-${isOn ? activeColor : color}`" />
           </div>
@@ -92,6 +98,12 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{ 'update:modelValue': [value: boolean] }>()
 
 const isOn = computed(() => props.value || props.modelValue)
+
+const ariaLabel = computed(() =>
+  typeof props.label === 'string' && props.label
+    ? props.label
+    : props.topLabel || props.tooltip || undefined
+)
 
 function toggle() {
   emit('update:modelValue', !isOn.value)

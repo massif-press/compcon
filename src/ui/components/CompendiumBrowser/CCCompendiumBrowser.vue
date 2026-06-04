@@ -396,8 +396,7 @@
     <v-main class="mt-2">
       <div id="content"
         :style="`height: calc(100vh - ${getHeight}px)!important; overflow-y: ${view === 'list' ? 'hidden' : 'scroll'}; padding-bottom: ${view === 'list' ? '0' : '40'}px`">
-        <div
-          :style="view === 'table' ? '' : 'max-width: 1200px'"
+        <div :style="view === 'table' ? '' : 'max-width: 1200px'"
           class="pa-4 mx-auto">
           <v-alert v-show="!!$slots.top"
             variant="outlined"
@@ -460,16 +459,14 @@
             </v-row>
           </div>
 
-          <v-virtual-scroll
-            v-else-if="view === 'list'"
+          <v-virtual-scroll v-else-if="view === 'list'"
             ref="listScroller"
             :items="navOrderedItems"
             :style="`height: calc(100vh - ${getHeight}px - 32px)`"
             class="vscroll-list">
             <template #default="{ item }">
               <div class="mb-4">
-                <selector-list-item
-                  :hide-title="options.hideTitle"
+                <selector-list-item :hide-title="options.hideTitle"
                   :highlighted="selectedItem ? selectedItem.ID === item.ID : false"
                   :selectable="equippable"
                   :item="item"
@@ -671,7 +668,7 @@ type BrowserOptions = {
 };
 
 const display = useDisplay()
-const { smAndDown: mobile } = useDisplay()
+const mobile = display.smAndDown
 
 const props = withDefaults(defineProps<{
   items: CompendiumItem[]

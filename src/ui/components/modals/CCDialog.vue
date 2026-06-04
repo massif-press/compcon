@@ -3,6 +3,7 @@
     v-bind="{ dialog, open, close }"></slot>
 
   <v-dialog v-model="dialog"
+    :aria-label="title || undefined"
     :fullscreen="mobile"
     :max-width="mobile ? '' : maxWidth"
     :min-width="mobile ? '' : minWidth"

@@ -45,7 +45,7 @@
         </div>
       </v-col>
 
-      <v-col v-if="(item as NpcWeapon).Accuracy(tier) || (item as NpcWeapon).AttackBonus(tier)"
+      <v-col v-if="(item as NpcWeapon).Accuracy && ((item as NpcWeapon).Accuracy(tier) || (item as NpcWeapon).AttackBonus(tier))"
         cols="auto">
         <cc-npc-attack-bonus :attack-bonus="(item as NpcWeapon).AttackBonus(tier)"
           small />
@@ -174,6 +174,7 @@ import ActionsDeployables from './_ActionsDeployables.vue'
 import { useDisplay } from 'vuetify'
 import { externalUnitItemBonuses } from '@/composables/useExternalItemBonuses'
 import EquipmentDestroyedOverlay from './_DestroyedOverlay.vue'
+import EquipmentFlavorDescription from './_FlavorDescription.vue'
 import { NpcFeature } from '@/classes/npc/feature/NpcFeature.js'
 import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon.js'
 import { NpcReaction } from '@/classes/npc/feature/NpcItem/NpcReaction.js'

@@ -27,6 +27,25 @@ function isPlainRecord(val: any): val is Record<string, any> {
   return val !== null && typeof val === 'object' && !Array.isArray(val)
 }
 
+// derives a stable per-element key within an entity array: the first element of
+// a given content id keeps the bare id (so legacy singletons are untouched),
+// later duplicates get an occurrence suffix so the merge can keep all copies
+function nextEntityKey(id: string, seen: Map<string, number>): string {
+  const n = seen.get(id) ?? 0
+  seen.set(id, n + 1)
+  return n === 0 ? id : `${id}#${n}`
+}
+
+function keyedEntities(arr: any): Map<string, any> {
+  const map = new Map<string, any>()
+  if (!Array.isArray(arr)) return map
+  const seen = new Map<string, number>()
+  for (const e of arr) {
+    if (e?.id) map.set(nextEntityKey(e.id, seen), e)
+  }
+  return map
+}
+
 function entityMaxTs(prefix: string, ts: FieldTimestamps, fallback: number): number {
   const dot = prefix + '.'
   let max = -1
@@ -52,14 +71,15 @@ function buildHashMapInto(prefix: string, obj: any, result: FieldHashMap): void 
     const tsKey = prefix ? `${prefix}.${key}` : key
     const val = obj[key]
     if (isEntityArr(val)) {
-      result[`${tsKey}.__ids`] = val
-        .filter((e: any) => e?.id)
-        .map((e: any) => e.id)
-        .sort()
-        .join(',')
+      const seen = new Map<string, number>()
+      const keys: string[] = []
       for (const e of val) {
-        if (e?.id) buildHashMapInto(`${tsKey}.${e.id}`, e, result)
+        if (!e?.id) continue
+        const k = nextEntityKey(e.id, seen)
+        keys.push(k)
+        buildHashMapInto(`${tsKey}.${k}`, e, result)
       }
+      result[`${tsKey}.__ids`] = keys.sort().join(',')
     } else if (isPlainRecord(val)) {
       buildHashMapInto(tsKey, val, result)
     } else {
@@ -92,10 +112,14 @@ function stampObjHashed(
       const prevIds = prevIdsStr
         ? new Set(prevIdsStr.split(',').filter(Boolean))
         : new Set<string>()
+      const seen = new Map<string, number>()
+      const curIds = new Set<string>()
       for (const e of cv) {
-        if (e?.id) stampObjHashed(`${tsKey}.${e.id}`, e, hashes, result, base, now)
+        if (!e?.id) continue
+        const k = nextEntityKey(e.id, seen)
+        curIds.add(k)
+        stampObjHashed(`${tsKey}.${k}`, e, hashes, result, base, now)
       }
-      const curIds = new Set(cv.filter((e: any) => e?.id).map((e: any) => e.id))
       for (const id of prevIds) {
         if (!curIds.has(id)) {
           const tombKey = `${tsKey}.${id}`
@@ -163,16 +187,8 @@ function mergeEntityArrField(
   localBase: number,
   remoteBase: number
 ): any[] {
-  const localMap = new Map<string, any>()
-  const remoteMap = new Map<string, any>()
-  if (Array.isArray(localArr))
-    for (const e of localArr) {
-      if (e?.id) localMap.set(e.id, e)
-    }
-  if (Array.isArray(remoteArr))
-    for (const e of remoteArr) {
-      if (e?.id) remoteMap.set(e.id, e)
-    }
+  const localMap = keyedEntities(localArr)
+  const remoteMap = keyedEntities(remoteArr)
 
   const result: any[] = []
   const seen = new Set<string>()

@@ -31,9 +31,9 @@
 <script setup lang="ts">
 import BlankLine from './blank/line.vue'
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   title: string
-  value?: string | number
+  value?: string | number | null
   maxLabel?: string
   cols?: string | number
   blank?: boolean

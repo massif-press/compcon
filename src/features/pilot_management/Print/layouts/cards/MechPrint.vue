@@ -358,7 +358,8 @@
     </div>
   </card>
 
-  <card v-for="m in mounts.filter((x) => !x.IsLocked)" :key="m.ID">
+  <card v-for="(m, i) in mounts.filter((x) => !x.IsLocked)"
+    :key="`mount-${i}`">
     <div class="caption text-center mt-n1"
       style="letter-spacing: 6px; font-size: 10px">
       MECH WEAPON MOUNT
@@ -406,7 +407,8 @@
       <div>
         <div v-if="showCollectedEffect(w)"
           class="caption mb-2">{{ w.Profiles[0].Effect }}</div>
-        <div v-for="(p, index) in w.Profiles" :key="`profile-${index}`">
+        <div v-for="(p, index) in w.Profiles"
+          :key="`profile-${index}`">
           <div class="flavor-text text-black"
             style="font-size: 12px">
             <span v-if="w.Profiles.length > 1 && p.Name"
@@ -420,7 +422,8 @@
             </b>
             <span v-if="p.Damage && p.Damage.length"
               class="pl-2 pr-1"><cc-slashes /></span>
-            <b v-for="(d, di) in p.Damage" :key="`damage-${di}`">
+            <b v-for="(d, di) in p.Damage"
+              :key="`damage-${di}`">
               <v-icon class="mr-n2"
                 :icon="d.Icon"
                 :color="d.Color" />
@@ -473,7 +476,8 @@
     </v-card>
   </card>
 
-  <card v-for="s in mech.MechLoadoutController.ActiveLoadout.Systems.filter(Boolean)" :key="s.ID">
+  <card v-for="s in mech.MechLoadoutController.ActiveLoadout.Systems.filter(Boolean)"
+    :key="s.ID">
     <div class="caption text-center mt-n1"
       style="letter-spacing: 11px; font-size: 10px">
       MECH SYSTEM
@@ -484,10 +488,6 @@
           size="x-small" /></v-col>
       <v-col cols="auto">
         <b class="heading caption">{{ s.Name }}</b>
-      </v-col>
-      <v-col cols="auto"
-        class="ml-auto">
-        <span class="caption">{{ s.Size }} {{ s.WeaponTypes?.join('/') || '' }}</span>
       </v-col>
       <v-col><v-divider /></v-col>
     </v-row>
@@ -528,8 +528,8 @@
       </v-chip>
     </v-card>
 
-    <v-card v-for="deployable in s.Deployables"
-      :key="deployable.ID"
+    <v-card v-for="(deployable, i) in s.Deployables"
+      :key="`deployable-${i}`"
       variant="text"
       class="my-1 px-1 text-caption">
       Gain
@@ -551,8 +551,8 @@
     :key="a.ID"
     :action="a"
     header="MECH" />
-  <deployable-card v-for="d in allDeployables"
-    :key="d.ID"
+  <deployable-card v-for="(d, i) in allDeployables"
+    :key="`deployable-all-${i}`"
     :deployable="d"
     header="MECH" />
 </template>
@@ -572,26 +572,26 @@ const props = defineProps<{
 }>()
 
 const mounts = computed(() => {
-      return props.mech.MechLoadoutController.ActiveLoadout.AllMounts(
-        props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-        props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
-        props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
-      );
-    })
+  return props.mech.MechLoadoutController.ActiveLoadout.AllMounts(
+    props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
+    props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
+    props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
+  );
+})
 const allActions = computed(() => {
-      return props.mech.FeatureController.Actions;
-    })
+  return props.mech.FeatureController.Actions;
+})
 const allDeployables = computed(() => {
-      return props.mech.FeatureController.Deployables;
-    })
+  return props.mech.FeatureController.Deployables;
+})
 
 function signed(val: number) {
-      return val > -1 ? `+${val}` : `${val}`;
-    }
+  return val > -1 ? `+${val}` : `${val}`;
+}
 function showCollectedEffect(w) {
-      if (!w.Profiles[0].Effect) return false;
-      return w.Profiles.every((x) => x.Effect === w.Profiles[0].Effect);
-    }
+  if (!w.Profiles[0].Effect) return false;
+  return w.Profiles.every((x) => x.Effect === w.Profiles[0].Effect);
+}
 </script>
 
 <style scoped>

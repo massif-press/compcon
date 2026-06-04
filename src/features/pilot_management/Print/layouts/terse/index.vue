@@ -5,7 +5,7 @@
       :options="options" />
     <page-break v-if="showBondPrint"
       silent />
-    <bonds-print v-if="showBondPrint"
+    <bonds-print v-if="showBondPrint && selectedPilot"
       :bc="selectedPilot.BondController"
       :options="options" />
     <page-break v-if="selectedMech" />
@@ -28,11 +28,12 @@ defineOptions({ name: 'terse-print' })
 
 const props = withDefaults(defineProps<{
   selectedPilot?: Pilot | null
-  selectedMech?: Mech
+  selectedMech?: Mech | null
   options: object
   hasBonds?: boolean
 }>(), {
   selectedPilot: null as any,
+  selectedMech: null as any,
 })
 
 const showBondPrint = computed(() => {

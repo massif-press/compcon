@@ -26,6 +26,10 @@
           <v-btn
             icon
             tile
+            role="checkbox"
+            :aria-checked="isOn"
+            :aria-label="ariaLabel"
+            :disabled="disabled"
             :size="iconSize('btn')"
             :class="`${size} ${isOn && 'on'} size-${size} bg-${bgColor}`"
             @click="toggle"
@@ -105,6 +109,8 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{ 'update:modelValue': [value: boolean] }>()
 
 const isOn = computed(() => props.modelValue)
+
+const ariaLabel = computed(() => props.label || props.tooltip || undefined)
 
 function toggle() {
   if (props.disabled) return

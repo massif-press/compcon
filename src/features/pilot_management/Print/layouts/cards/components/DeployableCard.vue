@@ -9,7 +9,7 @@
       align="center">
       <v-col cols="auto"
         class="text-center heading caption my-1">
-        {{ deployable.Name }}
+        {{ deployable.name }}
       </v-col>
       <v-col><v-divider /></v-col>
     </v-row>
@@ -146,20 +146,21 @@ import { computed } from 'vue'
 import { Action } from '@/classes/Action';
 import Card from './PrintCard.vue';
 import ActionInternal from './_actionInternal.vue';
+import { IDeployableData } from '@/classes/components/feature/deployable/Deployable.js';
 
 defineOptions({ name: 'PrintDeployable' })
 
 const props = defineProps<{
-  deployable: object
+  deployable: IDeployableData
   header: string
 }>()
 
 const getSize = computed(() => {
-      return props.deployable.Size === 0.5 ? '½' : props.deployable.Size;
-    })
+  return props.deployable.size === 0.5 ? '½' : props.deployable.size;
+})
 const actions = computed(() => {
-      return props.deployable.actions ? props.deployable.actions.map((x) => new Action(x)) : [];
-    })
+  return props.deployable.actions ? props.deployable.actions.map((x) => new Action(x)) : [];
+})
 </script>
 
 <style scoped>

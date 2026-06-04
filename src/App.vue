@@ -1,16 +1,21 @@
 <template>
   <v-app id="app">
+    <a href="#main-content"
+      class="skip-link">Skip to main content</a>
     <pwa-update-prompt />
     <cc-notify />
-    <navbar />
+    <navbar aria-label="Main navigation" />
     <div :style="`height: ${heightOffset}`"
       class="no-print" />
-    <router-view :key="$route.fullPath" />
+    <main id="main-content"
+      tabindex="-1">
+      <router-view :key="$route.fullPath" />
+    </main>
   </v-app>
 </template>
 
 <script setup lang="ts">
-import { computed, provide, watch } from 'vue'
+import { computed, provide } from 'vue'
 import { useDisplay } from 'vuetify'
 import CcNotify from '@/ui/notification/CCNotify.vue'
 import Navbar from './features/nav/index.vue'
@@ -26,7 +31,7 @@ import {
 
 const _display = useDisplay()
 
-defineOptions({ name: 'Compcon' })
+defineOptions({ name: 'CompCon' })
 
 provide<CompendiumDataProvider>(CompendiumDataKey, {
   get Statuses() {
@@ -71,16 +76,14 @@ provide<UserDataProvider>(UserDataKey, {
 })
 
 document.documentElement.setAttribute('data-font', 'inter')
-    window.addEventListener('beforeunload', UserStore().OnUnload)
+window.addEventListener('beforeunload', UserStore().OnUnload)
 
 const heightOffset = computed(() => {
-      if (_display.xs.value) {
-        return '24px'
-      } else {
-        return '41px'
-      }
-    })
-const user = computed(() => {
-      return UserStore().User
-    })
+  if (_display.xs.value) {
+    return '24px'
+  } else {
+    return '41px'
+  }
+})
+
 </script>

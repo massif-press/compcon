@@ -1,12 +1,15 @@
 import { version } from '../package.json'
 
-import { QuillEditor, Quill } from '@vueup/vue-quill'
+import { QuillEditor, loadQuill } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 
-import '@/ui/style/horusText.js'
+import { registerHorusText } from '@/ui/style/horusText'
 
 import { register } from '@/ui/style/quillSetup'
-register(Quill)
+void loadQuill().then((Quill) => {
+  registerHorusText(Quill)
+  register(Quill)
+})
 
 import lancerData from '@massif/lancer-data'
 import { kebabCase } from 'lodash-es'

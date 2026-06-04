@@ -11,15 +11,34 @@
       <v-col cols="8">
         <v-row dense
           :class="blank ? 'mt-n3' : ''">
-          <print-stat-box label="ATTACK BONUS" :value="signed(mech.AttackBonus)" :blank="blank" min-width="4vw" />
-          <print-stat-box label="TECH ATTACK" :value="signed(mech.TechAttack)" :blank="blank" />
-          <print-stat-box label="SAVE" :value="mech.SaveTarget" :blank="blank" />
-          <print-stat-box label="SPEED" :value="mech.Speed" :blank="blank" />
-          <print-stat-box label="E-DEFENSE" :value="mech.EDefense" :blank="blank" />
-          <print-stat-box label="EVASION" :value="mech.Evasion" :blank="blank" />
-          <print-stat-box label="SENSOR RANGE" :value="mech.SensorRange" :blank="blank" />
-          <print-stat-box label="LIMITED BONUS" :value="signed(mech.LimitedBonus)" :blank="blank" />
-          <print-stat-box v-if="blank" label="SYSTEM POINTS" :blank="blank" />
+          <print-stat-box label="ATTACK BONUS"
+            :value="signed(mech.AttackBonus)"
+            :blank="blank"
+            min-width="4vw" />
+          <print-stat-box label="TECH ATTACK"
+            :value="signed(mech.TechAttack)"
+            :blank="blank" />
+          <print-stat-box label="SAVE"
+            :value="mech.SaveTarget"
+            :blank="blank" />
+          <print-stat-box label="SPEED"
+            :value="mech.Speed"
+            :blank="blank" />
+          <print-stat-box label="E-DEFENSE"
+            :value="mech.EDefense"
+            :blank="blank" />
+          <print-stat-box label="EVASION"
+            :value="mech.Evasion"
+            :blank="blank" />
+          <print-stat-box label="SENSOR RANGE"
+            :value="mech.SensorRange"
+            :blank="blank" />
+          <print-stat-box label="LIMITED BONUS"
+            :value="signed(mech.LimitedBonus)"
+            :blank="blank" />
+          <print-stat-box v-if="blank"
+            label="SYSTEM POINTS"
+            :blank="blank" />
         </v-row>
 
         <div class="text-overline mb-n3 text-primary">FRAME TRAITS</div>
@@ -113,7 +132,7 @@
 
     <fieldset class="py-1">
       <legend class="heading ml-1 px-2">Operator Notes</legend>
-      <notes v-if="blank || !mech.notes"
+      <notes v-if="blank || !mech.Notes"
         :rows="9"
         lined />
       <div v-else
@@ -128,9 +147,9 @@
     <print-blank-loadout v-if="blank"
       :extra-mounts="hasMechOption('Extra Mount Panel')" />
 
-    <fieldset v-for="m in mounts"
+    <fieldset v-for="(m, i) in mounts"
       v-else
-      :key="m.ID"
+      :key="`mount-${i}`"
       style="position: relative"
       class="no-print-break">
       <legend class="heading h3 ml-1 px-2">{{ m.Name }}</legend>
@@ -277,7 +296,6 @@ import notes from '../../components/blank/notes.vue';
 import tagBlock from '../../components/TagBlock.vue';
 import PageBreak from '../../components/PageBreak.vue';
 import PrintMechNameBlock from '../../components/PrintMechNameBlock.vue';
-import PrintHpBlock from '../../components/PrintHpBlock.vue';
 import PrintStatBox from '../../components/PrintStatBox.vue';
 import PrintBlankLoadout from '../../components/PrintBlankLoadout.vue';
 import PrintBlankSystems from '../../components/PrintBlankSystems.vue';
@@ -290,18 +308,16 @@ const props = defineProps<{
   options: object
 }>()
 
-const { blank, landscape, hasPilotOption, hasMechOption, signed, showTag, showCollectedEffect } = usePrintOptions(props)
+const { blank, hasMechOption, signed, showCollectedEffect } = usePrintOptions(props)
 
 const mounts = computed(() => {
-      return props.mech.MechLoadoutController.ActiveLoadout.AllMounts(
-        props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-        props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
-        props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
-      );
-    })
-const getHpCols = computed(() => {
-      return 'auto';
-    })
+  return props.mech.MechLoadoutController.ActiveLoadout.AllMounts(
+    props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
+    props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
+    props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
+  );
+})
+
 </script>
 
 <style scoped>

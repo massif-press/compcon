@@ -1,11 +1,11 @@
-import 'vuetify/styles';
-import { createVuetify } from 'vuetify';
-import { ccIcons } from '@/assets/icons/cc-icons';
-import '@mdi/font/css/materialdesignicons.css';
+import 'vuetify/styles'
+import { createVuetify } from 'vuetify'
+import { ccIcons } from '@/assets/icons/cc-icons'
+import '@mdi/font/css/materialdesignicons.css'
 
-import * as themes from './themes';
+import * as themes from './themes'
 
-const preload = JSON.parse(localStorage.getItem('cc_theme') as string) || 'gms';
+const preload = JSON.parse(localStorage.getItem('cc_theme') as string) || 'gms_dark'
 
 const vuetify = createVuetify({
   defaults: {
@@ -32,6 +32,6 @@ const vuetify = createVuetify({
       // mdi,
     },
   },
-});
+})
 
-export default vuetify;
+export default vuetify

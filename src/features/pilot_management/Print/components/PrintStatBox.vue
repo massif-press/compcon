@@ -10,9 +10,9 @@
 </template>
 
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   label: string
-  value?: string | number
+  value?: string | number | null
   blank?: boolean
   minWidth?: string
 }>(), {

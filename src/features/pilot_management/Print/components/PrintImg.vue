@@ -1,6 +1,7 @@
 <template>
   <img v-if="resolvedSrc"
     :src="resolvedSrc"
+    alt=""
     :style="cover ? 'width:100%;height:100%;object-fit:cover;display:block' : 'width:100%;display:block'" />
 </template>
 

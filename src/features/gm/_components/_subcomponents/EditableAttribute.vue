@@ -1,7 +1,7 @@
 <template>
   <v-card flat
     tile
-    variant="tonal"
+    color="light-panel"
     class="text-center"
     style="height: 100%">
     <v-toolbar density="compact"
@@ -70,7 +70,6 @@
             variant="outlined"
             density="compact"
             hide-details
-            autofocus
             type="number"
             @input="$emit('set', { value: Number(model), tier: 0 })"
             @blur="editMode = false"
@@ -89,20 +88,25 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import CCBonusTooltip from '@/ui/components/CCBonusTooltip.vue'
+import { Bonus } from '@/classes/components/feature/bonus/Bonus';
 
 const props = withDefaults(defineProps<{
-  stat: object
+  stat: {
+    key: string
+    title: string
+    icon: string
+  }
   val?: number
-  bonuses?: object
+  bonuses?: Bonus[]
   selections?: any[]
   cols?: string | number
   deletable?: boolean
   readonly?: boolean
   edited?: boolean
 }>(), {
-  val: '',
+  val: 0,
   bonuses: () => [],
   selections: () => [],
   cols: '',
@@ -111,61 +115,32 @@ const props = withDefaults(defineProps<{
   edited: false
 })
 
-const emit = defineEmits<{
-  'set': []
-  'remove': []
+defineEmits<{
+  'set': [any]
+  'remove': [any]
 }>()
 
 const model = ref(0)
 const editMode = ref(false)
 const sizeOptions = ref([0.5, 1, 2, 3, 4])
 
-model.value = props.val;
-
-model.value = props.val;
+model.value = props.val as number;
 
 const overwriteVal = computed(() => {
-      const overwrite = props.bonuses.find((x) => x.Overwrite);
-      if (overwrite) return overwrite.Value;
-      return '';
-    })
+  const overwrite = props.bonuses.find((x) => x.Overwrite);
+  if (overwrite) return overwrite.Value;
+  return '';
+})
 const totalWithBonus = computed(() => {
-      return props.val + props.bonuses.filter(x => !x.PerPc).reduce((acc, x) => acc + x.Value || 0, 0);
-    })
+  return props.val + props.bonuses.filter(x => !x.PerPc).reduce((acc, x) => acc + (x.Value as number) || 0, 0);
+})
 
-function flashBackground() {
-      const el = _el as HTMLElement;
-      el.classList.remove('flash-highlight');
-      void el.offsetWidth; // force reflow to restart animation
-      el.classList.add('flash-highlight');
-    }
+
 </script>
 
 <style scoped>
 .v-text-field:deep(input) {
   text-align: center;
   margin-right: -12px;
-}
-
-@keyframes flash-bg {
-  0% {
-    background-color: rgb(var(--v-theme-accent-darken-1));
-  }
-
-  10% {
-    background-color: rgb(var(--v-theme-accent-lighten-1));
-  }
-
-  30% {
-    background-color: rgb(var(--v-theme-accent));
-  }
-
-  100% {
-    background-color: transparent;
-  }
-}
-
-.flash-highlight {
-  animation: flash-bg 0.8s ease-out forwards;
 }
 </style>

@@ -74,7 +74,7 @@ import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
 
 const props = defineProps({
   item: {
-    type: MechWeapon || MechSystem,
+    type: [MechWeapon, MechSystem],
     required: true,
   },
 })

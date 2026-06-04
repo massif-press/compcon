@@ -5,7 +5,7 @@
       :options="options" />
     <page-break v-if="showBondPrint"
       silent />
-    <bonds-print v-if="showBondPrint"
+    <bonds-print v-if="showBondPrint && selectedPilot"
       :bc="selectedPilot.BondController"
       :options="options" />
     <page-break v-if="selectedMech" />
@@ -24,15 +24,16 @@ import BondsPrint from '../../extras/BondsPrint.vue'
 import MechPrint from './MechPrint.vue'
 import PageBreak from '../../components/PageBreak.vue'
 
-defineOptions({ name: 'minimal-print' })
+defineOptions({ name: 'MinimalPrint' })
 
 const props = withDefaults(defineProps<{
   selectedPilot?: Pilot | null
-  selectedMech?: Mech
+  selectedMech?: Mech | null
   options: object
   hasBonds?: boolean
 }>(), {
   selectedPilot: null as any,
+  selectedMech: null as any,
 })
 
 const showBondPrint = computed(() => {
@@ -42,4 +43,3 @@ const showBondPrint = computed(() => {
   return (props.options as any).content?.title === 'Blank' || props.selectedPilot.BondController.Bond
 })
 </script>
-

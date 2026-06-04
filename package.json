@@ -68,6 +68,7 @@
     "eslint": "^10.0.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-vue": "^10.8.0",
+    "eslint-plugin-vuejs-accessibility": "^2.5.0",
     "husky": "^9.1.7",
     "jscpd": "^4.2.3",
     "lint-staged": "^16.2.7",

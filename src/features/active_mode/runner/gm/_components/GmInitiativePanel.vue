@@ -31,7 +31,7 @@
       </v-btn>
     </v-btn-group>
   </div>
-  <sortable ref="sortable"
+  <sortable ref="sortableEl"
     :key="sortableKey"
     :sort="true"
     :list="activeCombatants"
@@ -197,7 +197,7 @@ const emit = defineEmits<{
   'select': []
 }>()
 
-const sortable = ref<any>(null)
+const sortableEl = ref<any>(null)
 
 const sort = ref('')
 const sortAsc = ref(true)

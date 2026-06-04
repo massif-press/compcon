@@ -1,7 +1,6 @@
 <template>
   <div>
-    <fieldset
-      v-for="n in extraMounts ? 5 : 4"
+    <fieldset v-for="n in extraMounts ? 5 : 4"
       :key="`mount-${n}`"
       class="my-1 pb-1 no-print-break">
       <legend class="heading h4 ml-1 px-2">
@@ -45,7 +44,7 @@
 <script setup lang="ts">
 import BlankLine from './blank/line.vue';
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   extraMounts?: boolean
   lineHeight?: number
   slotHeight?: number
