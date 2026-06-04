@@ -94,7 +94,7 @@
                           size="35" />
                       </v-card>
                     </template>
-                    <div class="heading h3">{{ dmg.Name }}</div>
+                    <div class="heading h3">{{ dmg.Type }}</div>
                   </v-tooltip>
                 </v-col>
               </v-row>
@@ -165,10 +165,9 @@
                   class="text-cc-overline"
                   align="center">
                   <v-col>
-                    <v-text-field v-model="totalDamage"
+                    <v-text-field :model-value="totalDamage"
                       type="number"
-                      min="0"
-                      max="100"
+                      readonly
                       hide-details
                       density="compact"
                       variant="outlined"
@@ -207,8 +206,9 @@ import { computed, ref } from 'vue'
 import * as _ from 'lodash-es';
 import { useDisplay } from 'vuetify';
 import { CombatController } from '@/classes/components/combat/CombatController';
+import { DamageType } from '@/classes/enums';
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+const { smAndDown: mobile } = useDisplay()
 
 const props = defineProps<{
   controller: CombatController;
@@ -218,25 +218,24 @@ const props = defineProps<{
 const damageInput = ref<any>(null)
 
 const incomingDamageValue = ref(0)
-const totalDamage = ref(0)
-const incomingDamageType = ref({ ID: 1, Name: 'Kinetic', icon: 'cc:kinetic', color: 'damage--kinetic' })
+const incomingDamageType = ref({ ID: 1, Type: DamageType.Kinetic, icon: 'cc:kinetic', color: 'damage--kinetic' })
 const damageMods = ref([] as string[])
 const damageTypes = ref([
-  { ID: 1, Name: 'Kinetic', icon: 'cc:kinetic', color: 'damage--kinetic' },
-  { ID: 2, Name: 'Energy', icon: 'cc:energy', color: 'damage--energy' },
+  { ID: 1, Type: DamageType.Kinetic, icon: 'cc:kinetic', color: 'damage--kinetic' },
+  { ID: 2, Type: DamageType.Energy, icon: 'cc:energy', color: 'damage--energy' },
   {
     ID: 3,
-    Name: 'Explosive',
+    Type: DamageType.Explosive,
     icon: 'cc:explosive',
     color: 'damage--explosive',
   },
-  { ID: 4, Name: 'Heat', icon: 'cc:heat', color: 'damage--heat' },
-  { ID: 5, Name: 'Burn', icon: 'cc:burn', color: 'damage--burn' },
-  { ID: 6, Name: 'AoE', icon: 'cc:blast', color: 'damage--variable' },
+  { ID: 4, Type: DamageType.Heat, icon: 'cc:heat', color: 'damage--heat' },
+  { ID: 5, Type: DamageType.Burn, icon: 'cc:burn', color: 'damage--burn' },
+  { ID: 6, Type: DamageType.AoE, icon: 'cc:blast', color: 'damage--variable' },
 ])
 
 const getActiveStatuses = computed(() => {
-  if (!props.controller || !props.controller.Statuses) return [];
+  if (!props.controller || !props.controller.Statuses) return [] as any[];
 
   const relevantStatuses = [
     {
@@ -257,17 +256,23 @@ const getActiveStatuses = computed(() => {
   );
 })
 
-function recalc() {
+
+function damageArgs() {
   let dmg = Number(incomingDamageValue.value);
   if (damageMods.value.includes('half')) dmg = Math.floor(dmg / 2);
-
-  totalDamage.value = props.controller.CalculateDamage(
-    incomingDamageType.value.Name.toLowerCase(),
+  return {
+    type: incomingDamageType.value.Type as DamageType,
     dmg,
-    damageMods.value.includes('ap'),
-    damageMods.value.includes('force'),
-  ).total;
+    ap: damageMods.value.includes('ap'),
+    irreducible: damageMods.value.includes('force'),
+  };
 }
+
+const totalDamage = computed(() => {
+  const { type, dmg, ap, irreducible } = damageArgs();
+  return props.controller.CalculateDamage(type, dmg, ap, irreducible, 0, true).total;
+})
+
 function toggleDamageMod(mod) {
   if (damageMods.value.includes(mod)) {
     damageMods.value = _.without(damageMods.value, mod);
@@ -276,15 +281,8 @@ function toggleDamageMod(mod) {
   }
 }
 function apply(isActive) {
-  let dmg = Number(incomingDamageValue.value);
-  if (damageMods.value.includes('half')) dmg = Math.floor(dmg / 2);
-
-  props.controller.TakeDamage(
-    incomingDamageType.value.Name.toLowerCase(),
-    dmg,
-    damageMods.value.includes('ap'),
-    damageMods.value.includes('force'),
-  );
+  const { type, dmg, ap, irreducible } = damageArgs();
+  props.controller.TakeDamage(type, dmg, ap, irreducible, true);
   if (isActive) isActive.value = false;
 }
 function damageClass(damage) {
@@ -292,7 +290,7 @@ function damageClass(damage) {
     return 'bg-exotic';
   } else if (damage.condition === 'resistance') {
     return `bg-success`;
-  } else if (damage.condition === 'vulnerability') {
+  } else if (damage.condition === 'vulnerable') {
     return 'bg-error';
   }
   return '';

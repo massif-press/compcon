@@ -137,21 +137,15 @@ import PanelBase from './_PanelBase.vue';
 import PilotActionsPanel from './_components/PilotActionsPanel.vue';
 import PilotCombatLoadout from './_components/loadouts/PilotCombatLoadout.vue';
 import DeployButton from './_components/loadouts/_deployButton.vue';
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance.js';
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 
-const props = defineProps({
-  combatant: {
-    type: Object,
-    required: true,
-  },
-  encounterInstance: {
-    type: EncounterInstance,
-    required: true,
-  },
-})
+const props = defineProps<{
+  combatant: CombatantData
+  encounterInstance: EncounterInstance
+}>()
 
 provide(EncounterContextKey, {
-  owner: computed(() => props.combatant as CombatantData),
+  owner: computed(() => props.combatant),
   encounterInstance: computed(() => props.encounterInstance),
 })
 

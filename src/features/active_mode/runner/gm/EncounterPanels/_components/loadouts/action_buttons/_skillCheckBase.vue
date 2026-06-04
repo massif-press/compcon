@@ -45,7 +45,7 @@
         {{ accDiff < 0
           ? 'Difficulty'
           : 'Accuracy'
-          }}
+        }}
           </div>
           <v-text-field v-model="accDiff"
             density="compact"
@@ -56,8 +56,8 @@
             tile>
             <template #prepend-inner>
               <v-tooltip location="top">
-                <template #activator="{ props }">
-                  <v-icon v-bind="props"
+                <template #activator="{ props: innerProps }">
+                  <v-icon v-bind="innerProps"
                     size="x-large"
                     :icon="accDiff > 0 ? 'cc:accuracy' : 'cc:difficulty'" />
                 </template>
@@ -103,68 +103,68 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { CombatController } from '@/classes/components/combat/CombatController';
+import { computed, ref } from 'vue'
 
 const props = withDefaults(defineProps<{
-  controller: object
+  controller: CombatController
   difficult?: boolean
   selectedHase?: string
 }>(), {
   difficult: false,
-  selectedHase: null
+  selectedHase: ''
 })
 
-const roll = ref(null)
+const roll = ref(null as number | null)
 const bonus = ref(0)
 const accDiff = ref(0)
-const rollResults = ref([])
+const rollResults = ref([] as { val: number, text: string }[])
 
 const applicableBonuses = computed(() => {
-      let bonuses = [];
-      bonuses = props.controller.ActiveActor.FeatureController?.Bonuses?.filter(
-        (b) => b.ID === props.selectedHase || b.ID === 'check'
-      );
-      const result = {
-        bonuses: bonuses.filter((b) => !!b.Value) || [],
-        accDiff: bonuses.filter((b) => !!b.Accuracy) || [],
-      };
-      if (props.selectedHase) {
-        const statBonus = props.controller.ActiveActor.CombatController.StatController.getStat(
-          props.selectedHase
-        );
-        if (statBonus) {
-          result.bonuses.push({
-            Source: `${props.selectedHase.charAt(0).toUpperCase() + props.selectedHase.slice(1)} Stat`,
-            Value: statBonus,
-          });
-        }
-      }
+  const bonuses = props.controller.ActiveActor.FeatureController?.Bonuses?.filter(
+    (b) => b.ID === props.selectedHase || b.ID === 'check'
+  );
+  const result = {
+    bonuses: bonuses.filter((b) => !!b.Value) || [],
+    accDiff: bonuses.filter((b) => !!b.Accuracy) || [],
+  };
+  if (props.selectedHase) {
+    const statBonus = props.controller.ActiveActor.CombatController.StatController.getStat(
+      props.selectedHase
+    );
+    if (statBonus) {
+      result.bonuses.push({
+        Source: `${props.selectedHase.charAt(0).toUpperCase() + props.selectedHase.slice(1)} Stat`,
+        Value: statBonus,
+      });
+    }
+  }
 
-      return result;
-    })
+  return result;
+})
 
 function rollCheck() {
-      rollResults.value = [];
-      const results = [];
-      const count = 1 + Math.abs(accDiff.value);
+  rollResults.value = [];
+  const results = [] as { val: number, text: string }[];
+  const count = 1 + Math.abs(accDiff.value);
 
-      for (let i = 1; i <= count; i++) {
-        const roll = Math.floor(Math.random() * 20) + 1;
-        const val = roll + bonus.value;
-        results.push({
-          val,
-          text: `${roll} + ${bonus.value} (${val})`,
-        });
-      }
+  for (let i = 1; i <= count; i++) {
+    const roll = Math.floor(Math.random() * 20) + 1;
+    const val = roll + bonus.value;
+    results.push({
+      val,
+      text: `${roll} + ${bonus.value} (${val})`,
+    });
+  }
 
-      if (accDiff.value < 0) {
-        results.sort((a, b) => a.val - b.val);
-      } else {
-        results.sort((a, b) => b.val - a.val);
-      }
+  if (accDiff.value < 0) {
+    results.sort((a, b) => a.val - b.val);
+  } else {
+    results.sort((a, b) => b.val - a.val);
+  }
 
-      rollResults.value = results;
+  rollResults.value = results;
 
-      roll.value = results[0].val;
-    }
+  roll.value = results[0].val;
+}
 </script>

@@ -42,7 +42,7 @@
         color=heat
         icon="cc:heat" />
       <simple-mini-panel v-model.number="item.StatController.CurrentStats['stress']"
-        :max="item.StatController.CurrentStats['stress']"
+        :max="item.StatController.MaxStats['stress']"
         title="Stress"
         color=stress
         icon="cc:reactor" />
@@ -159,10 +159,11 @@
 import { computed } from 'vue'
 import SimpleMiniPanel from './SimpleMiniPanel.vue'
 import { useTrackableStats } from './useTrackableStats'
+import { ICombatant } from '@/classes/components/combat/ICombatant.js';
 
-const props = defineProps<{ item: object }>()
+const props = defineProps<{ item: ICombatant }>()
 
-const { batteryIcons, batteryIndex, overchargeTrack, getIcon, drainBattery } = useTrackableStats(props)
+const { batteryIcons, batteryIndex, overchargeTrack, drainBattery } = useTrackableStats(props)
 
 const currentIcon = computed(() => batteryIcons.value[batteryIndex.value])
 </script>

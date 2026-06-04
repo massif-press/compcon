@@ -206,10 +206,13 @@ import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { useEncounterContext } from '../../encounterContext'
 import type { CombatantData } from '@/classes/encounter/Encounter'
 import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
 import { Damage } from '@/classes/Damage'
 import { ItemType } from '@/classes/enums'
 import { Mech } from '@/classes/mech/Mech'
 import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
+import DestroyedOverlay from './_DestroyedOverlay.vue'
+import FlavorDescription from './_FlavorDescription.vue'
 import EquipCommandPanel from './_equipCommandPanel.vue'
 import OnElement from '@/ui/components/cards/items/_components/OnElement.vue'
 import EngWeaponSettings from '@/features/pilot_management/_components/loadout/mech_loadout/components/mount/weapon/_EngWeaponSettings.vue'
@@ -235,6 +238,11 @@ defineEmits<{
 
 }>()
 
+const { smAndDown: mobile } = useDisplay()
+
+const EquipmentDestroyedOverlay = DestroyedOverlay
+const EquipmentFlavorDescription = FlavorDescription
+
 const synergyLocation = computed(() => {
   if (!props.item) return 'none'
   if (props.item.IsIntegrated) return 'integrated'
@@ -252,6 +260,18 @@ const getRange = computed(() => {
 const getDamage = computed(() => {
   return Damage.CalculateDamage(props.item as MechWeapon, props.mech as Mech)
 })
+
+function handleActivation(cost: number) {
+  if (cost && props.item.MaxUses) {
+    props.item.Uses = (props.item.Uses || 0) + cost
+  }
+}
+function handleRefund(cost: number) {
+  if (cost && props.item.MaxUses) {
+    props.item.Uses = (props.item.Uses || 0) - cost
+  }
+  if (props.item.Uses < 0) props.item.Uses = 0
+}
 </script>
 
 <style scoped>

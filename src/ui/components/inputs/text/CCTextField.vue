@@ -20,6 +20,7 @@
       density="compact"
       hide-details
       :autocomplete="autocomplete"
+      :aria-label="ariaLabel"
       :type="type"
       :max="max"
       :rules="rules"
@@ -94,7 +95,11 @@
       </template>
       <template v-if="appendInnerIcon"
         #append-inner>
-        <v-icon :icon="appendInnerIcon"
+        <v-btn :icon="appendInnerIcon"
+          variant="text"
+          size="small"
+          density="comfortable"
+          :aria-label="appendInnerAriaLabel"
           @click.stop="$emit('click-append-inner')" />
       </template>
     </v-text-field>
@@ -132,6 +137,8 @@ const props = withDefaults(defineProps<{
   optionsIcon?: string
   type?: string
   autocomplete?: string
+  ariaLabel?: string
+  appendInnerAriaLabel?: string
   width?: string
   height?: string
   itemTitle?: string

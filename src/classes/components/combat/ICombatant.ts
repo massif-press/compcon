@@ -24,6 +24,7 @@ interface ICombatant {
   SaveController: SaveController
   FeatureController: FeatureController
   CombatController: CombatController
+  StatController: StatController
 
   SetStats(): void
 
@@ -40,7 +41,6 @@ interface ICombatant {
   ActiveLayerIndex?: number
   IsLinked?: boolean
   IsNameless?: boolean
-  StatController?: StatController
   ActiveMech?: Mech
   Mechs?: Mech[]
   ActiveLayer?: EidolonLayer

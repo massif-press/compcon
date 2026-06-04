@@ -40,7 +40,7 @@
             </v-btn>
           </v-col>
           <v-col cols="auto">
-            <v-text-field :model-value.number="internalValue"
+            <v-text-field :model-value="internalValue"
               variant="outlined"
               type="number"
               tile
@@ -105,7 +105,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 
 const _display = useDisplay()
@@ -128,10 +128,10 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{
   'click': []
-  'update:model-value': []
+  'update:model-value': [value: number]
 }>()
 
-const internalValue = ref(props.modelValue || 0)
+const internalValue = computed(() => props.modelValue || 0)
 
 const portrait = computed(() => {
       return _display.xs.value

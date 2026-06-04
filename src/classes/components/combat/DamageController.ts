@@ -13,11 +13,16 @@ class DamageController {
     return this._parent.ActiveActor.CombatController
   }
 
+  private resolveTarget(direct: boolean): CombatController {
+    return direct ? this._parent : this._parent.ActiveActor.CombatController
+  }
+
   public CalculateArmorReduction(
     type: DamageType,
     value: number,
     ap: boolean,
-    irreducible: boolean
+    irreducible: boolean,
+    direct = false
   ): number {
     if (
       irreducible ||
@@ -27,7 +32,7 @@ class DamageController {
       type === DamageType.AppliedBurn
     )
       return 0
-    return this._parent.ActiveActor.StatController.getCurrent(StatKey.ARMOR) || 0
+    return this.resolveTarget(direct).StatController.getCurrent(StatKey.ARMOR) || 0
   }
 
   public CalculateDamage(
@@ -35,7 +40,8 @@ class DamageController {
     value: number,
     ap: boolean = false,
     irreducible = false,
-    reliable = 0
+    reliable = 0,
+    direct = false
   ): { total: number; resist: string[]; condition: string[] } {
     const out = { total: value, resist: [] as string[], condition: [] as string[] }
 
@@ -60,9 +66,14 @@ class DamageController {
 
     if (irreducible) return out
 
-    out.total = Math.max(0, out.total - this.CalculateArmorReduction(type, value, ap, irreducible))
+    out.total = Math.max(
+      0,
+      out.total - this.CalculateArmorReduction(type, value, ap, irreducible, direct)
+    )
 
-    const resist = this._active.Resistances.find(r => r.type === type.toLowerCase())
+    const resist = this.resolveTarget(direct).Resistances.find(
+      r => r.type === type.toLowerCase()
+    )
 
     if (resist) {
       if (resist.condition === 'vulnerable') {
@@ -88,30 +99,33 @@ class DamageController {
     type: DamageType,
     value: number,
     ap: boolean = false,
-    irreducible = false
+    irreducible = false,
+    direct = false
   ): void {
     if (this._parent.SaveLock) return
 
+    const target = this.resolveTarget(direct)
+
     if (
       type === DamageType.Heat.toLowerCase() &&
-      !this._parent.ActiveActor.StatController.getMax(StatKey.STRESS)
+      !target.StatController.getMax(StatKey.STRESS)
     ) {
       type = DamageType.Energy
     }
 
-    const damage = this.CalculateDamage(type, value, ap, irreducible)
+    const damage = this.CalculateDamage(type, value, ap, irreducible, 0, direct)
 
-    this.ApplyDamage(type, damage.total)
+    this.ApplyDamage(type, damage.total, direct)
 
     this._parent.CombatLog.TakeDamage(value, type)
     this._parent.CombatLog.ArmorReduced(
-      this.CalculateArmorReduction(type, value, ap, irreducible)
+      this.CalculateArmorReduction(type, value, ap, irreducible, direct)
     )
     if (this._parent.IsDestroyed) this._parent.CombatLog.LoseMech()
   }
 
-  public ApplyDamage(type: DamageType, value: number): void {
-    const target = this._active
+  public ApplyDamage(type: DamageType, value: number, direct = false): void {
+    const target = this.resolveTarget(direct)
 
     if (type.toLowerCase() === DamageType.Heat.toLowerCase()) {
       target.ApplyHeat(value)
@@ -139,9 +153,9 @@ class DamageController {
       }
     }
 
-    this._parent.ActiveActor.StatController.setCurrentStat(
+    target.StatController.setCurrentStat(
       StatKey.HP,
-      this._parent.ActiveActor.StatController.getCurrent(StatKey.HP) - value
+      target.StatController.getCurrent(StatKey.HP) - value
     )
     this._parent.log(`Took ${value} ${type} damage`)
     this._parent.CombatLog.StatChange(-value, 'hp')

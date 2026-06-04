@@ -1,7 +1,7 @@
 <template>
   <v-list>
     <div v-if="pc">
-      <v-tooltip>
+      <v-tooltip text="Pilot Sheet">
         <template #activator="{ props }">
           <v-list-item v-bind="!expanded && props"
             :class="getBgClass('pc')"
@@ -12,9 +12,9 @@
             Pilot Sheet
           </v-list-item>
         </template>
-        Pilot Sheet
       </v-tooltip>
-      <v-tooltip v-if="pc && combatant">
+      <v-tooltip v-if="pc && combatant"
+        text="Deployables">
         <template #activator="{ props }">
           <v-list-item v-bind="!expanded && props"
             :class="getBgClass('deployables')"
@@ -34,11 +34,10 @@
             </span>
           </v-list-item>
         </template>
-        Deployables
       </v-tooltip>
       <v-divider class="my-2" />
     </div>
-    <v-tooltip>
+    <v-tooltip text="Dice Roller">
       <template #activator="{ props }">
         <v-list-item v-bind="!expanded && props"
           @click="$emit('open-dice-roller')">
@@ -48,9 +47,8 @@
           Dice Roller
         </v-list-item>
       </template>
-      Dice Roller
     </v-tooltip>
-    <v-tooltip>
+    <v-tooltip text="Rollable Tables">
       <template #activator="{ props }">
         <v-list-item v-bind="!expanded && props"
           @click="$emit('open-table-index')">
@@ -60,10 +58,10 @@
           Rollable Tables
         </v-list-item>
       </template>
-      Rollable Tables
     </v-tooltip>
     <v-divider class="my-2" />
-    <v-tooltip v-if="!pc">
+    <v-tooltip v-if="!pc"
+      text="Encounter Info">
       <template #activator="{ props }">
         <v-list-item v-bind="!expanded && props"
           :class="getBgClass('encounter-info')"
@@ -74,9 +72,8 @@
           Encounter Info
         </v-list-item>
       </template>
-      Encounter Info
     </v-tooltip>
-    <v-tooltip>
+    <v-tooltip text="Notes">
       <template #activator="{ props }">
         <v-list-item v-bind="!expanded && props"
           :class="getBgClass('notes')"
@@ -87,10 +84,10 @@
           Notes
         </v-list-item>
       </template>
-      Notes
     </v-tooltip>
     <v-divider class="my-2" />
-    <v-tooltip max-width="300">
+    <v-tooltip max-width="300"
+      text="List tags present on characters or equipment in this encounter">
       <template #activator="{ props }">
         <v-list-item v-bind="!expanded && props"
           :class="getBgClass('reference-tag')"
@@ -101,9 +98,8 @@
           Tag Reference
         </v-list-item>
       </template>
-      List tags present on characters or equipment in this encounter
     </v-tooltip>
-    <v-tooltip>
+    <v-tooltip text="Combat Quick Reference">
       <template #activator="{ props }">
         <v-list-item v-bind="!expanded && props"
           :class="getBgClass('quick-reference')"
@@ -114,10 +110,9 @@
           Combat Quick Reference
         </v-list-item>
       </template>
-      Combat Quick Reference
     </v-tooltip>
     <v-divider class="my-2" />
-    <v-tooltip>
+    <v-tooltip text="Settings">
       <template #activator="{ props }">
         <v-list-item v-bind="!expanded && props"
           :class="getBgClass('options')"
@@ -128,7 +123,6 @@
           Settings
         </v-list-item>
       </template>
-      Settings
     </v-tooltip>
   </v-list>
   <div style="height: 50px" />

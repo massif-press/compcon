@@ -93,7 +93,7 @@ const damageTypes = ref([
 ])
 
 const vulnerabilities = computed(() => {
-  return props.controller.Resistances.filter((x) => x.condition === 'vulnerability').map(
+  return props.controller.Resistances.filter((x) => x.condition === 'vulnerable').map(
     (x) => x.type
   );
 })
@@ -115,7 +115,7 @@ function addResistance(resist) {
   if (vulnerabilities.value.includes(name)) {
     condition = undefined;
   } else if (immunities.value.includes(name)) {
-    condition = 'vulnerability';
+    condition = 'vulnerable';
   } else if (resistances.value.includes(name)) {
     condition = 'immunity';
   } else {

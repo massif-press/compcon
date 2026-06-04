@@ -48,7 +48,7 @@
           :collapsed="!expanded"
           :selected="selected && selected.id === element.id"
           @select="$emit('select', $event)" />
-        <component :is="`${element.type}-runner-list-item`"
+        <component :is="getComponent(element)"
           v-else
           :combatant="element"
           :collapsed="!expanded"
@@ -206,65 +206,82 @@ const reinforcementsCollapsed = ref(false)
 const destroyedCollapsed = ref(false)
 
 const combatants = computed(() => {
-      if (!props.encounterInstance || !props.encounterInstance.Combatants) {
-        return [];
-      }
-      return props.encounterInstance.Combatants.filter((c) => !c.actor.CombatController.IsDestroyed);
-    })
+  if (!props.encounterInstance || !props.encounterInstance.Combatants) {
+    return [];
+  }
+  return props.encounterInstance.Combatants.filter((c) => !c.actor.CombatController.IsDestroyed);
+})
 const activeCombatants = computed(() => {
-      let list = combatants.value.filter((c) => !c.reinforcement);
-      if (!sort.value) return list;
-      list = [...list];
-      if (sort.value === 'name') {
-        list.sort((a, b) =>
-          (a.actor.Callsign || a.actor.Name).localeCompare(b.actor.Callsign || b.actor.Name)
+  let list = combatants.value.filter((c) => !c.reinforcement);
+  if (!sort.value) return list;
+  list = [...list];
+  if (sort.value === 'name') {
+    list.sort((a, b) =>
+      (a.actor.Callsign || a.actor.Name).localeCompare(b.actor.Callsign || b.actor.Name)
+    );
+  } else if (sort.value === 'type') {
+    list.sort((a, b) => {
+      if (a.actor.ItemType === 'Pilot') return -1;
+      if (b.actor.ItemType === 'Pilot') return 1;
+      if (a.actor.ItemType === b.actor.ItemType) {
+        return (a.actor.Callsign || a.actor.Name).localeCompare(
+          b.actor.Callsign || b.actor.Name
         );
-      } else if (sort.value === 'type') {
-        list.sort((a, b) => {
-          if (a.actor.ItemType === 'Pilot') return -1;
-          if (b.actor.ItemType === 'Pilot') return 1;
-          if (a.actor.ItemType === b.actor.ItemType) {
-            return (a.actor.Callsign || a.actor.Name).localeCompare(
-              b.actor.Callsign || b.actor.Name
-            );
-          }
-          return a.actor.ItemType.localeCompare(b.actor.ItemType);
-        });
-      } else if (sort.value === 'activations') {
-        list.sort((a, b) => {
-          const aVal = a.actor.CombatController?.StatController?.CurrentStats?.activations || -1;
-          const bVal = b.actor.CombatController?.StatController?.CurrentStats?.activations || -1;
-          return aVal - bVal;
-        });
-      } else if (sort.value === 'side') {
-        list.sort((a, b) => a.side.localeCompare(b.side));
       }
-      if (!sortAsc.value) list.reverse();
-      return list;
-    })
+      return a.actor.ItemType.localeCompare(b.actor.ItemType);
+    });
+  } else if (sort.value === 'activations') {
+    list.sort((a, b) => {
+      const aVal = a.actor.CombatController?.StatController?.CurrentStats?.activations || -1;
+      const bVal = b.actor.CombatController?.StatController?.CurrentStats?.activations || -1;
+      return aVal - bVal;
+    });
+  } else if (sort.value === 'side') {
+    list.sort((a, b) => a.side.localeCompare(b.side));
+  }
+  if (!sortAsc.value) list.reverse();
+  return list;
+})
 const reinforcements = computed(() => {
-      return combatants.value.filter((c) => c.reinforcement);
-    })
+  return combatants.value.filter((c) => c.reinforcement);
+})
 const destroyedCombatants = computed(() => {
-      return props.encounterInstance.Combatants.filter((c) => c.actor.CombatController.IsDestroyed);
-    })
+  return props.encounterInstance.Combatants.filter((c) => c.actor.CombatController.IsDestroyed);
+})
 
 function itemSort(key) {
-      if (sort.value === key) {
-        sortAsc.value = !sortAsc.value;
-      } else {
-        sort.value = key;
-        sortAsc.value = true;
-      }
-      sortableKey.value = `sk-${Math.floor(Math.random() * 1000)}`;
-    }
+  if (sort.value === key) {
+    sortAsc.value = !sortAsc.value;
+  } else {
+    sort.value = key;
+    sortAsc.value = true;
+  }
+  sortableKey.value = `sk-${Math.floor(Math.random() * 1000)}`;
+}
 function getItem(combatant) {
-      if (combatant.type === 'unit') {
-        return combatant.npc;
-      }
-      return null;
-    }
+  if (combatant.type === 'unit') {
+    return combatant.npc;
+  }
+  return null;
+}
 function activateReinforcement(combatant) {
-      combatant.reinforcement = false;
-    }
+  combatant.reinforcement = false;
+}
+function getComponent(combatant: CombatantData) {
+  if (combatant.actor?.Placeholder) {
+    return PlaceholderRunnerListItem;
+  }
+  switch (combatant.actor.ItemType) {
+    case 'Pilot':
+      return PilotRunnerListItem;
+    case 'Unit':
+      return UnitRunnerListItem;
+    case 'Doodad':
+      return DoodadRunnerListItem;
+    case 'Eidolon':
+      return EidolonRunnerListItem;
+    default:
+      return UnitRunnerListItem;
+  }
+}
 </script>

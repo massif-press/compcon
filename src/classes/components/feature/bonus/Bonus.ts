@@ -35,6 +35,7 @@ class Bonus {
   public readonly Condition: string | undefined
 
   public constructor(data: IBonusData, source: string) {
+    if (data.id === 'size') console.log(data)
     const entry = getBonusDictionary().find(x => x.id === data.id)
     this.ID = data.id || 'UNKNOWN_BONUS'
     this.Source = source
@@ -74,7 +75,7 @@ class Bonus {
       return str
     }
 
-    if (this.Overwrite) str = str.replace(/{INC_DEC}/g, 'Sets').replace('by', 'to')
+    if (this.Overwrite) str = str.replace(/{BY_TO}/g, 'Sets').replace('by', 'to')
 
     const repNum = Array.isArray(this.Value)
       ? Number(this.Value[0])

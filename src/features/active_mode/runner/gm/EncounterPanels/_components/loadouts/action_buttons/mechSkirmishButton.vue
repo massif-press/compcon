@@ -191,10 +191,6 @@ const auxEvents = ref([] as WeaponAttackEvent[])
 const selectedWeapon = ref(null as MechWeapon | null)
 const include = ref([] as boolean[])
 
-reset();
-
-reset();
-
 const mobile = computed(() => {
       return _display.mdAndDown.value;
     })
@@ -267,4 +263,6 @@ function onWeaponChanged(weapon: MechWeapon) {
       selectedWeapon.value = weapon;
       reset();
     }
+
+reset();
 </script>

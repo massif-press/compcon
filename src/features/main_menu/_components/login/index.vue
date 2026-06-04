@@ -42,8 +42,8 @@ const email = ref('')
 const currentAuthedUser = ref(null)
 const oauthCode = ref(null)
 
-function verifyFlow(email) {
-      email.value = email;
+function verifyFlow(verifyEmail) {
+      email.value = verifyEmail;
       state.value = 'verify';
     }
 

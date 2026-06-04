@@ -28,16 +28,16 @@
               height="100%"
               color="panel"
               cover
-              :src="item.Portrait" />
+              :src="item.Portrait || ''" />
           </v-col>
           <v-col>
             <v-row no-gutters
               align="center">
-              <v-col v-if="item.StatController.SizeIcon"
+              <v-col v-if="item.CombatController.StatController.SizeIcon"
                 cols="auto"
                 align-self="center"
                 class="ml-n2 mr-2">
-                <v-icon :icon="item.StatController.SizeIcon"
+                <v-icon :icon="item.CombatController.StatController.SizeIcon"
                   size="60" />
               </v-col>
               <v-col>
@@ -47,7 +47,7 @@
                 align-self="start"
                 class="ml-auto mr-1 mt-1">
                 <v-menu>
-                  <template #activator="{ props }">
+                  <template #activator="{ props: activatorProps }">
                     <v-btn v-for="i in item.CombatController.StatController.MaxStats['activations']"
                       :key="`activation-${i}`"
                       icon="cc:activate"
@@ -62,7 +62,7 @@
                         ? 'panel'
                         : 'grey'
                         "
-                      v-bind="props" />
+                      v-bind="activatorProps" />
                   </template>
                   <v-card flat
                     tile
@@ -97,13 +97,12 @@
 
             <slot name="subtitle" />
 
-            <timed-effect-panel
-              :item="item" />
+            <timed-effect-panel :item="item" />
 
             <v-row class="mt-n1"
               dense>
               <v-col
-                v-if="Object.keys(item.StatController.MaxStats).includes('grit') || (item.Parent && Object.keys(item.Parent.StatController.MaxStats).includes('grit'))"
+                v-if="Object.keys(item.CombatController.StatController.MaxStats).includes('grit') || ((item as any).Parent && Object.keys((item as any).Parent.StatController.MaxStats).includes('grit'))"
                 cols="auto">
                 <v-tooltip location="top"
                   text="Pilot Grit">
@@ -114,12 +113,12 @@
                         :class="mobile ? 'mr-1' : 'mt-n2 mr-1'" />
                       <span :class="mobile ? '' : 'h2'"
                         class="heading text-accent">
-                        {{ item.Grit || item.Parent?.Grit || 0 }}</span>
+                        {{ (item as any).Grit || (item as any).Parent?.Grit || 0 }}</span>
                     </span>
                   </template>
                 </v-tooltip>
               </v-col>
-              <template v-for="stat in statColumns"
+              <template v-for="stat in <any[]>statColumns"
                 :key="stat.key">
                 <v-col v-if="stat.key === '__spacer__'"
                   cols="1" />
@@ -135,12 +134,12 @@
                         :class="mobile ? 'mr-1' : 'mt-n2 mr-1'" />
                       <span :class="mobile ? '' : 'h2'"
                         class="heading text-accent">
-                        {{ item.StatController.MaxStats[stat.key] || 0 }}
+                        {{ item.CombatController.StatController.MaxStats[stat.key] || 0 }}
                       </span>
                     </template>
                   </v-tooltip>
                   <cc-bonus v-if="getBonus(stat.key)"
-                    :bonus="getBonus(stat.key)" />
+                    :bonus="getBonus(stat.key)!" />
                 </v-col>
               </template>
 
@@ -156,12 +155,12 @@
                       :class="mobile ? 'mr-1' : 'mt-n2 mr-1'" />
                     <span :class="mobile ? '' : 'h2'"
                       class="heading text-accent">
-                      {{ item.AttackBonus }}
+                      {{ (item as any).AttackBonus }}
                     </span>
                   </template>
                 </v-tooltip>
                 <cc-bonus v-if="getBonus('attackBonus')"
-                  :bonus="getBonus('attackBonus')" />
+                  :bonus="getBonus('attackBonus')!" />
               </v-col>
 
               <v-col cols="auto">
@@ -282,7 +281,6 @@
 </template>
 
 <script setup lang="ts">
-import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { useEncounterContext } from './encounterContext'
 import { computed, markRaw } from 'vue'
 import { useDisplay } from 'vuetify'
@@ -296,6 +294,7 @@ import ActiveEffectPanel from './_components/ActiveEffectPanel.vue';
 import TimedEffectPanel from './_components/TimedEffectPanel.vue';
 import TrackableStatsComplex from './_components/TrackableStatsComplex.vue';
 import TrackableStatsSimple from './_components/TrackableStatsSimple.vue';
+import { ICombatant } from '@/classes/components/combat/ICombatant'
 
 const _TrackableStatsComplex = markRaw(TrackableStatsComplex)
 const _TrackableStatsSimple = markRaw(TrackableStatsSimple)
@@ -307,7 +306,7 @@ defineOptions({ name: 'EncounterPanelBase' })
 const { encounterInstance } = useEncounterContext()
 
 const props = withDefaults(defineProps<{
-  item: object
+  item: ICombatant
   hidePalette?: boolean
   noStats?: boolean
   noActions?: boolean
@@ -322,65 +321,43 @@ const props = withDefaults(defineProps<{
 })
 
 const xlPanels = computed(() => {
-      if (!encounterInstance.value.LayoutColumns) return 12;
-      if (props.onePanel) return 12;
-      if (mobile.value) return 12;
-      return 6
-    })
+  if (!encounterInstance.value.LayoutColumns) return 12;
+  if (props.onePanel) return 12;
+  if (mobile.value) return 12;
+  return 6
+})
 const extraStatSet = computed(() => {
-      if (props.item.ItemType === 'mech') return []
-      return ['attackBonus', 'grapple', 'ram']
-    })
+  if (props.item.ItemType === 'mech') return []
+  return ['attackBonus', 'grapple', 'ram']
+})
 const statColumns = computed(() => {
-      const spacer = { key: '__spacer__' }
-      const g1 = props.item.StatController.GetStatCollection(['hull', 'agi', 'sys', 'eng'])
-      const g2 = props.item.StatController.GetStatCollection(['evasion', 'edef', 'techAttack', 'sensorRange', 'saveTarget'])
-      const g3 = props.item.StatController.GetStatCollection(extraStatSet.value).filter((x: any) => props.item.StatController.MaxStats[x.key])
-      const g4 = props.item.StatController.CustomStats(props.item.ItemType)
-      return [...g1, spacer, ...g2, ...g3, ...g4]
-    })
+  const spacer = { key: '__spacer__' }
+  const g1 = props.item.CombatController.StatController.GetStatCollection(['hull', 'agi', 'sys', 'eng'])
+  const g2 = props.item.CombatController.StatController.GetStatCollection(['evasion', 'edef', 'techAttack', 'sensorRange', 'saveTarget'])
+  const g3 = props.item.CombatController.StatController.GetStatCollection(extraStatSet.value).filter((x: any) => props.item.CombatController.StatController.MaxStats[x.key])
+  const g4 = props.item.CombatController.StatController.CustomStats(props.item.ItemType)
+  return [...g1, spacer, ...g2, ...g3, ...g4]
+})
 const mobile = computed(() => {
-      return _display.mdAndDown.value;
-    })
+  return _display.mdAndDown.value;
+})
 const trackableStatsComponent = computed(() => {
-      if (!encounterInstance.value.ForceComplexTickbars && (mobile.value || encounterInstance.value.SimpleTickbars)) {
-        return _TrackableStatsSimple;
-      } else {
-        return _TrackableStatsComplex;
-      }
-    })
-const orderedStats = computed(() => {
-      const order = [
-        'activations',
-        'overshield',
-        'hp',
-        'structure',
-        'overcharge',
-        'stress',
-        'speed',
-        'repcap',
-      ];
-
-      const hide = ['activations', 'armor', 'burn', 'overshield'];
-
-      if (!props.item.StatController.MaxStats['heatcap']) {
-        hide.push('heatcap');
-      }
-
-      return props.item.StatController.TrackableStats.filter((s) => !hide.includes(s.key)).sort(
-        (a, b) => order.indexOf(a.key) - order.indexOf(b.key)
-      );
-    })
+  if (!encounterInstance.value.ForceComplexTickbars && (mobile.value || encounterInstance.value.SimpleTickbars)) {
+    return _TrackableStatsSimple;
+  } else {
+    return _TrackableStatsComplex;
+  }
+})
 
 function getBonus(statKey) {
-      if (statKey === 'agi') statKey = 'agility';
-      if (statKey === 'sys') statKey = 'systems';
-      if (statKey === 'eng') statKey = 'engineering';
-      return props.item.CombatController.Bonuses.find((b) => b.ID === statKey);
-    }
+  if (statKey === 'agi') statKey = 'agility';
+  if (statKey === 'sys') statKey = 'systems';
+  if (statKey === 'eng') statKey = 'engineering';
+  return props.item.CombatController.Bonuses.find((b) => b.ID === statKey);
+}
 function handleActivate() {
-      props.item.CombatController.EndTurn();
-    }
+  props.item.CombatController.EndTurn();
+}
 </script>
 
 <style scoped>

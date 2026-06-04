@@ -112,8 +112,11 @@ async function confirm() {
       loading.value = true;
 
       try {
+        const userEmail = verifyEmail.value.trim().toLowerCase();
+        verifyEmail.value = userEmail;
+
         const { isSignUpComplete, nextStep } = await confirmSignUp({
-          username: verifyEmail.value,
+          username: userEmail,
           confirmationCode: verify.value,
         });
 
@@ -134,9 +137,12 @@ async function confirm() {
     }
 async function resend() {
       try {
-        const res = await resendSignUpCode({ username: verifyEmail.value });
+        const userEmail = verifyEmail.value.trim().toLowerCase();
+        verifyEmail.value = userEmail;
 
-        notify(`New verification e-mail sent to ${verifyEmail.value}`);
+        const res = await resendSignUpCode({ username: userEmail });
+
+        notify(`New verification e-mail sent to ${userEmail}`);
 
         sentCode.value = true;
         preFill.value = true;

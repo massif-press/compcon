@@ -452,7 +452,7 @@ function damageClass(damage) {
         return 'bg-exotic';
       } else if (damage.condition === 'resistance') {
         return `bg-success`;
-      } else if (damage.condition === 'vulnerability') {
+      } else if (damage.condition === 'vulnerable') {
         return 'bg-error';
       }
       return '';

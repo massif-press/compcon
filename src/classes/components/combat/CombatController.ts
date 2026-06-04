@@ -460,18 +460,20 @@ class CombatController implements ICounterContainer, IStatContainer {
     value: number,
     ap: boolean = false,
     irreducible = false,
-    reliable = 0
+    reliable = 0,
+    direct = false
   ): { total: number; resist: string[]; condition: string[] } {
-    return this.DamageController.CalculateDamage(type, value, ap, irreducible, reliable)
+    return this.DamageController.CalculateDamage(type, value, ap, irreducible, reliable, direct)
   }
 
   public TakeDamage(
     type: DamageType,
     value: number,
     ap: boolean = false,
-    irreducible = false
+    irreducible = false,
+    direct = false
   ): void {
-    this.DamageController.TakeDamage(type, value, ap, irreducible)
+    this.DamageController.TakeDamage(type, value, ap, irreducible, direct)
   }
 
   public ApplyDamage(type: DamageType, value: number): void {

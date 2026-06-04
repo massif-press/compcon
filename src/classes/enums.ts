@@ -154,6 +154,7 @@ enum DamageType {
   Burn = 'Burn',
   AppliedBurn = 'Applied Burn', // for dealing burn damage without incrementing burn stack
   Variable = 'Variable',
+  AoE = 'AoE',
 }
 
 enum MechType {
