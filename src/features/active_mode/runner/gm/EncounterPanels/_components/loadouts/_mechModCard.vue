@@ -73,9 +73,9 @@ import { computed } from 'vue'
 import { useEncounterContext } from '../../encounterContext'
 import { useDisplay } from 'vuetify'
 import DeployButton from './_deployButton.vue'
-import { WeaponMod } from '@/classes/mech/components/equipment/WeaponMod.js'
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance.js'
-import { Mech } from '@/classes/mech/Mech.js'
+import { WeaponMod } from '@/classes/mech/components/equipment/WeaponMod'
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { Mech } from '@/classes/mech/Mech'
 
 const { owner, encounterInstance } = useEncounterContext()
 

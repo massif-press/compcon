@@ -230,7 +230,7 @@ import MechCorePanel from './_components/loadouts/MechCorePanel.vue';
 import MechActionsPanel from './_components/MechActionsPanel.vue';
 import DeployButton from './_components/loadouts/_deployButton.vue';
 import CombatActionsBlock from './_CombatActionsBlock.vue';
-import { Deployable } from '@/classes/components/feature/deployable/Deployable.js';
+import { Deployable } from '@/classes/components/feature/deployable/Deployable';
 
 const props = defineProps<{
   combatant: CombatantData

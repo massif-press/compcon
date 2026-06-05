@@ -71,13 +71,9 @@
           </v-col>
           <v-col cols="auto"
             class="ml-auto mr-4">
-            <cc-bonus v-for="(b, index) in item.Bonuses"
-              :key="`bonus-${index}`"
-              :bonus="b"
+            <cc-bonus :bonuses="item.Bonuses"
               chip />
-            <cc-bonus v-for="(b, index) in externalItemBonuses"
-              :key="`ext-bonus-${index}`"
-              :bonus="b" />
+            <cc-bonus :bonuses="externalItemBonuses(mech, item)" />
             <cc-synergy-display :item="item"
               :location="synergyLocation"
               :mech="mech"
@@ -86,8 +82,7 @@
         </v-row>
       </div>
     </v-card-text>
-    <equip-command-panel
-      :controller="mech.CombatController"
+    <equip-command-panel :controller="mech.CombatController"
       :item="item" />
   </v-card>
 </template>
@@ -102,9 +97,9 @@ import DestroyedOverlay from './_DestroyedOverlay.vue'
 import FlavorDescription from './_FlavorDescription.vue'
 import ActionsDeployables from './_ActionsDeployables.vue'
 import { externalItemBonuses } from '@/composables/useExternalItemBonuses'
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance.js'
-import { Mech } from '@/classes/mech/Mech.js'
-import { MechSystem } from '@/classes/mech/components/equipment/MechSystem.js'
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { Mech } from '@/classes/mech/Mech'
+import { MechSystem } from '@/classes/mech/components/equipment/MechSystem'
 
 const { owner, encounterInstance } = useEncounterContext()
 

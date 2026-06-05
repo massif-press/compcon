@@ -1,6 +1,5 @@
 <template>
-  <combat-action-button
-    :action="action"
+  <combat-action-button :action="action"
     :preset-weapon="presetWeapon">
     <template #default="{ close }">
       <div class="px-3">
@@ -58,9 +57,9 @@
           cols="auto">
           <v-menu open-on-hover
             max-width="600px">
-            <template #activator="{ props }">
+            <template #activator="{ props: activatorProps }">
               <v-icon icon="mdi-information-outline"
-                v-bind="props" />
+                v-bind="activatorProps" />
             </template>
             <v-card class="pt-2 pb-4 px-4">
               <cc-item-card :item="selectedWeapon" />
@@ -91,7 +90,9 @@
       <v-divider />
       <div class="pa-4">
 
-        <apply-button :owner="owner" :encounter-instance="encounterInstance" v-if="event"
+        <apply-button v-if="event"
+          :owner="owner"
+          :encounter-instance="encounterInstance"
           :event="<ActiveEffectEvent>event.BaseEvent"
           :weapon-event="<WeaponAttackEvent>event"
           :close="close"
@@ -107,7 +108,6 @@
 </template>
 
 <script setup lang="ts">
-import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { useEncounterContext } from '../../../encounterContext'
 import type { Action } from '@/classes/Action'
 import { computed, ref } from 'vue'
@@ -132,64 +132,52 @@ const selectedWeapon = ref(null as NpcWeapon | null)
 
 reset();
 
-reset();
-
 const controller = computed(() => {
-      return owner.value.actor.CombatController.ActiveActor.CombatController;
-    })
-const ordnanceWarning = computed(() => {
-      if (!selectedWeapon.value) return false;
-      if (selectedWeapon.value.Tags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
-        return owner.value.actor.CombatController.CanActivate('ordnance') === false;
-      }
-      return false;
-    })
+  return owner.value.actor.CombatController.ActiveActor.CombatController;
+})
+
 const skirmishWeapons = computed(() => {
-      const npc = controller.value.ActiveActor;
+  const npc = controller.value.ActiveActor;
 
-      let arr = (npc.NpcFeatureController?.Features || []).filter(
-        (x) => !x.IsSuperheavy
-      );
+  let arr = (npc.NpcFeatureController?.Features || []).filter(
+    (x) => !x.IsSuperheavy
+  );
 
-      if (props.presetWeapon) {
-        arr = arr.filter(w => w.InstanceID === props.presetWeapon!.InstanceID);
-      }
+  if (props.presetWeapon) {
+    arr = arr.filter(w => w.InstanceID === props.presetWeapon!.InstanceID);
+  }
 
-      return arr;
-    })
+  return arr;
+})
 const eventArray = computed(() => {
-      return [event.value]
-    })
+  return [event.value]
+})
 const tier = computed(() => {
-      return controller.value.ActiveActor.Tier;
-    })
+  return controller.value.ActiveActor.Tier;
+})
 
 function reset(clearAction = false) {
-      if (clearAction) owner.value.CombatController.ClearActionUsed(props.action.ID);
-      const self = encounterInstance.value.Combatants.find(
-        (c: CombatantData) => c.actor.CombatController.RootActor.ID === owner.value.actor.CombatController.RootActor.ID
-      );
-      if (!self) {
-        throw new Error('Owner combatant not found in encounterInstance');
-      }
-      if (!selectedWeapon.value && props.presetWeapon) {
-        selectedWeapon.value = props.presetWeapon;
-      }
+  if (clearAction) owner.value.CombatController.ClearActionUsed(props.action.ID);
+  const self = encounterInstance.value.Combatants.find(
+    (c: CombatantData) => c.actor.CombatController.RootActor.ID === owner.value.actor.CombatController.RootActor.ID
+  );
+  if (!self) {
+    throw new Error('Owner combatant not found in encounterInstance');
+  }
+  if (!selectedWeapon.value && props.presetWeapon) {
+    selectedWeapon.value = props.presetWeapon;
+  }
 
-      if (!selectedWeapon.value)
-        return;
+  if (!selectedWeapon.value)
+    return;
 
-      if (selectedWeapon.value)
-        event.value = new WeaponAttackEvent(selectedWeapon.value as NpcWeapon, self, encounterInstance.value, 'Skirmish');
-    }
+  if (selectedWeapon.value)
+    event.value = new WeaponAttackEvent(selectedWeapon.value as NpcWeapon, self, encounterInstance.value, 'Skirmish');
+}
 function apply() {
-      const actor = owner.value.actor.CombatController.ActiveActor.CombatController;
-      actor.MarkActionUsed(selectedWeapon.value!.InstanceID);
-      if (selectedWeapon.value!.IsLoading) selectedWeapon.value!.Used = true;
-      reset();
-    }
-function onWeaponChanged(weapon: NpcWeapon) {
-      selectedWeapon.value = weapon;
-      reset();
-    }
+  const actor = owner.value.actor.CombatController.ActiveActor.CombatController;
+  actor.MarkActionUsed(selectedWeapon.value!.InstanceID);
+  if (selectedWeapon.value!.IsLoading) selectedWeapon.value!.Used = true;
+  reset();
+}
 </script>

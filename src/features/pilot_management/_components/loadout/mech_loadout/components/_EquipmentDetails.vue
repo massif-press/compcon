@@ -69,17 +69,13 @@
       </v-col>
 
       <v-col cols="auto">
-        <cc-bonus v-for="(b, index) in item.Bonuses"
-          :key="`bonus-${index}`"
-          :bonus="b"
+        <cc-bonus :bonuses="item.Bonuses"
           chip />
       </v-col>
 
       <v-col cols="auto"
         class="ml-auto">
-        <cc-bonus v-for="(b, index) in externalItemBonuses"
-          :key="`ext-bonus-${index}`"
-          :bonus="b" />
+        <cc-bonus :bonuses="externalBonuses" />
       </v-col>
       <v-col cols="auto"
         class="mr-4">
@@ -94,9 +90,11 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import { externalItemBonuses } from '@/composables/useExternalItemBonuses'
 import { Mech } from '@/classes/mech/Mech';
+import type { CompendiumItem } from '@/classes/CompendiumItem';
 
 const props = defineProps({
   item: {
@@ -117,6 +115,10 @@ const props = defineProps({
   },
 })
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+const { smAndDown: mobile } = useDisplay()
+
+const externalBonuses = computed(() =>
+  externalItemBonuses(props.mech, props.item as CompendiumItem)
+)
 
 </script>

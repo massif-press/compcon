@@ -159,7 +159,7 @@
 import { computed } from 'vue'
 import SimpleMiniPanel from './SimpleMiniPanel.vue'
 import { useTrackableStats } from './useTrackableStats'
-import { ICombatant } from '@/classes/components/combat/ICombatant.js';
+import { ICombatant } from '@/classes/components/combat/ICombatant';
 
 const props = defineProps<{ item: ICombatant }>()
 

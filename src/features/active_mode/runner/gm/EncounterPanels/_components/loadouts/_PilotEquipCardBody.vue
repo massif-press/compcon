@@ -21,14 +21,10 @@
       </v-col>
       <v-col cols="auto"
         class="ml-auto mr-4">
-        <cc-bonus v-for="(b, index) in item.Bonuses"
-          :key="`bonus-${index}`"
-          :bonus="b"
+        <cc-bonus :bonuses="item.Bonuses"
           chip />
-        <cc-bonus v-for="(b, index) in externalPilotItemBonuses"
-          :key="`ext-bonus-${index}`"
-          :bonus="b"
-          chip />
+        <cc-bonus :bonuses="externalPilotItemBonuses(pilot, item)" />
+
       </v-col>
     </v-row>
   </div>
@@ -41,7 +37,7 @@ import type { CombatantData } from '@/classes/encounter/Encounter'
 import type { Pilot } from '@/classes/pilot/Pilot'
 import ActionsDeployables from './_ActionsDeployables.vue'
 import { externalPilotItemBonuses } from '@/composables/useExternalItemBonuses'
-import { PilotEquipment } from '@/classes/pilot/components/Loadout/equipment/PilotEquipment.js'
+import { PilotEquipment } from '@/classes/pilot/components/Loadout/equipment/PilotEquipment'
 
 const { owner, encounterInstance } = useEncounterContext()
 

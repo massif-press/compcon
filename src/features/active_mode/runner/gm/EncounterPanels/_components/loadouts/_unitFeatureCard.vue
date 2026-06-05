@@ -45,7 +45,8 @@
         </div>
       </v-col>
 
-      <v-col v-if="(item as NpcWeapon).Accuracy && ((item as NpcWeapon).Accuracy(tier) || (item as NpcWeapon).AttackBonus(tier))"
+      <v-col
+        v-if="(item as NpcWeapon).Accuracy && ((item as NpcWeapon).Accuracy(tier) || (item as NpcWeapon).AttackBonus(tier))"
         cols="auto">
         <cc-npc-attack-bonus :attack-bonus="(item as NpcWeapon).AttackBonus(tier)"
           small />
@@ -137,16 +138,9 @@
               </v-col>
               <v-col cols="auto"
                 class="ml-auto mr-4">
-                <cc-bonus v-for="(b, index) in item.Bonuses"
-                  :key="`bonus-${index}`"
-                  :bonus="b"
-                  chip
-                  :tier="tier" />
-                <cc-bonus v-for="(b, index) in externalUnitItemBonuses"
-                  :key="`ext-bonus-${index}`"
-                  :bonus="b"
-                  chip
-                  :tier="tier" />
+                <cc-bonus :bonuses="item.Bonuses"
+                  chip />
+                <cc-bonus :bonuses="externalUnitItemBonuses(unit, item)" />
               </v-col>
             </v-row>
           </div>
@@ -164,8 +158,6 @@
 <script setup lang="ts">
 import type { Unit } from '@/classes/npc/unit/Unit'
 import { useEncounterContext } from '../../encounterContext'
-import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-import type { CombatantData } from '@/classes/encounter/Encounter'
 import { computed, ref, onMounted } from 'vue'
 import NpcModInset from '@/features/gm/npc_roster/npcs/_components/NpcModInset.vue'
 import EquipCommandPanel from './_equipCommandPanel.vue'
@@ -175,15 +167,13 @@ import { useDisplay } from 'vuetify'
 import { externalUnitItemBonuses } from '@/composables/useExternalItemBonuses'
 import EquipmentDestroyedOverlay from './_DestroyedOverlay.vue'
 import EquipmentFlavorDescription from './_FlavorDescription.vue'
-import { NpcFeature } from '@/classes/npc/feature/NpcFeature.js'
-import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon.js'
-import { NpcReaction } from '@/classes/npc/feature/NpcItem/NpcReaction.js'
+import { NpcFeature } from '@/classes/npc/feature/NpcFeature'
+import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon'
+import { NpcReaction } from '@/classes/npc/feature/NpcItem/NpcReaction'
 
 defineOptions({ name: 'UnitFeatureCombatCard' })
 
 const { smAndDown: mobile } = useDisplay()
-
-const { owner, encounterInstance } = useEncounterContext()
 
 const props = defineProps<{
   item: NpcFeature

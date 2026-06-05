@@ -75,9 +75,9 @@
 <script setup lang="ts">
 import DeployButton from './_deployButton.vue';
 import { useEncounterContext } from '../../encounterContext'
-import { Mech } from '@/classes/mech/Mech.js';
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance.js';
-import { CoreBonus } from '@/classes/pilot/components/index.js';
+import { Mech } from '@/classes/mech/Mech';
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
+import { CoreBonus } from '@/classes/pilot/components/index';
 
 const { owner, encounterInstance } = useEncounterContext()
 

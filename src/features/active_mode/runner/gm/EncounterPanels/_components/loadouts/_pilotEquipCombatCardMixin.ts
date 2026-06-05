@@ -2,8 +2,8 @@ import { useDisplay } from 'vuetify'
 import DestroyedOverlay from './_DestroyedOverlay.vue'
 import FlavorDescription from './_FlavorDescription.vue'
 import PilotEquipCardBody from './_PilotEquipCardBody.vue'
-import { PilotEquipment } from '@/classes/pilot/components/Loadout/equipment/PilotEquipment.js'
-import { Pilot } from '@/classes/pilot/Pilot.js'
+import { PilotEquipment } from '@/classes/pilot/components/Loadout/equipment/PilotEquipment'
+import { Pilot } from '@/classes/pilot/Pilot'
 
 export const pilotEquipCombatCardMixin = {
   components: {

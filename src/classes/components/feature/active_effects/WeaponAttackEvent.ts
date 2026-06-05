@@ -65,6 +65,14 @@ class WeaponAttackEvent {
       this.OnAttackEvent = new ActiveEffectEvent(owner, weapon.OnAttack, instance)
     if (weapon.OnHit) this.OnHitEvent = new ActiveEffectEvent(owner, weapon.OnHit, instance)
     if (weapon.OnCrit) this.OnCritEvent = new ActiveEffectEvent(owner, weapon.OnCrit, instance)
+
+    if ((weapon as NpcWeapon).getAttacks(owner.actor.CombatController.Tier) > 1) {
+      const attackCount = (weapon as NpcWeapon).getAttacks(owner.actor.CombatController.Tier) - 1
+      for (let i = 0; i < attackCount; i++) {
+        console.log('Adding additional attack event')
+        this.BaseEvent.AddTarget()
+      }
+    }
   }
 
   public get TargetEvents(): ActiveEffectEvent[] {

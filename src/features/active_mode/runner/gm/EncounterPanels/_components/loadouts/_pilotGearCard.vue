@@ -33,14 +33,9 @@
           </v-col>
           <v-col cols="auto"
             class="ml-auto mr-4">
-            <cc-bonus v-for="(b, index) in item.Bonuses"
-              :key="`bonus-${index}`"
-              :bonus="b"
+            <cc-bonus :bonuses="item.Bonuses"
               chip />
-            <cc-bonus v-for="(b, index) in externalPilotItemBonuses"
-              :key="`ext-bonus-${index}`"
-              :bonus="b"
-              chip />
+            <cc-bonus :bonuses="externalPilotItemBonuses(pilot, item)" />
           </v-col>
         </v-row>
       </div>
@@ -54,9 +49,9 @@ import { useEncounterContext } from '../../encounterContext'
 import FlavorDescription from './_FlavorDescription.vue'
 import ActionsDeployables from './_ActionsDeployables.vue'
 import { externalPilotItemBonuses } from '@/composables/useExternalItemBonuses'
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance.js'
-import { PilotGear } from '@/classes/pilot/components/Loadout/equipment/PilotGear.js'
-import { Pilot } from '@/classes/pilot/Pilot.js'
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { PilotGear } from '@/classes/pilot/components/Loadout/equipment/PilotGear'
+import { Pilot } from '@/classes/pilot/Pilot'
 
 const { owner, encounterInstance } = useEncounterContext()
 

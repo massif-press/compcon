@@ -82,7 +82,7 @@
 </template>
 
 <script setup lang="ts">
-import { Deployable } from '@/classes/components/feature/deployable/Deployable.js';
+import { Deployable } from '@/classes/components/feature/deployable/Deployable';
 import PrintAction from './PrintAction.vue';
 
 defineOptions({ name: 'PrintDeployable' })

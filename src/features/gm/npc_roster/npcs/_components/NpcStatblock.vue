@@ -1,8 +1,9 @@
 <template>
   <v-card-text>
     <div class="text-right mb-2">
-      <cc-switch v-model="narrativeElements"
-        label="Include Narrative Elements" />
+      <cc-switch v-model="includeFeatureDetails"
+        label="include Feature Details"
+        color="primary" />
     </div>
 
     <v-textarea :value="statblock"
@@ -28,34 +29,32 @@ import { notify } from '@/util/notify'
 import { Unit } from '@/classes/npc/unit/Unit';
 import Statblock from '@/classes/Statblock';
 
-defineOptions({ name: 'StatblockDialog' })
-
 const props = defineProps<{
   item: Unit
 }>()
 
-const narrativeElements = ref(false)
+const includeFeatureDetails = ref(false)
 
 const statblock = computed(() => {
-      return Statblock.GenerateNPC(props.item, narrativeElements.value);
-    })
+  return Statblock.GenerateNPC(props.item, false, includeFeatureDetails.value);
+})
 
 function copy() {
-      navigator.clipboard
-        .writeText(statblock.value)
-        .then(() =>
-          notify({
-            title: 'Statblock Copied to Clipboard',
-            text: 'Copy Success',
-            data: { icon: 'mdi-clipboard-text-outline' },
-          })
-        )
-        .catch(() =>
-          notify({
-            title: 'Error',
-            text: 'Unable to copy statblock',
-            data: { icon: 'mdi-clipboard-text-outline', color: 'error' },
-          })
-        );
-    }
+  navigator.clipboard
+    .writeText(statblock.value)
+    .then(() =>
+      notify({
+        title: 'Statblock Copied to Clipboard',
+        text: 'Copy Success',
+        data: { icon: 'mdi-clipboard-text-outline' },
+      })
+    )
+    .catch(() =>
+      notify({
+        title: 'Error',
+        text: 'Unable to copy statblock',
+        data: { icon: 'mdi-clipboard-text-outline', color: 'error' },
+      })
+    );
+}
 </script>

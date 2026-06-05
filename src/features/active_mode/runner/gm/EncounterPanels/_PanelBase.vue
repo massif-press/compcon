@@ -138,8 +138,7 @@
                       </span>
                     </template>
                   </v-tooltip>
-                  <cc-bonus v-if="getBonus(stat.key)"
-                    :bonus="getBonus(stat.key)!" />
+                  <cc-bonus :bonuses="getBonuses(stat.key)" />
                 </v-col>
               </template>
 
@@ -159,8 +158,7 @@
                     </span>
                   </template>
                 </v-tooltip>
-                <cc-bonus v-if="getBonus('attackBonus')"
-                  :bonus="getBonus('attackBonus')!" />
+                <cc-bonus :bonuses="getBonuses('attackBonus')" />
               </v-col>
 
               <v-col cols="auto">
@@ -349,11 +347,11 @@ const trackableStatsComponent = computed(() => {
   }
 })
 
-function getBonus(statKey) {
+function getBonuses(statKey) {
   if (statKey === 'agi') statKey = 'agility';
   if (statKey === 'sys') statKey = 'systems';
   if (statKey === 'eng') statKey = 'engineering';
-  return props.item.CombatController.Bonuses.find((b) => b.ID === statKey);
+  return props.item.CombatController.Bonuses.filter((b) => b.ID === statKey);
 }
 function handleActivate() {
   props.item.CombatController.EndTurn();

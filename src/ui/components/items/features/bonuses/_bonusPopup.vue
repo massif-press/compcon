@@ -5,10 +5,11 @@
     <template #activator="{ props }">
       <v-icon v-bind="props"
         color="exotic"
-        :icon="bonus.Icon" />
+        :icon="bonuses[0].Icon" />
     </template>
     <cc-panel tile
-      color="surface">
+      color="surface"
+      density="no-gutters">
       <template #toolbar>
         <v-toolbar density="compact"
           color="exotic"
@@ -19,12 +20,12 @@
               <cc-slashes />
             </div>
             <div class="heading h4 mt-n1">
-              {{ bonus.Title }}
+              {{ bonuses[0].Title }}
             </div>
           </div>
         </v-toolbar>
       </template>
-      <bonus-base :bonus="bonus" />
+      <bonus-base :bonuses="bonuses" />
     </cc-panel>
   </v-menu>
 </template>
@@ -33,8 +34,8 @@
 import BonusBase from './_bonusBase.vue'
 import type { Bonus } from '@/classes/components/feature/bonus/Bonus'
 
-const props = defineProps<{
-  bonus: Bonus
+defineProps<{
+  bonuses: Bonus[]
   tier?: number
 }>()
 </script>

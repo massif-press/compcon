@@ -1,15 +1,18 @@
+import type { Bonus } from '@/classes/components'
 import { BonusController } from '@/classes/components/feature/bonus/BonusController'
+import type { CompendiumItem } from '@/classes/CompendiumItem'
+import type { IFeatureController } from '@/classes/components/feature/IFeatureController'
 
 export const ITEM_BONUS_IDS = BonusController.ITEM_BONUS_IDS
 
-export function externalItemBonuses(this: any): any[] {
-  return BonusController.filterForItem(this.mech, this.item)
+export function externalItemBonuses(mech: IFeatureController, item: CompendiumItem): Bonus[] {
+  return BonusController.filterForItem(mech, item)
 }
 
-export function externalPilotItemBonuses(this: any): any[] {
-  return BonusController.filterForItem(this.pilot, this.item)
+export function externalPilotItemBonuses(pilot: IFeatureController, item: CompendiumItem): Bonus[] {
+  return BonusController.filterForItem(pilot, item)
 }
 
-export function externalUnitItemBonuses(this: any): any[] {
-  return BonusController.filterForItem(this.unit, this.item)
+export function externalUnitItemBonuses(unit: IFeatureController, item: CompendiumItem): Bonus[] {
+  return BonusController.filterForItem(unit, item)
 }

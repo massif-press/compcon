@@ -21,9 +21,9 @@ import { useEncounterContext } from './encounterContext'
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import type { CombatantData } from '@/classes/encounter/Encounter'
 import DeployButton from './_components/loadouts/_deployButton.vue'
-import { Deployable } from '@/classes/components/feature/deployable/Deployable.js';
-import { FrameTrait } from '@/classes/mech/components/frame/FrameTrait.js';
-import { CoreBonus } from '@/classes/pilot/components/corebonus/CoreBonus.js';
+import { Deployable } from '@/classes/components/feature/deployable/Deployable';
+import { FrameTrait } from '@/classes/mech/components/frame/FrameTrait';
+import { CoreBonus } from '@/classes/pilot/components/corebonus/CoreBonus';
 
 const { encounterInstance } = useEncounterContext()
 

@@ -203,7 +203,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import blankLine from '../components/blank/line.vue';
-import { BondController } from '@/classes/pilot/components/bond/BondController.js';
+import { BondController } from '@/classes/pilot/components/bond/BondController';
 
 const props = defineProps<{
   bc: BondController

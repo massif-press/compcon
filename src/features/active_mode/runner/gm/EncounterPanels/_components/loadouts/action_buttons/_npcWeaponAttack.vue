@@ -20,6 +20,17 @@
         activated.
       </cc-alert>
     </div>
+    <v-card v-if="attackCount > 1"
+      color="panel"
+      flat
+      tile
+      class="mt-2 text-center mx-n7 text-cc-overline pa-1">
+      This weapon can make {{ attackCount }} attacks per activation.
+    </v-card>
+
+    <div v-html-safe="weapon.Effect"
+      class="text-text mt-2" />
+
 
     <div v-if="mods"
       class="mt-3"
@@ -47,9 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { useEncounterContext } from '../../../encounterContext'
-import type { CombatantData } from '@/classes/encounter/Encounter'
 import { computed } from 'vue'
 import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
 import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon';
@@ -58,7 +67,7 @@ import EffectApplicator from '@/ui/components/chips/_activeeffect/EffectApplicat
 
 defineOptions({ name: 'MechWeaponAttack' })
 
-const { owner, encounterInstance } = useEncounterContext()
+const { owner } = useEncounterContext()
 
 const props = withDefaults(defineProps<{
   event: WeaponAttackEvent
@@ -69,18 +78,19 @@ const props = withDefaults(defineProps<{
 })
 
 const mods = computed(() => {
-      if (!props.weapon) return null;
-      return owner.value.actor.NpcFeatureController?.GetModifiers(props.weapon) || [];
-    })
+  if (!props.weapon) return null;
+  return owner.value.actor.NpcFeatureController?.GetModifiers(props.weapon) || [];
+})
 const ordnanceWarning = computed(() => {
-      if (!props.weapon) return false;
-      if (props.weapon.Tags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
-        return owner.value.actor.CombatController.CanActivate('ordnance') === false;
-      }
-      return false;
-    })
-const canUse = computed(() => {
-      if (!props.weapon) return false;
-      return !props.weapon.Used
-    })
+  if (!props.weapon) return false;
+  if (props.weapon.Tags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
+    return owner.value.actor.CombatController.CanActivate('ordnance') === false;
+  }
+  return false;
+})
+const attackCount = computed(() => {
+  if (!props.weapon) return 0;
+  return props.weapon.getAttacks(owner.value.actor.CombatController.Tier);
+})
+
 </script>

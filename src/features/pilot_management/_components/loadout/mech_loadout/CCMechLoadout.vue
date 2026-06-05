@@ -38,8 +38,8 @@ import { computed } from 'vue'
 import CCLoadoutPanel from '@/features/pilot_management/_components/loadout/CCLoadoutPanel.vue'
 import MountBlock from './components/mount/_MountBlock.vue'
 import SystemsBlock from './components/system/_SystemsBlock.vue'
-import { Mech } from '@/classes/mech/Mech.js'
-import Mount from '@/classes/mech/components/mount/Mount.js'
+import { Mech } from '@/classes/mech/Mech'
+import Mount from '@/classes/mech/components/mount/Mount'
 
 defineOptions({ name: 'MechLoadoutBlock' })
 

@@ -146,7 +146,7 @@ import { computed } from 'vue'
 import { Action } from '@/classes/Action';
 import Card from './PrintCard.vue';
 import ActionInternal from './_actionInternal.vue';
-import { IDeployableData } from '@/classes/components/feature/deployable/Deployable.js';
+import { IDeployableData } from '@/classes/components/feature/deployable/Deployable';
 
 defineOptions({ name: 'PrintDeployable' })
 

@@ -58,6 +58,8 @@ class Clock {
       resolution: c.Resolution,
       segments: c.Segments,
       progress: c.Progress,
+      linear: c.Linear,
+      gm_only: c.GmOnly,
     }
   }
 

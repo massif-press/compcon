@@ -47,7 +47,7 @@ import CCLoadoutPanel from '@/features/pilot_management/_components/loadout/CCLo
 import PilotArmorCard from './_PLArmorCard.vue'
 import PilotWeaponCard from './_PLWeaponCard.vue'
 import PilotGearCard from './_PLGearCard.vue'
-import { Pilot } from '@/classes/pilot/Pilot.js'
+import { Pilot } from '@/classes/pilot/Pilot'
 
 const props = defineProps({
   pilot: {

@@ -3,7 +3,7 @@
     <div class="text-cc-overline text-disabled">
       <span>{{ `Target${event.AoE ? 's' : ''}` }}</span>
     </div>
-    <v-select v-for="(idx) in !event.AoE ? 1 : event.Targets.length"
+    <v-select v-for="(idx) in event.Targets.length"
       :key="event.Targets?.[idx - 1]?.Combatant?.id || `empty-selector-${idx}`"
       :value="event.Targets?.[idx - 1]?.Combatant?.actor.CombatController.CombatName || ''"
       placeholder="Select Target"
@@ -90,7 +90,7 @@
 <script setup lang="ts">
 import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
 
-const props = defineProps<{
+defineProps<{
   event: ActiveEffectEvent
 }>()
 </script>

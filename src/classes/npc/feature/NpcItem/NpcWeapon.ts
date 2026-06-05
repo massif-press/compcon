@@ -71,6 +71,12 @@ export class NpcWeapon extends NpcFeature {
     return this.WeaponType.toLowerCase().includes('superheavy')
   }
 
+  public getAttacks(tier: number): number {
+    if (!this.Attacks) return 1
+    if (!Array.isArray(this.Attacks)) return this.Attacks
+    return this.Attacks[tier - 1] || 1
+  }
+
   // public get IsLimited(): boolean {
   //   return this.Tags.some((x) => x.IsLimited);
   // }

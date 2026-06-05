@@ -31,7 +31,7 @@ import { useDisplay } from 'vuetify'
 import PilotGearCard from './_pilotGearCard.vue'
 import PilotWeaponCard from './_pilotWeaponCard.vue'
 import PilotArmorCard from './_pilotArmorCard.vue'
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance.js'
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 
 const { owner, encounterInstance } = useEncounterContext()
 

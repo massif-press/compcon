@@ -17,13 +17,11 @@
       <p v-if="mod.Effect"
         v-html-safe="mod.EffectByTier(tier)"
         class="py-1 px-2" />
-      <cc-bonus v-for="bonus in mod.Bonuses"
-        :key="bonus.ID"
-        :bonus="bonus" />
+      <cc-bonus :bonuses="mod.Bonuses" />
       <cc-tags v-if="mod.Tags?.length"
         :tags="mod.Tags" />
       <cc-deployable-info v-for="deployable in mod.Deployables"
-        :key="deployable.ID"
+        :key="deployable.Name + 'mod_inset'"
         :deployable="deployable" />
       <cc-action v-for="action in mod.Actions"
         :key="action.ID"
@@ -34,8 +32,11 @@
 </template>
 
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
-  mod: object
+import { NpcFeature } from '@/classes/npc/feature/NpcFeature';
+
+
+withDefaults(defineProps<{
+  mod: NpcFeature
   tier?: number
 }>(), {
   tier: 1

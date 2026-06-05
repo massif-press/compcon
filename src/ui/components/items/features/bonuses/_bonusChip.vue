@@ -9,15 +9,15 @@
         flat
         style="corner-shape: bevel; border-radius: 0; border-bottom-right-radius: 4px">
         <v-icon size="15"
-          :icon="bonus.Icon" />
+          :icon="bonuses[0].Icon" />
       </v-avatar>
       <cc-chip v-else
         v-bind="props"
         size="small"
         color="exotic"
         class="mx-1"
-        :icon="bonus.Icon"
-        :label="bonus.Title" />
+        :icon="bonuses[0].Icon"
+        :label="bonuses[0].Title" />
     </template>
     <cc-panel tile
       color="surface">
@@ -31,12 +31,12 @@
               <cc-slashes />
             </div>
             <div class="heading h4 mt-n1">
-              {{ bonus.Title }}
+              {{ bonuses[0].Title }}
             </div>
           </div>
         </v-toolbar>
       </template>
-      <bonus-base :bonus="bonus" />
+      <bonus-base :bonuses="bonuses" />
     </cc-panel>
   </v-menu>
 </template>
@@ -45,8 +45,8 @@
 import BonusBase from './_bonusBase.vue'
 import type { Bonus } from '@/classes/components/feature/bonus/Bonus'
 
-const props = withDefaults(defineProps<{
-  bonus: Bonus
+withDefaults(defineProps<{
+  bonuses: Bonus[]
   icon?: boolean
 }>(), {
   icon: false,

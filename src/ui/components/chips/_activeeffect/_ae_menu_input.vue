@@ -102,7 +102,7 @@ import EffectApplicator from './EffectApplicator.vue';
 import ApplyButton from './ApplyButton.vue'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import { Action } from '@/classes/Action';
-import { ActiveEffect, ActiveEffectLike } from '@/classes/components/feature/active_effects/ActiveEffect.js';
+import { ActiveEffect, ActiveEffectLike } from '@/classes/components/feature/active_effects/ActiveEffect';
 
 const props = withDefaults(defineProps<{
   activeEffect: ActiveEffectLike

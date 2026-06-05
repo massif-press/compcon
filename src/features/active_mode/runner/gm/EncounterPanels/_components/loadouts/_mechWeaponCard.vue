@@ -79,7 +79,9 @@
                 </div>
               </div>
 
-              <cc-combat-action-chip :owner="owner" :encounter-instance="encounterInstance" v-for="a in item.Profiles[item.ProfileIndex].Actions"
+              <cc-combat-action-chip :owner="owner"
+                :encounter-instance="encounterInstance"
+                v-for="a in item.Profiles[item.ProfileIndex].Actions"
                 :key="a.ID"
                 :action="a"
                 @activate="handleActivation($event)"
@@ -179,13 +181,9 @@
             </v-col>
             <v-col cols="auto"
               class="ml-auto mr-4">
-              <cc-bonus v-for="(b, index) in item.Bonuses"
-                :key="`bonus-${index}`"
-                :bonus="b"
+              <cc-bonus :bonuses="item.Bonuses"
                 chip />
-              <cc-bonus v-for="(b, index) in externalItemBonuses"
-                :key="`ext-bonus-${index}`"
-                :bonus="b" />
+              <cc-bonus :bonuses="externalItemBonuses(mech, item)" />
               <cc-synergy-display :item="item"
                 :location="synergyLocation"
                 :mech="mech"
@@ -195,8 +193,7 @@
         </div>
       </v-card-text>
     </div>
-    <equip-command-panel
-      :controller="mech.CombatController"
+    <equip-command-panel :controller="mech.CombatController"
       :item="item" />
   </v-card>
 </template>

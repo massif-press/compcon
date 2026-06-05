@@ -1,6 +1,7 @@
 <template>
   <component :is="cType"
-    :bonus="bonus"
+    v-if="bonuses.length"
+    :bonuses="bonuses"
     :tier="tier"
     :icon="icon" />
 </template>
@@ -11,7 +12,7 @@ import { getFeatureRenderer } from '../featureRenderers'
 import type { Bonus } from '@/classes/components/feature/bonus/Bonus'
 
 const props = withDefaults(defineProps<{
-  bonus: Bonus
+  bonuses: Bonus[]
   popup?: boolean
   panel?: boolean
   chip?: boolean

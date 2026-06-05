@@ -11,6 +11,7 @@
         align="center"
         justify="center">
         <v-col cols="auto"
+          align-self="center"
           class="mt-1">
           <i class="text-caption text-disabled">No Target Selected</i>
         </v-col>

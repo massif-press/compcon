@@ -40,10 +40,10 @@
 </template>
 
 <script setup lang="ts">
-import { Pilot } from '@/classes/pilot/Pilot.js';
+import { Pilot } from '@/classes/pilot/Pilot';
 import HasePips from './HasePips.vue';
 import MechStatblock from './MechStatblock.vue';
-import { Mech } from '@/classes/mech/Mech.js';
+import { Mech } from '@/classes/mech/Mech';
 
 defineProps({
   mech: {

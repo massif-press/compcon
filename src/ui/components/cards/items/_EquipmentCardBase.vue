@@ -164,9 +164,7 @@
         cols="auto"
         class="ml-auto">
         <div>
-          <cc-bonus v-for="(b, index) in item.Bonuses"
-            :key="`bonus-${index}`"
-            :bonus="b"
+          <cc-bonus :bonuses="item.Bonuses"
             chip
             :tier="tier" />
         </div>

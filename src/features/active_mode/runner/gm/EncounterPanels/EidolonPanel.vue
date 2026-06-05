@@ -141,7 +141,7 @@ import type { CombatantData } from '@/classes/encounter/Encounter';
 import UnitFeatureCard from './_components/loadouts/_unitFeatureCard.vue';
 import PanelBase from './_PanelBase.vue';
 import PersistentTraits from '@/classes/npc/eidolon/persistent_traits.json';
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance.js';
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 
 const props = defineProps({
   combatant: {

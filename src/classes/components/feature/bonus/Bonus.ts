@@ -35,7 +35,6 @@ class Bonus {
   public readonly Condition: string | undefined
 
   public constructor(data: IBonusData, source: string) {
-    if (data.id === 'size') console.log(data)
     const entry = getBonusDictionary().find(x => x.id === data.id)
     this.ID = data.id || 'UNKNOWN_BONUS'
     this.Source = source

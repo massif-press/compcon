@@ -303,7 +303,7 @@ class Statblock {
     } else return '>> NO MECH SELECTED <<'
   }
 
-  public static GenerateNPC(npc: Unit, includeNarrative: boolean): string {
+  public static GenerateNPC(npc: Unit, includeNarrative: boolean, includeFeatures = false): string {
     let output = `// ${npc.Name} //\n`
     if (npc.NpcTemplateController.Templates)
       output += `${npc.NpcTemplateController.Templates.map(t => t.Name).join(' ')}`
@@ -345,9 +345,9 @@ class Statblock {
       (item, index) => `${item.Name}${linebreak(index, npc.NpcFeatureController.Features.length)}`
     ).join('')
 
-    if (includeNarrative) {
-      output += this.generateNarrativeBlock(npc)
-    }
+    if (includeNarrative) output += this.generateNarrativeBlock(npc)
+
+    if (includeFeatures) output += this.getFeatures(npc, true)
 
     return output
   }
@@ -379,10 +379,16 @@ class Statblock {
       'SensorRange'
     )} | TECH_ATK: ${npc.StatController.getMax('Tech Attack')} | SIZE: ${npc.StatController.getMax('Size')} \n\n`
 
-    output += '[ FEATURES ]\n'
-    if (includeFeatures) {
+    output += this.getFeatures(npc, includeFeatures)
+
+    return output
+  }
+
+  private static getFeatures(npc: Unit, showFeatureDetails = false): string {
+    let output = '[ FEATURES ]\n'
+    if (showFeatureDetails) {
       output += npc.NpcFeatureController.Features.map(
-        (item, index) =>
+        item =>
           `${item.Name}\n  ${(item.Description || item.EffectByTier(npc.Tier) || '')?.replace(/<[^>]*>/gi, '') || ''}${item.Actions ? mapNpcActions(item.Actions, npc.Tier) : ''}${mapNpcWeaponStats(item as NpcWeapon, npc.Tier)}`
       ).join('\n')
     } else {
@@ -391,7 +397,6 @@ class Statblock {
         (item, index) => `${item.Name}${linebreak(index, npc.NpcFeatureController.Features.length)}`
       ).join('\n')
     }
-
     return output
   }
 

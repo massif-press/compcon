@@ -35,7 +35,7 @@
     </v-toolbar>
     <v-card-text :class="[densityClass, variantClass]"
       :style="[height && `height: ${height}`]"
-      style="overflow-y: scroll">
+      style="overflow-y: auto">
       <slot />
     </v-card-text>
     <div v-if="border"

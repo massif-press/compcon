@@ -11,6 +11,7 @@ import { StatusEvent } from './effect_events/statusEvent'
 import { OtherEvent } from './effect_events/otherEvent'
 import { SpecialEvent } from './effect_events/specialEvent'
 import { ActionSummary } from './EffectActionSummary'
+import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon'
 
 class ActiveEffectEvent {
   public ID: string
@@ -62,9 +63,6 @@ class ActiveEffectEvent {
         initiator.actor.CombatController?.ActiveActor.CombatController?.TechAttackBonus || 0
     }
 
-    // For NPC actors, add the feature-level tier accuracy/attack_bonus (e.g. NpcTech arrays).
-    // NpcWeapon already bakes these into the ActiveEffectData via toActiveEffectData(), so the
-    // lookup will find no match and is a no-op for weapon attacks.
     const npcFeatures = initiator.actor.NpcFeatureController?.Features
     if (npcFeatures?.length) {
       const tier = initiator.actor.CombatController.Tier
@@ -72,10 +70,10 @@ class ActiveEffectEvent {
         (f: any) => f.ID === effect.ID || f.Actions?.some((a: any) => a.ID === effect.ID)
       )
       if (matchingFeature) {
-        if (typeof matchingFeature.Accuracy === 'function')
-          this.Accuracy += matchingFeature.Accuracy(tier) || 0
-        if (typeof matchingFeature.AttackBonus === 'function')
-          this.AttackBonus += matchingFeature.AttackBonus(tier) || 0
+        if (typeof (matchingFeature as NpcWeapon).Accuracy === 'function')
+          this.Accuracy += (matchingFeature as NpcWeapon).Accuracy(tier) || 0
+        if (typeof (matchingFeature as NpcWeapon).AttackBonus === 'function')
+          this.AttackBonus += (matchingFeature as NpcWeapon).AttackBonus(tier) || 0
       }
     }
 
@@ -172,6 +170,7 @@ class ActiveEffectEvent {
 
   // add a new target slot
   public AddTarget() {
+    console.log('Adding target slot')
     if (this.IsPcLocal)
       this._targets.push(new ActiveEventTarget(this, null as unknown as CombatantData, this.Effect))
     else this._targets.push(null as unknown as ActiveEventTarget)

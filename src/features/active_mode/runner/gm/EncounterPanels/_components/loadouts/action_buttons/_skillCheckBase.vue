@@ -1,21 +1,6 @@
 <template>
   <v-row dense>
-    <v-col>
-      <div class="text-cc-overline text-disabled">Skill Check Roll</div>
-      <v-text-field v-model="roll"
-        density="compact"
-        variant="outlined"
-        type="number"
-        hide-spin-buttons
-        flat
-        hide-details
-        tile>
-        <template #prepend-inner>
-          <v-icon size="25"
-            icon="mdi-dice-d20" />
-        </template>
-      </v-text-field>
-    </v-col>
+
     <v-col>
       <div class="text-cc-overline text-disabled">Bonus</div>
       <v-text-field v-model="bonus"
@@ -45,7 +30,7 @@
         {{ accDiff < 0
           ? 'Difficulty'
           : 'Accuracy'
-        }}
+          }}
           </div>
           <v-text-field v-model="accDiff"
             density="compact"
@@ -80,6 +65,22 @@
             {{ a.Accuracy > 0 ? '+' : '' }}{{ a.Accuracy }} ({{ a.Source }})
           </v-card>
     </v-col>
+    <v-col>
+      <div class="text-cc-overline text-disabled">Skill Check Roll</div>
+      <v-text-field v-model="roll"
+        density="compact"
+        variant="outlined"
+        type="number"
+        hide-spin-buttons
+        flat
+        hide-details
+        tile>
+        <template #prepend-inner>
+          <v-icon size="25"
+            icon="mdi-dice-d20" />
+        </template>
+      </v-text-field>
+    </v-col>
     <slot />
   </v-row>
 
@@ -94,11 +95,8 @@
   <div v-if="rollResults.length"
     class="pa-2 border-s mt-2 text-left">
     <div class="text-cc-overline text-disabled">Roll Results</div>
-    <div v-for="(r, idx) in rollResults"
-      :key="`${r.text}_${idx}`"
-      v-html-safe="r.text"
-      class="text-caption"
-      :class="idx === 0 ? 'font-weight-bold text-accent' : 'text-disabled'" />
+    <div v-html-safe="rollResults"
+      class="text-caption text-accent" />
   </div>
 </template>
 
@@ -116,9 +114,7 @@ const props = withDefaults(defineProps<{
 })
 
 const roll = ref(null as number | null)
-const bonus = ref(0)
-const accDiff = ref(0)
-const rollResults = ref([] as { val: number, text: string }[])
+const rollResults = ref('')
 
 const applicableBonuses = computed(() => {
   const bonuses = props.controller.ActiveActor.FeatureController?.Bonuses?.filter(
@@ -143,28 +139,31 @@ const applicableBonuses = computed(() => {
   return result;
 })
 
+const bonus = ref((applicableBonuses.value.bonuses.reduce((acc, b) => acc + b.Value, 0) || 0) + (props.difficult ? -1 : 0))
+
+const accDiff = ref(applicableBonuses.value.accDiff.reduce((acc, b) => acc + b.Accuracy, 0) || 0)
+
 function rollCheck() {
-  rollResults.value = [];
-  const results = [] as { val: number, text: string }[];
-  const count = 1 + Math.abs(accDiff.value);
+  const baseRoll = Math.floor(Math.random() * 20) + 1;
+
+  const count = Math.abs(accDiff.value);
+  const accResults = [] as number[];
 
   for (let i = 1; i <= count; i++) {
-    const roll = Math.floor(Math.random() * 20) + 1;
-    const val = roll + bonus.value;
-    results.push({
-      val,
-      text: `${roll} + ${bonus.value} (${val})`,
-    });
+    accResults.push((Math.floor(Math.random() * 6) + 1) * Math.sign(accDiff.value));
   }
 
   if (accDiff.value < 0) {
-    results.sort((a, b) => a.val - b.val);
+    accResults.sort((a, b) => a - b);
   } else {
-    results.sort((a, b) => b.val - a.val);
+    accResults.sort((a, b) => b - a);
   }
 
-  rollResults.value = results;
+  const finalAccDiff = accResults.length ? accResults[0] : 0;
 
-  roll.value = results[0].val;
+  roll.value = baseRoll + Number(bonus.value) + finalAccDiff;
+
+  rollResults.value = `Base Roll: ${baseRoll}${bonus.value ? ` ${bonus.value > 0 ? '+' : '-'} ${Math.abs(bonus.value)}` : ''}${finalAccDiff ? `, ${finalAccDiff > 0 ? 'Accuracy: +' : 'Difficulty: -'} ${Math.abs(finalAccDiff)}` : ''} = <strong>${roll.value}</strong>`;
+
 }
 </script>

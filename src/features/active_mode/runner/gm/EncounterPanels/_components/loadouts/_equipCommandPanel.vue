@@ -209,8 +209,8 @@ import PilotFightButton from './action_buttons/pilotFightButton.vue'
 import AiControlButton from './_aiControlButton.vue'
 import { CombatController } from '@/classes/components/combat/CombatController'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-import { MechEquipment } from '@/classes/mech/components/equipment/MechEquipment.js'
-import { NpcFeature } from '@/classes/npc/feature/NpcFeature.js'
+import { MechEquipment } from '@/classes/mech/components/equipment/MechEquipment'
+import { NpcFeature } from '@/classes/npc/feature/NpcFeature'
 
 const _display = useDisplay()
 

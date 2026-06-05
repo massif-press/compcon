@@ -116,8 +116,8 @@
 import { computed } from 'vue'
 import { useEncounterContext } from '../../encounterContext'
 import DeployButton from './_deployButton.vue';
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance.js';
-import { Mech } from '@/classes/mech/Mech.js';
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
+import { Mech } from '@/classes/mech/Mech';
 
 const { owner, encounterInstance } = useEncounterContext()
 
