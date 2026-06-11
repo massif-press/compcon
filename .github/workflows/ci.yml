@@ -12,21 +12,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
+          cache: 'yarn'
 
       - name: Install dependencies
-        run: npm ci
+        run: yarn install --immutable
 
       # Hard gate: the production bundle must compile.
       # Uses build-nocheck (= `vite build`) deliberately: the default
-      # `npm run build` chains `vue-tsc --noEmit`, which currently reports a
+      # `yarn build` chains `vue-tsc --noEmit`, which currently reports a
       # large pre-existing error backlog (see the informational step below).
       # Gate on what must stay green; surface the backlog separately.
       - name: Build
-        run: npm run build-nocheck
+        run: yarn build-nocheck
 
       # Informational signals — visible, not yet blocking. Ratchet these to
       # hard gates once the counts are driven down (Theme A for tsc).
@@ -42,7 +45,7 @@ jobs:
 
       - name: Dependency audit (informational)
         continue-on-error: true
-        run: npm audit --omit=dev
+        run: yarn npm audit --environment production || true
 
       - name: Bundle size report
         run: |
