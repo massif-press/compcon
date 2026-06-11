@@ -5,6 +5,7 @@ import { Pilot } from './pilot/Pilot'
 import { Action } from './Action'
 import { NpcWeapon } from './npc/feature/NpcItem/NpcWeapon'
 import { Unit } from './npc/unit/Unit'
+import { ActiveEffect } from './components/feature/active_effects/ActiveEffect'
 
 function linebreak(i: number, length: number): string {
   if (i > 0 && (i + 1) % 2 === 0 && i + 1 !== length) {
@@ -443,6 +444,10 @@ function mapNpcActions(actions: Action[], tier: number): string {
 }
 
 function mapNpcWeaponStats(feature: NpcWeapon, tier: number): string {
+  // Called for every feature; weapon-only details (tags like AP, on-hit/crit
+  // effects) must be skipped for non-weapon features.
+  if (!(feature instanceof NpcWeapon)) return ''
+
   let output = ''
   if (feature.DamageData) {
     feature.Damage(tier).forEach(d => {
@@ -460,11 +465,29 @@ function mapNpcWeaponStats(feature: NpcWeapon, tier: number): string {
   if (feature.AttackBonus && feature.AttackBonus(tier)) {
     output += `${feature.AttackBonus(tier)} Attack Bonus `
   }
-  if (feature.Attacks && feature.Attacks[tier]) {
-    output += `${feature.Attacks[tier]} Attacks/Activation `
+  if (feature.Attacks && feature.Attacks[tier - 1]) {
+    output += `${feature.Attacks[tier - 1]} Attacks/Activation `
   }
 
+  const tags = feature.Tags.filter(t => !t.IsHidden).map(t => t.GetName(0, tier))
+  if (tags.length) output += `\n  ${tags.join(', ')}`
+
+  output += mapNpcWeaponEffect('On Attack', feature.OnAttack, tier)
+  output += mapNpcWeaponEffect('On Hit', feature.OnHit, tier)
+  output += mapNpcWeaponEffect('On Crit', feature.OnCrit, tier)
+  output += mapNpcWeaponEffect('On Miss', feature.OnMiss, tier)
+
   return output
+}
+
+function mapNpcWeaponEffect(
+  label: string,
+  effect: ActiveEffect | undefined,
+  tier: number
+): string {
+  const detail = effect?.getDetail(tier)
+  if (!detail) return ''
+  return `\n  ${label}: ${detail.replace(/<[^>]*>/gi, '')}`
 }
 
 export default Statblock
