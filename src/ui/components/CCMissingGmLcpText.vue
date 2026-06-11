@@ -1,24 +1,17 @@
 <template>
   <div style="min-height: 20vh; width: 700px; margin: auto" class="py-4">
-    <div class="heading h2 mb-2 text-center pb-4">No NPC editor data found!</div>
+    <div class="heading h2 mb-2 text-center pb-4">{{ $t('ui.missing.noNpcData') }}</div>
 
-    NPC data are included with the paid version of the Lancer Core Book and are therefore not
-    included with COMP/CON by default. You can find NPC Class, Template, and Feature data as
-    additional downloadable content on the
-    <a href="https://massif-press.itch.io/corebook-pdf" target="_blank">
-      LANCER: Core Book itch.io page
-    </a>
-    .
+    <i18n-t keypath="ui.missing.npcDataHelp" tag="span" scope="global">
+      <template #link><a href="https://massif-press.itch.io/corebook-pdf" target="_blank">{{ $t('ui.missing.coreBookLink') }}</a></template>
+    </i18n-t>
     <br />
     <br />
-    If you have already downloaded the NPC data, you can import it into COMP/CON via the Content
-    Manager available on the Main Menu or in the Options menu on the right side of the nav bar.
+    {{ $t('ui.missing.gmHelp1') }}
     <br />
     <br />
-    If you purchased a physical copy of the Lancer Core Book, but have not received instructions on
-    how to redeem your copy of the digital version and its associated assets, including core NPC
-    data, please contact Massif Press at
-    <a href="mailto:massifpress@gmail.com">massifpress@gmail.com</a>
-    .
+    <i18n-t keypath="ui.missing.gmHelp2" tag="span" scope="global">
+      <template #email><a href="mailto:massifpress@gmail.com">massifpress@gmail.com</a></template>
+    </i18n-t>
   </div>
 </template>

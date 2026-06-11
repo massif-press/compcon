@@ -9,7 +9,7 @@
             <v-icon start
               size="large"
               icon="cc:encounter" />
-            ENCOUNTER EDITOR
+            {{ $t('gm.encounterEditor.editorHeading') }}
           </div>
           <v-spacer />
           <v-btn icon
@@ -41,7 +41,7 @@
                 </v-col>
               </v-row>
 
-              <div class="text-overline">ENCOUNTER DETAILS</div>
+              <div class="text-overline">{{ $t('gm.encounterEditor.details') }}</div>
               <cc-rich-text-area v-model="item.Description"
                 :readonly="isRemote" />
 
@@ -66,7 +66,7 @@
                   <v-window-item>
                     <div v-if="!item.PortraitController.HasImage"
                       class="text-cc-overline text-disabled"
-                      style="padding-top:125px; padding-bottom: 125px;">NO MAP DATA</div>
+                      style="padding-top:125px; padding-bottom: 125px;">{{ $t('gm.encounterEditor.noMapData') }}</div>
                     <cc-img v-else
                       :src="item.PortraitController.Image" />
                     <cc-modal title="Set Map Image">
@@ -76,7 +76,7 @@
                           block
                           color="primary"
                           @click="open">
-                          Change Image
+                          {{ $t('common.changeImage') }}
                         </cc-button>
                       </template>
                       <cc-image-selector ref="imageSelector"
@@ -95,11 +95,11 @@
 
           <cc-icon-divider icon="mdi-robot-industrial"
             class="mt-2" />
-          <div class="text-caption">ADDITIONAL DETAIL</div>
+          <div class="text-caption">{{ $t('gm.narrative.additionalDetail') }}</div>
           <section-editor :readonly="isRemote"
             :item="item" />
           <v-divider class="my-2" />
-          <div class="text-caption">CLOCKS</div>
+          <div class="text-caption">{{ $t('gm.narrative.clocks') }}</div>
           <cc-clock v-for="(c, ci) in item.NarrativeController.Clocks"
             :key="`clock-${ci}`"
             :readonly="isRemote"
@@ -113,12 +113,12 @@
                 size="small"
                 @click="item.NarrativeController.AddClock()">
                 <v-icon start>mdi-plus</v-icon>
-                Add New Clock
+                {{ $t('gm.narrative.addClock') }}
               </cc-button>
             </v-col>
           </v-row>
           <v-divider class="my-2" />
-          <div class="text-caption">TABLES</div>
+          <div class="text-caption">{{ $t('gm.narrative.tables') }}</div>
           <cc-rollable-table v-for="(t, ti) in item.NarrativeController.Tables"
             :key="`table-${ti}`"
             :readonly="isRemote"
@@ -132,12 +132,12 @@
                 size="small"
                 @click="item.NarrativeController.AddTable()">
                 <v-icon start>mdi-plus</v-icon>
-                Add New Table
+                {{ $t('gm.narrative.addTable') }}
               </cc-button>
             </v-col>
           </v-row>
           <v-divider class="my-2" />
-          <div class="text-caption mb-2">ADDITIONAL NOTES</div>
+          <div class="text-caption mb-2">{{ $t('gm.encounterEditor.additionalNotes') }}</div>
           <cc-rich-text-area v-model="item.Note"
             :readonly="isRemote" />
         </v-container>
@@ -152,7 +152,7 @@
         :to="`/gm/print/${typeText.toLowerCase()}/${item.ID}`">
         <v-icon start
           icon="mdi-printer" />
-        Print
+        {{ $t('common.print') }}
       </cc-button>
       <cc-button size="small"
         color="primary"
@@ -160,7 +160,7 @@
         @click="exportItem(item)">
         <v-icon start
           icon="mdi-upload" />
-        Export
+        {{ $t('common.export') }}
       </cc-button>
       <v-spacer />
       <cc-dialog v-if="!isRemote && isAuthed"
@@ -174,7 +174,7 @@
             @click="open">
             <v-icon start
               icon="mdi-broadcast" />
-            Share Code
+            {{ $t('common.shareCode') }}
           </cc-button>
         </template>
         <share-dialog :item="item" />
@@ -193,7 +193,7 @@
             v-bind="props">
             <v-icon start
               icon="mdi-content-copy" />
-            Convert
+            {{ $t('common.convert') }}
           </cc-button>
         </template>
         <cc-confirmation content="Converting this item to local data will allow local editing but remove its remote link to the
@@ -209,15 +209,15 @@
             class="mx-3"
             v-bind="props">
             <v-icon start>mdi-cloud-sync</v-icon>
-            Update
+            {{ $t('common.update') }}
           </cc-button>
         </template>
         {{
           isAuthed
             ? item.CloudController.isSynced
-              ? 'Item is up to date with remote changes'
-              : 'Download all remote changes to this item, overwriting local data.'
-            : 'Must be logged in to update'
+              ? $t('gm.editorFooter.upToDate')
+              : $t('gm.editorFooter.downloadRemote')
+            : $t('gm.editorFooter.mustLogin')
         }}
       </v-tooltip>
 
@@ -234,7 +234,7 @@
             v-bind="props">
             <v-icon start
               icon="mdi-content-copy" />
-            Duplicate
+            {{ $t('common.duplicate') }}
           </cc-button>
         </template>
         <cc-confirmation content="Confirm duplication of this NPC"
@@ -254,7 +254,7 @@
             v-bind="props">
             <v-icon start
               icon="mdi-delete" />
-            Delete
+            {{ $t('common.delete') }}
           </cc-button>
         </template>
         <cc-confirmation content="This will delete this Encounter from your library. Are you sure?"
@@ -266,7 +266,7 @@
         @click="save()">
         <v-icon start
           icon="mdi-content-save" />
-        Save and Exit
+        {{ $t('gm.encounterEditor.saveAndExit') }}
       </cc-button>
     </v-footer>
   </v-card>
@@ -276,7 +276,8 @@
 import { ref, computed } from 'vue'
 import { EncounterStore, UserStore } from '@/stores'
 import { notify } from '@/util/notify'
-import { GM_STRINGS } from '@/features/gm/strings'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import SectionEditor from '../../_components/SectionEditor.vue'
 import GmLabelEditor from '../../_components/_subcomponents/GMLabelEditor.vue'
 import GmFolderEditor from '../../_components/_subcomponents/GMFolderEditor.vue'
@@ -333,9 +334,9 @@ async function remoteUpdate() {
   try {
     await CloudController.UpdateRemote(props.item)
     await UserStore().refreshDbData()
-    notify({ title: GM_STRINGS.sync.syncCompleteTitle, text: GM_STRINGS.sync.syncCompleteText(props.item.ItemType, props.item.Name), data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' } })
+    notify({ title: t('gm.sync.syncCompleteTitle'), text: t('gm.sync.syncCompleteText', { itemType: props.item.ItemType, name: props.item.Name }), data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' } })
   } catch (err) {
-    notify({ title: GM_STRINGS.sync.syncFailedTitle, text: GM_STRINGS.sync.syncFailedText(props.item.ItemType, props.item.Name, String(err)), data: { icon: 'mdi-alert', color: 'error' } })
+    notify({ title: t('gm.sync.syncFailedTitle'), text: t('gm.sync.syncFailedText', { itemType: props.item.ItemType, name: props.item.Name, err: String(err) }), data: { icon: 'mdi-alert', color: 'error' } })
   }
 }
 async function convert() {

@@ -3,7 +3,7 @@
     class="mb-6">
     <v-card flat>
       <div class="text-disabled text-caption pl-2">
-        <i>No Templates</i>
+        <i>{{ $t('gm.npcTemplate.noTemplates') }}</i>
       </div>
     </v-card>
   </div>
@@ -35,7 +35,7 @@
       <cc-button color="primary"
         size="small"
         @click="dialog = true">
-        {{ item.NpcTemplateController.Templates.length ? 'Edit' : 'Assign' }} NPC Templates
+        {{ item.NpcTemplateController.Templates.length ? $t('gm.npcTemplate.editTemplates') : $t('gm.npcTemplate.assignTemplates') }}
       </cc-button>
     </v-col>
   </v-row>
@@ -87,7 +87,7 @@
                     color="error"
                     @click="removeTemplate(item)" />
                 </template>
-                Remove Template
+                {{ $t('gm.npcTemplate.removeTemplate') }}
               </v-tooltip>
 
               <v-icon v-else-if="templateConflict(item).length"
@@ -104,7 +104,7 @@
                     color="secondary"
                     @click="addTemplate(item)" />
                 </template>
-                Assign Template
+                {{ $t('gm.npcTemplate.assignTemplate') }}
               </v-tooltip>
             </template>
           </v-list-item>
@@ -136,7 +136,7 @@
             color="error"
             @click="removeTemplate(selected)">
             <v-icon start>mdi-minus</v-icon>
-            Remove Template
+            {{ $t('gm.npcTemplate.removeTemplate') }}
           </cc-button>
 
           <cc-button v-else-if="templateConflict(selected).length"
@@ -145,7 +145,7 @@
             disabled>
             <v-icon start
               icon="mdi-cancel" />
-            Cannot assign (conflicts with {{ templateConflict(selected) }})
+            {{ $t('gm.npcTemplate.cannotAssign', { conflict: templateConflict(selected) }) }}
           </cc-button>
 
           <cc-button v-else
@@ -154,7 +154,7 @@
             color="secondary"
             @click="addTemplate(selected)">
             <v-icon start>mdi-plus</v-icon>
-            Assign Template
+            {{ $t('gm.npcTemplate.assignTemplate') }}
           </cc-button>
         </v-container>
         <v-row v-else
@@ -162,7 +162,7 @@
           justify="center"
           style="width: 100%; height: 100%">
           <v-col cols="auto">
-            <span class="heading h1 text-disabled text--lighten-2">select npc template</span>
+            <span class="heading h1 text-disabled text--lighten-2">{{ $t('gm.npcTemplate.selectNpcTemplate') }}</span>
           </v-col>
         </v-row>
       </v-main>

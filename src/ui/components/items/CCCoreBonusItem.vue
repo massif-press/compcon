@@ -19,12 +19,11 @@
             </v-btn>
           </template>
           <div class="text-center">
-            <div>Remove this CORE Bonus</div>
+            <div>{{ $t('ui.coreBonus.remove') }}</div>
             <v-divider class="my-1" />
             <div class="text-caption">
-              <b class="text-error">WARNING</b>
-              This is an instanced item. If removed, this Core bonus will not be available until the
-              associated LCP is installed.
+              <b class="text-error">{{ $t('ui.widget.warningUpper') }}</b>
+              {{ $t('ui.coreBonus.instancedWarning') }}
             </div>
           </div>
         </v-tooltip>
@@ -36,7 +35,7 @@
     <p v-html-safe="bonus.Effect" class="pb-1" />
 
     <div v-if="!combat && bonus.Actions.length">
-      <div class="text-cc-overline text-disabled">CORE BONUS ACTIONS</div>
+      <div class="text-cc-overline text-disabled">{{ $t('ui.coreBonus.actions') }}</div>
       <v-row no-gutters justify="center">
         <v-col v-for="(a, i) in bonus.Actions" :key="`action_${bonus.Name}_${i}`" cols="auto">
           <cc-action :action="a" :panel="!terse" class="ma-2" />
@@ -45,7 +44,7 @@
     </div>
 
     <div v-if="!combat && bonus.Deployables.length">
-      <div class="text-cc-overline text-disabled">CORE BONUS DEPLOYABLES</div>
+      <div class="text-cc-overline text-disabled">{{ $t('ui.coreBonus.deployables') }}</div>
       <v-row no-gutters justify="center">
         <v-col
           v-for="(d, i) in bonus.Deployables"
@@ -61,7 +60,7 @@
     </div>
 
     <div v-if="!combat && bonus.IntegratedEquipment.length">
-      <div class="text-cc-overline text-disabled">CORE BONUS INTEGRATED EQUIPMENT</div>
+      <div class="text-cc-overline text-disabled">{{ $t('ui.coreBonus.integrated') }}</div>
       <v-row no-gutters justify="center">
         <v-col
           v-for="(x, i) in bonus.IntegratedEquipment"
@@ -73,7 +72,7 @@
     </div>
 
     <div v-if="!combat && bonus.SpecialEquipment.length">
-      <div class="text-cc-overline text-disabled">CORE BONUS ADDITIONAL EQUIPMENT</div>
+      <div class="text-cc-overline text-disabled">{{ $t('ui.coreBonus.additional') }}</div>
       <v-row no-gutters justify="center">
         <v-col
           v-for="(x, i) in bonus.SpecialEquipment"

@@ -34,12 +34,12 @@
         <v-col cols="auto">
           <v-icon icon="mdi-mouse-left-click-outline"
             class="mr-1" />
-          Pan
+          {{ $t('gm.map.pan') }}
         </v-col>
         <v-col cols="auto">
           <v-icon icon="mdi-mouse-scroll-wheel"
             class="mr-1" />
-          Zoom
+          {{ $t('gm.map.zoom') }}
         </v-col>
       </v-row>
     </v-col>
@@ -48,7 +48,7 @@
         size="x-small"
         variant="outlined"
         @click="$refs.mapCanvas.resetView()">
-        Reset View
+        {{ $t('gm.map.resetView') }}
       </v-btn>
     </v-col>
     <v-spacer />
@@ -62,7 +62,7 @@
             <v-icon size="small"
               icon="mdi-upload"
               start />
-            Import
+            {{ $t('common.import') }}
           </v-btn>
         </template>
         <v-card>
@@ -79,13 +79,13 @@
           <v-card-actions>
             <v-btn color="accent"
               text
-              @click="showImportDialog = false">Cancel</v-btn>
+              @click="showImportDialog = false">{{ $t('common.cancel') }}</v-btn>
             <v-spacer />
             <v-btn color="success"
               text
               :disabled="!stagedMap?.MapType"
               @click="importStagedMap()">
-              Import
+              {{ $t('common.import') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -101,7 +101,7 @@
             <v-icon size="small"
               icon="mdi-download"
               start />
-            Export
+            {{ $t('common.export') }}
           </v-btn>
         </template>
         <v-list>
@@ -123,7 +123,7 @@
       </v-col>
       <v-col>
         <v-btn variant="tonal"
-          color="accent">Load</v-btn>
+          color="accent">{{ $t('gm.map.load') }}</v-btn>
       </v-col>
       <v-col v-if="!showEditor"
         cols="auto">
@@ -133,31 +133,29 @@
           <template #activator="{ props }">
             <v-btn v-bind="props"
               color="primary"
-              text>Open Editor</v-btn>
+              text>{{ $t('gm.map.openEditor') }}</v-btn>
           </template>
           <v-card>
             <v-toolbar density="compact"
               color="warning">
-              <v-toolbar-title>Warning</v-toolbar-title>
+              <v-toolbar-title>{{ $t('common.warning') }}</v-toolbar-title>
             </v-toolbar>
             <v-card-text>
               <v-alert icon="mdi-alert"
                 prominent
                 variant="outlined">
-                Clicking "Continue" will enable the experimental map editor. The map editor is still
-                under development and is presented in an unfinished state. You may encounter bugs
-                and other rough edges.
+                {{ $t('gm.map.experimentalWarning') }}
               </v-alert>
             </v-card-text>
             <v-divider />
             <v-card-actions>
               <v-btn color="accent"
                 text
-                @click="showEditorDialog = false">Cancel</v-btn>
+                @click="showEditorDialog = false">{{ $t('common.cancel') }}</v-btn>
               <v-spacer />
               <v-btn color="success"
                 text
-                @click="allowEditor()">Continue</v-btn>
+                @click="allowEditor()">{{ $t('common.continue') }}</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -177,18 +175,18 @@
           <v-btn value="Square">
             <v-icon start
               icon="mdi-square-outline" />
-            Square
+            {{ $t('gm.map.square') }}
           </v-btn>
           <v-btn value="HexV">
             <v-icon start
               icon="mdi-hexagon-outline" />
-            Hex (V)
+            {{ $t('gm.map.hexV') }}
           </v-btn>
           <v-btn value="HexH">
             <v-icon start
               icon="mdi-hexagon-outline"
               class="mdi-rotate-90" />
-            Hex (H)
+            {{ $t('gm.map.hexH') }}
           </v-btn>
         </v-btn-toggle>
       </v-col>
@@ -217,14 +215,14 @@
           variant="tonal"
           fade-select
           @click="clear">
-          Clear Map
+          {{ $t('gm.map.clearMap') }}
         </v-btn>
       </v-col>
     </v-row>
     <v-divider class="my-2" />
     <v-row>
       <v-col>
-        <div class="text-caption">PALETTE</div>
+        <div class="text-caption">{{ $t('gm.map.palette') }}</div>
         <v-btn-toggle v-model="spaceType"
           density="compact"
           variant="outlined"
@@ -234,37 +232,37 @@
             <v-icon icon="mdi-square"
               color="red"
               start />
-            Deployment
+            {{ $t('gm.map.deployment') }}
           </v-btn>
           <v-btn value="ingress">
             <v-icon icon="mdi-square"
               color="blue"
               start />
-            Ingress
+            {{ $t('gm.map.ingress') }}
           </v-btn>
           <v-btn value="egress">
             <v-icon icon="mdi-square"
               color="green"
               start />
-            Egress
+            {{ $t('gm.map.egress') }}
           </v-btn>
           <v-btn value="objective">
             <v-icon icon="mdi-square"
               color="amber"
               start />
-            Objective
+            {{ $t('gm.map.objective') }}
           </v-btn>
           <v-divider vertical />
           <v-btn value="obstruction">
             <v-icon icon="mdi-square"
               color="grey"
               start />
-            Obstruction
+            {{ $t('gm.map.obstruction') }}
           </v-btn>
         </v-btn-toggle>
       </v-col>
       <v-col>
-        <div class="text-caption">TYPE</div>
+        <div class="text-caption">{{ $t('gm.map.type') }}</div>
         <v-btn-toggle v-model="subtype"
           density="compact"
           variant="outlined"
@@ -274,12 +272,12 @@
           <v-btn value="player">
             <v-icon start
               icon="cc:pilot" />
-            Player
+            {{ $t('gm.map.player') }}
           </v-btn>
           <v-btn value="enemy">
             <v-icon start
               icon="cc:encounter" />
-            Enemy
+            {{ $t('gm.map.enemy') }}
           </v-btn>
         </v-btn-toggle>
       </v-col>
@@ -293,7 +291,7 @@
       color="accent"
       prepend-icon="mdi-content-save"
       @click="saveAndExit">
-      Save and Exit
+      {{ $t('gm.map.saveAndExit') }}
     </v-btn>
   </v-footer>
 </template>

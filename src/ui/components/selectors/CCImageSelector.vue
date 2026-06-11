@@ -4,9 +4,9 @@
       density="compact"
       grow
       bg-color="primary">
-      <v-tab>Cloud Account</v-tab>
-      <v-tab>Remote Images</v-tab>
-      <v-tab>COMP/CON Image Archive</v-tab>
+      <v-tab>{{ $t('ui.image.cloudAccount') }}</v-tab>
+      <v-tab>{{ $t('ui.image.remoteImages') }}</v-tab>
+      <v-tab>{{ $t('ui.image.archive') }}</v-tab>
     </v-tabs>
     <v-container>
       <v-row align="center">
@@ -46,11 +46,11 @@
                   :avatar="item.PortraitController.Avatar" />
                 <div v-else
                   class="text-overline pt-2">
-                  no avatar set
+                  {{ $t('ui.image.noAvatar') }}
                   <br />
                   <div v-if="!item.PortraitController.CloudImage"
                     class="pt-4"
-                    v-text="'Requires Image Selection'" />
+                    v-text="$t('ui.image.requiresSelection')" />
                 </div>
               </v-card>
             </v-card>
@@ -62,7 +62,7 @@
                   color="error"
                   prepend-icon="mdi-cancel"
                   @click="clearImage()">
-                  clear image
+                  {{ $t('ui.image.clearImage') }}
                 </cc-button>
               </v-col>
               <v-col v-if="avatar"
@@ -78,7 +78,7 @@
                         prepend-icon="mdi-crop"
                         :disabled="!item.PortraitController.CloudImage"
                         @click="open">
-                        Set Avatar
+                        {{ $t('ui.image.setAvatar') }}
                       </cc-button>
                     </template>
                     <template #default="{ close }">
@@ -96,7 +96,7 @@
                     class="fade-select"
                     variant="outlined"
                     @click="clearCrop()">
-                    clear avatar
+                    {{ $t('ui.image.clearAvatar') }}
                   </cc-button>
                 </div>
               </v-col>

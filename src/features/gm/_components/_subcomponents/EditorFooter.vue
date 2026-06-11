@@ -11,7 +11,7 @@
           :size="mobile ? 'x-small' : 'small'"
           color="error"
           v-bind="props">
-          Delete
+          {{ $t('common.delete') }}
         </cc-button>
       </template>
       <v-card-text>
@@ -26,13 +26,13 @@
     <cc-button prepend-icon="mdi-printer"
       :size="mobile ? 'x-small' : 'small'"
       @click="$emit('print', item.ID)">
-      Print
+      {{ $t('common.print') }}
     </cc-button>
     <cc-button prepend-icon="mdi-upload"
       :size="mobile ? 'x-small' : 'small'"
       class="ml-2"
       @click="$emit('export', item)">
-      Export
+      {{ $t('common.export') }}
     </cc-button>
     <slot name="footer" />
 
@@ -47,7 +47,7 @@
           @click="open">
           <v-icon start
             icon="mdi-broadcast" />
-          Share Code
+          {{ $t('common.shareCode') }}
         </cc-button>
       </template>
       <share-dialog :item="item" />
@@ -66,7 +66,7 @@
           v-bind="props">
           <v-icon start
             icon="mdi-content-copy" />
-          Convert
+          {{ $t('common.convert') }}
         </cc-button>
       </template>
       <cc-confirmation content="Converting this item to local data will allow local editing but remove its remote link to the
@@ -82,15 +82,15 @@
           class="mx-3"
           v-bind="props">
           <v-icon start>mdi-cloud-sync</v-icon>
-          Update
+          {{ $t('common.update') }}
         </cc-button>
       </template>
       {{
         isAuthed
           ? item.CloudController.isSynced
-            ? 'Item is up to date with remote changes'
-            : 'Download all remote changes to this item, overwriting local data.'
-          : 'Must be logged in to update'
+            ? $t('gm.editorFooter.upToDate')
+            : $t('gm.editorFooter.downloadRemote')
+          : $t('gm.editorFooter.mustLogin')
       }}
     </v-tooltip>
 
@@ -106,7 +106,7 @@
           v-bind="props">
           <v-icon start
             icon="mdi-content-copy" />
-          Duplicate
+          {{ $t('common.duplicate') }}
         </cc-button>
       </template>
       <cc-confirmation content="Confirm duplication of this NPC"
@@ -121,7 +121,7 @@
       @click="$emit('exit')">
       <v-icon start
         icon="mdi-arrow-left" />
-      Exit
+      {{ $t('common.exit') }}
     </cc-button>
   </v-footer>
 </template>

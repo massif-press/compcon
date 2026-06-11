@@ -2,7 +2,7 @@
   <v-row align="center"
     no-gutters
     class="heading h3">
-    <v-col cols="auto">1d20</v-col>
+    <v-col cols="auto">{{ $t('ui.combat.d20') }}</v-col>
     <v-col cols="auto"
       class="mx-2">+</v-col>
     <v-col cols="auto">

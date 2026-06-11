@@ -64,7 +64,7 @@
               <template #activator="{ props }">
                 <v-icon size="x-large">mdi-magnify</v-icon>
               </template>
-              <div class="text-center">View Image</div>
+              <div class="text-center">{{ $t('mainMenu.ui.viewImage') }}</div>
             </v-tooltip>
           </v-btn>
         </template>
@@ -93,7 +93,7 @@
             <v-icon size="x-large">mdi-download</v-icon>
           </v-btn>
         </template>
-        <div class="text-center">Download Copy</div>
+        <div class="text-center">{{ $t('mainMenu.ui.downloadCopy') }}</div>
       </v-tooltip>
 
       <v-tooltip max-width="300px"
@@ -109,11 +109,10 @@
           </v-btn>
         </template>
         <div class="text-center">
-          Delete
+          {{ $t('common.delete') }}
           <br />
           <i class="text-caption">
-            Please note that this will break any references to this image in your data. This action
-            cannot be undone.
+            {{ $t('mainMenu.ui.imageDeleteWarning') }}
           </i>
         </div>
       </v-tooltip>
@@ -122,6 +121,8 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import { computed, ref } from 'vue'
 import { notify } from '@/util/notify'
 import { useDisplay } from 'vuetify'
@@ -205,8 +206,8 @@ async function deleteImage(item) {
 
     emit('refresh');
     notify({
-      title: `Image Deleted`,
-      text: `Removed ${item.ItemType} ${item.Name}.`,
+      title: t('mainMenu.account.imageDeletedTitle'),
+      text: t('mainMenu.account.imageDeletedText', { itemType: item.ItemType, name: item.Name }),
       data: { icon: 'mdi-delete', color: 'success' },
     });
     deleteLoading.value = false;
@@ -214,8 +215,8 @@ async function deleteImage(item) {
   } catch (err) {
     logger.error(`Error deleting image: ${err}`, this, err);
     notify({
-      title: `Deletion Failed`,
-      text: `Unable to communicate with server. ${err}`,
+      title: t('mainMenu.account.deletionFailedTitle'),
+      text: t('mainMenu.account.deletionFailedText', { err: String(err) }),
       data: { icon: 'mdi-alert', color: 'error' },
     });
   }

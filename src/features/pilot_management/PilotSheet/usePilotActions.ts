@@ -4,6 +4,9 @@ import { UserStore } from '@/stores'
 import { CloudController } from '@/classes/components/cloud/CloudController'
 import logger from '@/user/logger'
 import { notify } from '@kyvg/vue3-notification'
+import { i18n } from '@/i18n'
+
+const t = i18n.global.t
 
 function usePilotActions(props: { pilot: any }) {
   function exportPilot(v2 = false) {
@@ -15,15 +18,17 @@ function usePilotActions(props: { pilot: any }) {
         v2
       )
       notify({
-        title: 'Export Success',
-        text: `Pilot data saved as "${props.pilot.Callsign.toUpperCase().replace(/\W/g, '')}.json"`,
+        title: t('pm.export.exportSuccessTitle'),
+        text: t('pm.export.exportSuccessText', {
+          callsign: props.pilot.Callsign.toUpperCase().replace(/\W/g, ''),
+        }),
         data: { type: 'success', icon: 'mdi-check' },
       })
     } catch (error) {
       logger.error(`Pilot export failed: ${error}`, props.pilot, error)
       notify({
-        title: 'Export Error',
-        text: 'COMP/CON was unable to export pilot data',
+        title: t('pm.export.exportErrorTitle'),
+        text: t('pm.export.exportErrorText'),
         data: { type: 'error', icon: 'mdi-alert' },
       })
     }
@@ -34,15 +39,22 @@ function usePilotActions(props: { pilot: any }) {
       await CloudController.UpdateRemote(props.pilot)
       await UserStore().refreshDbData()
       notify({
-        title: 'Sync Complete',
-        text: `Pilot ${props.pilot.Callsign} // ${props.pilot.Name} synced.`,
+        title: t('pm.sync.syncCompleteTitle'),
+        text: t('pm.sync.syncCompleteText', {
+          callsign: props.pilot.Callsign,
+          name: props.pilot.Name,
+        }),
         data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
       })
     } catch (err) {
       logger.error(`Error syncing pilot: ${err}`, props.pilot, err)
       notify({
-        title: 'Sync Failed',
-        text: `Failed to sync Pilot ${props.pilot.Callsign} // ${props.pilot.Name}. ${err}`,
+        title: t('pm.sync.syncFailedTitle'),
+        text: t('pm.sync.syncFailedText', {
+          callsign: props.pilot.Callsign,
+          name: props.pilot.Name,
+          err: String(err),
+        }),
         data: { icon: 'mdi-alert', color: 'error' },
       })
     }

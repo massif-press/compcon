@@ -8,7 +8,7 @@
   <v-card v-else
     variant="outlined">
     <v-card-text class="text center">
-      <i>No filters available</i>
+      <i>{{ $t('ui.filter.noFilters') }}</i>
     </v-card-text>
   </v-card>
 </template>

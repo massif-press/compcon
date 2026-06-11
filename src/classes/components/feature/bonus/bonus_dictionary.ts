@@ -106,6 +106,7 @@ interface IBonusMeta {
   id: string
   title: string
   detail: string
+  hidden?: boolean
 }
 
 const _coreEntries: IBonusMeta[] = [

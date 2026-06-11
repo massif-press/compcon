@@ -23,20 +23,16 @@
         <div>
           <v-icon size="100"
             class="">mdi-book-off-outline</v-icon>
-          <div class="heading h4">Missing GM Content</div>
-          <div class="heading h2 mb-2 text-center pb-4">No Eidolon editor data found!</div>
+          <div class="heading h4">{{ $t('gm.noItem.missingContent') }}</div>
+          <div class="heading h2 mb-2 text-center pb-4">{{ $t('gm.eidolonData.noData') }}</div>
 
-          Eidolon data are included with the paid version of No Room for a Wallflower: Act 1, and
-          can be found in the downloadable content section on the
-          <a href="https://massif-press.itch.io/no-room-for-a-wallflower-act-1"
-            target="_blank">
-            No Room for a Wallflower: Act 1 itch.io page.
-          </a>
+          <i18n-t keypath="gm.eidolonData.help1" tag="span" scope="global">
+            <template #link><a href="https://massif-press.itch.io/no-room-for-a-wallflower-act-1"
+              target="_blank">{{ $t('gm.eidolonData.linkText') }}</a></template>
+          </i18n-t>
           <br />
           <br />
-          If you have already downloaded the Wallflower GM LCP, you can import it into COMP/CON via
-          the Content Manager available on the Main Menu or in the Options menu on the right side of
-          the nav bar.
+          {{ $t('gm.eidolonData.help2') }}
         </div>
       </v-col>
     </v-row>

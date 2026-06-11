@@ -18,7 +18,7 @@
       @equip="SetClass($event)"
       @view-change="toggleTieredView">
       <template #header>
-        <div class="heading h3 text-center text-accent">NPC Classes</div>
+        <div class="heading h3 text-center text-accent">{{ $t('gm.npcClass.npcClasses') }}</div>
         <v-slide-y-transition>
           <div v-if="tieredView"
             class="text-center my-n1">
@@ -28,11 +28,11 @@
               mandatory
               style="height: 15px">
               <v-btn size="x-small"
-                :value="1">Tier 1</v-btn>
+                :value="1">{{ $t('gm.npcClass.tierN', { n: 1 }) }}</v-btn>
               <v-btn size="x-small"
-                :value="2">Tier 2</v-btn>
+                :value="2">{{ $t('gm.npcClass.tierN', { n: 2 }) }}</v-btn>
               <v-btn size="x-small"
-                :value="3">Tier 3</v-btn>
+                :value="3">{{ $t('gm.npcClass.tierN', { n: 3 }) }}</v-btn>
             </v-btn-toggle>
           </div>
         </v-slide-y-transition>

@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div class="heading h2">Local Active Encounters</div>
+    <div class="heading h2">{{ $t('active.encMgr.localActiveEncounters') }}</div>
 
     <active-mode-sort-bar v-model:sort="sort"
       v-model:asc="asc"
@@ -45,7 +45,7 @@
                 class="heading text-white">
                 {{ e.Encounter.Name }}
                 <cc-slashes class="mx-3" />
-                <span class="text-disabled mr-1">ROUND</span>
+                <span class="text-disabled mr-1">{{ $t('active.labels.round') }}</span>
                 <b>{{ e.Round }}</b>
               </v-col>
               <v-col cols="auto"
@@ -65,7 +65,7 @@
                       <v-list-item prepend-icon="mdi-delete"
                         color="error"
                         @click="RemoveEncounter(e)">
-                        <v-list-item-title>Delete Encounter</v-list-item-title>
+                        <v-list-item-title>{{ $t('active.encMgr.deleteEncounter') }}</v-list-item-title>
                       </v-list-item>
                     </v-list>
                   </v-card>
@@ -81,14 +81,14 @@
                 class="pb-0 my-1">
                 <div>
                   <span class="text-disabled mr-1">
-                    CREATED
+                    {{ $t('active.labels.created') }}
                     <cc-slashes />
                   </span>
                   <b>{{ new Date(e.SaveController.Created).toLocaleDateString() }}</b>
                 </div>
                 <div v-if="e.SaveController.LastModified">
                   <span class="text-disabled mr-1">
-                    LAST UPDATE
+                    {{ $t('active.labels.lastUpdate') }}
                     <cc-slashes />
                   </span>
                   <b>{{ new Date(e.SaveController.LastModified).toLocaleDateString() }}</b>
@@ -97,7 +97,7 @@
               <v-col class="mb-0 pb-0 mt-1">
                 <div>
                   <span class="text-disabled mr-1">
-                    ENVIRONMENT
+                    {{ $t('active.labels.environment') }}
                     <cc-slashes />
                   </span>
                   <b>{{ e.Encounter.Environment.Name }}</b>
@@ -105,7 +105,7 @@
 
                 <div>
                   <span class="text-disabled mr-1">
-                    SITREP
+                    {{ $t('active.labels.sitrep') }}
                     <cc-slashes />
                   </span>
                   <b>{{ e.Encounter.Sitrep.Name }}</b>
@@ -142,14 +142,14 @@
       prepend-icon="mdi-plus"
       color="primary"
       :to="'new-encounter'">
-      Create New Encounter
+      {{ $t('active.encMgr.createNewEncounter') }}
     </cc-button>
     <br />
 
     <v-expansion-panels>
       <v-expansion-panel>
         <v-expansion-panel-title class="text-cc-overline">
-          Archived Encounters ({{ archived.length }})
+          {{ $t('active.encMgr.archivedEncounters', { n: archived.length }) }}
         </v-expansion-panel-title>
         <v-expansion-panel-text>
           <div class="mb-4"
@@ -163,7 +163,7 @@
           </div>
           <div v-if="archived.length === 0"
             class="text-center text-cc-overline text-disabled">
-            <i>No archived encounters found{{ search ? ` including "${search}"` : '' }}.</i>
+            <i>{{ search ? $t('active.encMgr.noArchivedFoundFiltered', { search }) : $t('active.encMgr.noArchivedFound') }}.</i>
           </div>
           <v-row v-for="e in archived"
             :key="e.ID"
@@ -180,13 +180,13 @@
               </v-card>
             </v-col>
             <v-col cols="auto">
-              {{ e.Round }} Rounds
+              {{ $t('active.encMgr.roundsCount', { n: e.Round }) }}
               <div>
-                <span class="text-disabled mr-1">CREATED</span>
+                <span class="text-disabled mr-1">{{ $t('active.labels.created') }}</span>
                 <b>{{ new Date(e.Start).toLocaleDateString() }}</b>
               </div>
               <div>
-                <span class="text-disabled mr-1">ARCHIVED</span>
+                <span class="text-disabled mr-1">{{ $t('active.labels.archived') }}</span>
                 <b>{{ new Date(e.End).toLocaleDateString() }}</b>
               </div>
             </v-col>
@@ -196,7 +196,7 @@
                 <template #activator="{ open }">
                   <cc-button size="small"
                     color="primary"
-                    @click="open()">After-Action Report</cc-button>
+                    @click="open()">{{ $t('active.encMgr.afterActionReport') }}</cc-button>
                 </template>
                 <v-card flat
                   tile>
@@ -207,9 +207,7 @@
                       tile
                       color="panel"
                       border=start
-                      border-color="red">This feature is still in development. After-action
-                      reports will be expanded in future builds.
-                    </v-alert>
+                      border-color="red">{{ $t('active.encMgr.devNoteReport') }}</v-alert>
                     <div class="pa-2 bg-background">
                       <code class="text-left"
                         style="white-space: pre-wrap; word-break: break-word;">
@@ -220,11 +218,11 @@
                   <v-card-actions>
                     <cc-button color="primary"
                       @click="copyText(reportText(e))">
-                      Copy Report
+                      {{ $t('active.encMgr.copyReport') }}
                     </cc-button>
                     <cc-button color="primary"
                       @click="exportJson(e, 'report')">
-                      Export as JSON
+                      {{ $t('active.common.exportAsJson') }}
                     </cc-button>
                   </v-card-actions>
                 </v-card>
@@ -236,7 +234,7 @@
                 <template #activator="{ open }">
                   <cc-button size="small"
                     color="primary"
-                    @click="open()">Logs & Telemetry</cc-button>
+                    @click="open()">{{ $t('active.encMgr.logsTelemetry') }}</cc-button>
                 </template>
                 <v-card flat
                   tile>
@@ -247,9 +245,7 @@
                       tile
                       color="panel"
                       border=start
-                      border-color="red">This feature is still in development. Additional
-                      data and export options will be available in future builds.
-                    </v-alert>
+                      border-color="red">{{ $t('active.encMgr.devNoteLogs') }}</v-alert>
                     <v-expansion-panels>
                       <v-expansion-panel v-for="(a, index) in e.History"
                         :key="`log-${index}`">
@@ -261,12 +257,12 @@
                             style="white-space: pre-wrap; word-break: break-word;">
                         <v-row dense>
                           <v-col>
-                            <div class="text-disabled mb-1">BATTLEFIELD TELEMETRY</div>
+                            <div class="text-disabled mb-1">{{ $t('active.encMgr.battlefieldTelemetry') }}</div>
                             <div class="text-disabled mb-1">---------------------</div>
                             {{ formatTelemetry(a.telemetry) }}
                           </v-col>
                           <v-col style="max-height: 800px; overflow-y: scroll;">
-                            <div class="text-disabled mb-1">COMBAT LOGS</div>
+                            <div class="text-disabled mb-1">{{ $t('active.encMgr.combatLogs') }}</div>
                             <div class="text-disabled mb-1">---------------------</div>
                             <div v-for="(log, logIndex) in a.log" :key="`log-entry-${logIndex}`"
                               class="mb-2">
@@ -282,7 +278,7 @@
                   <v-card-actions>
                     <cc-button color="primary"
                       @click="exportJson(e, 'logs')">
-                      Export as JSON
+                      {{ $t('active.common.exportAsJson') }}
                     </cc-button>
                   </v-card-actions>
                 </v-card>
@@ -304,19 +300,16 @@
                 </template>
                 <v-card>
                   <v-card-text>
-                    <b>Delete this archive?</b>
+                    <b>{{ $t('active.encMgr.deleteArchivePrompt') }}</b>
                     <br>
                     <p class="text-caption text--text mb-2">
-                      This will flag the archive for deletion. It will no longer appear in this
-                      list,
-                      but will be permanently deleted based on your retention options in the Options
-                      Menu.
+                      {{ $t('active.encMgr.deleteArchiveDetail') }}
                     </p>
                     <cc-button size="small"
                       block
                       color="primary"
                       @click="deleteEncounter(e)">
-                      Delete
+                      {{ $t('common.delete') }}
                     </cc-button>
                   </v-card-text>
                 </v-card>

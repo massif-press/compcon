@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="text-cc-overline text-disabled">RESIST / IMMUNE / VULN.</div>
+    <div class="text-cc-overline text-disabled">{{ $t('active.dmgCond.title') }}</div>
     <v-row dense
       justify="center">
       <v-col v-for="damage in damageTypes"
@@ -47,22 +47,22 @@
             {{ damage.Name }}
             {{
               hasImmunity(damage)
-                ? 'Immunity'
+                ? $t('active.dmgCond.immunity')
                 : hasVulnerability(damage)
-                  ? 'Vulnerability'
-                  : 'Resistance'
+                  ? $t('active.dmgCond.vulnerability')
+                  : $t('active.dmgCond.resistance')
             }}
           </div>
           {{
             hasImmunity(damage)
-              ? 'No damage'
+              ? $t('active.dmgCond.noDamage')
               : hasResistance(damage)
-                ? 'Half damage'
+                ? $t('active.dmgCond.halfDamage')
                 : hasVulnerability(damage)
-                  ? 'Double damage'
-                  : 'Full Damage'
+                  ? $t('active.dmgCond.doubleDamage')
+                  : $t('active.dmgCond.fullDamage')
           }}
-          from {{ damage.Name }} attacks.
+          {{ $t('active.dmgCond.fromAttacks', { type: damage.Name }) }}
         </v-tooltip>
       </v-col>
     </v-row>

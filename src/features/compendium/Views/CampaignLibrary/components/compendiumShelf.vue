@@ -1,9 +1,9 @@
 <template>
   <v-card v-if="!campaigns.length"
     class="text-center py-6 text-disabled mt-4">
-    <div class="heading">No Campaigns Found</div>
+    <div class="heading">{{ $t('compendium.campaign.noCampaignsFound') }}</div>
     <div class="text-caption">
-      Campaigns can be imported via File Import or the Lancer Campaign Directory
+      {{ $t('compendium.campaign.importHint') }}
     </div>
   </v-card>
   <div class="mt-4">
@@ -61,14 +61,13 @@
           icon="mdi-information"
           prominent>
           <div class="text-cc-overline">
-            There is a new version of this campaign available. Click the update below to download
-            and install the latest version of this campaign.
+            {{ $t('compendium.campaign.newVersionAvailable') }}
           </div>
           <div class="text-right mt-1 mr-2">
             <cc-button size="small"
               :loading="loading"
               @click="updateCampaign()">
-              Update Campaign
+              {{ $t('compendium.campaign.updateCampaign') }}
             </cc-button>
           </div>
         </cc-alert>
@@ -83,22 +82,22 @@
                   variant="tonal"
                   color="error"
                   prepend-icon="mdi-delete">
-                  Remove from Collection
+                  {{ $t('compendium.campaign.removeFromCollection') }}
                 </v-btn>
               </template>
               <v-card>
                 <v-card-text>
-                  This will remove the campaign from your collection. Are you sure?
+                  {{ $t('compendium.campaign.removeConfirm') }}
                 </v-card-text>
                 <v-divider />
                 <v-card-actions>
                   <v-btn variant="text"
-                    @click="">Cancel</v-btn>
+                    @click="">{{ $t('common.cancel') }}</v-btn>
                   <v-spacer />
                   <v-btn variant="text"
                     color="error"
                     @click="removeCampaign(selected)">
-                    Remove
+                    {{ $t('compendium.campaign.remove') }}
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -111,7 +110,7 @@
             prepend-icon="mdi-chevron-double-right"
             color="primary"
             :to="`/srd/campaign/${selected.id}`">
-            Open Campaign
+            {{ $t('compendium.campaign.openCampaign') }}
           </cc-button>
         </div>
       </v-card>

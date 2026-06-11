@@ -14,7 +14,7 @@
               icon="mdi-exclamation-thick"
               color="error" />
           </template>
-          <div class="text-center text-cc-overline">Cannot activate</div>
+          <div class="text-center text-cc-overline">{{ $t('ui.combat.cannotActivateShort') }}</div>
           <v-divider class="my-1" />
           <div v-if="customDisabledText"
             class="text-center">
@@ -22,7 +22,7 @@
           </div>
           <slot v-else
             name="reason">
-            <div class="text-center">Cannot activate.</div>
+            <div class="text-center">{{ $t('ui.combat.cannotActivate') }}</div>
           </slot>
         </v-tooltip>
       </span>

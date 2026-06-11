@@ -40,30 +40,35 @@
           </v-list-group>
         </v-list>
       </v-navigation-drawer>
-      <h1 class="heading h1 ml-8">FAQ & ERRATA</h1>
+      <h1 class="heading h1 ml-8">{{ $t('compendium.reference.faqErrata') }}</h1>
       <v-container>
         <cc-alert color="panel" class="mb-5">
-          <div class="heading h4">Please note:</div>
+          <div class="heading h4">{{ $t('compendium.reference.pleaseNote') }}</div>
           <div>
-            This FAQ and Errata is a community-driven project and is not part of an official Massif
-            Press LANCER release. This page is furnished by FAQ data from the
-            <v-chip
-              tile
-              variant="tonal"
-              size="small"
-              href="https://github.com/aritsune/lancer-faq"
-              target="_blank">
-              lancer-faq repository
-            </v-chip>
-            on GitHub, currently maintained by lenaleciel. This document is also available at
-            <v-chip
-              tile
-              variant="tonal"
-              size="small"
-              href="https://lancer-faq.netlify.app/"
-              target="_blank">
-              lancer-faq.netlify.app/
-            </v-chip>
+            <i18n-t keypath="compendium.reference.faqErrataNotice"
+              tag="span"
+              scope="global">
+              <template #repoLink>
+                <v-chip
+                  tile
+                  variant="tonal"
+                  size="small"
+                  href="https://github.com/aritsune/lancer-faq"
+                  target="_blank">
+                  {{ $t('compendium.reference.lancerFaqRepo') }}
+                </v-chip>
+              </template>
+              <template #siteLink>
+                <v-chip
+                  tile
+                  variant="tonal"
+                  size="small"
+                  href="https://lancer-faq.netlify.app/"
+                  target="_blank">
+                  {{ $t('compendium.reference.lancerFaqSite') }}
+                </v-chip>
+              </template>
+            </i18n-t>
             .
           </div>
         </cc-alert>
@@ -80,10 +85,10 @@
             </div>
             <v-spacer />
             <div class="text-cc-overline" v-if="faq.page && !mobile">
-              {{ faq.book }}, p. {{ faq.page }}
+              {{ $t('compendium.reference.bookPage', { book: faq.book, page: faq.page }) }}
             </div>
             <template v-if="mobile" #extension>
-              <div class="text-cc-overline">{{ faq.book }}, p. {{ faq.page }}</div>
+              <div class="text-cc-overline">{{ $t('compendium.reference.bookPage', { book: faq.book, page: faq.page }) }}</div>
             </template>
           </v-toolbar>
           <v-card-text v-for="(child, j) in faq.children" :key="j">

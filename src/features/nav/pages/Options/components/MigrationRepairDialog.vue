@@ -57,9 +57,8 @@
             </cc-alert>
 
             <cc-panel class="mb-4">
-              Found {{ fixableCount }} fixable issue{{ fixableCount !== 1 ? 's' : '' }}
-              <span v-if="reportOnlyCount"> and {{ reportOnlyCount }} issue{{ reportOnlyCount !== 1
-                ? 's' : '' }} requiring manual action</span>.
+              {{ $t('nav.migrationRepair.foundFixable', { count: fixableCount }, fixableCount) }}
+              <span v-if="reportOnlyCount">{{ $t('nav.migrationRepair.andRequiringManual', { count: reportOnlyCount }, reportOnlyCount) }}</span>.
             </cc-panel>
 
             <v-table density="compact"
@@ -120,7 +119,7 @@
           color="success"
           prepend-icon="mdi-wrench-check"
           @click="applyFixes(close)">
-          Apply {{ fixableCount }} Fix{{ fixableCount !== 1 ? 'es' : '' }}
+          {{ $t('nav.migrationRepair.applyFixesButton', { count: fixableCount }, fixableCount) }}
         </cc-button>
       </v-card-actions>
     </template>
@@ -130,9 +129,10 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { runMigrationScan, applyAllFixes, MigrationFinding } from '@/io/MigrationRepair'
-import { NAV_STRINGS } from '@/features/nav/strings'
+import { useNavStrings } from '@/features/nav/useNavStrings'
+const { section } = useNavStrings()
 
-const strings = NAV_STRINGS.migrationRepair
+const strings = section('migrationRepair')
 
 const scanning = ref(false)
 const applying = ref(false)

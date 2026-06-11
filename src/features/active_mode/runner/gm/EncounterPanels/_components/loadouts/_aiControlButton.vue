@@ -15,17 +15,17 @@
             color="error" />
         </v-avatar>
       </template>
-      <div class="text-center text-cc-overline">Cannot activate</div>
+      <div class="text-center text-cc-overline">{{ $t('active.combatAction.cannotActivate') }}</div>
       <v-divider class="my-1" />
       <div>
-        Insufficient
+        {{ $t('active.combatAction.insufficient') }}
         <v-chip color="protocol"
           size="small"
           variant="elevated"
           prepend-icon="cc:protocol">
-          Protocol
+          {{ $t('active.actionChips.protocol') }}
         </v-chip>
-        actions remaining this turn.
+        {{ $t('active.combatAction.actionsRemaining') }}
       </div>
     </v-tooltip>
     <v-tooltip location="top"

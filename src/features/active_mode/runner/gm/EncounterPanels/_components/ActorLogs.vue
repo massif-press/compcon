@@ -9,7 +9,7 @@
         @click="open">
         <v-icon icon="mdi-clipboard-text"
           start />
-        Log
+        {{ $t('active.actorLogs.log') }}
       </v-btn>
     </template>
     <template #default>
@@ -33,7 +33,7 @@
 
       <div v-if="summary.length === 0"
         class="text-center text-disabled text-cc-overline pa-4">
-        No combat log entries.
+        {{ $t('active.actorLogs.noEntries') }}
       </div>
       <div v-else>
         <v-divider class="my-2" />
@@ -45,7 +45,7 @@
               prepend-icon="mdi-export"
               tooltip="Exports a plain text version of the combat log."
               @click.stop="exportLog('text')">
-              Export Text Log
+              {{ $t('active.actorLogs.exportText') }}
             </cc-button>
           </v-col>
           <v-col>
@@ -56,7 +56,7 @@
               tooltip="Exports a structured JSON version of the combat log for use in other
                     applications."
               @click.stop="exportLog('json')">
-              Export JSON Log
+              {{ $t('active.actorLogs.exportJson') }}
             </cc-button>
           </v-col>
         </v-row>

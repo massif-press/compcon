@@ -26,7 +26,7 @@
             font-size: 7pt !important;
             opacity: 0.6;
           ">
-          {{ mobile ? 'TAP' : 'CLICK' }} TO CLOSE
+          {{ mobile ? $t('ui.widget.tap') : $t('ui.widget.click') }} {{ $t('ui.widget.toClose') }}
         </div>
       </cc-alert>
     </template>

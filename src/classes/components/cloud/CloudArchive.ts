@@ -51,7 +51,7 @@ export const DownloadCloudArchive = async (uri: string) => {
   return data
 }
 
-export const SetCloudArchive = async (data: any, overwriteCloud: boolean) => {
+export const SetCloudArchive = async (data: { data: any }, overwriteCloud: boolean) => {
   await importAll(data.data, false)
 
   await PilotStore().LoadPilots()

@@ -19,7 +19,7 @@
                 class="ml-2"
                 @click="store.removeCloudNotification(idx)" />
             </template>
-            <span>Dismiss</span>
+            <span>{{ $t('nav.common.dismiss') }}</span>
           </v-tooltip>
         </template>
       </v-list-item>
@@ -39,8 +39,9 @@
 
 <script setup lang="ts">
 import { UserStore } from '@/stores'
-import { NAV_STRINGS } from '@/features/nav/strings'
+import { useNavStrings } from '@/features/nav/useNavStrings'
+const { section } = useNavStrings()
 
 const store = UserStore()
-const cn = NAV_STRINGS.cloudNotifications
+const cn = section('cloudNotifications')
 </script>

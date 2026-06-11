@@ -8,7 +8,7 @@
       class="d-flex justify-center align-center heading h3"
       style="letter-spacing: 9px"
     >
-      EQUIPMENT DESTROYED
+      {{ $t('active.cards.equipmentDestroyed') }}
     </v-col>
   </v-row>
 </template>

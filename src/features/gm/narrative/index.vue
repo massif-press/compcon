@@ -11,7 +11,7 @@
     <v-tab v-for="itemType in itemTypes"
       :key="itemType"
       selected-class="bg-accent">
-      <b>{{ itemType }}s</b>
+      <b>{{ $t('gm.narrative.itemTypePlural', { type: itemType }) }}</b>
     </v-tab>
   </v-tabs>
 

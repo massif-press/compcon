@@ -18,7 +18,7 @@
           size="x-small"
           block
           tile
-          @click="$emit('reset')">Reset</v-btn>
+          @click="$emit('reset')">{{ $t('common.reset') }}</v-btn>
       </v-col>
       <v-col>
         <v-btn flat
@@ -26,7 +26,7 @@
           size="x-small"
           block
           tile
-          @click="$emit('set', 0)">Clear</v-btn>
+          @click="$emit('set', 0)">{{ $t('common.clear') }}</v-btn>
       </v-col>
     </v-row>
   </v-card>

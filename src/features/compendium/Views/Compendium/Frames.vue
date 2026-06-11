@@ -6,7 +6,7 @@
     :manufacturers="manufacturers"
     view-key="cb-frames">
     <template #header>
-      <div class="heading h3 text-center text-accent">Frames</div>
+      <div class="heading h3 text-center text-accent">{{ $t('compendium.categories.frames') }}</div>
     </template>
   </cc-compendium-browser>
 </template>

@@ -2,7 +2,7 @@
   <v-col v-if="hasSave"
     cols="auto"
     class="pl-5 pr-2">
-    <div class="text-cc-overline text-disabled">Save Half</div>
+    <div class="text-cc-overline text-disabled">{{ $t('ui.combat.saveHalf') }}</div>
     <div class="mt-2">
       <cc-switch :model-value="saveHalf"
         size="large"

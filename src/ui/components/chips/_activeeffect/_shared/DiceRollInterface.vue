@@ -27,7 +27,7 @@
               size="x-small"
               class="ml-1"
               text-color="white">
-              RELIABLE {{ rollData.Reliable }}
+              {{ $t('ui.combat.reliableN', { n: rollData.Reliable }) }}
             </v-chip>
           </div>
           <v-row>
@@ -43,7 +43,7 @@
             </v-col>
             <v-col cols="auto"
               align-self="center"
-              class="heading h3 mx-n3">d</v-col>
+              class="heading h3 mx-n3">{{ $t('ui.combat.diceD') }}</v-col>
             <v-col>
               <v-select v-model="die"
                 :items="dice"
@@ -75,7 +75,7 @@
             block
             color="panel"
             class="mt-1"
-            @click="reset()">RESET</v-btn>
+            @click="reset()">{{ $t('ui.combat.reset') }}</v-btn>
 
           <v-btn flat
             tile
@@ -84,9 +84,9 @@
             size="small"
             block
             @click="rollDamage()">
-            Roll
+            {{ $t('common.roll') }}
           </v-btn>
-          <div class="pa-2 text-left text-cc-overline text-accent">roll results</div>
+          <div class="pa-2 text-left text-cc-overline text-accent">{{ $t('ui.combat.rollResults') }}</div>
           <div v-if="rollData.DamageRollResult"
             class="text-text">
             <span v-html-safe="rollData.DamageRollResult.toString()" />

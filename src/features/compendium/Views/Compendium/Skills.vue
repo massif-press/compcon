@@ -5,7 +5,7 @@
     :options="options"
     view-key="cb-skills">
     <template #header>
-      <div class="heading h3 text-center text-accent">Pilot Skill Triggers</div>
+      <div class="heading h3 text-center text-accent">{{ $t('compendium.categories.pilotSkillTriggers') }}</div>
     </template>
   </cc-compendium-browser>
 </template>

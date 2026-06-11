@@ -42,7 +42,7 @@
     <div v-if="options.include.some((x) => x.title === 'GM Notes') && npc.Note.length"
       class="mb-1 mt-3 no-print-break">
       <div class="text-overline text-primary"
-        style="line-height: 0">GM NOTES</div>
+        style="line-height: 0">{{ $t('gm.gmNotes') }}</div>
       <div v-html-safe="npc.Note"
         class="mt-1 pl-3 caption" />
     </div>

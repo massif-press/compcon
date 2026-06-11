@@ -2,14 +2,14 @@
   <v-card :style="`max-width: ${mobile ? '100vw' : 'calc(100vw - 390px)'} !important`">
     <v-card-text v-if="!selected"
       class="heading h2 py-12 my-12 text-center text-disabled">
-      NO SELECTION
+      {{ $t('ui.widget.noSelection') }}
     </v-card-text>
     <v-card-text v-else>
       <v-table>
         <thead>
           <tr>
             <th class="text-left side-border"
-              width="160px">Metric</th>
+              width="160px">{{ $t('ui.selector.metric') }}</th>
             <th class="text-center font-weight-bold text-primary side-border">
               <cc-item-modal small-btn
                 hide-type
@@ -70,7 +70,7 @@
         variant="outlined"
         color="primary"
         @click="$emit('clear')">
-        Clear All
+        {{ $t('ui.widget.clearAll') }}
       </v-btn>
     </div>
   </v-card>

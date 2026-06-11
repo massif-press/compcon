@@ -56,6 +56,7 @@ interface IUserProfile {
   read_messages: string[]
   theme: string
   font: string
+  language: string
   options: IUserOptions
   achievement_unlocks: AchievementSaveData[]
   logLevel: 'debug' | 'info' | 'warn' | 'error'
@@ -83,6 +84,7 @@ class UserProfile {
   private _readMessages: string[]
   private _theme: string
   private _font: string
+  private _language: string = 'en'
   private _achievement_unlocks: AchievementSaveData[]
   private _options: IUserOptions
   private _logLevel: 'debug' | 'info' | 'warn' | 'error' = 'warn'
@@ -96,6 +98,7 @@ class UserProfile {
     this.ID = id || uuid()
     this._theme = 'gms_dark'
     this._font = 'inter'
+    this._language = 'en'
     this._readMessages = []
     this._options = defaultOptions()
     this._achievement_unlocks = []
@@ -306,6 +309,16 @@ class UserProfile {
     this.save()
   }
 
+  public get Language(): string {
+    return this._language
+  }
+
+  public set Language(code: string) {
+    this._language = code
+    this.localSave('language', code)
+    this.save()
+  }
+
   public AddConfig(): void {
     const newConfig: LcpConfig = {
       id: uuid(),
@@ -340,6 +353,8 @@ class UserProfile {
     this.localSave('theme', this._theme)
     this._font = 'inter'
     this.localSave('font', this._font)
+    this._language = 'en'
+    this.localSave('language', this._language)
     this._readMessages = []
     this._options = defaultOptions()
     this._logLevel = 'warn'
@@ -351,6 +366,7 @@ class UserProfile {
       id: data.ID,
       theme: data.Theme,
       font: data.Font,
+      language: data.Language,
       read_messages: data._readMessages,
       achievement_unlocks: data._achievement_unlocks,
       options: data._options,
@@ -371,6 +387,7 @@ class UserProfile {
     profile._readMessages = data.read_messages || []
     profile._theme = data.theme || 'gms_dark'
     profile._font = data.font || 'inter'
+    profile._language = data.language ?? 'en'
     profile._achievement_unlocks = data.achievement_unlocks || []
     profile._options = data.options ? data.options : defaultOptions()
     const rawLevel = (data.logLevel || 'warn') as string

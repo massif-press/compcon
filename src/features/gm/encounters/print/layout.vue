@@ -14,37 +14,37 @@
       <v-chip variant="outlined"
         size="x-small"
         style="border-color: grey">
-        <span>SITREP</span>
+        <span>{{ $t('gm.encPrint.sitrep') }}</span>
         <cc-slashes class="mx-1" />
         <b>{{ encounter.Sitrep.Name }}</b>
       </v-chip>
     </legend>
     <div v-if="encounter.Sitrep.Description">
-      <div class="text-caption"><b>Description</b></div>
+      <div class="text-caption"><b>{{ $t('common.description') }}</b></div>
       <v-divider style="width: 150px" />
       {{ encounter.Sitrep.Description }}
     </div>
     <div v-if="encounter.Sitrep.Deployment"
       class="mt-1">
-      <div class="text-caption"><b>Deployment</b></div>
+      <div class="text-caption"><b>{{ $t('gm.encPrint.deployment') }}</b></div>
       <v-divider style="width: 150px" />
       {{ encounter.Sitrep.Deployment }}
     </div>
     <div v-if="encounter.Sitrep.ControlZone"
       class="mt-1">
-      <div class="text-caption"><b>Control Zone</b></div>
+      <div class="text-caption"><b>{{ $t('gm.encPrint.controlZone') }}</b></div>
       <v-divider style="width: 150px" />
       {{ encounter.Sitrep.ControlZone }}
     </div>
     <div v-if="encounter.Sitrep.Extraction"
       class="mt-1">
-      <div class="text-caption"><b>Extraction</b></div>
+      <div class="text-caption"><b>{{ $t('gm.encPrint.extraction') }}</b></div>
       <v-divider style="width: 150px" />
       {{ encounter.Sitrep.Extraction }}
     </div>
     <div v-if="encounter.Sitrep.Objective"
       class="mt-1">
-      <div class="text-caption"><b>Objective</b></div>
+      <div class="text-caption"><b>{{ $t('gm.encPrint.objective') }}</b></div>
       <v-divider style="width: 150px" />
       {{ encounter.Sitrep.Objective }}
     </div>
@@ -66,13 +66,13 @@
       <v-chip variant="outlined"
         size="x-small"
         style="border-color: grey">
-        <span>ENVIRONMENT</span>
+        <span>{{ $t('gm.encPrint.environment') }}</span>
         <cc-slashes class="mx-1" />
         <b>{{ encounter.Environment.Name }}</b>
       </v-chip>
     </legend>
     <div v-if="encounter.Environment.Description">
-      <div class="text-caption"><b>Description</b></div>
+      <div class="text-caption"><b>{{ $t('common.description') }}</b></div>
       <v-divider style="width: 150px" />
       {{ encounter.Environment.Description }}
     </div>
@@ -85,18 +85,18 @@
         class="mt-n1"
         color="error" />
       {{encounter.Combatants.filter((x) => x.side === 'enemy').length}}
-      ENEMIES
+      {{ $t('gm.encPrint.enemies') }}
       <cc-slashes class="mx-2" />
       <v-icon icon="cc:mech"
         class="mt-n1"
         color="success" />
       {{encounter.Combatants.filter((x) => x.side === 'ally').length}}
-      ALLIES
+      {{ $t('gm.encPrint.allies') }}
       <cc-slashes class="mx-2" />
       <v-icon icon="cc:mech"
         class="mt-n1" />
       {{encounter.Combatants.filter((x) => x.side === 'neutral').length}}
-      NEUTRAL
+      {{ $t('gm.encPrint.neutral') }}
     </legend>
     <div v-for="(n, i) in SortedCombatants"
       :key="`combatant-${i}`">
@@ -110,21 +110,21 @@
             <v-icon icon="mdi-account-group"
               color="accent"
               class="mr-1" />
-            At
-            <b>{{ n.playerCount }}</b>
-            or more PCs
+            <i18n-t keypath="gm.encPrint.atLeastPcs" tag="span" scope="global">
+              <template #count><b>{{ n.playerCount }}</b></template>
+            </i18n-t>
           </v-col>
           <v-col v-if="n.reinforcement"
             cols="auto">
             <v-icon icon="mdi-refresh"
               color="accent"
               class="mr-1" />
-            <b>REINFORCEMENT</b>
+            <b>{{ $t('gm.encPrint.reinforcement') }}</b>
           </v-col>
           <v-col v-if="n.reinforcement && n.reinforcementTurn > 0"
             cols="auto">
             <cc-slashes />
-            Reinforces on Turn {{ n.reinforcementTurn }}
+            {{ $t('gm.encPrint.reinforcesOnTurn', { turn: n.reinforcementTurn }) }}
           </v-col>
         </v-row>
 
@@ -165,12 +165,12 @@
         </v-row>
         <div v-if="c.Description"
           class="font-weight-bold text-caption"
-          v-text="'Description'" />
+          v-text="$t('common.description')" />
         <div v-html-safe="c.Description"
           class="pl-2" />
         <div v-if="c.Resolution"
           class="font-weight-bold text-caption"
-          v-text="'Resolution'" />
+          v-text="$t('gm.resolution')" />
         <div v-html-safe="c.Resolution"
           class="pl-2" />
       </v-card>

@@ -5,7 +5,7 @@
       density="compact"
       color="primary"
       height="46">
-      <v-toolbar-title class="heading h3">DICE ROLLER</v-toolbar-title>
+      <v-toolbar-title class="heading h3">{{ $t('active.diceRoller.title') }}</v-toolbar-title>
       <v-spacer />
       <v-btn icon
         @click="$emit('close')">
@@ -14,15 +14,15 @@
     </v-toolbar>
     <div v-if="selected">
       <div class="heading bg-primary px-5">
-        <span class="text-disabled pr-2">Currently Selected:</span>
+        <span class="text-disabled pr-2">{{ $t('active.common.currentlySelected') }}</span>
         <strong v-if="selected">
           {{ actor.Name }}
         </strong>
         <span v-else
-          class="text-disabled">None</span>
+          class="text-disabled">{{ $t('active.common.none') }}</span>
       </div>
       <div>
-        <div class="text-cc-overline ma-1">Quick Roll:</div>
+        <div class="text-cc-overline ma-1">{{ $t('active.diceRoller.quickRoll') }}</div>
         <v-row no-gutters
           class="px-6">
           <v-col><v-btn border
@@ -31,21 +31,21 @@
               flat
               color="primary"
               size="small"
-              @click="setCheck('Hull')">Hull Check</v-btn></v-col>
+              @click="setCheck('Hull')">{{ $t('active.diceRoller.hullCheck') }}</v-btn></v-col>
           <v-col><v-btn border
               block
               tile
               flat
               color="primary"
               size="small"
-              @click="setCheck('Agi')">Agility Check</v-btn></v-col>
+              @click="setCheck('Agi')">{{ $t('active.diceRoller.agilityCheck') }}</v-btn></v-col>
           <v-col><v-btn border
               block
               tile
               flat
               color="primary"
               size="small"
-              @click="setCheck('Sys')">Systems Check</v-btn></v-col>
+              @click="setCheck('Sys')">{{ $t('active.diceRoller.systemsCheck') }}</v-btn></v-col>
           <v-col>
             <v-btn border
               block
@@ -53,7 +53,7 @@
               flat
               color="primary"
               size="small"
-              @click="setCheck('Eng')">Engineering Check</v-btn>
+              @click="setCheck('Eng')">{{ $t('active.diceRoller.engineeringCheck') }}</v-btn>
           </v-col>
 
         </v-row>
@@ -71,7 +71,7 @@
                 align="center">
                 <v-col cols=6
                   md="">
-                  <div class="text-cc-overline text-disabled">Count</div>
+                  <div class="text-cc-overline text-disabled">{{ $t('active.diceRoller.count') }}</div>
                   <v-text-field v-model="count"
                     density="compact"
                     variant="outlined"
@@ -83,7 +83,7 @@
                 </v-col>
                 <v-col cols=6
                   md="">
-                  <div class="text-cc-overline text-disabled">Die</div>
+                  <div class="text-cc-overline text-disabled">{{ $t('active.diceRoller.die') }}</div>
                   <v-select v-model="die"
                     :items="dice"
                     density="compact"
@@ -100,7 +100,7 @@
                 </v-col>
                 <v-col cols=6
                   md="">
-                  <div class="text-cc-overline text-disabled">Bonus</div>
+                  <div class="text-cc-overline text-disabled">{{ $t('active.diceRoller.bonus') }}</div>
                   <v-text-field v-model="plus"
                     density="compact"
                     variant="outlined"
@@ -116,7 +116,7 @@
                 </v-col>
                 <v-col cols=6
                   md="">
-                  <div class="text-cc-overline text-disabled">Accuracy</div>
+                  <div class="text-cc-overline text-disabled">{{ $t('common.accuracy') }}</div>
                   <v-text-field v-model="accuracy"
                     density="compact"
                     variant="outlined"
@@ -181,7 +181,7 @@
                 block
                 color="panel"
                 class="mt-1"
-                @click="reset()">RESET</v-btn>
+                @click="reset()">{{ $t('active.diceRoller.reset') }}</v-btn>
 
 
             </v-card-text>
@@ -196,14 +196,14 @@
               :disabled="!diceToRoll.length"
               class="mt-2"
               prepend-icon="mdi-dice-d20">
-              Roll Dice
+              {{ $t('active.diceRoller.rollDice') }}
             </cc-button>
           </div>
         </v-col>
         <v-divider vertical
           class="mx-1" />
         <v-col class="mt-n2">
-          <div class="text-cc-overline">Roll Result</div>
+          <div class="text-cc-overline">{{ $t('active.diceRoller.rollResult') }}</div>
           <div v-if="lastRoll !== null">
             <div class="text-center my-2 bg-primary heading h1">
               {{ lastRoll }}
@@ -213,9 +213,9 @@
             </div>
           </div>
           <div v-else
-            class="text-caption text-disabled">No rolls yet.</div>
+            class="text-caption text-disabled">{{ $t('active.diceRoller.noRolls') }}</div>
           <v-divider class="my-2" />
-          <div class="text-cc-overline mb-2">Session History</div>
+          <div class="text-cc-overline mb-2">{{ $t('active.diceRoller.sessionHistory') }}</div>
           <div style="max-height: 300px; overflow-y: scroll">
             <div v-for="(n, index) in encounterInstance.RollHistory"
               :key="`roll-${index}`"

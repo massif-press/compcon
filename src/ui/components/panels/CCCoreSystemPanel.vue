@@ -42,7 +42,7 @@
             size="small"
             variant="elevated"
             class="mr-1">
-            PASSIVE
+            {{ $t('ui.widget.passive') }}
           </v-chip>
           {{ cs.PassiveName || '' }}
         </span>
@@ -68,7 +68,7 @@
 
     <div v-if="cs.IntegratedEquipment.length || cs.Deployables.length"
       class="text-cc-overline text-accent">
-      CORE INTEGRATED EQUIPMENT
+      {{ $t('ui.corePanel.integrated') }}
       <v-divider class="mb-1" />
     </div>
 
@@ -84,7 +84,7 @@
 
     <div v-if="cs.SpecialEquipment.length"
       class="text-cc-overline text-accent">
-      CORE SPECIAL EQUIPMENT
+      {{ $t('ui.corePanel.special') }}
       <v-divider class="mb-1" />
     </div>
 
@@ -122,7 +122,7 @@
               size="small"
               variant="elevated"
               class="mr-1">
-              ACTIVE
+              {{ $t('ui.widget.active') }}
             </v-chip>
             {{ cs.ActiveName || '' }}
           </span>

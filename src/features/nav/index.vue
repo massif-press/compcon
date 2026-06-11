@@ -336,7 +336,8 @@ import SearchComponent from './search/index.vue'
 import V2Auto from './pages/ExtraContent/components/v2Auto.vue'
 import { UserStore } from '@/stores'
 import { useOnlineStatus } from '@/composables/useOnlineStatus'
-import { NAV_STRINGS } from './strings'
+import { useNavStrings } from '@/features/nav/useNavStrings'
+const { section } = useNavStrings()
 const router = useRouter()
 
 defineProps<{ pilotManagement?: boolean; encounter?: boolean }>()
@@ -345,7 +346,7 @@ const route = useRoute()
 const { xs: portrait, mdAndDown: landscape } = useDisplay()
 const mobile = portrait
 const { isOnline } = useOnlineStatus()
-const n = NAV_STRINGS.nav
+const n = section('nav')
 
 const userStore = UserStore()
 

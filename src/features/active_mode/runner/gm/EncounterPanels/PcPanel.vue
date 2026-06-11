@@ -9,7 +9,7 @@
     </v-col>
     <v-col v-if="combatant.actor.Player"
       cols="auto">
-      <span class="text-cc-overline pr-1">Played by</span>
+      <span class="text-cc-overline pr-1">{{ $t('active.common.playedBy') }}</span>
       <b class="text-accent">{{ combatant.actor.Player }}</b>
     </v-col>
   </v-row>
@@ -29,7 +29,7 @@
           <span v-if="mounted"
             class="text-disabled">
             <cc-slashes />
-            PILOT MOUNTED
+            {{ $t('active.pcPanel.pilotMounted') }}
           </span>
         </template>
       </cc-button>
@@ -45,7 +45,7 @@
           <span v-if="!mounted"
             class="text-disabled">
             <cc-slashes />
-            PILOT UNMOUNTED
+            {{ $t('active.pcPanel.pilotUnmounted') }}
           </span>
         </template>
       </cc-button>
@@ -71,7 +71,7 @@
         align="center"
         class="mb-2">
         <v-col>
-          <div class="text-cc-overline text-disabled">reserves</div>
+          <div class="text-cc-overline text-disabled">{{ $t('active.pcPanel.reserves') }}</div>
         </v-col>
         <v-col v-if="orderedReserves.length"
           cols="auto"
@@ -84,7 +84,7 @@
       </v-row>
       <div v-if="!orderedReserves.length"
         class="mt-n4 mb-4">
-        <i class="text-disabled text-caption">No reserves available</i>
+        <i class="text-disabled text-caption">{{ $t('active.pcPanel.noReserves') }}</i>
       </div>
       <v-row v-for="r in orderedReserves"
         :key="r.ID"

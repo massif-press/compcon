@@ -20,7 +20,7 @@
         </v-progress-linear>
 
         <div class="text-cc-overline text-right text-disabled">
-          {{ allUnlocked.length }} of {{ nsAchievements.length }} {{ ac.unlocked }}
+          {{ $t('nav.achievements.progress', { count: allUnlocked.length, total: nsAchievements.length }) }}
           <v-btn icon
             size="x-small"
             variant="plain"
@@ -146,7 +146,7 @@
             </v-chip>
             <span v-if="index === (mobile ? 7 : 11)"
               class="text-grey text-caption align-self-center">
-              &emsp;(+{{ showLabels.length - (mobile ? 7 : 11) }} others)
+              &emsp;{{ $t('nav.achievements.othersCount', { count: showLabels.length - (mobile ? 7 : 11) }) }}
             </span>
           </template>
 
@@ -221,9 +221,7 @@
       <div v-if="hiddenAchievements > 0"
         class="text-right text-caption px-4">
         <i>
-          {{ hiddenAchievements }} achievement{{ hiddenAchievements === 1 ? '' : 's' }} {{
-            ac.notShown
-          }}
+          {{ $t('nav.achievements.hiddenCount', { count: hiddenAchievements }, hiddenAchievements) }}
         </i>
       </div>
     </v-container>
@@ -251,14 +249,22 @@
           </template>
           <v-card-text class="pa-6">
             <p class="text-center">
-              This will
-              <b class="text-accent">{{ ac.overwriteAllWarning }}</b>
-              {{ ac.achievementDataSuffix }}
+              <i18n-t keypath="nav.achievements.warningDataFull"
+                tag="span"
+                scope="global">
+                <template #emphasis>
+                  <b class="text-accent">{{ ac.overwriteAllWarning }}</b>
+                </template>
+              </i18n-t>
               <br />
               <br />
-              This
-              <b class="text-accent">cannot</b>
-              be undone. It is strongly recommended to create a backup first.
+              <i18n-t keypath="nav.achievements.cannotBeUndoneFull"
+                tag="span"
+                scope="global">
+                <template #emphasis>
+                  <b class="text-accent">{{ ac.cannot }}</b>
+                </template>
+              </i18n-t>
             </p>
             <br />
             <v-file-input v-model="fileValue"
@@ -287,13 +293,21 @@
           <template #default="{ close }">
             <v-card-text class="pa-6">
               <p class="text-center">
-                This will
-                <b class="text-accent">{{ ac.eraseAllWarning }}</b>
-                {{ ac.achievementDataSuffix }}
+                <i18n-t keypath="nav.achievements.warningDataFull"
+                  tag="span"
+                  scope="global">
+                  <template #emphasis>
+                    <b class="text-accent">{{ ac.eraseAllWarning }}</b>
+                  </template>
+                </i18n-t>
                 <br />
-                This
-                <b class="text-accent">cannot</b>
-                be undone. It is strongly recommended to create a backup first.
+                <i18n-t keypath="nav.achievements.cannotBeUndoneFull"
+                  tag="span"
+                  scope="global">
+                  <template #emphasis>
+                    <b class="text-accent">{{ ac.cannot }}</b>
+                  </template>
+                </i18n-t>
               </p>
               <cc-button color="error"
                 block
@@ -322,10 +336,11 @@ import { AchievementManager } from '@/user/achievements/AchievementManager'
 import { GetAchievement } from '@/io/apis/account'
 import logger from '@/user/logger'
 import { notify } from '@/util/notify'
-import { NAV_STRINGS } from '@/features/nav/strings'
+import { useNavStrings } from '@/features/nav/useNavStrings'
+const { section } = useNavStrings()
 
 const { smAndDown: mobile } = useDisplay()
-const ac = NAV_STRINGS.achievements
+const ac = section('achievements')
 
 defineEmits<{ close: [] }>()
 

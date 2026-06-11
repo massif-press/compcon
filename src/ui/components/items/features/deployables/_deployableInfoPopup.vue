@@ -22,7 +22,7 @@
       <v-chip size="small"
         class="stat-text pr-0 mb-2"
         label>
-        DEPLOY&nbsp;
+        {{ $t('ui.widget.deploy') }}&nbsp;
         <v-chip label
           class="text-uppercase">
           {{ activation }}

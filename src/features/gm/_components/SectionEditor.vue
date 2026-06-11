@@ -19,7 +19,7 @@
             hide-details
             @update:model-value="debouncedSave">
             <template #label>
-              GM Only
+              {{ $t('gm.sectionEditor.gmOnly') }}
               <v-tooltip location="top">
                 <template #activator="{ props }">
                   <v-icon class="fade-select"
@@ -29,8 +29,7 @@
                     v-bind="props" />
                 </template>
                 <div>
-                  Marking a field or item "GM Only" will hide it from player-facing exports and
-                  print output
+                  {{ $t('gm.sectionEditor.gmOnlyTooltip') }}
                 </div>
               </v-tooltip>
             </template>
@@ -49,8 +48,7 @@
             </template>
             <v-card>
               <v-card-text>
-                Do you want to delete the textItem titled "{{ s.header }}"? This action cannot be
-                undone.
+                {{ $t('gm.sectionEditor.confirmDelete', { title: s.header }) }}
               </v-card-text>
               <v-divider />
               <v-card-actions>
@@ -58,7 +56,7 @@
                 <v-btn size="small"
                   color="error"
                   @click="deleteTextItem(s)">
-                  Confirm Deletion
+                  {{ $t('common.confirmDeletion') }}
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -82,7 +80,7 @@
           prepend-icon="mdi-plus"
           color="primary"
           @click="props.onClick($event)">
-          Add New Text Section
+          {{ $t('gm.sectionEditor.addSection') }}
         </cc-button>
       </template>
       <v-card>
@@ -101,10 +99,10 @@
         <v-divider />
         <v-card-actions>
           <v-btn variant="text"
-            @click="textItemMenu = false">Cancel</v-btn>
+            @click="textItemMenu = false">{{ $t('common.cancel') }}</v-btn>
           <v-spacer />
           <v-btn color="secondary"
-            @click="addTextItem">Add</v-btn>
+            @click="addTextItem">{{ $t('common.add') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-menu>

@@ -125,7 +125,7 @@
                       :class="damageClass(damage)" />
                   </template>
                   <span class="text-cc-overline">
-                    {{ damage.condition }} to {{ damage.type }} damage
+                    {{ $t('active.runnerItem.resistanceLine', { condition: damage.condition, type: damage.type }) }}
                   </span>
                 </v-tooltip>
               </v-row>
@@ -143,7 +143,7 @@
                   <div class="text-red"
                     style="margin-top: 2px">
                     <v-icon icon="cc:destroyed" />
-                    DESTROYED
+                    {{ $t('active.common.destroyed') }}
                   </div>
                 </v-chip>
               </v-card>
@@ -161,7 +161,7 @@
                   <div class="text-red"
                     style="margin-top: 2px">
                     <v-icon icon="cc:heat" />
-                    Danger Zone
+                    {{ $t('active.common.dangerZone') }}
                   </div>
                 </v-chip>
               </v-card>

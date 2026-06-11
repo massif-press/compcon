@@ -6,16 +6,16 @@
         class="my-2">
         <v-icon start
           icon="mdi-alert" />
-        This weapon has been destroyed and must be repaired before it can be activated.
+        {{ $t('active.weaponAttack.destroyed') }}
       </cc-alert>
       <cc-alert v-if="weapon.Used"
         color="warning"
         class="my-2">
         <v-icon start
           icon="mdi-alert" />
-        This weapon has already been activated.
+        {{ $t('active.weaponAttack.alreadyActivated') }}
         <span v-if="weapon.Used && weapon.IsLoading">
-          It must be reloaded before it can be used again.
+          {{ $t('active.weaponAttack.mustReload') }}
         </span>
       </cc-alert>
       <cc-alert v-if="ordnanceWarning"
@@ -23,15 +23,14 @@
         class="my-2">
         <v-icon start
           icon="mdi-alert" />
-        This mech has taken non-Protocol actions this turn. This ordnance weapon cannot be
-        activated.
+        {{ $t('active.weaponAttack.ordnanceMech') }}
       </cc-alert>
       <cc-alert v-if="weapon.IsLimited && weapon.Uses >= weapon.MaxUses && !weapon.CanSetUses"
         color="warning"
         class="my-2">
         <v-icon start
           icon="mdi-alert" />
-        This weapon is out of uses and cannot be activated this turn.
+        {{ $t('active.weaponAttack.outOfUses') }}
       </cc-alert>
     </div>
 

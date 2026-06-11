@@ -26,9 +26,9 @@
           </div>
         </template>
         <div class="text-center">
-          Reload Data
+          {{ $t("mainMenu.cloudData.reloadData") }}
           <br />
-          (This does not sync)
+          {{ $t("mainMenu.ui.doesNotSync") }}
         </div>
       </v-tooltip>
       <template #extension>
@@ -62,9 +62,9 @@
             <v-tooltip max-width="300px"
               location="top">
               <template #activator="{ props }">
-                <span v-bind="props">Data</span>
+                <span v-bind="props">{{ $t("mainMenu.cloudData.dataTab") }}</span>
               </template>
-              <div class="text-center">PC and GM data stored in your COMP/CON account.</div>
+              <div class="text-center">{{ $t("mainMenu.cloudData.dataTabDesc") }}</div>
             </v-tooltip>
           </v-tab>
           <v-divider vertical />
@@ -72,10 +72,10 @@
             <v-tooltip max-width="300px"
               location="top">
               <template #activator="{ props }">
-                <span v-bind="props">Images</span>
+                <span v-bind="props">{{ $t("mainMenu.cloudData.imagesTab") }}</span>
               </template>
               <div class="text-center">
-                All image data you have uploaded to your COMP/CON account.
+                {{ $t("mainMenu.cloudData.imagesTabDesc") }}
               </div>
             </v-tooltip>
           </v-tab>

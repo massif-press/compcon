@@ -3,9 +3,9 @@
     v-if="event.Save">
     <v-row no-gutters
       class="text-cc-overline text-disabled">
-      <v-col> {{ event.Save }} Save</v-col>
+      <v-col> {{ $t('ui.combat.saveSuffix', { stat: event.Save }) }}</v-col>
       <v-col cols="auto"
-        v-if="event.SaveHalf && !!event.Targets[0]">Half</v-col>
+        v-if="event.SaveHalf && !!event.Targets[0]">{{ $t('ui.combat.half') }}</v-col>
     </v-row>
     <div v-for="(s, idx) in event.Targets"
       :key="`target-${idx}`">
@@ -16,7 +16,7 @@
         style="min-height: 43px;">
         <v-col cols="auto"
           class="mt-1">
-          <i class="text-caption text-disabled">No Target Selected</i>
+          <i class="text-caption text-disabled">{{ $t('ui.combat.noTarget') }}</i>
         </v-col>
       </v-row>
 
@@ -43,7 +43,7 @@
         </v-col>
         <v-col cols="auto"
           align-self="center">
-          <div class="text-center text-cc-overline px-2">VS</div>
+          <div class="text-center text-cc-overline px-2">{{ $t('ui.combat.vs') }}</div>
         </v-col>
         <v-col>
           <v-text-field :value="s.SaveTarget"
@@ -82,14 +82,14 @@
                 <div class="text-center">
                   {{
                     !s.SaveResult
-                      ? 'No Save Rolled'
+                      ? $t('ui.combat.noSaveRolled')
                       : s.SaveResult === 'success'
-                        ? 'Successful Save'
-                        : 'Failed Save'
+                        ? $t('ui.combat.successfulSave')
+                        : $t('ui.combat.failedSave')
                   }}
 
                   <div>
-                    <i class="text-caption text-disabled">Click to override</i>
+                    <i class="text-caption text-disabled">{{ $t('ui.combat.clickToOverrideLower') }}</i>
                   </div>
                 </div>
               </v-tooltip>

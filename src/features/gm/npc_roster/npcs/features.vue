@@ -3,7 +3,7 @@
     class="text-overline pt-2">
     <v-col>
       <div class="d-flex align-center">
-        FEATURES
+        {{ $t('gm.npcFeatures.heading') }}
         <v-tooltip v-if="!readonly && npc.NpcClassController?.HasClass && allFeatures.length > 1"
           location="top">
           <template #activator="{ props }">
@@ -17,12 +17,11 @@
               style="margin-top: -2px"
               v-bind="props"
               @click="reorderMode = !reorderMode">
-              <v-icon size="22">
-                {{ reorderMode ? 'mdi-check' : 'mdi-swap-vertical' }}
-              </v-icon>
+              <v-icon size="22"
+                :icon="reorderMode ? 'mdi-check' : 'mdi-swap-vertical'" />
             </v-btn>
           </template>
-          <span> {{ reorderMode ? 'Save Configuration' : 'Reorder Features' }}</span>
+          <span> {{ reorderMode ? $t('gm.npcFeatures.saveConfig') : $t('gm.npcFeatures.reorder') }}</span>
         </v-tooltip>
       </div>
     </v-col>
@@ -159,11 +158,11 @@
     style="border-color: rgb(var(--v-theme-panel))">
     <div v-if="!readonly"
       class="text-center text-disabled text-caption pa-2">
-      <i>Select a Class to add Features</i>
+      <i>{{ $t('gm.npcFeatures.selectClassToAdd') }}</i>
     </div>
     <div v-else
       class="text-center text-disabled text-caption pa-2">
-      <i>No NPC features</i>
+      <i>{{ $t('gm.npcFeatures.noFeatures') }}</i>
     </div>
   </v-card>
 </template>

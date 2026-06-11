@@ -5,22 +5,25 @@
       border
       icon="cc:campaign"
       dense>
-      Imported campaigns are managed in the
-      <v-btn size="x-small"
-        class="mx-1"
-        flat
-        tile
-        to="/srd?tab=2">Campaign Library</v-btn>
+      <i18n-t keypath="gm.campaign.managedIn" tag="span" scope="global">
+        <template #library>
+          <v-btn size="x-small"
+            class="mx-1"
+            flat
+            tile
+            to="/srd?tab=2">{{ $t('gm.campaign.campaignLibrary') }}</v-btn>
+        </template>
+      </i18n-t>
     </cc-alert>
 
     <v-card class="mt-5">
       <v-card-title>
-        <div class="heading h3 text-accent">Your Campaigns</div>
+        <div class="heading h3 text-accent">{{ $t('gm.campaign.yourCampaigns') }}</div>
       </v-card-title>
       <v-card-text>
         <div v-if="!campaigns.length"
           class="text-center text-disabled pa-5">
-          <i>No data</i>
+          <i>{{ $t('gm.campaign.noData') }}</i>
         </div>
         <v-card v-else
           v-for="(c, i) in campaigns"
@@ -40,7 +43,7 @@
               <div class="heading h6">{{ c.Title }}</div>
               <div class="text-caption">{{ c.Subtitle }}</div>
               <div class="text-caption">
-                <i>v{{ c.Version || 'Unpublished' }}</i>
+                <i>{{ $t('gm.campaign.versionLabel', { version: c.Version || $t('gm.campaign.unpublished') }) }}</i>
               </div>
             </v-col>
             <v-col cols="auto">
@@ -48,7 +51,7 @@
                 size="small"
                 prepend-icon="mdi-pencil"
                 @click="openEditCampaign(<Campaign>c)">
-                Edit
+                {{ $t('common.edit') }}
               </cc-button>
             </v-col>
             <v-col cols="auto">
@@ -58,7 +61,7 @@
                     color="error"
                     size="small"
                     prepend-icon="mdi-delete">
-                    Delete
+                    {{ $t('common.delete') }}
                   </cc-button>
                 </template>
                 <template v-slot:default="{ isActive }">
@@ -67,17 +70,17 @@
                       <v-toolbar-title>
                         <v-icon start
                           icon="mdi-alert" />
-                        Permanent Deletion
+                        {{ $t('gm.campaign.permanentDeletion') }}
                       </v-toolbar-title>
                     </v-toolbar>
                     <v-card-text>
-                      This campaign will be
-                      <b class="text-error">permanently deleted</b>
-                      . This action cannot be undone. If you're sure you want to delete
+                      <i18n-t keypath="gm.campaign.deleteWarn1" tag="span" scope="global">
+                        <template #strong><b class="text-error">{{ $t('gm.campaign.permanentlyDeleted') }}</b></template>
+                      </i18n-t>
                       <div class="text-h6 text-center py-2">{{ c.Title }}</div>
-                      type the campaign title into the text entry field below and click
-                      <b>Confirm Deletion</b>
-                      .
+                      <i18n-t keypath="gm.campaign.deleteWarn2" tag="span" scope="global">
+                        <template #confirm><b>{{ $t('common.confirmDeletion') }}</b></template>
+                      </i18n-t>
                       <v-text-field v-model="deleteText"
                         density="compact"
                         hide="detail"
@@ -88,14 +91,14 @@
                     <v-divider />
                     <v-card-actions>
                       <cc-button color="primary"
-                        @click="isActive.value = false">Dismiss</cc-button>
+                        @click="isActive.value = false">{{ $t('common.dismiss') }}</cc-button>
                       <v-spacer />
                       <cc-button :color="deleteText !== c.Title ? '' : 'error'"
                         variant="elevated"
                         prepend-icon="mdi-delete"
                         :disabled="deleteText !== c.Title"
                         @click="deleteCampaign(<Campaign>c, isActive)">
-                        Delete campaign permanently
+                        {{ $t('gm.campaign.deletePermanently') }}
                       </cc-button>
                     </v-card-actions>
                   </v-card>
@@ -118,26 +121,22 @@
               size="small">
               <v-icon start
                 icon="mdi-import" />
-              Import
+              {{ $t('common.import') }}
             </cc-button>
           </template>
           <v-card>
-            <v-card-title>Import Campaign JSON Data</v-card-title>
+            <v-card-title>{{ $t('gm.campaign.importJsonTitle') }}</v-card-title>
             <v-divider />
             <v-card-text>
               <p class="text-caption text-center">
                 <i>
-                  This tool will import an editable, unpublished Campaign
-                  <b class="text-secondary">JSON file</b>
-                  from your device.
-                  <br />
-                  To import a published campaign file with the
-                  <b class="text-secondary">.lcd</b>
-                  extension into your collection, use the file import tool in the
-                  <b>Campaign Collection</b>
-                  menu, or the Import Campaign tool in the
-                  <b>Manage Content</b>
-                  dialog under the main menu .
+                  <i18n-t keypath="gm.campaign.importHelp" tag="span" scope="global">
+                    <template #jsonFile><b class="text-secondary">{{ $t('gm.campaign.jsonFile') }}</b></template>
+                    <template #br><br /></template>
+                    <template #lcd><b class="text-secondary">{{ $t('gm.campaign.lcdExt') }}</b></template>
+                    <template #campaignCollection><b>{{ $t('gm.campaign.campaignCollection') }}</b></template>
+                    <template #manageContent><b>{{ $t('gm.campaign.manageContent') }}</b></template>
+                  </i18n-t>
                 </i>
               </p>
               <v-row align="center"
@@ -156,7 +155,7 @@
               <div v-if="errorMessage"
                 class="text-error text-center mt-2">{{ errorMessage }}</div>
               <div v-else-if="stagedData">
-                <div class="text-caption">Staged Campaign Data</div>
+                <div class="text-caption">{{ $t('gm.campaign.stagedData') }}</div>
                 <v-card>
                   <v-card-title>{{ stagedData.Title }}</v-card-title>
                   <v-card-subtitle>{{ stagedData.Subtitle }}</v-card-subtitle>
@@ -172,19 +171,16 @@
                       class="my-2"
                       density="compact"
                       icon="mdi-alert">
-                      <div class="text-caption">Warning</div>
+                      <div class="text-caption">{{ $t('common.warning') }}</div>
                       <div v-if="importIsOlder"
                         class="my-2 font-weight-bold">
-                        The existing campaign is newer than the imported data.
+                        {{ $t('gm.campaign.existingNewer') }}
                       </div>
-                      This import data will overwrite an existing campaign with the same ID ({{
-                        importSameId.Title
-                      }}). The existing campaign was last updated on
-                      {{ new Date(importSameId.SaveController.LastModified).toLocaleString() }}.
+                      {{ $t('gm.campaign.overwriteWarn', { title: importSameId.Title, date: new Date(importSameId.SaveController.LastModified).toLocaleString() }) }}
                     </v-alert>
 
                     <div class="text-caption text-right">
-                      Last Updated: &nbsp;
+                      {{ $t('gm.campaign.lastUpdated') }} &nbsp;
                       <b>{{ new Date(stagedData.SaveController.LastModified).toLocaleString() }}</b>
                     </div>
                   </v-card-text>
@@ -192,7 +188,7 @@
                   <v-card-actions>
                     <v-spacer />
                     <cc-button color="accent"
-                      @click="importCampaign">Import Campaign</cc-button>
+                      @click="importCampaign">{{ $t('gm.campaign.importCampaign') }}</cc-button>
                     <v-spacer />
                   </v-card-actions>
                 </v-card>
@@ -201,7 +197,7 @@
             <v-divider />
             <v-card-actions>
               <cc-button color="accent"
-                @click="importDialog = false">Dismiss</cc-button>
+                @click="importDialog = false">{{ $t('common.dismiss') }}</cc-button>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -211,7 +207,7 @@
           @click="addCampaign">
           <v-icon start
             icon="mdi-plus" />
-          New Campaign
+          {{ $t('gm.campaign.newCampaign') }}
         </cc-button>
       </v-footer>
     </v-card>

@@ -83,72 +83,76 @@
     <v-row class="body-text text-text">
       <v-col cols="12" md="6">
         <cc-panel :title="h.whereAreNpcs">
-          If you bought the Lancer Core Book, you'll find a downloadable data
-          package that contains all Core NPC data on the Lancer Core Book's
-          itch.io page, which you can access through the Content Manager. You
-          can use the Content Manager's
-          <b>Install LCP</b>
-          tab to import the package and start building and running encounters.
+          <i18n-t keypath="nav.help.whereAreNpcsBody"
+            tag="span"
+            scope="global">
+            <template #installLcp>
+              <b>{{ $t('nav.help.installLcpTab') }}</b>
+            </template>
+          </i18n-t>
         </cc-panel>
       </v-col>
       <v-col cols="12" md="6">
         <cc-panel
           :title="h.howToAddContent"
         >
-          Official LANCER content can be found on
-          <a target="_blank" href="https://massif-press.itch.io/"
-            >Massif Press's itch.io page.</a
-          >
-          Player-facing LCP content for COMP/CON can be found in the
-          <b>Download demo</b>
-          section for any Massif Press publication; GM-facing content (i.e.
-          NPCs) can be purchased alongside the PDF content. Links to this
-          content (and featured community content) can also be found in the
-          Content Manager's
-          <b>LCP Directory</b>
-          .
+          <i18n-t keypath="nav.help.howToAddContentBody"
+            tag="span"
+            scope="global">
+            <template #itchLink>
+              <a target="_blank"
+                href="https://massif-press.itch.io/">{{ $t('nav.help.itchPageText') }}</a>
+            </template>
+            <template #downloadDemo>
+              <b>{{ $t('nav.help.downloadDemo') }}</b>
+            </template>
+            <template #lcpDirectory>
+              <b>{{ $t('nav.help.lcpDirectory') }}</b>
+            </template>
+          </i18n-t>
         </cc-panel>
       </v-col>
     </v-row>
     <v-row class="body-text text-text">
       <v-col cols="12" md="6">
         <cc-panel :title="h.howToSeeExotics">
-          To prevent spoilers for players, COMP/CON defaults to hiding Exotic
-          Items. To change their visibility, you can use COMP/CON's
-          <b>Options</b>
-          menu, and can enable the
-          <b>"Show Exotic items in the Compendium"</b>
-          toggle.
+          <i18n-t keypath="nav.help.howToSeeExoticsBody"
+            tag="span"
+            scope="global">
+            <template #options>
+              <b>{{ $t('nav.help.optionsLabel') }}</b>
+            </template>
+            <template #showExoticsToggle>
+              <b>{{ $t('nav.help.showExoticsToggleLabel') }}</b>
+            </template>
+          </i18n-t>
         </cc-panel>
       </v-col>
       <v-col cols="12" md="6">
         <cc-panel :title="h.cloudAccountFaq">
-          COMP/CON Cloud Accounts are free for all users. For Patreon
-          supporters, cloud accounts gain access to additional features, such as
-          the expanded cloud storage and additional active table instances.
+          {{ $t('nav.help.cloudAccountFaqBody') }}
         </cc-panel>
       </v-col>
     </v-row>
     <br />
     <cc-heading is-title :text="h.additionalHelp" />
     <p class="body-text">
-      The
-      <a
-        target="_blank"
-        href="https://github.com/massif-press/compcon/wiki/Frequently-Asked-Questions"
-        v-html-safe="`COMP/CON FAQ`"
-        tabindex="0"
-      />
-      may have an answer to your question! If you still can't find what you're
-      looking for, please stop by
-      <a
-        target="_blank"
-        href="https://discord.gg/rwcpzsU"
-        v-html-safe="`the unofficial LANCER discord`"
-        tabindex="0"
-      />
-      (and specifically the #comp-con channel) with your questions or comments
-      for the developers.
+      <i18n-t keypath="nav.help.additionalHelpBody"
+        tag="span"
+        scope="global">
+        <template #faqLink>
+          <a target="_blank"
+            href="https://github.com/massif-press/compcon/wiki/Frequently-Asked-Questions"
+            v-html-safe="$t('nav.help.faqLinkText')"
+            tabindex="0" />
+        </template>
+        <template #discordLink>
+          <a target="_blank"
+            href="https://discord.gg/rwcpzsU"
+            v-html-safe="$t('nav.help.discordLinkText')"
+            tabindex="0" />
+        </template>
+      </i18n-t>
     </p>
 
     <!-- <h3 class="heading text-accent">Video Guide</h3>
@@ -161,7 +165,8 @@
 </template>
 
 <script setup lang="ts">
-import { NAV_STRINGS } from '@/features/nav/strings'
+import { useNavStrings } from '@/features/nav/useNavStrings'
+const { section } = useNavStrings()
 
-const h = NAV_STRINGS.help
+const h = section('help')
 </script>

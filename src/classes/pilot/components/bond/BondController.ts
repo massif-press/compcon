@@ -1,4 +1,5 @@
 import type { IControllerStatic } from '@/classes/ISerializable'
+import { i18n } from '@/i18n'
 import { IClockData, Clock } from '@/classes/narrative/elements/Clock'
 import { Pilot } from '../../Pilot'
 import { BondPower, Bond, IBondData } from './Bond'
@@ -131,7 +132,7 @@ class BondController {
     const segments = !this._burdens.length ? 4 : this._burdens.length === 1 ? 6 : 10
     this._burdens.push(
       new Clock({
-        title: 'New Burden',
+        title: i18n.global.t('classes.newBurden'),
         segments,
       })
     )

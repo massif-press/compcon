@@ -5,7 +5,7 @@
     :options="options"
     view-key="cb-backgrounds">
     <template #header>
-      <div class="heading h3 text-center text-accent">Pilot Background</div>
+      <div class="heading h3 text-center text-accent">{{ $t('compendium.categories.pilotBackground') }}</div>
     </template>
   </cc-compendium-browser>
 </template>

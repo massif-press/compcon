@@ -1,5 +1,5 @@
 <template>
-  <div class="my-12 heading h3">Linking account...</div>
+  <div class="my-12 heading h3">{{ $t('mainMenu.ui.linkingAccount') }}</div>
 </template>
 
 <script setup lang="ts">

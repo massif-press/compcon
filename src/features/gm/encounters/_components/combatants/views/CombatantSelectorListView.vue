@@ -30,17 +30,17 @@
           tile
           style="width: 33%"
           value="unit"
-          color="primary">NPCs</v-btn>
+          color="primary">{{ $t('gm.combatantSelector.npcs') }}</v-btn>
         <v-btn flat
           tile
           style="width: 33%"
           value="doodad"
-          color="primary">Doodads</v-btn>
+          color="primary">{{ $t('gm.combatantSelector.doodads') }}</v-btn>
         <v-btn flat
           tile
           style="width: 33%"
           value="eidolon"
-          color="primary">Eidolons</v-btn>
+          color="primary">{{ $t('gm.combatantSelector.eidolons') }}</v-btn>
       </v-btn-toggle>
       <v-list class="mb-n3"
         style="height: 100%; min-height: calc(100vh - 86px); overflow-y: scroll">
@@ -72,7 +72,7 @@
                       @click.stop="$emit('select', n)"></cc-button>
                   </v-badge>
                 </template>
-                <span>Add to Encounter</span>
+                <span>{{ $t('gm.combatantSelector.addToEncounter') }}</span>
               </v-tooltip>
             </template>
           </v-list-item>
@@ -97,7 +97,7 @@
         <v-row justify="center"
           align="center"
           style="height: calc(100vh - 60px)">
-          <v-col cols="auto"><i class="text-disabled">Select an NPC</i></v-col>
+          <v-col cols="auto"><i class="text-disabled">{{ $t('gm.combatantSelector.selectNpc') }}</i></v-col>
         </v-row>
       </div>
     </v-main>

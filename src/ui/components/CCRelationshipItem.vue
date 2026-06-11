@@ -51,7 +51,7 @@
                 justify="center">
                 <v-col cols="auto"
                   class="mt-5">
-                  <i class="text-caption text-disabled">No Data</i>
+                  <i class="text-caption text-disabled">{{ $t('ui.widget.noData') }}</i>
                 </v-col>
               </v-row>
             </v-col>
@@ -121,7 +121,7 @@
                 </template>
                 <v-card>
                   <v-card-text>
-                    Do you want to delete this relationship? This action cannot be undone.
+                    {{ $t('ui.relationship.deleteConfirm') }}
                   </v-card-text>
                   <v-divider />
                   <v-card-actions>
@@ -129,7 +129,7 @@
                     <v-btn size="small"
                       color="error"
                       @click="$emit('delete', item.id)">
-                      Confirm Deletion
+                      {{ $t('common.confirmDeletion') }}
                     </v-btn>
                   </v-card-actions>
                 </v-card>
@@ -138,7 +138,7 @@
           </v-row>
         </v-toolbar>
         <v-card-text class="pt-1">
-          <div class="text-caption">DETAIL</div>
+          <div class="text-caption">{{ $t('ui.widget.detail') }}</div>
           <cc-rich-text-area v-model="item.notes" />
         </v-card-text>
         <v-divider />
@@ -148,7 +148,7 @@
             size="small"
             color="accent"
             @click="dialog = false">
-            Save and Close
+            {{ $t('ui.widget.saveAndClose') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -160,7 +160,7 @@
           <v-spacer />
           <v-btn color="blue darken-1"
             variant="text"
-            @click="dialog = false">Close</v-btn>
+            @click="dialog = false">{{ $t('common.close') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

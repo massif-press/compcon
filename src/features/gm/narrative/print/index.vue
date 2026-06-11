@@ -22,13 +22,13 @@
             <span>{{ item.title }}</span>
           </v-chip>
           <span v-if="index === 4" class="text-grey text-caption align-self-center">
-            (+{{ selectedItems.length - 4 }} others)
+            {{ $t('gm.print.othersCount', { n: selectedItems.length - 4 }) }}
           </span>
         </template>
         <template #prepend-item>
           <v-list-item ripple @click="toggle">
             <v-icon :icon="selectIcon" class="ml-2 mr-1" />
-            Select All
+            {{ $t('common.selectAll') }}
           </v-list-item>
           <v-divider class="mt-2" />
         </template>

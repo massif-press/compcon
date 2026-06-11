@@ -17,7 +17,7 @@
       <cc-button prepend-icon="mdi-clipboard-text-outline"
         color="accent"
         @click="copy()">
-        Copy to Clipboard
+        {{ $t('gm.npcStatblock.copyToClipboard') }}
       </cc-button>
     </div>
   </v-card-text>

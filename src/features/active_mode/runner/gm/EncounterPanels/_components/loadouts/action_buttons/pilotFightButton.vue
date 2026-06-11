@@ -7,7 +7,7 @@
     <template #default="{ close }">
       <div v-if="!presetWeapon"
         class="text-cc-overline text-disabled pl-3 py-2">
-        select weapon
+        {{ $t('active.fight.selectWeapon') }}
       </div>
       <v-row dense
         align="center"

@@ -11,7 +11,7 @@ export function resolveSpecialEquipment(ids: string[]): CompendiumItem[] {
     if (s) return s
     const wm = CompendiumStore().WeaponMods.find(item => item.ID === x)
     if (wm) return wm
-    const pg = CompendiumStore().PilotGear.find((item: any) => item.ID === x)
+    const pg = CompendiumStore().PilotGear.find(item => item.ID === x)
     if (pg) return pg
     return false
   })

@@ -1,6 +1,6 @@
 <template>
   <v-card v-if="!item.Data" variant="outlined" color="panel" class="pa-6 ma-2">
-    <div class="text-center text-caption text-disabled"><i>No Element Selected</i></div>
+    <div class="text-center text-caption text-disabled"><i>{{ $t('gm.narrativeLink.noElementSelected') }}</i></div>
   </v-card>
   <v-card v-else class="pa-2 ma-2" variant="outlined" color="panel">
     <narrative-content :data="item.Data" />
@@ -18,32 +18,20 @@
       </template>
       <v-card>
         <v-card-text v-if="isItemLinked">
-          <div>
-            This item is currently linked to a Narrative Element in your GM Collection. As
-            modifications are made to the linked element, this item will automatically receive
-            updates. Click the button to unlink this item from the GM Collection and store it as an
-            instanced element in campaign data.
-          </div>
-          <div class="my-4">
-            To re-link this item, select it in the "Set Narrative Element" menu.
-          </div>
+          <div>{{ $t('gm.narrativeLink.linkedHelp') }}</div>
+          <div class="my-4">{{ $t('gm.narrativeLink.relinkHelp') }}</div>
           <v-btn
             block
             color="error"
             variant="tonal"
             prepend-icon="mdi-link-off"
             @click="item.Unlink()">
-            Unlink Element
+            {{ $t('gm.narrativeLink.unlinkElement') }}
           </v-btn>
         </v-card-text>
         <v-card-text v-else>
-          <div>
-            This item is not linked to a Narrative Element in your GM Collection and will not
-            receive automatic updates, but will be saved as a instanced element in campaign data.
-          </div>
-          <div class="mt-4">
-            To link this item to a Narrative Element, select it in the "Set Narrative Element" menu.
-          </div>
+          <div>{{ $t('gm.narrativeLink.notLinkedHelp') }}</div>
+          <div class="mt-4">{{ $t('gm.narrativeLink.linkHelp') }}</div>
         </v-card-text>
       </v-card>
     </v-menu>
@@ -52,7 +40,7 @@
     <v-menu v-model="menu" width="40vw" :close-on-content-click="false">
       <template #activator="{ props }">
         <v-btn v-bind="props" color="accent" size="x-small" variant="tonal">
-          Set Narrative Element
+          {{ $t('gm.narrativeLink.setNarrativeElement') }}
         </v-btn>
       </template>
       <v-card>

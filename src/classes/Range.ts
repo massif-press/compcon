@@ -13,11 +13,6 @@ interface IRangeData {
   min?: number
 }
 
-type SpecialRange = {
-  comparator: 'lt' | 'gt' | 'eq' | 'lte' | 'gte'
-  val: number
-}
-
 class Range {
   private _range_type: RangeType
   private _value: number | string

@@ -83,12 +83,11 @@ class FeatureController {
     let sArr = str
     if (!Array.isArray(sArr)) sArr = [str as string]
     strDict.forEach(p => {
-      sArr.forEach(
-        s =>
-          (s = s
-            .toString()
-            .replace(`_`, '')
-            .replace(new RegExp(`{${p.key}}`, 'g'), p.text))
+      sArr = (sArr as string[]).map(s =>
+        s
+          .toString()
+          .replace(`_`, '')
+          .replace(new RegExp(`{${p.key}}`, 'g'), p.text)
       )
     })
 

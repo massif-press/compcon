@@ -22,7 +22,7 @@
     <div class="text-center">
       <cc-heading small
         line>
-        Item Share Code
+        {{ $t('ui.shareImport.itemShareCode') }}
       </cc-heading>
       <div class="code-input"
         :class="mobile && 'mobile'">
@@ -61,7 +61,7 @@
             :disabled="hasCode"
             :loading="loading"
             @click="getFromCode()">
-            Find Item
+            {{ $t('ui.shareImport.findItem') }}
           </cc-button>
         </v-col>
         <v-col cols="auto">
@@ -86,7 +86,7 @@
               density="compact"
               icon="mdi-information-outline"
               title="error">
-              No item found with code {{ formatCode(badCode) }}.
+              {{ $t('ui.shareImport.noItemFound', { code: formatCode(badCode) }) }}
             </cc-alert>
           </div>
         </div>
@@ -94,7 +94,7 @@
       <v-scroll-y-reverse-transition>
         <div v-if="queryResult">
           <v-divider class="my-4" />
-          <span class="flavor-text">// {{ importType.toUpperCase() }} DATA FOUND</span>
+          <span class="flavor-text">{{ $t('ui.shareImport.dataFound', { type: importType.toUpperCase() }) }}</span>
           <slot name="result" />
           <cc-alert v-if="isUserOwned || remoteItemExists"
             color="error"
@@ -105,9 +105,9 @@
             icon="mdi-information-outline"
             title="error">
             <span v-if="isUserOwned">
-              You are the author of this item. You cannot add your own items as remote resources.
+              {{ $t('ui.shareImport.userOwned') }}
             </span>
-            <span v-else>This item has already been added as a remote resource.</span>
+            <span v-else>{{ $t('ui.shareImport.alreadyAdded') }}</span>
           </cc-alert>
           <cc-alert v-if="wrongType"
             color="error"
@@ -117,10 +117,10 @@
             class="my-2"
             icon="mdi-information-outline"
             title="warning">
-            <span>
-              This item is a {{ qrImportType }}. It can still be imported, but will appear in the
-              {{ qrImportType }} list, not the {{ importType }} list.
-            </span>
+            <i18n-t keypath="ui.shareImport.qrTypeHelp" tag="span" scope="global">
+              <template #qr>{{ qrImportType }}</template>
+              <template #type>{{ importType }}</template>
+            </i18n-t>
           </cc-alert>
           <div class="text-right">
             <slot name="actions" />

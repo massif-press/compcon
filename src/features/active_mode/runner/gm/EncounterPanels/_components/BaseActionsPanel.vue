@@ -5,7 +5,7 @@
     flat
     class="mt-1">
     <v-expansion-panel>
-      <v-expansion-panel-title class="heading h4 py-0">All Actions</v-expansion-panel-title>
+      <v-expansion-panel-title class="heading h4 py-0">{{ $t('active.actions.allActions') }}</v-expansion-panel-title>
       <v-expansion-panel-text style="border: 2px solid rgb(var(--v-theme-panel))">
         <v-row dense>
           <v-col v-for="pa in controller.AllActions('Protocol')"

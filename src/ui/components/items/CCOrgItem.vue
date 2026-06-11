@@ -64,7 +64,7 @@
             <span class="heading h2 text-accent">+ {{ org.Efficiency }}</span>
             <br />
             <span>
-              Organization Efficiency
+              {{ $t('ui.org.efficiency') }}
               <cc-tooltip simple
                 inline
                 content="How directly effective your organization is at what it does (a military
@@ -104,7 +104,7 @@
             <span class="heading h2 text-accent">+ {{ org.Influence }}</span>
             <br />
             <span>
-              Organization Influence
+              {{ $t('ui.org.influence') }}
               <cc-tooltip simple
                 inline
                 content="Influence is your organization's size, reach, wealth, and reputation.

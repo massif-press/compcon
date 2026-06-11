@@ -7,6 +7,9 @@ import { NarrativeStore } from '@/features/gm/store/narrative_store'
 import { CampaignStore } from '@/features/gm/store/campaign_store'
 import * as CompendiumRoutes from '@/features/compendium/routes'
 import * as GmRoutes from '@/features/gm/routes'
+import { UserStore } from '@/user/store'
+import { setUiLocale } from '@/i18n/loadLocale'
+import logger from '@/user/logger'
 
 export type IndexItem = {
   id: string
@@ -59,8 +62,13 @@ export const NavStore = defineStore('nav', {
     setSrdTab(tab: number) {
       this._srdTab = tab
     },
-    setLanguage(lang: string) {
+    setLanguage(lang: string, persist = true) {
       this._language = lang
+      setUiLocale(lang).catch(err => logger.warn(`Failed to load locale ${lang}: ${err}`))
+      if (persist) {
+        const user = UserStore().User
+        if (user) user.Language = lang
+      }
     },
     addToIndex(items: IndexItem | IndexItem[]) {
       const arr = Array.isArray(items) ? items : [items]

@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid'
+import { i18n } from '@/i18n'
 import {
   CloudController,
   ICloudSyncable,
@@ -71,7 +72,7 @@ class Campaign implements ISaveable, ICloudSyncable {
     this.Published = data?.published || false
 
     this.ID = data?.id || uuid()
-    this._title = data?.title || 'New Campaign'
+    this._title = data?.title || i18n.global.t('classes.newCampaign')
     this._subtitle = data?.subtitle || ''
     this._description = data?.description || ''
     this._coverImageUrl = data?.cover_image_url || ''

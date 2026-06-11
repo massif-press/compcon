@@ -66,7 +66,7 @@
                     class="ml-n2" />
                 </span>
               </template>
-              Reinforcements
+              {{ $t('gm.reinforcements') }}
             </v-tooltip>
             <combatant-chip v-for="c in item.Combatants.filter((x) => x.reinforcement)"
               :key="c.id"

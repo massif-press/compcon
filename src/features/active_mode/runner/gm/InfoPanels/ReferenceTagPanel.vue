@@ -3,28 +3,27 @@
     tile>
     <div v-if="selected"
       class="mb-6">
-      <cc-title offset>{{ pc ? 'Your' : 'Relevant' }} Tags ({{ selected.Name || selected.actor.Name
-        }})</cc-title>
+      <cc-title offset>{{ pc ? $t('active.refTag.yourTags', { name: selected.Name || selected.actor.Name }) : $t('active.refTag.relevantTags', { name: selected.Name || selected.actor.Name }) }}</cc-title>
       <cc-tags v-if="actorTags.length"
         :tags="actorTags"
         extended
         force-extended />
       <div v-else
-        class="text-disabled text-cc-overline ma-1">No Tags Found</div>
+        class="text-disabled text-cc-overline ma-1">{{ $t('active.refTag.noTagsFound') }}</div>
     </div>
 
     <div v-if="!pc"
       class="mb-6">
-      <cc-title offset>Relevant Tags (Encounter)</cc-title>
+      <cc-title offset>{{ $t('active.refTag.relevantTagsEncounter') }}</cc-title>
       <cc-tags v-if="relevantTags.length"
         :tags="relevantTags"
         extended
         force-extended />
       <div v-else
-        class="text-disabled text-cc-overline ma-1">No Tags Found</div>
+        class="text-disabled text-cc-overline ma-1">{{ $t('active.refTag.noTagsFound') }}</div>
     </div>
 
-    <cc-title offset>All Tags</cc-title>
+    <cc-title offset>{{ $t('active.refTag.allTags') }}</cc-title>
     <cc-tags :tags="allTags"
       extended
       force-extended />

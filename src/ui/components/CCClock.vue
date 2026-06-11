@@ -37,13 +37,13 @@
                   </template>
                   <v-card>
                     <v-card-text>
-                      Do you want to delete this clock? This action cannot be undone.
+                      {{ $t('ui.clock.deleteConfirm') }}
                     </v-card-text>
                     <v-divider />
                     <v-card-actions>
                       <v-spacer />
                       <cc-button size="small" color="error" @click="$emit('delete')">
-                        Confirm Deletion
+                        {{ $t('common.confirmDeletion') }}
                       </cc-button>
                     </v-card-actions>
                   </v-card>
@@ -64,11 +64,11 @@
             </div>
           </v-progress-linear>
           <div v-if="clock.Description">
-            <div class="text-caption mb-n1">DESCRIPTION</div>
+            <div class="text-caption mb-n1">{{ $t('ui.clock.descriptionHeading') }}</div>
             <div class="ml-2" v-html-safe="clock.Description" />
           </div>
           <div v-if="clock.Resolution">
-            <div class="text-caption mb-n1">RESOLUTION</div>
+            <div class="text-caption mb-n1">{{ $t('ui.clock.resolutionHeading') }}</div>
             <div class="ml-2" v-html-safe="clock.Resolution" />
           </div>
         </v-col>

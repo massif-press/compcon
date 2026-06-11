@@ -1,5 +1,5 @@
 <template>
-  <div class="text-overline">SITREP</div>
+  <div class="text-overline">{{ $t('gm.sitrep.heading') }}</div>
   <v-card class="py-2 px-4"
     variant="outlined"
     style="border-color: rgb(var(--v-theme-panel))">
@@ -17,7 +17,7 @@
           size="small"
           :prepend-icon="showPresets ? 'mdi-chevron-double-down' : 'mdi-chevron-double-right'"
           @click="showPresets = !showPresets">
-          PRESETS
+          {{ $t('gm.sitrep.presets') }}
         </cc-button>
       </v-col>
     </v-row>
@@ -41,7 +41,7 @@
         </v-chip-group>
         <template v-if="userPresets.length > 0">
           <v-divider class="my-1" />
-          <div class="text-cc-overline text-disabled px-2">MY PRESETS</div>
+          <div class="text-cc-overline text-disabled px-2">{{ $t('gm.sitrep.myPresets') }}</div>
           <v-chip-group>
             <v-chip v-for="(preset, i) in userPresets"
               :key="preset.id"
@@ -182,7 +182,7 @@
           size="small"
           prepend-icon="mdi-plus"
           @click="item.Sitrep.Conditions.push({ title: 'New Condition', condition: '' })">
-          Condition
+          {{ $t('gm.sitrep.condition') }}
         </cc-button>
       </v-col>
       <v-col cols="auto"
@@ -193,7 +193,7 @@
           prepend-icon="mdi-content-save-outline"
           :disabled="!item.Sitrep.modified"
           @click="savePreset">
-          Save Preset
+          {{ $t('gm.sitrep.savePreset') }}
         </cc-button>
       </v-col>
     </v-row>
@@ -203,18 +203,15 @@
       icon="mdi-undo-variant"
       :close-on-click="false"
       color="error">
-      <v-card-text class="text-center">
-        This sitrep has been modified. Loading a new preset will delete these changes. Are you sure
-        you want to continue?
-      </v-card-text>
+      <v-card-text class="text-center">{{ $t('gm.sitrep.modifiedWarning') }}</v-card-text>
       <div class="d-flex justify-between px-6">
         <cc-button color="primary"
           size="small"
-          @click="confirmDialog = false">cancel</cc-button>
+          @click="confirmDialog = false">{{ $t('common.cancel') }}</cc-button>
         <v-spacer />
         <cc-button color="success"
           size="small"
-          @click="confirm()">confirm</cc-button>
+          @click="confirm()">{{ $t('common.confirm') }}</cc-button>
       </div>
     </cc-dialog>
 
@@ -224,18 +221,18 @@
       :close-on-click="false"
       color="error">
       <v-card-text class="text-center">
-        Delete preset
-        <b>{{ stagedDeleteIndex >= 0 ? userPresets[stagedDeleteIndex]?.name : '' }}</b>?
-        This cannot be undone.
+        <i18n-t keypath="gm.sitrep.deletePresetConfirm" tag="span" scope="global">
+          <template #name><b>{{ userPresets[stagedDeleteIndex]?.name }}</b></template>
+        </i18n-t>
       </v-card-text>
       <div class="d-flex justify-between px-6">
         <cc-button color="primary"
           size="small"
-          @click="deleteConfirmDialog = false">cancel</cc-button>
+          @click="deleteConfirmDialog = false">{{ $t('common.cancel') }}</cc-button>
         <v-spacer />
         <cc-button color="error"
           size="small"
-          @click="confirmDeletePreset">delete</cc-button>
+          @click="confirmDeletePreset">{{ $t('common.delete') }}</cc-button>
       </div>
     </cc-dialog>
   </v-card>

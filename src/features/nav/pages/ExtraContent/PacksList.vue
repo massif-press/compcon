@@ -19,7 +19,7 @@
           @update:model-value="toggleActive(item.ID, item.Active)" />
         <cc-tooltip v-else
           icon="mdi-alert">
-          This pack is missing one or more dependencies and cannot be activated.
+          {{ $t('nav.packsList.missingDependencies') }}
         </cc-tooltip>
       </template>
       <template #item.v3="{ item }">
@@ -31,8 +31,7 @@
               mdi-check
             </v-icon>
           </template>
-          This content pack is compatible with the latest version of COMP/CON and supports v3
-          features.
+          {{ $t('nav.communityTable.v3Compatible') }}
         </v-tooltip>
         <v-tooltip v-else
           max-width="300px">
@@ -42,9 +41,7 @@
               mdi-cancel
             </v-icon>
           </template>
-          This content pack uses the v2 content format. It will function correctly but will lack
-          features of v3-compatible packs. COMP/CON will not be able to manage effects or statuses
-          from this pack in Active Mode.
+          {{ $t('nav.communityTable.v3Incompatible') }}
         </v-tooltip>
       </template>
       <template #item.deleteAction="{ item }">
@@ -100,10 +97,11 @@ import { notify } from '@/util/notify'
 import { ContentPack } from '@/classes/ContentPack'
 import PackInfoCard from './components/PackInfoCard.vue'
 import { CompendiumStore, ContentPackStore } from '@/stores'
-import { NAV_STRINGS } from '@/features/nav/strings'
+import { useNavStrings } from '@/features/nav/useNavStrings'
+const { section, t } = useNavStrings()
 
 const { smAndDown: mobile } = useDisplay()
-const CM = NAV_STRINGS.contentManager
+const CM = section('contentManager')
 
 const expandedRows = ref<any[]>([])
 const loading = ref(false)
@@ -130,9 +128,9 @@ const contentPacks = computed(() =>
 async function toggleActive(packID: string, state: boolean): Promise<void> {
   try {
     await ContentPackStore().togglePackActive(packID)
-    notify({ color: 'success', text: NAV_STRINGS.packsList.toggleSuccessText(state) })
+    notify({ color: 'success', text: t('nav.packsList.toggleSuccessText', { action: !state ? t('nav.packsList.activated') : t('nav.packsList.deactivated') }) })
   } catch (e) {
-    notify({ color: 'error', text: NAV_STRINGS.packsList.toggleErrorText(String(e)) })
+    notify({ color: 'error', text: t('nav.packsList.toggleErrorText', { error: String(e) }) })
   }
 }
 
@@ -143,7 +141,7 @@ async function deletePack(id: string): Promise<void> {
 async function deleteAll() {
   loading.value = true
   await ContentPackStore().deleteAllContentPacks()
-  notify({ color: 'success', text: NAV_STRINGS.packsList.deleteAllSuccess })
+  notify({ color: 'success', text: t('nav.packsList.deleteAllSuccess') })
   loading.value = false
 }
 </script>

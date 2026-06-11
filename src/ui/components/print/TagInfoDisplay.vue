@@ -1,7 +1,7 @@
 <template>
   <div class="pa-2 mt-3 no-print-break">
     <div class="text-overline text-primary"
-      style="line-height: 0">EQUIPMENT TAG DETAIL</div>
+      style="line-height: 0">{{ $t('ui.ref.equipmentTagDetail') }}</div>
     <div v-for="t in tags"
       :key="t.ID"
       class="ma-2 no-print-break">

@@ -33,7 +33,7 @@
               />
             </v-btn>
           </template>
-          <span>Sort by Title</span>
+          <span>{{ $t('compendium.campaign.sortByTitle') }}</span>
         </v-tooltip>
 
         <v-tooltip
@@ -58,7 +58,7 @@
               />
             </v-btn>
           </template>
-          <span>Sort by Author</span>
+          <span>{{ $t('compendium.campaign.sortByAuthor') }}</span>
         </v-tooltip>
 
         <v-tooltip
@@ -86,7 +86,7 @@
               />
             </v-btn>
           </template>
-          <span>Sort by Suggested Players</span>
+          <span>{{ $t('compendium.campaign.sortBySuggestedPlayers') }}</span>
         </v-tooltip>
 
         <v-tooltip
@@ -113,7 +113,7 @@
               />
             </v-btn>
           </template>
-          <span>Sort by License Level</span>
+          <span>{{ $t('compendium.campaign.sortByLicenseLevel') }}</span>
         </v-tooltip>
       </v-col>
     </v-row>
@@ -143,14 +143,11 @@
           prepend-icon="cc:campaign"
           @click="open"
         >
-          LANCER Campaign Directory
+          {{ $t('compendium.campaign.lancerCampaignDirectory') }}
         </cc-button>
       </template>
       <v-card-text>
-        After v3 release this will be a searchable directory of Massif and community-created
-        campaigns. If you're logged in and have linked an itch.io account, you'll be able to import
-        campaigns directly from the directory. Otherwise you'll be directed to the itch.io page to
-        purchase and download the campaign.
+        {{ $t('compendium.campaign.directoryComingSoon') }}
       </v-card-text>
     </cc-dialog>
     <v-spacer />
@@ -172,7 +169,7 @@
           prepend-icon="mdi-import"
           @click="open"
         >
-          File Import
+          {{ $t('compendium.campaign.fileImport') }}
         </cc-button>
       </template>
       <v-card-text>
@@ -199,7 +196,7 @@
           {{ errorMessage }}
         </div>
         <div v-else-if="stagedData">
-          <div class="text-caption">Staged Campaign Data</div>
+          <div class="text-caption">{{ $t('compendium.campaign.stagedCampaignData') }}</div>
           <v-card variant="tonal">
             <v-card-title>{{ stagedData.title }}</v-card-title>
             <v-card-subtitle>{{ stagedData.subtitle }}</v-card-subtitle>
@@ -217,21 +214,18 @@
                 density="compact"
                 icon="mdi-alert"
               >
-                <div class="text-caption">Warning</div>
+                <div class="text-caption">{{ $t('compendium.campaign.warning') }}</div>
                 <div
                   v-if="importIsOlder"
                   class="my-2 font-weight-bold"
                 >
-                  The existing campaign is newer than the imported data.
+                  {{ $t('compendium.campaign.existingNewer') }}
                 </div>
-                This import data will overwrite an existing campaign with the same ID ({{
-                  importSameId.title
-                }}). The existing campaign was last updated on
-                {{ new Date(importSameId.save.lastModified).toLocaleString() }}.
+                {{ $t('compendium.campaign.overwriteWarning', { title: importSameId.title, date: new Date(importSameId.save.lastModified).toLocaleString() }) }}
               </v-alert>
 
               <div class="text-caption text-right">
-                Last Updated: &nbsp;
+                {{ $t('compendium.campaign.lastUpdated') }} &nbsp;
                 <b>{{ new Date(stagedData.save.lastModified).toLocaleString() }}</b>
               </div>
             </v-card-text>
@@ -242,7 +236,7 @@
                 color="accent"
                 @click="importCampaign"
               >
-                Import Campaign
+                {{ $t('compendium.campaign.importCampaign') }}
               </v-btn>
               <v-spacer />
             </v-card-actions>

@@ -8,7 +8,7 @@
         <cc-synergy-display location="overcharge"
           :mech="controller.Parent"
           alert />
-        <div class="text-center text-cc-overline text-disabled my-2">OVERCHARGE cost</div>
+        <div class="text-center text-cc-overline text-disabled my-2">{{ $t('active.overcharge.cost') }}</div>
         <v-row no-gutters>
           <v-col v-for="(t, n) in controller.OverchargeTrack"
             :key="`overcharge-${n}`"
@@ -36,7 +36,7 @@
           class="text-center my-3"
           align="center"
           justify="center">
-          <v-col cols="auto">Overcharging will incur</v-col>
+          <v-col cols="auto">{{ $t('active.overcharge.willIncur') }}</v-col>
           <v-col cols="auto">
             <v-btn icon
               flat
@@ -63,7 +63,7 @@
               color="overcharge"
               append-inner-icon="cc:heat" />
           </v-col>
-          <v-col cols="auto">Heat</v-col>
+          <v-col cols="auto">{{ $t('active.newSheet.heat') }}</v-col>
         </v-row>
       </v-card>
       <menu-input :owner="owner" :encounter-instance="encounterInstance" :key="controller.ID"

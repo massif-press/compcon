@@ -71,7 +71,7 @@ class DeployableInstance implements ICombatant {
       const expression = val.trim()
 
       // Match pattern: optional number and operator, followed by {key}
-      const match = expression.match(/^(?:(\d+)\s*([\+\-\*\/\%\*\*\&\|\^\<\>\=]+)\s*)?\{([^}]+)\}$/)
+      const match = expression.match(/^(?:(\d+)\s*([+\-*/%**&|^<>=]+)\s*)?\{([^}]+)\}$/)
 
       if (!match) {
         const parsed = parseInt(expression)
@@ -146,7 +146,7 @@ class DeployableInstance implements ICombatant {
     const ownerSaveTarget =
       (this.Owner.actor as any)?.CombatController?.SaveTarget ||
       (this.Owner.actor as any)?.CombatController?.ActiveActor?.CombatController?.SaveTarget
-    const saveTarget = this.Base.Save
+    const saveTarget = this.Base.SaveTarget
       ? this.stringEval(this.Base.SaveTarget)
       : ownerSaveTarget || 10
 

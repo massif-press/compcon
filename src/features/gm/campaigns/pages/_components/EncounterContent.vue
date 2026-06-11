@@ -15,8 +15,8 @@
       <v-col cols="3" class="text-center ml-auto">
         <v-card>
           <v-tabs v-model="mapTab" grow color="secondary" bg-color="panel" density="compact">
-            <v-tab>Map</v-tab>
-            <v-tab>Image</v-tab>
+            <v-tab>{{ $t('gm.encounterContent.map') }}</v-tab>
+            <v-tab>{{ $t('gm.encounterContent.image') }}</v-tab>
           </v-tabs>
           <v-window v-model="mapTab">
             <v-window-item>
@@ -28,7 +28,7 @@
                   align="center"
                   justify="center">
                   <v-col>
-                    <i class="text-disabled text-caption">No Map Data</i>
+                    <i class="text-disabled text-caption">{{ $t('gm.encounterContent.noMapData') }}</i>
                   </v-col>
                 </v-row>
               </v-card>

@@ -30,9 +30,9 @@
         <cc-missing-content-hover :item="item" />
         <cc-remote-hover :item="item"
           color="accent" />
-        {{ item.Name }}&mdash; T{{ item.Tier }}
+        {{ item.Name }}&mdash; {{ $t('gm.itemCard.tierShort', { tier: item.Tier }) }}
         <cc-slashes />
-        CLASS {{ item.Class }}
+        {{ $t('gm.itemCard.classLabel', { class: item.Class }) }}
       </template>
       <template v-else-if="type === 'Faction'">
         <div>
@@ -56,7 +56,7 @@
           color="accent" />
         {{ item.Name }}
         <span v-if="item.NpcClassController.Class">
-          &mdash; T{{ item.NpcClassController.Tier }} {{ item.NpcClassController.Class.Name }}
+          &mdash; {{ $t('gm.itemCard.tierShort', { tier: item.NpcClassController.Tier }) }} {{ item.NpcClassController.Class.Name }}
         </span>
         <span class="px-4">
           <v-chip v-for="t in item.NpcTemplateController.Templates"
@@ -111,9 +111,9 @@
     </template>
     <template v-else-if="type === 'Eidolon'">
       <div>
-        T{{ item.Tier }}
+        {{ $t('gm.itemCard.tierShort', { tier: item.Tier }) }}
         <cc-slashes />
-        CLASS {{ item.Class }}
+        {{ $t('gm.itemCard.classLabel', { class: item.Class }) }}
       </div>
       <v-chip v-for="l in item.Layers"
         :key="l.ID"
@@ -130,7 +130,7 @@
     <template v-else-if="type === 'Unit'">
       <div v-if="item.NpcClassController.Class"
         class="my-1">
-        T{{ item.NpcClassController.Tier }} {{ item.NpcClassController.Class.Name }}
+        {{ $t('gm.itemCard.tierShort', { tier: item.NpcClassController.Tier }) }} {{ item.NpcClassController.Class.Name }}
       </div>
       <div class="my-1">
         <v-chip v-for="t in item.NpcTemplateController.Templates"

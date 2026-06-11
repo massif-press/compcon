@@ -15,7 +15,7 @@
         <v-alert variant="outlined"
           class="mb-3 py-1"
           style="border-color: rgb(var(--v-theme-primary))">
-          <div class="heading h3 text-center text-accent">Glossary</div>
+          <div class="heading h3 text-center text-accent">{{ $t('compendium.reference.glossary') }}</div>
         </v-alert>
         <v-text-field v-model="search"
           item-title="Name"

@@ -37,21 +37,24 @@
 
           <i class="text-caption"
             style="opacity: 0.75">
-            Community themes by
-            <a target="_blank"
-              href="https://github.com/vialra">
-              vialra,
-            </a>
-            Asger Toft,
-            <a target="_blank"
-              href="https://github.com/Lunardog15">
-              thecrystalwoods,
-            </a>
-            and
-            <a target="_blank"
-              href="https://github.com/nimoooos">
-              Suji
-            </a>
+            <i18n-t keypath="nav.settingsPage.communityThemesBy"
+              tag="span"
+              scope="global">
+              <template #vialra>
+                <a target="_blank"
+                  href="https://github.com/vialra">{{ $t('nav.settingsPage.contribVialra') }}</a>
+              </template>
+              <template #asger>{{ $t('nav.settingsPage.contribAsger') }}</template>
+              <template #thecrystalwoods>
+                <a target="_blank"
+                  href="https://github.com/Lunardog15">{{ $t('nav.settingsPage.contribCrystalwoods')
+                  }}</a>
+              </template>
+              <template #suji>
+                <a target="_blank"
+                  href="https://github.com/nimoooos">{{ $t('nav.settingsPage.contribSuji') }}</a>
+              </template>
+            </i18n-t>
           </i>
         </div>
         <div>
@@ -61,6 +64,18 @@
             :items="fonts"
             item-title="label"
             item-value="value" />
+        </div>
+        <div v-if="isDevsite">
+          <cc-heading is-title
+            :text="$t('language.selectLanguage')" />
+          <cc-select v-model="language"
+            :items="languages"
+            item-title="name"
+            item-value="code" />
+          <i class="text-caption"
+            style="opacity: 0.75">
+            {{ $t('language.experimentalNote') }}
+          </i>
         </div>
       </v-col>
       <v-col cols="
@@ -127,7 +142,9 @@
             </v-col>
             <v-col cols="auto"
               :class="`text-${user.EnhancedReporting ? 'success' : 'disabled'}`">
-              Enhanced error reporting {{ user.EnhancedReporting ? sp.enabled : sp.disabled }}
+              {{ $t('nav.settingsPage.enhancedReportingStatus', {
+                status: user.EnhancedReporting ?
+                  sp.enabled : sp.disabled }) }}
             </v-col>
             <v-col cols="auto">
               <v-tooltip location="top"
@@ -138,14 +155,18 @@
                     icon="mdi-information-slab-box-outline" />
                 </template>
 
-                Enhanced error reporting sends the developer additional data, including
-                <strong class="text-accent">
-                  non-anonymous information, specifically IP address and user ID
-                </strong>
-                . All other PII is scrubbed before transmission. This is
-                <strong class="text-accent">not necessary</strong>
-                unless you are actively working with the developer to resolve a specific issue and
-                have been asked to enable this setting.
+                <i18n-t keypath="nav.settingsPage.enhancedReportingTooltip"
+                  tag="span"
+                  scope="global">
+                  <template #nonAnon>
+                    <strong class="text-accent">{{ $t('nav.settingsPage.enhancedReportingPiiNote')
+                      }}</strong>
+                  </template>
+                  <template #notNecessary>
+                    <strong class="text-accent">{{
+                      $t('nav.settingsPage.enhancedReportingNotNecessary') }}</strong>
+                  </template>
+                </i18n-t>
               </v-tooltip>
             </v-col>
           </v-row>
@@ -193,7 +214,7 @@
             <v-card-text class="pa-6">
               <div v-if="!isV2File">
                 <div class="text-cc-overline text-disabled">
-                  // Import Strategy
+                  // {{ $t('nav.settingsPage.importStrategy') }}
                 </div>
                 <v-btn-toggle v-model="strategy"
                   mandatory
@@ -245,7 +266,7 @@
                 :title="sp.v2BackupDetected"
                 class="mt-4">
                 <p class="text-text">
-                    {{ sp.v2BackupDescription }}
+                  {{ sp.v2BackupDescription }}
                 </p>
                 <p class="mt-2">
                   {{ sp.v2AppendNote }}
@@ -284,12 +305,12 @@
       <v-btn size="x-small"
         variant="text"
         to="/ui-test">
-        UI Test I
+        {{ $t('nav.settingsPage.uiTestOne') }}
       </v-btn>
       <v-btn size="x-small"
         variant="text"
         to="/ui-test-new">
-        UI Test II
+        {{ $t('nav.settingsPage.uiTestTwo') }}
       </v-btn>
     </v-row>
   </v-container>
@@ -299,7 +320,8 @@
 import { ref, computed, onMounted } from 'vue'
 import { useDisplay, useTheme } from 'vuetify'
 import * as allThemes from '@/ui/style/themes'
-import { UserStore } from '@/stores'
+import { UserStore, NavStore } from '@/stores'
+import { SUPPORTED_LOCALES } from '@/i18n'
 import { exportAll, importAll } from '@/io/BulkData'
 import { saveFile } from '@/io/Data'
 import { ClearAllData } from '@/io/Storage'
@@ -307,13 +329,18 @@ import { isFullBackup, processFullBackup, downloadFullBackup } from '@/io/FullIm
 import { GetValue, SetValue } from '@/io/Storage'
 import { notify } from '@/util/notify'
 import MigrationRepairDialog from './components/MigrationRepairDialog.vue'
-import { NAV_STRINGS } from '@/features/nav/strings'
+import { useNavStrings } from '@/features/nav/useNavStrings'
+const { section } = useNavStrings()
 
 const { mdAndDown: mobile } = useDisplay()
 const themeObj = useTheme()
-const sp = NAV_STRINGS.settingsPage
+const sp = section('settingsPage')
 
 const user = computed(() => UserStore().User)
+
+const isDevsite = computed(() =>
+  window.location.hostname === 'dev.compcon.app' || window.location.hostname === 'localhost'
+)
 
 const logLevels = [
   { name: 'Debug', key: 'debug', level: 1, detail: 'Record all log messages (very slow)' },
@@ -364,6 +391,13 @@ const theme = computed({
     themeObj.global.name.value = newVal
     window.location.reload()
   },
+})
+
+const languages = [...SUPPORTED_LOCALES]
+
+const language = computed({
+  get: () => NavStore().Language,
+  set: (newVal: string) => NavStore().setLanguage(newVal),
 })
 
 onMounted(async () => {

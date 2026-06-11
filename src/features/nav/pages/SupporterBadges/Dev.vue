@@ -28,7 +28,7 @@
               <v-icon start
                 color="primary"
                 icon="mdi-web" />
-              <span>Website</span>
+              <span>{{ $t('nav.common.website') }}</span>
             </a>
             <span v-if="info.twitter && info.website"
               class="mx-3">|</span>

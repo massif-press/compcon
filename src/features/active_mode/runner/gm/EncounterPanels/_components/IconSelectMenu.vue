@@ -12,7 +12,7 @@
     <v-dialog v-model="dialog" max-width="80vw">
       <v-card>
         <v-toolbar flat tile height="32" color="primary">
-          <div class="heading h3 px-4">Select Icon</div>
+          <div class="heading h3 px-4">{{ $t('active.actions.selectIcon') }}</div>
           <v-spacer />
           <v-btn icon @click="dialog = false">
             <v-icon>mdi-close</v-icon>

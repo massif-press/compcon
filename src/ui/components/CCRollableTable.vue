@@ -21,7 +21,7 @@
         <v-checkbox-btn v-model="table.GmOnly"
           hide-details>
           <template #label>
-            GM Only
+            {{ $t('ui.rollTable.gmOnly') }}
             <v-tooltip location="top">
               <template #activator="{ props }">
                 <v-icon class="fade-select"
@@ -30,10 +30,7 @@
                   icon="mdi-information-outline"
                   v-bind="props" />
               </template>
-              <div>
-                Marking a field or item "GM Only" will hide it from player-facing exports and print
-                output
-              </div>
+              <div>{{ $t('ui.rollTable.gmOnlyTooltip') }}</div>
             </v-tooltip>
           </template>
         </v-checkbox-btn>
@@ -44,7 +41,7 @@
         align="center">
         <v-col v-if="!dense"
           cols="auto"
-          class="heading pl-3 pr-3">Roll</v-col>
+          class="heading pl-3 pr-3">{{ $t('common.roll') }}</v-col>
         <v-col cols="auto">
           <v-menu>
             <template #activator="{ props }">
@@ -75,7 +72,7 @@
 
         <v-col cols="auto"
           class="heading"
-          style="margin: 0px 2px 0 2px">D</v-col>
+          style="margin: 0px 2px 0 2px">{{ $t('ui.rollTable.d') }}</v-col>
         <v-col cols="auto">
           <v-menu>
             <template #activator="{ props }">
@@ -105,7 +102,7 @@
         </v-col>
         <v-spacer />
         <v-col cols="auto"
-          class="heading pl-3 pr-1">Step</v-col>
+          class="heading pl-3 pr-1">{{ $t('ui.rollTable.step') }}</v-col>
         <v-col cols="auto">
           <v-text-field v-model="step"
             type="number"
@@ -126,20 +123,19 @@
                 variant="tonal"
                 v-bind="props">
                 <v-icon :start="!dense">mdi-reload</v-icon>
-                <span v-if="!dense">Rebuild</span>
+                <span v-if="!dense">{{ $t('ui.rollTable.rebuild') }}</span>
               </v-btn>
             </template>
             <v-card>
               <v-card-text>
-                Do you want to rebuild this table? This will clear out the current data. This action
-                cannot be undone.
+                {{ $t('ui.rollTable.rebuildConfirm') }}
               </v-card-text>
               <v-divider />
               <v-card-actions>
                 <v-spacer />
                 <v-btn small
                   color="error"
-                  @click="generate">Confirm Rebuild</v-btn>
+                  @click="generate">{{ $t('ui.rollTable.confirmRebuild') }}</v-btn>
               </v-card-actions>
             </v-card>
           </v-menu>
@@ -159,14 +155,14 @@
             </template>
             <v-card>
               <v-card-text>
-                Do you want to delete this table? This action cannot be undone.
+                {{ $t('ui.rollTable.deleteConfirm') }}
               </v-card-text>
               <v-divider />
               <v-card-actions>
                 <v-spacer />
                 <v-btn small
                   color="error"
-                  @click="$emit('delete')">Confirm Deletion</v-btn>
+                  @click="$emit('delete')">{{ $t('common.confirmDeletion') }}</v-btn>
               </v-card-actions>
             </v-card>
           </v-menu>
@@ -185,10 +181,9 @@
         <td v-if="!mobile"
           class="text-center heading h3 px-3"
           style="width: 75px; line-height: 18px;">
-          <span v-if="r.max === -1">
-            Multiple 1
-            <span style="font-size: small; ">s</span>
-          </span>
+          <i18n-t v-if="r.max === -1" keypath="ui.rollTable.multipleOnes" tag="span" scope="global">
+            <template #plural><span style="font-size: small; ">{{ $t('ui.rollTable.pluralS') }}</span></template>
+          </i18n-t>
           <span v-else-if="r.min === r.max">{{ r.max }}</span>
           <span v-else>{{ r.min }} - {{ r.max }}</span>
         </td>
@@ -209,10 +204,9 @@
               flat
               tile
               color="background">
-              <strong v-if="r.max === -1">
-                Multiple 1
-                <span class="text-caption">s</span>
-              </strong>
+              <i18n-t v-if="r.max === -1" keypath="ui.rollTable.multipleOnes" tag="strong" scope="global">
+                <template #plural><span class="text-caption">{{ $t('ui.rollTable.pluralS') }}</span></template>
+              </i18n-t>
               <strong v-else-if="r.min === r.max">{{ r.max }}</strong>
               <strong v-else>{{ r.min }} - {{ r.max }}</strong>
             </v-card>

@@ -9,7 +9,7 @@
       <v-col cols="auto">
         <div class="font-weight-light text-center my-n2"
           style="letter-spacing: 2vw !important; font-size: 2vw !important">
-          GM TOOLKIT
+          {{ $t('gm.landing.toolkit') }}
         </div>
       </v-col>
       <v-col><v-divider /></v-col>

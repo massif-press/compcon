@@ -3,6 +3,7 @@ import { CollectionItem, ICollectionItemData } from './CollectionItem'
 import { CloudController, PortraitController, SaveController } from '../components'
 import { NarrativeController } from './NarrativeController'
 import { FolderController } from '../components/folder/FolderController'
+import { i18n } from '@/i18n'
 
 class CharacterData extends ICollectionItemData {
   collectionItemType: string = 'character'
@@ -20,7 +21,7 @@ class Character extends CollectionItem {
 
   public constructor(data?: CharacterData) {
     super(data)
-    this._name = data?.name || 'New Character'
+    this._name = data?.name || i18n.global.t('classes.newCharacter')
     this._alias = data?.alias || ''
     this._title = data?.title || ''
     this._pronouns = data?.pronouns || 'They/Them'

@@ -7,7 +7,7 @@
       density="compact"
       color="primary"
       height="46">
-      <v-toolbar-title class="heading h3">TABLE INDEX</v-toolbar-title>
+      <v-toolbar-title class="heading h3">{{ $t('active.tableIndex.title') }}</v-toolbar-title>
       <v-spacer />
       <v-btn icon
         @click="$emit('close')">
@@ -16,12 +16,12 @@
     </v-toolbar>
     <div v-if="selected">
       <div class="heading bg-primary px-5">
-        <span class="text-disabled pr-2">Currently Selected:</span>
+        <span class="text-disabled pr-2">{{ $t('active.common.currentlySelected') }}</span>
         <strong v-if="selected">
           {{ actor.Name }}
         </strong>
         <span v-else
-          class="text-disabled">None</span>
+          class="text-disabled">{{ $t('active.common.none') }}</span>
       </div>
     </div>
     <v-card-text class="pb-0">
@@ -31,7 +31,7 @@
           <v-list v-model="selectedTable"
             density="compact"
             slim>
-            <div class="text-cc-overline">Encounter Tables</div>
+            <div class="text-cc-overline">{{ $t('active.tableIndex.encounterTables') }}</div>
             <v-list-item v-for="t in tables"
               :key="t.ID"
               :class="selectedTable?.ID === t.ID && 'bg-primary border-sm'"
@@ -41,7 +41,7 @@
               @click="selectedTable = t" />
             <div v-if="otherTables.length">
               <v-divider class="my-2" />
-              <div class="text-cc-overline">Other Tables</div>
+              <div class="text-cc-overline">{{ $t('active.tableIndex.otherTables') }}</div>
               <v-list-item v-for="t in otherTables"
                 :key="t.ID"
                 :class="selectedTable?.ID === t.ID && 'bg-primary border-sm'"
@@ -59,9 +59,7 @@
               class="mb-2 border-s-xl border-accent"
               icon="mdi-warning">
               <div class="text-caption">
-                Currently, only Lancer Core Book tables are supported. LCP and custom tables will
-                have
-                to be resolved manually
+                {{ $t('active.tableIndex.coreOnly') }}
               </div>
             </cc-alert>
 
@@ -75,12 +73,12 @@
                 prepend-icon="mdi-dice-d20"
                 class="my-2"
                 @click="roll(selectedTable)">
-                Roll {{ `${selectedTable.Mult}d${selectedTable.Die}` }}
+                {{ $t('common.roll') }} {{ `${selectedTable.Mult}d${selectedTable.Die}` }}
               </cc-button>
             </div>
             <div v-else
               class="text-disabled text-cc-overline text-center py-4">
-              Select a table to view its contents.
+              {{ $t('active.tableIndex.selectTable') }}
             </div>
             <v-scroll-y-reverse-transition>
               <cc-panel v-if="results[selectedTable.ID].roll"

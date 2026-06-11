@@ -25,7 +25,7 @@
               {{ bonus.Detail }}
             </div>
             <div class="text-right text-disabled">
-              <i>From {{ bonus.Source }}</i>
+              <i>{{ $t('ui.combat.fromOrigin', { name: bonus.Source }) }}</i>
             </div>
           </v-card-text>
         </v-card>

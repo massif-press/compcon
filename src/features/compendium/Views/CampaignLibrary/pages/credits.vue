@@ -19,22 +19,29 @@
                   {{ campaign.Subtitle }}
                 </div>
                 <v-divider />
-                <div>By {{ campaign.Author }}</div>
+                <div>{{ $t('compendium.campaign.byAuthor', { author: campaign.Author }) }}</div>
                 <div class="text-center text-caption">
-                  A
-                  <i>Lancer</i>
-                  campaign for
-                  {{
-                    campaign.MinPlayers === campaign.MaxPlayers
-                      ? campaign.MaxPlayers
-                      : `${campaign.MinPlayers}-${campaign.MaxPlayers}`
-                  }}
-                  pilots starting at License Level
-                  {{
-                    campaign.MinLL === campaign.MaxLL
-                      ? campaign.MaxLL
-                      : `${campaign.MinLL}-${campaign.MaxLL}`
-                  }}.
+                  <i18n-t keypath="compendium.campaign.campaignForLine"
+                    tag="span"
+                    scope="global">
+                    <template #lancer>
+                      <i>Lancer</i>
+                    </template>
+                    <template #players>
+                      {{
+                        campaign.MinPlayers === campaign.MaxPlayers
+                          ? campaign.MaxPlayers
+                          : `${campaign.MinPlayers}-${campaign.MaxPlayers}`
+                      }}
+                    </template>
+                    <template #levels>
+                      {{
+                        campaign.MinLL === campaign.MaxLL
+                          ? campaign.MaxLL
+                          : `${campaign.MinLL}-${campaign.MaxLL}`
+                      }}
+                    </template>
+                  </i18n-t>
                 </div>
               </v-card-text>
             </v-card>

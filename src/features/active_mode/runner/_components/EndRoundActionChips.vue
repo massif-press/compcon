@@ -7,7 +7,7 @@
       :tile="large"
       prepend-icon="cc:protocol"
       variant="flat">
-      Protocol
+      {{ $t('active.actionChips.protocol') }}
     </v-chip>
   </v-col>
   <v-col v-if="controller.CanActivate('full')"
@@ -18,7 +18,7 @@
       :size="large ? 'large' : 'small'"
       :tile="large"
       variant="flat">
-      Full Action
+      {{ $t('active.actionChips.fullAction') }}
     </v-chip>
   </v-col>
   <v-col v-else-if="controller.CanActivate('quick')"
@@ -29,7 +29,7 @@
       :size="large ? 'large' : 'small'"
       :tile="large"
       variant="flat">
-      Quick Action
+      {{ $t('active.actionChips.quickAction') }}
     </v-chip>
   </v-col>
 </template>

@@ -2,9 +2,9 @@
   <combat-action-button
     :action="action">
     <template #default="{ close }">
-      <div class="text-cc-overline text-disabled">Select a weapon to reload</div>
+      <div class="text-cc-overline text-disabled">{{ $t('active.reload.selectWeapon') }}</div>
       <div v-if="!reloadOptions.length">
-        <div class="text-center my-4">No valid targets for reload</div>
+        <div class="text-center my-4">{{ $t('active.reload.noTargets') }}</div>
       </div>
       <cc-select v-else
         v-model="selection"

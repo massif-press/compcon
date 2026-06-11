@@ -14,7 +14,7 @@
           <v-icon icon="mdi-share-variant" />
         </v-btn>
       </template>
-      <span>Copy link</span>
+      <span>{{ $t('common.copyLink') }}</span>
     </v-tooltip>
   </div>
 </template>

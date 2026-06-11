@@ -5,7 +5,7 @@
     tile
     flat
     @click="loginWithPatreon">
-    <b>Patreon account:</b>
+    <b>{{ $t("mainMenu.patreon.accountLabel") }}</b>
 
     <div v-if="loadPatreon"
       class="ma-2">
@@ -15,15 +15,14 @@
         height="12" />
     </div>
     <div v-else
-      class="text-disabled">Unlinked</div>
-    Link Patreon
+      class="text-disabled">{{ $t("mainMenu.ui.unlinked") }}</div>
+    {{ $t("mainMenu.patreon.linkPatreon") }}
     <v-tooltip max-width="400px">
       <template #activator="{ props }">
         <v-icon v-bind="props"
           size="x-small">mdi-help-circle-outline</v-icon>
       </template>
-      If you are subscribed to the COMP/CON Patreon, linking your Patreon account will increase your
-      maximum cloud storage space and unlock realtime table creation in GM mode.
+      {{ $t("mainMenu.patreon.linkInfo") }}
     </v-tooltip>
   </v-card>
   <cc-dialog v-else
@@ -38,7 +37,7 @@
         <div class="bg-patreon text-caption"
           style="letter-spacing: 4px !important">
           <cc-slashes />
-          <b class="px-2">PATREON LINKED</b>
+          <b class="px-2">{{ $t("mainMenu.patreon.linked") }}</b>
           <cc-slashes />
         </div>
         <v-card-text class="py-2">
@@ -51,7 +50,7 @@
             </v-col>
             <v-col>
               <div class="heading h3 text-center text-accent">
-                <b>{{ patreon.profile.tierData.title }} Tier</b>
+                <b>{{ $t("mainMenu.patreon.tierSuffix", { title: patreon.profile.tierData.title }) }}</b>
               </div>
               <div>
                 {{ supportText }}
@@ -65,7 +64,7 @@
           flat
           tile
           variant="tonal"
-          @click="unlinkPatreon()">Unlink</v-btn>
+          @click="unlinkPatreon()">{{ $t("mainMenu.ui.unlink") }}</v-btn>
       </div>
     </template>
 
@@ -98,7 +97,7 @@
           prepend-icon="mdi-star"
           href="https://www.patreon.com/compcon"
           target="_blank">
-          Upgrade
+          {{ $t("mainMenu.ui.upgrade") }}
         </v-btn>
       </div>
     </v-card-text>

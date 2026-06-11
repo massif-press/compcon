@@ -5,7 +5,7 @@
     tile
     flat
     @click="loginWithItch">
-    <b>itch.io account:</b>
+    <b>{{ $t("mainMenu.itch.accountLabel") }}</b>
     <div v-if="loadItch"
       class="ma-2">
       <v-progress-linear tile
@@ -14,18 +14,16 @@
         height="12" />
     </div>
     <div v-else
-      class="text-disabled">Unlinked</div>
-    Link itch.io
+      class="text-disabled">{{ $t("mainMenu.ui.unlinked") }}</div>
+    {{ $t("mainMenu.itch.linkItch") }}
     <v-tooltip max-width="400px">
       <template #activator="{ props }">
         <v-icon v-bind="props"
           size="x-small">mdi-help-circle-outline</v-icon>
       </template>
-      Linking your itch.io account will allow you to download Massif content from the itch.io store
-      with one click.
+      {{ $t("mainMenu.itch.linkInfo1") }}
       <br />
-      You can also subscribe to Massif LCPs to auto-update your local copy when the author releases
-      a new version.
+      {{ $t("mainMenu.itch.linkInfo2") }}
     </v-tooltip>
   </v-card>
 
@@ -41,7 +39,7 @@
         <div class="bg-itch text-caption"
           style="letter-spacing: 4px !important">
           <cc-slashes />
-          <b class="px-2">ITCH LINKED</b>
+          <b class="px-2">{{ $t("mainMenu.itch.linked") }}</b>
           <cc-slashes />
         </div>
         <v-card-text v-if="itch.user"
@@ -57,7 +55,7 @@
               <div class="heading h3 text-center text-accent">
                 <b>{{ itch.user.username }}</b>
               </div>
-              <div>Click for details</div>
+              <div>{{ $t("mainMenu.itch.clickForDetails") }}</div>
             </v-col>
           </v-row>
         </v-card-text>
@@ -67,14 +65,14 @@
           flat
           tile
           variant="tonal"
-          @click="unlinkItch()">Unlink</v-btn>
+          @click="unlinkItch()">{{ $t("mainMenu.ui.unlink") }}</v-btn>
       </div>
     </template>
 
     <v-card :loading="loading"
       flat>
       <v-card-text>
-        <div>COMP/CON has linked the following itch.io purchases to your account:</div>
+        <div>{{ $t("mainMenu.itch.purchasesLinked") }}</div>
         <cc-chip v-for="(game, gameIdx) in itch.gamedata"
           :key="`game-${gameIdx}`"
           bg-color="primary"
@@ -84,7 +82,7 @@
           :label="game.title"
           class="ma-1" />
         <div class="mt-2">
-          Your COMP/CON cloud account is eligible for the following automatic updates:
+          {{ $t("mainMenu.itch.eligibleUpdates") }}
         </div>
         <v-card flat
           border>
@@ -102,9 +100,9 @@
           </v-card-text>
           <v-divider />
           <div class="text-center py-2">
-            Unlinked LCPs and other content can still be manually added via the
-            <b>Manage Content</b>
-            page.
+            <i18n-t keypath="mainMenu.itch.manageContentHint" tag="span" scope="global">
+              <template #link><b>{{ $t("mainMenu.itch.manageContent") }}</b></template>
+            </i18n-t>
           </div>
         </v-card>
 
@@ -114,25 +112,23 @@
           prominent
           icon="mdi-alert-rhombus-outline">
           <div>
-            <b>COMP/CON does not automatically track new itch.io data.</b>
+            <b>{{ $t("mainMenu.itch.noAutoTrack") }}</b>
             <div class="text-caption">
-              If you have new purchases or download keys on your itch.io account click the
-              <b>Update</b>
-              button below to add these to COMP/CON. Unfortunately, it is not possible to link
-              non-Massif purchases at this time due to limitations in the itch.io API.
+              <i18n-t keypath="mainMenu.itch.updateHint" tag="span" scope="global">
+                <template #update><b>{{ $t("mainMenu.itch.updateBtn") }}</b></template>
+              </i18n-t>
             </div>
           </div>
         </cc-alert>
         <div class="text-caption text-right">
-          COMP/CON last polled your itch account on
-          {{ new Date(itch.lastUpdate).toLocaleString() }}
+          {{ $t("mainMenu.itch.lastPolled", { date: new Date(itch.lastUpdate).toLocaleString() }) }}
           <br />
           <cc-button color="accent"
             class="mt-4"
             prepend-icon="mdi-refresh"
             :loading="loading"
             @click.stop="updateItch">
-            Update
+            {{ $t("mainMenu.itch.updateBtn") }}
           </cc-button>
         </div>
       </v-card-text>

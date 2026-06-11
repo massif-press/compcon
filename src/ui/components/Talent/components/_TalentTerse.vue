@@ -20,7 +20,7 @@
             {{ talent.Name }}
             <span v-if="rank" class="flavor-text text-white pr-6">
               <cc-slashes />
-              RANK {{ 'I'.repeat(Number(rank)) }}
+              {{ $t('common.rank') }} {{ 'I'.repeat(Number(rank)) }}
             </span>
           </v-col>
           <v-col
@@ -79,11 +79,11 @@
                     :disabled="!canAdd"
                     @click="$emit('add')">
                     <v-icon start>mdi-lock-open</v-icon>
-                    Unlock {{ talent.Rank(n).Name }}
+                    {{ $t('common.unlock') }} {{ talent.Rank(n).Name }}
                   </v-btn>
                   <v-btn v-else-if="n > Number(rank)" small disabled>
                     <v-icon start>mdi-lock</v-icon>
-                    TALENT RANK LOCKED
+                    {{ $t('ui.talent.rankLocked') }}
                   </v-btn>
                   <v-btn
                     v-else-if="selectable && Number(rank) === n"
@@ -91,11 +91,11 @@
                     variant="plain"
                     @click="$emit('remove')">
                     <v-icon start>mdi-close</v-icon>
-                    Remove
+                    {{ $t('common.remove') }}
                   </v-btn>
                   <div v-else class="text-center">
                     <v-icon start>cc:rank_{{ n }}</v-icon>
-                    UNLOCKED
+                    {{ $t('ui.talent.unlocked') }}
                   </div>
                 </v-card-actions>
               </v-card>

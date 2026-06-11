@@ -10,7 +10,7 @@
         <template #title>
           <v-row dense>
             <v-col>
-              <div class="text-caption font-weight-bold my-1">NOTIFICATIONS</div>
+              <div class="text-caption font-weight-bold my-1">{{ $t("mainMenu.management.notifications") }}</div>
             </v-col>
             <v-col cols="auto">
               <v-chip size="small"
@@ -78,11 +78,11 @@
         <cc-heading is-title
           text="Account Details" />
         <div class="text-caption">
-          <b>Account created (v3):</b>
+          <b>{{ $t("mainMenu.management.accountCreatedV3") }}</b>
           <i class="text-accent ml-1">{{ new Date(Number(meta.CreatedAt)).toLocaleString() }}</i>
         </div>
         <div class="text-caption">
-          <b>Last updated:</b>
+          <b>{{ $t("mainMenu.management.lastUpdated") }}</b>
           <i class="text-accent ml-1">{{ new Date(Number(meta.UpdatedAt)).toLocaleString() }}</i>
         </div>
       </v-col>
@@ -102,7 +102,7 @@
     </div>
 
     <cc-heading small
-      line>Change password</cc-heading>
+      line>{{ $t("mainMenu.management.changePassword") }}</cc-heading>
     <v-row dense
       align="center">
       <v-col cols="12"
@@ -132,14 +132,14 @@
             :disabled="!oldPass || !newPass || oldPass === newPass"
             :loading="loading"
             @click="changePass">
-            Submit
+            {{ $t("common.submit") }}
           </cc-button>
         </div>
       </v-col>
     </v-row>
 
     <cc-heading small
-      line>Change Account E-Mail</cc-heading>
+      line>{{ $t("mainMenu.management.changeEmail") }}</cc-heading>
     <v-row dense
       align="center">
       <v-col cols="12"
@@ -166,7 +166,7 @@
                 :disabled="!newEmail || newEmail !== newEmailConfirm"
                 :loading="loading"
                 @click="sendVerify(open)">
-                Submit
+                {{ $t("common.submit") }}
               </cc-button>
             </template>
             <template #default="{ close }">
@@ -175,12 +175,11 @@
                 <v-progress-circular indeterminate
                   size="80"
                   class="my-2" />
-                <div class="text-cc-overline">working...</div>
+                <div class="text-cc-overline">{{ $t("mainMenu.management.working") }}</div>
               </div>
               <div v-else>
                 <p class="mb-3">
-                  A verification e-mail has been sent to {{ newEmail }}. Please check your inbox and
-                  enter the verification code below to finalize your changes.
+                  {{ $t("mainMenu.management.verifyEmailSent", { email: newEmail }) }}
                 </p>
                 <cc-text-field v-model="verifyCode"
                   label="Verification Code"
@@ -196,7 +195,7 @@
                     :disabled="!verifyCode"
                     :loading="loading"
                     @click="close">
-                    Cancel
+                    {{ $t("common.cancel") }}
                   </cc-button>
                 </v-col>
                 <v-col>
@@ -206,7 +205,7 @@
                     :disabled="!verifyCode"
                     :loading="loading"
                     @click="resetEmail(close)">
-                    Reset
+                    {{ $t("common.reset") }}
                   </cc-button>
                 </v-col>
                 <v-col>
@@ -216,7 +215,7 @@
                     :disabled="!verifyCode"
                     :loading="loading"
                     @click="completeVerify">
-                    Confirm
+                    {{ $t("common.confirm") }}
                   </cc-button>
                 </v-col>
               </v-row>
@@ -231,7 +230,7 @@
       :loading="loading"
       class="my-12"
       @click="ccSignOut">
-      Sign Out
+      {{ $t("mainMenu.management.signOut") }}
       <template #info>
         <v-icon icon="mdi-logout" />
       </template>
@@ -246,7 +245,7 @@
             color="error"
             prepend-icon="mdi-skull"
             @click="open">
-            Delete Cloud Account
+            {{ $t("mainMenu.management.deleteCloudAccount") }}
           </cc-button>
         </template>
         <template #default="{ close }">
@@ -258,6 +257,8 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import { useDisplay } from 'vuetify'
 import { notify } from '@kyvg/vue3-notification'
@@ -308,9 +309,9 @@ async function _onJwtShortcut(e: KeyboardEvent) {
       const token = session.tokens?.idToken?.toString()
       if (!token) throw new Error('No token available')
       await navigator.clipboard.writeText(token)
-      notify({ title: 'JWT Copied', text: 'ID token copied to clipboard', data: { icon: 'mdi-key', color: 'success-darken-2' } } as any)
+      notify({ title: t('mainMenu.account.jwtCopiedTitle'), text: t('mainMenu.account.jwtCopiedText'), data: { icon: 'mdi-key', color: 'success-darken-2' } } as any)
     } catch (err) {
-      notify({ title: 'JWT Copy Failed', text: String(err), data: { icon: 'mdi-alert', color: 'error' } } as any)
+      notify({ title: t('mainMenu.account.jwtCopyFailedTitle'), text: String(err), data: { icon: 'mdi-alert', color: 'error' } } as any)
     }
   }
 }

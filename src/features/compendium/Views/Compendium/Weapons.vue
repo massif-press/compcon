@@ -6,7 +6,7 @@
     :manufacturers="manufacturers"
     view-key="cb-weapons">
     <template #header>
-      <div class="heading h3 text-center text-accent">Mech Weapons</div>
+      <div class="heading h3 text-center text-accent">{{ $t('compendium.categories.mechWeapons') }}</div>
     </template>
   </cc-compendium-browser>
 </template>

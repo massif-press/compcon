@@ -45,7 +45,7 @@
           size="20"
           :icon="m.Icon" />
         &nbsp;
-        {{ !m ? 'None' : m.Name }}
+        {{ !m ? $t('ui.widget.none') : m.Name }}
       </v-btn>
     </div>
 
@@ -72,7 +72,7 @@
         </v-row>
         <div v-else>
           <div class="heading mech"
-            v-text="'No Manufacturer'" />
+            v-text="$t('ui.selector.noManufacturer')" />
         </div>
         <v-row class="mt-n8">
           <v-col style="height: calc(100vh - 225px)">
@@ -94,7 +94,7 @@
         size="small"
         rounded="0"
         @click="licenseTab = i">
-        {{ !l ? 'None' : l }}
+        {{ !l ? $t('ui.widget.none') : l }}
       </v-btn>
     </div>
 

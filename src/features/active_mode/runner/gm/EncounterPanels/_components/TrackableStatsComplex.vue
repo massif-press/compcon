@@ -106,16 +106,16 @@
           tile
           class="pt-4 text-cc-overline text-center"
           border="sm">
-          <div v-if="item.CombatController.CorePower">Clear this mech's</div>
-          <div v-else>Restore this mech's</div>
-          core power?
+          <div v-if="item.CombatController.CorePower">{{ $t('active.trackable.clearMechCore') }}</div>
+          <div v-else>{{ $t('active.trackable.restoreMechCore') }}</div>
+          {{ $t('active.trackable.corePowerQ') }}
           <template #actions>
             <cc-button block
               :color="item.CombatController.CorePower ? 'error' : 'core'"
               size="x-small"
               :prepend-icon="currentIcon"
               @click="drainBattery">
-              Confirm {{ item.CombatController.CorePower ? 'Clear' : 'Restore' }} Core
+              {{ $t('common.confirm') }} {{ item.CombatController.CorePower ? $t('common.clear') : $t('active.common.restore') }} {{ $t('active.trackable.core') }}
             </cc-button>
           </template>
         </v-card>

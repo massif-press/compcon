@@ -36,10 +36,10 @@
 
     <cc-heading small
       line
-      dense>Class Stats</cc-heading>
+      dense>{{ $t('ui.card.classStats') }}</cc-heading>
     <div class="text-cc-overline text-center mt-n3">
       <v-chip size="x-small"
-        tile>T1 / T2 / T3</v-chip>
+        tile>{{ $t('ui.card.tierColumns') }}</v-chip>
     </div>
 
     <v-row dense
@@ -53,7 +53,7 @@
     <cc-heading small
       line
       dense>
-      Class Base Features
+      {{ $t('ui.card.classBaseFeatures') }}
       <span class="text-caption text-disabled">({{ item.BaseFeatures.length }})</span>
     </cc-heading>
 
@@ -66,7 +66,7 @@
     <cc-heading small
       line
       dense>
-      Class Optional Features
+      {{ $t('ui.card.classOptionalFeatures') }}
       <span class="text-caption text-disabled">({{ item.OptionalFeatures.length }})</span>
     </cc-heading>
 

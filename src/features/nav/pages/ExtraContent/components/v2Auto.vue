@@ -89,7 +89,7 @@
           </v-col>
           <v-col cols="auto">
             <v-btn variant="text"
-              @click="dismiss(close)">Dismiss</v-btn>
+              @click="dismiss(close)">{{ $t('nav.common.dismiss') }}</v-btn>
           </v-col>
         </v-row>
       </template>
@@ -101,11 +101,12 @@
 import { ref, onMounted } from 'vue'
 import { GetValue, SetValue } from '@/io/Storage'
 import { downloadFullBackup } from '@/io/FullImporter'
-import { NAV_STRINGS } from '@/features/nav/strings'
+import { useNavStrings } from '@/features/nav/useNavStrings'
+const { section } = useNavStrings()
 
 defineProps<{ block?: boolean }>()
 
-const va = NAV_STRINGS.v2Auto
+const va = section('v2Auto')
 
 const hasMigrationData = ref(false)
 const migrationResult = ref<any>(null)

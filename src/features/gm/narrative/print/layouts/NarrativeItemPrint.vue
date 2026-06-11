@@ -37,7 +37,7 @@
     <legend
       class="text-overline text-primary px-1"
       style="line-height: 14px; border: 1px solid grey; border-radius: 3px">
-      Relationships
+      {{ $t('gm.relationships.label') }}
     </legend>
     <div v-for="(r, index) in item.NarrativeController.Relationships"
       :key="`relationship-${index}`"
@@ -80,9 +80,9 @@
             <blank-line :height="20" />
           </v-col>
         </v-row>
-        <div v-if="c.Description" class="font-weight-bold text-caption" v-text="'Description'" />
+        <div v-if="c.Description" class="font-weight-bold text-caption" v-text="$t('common.description')" />
         <div v-html-safe="c.Description" class="pl-2" />
-        <div v-if="c.Resolution" class="font-weight-bold text-caption" v-text="'Resolution'" />
+        <div v-if="c.Resolution" class="font-weight-bold text-caption" v-text="$t('gm.resolution')" />
         <div v-html-safe="c.Resolution" class="pl-2" />
       </v-card>
     </div>

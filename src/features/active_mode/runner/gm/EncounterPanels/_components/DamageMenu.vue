@@ -10,7 +10,7 @@
         class="mt-1"
         prepend-icon="cc:eclipse"
         @click="props.onClick($event)">
-        Take damage
+        {{ $t('active.damageMenu.takeDamageLower') }}
       </cc-button>
     </template>
     <template #default="{ isActive }">
@@ -22,7 +22,7 @@
             <v-icon icon="cc:eclipse"
               class="mt-n1 ml-2"
               start />
-            Take Damage
+            {{ $t('active.damageMenu.takeDamage') }}
           </div>
           <v-spacer />
           <v-btn icon
@@ -35,7 +35,7 @@
             <v-col cols="12"
               md=""
               :style="mobile ? '' : 'max-width: 300px'">
-              <div class="text-cc-overline text-disabled">Incoming Damage Value</div>
+              <div class="text-cc-overline text-disabled">{{ $t('active.damageMenu.incomingValue') }}</div>
               <v-divider />
               <v-text-field ref="damageInput"
                 v-model="incomingDamageValue"
@@ -53,7 +53,7 @@
                 tile
                 :color="damageMods.includes('half') ? 'accent' : 'panel'"
                 @click="toggleDamageMod('half')">
-                Half Damage
+                {{ $t('active.damageMenu.halfDamage') }}
               </v-btn>
               <v-btn size="x-small"
                 class="mt-1"
@@ -62,7 +62,7 @@
                 tile
                 :color="damageMods.includes('ap') ? 'accent' : 'panel'"
                 @click="toggleDamageMod('ap')">
-                Armor Piercing
+                {{ $t('active.damageMenu.armorPiercing') }}
               </v-btn>
               <v-btn size="x-small"
                 class="mt-1"
@@ -71,9 +71,9 @@
                 tile
                 :color="damageMods.includes('force') ? 'accent' : 'panel'"
                 @click="toggleDamageMod('force')">
-                Irreducible
+                {{ $t('active.damageMenu.irreducible') }}
               </v-btn>
-              <div class="text-cc-overline text-disabled mt-3">Damage Type</div>
+              <div class="text-cc-overline text-disabled mt-3">{{ $t('active.damageMenu.damageType') }}</div>
               <v-divider />
               <v-row dense
                 class="mt-1">
@@ -101,7 +101,7 @@
             </v-col>
             <v-col cols="12"
               md="">
-              <div class="text-cc-overline text-disabled">Defender Status</div>
+              <div class="text-cc-overline text-disabled">{{ $t('active.damageMenu.defenderStatus') }}</div>
               <v-divider class="mb-2" />
               <v-row v-if="controller.StatController.CurrentStats['armor']"
                 no-gutters
@@ -114,7 +114,7 @@
                 </v-col>
                 <v-col class="text-cc-overline mt-1"
                   :style="damageMods.includes('ap') ? 'text-decoration: line-through' : ''">
-                  {{ controller.StatController.CurrentStats['armor'] || 0 }} Armor
+                  {{ $t('active.damageMenu.armorN', { n: controller.StatController.CurrentStats['armor'] || 0 }) }}
                 </v-col>
               </v-row>
               <v-row v-for="damage in controller.Resistances"
@@ -151,11 +151,11 @@
                 class="py-1 text-center text-cc-overline"
                 style="opacity: 0.75"
                 color="panel">
-                NOMINAL
+                {{ $t('active.damageMenu.nominal') }}
               </v-card>
             </v-col>
             <v-col>
-              <div class="text-cc-overline text-disabled">Total Damage</div>
+              <div class="text-cc-overline text-disabled">{{ $t('active.damageMenu.totalDamage') }}</div>
               <v-divider class="mb-2" />
               <v-card flat
                 tile
@@ -190,8 +190,7 @@
                 color="primary"
                 block
                 size="small"
-                @click="apply(isActive)">Apply and
-                Close</cc-button>
+                @click="apply(isActive)">{{ $t('active.damageMenu.applyClose') }}</cc-button>
             </v-col>
           </v-row>
         </v-card-text>

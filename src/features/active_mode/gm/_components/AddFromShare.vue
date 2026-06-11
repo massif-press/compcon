@@ -16,7 +16,7 @@
         :loading="dlLoading"
         tooltip="This will add a copy of this pilot to your encounter. If the author updates their original data, you will not receive those changes."
         @click="addToEncounter">
-        add to encounter
+        {{ $t('active.addShare.addToEncounter') }}
       </cc-button>
     </template>
   </cc-share-code-importer>

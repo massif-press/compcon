@@ -12,7 +12,7 @@
         style="width: 2vw"><v-divider /></v-col>
       <v-col cols="auto"
         class="heading h3">
-        {{ key === '0' ? 'All' : key }}
+        {{ key === '0' ? $t('common.all') : key }}
         <span class="text-caption text-disabled">
           ({{ groupedItems(groupings[key]).length }}/{{ items.length }})
         </span>
@@ -21,12 +21,12 @@
         <v-divider />
       </v-col>
       <v-col cols="auto">
-        <v-icon size="small">{{ collapsed.includes(key) ? 'mdi-chevron-right' : 'mdi-chevron-down'
-          }}</v-icon>
+        <v-icon size="small"
+          :icon="collapsed.includes(key) ? 'mdi-chevron-right' : 'mdi-chevron-down'" />
       </v-col>
     </v-row>
     <div v-if="!items.length"
-      class="text-center text-disabled"><i>No Data</i></div>
+      class="text-center text-disabled"><i>{{ $t('gm.sidebar.noData') }}</i></div>
     <v-expand-transition>
       <div v-show="!collapsed.includes(key)">
         <gm-item-list-element v-for="item in groupedItems(groupings[key])"

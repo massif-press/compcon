@@ -15,7 +15,7 @@
           size="small"
           class="ml-4 mt-n1"
           variant="flat">
-          CORE ACTIVE
+          {{ $t('active.mechCore.coreActive') }}
         </v-chip>
       </span>
       <v-spacer />
@@ -91,7 +91,7 @@
                 size="small"
                 class="ml-4"
                 variant="flat">
-                PASSIVE
+                {{ $t('active.mechCore.passive') }}
               </v-chip>
             </div>
           </v-expansion-panel-title>

@@ -20,8 +20,8 @@
         :color="critical ? 'exotic' : 'primary'"
         class="text-white heading h3">
         {{ title }}
-        <span v-if="critical" class="flavor-text text-white text--secondary">// CRITICAL</span>
-        <span v-if="overkill" class="flavor-text text-white text--secondary">// OVERKILL</span>
+        <span v-if="critical" class="flavor-text text-white text--secondary">{{ $t('ui.dice.critical') }}</span>
+        <span v-if="overkill" class="flavor-text text-white text--secondary">{{ $t('ui.dice.overkill') }}</span>
       </v-toolbar>
       <v-row no-gutters align="center" justify="center">
         <v-col>
@@ -102,7 +102,7 @@
             </v-row>
             <v-row density="compact" align="center" justify="center">
               <v-col cols="auto">
-                <v-chip v-if="!dice.length" variant="outlined" style="opacity: 0.5">No Roll</v-chip>
+                <v-chip v-if="!dice.length" variant="outlined" style="opacity: 0.5">{{ $t('ui.dice.noRoll') }}</v-chip>
               </v-col>
               <v-col v-for="(d, i) in dice" :key="`dice-${i}`" cols="auto">
                 <v-chip
@@ -111,7 +111,7 @@
                   close
                   close-icon="mdi-close"
                   @click:close="removeDice(d.sides)">
-                  {{ d.count }}d{{ d.sides }}
+                  {{ d.count }}{{ $t('ui.combat.diceD') }}{{ d.sides }}
                 </v-chip>
                 <v-icon icon="mdi-plus" />
               </v-col>
@@ -144,13 +144,13 @@
               </v-row>
             </v-slide-y-reverse-transition>
             <v-btn block variant="outlined" color="secondary" class="my-3" @click="roll">
-              Roll
+              {{ $t('common.roll') }}
             </v-btn>
             <v-divider v-if="result" />
             <div style="min-height: 20px">
               <div v-if="result">
                 <div v-for="(r, j) in result" :key="`result-${j}`">
-                  <div class="caption">ROLLING {{ r.rolls.length }}D{{ r.sides }}</div>
+                  <div class="caption">{{ $t('ui.dice.rolling', { n: r.rolls.length, sides: r.sides }) }}</div>
                   <v-row no-gutters>
                     <v-col v-for="(val, i) in r.rolls" :key="`roll-${i}`" cols="auto">
                       <v-chip
@@ -177,7 +177,7 @@
                   </v-row>
                 </div>
                 <div v-if="flat">
-                  <div class="caption">FLAT MODIFIER</div>
+                  <div class="caption">{{ $t('ui.dice.flatModifier') }}</div>
                   <v-row no-gutters>
                     <v-col cols="auto">
                       <v-chip x-small label>
@@ -191,7 +191,7 @@
                 </div>
                 <div v-if="accuracy">
                   <div class="caption">
-                    {{ accuracy > 0 ? 'ACCURACY' : 'DIFFICULTY' }}
+                    {{ accuracy > 0 ? $t('ui.dice.accuracy') : $t('ui.dice.difficulty') }}
                   </div>
                   <v-row no-gutters>
                     <v-col v-for="(a, i) in accRolls" :key="`acc-${i}`" cols="auto">
@@ -214,7 +214,7 @@
                   class="pa-1 ma-1"
                   style="border: 1px solid rgb(var(--v-theme-secondary)); border-radius: 2px">
                   <v-col cols="auto" class="ml-auto text-stark text-right">
-                    <div class="caption">TOTAL</div>
+                    <div class="caption">{{ $t('ui.dice.total') }}</div>
                     <div class="heading h2">{{ total }}</div>
                   </v-col>
                 </v-row>
@@ -224,7 +224,7 @@
                   class="pa-1 ma-1"
                   style="border: 1px solid rgb(var(--v-theme-heat)); border-radius: 2px">
                   <v-col cols="auto" class="ml-auto text-stark text-right">
-                    <div class="caption">// OVERKILL //</div>
+                    <div class="caption">{{ $t('ui.dice.overkillBar') }}</div>
                     <v-chip v-for="(n, index) in overkillRolls" :key="`overkill-${index}`" x-small color="heat">
                       <v-icon small>cc:heat</v-icon>
                     </v-chip>
@@ -236,11 +236,11 @@
             <v-card-actions>
               <v-row density="compact" justify="center" align="center" class="text-center">
                 <v-col cols="12" md="auto">
-                  <v-btn small text class="mr-3" @click="menu = false">Cancel</v-btn>
+                  <v-btn small text class="mr-3" @click="menu = false">{{ $t('common.cancel') }}</v-btn>
                 </v-col>
                 <v-col cols="12" md="auto">
-                  <v-btn small variant="outlined" color="accent" @click="clear">Clear All</v-btn>
-                  <v-btn small variant="outlined" color="accent" @click="reset">Reset All</v-btn>
+                  <v-btn small variant="outlined" color="accent" @click="clear">{{ $t('ui.dice.clearAll') }}</v-btn>
+                  <v-btn small variant="outlined" color="accent" @click="reset">{{ $t('ui.dice.resetAll') }}</v-btn>
                 </v-col>
 
                 <v-col cols="12" md="auto">
@@ -250,7 +250,7 @@
                     color="secondary"
                     :disabled="!result && !flat"
                     @click="commit">
-                    Commit Result
+                    {{ $t('ui.dice.commitResult') }}
                   </v-btn>
                 </v-col>
               </v-row>

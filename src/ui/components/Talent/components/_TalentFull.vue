@@ -110,7 +110,7 @@
                   prepend-icon="mdi-lock-open"
                   :disabled="!canAdd"
                   @click="$emit('add')">
-                  Unlock
+                  {{ $t('common.unlock') }}
                 </cc-button>
                 <cc-button v-else-if="selectable && Number(rank) === n"
                   :size="mobile ? 'x-small' : 'small'"
@@ -118,7 +118,7 @@
                   :block="mobile"
                   prepend-icon="mdi-close"
                   @click="$emit('remove')">
-                  Remove
+                  {{ $t('common.remove') }}
                 </cc-button>
               </v-col>
             </v-row>

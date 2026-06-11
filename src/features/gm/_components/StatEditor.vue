@@ -22,7 +22,7 @@
       </v-row>
       <div v-else
         class="text-center text-disabled text-caption pa-2">
-        <i>No stats to display</i>
+        <i>{{ $t('gm.stats.noStats') }}</i>
       </div>
     </v-card>
     <v-row v-if="!readonly"
@@ -33,7 +33,7 @@
           size="small"
           :prepend-icon="editing ? 'mdi-check' : 'mdi-pencil'"
           @click="toggleEditing()">
-          {{ editing ? 'Done' : 'Edit' }}
+          {{ editing ? $t('common.done') : $t('common.edit') }}
         </cc-button>
       </v-col>
 
@@ -47,14 +47,12 @@
               size="small"
               color="error"
               prepend-icon="mdi-undo-variant">
-              Reset
+              {{ $t('common.reset') }}
             </cc-button>
           </template>
           <v-card max-width="300px">
             <v-card-text>
-              This will reset all stats to T{{ controller.Tier }}
-              {{ controller.Class ? controller.Class.Name : controller.Layer.Name }}
-              default values. Are you sure?
+              {{ $t('gm.stats.resetConfirm', { tier: controller.Tier, name: controller.Class ? controller.Class.Name : controller.Layer.Name }) }}
             </v-card-text>
             <cc-button block
               size="small"
@@ -64,7 +62,7 @@
                 controller.ResetStats();
               resetMenu = false;
               ">
-              Confirm Reset Stats
+              {{ $t('gm.stats.confirmResetStats') }}
             </cc-button>
           </v-card>
         </v-menu>
@@ -77,7 +75,7 @@
               size="small"
               color="primary"
               prepend-icon="cc:compendium">
-              Add Stat
+              {{ $t('gm.stats.addStat') }}
             </cc-button>
           </template>
 
@@ -89,8 +87,8 @@
               height="24"
               bg-color="primary"
               density="compact">
-              <v-tab>Core</v-tab>
-              <v-tab>Custom</v-tab>
+              <v-tab>{{ $t('gm.stats.core') }}</v-tab>
+              <v-tab>{{ $t('gm.stats.custom') }}</v-tab>
             </v-tabs>
 
             <v-card-text>
@@ -110,8 +108,8 @@
                     size="small"
                     :disabled="!statsToAdd.length"
                     @click="addCoreStats()">
-                    Add
-                    <span v-if="statsToAdd.length">{{ statsToAdd.length }} Stat(s)</span>
+                    {{ $t('common.add') }}
+                    <span v-if="statsToAdd.length">{{ $t('gm.stats.statCountSuffix', { n: statsToAdd.length }) }}</span>
                   </cc-button>
                 </v-window-item>
                 <v-window-item>
@@ -125,7 +123,7 @@
                     class="my-2"
                     size="small"
                     @click="addCustomStat()">
-                    Add
+                    {{ $t('common.add') }}
                   </cc-button>
                 </v-window-item>
               </v-window>

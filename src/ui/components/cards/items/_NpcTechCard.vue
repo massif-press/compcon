@@ -21,7 +21,7 @@
                 cc:reticle
               </v-icon>
             </template>
-            <span>Attack Bonus</span>
+            <span>{{ $t('common.attackBonus') }}</span>
           </v-tooltip>
           <span v-if="tier">
             +
@@ -32,15 +32,12 @@
             :key="`ab-${n}`">
             +
             <b>{{ item.AttackBonus(n) }}</b>
-            {{ n < 3
-              ? '&nbsp;/'
-              : ''
-              }}
+            <template v-if="n < 3">&nbsp;/</template>
               </span>
               <div v-if="!dense"
                 class="text-overline"
                 style="line-height: 14px; margin-top: 2px">
-                Attack Bonus
+                {{ $t('common.attackBonus') }}
               </div>
         </div>
       </v-col>
@@ -56,10 +53,7 @@
                 v-bind="props"
                 :icon="item.Accuracy(1) < 0 ? 'cc:difficulty' : 'cc:accuracy'" />
             </template>
-            <span>{{ item.Accuracy(1) < 0
-              ? 'Difficulty'
-              : 'Accuracy'
-                }}</span>
+            <span>{{ item.Accuracy(1) < 0 ? $t('common.difficulty') : $t('common.accuracy') }}</span>
           </v-tooltip>
           <span v-if="tier">
             +
@@ -70,18 +64,12 @@
             :key="`acc-${n}`">
             +
             <b>{{ item.Accuracy(n) }}</b>
-            {{ n < 3
-              ? '&nbsp;/'
-              : ''
-              }}
+            <template v-if="n < 3">&nbsp;/</template>
               </span>
               <div v-if="!dense"
                 class="text-overline"
                 style="line-height: 14px; margin-top: 2px">
-                {{ item.Accuracy(1) < 0
-                  ? 'Difficulty'
-                  : 'Accuracy'
-                  }}
+                {{ item.Accuracy(1) < 0 ? $t('common.difficulty') : $t('common.accuracy') }}
                   </div>
               </div>
       </v-col>

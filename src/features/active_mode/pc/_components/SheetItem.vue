@@ -83,16 +83,16 @@
                 <div class="bg-panel pa-1">
                   <v-list-item prepend-icon="mdi-archive"
                     @click="$emit('archive')">
-                    <v-list-item-title>Archive Sheet</v-list-item-title>
+                    <v-list-item-title>{{ $t('active.sheetItem.archiveSheet') }}</v-list-item-title>
                   </v-list-item>
                   <v-list-item prepend-icon="mdi-file-export"
                     @click="$emit('export')">
-                    <v-list-item-title>Export Sheet</v-list-item-title>
+                    <v-list-item-title>{{ $t('active.sheetItem.exportSheet') }}</v-list-item-title>
                   </v-list-item>
                   <v-divider class="my-1" />
                   <v-list-item prepend-icon="mdi-delete"
                     @click="$emit('delete')">
-                    <v-list-item-title>Delete Sheet</v-list-item-title>
+                    <v-list-item-title>{{ $t('active.sheetItem.deleteSheet') }}</v-list-item-title>
                   </v-list-item>
                 </div>
               </v-menu>
@@ -103,15 +103,15 @@
         <div v-if="mobile"
           class="detail-row-mobile px-2 pt-1 text-cc-overline">
           <div v-if="pilot.CombatController.Mounted">
-            <b class="text-stark">MOUNTED</b> &mdash; <i>{{ mech.Name }} ({{ mech.Frame.Source }} {{
+            <b class="text-stark">{{ $t('active.sheetItem.mounted') }}</b> &mdash; <i>{{ mech.Name }} ({{ mech.Frame.Source }} {{
               mech.Frame.Name
             }})</i>
           </div>
           <div v-else>
-            <b class="text-stark">UNMOUNTED</b>
+            <b class="text-stark">{{ $t('active.sheetItem.unmounted') }}</b>
           </div>
           <div class="text-disabled mt-1">
-            Round {{ pilot.CombatController.Round }}
+            {{ $t('active.sheetItem.roundN', { n: pilot.CombatController.Round }) }}
           </div>
         </div>
 
@@ -126,11 +126,11 @@
                 ({{ pilot.Name }})
                 <b v-if="pilot.CombatController.Mounted"
                   class="text-stark">
-                  MOUNTED
+                  {{ $t('active.sheetItem.mounted') }}
                 </b>
                 <b v-else
                   class="text-stark">
-                  UNMOUNTED
+                  {{ $t('active.sheetItem.unmounted') }}
                 </b>
               </div>
 
@@ -250,12 +250,12 @@
 
 
               <v-divider class="my-1" />
-              started <b>{{ new Date(sheet.Created).toLocaleDateString() }}</b> &mdash; last turn
+              {{ $t('active.sheetItem.started') }} <b>{{ new Date(sheet.Created).toLocaleDateString() }}</b> &mdash; {{ $t('active.sheetItem.lastTurn') }}
               <b>{{ sheet.Updated ? new
-                Date(sheet.Updated).toLocaleDateString() : 'N/A' }}</b>
+                Date(sheet.Updated).toLocaleDateString() : $t('active.sheetItem.na') }}</b>
               <br />
               <div>
-                Round {{ pilot.CombatController.Round }}
+                {{ $t('active.sheetItem.roundN', { n: pilot.CombatController.Round }) }}
               </div>
             </v-col>
           </v-row>

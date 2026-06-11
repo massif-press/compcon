@@ -4,7 +4,7 @@
     <v-card tile
       class="text-center">
       <v-card-text>
-        <span class="heading h2">Select Damage Type</span>
+        <span class="heading h2">{{ $t('ui.widget.selectDamageType') }}</span>
         <cc-button v-for="t in availableTypes"
           :key="t"
           block

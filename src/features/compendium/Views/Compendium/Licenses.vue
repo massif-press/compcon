@@ -6,7 +6,7 @@
     :manufacturers="manufacturers"
     view-key="cb-licenses">
     <template #header>
-      <div class="heading h3 text-center text-accent">Licenses</div>
+      <div class="heading h3 text-center text-accent">{{ $t('compendium.categories.licenses') }}</div>
     </template>
   </cc-compendium-browser>
 </template>

@@ -5,7 +5,7 @@
       justify="space-between">
       <v-col cols="auto"
         class="heading">
-        Last Saved:
+        {{ $t('active.runnerHeader.lastSaved') }}
         <b v-if="context.SaveController.LastModified > 0"
           :key="saveKey"
           class="text-accent ml-1">
@@ -17,7 +17,7 @@
           }}
         </b>
         <i v-else
-          class="text-disabled ml-1">Never</i>
+          class="text-disabled ml-1">{{ $t('active.runnerHeader.never') }}</i>
       </v-col>
       <v-col cols="auto">
         <cc-button flat
@@ -26,20 +26,20 @@
           prepend-icon="mdi-content-save"
           size="small"
           @click="$emit('manual-save')">
-          Manual Save
+          {{ $t('active.runnerHeader.manualSave') }}
         </cc-button>
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <div class="text-cc-overline mt-1 text-disabled">Autosave</div>
+        <div class="text-cc-overline mt-1 text-disabled">{{ $t('active.runnerHeader.autosave') }}</div>
         <cc-switch v-model="context.Autosave"
           size="large"
           :label="context.Autosave ? 'On Round End' : 'Off (Manual Saves Only)'"
           :tooltip="autosaveTooltip" />
       </v-col>
       <v-col>
-        <div class="text-cc-overline mt-1 text-disabled">Layout Options</div>
+        <div class="text-cc-overline mt-1 text-disabled">{{ $t('active.runnerHeader.layoutOptions') }}</div>
         <cc-switch v-model="context.SimpleTickbars"
           size="large"
           color="primary"

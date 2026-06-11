@@ -37,7 +37,7 @@
                   color="error"
                   size="x-small"
                   v-bind="props">
-                  Delete
+                  {{ $t('common.delete') }}
                 </v-btn>
               </template>
               <cc-confirmation
@@ -58,14 +58,13 @@
       icon="mdi-alert"
       title="External Data Warning">
       <i>
-        Images in this gallery are links to remote resources and are not managed by COMP/CON. If you
-        do not control the remote host, items may be removed or changed at any time.
+        {{ $t('ui.image.remoteGalleryNote') }}
       </i>
     </cc-alert>
 
     <v-card-text>
       <div class="heading h3">
-        ADD REMOTE IMAGE
+        {{ $t('ui.image.addRemote') }}
         <cc-tooltip inline
           content="Link a remotely-hosted image to this asset. These images are not stored or managed by COMP/CON and are subject to change or removal based on their hosts.">
           <v-icon left>mdi-information-outline</v-icon>
@@ -86,7 +85,7 @@
           <v-btn color="secondary"
             :disabled="!remoteInput || remoteError.length > 0"
             @click="setRemoteImage()">
-            Load
+            {{ $t('ui.image.load') }}
           </v-btn>
         </v-col>
       </v-row>

@@ -11,10 +11,10 @@
             <div>{{ campaign.author }}</div>
           </div>
           <div class="text-center my-1 text-caption px-2">
-            Version
+            {{ $t('compendium.campaign.version') }}
             <b class="text-accent">{{ getLatest(campaign.publish_info).ver }}</b>
             <cc-slashes class="pl-1" />
-            published
+            {{ $t('compendium.campaign.published') }}
             <b class="text-accent">
               {{
                 new Date(getLatest(campaign.publish_info).date).toLocaleDateString(
@@ -25,9 +25,7 @@
             </b>
           </div>
           <div class="text-center text-caption my-1 px-2">
-            Recommended for
-            {{ campaign.players[0] }}-{{ campaign.players[1] }} players at License Level
-            {{ campaign.ll[0] }}-{{ campaign.ll[1] }}
+            {{ $t('compendium.campaign.recommendedForLine', { players: `${campaign.players[0]}-${campaign.players[1]}`, levels: `${campaign.ll[0]}-${campaign.ll[1]}` }) }}
           </div>
           <v-card variant="outlined" class="mx-auto pa-2" color="panel">
             <p class="text-text" v-html-safe="campaign.description" />

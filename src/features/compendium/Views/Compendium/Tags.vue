@@ -5,7 +5,7 @@
     :options="options"
     view-key="cb-tags">
     <template #header>
-      <div class="heading h3 text-center text-accent">Equipment Tags</div>
+      <div class="heading h3 text-center text-accent">{{ $t('compendium.categories.equipmentTags') }}</div>
     </template>
   </cc-compendium-browser>
 </template>

@@ -6,12 +6,12 @@
         size="small"
         variant="tonal"
         class="my-2 pa-2">
-        Publish Campaign
+        {{ $t('gm.campaign.publishCampaign') }}
       </v-btn>
     </template>
     <template #default="{ isActive }">
       <v-card>
-        <v-card-title>Publish Campaign</v-card-title>
+        <v-card-title>{{ $t('gm.campaign.publishCampaign') }}</v-card-title>
         <v-divider />
         <v-card-text>
           <div class="mx-auto"
@@ -23,22 +23,19 @@
               variant="tonal"
               border
               icon="mdi-information">
-              <div class="text-caption">
-                This campaign has not been published. Publish a first version of this campaign to
-                export a campaign package via file or share code.
-              </div>
+              <div class="text-caption">{{ $t('gm.campaign.notPublishedHelp') }}</div>
             </v-alert>
           </div>
           <div class="my-2 text-center">
-            <div class="text-caption">Release for</div>
+            <div class="text-caption">{{ $t('gm.campaign.releaseFor') }}</div>
             <div class="mb-1 text-accent">
               {{ new Date().toLocaleDateString(undefined, dOptions as any) }}
             </div>
-            <div class="text-caption">Version</div>
+            <div class="text-caption">{{ $t('gm.campaign.version') }}</div>
             <v-row style="width: 400px"
               class="mx-auto">
               <v-col>
-                <div class="text-caption text-disabled">Major</div>
+                <div class="text-caption text-disabled">{{ $t('gm.campaign.major') }}</div>
                 <v-text-field v-model="major"
                   type="number"
                   variant="outlined"
@@ -46,7 +43,7 @@
                   hide-details />
               </v-col>
               <v-col>
-                <div class="text-caption text-disabled">Minor</div>
+                <div class="text-caption text-disabled">{{ $t('gm.campaign.minor') }}</div>
                 <v-text-field v-model="minor"
                   type="number"
                   variant="outlined"
@@ -54,7 +51,7 @@
                   hide-details />
               </v-col>
               <v-col>
-                <div class="text-caption text-disabled">Patch</div>
+                <div class="text-caption text-disabled">{{ $t('gm.campaign.patch') }}</div>
                 <v-text-field v-model="patch"
                   type="number"
                   variant="outlined"
@@ -65,14 +62,14 @@
             <v-expand-transition>
               <div v-if="!verifyVersion"
                 class="text-caption text-error ma-1">
-                <b>Version {{ version }} already exists!</b>
+                <b>{{ $t('gm.campaign.versionExists', { version: version }) }}</b>
               </div>
             </v-expand-transition>
           </div>
 
           <div class="text-left mx-auto text-caption"
             style="width: 80%">
-            Release notes and changelog:
+            {{ $t('gm.campaign.releaseNotes') }}
             <v-textarea v-model="changes"
               outlined
               dense
@@ -87,14 +84,14 @@
               class="my-2"
               :disabled="!verifyVersion"
               @click="publishCampaign()">
-              Publish New Version
+              {{ $t('gm.campaign.publishNewVersion') }}
             </v-btn>
           </div>
         </v-card-text>
         <v-divider />
         <v-card-actions>
           <v-btn variant="text"
-            @click="isActive.value = false">Cancel</v-btn>
+            @click="isActive.value = false">{{ $t('common.cancel') }}</v-btn>
         </v-card-actions>
       </v-card>
     </template>

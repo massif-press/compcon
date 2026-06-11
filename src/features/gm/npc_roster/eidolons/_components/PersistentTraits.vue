@@ -1,5 +1,5 @@
 <template>
-  <div class="text-overline">PERSISTENT TRAITS</div>
+  <div class="text-overline">{{ $t('gm.eidolon.persistentTraitsHeading') }}</div>
   <v-row>
     <v-col>
       <v-expansion-panels color="primary">

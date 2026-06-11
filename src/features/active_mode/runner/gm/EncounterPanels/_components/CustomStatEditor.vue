@@ -10,7 +10,7 @@
               size="x-small"
               color="primary"
               prepend-icon="cc:compendium">
-              Edit Stats
+              {{ $t('active.customStat.editStats') }}
             </cc-button>
           </template>
 
@@ -22,8 +22,8 @@
               height="24"
               bg-color="primary"
               density="compact">
-              <v-tab>Trackable</v-tab>
-              <v-tab>Static</v-tab>
+              <v-tab>{{ $t('active.customStat.trackable') }}</v-tab>
+              <v-tab>{{ $t('active.customStat.static') }}</v-tab>
             </v-tabs>
 
             <v-card-text>
@@ -47,7 +47,7 @@
                     size="small"
                     :disabled="!trackableStat"
                     @click="addTrackableStat()">
-                    {{ hasStat(trackableStat) ? 'Save' : 'Add' }}
+                    {{ hasStat(trackableStat) ? $t('common.save') : $t('common.add') }}
                   </cc-button>
                   <cc-button v-if="
                     trackableStat &&
@@ -59,7 +59,7 @@
                     color="error"
                     size="x-small"
                     @click="removeStat(trackableStat.title)">
-                    Remove Stat
+                    {{ $t('active.customStat.removeStat') }}
                   </cc-button>
                 </v-window-item>
 
@@ -82,7 +82,7 @@
                     size="small"
                     :disabled="!staticStat"
                     @click="addStaticStat()">
-                    {{ hasStat(staticStat || '') ? 'Save' : 'Add' }}
+                    {{ hasStat(staticStat || '') ? $t('common.save') : $t('common.add') }}
                   </cc-button>
                   <cc-button v-if="staticStat && isCoreStat(staticStat) && hasStat(staticStat)"
                     block
@@ -90,7 +90,7 @@
                     color="error"
                     size="x-small"
                     @click="removeStat(staticStat)">
-                    Remove Stat
+                    {{ $t('active.customStat.removeStat') }}
                   </cc-button>
                 </v-window-item>
               </v-window>

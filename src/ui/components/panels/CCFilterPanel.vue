@@ -22,7 +22,7 @@
     temporary>
     <v-sheet>
       <CCTitlebar dark
-        icon="mdi-filter-variant">Set Item Filters</CCTitlebar>
+        icon="mdi-filter-variant">{{ $t('ui.filter.setItemFilters') }}</CCTitlebar>
       <v-card-text>
         <CCItemFilter ref="controls"
           :item-type="itemType"
@@ -32,11 +32,11 @@
       <v-divider />
       <v-card-actions>
         <v-btn text
-          @click="panel = false">dismiss</v-btn>
+          @click="panel = false">{{ $t('common.dismiss') }}</v-btn>
         <v-spacer />
         <cc-button color="accent"
           class="mr-3"
-          @click="clearFilters">clear all</cc-button>
+          @click="clearFilters">{{ $t('ui.filter.clearAllLower') }}</cc-button>
       </v-card-actions>
     </v-sheet>
   </v-navigation-drawer>

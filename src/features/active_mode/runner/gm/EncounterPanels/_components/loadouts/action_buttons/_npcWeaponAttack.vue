@@ -6,9 +6,9 @@
         class="my-2">
         <v-icon start
           icon="mdi-alert" />
-        This weapon has already been activated.
+        {{ $t('active.weaponAttack.alreadyActivated') }}
         <span v-if="weapon.Used && weapon.IsRecharging">
-          It must be recharged before it can be used again.
+          {{ $t('active.weaponAttack.mustRecharge') }}
         </span>
       </cc-alert>
       <cc-alert v-if="ordnanceWarning"
@@ -16,8 +16,7 @@
         class="my-2">
         <v-icon start
           icon="mdi-alert" />
-        This unit has taken non-Protocol actions this turn. This ordnance weapon cannot be
-        activated.
+        {{ $t('active.weaponAttack.ordnanceUnit') }}
       </cc-alert>
     </div>
     <v-card v-if="attackCount > 1"
@@ -25,7 +24,7 @@
       flat
       tile
       class="mt-2 text-center mx-n7 text-cc-overline pa-1">
-      This weapon can make {{ attackCount }} attacks per activation.
+      {{ $t('active.weaponAttack.canMake', { n: attackCount }) }}
     </v-card>
 
     <div v-html-safe="weapon.Effect"

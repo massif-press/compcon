@@ -7,7 +7,7 @@
         color="accent"
         prepend-icon="mdi-cube"
         @click="props.onClick($event)">
-        Add Other
+        {{ $t('active.addOther.addOther') }}
       </v-btn>
     </template>
     <template #default="{ isActive }">
@@ -15,7 +15,7 @@
         <v-toolbar flat
           color="primary"
           height="40">
-          <div class="heading h3 px-4">Add Other</div>
+          <div class="heading h3 px-4">{{ $t('active.addOther.addOther') }}</div>
           <v-spacer />
           <v-btn flat
             tile
@@ -30,8 +30,8 @@
           grow
           bg-color="primary"
           height="30">
-          <v-tab value="Doodad">Doodad</v-tab>
-          <v-tab value="Eidolon">Eidolon</v-tab>
+          <v-tab value="Doodad">{{ $t('active.addOther.doodad') }}</v-tab>
+          <v-tab value="Eidolon">{{ $t('active.addOther.eidolon') }}</v-tab>
         </v-tabs>
         <v-window v-model="tab"
           class="pa-4">
@@ -95,7 +95,7 @@
                     <div class="heading h3">{{ e.Name }}</div>
                     <div class="text-text">
                       <cc-slashes />
-                      Tier {{ e.Tier }}
+                      {{ $t('gm.npcStats.tier', { n: e.Tier }) }}
                     </div>
                   </v-col>
                 </v-row>
@@ -112,6 +112,8 @@
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed, ref } from 'vue'
 import { notify } from '@/util/notify'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import { NpcStore } from '@/stores';
 import * as _ from 'lodash-es';
 import { v4 as uuid } from 'uuid';
@@ -161,8 +163,8 @@ function add(rosterItem) {
   });
   notify({
     type: 'success',
-    title: 'Doodad Added',
-    text: `${doodad.Name} has been added to the encounter.`,
+    title: t('active.addCombatant.doodadAddedTitle'),
+    text: t('active.addCombatant.addedText', { name: doodad.Name }),
   });
 }
 function addEidolon(rosterItem) {
@@ -198,8 +200,8 @@ function addEidolon(rosterItem) {
   });
   notify({
     type: 'success',
-    title: 'Eidolon Added',
-    text: `${eidolon.Name} has been added to the encounter.`,
+    title: t('active.addCombatant.eidolonAddedTitle'),
+    text: t('active.addCombatant.addedText', { name: eidolon.Name }),
   });
 }
 </script>

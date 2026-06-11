@@ -81,7 +81,7 @@
         style="max-width: calc(100% - 55px);"
         class="mx-4 mt-n1"
         @click="$emit('select', item)">
-        Select {{ item.Name }}
+        {{ $t('ui.selector.select', { name: item.Name }) }}
         <template #info>
           <v-icon icon="mdi-plus" />
         </template>
@@ -92,7 +92,7 @@
     style="height: 100px">
     <div class="heading h2 light-text-panel text-center"
       style="margin-top: calc(50vh - 150px)">
-      NO SELECTION
+      {{ $t('ui.widget.noSelection') }}
     </div>
   </div>
 </template>

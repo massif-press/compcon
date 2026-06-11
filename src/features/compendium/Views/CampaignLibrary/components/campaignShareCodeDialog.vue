@@ -13,7 +13,7 @@
     <template #actions>
       <cc-button color="primary"
         @click="addCampaign()">
-        Add Campaign
+        {{ $t('compendium.campaign.addCampaign') }}
       </cc-button>
     </template>
   </cc-share-code-importer>

@@ -26,9 +26,9 @@
           </span>
         </template>
         <div class="text-center">
-          Refresh List
+          {{ $t('mainMenu.ui.refreshList') }}
           <br />
-          (This does not sync)
+          {{ $t('mainMenu.ui.doesNotSync') }}
         </div>
       </v-tooltip>
       <v-tooltip max-width="300px"
@@ -44,7 +44,7 @@
               @click="updateAll" />
           </span>
         </template>
-        <div class="text-center">Update All</div>
+        <div class="text-center">{{ $t('mainMenu.ui.updateAll') }}</div>
       </v-tooltip>
     </v-toolbar>
 
@@ -55,6 +55,8 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import { computed, ref, onMounted } from 'vue'
 import { useDisplay } from 'vuetify'
 import { CompendiumStore, UserStore } from '@/stores';
@@ -136,15 +138,15 @@ async function installLatest(pack) {
   try {
     await UserStore().downloadLcp(pack);
     notify({
-      title: 'LCP Updated',
-      text: `The latest version of ${pack.title} has been downloaded and installed.`,
+      title: t('mainMenu.account.lcpUpdatedTitle'),
+      text: t('mainMenu.account.lcpUpdatedText', { title: pack.title }),
       data: { color: 'success', icon: 'mdi-check-bold' },
     });
   } catch (err) {
     logger.error(`Error downloading LCP: ${err}`, this, err);
     notify({
-      title: 'Error Updating LCP',
-      text: `An error occurred while attempting to download ${pack.title}.`,
+      title: t('mainMenu.account.lcpUpdateErrorTitle'),
+      text: t('mainMenu.account.lcpUpdateErrorText', { title: pack.title }),
       data: { color: 'error', icon: 'mdi-alert-circle-outline' },
     });
   } finally {
@@ -164,15 +166,15 @@ async function updateAll() {
       }
     }
     notify({
-      title: 'LCPs Updated',
-      text: `All LCPs have been updated.`,
+      title: t('mainMenu.account.allLcpsUpdatedTitle'),
+      text: t('mainMenu.account.allLcpsUpdatedText'),
       data: { color: 'success', icon: 'mdi-check-bold' },
     });
   } catch (err) {
     logger.error(`Error updating LCPs: ${err}`, this, err);
     notify({
-      title: 'Error Updating LCPs',
-      text: `An error occurred while attempting to update your LCPs.`,
+      title: t('mainMenu.account.allLcpsUpdateErrorTitle'),
+      text: t('mainMenu.account.allLcpsUpdateErrorText'),
       data: { color: 'error', icon: 'mdi-alert-circle-outline' },
     });
   } finally {

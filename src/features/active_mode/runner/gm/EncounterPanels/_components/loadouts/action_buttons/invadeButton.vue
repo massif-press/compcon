@@ -9,9 +9,9 @@
             direction="vertical"
             density="compact">
             <v-tab height="30"
-              value="invade">Invade</v-tab>
+              value="invade">{{ $t('active.invade.invade') }}</v-tab>
             <v-divider v-if="!mobile" />
-            <div class="pa-2 text-cc-overline text-disabled">Available Invade Actions</div>
+            <div class="pa-2 text-cc-overline text-disabled">{{ $t('active.invade.available') }}</div>
             <v-tab v-for="item in invadeActions"
               :key="item.ID"
               height="30"
@@ -39,7 +39,7 @@
                 class="my-2">
                 <v-col><v-divider /></v-col>
                 <v-col class="heading text-disabled"
-                  cols="auto">Select an Invade Action</v-col>
+                  cols="auto">{{ $t('active.invade.select') }}</v-col>
                 <v-col><v-divider /></v-col>
               </v-row>
             </div>

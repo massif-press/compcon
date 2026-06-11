@@ -7,7 +7,7 @@
         color="accent"
         prepend-icon="mdi-receipt-text-edit"
         @click="props.onClick($event)">
-        Add Placeholder
+        {{ $t('active.addStub.addPlaceholder') }}
       </v-btn>
     </template>
     <template #default="{ isActive }">
@@ -15,7 +15,7 @@
         <v-toolbar flat
           color="primary"
           height="40">
-          <div class="heading h3 px-4">Add Placeholder</div>
+          <div class="heading h3 px-4">{{ $t('active.addStub.addPlaceholder') }}</div>
           <v-spacer />
           <v-btn flat
             tile
@@ -29,10 +29,8 @@
           class="ma-4"
           icon="mdi-information-outline"
           title="What is a Placeholder?">
-          Placeholders are ad-hoc stat containers used to track entities within an encounter that
-          aren't in your COMP/CON roster, or, can't be represented within COMP/CON. They can be used
-          for PCs, NPCs, complex encounter elements, environmental hazards, and so forth.
-          <strong>Placeholders do not persist outside of the encounter they are created in.</strong>
+          {{ $t('active.addStub.description') }}
+          <strong>{{ $t('active.addStub.noPersist') }}</strong>
           <br />
         </cc-alert>
         <v-card-text>
@@ -82,7 +80,7 @@
               add();
             isActive.value = false;
             ">
-            Add Placeholder
+            {{ $t('active.addStub.addPlaceholder') }}
           </v-btn>
         </div>
       </v-card>

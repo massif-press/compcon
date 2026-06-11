@@ -28,7 +28,7 @@
 
     <v-card-text v-if="encounter.NarrativeController.TextItems.length"
       class="py-0">
-      <div class="text-cc-overline text-disabled">Detail</div>
+      <div class="text-cc-overline text-disabled">{{ $t('active.encInfo.detail') }}</div>
 
       <div v-for="(item, index) in encounter.NarrativeController.TextItems"
         :key="`text-${index}`">
@@ -51,7 +51,7 @@
     </v-card-text>
 
     <v-card-text class="py-2">
-      <div class="text-cc-overline text-disabled">SITREP</div>
+      <div class="text-cc-overline text-disabled">{{ $t('active.labels.sitrep') }}</div>
       <div class="heading h3 text-accent">{{ encounter.Sitrep.Name }}</div>
       <div v-for="block in sitrepBlocks"
         :key="block">
@@ -78,7 +78,7 @@
     </v-card-text>
 
     <v-card-text class="py-2">
-      <div class="text-cc-overline text-disabled">Environment</div>
+      <div class="text-cc-overline text-disabled">{{ $t('active.encInfo.environment') }}</div>
       <div class="heading h3 text-accent">{{ encounter.Environment.Name }}</div>
       <p v-html-safe="encounter.Environment.Description"
         class="text-text" />
@@ -98,10 +98,10 @@
     </v-card-text>
 
     <v-card-text>
-      <div class="text-cc-overline text-disabled">Reinforcements</div>
+      <div class="text-cc-overline text-disabled">{{ $t('active.encInfo.reinforcements') }}</div>
       <span v-if="!reinforcementsByTurn.length"
         class="text-disabled">
-        No encounter reinforcements.
+        {{ $t('active.encInfo.noReinforcements') }}
       </span>
       <cc-panel v-else
         variant="outlined"
@@ -111,9 +111,8 @@
           dense
           align="center">
           <v-col cols="auto"
-            class="text-accent heading"><span v-if=reinforcement.turn>Turn {{ reinforcement.turn
-              }}</span>
-            <span v-else> Free Deployment</span></v-col>
+            class="text-accent heading"><span v-if=reinforcement.turn>{{ $t('active.encInfo.turnN', { n: reinforcement.turn }) }}</span>
+            <span v-else> {{ $t('active.encInfo.freeDeployment') }}</span></v-col>
           <v-col>
             <ul class="text-text">
               <li v-for="combatant in reinforcement.combatants"
@@ -133,6 +132,8 @@ import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import type { Encounter } from '@/classes/encounter/Encounter'
 import { computed, ref } from 'vue'
 import { notify } from '@/util/notify'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import * as _ from 'lodash-es';
 
 defineOptions({ name: 'EncounterInfo' })
@@ -172,13 +173,13 @@ function copy(text) {
         .writeText(text)
         .then(() => {
           notify({
-            text: `Copied to Clipboard`,
+            text: t('active.encounter.copiedToClipboard'),
             data: { color: 'success' },
           });
         })
         .catch((err) => {
           notify({
-            title: `Failed to Copy`,
+            title: t('active.encounter.failedToCopyTitle'),
             data: { color: 'error' },
           });
         });

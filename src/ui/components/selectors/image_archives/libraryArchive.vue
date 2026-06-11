@@ -38,10 +38,9 @@
             outlined
             class="pa-1"
             tile>
-            <div class="text-caption text-center">
-              Artwork by
-              <b>{{ image.artist }}</b>
-            </div>
+            <i18n-t keypath="ui.image.artworkBy" tag="div" class="text-caption text-center" scope="global">
+              <template #artist><b>{{ image.artist }}</b></template>
+            </i18n-t>
             <div class="text-center mt-n2">
               <v-btn v-if="image.website"
                 size="small"

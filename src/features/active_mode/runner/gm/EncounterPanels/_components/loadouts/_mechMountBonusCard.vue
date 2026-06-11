@@ -63,10 +63,9 @@
             size="16"
             color="warning" />
         </template>
-        Mount bonus effects on weapon attacks are
-        <strong class="text-accent"><u>NOT</u></strong>
-        automatically enforced by COMP/CON. Please ensure you manually apply any relevant
-        effects during gameplay.
+        <i18n-t keypath="active.mountBonus.warning" tag="span" scope="global">
+          <template #not><strong class="text-accent"><u>{{ $t('active.mountBonus.not') }}</u></strong></template>
+        </i18n-t>
       </v-tooltip>
     </div>
   </div>

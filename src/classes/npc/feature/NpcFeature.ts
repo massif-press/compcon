@@ -5,7 +5,6 @@ import { Action } from '../../Action'
 import { NpcTemplate } from '../template/NpcTemplate'
 import { CompendiumStore } from '@/features/compendium/store'
 import { ITagData } from '@/classes/Tag'
-// eslint-disable-next-line no-restricted-imports
 import { NpcClass } from '../class/NpcClass'
 
 export enum NpcFeatureType {

@@ -11,7 +11,7 @@
         cols="4">
         <div class="text-center">
           <p class="pt-1 mb-1">
-            <span class="stat-text text-disabled text--darken-1"> RANK {{ 'I'.repeat(n) }} </span>
+            <span class="stat-text text-disabled text--darken-1"> {{ $t('common.rank') }} {{ 'I'.repeat(n) }} </span>
           </p>
           <div v-for="i in item.Unlocks[n - 1]"
             :key="i.ID">

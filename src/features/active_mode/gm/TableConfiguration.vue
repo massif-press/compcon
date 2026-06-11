@@ -14,13 +14,13 @@
       </v-col>
     </v-row>
     <br />
-    name, description, owner info (prepopulate with user info)
+    {{ $t('active.tableConfig.note1') }}
     <br />
-    load campaign info (optional)
+    {{ $t('active.tableConfig.note2') }}
     <br />
-    publish or keep local
+    {{ $t('active.tableConfig.note3') }}
     <br />
-    if publish, generate link to share
+    {{ $t('active.tableConfig.note4') }}
   </v-container>
 </template>
 

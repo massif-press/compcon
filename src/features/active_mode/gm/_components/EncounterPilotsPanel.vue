@@ -9,7 +9,7 @@
     <v-col>
       <div class="text-cc-overline mb-1">
         <cc-slashes class="pr-1" />
-        <span class="text-disabled">Pilots</span>
+        <span class="text-disabled">{{ $t('active.pilotsPanel.title') }}</span>
       </div>
       <cc-panel>
         <cc-titled-divider v-if="!pilots.length"
@@ -52,14 +52,14 @@
                 class="mx-4 pt-1">
                 <v-col cols="auto"
                   class="text-center">
-                  <div class="text-cc-overline">LL</div>
+                  <div class="text-cc-overline">{{ $t('active.pilotsPanel.ll') }}</div>
                   <v-divider />
                   <div class="heading">{{ p.Level }}</div>
                 </v-col>
                 <v-col v-if="p.ActiveMech"
                   cols="auto"
                   class="mx-4">
-                  <div class="text-cc-overline">Active Mech</div>
+                  <div class="text-cc-overline">{{ $t('active.pilotsPanel.activeMech') }}</div>
                   <v-divider />
                   <div class="heading">
                     {{ p.ActiveMech?.Name }}
@@ -101,7 +101,7 @@
             <v-col class="ml-n1">
               <cc-title>
                 &nbsp;
-                <span class="heading h3">Pilot Placeholder #{{ i + 1 }}</span>
+                <span class="heading h3">{{ $t('active.pilotsPanel.placeholderN', { n: i + 1 }) }}</span>
               </cc-title>
               <v-row dense
                 class="pa-1 px-2">
@@ -149,7 +149,7 @@
                   tooltip="Import a pilot from JSON data"
                   prepend-icon="mdi-file-import-outline"
                   @click="open">
-                  Add from File
+                  {{ $t('active.pilotsPanel.addFromFile') }}
                 </cc-button>
               </template>
               <template #default="{ close }">
@@ -166,7 +166,7 @@
               tooltip="Adds a pilot-type combatant placeholder without any pilot data."
               prepend-icon="mdi-account-outline"
               @click="emit('add-placeholder')">
-              add pilot placeholder
+              {{ $t('active.pilotsPanel.addPlaceholder') }}
             </cc-button>
           </v-col>
         </v-row>

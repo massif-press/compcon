@@ -14,7 +14,7 @@
             size="35"
             :icon="diceIcon" />
         </th>
-        <th class="text-overline">Result</th>
+        <th class="text-overline">{{ $t('common.result') }}</th>
       </tr>
     </thead>
     <tbody>

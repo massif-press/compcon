@@ -11,7 +11,7 @@
     </v-col>
 
     <v-col v-if="combatant.actor.Player" cols="auto">
-      <span class="text-cc-overline pr-1">Played by</span>
+      <span class="text-cc-overline pr-1">{{ $t('active.common.playedBy') }}</span>
       <b class="text-accent">{{ combatant.actor.Player }}</b>
     </v-col>
   </v-row>

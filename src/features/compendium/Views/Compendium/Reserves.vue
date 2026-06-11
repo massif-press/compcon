@@ -5,7 +5,7 @@
     :options="options"
     view-key="cb-reserves">
     <template #header>
-      <div class="heading h3 text-center text-accent">Reserves</div>
+      <div class="heading h3 text-center text-accent">{{ $t('compendium.categories.reserves') }}</div>
     </template>
   </cc-compendium-browser>
 </template>

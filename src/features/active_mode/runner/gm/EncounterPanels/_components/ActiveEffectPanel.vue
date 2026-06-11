@@ -1,7 +1,7 @@
 <template>
   <v-row dense>
     <v-col cols="auto">
-      <div class="text-cc-overline text-disabled mt-2">ACTIVE EFFECTS</div>
+      <div class="text-cc-overline text-disabled mt-2">{{ $t('active.activeEffect.title') }}</div>
     </v-col>
 
     <v-col cols="auto">
@@ -39,7 +39,7 @@
         class="pa-2"
         flat
         style="opacity: 0.75">
-        +{{ hidden }} Hidden Effects
+        +{{ hidden }} {{ $t('active.activeEffect.hiddenEffects') }}
       </v-chip>
     </v-col>
   </v-row>

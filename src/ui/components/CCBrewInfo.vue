@@ -13,7 +13,7 @@
       <v-toolbar density="compact"
         color="indigo"
         height="20px">
-        <v-toolbar-title class="text-caption">LCP Content</v-toolbar-title>
+        <v-toolbar-title class="text-caption">{{ $t('ui.lcp.content') }}</v-toolbar-title>
       </v-toolbar>
       <v-card-text class="py-2">
         <v-row v-for="b in controller.Brews"
@@ -52,7 +52,7 @@
               color="error">
               <v-icon icon="mdi-open-in-new"
                 start />
-              Download LCP
+              {{ $t('ui.lcp.downloadLcp') }}
             </v-btn>
           </v-col>
           <v-col v-else-if="b.Status === 'OLD' && b.Website"
@@ -65,13 +65,13 @@
               color="secondary">
               <v-icon icon="mdi-open-in-new"
                 start />
-              Update LCP
+              {{ $t('ui.lcp.updateLcp') }}
             </v-btn>
           </v-col>
           <v-col v-else-if="b.Status === 'OFF'"
             cols="auto"
             class="ml-6 text-disabled">
-            <i>LCP installed but disabled</i>
+            <i>{{ $t('ui.lcp.installedDisabled') }}</i>
           </v-col>
         </v-row>
       </v-card-text>

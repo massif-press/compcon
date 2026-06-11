@@ -6,7 +6,7 @@
       color="primary"
       :style="`position: absolute; z-index: 999; left: ${showNav ? '258' : '4'}px; top: 6px`"
       @click="(showNav as any) = !showNav" />
-    <div v-if="!campaign">ERR: NO CAMPAIGN LOADED</div>
+    <div v-if="!campaign">{{ $t('compendium.campaign.errNoCampaign') }}</div>
     <v-row v-else no-gutters>
       <v-slide-x-transition>
         <sidebar

@@ -16,7 +16,7 @@
       </cc-short-string-editor>
     </v-col>
     <v-col cols="auto">
-      <span class="text-disabled pr-6">T{{ item.NpcClassController?.Tier || '' }}</span>
+      <span class="text-disabled pr-6">{{ $t('gm.itemCard.tierShort', { tier: item.NpcClassController?.Tier || '' }) }}</span>
     </v-col>
   </v-row>
   <div v-if="!item.IsNameless"
@@ -28,11 +28,11 @@
   <v-row no-gutters
     class="mb-4">
     <v-col>
-      <div class="text-cc-overline mt-1">NPC CLASS</div>
+      <div class="text-cc-overline mt-1">{{ $t('gm.npcBuilder.npcClass') }}</div>
       <div v-if="readonly"
         class="heading h2 ml-2 mt-n2 text-accent">
         {{
-          item.NpcClassController?.HasClass ? item.NpcClassController.Class.Name : 'No NPC Class'
+          item.NpcClassController?.HasClass ? item.NpcClassController.Class.Name : $t('gm.npcBuilder.noClass')
         }}
       </div>
       <div v-else>
@@ -47,7 +47,7 @@
               {{
                 item.NpcClassController?.HasClass
                   ? item.NpcClassController.Class.Name
-                  : 'Set NPC Class'
+                  : $t('gm.npcBuilder.setClass')
               }}
             </cc-button>
           </template>
@@ -60,7 +60,7 @@
     </v-col>
 
     <v-col cols="auto">
-      <div class="text-cc-overline mt-1">NPC TAG</div>
+      <div class="text-cc-overline mt-1">{{ $t('gm.npcBuilder.npcTag') }}</div>
       <npc-tag-selector :readonly="readonly"
         :item="item" />
     </v-col>
@@ -68,7 +68,7 @@
 
   <div v-if="item.NpcClassController?.HasClass"
     class="mb-4">
-    <div class="text-cc-overline">TEMPLATES</div>
+    <div class="text-cc-overline">{{ $t('gm.npcBuilder.templates') }}</div>
     <npc-template-selector :readonly="readonly"
       :item="item" />
   </div>

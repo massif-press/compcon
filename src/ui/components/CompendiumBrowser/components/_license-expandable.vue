@@ -47,15 +47,8 @@
             density="compact"
             class="text-center mx-10 mt-2 mb-n1"
             color="warning">
-            <div v-if="item.Prerequisite.cumulative">
-              This License requires at least
-              {{ item.Prerequisite.min_rank }} cumulative Ranks of
-              {{ item.Prerequisite.source }} licenses
-            </div>
-            <div v-else>
-              This License requires at least one other
-              {{ item.Prerequisite.source }} License at Rank {{ item.Prerequisite.min_rank }} or
-              above
+            <div v-if="item.Prerequisite.cumulative">{{ $t('ui.license.prereqCumulative', { rank: item.Prerequisite.min_rank, source: item.Prerequisite.source }) }}</div>
+            <div v-else>{{ $t('ui.license.prereqSingle', { source: item.Prerequisite.source, rank: item.Prerequisite.min_rank }) }}
             </div>
           </v-alert>
 
@@ -75,10 +68,10 @@
                   prepend-icon="mdi-minus"
                   @click="$emit('remove', item)">
                   <span v-if="getControllerRank(item)">
-                    Remove {{ item.Name }} {{ 'I'.repeat(getControllerRank(item)) }}
+                    {{ $t('common.remove') }} {{ item.Name }} {{ 'I'.repeat(getControllerRank(item)) }}
                   </span>
                   <span v-else>
-                    No License Ranks
+                    {{ $t('ui.license.noRanks') }}
                   </span>
 
                 </cc-button>
@@ -95,10 +88,10 @@
                 prepend-icon="mdi-plus"
                 @click="$emit('add', item)">
                 <span v-if="getControllerRank(item) < item.Unlocks.length">
-                  Unlock {{ item.Name }} {{ 'I'.repeat(getControllerRank(item) + 1) }}
+                  {{ $t('common.unlock') }} {{ item.Name }} {{ 'I'.repeat(getControllerRank(item) + 1) }}
                 </span>
                 <span v-else>
-                  All Ranks Unlocked
+                  {{ $t('ui.license.allUnlocked') }}
                 </span>
 
               </cc-button>

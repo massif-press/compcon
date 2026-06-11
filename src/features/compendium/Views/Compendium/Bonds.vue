@@ -4,6 +4,8 @@
     <v-alert icon="mdi-vector-link"
       title="No Bond Data"
       variant="tonal">
+      <!-- eslint-disable @intlify/vue-i18n/no-raw-text -->
+      <!-- Theme L §4: core-book rules flavor, localized via the content pipeline (L3), not a UI key. -->
       <p>
         <strong>Bonds</strong>
         are an optional set of narrative play rules that layer on top of the basic Lancer narrative
@@ -23,13 +25,14 @@
         , and you can add them to COMP/CON by installing the LCP for The Karrakin Trade Baronies,
         available for free on the itch page.
       </p>
+      <!-- eslint-enable @intlify/vue-i18n/no-raw-text -->
     </v-alert>
     <br />
     <v-row align="center"
       justify="center">
       <v-col cols="auto">
         <cc-button color="accent"
-          to="/srd">Return to Compendium</cc-button>
+          to="/srd">{{ $t('compendium.returnToCompendium') }}</cc-button>
       </v-col>
     </v-row>
   </v-container>
@@ -39,7 +42,7 @@
     :options="options"
     view-key="cb-bonds">
     <template #header>
-      <div class="heading h3 text-center text-accent">Pilot Bonds</div>
+      <div class="heading h3 text-center text-accent">{{ $t('compendium.categories.pilotBonds') }}</div>
     </template>
   </cc-compendium-browser>
 </template>

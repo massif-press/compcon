@@ -2,6 +2,7 @@ import { sentryVitePlugin } from '@sentry/vite-plugin'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vuetify from 'vite-plugin-vuetify'
+import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import { fileURLToPath, URL } from 'url'
 import { VitePWA } from 'vite-plugin-pwa'
 import pkg from './package.json' with { type: 'json' }
@@ -94,6 +95,11 @@ export default defineConfig({
     }),
     vue(),
     vuetify({ autoImport: true }),
+    VueI18nPlugin({
+      include: [fileURLToPath(new URL('./src/i18n/locales/**', import.meta.url))],
+      runtimeOnly: true,
+      strictMessage: false,
+    }),
     {
       name: 'strip-legacy-fonts',
       generateBundle(_options, bundle) {

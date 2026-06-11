@@ -6,7 +6,7 @@
     :options="options"
     view-key="cb-npc-features">
     <template #header>
-      <div class="heading h3 text-center text-accent">NPC Features</div>
+      <div class="heading h3 text-center text-accent">{{ $t('compendium.categories.npcFeatures') }}</div>
     </template>
   </cc-compendium-browser>
 </template>

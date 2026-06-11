@@ -67,12 +67,13 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
-import { NAV_STRINGS } from '@/features/nav/strings'
+import { useNavStrings } from '@/features/nav/useNavStrings'
+const { section } = useNavStrings()
 
 const props = defineProps<{ item: Record<string, any> }>()
 
 const { smAndDown: mobile } = useDisplay()
-const strings = NAV_STRINGS.achievementItem
+const strings = section('achievementItem')
 
 const getColor = computed(() => {
   if (!props.item.Unlocked) return 'grey-darken-2'

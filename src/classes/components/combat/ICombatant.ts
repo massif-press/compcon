@@ -47,7 +47,7 @@ interface ICombatant {
   Layers?: EidolonLayer[]
   Loadout?: MechLoadout | PilotLoadout
   Class?: NpcClass
-  LcpConfig?: LcpConfig
+  LcpConfig?: LcpConfig | null
   NpcClassController?: NpcClassController
   NpcFeatureController?: NpcFeatureController
   NpcTemplateController?: NpcTemplateController

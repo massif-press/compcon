@@ -30,7 +30,7 @@
           </v-col>
         </v-row>
       </template>
-      <div class="heading h3">{{ displayValue(d.Value) }} {{ typeOverride || d.Type }} Damage</div>
+      <div class="heading h3">{{ displayValue(d.Value) }} {{ typeOverride || d.Type }} {{ $t('ui.widget.damage') }}</div>
       <div v-html-safe="gloss(d)" />
     </v-tooltip>
     <div v-if="!small"

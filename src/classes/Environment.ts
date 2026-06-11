@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid'
+import { i18n } from '@/i18n'
 import { Encounter } from './encounter/Encounter'
 import { ContentPack } from './ContentPack'
 import { ItemType } from './enums'
@@ -35,8 +36,8 @@ class EnvironmentInstance {
   public readonly Environment: Environment
   public readonly InstanceID: string
 
-  public _name: string = 'New Environment'
-  public _description: string = 'A new Environment'
+  public _name: string = i18n.global.t('classes.newEnvironment')
+  public _description: string = i18n.global.t('classes.newEnvironmentDescription')
   public modified: boolean = false
 
   public constructor(parent: Encounter, environment?: Environment) {

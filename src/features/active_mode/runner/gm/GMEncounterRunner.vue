@@ -5,7 +5,7 @@
       color="primary"
       height="20"
       class="my-5" />
-    <div class="text-center text-cc-overline">Loading encounter instance...</div>
+    <div class="text-center text-cc-overline">{{ $t('active.gmRunner.loading') }}</div>
   </div>
   <div v-else>
     <div style="overflow-y: hidden">
@@ -40,7 +40,7 @@
         <v-main style="overflow-y: scroll"
           :style="`padding-left:${mainLeftOffset}`">
           <div class="text-center bg-panel pa-1 heading h3">
-            {{ instance.Name }} &mdash; Round {{ instance.Round }}
+            {{ instance.Name }} &mdash; {{ $t('active.gmRunner.roundN', { n: instance.Round }) }}
           </div>
           <v-container>
             <div v-if="panel && instance">

@@ -33,7 +33,7 @@
         <slot v-bind="{ dialog, open, close }" />
       </v-card-text>
       <div v-if="closeOnClick">
-        <div class="panel-footer text-center bg-panel">{{ mobile ? 'TAP' : 'CLICK' }} TO CLOSE</div>
+        <div class="panel-footer text-center bg-panel">{{ mobile ? $t('ui.widget.tap') : $t('ui.widget.click') }} {{ $t('ui.widget.toClose') }}</div>
       </div>
     </v-card>
   </v-dialog>

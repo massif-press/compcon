@@ -17,19 +17,19 @@
       <v-card-actions>
         <v-btn size="small"
           variant="text"
-          @click="dialog = false">Cancel</v-btn>
+          @click="dialog = false">{{ $t('common.cancel') }}</v-btn>
         <v-spacer />
         <v-btn v-if="!number"
           size="small"
           variant="text"
           color="primary"
           @click="reset()">
-          Reset
+          {{ $t('common.reset') }}
         </v-btn>
         <v-btn size="small"
           variant="text"
           color="success darken-1"
-          @click="confirm()">Save</v-btn>
+          @click="confirm()">{{ $t('common.save') }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

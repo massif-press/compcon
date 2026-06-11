@@ -91,11 +91,11 @@
             border>
             <v-list-item prepend-icon="mdi-reload"
               @click="setVal(baseValue)">
-              <v-list-item-title>Reset to Base Value</v-list-item-title>
+              <v-list-item-title>{{ $t('active.miniPanel.resetBase') }}</v-list-item-title>
             </v-list-item>
             <v-list-item prepend-icon="mdi-cancel"
               @click="setVal(0)">
-              <v-list-item-title>Clear</v-list-item-title>
+              <v-list-item-title>{{ $t('common.clear') }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="text-cc-overline text-disabled">Statuses / Conditions</div>
+    <div class="text-cc-overline text-disabled">{{ $t('active.statusCond.title') }}</div>
     <v-row dense>
       <v-col v-for="status in applicableStatuses.filter((x) => x.StatusType === 'Status')"
         :key="`${isPilot}_${status.ID}`">
@@ -69,7 +69,7 @@
                 tile
                 block
                 prepend-icon="mdi-plus">
-                Add Custom Status
+                {{ $t('active.statusCond.addCustom') }}
               </v-btn>
             </template>
 
@@ -85,7 +85,7 @@
                   color="primary"
                   class="mt-2"
                   @click="addCustomStatus(customStatus)">
-                  Add Custom Status
+                  {{ $t('active.statusCond.addCustom') }}
                 </v-btn>
               </v-card-text>
             </v-card>

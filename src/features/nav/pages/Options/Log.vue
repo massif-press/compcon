@@ -75,10 +75,11 @@ import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import { notify } from '@/util/notify'
 import logger from '@/user/logger'
-import { NAV_STRINGS } from '@/features/nav/strings'
+import { useNavStrings } from '@/features/nav/useNavStrings'
+const { section } = useNavStrings()
 
 const { mdAndDown: mobile } = useDisplay()
-const lg = NAV_STRINGS.log
+const lg = section('log')
 
 const history = computed(() => {
   const severityMap: Record<string, number> = { debug: 1, info: 2, warn: 3, error: 4 }

@@ -5,7 +5,7 @@
       variant="outlined"
       class="ma-2"
       icon="mdi-cloud-alert">
-      Requires COMP/CON Account
+      {{ $t('ui.image.requiresAccount') }}
     </v-alert>
     <div v-else>
       <v-row dense
@@ -34,7 +34,7 @@
               class="pa-1"
               tile>
               <div class="text-caption pb-1 text-center">
-                {{ image.name }} &mdash; {{ (image.size / 1024 / 1024).toFixed(2) }}MB
+                {{ image.name }} &mdash; {{ (image.size / 1024 / 1024).toFixed(2) }}{{ $t('ui.image.mb') }}
               </div>
               <v-menu offset-y
                 offset-x
@@ -46,7 +46,7 @@
                     color="error"
                     size="x-small"
                     v-bind="props">
-                    Delete
+                    {{ $t('common.delete') }}
                   </v-btn>
                 </template>
                 <cc-confirmation
@@ -63,7 +63,7 @@
         @input="currentUserPage = $event" />
       <v-divider class="my-3" />
       <v-card-text>
-        <div class="heading h3 ml-n2">UPLOAD IMAGE</div>
+        <div class="heading h3 ml-n2">{{ $t('ui.image.uploadImage') }}</div>
         <v-row align="center">
           <v-col>
             <v-file-input v-model="file"
@@ -82,21 +82,21 @@
               :disabled="!stagedImage || store.CloudStorageFull || !store.IsLoggedIn"
               :loading="loading"
               @click="uploadImage()">
-              Upload
+              {{ $t('ui.image.upload') }}
             </cc-button>
           </v-col>
         </v-row>
         <div>
-          <div class="text-caption">ACCOUNT USAGE</div>
+          <div class="text-caption">{{ $t('ui.image.accountUsage') }}</div>
 
           <v-progress-linear :value="(accountUsage / accountMax) * 100"
             height="20px">
             <template #default>
               <strong>
                 {{ accountUsage.toFixed(2) }}
-                <span class="text-caption">MB</span>
+                <span class="text-caption">{{ $t('ui.image.mb') }}</span>
                 &nbsp;/&nbsp;{{ accountMax.toFixed(2) }}
-                <span class="text-caption">MB</span>
+                <span class="text-caption">{{ $t('ui.image.mb') }}</span>
                 ({{ (accountUsage / accountMax).toFixed(2) }}%)
               </strong>
             </template>
@@ -108,15 +108,9 @@
           outlined
           tile
           icon="mdi-alert">
-          <div class="heading h3">CAPACITY EXCEEDED</div>
-          <span>
-            Your account is over capacity. Free accounts are restricted to
-            {{ accountMax }}MB of storage.
-          </span>
-          <span>
-            In an upcoming release you will be able to link your Patreon account, and COMP/CON
-            supporters will not be subject to any storage limits.
-          </span>
+          <div class="heading h3">{{ $t('ui.image.capacityExceeded') }}</div>
+          <span>{{ $t('ui.image.overCapacity', { max: accountMax }) }}</span>
+          <span>{{ $t('ui.image.patreonNote') }}</span>
         </v-alert>
       </v-card-text>
     </div>

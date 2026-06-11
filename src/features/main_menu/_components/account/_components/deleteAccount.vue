@@ -1,43 +1,46 @@
 <template>
   <v-card-text>
-    <p>This tool will delete your account and all associated data. This includes:</p>
+    <p>{{ $t("mainMenu.deleteAccount.intro") }}</p>
 
     <ul class="ml-6 mb-3">
-      <li>Account login credentials and settings</li>
-      <li>Cloud data, including saved pilots, mechs, and NPCs and other GM data</li>
-      <li>Images uploaded to your personal cloud archive</li>
-      <li>Account and LCP archives stored on the cloud</li>
-      <li>All remotely stored active mode data and history</li>
+      <li>{{ $t("mainMenu.deleteAccount.incCredentials") }}</li>
+      <li>{{ $t("mainMenu.deleteAccount.incCloudData") }}</li>
+      <li>{{ $t("mainMenu.deleteAccount.incImages") }}</li>
+      <li>{{ $t("mainMenu.deleteAccount.incArchives") }}</li>
+      <li>{{ $t("mainMenu.deleteAccount.incActiveMode") }}</li>
     </ul>
-    Additionally,
+    {{ $t("mainMenu.deleteAccount.additionally") }}
     <ul class="ml-6 mb-3">
-      <li>Your save data will no longer sync between devices and browsers</li>
-      <li>Any shared items will no longer update, and all share codes will expire</li>
-      <li>Any active syncs will be terminated</li>
-      <li>You will be removed from any active tables</li>
-      <li>If you are a GM, all tables you own will be archived and slated for deletion</li>
+      <li>{{ $t("mainMenu.deleteAccount.addNoSync") }}</li>
+      <li>{{ $t("mainMenu.deleteAccount.addShareExpire") }}</li>
+      <li>{{ $t("mainMenu.deleteAccount.addSyncTerminated") }}</li>
+      <li>{{ $t("mainMenu.deleteAccount.addRemovedTables") }}</li>
+      <li>{{ $t("mainMenu.deleteAccount.addGmTables") }}</li>
       <li>
-        If you publish a subscription feed, subscribers will no longer be able to receive updates
+        {{ $t("mainMenu.deleteAccount.addSubFeed") }}
       </li>
     </ul>
-    This will not
+    {{ $t("mainMenu.deleteAccount.thisWillNot") }}
     <ul class="ml-6 mb-3">
-      <li>Delete any local data on your device</li>
-      <li>Revoke any purchases through itch.io or end your Patreon subscription</li>
+      <li>{{ $t("mainMenu.deleteAccount.notLocalData") }}</li>
+      <li>{{ $t("mainMenu.deleteAccount.notPurchases") }}</li>
     </ul>
 
     <cc-alert color="error"
       icon="mdi-alert"
       prominent>
-      <b>This action is irreversible. This data will be permanently and irrevocably deleted.</b>
+      <b>{{ $t("mainMenu.deleteAccount.irreversible") }}</b>
       <br />
-      Please ensure you have a local backup of any data you wish to keep.
+      {{ $t("mainMenu.deleteAccount.ensureBackup") }}
     </cc-alert>
 
     <div class="text-caption text-center my-1">
-      Enter the text
-      <i><b>delete account</b></i>
-      to confirm account deletion.
+      <i18n-t keypath="mainMenu.deleteAccount.enterTextToConfirm" tag="span" scope="global">
+        <template #phrase>
+          <!-- eslint-disable-next-line @intlify/vue-i18n/no-raw-text -->
+          <i><b>delete account</b></i>
+        </template>
+      </i18n-t>
     </div>
     <v-text-field v-model="confirm"
       placeholder="delete account"
@@ -52,14 +55,13 @@
       :loading="loading"
       :disabled="!confirmValid"
       @click="handleDeleteUser">
-      Delete Account
+      {{ $t("mainMenu.deleteAccount.deleteAccountBtn") }}
     </cc-button>
     <v-fade-transition>
       <div v-if="loading"
         class="text-caption text-center my-1">
         <i>
-          Deletion in progress. This may take a few moments. COMP/CON will restart once this process
-          is complete.
+          {{ $t("mainMenu.deleteAccount.deletionInProgress") }}
         </i>
       </div>
     </v-fade-transition>

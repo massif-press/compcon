@@ -1,15 +1,15 @@
-import { SaveController } from './SaveController';
+import { SaveController } from './SaveController'
 
 interface ISaveable {
-  SaveController: SaveController;
+  SaveController: SaveController
 
-  Name: string;
-  ID: string;
-  ItemType: string;
-  StorageType: string;
+  Name: string
+  ID: string
+  ItemType: string
+  StorageType: string
 
-  Clone(): ISaveable;
-  Serialize(): Object;
+  Clone(): ISaveable
+  Serialize(): any
 }
 
-export type { ISaveable };
+export type { ISaveable }

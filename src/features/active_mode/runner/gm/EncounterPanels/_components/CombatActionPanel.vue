@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="text-cc-overline text-disabled">Actions</div>
+    <div class="text-cc-overline text-disabled">{{ $t('active.actions.actions') }}</div>
     <v-row dense>
       <v-col>
         <v-card :color="!controller.CanActivate('protocol') ? 'grey' : 'action--protocol'"

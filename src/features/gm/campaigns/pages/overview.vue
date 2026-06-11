@@ -7,7 +7,7 @@
           <v-row v-else justify="center" align="center" style="min-height: 200px">
             <v-col class="text-center">
               <div class="text-disabled">
-                <i>Campaign Banner Image</i>
+                <i>{{ $t('gm.overview.bannerImage') }}</i>
               </div>
               <div class="text-overline text-disabled">6:1</div>
             </v-col>
@@ -16,13 +16,13 @@
         <v-dialog v-model="bannerDialog" max-width="50vw">
           <template #activator="{ props }">
             <v-btn v-bind="props" size="x-small" block variant="tonal" color="accent">
-              Set Banner Image
+              {{ $t('gm.overview.setBannerImage') }}
             </v-btn>
           </template>
           <v-card>
-            <v-card-title>Set Banner Image</v-card-title>
+            <v-card-title>{{ $t('gm.overview.setBannerImage') }}</v-card-title>
             <v-card-text>
-              <i>Campaign images must be linked, and cannot originate from local COMP/CON data.</i>
+              <i>{{ $t('gm.overview.imagesMustLink') }}</i>
               <v-row class="my-2">
                 <v-col cols="10">
                   <v-text-field
@@ -31,9 +31,9 @@
                     density="compact"
                     hide-details />
                   <v-footer color="transparent">
-                    <v-btn @click="bannerDialog = false">Cancel</v-btn>
+                    <v-btn @click="bannerDialog = false">{{ $t('common.cancel') }}</v-btn>
                     <v-spacer />
-                    <v-btn color="accent" @click="setBannerImage()">Set</v-btn>
+                    <v-btn color="accent" @click="setBannerImage()">{{ $t('common.set') }}</v-btn>
                   </v-footer>
                 </v-col>
                 <v-col>
@@ -70,7 +70,7 @@
       </v-col>
       <v-col>
         <div>
-          <div class="text-caption mt-n5 mb-n2">Recommended for</div>
+          <div class="text-caption mt-n5 mb-n2">{{ $t('gm.overview.recommendedFor') }}</div>
           <v-row dense class="mt-1" align="center">
             <v-col cols="auto">
               <v-text-field
@@ -81,7 +81,7 @@
                 density="compact"
                 style="width: 70px" />
             </v-col>
-            <v-col cols="auto">to</v-col>
+            <v-col cols="auto">{{ $t('gm.overview.to') }}</v-col>
             <v-col cols="auto">
               <v-text-field
                 v-model="campaign.MaxPlayers"
@@ -91,9 +91,9 @@
                 density="compact"
                 style="width: 70px" />
             </v-col>
-            <v-col cols="auto">players</v-col>
+            <v-col cols="auto">{{ $t('gm.overview.players') }}</v-col>
           </v-row>
-          <div class="text-caption mt-1">From License Levels</div>
+          <div class="text-caption mt-1">{{ $t('gm.overview.fromLicenseLevels') }}</div>
           <v-row dense align="center">
             <v-col cols="auto">
               <v-text-field
@@ -104,7 +104,7 @@
                 density="compact"
                 style="width: 70px" />
             </v-col>
-            <v-col cols="auto">to</v-col>
+            <v-col cols="auto">{{ $t('gm.overview.to') }}</v-col>
             <v-col cols="auto">
               <v-text-field
                 v-model="campaign.MaxLL"
@@ -135,7 +135,7 @@
           persistent-hint
           hint="Must be an itch.io URL to enable automatic management in COMP/CON"
           class="my-3" />
-        <div class="text-caption text-disabled">Author Contact Information (Optional)</div>
+        <div class="text-caption text-disabled">{{ $t('gm.overview.authorContact') }}</div>
         <v-row v-for="(item, index) in campaign.AuthorContact" :key="`contact-${index}`" dense align="center" class="mt-2">
           <v-col cols="3">
             <v-combobox
@@ -170,7 +170,7 @@
             size="x-small"
             variant="tonal"
             @click="campaign.AuthorContact.push({ service: '', contact: '' })">
-            Add New Contact
+            {{ $t('gm.overview.addContact') }}
           </v-btn>
         </v-footer>
       </v-col>
@@ -180,7 +180,7 @@
           <v-row v-else justify="center" align="center" style="height: 100%">
             <v-col class="text-center">
               <div class="text-disabled">
-                <i>Campaign Cover Image</i>
+                <i>{{ $t('gm.overview.coverImage') }}</i>
               </div>
               <div class="text-overline text-disabled">8.5:11</div>
             </v-col>
@@ -189,13 +189,13 @@
         <v-dialog v-model="coverDialog" max-width="50vw">
           <template #activator="{ props }">
             <v-btn v-bind="props" size="x-small" block variant="tonal" color="accent">
-              Set Cover Image
+              {{ $t('gm.overview.setCoverImage') }}
             </v-btn>
           </template>
           <v-card>
-            <v-card-title>Set Cover Image</v-card-title>
+            <v-card-title>{{ $t('gm.overview.setCoverImage') }}</v-card-title>
             <v-card-text>
-              <i>Campaign images must be linked, and cannot originate from local COMP/CON data.</i>
+              <i>{{ $t('gm.overview.imagesMustLink') }}</i>
               <v-row class="my-2">
                 <v-col cols="10">
                   <v-text-field
@@ -204,9 +204,9 @@
                     density="compact"
                     hide-details />
                   <v-footer color="transparent">
-                    <v-btn @click="coverDialog = false">Cancel</v-btn>
+                    <v-btn @click="coverDialog = false">{{ $t('common.cancel') }}</v-btn>
                     <v-spacer />
-                    <v-btn color="accent" @click="setCoverImage()">Set</v-btn>
+                    <v-btn color="accent" @click="setCoverImage()">{{ $t('common.set') }}</v-btn>
                   </v-footer>
                 </v-col>
                 <v-col>
@@ -234,14 +234,14 @@
         variant="tonal"
         prepend-icon="mdi-plus"
         @click="addContentItem()">
-        Add Content
+        {{ $t('gm.campaign.addContent') }}
       </v-btn>
     </v-footer>
 
     <div v-if="campaign.VersionHistory && campaign.VersionHistory.length">
       <v-divider class="my-3" />
       <fieldset style="border-radius: 3px">
-        <legend class="ml-2 px-2 text-caption">Version History</legend>
+        <legend class="ml-2 px-2 text-caption">{{ $t('gm.overview.versionHistory') }}</legend>
         <div v-for="(hist, index) in campaign.VersionHistory" :key="`hist-${index}`" class="px-4 py-2">
           <div class="text-caption">
             v.
@@ -261,7 +261,7 @@
                 campaign.save();
               ">
               <v-icon start icon="mdi-delete" />
-              Delete History (v.{{ hist.ver }})
+              {{ $t('gm.overview.deleteHistory', { ver: hist.ver }) }}
             </v-btn>
           </div>
         </div>
@@ -274,7 +274,7 @@
           <template v-slot:activator="{ props }">
             <v-icon v-bind="props" size="x-large" icon="mdi-eye" />
           </template>
-          <span>Preview</span>
+          <span>{{ $t('common.preview') }}</span>
         </v-tooltip>
       </v-btn>
       <v-spacer />

@@ -1,6 +1,6 @@
 <template>
   <v-container :fluid="$vuetify.display.mdAndDown">
-    <div class="heading h2">New Local Active Encounter</div>
+    <div class="heading h2">{{ $t('active.newEnc.title') }}</div>
     <v-row dense class="mt-4" align="center">
       <v-col cols="1" class="text-center">
         <v-icon icon="cc:encounter"
@@ -10,7 +10,7 @@
       <v-col cols="11">
         <div class="text-cc-overline mb-1">
           <cc-slashes class="pr-1" />
-          <span class="text-disabled">ENCOUNTER DATA</span>
+          <span class="text-disabled">{{ $t('active.newEnc.encounterData') }}</span>
         </div>
         <cc-panel>
           <v-slide-x-transition leave-absolute>
@@ -69,7 +69,7 @@
           <div v-if="encounter">
             <cc-alert class="my-1">
               <v-icon icon="mdi-information-outline" class="mr-2" />
-              Additional NPCs can be added in the Encounter Runner after creation.
+              {{ $t('active.newEnc.additionalNpcs') }}
             </cc-alert>
           </div>
 
@@ -79,7 +79,7 @@
                 <cc-button v-if="!!emptyEncounter" size="small" color="error"
                   prepend-icon="mdi-close"
                   @click="clearEmptyEncounter()">
-                  Cancel
+                  {{ $t('common.cancel') }}
                 </cc-button>
               </v-slide-x-transition>
             </v-col>
@@ -87,7 +87,7 @@
               <v-col v-if="!selectedEncounter && !emptyEncounter" cols="auto">
                 <cc-button size="small" color="primary" prepend-icon="mdi-card-plus-outline"
                   @click="useEmptyEncounter()">
-                  New Encounter
+                  {{ $t('active.newEnc.newEncounter') }}
                 </cc-button>
               </v-col>
             </v-slide-x-reverse-transition>

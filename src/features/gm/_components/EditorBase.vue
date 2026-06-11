@@ -14,7 +14,7 @@
             md="9">
             <slot name="builder" />
             <div v-if="!readonly || (readonly && item.Description?.length > 0)">
-              <div class="text-cc-overline">{{ typeText }} DESCRIPTION</div>
+              <div class="text-cc-overline">{{ $t('gm.editorBase.descriptionHeading', { type: typeText }) }}</div>
               <cc-rich-text-area :key="item.ID"
                 v-model="item.Description"
                 :readonly="readonly" />
@@ -45,7 +45,7 @@
                       class="mb-3"
                       color="primary"
                       @click="open">
-                      Set LCP Config
+                      {{ $t('gm.editorBase.setLcpConfig') }}
                     </cc-button>
                   </template>
                   <lcp-config-selector :actor="item" />
@@ -62,7 +62,7 @@
                       prepend-icon="mdi-image-edit"
                       color="primary"
                       @click="open">
-                      Change Image
+                      {{ $t('common.changeImage') }}
                     </cc-button>
                   </template>
                   <cc-image-selector ref="imageSelector"

@@ -6,17 +6,17 @@
     <div class="text-right">
       <span v-if="combatant.playerCount > 1" cols="auto">
         <v-icon icon="mdi-account-group" color="accent" class="mr-1 mt-n1" size="small" />
-        At
-        <b>{{ combatant.playerCount }}</b>
-        or more PCs
+        <i18n-t keypath="gm.encPrint.atLeastPcs" tag="span" scope="global">
+          <template #count><b>{{ combatant.playerCount }}</b></template>
+        </i18n-t>
       </span>
       <span v-if="combatant.reinforcement" cols="auto">
         <v-icon icon="mdi-refresh" color="accent" class="mr-1" />
-        REINFORCEMENT
+        {{ $t('gm.encPrint.reinforcement') }}
       </span>
       <span v-if="combatant.reinforcement && combatant.reinforcementTurn > 0" cols="auto">
         <cc-slashes />
-        Reinforces on Turn {{ combatant.reinforcementTurn }}
+        {{ $t('gm.encPrint.reinforcesOnTurn', { turn: combatant.reinforcementTurn }) }}
       </span>
     </div>
 

@@ -5,7 +5,7 @@
       :key="`damageEvent_${event.ID}_${d_idx}`"
       no-gutters>
       <v-col :cols="mobile ? '' : 'auto'">
-        <div class="text-cc-overline text-disabled">damage type</div>
+        <div class="text-cc-overline text-disabled">{{ $t('ui.combat.damageType') }}</div>
         <v-select :model-value="d.DamageType"
           :items="damageOptions"
           density="compact"
@@ -17,7 +17,7 @@
 
       <v-col cols="auto"
         class="ml-4">
-        <div class="text-cc-overline text-disabled ml-6">damage value</div>
+        <div class="text-cc-overline text-disabled ml-6">{{ $t('ui.combat.damageValue') }}</div>
 
         <v-text-field :model-value="d.DamageRolledValue"
           :placeholder="d.DamageRollString"
@@ -40,7 +40,7 @@
 
         <div v-if=d.Bonus
           class=pt-1>
-          <div class="text-cc-overline text-disabled ml-6">Bonus Damage</div>
+          <div class="text-cc-overline text-disabled ml-6">{{ $t('ui.combat.bonusDamage') }}</div>
           <v-text-field v-model="d.BonusDamageValue"
             :placeholder="d.BonusDamageString"
             class=bonusField
@@ -65,7 +65,7 @@
                     size="25"
                     icon="mdi-alert-outline" />
                 </template>
-                <div class="text-center">Bonus Damage will be halved (Area of Effect)</div>
+                <div class="text-center">{{ $t('ui.combat.bonusDamageHalved') }}</div>
               </v-tooltip>
             </template>
           </v-text-field>
@@ -77,7 +77,7 @@
           <cc-chip bg-color="damage--heat"
             class="mr-4">
             <v-icon icon="cc:heat" />
-            +{{ d.OverkillHeat }} Heat (Self) [Overkill]
+            {{ $t('ui.combat.overkillHeat', { n: d.OverkillHeat }) }}
           </cc-chip>
         </div>
 

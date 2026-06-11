@@ -1,6 +1,6 @@
 <template>
   <div class="py-3 px-6">
-    <div class="text-cc-overline bg-panel"><span class=text-disabled>&nbsp;// Staged</span>
+    <div class="text-cc-overline bg-panel"><span class=text-disabled>&nbsp;{{ $t('active.cards.staged') }}</span>
     </div>
     <div class="bg-background pb-1"
       style="position: relative; max-height: 200px; overflow-y: auto;">

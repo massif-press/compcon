@@ -1,7 +1,7 @@
 <template>
   <v-col v-if="event.RemoveSpecialStatus?.length"
     :cols="cols">
-    <div class="text-cc-overline text-disabled">remove special condition</div>
+    <div class="text-cc-overline text-disabled">{{ $t('ui.combat.removeSpecialCondition') }}</div>
     <v-card v-for="(s, index) in event.RemoveSpecialStatus"
       :key="`remove-special-status-${index}`"
       flat

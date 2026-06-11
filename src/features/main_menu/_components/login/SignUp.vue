@@ -6,31 +6,20 @@
       variant="outlined"
       title="COMP/CON Cloud Account">
       <div class="text-text">
-        <p>
-          The e-mail address you input will be used to send you a confirmation code to finalize
-          the
-          creation of your account. From there, your e-mail will only be used to log in to your
-          COMP/CON account.
-        </p>
-        <p class="my-1">
-          We are committed to keeping your e-mail address confidential. We do not sell, rent, or
-          lease
-          contact data or lists to third parties, and we will never provide your personal
-          information
-          to any third party individual, government agency, or company at any time, for any reason.
-        </p>
+        <p>{{ $t('mainMenu.auth.signupEmailInfo') }}</p>
+        <p class="my-1">{{ $t('mainMenu.auth.signupPrivacyInfo') }}</p>
       </div>
     </cc-alert>
     <cc-heading type="h3"
       center
-      class="my-2">Create Account</cc-heading>
+      class="my-2">{{ $t('mainMenu.auth.createAccount') }}</cc-heading>
 
     <div class="my-4">
       <v-row justify="center"
         align="center">
         <v-col lg="6"
           cols="12">
-          <div class="text-cc-overline pl-3">E-Mail</div>
+          <div class="text-cc-overline pl-3">{{ $t('mainMenu.auth.email') }}</div>
           <cc-text-field v-model="email"
             icon="mdi-email-outline"
             color="primary"
@@ -38,7 +27,7 @@
         </v-col>
         <v-col lg="6"
           cols="12">
-          <div class="text-cc-overline pl-3">Password</div>
+          <div class="text-cc-overline pl-3">{{ $t('mainMenu.auth.password') }}</div>
           <cc-text-field v-model="password"
             icon="mdi-lock-outline"
             color="primary"
@@ -57,12 +46,12 @@
         :loading="loading"
         :disabled="!submitOk"
         @click="createAccount">
-        submit
+        {{ $t('common.submit') }}
       </cc-button>
       <cc-button variant="text"
         color="error"
         @click="$emit('set-state', 'sign-in')">
-        Cancel
+        {{ $t('common.cancel') }}
       </cc-button>
     </div>
 
@@ -76,7 +65,7 @@
         icon="mdi-alert"
         closeable
         prominent>
-        <div class="font-weight-bold">ERROR</div>
+        <div class="font-weight-bold">{{ $t('mainMenu.auth.errorLabel') }}</div>
         <div v-html-safe="error" />
       </v-alert>
     </v-scroll-y-transition>

@@ -6,14 +6,14 @@
       <slot />
     </v-card-text>
     <v-card-actions>
-      <v-btn text color="warning" @click="$emit('dismiss')">dismiss</v-btn>
+      <v-btn text color="warning" @click="$emit('dismiss')">{{ $t('common.dismiss') }}</v-btn>
       <v-spacer />
       <v-btn
         v-if="!hidePrevious"
         text
         color="secondary"
         @click="$emit('previous')"
-        >previous</v-btn
+        >{{ $t('ui.table.previous') }}</v-btn
       >
       <slot v-if="otherBtn" name="confirm-button" />
       <v-btn
@@ -23,7 +23,7 @@
         :disabled="disabled"
         @click="$emit('confirm')"
       >
-        confirm
+        {{ $t('common.confirm') }}
       </v-btn>
     </v-card-actions>
   </v-window-item>

@@ -5,7 +5,7 @@
     :options="options"
     view-key="cb-downtime-actions">
     <template #header>
-      <div class="heading h3 text-center text-accent">Downtime Actions</div>
+      <div class="heading h3 text-center text-accent">{{ $t('compendium.categories.downtimeActions') }}</div>
     </template>
   </cc-compendium-browser>
 </template>

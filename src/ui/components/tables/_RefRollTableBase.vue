@@ -10,13 +10,13 @@
             <v-card-text>
               <v-row>
                 <v-col cols="2">
-                  <span class="heading h3">Roll</span>
+                  <span class="heading h3">{{ $t('common.roll') }}</span>
                 </v-col>
                 <v-col cols="3">
-                  <span class="heading h3">Result</span>
+                  <span class="heading h3">{{ $t('common.result') }}</span>
                 </v-col>
                 <v-col cols="7">
-                  <span class="heading h3">Effect</span>
+                  <span class="heading h3">{{ $t('ui.table.effect') }}</span>
                 </v-col>
               </v-row>
               <slot />
@@ -26,7 +26,7 @@
       </v-row>
       <v-divider />
       <v-card-actions>
-        <v-btn text @click="dialog = false">Dismiss</v-btn>
+        <v-btn text @click="dialog = false">{{ $t('common.dismiss') }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

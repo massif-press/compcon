@@ -6,7 +6,7 @@
         size="small"
         prepend-icon="mdi-queue-first-in-last-out"
         @click="open">
-        Organize
+        {{ $t('active.organizer.organize') }}
       </cc-button>
     </template>
     <v-card-text>
@@ -49,7 +49,7 @@
         <v-col cols="auto"
           style="width: 320px">
           <div>
-            <b class="text-accent">{{ selected.length }}</b> selected
+            <b class="text-accent">{{ selected.length }}</b> {{ $t('active.organizer.selected') }}
           </div>
           <v-list>
             <v-list-item :title="selected.length < 2 ? 'Archive' : 'Archive Multiple'"

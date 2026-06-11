@@ -17,7 +17,7 @@
         class="ml-auto">
         <cc-button color="primary"
           @click="dialogValue = false">
-          Save and Close
+          {{ $t('ui.widget.saveAndClose') }}
         </cc-button>
       </v-col>
     </v-row>

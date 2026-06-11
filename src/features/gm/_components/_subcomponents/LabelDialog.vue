@@ -5,15 +5,15 @@
     max-width="500px">
 
     <v-tabs v-model="labelTab" grow density="compact">
-      <v-tab value="set">Set</v-tab>
-      <v-tab value="delete">Delete</v-tab>
+      <v-tab value="set">{{ $t('common.set') }}</v-tab>
+      <v-tab value="delete">{{ $t('common.delete') }}</v-tab>
     </v-tabs>
     <v-card-text>
       <v-window v-model="labelTab">
         <v-window-item value="set">
-          <div class="text-caption">
-            This will add <b>or overwrite</b> the label value for all selected items.
-          </div>
+          <i18n-t keypath="gm.labelDialog.addOverwrite" tag="div" class="text-caption" scope="global">
+            <template #emphasis><b>{{ $t('gm.labelDialog.orOverwrite') }}</b></template>
+          </i18n-t>
           <v-row class="mt-2">
             <v-col>
               <v-combobox v-model="kvpKey"
@@ -30,9 +30,9 @@
           </v-row>
         </v-window-item>
         <v-window-item value="delete">
-          <div class="text-caption">
-            This will <b>delete</b> the label value for all selected items.
-          </div>
+          <i18n-t keypath="gm.labelDialog.deleteText" tag="div" class="text-caption" scope="global">
+            <template #emphasis><b>{{ $t('gm.labelDialog.deleteWord') }}</b></template>
+          </i18n-t>
           <v-row class="mt-2">
             <v-col>
               <v-select v-model="kvpKey"
@@ -48,7 +48,7 @@
     </v-card-text>
     <v-divider />
     <v-card-actions>
-      <v-btn variant="text" @click="close">Cancel</v-btn>
+      <v-btn variant="text" @click="close">{{ $t('common.cancel') }}</v-btn>
       <v-spacer />
       <v-btn variant="tonal"
         :color="labelTab === 'set' ? 'accent' : 'error'"

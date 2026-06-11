@@ -2,7 +2,7 @@
   <v-col v-if="event.Attack"
     cols="auto">
     <div v-if="!mobile"
-      class="text-cc-overline text-disabled">vs {{ event.AttackStat }}</div>
+      class="text-cc-overline text-disabled">{{ $t('ui.combat.vsStat', { stat: event.AttackStat }) }}</div>
     <v-row v-for="(s, idx) in event.Targets"
       :key="`target-${idx}`"
       dense
@@ -17,7 +17,7 @@
           justify="center">
           <v-col cols="auto"
             class="mt-1">
-            <i class="text-caption text-disabled">No Target Selected</i>
+            <i class="text-caption text-disabled">{{ $t('ui.combat.noTarget') }}</i>
           </v-col>
         </v-row>
         <v-row v-else
@@ -49,7 +49,7 @@
             size="x-small"
             color="core"
             class="mr-1">
-            RELIABLE {{ de.Reliable }} {{ de.DamageType }} applies on miss
+            {{ $t('ui.combat.reliableOnMiss', { n: de.Reliable, type: de.DamageType }) }}
           </v-chip>
         </div>
       </v-col>
@@ -80,13 +80,12 @@
                       ? 'mdi-check-circle'
                       : 'mdi-cancel'
                   " />
-              {{ !s.HitResult
-                ? ''
-                : s.HitResult === 'crit'
-                  ? 'Crit'
+              <template v-if="s.HitResult">{{
+                s.HitResult === 'crit'
+                  ? $t('ui.combat.crit')
                   : s.HitResult === 'hit'
-                    ? 'Hit'
-                    : 'Miss' }}
+                    ? $t('ui.combat.hit')
+                    : $t('ui.combat.miss') }}</template>
             </v-btn>
           </template>
           <v-card class="pa-2">

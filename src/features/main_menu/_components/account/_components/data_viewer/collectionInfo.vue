@@ -2,7 +2,7 @@
   <v-row dense align="start">
     <v-col cols="3">
       <div class="heading h4 text-accent">{{ collection.name }}</div>
-      <div class="text-caption">By {{ collection.author }}</div>
+      <div class="text-caption">{{ $t("mainMenu.collection.byAuthor", { author: collection.author }) }}</div>
       <div class="text-caption">
         v. {{ collection.version }}
         <cc-slashes />
@@ -12,13 +12,13 @@
     <v-col>
       <p v-text="collection.description" />
       <v-divider class="my-1" />
-      <div class="text-caption">CONTENTS</div>
+      <div class="text-caption">{{ $t("mainMenu.collection.contents") }}</div>
       <v-table density="compact">
         <thead class="bg-primary heading">
           <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Last Update</th>
+            <th>{{ $t("mainMenu.collection.colName") }}</th>
+            <th>{{ $t("mainMenu.collection.colType") }}</th>
+            <th>{{ $t("mainMenu.collection.colLastUpdate") }}</th>
           </tr>
         </thead>
         <tbody>
@@ -29,12 +29,12 @@
           </tr>
         </tbody>
       </v-table>
-      <div class="text-caption mt-2">CHANGELOG</div>
+      <div class="text-caption mt-2">{{ $t("mainMenu.collection.changelog") }}</div>
       <v-table density="compact">
         <thead class="bg-primary heading">
           <tr>
-            <th>Version</th>
-            <th>Changes</th>
+            <th>{{ $t("mainMenu.collection.colVersion") }}</th>
+            <th>{{ $t("mainMenu.collection.colChanges") }}</th>
           </tr>
         </thead>
         <tbody>
@@ -52,7 +52,7 @@
                 color="accent"
                 size="x-small"
                 @click="showMore = !showMore">
-                {{ showMore ? 'Show Less' : 'Show More' }}
+                {{ showMore ? $t("mainMenu.collection.showLess") : $t("mainMenu.collection.showMore") }}
               </v-btn>
             </td>
           </tr>

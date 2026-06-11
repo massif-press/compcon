@@ -20,7 +20,7 @@
                 class="mb-n1" />
             </v-btn>
           </template>
-          <span>Sort by Recent</span>
+          <span>{{ $t('active.sortBar.sortByRecent') }}</span>
         </v-tooltip>
 
         <v-tooltip location="top"
@@ -41,7 +41,7 @@
                 color="accent" />
             </v-btn>
           </template>
-          <span>Sort by Name</span>
+          <span>{{ $t('active.sortBar.sortByName') }}</span>
         </v-tooltip>
 
         <v-tooltip location="top"
@@ -62,7 +62,7 @@
                 class="mb-n1" />
             </v-btn>
           </template>
-          <span>Sort by created timestamp</span>
+          <span>{{ $t('active.sortBar.sortByCreated') }}</span>
         </v-tooltip>
       </div>
     </v-col>

@@ -15,7 +15,7 @@
         flat
         size="small"
         @click="setPage('Credits')">
-        Credits
+        {{ $t('compendium.campaign.credits') }}
       </v-btn>
 
       <indented-list
@@ -31,7 +31,7 @@
         flat
         size="small"
         @click="setPage('index')">
-        Index
+        {{ $t('compendium.campaign.index') }}
       </v-btn>
     </div>
     <v-divider class="my-2" />
@@ -46,7 +46,7 @@
         color="primary"
         prepend-icon="mdi-arrow-left"
         to="/gm/campaigns">
-        Return to Library
+        {{ $t('compendium.campaign.returnToLibrary') }}
       </v-btn>
     </div>
   </v-navigation-drawer>

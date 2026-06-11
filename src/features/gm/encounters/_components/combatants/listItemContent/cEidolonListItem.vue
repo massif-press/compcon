@@ -2,9 +2,9 @@
   <c-list-item-base :item="item" :readonly="readonly">
     <template #title>
       <v-icon size="large" :icon="item.actor.Icon" class="mt-n1" />
-      {{ item.actor.Name }} &mdash; T{{ item.actor.Tier }}
+      {{ item.actor.Name }} &mdash; {{ $t('gm.itemCard.tierShort', { tier: item.actor.Tier }) }}
       <cc-slashes />
-      CLASS {{ item.actor.Class }}
+      {{ $t('gm.itemCard.classLabel', { class: item.actor.Class }) }}
     </template>
 
     <v-chip v-for="l in item.actor.Layers"

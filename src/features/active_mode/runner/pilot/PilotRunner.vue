@@ -5,7 +5,7 @@
       color="primary"
       height="20"
       class="my-5" />
-    <div class="text-center text-cc-overline">Loading pilot sheet...</div>
+    <div class="text-center text-cc-overline">{{ $t('active.pilotRunner.loading') }}</div>
   </div>
   <div v-else>
     <div style="overflow-y: hidden">

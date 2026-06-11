@@ -1,5 +1,5 @@
 <template>
-  <div class="text-overline">RELATIONSHIPS</div>
+  <div class="text-overline">{{ $t('gm.relationships.heading') }}</div>
   <CCRelationshipItem
     v-for="(r, idx) in item.NarrativeController.Relationships"
     :key="`relationship-${idx}`"
@@ -17,11 +17,11 @@
       size="small"
       color="accent"
       @click="addRelationship()">
-      Add Relationship
+      {{ $t('gm.relationships.addRelationship') }}
     </cc-button>
   </div>
 
-  <div class="text-overline">LINKED ENTITIES</div>
+  <div class="text-overline">{{ $t('gm.relationships.linkedEntities') }}</div>
   <CCRelationshipItem v-for="(l, index) in linkedRelationships"
     :key="`linked-${index}`"
     :item="l.item"

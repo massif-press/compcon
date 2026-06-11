@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div class="heading mt-n4"
-      :class="mobile ? 'h2' : 'h1'">MANUFACTURERS</div>
+      :class="mobile ? 'h2' : 'h1'">{{ $t('compendium.categories.manufacturers') }}</div>
     <v-row>
       <v-col cols="12"
         lg="2">

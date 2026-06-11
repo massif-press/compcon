@@ -38,7 +38,7 @@
             :key="`rank-${n}`">
             <b>{{ talent.Rank(n).Name }}</b>
             <cc-slashes class="px-2" />
-            <span class="text-cc-overline text-disabled">RANK {{ 'I'.repeat(Number(n)) }}</span>
+            <span class="text-cc-overline text-disabled">{{ $t('common.rank') }} {{ 'I'.repeat(Number(n)) }}</span>
             <talent-rank-contents :talent-rank="talent.Rank(n)" />
           </div>
         </v-card-text>

@@ -25,9 +25,9 @@
           </v-btn>
         </template>
         <div class="text-center">
-          Reload Data
+          {{ $t("mainMenu.cloudData.reloadData") }}
           <br />
-          (This does not sync)
+          {{ $t("mainMenu.ui.doesNotSync") }}
         </div>
       </v-tooltip>
     </v-toolbar>
@@ -36,12 +36,9 @@
         icon="mdi-information-outline"
         variant="outlined"
         title="You do not have access to remote backups.">
-        Due to the server costs associated the creation and storage of backup data, this feature is
-        only available to Patreon subscribers. If you would like access to automated cloud backups,
-        please consider
-        <a href="https://www.patreon.com/compcon"
-          target="_blank">subscribing</a>
-        to support the development of COMP/CON and gain access to additional features.
+        <i18n-t keypath="mainMenu.archive.patreonOnly" tag="span" scope="global">
+          <template #link><a href="https://www.patreon.com/compcon" target="_blank">{{ $t("mainMenu.archive.subscribing") }}</a></template>
+        </i18n-t>
       </cc-alert>
     </v-card-text>
     <div v-else>
@@ -54,9 +51,9 @@
         </template>
         <template #item.size="{ item }">
           <span v-if="item.size > 1024 * 1024 + 1">
-            {{ (item.size / 1024 / 1024).toFixed(2) }} MB
+            {{ (item.size / 1024 / 1024).toFixed(2) }} {{ $t("mainMenu.unit.mb") }}
           </span>
-          <span v-else>{{ (item.size / 1024).toFixed(2) }} KB</span>
+          <span v-else>{{ (item.size / 1024).toFixed(2) }} {{ $t("mainMenu.unit.kb") }}</span>
         </template>
 
         <template #item.preserve="{ item }">
@@ -71,8 +68,8 @@
             </template>
             <div class="text-center"
               v-text="!item.preserve
-                ? 'Prevent this item from being automatically pruned. Preserved archives will still count towards size and space limitations.'
-                : 'Remove auto-delete protections on this item'
+                ? $t('mainMenu.archive.preventPrune')
+                : $t('mainMenu.archive.removeProtection')
                 " />
           </v-tooltip>
         </template>
@@ -91,7 +88,7 @@
                     <v-icon size="x-large"
                       v-bind="props">mdi-undo-variant</v-icon>
                   </template>
-                  <div class="text-center">Revert COMP/CON to this backup</div>
+                  <div class="text-center">{{ $t("mainMenu.archive.revertTooltip") }}</div>
                 </v-tooltip>
               </v-btn>
             </template>
@@ -100,7 +97,7 @@
                 <v-toolbar flat
                   color="primary">
                   <v-toolbar-title>
-                    <span class="heading h3">Revert COMP/CON</span>
+                    <span class="heading h3">{{ $t("mainMenu.archive.revertTitle") }}</span>
                   </v-toolbar-title>
                   <v-spacer />
                   <v-btn icon
@@ -109,24 +106,21 @@
                   </v-btn>
                 </v-toolbar>
                 <v-card-text>
-                  This will replace your current COMP/CON data with the data from this archive. This
-                  action cannot be automatically undone, so it is strongly recommended that you
-                  create a new archive before proceeding.
+                  {{ $t("mainMenu.archive.revertWarning1") }}
                   <br />
                   <br />
-                  This tool only affects your local data. It will not affect any data stored in the
-                  cloud.
+                  {{ $t("mainMenu.archive.revertWarning2") }}
                 </v-card-text>
                 <v-divider />
                 <v-card-actions>
                   <v-btn variant="text"
-                    @click="isActive.value = false">Cancel</v-btn>
+                    @click="isActive.value = false">{{ $t("common.cancel") }}</v-btn>
                   <v-spacer />
                   <v-btn variant="elevated"
                     color="accent"
                     :loading="loading"
                     @click="revertCC(item)">
-                    Load Archive
+                    {{ $t("mainMenu.archive.loadArchive") }}
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -147,7 +141,7 @@
                 <v-icon size="x-large">mdi-download</v-icon>
               </v-btn>
             </template>
-            <div class="text-center">Download Copy</div>
+            <div class="text-center">{{ $t("mainMenu.ui.downloadCopy") }}</div>
           </v-tooltip>
 
           <v-dialog max-width="600px">
@@ -163,7 +157,7 @@
                     <v-icon size="x-large"
                       v-bind="props">mdi-delete-outline</v-icon>
                   </template>
-                  <div class="text-center">Delete Archive</div>
+                  <div class="text-center">{{ $t("mainMenu.archive.deleteArchive") }}</div>
                 </v-tooltip>
               </v-btn>
             </template>
@@ -172,7 +166,7 @@
                 <v-toolbar flat
                   color="error">
                   <v-toolbar-title>
-                    <span class="heading h3">Delete Archive</span>
+                    <span class="heading h3">{{ $t("mainMenu.archive.deleteArchive") }}</span>
                   </v-toolbar-title>
                   <v-spacer />
                   <v-btn icon
@@ -181,7 +175,7 @@
                   </v-btn>
                 </v-toolbar>
                 <v-card-text>
-                  Are you sure you want to delete this archive? This action cannot be undone.
+                  {{ $t("mainMenu.archive.deleteConfirm") }}
                   <v-checkbox v-model="skipDeleteWarning"
                     label="Do not show this warning again"
                     hide-details />
@@ -189,13 +183,13 @@
                 <v-divider />
                 <v-card-actions>
                   <v-btn variant="text"
-                    @click="isActive.value = false">Cancel</v-btn>
+                    @click="isActive.value = false">{{ $t("common.cancel") }}</v-btn>
                   <v-spacer />
                   <v-btn variant="elevated"
                     color="error"
                     :loading="loading"
                     @click="deleteArchive(item)">
-                    Delete
+                    {{ $t("common.delete") }}
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -210,10 +204,10 @@
         :disabled="working || cloudStorageFull"
         :loading="working"
         @click="createNew()">
-        Create New Backup
+        {{ $t("mainMenu.archive.createBackup") }}
         <template v-if="cloudStorageFull"
           #subtitle>
-          Cloud storage is full! Unable to create new archives.
+          {{ $t("mainMenu.archive.cloudFullArchive") }}
         </template>
         <template #options>
           <v-card tile
@@ -222,12 +216,11 @@
             <v-toolbar density="compact"
               color="primary"
               tile>
-              <div class="heading h3 px-2">Archive Settings</div>
+              <div class="heading h3 px-2">{{ $t("mainMenu.archive.archiveSettings") }}</div>
             </v-toolbar>
             <v-card-text>
               <div class="text-caption mb-4">
-                COMP/CON can create and save a backup of your data at the selected interval. These
-                archives can be used to roll back your data to a previous state.
+                {{ $t("mainMenu.archive.settingsDesc1") }}
               </div>
 
               <cc-select v-model="settings.autoBackupFrequency"
@@ -238,9 +231,7 @@
               <v-divider class="my-4" />
 
               <div class="text-caption mb-4">
-                COMP/CON will automatically delete old archives to save space. This process runs
-                whenever a new archive is created, or can be manually triggered by clicking the
-                Prune Items button below.
+                {{ $t("mainMenu.archive.settingsDesc2") }}
               </div>
 
               <div></div>
@@ -250,7 +241,7 @@
                 :items="pruneOptions"
                 :details="pruneOptions.find((o) => o.value === pruneSetting)?.subtitle" />
 
-              <div class="mt-4">Storage Limit</div>
+              <div class="mt-4">{{ $t("mainMenu.archive.storageLimit") }}</div>
               <v-slider v-model="settings.autoBackupPrunePct"
                 :max="99"
                 :min="1"
@@ -268,8 +259,8 @@
               <v-btn :loading="loading"
                 :disabled="!prunableItemCount"
                 @click="prune">
-                <span v-if="prunableItemCount">Prune {{ prunableItemCount }} Items</span>
-                <span v-else>Nothing to Prune</span>
+                <span v-if="prunableItemCount">{{ $t("mainMenu.archive.pruneItems", { count: prunableItemCount }, prunableItemCount) }}</span>
+                <span v-else>{{ $t("mainMenu.archive.nothingToPrune") }}</span>
               </v-btn>
             </v-card-actions>
           </v-card>

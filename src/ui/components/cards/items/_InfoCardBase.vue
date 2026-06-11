@@ -8,13 +8,13 @@
 
   <div v-if="item.Effect">
     <div v-show="!dense"
-      class="text-cc-overline text-disabled">//EFFECT</div>
+      class="text-cc-overline text-disabled">//{{ $t('ui.card.effect') }}</div>
     <p v-html-safe="item.Effect" />
   </div>
 
   <div v-if="item.Actions && item.Actions.length">
     <div v-show="!dense"
-      class="text-cc-overline text-disabled">//ACTIONS</div>
+      class="text-cc-overline text-disabled">//{{ $t('ui.card.actions') }}</div>
     <v-row no-gutters
       justify="center">
       <v-col v-for="(a, index) in item.Actions"
@@ -29,7 +29,7 @@
 
   <div v-if="item.Deployables && item.Deployables.length">
     <div v-show="!dense"
-      class="text-cc-overline text-disabled">//DEPLOYABLES</div>
+      class="text-cc-overline text-disabled">//{{ $t('ui.card.deployables') }}</div>
     <v-row no-gutters
       justify="center">
       <v-col v-for="(d, index) in item.Deployables"
@@ -45,7 +45,7 @@
 
   <div v-if="item.IntegratedEquipment && item.IntegratedEquipment.length">
     <div v-show="!dense"
-      class="text-cc-overline text-disabled">//INTEGRATIONS</div>
+      class="text-cc-overline text-disabled">//{{ $t('ui.card.integrations') }}</div>
     <v-row no-gutters
       justify="center">
       <v-col v-for="(x, index) in item.IntegratedEquipment"
@@ -62,7 +62,7 @@
   <div v-if="item.Tags && item.Tags.filter(x => !x.IsHidden).length && !hideTags"
     class="mt-2">
     <div v-show="!dense"
-      class="text-cc-overline text-disabled">//TAGS</div>
+      class="text-cc-overline text-disabled">//{{ $t('ui.card.tags') }}</div>
     <cc-tags :tags="item.Tags"
       :extended="!smallTags" />
   </div>
@@ -72,7 +72,7 @@
   <div v-if="item.Description"
     class="my-2">
     <div v-show="!dense"
-      class="text-cc-overline text-disabled">//COMPENDIUM DATA</div>
+      class="text-cc-overline text-disabled">//{{ $t('ui.card.compendiumData') }}</div>
     <div v-html-safe="item.Description"
       class="flavor-text" />
   </div>

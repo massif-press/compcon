@@ -1,4 +1,5 @@
 import { getActivePinia } from 'pinia'
+import { i18n } from '@/i18n'
 import { ImageTag } from '@/io/ImageManagement'
 import { v4 as uuid } from 'uuid'
 import {
@@ -56,7 +57,7 @@ abstract class CollectionItem
   public FolderController: FolderController
 
   private _id: string
-  protected _name: string = 'New Narrative Item'
+  protected _name: string = i18n.global.t('classes.newNarrativeItem')
   private _note: string = ''
   private _description: string = ''
   static ID: string

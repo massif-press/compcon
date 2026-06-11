@@ -61,8 +61,9 @@
       <v-col cols="auto"
         style="width: 350px">
         <div>
-          <b class="text-accent">{{ selected.length }}</b>
-          selected
+          <i18n-t keypath="ui.widget.selectedCount" tag="span" scope="global">
+            <template #n><b class="text-accent">{{ selected.length }}</b></template>
+          </i18n-t>
         </div>
         <v-list>
           <slot name="actions"

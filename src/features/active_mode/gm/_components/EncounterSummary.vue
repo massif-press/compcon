@@ -9,14 +9,14 @@
     <v-col>
       <div class="text-cc-overline mb-1">
         <cc-slashes class="pr-1" />
-        <span class="text-disabled">Overview</span>
+        <span class="text-disabled">{{ $t('active.encSummary.overview') }}</span>
       </div>
       <cc-panel>
         <div class="heading h2">{{ encounter.Name }}</div>
         <div class="text-cc-overline">
-          <span class="text-disabled">ENVIRONMENT <cc-slashes /></span>
+          <span class="text-disabled">{{ $t('active.labels.environment') }} <cc-slashes /></span>
           {{ encounter.Environment.Name }} &mdash;
-          <span class="text-disabled">SITREP <cc-slashes /></span>
+          <span class="text-disabled">{{ $t('active.labels.sitrep') }} <cc-slashes /></span>
           {{ encounter.Sitrep.Name }}
         </div>
         <v-row class="mt-1 mb-2">
@@ -25,7 +25,7 @@
               flat
               tile
               class="pb-4">
-              <div class="heading" h3><cc-slashes /> pilots</div>
+              <div class="heading" h3><cc-slashes /> {{ $t('active.encSummary.pilots') }}</div>
               <v-divider class="mb-2" />
               <v-row v-for="(p, i) in participants"
                 :key="p.key"
@@ -64,7 +64,7 @@
               flat
               tile
               class="pb-4">
-              <div class="heading" h3><cc-slashes /> NPCs</div>
+              <div class="heading" h3><cc-slashes /> {{ $t('active.encSummary.npcs') }}</div>
               <v-divider class="mb-2" />
               <v-row v-for="(n, i) in encounter.Combatants.sort((a, b) =>
                 a.side.localeCompare(b.side)
@@ -86,7 +86,7 @@
                   <div class="heading h3">{{ n.actor.Name }}</div>
                   <div class="text-cc-overline">
                     <span v-if="n.actor.NpcClassController?.Tier" class="pr-1">
-                      Tier {{ n.actor.NpcClassController?.Tier }}
+                      {{ $t('gm.npcStats.tier', { n: n.actor.NpcClassController?.Tier }) }}
                     </span>
                     <span v-if="n.actor.NpcClassController?.Class" class="pr-1">
                       {{ n.actor.NpcClassController?.Class.Name }}
@@ -99,8 +99,8 @@
                   </div>
                   <div v-if="n.reinforcement"
                     class="bg-panel text-center text-cc-overline pa-0">
-                    Reinforcement
-                    <span v-if="n.reinforcementTurn">(TURN {{ n.reinforcementTurn }})</span>
+                    {{ $t('active.encSummary.reinforcement') }}
+                    <span v-if="n.reinforcementTurn">{{ $t('active.encSummary.turnN', { n: n.reinforcementTurn }) }}</span>
                   </div>
                 </v-col>
                 <v-col cols="auto" class="pr-0">
@@ -119,9 +119,9 @@
             ? 'mdi-arrow-right-bold-hexagon-outline' : 'mdi-alert'"
           @click="emit('create', true)">
           <span v-if="!pilots.length && !placeholders.length">
-            An encounter requires at least one pilot.
+            {{ $t('active.encSummary.requiresPilot') }}
           </span>
-          <span v-else>Create and Launch Encounter</span>
+          <span v-else>{{ $t('active.encSummary.createAndLaunch') }}</span>
         </cc-button>
         <v-row v-if="pilots.length || placeholders.length"
           dense class="mt-1">
@@ -129,14 +129,14 @@
             <cc-button block size="small" color="error"
               prepend-icon="mdi-close"
               @click="emit('cancel')">
-              Cancel
+              {{ $t('common.cancel') }}
             </cc-button>
           </v-col>
           <v-col>
             <cc-button block size="small" color="primary"
               prepend-icon="mdi-content-save"
               @click="emit('create', false)">
-              Create and return to library
+              {{ $t('active.encSummary.createReturnLibrary') }}
             </cc-button>
           </v-col>
         </v-row>

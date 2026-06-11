@@ -13,7 +13,7 @@
             class="mt-n1 ml-n1"
             icon="cc:system_point" />
         </div>
-        <div class="text-cc-overline mt-n1">SYSTEM POINT{{ item.SP > 1 ? 'S' : '' }}</div>
+        <div class="text-cc-overline mt-n1">{{ $t('ui.card.systemPoints', { plural: item.SP > 1 ? 'S' : '' }) }}</div>
       </v-col>
       <v-col v-if="item.LicenseString"
         cols="auto"

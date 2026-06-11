@@ -17,10 +17,17 @@
       </v-progress-linear>
 
       <p class="px-2">
-        {{ st.storageUsagePrefix }} {{ bytesToSize(size.usage) }} of {{ bytesToSize(size.quota) }},
-        or
-        <b class="text-accent">{{ ((size.usage / size.quota || 1) * 100).toFixed(3) }}%</b>
-        {{ st.storageUsageSuffix }}
+        <i18n-t keypath="nav.storage.storageUsageFull"
+          tag="span"
+          scope="global">
+          <template #prefix>{{ st.storageUsagePrefix }}</template>
+          <template #used>{{ bytesToSize(size.usage) }}</template>
+          <template #total>{{ bytesToSize(size.quota) }}</template>
+          <template #percent>
+            <b class="text-accent">{{ ((size.usage / size.quota || 1) * 100).toFixed(3) }}%</b>
+          </template>
+          <template #suffix>{{ st.storageUsageSuffix }}</template>
+        </i18n-t>
       </p>
 
       <div class="mb-4">
@@ -129,13 +136,24 @@
           @update:model-value="updateDeleteDays()" />
         <div class="text-caption text-right text-stark">
           <span v-if="!deleteDays">
-            COMP/CON will <b class="text-accent">never</b> automatically delete data marked for
-            deletion.
+            <i18n-t keypath="nav.storage.neverAutoDeleteFull"
+              tag="span"
+              scope="global">
+              <template #never>
+                <b class="text-accent">{{ $t('nav.storage.neverLabel') }}</b>
+              </template>
+            </i18n-t>
           </span>
           <span v-else>
-            COMP/CON will permanently delete data after it has been marked as deleted for at least
-            <b class="text-accent">{{ deleteDays }} days.</b>
-            This will not affect items not already marked for deletion.
+            <i18n-t keypath="nav.storage.autoDeleteFull"
+              tag="span"
+              scope="global">
+              <template #prefix>{{ st.autoDeletePrefix }}</template>
+              <template #days>
+                <b class="text-accent">{{ $t('nav.storage.daysCount', { count: deleteDays }) }}</b>
+              </template>
+              <template #note>{{ st.autoDeleteNote }}</template>
+            </i18n-t>
           </span>
         </div>
       </div>
@@ -186,12 +204,22 @@
             <span class="heading h2">{{ st.deleteWarningBanner }}</span>
           </v-alert>
           <p class="text-center heading h2 text-text">
-            This will delete
-            <b class="text-accent">{{ st.deleteAllConfirm }}</b>
-            {{ st.deleteLocalData }}
+            <i18n-t keypath="nav.storage.deleteConfirmIntro"
+              tag="span"
+              scope="global">
+              <template #confirm>
+                <b class="text-accent">{{ st.deleteAllConfirm }}</b>
+              </template>
+              <template #localData>{{ st.deleteLocalData }}</template>
+            </i18n-t>
             <br />
-            This
-            <b class="text-accent">{{ st.cannotBeUndone }}</b>
+            <i18n-t keypath="nav.storage.deleteConfirmUndone"
+              tag="span"
+              scope="global">
+              <template #undone>
+                <b class="text-accent">{{ st.cannotBeUndone }}</b>
+              </template>
+            </i18n-t>
             <br />
             <br />
             <b class="text-accent">{{ st.areYouSure }}</b>
@@ -203,7 +231,7 @@
             variant="text"
             large
             @click="deleteDialog = false">
-            Dismiss
+            {{ $t('nav.common.dismiss') }}
           </v-btn>
           <v-spacer />
           <v-btn color="error"
@@ -231,10 +259,11 @@ import UserDataViewer from './components/UserDataViewer.vue'
 import { ClearAllData, GetLength, GetTotalStorageSize } from '@/io/Storage'
 import logger from '@/user/logger'
 import { UserStore } from '@/stores'
-import { NAV_STRINGS } from '@/features/nav/strings'
+import { useNavStrings } from '@/features/nav/useNavStrings'
+const { section } = useNavStrings()
 
 const { mdAndDown: mobile } = useDisplay()
-const st = NAV_STRINGS.storage
+const st = section('storage')
 
 const user = computed(() => UserStore().User)
 

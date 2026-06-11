@@ -2,7 +2,7 @@
   <end-round-dialog :loading="loading">
     <template #default="{ isActive }">
       <v-card-text>
-          <div class="text-cc-overline">unused actions:</div>
+          <div class="text-cc-overline">{{ $t('active.gmEndRound.unusedActions') }}</div>
           <div v-if="hasRemainingActions.length">
             <v-row v-for="c in hasRemainingActions"
               :key="c.Parent.ID"
@@ -17,13 +17,13 @@
             </v-row>
           </div>
           <i v-else
-            class="text-disabled">None</i>
+            class="text-disabled">{{ $t('active.common.none') }}</i>
 
 
           <div v-if="nextRoundAlerts">
             <v-divider class="my-4" />
 
-            <div class="text-cc-overline mt-2">Next Round:</div>
+            <div class="text-cc-overline mt-2">{{ $t('active.pcEndRound.nextRound') }}</div>
             <div v-for="a in activeActors"
               :key="a.Parent.ID"
               class="my-1">
@@ -31,7 +31,7 @@
                 :key="`timeout-${index}`"
                 class="mx-4 px-2 text-text bg-panel">
                 <b class="text-secondary">{{ a.CombatName }}</b>
-                will lose the following statuses:
+                {{ $t('active.pcEndRound.willLoseStatuses') }}
                 <div v-for="(s, sIdx) in getTimeoutStatuses(a)"
                   :key="`timeout-inner-${sIdx}`"
                   class="px-2 text-text bg-panel">
@@ -41,10 +41,9 @@
                       class="mt-n1" />
                     {{ s.status.Name }}
                   </b>
-                  at the
+                  {{ $t('active.pcEndRound.atThe') }}
                   <b class="text-accent">
-                    {{ s.expires.EndsOn }} of
-                    {{ getStatusTarget(s.expires.ExpirationActorID, a.CombatName) }} turn
+                    {{ $t('active.gmEndRound.endsOnTargetTurn', { when: s.expires.EndsOn, target: getStatusTarget(s.expires.ExpirationActorID, a.CombatName) }) }}
                   </b>
                 </div>
               </div>
@@ -52,17 +51,16 @@
                 :key="`timeout-custom-${index}`"
                 class="my-1 mx-4 px-2 text-text bg-panel">
                 <b class="text-secondary">{{ a.CombatName }}</b>
-                will lose the following statuses:
+                {{ $t('active.pcEndRound.willLoseStatuses') }}
                 <div v-for="(s, sIdx) in getTimeoutStatuses(a)"
                   :key="`timeout-custom-inner-${sIdx}`"
                   class="my-1 mx-4 px-2 text-text bg-panel">
                   <b class="text-accent text-uppercase">
                     {{ s.status.Name }}
                   </b>
-                  at the
+                  {{ $t('active.pcEndRound.atThe') }}
                   <b class="text-accent">
-                    {{ s.expires.EndsOn }} of
-                    {{ getStatusTarget(s.expires.ExpirationActorID, a.CombatName) }} turn
+                    {{ $t('active.gmEndRound.endsOnTargetTurn', { when: s.expires.EndsOn, target: getStatusTarget(s.expires.ExpirationActorID, a.CombatName) }) }}
                   </b>
                 </div>
               </div>
@@ -72,27 +70,26 @@
               :key="b.Parent.ID"
               class="my-1 mx-4 px-2 text-text bg-panel">
               <b class="text-secondary">{{ b.CombatName }}</b>
-              exits
-              <b class="text-accent">BRACED</b>
-              and enters
-              <b class="text-warning">BRACE COOLDOWN</b>
-              state.
+              <i18n-t keypath="active.gmEndRound.braceExit" tag="span" scope="global">
+                <template #braced><b class="text-accent">{{ $t('active.pcEndRound.braced') }}</b></template>
+                <template #cooldown><b class="text-warning">{{ $t('active.pcEndRound.braceCooldown') }}</b></template>
+              </i18n-t>
             </div>
           </div>
 
           <v-divider class="my-4" />
 
-          <div class="text-cc-overline mt-2">reinforcements ready next round:</div>
+          <div class="text-cc-overline mt-2">{{ $t('active.gmEndRound.reinforcementsReady') }}</div>
           <div v-if="reinforcements.length">
             <div v-for="r in reinforcements"
               :key="r.actor.ID"
               class="my-1 mx-4 px-2 text-text bg-panel">
               <b class="text-secondary">{{ r.CombatName }}</b>
-              will be ready to deploy.
+              {{ $t('active.gmEndRound.willBeReady') }}
             </div>
           </div>
           <i v-else
-            class="text-disabled">None</i>
+            class="text-disabled">{{ $t('active.common.none') }}</i>
           <v-divider class="my-4" />
           <cc-button color="primary"
             block
@@ -100,7 +97,7 @@
             :disabled="loading"
             prepend-icon="mdi-check-all"
             @click="endRound(isActive)">
-            End Round
+            {{ $t('active.endRound.endRound') }}
           </cc-button>
         </v-card-text>
     </template>

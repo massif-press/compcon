@@ -5,14 +5,14 @@
         :color="bulkDeleteMode ? 'panel' : 'error'"
         prepend-icon="mdi-delete-sweep"
         @click="toggleBulkDelete">
-        {{ bulkDeleteMode ? 'Cancel Bulk Selection' : 'Bulk Delete' }}
+        {{ bulkDeleteMode ? $t("mainMenu.dataItem.cancelBulkSelection") : $t("mainMenu.dataItem.bulkDelete") }}
       </cc-button>
       <cc-button v-if="bulkDeleteMode && selectedForDelete.length"
         size="small"
         color="error"
         prepend-icon="mdi-delete"
         @click="bulkDeleteDialog = true">
-        Delete Selected ({{ selectedForDelete.length }})
+        {{ $t("mainMenu.dataItem.deleteSelected", { count: selectedForDelete.length }) }}
       </cc-button>
       <v-spacer />
       <cc-switch v-model="showLocalDeleted"
@@ -42,11 +42,10 @@
               v-bind="props">mdi-broadcast</v-icon>
           </template>
           <div class="text-center">
-            <span class=heading>Remote Item</span>
+            <span class=heading>{{ $t("mainMenu.dataItem.remoteItem") }}</span>
             <v-divider class="my-1" />
             <i class="text-caption">
-              This item is linked to another user's data. Changes they make will be downloaded on
-              sync.
+              {{ $t("mainMenu.dataItem.remoteItemDesc") }}
             </i>
           </div>
         </v-tooltip>
@@ -59,14 +58,10 @@
               v-bind="props">mdi-broadcast-off</v-icon>
           </template>
           <div class="text-center">
-            <span class=heading>Remote Item Inaccessible</span>
+            <span class=heading>{{ $t("mainMenu.dataItem.remoteItemInaccessible") }}</span>
             <v-divider class="my-1" />
             <i class="text-caption">
-              This cloud data for this item could not be found. This can happen when the owner
-              deletes the
-              item, or if there was an error during sync. You can attempt to restore the remote link
-              or
-              convert this item to a local copy.
+              {{ $t("mainMenu.dataItem.remoteInaccessibleDesc") }}
             </i>
           </div>
         </v-tooltip>
@@ -86,12 +81,12 @@
         </div>
       </template>
       <template #item.ItemType="{ item }">
-        <span v-if="item.ItemType === 'Encounter'">Encounter Data</span>
-        <span v-else-if="item.ItemType === 'Campaign'">Campaign Data</span>
-        <span v-else-if="item.ItemType === 'EncounterInstance'">Active Encounter</span>
-        <span v-else-if="item.ItemType === 'EncounterArchive'">Archived Encounter</span>
-        <span v-else-if="item.ItemType === 'PilotSheet'">Pilot Sheet</span>
-        <span v-else-if="item.ItemType === 'pilotgroup'">Pilot Group</span>
+        <span v-if="item.ItemType === 'Encounter'">{{ $t("mainMenu.dataItem.typeEncounterData") }}</span>
+        <span v-else-if="item.ItemType === 'Campaign'">{{ $t("mainMenu.dataItem.typeCampaignData") }}</span>
+        <span v-else-if="item.ItemType === 'EncounterInstance'">{{ $t("mainMenu.dataItem.typeActiveEncounter") }}</span>
+        <span v-else-if="item.ItemType === 'EncounterArchive'">{{ $t("mainMenu.dataItem.typeArchivedEncounter") }}</span>
+        <span v-else-if="item.ItemType === 'PilotSheet'">{{ $t("mainMenu.dataItem.typePilotSheet") }}</span>
+        <span v-else-if="item.ItemType === 'pilotgroup'">{{ $t("mainMenu.dataItem.typePilotGroup") }}</span>
         <span v-else
           v-text="item.ItemType" />
       </template>
@@ -101,7 +96,7 @@
         </span>
         <i v-else
           class="text-disabled">
-          No Data
+          {{ $t("mainMenu.dataItem.noData") }}
         </i>
       </template>
       <template #item.localLastModified="{ item }">
@@ -111,7 +106,7 @@
         </span>
         <i v-else
           class="text-disabled">
-          No Data
+          {{ $t("mainMenu.dataItem.noData") }}
         </i>
       </template>
       <template #item.syncStatus="{ item }">
@@ -124,7 +119,7 @@
               icon="mdi-link-variant-off" />
           </template>
           <div class="text-center">
-            Remote link broken — owner's data not found. Retry or convert to local.
+            {{ $t("mainMenu.dataItem.remoteLinkBroken") }}
           </div>
         </v-tooltip>
         <v-tooltip
@@ -138,8 +133,8 @@
           </template>
           <div class="text-center">
             {{ item.SaveController?.IsDeleted ?
-              `Deleted locally`
-              : `Marked as deleted in cloud.` }}
+              $t("mainMenu.dataItem.deletedLocally")
+              : $t("mainMenu.dataItem.markedDeletedCloud") }}
           </div>
         </v-tooltip>
         <v-tooltip v-else-if="isItemSynced(item)"
@@ -150,7 +145,7 @@
               color="success"
               icon="mdi-cloud-check-variant-outline" />
           </template>
-          <div class="text-center">Up to date</div>
+          <div class="text-center">{{ $t("mainMenu.dataItem.upToDateStatus") }}</div>
         </v-tooltip>
         <v-tooltip v-else
           max-width="300px"
@@ -162,10 +157,10 @@
           </template>
           <div class="text-center">
             {{ item.IsCloudOnly
-              ? 'Cloud only — not yet downloaded.'
+              ? $t('mainMenu.dataItem.cloudOnly')
               : !item.CloudController.Metadata?.ItemModified
-                ? 'Local only — not yet synced.'
-                : 'Pending sync.'
+                ? $t('mainMenu.dataItem.localOnly')
+                : $t('mainMenu.dataItem.pendingSync')
             }}
           </div>
         </v-tooltip>
@@ -180,9 +175,7 @@
                 v-bind="props" />
             </template>
             <div class="text-center">
-              This is an editable campaign you have created in the GM Campaign Editor. This data can
-              be synced to the cloud for safekeeping and sharing with other devices, but are not
-              sharable via the Share Code system.
+              {{ $t("mainMenu.dataItem.editableCampaignDesc") }}
             </div>
           </v-tooltip>
         </span>
@@ -201,7 +194,7 @@
                 class="fade-select"
                 @click="copy(item.SaveController.RemoteCode)" />
             </template>
-            <div class="text-center">Copy Share Code</div>
+            <div class="text-center">{{ $t("mainMenu.dataItem.copyShareCode") }}</div>
           </v-tooltip>
         </span>
         <span v-else-if="item.CloudController?.Metadata?.Code?.length > 0">
@@ -220,7 +213,7 @@
                 class="fade-select"
                 @click="copy(item.CloudController.Metadata.Code)" />
             </template>
-            <div class="text-center">Copy Share Code</div>
+            <div class="text-center">{{ $t("mainMenu.dataItem.copyShareCode") }}</div>
           </v-tooltip>
         </span>
       </template>
@@ -239,7 +232,7 @@
                 <v-icon size="x-large">mdi-refresh</v-icon>
               </v-btn>
             </template>
-            <div class="text-center">Retry Connection</div>
+            <div class="text-center">{{ $t("mainMenu.dataItem.retryConnection") }}</div>
           </v-tooltip>
           <v-tooltip max-width="300px"
             location="top">
@@ -254,9 +247,9 @@
               </v-btn>
             </template>
             <div class="text-center">
-              Convert to Local
+              {{ $t("mainMenu.dataItem.convertToLocal") }}
               <br />
-              <i class="text-caption">Remove the remote link. Data is kept locally.</i>
+              <i class="text-caption">{{ $t("mainMenu.dataItem.convertToLocalDesc") }}</i>
             </div>
           </v-tooltip>
         </div>
@@ -274,9 +267,9 @@
               </v-btn>
             </template>
             <div class="text-center">
-              Restore
+              {{ $t("mainMenu.dataItem.restore") }}
               <br />
-              <i class="text-caption">Restore this item locally.</i>
+              <i class="text-caption">{{ $t("mainMenu.dataItem.restoreLocalDesc") }}</i>
             </div>
           </v-tooltip>
           <v-menu offset-y>
@@ -295,7 +288,7 @@
                       mdi-cloud-braces
                     </v-icon>
                   </template>
-                  <div class="text-center">Manual Controls</div>
+                  <div class="text-center">{{ $t("mainMenu.dataItem.manualControls") }}</div>
                 </v-tooltip>
               </v-btn>
             </template>
@@ -332,7 +325,7 @@
                       mdi-delete-forever
                     </v-icon>
                   </template>
-                  <div class="text-center">Delete Permanently</div>
+                  <div class="text-center">{{ $t("mainMenu.dataItem.deletePermanently") }}</div>
                 </v-tooltip>
               </v-btn>
             </template>
@@ -341,7 +334,7 @@
                 <v-toolbar flat
                   color="error">
                   <v-toolbar-title>
-                    <span class="heading h3">Delete Permanently</span>
+                    <span class="heading h3">{{ $t("mainMenu.dataItem.deletePermanently") }}</span>
                   </v-toolbar-title>
                   <v-spacer />
                   <v-btn icon
@@ -350,8 +343,7 @@
                   </v-btn>
                 </v-toolbar>
                 <v-card-text>
-                  This will permanently remove the item from local storage. If the item has been
-                  synced to the cloud, it will also be marked as deleted there.
+                  {{ $t("mainMenu.dataItem.deletePermanentlyDesc") }}
                   <v-checkbox v-model="skipDeleteWarningLocal"
                     label="Do not show this warning again"
                     hide-details />
@@ -360,14 +352,14 @@
                 <v-card-actions>
                   <v-btn variant="text"
                     @click="isActive.value = false">
-                    Cancel
+                    {{ $t("common.cancel") }}
                   </v-btn>
                   <v-spacer />
                   <v-btn variant="elevated"
                     color="error"
                     :loading="loading"
                     @click="!!deleteLocalItemPermanent(item) ? (isActive.value = false) : ''">
-                    Delete
+                    {{ $t("common.delete") }}
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -388,13 +380,9 @@
               </v-btn>
             </template>
             <div class="text-center">
-              Restore
+              {{ $t("mainMenu.dataItem.restore") }}
               <br />
-              <i class="text-caption">
-                Restore this item. This item will no longer be marked as deleted and will sync to
-                this
-                and other devices.
-              </i>
+              <i class="text-caption">{{ $t("mainMenu.dataItem.restoreItemDesc") }}</i>
             </div>
           </v-tooltip>
           <v-dialog max-width="600px">
@@ -414,7 +402,7 @@
                       mdi-delete-forever
                     </v-icon>
                   </template>
-                  <div class="text-center">Delete Immediately</div>
+                  <div class="text-center">{{ $t("mainMenu.dataItem.deleteImmediately") }}</div>
                 </v-tooltip>
               </v-btn>
             </template>
@@ -423,7 +411,7 @@
                 <v-toolbar flat
                   color="error">
                   <v-toolbar-title>
-                    <span class="heading h3">Delete Immediately</span>
+                    <span class="heading h3">{{ $t("mainMenu.dataItem.deleteImmediately") }}</span>
                   </v-toolbar-title>
                   <v-spacer />
                   <v-btn icon
@@ -432,9 +420,7 @@
                   </v-btn>
                 </v-toolbar>
                 <v-card-text>
-                  Deleting this item will remove it from cloud storage. This will not modify any
-                  local
-                  copies of this item.
+                  {{ $t("mainMenu.dataItem.deleteImmediatelyDesc") }}
                   <v-checkbox v-model="skipDeleteWarningPerm"
                     label="Do not show this warning again"
                     hide-details />
@@ -443,14 +429,14 @@
                 <v-card-actions>
                   <v-btn variant="text"
                     @click="isActive.value = false">
-                    Cancel
+                    {{ $t("common.cancel") }}
                   </v-btn>
                   <v-spacer />
                   <v-btn variant="elevated"
                     color="error"
                     :loading="loading"
                     @click="!!deleteItemPermanent(item) ? (isActive.value = false) : ''">
-                    Delete
+                    {{ $t("common.delete") }}
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -474,7 +460,7 @@
                       mdi-cloud-braces
                     </v-icon>
                   </template>
-                  <div class="text-center">Manual Controls</div>
+                  <div class="text-center">{{ $t("mainMenu.dataItem.manualControls") }}</div>
                 </v-tooltip>
               </v-btn>
             </template>
@@ -515,11 +501,10 @@
                     <v-icon size="x-large">mdi-delete-outline</v-icon>
                   </v-btn>
                 </template>
-                <div class="text-center">Delete Local Data</div>
+                <div class="text-center">{{ $t("mainMenu.dataItem.deleteLocalData") }}</div>
                 <div class="text-center text-caption">
                   <i>
-                    This marks this item as deleted locally, and will be removed from this table and
-                    will not be synced. Deleted item recovery options can be found in user settings.
+                    {{ $t("mainMenu.dataItem.deleteLocalDataDesc") }}
                   </i>
                 </div>
               </v-tooltip>
@@ -539,7 +524,7 @@
                     </v-icon>
                   </template>
 
-                  <div class="text-center">Delete Cloud Data</div>
+                  <div class="text-center">{{ $t("mainMenu.dataItem.deleteCloudData") }}</div>
                 </v-tooltip>
               </v-btn>
             </template>
@@ -548,7 +533,7 @@
                 <v-toolbar flat
                   color="error">
                   <v-toolbar-title>
-                    <span class="heading h3">Delete Cloud Item</span>
+                    <span class="heading h3">{{ $t("mainMenu.dataItem.deleteCloudItem") }}</span>
                   </v-toolbar-title>
                   <v-spacer />
                   <v-btn icon
@@ -557,8 +542,7 @@
                   </v-btn>
                 </v-toolbar>
                 <v-card-text>
-                  Deleting this item will mark it as deleted in the cloud. It will not delete this
-                  item locally, but will prevent it from syncing to the cloud or to other devices.
+                  {{ $t("mainMenu.dataItem.deleteCloudItemDesc") }}
                   <v-checkbox v-model="skipDeleteWarning"
                     label="Do not show this warning again"
                     hide-details />
@@ -567,14 +551,14 @@
                 <v-card-actions>
                   <v-btn variant="text"
                     @click="isActive.value = false">
-                    Cancel
+                    {{ $t("common.cancel") }}
                   </v-btn>
                   <v-spacer />
                   <v-btn variant="elevated"
                     color="error"
                     :loading="loading"
                     @click="!!deleteItem(item) ? (isActive.value = false) : ''">
-                    Delete
+                    {{ $t("common.delete") }}
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -589,11 +573,10 @@
       :close-on-click="false">
       <cc-alert color="error">
         <v-toolbar-title>
-          <span class="heading h3">Delete {{ selectedForDelete.length }} Item{{
-            selectedForDelete.length !== 1 ? 's' : '' }}</span>
+          <span class="heading h3">{{ $t("mainMenu.dataItem.deleteNItems", { count: selectedForDelete.length }, selectedForDelete.length) }}</span>
         </v-toolbar-title>
       </cc-alert>
-      Choose how to delete the selected items:
+      {{ $t("mainMenu.dataItem.chooseDeleteMethod") }}
       <v-radio-group v-model="bulkDeleteScope"
         class="mt-2">
         <v-radio value="cloud"
@@ -605,14 +588,14 @@
       <v-card-actions class="pa-0">
         <v-btn variant="text"
           @click="bulkDeleteDialog = false">
-          Cancel
+          {{ $t("common.cancel") }}
         </v-btn>
         <v-spacer />
         <cc-button variant="elevated"
           color="error"
           :loading="bulkDeleteLoading"
           @click="executeBulkDelete">
-          Delete
+          {{ $t("common.delete") }}
         </cc-button>
       </v-card-actions>
     </cc-dialog>

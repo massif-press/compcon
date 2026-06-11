@@ -26,7 +26,7 @@
               tile
               height="20px"
               variant="text"
-              @click="cancel">CANCEL</v-btn>
+              @click="cancel">{{ $t('common.cancel') }}</v-btn>
           </v-col>
           <v-col>
             <v-btn block
@@ -36,7 +36,7 @@
               variant="text"
               :disabled="!name"
               @click="create">
-              Add
+              {{ $t('common.add') }}
             </v-btn>
           </v-col>
         </v-row>
@@ -52,7 +52,7 @@
         <div :class="mobile ? '' : 'py-1'">
           <v-icon icon="mdi-plus"
             :size="mobile ? 'default' : 'x-large'" />
-          <div v-if="!mobile">Add Custom Counter</div>
+          <div v-if="!mobile">{{ $t('ui.counter.addCustom') }}</div>
         </div>
       </v-btn>
     </transition>

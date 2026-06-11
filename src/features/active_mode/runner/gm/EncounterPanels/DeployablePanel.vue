@@ -8,7 +8,7 @@
       <v-icon icon="cc:destroyed"
         size="large"
         start />
-      <span class="text-cc-overline">{{ combatant.ItemType }} DESTROYED</span>
+      <span class="text-cc-overline">{{ $t('active.panelBase.itemDestroyed', { type: combatant.ItemType }) }}</span>
     </cc-alert>
     <cc-alert v-else-if="!combatant.IsDeployed"
       class="ma-2"
@@ -16,8 +16,10 @@
       icon="cc:drone"
       title="Recalled to Mech"
       outlined>
-      <span>{{ combatant.ItemType }} has been recalled, awaiting
-        <b>redeployment</b></span>
+      <i18n-t keypath="active.deployPanel.recalledAwaiting" tag="span" scope="global">
+        <template #type>{{ combatant.ItemType }}</template>
+        <template #redeployment><b>{{ $t('active.deployPanel.redeployment') }}</b></template>
+      </i18n-t>
       <cc-button size="small"
         block
         class="mt-2"
@@ -29,7 +31,7 @@
           <v-icon :icon="getActionIcon(redeploy)"
             class="mt-n1"
             start />
-          Redeploy
+          {{ $t('active.deployPanel.redeploy') }}
           <span class="text-disabled">
             ({{ redeploy }})
           </span>
@@ -55,8 +57,8 @@
       <cc-button block
         size="x-small"
         color="primary"
-        @click="hide = !hide">{{ hide ? 'Show' : 'Hide' }}
-        Details</cc-button>
+        @click="hide = !hide">{{ hide ? $t('common.show') : $t('common.hide') }}
+        {{ $t('active.deployPanel.details') }}</cc-button>
     </cc-alert>
 
     <v-scroll-y-reverse-transition>
@@ -100,7 +102,7 @@
                       <div class="text-cc-overline">
                         {{ combatant.Base.Type }}
                         <cc-slashes class="ml-1 mr-2" />
-                        <span class="text-disabled">Owned by</span>
+                        <span class="text-disabled">{{ $t('active.deployPanel.ownedBy') }}</span>
                         <b>&nbsp;{{ owner.Callsign || owner.Name || 'Unknown' }}</b>
                       </div>
                     </v-col>
@@ -122,7 +124,7 @@
           <v-icon :icon="getActionIcon(recall)"
             class="mt-n1"
             start />
-          Recall
+          {{ $t('active.deployPanel.recall') }}
           <span class="text-disabled">
             ({{ recall }})
           </span>
@@ -152,7 +154,7 @@
           color="error"
           size="small"
           @click="remove">
-          Remove {{ combatant.Base.Type }}
+          {{ $t('active.deployPanel.removeType', { type: combatant.Base.Type }) }}
         </cc-button>
       </v-col>
     </v-row>

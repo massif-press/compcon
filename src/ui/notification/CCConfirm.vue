@@ -12,8 +12,8 @@
       <v-card-text v-show="!!message" class="pa-4">{{ message }}</v-card-text>
       <v-card-actions class="pt-0">
         <v-spacer></v-spacer>
-        <v-btn color="accent darken-1" @click.native="agree">Yes</v-btn>
-        <v-btn color="grey" @click.native="cancel">Cancel</v-btn>
+        <v-btn color="accent darken-1" @click.native="agree">{{ $t('common.yes') }}</v-btn>
+        <v-btn color="grey" @click.native="cancel">{{ $t('common.cancel') }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

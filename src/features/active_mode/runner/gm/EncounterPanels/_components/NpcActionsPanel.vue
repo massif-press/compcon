@@ -22,6 +22,8 @@ import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed } from 'vue';
 import { CompendiumStore } from '@/stores';
 import { notify } from '@/util/notify';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import BaseActionsPanel from './BaseActionsPanel.vue';
 import BasicActionButton from './loadouts/action_buttons/basicActionButton.vue';
 import InvadeButton from './loadouts/action_buttons/invadeButton.vue';
@@ -47,24 +49,24 @@ function activate(event: string) {
   switch (event) {
     case 'act_prepare':
       controller.value.Prepared = true;
-      notify({ type: 'success', title: 'NPC Prepared', text: `${controller.value.CombatName} has been marked as PREPARED.` });
+      notify({ type: 'success', title: t('active.npcActions.npcPreparedTitle'), text: t('active.npcActions.npcPreparedText', { name: controller.value.CombatName }) });
       break;
     case 'act_stabilize_npc':
       controller.value.Stabilize('npc');
-      notify({ type: 'success', title: 'NPC Stabilized', text: `${controller.value.CombatName} has cleared all HEAT, is no longer EXPOSED, and has reloaded their weapons.` });
+      notify({ type: 'success', title: t('active.npcActions.npcStabilizedTitle'), text: t('active.npcActions.npcStabilizedText', { name: controller.value.CombatName }) });
       break;
     case 'act_hide':
       controller.value.AddStatus('hidden');
-      notify({ type: 'success', title: 'NPC Hidden', text: `${controller.value.CombatName} is now HIDDEN.` });
+      notify({ type: 'success', title: t('active.npcActions.npcHiddenTitle'), text: t('active.npcActions.npcHiddenText', { name: controller.value.CombatName }) });
       break;
     case 'act_disengage':
       if (!controller.value.HasStatus('engaged')) {
-        notify({ type: 'warning', title: 'Disengage Failed', text: `${controller.value.CombatName} is not ENGAGED.` });
+        notify({ type: 'warning', title: t('active.npcActions.disengageFailedTitle'), text: t('active.npcActions.disengageFailedText', { name: controller.value.CombatName }) });
         controller.value.ResetActivation('full');
         controller.value.ClearActionUsed('act_disengage');
       } else {
         controller.value.RemoveStatus('engaged');
-        notify({ type: 'success', title: 'NPC Disengaged', text: `${controller.value.CombatName} has DISENGAGED.` });
+        notify({ type: 'success', title: t('active.npcActions.npcDisengagedTitle'), text: t('active.npcActions.npcDisengagedText', { name: controller.value.CombatName }) });
       }
       break;
     default:

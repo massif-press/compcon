@@ -29,7 +29,6 @@ import {
   CloudController,
   ICloudData,
   ICloudSyncable,
-  IHASEContainer,
   IMechSkillsData,
   IPortraitContainer,
   IPortraitData,
@@ -125,7 +124,6 @@ class Pilot
   implements
     ICloudSyncable,
     ISaveable,
-    IHASEContainer,
     IPortraitContainer,
     IFeatureController,
     IBrewable,

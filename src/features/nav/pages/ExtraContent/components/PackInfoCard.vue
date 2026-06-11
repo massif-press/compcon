@@ -69,7 +69,7 @@
             {{ pf.changelog }}
           </cc-heading>
           <i v-if="!manifest.version_history || manifest.version_history.length === 0"
-            class="pl-2">None</i>
+            class="pl-2">{{ $t('nav.packInfo.none') }}</i>
           <div v-else>
             <v-card v-for="(item, itemIdx) in manifest.version_history"
               :key="`version-${itemIdx}`"
@@ -115,12 +115,13 @@ import { useDisplay } from 'vuetify'
 import * as _ from 'lodash-es'
 import { ContentPack, ContentPackDependency, IContentPack, IContentPackManifest } from '@/classes/ContentPack'
 import { ContentPackStore } from '@/stores'
-import { NAV_STRINGS } from '@/features/nav/strings'
+import { useNavStrings } from '@/features/nav/useNavStrings'
+const { section } = useNavStrings()
 
 const props = defineProps<{ pack: IContentPack | ContentPack }>()
 
 const { smAndDown: mobile } = useDisplay()
-const pf = NAV_STRINGS.packInfo
+const pf = section('packInfo')
 
 const humanReadableMap: Record<string, [string, string]> = {
   manufacturers: ['manufacturer', 'manufacturers'],

@@ -5,7 +5,7 @@
     :options="options"
     view-key="cb-statuses">
     <template #header>
-      <div class="heading h3 text-center text-accent">Statuses & Conditions</div>
+      <div class="heading h3 text-center text-accent">{{ $t('compendium.categories.statusesConditions') }}</div>
     </template>
   </cc-compendium-browser>
 </template>

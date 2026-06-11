@@ -1,14 +1,14 @@
 <template>
   <v-snackbar v-model="needRefresh" :timeout="-1" color="primary" location="bottom">
-    A new version of COMP/CON is available.
+    {{ $t('ui.pwa.updateAvailable') }}
     <template #actions>
-      <v-btn variant="text" @click="close">Later</v-btn>
-      <v-btn variant="flat" color="white" @click="updateSW">Update Now</v-btn>
+      <v-btn variant="text" @click="close">{{ $t('ui.pwa.later') }}</v-btn>
+      <v-btn variant="flat" color="white" @click="updateSW">{{ $t('ui.pwa.updateNow') }}</v-btn>
     </template>
   </v-snackbar>
 
   <v-snackbar v-model="offlineReady" :timeout="5000" color="success" location="bottom">
-    COMP/CON is ready for offline use.
+    {{ $t('ui.pwa.offlineReady') }}
   </v-snackbar>
 </template>
 

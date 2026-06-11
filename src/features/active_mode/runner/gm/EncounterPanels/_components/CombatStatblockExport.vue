@@ -11,14 +11,14 @@
         @click="open">
         <v-icon icon="mdi-export-variant"
           start />
-        Combat Statblock
+        {{ $t('active.statblockExport.title') }}
       </v-btn>
     </template>
     <template #default>
-      <div class="text-cc-overline text-disabled mt-2">// Options</div>
+      <div class="text-cc-overline text-disabled mt-2">{{ $t('active.statblockExport.options') }}</div>
       <statblock-justify-options v-model:enable-justify="enableJustify"
         v-model:line-width="lineWidth" />
-      <div class="text-cc-overline text-disabled">// Include</div>
+      <div class="text-cc-overline text-disabled">{{ $t('active.statblockExport.include') }}</div>
       <v-row dense
         justify="space-around">
         <v-col cols="auto">
@@ -64,7 +64,7 @@
               prepend-icon="mdi-export"
               tooltip="Exports a plain text version of the combatant's current stats."
               @click.stop="exportBlock()">
-              Export Text Statblock
+              {{ $t('active.statblockExport.exportText') }}
             </cc-button>
           </v-col>
         </v-row>

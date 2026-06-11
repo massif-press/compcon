@@ -47,9 +47,9 @@ class DiceStatsResult implements IDiceStats {
 class DiceStats {
   // returns stats for a dice string
   public static getStats(diceString: string): DiceStatsResult {
-    let min = 0
-    let max = 0
-    let mean = 0
+    let min: number
+    let max: number
+    let mean: number
     let error = false
 
     const parsedString = DiceRoller.parseDiceString(diceString)

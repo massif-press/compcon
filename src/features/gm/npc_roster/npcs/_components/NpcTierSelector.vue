@@ -5,7 +5,7 @@
       class="heading h3 mb-1"
       :class="readonly ? 'pb-4' : ''">
       <v-col cols="auto"
-        style="margin-bottom: -2px">Tier</v-col>
+        style="margin-bottom: -2px">{{ $t('common.tier') }}</v-col>
       <v-col cols="auto">
         <v-btn v-for="i in 3"
           :key="`tier-${i}`"
@@ -26,10 +26,8 @@
       icon="mdi-alert"
       min-width="600px"
       :close-on-click="false">
-      <div class="heading h3">Change to Tier {{ stagedTier }}</div>
-      <v-card-text>
-        COMP/CON has detected edited stat values. How would you like to proceed?
-      </v-card-text>
+      <div class="heading h3">{{ $t('gm.tier.changeTo', { n: stagedTier }) }}</div>
+      <v-card-text>{{ $t('gm.tier.detectedEdits') }}</v-card-text>
       <v-card-actions class="flex-column align-stretch pa-4 ga-2">
         <cc-button block
           size="small"
@@ -37,7 +35,7 @@
           color="accent"
           tooltip="Change tier and adjust edited stats by the same amount as the default stat changes."
           @click="projectAndChange()">
-          Change Tier and Project Edits
+          {{ $t('gm.tier.projectEdits') }}
         </cc-button>
         <cc-button block
           size="small"
@@ -45,7 +43,7 @@
           color="primary"
           tooltip="Change tier and keep edited stat values, even if they fall below the new tier's defaults."
           @click="preserveAndChange()">
-          Change Tier and Preserve Edits
+          {{ $t('gm.tier.preserveEdits') }}
         </cc-button>
         <cc-button block
           size="small"
@@ -53,14 +51,14 @@
           tooltip="Change tier and discard all edited stat values."
           color="warning"
           @click="resetAndChange()">
-          Change Tier and Reset Stats
+          {{ $t('gm.tier.resetStats') }}
         </cc-button>
 
         <cc-button block
           size="small"
           color="panel"
           @click="cancel()">
-          Cancel
+          {{ $t('common.cancel') }}
         </cc-button>
       </v-card-actions>
     </cc-dialog>

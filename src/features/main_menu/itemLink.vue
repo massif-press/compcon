@@ -26,16 +26,15 @@
       border="start"
       border-color="error">
       <template #title>
-        No item with ID:
+        {{ $t("mainMenu.itemLink.noItemWithIdLabel") }}
         <code>{{ id }}</code>
-        found in Compendium
+        {{ $t("mainMenu.itemLink.foundInCompendium") }}
       </template>
       <div>
-        If this item is part of a Lancer Content Pack, please ensure that the pack is installed and
-        enabled.
+        {{ $t("mainMenu.itemLink.lcpHint") }}
         <div class="text-right">
           <v-chip size="small">
-            Requested LCP:
+            {{ $t("mainMenu.itemLink.requestedLcp") }}
             <code>{{ pack }}</code>
           </v-chip>
         </div>
@@ -44,15 +43,15 @@
   </v-container>
   <v-footer app density="compact" color="primary">
     <cc-button prepend-icon="mdi-arrow-left" size="small" class="mr-2" @click="$router.go(-1)">
-      Back
+      {{ $t("common.back") }}
     </cc-button>
-    <cc-button prepend-icon="mdi-home" size="small" to="/">Main Menu</cc-button>
+    <cc-button prepend-icon="mdi-home" size="small" to="/">{{ $t("mainMenu.itemLink.mainMenuLabel") }}</cc-button>
     <v-spacer />
     <v-tooltip location="top" open-delay="300">
       <template #activator="{ props }">
         <v-icon v-bind="props" size="small" icon="mdi-share-variant" @click="copyToClipboard" />
       </template>
-      <span>Copy link</span>
+      <span>{{ $t("mainMenu.itemLink.copyLink") }}</span>
     </v-tooltip>
   </v-footer>
 </template>

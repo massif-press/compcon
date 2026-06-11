@@ -7,7 +7,7 @@
     prominent
     class="my-8">
     <p class="text-text mb-3">
-      This mech has suffered a reactor meltdown. It is permanently destroyed and cannot be repaired.
+      {{ $t('active.mechPanel.meltdown') }}
     </p>
     <cc-combat-action-chip :owner="combatant" :encounter-instance="encounterInstance" :action="mech.CombatController.MeltdownAction" />
 
@@ -16,7 +16,7 @@
         variant="text"
         class="fade-select"
         @click="mech.CombatController.ReactorDestroyed = false">
-        override
+        {{ $t('active.common.override') }}
       </v-btn>
     </div>
   </cc-alert>
@@ -112,7 +112,7 @@
             <v-icon icon="cc:trait"
               class="mt-n1"
               start />
-            Frame Traits ({{ mech.Frame.Traits.length }})
+            {{ $t('active.mechPanel.frameTraits', { n: mech.Frame.Traits.length }) }}
           </div>
         </v-expansion-panel-title>
         <v-expansion-panel-text>
@@ -141,7 +141,7 @@
             <v-icon icon="cc:corebonus"
               class="mt-n1"
               start />
-            Core Bonuses ({{ mech.Parent.CoreBonusController.CoreBonuses.length }})
+            {{ $t('active.mechPanel.coreBonuses', { n: mech.Parent.CoreBonusController.CoreBonuses.length }) }}
           </div>
         </v-expansion-panel-title>
         <v-expansion-panel-text>
@@ -170,7 +170,7 @@
             <v-icon icon="cc:talent"
               class="mt-n1"
               start />
-            Pilot Talents ({{ mech.Parent.TalentsController.Talents.length }})
+            {{ $t('active.mechPanel.pilotTalents', { n: mech.Parent.TalentsController.Talents.length }) }}
           </div>
         </v-expansion-panel-title>
         <v-expansion-panel-text>
@@ -207,11 +207,11 @@
       </v-expansion-panel>
     </v-expansion-panels>
 
-    <div class="text-cc-overline mt-4 text-disabled">Core</div>
+    <div class="text-cc-overline mt-4 text-disabled">{{ $t('active.mechPanel.core') }}</div>
     <mech-core-panel :mech="mech"
       @deploy="deploy($event)" />
 
-    <div class="text-cc-overline mt-4 text-disabled">Loadout</div>
+    <div class="text-cc-overline mt-4 text-disabled">{{ $t('active.mechPanel.loadout') }}</div>
     <mech-combat-loadout
       :mech="mech"
       @deploy="deploy($event!)" />

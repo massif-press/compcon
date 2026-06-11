@@ -13,7 +13,7 @@
         <v-row dense
           class="mb-4">
           <v-col>
-            <div class="text-center text-cc-overline text-disabled py-2">choose one</div>
+            <div class="text-center text-cc-overline text-disabled py-2">{{ $t('active.stabilize.chooseOne') }}</div>
             <v-divider />
             <v-radio-group v-model="firstChoice"
               row>
@@ -24,7 +24,7 @@
             </v-radio-group>
           </v-col>
           <v-col>
-            <div class="text-center text-cc-overline text-disabled py-2">choose one</div>
+            <div class="text-center text-cc-overline text-disabled py-2">{{ $t('active.stabilize.chooseOne') }}</div>
             <v-divider />
             <v-radio-group v-model="secondChoice"
               row>
@@ -46,7 +46,7 @@
         <v-row v-if="secondChoice === 'clear_self'"
           dense>
           <v-col>
-            <div class="text-cc-overline text-disabled">Target</div>
+            <div class="text-cc-overline text-disabled">{{ $t('active.common.target') }}</div>
             <v-select readonly
               variant="outlined"
               flat
@@ -55,7 +55,7 @@
               :value="controller.CombatName" />
           </v-col>
           <v-col>
-            <div class="text-cc-overline text-disabled">Condition</div>
+            <div class="text-cc-overline text-disabled">{{ $t('active.common.condition') }}</div>
             <v-select v-model="clearSelfCondition"
               :items="clearableConditions(controller.ActiveActor)"
               item-title="status.Name"
@@ -68,7 +68,7 @@
         </v-row>
         <v-row v-else-if="secondChoice === 'clear_ally'">
           <v-col>
-            <div class="text-cc-overline text-disabled">Target</div>
+            <div class="text-cc-overline text-disabled">{{ $t('active.common.target') }}</div>
             <v-select v-model="selectedTarget"
               :items="alliedTargets"
               item-title="actor.CombatController.CombatName"
@@ -79,7 +79,7 @@
               variant="outlined" />
           </v-col>
           <v-col>
-            <div class="text-cc-overline text-disabled">Condition</div>
+            <div class="text-cc-overline text-disabled">{{ $t('active.common.condition') }}</div>
             <v-select v-model="clearAlliedCondition"
               :items="clearableConditions(selectedTarget?.actor?.CombatController?.ActiveActor)"
               item-title="status.Name"

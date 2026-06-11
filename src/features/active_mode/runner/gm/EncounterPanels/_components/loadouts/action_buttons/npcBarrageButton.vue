@@ -12,7 +12,7 @@
         :key="selectedWeapon ? selectedWeapon.InstanceID : `empty-${idx}`">
         <div v-if="!selectedWeapon"
           class="text-cc-overline text-disabled pl-3 py-2">
-          select barrage weapon
+          {{ $t('active.barrage.selectWeapon') }}
         </div>
         <v-row dense
           align="center"

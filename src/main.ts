@@ -24,6 +24,7 @@ import './ui/style/_style.css'
 import App from './App.vue'
 
 import router from './router'
+import { i18n } from './i18n'
 import vuetify from './ui/style'
 import * as globals from './ui/globals'
 import Notifications from '@kyvg/vue3-notification'
@@ -137,6 +138,7 @@ if (
 }
 
 compcon.use(createPinia())
+compcon.use(i18n)
 compcon.use(vuetify)
 compcon.use(router)
 compcon.use(VueSecureHTML)

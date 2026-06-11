@@ -18,7 +18,7 @@
             size="small"
             prepend-icon="mdi-export"
             @click="exportState">
-            Export Character Sheet State
+            {{ $t('active.pcOptions.exportState') }}
           </v-btn>
         </v-col>
         <v-col>
@@ -33,12 +33,12 @@
                 size="small"
                 prepend-icon="mdi-import"
                 @click="open">
-                Import Character Sheet State
+                {{ $t('active.pcOptions.importState') }}
               </v-btn>
             </template>
             <template #default="{ close }">
               <div class="text-cc-overline text-disabled">
-                Character Sheet Instance Import File (.json)
+                {{ $t('active.pcOptions.importFileLabel') }}
               </div>
               <v-file-input v-model="fileValue"
                 accept=".json"
@@ -55,13 +55,13 @@
                     flat
                     tile
                     color="panel">
-                    <div class="text-cc-overline text-disabled">Staged Import:</div>
+                    <div class="text-cc-overline text-disabled">{{ $t('active.pcOptions.stagedImport') }}</div>
                     <div class="ml-3">
                       <b class="text-accent">
                         {{ (importObj as any).Combatant.actor.Callsign || 'Unnamed Character Sheet'
                         }}
                       </b>
-                      at Round
+                      {{ $t('active.pcOptions.atRound') }}
                       {{ (importObj as any).round }}
                       <i class="text-caption text-disabled">
                         {{ new Date((importObj as any).save.lastModified).toLocaleString() }}
@@ -73,8 +73,7 @@
                     class="mt-2">
                     <v-icon icon="mdi-alert"
                       start />
-                    Warning: The imported Character Sheet state will replace the current Character
-                    Sheet state.
+                    {{ $t('active.pcOptions.warningReplace') }}
                   </cc-alert>
                 </div>
                 <cc-alert v-if="importError"
@@ -93,14 +92,14 @@
                     reset();
                   close();
                   ">
-                  Cancel
+                  {{ $t('common.cancel') }}
                 </v-btn>
                 <v-spacer />
                 <cc-button text
                   color="primary"
                   :disabled="!importOk"
                   @click="importState()">
-                  Confirm Import
+                  {{ $t('active.pcOptions.confirmImport') }}
                 </cc-button>
               </v-card-actions>
             </template>
@@ -116,7 +115,7 @@
         justify="end">
         <v-col cols="12"
           md=""
-          class="heading">Change Active Mech</v-col>
+          class="heading">{{ $t('active.pcOptions.changeActiveMech') }}</v-col>
         <v-col cols="12"
           md="">
           <cc-select v-model="activeMech"
@@ -130,7 +129,7 @@
             color="primary"
             :disabled="activeMech && (activeMech as Mech).ID === sheet.Combatant.actor.ActiveMech.ID"
             @click="setActiveMech()">
-            Apply & Save
+            {{ $t('active.pcOptions.applySave') }}
           </cc-button>
         </v-col>
       </v-row>
@@ -149,6 +148,8 @@ import { PilotSheetStore } from '@/stores'
 import RunnerOptionsHeader from '../../_shared/_RunnerOptionsHeader.vue'
 import { useRunnerOptions } from '../../_shared/useRunnerOptions'
 import { notify } from '@kyvg/vue3-notification'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 defineOptions({ name: 'PcOptionsPanel' })
 
@@ -170,8 +171,8 @@ function setActiveMech() {
   if (!activeMech.value) return
   ;(props.sheet as any).SetActiveMech(activeMech.value)
   notify({
-    title: 'Active Mech Changed',
-    text: `Active mech changed to ${activeMech.value.Name}. Character sheet state has been reset.`,
+    title: t('active.pcSheet.activeMechChangedTitle'),
+    text: t('active.pcSheet.activeMechChangedText', { mechName: activeMech.value.Name }),
     data: { icon: 'cc:mech', color: 'info' },
   })
   manualSave()
@@ -182,15 +183,15 @@ function manualSave() {
     ;(props.sheet as any).Save()
     saveUpdate.value = Date.now()
     notify({
-      title: 'Save Successful',
-      text: `Saved Character Sheet: ${(props.sheet as any).Combatant.actor.Callsign} at Round ${(props.sheet as any).Round}`,
+      title: t('active.pcSheet.saveSuccessfulTitle'),
+      text: t('active.pcSheet.saveSuccessfulText', { callsign: (props.sheet as any).Combatant.actor.Callsign, round: (props.sheet as any).Round }),
       data: { icon: 'mdi-content-save', color: 'success' },
     })
   } catch (error) {
     logger.error('Manual Save Failed', null, error)
     notify({
-      title: 'Save Failed',
-      text: `Failed to save Character Sheet: ${(props.sheet as any).Combatant.actor.Callsign}`,
+      title: t('active.pcSheet.saveFailedTitle'),
+      text: t('active.pcSheet.saveFailedText', { callsign: (props.sheet as any).Combatant.actor.Callsign }),
       data: { icon: 'mdi-alert', color: 'error' },
     })
   }

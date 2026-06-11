@@ -1,10 +1,10 @@
 <template>
   <v-container>
-    list of published tables
+    {{ $t('active.tableManager.published') }}
     <br />
-    list of offline tables
+    {{ $t('active.tableManager.offline') }}
     <br />
-    add new table
+    {{ $t('active.tableManager.addNew') }}
   </v-container>
 </template>
 

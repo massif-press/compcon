@@ -11,7 +11,7 @@
         </v-card-title>
         <v-divider />
         <v-card-text class="py-2 mb-6" v-html-safe="selectedDefinition" />
-        <div class="panel-footer text-center bg-panel">{{ mobile ? 'TAP' : 'CLICK' }} TO CLOSE</div>
+        <div class="panel-footer text-center bg-panel">{{ mobile ? $t('ui.widget.tap') : $t('ui.widget.click') }} {{ $t('ui.widget.toClose') }}</div>
       </v-card>
     </v-bottom-sheet>
   </div>

@@ -9,13 +9,13 @@
     mandatory
     bg-color="primary">
     <v-tab selected-class="bg-accent">
-      <b>NPCs</b>
+      <b>{{ $t('gm.combatantSelector.npcs') }}</b>
     </v-tab>
     <v-tab selected-class="bg-accent">
-      <b>Doodads</b>
+      <b>{{ $t('gm.combatantSelector.doodads') }}</b>
     </v-tab>
     <v-tab selected-class="bg-accent">
-      <b>Eidolons</b>
+      <b>{{ $t('gm.combatantSelector.eidolons') }}</b>
     </v-tab>
   </v-tabs>
 

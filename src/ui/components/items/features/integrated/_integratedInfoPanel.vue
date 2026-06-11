@@ -13,7 +13,7 @@
       </v-col>
       <v-col cols="auto"
         class="ml-auto">
-        <span class="text-overline">INTEGRATED MECH WEAPON</span>
+        <span class="text-overline">{{ $t('ui.widget.integratedMechWeapon') }}</span>
       </v-col>
     </v-row>
     <integrated-info-base :item="item" />

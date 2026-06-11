@@ -5,7 +5,7 @@
     color="error"
     class="text-center heading"
     dense>
-    This item is deprecated and can be removed.
+    {{ $t('ui.card.deprecated') }}
   </v-toolbar>
 
   <cc-heading v-if="item.Mod"
@@ -14,7 +14,7 @@
     <cc-chip>
       <v-icon start
         icon="cc:weaponmod" />
-      Modifies: {{ item.ModTarget?.Name || 'unknown' }}
+      {{ $t('ui.card.modifies') }} {{ item.ModTarget?.Name || 'unknown' }}
     </cc-chip>
   </cc-heading>
 
@@ -26,7 +26,7 @@
     <v-col cols="auto">
       <v-icon size="small"
         icon="mdi-package-variant" />
-      {{ item.Kit }} Kit
+      {{ item.Kit }} {{ $t('ui.card.kit') }}
     </v-col>
     <v-col><v-divider /></v-col>
   </v-row>
@@ -42,7 +42,7 @@
   <div v-if="item.Trigger"
     class="mb-2">
     <div class="text-cc-overline text-disabled">
-      TRIGGER
+      {{ $t('ui.card.triggerUpper') }}
     </div>
     <p v-if="tier"
       v-html-safe="item.TriggerByTier(tier)"
@@ -67,7 +67,7 @@
       class="text-cc-overline text-disabled">
       <v-icon size="small"
         icon="cc:activate" />
-      EQUIPMENT ACTIONS
+      {{ $t('ui.card.equipmentActions') }}
     </div>
     <cc-action v-for="(a, index) in item.Actions"
       :key="`action-${index}`"
@@ -92,7 +92,7 @@
       class="text-cc-overline text-disabled">
       <v-icon size="small"
         icon="cc:drone" />
-      EQUIPMENT DEPLOYABLES
+      {{ $t('ui.card.equipmentDeployables') }}
     </div>
     <v-row dense
       justify="center">
@@ -110,7 +110,7 @@
 
   <div v-if="item.IntegratedEquipment && item.IntegratedEquipment.length">
     <div v-show="!dense"
-      class="text-cc-overline text-disabled">//INTEGRATED EQUIPMENT</div>
+      class="text-cc-overline text-disabled">//{{ $t('ui.card.integratedEquipment') }}</div>
     <cc-integrated-info v-for="(x, index) in item.IntegratedEquipment"
       :key="`integrated-${index}`"
       :item="x"
@@ -123,7 +123,7 @@
 
   <div v-if="!footer && showFooter && item.Tags?.length">
     <div v-show="!dense"
-      class="text-cc-overline text-disabled">//EQUIPMENT TAGS</div>
+      class="text-cc-overline text-disabled">//{{ $t('ui.card.equipmentTags') }}</div>
     <cc-tags :tags="item.Tags"
       :extended="!smallTags"
       :tier="tier" />
@@ -132,7 +132,7 @@
   <div v-if="item.Description?.length"
     class="my-4">
     <div v-show="!dense"
-      class="text-cc-overline text-disabled">//COMPENDIUM DATA</div>
+      class="text-cc-overline text-disabled">//{{ $t('ui.card.compendiumData') }}</div>
     <div v-html-safe="item.Description"
       class="flavor-text" />
   </div>

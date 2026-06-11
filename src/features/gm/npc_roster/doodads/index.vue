@@ -19,7 +19,7 @@
               size="x-small"
               block
               append-icon="mdi-information-outline">
-              What is a Doodad?
+              {{ $t('gm.doodad.whatIs') }}
             </v-chip>
           </template>
         </v-tooltip>

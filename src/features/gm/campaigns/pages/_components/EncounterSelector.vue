@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-toolbar density="compact">
-      <v-toolbar-title>Select Encounter</v-toolbar-title>
+      <v-toolbar-title>{{ $t('gm.campaign.selectEncounter') }}</v-toolbar-title>
       <v-spacer />
       <v-btn icon @click="$emit('close')"><v-icon>mdi-close</v-icon></v-btn>
     </v-toolbar>

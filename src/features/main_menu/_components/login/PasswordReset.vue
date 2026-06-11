@@ -2,7 +2,7 @@
   <div>
     <cc-heading type="h3"
       center
-      class="my-3">Reset Password</cc-heading>
+      class="my-3">{{ $t('mainMenu.auth.resetPassword') }}</cc-heading>
     <v-row justify="center">
       <v-col lg="6"
         cols="12">
@@ -16,7 +16,7 @@
         :disabled="!email"
         :loading="loading"
         @click="reset()">
-        Send Password Reset E-Mail
+        {{ $t('mainMenu.auth.sendPasswordResetEmail') }}
       </cc-button>
     </div>
     <v-slide-x-transition>
@@ -26,7 +26,7 @@
           type="h3"
           dense
           class="my-4">
-          Password reset code sent to {{ email }}
+          {{ $t('mainMenu.auth.resetCodeSentTo', { email }) }}
         </cc-heading>
         <v-row align="center"
           justify="center">
@@ -52,7 +52,7 @@
             :disabled="!email || !newPass"
             :loading="loading"
             @click="setNewPassword()">
-            Set New Password
+            {{ $t('mainMenu.auth.setNewPassword') }}
           </cc-button>
         </div>
       </v-card-text>
@@ -63,7 +63,7 @@
           color="accent"
           class="mt-1"
           @click="$emit('set-state', 'sign-in')">
-          Cancel
+          {{ $t('common.cancel') }}
         </v-btn>
       </v-col>
     </v-row>
@@ -71,6 +71,8 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import { ref } from 'vue'
 import { notify } from '@/util/notify'
 import logger from '@/user/logger';
@@ -143,7 +145,7 @@ function reset() {
       logger.error(`Error sending reset password email: ${err}`, this, err);
       loading.value = false;
       sent.value = false;
-      notify(`Unable to send reset e-mail: ${err.message}`, 'error');
+      notify(t('mainMenu.auth.passwordResetErrorText', { msg: err.message }), 'error');
     });
 }
 function setNewPassword() {
@@ -158,13 +160,13 @@ function setNewPassword() {
       notify({
         icon: 'mdi-check',
         color: 'success',
-        title: 'Success',
-        text: 'Password changed successfully.',
+        title: t('mainMenu.auth.passwordChangedTitle'),
+        text: t('mainMenu.auth.passwordChangedText'),
       });
       emit('set-state', 'sign-in');
     })
     .catch((err) => {
-      notify(`Unable to change password: ${err.message}`, 'error');
+      notify(t('mainMenu.auth.passwordChangeErrorText', { msg: err.message }), 'error');
       loading.value = false;
     });
 }

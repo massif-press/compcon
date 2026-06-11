@@ -7,7 +7,7 @@
     class="mt-1 pa-1"
     color="light-panel">
     <div class="text-text text-caption text-center">
-      <span>Until&nbsp;</span>
+      <span>{{ $t('ui.combat.until') }}&nbsp;</span>
       <b>{{ displayDuration }}</b>
     </div>
   </v-card>

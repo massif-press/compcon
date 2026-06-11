@@ -2,7 +2,7 @@
   <div>
     <fieldset class="pb-2 px-3"
       style="position: relative">
-      <legend class="text-caption text-left ml-2 px-2">COLLECTION FOLDER
+      <legend class="text-caption text-left ml-2 px-2">{{ $t('gm.folder.collectionFolder') }}
         <folder-menu v-if="allFolders && allFolders.length > 0"
           :item="item.FolderController"
           :all-folders="allFolders" />
@@ -11,7 +11,7 @@
         label
         prepend-icon="mdi-folder-outline"
         :class="!item.FolderController.Folder ? 'fade-select' : ''">
-        {{ item.FolderController.Folder || 'No Folder' }}
+        {{ item.FolderController.Folder || $t('gm.folder.noFolder') }}
       </v-chip>
 
     </fieldset>

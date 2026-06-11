@@ -26,7 +26,7 @@
         size="small"
         class="ml-2"
         @click="exportV2Item(item)">
-        v2 Export
+        {{ $t('gm.npcEditor.v2Export') }}
       </cc-button>
       <cc-modal title="NPC Statblock"
         icon="mdi-text-account"
@@ -37,7 +37,7 @@
             size="small"
             class="ml-2"
             @click="open">
-            Statblock
+            {{ $t('gm.npcEditor.statblock') }}
           </cc-button>
         </template>
         <template #default="{ close }">

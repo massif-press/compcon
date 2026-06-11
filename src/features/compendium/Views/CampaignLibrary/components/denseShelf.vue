@@ -1,9 +1,9 @@
 <template>
   <v-card v-if="!campaigns.length"
     class="text-center py-6 text-disabled">
-    <div class="heading">No Campaigns Found</div>
+    <div class="heading">{{ $t('compendium.campaign.noCampaignsFound') }}</div>
     <div class="text-caption">
-      Campaigns can be imported via File Import or the Lancer Campaign Directory
+      {{ $t('compendium.campaign.importHint') }}
     </div>
   </v-card>
   <v-sheet v-else
@@ -72,7 +72,7 @@
                 class="mt-n1"
                 start />
             </template>
-            <span>Recommended Players</span>
+            <span>{{ $t('compendium.campaign.recommendedPlayers') }}</span>
           </v-tooltip>
           {{ campaigns[slide].players[0] }} - {{ campaigns[slide].players[1] }}
           <cc-slashes class="mx-4" />
@@ -84,7 +84,7 @@
                 class="mt-n1"
                 start />
             </template>
-            <span>Recommended License Level</span>
+            <span>{{ $t('compendium.campaign.recommendedLicenseLevel') }}</span>
           </v-tooltip>
           {{ campaigns[slide].ll[0] }} - {{ campaigns[slide].ll[1] }}
         </div>
@@ -109,7 +109,7 @@
                   <v-icon icon="mdi-web" />
                 </v-btn>
               </template>
-              <span>Campaign Website ({{ campaigns[slide].website }})</span>
+              <span>{{ $t('compendium.campaign.campaignWebsite', { url: campaigns[slide].website }) }}</span>
             </v-tooltip>
           </v-col>
         </v-row>
@@ -118,7 +118,7 @@
             color="accent"
             prepend-icon="mdi-magnify"
             :to="`/srd/campaign/${campaigns[slide].id}`">
-            Open in Reader
+            {{ $t('compendium.campaign.openInReader') }}
           </v-btn>
           <v-spacer class="my-2" />
           <v-menu>
@@ -128,22 +128,22 @@
                 variant="tonal"
                 color="error"
                 prepend-icon="mdi-delete">
-                Remove from Collection
+                {{ $t('compendium.campaign.removeFromCollection') }}
               </v-btn>
             </template>
             <v-card>
               <v-card-text>
-                This will remove the campaign from your collection. Are you sure?
+                {{ $t('compendium.campaign.removeConfirm') }}
               </v-card-text>
               <v-divider />
               <v-card-actions>
                 <v-btn variant="text"
-                  @click="">Cancel</v-btn>
+                  @click="">{{ $t('common.cancel') }}</v-btn>
                 <v-spacer />
                 <v-btn variant="text"
                   color="error"
                   @click="removeCampaign(campaigns[slide as number])">
-                  Remove
+                  {{ $t('compendium.campaign.remove') }}
                 </v-btn>
               </v-card-actions>
             </v-card>

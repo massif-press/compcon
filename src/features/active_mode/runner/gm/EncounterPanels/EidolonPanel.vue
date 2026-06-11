@@ -3,7 +3,7 @@
     dense>
     <v-col>
       <div class="heading h2">{{ combatant.actor.Name }}</div>
-      <div class="text-cc-overline">Tier {{ combatant.actor.Tier }} Eidolon</div>
+      <div class="text-cc-overline">{{ $t('active.eidolon.tierEidolon', { n: combatant.actor.Tier }) }}</div>
     </v-col>
     <v-col v-for="n in combatant.actor.Layers.length"
       :key="`layer-${n}`"
@@ -25,8 +25,8 @@
             <div class="text-cc-overline">{{ combatant.actor.Layers[n - 1].Name }}</div>
           </v-btn>
         </template>
-        {{ combatant.actor.Layers[n - 1].Name }} Layer
-        <span v-if="n - 1 === combatant.actor.ActiveLayerIndex">&nbsp;(Active)</span>
+        {{ $t('active.eidolon.nameLayer', { name: combatant.actor.Layers[n - 1].Name }) }}
+        <span v-if="n - 1 === combatant.actor.ActiveLayerIndex">&nbsp;{{ $t('active.eidolon.active') }}</span>
       </v-tooltip>
     </v-col>
   </v-row>
@@ -35,7 +35,7 @@
     hide-palette>
     <template #name-block>
       <div class="mr-12">
-        <div class="text-cc-overline">Active Layer</div>
+        <div class="text-cc-overline">{{ $t('active.eidolon.activeLayer') }}</div>
         <div class="heading h3 border-primary text-accent text-center">
           {{ layer.Name }}
         </div>
@@ -46,17 +46,17 @@
           :disabled="!layer.Layer.Shards?.Count"
           @click="genShards()">
           <span v-if="layer.Layer.Shards?.Count">
-            Generate {{ shardCount }}
-            <span>{{ shardCount > 1 ? 'Shards' : 'Shard' }}</span>
+            {{ $t('active.eidolon.generateN', { n: shardCount }) }}
+            <span>{{ shardCount > 1 ? $t('active.eidolon.shards') : $t('active.eidolon.shard') }}</span>
           </span>
-          <span v-else>Layer has no Shards</span>
+          <span v-else>{{ $t('active.eidolon.noShards') }}</span>
         </cc-button>
       </div>
     </template>
 
     <template #subtitle>
       <div v-if="layer.Description"
-        class="text-cc-overline mt-2">Layer Description</div>
+        class="text-cc-overline mt-2">{{ $t('active.eidolon.layerDescription') }}</div>
       <p v-if="layer.Description"
         v-html-safe="layer.Description"
         class="px-4 py-2 border" />
@@ -78,7 +78,7 @@
               @click="clip(layer.Layer.Hints)">
               <v-icon start
                 icon="mdi-content-copy" />
-              SCAN
+              {{ $t('active.eidolon.scan') }}
             </v-btn>
           </div>
         </cc-panel>
@@ -103,7 +103,7 @@
             <v-icon icon="cc:trait"
               class="mt-n1"
               start />
-            Persistent Traits ({{ traits.length }})
+            {{ $t('active.eidolon.persistentTraits', { n: traits.length }) }}
           </div>
         </v-expansion-panel-title>
         <v-expansion-panel-text>

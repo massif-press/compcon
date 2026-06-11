@@ -29,9 +29,9 @@
             @click="refresh" />
         </template>
         <div class="text-center">
-          Refresh List
+          {{ $t("mainMenu.ui.refreshList") }}
           <br />
-          (This does not sync)
+          {{ $t("mainMenu.ui.doesNotSync") }}
         </div>
       </v-tooltip>
       <v-tooltip max-width="300px"
@@ -43,7 +43,7 @@
             v-bind="props"
             @click="updateAll" />
         </template>
-        <div class="text-center">Update All</div>
+        <div class="text-center">{{ $t("mainMenu.ui.updateAll") }}</div>
       </v-tooltip>
     </v-toolbar>
     <v-divider />
@@ -76,15 +76,14 @@
                 :color="isLatestVersion(item) ? 'success' : 'warning'"
                 :icon="isLatestVersion(item) ? 'mdi-check' : 'mdi-alert'" />
             </template>
-            <span v-if="isLatestVersion(item)">Up to Date</span>
+            <span v-if="isLatestVersion(item)">{{ $t("mainMenu.subscriptions.upToDate") }}</span>
             <span v-else>
               <span v-text="majorMinor(item)" />
-              Update Available
+              {{ $t("mainMenu.subscriptions.updateAvailable") }}
               <v-divider />
               <b class="heading">{{ item.version }}</b>
               <div class="text-caption">
-                Updated on
-                {{ new Date(item.updated).toLocaleString() }}
+                {{ $t("mainMenu.subscriptions.updatedOn", { date: new Date(item.updated).toLocaleString() }) }}
               </div>
             </span>
           </v-tooltip>
@@ -106,7 +105,7 @@
                 icon="mdi-download" />
             </v-btn>
           </template>
-          Update to Latest
+          {{ $t("mainMenu.subscriptions.updateToLatest") }}
         </v-tooltip>
         <v-tooltip max-width="300px"
           location="top">
@@ -123,12 +122,10 @@
             </v-btn>
           </template>
           <div class="text-center">
-            Unsubscribe
+            {{ $t("mainMenu.subscriptions.unsubscribe") }}
             <v-divider />
             <i class="text-caption">
-              Unsubscribing from this collection will remove it from your collection list. You will
-              no longer receive updates from this author. The local data from this collection will
-              not be removed.
+              {{ $t("mainMenu.subscriptions.unsubscribeInfo") }}
             </i>
           </div>
         </v-tooltip>
@@ -142,11 +139,11 @@
             color="warning"
             icon="mdi-alert"
             class="mb-2">
-            There is a new version of this collection available.
+            {{ $t("mainMenu.subscriptions.newVersionAvailable") }}
             <div class="text-right">
               <v-btn size="small"
                 color="warning"
-                @click="update(item)">Update Now</v-btn>
+                @click@click="update(item)">{{ $t("mainMenu.subscriptions.updateNow") }}</v-btn>
             </div>
           </v-alert>
           <collection-info :collection="item" />
@@ -162,10 +159,9 @@
       color="error"
       icon="mdi-alert"
       @click:close="unsubscribe(item.metadata)">
-      <div class="heading h4">Deleted Collection</div>
+      <div class="heading h4">{{ $t("mainMenu.subscriptions.deletedCollection") }}</div>
       <div class="text-caption">
-        The collection "{{ item.metadata.name }}" has been deleted by the author. Although your
-        local data has not been removed, you will no longer receive updates from this collection.
+        {{ $t("mainMenu.subscriptions.deletedCollectionInfo", { name: item.metadata.name }) }}
       </div>
     </v-alert>
     <v-divider />
@@ -177,6 +173,8 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import { computed, ref } from 'vue'
 import { notify } from '@/util/notify'
 import { UserStore } from '@/stores';
@@ -237,14 +235,14 @@ async function update(item) {
       if (errors.length > 0) {
         logger.error(`Error updating collection: ${errors}`, this);
         notify({
-          title: 'Error Updating Collection',
-          text: 'There was an error updating the collection. Please try again later.',
+          title: t('mainMenu.account.collectionErrorTitle'),
+          text: t('mainMenu.account.collectionErrorText'),
           data: { color: 'error', icon: 'mdi-alert-circle-outline' },
         });
       } else {
         notify({
-          title: 'Collection Updated',
-          text: 'Collection items have been updated successfully.',
+          title: t('mainMenu.account.collectionUpdatedTitle'),
+          text: t('mainMenu.account.collectionUpdatedText'),
           data: { color: 'success', icon: 'mdi-check-circle-outline' },
         });
       }

@@ -7,10 +7,7 @@
         :icon="accuracy < 0 ? 'cc:difficulty' : 'cc:accuracy'" />
       <b class="px-1 heading">{{ accuracy }}</b>
     </template>
-    <span>{{ accuracy < 0
-      ? 'Difficulty'
-      : 'Accuracy'
-        }}</span>
+    <span>{{ accuracy < 0 ? $t('common.difficulty') : $t('common.accuracy') }}</span>
   </v-tooltip>
 </template>
 

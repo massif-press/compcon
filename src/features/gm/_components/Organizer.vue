@@ -18,7 +18,7 @@
           </div>
         </v-col>
         <v-col><v-divider /></v-col>
-        <v-col cols="auto">{{ items.length }} items</v-col>
+        <v-col cols="auto">{{ $t('gm.organizer.itemCount', { n: items.length }) }}</v-col>
       </v-row>
     </template>
 

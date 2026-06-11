@@ -7,7 +7,7 @@
         class="mt-2"
         prepend-icon="mdi-cube-scan"
         @click="props.onClick($event)">
-        Scan
+        {{ $t('active.scan.scan') }}
       </cc-button>
     </template>
     <template #default="{ isActive }">
@@ -19,7 +19,7 @@
             <v-icon icon="mdi-cube-scan"
               class="mt-n1 ml-2"
               start />
-            Scan
+            {{ $t('active.scan.scan') }}
           </div>
           <v-spacer />
           <v-btn icon
@@ -42,7 +42,7 @@
             <cc-button prepend-icon="mdi-clipboard-text-outline"
               color="accent"
               @click="copy()">
-              Copy to Clipboard
+              {{ $t('active.scan.copyClipboard') }}
             </cc-button>
           </div>
         </v-card-text>
@@ -54,6 +54,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { notify } from '@/util/notify'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import * as _ from 'lodash-es';
 import Statblock from '@/classes/Statblock'
 import { Unit } from '@/classes/npc/unit/Unit';
@@ -75,15 +77,15 @@ function copy() {
         .writeText(statblock.value)
         .then(() =>
           notify({
-            title: 'Statblock Copied to Clipboard',
-            text: 'Copy Success',
+            title: t('active.statblock.copiedTitle'),
+            text: t('active.statblock.copiedText'),
             data: { icon: 'mdi-clipboard-text-outline' },
           })
         )
         .catch(() =>
           notify({
-            title: 'Error',
-            text: 'Unable to copy statblock',
+            title: t('active.statblock.errorTitle'),
+            text: t('active.statblock.errorText'),
             data: { icon: 'mdi-clipboard-text-outline', color: 'error' },
           })
         );

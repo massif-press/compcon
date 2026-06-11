@@ -11,7 +11,7 @@
         <v-row class="mb-3"
           align="center">
           <v-col>
-            <div class="text-cc-overline text-disabled">Check Stat</div>
+            <div class="text-cc-overline text-disabled">{{ $t('active.skillCheck.checkStat') }}</div>
             <v-select v-model="selectedHase"
               :items="hase"
               density="compact"
@@ -21,21 +21,21 @@
               tile />
           </v-col>
           <v-col cols="auto">
-            <div class="text-cc-overline text-disabled">Check Type</div>
+            <div class="text-cc-overline text-disabled">{{ $t('active.skillCheck.checkType') }}</div>
             <v-btn-toggle v-model="checkType"
               density="compact"
               flat
               tile
               color="primary">
               <v-btn value="standard"
-                size="small">Standard</v-btn>
+                size="small">{{ $t('active.skillCheck.standard') }}</v-btn>
               <v-btn value="contested"
-                size="small">Contested</v-btn>
+                size="small">{{ $t('active.skillCheck.contested') }}</v-btn>
             </v-btn-toggle>
           </v-col>
 
           <v-col v-if="checkType === 'standard'">
-            <div class="text-cc-overline text-disabled">Modifiers</div>
+            <div class="text-cc-overline text-disabled">{{ $t('active.skillCheck.modifiers') }}</div>
             <div class="d-flex">
               <v-btn-toggle v-model="modifier"
                 density="compact"
@@ -43,22 +43,22 @@
                 tile
                 color="primary">
                 <v-btn value=""
-                  size="small">None</v-btn>
+                  size="small">{{ $t('active.common.none') }}</v-btn>
                 <v-btn value="risky"
-                  size="small">Risky</v-btn>
+                  size="small">{{ $t('active.skillCheck.risky') }}</v-btn>
                 <v-btn value="heroic"
-                  size="small">Heroic</v-btn>
+                  size="small">{{ $t('active.skillCheck.heroic') }}</v-btn>
               </v-btn-toggle>
               <cc-checkbox v-model="difficult"
                 bg-color="background"
                 flat
                 tile
                 class="ml-6" />
-              <div class="d-inline ml-2 mt-2 text-cc-overline">Difficult</div>
+              <div class="d-inline ml-2 mt-2 text-cc-overline">{{ $t('active.skillCheck.difficult') }}</div>
             </div>
           </v-col>
           <v-col v-else>
-            <div class="text-cc-overline text-disabled">Select Target</div>
+            <div class="text-cc-overline text-disabled">{{ $t('active.skillCheck.selectTarget') }}</div>
 
             <v-select v-model="selectedTarget"
               :items="targets"
@@ -87,10 +87,10 @@
               <v-col v-if="checkType === 'standard'"
                 cols="auto"
                 align-self="center">
-                <div class="text-center text-cc-overline px-2 mt-n3"><b>VS</b></div>
+                <div class="text-center text-cc-overline px-2 mt-n3"><b>{{ $t('active.skillCheck.vs') }}</b></div>
               </v-col>
               <v-col v-if="checkType === 'standard'">
-                <div class="text-cc-overline text-disabled">Target Value</div>
+                <div class="text-cc-overline text-disabled">{{ $t('active.skillCheck.targetValue') }}</div>
                 <v-text-field v-model="targetVal"
                   density="compact"
                   variant="outlined"
@@ -129,15 +129,11 @@
 
                       <div class="text-center">
                         {{
-                          !$refs.check.roll
-                            ? 'No Check Rolled'
-                            : $refs.check.roll >= targetVal
-                              ? 'Check Successful'
-                              : 'Check Failed'
+                          !$refs.check.roll ? $t('active.skillCheck.noCheckRolled') : $refs.check.roll >= targetVal ? $t('active.skillCheck.checkSuccess') : $t('active.skillCheck.checkFail')
                         }}
 
                         <div>
-                          <i class="text-caption text-disabled">Click to override</i>
+                          <i class="text-caption text-disabled">{{ $t('active.skillCheck.clickOverride') }}</i>
                         </div>
                       </div>
                     </v-tooltip>
@@ -151,7 +147,7 @@
             cols="auto"
             class="mx-1">
             <v-chip size="large"
-              class="heading">VS</v-chip>
+              class="heading">{{ $t('active.skillCheck.vs') }}</v-chip>
           </v-col>
           <v-col v-if="checkType === 'contested' && selectedTarget">
             <div class="text-center heading">
@@ -165,7 +161,7 @@
           <v-col v-else-if="checkType === 'contested' && !selectedTarget"
             class="text-center text-disabled text-caption"
             align-self="center">
-            <i>No Target Selected</i>
+            <i>{{ $t('active.skillCheck.noTarget') }}</i>
           </v-col>
         </v-row>
       </v-card>
@@ -179,10 +175,10 @@
         :color="$refs.check.roll >= $refs.contest.roll ? 'success' : 'error'"
         outlined>
         <div class="text-center heading">
-          Result:
+          {{ $t('active.skillCheck.result') }}
           <span>
             {{ controller.CombatName }}
-            {{ $refs.check.roll >= $refs.contest.roll ? 'Wins' : 'Loses' }}
+            {{ $refs.check.roll >= $refs.contest.roll ? $t('active.skillCheck.wins') : $t('active.skillCheck.loses') }}
           </span>
         </div>
       </cc-alert>

@@ -8,7 +8,7 @@
         color="error"
         class="text-center text-white heading h3"
       >
-        CASCADE ALERT
+        {{ $t('ui.cascade.alert') }}
         <v-spacer />
         <cc-tooltip
           title="CASCADE"
@@ -24,10 +24,10 @@
           {{ a.Name }}
         </v-col>
         <v-col>
-          STATUS:
-          <span v-if="!checked.includes(i)" style="opacity: 0.4">PENDING</span>
+          {{ $t('ui.cascade.status') }}
+          <span v-if="!checked.includes(i)" style="opacity: 0.4">{{ $t('ui.cascade.pending') }}</span>
           <span v-else :class="a.IsCascading ? 'text-red' : 'text-success'">
-            {{ a.IsCascading ? 'IN CASCADE' : 'NOMINAL' }}
+            {{ a.IsCascading ? $t('ui.cascade.inCascade') : $t('ui.cascade.nominal') }}
           </span>
         </v-col>
         <v-col cols="auto" class="mr-3">

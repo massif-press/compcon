@@ -24,13 +24,13 @@
             icon="mdi-cancel" />
         </template>
         <div v-if="canDownload"
-          class="text-center">Download and install latest version</div>
+          class="text-center">{{ $t('mainMenu.ui.downloadInstallLatest') }}</div>
         <div v-else-if="!loggedIn"
           class="text-center">
-          Direct download requires a COMP/CON account
+          {{ $t('mainMenu.ui.directDownloadRequiresAccount') }}
         </div>
         <div v-else
-          class="text-center">Requires linked itch.io purchase</div>
+          class="text-center">{{ $t('mainMenu.ui.requiresItchPurchase') }}</div>
       </v-tooltip>
     </template>
   </lcp-table>

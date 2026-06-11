@@ -69,7 +69,7 @@
               {{ modelValue }}
             </span>
             <i v-else
-              style="opacity: 0.5">NO DATA</i>
+              style="opacity: 0.5">{{ $t('ui.widget.noDataUpper') }}</i>
             <v-icon v-if="appendIcon"
               :icon="appendIcon"
               class="mr-1" />

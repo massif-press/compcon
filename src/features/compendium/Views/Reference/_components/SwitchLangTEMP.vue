@@ -11,8 +11,7 @@
             color="warning"
             title="EXPERIMENTAL PREVIEW"
             density="compact">
-            This is an experimental preview of the language selection feature. Non-English
-            translation is currently machine-generated and may be inaccurate.
+            {{ $t('compendium.reference.experimentalLangNote') }}
           </cc-alert>
           <v-list density="compact" slim>
             <v-list-item
@@ -32,47 +31,11 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { NavStore } from '@/stores';
+import { SUPPORTED_LOCALES } from '@/i18n';
 
 defineOptions({ name: 'temp-language-selector' })
 
-const languages = ref([
-      {
-        title: 'English',
-        value: 'en',
-      },
-      {
-        title: 'Español',
-        value: 'es',
-      },
-      {
-        title: 'Deutsch',
-        value: 'de',
-      },
-      {
-        title: 'Français',
-        value: 'fr',
-      },
-      {
-        title: 'Italiano',
-        value: 'it',
-      },
-      {
-        title: 'Русский',
-        value: 'ru',
-      },
-      {
-        title: '日本語',
-        value: 'ja',
-      },
-      {
-        title: '한국어',
-        value: 'ko',
-      },
-      {
-        title: '中文',
-        value: 'zh',
-      },
-    ])
+const languages = ref(SUPPORTED_LOCALES.map(l => ({ title: l.name, value: l.code })))
 
 const selected = computed({
   get: () => NavStore().Language,

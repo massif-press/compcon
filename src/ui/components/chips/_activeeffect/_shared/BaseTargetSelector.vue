@@ -37,21 +37,21 @@
             </template>
 
             <div v-if="event.AoE">
-              Area of Effect
+              {{ $t('ui.combat.areaOfEffect') }}
               <span v-if="typeof event.AoE === 'string'">
                 <cc-slashes />
                 {{ event.AoE }}
               </span>
               <div>
-                <i class="text-caption text-disabled">Click to Override</i>
+                <i class="text-caption text-disabled">{{ $t('ui.combat.clickToOverride') }}</i>
               </div>
             </div>
 
             <div v-else
               class="text-center">
-              Single Target
+              {{ $t('ui.combat.singleTarget') }}
               <div>
-                <i class="text-caption text-disabled">Click to Override</i>
+                <i class="text-caption text-disabled">{{ $t('ui.combat.clickToOverride') }}</i>
               </div>
             </div>
           </v-tooltip>
@@ -82,7 +82,7 @@
       class="ma-1"
       :disabled="!event.AvailableTargets?.length"
       @click="event.AddTarget()">
-      Add Target
+      {{ $t('ui.combat.addTarget') }}
     </v-btn>
   </v-col>
 </template>

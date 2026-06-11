@@ -7,7 +7,7 @@
         color="accent"
         prepend-icon="mdi-progress-check"
         @click="props.onClick($event)">
-        End Encounter
+        {{ $t('active.endEnc.endEncounter') }}
       </v-btn>
     </template>
     <template #default="{ isActive }">
@@ -19,7 +19,7 @@
             <v-icon icon="mdi-clock-end"
               class="mt-n1 ml-2"
               start />
-            Confirm End Encounter
+            {{ $t('active.endEnc.confirmEndEncounter') }}
           </div>
           <v-spacer />
           <v-btn icon
@@ -28,7 +28,7 @@
           </v-btn>
         </v-toolbar>
         <v-card-text>
-          <div class="text-cc-overline">// AFTER-ACTION REPORT</div>
+          <div class="text-cc-overline">{{ $t('active.endEnc.afterActionReport') }}</div>
           <v-card color="background"
             class="mt-1 mb-4">
             <v-card-text class="pa-2">
@@ -69,7 +69,7 @@
             </v-card-text>
           </v-card>
 
-          <div class="text-cc-overline">// RESULT</div>
+          <div class="text-cc-overline">{{ $t('active.endEnc.result') }}</div>
           <v-row>
             <v-col>
               <v-combobox v-model="result"
@@ -96,12 +96,12 @@
                 v-if="!confirm"
                 size="small"
                 color="primary"
-                @click="confirm = true">end encounter</cc-button>
+                @click="confirm = true">{{ $t('active.endEnc.endEncounterLower') }}</cc-button>
               <cc-button block
                 v-else
                 size="small"
                 color="warning"
-                @click="$emit('end', result)">Confirm end encounter</cc-button>
+                @click="$emit('end', result)">{{ $t('active.endEnc.confirmEndEncounterLower') }}</cc-button>
             </v-col>
           </v-row>
         </v-card-text>

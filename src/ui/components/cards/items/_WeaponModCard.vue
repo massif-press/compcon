@@ -7,9 +7,9 @@
           color="stark"
           icon="cc:weaponmod" />
         <div class="text-cc-overline mt-1">
-          WEAPON
+          {{ $t('ui.card.weapon') }}
           <br />
-          MODIFICATION
+          {{ $t('ui.card.modification') }}
         </div>
       </v-col>
       <v-col v-if="item.AddedRange && item.AddedRange.length"
@@ -40,7 +40,7 @@
             class="mt-n1 ml-n1"
             icon="cc:system_point" />
         </div>
-        <span class="text-overline">SYSTEM POINT{{ item.SP > 1 ? 'S' : '' }}</span>
+        <span class="text-overline">{{ $t('ui.card.systemPoints', { plural: item.SP > 1 ? 'S' : '' }) }}</span>
       </v-col>
       <v-col cols="auto"
         class="ml-auto text-right">
@@ -50,7 +50,7 @@
     </v-row>
 
     <template #statblock>
-      <div class="text-overline mb-n3">CAN BE APPLIED TO</div>
+      <div class="text-overline mb-n3">{{ $t('ui.card.canBeAppliedTo') }}</div>
       <v-chip-group column>
         <v-chip v-for="a in item.AllowedTypes"
           :key="a"

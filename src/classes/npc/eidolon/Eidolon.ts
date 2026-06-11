@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid'
+import { i18n } from '@/i18n'
 import { CloudController } from '@/classes/components/cloud/CloudController'
 import { PortraitController } from '@/classes/components/portrait/PortraitController'
 import { SaveController } from '@/classes/components/save/SaveController'
@@ -40,7 +41,7 @@ class Eidolon extends Npc implements IInstanceable {
 
   public constructor(data?: EidolonData) {
     super(data)
-    this._name = data?.name || 'New Eidolon'
+    this._name = data?.name || i18n.global.t('classes.newEidolon')
     this.ActiveLayerIndex = data?.activeLayer || 0
 
     this.InstanceID = data?.instanceId
@@ -83,7 +84,7 @@ class Eidolon extends Npc implements IInstanceable {
   }
 
   public GetLinkedItem<Npc>(): Npc {
-    return NpcStore().getNpcByID(this.ID)
+    return NpcStore().getNpcByID(this.ID) as Npc
   }
 
   public get Tier(): number {

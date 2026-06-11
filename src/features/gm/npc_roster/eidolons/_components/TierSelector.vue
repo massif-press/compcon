@@ -1,5 +1,5 @@
 <template>
-  <div class="text-overline mt-3">EIDOLON TIER</div>
+  <div class="text-overline mt-3">{{ $t('gm.eidolonTier.heading') }}</div>
   <v-row dense
     align="center">
     <v-col cols="auto">
@@ -10,7 +10,7 @@
         class="mx-1"
         @click="updateTier(i)">
         <v-icon start>cc:rank_1</v-icon>
-        Tier {{ i }}
+        {{ $t('gm.npcStats.tier', { n: i }) }}
       </v-btn>
     </v-col>
   </v-row>

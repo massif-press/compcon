@@ -3,6 +3,7 @@ import { NarrativeController } from './NarrativeController'
 import { CollectionItem, ICollectionItemData } from './CollectionItem'
 import { ItemType } from '../enums'
 import { FolderController } from '../components/folder/FolderController'
+import { i18n } from '@/i18n'
 
 class FactionData extends ICollectionItemData {
   collectionItemType: string = 'faction'
@@ -16,7 +17,7 @@ class Faction extends CollectionItem {
   public constructor(data?: FactionData) {
     super(data)
     this._factionType = data?.factionType || ''
-    this._name = data?.name || 'New Faction'
+    this._name = data?.name || i18n.global.t('classes.newFaction')
 
     this.CloudController = new CloudController(this)
   }

@@ -23,13 +23,13 @@
             @load="imageError = false" />
         </v-col>
         <v-col class="text-text">
-          <div class="heading h4 font-weight-bold">MAJOR IDEALS</div>
+          <div class="heading h4 font-weight-bold">{{ $t('ui.bond.majorIdeals') }}</div>
           <ul class="ml-6 mb-3">
             <li v-for="(s, index) in bond.MajorIdeals"
               :key="`major-${index}`"
               v-text="s" />
           </ul>
-          <div class="heading h4 font-weight-bold">MINOR IDEALS</div>
+          <div class="heading h4 font-weight-bold">{{ $t('ui.bond.minorIdeals') }}</div>
           <ul class="ml-6 mb-3">
             <li v-for="(s, index) in bond.MinorIdeals"
               :key="`minor-${index}`"
@@ -47,7 +47,7 @@
           </div>
         </v-col>
       </v-row>
-      <cc-heading line><span class="heading h3">Bond Powers</span></cc-heading>
+      <cc-heading line><span class="heading h3">{{ $t('ui.bond.bondPowers') }}</span></cc-heading>
       <cc-masonry-grid :items="bond.Powers">
         <template #default="{ item }">
           <cc-bond-power-card :power="item" />

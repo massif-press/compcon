@@ -144,14 +144,14 @@
               </div>
               <div class="my-1">
                 {{ strings.currentVersion }}
-                <b>v{{ item.version }}</b>
+                <b>{{ $t('ui.widget.versionLabel', { version: item.version }) }}</b>
                 <span class="text-caption">
                   ({{ new Date(item.updated * 1000).toLocaleDateString() }})
                 </span>
               </div>
               <div v-if="(item as any).description"
                 v-html-safe="(item as any).description" />
-              <div v-else>No description given.</div>
+              <div v-else>{{ $t('ui.widget.noDescription') }}</div>
             </v-card-text>
 
             <v-divider class="ma-1" />

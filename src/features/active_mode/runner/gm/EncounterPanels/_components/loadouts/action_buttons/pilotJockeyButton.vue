@@ -7,9 +7,9 @@
           <v-tabs v-model="tab"
             direction="vertical"
             density="compact">
-            <v-tab value="jockey">Jockey</v-tab>
+            <v-tab value="jockey">{{ $t('active.jockey.jockey') }}</v-tab>
             <v-divider />
-            <div class="pa-2 text-cc-overline text-disabled">Available Jockey Actions</div>
+            <div class="pa-2 text-cc-overline text-disabled">{{ $t('active.jockey.available') }}</div>
             <v-tab v-for="item in jockeyActions"
               :key="item.ID"
               :value="item.ID">
@@ -31,7 +31,7 @@
                 class="my-2">
                 <v-col><v-divider /></v-col>
                 <v-col class="heading text-disabled"
-                  cols="auto">Select a Jockey Action</v-col>
+                  cols="auto">{{ $t('active.jockey.select') }}</v-col>
                 <v-col><v-divider /></v-col>
               </v-row>
             </div>

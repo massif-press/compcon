@@ -7,7 +7,7 @@
         color="accent"
         prepend-icon="mdi-clock-end"
         @click="props.onClick($event)">
-        End Round
+        {{ $t('active.endRound.endRound') }}
       </v-btn>
     </template>
     <template #default="{ isActive }">
@@ -19,7 +19,7 @@
             <v-icon icon="mdi-clock-end"
               class="mt-n1 ml-2"
               start />
-            Confirm End Round
+            {{ $t('active.endRound.confirmEndRound') }}
           </div>
           <v-spacer />
           <v-btn icon

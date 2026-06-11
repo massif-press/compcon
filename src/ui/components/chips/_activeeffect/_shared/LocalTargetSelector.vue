@@ -19,21 +19,21 @@
             </template>
 
             <div v-if="event.AoE">
-              Area of Effect
+              {{ $t('ui.combat.areaOfEffect') }}
               <span v-if="typeof event.AoE === 'string'">
                 <cc-slashes />
                 {{ event.AoE }}
               </span>
               <div>
-                <i class="text-caption text-disabled">Click to Override</i>
+                <i class="text-caption text-disabled">{{ $t('ui.combat.clickToOverride') }}</i>
               </div>
             </div>
 
             <div v-else
               class="text-center">
-              Single Target
+              {{ $t('ui.combat.singleTarget') }}
               <div>
-                <i class="text-caption text-disabled">Click to Override</i>
+                <i class="text-caption text-disabled">{{ $t('ui.combat.clickToOverride') }}</i>
               </div>
             </div>
           </v-tooltip>
@@ -49,7 +49,7 @@
           color="panel"
           flat
           tile>
-          {{ event.AoE ? getOrdinal(Number(idx) + 1) : '' }} Target
+          <template v-if="event.AoE">{{ getOrdinal(Number(idx) + 1) }} </template>{{ $t('ui.combat.target') }}
           <v-btn v-if="event.Targets?.length > 1"
             icon
             size="20"
@@ -70,7 +70,7 @@
           color="primary"
           class="mt-1"
           @click="event.AddTarget()">
-          Add Target
+          {{ $t('ui.combat.addTarget') }}
         </v-btn>
       </v-col>
     </v-row>

@@ -1,7 +1,7 @@
 <template>
   <v-container class="pb-12">
     <h1 id="statuses"
-      class="heading">Statuses</h1>
+      class="heading">{{ $t('compendium.reference.statuses') }}</h1>
     <cc-masonry-grid :items="statuses">
       <template #default="{ item }">
         <status-card :status="item" />
@@ -9,7 +9,7 @@
     </cc-masonry-grid>
 
     <h1 id="conditions"
-      class="heading">Conditions</h1>
+      class="heading">{{ $t('compendium.reference.conditions') }}</h1>
     <cc-masonry-grid :items="conditions">
       <template #default="{ item }">
         <status-card :status="item" />

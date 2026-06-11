@@ -5,7 +5,7 @@
       :key="`bonus-${index}`"
       :title="bonus.Detail">
       <div class="text-right text-disabled text-caption">
-        <i>From {{ bonus.Source }}</i>
+        <i>{{ $t('ui.combat.fromOrigin', { name: bonus.Source }) }}</i>
       </div>
     </v-list-item>
   </v-list>

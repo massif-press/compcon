@@ -51,23 +51,23 @@
               :color="item.Color || 'primary'"
               variant="elevated"
               @click="item.HeaderType = 'header-1'">
-              <span class="heading h1">H1</span>
+              <span class="heading h1">{{ $t('gm.pageContent.h1') }}</span>
             </v-card>
             <v-card
               class="pa-1 pr-4 my-1 rounded-0 clipped"
               :color="item.Color || 'primary'"
               variant="elevated"
               @click="item.HeaderType = 'header-2'">
-              <span class="heading h3">H2</span>
+              <span class="heading h3">{{ $t('gm.pageContent.h2') }}</span>
             </v-card>
             <v-card class="pa-1 pr-4 my-1" variant="plain" @click="item.HeaderType = 'header-3'">
-              <span class="heading h3">H3</span>
+              <span class="heading h3">{{ $t('gm.pageContent.h3') }}</span>
             </v-card>
             <v-card class="pa-1 pr-4 my-1" variant="plain" @click="item.HeaderType = 'header-4'">
-              <span class="heading" :class="`text-${item.Color}`">H4</span>
+              <span class="heading" :class="`text-${item.Color}`">{{ $t('gm.pageContent.h4') }}</span>
             </v-card>
             <v-card class="pa-2 my-1" variant="text" @click="item.HeaderType = ''">
-              <span class="">Hide Title</span>
+              <span class="">{{ $t('gm.pageContent.hideTitle') }}</span>
             </v-card>
           </v-card-text>
         </v-card>
@@ -83,28 +83,28 @@
               :color="item.Color || 'primary'"
               variant="outlined"
               @click="item.Variant = 'outlined'">
-              <span class="text-text">Outlined</span>
+              <span class="text-text">{{ $t('gm.pageContent.outlined') }}</span>
             </v-card>
             <v-card
               class="pa-2 my-1"
               :color="item.Color || 'primary'"
               variant="tonal"
               @click="item.Variant = 'tonal'">
-              <span class="text-text">Tonal</span>
+              <span class="text-text">{{ $t('gm.pageContent.tonal') }}</span>
             </v-card>
             <v-card
               class="pa-2 my-1 rounded-0"
               :color="item.Color || 'primary'"
               variant="elevated"
               @click="item.Variant = 'block'">
-              <span>Block</span>
+              <span>{{ $t('gm.pageContent.block') }}</span>
             </v-card>
             <v-card
               class="pa-2 pr-4 my-1 rounded-0 clipped"
               :color="item.Color || 'primary'"
               variant="elevated"
               @click="item.Variant = 'clipped'">
-              Clipped Block
+              {{ $t('gm.pageContent.clippedBlock') }}
             </v-card>
             <v-card
               class="pa-2 my-1"
@@ -116,10 +116,10 @@
                 style="width: 8px; border-radius: 4px">
                 &emsp;
               </div>
-              <span class="text-text pl-2">Quote</span>
+              <span class="text-text pl-2">{{ $t('gm.pageContent.quote') }}</span>
             </v-card>
             <v-card class="pa-2 my-1" variant="text" @click="item.Variant = ''">
-              <span class="text-text">None</span>
+              <span class="text-text">{{ $t('gm.pageContent.none') }}</span>
             </v-card>
           </v-card-text>
         </v-card>
@@ -133,14 +133,14 @@
         <template v-slot:default="{ isActive }">
           <v-card>
             <v-tabs v-model="colorTab" grow>
-              <v-tab>Theme-Aware Colors</v-tab>
-              <v-tab>Pallette</v-tab>
+              <v-tab>{{ $t('gm.pageContent.themeAwareColors') }}</v-tab>
+              <v-tab>{{ $t('gm.pageContent.palette') }}</v-tab>
             </v-tabs>
             <v-card-text>
               <v-window v-model="colorTab">
                 <v-window-item>
                   <div class="text-caption text-center mb-4">
-                    <i>These colors will change based on the user's selected COMP/CON theme</i>
+                    <i>{{ $t('gm.pageContent.themeColorsHelp') }}</i>
                   </div>
                   <v-row dense justify="center" align="center">
                     <v-col cols="3" v-for="color in colorSelections" :key="color">
@@ -157,11 +157,9 @@
                 <v-window-item>
                   <v-row dense justify="center" align="center">
                     <div class="text-caption text-center mb-4">
-                      <i>
-                        These colors
-                        <b class="text-accent">will not</b>
-                        change based on the user's selected COMP/CON theme
-                      </i>
+                      <i18n-t keypath="gm.pageContent.paletteColorsHelp" tag="i" scope="global">
+                        <template #strong><b class="text-accent">{{ $t('gm.pageContent.willNot') }}</b></template>
+                      </i18n-t>
                     </div>
                     <v-col cols="3" v-for="color in colorPalette" :key="color">
                       <v-card
@@ -188,11 +186,11 @@
           <v-icon v-bind="props" icon="mdi-delete" class="ml-2 mr-4 fade-select" />
         </template>
         <v-card>
-          <v-card-text>Do you want to delete this item? This action cannot be undone.</v-card-text>
+          <v-card-text>{{ $t('gm.pageContent.deleteItemConfirm') }}</v-card-text>
           <v-divider />
           <v-card-actions>
             <v-spacer />
-            <v-btn small color="error" @click="$emit('delete-item')">Confirm Deletion</v-btn>
+            <v-btn small color="error" @click="$emit('delete-item')">{{ $t('common.confirmDeletion') }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-menu>
@@ -212,7 +210,7 @@
         <div v-else-if="item.ContentType === 'image'" class="text-center">
           <img v-if="item.Content.ImageUrl" :src="item.Content.ImageUrl" />
           <v-card v-else color="panel" variant="outlined" class="pa-2 ma-4">
-            <i class="text-caption text-disabled">No Image</i>
+            <i class="text-caption text-disabled">{{ $t('gm.pageContent.noImage') }}</i>
           </v-card>
           <v-text-field
             v-model="item.Content.ImageUrl"

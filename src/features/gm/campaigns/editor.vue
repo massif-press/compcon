@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!campaign">ERR: NO CAMPAIGN LOADED</div>
+    <div v-if="!campaign">{{ $t('gm.campaign.errNoCampaign') }}</div>
     <v-layout
       v-else
       style="position: relative"
@@ -42,12 +42,12 @@
         ">
         <v-row dense align="center" class="px-4 py-1">
           <v-col>
-            <v-chip size="small">Currently viewing</v-chip>
-            {{ campaign.Title }} &mdash; Credits
+            <v-chip size="small">{{ $t('gm.campaign.currentlyViewing') }}</v-chip>
+            {{ campaign.Title }} &mdash; {{ $t('gm.campaign.credits') }}
           </v-col>
           <v-col cols="auto">
             <v-btn size="small" variant="tonal" color="accent" @click="previewDialog = false">
-              Close Preview
+              {{ $t('gm.campaign.closePreview') }}
             </v-btn>
           </v-col>
         </v-row>

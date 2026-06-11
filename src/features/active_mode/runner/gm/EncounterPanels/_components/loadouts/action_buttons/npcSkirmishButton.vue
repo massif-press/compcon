@@ -11,7 +11,7 @@
 
       <div v-if="!presetWeapon"
         class="text-cc-overline text-disabled pl-3 py-2">
-        select skirmish weapon
+        {{ $t('active.skirmish.selectWeapon') }}
       </div>
       <v-row dense
         align="center"

@@ -16,25 +16,25 @@
       v-html-safe="action.Init" />
     <div v-if="!action.Frequency.Unlimited">
       <div class="text-cc-overline"
-        style="opacity: 0.4">Frequency</div>
+        style="opacity: 0.4">{{ $t('ui.action.frequency') }}</div>
       <div v-html-safe="action.Frequency.ToString()"
         class="ml-2" />
     </div>
     <div v-if="action.Trigger">
       <div class="text-cc-overline"
-        style="opacity: 0.4">Trigger</div>
+        style="opacity: 0.4">{{ $t('ui.action.trigger') }}</div>
       <div v-html-safe="action.Trigger"
         class="ml-2" />
     </div>
     <div v-if="action.Detail">
       <div class="text-cc-overline"
-        style="opacity: 0.4">Effect</div>
+        style="opacity: 0.4">{{ $t('ui.action.effect') }}</div>
       <div v-html-safe="action.getDetail(tier)"
         class="ml-2" />
     </div>
     <div v-if="action.Description">
       <div class="text-cc-overline"
-        style="opacity: 0.4">Compendium Entry</div>
+        style="opacity: 0.4">{{ $t('ui.action.compendiumEntry') }}</div>
       <div v-html-safe="action.Description"
         class="ml-2" />
     </div>

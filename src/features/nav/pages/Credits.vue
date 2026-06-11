@@ -93,10 +93,11 @@ import { useDisplay } from 'vuetify'
 import creditsData from './credits.json'
 import DevBadge from './SupporterBadges/Dev.vue'
 import { getPatreonSubscribers } from '@/user/oauth'
-import { NAV_STRINGS } from '@/features/nav/strings'
+import { useNavStrings } from '@/features/nav/useNavStrings'
+const { section } = useNavStrings()
 
 const { smAndDown: mobile } = useDisplay()
-const cr = NAV_STRINGS.credits
+const cr = section('credits')
 
 const credits = creditsData
 const patrons = ref<any[]>([])

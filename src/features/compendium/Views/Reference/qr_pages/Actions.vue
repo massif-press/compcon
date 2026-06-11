@@ -2,7 +2,7 @@
   <v-container class="pb-12">
     <v-row dense>
       <v-col>
-        <div class="heading h1">Actions</div>
+        <div class="heading h1">{{ $t('compendium.reference.actions') }}</div>
       </v-col>
       <v-col v-if="!mobile"
         cols="auto">
@@ -20,7 +20,7 @@
 
     <h1 id="mechactions"
       class="heading mt-3">
-      Mech Actions
+      {{ $t('compendium.reference.mechActions') }}
     </h1>
 
     <cc-masonry-grid :items="mechActions">
@@ -32,7 +32,7 @@
 
     <h1 id="pilotactions"
       class="heading mt-3">
-      Pilot Actions
+      {{ $t('compendium.reference.pilotActions') }}
     </h1>
     <cc-masonry-grid :items="pilotActions">
       <template #default="{ item }">
@@ -43,7 +43,7 @@
 
     <h1 id="downtimeactions"
       class="heading mt-3">
-      Downtime Actions
+      {{ $t('compendium.categories.downtimeActions') }}
     </h1>
     <cc-masonry-grid :items="downtimeActions">
       <template #default="{ item }">

@@ -9,7 +9,7 @@
         @click="open">
         <v-icon icon="mdi-chart-donut-variant"
           start />
-        Telemetry
+        {{ $t('active.telemetry.telemetry') }}
       </v-btn>
     </template>
     <template #default>
@@ -19,9 +19,7 @@
         tile
         color="panel"
         border=start
-        border-color="red">This feature is still in development. Additional telemetry data is
-        forthcoming. <b class="text-accent">Telemetry data is collected at the end of every
-          round</b>
+        border-color="red">{{ $t('active.telemetry.devNote') }} <b class="text-accent">{{ $t('active.telemetry.collectedNote') }}</b>
       </v-alert>
       <statblock-justify-options v-model:enable-justify="enableJustify"
         v-model:line-width="lineWidth" />
@@ -32,7 +30,7 @@
             :color="tab === 'encounterInstance' ? 'primary' : 'panel'"
             tile
             size="small"
-            @click="tab = 'encounterInstance'">encounterInstance</v-btn>
+            @click="tab = 'encounterInstance'">{{ $t('active.telemetry.encounterInstance') }}</v-btn>
         </v-col>
         <v-col>
           <v-btn flat
@@ -41,7 +39,7 @@
             :color="tab === 'lifetime' ? 'primary' : 'panel'"
             tile
             size="small"
-            @click="tab = 'lifetime'">lifetime</v-btn>
+            @click="tab = 'lifetime'">{{ $t('active.telemetry.lifetime') }}</v-btn>
         </v-col>
       </v-row>
 
@@ -70,7 +68,7 @@
               prepend-icon="mdi-export"
               :tooltip="`Exports a plain text version of the ${tab} combat telemetry.`"
               @click.stop="exportLog('text')">
-              Export as Text
+              {{ $t('active.telemetry.exportText') }}
             </cc-button>
           </v-col>
           <v-col>
@@ -81,7 +79,7 @@
               :tooltip="`Exports a structured JSON version of the ${tab} combat telemetry for use in other
                     applications.`"
               @click.stop="exportLog('json')">
-              Export as JSON
+              {{ $t('active.common.exportAsJson') }}
             </cc-button>
           </v-col>
         </v-row>

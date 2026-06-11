@@ -5,7 +5,7 @@
     :options="options"
     view-key="cb-sitreps">
     <template #header>
-      <div class="heading h3 text-center text-accent">Sitreps</div>
+      <div class="heading h3 text-center text-accent">{{ $t('compendium.categories.sitreps') }}</div>
     </template>
   </cc-compendium-browser>
 </template>

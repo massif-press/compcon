@@ -24,7 +24,7 @@
         block
         size="small"
         @click="setPage('overview')">
-        Campaign Information
+        {{ $t('gm.campaign.campaignInfo') }}
       </v-btn>
 
       <v-divider class="my-2" />
@@ -40,36 +40,31 @@
     <v-divider class="my-2" />
     <div class="px-2">
       <v-btn block size="small" class="my-2 pa-2" color="secondary" @click="save">
-        Save Campaign
+        {{ $t('gm.campaign.saveCampaign') }}
       </v-btn>
       <v-dialog max-width="850px">
         <template #activator="{ props }">
           <v-btn v-bind="props" block size="small" variant="tonal" class="my-2 pa-2">
-            Export Campaign
+            {{ $t('gm.campaign.exportCampaign') }}
           </v-btn>
         </template>
         <template #default="{ isActive }">
           <v-card>
-            <v-card-title>Export Campaign</v-card-title>
+            <v-card-title>{{ $t('gm.campaign.exportCampaign') }}</v-card-title>
             <v-divider />
             <v-card-text v-if="campaign.VersionHistory.length">
-              <div class="text-caption">Current Published Version</div>
+              <div class="text-caption">{{ $t('gm.campaign.currentPublishedVersion') }}</div>
               <current-version-export :campaign="campaign" />
               <v-divider />
             </v-card-text>
             <v-card-text>
               <p class="text-caption">
-                <i>
-                  You can export this editable campaign as a JSON file for backup, device transfer,
-                  or collaborative editing.
-                </i>
+                <i>{{ $t('gm.campaign.exportEditableHelp') }}</i>
               </p>
               <p v-if="!campaign.VersionHistory.length" class="text-caption">
-                <i>
-                  To produce a campaign package suitable for distribution, select
-                  <b class="text-secondary">Publish Campaign</b>
-                  instead.
-                </i>
+                <i18n-t keypath="gm.campaign.toProduce" tag="i" scope="global">
+                  <template #publish><b class="text-secondary">{{ $t('gm.campaign.publishCampaign') }}</b></template>
+                </i18n-t>
               </p>
               <div class="text-right">
                 <v-btn
@@ -78,13 +73,13 @@
                   prepend-icon="mdi-download"
                   class="my-2"
                   @click="exportEditable">
-                  Export Campaign JSON
+                  {{ $t('gm.campaign.exportCampaignJson') }}
                 </v-btn>
               </div>
             </v-card-text>
             <v-divider />
             <v-card-actions>
-              <v-btn variant="text" @click="isActive.value = false">Cancel</v-btn>
+              <v-btn variant="text" @click="isActive.value = false">{{ $t('common.cancel') }}</v-btn>
             </v-card-actions>
           </v-card>
         </template>
@@ -100,7 +95,7 @@
         variant="tonal"
         prepend-icon="mdi-arrow-left"
         to="/gm/campaigns">
-        Return to Index
+        {{ $t('gm.campaign.returnToIndex') }}
       </v-btn>
     </div>
   </v-navigation-drawer>

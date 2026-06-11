@@ -29,7 +29,7 @@
             class="my-1" />
         </template>
         <template #subtitle>
-          <div class="pl-2 mb-n2">by {{ pack.manifest.author }}</div>
+          <div class="pl-2 mb-n2">{{ $t('nav.packInfo.byAuthor', { author: pack.manifest.author }) }}</div>
         </template>
       </cc-toolbar>
     </template>
@@ -54,10 +54,11 @@ import { useDisplay } from 'vuetify'
 import { PropType } from 'vue'
 import { IContentPack } from '@/classes/ContentPack'
 import PackInfoCard from './components/PackInfoCard.vue'
-import { NAV_STRINGS } from '@/features/nav/strings'
+import { useNavStrings } from '@/features/nav/useNavStrings'
+const { section } = useNavStrings()
 
 defineProps<{ pack: IContentPack }>()
 
 const { smAndDown: mobile } = useDisplay()
-const pf = NAV_STRINGS.packInfo
+const pf = section('packInfo')
 </script>

@@ -26,7 +26,7 @@
                         @click="markAllAsRead" />
                     </span>
                   </template>
-                  <span>Mark all messages as read</span>
+                  <span>{{ $t('mainMenu.menu.markAllRead') }}</span>
                 </v-tooltip>
               </template>
             </cc-toolbar>
@@ -76,7 +76,7 @@
                     color="accent"
                     size="x-small"
                     @click="ack(m)">
-                    Mark as Read
+                    {{ $t('mainMenu.menu.markAsRead') }}
                   </cc-button>
                 </v-window-item>
               </v-window>

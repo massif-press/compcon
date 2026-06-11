@@ -25,16 +25,12 @@
           icon="mdi-information-outline"
           variant="outlined"
           title="You do not have access to the collection publishing tool.">
-          Due to the server costs associated with the creation and distribution of these
-          collections, this tool is only available to Patreon subscribers. If you would like to
-          access this tool and create and distribute collections of your COMP/CON content, please
-          consider
-          <a href="https://www.patreon.com/compcon"
-            target="_blank">subscribing</a>
-          to support the development of COMP/CON and gain access to additional features.
+          <i18n-t keypath="mainMenu.publishing.accessInfo" tag="span" scope="global">
+            <template #link><a href="https://www.patreon.com/compcon" target="_blank">{{ $t("mainMenu.archive.subscribing") }}</a></template>
+          </i18n-t>
           <br />
           <br />
-          However, you can still view and subscribe to collections created by other users.
+          {{ $t("mainMenu.publishing.howeverView") }}
         </cc-alert>
       </v-card-text>
       <v-card-text v-else>
@@ -44,9 +40,7 @@
               color="accent"
               direction="vertical">
               <div class="heading text-accent mb-2">
-                COLLECTIONS ({{ collections.length }}/{{
-                  collectionLimit > -1 ? collectionLimit : '∞'
-                }})
+                {{ $t("mainMenu.publishing.collectionsHeader", { count: collections.length, limit: collectionLimit > -1 ? collectionLimit : '∞' }) }}
               </div>
               <v-tab v-for="(collection, colTabIdx) in collections" :key="`col-tab-${colTabIdx}`"
                 density="compact"
@@ -62,7 +56,7 @@
                 :disabled="collections.length >= (collectionLimit > -1 ? collectionLimit : Infinity)
                   "
                 @click="AddNew()">
-                Add New
+                {{ $t("mainMenu.publishing.addNew") }}
               </cc-button>
             </v-tabs>
           </v-col>
@@ -89,7 +83,7 @@
                       </v-col>
                       <v-col>
                         <div class="text-center">
-                          <span class="text-caption">Current Version</span>
+                          <span class="text-caption">{{ $t("mainMenu.publishing.currentVersion") }}</span>
                           <v-divider />
                           <span class="heading h3 text-accent">
                             {{ collection.Version }}
@@ -104,14 +98,14 @@
                       auto-grow />
                     <v-row dense
                       align="center">
-                      <v-col class="heading text-accent">CONTENTS</v-col>
+                      <v-col class="heading text-accent">{{ $t("mainMenu.collection.contents") }}</v-col>
                       <v-col cols="auto">
                         <cc-button color="primary"
                           size="small"
                           tile
                           flat
                           prepend-icon="mdi-update">
-                          Update All
+                          {{ $t("mainMenu.ui.updateAll") }}
                         </cc-button>
                       </v-col>
                     </v-row>
@@ -128,8 +122,7 @@
                             <v-icon v-bind="props"
                               color="primary">mdi-update</v-icon>
                           </template>
-                          This item has been modified locally and will be updated to the newest
-                          version on publishing.
+                          {{ $t("mainMenu.publishing.itemModified") }}
                         </v-tooltip>
                         <v-tooltip v-else-if="hasLocalData(item)"
                           max-width="300px"
@@ -138,7 +131,7 @@
                             <v-icon v-bind="props"
                               color="success">mdi-check-circle-outline</v-icon>
                           </template>
-                          This item is up to date with the version found in local data.
+                          {{ $t("mainMenu.publishing.itemUpToDate") }}
                         </v-tooltip>
                         {{ new Date((item as any).last_updated).toLocaleString() }}
                         <v-tooltip v-if="!hasLocalData(item)"
@@ -148,8 +141,7 @@
                             <v-icon v-bind="props"
                               color="error">mdi-alert</v-icon>
                           </template>
-                          This item cannot be found in local data and is unable to be updated. It
-                          will persist in the collection until removed.
+                          {{ $t("mainMenu.publishing.itemNotFound") }}
                         </v-tooltip>
                       </template>
                       <template #item.actions="{ item }">
@@ -166,8 +158,7 @@
                             </cc-button>
                           </template>
                           <div class="text-center">
-                            Remove this item from this collection. This does not remove the item
-                            from your local or cloud storage COMP/CON data.
+                            {{ $t("mainMenu.publishing.removeItemTooltip") }}
                           </div>
                         </v-tooltip>
                       </template>
@@ -177,7 +168,7 @@
                     <v-row dense
                       align="center"
                       class="mt-4">
-                      <v-col class="heading text-accent">CHANGELOG</v-col>
+                      <v-col class="heading text-accent">{{ $t("mainMenu.collection.changelog") }}</v-col>
                       <v-col cols="auto">
                         <v-tooltip max-width="300px"
                           location="top">
@@ -193,7 +184,7 @@
                               <v-icon size="x-large">mdi-auto-fix</v-icon>
                             </v-btn>
                           </template>
-                          <div class="text-center">Automatically generate this changelog</div>
+                          <div class="text-center">{{ $t("mainMenu.publishing.autoGenChangelog") }}</div>
                         </v-tooltip>
                       </v-col>
                     </v-row>
@@ -210,7 +201,7 @@
                           class="my-2"
                           prepend-icon="mdi-note-multiple-outline"
                           @click="open">
-                          View Full Changelog
+                          {{ $t("mainMenu.publishing.viewFullChangelog") }}
                         </cc-button>
                       </template>
                       <template #default="{ isActive }">
@@ -218,7 +209,7 @@
                           <v-toolbar color="primary"
                             density="compact">
                             <v-toolbar-title class="heading h3">
-                              {{ collection.Name.toUpperCase() }} CHANGELOG
+                              {{ $t("mainMenu.publishing.collectionChangelogTitle", { name: collection.Name.toUpperCase() }) }}
                             </v-toolbar-title>
                             <cc-button icon
                               @click="isActive.value = false">
@@ -227,7 +218,7 @@
                           </v-toolbar>
                           <v-card-text>
                             <div v-for="(entry, entryIdx) in collection.Changelog" :key="`entry-${entryIdx}`">
-                              <div class="heading h4">version {{ entry.version }}</div>
+                              <div class="heading h4">{{ $t("mainMenu.publishing.versionN", { version: entry.version }) }}</div>
                               <v-textarea v-model="entry.changes"
                                 density="compact"
                                 rows="2"
@@ -245,7 +236,7 @@
                     <cc-button color="primary"
                       size="small"
                       @click="collection.Save()">
-                      Save Draft
+                      {{ $t("mainMenu.publishing.saveDraft") }}
                     </cc-button>
 
                     <v-spacer />
@@ -255,18 +246,18 @@
                       class="mx-4"
                       :disabled="!canPublish(collection)"
                       @click="Publish('minor')">
-                      Publish Minor Version ({{ collection.NextVersion('minor') }})
+                      {{ $t("mainMenu.publishing.publishMinor", { version: collection.NextVersion("minor") }) }}
                     </cc-button>
                     <cc-button color="primary"
                       :loading="loading"
                       size="small"
                       :disabled="!canPublish(collection)"
                       @click="Publish('major')">
-                      Publish Major Version ({{ collection.NextVersion('major') }})
+                      {{ $t("mainMenu.publishing.publishMajor", { version: collection.NextVersion("major") }) }}
                     </cc-button>
                   </v-footer>
                   <div class="my-2">
-                    <span class="text-caption">COLLECTION SHARE CODE</span>
+                    <span class="text-caption">{{ $t("mainMenu.publishing.collectionShareCode") }}</span>
                     <div v-if="collection.Metadata?.code"
                       class="text-center">
                       <v-chip v-for="(n, nIdx) in collection.Metadata.code.substring(0, 4)" :key="`code0-${nIdx}`"
@@ -313,16 +304,15 @@
                             class="fade-select"
                             @click="copy(collection.Metadata.code)" />
                         </template>
-                        <div class="text-center">Copy Share Code</div>
+                        <div class="text-center">{{ $t("mainMenu.publishing.copyShareCode") }}</div>
                       </v-tooltip>
                       <div class="text-left text-caption text-disabled">
-                        Last update on
-                        {{ new Date(collection.Metadata?.updated || 0).toLocaleString() }}
+                        {{ $t("mainMenu.publishing.lastUpdateOn", { date: new Date(collection.Metadata?.updated || 0).toLocaleString() }) }}
                       </div>
                     </div>
                     <div v-else
                       class="text-caption text-disabled">
-                      <i>Collection must be published to generate a share code.</i>
+                      <i>{{ $t("mainMenu.publishing.mustPublish") }}</i>
                     </div>
                   </div>
                   <v-card-actions>
@@ -335,35 +325,28 @@
                           size="small"
                           prepend-icon="mdi-delete"
                           @click="open">
-                          Delete Collection
+                          {{ $t("mainMenu.publishing.deleteCollection") }}
                         </cc-button>
                       </template>
                       <template #default="{ close }">
                         <v-card-text v-if="collection.Metadata?.code">
                           <div>
                             <p>
-                              Deleting this collection will remove the collection from your local
-                              and cloud data, and will delete the collection archive from cloud
-                              storage. Users will not be able to subscribe to this content and
-                              current subscribers will no longer be able to update collection data.
-                              It
-                              <strong>will not</strong>
-                              delete any collection content, either locally or on the cloud for you
-                              or collection subscribers.
+                              <i18n-t keypath="mainMenu.publishing.deleteCollectionWarning" tag="span" scope="global"><template #willNot><strong>{{ $t("mainMenu.publishing.willNotLabel") }}</strong></template></i18n-t>
                             </p>
-                            <span class="text-caption">This action cannot be undone.</span>
+                            <span class="text-caption">{{ $t("mainMenu.publishing.actionUndone") }}</span>
                           </div>
                         </v-card-text>
                         <v-card-text v-else>
                           <div>
-                            <p>Are you sure you want to delete this collection?</p>
-                            <span class="text-caption">This action cannot be undone.</span>
+                            <p>{{ $t("mainMenu.publishing.confirmDelete") }}</p>
+                            <span class="text-caption">{{ $t("mainMenu.publishing.actionUndone") }}</span>
                           </div>
                         </v-card-text>
                         <v-divider />
                         <v-card-actions>
                           <cc-button variant="text"
-                            @click="close">Cancel</cc-button>
+                            @click="close">{{ $t("common.cancel") }}</cc-button>
                           <v-spacer />
                           <cc-button color="error"
                             prepend-icon="mdi-delete"
@@ -372,7 +355,7 @@
                               deleteCollection(collection);
                             close;
                             ">
-                            delete collection
+                            {{ $t("mainMenu.publishing.deleteCollectionBtn") }}
                           </cc-button>
                         </v-card-actions>
                       </template>

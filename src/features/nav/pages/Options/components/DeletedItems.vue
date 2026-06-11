@@ -22,8 +22,7 @@
         <tr v-for="item in items"
           :key="item.ID">
           <td>{{ item.ItemType.toUpperCase() }}</td>
-          <td>{{ item.Name }} {{ (item as any).Callsign ? ` (${(item as any).Callsign})` : '' }}
-          </td>
+          <td>{{ item.Name }}<template v-if="(item as any).Callsign"> ({{ (item as any).Callsign }})</template></td>
           <td>{{ item.SaveController.DeleteTimeFormatted }}</td>
           <td class="text-right">
             <v-btn color="accent"
@@ -76,9 +75,10 @@ import { ref, computed } from 'vue'
 import { CampaignStore, EncounterStore, NpcStore, PilotStore, PilotGroupStore, PilotSheetStore } from '@/stores'
 import { Pilot } from '@/classes/pilot/Pilot'
 import { PilotGroup } from '@/features/pilot_management/store/PilotGroup'
-import { NAV_STRINGS } from '@/features/nav/strings'
+import { useNavStrings } from '@/features/nav/useNavStrings'
+const { section } = useNavStrings()
 
-const di = NAV_STRINGS.deletedItems
+const di = section('deletedItems')
 const loading = ref(false)
 
 const items = computed(() => [

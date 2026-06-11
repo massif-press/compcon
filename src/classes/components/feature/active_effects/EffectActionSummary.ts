@@ -21,7 +21,7 @@ class ActionSummary {
   }
 
   public Summarize(actorId: string): string {
-    let d = (this.data as any).data || this.data
+    const d = (this.data as any).data || this.data
 
     if (d.initiatorID === actorId) return this.initiatorSummary(d)
     else return this.targetSummary(d)
@@ -30,7 +30,7 @@ class ActionSummary {
   private initiatorSummary(data: ActionSummaryData): string {
     let str = data.effectName
     if (data.activation) str += ` as a ${data.activation} Action`
-    let out = [`${str}:`]
+    const out = [`${str}:`]
 
     // if target is self name should be 'self'
     out.push(...this.summarizeDamageEvents(data.damageEvents, 'initiator'))
@@ -43,7 +43,7 @@ class ActionSummary {
   }
 
   private targetSummary(data: ActionSummaryData): string {
-    let out = [`Targeted by ${data.initiatorName}'s ${data.effectName}:`]
+    const out = [`Targeted by ${data.initiatorName}'s ${data.effectName}:`]
 
     out.push(...this.summarizeDamageEvents(data.damageEvents, 'target'))
     out.push(...this.summarizeEvents(data.statusEvents, 'target'))

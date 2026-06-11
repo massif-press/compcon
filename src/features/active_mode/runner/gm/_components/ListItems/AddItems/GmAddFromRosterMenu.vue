@@ -7,7 +7,7 @@
         color="accent"
         :prepend-icon="itemType === 'npc' ? 'cc:frame' : 'cc:pilot'"
         @click="props.onClick($event)">
-        {{ itemType === 'npc' ? 'Add NPC' : 'Add PC' }}
+        {{ itemType === 'npc' ? $t('active.addRoster.addNpc') : $t('active.addRoster.addPc') }}
       </v-btn>
     </template>
     <template #default="{ isActive }">
@@ -16,7 +16,7 @@
           color="primary"
           height="40">
           <div class="heading h3 px-4">
-            {{ itemType === 'npc' ? 'Add Non Player Character' : 'Add Player Character' }}
+            {{ itemType === 'npc' ? $t('active.addRoster.addNpcFull') : $t('active.addRoster.addPcFull') }}
           </div>
           <v-spacer />
           <v-btn flat
@@ -78,7 +78,7 @@
                   <div class="text-text">
                     {{ npc.Name }}
                     <cc-slashes />
-                    Tier {{ npc.NpcClassController?.Tier || 1 }}
+                    {{ $t('gm.npcStats.tier', { n: npc.NpcClassController?.Tier || 1 }) }}
                   </div>
                 </v-col>
               </v-row>
@@ -101,7 +101,7 @@
                   <div class="text-text">
                     {{ pc.Name }}
                     <cc-slashes />
-                    License Level {{ pc.Level }}
+                    {{ $t('active.addRoster.licenseLevelN', { n: pc.Level }) }}
                     <v-row dense
                       align="center">
                       <v-col>
@@ -114,7 +114,7 @@
                       <cc-button color="primary"
                         :disabled="!pc.ActiveMech"
                         @click="addPc(pc)">
-                        Add
+                        {{ $t('common.add') }}
                       </cc-button>
                     </v-row>
                   </div>
@@ -131,6 +131,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { notify } from '@/util/notify'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import { NpcStore, PilotStore, PilotGroupStore } from '@/stores'
 import { Pilot } from '@/classes/pilot/Pilot'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
@@ -207,7 +209,7 @@ function addNpc(rosterItem: any) {
     actor: npc,
     deployables: [],
   })
-  notify({ type: 'success', title: 'NPC Added', text: `${npc.Name} has been added to the encounter.` })
+  notify({ type: 'success', title: t('active.addCombatant.npcAddedTitle'), text: t('active.addCombatant.addedText', { name: npc.Name }) })
 }
 
 function addPc(rosterItem: any) {

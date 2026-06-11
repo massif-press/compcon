@@ -84,11 +84,12 @@ import { useRouter } from 'vue-router'
 import { useDisplay } from 'vuetify'
 import { NavStore } from '@/stores'
 import SearchResultItem from './searchResultItem.vue'
-import { NAV_STRINGS } from '@/features/nav/strings'
+import { useNavStrings } from '@/features/nav/useNavStrings'
+const { section } = useNavStrings()
 
 const { smAndDown: mobile } = useDisplay()
 const router = useRouter()
-const sr = NAV_STRINGS.search
+const sr = section('search')
 
 const search = ref('')
 const searchDialog = ref(false)

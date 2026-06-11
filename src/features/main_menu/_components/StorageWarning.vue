@@ -8,36 +8,36 @@
         icon="mdi-apple"
         title="Install COMP/CON for Reliable Storage">
         <div>
-          iOS browsers limit storage for websites and may
-          <b>automatically delete your data</b>
-          after 7 days of inactivity. To prevent data loss, install COMP/CON to your home screen:
+          <i18n-t keypath="mainMenu.storage.iosWarning" tag="span" scope="global">
+            <template #emphasis><b>{{ $t("mainMenu.storage.autoDeleteData") }}</b></template>
+          </i18n-t>
         </div>
         <ol class="mt-2 ml-4">
           <li>
-            Tap the
-            <b>Share</b>
-            button
-            <v-icon size="small"
-              icon="mdi-export-variant" />
-            in Safari's toolbar
+            <i18n-t keypath="mainMenu.storage.iosStep1" tag="span" scope="global">
+              <template #share><b>{{ $t("mainMenu.storage.shareLabel") }}</b></template>
+              <template #icon><v-icon size="small" icon="mdi-export-variant" /></template>
+            </i18n-t>
           </li>
           <li>
-            Scroll down and tap
-            <b>Add to Home Screen</b>
+            <i18n-t keypath="mainMenu.storage.iosStep2" tag="span" scope="global">
+              <template #target><b>{{ $t("mainMenu.storage.addToHomeScreen") }}</b></template>
+            </i18n-t>
           </li>
           <li>
-            Tap
-            <b>Add</b>
+            <i18n-t keypath="mainMenu.storage.iosStep3" tag="span" scope="global">
+              <template #target><b>{{ $t("mainMenu.storage.addLabel") }}</b></template>
+            </i18n-t>
           </li>
         </ol>
-        <div class="mt-2">Once installed, open COMP/CON from your home screen icon.</div>
+        <div class="mt-2">{{ $t("mainMenu.storage.onceInstalled") }}</div>
         <div class="text-center">
           <cc-button class="mt-3"
             color="primary"
             block
             size="x-small"
             @click="showIosWarning = false">
-            Continue Anyway
+            {{ $t("mainMenu.storage.continueAnyway") }}
           </cc-button>
         </div>
       </cc-alert>
@@ -51,32 +51,20 @@
         icon="mdi-database-alert"
         title="Storage Permission Required!">
         <div v-if="!hasStorage">
-          The current browser does not appear to support persistent storage. It is
-          <b>strongly recommended</b>
-          to run COMP/CON on a browser that is capable of storing persistent app data, or, saving
-          and
-          running COMP/CON
-          <a class="text-secondary"
-            href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps"
-            target="_blank">
-            as a PWA
-            <v-icon size="small"
-              icon="mdi-open-in-new" />
-          </a>
+          <i18n-t keypath="mainMenu.storage.noStorageWarning" tag="span" scope="global">
+            <template #recommended><b>{{ $t("mainMenu.storage.stronglyRecommended") }}</b></template>
+            <template #pwaLink><a class="text-secondary" href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps" target="_blank">{{ $t("mainMenu.storage.asPwa") }}<v-icon size="small" icon="mdi-open-in-new" /></a></template>
+          </i18n-t>
         </div>
         <div v-else>
-          As of the v3 update, COMP/CON requires more local device storage than is available by
-          default. Functionality will be impaired unless COMP/CON is granted the
-          <b>Persistent Storage Permission</b>
-          for this browser.
+          <i18n-t keypath="mainMenu.storage.v3StorageWarning" tag="span" scope="global">
+            <template #permission><b>{{ $t("mainMenu.storage.persistentStoragePermission") }}</b></template>
+          </i18n-t>
         </div>
         <div v-if="allowedStorageState === 'denied' || allowedStorageState === 'prompt'"
           class="mt-2 pa-2"
           style="border: white 1px solid">
-          <b>
-            COMP/CON has detected that persistent storage has been denied for this app. Persistent
-            storage must be enabled for COMP/CON to operate correctly
-          </b>
+          <b>{{ $t("mainMenu.storage.denialNotice") }}</b>
         </div>
         <div class="text-center">
           <cc-button class="mt-2"
@@ -84,14 +72,14 @@
             block
             size="x-small"
             @click="show = false">
-            Continue
+            {{ $t("common.continue") }}
           </cc-button>
         </div>
       </cc-alert>
       <v-fade-transition>
         <div v-if="!show"
           class="text-white">
-          <b>Persistent storage activated! Closing alert...</b>
+          <b>{{ $t("mainMenu.storage.activated") }}</b>
         </div>
       </v-fade-transition>
     </v-dialog>

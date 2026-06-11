@@ -1,5 +1,4 @@
 import { D20RollResult } from '../../../../dice/DiceRoller'
-import { DamageType } from '../../../../enums'
 import { CombatantData } from '@/classes/encounter/Encounter'
 import { ActiveEffect } from '../ActiveEffect'
 import { ActiveEffectEvent } from '../ActiveEffectEvent'

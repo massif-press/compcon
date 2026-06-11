@@ -25,7 +25,7 @@
         variant="tonal"
         prepend-icon="mdi-plus"
         @click="item.AddContentItem()">
-        Add Content
+        {{ $t('gm.campaign.addContent') }}
       </v-btn>
     </v-footer>
 
@@ -42,7 +42,7 @@
               size="x-large"
               icon="mdi-eye" />
           </template>
-          <span>Preview</span>
+          <span>{{ $t('common.preview') }}</span>
         </v-tooltip>
       </v-btn>
       <v-spacer />
@@ -65,7 +65,7 @@
                   size="x-large"
                   icon="mdi-tooltip-edit-outline" />
               </template>
-              <span>Change Section Type</span>
+              <span>{{ $t('gm.campaign.changeSectionType') }}</span>
             </v-tooltip>
           </v-btn>
         </template>
@@ -102,7 +102,7 @@
                   size="x-large"
                   icon="mdi-swap-vertical-bold" />
               </template>
-              <span>Move Page</span>
+              <span>{{ $t('gm.campaign.movePage') }}</span>
             </v-tooltip>
           </v-btn>
         </template>
@@ -115,7 +115,7 @@
                   color="accent"
                   prepend-icon="mdi-arrow-collapse-up"
                   @click="item.MoveToTop()">
-                  move to top
+                  {{ $t('gm.campaign.moveToTop') }}
                 </v-btn>
               </v-col>
               <v-col cols="auto">
@@ -124,7 +124,7 @@
                   color="accent"
                   prepend-icon="mdi-arrow-up"
                   @click="item.MoveUp()">
-                  move up
+                  {{ $t('gm.campaign.moveUp') }}
                 </v-btn>
               </v-col>
               <v-col cols="auto">
@@ -133,7 +133,7 @@
                   color="accent"
                   prepend-icon="mdi-arrow-down"
                   @click="item.MoveDown()">
-                  move down
+                  {{ $t('gm.campaign.moveDown') }}
                 </v-btn>
               </v-col>
               <v-col cols="auto">
@@ -142,7 +142,7 @@
                   color="accent"
                   prepend-icon="mdi-arrow-collapse-down"
                   @click="item.MoveToBottom()">
-                  move to bottom
+                  {{ $t('gm.campaign.moveToBottom') }}
                 </v-btn>
               </v-col>
             </v-row>
@@ -183,7 +183,7 @@
               size="x-large"
               icon="mdi-content-copy" />
           </template>
-          <span>Duplicate</span>
+          <span>{{ $t('common.duplicate') }}</span>
         </v-tooltip>
       </v-btn>
 
@@ -202,21 +202,20 @@
                   size="x-large"
                   icon="mdi-delete" />
               </template>
-              <span>Delete</span>
+              <span>{{ $t('common.delete') }}</span>
             </v-tooltip>
           </v-btn>
         </template>
         <v-card>
           <v-card-text>
-            Do you want to delete the {{ item.SectionType }} "{{ item.Title }}"? This action cannot
-            be undone.
+            {{ $t('gm.campaign.deletePageConfirm', { type: item.SectionType, title: item.Title }) }}
           </v-card-text>
           <v-divider />
           <v-card-actions>
             <v-spacer />
             <v-btn small
               color="error"
-              @click="$emit('delete')">Confirm Deletion</v-btn>
+              @click="$emit('delete')">{{ $t('common.confirmDeletion') }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-menu>

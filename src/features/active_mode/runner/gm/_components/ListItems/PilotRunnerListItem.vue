@@ -23,7 +23,7 @@
       tile
       class="mb-1">
       <div class="text-cc-overline text-center">
-        <div class="text-disabled">Mech under AI Control</div>
+        <div class="text-disabled">{{ $t('active.runnerItem.aiControl') }}</div>
         <v-divider />
         <div class="text-accent">{{aiSystems.map((x) => x.Name).join(' // ')}}</div>
       </div>
@@ -33,7 +33,7 @@
       <div class="text-cc-overline text-center">
         <v-icon icon="mdi-alert-outline"
           size="15" />
-        SELF DESTRUCT INITIATED
+        {{ $t('active.runnerItem.selfDestructInitiated') }}
         <v-icon icon="mdi-alert-outline"
           size="15" />
       </div>

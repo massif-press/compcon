@@ -38,7 +38,7 @@
                 v.{{ version }}
               </cc-button>
             </template>
-            <span>View changelog</span>
+            <span>{{ $t('mainMenu.ui.viewChangelog') }}</span>
           </v-tooltip>
         </div>
       </div>

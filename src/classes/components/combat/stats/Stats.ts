@@ -230,7 +230,7 @@ class Stats {
         return 'Engineering'
     }
 
-    k = key.charAt(0).toUpperCase() + key.slice(1)
+    k = k.charAt(0).toUpperCase() + k.slice(1)
     k = k.replace(/([A-Z])/g, ' $1').trim()
 
     return k

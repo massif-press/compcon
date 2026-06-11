@@ -1,4 +1,5 @@
 import * as _ from 'lodash-es'
+import { i18n } from '@/i18n'
 import { Campaign } from './Campaign'
 import { IContentBlockData, ContentBlock } from './CampaignContentBlock'
 import { Encounter, IEncounterData } from '../encounter/Encounter'
@@ -24,7 +25,7 @@ class CampaignSection {
     this._title = data
       ? data?.title ||
         `New ${data?.sectionType.charAt(0).toUpperCase() + data?.sectionType.slice(1)}`
-      : 'New Section'
+      : i18n.global.t('classes.newSection')
     this._sectionType = data?.sectionType || 'section'
     this._content = data?.children ? data.content.map(x => new ContentBlock(this, campaign, x)) : []
     this._children = data?.children
@@ -114,7 +115,7 @@ class CampaignSection {
   public AddContentItem(data?: IContentBlockData): void {
     if (!data)
       data = {
-        title: 'New Content',
+        title: i18n.global.t('classes.newContent'),
         headerType: 'header-4',
         color: 'text',
         variant: '',

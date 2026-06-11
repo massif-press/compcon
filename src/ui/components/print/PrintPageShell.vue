@@ -9,7 +9,7 @@
       <slot />
       <v-bottom-navigation fixed grow horizontal color="primary" class="no-print pa-2">
         <v-btn stacked @click="router.go(-1)">
-          <span>Close Preview</span>
+          <span>{{ $t('ui.print.closePreview') }}</span>
           <v-icon icon="mdi-close" />
         </v-btn>
         <slot name="selector" />
@@ -17,14 +17,14 @@
         <cc-modal title="Print Options" icon="mdi-cog">
           <template #activator="{ open }">
             <v-btn @click="open">
-              <span>Options</span>
+              <span>{{ $t('ui.print.options') }}</span>
               <v-icon icon="mdi-cog" />
             </v-btn>
           </template>
           <slot name="options-dialog" />
         </cc-modal>
         <v-btn @click="print()">
-          <span>Print</span>
+          <span>{{ $t('common.print') }}</span>
           <v-icon icon="mdi-printer" />
         </v-btn>
       </v-bottom-navigation>

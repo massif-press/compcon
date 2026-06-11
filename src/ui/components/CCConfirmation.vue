@@ -3,10 +3,10 @@
     tile
     :max-width="fullWidth ? '' : '600px'">
     <v-card-text class="pa-2 flavor-text">
-      <span class="text-cc-overline">// PROCESS INTERRUPT: AUTHORIZATION REQUIRED //</span>
+      <span class="text-cc-overline">{{ $t('ui.confirm.heading') }}</span>
       <br />
       <span v-if="!noCc"
-        style="opacity: 0.4">>>COMP/CON//&nbsp;</span>
+        style="opacity: 0.4">{{ $t('ui.confirm.prompt') }}&nbsp;</span>
       <span v-html-safe="content" />
       <v-divider class="my-2" />
       <v-card-actions class="my-n3">
@@ -15,12 +15,12 @@
           variant="text"
           color="error"
           @click="emit('cancel')">
-          CANCEL
+          {{ $t('common.cancel') }}
         </cc-button>
         <v-spacer />
         <cc-button size="small"
           color="primary"
-          @click="emit('confirm')">CONFIRM</cc-button>
+          @click="emit('confirm')">{{ $t('common.confirm') }}</cc-button>
       </v-card-actions>
     </v-card-text>
   </v-card>

@@ -47,7 +47,8 @@
 </template>
 
 <script setup lang="ts">
-import { NAV_STRINGS } from '@/features/nav/strings'
+import { useNavStrings } from '@/features/nav/useNavStrings'
+const { section } = useNavStrings()
 
-const a = NAV_STRINGS.about
+const a = section('about')
 </script>

@@ -19,14 +19,14 @@
     </div>
   </v-card-text>
   <div class="mb-4 mx-10 text-center text-caption">
-    Drag stencil to move crop target, drag handles to resize <cc-slashes class="px-4" />
-    Drag image to reposition, mouse wheel to zoom image
+    {{ $t('ui.image.dragHelp1') }} <cc-slashes class="px-4" />
+    {{ $t('ui.image.dragHelp2') }}
   </div>
   <v-divider />
   <v-card-actions>
-    <v-btn @click="$emit('hide')">dismiss</v-btn>
+    <v-btn @click="$emit('hide')">{{ $t('common.dismiss') }}</v-btn>
     <v-spacer />
-    <v-btn variant="plain" color="success" @click="set()">set avatar</v-btn>
+    <v-btn variant="plain" color="success" @click="set()">{{ $t('ui.image.setAvatarBtn') }}</v-btn>
   </v-card-actions>
 </template>
 

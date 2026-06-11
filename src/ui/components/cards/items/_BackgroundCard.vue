@@ -2,7 +2,7 @@
   <div v-html-safe="item.Description" class="body-text" />
   <div v-if="item.SuggestedSkills.length">
     <v-divider class="my-1" />
-    <div class="text-cc-overline text-accent">Suggested Skills</div>
+    <div class="text-cc-overline text-accent">{{ $t('ui.card.suggestedSkills') }}</div>
     <v-tooltip
       v-for="s in item.SuggestedSkills"
       :key="s.ID"

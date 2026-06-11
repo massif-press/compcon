@@ -2,7 +2,7 @@
   <div v-if="!embedded"
     class="text-right text-caption text-disabled mb-1">
     <i v-if="activeEffect.Origin.Name">
-      From {{ activeEffect.Origin.Name }}
+      {{ $t('ui.combat.fromOrigin', { name: activeEffect.Origin.Name }) }}
       <span v-if="activeEffect.Origin.Source">
         ({{ activeEffect.Origin.Type }}, {{ activeEffect.Origin.Source }})
       </span>
@@ -32,12 +32,12 @@
   <div v-if="!hideInput">
     <cc-alert v-if="activeEffect.getCondition(owner.actor.CombatController.Tier)"
       color="primary">
-      <b class="text-accent">IF:&nbsp;</b>
+      <b class="text-accent">{{ $t('ui.combat.ifLabel') }}&nbsp;</b>
       <b v-html-safe="activeEffect.getCondition(owner.actor.CombatController.Tier)" />
     </cc-alert>
     <cc-alert v-if="(activeEffect as any).Trigger"
       color="primary">
-      <b class="text-accent">Trigger:&nbsp;</b>
+      <b class="text-accent">{{ $t('ui.combat.triggerLabel') }}&nbsp;</b>
       <b v-html-safe="activeEffect.getTrigger(owner.actor.CombatController.Tier)" />
     </cc-alert>
 
@@ -61,7 +61,7 @@
   <v-slide-y-transition>
     <div v-if="event && event.Staged"
       class="pa-4">
-      <div class="text-cc-overline text-disabled">Staged:</div>
+      <div class="text-cc-overline text-disabled">{{ $t('ui.combat.staged') }}</div>
       <v-row dense>
         <v-col>
           <code style="white-space: pre-wrap; font-size: 12px;">

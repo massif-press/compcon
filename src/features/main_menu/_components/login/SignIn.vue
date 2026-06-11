@@ -28,7 +28,7 @@
                 color="secondary"
                 prepend-icon="mdi-clipboard-text-outline"
                 @click="copyLog">
-                Copy Log
+                {{ $t('mainMenu.auth.copyLog') }}
               </v-btn>
             </div>
             <v-row dense>
@@ -37,21 +37,21 @@
                   block
                   color="primary"
                   aria-label="Abort sign-in"
-                  @click="abort">Abort</cc-button>
+                  @click="abort">{{ $t('mainMenu.auth.abort') }}</cc-button>
               </v-col>
               <v-col>
                 <cc-button variant="tonal"
                   block
                   color="primary"
                   aria-label="Retry sign-in"
-                  @click="retry">Retry</cc-button>
+                  @click="retry">{{ $t('mainMenu.auth.retry') }}</cc-button>
               </v-col>
               <v-col>
                 <cc-button variant="tonal"
                   block
                   color="primary"
                   aria-label="Cancel and close"
-                  @click="fail">Cancel</cc-button>
+                  @click="fail">{{ $t('common.cancel') }}</cc-button>
               </v-col>
             </v-row>
           </div>
@@ -66,7 +66,7 @@
             <v-col lg="6"
               cols="12">
               <div class="text-cc-overline pl-3"
-                aria-hidden="true">E-Mail</div>
+                aria-hidden="true">{{ $t('mainMenu.auth.email') }}</div>
               <cc-text-field v-model="email"
                 icon="mdi-email-outline"
                 color="primary"
@@ -78,7 +78,7 @@
             <v-col lg="6"
               cols="12">
               <div class="text-cc-overline pl-3"
-                aria-hidden="true">Password</div>
+                aria-hidden="true">{{ $t('mainMenu.auth.password') }}</div>
               <cc-text-field v-model="password"
                 icon="mdi-lock-outline"
                 color="primary"
@@ -100,7 +100,7 @@
               :disabled="loading || !email || !password"
               :aria-busy="loading"
               @click="signIn">
-              Sign In
+              {{ $t('mainMenu.auth.signIn') }}
             </cc-button>
             <cc-button color="accent"
               size="small"
@@ -108,7 +108,7 @@
               class="mt-2"
               variant="outlined"
               @click="$emit('set-state', 'sign-up')">
-              Create Account
+              {{ $t('mainMenu.auth.createAccount') }}
             </cc-button>
           </div>
         </form>
@@ -118,7 +118,7 @@
             prepend-icon="mdi-email-check"
             color="primary"
             @click="$emit('reverify', $event)">
-            Verify E-Mail
+            {{ $t('mainMenu.auth.verifyEmail') }}
           </cc-button>
           <v-spacer />
           <cc-button :size="mobile ? 'small' : 'default'"
@@ -126,7 +126,7 @@
             prepend-icon="mdi-lock-reset"
             color="primary"
             @click="$emit('set-state', 'reset')">
-            Password Recovery
+            {{ $t('mainMenu.auth.passwordRecovery') }}
           </cc-button>
         </v-footer>
       </div>

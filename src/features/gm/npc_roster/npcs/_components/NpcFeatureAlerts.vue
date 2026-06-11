@@ -12,12 +12,12 @@
         class="mb-4">
 
         <div v-if="!item.optional_complete && item.optionalMin && !item.optionalMax">
-          You may select up to {{ item.optionalMin - item.selected }} additional feature(s)
+          {{ $t('gm.npcAlert.selectUpTo', { n: item.optionalMin - item.selected }) }}
         </div>
         <div v-else-if="!item.optional_complete">
-          You may select up to {{ item.optionalMax - item.selected }} additional feature(s)
+          {{ $t('gm.npcAlert.selectUpTo', { n: item.optionalMax - item.selected }) }}
         </div>
-        <div v-else-if="!item.complete">Select {{ item.max - item.selected }} additional feature(s)
+        <div v-else-if="!item.complete">{{ $t('gm.npcAlert.selectN', { n: item.max - item.selected }) }}
         </div>
       </cc-alert>
     </div>
@@ -46,12 +46,12 @@
           </div>
         </v-toolbar>
         <v-card-text>
-          <div v-if="!item.complete">Select {{ item.max - item.selected }} additional feature(s)
+          <div v-if="!item.complete">{{ $t('gm.npcAlert.selectN', { n: item.max - item.selected }) }}
           </div>
           <div v-else-if="!item.optional_complete">
-            You may select up to {{ item.optionalMax - item.selected }} additional feature(s)
+            {{ $t('gm.npcAlert.selectUpTo', { n: item.optionalMax - item.selected }) }}
           </div>
-          <div v-else>{{ item.source }} selections complete</div>
+          <div v-else>{{ $t('gm.npcAlert.selectionsComplete', { source: item.source }) }}</div>
         </v-card-text>
       </v-card>
     </v-menu>

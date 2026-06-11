@@ -120,6 +120,8 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import { ref, computed, watch } from 'vue'
 import { Pilot, PilotData } from '@/classes/pilot/Pilot'
 import { ImportData } from '@/io/Data';
@@ -213,8 +215,8 @@ async function importFile() {
 
     if (result.action === 'backup') {
       notify({
-        title: 'v2 Import Backup',
-        text: `${(stagedData.value as any).callsign} saved to pending v2 imports in the Content Manager.`,
+        title: t('pm.import.v2BackupTitle'),
+        text: t('pm.import.v2BackupText', { callsign: (stagedData.value as any).callsign }),
         data: { icon: 'mdi-information-box-outline', color: 'info' },
       })
       reset()
@@ -229,8 +231,8 @@ async function importFile() {
       await PilotStore().AddPilot(importPilot, props.groupId)
       reset()
       notify({
-        title: 'Import Successful',
-        text: `${importPilot.Name} // ${importPilot.Callsign} successfully added to roster.`,
+        title: t('pm.import.importSuccessTitle'),
+        text: t('pm.import.importSuccessText', { name: importPilot.Name, callsign: importPilot.Callsign }),
         data: { icon: 'cc:pilot' },
       })
       emit('done')
@@ -241,8 +243,8 @@ async function importFile() {
   } catch (error) {
     logger.error(`Pilot import error: ${error}`, error)
     notify({
-      title: 'Import Error',
-      text: `Unable to import Pilot: ${error}`,
+      title: t('pm.import.importErrorTitle'),
+      text: t('pm.import.importPilotErrorText', { error: String(error) }),
       data: { icon: 'cc:pilot', color: 'error' },
     })
   }

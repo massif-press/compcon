@@ -23,21 +23,15 @@
               <v-icon v-else color="success" icon="mdi-check-bold" />
             </span>
           </template>
-          <span v-if="b.Status === 'MISSING' || b.Status === 'OFF'">
-            This item uses content from the
-            <b class="text-accent">{{ b.LcpName }}</b>
-            Lancer Content Pack. Equipment from this content pack will be
-            <b>instanced</b>
-            until the required LCP is
-            {{ b.status === 'MISSING' ? 'installed and activated' : 'activated' }} via the Manage
-            Content menu.
-          </span>
-          <span v-else-if="b.Status === 'OLD'">
-            This item requests a version of the
-            <b class="text-accent">{{ b.LcpName }}</b>
-            Lancer Content Pack newer than the one that is currently installed.
-          </span>
-          <span v-else>The {{ b.LcpName }} Lancer Content Pack is installed and active.</span>
+          <i18n-t v-if="b.Status === 'MISSING' || b.Status === 'OFF'" keypath="ui.missing.usesContent" tag="span" scope="global">
+            <template #pack><b class="text-accent">{{ b.LcpName }}</b></template>
+            <template #instanced><b>{{ $t('ui.missing.instanced') }}</b></template>
+            <template #state>{{ b.status === 'MISSING' ? $t('ui.missing.installedActivated') : $t('ui.missing.activated') }}</template>
+          </i18n-t>
+          <i18n-t v-else-if="b.Status === 'OLD'" keypath="ui.missing.requestsNewer" tag="span" scope="global">
+            <template #pack><b class="text-accent">{{ b.LcpName }}</b></template>
+          </i18n-t>
+          <span v-else>{{ $t('ui.missing.packActive', { pack: b.LcpName }) }}</span>
         </v-tooltip>
       </v-col>
       <v-col cols="auto">
@@ -57,7 +51,7 @@
           variant="tonal"
           color="error">
           <v-icon icon="mdi-open-in-new" start />
-          Download LCP
+          {{ $t('ui.lcp.downloadLcp') }}
         </v-btn>
       </v-col>
       <v-col v-else-if="b.Status === 'OLD' && b.Website" cols="auto" class="ml-6">
@@ -70,14 +64,14 @@
           tile
           color="secondary">
           <v-icon icon="mdi-open-in-new" start />
-          Update LCP
+          {{ $t('ui.lcp.updateLcp') }}
         </v-btn>
       </v-col>
     </v-row>
     <p v-if="controller.OtherError" class="text-center">
-      COMP/CON encountered an error while loading this item.
+      {{ $t('ui.missing.otherError') }}
       <br />
-      Please check the error log in the "Log" tab of the Options menu for more information
+      {{ $t('ui.missing.checkLog') }}
     </p>
   </v-card>
 </template>

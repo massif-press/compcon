@@ -25,8 +25,8 @@
 
 
           <div class="text-center">
-            1d20 +
-            {{ rollData.SaveBonus }} (Save Bonus) vs {{ rollData.SaveTarget }}
+            {{ $t('ui.combat.d20Plus') }}
+            {{ rollData.SaveBonus }} {{ $t('ui.combat.saveBonusVs') }} {{ rollData.SaveTarget }}
           </div>
 
           <accuracy-difficulty-row
@@ -39,7 +39,7 @@
             block
             color="panel"
             class="mt-1"
-            @click="reset()">RESET</v-btn>
+            @click="reset()">{{ $t('ui.combat.reset') }}</v-btn>
 
           <v-btn flat
             tile
@@ -48,9 +48,9 @@
             size="small"
             block
             @click="rollSave()">
-            Roll
+            {{ $t('common.roll') }}
           </v-btn>
-          <div class="pa-2 text-left text-cc-overline text-accent">roll results</div>
+          <div class="pa-2 text-left text-cc-overline text-accent">{{ $t('ui.combat.rollResults') }}</div>
           <div v-if="rollData.SaveRollResult"
             class="text-text">
             <span v-html-safe="rollData.SaveRollResult.toString()" />

@@ -19,12 +19,10 @@
           </v-btn>
         </template>
         <div class="text-center">
-          <span v-if="damageEffect.IsCrit">This damage is rolled as critical damage (roll twice,
-            take
-            highest)</span>
-          <span v-else>This damage does not roll as critical damage</span>
+          <span v-if="damageEffect.IsCrit">{{ $t('ui.combat.critDamageYes') }}</span>
+          <span v-else>{{ $t('ui.combat.critDamageNo') }}</span>
           <div>
-            <i class="text-caption text-disabled">Click to Override</i>
+            <i class="text-caption text-disabled">{{ $t('ui.combat.clickToOverride') }}</i>
           </div>
         </div>
       </v-tooltip>
@@ -48,10 +46,10 @@
           </v-btn>
         </template>
         <div class="text-center">
-          <span v-if="damageEffect.AP">This damage ignores armor</span>
-          <span v-else>This damage does not ignore armor</span>
+          <span v-if="damageEffect.AP">{{ $t('ui.combat.apYes') }}</span>
+          <span v-else>{{ $t('ui.combat.apNo') }}</span>
           <div>
-            <i class="text-caption text-disabled">Click to Override</i>
+            <i class="text-caption text-disabled">{{ $t('ui.combat.clickToOverride') }}</i>
           </div>
         </div>
       </v-tooltip>
@@ -74,13 +72,13 @@
           </v-btn>
         </template>
         <div class="text-center">
-          <span v-if="damageEffect.Irreducible">This damage cannot be reduced in any way</span>
+          <span v-if="damageEffect.Irreducible">{{ $t('ui.combat.irreducibleYes') }}</span>
           <span v-else>
-            This damage can be reduced by the target's defenses
-            <span v-if="damageEffect.AP">, except for armor</span>
+            {{ $t('ui.combat.irreducibleNo') }}
+            <span v-if="damageEffect.AP">{{ $t('ui.combat.exceptArmor') }}</span>
           </span>
           <div>
-            <i class="text-caption text-disabled">Click to Override</i>
+            <i class="text-caption text-disabled">{{ $t('ui.combat.clickToOverride') }}</i>
           </div>
         </div>
       </v-tooltip>
@@ -103,12 +101,10 @@
           </v-btn>
         </template>
         <div class="text-center">
-          <span v-if="damageEffect.Overkill">This damage is subject to OVERKILL rules (reroll 1s,
-            add
-            heat (self))</span>
-          <span v-else>This damage is not subject to OVERKILL rules</span>
+          <span v-if="damageEffect.Overkill">{{ $t('ui.combat.overkillYes') }}</span>
+          <span v-else>{{ $t('ui.combat.overkillNo') }}</span>
           <div>
-            <i class="text-caption text-disabled">Click to Override</i>
+            <i class="text-caption text-disabled">{{ $t('ui.combat.clickToOverride') }}</i>
           </div>
         </div>
       </v-tooltip>
@@ -131,7 +127,7 @@
         <v-card class="pa-2"
           flat
           tile>
-          <div class="text-cc-overline text-disabled">Reliable Damage:</div>
+          <div class="text-cc-overline text-disabled">{{ $t('ui.combat.reliableDamage') }}</div>
           <v-row align="center"
             no-gutters>
             <v-col cols="auto">
@@ -176,7 +172,7 @@
             block
             variant="tonal"
             @click.stop="damageEffect.Reliable = 0">
-            Clear Reliable Damage
+            {{ $t('ui.combat.clearReliableDamage') }}
           </v-btn>
         </v-card>
       </v-menu>
@@ -199,8 +195,8 @@
           </v-btn>
         </template>
         <div class="text-center">
-          <span v-if="damageEffect.Bonus">Click to clear Bonus Damage</span>
-          <span v-else>Click to add Bonus Damage</span>
+          <span v-if="damageEffect.Bonus">{{ $t('ui.combat.clickClearBonus') }}</span>
+          <span v-else>{{ $t('ui.combat.clickAddBonus') }}</span>
         </div>
       </v-tooltip>
     </v-col>

@@ -45,6 +45,8 @@ import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed } from 'vue';
 import { CompendiumStore } from '@/stores';
 import { notify } from '@/util/notify';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import BaseActionsPanel from './BaseActionsPanel.vue';
 import BasicActionButton from './loadouts/action_buttons/basicActionButton.vue';
 import SkillCheckButton from './loadouts/action_buttons/skillCheckButton.vue';
@@ -77,30 +79,30 @@ function activate(event: string) {
   switch (event) {
     case 'act_prepare':
       controller.value.Prepared = true;
-      notify({ type: 'success', title: 'Pilot Prepared', text: `${controller.value.CombatName} has been marked as PREPARED.` });
+      notify({ type: 'success', title: t('active.pilotActions.preparedTitle'), text: t('active.pilotActions.preparedText', { name: controller.value.CombatName }) });
       break;
     case 'act_mount':
       if (controller.value.Mounted) {
-        notify({ type: 'warning', title: 'Mount Failed', text: `${controller.value.CombatName} is already mounted.` });
+        notify({ type: 'warning', title: t('active.pilotActions.mountFailedTitle'), text: t('active.pilotActions.mountFailedText', { name: controller.value.CombatName }) });
         controller.value.ResetActivation('full');
         controller.value.ClearActionUsed('mount');
         return;
       }
       controller.value.ToggleMounted();
-      notify({ type: 'success', title: 'Pilot Mountd', text: `${controller.value.CombatName} has mounted their Mech.` });
+      notify({ type: 'success', title: t('active.pilotActions.mountedTitle'), text: t('active.pilotActions.mountedText', { name: controller.value.CombatName }) });
       break;
     case 'act_hide':
       controller.value.AddStatus('hidden');
-      notify({ type: 'success', title: 'Pilot Hidden', text: `${controller.value.CombatName} is now HIDDEN.` });
+      notify({ type: 'success', title: t('active.pilotActions.hiddenTitle'), text: t('active.pilotActions.hiddenText', { name: controller.value.CombatName }) });
       break;
     case 'act_disengage':
       if (!controller.value.HasStatus('engaged')) {
-        notify({ type: 'warning', title: 'Disengage Failed', text: `${controller.value.CombatName} is not ENGAGED.` });
+        notify({ type: 'warning', title: t('active.pilotActions.disengageFailedTitle'), text: t('active.pilotActions.disengageFailedText', { name: controller.value.CombatName }) });
         controller.value.ResetActivation('full');
         controller.value.ClearActionUsed('act_disengage');
       } else {
         controller.value.RemoveStatus('engaged');
-        notify({ type: 'success', title: 'Pilot Disengaged', text: `${controller.value.CombatName} has DISENGAGED.` });
+        notify({ type: 'success', title: t('active.pilotActions.disengagedTitle'), text: t('active.pilotActions.disengagedText', { name: controller.value.CombatName }) });
       }
       break;
     default:

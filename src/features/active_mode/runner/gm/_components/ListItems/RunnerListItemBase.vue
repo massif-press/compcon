@@ -131,11 +131,11 @@
                       class="text-center text-cc-overline mt-1">
                       <span v-if="timeToDeploy > 1"
                         class="fade-select">
-                        Deploys on Round {{ reinforcementTurn }}
+                        {{ $t('active.runnerItem.deploysOnRound', { n: reinforcementTurn }) }}
                       </span>
                       <div v-else-if="timeToDeploy === 1"
                         class="bg-background pa-1 font-weight-bold text-accent">
-                        Deploys Next Round
+                        {{ $t('active.runnerItem.deploysNextRound') }}
                       </div>
                     </v-card>
 
@@ -147,7 +147,7 @@
                         class="success-pulse mb-1"
                         prepend-icon="mdi-arrow-right-bold-box-outline"
                         @click="$emit('activate', combatant)">
-                        Ready to Deploy
+                        {{ $t('active.runnerItem.readyToDeploy') }}
                       </cc-button>
                       <v-btn v-else
                         block
@@ -158,7 +158,7 @@
                         class="mt-2 fade-select"
                         prepend-icon="mdi-arrow-right-bold-box-outline"
                         @click="$emit('activate', combatant)">
-                        Force Deploy
+                        {{ $t('active.runnerItem.forceDeploy') }}
                       </v-btn>
                     </div>
                   </div>
@@ -179,7 +179,7 @@
                           :class="damageClass(damage)" />
                       </template>
                       <span class="text-cc-overline">
-                        {{ damage.condition }} to {{ damage.type }} damage
+                        {{ $t('active.runnerItem.resistanceLine', { condition: damage.condition, type: damage.type }) }}
                       </span>
                     </v-tooltip>
                   </v-row>
@@ -199,14 +199,14 @@
                         style="margin-top: 2px">
                         <v-icon icon="mdi-radioactive-circle"
                           class="mt-n1" />
-                        REACTOR DESTROYED
+                        {{ $t('active.runnerItem.reactorDestroyed') }}
                       </div>
                       <div v-else
                         class="text-red"
                         style="margin-top: 2px">
                         <v-icon icon="cc:destroyed"
                           class="mt-n1" />
-                        DESTROYED
+                        {{ $t('active.common.destroyed') }}
                       </div>
                     </v-chip>
                   </v-card>
@@ -224,7 +224,7 @@
                       <div class="text-red"
                         style="margin-top: 2px">
                         <v-icon icon="cc:heat" />
-                        Danger Zone
+                        {{ $t('active.common.dangerZone') }}
                       </div>
                     </v-chip>
                   </v-card>
@@ -240,14 +240,12 @@
                             tile
                             class="px-2 ma-1"
                             color="surface-variant">
-                            <span class="text-cc-overline">BRACED</span>
+                            <span class="text-cc-overline">{{ $t('active.pcEndRound.braced') }}</span>
                           </v-card>
                         </template>
-                        <div class="heading h4">Braced</div>
+                        <div class="heading h4">{{ $t('active.runnerItem.bracedHeading') }}</div>
                         <v-divider class="my-1" />
-                        You count as having RESISTANCE to all damage, heat, and burn from the attack
-                        that triggered this Brace, and until the end of your next turn, all other
-                        attacks against you are made at +1 Difficulty.
+                        {{ $t('active.runnerItem.bracedDesc') }}
                       </v-tooltip>
                     </v-col>
 
@@ -256,7 +254,7 @@
                         tile
                         class="px-2 ma-1"
                         color="surface-variant">
-                        <span class="text-cc-overline">Overwatch</span>
+                        <span class="text-cc-overline">{{ $t('active.runnerItem.overwatch') }}</span>
                       </v-card>
                     </v-col>
 
@@ -265,7 +263,7 @@
                         tile
                         class="px-2 ma-1"
                         color="surface-variant">
-                        <span class="text-cc-overline">Prepared</span>
+                        <span class="text-cc-overline">{{ $t('active.runnerItem.prepared') }}</span>
                       </v-card>
                     </v-col>
                   </v-row>
@@ -284,7 +282,7 @@
                         icon="mdi-texture-box"
                         start
                         class="mt-n1" />
-                      {{ actor.CombatController.Cover }} COVER
+                      {{ $t('active.runnerItem.coverLabel', { cover: actor.CombatController.Cover }) }}
                     </span>
                   </v-card>
 
@@ -365,7 +363,7 @@
                           class="d-block" />
                       </template>
                       <span class="text-cc-overline">
-                        {{ activations }} Activations remaining this round
+                        {{ $t('active.runnerItem.activationsRemaining', { n: activations }) }}
                       </span>
                     </v-tooltip>
                   </div>

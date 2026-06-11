@@ -1,5 +1,5 @@
 import { CompendiumStore } from '../../../../stores'
-import { CompendiumItem } from '../../../CompendiumItem'
+import { CompendiumItem, ICompendiumItemData } from '../../../CompendiumItem'
 import { ContentPack } from '../../../ContentPack'
 import { SkillFamily, ItemType } from '../../../enums'
 

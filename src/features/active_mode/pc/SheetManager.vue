@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div class="heading h2"> Character Sheets</div>
+    <div class="heading h2"> {{ $t('active.sheetMgr.characterSheets') }}</div>
     <active-mode-sort-bar :sort="sort"
       :asc="asc"
       :items="activeSheets"
@@ -30,7 +30,7 @@
           color="primary"
           to="/active-mode/new-sheet"
           class="mb-2">
-          New Character Sheet
+          {{ $t('active.sheet.newCharacterSheet') }}
         </cc-button>
       </v-col>
       <v-col cols="12"
@@ -41,7 +41,7 @@
           color="primary"
           class="mb-2"
           @click="importSelect()">
-          Import
+          {{ $t('common.import') }}
         </cc-button>
       </v-col>
     </v-row>
@@ -49,7 +49,7 @@
     <v-expansion-panels>
       <v-expansion-panel>
         <v-expansion-panel-title class="text-cc-overline">
-          Archived Sheets ({{ archived.length }})
+          {{ $t('active.sheetMgr.archivedSheets', { n: archived.length }) }}
         </v-expansion-panel-title>
         <v-expansion-panel-text>
           <div class="mb-4"
@@ -63,7 +63,7 @@
           </div>
           <div v-if="archived.length === 0"
             class="text-center text-cc-overline text-disabled">
-            <i>No archived sheets found{{ search ? ` including "${search}"` : '' }}.</i>
+            <i>{{ search ? $t('active.sheetMgr.noArchivedFoundFiltered', { search }) : $t('active.sheetMgr.noArchivedFound') }}.</i>
           </div>
           <v-row v-for="e in archived"
             :key="e.ID"
@@ -75,20 +75,20 @@
               <br>
               <v-card v-if="e.Combatant.actor.CombatController.IsDead"
                 class="px-1 bg-error text-center">
-                KIA
+                {{ $t('active.sheetMgr.kia') }}
               </v-card>
               <v-card v-else
                 class="px-1 bg-success text-center">
-                ACTIVE
+                {{ $t('active.sheetMgr.active') }}
               </v-card>
             </v-col>
             <v-col cols="auto">
               <div>
-                <span class="text-disabled mr-1">CREATED</span>
+                <span class="text-disabled mr-1">{{ $t('active.labels.created') }}</span>
                 <b>{{ new Date(e.Created).toLocaleDateString() }}</b>
               </div>
               <div>
-                <span class="text-disabled mr-1">ARCHIVED</span>
+                <span class="text-disabled mr-1">{{ $t('active.labels.archived') }}</span>
                 <b>{{ new Date(e.Updated).toLocaleDateString() }}</b>
               </div>
             </v-col>
@@ -101,9 +101,8 @@
                     color="primary"
                     disabled
                     block
-                    tooltip="Review the combat log and battlefield telemetry from this sheet and optionally save it to your pilot's history.">Save
-                    Pilot History</cc-button>
-                  <div class="text-cc-overline text-disabled">Feature in development (v3.1)</div>
+                    tooltip="Review the combat log and battlefield telemetry from this sheet and optionally save it to your pilot's history.">{{ $t('active.sheetMgr.savePilotHistory') }}</cc-button>
+                  <div class="text-cc-overline text-disabled">{{ $t('active.sheetMgr.featureInDev') }}</div>
                 </template>
                 <v-card flat
                   tile>
@@ -114,25 +113,23 @@
                       tile
                       color="panel"
                       border=start
-                      border-color="red">This feature is still in development. Additional
-                      data and export options will be available in future builds.
-                    </v-alert>
+                      border-color="red">{{ $t('active.encMgr.devNoteLogs') }}</v-alert>
                     <v-expansion-panels>
                       <v-expansion-panel>
                         <v-expansion-panel-title class="heading">
-                          encounter #
+                          {{ $t('active.sheetMgr.encounterHash') }}
                         </v-expansion-panel-title>
                         <v-expansion-panel-text class="bg-background">
                           <code class="text-left "
                             style="white-space: pre-wrap; word-break: break-word;">
                         <v-row dense>
                           <v-col>
-                            <div class="text-disabled mb-1">BATTLEFIELD TELEMETRY</div>
+                            <div class="text-disabled mb-1">{{ $t('active.encMgr.battlefieldTelemetry') }}</div>
                             <div class="text-disabled mb-1">---------------------</div>
                             <!-- {{ formatTelemetry(a.telemetry) }} -->
                           </v-col>
                           <v-col style="max-height: 800px; overflow-y: scroll;">
-                            <div class="text-disabled mb-1">COMBAT LOGS</div>
+                            <div class="text-disabled mb-1">{{ $t('active.encMgr.combatLogs') }}</div>
                             <div class="text-disabled mb-1">---------------------</div>
                             <div class="mb-2">
                               <!-- {{ formatLogEntry(log) }} -->
@@ -146,7 +143,7 @@
                   </v-card-text>
                   <v-card-actions>
                     <cc-button color="primary">
-                      Export as JSON
+                      {{ $t('active.common.exportAsJson') }}
                     </cc-button>
                   </v-card-actions>
                 </v-card>
@@ -168,19 +165,16 @@
                 </template>
                 <v-card>
                   <v-card-text>
-                    <b>Delete this archive?</b>
+                    <b>{{ $t('active.encMgr.deleteArchivePrompt') }}</b>
                     <br>
                     <p class="text-caption text--text mb-2">
-                      This will flag the archive for deletion. It will no longer appear in this
-                      list,
-                      but will be permanently deleted based on your retention options in the Options
-                      Menu.
+                      {{ $t('active.encMgr.deleteArchiveDetail') }}
                     </p>
                     <cc-button size="small"
                       block
                       color="primary"
                       @click="e.SaveController.Delete()">
-                      Delete
+                      {{ $t('common.delete') }}
                     </cc-button>
                   </v-card-text>
                 </v-card>

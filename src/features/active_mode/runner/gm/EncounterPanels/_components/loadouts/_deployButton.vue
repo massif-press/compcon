@@ -18,14 +18,14 @@
         span-class="ml-1 mr-n1">
         <template #reason>
           <div>
-            Insufficient
+            {{ $t('active.combatAction.insufficient') }}
             <v-chip :color="deployable.DeployAction.Color"
               size="small"
               variant="elevated"
               :prepend-icon="deployable.DeployAction.Icon || ''">
               {{ deployable.DeployAction.Activation }}
             </v-chip>
-            actions remaining this turn.
+            {{ $t('active.combatAction.actionsRemaining') }}
           </div>
         </template>
       </combat-action-indicator>
@@ -52,7 +52,7 @@
                 height="26px"
                 class="ml-n1"
                 :prepend-icon="deployable.DeployAction.Icon">
-                {{ `Deploy${actionOnly ? ` ${deployable.Name}` : ''}` }}
+                {{ actionOnly ? $t('active.deploy.deployNamed', { name: deployable.Name }) : $t('active.common.deploy') }}
               </v-btn>
             </template>
             <v-card border>
@@ -63,28 +63,25 @@
                 :color="deployable.DeployAction.Color">
                 <v-icon :icon="deployable.DeployAction.Icon"
                   start />
-                Deploy {{ deployable.Name }}
+                {{ $t('active.deploy.deployNamed', { name: deployable.Name }) }}
               </v-toolbar>
               <v-divider />
               <v-card-text class="pa-3">
                 <div class="mb-2">
-                  This will generate and deploy a new instance of
-                  <strong>{{ deployable.Name }}</strong>
-                  for
-                  <strong>{{ actor.CombatController.CombatName }}</strong>
-                  as a
-                  <v-chip :color="deployable.DeployAction.Color"
+<i18n-t keypath="active.deploy.generateInstance" tag="span" scope="global">
+                    <template #name><strong>{{ deployable.Name }}</strong></template>
+                    <template #actor><strong>{{ actor.CombatController.CombatName }}</strong></template>
+                    <template #action><v-chip :color="deployable.DeployAction.Color"
                     :prepend-icon="deployable.DeployAction.Icon"
                     size="small"
                     variant="elevated"
-                    flat>
-                    {{ deployable.DeployAction.Activation }} Action
-                  </v-chip>
+                    flat>{{ $t('active.combatAction.activationAction', { n: deployable.DeployAction.Activation }) }}</v-chip></template>
+                  </i18n-t>
                 </div>
                 <v-row class="mt-2">
                   <v-btn size="small"
                     text
-                    @click="menu = false">Cancel</v-btn>
+                    @click="menu = false">{{ $t('common.cancel') }}</v-btn>
                   <v-spacer />
                   <v-btn size="small"
                     flat
@@ -92,7 +89,7 @@
                     variant="elevated"
                     color="primary"
                     @click="deploy">
-                    deploy
+                    {{ $t('active.deploy.deployLower') }}
                   </v-btn>
                 </v-row>
               </v-card-text>

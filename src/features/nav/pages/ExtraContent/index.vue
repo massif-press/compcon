@@ -53,13 +53,14 @@ import PackInstall from './PackInstall.vue'
 import PacksDirectory from './PacksDirectory.vue'
 import PackConfig from './PackConfig.vue'
 import V2Imports from './components/v2Imports.vue'
-import { NAV_STRINGS } from '@/features/nav/strings'
+import { useNavStrings } from '@/features/nav/useNavStrings'
+const { section } = useNavStrings()
 
 const props = defineProps<{ modelValue?: boolean }>()
 const emit = defineEmits<{ 'update:modelValue': [value: boolean] }>()
 
 const { smAndDown: mobile } = useDisplay()
-const CM = NAV_STRINGS.contentManager
+const CM = section('contentManager')
 
 const modal = ref(props.modelValue ?? false)
 

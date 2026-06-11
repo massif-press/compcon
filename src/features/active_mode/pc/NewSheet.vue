@@ -1,6 +1,6 @@
 <template>
   <v-container :fluid="$vuetify.display.mdAndDown">
-    <div class="heading h2">New Character Sheet</div>
+    <div class="heading h2">{{ $t('active.sheet.newCharacterSheet') }}</div>
     <v-row dense
       class="mt-2">
       <v-col cols="1"
@@ -85,7 +85,7 @@
                       <div class="text-cc-overline">
                         {{ pilot.Name }}
                         <cc-slashes />
-                        LL{{ pilot.Level }}
+                        {{ $t('active.newSheet.llLevel', { n: pilot.Level }) }}
                       </div>
                       <div class="mt-1"
                         v-if="!mobile">
@@ -112,7 +112,7 @@
               color="accent"
               prepend-icon="mdi-plus-box"
               @click="$router.push({ name: 'new', params: { groupID: 'no_group' } })">
-              Create New Pilot
+              {{ $t('active.newSheet.createNewPilot') }}
             </cc-button>
           </div>
         </cc-panel>
@@ -179,35 +179,35 @@
                           justify="space-around">
                           <v-col cols="auto">
                             <span>
-                              STR
+                              {{ $t('active.newSheet.str') }}
                               <b>{{ mech.MaxStructure }}</b>
                             </span>
                           </v-col>
 
                           <v-col cols="auto">
                             <span>
-                              HP
+                              {{ $t('active.newSheet.hp') }}
                               <b>{{ mech.MaxHP }}</b>
                             </span>
                           </v-col>
 
                           <v-col cols="auto">
                             <span>
-                              Stress
+                              {{ $t('active.newSheet.stress') }}
                               <b>{{ mech.MaxStress }}</b>
                             </span>
                           </v-col>
 
                           <v-col cols="auto">
                             <span>
-                              Heat
+                              {{ $t('active.newSheet.heat') }}
                               <b>{{ mech.HeatCapacity }}</b>
                             </span>
                           </v-col>
 
                           <v-col cols="auto">
                             <span>
-                              RepCap
+                              {{ $t('active.newSheet.repCap') }}
                               <b>{{ mech.RepairCapacity }}</b>
                             </span>
                           </v-col>
@@ -252,7 +252,7 @@
             </cc-titled-divider>
 
             <div class="my-3">
-              <div class="text-cc-overline text-disabled">Campaign Name</div>
+              <div class="text-cc-overline text-disabled">{{ $t('active.newSheet.campaignName') }}</div>
               <cc-text-field v-model="campaign"
                 max-width="600px"
                 tooltip="Optional, for organizational purposes."
@@ -263,7 +263,7 @@
               color="success"
               prepend-icon="mdi-arrow-right-bold-hexagon-outline"
               @click="createSheet(true)">
-              <span>Create and Launch ACtive Mode</span>
+              <span>{{ $t('active.newSheet.createAndLaunch') }}</span>
             </cc-button>
             <v-row dense
               class="mt-1">
@@ -273,7 +273,7 @@
                   color="error"
                   :prepend-icon="mobile ? '' : 'mdi-close'"
                   @click="reset()">
-                  <span v-if="!mobile">Cancel</span>
+                  <span v-if="!mobile">{{ $t('common.cancel') }}</span>
                   <v-icon v-else
                     size="47"
                     icon=mdi-close />
@@ -285,7 +285,7 @@
                   color="primary"
                   prepend-icon="mdi-content-save"
                   @click="createSheet(false)">
-                  Create and return to library
+                  {{ $t('active.encSummary.createReturnLibrary') }}
                 </cc-button>
               </v-col>
             </v-row>

@@ -1,9 +1,9 @@
 <template>
   <v-container class="text-center">
-    <cc-heading type="h3" center>VERIFY E-MAIL ADDRESS</cc-heading>
+    <cc-heading type="h3" center>{{ $t('mainMenu.auth.verifyEmailTitle') }}</cc-heading>
     <div class="my-2">
-      <div v-if="preFill">A verification code was sent to</div>
-      <div v-else>Send a verification code to:</div>
+      <div v-if="preFill">{{ $t('mainMenu.auth.codeSentToLabel') }}</div>
+      <div v-else>{{ $t('mainMenu.auth.sendCodeToLabel') }}</div>
       <v-row dense justify="center" align="center">
         <v-col cols="12" sm="6" lg="4">
           <v-text-field
@@ -20,13 +20,13 @@
           color="accent"
           class="mt-2"
           @click="resend()">
-          {{ preFill ? 'Re-send' : 'Send' }} Verification Code
+          {{ preFill ? $t('mainMenu.auth.resendVerificationCode') : $t('mainMenu.auth.sendVerificationCode') }}
         </cc-button>
       </div>
       <v-fade-transition>
         <div v-if="!preFill" class="text-center mt-1">
           <v-btn size="x-small" flat tile :disabled="!verifyEmail" @click="preFill = true">
-            I already have a verification code
+            {{ $t('mainMenu.auth.alreadyHaveCode') }}
           </v-btn>
         </div>
       </v-fade-transition>
@@ -35,7 +35,7 @@
     <v-fade-transition>
       <div v-if="preFill">
         <v-divider class="my-4" />
-        Input the verification code to finish creating your account
+        {{ $t('mainMenu.auth.inputCodeToFinish') }}
         <v-row dense justify="center">
           <v-col cols="12" sm="6" lg="4">
             <v-text-field
@@ -54,13 +54,13 @@
             :disabled="!verify || !verifyEmail"
             class="my-4"
             @click="confirm">
-            Confirm Verification Code
+            {{ $t('mainMenu.auth.confirmVerificationCode') }}
           </cc-button>
         </div>
       </div>
     </v-fade-transition>
     <cc-button variant="text" color="accent" @click="$emit('set-state', 'sign-in')">
-      Cancel
+      {{ $t('common.cancel') }}
     </cc-button>
     <v-scroll-y-transition leave-absolute hide-on-leave>
       <cc-alert
@@ -78,6 +78,8 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import { ref } from 'vue'
 import { notify } from '@/util/notify'
 import logger from '@/user/logger';
@@ -122,7 +124,7 @@ async function confirm() {
 
         if (isSignUpComplete) {
           loading.value = false;
-          notify('User Account created successfully. Redirecting to Sign-In.');
+          notify(t('mainMenu.auth.accountCreated'));
           emit('set-state', 'sign-in');
         } else {
           loading.value = false;
@@ -142,7 +144,7 @@ async function resend() {
 
         const res = await resendSignUpCode({ username: userEmail });
 
-        notify(`New verification e-mail sent to ${userEmail}`);
+        notify(t('mainMenu.auth.verificationSent', { email: userEmail }));
 
         sentCode.value = true;
         preFill.value = true;

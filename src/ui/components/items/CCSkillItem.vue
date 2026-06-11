@@ -5,7 +5,7 @@
       flat
       outlined>
       <v-card-text class="text-center pa-1">
-        <span class="flavor-text text-disabled">// MISSING DATA //</span>
+        <span class="flavor-text text-disabled">{{ $t('ui.widget.missingDataBar') }}</span>
       </v-card-text>
     </v-card>
     <v-expansion-panels v-else

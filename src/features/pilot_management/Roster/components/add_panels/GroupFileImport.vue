@@ -102,6 +102,8 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import { ref } from 'vue'
 import { Pilot, PilotData } from '@/classes/pilot/Pilot'
 import { PilotGroup } from '@/features/pilot_management/store/PilotGroup'
@@ -139,8 +141,8 @@ async function stageImport(file) {
     pilotData = importedData.pilotData
   } catch (error) {
     notify({
-      title: 'Import Error',
-      text: `Unable to read file: ${error}`,
+      title: t('pm.import.importErrorTitle'),
+      text: t('pm.import.importErrorText', { error: String(error) }),
       data: { icon: 'mdi-account-multiple', color: 'error' },
     })
     logger.error('File Import Error', { error, fileName: file.target.files[0].name })
@@ -173,14 +175,14 @@ function importFile() {
     importGroup.Pilots = []
     PilotGroupStore().AddGroup(importGroup)
     notify({
-      title: 'Import Successful',
-      text: `${importGroup.Name} successfully added.`,
+      title: t('pm.import.importSuccessTitle'),
+      text: t('pm.import.groupImportSuccessText', { name: importGroup.Name }),
       data: { icon: 'mdi-account-multiple' },
     })
   } catch (error) {
     notify({
-      title: 'Import Error',
-      text: `Unable to import pilot group: ${error}`,
+      title: t('pm.import.importErrorTitle'),
+      text: t('pm.import.groupImportErrorText', { error: String(error) }),
       data: { icon: 'mdi-account-multiple', color: 'error' },
     })
   }
@@ -197,14 +199,14 @@ function importFile() {
       PilotStore().AddPilot(importPilot, newID)
       reset()
       notify({
-        title: 'Import Successful',
-        text: `${importPilot.Name} // ${importPilot.Callsign} successfully added to roster.`,
+        title: t('pm.import.importSuccessTitle'),
+        text: t('pm.import.importSuccessText', { name: importPilot.Name, callsign: importPilot.Callsign }),
         data: { icon: 'cc:pilot' },
       })
     } catch (error) {
       notify({
-        title: 'Import Error',
-        text: `Unable to import Pilot: ${error}`,
+        title: t('pm.import.importErrorTitle'),
+        text: t('pm.import.importPilotErrorText', { error: String(error) }),
         data: { icon: 'cc:pilot', color: 'error' },
       })
     }

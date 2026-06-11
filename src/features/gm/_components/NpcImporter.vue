@@ -14,7 +14,7 @@
       </v-col>
     </v-row>
     <v-container>
-      <div class="text-caption">STAGED ITEMS</div>
+      <div class="text-caption">{{ $t('gm.import.stagedItems') }}</div>
       <v-table>
         <thead class="heading">
           <tr>
@@ -39,11 +39,11 @@
                     " />
               </v-btn>
             </th>
-            <th>Item</th>
-            <th>Collection</th>
-            <th>Item Type</th>
-            <th>Content Packs</th>
-            <th class="text-center">Status</th>
+            <th>{{ $t('gm.import.item') }}</th>
+            <th>{{ $t('gm.import.collection') }}</th>
+            <th>{{ $t('gm.import.itemType') }}</th>
+            <th>{{ $t('gm.import.contentPacks') }}</th>
+            <th class="text-center">{{ $t('common.status') }}</th>
           </tr>
         </thead>
         <tbody v-for="item in stagedItems"
@@ -73,13 +73,9 @@
                     :icon="item.status === 'ok' ? 'mdi-check' : 'mdi-alert'"
                     :color="item.status === 'ok' ? 'success' : 'warning'" />
                 </template>
-                <span v-if="item.status === 'ok'">Item is ready for import</span>
+                <span v-if="item.status === 'ok'">{{ $t('gm.import.readyForImport') }}</span>
                 <span v-else-if="item.status === 'missing_content'">
-                  Item is missing required content packs. This item will be saved to the v2 Imports
-                  collection in
-                  the Content Manager, and can be imported once the required content packs are
-                  installed and
-                  activated.
+                  {{ $t('gm.import.missingPacks') }}
                 </span>
               </v-tooltip>
             </td>
@@ -92,19 +88,11 @@
         icon="mdi-alert"
         title="Missing Content Packs">
         <p>
-          Some data to be imported was created using an older version of
-          COMP/CON and does not include nested content pack information. This data will be saved to
-          the v2 Imports collection in the Content Manager, but cannot be imported until the
-          required
-          content packs are installed
-          and activated. These items can be imported once the required content packs are installed
-          and activated,
-          or
-          force-imported in the Content Manager.
+          {{ $t('gm.import.oldVersionWarning') }}
         </p>
         <v-card-text>
           <p class="heading h4 text-accent">
-            Missing content packs:
+            {{ $t('gm.import.missingContentPacks') }}
           </p>
           <p v-html-safe="missingContent"
             class="effect-text text-center bg-background pa-1 ma-1" />
@@ -122,7 +110,7 @@
           color="accent"
           prepend-icon="mdi-plus"
           @click="importFile()">
-          Complete Import ({{ selected.length }} Items)
+          {{ $t('gm.import.completeImport', { n: selected.length }) }}
         </v-btn>
       </v-col>
     </v-row>

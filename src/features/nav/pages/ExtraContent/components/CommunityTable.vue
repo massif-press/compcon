@@ -8,14 +8,15 @@
 
 <script setup lang="ts">
 import LcpTable from '@/ui/components/LcpTable.vue'
-import { NAV_STRINGS } from '@/features/nav/strings'
+import { useNavStrings } from '@/features/nav/useNavStrings'
+const { section } = useNavStrings()
 
 defineProps<{
   packs: any[]
   loading?: boolean
 }>()
 
-const ct = NAV_STRINGS.communityTable
+const ct = section('communityTable')
 
 const lcpHeaders = [
   { title: '', key: 'data-table-expand', width: '0' },

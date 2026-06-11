@@ -61,7 +61,7 @@
                 :variant="isLoggedIn ? '' : 'outlined'"
                 :color="isLoggedIn ? 'success' : ''"
                 @click="open">
-                {{ isLoggedIn ? 'Connected' : 'Sign In' }}
+                {{ isLoggedIn ? $t('mainMenu.menu.connected') : $t('mainMenu.auth.signIn') }}
               </cc-button>
 
               <cc-button v-else
@@ -88,7 +88,7 @@
                 size="small"
                 variant="text"
                 @click="open">
-                Options
+                {{ $t('mainMenu.menu.options') }}
               </cc-button>
             </template>
             <options-page />
@@ -103,7 +103,7 @@
                 size="small"
                 variant="text"
                 @click="open">
-                About
+                {{ $t('mainMenu.menu.about') }}
               </cc-button>
             </template>
             <about-page />
@@ -118,7 +118,7 @@
                 size="small"
                 variant="text"
                 @click="open">
-                Credits
+                {{ $t('mainMenu.menu.credits') }}
               </cc-button>
             </template>
             <credits-page />
@@ -133,7 +133,7 @@
                 size="small"
                 variant="text"
                 @click="open">
-                Help
+                {{ $t('mainMenu.menu.help') }}
               </cc-button>
             </template>
             <help-page />

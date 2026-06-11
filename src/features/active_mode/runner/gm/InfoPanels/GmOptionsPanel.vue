@@ -18,7 +18,7 @@
             size="small"
             prepend-icon="mdi-export"
             @click="exportState">
-            Export Encounter State
+            {{ $t('active.gmOptions.exportState') }}
           </v-btn>
         </v-col>
         <v-col>
@@ -33,12 +33,12 @@
                 size="small"
                 prepend-icon="mdi-import"
                 @click="open">
-                Import Encounter State
+                {{ $t('active.gmOptions.importState') }}
               </v-btn>
             </template>
             <template #default="{ close }">
               <div class="text-cc-overline text-disabled">
-                Encounter Instance Import File (.json)
+                {{ $t('active.gmOptions.importFileLabel') }}
               </div>
               <v-file-input v-model="fileValue"
                 accept=".json"
@@ -55,12 +55,12 @@
                     flat
                     tile
                     color="panel">
-                    <div class="text-cc-overline text-disabled">Staged Import:</div>
+                    <div class="text-cc-overline text-disabled">{{ $t('active.pcOptions.stagedImport') }}</div>
                     <div class="ml-3">
                       <b class="text-accent">
                         {{ (importObj as any).encounter.name || 'Unnamed Encounter' }}
                       </b>
-                      at Round
+                      {{ $t('active.pcOptions.atRound') }}
                       {{ (importObj as any).round }}
                       <i class="text-caption text-disabled">
                         {{ new Date((importObj as any).save.lastModified).toLocaleString() }}
@@ -72,7 +72,7 @@
                     class="mt-2">
                     <v-icon icon="mdi-alert"
                       start />
-                    Warning: The imported encounter state will replace the current encounter state.
+                    {{ $t('active.gmOptions.warningReplace') }}
                   </cc-alert>
                 </div>
                 <cc-alert v-if="importError"
@@ -91,14 +91,14 @@
                     reset();
                   close();
                   ">
-                  Cancel
+                  {{ $t('common.cancel') }}
                 </v-btn>
                 <v-spacer />
                 <cc-button text
                   color="primary"
                   :disabled="!importOk"
                   @click="importState(close)">
-                  Confirm Import
+                  {{ $t('active.pcOptions.confirmImport') }}
                 </cc-button>
               </v-card-actions>
             </template>
@@ -112,7 +112,7 @@
       <v-row dense
         align="center"
         justify="space-between">
-        <v-col class="heading">Set Round</v-col>
+        <v-col class="heading">{{ $t('active.gmOptions.setRound') }}</v-col>
         <v-col>
           <cc-number-field v-model="encounterInstance.Round"
             color="primary"
@@ -123,7 +123,7 @@
     <v-divider class="my-2" />
 
     <v-card-text>
-      <div class="text-cc-overline text-disabled">Overrides</div>
+      <div class="text-cc-overline text-disabled">{{ $t('active.gmOptions.overrides') }}</div>
       <v-expansion-panels variant="accordion"
         color="panel">
         <v-expansion-panel
@@ -147,12 +147,12 @@
                 align="center">
                 <v-col class="heading">{{ stat.title }}</v-col>
                 <v-col class="mx-6">
-                  <div class="text-cc-overline ml-4 text-disabled">Current</div>
+                  <div class="text-cc-overline ml-4 text-disabled">{{ $t('active.gmOptions.current') }}</div>
                   <cc-number-field v-model="combatant.actor.StatController.CurrentStats[stat.key]"
                     color="primary" />
                 </v-col>
                 <v-col>
-                  <div class="text-cc-overline ml-4 text-disabled">Max</div>
+                  <div class="text-cc-overline ml-4 text-disabled">{{ $t('active.gmOptions.max') }}</div>
                   <cc-number-field v-model="combatant.actor.StatController.MaxStats[stat.key]"
                     color="exotic" />
                 </v-col>
@@ -161,25 +161,25 @@
                 <v-btn flat
                   tile
                   size="small"
-                  color="primary">Add Stat</v-btn>
+                  color="primary">{{ $t('active.gmOptions.addStat') }}</v-btn>
                 <v-btn flat
                   tile
                   color="error"
                   size="small"
                   @click="removeActor(combatant.actor)">
-                  Remove {{ combatant.actor.Name }} From Encounter
+                  {{ $t('active.gmOptions.removeFromEncounter', { name: combatant.actor.Name }) }}
                 </v-btn>
               </div>
             </div>
-            <div v-else>No Stat Controller Found</div>
+            <div v-else>{{ $t('active.gmOptions.noStatController') }}</div>
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
     </v-card-text>
     <v-card-text>
-      <div class="text-cc-overline text-disabled mb-1">Edit Reinforcements</div>
+      <div class="text-cc-overline text-disabled mb-1">{{ $t('active.gmOptions.editReinforcements') }}</div>
       <i v-if="!reinforcements.length"
-        class="text-text ml-2">No Reinforcement Schedule</i>
+        class="text-text ml-2">{{ $t('active.gmOptions.noReinforcementSchedule') }}</i>
       <v-row v-for="combatant in reinforcements"
         :key="combatant.id"
         dense
@@ -197,7 +197,7 @@
             color="error"
             size="small"
             @click="removeActor(combatant.actor)">
-            Remove
+            {{ $t('common.remove') }}
           </v-btn>
         </v-col>
         <v-col cols="auto">
@@ -206,7 +206,7 @@
             color="primary"
             size="small"
             @click="removeActor(combatant.actor)">
-            Deploy
+            {{ $t('active.common.deploy') }}
           </v-btn>
         </v-col>
       </v-row>
@@ -223,6 +223,8 @@ import { EncounterStore } from '@/stores'
 import RunnerOptionsHeader from '../../_shared/_RunnerOptionsHeader.vue'
 import { useRunnerOptions } from '../../_shared/useRunnerOptions'
 import { notify } from '@kyvg/vue3-notification'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 defineOptions({ name: 'GmOptionsPanel' })
 
@@ -249,15 +251,15 @@ function manualSave() {
     ;(props.encounterInstance as any).Save()
     saveUpdate.value = Date.now()
     notify({
-      title: 'Save Successful',
-      text: `Saved Encounter: ${(props.encounterInstance as any).Encounter.Name} at Round ${(props.encounterInstance as any).Round}`,
+      title: t('active.encounter.saveSuccessfulTitle'),
+      text: t('active.encounter.saveSuccessfulText', { name: (props.encounterInstance as any).Encounter.Name, round: (props.encounterInstance as any).Round }),
       data: { icon: 'mdi-content-save', color: 'success' },
     })
   } catch (error) {
     logger.error('Manual Save Failed', null, error)
     notify({
-      title: 'Save Failed',
-      text: `Failed to save Encounter: ${(props.encounterInstance as any).Encounter.Name}`,
+      title: t('active.encounter.saveFailedTitle'),
+      text: t('active.encounter.saveFailedText', { name: (props.encounterInstance as any).Encounter.Name }),
       data: { icon: 'mdi-alert', color: 'error' },
     })
   }

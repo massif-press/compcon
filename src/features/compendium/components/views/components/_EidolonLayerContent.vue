@@ -5,7 +5,7 @@
         <i>{{ item.Appearance }}</i>
       </div>
     </template>
-    <template #overline>Eidolon Layer</template>
+    <template #overline>{{ $t('compendium.content.eidolonLayer') }}</template>
   </c-card-base>
 </template>
 

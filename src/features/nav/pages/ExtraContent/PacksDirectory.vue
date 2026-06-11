@@ -33,15 +33,14 @@
         </cc-dialog>
       </div>
       <cc-alert>
-        In-app downloading and automatic subscription to community LCP updates are not yet
-        supported. Once
-        the author support tools are available, community LCPs will be migrated to v3 and will be
-        able to
-        take advantage of the same update and subscription mechanisms as official Massif Press
-        content
-        packs. Follow the <a href="https://www.patreon.com/compcon"
-          target="blank">development blog</a> to
-        stay up to date on progress.
+        <i18n-t keypath="nav.packsDirectory.communityNotice"
+          tag="span"
+          scope="global">
+          <template #blog>
+            <a href="https://www.patreon.com/compcon"
+              target="blank">{{ $t('nav.packsDirectory.developmentBlog') }}</a>
+          </template>
+        </i18n-t>
       </cc-alert>
     </div>
     <community-table :packs="communityPacks"
@@ -55,10 +54,11 @@ import { useDisplay } from 'vuetify'
 import CommunityTable from './components/CommunityTable.vue'
 import MassifLcpTable from '@/features/main_menu/_components/MassifLcpTable.vue'
 import { collectionDataQuery } from '@/user/api'
-import { NAV_STRINGS } from '@/features/nav/strings'
+import { useNavStrings } from '@/features/nav/useNavStrings'
+const { section } = useNavStrings()
 
 const { smAndDown: mobile } = useDisplay()
-const pd = NAV_STRINGS.packsDirectory
+const pd = section('packsDirectory')
 
 const catalog = ref<any[]>([])
 const loading = ref(true)

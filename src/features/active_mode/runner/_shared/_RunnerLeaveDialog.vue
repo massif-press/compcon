@@ -7,21 +7,21 @@
     <v-card flat
       tile>
       <div class="text-center text-text ma-2">
-        Do you want to save this encounter before exiting?</div>
+        {{ $t('active.leaveDialog.prompt') }}</div>
       <v-divider class="my-3" />
       <v-card-actions class="pa-0">
         <cc-button variant="text"
           size="small"
-          @click="$emit('cancel')">Cancel</cc-button>
+          @click="$emit('cancel')">{{ $t('common.cancel') }}</cc-button>
         <v-spacer />
         <cc-button color="warning"
           size="small"
           variant="text"
-          @click="$emit('exit')">Exit Without Saving</cc-button>
+          @click="$emit('exit')">{{ $t('active.leaveDialog.exitWithoutSaving') }}</cc-button>
         <v-spacer />
         <cc-button color="accent"
           size="small"
-          @click="$emit('save')">Save and Exit</cc-button>
+          @click="$emit('save')">{{ $t('active.leaveDialog.saveAndExit') }}</cc-button>
       </v-card-actions>
     </v-card>
   </cc-dialog>

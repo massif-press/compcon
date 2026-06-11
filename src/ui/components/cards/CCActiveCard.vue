@@ -6,9 +6,7 @@
       :height="collapsed ? '' : '100%'"
       style="transition: all 0.2s">
       <v-card-title class="pa-0 pl-2 pr-2" :class="color">
-        <v-icon v-if="collapsible" left dark variant="plain" @click="collapsed = !collapsed">
-          {{ collapsed ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
-        </v-icon>
+        <v-icon v-if="collapsible" left dark variant="plain" :icon="collapsed ? 'mdi-chevron-up' : 'mdi-chevron-down'" @click="collapsed = !collapsed" />
         <span
           :class="` ${
             $vuetify.display.mdAndDown

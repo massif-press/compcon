@@ -29,6 +29,9 @@ export default async function (skipSync = false): Promise<void> {
   logger.info('loading user')
   await UserStore().loadUser()
 
+  const savedLanguage = UserStore().User?.Language
+  NavStore().setLanguage(savedLanguage || navigator.language.split('-')[0] || 'en', false)
+
   let migrationResult: any = null
   await Promise.all([
     UserStore().IsLoggedIn

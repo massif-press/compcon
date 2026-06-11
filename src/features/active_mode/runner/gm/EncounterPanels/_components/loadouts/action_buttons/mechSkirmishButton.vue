@@ -22,7 +22,7 @@
 
       <div v-if="!presetWeapon"
         class="text-cc-overline text-disabled pl-3 py-2">
-        select skirmish weapon
+        {{ $t('active.skirmish.selectWeapon') }}
       </div>
       <v-row dense
         align="center"
@@ -88,7 +88,7 @@
           class="mt-4">
           <v-divider class="my-4" />
           <div class="text-cc-overline text-disabled mb-1">
-            additional {{ selectedMount.Name }} aux weapons
+            {{ $t('active.barrage.additionalAux', { name: selectedMount.Name }) }}
           </div>
           <div v-for="(aux, aidx) in auxEvents"
             :key="`aux-${aidx}`">

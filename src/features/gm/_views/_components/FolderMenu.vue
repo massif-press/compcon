@@ -13,7 +13,7 @@
         </v-btn>
       </template>
       <v-card>
-        <v-toolbar density="compact"><v-toolbar-title>Set Folder</v-toolbar-title></v-toolbar>
+        <v-toolbar density="compact"><v-toolbar-title>{{ $t('gm.folder.setFolder') }}</v-toolbar-title></v-toolbar>
         <v-card-text>
           <v-combobox v-model="stagedName"
             :items="allFolders"
@@ -26,11 +26,11 @@
         <v-divider />
         <v-card-actions>
           <v-btn text
-            @click="menu = false">Cancel</v-btn>
+            @click="menu = false">{{ $t('common.cancel') }}</v-btn>
           <v-spacer />
           <v-btn text
             color="accent"
-            @click="set">Set</v-btn>
+            @click="set">{{ $t('common.set') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-menu>

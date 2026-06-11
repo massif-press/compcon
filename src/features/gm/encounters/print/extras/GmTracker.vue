@@ -3,26 +3,26 @@
     <div class="text-overline text-primary"
       style="line-height: 15px">
       {{ encounter.Name }}
-      <span class="text-black">&mdash; NPC TRACKING</span>
+      <span class="text-black">&mdash; {{ $t('gm.encPrint.npcTracking') }}</span>
     </div>
   </div>
 
   <v-row dense>
     <v-col>
-      <div class="text-caption">ENEMIES</div>
+      <div class="text-caption">{{ $t('gm.encPrint.enemies') }}</div>
       <npc-tracker v-for="c in Enemies"
         :key="c.id"
         :combatant="c" />
     </v-col>
     <v-col>
-      <div class="text-caption">PCS/ALLIES</div>
+      <div class="text-caption">{{ $t('gm.encPrint.pcsAllies') }}</div>
       <npc-tracker v-for="c in Allies"
         :key="c.id"
         :combatant="c" />
     </v-col>
   </v-row>
   <div v-if="Neutral.length > 0">
-    <div class="text-caption mt-1">NEUTRAL</div>
+    <div class="text-caption mt-1">{{ $t('gm.encPrint.neutral') }}</div>
     <v-row dense>
       <v-col cols="auto"
         v-for="c in Neutral"

@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid'
+import { i18n } from '@/i18n'
 import { CloudController, PortraitController, SaveController } from '../../components'
 import { NpcData, Npc } from '../Npc'
 import { BrewController } from '@/classes/components/brew/BrewController'
@@ -33,7 +34,7 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
 
     this.InstanceID = data?.instanceId
 
-    this._name = data?.name || 'New Doodad'
+    this._name = data?.name || i18n.global.t('classes.newDoodad')
     this.CombatController = new CombatController(this)
     this.CloudController = new CloudController(this)
   }

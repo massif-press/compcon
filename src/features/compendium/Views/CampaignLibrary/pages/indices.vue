@@ -3,7 +3,7 @@
     <cc-panel variant="tonal" flat tile>
       <template #toolbar>
         <v-toolbar density="compact" color="primary" height="22px">
-          <v-toolbar-title class="heading h3 text-uppercase">Table of Contents</v-toolbar-title>
+          <v-toolbar-title class="heading h3 text-uppercase">{{ $t('compendium.campaign.tableOfContents') }}</v-toolbar-title>
         </v-toolbar>
       </template>
       <v-card-text class="pt-2">
@@ -15,7 +15,7 @@
 
     <div v-if="campaign.VersionHistory && campaign.VersionHistory.length">
       <fieldset style="border-radius: 3px">
-        <legend class="ml-2 px-2 text-caption">Version History</legend>
+        <legend class="ml-2 px-2 text-caption">{{ $t('compendium.campaign.versionHistory') }}</legend>
         <div v-for="(hist, histIdx) in campaign.VersionHistory" :key="`hist-${histIdx}`" class="px-4 py-2">
           <div class="text-caption">
             v.

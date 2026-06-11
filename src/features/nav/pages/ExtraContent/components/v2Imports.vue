@@ -37,7 +37,7 @@
         </v-chip>
         <span v-if="item.missingLcpNames.length > 3"
           class="text-caption">
-          +{{ item.missingLcpNames.length - 3 }} more
+          {{ $t('nav.v2Import.moreCount', { count: item.missingLcpNames.length - 3 }) }}
         </span>
       </template>
       <template #item.date="{ item }">
@@ -72,8 +72,7 @@
           </template>
           <cc-panel :title="s.forceImportPanelTitle">
             <v-card-text class="pa-1">
-              This will import the {{ item.type }} with all unresolvable items removed. The
-              following dependencies cannot be found and will be stripped:
+              {{ $t('nav.v2Import.forceImportNotice', { type: item.type }) }}
               <div class="mt-2">
                 <v-chip v-for="name in item.missingLcpNames"
                   :key="name"
@@ -193,10 +192,11 @@ import {
 } from '@/io/V2Importer'
 import { ImportPilot, ImportNpcData, ImportEncounter } from '@/io/Importer'
 import { UserStore } from '@/stores'
-import { NAV_STRINGS } from '@/features/nav/strings'
+import { useNavStrings } from '@/features/nav/useNavStrings'
+const { section, t } = useNavStrings()
 
-const s = NAV_STRINGS.v2Import
-const c = NAV_STRINGS.common
+const s = section('v2Import')
+const c = section('common')
 
 const backups = ref<any[]>([])
 const loading = ref(false)
@@ -243,16 +243,16 @@ async function reprocessAll() {
     await UserStore().refreshV2BackupIds()
     await loadBackups()
     if (result.succeeded.length > 0) {
-      notify({ color: 'success', text: NAV_STRINGS.v2ImportNotify.reimportSuccessText(result.succeeded.length) })
+      notify({ color: 'success', text: t('nav.v2ImportNotify.reimportSuccessText', { count: result.succeeded.length }) })
     }
     if (result.stillPending.length > 0) {
-      notify({ color: 'warning', text: NAV_STRINGS.v2ImportNotify.reimportPendingText(result.stillPending.length) })
+      notify({ color: 'warning', text: t('nav.v2ImportNotify.reimportPendingText', { count: result.stillPending.length }) })
     }
     if (result.succeeded.length === 0 && result.stillPending.length === 0) {
-      notify({ color: 'info', text: NAV_STRINGS.v2ImportNotify.noItemsToReimport })
+      notify({ color: 'info', text: t('nav.v2ImportNotify.noItemsToReimport') })
     }
   } catch (e) {
-    notify({ color: 'error', text: NAV_STRINGS.v2ImportNotify.reimportFailedText(String(e)) })
+    notify({ color: 'error', text: t('nav.v2ImportNotify.reimportFailedText', { error: String(e) }) })
   }
   loading.value = false
 }
@@ -270,7 +270,7 @@ async function reprocessSingle(backup: any) {
     }
 
     if (missing.length > 0) {
-      notify({ color: 'warning', text: NAV_STRINGS.v2ImportNotify.missingDependencies })
+      notify({ color: 'warning', text: t('nav.v2ImportNotify.missingDependencies') })
       loading.value = false
       return
     }
@@ -288,9 +288,9 @@ async function reprocessSingle(backup: any) {
     await deleteV2Backup(backup.id)
     await UserStore().refreshV2BackupIds()
     await loadBackups()
-    notify({ color: 'success', text: NAV_STRINGS.v2ImportNotify.importedSuccessfully })
+    notify({ color: 'success', text: t('nav.v2ImportNotify.importedSuccessfully') })
   } catch (e) {
-    notify({ color: 'error', text: NAV_STRINGS.v2ImportNotify.importFailedText(String(e)) })
+    notify({ color: 'error', text: t('nav.v2ImportNotify.importFailedText', { error: String(e) }) })
   }
   loading.value = false
 }
@@ -309,13 +309,13 @@ async function doForceImport(backup: any) {
     await deleteV2Backup(backup.id)
     await UserStore().refreshV2BackupIds()
     await loadBackups()
-    notify({ color: 'success', text: NAV_STRINGS.v2ImportNotify.forceImportComplete })
+    notify({ color: 'success', text: t('nav.v2ImportNotify.forceImportComplete') })
     if (result.stripped?.length > 0) {
       strippedItems.value = result.stripped
       showStripped.value = true
     }
   } catch (e) {
-    notify({ color: 'error', text: NAV_STRINGS.v2ImportNotify.forceImportFailedText(String(e)) })
+    notify({ color: 'error', text: t('nav.v2ImportNotify.forceImportFailedText', { error: String(e) }) })
   }
   loading.value = false
 }

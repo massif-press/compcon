@@ -9,7 +9,7 @@
         :color="main ? 'accent' : ''"
         prepend-icon="mdi-plus"
         :disabled="item.Depth >= 10">
-        Add {{ main ? 'Section' : 'Subsection' }}
+        {{ main ? $t('gm.campaign.addSectionBtn') : $t('gm.campaign.addSubsectionBtn') }}
       </v-btn>
     </template>
     <v-card variant="outlined" color="panel">

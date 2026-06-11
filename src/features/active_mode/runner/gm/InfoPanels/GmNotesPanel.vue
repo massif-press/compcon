@@ -5,11 +5,11 @@
       {{ encounter.Environment.Name }} {{ encounter.Sitrep.Name }}
     </v-card-subtitle>
     <v-card-text class="pb-0">
-      <div class="text-cc-overline text-disabled">GM Notes</div>
+      <div class="text-cc-overline text-disabled">{{ $t('active.gmNotes.gmNotes') }}</div>
       <cc-rich-text-area v-model="encounter.Note" />
     </v-card-text>
     <v-card-text>
-      <div class="text-cc-overline text-disabled">Encounter Clocks</div>
+      <div class="text-cc-overline text-disabled">{{ $t('active.gmNotes.encounterClocks') }}</div>
       <cc-clock v-for="(clock, index) in encounter.NarrativeController.Clocks"
         :key="`clock-${index}`"
         :clock="clock"
@@ -22,7 +22,7 @@
           tile
           prepend-icon="mdi-plus"
           @click="encounter.NarrativeController.AddClock()">
-          Add Clock
+          {{ $t('active.gmNotes.addClock') }}
         </v-btn>
       </div>
     </v-card-text>

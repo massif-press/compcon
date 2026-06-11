@@ -6,7 +6,7 @@
       <v-col cols="auto">
         <div class="font-weight-light text-center my-n2"
           style="letter-spacing: calc(5px + 2cqw); font-size: calc(20px + 2cqw)">
-          ACTIVE MODE
+          {{ $t('active.landing.activeMode') }}
         </div>
       </v-col>
       <v-col><v-divider /></v-col>
@@ -66,8 +66,7 @@
                   @click="loadLastLocalEncounter()">
                   <v-icon :icon="e.icon"
                     start />
-                  resume {{ lastLocalEncounter.Encounter.Name }} (Round
-                  {{ lastLocalEncounter.Round }})
+                  {{ $t('active.landing.resumeRound', { name: lastLocalEncounter.Encounter.Name, n: lastLocalEncounter.Round }) }}
                 </v-btn>
                 <v-btn v-else-if="(e as any).id === 'last-sheet' && lastLocalSheet"
                   block
@@ -78,8 +77,7 @@
                   @click="loadLastLocalSheet()">
                   <v-icon :icon="e.icon"
                     start />
-                  resume {{ lastLocalSheet.Combatant.actor.Name }} (Round
-                  {{ lastLocalSheet.Combatant.actor.CombatController.Round }})
+                  {{ $t('active.landing.resumeRound', { name: lastLocalSheet.Combatant.actor.Name, n: lastLocalSheet.Combatant.actor.CombatController.Round }) }}
                 </v-btn>
                 <v-btn v-else
                   block

@@ -9,7 +9,7 @@
             <template #prepend>
               <v-icon icon="cc:pilot" />
             </template>
-            Pilot Sheet
+            {{ $t('active.toolPalette.pilotSheet') }}
           </v-list-item>
         </template>
       </v-tooltip>
@@ -30,7 +30,7 @@
                 icon="cc:drone" />
             </template>
             <span v-if="expanded">
-              Deployables
+              {{ $t('active.toolPalette.deployables') }}
             </span>
           </v-list-item>
         </template>
@@ -44,7 +44,7 @@
           <template #prepend>
             <v-icon icon="mdi-dice-d20-outline" />
           </template>
-          Dice Roller
+          {{ $t('active.toolPalette.diceRoller') }}
         </v-list-item>
       </template>
     </v-tooltip>
@@ -55,7 +55,7 @@
           <template #prepend>
             <v-icon icon="mdi-table-multiple" />
           </template>
-          Rollable Tables
+          {{ $t('active.toolPalette.rollableTables') }}
         </v-list-item>
       </template>
     </v-tooltip>
@@ -69,7 +69,7 @@
           <template #prepend>
             <v-icon icon="cc:encounter" />
           </template>
-          Encounter Info
+          {{ $t('active.toolPalette.encounterInfo') }}
         </v-list-item>
       </template>
     </v-tooltip>
@@ -81,7 +81,7 @@
           <template #prepend>
             <v-icon icon="mdi-card-text-outline" />
           </template>
-          Notes
+          {{ $t('active.toolPalette.notes') }}
         </v-list-item>
       </template>
     </v-tooltip>
@@ -95,7 +95,7 @@
           <template #prepend>
             <v-icon icon="mdi-tag" />
           </template>
-          Tag Reference
+          {{ $t('active.toolPalette.tagReference') }}
         </v-list-item>
       </template>
     </v-tooltip>
@@ -107,7 +107,7 @@
           <template #prepend>
             <v-icon icon="mdi-format-list-group" />
           </template>
-          Combat Quick Reference
+          {{ $t('active.toolPalette.combatQuickRef') }}
         </v-list-item>
       </template>
     </v-tooltip>
@@ -120,7 +120,7 @@
           <template #prepend>
             <v-icon icon="mdi-cog" />
           </template>
-          Settings
+          {{ $t('active.toolPalette.settings') }}
         </v-list-item>
       </template>
     </v-tooltip>

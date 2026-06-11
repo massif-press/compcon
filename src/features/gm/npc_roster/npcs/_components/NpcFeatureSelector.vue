@@ -4,7 +4,7 @@
       color="primary"
       class="mt-2"
       @click="dialog = true">
-      Set NPC Features
+      {{ $t('gm.npcFeature.setFeatures') }}
     </cc-button>
     <v-row no-gutters
       justify="end">
@@ -13,7 +13,7 @@
           color="error"
           class="mt-2"
           @click="npc.NpcFeatureController.ResetFeatures()">
-          Reset Features
+          {{ $t('gm.npcFeature.resetFeatures') }}
         </cc-button>
       </v-col>
     </v-row>
@@ -47,7 +47,7 @@
               prepend-icon="cc:npc_feature"
               @click="featureSet = 'all'">
               <template #title>
-                <b class="text-button">All Available Features</b>
+                <b class="text-button">{{ $t('gm.npcFeature.allAvailableFeatures') }}</b>
               </template>
             </v-list-item>
             <v-list-item color="accent"
@@ -55,22 +55,22 @@
               prepend-icon="cc:npc_feature"
               @click="featureSet = 'assigned'">
               <template #title>
-                <b class="text-button">All Assigned Features</b>
+                <b class="text-button">{{ $t('gm.npcFeature.allAssignedFeatures') }}</b>
               </template>
             </v-list-item>
             <v-divider />
 
-            <v-list-subheader class="mb-n3">SELECTED CLASS</v-list-subheader>
+            <v-list-subheader class="mb-n3">{{ $t('gm.npcFeature.selectedClass') }}</v-list-subheader>
             <v-list-item color="accent"
               :prepend-icon="npc.NpcClassController.Class.Icon"
               @click="featureSet = npc.NpcClassController.Class.ID">
               <template #title>
-                <span class="text-button">{{ npc.NpcClassController.Class.Name }} Features</span>
+                <span class="text-button">{{ $t('gm.npcFeature.nameFeatures', { name: npc.NpcClassController.Class.Name }) }}</span>
               </template>
             </v-list-item>
             <v-list-subheader v-if="npc.NpcTemplateController.Templates.length > 0"
               class="mb-n3">
-              SELECTED TEMPLATE{{ npc.NpcTemplateController.Templates.length > 1 ? 'S' : '' }}
+              {{ $t('gm.npcFeature.selectedTemplate', { plural: npc.NpcTemplateController.Templates.length > 1 ? 'S' : '' }) }}
             </v-list-subheader>
             <v-list-item v-for="t in npc.NpcTemplateController.Templates"
               :key="t.ID"
@@ -78,7 +78,7 @@
               color="accent"
               @click="featureSet = t.ID">
               <template #title>
-                <span class="text-button">{{ t.Name }} Features</span>
+                <span class="text-button">{{ $t('gm.npcFeature.nameFeatures', { name: t.Name }) }}</span>
               </template>
             </v-list-item>
             <v-divider />
@@ -89,7 +89,7 @@
                 <v-list-item v-bind="props">
                   <template #title>
                     <span class="text-button">
-                      <b>Other NPC Classes</b>
+                      <b>{{ $t('gm.npcFeature.otherNpcClasses') }}</b>
                     </span>
                   </template>
                 </v-list-item>
@@ -102,7 +102,7 @@
                 :prepend-icon="c.Icon"
                 @click="featureSet = c.ID">
                 <template #title>
-                  <span class="text-button">{{ c.Name }} Features</span>
+                  <span class="text-button">{{ $t('gm.npcFeature.nameFeatures', { name: c.Name }) }}</span>
                 </template>
               </v-list-item>
             </v-list-group>
@@ -113,7 +113,7 @@
                 <v-list-item v-bind="props">
                   <template #title>
                     <span class="text-button">
-                      <b>Other NPC Templates</b>
+                      <b>{{ $t('gm.npcFeature.otherNpcTemplates') }}</b>
                     </span>
                   </template>
                 </v-list-item>
@@ -126,7 +126,7 @@
                 prepend-icon="cc:npc_template"
                 @click="featureSet = t.ID">
                 <template #title>
-                  <span class="text-button">{{ t.Name }} Features</span>
+                  <span class="text-button">{{ $t('gm.npcFeature.nameFeatures', { name: t.Name }) }}</span>
                 </template>
               </v-list-item>
             </v-list-group>
@@ -134,7 +134,7 @@
               color="accent"
               @click="featureSet = 'no-origin'">
               <template #title>
-                <b class="text-button">Other Features</b>
+                <b class="text-button">{{ $t('gm.npcFeature.otherFeatures') }}</b>
               </template>
             </v-list-item>
           </v-list>
@@ -147,7 +147,7 @@
               align="start"
               class="mt-n3">
               <v-col>
-                <span class="heading h3">{{ currentSelection }} Features</span>
+                <span class="heading h3">{{ $t('gm.npcFeature.nameFeatures', { name: currentSelection }) }}</span>
               </v-col>
               <v-col cols="auto">
                 <cc-switch v-if="featureSet === 'assigned'"
@@ -192,7 +192,7 @@
                   <cc-dense-card :item="item">
                     <template #pre>
                       <div class="text-disabled text-cc-overline mt-n1">
-                        {{ item.Base ? 'Base' : 'Optional' }} Feature
+                        {{ $t('gm.npcFeature.featureType', { type: item.Base ? $t('gm.npcFeature.base') : $t('gm.npcFeature.optional') }) }}
                       </div>
                     </template>
                   </cc-dense-card>
@@ -203,7 +203,7 @@
                       size="x-small"
                       prepend-icon="mdi-minus"
                       @click="npc.NpcFeatureController.RemoveFeature(item)">
-                      Remove {{ item.Name }}
+                      {{ $t('gm.npcFeature.removeItem', { name: item.Name }) }}
                     </cc-button>
                     <cc-button v-else-if="!hasItem(item) || allowDupes"
                       color="secondary"
@@ -211,7 +211,7 @@
                       size="x-small"
                       prepend-icon="mdi-plus"
                       @click="npc.NpcFeatureController.AddFeature(item)">
-                      Add {{ item.Name }}
+                      {{ $t('gm.npcFeature.addItem', { name: item.Name }) }}
                     </cc-button>
                   </div>
                 </div>
@@ -228,22 +228,19 @@
               "
                 variant="outlined"
                 class="text-center">
-                No NPC Feature selections remaining
+                {{ $t('gm.npcFeature.noSelectionsRemaining') }}
                 <br />
-                <span class="caption text--secondary">
-                  Additional features beyond the recommended guidelines can be added by toggling the
-                  "Ignore Limit" option above
-                </span>
+                <span class="caption text--secondary">{{ $t('gm.npcFeature.ignoreLimitHint') }}</span>
               </v-alert>
               <v-alert v-else-if="featureSet === 'assigned'"
                 variant="outlined"
                 class="text-center">
-                No NPC Features assigned
+                {{ $t('gm.npcFeature.noAssigned') }}
               </v-alert>
               <v-alert v-else
                 variant="outlined"
                 class="text-center">
-                No NPC Features could be found for this selection
+                {{ $t('gm.npcFeature.noneFound') }}
               </v-alert>
             </div>
 

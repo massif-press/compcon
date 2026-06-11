@@ -5,7 +5,7 @@
     :options="options"
     view-key="cb-npc-templates">
     <template #header>
-      <div class="heading h3 text-center text-accent">NPC Templates</div>
+      <div class="heading h3 text-center text-accent">{{ $t('compendium.categories.npcTemplates') }}</div>
     </template>
   </cc-compendium-browser>
 </template>

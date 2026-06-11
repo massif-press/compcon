@@ -1,7 +1,7 @@
 <template>
   <v-chip v-if="readonly" size="large" variant="tonal" color="secondary" label>
     <v-icon start :icon="getTagIcon" />
-    {{ item.Tag ? item.Tag : 'Set NPC Tag' }}
+    {{ item.Tag ? item.Tag : $t('gm.npcTag.setTag') }}
   </v-chip>
   <v-menu v-else offset-y>
     <template #activator="{ props }">
@@ -14,21 +14,21 @@
         color="primary"
         v-bind="props">
         <v-icon :icon="getTagIcon" class="mr-2" />
-        {{ item.Tag ? item.Tag : 'Set NPC Tag' }}
+        {{ item.Tag ? item.Tag : $t('gm.npcTag.setTag') }}
         <v-tooltip location="top">
           <template #activator="{ props }">
             <v-icon v-if="locked" v-bind="props" end>mdi-lock</v-icon>
           </template>
-          <span v-if="locked">Locked by template selection ({{ locked }})</span>
+          <span v-if="locked">{{ $t('gm.npcTag.lockedBy', { name: locked }) }}</span>
         </v-tooltip>
       </v-btn>
     </template>
     <v-card max-width="550px" border tile>
       <v-list lines="two" density="compact" slim>
         <v-list-subheader v-if="locked && locked.length > 0">
-          Tag selection limited by template ({{ locked }})
+          {{ $t('gm.npcTag.limitedBy', { name: locked }) }}
         </v-list-subheader>
-        <v-list-subheader v-else>Select NPC Tag</v-list-subheader>
+        <v-list-subheader v-else>{{ $t('gm.npcTag.selectTag') }}</v-list-subheader>
         <v-divider />
         <v-list-item
           v-for="t in tags"

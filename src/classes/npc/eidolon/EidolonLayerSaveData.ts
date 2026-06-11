@@ -6,7 +6,7 @@ import { Eidolon } from './Eidolon'
 import { EidolonLayer, IEidolonLayerData } from './EidolonLayer'
 import { FeatureController } from '@/classes/components/feature/FeatureController'
 import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer'
-import { INpcFeatureData, NpcFeature } from '../feature/NpcFeature'
+import { NpcFeature } from '../feature/NpcFeature'
 import { CombatController } from '@/classes/components/combat/CombatController'
 import { ICombatant } from '@/classes/components/combat/ICombatant'
 

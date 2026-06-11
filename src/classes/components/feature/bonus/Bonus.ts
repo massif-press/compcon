@@ -20,7 +20,7 @@ interface IBonusData {
 class Bonus {
   public readonly ID: string
   public readonly Source: string
-  public readonly Value: string | number | string[]
+  public readonly Value: string | number | boolean | string[]
   public readonly Accuracy: number
   public readonly Title: string | number
   public readonly Detail: string | number
@@ -145,7 +145,7 @@ class Bonus {
 
     // replace: sum of replace bonuses becomes the new base
     const replaces = all.filter(b => b.Replace)
-    let val = replaces.length
+    const val = replaces.length
       ? replaces.reduce((sum, b) => sum + this.Evaluate(b, source), 0)
       : base
 
@@ -182,7 +182,7 @@ class Bonus {
       return Math.ceil(Number(val))
     }
 
-    let value: string | number = bonus.Value
+    let value = bonus.Value
     if (typeof value === 'string' && value.includes('/')) {
       const tier: number = (source as any).CombatController?.Tier ?? 1
       const parts = value.split('/')

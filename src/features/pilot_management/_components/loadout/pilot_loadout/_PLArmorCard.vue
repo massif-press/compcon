@@ -122,6 +122,8 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import type { Pilot } from '@/classes/pilot/Pilot'
 import { computed, ref } from 'vue'
 import PlCardBase from './_PLCardBase.vue'
@@ -185,8 +187,8 @@ function equip(item: PilotArmor) {
   emit('save')
   ;(base.value as any)?.closeSelector()
   notify({
-    title: 'Pilot Armor Equipped',
-    text: `${item.Name} equipped to ${(props.pilot as any).Name}.`,
+    title: t('pm.loadout.armorEquippedTitle'),
+    text: t('pm.loadout.equippedText', { itemName: item.Name, pilotName: (props.pilot as any).Name }),
     data: { icon: 'cc:pilot' },
   })
 }

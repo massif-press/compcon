@@ -71,12 +71,10 @@
               :icon="item.actor.IsLinked ? 'mdi-link-variant' : 'mdi-link-variant-off'"
               style="position: absolute; bottom: 2px; right: 2px" />
           </template>
-          <span v-if="item.actor.IsLinked">
-            The source of this NPC instance is present in your NPC roster (
-            <b class="text-accent">{{ item.actor.GetLinkedItem().Name }}</b>
-            ) and can receive updates from the original
-          </span>
-          <span v-else>This NPC instance is not linked to a valid source in your NPC roster</span>
+          <i18n-t v-if="item.actor.IsLinked" keypath="gm.combatant.linkedSource" tag="span" scope="global">
+            <template #name><b class="text-accent">{{ item.actor.GetLinkedItem().Name }}</b></template>
+          </i18n-t>
+          <span v-else>{{ $t('gm.combatant.notLinkedSource') }}</span>
         </v-tooltip>
       </v-row>
     </template>

@@ -3,7 +3,7 @@
     v-if="event.StatusEvents?.length">
     <div v-if="!mobile"
       class="text-cc-overline text-disabled">
-      Status
+      {{ $t('common.status') }}
     </div>
     <div v-for="(s, s_idx) in event.StatusEvents"
       :key="`statusEvent_${event.ID}_${s_idx}`"

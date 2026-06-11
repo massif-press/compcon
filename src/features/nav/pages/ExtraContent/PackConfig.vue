@@ -85,7 +85,7 @@
             </v-col>
             <v-col>
               <span class="heading">{{ lcp.packName }}</span>
-              <span class="text-disabled"> by {{ lcp.packAuthor }}</span>
+              <span class="text-disabled"> {{ $t('nav.packConfig.byAuthor', { author: lcp.packAuthor }) }}</span>
             </v-col>
             <v-col cols="auto">
               <v-tooltip location="top"
@@ -145,7 +145,7 @@
           <div class="heading h3">{{ config.name }}</div>
           <div class="text-disabled text-caption">
             <span v-if="config.packList.length">
-              {{config.packList.map(x => x.packName).join(' // ')}} LCPs
+              {{ $t('nav.packConfig.lcpsSuffix', { list: config.packList.map(x => x.packName).join(' // ') }) }}
             </span>
             <span v-else>{{ pc.coreBookOnly }}</span>
           </div>
@@ -187,10 +187,11 @@ import { useDisplay } from 'vuetify'
 import { CompendiumStore, UserStore } from '@/stores'
 import { LcpConfig, LcpConfigData } from '@/user'
 import { debounce } from 'lodash-es'
-import { NAV_STRINGS } from '@/features/nav/strings'
+import { useNavStrings } from '@/features/nav/useNavStrings'
+const { section } = useNavStrings()
 
 const { smAndDown: mobile } = useDisplay()
-const pc = NAV_STRINGS.packConfig
+const pc = section('packConfig')
 
 const selection = ref<any>(null)
 const editingIndex = ref<number | null>(null)

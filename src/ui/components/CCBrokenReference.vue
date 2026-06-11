@@ -19,11 +19,11 @@
         color="primary"
         class="px-2"
         height="40">
-        <span class="text-cc-overline">Instanced Item</span>
+        <span class="text-cc-overline">{{ $t('ui.brokenRef.instancedItem') }}</span>
       </v-toolbar>
 
       <v-card-text class="py-2">
-        This item is part of the following Lancer Content Pack:
+        {{ $t('ui.brokenRef.partOfPack') }}
 
         <v-card variant="outlined"
           style="border-color: rgb(var(--v-theme-error))"
@@ -47,14 +47,13 @@
                 color="error">
                 <v-icon icon="mdi-open-in-new"
                   start />
-                Download LCP
+                {{ $t('ui.lcp.downloadLcp') }}
               </v-btn>
             </v-col>
           </v-row>
         </v-card>
         <div class="text-caption text-center text-disabled">
-          This item has been instanced as a unique object and if removed will not be available
-          until the associated LCP is installed.
+          {{ $t('ui.brokenRef.instancedNote') }}
         </div>
       </v-card-text>
     </v-card>

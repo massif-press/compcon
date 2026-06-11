@@ -1,7 +1,7 @@
 <template>
   <div>
   <div class="heading"> {{ combatant.actor.CombatController.CombatName }}{{ possessive }}
-    Deployed Equipment: </div>
+    {{ $t('active.pcDeploy.deployedEquipment') }} </div>
   <v-card class="pb-2 px-2">
     <v-row v-if="combatant.deployables.length"
       dense>
@@ -22,7 +22,7 @@
     </v-row>
     <div v-else
       class="text-disabled pa-4 text-center">
-      <i>No active equipment.</i>
+      <i>{{ $t('active.pcDeploy.noActive') }}</i>
     </div>
   </v-card>
   <v-scroll-x-reverse-transition>
@@ -43,7 +43,7 @@
       flat
       tile>
       <v-card-text class="text-disabled text-center">
-        <i>No equipment selected.</i>
+        <i>{{ $t('active.pcDeploy.noSelected') }}</i>
       </v-card-text>
     </v-card>
   </v-scroll-x-reverse-transition>

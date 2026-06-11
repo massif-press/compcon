@@ -4,6 +4,8 @@
     <v-alert icon="cc:monist"
       title="No Eidolon Data"
       variant="tonal">
+      <!-- eslint-disable @intlify/vue-i18n/no-raw-text -->
+      <!-- Theme L §4: core-book rules flavor, localized via the content pipeline (L3), not a UI key. -->
       <p>
         <strong>Eidolons</strong>
         are complex and otherworldly enemies meant to provide a unique, puzzle-like combat
@@ -20,13 +22,14 @@
         campaign book, and you can add them to COMP/CON by installing the GM LCP for No Room for a
         Wallflower, available alongside the PDF download.
       </p>
+      <!-- eslint-enable @intlify/vue-i18n/no-raw-text -->
     </v-alert>
     <br />
     <v-row align="center"
       justify="center">
       <v-col cols="auto">
         <cc-button color="accent"
-          to="/srd">Return to Compendium</cc-button>
+          to="/srd">{{ $t('compendium.returnToCompendium') }}</cc-button>
       </v-col>
     </v-row>
   </v-container>

@@ -49,7 +49,7 @@
                     size="18"
                     class="mr-1" />
                 </template>
-                Passive Effect
+                {{ $t('ui.combat.passiveEffect') }}
               </v-tooltip>
               <v-tooltip v-if="activeEffect.Damage.length"
                 location="top">
@@ -59,7 +59,7 @@
                     size="18"
                     class="mr-1" />
                 </template>
-                Damage Assignment Available
+                {{ $t('ui.combat.damageAssignment') }}
               </v-tooltip>
               <v-tooltip v-if="activeEffect.AddStatus.length"
                 location="top">
@@ -69,7 +69,7 @@
                     size="18"
                     class="mr-1" />
                 </template>
-                Status Effect Available
+                {{ $t('ui.combat.statusEffect') }}
               </v-tooltip>
               <v-tooltip v-if="activeEffect.Save"
                 location="top">
@@ -79,7 +79,7 @@
                     size="18"
                     class="mr-1" />
                 </template>
-                Save Available
+                {{ $t('ui.combat.saveAvailable') }}
               </v-tooltip>
               <v-tooltip v-if="activeEffect.AddResist.length"
                 location="top">
@@ -89,7 +89,7 @@
                     size="18"
                     class="mr-1" />
                 </template>
-                Resistance/Immunity Available
+                {{ $t('ui.combat.resistanceImmunity') }}
               </v-tooltip>
               <v-tooltip v-if="activeEffect.AddOther.length"
                 location="top">
@@ -99,7 +99,7 @@
                     size="18"
                     class="mr-1" />
                 </template>
-                Other Effect Available
+                {{ $t('ui.combat.otherEffect') }}
               </v-tooltip>
               <v-tooltip v-if="activeEffect.AddSpecial.length"
                 location="top">
@@ -109,7 +109,7 @@
                     size="18"
                     class="mr-1" />
                 </template>
-                Special Effect Available
+                {{ $t('ui.combat.specialEffect') }}
               </v-tooltip>
             </template>
           </template>
@@ -126,7 +126,7 @@
               <div class="heading h3">{{ activeEffect.Name }}</div>
               <div class="text-caption text-disabled my-n1">
                 <i>
-                  From {{ activeEffect.Origin.Name }}
+                  {{ $t('ui.combat.fromOrigin', { name: activeEffect.Origin.Name }) }}
                   <span v-if="activeEffect.Origin.Source">
                     ({{ activeEffect.Origin.Type }}, {{ activeEffect.Origin.Source }})
                   </span>
@@ -136,18 +136,18 @@
               <cc-alert v-if="isDestroyed"
                 variant="tonal"
                 color="error">
-                Origin {{ activeEffect.Origin.Type || 'equipment' }} has been destroyed
+                {{ $t('ui.combat.originDestroyed', { type: activeEffect.Origin.Type || 'equipment' }) }}
               </cc-alert>
 
               <cc-alert v-else-if="isUsed"
                 color="panel-border">
-                Origin {{ activeEffect.Origin.Type || 'equipment' }} has been used
+                {{ $t('ui.combat.originUsed', { type: activeEffect.Origin.Type || 'equipment' }) }}
               </cc-alert>
 
 
               <cc-alert v-if="activeEffect.Condition"
                 color="primary">
-                <b class="text-accent">IF:&nbsp;</b>
+                <b class="text-accent">{{ $t('ui.combat.ifLabel') }}&nbsp;</b>
                 <b>{{ activeEffect.Condition }}</b>
               </cc-alert>
 
@@ -189,12 +189,12 @@
       <cc-alert v-if="isDestroyed"
         variant="tonal"
         color="error">
-        Origin {{ activeEffect.Origin.Type || 'equipment' }} has been destroyed
+        {{ $t('ui.combat.originDestroyed', { type: activeEffect.Origin.Type || 'equipment' }) }}
       </cc-alert>
 
       <cc-alert v-else-if="isUsed"
         color="panel-border">
-        Origin {{ activeEffect.Origin.Type || 'equipment' }} has been used
+        {{ $t('ui.combat.originUsed', { type: activeEffect.Origin.Type || 'equipment' }) }}
       </cc-alert>
       <menu-input v-if="getCombatant"
         :key="owner.ID"

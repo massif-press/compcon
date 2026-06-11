@@ -8,14 +8,14 @@
     class="my-8">
     <p class="text-text mb-3">
 
-      This pilot has been killed in action.
+      {{ $t('active.pilotPanel.killed') }}
     </p>
     <div class="text-right">
       <v-btn size="x-small"
         variant="text"
         class="fade-select"
         @click="pilot.CombatController.IsDead = false">
-        override
+        {{ $t('active.common.override') }}
       </v-btn>
     </div>
   </cc-alert>
@@ -31,7 +31,7 @@
         icon="mdi-medical-bag"
         color="primary"
         class="mr-6">
-        Pilot is unconscious, and any additional damage will kill them.
+        {{ $t('active.pilotPanel.unconscious') }}
       </cc-alert>
     </template>
 
@@ -86,7 +86,7 @@
             <v-icon icon="cc:talent"
               class="mt-n1"
               start />
-            Pilot Talents ({{ pilot.TalentsController.Talents.length }})
+            {{ $t('active.mechPanel.pilotTalents', { n: pilot.TalentsController.Talents.length }) }}
           </div>
         </v-expansion-panel-title>
         <v-expansion-panel-text>
@@ -122,7 +122,7 @@
       </v-expansion-panel>
     </v-expansion-panels>
 
-    <div class="text-cc-overline mt-4 text-disabled">Loadout</div>
+    <div class="text-cc-overline mt-4 text-disabled">{{ $t('active.mechPanel.loadout') }}</div>
     <pilot-combat-loadout
       @deploy="deploy($event)" />
   </panel-base>

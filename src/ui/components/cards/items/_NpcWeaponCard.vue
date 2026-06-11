@@ -65,7 +65,7 @@
                   cc:reticle
                 </v-icon>
               </template>
-              <span>Attack Bonus</span>
+              <span>{{ $t('common.attackBonus') }}</span>
             </v-tooltip>
           </v-col>
           <v-col v-if="tier"
@@ -84,7 +84,7 @@
         </v-row>
         <div v-if="!dense"
           class="text-cc-overline mt-n2">
-          Attack Bonus
+          {{ $t('common.attackBonus') }}
         </div>
       </v-col>
       <v-col v-if="item.HasAccuracy"
@@ -101,10 +101,7 @@
                   v-bind="props"
                   :icon="item.Accuracy(1) < 0 ? 'cc:difficulty' : 'cc:accuracy'" />
               </template>
-              <span>{{ item.Accuracy(1) < 0
-                ? 'Difficulty'
-                : 'Accuracy'
-                  }}</span>
+              <span>{{ item.Accuracy(1) < 0 ? $t('common.difficulty') : $t('common.accuracy') }}</span>
             </v-tooltip>
           </v-col>
           <v-col v-if="tier"
@@ -123,10 +120,7 @@
         </v-row>
         <div v-if="!dense"
           class="text-cc-overline mt-n2">
-          {{ item.Accuracy(1) < 0
-            ? 'Difficulty'
-            : 'Accuracy'
-          }}
+          {{ item.Accuracy(1) < 0 ? $t('common.difficulty') : $t('common.accuracy') }}
             </div>
       </v-col>
     </v-row>
@@ -136,9 +130,9 @@
       variant="tonal"
       icon="cc:weapon"
       class="my-1">
-      This weapon can make
-      <b class="text-accent">{{ tier ? item.Attacks[tier - 1] : item.Attacks.join(' / ') }}</b>
-      attacks at a time. Multiple attacks may be made against the same or different targets.
+      <i18n-t keypath="ui.card.weaponAttacks" tag="span" scope="global">
+        <template #count><b class="text-accent">{{ tier ? item.Attacks[tier - 1] : item.Attacks.join(' / ') }}</b></template>
+      </i18n-t>
     </v-alert>
     <template #statblock>
       <p v-if="item.OnMiss"

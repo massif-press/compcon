@@ -2,14 +2,14 @@
   <v-row dense
     align="center">
     <v-col>
-      <div class="heading h2">{{ item.Source }} {{ item.MechTypeString }} Frame</div>
+      <div class="heading h2">{{ item.Source }} {{ item.MechTypeString }} {{ $t('ui.card.frame') }}</div>
       <div v-if="item.Variant"
-        class="heading h4 text-accent">{{ item.Variant }} Variant Frame</div>
+        class="heading h4 text-accent">{{ item.Variant }} {{ $t('ui.card.variantFrame') }}</div>
     </v-col>
     <v-col cols="auto">
       <cc-tooltip :icon="item.SizeIcon"
         size="65">
-        <div class="heading h3">Size {{ item.Size === 0.5 ? '½' : item.Size }}</div>
+        <div class="heading h3">{{ $t('common.size') }} {{ item.Size === 0.5 ? '½' : item.Size }}</div>
         <v-divider class="my-1" />
         {{ glossary('size') }}
       </cc-tooltip>
@@ -19,7 +19,7 @@
     dense>
     <v-col>
       <div v-if="item.Description">
-        <div class="text-cc-overline my-1 text-text">COMPENDIUM ENTRY</div>
+        <div class="text-cc-overline my-1 text-text">{{ $t('ui.card.compendiumEntry') }}</div>
         <p v-html-safe="item.Description"
           class="flavor-text" />
       </div>
@@ -33,11 +33,11 @@
   </v-row>
 
   <div class="my-4">
-    <div class="text-cc-overline text-text">COMBAT PROFILE</div>
+    <div class="text-cc-overline text-text">{{ $t('ui.card.combatProfile') }}</div>
     <frame-combat-chart :frame="item" />
   </div>
 
-  <div class="text-cc-overline text-text">FRAME TRAITS</div>
+  <div class="text-cc-overline text-text">{{ $t('ui.card.frameTraits') }}</div>
   <cc-masonry-grid :items="item.Traits">
     <template #default="{ item, index }">
       <cc-trait-item :trait="item"
@@ -47,7 +47,7 @@
   </cc-masonry-grid>
 
   <br />
-  <div class="text-cc-overline text-text">AVAILABLE WEAPON MOUNTS</div>
+  <div class="text-cc-overline text-text">{{ $t('ui.card.availableMounts') }}</div>
   <v-row justify="space-around"
     class="mb-3">
     <v-col v-for="(m, index) in item.Mounts"
@@ -60,7 +60,7 @@
             class="clipped"
             tile
             v-bind:="props">
-            <v-card-text class="heading h3 px-8 text-uppercase">{{ m }} Mount</v-card-text>
+            <v-card-text class="heading h3 px-8 text-uppercase">{{ m }} {{ $t('common.mount') }}</v-card-text>
           </v-card>
         </template>
         <p v-html-safe="get_mount_tooltip(m)" />
@@ -68,7 +68,7 @@
     </v-col>
   </v-row>
 
-  <div class="text-cc-overline text-text">ONBOARD CORE SYSTEM</div>
+  <div class="text-cc-overline text-text">{{ $t('ui.card.onboardCore') }}</div>
   <cc-core-system-panel :frame="item" />
 </template>
 

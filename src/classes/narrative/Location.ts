@@ -3,6 +3,7 @@ import { CloudController, PortraitController, SaveController } from '../componen
 import { NarrativeController } from './NarrativeController'
 import { ItemType } from '../enums'
 import { FolderController } from '../components/folder/FolderController'
+import { i18n } from '@/i18n'
 
 class LocationData extends ICollectionItemData {
   collectionItemType: string = 'location'
@@ -13,7 +14,7 @@ class Location extends CollectionItem {
 
   public constructor(data?: LocationData) {
     super(data)
-    this._name = data?.name || 'New Location'
+    this._name = data?.name || i18n.global.t('classes.newLocation')
 
     this.CloudController = new CloudController(this)
   }

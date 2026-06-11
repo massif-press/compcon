@@ -28,7 +28,7 @@
                   rounded="0"
                   prepend-icon="mdi-plus-box"
                   @click.stop="$emit('select')">
-                  Select {{ item.Name }}
+                  {{ $t('compendium.selectItem', { name: item.Name }) }}
                 </v-btn>
               </v-card>
             </div>

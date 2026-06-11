@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col class="heading h2">Encounters</v-col>
+      <v-col class="heading h2">{{ $t('gm.encounterIndex.title') }}</v-col>
       <v-col cols="auto">
         <cc-modal title="organize encounters"
           icon="mdi-queue-first-in-last-out">
@@ -9,7 +9,7 @@
             <cc-button size="small"
               color="primary"
               class="mx-4"
-              @click="open">Organize</cc-button>
+              @click="open">{{ $t('gm.encounterIndex.organize') }}</cc-button>
           </template>
           <template #default="{ close }">
             <organizer type="encounter"
@@ -96,7 +96,7 @@
               icon="mdi-menu-right"
               :class="showNoFolder ? 'mdi-rotate-90' : ''" />
           </v-btn>
-          <v-toolbar-title class="heading h3">No Folder</v-toolbar-title>
+          <v-toolbar-title class="heading h3">{{ $t('gm.folder.noFolder') }}</v-toolbar-title>
           <v-spacer />
           <div class="px-2 text-disabled text-caption">
             {{filteredItems.filter((x: any) => !x.FolderController?.Folder).length}}
@@ -129,7 +129,7 @@
 
       <div v-if="hidden"
         class="text-right pa-2 text-disabled">
-        <i>{{ hidden }} items hidden by filter</i>
+        <i>{{ $t('gm.split.itemsHidden', { n: hidden }) }}</i>
       </div>
     </v-card>
 
@@ -144,7 +144,7 @@
         prepend-icon="mdi-folder-multiple-plus"
         color="primary"
         @click="addFolder">
-        Add Folder
+        {{ $t('gm.encounterIndex.addFolder') }}
       </cc-button>
       <v-spacer />
       <cc-modal ref="import"
@@ -157,7 +157,7 @@
             prepend-icon="mdi-download"
             class="mx-4"
             @click="open">
-            Import
+            {{ $t('common.import') }}
           </cc-button>
         </template>
         <template #default="{ close }">
@@ -171,7 +171,7 @@
         prepend-icon="mdi-plus"
         color="accent"
         @click="addNew()">
-        Add New Encounter
+        {{ $t('gm.encounterIndex.addNew') }}
       </cc-button>
     </v-footer>
   </v-container>

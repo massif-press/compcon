@@ -25,22 +25,22 @@
                 color="error"
                 class="ml-n2" />
             </template>
-            <div class="text-center text-cc-overline">Cannot activate</div>
+            <div class="text-center text-cc-overline">{{ $t('active.combatAction.cannotActivate') }}</div>
             <v-divider class="my-1" />
             <div v-if="!canActivate">
-              <div v-if="!canUse">This action has already been used this turn.</div>
+              <div v-if="!canUse">{{ $t('active.combatAction.alreadyUsed') }}</div>
               <div v-else>
-                Insufficient
+                {{ $t('active.combatAction.insufficient') }}
                 <v-chip :color="displayColor"
                   size="small"
                   variant="elevated"
                   :prepend-icon="displayIcon || ''">
                   {{ action.Activation }}
                 </v-chip>
-                actions remaining this turn.
+                {{ $t('active.combatAction.actionsRemaining') }}
               </div>
             </div>
-            <div v-else-if="!canUse">This action has already been used this turn.</div>
+            <div v-else-if="!canUse">{{ $t('active.combatAction.alreadyUsed') }}</div>
           </v-tooltip>
         </span>
         <v-tooltip location="top"
@@ -58,7 +58,7 @@
               :prepend-icon="displayIcon"
               variant="elevated"
               elevation="0">
-              {{ action.Activation }} Action
+              {{ $t('active.combatAction.activationAction', { n: action.Activation }) }}
             </v-chip>
           </div>
           <v-divider class="my-1" />

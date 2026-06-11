@@ -1,6 +1,6 @@
 <template>
   <v-container class="pb-12">
-    <h1 class="heading text-center mb-4">Damage Tables</h1>
+    <h1 class="heading text-center mb-4">{{ $t('compendium.reference.damageTables') }}</h1>
 
     <cc-rollable-table v-for="t in tables"
       :id="t.ID"

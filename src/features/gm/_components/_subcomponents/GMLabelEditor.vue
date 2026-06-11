@@ -2,7 +2,7 @@
   <div>
   <fieldset class="pb-2 px-2"
     style="position: relative">
-    <legend class="text-caption text-left ml-2 px-2">GM LABELS</legend>
+    <legend class="text-caption text-left ml-2 px-2">{{ $t('gm.labels.heading') }}</legend>
     <v-dialog v-model="dialog"
       width="75vw">
       <template #activator="{ props }">
@@ -18,7 +18,7 @@
         <v-toolbar density="compact"
           class="heading h3">
           <v-toolbar-title>
-            Labels
+            {{ $t('gm.labels.labels') }}
             <cc-slashes class="px-2" />
             <span class="text-accent">{{ item.Name }}</span>
           </v-toolbar-title>
@@ -33,8 +33,8 @@
             <v-card-text>
               <v-row dense
                 class="mb-n4 text-caption">
-                <v-col cols="9">Label</v-col>
-                <v-col cols="3">Value (optional)</v-col>
+                <v-col cols="9">{{ $t('gm.labels.label') }}</v-col>
+                <v-col cols="3">{{ $t('gm.labels.valueOptional') }}</v-col>
               </v-row>
               <v-row v-for="(label, index) in item.NarrativeController.Labels"
                 :key="`label-${index}`"
@@ -79,7 +79,7 @@
                 @click="addLabel()">
                 <v-icon icon="mdi-plus"
                   start />
-                Add Label
+                {{ $t('gm.labels.addLabel') }}
               </v-btn>
             </v-card-text>
           </v-col>
@@ -93,7 +93,7 @@
                   v-bind="props"
                   @click="labelExpand = !labelExpand" />
               </template>
-              <div>{{ labelExpand ? 'Hide' : 'Show' }} Label Palette</div>
+              <div>{{ labelExpand ? $t('common.hide') : $t('common.show') }} {{ $t('gm.labels.labelPalette') }}</div>
             </v-tooltip>
           </v-col>
           <v-col v-if="labelExpand"
@@ -103,7 +103,7 @@
               height="100%"
               style="position: relative">
               <div class="d-flex align-center">
-                <div class="text-caption text-text flex-grow-1">LABEL PALETTE</div>
+                <div class="text-caption text-text flex-grow-1">{{ $t('gm.labels.paletteHeading') }}</div>
                 <v-tooltip location="bottom">
                   <template #activator="{ props }">
                     <v-btn icon
@@ -114,7 +114,7 @@
                       <v-icon :color="alphaSortDir ? 'accent' : ''">{{ alphaSortIcon }}</v-icon>
                     </v-btn>
                   </template>
-                  <div>Sort Alphabetically</div>
+                  <div>{{ $t('gm.labels.sortAlphabetically') }}</div>
                 </v-tooltip>
                 <v-tooltip location="bottom">
                   <template #activator="{ props }">
@@ -126,7 +126,7 @@
                       <v-icon :color="freqSortDir ? 'accent' : ''">{{ freqSortIcon }}</v-icon>
                     </v-btn>
                   </template>
-                  <div>Sort by Usage</div>
+                  <div>{{ $t('gm.labels.sortByUsage') }}</div>
                 </v-tooltip>
               </div>
               <v-divider class="text-text" />
@@ -144,7 +144,7 @@
                 </v-chip-group>
                 <div v-else
                   class="text-caption text-center pa-2">
-                  <i>No Labels Available</i>
+                  <i>{{ $t('gm.labels.noLabelsAvailable') }}</i>
                 </div>
               </div>
             </v-card>
@@ -155,7 +155,7 @@
           <v-spacer />
           <v-btn text
             @click="dialog = false">
-            Close
+            {{ $t('common.close') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -163,7 +163,7 @@
 
     <div v-if="item.NarrativeController.Labels.length === 0"
       class="text-caption text-center pa-1">
-      <i style="opacity: 0.6">No Labels</i>
+      <i style="opacity: 0.6">{{ $t('gm.labels.noLabels') }}</i>
     </div>
 
     <cc-split-chip v-for="(label, li) in item.NarrativeController.Labels"

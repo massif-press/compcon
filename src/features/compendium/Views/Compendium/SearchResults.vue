@@ -4,9 +4,9 @@
     <v-row align="center">
       <v-col>
         <div class="heading h2">
-          Search
+          {{ $t('compendium.search.search') }}
           <cc-slashes />
-          COMPENDIUM
+          {{ $t('compendium.titles.compendium') }}
         </div>
       </v-col>
       <v-col cols="auto">
@@ -14,7 +14,7 @@
           size="small"
           variant="outlined"
           :to="`/srd/reference/search?search=${searchText}`">
-          Switch to reference search
+          {{ $t('compendium.search.switchToReference') }}
         </cc-button>
       </v-col>
     </v-row>
@@ -31,7 +31,7 @@
       </v-col>
     </v-row>
     <i class="text-overline">
-      {{ searchResults.length }} result{{ searchResults.length === 1 ? '' : 's' }}
+      {{ $t('compendium.search.resultCount', { count: searchResults.length }, searchResults.length) }}
     </i>
     <v-card-text :style="!mobile && 'height: calc(100vh - 198px); overflow-y: scroll'">
       <v-slide-y-reverse-transition mode="out-in">

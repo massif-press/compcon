@@ -41,7 +41,7 @@
             size="30"
             class="mt-n2 ml-n1" />
         </div>
-        <div class="text-cc-overline mt-n2">SYSTEM POINT{{ item.SP > 1 ? 'S' : '' }}</div>
+        <div class="text-cc-overline mt-n2">{{ $t('ui.card.systemPoints', { plural: item.SP > 1 ? 'S' : '' }) }}</div>
       </v-col>
 
       <v-col cols="12"
@@ -78,7 +78,7 @@
       </div>
 
       <div v-if="item.Profiles[tab].Actions.length">
-        <div class="text-cc-overline text-disabled">//PROFILE ACTIONS</div>
+        <div class="text-cc-overline text-disabled">//{{ $t('ui.card.profileActions') }}</div>
         <v-row no-gutters
           justify="center">
           <v-col v-for="(a, index) in item.Profiles[tab].Actions"
@@ -92,7 +92,7 @@
       </div>
 
       <div v-if="item.Profiles[tab].Deployables.length">
-        <div class="text-cc-overline text-disabled">//PROFILE DEPLOYABLES</div>
+        <div class="text-cc-overline text-disabled">//{{ $t('ui.card.profileDeployables') }}</div>
         <v-row no-gutters
           justify="center">
           <v-col v-for="(d, i) in item.Profiles[tab].Deployables"
@@ -106,7 +106,7 @@
         </v-row>
       </div>
       <div v-if="item.Profiles[tab].Tags.length">
-        <div class="text-cc-overline mb-n1 text-disabled">//PROFILE TAGS</div>
+        <div class="text-cc-overline mb-n1 text-disabled">//{{ $t('ui.card.profileTags') }}</div>
         <cc-tags :tags="item.Profiles[tab].Tags"
           extended />
       </div>

@@ -13,7 +13,7 @@
         :key="selectedWeapon ? selectedWeapon.InstanceID : `empty-${idx}`">
         <div v-if="!selectedWeapon"
           class="text-cc-overline text-disabled pl-3 py-2">
-          select barrage weapon
+          {{ $t('active.barrage.selectWeapon') }}
         </div>
         <v-row dense
           align="center"
@@ -83,7 +83,7 @@
             class="mt-4">
             <v-divider class="my-4" />
             <div class="text-cc-overline text-disabled mb-1">
-              additional {{ selectedMount(selectedWeapon).Name }} aux weapons
+              {{ $t('active.barrage.additionalAux', { name: selectedMount(selectedWeapon).Name }) }}
             </div>
             <div v-for="(aux, aidx) in events[idx]?.auxEvents"
               :key="`aux-${aidx}`">

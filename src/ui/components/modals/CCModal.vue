@@ -45,7 +45,7 @@
             @click="emit('cancel'); modal = false"
             color="error"
             text>
-            Cancel
+            {{ $t('common.cancel') }}
           </v-btn>
           <v-spacer />
           <v-btn
@@ -53,7 +53,7 @@
             @click="emit('confirm'); modal = false"
             color="primary"
             text>
-            Confirm
+            {{ $t('common.confirm') }}
           </v-btn>
         </v-card-actions>
       </div>

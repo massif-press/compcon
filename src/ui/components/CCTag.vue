@@ -11,7 +11,7 @@
         :size="size">
         <v-icon v-if="tag.err" icon="mdi-label-off" />
         <v-icon v-else start icon="mdi-label" />
-        <span v-if="tag.err">MISSING DATA</span>
+        <span v-if="tag.err">{{ $t('ui.widget.missingData') }}</span>
         <span v-else>{{ tag.GetName(bonus, tier).toUpperCase() }}</span>
       </v-chip>
     </template>

@@ -16,7 +16,6 @@ import { DEFAULT_LCP_NAME } from './LcpItemMixin'
 import { ActiveEffect, IActiveEffectData } from './components/feature/active_effects/ActiveEffect'
 import { ICounterData } from './components'
 
-/** Minimal shape of the compendium store needed for lookups, avoiding circular imports */
 interface CompendiumLookup {
   MechWeapons: MechEquipment[]
   MechSystems: MechEquipment[]

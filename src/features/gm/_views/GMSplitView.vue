@@ -65,7 +65,7 @@
           size="x-small"
           class="mt-1"
           @click="$emit('open-organizer')">
-          ORGANIZE
+          {{ $t('gm.split.organize') }}
         </v-btn>
         <v-divider class="my-1" />
 
@@ -84,7 +84,7 @@
 
         <div v-if="hidden"
           class="text-right pa-2 text-disabled">
-          <i>{{ hidden }} items hidden by filter</i>
+          <i>{{ $t('gm.split.itemsHidden', { n: hidden }) }}</i>
         </div>
 
         <div class="my-12" />
@@ -98,7 +98,7 @@
                 :disabled="!canAdd"
                 block
                 @click="props.onClick($event)">
-                Add {{ itemType }}
+                {{ $t('gm.split.addType', { type: itemType }) }}
               </cc-button>
             </template>
             <template #default="{ isActive }">
@@ -112,7 +112,7 @@
                     $emit('add-new');
                   isActive.value = false;
                   ">
-                  Create New {{ itemType }}
+                  {{ $t('gm.split.createNewType', { type: itemType }) }}
                 </cc-button>
                 <div class="my-1" />
                 <cc-button block
@@ -123,7 +123,7 @@
                     $emit('open-import');
                   isActive.value = false;
                   ">
-                  File Import
+                  {{ $t('gm.split.fileImport') }}
                 </cc-button>
                 <div class="my-1" />
                 <share-code-dialog import-type="npc"

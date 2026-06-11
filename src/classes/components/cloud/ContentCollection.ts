@@ -2,13 +2,18 @@ import { cloudDelete, updateItem, uploadToS3 } from '@/io/apis/account'
 import { GenerateExportCollection } from '@/io/Importer'
 import { RemoveItem, SetItem } from '@/io/Storage'
 import { UserStore } from '@/user/store'
-import { CompendiumStore, ContentCollectionStore, ContentPackStore } from '@/features/compendium/store'
+import {
+  CompendiumStore,
+  ContentCollectionStore,
+  ContentPackStore,
+} from '@/features/compendium/store'
 import { PilotStore } from '@/features/pilot_management/store'
 import { NpcStore } from '@/features/gm/store/npc_store'
 import { NarrativeStore } from '@/features/gm/store/narrative_store'
 import { EncounterStore } from '@/features/gm/store/encounter_store'
 import { CampaignStore } from '@/features/gm/store/campaign_store'
 import { v4 as uuid } from 'uuid'
+import logger from '@/user/logger'
 
 type CollectionContentItem = {
   name: string
@@ -242,12 +247,17 @@ class ContentCollection {
 
   public static async Delete(collection: ContentCollection) {
     await ContentCollectionStore().deleteContentCollection(collection)
-    if (collection.Metadata)
+    if (collection.Metadata) {
+      if (!collection.Metadata.user_id && !UserStore().Cognito.userId) {
+        logger.error('No user ID found for collection deletion')
+        return
+      }
       await cloudDelete(
-        collection.Metadata.user_id || UserStore().Cognito.userId,
+        collection.Metadata.user_id || UserStore().Cognito.userId || '',
         collection.Metadata.sortkey,
         collection.Metadata?.uri
       )
+    }
   }
 }
 

@@ -18,7 +18,7 @@
       <v-row v-if="(a as Action).Trigger"
         no-gutters>
         <v-col cols="auto"
-          class="caption font-weight-bold">Trigger:&nbsp;</v-col>
+          class="caption font-weight-bold">{{ $t('gm.printAction.trigger') }}&nbsp;</v-col>
         <v-col>
           <div v-html-safe="(a as Action).Trigger"
             class="caption" />
@@ -29,7 +29,7 @@
         <v-col v-if="(a as Action).Trigger"
           cols="auto"
           class="caption font-weight-bold">
-          Effect:&nbsp;
+          {{ $t('gm.printAction.effect') }}&nbsp;
         </v-col>
         <v-col>
           <div v-html-safe="(a as Action).Detail"

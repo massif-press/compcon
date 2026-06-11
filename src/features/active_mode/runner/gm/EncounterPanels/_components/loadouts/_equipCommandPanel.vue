@@ -102,18 +102,14 @@
           width="300"
           border>
           <div v-if="item.IsLoading">
-            <span v-if="!item.Used">
-              Click to mark as
-              <b>used</b>
-              . Weapons with the LOADING tag must be reloaded before they can be loaded again
-            </span>
-            <span v-else>
-              Click to
-              <b>reload</b>
-              this weapon.
-            </span>
+            <i18n-t v-if="!item.Used" keypath="active.equipCmd.markUsedHint" tag="span" scope="global">
+              <template #used><b>{{ $t('active.equipCmd.used') }}</b></template>
+            </i18n-t>
+            <i18n-t v-else keypath="active.equipCmd.reloadHint" tag="span" scope="global">
+              <template #reload><b>{{ $t('active.equipCmd.reload') }}</b></template>
+            </i18n-t>
           </div>
-          <div v-else>Click to mark {{ item.Used ? 'Unused' : 'Used' }}</div>
+          <div v-else>{{ item.Used ? $t('active.equipCmd.clickUnused') : $t('active.equipCmd.clickUsed') }}</div>
         </v-card>
       </v-menu>
     </v-col>

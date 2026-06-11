@@ -50,11 +50,12 @@
 import { computed } from 'vue'
 import { useDisplay, useTheme } from 'vuetify'
 import { UserStore } from '@/stores'
-import { NAV_STRINGS } from '@/features/nav/strings'
+import { useNavStrings } from '@/features/nav/useNavStrings'
+const { section } = useNavStrings()
 
 const { smAndDown: mobile } = useDisplay()
 const theme = useTheme()
-const ud = NAV_STRINGS.userDataViewer
+const ud = section('userDataViewer')
 
 const user = computed(() => UserStore().User)
 

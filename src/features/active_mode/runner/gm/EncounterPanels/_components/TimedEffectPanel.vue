@@ -1,6 +1,6 @@
 <template>
   <div v-if="item.CombatController.TimedEffects.length"
-    class="text-cc-overline text-disabled mt-2">PENDING</div>
+    class="text-cc-overline text-disabled mt-2">{{ $t('active.timedEffect.pending') }}</div>
   <v-row v-for="(t, idx) in item.CombatController.TimedEffects"
     :key="`timed-${idx}`"
     dense
@@ -13,7 +13,7 @@
         :icon="getRoundsRemaining(t) ? 'mdi-timer-sand' : 'mdi-alert-decagram-outline'" />
     </v-col>
     <v-col>
-      <div class="text-cc-overline">{{ t.Name }} {{ t.Origin ? `// ${t.Origin}` : '' }}</div>
+      <div class="text-cc-overline">{{ t.Name }}<span v-if="t.Origin"> // {{ t.Origin }}</span></div>
       <div class="text-text">{{ t.Detail }}</div>
     </v-col>
 
@@ -32,10 +32,9 @@
         </template>
         <v-card class="pa-2"
           border>
-          <div class="text-center pa-2">{{ getRoundsRemaining(t) }} Rounds
-            remaining<br>
+          <div class="text-center pa-2">{{ $t('active.timedEffect.roundsRemaining', { n: getRoundsRemaining(t) }) }}<br>
           </div>
-          <div class="text-cc-overline text-disabled pb-1">// Override</div>
+          <div class="text-cc-overline text-disabled pb-1">{{ $t('active.timedEffect.override') }}</div>
           <v-row dense>
             <v-col><v-btn color="success"
                 size="x-small"
@@ -43,7 +42,7 @@
                 block
                 tile
                 @click="apply(t, Number(idx))">
-                Apply
+                {{ $t('active.common.apply') }}
               </v-btn></v-col>
             <v-col><v-btn color="error"
                 size="x-small"
@@ -51,7 +50,7 @@
                 block
                 tile
                 @click="dismiss(idx)">
-                Clear
+                {{ $t('common.clear') }}
               </v-btn></v-col>
           </v-row>
         </v-card>

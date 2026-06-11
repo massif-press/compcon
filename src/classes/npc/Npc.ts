@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid'
 import { ImageTag } from '@/io/ImageManagement'
+import { i18n } from '@/i18n'
 import {
   CloudController,
   ICloudData,
@@ -23,7 +24,7 @@ import { IFolderPlaceable } from '../components/folder/IFolderPlaceable'
 import logger from '@/user/logger'
 import { ItemType } from '../enums'
 import { IInstanceableData } from '../components/instance/IInstanceable'
-import { LcpConfigData } from '@/user'
+import { LcpConfig } from '@/user'
 
 class NpcData implements IInstanceableData {
   id!: string
@@ -33,7 +34,7 @@ class NpcData implements IInstanceableData {
   brews!: BrewInfo[]
   img!: IPortraitData
   narrative!: NarrativeElementData
-  config: LcpConfigData = {} as LcpConfigData
+  config: LcpConfig = {} as LcpConfig
 
   // instance fields
   is_instance: boolean = false
@@ -71,11 +72,11 @@ abstract class Npc
   public FolderController: FolderController
 
   private _id: string
-  protected _name: string = 'New NPC'
+  protected _name: string = i18n.global.t('classes.newNpc')
   private _note: string
   private _description: string
   private _gmDescription: string
-  private _lcpConfig: LcpConfigData
+  private _lcpConfig: LcpConfig
 
   public constructor(data?: NpcData) {
     if ((data as any)?.is_instance || ((data as any)?.instance && (data as any)?.instanceId)) {
@@ -93,7 +94,7 @@ abstract class Npc
     this.NarrativeController = new NarrativeController(this)
     this.FeatureController = new FeatureController(this)
     this.FolderController = new FolderController(this)
-    this._lcpConfig = data?.config || ({} as LcpConfigData)
+    this._lcpConfig = data?.config || ({} as LcpConfig)
 
     this.FeatureController.Register()
   }
@@ -178,12 +179,12 @@ abstract class Npc
     this.save()
   }
 
-  public set LcpConfig(config: LcpConfigData) {
+  public set LcpConfig(config: LcpConfig) {
     this._lcpConfig = config
     this.SaveController.save()
   }
 
-  public get LcpConfig(): LcpConfigData | null {
+  public get LcpConfig(): LcpConfig | null {
     if (!this._lcpConfig || Object.keys(this._lcpConfig).length === 0) return null
     return this._lcpConfig
   }

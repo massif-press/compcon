@@ -46,7 +46,7 @@
             :key="pack.id"
             class="text-caption">
             <b>{{ pack.manifest.name }}</b>
-            by {{ pack.manifest.author }} @ {{ alreadyInstalledVersion(pack) }}
+            {{ $t('nav.packInstall.byAuthorVersion', { author: pack.manifest.author, version: alreadyInstalledVersion(pack) }) }}
             <div class="ml-3 mb-2"
               style="margin-top: -2px">
               <v-chip v-if="gradeType(pack) === 'upgrade'"
@@ -56,7 +56,7 @@
                 class="elevation-0">
                 <v-icon start
                   icon="mdi-arrow-up" />
-                Upgrade from {{ alreadyInstalledVersion(pack) }} to {{ pack.manifest.version }}
+                {{ $t('nav.packInstall.upgradeFromTo', { from: alreadyInstalledVersion(pack), to: pack.manifest.version }) }}
               </v-chip>
               <v-chip v-else-if="gradeType(pack) === 'downgrade'"
                 color="error"
@@ -65,12 +65,12 @@
                 class="elevation-0">
                 <v-icon start
                   icon="mdi-arrow-down" />
-                Downgrade to {{ pack.manifest.version }}
+                {{ $t('nav.packInstall.downgradeTo', { version: pack.manifest.version }) }}
               </v-chip>
               <i v-else>
                 <v-icon class="pb-1"
                   icon="mdi-swap-horizontal" />
-                No change ({{ pack.manifest.version }} to {{ pack.manifest.version }})
+                {{ $t('nav.packInstall.noChange', { from: pack.manifest.version, to: pack.manifest.version }) }}
               </i>
             </div>
           </div>
@@ -86,7 +86,7 @@
             :key="pack.id"
             class="text-caption">
             <b>{{ pack.manifest.name }}</b>
-            by {{ pack.manifest.author }}
+            {{ $t('nav.packInstall.byAuthor', { author: pack.manifest.author }) }}
           </div>
         </cc-alert>
 
@@ -101,9 +101,9 @@
             :key="pack.id"
             class="text-caption">
             <b>{{ pack.manifest.name }}</b>
-            by {{ pack.manifest.author }} requires
+            {{ $t('nav.packInstall.byAuthorRequires', { author: pack.manifest.author }) }}
             <div v-for="dep in uninstalledDependencies(pack)"
-              :key="dep.id"
+              :key="dep.name + dep.version"
               class="text-caption">
               <v-chip size="x-small"
                 variant="elevated"
@@ -119,7 +119,7 @@
           <cc-alert v-if="installing"
             type="info"
             class="mt-3">
-            Installing {{ contentPacks.length }} content pack(s)...
+            {{ $t('nav.packInstall.installingPacks', { count: contentPacks.length }, contentPacks.length) }}
           </cc-alert>
         </v-fade-transition>
 
@@ -151,10 +151,10 @@
               transition="slide-y-reverse-transition">
               {{ pi.alreadyInstalledNote }}
               <span v-if="gradeType(contentPack) === 'upgrade'">
-                It will be upgraded to v.{{ contentPack.manifest.version }}
+                {{ $t('nav.packInstall.willUpgradeTo', { version: contentPack.manifest.version }) }}
               </span>
               <span v-else-if="gradeType(contentPack) === 'downgrade'">
-                It will be downgraded to {{ contentPack.manifest.version }}
+                {{ $t('nav.packInstall.willDowngradeTo', { version: contentPack.manifest.version }) }}
               </span>
               <span v-else>{{ pi.willReplace }}</span>
             </v-alert>
@@ -166,7 +166,7 @@
               transition="slide-y-reverse-transition">
               {{ pi.requiresContent }}
               <div v-for="dep in uninstalledDependencies(contentPack)"
-                :key="dep.id"
+                :key="dep.name + dep.version"
                 class="text-caption">
                 <v-chip size="small">{{ dep.name }}</v-chip>
                 @ {{ parseVersion(dep.version) }}
@@ -197,14 +197,15 @@ import { useDisplay } from 'vuetify'
 import { parseContentPack } from '@/io/ContentPackParser'
 import { CompendiumStore, ContentPackStore } from '@/stores'
 import PackInfo from './PackInfo.vue'
-import { IContentPack } from '@/classes/ContentPack'
+import { IContentPack, ContentPackDependency } from '@/classes/ContentPack'
 import { compare, coerce } from 'semver'
 import logger from '@/user/logger'
 import { notify } from '@/util/notify'
-import { NAV_STRINGS } from '@/features/nav/strings'
+import { useNavStrings } from '@/features/nav/useNavStrings'
+const { section } = useNavStrings()
 
 const { smAndDown: mobile } = useDisplay()
-const pi = NAV_STRINGS.packInstall
+const pi = section('packInstall')
 
 const emit = defineEmits<{ 'start-load': [] }>()
 
@@ -307,11 +308,8 @@ async function install(): Promise<void> {
   })
   contentPacks.value = Array.from(uniquePacks.values())
 
-  contentPacks.value = contentPacks.value.filter(pack => {
-    const deps = pack.manifest ? pack.manifest.dependencies : []
-    if (!deps) return true
-    return deps.every(dep => ContentPackStore().packAlreadyInstalled(dep.name, dep.version, true))
-  })
+  contentPacks.value = resolveInstallable(contentPacks.value)
+  contentPacks.value = orderByDependencies(contentPacks.value)
 
   ContentPackStore().installContentPacks(contentPacks.value)
 
@@ -338,7 +336,69 @@ function alreadyInstalledVersion(pack: IContentPack) {
 function uninstalledDependencies(pack: IContentPack) {
   const deps = pack.manifest ? pack.manifest.dependencies : []
   if (!deps) return []
-  return deps.filter(dep => !ContentPackStore().packAlreadyInstalled(dep.name, dep.version, true))
+  return deps.filter(
+    dep =>
+      !ContentPackStore().packAlreadyInstalled(dep.name, dep.version, true) &&
+      !contentPacks.value.some(p => p !== pack && packMatchesDependency(p, dep))
+  )
+}
+
+function packMatchesDependency(pack: IContentPack, dep: ContentPackDependency): boolean {
+  if (pack.manifest.name.toLowerCase() !== dep.name.toLowerCase()) return false
+  const v = dep.version
+  if (!v || v === '*') return true
+  if (v.startsWith('=')) return pack.manifest.version === v.slice(1)
+  try {
+    return compare(coerce(pack.manifest.version), coerce(v)) >= 0
+  } catch (e) {
+    logger.error(`Error comparing dependency versions: ${e} (likely bad semver)`, null, e)
+    return false
+  }
+}
+
+function dependencyMet(dep: ContentPackDependency, batch: IContentPack[], pack: IContentPack) {
+  return (
+    ContentPackStore().packAlreadyInstalled(dep.name, dep.version, true) ||
+    batch.some(p => p !== pack && packMatchesDependency(p, dep))
+  )
+}
+
+function resolveInstallable(packs: IContentPack[]): IContentPack[] {
+  let remaining = [...packs]
+  let changed = true
+  while (changed) {
+    changed = false
+    const next = remaining.filter(pack => {
+      const deps = pack.manifest?.dependencies || []
+      const ok = deps.every(dep => dependencyMet(dep, remaining, pack))
+      if (!ok) changed = true
+      return ok
+    })
+    remaining = next
+  }
+  return remaining
+}
+
+function orderByDependencies(packs: IContentPack[]): IContentPack[] {
+  const ordered: IContentPack[] = []
+  let pool = [...packs]
+  while (pool.length) {
+    const ready = pool.filter(pack => {
+      const deps = pack.manifest?.dependencies || []
+      return deps.every(
+        dep =>
+          ContentPackStore().packAlreadyInstalled(dep.name, dep.version, true) ||
+          ordered.some(p => packMatchesDependency(p, dep))
+      )
+    })
+    if (!ready.length) {
+      ordered.push(...pool)
+      break
+    }
+    ordered.push(...ready)
+    pool = pool.filter(p => !ready.includes(p))
+  }
+  return ordered
 }
 
 function gradeType(pack: IContentPack) {

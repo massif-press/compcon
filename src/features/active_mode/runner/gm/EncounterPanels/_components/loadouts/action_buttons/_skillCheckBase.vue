@@ -2,7 +2,7 @@
   <v-row dense>
 
     <v-col>
-      <div class="text-cc-overline text-disabled">Bonus</div>
+      <div class="text-cc-overline text-disabled">{{ $t('active.diceRoller.bonus') }}</div>
       <v-text-field v-model="bonus"
         density="compact"
         variant="outlined"
@@ -22,15 +22,12 @@
         tile
         class="pa-1 text-cc-overline"
         color="light-panel">
-        {{ a.Value > 0 ? '+' : '' }}{{ a.Value }} ({{ a.Source }})
+        <span v-if="a.Value > 0">+</span>{{ a.Value }} ({{ a.Source }})
       </v-card>
     </v-col>
     <v-col>
       <div class="text-cc-overline text-disabled">
-        {{ accDiff < 0
-          ? 'Difficulty'
-          : 'Accuracy'
-          }}
+        {{ accDiff < 0 ? $t('common.difficulty') : $t('common.accuracy') }}
           </div>
           <v-text-field v-model="accDiff"
             density="compact"
@@ -54,7 +51,7 @@
             tile
             class="pa-1 text-cc-overline"
             color="light-panel">
-            -1 (Difficult)
+            {{ $t('active.skillCheck.difficultMod') }}
           </v-card>
           <v-card v-for="(a, index) in applicableBonuses.accDiff"
             :key="`accdiff-${index}`"
@@ -62,11 +59,11 @@
             tile
             class="pa-1 text-cc-overline"
             color="light-panel">
-            {{ a.Accuracy > 0 ? '+' : '' }}{{ a.Accuracy }} ({{ a.Source }})
+            <span v-if="a.Accuracy > 0">+</span>{{ a.Accuracy }} ({{ a.Source }})
           </v-card>
     </v-col>
     <v-col>
-      <div class="text-cc-overline text-disabled">Skill Check Roll</div>
+      <div class="text-cc-overline text-disabled">{{ $t('active.skillCheck.skillCheckRoll') }}</div>
       <v-text-field v-model="roll"
         density="compact"
         variant="outlined"
@@ -90,11 +87,11 @@
     color="primary"
     size="small"
     block
-    @click="rollCheck()">Roll</v-btn>
+    @click="rollCheck()">{{ $t('common.roll') }}</v-btn>
 
   <div v-if="rollResults.length"
     class="pa-2 border-s mt-2 text-left">
-    <div class="text-cc-overline text-disabled">Roll Results</div>
+    <div class="text-cc-overline text-disabled">{{ $t('active.skillCheck.rollResults') }}</div>
     <div v-html-safe="rollResults"
       class="text-caption text-accent" />
   </div>

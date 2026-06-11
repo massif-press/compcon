@@ -6,7 +6,7 @@
           prepend-icon="mdi-plus"
           class="mt-2"
           v-bind="props">
-          Add Item
+          {{ $t("mainMenu.collection.addItem") }}
         </cc-button>
       </div>
     </template>
@@ -14,7 +14,7 @@
       <v-card min-height="90vh">
         <v-toolbar density="compact"
           color="primary">
-          <v-toolbar-title>Add Collection Item</v-toolbar-title>
+          <v-toolbar-title>{{ $t("mainMenu.collection.addCollectionItem") }}</v-toolbar-title>
           <v-text-field v-model="search"
             prepend-inner-icon="mdi-magnify"
             clearable
@@ -44,13 +44,10 @@
                 density="compact"
                 class="my-2"
                 icon="mdi-alert">
-                <strong>Warning:</strong>
-                Distributing content that you are not authorized to is against against the COMP/CON
-                terms of service and will result in a ban from the cloud service, deletion of your
-                cloud account and data, and removal and blocking from COMP/CON Patreon membership.
+                <strong>{{ $t("mainMenu.collection.warningLabel") }}</strong>
+                {{ $t("mainMenu.collection.distributeWarning") }}
                 <br />
-                Please ensure you have the rights to distribute any content you add to the cloud
-                service. If in doubt, contact the author of the content.
+                {{ $t("mainMenu.collection.ensureRights") }}
               </v-alert>
               <v-data-table :items="filteredItems"
                 :headers="<any>headers"
@@ -79,6 +76,8 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import { computed, ref } from 'vue'
 import { notify } from '@/util/notify'
 import {
@@ -196,8 +195,8 @@ const headers = computed(() => {
 function AddItem(item: any) {
       emit('add-item', { type: selectedType.value, item });
       notify({
-        title: 'Item Added',
-        text: `Item ${item.Name} added to collection`,
+        title: t('mainMenu.account.itemAddedTitle'),
+        text: t('mainMenu.account.itemAddedText', { name: item.Name }),
         data: { color: 'success', icon: 'mdi-check' },
       });
     }

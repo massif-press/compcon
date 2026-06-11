@@ -15,7 +15,7 @@
         class="mb-1"
         :loading="dlLoading"
         @click="subscribe()">
-        subscribe
+        {{ $t('mainMenu.ui.subscribe') }}
       </cc-button>
     </template>
   </cc-share-code-importer>

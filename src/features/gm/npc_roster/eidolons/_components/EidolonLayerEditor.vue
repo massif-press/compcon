@@ -1,14 +1,14 @@
 <template>
   <v-row dense>
     <v-col>
-      <div class="text-overline">LAYERS</div>
+      <div class="text-overline">{{ $t('gm.eidolon.layers') }}</div>
     </v-col>
     <v-col v-if="!readonly"
       cols="auto">
       <cc-button color="primary"
         prepend-icon="mdi-plus"
         @click="layerSelector = true">
-        add layer
+        {{ $t('gm.eidolon.addLayer') }}
       </cc-button>
     </v-col>
     <v-col v-if="!readonly"
@@ -26,7 +26,7 @@
               icon="mdi-dice-d20-outline" />
           </v-btn>
         </template>
-        <span>Add random layer</span>
+        <span>{{ $t('gm.eidolon.addRandomLayer') }}</span>
       </v-tooltip>
     </v-col>
   </v-row>
@@ -34,13 +34,13 @@
     variant="outlined"
     color="primary"
     class="pa-2">
-    no layers
+    {{ $t('gm.eidolon.noLayers') }}
   </v-card>
   <v-card v-else-if="!item.Layers.some((x) => x.Layer)"
     variant="outlined"
     color="primary"
     class="pa-2">
-    no layers
+    {{ $t('gm.eidolon.noLayers') }}
   </v-card>
   <div v-else>
     <v-tabs v-model="tab"
@@ -59,7 +59,7 @@
               class="mx-1 fade-select"
               @click.stop="item.MoveLayer(idx, idx - 1)" />
           </template>
-          <span>Order Lower</span>
+          <span>{{ $t('gm.eidolon.orderLower') }}</span>
         </v-tooltip>
         <span v-else
           class="mx-3" />
@@ -73,7 +73,7 @@
               class="mx-1 fade-select"
               @click.stop="item.MoveLayer(idx, idx + 1)" />
           </template>
-          <span>Order Higher</span>
+          <span>{{ $t('gm.eidolon.orderHigher') }}</span>
         </v-tooltip>
         <span v-else
           class="mx-3" />
@@ -86,7 +86,7 @@
           class="rounded-0 rounded-b bg-transparent"
           style="border-color: rgb(var(--v-theme-primary))">
           <v-card-text class="my-0 py-0">
-            <div class="text-overline">Layer Description</div>
+            <div class="text-overline">{{ $t('gm.eidolon.layerDescription') }}</div>
             <cc-rich-text-area v-model="layer.Description"
               :readonly="readonly" />
           </v-card-text>
@@ -120,7 +120,7 @@
               prepend-icon="mdi-delete"
               :disabled="layer.ID === 'el_core' || index === 0"
               @click="removeLayer(index)">
-              remove
+              {{ $t('gm.eidolon.remove') }}
             </cc-button>
           </v-card-actions>
         </v-card>

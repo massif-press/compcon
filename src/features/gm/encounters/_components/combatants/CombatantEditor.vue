@@ -1,5 +1,5 @@
 <template>
-  <div class="text-overline mt-1">COMBATANTS</div>
+  <div class="text-overline mt-1">{{ $t('gm.combatant.combatants') }}</div>
 
   <v-card flat
     tile>
@@ -61,7 +61,7 @@
         prepend-icon="mdi-plus"
         class="mr-2"
         @click="addDialog = true">
-        Add NPC
+        {{ $t('gm.combatant.addNpc') }}
       </cc-button>
     </v-toolbar>
   </v-card>
@@ -72,7 +72,7 @@
     <v-card>
       <v-toolbar density="compact">
         <v-toolbar-title class="heading h3">
-          <span>SELECT NPC</span>
+          <span>{{ $t('gm.combatant.selectNpc') }}</span>
         </v-toolbar-title>
         <v-spacer />
         <v-btn icon
@@ -93,7 +93,7 @@
         density="compact">
         <div>
           <div v-if="!readonly"
-            class="text-caption text-disabled mb-n1">CURRENTLY EDITING</div>
+            class="text-caption text-disabled mb-n1">{{ $t('gm.combatant.currentlyEditing') }}</div>
           <div>
             <v-icon :icon="selected?.actor.Icon"
               size="x-small"
@@ -101,7 +101,7 @@
               start />
             <span class="heading">{{ selected?.actor.Name }}</span>
             <span class="text-caption text-disabled">
-              &emsp;(Encounter Instance #{{ selected.index }})
+              &emsp;{{ $t('gm.combatant.encounterInstance', { n: selected.index }) }}
             </span>
 
             <span v-if="!readonly">
@@ -115,10 +115,7 @@
                     size="x-small"
                     icon="mdi-help-circle" />
                 </template>
-                <span>
-                  This is a unique instance of this NPC tied to this Encounter data. Editing this
-                  NPC will not affect the original NPC data.
-                </span>
+                <span>{{ $t('gm.combatant.uniqueInstanceHelp') }}</span>
               </v-tooltip>
             </span>
           </div>
@@ -137,12 +134,10 @@
               :icon="selected.actor.IsLinked ? 'mdi-link-variant' : 'mdi-link-variant-off'"
               start />
           </template>
-          <span v-if="selected.actor.IsLinked">
-            The source of this NPC instance is present in your NPC roster (
-            <b class="text-primary">{{ selected.actor.GetLinkedItem().Name }}</b>
-            ) and can receive updates from the original
-          </span>
-          <span v-else>This NPC instance is not linked to a valid source in your NPC roster.</span>
+          <i18n-t v-if="selected.actor.IsLinked" keypath="gm.combatant.linkedSource" tag="span" scope="global">
+            <template #name><b class="text-primary">{{ selected.actor.GetLinkedItem().Name }}</b></template>
+          </i18n-t>
+          <span v-else>{{ $t('gm.combatant.notLinkedSourceDot') }}</span>
         </v-tooltip>
 
         <b v-if="!readonly"
@@ -154,22 +149,22 @@
                 size="x-small"
                 variant="outlined"
                 :disabled="!selected.actor.IsLinked">
-                Source {{ selected.actor.IsLinked ? 'Linked' : 'Unavailable' }}
+                {{ selected.actor.IsLinked ? $t('gm.combatant.sourceLinked') : $t('gm.combatant.sourceUnavailable') }}
               </v-btn>
             </template>
             <v-card variant="outlined">
               <v-card-text>
-                <div class="text-caption text-disabled">Instance Source</div>
+                <div class="text-caption text-disabled">{{ $t('gm.combatant.instanceSource') }}</div>
                 <div class="heading">{{ selected.actor.GetLinkedItem().Name }}</div>
                 <v-divider class="my-2" />
                 <div class="text-caption text-disabled"></div>
                 <div v-if="itemDiff && Object.keys(itemDiff).length">
                   <v-row dense
                     class="text-caption text-disabled">
-                    <v-col>Change</v-col>
-                    <v-col>This Instance</v-col>
-                    <v-col>Source</v-col>
-                    <v-col cols="auto">Update</v-col>
+                    <v-col>{{ $t('gm.combatant.change') }}</v-col>
+                    <v-col>{{ $t('gm.combatant.thisInstance') }}</v-col>
+                    <v-col>{{ $t('gm.combatant.source') }}</v-col>
+                    <v-col cols="auto">{{ $t('common.update') }}</v-col>
                   </v-row>
                   <v-row v-for="key in Object.keys(itemDiff)"
                     :key="key"
@@ -198,7 +193,7 @@
                               icon="mdi-update" />
                           </v-btn>
                         </template>
-                        <span>Update this instance property to the source</span>
+                        <span>{{ $t('gm.combatant.updateInstanceTooltip') }}</span>
                       </v-tooltip>
                     </v-col>
                   </v-row>
@@ -214,16 +209,16 @@
                             variant="tonal"
                             color="accent"
                             @click="diffUpdateAll(itemDiff)">
-                            Update all
+                            {{ $t('gm.combatant.updateAll') }}
                           </v-btn>
                         </template>
-                        <span>Update all instance properties to the source</span>
+                        <span>{{ $t('gm.combatant.updateAllTooltip') }}</span>
                       </v-tooltip>
                     </v-col>
                   </v-row>
                 </div>
                 <div v-else
-                  class="pl-2 font-italic">No changes</div>
+                  class="pl-2 font-italic">{{ $t('gm.combatant.noChanges') }}</div>
               </v-card-text>
             </v-card>
           </v-menu>
@@ -253,7 +248,8 @@ import { Npc } from '@/classes/npc/Npc'
 import CombatantSelector from './CombatantSelector.vue'
 import { UserStore } from '@/stores'
 import { notify } from '@/util/notify'
-import { GM_STRINGS } from '@/features/gm/strings'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import CombatantGroup from './CombatantGroup.vue'
 import UnitEditor from '../../../npc_roster/npcs/editor.vue'
 import DoodadEditor from '../../../npc_roster/doodads/editor.vue'
@@ -305,7 +301,7 @@ if (user?.View) {
 
 function addUnit(item: Npc) {
   props.encounter.AddCombatant(item)
-  notify({ title: GM_STRINGS.encounter.combatantAddedTitle(item.Name), text: GM_STRINGS.encounter.combatantAddedText(item.Name, props.encounter.Name), data: { icon: 'cc:encounter' } })
+  notify({ title: t('gm.encounter.combatantAddedTitle', { name: item.Name }), text: t('gm.encounter.combatantAddedText', { name: item.Name, encounterName: props.encounter.Name }), data: { icon: 'cc:encounter' } })
 }
 function editUnit(item: any) {
   const newType = item.actor.ItemType

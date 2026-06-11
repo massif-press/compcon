@@ -10,20 +10,14 @@
     <div class="text-center">
       <div class="font-weight-bold"
         style="letter-spacing: 3px">
-        <span v-if="collectionResource">COLLECTION RESOURCE</span>
-        <span v-else>REMOTE RESOURCE</span>
+        <span v-if="collectionResource">{{ $t('ui.remote.collectionResource') }}</span>
+        <span v-else>{{ $t('ui.remote.remoteResource') }}</span>
       </div>
       <v-divider />
       <i v-if="collectionResource"
-        class="text-caption">
-        This {{ itemType }} is linked to a content collection. It is read-only and will receive
-        updates when a new version of the collection is published by the collection's author.
-      </i>
+        class="text-caption">{{ $t('ui.remote.collectionHelp', { type: itemType }) }}</i>
       <i v-else
-        class="text-caption">
-        This {{ itemType }} is a remote resource linked to another user's account. It is read-only
-        and will receive updates from the linked account.
-      </i>
+        class="text-caption">{{ $t('ui.remote.remoteHelp', { type: itemType }) }}</i>
     </div>
   </v-tooltip>
 </template>

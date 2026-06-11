@@ -12,31 +12,31 @@
           :to="'/srd'"
           help="Equipment Database"
           @hover="ccLog('compendium')">
-          Compendium
+          {{ $t('mainMenu.menu.compendium') }}
         </main-btn>
         <main-btn icon="cc:pilot"
           :to="'/pilot_management'"
           help="Manage Pilots"
           @hover="ccLog('pilot')">
-          Pilot Roster
+          {{ $t('mainMenu.menu.pilotRoster') }}
         </main-btn>
         <main-btn icon="cc:encounter"
           :to="'/gm'"
           help="Manage Campaigns, Encounters, and NPCs"
           @hover="ccLog('gm')">
-          GM Toolkit
+          {{ $t('mainMenu.menu.gmToolkit') }}
         </main-btn>
         <main-btn icon="cc:campaign"
           :to="'/active-mode'"
           help="Run an Encounter or Active Character Sheet"
           @hover="ccLog('encounter')">
-          Active Mode
+          {{ $t('mainMenu.menu.activeMode') }}
         </main-btn>
         <main-btn icon="cc:content_manager"
           help="Import Content Packs"
           @hover="ccLog('content')"
           @clicked="extraContentModal = true">
-          Content Manager
+          {{ $t('mainMenu.menu.contentManager') }}
           <v-tooltip v-if="hasV2Backups"
             text="v2 imports awaiting resolution">
             <template #activator="{ props }">
@@ -72,7 +72,7 @@
                 :prepend-icon="isLoggedIn ? 'mdi-cloud-sync' : 'mdi-cloud-off-outline'"
                 class="mr-2"
                 @click="open">
-                <span>{{ isLoggedIn ? 'Connected' : 'Log In' }}</span>
+                <span>{{ isLoggedIn ? $t('mainMenu.menu.connected') : $t('mainMenu.menu.logIn') }}</span>
               </cc-button>
             </template>
             <sign-in />
@@ -96,7 +96,7 @@
                     color="highlight"
                     @mouseenter="ccLog('options')"
                     @click="open">
-                    Options
+                    {{ $t('mainMenu.menu.options') }}
                   </cc-button>
                 </template>
                 <options-page />
@@ -112,7 +112,7 @@
                     color="highlight"
                     @mouseenter="ccLog('about')"
                     @click="open">
-                    About
+                    {{ $t('mainMenu.menu.about') }}
                   </cc-button>
                 </template>
                 <about-page />
@@ -128,7 +128,7 @@
                     color="highlight"
                     @mouseenter="ccLog('credits')"
                     @click="open">
-                    Credits
+                    {{ $t('mainMenu.menu.credits') }}
                   </cc-button>
                 </template>
                 <credits-page />
@@ -144,7 +144,7 @@
                     color="highlight"
                     @mouseenter="ccLog('help')"
                     @click="open">
-                    Help
+                    {{ $t('mainMenu.menu.help') }}
                   </cc-button>
                 </template>
                 <help-page />
@@ -157,7 +157,7 @@
                 size="small"
                 variant="tonal"
                 href="https://www.patreon.com/compcon">
-                Support This Project
+                {{ $t('mainMenu.menu.supportProject') }}
               </cc-button>
             </v-col>
           </v-row>

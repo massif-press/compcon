@@ -7,14 +7,14 @@
         </div>
         <div class="my-n2">
           <div class="text-caption">
-            Tier {{ npc.Tier }}
+            {{ $t('gm.npcStats.tier', { n: npc.Tier }) }}
             <cc-slashes />
-            Class {{ npc.Class }}
+            {{ $t('gm.eidolonPrint.classLabel', { class: npc.Class }) }}
           </div>
         </div>
       </v-col>
       <v-col cols="auto ml-auto">
-        <v-chip label size="small" :prepend-icon="npc.TagIcon" class="mx-1">EIDOLON</v-chip>
+        <v-chip label size="small" :prepend-icon="npc.TagIcon" class="mx-1">{{ $t('gm.eidolonPrint.eidolon') }}</v-chip>
       </v-col>
     </v-row>
     <div v-if="options.include.some((x) => x.title === 'GM Notes')" class="text-caption mt-1 pl-3">
@@ -36,7 +36,7 @@
       <legend
         class="text-overline text-primary px-1"
         style="line-height: 14px; border: 1px solid grey; border-radius: 3px">
-        Persistent Traits
+        {{ $t('gm.eidolonPrint.persistentTraits') }}
       </legend>
       <div v-for="(t, index) in persistentTraits" :key="`trait-${index}`" class="no-print-break">
         <b class="text-caption font-weight-bold">
@@ -51,7 +51,7 @@
       <legend
         class="text-overline text-primary px-1"
         style="line-height: 14px; border: 1px solid grey; border-radius: 3px">
-        LAYER
+        {{ $t('gm.eidolonPrint.layer') }}
         <cc-slashes />
         {{ l.Layer.Name }}
       </legend>
@@ -70,7 +70,7 @@
 
       <v-divider />
       <v-chip size="small" class="mt-1">
-        <b>New Shards: {{ l.Layer.Shards.Count }}</b>
+        <b>{{ $t('gm.eidolonPrint.newShards', { n: l.Layer.Shards.Count }) }}</b>
       </v-chip>
       <div v-html-safe="l.Layer.Shards.Detail" class="pl-3 caption" />
       <print-npc-stats :item="l.Layer.Shards" :bonuses="[]" :tier="npc.Tier" hide-zero />
@@ -86,7 +86,7 @@
     <div
       v-if="options.include.some((x) => x.title === 'GM Notes') && npc.Note.length"
       class="mb-1 mt-3 no-print-break">
-      <div class="text-overline text-primary" style="line-height: 0">GM NOTES</div>
+      <div class="text-overline text-primary" style="line-height: 0">{{ $t('gm.gmNotes') }}</div>
       <div v-html-safe="npc.Note" class="mt-1 pl-3 caption" />
     </div>
   </div>

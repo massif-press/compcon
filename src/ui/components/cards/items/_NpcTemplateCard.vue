@@ -21,7 +21,7 @@
       <cc-heading small
         line
         dense>
-        Template Base Features
+        {{ $t('ui.card.templateBaseFeatures') }}
         <span class="text-caption text-disabled">({{ item.BaseFeatures.length }})</span>
       </cc-heading>
 
@@ -36,7 +36,7 @@
       <cc-heading small
         line
         dense>
-        Template Optional Features
+        {{ $t('ui.card.templateOptionalFeatures') }}
         <span class="text-caption text-disabled">({{ item.OptionalFeatures.length }})</span>
       </cc-heading>
 

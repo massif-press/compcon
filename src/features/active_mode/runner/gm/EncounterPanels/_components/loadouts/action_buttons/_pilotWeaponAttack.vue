@@ -6,9 +6,9 @@
         class="my-2">
         <v-icon start
           icon="mdi-alert" />
-        This weapon has already been activated.
+        {{ $t('active.weaponAttack.alreadyActivated') }}
         <span v-if="weapon.Used && weapon.IsLoading">
-          It must be reloaded before it can be used again.
+          {{ $t('active.weaponAttack.mustReload') }}
         </span>
       </cc-alert>
       <cc-alert v-if="ordnanceWarning"
@@ -16,8 +16,7 @@
         class="my-2">
         <v-icon start
           icon="mdi-alert" />
-        This pilot has taken non-Protocol actions this turn. This ordnance weapon cannot be
-        activated.
+        {{ $t('active.weaponAttack.ordnancePilot') }}
       </cc-alert>
     </div>
 

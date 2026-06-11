@@ -74,7 +74,7 @@
       </template>
       <v-card min-width="200px">
         <v-list density="compact">
-          <v-list-subheader>Saved Configurations</v-list-subheader>
+          <v-list-subheader>{{ $t('ui.filter.savedConfigs') }}</v-list-subheader>
           <v-divider />
           <v-list-item v-for="config in lcpConfigs"
             :key="config.id"
@@ -123,7 +123,7 @@
         <v-divider />
         <v-card-actions>
           <v-spacer />
-          <v-btn @click="clearFilters">Clear Filters</v-btn>
+          <v-btn @click="clearFilters">{{ $t('ui.filter.clearFilters') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-menu>

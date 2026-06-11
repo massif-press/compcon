@@ -68,7 +68,7 @@
       style="cursor: pointer; user-select: none"
       @click="reinforcementsCollapsed = !reinforcementsCollapsed">
       <cc-slashes />
-      reinforcements ({{ reinforcements.length }})
+      {{ $t('active.initiative.reinforcementsN', { n: reinforcements.length }) }}
       <v-spacer />
       <v-icon size="small"
         :icon="reinforcementsCollapsed ? 'mdi-chevron-down' : 'mdi-chevron-up'" />
@@ -100,7 +100,7 @@
       style="cursor: pointer; user-select: none"
       @click="destroyedCollapsed = !destroyedCollapsed">
       <cc-slashes />
-      Destroyed ({{ destroyedCombatants.length }})
+      {{ $t('active.initiative.destroyedN', { n: destroyedCombatants.length }) }}
       <v-spacer />
       <v-icon size="small"
         :icon="destroyedCollapsed ? 'mdi-chevron-down' : 'mdi-chevron-up'" />
@@ -134,7 +134,7 @@
           tile
           color="primary"
           prepend-icon="mdi-plus">
-          Add Item
+          {{ $t('active.initiative.addItem') }}
         </v-btn>
         <v-btn v-else
           v-bind="props"

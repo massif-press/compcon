@@ -111,7 +111,7 @@
               variant="outlined"
               density="no-gutters"
               class="mx-2 pa-1 mb-1">
-              <div class="text-cc-overline text-disabled">Trigger</div>
+              <div class="text-cc-overline text-disabled">{{ $t('active.cards.trigger') }}</div>
               <p v-html-safe="(item as NpcReaction).TriggerByTier(tier)"
                 class="text-text" />
             </cc-panel>

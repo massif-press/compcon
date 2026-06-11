@@ -4,12 +4,9 @@
       <v-icon v-bind="props" :color="color" size="small">mdi-alert-rhombus</v-icon>
     </template>
     <div class="text-center">
-      <div class="font-weight-bold" style="letter-spacing: 3px">MISSING CONTENT</div>
+      <div class="font-weight-bold" style="letter-spacing: 3px">{{ $t('ui.missing.missingContent') }}</div>
       <v-divider />
-      <i class="text-caption">
-        This {{ itemType }} is missing necessary LCP data. COMP/CON will not be able to load this
-        {{ itemType }} until the missing content is added.
-      </i>
+      <i class="text-caption">{{ $t('ui.missing.hoverHelp', { type: itemType }) }}</i>
     </div>
   </v-tooltip>
   <v-menu v-else-if="missingContent" open-on-hover max-width="450px">
@@ -18,21 +15,18 @@
     </template>
     <v-card flat tile border>
       <v-toolbar density="compact" color="error" flat tile height="42">
-        <div class="px-2 heading h4">Missing Content Detected</div>
+        <div class="px-2 heading h4">{{ $t('ui.missing.detected') }}</div>
       </v-toolbar>
       <div v-if="controller && controller.NonfunctionalBrews.length" class="pa-1">
         <CCMissingContentList :controller="controller" :width="width" />
       </div>
       <v-card-text v-else class="text-caption">
-        <span v-if="itemType.toLowerCase === 'eidolon'">
-          Eidolons require the installation of the Content Pack provided with
-          <strong>No Room for a Wallflower Act 1</strong>
-        </span>
-        <span v-else>
-          COMP/CON is unable to load NPC data without the installation of the NPC Content Pack
-          provided with the paid (GM) version of the
-          <strong>Lancer Core Book</strong>
-        </span>
+        <i18n-t v-if="itemType.toLowerCase === 'eidolon'" keypath="ui.missing.eidolonHelp" tag="span" scope="global">
+          <template #pack><strong>{{ $t('ui.missing.wallflowerPack') }}</strong></template>
+        </i18n-t>
+        <i18n-t v-else keypath="ui.missing.npcHelp" tag="span" scope="global">
+          <template #pack><strong>{{ $t('ui.missing.lancerCoreBook') }}</strong></template>
+        </i18n-t>
       </v-card-text>
     </v-card>
   </v-menu>

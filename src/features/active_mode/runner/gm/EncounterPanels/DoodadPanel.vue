@@ -3,7 +3,7 @@
     :item="combatant.actor">
     <template #name-block>
       <div class="heading h2">{{ combatant.actor.Name }}</div>
-      <div class="text-cc-overline">Doodad</div>
+      <div class="text-cc-overline">{{ $t('active.addOther.doodad') }}</div>
     </template>
   </panel-base>
 </template>

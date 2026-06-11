@@ -10,7 +10,7 @@
       :class="{ locked: ranked && rank < n }">
       <div class="text-center">
         <span class="text-cc-overline text-disabled">
-          RANK {{ 'I'.repeat(n) }}
+          {{ $t('common.rank') }} {{ 'I'.repeat(n) }}
           <v-icon v-if="ranked && rank < n" right>mdi-lock-outline</v-icon>
           <v-icon v-else-if="ranked && rank >= n" right>mdi-lock-open-outline</v-icon>
         </span>

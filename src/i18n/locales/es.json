@@ -1,0 +1,60 @@
+{
+  "common": {
+    "ok": "OK",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "close": "Cerrar",
+    "delete": "Eliminar",
+    "confirm": "Confirmar",
+    "search": "Buscar",
+    "add": "Añadir",
+    "yes": "Sí",
+    "no": "No",
+    "submit": "Enviar",
+    "edit": "Editar",
+    "reset": "Restablecer",
+    "loading": "Cargando...",
+    "dismiss": "Descartar",
+    "continue": "Continuar",
+    "back": "Atrás"
+  },
+  "language": {
+    "selectLanguage": "Idioma",
+    "experimentalNote": "Las traducciones no inglesas son aportadas por la comunidad y están en desarrollo. Algunos textos pueden estar sin traducir o ser imperfectos."
+  },
+  "classes": {
+    "newCampaign": "Nueva campaña",
+    "newCharacter": "Nuevo personaje",
+    "newFaction": "Nueva facción",
+    "newLocation": "Nueva ubicación",
+    "newNpc": "Nuevo PNJ"
+  },
+  "nav": {
+    "nav": {
+      "mainMenu": "Menú principal",
+      "compendium": "Compendio",
+      "pilotManagement": "Gestión de pilotos",
+      "npcRoster": "Lista de PNJ",
+      "encounters": "Encuentros",
+      "narrativeElements": "Elementos narrativos",
+      "campaignManager": "Gestor de campañas",
+      "activeMode": "Modo activo",
+      "quickReference": "Referencia rápida",
+      "options": "Opciones",
+      "about": "Acerca de",
+      "credits": "Créditos",
+      "help": "Ayuda",
+      "manageContent": "Gestionar contenido",
+      "cloudAccount": "Cuenta en la nube",
+      "achievements": "Logros"
+    },
+    "about": {
+      "description": "COMP/CON es un conjunto de herramientas digitales gratuito y de código abierto, y un asistente de juego para crear y jugar partidas del TTRPG LANCER."
+    },
+    "packsList": {
+      "toggleSuccessText": "Paquete {action} correctamente.",
+      "activated": "activado",
+      "deactivated": "desactivado"
+    }
+  }
+}

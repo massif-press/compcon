@@ -24,21 +24,20 @@
 
 
           <div class="text-center">
-            1d20 + {{ rollData.AttackBonus }}
+            {{ $t('ui.combat.d20Plus') }} {{ rollData.AttackBonus }}
             <br />
-            {{ rollData.AttackAccuracy }} {{ rollData.AttackAccuracy > 0 ? 'Accuracy' : 'Difficulty'
-            }}
+            {{ rollData.AttackAccuracy }} {{ rollData.AttackAccuracy > 0 ? $t('common.accuracy') : $t('common.difficulty') }}
             <br />
-            vs Target's
+            {{ $t('ui.combat.vsTarget') }}
             {{ rollData.TargetDefense }}
           </div>
 
           <div class="text-center">
             <div v-if="isRanged && engagedDifficulty">
-              - {{ engagedDifficulty }} (Currently ENGAGED)
+              - {{ engagedDifficulty }} {{ $t('ui.combat.currentlyEngaged') }}
             </div>
             <div v-if="isRanged && targetCoverDifficulty">
-              - {{ targetCoverDifficulty }} (Target is in COVER)
+              - {{ targetCoverDifficulty }} {{ $t('ui.combat.targetInCover') }}
             </div>
           </div>
 
@@ -52,7 +51,7 @@
             block
             color="panel"
             class="mt-1"
-            @click="reset()">RESET</v-btn>
+            @click="reset()">{{ $t('ui.combat.reset') }}</v-btn>
 
           <v-btn flat
             tile
@@ -61,9 +60,9 @@
             size="small"
             block
             @click="rollAttack()">
-            Roll
+            {{ $t('common.roll') }}
           </v-btn>
-          <div class="pa-2 text-left text-cc-overline text-accent">roll results</div>
+          <div class="pa-2 text-left text-cc-overline text-accent">{{ $t('ui.combat.rollResults') }}</div>
           <div v-if="rollData.AttackRollResult"
             class="text-text">
             <span v-html-safe="rollData.AttackRollResult.toString()" />

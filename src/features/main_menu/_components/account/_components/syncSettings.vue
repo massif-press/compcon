@@ -24,7 +24,7 @@
         class="mt-1">
         <v-col cols="12"
           md="6">
-          <div class="text-cc-overline text-disabled">// Frequency</div>
+          <div class="text-cc-overline text-disabled">// {{ $t("mainMenu.syncSettings.frequency") }}</div>
           <cc-select v-model="settings.frequency"
             :items="syncOptions"
             tooltip="Controls how often your data is synchronized with the cloud. Due to server costs,
@@ -32,7 +32,7 @@
         </v-col>
         <v-col cols="12"
           md="6">
-          <div class="text-cc-overline text-disabled">// Sync Items</div>
+          <div class="text-cc-overline text-disabled">// {{ $t("mainMenu.syncSettings.syncItems") }}</div>
           <v-btn-toggle :model-value="itemTypePreset"
             density="compact"
             variant="outlined"
@@ -41,13 +41,13 @@
             @update:model-value="applyItemTypePreset">
             <v-btn value="all"
               size="small"
-              height="30">All</v-btn>
+              height="30">{{ $t("mainMenu.syncSettings.all") }}</v-btn>
             <v-btn value="pilots"
               size="small"
-              height="30">Pilots Only</v-btn>
+              height="30">{{ $t("mainMenu.syncSettings.pilotsOnly") }}</v-btn>
             <v-btn value="custom"
               size="small"
-              height="30">Custom</v-btn>
+              height="30">{{ $t("mainMenu.syncSettings.custom") }}</v-btn>
           </v-btn-toggle>
           <cc-select v-if="itemTypePreset === 'custom'"
             v-model="settings.itemTypes"
@@ -71,7 +71,7 @@
             size="small"
             :loading="loadingSync"
             @click="updateSyncSettings">
-            Update Sync Settings
+            {{ $t("mainMenu.syncSettings.updateSyncSettings") }}
           </cc-button>
         </div>
       </v-fade-transition>
@@ -79,12 +79,12 @@
 
     <div class="text-center text-caption mt-1 mb-4 px-6">
       <span v-if="cloudStorageFull"
-        class="text-error">Cloud storage is full! Unable to sync new data.</span>
+        class="text-error">{{ $t("mainMenu.syncSettings.cloudFullSync") }}</span>
 
     </div>
     <div v-if="lastSyncTime"
       class="text-center text-caption text-disabled mt-1">
-      Last synced: {{ lastSyncLabel }}
+      {{ $t("mainMenu.syncSettings.lastSynced", { label: lastSyncLabel }) }}
     </div>
 
     <cc-button block
@@ -94,15 +94,15 @@
       :disabled="!itemsPendingSync || cloudStorageFull"
       prepend-icon="mdi-sync"
       @click="runSync()">
-      sync with current settings
+      {{ $t("mainMenu.syncSettings.syncWithSettings") }}
       <template #options>
         <v-list max-width="500"
           lines="two"
           border>
           <div class="px-2 pb-2">
-            <div class="heading">SYNC OVERRIDES</div>
+            <div class="heading">{{ $t("mainMenu.syncSettings.syncOverrides") }}</div>
             <div class="text-caption text-accent">
-              The following operations override sync settings and should be used with caution.
+              {{ $t("mainMenu.syncSettings.syncOverridesNote") }}
             </div>
           </div>
           <v-divider />
@@ -129,6 +129,8 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import { computed, ref, watch } from 'vue'
 import { notify } from '@/util/notify'
 import { UserStore } from '@/stores'
@@ -242,14 +244,14 @@ async function runSync(override?: 'upload' | 'download') {
 
       if (failures.length) {
         notify({
-          title: `${total - failures.length}/${total} Items Synced`,
-          text: `Failed to fully sync ${failures.length} items. This may be due to missing local data.`,
+          title: t('mainMenu.account.syncPartialTitle', { synced: total - failures.length, total }),
+          text: t('mainMenu.account.syncPartialText', { failures: failures.length }),
           type: 'error',
         })
       } else {
         notify({
-          title: `${total}/${total} Items Synced`,
-          text: 'All items were successfully synced.',
+          title: t('mainMenu.account.syncCompleteTitle', { total }),
+          text: t('mainMenu.account.syncCompleteText'),
           type: 'success',
         })
       }
@@ -259,17 +261,17 @@ async function permDeleteSync() {
       try {
         const count = await UserStore().permDeleteFlaggedItems()
         notify({
-          title: `${count} Item${count !== 1 ? 's' : ''} Permanently Deleted`,
+          title: t('mainMenu.account.deletionCompleteTitle', count, { count }),
           text:
             count > 0
-              ? 'All flagged items have been removed from the cloud.'
-              : 'No items were flagged for deletion.',
+              ? t('mainMenu.account.flaggedRemovedText')
+              : t('mainMenu.account.noFlaggedText'),
           type: count > 0 ? 'success' : 'info',
         })
       } catch (e) {
         notify({
-          title: 'Deletion Failed',
-          text: 'An error occurred while deleting flagged items.',
+          title: t('mainMenu.account.deletionFailedTitle'),
+          text: t('mainMenu.account.deletionFailedBulkText'),
           type: 'error',
         })
       } finally {

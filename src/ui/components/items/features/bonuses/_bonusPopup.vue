@@ -16,7 +16,7 @@
           height="54">
           <div class="px-3 pt-1">
             <div class="text-cc-overline text-disabled">
-              bonus
+              {{ $t('ui.widget.bonus') }}
               <cc-slashes />
             </div>
             <div class="heading h4 mt-n1">

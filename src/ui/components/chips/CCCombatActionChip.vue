@@ -11,22 +11,24 @@
         <template #reason>
           <div v-if="controller.IsActionUsed(action.ID)"
             class="text-center">
-            Action already used.
+            {{ $t('ui.combat.actionUsed') }}
           </div>
           <div v-else-if="!controller.CanActivate(action.Activation)"
             class="text-center">
-            Insufficient
-            <v-chip :color="action.Color"
-              size="small"
-              variant="elevated"
-              :prepend-icon="action.Icon || ''">
-              {{ action.Activation }}
-            </v-chip>
-            actions remaining this turn.
+            <i18n-t keypath="ui.combat.insufficientActions" tag="span" scope="global">
+              <template #activation>
+                <v-chip :color="action.Color"
+                  size="small"
+                  variant="elevated"
+                  :prepend-icon="action.Icon || ''">
+                  {{ action.Activation }}
+                </v-chip>
+              </template>
+            </i18n-t>
           </div>
           <div v-else
             class="text-center">
-            Cannot activate.
+            {{ $t('ui.combat.cannotActivate') }}
           </div>
         </template>
       </combat-action-indicator>
@@ -59,7 +61,7 @@
             <cc-chip bg-color="damage--heat"
               class="mr-4">
               <v-icon icon="cc:heat" />
-              +{{ action.HeatCost }} Heat (Self)
+              {{ $t('ui.combat.heatSelf', { n: action.HeatCost }) }}
             </cc-chip>
           </div>
         </template>

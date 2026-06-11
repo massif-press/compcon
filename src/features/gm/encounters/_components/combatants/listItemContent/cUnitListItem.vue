@@ -5,7 +5,7 @@
       {{ item.actor.Name }}
 
       <span v-if="item.actor.NpcClassController.HasClass && !item.actor.IsNameless">
-        &mdash; T{{ item.actor.NpcClassController.Tier }}
+        &mdash; {{ $t('gm.itemCard.tierShort', { tier: item.actor.NpcClassController.Tier }) }}
         {{ item.actor.NpcClassController.Class.Name }}
       </span>
       <span class="px-4">

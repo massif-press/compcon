@@ -13,18 +13,18 @@
                 large />
             </v-row>
             <div class="heading text-center">
-              Ending the round will forfeit any unused actions.
+              {{ $t('active.pcEndRound.forfeitActions') }}
             </div>
           </cc-alert>
 
           <div v-if="nextRoundAlerts">
             <v-divider class="my-4" />
 
-            <div class="text-cc-overline mt-2">Next Round:</div>
+            <div class="text-cc-overline mt-2">{{ $t('active.pcEndRound.nextRound') }}</div>
             <div class="my-1">
               <div class="mx-4 px-2 text-text bg-panel">
                 <b class="text-secondary">{{ controller.CombatName }}</b>
-                will lose the following statuses:
+                {{ $t('active.pcEndRound.willLoseStatuses') }}
                 <div v-for="(s, index) in getTimeoutStatuses()"
                   :key="`timeout-${index}`"
                   class="px-2 text-text bg-panel">
@@ -34,10 +34,9 @@
                       class="mt-n1" />
                     {{ s.status.Name }}
                   </b>
-                  at the
+                  {{ $t('active.pcEndRound.atThe') }}
                   <b class="text-accent">
-                    {{ s.expires.EndsOn }} of
-                    your turn
+                    {{ $t('active.pcEndRound.endsOnTurn', { when: s.expires.EndsOn }) }}
                   </b>
                 </div>
               </div>
@@ -45,17 +44,16 @@
                 :key="`timeout-custom-${index}`"
                 class="my-1 mx-4 px-2 text-text bg-panel">
                 <b class="text-secondary">{{ controller.CombatName }}</b>
-                will lose the following statuses:
+                {{ $t('active.pcEndRound.willLoseStatuses') }}
                 <div v-for="(s, sIdx) in getTimeoutStatuses()"
                   :key="`timeout-custom-inner-${sIdx}`"
                   class="my-1 mx-4 px-2 text-text bg-panel">
                   <b class="text-accent text-uppercase">
                     {{ s.status.Name }}
                   </b>
-                  at the
+                  {{ $t('active.pcEndRound.atThe') }}
                   <b class="text-accent">
-                    {{ s.expires.EndsOn }} of
-                    your turn
+                    {{ $t('active.pcEndRound.endsOnTurn', { when: s.expires.EndsOn }) }}
                   </b>
                 </div>
               </div>
@@ -64,11 +62,10 @@
             <div v-for="(b, index) in braced"
               :key="`braced-${index}`"
               class="my-1 mx-4 px-2 text-text bg-panel">
-              You exit
-              <b class="text-accent">BRACED</b>
-              and enter
-              <b class="text-warning">BRACE COOLDOWN</b>
-              state.
+              <i18n-t keypath="active.pcEndRound.braceExit" tag="span" scope="global">
+                <template #braced><b class="text-accent">{{ $t('active.pcEndRound.braced') }}</b></template>
+                <template #cooldown><b class="text-warning">{{ $t('active.pcEndRound.braceCooldown') }}</b></template>
+              </i18n-t>
             </div>
           </div>
 
@@ -77,7 +74,7 @@
             block
             prepend-icon="mdi-check-all"
             @click="endRound(isActive)">
-            End Round
+            {{ $t('active.endRound.endRound') }}
           </cc-button>
         </v-card-text>
     </template>

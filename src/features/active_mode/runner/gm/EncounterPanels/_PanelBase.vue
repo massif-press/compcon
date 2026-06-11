@@ -9,7 +9,7 @@
       <v-icon icon="cc:destroyed"
         size="x-large"
         start />
-      {{ item.ItemType }} DESTROYED
+      {{ $t('active.panelBase.itemDestroyed', { type: item.ItemType }) }}
       <div
         style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: -1; opacity: 0.85"
         class="bg-background" />
@@ -69,18 +69,16 @@
                     max-width="300"
                     class="pa-2 text-center"
                     border="sm">
-                    <div>Mark an activation as complete?
+                    <div>{{ $t('active.panelBase.markActivation') }}
                     </div>
 
                     <div v-if="item.CombatController.StatController.CurrentStats['activations'] > 1"
                       class="text-cc-overline text-text mt-1 mb-2">
-                      This will reduce reduced the remaining activations
-                      by 1 and
-                      reset all actions.
+                      {{ $t('active.panelBase.reduceActivations') }}
                     </div>
                     <div v-else
                       class="text-cc-overline text-text mt-1 mb-2">
-                      This will end {{ item.Name }}'s turn.
+                      {{ $t('active.panelBase.endTurn', { name: item.Name }) }}
                     </div>
                     <v-btn block
                       flat
@@ -88,7 +86,7 @@
                       size="small"
                       color="primary"
                       @click="handleActivate">
-                      Confirm
+                      {{ $t('common.confirm') }}
                     </v-btn>
                   </v-card>
                 </v-menu>
@@ -185,7 +183,7 @@
                 :class="mobile ? '' : 'ml-auto'"
                 align-self="center">
                 <div v-if="mobile"
-                  class="text-cc-overline text-disabled">Cover</div>
+                  class="text-cc-overline text-disabled">{{ $t('active.panelBase.cover') }}</div>
                 <v-btn-toggle v-model="item.CombatController.Cover"
                   flat
                   tile
@@ -193,13 +191,13 @@
                   style="height: 30px">
                   <v-btn size="small"
                     height="30"
-                    value="none">{{ mobile ? 'None' : 'No Cover' }}</v-btn>
+                    value="none">{{ mobile ? $t('active.common.none') : $t('active.panelBase.noCover') }}</v-btn>
                   <v-btn size="small"
                     height="30"
-                    value="soft">{{ mobile ? 'Soft' : 'Soft Cover' }}</v-btn>
+                    value="soft">{{ mobile ? $t('active.panelBase.soft') : $t('active.panelBase.softCover') }}</v-btn>
                   <v-btn size="small"
                     height="30"
-                    value="hard">{{ mobile ? 'Hard' : 'Hard Cover' }}</v-btn>
+                    value="hard">{{ mobile ? $t('active.panelBase.hard') : $t('active.panelBase.hardCover') }}</v-btn>
                 </v-btn-toggle>
               </v-col>
             </v-row>
@@ -247,14 +245,14 @@
                 color="panel"
                 flat>
                 <v-expansion-panel>
-                  <v-expansion-panel-title class="heading h4 ">Resistances</v-expansion-panel-title>
+                  <v-expansion-panel-title class="heading h4 ">{{ $t('active.panelBase.resistances') }}</v-expansion-panel-title>
                   <v-expansion-panel-text style="border: 2px solid rgb(var(--v-theme-panel))">
                     <damage-condition-selector :controller="item.CombatController" />
                   </v-expansion-panel-text>
                 </v-expansion-panel>
                 <v-expansion-panel>
                   <v-expansion-panel-title
-                    class="heading h4 ">Statuses/Conditions</v-expansion-panel-title>
+                    class="heading h4 ">{{ $t('active.panelBase.statusesConditions') }}</v-expansion-panel-title>
                   <v-expansion-panel-text style="border: 2px solid rgb(var(--v-theme-panel))">
                     <status-condition-selector :controller="item.CombatController" />
                   </v-expansion-panel-text>
@@ -267,7 +265,7 @@
 
         <slot name="pre" />
 
-        <div class="text-cc-overline mt-4 text-disabled">COUNTERS</div>
+        <div class="text-cc-overline mt-4 text-disabled">{{ $t('active.panelBase.counters') }}</div>
         <CCCounterSet :actor="item" />
       </v-col>
       <v-col cols="12"

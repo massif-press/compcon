@@ -2,14 +2,14 @@
   <v-card>
     <v-card-title class="heading h2">{{ selected.Name }}</v-card-title>
     <v-card-subtitle class="text-cc-overline">
-      Player Notes
+      {{ $t('active.pcNotes.playerNotes') }}
     </v-card-subtitle>
     <v-card-text class="pb-4">
-      <div class="text-cc-overline text-disabled">Session Notes</div>
+      <div class="text-cc-overline text-disabled">{{ $t('active.pcNotes.sessionNotes') }}</div>
       <cc-rich-text-area v-model="encounter.Note" />
     </v-card-text>
     <v-card-text class="pb-4">
-      <div class="text-cc-overline text-disabled">Pilot Notes</div>
+      <div class="text-cc-overline text-disabled">{{ $t('active.pcNotes.pilotNotes') }}</div>
       <cc-rich-text-area v-model="selected.Notes" />
     </v-card-text>
   </v-card>

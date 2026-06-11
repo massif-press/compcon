@@ -15,7 +15,7 @@
     <v-card>
       <v-toolbar density="compact"
         color="primary">
-        <v-toolbar-title>Filters</v-toolbar-title>
+        <v-toolbar-title>{{ $t('gm.filter.filters') }}</v-toolbar-title>
         <v-spacer />
         <v-btn icon
           @click="filterDialog = false">
@@ -26,12 +26,12 @@
         <div>
           <v-row>
             <v-col v-if="items.length > 0 && (items as any)[0].StatController">
-              <div class="heading h3">Stats</div>
+              <div class="heading h3">{{ $t('gm.filter.stats') }}</div>
               <v-divider />
 
               <v-row>
                 <v-col>
-                  <div class="text-caption text-disabled"><i>Show items with:</i></div>
+                  <div class="text-caption text-disabled"><i>{{ $t('gm.filter.showItemsWith') }}</i></div>
                   <v-chip v-for="f in statFilters.filter((f) => !filters.some((x) => x === f))"
                     :key="`show-stat-${f}`"
                     size="small"
@@ -44,7 +44,7 @@
                   </v-chip>
                 </v-col>
                 <v-col>
-                  <div class="text-caption text-disabled"><i>Hide items with:</i></div>
+                  <div class="text-caption text-disabled"><i>{{ $t('gm.filter.hideItemsWith') }}</i></div>
                   <v-chip v-for="f in statFilters.filter((f) => filters.some((x) => x === f))"
                     :key="`hide-stat-${f}`"
                     size="small"
@@ -60,11 +60,11 @@
             </v-col>
 
             <v-col v-if="items.length > 0 && (items as any)[0].NarrativeController">
-              <div class="heading h3">Labels</div>
+              <div class="heading h3">{{ $t('gm.filter.labels') }}</div>
               <v-divider />
               <v-row>
                 <v-col>
-                  <div class="text-caption text-disabled"><i>Show items with:</i></div>
+                  <div class="text-caption text-disabled"><i>{{ $t('gm.filter.showItemsWith') }}</i></div>
                   <v-chip v-for="f in labelFilters.filter((f) => !filters.some((x) => x === f))"
                     :key="`show-label-${f}`"
                     size="small"
@@ -77,7 +77,7 @@
                   </v-chip>
                 </v-col>
                 <v-col>
-                  <div class="text-caption text-disabled"><i>Hide items with:</i></div>
+                  <div class="text-caption text-disabled"><i>{{ $t('gm.filter.hideItemsWith') }}</i></div>
                   <v-chip v-for="f in labelFilters.filter((f) => filters.some((x) => x === f))"
                     :key="`hide-label-${f}`"
                     size="small"
@@ -99,7 +99,7 @@
                 color="accent"
                 size="x-small"
                 @click="all('show', 'stats')">
-                Show All
+                {{ $t('gm.filter.showAll') }}
               </v-btn>
             </v-col>
             <v-col>
@@ -108,7 +108,7 @@
                 color="accent"
                 size="x-small"
                 @click="all('hide', 'stats')">
-                Hide All
+                {{ $t('gm.filter.hideAll') }}
               </v-btn>
             </v-col>
             <v-col>
@@ -117,7 +117,7 @@
                 color="accent"
                 size="x-small"
                 @click="all('show', 'labels')">
-                Show All
+                {{ $t('gm.filter.showAll') }}
               </v-btn>
             </v-col>
             <v-col>
@@ -126,7 +126,7 @@
                 color="accent"
                 size="x-small"
                 @click="all('hide', 'labels')">
-                Hide All
+                {{ $t('gm.filter.hideAll') }}
               </v-btn>
             </v-col>
           </v-row>
@@ -138,7 +138,7 @@
             @click="$emit('set-filters', [])">
             <v-icon left
               start>mdi-filter-off</v-icon>
-            Clear All Filters
+            {{ $t('gm.filter.clearAllFilters') }}
           </v-btn>
         </div>
       </v-card-text>
@@ -147,7 +147,7 @@
         <v-spacer />
         <v-btn color="accent"
           variant="text"
-          @click="filterDialog = false">Dismiss</v-btn>
+          @click="filterDialog = false">{{ $t('common.dismiss') }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

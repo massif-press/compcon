@@ -26,7 +26,7 @@
       <v-icon icon="cc:system_point" />
     </v-col>
     <v-col cols="auto">
-      <span class="text-button">SP Cost</span>
+      <span class="text-button">{{ $t('ui.filter.spCost') }}</span>
     </v-col>
     <v-col cols="auto">
       <v-btn-toggle v-model="spType"
@@ -37,11 +37,11 @@
         style="height: 30px"
         @update:modelValue="emitFilters()">
         <v-btn value="less"
-          size="small">Less Than</v-btn>
+          size="small">{{ $t('ui.filter.lessThan') }}</v-btn>
         <v-btn value="eq"
-          size="small">Equal To</v-btn>
+          size="small">{{ $t('ui.filter.equalTo') }}</v-btn>
         <v-btn value="greater"
-          size="small">Greater Than</v-btn>
+          size="small">{{ $t('ui.filter.greaterThan') }}</v-btn>
       </v-btn-toggle>
     </v-col>
   </v-row>
@@ -66,7 +66,7 @@
         size="x-small"
         variant="plain"
         @click="sp = 0; spType = ''; emitFilters();">
-        Reset
+        {{ $t('common.reset') }}
       </v-btn>
     </v-col>
   </v-row>

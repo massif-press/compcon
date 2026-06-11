@@ -3,7 +3,7 @@
     cols="auto"
     class="mt-1">
     <div v-if="!mobile"
-      class="text-cc-overline text-disabled">vs {{ event.AttackStat }}</div>
+      class="text-cc-overline text-disabled">{{ $t('ui.combat.vsStat', { stat: event.AttackStat }) }}</div>
     <div v-for="(s, idx) in event.Targets"
       :key="`target-${idx}`">
       <v-row v-if="!s"
@@ -13,7 +13,7 @@
         <v-col cols="auto"
           align-self="center"
           class="mt-1">
-          <i class="text-caption text-disabled">No Target Selected</i>
+          <i class="text-caption text-disabled">{{ $t('ui.combat.noTarget') }}</i>
         </v-col>
       </v-row>
       <v-row v-else
@@ -39,7 +39,7 @@
         </v-col>
         <v-col cols="auto"
           align-self="center">
-          <div class="text-center text-cc-overline px-2">VS</div>
+          <div class="text-center text-cc-overline px-2">{{ $t('ui.combat.vs') }}</div>
         </v-col>
         <v-col align-self="center">
           <v-text-field :key="s.Combatant?.ID || `defense_${idx}`"
@@ -89,16 +89,16 @@
                 <div class="text-center">
                   {{
                     s.HitResult !== 'crit'
-                      ? 'No Attack Rolled'
+                      ? $t('ui.combat.noAttackRolled')
                       : s.HitResult === 'crit'
-                        ? 'Critical Hit'
+                        ? $t('ui.combat.criticalHit')
                         : s.HitResult === 'hit'
-                          ? 'Successful Attack'
-                          : 'Failed Attack'
+                          ? $t('ui.combat.successfulAttack')
+                          : $t('ui.combat.failedAttack')
                   }}
 
                   <div>
-                    <i class="text-caption text-disabled">Click to override</i>
+                    <i class="text-caption text-disabled">{{ $t('ui.combat.clickToOverrideLower') }}</i>
                   </div>
                 </div>
               </v-tooltip>
@@ -113,7 +113,7 @@
           size="x-small"
           color="core"
           class="mr-1">
-          RELIABLE {{ de.Reliable }} {{ de.DamageType }} applies on miss
+          {{ $t('ui.combat.reliableOnMiss', { n: de.Reliable, type: de.DamageType }) }}
         </v-chip>
       </div>
     </div>

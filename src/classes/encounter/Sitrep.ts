@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid'
+import { i18n } from '@/i18n'
 import { Encounter } from './Encounter'
 import { ContentPack } from '../ContentPack'
 import { ItemType } from '../enums'
@@ -55,7 +56,7 @@ class SitrepInstance {
 
   public modified: boolean = false
 
-  private _name: string = 'New Sitrep'
+  private _name: string = i18n.global.t('classes.newSitrep')
   private _description: string = 'A new Sitrep'
   private _conditions: { title: string; condition: string }[] = []
   private _deployment: string = ''

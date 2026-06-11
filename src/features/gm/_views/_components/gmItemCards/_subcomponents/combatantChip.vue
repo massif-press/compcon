@@ -8,7 +8,7 @@
           size="x-large"
           :color="item.side === 'enemy' ? 'error' : item.side === 'ally' ? 'success' : ''" />
         <span v-if="!item.actor.IsNameless">
-          {{ item.actor.IsNameless ? '' : item.actor.Name }}
+          {{ item.actor.Name }}
           <v-icon v-if="item.actor.ItemType === 'Unit'" icon="mdi-vector-point" />
         </span>
         {{ item.actor.DefaultName }}

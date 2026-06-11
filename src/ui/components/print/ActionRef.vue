@@ -1,7 +1,7 @@
 <template>
   <div class="pa-2 mt-3">
     <div class="text-cc-overline text-primary mb-3"
-      style="line-height: 15px">ACTION REFERENCE</div>
+      style="line-height: 15px">{{ $t('ui.ref.actionReference') }}</div>
 
     <cc-masonry-grid :items="actions">
       <template #default="{ item }">

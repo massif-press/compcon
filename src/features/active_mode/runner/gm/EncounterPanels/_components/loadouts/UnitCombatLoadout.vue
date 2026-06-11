@@ -3,7 +3,7 @@
     align="end"
     class="pb-2 mt-n2">
     <v-col cols="auto">
-      <div class="text-cc-overline text-disabled">// NPC FEATURES</div>
+      <div class="text-cc-overline text-disabled">{{ $t('active.unitLoadout.npcFeatures') }}</div>
     </v-col>
     <v-col cols="auto">
       <v-tooltip location="top"
@@ -23,7 +23,7 @@
             class="pa-2 ml-2 mb-n2"
             flat
             style="opacity: 0.75">
-            {{ hiddenFeatureCount }} Hidden Features
+            {{ hiddenFeatureCount }} {{ $t('active.unitLoadout.hiddenFeatures') }}
           </v-chip>
         </template>
       </v-tooltip>
@@ -38,21 +38,21 @@
             class="mt-4"
             prepend-icon="mdi-reload"
             @click="props.onClick($event)">
-            Roll Recharge
+            {{ $t('active.unitLoadout.rollRecharge') }}
           </cc-button>
         </template>
         <template #default="{ isActive }">
           <v-card border>
             <v-card-text>
-              <div class="text-cc-overline mb-2">Recharge Result (d6)</div>
+              <div class="text-cc-overline mb-2">{{ $t('active.unitLoadout.rechargeResult') }}</div>
               <div v-if="result > 0"
                 class="text-center my-2">
                 <div class="heading h1">{{ result }}</div>
                 <div class="text-cc-overline mt-1">
-                  Recharges the following features:
+                  {{ $t('active.unitLoadout.rechargesFeatures') }}
                   <div v-if="rechargedFeatures.length === 0"
                     class="my-1">
-                    <i class="text-disabled">None</i>
+                    <i class="text-disabled">{{ $t('active.common.none') }}</i>
                   </div>
                   <div v-for="feature in rechargedFeatures"
                     :key="feature.ID">
@@ -60,7 +60,7 @@
                       class="my-1 text-text body-text bg-panel rounded pa-1">
                       {{ feature.Name }}
                       <div class="text-disabled text-cc-overline">
-                        (Recharges on {{ feature.Recharge }}+)
+                        {{ $t('active.unitLoadout.rechargesOn', { n: feature.Recharge }) }}
                       </div>
                     </div>
                   </div>
@@ -68,10 +68,7 @@
               </div>
               <div v-else
                 class="text-center mb-2">
-                <i class="text-disabled">
-                  Click to roll. NPC Features will recharge on rolls equal to or higher than their
-                  roll value.
-                </i>
+                <i class="text-disabled">{{ $t('active.unitLoadout.clickToRoll') }}</i>
               </div>
               <v-row>
                 <v-col>
@@ -81,7 +78,7 @@
                     block
                     :color="result ? 'panel' : 'primary'"
                     @click="roll">
-                    {{ result ? 'reroll' : 'roll' }}
+                    {{ result ? $t('active.unitLoadout.reroll') : $t('active.unitLoadout.rollLower') }}
                   </v-btn>
                 </v-col>
                 <v-col>
@@ -95,7 +92,7 @@
                       apply();
                     isActive.value = false;
                     ">
-                    apply
+                    {{ $t('active.unitLoadout.applyLower') }}
                   </v-btn>
                 </v-col>
               </v-row>

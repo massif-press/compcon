@@ -1,7 +1,7 @@
 <template>
   <v-card v-if="latest"
     variant="tonal">
-    <div class="text-overline ml-2">LATEST VERSION</div>
+    <div class="text-overline ml-2">{{ $t('gm.campaign.latestVersion') }}</div>
     <v-toolbar density="compact">
       <v-toolbar-title>
         {{ latest.ver }}
@@ -12,7 +12,7 @@
       </v-toolbar-title>
     </v-toolbar>
     <v-card-text>
-      <div class="text-caption text-disabled">Latest Changes:</div>
+      <div class="text-caption text-disabled">{{ $t('gm.campaign.latestChanges') }}</div>
       {{ latest.changes }}
     </v-card-text>
     <v-divider />
@@ -27,13 +27,10 @@
             variant="elevated"
             prepend-icon="mdi-upload"
             @click="exportLcd()">
-            Export .lcd Package
+            {{ $t('gm.campaign.exportLcd') }}
           </v-btn>
         </template>
-        <span>
-          Download a Lancer Campaign Distributable (.lcd) file that can be imported into another
-          user's COMP/CON
-        </span>
+        <span>{{ $t('gm.campaign.exportLcdHelp') }}</span>
       </v-tooltip>
 
       <v-spacer />
@@ -46,13 +43,10 @@
             variant="elevated"
             prepend-icon="mdi-content-save"
             @click="saveLocalCollection()">
-            Save to Local Collection
+            {{ $t('gm.campaign.saveLocal') }}
           </v-btn>
         </template>
-        <span>
-          Save a read-only copy of this campaign into your local Campaign Library for use in active
-          mode or online play
-        </span>
+        <span>{{ $t('gm.campaign.saveLocalHelp') }}</span>
       </v-tooltip>
       <v-spacer />
       <div v-if="shareCode">
@@ -65,7 +59,7 @@
               variant="elevated"
               prepend-icon="mdi-code-block-brackets"
               @click="copyShareCode">
-              Copy Share Code
+              {{ $t('gm.campaign.copyShareCode') }}
             </v-btn>
           </template>
           <div class="text-center">
@@ -73,10 +67,7 @@
               {{ shareCode.substring(0, 4) }}-{{ shareCode.substring(4, 8) }}
             </b>
             <v-divider />
-            <span class="text-caption">
-              Copy this share code for this campaign to your clipboard. Share codes can be used to
-              import this campaign into another COMP/CON instance.
-            </span>
+            <span class="text-caption">{{ $t('gm.campaign.copyShareCodeHelp') }}</span>
           </div>
         </v-tooltip>
       </div>
@@ -91,15 +82,10 @@
             prepend-icon="mdi-code-block-brackets"
             :loading="uploading"
             @click="upload">
-            Generate Share Code
+            {{ $t('gm.campaign.generateShareCode') }}
           </v-btn>
         </template>
-        <span>
-          Upload this campaign to the cloud repository to generate a share code for other users to
-          import this campaign into their COMP/CON instance. Generating a share code will
-          automatically update the cloud repository with the latest version of this campaign
-          whenever a new version is published.
-        </span>
+        <span>{{ $t('gm.campaign.generateShareCodeHelp') }}</span>
       </v-tooltip>
       <v-spacer v-if="isLoggedIn" />
     </v-card-actions>

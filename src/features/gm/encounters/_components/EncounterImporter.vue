@@ -18,11 +18,11 @@
       type="error"
       variant="tonal"
       class="mx-4 mb-3">
-      The selected file does not contain encounter data.
+      {{ $t('gm.encImport.notEncounterFile') }}
     </v-alert>
 
     <v-container v-if="stagedItems.length">
-      <div class="text-caption">STAGED ENCOUNTERS</div>
+      <div class="text-caption">{{ $t('gm.encImport.stagedEncounters') }}</div>
       <v-table>
         <thead class="heading">
           <tr>
@@ -44,10 +44,10 @@
                     " />
               </v-btn>
             </th>
-            <th>Name</th>
-            <th>Sitrep</th>
-            <th class="text-center">Combatants</th>
-            <th class="text-center">Status</th>
+            <th>{{ $t('gm.encImport.name') }}</th>
+            <th>{{ $t('gm.encImport.sitrepCol') }}</th>
+            <th class="text-center">{{ $t('gm.encImport.combatants') }}</th>
+            <th class="text-center">{{ $t('common.status') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -70,12 +70,8 @@
                     :icon="item.status === 'ok' ? 'mdi-check' : 'mdi-alert'"
                     :color="item.status === 'ok' ? 'success' : 'warning'" />
                 </template>
-                <span v-if="item.status === 'ok'">Encounter is ready for import</span>
-                <span v-else-if="item.status === 'missing_content'">
-                  This encounter references NPCs that have not been imported yet. It will be saved
-                  to the v2 Imports collection in the Content Manager and can be imported once the
-                  required NPCs are available.
-                </span>
+                <span v-if="item.status === 'ok'">{{ $t('gm.encImport.readyForImport') }}</span>
+                <span v-else-if="item.status === 'missing_content'">{{ $t('gm.encImport.missingNpcs') }}</span>
               </v-tooltip>
             </td>
           </tr>
@@ -86,15 +82,9 @@
         class="mx-12 mt-4"
         icon="mdi-alert"
         title="Missing NPCs">
-        <p>
-          Some encounters reference NPCs that have not been imported yet. These encounters will be
-          saved to the v2 Imports collection in the Content Manager and can be imported once the
-          required NPCs are available.
-        </p>
+        <p>{{ $t('gm.encImport.someMissingNpcs') }}</p>
         <v-card-text>
-          <p class="heading h4 text-accent">
-            Missing NPCs:
-          </p>
+          <p class="heading h4 text-accent">{{ $t('gm.encImport.missingNpcsTitle') }}</p>
           <p v-html-safe="missingContent"
             class="effect-text text-center bg-background pa-1 ma-1" />
         </v-card-text>
@@ -108,7 +98,7 @@
             prepend-icon="mdi-plus"
             :disabled="!selected.length"
             @click="importFile">
-            Import ({{ selected.length }} Encounter{{ selected.length !== 1 ? 's' : '' }})
+            {{ $t('gm.encImport.importCount', { n: selected.length, plural: selected.length !== 1 ? 's' : '' }) }}
           </v-btn>
         </v-col>
       </v-row>
@@ -126,7 +116,8 @@ import { Encounter } from '@/classes/encounter/Encounter'
 import { isV2Encounter, getV2EncounterMissingNpcs, preprocessEncounterImport } from '@/io/V2Importer'
 import { ImportEncounter } from '@/io/Importer'
 import { notify } from '@/util/notify'
-import { GM_STRINGS } from '@/features/gm/strings'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const emit = defineEmits<{ complete: [] }>()
 
@@ -216,11 +207,11 @@ async function importFile() {
       }
     } catch (error) {
       logger.error('Failed to import encounter', null, error)
-      notify({ title: GM_STRINGS.import.importErrorTitle, text: GM_STRINGS.import.encounterImportErrorText(String(error)), data: { icon: 'cc:compendium', color: 'error' } })
+      notify({ title: t('gm.import.importErrorTitle'), text: t('gm.import.encounterImportErrorText', { error: String(error) }), data: { icon: 'cc:compendium', color: 'error' } })
     }
   }
   if (backedUp > 0) {
-    notify({ title: GM_STRINGS.import.v2BackupTitle, text: GM_STRINGS.import.v2BackupText(backedUp), data: { icon: 'mdi-information-box-outline', color: 'info' } })
+    notify({ title: t('gm.import.v2BackupTitle'), text: t('gm.import.v2BackupText', { count: backedUp }), data: { icon: 'mdi-information-box-outline', color: 'info' } })
   }
   reset()
   emit('complete')

@@ -65,27 +65,25 @@
     </v-col>
   </v-row>
   <div v-if="feature.Attacks && feature.Attacks.some((x) => x > 1)">
-    This weapon can make
-    <b>
-      {{ tier ? feature.Attacks[tier - 1] : feature.Attacks.join(' / ') }}
-    </b>
-    attacks at a time.
+    <i18n-t keypath="gm.featurePrint.weaponAttacks" tag="span" scope="global">
+      <template #count><b>{{ tier ? feature.Attacks[tier - 1] : feature.Attacks.join(' / ') }}</b></template>
+    </i18n-t>
   </div>
 
   <div v-if="feature.OnMiss">
-    <b>ON MISS:</b>
+    <b>{{ $t('gm.featurePrint.onMiss') }}</b>
     {{ feature.OnMiss.Detail }}
   </div>
   <div v-if="feature.OnAttack">
-    <b>ON ATTACK:</b>
+    <b>{{ $t('gm.featurePrint.onAttack') }}</b>
     {{ feature.OnAttack.Detail }}
   </div>
   <div v-if="feature.OnHit">
-    <b>ON HIT:</b>
+    <b>{{ $t('gm.featurePrint.onHit') }}</b>
     {{ feature.OnHit.Detail }}
   </div>
   <div v-if="feature.OnCrit">
-    <b>ON CRIT:</b>
+    <b>{{ $t('gm.featurePrint.onCrit') }}</b>
     {{ feature.OnCrit.Detail }}
   </div>
 

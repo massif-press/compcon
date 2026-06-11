@@ -65,6 +65,7 @@ class Bond implements ILcpTracked {
         LcpVersion: pack.Version,
         Website: pack.Website || '',
         Status: 'OK',
+        V3: pack.v3,
       }
     } else this.Brew = {} as BrewInfo
   }

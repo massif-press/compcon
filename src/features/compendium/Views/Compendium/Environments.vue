@@ -5,7 +5,7 @@
     :options="options"
     view-key="cb-environments">
     <template #header>
-      <div class="heading h3 text-center text-accent">Environments</div>
+      <div class="heading h3 text-center text-accent">{{ $t('compendium.categories.environments') }}</div>
     </template>
   </cc-compendium-browser>
 </template>

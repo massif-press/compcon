@@ -4,20 +4,14 @@
     <v-container>
       <div style="min-height: 20vh; width: 700px; margin: auto"
         class="py-4">
-        <div class="heading h2 mb-2 text-center pb-4">No Eidolon data found!</div>
+        <div class="heading h2 mb-2 text-center pb-4">{{ $t('gm.layerSelector.noData') }}</div>
 
-        Eidolon data are included with the No Room for a Wallflower Campaign Book and are therefore
-        not included with COMP/CON by default. You can find Eidolon data as additional downloadable
-        content on the
-        <a href="https://massif-press.itch.io/no-room-for-a-wallflower-act-1">
-          No Room for a Wallflower
-        </a>
-        Campaign Book page.
+        <i18n-t keypath="gm.layerSelector.help1" tag="span" scope="global">
+          <template #link><a href="https://massif-press.itch.io/no-room-for-a-wallflower-act-1">{{ $t('gm.layerSelector.linkText') }}</a></template>
+        </i18n-t>
         <br />
         <br />
-        If you have already downloaded the Eidolon data, you can import it into COMP/CON via the
-        Content Manager available on the Main Menu or in the Options menu on the right side of the
-        nav bar.
+        {{ $t('gm.layerSelector.help2') }}
       </div>
     </v-container>
   </v-card-text>
@@ -31,7 +25,7 @@
     equippable
     @equip="AddLayer($event)">
     <template #header>
-      <div class="heading h3 text-center text-accent">Mech Weapons</div>
+      <div class="heading h3 text-center text-accent">{{ $t('gm.layerSelector.mechWeapons') }}</div>
     </template>
     <template #top>
       <cc-switch v-model="allowDupes"

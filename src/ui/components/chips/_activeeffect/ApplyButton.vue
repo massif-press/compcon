@@ -7,14 +7,14 @@
     color="panel"
     prepend-icon="mdi-close"
     @click="close()">
-    Dismiss
+    {{ $t('common.dismiss') }}
   </cc-button>
 
   <div v-else-if="!embedded"
     class="d-flex justify-end mt-2 mr-4">
     <cc-button size="small"
       stacked
-      @click="close">Cancel</cc-button>
+      @click="close">{{ $t('common.cancel') }}</cc-button>
     <v-spacer />
     <div>
       <cc-button v-if="!ready"
@@ -28,12 +28,12 @@
             :icon="icon"
             class="mt-n1"
             start />
-          <span v-if="activation">Activate</span>
-          <span v-else>{{ canOverride ? 'Apply All' : 'Confirm' }}</span>
+          <span v-if="activation">{{ $t('ui.combat.activate') }}</span>
+          <span v-else>{{ canOverride ? $t('ui.combat.applyAll') : $t('common.confirm') }}</span>
           <div class="text-disabled">
             <span v-if="activation && (activeEffect as any).Activation !== 'None'"
               style="letter-spacing: 1px">
-              {{ isFree ? 'Free*' : (activeEffect as any).Activation }}
+              {{ isFree ? $t('ui.combat.free') : (activeEffect as any).Activation }}
 
             </span>
             <span v-if="
@@ -62,7 +62,7 @@
               @click="stage(true)">
               <template v-if="mandatoryRemaining"
                 #subtitle>
-                <v-list-item-subtitle>Mandatory Fields Remaining</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ $t('ui.combat.mandatoryFields') }}</v-list-item-subtitle>
               </template>
               <template #prepend>
                 <v-icon icon="cc:free"
@@ -92,11 +92,11 @@
             :icon="icon"
             class="mt-n1"
             start />
-          Confirm
+          {{ $t('common.confirm') }}
           <div class="text-disabled">
             <span v-if="activation"
               style="letter-spacing: 1px">
-              {{ isFree ? 'Free*' : (activeEffect as any).Activation }}
+              {{ isFree ? $t('ui.combat.free') : (activeEffect as any).Activation }}
             </span>
             <span v-if="
               (activeEffect as any).Activation &&
@@ -128,8 +128,8 @@
         </template>
       </cc-button>
       <div class="text-center text-cc-overline text-disabled">
-        <div v-if="isApplied">Already Activated</div>
-        <div v-if="noAction">Insufficient Actions</div>
+        <div v-if="isApplied">{{ $t('ui.combat.alreadyActivated') }}</div>
+        <div v-if="noAction">{{ $t('ui.combat.insufficientActionsShort') }}</div>
       </div>
     </div>
   </div>

@@ -7,7 +7,7 @@
         icon="cc:reticle" />
       <b class="px-1 heading">{{ attackBonus }}</b>
     </template>
-    <span>Attack Bonus</span>
+    <span>{{ $t('common.attackBonus') }}</span>
   </v-tooltip>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <v-container class="pb-12">
-    <h1 class="heading">Icon Guide</h1>
+    <h1 class="heading">{{ $t('compendium.reference.iconGuide') }}</h1>
 
     <div v-for="category in Object.keys(content)"
       :key="category"
