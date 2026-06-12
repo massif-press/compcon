@@ -20,7 +20,7 @@
 
       <v-col cols="auto">
         <div>
-          HP:
+          {{ $t('pm.print.hp') }}
           <div class="d-inline-block mb-n1"><blank-line :height="24"
               :width="30" /></div>
           <span>/</span>
@@ -33,7 +33,7 @@
       </v-col>
       <v-col cols="auto">
         <div>
-          ARMOR:
+          {{ $t('pm.print.armor3') }}
           <blank-line v-if="blank"
             :width="30"
             :height="24"
@@ -43,7 +43,7 @@
       </v-col>
       <v-col cols="auto">
         <div>
-          E-DEF:
+          {{ $t('pm.print.eDEF') }}
           <blank-line v-if="blank"
             :width="30"
             :height="24"
@@ -53,7 +53,7 @@
       </v-col>
       <v-col cols="auto">
         <div>
-          EVASION:
+          {{ $t('pm.print.evasion2') }}
           <blank-line v-if="blank"
             :width="30"
             :height="24"
@@ -63,7 +63,7 @@
       </v-col>
       <v-col cols="auto">
         <div>
-          SPEED:
+          {{ $t('pm.print.speed2') }}
           <blank-line v-if="blank"
             :width="30"
             :height="24"
@@ -73,7 +73,7 @@
       </v-col>
       <v-col cols="auto">
         <div>
-          GRIT:
+          {{ $t('pm.print.grit2') }}
           <blank-line v-if="blank"
             :width="30"
             :height="24"
@@ -85,7 +85,7 @@
 
     <v-divider />
 
-    <div class="text-caption text-primary">SKILL TRIGGERS</div>
+    <div class="text-caption text-primary">{{ $t('pm.print.skillTRIGGERS') }}</div>
 
     <v-row dense
       justify="space-between"
@@ -116,7 +116,7 @@
       <v-col cols="auto"
         class="px-1">
         <div>
-          HULL:
+          {{ $t('pm.print.hull') }}
           <blank-line v-if="blank"
             :width="30"
             :height="24"
@@ -127,7 +127,7 @@
       <v-col cols="auto"
         class="px-1">
         <div>
-          AGI:
+          {{ $t('pm.sheet.agi') }}
           <blank-line v-if="blank"
             :width="30"
             :height="24"
@@ -138,7 +138,7 @@
       <v-col cols="auto"
         class="px-1">
         <div>
-          SYS:
+          {{ $t('pm.sheet.sys') }}
           <blank-line v-if="blank"
             :width="30"
             :height="24"
@@ -149,7 +149,7 @@
       <v-col cols="auto"
         class="px-1">
         <div>
-          ENG:
+          {{ $t('pm.sheet.eng') }}
           <blank-line v-if="blank"
             :width="30"
             :height="24"
@@ -162,7 +162,7 @@
     <v-row dense
       class="mt-n1">
       <v-col :cols="blank ? 8 : 'auto'">
-        <div class="text-caption mb-n1 text-primary">TALENTS</div>
+        <div class="text-caption mb-n1 text-primary">{{ $t('pm.new.talents') }}</div>
         <v-row v-if="blank"
           dense>
           <v-col v-for="n in 9"
@@ -188,7 +188,7 @@
       <v-col :cols="blank ? '' : 'auto'">
         <div v-if="pilot.CoreBonusController.CoreBonuses.length"
           class="text-caption mb-n1 text-primary">
-          CORE BONUSES
+          {{ $t('pm.print.coreBONUSES2') }}
         </div>
 
         <v-row v-if="blank"
@@ -212,7 +212,7 @@
       </v-col>
     </v-row>
 
-    <div class="text-caption mb-n2 mt-1 text-primary">PILOT LOADOUT</div>
+    <div class="text-caption mb-n2 mt-1 text-primary">{{ $t('pm.print.pilotLOADOUT') }}</div>
     <v-row dense
       justify="space-between"
       class="mt-n1 caption">
@@ -224,10 +224,10 @@
           <legend class="heading ml-1 px-1">
             <span v-if="!blank">
               {{ a.Name }}
-              <span class="text-caption flavor-text">//ARMOR</span>
+              <span class="text-caption flavor-text">{{ $t('pm.print.armor2') }}</span>
             </span>
             <span v-else
-              class="text-grey">Pilot Armor</span>
+              class="text-grey">{{ $t('pm.print.pilotArmor') }}</span>
           </legend>
           <div v-if="blank"
             style="height: 75px" />
@@ -282,10 +282,10 @@
           <legend class="heading ml-1 px-1">
             <span v-if="!blank">
               {{ w.Name }}
-              <span class="text-caption flavor-text">//WEAPON</span>
+              <span class="text-caption flavor-text">{{ $t('pm.print.weapon2') }}</span>
             </span>
             <span v-else
-              class="text-grey">Pilot Weapon</span>
+              class="text-grey">{{ $t('pm.print.pilotWeapon') }}</span>
           </legend>
           <div v-if="blank"
             style="height: 75px" />
@@ -335,10 +335,10 @@
           <legend class="heading ml-1 px-1">
             <span v-if="!blank">
               {{ g.Name }}
-              <span class="text-caption flavor-text">//GEAR</span>
+              <span class="text-caption flavor-text">{{ $t('pm.print.gear') }}</span>
             </span>
             <span v-else
-              class="text-grey">Pilot Gear</span>
+              class="text-grey">{{ $t('compendium.categories.pilotGear') }}</span>
           </legend>
           <div v-if="blank"
             style="height: 75px" />
@@ -367,7 +367,7 @@
     </v-row>
 
     <div v-if="!blank && pilot.ReservesController.Reserves.length">
-      <div class="text-caption my-n1 text-primary">RESERVES</div>
+      <div class="text-caption my-n1 text-primary">{{ $t('pm.print.reserves') }}</div>
       <div class="pb-1">
         <v-chip v-for="r in pilot.ReservesController.Reserves.filter((x) => x.Type !== 'Bonus')"
           :key="r.ID"
@@ -384,7 +384,7 @@
 
     <div v-if="blank"
       class="pa-2 mt-n5">
-      <div class="text-caption mb-n1 mt-1 text-primary">RESERVES</div>
+      <div class="text-caption mb-n1 mt-1 text-primary">{{ $t('pm.print.reserves') }}</div>
       <v-row dense>
         <v-col v-for="r in hasPilotOption('Extra Reserve Space') ? 8 : 4"
           :key="`reserve-${r}`"

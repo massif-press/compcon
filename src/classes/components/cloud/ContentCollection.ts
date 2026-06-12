@@ -1,4 +1,5 @@
 import { cloudDelete, updateItem, uploadToS3 } from '@/io/apis/account'
+import { i18n } from '@/i18n'
 import { GenerateExportCollection } from '@/io/Importer'
 import { RemoveItem, SetItem } from '@/io/Storage'
 import { UserStore } from '@/user/store'
@@ -78,7 +79,7 @@ class ContentCollection {
 
   constructor(c_data?: CollectionData) {
     this.ID = c_data?.id || uuid()
-    this.Name = c_data?.name || 'New Collection'
+    this.Name = c_data?.name || i18n.global.t('classes.newCollection')
     this.Author = c_data?.author || ''
     this.Description = c_data?.description || ''
     this.Version = c_data?.version || '0.0'

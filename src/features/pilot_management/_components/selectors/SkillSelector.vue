@@ -14,7 +14,7 @@
         variant="outlined"
         density="compact"
         color="success"
-        v-text="'Skill Selection Complete'" />
+        v-text="$t('pm.selectors.skillSelectionComplete')" />
       <v-card
         v-if="pilot.SkillsController.MaxSkillPoints > pilot.SkillsController.CurrentSkillPoints"
         flat
@@ -33,7 +33,7 @@
         block
         :disabled="!pilot.SkillsController.Skills.length"
         @click="resetSkills()">
-        Reset
+        {{ $t('common.reset') }}
       </cc-button>
     </template>
 
@@ -53,7 +53,7 @@
         class="mb-4">
         <div v-if="h.attr !== 'Custom'"
           class="text-cc-overline">
-          Your Ability To
+          {{ $t('pm.selectors.yourAbilityTo') }}
         </div>
         <div v-if="mobile"
           class="text-cc-overline text-accent mb-2">

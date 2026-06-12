@@ -4,6 +4,7 @@ import { IBrewable } from './IBrewable'
 import { CompendiumStore } from '@/features/compendium/store'
 import logger from '@/user/logger'
 import { assertController } from '../../utility/assertController'
+import { DEFAULT_LCP_NAME } from '../../LcpItemMixin'
 
 interface IBrewData {
   brews: BrewInfo[]
@@ -37,7 +38,7 @@ class BrewController {
       if (!out.some(x => x.LcpId === pack.LcpId)) out.push(pack)
     })
 
-    out = out.filter(brew => !!brew.LcpId && brew.LcpName !== 'Lancer Core Book')
+    out = out.filter(brew => !!brew.LcpId && brew.LcpName !== DEFAULT_LCP_NAME)
 
     out.forEach(brew => {
       const p = CompendiumStore().ContentPacks.find(x => x.ID === brew.LcpId)

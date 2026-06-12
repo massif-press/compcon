@@ -3,7 +3,7 @@
     <div v-if="header"
       class="caption text-center mt-n1"
       style="letter-spacing: 4px; font-size: 10px">
-      {{ header }} // <b>ACTION</b>
+      {{ header }} // <b>{{ $t('pm.print.action') }}</b>
     </div>
     <action-internal :action="action" />
     <div style="position: absolute; bottom: 1px; right: 1px">

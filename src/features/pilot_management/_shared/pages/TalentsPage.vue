@@ -5,32 +5,26 @@
     back
     @back="$emit('back')"
     @complete="$emit('next')">
-    <cc-title offset>{{ context === 'new' ? 'Pilot Talents' : 'Improve Talents' }}&emsp;</cc-title>
+    <cc-title offset>{{ context === 'new' ? $t('compendium.categories.pilotTalents') : $t('pm.shared.improveTalents') }}&emsp;</cc-title>
 
     <div v-if="context === 'new'"
       class="heading h2">
-      UAD IDENT Service <cc-slashes /> &nbsp;RM-4c Pilot Self Assessment (2/3)
+      {{ $t('pm.new.uadIDENTService') }} <cc-slashes /> &nbsp;{{ $t('pm.shared.rm4cPilotSelfAssessment2') }}
     </div>
     <div v-else
       class="heading h2">
-      MV-2 License Acquisition Request <cc-slashes /> &nbsp;MV-2//b COA Resource Requisition
+      {{ $t('pm.level.mv2LicenseAcquisitionRequest') }} <cc-slashes /> &nbsp;{{ $t('pm.shared.mv2BCOAResourceRequisition') }}
     </div>
 
     <p v-if="context === 'new'"
       class="flavor-text"
       style="font-size: 14px">
-      The RM-4b PILOT SELF ASSESSMENT (Talents) audit catalogs an individual pilot's self-reported
-      combat operation aptitudes and confers requisition privileges for simulator time, holofield
-      and cortical sensorium training materials, battlefield telemetry data at classifications below
-      GREY SIERRA SHARP, and (in specific cases) GMS MM-pattern materiel licenses.
+      {{ $t('pm.shared.theRM4bPILOTSELFASSESSMENT3') }}
     </p>
     <p v-else
       class="flavor-text"
       style="font-size: 14px">
-      The Combat Operation Ability Requisition, on the approval of a NHP-guided automated request
-      approval system, confers UNI simulator privileges, holofield and cortical sensorium training
-      materials, battlefield telemetry data at classifications below GREY SIERRA SHARP, and (in
-      specific cases) GMS MM-pattern materiel licenses.
+      {{ $t('pm.shared.theCombatOperationAbilityRequisitionOn') }}
     </p>
 
     <v-alert color="accent"
@@ -39,12 +33,10 @@
       class="mt-2"
       tile>
       <div class="heading">
-        {{ context === 'new' ? `Select ${word} (${count}) Pilot Talents.` : 'Add or Upgrade a Talent.' }}
+        {{ context === 'new' ? $t('pm.shared.selectPilotTalents', { word, count }) : $t('pm.shared.addOrUpgradeTalent') }}
       </div>
       <p class="text-cc-overline">
-        By submitting this form you attest that your responses are truthful and accurate to the best
-        of your knowledge. Knowingly providing false or incomplete information is punishable
-        under DoJ/HR AR 303-J.
+        {{ $t('pm.shared.bySubmittingThisFormYouAttest') }}
       </p>
     </v-alert>
 

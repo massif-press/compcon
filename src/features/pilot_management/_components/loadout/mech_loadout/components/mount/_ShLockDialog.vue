@@ -6,14 +6,13 @@
     icon="cc:role_striker"
     title="Select Bracing Mount">
     <v-card-text class="text-center pt-0">
-      <span class="text-cc-overline">// PROCESS INTERRUPT: AUTHORIZATION REQUIRED //</span>
+      <span class="text-cc-overline">{{ $t('pm.loadout.processINTERRUPTAUTHORIZATIONREQUIRED') }}</span>
       <div class="flavor-text">
-        <span style="opacity: 0.4">>>COMP/CON//&nbsp;</span>
+        <span style="opacity: 0.4">{{ $t('pm.loadout.compCON') }}&nbsp;</span>
         <span>
-          Lancer, Superheavy-class armament requires two mounts. Please select a
-          <span class="text-accent">bracing mount.</span>
-          This bracing mount will be not be able to field armament until the Superheavy weapon is
-          removed.
+          {{ $t('pm.loadout.lancerSuperheavyClassArmamentRequiresTwo') }}
+          <span class="text-accent">{{ $t('pm.loadout.bracingMount') }}</span>
+          {{ $t('pm.loadout.thisBracingMountWillBeNot') }}
         </span>
       </div>
       <div class="heading">
@@ -30,7 +29,7 @@
         </cc-button>
       </div>
       <div v-if="superheavySelect">
-        <i>The SUPERHEAVY MOUNTING Core Bonus requires bracing on a Heavy Mount, if available.</i>
+        <i>{{ $t('pm.loadout.theSUPERHEAVYMOUNTINGCoreBonusRequires') }}</i>
       </div>
     </v-card-text>
   </cc-modal>

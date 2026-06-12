@@ -192,6 +192,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18n } from '@/i18n'
+const t = i18n.global.t
 import { ref, computed, nextTick } from 'vue'
 import { useDisplay } from 'vuetify'
 import { parseContentPack } from '@/io/ContentPackParser'
@@ -414,8 +416,8 @@ function gradeType(pack: IContentPack) {
     contentPacks.value = contentPacks.value.filter(x => x.id !== pack.id)
     logger.error(`Removed ${pack.manifest.name || (pack.manifest as any).title || 'unknown LCP'} from import -- invalid version string breaks semver`, null, e)
     notify({
-      title: 'Error',
-      text: `Removed ${pack.manifest.name || (pack.manifest as any).title || 'unknown LCP'} from import -- invalid version string breaks semver`,
+      title: t('notify.common.error'),
+      text: t('notify.lcp.removedInvalidVersionText', { name: pack.manifest.name || (pack.manifest as any).title || 'unknown LCP' }),
       data: { color: 'error' },
     })
     return 'error'

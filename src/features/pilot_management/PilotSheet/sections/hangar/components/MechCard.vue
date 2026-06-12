@@ -45,7 +45,7 @@
                         justify="space-between">
                         <v-col cols="auto">
                           <span class="text-overline">
-                            STR
+                            {{ $t('pm.sheet.str') }}
                             <b>{{ mech.MaxStructure }}</b>
                           </span>
                         </v-col>
@@ -53,7 +53,7 @@
                           class="mx-2" />
                         <v-col cols="auto">
                           <span class="text-overline">
-                            HP
+                            {{ $t('stats.hp') }}
                             <b>{{ mech.MaxHP }}</b>
                           </span>
                         </v-col>
@@ -61,7 +61,7 @@
                           class="mx-2" />
                         <v-col cols="auto">
                           <span class="text-overline">
-                            Stress
+                            {{ $t('pm.sheet.stress') }}
                             <b>{{ mech.MaxStress }}</b>
                           </span>
                         </v-col>
@@ -69,7 +69,7 @@
                           class="mx-2" />
                         <v-col cols="auto">
                           <span class="text-overline">
-                            Heat
+                            {{ $t('pm.sheet.heat') }}
                             <b>{{ mech.HeatCapacity }}</b>
                           </span>
                         </v-col>
@@ -77,7 +77,7 @@
                           class="mx-2" />
                         <v-col cols="auto">
                           <span class="text-overline">
-                            RepCap
+                            {{ $t('pm.sheet.repcap') }}
                             <b>{{ mech.RepairCapacity }}</b>
                           </span>
                         </v-col>

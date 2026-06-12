@@ -4,7 +4,7 @@
     <v-row align="center">
       <v-col>
         <div class="heading h2">
-          {{ $t('compendium.search.search') }}
+          {{ $t('common.search') }}
           <cc-slashes />
           {{ $t('compendium.titles.reference') }}
         </div>

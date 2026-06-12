@@ -1,7 +1,7 @@
 <template>
   <div class="pa-2 mt-3">
     <div class="text-overline text-primary"
-      style="line-height: 15px">SKILL TRIGGER DETAIL</div>
+      style="line-height: 15px">{{ $t('pm.print.skillTRIGGERDETAIL') }}</div>
     <v-row dense>
       <v-col v-for="t in triggers"
         :key="t.ID"

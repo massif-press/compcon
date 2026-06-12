@@ -4,7 +4,7 @@
     class="mt-n4 mb-1">
     <v-col cols="auto"
       class="text-center">
-      <div class="font-weight-bold overline text-primary">HULL</div>
+      <div class="font-weight-bold overline text-primary">{{ $t('stats.hull') }}</div>
       <blank-line v-if="blank"
         :width="120"
         :height="35"
@@ -16,7 +16,7 @@
     </v-col>
     <v-col cols="auto"
       class="text-center">
-      <div class="font-weight-bold overline text-primary">AGILITY</div>
+      <div class="font-weight-bold overline text-primary">{{ $t('stats.agility') }}</div>
       <blank-line v-if="blank"
         :width="120"
         :height="35"
@@ -28,7 +28,7 @@
     </v-col>
     <v-col cols="auto"
       class="text-center">
-      <div class="font-weight-bold overline text-primary">SYSTEMS</div>
+      <div class="font-weight-bold overline text-primary">{{ $t('stats.systems') }}</div>
       <blank-line v-if="blank"
         :width="120"
         :height="35"
@@ -40,7 +40,7 @@
     </v-col>
     <v-col cols="auto"
       class="text-center">
-      <div class="font-weight-bold overline text-primary">ENGINEERING</div>
+      <div class="font-weight-bold overline text-primary">{{ $t('stats.engineering') }}</div>
       <blank-line v-if="blank"
         :width="120"
         :height="35"
@@ -53,7 +53,7 @@
     <v-col cols="auto"
       class="text-center">
       <div v-if="blank">
-        <div class="font-weight-bold overline text-primary">SIZE</div>
+        <div class="font-weight-bold overline text-primary">{{ $t('stats.size') }}</div>
         <blank-line v-if="blank"
           :width="120"
           :height="35"

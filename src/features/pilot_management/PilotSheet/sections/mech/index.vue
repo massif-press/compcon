@@ -62,7 +62,7 @@
               size="small"
               prepend-icon="mdi-circle-edit-outline"
               @click="open">
-              Set Mech Image
+              {{ $t('pm.sheet.setMechImage') }}
             </cc-button>
           </template>
           <cc-image-selector ref="imageSelector"
@@ -136,7 +136,7 @@
                   size="small"
                   prepend-icon="mdi-circle-edit-outline"
                   @click="open">
-                  Set Mech Image
+                  {{ $t('pm.sheet.setMechImage') }}
                 </cc-button>
               </template>
               <cc-image-selector ref="imageSelector"

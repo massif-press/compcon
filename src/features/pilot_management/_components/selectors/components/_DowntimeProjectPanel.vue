@@ -67,7 +67,7 @@
           :disabled="!projectName"
           @click="add()">
           <v-icon start>mdi-plus</v-icon>
-          Add Project
+          {{ $t('pm.selectors.addProject') }}
         </v-btn>
       </cc-titled-panel>
     </v-col>

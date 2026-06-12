@@ -8,7 +8,7 @@
     @save="$emit('save')">
     <template v-if="item"
       #title-items>
-      <div class="text-cc-overline pt-1">ITEM USES</div>
+      <div class="text-cc-overline pt-1">{{ $t('pm.loadout.itemUSES') }}</div>
       <div class="text-right">
         <v-icon color="secondary"
           :icon="!item.MaxUses ? 'mdi-infinity' : 'mdi-hexagon-slice-6'" />
@@ -38,15 +38,15 @@
         :table-headers="headers"
         @equip="equip($event)">
         <template #header>
-          <div class="heading h4 text-center text-accent">Select Pilot Equipment</div>
+          <div class="heading h4 text-center text-accent">{{ $t('pm.loadout.selectPilotEquipment') }}</div>
         </template>
 
         <template #top>
           <div v-if="item">
             <span class="text-cc-overline">
-              GMS ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
+              {{ $t('pm.loadout.gmsArmoryPrintid') }} {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
               <span class="text-success text--darken-1">
-                [ PILOT MATERIEL REGISTRATION VERIFIED ]
+                {{ $t('pm.loadout.pilotMATERIELREGISTRATIONVERIFIED') }}
               </span>
             </span>
             <br />
@@ -56,21 +56,21 @@
             </div>
             <div class="flavor-text text-cc-overline mt-n1"
               style="display: block">
-              CURRENTLY EQUIPPED
+              {{ $t('pm.loadout.currentlyEQUIPPED') }}
             </div>
           </div>
           <div v-else>
             <span class="text-overline">
-              GMS EQUIPMENT AUTHORIZATION: PILOT/ADDITIONAL GEAR (ANY)
+              {{ $t('pm.loadout.gmsEQUIPMENTAUTHORIZATIONPILOTADDITIONALGEAR') }}
             </span>
             <br />
             <span class="heading h1 text-disabled text--lighten-1"
               style="line-height: 20px">
-              NO SELECTION
+              {{ $t('pm.loadout.noSELECTION') }}
             </span>
             <span class="flavor-text text-cc-overline mt-n1 text-error"
               style="display: block">
-              [ EQUIPMENT ID INVALID OR MISSING ]
+              {{ $t('pm.loadout.equipmentIDINVALIDORMISSING') }}
             </span>
           </div>
         </template>

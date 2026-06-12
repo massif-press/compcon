@@ -3,7 +3,7 @@
     class="mt-2"
     title="Missing License Data">
     <p class="text-cc-overline text-disabled mb-2">
-      The following {{ type }} are not present in the compendium:
+      {{ $t('pm.selectors.notInCompendium', { type }) }}
     </p>
     <v-row v-for="(item, index) in itemArr"
       :key="`missing-${type}-${index}`"
@@ -28,7 +28,7 @@
           :href="brew(item).Website"
           target="_blank"
           rel="noopener noreferrer">
-          Download {{ brew(item).LcpName }}
+          {{ $t('pm.selectors.download') }} {{ brew(item).LcpName }}
         </v-btn>
       </v-col>
       <v-col cols="auto"

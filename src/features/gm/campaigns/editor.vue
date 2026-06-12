@@ -47,7 +47,7 @@
           </v-col>
           <v-col cols="auto">
             <v-btn size="small" variant="tonal" color="accent" @click="previewDialog = false">
-              {{ $t('gm.campaign.closePreview') }}
+              {{ $t('common.closePreview') }}
             </v-btn>
           </v-col>
         </v-row>

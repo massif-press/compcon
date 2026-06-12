@@ -18,7 +18,7 @@
             color="accent" />
         </v-btn>
       </template>
-      <span>Sort by Name</span>
+      <span>{{ $t('pm.sheet.sortByName') }}</span>
     </v-tooltip>
 
     <v-tooltip location="top"
@@ -39,7 +39,7 @@
             size="21" />
         </v-btn>
       </template>
-      <span>Sort by Manufacturer</span>
+      <span>{{ $t('pm.sheet.sortByManufacturer') }}</span>
     </v-tooltip>
 
     <v-tooltip location="top"
@@ -60,7 +60,7 @@
             size="21" />
         </v-btn>
       </template>
-      <span>Sort by created timestamp</span>
+      <span>{{ $t('pm.sheet.sortByCreatedTimestamp') }}</span>
     </v-tooltip>
   </div>
 </template>

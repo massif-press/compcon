@@ -16,10 +16,10 @@
       </v-col>
       <v-col cols="auto">
         <div>
-          Include Pilot NET Discord Emoji
+          {{ $t('pm.sheet.includePilotNETDiscordEmoji') }}
           <div class="text-caption"
             style="line-height: 8px">
-            (Doesn't work in code block format)
+            {{ $t('pm.sheet.doesnTWorkInCodeBlock') }}
           </div>
         </div>
       </v-col>
@@ -53,7 +53,7 @@
           color="primary"
           block
           @click="copy()">
-          Copy to Clipboard
+          {{ $t('common.copyToClipboard') }}
         </cc-button>
       </template>
     </v-tooltip>
@@ -61,6 +61,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18n } from '@/i18n'
+const t = i18n.global.t
 import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { notify } from '@/util/notify'
@@ -122,15 +124,15 @@ function copy() {
         .writeText(statblock.value)
         .then(() =>
           notify({
-            title: 'Statblock Copied to Clipboard',
-            text: 'Copy Success',
+            title: t('notify.statblock.copiedTitle'),
+            text: t('notify.statblock.copiedText'),
             data: { icon: 'mdi-clipboard-text-outline' },
           })
         )
         .catch(() =>
           notify({
-            title: 'Error',
-            text: 'Unable to copy statblocik',
+            title: t('notify.common.error'),
+            text: t('notify.statblock.errorText'),
             data: { icon: 'mdi-clipboard-text-outline', color: 'error' },
           })
         );

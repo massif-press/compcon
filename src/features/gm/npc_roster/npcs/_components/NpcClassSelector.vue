@@ -18,7 +18,7 @@
       @equip="SetClass($event)"
       @view-change="toggleTieredView">
       <template #header>
-        <div class="heading h3 text-center text-accent">{{ $t('gm.npcClass.npcClasses') }}</div>
+        <div class="heading h3 text-center text-accent">{{ $t('compendium.categories.npcClasses') }}</div>
         <v-slide-y-transition>
           <div v-if="tieredView"
             class="text-center my-n1">

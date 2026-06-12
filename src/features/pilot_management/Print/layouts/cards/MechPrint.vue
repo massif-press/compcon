@@ -28,7 +28,7 @@
       <v-row dense
         align="center"
         class="my-n1">
-        <v-col cols="auto">ATTACK BONUS</v-col>
+        <v-col cols="auto">{{ $t('common.attackBonus') }}</v-col>
         <v-col><v-divider /></v-col>
         <v-col cols="auto"
           class="text-primary">
@@ -39,7 +39,7 @@
       <v-row dense
         align="center"
         class="my-n1">
-        <v-col cols="auto">TECH ATTACK</v-col>
+        <v-col cols="auto">{{ $t('pm.print.techATTACK') }}</v-col>
         <v-col><v-divider /></v-col>
         <v-col cols="auto"
           class="text-primary">
@@ -50,7 +50,7 @@
       <v-row dense
         align="center"
         class="my-n1">
-        <v-col cols="auto">SAVE</v-col>
+        <v-col cols="auto">{{ $t('stats.save') }}</v-col>
         <v-col><v-divider /></v-col>
         <v-col cols="auto"
           class="text-primary">
@@ -61,7 +61,7 @@
       <v-row dense
         align="center"
         class="my-n1">
-        <v-col cols="auto">SPEED</v-col>
+        <v-col cols="auto">{{ $t('stats.speed') }}</v-col>
         <v-col><v-divider /></v-col>
         <v-col cols="auto"
           class="text-primary">
@@ -72,7 +72,7 @@
       <v-row dense
         align="center"
         class="my-n1">
-        <v-col cols="auto">E-DEFENSE</v-col>
+        <v-col cols="auto">{{ $t('stats.edefense') }}</v-col>
         <v-col><v-divider /></v-col>
         <v-col cols="auto"
           class="text-primary">
@@ -83,7 +83,7 @@
       <v-row dense
         align="center"
         class="my-n1">
-        <v-col cols="auto">EVASION</v-col>
+        <v-col cols="auto">{{ $t('stats.evasion') }}</v-col>
         <v-col><v-divider /></v-col>
         <v-col cols="auto"
           class="text-primary">
@@ -94,7 +94,7 @@
       <v-row dense
         align="center"
         class="my-n1">
-        <v-col cols="auto">SENSOR RANGE</v-col>
+        <v-col cols="auto">{{ $t('pm.print.sensorRANGE') }}</v-col>
         <v-col><v-divider /></v-col>
         <v-col cols="auto"
           class="text-primary">
@@ -105,7 +105,7 @@
       <v-row dense
         align="center"
         class="my-n1">
-        <v-col cols="auto">LIMITED BONUS</v-col>
+        <v-col cols="auto">{{ $t('pm.print.limitedBONUS') }}</v-col>
         <v-col><v-divider /></v-col>
         <v-col cols="auto"
           class="text-primary">
@@ -116,7 +116,7 @@
       <v-row dense
         align="center"
         class="my-n1">
-        <v-col cols="auto">SYSTEM POINTS</v-col>
+        <v-col cols="auto">{{ $t('pm.print.systemPOINTS') }}</v-col>
         <v-col><v-divider /></v-col>
         <v-col cols="auto"
           class="text-primary">
@@ -131,28 +131,28 @@
       align="center">
       <v-col cols="auto"
         class="text-center">
-        <span class="font-weight-bold overline text-primary">H</span>
+        <span class="font-weight-bold overline text-primary">{{ $t('pm.print.h') }}</span>
         <cc-slashes />
         <span class="heading"
           v-text="mech.Hull" />
       </v-col>
       <v-col cols="auto"
         class="text-center">
-        <span class="font-weight-bold overline text-primary">A</span>
+        <span class="font-weight-bold overline text-primary">{{ $t('pm.print.a') }}</span>
         <cc-slashes />
         <span class="heading"
           v-text="mech.Agi" />
       </v-col>
       <v-col cols="auto"
         class="text-center">
-        <span class="font-weight-bold overline text-primary">S</span>
+        <span class="font-weight-bold overline text-primary">{{ $t('pm.print.s') }}</span>
         <cc-slashes />
         <span class="heading"
           v-text="mech.Sys" />
       </v-col>
       <v-col cols="auto"
         class="text-center">
-        <span class="font-weight-bold overline text-primary">E</span>
+        <span class="font-weight-bold overline text-primary">{{ $t('pm.print.e') }}</span>
         <cc-slashes />
         <span class="heading"
           v-text="mech.Eng" />
@@ -175,7 +175,7 @@
 
     <div class="caption text-center text-primary mt-n1"
       style="letter-spacing: 5px; font-size: 10px">
-      FRAME TRAITS
+      {{ $t('pm.print.frameTRAITS') }}
     </div>
     <v-divider />
     <div v-for="t in mech.Frame.Traits"
@@ -188,7 +188,7 @@
     <div style="position: absolute; bottom: 4px; left: 4px; right: 4px">
       <div class="caption text-center text-primary mt-2"
         style="letter-spacing: 5px; font-size: 10px">
-        CORE SYSTEM
+        {{ $t('pm.print.coreSYSTEM') }}
       </div>
 
       <v-card class="caption pa-1"
@@ -202,7 +202,7 @@
             {{
               mech.Frame.CoreSystem.PassiveName
                 ? `${mech.Frame.CoreSystem.PassiveName} (PASSIVE)`
-                : 'CORE PASSIVE'
+                : $t('pm.print.corePassive')
             }}
           </span>
           <div v-html-safe="mech.Frame.CoreSystem.PassiveEffect"
@@ -213,7 +213,7 @@
             {{
               mech.Frame.CoreSystem.ActiveName
                 ? `${mech.Frame.CoreSystem.ActiveName} (ACTIVE)`
-                : 'CORE ACTIVE'
+                : $t('pm.print.coreActive')
             }}
           </div>
           <div v-html-safe="mech.Frame.CoreSystem.ActiveEffect"
@@ -238,10 +238,10 @@
 
     <fieldset class="pb-1">
       <legend class="font-weight-bold caption text-primary px-2 text-center">
-        HP
-        <span class="text-black caption">({{ mech.MaxHP }} MAX)</span>
+        {{ $t('stats.hp') }}
+        <span class="text-black caption">{{ $t('pm.print.maxParen', { n: mech.MaxHP }) }}</span>
         <cc-slashes />
-        <span class="text-primary caption pl-1">{{ mech.Armor }} ARMOR</span>
+        <span class="text-primary caption pl-1">{{ mech.Armor }} {{ $t('stats.armor') }}</span>
       </legend>
       <div>
         <blank-line :height="40" />
@@ -250,7 +250,7 @@
         align="center"
         class="my-n2">
         <v-col cols="auto">
-          <span class="text-primary caption">STRUCTURE</span>
+          <span class="text-primary caption">{{ $t('stats.structure') }}</span>
         </v-col>
         <v-col><v-divider /></v-col>
         <v-col cols="auto">
@@ -265,8 +265,8 @@
 
     <fieldset class="pb-1">
       <legend class="font-weight-bold caption text-red px-2 text-center">
-        HEAT
-        <span class="text-black caption">({{ mech.HeatCapacity }} CAPACITY)</span>
+        {{ $t('stats.heat') }}
+        <span class="text-black caption">{{ $t('pm.print.capacityParen', { n: mech.HeatCapacity }) }}</span>
       </legend>
       <div>
         <blank-line :height="40" />
@@ -275,7 +275,7 @@
         align="center"
         class="my-n2">
         <v-col cols="auto">
-          <span class="text-red caption">STRESS</span>
+          <span class="text-red caption">{{ $t('stats.stress') }}</span>
         </v-col>
         <v-col><v-divider /></v-col>
         <v-col cols="auto">
@@ -290,8 +290,8 @@
 
     <fieldset class="pb-1">
       <legend class="font-weight-bold caption px-2 text-center">
-        REPAIRS
-        <span class="caption">({{ mech.RepairCapacity }} CAPACITY)</span>
+        {{ $t('pm.print.repairs') }}
+        <span class="caption">{{ $t('pm.print.capacityParen', { n: mech.RepairCapacity }) }}</span>
       </legend>
       <div class="pb-1">
         <blank-line :height="40" />
@@ -301,7 +301,7 @@
     <v-row dense>
       <v-col cols="8">
         <fieldset>
-          <legend class="font-weight-bold text-primary caption px-2 text-center">OVERSHIELD</legend>
+          <legend class="font-weight-bold text-primary caption px-2 text-center">{{ $t('pm.print.overshield') }}</legend>
           <div class="pb-1">
             <blank-line :height="40" />
           </div>
@@ -309,7 +309,7 @@
       </v-col>
       <v-col>
         <fieldset>
-          <legend class="font-weight-bold text-primary caption px-2 text-center">CORE</legend>
+          <legend class="font-weight-bold text-primary caption px-2 text-center">{{ $t('pm.print.core') }}</legend>
           <div class="pb-1">
             <blank-line :height="40" />
           </div>
@@ -335,7 +335,7 @@
         variant="outlined"
         color="red"
         class="ml-1">
-        &nbsp;+1d3
+        &nbsp;{{ $t('pm.print.1d3') }}
         <v-icon size="x-small"
           icon="mdi-fire" />
       </v-chip>
@@ -343,7 +343,7 @@
         variant="outlined"
         color="red"
         class="ml-1">
-        &nbsp;+1d6
+        &nbsp;{{ $t('pm.print.1d6') }}
         <v-icon size="x-small"
           icon="mdi-fire" />
       </v-chip>
@@ -351,7 +351,7 @@
         variant="outlined"
         color="red"
         class="ml-1">
-        &nbsp;+1d6+4
+        &nbsp;{{ $t('pm.print.1d64') }}
         <v-icon size="x-small"
           icon="mdi-fire" />
       </v-chip>
@@ -362,7 +362,7 @@
     :key="`mount-${i}`">
     <div class="caption text-center mt-n1"
       style="letter-spacing: 6px; font-size: 10px">
-      MECH WEAPON MOUNT
+      {{ $t('pm.print.mechWEAPONMOUNT') }}
     </div>
     <v-row dense
       align="center"
@@ -433,22 +433,22 @@
               class="caption">{{ p.Effect }}</div>
             <div v-if="p.OnMiss"
               class="caption">
-              <b>ON MISS:</b>
+              <b>{{ $t('pm.print.onMISS') }}</b>
               {{ p.OnMiss.Detail }}
             </div>
             <div v-if="p.OnAttack"
               class="caption">
-              <b>ON ATTACK:</b>
+              <b>{{ $t('pm.print.onATTACK') }}</b>
               {{ p.OnAttack.Detail }}
             </div>
             <div v-if="p.OnHit"
               class="caption">
-              <b>ON HIT:</b>
+              <b>{{ $t('pm.print.onHIT') }}</b>
               {{ p.OnHit.Detail }}
             </div>
             <div v-if="p.OnCrit"
               class="caption">
-              <b>ON CRIT:</b>
+              <b>{{ $t('pm.print.onCRIT') }}</b>
               {{ p.OnCrit.Detail }}
             </div>
           </div>
@@ -480,7 +480,7 @@
     :key="s.ID">
     <div class="caption text-center mt-n1"
       style="letter-spacing: 11px; font-size: 10px">
-      MECH SYSTEM
+      {{ $t('pm.print.mechSYSTEM') }}
     </div>
     <v-row dense
       align="center">
@@ -517,7 +517,7 @@
       :key="action.ID"
       variant="text"
       class="my-1 px-1 text-caption">
-      Gain
+      {{ $t('pm.print.gain') }}
       <v-chip label
         tile
         size="small">
@@ -532,7 +532,7 @@
       :key="`deployable-${i}`"
       variant="text"
       class="my-1 px-1 text-caption">
-      Gain
+      {{ $t('pm.print.gain') }}
       <v-chip label
         tile
         size="small">

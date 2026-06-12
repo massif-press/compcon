@@ -16,7 +16,7 @@
             height="46">
             <div v-if="!dense"
               class="heading h3 py-0 px-2">
-              Pilot Options
+              {{ $t('pm.sheet.pilotOptions') }}
             </div>
           </v-toolbar>
           <v-list :lines="mobile ? 'one' : 'two'"

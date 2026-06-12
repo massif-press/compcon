@@ -59,7 +59,7 @@
               variant="elevated"
               prepend-icon="mdi-code-block-brackets"
               @click="copyShareCode">
-              {{ $t('gm.campaign.copyShareCode') }}
+              {{ $t('common.copyShareCode') }}
             </v-btn>
           </template>
           <div class="text-center">
@@ -93,6 +93,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18n } from '@/i18n'
+const t = i18n.global.t
 import { computed, ref } from 'vue'
 import { notify } from '@/util/notify'
 import { Campaign } from '@/classes/campaign/Campaign';
@@ -142,14 +144,14 @@ async function saveLocalCollection() {
       try {
         await CampaignStore().AddCollectionCampaign(Campaign.Serialize(props.campaign as Campaign));
         notify({
-          title: 'Import Complete',
-          text: `Campaign added to local collection!`,
+          title: t('notify.gm.importCompleteTitle'),
+          text: t('notify.gm.importCompleteText'),
           data: { icon: 'cc:campaign', color: 'success' },
         });
       } catch (error) {
         notify({
-          title: 'Import Error',
-          text: `Unable to transfer campaign: ${error}`,
+          title: t('notify.gm.importErrorTitle'),
+          text: t('notify.gm.campaignTransferErrorText', { error }),
           data: { icon: 'cc:campaign', color: 'error' },
         });
       }
@@ -157,8 +159,8 @@ async function saveLocalCollection() {
 async function upload() {
       if (!isLoggedIn.value) {
         notify({
-          title: 'Login Required',
-          text: `You must be logged in to upload campaign data to the cloud repository.`,
+          title: t('notify.gm.loginRequiredTitle'),
+          text: t('notify.gm.loginRequiredText'),
           data: { icon: 'cc:campaign', color: 'error' },
         });
         return;
@@ -167,14 +169,14 @@ async function upload() {
         uploading.value = true;
         await props.campaign.CloudController.UpdateCloud('campaign');
         notify({
-          title: 'Upload Success',
-          text: `Cloud data updated!`,
+          title: t('notify.gm.uploadSuccessTitle'),
+          text: t('notify.gm.uploadSuccessText'),
           data: { icon: 'cc:campaign', color: 'success' },
         });
       } catch (error) {
         notify({
-          title: 'Upload Error',
-          text: `Unable to update cloud: ${error}`,
+          title: t('notify.gm.uploadErrorTitle'),
+          text: t('notify.gm.uploadErrorText', { error }),
           data: { icon: 'cc:campaign', color: 'error' },
         });
       } finally {
@@ -184,8 +186,8 @@ async function upload() {
 function copyShareCode() {
       navigator.clipboard.writeText(shareCode.value);
       notify({
-        title: 'Share Code Copied',
-        text: `Share code copied to clipboard!`,
+        title: t('notify.common.copied'),
+        text: t('notify.shareCode.copiedText'),
         data: { icon: 'cc:campaign', color: 'success' },
       });
     }

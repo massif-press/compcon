@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid'
+import { i18n } from '@/i18n'
 import { ItemType } from '../../enums'
 interface IClockData {
   id?: string
@@ -26,7 +27,7 @@ class Clock {
     this.ID = data?.id || uuid()
     this.segments = data?.segments || 6
     this.Progress = data?.progress || 0
-    this.Title = data?.title || 'New Clock'
+    this.Title = data?.title || i18n.global.t('classes.newClock')
     this.Description = data?.description || ''
     this.Resolution = data?.resolution || ''
     this.Linear = data?.linear || false

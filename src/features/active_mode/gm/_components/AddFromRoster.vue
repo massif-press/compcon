@@ -132,7 +132,7 @@
               </v-col>
 
               <v-col cols="auto">
-                <div class="pb-1 text-cc-overline">{{ $t('active.stats.armor') }}</div>
+                <div class="pb-1 text-cc-overline">{{ $t('stats.armor') }}</div>
                 <v-icon class="ml-1 mt-n1"
                   icon="mdi-shield-outline" />
                 {{ selected.Armor }}
@@ -146,21 +146,21 @@
               </v-col>
 
               <v-col cols="auto">
-                <div class="pb-1 text-cc-overline">{{ $t('active.stats.eDefense') }}</div>
+                <div class="pb-1 text-cc-overline">{{ $t('stats.edefense') }}</div>
                 <v-icon class="ml-1 mt-n1"
                   icon="cc:edef" />
                 {{ selected.EDefense }}
               </v-col>
 
               <v-col cols="auto">
-                <div class="pb-1 text-cc-overline">{{ $t('active.stats.evasion') }}</div>
+                <div class="pb-1 text-cc-overline">{{ $t('stats.evasion') }}</div>
                 <v-icon class="ml-1 mt-n1"
                   icon="cc:evasion" />
                 {{ selected.Evasion }}
               </v-col>
 
               <v-col cols="auto">
-                <div class="pb-1 text-cc-overline">{{ $t('active.stats.speed') }}</div>
+                <div class="pb-1 text-cc-overline">{{ $t('stats.speed') }}</div>
                 <v-icon class="ml-1 mt-n1"
                   icon="mdi-arrow-right-bold-hexagon-outline" />
                 {{ selected.Speed }}
@@ -170,25 +170,25 @@
               class="px-3 pb-1 pt-3 bg-background text-center"
               justify="space-around">
               <v-col cols="auto">
-                <div class="pb-1 text-cc-overline">{{ $t('active.stats.hull') }}</div>
+                <div class="pb-1 text-cc-overline">{{ $t('stats.hull') }}</div>
                 <v-icon class="ml-1 mt-n1"
                   icon="mdi-alpha-h-box-outline" />
                 {{ selected.MechSkillsController.MechSkills.Hull }}
               </v-col>
               <v-col cols="auto">
-                <div class="pb-1 text-cc-overline">{{ $t('active.stats.agility') }}</div>
+                <div class="pb-1 text-cc-overline">{{ $t('stats.agility') }}</div>
                 <v-icon class="ml-1 mt-n1"
                   icon="mdi-alpha-a-box-outline" />
                 {{ selected.MechSkillsController.MechSkills.Agi }}
               </v-col>
               <v-col cols="auto">
-                <div class="pb-1 text-cc-overline">{{ $t('active.stats.systems') }}</div>
+                <div class="pb-1 text-cc-overline">{{ $t('stats.systems') }}</div>
                 <v-icon class="ml-1 mt-n1"
                   icon="mdi-alpha-s-box-outline" />
                 {{ selected.MechSkillsController.MechSkills.Sys }}
               </v-col>
               <v-col cols="auto">
-                <div class="pb-1 text-cc-overline">{{ $t('active.stats.engineering') }}</div>
+                <div class="pb-1 text-cc-overline">{{ $t('stats.engineering') }}</div>
                 <v-icon class="ml-1 mt-n1"
                   icon="mdi-alpha-e-box-outline" />
                 {{ selected.MechSkillsController.MechSkills.Eng }}
@@ -197,7 +197,7 @@
 
             <div class="text-cc-overline text-disabled mt-4">
               <cc-slashes />
-              {{ $t('active.roster.pilotLoadout') }}
+              {{ $t('common.pilotLoadout') }}
             </div>
             <div class="bg-background pa-2 text-center">
               <cc-item-chip
@@ -209,7 +209,7 @@
 
             <div class="text-cc-overline text-disabled mt-4">
               <cc-slashes />
-              {{ $t('active.roster.pilotTalents') }}
+              {{ $t('compendium.categories.pilotTalents') }}
             </div>
             <v-row dense
               class="bg-background pa-1"
@@ -320,7 +320,7 @@
                 <div v-if="selected.CoreBonusController.CoreBonuses.length">
                   <div class="text-cc-overline text-disabled mt-3">
                     <cc-slashes />
-                    {{ $t('active.roster.coreBonuses') }}
+                    {{ $t('compendium.categories.coreBonuses') }}
                   </div>
                   <cc-masonry-grid :items="selected.CoreBonusController.CoreBonuses"
                     :gap="16"
@@ -449,7 +449,7 @@ function addPilot(pilot) {
         props.pilots.push(pilot);
         notify({
           title: t('active.roster.addedTitle', { callsign: pilot.Callsign }),
-          text: t('active.roster.addSuccess'),
+          text: t('notify.common.success'),
           data: { icon: 'mdi-check', color: 'success' },
         });
       }

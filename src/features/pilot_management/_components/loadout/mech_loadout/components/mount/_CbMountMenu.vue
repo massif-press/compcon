@@ -9,7 +9,7 @@
             prepend-icon="cc:corebonus"
             :class="isAvailable && 'pulse mb-n1'"
             v-bind="props">
-            <span v-if="!hasEffect && !portrait">Core Bonus Available</span>
+            <span v-if="!hasEffect && !portrait">{{ $t('pm.loadout.coreBonusAvailable') }}</span>
           </cc-button>
         </div>
       </div>
@@ -23,7 +23,7 @@
           class="px-1">
           <v-icon start
             icon="cc:corebonus" />
-          <span class="heading h3">Mount CORE Bonus</span>
+          <span class="heading h3">{{ $t('pm.loadout.mountCOREBonus') }}</span>
         </v-toolbar>
         <v-card-text class="text-center">
           <cc-button v-for="(b, index) in mech.AvailableBonuses"
@@ -37,7 +37,7 @@
               mount.AddCoreBonus(b);
             isActive.value = false;
             ">
-            Install {{ b.Name }}
+            {{ $t('pm.common.installName', { name: b.Name }) }}
           </cc-button>
           <cc-button v-for="(b, index) in mount.Bonuses"
             :key="`bonus-${index}`"
@@ -50,7 +50,7 @@
               mount.RemoveCoreBonus(b);
             isActive.value = false;
             ">
-            Remove {{ b.Name }}
+            {{ $t('pm.common.removeName', { name: b.Name }) }}
           </cc-button>
         </v-card-text>
       </v-card>

@@ -99,6 +99,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18n } from '@/i18n'
+const t = i18n.global.t
 import { computed, ref } from 'vue'
 import { notify } from '@/util/notify'
 import { Campaign } from '@/classes/campaign/Campaign';
@@ -174,8 +176,8 @@ async function publishCampaign() {
       }
       emit('published');
       notify({
-        title: 'Campaign Published',
-        text: `Version ${version.value} of ${props.campaign.Name} has been published.`,
+        title: t('notify.gm.campaignPublishedTitle'),
+        text: t('notify.gm.campaignPublishedText', { version: version.value, name: props.campaign.Name }),
         data: { color: 'success' },
       });
     }

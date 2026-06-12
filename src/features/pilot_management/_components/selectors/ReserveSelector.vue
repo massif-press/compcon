@@ -12,21 +12,21 @@
         class="mb-1"
         block
         @click="CustomDialog = true">
-        Add Custom Reserve
+        {{ $t('pm.selectors.addCustomReserve') }}
       </cc-button>
       <cc-button size="x-small"
         color="secondary"
         class="mb-1"
         block
         @click="ProjectDialog = true">
-        Add Downtime Project
+        {{ $t('pm.selectors.addDowntimeProject') }}
       </cc-button>
       <cc-button size="x-small"
         color="secondary"
         class="mb-1"
         block
         @click="OrgDialog = true">
-        Add Organization
+        {{ $t('pm.selectors.addOrganization') }}
       </cc-button>
     </template>
   </cc-compendium-browser>

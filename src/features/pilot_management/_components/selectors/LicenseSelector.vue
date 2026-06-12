@@ -18,7 +18,7 @@
         variant="outlined"
         density="compact"
         color="success"
-        v-text="'License Selection Complete'" />
+        v-text="$t('pm.selectors.licenseSelectionComplete')" />
       <v-card v-if="
         pilot.LicenseController.MaxLicensePoints > pilot.LicenseController.CurrentLicensePoints
       "
@@ -38,7 +38,7 @@
         block
         :disabled="!pilot.LicenseController.Licenses.length"
         @click="pilot.LicenseController.ClearLicenses()">
-        Reset
+        {{ $t('common.reset') }}
       </cc-button>
     </template>
 

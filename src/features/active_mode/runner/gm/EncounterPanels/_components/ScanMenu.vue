@@ -42,7 +42,7 @@
             <cc-button prepend-icon="mdi-clipboard-text-outline"
               color="accent"
               @click="copy()">
-              {{ $t('active.scan.copyClipboard') }}
+              {{ $t('common.copyToClipboard') }}
             </cc-button>
           </div>
         </v-card-text>
@@ -77,15 +77,15 @@ function copy() {
         .writeText(statblock.value)
         .then(() =>
           notify({
-            title: t('active.statblock.copiedTitle'),
-            text: t('active.statblock.copiedText'),
+            title: t('notify.statblock.copiedTitle'),
+            text: t('notify.statblock.copiedText'),
             data: { icon: 'mdi-clipboard-text-outline' },
           })
         )
         .catch(() =>
           notify({
-            title: t('active.statblock.errorTitle'),
-            text: t('active.statblock.errorText'),
+            title: t('notify.common.error'),
+            text: t('notify.statblock.errorText'),
             data: { icon: 'mdi-clipboard-text-outline', color: 'error' },
           })
         );

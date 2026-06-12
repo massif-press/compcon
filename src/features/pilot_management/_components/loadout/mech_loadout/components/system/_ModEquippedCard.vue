@@ -6,13 +6,13 @@
         <cc-broken-reference v-if="item" :item="item" />
         {{ item.Name }}
       </div>
-      <div v-else class="text-disabled">&nbsp;EMPTY SYSTEM SLOT</div>
+      <div v-else class="text-disabled">&nbsp;{{ $t('pm.loadout.emptySYSTEMSLOT') }}</div>
     </template>
 
     <template v-if="item" #header-items>
       <div v-if="!mobile" style="margin-top: -2px">
         {{ item.SP }}
-        <span style="font-size: 13px; margin-left: 2px">SP</span>
+        <span style="font-size: 13px; margin-left: 2px">{{ $t('stats.sp') }}</span>
       </div>
       <v-divider v-if="!readonly && !mobile" vertical class="ml-3" />
       <div v-if="!readonly" :class="!mobile && 'mt-n1'">
@@ -31,7 +31,7 @@
     </template>
 
     <div class="text-caption mt-1">
-      APPLIED TO:
+      {{ $t('pm.loadout.appliedTO') }}
       <b class="heading text-accent">
         {{ weapon.Name }}
       </b>

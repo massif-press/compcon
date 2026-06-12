@@ -5,7 +5,7 @@
     class="no-print">
     <v-col><v-divider /></v-col>
     <v-col cols="auto"><i class="text-grey"
-        style="font-size: 11px">Page Break</i></v-col>
+        style="font-size: 11px">{{ $t('pm.print.pageBreak') }}</i></v-col>
     <v-col><v-divider /></v-col>
   </v-row>
   <div style="break-after: page; page-break-after: always; height: 0;" />

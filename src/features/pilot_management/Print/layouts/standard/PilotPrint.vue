@@ -7,7 +7,7 @@
           align="center"
           class="mt-2">
           <v-col :cols="blank ? '' : 'auto'">
-            <div class="text-caption text-primary h0">CALLSIGN</div>
+            <div class="text-caption text-primary h0">{{ $t('pm.new.callsign') }}</div>
             <blank-line v-if="blank"
               :height="32"
               class="my-2" />
@@ -18,7 +18,7 @@
           </v-col>
           <v-col cols="auto"><cc-slashes /></v-col>
           <v-col :cols="blank ? '' : 'auto'">
-            <div class="text-caption text-primary h0">PILOT</div>
+            <div class="text-caption text-primary h0">{{ $t('pm.new.pilot') }}</div>
             <blank-line v-if="blank"
               :height="32"
               class="my-2" />
@@ -35,7 +35,7 @@
 
           <v-col cols="auto"
             class="ml-auto">
-            <div class="text-caption text-primary h0">LICENSE LEVEL</div>
+            <div class="text-caption text-primary h0">{{ $t('pm.level.licenseLEVEL') }}</div>
             <blank-line v-if="blank"
               :height="32"
               class="my-2" />
@@ -48,7 +48,7 @@
       </v-col>
       <v-col cols="auto"
         class="text-right ml-4">
-        <div class="text-caption mr-9 text-primary">GRIT</div>
+        <div class="text-caption mr-9 text-primary">{{ $t('pm.print.grit') }}</div>
         <v-icon v-if="blank"
           size="50"
           color="primary"
@@ -69,7 +69,7 @@
         <v-row class="text-center"
           justify="space-between">
           <v-col cols="auto">
-            <div class="font-weight-bold caption text-primary mb-n3">PILOT HP</div>
+            <div class="font-weight-bold caption text-primary mb-n3">{{ $t('pm.print.pilotHP') }}</div>
             <v-row v-if="blank"
               dense
               align="center"
@@ -102,7 +102,7 @@
             </div>
           </v-col>
           <v-col cols="auto">
-            <div class="font-weight-bold caption text-primary mb-n3">ARMOR</div>
+            <div class="font-weight-bold caption text-primary mb-n3">{{ $t('stats.armor') }}</div>
             <v-icon v-if="blank"
               size="45"
               color="primary"
@@ -115,7 +115,7 @@
               v-text="pilot.Armor" />
           </v-col>
           <v-col cols="auto">
-            <div class="font-weight-bold caption text-primary mb-n3">E-DEFENSE</div>
+            <div class="font-weight-bold caption text-primary mb-n3">{{ $t('stats.edefense') }}</div>
             <v-icon v-if="blank"
               size="45"
               color="primary"
@@ -128,7 +128,7 @@
               v-text="pilot.EDefense" />
           </v-col>
           <v-col cols="auto">
-            <div class="font-weight-bold caption text-primary mb-n3">EVASION</div>
+            <div class="font-weight-bold caption text-primary mb-n3">{{ $t('stats.evasion') }}</div>
             <v-icon v-if="blank"
               size="45"
               color="primary"
@@ -141,7 +141,7 @@
               v-text="pilot.Evasion" />
           </v-col>
           <v-col cols="auto">
-            <div class="font-weight-bold caption text-primary mb-n3">SPEED</div>
+            <div class="font-weight-bold caption text-primary mb-n3">{{ $t('stats.speed') }}</div>
             <v-icon v-if="blank"
               size="45"
               color="primary"
@@ -160,7 +160,7 @@
           <v-col>
             <v-row class="text-center">
               <v-col>
-                <div class="font-weight-bold caption text-primary mb-n2">HULL</div>
+                <div class="font-weight-bold caption text-primary mb-n2">{{ $t('stats.hull') }}</div>
                 <blank-line v-if="blank"
                   :width="80"
                   :height="35"
@@ -171,7 +171,7 @@
                   class="heading h2" />
               </v-col>
               <v-col>
-                <div class="font-weight-bold caption text-primary mb-n2 text-primary">AGILITY</div>
+                <div class="font-weight-bold caption text-primary mb-n2 text-primary">{{ $t('stats.agility') }}</div>
                 <blank-line v-if="blank"
                   :width="80"
                   :height="35"
@@ -182,7 +182,7 @@
                   class="heading h2" />
               </v-col>
               <v-col>
-                <div class="font-weight-bold caption text-primary mb-n2">SYSTEMS</div>
+                <div class="font-weight-bold caption text-primary mb-n2">{{ $t('stats.systems') }}</div>
                 <blank-line v-if="blank"
                   :width="80"
                   :height="35"
@@ -193,7 +193,7 @@
                   class="heading h2" />
               </v-col>
               <v-col>
-                <div class="font-weight-bold caption text-primary mb-n2">ENGINEERING</div>
+                <div class="font-weight-bold caption text-primary mb-n2">{{ $t('stats.engineering') }}</div>
                 <blank-line v-if="blank"
                   :width="80"
                   :height="35"
@@ -211,7 +211,7 @@
           justify="space-between"
           class="mt-n3">
           <v-col>
-            <div class="text-caption text-primary">SKILL TRIGGERS</div>
+            <div class="text-caption text-primary">{{ $t('pm.print.skillTRIGGERS') }}</div>
             <div class="text-left">
               <v-row v-if="blank"
                 dense
@@ -247,7 +247,7 @@
         <div>
           <div v-if="hasPilotOption('Appearance Notes')"
             class="mt-1">
-            <div class="text-cc-overline text-primary">APPEARANCE</div>
+            <div class="text-cc-overline text-primary">{{ $t('pm.new.appearance') }}</div>
             <div v-if="blank"
               class="mb-4">
               <notes :rows="5"
@@ -259,7 +259,7 @@
           </div>
           <div v-if="blank || pilot.History.length > 0"
             class="mt-1">
-            <div class="text-cc-overline text-primary">BIOGRAPHY</div>
+            <div class="text-cc-overline text-primary">{{ $t('pm.new.biography') }}</div>
             <div v-if="blank"
               class="mb-4">
               <notes :rows="5"
@@ -270,7 +270,7 @@
               class="caption" />
           </div>
           <div class="mt-1">
-            <div class="text-cc-overline text-primary">NOTES</div>
+            <div class="text-cc-overline text-primary">{{ $t('pm.print.notes') }}</div>
             <div v-if="blank || !pilot.Notes.length"
               class="mb-4">
               <notes :rows="5"
@@ -302,7 +302,7 @@
     <v-row dense
       class="mt-n6">
       <v-col>
-        <div class="text-caption mb-n2 mt-1 text-primary">TALENTS</div>
+        <div class="text-caption mb-n2 mt-1 text-primary">{{ $t('pm.new.talents') }}</div>
         <v-row v-if="blank"
           dense>
           <v-col v-for="n in 12"
@@ -364,7 +364,7 @@
 
     <div v-if="pilot.CoreBonusController.CoreBonuses.length || blank"
       class="text-caption mb-n2 mt-2 text-primary">
-      CORE BONUSES
+      {{ $t('pm.print.coreBONUSES2') }}
     </div>
     <v-row v-if="blank"
       dense>
@@ -391,7 +391,7 @@
       </v-col>
     </v-row>
 
-    <div class="text-caption mb-n2 mt-1 text-primary">PILOT LOADOUT</div>
+    <div class="text-caption mb-n2 mt-1 text-primary">{{ $t('pm.print.pilotLOADOUT') }}</div>
     <v-row dense
       justify="space-between"
       class="mt-n1 caption">
@@ -403,10 +403,10 @@
           <legend class="heading ml-1 px-1">
             <span v-if="!blank">
               {{ a.Name }}
-              <span class="text-caption flavor-text">//ARMOR</span>
+              <span class="text-caption flavor-text">{{ $t('pm.print.armor2') }}</span>
             </span>
             <span v-else
-              class="text-grey">Pilot Armor</span>
+              class="text-grey">{{ $t('pm.print.pilotArmor') }}</span>
           </legend>
           <div v-if="blank"
             style="height: 150px" />
@@ -444,10 +444,10 @@
           <legend class="heading ml-1 px-1">
             <span v-if="!blank">
               {{ w.Name }}
-              <span class="text-caption flavor-text">//WEAPON</span>
+              <span class="text-caption flavor-text">{{ $t('pm.print.weapon2') }}</span>
             </span>
             <span v-else
-              class="text-grey">Pilot Weapon</span>
+              class="text-grey">{{ $t('pm.print.pilotWeapon') }}</span>
           </legend>
           <div v-if="blank"
             style="height: 150px" />
@@ -478,10 +478,10 @@
           <legend class="heading ml-1 px-1">
             <span v-if="!blank">
               {{ g.Name }}
-              <span class="text-caption flavor-text">//GEAR</span>
+              <span class="text-caption flavor-text">{{ $t('pm.print.gear') }}</span>
             </span>
             <span v-else
-              class="text-grey">Pilot Gear</span>
+              class="text-grey">{{ $t('compendium.categories.pilotGear') }}</span>
           </legend>
           <div v-if="blank"
             style="height: 150px" />
@@ -519,7 +519,7 @@
 
   <div v-if="!blank && pilot.ReservesController.Reserves.length"
     class="pa-2">
-    <div class="text-caption mb-n2 mt-1 text-primary">RESERVES</div>
+    <div class="text-caption mb-n2 mt-1 text-primary">{{ $t('pm.print.reserves') }}</div>
     <v-row dense>
       <v-col
         v-for="(r, index) in pilot.ReservesController.Reserves.filter((x) => x.Type !== 'Bonus')"
@@ -547,7 +547,7 @@
 
   <div v-if="blank"
     class="pa-2">
-    <div class="text-caption mb-n2 mt-1 text-primary">RESERVES</div>
+    <div class="text-caption mb-n2 mt-1 text-primary">{{ $t('pm.print.reserves') }}</div>
     <v-row>
       <v-col v-for="r in hasPilotOption('Extra Reserve Space') ? 9 : 6"
         :key="`reserve-${r}`"
@@ -565,35 +565,35 @@
               variant="outlined"
               color="grey"
               class="bg-white px-1 mx-1">
-              BONUS
+              {{ $t('pm.print.bonus') }}
             </v-chip>
             <v-chip label
               size="x-small"
               variant="outlined"
               color="grey"
               class="bg-white px-1 mx-1">
-              RESOURCE
+              {{ $t('pm.print.resource') }}
             </v-chip>
             <v-chip label
               size="x-small"
               variant="outlined"
               color="grey"
               class="bg-white px-1 mx-1">
-              TACTICAL
+              {{ $t('pm.sheet.tactical') }}
             </v-chip>
             <v-chip label
               size="x-small"
               variant="outlined"
               color="grey"
               class="bg-white px-1 mx-1">
-              MECH
+              {{ $t('pm.print.mech') }}
             </v-chip>
             <v-chip label
               size="x-small"
               variant="outlined"
               color="grey"
               class="bg-white px-1 mx-1">
-              OTHER
+              {{ $t('pm.print.other') }}
             </v-chip>
           </div>
 

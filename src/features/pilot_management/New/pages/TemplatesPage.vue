@@ -5,23 +5,18 @@
     mandatory
     @back="$emit('back')"
     @complete="setTemplate()">
-    <cc-title offset>New Pilot Registration</cc-title>
+    <cc-title offset>{{ $t('pm.new.newPilotRegistration') }}</cc-title>
     <div class="heading h2">
-      UAD IDENT Service
+      {{ $t('pm.new.uadIDENTService') }}
       <cc-slashes />
-      &nbsp;PRM-ALT QUICK ACCESS SELECTION
+      &nbsp;{{ $t('pm.new.prmALTQUICKACCESSSELECTION') }}
     </div>
     <v-row density="compact"
       justify="start">
       <v-col>
         <p class="flavor-text"
           style="font-size: 14px">
-          Per the 5017 PRM-ALT Act, the Union Administrative Department's IDENT registration service
-          provides a Quick Access Selection module, created and curated by UAD Armored Cavalary
-          Support. The UAD-ACS NHP staff have generated a selection of Combat Doctrine Templates
-          based on the results of your OHM Health Examination//CR-2 Brain Activity Scan. Each of
-          these templates will populate the remainder of your IDENT Combat Registration with a
-          tailored set of combat-role-optimal responses.
+          {{ $t('pm.new.perThe5017PRMALTAct') }}
         </p>
         <v-alert color="accent"
           variant="outlined"
@@ -29,18 +24,15 @@
           class="mt-2"
           tile>
           <div class="text-center text-stark">
-            Selecting a template will complete the New Pilot interface and start your Pilot with a
-            curated set of skills and talents and an outfitted GMS EVEREST mech, tailored to the
-            combat role selected below. All of these selections may be edited at any time through
-            the Pilot and Mech Sheet loadout sections, as well as section headings with the
+            {{ $t('pm.new.selectingATemplateWillCompleteThe') }}
             <v-icon color="accent">mdi-circle-edit-outline</v-icon>
-            icon
+            {{ $t('pm.new.icon') }}
           </div>
         </v-alert>
       </v-col>
       <v-col cols="12"
         md="4">
-        <b class="heading h3 text-accent">MECH ART COURTESY OF</b>
+        <b class="heading h3 text-accent">{{ $t('pm.new.mechARTCOURTESYOF') }}</b>
         <v-img target="_blank"
           href="https://www.retrogrademinis.com/"
           src="/public/retrograde_logo.webp"

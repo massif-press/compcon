@@ -37,7 +37,7 @@
           </v-tooltip>
         </v-btn>
       </template>
-      <div class="heading h2 bg-primary py-0 px-2">Mech Options</div>
+      <div class="heading h2 bg-primary py-0 px-2">{{ $t('pm.sheet.mechOptions') }}</div>
       <v-list lines="two"
         density="compact"
         slim>

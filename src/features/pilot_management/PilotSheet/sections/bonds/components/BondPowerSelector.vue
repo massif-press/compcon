@@ -25,7 +25,7 @@
             <template #title>
               <div class="text-button">
                 <b class="text-accent">{{ pilot.BondController.Bond.Name }}</b>
-                Powers
+                {{ $t('pm.sheet.powers') }}
               </div>
             </template>
           </v-list-item>
@@ -34,7 +34,7 @@
             @click="featureSet = 'assigned'">
             <template #title>
               <div class="text-button">
-                <b>All Selected Powers</b>
+                <b>{{ $t('pm.sheet.allSelectedPowers') }}</b>
               </div>
             </template>
           </v-list-item>
@@ -48,7 +48,7 @@
               <v-list-item v-bind="props">
                 <template #title>
                   <span class="text-button">
-                    <b>Other Bonds</b>
+                    <b>{{ $t('pm.sheet.otherBonds') }}</b>
                   </span>
                 </template>
               </v-list-item>
@@ -75,13 +75,13 @@
             <v-col>
               <span class="heading h3">
                 <span class="text-accent">{{ currentSelection }}</span>
-                Powers
+                {{ $t('pm.sheet.powers') }}
               </span>
             </v-col>
             <v-col>
               <span class="heading h3">
                 <b class="text-accent">{{ pilot.BondController.TotalPowerSelections }}</b>
-                Selections Available
+                {{ $t('pm.sheet.selectionsAvailable') }}
               </span>
             </v-col>
             <v-col cols="auto">
@@ -109,7 +109,7 @@
                     size="x-small"
                     @click="pilot.BondController.AddPower(item)">
                     <v-icon start>mdi-plus</v-icon>
-                    Add {{ (item as any).name }}
+                    {{ $t('pm.common.addName', { name: (item as any).name }) }}
                   </cc-button>
                   <cc-button v-if="hasPower(item)"
                     color="warning darken-1"
@@ -117,7 +117,7 @@
                     size="x-small"
                     @click="pilot.BondController.RemovePower(item)">
                     <v-icon start>mdi-minus</v-icon>
-                    Remove {{ (item as any).name }}
+                    {{ $t('pm.common.removeName', { name: (item as any).name }) }}
                   </cc-button>
                 </div>
               </template>
@@ -128,26 +128,24 @@
               <v-alert v-if="featureSet === 'all'"
                 variant="outlined"
                 class="text-center">
-                No Bond Power selections remaining
+                {{ $t('pm.sheet.noBondPowerSelectionsRemaining') }}
                 <br />
                 <span class="caption text--secondary">
-                  Additional features beyond the recommended guidelines can be added by toggling the
-                  "Ignore Limit" option above
+                  {{ $t('pm.sheet.additionalFeaturesBeyondTheRecommendedGuidelines') }}
                 </span>
               </v-alert>
               <v-alert v-else-if="featureSet === 'assigned'"
                 variant="outlined"
                 class="text-center">
-                No Bond Powers assigned
+                {{ $t('pm.sheet.noBondPowersAssigned') }}
               </v-alert>
               <v-alert v-else
                 variant="outlined"
                 class="text-center">
-                No Bond Powers available
+                {{ $t('pm.sheet.noBondPowersAvailable') }}
                 <br />
                 <span class="caption text--secondary">
-                  Additional features beyond the recommended guidelines can be added by toggling the
-                  "Ignore Limit" option above
+                  {{ $t('pm.sheet.additionalFeaturesBeyondTheRecommendedGuidelines') }}
                 </span>
               </v-alert>
             </v-col>

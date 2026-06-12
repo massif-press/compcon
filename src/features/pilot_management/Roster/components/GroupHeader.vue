@@ -28,7 +28,7 @@
       v-bind="props"
       @click.stop="setEdit()" />
     <span class="pl-4 text-caption">
-      ({{ pilotCount }} Pilot{{ pilotCount === 1 ? '' : 's' }})
+      ({{ pilotCount }} {{ pilotCount === 1 ? $t('pm.roster.pilot') : $t('pm.roster.pilots') }})
     </span>
     <v-spacer />
     <v-divider v-if="!mobile"
@@ -60,7 +60,7 @@
               class="py-1 px-2 my-1"
               style="border-radius: 4px">
               <legend class="text-overline px-2"
-                style="line-height: 0">Description</legend>
+                style="line-height: 0">{{ $t('common.description') }}</legend>
               <div class="py-1 px-2 flavor-text">
                 <cc-text-editor-inline v-if="edit"
                   :original="group.Description"
@@ -75,7 +75,7 @@
               class="py-1 px-2 my-4"
               style="border-radius: 4px">
               <legend class="text-overline px-2"
-                style="line-height: 0">History</legend>
+                style="line-height: 0">{{ $t('pm.roster.history') }}</legend>
               <div class="py-1 px-2 flavor-text">
                 <cc-text-editor-inline v-if="edit"
                   :original="group.History"
@@ -91,7 +91,7 @@
             size="x-small"
             color="primary"
             @click="edit = false">
-            Finish Editing
+            {{ $t('pm.roster.finishEditing') }}
           </cc-button>
         </v-col>
         <v-col v-if="group.PortraitController.CloudImage || edit"
@@ -124,7 +124,7 @@
             <cc-button color="error"
               size="small"
               prepend-icon="mdi-delete"
-              v-bind="props">Delete Group
+              v-bind="props">{{ $t('pm.roster.deleteGroup') }}
             </cc-button>
           </template>
           <v-card tile>
@@ -135,10 +135,10 @@
                 <div v-if="pilotCount"
                   class="pa-1">
                   <span v-if="deletePilotsToggle">
-                    All pilots assigned to this group will be permanently deleted.
+                    {{ $t('pm.roster.allPilotsAssignedToThisGroup') }}
                   </span>
                   <span v-else>
-                    All pilots assigned to this group will be moved to the "No Group" section
+                    {{ $t('pm.roster.allPilotsAssignedToThisGroup2') }}
                   </span>
                 </div>
               </cc-alert>
@@ -160,7 +160,7 @@
                 variant="plain"
                 tile
                 @click="deleteDialog = false">
-                Dismiss
+                {{ $t('common.dismiss') }}
               </v-btn>
               <v-spacer />
               <cc-button v-if="!noGroup"
@@ -168,7 +168,7 @@
                 variant="tonal"
                 prepend-icon="mdi-delete"
                 @click="emit('delete', deletePilotsToggle)">
-                Delete Group
+                {{ $t('pm.roster.deleteGroup') }}
               </cc-button>
             </v-card-actions>
           </v-card>
@@ -208,7 +208,7 @@
             :stacked="!mobile"
             prepend-icon="mdi-transfer"
             :disabled="!transferrable.length">
-            {{ mobile ? 'Transfer' : 'Transfer Pilots' }}
+            {{ mobile ? $t('pm.roster.transfer') : $t('pm.roster.transferPilots') }}
             <v-menu activator="parent"
               :close-on-content-click="false">
               <v-card flat
@@ -242,7 +242,7 @@
             block
             prepend-icon="mdi-plus"
             @click="router.push({ name: 'new', params: { groupID: group.ID } })">
-            Create New Pilot
+            {{ $t('pm.roster.createNewPilot') }}
             <template #info>
               <v-icon size="small"
                 icon="cc:pilot" />
@@ -250,8 +250,8 @@
             <template #subtitle>
               <div class="text-cc-overline"
                 style="font-size: max(8px, calc(8px + 0.2vw)) !important">
-                <span v-if="group.ID === 'no_group'">Add a new pilot to the roster</span>
-                <span v-else>Add a new pilot to {{ group.Name }}</span>
+                <span v-if="group.ID === 'no_group'">{{ $t('pm.roster.addANewPilotToThe') }}</span>
+                <span v-else>{{ $t('pm.roster.addANewPilotToName', { name: group.Name }) }}</span>
               </div>
             </template>
           </cc-button>
@@ -265,7 +265,7 @@
                 :stacked="!mobile"
                 prepend-icon="mdi-dots-vertical"
                 @click="props.onClick($event)">
-                Import
+                {{ $t('common.import') }}
               </cc-button>
             </template>
             <v-card tile
@@ -280,7 +280,7 @@
                       block
                       prepend-icon="mdi-import"
                       @click="open">
-                      File Import
+                      {{ $t('common.fileImport') }}
                     </cc-button>
                   </template>
                   <template #default="{ close }">
@@ -300,7 +300,7 @@
           :stacked="!mobile"
           prepend-icon="mdi-export"
           @click="emit('export')">
-          Export
+          {{ $t('common.export') }}
         </cc-button>
       </v-row>
     </div>

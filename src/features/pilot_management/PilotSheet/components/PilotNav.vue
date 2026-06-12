@@ -16,7 +16,7 @@
         :size="xs ? 'small' : ''"
         :selected="selected === 1"
         @click="$emit('to', 1)">
-        NARRATIVE
+        {{ $t('pm.sheet.narrative') }}
       </v-tab>
       <v-tab v-if="hasBonds"
         variant="text"
@@ -24,28 +24,28 @@
         :class="selected === 2 ? 'bg-white' : ''"
         :selected="selected === 2"
         @click="$emit('to', 2)">
-        BONDS
+        {{ $t('pm.sheet.bonds') }}
       </v-tab>
       <v-tab variant="text"
         :class="selected === 3 ? 'bg-white' : ''"
         :size="xs ? 'small' : ''"
         :selected="selected === 3"
         @click="$emit('to', 3)">
-        TACTICAL
+        {{ $t('pm.sheet.tactical') }}
       </v-tab>
       <v-tab variant="text"
         :class="selected === 4 ? 'bg-white' : ''"
         :size="xs ? 'small' : ''"
         :selected="selected === 4"
         @click="$emit('to', 4)">
-        HANGAR
+        {{ $t('pm.sheet.hangar') }}
       </v-tab>
       <v-tab variant="text"
         :class="selected === 5 ? 'bg-white' : ''"
         :size="xs ? 'small' : ''"
         :selected="selected === 5"
         @click="$emit('to', 5)">
-        OPTIONS
+        {{ $t('pm.sheet.options') }}
       </v-tab>
     </v-tabs>
   </v-bottom-navigation>
@@ -61,7 +61,7 @@
           location="top"
           text="Pilot Skill Triggers, Reserves, and Pilot Gear Loadout">
           <template #activator="{ props }">
-            <span v-bind="props">NARRATIVE PROFILE</span>
+            <span v-bind="props">{{ $t('pm.sheet.narrativePROFILE') }}</span>
           </template>
         </v-tooltip>
       </nav-item>
@@ -72,7 +72,7 @@
           location="top"
           text="Pilot Bonds">
           <template #activator="{ props }">
-            <span v-bind="props">BONDS</span>
+            <span v-bind="props">{{ $t('pm.sheet.bonds') }}</span>
           </template>
         </v-tooltip>
       </nav-item>
@@ -82,7 +82,7 @@
           location="top"
           text="Pilot Licenses, Mech Skills, CORE Bonuses, and Talents">
           <template #activator="{ props }">
-            <span v-bind="props">TACTICAL PROFILE</span>
+            <span v-bind="props">{{ $t('pm.sheet.tacticalPROFILE') }}</span>
           </template>
         </v-tooltip>
       </nav-item>
@@ -92,7 +92,7 @@
           location="top"
           text="Create and Modify Mechs and their Loadouts">
           <template #activator="{ props }">
-            <span v-bind="props">MECH HANGAR</span>
+            <span v-bind="props">{{ $t('pm.sheet.mechHANGAR') }}</span>
           </template>
         </v-tooltip>
       </nav-item>
@@ -165,6 +165,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18n } from '@/i18n'
+const t = i18n.global.t
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useDisplay } from 'vuetify'
@@ -207,8 +209,8 @@ async function remoteUpdate() {
   if (!isAuthed.value) return
   if (!props.pilot.CloudController.isSynced) {
     notify({
-      title: `Pilot Up-to-date`,
-      text: `Pilot ${props.pilot.Callsign} // ${props.pilot.Name} already has the most recent cloud data. No update needed.`,
+      title: t('notify.pilot.upToDateTitle'),
+      text: t('notify.pilot.upToDateText', { callsign: props.pilot.Callsign, name: props.pilot.Name }),
       data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
     })
   } else {
@@ -216,14 +218,14 @@ async function remoteUpdate() {
       await CloudController.UpdateRemote(props.pilot)
       await UserStore().refreshDbData()
       notify({
-        title: `Sync Complete`,
-        text: `Pilot ${props.pilot.Callsign} // ${props.pilot.Name} synced.`,
+        title: t('notify.transfer.syncCompleteTitle'),
+        text: t('notify.pilot.syncedText', { callsign: props.pilot.Callsign, name: props.pilot.Name }),
         data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
       })
     } catch (err) {
       notify({
-        title: `Sync Failed`,
-        text: `Failed to sync Pilot ${props.pilot.Callsign} // ${props.pilot.Name}. ${err}`,
+        title: t('notify.transfer.syncFailedTitle'),
+        text: t('notify.pilot.syncFailedText', { callsign: props.pilot.Callsign, name: props.pilot.Name, err }),
         data: { icon: 'mdi-alert', color: 'error' },
       })
     }

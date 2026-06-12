@@ -17,13 +17,15 @@
       <cc-button prepend-icon="mdi-clipboard-text-outline"
         color="accent"
         @click="copy()">
-        {{ $t('gm.npcStatblock.copyToClipboard') }}
+        {{ $t('common.copyToClipboard') }}
       </cc-button>
     </div>
   </v-card-text>
 </template>
 
 <script setup lang="ts">
+import { i18n } from '@/i18n'
+const t = i18n.global.t
 import { computed, ref } from 'vue'
 import { notify } from '@/util/notify'
 import { Unit } from '@/classes/npc/unit/Unit';
@@ -44,15 +46,15 @@ function copy() {
     .writeText(statblock.value)
     .then(() =>
       notify({
-        title: 'Statblock Copied to Clipboard',
-        text: 'Copy Success',
+        title: t('notify.statblock.copiedTitle'),
+        text: t('notify.statblock.copiedText'),
         data: { icon: 'mdi-clipboard-text-outline' },
       })
     )
     .catch(() =>
       notify({
-        title: 'Error',
-        text: 'Unable to copy statblock',
+        title: t('notify.common.error'),
+        text: t('notify.statblock.errorText'),
         data: { icon: 'mdi-clipboard-text-outline', color: 'error' },
       })
     );

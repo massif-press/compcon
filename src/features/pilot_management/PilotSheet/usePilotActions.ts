@@ -39,8 +39,8 @@ function usePilotActions(props: { pilot: any }) {
       await CloudController.UpdateRemote(props.pilot)
       await UserStore().refreshDbData()
       notify({
-        title: t('pm.sync.syncCompleteTitle'),
-        text: t('pm.sync.syncCompleteText', {
+        title: t('notify.share.syncCompleteTitle'),
+        text: t('notify.pilot.syncedText', {
           callsign: props.pilot.Callsign,
           name: props.pilot.Name,
         }),
@@ -49,8 +49,8 @@ function usePilotActions(props: { pilot: any }) {
     } catch (err) {
       logger.error(`Error syncing pilot: ${err}`, props.pilot, err)
       notify({
-        title: t('pm.sync.syncFailedTitle'),
-        text: t('pm.sync.syncFailedText', {
+        title: t('notify.share.syncFailedTitle'),
+        text: t('notify.pilot.syncFailedText', {
           callsign: props.pilot.Callsign,
           name: props.pilot.Name,
           err: String(err),

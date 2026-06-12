@@ -43,7 +43,7 @@
               block
               prepend-icon="mdi-plus"
               @click="open">
-              Add Equipment
+              {{ $t('pm.sheet.addEquipment') }}
             </cc-button>
           </template>
           <template #default="{ close }">
@@ -62,7 +62,7 @@
               block
               prepend-icon="mdi-plus"
               @click="open">
-              Add Exotic Equipment
+              {{ $t('pm.sheet.addExoticEquipment') }}
             </cc-button>
           </template>
           <template #default="{ close }">

@@ -148,7 +148,7 @@
             size="small"
             color="accent"
             @click="dialog = false">
-            {{ $t('ui.widget.saveAndClose') }}
+            {{ $t('common.saveAndClose') }}
           </v-btn>
         </v-card-actions>
       </v-card>

@@ -1,7 +1,7 @@
 <template>
   <v-app id="app">
     <a href="#main-content"
-      class="skip-link">Skip to main content</a>
+      class="skip-link">{{ $t('common.skipToMainContent') }}</a>
     <pwa-update-prompt />
     <cc-notify />
     <navbar aria-label="Main navigation" />

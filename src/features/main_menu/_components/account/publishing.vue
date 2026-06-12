@@ -304,7 +304,7 @@
                             class="fade-select"
                             @click="copy(collection.Metadata.code)" />
                         </template>
-                        <div class="text-center">{{ $t("mainMenu.publishing.copyShareCode") }}</div>
+                        <div class="text-center">{{ $t("common.copyShareCode") }}</div>
                       </v-tooltip>
                       <div class="text-left text-caption text-disabled">
                         {{ $t("mainMenu.publishing.lastUpdateOn", { date: new Date(collection.Metadata?.updated || 0).toLocaleString() }) }}
@@ -372,6 +372,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18n } from '@/i18n'
+const t = i18n.global.t
 import { computed, ref } from 'vue'
 import { notify } from '@/util/notify'
 import { ContentCollection } from '@/classes/components/cloud/ContentCollection';
@@ -428,15 +430,15 @@ async function Publish(version: 'minor' | 'major') {
         await collection.Publish(version);
         await UserStore().refreshDbData();
         notify({
-          title: 'Published',
-          text: `Collection ${collection.Name} published as version ${collection.Version}`,
+          title: t('notify.account.publishedTitle'),
+          text: t('notify.account.collectionPublishedText', { name: collection.Name, version: collection.Version }),
           data: { color: 'success', icon: 'mdi-check-circle-outline' },
         });
       } catch (e) {
         logger.error(`Failed to publish collection ${collection.Name}: ${e}`, this, e);
         notify({
-          title: 'Error',
-          text: `Failed to publish collection ${collection.Name}`,
+          title: t('notify.common.error'),
+          text: t('notify.account.collectionPublishFailedText', { name: collection.Name }),
           data: { color: 'error', icon: 'mdi-alert' },
         });
       } finally {
@@ -446,8 +448,8 @@ async function Publish(version: 'minor' | 'major') {
 function copy(code) {
       navigator.clipboard.writeText(code);
       notify({
-        title: 'Copied',
-        text: 'Collection share code copied to clipboard',
+        title: t('notify.common.copied'),
+        text: t('notify.shareCode.collectionCopiedText'),
         data: { color: 'success', icon: 'mdi-check-circle-outline' },
       });
     }

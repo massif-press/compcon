@@ -2,7 +2,7 @@
   <v-card-text class="flavor-text">
     <v-card flat tile>
       <fieldset class="pa-2">
-        <legend class="clipped-small heading h3">General Print Options&emsp;</legend>
+        <legend class="clipped-small heading h3">{{ $t('print.generalOptions') }}&emsp;</legend>
         <v-row v-if="options.layout.title !== 'Cards'">
           <v-col>
             <print-option-select
@@ -35,7 +35,7 @@
         flat
         tile>
         <fieldset class="pa-2">
-          <legend class="clipped-small heading h3">Options&emsp;</legend>
+          <legend class="clipped-small heading h3">{{ $t('print.options') }}&emsp;</legend>
           <print-option-select
             v-model="options.include"
             multiple
@@ -48,7 +48,7 @@
       flat
       tile>
       <fieldset class="pa-2">
-        <legend>Extras</legend>
+        <legend>{{ $t('print.extras') }}</legend>
         <print-option-select
           v-model="options.extras"
           multiple

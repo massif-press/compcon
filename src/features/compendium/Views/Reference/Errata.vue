@@ -104,6 +104,7 @@
 <script setup lang="ts">
 import { computed, ref, onMounted } from 'vue'
 import logger from '@/user/logger';
+import { DEFAULT_LCP_NAME } from '@/classes/LcpItemMixin';
 import { marked } from 'marked';
 import { useDisplay } from 'vuetify';
 
@@ -154,7 +155,7 @@ function convertToJson(markdown) {
 function srdFormat(arr) {
       return arr.map((item) => {
         let out = {
-          book: 'Lancer Core Book',
+          book: DEFAULT_LCP_NAME,
         };
         const titleMatch = item.heading.match(/^page (\d+), (.+)$/i);
         if (titleMatch) {

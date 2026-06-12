@@ -42,7 +42,7 @@
         class="no-print pa-2">
         <v-btn stacked
           @click="$router.go(-1)">
-          <span>Close Preview</span>
+          <span>{{ $t('common.closePreview') }}</span>
           <v-icon icon="mdi-close" />
         </v-btn>
         <v-select v-model="selectedPilot"
@@ -72,7 +72,7 @@
         <cc-modal title="Print Options">
           <template #activator="{ open }">
             <v-btn @click="open">
-              <span>Options</span>
+              <span>{{ $t('pm.print.options') }}</span>
               <v-icon icon="mdi-cog" />
             </v-btn>
           </template>
@@ -80,7 +80,7 @@
             :options="options" />
         </cc-modal>
         <v-btn @click="print()">
-          <span>Print</span>
+          <span>{{ $t('common.print') }}</span>
           <v-icon icon="mdi-printer" />
         </v-btn>
       </v-bottom-navigation>

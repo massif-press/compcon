@@ -1,4 +1,5 @@
 import { Status } from '@/classes/Status';
+import { i18n } from '@/i18n'
 import { CompendiumStore } from '@/features/compendium/store';
 import logger from '@/user/logger';
 import { EffectSave } from './EffectSave';
@@ -38,7 +39,7 @@ class EffectStatus {
       logger.error(`Status with ID '${this._statusId}' not found in compendium.`);
       return new Status({
         id: 'unknown',
-        name: 'Unknown Status',
+        name: i18n.global.t('classes.unknownStatus'),
         type: 'Status',
         icon: '',
         effects: ['Status data not found!'],

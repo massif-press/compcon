@@ -1,10 +1,10 @@
 <template>
   <fieldset class="flavor-text">
     <legend class="px-2">
-      Loadout <cc-slashes /> {{
+      {{ $t('pm.sheet.loadout') }} <cc-slashes /> {{
         mech.MechLoadoutController.ActiveLoadout
           ? mech.MechLoadoutController.ActiveLoadout.Name
-          : 'ERR'
+          : $t('pm.sheet.err')
       }}
     </legend>
     <div v-if="mech.MechLoadoutController.ActiveLoadout"
@@ -14,7 +14,7 @@
         <span v-if="i + 1 < loadoutWeapons.length">&nbsp;&mdash;&nbsp;</span></span>
       <div class="mt-1" />
       <span v-for="(item, i) in loadoutSystems" :key="`system-${i}`">
-        {{ Number(i) > 0 ? ' - ' : '' }}
+        <span v-if="Number(i) > 0"> - </span>
         <span class="text-text"
           v-html-safe="item" />
       </span>

@@ -1,4 +1,5 @@
 import { Clock, IClockData } from './elements/Clock';
+import { i18n } from '@/i18n'
 import { IRollableTableData, RollableTable } from './elements/RollableTable';
 import { INarrativeElement } from './INarrativeElement';
 import { assertController } from '../utility/assertController'
@@ -99,7 +100,7 @@ class NarrativeController {
   }
 
   public AddClock(c?: IClockData) {
-    this.Clocks.push(new Clock(c ? c : { title: 'New Clock' }));
+    this.Clocks.push(new Clock(c ? c : { title: i18n.global.t('classes.newClock') }));
     this.Parent.SaveController.save();
   }
 
@@ -122,7 +123,7 @@ class NarrativeController {
   }
 
   public AddTable(t?: IRollableTableData) {
-    this.Tables.push(new RollableTable(t ? t : { title: 'New Table' }));
+    this.Tables.push(new RollableTable(t ? t : { title: i18n.global.t('classes.newTable') }));
     this.Parent.SaveController.save();
   }
 

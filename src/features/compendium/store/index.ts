@@ -9,6 +9,7 @@ import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
 import { WeaponMod } from '@/classes/mech/components/equipment/WeaponMod'
 import { MechSystem } from '@/classes/mech/components/equipment/MechSystem'
 import Tag, { ITagCompendiumData } from '@/classes/Tag'
+import { DEFAULT_LCP_NAME } from '@/classes/LcpItemMixin'
 import { Talent } from '@/classes/pilot/components/talent/Talent'
 import { Reserve } from '@/classes/pilot/components/reserves/Reserve'
 import { Manufacturer } from '@/classes/Manufacturer'
@@ -302,7 +303,7 @@ export const CompendiumStore = defineStore('compendium', {
               id: item.ID,
               title: item.Name,
               type: item.ItemType,
-              pack: item.Brew?.LcpName || 'Lancer Core Book',
+              pack: item.Brew?.LcpName || DEFAULT_LCP_NAME,
               path: this.referenceLink(item, true),
               icon: item.Icon,
             }))

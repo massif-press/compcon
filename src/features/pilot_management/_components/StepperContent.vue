@@ -5,7 +5,7 @@
     :height="mobile ? 26 : 46"
     class="border-t-sm"
     style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 901">
-    <cc-button :size="mobile ? 'small' : 'default'" variant="text" :to="exit">EXIT</cc-button>
+    <cc-button :size="mobile ? 'small' : 'default'" variant="text" :to="exit">{{ $t('common.exit') }}</cc-button>
     <v-spacer />
     <cc-button
       color="primary"
@@ -13,7 +13,7 @@
       :size="mobile ? 'small' : 'default'"
       class="ml-auto mr-2"
       @click="$emit('back')">
-      BACK
+      {{ $t('common.back') }}
     </cc-button>
     <v-spacer />
     <slot name="other" />
@@ -25,7 +25,7 @@
       :variant="!(complete || mandatory) ? 'text' : 'elevated'"
       :class="complete && 'pulse'"
       @click="$emit('complete')">
-      {{ complete || mandatory ? 'CONTINUE' : 'SKIP STEP' }}
+      {{ complete || mandatory ? $t('common.continue') : $t('pm.misc.skipSTEP') }}
     </cc-button>
   </v-footer>
 </template>

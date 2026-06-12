@@ -8,7 +8,7 @@
         color="success"
         prepend-icon="mdi-check"
         @click="exitDragMode">
-        Done Reordering
+        {{ $t('pm.roster.doneReordering') }}
       </cc-button>
     </div>
     <v-row align="center">
@@ -16,10 +16,10 @@
         md="auto">
         <div>
           <div class="heading h1"
-            style="line-height: 0">Pilot Roster <span v-if="rosterSearch"
+            style="line-height: 0">{{ $t('common.pilotRoster') }} <span v-if="rosterSearch"
               class="text-caption text-italic text-disabled">
               <br v-if="mobile" />
-              {{ hiddenPilotCount }} pilot{{ hiddenPilotCount === 1 ? '' : 's' }} hidden
+              {{ hiddenPilotCount }} {{ hiddenPilotCount === 1 ? $t('pm.roster.pilotLower') : $t('pm.roster.pilotsLower') }} {{ $t('pm.roster.hidden') }}
             </span></div>
         </div>
 
@@ -78,7 +78,7 @@
             @click="open">
             <v-icon start
               icon="mdi-queue-first-in-last-out" />
-            Organize
+            {{ $t('pm.roster.organize') }}
           </cc-button>
         </template>
         <organizer type="pilot" />
@@ -127,7 +127,7 @@
             size="small"
             prepend-icon="mdi-plus"
             @click="props.onClick($event)">
-            Add Group
+            {{ $t('pm.roster.addGroup') }}
           </cc-button>
         </template>
         <v-card tile
@@ -141,7 +141,7 @@
                   block
                   prepend-icon="mdi-plus"
                   @click="open">
-                  Add New
+                  {{ $t('pm.roster.addNew') }}
                 </cc-button>
               </template>
               <template #default="{ close }">
@@ -157,7 +157,7 @@
                   block
                   prepend-icon="mdi-import"
                   @click="open">
-                  File Import
+                  {{ $t('common.fileImport') }}
                 </cc-button>
               </template>
               <template #default="{ close }">

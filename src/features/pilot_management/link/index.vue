@@ -9,26 +9,26 @@
       variant="outlined">
       <p v-if="rateLimitError.isDaily"
         class="text-center">
-        The daily request limit has been reached. Please try again tomorrow.
+        {{ $t('pm.link.theDailyRequestLimitHasBeen') }}
       </p>
       <p v-else-if="rateLimitError.retryAfter"
         class="text-center">
-        Too many requests. Please try again in
+        {{ $t('pm.link.tooManyRequestsPleaseTryAgain') }}
         <span class="text-accent">{{ rateLimitRetryLabel }}</span>.
       </p>
       <p v-else
         class="text-center">
-        Too many requests. Please try again shortly.
+        {{ $t('pm.link.tooManyRequestsPleaseTryAgain2') }}
       </p>
     </cc-alert>
     <div v-else-if="!pilot">
       <v-row class="mt-4">
         <v-col>
-          <div class="heading h2">Pilot Not Found</div>
+          <div class="heading h2">{{ $t('pm.link.pilotNotFound') }}</div>
           <p class="text-center">
-            A pilot with the share code
+            {{ $t('pm.link.aPilotWithTheShareCode') }}
             <span class="text-accent">{{ sharecode }}</span>
-            could not be found.
+            {{ $t('pm.link.couldNotBeFound') }}
           </p>
         </v-col>
       </v-row>
@@ -36,17 +36,17 @@
     <div v-else-if="incompatible">
       <v-row class="mt-4">
         <v-col>
-          <div class="heading h2">Pilot requires re-sync</div>
+          <div class="heading h2">{{ $t('pm.link.pilotRequiresReSync') }}</div>
           <p class="text-center">
-            Pilot
+            {{ $t('pm.roster.pilot') }}
             <b class="text-accent">
               {{ itemData.callsign }}
             </b>
 
             {{ `(${itemData.name})` }}
-            with share code
+            {{ $t('pm.link.withShareCode') }}
             <span class="text-accent">{{ sharecode }}</span>
-            must be re-synced to the author's account before it can be viewed.
+            {{ $t('pm.link.mustBeReSyncedToThe') }}
           </p>
         </v-col>
       </v-row>
@@ -85,11 +85,11 @@
       size="small"
       class="mr-2"
       @click="$router.go(-1)">
-      Back
+      {{ $t('common.back') }}
     </cc-button>
     <cc-button prepend-icon="mdi-home"
       size="small"
-      to="/">Main Menu</cc-button>
+      to="/">{{ $t('common.mainMenu') }}</cc-button>
 
     <v-spacer />
     <v-tooltip location="top"
@@ -100,7 +100,7 @@
           icon="mdi-share-variant"
           @click="copyToClipboard" />
       </template>
-      <span>Copy link</span>
+      <span>{{ $t('common.copyLink') }}</span>
     </v-tooltip>
   </v-footer>
 </template>

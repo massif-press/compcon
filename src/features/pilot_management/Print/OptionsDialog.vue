@@ -3,7 +3,7 @@
     <v-card flat
       tile>
       <fieldset class="pa-2">
-        <legend class="clipped-small heading h3">General Print Options&emsp;</legend>
+        <legend class="clipped-small heading h3">{{ $t('pm.print.generalPrintOptions') }}&emsp;</legend>
         <print-option-select v-model="options.layout"
           mandatory
           title="Layout"
@@ -55,7 +55,7 @@
         flat
         tile>
         <fieldset class="pa-2">
-          <legend class="clipped-small heading h3">Pilot Sheet Options&emsp;</legend>
+          <legend class="clipped-small heading h3">{{ $t('pm.print.pilotSheetOptions') }}&emsp;</legend>
           <print-option-select v-model="options.pilotInclude"
             multiple
             widen
@@ -68,7 +68,7 @@
         flat
         tile>
         <fieldset class="pa-2">
-          <legend class="clipped-small heading h3">Mech Sheet Options&emsp;</legend>
+          <legend class="clipped-small heading h3">{{ $t('pm.print.mechSheetOptions') }}&emsp;</legend>
           <print-option-select v-model="options.mechInclude"
             multiple
             widen
@@ -79,7 +79,7 @@
     <v-card flat
       tile>
       <fieldset class="pa-2">
-        <legend>Extras</legend>
+        <legend>{{ $t('pm.print.extras') }}</legend>
         <print-option-select v-model="options.extras"
           multiple
           :items="extraOptions" />

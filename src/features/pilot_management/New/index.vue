@@ -6,29 +6,29 @@
       <v-tab value="ident">
         <v-icon v-show="pilot.HasIdent"
           icon="mdi-check" />
-        Identification
+        {{ $t('pm.new.identification') }}
       </v-tab>
       <v-tab value="skills">
         <v-icon v-show="pilot.SkillsController.HasFullSkills"
           icon="mdi-check" />
-        Skills
+        {{ $t('pm.level.skills') }}
       </v-tab>
       <v-tab value="talents">
         <v-icon v-show="pilot.TalentsController.HasFullTalents"
           icon="mdi-check" />
-        Talents
+        {{ $t('pm.level.talents') }}
       </v-tab>
       <v-tab value="mechskills">
         <v-icon v-show="pilot.MechSkillsController.HasFullHASE"
           icon="mdi-check" />
-        Mech Skills
+        {{ $t('pm.level.mechSkills') }}
       </v-tab>
       <v-slide-x-transition mode="out-in">
         <v-tab v-if="pilot.Level > 0"
           value="licenses">
           <v-icon v-show="pilot.LicenseController.HasLicenses"
             icon="mdi-check" />
-          Licenses
+          {{ $t('compendium.categories.licenses') }}
         </v-tab>
       </v-slide-x-transition>
       <v-slide-x-transition mode="out-in">
@@ -36,10 +36,10 @@
           value="corebonuses">
           <v-icon v-show="pilot.CoreBonusController.HasCBs"
             icon="mdi-check" />
-          Core Bonuses
+          {{ $t('compendium.categories.coreBonuses') }}
         </v-tab>
       </v-slide-x-transition>
-      <v-tab value="confirm">Confirm</v-tab>
+      <v-tab value="confirm">{{ $t('common.confirm') }}</v-tab>
     </template>
     <v-container>
       <template #default>

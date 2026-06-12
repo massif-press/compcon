@@ -123,7 +123,7 @@
                     $emit('open-import');
                   isActive.value = false;
                   ">
-                  {{ $t('gm.split.fileImport') }}
+                  {{ $t('common.fileImport') }}
                 </cc-button>
                 <div class="my-1" />
                 <share-code-dialog import-type="npc"

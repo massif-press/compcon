@@ -9,7 +9,7 @@
     @select="stageSelect($event)"
     @equip="handleEquip($event)">
     <template #header>
-      <div class="heading h3 text-center text-accent">Mech Weapons</div>
+      <div class="heading h3 text-center text-accent">{{ $t('compendium.categories.mechWeapons') }}</div>
     </template>
     <template #top>
       <v-row>
@@ -17,7 +17,7 @@
           <div v-if="weaponSlot.Weapon">
             <div v-if="!mobile"
               class="text-cc-overline">
-              UNION ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }}
+              {{ $t('pm.loadout.unionArmoryPrintid') }} {{ fID('ANN-NNN-NNN::AA//AA') }}
             </div>
             <div class="heading h2 text-accent">
               {{ weaponSlot.Weapon.Name }}
@@ -30,7 +30,7 @@
             </div>
             <div v-if="!selected"
               class="flavor-text text-cc-overline">
-              CURRENTLY EQUIPPED
+              {{ $t('pm.loadout.currentlyEQUIPPED') }}
             </div>
             <div v-else
               class="flavor-text text-cc-overline">
@@ -80,10 +80,10 @@
           </div>
           <div v-else-if="!mobile">
             <div class="text-cc-overline">
-              UNION ARMORY EQUIPMENT AUTHORIZATION: FRAME EQUIPMENT//COMBAT SYSTEM
+              {{ $t('pm.loadout.unionARMORYEQUIPMENTAUTHORIZATIONFRAMEEQUIPMENT') }}
             </div>
-            <div class="heading h2 text-disabled">NO SELECTION</div>
-            <div class="flavor-text overline text-error">[ EQUIPMENT ID INVALID OR MISSING ]</div>
+            <div class="heading h2 text-disabled">{{ $t('pm.loadout.noSELECTION') }}</div>
+            <div class="flavor-text overline text-error">{{ $t('pm.loadout.equipmentIDINVALIDORMISSING') }}</div>
           </div>
         </v-col>
         <v-col cols="12"

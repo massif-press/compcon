@@ -7,7 +7,7 @@
     equippable
     @equip="select($event)">
     <template #header>
-      <div class="heading h4 text-center text-accent">Select New Frame</div>
+      <div class="heading h4 text-center text-accent">{{ $t('pm.sheet.selectNewFrame') }}</div>
     </template>
 
     <template #top>
@@ -28,7 +28,7 @@
     <v-row justify="center">
       <v-col cols="11"
         md="8">
-        <span class="text-overline">XK-4-01 // REGISTER MECH NAME</span>
+        <span class="text-overline">{{ $t('pm.sheet.xk401REGISTERMECHNAME') }}</span>
         <v-text-field v-model="mechName"
           variant="outlined"
           label="Name"
@@ -68,7 +68,7 @@
         class="px-10"
         :disabled="!mechName"
         @click="addMech()">
-        Register New Mech
+        {{ $t('pm.sheet.registerNewMech') }}
       </cc-button>
     </div>
   </cc-modal>

@@ -7,30 +7,27 @@
     @complete="$emit('next')">
     <cc-title :large="context === 'level'"
       offset>
-      {{ context === 'new' ? 'Pilot Talents' : 'Add CORE Bonus' }}&emsp;
+      {{ context === 'new' ? $t('compendium.categories.pilotTalents') : $t('pm.shared.addCOREBonus') }}&emsp;
     </cc-title>
 
     <div v-if="context === 'new'"
       class="heading h2">
-      UAD IDENT Service <cc-slashes /> &nbsp;RM-4c (S-2) Core Modification Supplemental
+      {{ $t('pm.new.uadIDENTService') }} <cc-slashes /> &nbsp;{{ $t('pm.shared.rm4cS2CoreModification') }}
     </div>
     <div v-else
       class="heading h2">
-      MV-2 License Acquisition Request <cc-slashes /> &nbsp;MV-2(a) CORE Supplemental
+      {{ $t('pm.level.mv2LicenseAcquisitionRequest') }} <cc-slashes /> &nbsp;{{ $t('pm.shared.mv2ACORESupplemental') }}
     </div>
 
     <p v-if="context === 'new'"
       class="flavor-text"
       style="font-size: 14px">
-      The RM-4β Supplemental II (Core Modification) registers a individual pilot's Core Modification
-      Data (CMD) Archive to be made available for printing and outfitting services.
+      {{ $t('pm.shared.theRM4SupplementalIICore') }}
     </p>
     <p v-else
       class="flavor-text"
       style="font-size: 14px">
-      The MV-2(a) Supplemental Amendment registers a major CORE modification, upgrade, retrofit, or
-      enhancement. The Union Naval Intelligence Board only recognizes CORE augmentation from a
-      Union-approved and registered Lincensor.
+      {{ $t('pm.shared.theMV2ASupplementalAmendment') }}
     </p>
 
     <v-alert color="accent"
@@ -40,12 +37,11 @@
       tile>
       <div class="heading">
         {{ context === 'new'
-          ? `Select ${word} (${count}) Core ${count > 1 ? 'Bonuses' : 'Bonus'}.`
-          : 'Select a CORE Bonus' }}
+          ? $t('pm.shared.selectCoreBonusesN', { word, count, item: count > 1 ? $t('pm.shared.bonusesWord') : $t('pm.shared.bonusWord') })
+          : $t('pm.shared.selectACoreBonus') }}
       </div>
       <p class="text-cc-overline">
-        The Union Licensing Authority and the Union Administration Department hereby disclaim any
-        and all responsibility for Core Modifications.
+        {{ $t('pm.shared.theUnionLicensingAuthorityAndThe') }}
       </p>
     </v-alert>
 
@@ -59,9 +55,9 @@
         tile
         color="panel">
         <v-card-text class="flavor-text text-center py-5 px-3">
-          <span class="heading h2 text-disabled">PILOT INELIGIBLE FOR CORE BONUS</span>
+          <span class="heading h2 text-disabled">{{ $t('pm.shared.pilotINELIGIBLEFORCOREBONUS') }}</span>
           <br />
-          <span class="text-disabled">NEXT CORE BONUS IN {{ 3 - (pilot.Level % 3) }} LICENSE LEVELS</span>
+          <span class="text-disabled">{{ $t('pm.shared.nextCoreBonusIn') }} {{ 3 - (pilot.Level % 3) }} {{ $t('pm.shared.licenseLevels') }}</span>
         </v-card-text>
       </v-card>
     </template>

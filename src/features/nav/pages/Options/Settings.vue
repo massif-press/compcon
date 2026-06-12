@@ -321,7 +321,8 @@ import { ref, computed, onMounted } from 'vue'
 import { useDisplay, useTheme } from 'vuetify'
 import * as allThemes from '@/ui/style/themes'
 import { UserStore, NavStore } from '@/stores'
-import { SUPPORTED_LOCALES } from '@/i18n'
+import { SUPPORTED_LOCALES, i18n } from '@/i18n'
+const t = i18n.global.t
 import { exportAll, importAll } from '@/io/BulkData'
 import { saveFile } from '@/io/Data'
 import { ClearAllData } from '@/io/Storage'
@@ -457,8 +458,8 @@ async function onFileSelect(event: Event) {
     stagedImportData.value = null
     isV2File.value = false
     notify({
-      title: 'Unable to read file',
-      text: `ERROR: ${err}`,
+      title: t('notify.settings.unableToReadFileTitle'),
+      text: t('notify.settings.errorPrefix', { err }),
       data: { color: 'error', icon: 'mdi-database-off-outline' },
     })
   }
@@ -478,17 +479,17 @@ async function doImport(close: () => void) {
       if (result.encountersBackedUp) parts.push(`${result.encountersBackedUp} encounter(s) pending NPCs`)
       if (result.lcpsImported) parts.push(`${result.lcpsImported} content pack(s) installed`)
       notify({
-        title: 'v2 backup imported',
-        text: parts.length ? parts.join(', ') + '.' : 'No data found.',
+        title: t('notify.settings.v2BackupImportedTitle'),
+        text: parts.length ? parts.join(', ') + '.' : t('notify.settings.v2NoData'),
         data: { icon: 'mdi-database-arrow-left-outline' },
       })
     } else {
       await importAll(stagedImportData.value, strategy.value === 'overwrite')
       notify({
-        title: 'Data import successful',
+        title: t('notify.settings.dataImportSuccessTitle'),
         text: strategy.value === 'overwrite'
-          ? 'All existing data has been replaced with imported data.'
-          : 'Imported data has been merged with existing data.',
+          ? t('notify.settings.dataReplaced')
+          : t('notify.settings.dataMerged'),
         data: { icon: 'mdi-database-arrow-left-outline' },
       })
     }
@@ -498,8 +499,8 @@ async function doImport(close: () => void) {
     close()
   } catch (err) {
     notify({
-      title: 'Unable to import data',
-      text: `ERROR: ${err}`,
+      title: t('notify.settings.unableToImportTitle'),
+      text: t('notify.settings.errorPrefix', { err }),
       data: { color: 'error', icon: 'mdi-database-off-outline' },
     })
   }

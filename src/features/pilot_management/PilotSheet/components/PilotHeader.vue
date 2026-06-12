@@ -50,7 +50,7 @@
           <div class="d-block">
             <div class="heading h2 mb-1"
               style="line-height: 15px">
-              <span class="heading h3 text-disabled">LL&nbsp;</span>
+              <span class="heading h3 text-disabled">{{ $t('active.pilotsPanel.ll') }}&nbsp;</span>
               <span>{{ pilot.Level }}</span>
               <v-icon v-if="!pilot.IsRemote"
                 size="12"
@@ -64,7 +64,7 @@
               size="x-small"
               color="accent"
               @click="$router.push({ name: 'level-up', params: { pilotID: pilot.ID, callsign: pilot.Callsign } })">
-              Level Up
+              {{ $t('pm.sheet.levelUp') }}
             </cc-button>
           </div>
         </v-col>
@@ -125,27 +125,27 @@
                 <v-col cols="auto"
                   class="mr-4">
                   <div class="text-overline mb-n3"
-                    style="opacity: 0.4">name</div>
+                    style="opacity: 0.4">{{ $t('pm.sheet.name') }}</div>
                   <div class="stat-text mt-n2 mb-n1">{{ pilot.Name }}</div>
                 </v-col>
                 <v-col v-if="pilot.Background"
                   cols="auto"
                   class="mr-4 pb-0">
                   <div class="text-overline mb-n3"
-                    style="opacity: 0.4">background</div>
+                    style="opacity: 0.4">{{ $t('pm.sheet.background') }}</div>
                   <div class="stat-text mt-n2 mb-n1">{{ pilot.Background }}</div>
                 </v-col>
                 <v-col v-if="pilot.PlayerName"
                   cols="auto"
                   class="mr-4 pb-0">
                   <div class="text-overline mb-n3"
-                    style="opacity: 0.4">player</div>
+                    style="opacity: 0.4">{{ $t('pm.sheet.player') }}</div>
                   <div class="stat-text mt-n2 mb-n1">{{ pilot.PlayerName }}</div>
                 </v-col>
                 <v-col cols="auto"
                   class="mr-4 pb-0">
                   <div class="text-overline mb-n3"
-                    style="opacity: 0.4">rm-4://IDENT</div>
+                    style="opacity: 0.4">{{ $t('pm.sheet.rm4IDENT') }}</div>
                   <div class="stat-text mt-n2 mb-n1">
                     <v-dialog max-width="1200px">
                       <template #activator="{ props }">
@@ -163,12 +163,12 @@
                   cols="auto"
                   class="pb-0">
                   <div class="text-overline mb-n3"
-                    style="opacity: 0.4">RM-6://DATA</div>
+                    style="opacity: 0.4">{{ $t('pm.sheet.rm6DATA') }}</div>
                   <cc-brew-info :controller="pilot.BrewController" />
                 </v-col>
                 <v-col class="pb-0">
                   <div class="text-overline mb-n3"
-                    style="opacity: 0.4">NDAP/SR-01://STATUS REPORT</div>
+                    style="opacity: 0.4">{{ $t('pm.sheet.ndapSR01STATUSREPORT') }}</div>
                   <div class="heading"
                     style="padding-top: 4px; font-size: 14px">
                     <v-icon size="18" class="ml-1 mt-n1" icon="mdi-star-four-points-outline" />
@@ -189,7 +189,7 @@
                   class="pb-0"
                   cols="auto">
                   <div class="text-overline mb-n3"
-                    style="opacity: 0.4">./cfg</div>
+                    style="opacity: 0.4">{{ $t('pm.sheet.cfg') }}</div>
                   <div class="heading"
                     style="padding-top: 4px; font-size: 14px">
                     <cc-config-tip :actor="pilot" />
@@ -204,7 +204,7 @@
                 align="center"
                 justify="end">
                 <v-col cols="auto"
-                  class="heading h4 mt-1">license level</v-col>
+                  class="heading h4 mt-1">{{ $t('pm.sheet.licenseLevel') }}</v-col>
                 <v-col cols="auto"
                   class="heading h2 text-highlight">{{ pilot.Level }}</v-col>
                 <v-col cols="auto">
@@ -228,7 +228,7 @@
                 class="mt-n2"
                 prepend-icon="mdi-arrow-up-bold"
                 @click="$router.push({ name: 'level-up', params: { pilotID: pilot.ID } })">
-                Level Up
+                {{ $t('pm.sheet.levelUp') }}
               </cc-button>
             </v-col>
             <v-col cols="auto">

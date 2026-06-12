@@ -88,7 +88,7 @@
                 size="x-small"
                 color="primary"
                 @click="setVal(baseValue)">
-                {{ $t('active.miniPanel.reset') }}
+                {{ $t('common.reset') }}
               </v-btn>
             </v-col>
             <v-col>

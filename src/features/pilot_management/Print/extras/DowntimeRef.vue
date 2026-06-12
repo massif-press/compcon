@@ -1,7 +1,7 @@
 <template>
   <div class="pa-2 mt-3">
     <div class="text-overline text-primary"
-      style="line-height: 15px">DOWNTIME REFERENCE</div>
+      style="line-height: 15px">{{ $t('pm.print.downtimeREFERENCE') }}</div>
 
     <v-row dense>
       <v-col v-for="action in actions"

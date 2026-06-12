@@ -143,7 +143,7 @@
                 <v-btn variant="text"
                   color="error"
                   @click="removeCampaign(campaigns[slide as number])">
-                  {{ $t('compendium.campaign.remove') }}
+                  {{ $t('common.remove') }}
                 </v-btn>
               </v-card-actions>
             </v-card>

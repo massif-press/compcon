@@ -12,13 +12,13 @@
           :to="'/srd'"
           help="Equipment Database"
           @hover="ccLog('compendium')">
-          {{ $t('mainMenu.menu.compendium') }}
+          {{ $t('common.compendium') }}
         </main-btn>
         <main-btn icon="cc:pilot"
           :to="'/pilot_management'"
           help="Manage Pilots"
           @hover="ccLog('pilot')">
-          {{ $t('mainMenu.menu.pilotRoster') }}
+          {{ $t('common.pilotRoster') }}
         </main-btn>
         <main-btn icon="cc:encounter"
           :to="'/gm'"

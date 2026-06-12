@@ -87,7 +87,7 @@
               <v-col v-if="!selectedEncounter && !emptyEncounter" cols="auto">
                 <cc-button size="small" color="primary" prepend-icon="mdi-card-plus-outline"
                   @click="useEmptyEncounter()">
-                  {{ $t('active.newEnc.newEncounter') }}
+                  {{ $t('classes.newEncounter') }}
                 </cc-button>
               </v-col>
             </v-slide-x-reverse-transition>

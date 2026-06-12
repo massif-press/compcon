@@ -30,7 +30,7 @@
           hide-details
           class="mt-2" />
         <br />
-        <span class="heading h4">Start with:</span>
+        <span class="heading h4">{{ $t('pm.selectors.startWith') }}</span>
         <v-row justify="center"
           class="mx-4 py-1">
           <v-col class="text-center">
@@ -39,7 +39,7 @@
               variant="outlined"
               color="secondary"
               @click="orgStart = 'efficiency'">
-              Efficiency
+              {{ $t('pm.selectors.efficiency') }}
               <cc-tooltip simple
                 inline
                 content="How directly effective your organization is at what it does (a military
@@ -54,7 +54,7 @@
             <div v-else>
               <span class="heading h3">+ {{ orgStart === 'efficiency' ? '2' : '0' }}</span>
               <br />
-              <span>Organization Efficiency</span>
+              <span>{{ $t('pm.selectors.organizationEfficiency') }}</span>
             </div>
           </v-col>
           <v-divider v-show="!$vuetify.display.mdAndDown"
@@ -68,7 +68,7 @@
               variant="outlined"
               color="secondary"
               @click="orgStart = 'influence'">
-              Influence
+              {{ $t('pm.selectors.influence') }}
               <cc-tooltip simple
                 inline
                 content="Influence is your organization’s size, reach, wealth, and reputation.
@@ -81,7 +81,7 @@
             <div v-else>
               <span class="heading h3">+ {{ orgStart === 'influence' ? '2' : '0' }}</span>
               <br />
-              <span>Organization Influence</span>
+              <span>{{ $t('pm.selectors.organizationInfluence') }}</span>
             </div>
           </v-col>
         </v-row>
@@ -94,7 +94,7 @@
           :disabled="!orgName || !orgType || !orgStart"
           @click="add()">
           <v-icon start>mdi-plus</v-icon>
-          Add Organization
+          {{ $t('pm.selectors.addOrganization') }}
         </v-btn>
       </cc-titled-panel>
     </v-col>

@@ -4,7 +4,7 @@
       <v-row dense
         align="center">
         <v-col cols="auto">
-          <div class="text-overline mb-n4 text-primary">MECH</div>
+          <div class="text-overline mb-n4 text-primary">{{ $t('pm.print.mech') }}</div>
           <blank-line v-if="blank"
             :height="46"
             :width="500"

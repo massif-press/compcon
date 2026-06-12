@@ -105,6 +105,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18n } from '@/i18n'
+const t = i18n.global.t
 import { computed, ref } from 'vue'
 import { notify } from '@/util/notify'
 import { useDisplay } from 'vuetify'
@@ -222,8 +224,8 @@ async function exchangePatreonToken(code) {
         await UserStore().setPatreonData(data);
         loadPatreon.value = false;
         notify({
-          title: 'Patreon Linked',
-          text: 'Your Patreon account has been linked',
+          title: t('notify.account.patreonLinkedTitle'),
+          text: t('notify.account.patreonLinkedText'),
           data: { color: 'success' },
         });
       } catch (error) {
@@ -231,14 +233,14 @@ async function exchangePatreonToken(code) {
         loadPatreon.value = false;
         if (error instanceof NoPatreonTierError) {
           notify({
-            title: 'No Subscription Found',
-            text: 'Your Patreon account was linked but no active subscription tier was found. Please subscribe to the COMP/CON Patreon and try again.',
+            title: t('notify.account.noSubscriptionTitle'),
+            text: t('notify.account.noSubscriptionText'),
             data: { color: 'warning' },
           });
         } else {
           notify({
-            title: 'Patreon Link Failed',
-            text: 'There was an error linking your Patreon account',
+            title: t('notify.account.patreonLinkFailedTitle'),
+            text: t('notify.account.patreonLinkFailedText'),
             data: { color: 'error' },
           });
         }
@@ -247,8 +249,8 @@ async function exchangePatreonToken(code) {
 async function unlinkPatreon() {
       UserStore().User.ClearPatreonData();
       notify({
-        title: 'Patreon Unlinked',
-        text: 'Your Patreon account has been unlinked',
+        title: t('notify.account.patreonUnlinkedTitle'),
+        text: t('notify.account.patreonUnlinkedText'),
         data: { color: 'success' },
       });
     }

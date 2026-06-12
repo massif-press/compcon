@@ -38,7 +38,7 @@
                   prepend-icon="cc:variable"
                   title="Select Damage"
                   @click.stop="($refs as any).damageTypeDialog.show()">
-                  Type
+                  {{ $t('pm.loadout.type') }}
                 </v-list-item>
                 <v-list-item prepend-icon="mdi-circle-edit-outline"
                   title="Set Custom Name"
@@ -99,7 +99,7 @@
         color="error"
         class="text-center heading"
         dense>
-        This item is deprecated and can be removed.
+        {{ $t('pm.loadout.thisItemIsDeprecatedAndCan') }}
       </v-toolbar>
 
       <div class="px-2 pb-1"
@@ -195,7 +195,7 @@
           <div class="heading h2 text-disabled"
             style="position: absolute; transform: translateY(40%); left: 0; right: 0">
             <cc-slashes />
-            EMPTY
+            {{ $t('pm.loadout.empty') }}
             <cc-slashes />
           </div>
         </div>

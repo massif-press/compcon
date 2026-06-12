@@ -3,7 +3,7 @@
     <div class="caption text-center mt-n1"
       style="letter-spacing: 3px; font-size: 10px">
       {{ header }} //
-      <b>DEPLOYABLE</b>
+      <b>{{ $t('pm.print.deployable') }}</b>
     </div>
     <v-row dense
       align="center">
@@ -28,7 +28,7 @@
         <v-col v-if="(deployable as any).Size">
           <v-card variant="tonal"
             class="pa-1">
-            <b>Size:</b>
+            <b>{{ $t('pm.print.size') }}</b>
             <br />
             {{ getSize }}
           </v-card>
@@ -36,7 +36,7 @@
         <v-col v-if="(deployable as any).Armor">
           <v-card variant="tonal"
             class="pa-1">
-            <b>Armor:</b>
+            <b>{{ $t('pm.print.armor') }}</b>
             <br />
             {{ (deployable as any).Armor }}
           </v-card>
@@ -44,7 +44,7 @@
         <v-col v-if="(deployable as any).MaxHP || (deployable as any).Size">
           <v-card variant="tonal"
             class="pa-1">
-            <b>HP:</b>
+            <b>{{ $t('pm.print.hp') }}</b>
             <br />
             {{
               (deployable as any).MaxHP
@@ -56,7 +56,7 @@
         <v-col v-if="(deployable as any).Size">
           <v-card variant="tonal"
             class="pa-1">
-            <b>Evasion:</b>
+            <b>{{ $t('pm.print.evasion') }}</b>
             <br />
             {{ (deployable as any).evasion || 10 }}
           </v-card>
@@ -64,7 +64,7 @@
         <v-col v-if="(deployable as any).EDefense">
           <v-card variant="tonal"
             class="pa-1">
-            <b>E-Def:</b>
+            <b>{{ $t('pm.print.eDef') }}</b>
             <br />
             {{ (deployable as any).EDefense }}
           </v-card>
@@ -72,7 +72,7 @@
         <v-col v-if="(deployable as any).Heatcap">
           <v-card variant="tonal"
             class="pa-1">
-            <b>Heat Cap.:</b>
+            <b>{{ $t('pm.print.heatCap') }}</b>
             <br />
             {{ (deployable as any).Heatcap }}
           </v-card>
@@ -80,7 +80,7 @@
         <v-col v-if="(deployable as any).Sensors">
           <v-card variant="tonal"
             class="pa-1">
-            <b>Sensors:</b>
+            <b>{{ $t('pm.print.sensors') }}</b>
             <br />
             {{ (deployable as any).Sensors }}
           </v-card>
@@ -88,7 +88,7 @@
         <v-col v-if="(deployable as any).TechAttack">
           <v-card variant="tonal"
             class="pa-1">
-            <b>Tech Atk:</b>
+            <b>{{ $t('pm.print.techAtk') }}</b>
             <br />
             {{ (deployable as any).TechAttack }}
           </v-card>
@@ -96,7 +96,7 @@
         <v-col v-if="(deployable as any).Repcap">
           <v-card variant="tonal"
             class="pa-1">
-            <b>Repair Cap.:</b>
+            <b>{{ $t('pm.print.repairCap') }}</b>
             <br />
             {{ (deployable as any).Repcap }}
           </v-card>
@@ -104,7 +104,7 @@
         <v-col v-if="(deployable as any).Save">
           <v-card variant="tonal"
             class="pa-1">
-            <b>Save:</b>
+            <b>{{ $t('pm.print.save') }}</b>
             <br />
             {{ (deployable as any).Save }}
           </v-card>
@@ -112,7 +112,7 @@
         <v-col v-if="(deployable as any).Speed">
           <v-card variant="tonal"
             class="pa-1">
-            <b>Speed:</b>
+            <b>{{ $t('pm.print.speed') }}</b>
             <br />
             {{ (deployable as any).Speed }}
           </v-card>

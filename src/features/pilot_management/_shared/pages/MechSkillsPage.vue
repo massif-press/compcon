@@ -5,29 +5,26 @@
     back
     @back="$emit('back')"
     @complete="$emit('next')">
-    <cc-title offset>{{ context === 'new' ? 'Pilot Mech Skills' : 'Improve Mech Skills' }}&emsp;</cc-title>
+    <cc-title offset>{{ context === 'new' ? $t('pm.shared.pilotMechSkills') : $t('pm.shared.improveMechSkills') }}&emsp;</cc-title>
 
     <div v-if="context === 'new'"
       class="heading h2">
-      UAD IDENT Service <cc-slashes /> &nbsp;RM-4d Pilot Self Assessment (3/3)
+      {{ $t('pm.new.uadIDENTService') }} <cc-slashes /> &nbsp;{{ $t('pm.shared.rm4dPilotSelfAssessment3') }}
     </div>
     <div v-else
       class="heading h2">
-      MV-2 License Acquisition Request <cc-slashes /> &nbsp;MV-2//c Frame Configuration Update
+      {{ $t('pm.level.mv2LicenseAcquisitionRequest') }} <cc-slashes /> &nbsp;{{ $t('pm.shared.mv2CFrameConfigurationUpdate') }}
     </div>
 
     <p v-if="context === 'new'"
       class="flavor-text"
       style="font-size: 14px">
-      The RM-4b PILOT SELF ASSESSMENT (Mech Skills) will be transmitted to print staff to finalize
-      the configuration of your issued GMS-SP1 EVEREST.
+      {{ $t('pm.shared.theRM4bPILOTSELFASSESSMENT') }}
     </p>
     <p v-else
       class="flavor-text"
       style="font-size: 14px">
-      On acceptance of the MV-2//c Frame Configuration Update the Union IDENT//eng subsystem will
-      automatically update the frame configuration protocols stored in the Omninet Vault address
-      registered to your IDENT profile (V.node::/{{ pilot.ID }}).
+      {{ $t('pm.shared.onAcceptanceFrameConfig', { id: pilot.ID }) }}
     </p>
 
     <v-alert color="accent"
@@ -36,12 +33,10 @@
       class="mt-2"
       tile>
       <div class="heading">
-        {{ context === 'new' ? `Add ${word} (${count}) Mech Skill Points.` : 'Improve a Mech Skill.' }}
+        {{ context === 'new' ? $t('pm.shared.addMechSkillPoints', { word, count }) : $t('pm.shared.improveMechSkill') }}
       </div>
       <p class="text-cc-overline">
-        By submitting this form you attest that your responses are truthful and accurate to the best
-        of your knowledge. Knowingly providing false or incomplete information is punishable
-        under DoJ/HR AR 303-J.
+        {{ $t('pm.shared.bySubmittingThisFormYouAttest') }}
       </p>
     </v-alert>
 

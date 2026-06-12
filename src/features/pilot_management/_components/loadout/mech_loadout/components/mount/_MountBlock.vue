@@ -5,9 +5,9 @@
       class="heading h4 mx-2">
       {{ mount.Name }}
       <span v-if="impArm"
-        class="text-cc-overline">(IMPROVED ARMAMENT)</span>
+        class="text-cc-overline">{{ $t('pm.loadout.improvedARMAMENT') }}</span>
       <span v-if="superheavy"
-        class="text-cc-overline">(SUPERHEAVY MOUNTING)</span>
+        class="text-cc-overline">{{ $t('pm.loadout.superheavyMOUNTING') }}</span>
     </legend>
 
     <cb-mount-menu v-if="!intWeapon && !integrated && !readonly"

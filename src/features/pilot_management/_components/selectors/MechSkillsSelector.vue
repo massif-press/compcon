@@ -6,14 +6,14 @@
         {{ pilot.MechSkillsController.CurrentHASEPoints }}/{{
           pilot.MechSkillsController.MaxHASEPoints
         }}
-        Mech Skills selected
+        {{ $t('pm.selectors.mechSkillsSelected') }}
       </cc-alert>
       <div class="text-right">
         <v-btn size="x-small"
           color="accent"
           variant="text"
           @click="pilot.MechSkillsController.Reset()">
-          Reset Mech Skills
+          {{ $t('pm.selectors.resetMechSkills') }}
         </v-btn>
       </div>
     </div>

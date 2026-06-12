@@ -5,30 +5,26 @@
     back
     @back="$emit('back')"
     @complete="$emit('next')">
-    <cc-title offset>{{ context === 'new' ? 'Pilot Talents' : 'Unlock License' }}&emsp;</cc-title>
+    <cc-title offset>{{ context === 'new' ? $t('compendium.categories.pilotTalents') : $t('pm.shared.unlockLicense') }}&emsp;</cc-title>
 
     <div v-if="context === 'new'"
       class="heading h2">
-      UAD IDENT Service <cc-slashes /> &nbsp;RM-4c (S-1) Licensing Authorization Supplemental
+      {{ $t('pm.new.uadIDENTService') }} <cc-slashes /> &nbsp;{{ $t('pm.shared.rm4cS1LicensingAuthorization') }}
     </div>
     <div v-else
       class="heading h2">
-      MV-2 License Acquisition Request <cc-slashes /> &nbsp;MV-2//d Licensor/Licensee Transmit Record
+      {{ $t('pm.level.mv2LicenseAcquisitionRequest') }} <cc-slashes /> &nbsp;{{ $t('pm.shared.mv2DLicensorLicenseeTransmit') }}
     </div>
 
     <p v-if="context === 'new'"
       class="flavor-text"
       style="font-size: 14px">
-      The RM-4α Supplemental I (Licensing Authorization) registers an individual pilot's Frame Print
-      and Operation (FP/O) Licenses under the Union Licensing Authority.
+      {{ $t('pm.shared.theRM4SupplementalILicensing') }}
     </p>
     <p v-else
       class="flavor-text"
       style="font-size: 14px">
-      The MV-2 Licensor/Licensee Transmit Record registers the transmission and receipt of a
-      UN-recognized FRAME License consisting of, but not limited to, Equipment Print Templates not
-      exceeding 1.5EB, FRAME Print Templates not exceeding 3.75EB, and access protocols to
-      FRAME-compliant system software.
+      {{ $t('pm.shared.theMV2LicensorLicenseeTransmit') }}
     </p>
 
     <v-alert color="accent"
@@ -37,11 +33,10 @@
       class="mt-2"
       tile>
       <div class="heading">
-        {{ context === 'new' ? `Select ${word} (${count}) License Rank(s).` : 'Unlock a License.' }}
+        {{ context === 'new' ? $t('pm.shared.selectLicenseRanks', { word, count }) : $t('pm.shared.unlockALicense') }}
       </div>
       <p class="text-cc-overline">
-        Union and its representatives are not liable for problems arising from the printing,
-        installation, and/or use of unrecognized or prohibited License materials.
+        {{ $t('pm.shared.unionAndItsRepresentativesAreNot') }}
       </p>
     </v-alert>
 

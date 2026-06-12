@@ -169,7 +169,7 @@
           prepend-icon="mdi-import"
           @click="open"
         >
-          {{ $t('compendium.campaign.fileImport') }}
+          {{ $t('common.fileImport') }}
         </cc-button>
       </template>
       <v-card-text>
@@ -214,7 +214,7 @@
                 density="compact"
                 icon="mdi-alert"
               >
-                <div class="text-caption">{{ $t('compendium.campaign.warning') }}</div>
+                <div class="text-caption">{{ $t('common.warning') }}</div>
                 <div
                   v-if="importIsOlder"
                   class="my-2 font-weight-bold"
@@ -236,7 +236,7 @@
                 color="accent"
                 @click="importCampaign"
               >
-                {{ $t('compendium.campaign.importCampaign') }}
+                {{ $t('common.importCampaign') }}
               </v-btn>
               <v-spacer />
             </v-card-actions>

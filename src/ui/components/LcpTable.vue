@@ -188,6 +188,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18n } from '@/i18n'
+const t = i18n.global.t
 import { ref, computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import { notify } from '@/util/notify'
@@ -273,15 +275,15 @@ async function installLatest(pack: any) {
   try {
     await userData.downloadLcp(pack)
     notify({
-      title: 'LCP Updated',
-      text: `The latest version of ${pack.title} has been downloaded and installed.`,
+      title: t('notify.lcp.lcpUpdatedTitle'),
+      text: t('notify.lcp.lcpUpdatedText', { pack: pack.title }),
       data: { color: 'success', icon: 'mdi-check-bold' },
     })
   } catch (err) {
     logger.error(`Error downloading LCP: ${err}`, null, err)
     notify({
-      title: 'Error Updating LCP',
-      text: `An error occurred while attempting to download ${pack.title}.`,
+      title: t('notify.lcp.lcpUpdateErrorTitle'),
+      text: t('notify.lcp.lcpUpdateErrorText', { pack: pack.title }),
       data: { color: 'error', icon: 'mdi-alert-circle-outline' },
     })
   } finally {

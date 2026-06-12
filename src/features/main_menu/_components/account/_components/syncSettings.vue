@@ -41,7 +41,7 @@
             @update:model-value="applyItemTypePreset">
             <v-btn value="all"
               size="small"
-              height="30">{{ $t("mainMenu.syncSettings.all") }}</v-btn>
+              height="30">{{ $t("common.all") }}</v-btn>
             <v-btn value="pilots"
               size="small"
               height="30">{{ $t("mainMenu.syncSettings.pilotsOnly") }}</v-btn>
@@ -270,7 +270,7 @@ async function permDeleteSync() {
         })
       } catch (e) {
         notify({
-          title: t('mainMenu.account.deletionFailedTitle'),
+          title: t('notify.dataItem.deletionFailedTitle'),
           text: t('mainMenu.account.deletionFailedBulkText'),
           type: 'error',
         })

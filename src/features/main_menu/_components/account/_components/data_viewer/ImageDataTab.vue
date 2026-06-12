@@ -206,7 +206,7 @@ async function deleteImage(item) {
 
     emit('refresh');
     notify({
-      title: t('mainMenu.account.imageDeletedTitle'),
+      title: t('notify.image.deletedTitle'),
       text: t('mainMenu.account.imageDeletedText', { itemType: item.ItemType, name: item.Name }),
       data: { icon: 'mdi-delete', color: 'success' },
     });
@@ -215,8 +215,8 @@ async function deleteImage(item) {
   } catch (err) {
     logger.error(`Error deleting image: ${err}`, this, err);
     notify({
-      title: t('mainMenu.account.deletionFailedTitle'),
-      text: t('mainMenu.account.deletionFailedText', { err: String(err) }),
+      title: t('notify.dataItem.deletionFailedTitle'),
+      text: t('notify.dataItem.serverError', { err: String(err) }),
       data: { icon: 'mdi-alert', color: 'error' },
     });
   }

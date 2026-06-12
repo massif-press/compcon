@@ -70,9 +70,7 @@ class ActionPoolController {
       case 'full':
       case 'fulltech':
       case 'jockey':
-        return (
-          this.CombatActions.Full && this.CombatActions.Quick1 && this.CombatActions.Quick2
-        )
+        return this.CombatActions.Full && this.CombatActions.Quick1 && this.CombatActions.Quick2
       case 'quick':
       case 'quicktech':
       case 'invade':
@@ -194,8 +192,6 @@ class ActionPoolController {
     this._usedActions = val
   }
 
-  // -- Overcharge (folded in per DEVNOTE) -------------------------------------------------------
-
   public get OverchargeTrack(): any[] {
     return (this._parent.Parent as any).OverchargeTrack || []
   }
@@ -220,8 +216,6 @@ class ActionPoolController {
       )
     }
   }
-
-  // -- SelfDestruct (folded in per DEVNOTE) -----------------------------------------------------
 
   public StartSelfDestruct(): void {
     if (this.IsInSelfDestruct) return

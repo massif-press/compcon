@@ -11,26 +11,26 @@
               :height="lineHeight" />
           </v-col>
           <v-col cols="auto"
-            class="text-primary">MOUNT</v-col>
+            class="text-primary">{{ $t('common.mount') }}</v-col>
         </v-row>
       </legend>
       <div v-for="m in 2"
         :key="`slot-${m}`">
         <v-row dense>
           <v-col>
-            <div class="caption text-grey">WEAPON</div>
+            <div class="caption text-grey">{{ $t('pm.print.weapon') }}</div>
             <blank-line :height="lineHeight" />
           </v-col>
           <v-col cols="2">
-            <div class="caption text-grey">TYPE</div>
+            <div class="caption text-grey">{{ $t('pm.print.type') }}</div>
             <blank-line :height="lineHeight" />
           </v-col>
           <v-col cols="1">
-            <div class="caption text-grey">RANGE</div>
+            <div class="caption text-grey">{{ $t('pm.print.range') }}</div>
             <blank-line :height="lineHeight" />
           </v-col>
           <v-col cols="1">
-            <div class="caption text-grey">DAMAGE</div>
+            <div class="caption text-grey">{{ $t('pm.print.damage') }}</div>
             <blank-line :height="lineHeight" />
           </v-col>
         </v-row>

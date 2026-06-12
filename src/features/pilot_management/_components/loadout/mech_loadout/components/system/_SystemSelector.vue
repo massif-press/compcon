@@ -9,7 +9,7 @@
     selector
     @equip="handleEquip($event)">
     <template #header>
-      <div class="heading h3 text-center text-accent">Mech SYSTEMS</div>
+      <div class="heading h3 text-center text-accent">{{ $t('pm.loadout.mechSYSTEMS') }}</div>
     </template>
     <template #top>
       <v-row dense>
@@ -17,25 +17,25 @@
           <div v-if="equipped || swapSystem">
             <div v-if="!mobile"
               class="text-cc-overline">
-              UNION ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
-              <span class="text-success">[ FRAME EQUIPMENT REGISTRATION VERIFIED ]</span>
+              {{ $t('pm.loadout.unionArmoryPrintid') }} {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
+              <span class="text-success">{{ $t('pm.loadout.frameEQUIPMENTREGISTRATIONVERIFIED') }}</span>
             </div>
             <div class="heading h2 text-accent">
-              {{ equipped?.Name || swapSystem?.Name || 'NO SELECTION' }}
+              {{ equipped?.Name || swapSystem?.Name || $t('pm.loadout.noSELECTION') }}
             </div>
             <div class="flavor-text overline"
               style="display: block">
-              CURRENTLY EQUIPPED
+              {{ $t('pm.loadout.currentlyEQUIPPED') }}
             </div>
           </div>
           <div v-else-if="!mobile">
             <div class="text-cc-overline">
-              UNION ARMORY EQUIPMENT AUTHORIZATION: FRAME EQUIPMENT//COMBAT SYSTEM
+              {{ $t('pm.loadout.unionARMORYEQUIPMENTAUTHORIZATIONFRAMEEQUIPMENT') }}
             </div>
-            <div class="heading h2 text-disabled">NO SELECTION</div>
+            <div class="heading h2 text-disabled">{{ $t('pm.loadout.noSELECTION') }}</div>
             <div class="flavor-text overline text-error"
               style="display: block">
-              [ EQUIPMENT ID INVALID OR MISSING ]
+              {{ $t('pm.loadout.equipmentIDINVALIDORMISSING') }}
             </div>
           </div>
         </v-col>

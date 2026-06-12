@@ -1,6 +1,6 @@
 <template>
   <fieldset>
-    <legend class="heading h3 ml-1 px-2">Systems</legend>
+    <legend class="heading h3 ml-1 px-2">{{ $t('pm.new.systems') }}</legend>
     <v-card v-for="s in mech.MechLoadoutController.ActiveLoadout.AllActiveSystems.filter(Boolean)"
       :key="s.ID"
       variant="outlined"

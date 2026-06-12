@@ -1,14 +1,14 @@
 <template>
   <v-container>
-    <div class="heading h3 py-0 px-2">Pilot Options</div>
+    <div class="heading h3 py-0 px-2">{{ $t('pm.sheet.pilotOptions') }}</div>
     <cc-button block
       size="large"
       color="panel"
       prepend-icon="mdi-printer"
       @click="$router.push(`/print/${pilot.ID}`)">
-      Print
+      {{ $t('common.print') }}
       <template #subtitle>
-        <span class="text-cc-overline">Print tabletop-ready character and mech sheets</span>
+        <span class="text-cc-overline">{{ $t('pm.sheet.printTabletopReadyCharacterAndMech') }}</span>
       </template>
     </cc-button>
 
@@ -22,10 +22,10 @@
           color="panel"
           prepend-icon="mdi-file-document-outline"
           @click="open">
-          Generate Statblock
+          {{ $t('pm.sheet.generateStatblock') }}
           <template #subtitle>
             <span class="text-cc-overline">
-              Get a plaintext representation of this character's build
+              {{ $t('pm.sheet.getAPlaintextRepresentationOfThis') }}
             </span>
           </template>
         </cc-button>
@@ -40,9 +40,9 @@
       color="panel"
       prepend-icon="mdi-download"
       @click="exportPilot()">
-      Export Pilot
+      {{ $t('pm.sheet.exportPilot') }}
       <template #subtitle>
-        <span class="text-cc-overline">Export this pilot as a JSON file</span>
+        <span class="text-cc-overline">{{ $t('pm.sheet.exportThisPilotAsAJSON') }}</span>
       </template>
     </cc-button>
     <cc-button v-if="!pilot.IsRemote"
@@ -51,10 +51,9 @@
       color="panel"
       prepend-icon="mdi-download"
       @click="exportPilot(true)">
-      Export Legacy JSON
+      {{ $t('pm.sheet.exportLegacyJSON') }}
       <template #subtitle>
-        <span class="text-cc-overline">Export this pilot as a v2 JSON file compatible with VTT
-          systems and v2 apps</span>
+        <span class="text-cc-overline">{{ $t('pm.sheet.exportThisPilotAsAV2') }}</span>
       </template>
     </cc-button>
     <br />
@@ -74,10 +73,9 @@
               color="panel"
               prepend-icon="mdi-code-block-brackets"
               @click="open()">
-              Share Pilot
+              {{ $t('pm.sheet.sharePilot') }}
               <template #subtitle>
-                <span class="text-cc-overline">Share this pilot's data with other users via a share
-                  code</span>
+                <span class="text-cc-overline">{{ $t('pm.sheet.shareThisPilotSDataWith') }}</span>
               </template>
             </cc-button>
           </template>
@@ -97,10 +95,10 @@
           color="panel"
           prepend-icon="mdi-content-copy"
           @click="open">
-          Convert to Local
+          {{ $t('common.convertToLocal') }}
           <template #subtitle>
             <span class="text-cc-overline">
-              Convert this Pilot to an editable local data instance
+              {{ $t('pm.sheet.convertThisPilotToAnEditable') }}
             </span>
           </template>
         </cc-button>
@@ -126,9 +124,9 @@
           color="panel"
           prepend-icon="mdi-dna"
           @click="open">
-          Clone
+          {{ $t('pm.sheet.clone') }}
           <template #subtitle>
-            <span class="text-cc-overline">Duplicate or Flash Clone this character</span>
+            <span class="text-cc-overline">{{ $t('pm.sheet.duplicateOrFlashCloneThisCharacter') }}</span>
           </template>
         </cc-button>
       </template>
@@ -147,10 +145,10 @@
           color="panel"
           prepend-icon="mdi-list-status"
           @click="open">
-          Set LCP Configuration
+          {{ $t('pm.sheet.setLCPConfiguration') }}
           <template #subtitle>
             <span class="text-cc-overline">
-              Manage which content packs are accessible to this pilot
+              {{ $t('pm.sheet.manageWhichContentPacksAreAccessible') }}
             </span>
           </template>
         </cc-button>
@@ -168,13 +166,13 @@
       :disabled="pilot.CloudController.isSynced"
       prepend-icon="mdi-cloud-sync"
       @click="remoteUpdate()">
-      Download Latest Data
+      {{ $t('pm.sheet.downloadLatestData') }}
       <template #subtitle>
         <span class="text-cc-overline">
           {{
             pilot.CloudController.isSynced
-              ? 'Pilot is up to date with remote data'
-              : 'Download all remote changes to this pilot, overwriting local data.'
+              ? $t('pm.sheet.pilotIsUpToDateWith')
+              : $t('pm.sheet.downloadAllRemoteChangesToThis')
           }}
         </span>
       </template>
@@ -191,9 +189,9 @@
           color="error"
           prepend-icon="mdi-delete"
           @click="open">
-          Delete Pilot
+          {{ $t('pm.sheet.deletePilot') }}
           <template #subtitle>
-            <span class="text-cc-overline">Remove this pilot from the roster</span>
+            <span class="text-cc-overline">{{ $t('pm.sheet.removeThisPilotFromTheRoster') }}</span>
           </template>
         </cc-button>
       </template>

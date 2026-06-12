@@ -1,4 +1,5 @@
 import { IClockData, Clock } from '../narrative/elements/Clock';
+import { i18n } from '@/i18n'
 import { IRollableTableData, RollableTable } from '../narrative/elements/RollableTable';
 
 interface ISectionData {
@@ -56,7 +57,7 @@ abstract class CampaignItem {
   }
 
   public AddClock(c?: IClockData) {
-    this.Clocks.push(new Clock(c ? c : { title: 'New Clock' }));
+    this.Clocks.push(new Clock(c ? c : { title: i18n.global.t('classes.newClock') }));
   }
 
   public DeleteClock(c: Clock) {
@@ -66,7 +67,7 @@ abstract class CampaignItem {
   }
 
   public AddTable(t?: IRollableTableData) {
-    this.Tables.push(new RollableTable(t ? t : { title: 'New Table' }));
+    this.Tables.push(new RollableTable(t ? t : { title: i18n.global.t('classes.newTable') }));
   }
 
   public DeleteTable(t: RollableTable) {

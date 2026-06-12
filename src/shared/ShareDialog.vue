@@ -4,21 +4,20 @@
       class="text-text"
       title="Please use responsibly"
       icon="mdi-alert">
-      Share codes allow anyone with a COMP/CON account to download a copy of this item and receive
-      updates you make. Please be conscientious when sharing data with others.
+      {{ $t('share.shareCodesNote') }}
     </cc-alert>
 
     <v-row dense
       class="mt-4 mx-1"
       justify="space-around">
       <v-col cols="auto">
-        <div class="text-cc-overline text-disabled">LAST LOCAL UPDATE</div>
+        <div class="text-cc-overline text-disabled">{{ $t('share.lastLocalUpdate') }}</div>
         <div class="font-weight-bold pt-1">
           {{ localModifiedLabel }}
         </div>
       </v-col>
       <v-col cols="auto">
-        <div class="text-cc-overline text-disabled">LAST SYNCED</div>
+        <div class="text-cc-overline text-disabled">{{ $t('share.lastSynced') }}</div>
         <div class="font-weight-bold pt-1 d-flex align-center ga-1">
           <v-progress-circular v-if="metaRefreshing"
             indeterminate
@@ -28,26 +27,26 @@
         </div>
       </v-col>
       <v-col cols="auto">
-        <div class="text-cc-overline text-disabled">STATUS</div>
+        <div class="text-cc-overline text-disabled">{{ $t('share.status') }}</div>
         <div class="d-flex align-center">
           <v-chip v-if="!hasSynced"
             color="warning"
             size="small"
             prepend-icon="mdi-cloud-upload-outline">
-            Not yet synced
+            {{ $t('share.notYetSynced') }}
           </v-chip>
           <v-chip v-else-if="!syncedState"
             color="warning"
             size="small"
             prepend-icon="mdi-cloud-sync">
-            Sync needed
+            {{ $t('share.syncNeeded') }}
           </v-chip>
           <v-chip v-else
             color="success"
             size="small"
             class="rounded-0 rounded-be-lg"
             prepend-icon="mdi-cloud-check-variant-outline">
-            Up to date
+            {{ $t('share.upToDate') }}
           </v-chip>
         </div>
       </v-col>
@@ -59,7 +58,7 @@
           :loading="syncing"
           prepend-icon="mdi-sync"
           @click="syncItem">
-          Sync Now
+          {{ $t('share.syncNow') }}
         </cc-button>
       </v-col>
     </v-row>
@@ -69,7 +68,7 @@
       <v-row justify="center">
         <v-col cols="auto">
           <div class="text-cc-overline mt-4">
-            {{ item.ItemType.toUpperCase() }} SHARE CODE
+            {{ item.ItemType.toUpperCase() }} {{ $t('share.shareCode') }}
             <v-tooltip>
               <template #activator="{ props }">
                 <v-icon v-bind="props"
@@ -77,8 +76,7 @@
                   size="x-large" />
               </template>
               <div>
-                This code allows other users with a COMP/CON account to download a copy of this
-                item and subscribe to updates you make.
+                {{ $t('share.shareCodeTooltip') }}
               </div>
             </v-tooltip>
           </div>
@@ -95,15 +93,15 @@
           <fieldset v-if="isPilot"
             class="px-2 pb-2">
             <legend class="text-cc-overline mt-4 mx-3 px-2">
-              SHARE LINK
+              {{ $t('share.shareLink') }}
             </legend>
             <v-row no-gutters
               align="end">
               <v-col>
                 <div class="text-caption text-center">
-                  This link is a
-                  <b class="text-accent">publicly accessible URL</b>
-                  that allows anyone to view this pilot's data.
+                  {{ $t('share.publicLinkNotePre') }}
+                  <b class="text-accent">{{ $t('share.publicLinkNoteBold') }}</b>
+                  {{ $t('share.publicLinkNotePost') }}
                 </div>
                 <v-text-field v-model="shareLink"
                   readonly
@@ -130,7 +128,7 @@
             <v-row dense
               align="center">
               <v-col>
-                <div class="text-cc-overline">SHEET STYLE</div>
+                <div class="text-cc-overline">{{ $t('share.sheetStyle') }}</div>
                 <cc-select v-model="linkStyle"
                   density="compact"
                   hide-details
@@ -141,7 +139,7 @@
                   ]" />
               </v-col>
               <v-col>
-                <div class="text-cc-overline">INCLUDE MECH</div>
+                <div class="text-cc-overline">{{ $t('share.includeMech') }}</div>
                 <cc-select v-model="shareMech"
                   density="compact"
                   chip-variant="text"
@@ -158,8 +156,7 @@
       variant="tonal"
       color="warning"
       class="mt-4 text-center">
-      This item does not have a share code. To share it, sync it to your COMP/CON account by
-      clicking the "Sync Now" button above.
+      {{ $t('share.noShareCode') }}
     </v-alert>
   </v-card-text>
 </template>
@@ -172,6 +169,9 @@ import { getUserDataChanged } from '@/io/apis/account'
 import { UserStore } from '@/stores'
 import { notify } from '@kyvg/vue3-notification'
 import logger from '@/user/logger'
+import { i18n } from '@/i18n'
+
+const t = i18n.global.t
 
 const props = defineProps<{ item: any }>()
 
@@ -244,8 +244,8 @@ function copyShareLink() {
 async function syncItem() {
   if (UserStore().IsSyncing) {
     notify({
-      title: 'Sync in Progress',
-      text: 'Please wait for the current sync to complete.',
+      title: t('notify.share.syncInProgressTitle'),
+      text: t('notify.share.syncInProgressText'),
       data: { icon: 'mdi-sync', color: 'info' },
     })
     return
@@ -260,15 +260,15 @@ async function syncItem() {
     }
     postSyncTime.value = Date.now()
     notify({
-      title: 'Sync Complete',
-      text: `${name} synced to cloud.`,
+      title: t('notify.share.syncCompleteTitle'),
+      text: t('notify.share.syncCompleteText', { name }),
       data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
     })
   } catch (err) {
     logger.error(`ShareDialog: sync failed for ${name}`, err)
     notify({
-      title: 'Sync Failed',
-      text: `${err}`,
+      title: t('notify.share.syncFailedTitle'),
+      text: t('notify.share.syncFailedText', { err: String(err) }),
       data: { icon: 'mdi-alert', color: 'error' },
     })
   } finally {

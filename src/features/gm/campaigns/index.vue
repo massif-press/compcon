@@ -11,7 +11,7 @@
             class="mx-1"
             flat
             tile
-            to="/srd?tab=2">{{ $t('gm.campaign.campaignLibrary') }}</v-btn>
+            to="/srd?tab=2">{{ $t('common.campaignLibrary') }}</v-btn>
         </template>
       </i18n-t>
     </cc-alert>
@@ -135,7 +135,7 @@
                     <template #br><br /></template>
                     <template #lcd><b class="text-secondary">{{ $t('gm.campaign.lcdExt') }}</b></template>
                     <template #campaignCollection><b>{{ $t('gm.campaign.campaignCollection') }}</b></template>
-                    <template #manageContent><b>{{ $t('gm.campaign.manageContent') }}</b></template>
+                    <template #manageContent><b>{{ $t('common.manageContent') }}</b></template>
                   </i18n-t>
                 </i>
               </p>
@@ -188,7 +188,7 @@
                   <v-card-actions>
                     <v-spacer />
                     <cc-button color="accent"
-                      @click="importCampaign">{{ $t('gm.campaign.importCampaign') }}</cc-button>
+                      @click="importCampaign">{{ $t('common.importCampaign') }}</cc-button>
                     <v-spacer />
                   </v-card-actions>
                 </v-card>
@@ -207,7 +207,7 @@
           @click="addCampaign">
           <v-icon start
             icon="mdi-plus" />
-          {{ $t('gm.campaign.newCampaign') }}
+          {{ $t('classes.newCampaign') }}
         </cc-button>
       </v-footer>
     </v-card>

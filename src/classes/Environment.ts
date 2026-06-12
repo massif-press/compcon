@@ -3,7 +3,7 @@ import { i18n } from '@/i18n'
 import { Encounter } from './encounter/Encounter'
 import { ContentPack } from './ContentPack'
 import { ItemType } from './enums'
-import { applyLcpTracking, type ILcpTracked } from './LcpItemMixin'
+import { applyLcpTracking, DEFAULT_LCP_NAME, type ILcpTracked } from './LcpItemMixin'
 
 interface IEnvironmentData {
   id?: string
@@ -24,7 +24,7 @@ class Environment implements ILcpTracked {
   public constructor(data: IEnvironmentData, pack?: ContentPack) {
     this.ID = data.id
       ? data.id
-      : `${pack?.Name || 'Lancer Core Book'}_${data.name}`.replace(/ /g, '_')
+      : `${pack?.Name || DEFAULT_LCP_NAME}_${data.name}`.replace(/ /g, '_')
     this.Name = data.name
     this.Description = data.description
     applyLcpTracking(this, pack)

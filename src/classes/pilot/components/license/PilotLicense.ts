@@ -1,4 +1,5 @@
 import { CompendiumStore } from '@/features/compendium/store'
+import { i18n } from '@/i18n'
 import License, { IRankedData } from './License'
 import { LicenseStub } from './LicenseStub'
 
@@ -15,7 +16,7 @@ class PilotLicense {
     else
       this.Stub = LicenseStub.Deserialize({
         id: '',
-        name: 'Unknown License',
+        name: i18n.global.t('classes.unknownLicense'),
         source: 'ERR',
         frameName: '',
       })

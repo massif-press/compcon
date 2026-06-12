@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid'
 import { ContentPack } from './ContentPack'
 import { ItemType } from './enums'
-import { applyLcpTracking, type ILcpTracked } from './LcpItemMixin'
+import { applyLcpTracking, DEFAULT_LCP_NAME, type ILcpTracked } from './LcpItemMixin'
 import type { ISerializableStatic } from './ISerializable'
 
 interface IStatusData {
@@ -28,7 +28,7 @@ class Status implements ILcpTracked {
   private _svg: string
 
   public constructor(data: IStatusData, pack?: ContentPack) {
-    this.ID = data.id || `${pack?.Name || 'Lancer Core Book'}_${data.name}`.replace(/ /g, '_')
+    this.ID = data.id || `${pack?.Name || DEFAULT_LCP_NAME}_${data.name}`.replace(/ /g, '_')
     this.InstanceID = uuid()
     this.Name = data.name
     this.Effects = data.effects

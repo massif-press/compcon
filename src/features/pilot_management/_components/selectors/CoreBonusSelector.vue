@@ -17,7 +17,7 @@
         variant="outlined"
         density="compact"
         color="success"
-        v-text="'Core Bonus Selection Complete'" />
+        v-text="$t('pm.selectors.coreBonusSelectionComplete')" />
       <v-card
         v-if="pilot.CoreBonusController.MaxCBPoints > pilot.CoreBonusController.CurrentCBPoints"
         flat
@@ -36,7 +36,7 @@
         block
         :disabled="!pilot.CoreBonusController.CoreBonuses.length"
         @click="pilot.CoreBonusController.ClearCoreBonuses()">
-        Reset
+        {{ $t('common.reset') }}
       </cc-button>
     </template>
 

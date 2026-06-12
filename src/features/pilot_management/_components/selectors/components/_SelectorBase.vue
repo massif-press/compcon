@@ -80,9 +80,9 @@
             @click="expanded = !expanded"
           >
             <v-icon size="x-large">
-              {{ expanded ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right' }}
+              {{ expanded ? $t('pm.selectors.mdiChevronDoubleLeft') : $t('pm.selectors.mdiChevronDoubleRight') }}
             </v-icon>
-            <span v-if="mobile && expanded">collapse</span>
+            <span v-if="mobile && expanded">{{ $t('pm.selectors.collapse') }}</span>
           </v-btn>
         </v-col>
       </v-row>

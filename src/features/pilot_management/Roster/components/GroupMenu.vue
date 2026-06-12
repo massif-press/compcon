@@ -2,30 +2,25 @@
   <v-card-text class="pt-2">
     <div class="heading"
       :class="mobile ? 'h4' : 'h3'">
-      UAD/CAVCOM Office of Records
+      {{ $t('pm.roster.uadCAVCOMOfficeOfRecords') }}
       <cc-slashes />
       <br v-if="mobile" />
-      &nbsp;I-7a Self-Service Unit Registration
+      &nbsp;{{ $t('pm.roster.i7aSelfServiceUnitRegistration') }}
     </div>
     <v-container class="flavor-text"
       style="font-size: 13px">
       <div class="mt-n2">
-        IDENT-CR-7a (CAVALRY UNIT REGISTRATION) is a self-directed registration form for the purpose
-        of registering a new unit designation for one or more IDENT-registered pilots. This form is
-        to be used by pilots who are not currently assigned to a unit or who are registering a new
-        unit designation for the first time. If you wish to register a new designation for an
-        existing unit, please submit form CR-7b (CAVALRY UNIT DOCUMENTATION UPDATE) instead.
+        {{ $t('pm.roster.identCR7aCAVALRYUNITREGISTRATION') }}
         <br />
-        Unit registration submission will be reviewed by the UAD/CAVCOM Office of Records in the
-        order they are received.
+        {{ $t('pm.roster.unitRegistrationSubmissionWillBeReviewed') }}
       </div>
     </v-container>
     <v-row align="center">
       <v-col>
         <div class="my-2">
           <div class="text-caption">
-            CR-7-00 // ENCODED DATA REMIT
-            <i class="text-disabled">(OPTIONAL)</i>
+            {{ $t('pm.roster.cr700ENCODEDDATAREMIT') }}
+            <i class="text-disabled">{{ $t('pm.roster.optional') }}</i>
           </div>
           <div class="px-10 pt-1">
             <group-file-import @toggle-import="importHide = $event"
@@ -43,7 +38,7 @@
             md="5"
             class="mr-auto">
             <div class="my-2">
-              <div class="text-caption">CR-7-01 // UNIT DESIGNATION</div>
+              <div class="text-caption">{{ $t('pm.roster.cr701UNITDESIGNATION') }}</div>
               <cc-text-field v-model="group.Name"
                 variant="outlined"
                 placeholder="Name"
@@ -61,7 +56,7 @@
             </div>
 
             <div class="my-4">
-              <div class="text-caption">CR-7-02a // ATTACHED NDAP COMP/DISP ANALYSIS RESULTS</div>
+              <div class="text-caption">{{ $t('pm.roster.cr702aATTACHEDNDAPCOMP') }}</div>
               <v-row align="center"
                 dense>
                 <v-col>
@@ -75,8 +70,8 @@
                         prepend-icon="mdi-pencil"
                         :color="group.Description ? 'success' : 'panel'"
                         @click="open">
-                        <div v-if="!group.Description">Add Group Description</div>
-                        <div v-else>Edit Group Description</div>
+                        <div v-if="!group.Description">{{ $t('pm.roster.addGroupDescription') }}</div>
+                        <div v-else>{{ $t('pm.roster.editGroupDescription') }}</div>
                       </cc-button>
                     </template>
                     <template #default="{ close }">
@@ -87,7 +82,7 @@
                           <cc-button color="primary"
                             size="small"
                             @click="close">
-                            Save and Close
+                            {{ $t('common.saveAndClose') }}
                           </cc-button>
                         </div>
                       </v-card-text>
@@ -109,7 +104,7 @@
 
             <div class="my-4">
               <div class="text-caption">
-                CR-7-02b // ATTACHED TACANALYSIS RECORDS (SUPPLEMENTAL)
+                {{ $t('pm.roster.cr702bATTACHEDTACANALYSISRECORDS') }}
               </div>
               <v-row align="center"
                 dense>
@@ -124,8 +119,8 @@
                         prepend-icon="mdi-pencil"
                         :color="group.History ? 'success' : 'panel'"
                         @click="open">
-                        <div v-if="!group.Description">Add Group History</div>
-                        <div v-else>Edit Group History</div>
+                        <div v-if="!group.Description">{{ $t('pm.roster.addGroupHistory') }}</div>
+                        <div v-else>{{ $t('pm.roster.editGroupHistory') }}</div>
                       </cc-button>
                     </template>
                     <template #default="{ close }">
@@ -136,7 +131,7 @@
                           <cc-button color="primary"
                             size="small"
                             @click="close">
-                            Save and Close
+                            {{ $t('common.saveAndClose') }}
                           </cc-button>
                         </div>
                       </v-card-text>
@@ -159,7 +154,7 @@
           <v-col cols="12"
             md="5"
             class="ml-auto">
-            <div class="text-caption">CR-7-03 // UNIT LIVERY</div>
+            <div class="text-caption">{{ $t('pm.roster.cr703UNITLIVERY') }}</div>
             <div class="border mr-8 ml-auto mr-auto"
               style="width: 300px; height: 300px">
               <cc-img v-if="group.Portrait"
@@ -178,7 +173,7 @@
     <cc-button block
       color="primary"
       :disabled="!group.Name"
-      @click="submit()">Submit</cc-button>
+      @click="submit()">{{ $t('common.submit') }}</cc-button>
   </div>
 </template>
 

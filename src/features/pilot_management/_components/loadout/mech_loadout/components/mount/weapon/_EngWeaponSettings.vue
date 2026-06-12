@@ -5,7 +5,7 @@
       justify="space-around">
       <v-col cols="auto"
         style="min-width: 55px;">
-        <div class="text-cc-overline text-disabled">WEAPON TYPE</div>
+        <div class="text-cc-overline text-disabled">{{ $t('pm.loadout.weaponTYPE') }}</div>
         <v-menu>
           <template #activator="{ props }">
             <cc-button block
@@ -13,7 +13,7 @@
               :prepend-icon="weaponType ? item.Range[0].Icon : 'mdi-help'"
               :color="weaponType ? 'primary' : 'panel'"
               @click="props.onClick($event)">
-              {{ weaponType || 'NOT SET' }}
+              {{ weaponType || $t('pm.loadout.notSET') }}
             </cc-button>
           </template>
           <v-list density="compact"
@@ -34,7 +34,7 @@
         </v-menu>
       </v-col>
       <v-col cols="auto">
-        <div class="text-cc-overline text-disabled">DAMAGE TYPE</div>
+        <div class="text-cc-overline text-disabled">{{ $t('pm.loadout.damageTYPE') }}</div>
         <v-menu>
           <template #activator="{ props }">
             <cc-button block
@@ -42,7 +42,7 @@
               :prepend-icon="damageType ? `cc:${damageType}` : 'mdi-help'"
               :color="damageType ? `damage--${damageType}` : 'panel'"
               @click="props.onClick($event)">
-              {{ damageType || 'NOT SET' }}
+              {{ damageType || $t('pm.loadout.notSET') }}
             </cc-button>
           </template>
           <v-list density="compact"
@@ -63,7 +63,7 @@
         </v-menu>
       </v-col>
       <v-col style="min-width: 55px;">
-        <div class="text-cc-overline text-disabled">USES</div>
+        <div class="text-cc-overline text-disabled">{{ $t('pm.print.uses') }}</div>
         <v-menu :close-on-content-click="false">
           <template #activator="{ props }">
             <cc-button block
@@ -71,7 +71,7 @@
               :prepend-icon="uses ? 'mdi-dice-d20-outline' : 'mdi-help'"
               :color="uses ? 'primary' : 'panel'"
               @click="props.onClick($event)">
-              {{ uses ? uses : 'NOT SET' }}
+              {{ uses ? uses : $t('pm.loadout.notSET') }}
             </cc-button>
           </template>
           <v-card flat
@@ -79,7 +79,7 @@
             border>
             <v-card-text class="pt-1">
               <div class="text-cc-overline text-disabled mb-2">
-                SET USES
+                {{ $t('pm.loadout.setUSES') }}
                 <cc-slashes />
                 {{ level < 3
                   ?
@@ -116,7 +116,7 @@
       <v-col v-if="level > 1"
         cols="12"
         lg="6">
-        <div class="text-cc-overline text-disabled">REVISIONS</div>
+        <div class="text-cc-overline text-disabled">{{ $t('pm.loadout.revisions') }}</div>
         <v-menu :close-on-content-click="false"
           :max-width="300">
           <template #activator="{ props }">
@@ -125,7 +125,7 @@
               :prepend-icon="selectedRevisions[0] ? `cc:talent` : 'mdi-help'"
               :color="selectedRevisions[0] ? `primary` : 'panel'"
               @click="props.onClick($event)">
-              <span v-if="!selectedRevisions.length">NOT SET</span>
+              <span v-if="!selectedRevisions.length">{{ $t('pm.loadout.notSET') }}</span>
               <span v-else>
                 {{ selectedRevisionTitles }}
               </span>

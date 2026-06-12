@@ -9,7 +9,7 @@
       <slot />
       <v-bottom-navigation fixed grow horizontal color="primary" class="no-print pa-2">
         <v-btn stacked @click="router.go(-1)">
-          <span>{{ $t('ui.print.closePreview') }}</span>
+          <span>{{ $t('common.closePreview') }}</span>
           <v-icon icon="mdi-close" />
         </v-btn>
         <slot name="selector" />

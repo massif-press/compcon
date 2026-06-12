@@ -7,7 +7,7 @@
       <template #activator="{ open }">
         <v-btn color="secondary" size="small" block variant="tonal" @click="open">
           <v-icon start>mdi-circle-edit-outline</v-icon>
-          Set Pilot Portrait
+          {{ $t('pm.sheet.setPilotPortrait') }}
         </v-btn>
       </template>
       <cc-image-selector ref="imageSelector" :item="pilot" type="pilot" avatar />

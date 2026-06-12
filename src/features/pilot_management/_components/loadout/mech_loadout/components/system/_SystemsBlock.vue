@@ -8,7 +8,7 @@
       style="border-color: rgba(155, 155, 155, 0.6)">
       <legend :style="`color: ${color}`"
         class="heading h3 d-flex align-center">
-        Systems
+        {{ $t('pm.new.systems') }}
         <v-tooltip v-if="!readonly && activeSystems.length > 1"
           location="top">
           <template #activator="{ props }">
@@ -23,11 +23,11 @@
               v-bind="props"
               @click="reorderMode = !reorderMode">
               <v-icon size="small">
-                {{ reorderMode ? 'mdi-check' : 'mdi-swap-vertical' }}
+                {{ reorderMode ? $t('pm.loadout.mdiCheck') : $t('pm.loadout.mdiSwapVertical') }}
               </v-icon>
             </v-btn>
           </template>
-          <span> {{ reorderMode ? 'Save Configuration' : 'Reorder Systems' }}</span>
+          <span> {{ reorderMode ? $t('pm.loadout.saveConfiguration') : $t('pm.loadout.reorderSystems') }}</span>
         </v-tooltip>
       </legend>
       <div style="position: relative">
@@ -38,7 +38,7 @@
               color="error"
               size="small">mdi-alert</v-icon>
             {{ mech.FreeSP }} / {{ mech.MaxSP }}
-            <span class="text-cc-overline">SP</span>
+            <span class="text-cc-overline">{{ $t('stats.sp') }}</span>
           </span>
         </div>
       </div>
@@ -131,7 +131,7 @@
             variant="tonal"
             prepend-icon="mdi-plus"
             @click.stop="setAddAdditional">
-            Add Additional System
+            {{ $t('pm.loadout.addAdditionalSystem') }}
           </cc-button>
         </v-col>
       </v-row>

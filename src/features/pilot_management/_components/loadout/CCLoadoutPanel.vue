@@ -15,7 +15,7 @@
           </v-btn>
         </template>
         <v-list density="compact">
-          <div class="text-overline px-3">Available Loadouts</div>
+          <div class="text-overline px-3">{{ $t('pm.loadout.availableLoadouts') }}</div>
           <v-list-item v-for="(l, index) in loadouts"
             :key="`loadout-${index}`"
             :title="(l as Loadout).Name"

@@ -133,6 +133,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import CCItemFilter from '../../panels/filters/CCItemFilter.vue'
+import { DEFAULT_LCP_NAME } from '@/classes/LcpItemMixin'
 
 defineOptions({ name: 'BrowserViewToggle' })
 
@@ -167,7 +168,7 @@ function applyLcpConfig(config: any) {
       const allowed = new Set(
         config.packList.filter((p: any) => p.allowed).map((p: any) => p.packName)
       );
-      allowed.add('Lancer Core Book');
+      allowed.add(DEFAULT_LCP_NAME);
       emit('update:modelValue', (props.lcps as string[]).filter(lcp => allowed.has(lcp)));
     }
 function configMatchCount(config: any) {

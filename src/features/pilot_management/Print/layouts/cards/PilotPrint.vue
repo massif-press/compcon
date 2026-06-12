@@ -29,12 +29,12 @@
             <b class="heading h3">+{{ pilot.Grit }}</b>
           </v-avatar>
         </div>
-        <div class="heading caption text-center">{{ pilot.Name }} // LL {{ pilot.Level }}</div>
+        <div class="heading caption text-center">{{ pilot.Name }} {{ $t('pm.print.slashesLl') }} {{ pilot.Level }}</div>
 
         <v-divider class="my-1" />
 
         <fieldset>
-          <legend class="font-weight-bold caption text-primary px-2 text-center">PILOT HP</legend>
+          <legend class="font-weight-bold caption text-primary px-2 text-center">{{ $t('pm.print.pilotHP') }}</legend>
           <div style="min-width: 12vw">
             <blank-line :height="40" />
           </div>
@@ -45,7 +45,7 @@
             <v-col cols="auto">
               <span class="text-center heading caption"
                 v-text="pilot.MaxHP" />
-              <span class="text-primary caption">MAX HP</span>
+              <span class="text-primary caption">{{ $t('pm.print.maxHP') }}</span>
             </v-col>
           </v-row>
         </fieldset>
@@ -53,24 +53,24 @@
           justify="space-between"
           dense>
           <v-col>
-            <div class="font-weight-bold caption text-primary">ARMOR</div>
+            <div class="font-weight-bold caption text-primary">{{ $t('stats.armor') }}</div>
 
             <div class="heading"
               v-text="pilot.Armor" />
           </v-col>
           <v-col>
-            <div class="font-weight-bold caption text-primary">E-DEF</div>
+            <div class="font-weight-bold caption text-primary">{{ $t('stats.edef') }}</div>
             <div class="heading"
               v-text="pilot.EDefense" />
           </v-col>
           <v-col>
-            <div class="font-weight-bold caption text-primary">EVASION</div>
+            <div class="font-weight-bold caption text-primary">{{ $t('stats.evasion') }}</div>
 
             <div class="heading"
               v-text="pilot.Evasion" />
           </v-col>
           <v-col>
-            <div class="font-weight-bold caption text-primary">SPEED</div>
+            <div class="font-weight-bold caption text-primary">{{ $t('stats.speed') }}</div>
 
             <div class="heading"
               v-text="pilot.Speed" />
@@ -83,25 +83,25 @@
           justify="space-between"
           dense>
           <v-col>
-            <div class="font-weight-bold caption text-primary">HULL</div>
+            <div class="font-weight-bold caption text-primary">{{ $t('stats.hull') }}</div>
 
             <div v-html-safe="pilot.MechSkillsController.MechSkills.Hull"
               class="heading" />
           </v-col>
           <v-col>
-            <div class="font-weight-bold caption text-primary text-primary">AGI</div>
+            <div class="font-weight-bold caption text-primary text-primary">{{ $t('stats.agi') }}</div>
 
             <div v-html-safe="pilot.MechSkillsController.MechSkills.Agi"
               class="heading" />
           </v-col>
           <v-col>
-            <div class="font-weight-bold caption text-primary">SYS</div>
+            <div class="font-weight-bold caption text-primary">{{ $t('stats.sys') }}</div>
 
             <div v-html-safe="pilot.MechSkillsController.MechSkills.Sys"
               class="heading" />
           </v-col>
           <v-col>
-            <div class="font-weight-bold caption text-primary">ENG</div>
+            <div class="font-weight-bold caption text-primary">{{ $t('stats.eng') }}</div>
 
             <div v-html-safe="pilot.MechSkillsController.MechSkills.Eng"
               class="heading" />
@@ -113,7 +113,7 @@
         <div>
           <div class="caption text-center mt-n1 mb-2"
             style="letter-spacing: 5px; font-size: 10px">
-            PILOT&emsp;SKILL TRIGGERS
+            {{ $t('pm.print.pilotSkillTriggers') }}
           </div>
           <v-card v-for="s in pilot.SkillsController.Skills"
             :key="s.Skill.ID"
@@ -148,7 +148,7 @@
         :key="t.Talent.ID">
         <div class="caption text-center mt-n1"
           style="letter-spacing: 10px; font-size: 10px">
-          PILOT&emsp;TALENT
+          {{ $t('pm.print.pilotTalent') }}
         </div>
         <v-row dense
           align="center">
@@ -182,7 +182,7 @@
       <card v-if="pilot.CoreBonusController.CoreBonuses.length">
         <div class="caption text-center mt-n1"
           style="letter-spacing: 10px; font-size: 10px">
-          CORE&emsp;BONUSES
+          {{ $t('pm.print.coreBonuses') }}
         </div>
         <v-divider />
         <div v-for="cb in pilot.CoreBonusController.CoreBonuses"
@@ -209,7 +209,7 @@
         :key="a.ID">
         <div class="caption text-center mt-n1"
           style="letter-spacing: 10px; font-size: 10px">
-          PILOT ARMOR
+          {{ $t('pm.print.pilotARMOR') }}
         </div>
         <v-row dense
           align="center">
@@ -275,7 +275,7 @@
         :key="w.ID">
         <div class="caption text-center mt-n1"
           style="letter-spacing: 10px; font-size: 10px">
-          PILOT WEAPON
+          {{ $t('pm.print.pilotWEAPON') }}
         </div>
         <v-row dense
           align="center">
@@ -323,7 +323,7 @@
         :key="g.ID">
         <div class="caption text-center mt-n1"
           style="letter-spacing: 10px; font-size: 10px">
-          PILOT GEAR
+          {{ $t('pm.print.pilotGEAR') }}
         </div>
         <v-row dense
           align="center">
@@ -357,7 +357,7 @@
         :key="r.ID">
         <div class="caption text-center mt-n1"
           style="letter-spacing: 10px; font-size: 10px">
-          RESERVE
+          {{ $t('pm.print.reserve') }}
         </div>
         <v-row dense
           align="center">

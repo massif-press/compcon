@@ -12,6 +12,7 @@
     "format": "prettier --write 'src/**/*.{ts,vue,json,css,scss,md}'",
     "format:check": "prettier --check 'src/**/*.{ts,vue,json,css,scss,md}'",
     "typecheck": "vue-tsc --noEmit",
+    "i18n:check": "node scripts/i18n-check.mjs",
     "prepare": "husky"
   },
   "lint-staged": {

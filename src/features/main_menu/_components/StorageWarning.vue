@@ -26,7 +26,7 @@
           </li>
           <li>
             <i18n-t keypath="mainMenu.storage.iosStep3" tag="span" scope="global">
-              <template #target><b>{{ $t("mainMenu.storage.addLabel") }}</b></template>
+              <template #target><b>{{ $t("common.add") }}</b></template>
             </i18n-t>
           </li>
         </ol>

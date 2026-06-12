@@ -43,7 +43,7 @@
               {{ p.callsign }}
             </div>
             <div class="text-caption">
-              {{ p.background || 'Unknown Background' }}, LL {{ p.level }} <span v-if=p.player_name>
+              {{ p.background || 'Unknown Background' }}{{ $t('pm.common.commaLl') }} {{ p.level }} <span v-if=p.player_name>
                 ({{ p.player_name
                 }})</span>
             </div>
@@ -87,11 +87,9 @@
                 block
                 prepend-icon="mdi-plus"
                 @click="importFile()">
-                Import {{ (stagedData as any).name }}
+                {{ $t('common.import') }} {{ (stagedData as any).name }}
                 <span v-if="stagedPilots.length && importPilots">
-                  &nbsp;and {{ stagedPilots.length }} Pilot{{
-                    stagedPilots.length > 1 ? 's' : ''
-                  }}</span>
+                  &nbsp;{{ $t('pm.roster.and') }} {{ stagedPilots.length }} {{ stagedPilots.length > 1 ? $t('pm.roster.pilots') : $t('pm.roster.pilot') }}</span>
               </cc-button>
             </v-col>
           </v-row>
@@ -141,7 +139,7 @@ async function stageImport(file) {
     pilotData = importedData.pilotData
   } catch (error) {
     notify({
-      title: t('pm.import.importErrorTitle'),
+      title: t('notify.gm.importErrorTitle'),
       text: t('pm.import.importErrorText', { error: String(error) }),
       data: { icon: 'mdi-account-multiple', color: 'error' },
     })
@@ -181,7 +179,7 @@ function importFile() {
     })
   } catch (error) {
     notify({
-      title: t('pm.import.importErrorTitle'),
+      title: t('notify.gm.importErrorTitle'),
       text: t('pm.import.groupImportErrorText', { error: String(error) }),
       data: { icon: 'mdi-account-multiple', color: 'error' },
     })
@@ -205,7 +203,7 @@ function importFile() {
       })
     } catch (error) {
       notify({
-        title: t('pm.import.importErrorTitle'),
+        title: t('notify.gm.importErrorTitle'),
         text: t('pm.import.importPilotErrorText', { error: String(error) }),
         data: { icon: 'cc:pilot', color: 'error' },
       })

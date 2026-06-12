@@ -3,11 +3,11 @@
     fixed
     @changed="setTab($event)">
     <template #tabs>
-      <v-tab selected-class="bg-accent">{{ $t('compendium.nav.compendium') }}</v-tab>
+      <v-tab selected-class="bg-accent">{{ $t('common.compendium') }}</v-tab>
       <v-tab selected-class="bg-accent">{{ $t('compendium.nav.systemReference') }}</v-tab>
       <v-tab v-if="isDevsite"
         selected-class="bg-accent">
-        {{ $t('compendium.nav.campaignLibrary') }}
+        {{ $t('common.campaignLibrary') }}
       </v-tab>
     </template>
     <div :class="mobile ? 'my-2' : 'my-4'" />

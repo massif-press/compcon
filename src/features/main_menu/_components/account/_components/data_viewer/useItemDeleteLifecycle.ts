@@ -5,6 +5,9 @@ import { CloudController } from '@/classes/components/cloud/CloudController'
 import { getItemRegistration } from '@/classes/components/cloud/ItemRegistry'
 import { cloudDelete } from '@/io/apis/account'
 import logger from '@/user/logger'
+import { i18n } from '@/i18n'
+
+const t = i18n.global.t
 
 export function useItemDeleteLifecycle(opts: { refresh: () => void }) {
   const bulkDeleteMode = ref(false)
@@ -55,21 +58,21 @@ export function useItemDeleteLifecycle(opts: { refresh: () => void }) {
       const succeeded = selectedForDelete.value.length - failures.length
       if (failures.length === 0) {
         vueNotify({
-          title: `${succeeded} Item${succeeded !== 1 ? 's' : ''} Deleted`,
-          text: 'Selected items have been deleted.',
+          title: t('notify.dataItem.bulkDeletedTitle', { n: succeeded, s: succeeded !== 1 ? 's' : '' }),
+          text: t('notify.dataItem.bulkDeletedText'),
           data: { icon: 'mdi-delete', color: 'success' },
         })
       } else {
         vueNotify({
-          title: `${succeeded} Deleted, ${failures.length} Failed`,
-          text: `Could not delete: ${failures.join(', ')}`,
+          title: t('notify.dataItem.bulkPartialTitle', { n: succeeded, f: failures.length }),
+          text: t('notify.dataItem.bulkPartialText', { items: failures.join(', ') }),
           data: { icon: 'mdi-alert', color: 'warning' },
         })
       }
       opts.refresh()
     } catch (e) {
       logger.error('Bulk delete failed:', e)
-      vueNotify({ title: 'Bulk Delete Failed', text: `${e}`, data: { icon: 'mdi-alert', color: 'error' } })
+      vueNotify({ title: t('notify.dataItem.bulkFailedTitle'), text: `${e}`, data: { icon: 'mdi-alert', color: 'error' } })
     } finally {
       bulkDeleteLoading.value = false
       bulkDeleteDialog.value = false
@@ -85,10 +88,10 @@ export function useItemDeleteLifecycle(opts: { refresh: () => void }) {
     const ok = await UserStore().retryBrokenRemote(code)
     retryingCode.value = null
     if (ok) {
-      vueNotify({ title: 'Connection Restored', text: `${item.Name} is linked again.`, data: { icon: 'mdi-link-variant', color: 'success' } })
+      vueNotify({ title: t('notify.dataItem.connectionRestoredTitle'), text: t('notify.dataItem.connectionRestoredText', { name: item.Name }), data: { icon: 'mdi-link-variant', color: 'success' } })
       opts.refresh()
     } else {
-      vueNotify({ title: 'Retry Failed', text: `The remote item for ${item.Name} could not be found.`, data: { icon: 'mdi-alert', color: 'error' } })
+      vueNotify({ title: t('notify.dataItem.retryFailedTitle'), text: t('notify.dataItem.retryFailedText', { name: item.Name }), data: { icon: 'mdi-alert', color: 'error' } })
     }
   }
 
@@ -96,7 +99,7 @@ export function useItemDeleteLifecycle(opts: { refresh: () => void }) {
     const code = item.SaveController?.RemoteCode
     if (!code) return
     UserStore().convertBrokenRemoteToLocal(code)
-    vueNotify({ title: 'Converted to Local', text: `${item.Name} is now a local-only item.`, data: { icon: 'mdi-content-save', color: 'success' } })
+    vueNotify({ title: t('notify.dataItem.convertedTitle'), text: t('notify.dataItem.convertedText', { name: item.Name }), data: { icon: 'mdi-content-save', color: 'success' } })
     opts.refresh()
   }
 
@@ -106,8 +109,8 @@ export function useItemDeleteLifecycle(opts: { refresh: () => void }) {
       await CloudController.MarkCloudDeleted(item.CloudController.Metadata)
       opts.refresh()
       vueNotify({
-        title: `Item Deleted`,
-        text: `Marked ${item.ItemType} ${item.Name} as deleted.`,
+        title: t('notify.dataItem.itemDeletedTitle'),
+        text: t('notify.dataItem.markedDeletedText', { type: item.ItemType, name: item.Name }),
         data: { icon: 'mdi-delete', color: 'success' },
       })
       deleteLoading.value = false
@@ -115,8 +118,8 @@ export function useItemDeleteLifecycle(opts: { refresh: () => void }) {
     } catch (err) {
       logger.error(`Error deleting item: ${err}`, {}, err)
       vueNotify({
-        title: `Delete Failed`,
-        text: `Unable to communicate with server. ${err}`,
+        title: t('notify.dataItem.deleteFailedTitle'),
+        text: t('notify.dataItem.serverError', { err: String(err) }),
         data: { icon: 'mdi-alert', color: 'error' },
       })
     }
@@ -128,8 +131,8 @@ export function useItemDeleteLifecycle(opts: { refresh: () => void }) {
     try {
       await CloudController.Undelete(item.CloudController.Metadata)
       vueNotify({
-        title: `Item Restored`,
-        text: `Restored ${item.ItemType} ${item.Name}.`,
+        title: t('notify.dataItem.itemRestoredTitle'),
+        text: t('notify.dataItem.restoredText', { type: item.ItemType, name: item.Name }),
         data: { icon: 'mdi-delete', color: 'success' },
       })
       deleteLoading.value = false
@@ -137,8 +140,8 @@ export function useItemDeleteLifecycle(opts: { refresh: () => void }) {
     } catch (err) {
       logger.error(`Error restoring item: ${err}`, {}, err)
       vueNotify({
-        title: `Restore Failed`,
-        text: `Unable to communicate with server. ${err}`,
+        title: t('notify.dataItem.restoreFailedTitle'),
+        text: t('notify.dataItem.serverError', { err: String(err) }),
         data: { icon: 'mdi-alert', color: 'error' },
       })
     }
@@ -159,8 +162,8 @@ export function useItemDeleteLifecycle(opts: { refresh: () => void }) {
       if (cidx > -1) store.CloudItems.splice(cidx, 1)
       opts.refresh()
       vueNotify({
-        title: `Item Deleted Permanently`,
-        text: `Removed ${item.ItemType} ${item.Name}.`,
+        title: t('notify.dataItem.deletedPermanentlyTitle'),
+        text: t('notify.dataItem.removedText', { type: item.ItemType, name: item.Name }),
         data: { icon: 'mdi-delete', color: 'success' },
       })
       deleteLoading.value = false
@@ -168,8 +171,8 @@ export function useItemDeleteLifecycle(opts: { refresh: () => void }) {
     } catch (err) {
       logger.error(`Error deleting item: ${err}`, {}, err)
       vueNotify({
-        title: `Deletion Failed`,
-        text: `Unable to communicate with server. ${err}`,
+        title: t('notify.dataItem.deletionFailedTitle'),
+        text: t('notify.dataItem.serverError', { err: String(err) }),
         data: { icon: 'mdi-alert', color: 'error' },
       })
     }
@@ -179,8 +182,8 @@ export function useItemDeleteLifecycle(opts: { refresh: () => void }) {
   function restoreLocalItem(item: any) {
     item.SaveController.Restore()
     vueNotify({
-      title: 'Item Restored',
-      text: `Restored ${item.ItemType} ${item.Name}.`,
+      title: t('notify.dataItem.itemRestoredTitle'),
+      text: t('notify.dataItem.restoredText', { type: item.ItemType, name: item.Name }),
       data: { icon: 'mdi-restore', color: 'success' },
     })
   }
@@ -193,8 +196,8 @@ export function useItemDeleteLifecycle(opts: { refresh: () => void }) {
       await reg.deleteLocal(item)
       if (!silent) {
         vueNotify({
-          title: 'Item Deleted',
-          text: `Removed ${item.ItemType} ${item.Name}.`,
+          title: t('notify.dataItem.itemDeletedTitle'),
+          text: t('notify.dataItem.removedText', { type: item.ItemType, name: item.Name }),
           data: { icon: 'mdi-delete', color: 'success' },
         })
       }
@@ -204,8 +207,8 @@ export function useItemDeleteLifecycle(opts: { refresh: () => void }) {
       logger.error(`Error permanently deleting local item: ${err}`, {}, err)
       if (!silent) {
         vueNotify({
-          title: 'Delete Failed',
-          text: `Failed to delete ${item.ItemType} ${item.Name}. ${err}`,
+          title: t('notify.dataItem.deleteFailedTitle'),
+          text: t('notify.dataItem.failedToDeleteText', { type: item.ItemType, name: item.Name, err: String(err) }),
           data: { icon: 'mdi-alert', color: 'error' },
         })
       }

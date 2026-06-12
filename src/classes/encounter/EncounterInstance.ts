@@ -1,4 +1,5 @@
 import { markRaw } from 'vue'
+import { i18n } from '@/i18n'
 import logger from '@/user/logger'
 import { v4 as uuid } from 'uuid'
 import {
@@ -65,7 +66,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     pilots: Pilot[] = [],
     placeholders: Placeholder[] = []
   ) {
-    this.Name = 'New Encounter'
+    this.Name = i18n.global.t('classes.newEncounter')
     this._id = data?.id || uuid()
     this._round = data?.round || 1
     this.IsActive = data?.isActive || false

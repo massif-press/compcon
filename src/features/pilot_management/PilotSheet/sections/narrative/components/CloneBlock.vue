@@ -10,7 +10,7 @@
         <v-icon size="80"
           icon="mdi-skull" />
       </template>
-      <div class="heading h1 text-center">KILLED IN ACTION</div>
+      <div class="heading h1 text-center">{{ $t('pm.sheet.killedINACTION') }}</div>
       <div v-if="!pilot.IsRemote"
         style="position: relative"
         class="mb-4">
@@ -22,7 +22,7 @@
                 size="x-small"
                 variant="text"
                 v-bind="props">
-                Flash Clone Pilot
+                {{ $t('pm.sheet.flashClonePilot') }}
               </v-btn>
             </template>
             <cc-confirmation
@@ -37,7 +37,7 @@
                 variant="plain"
                 class="ml-6"
                 v-bind="props">
-                Revert
+                {{ $t('pm.sheet.revert') }}
               </v-btn>
             </template>
             <cc-confirmation

@@ -10,15 +10,15 @@
       <v-btn size="small"
         height="30"
         width="33.33%"
-        value="Resource">Resource</v-btn>
+        value="Resource">{{ $t('pm.selectors.resource') }}</v-btn>
       <v-btn size="small"
         height="30"
         width="33.33%"
-        value="Mech">Mech</v-btn>
+        value="Mech">{{ $t('pm.selectors.mech') }}</v-btn>
       <v-btn size="small"
         height="30"
         width="33.33%"
-        value="Tactical">Tactical</v-btn>
+        value="Tactical">{{ $t('pm.selectors.tactical') }}</v-btn>
     </v-btn-toggle>
     <cc-text-field v-model="customName"
       color="primary"
@@ -36,7 +36,7 @@
       append-icon="mdi-plus"
       :disabled="!customType || !customName"
       @click="add()">
-      Add Reserve
+      {{ $t('pm.selectors.addReserve') }}
     </cc-button>
   </div>
 </template>

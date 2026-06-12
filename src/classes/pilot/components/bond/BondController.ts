@@ -142,7 +142,7 @@ class BondController {
   public AddClock() {
     this._clocks.push(
       new Clock({
-        title: 'New Clock',
+        title: i18n.global.t('classes.newClock'),
         segments: 6,
       })
     )

@@ -30,13 +30,13 @@
         color="error"
         class="px-2 heading h3"
         height="32">
-        WARNING: LICENSE MISSING
+        {{ $t('pm.sheet.warningLICENSEMISSING') }}
       </v-toolbar>
       <v-card-text class="pa-2 text-text">
-        <b v-if="licenseRequirement.source === 'GMS'">GMS STANDARD PILOT'S LICENSE</b>
-        <b v-else>{{ licenseRequirement.name }} RANK {{ licenseRequirement.rank }}</b>
+        <b v-if="licenseRequirement.source === 'GMS'">{{ $t('pm.sheet.gmsSTANDARDPILOTSLICENSE') }}</b>
+        <b v-else>{{ licenseRequirement.name }} {{ $t('common.rank') }} {{ licenseRequirement.rank }}</b>
         <v-divider class="my-1" />
-        <div class="text-cc-overline text-disabled">Required for:</div>
+        <div class="text-cc-overline text-disabled">{{ $t('pm.sheet.requiredFor') }}</div>
         <cc-chip v-for="(item, index) in licenseRequirement.items"
           :key="`item-${index}`"
           size="small"

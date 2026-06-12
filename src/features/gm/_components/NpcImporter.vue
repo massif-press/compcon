@@ -118,6 +118,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18n } from '@/i18n'
+const t = i18n.global.t
 import { computed, ref } from 'vue'
 import logger from '@/user/logger'
 import { notify } from '@/util/notify'
@@ -281,8 +283,8 @@ async function importFile() {
         } catch (error) {
           logger.error('Failed to import NPC', null, error);
           notify({
-            title: 'Import Error',
-            text: `Unable to import GM Data: ${error}`,
+            title: t('notify.gm.npcImportErrorTitle'),
+            text: t('notify.gm.npcImportErrorText', { error }),
             data: { icon: 'cc:compendium', color: 'error' },
           });
         }
@@ -290,8 +292,8 @@ async function importFile() {
 
       if (backedUp > 0) {
         notify({
-          title: 'v2 Import Backup',
-          text: `${backedUp} item(s) saved to pending v2 imports in the Content Manager/`,
+          title: t('notify.gm.v2BackupTitle'),
+          text: t('notify.gm.v2BackupText', { count: backedUp }),
           data: { icon: 'mdi-information-box-outline', color: 'info' },
         });
       }

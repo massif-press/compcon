@@ -138,14 +138,14 @@ async function installLatest(pack) {
   try {
     await UserStore().downloadLcp(pack);
     notify({
-      title: t('mainMenu.account.lcpUpdatedTitle'),
+      title: t('notify.lcp.lcpUpdatedTitle'),
       text: t('mainMenu.account.lcpUpdatedText', { title: pack.title }),
       data: { color: 'success', icon: 'mdi-check-bold' },
     });
   } catch (err) {
     logger.error(`Error downloading LCP: ${err}`, this, err);
     notify({
-      title: t('mainMenu.account.lcpUpdateErrorTitle'),
+      title: t('notify.lcp.lcpUpdateErrorTitle'),
       text: t('mainMenu.account.lcpUpdateErrorText', { title: pack.title }),
       data: { color: 'error', icon: 'mdi-alert-circle-outline' },
     });

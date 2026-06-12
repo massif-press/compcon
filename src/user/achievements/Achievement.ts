@@ -1,4 +1,6 @@
 import { notify } from '@/util/notify';
+import { i18n } from '@/i18n'
+const t = i18n.global.t
 
 import { AchievementManager } from './AchievementManager';
 import { AchievementEventSystem } from './AchievementEvent';
@@ -98,7 +100,7 @@ class Achievement {
     if (this.Unlocked) return;
     logger.info(`Achievement Unlocked: ${this.Name}`);
     notify({
-      title: 'Achievement Unlocked!',
+      title: t('notify.achievement.unlockedTitle'),
       text: this.Name,
       color: '#d4af37',
       icon: this.Icon,

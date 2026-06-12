@@ -1,7 +1,7 @@
 <template>
   <v-col cols="auto"
     class="ml-auto mr-2 text-center caption">
-    <div class="text-overline text-primary my-n2">OVERCHARGE</div>
+    <div class="text-overline text-primary my-n2">{{ $t('pm.print.overcharge') }}</div>
     <v-chip size="20"
       variant="outlined"
       color="red"
@@ -14,7 +14,7 @@
       variant="outlined"
       color="red"
       class="ml-1">
-      &nbsp;+1d3
+      &nbsp;{{ $t('pm.print.1d3') }}
       <v-icon size="small"
         icon="mdi-fire" />
     </v-chip>
@@ -22,7 +22,7 @@
       variant="outlined"
       color="red"
       class="ml-1">
-      &nbsp;+1d6
+      &nbsp;{{ $t('pm.print.1d6') }}
       <v-icon size="small"
         icon="mdi-fire" />
     </v-chip>
@@ -30,7 +30,7 @@
       variant="outlined"
       color="red"
       class="ml-1">
-      &nbsp;+1d6+4
+      &nbsp;{{ $t('pm.print.1d64') }}
       <v-icon size="small"
         icon="mdi-fire" />
     </v-chip>

@@ -40,7 +40,7 @@
             class="ll text-white"
             style="line-height: 25px">
             <div v-if="!small"
-              class="text-overline mb-n1 text-right">LL</div>
+              class="text-overline mb-n1 text-right">{{ $t('pm.sheet.ll') }}</div>
             <div :class="`heading ${small ? 'h3' : 'h2'} mt-n2`">
               {{ pilot.Level.toString().padStart(2, '0') }}
             </div>
@@ -62,7 +62,7 @@
                       size="x-small">
                       <v-icon start
                         class="mr-3">mdi-broadcast</v-icon>
-                      REMOTE RESOURCE
+                      {{ $t('pm.roster.remoteRESOURCE') }}
                     </v-chip>
                   </div>
 
@@ -73,9 +73,9 @@
                   <cc-slashes />
                   <b>{{ pilot.Status }}</b>
                   <v-divider />
-                  HULL {{ pilot.MechSkillsController.MechSkills.Hull }} AGI
-                  {{ pilot.MechSkillsController.MechSkills.Agi }} SYS
-                  {{ pilot.MechSkillsController.MechSkills.Sys }} ENG
+                  {{ $t('stats.hull') }} {{ pilot.MechSkillsController.MechSkills.Hull }} {{ $t('stats.agi') }}
+                  {{ pilot.MechSkillsController.MechSkills.Agi }} {{ $t('stats.sys') }}
+                  {{ pilot.MechSkillsController.MechSkills.Sys }} {{ $t('stats.eng') }}
                   {{ pilot.MechSkillsController.MechSkills.Eng }}
                   <v-divider />
                   <div>

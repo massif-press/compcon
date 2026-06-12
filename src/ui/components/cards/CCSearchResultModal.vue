@@ -27,7 +27,7 @@
                   item.Activation || ''"
                   class="mb-0" />
                 <div class="text-caption text-disabled text-right"><i>{{ item.Brew?.LcpName ||
-                  'Lancer Core Book' }}</i></div>
+                  DEFAULT_LCP_NAME }}</i></div>
               </div>
             </cc-panel>
           </template>
@@ -44,6 +44,8 @@
 </template>
 
 <script setup lang="ts">
+import { DEFAULT_LCP_NAME } from '@/classes/LcpItemMixin'
+
 defineProps<{ item: Record<string, any> }>()
 
 function sanitize(type: string) {

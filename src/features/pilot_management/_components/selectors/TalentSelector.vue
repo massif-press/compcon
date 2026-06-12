@@ -19,7 +19,7 @@
         variant="outlined"
         density="compact"
         color="success"
-        v-text="'Talent Selection Complete'" />
+        v-text="$t('pm.selectors.talentSelectionComplete')" />
       <v-card
         v-if="pilot.TalentsController.MaxTalentPoints > pilot.TalentsController.CurrentTalentPoints"
         flat
@@ -38,7 +38,7 @@
         block
         :disabled="!pilot.TalentsController.Talents.length"
         @click="pilot.TalentsController.ClearTalents()">
-        Reset
+        {{ $t('common.reset') }}
       </cc-button>
     </template>
 

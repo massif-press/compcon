@@ -25,7 +25,7 @@
     equippable
     @equip="AddLayer($event)">
     <template #header>
-      <div class="heading h3 text-center text-accent">{{ $t('gm.layerSelector.mechWeapons') }}</div>
+      <div class="heading h3 text-center text-accent">{{ $t('compendium.categories.mechWeapons') }}</div>
     </template>
     <template #top>
       <cc-switch v-model="allowDupes"

@@ -21,7 +21,7 @@
         <v-spacer />
         <cc-button color="accent"
           size="small"
-          @click="$emit('save')">{{ $t('active.leaveDialog.saveAndExit') }}</cc-button>
+          @click="$emit('save')">{{ $t('common.saveAndExit') }}</cc-button>
       </v-card-actions>
     </v-card>
   </cc-dialog>

@@ -241,7 +241,7 @@
     <div v-if="campaign.VersionHistory && campaign.VersionHistory.length">
       <v-divider class="my-3" />
       <fieldset style="border-radius: 3px">
-        <legend class="ml-2 px-2 text-caption">{{ $t('gm.overview.versionHistory') }}</legend>
+        <legend class="ml-2 px-2 text-caption">{{ $t('common.versionHistory') }}</legend>
         <div v-for="(hist, index) in campaign.VersionHistory" :key="`hist-${index}`" class="px-4 py-2">
           <div class="text-caption">
             v.

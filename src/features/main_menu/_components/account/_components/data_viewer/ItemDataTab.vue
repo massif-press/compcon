@@ -194,7 +194,7 @@
                 class="fade-select"
                 @click="copy(item.SaveController.RemoteCode)" />
             </template>
-            <div class="text-center">{{ $t("mainMenu.dataItem.copyShareCode") }}</div>
+            <div class="text-center">{{ $t("common.copyShareCode") }}</div>
           </v-tooltip>
         </span>
         <span v-else-if="item.CloudController?.Metadata?.Code?.length > 0">
@@ -213,7 +213,7 @@
                 class="fade-select"
                 @click="copy(item.CloudController.Metadata.Code)" />
             </template>
-            <div class="text-center">{{ $t("mainMenu.dataItem.copyShareCode") }}</div>
+            <div class="text-center">{{ $t("common.copyShareCode") }}</div>
           </v-tooltip>
         </span>
       </template>
@@ -247,7 +247,7 @@
               </v-btn>
             </template>
             <div class="text-center">
-              {{ $t("mainMenu.dataItem.convertToLocal") }}
+              {{ $t("common.convertToLocal") }}
               <br />
               <i class="text-caption">{{ $t("mainMenu.dataItem.convertToLocalDesc") }}</i>
             </div>
@@ -603,6 +603,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18n } from '@/i18n'
+const t = i18n.global.t
 import { ref, computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import { notify as vueNotify } from '@kyvg/vue3-notification'
@@ -847,8 +849,8 @@ function itemLine2(item: any): string | null {
 function copy(text: string) {
   navigator.clipboard.writeText(text)
   vueNotify({
-    title: 'Copied',
-    text: 'Share code copied to clipboard.',
+    title: t('notify.common.copied'),
+    text: t('notify.shareCode.copiedText'),
     data: { icon: 'mdi-content-copy', color: 'success' },
   })
 }

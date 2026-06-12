@@ -101,7 +101,7 @@
           <v-divider />
           <div class="text-center py-2">
             <i18n-t keypath="mainMenu.itch.manageContentHint" tag="span" scope="global">
-              <template #link><b>{{ $t("mainMenu.itch.manageContent") }}</b></template>
+              <template #link><b>{{ $t("common.manageContent") }}</b></template>
             </i18n-t>
           </div>
         </v-card>
@@ -115,7 +115,7 @@
             <b>{{ $t("mainMenu.itch.noAutoTrack") }}</b>
             <div class="text-caption">
               <i18n-t keypath="mainMenu.itch.updateHint" tag="span" scope="global">
-                <template #update><b>{{ $t("mainMenu.itch.updateBtn") }}</b></template>
+                <template #update><b>{{ $t("common.update") }}</b></template>
               </i18n-t>
             </div>
           </div>
@@ -128,7 +128,7 @@
             prepend-icon="mdi-refresh"
             :loading="loading"
             @click.stop="updateItch">
-            {{ $t("mainMenu.itch.updateBtn") }}
+            {{ $t("common.update") }}
           </cc-button>
         </div>
       </v-card-text>
@@ -137,6 +137,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18n } from '@/i18n'
+const t = i18n.global.t
 import { computed, ref } from 'vue'
 import { notify } from '@/util/notify'
 import { useDisplay } from 'vuetify'
@@ -203,16 +205,16 @@ async function exchangeItchToken(access_token) {
         await UserStore().setItchData(access_token, data);
         loadItch.value = false;
         notify({
-          title: 'Itch.io Linked',
-          text: 'Your itch.io account has been linked',
+          title: t('notify.account.itchLinkedTitle'),
+          text: t('notify.account.itchLinkedText'),
           data: { color: 'success' },
         });
       } catch (error) {
         logger.error(`Error linking itch.io account: ${error}`, this, error);
         loadItch.value = false;
         notify({
-          title: 'Itch.io Link Failed',
-          text: 'There was an error linking your itch.io account',
+          title: t('notify.account.itchLinkFailedTitle'),
+          text: t('notify.account.itchLinkFailedText'),
           data: { color: 'error' },
         });
       }
@@ -230,8 +232,8 @@ function openOAuthPopup(url, name, width = 500, height = 600) {
 async function unlinkItch() {
       await UserStore().setItchData('', null);
       notify({
-        title: 'Itch.io Unlinked',
-        text: 'Your itch.io account has been unlinked',
+        title: t('notify.account.itchUnlinkedTitle'),
+        text: t('notify.account.itchUnlinkedText'),
         data: { color: 'success' },
       });
     }

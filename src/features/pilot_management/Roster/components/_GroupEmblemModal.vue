@@ -8,11 +8,11 @@
           @click="open">
           <div v-if="!group.Portrait">
             <v-icon start>mdi-plus</v-icon>
-            Add group emblem
+            {{ $t('pm.roster.addGroupEmblem') }}
           </div>
           <div v-else>
             <v-icon start>mdi-circle-edit-outline</v-icon>
-            Edit group emblem
+            {{ $t('pm.roster.editGroupEmblem') }}
           </div>
         </cc-button>
       </div>

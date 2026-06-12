@@ -18,7 +18,7 @@
             to the author's original data. When the author saves an update to this item to their
             COMP/CON cloud account, your local version can receive those changes."
         @click="downloadAsRemote()">
-        add as remote resource
+        {{ $t('pm.roster.addAsRemoteResource') }}
       </cc-button>
       <br />
       <cc-button size="small"
@@ -28,7 +28,7 @@
             to your local COMP/CON data. Changes made to this item will not affect the author's
             original data, and you will not receive updates from the author."
         @click="downloadAsCopy(false)">
-        add as local copy
+        {{ $t('pm.roster.addAsLocalCopy') }}
       </cc-button>
     </template>
   </cc-share-code-importer>

@@ -271,6 +271,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18n } from '@/i18n'
+const t = i18n.global.t
 import { computed, ref, watch } from 'vue'
 import { notify } from '@/util/notify'
 import { useDisplay } from 'vuetify'
@@ -343,10 +345,8 @@ async function createNew() {
 
       if (cooldown + cooldownTime > Date.now()) {
         notify({
-          title: 'Cloud Archive',
-          text: `You must wait ${Math.ceil(
-            (cooldown + cooldownTime - Date.now()) / 1000
-          )} seconds before creating a new archive.`,
+          title: t('notify.account.cloudArchiveTitle'),
+          text: t('notify.account.cloudArchiveCooldownText', { seconds: Math.ceil((cooldown + cooldownTime - Date.now()) / 1000) }),
           data: { icon: 'mdi-clock', type: 'error' },
         });
         working.value = false;

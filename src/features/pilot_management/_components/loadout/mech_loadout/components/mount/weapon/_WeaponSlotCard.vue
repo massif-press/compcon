@@ -31,7 +31,7 @@
       </v-row>
       <div v-else
         class="px-2">
-        {{ weaponSlot.Size }} Weapon
+        {{ weaponSlot.Size }} {{ $t('pm.loadout.weapon') }}
       </div>
     </template>
 
@@ -68,7 +68,7 @@
               color="accent"
               prepend-icon="cc:weaponmod"
               @click.stop="modDialog = true">
-              NO MOD INSTALLED
+              {{ $t('pm.loadout.noMODINSTALLED') }}
             </cc-button>
           </div>
         </template>
@@ -112,7 +112,7 @@
           </div>
 
           <div v-if="item.Profiles[item.ProfileIndex].Actions.length">
-            <div class="text-cc-overline text-disabled">//PROFILE ACTIONS</div>
+            <div class="text-cc-overline text-disabled">{{ $t('pm.loadout.profileACTIONS') }}</div>
             <v-row no-gutters
               justify="center">
               <v-col v-for="(a, i) in item.Profiles[item.ProfileIndex].Actions"
@@ -126,7 +126,7 @@
           </div>
 
           <div v-if="item.Profiles[item.ProfileIndex].Deployables.length">
-            <div class="text-cc-overline text-disabled">//PROFILE DEPLOYABLES</div>
+            <div class="text-cc-overline text-disabled">{{ $t('pm.loadout.profileDEPLOYABLES') }}</div>
             <v-row no-gutters
               justify="center">
               <v-col v-for="(d, i) in item.Profiles[item.ProfileIndex].Deployables"
@@ -141,7 +141,7 @@
             </v-row>
           </div>
           <div v-if="item.Profiles[item.ProfileIndex].Tags.length">
-            <div class="text-cc-overline mb-n1 text-disabled">//PROFILE TAGS</div>
+            <div class="text-cc-overline mb-n1 text-disabled">{{ $t('pm.loadout.profileTAGS') }}</div>
             <cc-tags :tags="item.Profiles[item.ProfileIndex].Tags"
               extended />
           </div>

@@ -13,41 +13,41 @@
       variant="outlined"
       tile>
       <span class="stat-text text-accent">
-        WARNING: Submission for IDENT record {{ pilot.ID }} has the following issue(s):
+        {{ $t('pm.shared.warningSubmission', { id: pilot.ID }) }}
       </span>
       <ul class="flavor-text text-error">
         <li v-if="!pilot.Callsign">
           <v-icon icon="mdi-alert" size="small" class="mx-n1" />
-          CRITICAL
+          {{ $t('pm.shared.critical') }}
           <v-icon icon="mdi-alert" size="small" class="mx-n1" />
-          &nbsp;PILOT CALLSIGN blank or invalid
+          &nbsp;{{ $t('pm.shared.pilotCALLSIGNBlankOrInvalid') }}
         </li>
         <li v-if="!pilot.Name">
           <v-icon icon="mdi-alert" size="small" class="mx-n1" />
-          CRITICAL
+          {{ $t('pm.shared.critical') }}
           <v-icon icon="mdi-alert" size="small" class="mx-n1" />
-          &nbsp;PILOT NAME blank or invalid
+          &nbsp;{{ $t('pm.shared.pilotNAMEBlankOrInvalid') }}
         </li>
-        <li v-if="!pilot.SkillsController.HasFullSkills">PILOT SKILL TRIGGERS missing or incomplete</li>
-        <li v-if="!pilot.TalentsController.HasFullTalents">PILOT TALENTS missing or incomplete</li>
-        <li v-if="!pilot.MechSkillsController.HasFullHASE">PILOT MECH SKILLS missing or incomplete</li>
-        <li v-if="!pilot.LicenseController.HasLicenses">PILOT LICENSE DATA missing or incomplete</li>
-        <li v-if="!pilot.CoreBonusController.HasCBs">PILOT CORE BONUS DATA missing or incomplete</li>
+        <li v-if="!pilot.SkillsController.HasFullSkills">{{ $t('pm.shared.pilotSKILLTRIGGERSMissingOrIncomplete') }}</li>
+        <li v-if="!pilot.TalentsController.HasFullTalents">{{ $t('pm.shared.pilotTALENTSMissingOrIncomplete') }}</li>
+        <li v-if="!pilot.MechSkillsController.HasFullHASE">{{ $t('pm.shared.pilotMECHSKILLSMissingOrIncomplete') }}</li>
+        <li v-if="!pilot.LicenseController.HasLicenses">{{ $t('pm.shared.pilotLICENSEDATAMissingOrIncomplete') }}</li>
+        <li v-if="!pilot.CoreBonusController.HasCBs">{{ $t('pm.shared.pilotCOREBONUSDATAMissingOr') }}</li>
       </ul>
     </v-alert>
     <cc-alert v-else-if="context === 'level' && !pilotReady"
       color="error">
       <div class="stat-text">
-        WARNING: Submission for IDENT record {{ pilot.ID }} has the following issue(s):
+        {{ $t('pm.shared.warningSubmission', { id: pilot.ID }) }}
       </div>
       <ul class="flavor-text text-stark">
-        <li v-if="!pilot.Callsign">PILOT CALLSIGN blank or invalid</li>
-        <li v-if="!pilot.Name">PILOT NAME blank or invalid</li>
-        <li v-if="!pilot.SkillsController.HasFullSkills">PILOT SKILL TRIGGERS incomplete or invalid</li>
-        <li v-if="!pilot.TalentsController.HasFullTalents">PILOT TALENTS incomplete or invalid</li>
-        <li v-if="!pilot.MechSkillsController.HasFullHASE">PILOT MECH SKILLS incomplete or invalid</li>
-        <li v-if="!pilot.LicenseController.HasLicenses">PILOT LICENSES incomplete or invalid</li>
-        <li v-if="!pilot.CoreBonusController.HasCBs">PILOT CORE BONUSES incomplete or invalid</li>
+        <li v-if="!pilot.Callsign">{{ $t('pm.shared.pilotCALLSIGNBlankOrInvalid') }}</li>
+        <li v-if="!pilot.Name">{{ $t('pm.shared.pilotNAMEBlankOrInvalid') }}</li>
+        <li v-if="!pilot.SkillsController.HasFullSkills">{{ $t('pm.shared.pilotSKILLTRIGGERSIncompleteOrInvalid') }}</li>
+        <li v-if="!pilot.TalentsController.HasFullTalents">{{ $t('pm.shared.pilotTALENTSIncompleteOrInvalid') }}</li>
+        <li v-if="!pilot.MechSkillsController.HasFullHASE">{{ $t('pm.shared.pilotMECHSKILLSIncompleteOrInvalid') }}</li>
+        <li v-if="!pilot.LicenseController.HasLicenses">{{ $t('pm.shared.pilotLICENSESIncompleteOrInvalid') }}</li>
+        <li v-if="!pilot.CoreBonusController.HasCBs">{{ $t('pm.shared.pilotCOREBONUSESIncompleteOrInvalid') }}</li>
       </ul>
     </cc-alert>
 
@@ -58,10 +58,10 @@
       :disabled="context === 'new' && !pilotReady"
       @click="savePilot()">
       <span v-if="context === 'new'">
-        Register New Pilot // {{ pilot.Callsign || default_callsign }} ({{ pilot.Name || default_name }})
+        {{ $t('pm.shared.registerNewPilot', { callsign: pilot.Callsign || default_callsign, name: pilot.Name || default_name }) }}
       </span>
       <span v-else>
-        Update Pilot Record // {{ pilot.Callsign }} ({{ pilot.Name }})
+        {{ $t('pm.shared.updatePilotRecord', { callsign: pilot.Callsign, name: pilot.Name }) }}
       </span>
     </cc-button>
 
@@ -73,7 +73,7 @@
           tooltip="Force pilot registration"
           :disabled="missingBasicInfo"
           @click="savePilot()">
-          Registration Override
+          {{ $t('pm.shared.registrationOverride') }}
         </cc-button>
       </div>
     </div>

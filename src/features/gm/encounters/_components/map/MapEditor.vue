@@ -291,7 +291,7 @@
       color="accent"
       prepend-icon="mdi-content-save"
       @click="saveAndExit">
-      {{ $t('gm.map.saveAndExit') }}
+      {{ $t('common.saveAndExit') }}
     </v-btn>
   </v-footer>
 </template>

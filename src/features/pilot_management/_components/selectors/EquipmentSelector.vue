@@ -7,9 +7,9 @@
     @equip="$emit('select', $event)">
     <template #header>
       <div class="heading h4 text-center text-primary">
-        Add
-        <span v-if="exotic">Exotic</span>
-        Equipment
+        {{ $t('common.add') }}
+        <span v-if="exotic">{{ $t('pm.selectors.exotic') }}</span>
+        {{ $t('pm.selectors.equipment') }}
       </div>
     </template>
   </cc-compendium-browser>

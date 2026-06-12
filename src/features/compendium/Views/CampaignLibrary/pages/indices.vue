@@ -15,7 +15,7 @@
 
     <div v-if="campaign.VersionHistory && campaign.VersionHistory.length">
       <fieldset style="border-radius: 3px">
-        <legend class="ml-2 px-2 text-caption">{{ $t('compendium.campaign.versionHistory') }}</legend>
+        <legend class="ml-2 px-2 text-caption">{{ $t('common.versionHistory') }}</legend>
         <div v-for="(hist, histIdx) in campaign.VersionHistory" :key="`hist-${histIdx}`" class="px-4 py-2">
           <div class="text-caption">
             v.

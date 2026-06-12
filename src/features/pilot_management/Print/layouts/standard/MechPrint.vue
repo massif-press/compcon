@@ -49,7 +49,7 @@
             min-width="11vw" />
         </v-row>
 
-        <div class="text-overline mb-n3 text-primary">FRAME TRAITS</div>
+        <div class="text-overline mb-n3 text-primary">{{ $t('pm.print.frameTRAITS') }}</div>
         <v-row v-if="blank"
           dense>
           <v-col v-for="n in 4"
@@ -75,7 +75,7 @@
           </v-col>
         </v-row>
 
-        <div class="text-overline mb-n1 text-primary mt-n1">CORE SYSTEM</div>
+        <div class="text-overline mb-n1 text-primary mt-n1">{{ $t('pm.print.coreSYSTEM') }}</div>
         <div v-if="blank"
           dense
           class="mt-n2">
@@ -92,7 +92,7 @@
               {{
                 mech.Frame.CoreSystem.PassiveName
                   ? `${mech.Frame.CoreSystem.PassiveName} (PASSIVE)`
-                  : 'CORE PASSIVE'
+                  : $t('pm.print.corePassive')
               }}
             </span>
             <p v-html-safe="mech.Frame.CoreSystem.PassiveEffect"
@@ -104,7 +104,7 @@
               {{
                 mech.Frame.CoreSystem.ActiveName
                   ? `${mech.Frame.CoreSystem.ActiveName} (ACTIVE)`
-                  : 'CORE ACTIVE'
+                  : $t('pm.print.coreActive')
               }}
             </div>
             <p v-html-safe="mech.Frame.CoreSystem.ActiveEffect"
@@ -124,7 +124,7 @@
         <div v-if="mech.Notes && !blank"
           class="pt-2">
           <div class="text-overline text-primary mt-3"
-            style="line-height: 0">NOTES</div>
+            style="line-height: 0">{{ $t('pm.print.notes') }}</div>
           <div v-html-safe="mech.Notes"
             class="mt-2 caption" />
         </div>
@@ -150,14 +150,14 @@
     <div v-if="blank"
       class="pt-2">
       <div class="text-overline text-primary mt-3"
-        style="line-height: 0">NOTES</div>
+        style="line-height: 0">{{ $t('pm.print.notes') }}</div>
       <notes :rows="5"
         lined />
     </div>
 
     <page-break />
 
-    <div class="text-overline mb-n3 mt-1 text-primary">LOADOUT</div>
+    <div class="text-overline mb-n3 mt-1 text-primary">{{ $t('pm.new.loadout') }}</div>
 
     <print-blank-loadout v-if="blank"
       :extra-mounts="hasMechOption('Extra Mount Panel')" />
@@ -169,9 +169,9 @@
       <legend class="heading h4 ml-1 px-2">{{ m.Name }}</legend>
       <div v-if="m.IsLocked"
         class="text-center flavor-text">
-        MOUNT LOCKED
+        {{ $t('pm.print.mountLOCKED') }}
         <br />
-        <span class="text-overline">// SUPERHEAVY WEAPON BRACING //</span>
+        <span class="text-overline">{{ $t('pm.print.superheavyWEAPONBRACING') }}</span>
       </div>
       <div v-for="w in m.Weapons.filter(Boolean)"
         v-else
@@ -233,22 +233,22 @@
                 class="caption">{{ p.Effect }}</div>
               <div v-if="p.OnMiss"
                 class="caption">
-                <b>ON MISS:</b>
+                <b>{{ $t('pm.print.onMISS') }}</b>
                 {{ p.OnMiss.Detail }}
               </div>
               <div v-if="p.OnAttack"
                 class="caption">
-                <b>ON ATTACK:</b>
+                <b>{{ $t('pm.print.onATTACK') }}</b>
                 {{ p.OnAttack.Detail }}
               </div>
               <div v-if="p.OnHit"
                 class="caption">
-                <b>ON HIT:</b>
+                <b>{{ $t('pm.print.onHIT') }}</b>
                 {{ p.OnHit.Detail }}
               </div>
               <div v-if="p.OnCrit"
                 class="caption">
-                <b>ON CRIT:</b>
+                <b>{{ $t('pm.print.onCRIT') }}</b>
                 {{ p.OnCrit.Detail }}
               </div>
               <print-action :actions="p.Actions" />
@@ -264,7 +264,7 @@
             <span class="heading">
               {{ w.Mod.Name }}
             </span>
-            <span class="text-overline">&nbsp;//APPLIED MOD</span>
+            <span class="text-overline">&nbsp;{{ $t('pm.print.appliedMOD') }}</span>
             <br />
             <p v-if="w.Mod.Effect"
               :v-html-safe="w.Mod.Effect"

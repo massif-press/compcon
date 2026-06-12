@@ -25,9 +25,7 @@
           icon="mdi-alert-circle-outline"
           title="v2 Data">
           <p class="text-text">
-            This appears to be Pilot data from an older COMP/CON release. COMP/CON will attempt to
-            convert and import this data, but may not be able to convert all items and may not be
-            able to furnish information about missing LCP requirements.
+            {{ $t('pm.roster.thisAppearsToBePilotData') }}
           </p>
         </cc-alert>
         <v-card-text>
@@ -37,11 +35,11 @@
             <span class="text-accent pl-2">{{ stagedData.callsign }}</span>
           </div>
           <div class="text-cc-overline mb-2">
-            LICENSE LEVEL
+            {{ $t('pm.level.licenseLEVEL') }}
             <span class="heading h3">{{ stagedData.level }}</span>
           </div>
           <div v-if="stagedData.mechs.length">
-            <div class="text-cc-overline">HANGAR</div>
+            <div class="text-cc-overline">{{ $t('pm.sheet.hangar') }}</div>
             <cc-chip v-for="mech in stagedData.mechs"
               :key="mech.id"
               class="mr-1 mb-1">
@@ -52,7 +50,7 @@
           </div>
           <div v-if="stagedData.brews.length"
             class="text-cc-overline my-1">
-            INCLUDES DATA FROM THE FOLLOWING CONTENT PACKS
+            {{ $t('pm.roster.includesDATAFROMTHEFOLLOWINGCONTENT') }}
             <div>
               <cc-chip v-for="brew in stagedData.brews"
                 :key="brew.LcpId"
@@ -64,9 +62,9 @@
           <div v-if="stagedData.save">
             <v-divider class="my-2" />
             <div class="text-cc-overline mb-2">
-              Created {{ new Date(stagedData.save.created).toLocaleString() }}
+              {{ $t('pm.roster.created') }} {{ new Date(stagedData.save.created).toLocaleString() }}
               <cc-slashes />
-              Last Modified
+              {{ $t('pm.roster.lastModified') }}
               {{ new Date(stagedData.save.lastModified).toLocaleString() }}
             </div>
           </div>
@@ -80,23 +78,17 @@
         border>
         <v-card-text class="text-center">
           <p class="heading h4 text-accent">
-            This Pilot contains content from the following Lancer Content Packs that are not
-            currently installed/active,
-            or have mismatching versions:
+            {{ $t('pm.roster.thisPilotContainsContentFromThe') }}
           </p>
           <p v-html-safe="missingContent"
             class="effect-text text-center" />
           <p v-if="isV2"
             class="text-text">
-            This Pilot will be saved to the v2 Imports collection in the Content Manager. It can be
-            imported once the missing content packs are installed and activated, or force-imported
-            with missing items stripped.
+            {{ $t('pm.roster.thisPilotWillBeSavedTo') }}
           </p>
           <p v-else
             class="text-text">
-            This Pilot may be imported, but some items from missing content packs will be instanced
-            from saved data. If removed, these items will not be able to be re-equipped without the
-            missing content packs.
+            {{ $t('pm.roster.thisPilotMayBeImportedBut') }}
           </p>
         </v-card-text>
       </v-card>
@@ -112,7 +104,7 @@
           block
           prepend-icon="mdi-plus"
           @click="importFile()">
-          Import {{ (stagedData as any).callsign }} ({{ (stagedData as any).name }})
+          {{ $t('common.import') }} {{ (stagedData as any).callsign }} ({{ (stagedData as any).name }})
         </cc-button>
       </v-slide-x-reverse-transition>
     </div>
@@ -215,7 +207,7 @@ async function importFile() {
 
     if (result.action === 'backup') {
       notify({
-        title: t('pm.import.v2BackupTitle'),
+        title: t('notify.gm.v2BackupTitle'),
         text: t('pm.import.v2BackupText', { callsign: (stagedData.value as any).callsign }),
         data: { icon: 'mdi-information-box-outline', color: 'info' },
       })
@@ -243,7 +235,7 @@ async function importFile() {
   } catch (error) {
     logger.error(`Pilot import error: ${error}`, error)
     notify({
-      title: t('pm.import.importErrorTitle'),
+      title: t('notify.gm.importErrorTitle'),
       text: t('pm.import.importPilotErrorText', { error: String(error) }),
       data: { icon: 'cc:pilot', color: 'error' },
     })

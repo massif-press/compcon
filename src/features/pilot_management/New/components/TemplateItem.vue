@@ -32,24 +32,24 @@
             :color="isSelected ? 'success' : 'accent'"
             :prepend-icon="isSelected ? 'mdi-check' : 'mdi-chevron-triple-right'"
             @click="$emit('select')">
-            <span v-if="!isSelected">SELECT {{ template.name }} TEMPLATE</span>
-            <span v-else>{{ template.name }} TEMPLATE SELECTED</span>
+            <span v-if="!isSelected">{{ $t('pm.new.selectTemplate', { name: template.name }) }}</span>
+            <span v-else>{{ $t('pm.new.templateSelected', { name: template.name }) }}</span>
           </cc-button>
         </div>
       </v-row>
       <div v-html-safe="template.description" class="pa-2" />
       <div class="sidebar-box ml-2" :style="`max-height:${expanded ? '100%' : '80px;'}`">
         <div class="panel clipped px-2">
-          <div class="caption text-accent mt-1"><b>TACTICS</b></div>
+          <div class="caption text-accent mt-1"><b>{{ $t('pm.new.tactics') }}</b></div>
           <p v-html-safe="template.tactics" />
         </div>
         <div class="panel clipped py-1 px-2 my-2">
           <v-row>
             <v-col>
               <div class="caption text-accent">
-                PILOT
+                {{ $t('pm.new.pilot') }}
                 <cc-slashes class="pr-1" />
-                <b>SKILLS</b>
+                <b>{{ $t('pm.new.skills') }}</b>
               </div>
               <v-row dense justify="center" class="px-2 text-center">
                 <v-col v-for="s in template.build.skills" :key="s">
@@ -68,9 +68,9 @@
             </v-col>
             <v-col>
               <div class="caption text-accent">
-                PILOT
+                {{ $t('pm.new.pilot') }}
                 <cc-slashes class="pr-1" />
-                <b>TALENTS</b>
+                <b>{{ $t('pm.new.talents') }}</b>
               </div>
               <v-row dense justify="center" class="px-2 text-center">
                 <v-col v-for="t in template.build.talents" :key="t" cols="12" md="auto" class="mx-1">
@@ -82,7 +82,7 @@
                       </cc-chip>
                     </template>
                     <div class="heading h3">
-                      {{ item('Talents', t).Name }} I: {{ item('Talents', t).Rank(1).Name }}
+                      {{ item('Talents', t).Name }} {{ $t('pm.new.i') }} {{ item('Talents', t).Rank(1).Name }}
                     </div>
                     <v-divider />
                     <div v-html-safe="item('Talents', t).Rank(1).Description" />
@@ -94,13 +94,13 @@
         </div>
         <div class="panel clipped py-1 px-2 my-2">
           <div class="caption text-accent mt-1">
-            GMS EVEREST
+            {{ $t('pm.new.gmsEVEREST') }}
             <cc-slashes class="pr-1" />
-            <b>LOADOUT</b>
+            <b>{{ $t('pm.new.loadout') }}</b>
           </div>
           <v-row dense justify="center" class="px-2 text-center">
             <v-col v-for="(m, index) in template.build.mech.mounts" :key="`mount-${index}`">
-              <div class="flavor-text text-stark text-center">{{ m.mount_type }} Mount</div>
+              <div class="flavor-text text-stark text-center">{{ m.mount_type }} {{ $t('common.mount') }}</div>
               <v-row dense>
                 <v-col v-for="(w, index) in m.slots" :key="`slot-${index}`" class="text-center">
                   <cc-item-modal class="mx-1" :item="item('MechWeapons', w)" />
@@ -108,7 +108,7 @@
               </v-row>
             </v-col>
           </v-row>
-          <div class="flavor-text text-stark text-center mt-1">Systems</div>
+          <div class="flavor-text text-stark text-center mt-1">{{ $t('pm.new.systems') }}</div>
           <v-row dense justify="center" class="px-2 text-center">
             <v-col v-for="s in template.build.mech.systems" :key="s" class="text-center mx-2" cols="auto">
               <cc-item-modal :item="item('MechSystems', s)" />
@@ -124,7 +124,7 @@
             style="background-color: rgb(var(--v-theme-stark-panel))"
             @click="expanded = !expanded">
             <v-icon size="30" color="accent">
-              mdi-chevron-double-{{ expanded ? 'up' : 'down' }}
+              mdi-chevron-double-{{ expanded ? $t('pm.new.up') : $t('pm.new.down') }}
             </v-icon>
           </v-btn>
         </p>

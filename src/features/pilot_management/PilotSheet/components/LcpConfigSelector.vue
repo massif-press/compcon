@@ -1,7 +1,7 @@
 <template>
   <v-row align="end">
     <v-col>
-      <div class="heading">LCP Configurations:</div>
+      <div class="heading">{{ $t('pm.sheet.lcpConfigurations') }}</div>
     </v-col>
     <v-col cols="auto">
       <cc-button
@@ -10,7 +10,7 @@
         @click="managerDialog = true"
       >
         <v-icon left>mdi-pencil-box-outline</v-icon>
-        Open Config Manager
+        {{ $t('pm.sheet.openConfigManager') }}
       </cc-button>
     </v-col>
   </v-row>
@@ -39,9 +39,9 @@
   <div>
     <v-divider class="my-4" />
     <div class="text-text text-cc-overline mb-2">
-      Current Configuration:
+      {{ $t('pm.sheet.currentConfiguration') }}
       <strong class="text-accent">
-        {{ actor.LcpConfig ? actor.LcpConfig.name : 'Unrestricted Access' }}
+        {{ actor.LcpConfig ? actor.LcpConfig.name : $t('pm.sheet.unrestrictedAccess') }}
       </strong>
     </div>
     <v-card
@@ -60,7 +60,7 @@
           />
         </v-col>
         <v-col>
-          <strong class="text-error">Clear Configuration</strong>
+          <strong class="text-error">{{ $t('pm.sheet.clearConfiguration') }}</strong>
         </v-col>
       </v-row>
     </v-card>

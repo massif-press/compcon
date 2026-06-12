@@ -5,25 +5,25 @@
         size="100" />
       <v-divider class="mb-2" />
       <div class="text-center">
-        <div class="text-cc-overline text-accent">Hull</div>
+        <div class="text-cc-overline text-accent">{{ $t('pm.link.hull') }}</div>
         <div class="heading mt-n3"
           style="font-size: 41px">
           {{ pilot.MechSkillsController.MechSkills.Hull }}
         </div>
 
-        <div class="text-cc-overline text-accent">Agi</div>
+        <div class="text-cc-overline text-accent">{{ $t('pm.link.agi') }}</div>
         <div class="heading mt-n3"
           style="font-size: 41px">
           {{ pilot.MechSkillsController.MechSkills.Agi }}
         </div>
 
-        <div class="text-cc-overline text-accent">Sys</div>
+        <div class="text-cc-overline text-accent">{{ $t('pm.link.sys') }}</div>
         <div class="heading mt-n3"
           style="font-size: 41px">
           {{ pilot.MechSkillsController.MechSkills.Sys }}
         </div>
 
-        <div class="text-cc-overline text-accent">Eng</div>
+        <div class="text-cc-overline text-accent">{{ $t('pm.link.eng') }}</div>
         <div class="heading mt-n3"
           style="font-size: 41px">
           {{ pilot.MechSkillsController.MechSkills.Eng }}

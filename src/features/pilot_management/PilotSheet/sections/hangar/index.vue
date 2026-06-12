@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="heading h1">Mech Hangar</div>
+    <div class="heading h1">{{ $t('pm.sheet.mechHangar') }}</div>
     <v-btn-toggle id="viewToggle"
       :value="view"
       mandatory
@@ -56,7 +56,7 @@
           prepend-icon="cc:frame"
           append-icon="mdi-plus"
           @click="open">
-          Add New Mech
+          {{ $t('pm.sheet.addNewMech') }}
         </cc-button>
       </template>
       <template #default="{ close }">

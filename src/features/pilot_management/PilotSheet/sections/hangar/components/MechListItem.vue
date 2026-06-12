@@ -26,10 +26,10 @@
               <v-col>
                 <fieldset class="px-3">
                   <legend class="px-2">
-                    Loadout//{{
+                    {{ $t('pm.sheet.loadoutSlashes') }}{{
                       mech.MechLoadoutController.ActiveLoadout
                         ? mech.MechLoadoutController.ActiveLoadout.Name
-                        : 'ERR'
+                        : $t('pm.sheet.err')
                     }}
                   </legend>
                   <div v-if="mech.MechLoadoutController.ActiveLoadout"
@@ -43,7 +43,7 @@
                     <br />
                     <span v-for="(item, i) in loadoutSystems"
                       :key="`system-${i}`">
-                      {{ i > 0 ? ' - ' : '' }}
+                      <span v-if="i > 0"> - </span>
                       <span v-html-safe="item" />
                     </span>
                   </div>
@@ -52,7 +52,7 @@
                   justify="space-around">
                   <v-col cols="auto">
                     <span class="text-overline">
-                      STR
+                      {{ $t('pm.sheet.str') }}
                       <b>{{ mech.MaxStructure }}</b>
                     </span>
                   </v-col>
@@ -60,7 +60,7 @@
                     class="mx-2" />
                   <v-col cols="auto">
                     <span class="text-overline">
-                      HP
+                      {{ $t('stats.hp') }}
                       <b>{{ mech.MaxHP }}</b>
                     </span>
                   </v-col>
@@ -68,7 +68,7 @@
                     class="mx-2" />
                   <v-col cols="auto">
                     <span class="text-overline">
-                      Stress
+                      {{ $t('pm.sheet.stress') }}
                       <b>{{ mech.MaxStress }}</b>
                     </span>
                   </v-col>
@@ -76,7 +76,7 @@
                     class="mx-2" />
                   <v-col cols="auto">
                     <span class="text-overline">
-                      Heat
+                      {{ $t('pm.sheet.heat') }}
                       <b>{{ mech.HeatCapacity }}</b>
                     </span>
                   </v-col>
@@ -84,7 +84,7 @@
                     class="mx-2" />
                   <v-col cols="auto">
                     <span class="text-overline">
-                      RepCap
+                      {{ $t('pm.sheet.repcap') }}
                       <b>{{ mech.RepairCapacity }}</b>
                     </span>
                   </v-col>

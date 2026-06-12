@@ -323,10 +323,10 @@ async function changePass() {
   loading.value = true;
   try {
     await updatePassword({ oldPassword: oldPass.value, newPassword: newPass.value });
-    notify({ title: 'Update complete', text: 'User password changed', data: { color: 'success' } } as any)
+    notify({ title: t('notify.account.updateCompleteTitle'), text: t('notify.account.passwordChangedText'), data: { color: 'success' } } as any)
   } catch (err) {
     logger.error(`Failed to change password: ${err}`, null, err);
-    notify({ title: 'Password update failed', text: 'The server returned an error', data: { color: 'error' } } as any)
+    notify({ title: t('notify.account.passwordFailedTitle'), text: t('notify.account.serverError'), data: { color: 'error' } } as any)
   }
   loading.value = false;
 }
@@ -334,18 +334,18 @@ async function sendVerify(open: () => void) {
   sendingVerify.value = true;
   try {
     await updateUserAttributes({ userAttributes: { email: newEmail.value } });
-    notify({ title: 'Verification e-mail sent', text: 'Please check your inbox for the verification code', data: { color: 'success' } } as any)
+    notify({ title: t('notify.account.verificationSentTitle'), text: t('notify.account.verificationSentText'), data: { color: 'success' } } as any)
     open();
   } catch (err) {
     logger.error(`Failed to initiate email change: ${err}`, null, err);
-    notify({ title: 'Failed to initiate email change', text: 'The server returned an error', data: { color: 'error' } } as any)
+    notify({ title: t('notify.account.emailChangeInitFailedTitle'), text: t('notify.account.serverError'), data: { color: 'error' } } as any)
   }
   sendingVerify.value = false;
 }
 function ccSignOut() {
   signOut()
     .then(() => {
-      notify({ title: 'Sign Out Successful', text: 'Auth service reports successful logout', data: { color: 'success' } } as any)
+      notify({ title: t('notify.account.signOutTitle'), text: t('notify.account.signOutText'), data: { color: 'success' } } as any)
       UserStore().signOut();
       window.location.reload();
       emit('set-state', 'sign-in');
@@ -357,9 +357,9 @@ async function userUpdate(key: string) {
   const backendKeys: Record<string, string> = { Username: 'username' };
   const res = await updateUser(cognito.value.userId, { [backendKeys[key] || key]: meta.value[key] });
   if (res && res.status === 200) {
-    notify({ title: 'Update complete', text: 'User data updated', data: { color: 'success' } } as any)
+    notify({ title: t('notify.account.updateCompleteTitle'), text: t('notify.account.dataUpdatedText'), data: { color: 'success' } } as any)
   } else {
-    notify({ title: 'Update failed', text: 'The server returned an error', data: { color: 'error' } } as any)
+    notify({ title: t('notify.account.updateFailedTitle'), text: t('notify.account.serverError'), data: { color: 'error' } } as any)
   }
   nameLoading.value = false;
   nameDirty.value = false;
@@ -368,10 +368,10 @@ async function completeVerify() {
   loading.value = true;
   try {
     await confirmUserAttribute({ userAttributeKey: 'email', confirmationCode: verifyCode.value });
-    notify({ title: 'E-mail change complete', text: 'Your e-mail address has been changed', data: { color: 'success' } } as any)
+    notify({ title: t('notify.account.emailChangeCompleteTitle'), text: t('notify.account.emailChangeCompleteText'), data: { color: 'success' } } as any)
   } catch (err) {
     logger.error(`Failed to initiate email change: ${err}`, null, err);
-    notify({ title: 'E-mail change failed', text: 'The server returned an error', data: { color: 'error' } } as any)
+    notify({ title: t('notify.account.emailChangeFailedTitle'), text: t('notify.account.serverError'), data: { color: 'error' } } as any)
   } finally {
     loading.value = false;
   }
@@ -382,7 +382,7 @@ function resetEmail(close: () => void) {
   verifyCode.value = '';
   newEmail.value = '';
   newEmailConfirm.value = '';
-  notify({ title: 'E-mail change cancelled', text: 'The e-mail change has been cancelled', data: { color: 'info' } } as any)
+  notify({ title: t('notify.account.emailChangeCancelledTitle'), text: t('notify.account.emailChangeCancelledText'), data: { color: 'info' } } as any)
 }
 </script>
 

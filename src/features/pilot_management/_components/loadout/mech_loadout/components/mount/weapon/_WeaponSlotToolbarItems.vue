@@ -20,7 +20,7 @@
       class="pl-3">
       <cc-slashes />
       {{ item.SP }}
-      <span style="font-size: 13px; margin-left: -4px">SP</span>
+      <span style="font-size: 13px; margin-left: -4px">{{ $t('stats.sp') }}</span>
     </v-col>
     <v-col v-if="!readonly"
       cols="auto">

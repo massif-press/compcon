@@ -20,7 +20,7 @@
           <div class="text-disabled text-cc-overline pb-1">
             <v-icon icon="mdi-sword-cross"
               size="small" />
-            loadout // {{ mech.MechLoadoutController.ActiveLoadout.Name || '---' }}
+            {{ $t('pm.sheet.loadoutSlashesLower') }} {{ mech.MechLoadoutController.ActiveLoadout.Name || '---' }}
           </div>
 
           <v-row dense

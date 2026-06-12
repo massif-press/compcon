@@ -23,7 +23,7 @@
     <v-col v-if="mech.Armor"
       class="text-center">
       <fieldset>
-        <legend class="font-weight-bold caption text-primary px-2 text-center">ARMOR</legend>
+        <legend class="font-weight-bold caption text-primary px-2 text-center">{{ $t('stats.armor') }}</legend>
 
         <blank-line v-if="blank"
           :height="102" />
@@ -68,7 +68,7 @@
 
     <v-col class="text-center">
       <fieldset>
-        <legend class="font-weight-bold caption text-primary px-2 text-center">CORE POWER</legend>
+        <legend class="font-weight-bold caption text-primary px-2 text-center">{{ $t('pm.print.corePOWER') }}</legend>
 
         <blank-line v-if="blank"
           :height="102" />

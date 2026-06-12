@@ -118,6 +118,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18n } from '@/i18n'
+const t = i18n.global.t
 import { ref, computed } from 'vue'
 import { useUserData } from '@/ui/providers'
 import { cloudDelete, updateItem, uploadToS3 } from '@/io/apis/account'
@@ -189,8 +191,8 @@ async function uploadImage() {
   await store.refreshDbData()
   notify({
     type: 'success',
-    title: 'Image Uploaded',
-    text: `Uploaded ${filename}.${ext} (${(size / 1024 / 1024).toFixed(2)}MB)`,
+    title: t('notify.image.uploadedTitle'),
+    text: t('notify.image.uploadedText', { file: `${filename}.${ext}`, size: (size / 1024 / 1024).toFixed(2) }),
   })
   stagedImage.value = null
   selectedImage.value = null
@@ -206,8 +208,8 @@ async function deleteCloudImage(item: any) {
     await store.refreshDbData()
     notify({
       type: 'success',
-      title: 'Image Deleted',
-      text: `Removed ${item.ItemType} ${item.Name}.`,
+      title: t('notify.image.deletedTitle'),
+      text: t('notify.image.deletedText', { type: item.ItemType, name: item.Name }),
     })
     loading.value = false
     return true
@@ -215,8 +217,8 @@ async function deleteCloudImage(item: any) {
     logger.error(`Error deleting image: ${err}`, null, err)
     notify({
       type: 'error',
-      title: 'Deletion Failed',
-      text: `Unable to communicate with server. ${err}`,
+      title: t('notify.image.deleteFailedTitle'),
+      text: t('notify.image.deleteFailedText', { err }),
     })
   }
   loading.value = false

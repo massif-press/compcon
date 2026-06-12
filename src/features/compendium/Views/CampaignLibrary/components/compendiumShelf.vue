@@ -97,7 +97,7 @@
                   <v-btn variant="text"
                     color="error"
                     @click="removeCampaign(selected)">
-                    {{ $t('compendium.campaign.remove') }}
+                    {{ $t('common.remove') }}
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -119,6 +119,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18n } from '@/i18n'
+const t = i18n.global.t
 import { computed, ref } from 'vue'
 import { notify } from '@/util/notify'
 import { CampaignStore } from '@/stores';
@@ -181,15 +183,15 @@ async function updateCampaign() {
         CampaignStore().AddCollectionCampaign(campaign);
         selected.value = campaign;
         notify({
-          title: 'Success',
-          text: 'Campaign updated successfully',
+          title: t('notify.common.success'),
+          text: t('notify.compendium.campaignUpdatedText'),
           data: { color: 'success' },
         });
       } catch (err) {
         logger.error(`Error updating campaign: ${err}`, this);
         notify({
-          title: 'Error',
-          text: 'Failed to update campaign',
+          title: t('notify.common.error'),
+          text: t('notify.compendium.campaignUpdateFailedText'),
           data: { color: 'error' },
         });
       } finally {

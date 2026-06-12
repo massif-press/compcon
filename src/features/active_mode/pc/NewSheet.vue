@@ -186,7 +186,7 @@
 
                           <v-col cols="auto">
                             <span>
-                              {{ $t('active.newSheet.hp') }}
+                              {{ $t('stats.hp') }}
                               <b>{{ mech.MaxHP }}</b>
                             </span>
                           </v-col>

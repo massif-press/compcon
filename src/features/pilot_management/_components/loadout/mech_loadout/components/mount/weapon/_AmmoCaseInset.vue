@@ -3,8 +3,8 @@
     class="light-panel clipped"
     @click.stop>
     <div class="caption text-stark px-2 py-1">
-      WALKING ARMORY//
-      <b>SELECTED AMMUNITION</b>
+      {{ $t('pm.loadout.walkingARMORY') }}
+      <b>{{ $t('pm.loadout.selectedAMMUNITION') }}</b>
     </div>
     <v-row no-gutters
       class="px-2 mr-4">
@@ -24,7 +24,7 @@
       </v-col>
       <v-col v-if="selected.cost"
         class="ml-auto pl-4 pr-3 text-left">
-        <div class="text-overline my-n2">COST::AMMO CASE</div>
+        <div class="text-overline my-n2">{{ $t('pm.loadout.costAMMOCASE') }}</div>
         <div>
           <v-icon v-for="(n, index) in selected.cost"
             :key="`ammo-${index}`">mdi-hexagon-slice-6</v-icon>
@@ -33,7 +33,7 @@
     </v-row>
     <div v-if="selected.effect"
       class="mb-1 py-1">
-      <div class="caption px-2 font-weight-bold">EFFECT</div>
+      <div class="caption px-2 font-weight-bold">{{ $t('pm.loadout.effect') }}</div>
       <div class="body-text px-4">{{ selected.effect }}</div>
     </div>
   </div>

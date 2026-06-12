@@ -20,6 +20,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18n } from '@/i18n'
+const t = i18n.global.t
 import { computed } from 'vue'
 import { useCompendiumData } from '@/ui/providers'
 import { notify } from '@/util/notify'
@@ -33,8 +35,8 @@ function copyToClipboard() {
   navigator.clipboard.writeText(encodeURI(link.value))
   notify({
     type: 'success',
-    title: 'Link Copied',
-    text: `${props.item.Name} static link has been copied to the clipboard.`,
+    title: t('notify.link.copiedTitle'),
+    text: t('notify.link.copiedText', { name: props.item.Name }),
   })
 }
 </script>

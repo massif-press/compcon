@@ -6,28 +6,28 @@
         <v-icon v-if="step > 1"
           start
           icon="mdi-check" />
-        Overview
+        {{ $t('pm.level.overview') }}
       </v-tab>
       <v-divider />
       <v-tab>
         <v-icon v-if="pilot.SkillsController.HasFullSkills"
           start
           icon="mdi-check" />
-        Skills
+        {{ $t('pm.level.skills') }}
       </v-tab>
       <v-divider />
       <v-tab>
         <v-icon v-if="pilot.TalentsController.HasFullTalents"
           start
           icon="mdi-check" />
-        Talents
+        {{ $t('pm.level.talents') }}
       </v-tab>
       <v-divider />
       <v-tab>
         <v-icon v-if="pilot.MechSkillsController.HasFullHASE"
           start
           icon="mdi-check" />
-        Mech Skills
+        {{ $t('pm.level.mechSkills') }}
       </v-tab>
       <v-divider />
 
@@ -36,7 +36,7 @@
         <v-icon v-if="pilot.LicenseController.HasLicenses"
           start
           icon="mdi-check" />
-        Licenses
+        {{ $t('compendium.categories.licenses') }}
       </v-tab>
       <v-divider />
 
@@ -45,10 +45,10 @@
         <v-icon v-if="pilot.CoreBonusController.HasCBs"
           start
           icon="mdi-check" />
-        CORE Bonuses
+        {{ $t('pm.level.coreBonuses') }}
       </v-tab>
       <v-divider />
-      <v-tab>Confirm</v-tab>
+      <v-tab>{{ $t('common.confirm') }}</v-tab>
     </template>
     <v-container>
       <template #default>

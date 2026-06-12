@@ -102,6 +102,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18n } from '@/i18n'
+const t = i18n.global.t
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { notify } from '@/util/notify'
@@ -179,14 +181,14 @@ async function remoteUpdate() {
         await CloudController.UpdateRemote(props.item)
         await UserStore().refreshDbData()
         notify({
-          title: `Sync Complete`,
-          text: `${props.item.ItemType} ${props.item.Name} synced.`,
+          title: t('notify.transfer.syncCompleteTitle'),
+          text: t('notify.transfer.itemSynced', { type: props.item.ItemType, name: props.item.Name }),
           data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
         })
       } catch (err) {
         notify({
-          title: `Sync Failed`,
-          text: `Failed to sync ${props.item.ItemType} ${props.item.Name}. ${err}`,
+          title: t('notify.transfer.syncFailedTitle'),
+          text: t('notify.transfer.itemSyncFailed', { type: props.item.ItemType, name: props.item.Name, err }),
           data: { icon: 'mdi-alert', color: 'error' },
         })
       }
@@ -202,8 +204,8 @@ async function convert() {
 function copyCode() {
       navigator.clipboard.writeText(props.item.CloudController.ShareCode)
       notify({
-        title: 'Copied',
-        text: 'Share code copied to clipboard',
+        title: t('notify.common.copied'),
+        text: t('notify.shareCode.copiedText'),
         data: { icon: 'mdi-clipboard-check', color: 'success' },
       })
     }

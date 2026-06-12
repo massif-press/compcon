@@ -59,7 +59,7 @@
           class="detail-row-mobile pa-2">
           <b class="text-stark">{{ pilot.Name }}</b>
           <div class="text-cc-overline">
-            <span class="text-disabled">License Level</span>
+            <span class="text-disabled">{{ $t('pm.roster.licenseLevel') }}</span>
             {{ pilot.Level }}
           </div>
         </div>
@@ -72,33 +72,33 @@
                 <span class="text-disabled">>[</span>
                 <b class="text-stark">{{ pilot.Name }}</b>
                 <span class="text-disabled">]</span>
-                <span class="text-disabled">&nbsp;STATUS [</span>
+                <span class="text-disabled">&nbsp;{{ $t('pm.roster.status') }}</span>
                 <span :class="`text-${statusColor(pilot.Status)}`">{{ pilot.Status }}</span>
                 <span class="text-disabled">] -&nbsp;</span>
-                <b class="text-success">&nbsp;LL: {{ pilot.Level }}&nbsp;</b>
+                <b class="text-success">&nbsp;{{ $t('pm.roster.llColon') }} {{ pilot.Level }}&nbsp;</b>
                 <cc-slashes />
                 <span class="text-text">
                   [
                   <b>
-                    H:
+                    {{ $t('pm.roster.h') }}
                     <span class="text-weight-normal text-accent">
                       {{ pilot.MechSkillsController.MechSkills.Hull }}
                     </span>
                   </b>
                   <b>
-                    A:
+                    {{ $t('pm.roster.a') }}
                     <span class="text-weight-normal text-accent">
                       {{ pilot.MechSkillsController.MechSkills.Agi }}
                     </span>
                   </b>
                   <b>
-                    S:
+                    {{ $t('pm.roster.s2') }}
                     <span class="text-weight-normal text-accent">
                       {{ pilot.MechSkillsController.MechSkills.Sys }}
                     </span>
                   </b>
                   <b>
-                    E:
+                    {{ $t('pm.roster.e') }}
                     <span class="text-weight-normal text-accent">
                       {{ pilot.MechSkillsController.MechSkills.Eng }}
                     </span>

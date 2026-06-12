@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid'
+import { i18n } from '@/i18n'
 import {
   CloudController,
   IPortraitData,
@@ -77,7 +78,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   public readonly StorageType: string = 'encounters'
 
   private _id: string
-  protected _name: string = 'New Encounter'
+  protected _name: string = i18n.global.t('classes.newEncounter')
 
   private _note: string
   private _description: string

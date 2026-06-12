@@ -45,25 +45,25 @@
           class="mt-n4">
           <v-col cols="auto"
             class="text-center">
-            <div class="small-header overline">{{ $t('gm.npcStats.hull') }}</div>
+            <div class="small-header overline">{{ $t('stats.hull') }}</div>
             <div v-html-safe="item.Stats.Hull"
               class="heading h3" />
           </v-col>
           <v-col cols="auto"
             class="text-center">
-            <div class="small-header overline">{{ $t('gm.npcStats.agi') }}</div>
+            <div class="small-header overline">{{ $t('stats.agi') }}</div>
             <div v-html-safe="item.Stats.Agility"
               class="heading h3" />
           </v-col>
           <v-col cols="auto"
             class="text-center">
-            <div class="small-header overline">{{ $t('gm.npcStats.sys') }}</div>
+            <div class="small-header overline">{{ $t('stats.sys') }}</div>
             <div v-html-safe="item.Stats.Systems"
               class="heading h3" />
           </v-col>
           <v-col cols="auto"
             class="text-center">
-            <div class="small-header overline">{{ $t('gm.npcStats.eng') }}</div>
+            <div class="small-header overline">{{ $t('stats.eng') }}</div>
             <div v-html-safe="item.Stats.Engineering"
               class="heading h3" />
           </v-col>
@@ -73,7 +73,7 @@
           <v-col v-show="item.Stats.Structure > 1"
             cols="auto"
             class="text-center">
-            <div class="small-header overline">{{ $t('gm.npcStats.structure') }}</div>
+            <div class="small-header overline">{{ $t('stats.structure') }}</div>
             <div>
               <v-chip variant="outlined"
                 label
@@ -88,7 +88,7 @@
               justify="center">
               <v-col cols="auto"
                 class="text-center">
-                <div class="small-header overline">{{ $t('gm.npcStats.hp') }}</div>
+                <div class="small-header overline">{{ $t('stats.hp') }}</div>
                 <div>
                   <v-chip variant="outlined"
                     label
@@ -100,7 +100,7 @@
               <v-col v-if="item.Stats.Armor"
                 cols="auto"
                 class="text-center pl-3">
-                <div class="small-header overline">{{ $t('gm.npcStats.armor') }}</div>
+                <div class="small-header overline">{{ $t('stats.armor') }}</div>
                 <div class="heading h3">
                   <v-icon icon="mdi-shield" />
                   {{ item.Stats.Armor }}
@@ -111,7 +111,7 @@
           <v-col v-show="item.Stats.Structure > 1"
             cols="auto"
             class="text-center">
-            <div class="small-header overline">{{ $t('gm.npcStats.stress') }}</div>
+            <div class="small-header overline">{{ $t('stats.stress') }}</div>
             <div>
               <v-chip variant="outlined"
                 label
@@ -122,7 +122,7 @@
           </v-col>
           <v-col cols="auto"
             class="text-center">
-            <div class="small-header overline">{{ $t('gm.npcStats.heat') }}</div>
+            <div class="small-header overline">{{ $t('stats.heat') }}</div>
             <div>
               <v-chip variant="outlined"
                 label
@@ -137,7 +137,7 @@
           density="compact">
           <v-col>
             <fieldset>
-              <legend class="caption font-weight-bold px-1">{{ $t('gm.npcStats.save') }}</legend>
+              <legend class="caption font-weight-bold px-1">{{ $t('stats.save') }}</legend>
               <div class="heading h3 text-center pb-2">
                 {{ item.Stats.Save }}
               </div>
@@ -145,7 +145,7 @@
           </v-col>
           <v-col>
             <fieldset>
-              <legend class="caption font-weight-bold px-1">{{ $t('gm.npcStats.speed') }}</legend>
+              <legend class="caption font-weight-bold px-1">{{ $t('stats.speed') }}</legend>
               <div class="heading h3 text-center pb-2">
                 {{ item.Stats.Speed }}
               </div>
@@ -153,7 +153,7 @@
           </v-col>
           <v-col>
             <fieldset>
-              <legend class="caption font-weight-bold px-1">{{ $t('gm.npcStats.edef') }}</legend>
+              <legend class="caption font-weight-bold px-1">{{ $t('stats.edef') }}</legend>
               <div class="heading h3 text-center pb-2">
                 {{ item.Stats.EDefense }}
               </div>
@@ -161,7 +161,7 @@
           </v-col>
           <v-col>
             <fieldset>
-              <legend class="caption font-weight-bold px-1">{{ $t('gm.npcStats.evasion') }}</legend>
+              <legend class="caption font-weight-bold px-1">{{ $t('stats.evasion') }}</legend>
               <div class="heading h3 text-center pb-2">
                 {{ item.Stats.Evade }}
               </div>
@@ -169,7 +169,7 @@
           </v-col>
           <v-col>
             <fieldset>
-              <legend class="caption font-weight-bold px-1">{{ $t('gm.npcStats.sensors') }}</legend>
+              <legend class="caption font-weight-bold px-1">{{ $t('stats.sensors') }}</legend>
               <div class="heading h3 text-center pb-2">
                 {{ item.Stats.Sensor }}
               </div>

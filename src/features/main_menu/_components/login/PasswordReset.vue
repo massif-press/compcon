@@ -160,7 +160,7 @@ function setNewPassword() {
       notify({
         icon: 'mdi-check',
         color: 'success',
-        title: t('mainMenu.auth.passwordChangedTitle'),
+        title: t('notify.common.success'),
         text: t('mainMenu.auth.passwordChangedText'),
       });
       emit('set-state', 'sign-in');

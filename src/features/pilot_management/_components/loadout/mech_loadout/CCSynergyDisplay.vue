@@ -20,10 +20,9 @@
             size="16"
             color="warning"
             location="top">
-            The rules in these synergy hints are
-            <strong class="text-accent"><u>NOT</u></strong>
-            automatically enforced by COMP/CON. Please ensure you manually apply any relevant
-            effects during gameplay.
+            {{ $t('pm.loadout.theRulesInTheseSynergyHints') }}
+            <strong class="text-accent"><u>{{ $t('pm.loadout.not') }}</u></strong>
+            {{ $t('pm.loadout.automaticallyEnforcedByCOMPCONPlease') }}
           </cc-tooltip>
         </div>
       </div>
@@ -32,7 +31,7 @@
       <div v-if="!synergies.length && showNone"
         class="text-center"
         style="opacity: 0.5">
-        <i>None</i>
+        <i>{{ $t('pm.loadout.none') }}</i>
       </div>
       <cc-tooltip v-for="(s, index) in synergies"
         :key="`synergy-${index}`"

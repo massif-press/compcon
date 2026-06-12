@@ -45,13 +45,13 @@
     <cc-button prepend-icon="mdi-arrow-left" size="small" class="mr-2" @click="$router.go(-1)">
       {{ $t("common.back") }}
     </cc-button>
-    <cc-button prepend-icon="mdi-home" size="small" to="/">{{ $t("mainMenu.itemLink.mainMenuLabel") }}</cc-button>
+    <cc-button prepend-icon="mdi-home" size="small" to="/">{{ $t("common.mainMenu") }}</cc-button>
     <v-spacer />
     <v-tooltip location="top" open-delay="300">
       <template #activator="{ props }">
         <v-icon v-bind="props" size="small" icon="mdi-share-variant" @click="copyToClipboard" />
       </template>
-      <span>{{ $t("mainMenu.itemLink.copyLink") }}</span>
+      <span>{{ $t("common.copyLink") }}</span>
     </v-tooltip>
   </v-footer>
 </template>

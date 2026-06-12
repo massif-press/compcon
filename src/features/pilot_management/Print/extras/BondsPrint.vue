@@ -3,7 +3,7 @@
     <v-row dense
       align="center">
       <v-col cols="auto">
-        <div class="text-overline mt-n2 mb-n2 text-primary">BOND</div>
+        <div class="text-overline mt-n2 mb-n2 text-primary">{{ $t('pm.print.bond') }}</div>
         <div v-if="blank"
           style="min-width: 250px">
           <blank-line :height="40" />
@@ -15,7 +15,7 @@
       </v-col>
 
       <v-col class="text-right">
-        <div class="text-overline text-primary mt-n2 mb-n3">XP</div>
+        <div class="text-overline text-primary mt-n2 mb-n3">{{ $t('pm.print.xp') }}</div>
         <div>
           <v-icon v-for="n in 8"
             :key="`xp-${n}`"
@@ -28,7 +28,7 @@
         </div>
       </v-col>
       <v-col class="text-right">
-        <div class="text-overline text-primary mt-n2 mb-n3 ml-n7">STRESS</div>
+        <div class="text-overline text-primary mt-n2 mb-n3 ml-n7">{{ $t('stats.stress') }}</div>
         <div>
           <v-icon v-for="n in 8"
             :key="`stress-${n}`"
@@ -44,9 +44,9 @@
     <div v-if="blank"
       dense
       class="mb-4">
-      <div class="text-overline mt-n2 mb-n2 text-primary">MAJOR IDEAL</div>
+      <div class="text-overline mt-n2 mb-n2 text-primary">{{ $t('pm.print.majorIDEAL') }}</div>
       <blank-line :height="24" />
-      <div class="text-cc-overline text-primary">MINOR IDEALS</div>
+      <div class="text-cc-overline text-primary">{{ $t('pm.print.minorIDEALS') }}</div>
       <blank-line :height="24"
         class="mt-n2 mb-1" />
       <blank-line :height="24" />
@@ -66,7 +66,7 @@
       </v-col>
       <v-col v-if="bc.MinorIdeal">
         <div class="text-overline mt-n5"
-          style="line-height: 12px">MINOR IDEAL</div>
+          style="line-height: 12px">{{ $t('pm.print.minorIDEAL') }}</div>
         <div class="text-left caption"
           v-text="bc.MinorIdeal" />
       </v-col>
@@ -75,7 +75,7 @@
     <div v-if="blank"
       dense
       class="mb-4">
-      <div class="text-overline mt-n2 mb-n3 text-primary">BURDENS</div>
+      <div class="text-overline mt-n2 mb-n3 text-primary">{{ $t('pm.print.burdens') }}</div>
       <v-row v-for="n in 3"
         :key="`row-${n}`"
         dense>
@@ -89,7 +89,7 @@
 
     <div v-else-if="bc.Burdens.length">
       <div class="text-overline text-primary"
-        style="line-height: 0">BURDENS</div>
+        style="line-height: 0">{{ $t('pm.print.burdens') }}</div>
       <v-row v-for="(b, index) in bc.Burdens"
         :key="`burden-${index}`"
         density="compact"
@@ -117,7 +117,7 @@
     <div v-if="bc.Clocks.length > 0 && !blank"
       class="text-overline text-primary mt-4"
       style="line-height: 0">
-      OTHER CLOCKS
+      {{ $t('pm.print.otherCLOCKS') }}
     </div>
     <div v-if="!blank">
       <v-row v-for="(b, index) in bc.Clocks"
@@ -145,7 +145,7 @@
     </div>
 
     <div class="text-overline text-primary mt-4"
-      style="line-height: 8px">BOND POWERS</div>
+      style="line-height: 8px">{{ $t('pm.print.bondPOWERS') }}</div>
     <div v-if="blank"
       class="mt-2">
       <v-row dense>
@@ -159,7 +159,7 @@
           <div class="text-overline text-white bg-grey-lighten-1 text-center"
             :style="landscape ? 'width: 270px; line-height: 20px' : 'width: 375px; line-height: 20px'
               ">
-            VETERAN POWER
+            {{ $t('pm.print.veteranPOWER') }}
           </div>
 
           <blank-line v-if="blank"
@@ -170,7 +170,7 @@
           <div class="text-overline text-white bg-grey-lighten-1 text-center"
             :style="landscape ? 'width: 270px; line-height: 20px' : 'width: 375px; line-height: 20px'
               ">
-            MASTER POWER
+            {{ $t('pm.print.masterPOWER') }}
           </div>
 
           <blank-line v-if="blank"
@@ -190,7 +190,7 @@
         <fieldset>
           <legend class="heading ml-1 px-2">
             {{ p.name }}
-            {{ p.veteran ? '(VETERAN POWER)' : p.master ? '(MASTER POWER)' : '' }}
+            {{ p.veteran ? $t('pm.print.veteranPOWER2') : p.master ? '(MASTER POWER)' : '' }}
           </legend>
           <div v-html-safe="p.description"
             class="pa-1 mt-n1" />

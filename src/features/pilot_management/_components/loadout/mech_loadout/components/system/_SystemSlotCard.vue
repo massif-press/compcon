@@ -24,7 +24,7 @@
         </v-col>
       </v-row>
       <div v-else
-        class="text-disabled">&nbsp;EMPTY SYSTEM SLOT</div>
+        class="text-disabled">&nbsp;{{ $t('pm.loadout.emptySYSTEMSLOT') }}</div>
     </template>
 
     <template v-if="item"
@@ -38,7 +38,7 @@
           cols="auto"
           class="pl-3">
           {{ item.SP }}
-          <span style="font-size: 13px; margin-left: -4px">SP</span>
+          <span style="font-size: 13px; margin-left: -4px">{{ $t('stats.sp') }}</span>
         </v-col>
         <v-col v-if="!readonly && !integrated"
           cols="auto">
@@ -71,7 +71,7 @@
       class="mt-2"
       icon="mdi-link">
       <div class="text-cc-overline">
-        Integrated Equipment
+        {{ $t('pm.loadout.integratedEquipment') }}
         <cc-slashes />
         <v-icon :icon="item.IntegratedOrigin.Icon"
           class="pb-1" />
