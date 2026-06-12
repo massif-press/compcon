@@ -231,7 +231,7 @@
             variant="text"
             large
             @click="deleteDialog = false">
-            {{ $t('nav.common.dismiss') }}
+            {{ $t('common.dismiss') }}
           </v-btn>
           <v-spacer />
           <v-btn color="error"
@@ -256,7 +256,7 @@ import { ref, computed, watch, onMounted } from 'vue'
 import { useDisplay } from 'vuetify'
 import DeletedItems from './components/DeletedItems.vue'
 import UserDataViewer from './components/UserDataViewer.vue'
-import { ClearAllData, GetLength, GetTotalStorageSize } from '@/io/Storage'
+import { ClearAllData, GetTotalStorageSize } from '@/io/Storage'
 import logger from '@/user/logger'
 import { UserStore } from '@/stores'
 import { useNavStrings } from '@/features/nav/useNavStrings'

@@ -19,7 +19,7 @@
                 class="ml-2"
                 @click="store.removeCloudNotification(idx)" />
             </template>
-            <span>{{ $t('nav.common.dismiss') }}</span>
+            <span>{{ $t('common.dismiss') }}</span>
           </v-tooltip>
         </template>
       </v-list-item>

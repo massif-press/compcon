@@ -72,7 +72,8 @@
             :items="languages"
             item-title="name"
             item-value="code" />
-          <i class="text-caption"
+          <i v-if="showLanguageNote"
+            class="text-caption"
             style="opacity: 0.75">
             {{ $t('language.experimentalNote') }}
           </i>
@@ -322,6 +323,7 @@ import { useDisplay, useTheme } from 'vuetify'
 import * as allThemes from '@/ui/style/themes'
 import { UserStore, NavStore } from '@/stores'
 import { SUPPORTED_LOCALES, i18n } from '@/i18n'
+import { completeness, fetchCompleteness, QUALITY_THRESHOLD } from '@/i18n/completeness'
 const t = i18n.global.t
 import { exportAll, importAll } from '@/io/BulkData'
 import { saveFile } from '@/io/Data'
@@ -394,16 +396,32 @@ const theme = computed({
   },
 })
 
-const languages = [...SUPPORTED_LOCALES]
+const languages = computed(() =>
+  SUPPORTED_LOCALES.map(l => {
+    const pct = completeness.value[l.code]
+    return {
+      code: l.code,
+      name: l.code !== 'en' && pct != null ? `${l.name} — ${pct}%` : l.name,
+    }
+  })
+)
 
 const language = computed({
   get: () => NavStore().Language,
   set: (newVal: string) => NavStore().setLanguage(newVal),
 })
 
+const showLanguageNote = computed(() => {
+  const code = language.value
+  if (code === 'en') return false
+  const pct = completeness.value[code]
+  return pct == null || pct < QUALITY_THRESHOLD
+})
+
 onMounted(async () => {
   v2BackupData.value = await GetValue('v2_backup_download')
   v2MigrationComplete.value = !!(await GetValue('v2_migration_complete'))
+  fetchCompleteness()
 })
 
 function reload() {

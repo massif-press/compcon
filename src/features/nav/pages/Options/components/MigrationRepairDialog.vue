@@ -53,12 +53,16 @@
               :title="strings.experimentalTitle"
               icon="mdi-atom"
               class="mb-4">
-              {{ strings.experimentalBody }}<strong>{{ strings.experimentalBodyStrong }}</strong>{{ strings.experimentalBodySuffix }}
+              {{ strings.experimentalBody }}<strong>{{ strings.experimentalBodyStrong }}</strong>{{
+                strings.experimentalBodySuffix }}
             </cc-alert>
 
             <cc-panel class="mb-4">
               {{ $t('nav.migrationRepair.foundFixable', { count: fixableCount }, fixableCount) }}
-              <span v-if="reportOnlyCount">{{ $t('nav.migrationRepair.andRequiringManual', { count: reportOnlyCount }, reportOnlyCount) }}</span>.
+              <span v-if="reportOnlyCount">{{ $t('nav.migrationRepair.andRequiringManual', {
+                count:
+                  reportOnlyCount
+              }, reportOnlyCount) }}</span>.
             </cc-panel>
 
             <v-table density="compact"
@@ -112,7 +116,7 @@
       <v-card-actions class="pa-4">
         <cc-button variant="text"
           @click="close">
-          {{ strings.cancel }}
+          {{ common.cancel }}
         </cc-button>
         <v-spacer />
         <cc-button v-if="fixableCount > 0 && !applying"
@@ -133,6 +137,7 @@ import { useNavStrings } from '@/features/nav/useNavStrings'
 const { section } = useNavStrings()
 
 const strings = section('migrationRepair')
+const common = section('common')
 
 const scanning = ref(false)
 const applying = ref(false)

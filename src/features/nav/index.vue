@@ -127,7 +127,7 @@
             <v-chip color="warning"
               variant="elevated"
               size="x-small">
-              {{ n.storageWarning }}
+              {{ common.warning }}
             </v-chip>
             {{ n.storageWarningTooltip }}
           </span>
@@ -146,16 +146,14 @@
             <v-chip color="error"
               variant="elevated"
               size="x-small">
-              {{ n.storageAlert }}
+              {{ common.alert }}
             </v-chip>
             {{ n.storageAlertTooltip }}
 
             <v-alert color="error">
               <b>{{ n.noNewItemsSaved }}</b>
             </v-alert>
-            {{ n.storageDetailsPrefix }}
-            <b>{{ n.storageTab }}</b>
-            {{ n.storageDetailsSuffix }}
+            {{ n.storageDetails }}
           </span>
         </v-tooltip>
         <v-dialog v-model="storageFullDialog"
@@ -184,9 +182,7 @@
                 </b>
                 <br />
                 <br />
-                {{ n.storageDetailsPrefix }}
-                <b>{{ n.storageTab }}</b>
-                {{ n.storageDetailsSuffix }}
+                {{ n.storageDetails }}
               </p>
             </v-card-text>
           </v-card>
@@ -347,6 +343,7 @@ const { xs: portrait, mdAndDown: landscape } = useDisplay()
 const mobile = portrait
 const { isOnline } = useOnlineStatus()
 const n = section('nav')
+const common = section('common')
 
 const userStore = UserStore()
 

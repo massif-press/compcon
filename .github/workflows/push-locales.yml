@@ -1,0 +1,47 @@
+name: Push base locale
+
+# Sync the hand-maintained UI base catalog (src/i18n/locales/en.json) to
+# compcon-locales/ui/en.json so Weblate translators always see the current English.
+# App repo is code-truth; locales repo is translation-truth (Theme L spec section 5.1).
+# Downstream (translated catalogs back into the app) is handled by `yarn locales:pull`.
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'src/i18n/locales/en.json'
+  workflow_dispatch:
+
+concurrency:
+  group: push-locales
+  cancel-in-progress: false
+
+jobs:
+  push-base:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Start ssh-agent with locales deploy key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.LOCALES_DEPLOY_KEY }}
+
+      - name: Clone compcon-locales
+        run: git clone git@github.com:massif-press/compcon-locales.git locales-repo
+
+      - name: Copy base catalog
+        run: cp src/i18n/locales/en.json locales-repo/ui/en.json
+
+      - name: Commit and push if changed
+        working-directory: locales-repo
+        run: |
+          git config user.name 'compcon-bot'
+          git config user.email 'bot@compcon.app'
+          if git diff --quiet -- ui/en.json; then
+            echo 'ui/en.json already up to date; nothing to push.'
+            exit 0
+          fi
+          git add ui/en.json
+          git commit -m 'chore: sync UI base catalog from compcon@${{ github.sha }}'
+          git push origin master

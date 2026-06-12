@@ -89,7 +89,7 @@
           </v-col>
           <v-col cols="auto">
             <v-btn variant="text"
-              @click="dismiss(close)">{{ $t('nav.common.dismiss') }}</v-btn>
+              @click="dismiss(close)">{{ $t('common.dismiss') }}</v-btn>
           </v-col>
         </v-row>
       </template>

@@ -85,7 +85,7 @@
             </v-card-text>
             <v-divider />
             <v-card-actions>
-              <v-btn size="small">{{ s.cancel }}</v-btn>
+              <v-btn size="small">{{ common.cancel }}</v-btn>
               <cc-button size="small"
                 color="warning"
                 class="ml-auto"
@@ -114,7 +114,7 @@
             </v-card-text>
             <v-divider />
             <v-card-actions>
-              <v-btn size="small">{{ s.cancel }}</v-btn>
+              <v-btn size="small">{{ common.cancel }}</v-btn>
               <cc-button size="small"
                 color="error"
                 class="ml-auto"
@@ -165,7 +165,7 @@
         <v-card-actions>
           <cc-button class="ml-auto"
             @click="showStripped = false">
-            {{ c.ok }}
+            {{ common.ok }}
           </cc-button>
         </v-card-actions>
       </v-card>
@@ -196,7 +196,7 @@ import { useNavStrings } from '@/features/nav/useNavStrings'
 const { section, t } = useNavStrings()
 
 const s = section('v2Import')
-const c = section('common')
+const common = section('common')
 
 const backups = ref<any[]>([])
 const loading = ref(false)

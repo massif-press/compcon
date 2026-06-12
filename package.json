@@ -13,6 +13,7 @@
     "format:check": "prettier --check 'src/**/*.{ts,vue,json,css,scss,md}'",
     "typecheck": "vue-tsc --noEmit",
     "i18n:check": "node scripts/i18n-check.mjs",
+    "locales:pull": "node scripts/pull-locales.mjs",
     "prepare": "husky"
   },
   "lint-staged": {
