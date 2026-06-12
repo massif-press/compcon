@@ -1,10 +1,5 @@
 name: Push base locale
 
-# Sync the hand-maintained UI base catalog (src/i18n/locales/en.json) to
-# compcon-locales/ui/en.json so Weblate translators always see the current English.
-# App repo is code-truth; locales repo is translation-truth (Theme L spec section 5.1).
-# Downstream (translated catalogs back into the app) is handled by `yarn locales:pull`.
-
 on:
   push:
     branches: [master]
