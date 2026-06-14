@@ -10,7 +10,12 @@ export function useNavStrings() {
   const { t } = useI18n()
   const section = (name: string): Record<string, string> =>
     new Proxy({} as Record<string, string>, {
-      get: (_target, key: string) => t(`nav.${name}.${String(key)}`),
+      get: (_target, key) => {
+        if (typeof key !== 'string' || key.startsWith('__v_') || key === 'then') {
+          return undefined
+        }
+        return t(`nav.${name}.${key}`)
+      },
     })
   return { t, section }
 }

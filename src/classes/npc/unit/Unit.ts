@@ -12,7 +12,6 @@ import { FolderController } from '@/classes/components/folder/FolderController'
 import { IInstanceable } from '@/classes/components/instance/IInstanceable'
 import { Rules } from '@/classes/utility/Rules'
 import { CompendiumStore } from '@/features/compendium/store'
-import { NpcStore } from '@/features/gm/store/npc_store'
 import { INpcFeatureData } from '../feature/NpcFeature'
 import { INpcTemplateData } from '../template/NpcTemplate'
 import { INpcClassData } from '../class/NpcClass'
@@ -153,16 +152,6 @@ class Unit extends Npc implements ICombatant, IInstanceable {
     data.is_instance = true
 
     return data as UnitData
-  }
-
-  public get IsLinked(): boolean {
-    return (
-      this.GetLinkedItem<Npc>() !== undefined && !this.GetLinkedItem<Npc>().BrewController.HasError
-    )
-  }
-
-  public GetLinkedItem<Npc>(): Npc {
-    return NpcStore().getNpcByID(this.OriginId) as Npc
   }
 
   public static Serialize(unit: Unit, asInstance: boolean): UnitData {

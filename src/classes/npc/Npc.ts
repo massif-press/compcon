@@ -26,6 +26,12 @@ import { ItemType } from '../enums'
 import { IInstanceableData } from '../components/instance/IInstanceable'
 import { LcpConfig } from '@/user'
 
+// temp NPC resolver to break circular dependency between Npc and NpcStore
+let npcResolver: ((id: string) => any) | null = null
+export function registerNpcResolver(resolver: (id: string) => any): void {
+  npcResolver = resolver
+}
+
 class NpcData implements IInstanceableData {
   id!: string
   save!: ISaveData
@@ -194,9 +200,17 @@ abstract class Npc
   }
 
   // Instance Utilities
-  public abstract get IsLinked(): boolean
+  public get IsLinked(): boolean {
+    return (
+      this.GetLinkedItem<Npc>() !== undefined &&
+      !this.GetLinkedItem<Npc>().SaveController.IsDeleted &&
+      !this.GetLinkedItem<Npc>().BrewController.HasError
+    )
+  }
 
-  public abstract GetLinkedItem<Npc>(): Npc
+  public GetLinkedItem<Npc>(): Npc {
+    return npcResolver?.(this.ID) as Npc
+  }
 }
 
 export { NpcData, Npc }

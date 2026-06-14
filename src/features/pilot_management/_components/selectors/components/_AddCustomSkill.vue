@@ -8,13 +8,13 @@
           color="primary"
           density="compact"
           hide-details
-          label="New Skill Trigger" />
+          :label="$t('classes.newSkillTrigger')" />
         <cc-text-area v-model="newDesc"
           class="my-2"
-          label="Description" />
+          :label="$t('common.description')" />
         <cc-text-area v-model="newDetail"
           class="my-2"
-          label="Detail" />
+          :label="$t('common.detail')" />
       </div>
     </v-col>
     <v-col cols="auto"
@@ -22,8 +22,8 @@
       class="text-center">
       <div class="mt-2 ml-auto mr-auto">
         <v-tooltip text="Add Skill">
-          <template #activator="{ props }">
-            <cc-button v-bind="props"
+          <template #activator="{ props: activatorProps }">
+            <cc-button v-bind="activatorProps"
               size="large"
               icon="mdi-plus"
               variant="outlined"
@@ -47,7 +47,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'add-custom': []
+  'add-custom': { skill: string; description: string; detail: string }
 }>()
 
 const newSkill = ref('')
@@ -55,18 +55,18 @@ const newDesc = ref('')
 const newDetail = ref('')
 
 const canAdd = computed(() => {
-      const custSkill = new CustomSkill(newSkill.value, newDesc.value, newDetail.value);
-      return props.pilot.SkillsController.CanAddSkill(custSkill);
-    })
+  const custSkill = new CustomSkill(newSkill.value, newDesc.value, newDetail.value);
+  return props.pilot.SkillsController.CanAddSkill(custSkill);
+})
 
 function addSkill() {
-      emit('add-custom', {
-        skill: newSkill.value,
-        description: newDesc.value,
-        detail: newDetail.value,
-      });
-      newSkill.value = '';
-      newDesc.value = '';
-      newDetail.value = '';
-    }
+  emit('add-custom', {
+    skill: newSkill.value,
+    description: newDesc.value,
+    detail: newDetail.value,
+  });
+  newSkill.value = '';
+  newDesc.value = '';
+  newDetail.value = '';
+}
 </script>

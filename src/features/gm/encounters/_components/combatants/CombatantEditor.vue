@@ -134,8 +134,12 @@
               :icon="selected.actor.IsLinked ? 'mdi-link-variant' : 'mdi-link-variant-off'"
               start />
           </template>
-          <i18n-t v-if="selected.actor.IsLinked" keypath="gm.combatant.linkedSource" tag="span" scope="global">
-            <template #name><b class="text-primary">{{ selected.actor.GetLinkedItem().Name }}</b></template>
+          <i18n-t v-if="selected.actor.IsLinked"
+            keypath="gm.combatant.linkedSource"
+            tag="span"
+            scope="global">
+            <template #name><b class="text-primary">{{ selected.actor.GetLinkedItem().Name
+            }}</b></template>
           </i18n-t>
           <span v-else>{{ $t('gm.combatant.notLinkedSourceDot') }}</span>
         </v-tooltip>
@@ -149,12 +153,14 @@
                 size="x-small"
                 variant="outlined"
                 :disabled="!selected.actor.IsLinked">
-                {{ selected.actor.IsLinked ? $t('gm.combatant.sourceLinked') : $t('gm.combatant.sourceUnavailable') }}
+                {{ selected.actor.IsLinked ? $t('gm.combatant.sourceLinked') :
+                  $t('gm.combatant.sourceUnavailable') }}
               </v-btn>
             </template>
             <v-card variant="outlined">
               <v-card-text>
-                <div class="text-caption text-disabled">{{ $t('gm.combatant.instanceSource') }}</div>
+                <div class="text-caption text-disabled">{{ $t('gm.combatant.instanceSource') }}
+                </div>
                 <div class="heading">{{ selected.actor.GetLinkedItem().Name }}</div>
                 <v-divider class="my-2" />
                 <div class="text-caption text-disabled"></div>
@@ -225,6 +231,17 @@
         </b>
 
         <v-spacer v-if="!readonly" />
+
+        <cc-button v-if="!selected.actor.IsLinked"
+          prepend-icon="mdi-download"
+          size="small"
+          color="accent"
+          :tooltip="$t('gm.combatant.addToRosterTooltip')"
+          @click="addNpcToRoster()">
+          {{ $t('gm.combatant.addToRoster') }}
+        </cc-button>
+
+        <v-spacer v-if="!readonly" />
         <v-btn icon
           @click="editDialog = false">
           <v-icon>mdi-close</v-icon>
@@ -246,7 +263,7 @@
 import { ref, computed, watch } from 'vue'
 import { Npc } from '@/classes/npc/Npc'
 import CombatantSelector from './CombatantSelector.vue'
-import { UserStore } from '@/stores'
+import { NpcStore, UserStore } from '@/stores'
 import { notify } from '@/util/notify'
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
@@ -301,7 +318,7 @@ if (user?.View) {
 
 function addUnit(item: Npc) {
   props.encounter.AddCombatant(item)
-  notify({ title: t('gm.encounter.combatantAddedTitle', { name: item.Name }), text: t('gm.encounter.combatantAddedText', { name: item.Name, encounterName: props.encounter.Name }), data: { icon: 'cc:encounter' } })
+  notify({ title: t('gm.encounter.combatantAddedTitle', { name: item.Name }), text: t('gm.encounter.combatantAddedText', { name: item.Name, encounterName: props.encounter.Name }), icon: 'cc:encounter' })
 }
 function editUnit(item: any) {
   const newType = item.actor.ItemType
@@ -342,5 +359,13 @@ function diffUpdate(key: string) {
 }
 function diffUpdateAll(allDiffs: Record<string, any>) {
   Object.keys(allDiffs).forEach((key) => { SetDiff(selected.value.actor, key) })
+}
+
+async function addNpcToRoster() {
+  const npc = selected.value.actor.GetLinkedItem()
+  if (npc || !selected.value) return
+  await NpcStore().AddNpc(selected.value.actor)
+
+  notify({ title: t('gm.combatant.npcAddedTitle', { name: selected.value.actor.Name }), text: t('gm.combatant.npcAddedRosterText', { name: selected.value.actor.Name }), icon: 'cc:npc' })
 }
 </script>

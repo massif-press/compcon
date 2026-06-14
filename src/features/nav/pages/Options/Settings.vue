@@ -42,17 +42,16 @@
               scope="global">
               <template #vialra>
                 <a target="_blank"
-                  href="https://github.com/vialra">{{ $t('nav.settingsPage.contribVialra') }}</a>
+                  href="https://github.com/vialra">{{ themeContributors.vialra }}</a>
               </template>
-              <template #asger>{{ $t('nav.settingsPage.contribAsger') }}</template>
+              <template #asger>{{ themeContributors.asger }}</template>
               <template #thecrystalwoods>
                 <a target="_blank"
-                  href="https://github.com/Lunardog15">{{ $t('nav.settingsPage.contribCrystalwoods')
-                  }}</a>
+                  href="https://github.com/Lunardog15">{{ themeContributors.thecrystalwoods }}</a>
               </template>
               <template #suji>
                 <a target="_blank"
-                  href="https://github.com/nimoooos">{{ $t('nav.settingsPage.contribSuji') }}</a>
+                  href="https://github.com/nimoooos">{{ themeContributors.suji }}</a>
               </template>
             </i18n-t>
           </i>
@@ -303,16 +302,14 @@
       </cc-button>
     </v-row>
     <v-row justify="end">
+      <!-- eslint-disable @intlify/vue-i18n/no-raw-text -- dev-only test page links -->
       <v-btn size="x-small"
         variant="text"
-        to="/ui-test">
-        {{ $t('nav.settingsPage.uiTestOne') }}
-      </v-btn>
+        to="/ui-test">UI Test I</v-btn>
       <v-btn size="x-small"
         variant="text"
-        to="/ui-test-new">
-        {{ $t('nav.settingsPage.uiTestTwo') }}
-      </v-btn>
+        to="/ui-test-new">UI Test II</v-btn>
+      <!-- eslint-enable @intlify/vue-i18n/no-raw-text -->
     </v-row>
   </v-container>
 </template>
@@ -338,6 +335,13 @@ const { section } = useNavStrings()
 const { mdAndDown: mobile } = useDisplay()
 const themeObj = useTheme()
 const sp = section('settingsPage')
+
+const themeContributors = {
+  vialra: 'vialra,',
+  asger: 'Asger Toft,',
+  thecrystalwoods: 'thecrystalwoods,',
+  suji: 'Suji',
+}
 
 const user = computed(() => UserStore().User)
 

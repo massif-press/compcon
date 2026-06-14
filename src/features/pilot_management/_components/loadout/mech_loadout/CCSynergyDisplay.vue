@@ -20,9 +20,11 @@
             size="16"
             color="warning"
             location="top">
-            {{ $t('pm.loadout.theRulesInTheseSynergyHints') }}
-            <strong class="text-accent"><u>{{ $t('pm.loadout.not') }}</u></strong>
-            {{ $t('pm.loadout.automaticallyEnforcedByCOMPCONPlease') }}
+            <i18n-t keypath="pm.loadout.synergyWarning" tag="span" scope="global">
+              <template #not>
+                <strong class="text-accent"><u>{{ $t('pm.loadout.not') }}</u></strong>
+              </template>
+            </i18n-t>
           </cc-tooltip>
         </div>
       </div>

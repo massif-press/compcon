@@ -66,8 +66,8 @@
             <template v-if="open.includes(lcp)">
               <b-list-item v-for="item in filteredItemsByLcp[lcp]"
                 v-if="options.noSource"
-                v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
                 :key="item.ID"
+                v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
                 :selected="!!selectedItem && selectedItem.ID === item.ID"
                 :compare="view === 'compare'"
                 :item="<CompendiumItem>item"
@@ -92,8 +92,8 @@
                 :collection="role"
                 :role="role">
                 <b-list-item v-for="item in (itemsByLcpByRole[lcp]?.[role] ?? [])"
-                  v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
                   :key="item.ID"
+                  v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
                   :selected="!!selectedItem && selectedItem.ID === item.ID"
                   :compare="view === 'compare'"
                   :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
@@ -118,8 +118,8 @@
                 :parent="lcp"
                 :collection="origin">
                 <b-list-item v-for="item in (itemsByLcpByOrigin[lcp]?.[origin] ?? [])"
-                  v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
                   :key="item.ID"
+                  v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
                   :selected="!!selectedItem && selectedItem.ID === item.ID"
                   :compare="view === 'compare'"
                   :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
@@ -145,8 +145,8 @@
                 :collection="manufacturer"
                 :manufacturer="mf(manufacturer)">
                 <b-list-item v-for="item in (itemsByLcpBySource[lcp]?.[manufacturer] ?? [])"
-                  v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
                   :key="item.ID"
+                  v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
                   :selected="!!selectedItem && selectedItem.ID === item.ID"
                   :compare="view === 'compare'"
                   :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
@@ -191,8 +191,8 @@
             </template>
 
             <b-list-item v-for="item in itemsBySourceGroup[manufacturer]"
-              v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
               :key="item.ID"
+              v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :item="<CompendiumItem>item"
@@ -219,8 +219,8 @@
             :collection="role"
             :role="role">
             <b-list-item v-for="item in itemsByRoleGroup[role]"
-              v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
               :key="item.ID"
+              v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
@@ -246,8 +246,8 @@
             :collection="featureType"
             :feature="featureType">
             <b-list-item v-for="item in itemsByFeatureTypeGroup[featureType]"
-              v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
               :key="item.ID"
+              v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
@@ -272,8 +272,8 @@
             :key="`origin-${origin}`"
             :collection="origin">
             <b-list-item v-for="item in itemsByOriginGroup[origin]"
-              v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
               :key="item.ID"
+              v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
@@ -310,8 +310,8 @@
               </v-list-item>
             </template>
             <b-list-item v-for="item in itemsByLicenseGroup[license]"
-              v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
               :key="item.ID"
+              v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :item="<CompendiumItem>item"
@@ -348,8 +348,8 @@
               </v-list-item>
             </template>
             <b-list-item v-for="item in itemsByType[subtype]"
-              v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
               :key="item.ID"
+              v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
               :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
               :item="<CompendiumItem>item"
@@ -371,8 +371,8 @@
 
         <div v-else>
           <b-list-item v-for="item in shownItems"
-            v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
             :key="item.ID"
+            v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"
             :selected="!!selectedItem && selectedItem.ID === item.ID"
             :compare="view === 'compare'"
             :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
@@ -393,9 +393,11 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-main class="mt-2">
+    <v-main ref="mainEl"
+      class="mt-2"
+      :style="`height: calc(100vh - ${contentTopOffset}px); overflow-y: ${useVirtualScroll ? 'hidden' : 'auto'}; min-height: 0`">
       <div id="content"
-        :style="`height: calc(100vh - ${getHeight}px)!important; overflow-y: ${view === 'list' ? 'hidden' : 'scroll'}; padding-bottom: ${view === 'list' ? '0' : '40'}px`">
+        :style="`height: 100%; padding-bottom: ${useVirtualScroll ? '0' : '40'}px`">
         <div :style="view === 'table' ? '' : 'max-width: 1200px'"
           class="pa-4 mx-auto">
           <v-alert v-show="!!$slots.top"
@@ -462,7 +464,7 @@
           <v-virtual-scroll v-else-if="view === 'list'"
             ref="listScroller"
             :items="navOrderedItems"
-            :style="`height: calc(100vh - ${getHeight}px - 32px)`"
+            :style="`height: calc(100vh - ${contentTopOffset}px - 32px)`"
             class="vscroll-list">
             <template #default="{ item }">
               <div class="mb-4">
@@ -630,7 +632,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch, onMounted } from 'vue'
+import { computed, ref, watch, onMounted, onBeforeUnmount } from 'vue'
 import { useDisplay } from 'vuetify'
 import type { VVirtualScroll } from 'vuetify/components'
 import * as _ from 'lodash-es';
@@ -700,6 +702,8 @@ const emit = defineEmits<{
 }>()
 
 const listScroller = ref<InstanceType<typeof VVirtualScroll> | null>(null)
+const mainEl = ref<any>(null)
+const contentTopOffset = ref(50)
 
 const open = ref([] as string[])
 const view = ref('list')
@@ -765,15 +769,26 @@ const { saveView, loadView } = useCompendiumViewState({
 
 const minSliceIndex = computed(() => (page.value - 1) * itemsPerPage.value)
 const maxSliceIndex = computed(() => page.value * itemsPerPage.value)
-const isInModal = ref(false)
+
+// the License list view uses a plain rendered list rather than v-virtual-scroll,
+// so v-main must own the scroll for that combination.
+const useVirtualScroll = computed(() => view.value === 'list' && props.itemType !== 'License')
+
+function measureContentOffset() {
+  const root: HTMLElement | undefined = mainEl.value?.$el ?? mainEl.value
+  if (!root) return
+  // top of v-main (after mt-2 margin) relative to viewport — this is the
+  // actual offset we need to subtract from 100vh to keep content fully visible.
+  const rect = root.getBoundingClientRect()
+  contentTopOffset.value = Math.max(0, Math.ceil(rect.top))
+}
+
 onMounted(() => {
-  const scrim = document.querySelector('.v-overlay__scrim')
-  isInModal.value = !!(scrim && window.getComputedStyle(scrim).display !== 'none')
+  measureContentOffset()
+  window.addEventListener('resize', measureContentOffset)
 })
-const getHeight = computed(() => {
-  if (display.xs.value) return 40;
-  if (isInModal.value) return 98;
-  return 50;
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', measureContentOffset)
 })
 
 watch(group, () => { open.value = []; saveView(); })

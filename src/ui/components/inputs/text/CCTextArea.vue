@@ -14,6 +14,8 @@
           :clearable="clearable"
           elevation="0"
           auto-grow
+          flat
+          tile
           :rows="3"
           clear-icon="mdi-close-circle-outline"
           density="compact"

@@ -1,6 +1,5 @@
 <template>
-  <v-card
-    v-show="!item.Secret || item.Unlocked"
+  <v-card v-show="!item.Secret || item.Unlocked"
     :key="item.Unlocked"
     :color="getColor"
     flat
@@ -8,10 +7,11 @@
     class="my-2 pr-2"
     style="position: relative"
     :style="item.Secret ? `background: linear-gradient(90deg, #991E2A 0%, #673AB7 100%);` : ''">
-    <v-row align="center" :style="item.Unlocked ? '' : 'opacity: 0.6'" dense>
+    <v-row align="center"
+      :style="item.Unlocked ? '' : 'opacity: 0.6'"
+      dense>
       <v-col cols="auto">
-        <v-icon
-          :size="mobile ? 50 : 70"
+        <v-icon :size="mobile ? 50 : 70"
           :icon="item.Secret ? 'mdi-clippy' : `cc:achievement_${item.Rarity}`" />
       </v-col>
       <v-col v-if="!item.Hidden || item.Unlocked">
@@ -34,10 +34,13 @@
         </v-progress-linear>
       </v-col>
       <v-col v-else>
-        <div class="heading h3">{{ strings.dataRedacted }}</div>
+        <div class="heading h3">[ {{ strings.dataRedacted }} ]</div>
         <div>{{ strings.hiddenNote }}</div>
       </v-col>
-      <v-col v-if="item.Unlocked" cols="12" md="auto" class="text-right py-1 mx-2">
+      <v-col v-if="item.Unlocked"
+        cols="12"
+        md="auto"
+        class="text-right py-1 mx-2">
         <div class="text-caption">
           <span v-if="item.Secret">{{ strings.secretLabel }}</span>
           {{ strings.unlockedLabel }}
@@ -47,8 +50,7 @@
         </div>
       </v-col>
     </v-row>
-    <div
-      v-if="item.Author"
+    <div v-if="item.Author"
       class="text-cc-overline text-center"
       style="
         position: absolute;

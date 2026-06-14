@@ -7,7 +7,6 @@ import { NarrativeController } from '@/classes/narrative/NarrativeController'
 import { FolderController } from '@/classes/components/folder/FolderController'
 import { IInstanceableData } from '@/classes/components/instance/IInstanceable'
 import { IInstanceable } from '@/classes/components/instance/IInstanceable'
-import { NpcStore } from '@/features/gm/store/npc_store'
 import { CombatController } from '@/classes/components/combat/CombatController'
 import { ICombatant } from '@/classes/components/combat/ICombatant'
 import { StatController } from '@/classes/components/combat/stats/StatController'
@@ -72,14 +71,6 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
 
   public SetStats() {
     this.CombatController.setStats(this._getStats())
-  }
-
-  public get IsLinked(): boolean {
-    return this.GetLinkedItem<Npc>() !== undefined
-  }
-
-  public GetLinkedItem<Npc>(): Npc {
-    return NpcStore().getNpcByID(this.ID) as Npc
   }
 
   public static Serialize(doodad: Doodad, asInstance: boolean): DoodadData {

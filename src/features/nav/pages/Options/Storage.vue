@@ -20,13 +20,11 @@
         <i18n-t keypath="nav.storage.storageUsageFull"
           tag="span"
           scope="global">
-          <template #prefix>{{ st.storageUsagePrefix }}</template>
           <template #used>{{ bytesToSize(size.usage) }}</template>
           <template #total>{{ bytesToSize(size.quota) }}</template>
           <template #percent>
             <b class="text-accent">{{ ((size.usage / size.quota || 1) * 100).toFixed(3) }}%</b>
           </template>
-          <template #suffix>{{ st.storageUsageSuffix }}</template>
         </i18n-t>
       </p>
 
@@ -148,11 +146,9 @@
             <i18n-t keypath="nav.storage.autoDeleteFull"
               tag="span"
               scope="global">
-              <template #prefix>{{ st.autoDeletePrefix }}</template>
               <template #days>
                 <b class="text-accent">{{ $t('nav.storage.daysCount', { count: deleteDays }) }}</b>
               </template>
-              <template #note>{{ st.autoDeleteNote }}</template>
             </i18n-t>
           </span>
         </div>
@@ -210,7 +206,6 @@
               <template #confirm>
                 <b class="text-accent">{{ st.deleteAllConfirm }}</b>
               </template>
-              <template #localData>{{ st.deleteLocalData }}</template>
             </i18n-t>
             <br />
             <i18n-t keypath="nav.storage.deleteConfirmUndone"

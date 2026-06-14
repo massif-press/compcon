@@ -265,9 +265,8 @@
       <v-expansion-panel class="my-6" tile elevation="0">
         <v-expansion-panel-title class="text-cc-overline">{{ $t('active.joinTable.archivedTables') }}</v-expansion-panel-title>
         <v-expansion-panel-text>
-          {{ $t('active.joinTable.note1') }}
-          <br />
-          {{ $t('active.joinTable.note2') }}
+          <!-- TODO: completed/closed tables with history, after action reports, etc. -->
+          <!-- TODO: these should be printable/exportable and converted into narrative elements or similar. -->
         </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>

@@ -1,5 +1,5 @@
 <template>
-  <v-container>{{ $t('gm.narrative.todo') }}</v-container>
+  <v-container><!-- TODO: narrative graph view --></v-container>
 
   <v-footer app>
     <v-btn variant="tonal" color="accent" class="mx-4" to="/gm/narrative">

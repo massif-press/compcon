@@ -2,7 +2,7 @@ import { notify as vueNotify, NotificationsOptions } from '@kyvg/vue3-notificati
 import { i18n } from '@/i18n'
 
 type CustomNotifyOptions = {
-  title: string
+  title?: string
   text: string
   color?: string
   icon?: string
@@ -23,7 +23,7 @@ function baseNotify(options: NotificationsOptions) {
 }
 
 export function notify({
-  title,
+  title = '',
   text,
   color = 'info',
   icon = 'mdi-bell',
@@ -52,11 +52,21 @@ export function notify({
 }
 
 export function notifySuccess(text: string) {
-  notify({ title: i18n.global.t('notify.common.success'), text, color: 'success', icon: 'mdi-check-circle' })
+  notify({
+    title: i18n.global.t('notify.common.success'),
+    text,
+    color: 'success',
+    icon: 'mdi-check-circle',
+  })
 }
 
 export function notifyError(text: string) {
-  notify({ title: i18n.global.t('notify.common.error'), text, color: 'error', icon: 'mdi-alert-circle' })
+  notify({
+    title: i18n.global.t('notify.common.error'),
+    text,
+    color: 'error',
+    icon: 'mdi-alert-circle',
+  })
 }
 
 export function flushNotifyQueue() {

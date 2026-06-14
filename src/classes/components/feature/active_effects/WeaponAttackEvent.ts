@@ -11,6 +11,11 @@ import { ActiveEffectEvent } from './ActiveEffectEvent'
 import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon'
 import { ActiveEventTarget } from './effect_events/eventTarget'
 
+// per-event target instances are cached here (rather than on the instance) so the cache stays
+// outside Vue reactivity. Reading and writing a reactive cell inside the TargetEvents getter,
+// which runs during render, would self-invalidate and trigger "Maximum recursive updates".
+const onEventTargetCaches = new WeakMap<WeaponAttackEvent, Record<string, ActiveEventTarget[]>>()
+
 class WeaponAttackEvent {
   public ID: string
   public AttackActionString: string
@@ -66,44 +71,72 @@ class WeaponAttackEvent {
     if (weapon.OnHit) this.OnHitEvent = new ActiveEffectEvent(owner, weapon.OnHit, instance)
     if (weapon.OnCrit) this.OnCritEvent = new ActiveEffectEvent(owner, weapon.OnCrit, instance)
 
-    if ((weapon as NpcWeapon).getAttacks(owner.actor.CombatController.Tier) > 1) {
-      const attackCount = (weapon as NpcWeapon).getAttacks(owner.actor.CombatController.Tier) - 1
+    if (weapon instanceof NpcWeapon) {
+      const attackCount = weapon.getAttacks(owner.actor.CombatController.Tier) - 1
       for (let i = 0; i < attackCount; i++) {
-        console.log('Adding additional attack event')
         this.BaseEvent.AddTarget()
       }
     }
   }
 
-  public get TargetEvents(): ActiveEffectEvent[] {
-    if (!this.BaseEvent.Targets[0]) return []
-    const eventMap = {
-      attack: {
+  private get EventConfigs(): {
+    event?: ActiveEffectEvent
+    filter: (t: ActiveEventTarget) => boolean
+  }[] {
+    return [
+      {
         event: this.OnAttackEvent,
         filter: (t: ActiveEventTarget) => t.HitResult === 'hit' || t.HitResult === 'crit',
       },
-      hit: {
+      {
         event: this.OnHitEvent,
         filter: (t: ActiveEventTarget) => t.HitResult === 'hit' || t.HitResult === 'crit',
       },
-      crit: {
+      {
         event: this.OnCritEvent,
         filter: (t: ActiveEventTarget) => t.HitResult === 'crit',
       },
-      miss: {
+      {
         event: this.OnMissEvent,
         filter: (t: ActiveEventTarget) => t.HitResult === 'miss',
       },
+    ]
+  }
+
+  // build (and cache) the set of targets for an on-hit/on-crit/etc. effect. Each effect gets
+  // its own ActiveEventTarget instances mirroring the matching base attack targets, so save
+  // rolls entered on one effect do not bleed into the others. Targets are reused across calls
+  // (matched by index + combatant) so entered rolls persist between renders.
+  private buildEventTargets(
+    event: ActiveEffectEvent,
+    filter: (t: ActiveEventTarget) => boolean
+  ): ActiveEventTarget[] {
+    let cacheStore = onEventTargetCaches.get(this)
+    if (!cacheStore) {
+      cacheStore = {}
+      onEventTargetCaches.set(this, cacheStore)
     }
 
-    return Object.values(eventMap)
-      .filter(config => config.event)
-      .map(config => {
-        const event = config.event!
-        const targets = this.BaseEvent.Targets.filter(config.filter)
-        event.Targets = targets
-        return { event, targets }
-      })
+    const baseTargets = this.BaseEvent.Targets.filter(t => t && filter(t))
+    const cached = cacheStore[event.ID] || []
+    const result = baseTargets.map((bt, i) => {
+      const existing = cached[i]
+      if (existing && existing.Combatant === bt.Combatant) return existing
+      return new ActiveEventTarget(event, bt.Combatant, event.Effect)
+    })
+    cacheStore[event.ID] = result
+    event.Targets = result
+    return result
+  }
+
+  public get TargetEvents(): ActiveEffectEvent[] {
+    if (!this.BaseEvent.Targets[0]) return []
+
+    return this.EventConfigs.filter(config => config.event)
+      .map(config => ({
+        event: config.event!,
+        targets: this.buildEventTargets(config.event!, config.filter),
+      }))
       .filter(({ targets }) => targets.length > 0)
       .map(({ event }) => event)
   }
@@ -196,11 +229,16 @@ class WeaponAttackEvent {
 
   public ApplyAll() {
     this.BaseEvent.ApplyAll()
-    this.BaseEvent.Targets.forEach(t => {
-      if (t.HitResult === 'miss' && this.OnMissEvent) this.OnMissEvent.Apply(t)
-      if (t.HitResult !== 'miss' && this.OnAttackEvent) this.OnAttackEvent.Apply(t)
-      if (t.HitResult === 'hit' && this.OnHitEvent) this.OnHitEvent.Apply(t)
-      if (t.HitResult === 'crit' && this.OnCritEvent) this.OnCritEvent.Apply(t)
+
+    // apply each on-hit/on-crit/etc. effect through its own targets (built/cached by
+    // buildEventTargets) so the save state the GM entered on that specific effect is what
+    // gets applied. on-hit/on-attack fire on both hits and crits, matching what is displayed.
+    this.EventConfigs.forEach(config => {
+      if (!config.event) return
+      const targets = this.buildEventTargets(config.event, config.filter)
+      targets.forEach(t => {
+        if (t) config.event!.Apply(t)
+      })
     })
 
     this.SubEvents.forEach(se => se.ApplyAll())

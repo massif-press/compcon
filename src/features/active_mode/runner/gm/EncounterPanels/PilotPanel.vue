@@ -21,7 +21,7 @@
   </cc-alert>
 
   <panel-base v-else
-    :item="pilot">
+    :item="<ICombatant>pilot">
     <template #name-block>
       <div class="heading h2">{{ pilot.Callsign }}</div>
       <div class="heading h4">{{ pilot.Name }}</div>
@@ -42,7 +42,7 @@
             tile
             size="small"
             block
-            :color="pilot.ActiveMech.CombatController.Mounted ? 'primary' : 'panel'"
+            :color="pilot.ActiveMech?.CombatController.Mounted ? 'primary' : 'panel'"
             text="Mounted"
             @click="setMounted" />
         </v-col>
@@ -70,8 +70,7 @@
     </template>
 
     <template #actions>
-      <pilot-actions-panel
-        @deploy="deploy($event)" />
+      <pilot-actions-panel @deploy="deploy($event)" />
     </template>
 
     <v-expansion-panels class="mt-2"
@@ -102,8 +101,10 @@
                 <template #combat>
                   <div v-if="item.Talent.AllActions?.length"
                     class="mb-2 mt-1">
-                    <cc-combat-action-chip :owner="combatant" :encounter-instance="encounterInstance" v-for="a in item.Talent.AllActions"
+                    <cc-combat-action-chip v-for="a in item.Talent.AllActions"
                       :key="a.ID"
+                      :owner="combatant"
+                      :encounter-instance="encounterInstance"
                       :action="a" />
                   </div>
                   <div v-if="item.Talent.AllDeployables?.length"
@@ -111,7 +112,7 @@
                     <deploy-button v-for="d in item.Talent.AllDeployables"
                       :key="d.ID"
                       :deployable="d"
-                      :actor="pilot"
+                      :actor="<ICombatant>pilot"
                       @deploy="deploy($event)" />
                   </div>
                 </template>
@@ -120,11 +121,33 @@
           </cc-masonry-grid>
         </v-expansion-panel-text>
       </v-expansion-panel>
+
+      <v-expansion-panel>
+        <v-expansion-panel-title class="text-cc-overline">
+          <div class="text-cc-overline">
+            <v-icon icon="cc:skill"
+              class="mt-n1"
+              start />
+            {{ $t('active.mechPanel.pilotSkills', { n: pilot.SkillsController.Skills.length })
+            }}
+          </div>
+        </v-expansion-panel-title>
+
+        <v-expansion-panel-text>
+          <cc-masonry-grid :items="pilot.SkillsController.Skills"
+            :xl-columns="xlColumns">
+            <template #default="{ item }">
+              <cc-skill-item :key="item.ID"
+                :skill="item.Skill" />
+            </template>
+          </cc-masonry-grid>
+        </v-expansion-panel-text>
+      </v-expansion-panel>
+
     </v-expansion-panels>
 
     <div class="text-cc-overline mt-4 text-disabled">{{ $t('active.mechPanel.loadout') }}</div>
-    <pilot-combat-loadout
-      @deploy="deploy($event)" />
+    <pilot-combat-loadout @deploy="deploy($event)" />
   </panel-base>
 </template>
 
@@ -138,6 +161,8 @@ import PilotActionsPanel from './_components/PilotActionsPanel.vue';
 import PilotCombatLoadout from './_components/loadouts/PilotCombatLoadout.vue';
 import DeployButton from './_components/loadouts/_deployButton.vue';
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance';
+import { Pilot } from '@/classes/pilot/Pilot';
+import { ICombatant } from '@/classes/components/combat/ICombatant';
 
 const props = defineProps<{
   combatant: CombatantData
@@ -149,16 +174,16 @@ provide(EncounterContextKey, {
   encounterInstance: computed(() => props.encounterInstance),
 })
 
-const emit = defineEmits(['deselect'])
+defineEmits(['deselect'])
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+const { smAndDown: mobile } = useDisplay()
 
 const xlColumns = computed(() => {
   if (mobile.value) return 1
-  else return (props.encounterInstance as any).MaxMasonryColumns
+  else return props.encounterInstance.MaxMasonryColumns
 })
-const pilot = computed(() => (props.combatant as any).actor)
+const pilot = computed(() => props.combatant.actor as Pilot)
 
-function deploy(deployable) { (props.encounterInstance as any).Deploy(deployable, props.combatant) }
+function deploy(deployable) { props.encounterInstance.Deploy(deployable, props.combatant) }
 function setMounted() { pilot.value?.ActiveMech?.CombatController?.ToggleMounted() }
 </script>

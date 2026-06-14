@@ -1,9 +1,7 @@
 <template>
   <div class="top-element mx-1"
     style="display: block; position: relative"
-    v-bind="$attrs"
-    @mouseenter="isHovering = true"
-    @mouseleave="isHovering = false">
+    v-bind="$attrs">
     <v-text-field :model-value="modelValue"
       :color="color"
       :base-color="color"
@@ -13,7 +11,6 @@
       :readonly="readonly"
       :placeholder="placeholder"
       :clearable="clearable"
-      :autofocus="autofocus"
       :width="width"
       :height="height"
       clear-icon="mdi-close-circle-outline"
@@ -29,6 +26,8 @@
       :counter="counter"
       :hint="hint"
       rounded="0"
+      flat
+      tile
       :max-width="maxWidth"
       :bg-color="isFocused ? 'surface-variant' : bgColor"
       @update:focused="isFocused = $event"
@@ -69,7 +68,7 @@
           <slot name="options" />
         </v-menu>
 
-        <div :class="`bg-${color} ${(isHovering || isFocused) && 'color-rotate'}`"
+        <div :class="`right-divider bg-${color} ${isFocused && 'color-rotate'}`"
           style="
               transition: filter 0.2s ease-in-out;
               width: 3px;
@@ -131,7 +130,6 @@ const props = withDefaults(defineProps<{
   clearable?: boolean
   tooltip?: string
   tooltipIcon?: string
-  autofocus?: boolean
   details?: string
   readonly?: boolean
   optionsIcon?: string
@@ -143,7 +141,6 @@ const props = withDefaults(defineProps<{
   height?: string
   itemTitle?: string
   itemValue?: string
-  hideDetails?: boolean
   maxWidth?: string
   items?: any[]
   max?: number | string
@@ -172,13 +169,16 @@ const emit = defineEmits<{
 }>()
 
 const isFocused = ref(false)
-const isHovering = ref(false)
 </script>
 
 <style scoped>
 @import '@/ui/style/cc-input-field.css';
 
 .color-rotate {
+  filter: brightness(1.5) saturate(200%) hue-rotate(40deg);
+}
+
+.top-element:hover .right-divider {
   filter: brightness(1.5) saturate(200%) hue-rotate(40deg);
 }
 

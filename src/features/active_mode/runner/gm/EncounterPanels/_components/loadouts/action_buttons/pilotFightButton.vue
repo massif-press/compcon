@@ -1,6 +1,5 @@
 <template>
-  <combat-action-button
-    :action="action"
+  <combat-action-button :action="action"
     :preset-weapon="presetWeapon"
     :action-color="fightColor"
     :action-icon="fightIcon">
@@ -60,7 +59,9 @@
 
       <v-divider />
       <div class="pa-4">
-        <apply-button :owner="owner" :encounter-instance="encounterInstance" v-if="event"
+        <apply-button :owner="owner"
+          :encounter-instance="encounterInstance"
+          v-if="event"
           :event="<ActiveEffectEvent>event.BaseEvent"
           :weapon-event="<WeaponAttackEvent>event"
           :close="close"
@@ -100,58 +101,56 @@ const selectedWeapon = ref(null as PilotWeapon | null)
 
 reset();
 
-reset();
-
 const controller = computed(() => {
-      return owner.value.actor.CombatController.ActiveActor.CombatController;
-    })
+  return owner.value.actor.CombatController.ActiveActor.CombatController;
+})
 const fightIcon = computed(() => {
-      if (props.presetWeapon && props.presetWeapon.IsSidearm) return 'mdi-hexagon-slice-3';
-      if (selectedWeapon.value && selectedWeapon.value.IsSidearm) return 'mdi-hexagon-slice-3';
-      return 'mdi-hexagon-slice-6';
-    })
+  if (props.presetWeapon && props.presetWeapon.IsSidearm) return 'mdi-hexagon-slice-3';
+  if (selectedWeapon.value && selectedWeapon.value.IsSidearm) return 'mdi-hexagon-slice-3';
+  return 'mdi-hexagon-slice-6';
+})
 const fightColor = computed(() => {
-      if (props.presetWeapon && props.presetWeapon.IsSidearm) return 'action--quick';
-      if (selectedWeapon.value && selectedWeapon.value.IsSidearm) return 'action--quick';
-      return 'action--full';
-    })
+  if (props.presetWeapon && props.presetWeapon.IsSidearm) return 'action--quick';
+  if (selectedWeapon.value && selectedWeapon.value.IsSidearm) return 'action--quick';
+  return 'action--full';
+})
 const ordnanceWarning = computed(() => {
-      if (!selectedWeapon.value) return false;
-      if (selectedWeapon.value.Tags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
-        return owner.value.actor.CombatController.CanActivate('ordnance') === false;
-      }
-      return false;
-    })
+  if (!selectedWeapon.value) return false;
+  if (selectedWeapon.value.Tags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
+    return owner.value.actor.CombatController.CanActivate('ordnance') === false;
+  }
+  return false;
+})
 const fightWeapons = computed(() => {
-      const pilot = controller.value.RootActor;
-      let arr = pilot.Loadout.Weapons;
-      if (props.presetWeapon) {
-        arr = arr.filter((w) => w.InstanceID === props.presetWeapon!.InstanceID);
-      }
-      return arr;
-    })
+  const pilot = controller.value.RootActor;
+  let arr = pilot.Loadout.Weapons;
+  if (props.presetWeapon) {
+    arr = arr.filter((w) => w.InstanceID === props.presetWeapon!.InstanceID);
+  }
+  return arr;
+})
 const eventArray = computed(() => {
-      return [event.value];
-    })
+  return [event.value];
+})
 
 function reset(clearAction = false) {
-      if (clearAction) owner.value.CombatController.ClearActionUsed(props.action.ID);
-      const self = encounterInstance.value.Combatants.find(
-        (c: CombatantData) => c.actor.CombatController.RootActor.ID === owner.value.actor.CombatController.RootActor.ID
-      );
-      if (!self) throw new Error('Owner combatant not found in encounterInstance');
-      if (!selectedWeapon.value && props.presetWeapon) selectedWeapon.value = props.presetWeapon;
-      if (!selectedWeapon.value) return;
-      event.value = new WeaponAttackEvent(selectedWeapon.value as PilotWeapon, self, encounterInstance.value, 'Skirmish');
-    }
+  if (clearAction) owner.value.CombatController.ClearActionUsed(props.action.ID);
+  const self = encounterInstance.value.Combatants.find(
+    (c: CombatantData) => c.actor.CombatController.RootActor.ID === owner.value.actor.CombatController.RootActor.ID
+  );
+  if (!self) throw new Error('Owner combatant not found in encounterInstance');
+  if (!selectedWeapon.value && props.presetWeapon) selectedWeapon.value = props.presetWeapon;
+  if (!selectedWeapon.value) return;
+  event.value = new WeaponAttackEvent(selectedWeapon.value as PilotWeapon, self, encounterInstance.value, 'Skirmish');
+}
 function apply() {
-      const actor = owner.value.actor.CombatController.ActiveActor.CombatController;
-      actor.MarkActionUsed(selectedWeapon.value!.InstanceID);
-      if (selectedWeapon.value!.IsLoading) selectedWeapon.value!.Used = true;
-      reset();
-    }
+  const actor = owner.value.actor.CombatController.ActiveActor.CombatController;
+  actor.MarkActionUsed(selectedWeapon.value!.InstanceID);
+  if (selectedWeapon.value!.IsLoading) selectedWeapon.value!.Used = true;
+  reset();
+}
 function onWeaponChanged(weapon: PilotWeapon) {
-      selectedWeapon.value = weapon;
-      reset();
-    }
+  selectedWeapon.value = weapon;
+  reset();
+}
 </script>

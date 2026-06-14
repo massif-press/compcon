@@ -13,14 +13,10 @@
         <cc-text-field v-model="table.gm" color="primary" label="Game Master" />
       </v-col>
     </v-row>
-    <br />
-    {{ $t('active.tableConfig.note1') }}
-    <br />
-    {{ $t('active.tableConfig.note2') }}
-    <br />
-    {{ $t('active.tableConfig.note3') }}
-    <br />
-    {{ $t('active.tableConfig.note4') }}
+    <!-- TODO: name, description, owner info (prepopulate with user info) -->
+    <!-- TODO: load campaign info (optional) -->
+    <!-- TODO: publish or keep local -->
+    <!-- TODO: if publish, generate link to share -->
   </v-container>
 </template>
 

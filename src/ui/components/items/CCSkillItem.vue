@@ -1,15 +1,6 @@
 <template>
   <div>
-    <v-card v-if="skill.err"
-      tile
-      flat
-      outlined>
-      <v-card-text class="text-center pa-1">
-        <span class="flavor-text text-disabled">{{ $t('ui.widget.missingDataBar') }}</span>
-      </v-card-text>
-    </v-card>
-    <v-expansion-panels v-else
-      focusable
+    <v-expansion-panels focusable
       accordion
       tile
       flat>
@@ -22,25 +13,38 @@
                 <div class="stat-text">{{ skill.Trigger }}</div>
                 <div v-if="bonus"
                   class="pa-1">
-                  <v-icon v-for="(n, index) in bonus"
-                    :key="`bonus-${index}`"
+                  <v-icon v-for="(n) in bonus"
+                    :key="`bonus-${n}`"
                     color="accent"
                     size="small">mdi-hexagon</v-icon>
                   <span class="text-cc-overline text-disabled">(+{{ bonus }})</span>
                 </div>
-                <div v-else-if="bonus"
-                  class="font-weight-bold text-accent pl-2">+{{ bonus }}</div>
               </div>
             </v-col>
             <v-col cols="12"
               md="9"
               align-self="center">
-              <div class="body-text pl-2">{{ skill.Description }}</div>
+              <cc-text-field v-if="editMode"
+                v-model="skill.Description"
+                @click.stop />
+              <div v-else
+                class="body-text pl-2">{{ skill.Description }}</div>
             </v-col>
           </v-row>
         </v-expansion-panel-title>
         <v-expansion-panel-text v-if="skill.Detail">
-          <p class="text-left flavor-text mb-0">{{ skill.Detail }}</p>
+          <cc-text-area v-if="editMode"
+            v-model="skill.Detail" />
+          <p v-else
+            class="text-left flavor-text mb-0">{{ skill.Detail }}</p>
+          <div v-if="isCustom"
+            style="position: relative;">
+            <div style="position: absolute; bottom: 0; right: 0;">
+              <cc-button :icon="editMode ? 'mdi-check' : 'mdi-pencil'"
+                size="small"
+                @click="setEditMode()" />
+            </div>
+          </div>
         </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -48,13 +52,27 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import type { Skill } from '@/classes/pilot/components/skill/Skill'
+
 const props = withDefaults(defineProps<{
   bonus?: number
   skill: Skill
-  noBorder?: boolean
-  pilot?: boolean
+  isCustom?: boolean
 }>(), {
   bonus: 0,
 })
+
+const emit = defineEmits<{
+  'update:skill': [skill: Skill]
+}>()
+
+const editMode = ref(false)
+
+function setEditMode() {
+  if (editMode.value) {
+    emit('update:skill', props.skill)
+  }
+  editMode.value = !editMode.value
+}
 </script>

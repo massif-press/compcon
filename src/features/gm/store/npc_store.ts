@@ -6,7 +6,7 @@ import { useFolderManagement } from '@/composables/useFolderManagement'
 import { Doodad, DoodadData } from '@/classes/npc/doodad/Doodad'
 import { Unit, UnitData } from '@/classes/npc/unit/Unit'
 import * as _ from 'lodash-es'
-import { Npc } from '@/classes/npc/Npc'
+import { Npc, registerNpcResolver } from '@/classes/npc/Npc'
 import { NavStore } from '@/stores/nav'
 import type { IndexItem } from '@/stores/nav'
 import { CloudController } from '@/classes/components/cloud/CloudController'
@@ -127,7 +127,7 @@ export const NpcStore = defineStore('npc', {
     },
 
     async AddNpc(payload: Unit | Doodad | Eidolon): Promise<void> {
-      if ((payload as any).IsInstance) {
+      if (payload.IsInstance) {
         logger.warn(
           `AddNpc: converting instanced NPC ${payload.ID} (${payload.Name}) to roster item`
         )
@@ -190,3 +190,5 @@ export const NpcStore = defineStore('npc', {
     },
   },
 })
+
+registerNpcResolver(id => NpcStore().getNpcByID(id))

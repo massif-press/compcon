@@ -22,9 +22,8 @@
               style="margin-top: -2px"
               v-bind="props"
               @click="reorderMode = !reorderMode">
-              <v-icon size="small">
-                {{ reorderMode ? $t('pm.loadout.mdiCheck') : $t('pm.loadout.mdiSwapVertical') }}
-              </v-icon>
+              <v-icon size="small"
+                :icon="reorderMode ? 'mdi-check' : 'mdi-swap-vertical'" />
             </v-btn>
           </template>
           <span> {{ reorderMode ? $t('pm.loadout.saveConfiguration') : $t('pm.loadout.reorderSystems') }}</span>

@@ -104,7 +104,6 @@ const emit = defineEmits<{ reset: [] }>()
 
 const { smAndDown: mobile } = useDisplay()
 
-const search = ref('')
 const jump = ref('')
 
 const headers = computed(() => rules.skill_headers)
@@ -112,10 +111,10 @@ const headers = computed(() => rules.skill_headers)
 const baseSkills = computed(() => {
   if (!props.pilot.LcpConfig) return CompendiumStore().Skills
   return CompendiumStore().Skills.filter(
-    (x: any) =>
+    x =>
       !x.InLcp ||
-      props.pilot.LcpConfig?.packList.some((y: any) => y.packID === x.Brew?.LcpId) ||
-      props.pilot.LcpConfig?.packList.some((y: any) => y.packName === x.Brew?.LcpName)
+      props.pilot.LcpConfig?.packList.some(y => y.packID === x.Brew?.LcpId) ||
+      props.pilot.LcpConfig?.packList.some(y => y.packName === x.Brew?.LcpName)
   )
 })
 
@@ -128,10 +127,8 @@ const skills = computed(() => {
   return staticSkills.value
 })
 
-const newPilot = computed(() => props.pilot.Level === 0)
 const selectedMin = computed(() => Rules.MinimumPilotSkills)
 const enoughSelections = computed(() => !(props.pilot.SkillsController.Skills.length < selectedMin.value))
-const selectionComplete = computed(() => (newPilot.value || props.levelUp) && !props.pilot.SkillsController.IsMissingSkills)
 
 const jumpItems = computed(() => [
   ...props.pilot.SkillsController.Skills.map((x: any) => ({
@@ -140,8 +137,8 @@ const jumpItems = computed(() => [
     subtitle: `// Pilot Rank: ${x.Rank} (+${x.Bonus})`,
   })),
   ...flatSkills.value
-    .filter((x: any) => !props.pilot.SkillsController.Skills.find((y: any) => y.Skill.ID === x.ID))
-    .map((x: any) => ({ title: x.Trigger, value: x.ID })),
+    .filter(x => !props.pilot.SkillsController.Skills.find(y => y.Skill.ID === x.ID))
+    .map(x => ({ title: x.Trigger, value: x.ID })),
 ])
 
 watch(jump, (val) => scroll(val))

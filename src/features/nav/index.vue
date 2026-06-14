@@ -189,7 +189,7 @@
         </v-dialog>
       </span>
       <span v-if="!mobile">
-        <span class="heading">{{ n.appName }}</span>
+        <span class="heading">{{ $t('common.appame') }}</span>
         <span class="flavor-text text-white"
           style="opacity: 0.4">
           &nbsp;{{ appVersion }}
@@ -319,7 +319,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useDisplay } from 'vuetify'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import HelpPage from './pages/Help.vue'
 import AboutPage from './pages/About.vue'
 import CreditsPage from './pages/Credits.vue'
@@ -334,12 +334,11 @@ import { UserStore } from '@/stores'
 import { useOnlineStatus } from '@/composables/useOnlineStatus'
 import { useNavStrings } from '@/features/nav/useNavStrings'
 const { section } = useNavStrings()
-const router = useRouter()
 
 defineProps<{ pilotManagement?: boolean; encounter?: boolean }>()
 
 const route = useRoute()
-const { xs: portrait, mdAndDown: landscape } = useDisplay()
+const { xs: portrait } = useDisplay()
 const mobile = portrait
 const { isOnline } = useOnlineStatus()
 const n = section('nav')

@@ -635,6 +635,7 @@ class Pilot
   public get IsLinked(): boolean {
     return (
       this.GetLinkedItem<Pilot>() !== undefined &&
+      !this.GetLinkedItem<Pilot>().SaveController.IsDeleted &&
       !this.GetLinkedItem<Pilot>().BrewController.HasError
     )
   }

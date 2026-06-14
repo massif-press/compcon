@@ -1,17 +1,17 @@
 <template>
   <v-card-text>
     <div class="cropper-wrapper">
-      <cropper
-        :stencil-props="stencilProps"
+      <cropper :stencil-props="stencilProps"
         image-restriction="stencil"
         :canvas="false"
         :debounce="false"
         :src="src"
         style="border-radius: 20px"
         @change="change" />
-      <v-card class="preview-container" variant="outlined" color="primary">
-        <preview
-          :width="200"
+      <v-card class="preview-container"
+        variant="outlined"
+        color="primary">
+        <preview :width="200"
           :height="200"
           :image="result.image"
           :coordinates="result.coordinates" />
@@ -26,7 +26,9 @@
   <v-card-actions>
     <v-btn @click="$emit('hide')">{{ $t('common.dismiss') }}</v-btn>
     <v-spacer />
-    <v-btn variant="plain" color="success" @click="set()">{{ $t('ui.image.setAvatarBtn') }}</v-btn>
+    <v-btn variant="plain"
+      color="success"
+      @click="set()">{{ $t('ui.image.setAvatar') }}</v-btn>
   </v-card-actions>
 </template>
 
@@ -48,23 +50,23 @@ const emit = defineEmits<{
 }>()
 
 const result = ref({
-      coordinates: null as any,
-      image: null as any,
-    })
+  coordinates: null as any,
+  image: null as any,
+})
 const stencilProps = ref({
-      aspectRatio: 1,
-    })
+  aspectRatio: 1,
+})
 
 function change({ coordinates, image }) {
-      result.value = {
-        coordinates,
-        image,
-      };
-    }
+  result.value = {
+    coordinates,
+    image,
+  };
+}
 function set() {
-      if (props.imgKey?.length) result.value.image.src = props.imgKey;
-      emit('confirm', result.value);
-    }
+  if (props.imgKey?.length) result.value.image.src = props.imgKey;
+  emit('confirm', result.value);
+}
 </script>
 
 <style scoped>

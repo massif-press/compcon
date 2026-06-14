@@ -66,6 +66,11 @@ const router = createRouter({
       path: '/gm/' + route.path,
     })),
   ],
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) return savedPosition
+    if (to.hash) return { el: to.hash }
+    return { top: 0 }
+  },
 })
 
 router.afterEach(to => {

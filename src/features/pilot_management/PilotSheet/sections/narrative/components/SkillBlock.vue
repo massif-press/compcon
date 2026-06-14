@@ -24,7 +24,8 @@
         :key="s.Skill.ID"
         :bonus="s.Bonus"
         :skill="s.Skill"
-        pilot />
+        :is-custom="s.IsCustom"
+        @update:skill="pilot.SaveController.save()" />
     </div>
   </div>
 </template>

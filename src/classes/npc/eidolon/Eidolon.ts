@@ -7,7 +7,6 @@ import { BrewController } from '@/classes/components/brew/BrewController'
 import { NarrativeController } from '@/classes/narrative/NarrativeController'
 import { Npc, NpcData } from '../Npc'
 import { CompendiumStore } from '@/features/compendium/store'
-import { NpcStore } from '@/features/gm/store/npc_store'
 import { IStatData } from '@/classes/components/combat/stats/StatController'
 import { EidolonLayerSaveData } from './EidolonLayerSaveData'
 import { FolderController } from '@/classes/components/folder/FolderController'
@@ -77,14 +76,6 @@ class Eidolon extends Npc implements IInstanceable {
     ;(data as any).is_instance = true
 
     return data
-  }
-
-  public get IsLinked(): boolean {
-    return this.GetLinkedItem<Npc>() !== undefined
-  }
-
-  public GetLinkedItem<Npc>(): Npc {
-    return NpcStore().getNpcByID(this.ID) as Npc
   }
 
   public get Tier(): number {

@@ -79,9 +79,8 @@
             tile
             @click="expanded = !expanded"
           >
-            <v-icon size="x-large">
-              {{ expanded ? $t('pm.selectors.mdiChevronDoubleLeft') : $t('pm.selectors.mdiChevronDoubleRight') }}
-            </v-icon>
+            <v-icon size="x-large"
+              :icon="expanded ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'" />
             <span v-if="mobile && expanded">{{ $t('pm.selectors.collapse') }}</span>
           </v-btn>
         </v-col>

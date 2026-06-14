@@ -1,3 +1,5 @@
+import { transformV2NpcFeatureData } from '@/classes/npc/feature/v2compat'
+
 function stripBrew(brew: any): any {
   const { Status: _, ...rest } = brew
   return rest
@@ -316,18 +318,70 @@ function zeroNpcBonuses(base: Record<string, any>): Record<string, any> {
   return result
 }
 
-function buildV2NpcStats(max: any): any {
+const NPC_BONUS_ID_TO_V2_STAT: Record<string, string> = {
+  evasion: 'evade',
+}
+
+function evalNpcBonusValue(val: any, tier: number): number {
+  if (Array.isArray(val)) {
+    const v = Number(val[Math.min(tier - 1, val.length - 1)])
+    return isNaN(v) ? 0 : Math.ceil(v)
+  }
+  if (typeof val === 'string') {
+    const part = val.includes('/')
+      ? val.split('/')[Math.min(tier - 1, val.split('/').length - 1)]
+      : val
+    const v = Number(part)
+    return isNaN(v) ? 0 : Math.ceil(v)
+  }
+  if (typeof val === 'number') return Math.ceil(val)
+  return 0
+}
+
+function applyNpcFeatureBonuses(
+  features: any[],
+  tier: number,
+  bonuses: Record<string, any>,
+  overrides: Record<string, any>
+): void {
+  const t = typeof tier === 'number' && tier > 0 ? tier : 1
+  for (const f of features ?? []) {
+    if (!f?.data) continue
+    const norm: Record<string, any> = { ...f.data }
+    transformV2NpcFeatureData(norm)
+    for (const b of norm.bonuses ?? []) {
+      if (!b || b.type === 'flag' || typeof b.val === 'boolean') continue
+      const key = NPC_BONUS_ID_TO_V2_STAT[b.id] ?? b.id
+      if (!(key in bonuses)) continue
+      const value = evalNpcBonusValue(b.val, t)
+      if (b.overwrite || b.override || b.replace) {
+        overrides[key] = Math.max(overrides[key] ?? 0, value)
+      } else {
+        bonuses[key] = (bonuses[key] ?? 0) + value
+      }
+    }
+  }
+}
+
+function buildV2NpcStats(max: any, features: any[], tier: number): any {
   const base = remapNpcStatFields(max)
-  const zeroed = zeroNpcBonuses(base)
-  return { ...base, reactions: ['Overwatch'], bonuses: zeroed, overrides: zeroed }
+  const bonuses = zeroNpcBonuses(base)
+  const overrides = zeroNpcBonuses(base)
+  applyNpcFeatureBonuses(features, tier, bonuses, overrides)
+  return { ...base, reactions: ['Overwatch'], bonuses, overrides }
 }
 
 function buildV2NpcCurrentStats(current: any, max: any): any {
   const base = remapNpcStatFields(current)
   base.heatcap = current.heat ?? 0
   base.speed = 0
-  const zeroed = zeroNpcBonuses(remapNpcStatFields(max))
-  return { ...base, reactions: ['Overwatch'], bonuses: zeroed, overrides: zeroed }
+  const remapped = remapNpcStatFields(max)
+  return {
+    ...base,
+    reactions: ['Overwatch'],
+    bonuses: zeroNpcBonuses(remapped),
+    overrides: zeroNpcBonuses(remapped),
+  }
 }
 
 function transformNpcFeature(feature: any, tier: number): any {
@@ -365,7 +419,7 @@ export const convertTov2Npc = function (input: any): Record<string, unknown> {
     tag: i.tag ?? '',
     templates: i.templates ?? [],
     items: (i.features ?? []).map((f: any) => transformNpcFeature(f, i.tier)),
-    stats: buildV2NpcStats(max),
+    stats: buildV2NpcStats(max, i.features, i.tier),
     currentStats: buildV2NpcCurrentStats(cur, max),
     note: i.note ?? '',
     side: 'Enemy',

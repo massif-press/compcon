@@ -48,14 +48,6 @@
           </div>
 
           <template v-else>
-            <cc-alert color="warning"
-              variant="outlined"
-              :title="strings.experimentalTitle"
-              icon="mdi-atom"
-              class="mb-4">
-              {{ strings.experimentalBody }}<strong>{{ strings.experimentalBodyStrong }}</strong>{{
-                strings.experimentalBodySuffix }}
-            </cc-alert>
 
             <cc-panel class="mb-4">
               {{ $t('nav.migrationRepair.foundFixable', { count: fixableCount }, fixableCount) }}
