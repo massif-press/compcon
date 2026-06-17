@@ -2,10 +2,12 @@
   <div v-show="level > 0"
     class="light-panel clipped"
     @click.stop>
-    <div class="caption text-stark px-2 py-1">
-      {{ $t('pm.loadout.walkingARMORY') }}
-      <b>{{ $t('pm.loadout.selectedAMMUNITION') }}</b>
-    </div>
+    <i18n-t keypath="pm.loadout.walkingARMORY"
+      tag="div"
+      scope="global"
+      class="caption text-stark px-2 py-1">
+      <template #selected><b>{{ $t('pm.loadout.selectedAMMUNITION') }}</b></template>
+    </i18n-t>
     <v-row no-gutters
       class="px-2 mr-4">
       <v-col cols="3">
@@ -33,7 +35,7 @@
     </v-row>
     <div v-if="selected.effect"
       class="mb-1 py-1">
-      <div class="caption px-2 font-weight-bold">{{ $t('pm.loadout.effect') }}</div>
+      <div class="caption px-2 font-weight-bold">{{ $t('common.effect') }}</div>
       <div class="body-text px-4">{{ selected.effect }}</div>
     </div>
   </div>

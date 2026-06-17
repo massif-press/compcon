@@ -28,9 +28,7 @@
       <cc-button size="small"
         color="primary"
         :loading="dlLoading"
-        tooltip="Adding this item as a local copy will create a new, editable version of this item saved
-            to your local COMP/CON data. Changes made to this item will not affect the author's
-            original data, and you will not receive updates from the author."
+        :tooltip="$t('common.addingLocalCopyTooltip')"
         @click="downloadAsCopy(false)">
         {{ $t('share.addAsLocalCopy') }}
       </cc-button>

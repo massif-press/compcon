@@ -21,7 +21,7 @@
           {{ actor.Name }}
         </strong>
         <span v-else
-          class="text-disabled">{{ $t('active.common.none') }}</span>
+          class="text-disabled">{{ $t('common.none') }}</span>
       </div>
     </div>
     <v-card-text class="pb-0">
@@ -82,7 +82,7 @@
             </div>
             <v-scroll-y-reverse-transition>
               <cc-panel v-if="results[selectedTable.ID].roll"
-                title="Result">
+                :title="$t('common.result')">
                 <v-row align="center"
                   class="mb-1">
                   <v-col cols="auto"

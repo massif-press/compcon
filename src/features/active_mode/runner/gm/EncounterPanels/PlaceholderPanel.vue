@@ -30,7 +30,7 @@
             size="small"
             block
             :color="combatant.actor.CombatController.Mounted ? 'primary' : 'panel'"
-            text="Mounted"
+            :text="$t('active.actions.mounted')"
             @click="
               combatant.actor.CombatController.Mounted = !combatant.actor.CombatController.Mounted
             " />
@@ -41,7 +41,7 @@
             size="small"
             block
             :color="combatant.actor.CombatController.Braced ? 'primary' : 'panel'"
-            text="Braced"
+            :text="$t('active.actions.braced')"
             @click="
               combatant.actor.CombatController.Braced = !combatant.actor.CombatController.Braced
             " />
@@ -53,7 +53,7 @@
             size="small"
             block
             :color="combatant.actor.CombatController.Overwatch ? 'primary' : 'panel'"
-            text="Overwatch"
+            :text="$t('active.actions.overwatch')"
             @click="
               combatant.actor.CombatController.Overwatch =
                 !combatant.actor.CombatController.Overwatch
@@ -65,7 +65,7 @@
             size="small"
             block
             :color="combatant.actor.CombatController.Prepared ? 'primary' : 'panel'"
-            text="Prepared"
+            :text="$t('active.actions.prepared')"
             @click="
               combatant.actor.CombatController.Prepared = !combatant.actor.CombatController.Prepared
             " />

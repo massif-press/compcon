@@ -70,7 +70,7 @@
         variant="outlined"
         color="primary"
         @click="$emit('clear')">
-        {{ $t('ui.widget.clearAll') }}
+        {{ $t('ui.dice.clearAll') }}
       </v-btn>
     </div>
   </v-card>

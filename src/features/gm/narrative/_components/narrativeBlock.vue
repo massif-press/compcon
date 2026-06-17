@@ -22,7 +22,7 @@
       prepend-icon="mdi-plus"
       size="x-small"
       @click="item.NarrativeController.AddClock()">
-      {{ $t('gm.narrative.addClock') }}
+      {{ $t('pm.sheet.addNewClock') }}
     </cc-button>
   </div>
 
@@ -31,7 +31,7 @@
     <div
       v-if="!readonly || (readonly && item.NarrativeController.Tables.length)"
       class="text-cc-overline mb-2">
-      {{ $t('gm.narrative.tables') }}
+      {{ $t('common.tables') }}
     </div>
     <cc-rollable-table
       v-for="(t, ti) in item.NarrativeController.Tables"

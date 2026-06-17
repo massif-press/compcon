@@ -6,7 +6,7 @@
         <v-file-input v-model="fileValue"
           accept="text/json"
           variant="outlined"
-          label="Select Encounter File"
+          :label="$t('gm.fields.selectEncounterFile')"
           prepend-icon="mdi-paperclip"
           density="compact"
           @change="stageImport"
@@ -44,8 +44,8 @@
                     " />
               </v-btn>
             </th>
-            <th>{{ $t('gm.encImport.name') }}</th>
-            <th>{{ $t('gm.encImport.sitrepCol') }}</th>
+            <th>{{ $t('common.name') }}</th>
+            <th>{{ $t('common.sitrep') }}</th>
             <th class="text-center">{{ $t('gm.encImport.combatants') }}</th>
             <th class="text-center">{{ $t('common.status') }}</th>
           </tr>
@@ -81,10 +81,10 @@
       <cc-alert v-if="missingContent.length"
         class="mx-12 mt-4"
         icon="mdi-alert"
-        title="Missing NPCs">
+        :title="$t('gm.titles.missingNpcs')">
         <p>{{ $t('gm.encImport.someMissingNpcs') }}</p>
         <v-card-text>
-          <p class="heading h4 text-accent">{{ $t('gm.encImport.missingNpcsTitle') }}</p>
+          <p class="heading h4 text-accent">{{ $t('gm.titles.missingNpcs') }}:</p>
           <p v-html-safe="missingContent"
             class="effect-text text-center bg-background pa-1 ma-1" />
         </v-card-text>

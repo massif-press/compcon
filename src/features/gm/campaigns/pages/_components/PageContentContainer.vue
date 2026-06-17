@@ -17,21 +17,21 @@
           <v-list two-lines>
             <v-list-item
               prepend-icon="mdi-text-long"
-              title="Text Section"
+              :title="$t('gm.titles.textSection')"
               @click="setContentType('text')" />
-            <v-list-item prepend-icon="mdi-image" title="Image" @click="setContentType('image')" />
+            <v-list-item prepend-icon="mdi-image" :title="$t('gm.titles.image')" @click="setContentType('image')" />
             <v-list-item
               prepend-icon="mdi-table"
-              title="Rollable Table"
+              :title="$t('gm.titles.rollableTable')"
               @click="setContentType('table')" />
-            <v-list-item prepend-icon="mdi-clock" title="Clock" @click="setContentType('clock')" />
+            <v-list-item prepend-icon="mdi-clock" :title="$t('gm.titles.clock')" @click="setContentType('clock')" />
             <v-list-item
               prepend-icon="mdi-puzzle"
-              title="Narrative Element"
+              :title="$t('gm.titles.narrativeElement')"
               @click="setContentType('narrative')" />
             <v-list-item
               prepend-icon="cc:encounter"
-              title="Combat Encounter"
+              :title="$t('gm.titles.combatEncounter')"
               @click="setContentType('encounter')" />
           </v-list>
         </v-card>
@@ -119,7 +119,7 @@
               <span class="text-text pl-2">{{ $t('gm.pageContent.quote') }}</span>
             </v-card>
             <v-card class="pa-2 my-1" variant="text" @click="item.Variant = ''">
-              <span class="text-text">{{ $t('gm.pageContent.none') }}</span>
+              <span class="text-text">{{ $t('common.none') }}</span>
             </v-card>
           </v-card-text>
         </v-card>
@@ -158,7 +158,7 @@
                   <v-row dense justify="center" align="center">
                     <div class="text-caption text-center mb-4">
                       <i18n-t keypath="gm.pageContent.paletteColorsHelp" tag="i" scope="global">
-                        <template #strong><b class="text-accent">{{ $t('gm.pageContent.willNot') }}</b></template>
+                        <template #strong><b class="text-accent">{{ $t('mainMenu.publishing.willNotLabel') }}</b></template>
                       </i18n-t>
                     </div>
                     <v-col cols="3" v-for="color in colorPalette" :key="color">
@@ -214,13 +214,13 @@
           </v-card>
           <v-text-field
             v-model="item.Content.ImageUrl"
-            label="Image URL"
+            :label="$t('gm.fields.imageUrl')"
             hide-details
             class="my-2 mx-2"
             density="compact" />
           <v-text-field
             v-model="item.Content.Caption"
-            label="Caption"
+            :label="$t('gm.fields.caption')"
             hide-details
             class="my-2 mx-2"
             density="compact" />

@@ -16,7 +16,7 @@
                   <span class="heading h3">{{ $t('common.result') }}</span>
                 </v-col>
                 <v-col cols="7">
-                  <span class="heading h3">{{ $t('ui.table.effect') }}</span>
+                  <span class="heading h3">{{ $t('common.effect') }}</span>
                 </v-col>
               </v-row>
               <slot />

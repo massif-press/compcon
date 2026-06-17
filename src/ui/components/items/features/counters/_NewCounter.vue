@@ -10,7 +10,7 @@
         v-if="creating">
         <v-text-field ref="nameField"
           v-model="name"
-          placeholder="Counter name"
+          :placeholder="$t('ui.fields.counterName')"
           density="compact"
           hide-details
           variant="solo"

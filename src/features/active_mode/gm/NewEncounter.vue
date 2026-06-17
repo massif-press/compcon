@@ -1,8 +1,11 @@
 <template>
   <v-container :fluid="$vuetify.display.mdAndDown">
     <div class="heading h2">{{ $t('active.newEnc.title') }}</div>
-    <v-row dense class="mt-4" align="center">
-      <v-col cols="1" class="text-center">
+    <v-row dense
+      class="mt-4"
+      align="center">
+      <v-col cols="1"
+        class="text-center">
         <v-icon icon="cc:encounter"
           :color="encounter ? 'success' : 'panel'"
           size="50" />
@@ -15,30 +18,49 @@
         <cc-panel>
           <v-slide-x-transition leave-absolute>
             <div v-if="!emptyEncounter">
-              <cc-titled-divider v-if="!encounter" title="select encounter" color="accent" class="mb-1" />
-              <v-row v-if="!encounter" dense align="center">
+              <cc-titled-divider v-if="!encounter"
+                :title="$t('active.titles.selectEncounter')"
+                color="accent"
+                class="mb-1" />
+              <v-row v-if="!encounter"
+                dense
+                align="center">
                 <v-col cols="4">
-                  <cc-text-field v-model="search" color="primary" density="compact"
-                    hide-details icon="mdi-magnify" clearable />
+                  <cc-text-field v-model="search"
+                    color="primary"
+                    density="compact"
+                    hide-details
+                    icon="mdi-magnify"
+                    clearable />
                 </v-col>
                 <v-col cols="auto">
-                  <v-icon icon="mdi-folder" class="d-inline" />
+                  <v-icon icon="mdi-folder"
+                    class="d-inline" />
                 </v-col>
                 <v-col cols="4">
-                  <cc-select v-model="folder" :items="folders" color="primary"
-                    density="compact" chip-variant="text" hide-details />
+                  <cc-select v-model="folder"
+                    :items="folders"
+                    color="primary"
+                    density="compact"
+                    chip-variant="text"
+                    hide-details />
                 </v-col>
               </v-row>
 
-              <div class="pa-1" style="max-height: 60vh; overflow-y: scroll; overflow-x: hidden">
+              <div class="pa-1"
+                style="max-height: 60vh; overflow-y: scroll; overflow-x: hidden">
                 <v-row v-for="(enc, i) in encounters"
                   v-show="!selectedEncounter || selectedEncounter.ID === enc.ID"
                   :key="enc.ID"
-                  no-gutters style="position: relative" class="mb-1 pa-1"
+                  no-gutters
+                  style="position: relative"
+                  class="mb-1 pa-1"
                   @click="selectedEncounter = enc">
                   <v-slide-x-transition leave-absolute>
-                    <v-col v-if="selectedEncounter && selectedEncounter.ID === enc.ID" cols="auto">
-                      <div class="mr-1 bg-success" style="width: 10px; height: 100%" />
+                    <v-col v-if="selectedEncounter && selectedEncounter.ID === enc.ID"
+                      cols="auto">
+                      <div class="mr-1 bg-success"
+                        style="width: 10px; height: 100%" />
                     </v-col>
                   </v-slide-x-transition>
                   <v-col class="py-1 mr-2">
@@ -47,9 +69,16 @@
                       :is-selected="selectedEncounter?.ID === enc.ID" />
                   </v-col>
                   <v-slide-x-reverse-transition leave-absolute>
-                    <v-col v-if="selectedEncounter" cols="auto" class="ml-n1">
-                      <v-btn color="primary" flat tile stacked height="100%"
-                        icon="mdi-close" size="large"
+                    <v-col v-if="selectedEncounter"
+                      cols="auto"
+                      class="ml-n1">
+                      <v-btn color="primary"
+                        flat
+                        tile
+                        stacked
+                        height="100%"
+                        icon="mdi-close"
+                        size="large"
                         @click.stop="selectedEncounter = null" />
                     </v-col>
                   </v-slide-x-reverse-transition>
@@ -60,7 +89,8 @@
 
           <v-slide-x-transition leave-absolute>
             <cc-panel v-if="emptyEncounter">
-              <cc-titled-divider title="New Encounter" color="accent" />
+              <cc-titled-divider :title="$t('classes.newEncounter')"
+                color="accent" />
               <sitrep-editor :item="emptyEncounter" />
               <environment-editor :item="emptyEncounter" />
             </cc-panel>
@@ -68,15 +98,20 @@
 
           <div v-if="encounter">
             <cc-alert class="my-1">
-              <v-icon icon="mdi-information-outline" class="mr-2" />
+              <v-icon icon="mdi-information-outline"
+                class="mr-2" />
               {{ $t('active.newEnc.additionalNpcs') }}
             </cc-alert>
           </div>
 
-          <v-row dense justify="space-between" class="mt-2">
+          <v-row dense
+            justify="space-between"
+            class="mt-2">
             <v-col cols="auto">
               <v-slide-x-transition>
-                <cc-button v-if="!!emptyEncounter" size="small" color="error"
+                <cc-button v-if="!!emptyEncounter"
+                  size="small"
+                  color="error"
                   prepend-icon="mdi-close"
                   @click="clearEmptyEncounter()">
                   {{ $t('common.cancel') }}
@@ -84,8 +119,11 @@
               </v-slide-x-transition>
             </v-col>
             <v-slide-x-reverse-transition>
-              <v-col v-if="!selectedEncounter && !emptyEncounter" cols="auto">
-                <cc-button size="small" color="primary" prepend-icon="mdi-card-plus-outline"
+              <v-col v-if="!selectedEncounter && !emptyEncounter"
+                cols="auto">
+                <cc-button size="small"
+                  color="primary"
+                  prepend-icon="mdi-card-plus-outline"
                   @click="useEmptyEncounter()">
                   {{ $t('classes.newEncounter') }}
                 </cc-button>
@@ -97,7 +135,7 @@
     </v-row>
 
     <v-slide-y-transition>
-      <encounter-pilots-panel v-if="selectedEncounter || emptyEncounter"
+      <encounter-pilots-panel v-if="encounter"
         :encounter="encounter"
         :pilots="pilots"
         :placeholders="placeholders"
@@ -119,9 +157,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, type Ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { CompendiumStore, EncounterStore } from '@/stores';
+import { EncounterStore } from '@/stores';
 import GmEncounterListItem from '@/features/gm/_views/_components/gmItemCards/GMEncounterListItem.vue';
 import { Encounter } from '@/classes/encounter/Encounter';
 import SitrepEditor from '@/features/gm/encounters/_components/SitrepEditor.vue';
@@ -130,27 +168,26 @@ import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import { Placeholder } from '@/classes/encounter/Placeholder';
 import EncounterPilotsPanel from './_components/EncounterPilotsPanel.vue';
 import EncounterSummary from './_components/EncounterSummary.vue';
+import { Pilot } from '@/classes/pilot/Pilot.js';
 
 const router = useRouter()
 
-defineOptions({ name: 'ActiveNewEncounter' })
-
-const emit = defineEmits<{
+defineEmits<{
   'select': []
   'close': []
 }>()
 
 const search = ref('')
 const folder = ref('All')
-const emptyEncounter = ref(null as any)
-const selectedEncounter = ref(null as any)
-const pilots = ref([] as any[])
-const placeholders = ref([] as any[])
+const emptyEncounter = ref<Encounter | null>(null) as Ref<Encounter | null>
+const selectedEncounter = ref<Encounter | null>(null) as Ref<Encounter | null>
+const pilots = ref<Pilot[]>([]) as Ref<Pilot[]>
+const placeholders = ref<Placeholder[]>([]) as Ref<Placeholder[]>
 
-const encounter = computed(() => selectedEncounter.value || emptyEncounter.value)
+const encounter = computed<Encounter | null>(() => selectedEncounter.value || emptyEncounter.value)
 const folders = computed(() => EncounterStore().Folders)
-const encounters = computed(() => {
-  let enc = EncounterStore().Encounters;
+const encounters = computed<Encounter[]>(() => {
+  let enc = EncounterStore().Encounters as Encounter[];
   if (folder.value && folder.value !== 'All') enc = enc.filter((x) => x.FolderController.Folder === folder.value);
   if (!search.value) return enc.filter((x) => !x.SaveController.IsDeleted);
   return enc.filter((x) => !x.SaveController.IsDeleted)
@@ -165,12 +202,12 @@ function addPlaceholder() {
 }
 function useEmptyEncounter() { emptyEncounter.value = new Encounter(); }
 function clearEmptyEncounter() {
-  EncounterStore().DeleteEncounterPermanent(emptyEncounter.value);
+  if (emptyEncounter.value) EncounterStore().DeleteEncounterPermanent(emptyEncounter.value);
   emptyEncounter.value = null;
 }
-function removePilot(pilot: any) {
+function removePilot(pilot: Pilot) {
   pilots.value = pilots.value.filter((p) => p.ID !== pilot.ID);
-  placeholders.value = placeholders.value.filter((p) => p.id !== pilot.id);
+  placeholders.value = placeholders.value.filter((p) => p.ID !== pilot.ID);
 }
 async function createEncounter(launch: boolean) {
   if (!encounter.value) return;

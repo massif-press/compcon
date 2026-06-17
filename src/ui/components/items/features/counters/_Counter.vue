@@ -9,7 +9,7 @@
         {{ counter.Name }}
       </div>
       <v-spacer />
-      <v-tooltip text="Reset Counter"
+      <v-tooltip :text="$t('ui.tooltips.resetCounter')"
         location="top"
         open-delay="400">
         <template #activator="{ props }">
@@ -25,7 +25,7 @@
       </v-tooltip>
 
       <v-tooltip v-if="counterData.custom"
-        text="Delete Counter">
+        :text="$t('ui.tooltips.deleteCounter')">
         <template #activator="{ props }">
           <v-btn v-bind="props"
             variant="text"

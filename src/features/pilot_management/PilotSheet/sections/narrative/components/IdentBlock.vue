@@ -9,7 +9,7 @@
       :class="mobile && 'd-flex justify-start'">
       <cc-text-label v-model="pilot.Callsign"
         :readonly="pilot.IsRemote"
-        label="Callsign" />
+        :label="$t('common.callsign')" />
     </v-col>
     <v-col cols="12"
       sm="6"
@@ -17,7 +17,7 @@
       :class="mobile && 'd-flex justify-start'">
       <cc-text-label v-model="pilot.Name"
         :readonly="pilot.IsRemote"
-        label="Name" />
+        :label="$t('pm.fields.name')" />
     </v-col>
     <v-col cols="12"
       sm="6"
@@ -25,7 +25,7 @@
       :class="mobile && 'd-flex justify-start'">
       <cc-text-label v-model="pilot.PlayerName"
         :readonly="pilot.IsRemote"
-        label="Player" />
+        :label="$t('pm.fields.player')" />
     </v-col>
     <v-col cols="12"
       sm="6"
@@ -33,7 +33,7 @@
       :class="mobile && 'd-flex justify-start'">
       <cc-text-label v-model="pilot.Background"
         :readonly="pilot.IsRemote"
-        label="Background">
+        :label="$t('pm.fields.background')">
         <template #append>
           <background-selector v-if="!pilot.IsRemote"
             small

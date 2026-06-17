@@ -2,7 +2,7 @@
   <v-row dense
     align="center">
     <v-col>
-      <div class="heading h2">{{ item.Source }} {{ item.MechTypeString }} {{ $t('ui.card.frame') }}</div>
+      <div class="heading h2">{{ item.Source }} {{ item.MechTypeString }} {{ $t('common.frame') }}</div>
       <div v-if="item.Variant"
         class="heading h4 text-accent">{{ item.Variant }} {{ $t('ui.card.variantFrame') }}</div>
     </v-col>
@@ -19,7 +19,7 @@
     dense>
     <v-col>
       <div v-if="item.Description">
-        <div class="text-cc-overline my-1 text-text">{{ $t('ui.card.compendiumEntry') }}</div>
+        <div class="text-cc-overline my-1 text-text">{{ $t('ui.action.compendiumEntry') }}</div>
         <p v-html-safe="item.Description"
           class="flavor-text" />
       </div>

@@ -1,81 +1,37 @@
 <template>
-  <v-layout class="mt-2">
-    <v-btn icon
-      size="25"
-      variant="tonal"
-      color="primary"
-      :style="`position: absolute; z-index: 999; left: ${showNav ? '260' : '3'}px; top: 12px`"
-      @click="(showNav as any) = !showNav">
-      <v-icon size="25"
-        :icon="showNav ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'" />
-    </v-btn>
-    <v-navigation-drawer v-model="showNav">
-      <v-list density="compact"
-        nav>
-        <v-alert variant="outlined"
-          class="mb-3 py-1"
-          style="border-color: rgb(var(--v-theme-primary))">
-          <div class="heading h3 text-center text-accent">{{ $t('compendium.reference.glossary') }}</div>
-        </v-alert>
-        <v-text-field v-model="search"
-          item-title="Name"
-          prepend-icon="mdi-magnify"
-          variant="outlined"
-          density="compact"
-          hide-details
-          clearable
-          class="mt-2" />
-        <v-divider class="mt-2" />
-        <v-list-item v-for="(e, index) in glossary"
-          :key="`glossary-${index}`"
-          :title="e.name"
-          :active="!!selected && (selected as any).name === e.name"
-          active-class="bg-primary"
-          @click="
-            selected = e;
-          $nextTick(() => scrollTo(e.name));
-          " />
-      </v-list>
-    </v-navigation-drawer>
-    <v-main>
-      <div id="content"
-        :style="`padding: 16px 64px 16px 64px`"
-        style="height: calc(100vh - 65px) !important; overflow-y: scroll">
-        <div v-for="(e, index) in glossary"
-          :key="`glossary-item-${index}`"
-          :id="`e_${e.name.replace(/\W/g, '')}`"
-          class="my-5">
-          <cc-titled-panel :icon="icon || ''"
-            :title="e.name"
-            density="compact">
-            <p v-html-safe="e.description"
-              class="body-text mb-1" />
-          </cc-titled-panel>
-        </div>
+  <cc-compendium-browser :items="items"
+    item-type="Glossary"
+    :options="options"
+    view-key="cb-glossary">
+    <template #header>
+      <div class="heading h3 text-center text-accent">{{ $t('compendium.reference.glossary') }}
       </div>
-    </v-main>
-  </v-layout>
+    </template>
+  </cc-compendium-browser>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, nextTick } from 'vue'
-import * as _ from 'lodash-es';
+import { computed, ref } from 'vue'
+import { sortBy } from 'lodash-es';
 import { glossary } from '@massif/lancer-data';
+import { DEFAULT_LCP_NAME } from '@/classes/LcpItemMixin';
 
-const showNav = ref(null)
-const array = ref(glossary)
-const icon = ref('mdi-book-open-variant')
-const search = ref('')
-const selected = ref(null)
+const options = ref({
+  views: ['list'],
+  initialView: 'list',
+  groups: ['none'],
+  initialGroup: 'none',
+  noSource: true,
+})
 
-const glossary = computed(() => {
-      return _.sortBy(glossary, [(x) => x.name]).filter((x) =>
-        !search.value ? true : x.name.toLowerCase().includes(search.value.toLowerCase())
-      );
-    })
-
-function scrollTo(id: string) {
-      const el = document.getElementById(`e_${id.replace(/\W/g, '')}`);
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    }
+const items = computed(() => {
+  return sortBy(glossary, [(x) => x.name]).map((e) => ({
+    ID: `glossary_${e.name.replace(/\W/g, '')}`,
+    Name: e.name,
+    Description: e.description,
+    ItemType: 'Glossary',
+    Icon: 'mdi-book-open-variant',
+    LcpName: DEFAULT_LCP_NAME,
+  }));
+})
 </script>

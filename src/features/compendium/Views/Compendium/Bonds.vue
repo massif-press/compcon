@@ -2,7 +2,7 @@
   <v-container v-if="!bonds.length"
     class="px-12">
     <v-alert icon="mdi-vector-link"
-      title="No Bond Data"
+      :title="$t('compendium.titles.noBondData')"
       variant="tonal">
       <!-- eslint-disable @intlify/vue-i18n/no-raw-text -->
       <!-- Theme L §4: core-book rules flavor, localized via the content pipeline (L3), not a UI key. -->
@@ -42,7 +42,7 @@
     :options="options"
     view-key="cb-bonds">
     <template #header>
-      <div class="heading h3 text-center text-accent">{{ $t('compendium.categories.pilotBonds') }}</div>
+      <div class="heading h3 text-center text-accent">{{ $t('common.pilotBonds') }}</div>
     </template>
   </cc-compendium-browser>
 </template>

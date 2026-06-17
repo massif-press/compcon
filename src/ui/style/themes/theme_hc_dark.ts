@@ -2,7 +2,7 @@ const theme = {
   dark: true,
   id: 'hc_dark',
   name: 'High Contrast Dark',
-  community: false,
+  category: 'Accessible Theme',
   colors: {
     'role--striker': '#bd3f39',
     'role--defender': '#d67e08',

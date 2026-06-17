@@ -1,13 +1,13 @@
 <template>
   <v-dialog max-width="90vw">
-    <template #activator="{ props }">
+    <template #activator="{ props: activatorProps }">
       <v-btn flat
         block
         variant="text"
         color="accent"
         :prepend-icon="itemType === 'npc' ? 'cc:frame' : 'cc:pilot'"
-        @click="props.onClick($event)">
-        {{ itemType === 'npc' ? $t('active.addRoster.addNpc') : $t('active.addRoster.addPc') }}
+        @click="activatorProps.onClick($event)">
+        {{ itemType === 'npc' ? $t('gm.combatant.addNpc') : $t('active.addRoster.addPc') }}
       </v-btn>
     </template>
     <template #default="{ isActive }">
@@ -16,7 +16,8 @@
           color="primary"
           height="40">
           <div class="heading h3 px-4">
-            {{ itemType === 'npc' ? $t('active.addRoster.addNpcFull') : $t('active.addRoster.addPcFull') }}
+            {{ itemType === 'npc' ? $t('active.addRoster.addNpcFull') :
+              $t('active.addRoster.addPcFull') }}
           </div>
           <v-spacer />
           <v-btn flat
@@ -78,7 +79,7 @@
                   <div class="text-text">
                     {{ npc.Name }}
                     <cc-slashes />
-                    {{ $t('gm.npcStats.tier', { n: npc.NpcClassController?.Tier || 1 }) }}
+                    {{ $t('common.tierN', { n: npc.NpcClassController?.Tier || 1 }) }}
                   </div>
                 </v-col>
               </v-row>
@@ -106,10 +107,11 @@
                       align="center">
                       <v-col>
                         <cc-select v-model="pc.ActiveMech"
-                          :items="sortedMechs(pc)"
+                          :items="sortedMechs(pc as Pilot)"
                           :item-title="(x) => `${x.Name} (${x.Frame.Source} ${x.Frame.Name})`"
                           return-object
-                          icon="cc:frame" />
+                          icon="cc:frame"
+                          clearable />
                       </v-col>
                       <cc-button color="primary"
                         :disabled="!pc.ActiveMech"
@@ -209,7 +211,7 @@ function addNpc(rosterItem: any) {
     actor: npc,
     deployables: [],
   })
-  notify({ type: 'success', title: t('active.addCombatant.npcAddedTitle'), text: t('active.addCombatant.addedText', { name: npc.Name }) })
+  notify({ type: 'success', title: t('common.npcAdded'), text: t('active.addCombatant.addedText', { name: npc.Name }) })
 }
 
 function addPc(rosterItem: any) {

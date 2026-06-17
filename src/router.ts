@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import gmRoutes from './features/gm/routes'
 import pilotRoutes from './features/pilot_management/routes'
 import compendiumRoutes from './features/compendium/routes'

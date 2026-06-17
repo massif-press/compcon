@@ -62,7 +62,7 @@
                       size="x-small">
                       <v-icon start
                         class="mr-3">mdi-broadcast</v-icon>
-                      {{ $t('pm.roster.remoteRESOURCE') }}
+                      {{ $t('common.remoteResource') }}
                     </v-chip>
                   </div>
 

@@ -6,7 +6,7 @@
     <v-card-text class="py-2 px-4">
       <combatant-group type="enemy"
         :list="enemyCombatants"
-        label="ENEMY FORCES"
+        :label="$t('gm.fields.enemyForces')"
         :transfer-key="transferKey"
         :readonly="readonly"
         is-first
@@ -18,7 +18,7 @@
 
       <combatant-group type="ally"
         :list="allyCombatants"
-        label="ALLIED FORCES"
+        :label="$t('gm.fields.alliedForces')"
         :transfer-key="transferKey"
         :readonly="readonly"
         @drag-start="startDragScroll"
@@ -29,7 +29,7 @@
 
       <combatant-group type="neutral"
         :list="neutralCombatants"
-        label="NEUTRAL"
+        :label="$t('gm.fields.neutral')"
         :transfer-key="transferKey"
         :readonly="readonly"
         @drag-start="startDragScroll"
@@ -215,7 +215,7 @@
                             variant="tonal"
                             color="accent"
                             @click="diffUpdateAll(itemDiff)">
-                            {{ $t('gm.combatant.updateAll') }}
+                            {{ $t('common.updateAll') }}
                           </v-btn>
                         </template>
                         <span>{{ $t('gm.combatant.updateAllTooltip') }}</span>
@@ -366,6 +366,6 @@ async function addNpcToRoster() {
   if (npc || !selected.value) return
   await NpcStore().AddNpc(selected.value.actor)
 
-  notify({ title: t('gm.combatant.npcAddedTitle', { name: selected.value.actor.Name }), text: t('gm.combatant.npcAddedRosterText', { name: selected.value.actor.Name }), icon: 'cc:npc' })
+  notify({ title: t('common.npcAdded', { name: selected.value.actor.Name }), text: t('common.npcAddedToRoster', { name: selected.value.actor.Name }), icon: 'cc:npc' })
 }
 </script>

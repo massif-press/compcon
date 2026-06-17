@@ -189,7 +189,7 @@
         </v-dialog>
       </span>
       <span v-if="!mobile">
-        <span class="heading">{{ $t('common.appame') }}</span>
+        <span class="heading">{{ $t('common.appName') }}</span>
         <span class="flavor-text text-white"
           style="opacity: 0.4">
           &nbsp;{{ appVersion }}

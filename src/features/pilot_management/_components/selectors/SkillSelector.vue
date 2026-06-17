@@ -1,5 +1,5 @@
 <template>
-  <selector title="Pilot Skill Triggers"
+  <selector :title="$t('common.pilotSkillTriggers')"
     :success="!pilot.SkillsController.IsMissingSkills && enoughSelections"
     :flat="flat"
     :modal="modal"
@@ -40,7 +40,7 @@
     <template #jump>
       <div class="px-2">
         <cc-select v-model="jump"
-          label="jump to"
+          :label="$t('pm.fields.jumpTo')"
           color="primary"
           variant="outlined"
           :items="jumpItems" />

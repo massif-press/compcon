@@ -7,7 +7,7 @@
       <v-col lg="6"
         cols="12">
         <cc-text-field v-model="email"
-          label="E-Mail Address"
+          :label="$t('mainMenu.fields.emailAddress')"
           color="primary" />
       </v-col>
     </v-row>
@@ -34,13 +34,13 @@
             cols="12">
             <cc-text-field v-model="code"
               color="primary"
-              label="Password Reset Code" />
+              :label="$t('mainMenu.fields.passwordResetCode')" />
           </v-col>
           <v-col lg="6"
             cols="12">
             <cc-text-field v-model="newPass"
               color="primary"
-              label="New Password"
+              :label="$t('mainMenu.fields.newPassword')"
               :append-inner-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
               :type="show ? 'text' : 'password'"
               :rules="[rules.passLength]"

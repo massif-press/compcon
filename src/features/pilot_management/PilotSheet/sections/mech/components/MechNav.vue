@@ -2,7 +2,7 @@
   <div class="nav-body elevation-10">
     <div id="cap" />
     <div class="d-inline">
-      <v-tooltip text="Return to Pilot Sheet"
+      <v-tooltip :text="$t('pm.tooltips.returnToPilotSheet')"
         location="top">
         <template #activator="{ props }">
           <v-btn v-bind="props"
@@ -26,7 +26,7 @@
           variant="plain"
           size="small"
           v-bind="props">
-          <v-tooltip text="Mech Options"
+          <v-tooltip :text="$t('pm.tooltips.mechOptions')"
             location="top">
             <template #activator="{ props }">
               <v-icon v-bind="props"
@@ -42,13 +42,13 @@
         density="compact"
         slim>
         <v-list-item prepend-icon="mdi-printer"
-          title="Print"
-          subtitle="Print a tabletop-ready mech sheet"
+          :title="$t('common.print')"
+          :subtitle="$t('pm.subtitles.printATabletopreadyMechSheet')"
           @click="$router.push(`/print/${pilot.ID}/${mech.ID}`)" />
 
         <v-list-item prepend-icon="mdi-file-document-outline"
-          title="Generate Statblock"
-          subtitle="Get a plaintext representation of this mech configuration"
+          :title="$t('pm.titles.generateStatblock')"
+          :subtitle="$t('pm.subtitles.getAPlaintextRepresentationOfThisMechConfiguration')"
           @click="statblockDialog = true" />
 
         <v-divider v-if="!pilot.IsRemote" />
@@ -56,15 +56,15 @@
         <v-list-item v-if="!pilot.IsRemote"
           class="text-error"
           prepend-icon="mdi-delete"
-          title="Delete Mech"
-          subtitle="Remove mech from the Hangar"
+          :title="$t('pm.titles.deleteMech')"
+          :subtitle="$t('pm.subtitles.removeMechFromTheHangar')"
           @click="$emit('delete')" />
       </v-list>
     </v-menu>
 
     <div v-if="!pilot.IsRemote"
       class="d-inline">
-      <cc-dialog title="Share Pilot Data"
+      <cc-dialog :title="$t('pm.titles.sharePilotData')"
         icon="cc:pilot"
         :close-on-click="false">
         <template #activator="{ open }">
@@ -109,7 +109,7 @@
     <div id="end-cap" />
   </div>
   <cc-modal v-model="statblockDialog"
-    title="Generate Statblock"
+    :title="$t('pm.titles.generateStatblock')"
     icon="mdi-code-block-tags">
     <statblock-dialog :pilot="<Pilot>pilot"
       :mech-i-d="mech.ID" />

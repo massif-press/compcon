@@ -1,7 +1,7 @@
 <template>
   <v-list>
     <div v-if="pc">
-      <v-tooltip text="Pilot Sheet">
+      <v-tooltip :text="$t('common.pilotSheet')">
         <template #activator="{ props }">
           <v-list-item v-bind="!expanded && props"
             :class="getBgClass('pc')"
@@ -9,12 +9,12 @@
             <template #prepend>
               <v-icon icon="cc:pilot" />
             </template>
-            {{ $t('active.toolPalette.pilotSheet') }}
+            {{ $t('common.pilotSheet') }}
           </v-list-item>
         </template>
       </v-tooltip>
       <v-tooltip v-if="pc && combatant"
-        text="Deployables">
+        :text="$t('active.tooltips.deployables')">
         <template #activator="{ props }">
           <v-list-item v-bind="!expanded && props"
             :class="getBgClass('deployables')"
@@ -37,7 +37,7 @@
       </v-tooltip>
       <v-divider class="my-2" />
     </div>
-    <v-tooltip text="Dice Roller">
+    <v-tooltip :text="$t('active.tooltips.diceRoller')">
       <template #activator="{ props }">
         <v-list-item v-bind="!expanded && props"
           @click="$emit('open-dice-roller')">
@@ -48,7 +48,7 @@
         </v-list-item>
       </template>
     </v-tooltip>
-    <v-tooltip text="Rollable Tables">
+    <v-tooltip :text="$t('active.tooltips.rollableTables')">
       <template #activator="{ props }">
         <v-list-item v-bind="!expanded && props"
           @click="$emit('open-table-index')">
@@ -61,7 +61,7 @@
     </v-tooltip>
     <v-divider class="my-2" />
     <v-tooltip v-if="!pc"
-      text="Encounter Info">
+      :text="$t('active.tooltips.encounterInfo')">
       <template #activator="{ props }">
         <v-list-item v-bind="!expanded && props"
           :class="getBgClass('encounter-info')"
@@ -73,7 +73,7 @@
         </v-list-item>
       </template>
     </v-tooltip>
-    <v-tooltip text="Notes">
+    <v-tooltip :text="$t('common.notes')">
       <template #activator="{ props }">
         <v-list-item v-bind="!expanded && props"
           :class="getBgClass('notes')"
@@ -81,13 +81,13 @@
           <template #prepend>
             <v-icon icon="mdi-card-text-outline" />
           </template>
-          {{ $t('active.toolPalette.notes') }}
+          {{ $t('common.notes') }}
         </v-list-item>
       </template>
     </v-tooltip>
     <v-divider class="my-2" />
     <v-tooltip max-width="300"
-      text="List tags present on characters or equipment in this encounter">
+      :text="$t('active.tooltips.listTagsPresentOnCharactersOrEquipmentInThisEncounter')">
       <template #activator="{ props }">
         <v-list-item v-bind="!expanded && props"
           :class="getBgClass('reference-tag')"
@@ -99,7 +99,7 @@
         </v-list-item>
       </template>
     </v-tooltip>
-    <v-tooltip text="Combat Quick Reference">
+    <v-tooltip :text="$t('active.tooltips.combatQuickReference')">
       <template #activator="{ props }">
         <v-list-item v-bind="!expanded && props"
           :class="getBgClass('quick-reference')"
@@ -112,7 +112,7 @@
       </template>
     </v-tooltip>
     <v-divider class="my-2" />
-    <v-tooltip text="Settings">
+    <v-tooltip :text="$t('common.settings')">
       <template #activator="{ props }">
         <v-list-item v-bind="!expanded && props"
           :class="getBgClass('options')"
@@ -120,7 +120,7 @@
           <template #prepend>
             <v-icon icon="mdi-cog" />
           </template>
-          {{ $t('active.toolPalette.settings') }}
+          {{ $t('common.settings') }}
         </v-list-item>
       </template>
     </v-tooltip>

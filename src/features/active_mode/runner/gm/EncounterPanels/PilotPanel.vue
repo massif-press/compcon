@@ -1,6 +1,6 @@
 <template>
   <cc-alert v-if="pilot.CombatController.IsDead"
-    title="Pilot KIA"
+    :title="$t('active.titles.pilotKia')"
     icon="mdi-skull"
     color="error"
     variant="outlined"
@@ -27,7 +27,7 @@
       <div class="heading h4">{{ pilot.Name }}</div>
 
       <cc-alert v-if="pilot.CombatController.HasStatus('downandout')"
-        title="Down and Out"
+        :title="$t('active.titles.downAndOut')"
         icon="mdi-medical-bag"
         color="primary"
         class="mr-6">
@@ -43,7 +43,7 @@
             size="small"
             block
             :color="pilot.ActiveMech?.CombatController.Mounted ? 'primary' : 'panel'"
-            text="Mounted"
+            :text="$t('active.actions.mounted')"
             @click="setMounted" />
         </v-col>
         <v-divider vertical />
@@ -53,7 +53,7 @@
             size="small"
             block
             :color="pilot.CombatController.Overwatch ? 'primary' : 'panel'"
-            text="Overwatch"
+            :text="$t('active.actions.overwatch')"
             @click="pilot.CombatController.Overwatch = !pilot.CombatController.Overwatch" />
         </v-col>
         <v-divider vertical />
@@ -63,7 +63,7 @@
             size="small"
             block
             :color="pilot.CombatController.Prepared ? 'primary' : 'panel'"
-            text="Prepared"
+            :text="$t('active.actions.prepared')"
             @click="pilot.CombatController.Prepared = !pilot.CombatController.Prepared" />
         </v-col>
       </v-row>
@@ -146,7 +146,7 @@
 
     </v-expansion-panels>
 
-    <div class="text-cc-overline mt-4 text-disabled">{{ $t('active.mechPanel.loadout') }}</div>
+    <div class="text-cc-overline mt-4 text-disabled">{{ $t('common.loadout') }}</div>
     <pilot-combat-loadout @deploy="deploy($event)" />
   </panel-base>
 </template>

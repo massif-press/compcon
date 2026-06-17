@@ -15,7 +15,7 @@
             <blank-line :height="lineHeight" />
           </v-col>
           <v-col cols="1">
-            <div class="caption text-grey">{{ $t('pm.print.spCOST') }}</div>
+            <div class="caption text-grey">{{ $t('ui.filter.spCost') }}</div>
             <blank-line :height="lineHeight" />
           </v-col>
         </v-row>

@@ -29,5 +29,5 @@ import { sortBy } from 'lodash-es';
 
 const { smAndDown: mobile, xs: portrait } = useDisplay()
 
-const tables = computed(() => {return sortBy(CompendiumStore().Tables, 'LcpName', 'Title');})
+const tables = computed(() => { return sortBy(CompendiumStore().Tables, 'LcpName', 'Title').reverse(); })
 </script>

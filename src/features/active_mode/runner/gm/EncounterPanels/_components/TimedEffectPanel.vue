@@ -60,7 +60,7 @@
     <v-col v-else
       cols="auto">
       <v-tooltip location="top"
-        text="Apply">
+        :text="$t('active.tooltips.apply')">
         <template #activator="{ props }">
           <v-btn icon
             v-bind="props"
@@ -75,7 +75,7 @@
       </v-tooltip>
 
       <v-tooltip location="top"
-        text="Dismiss without applying">
+        :text="$t('active.tooltips.dismissWithoutApplying')">
         <template #activator="{ props }">
           <v-btn icon
             v-bind="props"

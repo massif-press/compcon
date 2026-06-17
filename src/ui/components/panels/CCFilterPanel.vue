@@ -36,7 +36,7 @@
         <v-spacer />
         <cc-button color="accent"
           class="mr-3"
-          @click="clearFilters">{{ $t('ui.filter.clearAllLower') }}</cc-button>
+          @click="clearFilters">{{ $t('ui.dice.clearAll') }}</cc-button>
       </v-card-actions>
     </v-sheet>
   </v-navigation-drawer>

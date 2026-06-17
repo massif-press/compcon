@@ -71,19 +71,19 @@
   </div>
 
   <div v-if="feature.OnMiss">
-    <b>{{ $t('gm.featurePrint.onMiss') }}</b>
+    <b>{{ $t('pm.print.onMISS') }}</b>
     {{ feature.OnMiss.Detail }}
   </div>
   <div v-if="feature.OnAttack">
-    <b>{{ $t('gm.featurePrint.onAttack') }}</b>
+    <b>{{ $t('pm.print.onATTACK') }}</b>
     {{ feature.OnAttack.Detail }}
   </div>
   <div v-if="feature.OnHit">
-    <b>{{ $t('gm.featurePrint.onHit') }}</b>
+    <b>{{ $t('pm.print.onHIT') }}</b>
     {{ feature.OnHit.Detail }}
   </div>
   <div v-if="feature.OnCrit">
-    <b>{{ $t('gm.featurePrint.onCrit') }}</b>
+    <b>{{ $t('pm.print.onCRIT') }}</b>
     {{ feature.OnCrit.Detail }}
   </div>
 

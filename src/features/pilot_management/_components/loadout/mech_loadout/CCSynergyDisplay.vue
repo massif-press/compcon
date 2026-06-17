@@ -33,7 +33,7 @@
       <div v-if="!synergies.length && showNone"
         class="text-center"
         style="opacity: 0.5">
-        <i>{{ $t('pm.loadout.none') }}</i>
+        <i>{{ $t('common.none') }}</i>
       </div>
       <cc-tooltip v-for="(s, index) in synergies"
         :key="`synergy-${index}`"

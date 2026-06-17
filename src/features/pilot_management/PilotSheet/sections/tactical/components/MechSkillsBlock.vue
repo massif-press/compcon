@@ -1,7 +1,7 @@
 <template>
   <div>
-    <section-header title="Mech Skills">
-      <cc-modal title="Set Pilot Mech Skills"
+    <section-header :title="$t('pm.titles.mechSkills')">
+      <cc-modal :title="$t('pm.titles.setPilotMechSkills')"
         icon="cc:frame"
         shrink>
         <template #activator="{ open }">

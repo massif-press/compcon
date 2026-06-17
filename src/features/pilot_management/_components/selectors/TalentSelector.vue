@@ -4,7 +4,7 @@
     :items="pilot.TalentsController.MissingTalents"
     @remove="pilot.TalentsController.RemoveTalent($event)" />
 
-  <selector title="Pilot Talents"
+  <selector :title="$t('common.pilotTalents')"
     :success="pilot.TalentsController.HasFullTalents && enoughSelections"
     :flat="flat"
     :modal="modal"
@@ -45,7 +45,7 @@
     <template #jump>
       <div class="px-2">
         <cc-select v-model="jump"
-          label="jump to"
+          :label="$t('pm.fields.jumpTo')"
           color="primary"
           variant="outlined"
           :items="jumpItems" />

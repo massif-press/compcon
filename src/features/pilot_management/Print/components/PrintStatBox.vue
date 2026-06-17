@@ -2,7 +2,7 @@
   <v-col cols="auto"
     :style="`min-height: ${blank ? '60' : '50'}px; min-width: ${minWidth}`">
     <fieldset>
-      <legend class="caption font-weight-bold text-primary px-1">{{ label }}</legend>
+      <legend class="caption font-weight-bold text-primary px-1 text-uppercase">{{ label }}</legend>
       <div v-if="!blank && value !== null"
         class="heading h2 text-center mt-n2">{{ value }}</div>
     </fieldset>

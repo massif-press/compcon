@@ -98,7 +98,7 @@
                   }}
 
                   <div>
-                    <i class="text-caption text-disabled">{{ $t('ui.combat.clickToOverrideLower') }}</i>
+                    <i class="text-caption text-disabled">{{ $t('ui.combat.clickToOverride') }}</i>
                   </div>
                 </div>
               </v-tooltip>

@@ -1,6 +1,6 @@
 <template>
   <div class="mt-5">
-    <section-header title="Equipment Loadout" class="mb-4" />
+    <section-header :title="$t('pm.titles.equipmentLoadout')" class="mb-4" />
     <CCMechLoadout :mech="mech" :readonly="mech.Pilot.IsRemote" />
   </div>
 </template>

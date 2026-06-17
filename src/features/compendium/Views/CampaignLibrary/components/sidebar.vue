@@ -15,7 +15,7 @@
         flat
         size="small"
         @click="setPage('Credits')">
-        {{ $t('compendium.campaign.credits') }}
+        {{ $t('common.credits') }}
       </v-btn>
 
       <indented-list

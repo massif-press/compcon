@@ -10,7 +10,7 @@
         class="mx-1"
         @click="updateTier(i)">
         <v-icon start>cc:rank_1</v-icon>
-        {{ $t('gm.npcStats.tier', { n: i }) }}
+        {{ $t('common.tierN', { n: i }) }}
       </v-btn>
     </v-col>
   </v-row>

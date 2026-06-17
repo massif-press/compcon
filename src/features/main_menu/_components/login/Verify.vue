@@ -40,7 +40,7 @@
           <v-col cols="12" sm="6" lg="4">
             <v-text-field
               v-model="verify"
-              label="Verification Code"
+              :label="$t('mainMenu.fields.verificationCode')"
               density="compact"
               variant="outlined"
               class="my-1"

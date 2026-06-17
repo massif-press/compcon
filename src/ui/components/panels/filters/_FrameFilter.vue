@@ -9,7 +9,7 @@
         density="compact"
         prepend-icon="cc:manufacturer"
         variant="outlined"
-        label="From Manufacturer"
+        :label="$t('ui.fields.fromManufacturer')"
         :items="manufacturers"
         clearable
         multiple
@@ -24,7 +24,7 @@
         chips
         clearable
         variant="outlined"
-        label="Role"
+        :label="$t('ui.fields.role')"
         :items="mechTypes"
         multiple
         @update:modelValue="updateFilters()" />
@@ -38,7 +38,7 @@
         chips
         clearable
         variant="outlined"
-        label="Has Mount"
+        :label="$t('ui.fields.hasMount')"
         :items="mountTypes"
         multiple
         @update:modelValue="updateFilters()" />
@@ -52,7 +52,7 @@
         clearable
         prepend-icon="cc:size_1"
         variant="outlined"
-        label="Size"
+        :label="$t('ui.fields.size')"
         :items="frameSizes"
         multiple
         @update:modelValue="updateFilters()" />
@@ -66,7 +66,7 @@
         clearable
         prepend-icon="cc:license"
         variant="outlined"
-        label="License"
+        :label="$t('ui.fields.license')"
         :items="frameLicenses"
         multiple
         @update:modelValue="updateFilters()" />

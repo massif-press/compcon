@@ -22,13 +22,13 @@
     </div>
     <div v-if="action.Trigger">
       <div class="text-cc-overline"
-        style="opacity: 0.4">{{ $t('ui.action.trigger') }}</div>
+        style="opacity: 0.4">{{ $t('common.trigger') }}</div>
       <div v-html-safe="action.Trigger"
         class="ml-2" />
     </div>
     <div v-if="action.Detail">
       <div class="text-cc-overline"
-        style="opacity: 0.4">{{ $t('ui.action.effect') }}</div>
+        style="opacity: 0.4">{{ $t('common.effect') }}</div>
       <div v-html-safe="action.getDetail(tier)"
         class="ml-2" />
     </div>

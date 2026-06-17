@@ -1,7 +1,7 @@
 <template>
   <v-col cols="auto"
     class="ml-auto mr-2 text-center caption">
-    <div class="text-overline text-primary my-n2">{{ $t('pm.print.overcharge') }}</div>
+    <div class="text-overline text-primary my-n2">{{ $t('common.overcharge') }}</div>
     <v-chip size="20"
       variant="outlined"
       color="red"

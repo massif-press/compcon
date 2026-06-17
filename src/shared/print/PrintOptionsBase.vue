@@ -8,14 +8,14 @@
             <print-option-select
               v-model="options.paper"
               mandatory
-              title="Paper"
+              :title="$t('print.titles.paper')"
               :items="paperOptions" />
           </v-col>
           <v-col>
             <print-option-select
               v-model="options.orientation"
               mandatory
-              title="Orientation"
+              :title="$t('print.titles.orientation')"
               :items="orientationOptions" />
           </v-col>
         </v-row>
@@ -24,7 +24,7 @@
             <print-option-select
               v-model="options.paper"
               mandatory
-              title="Paper"
+              :title="$t('print.titles.paper')"
               :items="paperOptions" />
           </v-col>
         </v-row>
@@ -35,7 +35,7 @@
         flat
         tile>
         <fieldset class="pa-2">
-          <legend class="clipped-small heading h3">{{ $t('print.options') }}&emsp;</legend>
+          <legend class="clipped-small heading h3">{{ $t('common.options') }}&emsp;</legend>
           <print-option-select
             v-model="options.include"
             multiple

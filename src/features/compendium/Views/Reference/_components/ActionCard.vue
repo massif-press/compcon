@@ -14,16 +14,16 @@
         <div v-else>
           <div v-if="action.Trigger">
             <div class="text-cc-overline text-disabled">
-              {{ $t('compendium.reference.trigger') }}
+              {{ $t('common.trigger') }}
             </div>
             <p v-html-safe="action.Trigger" />
             <div class="text-cc-overline text-disabled mt-2">
-              {{ $t('compendium.reference.action') }}
+              {{ $t('common.action') }}
             </div>
           </div>
           <p v-html-safe="action.Detail" />
           <div v-if="action.SubActions && action.SubActions.length">
-            <div class="text-overline text-disabled">{{ $t('compendium.reference.options') }}</div>
+            <div class="text-overline text-disabled">{{ $t('common.options') }}</div>
             <v-row no-gutters
               justify="center">
               <v-col v-for="(a, index) in action.SubActions"
@@ -40,7 +40,7 @@
     </template>
     <p v-html-safe="action.Detail" />
     <div v-if="action.SubActions && action.SubActions.length">
-      <div class="text-overline text-disabled">{{ $t('compendium.reference.options') }}</div>
+      <div class="text-overline text-disabled">{{ $t('common.options') }}</div>
       <v-row no-gutters
         justify="center">
         <v-col v-for="(a, index) in action.SubActions"

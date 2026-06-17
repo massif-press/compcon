@@ -113,7 +113,7 @@
         <div>
           <div class="caption text-center mt-n1 mb-2"
             style="letter-spacing: 5px; font-size: 10px">
-            {{ $t('pm.print.pilotSkillTriggers') }}
+            {{ $t('common.pilotSkillTriggers') }}
           </div>
           <v-card v-for="s in pilot.SkillsController.Skills"
             :key="s.Skill.ID"
@@ -148,7 +148,7 @@
         :key="t.Talent.ID">
         <div class="caption text-center mt-n1"
           style="letter-spacing: 10px; font-size: 10px">
-          {{ $t('pm.print.pilotTalent') }}
+          {{ $t('common.pilotTalent') }}
         </div>
         <v-row dense
           align="center">
@@ -209,7 +209,7 @@
         :key="a.ID">
         <div class="caption text-center mt-n1"
           style="letter-spacing: 10px; font-size: 10px">
-          {{ $t('pm.print.pilotARMOR') }}
+          {{ $t('common.pilotArmor') }}
         </div>
         <v-row dense
           align="center">
@@ -275,7 +275,7 @@
         :key="w.ID">
         <div class="caption text-center mt-n1"
           style="letter-spacing: 10px; font-size: 10px">
-          {{ $t('pm.print.pilotWEAPON') }}
+          {{ $t('common.pilotWeapon') }}
         </div>
         <v-row dense
           align="center">
@@ -323,7 +323,7 @@
         :key="g.ID">
         <div class="caption text-center mt-n1"
           style="letter-spacing: 10px; font-size: 10px">
-          {{ $t('pm.print.pilotGEAR') }}
+          {{ $t('common.pilotGear') }}
         </div>
         <v-row dense
           align="center">
@@ -388,19 +388,19 @@
       <action-card v-for="a in gearActions"
         :key="a.ID"
         :action="a"
-        header="PILOT GEAR" />
+        :header="$t('common.pilotGear')" />
       <action-card v-for="a in talentActions"
         :key="a.ID"
         :action="a"
-        header="PILOT TALENT" />
+        :header="$t('common.pilotTalent')" />
       <deployable-card v-for="(d, i) in gearDeployables"
         :key="`gear-deployable-${i}`"
         :deployable="d.ItemData"
-        header="PILOT GEAR" />
+        :header="$t('common.pilotGear')" />
       <deployable-card v-for="(d, i) in talentDeployables"
         :key="`talent-deployable-${i}`"
         :deployable="d.ItemData"
-        header="PILOT TALENT" />
+        :header="$t('common.pilotTalent')" />
     </v-row>
   </div>
 </template>

@@ -1,9 +1,83 @@
 import { execFileSync } from 'node:child_process'
-import { readFileSync, rmSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync, rmSync, statSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import console from 'node:console'
+import process from 'node:process'
 
 const DYNAMIC_NAMESPACES = ['nav.']
+
+const selectorCodes = [
+  ...readFileSync('src/i18n/index.ts', 'utf8').matchAll(/code:\s*'([^']+)'/g),
+].map(m => m[1])
+const missingCatalogs = selectorCodes.filter(
+  c => !existsSync(join('src/i18n/locales', `${c}.json`))
+)
+if (missingCatalogs.length) {
+  console.error(
+    `\ni18n: ${missingCatalogs.length} selector locale(s) have no catalog file in src/i18n/locales:`
+  )
+  for (const c of missingCatalogs) console.error(`  - ${c}  (add src/i18n/locales/${c}.json)`)
+  process.exit(1)
+}
+
+const LITERAL_ATTRS = [
+  'title',
+  'header',
+  'subtitle',
+  'label',
+  'placeholder',
+  'hint',
+  'text',
+  'tooltip',
+  'alt',
+]
+const LITERAL_ALLOW = new Set(['CC-ID', 'CC-username', 'N/A', 'HP', 'E-DEF', 'E-DEFENSE'])
+const LITERAL_SKIP_FILES = [
+  'src/features/ui_test/',
+  'src/ui/components/print/CombatRef.vue',
+  'src/ui/components/tables/CCRefStructureTable.vue',
+  'src/ui/components/tables/CCRefStressTable.vue',
+  'src/features/active_mode/runner/gm/InfoPanels/QuickReferencePanel.vue',
+]
+const looksLikeDisplayText = v => {
+  if (LITERAL_ALLOW.has(v.trim())) return false
+  if (!/[A-Za-z]/.test(v)) return false // no letters (numbers/symbols/icons)
+  if (/^(mdi-|cc:|cci-|https?:|#|\$|@:|\{)/.test(v)) return false // icon/url/interpolation/linked
+  if (/^[a-z][a-zA-Z0-9]*$/.test(v)) return false // single lowercase token = prop identifier/enum
+  if (v.includes('<') || v.includes('>') || v.includes('//') || v.startsWith('CC.')) return false // markup/diegetic
+  return true
+}
+const collectVue = (d, a = []) => {
+  for (const f of readdirSync(d)) {
+    const p = join(d, f)
+    if (statSync(p).isDirectory()) collectVue(p, a)
+    else if (p.endsWith('.vue')) a.push(p)
+  }
+  return a
+}
+const propLiterals = []
+for (const file of collectVue('src')) {
+  if (LITERAL_SKIP_FILES.some(s => file.replace(/\\/g, '/').includes(s))) continue
+  const src = readFileSync(file, 'utf8')
+  const tEnd = src.indexOf('<script')
+  const tmpl = tEnd === -1 ? src : src.slice(0, tEnd)
+  for (const attr of LITERAL_ATTRS) {
+    const re = new RegExp(`(\\s)${attr}="([^"]*)"`, 'g')
+    let m
+    while ((m = re.exec(tmpl))) {
+      if (looksLikeDisplayText(m[2])) propLiterals.push({ file, attr, value: m[2] })
+    }
+  }
+}
+if (propLiterals.length) {
+  console.error(
+    `\ni18n: ${propLiterals.length} hardcoded prop literal(s) escape no-raw-text (bind via :attr="$t('key')"):`
+  )
+  for (const p of propLiterals)
+    console.error(`  - ${p.attr}=${JSON.stringify(p.value).slice(0, 60)}  (${p.file})`)
+  process.exit(1)
+}
 
 const out = join(tmpdir(), `vue-i18n-report.${process.pid}.json`)
 

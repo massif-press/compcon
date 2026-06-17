@@ -46,14 +46,14 @@
             <cc-select v-model="grouping"
               :items="groupings"
               small
-              label="Group"
+              :label="$t('gm.fields.group')"
               class="mr-1" />
           </v-col>
           <v-col>
             <cc-select v-model="sorting"
               :items="sortings"
               small
-              label="Sort"
+              :label="$t('gm.fields.sort')"
               class="ml-1" />
           </v-col>
         </v-row>
@@ -65,7 +65,7 @@
           size="x-small"
           class="mt-1"
           @click="$emit('open-organizer')">
-          {{ $t('gm.split.organize') }}
+          {{ $t('common.organize') }}
         </v-btn>
         <v-divider class="my-1" />
 

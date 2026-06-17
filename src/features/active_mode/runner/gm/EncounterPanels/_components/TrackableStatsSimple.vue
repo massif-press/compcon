@@ -3,20 +3,20 @@
     <v-col v-if="item.StatController.MaxStats['hp']">
       <simple-mini-panel v-model.number="item.StatController.CurrentStats['hp']"
         :max="item.StatController.MaxStats['hp']"
-        title="Hit Points"
+        :title="$t('active.titles.hitPoints')"
         color=hp
         icon="mdi-heart-outline" />
       <simple-mini-panel v-if="item.StatController.MaxStats['structure']"
         v-model.number="item.StatController.CurrentStats['structure']"
         :max="item.StatController.MaxStats['structure']"
-        title="Structure"
+        :title="$t('stats.structure')"
         color=hp
         icon="cc:structure" />
     </v-col>
     <v-col cols="12"
       md="">
       <simple-mini-panel v-model.number="item.StatController.CurrentStats['overshield']"
-        title="Overshield"
+        :title="$t('common.overshield')"
         color=hp
         icon="mdi-hexagon-multiple-outline" />
       <simple-mini-panel v-model.number="item.StatController.CurrentStats['armor']"
@@ -33,17 +33,17 @@
     <v-col>
       <simple-mini-panel v-model.number="item.StatController.CurrentStats['overcharge']"
         :max="3"
-        title="Overcharge"
+        :title="$t('common.overcharge')"
         color=overcharge
         icon="cc:overcharge" />
       <simple-mini-panel v-model.number="item.StatController.CurrentStats['heatcap']"
         :max="item.StatController.MaxStats['heatcap']"
-        title="Heat"
+        :title="$t('active.titles.heat')"
         color=heat
         icon="cc:heat" />
       <simple-mini-panel v-model.number="item.StatController.CurrentStats['stress']"
         :max="item.StatController.MaxStats['stress']"
-        title="Stress"
+        :title="$t('stats.stress')"
         color=stress
         icon="cc:reactor" />
 
@@ -51,7 +51,7 @@
     <v-col cols="12"
       md="">
       <simple-mini-panel v-model.number="item.StatController.CurrentStats['burn']"
-        title="Burn"
+        :title="$t('active.titles.burn')"
         icon="cc:burn"
         color="damage--burn"
         :base-value="item.StatController.MaxStats['burn']" />
@@ -65,7 +65,7 @@
             <v-icon color="overcharge"
               icon="cc:overcharge"
               class="mx-1 mt-n1" />
-            {{ $t('active.trackable.overcharge') }}
+            {{ $t('common.overcharge') }}
           </div>
         </v-col>
         <v-col cols="auto"
@@ -102,7 +102,7 @@
       md="">
       <simple-mini-panel v-model.number="item.StatController.CurrentStats['speed']"
         :max="item.StatController.MaxStats['speed']"
-        title="Movement"
+        :title="$t('active.titles.movement')"
         color=primary
         icon="mdi-arrow-right-bold-hexagon-outline" />
     </v-col>
@@ -111,7 +111,7 @@
       md="">
       <simple-mini-panel v-model.number="item.StatController.CurrentStats['repairCapacity']"
         :max="item.StatController.MaxStats['repairCapacity']"
-        title="Repair Cap."
+        :title="$t('active.titles.repairCap')"
         color=success
         icon="cc:repair" />
     </v-col>
@@ -148,7 +148,7 @@
           size="x-small"
           :prepend-icon="currentIcon"
           @click="drainBattery">
-          {{ $t('common.confirm') }} {{ item.CombatController.CorePower ? $t('common.clear') : $t('active.common.restore') }} {{ $t('active.trackable.core') }}
+          {{ $t('common.confirm') }} {{ item.CombatController.CorePower ? $t('common.clear') : $t('common.restore') }} {{ $t('common.core') }}
         </cc-button>
       </template>
     </v-card>

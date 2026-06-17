@@ -51,7 +51,7 @@
                 justify="center">
                 <v-col cols="auto"
                   class="mt-5">
-                  <i class="text-caption text-disabled">{{ $t('ui.widget.noData') }}</i>
+                  <i class="text-caption text-disabled">{{ $t('common.noData') }}</i>
                 </v-col>
               </v-row>
             </v-col>
@@ -73,7 +73,7 @@
                 variant="solo"
                 hide-details
                 auto-select-first="exact"
-                label="Entity"
+                :label="$t('ui.fields.entity')"
                 :items="allCollectionItems"
                 item-title="Name"
                 item-value="ID"
@@ -84,7 +84,7 @@
                 density="compact"
                 hide-details
                 variant="solo"
-                label="Relationship" />
+                :label="$t('ui.fields.relationship')" />
             </v-col>
             <v-col align-self="center">
               <v-menu v-if="item.id.length && linkedItem"
@@ -138,7 +138,7 @@
           </v-row>
         </v-toolbar>
         <v-card-text class="pt-1">
-          <div class="text-caption">{{ $t('ui.widget.detail') }}</div>
+          <div class="text-caption">{{ $t('common.detail') }}</div>
           <cc-rich-text-area v-model="item.notes" />
         </v-card-text>
         <v-divider />

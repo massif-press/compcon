@@ -43,7 +43,7 @@
       </i18n-t>
     </div>
     <v-text-field v-model="confirm"
-      placeholder="delete account"
+      :placeholder="$t('mainMenu.fields.deleteAccount')"
       type="text"
       required
       hide-details />

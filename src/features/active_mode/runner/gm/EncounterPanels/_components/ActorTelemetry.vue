@@ -19,7 +19,12 @@
         tile
         color="panel"
         border=start
-        border-color="red">{{ $t('active.telemetry.devNote') }} <b class="text-accent">{{ $t('active.telemetry.collectedNote') }}</b>
+        border-color="red">
+        <i18n-t keypath="active.telemetry.devNote"
+          tag="span"
+          scope="global">
+          <template #emphasis><b class="text-accent">{{ $t('active.telemetry.collectedNote') }}</b></template>
+        </i18n-t>
       </v-alert>
       <statblock-justify-options v-model:enable-justify="enableJustify"
         v-model:line-width="lineWidth" />

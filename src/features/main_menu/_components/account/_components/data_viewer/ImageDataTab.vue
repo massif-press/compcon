@@ -215,7 +215,7 @@ async function deleteImage(item) {
   } catch (err) {
     logger.error(`Error deleting image: ${err}`, this, err);
     notify({
-      title: t('notify.dataItem.deletionFailedTitle'),
+      title: t('notify.image.deleteFailedTitle'),
       text: t('notify.dataItem.serverError', { err: String(err) }),
       data: { icon: 'mdi-alert', color: 'error' },
     });

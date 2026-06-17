@@ -17,14 +17,14 @@ export function useItemTransfer(opts: { refresh: () => void }) {
         await CloudController.ForceUpload(item)
       }
       vueNotify({
-        title: t('notify.transfer.syncCompleteTitle'),
+        title: t('notify.share.syncCompleteTitle'),
         text: t('notify.transfer.itemSynced', { type: item.ItemType, name: item.Name }),
         data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
       })
     } catch (err) {
       logger.error(`Error syncing item: ${err}`, {}, err)
       vueNotify({
-        title: t('notify.transfer.syncFailedTitle'),
+        title: t('notify.share.syncFailedTitle'),
         text: t('notify.transfer.itemSyncFailed', { type: item.ItemType, name: item.Name, err }),
         data: { icon: 'mdi-alert', color: 'error' },
       })

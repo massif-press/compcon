@@ -11,7 +11,7 @@
       <v-card-text>
         <v-combobox v-model="folderName"
           :items="folders"
-          label="Folder"
+          :label="$t('gm.fields.folder')"
           clearable
           hide-details
           :menu-props="{ retainFocus: false }" />

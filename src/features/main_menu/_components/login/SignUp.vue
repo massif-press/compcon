@@ -4,7 +4,7 @@
       prominent
       icon="mdi-information-outline"
       variant="outlined"
-      title="COMP/CON Cloud Account">
+      :title="$t('mainMenu.titles.compconCloudAccount')">
       <div class="text-text">
         <p>{{ $t('mainMenu.auth.signupEmailInfo') }}</p>
         <p class="my-1">{{ $t('mainMenu.auth.signupPrivacyInfo') }}</p>
@@ -65,7 +65,7 @@
         icon="mdi-alert"
         closeable
         prominent>
-        <div class="font-weight-bold">{{ $t('mainMenu.auth.errorLabel') }}</div>
+        <div class="font-weight-bold">{{ $t('notify.common.error') }}</div>
         <div v-html-safe="error" />
       </v-alert>
     </v-scroll-y-transition>

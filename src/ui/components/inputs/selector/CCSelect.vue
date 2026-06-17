@@ -17,7 +17,6 @@
       :loading="loading"
       :disabled="disabled"
       :clearable="clearable"
-      :autofocus="autofocus"
       :closable-chips="closeableChips"
       :item-title="itemTitle || 'title'"
       :item-value="itemValue || 'value'"
@@ -73,7 +72,7 @@
       <template v-if="items && typeof items[0] === 'object'"
         #item="{ props, item }">
         <v-list-item v-bind="props"
-          :subtitle="item.raw.subtitle"
+          :subtitle="resolveSubtitle(item.raw)"
           :prepend-icon="item.raw.icon"
           :disabled="item.raw.disabled" />
       </template>
@@ -197,6 +196,7 @@ const props = withDefaults(defineProps<{
   suffix?: string
   counter?: boolean | number
   hint?: string
+  itemSubtitle?: string | Function
 }>(), {
   items: () => [],
   color: 'panel',
@@ -212,32 +212,38 @@ const emit = defineEmits<{
 const isFocused = ref(false)
 
 const getChipClass = computed(() => {
-      return props.lightChip ? 'chip-light' : 'chip-dark';
-    })
+  return props.lightChip ? 'chip-light' : 'chip-dark';
+})
 const isSelect = computed(() => {
-      return !props.combobox && !props.autocomplete;
-    })
+  return !props.combobox && !props.autocomplete;
+})
 const allSelected = computed(() => {
-      return props.multiple && Array.isArray(props.modelValue) && props.modelValue.length === props.items.length;
-    })
+  return props.multiple && Array.isArray(props.modelValue) && props.modelValue.length === props.items.length;
+})
 const noneSelected = computed(() => {
-      return props.noneText && (!props.modelValue || (Array.isArray(props.modelValue) && props.modelValue.length === 0));
-    })
+  return props.noneText && (!props.modelValue || (Array.isArray(props.modelValue) && props.modelValue.length === 0));
+})
 const component = computed(() => {
-      return props.combobox ? VCombobox : props.autocomplete ? VAutocomplete : VSelect;
-    })
+  return props.combobox ? VCombobox : props.autocomplete ? VAutocomplete : VSelect;
+})
+
+function resolveSubtitle(raw: any) {
+  if (typeof props.itemSubtitle === 'function') return props.itemSubtitle(raw);
+  if (typeof props.itemSubtitle === 'string') return raw?.[props.itemSubtitle];
+  return raw?.subtitle;
+}
 
 function toggleAll() {
-      if (allSelected.value) {
-        emit('update:model-value', []);
-      } else {
-        const key = props.itemValue || 'value';
-        const allValues = props.items.map((item: any) =>
-          props.returnObject ? item : (typeof item === 'object' ? item[key] : item)
-        );
-        emit('update:model-value', allValues);
-      }
-    }
+  if (allSelected.value) {
+    emit('update:model-value', []);
+  } else {
+    const key = props.itemValue || 'value';
+    const allValues = props.items.map((item: any) =>
+      props.returnObject ? item : (typeof item === 'object' ? item[key] : item)
+    );
+    emit('update:model-value', allValues);
+  }
+}
 </script>
 
 <style scoped>
@@ -308,5 +314,11 @@ function toggleAll() {
 
 .chip-dark {
   background-color: black;
+}
+
+:deep(.v-list-item-subtitle) {
+  font-size: 0.75rem !important;
+  line-height: 1.25rem !important;
+  letter-spacing: 0.0333333333em !important;
 }
 </style>

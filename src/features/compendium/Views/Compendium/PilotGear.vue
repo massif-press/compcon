@@ -5,7 +5,7 @@
     :options="options"
     view-key="cb-pilot-gear">
     <template #header>
-      <div class="heading h3 text-center text-accent">{{ $t('compendium.categories.pilotGear') }}</div>
+      <div class="heading h3 text-center text-accent">{{ $t('common.pilotGear') }}</div>
     </template>
   </cc-compendium-browser>
 </template>

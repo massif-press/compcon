@@ -71,7 +71,7 @@
         align="center"
         class="mb-2">
         <v-col>
-          <div class="text-cc-overline text-disabled">{{ $t('active.pcPanel.reserves') }}</div>
+          <div class="text-cc-overline text-disabled">{{ $t('common.reserves') }}</div>
         </v-col>
         <v-col v-if="orderedReserves.length"
           cols="auto"

@@ -11,7 +11,7 @@
         chips
         clearable
         variant="outlined"
-        label="Role"
+        :label="$t('ui.fields.role')"
         :items="roles"
         multiple
         @update:modelValue="updateFilters()" />

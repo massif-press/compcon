@@ -4,7 +4,7 @@
       density="compact"
       grow
       bg-color="primary">
-      <v-tab>{{ $t('ui.image.cloudAccount') }}</v-tab>
+      <v-tab>{{ $t('common.cloudAccount') }}</v-tab>
       <v-tab>{{ $t('ui.image.remoteImages') }}</v-tab>
       <v-tab>{{ $t('ui.image.archive') }}</v-tab>
     </v-tabs>
@@ -71,7 +71,7 @@
                   <cc-modal ref="crop_dialog"
                     icon="mdi-crop"
                     color="primary"
-                    title="Set Avatar">
+                    :title="$t('ui.titles.setAvatar')">
                     <template #activator="{ open }">
                       <cc-button size="small"
                         color="success"

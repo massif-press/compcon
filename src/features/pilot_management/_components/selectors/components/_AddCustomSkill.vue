@@ -21,7 +21,7 @@
       md="1"
       class="text-center">
       <div class="mt-2 ml-auto mr-auto">
-        <v-tooltip text="Add Skill">
+        <v-tooltip :text="$t('pm.tooltips.addSkill')">
           <template #activator="{ props: activatorProps }">
             <cc-button v-bind="activatorProps"
               size="large"

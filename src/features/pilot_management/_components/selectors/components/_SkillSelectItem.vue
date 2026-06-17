@@ -9,7 +9,7 @@
       class="py-2">
       <span class="px-2">
         <v-tooltip location="top"
-          text="Increase Skill Bonus">
+          :text="$t('pm.tooltips.increaseSkillBonus')">
           <template #activator="{ props }">
             <cc-button v-bind="props"
               icon="mdi-plus"
@@ -25,7 +25,7 @@
         class="my-2" />
       <span class="px-2">
         <v-tooltip location="top"
-          text="Decrease Skill Bonus">
+          :text="$t('pm.tooltips.decreaseSkillBonus')">
           <template #activator="{ props }">
             <cc-button v-bind="props"
               icon="mdi-minus"

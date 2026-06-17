@@ -25,7 +25,7 @@
                 color="error"
                 class="ml-n2" />
             </template>
-            <div class="text-center text-cc-overline">{{ $t('active.combatAction.cannotActivate') }}</div>
+            <div class="text-center text-cc-overline">{{ $t('ui.combat.cannotActivateShort') }}</div>
             <v-divider class="my-1" />
             <div v-if="!canActivate">
               <div v-if="!canUse">{{ $t('active.combatAction.alreadyUsed') }}</div>

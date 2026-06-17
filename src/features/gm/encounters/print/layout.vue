@@ -14,7 +14,7 @@
       <v-chip variant="outlined"
         size="x-small"
         style="border-color: grey">
-        <span>{{ $t('gm.encPrint.sitrep') }}</span>
+        <span>{{ $t('common.sitrep') }}</span>
         <cc-slashes class="mx-1" />
         <b>{{ encounter.Sitrep.Name }}</b>
       </v-chip>
@@ -26,13 +26,13 @@
     </div>
     <div v-if="encounter.Sitrep.Deployment"
       class="mt-1">
-      <div class="text-caption"><b>{{ $t('gm.encPrint.deployment') }}</b></div>
+      <div class="text-caption"><b>{{ $t('common.deployment') }}</b></div>
       <v-divider style="width: 150px" />
       {{ encounter.Sitrep.Deployment }}
     </div>
     <div v-if="encounter.Sitrep.ControlZone"
       class="mt-1">
-      <div class="text-caption"><b>{{ $t('gm.encPrint.controlZone') }}</b></div>
+      <div class="text-caption"><b>{{ $t('ui.card.controlZone') }}</b></div>
       <v-divider style="width: 150px" />
       {{ encounter.Sitrep.ControlZone }}
     </div>
@@ -44,7 +44,7 @@
     </div>
     <div v-if="encounter.Sitrep.Objective"
       class="mt-1">
-      <div class="text-caption"><b>{{ $t('gm.encPrint.objective') }}</b></div>
+      <div class="text-caption"><b>{{ $t('common.objective') }}</b></div>
       <v-divider style="width: 150px" />
       {{ encounter.Sitrep.Objective }}
     </div>
@@ -66,7 +66,7 @@
       <v-chip variant="outlined"
         size="x-small"
         style="border-color: grey">
-        <span>{{ $t('gm.encPrint.environment') }}</span>
+        <span>{{ $t('common.environment') }}</span>
         <cc-slashes class="mx-1" />
         <b>{{ encounter.Environment.Name }}</b>
       </v-chip>
@@ -119,7 +119,7 @@
             <v-icon icon="mdi-refresh"
               color="accent"
               class="mr-1" />
-            <b>{{ $t('gm.encPrint.reinforcement') }}</b>
+            <b>{{ $t('common.reinforcement') }}</b>
           </v-col>
           <v-col v-if="n.reinforcement && n.reinforcementTurn > 0"
             cols="auto">

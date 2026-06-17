@@ -25,7 +25,7 @@
         class="pa-1 mb-1"
         color="grey-lighten-2">
         <span cols="auto"
-          class="caption font-weight-bold">{{ $t('gm.printAction.trigger') }}&nbsp;</span>
+          class="caption font-weight-bold">{{ $t('common.trigger') }}:&nbsp;</span>
         <span v-html-safe="action.Trigger"
           class="caption" />
       </v-card>
@@ -33,7 +33,7 @@
         <span v-if="action.Trigger"
           cols="auto"
           class="caption font-weight-bold">
-          {{ $t('gm.printAction.effect') }}&nbsp;
+          {{ $t('common.effect') }}:&nbsp;
         </span>
         <span v-html-safe="action.Detail"
           class="caption" />

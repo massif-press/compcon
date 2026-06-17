@@ -15,7 +15,7 @@
           size="small"
           class="ml-4 mt-n1"
           variant="flat">
-          {{ $t('active.mechCore.coreActive') }}
+          {{ $t('pm.print.coreActive') }}
         </v-chip>
       </span>
       <v-spacer />

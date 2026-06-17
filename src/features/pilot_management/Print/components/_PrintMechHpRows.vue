@@ -7,14 +7,14 @@
       :blank="blank"
       :cols="4" />
 
-    <print-hp-block title="STRUCTURE"
+    <print-hp-block :title="$t('stats.structure')"
       :value="mech.MaxStructure"
       max-label="MAX STRUCTURE"
       :blank="blank"
       :cols="3"
       v-bind="compact ? { 'show-upper-section': false } : {}" />
 
-    <print-hp-block title="OVERSHIELD"
+    <print-hp-block :title="$t('common.overshield')"
       :blank="true"
       :show-value="false"
       :show-max-label="false"
@@ -45,21 +45,21 @@
   </v-row>
 
   <v-row dense>
-    <print-hp-block title="HEAT"
+    <print-hp-block :title="$t('stats.heat')"
       :value="mech.HeatCapacity"
       max-label="HEAT CAPACITY"
       :blank="blank"
       :cols="4"
       v-bind="compact ? { 'show-upper-section': false } : {}" />
 
-    <print-hp-block title="STRESS"
+    <print-hp-block :title="$t('stats.stress')"
       :value="mech.MaxStress"
       max-label="MAX STRESS"
       :blank="blank"
       :cols="3"
       v-bind="compact ? { 'show-upper-section': false } : {}" />
 
-    <print-hp-block title="REPAIRS"
+    <print-hp-block :title="$t('common.repairs')"
       :value="mech.RepairCapacity"
       max-label="REPAIR CAPACITY"
       :blank="blank"

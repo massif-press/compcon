@@ -6,7 +6,7 @@
         <div class="heading h2">
           {{ $t('common.search') }}
           <cc-slashes />
-          {{ $t('compendium.titles.compendium') }}
+          {{ $t('common.compendium') }}
         </div>
       </v-col>
       <v-col cols="auto">
@@ -27,7 +27,7 @@
           color="primary"
           class="search-field"
           icon="mdi-magnify"
-          placeholder="Search" />
+          :placeholder="$t('common.search')" />
       </v-col>
     </v-row>
     <i class="text-overline">

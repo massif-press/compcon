@@ -9,7 +9,7 @@
     mandatory
     bg-color="primary">
     <v-tab selected-class="bg-accent">
-      <b>{{ $t('gm.combatantSelector.npcs') }}</b>
+      <b>{{ $t('common.npcs') }}</b>
     </v-tab>
     <v-tab selected-class="bg-accent">
       <b>{{ $t('gm.combatantSelector.doodads') }}</b>
@@ -39,7 +39,7 @@
 
   <cc-modal v-model="importModal"
     icon="mdi-download-multiple"
-    title="Import"
+    :title="$t('common.import')"
     shrink>
     <importer @complete="importModal = false" />
   </cc-modal>
@@ -47,7 +47,7 @@
   <cc-modal v-model="orgModal"
     icon="mdi-queue-first-in-last-out"
     shrink
-    title="Organize">
+    :title="$t('common.organize')">
     <organizer type="npc" />
   </cc-modal>
 </template>

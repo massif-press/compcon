@@ -28,7 +28,7 @@
 
     <v-card-text v-if="encounter.NarrativeController.TextItems.length"
       class="py-0">
-      <div class="text-cc-overline text-disabled">{{ $t('active.encInfo.detail') }}</div>
+      <div class="text-cc-overline text-disabled">{{ $t('common.detail') }}</div>
 
       <div v-for="(item, index) in encounter.NarrativeController.TextItems"
         :key="`text-${index}`">
@@ -51,7 +51,7 @@
     </v-card-text>
 
     <v-card-text class="py-2">
-      <div class="text-cc-overline text-disabled">{{ $t('active.labels.sitrep') }}</div>
+      <div class="text-cc-overline text-disabled">{{ $t('common.sitrep') }}</div>
       <div class="heading h3 text-accent">{{ encounter.Sitrep.Name }}</div>
       <div v-for="block in sitrepBlocks"
         :key="block">
@@ -78,7 +78,7 @@
     </v-card-text>
 
     <v-card-text class="py-2">
-      <div class="text-cc-overline text-disabled">{{ $t('active.encInfo.environment') }}</div>
+      <div class="text-cc-overline text-disabled">{{ $t('common.environment') }}</div>
       <div class="heading h3 text-accent">{{ encounter.Environment.Name }}</div>
       <p v-html-safe="encounter.Environment.Description"
         class="text-text" />
@@ -173,7 +173,7 @@ function copy(text) {
         .writeText(text)
         .then(() => {
           notify({
-            text: t('active.encounter.copiedToClipboard'),
+            text: t('active.common.copiedToClipboard'),
             data: { color: 'success' },
           });
         })

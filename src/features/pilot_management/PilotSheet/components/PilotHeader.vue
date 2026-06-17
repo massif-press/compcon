@@ -9,8 +9,7 @@
             <v-tooltip v-if="pilot.IsRemote"
               :open-on-click="true"
               location="bottom"
-              text="This pilot is a remote resource linked to another user's account. It is
-                      read-only and will receive updates from the linked account.">
+              :text="$t('pm.actions.thisPilotIsARemote')">
               <template #activator="{ props }">
                 <v-icon size="small"
                   class="text-disabled"
@@ -102,8 +101,7 @@
                 align="center">
                 <v-col v-if="pilot.IsRemote"
                   cols="auto">
-                  <v-tooltip text="This pilot is a remote resource linked to another user's account. It is
-                      read-only and will receive updates from the linked account."
+                  <v-tooltip :text="$t('pm.actions.thisPilotIsARemote')"
                     max-width="400">
                     <template #activator="{ props }">
                       <v-avatar size="40"
@@ -204,12 +202,12 @@
                 align="center"
                 justify="end">
                 <v-col cols="auto"
-                  class="heading h4 mt-1">{{ $t('pm.sheet.licenseLevel') }}</v-col>
+                  class="heading h4 mt-1">{{ $t('ui.fields.licenseLevel') }}</v-col>
                 <v-col cols="auto"
                   class="heading h2 text-highlight">{{ pilot.Level }}</v-col>
                 <v-col cols="auto">
                   <v-tooltip v-if="!pilot.IsRemote && !isLevelingUp"
-                    text="Edit License Level">
+                    :text="$t('pm.actions.editLicenseLevel')">
                     <template #activator="{ props }">
                       <v-icon size="15"
                         class="fade-select"
@@ -251,7 +249,7 @@
   </template>
 
   <cc-modal v-model="levelEdit"
-    title="edit license level"
+    :title="$t('pm.titles.editLicenseLevel')"
     icon="cc:pilot"
     shrink
     width="600px">

@@ -20,7 +20,7 @@
         :color="color" />
       <div>
         <v-divider class="mt-2" />
-        <span class="text-overline no-height">{{ $t('pm.sheet.systemPoints') }}</span>
+        <span class="text-overline no-height">{{ $t('common.systemPoints') }}</span>
         <v-tooltip>
           <template #activator="{ props }">
             <span v-bind="props"

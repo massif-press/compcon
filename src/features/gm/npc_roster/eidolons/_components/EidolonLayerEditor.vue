@@ -120,7 +120,7 @@
               prepend-icon="mdi-delete"
               :disabled="layer.ID === 'el_core' || index === 0"
               @click="removeLayer(index)">
-              {{ $t('gm.eidolon.remove') }}
+              {{ $t('common.remove') }}
             </cc-button>
           </v-card-actions>
         </v-card>
@@ -131,7 +131,7 @@
   <div class="my-4" />
 
   <cc-modal v-model="layerSelector"
-    title="Select Layer"
+    :title="$t('gm.titles.selectLayer')"
     icon="mdi-layers-triple">
     <layer-selector :item="item"
       @add-layer="addLayer($event)" />

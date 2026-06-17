@@ -4,7 +4,6 @@ const theme = {
   dark: true,
   id: 'gms_dark',
   name: 'GMS Dark',
-  community: false,
   colors: {
     ...themeDefaults,
 

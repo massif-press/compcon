@@ -17,7 +17,7 @@
             position="top center"
             :height="mobile ? '75px' : '150px'"
             :width="mobile ? '75px' : '150px'" />
-          <div v-if="mech.Portrait"
+          <div v-if="mech?.Portrait"
             class="bg-panel"
             style="
               position: absolute;
@@ -28,7 +28,7 @@
               clip-path: polygon(100% 0, 0% 100%, 100% 100%);
             ">
             <div style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"
-              :style="`background: linear-gradient(135deg,${mech.Frame.ManufacturerColor} 52%, rgb(var(--v-theme-panel)) 51%, rgb(var(--v-theme-panel))  100%);`" />
+              :style="`background: linear-gradient(135deg,${mech?.Frame.ManufacturerColor} 52%, rgb(var(--v-theme-panel)) 51%, rgb(var(--v-theme-panel))  100%);`" />
 
             <img style="
                 position: absolute;
@@ -39,7 +39,8 @@
                 width: auto;
                 height: auto;
               "
-              :src="mech.Portrait" />
+              :src="mech?.Portrait"
+              alt="" />
           </div>
         </v-card>
       </v-col>
@@ -59,9 +60,9 @@
               style="margin-top: -3px">
               <cc-chip size="x-small"
                 variant="elevated"
-                :title="sheet.TableName || 'Local'"
+                :title="'local'"
                 :label="sheet.Campaign || 'No Campaign Information'"
-                :color="sheet.TableName ? 'secondary' : 'panel'"
+                :color="'panel'"
                 :bg-color="sheet.Campaign ? 'exotic' : ''">
                 <v-icon v-if="sheet.Campaign"
                   icon="cc:campaign"
@@ -71,8 +72,8 @@
             <v-col cols="auto"
               class="mr-n2 ml-auto">
               <v-menu>
-                <template #activator="{ props }">
-                  <v-icon v-bind="props"
+                <template #activator="{ props: activatorProps }">
+                  <v-icon v-bind="activatorProps"
                     start
                     color="white"
                     icon="mdi-cog"
@@ -102,10 +103,12 @@
 
         <div v-if="mobile"
           class="detail-row-mobile px-2 pt-1 text-cc-overline">
-          <div v-if="pilot.CombatController.Mounted">
-            <b class="text-stark">{{ $t('active.sheetItem.mounted') }}</b> &mdash; <i>{{ mech.Name }} ({{ mech.Frame.Source }} {{
-              mech.Frame.Name
-            }})</i>
+          <div v-if="pilot.CombatController.Mounted && mech">
+            <b class="text-stark">{{ $t('active.sheetItem.mounted') }}</b> &mdash; <i>{{ mech.Name
+              }} ({{
+                mech.Frame.Source }} {{
+                mech.Frame.Name
+              }})</i>
           </div>
           <div v-else>
             <b class="text-stark">{{ $t('active.sheetItem.unmounted') }}</b>
@@ -150,10 +153,10 @@
                   cols="auto">
                   <v-tooltip location="top"
                     open-delay="400">
-                    <template #activator="{ props }">
-                      <v-icon v-bind="props"
+                    <template #activator="{ props: activatorProps }">
+                      <v-icon v-bind="activatorProps"
                         class="mx-1 mt-n1"
-                        :icon="stat.icon" />
+                        :icon="getStatIcon(stat.key)" />
                       <b class="text-accent">{{ pilot.StatController.CurrentStats[stat.key] }}</b>
                     </template>
                     <div class="text-cc-overline text-center">
@@ -178,10 +181,10 @@
                   <v-tooltip :text="stat.title"
                     location="top"
                     open-delay="400">
-                    <template #activator="{ props }">
-                      <v-icon v-bind="props"
+                    <template #activator="{ props: activatorProps }">
+                      <v-icon v-bind="activatorProps"
                         class="mx-1 mt-n1"
-                        :icon="stat.icon" />
+                        :icon="getStatIcon(stat.key)" />
                       <b class="text-secondary">
                         {{ pilot.StatController.CurrentStats[stat.key] }}
                       </b>
@@ -190,67 +193,71 @@
                 </v-col>
               </v-row>
 
-
-              <v-divider class="my-1" />
-              <div><b>{{ mech.Name }}</b> ({{ mech.Frame.Source }} {{ mech.Frame.Name }}) </div>
-              <v-row dense
-                justify="space-around"
-                align="center">
-                <v-col v-for="stat in pilot.StatController.GetStatCollection([
-                  'hp',
-                  'overshield',
-                  'stress',
-                  'heatcap',
-                  'structure',
-                  'repairCapacity',
-                ])"
-                  :key="`mech-stat-${stat.key}`"
-                  cols="auto">
-                  <v-tooltip location="top"
-                    open-delay="400">
-                    <template #activator="{ props }">
-                      <v-icon v-bind="props"
-                        class="mx-1 mt-n1"
-                        :icon="stat.icon" />
-                      <b class="text-accent">{{ mech.StatController.CurrentStats[stat.key] }}</b>
-                    </template>
-                    <div class="text-cc-overline text-center">
-                      {{ stat.title }}
-                    </div>
-                    <div class="heading h3 text-accent text-center">
-                      {{ mech.StatController.CurrentStats[stat.key] }}
-                      <span class="body-text text-text">
-                        / {{ mech.StatController.MaxStats[stat.key] }}
-                      </span>
-                    </div>
-                  </v-tooltip>
-                </v-col>
-                <v-col v-for="stat in mech.StatController.GetStatCollection([
-                  'armor',
-                  'evasion',
-                  'edef',
-                  'saveTarget',
-                ])"
-                  :key="`mech-def-${stat.key}`"
-                  cols="auto">
-                  <v-tooltip :text="stat.title"
-                    location="top"
-                    open-delay="400">
-                    <template #activator="{ props }">
-                      <v-icon v-bind="props"
-                        class="mx-1 mt-n1"
-                        :icon="stat.icon" />
-                      <b class="text-secondary">
+              <div v-if="mech">
+                <v-divider class="my-1" />
+                <div><b>{{ mech.Name }}</b> ({{ mech.Frame.Source }} {{ mech.Frame.Name
+                  }}) </div>
+                <v-row dense
+                  justify="space-around"
+                  align="center">
+                  <v-col v-for="stat in pilot.StatController.GetStatCollection([
+                    'hp',
+                    'overshield',
+                    'stress',
+                    'heatcap',
+                    'structure',
+                    'repairCapacity',
+                  ])"
+                    :key="`mech-stat-${stat.key}`"
+                    cols="auto">
+                    <v-tooltip location="top"
+                      open-delay="400">
+                      <template #activator="{ props: activatorProps }">
+                        <v-icon v-bind="activatorProps"
+                          class="mx-1 mt-n1"
+                          :icon="getStatIcon(stat.key)" />
+                        <b class="text-accent">{{ mech.StatController.CurrentStats[stat.key] }}</b>
+                      </template>
+                      <div class="text-cc-overline text-center">
+                        {{ stat.title }}
+                      </div>
+                      <div class="heading h3 text-accent text-center">
                         {{ mech.StatController.CurrentStats[stat.key] }}
-                      </b>
-                    </template>
-                  </v-tooltip>
-                </v-col>
-              </v-row>
+                        <span class="body-text text-text">
+                          / {{ mech.StatController.MaxStats[stat.key] }}
+                        </span>
+                      </div>
+                    </v-tooltip>
+                  </v-col>
+                  <v-col v-for="stat in mech.StatController.GetStatCollection([
+                    'armor',
+                    'evasion',
+                    'edef',
+                    'saveTarget',
+                  ])"
+                    :key="`mech-def-${stat.key}`"
+                    cols="auto">
+                    <v-tooltip :text="stat.title"
+                      location="top"
+                      open-delay="400">
+                      <template #activator="{ props: activatorProps }">
+                        <v-icon v-bind="activatorProps"
+                          class="mx-1 mt-n1"
+                          :icon="getStatIcon(stat.key)" />
+                        <b class="text-secondary">
+                          {{ mech.StatController.CurrentStats[stat.key] }}
+                        </b>
+                      </template>
+                    </v-tooltip>
+                  </v-col>
+                </v-row>
+              </div>
 
-
+              ``
               <v-divider class="my-1" />
-              {{ $t('active.sheetItem.started') }} <b>{{ new Date(sheet.Created).toLocaleDateString() }}</b> &mdash; {{ $t('active.sheetItem.lastTurn') }}
+              {{ $t('active.sheetItem.started') }} <b>{{ new
+                Date(sheet.Created).toLocaleDateString() }}</b>
+              &mdash; {{ $t('active.sheetItem.lastTurn') }}
               <b>{{ sheet.Updated ? new
                 Date(sheet.Updated).toLocaleDateString() : $t('active.sheetItem.na') }}</b>
               <br />
@@ -267,31 +274,35 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { Stats } from '@/classes/components/combat/stats/Stats';
+import PilotSheet from '@/features/pilot_management/store/PilotSheet';
+import { computed } from 'vue'
 import { useDisplay } from 'vuetify';
 
 defineOptions({ name: 'SheetListItem' })
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+const { smAndDown: mobile } = useDisplay()
 
 const props = defineProps<{
-  sheet: object
+  sheet: PilotSheet
 }>()
 
-const emit = defineEmits<{
+defineEmits<{
   'archive': []
   'delete': []
   'launch': []
+  'export': []
 }>()
 
-const loading = ref(false)
-
 const pilot = computed(() => {
-      return props.sheet.Combatant.actor;
-    })
+  return props.sheet.Combatant.actor;
+})
 const mech = computed(() => {
-      return props.sheet.Combatant.actor.ActiveMech;
-    })
+  return props.sheet.Combatant.actor.ActiveMech;
+})
+function getStatIcon(statKey: string) {
+  return Stats.IconMap[statKey as keyof typeof Stats.IconMap] || 'mdi-rhombus';
+}
 </script>
 
 <style scoped>

@@ -8,7 +8,7 @@
       <v-row class="border-sm">
         <v-col cols="auto"
           class="py-1">
-          <div class="text-cc-overline text-accent">{{ $t('pm.roster.licenseLevel') }}</div>
+          <div class="text-cc-overline text-accent">{{ $t('ui.fields.licenseLevel') }}</div>
           <div class="heading h2 mt-n1">
             {{ pilot.Level }}
           </div>
@@ -35,7 +35,7 @@
           class="my-4" />
         <v-col cols="auto"
           class="py-1">
-          <div class="text-cc-overline text-accent">{{ $t('pm.link.agility') }}</div>
+          <div class="text-cc-overline text-accent">{{ $t('stats.agility') }}</div>
           <div class="heading h3 mt-n1">
             {{ pilot.MechSkillsController.MechSkills.Agi }}
           </div>
@@ -44,7 +44,7 @@
           class="my-4" />
         <v-col cols="auto"
           class="py-1">
-          <div class="text-cc-overline text-accent">{{ $t('pm.new.systems') }}</div>
+          <div class="text-cc-overline text-accent">{{ $t('stats.systems') }}</div>
           <div class="heading h3 mt-n1">
             {{ pilot.MechSkillsController.MechSkills.Sys }}
           </div>
@@ -53,7 +53,7 @@
           class="my-4" />
         <v-col cols="auto"
           class="py-1">
-          <div class="text-cc-overline text-accent">{{ $t('pm.link.engineering') }}</div>
+          <div class="text-cc-overline text-accent">{{ $t('stats.engineering') }}</div>
           <div class="heading h3 mt-n1">
             {{ pilot.MechSkillsController.MechSkills.Eng }}
           </div>
@@ -74,7 +74,7 @@
       </div>
 
       <div v-if="pilot.Notes">
-        <cc-title class="mt-2">{{ $t('pm.link.notes') }}</cc-title>
+        <cc-title class="mt-2">{{ $t('common.notes') }}</cc-title>
         <p v-html-safe="pilot.Notes" />
       </div>
     </v-col>
@@ -133,7 +133,7 @@
     :skill="s.Skill" />
 
   <cc-title id="reserves"
-    class="mt-4 mb-2">{{ $t('compendium.categories.reserves') }}</cc-title>
+    class="mt-4 mb-2">{{ $t('common.reserves') }}</cc-title>
   <div v-for="(r, index) in pilot.ReservesController.Reserves"
     :key="`reserve-${index}`"
     class="mb-1">
@@ -148,7 +148,7 @@
 
   <div v-if="pilot.LicenseController.Licenses.length"
     id="licenses">
-    <cc-title class="mt-4 mb-2">{{ $t('compendium.categories.licenses') }}</cc-title>
+    <cc-title class="mt-4 mb-2">{{ $t('common.licenses') }}</cc-title>
     <v-row>
       <v-col v-for="l in pilot.LicenseController.Licenses"
         :key="l.Stub.ID">

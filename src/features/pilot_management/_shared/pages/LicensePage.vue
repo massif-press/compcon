@@ -5,7 +5,7 @@
     back
     @back="$emit('back')"
     @complete="$emit('next')">
-    <cc-title offset>{{ context === 'new' ? $t('compendium.categories.pilotTalents') : $t('pm.shared.unlockLicense') }}&emsp;</cc-title>
+    <cc-title offset>{{ context === 'new' ? $t('common.pilotTalents') : $t('pm.shared.unlockLicense') }}&emsp;</cc-title>
 
     <div v-if="context === 'new'"
       class="heading h2">

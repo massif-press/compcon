@@ -39,7 +39,7 @@
       <v-row dense
         align="center"
         class="my-n1">
-        <v-col cols="auto">{{ $t('pm.print.techATTACK') }}</v-col>
+        <v-col cols="auto">{{ $t('common.techAttack') }}</v-col>
         <v-col><v-divider /></v-col>
         <v-col cols="auto"
           class="text-primary">
@@ -94,7 +94,7 @@
       <v-row dense
         align="center"
         class="my-n1">
-        <v-col cols="auto">{{ $t('pm.print.sensorRANGE') }}</v-col>
+        <v-col cols="auto">{{ $t('common.sensorRange') }}</v-col>
         <v-col><v-divider /></v-col>
         <v-col cols="auto"
           class="text-primary">
@@ -105,7 +105,7 @@
       <v-row dense
         align="center"
         class="my-n1">
-        <v-col cols="auto">{{ $t('pm.print.limitedBONUS') }}</v-col>
+        <v-col cols="auto">{{ $t('common.limitedBonus') }}</v-col>
         <v-col><v-divider /></v-col>
         <v-col cols="auto"
           class="text-primary">
@@ -116,7 +116,7 @@
       <v-row dense
         align="center"
         class="my-n1">
-        <v-col cols="auto">{{ $t('pm.print.systemPOINTS') }}</v-col>
+        <v-col cols="auto">{{ $t('common.systemPoints') }}</v-col>
         <v-col><v-divider /></v-col>
         <v-col cols="auto"
           class="text-primary">
@@ -175,7 +175,7 @@
 
     <div class="caption text-center text-primary mt-n1"
       style="letter-spacing: 5px; font-size: 10px">
-      {{ $t('pm.print.frameTRAITS') }}
+      {{ $t('ui.card.frameTraits') }}
     </div>
     <v-divider />
     <div v-for="t in mech.Frame.Traits"
@@ -290,7 +290,7 @@
 
     <fieldset class="pb-1">
       <legend class="font-weight-bold caption px-2 text-center">
-        {{ $t('pm.print.repairs') }}
+        {{ $t('common.repairs') }}
         <span class="caption">{{ $t('pm.print.capacityParen', { n: mech.RepairCapacity }) }}</span>
       </legend>
       <div class="pb-1">
@@ -301,7 +301,7 @@
     <v-row dense>
       <v-col cols="8">
         <fieldset>
-          <legend class="font-weight-bold text-primary caption px-2 text-center">{{ $t('pm.print.overshield') }}</legend>
+          <legend class="font-weight-bold text-primary caption px-2 text-center">{{ $t('common.overshield') }}</legend>
           <div class="pb-1">
             <blank-line :height="40" />
           </div>
@@ -550,11 +550,11 @@
   <action-card v-for="a in allActions"
     :key="a.ID"
     :action="a"
-    header="MECH" />
+    :header="$t('pm.titles.mech')" />
   <deployable-card v-for="(d, i) in allDeployables"
     :key="`deployable-all-${i}`"
     :deployable="d"
-    header="MECH" />
+    :header="$t('pm.titles.mech')" />
 </template>
 
 <script setup lang="ts">

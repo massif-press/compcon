@@ -1,7 +1,7 @@
 <template>
   <cc-modal v-model="dialog"
     color="blue-grey darken-4"
-    title="Select Bond powers">
+    :title="$t('pm.titles.selectBondPowers')">
     <v-layout :style="!mobile && 'overflow-y: scroll; height: 89vh'">
       <div style="position: absolute; z-index: 999"
         :style="`left: ${showNav ? (mobile ? '322' : '238') : '0'}px; top: 6px`">
@@ -91,7 +91,7 @@
                 hide-details
                 class="ma-0"
                 color="accent"
-                label="Ignore Limit" />
+                :label="$t('common.ignoreLimit')" />
             </v-col>
           </v-row>
           <v-divider class="mt-2 mb-4" />
@@ -109,7 +109,7 @@
                     size="x-small"
                     @click="pilot.BondController.AddPower(item)">
                     <v-icon start>mdi-plus</v-icon>
-                    {{ $t('pm.common.addName', { name: (item as any).name }) }}
+                    {{ $t('common.addName', { name: (item as any).name }) }}
                   </cc-button>
                   <cc-button v-if="hasPower(item)"
                     color="warning darken-1"
@@ -117,7 +117,7 @@
                     size="x-small"
                     @click="pilot.BondController.RemovePower(item)">
                     <v-icon start>mdi-minus</v-icon>
-                    {{ $t('pm.common.removeName', { name: (item as any).name }) }}
+                    {{ $t('common.removeName', { name: (item as any).name }) }}
                   </cc-button>
                 </div>
               </template>
@@ -131,7 +131,7 @@
                 {{ $t('pm.sheet.noBondPowerSelectionsRemaining') }}
                 <br />
                 <span class="caption text--secondary">
-                  {{ $t('pm.sheet.additionalFeaturesBeyondTheRecommendedGuidelines') }}
+                  {{ $t('gm.npcFeature.ignoreLimitHint') }}
                 </span>
               </v-alert>
               <v-alert v-else-if="featureSet === 'assigned'"
@@ -145,7 +145,7 @@
                 {{ $t('pm.sheet.noBondPowersAvailable') }}
                 <br />
                 <span class="caption text--secondary">
-                  {{ $t('pm.sheet.additionalFeaturesBeyondTheRecommendedGuidelines') }}
+                  {{ $t('gm.npcFeature.ignoreLimitHint') }}
                 </span>
               </v-alert>
             </v-col>

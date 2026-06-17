@@ -36,7 +36,7 @@
         }}
       </div>
       <div v-else>
-        <cc-modal title="select NPC class"
+        <cc-modal :title="$t('gm.titles.selectNpcClass')"
           fullscreen
           icon="cc:encounter">
           <template #activator="{ open }">

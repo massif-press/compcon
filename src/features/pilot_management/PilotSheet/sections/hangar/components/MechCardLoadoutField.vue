@@ -1,7 +1,7 @@
 <template>
   <fieldset class="flavor-text">
     <legend class="px-2">
-      {{ $t('pm.sheet.loadout') }} <cc-slashes /> {{
+      {{ $t('common.loadout') }} <cc-slashes /> {{
         mech.MechLoadoutController.ActiveLoadout
           ? mech.MechLoadoutController.ActiveLoadout.Name
           : $t('pm.sheet.err')

@@ -7,10 +7,8 @@
       color="panel">
       <v-toolbar-title>
         <cc-heading is-title
-          text="Remote Backups"
-          tooltip="This tool will capture a snapshot of your local COMP/CON data and store it in a cloud
-              archive. You can use this to restore your COMP/CON data to a previous state. This
-              feature is only available to Patreon supporters." />
+          :text="$t('mainMenu.actions.remoteBackups')"
+          :tooltip="$t('mainMenu.tooltips.thisToolWillCaptureA')" />
       </v-toolbar-title>
       <v-spacer />
       <v-tooltip v-if="hasArchiveAccess"
@@ -35,7 +33,7 @@
       <cc-alert color="text"
         icon="mdi-information-outline"
         variant="outlined"
-        title="You do not have access to remote backups.">
+        :title="$t('mainMenu.titles.youDoNotHaveAccess')">
         <i18n-t keypath="mainMenu.archive.patreonOnly" tag="span" scope="global">
           <template #link><a href="https://www.patreon.com/compcon" target="_blank">{{ $t("mainMenu.archive.subscribing") }}</a></template>
         </i18n-t>
@@ -177,7 +175,7 @@
                 <v-card-text>
                   {{ $t("mainMenu.archive.deleteConfirm") }}
                   <v-checkbox v-model="skipDeleteWarning"
-                    label="Do not show this warning again"
+                    :label="$t('mainMenu.fields.doNotShowThisWarningAgain')"
                     hide-details />
                 </v-card-text>
                 <v-divider />
@@ -224,7 +222,7 @@
               </div>
 
               <cc-select v-model="settings.autoBackupFrequency"
-                label="Auto Backup Frequency"
+                :label="$t('mainMenu.fields.autoBackupFrequency')"
                 :items="backupFrequency"
                 :loading="updateLoading" />
 
@@ -236,7 +234,7 @@
 
               <div></div>
               <cc-select v-model="settings.autoBackupLimit"
-                label="Item Limit"
+                :label="$t('mainMenu.fields.itemLimit')"
                 :loading="updateLoading"
                 :items="pruneOptions"
                 :details="pruneOptions.find((o) => o.value === pruneSetting)?.subtitle" />

@@ -6,7 +6,7 @@
       <cc-alert color="warning"
         prominent
         icon="mdi-apple"
-        title="Install COMP/CON for Reliable Storage">
+        :title="$t('mainMenu.titles.installCompconForReliableStorage')">
         <div>
           <i18n-t keypath="mainMenu.storage.iosWarning" tag="span" scope="global">
             <template #emphasis><b>{{ $t("mainMenu.storage.autoDeleteData") }}</b></template>
@@ -49,7 +49,7 @@
       <cc-alert color="error"
         prominent
         icon="mdi-database-alert"
-        title="Storage Permission Required!">
+        :title="$t('mainMenu.titles.storagePermissionRequired')">
         <div v-if="!hasStorage">
           <i18n-t keypath="mainMenu.storage.noStorageWarning" tag="span" scope="global">
             <template #recommended><b>{{ $t("mainMenu.storage.stronglyRecommended") }}</b></template>

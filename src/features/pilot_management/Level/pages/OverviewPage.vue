@@ -4,12 +4,15 @@
     <div class="heading h2">
       {{ $t('pm.level.mv2LicenseAcquisitionRequest') }}
       <cc-slashes />
-      &nbsp;{{ $t('active.encSummary.overview') }}
+      &nbsp;{{ $t('common.overview') }}
     </div>
-    <p class="flavor-text" style="font-size: 14px">
-      {{ $t('pm.level.theUADIDENTMV2License') }}
-      <code>{{ $t('pm.level.unOmni18364AndesCerroboneteNode') }}</code>
-    </p>
+    <i18n-t keypath="pm.level.theUADIDENTMV2License"
+      tag="p"
+      scope="global"
+      class="flavor-text"
+      style="font-size: 14px">
+      <template #node><code>{{ $t('pm.level.unOmni18364AndesCerroboneteNode') }}</code></template>
+    </i18n-t>
     <v-alert color="accent" variant="outlined" density="compact" class="mt-2">
       <p class="text-cc-overline">
         {{ $t('pm.level.submittingUnauthorizedLicensingUpdatesAndOr') }}
@@ -39,7 +42,7 @@
     <cc-panel color="primary" stark class="mx-auto" style="max-width: fit-content">
       <v-row dense>
         <v-col class="text-center" cols="12" md="auto">
-          <div class="text-overline text-white">{{ $t('pm.level.licenseLEVEL') }}</div>
+          <div class="text-overline text-white">{{ $t('ui.fields.licenseLevel') }}</div>
           <v-avatar color="background" size="100" class="mx-auto">
             <div class="text-white heading h1 font-weight-black">{{ pilot.Level }}</div>
           </v-avatar>

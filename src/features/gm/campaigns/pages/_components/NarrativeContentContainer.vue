@@ -47,7 +47,7 @@
         <v-card-text>
           <v-text-field
             v-model="search"
-            placeholder="Search"
+            :placeholder="$t('common.search')"
             density="compact"
             hide-details
             prepend-inner-icon="mdi-magnify"

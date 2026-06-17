@@ -13,7 +13,7 @@
       </div>
       <cc-panel>
         <cc-titled-divider v-if="!pilots.length"
-          title="Add Pilots"
+          :title="$t('active.titles.addPilots')"
           color="accent" />
         <div>
           <v-row v-for="p in pilots"
@@ -101,20 +101,21 @@
             <v-col class="ml-n1">
               <cc-title>
                 &nbsp;
-                <span class="heading h3">{{ $t('active.pilotsPanel.placeholderN', { n: i + 1 }) }}</span>
+                <span class="heading h3">{{ $t('active.pilotsPanel.placeholderN', { n: i + 1 })
+                  }}</span>
               </cc-title>
               <v-row dense
                 class="pa-1 px-2">
                 <v-col>
                   <cc-text-field v-model="p.Name"
                     color="panel"
-                    placeholder="Pilot name or Callsign"
+                    :placeholder="$t('active.fields.pilotNameOrCallsign')"
                     prepend-icon="cc:pilot" />
                 </v-col>
                 <v-col>
                   <cc-text-field v-model="p.Mechname"
                     color="panel"
-                    placeholder="Frame or Mech Name"
+                    :placeholder="$t('active.fields.frameOrMechName')"
                     prepend-icon="cc:frame" />
                 </v-col>
               </v-row>
@@ -140,13 +141,13 @@
             <add-from-share :pilots="pilots" />
           </v-col>
           <v-col>
-            <cc-modal title="Import"
+            <cc-modal :title="$t('common.import')"
               icon="mdi-import">
               <template #activator="{ open }">
                 <cc-button color="primary"
                   size="small"
                   block
-                  tooltip="Import a pilot from JSON data"
+                  :tooltip="$t('active.tooltips.importAPilotFromJsonData')"
                   prepend-icon="mdi-file-import-outline"
                   @click="open">
                   {{ $t('active.pilotsPanel.addFromFile') }}
@@ -163,7 +164,7 @@
             <cc-button size="small"
               block
               color="primary"
-              tooltip="Adds a pilot-type combatant placeholder without any pilot data."
+              :tooltip="$t('active.tooltips.addsAPilottypeCombatantPlaceholder')"
               prepend-icon="mdi-account-outline"
               @click="emit('add-placeholder')">
               {{ $t('active.pilotsPanel.addPlaceholder') }}
@@ -190,9 +191,9 @@ defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'remove-pilot': [pilot: any]
+  'remove-pilot': [pilot: Pilot]
   'remove-placeholder': [index: number]
-  'add-pilot': [pilot: any]
+  'add-pilot': [pilot: Pilot]
   'add-placeholder': []
 }>()
 </script>

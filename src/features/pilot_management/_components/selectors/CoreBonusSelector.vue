@@ -4,7 +4,7 @@
     :items="pilot.CoreBonusController.MissingCoreBonuses"
     @remove="pilot.CoreBonusController.RemoveCoreBonus($event)" />
 
-  <selector title="Pilot Core Bonuses"
+  <selector :title="$t('pm.titles.pilotCoreBonuses')"
     :success="!pilot.CoreBonusController.IsMissingCBs"
     :selected="pilot.CoreBonusController.CurrentCBPoints"
     :total="pilot.CoreBonusController.MaxCBPoints">
@@ -43,7 +43,7 @@
     <template #jump>
       <div class="px-2">
         <cc-select v-model="jump"
-          label="jump to"
+          :label="$t('pm.fields.jumpTo')"
           color="primary"
           variant="outlined"
           :items="jumpItems" />

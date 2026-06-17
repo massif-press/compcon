@@ -2,7 +2,7 @@
   <v-row class="my-1">
     <v-col>
       <v-select v-model="selectedTags"
-        label="Image Type"
+        :label="$t('ui.fields.imageType')"
         hide-details
         density="compact"
         variant="outlined"

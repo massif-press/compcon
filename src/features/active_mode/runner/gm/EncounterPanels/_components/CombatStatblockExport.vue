@@ -15,7 +15,7 @@
       </v-btn>
     </template>
     <template #default>
-      <div class="text-cc-overline text-disabled mt-2">{{ $t('active.statblockExport.options') }}</div>
+      <div class="text-cc-overline text-disabled mt-2">// {{ $t('common.options') }}</div>
       <statblock-justify-options v-model:enable-justify="enableJustify"
         v-model:line-width="lineWidth" />
       <div class="text-cc-overline text-disabled">{{ $t('active.statblockExport.include') }}</div>
@@ -23,18 +23,18 @@
         justify="space-around">
         <v-col cols="auto">
           <cc-switch v-model="showUntracked"
-            label="Stats" />
+            :label="$t('common.statsLabel')" />
         </v-col>
         <v-col cols="auto">
           <cc-switch v-model="showActions"
-            label="Actions" />
+            :label="$t('common.actions')" />
         </v-col>
         <v-col cols="auto">
           <cc-switch v-model="showLoadout"
-            label="Loadout" />
+            :label="$t('common.loadout')" />
         </v-col> <v-col cols="auto">
           <cc-switch v-model="showReserves"
-            label="Reserves" />
+            :label="$t('common.reserves')" />
         </v-col>
       </v-row>
       <cc-panel color="background"
@@ -62,7 +62,7 @@
               block
               color="primary"
               prepend-icon="mdi-export"
-              tooltip="Exports a plain text version of the combatant's current stats."
+              :tooltip="$t('active.tooltips.exportsAPlainTextVersion2')"
               @click.stop="exportBlock()">
               {{ $t('active.statblockExport.exportText') }}
             </cc-button>

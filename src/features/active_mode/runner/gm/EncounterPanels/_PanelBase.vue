@@ -103,7 +103,7 @@
                 v-if="Object.keys(item.CombatController.StatController.MaxStats).includes('grit') || ((item as any).Parent && Object.keys((item as any).Parent.StatController.MaxStats).includes('grit'))"
                 cols="auto">
                 <v-tooltip location="top"
-                  text="Pilot Grit">
+                  :text="$t('active.tooltips.pilotGrit')">
                   <template #activator="{ props }">
                     <span v-bind="props">
                       <v-icon icon="mdi-star-four-points-outline"
@@ -142,7 +142,7 @@
 
               <v-col cols="auto">
                 <v-tooltip v-if="item.ItemType === 'mech' || item.ItemType === 'pilot'"
-                  text="Attack Bonus"
+                  :text="$t('common.attackBonus')"
                   location="top"
                   open-delay="400">
                   <template #activator="{ props }">
@@ -191,7 +191,7 @@
                   style="height: 30px">
                   <v-btn size="small"
                     height="30"
-                    value="none">{{ mobile ? $t('active.common.none') : $t('active.panelBase.noCover') }}</v-btn>
+                    value="none">{{ mobile ? $t('common.none') : $t('active.panelBase.noCover') }}</v-btn>
                   <v-btn size="small"
                     height="30"
                     value="soft">{{ mobile ? $t('active.panelBase.soft') : $t('active.panelBase.softCover') }}</v-btn>

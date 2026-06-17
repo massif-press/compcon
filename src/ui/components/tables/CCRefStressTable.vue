@@ -1,5 +1,5 @@
 <template>
-  <ref-roll-table-base ref="base" title="OVERHEATING">
+  <ref-roll-table-base ref="base" :title="$t('ui.titles.overheating')">
     <v-divider class="ma-2" />
     <v-row>
       <v-col cols="2">

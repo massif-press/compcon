@@ -133,7 +133,7 @@
   </div>
 
   <v-footer :app="density !== 'compact'">
-    <cc-dialog title="Not yet implemented">
+    <cc-dialog :title="$t('compendium.titles.notYetImplemented')">
       <template #activator="{ open }">
         <cc-button
           color="secondary"
@@ -156,7 +156,7 @@
 
     <cc-modal
       v-model="importDialog"
-      title="Import Lancer Campaign Data"
+      :title="$t('compendium.titles.importLancerCampaignData')"
       max-width="50vw"
       min-width="500"
     >
@@ -181,7 +181,7 @@
             <v-file-input
               v-model="fileValue"
               variant="outlined"
-              label="Select .lcd File"
+              :label="$t('compendium.fields.selectLcdFile')"
               accept=".lcd"
               prepend-icon="mdi-paperclip"
               @change="stageImport"
@@ -221,11 +221,11 @@
                 >
                   {{ $t('compendium.campaign.existingNewer') }}
                 </div>
-                {{ $t('compendium.campaign.overwriteWarning', { title: importSameId.title, date: new Date(importSameId.save.lastModified).toLocaleString() }) }}
+                {{ $t('common.importOverwriteWarning', { title: importSameId.title, date: new Date(importSameId.save.lastModified).toLocaleString() }) }}
               </v-alert>
 
               <div class="text-caption text-right">
-                {{ $t('compendium.campaign.lastUpdated') }} &nbsp;
+                {{ $t('share.resultLastUpdated') }}: &nbsp;
                 <b>{{ new Date(stagedData.save.lastModified).toLocaleString() }}</b>
               </div>
             </v-card-text>

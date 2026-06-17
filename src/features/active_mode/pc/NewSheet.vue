@@ -3,8 +3,8 @@
     <div class="heading h2">{{ $t('active.sheet.newCharacterSheet') }}</div>
     <v-row dense
       class="mt-2">
-      <v-col cols="1"
-        v-if="!mobile"
+      <v-col v-if="!mobile"
+        cols="1"
         class="text-center">
         <v-icon icon="cc:pilot"
           :color="selectedPilot ? 'success' : 'panel'"
@@ -12,7 +12,7 @@
       </v-col>
       <v-col>
         <cc-panel>
-          <cc-titled-divider title="select pilot"
+          <cc-titled-divider :title="$t('active.titles.selectPilot')"
             color="accent">
             <template v-if="mobile"
               #prepend>
@@ -45,6 +45,7 @@
                 <v-slide-y-transition>
                   <v-row v-if="!selectedPilot || selectedPilot.ID === pilot.ID"
                     v-bind="props"
+                    :key="pilot.ID"
                     class="mb-2 border-sm"
                     :class="isHovering && !selectedPilot
                       ? 'bg-panel cursor'
@@ -53,8 +54,7 @@
                         : ''
                       "
                     no-gutters
-                    @click="setPilot(pilot)"
-                    :key="pilot.ID">
+                    @click="setPilot(pilot)">
                     <v-col cols="auto">
                       <cc-avatar v-if="!mobile && pilot.PortraitController.Avatar"
                         :avatar="pilot.PortraitController.Avatar"
@@ -87,8 +87,8 @@
                         <cc-slashes />
                         {{ $t('active.newSheet.llLevel', { n: pilot.Level }) }}
                       </div>
-                      <div class="mt-1"
-                        v-if="!mobile">
+                      <div v-if="!mobile"
+                        class="mt-1">
                         <pilot-list-item-details :pilot="<Pilot>pilot" />
                       </div>
 
@@ -112,7 +112,7 @@
               color="accent"
               prepend-icon="mdi-plus-box"
               @click="$router.push({ name: 'new', params: { groupID: 'no_group' } })">
-              {{ $t('active.newSheet.createNewPilot') }}
+              {{ $t('pm.roster.createNewPilot') }}
             </cc-button>
           </div>
         </cc-panel>
@@ -129,7 +129,7 @@
         </v-col>
         <v-col>
           <cc-panel>
-            <cc-titled-divider title="select active mech"
+            <cc-titled-divider :title="$t('active.titles.selectActiveMech')"
               color="accent"
               class="mb-1">
               <template v-if="mobile"
@@ -193,7 +193,7 @@
 
                           <v-col cols="auto">
                             <span>
-                              {{ $t('active.newSheet.stress') }}
+                              {{ $t('stats.stress') }}
                               <b>{{ mech.MaxStress }}</b>
                             </span>
                           </v-col>
@@ -213,7 +213,7 @@
                           </v-col>
                         </v-row>
 
-                        <mech-card-loadout-field :mech="mech" />
+                        <mech-card-loadout-field :mech="<Mech>mech" />
 
                       </v-col>
                       <v-col cols="auto">
@@ -233,8 +233,8 @@
     </v-slide-y-transition>
     <v-slide-y-transition>
       <v-row v-if="selectedPilot && (selectedMech)">
-        <v-col cols="1"
-          v-if="!mobile"
+        <v-col v-if="!mobile"
+          cols="1"
           class="text-center">
           <v-icon icon="mdi-checkbox-marked-circle-auto-outline"
             color="success"
@@ -242,7 +242,7 @@
         </v-col>
         <v-col>
           <cc-panel>
-            <cc-titled-divider title="Confirm"
+            <cc-titled-divider :title="$t('common.confirm')"
               color="accent">
               <template v-if="mobile"
                 #prepend>
@@ -252,10 +252,11 @@
             </cc-titled-divider>
 
             <div class="my-3">
-              <div class="text-cc-overline text-disabled">{{ $t('active.newSheet.campaignName') }}</div>
+              <div class="text-cc-overline text-disabled">{{ $t('active.newSheet.campaignName') }}
+              </div>
               <cc-text-field v-model="campaign"
                 max-width="600px"
-                tooltip="Optional, for organizational purposes."
+                :tooltip="$t('active.tooltips.optionalForOrganizationalPurposes')"
                 color="primary" />
             </div>
 
@@ -309,77 +310,72 @@ import { PilotStore, PilotGroupStore, PilotSheetStore } from '@/stores';
 import { useDisplay } from 'vuetify';
 const router = useRouter()
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+const { smAndDown: mobile } = useDisplay()
 
 const selectedPilot = ref(null as Pilot | null)
 const selectedMech = ref(null as Mech | null)
-const confirmed = ref(false)
 const search = ref('')
-const group = ref(null)
+const group = ref(undefined)
 const campaign = ref('')
 
 const groups = computed(() => {
-      let groups = [{ title: 'All Pilots', value: null }];
-      return [...groups,
-      ...(PilotGroupStore().PilotGroups as PilotGroup[]).map((g: PilotGroup) => ({ title: g.Name, value: g.ID }))
-      ];
-    })
+  const groups = [{ title: 'All Pilots', value: null }];
+  return [...groups,
+  ...(PilotGroupStore().PilotGroups as PilotGroup[]).map((g: PilotGroup) => ({ title: g.Name, value: g.ID }))
+  ];
+})
 const pilots = computed(() => {
-      let pilots = PilotStore().Pilots.filter((p) => !p.SaveController.IsDeleted);
-      if (group.value) {
-        pilots = pilots.filter((p) => PilotGroupStore().PilotGroups.find((g) => g.ID === group.value)?.Pilots.some((gp) => gp.id === p.ID));
-      }
-      if (search.value) {
-        pilots = pilots.filter(
-          (p) =>
-            p.Callsign.toLowerCase().includes(search.value.toLowerCase()) ||
-            p.Name.toLowerCase().includes(search.value.toLowerCase())
-        );
-      }
-      return pilots;
-    })
-const mechs = computed(() => {
-      return selectedPilot.value
-        ? selectedPilot.value.Mechs.filter((m) => !m.SaveController.IsDeleted)
-        : [];
-    })
+  let pilots = PilotStore().Pilots.filter((p) => !p.SaveController.IsDeleted);
+  if (group.value) {
+    pilots = pilots.filter((p) => PilotGroupStore().PilotGroups.find((g) => g.ID === group.value)?.Pilots.some((gp) => gp.id === p.ID));
+  }
+  if (search.value) {
+    pilots = pilots.filter(
+      (p) =>
+        p.Callsign.toLowerCase().includes(search.value.toLowerCase()) ||
+        p.Name.toLowerCase().includes(search.value.toLowerCase())
+    );
+  }
+  return pilots;
+})
+
 const sortedMechs = computed(() => {
-      if (!selectedPilot.value) return [];
-      return selectedPilot.value.Mechs
-        .filter((m) => !m.SaveController.IsDeleted)
-        .sort((a, b) => (a.ID === selectedPilot.value?.FavoriteMech?.ID ? -1 : 0) + (b.ID === selectedPilot.value?.FavoriteMech?.ID ? 1 : 0));
-    })
+  if (!selectedPilot.value) return [];
+  return selectedPilot.value.Mechs
+    .filter((m) => !m.SaveController.IsDeleted)
+    .sort((a, b) => (a.ID === selectedPilot.value?.FavoriteMech?.ID ? -1 : 0) + (b.ID === selectedPilot.value?.FavoriteMech?.ID ? 1 : 0));
+})
 
 function setPilot(pilot) {
-      selectedPilot.value = pilot;
-    }
+  selectedPilot.value = pilot;
+}
 function setMech(mech) {
-      selectedMech.value = mech;
-    }
+  selectedMech.value = mech;
+}
 function statusColor(status) {
-      switch (status.toLowerCase()) {
-        case 'active':
-          return 'success';
-        case 'mia':
-        case 'kia':
-        case 'err':
-          return 'error';
-        default:
-          return 'text';
-      }
-    }
+  switch (status.toLowerCase()) {
+    case 'active':
+      return 'success';
+    case 'mia':
+    case 'kia':
+    case 'err':
+      return 'error';
+    default:
+      return 'text';
+  }
+}
 async function createSheet(launch) {
-      if (!selectedPilot.value || !selectedMech.value) return;
-      selectedPilot.value.ActiveMech = selectedMech.value;
+  if (!selectedPilot.value || !selectedMech.value) return;
+  selectedPilot.value.ActiveMech = selectedMech.value;
 
-      await PilotSheetStore().AddPilotSheet(selectedPilot.value as Pilot, campaign.value);
-      if (launch) router.push(`pilot-runner/${PilotSheetStore().CurrentActiveID}`);
-      else router.push('sheet-manager');
-    }
+  await PilotSheetStore().AddPilotSheet(selectedPilot.value as Pilot, campaign.value);
+  if (launch) router.push(`pilot-runner/${PilotSheetStore().CurrentActiveID}`);
+  else router.push('sheet-manager');
+}
 function reset() {
-      selectedPilot.value = null;
-      selectedMech.value = null;
-    }
+  selectedPilot.value = null;
+  selectedMech.value = null;
+}
 </script>
 
 <style scoped>

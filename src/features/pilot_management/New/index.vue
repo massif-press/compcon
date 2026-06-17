@@ -28,7 +28,7 @@
           value="licenses">
           <v-icon v-show="pilot.LicenseController.HasLicenses"
             icon="mdi-check" />
-          {{ $t('compendium.categories.licenses') }}
+          {{ $t('common.licenses') }}
         </v-tab>
       </v-slide-x-transition>
       <v-slide-x-transition mode="out-in">

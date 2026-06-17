@@ -13,7 +13,7 @@
         :size="size"
         @click="open">
         {{ truncate(item.Name) }}
-        <span v-if="!hideType && item.ItemType === 'Frame'">&nbsp;{{ $t('ui.card.frameUpper') }}</span>
+        <span v-if="!hideType && item.ItemType === 'Frame'">&nbsp;{{ $t('common.frame') }}</span>
         <cc-broken-reference v-if="!hideLink"
           :item="item"
           end />

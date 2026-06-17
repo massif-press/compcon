@@ -2,7 +2,7 @@
   <v-card-text :class="mobile && 'px-0'">
     <cc-alert density="compact"
       class="text-text"
-      title="Please use responsibly"
+      :title="$t('share.titles.pleaseUseResponsibly')"
       icon="mdi-alert">
       {{ $t('share.shareCodesNote') }}
     </cc-alert>
@@ -27,7 +27,7 @@
         </div>
       </v-col>
       <v-col cols="auto">
-        <div class="text-cc-overline text-disabled">{{ $t('share.status') }}</div>
+        <div class="text-cc-overline text-disabled">{{ $t('common.status') }}</div>
         <div class="d-flex align-center">
           <v-chip v-if="!hasSynced"
             color="warning"
@@ -58,7 +58,7 @@
           :loading="syncing"
           prepend-icon="mdi-sync"
           @click="syncItem">
-          {{ $t('share.syncNow') }}
+          {{ $t('common.syncNow') }}
         </cc-button>
       </v-col>
     </v-row>
@@ -68,7 +68,7 @@
       <v-row justify="center">
         <v-col cols="auto">
           <div class="text-cc-overline mt-4">
-            {{ item.ItemType.toUpperCase() }} {{ $t('share.shareCode') }}
+            {{ item.ItemType.toUpperCase() }} {{ $t('common.shareCode') }}
             <v-tooltip>
               <template #activator="{ props }">
                 <v-icon v-bind="props"
@@ -83,7 +83,7 @@
           <b class="text-accent"
             style="font-size: calc(30px + 2vw)"
             v-text="`${shareCode.slice(0, 4)}-${shareCode.slice(4, 8)}-${shareCode.slice(8, 12)}`" />
-          <v-tooltip text="Copy share code to clipboard">
+          <v-tooltip :text="$t('share.tooltips.copyShareCodeToClipboard')">
             <template #activator="{ props }">
               <v-icon v-bind="props"
                 @click.stop="copy()">mdi-clipboard-text-outline</v-icon>
@@ -98,11 +98,12 @@
             <v-row no-gutters
               align="end">
               <v-col>
-                <div class="text-caption text-center">
-                  {{ $t('share.publicLinkNotePre') }}
-                  <b class="text-accent">{{ $t('share.publicLinkNoteBold') }}</b>
-                  {{ $t('share.publicLinkNotePost') }}
-                </div>
+                <i18n-t keypath="share.publicLinkNote"
+                  tag="div"
+                  scope="global"
+                  class="text-caption text-center">
+                  <template #emphasis><b class="text-accent">{{ $t('share.publicLinkNoteBold') }}</b></template>
+                </i18n-t>
                 <v-text-field v-model="shareLink"
                   readonly
                   flat
@@ -113,7 +114,7 @@
                   style="font-size: calc(16px + 0.5vw)"
                   @click="copyShareLink()">
                   <template #append-inner>
-                    <v-tooltip text="Copy share link to clipboard">
+                    <v-tooltip :text="$t('share.tooltips.copyShareLinkToClipboard')">
                       <template #activator="{ props }">
                         <v-icon v-bind="props"
                           @click.stop="copyShareLink()">

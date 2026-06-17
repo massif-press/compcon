@@ -6,7 +6,7 @@
         <v-icon v-if="step > 1"
           start
           icon="mdi-check" />
-        {{ $t('pm.level.overview') }}
+        {{ $t('common.overview') }}
       </v-tab>
       <v-divider />
       <v-tab>
@@ -36,7 +36,7 @@
         <v-icon v-if="pilot.LicenseController.HasLicenses"
           start
           icon="mdi-check" />
-        {{ $t('compendium.categories.licenses') }}
+        {{ $t('common.licenses') }}
       </v-tab>
       <v-divider />
 

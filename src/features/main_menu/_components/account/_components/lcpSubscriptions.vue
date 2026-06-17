@@ -8,8 +8,7 @@
       <v-toolbar-title>
         <cc-heading is-title
           :text="mobile ? 'LCPs' : 'LCP Subscriptions'"
-          tooltip="Paid LCP content requires a linked itch.io purchase before they can be automatically
-              updated. At this time, only Massif-published LCPs are supported." />
+          :tooltip="$t('mainMenu.tooltips.paidLcpContentRequiresA')" />
       </v-toolbar-title>
       <v-spacer />
       <v-tooltip max-width="300px"
@@ -44,7 +43,7 @@
               @click="updateAll" />
           </span>
         </template>
-        <div class="text-center">{{ $t('mainMenu.ui.updateAll') }}</div>
+        <div class="text-center">{{ $t('common.updateAll') }}</div>
       </v-tooltip>
     </v-toolbar>
 

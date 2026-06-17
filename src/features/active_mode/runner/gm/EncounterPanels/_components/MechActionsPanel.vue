@@ -208,7 +208,7 @@ function activate(event: string) {
   switch (event) {
     case 'act_prepare':
       controller.value.Prepared = true;
-      notify({ type: 'success', title: t('active.mechActions.preparedTitle'), text: t('active.mechActions.preparedText', { name: controller.value.CombatName }) });
+      notify({ type: 'success', title: t('active.mechActions.preparedTitle'), text: t('active.common.preparedText', { name: controller.value.CombatName }) });
       break;
     case 'act_eject':
       if (!controller.value.Mounted) {
@@ -233,16 +233,16 @@ function activate(event: string) {
       break;
     case 'act_hide':
       controller.value.AddStatus('hidden');
-      notify({ type: 'success', title: t('active.mechActions.mechHiddenTitle'), text: t('active.mechActions.mechHiddenText', { name: controller.value.CombatName }) });
+      notify({ type: 'success', title: t('active.mechActions.mechHiddenTitle'), text: t('active.common.hiddenText', { name: controller.value.CombatName }) });
       break;
     case 'act_disengage':
       if (!controller.value.HasStatus('engaged')) {
-        notify({ type: 'warning', title: t('active.mechActions.disengageFailedTitle'), text: t('active.mechActions.disengageFailedText', { name: controller.value.CombatName }) });
+        notify({ type: 'warning', title: t('active.common.disengageFailed'), text: t('active.common.disengageFailedText', { name: controller.value.CombatName }) });
         controller.value.ResetActivation('full');
         controller.value.ClearActionUsed('act_disengage');
       } else {
         controller.value.RemoveStatus('engaged');
-        notify({ type: 'success', title: t('active.mechActions.mechDisengagedTitle'), text: t('active.mechActions.mechDisengagedText', { name: controller.value.CombatName }) });
+        notify({ type: 'success', title: t('active.mechActions.mechDisengagedTitle'), text: t('active.common.disengagedText', { name: controller.value.CombatName }) });
       }
       break;
     case 'act_boot_up':

@@ -43,7 +43,7 @@
                       <v-btn
                         v-bind.stop="props"
                         color="error"
-                        text="Remove"
+                        :text="$t('common.remove')"
                         size="x-small"
                         flat
                         tile

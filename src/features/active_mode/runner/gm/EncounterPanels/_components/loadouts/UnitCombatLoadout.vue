@@ -3,7 +3,7 @@
     align="end"
     class="pb-2 mt-n2">
     <v-col cols="auto">
-      <div class="text-cc-overline text-disabled">{{ $t('active.unitLoadout.npcFeatures') }}</div>
+      <div class="text-cc-overline text-disabled">// {{ $t('compendium.categories.npcFeatures') }}</div>
     </v-col>
     <v-col cols="auto">
       <v-tooltip location="top"
@@ -52,7 +52,7 @@
                   {{ $t('active.unitLoadout.rechargesFeatures') }}
                   <div v-if="rechargedFeatures.length === 0"
                     class="my-1">
-                    <i class="text-disabled">{{ $t('active.common.none') }}</i>
+                    <i class="text-disabled">{{ $t('common.none') }}</i>
                   </div>
                   <div v-for="feature in rechargedFeatures"
                     :key="feature.ID">
@@ -78,7 +78,7 @@
                     block
                     :color="result ? 'panel' : 'primary'"
                     @click="roll">
-                    {{ result ? $t('active.unitLoadout.reroll') : $t('active.unitLoadout.rollLower') }}
+                    {{ result ? $t('active.unitLoadout.reroll') : $t('common.roll') }}
                   </v-btn>
                 </v-col>
                 <v-col>

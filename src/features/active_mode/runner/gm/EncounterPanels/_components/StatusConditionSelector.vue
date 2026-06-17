@@ -76,7 +76,7 @@
             <v-card>
               <v-card-text>
                 <v-text-field v-model="customStatus"
-                  label="Custom Status Name"
+                  :label="$t('active.fields.customStatusName')"
                   variant="outlined"
                   dense
                   hide-details />

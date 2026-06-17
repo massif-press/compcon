@@ -28,7 +28,7 @@
   </v-card>
 
   <cc-dialog v-if="itch && itch.hasItch"
-    title="Linked Massif Content"
+    :title="$t('mainMenu.titles.linkedMassifContent')"
     max-width="800">
     <template #activator="{ open }">
       <v-card variant="outlined"

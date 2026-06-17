@@ -19,7 +19,7 @@
           {{ actor.Name }}
         </strong>
         <span v-else
-          class="text-disabled">{{ $t('active.common.none') }}</span>
+          class="text-disabled">{{ $t('common.none') }}</span>
       </div>
       <div>
         <div class="text-cc-overline ma-1">{{ $t('active.diceRoller.quickRoll') }}</div>
@@ -100,7 +100,7 @@
                 </v-col>
                 <v-col cols=6
                   md="">
-                  <div class="text-cc-overline text-disabled">{{ $t('active.diceRoller.bonus') }}</div>
+                  <div class="text-cc-overline text-disabled">{{ $t('common.bonus') }}</div>
                   <v-text-field v-model="plus"
                     density="compact"
                     variant="outlined"
@@ -166,13 +166,13 @@
 
               <div class="mt-2 mb-4">
                 <cc-switch v-model="isCrit"
-                  label="Critical"
+                  :label="$t('active.fields.critical')"
                   class="mt-2"
-                  tooltip="Roll all dice, taking the best result" />
+                  :tooltip="$t('active.tooltips.rollAllDiceTakingThe')" />
                 <cc-switch v-model="Overkill"
-                  label="Overkill"
+                  :label="$t('active.fields.overkill')"
                   class="mt-2"
-                  tooltip="Re-roll 1s" />
+                  :tooltip="$t('active.tooltips.reroll1s')" />
               </div>
 
               <v-btn size="x-small"
@@ -181,7 +181,7 @@
                 block
                 color="panel"
                 class="mt-1"
-                @click="reset()">{{ $t('active.diceRoller.reset') }}</v-btn>
+                @click="reset()">{{ $t('common.reset') }}</v-btn>
 
 
             </v-card-text>

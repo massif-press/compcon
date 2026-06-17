@@ -3,7 +3,7 @@
     ref="dialog"
     fullscreen
     no-confirm
-    title="Select Pilot Background"
+    :title="$t('pm.titles.selectPilotBackground')"
     clip>
     <template #activator="{ open }">
       <v-icon :small="small"

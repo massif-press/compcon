@@ -68,7 +68,7 @@
   <cc-modal
     v-model="managerDialog"
     icon="mdi-list-status"
-    title="LCP Configuration Manager"
+    :title="$t('pm.titles.lcpConfigurationManager')"
     fullscreen
   >
     <pack-config />

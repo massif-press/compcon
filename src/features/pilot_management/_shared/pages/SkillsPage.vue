@@ -5,7 +5,7 @@
     back
     @back="$emit('back')"
     @complete="$emit('next')">
-    <cc-title offset>{{ context === 'new' ? $t('compendium.categories.pilotSkillTriggers') : $t('pm.shared.improveSkillTriggers') }}</cc-title>
+    <cc-title offset>{{ context === 'new' ? $t('common.pilotSkillTriggers') : $t('pm.shared.improveSkillTriggers') }}</cc-title>
 
     <div v-if="context === 'new'"
       class="heading h2">
@@ -34,7 +34,7 @@
       {{ $t('pm.shared.theMV2APilotSelfAssessment') }}
       <br />
       <b>{{ $t('pm.shared.nb') }}</b>
-      {{ $t('pm.shared.theFollowingFormIsComprisedOf2') }}
+      {{ $t('pm.shared.theFollowingFormIsComprisedOf') }}
     </p>
 
     <v-alert color="accent"
@@ -54,7 +54,7 @@
       <cc-alert v-if="pilot.Background && !pilot.SkillsController.HasFullSkills"
         class="my-2"
         icon="mdi-orbit"
-        title="Skill Suggestions Available">
+        :title="$t('pm.titles.skillSuggestionsAvailable')">
         <p class="text-cc-overline text-disabled">
           {{ $t('pm.shared.identSERVICEPRIMARYHasGeneratedA') }}
         </p>

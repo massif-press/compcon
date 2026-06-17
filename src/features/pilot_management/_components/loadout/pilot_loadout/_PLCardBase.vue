@@ -31,25 +31,25 @@
                 tile
                 class="pa-0">
                 <v-list-item prepend-icon="mdi-swap-vertical-variant"
-                  title="Change Item"
+                  :title="$t('pm.titles.changeItem')"
                   @click.stop="selectorDialog = true" />
                 <v-divider />
                 <v-list-item v-if="item.CanSetDamage"
                   prepend-icon="cc:variable"
-                  title="Select Damage"
+                  :title="$t('pm.titles.selectDamage')"
                   @click.stop="($refs as any).damageTypeDialog.show()">
-                  {{ $t('pm.loadout.type') }}
+                  {{ $t('common.type') }}
                 </v-list-item>
                 <v-list-item prepend-icon="mdi-circle-edit-outline"
-                  title="Set Custom Name"
+                  :title="$t('common.setCustomName')"
                   @click.stop="($refs as any).cName.show()" />
                 <v-list-item prepend-icon="mdi-circle-edit-outline"
-                  title="Set Custom Description"
+                  :title="$t('common.setCustomDescription')"
                   @click.stop="($refs as any).cDesc.show()" />
                 <v-divider />
                 <v-list-item prepend-icon="mdi-delete"
                   color="error"
-                  title="Remove Item"
+                  :title="$t('pm.titles.removeItem')"
                   @click.stop="$emit('remove', item)" />
               </v-list>
             </v-menu>
@@ -99,7 +99,7 @@
         color="error"
         class="text-center heading"
         dense>
-        {{ $t('pm.loadout.thisItemIsDeprecatedAndCan') }}
+        {{ $t('ui.card.deprecated') }}
       </v-toolbar>
 
       <div class="px-2 pb-1"
@@ -224,7 +224,7 @@
             density="compact"
             hide-details
             prepend-icon="mdi-note"
-            label="Equipment Notes"
+            :label="$t('pm.fields.equipmentNotes')"
             class="mt-2" />
         </div>
       </div>
@@ -233,7 +233,7 @@
     <cc-string-edit-dialog v-if="item"
       ref="cName"
       :placeholder="item.Name"
-      label="Custom Item Name"
+      :label="$t('common.customItemName')"
       @save="save('Name', $event)"
       @reset="save('Name', '')" />
     <cc-string-edit-dialog v-if="item"
@@ -241,7 +241,7 @@
       multiline
       auto-grow
       :placeholder="item.FlavorDescription || item.Description"
-      label="Custom Item Description"
+      :label="$t('common.customItemDescription')"
       @save="save('FlavorDescription', $event)"
       @reset="save('FlavorDescription', '')" />
     <CCDamageTypePicker v-if="item"

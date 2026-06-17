@@ -8,7 +8,7 @@
           class="mt-2">
           <v-col :cols="blank ? '' : 'auto'"
             class="pr-6 mt-n1">
-            <div class="text-caption text-primary h0 mt-1">{{ $t('pm.new.callsign') }}</div>
+            <div class="text-caption text-primary h0 mt-1">{{ $t('common.callsign') }}</div>
             <blank-line v-if="blank"
               :height="38"
               class="mt-2" />
@@ -20,7 +20,7 @@
           </v-col>
           <v-col cols="auto"
             class="ml-auto mt-n2">
-            <div class="text-caption text-primary h0 mt-n1">{{ $t('pm.level.licenseLEVEL') }}</div>
+            <div class="text-caption text-primary h0 mt-n1">{{ $t('ui.fields.licenseLevel') }}</div>
             <blank-line v-if="blank"
               :height="38"
               class="mb-n3 mt-2" />
@@ -142,7 +142,7 @@
         <v-col cols="auto">&nbsp;</v-col>
         <v-col>
           <div class="text-overline text-primary"
-            style="line-height: 0">{{ $t('pm.print.detail') }}</div>
+            style="line-height: 0">{{ $t('common.detail') }}</div>
           <blank-line :height="450"
             class="mt-3" />
         </v-col>
@@ -166,7 +166,7 @@
         <v-col cols="auto">&nbsp;</v-col>
         <v-col>
           <div class="text-overline text-primary"
-            style="line-height: 0">{{ $t('pm.print.detail') }}</div>
+            style="line-height: 0">{{ $t('common.detail') }}</div>
           <blank-line :height="1000"
             class="mt-3" />
         </v-col>
@@ -267,7 +267,7 @@
 
     <div v-if="pilot.CoreBonusController.CoreBonuses.length || blank"
       class="text-caption mb-n2 mt-2 text-primary">
-      {{ $t('pm.print.coreBONUSES2') }}
+      {{ $t('pm.print.coreBonuses') }}
     </div>
     <v-row v-if="blank"
       dense>
@@ -303,7 +303,7 @@
 
     <page-break />
 
-    <div class="text-caption mb-n2 mt-2 text-primary">{{ $t('pm.print.combatPROFILE') }}</div>
+    <div class="text-caption mb-n2 mt-2 text-primary">{{ $t('ui.card.combatProfile') }}</div>
     <v-row align="center">
       <v-col cols="auto">
         <fieldset>
@@ -436,7 +436,7 @@
       </v-col>
     </v-row>
 
-    <div class="text-caption mb-n2 mt-1 text-primary">{{ $t('pm.print.pilotLOADOUT') }}</div>
+    <div class="text-caption mb-n2 mt-1 text-primary">{{ $t('common.pilotLoadout') }}</div>
     <v-row dense
       justify="space-between"
       class="mt-n1 caption">
@@ -449,10 +449,10 @@
           <legend class="heading h3 ml-1 px-1">
             <span v-if="!blank">
               {{ a.Name }}
-              <span class="text-caption flavor-text">{{ $t('pm.print.armor2') }}</span>
+              <span class="text-caption flavor-text">//{{ $t('stats.armor') }}</span>
             </span>
             <span v-else
-              class="text-grey">{{ $t('pm.print.pilotArmor') }}</span>
+              class="text-grey">{{ $t('common.pilotArmor') }}</span>
           </legend>
           <div v-if="blank"
             style="height: 150px" />
@@ -491,10 +491,10 @@
           <legend class="heading h3 ml-1 px-1">
             <span v-if="!blank">
               {{ w.Name }}
-              <span class="text-caption flavor-text">{{ $t('pm.print.weapon2') }}</span>
+              <span class="text-caption flavor-text">//{{ $t('common.weapon') }}</span>
             </span>
             <span v-else
-              class="text-grey">{{ $t('pm.print.pilotWeapon') }}</span>
+              class="text-grey">{{ $t('common.pilotWeapon') }}</span>
           </legend>
           <div v-if="blank"
             style="height: 150px" />
@@ -540,7 +540,7 @@
               <span class="text-caption flavor-text">{{ $t('pm.print.gear') }}</span>
             </span>
             <span v-else
-              class="text-grey">{{ $t('compendium.categories.pilotGear') }}</span>
+              class="text-grey">{{ $t('common.pilotGear') }}</span>
           </legend>
           <div v-if="blank"
             style="height: 150px" />
@@ -578,7 +578,7 @@
 
   <div v-if="!blank && pilot.ReservesController.Reserves.length"
     class="pa-2 no-print-break">
-    <div class="text-caption mb-n2 mt-1 text-primary">{{ $t('pm.print.reserves') }}</div>
+    <div class="text-caption mb-n2 mt-1 text-primary">{{ $t('common.reserves') }}</div>
     <fieldset
       v-for="(r, index) in pilot.ReservesController.Reserves.filter((x) => x.Type !== 'Bonus')"
       :key="`reserve-${index}`">
@@ -600,7 +600,7 @@
 
   <div v-if="blank"
     class="pa-2">
-    <div class="text-caption mb-n2 mt-1 text-primary">{{ $t('pm.print.reserves') }}</div>
+    <div class="text-caption mb-n2 mt-1 text-primary">{{ $t('common.reserves') }}</div>
     <fieldset v-for="r in hasPilotOption('Extra Reserve Space') ? 9 : 6"
       :key="`reserve-${r}`"
       class="mt-2"
@@ -615,7 +615,7 @@
           variant="outlined"
           color="grey"
           class="bg-white px-1 mx-1">
-          {{ $t('pm.print.bonus') }}
+          {{ $t('common.bonus') }}
         </v-chip>
         <v-chip label
           size="x-small"

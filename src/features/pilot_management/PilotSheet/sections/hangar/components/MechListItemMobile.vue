@@ -20,7 +20,7 @@
           <div class="text-disabled text-cc-overline pb-1">
             <v-icon icon="mdi-sword-cross"
               size="small" />
-            {{ $t('pm.sheet.loadoutSlashesLower') }} {{ mech.MechLoadoutController.ActiveLoadout.Name || '---' }}
+            {{ $t('common.loadout') }} // {{ mech.MechLoadoutController.ActiveLoadout.Name || '---' }}
           </div>
 
           <v-row dense
@@ -63,11 +63,11 @@
             style="position: absolute; bottom: 0">
             <v-col cols="auto">
               <cc-dialog :close-on-click="false"
-                title="Delete Mech"
+                :title="$t('pm.titles.deleteMech')"
                 color="error"
                 icon="mdi-delete">
                 <template #activator="{ open }">
-                  <v-tooltip text="Delete Mech">
+                  <v-tooltip :text="$t('pm.titles.deleteMech')">
                     <template #activator="{ props }">
                       <v-btn size="x-small"
                         variant="text"
@@ -89,10 +89,10 @@
 
             <v-col cols="auto">
               <cc-dialog :close-on-click="false"
-                title="Duplicate Mech"
+                :title="$t('pm.titles.duplicateMech')"
                 icon="mdi-content-copy">
                 <template #activator="{ open }">
-                  <v-tooltip text="Duplicate Mech">
+                  <v-tooltip :text="$t('pm.titles.duplicateMech')">
                     <template #activator="{ props }">
                       <v-btn size="x-small"
                         variant="text"
@@ -112,7 +112,7 @@
             </v-col>
 
             <v-col cols="auto">
-              <v-tooltip text="Print Mech Sheet">
+              <v-tooltip :text="$t('pm.tooltips.printMechSheet')">
                 <template #activator="{ props }">
                   <v-btn size="x-small"
                     variant="text"

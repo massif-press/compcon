@@ -27,21 +27,11 @@ const props = withDefaults(defineProps<{
 
 defineEmits<{ select: [item: any] }>()
 
-const headers = [
-  { title: 'Manufacturer', align: 'left', key: 'Source' },
-  { title: 'Weapon', align: 'left', key: 'Name' },
-  { title: 'License', align: 'left', key: 'LicenseString' },
-  { title: 'Size', align: 'left', key: 'SizeInt' },
-  { title: 'Type', align: 'left', key: 'WeaponTypes' },
-  { title: 'Range', align: 'left', key: 'Range' },
-  { title: 'Damage', align: 'left', key: 'Damage' },
-]
-
 const options = computed(() => ({
   views: ['single', 'table', 'cards'],
   initialView: 'single',
   groups: props.exotic ? ['none', 'lcp'] : ['lcp'],
-  initialGroup: props.exotic ? 'none' : 'lcp',
+  initialGroup: 'none',
   showExotics: props.exotic,
 }))
 

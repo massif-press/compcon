@@ -20,7 +20,9 @@
         </v-progress-linear>
 
         <div class="text-cc-overline text-right text-disabled">
-          {{ $t('nav.achievements.progress', { count: allUnlocked.length, total: nsAchievements.length }) }}
+          {{ $t('nav.achievements.progress', {
+            count: allUnlocked.length, total:
+              nsAchievements.length }) }}
           <v-btn icon
             size="x-small"
             variant="plain"
@@ -146,12 +148,14 @@
             </v-chip>
             <span v-if="index === (mobile ? 7 : 11)"
               class="text-grey text-caption align-self-center">
-              &emsp;{{ $t('nav.achievements.othersCount', { count: showLabels.length - (mobile ? 7 : 11) }) }}
+              &emsp;{{ $t('nav.achievements.othersCount', {
+                count: showLabels.length - (mobile ? 7 :
+              11) }) }}
             </span>
           </template>
 
           <template #prepend-item>
-            <v-list-item title="Select All">
+            <v-list-item :title="$t('nav.titles.selectAll')">
               <template #prepend>
                 <v-checkbox-btn :model-value="showLabels.length === labels.length"
                   :indeterminate="showLabels.length > 0 && showLabels.length < labels.length"
@@ -221,7 +225,8 @@
       <div v-if="hiddenAchievements > 0"
         class="text-right text-caption px-4">
         <i>
-          {{ $t('nav.achievements.hiddenCount', { count: hiddenAchievements }, hiddenAchievements) }}
+          {{ $t('nav.achievements.hiddenCount', { count: hiddenAchievements }, hiddenAchievements)
+          }}
         </i>
       </div>
     </v-container>
@@ -281,7 +286,7 @@
       </v-col>
       <v-col cols="auto">
         <cc-dialog :close-on-click="false"
-          title="reset achievements">
+          :title="$t('nav.titles.resetAchievements')">
           <template #activator="{ open }">
             <cc-button size="x-small"
               color="error"
@@ -469,7 +474,7 @@ async function addAchievement() {
     notify({
       title: ac.cannotAddTitle,
       text: ac.cannotAddText,
-      data: { icon: 'mdi-star-off', color: 'error' },
+      icon: 'mdi-star-off', color: 'error',
     })
   }
   achLoading.value = false

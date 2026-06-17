@@ -7,7 +7,7 @@
           color="stark"
           icon="cc:weaponmod" />
         <div class="text-cc-overline mt-1">
-          {{ $t('ui.card.weapon') }}
+          {{ $t('common.weapon') }}
           <br />
           {{ $t('ui.card.modification') }}
         </div>

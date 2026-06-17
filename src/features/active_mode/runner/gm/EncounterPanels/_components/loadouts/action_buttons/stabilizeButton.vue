@@ -17,9 +17,9 @@
             <v-divider />
             <v-radio-group v-model="firstChoice"
               row>
-              <v-radio label="Cool your mech, clearing all heat and EXPOSED."
+              <v-radio :label="$t('active.fields.coolYourMechClearingAll')"
                 value="cool" />
-              <v-radio label="Mark 1 REPAIR to restore all HP."
+              <v-radio :label="$t('active.fields.mark1RepairToRestore')"
                 value="repair" />
             </v-radio-group>
           </v-col>
@@ -29,16 +29,16 @@
             <v-radio-group v-model="secondChoice"
               row>
               <v-radio class="mt-1"
-                label="Reload all LOADED weapons."
+                :label="$t('active.fields.reloadAllLoadedWeapons')"
                 value="reload" />
               <v-radio class="mt-1"
-                label="Clear any burn currently affecting your mech."
+                :label="$t('active.fields.clearAnyBurnCurrentlyAffecting')"
                 value="clear_burn" />
               <v-radio class="mt-1"
-                label="Clear a condition that wasn't caused by one of your own systems, talents, etc"
+                :label="$t('active.fields.clearAConditionThatWasnt')"
                 value="clear_self" />
               <v-radio class="mt-1"
-                label="Clear an adjacent allied character's condition that wasn't caused by one of their own systems, talents, etc."
+                :label="$t('active.fields.clearAnAdjacentAlliedCharacters')"
                 value="clear_ally" />
             </v-radio-group>
           </v-col>

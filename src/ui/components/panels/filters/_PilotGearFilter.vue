@@ -11,7 +11,7 @@
         chips
         clearable
         variant="outlined"
-        label="Item Type"
+        :label="$t('ui.fields.itemType')"
         :items="types"
         multiple
         @update:modelValue="updateFilters()" />
@@ -25,7 +25,7 @@
         chips
         clearable
         variant="outlined"
-        label="Tags"
+        :label="$t('ui.fields.tags')"
         :items="gearTags"
         item-value="ID"
         multiple

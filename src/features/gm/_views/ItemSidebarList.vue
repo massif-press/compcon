@@ -26,7 +26,7 @@
       </v-col>
     </v-row>
     <div v-if="!items.length"
-      class="text-center text-disabled"><i>{{ $t('gm.sidebar.noData') }}</i></div>
+      class="text-center text-disabled"><i>{{ $t('common.noData') }}</i></div>
     <v-expand-transition>
       <div v-show="!collapsed.includes(key)">
         <gm-item-list-element v-for="item in groupedItems(groupings[key])"

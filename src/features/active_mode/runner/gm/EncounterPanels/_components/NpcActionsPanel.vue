@@ -49,7 +49,7 @@ function activate(event: string) {
   switch (event) {
     case 'act_prepare':
       controller.value.Prepared = true;
-      notify({ type: 'success', title: t('active.npcActions.npcPreparedTitle'), text: t('active.npcActions.npcPreparedText', { name: controller.value.CombatName }) });
+      notify({ type: 'success', title: t('active.npcActions.npcPreparedTitle'), text: t('active.common.preparedText', { name: controller.value.CombatName }) });
       break;
     case 'act_stabilize_npc':
       controller.value.Stabilize('npc');
@@ -57,16 +57,16 @@ function activate(event: string) {
       break;
     case 'act_hide':
       controller.value.AddStatus('hidden');
-      notify({ type: 'success', title: t('active.npcActions.npcHiddenTitle'), text: t('active.npcActions.npcHiddenText', { name: controller.value.CombatName }) });
+      notify({ type: 'success', title: t('active.npcActions.npcHiddenTitle'), text: t('active.common.hiddenText', { name: controller.value.CombatName }) });
       break;
     case 'act_disengage':
       if (!controller.value.HasStatus('engaged')) {
-        notify({ type: 'warning', title: t('active.npcActions.disengageFailedTitle'), text: t('active.npcActions.disengageFailedText', { name: controller.value.CombatName }) });
+        notify({ type: 'warning', title: t('active.common.disengageFailed'), text: t('active.common.disengageFailedText', { name: controller.value.CombatName }) });
         controller.value.ResetActivation('full');
         controller.value.ClearActionUsed('act_disengage');
       } else {
         controller.value.RemoveStatus('engaged');
-        notify({ type: 'success', title: t('active.npcActions.npcDisengagedTitle'), text: t('active.npcActions.npcDisengagedText', { name: controller.value.CombatName }) });
+        notify({ type: 'success', title: t('active.npcActions.npcDisengagedTitle'), text: t('active.common.disengagedText', { name: controller.value.CombatName }) });
       }
       break;
     default:

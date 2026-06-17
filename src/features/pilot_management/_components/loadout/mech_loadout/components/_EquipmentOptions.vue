@@ -16,27 +16,27 @@
       <v-list density="compact">
         <v-list-item v-if="!item.IsIntegrated"
           prepend-icon="mdi-swap-vertical-variant"
-          title="Change Item"
+          :title="$t('pm.titles.changeItem')"
           @click="$emit('swap')" />
         <v-divider />
         <v-list-item v-if="item.CanSetDamage"
-          title="Select Damage Type"
+          :title="$t('pm.titles.selectDamageType')"
           prepend-icon="cc:variable"
           @click="($refs as any).damageTypeDialog.show()"></v-list-item>
         <v-list-item v-if="item.CanSetUses"
-          title="Set Max Uses"
+          :title="$t('pm.titles.setMaxUses')"
           prepend-icon="mdi-dice-6"
           @click="($refs as any).maxUseDialog.show()"></v-list-item>
         <v-divider />
-        <v-list-item title="Set Custom Name"
+        <v-list-item :title="$t('common.setCustomName')"
           prepend-icon="mdi-circle-edit-outline"
           @click="($refs as any).cName.show()"></v-list-item>
-        <v-list-item title="Set Custom Description"
+        <v-list-item :title="$t('common.setCustomDescription')"
           prepend-icon="mdi-circle-edit-outline"
           @click="($refs as any).cDesc.show()"></v-list-item>
         <div v-if="!item.IsIntegrated">
           <v-divider />
-          <v-list-item title="Remove Item"
+          <v-list-item :title="$t('pm.titles.removeItem')"
             prepend-icon="mdi-delete"
             @click="$emit('remove')"></v-list-item>
         </div>
@@ -44,14 +44,14 @@
     </v-menu>
     <cc-string-edit-dialog ref="cName"
       :placeholder="item.Name"
-      label="Custom Item Name"
+      :label="$t('common.customItemName')"
       @save="save('Name', $event)"
       @reset="save('Name', '')" />
     <cc-string-edit-dialog ref="cDesc"
       multiline
       auto-grow
       :placeholder="item.FlavorDescription || item.Description"
-      label="Custom Item Description"
+      :label="$t('common.customItemDescription')"
       @save="save('FlavorDescription', $event)"
       @reset="save('FlavorDescription', '')" />
     <CCDamageTypePicker ref="damageTypeDialog"
@@ -60,7 +60,7 @@
     <cc-string-edit-dialog ref="maxUseDialog"
       number
       :placeholder="(item.max_use_override || item.MaxUses).toString()"
-      label="Set Maximum Uses"
+      :label="$t('pm.fields.setMaximumUses')"
       @save="item.max_use_override = Number($event)" />
   </span>
 </template>

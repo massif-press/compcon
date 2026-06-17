@@ -18,7 +18,7 @@
         :key="`slot-${m}`">
         <v-row dense>
           <v-col>
-            <div class="caption text-grey">{{ $t('pm.print.weapon') }}</div>
+            <div class="caption text-grey">{{ $t('common.weapon') }}</div>
             <blank-line :height="lineHeight" />
           </v-col>
           <v-col cols="2">

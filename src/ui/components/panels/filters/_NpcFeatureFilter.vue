@@ -11,7 +11,7 @@
         chips
         clearable
         variant="outlined"
-        label="Item Type"
+        :label="$t('ui.fields.itemType')"
         :items="featureTypes"
         multiple
         @update:modelValue="updateFilters()" />
@@ -25,7 +25,7 @@
         chips
         clearable
         variant="outlined"
-        label="Origin"
+        :label="$t('ui.fields.origin')"
         :items="origins"
         multiple
         @update:modelValue="updateFilters()" />

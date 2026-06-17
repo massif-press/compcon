@@ -1,11 +1,11 @@
 <template>
-  <cc-modal title="Add Pilot from Roster"
+  <cc-modal :title="$t('active.titles.addPilotFromRoster')"
     icon="mdi-account-plus">
     <template #activator="{ open }">
       <cc-button size="small"
         block
         color="primary"
-        tooltip="Add a pilot from your local Pilot Roster"
+        :tooltip="$t('active.tooltips.addAPilotFromYourLocalPilotRoster')"
         prepend-icon="mdi-account-plus"
         @click="open">
         {{ $t('active.roster.addFromRoster') }}
@@ -19,7 +19,7 @@
           clearable
           flat
           tile
-          placeholder="Search"
+          :placeholder="$t('common.search')"
           class="my-1"
           prepend-inner-icon="mdi-magnify" />
 
@@ -29,7 +29,11 @@
             :key="group">
             <div class="d-flex align-center"
               style="cursor: pointer"
-              @click="toggleGroup(group)">
+              role="button"
+              tabindex="0"
+              @click="toggleGroup(group)"
+              @keydown.enter="toggleGroup(group)"
+              @keydown.space="toggleGroup(group)">
               <v-icon icon="mdi-folder"
                 start
                 size="small"
@@ -47,7 +51,9 @@
                 <div class="heading h3">{{ p.Callsign }}</div>
                 <v-divider class="mb-1 mr-4" />
                 <div class="text-cc-overline text-disabled">{{ p.Name }}</div>
-                <div class="text-cc-overline text-disabled">{{ $t('active.roster.ll', { n: p.Level }) }}</div>
+                <div class="text-cc-overline text-disabled">{{ $t('active.roster.ll', {
+                  n: p.Level
+                }) }}</div>
                 <template #prepend>
                   <v-avatar size="64"
                     flat
@@ -64,8 +70,8 @@
                 </template>
                 <template #append>
                   <v-tooltip>
-                    <template #activator="{ props }">
-                      <cc-button v-bind="props"
+                    <template #activator="{ props: activatorProps }">
+                      <cc-button v-bind="activatorProps"
                         variant="outlined"
                         :icon="!isInEncounter(p) ? 'mdi-plus' : 'mdi-check-bold'"
                         size="small"
@@ -111,7 +117,7 @@
               </v-col>
               <v-col cols="auto"
                 class="text-center">
-                <div class="text-cc-overline text-disabled">{{ $t('active.roster.licenseLevel') }}</div>
+                <div class="text-cc-overline text-disabled">{{ $t('ui.fields.licenseLevel') }}</div>
                 <div class="heading h1"
                   style="line-height: 44px">{{ selected.Level }}</div>
               </v-col>
@@ -209,7 +215,7 @@
 
             <div class="text-cc-overline text-disabled mt-4">
               <cc-slashes />
-              {{ $t('compendium.categories.pilotTalents') }}
+              {{ $t('common.pilotTalents') }}
             </div>
             <v-row dense
               class="bg-background pa-1"
@@ -238,10 +244,10 @@
           <v-menu v-if="sortedMechs(selected).length"
             :close-on-content-click="true"
             transition="slide-y-transition">
-            <template #activator="{ props, isActive }">
-              <v-list-item v-bind="props"
+            <template #activator="{ props: activatorProps, isActive }">
+              <v-list-item v-bind="activatorProps"
                 class="border-sm"
-                @click="props.onClick($event)">
+                @click="activatorProps.onClick($event)">
                 <div class="heading h2 text-accent">{{ selected.ActiveMech.Name }}</div>
                 <div class="text-cc-overline text-disabled">
                   {{ selected.ActiveMech.Callsign }}
@@ -277,7 +283,7 @@
           </v-menu>
           <cc-alert v-if="!selected.Mechs.length"
             class="mt-2"
-            title="No Mech Data Found"
+            :title="$t('active.titles.noMechDataFound')"
             icon="mdi-alert">
             <i>{{ $t('active.roster.pilotNoMech') }}</i>
           </cc-alert>
@@ -311,7 +317,7 @@
                   {{ $t('active.roster.frameTraits') }}
                 </div>
                 <cc-masonry-grid :items="selected.ActiveMech.Frame.Traits">
-                  <template #default="{ item, index }">
+                  <template #default="{ item }">
                     <cc-trait-item :trait="item"
                       class="mb-2" />
                   </template>
@@ -326,7 +332,7 @@
                     :gap="16"
                     :min-columns="1"
                     :max-columns="2">
-                    <template #default="{ item, index }">
+                    <template #default="{ item }">
                       <cc-core-bonus-item :key="item.ID"
                         terse
                         :bonus="item" />
@@ -365,14 +371,15 @@
             left: 18px;
             padding: 12px;
           "
-          :style="`left: ${$refs.sidebar?.showNav ? 380 : 20}px`">
+          :style="`left: ${($refs.sidebar as any)?.showNav ? 380 : 20}px`">
           <cc-button :color="isInEncounter(selected) ? 'error' : 'success'"
             size="small"
             class="border-lg"
             block
             :prepend-icon="isInEncounter(selected) ? 'mdi-minus' : 'mdi-plus'"
             @click="addPilot(selected)">
-            {{ isInEncounter(selected) ? $t('active.roster.removeFromEncounter') : $t('active.roster.addToEncounter') }}
+            {{ isInEncounter(selected) ? $t('active.roster.removeFromEncounter') :
+              $t('active.roster.addToEncounter') }}
           </cc-button>
         </div>
       </div>
@@ -380,7 +387,8 @@
         <v-row justify="center"
           align="center"
           style="height: calc(100vh - 60px)">
-          <v-col cols="auto"><i class="text-disabled">{{ $t('active.roster.selectPilot') }}</i></v-col>
+          <v-col cols="auto"><i class="text-disabled">{{ $t('active.roster.selectPilot')
+          }}</i></v-col>
         </v-row>
       </div>
     </CCSidebarLayout>
@@ -390,12 +398,11 @@
 <script setup lang="ts">
 import type { Pilot } from '@/classes/pilot/Pilot'
 import type { Encounter } from '@/classes/encounter/Encounter'
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { notify } from '@/util/notify'
 import CCSidebarLayout from '@/ui/components/layouts/CCSidebarLayout.vue'
 import MechStatblock from '@/features/pilot_management/PilotSheet/sections/mech/sections/attributes/MechStatblock.vue';
-import { PilotStore } from '@/stores';
-import vuetify from '@/ui/style';
+import { PilotGroupStore, PilotStore } from '@/stores';
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
@@ -408,59 +415,57 @@ const props = withDefaults(defineProps<{
 
 const sidebar = ref<any>(null)
 
-const showNav = ref(true)
 const selected = ref(null as any)
 const search = ref('')
 const collapsedGroups = ref({} as Record<string, boolean>)
 
 const addedPilots = computed(() => {
-      return props.pilots.map((p) => p.ID);
-    })
+  return props.pilots.map((p) => p.ID);
+})
 const pilotsByGroup = computed(() => {
-      const store = PilotStore();
-      const searchLower = search.value ? search.value.toLowerCase() : '';
-      const result = {};
-      for (const group of store.getPilotGroups()) {
-        let pilots = store.getPilots(group.ID);
-        if (searchLower) {
-          pilots = pilots.filter(
-            (p) =>
-              p.Callsign.toLowerCase().includes(searchLower) ||
-              p.Name.toLowerCase().includes(searchLower)
-          );
-        }
-        if (pilots.length) result[group.Name] = pilots;
-      }
-      return result;
-    })
+  const searchLower = search.value ? search.value.toLowerCase() : '';
+  const result = {};
+  for (const group of PilotGroupStore().PilotGroups) {
+    let pilots = PilotStore().getPilots(group.ID);
+    if (searchLower) {
+      pilots = pilots.filter(
+        (p) =>
+          p.Callsign.toLowerCase().includes(searchLower) ||
+          p.Name.toLowerCase().includes(searchLower)
+      );
+    }
+    if (pilots.length) result[group.Name] = pilots;
+  }
+  return result;
+})
 
 function addPilot(pilot) {
-      if (addedPilots.value.includes(pilot.ID)) {
-        props.pilots.splice(
-          props.pilots.findIndex((p) => p.ID === pilot.ID),
-          1
-        );
-        notify({
-          title: t('active.roster.removedTitle', { callsign: pilot.Callsign }),
-          text: t('active.roster.removalSuccess'),
-          data: { icon: 'mdi-delete', color: 'info' },
-        });
-      } else {
-        props.pilots.push(pilot);
-        notify({
-          title: t('active.roster.addedTitle', { callsign: pilot.Callsign }),
-          text: t('notify.common.success'),
-          data: { icon: 'mdi-check', color: 'success' },
-        });
-      }
-    }
+  if (addedPilots.value.includes(pilot.ID)) {
+    props.pilots.splice(
+      props.pilots.findIndex((p) => p.ID === pilot.ID),
+      1
+    );
+    notify({
+      title: t('active.roster.removedTitle', { callsign: pilot.Callsign }),
+      text: t('active.roster.removalSuccess'),
+      icon: 'mdi-delete', color: 'info',
+    });
+  } else {
+    props.pilots.push(pilot);
+    notify({
+      title: t('active.roster.addedTitle', { callsign: pilot.Callsign }),
+      text: t('notify.common.success'),
+      icon: 'mdi-check', color: 'success',
+    });
+  }
+}
 function isInEncounter(pilot) {
-      return addedPilots.value.includes(pilot.ID);
-    }
+  return addedPilots.value.includes(pilot.ID);
+}
 function toggleGroup(group: string) {
-      collapsedGroups.value[group] = !collapsedGroups.value[group];
-    }
+  collapsedGroups.value[group] = !collapsedGroups.value[group];
+}
 function sortedMechs(pilot) {
-      return pilot.Mechs.slice().sort((a, b) => pilot.FavoriteMech?.ID === a.ID ? -1 : pilot.FavoriteMech?.ID === b.ID ? 1 : 0)
-    }
+  return pilot.Mechs.slice().sort((a, b) => pilot.FavoriteMech?.ID === a.ID ? -1 : pilot.FavoriteMech?.ID === b.ID ? 1 : 0)
+}
 </script>

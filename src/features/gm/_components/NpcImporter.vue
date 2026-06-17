@@ -6,7 +6,7 @@
         <v-file-input v-model="fileValue"
           accept="text/json"
           variant="outlined"
-          label="Select Data File"
+          :label="$t('gm.fields.selectDataFile')"
           prepend-icon="mdi-paperclip"
           density="compact"
           @change="stageImport"
@@ -39,10 +39,10 @@
                     " />
               </v-btn>
             </th>
-            <th>{{ $t('gm.import.item') }}</th>
+            <th>{{ $t('common.item') }}</th>
             <th>{{ $t('gm.import.collection') }}</th>
-            <th>{{ $t('gm.import.itemType') }}</th>
-            <th>{{ $t('gm.import.contentPacks') }}</th>
+            <th>{{ $t('nav.deletedItems.itemType') }}</th>
+            <th>{{ $t('common.contentPacks') }}</th>
             <th class="text-center">{{ $t('common.status') }}</th>
           </tr>
         </thead>
@@ -86,7 +86,7 @@
       <cc-alert v-if="missingContent.length"
         class="mx-12 mt-4"
         icon="mdi-alert"
-        title="Missing Content Packs">
+        :title="$t('gm.titles.missingContentPacks')">
         <p>
           {{ $t('gm.import.oldVersionWarning') }}
         </p>
@@ -283,7 +283,7 @@ async function importFile() {
         } catch (error) {
           logger.error('Failed to import NPC', null, error);
           notify({
-            title: t('notify.gm.npcImportErrorTitle'),
+            title: t('notify.gm.importErrorTitle'),
             text: t('notify.gm.npcImportErrorText', { error }),
             data: { icon: 'cc:compendium', color: 'error' },
           });

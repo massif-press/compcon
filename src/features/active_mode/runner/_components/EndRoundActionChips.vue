@@ -18,7 +18,7 @@
       :size="large ? 'large' : 'small'"
       :tile="large"
       variant="flat">
-      {{ $t('active.actionChips.fullAction') }}
+      {{ $t('compendium.reference.fullAction') }}
     </v-chip>
   </v-col>
   <v-col v-else-if="controller.CanActivate('quick')"
@@ -36,8 +36,6 @@
 
 <script setup lang="ts">
 import type { CombatController } from '@/classes/components/combat/CombatController'
-
-defineOptions({ name: 'EndRoundActionChips' })
 
 defineProps<{
   controller: CombatController

@@ -17,8 +17,8 @@
     <template #item.LastUpdate="{ item }">{{ timeAgo((item as any).SaveController.LastModified) }}</template>
 
     <template #actions="{ selected, items, showDeleted, clearSelected, showDeleteConfirm, setShowDeleteConfirm }">
-      <v-list-item title="Set Group"
-        subtitle="Set pilot group"
+      <v-list-item :title="$t('pm.titles.setGroup')"
+        :subtitle="$t('pm.subtitles.setPilotGroup')"
         prepend-icon="mdi-account-group"
         :disabled="!selected.length"
         @click="setGroupDialog = true" />
@@ -39,24 +39,24 @@
         :disabled="!selected.length"
         @click="deleteItems(selected, items, true, clearSelected)" />
       <v-list-item v-if="showDeleted && !showDeleteConfirm"
-        title="Delete Permanently"
+        :title="$t('common.deletePermanently')"
         variant="elevated"
         elevation="0"
-        subtitle="Delete these items permanently"
+        :subtitle="$t('common.deleteItemsPermanently')"
         prepend-icon="mdi-delete-forever-outline"
         base-color="warning"
         :disabled="!selected.length"
         @click="setShowDeleteConfirm(true)" />
       <v-divider v-if="showDeleteConfirm" />
       <v-list-item v-if="showDeleteConfirm"
-        title="Confirm Permanent Deletion"
-        subtitle="This action cannot be undone"
+        :title="$t('common.confirmPermanentDeletion')"
+        :subtitle="$t('common.actionCannotBeUndone')"
         prepend-icon="mdi-exclamation-thick"
         :disabled="!selected.length"
         @click="deleteItemsPermanent(selected, items, clearSelected, setShowDeleteConfirm)"
         base-color="error" />
       <v-list-item v-if="showDeleteConfirm"
-        title="Cancel Permanent Deletion"
+        :title="$t('common.cancelPermanentDeletion')"
         prepend-icon="mdi-cancel"
         @click="setShowDeleteConfirm(false)"
         base-color="accent" />
@@ -77,7 +77,7 @@
           <v-card-text>
             <v-select v-model="stagedGroup"
               :items="allGroups"
-              label="Pilot Group"
+              :label="$t('common.pilotGroup')"
               item-title="Name"
               return-object
               variant="outlined"

@@ -4,7 +4,7 @@
     :items="pilot.LicenseController.MissingLicenses"
     @remove="pilot.LicenseController.RemoveLicense($event.Stub as any)" />
 
-  <selector title="Pilot Licenses"
+  <selector :title="$t('pm.titles.pilotLicenses')"
     :success="!pilot.LicenseController.IsMissingLicenses"
     :modal="modal"
     :selected="pilot.LicenseController.CurrentLicensePoints"
@@ -45,7 +45,7 @@
     <template #jump>
       <div class="px-2">
         <cc-select v-model="jump"
-          label="jump to"
+          :label="$t('pm.fields.jumpTo')"
           color="primary"
           variant="outlined"
           :items="jumpItems" />

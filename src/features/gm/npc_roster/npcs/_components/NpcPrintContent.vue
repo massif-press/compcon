@@ -13,7 +13,7 @@
             <span v-if="item.Class"
               class="pl-4">
               <span class="heading h6">
-                {{ $t('gm.npcStats.tier', { n: item.Tier }) }}
+                {{ $t('common.tierN', { n: item.Tier }) }}
                 <span v-if="hasClass">{{
                   item.NpcClassController.Class.Name
                   }}</span>

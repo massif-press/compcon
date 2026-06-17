@@ -19,7 +19,7 @@
             hide-details
             @update:model-value="debouncedSave">
             <template #label>
-              {{ $t('gm.sectionEditor.gmOnly') }}
+              {{ $t('ui.rollTable.gmOnly') }}
               <v-tooltip location="top">
                 <template #activator="{ props }">
                   <v-icon class="fade-select"
@@ -29,7 +29,7 @@
                     v-bind="props" />
                 </template>
                 <div>
-                  {{ $t('gm.sectionEditor.gmOnlyTooltip') }}
+                  {{ $t('ui.rollTable.gmOnlyTooltip') }}
                 </div>
               </v-tooltip>
             </template>
@@ -87,11 +87,11 @@
         <v-card-text>
           <v-combobox v-if="item.SectionSuggestions"
             v-model="newTextItemHeader"
-            label="Title"
+            :label="$t('gm.fields.title')"
             :items="item.SectionSuggestions" />
           <v-text-field v-else
             v-model="newTextItemHeader"
-            label="New Title"
+            :label="$t('gm.fields.newTitle')"
             density="compact"
             hide-details
             variant="outlined" />

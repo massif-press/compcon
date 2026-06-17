@@ -1,7 +1,7 @@
 <template>
   <div>
-    <section-header title="CORE Bonuses">
-      <cc-modal title="Set Pilot CORE Bonuses" icon="cc:corebonus">
+    <section-header :title="$t('pm.titles.coreBonuses')">
+      <cc-modal :title="$t('pm.titles.setPilotCoreBonuses')" icon="cc:corebonus">
         <template #activator="{ open }">
           <section-edit-chip
             v-if="!pilot.IsRemote"

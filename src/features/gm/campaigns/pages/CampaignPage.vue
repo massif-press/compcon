@@ -25,7 +25,7 @@
         variant="tonal"
         prepend-icon="mdi-plus"
         @click="item.AddContentItem()">
-        {{ $t('gm.campaign.addContent') }}
+        {{ $t('common.addContent') }}
       </v-btn>
     </v-footer>
 
@@ -153,7 +153,7 @@
                   :items="moveItems"
                   :item-title="(item) => item.Title"
                   return-object
-                  label="Move into section"
+                  :label="$t('gm.fields.moveIntoSection')"
                   hide-details
                   density="compact" />
               </v-col>

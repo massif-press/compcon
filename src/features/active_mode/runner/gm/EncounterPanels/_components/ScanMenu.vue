@@ -29,7 +29,7 @@
         </v-toolbar>
         <v-card-text>
           <cc-switch v-model="includeFeatureDetails"
-            label="include Feature Details"
+            :label="$t('common.includeFeatureDetails')"
             color="primary" />
           <v-textarea :value="statblock"
             auto-grow

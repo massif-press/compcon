@@ -33,7 +33,7 @@
             :items="['He/Him', 'She/Her', 'They/Them']"
             variant="outlined"
             hide-details
-            label="Pronouns"
+            :label="$t('gm.fields.pronouns')"
             style="width: 200px" />
         </v-col>
         <v-col v-else-if="itemType === 'Faction'"
@@ -44,7 +44,7 @@
             :items="item.TypeSuggestions"
             variant="outlined"
             hide-details
-            label="Organization Type"
+            :label="$t('gm.fields.organizationType')"
             style="width: 335px" />
         </v-col>
       </v-row>
@@ -56,14 +56,14 @@
             :readonly="isRemote"
             color="primary"
             variant="outlined"
-            label="Title" />
+            :label="$t('gm.fields.title')" />
         </v-col>
         <v-col>
           <cc-text-field v-model="item.Alias"
             :readonly="isRemote"
             color="primary"
             variant="outlined"
-            label="Alias" />
+            :label="$t('gm.fields.alias')" />
         </v-col>
       </v-row>
     </template>

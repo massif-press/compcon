@@ -16,7 +16,7 @@
         class="text-accent ml-2">#{{ combatant.number }}</span>
     </div>
     <div class="text-cc-overline">
-      {{ $t('active.runnerItem.tierShort', { n: combatant.actor.NpcClassController.Tier }) }}
+      {{ $t('common.tierShort', { n: combatant.actor.NpcClassController.Tier }) }}
       {{ combatant.actor.NpcClassController.Class.Name }}
       <span v-if="combatant.actor.NpcTemplateController.Templates.length">
         {{combatant.actor.NpcTemplateController.Templates.map((x) => x.Name).join(' / ')}}

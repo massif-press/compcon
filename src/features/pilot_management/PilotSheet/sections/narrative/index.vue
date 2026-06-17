@@ -8,17 +8,17 @@
         <clone-block :pilot="pilot"
           :readonly="pilot.IsRemote" />
 
-        <section-header title="Pilot Biography" />
+        <section-header :title="$t('pm.titles.pilotBiography')" />
         <cc-rich-text-area v-model="pilot.History"
           :readonly="pilot.IsRemote"
           class="pt-2 mb-3" />
 
-        <section-header title="Pilot Appearance" />
+        <section-header :title="$t('pm.titles.pilotAppearance')" />
         <cc-rich-text-area v-model="pilot.TextAppearance"
           :readonly="pilot.IsRemote"
           class="pt-2 mb-2" />
 
-        <section-header title="Pilot Notes" />
+        <section-header :title="$t('pm.titles.pilotNotes')" />
         <cc-rich-text-area v-model="pilot.Notes"
           :readonly="pilot.IsRemote"
           class="pt-2 mb-3" />

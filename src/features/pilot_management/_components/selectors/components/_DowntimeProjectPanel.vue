@@ -2,7 +2,7 @@
   <v-row justify="center"
     align="center">
     <v-col>
-      <cc-titled-panel title="New Project"
+      <cc-titled-panel :title="$t('pm.titles.newProject')"
         icon="mdi-atom-variant"
         color="reserve">
         <v-row density="compact">
@@ -10,7 +10,7 @@
             md="">
             <v-text-field v-model="projectName"
               color="accent"
-              label="Project Name"
+              :label="$t('pm.fields.projectName')"
               variant="outlined"
               hide-details />
           </v-col>
@@ -24,7 +24,7 @@
                   inset
                   hide-details
                   color="secondary"
-                  tooltip="This project is complex, resource-intensive, or generally difficult to complete"
+                  :tooltip="$t('pm.tooltips.thisProjectIsComplexResourceintensive')"
                   top-label="Complicated"
                   class="mr-3" />
               </v-col>
@@ -35,7 +35,7 @@
                   inset
                   hide-details
                   top-label="Finished"
-                  tooltip="This project is complete and available to use as a reserve"
+                  :tooltip="$t('pm.tooltips.thisProjectIsCompleteAndAvailableToUseAsAReserve')"
                   color="secondary" />
               </v-col>
             </v-row>
@@ -44,13 +44,13 @@
         <v-textarea v-model="details"
           auto-grow
           rows="2"
-          label="Details"
+          :label="$t('common.details')"
           filled
           hide-details
           color="accent"
           class="my-3" />
         <v-combobox v-model="costs"
-          label="Requirements"
+          :label="$t('pm.fields.requirements')"
           :items="projectCosts"
           chips
           multiple

@@ -99,13 +99,13 @@
                     ? 'Successful Attack'
                     : 'Miss'
                 "
-              subtitle="Select result" />
+              :subtitle="$t('ui.subtitles.selectResult')" />
             <v-divider class="my-2" />
-            <v-list-item title="Successful Hit"
+            <v-list-item :title="$t('ui.titles.successfulHit')"
               prepend-icon="mdi-check-circle"
               class="bg-success"
               @click="setHitResult(s, 'hit')" />
-            <v-list-item title="Miss"
+            <v-list-item :title="$t('ui.titles.miss')"
               prepend-icon="mdi-cancel"
               class="bg-error"
               @click="setHitResult(s, 'miss')" />

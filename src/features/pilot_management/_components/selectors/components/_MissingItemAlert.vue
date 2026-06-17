@@ -1,7 +1,7 @@
 <template>
   <cc-alert icon="mdi-link-variant-off"
     class="mt-2"
-    title="Missing License Data">
+    :title="$t('pm.titles.missingLicenseData')">
     <p class="text-cc-overline text-disabled mb-2">
       {{ $t('pm.selectors.notInCompendium', { type }) }}
     </p>

@@ -5,7 +5,7 @@
     :options="options"
     view-key="cb-talents">
     <template #header>
-      <div class="heading h3 text-center text-accent">{{ $t('compendium.categories.pilotTalents') }}</div>
+      <div class="heading h3 text-center text-accent">{{ $t('common.pilotTalents') }}</div>
     </template>
   </cc-compendium-browser>
 </template>

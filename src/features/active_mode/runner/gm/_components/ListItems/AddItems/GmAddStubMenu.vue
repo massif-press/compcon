@@ -28,9 +28,12 @@
         <cc-alert type="info"
           class="ma-4"
           icon="mdi-information-outline"
-          title="What is a Placeholder?">
-          {{ $t('active.addStub.description') }}
-          <strong>{{ $t('active.addStub.noPersist') }}</strong>
+          :title="$t('active.titles.whatIsAPlaceholder')">
+          <i18n-t keypath="active.addStub.description"
+            tag="span"
+            scope="global">
+            <template #emphasis><strong>{{ $t('active.addStub.noPersist') }}</strong></template>
+          </i18n-t>
           <br />
         </cc-alert>
         <v-card-text>
@@ -40,7 +43,7 @@
               { title: 'NPC', value: 'npc' },
               { title: 'Other', value: 'other' },
             ]"
-            label="Type"
+            :label="$t('active.fields.type')"
             chip-variant="text"
             class="mb-4" />
           <cc-select v-model="newPlaceholder.side"
@@ -49,22 +52,22 @@
               { title: 'Enemy', value: 'enemy' },
               { title: 'Neutral', value: 'neutral' },
             ]"
-            label="Side"
+            :label="$t('common.side')"
             chip-variant="text"
             class="mb-4" />
           <div class="mb-4">
             <cc-text-field v-model="newPlaceholder.name"
-              label="Name" />
+              :label="$t('active.fields.name')" />
           </div>
 
           <v-fade-transition>
             <cc-text-field v-if="newPlaceholder.type === 'pilot'"
               v-model="newPlaceholder.Mechname"
-              label="Mech Name" />
+              :label="$t('active.fields.mechName')" />
           </v-fade-transition>
 
           <cc-text-area v-model="newPlaceholder.notes"
-            label="Notes"
+            :label="$t('common.notes')"
             rows="3"
             auto-grow
             class="mt-4" />

@@ -96,7 +96,7 @@
           <div class="caption text-accent mt-1">
             {{ $t('pm.new.gmsEVEREST') }}
             <cc-slashes class="pr-1" />
-            <b>{{ $t('pm.new.loadout') }}</b>
+            <b>{{ $t('common.loadout') }}</b>
           </div>
           <v-row dense justify="center" class="px-2 text-center">
             <v-col v-for="(m, index) in template.build.mech.mounts" :key="`mount-${index}`">
@@ -108,7 +108,7 @@
               </v-row>
             </v-col>
           </v-row>
-          <div class="flavor-text text-stark text-center mt-1">{{ $t('pm.new.systems') }}</div>
+          <div class="flavor-text text-stark text-center mt-1">{{ $t('stats.systems') }}</div>
           <v-row dense justify="center" class="px-2 text-center">
             <v-col v-for="s in template.build.mech.systems" :key="s" class="text-center mx-2" cols="auto">
               <cc-item-modal :item="item('MechSystems', s)" />

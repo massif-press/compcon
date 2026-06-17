@@ -1,7 +1,7 @@
 <template>
   <v-col :cols="cols">
     <fieldset>
-      <legend class="font-weight-bold caption text-primary px-2 text-center">{{ title }}</legend>
+      <legend class="font-weight-bold caption text-primary px-2 text-center text-uppercase">{{ title }}</legend>
       <div v-if="showUpperSection"
         style="min-width: 12vw">
         <blank-line :height="60" />

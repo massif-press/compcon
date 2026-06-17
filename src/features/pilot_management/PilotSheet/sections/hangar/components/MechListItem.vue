@@ -26,7 +26,7 @@
               <v-col>
                 <fieldset class="px-3">
                   <legend class="px-2">
-                    {{ $t('pm.sheet.loadoutSlashes') }}{{
+                    {{ $t('common.loadout') }}//{{
                       mech.MechLoadoutController.ActiveLoadout
                         ? mech.MechLoadoutController.ActiveLoadout.Name
                         : $t('pm.sheet.err')
@@ -68,7 +68,7 @@
                     class="mx-2" />
                   <v-col cols="auto">
                     <span class="text-overline">
-                      {{ $t('pm.sheet.stress') }}
+                      {{ $t('stats.stress') }}
                       <b>{{ mech.MaxStress }}</b>
                     </span>
                   </v-col>
@@ -107,11 +107,11 @@
                   </template>
                 </v-tooltip>
                 <cc-dialog :close-on-click="false"
-                  title="Delete Mech"
+                  :title="$t('pm.titles.deleteMech')"
                   color="error"
                   icon="mdi-delete">
                   <template #activator="{ open }">
-                    <v-tooltip text="Delete Mech">
+                    <v-tooltip :text="$t('pm.titles.deleteMech')">
                       <template #activator="{ props }">
                         <v-btn size="x-small"
                           variant="text"
@@ -136,10 +136,10 @@
                     @confirm="$emit('delete', mech)" />
                 </cc-dialog>
                 <cc-dialog :close-on-click="false"
-                  title="Duplicate Mech"
+                  :title="$t('pm.titles.duplicateMech')"
                   icon="mdi-content-copy">
                   <template #activator="{ open }">
-                    <v-tooltip text="Duplicate Mech">
+                    <v-tooltip :text="$t('pm.titles.duplicateMech')">
                       <template #activator="{ props }">
                         <v-btn size="x-small"
                           variant="text"
@@ -161,7 +161,7 @@
           </span>`"
                     @confirm="$emit('copy', mech)" />
                 </cc-dialog>
-                <v-tooltip text="Print Mech Sheet">
+                <v-tooltip :text="$t('pm.tooltips.printMechSheet')">
                   <template #activator="{ props }">
                     <v-btn size="x-small"
                       variant="text"

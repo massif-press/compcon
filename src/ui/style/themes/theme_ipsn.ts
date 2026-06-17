@@ -3,7 +3,7 @@ import themeDefaults from './common'
 const theme = {
   id: 'ipsn',
   name: 'IPS-N Carina',
-  community: true,
+  category: 'Community Theme',
   colors: {
     ...themeDefaults,
 

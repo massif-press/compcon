@@ -30,15 +30,15 @@
           :to="'/active-mode'"
           help="Run an Encounter or Active Character Sheet"
           @hover="ccLog('encounter')">
-          {{ $t('mainMenu.menu.activeMode') }}
+          {{ $t('common.activeMode') }}
         </main-btn>
         <main-btn icon="cc:content_manager"
           help="Import Content Packs"
           @hover="ccLog('content')"
           @clicked="extraContentModal = true">
-          {{ $t('mainMenu.menu.contentManager') }}
+          {{ $t('common.contentManager') }}
           <v-tooltip v-if="hasV2Backups"
-            text="v2 imports awaiting resolution">
+            :text="$t('mainMenu.actions.v2ImportsAwaitingResolution')">
             <template #activator="{ props }">
               <v-icon v-bind="props"
                 icon="mdi-alert"
@@ -63,7 +63,7 @@
         align="center">
         <v-col cols="auto"
           class="text-center mr-1">
-          <cc-modal title="Cloud Account"
+          <cc-modal :title="$t('common.cloudAccount')"
             icon="mdi-cloud-sync">
             <template #activator="{ open }">
               <cc-button size="small"
@@ -88,7 +88,7 @@
           <v-row dense
             justify="space-between">
             <v-col cols="auto">
-              <cc-modal title="Options"
+              <cc-modal :title="$t('common.options')"
                 icon="mdi-cog">
                 <template #activator="{ open }">
                   <cc-button size="small"
@@ -96,7 +96,7 @@
                     color="highlight"
                     @mouseenter="ccLog('options')"
                     @click="open">
-                    {{ $t('mainMenu.menu.options') }}
+                    {{ $t('common.options') }}
                   </cc-button>
                 </template>
                 <options-page />
@@ -104,7 +104,7 @@
             </v-col>
 
             <v-col cols="auto">
-              <cc-dialog title="About"
+              <cc-dialog :title="$t('common.about')"
                 icon="mdi-information">
                 <template #activator="{ open }">
                   <cc-button size="small"
@@ -112,7 +112,7 @@
                     color="highlight"
                     @mouseenter="ccLog('about')"
                     @click="open">
-                    {{ $t('mainMenu.menu.about') }}
+                    {{ $t('common.about') }}
                   </cc-button>
                 </template>
                 <about-page />
@@ -120,7 +120,7 @@
             </v-col>
 
             <v-col cols="auto">
-              <cc-modal title="Credits"
+              <cc-modal :title="$t('mainMenu.titles.credits')"
                 icon="cc:gms">
                 <template #activator="{ open }">
                   <cc-button size="small"
@@ -128,7 +128,7 @@
                     color="highlight"
                     @mouseenter="ccLog('credits')"
                     @click="open">
-                    {{ $t('mainMenu.menu.credits') }}
+                    {{ $t('common.credits') }}
                   </cc-button>
                 </template>
                 <credits-page />
@@ -136,7 +136,7 @@
             </v-col>
 
             <v-col cols="auto">
-              <cc-modal title="Help"
+              <cc-modal :title="$t('common.help')"
                 icon="mdi-help-circle">
                 <template #activator="{ open }">
                   <cc-button size="small"
@@ -144,7 +144,7 @@
                     color="highlight"
                     @mouseenter="ccLog('help')"
                     @click="open">
-                    {{ $t('mainMenu.menu.help') }}
+                    {{ $t('common.help') }}
                   </cc-button>
                 </template>
                 <help-page />

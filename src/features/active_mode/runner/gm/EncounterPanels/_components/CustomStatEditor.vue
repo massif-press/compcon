@@ -39,7 +39,7 @@
                   <v-text-field v-model.number="trackableValue"
                     clearable
                     density="compact"
-                    label="Stat Value"
+                    :label="$t('active.fields.statValue')"
                     hide-details />
                   <cc-button block
                     class="my-2"
@@ -74,7 +74,7 @@
                   <v-text-field v-model.number="staticValue"
                     clearable
                     density="compact"
-                    label="Stat Value"
+                    :label="$t('active.fields.statValue')"
                     hide-details />
                   <cc-button block
                     class="my-2"

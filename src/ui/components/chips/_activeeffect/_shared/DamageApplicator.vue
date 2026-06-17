@@ -5,7 +5,7 @@
       :key="`damageEvent_${event.ID}_${d_idx}`"
       no-gutters>
       <v-col :cols="mobile ? '' : 'auto'">
-        <div class="text-cc-overline text-disabled">{{ $t('ui.combat.damageType') }}</div>
+        <div class="text-cc-overline text-disabled">{{ $t('ui.fields.damageType') }}</div>
         <v-select :model-value="d.DamageType"
           :items="damageOptions"
           density="compact"

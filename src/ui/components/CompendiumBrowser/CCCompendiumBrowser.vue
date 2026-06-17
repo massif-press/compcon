@@ -834,7 +834,11 @@ function selectItem(item: CompendiumItem | License | null) {
   if (item) {
     const idx = navOrderedItems.value.findIndex((x: any) => x.ID === item.ID);
     if (view.value === 'list') {
-      if (idx >= 0) listScroller.value?.scrollToIndex(idx);
+      if (useVirtualScroll.value) {
+        if (idx >= 0) listScroller.value?.scrollToIndex(idx);
+      } else {
+        scrollTo(item.ID);
+      }
     } else {
       page.value = Math.ceil((idx + 1) / itemsPerPage.value);
       scrollTo(item.ID);
@@ -845,13 +849,12 @@ function selectItem(item: CompendiumItem | License | null) {
 }
 function scrollTo(id: string): void {
   const el = document.getElementById(id);
-  if (el) {
-    const mEl = document.getElementById('content');
-    if (!mEl) return;
-    const rect = el.getBoundingClientRect();
-    const y = rect.top + mEl.scrollTop - mEl.clientHeight / 2 + rect.height / 2;
-    mEl.scrollTo({ top: y, behavior: 'smooth' });
-  }
+  const container: HTMLElement | undefined = mainEl.value?.$el ?? mainEl.value;
+  if (!el || !container) return;
+  const elRect = el.getBoundingClientRect();
+  const cRect = container.getBoundingClientRect();
+  const y = elRect.top - cRect.top + container.scrollTop - container.clientHeight / 2 + elRect.height / 2;
+  container.scrollTo({ top: y, behavior: 'smooth' });
 }
 const _mfFallback = { GetColor: () => 'black', Name: 'err', LogoIsExternal: false, Icon: 'gms' }
 const _mfMap = computed(() => new Map((props.manufacturers as Manufacturer[]).map((m) => [m.ID, m])))

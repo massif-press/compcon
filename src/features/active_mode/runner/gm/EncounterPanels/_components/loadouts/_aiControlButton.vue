@@ -15,7 +15,7 @@
             color="error" />
         </v-avatar>
       </template>
-      <div class="text-center text-cc-overline">{{ $t('active.combatAction.cannotActivate') }}</div>
+      <div class="text-center text-cc-overline">{{ $t('ui.combat.cannotActivateShort') }}</div>
       <v-divider class="my-1" />
       <div>
         {{ $t('active.combatAction.insufficient') }}

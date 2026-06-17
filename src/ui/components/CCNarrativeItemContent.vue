@@ -19,7 +19,7 @@
         <p v-if="item.notes" v-html-safe="item.notes" />
         <v-row v-else align="center" justify="center">
           <v-col cols="auto" class="mt-5">
-            <i class="text-caption text-disabled">{{ $t('ui.widget.noData') }}</i>
+            <i class="text-caption text-disabled">{{ $t('common.noData') }}</i>
           </v-col>
         </v-row>
       </v-col>

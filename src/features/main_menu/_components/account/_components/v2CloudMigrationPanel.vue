@@ -109,7 +109,7 @@
             <div
               v-if="migrationResult.pilotsBackedUp || migrationResult.npcsBackedUp || migrationResult.encountersBackedUp"
               class="mt-2 text-caption text-warning">
-              {{ $t("mainMenu.migration.pendingNote") }}
+              {{ $t("nav.v2Auto.pendingNote") }}
             </div>
 
             <v-expansion-panels v-if="migrationResult.errors && migrationResult.errors.length > 0"

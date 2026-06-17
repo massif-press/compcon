@@ -18,7 +18,7 @@
       </v-col>
     </v-row>
     <cc-modal v-model="dialog"
-      title="Set NPC Features"
+      :title="$t('gm.titles.setNpcFeatures')"
       icon="cc:npc_feature">
       <template #toolbar-items>
         <npc-feature-alerts :hide="npc.BrewController.MissingContent"
@@ -152,10 +152,10 @@
               <v-col cols="auto">
                 <cc-switch v-if="featureSet === 'assigned'"
                   v-model="allowDupes"
-                  label="Allow Duplicates" />
+                  :label="$t('gm.fields.allowDuplicates')" />
                 <cc-switch v-else
                   v-model="ignoreLimit"
-                  label="Ignore Limit" />
+                  :label="$t('common.ignoreLimit')" />
 
               </v-col>
             </v-row>
@@ -203,7 +203,7 @@
                       size="x-small"
                       prepend-icon="mdi-minus"
                       @click="npc.NpcFeatureController.RemoveFeature(item)">
-                      {{ $t('gm.npcFeature.removeItem', { name: item.Name }) }}
+                      {{ $t('common.removeName', { name: item.Name }) }}
                     </cc-button>
                     <cc-button v-else-if="!hasItem(item) || allowDupes"
                       color="secondary"
@@ -211,7 +211,7 @@
                       size="x-small"
                       prepend-icon="mdi-plus"
                       @click="npc.NpcFeatureController.AddFeature(item)">
-                      {{ $t('gm.npcFeature.addItem', { name: item.Name }) }}
+                      {{ $t('common.addName', { name: item.Name }) }}
                     </cc-button>
                   </div>
                 </div>

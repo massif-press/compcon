@@ -8,13 +8,13 @@
 
   <div v-if="item.Effect">
     <div v-show="!dense"
-      class="text-cc-overline text-disabled">//{{ $t('ui.card.effect') }}</div>
+      class="text-cc-overline text-disabled">//{{ $t('common.effect') }}</div>
     <p v-html-safe="item.Effect" />
   </div>
 
   <div v-if="item.Actions && item.Actions.length">
     <div v-show="!dense"
-      class="text-cc-overline text-disabled">//{{ $t('ui.card.actions') }}</div>
+      class="text-cc-overline text-disabled">//{{ $t('common.actions') }}</div>
     <v-row no-gutters
       justify="center">
       <v-col v-for="(a, index) in item.Actions"
@@ -62,7 +62,7 @@
   <div v-if="item.Tags && item.Tags.filter(x => !x.IsHidden).length && !hideTags"
     class="mt-2">
     <div v-show="!dense"
-      class="text-cc-overline text-disabled">//{{ $t('ui.card.tags') }}</div>
+      class="text-cc-overline text-disabled">//{{ $t('ui.fields.tags') }}</div>
     <cc-tags :tags="item.Tags"
       :extended="!smallTags" />
   </div>
@@ -86,7 +86,7 @@
       density="compact"
       hide-details
       prepend-icon="mdi-note"
-      label="Equipment Notes"
+      :label="$t('ui.fields.equipmentNotes')"
       class="mt-2" />
   </div>
 </template>

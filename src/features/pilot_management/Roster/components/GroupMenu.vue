@@ -41,7 +41,7 @@
               <div class="text-caption">{{ $t('pm.roster.cr701UNITDESIGNATION') }}</div>
               <cc-text-field v-model="group.Name"
                 variant="outlined"
-                placeholder="Name"
+                :placeholder="$t('pm.fields.name')"
                 :icon="group.Name ? 'mdi-check-circle-outline' : 'mdi-alert'"
                 :color="group.Name ? 'success' : 'error'"
                 class="my-1 d-inline">
@@ -49,7 +49,7 @@
                   <cc-button icon="mdi-dice-multiple"
                     variant="outlined"
                     size="small"
-                    tooltip="Generate random name"
+                    :tooltip="$t('pm.tooltips.generateRandomName')"
                     @click="randomName()" />
                 </template>
               </cc-text-field>
@@ -60,7 +60,7 @@
               <v-row align="center"
                 dense>
                 <v-col>
-                  <cc-modal title="Group Description"
+                  <cc-modal :title="$t('pm.titles.groupDescription')"
                     icon="mdi-account-group"
                     shrink
                     max-width="75vw">
@@ -109,7 +109,7 @@
               <v-row align="center"
                 dense>
                 <v-col>
-                  <cc-modal title="Group Description"
+                  <cc-modal :title="$t('pm.titles.groupDescription')"
                     icon="mdi-account-group"
                     shrink
                     max-width="75vw">

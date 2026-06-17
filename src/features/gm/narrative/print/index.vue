@@ -14,7 +14,7 @@
         density="compact"
         hide-details
         variant="outlined"
-        label="Items"
+        :label="$t('gm.fields.items')"
         class="mx-3"
         clearable>
         <template #selection="{ item, index }">

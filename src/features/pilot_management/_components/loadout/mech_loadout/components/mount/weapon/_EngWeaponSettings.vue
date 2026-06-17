@@ -5,7 +5,7 @@
       justify="space-around">
       <v-col cols="auto"
         style="min-width: 55px;">
-        <div class="text-cc-overline text-disabled">{{ $t('pm.loadout.weaponTYPE') }}</div>
+        <div class="text-cc-overline text-disabled">{{ $t('ui.fields.weaponType') }}</div>
         <v-menu>
           <template #activator="{ props }">
             <cc-button block
@@ -34,7 +34,7 @@
         </v-menu>
       </v-col>
       <v-col cols="auto">
-        <div class="text-cc-overline text-disabled">{{ $t('pm.loadout.damageTYPE') }}</div>
+        <div class="text-cc-overline text-disabled">{{ $t('ui.fields.damageType') }}</div>
         <v-menu>
           <template #activator="{ props }">
             <cc-button block

@@ -7,7 +7,7 @@
       :archived-items="archived"
       :columns="sheetOrganizerColumns"
       noun="sheet"
-      title="Character Sheets"
+      :title="$t('active.titles.characterSheets')"
       @update:sort="sort = $event"
       @update:asc="asc = $event"
       @archive="organizeArchive"
@@ -16,7 +16,7 @@
 
     <sheet-item v-for="sheet in activeSheets"
       :key="sheet.ID"
-      :sheet="sheet"
+      :sheet="<PilotSheet>sheet"
       @launch="launch(sheet)"
       @archive="sheet.Archive()"
       @export="exportSheet(sheet)"
@@ -63,7 +63,8 @@
           </div>
           <div v-if="archived.length === 0"
             class="text-center text-cc-overline text-disabled">
-            <i>{{ search ? $t('active.sheetMgr.noArchivedFoundFiltered', { search }) : $t('active.sheetMgr.noArchivedFound') }}.</i>
+            <i>{{ search ? $t('active.sheetMgr.noArchivedFoundFiltered', { search }) :
+              $t('active.sheetMgr.noArchivedFound') }}.</i>
           </div>
           <v-row v-for="e in archived"
             :key="e.ID"
@@ -84,7 +85,7 @@
             </v-col>
             <v-col cols="auto">
               <div>
-                <span class="text-disabled mr-1">{{ $t('active.labels.created') }}</span>
+                <span class="text-disabled mr-1">{{ $t('common.created') }}</span>
                 <b>{{ new Date(e.Created).toLocaleDateString() }}</b>
               </div>
               <div>
@@ -97,12 +98,13 @@
                 :title="`${e.Name} - LOGS AND TELEMETRY`">
                 <template #activator="{ open }">
                   <cc-button size="small"
-                    @click="open()"
                     color="primary"
                     disabled
                     block
-                    tooltip="Review the combat log and battlefield telemetry from this sheet and optionally save it to your pilot's history.">{{ $t('active.sheetMgr.savePilotHistory') }}</cc-button>
-                  <div class="text-cc-overline text-disabled">{{ $t('active.sheetMgr.featureInDev') }}</div>
+                    :tooltip="$t('active.tooltips.reviewTheCombatLogAnd')"
+                    @click="open()">{{ $t('active.sheetMgr.savePilotHistory') }}</cc-button>
+                  <div class="text-cc-overline text-disabled">{{ $t('active.sheetMgr.featureInDev')
+                  }}</div>
                 </template>
                 <v-card flat
                   tile>
@@ -122,21 +124,21 @@
                         <v-expansion-panel-text class="bg-background">
                           <code class="text-left "
                             style="white-space: pre-wrap; word-break: break-word;">
-                        <v-row dense>
-                          <v-col>
-                            <div class="text-disabled mb-1">{{ $t('active.encMgr.battlefieldTelemetry') }}</div>
-                            <div class="text-disabled mb-1">---------------------</div>
-                            <!-- {{ formatTelemetry(a.telemetry) }} -->
-                          </v-col>
-                          <v-col style="max-height: 800px; overflow-y: scroll;">
-                            <div class="text-disabled mb-1">{{ $t('active.encMgr.combatLogs') }}</div>
-                            <div class="text-disabled mb-1">---------------------</div>
-                            <div class="mb-2">
-                              <!-- {{ formatLogEntry(log) }} -->
-                            </div>
-                          </v-col>
-                        </v-row>
-                      </code>
+            <v-row dense>
+              <v-col>
+                <div class="text-disabled mb-1">{{ $t('active.encMgr.battlefieldTelemetry') }}</div>
+                <div class="text-disabled mb-1">---------------------</div>
+                <!-- {{ formatTelemetry(a.telemetry) }} -->
+              </v-col>
+              <v-col style="max-height: 800px; overflow-y: scroll;">
+                <div class="text-disabled mb-1">{{ $t('active.encMgr.combatLogs') }}</div>
+                <div class="text-disabled mb-1">---------------------</div>
+                <div class="mb-2">
+                  <!-- {{ formatLogEntry(log) }} -->
+                </div>
+              </v-col>
+            </v-row>
+          </code>
                         </v-expansion-panel-text>
                       </v-expansion-panel>
                     </v-expansion-panels>
@@ -197,102 +199,105 @@ import SheetItem from './_components/SheetItem.vue';
 import PilotSheet from '@/features/pilot_management/store/PilotSheet';
 import { useDisplay } from 'vuetify';
 import ActiveModeSortBar from '@/features/active_mode/_components/ActiveModeSortBar.vue';
+import logger from '@/user/logger.js';
+import { notify } from '@/util/notify.js';
 const router = useRouter()
 const sheetOrganizerColumns = [
-{ key: 'Name', title: 'Name', sortable: true, value: (s: any) => s.Name },
-{ key: 'Pilot', title: 'Pilot', value: (s: any) => s.Pilot.Callsign },
-{ key: 'Created', title: 'Created', sortable: true, value: (s: any) => new Date(s.Created).toLocaleDateString() },
-{ key: 'Updated', title: 'Updated', sortable: true, value: (s: any) => new Date(s.Updated).toLocaleDateString() },
+  { key: 'Name', title: 'Name', sortable: true, value: (s: PilotSheet) => s.Name },
+  { key: 'Pilot', title: 'Pilot', value: (s: PilotSheet) => s.Pilot.Callsign },
+  { key: 'Created', title: 'Created', sortable: true, value: (s: PilotSheet) => new Date(s.Created).toLocaleDateString() },
+  { key: 'Updated', title: 'Updated', sortable: true, value: (s: PilotSheet) => new Date(s.Updated).toLocaleDateString() },
 ];
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+const { smAndDown: mobile } = useDisplay()
 
 const sort = ref('Updated')
 const asc = ref(true)
 const search = ref('')
 
 const activeSheets = computed(() => {
-      let sheets = PilotSheetStore().PilotSheets.filter(x => !x.Archived && !x.SaveController.IsDeleted);
+  let sheets = PilotSheetStore().PilotSheets.filter(x => !x.Archived && !x.SaveController.IsDeleted);
 
-      switch (sort.value) {
-        case 'Name':
-          if (asc.value) sheets = sheets.sort((a, b) => a.Name.localeCompare(b.Name));
-          else
-            sheets = sheets.sort((a, b) => b.Name.localeCompare(a.Name));
-          break;
-        case 'Created':
-          if (asc.value) sheets = sheets.sort((a, b) => a.Created - b.Created);
-          else
-            sheets = sheets.sort((a, b) => b.Created - a.Created);
-          break;
-        case 'Updated':
-          if (asc.value) sheets = sheets.sort((a, b) => a.Updated - b.Updated);
-          else
-            sheets = sheets.sort((a, b) => b.Updated - a.Updated);
-          break;
-      }
-      return sheets;
-    })
+  switch (sort.value) {
+    case 'Name':
+      if (asc.value) sheets = sheets.sort((a, b) => a.Name.localeCompare(b.Name));
+      else
+        sheets = sheets.sort((a, b) => b.Name.localeCompare(a.Name));
+      break;
+    case 'Created':
+      if (asc.value) sheets = sheets.sort((a, b) => a.Created - b.Created);
+      else
+        sheets = sheets.sort((a, b) => b.Created - a.Created);
+      break;
+    case 'Updated':
+      if (asc.value) sheets = sheets.sort((a, b) => a.Updated - b.Updated);
+      else
+        sheets = sheets.sort((a, b) => b.Updated - a.Updated);
+      break;
+  }
+  return sheets;
+})
 const archived = computed(() => {
-      let archives = PilotSheetStore().PilotSheets.filter(x => x.Archived && !x.SaveController.IsDeleted);
+  let archives = PilotSheetStore().PilotSheets.filter(x => x.Archived && !x.SaveController.IsDeleted);
 
-      if (search.value) {
-        const searchLower = search.value.toLowerCase();
-        archives = archives.filter(x => x.Name.toLowerCase().includes(searchLower));
-      }
+  if (search.value) {
+    const searchLower = search.value.toLowerCase();
+    archives = archives.filter(x => x.Name.toLowerCase().includes(searchLower));
+  }
 
-      return archives.sort((a, b) => b.Updated - a.Updated);
-    })
+  return archives.sort((a, b) => b.Updated - a.Updated);
+})
 
 function launch(sheet) {
-      PilotSheetStore().SetActiveSheet(sheet.ID);
-      router.push(`pilot-runner/${sheet.ID}`);
-    }
+  PilotSheetStore().SetActiveSheet(sheet.ID);
+  router.push(`pilot-runner/${sheet.ID}`);
+}
 function exportSheet(sheet) {
-      const out = JSON.stringify(PilotSheet.Serialize(sheet), null, 2);
+  const out = JSON.stringify(PilotSheet.Serialize(sheet), null, 2);
 
-      const blob = new Blob([out], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${sheet.Name}_sheet.json`;
-      a.click();
-      URL.revokeObjectURL(url);
-    }
+  const blob = new Blob([out], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${sheet.Name}_sheet.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
 function organizeArchive(ids: string[]) {
-      const targets = activeSheets.value.filter((s: any) => ids.includes(s.ID));
-      targets.forEach((s: any) => s.Archive());
-    }
+  const targets = activeSheets.value.filter(s => ids.includes(s.ID));
+  targets.forEach(s => s.Archive());
+}
 async function organizeDelete(ids: string[]) {
-      const targets = activeSheets.value.filter((s: any) => ids.includes(s.ID));
-      for (const s of targets) await PilotSheetStore().RemovePilotSheet(s);
-    }
+  const targets = activeSheets.value.filter(s => ids.includes(s.ID));
+  for (const s of targets) await PilotSheetStore().RemovePilotSheet(s as PilotSheet);
+}
 function organizeRestore(ids: string[]) {
-      const targets = archived.value.filter((s: any) => ids.includes(s.ID));
-      targets.forEach((s: any) => s.Unarchive());
-    }
+  const targets = archived.value.filter(s => ids.includes(s.ID));
+  targets.forEach(s => s.Unarchive());
+}
 function importSelect() {
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = '.json';
-      input.onchange = (e) => {
-        const file = (e.target as HTMLInputElement).files?.[0];
-        if (!file) return;
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json';
+  input.onchange = (e) => {
+    const file = (e.target as HTMLInputElement).files?.[0];
+    if (!file) return;
 
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          try {
-            const json = JSON.parse(event.target?.result as string);
-            const sheet = PilotSheet.Deserialize(json);
-            PilotSheetStore().PilotSheets.push(sheet);
-            PilotSheetStore().SetActiveSheet(sheet.ID);
-            router.push(`pilot-runner/${sheet.ID}`);
-          } catch (error) {
-            alert('Failed to import sheet: Invalid file format.');
-          }
-        };
-        reader.readAsText(file);
-      };
-      input.click();
-    }
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const json = JSON.parse(event.target?.result as string);
+        const sheet = PilotSheet.Deserialize(json);
+        PilotSheetStore().PilotSheets.push(sheet);
+        PilotSheetStore().SetActiveSheet(sheet.ID);
+        router.push(`pilot-runner/${sheet.ID}`);
+      } catch (error) {
+        logger.error('Failed to import sheet:', error);
+        notify({ type: 'error', text: 'Failed to import sheet. Please ensure the file is a valid character sheet JSON.' });
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
 </script>

@@ -12,7 +12,7 @@
         <v-btn v-bind="props"
           size="small"
           :style="lcpConfigs.length ? 'flex: 1; border-right: none !important' : 'flex: 1'">
-          <v-tooltip text="Content Packs"
+          <v-tooltip :text="$t('common.contentPacks')"
             location="top">
             <template #activator="{ props }">
               <span v-bind="props">
@@ -31,7 +31,7 @@
         <v-card-text>
           <v-list>
             <v-list-item tile
-              title="Select All">
+              :title="$t('common.selectAll')">
               <template #prepend>
                 <v-checkbox-btn :model-value="lcpFilter.length === lcps.length"
                   :indeterminate="lcpFilter.length > 0 && lcpFilter.length < lcps.length"
@@ -62,7 +62,7 @@
           size="small"
           icon
           style="border-left: none !important">
-          <v-tooltip text="Saved Configurations"
+          <v-tooltip :text="$t('ui.tooltips.savedConfigurations')"
             location="top">
             <template #activator="{ props }">
               <v-icon v-bind="props"
@@ -98,7 +98,7 @@
         <v-btn v-bind="props"
           size="small"
           style="flex: 1">
-          <v-tooltip text="Item Filters"
+          <v-tooltip :text="$t('ui.tooltips.itemFilters')"
             location="top">
             <template #activator="{ props }">
               <span v-bind="props">

@@ -27,7 +27,7 @@
           color="primary"
           class="search-field"
           icon="mdi-magnify"
-          placeholder="Search" />
+          :placeholder="$t('common.search')" />
       </v-col>
     </v-row>
     <i class="text-cc-overline">

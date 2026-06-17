@@ -41,7 +41,7 @@
   </v-row>
 
   <cc-modal v-model="dialog"
-    title="select template"
+    :title="$t('gm.titles.selectTemplate')"
     icon="cc:npc_template">
     <v-card-text v-if="!templates.length">
       <v-container class="mt-n4">

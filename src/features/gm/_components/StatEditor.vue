@@ -5,7 +5,7 @@
       class="pa-1">
       <v-row v-if="item.StatController.DisplayKeys.length"
         dense>
-        <v-col v-for="kvp in displayKeys.filter((x) => !hiddenKeys.includes(x.key))"
+        <v-col v-for="kvp in displayKeys.filter((x) => !hiddenKeys.includes(x.key) || x.added)"
           v-show="kvp.key !== 'sizes'"
           :key="item.ID + '_' + kvp.key"
           :style="`min-width: ${mobile ? 'fit-content' : '12vw'}`">
@@ -42,8 +42,8 @@
         class="ml-auto">
         <v-menu v-model="resetMenu"
           :close-on-content-click="false">
-          <template #activator="{ props }">
-            <cc-button v-bind="props"
+          <template #activator="{ props: activatorProps }">
+            <cc-button v-bind="activatorProps"
               size="small"
               color="error"
               prepend-icon="mdi-undo-variant">
@@ -52,7 +52,10 @@
           </template>
           <v-card max-width="300px">
             <v-card-text>
-              {{ $t('gm.stats.resetConfirm', { tier: controller.Tier, name: controller.Class ? controller.Class.Name : controller.Layer.Name }) }}
+              {{ $t('gm.stats.resetConfirm', {
+                tier: controller.Tier, name: controller.Class ?
+                  controller.Class.Name : ''
+              }) }}
             </v-card-text>
             <cc-button block
               size="small"
@@ -70,8 +73,8 @@
       <v-spacer />
       <v-col cols="auto">
         <v-menu :close-on-content-click="false">
-          <template #activator="{ props }">
-            <cc-button v-bind="props"
+          <template #activator="{ props: activatorProps }">
+            <cc-button v-bind="activatorProps"
               size="small"
               color="primary"
               prepend-icon="cc:compendium">
@@ -87,7 +90,7 @@
               height="24"
               bg-color="primary"
               density="compact">
-              <v-tab>{{ $t('gm.stats.core') }}</v-tab>
+              <v-tab>{{ $t('common.core') }}</v-tab>
               <v-tab>{{ $t('gm.stats.custom') }}</v-tab>
             </v-tabs>
 
@@ -109,14 +112,17 @@
                     :disabled="!statsToAdd.length"
                     @click="addCoreStats()">
                     {{ $t('common.add') }}
-                    <span v-if="statsToAdd.length">{{ $t('gm.stats.statCountSuffix', { n: statsToAdd.length }) }}</span>
+                    <span v-if="statsToAdd.length">{{ $t('gm.stats.statCountSuffix', {
+                      n:
+                        statsToAdd.length
+                    }) }}</span>
                   </cc-button>
                 </v-window-item>
                 <v-window-item>
                   <v-text-field v-model="customTitle"
                     clearable
                     density="compact"
-                    label="Stat Name"
+                    :label="$t('gm.fields.statName')"
                     hide-details />
                   <cc-button block
                     color="primary"
@@ -142,40 +148,45 @@ import { Stats } from '@/classes/components/combat/stats/Stats';
 import EditableAttribute from './_subcomponents/EditableAttribute.vue';
 import { Bonus } from '@/classes/components/feature/bonus/Bonus';
 import { useDisplay } from 'vuetify';
+import { Doodad } from '@/classes/npc/doodad/Doodad.js';
+import { Eidolon } from '@/classes/npc/eidolon/Eidolon.js';
+import { Unit } from '@/classes/npc/unit/Unit.js';
+import { NpcClassController } from '@/classes/npc/class/NpcClassController.js';
 const npcStatOrder = [
-'hull',
-'agi',
-'sys',
-'eng',
-'size',
-'sizes',
-'activations',
-'structure',
-'stress',
-'hp',
-'speed',
-'sensorRange',
-'heatcap',
-'armor',
-'evasion',
-'edef',
-'attackBonus',
-'techAttack',
-'saveTarget',
-'grapple',
-'ram',
+  'hull',
+  'agi',
+  'sys',
+  'eng',
+  'size',
+  'sizes',
+  'activations',
+  'structure',
+  'stress',
+  'hp',
+  'speed',
+  'sensorRange',
+  'heatcap',
+  'armor',
+  'evasion',
+  'edef',
+  'attackBonus',
+  'techAttack',
+  'saveTarget',
+  'grapple',
+  'ram',
 ];
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+const { smAndDown: mobile } = useDisplay()
 
 const props = withDefaults(defineProps<{
-  item: object
-  controller?: object
+  item: Unit | Eidolon | Doodad
+  controller?: NpcClassController
   bonuses?: Bonus[]
   prefix?: string
   readonly?: boolean
   tierOverride?: number
 }>(), {
+  controller: undefined,
   bonuses: () => [],
   prefix: '',
   readonly: false,
@@ -188,84 +199,82 @@ const customTitle = ref('')
 const resetMenu = ref(false)
 const editing = ref(false)
 const hiddenKeys = ref([
-      'overcharge',
-      'overshield',
-      'attackBonus',
-      'limitedBonus',
-      'repairCapacity',
-      'saveBonus',
-      'heat',
-    ])
+  'overcharge',
+  'overshield',
+  'attackBonus',
+  'limitedBonus',
+  'repairCapacity',
+  'saveBonus',
+  'heat',
+])
 
-const coreStats = computed(() => {
-      return StatController.CoreStats;
-    })
+
 const availableCoreStats = computed(() => {
-      return StatController.CoreStats.filter(
-        (x) => !props.item.StatController.DisplayKeys.some((y) => y.key === x.key)
-      ).filter((x) => x.key !== 'sizes');
-    })
+  return StatController.CoreStats.filter(
+    (x) => !props.item.StatController.DisplayKeys.some((y) => y.key === x.key)
+  ).filter((x) => x.key !== 'sizes');
+})
 const displayKeys = computed(() => {
-      const omit = ['overshield', 'overcharge', 'burn'];
-      return props.item.StatController.DisplayKeys.filter(
-        (x) => !omit.includes(x.key.toLowerCase())
-      ).sort((a, b) => npcStatOrder.indexOf(a.key) - npcStatOrder.indexOf(b.key));
-    })
+  const omit = ['overshield', 'overcharge', 'burn'];
+  return props.item.StatController.DisplayKeys.filter(
+    (x) => !omit.includes(x.key.toLowerCase())
+  ).sort((a, b) => npcStatOrder.indexOf(a.key) - npcStatOrder.indexOf(b.key));
+})
 const mandatoryStats = computed(() => {
-      return MandatoryStats;
-    })
+  return MandatoryStats;
+})
 const editedKeys = computed(() => {
-      if (!props.controller?.getClassStats) return {}
-      const maxStats = props.item.StatController.MaxStats
-      const result: Record<string, boolean> = {}
-      props.controller.getClassStats().forEach(({ key, val }) => {
-        if (maxStats[key] !== undefined && maxStats[key] !== val) {
-          result[key] = true
-        }
-      })
-      return result
-    })
+  if (!props.controller?.getClassStats) return {}
+  const maxStats = props.item.StatController.MaxStats
+  const result: Record<string, boolean> = {}
+  props.controller.getClassStats().forEach(({ key, val }) => {
+    if (maxStats[key] !== undefined && maxStats[key] !== val) {
+      result[key] = true
+    }
+  })
+  return result
+})
 
 function getBonuses(key: string) {
-      const tier: number = props.tierOverride || (props.item as any).CombatController?.Tier || 1;
-      return (props.bonuses as Bonus[])
-        .filter((x) => Stats.cleanKey(x.ID) === key)
-        .map((b) => {
-          let resolved: number | null = null;
-          if (Array.isArray(b.Value)) {
-            resolved = Number(b.Value[Math.min(tier - 1, b.Value.length - 1)]);
-          } else if (typeof b.Value === 'string' && b.Value.includes('/')) {
-            const parts = b.Value.split('/');
-            resolved = Number(parts[Math.min(tier - 1, parts.length - 1)]);
-          }
-          if (resolved === null) return b;
-          const icon = b.Overwrite || b.Replace
-            ? 'mdi-tooltip-edit-outline'
-            : resolved > 0 ? 'mdi-tooltip-plus-outline'
-              : resolved < 0 ? 'mdi-tooltip-minus-outline'
-                : 'mdi-tooltip-check-outline';
-          const originalValStr = Array.isArray(b.Value) ? b.Value.join(', ') : String(b.Value);
-          const detail = String(b.Detail).replace(originalValStr, String(resolved));
-          return { ...b, Value: resolved, Icon: icon, Detail: detail };
-        });
-    }
-function addCoreStats() {
-      statsToAdd.value.forEach((x) => props.item.StatController.AddCoreStat(x));
-      statsToAdd.value = [];
-    }
-function addCustomStat() {
-      props.item.StatController.AddCustomStat(customTitle.value);
-      customTitle.value = '';
-    }
-function setStat(key: string, event: { value: any }) {
-      props.item.StatController.setMax(key, event.value)
-      props.item.SaveController.markModified()
-      props.item.SaveController.save()
-    }
-function toggleEditing() {
-      editing.value = !editing.value;
-      if (!editing.value) {
-        props.item.SaveController.save();
+  const tier: number = props.tierOverride || props.item.CombatController?.Tier || 1;
+  return (props.bonuses as Bonus[])
+    .filter((x) => Stats.cleanKey(x.ID) === key)
+    .map((b) => {
+      let resolved: number | null = null;
+      if (Array.isArray(b.Value)) {
+        resolved = Number(b.Value[Math.min(tier - 1, b.Value.length - 1)]);
+      } else if (typeof b.Value === 'string' && b.Value.includes('/')) {
+        const parts = b.Value.split('/');
+        resolved = Number(parts[Math.min(tier - 1, parts.length - 1)]);
       }
-    }
+      if (resolved === null) return b;
+      const icon = b.Overwrite || b.Replace
+        ? 'mdi-tooltip-edit-outline'
+        : resolved > 0 ? 'mdi-tooltip-plus-outline'
+          : resolved < 0 ? 'mdi-tooltip-minus-outline'
+            : 'mdi-tooltip-check-outline';
+      const originalValStr = Array.isArray(b.Value) ? b.Value.join(', ') : String(b.Value);
+      const detail = String(b.Detail).replace(originalValStr, String(resolved));
+      return { ...b, Value: resolved, Icon: icon, Detail: detail };
+    });
+}
+function addCoreStats() {
+  statsToAdd.value.forEach((x) => props.item.StatController.AddCoreStat(x));
+  statsToAdd.value = [];
+}
+function addCustomStat() {
+  props.item.StatController.AddCustomStat(customTitle.value);
+  customTitle.value = '';
+}
+function setStat(key: string, event: { value: number | string }) {
+  props.item.StatController.setMax(key, event.value)
+  props.item.SaveController.markModified()
+  props.item.SaveController.save()
+}
+function toggleEditing() {
+  editing.value = !editing.value;
+  if (!editing.value) {
+    props.item.SaveController.save();
+  }
+}
 </script>

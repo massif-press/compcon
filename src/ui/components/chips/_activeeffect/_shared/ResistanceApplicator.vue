@@ -5,7 +5,7 @@
       :key="`resist-${index}`"
       no-gutters>
       <v-col>
-        <div class="text-cc-overline text-disabled">{{ $t('ui.combat.damageType') }}</div>
+        <div class="text-cc-overline text-disabled">{{ $t('ui.fields.damageType') }}</div>
         <v-select :model-value="r.Resist"
           :items="resistanceOptions"
           density="compact"

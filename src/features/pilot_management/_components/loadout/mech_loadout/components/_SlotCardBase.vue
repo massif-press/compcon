@@ -70,7 +70,7 @@
   </cc-modal>
 
   <cc-modal v-model="selectorDialog"
-    title="select equipment"
+    :title="$t('pm.titles.selectEquipment')"
     clip
     @close="$emit('selector-close')">
     <slot name="selector" />

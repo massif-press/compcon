@@ -5,7 +5,7 @@
   />
   <cc-tabs fixed-tabs>
     <template #tabs>
-      <v-tab>{{ $t('compendium.reference.actions') }}</v-tab>
+      <v-tab>{{ $t('common.actions') }}</v-tab>
       <v-tab>{{ $t('compendium.categories.statusesConditions') }}</v-tab>
       <v-tab>{{ $t('compendium.reference.iconGuide') }}</v-tab>
       <v-tab>{{ $t('compendium.reference.damageTables') }}</v-tab>

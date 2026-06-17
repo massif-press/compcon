@@ -45,19 +45,19 @@
       <ai-control-button v-if="!controller.AIControl"
         :controller="controller"
         :size="mobile ? 'x-small' : 'small'"
-        label="Cede Control"
+        :label="$t('active.fields.cedeControl')"
         tooltip-text="Cede control of your mech to the NHP as a Protocol Action."
         @action="enableAI" />
 
       <ai-control-button v-if="controller.AIControl"
         :controller="controller"
-        label="Reclaim Control"
+        :label="$t('active.fields.reclaimControl')"
         tooltip-text="Reclaim control of your mech from the NHP as a Protocol Action."
         @action="disableAI" />
 
       <v-tooltip location="top"
         max-width="300"
-        text="Mark your mech as IN CASCADE">
+        :text="$t('active.tooltips.markYourMechAsInCascade')">
         <template #activator="{ props }">
           <v-btn v-bind="props"
             color="error"
@@ -103,7 +103,7 @@
           border>
           <div v-if="item.IsLoading">
             <i18n-t v-if="!item.Used" keypath="active.equipCmd.markUsedHint" tag="span" scope="global">
-              <template #used><b>{{ $t('active.equipCmd.used') }}</b></template>
+              <template #used><b>{{ $t('ui.fields.used') }}</b></template>
             </i18n-t>
             <i18n-t v-else keypath="active.equipCmd.reloadHint" tag="span" scope="global">
               <template #reload><b>{{ $t('active.equipCmd.reload') }}</b></template>
@@ -129,7 +129,7 @@
       cols="auto"
       class="ml-1">
       <v-tooltip location="top"
-        text="Reset Uses">
+        :text="$t('active.tooltips.resetUses')">
         <template #activator="{ props }">
           <v-btn v-bind="props"
             icon
@@ -150,7 +150,7 @@
       class="ml-1"
       style="z-index: 4">
       <v-tooltip location="top"
-        text="Toggle Destroyed">
+        :text="$t('active.tooltips.toggleDestroyed')">
         <template #activator="{ props }">
           <v-btn v-bind="props"
             icon

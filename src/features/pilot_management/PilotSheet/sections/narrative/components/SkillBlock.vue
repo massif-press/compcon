@@ -1,7 +1,7 @@
 <template>
   <div>
-    <section-header title="Skill Triggers">
-      <cc-modal title="Set Pilot Skill Triggers"
+    <section-header :title="$t('pm.titles.skillTriggers')">
+      <cc-modal :title="$t('pm.titles.setPilotSkillTriggers')"
         icon="cc:skill">
         <template #activator="{ open }">
           <section-edit-chip v-if="!pilot.IsRemote"

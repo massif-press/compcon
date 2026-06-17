@@ -29,7 +29,7 @@
     </template>
     <template #top>
       <cc-switch v-model="allowDupes"
-        label="Allow Duplicates"
+        :label="$t('gm.fields.allowDuplicates')"
         color="error"
         on-icon="mdi-lock-open"
         off-icon="mdi-lock" />

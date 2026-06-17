@@ -12,7 +12,7 @@
           details="test"
           block
           color="primary"
-          tooltip="This will create a copy of this pilot data, registered to your pilot roster."
+          :tooltip="$t('pm.tooltips.thisWillCreateACopy')"
           @click="copyPilot">
           {{ $t('pm.sheet.duplicatePilot') }}
         </cc-button>
@@ -23,9 +23,7 @@
           large
           block
           color="primary"
-          tooltip="This will clone the selected pilot. Cloned characters can’t join a mission in progress,
-            and cloned characters receive a random quirk. Additional cloning and subjectivity
-            imprinting adds further quirks."
+          :tooltip="$t('pm.tooltips.thisWillCloneTheSelected')"
           :disabled="!!quirk"
           @click="rollQuirk">
           {{ $t('pm.sheet.flashClonePilot') }}
@@ -90,7 +88,7 @@
             <cc-button v-if="!mobile"
               icon="mdi-dice-6"
               variant="outlined"
-              tooltip="Reroll quirk"
+              :tooltip="$t('pm.tooltips.rerollQuirk')"
               @click="rollQuirk" />
             <cc-button v-else
               prepend-icon="mdi-dice-6"

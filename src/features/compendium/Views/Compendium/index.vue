@@ -4,7 +4,7 @@
       v-if="!mobile"
       class="font-weight-light text-center my-n4"
       style="letter-spacing: 2vw !important; font-size: 3.6vw !important">
-      {{ $t('compendium.titles.compendium') }}
+      {{ $t('common.compendium') }}
     </div>
     <v-row justify="center">
       <v-col lg="8" xs="12">

@@ -2,12 +2,12 @@
   <v-container class="pb-12">
     <v-row dense>
       <v-col>
-        <div class="heading h1">{{ $t('compendium.reference.actions') }}</div>
+        <div class="heading h1">{{ $t('common.actions') }}</div>
       </v-col>
       <v-col v-if="!mobile"
         cols="auto">
         <cc-switch v-model="expanded"
-          label="Show Full" />
+          :label="$t('compendium.fields.showFull')" />
       </v-col>
     </v-row>
 

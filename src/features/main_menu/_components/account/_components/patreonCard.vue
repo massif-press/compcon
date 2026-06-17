@@ -26,7 +26,7 @@
     </v-tooltip>
   </v-card>
   <cc-dialog v-else
-    title="Membership Benefits"
+    :title="$t('mainMenu.titles.membershipBenefits')"
     max-width="800">
     <template #activator="{ open }">
       <v-card @click="open"
@@ -37,7 +37,7 @@
         <div class="bg-patreon text-caption"
           style="letter-spacing: 4px !important">
           <cc-slashes />
-          <b class="px-2">{{ $t("mainMenu.patreon.linked") }}</b>
+          <b class="px-2">{{ $t("notify.account.patreonLinkedTitle") }}</b>
           <cc-slashes />
         </div>
         <v-card-text class="py-2">

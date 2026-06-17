@@ -171,7 +171,7 @@ export function useItemDeleteLifecycle(opts: { refresh: () => void }) {
     } catch (err) {
       logger.error(`Error deleting item: ${err}`, {}, err)
       vueNotify({
-        title: t('notify.dataItem.deletionFailedTitle'),
+        title: t('notify.image.deleteFailedTitle'),
         text: t('notify.dataItem.serverError', { err: String(err) }),
         data: { icon: 'mdi-alert', color: 'error' },
       })

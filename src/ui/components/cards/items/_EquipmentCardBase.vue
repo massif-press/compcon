@@ -42,7 +42,7 @@
   <div v-if="item.Trigger"
     class="mb-2">
     <div class="text-cc-overline text-disabled">
-      {{ $t('ui.card.triggerUpper') }}
+      {{ $t('common.trigger') }}
     </div>
     <p v-if="tier"
       v-html-safe="item.TriggerByTier(tier)"
@@ -146,7 +146,7 @@
       density="compact"
       hide-details
       prepend-icon="mdi-note"
-      label="Equipment Notes"
+      :label="$t('ui.fields.equipmentNotes')"
       class="mt-2" />
   </div>
 

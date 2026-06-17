@@ -47,7 +47,7 @@
     </v-container>
     <cc-modal v-if="!pilot.IsRemote"
       icon="cc:frame"
-      title="Add New Mech"
+      :title="$t('pm.titles.addNewMech')"
       clip>
       <template #activator="{ open }">
         <cc-button color="primary"

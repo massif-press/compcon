@@ -11,7 +11,7 @@
         <v-icon size="small"
           icon="cc:activate"
           class="mt-n1" />
-        {{ $t('pm.loadout.equipmentACTIONS') }}
+        {{ $t('ui.card.equipmentActions') }}
       </div>
       <cc-action v-for="(a, index) in item.Actions"
         :key="`action-${index}`"
@@ -26,7 +26,7 @@
         <v-icon size="small"
           icon="cc:drone"
           class="mt-n1" />
-        {{ $t('pm.loadout.equipmentDEPLOYABLES') }}
+        {{ $t('ui.card.equipmentDeployables') }}
       </div>
       <cc-deployable-info v-for="(d, index) in item.Deployables"
         :key="`deployable-${index}`"

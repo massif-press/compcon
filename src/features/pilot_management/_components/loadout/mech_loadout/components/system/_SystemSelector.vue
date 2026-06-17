@@ -21,7 +21,7 @@
               <span class="text-success">{{ $t('pm.loadout.frameEQUIPMENTREGISTRATIONVERIFIED') }}</span>
             </div>
             <div class="heading h2 text-accent">
-              {{ equipped?.Name || swapSystem?.Name || $t('pm.loadout.noSELECTION') }}
+              {{ equipped?.Name || swapSystem?.Name || $t('ui.widget.noSelection') }}
             </div>
             <div class="flavor-text overline"
               style="display: block">
@@ -32,7 +32,7 @@
             <div class="text-cc-overline">
               {{ $t('pm.loadout.unionARMORYEQUIPMENTAUTHORIZATIONFRAMEEQUIPMENT') }}
             </div>
-            <div class="heading h2 text-disabled">{{ $t('pm.loadout.noSELECTION') }}</div>
+            <div class="heading h2 text-disabled">{{ $t('ui.widget.noSelection') }}</div>
             <div class="flavor-text overline text-error"
               style="display: block">
               {{ $t('pm.loadout.equipmentIDINVALIDORMISSING') }}

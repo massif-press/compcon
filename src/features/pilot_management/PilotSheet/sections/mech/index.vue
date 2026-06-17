@@ -54,7 +54,7 @@
         style="max-height: 80vh" />
       <div class="text-right mt-n3">
         <cc-modal v-if="!mech.Pilot.IsRemote"
-          title="set mech image"
+          :title="$t('pm.titles.setMechImage')"
           icon="cc:frame">
           <template #activator="{ open }">
             <cc-button variant="tonal"
@@ -73,7 +73,7 @@
     </div>
 
     <cc-dialog :close-on-click="false"
-      title="Delete Mech"
+      :title="$t('pm.titles.deleteMech')"
       color="error"
       icon="mdi-delete">
       <template #activator="{ open }">
@@ -97,12 +97,12 @@
     <v-container>
       <v-row align="start">
         <v-col>
-          <section-header title="Operator Notes" />
+          <section-header :title="$t('pm.titles.operatorNotes')" />
           <cc-rich-text-area v-model="mech.Notes"
             :readonly="mech.Pilot.IsRemote"
             class="mb-3 mt-2" />
 
-          <section-header title="Licenses Required" />
+          <section-header :title="$t('pm.titles.licensesRequired')" />
           <div class="pt-1">
             <requirement-item v-for="l in reqLicenses.filter(x => x.source)"
               :key="l.source"
@@ -128,7 +128,7 @@
             position="top center" />
           <div class="text-right mt-n3">
             <cc-modal v-if="!mech.Pilot.IsRemote"
-              title="set mech image"
+              :title="$t('pm.titles.setMechImage')"
               icon="cc:frame">
               <template #activator="{ open }">
                 <cc-button variant="tonal"

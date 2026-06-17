@@ -16,7 +16,7 @@
               <span class="text-capitalize">
                 {{ item.side }} {{ item.actor.Tag }}&nbsp;&mdash;&nbsp;
               </span>
-              <span v-if="item.reinforcement">{{ $t('gm.combatant.reinforcement') }}</span>
+              <span v-if="item.reinforcement">{{ $t('common.reinforcement') }}</span>
               <span v-else>{{ $t('gm.combatant.mainForce') }}</span>
               <span v-if="item.playerCount > 1">&nbsp;{{ $t('gm.combatant.pcsCount', { n: item.playerCount }) }}</span>
             </div>
@@ -27,7 +27,7 @@
     </template>
     <v-card>
       <v-card-text>
-        <div class="text-caption">{{ $t('gm.combatant.side') }}</div>
+        <div class="text-caption">{{ $t('common.side') }}</div>
         <v-select v-model="item.side"
           density="compact"
           hide-details
@@ -55,12 +55,12 @@
           clearable
           persistent-hint
           density="compact"
-          hint="Optional" />
+          :hint="$t('gm.fields.optional')" />
 
         <v-divider class="my-2" />
 
         <v-checkbox v-model="item.reinforcement"
-          label="Reinforcement"
+          :label="$t('common.reinforcement')"
           density="compact"
           hide-details />
 
@@ -81,7 +81,7 @@
             clearable
             persistent-hint
             density="compact"
-            hint="Optional" />
+            :hint="$t('gm.fields.optional')" />
         </div>
       </v-card-text>
     </v-card>

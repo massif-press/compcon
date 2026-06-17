@@ -1,6 +1,6 @@
 <template>
   <pl-card-base ref="base"
-    title="PILOT ARMOR"
+    :title="$t('common.pilotArmor')"
     :extended="extended"
     :item="item"
     :readonly="readonly"
@@ -19,7 +19,7 @@
         justify="space-around"
         class="mb-1">
         <v-col class="my-auto">
-          <v-tooltip text="Armor Bonus">
+          <v-tooltip :text="$t('common.armorBonus')">
             <template #activator="{ props }">
               <v-icon v-bind="props"
                 size="large"
@@ -29,7 +29,7 @@
           <span class="stat-text">{{ item.Armor(pilot) }}</span>
         </v-col>
         <v-col class="my-auto">
-          <v-tooltip text="HP Bonus">
+          <v-tooltip :text="$t('common.hpBonus')">
             <template #activator="{ props }">
               <v-icon v-bind="props"
                 size="large"
@@ -39,7 +39,7 @@
           <span class="stat-text">+{{ item.HPBonus(pilot) }}</span>
         </v-col>
         <v-col class="my-auto">
-          <v-tooltip text="Electronic Defense">
+          <v-tooltip :text="$t('common.electronicDefense')">
             <template #activator="{ props }">
               <v-icon v-bind="props"
                 size="large"
@@ -49,7 +49,7 @@
           <span class="stat-text">{{ item.EDefense(pilot) }}</span>
         </v-col>
         <v-col class="my-auto">
-          <v-tooltip text="Evasion">
+          <v-tooltip :text="$t('stats.evasion')">
             <template #activator="{ props }">
               <v-icon v-bind="props"
                 size="large"
@@ -59,7 +59,7 @@
           <span class="stat-text">{{ item.Evasion(pilot) }}</span>
         </v-col>
         <v-col class="my-auto">
-          <v-tooltip text="Speed">
+          <v-tooltip :text="$t('stats.speed')">
             <template #activator="{ props }">
               <v-icon v-bind="props"
                 size="large"
@@ -108,7 +108,7 @@
             <br />
             <span class="heading h1 text-disabled text--lighten-1"
               style="line-height: 35px">
-              {{ $t('pm.loadout.noSELECTION') }}
+              {{ $t('ui.widget.noSelection') }}
             </span>
             <span class="flavor-text text-cc-overline text-error"
               style="display: block">

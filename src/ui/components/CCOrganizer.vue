@@ -50,7 +50,7 @@
               <v-col cols="auto">
                 <v-checkbox v-model="showDeleted"
                   density="compact"
-                  label="Show Deleted"
+                  :label="$t('ui.fields.showDeleted')"
                   @update:model-value="$emit('update:showDeleted', $event)" />
               </v-col>
             </v-row>

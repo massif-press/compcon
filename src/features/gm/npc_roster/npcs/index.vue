@@ -1,6 +1,6 @@
 <template>
   <gm-split-view ref="view"
-    title="NPCs"
+    :title="$t('common.npcs')"
     item-type="Unit"
     :items="npcs"
     :selected="<any>selected"

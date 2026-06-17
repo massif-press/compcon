@@ -29,14 +29,13 @@
         md="6">
         <cc-heading is-title
           text="CC-ID"
-          tooltip="Your unique account ID. This is used to identify your account in the cloud and may be
-          requested for troubleshooting purposes." />
+          :tooltip="$t('mainMenu.tooltips.yourUniqueAccountIdThis')" />
         {{ cognito.userId }}
       </v-col>
       <v-col cols="12"
         md="6">
         <cc-heading is-title
-          text="Account Email"
+          :text="$t('mainMenu.actions.accountEmail')"
           tooltip="This is the e-mail address associated with your account. You can use this to log in to
             COMP/CON, Nautilus, and other Massif apps. This address is only visible to you and and
             <b>will not</b>
@@ -48,7 +47,7 @@
         md="6">
         <cc-heading is-title
           text="CC-username"
-          tooltip="This is an <b>optional</b> field that you can use to set a custom name for your account. This username <b>will</b> be visible to other users in active mode and when sharing data." />
+          :tooltip="$t('mainMenu.tooltips.usernameOptional')" />
 
         <v-row dense
           align="center">
@@ -76,13 +75,13 @@
       <v-col cols="12"
         md="6">
         <cc-heading is-title
-          text="Account Details" />
+          :text="$t('mainMenu.actions.accountDetails')" />
         <div class="text-caption">
           <b>{{ $t("mainMenu.management.accountCreatedV3") }}</b>
           <i class="text-accent ml-1">{{ new Date(Number(meta.CreatedAt)).toLocaleString() }}</i>
         </div>
         <div class="text-caption">
-          <b>{{ $t("mainMenu.management.lastUpdated") }}</b>
+          <b>{{ $t('share.resultLastUpdated') }}:</b>
           <i class="text-accent ml-1">{{ new Date(Number(meta.UpdatedAt)).toLocaleString() }}</i>
         </div>
       </v-col>
@@ -108,7 +107,7 @@
       <v-col cols="12"
         md="">
         <cc-text-field v-model="oldPass"
-          label="Old Password"
+          :label="$t('mainMenu.fields.oldPassword')"
           color="primary"
           variant="outlined"
           :type="showOld ? 'text' : 'password'"
@@ -118,7 +117,7 @@
       <v-col cols="12"
         md="">
         <cc-text-field v-model="newPass"
-          label="New Password"
+          :label="$t('mainMenu.fields.newPassword')"
           color="primary"
           variant="outlined"
           :type="showNew ? 'text' : 'password'"
@@ -145,20 +144,20 @@
       <v-col cols="12"
         md="">
         <cc-text-field v-model="newEmail"
-          label="New E-Mail"
+          :label="$t('mainMenu.fields.newEmail')"
           color="primary"
           variant="outlined" />
       </v-col>
       <v-col cols="12"
         md="">
         <cc-text-field v-model="newEmailConfirm"
-          label="Confirm New E-Mail"
+          :label="$t('mainMenu.fields.confirmNewEmail')"
           color="primary"
           variant="outlined" />
       </v-col>
       <v-col cols="auto">
         <div class="text-right">
-          <cc-modal title="Change Account E-Mail"
+          <cc-modal :title="$t('mainMenu.titles.changeAccountEmail')"
             shrink
             max-width="50vw">
             <template #activator="{ open }">
@@ -182,7 +181,7 @@
                   {{ $t("mainMenu.management.verifyEmailSent", { email: newEmail }) }}
                 </p>
                 <cc-text-field v-model="verifyCode"
-                  label="Verification Code"
+                  :label="$t('mainMenu.fields.verificationCode')"
                   color="primary"
                   variant="outlined"
                   autocomplete="one-time-code" />
@@ -237,7 +236,7 @@
     </cc-button>
 
     <div class="text-right">
-      <cc-modal title="Account Deletion"
+      <cc-modal :title="$t('mainMenu.titles.accountDeletion')"
         max-width="50vw"
         shrink>
         <template #activator="{ open }">

@@ -1,15 +1,15 @@
 <template>
   <v-container>
     <v-row>
-      <v-col class="heading h2">{{ $t('gm.encounterIndex.title') }}</v-col>
+      <v-col class="heading h2">{{ $t('common.encounters') }}</v-col>
       <v-col cols="auto">
-        <cc-modal title="organize encounters"
+        <cc-modal :title="$t('gm.titles.organizeEncounters')"
           icon="mdi-queue-first-in-last-out">
           <template #activator="{ open }">
             <cc-button size="small"
               color="primary"
               class="mx-4"
-              @click="open">{{ $t('gm.encounterIndex.organize') }}</cc-button>
+              @click="open">{{ $t('common.organize') }}</cc-button>
           </template>
           <template #default="{ close }">
             <organizer type="encounter"
@@ -40,7 +40,7 @@
             class="ml-auto">
             <v-select v-model="grouping"
               :items="groupings"
-              label="Group By"
+              :label="$t('gm.fields.groupBy')"
               hide-details
               tile
               variant="outlined"
@@ -49,7 +49,7 @@
           <v-col cols="3">
             <v-select v-model="sorting"
               :items="sortings"
-              label="Sort By"
+              :label="$t('gm.fields.sortBy')"
               hide-details
               tile
               variant="outlined"
@@ -148,7 +148,7 @@
       </cc-button>
       <v-spacer />
       <cc-modal ref="import"
-        title="import data"
+        :title="$t('gm.titles.importData')"
         icon="mdi-download"
         no-confirm>
         <template #activator="{ open }">

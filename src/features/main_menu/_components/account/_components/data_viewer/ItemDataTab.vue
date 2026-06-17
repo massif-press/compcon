@@ -16,7 +16,7 @@
       </cc-button>
       <v-spacer />
       <cc-switch v-model="showLocalDeleted"
-        label="Show Locally Deleted"
+        :label="$t('mainMenu.fields.showLocallyDeleted')"
         hide-details
         class="ml-auto" />
 
@@ -85,8 +85,8 @@
         <span v-else-if="item.ItemType === 'Campaign'">{{ $t("mainMenu.dataItem.typeCampaignData") }}</span>
         <span v-else-if="item.ItemType === 'EncounterInstance'">{{ $t("mainMenu.dataItem.typeActiveEncounter") }}</span>
         <span v-else-if="item.ItemType === 'EncounterArchive'">{{ $t("mainMenu.dataItem.typeArchivedEncounter") }}</span>
-        <span v-else-if="item.ItemType === 'PilotSheet'">{{ $t("mainMenu.dataItem.typePilotSheet") }}</span>
-        <span v-else-if="item.ItemType === 'pilotgroup'">{{ $t("mainMenu.dataItem.typePilotGroup") }}</span>
+        <span v-else-if="item.ItemType === 'PilotSheet'">{{ $t("common.pilotSheet") }}</span>
+        <span v-else-if="item.ItemType === 'pilotgroup'">{{ $t("common.pilotGroup") }}</span>
         <span v-else
           v-text="item.ItemType" />
       </template>
@@ -96,7 +96,7 @@
         </span>
         <i v-else
           class="text-disabled">
-          {{ $t("mainMenu.dataItem.noData") }}
+          {{ $t("common.noData") }}
         </i>
       </template>
       <template #item.localLastModified="{ item }">
@@ -106,7 +106,7 @@
         </span>
         <i v-else
           class="text-disabled">
-          {{ $t("mainMenu.dataItem.noData") }}
+          {{ $t("common.noData") }}
         </i>
       </template>
       <template #item.syncStatus="{ item }">
@@ -145,7 +145,7 @@
               color="success"
               icon="mdi-cloud-check-variant-outline" />
           </template>
-          <div class="text-center">{{ $t("mainMenu.dataItem.upToDateStatus") }}</div>
+          <div class="text-center">{{ $t("share.upToDate") }}</div>
         </v-tooltip>
         <v-tooltip v-else
           max-width="300px"
@@ -267,7 +267,7 @@
               </v-btn>
             </template>
             <div class="text-center">
-              {{ $t("mainMenu.dataItem.restore") }}
+              {{ $t("common.restore") }}
               <br />
               <i class="text-caption">{{ $t("mainMenu.dataItem.restoreLocalDesc") }}</i>
             </div>
@@ -293,17 +293,17 @@
               </v-btn>
             </template>
             <v-list>
-              <v-list-item title="Sync Now"
-                subtitle="Merge and sync this item immediately."
+              <v-list-item :title="$t('common.syncNow')"
+                :subtitle="$t('mainMenu.subtitles.mergeAndSyncThisItem')"
                 @click="sync(item)" />
               <v-list-item v-if="!item._isRemote"
-                title="Force Upload"
-                subtitle="Push local data to cloud unconditionally, overwriting remote."
+                :title="$t('mainMenu.titles.forceUpload')"
+                :subtitle="$t('mainMenu.subtitles.pushLocalDataToCloud')"
                 :disabled="!item.SaveController"
                 @click="forceSyncLocal(item)" />
               <v-list-item v-if="!item._isRemote"
-                title="Force Download"
-                subtitle="Merge latest cloud data into this item, preserving any newer local fields."
+                :title="$t('mainMenu.titles.forceDownload')"
+                :subtitle="$t('mainMenu.subtitles.mergeLatestCloudDataInto')"
                 :disabled="!item.CloudController?.Metadata?.Updated"
                 @click="forceSyncCloud(item)" />
             </v-list>
@@ -325,7 +325,7 @@
                       mdi-delete-forever
                     </v-icon>
                   </template>
-                  <div class="text-center">{{ $t("mainMenu.dataItem.deletePermanently") }}</div>
+                  <div class="text-center">{{ $t("common.deletePermanently") }}</div>
                 </v-tooltip>
               </v-btn>
             </template>
@@ -334,7 +334,7 @@
                 <v-toolbar flat
                   color="error">
                   <v-toolbar-title>
-                    <span class="heading h3">{{ $t("mainMenu.dataItem.deletePermanently") }}</span>
+                    <span class="heading h3">{{ $t("common.deletePermanently") }}</span>
                   </v-toolbar-title>
                   <v-spacer />
                   <v-btn icon
@@ -345,7 +345,7 @@
                 <v-card-text>
                   {{ $t("mainMenu.dataItem.deletePermanentlyDesc") }}
                   <v-checkbox v-model="skipDeleteWarningLocal"
-                    label="Do not show this warning again"
+                    :label="$t('mainMenu.fields.doNotShowThisWarningAgain')"
                     hide-details />
                 </v-card-text>
                 <v-divider />
@@ -380,7 +380,7 @@
               </v-btn>
             </template>
             <div class="text-center">
-              {{ $t("mainMenu.dataItem.restore") }}
+              {{ $t("common.restore") }}
               <br />
               <i class="text-caption">{{ $t("mainMenu.dataItem.restoreItemDesc") }}</i>
             </div>
@@ -422,7 +422,7 @@
                 <v-card-text>
                   {{ $t("mainMenu.dataItem.deleteImmediatelyDesc") }}
                   <v-checkbox v-model="skipDeleteWarningPerm"
-                    label="Do not show this warning again"
+                    :label="$t('mainMenu.fields.doNotShowThisWarningAgain')"
                     hide-details />
                 </v-card-text>
                 <v-divider />
@@ -465,22 +465,22 @@
               </v-btn>
             </template>
             <v-list>
-              <v-list-item title="Sync Now"
-                subtitle="Merge and sync this item immediately."
+              <v-list-item :title="$t('common.syncNow')"
+                :subtitle="$t('mainMenu.subtitles.mergeAndSyncThisItem')"
                 @click="sync(item)" />
               <v-list-item v-if="!item._isRemote"
-                title="Force Upload"
-                subtitle="Push local data to cloud unconditionally, overwriting remote."
+                :title="$t('mainMenu.titles.forceUpload')"
+                :subtitle="$t('mainMenu.subtitles.pushLocalDataToCloud')"
                 :disabled="!item.SaveController"
                 @click="forceSyncLocal(item)" />
               <v-list-item v-if="!item._isRemote"
-                title="Force Download"
-                subtitle="Merge latest cloud data into this item, preserving any newer local fields."
+                :title="$t('mainMenu.titles.forceDownload')"
+                :subtitle="$t('mainMenu.subtitles.mergeLatestCloudDataInto')"
                 :disabled="!item.CloudController?.Metadata?.Updated"
                 @click="forceSyncCloud(item)" />
               <v-list-item v-if="item._isRemote"
-                title="Convert to Local Data"
-                subtitle="Remove the remote link and keep data locally."
+                :title="$t('mainMenu.titles.convertToLocalData')"
+                :subtitle="$t('mainMenu.subtitles.removeTheRemoteLinkAnd')"
                 @click="convertToLocal(item)" />
             </v-list>
           </v-menu>
@@ -544,7 +544,7 @@
                 <v-card-text>
                   {{ $t("mainMenu.dataItem.deleteCloudItemDesc") }}
                   <v-checkbox v-model="skipDeleteWarning"
-                    label="Do not show this warning again"
+                    :label="$t('mainMenu.fields.doNotShowThisWarningAgain')"
                     hide-details />
                 </v-card-text>
                 <v-divider />
@@ -569,7 +569,7 @@
     </v-data-table>
 
     <cc-dialog v-model="bulkDeleteDialog"
-      title="Confirm Delete"
+      :title="$t('mainMenu.titles.confirmDelete')"
       :close-on-click="false">
       <cc-alert color="error">
         <v-toolbar-title>
@@ -580,9 +580,9 @@
       <v-radio-group v-model="bulkDeleteScope"
         class="mt-2">
         <v-radio value="cloud"
-          label="Delete cloud data only (keep local data)" />
+          :label="$t('mainMenu.fields.deleteCloudDataOnlyKeep')" />
         <v-radio value="both"
-          label="Delete cloud and mark local as deleted" />
+          :label="$t('mainMenu.fields.deleteCloudAndMarkLocalAsDeleted')" />
       </v-radio-group>
       <v-divider />
       <v-card-actions class="pa-0">

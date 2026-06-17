@@ -75,7 +75,7 @@
             block
             color="panel"
             class="mt-1"
-            @click="reset()">{{ $t('ui.combat.reset') }}</v-btn>
+            @click="reset()">{{ $t('common.reset') }}</v-btn>
 
           <v-btn flat
             tile

@@ -9,19 +9,19 @@
 
         <div>
           <cc-panel v-if="item.Flavor"
-            title="Description"
+            :title="$t('common.description')"
             :title-color="item.Color"
             class="mb-2">
             <p v-html-safe="item.Flavor" />
           </cc-panel>
           <cc-panel v-if="item.Tactics"
-            title="Tactics"
+            :title="$t('ui.titles.tactics')"
             :title-color="item.Color"
             class="mb-2">
             <p v-html-safe="item.Tactics" />
           </cc-panel>
           <cc-panel v-if="item.ClassFeatureSelectionInfo"
-            title="Feature Selection"
+            :title="$t('ui.titles.featureSelection')"
             :title-color="item.Color"
             class="mb-2">
             <p v-html-safe="item.ClassFeatureSelectionInfo" />

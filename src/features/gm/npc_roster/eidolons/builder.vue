@@ -17,7 +17,7 @@
     </v-col>
     <v-col cols="auto">
       <div class="pr-12 heading h3 text-center" style="line-height: 1.2em">
-        {{ $t('gm.eidolonBuilder.tier', { n: item.Tier }) }}
+        {{ $t('common.tierN', { n: item.Tier }) }}
         <v-divider />
         <span>{{ $t('gm.eidolonPrint.classLabel', { class: item.Class }) }}</span>
       </div>

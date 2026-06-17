@@ -14,7 +14,7 @@
       <v-row justify="end">
         <v-col cols="auto">
           <cc-switch v-model="showAll"
-            label="Show All Frames"
+            :label="$t('pm.fields.showAllFrames')"
             color="error" />
         </v-col>
       </v-row>
@@ -23,7 +23,7 @@
 
   <cc-modal v-model="nameDialog"
     shrink
-    title="register new mech"
+    :title="$t('pm.titles.registerNewMech')"
     icon="cc:frame">
     <v-row justify="center">
       <v-col cols="11"
@@ -31,11 +31,11 @@
         <span class="text-overline">{{ $t('pm.sheet.xk401REGISTERMECHNAME') }}</span>
         <v-text-field v-model="mechName"
           variant="outlined"
-          label="Name"
+          :label="$t('pm.fields.name')"
           hide-details
           tile>
           <template #prepend>
-            <v-tooltip text="Generate Random Name"
+            <v-tooltip :text="$t('pm.tooltips.generateRandomName2')"
               location="top">
               <template #activator="{ props }">
                 <cc-button v-bind="props"

@@ -28,7 +28,7 @@
         @click="exportV2Item(item)">
         {{ $t('gm.npcEditor.v2Export') }}
       </cc-button>
-      <cc-modal title="NPC Statblock"
+      <cc-modal :title="$t('gm.titles.npcStatblock')"
         icon="mdi-text-account"
         shrink
         max-width="1200px">

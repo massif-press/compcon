@@ -23,7 +23,7 @@
       <v-card-text>
         <div v-if="!campaigns.length"
           class="text-center text-disabled pa-5">
-          <i>{{ $t('gm.campaign.noData') }}</i>
+          <i>{{ $t('ui.widget.noDataUpper') }}</i>
         </div>
         <v-card v-else
           v-for="(c, i) in campaigns"
@@ -146,7 +146,7 @@
                   <v-file-input v-model="<any>fileValue"
                     accept="text/json"
                     variant="outlined"
-                    label="Select Data File"
+                    :label="$t('gm.fields.selectDataFile')"
                     prepend-icon="mdi-paperclip"
                     @change="stageImport"
                     @click:clear="reset" />
@@ -155,7 +155,7 @@
               <div v-if="errorMessage"
                 class="text-error text-center mt-2">{{ errorMessage }}</div>
               <div v-else-if="stagedData">
-                <div class="text-caption">{{ $t('gm.campaign.stagedData') }}</div>
+                <div class="text-caption">{{ $t('compendium.campaign.stagedCampaignData') }}</div>
                 <v-card>
                   <v-card-title>{{ stagedData.Title }}</v-card-title>
                   <v-card-subtitle>{{ stagedData.Subtitle }}</v-card-subtitle>
@@ -174,13 +174,13 @@
                       <div class="text-caption">{{ $t('common.warning') }}</div>
                       <div v-if="importIsOlder"
                         class="my-2 font-weight-bold">
-                        {{ $t('gm.campaign.existingNewer') }}
+                        {{ $t('compendium.campaign.existingNewer') }}
                       </div>
-                      {{ $t('gm.campaign.overwriteWarn', { title: importSameId.Title, date: new Date(importSameId.SaveController.LastModified).toLocaleString() }) }}
+                      {{ $t('common.importOverwriteWarning', { title: importSameId.Title, date: new Date(importSameId.SaveController.LastModified).toLocaleString() }) }}
                     </v-alert>
 
                     <div class="text-caption text-right">
-                      {{ $t('gm.campaign.lastUpdated') }} &nbsp;
+                      {{ $t('share.resultLastUpdated') }}: &nbsp;
                       <b>{{ new Date(stagedData.SaveController.LastModified).toLocaleString() }}</b>
                     </div>
                   </v-card-text>

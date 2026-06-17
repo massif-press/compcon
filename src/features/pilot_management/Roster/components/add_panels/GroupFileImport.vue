@@ -6,7 +6,7 @@
         <v-file-input v-model="fileValue"
           accept=".json, text/json"
           variant="outlined"
-          label="Select Pilot Data File"
+          :label="$t('pm.fields.selectPilotDataFile')"
           prepend-icon="mdi-paperclip"
           density="compact"
           @change="stageImport"
@@ -73,7 +73,7 @@
         <cc-alert v-if="alreadyPresent"
           color="warning"
           icon="mdi-alert"
-          title="Group Already Exists"
+          :title="$t('pm.titles.groupAlreadyExists')"
           class="my-2">
           <p class="text-center"
             v-text="alreadyPresent" />

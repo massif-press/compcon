@@ -1,5 +1,5 @@
 <template>
-  <div class="text-overline">{{ $t('gm.environment.heading') }}</div>
+  <div class="text-overline">{{ $t('common.environment') }}</div>
   <v-card class="py-2 px-4"
     variant="outlined"
     style="border-color: rgb(var(--v-theme-panel))">
@@ -62,7 +62,7 @@
 
     <v-textarea v-model="item.Environment.Description"
       :readonly="readonly"
-      label="Description"
+      :label="$t('common.description')"
       density="compact"
       rows="1"
       variant="outlined"
@@ -71,7 +71,7 @@
       class="mt-2" />
 
     <cc-dialog v-model="confirmDialog"
-      title="environment data modified"
+      :title="$t('gm.titles.environmentDataModified')"
       icon="mdi-undo-variant"
       :close-on-click="false"
       color="error">
@@ -88,7 +88,7 @@
     </cc-dialog>
 
     <cc-dialog v-model="deleteConfirmDialog"
-      title="delete preset"
+      :title="$t('gm.titles.deletePreset')"
       icon="mdi-delete"
       :close-on-click="false"
       color="error">

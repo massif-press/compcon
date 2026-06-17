@@ -45,7 +45,7 @@
           size="20"
           :icon="m.Icon" />
         &nbsp;
-        {{ !m ? $t('ui.widget.none') : m.Name }}
+        {{ !m ? $t('common.none') : m.Name }}
       </v-btn>
     </div>
 
@@ -94,7 +94,7 @@
         size="small"
         rounded="0"
         @click="licenseTab = i">
-        {{ !l ? $t('ui.widget.none') : l }}
+        {{ !l ? $t('common.none') : l }}
       </v-btn>
     </div>
 
@@ -125,7 +125,7 @@
       <v-col>
         <v-select v-model="xAxis"
           :items="axes"
-          label="Metric"
+          :label="$t('ui.fields.metric')"
           variant="outlined"
           return-object
           density="compact"

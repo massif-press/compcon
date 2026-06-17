@@ -26,7 +26,7 @@
         <div>
           <v-row>
             <v-col v-if="items.length > 0 && (items as any)[0].StatController">
-              <div class="heading h3">{{ $t('gm.filter.stats') }}</div>
+              <div class="heading h3">{{ $t('common.statsLabel') }}</div>
               <v-divider />
 
               <v-row>

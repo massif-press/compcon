@@ -32,10 +32,12 @@
           <cc-heading is-title
             :text="sp.theme" />
           <cc-select v-model="theme"
-            :items="themes.sort((a, b) => a.community - b.community)"
-            :item-title="item => `${item.name}${item.community ? ' (Community)' : ''}`" />
+            :items="themes"
+            :item-title="item => `${item.name}`"
+            :item-subtitle="item => `${item.category}`" />
 
-          <i class="text-caption"
+          <i v-if="themes.find(x => x.id === theme)?.category === 'Community Theme'"
+            class="text-caption"
             style="opacity: 0.75">
             <i18n-t keypath="nav.settingsPage.communityThemesBy"
               tag="span"
@@ -71,11 +73,23 @@
             :items="languages"
             item-title="name"
             item-value="code" />
-          <i v-if="showLanguageNote"
-            class="text-caption"
-            style="opacity: 0.75">
-            {{ $t('language.experimentalNote') }}
-          </i>
+          <div v-if="showLanguageNote"
+            class="text-center">
+            <v-progress-linear v-model="completeness[language]"
+              :color="getTransColor(language)"
+              height="20"
+              class="mt-1">
+              <strong class="text-caption">
+                {{ $t('language.pctTransComplete',
+                  { pct: completeness[language].toFixed(2) }) }}
+              </strong>
+            </v-progress-linear>
+            <div class="text-caption text-disabled font-italic pt-1"
+              style="line-height: 1">
+              {{ $t('language.experimentalNote') }}
+            </div>
+          </div>
+
         </div>
       </v-col>
       <v-col cols="
@@ -144,7 +158,8 @@
               :class="`text-${user.EnhancedReporting ? 'success' : 'disabled'}`">
               {{ $t('nav.settingsPage.enhancedReportingStatus', {
                 status: user.EnhancedReporting ?
-                  sp.enabled : sp.disabled }) }}
+                  sp.enabled : sp.disabled
+              }) }}
             </v-col>
             <v-col cols="auto">
               <v-tooltip location="top"
@@ -242,7 +257,7 @@
                 <cc-alert v-else-if="strategy === 'overwrite'"
                   color="error"
                   variant="outlined"
-                  title="Warning"
+                  :title="$t('nav.titles.warning')"
                   icon="mdi-alert"
                   class="mb-4">
                   {{ sp.overwriteWarning }}
@@ -364,10 +379,11 @@ const fonts = [
 ]
 
 const themes = Object.keys(allThemes).map(x => ({
+  id: (allThemes as any)[x].id,
   name: (allThemes as any)[x].name,
   value: x,
-  community: (allThemes as any)[x].community,
-}))
+  category: (allThemes as any)[x].category || '',
+})).sort((a, b) => a.category.localeCompare(b.category))
 
 const fileValue = ref<any>(null)
 const strategy = ref('append')
@@ -402,10 +418,9 @@ const theme = computed({
 
 const languages = computed(() =>
   SUPPORTED_LOCALES.map(l => {
-    const pct = completeness.value[l.code]
     return {
       code: l.code,
-      name: l.code !== 'en' && pct != null ? `${l.name} — ${pct}%` : l.name,
+      name: l.name,
     }
   })
 )
@@ -528,10 +543,10 @@ async function doImport(close: () => void) {
   }
   importLoading.value = false
 }
-
-async function deleteAll() {
-  user.value.Reset()
-  await ClearAllData()
-  window.location.reload()
+function getTransColor(code: string) {
+  const pct = completeness.value[code] || 0
+  if (pct >= QUALITY_THRESHOLD) return 'success'
+  if (pct > 60) return 'warning'
+  return 'error'
 }
 </script>

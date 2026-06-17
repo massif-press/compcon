@@ -32,41 +32,46 @@
     </v-row>
     <v-row>
       <v-col>
-        <div class="text-cc-overline mt-1 text-disabled">{{ $t('active.runnerHeader.autosave') }}</div>
+        <div class="text-cc-overline mt-1 text-disabled">{{ $t('active.runnerHeader.autosave') }}
+        </div>
         <cc-switch v-model="context.Autosave"
           size="large"
           :label="context.Autosave ? 'On Round End' : 'Off (Manual Saves Only)'"
           :tooltip="autosaveTooltip" />
       </v-col>
       <v-col>
-        <div class="text-cc-overline mt-1 text-disabled">{{ $t('active.runnerHeader.layoutOptions') }}</div>
+        <div class="text-cc-overline mt-1 text-disabled">{{ $t('active.runnerHeader.layoutOptions')
+          }}</div>
         <cc-switch v-model="context.SimpleTickbars"
           size="large"
           color="primary"
           :label="context.SimpleTickbars ? 'Simple Tickbars' : 'Standard Tickbars'"
-          tooltip="Replace the thematic stat trackers for HP, Heat, etc. with straightforward number inputs." />
+          :tooltip="$t('active.tooltips.replaceTheThematicStatTrackers')" />
         <cc-switch v-model="context.LayoutColumns"
           size="large"
-          label="Layout Columns"
+          :label="$t('active.fields.layoutColumns')"
           color="primary"
-          tooltip="This controls if columns will be used when rendering a combatant's information in the encounter panel. This will only work on wide resolution screens." />
+          :tooltip="$t('active.tooltips.thisControlsIfColumnsWill')" />
         <cc-checkbox v-model="context.ForceComplexTickbars"
-          label="Force Standard Tickbars"
+          :label="$t('active.fields.forceStandardTickbars')"
           class="my-1"
-          tooltip="Simple tickbars are shown on mobile (tablet and lower) resolutions. Enabling this will force the standard tickbars to display regardless of screen size. This may cause layout issues on smaller screens." />
+          :tooltip="$t('active.tooltips.simpleTickbarsAreShownOn')" />
         <cc-number-field v-model="context.MaxMasonryColumns"
           size="large"
-          label="Max Loadout / Feature Set Columns"
+          :label="$t('active.fields.maxLoadoutFeatureSetColumns')"
           color="primary"
-          tooltip="This controls how many columns will be used when rendering a combatant's loadouts or feature sets in the encounter panel. Higher values may cause layout issues on smaller screens." />
+          :tooltip="$t('active.tooltips.thisControlsHowManyColumns')" />
       </v-col>
     </v-row>
   </v-card-text>
 </template>
 
 <script setup lang="ts">
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
+import PilotSheet from '@/features/pilot_management/store/PilotSheet';
+
 defineProps<{
-  context: any
+  context: EncounterInstance | PilotSheet
   saveKey?: number
   autosaveTooltip?: string
 }>()

@@ -61,7 +61,7 @@
                           class="mx-2" />
                         <v-col cols="auto">
                           <span class="text-overline">
-                            {{ $t('pm.sheet.stress') }}
+                            {{ $t('stats.stress') }}
                             <b>{{ mech.MaxStress }}</b>
                           </span>
                         </v-col>
@@ -87,7 +87,7 @@
                     <v-card-actions v-if="!mech.Pilot.IsRemote">
                       <v-spacer />
                       <v-tooltip location="top"
-                        text="Delete Mech">
+                        :text="$t('pm.titles.deleteMech')">
                         <template #activator="{ props }">
                           <v-btn v-bind="props"
                             size="small"
@@ -100,7 +100,7 @@
                         </template>
                       </v-tooltip>
                       <v-tooltip location="top"
-                        text="Duplicate Mech">
+                        :text="$t('pm.titles.duplicateMech')">
                         <template #activator="{ props }">
                           <v-btn v-bind="props"
                             size="small"
@@ -112,7 +112,7 @@
                         </template>
                       </v-tooltip>
                       <v-tooltip location="top"
-                        text="Print Mech Sheet">
+                        :text="$t('pm.tooltips.printMechSheet')">
                         <template #activator="{ props }">
                           <v-btn v-bind="props"
                             size="small"
@@ -149,7 +149,7 @@
 
     <cc-dialog ref="delete"
       :close-on-click="false"
-      title="Delete Mech"
+      :title="$t('pm.titles.deleteMech')"
       color="error"
       icon="mdi-delete">
       <cc-confirmation full-width
@@ -162,7 +162,7 @@
 
     <cc-dialog ref="copy"
       :close-on-click="false"
-      title="Duplicate Mech"
+      :title="$t('pm.titles.duplicateMech')"
       icon="mdi-content-copy">
       <cc-confirmation full-width
         :content="`Lancer, please confirm intention to create a duplicate of Mech Configuration:

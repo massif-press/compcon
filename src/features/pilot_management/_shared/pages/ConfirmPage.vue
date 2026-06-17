@@ -70,7 +70,7 @@
       <div class="d-inline-block">
         <cc-button size="small"
           color="primary"
-          tooltip="Force pilot registration"
+          :tooltip="$t('pm.tooltips.forcePilotRegistration')"
           :disabled="missingBasicInfo"
           @click="savePilot()">
           {{ $t('pm.shared.registrationOverride') }}

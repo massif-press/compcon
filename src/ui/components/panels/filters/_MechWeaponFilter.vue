@@ -11,7 +11,7 @@
         density="compact"
         prepend-icon="cc:manufacturer"
         variant="outlined"
-        label="From Manufacturer"
+        :label="$t('ui.fields.fromManufacturer')"
         :items="manufacturers"
         chips
         clearable
@@ -27,7 +27,7 @@
         chips
         clearable
         variant="outlined"
-        label="Tags"
+        :label="$t('ui.fields.tags')"
         :items="weaponTags"
         item-value="ID"
         multiple
@@ -43,7 +43,7 @@
         chips
         clearable
         variant="outlined"
-        label="Weapon Type"
+        :label="$t('ui.fields.weaponType')"
         :items="weaponTypes"
         @update:modelValue="updateFilters()" />
     </v-col>
@@ -56,7 +56,7 @@
         chips
         clearable
         variant="outlined"
-        label="Required Mount"
+        :label="$t('ui.fields.requiredMount')"
         :items="weaponSizes"
         @update:modelValue="updateFilters()" />
     </v-col>
@@ -69,7 +69,7 @@
         chips
         clearable
         variant="outlined"
-        label="Attack Type"
+        :label="$t('ui.fields.attackType')"
         :items="attackTypes"
         multiple
         @update:modelValue="updateFilters()" />
@@ -83,7 +83,7 @@
         chips
         clearable
         variant="outlined"
-        label="Damage Type"
+        :label="$t('ui.fields.damageType')"
         :items="damageTypes"
         multiple
         @update:modelValue="updateFilters()" />

@@ -22,7 +22,7 @@
     </v-row>
 
     <cc-dialog v-model="showConfirmation"
-      title="Confirm Tier Change"
+      :title="$t('gm.titles.confirmTierChange')"
       icon="mdi-alert"
       min-width="600px"
       :close-on-click="false">
@@ -33,7 +33,7 @@
           size="small"
           prepend-icon="mdi-delta"
           color="accent"
-          tooltip="Change tier and adjust edited stats by the same amount as the default stat changes."
+          :tooltip="$t('gm.tooltips.changeTierAndAdjustEdited')"
           @click="projectAndChange()">
           {{ $t('gm.tier.projectEdits') }}
         </cc-button>
@@ -41,14 +41,14 @@
           size="small"
           prepend-icon="mdi-pin"
           color="primary"
-          tooltip="Change tier and keep edited stat values, even if they fall below the new tier's defaults."
+          :tooltip="$t('gm.tooltips.changeTierAndKeepEdited')"
           @click="preserveAndChange()">
           {{ $t('gm.tier.preserveEdits') }}
         </cc-button>
         <cc-button block
           size="small"
           prepend-icon="mdi-refresh"
-          tooltip="Change tier and discard all edited stat values."
+          :tooltip="$t('gm.tooltips.changeTierAndDiscardAll')"
           color="warning"
           @click="resetAndChange()">
           {{ $t('gm.tier.resetStats') }}

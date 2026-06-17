@@ -8,9 +8,9 @@
         <legend class="heading h4 mx-2 px-2 text-accent">
           {{ item.mount.Name }}
           <span v-if="item.isImpArm"
-            class="text-cc-overline">{{ $t('active.mechLoadout.improvedArmament') }}</span>
+            class="text-cc-overline">{{ $t('pm.loadout.improvedARMAMENT') }}</span>
           <span v-if="item.isSuperheavy"
-            class="text-cc-overline">{{ $t('active.mechLoadout.superheavyMounting') }}</span>
+            class="text-cc-overline">{{ $t('pm.loadout.superheavyMOUNTING') }}</span>
         </legend>
 
         <mech-mount-bonus-card v-for="b in item.mount.Bonuses"
@@ -35,7 +35,7 @@
       </fieldset>
     </template>
   </cc-masonry-grid>
-  <div class="text-cc-overline mt-2">{{ $t('active.mechLoadout.systems') }}</div>
+  <div class="text-cc-overline mt-2">// {{ $t('stats.systems') }}</div>
   <cc-masonry-grid :items="systems"
     :xl-columns="xlColumns">
     <template #default="{ item }">

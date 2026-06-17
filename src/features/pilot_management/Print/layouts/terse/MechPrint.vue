@@ -4,7 +4,7 @@
       <v-col v-if="blank">
         <v-row dense>
           <v-col cols="auto">
-            <div class="text-overline mt-n4 mb-n2 text-primary">{{ $t('pm.print.frame') }}</div>
+            <div class="text-overline mt-n4 mb-n2 text-primary">{{ $t('common.frame') }}</div>
             <blank-line :width="landscape ? 200 : 150"
               :height="35" />
           </v-col>
@@ -24,7 +24,7 @@
       </v-col>
       <v-col cols="auto"
         class="ml-auto mr-2 text-center caption">
-        <div class="text-overline text-primary my-n2">{{ $t('pm.print.overcharge') }}</div>
+        <div class="text-overline text-primary my-n2">{{ $t('common.overcharge') }}</div>
         <v-chip size="20"
           variant="outlined"
           color="red"
@@ -294,7 +294,7 @@
         <div style="line-height: 10px"
           :class="blank ? '' : 'pb-2'"
           class="text-overline text-primary">
-          {{ $t('pm.print.overshield') }}
+          {{ $t('common.overshield') }}
         </div>
         <div class="px-6">
           <blank-line :height="blank ? 35 : 40" />
@@ -457,7 +457,7 @@
           </v-col>
         </v-row>
 
-        <div class="text-overline mb-n3 text-primary">{{ $t('pm.print.frameTRAITS') }}</div>
+        <div class="text-overline mb-n3 text-primary">{{ $t('ui.card.frameTraits') }}</div>
         <v-row v-if="blank"
           dense>
           <v-col v-for="n in 4"
@@ -544,7 +544,7 @@
         <div v-if="hasMechOption('Mech Notes') && mech.Notes && !blank"
           class="pt-2">
           <div class="text-overline text-primary mt-3"
-            style="line-height: 0">{{ $t('pm.print.notes') }}</div>
+            style="line-height: 0">{{ $t('common.notes') }}</div>
           <div v-html-safe="mech.Notes"
             class="mt-2 caption" />
         </div>
@@ -571,7 +571,7 @@
     <div v-if="hasMechOption('Mech Notes') && blank"
       class="pt-3">
       <div class="text-overline text-primary"
-        style="line-height: 0">{{ $t('pm.print.notes') }}</div>
+        style="line-height: 0">{{ $t('common.notes') }}</div>
       <div class="mb-4">
         <notes :rows="5"
           lined />
@@ -580,7 +580,7 @@
 
     <page-break />
 
-    <div class="text-overline mb-n3 mt-1 text-primary">{{ $t('pm.new.loadout') }}</div>
+    <div class="text-overline mb-n3 mt-1 text-primary">{{ $t('common.loadout') }}</div>
 
     <print-blank-loadout v-if="blank"
       :extra-mounts="hasMechOption('Extra Mount Panel')"
@@ -597,7 +597,7 @@
         class="text-center flavor-text">
         {{ $t('pm.print.mountLOCKED') }}
         <br />
-        <span class="text-overline">{{ $t('pm.print.superheavyWEAPONBRACING') }}</span>
+        <span class="text-overline">// {{ $t('pm.loadout.superheavyWEAPONBRACING') }} //</span>
       </div>
       <div v-for="w in m.Weapons.filter(Boolean)"
         v-else

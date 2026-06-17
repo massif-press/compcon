@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div class="heading h1">{{ $t('active.joinTable.tables') }}</div>
+    <div class="heading h1">{{ $t('common.tables') }}</div>
     <div>
       <v-tooltip location="top" open-delay="300">
         <template #activator="{ props }">
@@ -27,7 +27,7 @@
               color="accent" />
           </v-btn>
         </template>
-        <span>{{ $t('active.sortBar.sortByName') }}</span>
+        <span>{{ $t('pm.sheet.sortByName') }}</span>
       </v-tooltip>
 
       <v-tooltip location="top" open-delay="300">
@@ -106,7 +106,7 @@
               <b>{{ table.gm.name }}</b>
               <v-divider class="my-1" />
               <div class="text-cc-overline" :class="table.gm.online ? 'text-success' : 'text-grey'">
-                {{ table.gm.online ? $t('active.joinTable.online') : $t('active.joinTable.offline') }}
+                {{ table.gm.online ? $t('active.joinTable.online') : $t('common.offline') }}
               </div>
             </v-tooltip>
           </div>
@@ -126,7 +126,7 @@
               <b>{{ p.name }} ({{ p.callsign }})</b>
               <v-divider class="my-1" />
               <div class="text-cc-overline" :class="p.online ? 'text-success' : 'text-grey'">
-                {{ p.online ? $t('active.joinTable.online') : $t('active.joinTable.offline') }}
+                {{ p.online ? $t('active.joinTable.online') : $t('common.offline') }}
               </div>
             </v-tooltip>
           </p>
@@ -219,7 +219,7 @@
             </div>
           </v-card>
           <div class="text-cc-overline text-center mt-1">
-            {{ $t('active.joinTable.callsign') }}
+            {{ $t('common.callsign') }}
             <br />
             {{ $t('active.pilotsPanel.activeMech') }}
           </div>
@@ -249,8 +249,8 @@
     <v-row dense>
       <v-col offset="6">
         <cc-text-field
-          label="Add Table"
-          placeholder="Table Connect Code"
+          :label="$t('active.fields.addTable')"
+          :placeholder="$t('active.fields.tableConnectCode')"
           color="primary"
           variant="outlined" />
       </v-col>

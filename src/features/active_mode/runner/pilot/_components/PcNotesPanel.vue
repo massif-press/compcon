@@ -9,7 +9,7 @@
       <cc-rich-text-area v-model="encounter.Note" />
     </v-card-text>
     <v-card-text class="pb-4">
-      <div class="text-cc-overline text-disabled">{{ $t('active.pcNotes.pilotNotes') }}</div>
+      <div class="text-cc-overline text-disabled">{{ $t('pm.print.pilotNotes') }}</div>
       <cc-rich-text-area v-model="selected.Notes" />
     </v-card-text>
   </v-card>

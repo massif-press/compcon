@@ -26,7 +26,7 @@
       <v-col>
         <v-select v-model="xAxis"
           :items="axes"
-          label="X Axis"
+          :label="$t('ui.fields.xAxis')"
           variant="outlined"
           return-object
           density="compact"
@@ -36,7 +36,7 @@
         md="6">
         <v-select v-model="yAxis"
           :items="axes"
-          label="Y Axis"
+          :label="$t('ui.fields.yAxis')"
           variant="outlined"
           return-object
           density="compact"

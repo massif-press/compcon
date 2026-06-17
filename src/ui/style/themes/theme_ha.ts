@@ -4,7 +4,6 @@ const theme = {
   dark: true,
   id: 'ha',
   name: 'Harrison Armory Ras Shamra',
-  community: true,
   colors: {
     ...themeDefaults,
 

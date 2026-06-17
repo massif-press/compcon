@@ -4,7 +4,7 @@ const theme = {
   dark: true,
   id: 'galsim',
   name: 'FORECAST/GALSIM',
-  community: true,
+  category: 'Community Theme',
   colors: {
     ...themeDefaults,
     //Main-Colors

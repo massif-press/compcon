@@ -3,7 +3,7 @@
     <template #top>
       <v-row justify="space-around" align="center" class="text-text py-5">
         <v-col v-if="item.ArmorString" cols="auto">
-          <v-tooltip text="Armor Bonus">
+          <v-tooltip :text="$t('common.armorBonus')">
             <template #activator="{ props }">
               <v-icon v-bind="props" icon="mdi-shield-outline" />
             </template>
@@ -11,7 +11,7 @@
           <span class="stat-text">{{ item.ArmorString }}</span>
         </v-col>
         <v-col v-if="item.HpString" cols="auto">
-          <v-tooltip text="HP Bonus">
+          <v-tooltip :text="$t('common.hpBonus')">
             <template #activator="{ props }">
               <v-icon v-bind="props" icon="mdi-heart" />
             </template>
@@ -19,7 +19,7 @@
           <span class="stat-text">+{{ item.HpString }}</span>
         </v-col>
         <v-col v-if="item.EdefString" cols="auto">
-          <v-tooltip text="Electronic Defense">
+          <v-tooltip :text="$t('common.electronicDefense')">
             <template #activator="{ props }">
               <v-icon v-bind="props" icon="cc:edef" />
             </template>
@@ -27,7 +27,7 @@
           <span class="stat-text">{{ item.EdefString }}</span>
         </v-col>
         <v-col v-if="item.EvasionString" cols="auto">
-          <v-tooltip text="Evasion">
+          <v-tooltip :text="$t('stats.evasion')">
             <template #activator="{ props }">
               <v-icon v-bind="props" icon="cc:evasion" />
             </template>
@@ -35,7 +35,7 @@
           <span class="stat-text">{{ item.EvasionString }}</span>
         </v-col>
         <v-col v-if="item.SpeedString" cols="auto">
-          <v-tooltip text="Speed">
+          <v-tooltip :text="$t('stats.speed')">
             <template #activator="{ props }">
               <v-icon v-bind="props" icon="mdi-arrow-right-bold-hexagon-outline" />
             </template>

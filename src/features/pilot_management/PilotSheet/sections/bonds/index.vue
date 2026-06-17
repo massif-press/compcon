@@ -91,7 +91,7 @@
               :size="mobile ? 'small' : 'default'"
               class="mt-4"
               color="secondary"
-              label="pilot xp" />
+              :label="$t('pm.fields.pilotXp')" />
             <v-menu v-model="resetXpMenu"
               offset-y
               offset-x
@@ -151,7 +151,7 @@
               :size="mobile ? 'small' : 'default'"
               class="mt-4"
               color="overcharge"
-              label="pilot stress" />
+              :label="$t('pm.fields.pilotStress')" />
             <v-menu offset-y
               offset-x
               bottom
@@ -179,7 +179,7 @@
                     type="number"
                     color="accent"
                     variant="outlined"
-                    label="Maximum Stress"
+                    :label="$t('pm.fields.maximumStress')"
                     class="my-3" />
                   <v-btn variant="plain"
                     small
@@ -249,11 +249,11 @@
       </v-card>
 
       <div v-if="hasBond">
-        <section-header title="Bond Powers">
+        <section-header :title="$t('ui.bond.bondPowers')">
           <section-edit-chip :highlight="pilot.BondController.PowerSelectionsRemaining >= 0"
             :current="pilot.BondController.BondPowers.length"
             :max="pilot.BondController.MaxPowerSelections"
-            label="Edit Pilot Bonds"
+            :label="$t('pm.fields.editPilotBonds')"
             @open-selector="($refs.powerSelector as any).show()" />
         </section-header>
 
@@ -267,7 +267,7 @@
           </cc-masonry-grid>
         </div>
 
-        <section-header title="Burdens" />
+        <section-header :title="$t('pm.titles.burdens')" />
         <div>
           <div v-for="(b, i) in pilot.BondController.Burdens"
             :key="`burden-${i}`">
@@ -288,7 +288,7 @@
           </v-row>
         </div>
 
-        <section-header title="Other Clocks" />
+        <section-header :title="$t('pm.titles.otherClocks')" />
 
         <div>
           <div v-for="(b, i) in pilot.BondController.Clocks"
@@ -316,7 +316,7 @@
         @set="setBond($event)" />
 
       <cc-modal v-model="bondModal"
-        title="Select Pilot Bond"
+        :title="$t('pm.titles.selectPilotBond')"
         clip>
         <bond-selector :pilot="pilot"
           @set="setBond($event)" />

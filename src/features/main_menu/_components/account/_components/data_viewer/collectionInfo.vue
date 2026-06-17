@@ -12,12 +12,12 @@
     <v-col>
       <p v-text="collection.description" />
       <v-divider class="my-1" />
-      <div class="text-caption">{{ $t("mainMenu.collection.contents") }}</div>
+      <div class="text-caption">{{ $t("common.contents") }}</div>
       <v-table density="compact">
         <thead class="bg-primary heading">
           <tr>
-            <th>{{ $t("mainMenu.collection.colName") }}</th>
-            <th>{{ $t("mainMenu.collection.colType") }}</th>
+            <th>{{ $t("common.name") }}</th>
+            <th>{{ $t("common.type") }}</th>
             <th>{{ $t("mainMenu.collection.colLastUpdate") }}</th>
           </tr>
         </thead>
@@ -33,7 +33,7 @@
       <v-table density="compact">
         <thead class="bg-primary heading">
           <tr>
-            <th>{{ $t("mainMenu.collection.colVersion") }}</th>
+            <th>{{ $t("common.version") }}</th>
             <th>{{ $t("mainMenu.collection.colChanges") }}</th>
           </tr>
         </thead>

@@ -24,7 +24,7 @@
         <v-col>
           <cc-dialog :close-on-click="false"
             icon="mdi-import"
-            title="Import Encounter State">
+            :title="$t('active.titles.importEncounterState')">
             <template #activator="{ open }">
               <v-btn flat
                 tile
@@ -46,7 +46,7 @@
                 density="compact"
                 hide-details
                 autofocus
-                placeholder="Select Encounter Export File"
+                :placeholder="$t('active.fields.selectEncounterExportFile')"
                 prepend-icon="mdi-paperclip"
                 @change="stageImport" />
               <v-scroll-y-reverse-transition>
@@ -98,7 +98,7 @@
                   color="primary"
                   :disabled="!importOk"
                   @click="importState(close)">
-                  {{ $t('active.pcOptions.confirmImport') }}
+                  {{ $t('common.confirmImport') }}
                 </cc-button>
               </v-card-actions>
             </template>
@@ -137,7 +137,7 @@
               color="primary"
               chip-variant="text"
               :items="['ally', 'enemy', 'neutral']"
-              label="Side" />
+              :label="$t('common.side')" />
             <br />
             <div v-if="combatant.actor.StatController">
               <v-row v-for="stat in combatant.actor.StatController.DisplayKeys"
@@ -161,7 +161,7 @@
                 <v-btn flat
                   tile
                   size="small"
-                  color="primary">{{ $t('active.gmOptions.addStat') }}</v-btn>
+                  color="primary">{{ $t('gm.stats.addStat') }}</v-btn>
                 <v-btn flat
                   tile
                   color="error"
@@ -188,7 +188,7 @@
         <v-col cols="auto">
           <cc-number-field v-model="combatant.reinforcementTurn"
             color="primary"
-            label="Round"
+            :label="$t('active.fields.round')"
             min="1" />
         </v-col>
         <v-col cols="auto">
@@ -206,7 +206,7 @@
             color="primary"
             size="small"
             @click="removeActor(combatant.actor)">
-            {{ $t('active.common.deploy') }}
+            {{ $t('ui.widget.deploy') }}
           </v-btn>
         </v-col>
       </v-row>
@@ -251,14 +251,14 @@ function manualSave() {
     ;(props.encounterInstance as any).Save()
     saveUpdate.value = Date.now()
     notify({
-      title: t('active.encounter.saveSuccessfulTitle'),
+      title: t('active.common.saveSuccessful'),
       text: t('active.encounter.saveSuccessfulText', { name: (props.encounterInstance as any).Encounter.Name, round: (props.encounterInstance as any).Round }),
       data: { icon: 'mdi-content-save', color: 'success' },
     })
   } catch (error) {
     logger.error('Manual Save Failed', null, error)
     notify({
-      title: t('active.encounter.saveFailedTitle'),
+      title: t('active.common.saveFailed'),
       text: t('active.encounter.saveFailedText', { name: (props.encounterInstance as any).Encounter.Name }),
       data: { icon: 'mdi-alert', color: 'error' },
     })

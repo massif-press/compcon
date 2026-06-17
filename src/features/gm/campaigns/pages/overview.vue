@@ -60,13 +60,13 @@
           v-model="campaign.Subtitle"
           variant="outlined"
           density="compact"
-          label="Subtitle" />
+          :label="$t('gm.fields.subtitle')" />
         <v-text-field
           v-model="campaign.Author"
           variant="outlined"
           hide-details
           density="compact"
-          label="Author(s)" />
+          :label="$t('gm.fields.authors')" />
       </v-col>
       <v-col>
         <div>
@@ -125,15 +125,15 @@
           variant="outlined"
           auto-grow
           rows="3"
-          label="Campaign Description"
+          :label="$t('gm.fields.campaignDescription')"
           hide-details
           class="my-3" />
         <v-text-field
           v-model="campaign.Website"
           variant="outlined"
-          label="Website URL"
+          :label="$t('gm.fields.websiteUrl')"
           persistent-hint
-          hint="Must be an itch.io URL to enable automatic management in COMP/CON"
+          :hint="$t('gm.fields.mustBeAnItchioUrl')"
           class="my-3" />
         <div class="text-caption text-disabled">{{ $t('gm.overview.authorContact') }}</div>
         <v-row v-for="(item, index) in campaign.AuthorContact" :key="`contact-${index}`" dense align="center" class="mt-2">
@@ -144,7 +144,7 @@
               variant="outlined"
               density="compact"
               hide-details
-              label="Service" />
+              :label="$t('gm.fields.service')" />
           </v-col>
           <v-col>
             <v-text-field
@@ -152,7 +152,7 @@
               variant="outlined"
               density="compact"
               hide-details
-              label="Contact Information" />
+              :label="$t('gm.fields.contactInformation')" />
           </v-col>
           <v-col cols="auto">
             <v-btn
@@ -234,7 +234,7 @@
         variant="tonal"
         prepend-icon="mdi-plus"
         @click="addContentItem()">
-        {{ $t('gm.campaign.addContent') }}
+        {{ $t('common.addContent') }}
       </v-btn>
     </v-footer>
 

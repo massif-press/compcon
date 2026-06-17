@@ -43,7 +43,7 @@
               block
               color="primary"
               prepend-icon="mdi-export"
-              tooltip="Exports a plain text version of the combat log."
+              :tooltip="$t('active.tooltips.exportsAPlainTextVersion')"
               @click.stop="exportLog('text')">
               {{ $t('active.actorLogs.exportText') }}
             </cc-button>
@@ -53,8 +53,7 @@
               block
               color="info"
               prepend-icon="mdi-export"
-              tooltip="Exports a structured JSON version of the combat log for use in other
-                    applications."
+              :tooltip="$t('active.tooltips.exportsAStructuredJsonVersion')"
               @click.stop="exportLog('json')">
               {{ $t('active.actorLogs.exportJson') }}
             </cc-button>

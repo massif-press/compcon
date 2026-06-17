@@ -23,7 +23,7 @@
                 <v-icon v-if="big"
                   start
                   class="mr-3">mdi-broadcast</v-icon>
-                {{ $t('gm.itemCard.remoteResource') }}
+                {{ $t('common.remoteResource') }}
               </v-chip>
             </div>
             <div v-if="big">

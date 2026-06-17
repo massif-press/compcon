@@ -3,7 +3,7 @@
     class="text-overline pt-2">
     <v-col>
       <div class="d-flex align-center">
-        {{ $t('gm.npcFeatures.heading') }}
+        {{ $t('common.features') }}
         <v-tooltip v-if="!readonly && npc.NpcClassController?.HasClass && allFeatures.length > 1"
           location="top">
           <template #activator="{ props }">
@@ -71,15 +71,15 @@
                 tile
                 class="pa-0">
                 <cc-dialog :close-on-click="false"
-                  title="Set Custom Name"
+                  :title="$t('common.setCustomName')"
                   @close="npc.SaveController.save()">
                   <template #activator="{ open }">
                     <v-list-item prepend-icon="mdi-circle-edit-outline"
-                      title="Set Custom Name"
+                      :title="$t('common.setCustomName')"
                       @click="open" />
                   </template>
                   <cc-text-field v-model="item.FlavorName"
-                    label="Custom Item Name"
+                    :label="$t('common.customItemName')"
                     :placeholder="item.TrueName"
                     variant="outlined"
                     hide-details
@@ -88,15 +88,15 @@
                     @focus="$event.target.select()" />
                 </cc-dialog>
                 <cc-dialog :close-on-click="false"
-                  title="Set Custom Description"
+                  :title="$t('common.setCustomDescription')"
                   @close="npc.SaveController.save()">
                   <template #activator="{ open }">
                     <v-list-item prepend-icon="mdi-circle-edit-outline"
-                      title="Set Custom Description"
+                      :title="$t('common.setCustomDescription')"
                       @click="open" />
                   </template>
                   <cc-text-area v-model="item.FlavorDescription"
-                    label="Custom Item Description"
+                    :label="$t('common.customItemDescription')"
                     :placeholder="item.FlavorDescription || item.Description"
                     variant="outlined"
                     hide-details

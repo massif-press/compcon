@@ -4,7 +4,7 @@
     <v-col v-if="!actionOnly"
       cols="auto">
       <v-tooltip location="top"
-        text="Equipment Deployable (Instance)">
+        :text="$t('active.actions.equipmentDeployableInstance')">
         <template #activator="{ props }">
           <v-icon v-bind="props"
             icon="cc:drone" />
@@ -52,7 +52,7 @@
                 height="26px"
                 class="ml-n1"
                 :prepend-icon="deployable.DeployAction.Icon">
-                {{ actionOnly ? $t('active.deploy.deployNamed', { name: deployable.Name }) : $t('active.common.deploy') }}
+                {{ actionOnly ? $t('active.deploy.deployNamed', { name: deployable.Name }) : $t('ui.widget.deploy') }}
               </v-btn>
             </template>
             <v-card border>
@@ -89,7 +89,7 @@
                     variant="elevated"
                     color="primary"
                     @click="deploy">
-                    {{ $t('active.deploy.deployLower') }}
+                    {{ $t('ui.widget.deploy') }}
                   </v-btn>
                 </v-row>
               </v-card-text>

@@ -40,7 +40,7 @@
             class="text-caption">{{ $t('pm.new.pilotNAME') }}</div>
           <cc-text-field v-model="pilot.Name"
             variant="outlined"
-            placeholder="Name"
+            :placeholder="$t('pm.fields.name')"
             :icon="pilot.Name ? 'mdi-check-circle-outline' : 'mdi-alert'"
             :color="pilot.Name ? 'success' : 'error'"
             class="my-1 d-inline">
@@ -48,7 +48,7 @@
               <cc-button icon="mdi-dice-multiple"
                 variant="outlined"
                 size="small"
-                tooltip="Generate random name"
+                :tooltip="$t('pm.tooltips.generateRandomName')"
                 @click="randomName()" />
             </template>
           </cc-text-field>
@@ -60,10 +60,10 @@
             {{ $t('pm.new.rm402APPROVEDCALLSIGNOR') }}
           </div>
           <div v-else
-            class="text-caption">{{ $t('pm.new.callsign') }}</div>
+            class="text-caption">{{ $t('common.callsign') }}</div>
           <cc-text-field v-model="pilot.Callsign"
             variant="outlined"
-            placeholder="Callsign"
+            :placeholder="$t('common.callsign')"
             :icon="pilot.Callsign ? 'mdi-check-circle-outline' : 'mdi-alert'"
             :color="pilot.Callsign ? 'success' : 'error'"
             class="my-1 d-inline">
@@ -71,7 +71,7 @@
               <cc-button icon="mdi-dice-multiple"
                 variant="outlined"
                 size="small"
-                tooltip="Generate random callsign"
+                :tooltip="$t('pm.tooltips.generateRandomCallsign')"
                 @click="randomCallsign()" />
             </template>
           </cc-text-field>
@@ -86,12 +86,12 @@
             class="text-caption">{{ $t('pm.new.background') }}</div>
           <cc-text-field v-model="pilot.Background"
             variant="outlined"
-            placeholder="Background"
+            :placeholder="$t('pm.fields.background')"
             :icon="pilot.Background ? 'mdi-check-circle-outline' : 'mdi-circle-outline'"
             :color="pilot.Background ? 'success' : 'light-panel'"
             class="my-1 d-inline">
             <template #extra>
-              <v-tooltip text="Select Predefined Background">
+              <v-tooltip :text="$t('pm.tooltips.selectPredefinedBackground')">
                 <template #activator="{ props }">
                   <span v-bind="props">
                     <background-selector
@@ -120,7 +120,7 @@
                 <div v-if="!pilot.History">{{ $t('pm.new.addPilotBiography') }}</div>
                 <div v-else>{{ $t('pm.new.editPilotBiography') }}</div>
                 <CCTextEditorDialog v-model="bioDialog"
-                  title="Edit Pilot Biography"
+                  :title="$t('pm.titles.editPilotBiography')"
                   :original="pilot.History"
                   @save="$emit('set', { attr: 'History', val: $event })" />
               </cc-button>
@@ -152,7 +152,7 @@
                 <div v-if="!pilot.TextAppearance">{{ $t('pm.new.addPilotDescription') }}</div>
                 <div v-else>{{ $t('pm.new.editPilotDescription') }}</div>
                 <CCTextEditorDialog v-model="appearanceDialog"
-                  title="edit Pilot Description"
+                  :title="$t('pm.titles.editPilotDescription')"
                   :original="pilot.TextAppearance"
                   @save="$emit('set', { attr: 'TextAppearance', val: $event })" />
               </cc-button>
@@ -176,11 +176,11 @@
             class="text-caption">{{ $t('pm.new.startingLL') }}</div>
           <cc-number-field v-model.number="pilot.Level"
             type="number"
-            label="Starting License Level"
+            :label="$t('pm.fields.startingLicenseLevel')"
             :max="12"
             :min="0"
             :color="pilot.Level ? 'warning' : 'success'"
-            tooltip="Start this Pilot at a specific license level. Recommended for advanced users."
+            :tooltip="$t('pm.tooltips.startThisPilotAtA')"
             tooltip-icon="mdi-alert"
             class="my-1 d-inline" />
         </div>
@@ -201,7 +201,7 @@
             aspect-ratio="1" />
         </div>
         <div class="mt-3">
-          <cc-modal title="set pilot portrait"
+          <cc-modal :title="$t('pm.titles.setPilotPortrait')"
             icon="cc:pilot">
             <template #activator="{ open }">
               <cc-button block

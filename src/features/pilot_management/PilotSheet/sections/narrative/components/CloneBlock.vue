@@ -49,7 +49,7 @@
     </v-alert>
     <div v-if="pilot.Quirks.length && !hideQuirks"
       class="mb-3">
-      <section-header title="Clone Quirks" />
+      <section-header :title="$t('pm.titles.cloneQuirks')" />
 
       <v-row v-for="(q, i) in pilot.Quirks"
         :key="`quirk_${i}`"
@@ -73,7 +73,7 @@
           </v-alert>
         </v-col>
         <v-col cols="auto">
-          <v-tooltip text="Remove Clone Quirk">
+          <v-tooltip :text="$t('pm.tooltips.removeCloneQuirk')">
             <template #activator="{ props }">
               <v-btn icon
                 v-bind="props"

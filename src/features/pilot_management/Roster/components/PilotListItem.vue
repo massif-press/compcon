@@ -59,7 +59,7 @@
           class="detail-row-mobile pa-2">
           <b class="text-stark">{{ pilot.Name }}</b>
           <div class="text-cc-overline">
-            <span class="text-disabled">{{ $t('pm.roster.licenseLevel') }}</span>
+            <span class="text-disabled">{{ $t('ui.fields.licenseLevel') }}</span>
             {{ pilot.Level }}
           </div>
         </div>
@@ -72,7 +72,7 @@
                 <span class="text-disabled">>[</span>
                 <b class="text-stark">{{ pilot.Name }}</b>
                 <span class="text-disabled">]</span>
-                <span class="text-disabled">&nbsp;{{ $t('pm.roster.status') }}</span>
+                <span class="text-disabled">&nbsp;{{ $t('common.status') }} [</span>
                 <span :class="`text-${statusColor(pilot.Status)}`">{{ pilot.Status }}</span>
                 <span class="text-disabled">] -&nbsp;</span>
                 <b class="text-success">&nbsp;{{ $t('pm.roster.llColon') }} {{ pilot.Level }}&nbsp;</b>

@@ -12,7 +12,7 @@
       <v-col cols="auto">
         <a href="https://app.netlify.com/sites/compcon/deploys">
           <img
-            alt="Netlify Status"
+            :alt="$t('nav.alt.netlifyStatus')"
             src="https://api.netlify.com/api/v1/badges/8c8ba126-8074-4a99-98f9-9b0529107214/deploy-status" />
         </a>
       </v-col>
@@ -20,7 +20,7 @@
         <a href="https://discord.gg/rwcpzsU">
           <img
             src="https://img.shields.io/badge/discord-%23compcon-7289DA?logo=discord&logoColor=white"
-            alt="Join the LANCER discord" />
+            :alt="$t('nav.alt.joinTheLancerDiscord')" />
         </a>
       </v-col>
     </v-row>
@@ -29,7 +29,7 @@
         <a href="https://patreon.com/compcon">
           <img
             src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-patreon.vercel.app%2Fapi%3Fusername%3Dcompcon%26type%3Dpatrons&style=for-the-badge"
-            alt="Support COMP/CON on Patreon" />
+            :alt="$t('nav.alt.supportCompconOnPatreon')" />
         </a>
       </v-col>
     </v-row>

@@ -6,10 +6,8 @@
       color="panel">
       <v-toolbar-title>
         <cc-heading is-title
-          text="Data Viewer"
-          tooltip="This is a view of your COMP/CON data, stored both locally and in the cloud. You can
-              use this tool to manage the state of your data, and to sync changes between your local
-              data and the cloud." />
+          :text="$t('mainMenu.actions.dataViewer')"
+          :tooltip="$t('mainMenu.tooltips.thisIsAViewOf')" />
       </v-toolbar-title>
       <v-spacer />
       <v-tooltip max-width="300px"
@@ -38,7 +36,7 @@
           color="primary"
           icon="mdi-magnify"
           bg-color="background"
-          placeholder="Search"
+          :placeholder="$t('common.search')"
           width="250px"
           clearable />
         <cc-select v-if="!mobile && tab === 0"
@@ -89,7 +87,7 @@
         <v-text-field v-model="search"
           variant="outlined"
           prepend-inner-icon="mdi-magnify"
-          label="Search"
+          :label="$t('common.search')"
           single-line
           density="compact"
           clearable
@@ -104,7 +102,7 @@
           density="compact"
           variant="outlined"
           hide-details
-          placeholder="Filter" />
+          :placeholder="$t('mainMenu.fields.filter')" />
       </v-col>
     </v-row>
     <v-window v-model="tab">

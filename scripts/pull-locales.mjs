@@ -2,11 +2,17 @@ import { execFileSync } from 'node:child_process'
 import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import console from 'node:console'
+import process from 'node:process'
 
 const DEST = 'src/i18n/locales'
 const REMOTE = 'https://github.com/massif-press/compcon-locales.git'
 
 const PROTECTED_BASE = 'en.json'
+
+// Weblate locale code -> app locale code. Weblate has BCP-47 subtags (zh_Hans);
+// the app uses the shorter code (zh) to match language/a11y
+const ALIAS = { zh_Hans: 'zh' }
 
 const codes = new Set(
   [...readFileSync('src/i18n/index.ts', 'utf8').matchAll(/code:\s*'([^']+)'/g)].map(m => m[1])
@@ -43,10 +49,11 @@ let pulled = 0
 for (const file of readdirSync(uiDir)) {
   if (!file.endsWith('.json')) continue
   if (file === PROTECTED_BASE) continue // never write the English source of truth
-  const code = file.slice(0, -'.json'.length)
+  const rawCode = file.slice(0, -'.json'.length)
+  const code = ALIAS[rawCode] ?? rawCode
   if (!codes.has(code)) continue
 
-  const destPath = join(DEST, file)
+  const destPath = join(DEST, `${code}.json`)
   if (destPath === join(DEST, PROTECTED_BASE))
     throw new Error(`refusing to write ${PROTECTED_BASE}`)
 
@@ -55,8 +62,9 @@ for (const file of readdirSync(uiDir)) {
   const merged = mergeAppWins(existing, incoming)
   const added = countLeaves(merged) - countLeaves(existing)
   writeFileSync(destPath, JSON.stringify(merged, null, 2) + '\n')
+  const src = rawCode === code ? file : `${file} -> ${code}.json`
   console.log(
-    `${file}: +${added} new key(s) from Weblate; ${countLeaves(existing)} app value(s) preserved`
+    `${src}: +${added} new key(s) from Weblate; ${countLeaves(existing)} app value(s) preserved`
   )
   pulled++
 }

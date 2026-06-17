@@ -58,7 +58,7 @@
 
             <v-list-item class="bg-action--free"
               :disabled="mandatoryRemaining"
-              title="Activate (Free Action)"
+              :title="$t('ui.titles.activateFreeAction')"
               @click="stage(true)">
               <template v-if="mandatoryRemaining"
                 #subtitle>
@@ -70,7 +70,7 @@
               </template>
             </v-list-item>
             <v-divider class="my-2" />
-            <v-list-item title="Reset All Inputs"
+            <v-list-item :title="$t('ui.titles.resetAllInputs')"
               @click="$emit('reset', false)">
               <template #prepend>
                 <v-icon icon="mdi-reload"
@@ -117,7 +117,7 @@
             border
             tile>
 
-            <v-list-item title="Reset All Inputs"
+            <v-list-item :title="$t('ui.titles.resetAllInputs')"
               @click="$emit('reset', false)">
               <template #prepend>
                 <v-icon icon="mdi-reload"

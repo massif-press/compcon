@@ -31,7 +31,7 @@
             <div class="mb-1 text-accent">
               {{ new Date().toLocaleDateString(undefined, dOptions as any) }}
             </div>
-            <div class="text-caption">{{ $t('gm.campaign.version') }}</div>
+            <div class="text-caption">{{ $t('common.version') }}</div>
             <v-row style="width: 400px"
               class="mx-auto">
               <v-col>

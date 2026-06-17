@@ -53,7 +53,7 @@
                 tile
                 :color="damageMods.includes('half') ? 'accent' : 'panel'"
                 @click="toggleDamageMod('half')">
-                {{ $t('active.damageMenu.halfDamage') }}
+                {{ $t('active.common.halfDamage') }}
               </v-btn>
               <v-btn size="x-small"
                 class="mt-1"
@@ -73,7 +73,7 @@
                 @click="toggleDamageMod('force')">
                 {{ $t('active.damageMenu.irreducible') }}
               </v-btn>
-              <div class="text-cc-overline text-disabled mt-3">{{ $t('active.damageMenu.damageType') }}</div>
+              <div class="text-cc-overline text-disabled mt-3">{{ $t('ui.fields.damageType') }}</div>
               <v-divider />
               <v-row dense
                 class="mt-1">
@@ -151,7 +151,7 @@
                 class="py-1 text-center text-cc-overline"
                 style="opacity: 0.75"
                 color="panel">
-                {{ $t('active.damageMenu.nominal') }}
+                {{ $t('active.common.nominal') }}
               </v-card>
             </v-col>
             <v-col>

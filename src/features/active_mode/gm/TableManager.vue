@@ -7,7 +7,3 @@
     {{ $t('active.tableManager.addNew') }}
   </v-container>
 </template>
-
-<script setup lang="ts">
-
-</script>

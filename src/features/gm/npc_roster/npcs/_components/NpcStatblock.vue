@@ -2,7 +2,7 @@
   <v-card-text>
     <div class="text-right mb-2">
       <cc-switch v-model="includeFeatureDetails"
-        label="include Feature Details"
+        :label="$t('common.includeFeatureDetails')"
         color="primary" />
     </div>
 

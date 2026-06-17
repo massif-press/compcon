@@ -56,19 +56,19 @@
 
     <template #subtitle>
       <div v-if="layer.Description"
-        class="text-cc-overline mt-2">{{ $t('active.eidolon.layerDescription') }}</div>
+        class="text-cc-overline mt-2">{{ $t('gm.eidolon.layerDescription') }}</div>
       <p v-if="layer.Description"
         v-html-safe="layer.Description"
         class="px-4 py-2 border" />
       <div v-if="layer.Layer.Appearance"
         class="my-2">
-        <cc-panel title="Reported Appearances">
+        <cc-panel :title="$t('active.titles.reportedAppearances')">
           <p v-html-safe="layer.Layer.Appearance" />
         </cc-panel>
       </div>
       <div v-if="layer.Layer.Hints"
         class="my-2">
-        <cc-panel title="Hints">
+        <cc-panel :title="$t('active.titles.hints')">
           <p v-html-safe="layer.Layer.Hints" />
           <div class="text-right"
             style="position: absolute; bottom: 0; right: 22px">
@@ -85,7 +85,7 @@
       </div>
       <div v-if="layer.Layer.Rules"
         class="my-2">
-        <cc-panel title="Rules">
+        <cc-panel :title="$t('active.titles.rules')">
           <p v-html-safe="layer.Layer.RulesByTier(combatant.actor.Tier)" />
         </cc-panel>
       </div>

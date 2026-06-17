@@ -50,7 +50,7 @@
               mount.RemoveCoreBonus(b);
             isActive.value = false;
             ">
-            {{ $t('pm.common.removeName', { name: b.Name }) }}
+            {{ $t('common.removeName', { name: b.Name }) }}
           </cc-button>
         </v-card-text>
       </v-card>

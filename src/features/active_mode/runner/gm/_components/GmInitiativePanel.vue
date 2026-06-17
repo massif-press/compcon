@@ -134,7 +134,7 @@
           tile
           color="primary"
           prepend-icon="mdi-plus">
-          {{ $t('active.initiative.addItem') }}
+          {{ $t('mainMenu.collection.addItem') }}
         </v-btn>
         <v-btn v-else
           v-bind="props"

@@ -9,11 +9,11 @@
     <span>
       <span v-if="isSelected">
         <v-icon start>cc:difficulty</v-icon>
-        {{ $t('pm.common.removeName', { name: bonus.Name }) }}
+        {{ $t('common.removeName', { name: bonus.Name }) }}
       </span>
       <span v-else-if="isSelectable">
         <v-icon start>cc:accuracy</v-icon>
-        {{ $t('pm.common.addName', { name: bonus.Name }) }}
+        {{ $t('common.addName', { name: bonus.Name }) }}
       </span>
       <span v-else>
         <v-icon start>mdi-lock</v-icon>

@@ -135,7 +135,14 @@ class StatController {
     this._maxStats = stats
   }
 
-  public get DisplayKeys(): { key: string; title: string; type: string }[] {
+  public get DisplayKeys(): {
+    key: string
+    title: string
+    type: string
+    icon: string
+    sort: number
+    added: boolean
+  }[] {
     return Object.keys(this._maxStats)
       .filter(x => x.toLowerCase() !== 'sizes')
       .filter(
@@ -153,6 +160,7 @@ class StatController {
         type: StatController.getKeyType(key),
         icon: Stats.IconMap[key] || 'mdi-flask-empty-outline',
         sort: Stats.SortMap[key] || 100,
+        added: this._userAddedKeys.has(key),
       }))
   }
 

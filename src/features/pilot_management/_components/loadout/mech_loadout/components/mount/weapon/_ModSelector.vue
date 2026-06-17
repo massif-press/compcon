@@ -31,7 +31,7 @@
             <div class="text-cc-overline">
               {{ $t('pm.loadout.unionARMORYEQUIPMENTAUTHORIZATIONFRAMEEQUIPMENT') }}
             </div>
-            <div class="heading h2 text-disabled">{{ $t('pm.loadout.noSELECTION') }}</div>
+            <div class="heading h2 text-disabled">{{ $t('ui.widget.noSelection') }}</div>
             <div class="flavor-text overline text-error"
               style="display: block">
               {{ $t('pm.loadout.equipmentIDINVALIDORMISSING') }}

@@ -21,7 +21,7 @@
         class="text-white heading h3">
         {{ title }}
         <span v-if="critical" class="flavor-text text-white text--secondary">{{ $t('ui.dice.critical') }}</span>
-        <span v-if="overkill" class="flavor-text text-white text--secondary">{{ $t('ui.dice.overkill') }}</span>
+        <span v-if="overkill" class="flavor-text text-white text--secondary">// {{ $t('active.fields.overkill') }}</span>
       </v-toolbar>
       <v-row no-gutters align="center" justify="center">
         <v-col>
@@ -191,7 +191,7 @@
                 </div>
                 <div v-if="accuracy">
                   <div class="caption">
-                    {{ accuracy > 0 ? $t('ui.dice.accuracy') : $t('ui.dice.difficulty') }}
+                    {{ accuracy > 0 ? $t('common.accuracy') : $t('common.difficulty') }}
                   </div>
                   <v-row no-gutters>
                     <v-col v-for="(a, i) in accRolls" :key="`acc-${i}`" cols="auto">
@@ -224,7 +224,7 @@
                   class="pa-1 ma-1"
                   style="border: 1px solid rgb(var(--v-theme-heat)); border-radius: 2px">
                   <v-col cols="auto" class="ml-auto text-stark text-right">
-                    <div class="caption">{{ $t('ui.dice.overkillBar') }}</div>
+                    <div class="caption">// {{ $t('active.fields.overkill') }} //</div>
                     <v-chip v-for="(n, index) in overkillRolls" :key="`overkill-${index}`" x-small color="heat">
                       <v-icon small>cc:heat</v-icon>
                     </v-chip>

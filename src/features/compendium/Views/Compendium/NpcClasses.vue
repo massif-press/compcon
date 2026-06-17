@@ -18,11 +18,11 @@
             mandatory
             style="height: 15px">
             <v-btn size="x-small"
-              :value="1">{{ $t('compendium.tierN', { n: 1 }) }}</v-btn>
+              :value="1">{{ $t('common.tierN', { n: 1 }) }}</v-btn>
             <v-btn size="x-small"
-              :value="2">{{ $t('compendium.tierN', { n: 2 }) }}</v-btn>
+              :value="2">{{ $t('common.tierN', { n: 2 }) }}</v-btn>
             <v-btn size="x-small"
-              :value="3">{{ $t('compendium.tierN', { n: 3 }) }}</v-btn>
+              :value="3">{{ $t('common.tierN', { n: 3 }) }}</v-btn>
           </v-btn-toggle>
         </div>
       </v-slide-y-transition>

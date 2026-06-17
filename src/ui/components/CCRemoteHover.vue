@@ -11,7 +11,7 @@
       <div class="font-weight-bold"
         style="letter-spacing: 3px">
         <span v-if="collectionResource">{{ $t('ui.remote.collectionResource') }}</span>
-        <span v-else>{{ $t('ui.remote.remoteResource') }}</span>
+        <span v-else>{{ $t('common.remoteResource') }}</span>
       </div>
       <v-divider />
       <i v-if="collectionResource"

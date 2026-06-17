@@ -23,7 +23,7 @@
           <v-divider v-if="!readonly" />
           <v-list-item v-if="!readonly"
             prepend-icon="mdi-plus"
-            title="Add New Loadout"
+            :title="$t('pm.titles.addNewLoadout')"
             @click="$emit('add-loadout')" />
         </v-list>
       </v-menu>

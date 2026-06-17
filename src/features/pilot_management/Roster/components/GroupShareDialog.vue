@@ -14,21 +14,17 @@
         class="my-1"
         :loading="dlLoading"
         :disabled="isUserOwned"
-        tooltip="Adding this item as a remote resource will create a readonly version of this item linked
-            to the author's original data. When the author saves an update to this item to their
-            COMP/CON cloud account, your local version can receive those changes."
+        :tooltip="$t('pm.tooltips.addingThisItemAsA')"
         @click="downloadAsRemote()">
-        {{ $t('pm.roster.addAsRemoteResource') }}
+        {{ $t('share.addAsRemote') }}
       </cc-button>
       <br />
       <cc-button size="small"
         color="primary"
         :loading="dlLoading"
-        tooltip="Adding this item as a local copy will create a new, editable version of this item saved
-            to your local COMP/CON data. Changes made to this item will not affect the author's
-            original data, and you will not receive updates from the author."
+        :tooltip="$t('common.addingLocalCopyTooltip')"
         @click="downloadAsCopy(false)">
-        {{ $t('pm.roster.addAsLocalCopy') }}
+        {{ $t('share.addAsLocalCopy') }}
       </cc-button>
     </template>
   </cc-share-code-importer>

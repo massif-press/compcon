@@ -1,20 +1,20 @@
 <template>
   <v-row justify="center">
     <v-col>
-      <cc-titled-panel title="New Organization"
+      <cc-titled-panel :title="$t('pm.titles.newOrganization')"
         icon="mdi-account-group"
         color="reserve">
         <v-row>
           <v-col cols="6">
             <v-text-field v-model="orgName"
               color="accent"
-              label="Name"
+              :label="$t('pm.fields.name')"
               variant="outlined"
               hide-details />
           </v-col>
           <v-col cols="6">
             <v-select v-model="orgType"
-              label="Type"
+              :label="$t('pm.fields.type')"
               color="accent"
               :items="orgTypes"
               variant="outlined"
@@ -22,7 +22,7 @@
           </v-col>
         </v-row>
         <v-textarea v-model="orgDetails"
-          label="Purpose, goal, and organization details"
+          :label="$t('pm.fields.purposeGoalAndOrganizationDetails')"
           color="accent"
           auto-grow
           rows="2"
@@ -54,7 +54,7 @@
             <div v-else>
               <span class="heading h3">+ {{ orgStart === 'efficiency' ? '2' : '0' }}</span>
               <br />
-              <span>{{ $t('pm.selectors.organizationEfficiency') }}</span>
+              <span>{{ $t('ui.org.efficiency') }}</span>
             </div>
           </v-col>
           <v-divider v-show="!$vuetify.display.mdAndDown"
@@ -81,7 +81,7 @@
             <div v-else>
               <span class="heading h3">+ {{ orgStart === 'influence' ? '2' : '0' }}</span>
               <br />
-              <span>{{ $t('pm.selectors.organizationInfluence') }}</span>
+              <span>{{ $t('ui.org.influence') }}</span>
             </div>
           </v-col>
         </v-row>

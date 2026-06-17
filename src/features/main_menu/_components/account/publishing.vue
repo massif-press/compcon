@@ -24,7 +24,7 @@
         <cc-alert color="text"
           icon="mdi-information-outline"
           variant="outlined"
-          title="You do not have access to the collection publishing tool.">
+          :title="$t('mainMenu.titles.youDoNotHaveAccess2')">
           <i18n-t keypath="mainMenu.publishing.accessInfo" tag="span" scope="global">
             <template #link><a href="https://www.patreon.com/compcon" target="_blank">{{ $t("mainMenu.archive.subscribing") }}</a></template>
           </i18n-t>
@@ -93,19 +93,19 @@
                     </v-row>
                     <v-textarea v-model="collection.Description"
                       density="compact"
-                      label="Description"
+                      :label="$t('common.description')"
                       rows="3"
                       auto-grow />
                     <v-row dense
                       align="center">
-                      <v-col class="heading text-accent">{{ $t("mainMenu.collection.contents") }}</v-col>
+                      <v-col class="heading text-accent">{{ $t("common.contents") }}</v-col>
                       <v-col cols="auto">
                         <cc-button color="primary"
                           size="small"
                           tile
                           flat
                           prepend-icon="mdi-update">
-                          {{ $t("mainMenu.ui.updateAll") }}
+                          {{ $t("common.updateAll") }}
                         </cc-button>
                       </v-col>
                     </v-row>
@@ -195,7 +195,7 @@
                       auto-grow />
                   </div>
                   <div class="text-right">
-                    <cc-dialog title="Changelog">
+                    <cc-dialog :title="$t('mainMenu.titles.changelog')">
                       <template #activator="{ open }">
                         <cc-button size="small"
                           class="my-2"
@@ -317,7 +317,7 @@
                   </div>
                   <v-card-actions>
                     <v-spacer />
-                    <cc-dialog title="delete collection"
+                    <cc-dialog :title="$t('mainMenu.titles.deleteCollection')"
                       color="error"
                       :close-on-click="false">
                       <template #activator="{ open }">

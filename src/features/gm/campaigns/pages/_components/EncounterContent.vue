@@ -32,8 +32,8 @@
                   align="center"
                   justify="center">
                   <v-col>
-                    <i class="text-disabled text-caption">{{ $t('gm.encounterContent.noMapData')
-                    }}</i>
+                    <i class="text-disabled text-caption">{{ $t('active.common.noMapData')
+                      }}</i>
                   </v-col>
                 </v-row>
               </v-card>
@@ -91,9 +91,6 @@ import { computed, ref } from 'vue'
 import { EncounterStore } from '@/stores';
 import CCEnvironmentDisplay from '@/ui/components/CCEnvironmentDisplay.vue'
 import CCSitrepDisplay from '@/ui/components/CCSitrepDisplay.vue'
-import CombatantEditor from '@/features/gm/encounters/_components/combatants/CombatantEditor.vue';
-
-defineOptions({ name: 'narrative-content' })
 
 const props = defineProps<{
   data: object
@@ -108,11 +105,5 @@ const item = computed(() => {
   if (refElement) return refElement;
   return props.data;
 })
-const combatants = computed(() => {
-  return {
-    Enemies: item.value.Combatants.filter((x) => x.side === 'enemy'),
-    Allies: item.value.Combatants.filter((x) => x.side === 'ally'),
-    Neutral: item.value.Combatants.filter((x) => x.side === 'neutral'),
-  };
-})
+
 </script>

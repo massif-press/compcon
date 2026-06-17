@@ -22,7 +22,7 @@
         :title="pack.manifest.name"
         hide-close>
         <template #toolbar-items>
-          <cc-chip title="VERSION"
+          <cc-chip :title="$t('nav.titles.version')"
             size="x-small"
             color="secondary"
             :label="pack.manifest.version"

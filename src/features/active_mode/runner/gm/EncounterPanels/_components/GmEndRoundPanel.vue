@@ -17,7 +17,7 @@
             </v-row>
           </div>
           <i v-else
-            class="text-disabled">{{ $t('active.common.none') }}</i>
+            class="text-disabled">{{ $t('common.none') }}</i>
 
 
           <div v-if="nextRoundAlerts">
@@ -89,7 +89,7 @@
             </div>
           </div>
           <i v-else
-            class="text-disabled">{{ $t('active.common.none') }}</i>
+            class="text-disabled">{{ $t('common.none') }}</i>
           <v-divider class="my-4" />
           <cc-button color="primary"
             block

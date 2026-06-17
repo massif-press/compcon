@@ -56,7 +56,7 @@
     <cc-alert density="compact"
       class="my-2 text-caption"
       icon="mdi-alert"
-      title="External Data Warning">
+      :title="$t('ui.titles.externalDataWarning')">
       <i>
         {{ $t('ui.image.remoteGalleryNote') }}
       </i>
@@ -77,7 +77,7 @@
             dense
             outlined
             hide-details
-            placeholder="Link Image"
+            :placeholder="$t('ui.fields.linkImage')"
             prepend-icon="mdi-image-sync"
             :disabled="loading" />
         </v-col>

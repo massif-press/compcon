@@ -7,7 +7,7 @@
         md="">
         <cc-select v-model="genRadios"
           :items="genItems"
-          label="Generate" />
+          :label="$t('pm.fields.generate')" />
       </v-col>
       <v-col cols="auto">
         <cc-switch v-model="discordEmoji"
@@ -33,7 +33,7 @@
         density="compact"
         item-title="Name"
         item-value="ID"
-        label="Select Mech"
+        :label="$t('pm.fields.selectMech')"
         variant="outlined"
         class="mb-4"
         hide-details />
@@ -46,7 +46,7 @@
       :rows="mobile ? 14 : 24"
       variant="solo-filled"
       class="flavor-text" />
-    <v-tooltip text="Copy stat block to clipboard">
+    <v-tooltip :text="$t('pm.tooltips.copyStatBlockToClipboard')">
       <template #activator="{ props }">
         <cc-button v-bind="props"
           prepend-icon="mdi-clipboard-text-outline"

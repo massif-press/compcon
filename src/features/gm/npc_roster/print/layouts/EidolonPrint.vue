@@ -7,14 +7,14 @@
         </div>
         <div class="my-n2">
           <div class="text-caption">
-            {{ $t('gm.npcStats.tier', { n: npc.Tier }) }}
+            {{ $t('common.tierN', { n: npc.Tier }) }}
             <cc-slashes />
             {{ $t('gm.eidolonPrint.classLabel', { class: npc.Class }) }}
           </div>
         </div>
       </v-col>
       <v-col cols="auto ml-auto">
-        <v-chip label size="small" :prepend-icon="npc.TagIcon" class="mx-1">{{ $t('gm.eidolonPrint.eidolon') }}</v-chip>
+        <v-chip label size="small" :prepend-icon="npc.TagIcon" class="mx-1">{{ $t('common.eidolon') }}</v-chip>
       </v-col>
     </v-row>
     <div v-if="options.include.some((x) => x.title === 'GM Notes')" class="text-caption mt-1 pl-3">

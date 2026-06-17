@@ -19,7 +19,7 @@
             prepend-inner-icon="mdi-magnify"
             clearable
             density="compact"
-            label="Search"
+            :label="$t('common.search')"
             hide-details />
           <v-spacer />
           <v-btn icon
@@ -44,7 +44,7 @@
                 density="compact"
                 class="my-2"
                 icon="mdi-alert">
-                <strong>{{ $t("mainMenu.collection.warningLabel") }}</strong>
+                <strong>{{ $t('common.warning') }}:</strong>
                 {{ $t("mainMenu.collection.distributeWarning") }}
                 <br />
                 {{ $t("mainMenu.collection.ensureRights") }}

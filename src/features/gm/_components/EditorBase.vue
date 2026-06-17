@@ -55,7 +55,7 @@
                 md="12">
                 <cc-img :src="item.PortraitController.Image" />
                 <cc-modal v-if="!readonly"
-                  title="select image">
+                  :title="$t('gm.titles.selectImage')">
                   <template #activator="{ open }">
                     <cc-button size="x-small"
                       block
@@ -79,7 +79,7 @@
                   :readonly="readonly"
                   color="primary"
                   variant="outlined"
-                  label="gm notes" />
+                  :label="$t('gm.fields.gmNotes')" />
               </v-col>
             </v-row>
           </v-col>
@@ -181,13 +181,13 @@ async function remoteUpdate() {
         await CloudController.UpdateRemote(props.item)
         await UserStore().refreshDbData()
         notify({
-          title: t('notify.transfer.syncCompleteTitle'),
+          title: t('notify.share.syncCompleteTitle'),
           text: t('notify.transfer.itemSynced', { type: props.item.ItemType, name: props.item.Name }),
           data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
         })
       } catch (err) {
         notify({
-          title: t('notify.transfer.syncFailedTitle'),
+          title: t('notify.share.syncFailedTitle'),
           text: t('notify.transfer.itemSyncFailed', { type: props.item.ItemType, name: props.item.Name, err }),
           data: { icon: 'mdi-alert', color: 'error' },
         })

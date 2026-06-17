@@ -8,7 +8,7 @@
       :archived-items="archived"
       :columns="encounterOrganizerColumns"
       noun="encounter"
-      title="Encounters"
+      :title="$t('common.encounters')"
       @archive="organizeArchive"
       @restore="organizeRestore"
       @delete="organizeDelete" />
@@ -19,7 +19,11 @@
       :key="e.ID"
       style="position: relative"
       class="li-top-element my-2"
-      @click="launch(e)">
+      role="button"
+      tabindex="0"
+      @click="launch(e)"
+      @keydown.enter="launch(e)"
+      @keydown.space="launch(e)">
       <div class="light"
         style="position: absolute; top: 0; left: -15px; bottom: 0; width: 10px" />
       <v-row no-gutters
@@ -52,11 +56,10 @@
                 class="mr-n2 ml-auto">
                 <v-menu>
                   <template #activator="{ props }">
-                    <v-icon v-bind="props"
-                      start
-                      color="white"
+                    <v-btn v-bind="props"
                       icon="mdi-cog"
                       size="small"
+                      variant="text"
                       class="fade-select"
                       @click.stop />
                   </template>
@@ -65,7 +68,8 @@
                       <v-list-item prepend-icon="mdi-delete"
                         color="error"
                         @click="RemoveEncounter(e)">
-                        <v-list-item-title>{{ $t('active.encMgr.deleteEncounter') }}</v-list-item-title>
+                        <v-list-item-title>{{ $t('active.encMgr.deleteEncounter')
+                        }}</v-list-item-title>
                       </v-list-item>
                     </v-list>
                   </v-card>
@@ -81,7 +85,7 @@
                 class="pb-0 my-1">
                 <div>
                   <span class="text-disabled mr-1">
-                    {{ $t('active.labels.created') }}
+                    {{ $t('common.created') }}
                     <cc-slashes />
                   </span>
                   <b>{{ new Date(e.SaveController.Created).toLocaleDateString() }}</b>
@@ -97,7 +101,7 @@
               <v-col class="mb-0 pb-0 mt-1">
                 <div>
                   <span class="text-disabled mr-1">
-                    {{ $t('active.labels.environment') }}
+                    {{ $t('common.environment') }}
                     <cc-slashes />
                   </span>
                   <b>{{ e.Encounter.Environment.Name }}</b>
@@ -105,7 +109,7 @@
 
                 <div>
                   <span class="text-disabled mr-1">
-                    {{ $t('active.labels.sitrep') }}
+                    {{ $t('common.sitrep') }}
                     <cc-slashes />
                   </span>
                   <b>{{ e.Encounter.Sitrep.Name }}</b>
@@ -163,7 +167,8 @@
           </div>
           <div v-if="archived.length === 0"
             class="text-center text-cc-overline text-disabled">
-            <i>{{ search ? $t('active.encMgr.noArchivedFoundFiltered', { search }) : $t('active.encMgr.noArchivedFound') }}.</i>
+            <i>{{ search ? $t('active.encMgr.noArchivedFoundFiltered', { search }) :
+              $t('active.encMgr.noArchivedFound') }}.</i>
           </div>
           <v-row v-for="e in archived"
             :key="e.ID"
@@ -182,7 +187,7 @@
             <v-col cols="auto">
               {{ $t('active.encMgr.roundsCount', { n: e.Round }) }}
               <div>
-                <span class="text-disabled mr-1">{{ $t('active.labels.created') }}</span>
+                <span class="text-disabled mr-1">{{ $t('common.created') }}</span>
                 <b>{{ new Date(e.Start).toLocaleDateString() }}</b>
               </div>
               <div>
@@ -257,12 +262,14 @@
                             style="white-space: pre-wrap; word-break: break-word;">
                         <v-row dense>
                           <v-col>
-                            <div class="text-disabled mb-1">{{ $t('active.encMgr.battlefieldTelemetry') }}</div>
+                            <div class="text-disabled mb-1">{{
+                              $t('active.encMgr.battlefieldTelemetry') }}</div>
                             <div class="text-disabled mb-1">---------------------</div>
                             {{ formatTelemetry(a.telemetry) }}
                           </v-col>
                           <v-col style="max-height: 800px; overflow-y: scroll;">
-                            <div class="text-disabled mb-1">{{ $t('active.encMgr.combatLogs') }}</div>
+                            <div class="text-disabled mb-1">{{ $t('active.encMgr.combatLogs') }}
+                            </div>
                             <div class="text-disabled mb-1">---------------------</div>
                             <div v-for="(log, logIndex) in a.log" :key="`log-entry-${logIndex}`"
                               class="mb-2">
@@ -330,6 +337,8 @@ import ActiveModeSortBar from '@/features/active_mode/_components/ActiveModeSort
 import { CombatLog } from '@/classes/components/combat/CombatLog';
 import { ActionSummary } from '@/classes/components/feature/active_effects/EffectActionSummary';
 import { EncounterStore } from '@/stores';
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
+import { EncounterArchive } from '@/classes/encounter/EncounterArchive';
 
 const { smAndDown: mobile } = useDisplay();
 const router = useRouter();
@@ -339,20 +348,20 @@ const sort = ref('');
 const asc = ref(true);
 
 const encounterOrganizerColumns = [
-  { key: 'Name', title: 'Name', sortable: true, value: (e: any) => e.Name },
-  { key: 'Environment', title: 'Environment', value: (e: any) => e.Encounter?.Environment?.Name || '' },
-  { key: 'Sitrep', title: 'Sitrep', value: (e: any) => e.Encounter?.Sitrep?.Name || '' },
-  { key: 'Round', title: 'Round', sortable: true, value: (e: any) => e.Round },
-  { key: 'Created', title: 'Created', sortable: true, value: (e: any) => new Date(e.SaveController.Created).toLocaleDateString() },
+  { key: 'Name', title: 'Name', sortable: true, value: (e: EncounterInstance) => e.Name },
+  { key: 'Environment', title: 'Environment', value: (e: EncounterInstance) => e.Encounter?.Environment?.Name || '' },
+  { key: 'Sitrep', title: 'Sitrep', value: (e: EncounterInstance) => e.Encounter?.Sitrep?.Name || '' },
+  { key: 'Round', title: 'Round', sortable: true, value: (e: EncounterInstance) => e.Round },
+  { key: 'Created', title: 'Created', sortable: true, value: (e: EncounterInstance) => new Date(e.SaveController.Created).toLocaleDateString() },
 ];
 
-const encounters = computed(() => {
+const encounters = computed<EncounterInstance[]>(() => {
   if (sort.value) {
-    const sorted = [...EncounterStore().ActiveEncounters].filter(
+    const sorted = [...(EncounterStore().ActiveEncounters as EncounterInstance[])].filter(
       (e) => !e.SaveController.IsDeleted
     );
     sorted.sort((a, b) => {
-      let aValue: any, bValue: any;
+      let aValue: string | number, bValue: string | number;
       switch (sort.value) {
         case 'Name':
           aValue = a.Name.toLowerCase();
@@ -374,15 +383,14 @@ const encounters = computed(() => {
       return 0;
     });
     return sorted;
-  } else {
-    return EncounterStore().ActiveEncounters.filter(
-      (e) => !e.SaveController.IsDeleted
-    );
   }
-});
+  return (EncounterStore().ActiveEncounters as EncounterInstance[]).filter(
+    (e) => !e.SaveController.IsDeleted
+  );
+})
 
-const archived = computed(() => {
-  let arr = EncounterStore().ArchivedEncounters;
+const archived = computed<EncounterArchive[]>(() => {
+  let arr = EncounterStore().ArchivedEncounters as EncounterArchive[];
   if (search.value && search.value.trim() !== '') {
     arr = arr.filter((e) =>
       e.Name.toLowerCase().includes(search.value.toLowerCase())
@@ -392,46 +400,46 @@ const archived = computed(() => {
 });
 
 const deleted = computed(() =>
-  EncounterStore().ActiveEncounters.filter((e) => e.SaveController.IsDeleted)
+  (EncounterStore().ActiveEncounters as EncounterInstance[]).filter((e) => e.SaveController.IsDeleted)
 );
 
-async function launch(encounter: any) {
+async function launch(encounter: EncounterInstance) {
   await EncounterStore().AssignActiveEncounter(encounter);
   router.push(`gm-encounter-runner/${encounter.ID}`);
 }
 
-function deleteEncounter(encounter: any) {
+function deleteEncounter(encounter: EncounterInstance | EncounterArchive) {
   encounter.SaveController.Delete();
 }
 
-async function RemoveEncounter(encounter: any) {
+async function RemoveEncounter(encounter: EncounterInstance) {
   await EncounterStore().RemoveEncounterInstance(encounter);
 }
 
 async function organizeArchive(ids: string[]) {
-  const targets = encounters.value.filter(e => ids.includes(e.ID));
+  const targets = encounters.value.filter(e => ids.includes(e.ID)) as EncounterInstance[];
   for (const e of targets) {
     await EncounterStore().ArchiveEncounterInstance(e, '', 'Archived');
   }
 }
 
 async function organizeDelete(ids: string[]) {
-  const targets = encounters.value.filter(e => ids.includes(e.ID));
+  const targets = encounters.value.filter(e => ids.includes(e.ID)) as EncounterInstance[];
   for (const e of targets) {
     await EncounterStore().RemoveEncounterInstance(e);
   }
-  const archives = archived.value.filter(e => ids.includes(e.ID));
+  const archives = archived.value.filter(e => ids.includes(e.ID)) as EncounterArchive[];
   for (const a of archives) {
     await EncounterStore().RemoveEncounterArchive(a);
   }
 }
 
 function organizeRestore(ids: string[]) {
-  const targets = deleted.value.filter((e: any) => ids.includes(e.ID));
+  const targets = deleted.value.filter(e => ids.includes(e.ID));
   for (const e of targets) e.SaveController.Restore();
 }
 
-function reportText(archive: any) {
+function reportText(archive: EncounterArchive) {
   let str = `      ${archive.Name}: ${archive.Result}\n`;
   str += `------------------------------------------------\n`;
   const report = JSON.parse(archive.AfterActionReport);
@@ -445,7 +453,7 @@ function copyText(text: string) {
   navigator.clipboard.writeText(text);
 }
 
-function exportJson(archive: any, type: 'logs' | 'report') {
+function exportJson(archive: EncounterArchive, type: 'logs' | 'report') {
   const data = {
     name: archive.Name,
     result: archive.Result,

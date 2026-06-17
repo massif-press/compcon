@@ -17,7 +17,7 @@
       <v-col cols="auto"
         class="ml-auto mr-2 text-center caption">
         <span class="text-overline text-primary mb-2"
-          style="line-height: 0">{{ $t('pm.print.overcharge2') }}</span>
+          style="line-height: 0">{{ $t('common.overcharge') }}:</span>
         <span class="px-1">
           [+1
           <v-icon size="small"
@@ -62,7 +62,7 @@
         <b v-else>{{ mech.Hull }}</b>
       </v-col>
       <v-col cols="auto">
-        <b>{{ $t('pm.sheet.agi') }}</b>
+        <b>{{ $t('stats.agi') }}:</b>
         <blank-line v-if="blank"
           class="d-inline-block mb-n1"
           :height="20"
@@ -70,7 +70,7 @@
         <b v-else>{{ mech.Agi }}</b>
       </v-col>
       <v-col cols="auto">
-        <b>{{ $t('pm.sheet.sys') }}</b>
+        <b>{{ $t('stats.sys') }}:</b>
         <blank-line v-if="blank"
           class="d-inline-block mb-n1"
           :height="20"
@@ -78,7 +78,7 @@
         <b v-else>{{ mech.Sys }}</b>
       </v-col>
       <v-col cols="auto">
-        <b>{{ $t('pm.sheet.eng') }}</b>
+        <b>{{ $t('stats.eng') }}:</b>
         <blank-line v-if="blank"
           class="d-inline-block mb-n1"
           :height="20"
@@ -108,7 +108,7 @@
       <v-col class="text-center"
         cols="auto">
         <div>
-          {{ $t('pm.print.repairs2') }}
+          {{ $t('common.repairs') }}:
           <blank-line :width="40"
             :height="20"
             class="d-inline-block" />
@@ -192,7 +192,7 @@
       <v-col cols="auto"
         class="text-center">
         <div style="line-height: 0"
-          class="text-overline text-primary mb-2">{{ $t('pm.print.overshield') }}</div>
+          class="text-overline text-primary mb-2">{{ $t('common.overshield') }}</div>
         <div class="d-inline-block"><blank-line :height="20"
             :width="40" /></div>
       </v-col>
@@ -323,7 +323,7 @@
           </v-col>
         </v-row>
 
-        <div class="text-overline mb-n3 text-primary">{{ $t('pm.print.frameTRAITS') }}</div>
+        <div class="text-overline mb-n3 text-primary">{{ $t('ui.card.frameTraits') }}</div>
         <v-row v-if="blank"
           dense>
           <v-col v-for="n in 4"
@@ -404,7 +404,7 @@
         <div v-if="hasMechOption('Mech Notes') && mech.Notes && !blank"
           class="pt-2 no-print-break">
           <div class="text-overline text-primary mb-2 mt-3"
-            style="line-height: 0">{{ $t('pm.print.notes') }}</div>
+            style="line-height: 0">{{ $t('common.notes') }}</div>
           <div v-html-safe="mech.Notes"
             class="mt-2 caption" />
         </div>
@@ -424,14 +424,14 @@
     <div v-if="hasMechOption('Mech Notes') && blank"
       class="pt-3 no-print-break">
       <div class="text-overline text-primary mb-2"
-        style="line-height: 0">{{ $t('pm.print.notes') }}</div>
+        style="line-height: 0">{{ $t('common.notes') }}</div>
       <div class="">
         <notes :rows="5"
           lined />
       </div>
     </div>
 
-    <div class="text-overline mb-n3 mt-n1 text-primary">{{ $t('pm.new.loadout') }}</div>
+    <div class="text-overline mb-n3 mt-n1 text-primary">{{ $t('common.loadout') }}</div>
 
     <div v-if="blank">
       <fieldset v-for="n in hasMechOption('Extra Mount Panel') ? 5 : 4"
@@ -453,7 +453,7 @@
             :key="`slot-${j}`">
             <v-row dense>
               <v-col>
-                <div class="caption text-grey">{{ $t('pm.print.weapon') }}</div>
+                <div class="caption text-grey">{{ $t('common.weapon') }}</div>
                 <blank-line :height="20" />
               </v-col>
               <v-col cols="2">
@@ -489,7 +489,7 @@
             class="text-center flavor-text">
             {{ $t('pm.print.mountLOCKED') }}
             <br />
-            <span class="text-overline">{{ $t('pm.print.superheavyWEAPONBRACING') }}</span>
+            <span class="text-overline">// {{ $t('pm.loadout.superheavyWEAPONBRACING') }} //</span>
           </div>
           <v-row v-else
             dense>
@@ -623,7 +623,7 @@
               <blank-line :height="20" />
             </v-col>
             <v-col cols="2">
-              <div class="caption text-grey">{{ $t('pm.print.spCOST') }}</div>
+              <div class="caption text-grey">{{ $t('ui.filter.spCost') }}</div>
               <blank-line :height="20" />
             </v-col>
           </v-row>

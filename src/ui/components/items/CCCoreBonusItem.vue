@@ -21,10 +21,12 @@
           <div class="text-center">
             <div>{{ $t('ui.coreBonus.remove') }}</div>
             <v-divider class="my-1" />
-            <div class="text-caption">
-              <b class="text-error">{{ $t('ui.widget.warningUpper') }}</b>
-              {{ $t('ui.coreBonus.instancedWarning') }}
-            </div>
+            <i18n-t keypath="ui.coreBonus.instancedWarning"
+              tag="div"
+              scope="global"
+              class="text-caption">
+              <template #warning><b class="text-error">{{ $t('common.warning') }}</b></template>
+            </i18n-t>
           </div>
         </v-tooltip>
       </span>

@@ -1,6 +1,6 @@
 <template>
   <gm-split-view ref="view"
-    title="Doodads"
+    :title="$t('gm.titles.doodads')"
     item-type="Doodad"
     :items="doodads"
     :selected="<any>selected"
@@ -11,7 +11,7 @@
     <template #tooltip>
       <div class="text-center mt-n1 mb-1">
         <v-tooltip
-          text="Non-character objects (such as terrain items) that can be tracked in combat encounters."
+          :text="$t('gm.actions.noncharacterObjectsSuchAsTerrain')"
           location="bottom"
           max-width="400">
           <template #activator="{ props }">

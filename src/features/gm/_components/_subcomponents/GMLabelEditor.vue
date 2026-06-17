@@ -48,7 +48,7 @@
                     density="compact"
                     item-value="title"
                     :hide-details="!labelExists(label)"
-                    placeholder="Label"
+                    :placeholder="$t('gm.fields.label')"
                     class="mt-2" />
                 </v-col>
                 <v-col cols="2">
@@ -57,7 +57,7 @@
                     density="compact"
                     :error="labelExists(label)"
                     item-value="value"
-                    placeholder="Value"
+                    :placeholder="$t('gm.fields.value')"
                     :hide-details="!labelExists(label)"
                     class="mt-2" />
                 </v-col>

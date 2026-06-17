@@ -8,7 +8,7 @@
     <v-row dense
       class="mb-n2">
       <v-col cols="auto"
-        class="heading h4 text-accent mr-2">{{ $t('share.resultName') }}</v-col>
+        class="heading h4 text-accent mr-2">{{ $t('common.name') }}</v-col>
       <v-col cols="9">{{ queryResult.name }}</v-col>
     </v-row>
     <v-row dense
@@ -20,13 +20,13 @@
     <v-row dense
       class="my-n2">
       <v-col cols="auto"
-        class="heading h4 text-accent mr-2">{{ $t('share.resultType') }}</v-col>
+        class="heading h4 text-accent mr-2">{{ $t('common.type') }}</v-col>
       <v-col cols="9">{{ queryResult.sortkey.split('_')[1] }}</v-col>
     </v-row>
     <v-row dense
       class="my-n2">
       <v-col cols="auto"
-        class="heading h4 text-accent mr-2">{{ $t('share.resultCreated') }}</v-col>
+        class="heading h4 text-accent mr-2">{{ $t('common.created') }}</v-col>
       <v-col cols="9">{{ new Date(queryResult.created).toLocaleString() }}</v-col>
     </v-row>
     <v-row dense

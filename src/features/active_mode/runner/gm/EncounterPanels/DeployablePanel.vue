@@ -14,7 +14,7 @@
       class="ma-2"
       prominent
       icon="cc:drone"
-      title="Recalled to Mech"
+      :title="$t('active.titles.recalledToMech')"
       outlined>
       <i18n-t keypath="active.deployPanel.recalledAwaiting" tag="span" scope="global">
         <template #type>{{ combatant.ItemType }}</template>
@@ -43,7 +43,7 @@
             border
             tile>
             <v-list-item class="bg-action--free"
-              title="Activate (Free Action)"
+              :title="$t('active.titles.activateFreeAction')"
               @click="handleRedeploy(true)">
               <template #prepend>
                 <v-icon icon="cc:free"
@@ -58,7 +58,7 @@
         size="x-small"
         color="primary"
         @click="hide = !hide">{{ hide ? $t('common.show') : $t('common.hide') }}
-        {{ $t('active.deployPanel.details') }}</cc-button>
+        {{ $t('common.details') }}</cc-button>
     </cc-alert>
 
     <v-scroll-y-reverse-transition>
@@ -135,7 +135,7 @@
               border
               tile>
               <v-list-item class="bg-action--free"
-                title="Activate (Free Action)"
+                :title="$t('active.titles.activateFreeAction')"
                 @click="handleRecall(true)">
                 <template #prepend>
                   <v-icon icon="cc:free"

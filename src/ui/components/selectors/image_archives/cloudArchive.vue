@@ -71,7 +71,7 @@
               hide-details
               flat
               tile
-              label="Add New Image"
+              :label="$t('ui.fields.addNewImage')"
               accept="image/*"
               class="mt-1 mb-2"
               :disabled="loading || store.CloudStorageFull || !store.IsLoggedIn"

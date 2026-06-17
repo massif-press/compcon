@@ -6,7 +6,7 @@
   </div>
   <v-container :style="mobile ? 'padding:0' : 'padding: 0 12vw 0 12vw'" class="pb-12">
     <fieldset class="mx-1">
-      <legend class="text-cc-overline pa-1">{{ $t('compendium.reference.contents') }}</legend>
+      <legend class="text-cc-overline pa-1">{{ $t('common.contents') }}</legend>
       <v-card-text class="pa-0 my-2">
         <v-row justify="space-around">
           <v-col v-for="n in Math.ceil(content.length / 3)" :key="`col-${n}`">

@@ -3,7 +3,7 @@
     <link-sheet-pilot-name :pilot="pilot" />
     <v-col cols="auto"
       class="py-1 mt-2 ml-auto text-center">
-      <div class="text-cc-overline text-accent">{{ $t('pm.roster.licenseLevel') }}</div>
+      <div class="text-cc-overline text-accent">{{ $t('ui.fields.licenseLevel') }}</div>
       <div class="heading h2 mt-n1">
         {{ pilot.Level }}
       </div>

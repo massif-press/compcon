@@ -4,7 +4,7 @@
       indeterminate />
     <cc-alert v-else-if="rateLimitError"
       icon="mdi-speedometer"
-      title="Server Error - Too Many Requests"
+      :title="$t('pm.titles.serverErrorTooManyRequests')"
       color="error"
       variant="outlined">
       <p v-if="rateLimitError.isDaily"

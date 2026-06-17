@@ -9,14 +9,14 @@
     <v-col>
       <div class="text-cc-overline mb-1">
         <cc-slashes class="pr-1" />
-        <span class="text-disabled">{{ $t('active.encSummary.overview') }}</span>
+        <span class="text-disabled">{{ $t('common.overview') }}</span>
       </div>
       <cc-panel>
         <div class="heading h2">{{ encounter.Name }}</div>
         <div class="text-cc-overline">
-          <span class="text-disabled">{{ $t('active.labels.environment') }} <cc-slashes /></span>
+          <span class="text-disabled">{{ $t('common.environment') }} <cc-slashes /></span>
           {{ encounter.Environment.Name }} &mdash;
-          <span class="text-disabled">{{ $t('active.labels.sitrep') }} <cc-slashes /></span>
+          <span class="text-disabled">{{ $t('common.sitrep') }} <cc-slashes /></span>
           {{ encounter.Sitrep.Name }}
         </div>
         <v-row class="mt-1 mb-2">
@@ -64,7 +64,7 @@
               flat
               tile
               class="pb-4">
-              <div class="heading" h3><cc-slashes /> {{ $t('active.encSummary.npcs') }}</div>
+              <div class="heading" h3><cc-slashes /> {{ $t('common.npcs') }}</div>
               <v-divider class="mb-2" />
               <v-row v-for="(n, i) in encounter.Combatants.sort((a, b) =>
                 a.side.localeCompare(b.side)
@@ -86,7 +86,7 @@
                   <div class="heading h3">{{ n.actor.Name }}</div>
                   <div class="text-cc-overline">
                     <span v-if="n.actor.NpcClassController?.Tier" class="pr-1">
-                      {{ $t('gm.npcStats.tier', { n: n.actor.NpcClassController?.Tier }) }}
+                      {{ $t('common.tierN', { n: n.actor.NpcClassController?.Tier }) }}
                     </span>
                     <span v-if="n.actor.NpcClassController?.Class" class="pr-1">
                       {{ n.actor.NpcClassController?.Class.Name }}
@@ -99,7 +99,7 @@
                   </div>
                   <div v-if="n.reinforcement"
                     class="bg-panel text-center text-cc-overline pa-0">
-                    {{ $t('active.encSummary.reinforcement') }}
+                    {{ $t('common.reinforcement') }}
                     <span v-if="n.reinforcementTurn">{{ $t('active.encSummary.turnN', { n: n.reinforcementTurn }) }}</span>
                   </div>
                 </v-col>

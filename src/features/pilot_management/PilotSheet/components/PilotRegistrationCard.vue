@@ -30,7 +30,7 @@
           <v-row density="compact">
             <v-col cols="12" md="8">
               <span class="flavor-text">
-                {{ $t('pm.sheet.callsign') }}
+                {{ $t('common.callsign') }}:
                 <br v-if="portrait" />
                 <b class="text-accent">{{ pilot.Callsign || 'ERR CALLSIGN NOT FOUND' }}</b>
                 <br />
@@ -55,25 +55,27 @@
               </span>
             </v-col>
           </v-row>
-          <div class="flavor-text mt-2">
-            {{ $t('pm.sheet.frameCONFIGURATIONOPTIONS') }}
-            <span class="text-disabled">{{ $t('pm.sheet.hASEOMNINETVAULT') }}</span>
-          </div>
+          <i18n-t keypath="pm.sheet.frameCONFIGURATIONOPTIONS"
+            tag="div"
+            scope="global"
+            class="flavor-text mt-2">
+            <template #remit><span class="text-disabled">{{ $t('pm.sheet.hASEOMNINETVAULT') }}</span></template>
+          </i18n-t>
           <div class="my-1">
             <span class="flavor-text ml-3" style="font-size: 22px; line-height: 15px">
-              {{ $t('pm.sheet.hull') }}
+              [ {{ $t('stats.hull') }}:
               <span class="stat-text text-accent" style="font-size: 24px">
                 {{ pilot.MechSkillsController.MechSkills.Hull }}&emsp;
               </span>
-              {{ $t('pm.sheet.agi') }}
+              {{ $t('stats.agi') }}:
               <span class="stat-text text-accent" style="font-size: 24px">
                 {{ pilot.MechSkillsController.MechSkills.Agi }}&emsp;
               </span>
-              {{ $t('pm.sheet.sys') }}
+              {{ $t('stats.sys') }}:
               <span class="stat-text text-accent" style="font-size: 24px">
                 {{ pilot.MechSkillsController.MechSkills.Sys }}&emsp;
               </span>
-              {{ $t('pm.sheet.eng') }}
+              {{ $t('stats.eng') }}:
               <span class="stat-text text-accent" style="font-size: 24px">
                 {{ pilot.MechSkillsController.MechSkills.Eng }}
               </span>

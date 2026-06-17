@@ -1,6 +1,6 @@
 <template>
   <gm-split-view ref="view"
-    title="Eidolons"
+    :title="$t('gm.titles.eidolons')"
     item-type="Eidolon"
     :items="eidolons"
     :selected="<any>selected"

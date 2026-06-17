@@ -11,10 +11,10 @@
             <div>{{ campaign.author }}</div>
           </div>
           <div class="text-center my-1 text-caption px-2">
-            {{ $t('compendium.campaign.version') }}
+            {{ $t('common.version') }}
             <b class="text-accent">{{ getLatest(campaign.publish_info).ver }}</b>
             <cc-slashes class="pl-1" />
-            {{ $t('compendium.campaign.published') }}
+            {{ $t('notify.account.publishedTitle') }}
             <b class="text-accent">
               {{
                 new Date(getLatest(campaign.publish_info).date).toLocaleDateString(

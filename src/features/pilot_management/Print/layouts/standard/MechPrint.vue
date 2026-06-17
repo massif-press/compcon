@@ -11,19 +11,19 @@
       <v-col cols="8">
         <v-row dense
           :class="blank ? 'mt-n3' : ''">
-          <print-stat-box label="ATTACK BONUS"
+          <print-stat-box :label="$t('common.attackBonus')"
             :value="signed(mech.AttackBonus)"
             :blank="blank"
             min-width="11vw" />
-          <print-stat-box label="TECH ATTACK"
+          <print-stat-box :label="$t('common.techAttack')"
             :value="signed(mech.TechAttack)"
             :blank="blank"
             min-width="11vw" />
-          <print-stat-box label="SAVE"
+          <print-stat-box :label="$t('stats.save')"
             :value="mech.SaveTarget"
             :blank="blank"
             min-width="11vw" />
-          <print-stat-box label="SPEED"
+          <print-stat-box :label="$t('stats.speed')"
             :value="mech.Speed"
             :blank="blank"
             min-width="11vw" />
@@ -31,25 +31,25 @@
             :value="mech.EDefense"
             :blank="blank"
             min-width="12vw" />
-          <print-stat-box label="EVASION"
+          <print-stat-box :label="$t('stats.evasion')"
             :value="mech.Evasion"
             :blank="blank"
             min-width="11vw" />
-          <print-stat-box label="SENSOR RANGE"
+          <print-stat-box :label="$t('common.sensorRange')"
             :value="mech.SensorRange"
             :blank="blank"
             min-width="11vw" />
-          <print-stat-box label="LIMITED BONUS"
+          <print-stat-box :label="$t('common.limitedBonus')"
             :value="signed(mech.LimitedBonus)"
             :blank="blank"
             min-width="11vw" />
           <print-stat-box v-if="blank"
-            label="SYSTEM POINTS"
+            :label="$t('common.systemPoints')"
             :blank="blank"
             min-width="11vw" />
         </v-row>
 
-        <div class="text-overline mb-n3 text-primary">{{ $t('pm.print.frameTRAITS') }}</div>
+        <div class="text-overline mb-n3 text-primary">{{ $t('ui.card.frameTraits') }}</div>
         <v-row v-if="blank"
           dense>
           <v-col v-for="n in 4"
@@ -124,7 +124,7 @@
         <div v-if="mech.Notes && !blank"
           class="pt-2">
           <div class="text-overline text-primary mt-3"
-            style="line-height: 0">{{ $t('pm.print.notes') }}</div>
+            style="line-height: 0">{{ $t('common.notes') }}</div>
           <div v-html-safe="mech.Notes"
             class="mt-2 caption" />
         </div>
@@ -150,14 +150,14 @@
     <div v-if="blank"
       class="pt-2">
       <div class="text-overline text-primary mt-3"
-        style="line-height: 0">{{ $t('pm.print.notes') }}</div>
+        style="line-height: 0">{{ $t('common.notes') }}</div>
       <notes :rows="5"
         lined />
     </div>
 
     <page-break />
 
-    <div class="text-overline mb-n3 mt-1 text-primary">{{ $t('pm.new.loadout') }}</div>
+    <div class="text-overline mb-n3 mt-1 text-primary">{{ $t('common.loadout') }}</div>
 
     <print-blank-loadout v-if="blank"
       :extra-mounts="hasMechOption('Extra Mount Panel')" />
@@ -171,7 +171,7 @@
         class="text-center flavor-text">
         {{ $t('pm.print.mountLOCKED') }}
         <br />
-        <span class="text-overline">{{ $t('pm.print.superheavyWEAPONBRACING') }}</span>
+        <span class="text-overline">// {{ $t('pm.loadout.superheavyWEAPONBRACING') }} //</span>
       </div>
       <div v-for="w in m.Weapons.filter(Boolean)"
         v-else

@@ -1,6 +1,6 @@
 <template>
   <pl-card-base ref="base"
-    title="PILOT GEAR"
+    :title="$t('common.pilotGear')"
     :extended="extended"
     :item="item"
     :readonly="readonly"
@@ -66,7 +66,7 @@
             <br />
             <span class="heading h1 text-disabled text--lighten-1"
               style="line-height: 20px">
-              {{ $t('pm.loadout.noSELECTION') }}
+              {{ $t('ui.widget.noSelection') }}
             </span>
             <span class="flavor-text text-cc-overline mt-n1 text-error"
               style="display: block">

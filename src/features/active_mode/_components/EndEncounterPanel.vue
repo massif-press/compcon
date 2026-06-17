@@ -28,7 +28,7 @@
           </v-btn>
         </v-toolbar>
         <v-card-text>
-          <div class="text-cc-overline">{{ $t('active.endEnc.afterActionReport') }}</div>
+          <div class="text-cc-overline">// {{ $t('active.encMgr.afterActionReport') }}</div>
           <v-card color="background"
             class="mt-1 mb-4">
             <v-card-text class="pa-2">
@@ -40,7 +40,7 @@
                     size="large"
                     flat
                     tile><span class="heading h3 text-text pr-3">{{ c.name
-                      }}</span></cc-chip></v-col>
+                    }}</span></cc-chip></v-col>
                 <v-col cols="auto"
                   v-if="c.status"><v-combobox v-model="c.status"
                     flat
@@ -69,7 +69,7 @@
             </v-card-text>
           </v-card>
 
-          <div class="text-cc-overline">{{ $t('active.endEnc.result') }}</div>
+          <div class="text-cc-overline">// {{ $t('common.result') }}</div>
           <v-row>
             <v-col>
               <v-combobox v-model="result"
@@ -84,7 +84,7 @@
             <cc-alert v-if="confirm"
               color="warning"
               variant="outlined"
-              title="Confirm End Encounter"
+              :title="$t('active.titles.confirmEndEncounter')"
               icon="mdi-alert-outline"
               class="mb-4">
               <p class="text-text">{{ confirmMessage }}</p>
@@ -101,7 +101,8 @@
                 v-else
                 size="small"
                 color="warning"
-                @click="$emit('end', result)">{{ $t('active.endEnc.confirmEndEncounterLower') }}</cc-button>
+                @click="$emit('end', result)">{{ $t('active.endEnc.confirmEndEncounterLower')
+                }}</cc-button>
             </v-col>
           </v-row>
         </v-card-text>
@@ -112,36 +113,35 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { type PropType } from 'vue';
 
-const props = defineProps<{
+defineProps<{
   actionReport: any[]
   confirmMessage: string
 }>()
 
-const emit = defineEmits<{
-  'end': []
+defineEmits<{
+  'end': [result: string]
 }>()
 
 const confirm = ref(false)
 const result = ref('PC VICTORY')
 const pilotStatusTypes = ref([
-      'COMBAT EFFECTIVE',
-      'INJURED',
-      'KIA',
-      'MIA',
-      'ESCAPED',
-      'DISENGAGED',
-    ])
+  'COMBAT EFFECTIVE',
+  'INJURED',
+  'KIA',
+  'MIA',
+  'ESCAPED',
+  'DISENGAGED',
+])
 const npcStatusTypes = ref([
-      'OPERATIONAL',
-      'DESTROYED',
-      'ESCAPED',
-      'DISENGAGED',
-    ])
+  'OPERATIONAL',
+  'DESTROYED',
+  'ESCAPED',
+  'DISENGAGED',
+])
 const mechStatusTypes = ref([
-      'OPERATIONAL',
-      'DESTROYED',
-      'DESTROYED - REACTOR MELTDOWN',
-    ])
+  'OPERATIONAL',
+  'DESTROYED',
+  'DESTROYED - REACTOR MELTDOWN',
+])
 </script>

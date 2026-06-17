@@ -4,8 +4,8 @@
       <div class="my-1 d-flex align-center">
         <v-tooltip location="top"
           open-delay="300">
-          <template #activator="{ props }">
-            <v-btn v-bind="props"
+          <template #activator="{ props: activatorProps }">
+            <v-btn v-bind="activatorProps"
               color="panel"
               flat
               tile
@@ -25,8 +25,8 @@
 
         <v-tooltip location="top"
           open-delay="300">
-          <template #activator="{ props }">
-            <v-btn v-bind="props"
+          <template #activator="{ props: activatorProps }">
+            <v-btn v-bind="activatorProps"
               color="panel"
               flat
               tile
@@ -41,13 +41,13 @@
                 color="accent" />
             </v-btn>
           </template>
-          <span>{{ $t('active.sortBar.sortByName') }}</span>
+          <span>{{ $t('pm.sheet.sortByName') }}</span>
         </v-tooltip>
 
         <v-tooltip location="top"
           open-delay="300">
-          <template #activator="{ props }">
-            <v-btn v-bind="props"
+          <template #activator="{ props: activatorProps }">
+            <v-btn v-bind="activatorProps"
               color="panel"
               flat
               tile

@@ -28,7 +28,7 @@
         <v-col v-if="(deployable as any).Size">
           <v-card variant="tonal"
             class="pa-1">
-            <b>{{ $t('pm.print.size') }}</b>
+            <b>{{ $t('stats.size') }}:</b>
             <br />
             {{ getSize }}
           </v-card>
@@ -44,7 +44,7 @@
         <v-col v-if="(deployable as any).MaxHP || (deployable as any).Size">
           <v-card variant="tonal"
             class="pa-1">
-            <b>{{ $t('pm.print.hp') }}</b>
+            <b>{{ $t('stats.hp') }}:</b>
             <br />
             {{
               (deployable as any).MaxHP
@@ -56,7 +56,7 @@
         <v-col v-if="(deployable as any).Size">
           <v-card variant="tonal"
             class="pa-1">
-            <b>{{ $t('pm.print.evasion') }}</b>
+            <b>{{ $t('stats.evasion') }}:</b>
             <br />
             {{ (deployable as any).evasion || 10 }}
           </v-card>
@@ -64,7 +64,7 @@
         <v-col v-if="(deployable as any).EDefense">
           <v-card variant="tonal"
             class="pa-1">
-            <b>{{ $t('pm.print.eDef') }}</b>
+            <b>{{ $t('stats.edef') }}:</b>
             <br />
             {{ (deployable as any).EDefense }}
           </v-card>
@@ -80,7 +80,7 @@
         <v-col v-if="(deployable as any).Sensors">
           <v-card variant="tonal"
             class="pa-1">
-            <b>{{ $t('pm.print.sensors') }}</b>
+            <b>{{ $t('stats.sensors') }}:</b>
             <br />
             {{ (deployable as any).Sensors }}
           </v-card>
@@ -96,7 +96,7 @@
         <v-col v-if="(deployable as any).Repcap">
           <v-card variant="tonal"
             class="pa-1">
-            <b>{{ $t('pm.print.repairCap') }}</b>
+            <b>{{ $t('active.titles.repairCap') }}:</b>
             <br />
             {{ (deployable as any).Repcap }}
           </v-card>
@@ -104,7 +104,7 @@
         <v-col v-if="(deployable as any).Save">
           <v-card variant="tonal"
             class="pa-1">
-            <b>{{ $t('pm.print.save') }}</b>
+            <b>{{ $t('stats.save') }}:</b>
             <br />
             {{ (deployable as any).Save }}
           </v-card>
@@ -112,7 +112,7 @@
         <v-col v-if="(deployable as any).Speed">
           <v-card variant="tonal"
             class="pa-1">
-            <b>{{ $t('pm.print.speed') }}</b>
+            <b>{{ $t('stats.speed') }}:</b>
             <br />
             {{ (deployable as any).Speed }}
           </v-card>

@@ -34,21 +34,21 @@
   <cc-modal v-model="CustomDialog"
     max-width="60vw"
     shrink
-    title="Add Custom Reserve"
+    :title="$t('pm.titles.addCustomReserve')"
     icon="cc:orbital">
     <custom-reserve-panel @add="add($event)" />
   </cc-modal>
   <cc-modal v-model="ProjectDialog"
     max-width="60vw"
     shrink
-    title="Add Project"
+    :title="$t('pm.titles.addProject')"
     icon="cc:orbital">
     <downtime-project-panel @add="add($event)" />
   </cc-modal>
   <cc-modal v-model="OrgDialog"
     max-width="60vw"
     shrink
-    title="Add Organization"
+    :title="$t('pm.titles.addOrganization')"
     icon="cc:orbital">
     <organization-panel @add="addOrg($event)" />
   </cc-modal>

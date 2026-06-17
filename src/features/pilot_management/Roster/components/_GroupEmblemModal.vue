@@ -1,5 +1,5 @@
 <template>
-  <cc-modal title="Set Group Emblem"
+  <cc-modal :title="$t('pm.titles.setGroupEmblem')"
     icon="mdi-image">
     <template #activator="{ open }">
       <div class="d-flex justify-center">

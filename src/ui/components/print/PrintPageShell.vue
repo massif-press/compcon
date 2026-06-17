@@ -14,10 +14,10 @@
         </v-btn>
         <slot name="selector" />
         <v-spacer />
-        <cc-modal title="Print Options" icon="mdi-cog">
+        <cc-modal :title="$t('ui.titles.printOptions')" icon="mdi-cog">
           <template #activator="{ open }">
             <v-btn @click="open">
-              <span>{{ $t('ui.print.options') }}</span>
+              <span>{{ $t('common.options') }}</span>
               <v-icon icon="mdi-cog" />
             </v-btn>
           </template>

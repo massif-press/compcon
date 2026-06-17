@@ -27,20 +27,20 @@
       <v-row class="mb-1">
         <v-col cols="6">
           <v-text-field v-model="org.Name"
-            label="Organization Name"
+            :label="$t('ui.fields.organizationName')"
             variant="outlined"
             hide-details />
         </v-col>
         <v-col cols="6">
           <v-select v-model="org.Purpose"
-            label="Organization Type"
+            :label="$t('ui.fields.organizationType')"
             :items="orgTypes"
             variant="outlined"
             hide-details />
         </v-col>
       </v-row>
       <v-textarea v-model="org.Description"
-        label="Purpose, goal, and organization details"
+        :label="$t('ui.fields.purposeGoalAndOrganizationDetails')"
         auto-grow
         rows="2"
         filled

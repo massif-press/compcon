@@ -1,5 +1,5 @@
 <template>
-  <div class="text-overline">{{ $t('gm.sitrep.heading') }}</div>
+  <div class="text-overline">{{ $t('common.sitrep') }}</div>
   <v-card class="py-2 px-4"
     variant="outlined"
     style="border-color: rgb(var(--v-theme-panel))">
@@ -62,7 +62,7 @@
 
     <v-textarea v-model="item.Sitrep.Description"
       :readonly="readonly"
-      label="Description"
+      :label="$t('common.description')"
       density="compact"
       rows="1"
       variant="outlined"
@@ -72,7 +72,7 @@
     <v-textarea v-if="shownKeys.includes('Deployment')"
       v-model="item.Sitrep.Deployment"
       :readonly="readonly"
-      label="Deployment"
+      :label="$t('common.deployment')"
       density="compact"
       rows="1"
       variant="outlined"
@@ -89,7 +89,7 @@
     <v-textarea v-if="shownKeys.includes('Objective')"
       v-model="item.Sitrep.Objective"
       :readonly="readonly"
-      label="Objective"
+      :label="$t('common.objective')"
       density="compact"
       rows="1"
       variant="outlined"
@@ -106,7 +106,7 @@
     <v-textarea v-if="shownKeys.includes('ControlZone')"
       v-model="item.Sitrep.ControlZone"
       :readonly="readonly"
-      label="Control Zone"
+      :label="$t('gm.fields.controlZone')"
       density="compact"
       rows="1"
       variant="outlined"
@@ -123,7 +123,7 @@
     <v-textarea v-if="shownKeys.includes('Extraction')"
       v-model="item.Sitrep.Extraction"
       :readonly="readonly"
-      label="Extraction"
+      :label="$t('gm.fields.extraction')"
       density="compact"
       rows="1"
       variant="outlined"
@@ -143,7 +143,7 @@
       class="pa-2">
       <v-text-field v-model="c.title"
         :readonly="readonly"
-        label="Title"
+        :label="$t('gm.fields.title')"
         density="compact"
         hide-details
         class="mb-2">
@@ -156,7 +156,7 @@
       </v-text-field>
       <v-textarea v-model="c.condition"
         :readonly="readonly"
-        label="Conditions"
+        :label="$t('gm.fields.conditions')"
         density="compact"
         rows="1"
         variant="outlined"
@@ -199,7 +199,7 @@
     </v-row>
 
     <cc-dialog v-model="confirmDialog"
-      title="sitrep modified"
+      :title="$t('gm.titles.sitrepModified')"
       icon="mdi-undo-variant"
       :close-on-click="false"
       color="error">
@@ -216,7 +216,7 @@
     </cc-dialog>
 
     <cc-dialog v-model="deleteConfirmDialog"
-      title="delete preset"
+      :title="$t('gm.titles.deletePreset')"
       icon="mdi-delete"
       :close-on-click="false"
       color="error">

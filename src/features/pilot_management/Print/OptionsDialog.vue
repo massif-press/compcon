@@ -3,34 +3,34 @@
     <v-card flat
       tile>
       <fieldset class="pa-2">
-        <legend class="clipped-small heading h3">{{ $t('pm.print.generalPrintOptions') }}&emsp;</legend>
+        <legend class="clipped-small heading h3">{{ $t('print.generalOptions') }}&emsp;</legend>
         <print-option-select v-model="options.layout"
           mandatory
-          title="Layout"
+          :title="$t('pm.titles.layout')"
           :items="layoutOptions" />
         <v-row v-if="options.layout.title !== 'Cards'">
           <v-col>
             <print-option-select v-model="options.paper"
               mandatory
-              title="Paper"
+              :title="$t('pm.titles.paper')"
               :items="paperOptions" />
           </v-col>
           <v-col>
             <print-option-select v-model="options.content"
               mandatory
-              title="Content"
+              :title="$t('common.contentLabel')"
               :items="contentOptions" />
           </v-col>
           <v-col>
             <print-option-select v-model="options.orientation"
               mandatory
-              title="Orientation"
+              :title="$t('pm.titles.orientation')"
               :items="orientationOptions" />
           </v-col>
           <v-col>
             <print-option-select v-model="options.bonds"
               mandatory
-              title="Bonds"
+              :title="$t('pm.titles.bonds')"
               :items="bondsOptions" />
           </v-col>
         </v-row>
@@ -38,12 +38,12 @@
           <v-col>
             <print-option-select v-model="options.paper"
               mandatory
-              title="Paper"
+              :title="$t('pm.titles.paper')"
               :items="paperOptions" />
             <v-col>
               <print-option-select v-model="options.card"
                 multiple
-                title="Card Options"
+                :title="$t('pm.titles.cardOptions')"
                 :items="cardOptions" />
             </v-col>
           </v-col>

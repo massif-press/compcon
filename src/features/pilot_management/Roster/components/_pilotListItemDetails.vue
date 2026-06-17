@@ -6,7 +6,7 @@
         start />
       <span v-if="!pilot.SkillsController.Skills.length"
         style="opacity: 0.6"
-        v-text="$t('pm.roster.noDATA')" />
+        >[ {{ $t('common.noData') }} ]</span>
       <span v-for="(s, i) in pilot.SkillsController.Skills"
         :key="s.Skill.ID">
         {{ s.Skill.Name }} {{ 'I'.repeat(s.Rank) }}
@@ -21,7 +21,7 @@
         start />
       <span v-if="!pilot.TalentsController.Talents.length"
         style="opacity: 0.6"
-        v-text="$t('pm.roster.noDATA')" />
+        >[ {{ $t('common.noData') }} ]</span>
       <span v-for="(s, i) in pilot.TalentsController.Talents"
         :key="s.Talent.ID">
         {{ s.Talent.Name }} {{ 'I'.repeat(s.Rank) }}

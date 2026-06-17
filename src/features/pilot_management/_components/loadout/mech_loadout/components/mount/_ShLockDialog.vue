@@ -4,14 +4,17 @@
     width="50vw"
     shrink
     icon="cc:role_striker"
-    title="Select Bracing Mount">
+    :title="$t('pm.titles.selectBracingMount')">
     <v-card-text class="text-center pt-0">
-      <span class="text-cc-overline">{{ $t('pm.loadout.processINTERRUPTAUTHORIZATIONREQUIRED') }}</span>
+      <span class="text-cc-overline">{{ $t('ui.confirm.heading') }}</span>
       <div class="flavor-text">
-        <span style="opacity: 0.4">{{ $t('pm.loadout.compCON') }}&nbsp;</span>
+        <span style="opacity: 0.4">{{ $t('common.compconPrompt') }}&nbsp;</span>
         <span>
-          {{ $t('pm.loadout.lancerSuperheavyClassArmamentRequiresTwo') }}
-          <span class="text-accent">{{ $t('pm.loadout.bracingMount') }}</span>
+          <i18n-t keypath="pm.loadout.lancerSuperheavyClassArmamentRequiresTwo"
+            tag="span"
+            scope="global">
+            <template #mount><span class="text-accent">{{ $t('pm.loadout.bracingMount') }}</span></template>
+          </i18n-t>
           {{ $t('pm.loadout.thisBracingMountWillBeNot') }}
         </span>
       </div>

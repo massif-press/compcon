@@ -11,7 +11,7 @@
       <v-icon start icon="mdi-download" />
       {{ $t('common.import') }}
     </v-btn>
-    <cc-dialog ref="import" icon="mdi-download-multiple" no-confirm large title="Import">
+    <cc-dialog ref="import" icon="mdi-download-multiple" no-confirm large :title="$t('common.import')">
       <importer @complete="($refs as any).import.hide()" />
     </cc-dialog>
     <v-btn variant="tonal" color="accent" class="mx-4">

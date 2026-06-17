@@ -6,7 +6,7 @@
       <v-col cols="auto">
         <div class="font-weight-light text-center my-n2"
           style="letter-spacing: calc(5px + 2cqw); font-size: calc(20px + 2cqw)">
-          {{ $t('active.landing.activeMode') }}
+          {{ $t('common.activeMode') }}
         </div>
       </v-col>
       <v-col><v-divider /></v-col>

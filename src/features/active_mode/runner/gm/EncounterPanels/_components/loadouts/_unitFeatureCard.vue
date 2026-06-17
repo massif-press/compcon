@@ -11,7 +11,7 @@
         <div>
           <v-tooltip v-if="item.ActiveEffects.length > 0"
             location="top"
-            text="Active Effect">
+            :text="$t('active.actions.activeEffect')">
             <template #activator="{ props }">
               <v-icon v-bind="props"
                 icon="cc:trait"
@@ -22,7 +22,7 @@
           </v-tooltip>
           <v-tooltip v-if="item.Bonuses.length > 0"
             location="top"
-            text="Passive Bonus">
+            :text="$t('active.actions.passiveBonus')">
             <template #activator="{ props }">
               <v-icon v-bind="props"
                 icon="cc:accuracy"
@@ -111,7 +111,7 @@
               variant="outlined"
               density="no-gutters"
               class="mx-2 pa-1 mb-1">
-              <div class="text-cc-overline text-disabled">{{ $t('active.cards.trigger') }}</div>
+              <div class="text-cc-overline text-disabled">{{ $t('common.trigger') }}</div>
               <p v-html-safe="(item as NpcReaction).TriggerByTier(tier)"
                 class="text-text" />
             </cc-panel>

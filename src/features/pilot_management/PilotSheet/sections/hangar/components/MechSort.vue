@@ -60,7 +60,7 @@
             size="21" />
         </v-btn>
       </template>
-      <span>{{ $t('pm.sheet.sortByCreatedTimestamp') }}</span>
+      <span>{{ $t('active.sortBar.sortByCreated') }}</span>
     </v-tooltip>
   </div>
 </template>

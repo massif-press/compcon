@@ -31,7 +31,7 @@
         density="compact"
         hide-details
         variant="outlined"
-        label="Encounter"
+        :label="$t('gm.fields.encounter')"
         class="mx-3"
         clearable />
     </template>

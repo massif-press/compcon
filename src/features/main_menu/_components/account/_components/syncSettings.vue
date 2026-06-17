@@ -11,10 +11,8 @@
       color="panel">
       <v-toolbar-title>
         <cc-heading is-title
-          text="Sync Settings"
-          tooltip=" These options control how and when your data is synchronized with the cloud. By
-              default, data is only synced manually. Unlike other user settings, these settings are
-              stored in the cloud and are applied to all devices you use." />
+          :text="$t('mainMenu.actions.syncSettings')"
+          :tooltip="$t('mainMenu.tooltips.theseOptionsControlHowAnd')" />
       </v-toolbar-title>
     </v-toolbar>
 
@@ -27,8 +25,7 @@
           <div class="text-cc-overline text-disabled">// {{ $t("mainMenu.syncSettings.frequency") }}</div>
           <cc-select v-model="settings.frequency"
             :items="syncOptions"
-            tooltip="Controls how often your data is synchronized with the cloud. Due to server costs,
-                  certain options are only available to Patreon subscribers." />
+            :tooltip="$t('mainMenu.tooltips.controlsHowOftenYourData')" />
         </v-col>
         <v-col cols="12"
           md="6">
@@ -54,12 +51,12 @@
             multiple
             clearable
             chip-variant="tonal"
-            label="Item Types"
+            :label="$t('mainMenu.fields.itemTypes')"
             all-text="All Item Types"
             none-text="None"
             select-all
             :max="$vuetify.display.lgAndUp ? 3 : 2"
-            tooltip="Controls which data types are synced with the cloud."
+            :tooltip="$t('mainMenu.tooltips.controlsWhichDataTypesAre')"
             :items="syncItems" />
         </v-col>
       </v-row>
@@ -106,15 +103,15 @@
             </div>
           </div>
           <v-divider />
-          <v-list-item title="Force Upload"
-            subtitle="Pushes all local data to the cloud unconditionally, resetting field timestamps to now. Use after a restore or import."
+          <v-list-item :title="$t('mainMenu.titles.forceUpload')"
+            :subtitle="$t('mainMenu.subtitles.pushesAllLocalDataTo')"
             @click="runSync('upload')" />
-          <v-list-item title="Force Download"
-            subtitle="Pulls all cloud data and merges it with local data. Local fields with newer timestamps are preserved."
+          <v-list-item :title="$t('mainMenu.titles.forceDownload')"
+            :subtitle="$t('mainMenu.subtitles.pullsAllCloudDataAnd')"
             @click="runSync('download')" />
           <v-divider />
-          <v-list-item title="Remove Deleted Items"
-            subtitle="Permanently removes items flagged for deletion."
+          <v-list-item :title="$t('mainMenu.titles.removeDeletedItems')"
+            :subtitle="$t('mainMenu.subtitles.permanentlyRemovesItemsFlaggedFor')"
             @click="permDeleteSync()" />
         </v-list>
       </template>
@@ -270,7 +267,7 @@ async function permDeleteSync() {
         })
       } catch (e) {
         notify({
-          title: t('notify.dataItem.deletionFailedTitle'),
+          title: t('notify.image.deleteFailedTitle'),
           text: t('mainMenu.account.deletionFailedBulkText'),
           type: 'error',
         })

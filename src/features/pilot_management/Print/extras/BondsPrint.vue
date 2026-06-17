@@ -46,7 +46,7 @@
       class="mb-4">
       <div class="text-overline mt-n2 mb-n2 text-primary">{{ $t('pm.print.majorIDEAL') }}</div>
       <blank-line :height="24" />
-      <div class="text-cc-overline text-primary">{{ $t('pm.print.minorIDEALS') }}</div>
+      <div class="text-cc-overline text-primary">{{ $t('ui.bond.minorIdeals') }}</div>
       <blank-line :height="24"
         class="mt-n2 mb-1" />
       <blank-line :height="24" />
@@ -145,7 +145,7 @@
     </div>
 
     <div class="text-overline text-primary mt-4"
-      style="line-height: 8px">{{ $t('pm.print.bondPOWERS') }}</div>
+      style="line-height: 8px">{{ $t('ui.bond.bondPowers') }}</div>
     <div v-if="blank"
       class="mt-2">
       <v-row dense>
@@ -159,7 +159,7 @@
           <div class="text-overline text-white bg-grey-lighten-1 text-center"
             :style="landscape ? 'width: 270px; line-height: 20px' : 'width: 375px; line-height: 20px'
               ">
-            {{ $t('pm.print.veteranPOWER') }}
+            {{ $t('ui.bond.veteranPower') }}
           </div>
 
           <blank-line v-if="blank"
@@ -170,7 +170,7 @@
           <div class="text-overline text-white bg-grey-lighten-1 text-center"
             :style="landscape ? 'width: 270px; line-height: 20px' : 'width: 375px; line-height: 20px'
               ">
-            {{ $t('pm.print.masterPOWER') }}
+            {{ $t('ui.bond.masterPower') }}
           </div>
 
           <blank-line v-if="blank"

@@ -1,7 +1,7 @@
 <template>
   <cc-modal ref="modal"
     shrink
-    title="add from share code"
+    :title="$t('ui.titles.addFromShareCode')"
     icon="mdi-code-block-brackets">
     <template #activator="{ open }">
       <cc-button :color="color"

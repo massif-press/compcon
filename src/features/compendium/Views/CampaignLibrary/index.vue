@@ -1,7 +1,7 @@
 <template>
   <cc-alert prominent
     icon="mdi-alert"
-    title="Development Preview"
+    :title="$t('compendium.titles.developmentPreview')"
     class="ma-4"
     color="warning">
     {{ $t('compendium.campaign.developmentPreview') }}
@@ -10,7 +10,7 @@
     <div v-if="!mobile"
       class="font-weight-light text-center my-n4"
       style="letter-spacing: 2vw !important; font-size: 3.6vw !important">
-      {{ $t('compendium.titles.campaignLibrary') }}
+      {{ $t('common.campaignLibrary') }}
     </div>
     <v-row density="compact"
       justify="center">
@@ -25,7 +25,7 @@
             hide-details
             variant="solo"
             density="compact"
-            placeholder="Search the Campaign Library"
+            :placeholder="$t('compendium.fields.searchTheCampaignLibrary')"
             @update:focused="isFocused = $event">
             <template #prepend>
               <div class="prepend bg-panel"

@@ -45,7 +45,7 @@
         :size="xs ? 'small' : ''"
         :selected="selected === 5"
         @click="$emit('to', 5)">
-        {{ $t('pm.sheet.options') }}
+        {{ $t('common.options') }}
       </v-tab>
     </v-tabs>
   </v-bottom-navigation>
@@ -59,7 +59,7 @@
         @click="$emit('to', 1)">
         <v-tooltip open-delay="300"
           location="top"
-          text="Pilot Skill Triggers, Reserves, and Pilot Gear Loadout">
+          :text="$t('pm.actions.pilotSkillTriggersReservesAnd')">
           <template #activator="{ props }">
             <span v-bind="props">{{ $t('pm.sheet.narrativePROFILE') }}</span>
           </template>
@@ -70,7 +70,7 @@
         @click="$emit('to', 2)">
         <v-tooltip open-delay="300"
           location="top"
-          text="Pilot Bonds">
+          :text="$t('common.pilotBonds')">
           <template #activator="{ props }">
             <span v-bind="props">{{ $t('pm.sheet.bonds') }}</span>
           </template>
@@ -80,7 +80,7 @@
         @click="$emit('to', 3)">
         <v-tooltip open-delay="300"
           location="top"
-          text="Pilot Licenses, Mech Skills, CORE Bonuses, and Talents">
+          :text="$t('pm.actions.pilotLicensesMechSkillsCore')">
           <template #activator="{ props }">
             <span v-bind="props">{{ $t('pm.sheet.tacticalPROFILE') }}</span>
           </template>
@@ -90,7 +90,7 @@
         @click="$emit('to', 4)">
         <v-tooltip open-delay="300"
           location="top"
-          text="Create and Modify Mechs and their Loadouts">
+          :text="$t('pm.actions.createAndModifyMechsAndTheirLoadouts')">
           <template #activator="{ props }">
             <span v-bind="props">{{ $t('pm.sheet.mechHANGAR') }}</span>
           </template>
@@ -123,7 +123,7 @@
     </v-tooltip>
 
     <cc-dialog v-else
-      title="Share Pilot Data"
+      :title="$t('pm.titles.sharePilotData')"
       icon="cc:pilot"
       :close-on-click="false">
       <template #activator="{ open }">
@@ -149,7 +149,7 @@
 
     <v-tooltip open-delay="300"
       location="top"
-      text="Pilot Options">
+      :text="$t('pm.tooltips.pilotOptions')">
       <template #activator="{ props }">
         <edit-menu :pilot="pilot"
           class="unskew"
@@ -218,13 +218,13 @@ async function remoteUpdate() {
       await CloudController.UpdateRemote(props.pilot)
       await UserStore().refreshDbData()
       notify({
-        title: t('notify.transfer.syncCompleteTitle'),
+        title: t('notify.share.syncCompleteTitle'),
         text: t('notify.pilot.syncedText', { callsign: props.pilot.Callsign, name: props.pilot.Name }),
         data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
       })
     } catch (err) {
       notify({
-        title: t('notify.transfer.syncFailedTitle'),
+        title: t('notify.share.syncFailedTitle'),
         text: t('notify.pilot.syncFailedText', { callsign: props.pilot.Callsign, name: props.pilot.Name, err }),
         data: { icon: 'mdi-alert', color: 'error' },
       })

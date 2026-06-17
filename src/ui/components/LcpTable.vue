@@ -179,7 +179,7 @@
           <v-col v-if="(item as any).img && !mobile"
             cols="2">
             <cc-img :src="(item as any).img"
-              alt="Pack image" />
+              :alt="$t('ui.alt.packImage')" />
           </v-col>
         </v-row>
       </td>

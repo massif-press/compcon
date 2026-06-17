@@ -6,7 +6,7 @@
       <span class="text-cc-overline">{{ $t('ui.confirm.heading') }}</span>
       <br />
       <span v-if="!noCc"
-        style="opacity: 0.4">{{ $t('ui.confirm.prompt') }}&nbsp;</span>
+        style="opacity: 0.4">{{ $t('common.compconPrompt') }}&nbsp;</span>
       <span v-html-safe="content" />
       <v-divider class="my-2" />
       <v-card-actions class="my-n3">

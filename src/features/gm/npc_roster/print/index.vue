@@ -20,7 +20,7 @@
         density="compact"
         hide-details
         variant="outlined"
-        label="Npc"
+        :label="$t('gm.fields.npc')"
         class="mx-3"
         clearable>
         <template #selection="{ item, index }">

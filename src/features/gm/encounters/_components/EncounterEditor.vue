@@ -69,7 +69,7 @@
                       style="padding-top:125px; padding-bottom: 125px;">{{ $t('gm.encounterEditor.noMapData') }}</div>
                     <cc-img v-else
                       :src="item.PortraitController.Image" />
-                    <cc-modal title="Set Map Image">
+                    <cc-modal :title="$t('gm.titles.setMapImage')">
                       <template #activator="{ open }">
                         <cc-button v-if="!isRemote"
                           size="x-small"
@@ -113,12 +113,12 @@
                 size="small"
                 @click="item.NarrativeController.AddClock()">
                 <v-icon start>mdi-plus</v-icon>
-                {{ $t('gm.narrative.addClock') }}
+                {{ $t('pm.sheet.addNewClock') }}
               </cc-button>
             </v-col>
           </v-row>
           <v-divider class="my-2" />
-          <div class="text-caption">{{ $t('gm.narrative.tables') }}</div>
+          <div class="text-caption">{{ $t('common.tables') }}</div>
           <cc-rollable-table v-for="(t, ti) in item.NarrativeController.Tables"
             :key="`table-${ti}`"
             :readonly="isRemote"
@@ -164,7 +164,7 @@
       </cc-button>
       <v-spacer />
       <cc-dialog v-if="!isRemote && isAuthed"
-        title="Share Code"
+        :title="$t('common.shareCode')"
         icon="mdi-broadcast"
         :close-on-click="false">
         <template #activator="{ open }">

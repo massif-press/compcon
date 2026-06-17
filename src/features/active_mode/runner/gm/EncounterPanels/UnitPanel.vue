@@ -13,7 +13,7 @@
         </cc-short-string-editor>
       </div>
       <div class="heading h4">
-        {{ $t('active.runnerItem.tierShort', { n: actor.NpcClassController.Tier }) }}
+        {{ $t('common.tierShort', { n: actor.NpcClassController.Tier }) }}
         {{ actor.NpcClassController.Class.Name }}
         <span v-if="actor.NpcTemplateController.Templates.length">
           {{actor.NpcTemplateController.Templates.map((x) => x.Name).join(' / ')}}
@@ -29,7 +29,7 @@
             size="small"
             block
             :color="actor.CombatController.Overwatch ? 'primary' : 'panel'"
-            text="Overwatch"
+            :text="$t('active.actions.overwatch')"
             @click="actor.CombatController.Overwatch = !actor.CombatController.Overwatch" />
           <v-divider />
           <v-btn flat
@@ -37,7 +37,7 @@
             size="small"
             block
             :color="actor.CombatController.Prepared ? 'primary' : 'panel'"
-            text="Prepared"
+            :text="$t('active.actions.prepared')"
             @click="actor.CombatController.Prepared = !actor.CombatController.Prepared" />
         </v-col>
       </v-row>

@@ -64,7 +64,7 @@
             </div>
           </v-progress-linear>
           <div v-if="clock.Description">
-            <div class="text-caption mb-n1">{{ $t('ui.clock.descriptionHeading') }}</div>
+            <div class="text-caption mb-n1">{{ $t('common.description') }}</div>
             <div class="ml-2" v-html-safe="clock.Description" />
           </div>
           <div v-if="clock.Resolution">
@@ -117,7 +117,7 @@
       </v-row>
     </v-card-text>
 
-    <cc-modal v-model="editDialog" shrink title="clock editor" icon="mdi-clock">
+    <cc-modal v-model="editDialog" shrink :title="$t('ui.titles.clockEditor')" icon="mdi-clock">
       <v-card>
         <v-card-text class="pa-2">
           <div class="text-center ma-2">
@@ -140,14 +140,14 @@
             <v-col cols="12" md="5">
               <cc-text-field
                 v-model="clock.Title"
-                label="Title"
+                :label="$t('ui.fields.title')"
                 color="panel"
                 @change="$emit('change')" />
             </v-col>
             <v-col cols="12" md="3">
               <cc-text-field
                 v-model.number="clock.Segments"
-                label="Segments"
+                :label="$t('ui.fields.segments')"
                 type="number"
                 color="panel"
                 @change="$emit('change')" />
@@ -155,17 +155,16 @@
             <v-col cols="auto">
               <cc-switch
                 v-model="clock.Linear"
-                label="Linear"
+                :label="$t('ui.fields.linear')"
                 hide-details
                 @change="$emit('change')" />
             </v-col>
             <v-col cols="auto">
               <div>
                 <cc-checkbox
-                  label="GM Only"
+                  :label="$t('ui.fields.gmOnly')"
                   v-model="clock.GmOnly"
-                  tooltip="Marking a field or item 'GM Only' will hide it from player-facing exports
-                        and print output"></cc-checkbox>
+                  :tooltip="$t('ui.tooltips.markingAFieldOrItem')"></cc-checkbox>
               </div>
             </v-col>
           </v-row>
@@ -175,7 +174,7 @@
             rows="3"
             color="primary"
             auto-grow
-            label="Description"
+            :label="$t('common.description')"
             class="mx-1 my-4"
             @change="$emit('change')" />
           <cc-text-area
@@ -184,7 +183,7 @@
             color="primary"
             rows="3"
             auto-grow
-            label="Resolution"
+            :label="$t('ui.fields.resolution')"
             class="mx-1 my-4"
             @change="$emit('change')" />
         </v-card-text>

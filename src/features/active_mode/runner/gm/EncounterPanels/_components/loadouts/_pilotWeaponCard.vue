@@ -12,7 +12,7 @@
           {{ item.Name }}
           <span class="text-cc-overline text-disabled">
             <cc-slashes class="mx-1" />
-            {{ $t('active.cards.pilotWeapon') }}
+            {{ $t('common.pilotWeapon') }}
           </span>
         </div>
       </v-col>

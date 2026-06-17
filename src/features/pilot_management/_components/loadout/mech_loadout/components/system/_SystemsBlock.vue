@@ -8,7 +8,7 @@
       style="border-color: rgba(155, 155, 155, 0.6)">
       <legend :style="`color: ${color}`"
         class="heading h3 d-flex align-center">
-        {{ $t('pm.new.systems') }}
+        {{ $t('stats.systems') }}
         <v-tooltip v-if="!readonly && activeSystems.length > 1"
           location="top">
           <template #activator="{ props }">
@@ -26,7 +26,7 @@
                 :icon="reorderMode ? 'mdi-check' : 'mdi-swap-vertical'" />
             </v-btn>
           </template>
-          <span> {{ reorderMode ? $t('pm.loadout.saveConfiguration') : $t('pm.loadout.reorderSystems') }}</span>
+          <span> {{ reorderMode ? $t('gm.npcFeatures.saveConfig') : $t('pm.loadout.reorderSystems') }}</span>
         </v-tooltip>
       </legend>
       <div style="position: relative">
@@ -137,7 +137,7 @@
 
       <cc-modal v-model="selector"
         icon="cc:system"
-        title="SELECT EQUIPMENT"
+        :title="$t('pm.titles.selectEquipment')"
         clip>
         <system-selector :mech="mech"
           :swap-system="swapSystem"

@@ -9,7 +9,7 @@
             variant="tonal"
             icon="mdi-alert"
             color="warning"
-            title="EXPERIMENTAL PREVIEW"
+            :title="$t('compendium.titles.experimentalPreview')"
             density="compact">
             {{ $t('compendium.reference.experimentalLangNote') }}
           </cc-alert>

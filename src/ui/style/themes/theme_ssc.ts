@@ -3,7 +3,7 @@ import themeDefaults from './common'
 const theme = {
   id: 'ssc',
   name: 'SSC Constellar Congress',
-  community: true,
+  category: 'Community Theme',
   colors: {
     ...themeDefaults,
 

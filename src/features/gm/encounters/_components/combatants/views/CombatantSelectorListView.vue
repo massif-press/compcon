@@ -15,7 +15,7 @@
         clearable
         flat
         tile
-        placeholder="Search"
+        :placeholder="$t('common.search')"
         class="my-1"
         prepend-inner-icon="mdi-magnify" />
 
@@ -30,7 +30,7 @@
           tile
           style="width: 33%"
           value="unit"
-          color="primary">{{ $t('gm.combatantSelector.npcs') }}</v-btn>
+          color="primary">{{ $t('common.npcs') }}</v-btn>
         <v-btn flat
           tile
           style="width: 33%"
@@ -72,7 +72,7 @@
                       @click.stop="$emit('select', n)"></cc-button>
                   </v-badge>
                 </template>
-                <span>{{ $t('gm.combatantSelector.addToEncounter') }}</span>
+                <span>{{ $t('active.roster.addToEncounter') }}</span>
               </v-tooltip>
             </template>
           </v-list-item>

@@ -48,7 +48,7 @@
           <v-expand-transition>
             <cc-text-field v-if="edit"
               v-model="group.Name"
-              label="Group Name"
+              :label="$t('pm.fields.groupName')"
               variant="outlined"
               color="primary"
               density="compact"
@@ -148,7 +148,7 @@
                   <cc-switch v-model="deletePilotsToggle"
                     inset
                     color="error"
-                    label="Delete pilots"
+                    :label="$t('pm.fields.deletePilots')"
                     density="compact"
                     hide-details />
                 </v-col>
@@ -271,7 +271,7 @@
             <v-card tile
               border>
               <v-card-text>
-                <cc-modal title="Import"
+                <cc-modal :title="$t('common.import')"
                   icon="mdi-import"
                   max-width="900">
                   <template #activator="{ open }">

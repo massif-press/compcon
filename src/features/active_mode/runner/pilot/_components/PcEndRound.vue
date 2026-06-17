@@ -6,7 +6,7 @@
             color="error"
             icon="mdi-alert"
             variant="outlined"
-            title="You have remaining actions!">
+            :title="$t('active.titles.youHaveRemainingActions')">
             <v-row class="my-1 mx-4 px-2 text-text bg-panel"
               justify="space-around">
               <end-round-action-chips :controller="controller"

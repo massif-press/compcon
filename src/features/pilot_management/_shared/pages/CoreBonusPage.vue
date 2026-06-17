@@ -7,7 +7,7 @@
     @complete="$emit('next')">
     <cc-title :large="context === 'level'"
       offset>
-      {{ context === 'new' ? $t('compendium.categories.pilotTalents') : $t('pm.shared.addCOREBonus') }}&emsp;
+      {{ context === 'new' ? $t('common.pilotTalents') : $t('pm.shared.addCOREBonus') }}&emsp;
     </cc-title>
 
     <div v-if="context === 'new'"
@@ -37,7 +37,7 @@
       tile>
       <div class="heading">
         {{ context === 'new'
-          ? $t('pm.shared.selectCoreBonusesN', { word, count, item: count > 1 ? $t('pm.shared.bonusesWord') : $t('pm.shared.bonusWord') })
+          ? $t('pm.shared.selectCoreBonusesN', { word, count, item: count > 1 ? $t('pm.shared.bonusesWord') : $t('common.bonus') })
           : $t('pm.shared.selectACoreBonus') }}
       </div>
       <p class="text-cc-overline">

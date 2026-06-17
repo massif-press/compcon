@@ -12,7 +12,7 @@
         class="mt-2"
         icon="mdi-link">
         <div class="text-cc-overline">
-          {{ $t('active.cards.integratedEquipment') }}
+          {{ $t('pm.loadout.integratedEquipment') }}
           <cc-slashes />
           <v-icon :icon="item.IntegratedOrigin.Icon"
             class="pb-1" />

@@ -43,12 +43,12 @@
             v-bind="props"
             @click="updateAll" />
         </template>
-        <div class="text-center">{{ $t("mainMenu.ui.updateAll") }}</div>
+        <div class="text-center">{{ $t("common.updateAll") }}</div>
       </v-tooltip>
     </v-toolbar>
     <v-divider />
     <cc-select v-model="cloudUser.CollectionSubscriptionSettings.updateOn"
-      label="Updates"
+      :label="$t('mainMenu.fields.updates')"
       color="primary"
       :items="update_on"
       :loading="loading"
@@ -143,7 +143,7 @@
             <div class="text-right">
               <v-btn size="small"
                 color="warning"
-                @click@click="update(item)">{{ $t("mainMenu.subscriptions.updateNow") }}</v-btn>
+                @click@click="update(item)">{{ $t("ui.pwa.updateNow") }}</v-btn>
             </div>
           </v-alert>
           <collection-info :collection="item" />

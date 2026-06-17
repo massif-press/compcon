@@ -1,6 +1,6 @@
 <template>
   <switch-lang-temp class="fixed" :class="mobile && 'mobile'" />
-  <srd-view title="Lancer Basics" :content="basics" :pre-scroll="preScroll" />
+  <srd-view :title="$t('compendium.titles.lancerBasics')" :content="basics" :pre-scroll="preScroll" />
 </template>
 
 <script setup lang="ts">

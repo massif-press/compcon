@@ -1,6 +1,6 @@
 <template>
   <cc-alert v-if="mech.CombatController.ReactorDestroyed"
-    title="Mech Destroyed &mdash; Reactor Meltdown"
+    :title="$t('active.titles.mechDestroyedReactorMeltdown')"
     icon="mdi-radioactive-circle"
     color="error"
     variant="outlined"
@@ -28,7 +28,7 @@
       <div class="heading h4">{{ mech.Frame.Source }} {{ mech.Frame.Name }}</div>
 
       <cc-alert v-if="mech.CombatController.AIControl"
-        title="Under AI Control"
+        :title="$t('active.titles.underAiControl')"
         icon="cc:nhp"
         color="primary"
         class="mr-6">
@@ -47,7 +47,7 @@
             size="small"
             block
             :color="mech.CombatController.Mounted ? 'primary' : 'panel'"
-            text="Mounted"
+            :text="$t('active.actions.mounted')"
             @click="setMounted" />
         </v-col>
         <v-divider vertical />
@@ -57,7 +57,7 @@
             size="small"
             block
             :color="mech.CombatController.Braced ? 'primary' : 'panel'"
-            text="Braced"
+            :text="$t('active.actions.braced')"
             @click="mech.CombatController.Braced = !mech.CombatController.Braced" />
         </v-col>
         <v-divider vertical />
@@ -67,7 +67,7 @@
             size="small"
             block
             :color="mech.CombatController.Overwatch ? 'primary' : 'panel'"
-            text="Overwatch"
+            :text="$t('active.actions.overwatch')"
             @click="mech.CombatController.Overwatch = !mech.CombatController.Overwatch" />
         </v-col>
         <v-divider vertical />
@@ -77,7 +77,7 @@
             size="small"
             block
             :color="mech.CombatController.Prepared ? 'primary' : 'panel'"
-            text="Prepared"
+            :text="$t('active.actions.prepared')"
             @click="mech.CombatController.Prepared = !mech.CombatController.Prepared" />
         </v-col>
         <v-divider vertical />
@@ -88,7 +88,7 @@
             size="small"
             block
             :color="mech.CombatController.AIControl ? 'primary' : 'panel'"
-            text="AI Control"
+            :text="$t('active.actions.aiControl')"
             @click="mech.CombatController.AIControl = !mech.CombatController.AIControl" />
         </v-col>
       </v-row>
@@ -207,11 +207,11 @@
       </v-expansion-panel>
     </v-expansion-panels>
 
-    <div class="text-cc-overline mt-4 text-disabled">{{ $t('active.mechPanel.core') }}</div>
+    <div class="text-cc-overline mt-4 text-disabled">{{ $t('common.core') }}</div>
     <mech-core-panel :mech="mech"
       @deploy="deploy($event)" />
 
-    <div class="text-cc-overline mt-4 text-disabled">{{ $t('active.mechPanel.loadout') }}</div>
+    <div class="text-cc-overline mt-4 text-disabled">{{ $t('common.loadout') }}</div>
     <mech-combat-loadout
       :mech="mech"
       @deploy="deploy($event!)" />

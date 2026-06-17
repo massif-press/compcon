@@ -15,29 +15,29 @@
     <v-card variant="outlined" color="panel">
       <v-list density="compact" lines="three">
         <v-list-item
-          title="Add Subsection"
+          :title="$t('gm.titles.addSubsection')"
           prepend-icon="mdi-page-next"
-          subtitle="Add a new empty free-form section under this page. A Section is a container for other content items, and can be used to organize your campaign in any way you see fit."
+          :subtitle="$t('gm.subtitles.addANewEmptyFreeform')"
           @click="item[main ? 'AddSection' : 'AddChildSection']()" />
         <v-list-item
-          title="Add Beat"
+          :title="$t('gm.titles.addBeat')"
           prepend-icon="mdi-metronome"
-          subtitle="Add a new empty Beat under this section. A Beat is a section for an important event or moment in the story."
+          :subtitle="$t('gm.subtitles.addANewEmptyBeat')"
           @click="item[main ? 'AddSection' : 'AddChildSection']({ sectionType: 'beat' })" />
         <v-list-item
-          title="Add Mission"
+          :title="$t('gm.titles.addMission')"
           prepend-icon="cc:orbit"
-          subtitle="Add a new empty Mission under this page. A Mission contains specific goals and objectives that can be completed within a discrete period of time, and typically contains Combats."
+          :subtitle="$t('gm.subtitles.addANewEmptyMission')"
           @click="item[main ? 'AddSection' : 'AddChildSection']({ sectionType: 'mission' })" />
         <v-list-item
-          title="Add Combat"
+          :title="$t('gm.titles.addCombat')"
           prepend-icon="cc:encounter"
-          subtitle="Add a new empty Combat under this page. A Combat contains Encounters, as well as GM guidelines, narrative detail regarding the battle, and potential outcomes."
+          :subtitle="$t('gm.subtitles.addANewEmptyCombat')"
           @click="item[main ? 'AddSection' : 'AddChildSection']({ sectionType: 'combat' })" />
         <v-list-item
-          title="Add Downtime"
+          :title="$t('gm.titles.addDowntime')"
           prepend-icon="cc:downtime"
-          subtitle="Add a new empty Downtime under this page. Downtime is the narrative space between missions, where moment-to-moment action doesn't matter as much and roleplaying matters much more."
+          :subtitle="$t('gm.subtitles.addANewEmptyDowntime')"
           @click="item[main ? 'AddSection' : 'AddChildSection']({ sectionType: 'downtime' })" />
       </v-list>
     </v-card>

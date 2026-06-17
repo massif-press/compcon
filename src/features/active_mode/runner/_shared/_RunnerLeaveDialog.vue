@@ -1,7 +1,7 @@
 <template>
   <cc-dialog :model-value="modelValue"
     :close-on-click="false"
-    title="Exit Active Mode?"
+    :title="$t('active.titles.exitActiveMode')"
     :z-index="9999"
     @update:model-value="$emit('update:modelValue', $event)">
     <v-card flat

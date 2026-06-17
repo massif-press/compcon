@@ -13,7 +13,7 @@
         chips
         multiple
         variant="outlined"
-        label="License Level"
+        :label="$t('ui.fields.licenseLevel')"
         :items="[0, 1, 2, 3]"
         @update:modelValue="emitFilters()" />
     </v-col>

@@ -14,7 +14,7 @@
 
     <br />
 
-    <cc-modal title="Statblock Generator"
+    <cc-modal :title="$t('pm.titles.statblockGenerator')"
       icon="mdi-code-block-tags">
       <template #activator="{ open }">
         <cc-button block
@@ -59,7 +59,7 @@
     <br />
 
     <cc-dialog v-if="!pilot.IsRemote"
-      title="Share Pilot Data"
+      :title="$t('pm.titles.sharePilotData')"
       icon="cc:pilot"
       :close-on-click="false">
       <template #activator="{ open }">
@@ -88,7 +88,7 @@
 
     <cc-dialog v-if="pilot.IsRemote"
       :close-on-click="false"
-      title="convert remote pilot"
+      :title="$t('pm.titles.convertRemotePilot')"
       icon="cc:pilot">
       <template #activator="{ open }">
         <cc-button block
@@ -116,7 +116,7 @@
     </cc-dialog>
 
     <cc-modal v-else
-      title="Clone Pilot"
+      :title="$t('pm.titles.clonePilot')"
       icon="mdi-dna">
       <template #activator="{ open }">
         <cc-button size="large"
@@ -137,7 +137,7 @@
     </cc-modal>
 
     <br />
-    <cc-modal title="Set LCP Configuration"
+    <cc-modal :title="$t('pm.titles.setLcpConfiguration')"
       icon="mdi-list-status">
       <template #activator="{ open }">
         <cc-button size="large"
@@ -180,7 +180,7 @@
     <br />
 
     <cc-dialog :close-on-click="false"
-      title="confirm pilot deletion"
+      :title="$t('pm.titles.confirmPilotDeletion')"
       icon="cc:pilot">
       <template #activator="{ open }">
         <cc-button v-if="!pilot.IsRemote"
@@ -189,7 +189,7 @@
           color="error"
           prepend-icon="mdi-delete"
           @click="open">
-          {{ $t('pm.sheet.deletePilot') }}
+          {{ $t('common.deletePilot') }}
           <template #subtitle>
             <span class="text-cc-overline">{{ $t('pm.sheet.removeThisPilotFromTheRoster') }}</span>
           </template>

@@ -23,11 +23,11 @@
     <cc-text-field v-model="customName"
       color="primary"
       variant="outlined"
-      label="Resource Name" />
+      :label="$t('pm.fields.resourceName')" />
     <div class="mt-4" />
     <cc-text-area v-model="details"
       color="primary"
-      label="Details" />
+      :label="$t('common.details')" />
     <cc-button block
       tile
       class="mt-4"

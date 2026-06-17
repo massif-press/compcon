@@ -1,5 +1,5 @@
 <template>
-  <srd-view title="narrative play" :content="narrative" :pre-scroll="preScroll" />
+  <srd-view :title="$t('compendium.titles.narrativePlay')" :content="narrative" :pre-scroll="preScroll" />
 </template>
 
 <script setup lang="ts">

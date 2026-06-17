@@ -6,7 +6,7 @@
         <v-file-input v-model="fileValue"
           accept=".json, text/json"
           variant="outlined"
-          label="Select Pilot Data File"
+          :label="$t('pm.fields.selectPilotDataFile')"
           prepend-icon="mdi-paperclip"
           density="compact"
           @change="stageImport"
@@ -23,7 +23,7 @@
         border>
         <cc-alert v-if="isV2"
           icon="mdi-alert-circle-outline"
-          title="v2 Data">
+          :title="$t('pm.titles.v2Data')">
           <p class="text-text">
             {{ $t('pm.roster.thisAppearsToBePilotData') }}
           </p>
@@ -35,7 +35,7 @@
             <span class="text-accent pl-2">{{ stagedData.callsign }}</span>
           </div>
           <div class="text-cc-overline mb-2">
-            {{ $t('pm.level.licenseLEVEL') }}
+            {{ $t('ui.fields.licenseLevel') }}
             <span class="heading h3">{{ stagedData.level }}</span>
           </div>
           <div v-if="stagedData.mechs.length">
@@ -62,7 +62,7 @@
           <div v-if="stagedData.save">
             <v-divider class="my-2" />
             <div class="text-cc-overline mb-2">
-              {{ $t('pm.roster.created') }} {{ new Date(stagedData.save.created).toLocaleString() }}
+              {{ $t('common.created') }} {{ new Date(stagedData.save.created).toLocaleString() }}
               <cc-slashes />
               {{ $t('pm.roster.lastModified') }}
               {{ new Date(stagedData.save.lastModified).toLocaleString() }}

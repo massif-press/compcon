@@ -31,7 +31,7 @@
           bg-color="primary"
           height="30">
           <v-tab value="Doodad">{{ $t('active.addOther.doodad') }}</v-tab>
-          <v-tab value="Eidolon">{{ $t('active.addOther.eidolon') }}</v-tab>
+          <v-tab value="Eidolon">{{ $t('common.eidolon') }}</v-tab>
         </v-tabs>
         <v-window v-model="tab"
           class="pa-4">
@@ -95,7 +95,7 @@
                     <div class="heading h3">{{ e.Name }}</div>
                     <div class="text-text">
                       <cc-slashes />
-                      {{ $t('gm.npcStats.tier', { n: e.Tier }) }}
+                      {{ $t('common.tierN', { n: e.Tier }) }}
                     </div>
                   </v-col>
                 </v-row>

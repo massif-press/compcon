@@ -37,7 +37,7 @@
     </cc-alert>
     <cc-alert v-if="(activeEffect as any).Trigger"
       color="primary">
-      <b class="text-accent">{{ $t('ui.combat.triggerLabel') }}&nbsp;</b>
+      <b class="text-accent">{{ $t('common.trigger') }}:&nbsp;</b>
       <b v-html-safe="activeEffect.getTrigger(owner.actor.CombatController.Tier)" />
     </cc-alert>
 

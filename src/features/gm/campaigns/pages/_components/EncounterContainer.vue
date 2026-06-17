@@ -3,7 +3,8 @@
     variant="outlined"
     color="panel"
     class="pa-6 ma-2">
-    <div class="text-center text-caption text-disabled"><i>{{ $t('gm.narrativeLink.noEncounterSelected') }}</i></div>
+    <div class="text-center text-caption text-disabled"><i>{{
+      $t('gm.narrativeLink.noEncounterSelected') }}</i></div>
   </v-card>
 
   <v-card v-else
@@ -78,22 +79,19 @@ const props = defineProps<{
   item: object
 }>()
 
-const menu = ref(false)
-const tab = ref(0)
-const search = ref('')
 const encounterDialog = ref(false)
 
 const isItemLinked = computed(() => {
-      return (
-        props.item.Data &&
-        props.item.Data.ID &&
-        EncounterStore()
-          .Encounters.filter((x) => !x.SaveController.IsDeleted)
-          .find((x) => x.ID === props.item.Data.ID)
-      );
-    })
+  return (
+    props.item.Data &&
+    props.item.Data.ID &&
+    EncounterStore()
+      .Encounters.filter((x) => !x.SaveController.IsDeleted)
+      .find((x) => x.ID === props.item.Data.ID)
+  );
+})
 
 function addEncounter(encounter) {
-      props.item.Data = encounter;
-    }
+  props.item.Data = encounter;
+}
 </script>

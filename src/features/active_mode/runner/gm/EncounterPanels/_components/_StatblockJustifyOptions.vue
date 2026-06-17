@@ -3,7 +3,7 @@
     class="mb-2">
     <v-col>
       <cc-switch :model-value="enableJustify"
-        label="Justify"
+        :label="$t('active.fields.justify')"
         @update:model-value="$emit('update:enableJustify', $event)" />
     </v-col>
     <v-col cols="auto">
@@ -11,7 +11,7 @@
         <div v-if="enableJustify"
           style="width: 300px;">
           <cc-number-field :model-value="lineWidth"
-            label="Line Width"
+            :label="$t('active.fields.lineWidth')"
             color="primary"
             density="compact"
             size="small"

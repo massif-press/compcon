@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section-header title="Special Equipment"
+    <section-header :title="$t('pm.titles.specialEquipment')"
       class="mb-4" />
     <no-data-block v-if="!pilot.SpecialEquipment.length" />
     <v-card v-else
@@ -33,7 +33,7 @@
     <v-row v-if="!pilot.IsRemote"
       class="mt-1 mb-5">
       <v-col>
-        <cc-modal title="Add Standard Equipment"
+        <cc-modal :title="$t('pm.titles.addStandardEquipment')"
           icon="mdi-star-circle-outline"
           clip>
           <template #activator="{ open }">
@@ -53,7 +53,7 @@
         </cc-modal>
       </v-col>
       <v-col>
-        <cc-modal title="Add Exotic Equipment"
+        <cc-modal :title="$t('pm.titles.addExoticEquipment')"
           icon="mdi-star-circle-outline"
           clip>
           <template #activator="{ open }">

@@ -6,7 +6,7 @@
         size="small"
         prepend-icon="mdi-queue-first-in-last-out"
         @click="open">
-        {{ $t('active.organizer.organize') }}
+        {{ $t('common.organize') }}
       </cc-button>
     </template>
     <v-card-text>
@@ -40,7 +40,7 @@
                 <v-col cols="auto">
                   <v-checkbox v-model="showArchived"
                     density="compact"
-                    label="Show Archived" />
+                    :label="$t('active.fields.showArchived')" />
                 </v-col>
               </v-row>
             </template>

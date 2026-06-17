@@ -70,7 +70,7 @@
     <v-footer app
       density="compact"
       class="border-t">
-      <cc-modal title="Organize"
+      <cc-modal :title="$t('common.organize')"
         icon="mdi-queue-first-in-last-out">
         <template #activator="{ open }">
           <cc-button size="small"
@@ -78,7 +78,7 @@
             @click="open">
             <v-icon start
               icon="mdi-queue-first-in-last-out" />
-            {{ $t('pm.roster.organize') }}
+            {{ $t('common.organize') }}
           </cc-button>
         </template>
         <organizer type="pilot" />
@@ -115,7 +115,7 @@
               clearable
               autofocus
               prepend-inner-icon="mdi-magnify"
-              placeholder="Name or callsign..." />
+              :placeholder="$t('pm.fields.nameOrCallsign')" />
           </v-card-text>
         </v-card>
       </v-menu>
@@ -133,7 +133,7 @@
         <v-card tile
           border>
           <v-card-text>
-            <cc-modal title="Create Pilot Group"
+            <cc-modal :title="$t('pm.titles.createPilotGroup')"
               icon="mdi-account-group">
               <template #activator="{ open }">
                 <cc-button color="primary"
@@ -141,14 +141,14 @@
                   block
                   prepend-icon="mdi-plus"
                   @click="open">
-                  {{ $t('pm.roster.addNew') }}
+                  {{ $t('mainMenu.publishing.addNew') }}
                 </cc-button>
               </template>
               <template #default="{ close }">
                 <group-menu @close="close" />
               </template>
             </cc-modal>
-            <cc-modal title="Import"
+            <cc-modal :title="$t('common.import')"
               icon="mdi-import"
               max-width="900">
               <template #activator="{ open }">

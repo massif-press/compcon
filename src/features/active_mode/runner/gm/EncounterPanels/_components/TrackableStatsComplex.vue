@@ -115,7 +115,7 @@
               size="x-small"
               :prepend-icon="currentIcon"
               @click="drainBattery">
-              {{ $t('common.confirm') }} {{ item.CombatController.CorePower ? $t('common.clear') : $t('active.common.restore') }} {{ $t('active.trackable.core') }}
+              {{ $t('common.confirm') }} {{ item.CombatController.CorePower ? $t('common.clear') : $t('common.restore') }} {{ $t('common.core') }}
             </cc-button>
           </template>
         </v-card>

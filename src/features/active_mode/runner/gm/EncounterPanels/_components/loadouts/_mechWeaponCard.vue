@@ -88,7 +88,7 @@
                 @reset="handleRefund($event)">
                 <template #icon>
                   <v-tooltip location="top"
-                    text="Equipment Action">
+                    :text="$t('active.tooltips.equipmentAction')">
                     <template #activator="{ props }">
                       <v-icon v-bind="props"
                         icon="cc:system" />
@@ -98,7 +98,7 @@
               </cc-combat-action-chip>
 
               <div v-if="item.Profiles[item.ProfileIndex].Deployables.length">
-                <div class="text-cc-overline text-disabled">{{ $t('active.mechWeaponCard.profileDeployables') }}</div>
+                <div class="text-cc-overline text-disabled">//{{ $t('ui.card.profileDeployables') }}</div>
                 <v-row no-gutters
                   justify="center">
                   <v-col v-for="(d, i) in item.Profiles[item.ProfileIndex].Deployables"
@@ -111,7 +111,7 @@
                 </v-row>
               </div>
               <div v-if="item.Profiles[item.ProfileIndex].Tags.length">
-                <div class="text-cc-overline mb-n1 text-disabled">{{ $t('active.mechWeaponCard.profileTags') }}</div>
+                <div class="text-cc-overline mb-n1 text-disabled">//{{ $t('ui.card.profileTags') }}</div>
                 <cc-tags :tags="item.Profiles[item.ProfileIndex].Tags"
                   extended
                   :bonus="mech.LimitedBonus" />

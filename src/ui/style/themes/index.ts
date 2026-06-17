@@ -9,5 +9,6 @@ import ipsn from './theme_ipsn'
 import ssc from './theme_ssc'
 
 import hc_dark from './theme_hc_dark'
+import theme_lc_solarized from './theme_lc_solarized'
 
-export { gms, gms_dark, horus, msmc, horizon, galsim, ha, ipsn, ssc, hc_dark }
+export { gms, gms_dark, horus, msmc, horizon, galsim, ha, ipsn, ssc, hc_dark, theme_lc_solarized }

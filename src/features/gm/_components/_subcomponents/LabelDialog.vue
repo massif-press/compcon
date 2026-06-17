@@ -1,6 +1,6 @@
 <template>
   <cc-dialog ref="dialog"
-    title="Set GM Label"
+    :title="$t('gm.titles.setGmLabel')"
     :close-on-click="false"
     max-width="500px">
 
@@ -20,18 +20,18 @@
                 :items="allLabels"
                 item-title="title"
                 item-value="key"
-                label="Label"
+                :label="$t('gm.fields.label')"
                 hide-details
                 :menu-props="{ retainFocus: false }" />
             </v-col>
             <v-col>
-              <v-text-field v-model="kvpValue" label="Value" hide-details />
+              <v-text-field v-model="kvpValue" :label="$t('gm.fields.value')" hide-details />
             </v-col>
           </v-row>
         </v-window-item>
         <v-window-item value="delete">
           <i18n-t keypath="gm.labelDialog.deleteText" tag="div" class="text-caption" scope="global">
-            <template #emphasis><b>{{ $t('gm.labelDialog.deleteWord') }}</b></template>
+            <template #emphasis><b>{{ $t('common.delete') }}</b></template>
           </i18n-t>
           <v-row class="mt-2">
             <v-col>
@@ -39,7 +39,7 @@
                 :items="selectedLabels"
                 item-title="title"
                 item-value="key"
-                label="Label"
+                :label="$t('gm.fields.label')"
                 hide-details />
             </v-col>
           </v-row>

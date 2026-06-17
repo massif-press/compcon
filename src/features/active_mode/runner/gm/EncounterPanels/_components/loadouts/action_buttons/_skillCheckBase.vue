@@ -2,7 +2,7 @@
   <v-row dense>
 
     <v-col>
-      <div class="text-cc-overline text-disabled">{{ $t('active.diceRoller.bonus') }}</div>
+      <div class="text-cc-overline text-disabled">{{ $t('common.bonus') }}</div>
       <v-text-field v-model="bonus"
         density="compact"
         variant="outlined"

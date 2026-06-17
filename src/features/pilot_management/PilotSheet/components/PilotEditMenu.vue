@@ -24,41 +24,41 @@
             color="panel"
             density="compact"
             slim>
-            <v-list-item title="Print"
+            <v-list-item :title="$t('common.print')"
               prepend-icon="mdi-printer"
-              subtitle="Print tabletop-ready character and mech sheets"
+              :subtitle="$t('pm.subtitles.printTabletopreadyCharacterAndMech')"
               @click="$router.push(`/print/${pilot.ID}`)" />
-            <cc-modal title="Statblock Generator"
+            <cc-modal :title="$t('pm.titles.statblockGenerator')"
               icon="mdi-code-block-tags">
               <template #activator="{ open }">
                 <v-list-item prepend-icon="mdi-file-document-outline"
-                  title="Generate Statblock"
-                  subtitle="Get a plaintext representation of this character's build"
+                  :title="$t('pm.titles.generateStatblock')"
+                  :subtitle="$t('pm.subtitles.getAPlaintextRepresentationOf')"
                   @click.stop="open" />
               </template>
               <statblock-dialog :pilot="pilot" />
             </cc-modal>
             <v-list-item v-if="!pilot.IsRemote"
               prepend-icon="mdi-export-variant"
-              title="Export Pilot"
-              subtitle="Export this pilot as a JSON file"
+              :title="$t('pm.titles.exportPilot')"
+              :subtitle="$t('pm.subtitles.exportThisPilotAsAJsonFile')"
               @click="exportPilot()" />
 
             <v-list-item v-if="!pilot.IsRemote"
               prepend-icon="mdi-export-variant"
-              title="Export v2 JSON"
-              subtitle="Export a legacy format for VTT systems and v2 apps"
+              :title="$t('pm.titles.exportV2Json')"
+              :subtitle="$t('pm.subtitles.exportALegacyFormatFor')"
               @click="exportPilot(true)" />
 
 
             <cc-dialog v-if="pilot.IsRemote"
               :close-on-click="false"
-              title="convert remote pilot"
+              :title="$t('pm.titles.convertRemotePilot')"
               icon="cc:pilot">
               <template #activator="{ open }">
                 <v-list-item prepend-icon="mdi-content-copy"
-                  title="Convert to Local"
-                  subtitle="Convert this Pilot to an editable local data instance."
+                  :title="$t('common.convertToLocal')"
+                  :subtitle="$t('pm.subtitles.convertThisPilotToAn')"
                   @click.stop="open" />
               </template>
               <template #default="{ close }">
@@ -73,12 +73,12 @@
             </cc-dialog>
 
             <cc-modal v-else
-              title="Clone Pilot"
+              :title="$t('pm.titles.clonePilot')"
               icon="mdi-dna">
               <template #activator="{ open }">
                 <v-list-item prepend-icon="mdi-dna"
-                  title="Clone"
-                  subtitle="Duplicate or Flash Clone this character"
+                  :title="$t('pm.titles.clone')"
+                  :subtitle="$t('pm.subtitles.duplicateOrFlashCloneThisCharacter')"
                   @click.stop="open" />
               </template>
               <template #default="{ close }">
@@ -87,14 +87,14 @@
               </template>
             </cc-modal>
 
-            <cc-dialog title="Set LCP Configuration"
+            <cc-dialog :title="$t('pm.titles.setLcpConfiguration')"
               :close-on-click="false"
               icon="mdi-list-status">
               <template #activator="{ open }">
                 <v-list-item v-if="!pilot.IsRemote"
                   prepend-icon="mdi-list-status"
-                  title="Set LCP Configuration"
-                  subtitle="Manage which content packs are accessible to this pilot"
+                  :title="$t('pm.titles.setLcpConfiguration')"
+                  :subtitle="$t('pm.subtitles.manageWhichContentPacksAreAccessibleToThisPilot')"
                   @click.stop="open" />
               </template>
               <lcp-config-selector :actor="pilot" />
@@ -104,7 +104,7 @@
               :loading="loading"
               :disabled="pilot.CloudController.isSynced"
               prepend-icon="mdi-cloud-sync"
-              title="Download Latest Data"
+              :title="$t('pm.titles.downloadLatestData')"
               :subtitle="pilot.CloudController.isSynced
                 ? 'Pilot is up to date with remote data'
                 : 'Download all remote changes to this pilot, overwriting local data.'
@@ -113,11 +113,11 @@
 
             <v-divider />
             <cc-dialog :close-on-click="false"
-              title="confirm pilot deletion"
+              :title="$t('pm.titles.confirmPilotDeletion')"
               icon="cc:pilot">
               <template #activator="{ open }">
-                <v-list-item title="Delete Pilot"
-                  subtitle="Remove this pilot from the roster"
+                <v-list-item :title="$t('common.deletePilot')"
+                  :subtitle="$t('pm.subtitles.removeThisPilotFromTheRoster')"
                   @click.stop="open">
                   <template #prepend>
                     <v-icon color="error">mdi-delete</v-icon>

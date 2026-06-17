@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!campaign">{{ $t('gm.campaign.errNoCampaign') }}</div>
+    <div v-if="!campaign">{{ $t('compendium.campaign.errNoCampaign') }}</div>
     <v-layout
       v-else
       style="position: relative"
@@ -43,7 +43,7 @@
         <v-row dense align="center" class="px-4 py-1">
           <v-col>
             <v-chip size="small">{{ $t('gm.campaign.currentlyViewing') }}</v-chip>
-            {{ campaign.Title }} &mdash; {{ $t('gm.campaign.credits') }}
+            {{ campaign.Title }} &mdash; {{ $t('common.credits') }}
           </v-col>
           <v-col cols="auto">
             <v-btn size="small" variant="tonal" color="accent" @click="previewDialog = false">

@@ -14,6 +14,7 @@
     "typecheck": "vue-tsc --noEmit",
     "i18n:check": "node scripts/i18n-check.mjs",
     "locales:pull": "node scripts/pull-locales.mjs",
+    "locales:completeness": "node scripts/pull-completeness.mjs",
     "prepare": "husky"
   },
   "lint-staged": {
@@ -27,7 +28,7 @@
   },
   "dependencies": {
     "@kyvg/vue3-notification": "3.4.2",
-    "@massif/lancer-data": "^4.0.5",
+    "@massif/lancer-data": "^4.0.6",
     "@mdi/font": "7.4.47",
     "@sentry/vite-plugin": "^5.1.1",
     "@sentry/vue": "^10.40.0",

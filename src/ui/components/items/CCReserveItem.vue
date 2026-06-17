@@ -67,19 +67,19 @@
               hide-details
               color="success"
               active-color="error"
-              label="Used"
-              tooltip="Mark this resource as used or unavailable (but not consumed, destroyed or lost)" />
+              :label="$t('ui.fields.used')"
+              :tooltip="$t('ui.tooltips.markThisResourceAsUsed')" />
           </v-col>
         </v-row>
         <br />
         <cc-text-area v-model="reserve.Note"
           color="primary"
-          label="Notes" />
+          :label="$t('common.notes')" />
         <br />
 
         <cc-text-area v-model="reserve.ResourceCost"
           color="primary"
-          label="Cost/Complications"
+          :label="$t('ui.fields.costcomplications')"
           clearable />
       </v-card-text>
     </div>

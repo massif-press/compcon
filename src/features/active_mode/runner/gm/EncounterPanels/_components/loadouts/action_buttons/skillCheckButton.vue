@@ -43,7 +43,7 @@
                 tile
                 color="primary">
                 <v-btn value=""
-                  size="small">{{ $t('active.common.none') }}</v-btn>
+                  size="small">{{ $t('common.none') }}</v-btn>
                 <v-btn value="risky"
                   size="small">{{ $t('active.skillCheck.risky') }}</v-btn>
                 <v-btn value="heroic"
@@ -133,7 +133,7 @@
                         }}
 
                         <div>
-                          <i class="text-caption text-disabled">{{ $t('active.skillCheck.clickOverride') }}</i>
+                          <i class="text-caption text-disabled">{{ $t('ui.combat.clickToOverride') }}</i>
                         </div>
                       </div>
                     </v-tooltip>
@@ -161,7 +161,7 @@
           <v-col v-else-if="checkType === 'contested' && !selectedTarget"
             class="text-center text-disabled text-caption"
             align-self="center">
-            <i>{{ $t('active.skillCheck.noTarget') }}</i>
+            <i>{{ $t('ui.combat.noTarget') }}</i>
           </v-col>
         </v-row>
       </v-card>

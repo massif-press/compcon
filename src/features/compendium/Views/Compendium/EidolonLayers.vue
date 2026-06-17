@@ -2,7 +2,7 @@
   <v-container v-if="!layers.length"
     class="px-12">
     <v-alert icon="cc:monist"
-      title="No Eidolon Data"
+      :title="$t('compendium.titles.noEidolonData')"
       variant="tonal">
       <!-- eslint-disable @intlify/vue-i18n/no-raw-text -->
       <!-- Theme L §4: core-book rules flavor, localized via the content pipeline (L3), not a UI key. -->

@@ -24,7 +24,7 @@
         <v-col>
           <cc-dialog :close-on-click="false"
             icon="mdi-import"
-            title="Import Character Sheet State">
+            :title="$t('active.titles.importCharacterSheetState')">
             <template #activator="{ open }">
               <v-btn flat
                 tile
@@ -46,7 +46,7 @@
                 density="compact"
                 hide-details
                 autofocus
-                placeholder="Select Character Sheet Export File"
+                :placeholder="$t('active.fields.selectCharacterSheetExportFile')"
                 prepend-icon="mdi-paperclip"
                 @change="stageImport" />
               <v-scroll-y-reverse-transition>
@@ -99,7 +99,7 @@
                   color="primary"
                   :disabled="!importOk"
                   @click="importState()">
-                  {{ $t('active.pcOptions.confirmImport') }}
+                  {{ $t('common.confirmImport') }}
                 </cc-button>
               </v-card-actions>
             </template>
@@ -183,14 +183,14 @@ function manualSave() {
     ;(props.sheet as any).Save()
     saveUpdate.value = Date.now()
     notify({
-      title: t('active.pcSheet.saveSuccessfulTitle'),
+      title: t('active.common.saveSuccessful'),
       text: t('active.pcSheet.saveSuccessfulText', { callsign: (props.sheet as any).Combatant.actor.Callsign, round: (props.sheet as any).Round }),
       data: { icon: 'mdi-content-save', color: 'success' },
     })
   } catch (error) {
     logger.error('Manual Save Failed', null, error)
     notify({
-      title: t('active.pcSheet.saveFailedTitle'),
+      title: t('active.common.saveFailed'),
       text: t('active.pcSheet.saveFailedText', { callsign: (props.sheet as any).Combatant.actor.Callsign }),
       data: { icon: 'mdi-alert', color: 'error' },
     })

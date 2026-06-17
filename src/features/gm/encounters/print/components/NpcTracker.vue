@@ -12,7 +12,7 @@
       </span>
       <span v-if="combatant.reinforcement" cols="auto">
         <v-icon icon="mdi-refresh" color="accent" class="mr-1" />
-        {{ $t('gm.encPrint.reinforcement') }}
+        {{ $t('common.reinforcement') }}
       </span>
       <span v-if="combatant.reinforcement && combatant.reinforcementTurn > 0" cols="auto">
         <cc-slashes />

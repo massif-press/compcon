@@ -1,7 +1,7 @@
 <template>
   <div>
-    <section-header title="Licenses">
-      <cc-modal title="Set Pilot Licenses"
+    <section-header :title="$t('common.licenses')">
+      <cc-modal :title="$t('pm.titles.setPilotLicenses')"
         icon="cc:frame"
         ref="licenseSelector">
         <template #activator="{ open }">

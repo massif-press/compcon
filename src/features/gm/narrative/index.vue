@@ -27,7 +27,7 @@
 
   <cc-modal v-model="importModal"
     icon="mdi-download-multiple"
-    title="Import"
+    :title="$t('common.import')"
     shrink>
     <importer @complete="($refs as any).import.hide()" />
   </cc-modal>
@@ -35,7 +35,7 @@
   <cc-modal v-model="orgModal"
     icon="mdi-queue-first-in-last-out"
     shrink
-    title="Organize">
+    :title="$t('common.organize')">
     <organizer type="narrative" />
   </cc-modal>
 </template>

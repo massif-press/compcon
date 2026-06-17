@@ -37,7 +37,7 @@
     <slot name="footer" />
 
     <cc-dialog v-if="!isRemote && isAuthed"
-      title="Share Code"
+      :title="$t('common.shareCode')"
       icon="mdi-broadcast"
       :close-on-click="false">
       <template #activator="{ open }">

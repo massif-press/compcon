@@ -17,7 +17,7 @@
         <v-card-text>
           <v-combobox v-model="stagedName"
             :items="allFolders"
-            label="Folder"
+            :label="$t('gm.fields.folder')"
             outlined
             dense
             clearable
