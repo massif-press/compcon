@@ -3,7 +3,8 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/8c8ba126-8074-4a99-98f9-9b0529107214/deploy-status)](https://app.netlify.com/projects/compcon/deploys)
 ![Discord](https://img.shields.io/discord/426286410496999425)
 
-[![Translation status](https://hosted.weblate.org/widget/compcon/svg-badge.svg)](https://hosted.weblate.org/engage/compcon/)
+[![Translation status](https://hosted.weblate.org/widget/compcon/open-graph.png)](https://hosted.weblate.org/engage/compcon/)
+Localization tooling and hosting has been generously provided by [Weblate](https://weblate.org)'s under their Libre plan.
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/massif-press%2Fcompcon/master)
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/massif-press/compcon)
