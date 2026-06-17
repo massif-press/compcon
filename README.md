@@ -1,14 +1,12 @@
 # COMP/CON
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/8c8ba126-8074-4a99-98f9-9b0529107214/deploy-status)](https://app.netlify.com/projects/compcon/deploys)
-![Discord](https://img.shields.io/discord/426286410496999425)
+![Discord](https://img.shields.io/discord/426286410496999425) ![GitHub last commit](https://img.shields.io/github/last-commit/massif-press%2Fcompcon/master)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/massif-press/compcon)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-closed/massif-press/compcon)
 
 [![Translation status](https://hosted.weblate.org/widget/compcon/open-graph.png)](https://hosted.weblate.org/engage/compcon/)
 Localization tooling and hosting has been generously provided by [Weblate](https://weblate.org)'s under their Libre plan.
-
-![GitHub last commit](https://img.shields.io/github/last-commit/massif-press%2Fcompcon/master)
-![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/massif-press/compcon)
-![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-closed/massif-press/compcon)
 
 COMP/CON is the official digital companion for the [LANCER](https://massif-press.itch.io/lancer-core-book) tabletop role playing game. It provides a full suite of tools for players and game masters, from building and managing pilots and mechs to running combat encounters and campaigns.
 
