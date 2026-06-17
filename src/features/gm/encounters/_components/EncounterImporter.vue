@@ -211,7 +211,7 @@ async function importFile() {
     }
   }
   if (backedUp > 0) {
-    notify({ title: t('gm.import.v2BackupTitle'), text: t('gm.import.v2BackupText', { count: backedUp }), data: { icon: 'mdi-information-box-outline', color: 'info' } })
+    notify({ title: t('gm.import.v2BackupTitle'), text: t('gm.import.v2BackupText', { count: backedUp }, backedUp), data: { icon: 'mdi-information-box-outline', color: 'info' } })
   }
   reset()
   emit('complete')

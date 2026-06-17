@@ -243,10 +243,10 @@ async function reprocessAll() {
     await UserStore().refreshV2BackupIds()
     await loadBackups()
     if (result.succeeded.length > 0) {
-      notify({ color: 'success', text: t('nav.v2ImportNotify.reimportSuccessText', { count: result.succeeded.length }) })
+      notify({ color: 'success', text: t('nav.v2ImportNotify.reimportSuccessText', { count: result.succeeded.length }, result.succeeded.length) })
     }
     if (result.stillPending.length > 0) {
-      notify({ color: 'warning', text: t('nav.v2ImportNotify.reimportPendingText', { count: result.stillPending.length }) })
+      notify({ color: 'warning', text: t('nav.v2ImportNotify.reimportPendingText', { count: result.stillPending.length }, result.stillPending.length) })
     }
     if (result.succeeded.length === 0 && result.stillPending.length === 0) {
       notify({ color: 'info', text: t('nav.v2ImportNotify.noItemsToReimport') })

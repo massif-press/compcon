@@ -40,7 +40,7 @@
           color="warning"
           class="my-3">
           <span class="text-caption">
-            {{ pi.alreadyInstalledWarning }}
+            {{ $t('nav.packInstall.alreadyInstalledWarning', alreadyInstalledCount) }}
           </span>
           <div v-for="pack in contentPacks.filter((x) => packAlreadyInstalled(x))"
             :key="pack.id"
@@ -95,7 +95,7 @@
           color="error"
           class="my-3">
           <span class="text-caption">
-            {{ pi.dependencyError }}
+            {{ $t('nav.packInstall.dependencyError', dependencyErrorCount) }}
           </span>
           <div v-for="pack in contentPacks.filter((x) => uninstalledDependencies(x).length > 0)"
             :key="pack.id"
@@ -224,6 +224,14 @@ const hasUninstalledDependencies = computed(() => {
   if (!contentPacks.value.length) return false
   return contentPacks.value.some(pack => uninstalledDependencies(pack).length > 0)
 })
+
+const alreadyInstalledCount = computed(() =>
+  contentPacks.value.filter(pack => packAlreadyInstalled(pack)).length
+)
+
+const dependencyErrorCount = computed(() =>
+  contentPacks.value.filter(pack => uninstalledDependencies(pack).length > 0).length
+)
 
 const disableInstall = computed(() =>
   installing.value ||

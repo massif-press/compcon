@@ -293,7 +293,7 @@ async function importFile() {
       if (backedUp > 0) {
         notify({
           title: t('notify.gm.v2BackupTitle'),
-          text: t('notify.gm.v2BackupText', { count: backedUp }),
+          text: t('notify.gm.v2BackupText', { count: backedUp }, backedUp),
           data: { icon: 'mdi-information-box-outline', color: 'info' },
         });
       }

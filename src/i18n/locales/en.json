@@ -628,7 +628,7 @@
       "importErrorTitle": "Import Failed",
       "encounterImportErrorText": "Failed to import encounter: {error}",
       "v2BackupTitle": "Imported to v2 Backups",
-      "v2BackupText": "{count} encounter(s) saved to v2 Imports for later import."
+      "v2BackupText": "{count} encounter saved to v2 Imports for later import. | {count} encounters saved to v2 Imports for later import."
     },
     "sync": {
       "syncCompleteText": "{itemType} {name} synced.",
@@ -710,7 +710,7 @@
       "confirmResetStats": "Confirm Reset Stats",
       "addStat": "Add Stat",
       "custom": "Custom",
-      "statCountSuffix": "{n} Stat(s)"
+      "statCountSuffix": "{n} Stat | {n} Stats"
     },
     "editorFooter": {
       "upToDate": "Item is up to date with remote changes",
@@ -923,8 +923,8 @@
       "noneFound": "No NPC Features could be found for this selection"
     },
     "npcAlert": {
-      "selectUpTo": "You may select up to {n} additional feature(s)",
-      "selectN": "Select {n} additional feature(s)",
+      "selectUpTo": "You may select up to {n} additional feature | You may select up to {n} additional features",
+      "selectN": "Select {n} additional feature | Select {n} additional features",
       "selectionsComplete": "{source} selections complete"
     },
     "npcTemplate": {
@@ -2689,7 +2689,7 @@
       "selectSkillTriggers": "Select {word} ({count}) Skill Triggers.",
       "addMechSkillPoints": "Add {word} ({count}) Mech Skill Points.",
       "selectPilotTalents": "Select {word} ({count}) Pilot Talents.",
-      "selectLicenseRanks": "Select {word} ({count}) License Rank(s).",
+      "selectLicenseRanks": "Select {word} ({count}) License Rank. | Select {word} ({count}) License Ranks.",
       "selectCoreBonusesN": "Select {word} ({count}) Core {item}.",
       "bonusesWord": "Bonuses"
     },
@@ -3438,7 +3438,7 @@
     "gm": {
       "npcImportErrorText": "Unable to import GM Data: {error}",
       "v2BackupTitle": "v2 Import Backup",
-      "v2BackupText": "{count} item(s) saved to pending v2 imports in the Content Manager.",
+      "v2BackupText": "{count} item saved to pending v2 imports in the Content Manager. | {count} items saved to pending v2 imports in the Content Manager.",
       "campaignPublishedTitle": "Campaign Published",
       "campaignPublishedText": "Version {version} of {name} has been published.",
       "importCompleteTitle": "Import Complete",

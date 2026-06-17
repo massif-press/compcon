@@ -21,37 +21,37 @@
             <v-list-item v-if="migrationResult.pilotsImported"
               class="bg-background my-1"
               prepend-icon="cc:pilot">
-              {{ migrationResult.pilotsImported }} {{ va.pilotsImported }}
+              {{ $t('nav.v2Auto.pilotsImported', { count: migrationResult.pilotsImported }, migrationResult.pilotsImported) }}
             </v-list-item>
             <v-list-item v-if="migrationResult.pilotsBackedUp"
               class="bg-background my-1"
               prepend-icon="mdi-account-clock">
-              {{ migrationResult.pilotsBackedUp }} {{ va.pilotsPending }}
+              {{ $t('nav.v2Auto.pilotsPending', { count: migrationResult.pilotsBackedUp }, migrationResult.pilotsBackedUp) }}
             </v-list-item>
             <v-list-item v-if="migrationResult.npcsImported"
               class="bg-background my-1"
               prepend-icon="cc:frame">
-              {{ migrationResult.npcsImported }} {{ va.npcsImported }}
+              {{ $t('nav.v2Auto.npcsImported', { count: migrationResult.npcsImported }, migrationResult.npcsImported) }}
             </v-list-item>
             <v-list-item v-if="migrationResult.npcsBackedUp"
               class="bg-background my-1"
               prepend-icon="cc:destroyed">
-              {{ migrationResult.npcsBackedUp }} {{ va.npcsPending }}
+              {{ $t('nav.v2Auto.npcsPending', { count: migrationResult.npcsBackedUp }, migrationResult.npcsBackedUp) }}
             </v-list-item>
             <v-list-item v-if="migrationResult.encountersImported"
               class="bg-background my-1"
               prepend-icon="cc:encounter">
-              {{ migrationResult.encountersImported }} {{ va.encountersImported }}
+              {{ $t('nav.v2Auto.encountersImported', { count: migrationResult.encountersImported }, migrationResult.encountersImported) }}
             </v-list-item>
             <v-list-item v-if="migrationResult.encountersBackedUp"
               class="bg-background my-1"
               prepend-icon="mdi-sword-cross">
-              {{ migrationResult.encountersBackedUp }} {{ va.encountersPending }}
+              {{ $t('nav.v2Auto.encountersPending', { count: migrationResult.encountersBackedUp }, migrationResult.encountersBackedUp) }}
             </v-list-item>
             <v-list-item v-if="migrationResult.lcpsImported"
               class="bg-background my-1"
               prepend-icon="mdi-package-variant">
-              {{ migrationResult.lcpsImported }} {{ va.lcpsImported }}
+              {{ $t('nav.v2Auto.lcpsImported', { count: migrationResult.lcpsImported }, migrationResult.lcpsImported) }}
             </v-list-item>
           </div>
           <div
@@ -65,7 +65,7 @@
             class="mt-2">
             <v-expansion-panel>
               <v-expansion-panel-title class="text-error">
-                {{ migrationResult.errors.length }} {{ va.errorsDuringMigration }}
+                {{ $t('nav.v2Auto.errorsDuringMigration', { count: migrationResult.errors.length }, migrationResult.errors.length) }}
               </v-expansion-panel-title>
               <v-expansion-panel-text>
                 <div v-for="err in migrationResult.errors"

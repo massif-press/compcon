@@ -33,7 +33,7 @@
       class="mt-2"
       tile>
       <div class="heading">
-        {{ context === 'new' ? $t('pm.shared.selectLicenseRanks', { word, count }) : $t('pm.shared.unlockALicense') }}
+        {{ context === 'new' ? $t('pm.shared.selectLicenseRanks', { word, count }, count) : $t('pm.shared.unlockALicense') }}
       </div>
       <p class="text-cc-overline">
         {{ $t('pm.shared.unionAndItsRepresentativesAreNot') }}

@@ -2,7 +2,7 @@ name: Push base locale
 
 on:
   push:
-    branches: [master]
+    branches: [dev]
     paths:
       - 'src/i18n/locales/en.json'
   workflow_dispatch:
