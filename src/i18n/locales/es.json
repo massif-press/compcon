@@ -1,5 +1,11 @@
 {
-    "common": {
-        "cancel": "Cancelar"
-    }
+  "common": {
+    "cancel": "Cancelar",
+    "appName": "COMP/CON",
+    "appShortName": "C/C",
+    "gameName": "LANCER",
+    "save": "Guardar",
+    "close": "Cerrar",
+    "delete": "Eliminar"
+  }
 }
