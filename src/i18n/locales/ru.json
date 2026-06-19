@@ -77,6 +77,580 @@
     "objective": "Боевая задача",
     "reinforcement": "Подкрепления",
     "weapon": "Оружие",
-    "frame": "Шасси"
+    "frame": "Шасси",
+    "addName": "Добавить {name}",
+    "armorBonus": "Бонус к броне",
+    "callsign": "Позывной",
+    "cancelPermanentDeletion": "Отмена перманентного удаления",
+    "confirmPermanentDeletion": "Подтверждение перманентного удаления",
+    "details": "Детали",
+    "eidolon": "Эйдолон",
+    "electronicDefense": "Тех. защита",
+    "ignoreLimit": "Игнорировать лимит",
+    "npcs": "НИПы",
+    "overcharge": "Форсаж",
+    "overshield": "Сверхщиты",
+    "cloudAccount": "Облачный аккаунт",
+    "confirmImport": "Подтвердить импорт",
+    "contents": "Содержимое",
+    "customItemDescription": "Описание пользовательского предмета",
+    "customItemName": "Название пользовательского предмета",
+    "licenses": "Лицензии",
+    "npcAdded": "Добавленные НИПы",
+    "npcAddedToRoster": "НИП {name} добавлен в ростер",
+    "overview": "Обзор",
+    "pilotBonds": "Узы пилота",
+    "pilotGroup": "Группа пилотов",
+    "pilotSheet": "Лист пилота игрока",
+    "pilotSkillTriggers": "Навыки пилота",
+    "pilotTalents": "Таланты пилота",
+    "removeName": "Убрать {name}",
+    "reserves": "Резервы",
+    "setCustomDescription": "Настройка пользовательского описания",
+    "setCustomName": "Настройка пользовательского названия",
+    "side": "Сторона",
+    "statsLabel": "Характеристики",
+    "syncNow": "Синхронизировать сейчас",
+    "tables": "Таблицы",
+    "actionCannotBeUndone": "Это действие не может быть отменено",
+    "edit": "Правка",
+    "alert": "Внимание",
+    "pilotLoadout": "Снаряжение пилота",
+    "effect": "Эффект",
+    "logLevel": "Степень логирования:",
+    "selectAll": "Выбрать все",
+    "warning": "Предупреждение",
+    "preview": "Предпросмотр",
+    "updateAll": "Обновить все",
+    "help": "Справка",
+    "set": "Установить",
+    "unlock": "Разблокировать",
+    "skipToMainContent": "Перейти к основному содержимому",
+    "about": "О приложении",
+    "all": "Все",
+    "importCampaign": "Импорт кампании",
+    "environment": "Условия",
+    "credits": "Авторы",
+    "loadout": "Снаряжение",
+    "remoteResource": "Удалённый источник",
+    "tierN": "Опасность {n}",
+    "tierShort": "О{n}",
+    "byAuthor": "сделано {author}",
+    "manageContent": "Управление контентом",
+    "forceImport": "Форсированный импорт",
+    "hpBonus": "Бонус к ПЗ",
+    "techAttack": "Тех. атака",
+    "sensorRange": "Дальность сенсоров",
+    "pilotGear": "Снаряжение пилота",
+    "pilotTalent": "Талант пилота",
+    "pilotArmor": "Броня пилота",
+    "pilotWeapon": "Оружие пилота",
+    "ok": "ОК",
+    "contentManager": "Управление контентом",
+    "contentPacks": "Контент-паки",
+    "lcpDirectory": "Каталог LCP",
+    "addContent": "Добавить контент",
+    "deletePilot": "Удалить пилота",
+    "clearAllData": "Очистить все данные",
+    "encounters": "Столкновения",
+    "activeMode": "Активный режим",
+    "compconPrompt": ">>COMP/CON//",
+    "deletePermanently": "Удалить безвозвратно"
+  },
+  "classes": {
+    "newFaction": "Новая фракция",
+    "newLocation": "Новая локация",
+    "newNpc": "Новый НИП",
+    "newBurden": "Новое бремя",
+    "newEncounter": "Новое столкновение",
+    "newCollection": "Новая коллекция",
+    "unknownStatus": "Неизвестный cтатус",
+    "unknownLicense": "Неизвестная лицензия",
+    "newSkillTrigger": "Новый навык пилота",
+    "newContent": "Новый контент",
+    "newCampaign": "Новая кампания",
+    "newSection": "Новый раздел",
+    "newClock": "Новый счётчик",
+    "newTable": "Новая таблица",
+    "newCharacter": "Новый персонаж",
+    "newNarrativeItem": "Новый нарративный предмет",
+    "newEidolon": "Новый эйдолон",
+    "newSitrep": "Новая оперсводка"
+  },
+  "language": {
+    "selectLanguage": "Язык"
+  },
+  "nav": {
+    "v2Import": {
+      "deleteTitle": "Удалить резервную копию",
+      "panelTitle": "Ожидание импорта V2",
+      "importAll": "Импорт всего",
+      "forceImportPanelTitle": "@:{'common.forceImport'}",
+      "attemptReimport": "Попробовать импортировать повторно",
+      "confirmForceImport": "@:{'common.forceImport'}",
+      "forceImportNotice": "{type} будет импортирован без предметов, которые не удалось найти. Следующие предметы не удалось обнаружить, они будут удалены:"
+    },
+    "nav": {
+      "achievements": "Достижения",
+      "help": "Справка",
+      "quickReference": "Быстрая справка",
+      "navigateBack": "Перейти назад",
+      "navigateForward": "Перейти вперед",
+      "mainMenu": "@:{'common.mainMenu'}",
+      "compendium": "@:{'common.compendium'}",
+      "pilotManagement": "Управление пилотами",
+      "npcRoster": "Ростер НИПов",
+      "encounters": "Столкновения",
+      "narrativeElements": "Нарративные элементы",
+      "campaignManager": "Управление кампаниями",
+      "activeMode": "@:{'common.activeMode'}",
+      "storageLimitExceeded": "Превышен лимит хранилища",
+      "supportCompcon": "Поддержите @:{'common.appName'}"
+    },
+    "help": {
+      "faq": "Часто задаваемые вопросы",
+      "reportBug": "Сообщить об ошибке",
+      "whereAreNpcs": "Где можно найти НИПов?",
+      "howToAddContent": "Как мне добавить материалы из дополнений к Lancer в @:{'common.appName'}?",
+      "howToSeeExotics": "Как мне найти экзотическое снаряжение в компендиуме?",
+      "cloudAccountFaq": "Нужно ли мне платить за создание облачного аккаунта @:{'common.appName'}?",
+      "additionalHelp": "Дополнительная помощь",
+      "whereAreNpcsBody": "Если вы купили Lancer Core Book, вы найдёте загружаемый набор данных, который содержит информацию о всех базовых НИПах, на странице Lancer Core Book на itch.io, которая доступна вам через Управление контентом. Вы можете использовать вкладку {installLcp} в Управлении контентом, чтобы импортировать нужный набор и начать создавать, а также проводить бои.",
+      "installLcpTab": "Установить LCP",
+      "troubleshootingFaq": "Устранение проблем в Часто задаваемых вопросах",
+      "howToAddContentBody": "Официальные материалы по @:{'common.gameName'} можно найти по ссылке {itchLink}. Материалы для игроков в формате LCP для использования в @:{'common.appName'} можно найти в разделе {downloadDemo} любых опубликованных материалов от Massif Press; материалы для ведущего (например, НИПы) можно приобрести вместе с PDF версиями файлов. Ссылки на указанные материалы (а также подборку материалов от сообщества) можно найти в Управлении контентом, вкладка {lcpDirectory}.",
+      "itchPageText": "Страница Massif Press на itch.io.",
+      "downloadDemo": "Загрузить демо-версию",
+      "lcpDirectory": "@:{'common.lcpDirectory'}",
+      "howToSeeExoticsBody": "Во избежание спойлеров для игроков, @:{'common.appName'} скрывает экзотические предметы по умолчанию. Чтобы изменить настройки видимости таких предметов, вы можете использовать меню @:{'common.appName'}'s {options} и включить опцию {showExoticsToggle}.",
+      "optionsLabel": "@:{'common.options'}",
+      "showExoticsToggleLabel": "\"Показать экзотические предметы в компендиуме\"",
+      "cloudAccountFaqBody": "Облачные аккаунты @:{'common.appName'} бесплатны для всех пользователей. Подписчики с Patreon могут получить доступ к дополнительным возможностям облачных аккаунтов, например, расширенное облачное хранилище и большее количество активных столов.",
+      "additionalHelpBody": "Ответ на ваш вопрос, скорее всего, можно найти в разделе {faqLink}! Если вы всё ещё не смогли найти то, что ищете, пожалуйста, перейдите по ссылке{discordLink} и зайдите в канал #comp-con, чтобы оставить комментарии или задать вопросы разработчикам.",
+      "faqLinkText": "@:{'common.appName'} Часто задаваемые вопросы",
+      "discordLinkText": "неофициальный дискорд-сервер @:{'common.gameName'}"
+    },
+    "achievements": {
+      "common": "Обычные",
+      "rarity": "Редкость",
+      "unlocked": "разблокировано",
+      "discovered": "Открыто",
+      "epic": "Эпичные",
+      "legendary": "Легендарные",
+      "locked": "Скрыто",
+      "byRarity": "По редкости:",
+      "byLabel": "По меткам:",
+      "secretAchievements": "Секретные достижения",
+      "mythic": "Мифические",
+      "hidden": "Скрыто"
+    },
+    "settingsPage": {
+      "logLevel": "Уровень логов",
+      "errorReporting": "Отчет об ошибках",
+      "overwriteStrategy": "Перезаписать все существующие данные",
+      "font": "Шрифт",
+      "disabled": "отключено",
+      "showExoticsTooltip": "Выбор этой опции может раскрыть для вас спойлеры игровой кампании, данную опцию лучше оставлять ВЫКЛЮЧЕННОЙ, если вы не являетесь ведущим",
+      "logLevelLabel": "@:{'common.logLevel'}",
+      "theme": "Тема",
+      "errorReportingPrefix": "Отчёты об ошибках"
+    },
+    "storage": {
+      "neverLabel": "никогда",
+      "storageSettings": "Настройки хранилища",
+      "userData": "Данные пользователя",
+      "areYouSure": "Вы уверены, что хотите продолжить?",
+      "daysCount": "{count} дней."
+    },
+    "deletedItems": {
+      "permanentlyDeleteAll": "Удалить навсегда",
+      "itemName": "Название предмета",
+      "restoreAll": "Восстановить все"
+    },
+    "userDataViewer": {
+      "value": "Значение"
+    },
+    "packInstall": {
+      "install": "Установить",
+      "success": "Успех"
+    },
+    "packsDirectory": {
+      "officialContent": "Официальный",
+      "clickHere": "нажмите здесь.",
+      "content": "Материалы"
+    },
+    "packConfig": {
+      "createConfig": "Создать новую конфигурацию",
+      "noConfigs": "Конфигурации не найдены."
+    },
+    "migrationRepair": {
+      "colCategory": "Категория"
+    },
+    "optionsPage": {
+      "tabStorage": "Хранилище"
+    },
+    "packInfo": {
+      "changelog": "Список изменений"
+    },
+    "communityTable": {
+      "currentVersion": "Текущая версия:",
+      "free": "Бесплатное"
+    },
+    "search": {
+      "searchResults": "результаты поиска"
+    },
+    "credits": {
+      "with": "А также:",
+      "lancerBy": "@:{'common.gameName'} авторства:",
+      "compconBy": "@:{'common.appName'} авторства:",
+      "graphicDesignBy": "Графический дизайн выполнили:",
+      "additionalArtBy": "Дополнительные изображения предоставлены:",
+      "patronThanks": "Развитие @:{'common.appName'} стало возможным благодаря щедрой",
+      "supportOf": "поддержке:",
+      "tier": "@:{'common.tier'}",
+      "anonymousPatron": "анонимных подписчиков"
+    },
+    "achievementItem": {
+      "createdBy": "Создатель:"
+    },
+    "packsList": {
+      "activated": "активировано",
+      "deactivated": "деактивировано"
+    },
+    "contentManager": {
+      "refreshContent": "Обновить",
+      "contentConfig": "Настройки контента.",
+      "addContent": "@:{'common.addContent'}",
+      "removeContent": "@:{'common.remove'}",
+      "updateAll": "@:{'common.updateAll'}",
+      "deleteAll": "Удалить всё",
+      "noPacksInstalled": "Отсутствуют установленные контент-паки.",
+      "lcpDirectory": "@:{'common.lcpDirectory'}",
+      "installLcp": "Установить файл .LCP",
+      "title": "@:{'common.contentManager'}",
+      "packManagement": "Управление контент-паками",
+      "installedPacks": "Установленные контент-паки",
+      "contentPacks": "@:{'common.contentPacks'}"
+    },
+    "roster": {
+      "title": "@:{'common.pilotRoster'}"
+    },
+    "settings": {
+      "clearData": "@:{'common.clearAllData'}",
+      "importData": "Импорт данных",
+      "reset": "Сброс к настройкам по умолчанию"
+    },
+    "about": {
+      "description": "@:{'common.appName'} является бесплатным цифровым инструментом с открытым исходным кодом, который используется для помощи в проведении игр @:{'common.gameName'}.",
+      "coreBookInfo": "Основная книга правил @:{'common.gameName'}, @:{'common.appName'}, а также сопуствующие материалы можно найти по ссылке",
+      "title": "@:{'common.appName'}",
+      "ccVersion": "Версия C/C:"
+    },
+    "titles": {
+      "selectAll": "Выбрать все",
+      "warning": "Предупреждение"
+    }
+  },
+  "gm": {
+    "import": {
+      "collection": "Коллекция",
+      "importErrorTitle": "Не удалось импортировать"
+    },
+    "campaign": {
+      "jsonFile": "JSON-файл",
+      "moveUp": "Сдвинуть вверх",
+      "moveDown": "Сдвинуть вниз",
+      "moveToBottom": "на задний план",
+      "addSectionBtn": "Добавить раздел",
+      "latestVersion": "Последняя версия",
+      "latestChanges": "Последние изменения:",
+      "unpublished": "Неопубликованное",
+      "permanentlyDeleted": "Удалённое навсегда"
+    },
+    "labels": {
+      "labels": "Метки",
+      "label": "Метка",
+      "addLabel": "Добавить метку",
+      "sortAlphabetically": "Сортировать по алфавиту"
+    },
+    "stats": {
+      "custom": "Пользовательский",
+      "resetConfirm": "Это приведёт к сбросу всех характеристик к дефолтным значениям О{tier} {name}. Вы уверены, что хотите это сделать?"
+    },
+    "relationships": {
+      "heading": "Отношения",
+      "addRelationship": "Добавить отношение",
+      "label": "Отношения"
+    },
+    "folder": {
+      "setFolder": "Задать папку"
+    },
+    "filter": {
+      "filters": "Фильтры",
+      "labels": "Метки",
+      "showAll": "Показать все",
+      "hideAll": "Скрыть все",
+      "clearAllFilters": "Очистите все фильтры"
+    },
+    "noItem": {
+      "noItemSelected": "Ничего не выбрано"
+    },
+    "resolution": "Разрешение",
+    "overview": {
+      "addContact": "Добавить контакт",
+      "setCoverImage": "Задать изображение для обложки",
+      "players": "игроки"
+    },
+    "npcFeatures": {
+      "saveConfig": "Сохранить настройки"
+    },
+    "eidolonPrint": {
+      "layer": "Слой"
+    },
+    "npcEditor": {
+      "statblock": "Статблок"
+    },
+    "fields": {
+      "authors": "Автор(ы)",
+      "folder": "Папка"
+    },
+    "pageContent": {
+      "quote": "Цитата",
+      "deleteItemConfirm": "Вы уверены что хотите это удалить? Это действие нельзя отменить."
+    },
+    "encounterContent": {
+      "image": "Изображение"
+    },
+    "combatant": {
+      "sourceUnavailable": "Источник недоступен",
+      "noChanges": "Без изменений",
+      "clickToEdit": "Нажмите для редактирования"
+    },
+    "sitrep": {
+      "condition": "Условия",
+      "savePreset": "Сохранить шаблон",
+      "presets": "Шаблоны"
+    },
+    "encounterIndex": {
+      "addFolder": "Добавить папку"
+    },
+    "npcBuilder": {
+      "templates": "Шаблоны"
+    },
+    "reinforcements": "Подкрепления",
+    "encPrint": {
+      "neutral": "Нейтральный"
+    },
+    "eidolon": {
+      "noLayers": "слои отсутствуют",
+      "layers": "Слои",
+      "addLayer": "добавить слой"
+    },
+    "itemCard": {
+      "tierShort": "О{tier}"
+    },
+    "tier": {
+      "changeTo": "Изменить на О {n}",
+      "detectedEdits": "@:{'common.appName'} обнаружил отредактированные значения характеристик. Что вы хотите сделать в связи с этим?",
+      "projectEdits": "Изменить опасность и показать изменения",
+      "preserveEdits": "Изменить опасность и сохранить изменения",
+      "resetStats": "Изменить опасность и сбросить характеристики"
+    },
+    "eidolonTier": {
+      "heading": "Опасность эйдолона"
+    },
+    "titles": {
+      "confirmTierChange": "Подтвердить изменение опасности",
+      "selectImage": "выберите изображение",
+      "deletePreset": "удалить шаблон",
+      "importData": "импорт данных",
+      "selectTemplate": "выбрать шаблон"
+    },
+    "tooltips": {
+      "changeTierAndAdjustEdited": "Изменить опасность и скорректировать изменённые характеристики согласно стандартным изменениям.",
+      "changeTierAndKeepEdited": "Изменить опасность и сохранить отредактированные значения характеристик, даже если они меньше базовых значений для новой опасности.",
+      "changeTierAndDiscardAll": "Изменить опасность и сбросить все отредактированные значения характеристик."
+    },
+    "encounterEditor": {
+      "additionalNotes": "Дополнительные примечания"
+    }
+  },
+  "active": {
+    "encounter": {
+      "failedToCopyTitle": "Не удалось скопировать"
+    },
+    "common": {
+      "exportAsJson": "Экспорт в формате JSON",
+      "apply": "Применить",
+      "override": "заменить",
+      "dangerZone": "Зона риска",
+      "target": "Цель",
+      "condition": "Состояние"
+    },
+    "runnerHeader": {
+      "autosave": "Автосохранение",
+      "lastSaved": "Последнее сохранение:",
+      "never": "Никогда",
+      "manualSave": "Ручное сохранение"
+    },
+    "leaveDialog": {
+      "exitWithoutSaving": "Выйти без сохранения"
+    },
+    "actionChips": {
+      "protocol": "Протокол",
+      "quickAction": "Быстрое действие"
+    },
+    "joinTable": {
+      "players": "Игроки",
+      "connect": "Присоединиться",
+      "online": "Онлайн"
+    },
+    "diceRoller": {
+      "sessionHistory": "История сессий"
+    },
+    "damageMenu": {
+      "totalDamage": "Общий урон",
+      "applyClose": "Применить и закрыть"
+    },
+    "telemetry": {
+      "telemetry": "Сбор данных"
+    },
+    "statblockExport": {
+      "include": "// Включить"
+    },
+    "scan": {
+      "scan": "Скан"
+    },
+    "actions": {
+      "allActions": "Все действия"
+    },
+    "skillCheck": {
+      "modifiers": "Модификаторы",
+      "difficult": "Сложный",
+      "selectTarget": "Выбор цели",
+      "result": "Результат:",
+      "standard": "Стандартная",
+      "targetValue": "Целевое значение"
+    },
+    "mechCore": {
+      "passive": "Пассивный эффект"
+    },
+    "eidolon": {
+      "activeLayer": "Активный слой",
+      "active": "(Активный)",
+      "tierEidolon": "Опасность {n} Эйдолон"
+    },
+    "labels": {
+      "lastUpdate": "Последнее обновление",
+      "round": "Раунд"
+    },
+    "organizer": {
+      "selected": "выбрано"
+    },
+    "trackable": {
+      "unavailable": "Недоступно"
+    },
+    "dmgCond": {
+      "resistance": "Сопротивление"
+    },
+    "gmOptions": {
+      "current": "Текущий"
+    },
+    "panelBase": {
+      "counters": "Счётчики"
+    },
+    "equipCmd": {
+      "reload": "Перезарядить"
+    }
+  },
+  "mainMenu": {
+    "auth": {
+      "passwordChangedText": "Пароль успешно изменён.",
+      "abort": "Отмена",
+      "email": "Электронная почта",
+      "password": "Пароль",
+      "signIn": "Войти",
+      "createAccount": "Создать аккаунт",
+      "passwordRecovery": "Восстановление пароля",
+      "verifyEmailTitle": "Подтверждение адреса электронной почты",
+      "sendVerificationCode": "Отправить проверочный код",
+      "resetPassword": "Сбросить пароль",
+      "copyLog": "Копировать логи",
+      "retry": "Попрбовать снова"
+    },
+    "dataUsage": {
+      "title": "Использование данных"
+    },
+    "syncSettings": {
+      "custom": "Пользовательский",
+      "updateSyncSettings": "Обновить настройки синхронизации"
+    },
+    "collection": {
+      "colLastUpdate": "Последнее обновление",
+      "changelog": "Список изменений",
+      "colChanges": "Изменения"
+    },
+    "cloudData": {
+      "imagesTab": "Изображения"
+    },
+    "management": {
+      "notifications": "Уведомления",
+      "changePassword": "Изменить пароль",
+      "signOut": "Выйти",
+      "working": "в процессе…"
+    },
+    "storage": {
+      "addToHomeScreen": "На домашний экран"
+    },
+    "migration": {
+      "migrateNow": "Перенести сейчас"
+    },
+    "archive": {
+      "deleteArchive": "Удалить архив",
+      "deleteConfirm": "Вы уверены что хотите удалить этот архив? Это действие нельзя отменить.",
+      "storageLimit": "Предел хранилища"
+    },
+    "publishing": {
+      "addNew": "Добавить новое",
+      "currentVersion": "Текущая версия",
+      "versionN": "версия {version}",
+      "saveDraft": "Сохранить черновик",
+      "deleteCollection": "Удалить коллекцию",
+      "actionUndone": "Это действие нельзя отменить.",
+      "deleteCollectionBtn": "удалить коллекцию"
+    },
+    "dataItem": {
+      "retryConnection": "Повторная попытка подключения"
+    },
+    "patreon": {
+      "tierSuffix": "{title} Опасность"
+    }
+  },
+  "pm": {
+    "new": {
+      "down": "вниз",
+      "identification": "Идентификация",
+      "background": "Предыстория",
+      "biography": "Биография",
+      "appearance": "Внешний вид"
+    },
+    "sheet": {
+      "background": "предыстория"
+    }
+  },
+  "ui": {
+    "card": {
+      "tierColumns": "О1 / О2 / О3"
+    }
+  },
+  "notify": {
+    "account": {
+      "noSubscriptionText": "Ваш аккаунт Patreon был успешно привязан, но не удалось обнаружить действующий уровень подписки. Пожалуйста, подпишитесь на Patreon @:{'common.appName'} и попробуйте снова."
+    }
+  },
+  "print": {
+    "titles": {
+      "orientation": "Ориентация"
+    }
   }
 }

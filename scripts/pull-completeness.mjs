@@ -1,6 +1,5 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import console from 'node:console'
-import fetch from 'node'
 
 const STATS_URL = 'https://hosted.weblate.org/api/components/compcon/ui/statistics/'
 const DEST = 'src/i18n/completeness.json'
