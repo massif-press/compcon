@@ -74,7 +74,7 @@
             item-title="label"
             item-value="value" />
         </div>
-        <div v-if="isDevsite">
+        <div>
           <cc-heading is-title
             :text="$t('language.selectLanguage')" />
           <cc-select v-model="language"
@@ -85,12 +85,21 @@
             class="text-center">
             <v-progress-linear v-model="completeness[language]"
               :color="getTransColor(language)"
-              height="20"
+              height="26"
               class="mt-1">
-              <strong class="text-caption">
-                {{ $t('language.pctTransComplete',
-                  { pct: completeness[language].toFixed(2) }) }}
-              </strong>
+              <v-chip variant="elevated"
+                flat
+                size="x-small"
+                color="panel">
+                <v-icon start
+                  :color="getTransColor(language)"
+                  :icon="getTransColor(language) === 'success' ? 'mdi-check-outline' : getTransColor(language) === 'warning' ? 'mdi-alert-circle-outline' : 'mdi-alert-circle'"
+                  size="18" />
+                <strong class="text-caption">
+                  {{ $t('language.pctTransComplete',
+                    { pct: completeness[language].toFixed(2) }) }}
+                </strong>
+              </v-chip>
             </v-progress-linear>
             <div class="text-caption text-disabled font-italic pt-1"
               style="line-height: 1">
@@ -367,10 +376,6 @@ const themeContributors = {
 
 const user = computed(() => UserStore().User)
 
-const isDevsite = computed(() =>
-  window.location.hostname === 'dev.compcon.app' || window.location.hostname === 'localhost'
-)
-
 const logLevels = [
   { name: 'Debug', key: 'debug', level: 1, detail: 'Record all log messages (very slow)' },
   { name: 'Info', key: 'info', level: 2, detail: 'Record info, warning, and error messages' },
@@ -443,10 +448,7 @@ const language = computed({
 })
 
 const showLanguageNote = computed(() => {
-  const code = language.value
-  if (code === 'en') return false
-  const pct = completeness.value[code]
-  return pct == null || pct < QUALITY_THRESHOLD
+  return language.value !== 'en'
 })
 
 onMounted(async () => {

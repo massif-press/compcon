@@ -203,8 +203,7 @@ class CombatController implements ICounterContainer, IStatContainer {
       items = this.Parent.MechLoadoutController.ActiveLoadout.Equipment
     else if (this.Parent instanceof Pilot)
       items = this.Parent.PilotLoadoutController.ActiveLoadout.Items
-    else if (this.Parent.NpcFeatureController)
-      items = this.Parent.NpcFeatureController.Features
+    else if (this.Parent.NpcFeatureController) items = this.Parent.NpcFeatureController.Features
     else return []
     return items.filter(Boolean)
   }
@@ -267,8 +266,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public get Name(): string {
-    if (this.Parent.Callsign)
-      return `${this.Parent.Callsign} (${this.Parent.Name})`
+    if (this.Parent.Callsign) return `${this.Parent.Callsign} (${this.Parent.Name})`
     return this.Parent.Name
   }
 
@@ -671,7 +669,7 @@ class CombatController implements ICounterContainer, IStatContainer {
       newEffects.push(
         new TimedEffect({
           name: 'Burn Damage',
-          detail: `Take ${this.StatController.getCurrent(StatKey.BURN)} burn damage at the start of this round.`,
+          detail: `Take ${this.StatController.getCurrent(StatKey.BURN)} burn damage at the end of your turn.`,
           round: this.Round + 1,
           apply: {
             damage: [

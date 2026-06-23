@@ -1420,7 +1420,8 @@
       "rollableTables": "Rollable Tables",
       "encounterInfo": "Encounter Info",
       "tagReference": "Tag Reference",
-      "combatQuickRef": "Combat Quick Reference"
+      "combatQuickRef": "Combat Quick Reference",
+      "npcRef": "NPC Combat Reference"
     },
     "tableIndex": {
       "title": "Table index",

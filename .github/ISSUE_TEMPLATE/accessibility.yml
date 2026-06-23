@@ -1,0 +1,64 @@
+name: Accessibility Issue
+description: Report an accessibility barrier in COMP/CON
+labels: ['accessibility', 'triage']
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Issue Description
+      description: What barrier did you encounter? What did you expect?
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Keyboard navigation
+        - Screen reader
+        - Color contrast
+        - Focus management
+        - Motion / animation
+        - Text scaling
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected Area
+      options:
+        - Pilot Management
+        - Compendium
+        - Encounter Builder
+        - NPC Builder
+        - Active Mode
+        - Content Packs
+        - Cloud Sync
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      value: |
+        1. Go to '...'
+        2. Do '...'
+        3. See issue
+    validations:
+      required: true
+  - type: input
+    id: at
+    attributes:
+      label: Assistive Technology (if applicable)
+      placeholder: e.g. NVDA 2024.1, VoiceOver, JAWS
+    validations:
+      required: false
+  - type: input
+    id: browser
+    attributes:
+      label: Browser
+      placeholder: e.g. Chrome 125, Firefox 126
+    validations:
+      required: false

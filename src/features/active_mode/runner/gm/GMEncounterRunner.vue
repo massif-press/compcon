@@ -151,6 +151,7 @@ import GmDiceRoller from './_components/GmDiceRoller.vue';
 import ReferenceTagPanel from './InfoPanels/ReferenceTagPanel.vue';
 import RollableTableIndex from './_components/RollableTableIndex.vue';
 import QuickReferencePanel from './InfoPanels/QuickReferencePanel.vue';
+import NpcReferencePanel from './InfoPanels/NpcReferencePanel.vue';
 import { EncounterStore } from '@/stores';
 import NotesPanel from './InfoPanels/GmNotesPanel.vue';
 import GmInitiativePanel from './_components/GmInitiativePanel.vue';
@@ -170,6 +171,7 @@ const panelMap: Record<string, any> = {
   'notes': NotesPanel,
   'reference-tag': ReferenceTagPanel,
   'quick-reference': QuickReferencePanel,
+  'npc-reference': NpcReferencePanel,
   'options': OptionsPanel,
 };
 

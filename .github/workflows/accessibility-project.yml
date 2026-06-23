@@ -1,0 +1,50 @@
+name: Add Accessibility Issues to Project
+
+on:
+  issues:
+    types: [opened, labeled]
+
+jobs:
+  add-to-project:
+    if: |
+      (github.event.action == 'opened' && contains(github.event.issue.labels.*.name, 'accessibility')) ||
+      (github.event.action == 'labeled' && github.event.label.name == 'accessibility')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add to project and set Accessibility status
+        env:
+          GH_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+        run: |
+          ISSUE_ID="${{ github.event.issue.node_id }}"
+
+          DATA=$(gh api graphql -f query='
+            query {
+              organization(login: "massif-press") {
+                projectV2(number: 8) {
+                  id
+                  field(name: "Status") {
+                    ... on ProjectV2SingleSelectField {
+                      id
+                      options { id name }
+                    }
+                  }
+                }
+              }
+            }')
+
+          PROJECT_ID=$(echo "$DATA" | jq -r '.data.organization.projectV2.id')
+          FIELD_ID=$(echo "$DATA" | jq -r '.data.organization.projectV2.field.id')
+          OPTION_ID=$(echo "$DATA" | jq -r '.data.organization.projectV2.field.options[] | select(.name == "Accessibility") | .id')
+
+          ITEM_ID=$(gh api graphql \
+            -f query='mutation($project:ID!,$issue:ID!){addProjectV2ItemById(input:{projectId:$project,contentId:$issue}){item{id}}}' \
+            -f project="$PROJECT_ID" \
+            -f issue="$ISSUE_ID" \
+            --jq '.data.addProjectV2ItemById.item.id')
+
+          gh api graphql \
+            -f query='mutation($project:ID!,$item:ID!,$field:ID!,$option:String!){updateProjectV2ItemFieldValue(input:{projectId:$project,itemId:$item,fieldId:$field,value:{singleSelectOptionId:$option}}){projectV2Item{id}}}' \
+            -f project="$PROJECT_ID" \
+            -f item="$ITEM_ID" \
+            -f field="$FIELD_ID" \
+            -f option="$OPTION_ID"

@@ -34,7 +34,6 @@
               <v-tabs v-model="tab"
                 grow
                 center-active
-                show-arrows
                 bg-color="primary"
                 slider-color="secondary"
                 height="26">
@@ -136,6 +135,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
+:deep(.v-slide-group__container) {
+  overflow-x: hidden;
+}
+
 .sidePanel {
   position: absolute;
   top: 12vh;

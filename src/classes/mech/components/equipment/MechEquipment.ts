@@ -63,6 +63,9 @@ abstract class MechEquipment extends LicensedItem {
       this.IsUnique = this.setTagBool(data, 'tg_unique')
       this.IsLoading = this.setTagBool(data, 'tg_loading')
       this.IsAI = this.setTagBool(data, 'tg_ai')
+      if (this.ID === 'ms_technophile_3') {
+        this.IsAI = false // hardcode enlightenment ai system workaround
+      }
       this.NoCascade = this.setTagBool(data, 'tg_no_cascade')
       this.IsIndestructible = this.setTagBool(data, 'tg_indestructible')
       this.IsOrdnance = this.setTagBool(data, 'tg_ordnance')

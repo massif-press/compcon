@@ -2,8 +2,8 @@
   <v-list>
     <div v-if="pc">
       <v-tooltip :text="$t('common.pilotSheet')">
-        <template #activator="{ props }">
-          <v-list-item v-bind="!expanded && props"
+        <template #activator="{ props: activatorProps }">
+          <v-list-item v-bind="!expanded && activatorProps"
             :class="getBgClass('pc')"
             @click="selectPanel('pc')">
             <template #prepend>
@@ -15,8 +15,8 @@
       </v-tooltip>
       <v-tooltip v-if="pc && combatant"
         :text="$t('active.tooltips.deployables')">
-        <template #activator="{ props }">
-          <v-list-item v-bind="!expanded && props"
+        <template #activator="{ props: activatorProps }">
+          <v-list-item v-bind="!expanded && activatorProps"
             :class="getBgClass('deployables')"
             @click="selectPanel('deployables')">
             <template #prepend>
@@ -38,8 +38,8 @@
       <v-divider class="my-2" />
     </div>
     <v-tooltip :text="$t('active.tooltips.diceRoller')">
-      <template #activator="{ props }">
-        <v-list-item v-bind="!expanded && props"
+      <template #activator="{ props: activatorProps }">
+        <v-list-item v-bind="!expanded && activatorProps"
           @click="$emit('open-dice-roller')">
           <template #prepend>
             <v-icon icon="mdi-dice-d20-outline" />
@@ -49,8 +49,8 @@
       </template>
     </v-tooltip>
     <v-tooltip :text="$t('active.tooltips.rollableTables')">
-      <template #activator="{ props }">
-        <v-list-item v-bind="!expanded && props"
+      <template #activator="{ props: activatorProps }">
+        <v-list-item v-bind="!expanded && activatorProps"
           @click="$emit('open-table-index')">
           <template #prepend>
             <v-icon icon="mdi-table-multiple" />
@@ -62,8 +62,8 @@
     <v-divider class="my-2" />
     <v-tooltip v-if="!pc"
       :text="$t('active.tooltips.encounterInfo')">
-      <template #activator="{ props }">
-        <v-list-item v-bind="!expanded && props"
+      <template #activator="{ props: activatorProps }">
+        <v-list-item v-bind="!expanded && activatorProps"
           :class="getBgClass('encounter-info')"
           @click="selectPanel('encounter-info')">
           <template #prepend>
@@ -74,8 +74,8 @@
       </template>
     </v-tooltip>
     <v-tooltip :text="$t('common.notes')">
-      <template #activator="{ props }">
-        <v-list-item v-bind="!expanded && props"
+      <template #activator="{ props: activatorProps }">
+        <v-list-item v-bind="!expanded && activatorProps"
           :class="getBgClass('notes')"
           @click="selectPanel('notes')">
           <template #prepend>
@@ -88,8 +88,8 @@
     <v-divider class="my-2" />
     <v-tooltip max-width="300"
       :text="$t('active.tooltips.listTagsPresentOnCharactersOrEquipmentInThisEncounter')">
-      <template #activator="{ props }">
-        <v-list-item v-bind="!expanded && props"
+      <template #activator="{ props: activatorProps }">
+        <v-list-item v-bind="!expanded && activatorProps"
           :class="getBgClass('reference-tag')"
           @click="selectPanel('reference-tag')">
           <template #prepend>
@@ -100,8 +100,8 @@
       </template>
     </v-tooltip>
     <v-tooltip :text="$t('active.tooltips.combatQuickReference')">
-      <template #activator="{ props }">
-        <v-list-item v-bind="!expanded && props"
+      <template #activator="{ props: activatorProps }">
+        <v-list-item v-bind="!expanded && activatorProps"
           :class="getBgClass('quick-reference')"
           @click="selectPanel('quick-reference')">
           <template #prepend>
@@ -111,10 +111,22 @@
         </v-list-item>
       </template>
     </v-tooltip>
+    <v-tooltip :text="$t('active.toolPalette.npcRef')">
+      <template #activator="{ props: activatorProps }">
+        <v-list-item v-bind="!expanded && activatorProps"
+          :class="getBgClass('npc-reference')"
+          @click="selectPanel('npc-reference')">
+          <template #prepend>
+            <v-icon icon="cc:frame" />
+          </template>
+          {{ $t('active.toolPalette.npcRef') }}
+        </v-list-item>
+      </template>
+    </v-tooltip>
     <v-divider class="my-2" />
     <v-tooltip :text="$t('common.settings')">
-      <template #activator="{ props }">
-        <v-list-item v-bind="!expanded && props"
+      <template #activator="{ props: activatorProps }">
+        <v-list-item v-bind="!expanded && activatorProps"
           :class="getBgClass('options')"
           @click="selectPanel('options')">
           <template #prepend>
@@ -150,9 +162,9 @@ const emit = defineEmits<{
 }>()
 
 function selectPanel(panel) {
-      emit('select-panel', panel);
-    }
+  emit('select-panel', panel);
+}
 function getBgClass(panel) {
-      return props.selected === panel ? 'bg-primary' : '';
-    }
+  return props.selected === panel ? 'bg-primary' : '';
+}
 </script>
