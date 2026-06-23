@@ -1923,7 +1923,7 @@
       "noStorageWarning": "El navegador actual no parece soportar almacenamiento persistente. Es {recommended} ejecutar @:{'common.appName'} en un navegador que sea capaz de almacenar datos persistentes de aplicaciones, o, guardar y ejecutar @:{'common.appName'} {pwaLink}",
       "stronglyRecommended": "recomendado firmemente",
       "asPwa": "como PWA",
-      "v3StorageWarning": "A partir de la actualización v3, @:{'common.appName' requiere más almacenamiento local en dispositivo del que está disponible por defecto. La funcionalidad se deteriorará a menos que se conceda a @:{'common.appName' el {permission} para este navegador.",
+      "v3StorageWarning": "A partir de la actualización v3, @:{'common.appName'} requiere más almacenamiento local en dispositivo del que está disponible por defecto. La funcionalidad se deteriorará a menos que se conceda a @:{'common.appName'} el {permission} para este navegador.",
       "persistentStoragePermission": "Permiso de Almacenamiento Persistente",
       "denialNotice": "@:{'common.appName'} ha detectado que se ha negado el almacenamiento persistente para esta aplicación. El almacenamiento persistente debe estar habilitado para que @:{'common.appName'} opere correctamente",
       "activated": "Almacenamiento persistente activado! Alerta de cierre…"
