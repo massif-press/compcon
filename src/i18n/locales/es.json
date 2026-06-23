@@ -1842,7 +1842,7 @@
       "showMore": "Mostrar Más",
       "addItem": "Añadir Artículo",
       "addCollectionItem": "Añadir Artículo de Colección",
-      "distributeWarning": "Distribuir contenido que no está autorizado está en contra de los términos de servicio de @:{'common.appName' y resultará en una expulsión del servicio de nube, eliminación de su cuenta de nube y datos, y eliminación y bloqueo de la membresía de Patreon @:{'common.appName'}.",
+      "distributeWarning": "Distribuir contenido que no está autorizado está en contra de los términos de servicio de @:{'common.appName'} y resultará en una expulsión del servicio de nube, eliminación de su cuenta de nube y datos, y eliminación y bloqueo de la membresía de Patreon @:{'common.appName'}.",
       "ensureRights": "Por favor, asegúrese de tener los derechos de distribuir cualquier contenido que agregue al servicio de nube. En caso de duda, comuníquese con el autor del contenido."
     },
     "cloudData": {
