@@ -1,4 +1,4 @@
-import { computed, onMounted } from 'vue'
+import { computed, nextTick, onMounted } from 'vue'
 import { NavStore } from '@/stores'
 
 function useSrdView(props: { preScroll?: string }) {
@@ -21,7 +21,7 @@ function useSrdView(props: { preScroll?: string }) {
 
   onMounted(() => {
     if (props.preScroll) {
-      scrollTo(props.preScroll)
+      nextTick(() => scrollTo(props.preScroll))
     } else {
       window.scrollTo({ top: 0 })
     }

@@ -437,6 +437,19 @@ export async function GetFromCode(codes: string | string[]) {
   return data
 }
 
+export async function redeemKeycode(userId: string, keycode: string): Promise<{ granted: string[] }> {
+  const url = new URL(`${invoke}/keycode`)
+  url.searchParams.append('user_id', userId)
+
+  const response = await fetchWithRetry(url.toString(), {
+    method: 'POST',
+    headers: await getHeaders(),
+    body: JSON.stringify({ keycode }),
+  })
+
+  return response.json()
+}
+
 export async function GetAchievement(code: string) {
   const url = new URL(`${invoke}/achievement`)
   url.searchParams.append('code', code)

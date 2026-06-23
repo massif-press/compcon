@@ -10,7 +10,8 @@
         <template #title>
           <v-row dense>
             <v-col>
-              <div class="text-caption font-weight-bold my-1">{{ $t("mainMenu.management.notifications") }}</div>
+              <div class="text-caption font-weight-bold my-1">{{
+                $t("mainMenu.management.notifications") }}</div>
             </v-col>
             <v-col cols="auto">
               <v-chip size="small"
@@ -26,14 +27,14 @@
 
     <v-row>
       <v-col cols="12"
-        md="6">
+        md="4">
         <cc-heading is-title
           text="CC-ID"
           :tooltip="$t('mainMenu.tooltips.yourUniqueAccountIdThis')" />
         {{ cognito.userId }}
       </v-col>
       <v-col cols="12"
-        md="6">
+        md="4">
         <cc-heading is-title
           :text="$t('mainMenu.actions.accountEmail')"
           tooltip="This is the e-mail address associated with your account. You can use this to log in to
@@ -44,7 +45,20 @@
         {{ cognito.signInDetails.loginId }}
       </v-col>
       <v-col cols="12"
-        md="6">
+        md="4">
+        <cc-heading is-title
+          :text="$t('mainMenu.actions.accountDetails')" />
+        <div class="text-caption">
+          <b>{{ $t("mainMenu.management.accountCreatedV3") }}</b>
+          <i class="text-accent ml-1">{{ new Date(Number(meta.CreatedAt)).toLocaleString() }}</i>
+        </div>
+        <div class="text-caption">
+          <b>{{ $t('share.resultLastUpdated') }}:</b>
+          <i class="text-accent ml-1">{{ new Date(Number(meta.UpdatedAt)).toLocaleString() }}</i>
+        </div>
+      </v-col>
+      <v-col cols="12"
+        md="4">
         <cc-heading is-title
           text="CC-username"
           :tooltip="$t('mainMenu.tooltips.usernameOptional')" />
@@ -63,7 +77,7 @@
           <v-col cols="auto">
             <cc-button size="small"
               class="ml-2"
-              color="primary"
+              color="secondary"
               icon="mdi-content-save"
               variant="outlined"
               :loading="nameLoading"
@@ -73,18 +87,54 @@
         </v-row>
       </v-col>
       <v-col cols="12"
-        md="6">
+        md="8">
         <cc-heading is-title
-          :text="$t('mainMenu.actions.accountDetails')" />
-        <div class="text-caption">
-          <b>{{ $t("mainMenu.management.accountCreatedV3") }}</b>
-          <i class="text-accent ml-1">{{ new Date(Number(meta.CreatedAt)).toLocaleString() }}</i>
-        </div>
-        <div class="text-caption">
-          <b>{{ $t('share.resultLastUpdated') }}:</b>
-          <i class="text-accent ml-1">{{ new Date(Number(meta.UpdatedAt)).toLocaleString() }}</i>
-        </div>
+          :text="$t('mainMenu.codeEntry.title')"
+          :tooltip="$t('mainMenu.codeEntry.tooltip')" />
+
+        <v-row dense
+          align="center">
+          <v-col>
+            <form autocomplete="off">
+              <cc-text-field v-model="unlockCode"
+                :loading="codeLoading"
+                color="primary" />
+            </form>
+          </v-col>
+          <v-col cols="auto">
+            <cc-button size="small"
+              class="ml-2"
+              color="secondary"
+              icon="mdi-arrow-right-bold-outline"
+              variant="outlined"
+              :loading="codeLoading"
+              :disabled="!unlockCode"
+              @click="acctUnlock" />
+          </v-col>
+
+          <v-col>
+            <div class="text-right">
+              <v-tooltip location="top"
+                max-width="350"
+                :text="!hasNpcs ? $t('mainMenu.codeEntry.npcSubTooltipOff') : hasNpcs === 'itch' ? $t('mainMenu.codeEntry.npcsAddedViaItch') : $t('mainMenu.codeEntry.npcsAddedViaCode')">
+                <template #activator="{ props }">
+                  <cc-chip :bg-color="hasNpcs ? 'success' : 'panel'"
+                    size="small"
+                    variant="elevated"
+                    flat
+                    v-bind="props"
+                    start> <v-icon :icon="hasNpcs ? 'mdi-check-circle' : 'mdi-cancel'"
+                      class="mr-1" />
+                    {{ $t('mainMenu.codeEntry.npcSubTitle') }}
+                  </cc-chip>
+                </template>
+              </v-tooltip>
+            </div>
+          </v-col>
+        </v-row>
       </v-col>
+
+
     </v-row>
 
     <div class="flavor-text">
@@ -262,7 +312,7 @@ import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import { useDisplay } from 'vuetify'
 import { notify } from '@kyvg/vue3-notification'
 import { UserStore } from '@/stores';
-import { updateUser } from '@/io/apis/account';
+import { updateUser, redeemKeycode, BadRequestError } from '@/io/apis/account';
 import {
   signOut,
   updatePassword,
@@ -296,10 +346,21 @@ const newEmail = ref('')
 const newEmailConfirm = ref('')
 const sendingVerify = ref(false)
 const verifyCode = ref('')
+const codeLoading = ref(false)
+const unlockCode = ref('')
 
 const cognito = computed(() => UserStore().Cognito)
 const meta = computed(() => UserStore().UserMetadata)
 const notifications = computed(() => UserStore().CloudNotifications)
+
+const hasNpcs = computed(() => {
+  const itchData = meta.value.ItchData
+  if (itchData?.hasItch && itchData.gamedata?.some((g: any) => g.title === 'Lancer Core Book: First Edition PDF')) {
+    return 'itch'
+  }
+  if (meta.value.HasCoreBook) return 'code'
+  return false
+})
 
 async function _onJwtShortcut(e: KeyboardEvent) {
   if (e.ctrlKey && e.altKey && e.key === 'j') {
@@ -373,6 +434,22 @@ async function completeVerify() {
     notify({ title: t('notify.account.emailChangeFailedTitle'), text: t('notify.account.serverError'), data: { color: 'error' } } as any)
   } finally {
     loading.value = false;
+  }
+}
+async function acctUnlock() {
+  codeLoading.value = true
+  try {
+    const res = await redeemKeycode(cognito.value.userId, unlockCode.value)
+    if (res.granted?.includes('hasCoreBook')) {
+      meta.value.HasCoreBook = true
+    }
+    unlockCode.value = ''
+    notify({ title: t('notify.account.updateCompleteTitle'), text: t('mainMenu.codeEntry.success'), data: { color: 'success' } } as any)
+  } catch (err) {
+    const msg = err instanceof BadRequestError ? t('mainMenu.codeEntry.invalidCode') : t('notify.account.serverError')
+    notify({ title: t('notify.account.updateFailedTitle'), text: msg, data: { color: 'error' } } as any)
+  } finally {
+    codeLoading.value = false
   }
 }
 function resetEmail(close: () => void) {

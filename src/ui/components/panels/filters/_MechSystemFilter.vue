@@ -1,6 +1,5 @@
 <template>
-  <mech-item-filter-base
-    ref="base"
+  <mech-item-filter-base ref="base"
     :active-filters="activeFilters"
     @sp-ll-change="onSpLlChange">
     <v-col cols="12">
@@ -61,30 +60,28 @@ const systemTypeFilter = ref([] as SystemType[])
 const spLlFilters = ref({} as any)
 
 const systemTypes = computed(() => {
-      return Object.keys(SystemType).map((k) => SystemType[k as any]).filter((k) => k !== 'Integrated').sort() as string[];
-    })
+  return Object.keys(SystemType).map((k) => SystemType[k as any]).filter((k) => k !== 'Integrated').sort() as string[];
+})
 
 function onSpLlChange(partial: any) {
-      spLlFilters.value = partial;
-      updateFilters();
-    }
-function clear() {
-      tagFilter.value = [];
-      systemTypeFilter.value = [];
-      spLlFilters.value = {};
-      (base.value as any)?.clear();
-    }
+  spLlFilters.value = partial;
+  updateFilters();
+}
+
 function updateFilters() {
-      const fObj = { ...spLlFilters.value } as any;
-      if (tagFilter.value && tagFilter.value.length) fObj.Tags = tagFilter.value;
-      if (systemTypeFilter.value && systemTypeFilter.value.length) fObj.Type = [systemTypeFilter.value];
-      emit('set-filters', fObj);
-    }
+  const fObj = { ...spLlFilters.value } as any;
+  if (tagFilter.value && tagFilter.value.length) fObj.Tags = tagFilter.value;
+  if (systemTypeFilter.value && systemTypeFilter.value.length) {
+    const types = systemTypeFilter.value === SystemType.Tech ? [SystemType.Tech, SystemType.Invade] : [systemTypeFilter.value];
+    fObj.Type = types;
+  }
+  emit('set-filters', fObj);
+}
 
 onMounted(() => {
-const f = props.activeFilters;
-    if (!f || !Object.keys(f).length) return;
-    if (f.Tags) tagFilter.value = f.Tags;
-    if (f.Type) systemTypeFilter.value = f.Type[0] ?? [];
+  const f = props.activeFilters;
+  if (!f || !Object.keys(f).length) return;
+  if (f.Tags) tagFilter.value = f.Tags;
+  if (f.Type) systemTypeFilter.value = f.Type[0] ?? [];
 })
 </script>

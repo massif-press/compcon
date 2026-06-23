@@ -65,15 +65,6 @@ import logger from '@/user/logger';
 import { notify } from '@/util/notify.js';
 
 const _display = useDisplay()
-
-const lcpHeaders = ref([
-  { title: 'LCP', key: 'title' },
-  { title: 'Author', key: 'author' },
-  { title: 'Latest Version', key: 'remote_version', align: 'center', sortable: false },
-  { title: 'Installed Version', key: 'local_version', align: 'center', sortable: false },
-  { title: 'Auto Update', key: 'auto', align: 'center', sortable: false },
-  { title: '', key: 'actions', align: 'end', sortable: false },
-])
 const packs = ref([] as any[])
 const loading = ref(true)
 
@@ -85,9 +76,6 @@ const contentPacks = computed(() => {
 })
 const lcpSubscriptions = computed(() => {
   return UserStore().User.LcpSubscriptions;
-})
-const installedPacks = computed(() => {
-  return CompendiumStore().ContentPacks;
 })
 const user = computed(() => {
   return UserStore().User;
@@ -101,36 +89,13 @@ async function refresh() {
 
   loading.value = false;
 }
-function packDataItem(save) {
-  return contentPacks.value.find((pack) => pack.ID === save.packId);
-}
 function getInstalledPack(pack) {
   return contentPacks.value.find(
     (p) => p.Manifest.name === pack.name || p.Manifest.name === pack.title
   );
 }
-function canDownload(pack) {
-  return !pack.paid
-    ? true
-    : user.value.Itch.gamedata.some((purchase) => purchase.game_id === pack.game_id);
-}
 function hasSubscription(pack) {
   return lcpSubscriptions.value.includes(pack.sortkey);
-}
-async function toggleSubscription(pack) {
-  if (hasSubscription(pack)) {
-    lcpSubscriptions.value.splice(lcpSubscriptions.value.indexOf(pack.sortkey), 1);
-    user.value.save();
-  } else {
-    lcpSubscriptions.value.push(pack.sortkey);
-    user.value.save();
-    if (
-      !getInstalledPack(pack) ||
-      getInstalledPack(pack)?.Manifest.version !== pack.version
-    ) {
-      await installLatest(pack);
-    }
-  }
 }
 async function installLatest(pack) {
   loading.value = true;

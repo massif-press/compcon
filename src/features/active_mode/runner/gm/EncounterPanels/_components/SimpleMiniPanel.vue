@@ -42,15 +42,14 @@
           <v-col cols="auto">
             <v-text-field :model-value="internalValue"
               variant="outlined"
-              type="number"
+              type="text"
               tile
               hide-details
-              autofocus
               density="compact"
               width="60"
-              hide-spin-buttons
               @focus="$event.target.select()"
-              @update:model-value="setVal(Number($event))" />
+              @keydown.enter="$event.target.blur()"
+              @blur="handleInput($event.target.value)" />
           </v-col>
           <v-col cols="auto">
             <v-btn icon
@@ -134,23 +133,35 @@ const emit = defineEmits<{
 const internalValue = computed(() => props.modelValue || 0)
 
 const portrait = computed(() => {
-      return _display.xs.value
-    })
+  return _display.xs.value
+})
 const mobile = computed(() => {
-      return _display.mdAndDown.value
-    })
+  return _display.mdAndDown.value
+})
+
+function handleInput(val: string) {
+  const m = val.trim().match(/^([+\-*/])(\d*\.?\d+)$/)
+  if (m) {
+    const n = parseFloat(m[2])
+    const cur = internalValue.value
+    setVal(m[1] === '+' ? cur + n : m[1] === '-' ? cur - n : m[1] === '*' ? Math.round(cur * n) : n ? Math.round(cur / n) : cur)
+  } else {
+    const n = parseFloat(val)
+    if (!isNaN(n)) setVal(n)
+  }
+}
 
 function setVal(val) {
-      if (props.boolean) {
-        val = val > 0 ? 1 : 0
-      } else {
-        val = Math.max(val, props.min)
-        if (props.max !== undefined) {
-          val = Math.min(val, props.max)
-        }
-      }
-      emit('update:model-value', val)
+  if (props.boolean) {
+    val = val > 0 ? 1 : 0
+  } else {
+    val = Math.max(val, props.min)
+    if (props.max !== undefined) {
+      val = Math.min(val, props.max)
     }
+  }
+  emit('update:model-value', val)
+}
 </script>
 
 <style scoped>

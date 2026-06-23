@@ -56,16 +56,16 @@
               </v-btn>
             </v-col>
             <v-col cols="auto">
-              <v-text-field :model-value.number="internalValue"
+              <v-text-field :model-value="internalValue"
                 variant="outlined"
-                type="number"
+                type="text"
                 tile
                 hide-details
-                autofocus
                 density="compact"
                 width="100"
                 @focus="$event.target.select()"
-                @update:model-value="setVal(Number($event))" />
+                @keydown.enter="$event.target.blur()"
+                @blur="handleInput($event.target.value)" />
             </v-col>
             <v-col cols="auto">
               <v-btn icon
@@ -97,7 +97,8 @@
                 block
                 size="x-small"
                 color="primary"
-                @click="setVal(0)">{{ $t('common.clear') }}</v-btn>
+                @click="setVal(0)">{{
+                  $t('common.clear') }}</v-btn>
             </v-col>
           </v-row>
         </v-card-text>
@@ -128,9 +129,21 @@ const emit = defineEmits<{
 
 const internalValue = ref(props.modelValue || 0)
 
+function handleInput(val: string) {
+  const m = val.trim().match(/^([+\-*/])(\d*\.?\d+)$/)
+  if (m) {
+    const n = parseFloat(m[2])
+    const cur = Number(props.modelValue) || 0
+    setVal(m[1] === '+' ? cur + n : m[1] === '-' ? cur - n : m[1] === '*' ? Math.round(cur * n) : n ? Math.round(cur / n) : cur)
+  } else {
+    const n = parseFloat(val)
+    if (!isNaN(n)) setVal(n)
+  }
+}
+
 function setVal(val) {
-      emit('update:model-value', val);
-    }
+  emit('update:model-value', val);
+}
 </script>
 
 <style scoped>

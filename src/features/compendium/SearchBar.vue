@@ -66,7 +66,7 @@ function search() {
         emit('search', searchText.value);
         return;
       }
-      router.push(`srd/${loc.value.toLowerCase()}/search?search=${searchText.value}`);
+      router.push({ path: '/srd/compendium/search', query: { search: searchText.value } });
     }
 </script>
 

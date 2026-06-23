@@ -69,8 +69,7 @@
           :damage="(item as NpcWeapon).Damage(tier, mods as NpcWeapon[])" />
       </v-col>
 
-      <v-col v-if="!showCommandPanel"
-        cols="auto">
+      <v-col cols="auto">
         <v-btn icon
           flat
           tile
@@ -158,7 +157,7 @@
 <script setup lang="ts">
 import type { Unit } from '@/classes/npc/unit/Unit'
 import { useEncounterContext } from '../../encounterContext'
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref } from 'vue'
 import NpcModInset from '@/features/gm/npc_roster/npcs/_components/NpcModInset.vue'
 import EquipCommandPanel from './_equipCommandPanel.vue'
 import OnElement from '@/ui/components/cards/items/_components/OnElement.vue'
@@ -185,7 +184,6 @@ defineEmits<{
 }>()
 
 const limitedBonus = ref(0)
-const collapsed = ref(false)
 
 const mods = computed(() => {
   return props.unit.NpcFeatureController?.GetModifiers(props.item) || []
@@ -197,11 +195,17 @@ const showCommandPanel = computed(() => {
   return !props.item.IsCombatPassive
 })
 
-onMounted(() => {
-  if (props.item.IsV2 || props.item.FlavorName || props.item.FlavorDescription)
-    collapsed.value = false
-  else
-    collapsed.value = !showCommandPanel.value
+const collapsed = computed({
+  get() {
+    const key = props.item.ID
+    if (key in props.unit.UIState) return props.unit.UIState[key]
+    if (props.item.IsV2 || props.item.FlavorName || props.item.FlavorDescription) return false
+    return !showCommandPanel.value
+  },
+  set(val: boolean) {
+    props.unit.UIState[props.item.ID] = val
+    props.unit.SaveController.save()
+  },
 })
 </script>
 

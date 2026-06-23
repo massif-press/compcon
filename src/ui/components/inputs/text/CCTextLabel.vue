@@ -40,7 +40,6 @@
               variant="outlined"
               tile
               hide-details
-              autofocus
               density="compact" />
             <p v-if="detail"
               class="mt-2">{{ detail }}</p>
@@ -156,11 +155,11 @@ const menu = ref(false)
 const localValue = ref('')
 
 const outlined = computed(() => {
-      return props.variant === 'outlined';
-    })
+  return props.variant === 'outlined';
+})
 const text = computed(() => {
-      return props.variant === 'text';
-    })
+  return props.variant === 'text';
+})
 </script>
 
 <style scoped>

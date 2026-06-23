@@ -28,7 +28,6 @@
         :label="sr.search"
         prepend-inner-icon="mdi-magnify"
         outlined
-        autofocus
         hide-details>
         <template #append-inner>
           <v-btn v-if="mobile"

@@ -1,7 +1,6 @@
 <template>
   <v-card>
-    <runner-options-header
-      :context="encounterInstance"
+    <runner-options-header :context="encounterInstance"
       :save-key="saveUpdate"
       autosave-tooltip="Autosave encounter data on the end of every round. Defaults to ON."
       @manual-save="manualSave()" />
@@ -45,7 +44,6 @@
                 variant="outlined"
                 density="compact"
                 hide-details
-                autofocus
                 :placeholder="$t('active.fields.selectEncounterExportFile')"
                 prepend-icon="mdi-paperclip"
                 @change="stageImport" />
@@ -55,7 +53,8 @@
                     flat
                     tile
                     color="panel">
-                    <div class="text-cc-overline text-disabled">{{ $t('active.pcOptions.stagedImport') }}</div>
+                    <div class="text-cc-overline text-disabled">{{
+                      $t('active.pcOptions.stagedImport') }}</div>
                     <div class="ml-3">
                       <b class="text-accent">
                         {{ (importObj as any).encounter.name || 'Unnamed Encounter' }}
@@ -147,12 +146,15 @@
                 align="center">
                 <v-col class="heading">{{ stat.title }}</v-col>
                 <v-col class="mx-6">
-                  <div class="text-cc-overline ml-4 text-disabled">{{ $t('active.gmOptions.current') }}</div>
+                  <div class="text-cc-overline ml-4 text-disabled">{{ $t('active.gmOptions.current')
+                    }}
+                  </div>
                   <cc-number-field v-model="combatant.actor.StatController.CurrentStats[stat.key]"
                     color="primary" />
                 </v-col>
                 <v-col>
-                  <div class="text-cc-overline ml-4 text-disabled">{{ $t('active.gmOptions.max') }}</div>
+                  <div class="text-cc-overline ml-4 text-disabled">{{ $t('active.gmOptions.max') }}
+                  </div>
                   <cc-number-field v-model="combatant.actor.StatController.MaxStats[stat.key]"
                     color="exotic" />
                 </v-col>
@@ -177,9 +179,12 @@
       </v-expansion-panels>
     </v-card-text>
     <v-card-text>
-      <div class="text-cc-overline text-disabled mb-1">{{ $t('active.gmOptions.editReinforcements') }}</div>
+      <div class="text-cc-overline text-disabled mb-1">{{ $t('active.gmOptions.editReinforcements')
+        }}
+      </div>
       <i v-if="!reinforcements.length"
-        class="text-text ml-2">{{ $t('active.gmOptions.noReinforcementSchedule') }}</i>
+        class="text-text ml-2">{{
+          $t('active.gmOptions.noReinforcementSchedule') }}</i>
       <v-row v-for="combatant in reinforcements"
         :key="combatant.id"
         dense
@@ -248,7 +253,7 @@ function removeActor(actor: any) {
 
 function manualSave() {
   try {
-    ;(props.encounterInstance as any).Save()
+    ; (props.encounterInstance as any).Save()
     saveUpdate.value = Date.now()
     notify({
       title: t('active.common.saveSuccessful'),

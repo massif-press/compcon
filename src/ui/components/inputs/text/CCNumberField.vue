@@ -11,7 +11,6 @@
         :disabled="disabled"
         :readonly="readonly"
         :clearable="clearable"
-        :autofocus="autofocus"
         clear-icon="mdi-close-circle-outline"
         density="compact"
         hide-details
@@ -134,7 +133,6 @@ const props = withDefaults(defineProps<{
   clearable?: boolean
   tooltip?: string
   tooltipIcon?: string
-  autofocus?: boolean
   details?: string
   readonly?: boolean
   optionsIcon?: string
@@ -153,9 +151,9 @@ const emit = defineEmits<{
 const isFocused = ref(false)
 
 function setVal(val: string | number) {
-      const value = max([min([val, props.max]), props.min]);
-      emit('update:model-value', value);
-    }
+  const value = max([min([val, props.max]), props.min]);
+  emit('update:model-value', value);
+}
 </script>
 
 <style scoped>

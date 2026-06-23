@@ -1,7 +1,6 @@
 <template>
   <v-card>
-    <runner-options-header
-      :context="sheet"
+    <runner-options-header :context="sheet"
       :save-key="saveUpdate"
       autosave-tooltip="Autosave Character Sheet data on the end of every round. Defaults to ON."
       @manual-save="manualSave()" />
@@ -45,7 +44,6 @@
                 variant="outlined"
                 density="compact"
                 hide-details
-                autofocus
                 :placeholder="$t('active.fields.selectCharacterSheetExportFile')"
                 prepend-icon="mdi-paperclip"
                 @change="stageImport" />
@@ -55,7 +53,8 @@
                     flat
                     tile
                     color="panel">
-                    <div class="text-cc-overline text-disabled">{{ $t('active.pcOptions.stagedImport') }}</div>
+                    <div class="text-cc-overline text-disabled">{{
+                      $t('active.pcOptions.stagedImport') }}</div>
                     <div class="ml-3">
                       <b class="text-accent">
                         {{ (importObj as any).Combatant.actor.Callsign || 'Unnamed Character Sheet'
@@ -169,7 +168,7 @@ onMounted(() => {
 
 function setActiveMech() {
   if (!activeMech.value) return
-  ;(props.sheet as any).SetActiveMech(activeMech.value)
+    ; (props.sheet as any).SetActiveMech(activeMech.value)
   notify({
     title: t('active.pcSheet.activeMechChangedTitle'),
     text: t('active.pcSheet.activeMechChangedText', { mechName: activeMech.value.Name }),
@@ -180,7 +179,7 @@ function setActiveMech() {
 
 function manualSave() {
   try {
-    ;(props.sheet as any).Save()
+    ; (props.sheet as any).Save()
     saveUpdate.value = Date.now()
     notify({
       title: t('active.common.saveSuccessful'),

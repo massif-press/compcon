@@ -22,7 +22,8 @@
         <div class="text-cc-overline text-right text-disabled">
           {{ $t('nav.achievements.progress', {
             count: allUnlocked.length, total:
-              nsAchievements.length }) }}
+              nsAchievements.length
+          }) }}
           <v-btn icon
             size="x-small"
             variant="plain"
@@ -150,7 +151,8 @@
               class="text-grey text-caption align-self-center">
               &emsp;{{ $t('nav.achievements.othersCount', {
                 count: showLabels.length - (mobile ? 7 :
-              11) }) }}
+                  11)
+              }) }}
             </span>
           </template>
 
@@ -277,7 +279,6 @@
               variant="outlined"
               density="compact"
               hide-details
-              autofocus
               :label="ac.selectExportFile"
               prepend-icon="mdi-paperclip"
               @change="importBackup()" />

@@ -1,6 +1,6 @@
 import { CompendiumStore } from '@/features/compendium/store'
 import { ContentPack } from '../../../ContentPack'
-import { SystemType, ItemType } from '../../../enums'
+import { SystemType, ItemType, ActivationType } from '../../../enums'
 import { IEquipmentData, IMechEquipmentData, MechEquipment } from './MechEquipment'
 
 interface IMechSystemData extends IMechEquipmentData {
@@ -25,6 +25,9 @@ class MechSystem extends MechEquipment {
 
       if (mType) return mType as SystemType
     }
+
+    if (this.Actions.some(a => a.Activation === ActivationType.Invade))
+      this._system_type = SystemType.Invade
 
     return this._system_type
   }

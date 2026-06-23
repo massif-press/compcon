@@ -155,7 +155,10 @@
     "encounters": "Столкновения",
     "activeMode": "Активный режим",
     "compconPrompt": ">>COMP/CON//",
-    "deletePermanently": "Удалить безвозвратно"
+    "deletePermanently": "Удалить безвозвратно",
+    "features": "Возможности",
+    "limitedBonus": "Доп. заряды Расходуемых систем",
+    "systemPoints": "Очки систем"
   },
   "classes": {
     "newFaction": "Новая фракция",
@@ -178,7 +181,8 @@
     "newSitrep": "Новая оперсводка"
   },
   "language": {
-    "selectLanguage": "Язык"
+    "selectLanguage": "Язык",
+    "pctTransComplete": "{pct}% переведено"
   },
   "nav": {
     "v2Import": {
@@ -188,7 +192,8 @@
       "forceImportPanelTitle": "@:{'common.forceImport'}",
       "attemptReimport": "Попробовать импортировать повторно",
       "confirmForceImport": "@:{'common.forceImport'}",
-      "forceImportNotice": "{type} будет импортирован без предметов, которые не удалось найти. Следующие предметы не удалось обнаружить, они будут удалены:"
+      "forceImportNotice": "{type} будет импортирован без предметов, которые не удалось найти. Следующие предметы не удалось обнаружить, они будут удалены:",
+      "importAllTooltip": "Попытка импортировать все ожидаемые предметы. Предметы, для которых отсутствуют зависимости, останутся в режиме ожидания."
     },
     "nav": {
       "achievements": "Достижения",
@@ -205,7 +210,9 @@
       "campaignManager": "Управление кампаниями",
       "activeMode": "@:{'common.activeMode'}",
       "storageLimitExceeded": "Превышен лимит хранилища",
-      "supportCompcon": "Поддержите @:{'common.appName'}"
+      "supportCompcon": "Поддержите @:{'common.appName'}",
+      "cloudAccount": "@:{'common.cloudAccount'}",
+      "credits": "@:{'common.credits'}"
     },
     "help": {
       "faq": "Часто задаваемые вопросы",
@@ -228,7 +235,11 @@
       "cloudAccountFaqBody": "Облачные аккаунты @:{'common.appName'} бесплатны для всех пользователей. Подписчики с Patreon могут получить доступ к дополнительным возможностям облачных аккаунтов, например, расширенное облачное хранилище и большее количество активных столов.",
       "additionalHelpBody": "Ответ на ваш вопрос, скорее всего, можно найти в разделе {faqLink}! Если вы всё ещё не смогли найти то, что ищете, пожалуйста, перейдите по ссылке{discordLink} и зайдите в канал #comp-con, чтобы оставить комментарии или задать вопросы разработчикам.",
       "faqLinkText": "@:{'common.appName'} Часто задаваемые вопросы",
-      "discordLinkText": "неофициальный дискорд-сервер @:{'common.gameName'}"
+      "discordLinkText": "неофициальный дискорд-сервер @:{'common.gameName'}",
+      "quickFaq": "Краткие вопросы-ответы:",
+      "suggestFeature": "Предложить новую функцию",
+      "discussionForum": "Обсуждения",
+      "projectWiki": "Вики проекта"
     },
     "achievements": {
       "common": "Обычные",
@@ -242,7 +253,18 @@
       "byLabel": "По меткам:",
       "secretAchievements": "Секретные достижения",
       "mythic": "Мифические",
-      "hidden": "Скрыто"
+      "hidden": "Скрыто",
+      "overwriteAllWarning": "Перезаписать все",
+      "display": "Показать:",
+      "selectAll": "@:{'common.selectAll'}",
+      "none": "@:{'common.none'}",
+      "name": "@:{'common.name'}",
+      "sort": "Сортировка:",
+      "eraseAllWarning": "Удалить все",
+      "selectExportFile": "Выбрать файл для экспорта достижений в @:{'common.appName'}",
+      "resetAchievements": "Сброс достижений",
+      "cannotAddTitle": "Невозможно добавить достижение",
+      "loadBackup": "Загрузить резервную копию достижений"
     },
     "settingsPage": {
       "logLevel": "Уровень логов",
@@ -253,26 +275,44 @@
       "showExoticsTooltip": "Выбор этой опции может раскрыть для вас спойлеры игровой кампании, данную опцию лучше оставлять ВЫКЛЮЧЕННОЙ, если вы не являетесь ведущим",
       "logLevelLabel": "@:{'common.logLevel'}",
       "theme": "Тема",
-      "errorReportingPrefix": "Отчёты об ошибках"
+      "errorReportingPrefix": "Отчёты об ошибках",
+      "enabled": "включено",
+      "enhancedReportingPiiNote": "неанонимную информацию, а именно, IP-адрес и ID пользователя",
+      "enhancedReportingNotNecessary": "необязательно",
+      "enhancedReportingStatus": "Подробный отчёт об ошибках {status}",
+      "communityThemesBy": "Темы от сообщества за авторством {vialra}{asger}{thecrystalwoods} и {suji}",
+      "importStrategy": "// Настройки импорта",
+      "createBackup": "Создать резервную копию",
+      "showUpdateMessages": "Показать информацию об обновлениях",
+      "showExoticsLabel": "Показать экзотические предметы в компендиуме",
+      "errorReportingPiiNote": "На этом уровне логов персональные данные не собираются.",
+      "confirmImport": "@:{'common.confirmImport'}",
+      "importV2Backup": "Импорт резервной копии v2"
     },
     "storage": {
       "neverLabel": "никогда",
       "storageSettings": "Настройки хранилища",
       "userData": "Данные пользователя",
       "areYouSure": "Вы уверены, что хотите продолжить?",
-      "daysCount": "{count} дней."
+      "daysCount": "{count} дней.",
+      "neverAutoDeleteFull": "@:{'common.appName'} {never} будет автоматически удалять данные, помеченные для удаления.",
+      "clearAllData": "@:{'common.clearAllData'}"
     },
     "deletedItems": {
       "permanentlyDeleteAll": "Удалить навсегда",
       "itemName": "Название предмета",
-      "restoreAll": "Восстановить все"
+      "restoreAll": "Восстановить все",
+      "restore": "@:{'common.restore'}",
+      "permanentlyDelete": "Удалить навсегда"
     },
     "userDataViewer": {
-      "value": "Значение"
+      "value": "Значение",
+      "item": "@:{'common.item'}"
     },
     "packInstall": {
       "install": "Установить",
-      "success": "Успех"
+      "success": "Успех",
+      "selectFile": "Выберите .LCP файл"
     },
     "packsDirectory": {
       "officialContent": "Официальный",
@@ -333,22 +373,32 @@
       "contentPacks": "@:{'common.contentPacks'}"
     },
     "roster": {
-      "title": "@:{'common.pilotRoster'}"
+      "title": "@:{'common.pilotRoster'}",
+      "deletePilot": "@:{'common.deletePilot'}",
+      "clonePilot": "Клонировать пилота",
+      "newPilot": "Новый пилот",
+      "importPilot": "Импорт пилота"
     },
     "settings": {
       "clearData": "@:{'common.clearAllData'}",
       "importData": "Импорт данных",
-      "reset": "Сброс к настройкам по умолчанию"
+      "reset": "Сброс к настройкам по умолчанию",
+      "title": "@:{'common.settings'}",
+      "exportData": "Экспорт всех данных"
     },
     "about": {
       "description": "@:{'common.appName'} является бесплатным цифровым инструментом с открытым исходным кодом, который используется для помощи в проведении игр @:{'common.gameName'}.",
       "coreBookInfo": "Основная книга правил @:{'common.gameName'}, @:{'common.appName'}, а также сопуствующие материалы можно найти по ссылке",
       "title": "@:{'common.appName'}",
-      "ccVersion": "Версия C/C:"
+      "ccVersion": "Версия C/C:",
+      "lancerCoreVersion": "@:{'common.gameName'} версия игры:"
     },
     "titles": {
       "selectAll": "Выбрать все",
       "warning": "Предупреждение"
+    },
+    "log": {
+      "exportLog": "Экспорт логов"
     }
   },
   "gm": {
@@ -561,6 +611,18 @@
     },
     "equipCmd": {
       "reload": "Перезарядить"
+    },
+    "mechPanel": {
+      "frameTraits": "Особенности шасси ({n})",
+      "coreBonuses": "Ключевые улучшения ({n})",
+      "pilotTalents": "Таланиты пилота ({n})",
+      "pilotSkills": "Навыки пилота ({n})"
+    },
+    "fields": {
+      "mark1RepairToRestore": "Отметьте 1 Запчать, чтобы восстановить все ОЗ."
+    },
+    "tooltips": {
+      "replaceTheThematicStatTrackers": "Заменить все тематические счётчики характеристик (ОЗ, нагрев и тд) стандартным числовым отображением."
     }
   },
   "mainMenu": {
@@ -624,6 +686,9 @@
     },
     "patreon": {
       "tierSuffix": "{title} Опасность"
+    },
+    "ui": {
+      "requiresItchPurchase": "Требуется привязанная покупка на Itch.io"
     }
   },
   "pm": {
@@ -636,21 +701,195 @@
     },
     "sheet": {
       "background": "предыстория"
+    },
+    "print": {
+      "pilotHP": "ОЗ пилота",
+      "maxHP": "Максимальные ОЗ"
     }
   },
   "ui": {
     "card": {
-      "tierColumns": "О1 / О2 / О3"
+      "tierColumns": "О1 / О2 / О3",
+      "systemPoints": "Очки систем{plural}"
+    },
+    "tooltips": {
+      "resetCounter": "Сброс счётчика",
+      "savedConfigurations": "Сохранённые конфигурации",
+      "itemFilters": "Фильтры предметов",
+      "deleteCounter": "Удалить счётчик"
+    },
+    "fields": {
+      "linkImage": "Ссылка на изображение",
+      "size": "Размер",
+      "license": "Лицензия",
+      "systemType": "Тип системы",
+      "addNewImage": "Добавить новое изображение",
+      "imageType": "Формат изображения",
+      "role": "Роль",
+      "organizationName": "Название организации",
+      "organizationType": "Тип организации",
+      "used": "Использовано",
+      "xAxis": "Ось X",
+      "yAxis": "Ось Y",
+      "compareTo": "Сравнить с",
+      "selectTarget": "Выбор цели",
+      "segments": "Сегменты",
+      "linear": "Линейный",
+      "resolution": "Разрешение",
+      "showDeleted": "Показать удаленные",
+      "purposeGoalAndOrganizationDetails": "Цели, задачи и детальная информация об организации",
+      "costcomplications": "Цена/осложнения",
+      "tags": "Метки",
+      "weaponType": "Тип оружия",
+      "requiredMount": "Требуемый тип установки",
+      "attackType": "Тип атаки",
+      "damageType": "Тип урона",
+      "hasMount": "Имеются следующие установки",
+      "counterName": "Название счётчика",
+      "licenseLevel": "Уровень лицензии",
+      "fromManufacturer": "От производителя",
+      "fromContentPack": "Из контент-пака",
+      "equipmentNotes": "Примечания к снаряжению",
+      "gmOnly": "Только для ведущего"
+    },
+    "image": {
+      "upload": "Загрузить",
+      "load": "Загрузить",
+      "uploadImage": "Загрузить изображение",
+      "accountUsage": "Использование аккаунта",
+      "capacityExceeded": "Превышена ёмкость хранилища",
+      "overCapacity": "Ваш аккаунт превысил доступную ёмкость хранилища. Бесплатным аккаунтам доступно до {max} мегабайт хранилища.",
+      "addRemote": "Добавить изображение из удалённого источника",
+      "patreonNote": "В последующем релизе вы сможете привязать свой аккаунт на Patreon, и подписчики @:{'common.appName'} смогут воспользоваться неограниченными возможностями для хранения.",
+      "artworkBy": "Изображение создано {artist}",
+      "mb": "Мбайт",
+      "remoteImages": "Изображения из удалённого источника",
+      "archive": "Архив изображений @:{'common.appName'}",
+      "noAvatar": "аватар не выбран",
+      "requiresSelection": "Требуется выбрать изображение",
+      "clearImage": "убрать изображение",
+      "setAvatar": "Выбор аватара",
+      "clearAvatar": "убрать аватар",
+      "requiresAccount": "Требуется аккаунт @:{'common.appName'}"
+    },
+    "action": {
+      "frequency": "Частота",
+      "compendiumEntry": "Запись в компендиуме"
+    },
+    "titles": {
+      "clockEditor": "редактор счётчиков",
+      "addFromShareCode": "добавить из публичного кода",
+      "activateFreeAction": "Активация (свободное действие)",
+      "successfulHit": "Поадание",
+      "miss": "Промах",
+      "printOptions": "Опции для печати",
+      "setAvatar": "Выбор аватара"
+    },
+    "counter": {
+      "addCustom": "Добавить пользовательский счётчик"
+    },
+    "selector": {
+      "noManufacturer": "Производитель отсутствует",
+      "metric": "Метрика",
+      "select": "Выбрать {name}"
+    },
+    "talent": {
+      "rankLocked": "Ранг таланта недоступен",
+      "unlocked": "Доступно"
+    },
+    "coreBonus": {
+      "remove": "Убрать данное ключевое улучшение",
+      "actions": "Ключевое улучшение: действия",
+      "deployables": "Ключевое улучшение: развёртываемые устройства",
+      "integrated": "Ключевое улучшение: интегрированное снаряжение",
+      "additional": "Ключевое улучшение: дополнительное снаряжение"
+    },
+    "org": {
+      "efficiency": "Эффективность организации",
+      "influence": "Влияние организации"
+    },
+    "license": {
+      "noRanks": "Отсутствуют ранги лицензии",
+      "allUnlocked": "Все ранги лицензии открыты"
     }
   },
   "notify": {
     "account": {
-      "noSubscriptionText": "Ваш аккаунт Patreon был успешно привязан, но не удалось обнаружить действующий уровень подписки. Пожалуйста, подпишитесь на Patreon @:{'common.appName'} и попробуйте снова."
+      "noSubscriptionText": "Ваш аккаунт Patreon был успешно привязан, но не удалось обнаружить действующий уровень подписки. Пожалуйста, подпишитесь на Patreon @:{'common.appName'} и попробуйте снова.",
+      "updateCompleteTitle": "Обновление завершено",
+      "passwordChangedText": "Пароль пользователя изменён",
+      "passwordFailedTitle": "Не удалось обновить пароль"
+    },
+    "gm": {
+      "importCompleteTitle": "Импорт завершен",
+      "importErrorTitle": "Ошибка импорта",
+      "loginRequiredTitle": "Требуется вход в систему",
+      "uploadErrorTitle": "Ошибка загрузки",
+      "uploadErrorText": "Не удалось обновить облачные данные:{error}",
+      "campaignPublishedText": "Версия{version} {name} была опубликована.",
+      "importCompleteText": "Кампания добавлена в локальную коллекцию!",
+      "campaignTransferErrorText": "Не удалось перенести кампанию: {error}",
+      "loginRequiredText": "Вы должны зайти в систему, чтобы загрузить данные кампании в облако.",
+      "uploadSuccessTitle": "Загрузка успешно завершена",
+      "uploadSuccessText": "Облачные данные обновлены!",
+      "v2BackupTitle": "Импорт резервной копии v2",
+      "npcImportErrorText": "Не удалось импортировать данные для ведущего: {error}"
+    },
+    "shareCode": {
+      "copiedText": "Публичный код скопирован в буфер обмена.",
+      "collectionCopiedText": "Публичный код коллекции скопирован в буфер обмена"
+    },
+    "pilot": {
+      "upToDateTitle": "Данные о пилоте обновлены",
+      "upToDateText": "Запись о пилоте {callsign} // {name} уже содержит последнюю информацию из облака. Обновление не требуется.",
+      "syncedText": "Данные о {callsign} // {name} синхронизированы.",
+      "syncFailedText": "Не удалось синхронизировать данные о пилоте{callsign} // {name}.{err}"
+    },
+    "statblock": {
+      "copiedTitle": "Статблок скопирован в буфер обмена",
+      "copiedText": "Успешно скопировано",
+      "errorText": "Не удалось скопировать статблок"
     }
   },
   "print": {
     "titles": {
-      "orientation": "Ориентация"
-    }
+      "orientation": "Ориентация",
+      "paper": "Лист"
+    },
+    "extras": "Дополнительно",
+    "generalOptions": "Стандартные опции для печати"
+  },
+  "stats": {
+    "agility": "Ловкость",
+    "systems": "Системы",
+    "engineering": "Инженерное дело",
+    "hull": "Корпус",
+    "agi": "Ловкость",
+    "sys": "Системы",
+    "hp": "ОЗ"
+  },
+  "share": {
+    "resultAuthor": "Автор",
+    "resultLastUpdated": "Дата последнего обновления",
+    "addAsRemote": "добавить, как удалённый источник",
+    "addAsLocalCopy": "добавить как локальную копию",
+    "titles": {
+      "pleaseUseResponsibly": "Пожалуйста, используйте с осторожностью"
+    },
+    "tooltips": {
+      "copyShareCodeToClipboard": "Скопировать публичный код в буфер обмена",
+      "copyShareLinkToClipboard": "Скопировать публичную ссылку в буфер обмена"
+    },
+    "publicLinkNoteBold": "публично доступная ссылка",
+    "upToDate": "Актуально",
+    "lastLocalUpdate": "Последнее локальное обновление",
+    "lastSynced": "Дата последней синхронизации",
+    "notYetSynced": "Ещё не синхронизировано",
+    "syncNeeded": "Требуется синхронизация",
+    "shareCodeTooltip": "Этот код позволяет другим пользователям с аккаунтом в @:{'common.appName'} загружать копии данного материала и подписываться на последующие обновления от вас.",
+    "publicLinkNote": "Эта ссылка является {emphasis}, позволяя просматривать данные о пилоте кому угодно.",
+    "sheetStyle": "Стиль листа персонажа",
+    "includeMech": "Включить мех",
+    "shareLink": "Поделиться ссылкой"
   }
 }

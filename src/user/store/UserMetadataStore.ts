@@ -66,6 +66,7 @@ export class UserMetadata {
   public PatreonData: PatreonData & { lastUpdate?: number }
   public ItchData: ItchData
   public LcpConfigs: Client.LcpConfig[]
+  public HasCoreBook: boolean
 
   public constructor(data: any) {
     this.UserID = data.user_id
@@ -83,6 +84,7 @@ export class UserMetadata {
     this.PatreonData = data.patreon_data || { hasPatreon: false }
     this.ItchData = data.itch_data || { hasItch: false, user: { id: 1 }, gamedata: [] }
     this.LcpConfigs = data.lcp_configs || []
+    this.HasCoreBook = data.hasCoreBook || false
   }
 }
 

@@ -3,7 +3,8 @@
     align="end"
     class="pb-2 mt-n2">
     <v-col cols="auto">
-      <div class="text-cc-overline text-disabled">// {{ $t('compendium.categories.npcFeatures') }}</div>
+      <div class="text-cc-overline text-disabled">// {{ $t('compendium.categories.npcFeatures') }}
+      </div>
     </v-col>
     <v-col cols="auto">
       <v-tooltip location="top"
@@ -33,11 +34,11 @@
       <v-menu location="top"
         :close-on-content-click="false"
         width="400">
-        <template #activator="{ props }">
+        <template #activator="{ props: activatorProps }">
           <cc-button color="primary"
             class="mt-4"
             prepend-icon="mdi-reload"
-            @click="props.onClick($event)">
+            @click="activatorProps.onClick($event)">
             {{ $t('active.unitLoadout.rollRecharge') }}
           </cc-button>
         </template>
@@ -119,9 +120,7 @@
 <script setup lang="ts">
 import type { Unit } from '@/classes/npc/unit/Unit'
 import { useEncounterContext } from '../../encounterContext'
-import type { CombatantData } from '@/classes/encounter/Encounter'
-import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { useDisplay } from 'vuetify';
 import UnitFeatureCard from './_unitFeatureCard.vue';
 import * as _ from 'lodash-es';
@@ -129,15 +128,15 @@ import { UserStore } from '@/stores';
 
 defineOptions({ name: 'MechCombatLoadout' })
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+const { smAndDown: mobile } = useDisplay()
 
-const { owner, encounterInstance } = useEncounterContext()
+const { encounterInstance } = useEncounterContext()
 
 const props = defineProps<{
   unit: Unit
 }>()
 
-const emit = defineEmits<{
+defineEmits<{
   'deploy': [value: any]
 
 }>()
@@ -189,7 +188,5 @@ function apply() {
   });
   result.value = 0;
 }
-function getModName(modId) {
-  return props.unit.NpcFeatureController.Features.find((x) => x.ID === modId).Name || 'Unknown';
-}
+
 </script>

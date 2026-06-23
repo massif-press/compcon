@@ -100,7 +100,9 @@
           </v-card-text>
           <v-divider />
           <div class="text-center py-2">
-            <i18n-t keypath="mainMenu.itch.manageContentHint" tag="span" scope="global">
+            <i18n-t keypath="mainMenu.itch.manageContentHint"
+              tag="span"
+              scope="global">
               <template #link><b>{{ $t("common.manageContent") }}</b></template>
             </i18n-t>
           </div>
@@ -114,7 +116,9 @@
           <div>
             <b>{{ $t("mainMenu.itch.noAutoTrack") }}</b>
             <div class="text-caption">
-              <i18n-t keypath="mainMenu.itch.updateHint" tag="span" scope="global">
+              <i18n-t keypath="mainMenu.itch.updateHint"
+                tag="span"
+                scope="global">
                 <template #update><b>{{ $t("common.update") }}</b></template>
               </i18n-t>
             </div>
@@ -141,100 +145,94 @@ import { i18n } from '@/i18n'
 const t = i18n.global.t
 import { computed, ref } from 'vue'
 import { notify } from '@/util/notify'
-import { useDisplay } from 'vuetify'
 import { UserStore } from '@/stores';
 import logger from '@/user/logger';
 import { authItch } from '@/user/oauth';
 
-const _display = useDisplay()
 
-const props = defineProps<{
+defineProps<{
   active?: boolean
 }>()
 
-const dialog = ref(false)
 const loading = ref(false)
 const loadItch = ref(false)
 
 const itch = computed(() => {
-      return UserStore().User.Itch;
-    })
+  return UserStore().User.Itch;
+})
 const map = computed(() => {
-      return UserStore().User.ItchMap;
-    })
-const mobile = computed(() => {
-      return _display.mdAndDown.value;
-    })
+  return UserStore().User.ItchMap;
+})
 
 async function updateItch() {
-      loading.value = true;
-      await UserStore().refreshItchData();
-      loading.value = false;
-    }
+  loading.value = true;
+  await UserStore().refreshItchData();
+  loading.value = false;
+}
 async function loginWithItch() {
-      const isDevSite = window.location.origin.includes('dev.compcon.app');
-      const clientId = isDevSite
-        ? import.meta.env.VITE_APP_ITCH_DEV_CLIENT_ID || ''
-        : import.meta.env.VITE_APP_ITCH_CLIENT_ID || '';
-      const redirectUri = isDevSite
-        ? import.meta.env.VITE_APP_OAUTH_DEV_CALLBACK_URI || ''
-        : import.meta.env.VITE_APP_OAUTH_CALLBACK_URI || '';
-      let scope = 'profile:me';
-      scope = encodeURIComponent(scope);
+  const isDevSite = window.location.origin.includes('dev.compcon.app');
+  const clientId = isDevSite
+    ? import.meta.env.VITE_APP_ITCH_DEV_CLIENT_ID || ''
+    : import.meta.env.VITE_APP_ITCH_CLIENT_ID || '';
+  const redirectUri = isDevSite
+    ? import.meta.env.VITE_APP_OAUTH_DEV_CALLBACK_URI || ''
+    : import.meta.env.VITE_APP_OAUTH_CALLBACK_URI || '';
+  let scope = 'profile:me';
+  scope = encodeURIComponent(scope);
 
-      const oauthUrl = `https://itch.io/user/oauth?client_id=${clientId}&scope=${scope}&response_type=token&redirect_uri=${redirectUri}`;
+  const oauthUrl = `https://itch.io/user/oauth?client_id=${clientId}&scope=${scope}&response_type=token&redirect_uri=${redirectUri}`;
 
-      openOAuthPopup(oauthUrl, 'Itch.io Login');
+  openOAuthPopup(oauthUrl, 'Itch.io Login');
 
-      // Listen for messages from the popup
-      const handleMessage = (event) => {
-        if (event.origin !== window.location.origin) return; // Ensure message is from the same origin
-        if (event.data.type === 'access_token') {
-          exchangeItchToken(event.data.access_token);
-          window.removeEventListener('message', handleMessage);
-        }
-      };
-
-      window.addEventListener('message', handleMessage);
+  // Listen for messages from the popup
+  const handleMessage = (event) => {
+    if (event.origin !== window.location.origin) return; // Ensure message is from the same origin
+    if (event.data.type === 'access_token') {
+      exchangeItchToken(event.data.access_token);
+      window.removeEventListener('message', handleMessage);
     }
+  };
+
+  window.addEventListener('message', handleMessage);
+}
 async function exchangeItchToken(access_token) {
-      loadItch.value = true;
-      try {
-        await UserStore().getUserMetadata();
-        const data = await authItch(access_token);
-        await UserStore().setItchData(access_token, data);
-        loadItch.value = false;
-        notify({
-          title: t('notify.account.itchLinkedTitle'),
-          text: t('notify.account.itchLinkedText'),
-          data: { color: 'success' },
-        });
-      } catch (error) {
-        logger.error(`Error linking itch.io account: ${error}`, this, error);
-        loadItch.value = false;
-        notify({
-          title: t('notify.account.itchLinkFailedTitle'),
-          text: t('notify.account.itchLinkFailedText'),
-          data: { color: 'error' },
-        });
-      }
-    }
+  loadItch.value = true;
+  try {
+    await UserStore().getUserMetadata();
+    const data = await authItch(access_token);
+    await UserStore().setItchData(access_token, data);
+    loadItch.value = false;
+    notify({
+      title: t('notify.account.itchLinkedTitle'),
+      text: t('notify.account.itchLinkedText'),
+      data: { color: 'success' },
+    });
+  } catch (error) {
+    logger.error(`Error linking itch.io account: ${error}`, this, error);
+    loadItch.value = false;
+    notify({
+      title: t('notify.account.itchLinkFailedTitle'),
+      text: t('notify.account.itchLinkFailedText'),
+      data: { color: 'error' },
+    });
+  }
+}
 function openOAuthPopup(url, name, width = 500, height = 600) {
-      const left = window.screenX + (window.outerWidth - width) / 2;
-      const top = window.screenY + (window.outerHeight - height) / 2;
+  const left = window.screenX + (window.outerWidth - width) / 2;
+  const top = window.screenY + (window.outerHeight - height) / 2;
 
-      return window.open(
-        url,
-        name,
-        `width=${width},height=${height},top=${top},left=${left},resizable=yes,scrollbars=yes,status=no,toolbar=no,menubar=no`
-      );
-    }
+  return window.open(
+    url,
+    name,
+    `width=${width},height=${height},top=${top},left=${left},resizable=yes,scrollbars=yes,status=no,toolbar=no,menubar=no`
+  );
+}
 async function unlinkItch() {
-      await UserStore().setItchData('', null);
-      notify({
-        title: t('notify.account.itchUnlinkedTitle'),
-        text: t('notify.account.itchUnlinkedText'),
-        data: { color: 'success' },
-      });
-    }
+  await UserStore().setItchData('', null);
+  notify({
+    title: t('notify.account.itchUnlinkedTitle'),
+    text: t('notify.account.itchUnlinkedText'),
+    data: { color: 'success' },
+  });
+}
 </script>

@@ -433,3 +433,10 @@ code.horus:hover {
     font-size: 12pt;
   }
 } */
+
+.ql-font-serif {
+  font-family: Georgia, Times New Roman, serif;
+}
+.ql-font-monospace {
+  font-family: Monaco, Courier New, monospace;
+}

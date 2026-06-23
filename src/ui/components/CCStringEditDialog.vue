@@ -9,7 +9,6 @@
         :type="number ? 'number' : 'text'"
         variant="outlined"
         hide-details
-        autofocus
         class="pa-4"
         @focus="$event.target.select()"
         @keyup.enter="confirm()" />
@@ -61,30 +60,30 @@ const newString = ref('')
 const dialog = ref(false)
 
 const getComponent = computed(() => {
-      if (props.multiline) return VTextarea;
-      if (props.number) return VTextField;
-      return VTextField;
-    })
+  if (props.multiline) return VTextarea;
+  if (props.number) return VTextField;
+  return VTextField;
+})
 
 function save() {
-      if (newString.value) emit('save', newString.value);
-      newString.value = '';
-    }
+  if (newString.value) emit('save', newString.value);
+  newString.value = '';
+}
 function confirm() {
-      save();
-      dialog.value = false;
-    }
+  save();
+  dialog.value = false;
+}
 function reset() {
-      emit('reset');
-      dialog.value = false;
-    }
+  emit('reset');
+  dialog.value = false;
+}
 function show() {
-      newString.value = props.placeholder;
-      dialog.value = true;
-    }
+  newString.value = props.placeholder;
+  dialog.value = true;
+}
 function hide() {
-      dialog.value = false;
-    }
+  dialog.value = false;
+}
 
 defineExpose({ show, hide })
 </script>

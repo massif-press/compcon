@@ -356,6 +356,8 @@
     "settingsPage": {
       "showUpdateMessages": "Show Update Messages",
       "showExoticsLabel": "Show Exotic items in the Compendium",
+      "showDesktopTablesLabel": "Force full Compendium tables",
+      "showDesktopTablesTooltip": "By default, @:{'common.appName'} shows a simplified view of Compendium tables on mobile devices to improve readability and performance. Enabling this option will show the full desktop version of tables on all devices. This may make some tables difficult to read or cause performance issues on mobile devices.",
       "showExoticsTooltip": "Enabling this option may reveal campaign spoilers and it is recommended to leave this setting DISABLED if you are not the GM",
       "theme": "Theme",
       "font": "Font",
@@ -1815,6 +1817,18 @@
     }
   },
   "mainMenu": {
+    "codeEntry": {
+      "title": "Enter Unlock Code",
+      "enterCode": "Enter code",
+      "tooltip": "Enter an unlock code to gain access to additional account features or LCP content.",
+      "submit": "Submit",
+      "invalidCode": "Invalid code",
+      "success": "Code accepted! Your content should now be available.",
+      "npcSubTitle": "Lancer Core Book NPC Data",
+      "npcSubTooltipOff": "Enable download and automatic update access to Core Book NPC data by either linking your itch.io account with a purchase of the Lancer Core Book, or by entering the URL from the QR code in the front of your copy of the Lancer Core Book.",
+      "npcsAddedViaItch": "Your account has access to Lancer Core Book NPC data. This content was added to your account via a linked itch.io purchase.",
+      "npcsAddedViaCode": "Your account has access to Lancer Core Book NPC data. This content was added to your account via QR code link."
+    },
     "account": {
       "imageDeletedText": "Removed {itemType} {name}.",
       "lcpUpdatedText": "The latest version of {title} has been downloaded and installed.",

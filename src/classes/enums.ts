@@ -122,6 +122,7 @@ enum SystemType {
   Deployable = 'Deployable',
   Drone = 'Drone',
   Tech = 'Tech',
+  Invade = 'Invade',
   FlightSystem = 'Flight System',
   Integrated = 'Integrated',
   Mod = 'Mod',

@@ -1,6 +1,6 @@
 <template>
   <v-data-table density="compact"
-    :headers="<any[]>headers"
+    :headers="<any[]>visibleHeaders"
     :items="<any[]>items"
     :items-per-page="-1"
     :custom-key-sort="customKeySort"
@@ -9,7 +9,7 @@
     style="width: 100%">
     <template #item="{ item }">
       <tr :id="item.ID">
-        <td v-for="h in <any[]>headers"
+        <td v-for="h in <any[]>visibleHeaders"
           :key="h.key"
           class="text-left px-2"
           :class="`text-${h.align} ${selected && (selected as any).ID === item.ID ? 'bg-light-panel' : ''
@@ -151,6 +151,7 @@ import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import License from '@/classes/pilot/components/license/License'
 import { NpcClass } from '@/classes/npc/class/NpcClass';
+import { UserStore } from '@/stores'
 
 const _display = useDisplay()
 
@@ -167,25 +168,28 @@ const emit = defineEmits<{
   'select': []
 }>()
 
-const mobile = computed(() => {
-      return _display.mdAndDown.value;
-    })
+const mobile = computed(() => _display.mdAndDown.value)
+
+const visibleHeaders = computed(() => {
+  if (!mobile.value || UserStore().User.View('useDesktopTables', false)) return props.headers
+  return props.headers.filter(h => ['Source', 'Role', 'Name'].includes(h.key))
+})
 const customKeySort = computed(() => {
-      const weaponSizeOrder: Record<string, number> = { Auxiliary: 0, Main: 1, Heavy: 2, Superheavy: 3 };
-      return {
-        Size: (a: any, b: any) => {
-          if (typeof a === 'string' && typeof b === 'string') {
-            return (weaponSizeOrder[a] ?? 99) - (weaponSizeOrder[b] ?? 99);
-          }
-          return a - b;
-        },
-      };
-    })
+  const weaponSizeOrder: Record<string, number> = { Auxiliary: 0, Main: 1, Heavy: 2, Superheavy: 3 };
+  return {
+    Size: (a: any, b: any) => {
+      if (typeof a === 'string' && typeof b === 'string') {
+        return (weaponSizeOrder[a] ?? 99) - (weaponSizeOrder[b] ?? 99);
+      }
+      return a - b;
+    },
+  };
+})
 
 function formatSize(size: number | Array<number>) {
-      if (!Array.isArray(size)) {
-        size = [size];
-      }
-      return size.map((s) => (s === 0.5 ? '½' : s)).join(' or ');
-    }
+  if (!Array.isArray(size)) {
+    size = [size];
+  }
+  return size.map((s) => (s === 0.5 ? '½' : s)).join(' or ');
+}
 </script>

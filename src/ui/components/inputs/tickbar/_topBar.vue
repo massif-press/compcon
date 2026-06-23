@@ -56,10 +56,10 @@
           <div class="heading h3 text-center">
             <div class="text-cc-overline text-disabled">{{ label }}</div>
             <span v-if="valueAtlas?.length">
-              {{ valueAtlas[modelValue] }}
+              {{ valueAtlas[hover] }}
             </span>
             <span v-else>
-              {{ modelValue }}
+              {{ hover }}
             </span>
           </div>
         </v-tooltip>

@@ -1,7 +1,7 @@
 const Main = () => import('./index.vue')
 
 const Compendium = () => import('./Views/Compendium/index.vue')
-const CompendiumSearch = () => import('./Views/Compendium/SearchResults.vue')
+const SearchResults = () => import('./Views/SearchResults.vue')
 const Licenses = () => import('./Views/Compendium/Licenses.vue')
 const Manufacturers = () => import('./Views/Compendium/Manufacturers.vue')
 const Frames = () => import('./Views/Compendium/Frames.vue')
@@ -25,7 +25,6 @@ const Sitreps = () => import('./Views/Compendium/Sitreps.vue')
 const Tables = () => import('./Views/Compendium/Tables.vue')
 
 const Reference = () => import('./Views/Reference/index.vue')
-const ReferenceSearch = () => import('./Views/Reference/SearchResults.vue')
 const Basics = () => import('./Views/Reference/Basics.vue')
 const Compcon = () => import('./Views/Reference/Compcon.vue')
 const ReferenceIndex = () => import('./Views/Reference/Reference.vue')
@@ -54,7 +53,7 @@ const routes = [
   },
   {
     path: 'compendium/search',
-    component: CompendiumSearch,
+    component: SearchResults,
     meta: { title: 'Search' },
   },
   {
@@ -371,8 +370,7 @@ const routes = [
   },
   {
     path: 'reference/search',
-    name: 'srd_search',
-    component: ReferenceSearch,
+    redirect: (to) => ({ path: '/srd/compendium/search', query: to.query }),
   },
   {
     path: 'campaign/:id',

@@ -22,6 +22,14 @@
           on-icon="mdi-star"
           :tooltip="sp.showExoticsTooltip"
           :label="sp.showExoticsLabel"></cc-switch>
+        <br />
+        <cc-switch v-model="userDesktopTables"
+          color="exotic"
+          density="compact"
+          off-icon="mdi-table"
+          on-icon="mdi-table-large"
+          :tooltip="sp.showDesktopTablesTooltip"
+          :label="sp.showDesktopTablesLabel"></cc-switch>
       </v-col>
     </v-row>
 
@@ -175,7 +183,7 @@
                   scope="global">
                   <template #nonAnon>
                     <strong class="text-accent">{{ $t('nav.settingsPage.enhancedReportingPiiNote')
-                      }}</strong>
+                    }}</strong>
                   </template>
                   <template #notNecessary>
                     <strong class="text-accent">{{
@@ -269,7 +277,6 @@
                 variant="outlined"
                 density="compact"
                 hide-details
-                autofocus
                 :label="sp.selectBulkFile"
                 prepend-icon="mdi-paperclip"
                 @change="onFileSelect" />
@@ -397,6 +404,11 @@ const logLevel = ref(logLevels.find(x => x.key === UserStore().User.LogLevel) ||
 const userViewExotics = computed({
   get: () => user.value.Option('showExotics'),
   set: (newVal: boolean) => user.value.SetOption('showExotics', newVal),
+})
+
+const userDesktopTables = computed({
+  get: () => user.value.View('useDesktopTables', false),
+  set: (newVal: boolean) => user.value.SetView('useDesktopTables', newVal),
 })
 
 const font = computed({

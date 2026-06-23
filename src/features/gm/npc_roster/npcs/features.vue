@@ -21,7 +21,8 @@
                 :icon="reorderMode ? 'mdi-check' : 'mdi-swap-vertical'" />
             </v-btn>
           </template>
-          <span> {{ reorderMode ? $t('gm.npcFeatures.saveConfig') : $t('gm.npcFeatures.reorder') }}</span>
+          <span> {{ reorderMode ? $t('gm.npcFeatures.saveConfig') : $t('gm.npcFeatures.reorder')
+            }}</span>
         </v-tooltip>
       </div>
     </v-col>
@@ -83,7 +84,6 @@
                     :placeholder="item.TrueName"
                     variant="outlined"
                     hide-details
-                    autofocus
                     class="pa-4"
                     @focus="$event.target.select()" />
                 </cc-dialog>
@@ -209,10 +209,10 @@ const shownFeatures = computed(() => {
 function onFeatureReorder(event: any) {
   stopDragScroll()
   if (event.oldIndex === event.newIndex) return
-  ;(props.npc as any).NpcFeatureController.ReorderFeature(event.oldIndex, event.newIndex)
+    ; (props.npc as any).NpcFeatureController.ReorderFeature(event.oldIndex, event.newIndex)
 }
 
 function moveFeature(from: number, to: number) {
-  ;(props.npc as any).NpcFeatureController.ReorderFeature(from, to)
+  ; (props.npc as any).NpcFeatureController.ReorderFeature(from, to)
 }
 </script>

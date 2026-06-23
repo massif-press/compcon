@@ -171,7 +171,6 @@ const props = withDefaults(defineProps<{
   clearable?: boolean
   tooltip?: string
   tooltipIcon?: string
-  autofocus?: boolean
   details?: string
   closeableChips?: boolean
   readonly?: boolean

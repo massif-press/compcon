@@ -69,6 +69,7 @@ const router = createRouter({
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) return savedPosition
     if (to.hash) return { el: to.hash }
+    if (to.name && String(to.name).startsWith('srd_')) return false
     return { top: 0 }
   },
 })

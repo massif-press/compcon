@@ -39,7 +39,6 @@
             type="number"
             tile
             hide-details
-            autofocus
             density="compact"
             @focus="$event.target.select()"
             @update:model-value="setVal(Number($event))" />
@@ -49,7 +48,6 @@
               type="number"
               tile
               hide-details
-              autofocus
               density="compact"
               @focus="$event.target.select()"
               @update:model-value="setVal(Number($event))" />
@@ -154,32 +152,32 @@ const hover = ref(null as number | null)
 const internalValue = ref(props.modelValue)
 
 const tickThreshold = computed(() => {
-      if (_display.mdAndDown.value) return 20;
-      if (_display.lgAndDown.value) return 25;
-      return 35;
-    })
+  if (_display.mdAndDown.value) return 20;
+  if (_display.lgAndDown.value) return 25;
+  return 35;
+})
 const pctBackground = computed(() => {
-      const pct = Math.round((props.modelValue / props.ticks) * 100);
+  const pct = Math.round((props.modelValue / props.ticks) * 100);
 
-      return `background: linear-gradient(to right, rgb(var(--v-theme-${props.color})) ${pct}%, rgb(var(--v-theme-${props.bgColor})) ${pct}%)`;
-    })
+  return `background: linear-gradient(to right, rgb(var(--v-theme-${props.color})) ${pct}%, rgb(var(--v-theme-${props.bgColor})) ${pct}%)`;
+})
 
 function isHovered(i: number) {
-      return hover.value && hover.value >= i;
-    }
+  return hover.value && hover.value >= i;
+}
 function isMouseovered(i: number) {
-      return hover.value === i;
-    }
+  return hover.value === i;
+}
 function isActive(i: number) {
-      return props.modelValue && props.modelValue >= i;
-    }
+  return props.modelValue && props.modelValue >= i;
+}
 function setVal(val: number) {
-      if (props.stopAdd && val > props.modelValue) return;
-      if (val > props.ticks) val = props.ticks;
-      if (val < 0) val = 0;
-      if (props.modelValue === 1 && val === 1) val = 0;
-      emit('update:modelValue', val);
-    }
+  if (props.stopAdd && val > props.modelValue) return;
+  if (val > props.ticks) val = props.ticks;
+  if (val < 0) val = 0;
+  if (props.modelValue === 1 && val === 1) val = 0;
+  emit('update:modelValue', val);
+}
 </script>
 
 <style scoped>
@@ -242,5 +240,4 @@ function setVal(val: number) {
   width: 52px;
   margin-left: -16px !important;
 }
-
 </style>

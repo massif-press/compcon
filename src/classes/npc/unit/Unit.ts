@@ -35,6 +35,7 @@ class UnitData
   subtitle: string = ''
   tag: string = 'Mech'
   features: { id: string; data: INpcFeatureData }[] = []
+  ui_state?: Record<string, boolean>
 }
 
 class Unit extends Npc implements ICombatant, IInstanceable {
@@ -51,6 +52,7 @@ class Unit extends Npc implements ICombatant, IInstanceable {
   public CombatController: CombatController
 
   public IsEncounterInstance = false
+  public UIState: Record<string, boolean> = {}
 
   public constructor(data?: UnitData) {
     super(data)
@@ -60,6 +62,7 @@ class Unit extends Npc implements ICombatant, IInstanceable {
     this.IsInstance = !!(data?.is_instance || (data?.instance && data?.instanceId))
     this.InstanceID = data?.instanceId || ''
     this.OriginId = data?.originId || ''
+    this.UIState = data?.ui_state || {}
 
     this.CombatController = new CombatController(this)
     this.NpcClassController = new NpcClassController(this)
@@ -168,6 +171,7 @@ class Unit extends Npc implements ICombatant, IInstanceable {
       gmDescription: unit.GmDescription,
       combat_data: {} as CombatData,
       config: unit.LcpConfig,
+      ui_state: Object.keys(unit.UIState).length ? unit.UIState : undefined,
     } as UnitData
 
     SaveController.Serialize(unit, data)

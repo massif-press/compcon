@@ -202,6 +202,7 @@ const props = defineProps<{
   headers: any[]
   noDataText?: string
   strings?: Partial<typeof DEFAULT_STRINGS>
+  canDownloadOverride?: (pack: any) => boolean
 }>()
 
 const DEFAULT_STRINGS = {
@@ -243,6 +244,7 @@ function getInstalledPack(pack: any) {
 function canDownload(pack: any) {
   if (!loggedIn.value) return false
   if (!pack.paid) return true
+  if (props.canDownloadOverride?.(pack)) return true
   if (!user.value.Itch || !user.value.Itch.gamedata?.length) return false
   return user.value.Itch.gamedata.some((purchase: any) => purchase.game_id === pack.game_id)
 }

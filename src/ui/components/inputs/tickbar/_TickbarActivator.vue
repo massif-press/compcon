@@ -38,7 +38,6 @@
               type="number"
               tile
               hide-details
-              autofocus
               density="compact"
               @focus="$event.target.select()"
               @update:model-value="$emit('set', Number($event))" />
@@ -49,7 +48,6 @@
                 type="number"
                 tile
                 hide-details
-                autofocus
                 density="compact"
                 @focus="$event.target.select()"
                 @update:model-value="$emit('set', Number($event))" />
@@ -62,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import TickbarMenu from './_tickbarMenu.vue';
 
 const props = withDefaults(defineProps<{

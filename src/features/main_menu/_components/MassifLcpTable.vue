@@ -1,8 +1,9 @@
 <template>
   <lcp-table :packs="packs"
     :loading="loading"
-    :headers="lcpHeaders">
-    <template #prepend-actions="{ item, canDownload, isLatest, downloading, installLatest }">
+    :headers="lcpHeaders"
+    :can-download-override="coreBookOverride">
+    <template #prepend-actions="{ canDownload, isLatest, downloading, installLatest }">
       <v-tooltip max-width="300px"
         location="top">
         <template #activator="{ props }">
@@ -47,6 +48,11 @@ defineProps<{
 }>()
 
 const loggedIn = computed(() => UserStore().IsLoggedIn)
+const hasCoreBook = computed(() => UserStore().UserMetadata.HasCoreBook)
+
+function coreBookOverride(pack: any) {
+  return pack.title === 'Lancer Core Book NPCs' && hasCoreBook.value
+}
 
 const lcpHeaders = [
   { title: '', key: 'data-table-expand', width: '0' },
