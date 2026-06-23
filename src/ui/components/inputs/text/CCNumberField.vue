@@ -2,7 +2,7 @@
   <v-hover #default="{ isHovering, props }">
     <div class="top-element"
       style="display: block; position: relative"
-      v-bind="props">
+      v-bind="{ ...props, ...$attrs }">
       <v-text-field :model-value.number="modelValue"
         :color="color"
         :base-color="color"
@@ -109,7 +109,7 @@
 import { ref } from 'vue'
 import { max, min } from 'lodash-es';
 
-defineOptions({ name: 'CCTextField' })
+defineOptions({ name: 'CCTextField', inheritAttrs: false })
 
 const props = withDefaults(defineProps<{
   modelValue?: string | number

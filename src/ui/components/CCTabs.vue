@@ -50,13 +50,13 @@ withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{ changed: [tab: number] }>()
 
-const tab = ref(0)
+const tab = ref<string | number>(0)
 
 watch(tab, (newTab) => {
-  emit('changed', newTab)
+  emit('changed', newTab as number)
 })
 
-function setTab(newTab: number) {
+function setTab(newTab: string | number) {
   tab.value = newTab
 }
 

@@ -282,15 +282,13 @@ const bioDialog = ref(false)
 const appearanceDialog = ref(false)
 
 async function randomCallsign() {
-      const generatedCallsign = await callsign();
-      emit('set', { attr: 'Callsign', val: generatedCallsign });
-      _forceUpdate();
-    }
+  const generatedCallsign = await callsign()
+  emit('set', { attr: 'Callsign', val: generatedCallsign })
+}
 async function randomName() {
-      const generatedName = await name();
-      emit('set', { attr: 'Name', val: generatedName });
-      _forceUpdate();
-    }
+  const generatedName = await name()
+  emit('set', { attr: 'Name', val: generatedName })
+}
 async function savePilot() {
       props.pilot.Callsign = props.pilot.Callsign;
       props.pilot.Name = props.pilot.Name;

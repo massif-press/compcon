@@ -49,6 +49,7 @@
     "difficulty": "Difficulty",
     "accuracy": "Accuracy",
     "roll": "Roll",
+    "roll_noun": "Roll",
     "remove": "Remove",
     "unlock": "Unlock",
     "clear": "Clear",
@@ -121,7 +122,7 @@
     "forceImport": "Force Import",
     "compconPrompt": ">>COMP/CON//",
     "addName": "Add {name}",
-    "addingLocalCopyTooltip": "Adding this item as a local copy will create a new, editable version of this item saved to your local COMP/CON data. Changes made to this item will not affect the author's original data, and you will not receive updates from the author.",
+    "addingLocalCopyTooltip": "Adding this item as a local copy will create a new, editable version of this item saved to your local @:{'common.appName'} data. Changes made to this item will not affect the author's original data, and you will not receive updates from the author.",
     "armorBonus": "Armor Bonus",
     "callsign": "Callsign",
     "cancelPermanentDeletion": "Cancel Permanent Deletion",
@@ -608,7 +609,7 @@
     "alt": {
       "netlifyStatus": "Netlify Status",
       "joinTheLancerDiscord": "Join the LANCER discord",
-      "supportCompconOnPatreon": "Support COMP/CON on Patreon"
+      "supportCompconOnPatreon": "Support @:{'common.appName'} on Patreon"
     },
     "titles": {
       "selectAll": "Select All",
@@ -1077,7 +1078,7 @@
       "npc": "Npc",
       "gmNotes": "gm notes",
       "authors": "Author(s)",
-      "mustBeAnItchioUrl": "Must be an itch.io URL to enable automatic management in COMP/CON"
+      "mustBeAnItchioUrl": "Must be an itch.io URL to enable automatic management in @:{'common.appName'}"
     },
     "subtitles": {
       "setItemFolder": "Set item folder",
@@ -2194,17 +2195,17 @@
       "credits": "Credits",
       "roster": "Roster",
       "gmToolkit": "GM Toolkit",
-      "installCompconForReliableStorage": "Install COMP/CON for Reliable Storage",
+      "installCompconForReliableStorage": "Install @:{'common.appName'} for Reliable Storage",
       "storagePermissionRequired": "Storage Permission Required!",
       "youDoNotHaveAccess": "You do not have access to remote backups.",
       "changeAccountEmail": "Change Account E-Mail",
       "youDoNotHaveAccess2": "You do not have access to the collection publishing tool.",
       "deleteCollection": "delete collection",
-      "compconCloudAccount": "COMP/CON Cloud Account"
+      "compconCloudAccount": "@:{'common.appName'} Cloud Account"
     },
     "tooltips": {
-      "thisToolWillCaptureA": "This tool will capture a snapshot of your local COMP/CON data and store it in a cloud archive. You can use this to restore your COMP/CON data to a previous state. This feature is only available to Patreon supporters.",
-      "thisIsAViewOf": "This is a view of your COMP/CON data, stored both locally and in the cloud. You can use this tool to manage the state of your data, and to sync changes between your local data and the cloud.",
+      "thisToolWillCaptureA": "This tool will capture a snapshot of your local @:{'common.appName'} data and store it in a cloud archive. You can use this to restore your @:{'common.appName'} data to a previous state. This feature is only available to Patreon supporters.",
+      "thisIsAViewOf": "This is a view of your @:{'common.appName'} data, stored both locally and in the cloud. You can use this tool to manage the state of your data, and to sync changes between your local data and the cloud.",
       "paidLcpContentRequiresA": "Paid LCP content requires a linked itch.io purchase before they can be automatically updated. At this time, only Massif-published LCPs are supported.",
       "theseOptionsControlHowAnd": "These options control how and when your data is synchronized with the cloud. By default, data is only synced manually. Unlike other user settings, these settings are stored in the cloud and are applied to all devices you use.",
       "controlsHowOftenYourData": "Controls how often your data is synchronized with the cloud. Due to server costs, certain options are only available to Patreon subscribers.",
@@ -2858,7 +2859,7 @@
       "startThisPilotAtA": "Start this Pilot at a specific license level. Recommended for advanced users.",
       "thisWillCreateACopy": "This will create a copy of this pilot data, registered to your pilot roster.",
       "thisWillCloneTheSelected": "This will clone the selected pilot. Cloned characters can’t join a mission in progress, and cloned characters receive a random quirk. Additional cloning and subjectivity imprinting adds further quirks.",
-      "addingThisItemAsA": "Adding this item as a remote resource will create a readonly version of this item linked to the author's original data. When the author saves an update to this item to their COMP/CON cloud account, your local version can receive those changes.",
+      "addingThisItemAsA": "Adding this item as a remote resource will create a readonly version of this item linked to the author's original data. When the author saves an update to this item to their @:{'common.appName'} cloud account, your local version can receive those changes.",
       "thisProjectIsComplexResourceintensive": "This project is complex, resource-intensive, or generally difficult to complete"
     },
     "subtitles": {
@@ -2911,7 +2912,7 @@
       "noEidolonData": "No Eidolon Data",
       "lancerBasics": "Lancer Basics",
       "experimentalPreview": "EXPERIMENTAL PREVIEW",
-      "usingCompcon": "using comp/con",
+      "usingCompcon": "using @:{'common.appName'}",
       "narrativePlay": "narrative play"
     },
     "nav": {

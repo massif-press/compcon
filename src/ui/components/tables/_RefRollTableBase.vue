@@ -1,7 +1,11 @@
 <template>
-  <v-dialog v-model="dialog" width="75vw">
-    <v-card flat tile>
-      <v-toolbar color="title-bg clipped-large" dark flat>
+  <v-dialog v-model="dialog"
+    width="75vw">
+    <v-card flat
+      tile>
+      <v-toolbar color="title-bg clipped-large"
+        dark
+        flat>
         <v-toolbar-title class="heading h1">{{ title }}</v-toolbar-title>
       </v-toolbar>
       <v-row justify="center">
@@ -10,7 +14,7 @@
             <v-card-text>
               <v-row>
                 <v-col cols="2">
-                  <span class="heading h3">{{ $t('common.roll') }}</span>
+                  <span class="heading h3">{{ $t('common.roll_noun') }}</span>
                 </v-col>
                 <v-col cols="3">
                   <span class="heading h3">{{ $t('common.result') }}</span>
@@ -26,7 +30,8 @@
       </v-row>
       <v-divider />
       <v-card-actions>
-        <v-btn text @click="dialog = false">{{ $t('common.dismiss') }}</v-btn>
+        <v-btn text
+          @click="dialog = false">{{ $t('common.dismiss') }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -42,22 +47,20 @@ const props = defineProps<{
 const dialog = ref(false)
 
 function show() {
-      dialog.value = true;
-    }
+  dialog.value = true;
+}
 function close() {
-      dialog.value = false;
-    }
+  dialog.value = false;
+}
 </script>
 
 <style scoped>
 .title-bg {
-  background: repeating-linear-gradient(
-    45deg,
-    rgb(124, 0, 0),
-    rgba(124, 0, 0) 20px,
-    rgba(30, 30, 30) 20px,
-    rgba(30, 30, 30) 40px
-  );
+  background: repeating-linear-gradient(45deg,
+      rgb(124, 0, 0),
+      rgba(124, 0, 0) 20px,
+      rgba(30, 30, 30) 20px,
+      rgba(30, 30, 30) 40px);
 }
 
 .die-hover {

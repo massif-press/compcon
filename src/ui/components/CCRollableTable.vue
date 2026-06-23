@@ -41,7 +41,7 @@
         align="center">
         <v-col v-if="!dense"
           cols="auto"
-          class="heading pl-3 pr-3">{{ $t('common.roll') }}</v-col>
+          class="heading pl-3 pr-3">{{ $t('common.roll_noun') }}</v-col>
         <v-col cols="auto">
           <v-menu>
             <template #activator="{ props }">
@@ -72,7 +72,8 @@
 
         <v-col cols="auto"
           class="heading"
-          style="margin: 0px 2px 0 2px">{{ $t('ui.rollTable.d') }}</v-col>
+          style="margin: 0px 2px 0 2px">{{ $t('ui.rollTable.d')
+          }}</v-col>
         <v-col cols="auto">
           <v-menu>
             <template #activator="{ props }">
@@ -135,7 +136,8 @@
                 <v-spacer />
                 <v-btn small
                   color="error"
-                  @click="generate">{{ $t('ui.rollTable.confirmRebuild') }}</v-btn>
+                  @click="generate">{{ $t('ui.rollTable.confirmRebuild')
+                  }}</v-btn>
               </v-card-actions>
             </v-card>
           </v-menu>
@@ -162,7 +164,8 @@
                 <v-spacer />
                 <v-btn small
                   color="error"
-                  @click="$emit('delete')">{{ $t('common.confirmDeletion') }}</v-btn>
+                  @click="$emit('delete')">{{ $t('common.confirmDeletion')
+                  }}</v-btn>
               </v-card-actions>
             </v-card>
           </v-menu>
@@ -181,8 +184,12 @@
         <td v-if="!mobile"
           class="text-center heading h3 px-3"
           style="width: 75px; line-height: 18px;">
-          <i18n-t v-if="r.max === -1" keypath="ui.rollTable.multipleOnes" tag="span" scope="global">
-            <template #plural><span style="font-size: small; ">{{ $t('ui.rollTable.pluralS') }}</span></template>
+          <i18n-t v-if="r.max === -1"
+            keypath="ui.rollTable.multipleOnes"
+            tag="span"
+            scope="global">
+            <template #plural><span style="font-size: small; ">{{ $t('ui.rollTable.pluralS')
+                }}</span></template>
           </i18n-t>
           <span v-else-if="r.min === r.max">{{ r.max }}</span>
           <span v-else>{{ r.min }} - {{ r.max }}</span>
@@ -204,8 +211,12 @@
               flat
               tile
               color="background">
-              <i18n-t v-if="r.max === -1" keypath="ui.rollTable.multipleOnes" tag="strong" scope="global">
-                <template #plural><span class="text-caption">{{ $t('ui.rollTable.pluralS') }}</span></template>
+              <i18n-t v-if="r.max === -1"
+                keypath="ui.rollTable.multipleOnes"
+                tag="strong"
+                scope="global">
+                <template #plural><span class="text-caption">{{ $t('ui.rollTable.pluralS')
+                    }}</span></template>
               </i18n-t>
               <strong v-else-if="r.min === r.max">{{ r.max }}</strong>
               <strong v-else>{{ r.min }} - {{ r.max }}</strong>
@@ -246,13 +257,13 @@ const dice = ref([2, 3, 6, 8, 10, 12, 20])
 const mults = ref([1, 2, 3, 4, 5])
 
 const mobile = computed(() => {
-      return _display.mdAndDown.value;
-    })
+  return _display.mdAndDown.value;
+})
 const dense = computed(() => {
-      return props.density === 'compact';
-    })
+  return props.density === 'compact';
+})
 
 function generate() {
-      props.table.setArray(parseInt(step.value as any));
-    }
+  props.table.setArray(parseInt(step.value as any));
+}
 </script>

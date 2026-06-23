@@ -139,7 +139,9 @@ const step = ref('ident')
 const pilot = ref({} as Pilot)
 const done = ref(false)
 
-pilot.value = new Pilot();
+pilot.value = new Pilot()
+
+watch(step, (s) => tabs.value?.setTab(s))
 
 function onDone() {
       done.value = true;
