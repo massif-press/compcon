@@ -26,7 +26,6 @@
     "hide": "Скрыть",
     "show": "Показать",
     "confirmDeletion": "Подтверждение удаления",
-    "size": "Размер",
     "result": "Результат",
     "difficulty": "Сложность",
     "accuracy": "Точность",
@@ -42,7 +41,6 @@
     "rank": "Ранг",
     "copyLink": "Копировать ссылку",
     "attackBonus": "Бонус к броску атаки",
-    "roll": "Бросок",
     "mainMenu": "Главное меню",
     "pilotRoster": "Ростер пилотов",
     "compendium": "Компендиум",
@@ -154,11 +152,19 @@
     "clearAllData": "Очистить все данные",
     "encounters": "Столкновения",
     "activeMode": "Активный режим",
-    "compconPrompt": ">>COMP/CON//",
     "deletePermanently": "Удалить безвозвратно",
     "features": "Возможности",
     "limitedBonus": "Доп. заряды Расходуемых систем",
-    "systemPoints": "Очки систем"
+    "systemPoints": "Очки систем",
+    "repairs": "Ремонт",
+    "contentLabel": "Контент",
+    "deleteItemsPermanently": "Удалить эти элементы навсегда",
+    "item": "Элемент",
+    "core": "Основной",
+    "background": "Происхождение",
+    "size": "Размер",
+    "roll": "Бросок",
+    "compconPrompt": ">>COMP/CON//"
   },
   "classes": {
     "newFaction": "Новая фракция",
@@ -178,11 +184,13 @@
     "newCharacter": "Новый персонаж",
     "newNarrativeItem": "Новый нарративный предмет",
     "newEidolon": "Новый эйдолон",
-    "newSitrep": "Новая оперсводка"
+    "newSitrep": "Новая оперсводка",
+    "newDoodad": "Новая штуковина"
   },
   "language": {
     "selectLanguage": "Язык",
-    "pctTransComplete": "{pct}% переведено"
+    "pctTransComplete": "{pct}% переведено",
+    "experimentalNote": "Перевод на языки, отличные от английского, осуществляется сообществом и пока не завершён. Часть текста может отображаться непереведённой или странно."
   },
   "nav": {
     "v2Import": {
@@ -193,7 +201,8 @@
       "attemptReimport": "Попробовать импортировать повторно",
       "confirmForceImport": "@:{'common.forceImport'}",
       "forceImportNotice": "{type} будет импортирован без предметов, которые не удалось найти. Следующие предметы не удалось обнаружить, они будут удалены:",
-      "importAllTooltip": "Попытка импортировать все ожидаемые предметы. Предметы, для которых отсутствуют зависимости, останутся в режиме ожидания."
+      "importAllTooltip": "Попытка импортировать все ожидаемые предметы. Предметы, для которых отсутствуют зависимости, останутся в режиме ожидания.",
+      "moreCount": "+{count} ещё"
     },
     "nav": {
       "achievements": "Достижения",
@@ -253,7 +262,6 @@
       "byLabel": "По меткам:",
       "secretAchievements": "Секретные достижения",
       "mythic": "Мифические",
-      "hidden": "Скрыто",
       "overwriteAllWarning": "Перезаписать все",
       "display": "Показать:",
       "selectAll": "@:{'common.selectAll'}",
@@ -264,7 +272,8 @@
       "selectExportFile": "Выбрать файл для экспорта достижений в @:{'common.appName'}",
       "resetAchievements": "Сброс достижений",
       "cannotAddTitle": "Невозможно добавить достижение",
-      "loadBackup": "Загрузить резервную копию достижений"
+      "loadBackup": "Загрузить резервную копию достижений",
+      "hidden": "Скрыто"
     },
     "settingsPage": {
       "logLevel": "Уровень логов",
@@ -275,7 +284,6 @@
       "showExoticsTooltip": "Выбор этой опции может раскрыть для вас спойлеры игровой кампании, данную опцию лучше оставлять ВЫКЛЮЧЕННОЙ, если вы не являетесь ведущим",
       "logLevelLabel": "@:{'common.logLevel'}",
       "theme": "Тема",
-      "errorReportingPrefix": "Отчёты об ошибках",
       "enabled": "включено",
       "enhancedReportingPiiNote": "неанонимную информацию, а именно, IP-адрес и ID пользователя",
       "enhancedReportingNotNecessary": "необязательно",
@@ -287,7 +295,8 @@
       "showExoticsLabel": "Показать экзотические предметы в компендиуме",
       "errorReportingPiiNote": "На этом уровне логов персональные данные не собираются.",
       "confirmImport": "@:{'common.confirmImport'}",
-      "importV2Backup": "Импорт резервной копии v2"
+      "importV2Backup": "Импорт резервной копии v2",
+      "errorReportingPrefix": "Отчёты об ошибках"
     },
     "storage": {
       "neverLabel": "никогда",
@@ -303,7 +312,9 @@
       "itemName": "Название предмета",
       "restoreAll": "Восстановить все",
       "restore": "@:{'common.restore'}",
-      "permanentlyDelete": "Удалить навсегда"
+      "permanentlyDelete": "Удалить навсегда",
+      "itemType": "Тип элемента",
+      "deletedOn": "Удалено"
     },
     "userDataViewer": {
       "value": "Значение",
@@ -324,20 +335,26 @@
       "noConfigs": "Конфигурации не найдены."
     },
     "migrationRepair": {
-      "colCategory": "Категория"
+      "colCategory": "Категория",
+      "colIssue": "Проблема"
     },
     "optionsPage": {
       "tabStorage": "Хранилище"
     },
     "packInfo": {
+      "dependencies": "Зависимости",
       "changelog": "Список изменений"
     },
     "communityTable": {
       "currentVersion": "Текущая версия:",
-      "free": "Бесплатное"
+      "free": "Бесплатное",
+      "openWebsite": "Открыть сайт",
+      "noData": "Доступные контент-паки отсутствуют.",
+      "notInstalled": "Не установлено"
     },
     "search": {
-      "searchResults": "результаты поиска"
+      "searchResults": "результаты поиска",
+      "recentSearches": "недавние поисковые запросы"
     },
     "credits": {
       "with": "А также:",
@@ -351,7 +368,8 @@
       "anonymousPatron": "анонимных подписчиков"
     },
     "achievementItem": {
-      "createdBy": "Создатель:"
+      "createdBy": "Создатель:",
+      "unlockedLabel": "Разблокировано"
     },
     "packsList": {
       "activated": "активировано",
@@ -398,7 +416,11 @@
       "warning": "Предупреждение"
     },
     "log": {
-      "exportLog": "Экспорт логов"
+      "exportLog": "Экспорт логов",
+      "noData": "нет данных"
+    },
+    "alt": {
+      "supportCompconOnPatreon": "Поддержите @:{'common.appName'} на Patreon"
     }
   },
   "gm": {
@@ -445,7 +467,6 @@
     "noItem": {
       "noItemSelected": "Ничего не выбрано"
     },
-    "resolution": "Разрешение",
     "overview": {
       "addContact": "Добавить контакт",
       "setCoverImage": "Задать изображение для обложки",
@@ -462,7 +483,23 @@
     },
     "fields": {
       "authors": "Автор(ы)",
-      "folder": "Папка"
+      "folder": "Папка",
+      "title": "Название",
+      "value": "Значение",
+      "group": "Группа",
+      "sort": "Сортировка",
+      "caption": "Подпись",
+      "subtitle": "Подзаголовок",
+      "contactInformation": "Контактная информация",
+      "groupBy": "Группировать по",
+      "sortBy": "Сортировать по",
+      "pronouns": "Местоимения",
+      "organizationType": "Тип организации",
+      "alias": "Псевдоним",
+      "items": "Элементы",
+      "imageUrl": "Ссылка на изображение",
+      "websiteUrl": "Ссылка на сайт",
+      "optional": "Опционально"
     },
     "pageContent": {
       "quote": "Цитата",
@@ -477,9 +514,9 @@
       "clickToEdit": "Нажмите для редактирования"
     },
     "sitrep": {
-      "condition": "Условия",
       "savePreset": "Сохранить шаблон",
-      "presets": "Шаблоны"
+      "presets": "Шаблоны",
+      "condition": "Условия"
     },
     "encounterIndex": {
       "addFolder": "Добавить папку"
@@ -488,9 +525,6 @@
       "templates": "Шаблоны"
     },
     "reinforcements": "Подкрепления",
-    "encPrint": {
-      "neutral": "Нейтральный"
-    },
     "eidolon": {
       "noLayers": "слои отсутствуют",
       "layers": "Слои",
@@ -514,7 +548,8 @@
       "selectImage": "выберите изображение",
       "deletePreset": "удалить шаблон",
       "importData": "импорт данных",
-      "selectTemplate": "выбрать шаблон"
+      "selectTemplate": "выбрать шаблон",
+      "selectLayer": "Выбрать слой"
     },
     "tooltips": {
       "changeTierAndAdjustEdited": "Изменить опасность и скорректировать изменённые характеристики согласно стандартным изменениям.",
@@ -523,11 +558,17 @@
     },
     "encounterEditor": {
       "additionalNotes": "Дополнительные примечания"
+    },
+    "resolution": "Разрешение",
+    "encPrint": {
+      "neutral": "Нейтральный"
     }
   },
   "active": {
     "encounter": {
-      "failedToCopyTitle": "Не удалось скопировать"
+      "failedToCopyTitle": "Не удалось скопировать",
+      "saveSuccessfulText": "Сохранённый бой: {name}, раунд {round}",
+      "saveFailedText": "Не удалось сохранить бой: {name}"
     },
     "common": {
       "exportAsJson": "Экспорт в формате JSON",
@@ -535,6 +576,8 @@
       "override": "заменить",
       "dangerZone": "Зона риска",
       "target": "Цель",
+      "saveSuccessful": "Сохранение успешно",
+      "copiedToClipboard": "Скопировано в буфер обмена",
       "condition": "Состояние"
     },
     "runnerHeader": {
@@ -572,7 +615,8 @@
       "scan": "Скан"
     },
     "actions": {
-      "allActions": "Все действия"
+      "allActions": "Все действия",
+      "selectIcon": "Выберите значок"
     },
     "skillCheck": {
       "modifiers": "Модификаторы",
@@ -598,7 +642,8 @@
       "selected": "выбрано"
     },
     "trackable": {
-      "unavailable": "Недоступно"
+      "unavailable": "Недоступно",
+      "ready": "Готов"
     },
     "dmgCond": {
       "resistance": "Сопротивление"
@@ -607,7 +652,10 @@
       "current": "Текущий"
     },
     "panelBase": {
-      "counters": "Счётчики"
+      "counters": "Счётчики",
+      "cover": "Укрытие",
+      "noCover": "Укрытие отсутствует",
+      "hard": "Полное"
     },
     "equipCmd": {
       "reload": "Перезарядить"
@@ -619,10 +667,30 @@
       "pilotSkills": "Навыки пилота ({n})"
     },
     "fields": {
-      "mark1RepairToRestore": "Отметьте 1 Запчать, чтобы восстановить все ОЗ."
+      "mark1RepairToRestore": "Отметьте 1 Запчать, чтобы восстановить все ОЗ.",
+      "showArchived": "Показать архив"
     },
     "tooltips": {
-      "replaceTheThematicStatTrackers": "Заменить все тематические счётчики характеристик (ОЗ, нагрев и тд) стандартным числовым отображением."
+      "replaceTheThematicStatTrackers": "Заменить все тематические счётчики характеристик (ОЗ, нагрев и тд) стандартным числовым отображением.",
+      "apply": "Применить"
+    },
+    "customStat": {
+      "static": "Статический",
+      "trackable": "Отслеживаемый"
+    },
+    "titles": {
+      "movement": "Движение",
+      "burn": "Ожог"
+    },
+    "timedEffect": {
+      "pending": "Ожидается",
+      "override": "// Заменить"
+    },
+    "unitLoadout": {
+      "applyLower": "применить"
+    },
+    "pilotActions": {
+      "mountFailedTitle": "Не удалось взобраться"
     }
   },
   "mainMenu": {
@@ -638,7 +706,11 @@
       "sendVerificationCode": "Отправить проверочный код",
       "resetPassword": "Сбросить пароль",
       "copyLog": "Копировать логи",
-      "retry": "Попрбовать снова"
+      "retry": "Попрбовать снова",
+      "resendVerificationCode": "Отправить проверочный код заново",
+      "sendPasswordResetEmail": "Отправить ссылку для сброса пароля",
+      "setNewPassword": "Установить новый пароль",
+      "passwordChangeErrorText": "Не удалось изменить пароль:{msg}"
     },
     "dataUsage": {
       "title": "Использование данных"
@@ -649,8 +721,8 @@
     },
     "collection": {
       "colLastUpdate": "Последнее обновление",
-      "changelog": "Список изменений",
-      "colChanges": "Изменения"
+      "colChanges": "Изменения",
+      "changelog": "Список изменений"
     },
     "cloudData": {
       "imagesTab": "Изображения"
@@ -685,32 +757,120 @@
       "retryConnection": "Повторная попытка подключения"
     },
     "patreon": {
-      "tierSuffix": "{title} Опасность"
+      "tierSuffix": "{title} Опасность",
+      "accountLabel": "Аккаунт на Patreon:",
+      "linkPatreon": "Привязать аккаунт на Patreon"
     },
     "ui": {
-      "requiresItchPurchase": "Требуется привязанная покупка на Itch.io"
+      "requiresItchPurchase": "Требуется привязанная покупка на Itch.io",
+      "viewChangelog": "Список изменений",
+      "subscribe": "подписаться",
+      "refreshList": "Обновить список",
+      "unlinked": "Отвязано",
+      "unlink": "Отвязать",
+      "accountManagement": "Управление аккаунтами"
+    },
+    "account": {
+      "collectionUpdatedTitle": "Коллекция обновлена",
+      "jwtCopiedText": "ID токен скопирован в буфер обмена",
+      "itemAddedTitle": "Добавлен элемент"
+    },
+    "menu": {
+      "connected": "Подключён",
+      "logIn": "Вход",
+      "supportProject": "Помочь проекту",
+      "markAllRead": "Отметить все сообщения прочитанными",
+      "markAsRead": "Пометить как прочитанные"
+    },
+    "fields": {
+      "autoBackupFrequency": "Частота резервного копирования",
+      "filter": "Фильтр",
+      "oldPassword": "Предыдущий пароль",
+      "newPassword": "Новый пароль",
+      "deleteAccount": "Удалить аккаунт",
+      "newEmail": "Новый адрес эл. почты",
+      "emailAddress": "Адрес эл. почты",
+      "verificationCode": "Код верификации"
+    },
+    "actions": {
+      "remoteBackups": "Удалённые резервные копии",
+      "syncSettings": "Настройки синхронизации",
+      "accountDetails": "Детали учетной записи"
+    },
+    "titles": {
+      "forceUpload": "Принудительная загрузка",
+      "forceDownload": "Принудительное скачивание",
+      "confirmDelete": "Подтвердить удаление",
+      "accountDeletion": "Удаление учётной записи",
+      "credits": "Информация о разработчиках",
+      "storagePermissionRequired": "Требуется разрешение на сохранение!"
+    },
+    "deleteAccount": {
+      "notPurchases": "Удалить все покупки, совершённые через itch.io или прекратить подписку на Patreon"
+    },
+    "tooltips": {
+      "controlsHowOftenYourData": "Контролирует как часто ваши данные синхронизируются с облаком. В силу стоимости аренды серверов, определённые опции доступны только подписчикам на Patreon."
+    },
+    "codeEntry": {
+      "tooltip": "Введите код разблокировки, чтобы получить дополнительные возможности для аккаунта, либо материалы в формате LCP."
     }
   },
   "pm": {
     "new": {
       "down": "вниз",
       "identification": "Идентификация",
-      "background": "Предыстория",
       "biography": "Биография",
-      "appearance": "Внешний вид"
+      "appearance": "Внешний вид",
+      "background": "Предыстория"
     },
     "sheet": {
+      "sortByName": "Сортировать по имени",
+      "revert": "Отмена изменений",
+      "addEquipment": "Добавить снаряжение",
       "background": "предыстория"
     },
     "print": {
       "pilotHP": "ОЗ пилота",
-      "maxHP": "Максимальные ОЗ"
+      "maxHP": "Максимальные ОЗ",
+      "extras": "Дополнительно",
+      "type": "ТИП",
+      "range": "Дальность",
+      "damage": "Урон",
+      "system": "Система",
+      "armor": "Броня:",
+      "session": "Сессия",
+      "resource": "Ресурс",
+      "size2": "Размер:",
+      "armor3": "Броня:",
+      "name": "ИМЯ",
+      "gain": "Получить",
+      "other": "Иное"
+    },
+    "roster": {
+      "pilot": "Пилот",
+      "history": "История группы",
+      "finishEditing": "Завершить редактирование",
+      "deleteGroup": "Удалить группу",
+      "transfer": "Перенести",
+      "optional": "(опционально)",
+      "addGroupDescription": "Добавить описание группы",
+      "editGroupDescription": "Редактировать описание группы",
+      "lastModified": "Последние изменения",
+      "addGroup": "Добавить группу"
+    },
+    "fields": {
+      "resourceName": "Название ресурса",
+      "projectName": "Название проекта",
+      "requirements": "Требования",
+      "jumpTo": "перейти к",
+      "type": "Тип"
     }
   },
   "ui": {
     "card": {
       "tierColumns": "О1 / О2 / О3",
-      "systemPoints": "Очки систем{plural}"
+      "systemPoints": "Очки систем{plural}",
+      "integrations": "Интеграции"
     },
     "tooltips": {
       "resetCounter": "Сброс счётчика",
@@ -750,7 +910,9 @@
       "fromManufacturer": "От производителя",
       "fromContentPack": "Из контент-пака",
       "equipmentNotes": "Примечания к снаряжению",
-      "gmOnly": "Только для ведущего"
+      "gmOnly": "Только для ведущего",
+      "title": "Название",
+      "relationship": "Отношения"
     },
     "image": {
       "upload": "Загрузить",
@@ -773,8 +935,8 @@
       "requiresAccount": "Требуется аккаунт @:{'common.appName'}"
     },
     "action": {
-      "frequency": "Частота",
-      "compendiumEntry": "Запись в компендиуме"
+      "compendiumEntry": "Запись в компендиуме",
+      "frequency": "Частота"
     },
     "titles": {
       "clockEditor": "редактор счётчиков",
@@ -811,6 +973,29 @@
     "license": {
       "noRanks": "Отсутствуют ранги лицензии",
       "allUnlocked": "Все ранги лицензии открыты"
+    },
+    "widget": {
+      "noDescription": "Описание отсутствует.",
+      "noDataUpper": "Нет данных",
+      "bonus": "бонус",
+      "passive": "Пассивный",
+      "other": "Иное",
+      "noSelection": "Не выбрано",
+      "active": "Активный"
+    },
+    "clock": {
+      "deleteConfirm": "Вы уверены что хотите удалить этот счётчик? Это действие необратимо."
+    },
+    "dice": {
+      "critical": "// Крит"
+    },
+    "pwa": {
+      "updateNow": "Обновить сейчас"
+    },
+    "filter": {
+      "clearFilters": "Очистить фильтры",
+      "equalTo": "Равен",
+      "greaterThan": "Больше чем"
     }
   },
   "notify": {
@@ -818,7 +1003,17 @@
       "noSubscriptionText": "Ваш аккаунт Patreon был успешно привязан, но не удалось обнаружить действующий уровень подписки. Пожалуйста, подпишитесь на Patreon @:{'common.appName'} и попробуйте снова.",
       "updateCompleteTitle": "Обновление завершено",
       "passwordChangedText": "Пароль пользователя изменён",
-      "passwordFailedTitle": "Не удалось обновить пароль"
+      "passwordFailedTitle": "Не удалось обновить пароль",
+      "patreonLinkedTitle": "Привязан аккаунт на Patreon",
+      "patreonLinkedText": "Ваш аккаунт на Patreon был успешно привязан",
+      "patreonLinkFailedTitle": "Не удалось привязать аккаунт на Patreon",
+      "patreonLinkFailedText": "При попытке привязать ваш аккаунт на Patreon возникла ошибка",
+      "patreonUnlinkedTitle": "Аккаунт на Patreon отвязан",
+      "patreonUnlinkedText": "Ваш аккаунт на Patreon был отвязан",
+      "emailChangeCompleteText": "Адрес вашей эл. почты был изменен",
+      "emailChangeCancelledTitle": "Изменение адреса эл. почты отменено",
+      "publishedTitle": "Опубликовано",
+      "updateFailedTitle": "Не удалось обновить"
     },
     "gm": {
       "importCompleteTitle": "Импорт завершен",
@@ -849,6 +1044,40 @@
       "copiedTitle": "Статблок скопирован в буфер обмена",
       "copiedText": "Успешно скопировано",
       "errorText": "Не удалось скопировать статблок"
+    },
+    "dataItem": {
+      "connectionRestoredTitle": "Соединение восстановлено",
+      "itemDeletedTitle": "Элемент удалён",
+      "restoreFailedTitle": "Не удалось восстановить",
+      "deleteFailedTitle": "Не удалось удалить"
+    },
+    "share": {
+      "syncCompleteTitle": "Синхронизация завершена"
+    },
+    "common": {
+      "success": "Успех",
+      "error": "Ошибка",
+      "copied": "Скопировано"
+    },
+    "transfer": {
+      "downloadCompleteTitle": "Скачивание завершено",
+      "uploadCompleteTitle": "Загрузка завершена",
+      "uploadFailedTitle": "Не удалось загрузить",
+      "downloadFailedTitle": "Не удалось скачать"
+    },
+    "settings": {
+      "v2NoData": "Данные не найдены.",
+      "unableToImportTitle": "Не удалось импортировать данные",
+      "unableToReadFileTitle": "Не удалось распознать файл",
+      "dataImportSuccessTitle": "Данные успешно импортированы"
+    },
+    "image": {
+      "uploadedTitle": "Изображение загружено",
+      "deletedTitle": "Изображение удалено",
+      "deleteFailedTitle": "Не удалось удалить"
+    },
+    "link": {
+      "copiedTitle": "Ссылка скопирована"
     }
   },
   "print": {
@@ -866,7 +1095,10 @@
     "hull": "Корпус",
     "agi": "Ловкость",
     "sys": "Системы",
-    "hp": "ОЗ"
+    "hp": "ОЗ",
+    "sensors": "Сенсоры",
+    "structure": "Структура",
+    "size": "Размер"
   },
   "share": {
     "resultAuthor": "Автор",
@@ -891,5 +1123,26 @@
     "sheetStyle": "Стиль листа персонажа",
     "includeMech": "Включить мех",
     "shareLink": "Поделиться ссылкой"
+  },
+  "compendium": {
+    "categories": {
+      "manufacturers": "Производители",
+      "frames": "Шасси"
+    },
+    "reference": {
+      "statuses": "Статусы",
+      "glossary": "Словарь",
+      "pleaseNote": "Обратите внимание:",
+      "conditions": "Состояния"
+    },
+    "campaign": {
+      "removeFromCollection": "Удалить из подборки",
+      "sortByTitle": "Сортировать по названию",
+      "index": "Индекс",
+      "tableOfContents": "Оглавление"
+    },
+    "titles": {
+      "reference": "Справка"
+    }
   }
 }
