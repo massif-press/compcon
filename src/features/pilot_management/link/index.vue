@@ -132,10 +132,6 @@ const itemData = ref(null as any)
 const pilot = ref(null as Pilot | null)
 const rateLimitError = ref(null as { retryAfter: number | null; isDaily: boolean } | null)
 
-await getFromCode();
-
-await getFromCode();
-
 const compendiumLoaded = computed(() => {
       return CompendiumStore().loaded;
     })
@@ -178,9 +174,6 @@ const links = computed(() => {
       return links;
     })
 
-function unCamelCase(str) {
-      return unCamelCase(str);
-    }
 function copyToClipboard() {
       navigator.clipboard.writeText(window.location.href);
     }
@@ -215,9 +208,9 @@ async function getFromCode() {
       }
 
       try {
-        const itemData = await downloadFromS3(row.uri);
-        itemData.value = itemData;
-        pilot.value = new Pilot(itemData);
+        const data = await downloadFromS3(row.uri);
+        itemData.value = data;
+        pilot.value = new Pilot(data);
       } catch (err) {
         logger.error(`Error downloading pilot data: ${err}`, this, err);
       }
@@ -225,8 +218,9 @@ async function getFromCode() {
       loading.value = false;
     }
 
-onMounted(() => {
-if (pilot.value) document.title = `${pilot.value.Callsign} // ${pilot.value.Name}`;
-    else document.title = 'Pilot Link';
+onMounted(async () => {
+  await getFromCode();
+  if (pilot.value) document.title = `${pilot.value.Callsign} // ${pilot.value.Name}`;
+  else document.title = 'Pilot Link';
 })
 </script>
