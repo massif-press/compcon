@@ -223,10 +223,12 @@ export const UserStore = defineStore('cloud', {
       })
     },
     async fetchLcp(dbItem: any): Promise<any> {
+      const meta = UserMetadataStore().UserMetadata
       const presign = await getItemDownloadLink(
-        UserMetadataStore().UserMetadata.ItchData.user.id,
+        meta.ItchData.user.id,
         dbItem.game_id,
-        dbItem.uri
+        dbItem.uri,
+        meta.HasCoreBook
       )
       const file = await getFromPresignDirect(presign)
       const fileData = await this.readAsBinaryStringAsync(file)
