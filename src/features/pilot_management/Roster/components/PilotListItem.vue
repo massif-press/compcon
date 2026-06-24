@@ -75,30 +75,31 @@
                 <span class="text-disabled">&nbsp;{{ $t('common.status') }} [</span>
                 <span :class="`text-${statusColor(pilot.Status)}`">{{ pilot.Status }}</span>
                 <span class="text-disabled">] -&nbsp;</span>
-                <b class="text-success">&nbsp;{{ $t('pm.roster.llColon') }} {{ pilot.Level }}&nbsp;</b>
+                <b class="text-success">&nbsp;{{ $t('pm.sheet.ll') }}: {{ pilot.Level
+                  }}&nbsp;</b>
                 <cc-slashes />
                 <span class="text-text">
                   [
                   <b>
-                    {{ $t('pm.roster.h') }}
+                    {{ $t('common.hase_h') }}:
                     <span class="text-weight-normal text-accent">
                       {{ pilot.MechSkillsController.MechSkills.Hull }}
                     </span>
                   </b>
                   <b>
-                    {{ $t('pm.roster.a') }}
+                    {{ $t('common.hase_a') }}:
                     <span class="text-weight-normal text-accent">
                       {{ pilot.MechSkillsController.MechSkills.Agi }}
                     </span>
                   </b>
                   <b>
-                    {{ $t('pm.roster.s2') }}
+                    {{ $t('common.hase_2') }}:
                     <span class="text-weight-normal text-accent">
                       {{ pilot.MechSkillsController.MechSkills.Sys }}
                     </span>
                   </b>
                   <b>
-                    {{ $t('pm.roster.e') }}
+                    {{ $t('common.hase_e') }}:
                     <span class="text-weight-normal text-accent">
                       {{ pilot.MechSkillsController.MechSkills.Eng }}
                     </span>

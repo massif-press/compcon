@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section-header :title="$t('pm.titles.coreBonuses')">
+    <section-header :title="$t('pm.level.coreBonuses')">
       <cc-modal :title="$t('pm.titles.setPilotCoreBonuses')" icon="cc:corebonus">
         <template #activator="{ open }">
           <section-edit-chip

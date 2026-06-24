@@ -48,7 +48,7 @@
                     density="compact"
                     item-value="title"
                     :hide-details="!labelExists(label)"
-                    :placeholder="$t('gm.fields.label')"
+                    :placeholder="$t('gm.labels.label')"
                     class="mt-2" />
                 </v-col>
                 <v-col cols="2">
@@ -103,7 +103,7 @@
               height="100%"
               style="position: relative">
               <div class="d-flex align-center">
-                <div class="text-caption text-text flex-grow-1">{{ $t('gm.labels.paletteHeading') }}</div>
+                <div class="text-caption text-text flex-grow-1">{{ $t('gm.labels.labelPalette') }}</div>
                 <v-tooltip location="bottom">
                   <template #activator="{ props }">
                     <v-btn icon

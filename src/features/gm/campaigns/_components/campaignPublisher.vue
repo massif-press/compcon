@@ -69,7 +69,7 @@
 
           <div class="text-left mx-auto text-caption"
             style="width: 80%">
-            {{ $t('gm.campaign.releaseNotes') }}
+            {{ $t('gm.campaign.releaseNotes') }}:
             <v-textarea v-model="changes"
               outlined
               dense

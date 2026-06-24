@@ -24,7 +24,7 @@
           :to="'/gm'"
           help="Manage Campaigns, Encounters, and NPCs"
           @hover="ccLog('gm')">
-          {{ $t('mainMenu.menu.gmToolkit') }}
+          {{ $t('gm.landing.toolkit') }}
         </main-btn>
         <main-btn icon="cc:campaign"
           :to="'/active-mode'"
@@ -120,7 +120,7 @@
             </v-col>
 
             <v-col cols="auto">
-              <cc-modal :title="$t('mainMenu.titles.credits')"
+              <cc-modal :title="$t('common.credits')"
                 icon="cc:gms">
                 <template #activator="{ open }">
                   <cc-button size="small"

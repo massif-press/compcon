@@ -11,12 +11,12 @@
       <v-tab value="skills">
         <v-icon v-show="pilot.SkillsController.HasFullSkills"
           icon="mdi-check" />
-        {{ $t('pm.level.skills') }}
+        {{ $t('pm.new.skills') }}
       </v-tab>
       <v-tab value="talents">
         <v-icon v-show="pilot.TalentsController.HasFullTalents"
           icon="mdi-check" />
-        {{ $t('pm.level.talents') }}
+        {{ $t('common.talents') }}
       </v-tab>
       <v-tab value="mechskills">
         <v-icon v-show="pilot.MechSkillsController.HasFullHASE"
@@ -36,7 +36,7 @@
           value="corebonuses">
           <v-icon v-show="pilot.CoreBonusController.HasCBs"
             icon="mdi-check" />
-          {{ $t('compendium.categories.coreBonuses') }}
+          {{ $t('pm.level.coreBonuses') }}
         </v-tab>
       </v-slide-x-transition>
       <v-tab value="confirm">{{ $t('common.confirm') }}</v-tab>

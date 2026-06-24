@@ -49,7 +49,7 @@
           <div class="d-block">
             <div class="heading h2 mb-1"
               style="line-height: 15px">
-              <span class="heading h3 text-disabled">{{ $t('active.pilotsPanel.ll') }}&nbsp;</span>
+              <span class="heading h3 text-disabled">{{ $t('pm.sheet.ll') }}&nbsp;</span>
               <span>{{ pilot.Level }}</span>
               <v-icon v-if="!pilot.IsRemote"
                 size="12"
@@ -123,21 +123,21 @@
                 <v-col cols="auto"
                   class="mr-4">
                   <div class="text-overline mb-n3"
-                    style="opacity: 0.4">{{ $t('pm.sheet.name') }}</div>
+                    style="opacity: 0.4"><span class="text-lowercase">{{ $t('common.name') }}</span></div>
                   <div class="stat-text mt-n2 mb-n1">{{ pilot.Name }}</div>
                 </v-col>
                 <v-col v-if="pilot.Background"
                   cols="auto"
                   class="mr-4 pb-0">
                   <div class="text-overline mb-n3"
-                    style="opacity: 0.4">{{ $t('pm.sheet.background') }}</div>
+                    style="opacity: 0.4">{{ $t('common.background') }}</div>
                   <div class="stat-text mt-n2 mb-n1">{{ pilot.Background }}</div>
                 </v-col>
                 <v-col v-if="pilot.PlayerName"
                   cols="auto"
                   class="mr-4 pb-0">
                   <div class="text-overline mb-n3"
-                    style="opacity: 0.4">{{ $t('pm.sheet.player') }}</div>
+                    style="opacity: 0.4">{{ $t('common.player') }}</div>
                   <div class="stat-text mt-n2 mb-n1">{{ pilot.PlayerName }}</div>
                 </v-col>
                 <v-col cols="auto"
@@ -249,7 +249,7 @@
   </template>
 
   <cc-modal v-model="levelEdit"
-    :title="$t('pm.titles.editLicenseLevel')"
+    :title="$t('pm.actions.editLicenseLevel')"
     icon="cc:pilot"
     shrink
     width="600px">

@@ -45,7 +45,7 @@
           class="mt-n4">
           <v-col cols="auto"
             class="text-center">
-            <div class="small-header overline">{{ $t('stats.hull') }}</div>
+            <div class="small-header overline"><span class="text-uppercase">{{ $t('pm.link.hull') }}</span></div>
             <div v-html-safe="item.Stats.Hull"
               class="heading h3" />
           </v-col>
@@ -57,13 +57,13 @@
           </v-col>
           <v-col cols="auto"
             class="text-center">
-            <div class="small-header overline">{{ $t('stats.sys') }}</div>
+            <div class="small-header overline"><span class="text-uppercase">{{ $t('pm.link.sys') }}</span></div>
             <div v-html-safe="item.Stats.Systems"
               class="heading h3" />
           </v-col>
           <v-col cols="auto"
             class="text-center">
-            <div class="small-header overline">{{ $t('stats.eng') }}</div>
+            <div class="small-header overline"><span class="text-uppercase">{{ $t('pm.link.eng') }}</span></div>
             <div v-html-safe="item.Stats.Engineering"
               class="heading h3" />
           </v-col>
@@ -122,7 +122,7 @@
           </v-col>
           <v-col cols="auto"
             class="text-center">
-            <div class="small-header overline">{{ $t('stats.heat') }}</div>
+            <div class="small-header overline"><span class="text-uppercase">{{ $t('pm.sheet.heat') }}</span></div>
             <div>
               <v-chip variant="outlined"
                 label
@@ -137,7 +137,7 @@
           density="compact">
           <v-col>
             <fieldset>
-              <legend class="caption font-weight-bold px-1">{{ $t('stats.save') }}</legend>
+              <legend class="caption font-weight-bold px-1"><span class="text-uppercase">{{ $t('common.save') }}</span></legend>
               <div class="heading h3 text-center pb-2">
                 {{ item.Stats.Save }}
               </div>

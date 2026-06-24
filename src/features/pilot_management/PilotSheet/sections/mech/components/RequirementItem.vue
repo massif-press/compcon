@@ -36,7 +36,7 @@
         <b v-if="licenseRequirement.source === 'GMS'">{{ $t('pm.sheet.gmsSTANDARDPILOTSLICENSE') }}</b>
         <b v-else>{{ licenseRequirement.name }} {{ $t('common.rank') }} {{ licenseRequirement.rank }}</b>
         <v-divider class="my-1" />
-        <div class="text-cc-overline text-disabled">{{ $t('pm.sheet.requiredFor') }}</div>
+        <div class="text-cc-overline text-disabled">{{ $t('pm.sheet.requiredFor') }}:</div>
         <cc-chip v-for="(item, index) in licenseRequirement.items"
           :key="`item-${index}`"
           size="small"

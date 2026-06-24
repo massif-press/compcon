@@ -10,15 +10,15 @@
       <v-btn size="small"
         height="30"
         width="33.33%"
-        value="Resource">{{ $t('pm.selectors.resource') }}</v-btn>
+        value="Resource">{{ $t('pm.print.resource') }}</v-btn>
       <v-btn size="small"
         height="30"
         width="33.33%"
-        value="Mech">{{ $t('pm.selectors.mech') }}</v-btn>
+        value="Mech">{{ $t('common.mech') }}</v-btn>
       <v-btn size="small"
         height="30"
         width="33.33%"
-        value="Tactical">{{ $t('pm.selectors.tactical') }}</v-btn>
+        value="Tactical">{{ $t('pm.sheet.tactical') }}</v-btn>
     </v-btn-toggle>
     <cc-text-field v-model="customName"
       color="primary"

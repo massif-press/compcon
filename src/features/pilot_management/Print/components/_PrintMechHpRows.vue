@@ -45,7 +45,7 @@
   </v-row>
 
   <v-row dense>
-    <print-hp-block :title="$t('stats.heat')"
+    <print-hp-block :title="$t('pm.sheet.heat').toUpperCase()"
       :value="mech.HeatCapacity"
       max-label="HEAT CAPACITY"
       :blank="blank"
@@ -68,7 +68,7 @@
 
     <v-col class="text-center">
       <fieldset>
-        <legend class="font-weight-bold caption text-primary px-2 text-center">{{ $t('pm.print.corePOWER') }}</legend>
+        <legend class="font-weight-bold caption text-primary px-2 text-center">{{ $t('active.trackable.corePower') }}</legend>
 
         <blank-line v-if="blank"
           :height="102" />

@@ -20,11 +20,11 @@
           <div v-if="nextRoundAlerts">
             <v-divider class="my-4" />
 
-            <div class="text-cc-overline mt-2">{{ $t('active.pcEndRound.nextRound') }}</div>
+            <div class="text-cc-overline mt-2">{{ $t('active.pcEndRound.nextRound') }}:</div>
             <div class="my-1">
               <div class="mx-4 px-2 text-text bg-panel">
                 <b class="text-secondary">{{ controller.CombatName }}</b>
-                {{ $t('active.pcEndRound.willLoseStatuses') }}
+                {{ $t('active.pcEndRound.willLoseStatuses') }}:
                 <div v-for="(s, index) in getTimeoutStatuses()"
                   :key="`timeout-${index}`"
                   class="px-2 text-text bg-panel">
@@ -44,7 +44,7 @@
                 :key="`timeout-custom-${index}`"
                 class="my-1 mx-4 px-2 text-text bg-panel">
                 <b class="text-secondary">{{ controller.CombatName }}</b>
-                {{ $t('active.pcEndRound.willLoseStatuses') }}
+                {{ $t('active.pcEndRound.willLoseStatuses') }}:
                 <div v-for="(s, sIdx) in getTimeoutStatuses()"
                   :key="`timeout-custom-inner-${sIdx}`"
                   class="my-1 mx-4 px-2 text-text bg-panel">
@@ -63,7 +63,7 @@
               :key="`braced-${index}`"
               class="my-1 mx-4 px-2 text-text bg-panel">
               <i18n-t keypath="active.pcEndRound.braceExit" tag="span" scope="global">
-                <template #braced><b class="text-accent">{{ $t('active.pcEndRound.braced') }}</b></template>
+                <template #braced><b class="text-accent">{{ $t('active.actions.braced') }}</b></template>
                 <template #cooldown><b class="text-warning">{{ $t('active.pcEndRound.braceCooldown') }}</b></template>
               </i18n-t>
             </div>

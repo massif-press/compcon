@@ -58,7 +58,7 @@
           </v-col>
         </v-row>
 
-        <div class="text-text text-cc-overline">{{ pc.lcpsInConfig }}</div>
+        <div class="text-text text-cc-overline">{{ pc.lcpsInConfig }}:</div>
 
         <v-card v-if="!config.packList.length"
           flat

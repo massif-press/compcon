@@ -47,7 +47,7 @@
           </div>
           <div class="text-cc-overline"
             :class="!mobile && 'px-2'">
-            {{ $t('pm.sheet.anyOrganizationsIndividualsOrTechnologiesEngaging') }}
+            {{ $t('pm.sheet.anyOrganizationsIndividualsOrTechnologiesEngaging') }}:
             <ul class="pb-1">
               <li>
                 {{ $t('pm.sheet.reproductionOfTheSubjectivePersonageOf') }}
@@ -88,7 +88,7 @@
             <cc-button v-if="!mobile"
               icon="mdi-dice-6"
               variant="outlined"
-              :tooltip="$t('pm.tooltips.rerollQuirk')"
+              :tooltip="$t('pm.sheet.rerollQuirk')"
               @click="rollQuirk" />
             <cc-button v-else
               prepend-icon="mdi-dice-6"

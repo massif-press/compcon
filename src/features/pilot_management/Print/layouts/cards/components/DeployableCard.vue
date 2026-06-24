@@ -28,7 +28,7 @@
         <v-col v-if="(deployable as any).Size">
           <v-card variant="tonal"
             class="pa-1">
-            <b>{{ $t('stats.size') }}:</b>
+            <b><span class="text-uppercase">{{ $t('ui.fields.size') }}</span>:</b>
             <br />
             {{ getSize }}
           </v-card>
@@ -36,7 +36,7 @@
         <v-col v-if="(deployable as any).Armor">
           <v-card variant="tonal"
             class="pa-1">
-            <b>{{ $t('pm.print.armor') }}</b>
+            <b>{{ $t('stats.armor') }}:</b>
             <br />
             {{ (deployable as any).Armor }}
           </v-card>
@@ -72,7 +72,7 @@
         <v-col v-if="(deployable as any).Heatcap">
           <v-card variant="tonal"
             class="pa-1">
-            <b>{{ $t('pm.print.heatCap') }}</b>
+            <b>{{ $t('pm.print.heatCap') }}:</b>
             <br />
             {{ (deployable as any).Heatcap }}
           </v-card>
@@ -88,7 +88,7 @@
         <v-col v-if="(deployable as any).TechAttack">
           <v-card variant="tonal"
             class="pa-1">
-            <b>{{ $t('pm.print.techAtk') }}</b>
+            <b>{{ $t('pm.print.techAtk') }}:</b>
             <br />
             {{ (deployable as any).TechAttack }}
           </v-card>
@@ -104,7 +104,7 @@
         <v-col v-if="(deployable as any).Save">
           <v-card variant="tonal"
             class="pa-1">
-            <b>{{ $t('stats.save') }}:</b>
+            <b><span class="text-uppercase">{{ $t('common.save') }}</span>:</b>
             <br />
             {{ (deployable as any).Save }}
           </v-card>

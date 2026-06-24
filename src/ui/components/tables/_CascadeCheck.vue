@@ -24,7 +24,7 @@
           {{ a.Name }}
         </v-col>
         <v-col>
-          {{ $t('ui.cascade.status') }}
+          {{ $t('common.status') }}:
           <span v-if="!checked.includes(i)" style="opacity: 0.4">{{ $t('ui.cascade.pending') }}</span>
           <span v-else :class="a.IsCascading ? 'text-red' : 'text-success'">
             {{ a.IsCascading ? $t('ui.cascade.inCascade') : $t('active.common.nominal') }}

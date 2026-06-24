@@ -86,13 +86,13 @@
       <cc-alert v-if="missingContent.length"
         class="mx-12 mt-4"
         icon="mdi-alert"
-        :title="$t('gm.titles.missingContentPacks')">
+        :title="$t('gm.import.missingContentPacks')">
         <p>
           {{ $t('gm.import.oldVersionWarning') }}
         </p>
         <v-card-text>
           <p class="heading h4 text-accent">
-            {{ $t('gm.import.missingContentPacks') }}
+            {{ $t('gm.import.missingContentPacks') }}:
           </p>
           <p v-html-safe="missingContent"
             class="effect-text text-center bg-background pa-1 ma-1" />

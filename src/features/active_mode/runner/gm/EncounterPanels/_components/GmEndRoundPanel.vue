@@ -2,7 +2,7 @@
   <end-round-dialog :loading="loading">
     <template #default="{ isActive }">
       <v-card-text>
-          <div class="text-cc-overline">{{ $t('active.gmEndRound.unusedActions') }}</div>
+          <div class="text-cc-overline">{{ $t('active.gmEndRound.unusedActions') }}:</div>
           <div v-if="hasRemainingActions.length">
             <v-row v-for="c in hasRemainingActions"
               :key="c.Parent.ID"
@@ -23,7 +23,7 @@
           <div v-if="nextRoundAlerts">
             <v-divider class="my-4" />
 
-            <div class="text-cc-overline mt-2">{{ $t('active.pcEndRound.nextRound') }}</div>
+            <div class="text-cc-overline mt-2">{{ $t('active.pcEndRound.nextRound') }}::</div>
             <div v-for="a in activeActors"
               :key="a.Parent.ID"
               class="my-1">
@@ -31,7 +31,7 @@
                 :key="`timeout-${index}`"
                 class="mx-4 px-2 text-text bg-panel">
                 <b class="text-secondary">{{ a.CombatName }}</b>
-                {{ $t('active.pcEndRound.willLoseStatuses') }}
+                {{ $t('active.pcEndRound.willLoseStatuses') }}::
                 <div v-for="(s, sIdx) in getTimeoutStatuses(a)"
                   :key="`timeout-inner-${sIdx}`"
                   class="px-2 text-text bg-panel">
@@ -51,7 +51,7 @@
                 :key="`timeout-custom-${index}`"
                 class="my-1 mx-4 px-2 text-text bg-panel">
                 <b class="text-secondary">{{ a.CombatName }}</b>
-                {{ $t('active.pcEndRound.willLoseStatuses') }}
+                {{ $t('active.pcEndRound.willLoseStatuses') }}::
                 <div v-for="(s, sIdx) in getTimeoutStatuses(a)"
                   :key="`timeout-custom-inner-${sIdx}`"
                   class="my-1 mx-4 px-2 text-text bg-panel">
@@ -71,7 +71,7 @@
               class="my-1 mx-4 px-2 text-text bg-panel">
               <b class="text-secondary">{{ b.CombatName }}</b>
               <i18n-t keypath="active.gmEndRound.braceExit" tag="span" scope="global">
-                <template #braced><b class="text-accent">{{ $t('active.pcEndRound.braced') }}</b></template>
+                <template #braced><b class="text-accent">{{ $t('active.actions.braced') }}</b></template>
                 <template #cooldown><b class="text-warning">{{ $t('active.pcEndRound.braceCooldown') }}</b></template>
               </i18n-t>
             </div>
@@ -79,7 +79,7 @@
 
           <v-divider class="my-4" />
 
-          <div class="text-cc-overline mt-2">{{ $t('active.gmEndRound.reinforcementsReady') }}</div>
+          <div class="text-cc-overline mt-2">{{ $t('active.gmEndRound.reinforcementsReady') }}:</div>
           <div v-if="reinforcements.length">
             <div v-for="r in reinforcements"
               :key="r.actor.ID"

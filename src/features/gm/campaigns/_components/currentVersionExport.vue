@@ -12,7 +12,7 @@
       </v-toolbar-title>
     </v-toolbar>
     <v-card-text>
-      <div class="text-caption text-disabled">{{ $t('gm.campaign.latestChanges') }}</div>
+      <div class="text-caption text-disabled">{{ $t('gm.campaign.latestChanges') }}:</div>
       {{ latest.changes }}
     </v-card-text>
     <v-divider />

@@ -43,7 +43,7 @@
               { title: 'NPC', value: 'npc' },
               { title: 'Other', value: 'other' },
             ]"
-            :label="$t('active.fields.type')"
+            :label="$t('common.type')"
             chip-variant="text"
             class="mb-4" />
           <cc-select v-model="newPlaceholder.side"
@@ -57,7 +57,7 @@
             class="mb-4" />
           <div class="mb-4">
             <cc-text-field v-model="newPlaceholder.name"
-              :label="$t('active.fields.name')" />
+              :label="$t('common.name')" />
           </div>
 
           <v-fade-transition>

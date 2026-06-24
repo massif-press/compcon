@@ -1,6 +1,5 @@
 <template>
-  <cc-modal
-    v-model="dialog"
+  <cc-modal v-model="dialog"
     width="50vw"
     shrink
     icon="cc:role_striker"
@@ -8,19 +7,19 @@
     <v-card-text class="text-center pt-0">
       <span class="text-cc-overline">{{ $t('ui.confirm.heading') }}</span>
       <div class="flavor-text">
-        <span style="opacity: 0.4">{{ $t('common.compconPrompt') }}&nbsp;</span>
+        <span style="opacity: 0.4">>>{{ $t('common.appName') }}//&nbsp;</span>
         <span>
           <i18n-t keypath="pm.loadout.lancerSuperheavyClassArmamentRequiresTwo"
             tag="span"
             scope="global">
-            <template #mount><span class="text-accent">{{ $t('pm.loadout.bracingMount') }}</span></template>
+            <template #mount><span class="text-accent">{{ $t('pm.loadout.bracingMount')
+                }}</span></template>
           </i18n-t>
           {{ $t('pm.loadout.thisBracingMountWillBeNot') }}
         </span>
       </div>
       <div class="heading">
-        <cc-button
-          v-for="(m, index) in availableMounts"
+        <cc-button v-for="(m, index) in availableMounts"
           :key="`mount-${index}`"
           x-large
           block
@@ -54,31 +53,31 @@ const props = defineProps<{
 const dialog = ref(false)
 
 const availableMounts = computed(() => {
-      let candidates = props.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
-        props.mech.Pilot.has('corebonus', 'cb_improved_armament'),
-        false
-      ) as EquippableMount[];
-      if (superheavySelect.value) {
-        candidates = props.mech.MechLoadoutController.ActiveLoadout.Mounts.filter(
-          (m) => m.Type === MountType.Heavy
-        );
-      }
-      return candidates.filter((x) => x.Name !== props.mount.Name);
-    })
+  let candidates = props.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
+    props.mech.Pilot.has('corebonus', 'cb_improved_armament'),
+    false
+  ) as EquippableMount[];
+  if (superheavySelect.value) {
+    candidates = props.mech.MechLoadoutController.ActiveLoadout.Mounts.filter(
+      (m) => m.Type === MountType.Heavy
+    );
+  }
+  return candidates.filter((x) => x.Name !== props.mount.Name);
+})
 const superheavySelect = computed(() => {
-      return (
-        props.mech.Pilot.has('corebonus', 'cb_superheavy_mounting') &&
-        props.mech.MechLoadoutController.ActiveLoadout.Mounts.some(
-          (m) => m.Type === MountType.Heavy
-        ) &&
-        props.mount.Type !== MountType.Heavy
-      );
-    })
+  return (
+    props.mech.Pilot.has('corebonus', 'cb_superheavy_mounting') &&
+    props.mech.MechLoadoutController.ActiveLoadout.Mounts.some(
+      (m) => m.Type === MountType.Heavy
+    ) &&
+    props.mount.Type !== MountType.Heavy
+  );
+})
 
 function show() {
-      dialog.value = true;
-    }
+  dialog.value = true;
+}
 function hide() {
-      dialog.value = false;
-    }
+  dialog.value = false;
+}
 </script>

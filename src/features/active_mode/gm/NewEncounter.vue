@@ -19,7 +19,7 @@
           <v-slide-x-transition leave-absolute>
             <div v-if="!emptyEncounter">
               <cc-titled-divider v-if="!encounter"
-                :title="$t('active.titles.selectEncounter')"
+                :title="$t('gm.campaign.selectEncounter').toLowerCase()"
                 color="accent"
                 class="mb-1" />
               <v-row v-if="!encounter"

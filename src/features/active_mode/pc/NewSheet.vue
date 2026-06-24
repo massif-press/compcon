@@ -179,7 +179,7 @@
                           justify="space-around">
                           <v-col cols="auto">
                             <span>
-                              {{ $t('active.newSheet.str') }}
+                              {{ $t('pm.sheet.str') }}
                               <b>{{ mech.MaxStructure }}</b>
                             </span>
                           </v-col>
@@ -200,14 +200,14 @@
 
                           <v-col cols="auto">
                             <span>
-                              {{ $t('active.newSheet.heat') }}
+                              {{ $t('pm.sheet.heat') }}
                               <b>{{ mech.HeatCapacity }}</b>
                             </span>
                           </v-col>
 
                           <v-col cols="auto">
                             <span>
-                              {{ $t('active.newSheet.repCap') }}
+                              {{ $t('pm.sheet.repcap') }}
                               <b>{{ mech.RepairCapacity }}</b>
                             </span>
                           </v-col>

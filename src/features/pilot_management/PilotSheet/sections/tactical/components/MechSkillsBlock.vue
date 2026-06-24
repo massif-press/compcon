@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section-header :title="$t('pm.titles.mechSkills')">
+    <section-header :title="$t('pm.level.mechSkills')">
       <cc-modal :title="$t('pm.titles.setPilotMechSkills')"
         icon="cc:frame"
         shrink>

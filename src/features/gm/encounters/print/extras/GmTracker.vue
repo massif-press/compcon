@@ -22,7 +22,7 @@
     </v-col>
   </v-row>
   <div v-if="Neutral.length > 0">
-    <div class="text-caption mt-1">{{ $t('gm.encPrint.neutral') }}</div>
+    <div class="text-caption mt-1">{{ $t('gm.fields.neutral') }}</div>
     <v-row dense>
       <v-col cols="auto"
         v-for="c in Neutral"

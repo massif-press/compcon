@@ -38,7 +38,7 @@
         <v-col>
           <div class="heading h2">{{ $t('pm.link.pilotRequiresReSync') }}</div>
           <p class="text-center">
-            {{ $t('pm.roster.pilot') }}
+            {{ $t('pm.new.pilot') }}
             <b class="text-accent">
               {{ itemData.callsign }}
             </b>

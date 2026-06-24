@@ -16,7 +16,7 @@
       {{ $t("mainMenu.dataUsage.title") }}
       <cc-slashes />
       {{ (cloudUseMb >= 1 ? cloudUseMb : cloudUseKb).toFixed(2) }}
-      {{ cloudUseMb >= 1 ? $t("mainMenu.unit.mb") : $t("mainMenu.unit.kb") }} {{ $t("mainMenu.dataUsage.ofMaxMb", { max: cloudMaxMb.toFixed(2) }) }}
+      {{ cloudUseMb >= 1 ? $t("ui.image.mb") : $t("mainMenu.unit.kb") }} {{ $t("mainMenu.dataUsage.ofMaxMb", { max: cloudMaxMb.toFixed(2) }) }}
       <cc-button size="small"
         variant="tonal"
         color="info"

@@ -23,7 +23,7 @@
       <v-card-text>
         <div v-if="!campaigns.length"
           class="text-center text-disabled pa-5">
-          <i>{{ $t('ui.widget.noDataUpper') }}</i>
+          <i>{{ $t('common.noData') }}</i>
         </div>
         <v-card v-else
           v-for="(c, i) in campaigns"

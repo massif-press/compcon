@@ -2,10 +2,10 @@
   <v-container>
     <div class="heading mech" style="line-height: 30px">{{ a.title }}</div>
     <div class="text-caption ml-1 my-2">
-      {{ a.ccVersion }}
+      {{ a.ccVersion }}:
       <b class="text-accent">{{ $appVersion }}</b>
       <cc-slashes class="pl-1" />
-      {{ a.lancerCoreVersion }}
+      {{ a.lancerCoreVersion }}:
       <b class="text-accent">{{ $lancerVersion }}</b>
     </div>
     <v-row dense align="center" justify="center" class="my-2">

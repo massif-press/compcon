@@ -13,7 +13,7 @@
       variant="outlined"
       tile>
       <span class="stat-text text-accent">
-        {{ $t('pm.shared.warningSubmission', { id: pilot.ID }) }}
+        {{ $t('pm.shared.warningSubmission', { id: pilot.ID }) }}:
       </span>
       <ul class="flavor-text text-error">
         <li v-if="!pilot.Callsign">
@@ -38,7 +38,7 @@
     <cc-alert v-else-if="context === 'level' && !pilotReady"
       color="error">
       <div class="stat-text">
-        {{ $t('pm.shared.warningSubmission', { id: pilot.ID }) }}
+        {{ $t('pm.shared.warningSubmission', { id: pilot.ID }) }}:
       </div>
       <ul class="flavor-text text-stark">
         <li v-if="!pilot.Callsign">{{ $t('pm.shared.pilotCALLSIGNBlankOrInvalid') }}</li>

@@ -73,9 +73,9 @@
                   <cc-slashes />
                   <b>{{ pilot.Status }}</b>
                   <v-divider />
-                  {{ $t('stats.hull') }} {{ pilot.MechSkillsController.MechSkills.Hull }} {{ $t('stats.agi') }}
-                  {{ pilot.MechSkillsController.MechSkills.Agi }} {{ $t('stats.sys') }}
-                  {{ pilot.MechSkillsController.MechSkills.Sys }} {{ $t('stats.eng') }}
+                  <span class="text-uppercase">{{ $t('pm.link.hull') }}</span> {{ pilot.MechSkillsController.MechSkills.Hull }} {{ $t('stats.agi') }}
+                  {{ pilot.MechSkillsController.MechSkills.Agi }} <span class="text-uppercase">{{ $t('pm.link.sys') }}</span>
+                  {{ pilot.MechSkillsController.MechSkills.Sys }} <span class="text-uppercase">{{ $t('pm.link.eng') }}</span>
                   {{ pilot.MechSkillsController.MechSkills.Eng }}
                   <v-divider />
                   <div>

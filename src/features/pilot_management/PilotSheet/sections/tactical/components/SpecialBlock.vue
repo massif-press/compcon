@@ -53,7 +53,7 @@
         </cc-modal>
       </v-col>
       <v-col>
-        <cc-modal :title="$t('pm.titles.addExoticEquipment')"
+        <cc-modal :title="$t('pm.sheet.addExoticEquipment')"
           icon="mdi-star-circle-outline"
           clip>
           <template #activator="{ open }">

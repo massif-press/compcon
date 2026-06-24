@@ -14,7 +14,7 @@
     <cc-chip>
       <v-icon start
         icon="cc:weaponmod" />
-      {{ $t('ui.card.modifies') }} {{ item.ModTarget?.Name || 'unknown' }}
+      {{ $t('ui.card.modifies') }}: {{ item.ModTarget?.Name || 'unknown' }}
     </cc-chip>
   </cc-heading>
 
@@ -110,7 +110,7 @@
 
   <div v-if="item.IntegratedEquipment && item.IntegratedEquipment.length">
     <div v-show="!dense"
-      class="text-cc-overline text-disabled">//{{ $t('ui.card.integratedEquipment') }}</div>
+      class="text-cc-overline text-disabled">//{{ $t('pm.loadout.integratedEquipment') }}</div>
     <cc-integrated-info v-for="(x, index) in item.IntegratedEquipment"
       :key="`integrated-${index}`"
       :item="x"
@@ -123,7 +123,7 @@
 
   <div v-if="!footer && showFooter && item.Tags?.length">
     <div v-show="!dense"
-      class="text-cc-overline text-disabled">//{{ $t('ui.card.equipmentTags') }}</div>
+      class="text-cc-overline text-disabled">//{{ $t('compendium.categories.equipmentTags') }}</div>
     <cc-tags :tags="item.Tags"
       :extended="!smallTags"
       :tier="tier" />

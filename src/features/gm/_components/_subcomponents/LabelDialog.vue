@@ -20,7 +20,7 @@
                 :items="allLabels"
                 item-title="title"
                 item-value="key"
-                :label="$t('gm.fields.label')"
+                :label="$t('gm.labels.label')"
                 hide-details
                 :menu-props="{ retainFocus: false }" />
             </v-col>
@@ -39,7 +39,7 @@
                 :items="selectedLabels"
                 item-title="title"
                 item-value="key"
-                :label="$t('gm.fields.label')"
+                :label="$t('gm.labels.label')"
                 hide-details />
             </v-col>
           </v-row>

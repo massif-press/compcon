@@ -53,7 +53,7 @@
         <v-row style="height: 100%">
           <div class="heading h2 text-disabled my-auto py-5"
             style="width: 100%">
-            // {{ mobile ? $t('pm.loadout.tap') : $t('pm.loadout.click') }} {{ $t('pm.loadout.toAddSlashes') }}
+            // {{ mobile ? $t('ui.widget.tap') : $t('ui.widget.click') }} {{ $t('pm.loadout.toAddSlashes') }}
           </div>
         </v-row>
       </div>

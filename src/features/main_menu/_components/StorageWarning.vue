@@ -10,7 +10,7 @@
         <div>
           <i18n-t keypath="mainMenu.storage.iosWarning" tag="span" scope="global">
             <template #emphasis><b>{{ $t("mainMenu.storage.autoDeleteData") }}</b></template>
-          </i18n-t>
+          </i18n-t>:
         </div>
         <ol class="mt-2 ml-4">
           <li>

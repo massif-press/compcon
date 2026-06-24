@@ -127,7 +127,7 @@
         <v-card class="pa-2"
           flat
           tile>
-          <div class="text-cc-overline text-disabled">{{ $t('ui.combat.reliableDamage') }}</div>
+          <div class="text-cc-overline text-disabled">{{ $t('ui.combat.reliableDamage') }}:</div>
           <v-row align="center"
             no-gutters>
             <v-col cols="auto">

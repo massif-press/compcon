@@ -23,7 +23,7 @@
       </v-toolbar>
 
       <v-card-text class="py-2">
-        {{ $t('ui.brokenRef.partOfPack') }}
+        {{ $t('ui.brokenRef.partOfPack') }}:
 
         <v-card variant="outlined"
           style="border-color: rgb(var(--v-theme-error))"

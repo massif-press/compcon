@@ -91,7 +91,7 @@
                 size="small"
                 class="ml-4"
                 variant="flat">
-                {{ $t('active.mechCore.passive') }}
+                {{ $t('ui.widget.passive') }}
               </v-chip>
             </div>
           </v-expansion-panel-title>

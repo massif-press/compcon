@@ -25,7 +25,7 @@
       style="font-size: 14px">
       {{ $t('pm.shared.theRM4bPILOTSELFASSESSMENT2') }}
       <br />
-      <b>{{ $t('pm.shared.nb') }}</b>
+      <b>{{ $t('pm.shared.nb') }}:</b>
       {{ $t('pm.shared.theFollowingFormIsComprisedOf') }}
     </p>
     <p v-else
@@ -33,7 +33,7 @@
       style="font-size: 14px">
       {{ $t('pm.shared.theMV2APilotSelfAssessment') }}
       <br />
-      <b>{{ $t('pm.shared.nb') }}</b>
+      <b>{{ $t('pm.shared.nb') }}:</b>
       {{ $t('pm.shared.theFollowingFormIsComprisedOf') }}
     </p>
 

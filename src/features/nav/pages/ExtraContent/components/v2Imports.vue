@@ -72,7 +72,7 @@
           </template>
           <cc-panel :title="s.forceImportPanelTitle">
             <v-card-text class="pa-1">
-              {{ $t('nav.v2Import.forceImportNotice', { type: item.type }) }}
+              {{ $t('nav.v2Import.forceImportNotice', { type: item.type }) }}:
               <div class="mt-2">
                 <v-chip v-for="name in item.missingLcpNames"
                   :key="name"
@@ -153,7 +153,7 @@
       <v-card>
         <v-card-title class="text-subtitle-2">{{ s.strippedTitle }}</v-card-title>
         <v-card-text>
-          {{ s.strippedBody }}
+          {{ s.strippedBody }}:
           <div class="mt-2">
             <div v-for="id in strippedItems"
               :key="id"

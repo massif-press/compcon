@@ -32,7 +32,7 @@
   <div v-if="!hideInput">
     <cc-alert v-if="activeEffect.getCondition(owner.actor.CombatController.Tier)"
       color="primary">
-      <b class="text-accent">{{ $t('ui.combat.ifLabel') }}&nbsp;</b>
+      <b class="text-accent">{{ $t('ui.combat.ifLabel') }}:&nbsp;</b>
       <b v-html-safe="activeEffect.getCondition(owner.actor.CombatController.Tier)" />
     </cc-alert>
     <cc-alert v-if="(activeEffect as any).Trigger"
@@ -61,7 +61,7 @@
   <v-slide-y-transition>
     <div v-if="event && event.Staged"
       class="pa-4">
-      <div class="text-cc-overline text-disabled">{{ $t('ui.combat.staged') }}</div>
+      <div class="text-cc-overline text-disabled">{{ $t('ui.combat.staged') }}:</div>
       <v-row dense>
         <v-col>
           <code style="white-space: pre-wrap; font-size: 12px;">

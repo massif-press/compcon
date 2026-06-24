@@ -144,7 +144,7 @@
               </v-row>
             </v-slide-y-reverse-transition>
             <v-btn block variant="outlined" color="secondary" class="my-3" @click="roll">
-              {{ $t('common.roll') }}
+              {{ $t('common.roll_verb') }}
             </v-btn>
             <v-divider v-if="result" />
             <div style="min-height: 20px">

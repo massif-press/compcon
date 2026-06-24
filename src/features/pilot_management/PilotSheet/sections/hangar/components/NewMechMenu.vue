@@ -23,7 +23,7 @@
 
   <cc-modal v-model="nameDialog"
     shrink
-    :title="$t('pm.titles.registerNewMech')"
+    :title="$t('pm.sheet.registerNewMech')"
     icon="cc:frame">
     <v-row justify="center">
       <v-col cols="11"
@@ -31,11 +31,11 @@
         <span class="text-overline">{{ $t('pm.sheet.xk401REGISTERMECHNAME') }}</span>
         <v-text-field v-model="mechName"
           variant="outlined"
-          :label="$t('pm.fields.name')"
+          :label="$t('common.name')"
           hide-details
           tile>
           <template #prepend>
-            <v-tooltip :text="$t('pm.tooltips.generateRandomName2')"
+            <v-tooltip :text="$t('pm.tooltips.generateRandomName')"
               location="top">
               <template #activator="{ props }">
                 <cc-button v-bind="props"

@@ -84,7 +84,7 @@
             <cc-alert v-if="confirm"
               color="warning"
               variant="outlined"
-              :title="$t('active.titles.confirmEndEncounter')"
+              :title="$t('active.endEnc.confirmEndEncounter')"
               icon="mdi-alert-outline"
               class="mb-4">
               <p class="text-text">{{ confirmMessage }}</p>
@@ -96,13 +96,12 @@
                 v-if="!confirm"
                 size="small"
                 color="primary"
-                @click="confirm = true">{{ $t('active.endEnc.endEncounterLower') }}</cc-button>
+                @click="confirm = true"><span class="text-lowercase">{{ $t('active.endEnc.endEncounter') }}</span></cc-button>
               <cc-button block
                 v-else
                 size="small"
                 color="warning"
-                @click="$emit('end', result)">{{ $t('active.endEnc.confirmEndEncounterLower')
-                }}</cc-button>
+                @click="$emit('end', result)"><span class="text-lowercase">{{ $t('active.endEnc.confirmEndEncounter') }}</span></cc-button>
             </v-col>
           </v-row>
         </v-card-text>

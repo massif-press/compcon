@@ -15,7 +15,7 @@
         <p v-html-safe="item.Deployment" />
       </v-col>
       <v-col v-if="item.Extraction">
-        <div class="heading h2 text-primary mb-2">{{ $t('ui.card.extraction') }}</div>
+        <div class="heading h2 text-primary mb-2">{{ $t('gm.fields.extraction') }}</div>
         <p v-html-safe="item.Extraction" />
       </v-col>
     </v-row>

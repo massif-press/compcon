@@ -83,7 +83,7 @@
                       </v-col>
                       <v-col>
                         <div class="text-center">
-                          <span class="text-caption">{{ $t("mainMenu.publishing.currentVersion") }}</span>
+                          <span class="text-caption">{{ $t("nav.communityTable.currentVersion") }}</span>
                           <v-divider />
                           <span class="heading h3 text-accent">
                             {{ collection.Version }}
@@ -168,7 +168,7 @@
                     <v-row dense
                       align="center"
                       class="mt-4">
-                      <v-col class="heading text-accent">{{ $t("mainMenu.collection.changelog") }}</v-col>
+                      <v-col class="heading text-accent">{{ $t("common.changelog") }}</v-col>
                       <v-col cols="auto">
                         <v-tooltip max-width="300px"
                           location="top">
@@ -195,7 +195,7 @@
                       auto-grow />
                   </div>
                   <div class="text-right">
-                    <cc-dialog :title="$t('mainMenu.titles.changelog')">
+                    <cc-dialog :title="$t('common.changelog')">
                       <template #activator="{ open }">
                         <cc-button size="small"
                           class="my-2"
@@ -317,7 +317,7 @@
                   </div>
                   <v-card-actions>
                     <v-spacer />
-                    <cc-dialog :title="$t('mainMenu.titles.deleteCollection')"
+                    <cc-dialog :title="$t('mainMenu.publishing.deleteCollection')"
                       color="error"
                       :close-on-click="false">
                       <template #activator="{ open }">
@@ -355,7 +355,7 @@
                               deleteCollection(collection);
                             close;
                             ">
-                            {{ $t("mainMenu.publishing.deleteCollectionBtn") }}
+                            {{ $t("mainMenu.publishing.deleteCollection") }}
                           </cc-button>
                         </v-card-actions>
                       </template>

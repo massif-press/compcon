@@ -22,7 +22,7 @@
             bg-color="panel"
             density="compact">
             <v-tab>{{ $t('gm.encounterContent.map') }}</v-tab>
-            <v-tab>{{ $t('gm.encounterContent.image') }}</v-tab>
+            <v-tab>{{ $t('gm.titles.image') }}</v-tab>
           </v-tabs>
           <v-window v-model="mapTab">
             <v-window-item>
@@ -32,7 +32,7 @@
                   align="center"
                   justify="center">
                   <v-col>
-                    <i class="text-disabled text-caption">{{ $t('active.common.noMapData')
+                    <i class="text-disabled text-caption">{{ $t('gm.encounterEditor.noMapData')
                       }}</i>
                   </v-col>
                 </v-row>

@@ -9,7 +9,7 @@
     <v-col>
       <div class="text-cc-overline mb-1">
         <cc-slashes class="pr-1" />
-        <span class="text-disabled">{{ $t('active.pilotsPanel.title') }}</span>
+        <span class="text-disabled">{{ $t('pm.roster.pilots') }}</span>
       </div>
       <cc-panel>
         <cc-titled-divider v-if="!pilots.length"
@@ -52,14 +52,14 @@
                 class="mx-4 pt-1">
                 <v-col cols="auto"
                   class="text-center">
-                  <div class="text-cc-overline">{{ $t('active.pilotsPanel.ll') }}</div>
+                  <div class="text-cc-overline">{{ $t('pm.sheet.ll') }}</div>
                   <v-divider />
                   <div class="heading">{{ p.Level }}</div>
                 </v-col>
                 <v-col v-if="p.ActiveMech"
                   cols="auto"
                   class="mx-4">
-                  <div class="text-cc-overline">{{ $t('active.pilotsPanel.activeMech') }}</div>
+                  <div class="text-cc-overline">{{ $t('active.roster.activeMech') }}</div>
                   <v-divider />
                   <div class="heading">
                     {{ p.ActiveMech?.Name }}

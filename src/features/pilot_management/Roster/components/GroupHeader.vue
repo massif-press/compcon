@@ -28,7 +28,7 @@
       v-bind="props"
       @click.stop="setEdit()" />
     <span class="pl-4 text-caption">
-      ({{ pilotCount }} {{ pilotCount === 1 ? $t('pm.roster.pilot') : $t('pm.roster.pilots') }})
+      ({{ pilotCount }} {{ pilotCount === 1 ? $t('pm.new.pilot') : $t('pm.roster.pilots') }})
     </span>
     <v-spacer />
     <v-divider v-if="!mobile"

@@ -1,6 +1,6 @@
 <template>
   <v-card-text>
-    <p>{{ $t("mainMenu.deleteAccount.intro") }}</p>
+    <p>{{ $t("mainMenu.deleteAccount.intro") }}:</p>
 
     <ul class="ml-6 mb-3">
       <li>{{ $t("mainMenu.deleteAccount.incCredentials") }}</li>
@@ -55,7 +55,7 @@
       :loading="loading"
       :disabled="!confirmValid"
       @click="handleDeleteUser">
-      {{ $t("mainMenu.deleteAccount.deleteAccountBtn") }}
+      {{ $t("mainMenu.fields.deleteAccount") }}
     </cc-button>
     <v-fade-transition>
       <div v-if="loading"

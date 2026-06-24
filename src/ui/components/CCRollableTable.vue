@@ -21,7 +21,7 @@
         <v-checkbox-btn v-model="table.GmOnly"
           hide-details>
           <template #label>
-            {{ $t('ui.rollTable.gmOnly') }}
+            {{ $t('ui.fields.gmOnly') }}
             <v-tooltip location="top">
               <template #activator="{ props }">
                 <v-icon class="fade-select"

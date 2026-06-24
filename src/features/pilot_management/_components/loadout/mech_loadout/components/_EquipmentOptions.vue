@@ -20,7 +20,7 @@
           @click="$emit('swap')" />
         <v-divider />
         <v-list-item v-if="item.CanSetDamage"
-          :title="$t('pm.titles.selectDamageType')"
+          :title="$t('ui.widget.selectDamageType')"
           prepend-icon="cc:variable"
           @click="($refs as any).damageTypeDialog.show()"></v-list-item>
         <v-list-item v-if="item.CanSetUses"

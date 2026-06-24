@@ -31,7 +31,7 @@
 
               <v-row>
                 <v-col>
-                  <div class="text-caption text-disabled"><i>{{ $t('gm.filter.showItemsWith') }}</i></div>
+                  <div class="text-caption text-disabled"><i>{{ $t('gm.filter.showItemsWith') }}:</i></div>
                   <v-chip v-for="f in statFilters.filter((f) => !filters.some((x) => x === f))"
                     :key="`show-stat-${f}`"
                     size="small"
@@ -44,7 +44,7 @@
                   </v-chip>
                 </v-col>
                 <v-col>
-                  <div class="text-caption text-disabled"><i>{{ $t('gm.filter.hideItemsWith') }}</i></div>
+                  <div class="text-caption text-disabled"><i>{{ $t('gm.filter.hideItemsWith') }}:</i></div>
                   <v-chip v-for="f in statFilters.filter((f) => filters.some((x) => x === f))"
                     :key="`hide-stat-${f}`"
                     size="small"
@@ -60,11 +60,11 @@
             </v-col>
 
             <v-col v-if="items.length > 0 && (items as any)[0].NarrativeController">
-              <div class="heading h3">{{ $t('gm.filter.labels') }}</div>
+              <div class="heading h3">{{ $t('gm.labels.labels') }}</div>
               <v-divider />
               <v-row>
                 <v-col>
-                  <div class="text-caption text-disabled"><i>{{ $t('gm.filter.showItemsWith') }}</i></div>
+                  <div class="text-caption text-disabled"><i>{{ $t('gm.filter.showItemsWith') }}:</i></div>
                   <v-chip v-for="f in labelFilters.filter((f) => !filters.some((x) => x === f))"
                     :key="`show-label-${f}`"
                     size="small"
@@ -77,7 +77,7 @@
                   </v-chip>
                 </v-col>
                 <v-col>
-                  <div class="text-caption text-disabled"><i>{{ $t('gm.filter.hideItemsWith') }}</i></div>
+                  <div class="text-caption text-disabled"><i>{{ $t('gm.filter.hideItemsWith') }}:</i></div>
                   <v-chip v-for="f in labelFilters.filter((f) => filters.some((x) => x === f))"
                     :key="`hide-label-${f}`"
                     size="small"

@@ -49,7 +49,7 @@
         <cc-heading is-title
           :text="$t('mainMenu.actions.accountDetails')" />
         <div class="text-caption">
-          <b>{{ $t("mainMenu.management.accountCreatedV3") }}</b>
+          <b>{{ $t("mainMenu.management.accountCreatedV3") }}:</b>
           <i class="text-accent ml-1">{{ new Date(Number(meta.CreatedAt)).toLocaleString() }}</i>
         </div>
         <div class="text-caption">
@@ -207,7 +207,7 @@
       </v-col>
       <v-col cols="auto">
         <div class="text-right">
-          <cc-modal :title="$t('mainMenu.titles.changeAccountEmail')"
+          <cc-modal :title="$t('mainMenu.management.changeEmail')"
             shrink
             max-width="50vw">
             <template #activator="{ open }">

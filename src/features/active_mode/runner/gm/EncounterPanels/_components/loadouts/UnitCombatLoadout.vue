@@ -50,7 +50,7 @@
                 class="text-center my-2">
                 <div class="heading h1">{{ result }}</div>
                 <div class="text-cc-overline mt-1">
-                  {{ $t('active.unitLoadout.rechargesFeatures') }}
+                  {{ $t('active.unitLoadout.rechargesFeatures') }}:
                   <div v-if="rechargedFeatures.length === 0"
                     class="my-1">
                     <i class="text-disabled">{{ $t('common.none') }}</i>
@@ -79,7 +79,7 @@
                     block
                     :color="result ? 'panel' : 'primary'"
                     @click="roll">
-                    {{ result ? $t('active.unitLoadout.reroll') : $t('common.roll') }}
+                    {{ result ? $t('active.unitLoadout.reroll') : $t('common.roll_verb') }}
                   </v-btn>
                 </v-col>
                 <v-col>
@@ -93,7 +93,7 @@
                       apply();
                     isActive.value = false;
                     ">
-                    {{ $t('active.unitLoadout.applyLower') }}
+                    <span class="text-lowercase">{{ $t('active.tooltips.apply') }}</span>
                   </v-btn>
                 </v-col>
               </v-row>

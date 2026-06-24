@@ -19,8 +19,8 @@
             style="line-height: 0">{{ $t('common.pilotRoster') }} <span v-if="rosterSearch"
               class="text-caption text-italic text-disabled">
               <br v-if="mobile" />
-              {{ hiddenPilotCount }} {{ hiddenPilotCount === 1 ? $t('pm.roster.pilotLower') :
-                $t('pm.roster.pilotsLower') }} {{ $t('pm.roster.hidden') }}
+              {{ hiddenPilotCount }} <span class="text-lowercase">{{ hiddenPilotCount === 1 ? $t('pm.new.pilot') :
+                $t('pm.roster.pilots') }}</span> {{ $t('common.hidden') }}
             </span></div>
         </div>
 

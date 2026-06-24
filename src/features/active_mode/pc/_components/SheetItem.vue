@@ -104,7 +104,7 @@
         <div v-if="mobile"
           class="detail-row-mobile px-2 pt-1 text-cc-overline">
           <div v-if="pilot.CombatController.Mounted && mech">
-            <b class="text-stark">{{ $t('active.sheetItem.mounted') }}</b> &mdash; <i>{{ mech.Name
+            <b class="text-stark">{{ $t('active.actions.mounted') }}</b> &mdash; <i>{{ mech.Name
               }} ({{
                 mech.Frame.Source }} {{
                 mech.Frame.Name
@@ -129,7 +129,7 @@
                 ({{ pilot.Name }})
                 <b v-if="pilot.CombatController.Mounted"
                   class="text-stark">
-                  {{ $t('active.sheetItem.mounted') }}
+                  {{ $t('active.actions.mounted') }}
                 </b>
                 <b v-else
                   class="text-stark">

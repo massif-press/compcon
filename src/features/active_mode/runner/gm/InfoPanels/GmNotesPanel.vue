@@ -5,7 +5,7 @@
       {{ encounter.Environment.Name }} {{ encounter.Sitrep.Name }}
     </v-card-subtitle>
     <v-card-text class="pb-0">
-      <div class="text-cc-overline text-disabled">{{ $t('active.gmNotes.gmNotes') }}</div>
+      <div class="text-cc-overline text-disabled">{{ $t('gm.gmNotes') }}</div>
       <cc-rich-text-area v-model="encounter.Note" />
     </v-card-text>
     <v-card-text>

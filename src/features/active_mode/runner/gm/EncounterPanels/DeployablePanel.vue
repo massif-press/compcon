@@ -43,7 +43,7 @@
             border
             tile>
             <v-list-item class="bg-action--free"
-              :title="$t('active.titles.activateFreeAction')"
+              :title="$t('ui.titles.activateFreeAction')"
               @click="handleRedeploy(true)">
               <template #prepend>
                 <v-icon icon="cc:free"
@@ -135,7 +135,7 @@
               border
               tile>
               <v-list-item class="bg-action--free"
-                :title="$t('active.titles.activateFreeAction')"
+                :title="$t('ui.titles.activateFreeAction')"
                 @click="handleRecall(true)">
                 <template #prepend>
                   <v-icon icon="cc:free"

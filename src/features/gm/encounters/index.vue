@@ -148,7 +148,7 @@
       </cc-button>
       <v-spacer />
       <cc-modal ref="import"
-        :title="$t('gm.titles.importData')"
+        :title="$t('nav.settings.importData').toLowerCase()"
         icon="mdi-download"
         no-confirm>
         <template #activator="{ open }">

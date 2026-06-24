@@ -112,7 +112,10 @@
                     :disabled="!statsToAdd.length"
                     @click="addCoreStats()">
                     {{ $t('common.add') }}
-                    <span v-if="statsToAdd.length">{{ $t('gm.stats.statCountSuffix', { n: statsToAdd.length }, statsToAdd.length) }}</span>
+                    <span v-if="statsToAdd.length">{{ $t('gm.stats.statCountSuffix', {
+                      n:
+                        statsToAdd.length
+                    }, statsToAdd.length) }}</span>
                   </cc-button>
                 </v-window-item>
                 <v-window-item>

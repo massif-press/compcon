@@ -33,7 +33,7 @@
       </v-col>
       <v-col cols="auto">
         <div>
-          {{ $t('pm.print.armor3') }}
+          {{ $t('stats.armor') }}:
           <blank-line v-if="blank"
             :width="30"
             :height="24"
@@ -73,7 +73,7 @@
       </v-col>
       <v-col cols="auto">
         <div>
-          {{ $t('pm.print.grit2') }}
+          {{ $t('pm.print.grit') }}:
           <blank-line v-if="blank"
             :width="30"
             :height="24"
@@ -85,7 +85,7 @@
 
     <v-divider />
 
-    <div class="text-caption text-primary">{{ $t('pm.print.skillTRIGGERS') }}</div>
+    <div class="text-caption text-primary">{{ $t('pm.titles.skillTriggers') }}</div>
 
     <v-row dense
       justify="space-between"
@@ -116,7 +116,7 @@
       <v-col cols="auto"
         class="px-1">
         <div>
-          {{ $t('pm.print.hull') }}
+          <span class="text-uppercase">{{ $t('pm.link.hull') }}</span>:
           <blank-line v-if="blank"
             :width="30"
             :height="24"
@@ -138,7 +138,7 @@
       <v-col cols="auto"
         class="px-1">
         <div>
-          {{ $t('stats.sys') }}:
+          <span class="text-uppercase">{{ $t('pm.link.sys') }}</span>:
           <blank-line v-if="blank"
             :width="30"
             :height="24"
@@ -149,7 +149,7 @@
       <v-col cols="auto"
         class="px-1">
         <div>
-          {{ $t('stats.eng') }}:
+          <span class="text-uppercase">{{ $t('pm.link.eng') }}</span>:
           <blank-line v-if="blank"
             :width="30"
             :height="24"
@@ -162,7 +162,7 @@
     <v-row dense
       class="mt-n1">
       <v-col :cols="blank ? 8 : 'auto'">
-        <div class="text-caption mb-n1 text-primary">{{ $t('pm.new.talents') }}</div>
+        <div class="text-caption mb-n1 text-primary">{{ $t('common.talents') }}</div>
         <v-row v-if="blank"
           dense>
           <v-col v-for="n in 9"
@@ -188,7 +188,7 @@
       <v-col :cols="blank ? '' : 'auto'">
         <div v-if="pilot.CoreBonusController.CoreBonuses.length"
           class="text-caption mb-n1 text-primary">
-          {{ $t('pm.print.coreBonuses') }}
+          {{ $t('pm.level.coreBonuses') }}
         </div>
 
         <v-row v-if="blank"

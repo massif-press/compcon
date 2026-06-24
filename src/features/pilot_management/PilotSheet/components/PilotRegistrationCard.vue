@@ -38,7 +38,7 @@
                 <br v-if="portrait" />
                 <b class="text-accent">{{ pilot.Name || 'ERR NAME NOT FOUND' }}</b>
                 <br />
-                {{ $t('pm.sheet.background2') }}
+                {{ $t('common.background') }}
                 <br v-if="portrait" />
                 <b class="text-accent">
                   {{ pilot.Background || 'PILOT HISTORY NOT REGISTERED' }}
@@ -63,7 +63,7 @@
           </i18n-t>
           <div class="my-1">
             <span class="flavor-text ml-3" style="font-size: 22px; line-height: 15px">
-              [ {{ $t('stats.hull') }}:
+              [ <span class="text-uppercase">{{ $t('pm.link.hull') }}</span>:
               <span class="stat-text text-accent" style="font-size: 24px">
                 {{ pilot.MechSkillsController.MechSkills.Hull }}&emsp;
               </span>
@@ -71,11 +71,11 @@
               <span class="stat-text text-accent" style="font-size: 24px">
                 {{ pilot.MechSkillsController.MechSkills.Agi }}&emsp;
               </span>
-              {{ $t('stats.sys') }}:
+              <span class="text-uppercase">{{ $t('pm.link.sys') }}</span>:
               <span class="stat-text text-accent" style="font-size: 24px">
                 {{ pilot.MechSkillsController.MechSkills.Sys }}&emsp;
               </span>
-              {{ $t('stats.eng') }}:
+              <span class="text-uppercase">{{ $t('pm.link.eng') }}</span>:
               <span class="stat-text text-accent" style="font-size: 24px">
                 {{ pilot.MechSkillsController.MechSkills.Eng }}
               </span>

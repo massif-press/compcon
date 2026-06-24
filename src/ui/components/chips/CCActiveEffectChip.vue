@@ -147,7 +147,7 @@
 
               <cc-alert v-if="activeEffect.Condition"
                 color="primary">
-                <b class="text-accent">{{ $t('ui.combat.ifLabel') }}&nbsp;</b>
+                <b class="text-accent">{{ $t('ui.combat.ifLabel') }}:&nbsp;</b>
                 <b>{{ activeEffect.Condition }}</b>
               </cc-alert>
 

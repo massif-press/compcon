@@ -57,7 +57,7 @@
             hasImmunity(damage)
               ? $t('active.dmgCond.noDamage')
               : hasResistance(damage)
-                ? $t('active.dmgCond.halfDamage')
+                ? $t('active.common.halfDamage')
                 : hasVulnerability(damage)
                   ? $t('active.dmgCond.doubleDamage')
                   : $t('active.dmgCond.fullDamage')

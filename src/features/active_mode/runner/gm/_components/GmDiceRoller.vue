@@ -14,7 +14,7 @@
     </v-toolbar>
     <div v-if="selected">
       <div class="heading bg-primary px-5">
-        <span class="text-disabled pr-2">{{ $t('active.common.currentlySelected') }}</span>
+        <span class="text-disabled pr-2">{{ $t('active.common.currentlySelected') }}:</span>
         <strong v-if="selected">
           {{ actor.Name }}
         </strong>
@@ -22,7 +22,7 @@
           class="text-disabled">{{ $t('common.none') }}</span>
       </div>
       <div>
-        <div class="text-cc-overline ma-1">{{ $t('active.diceRoller.quickRoll') }}</div>
+        <div class="text-cc-overline ma-1">{{ $t('active.diceRoller.quickRoll') }}:</div>
         <v-row no-gutters
           class="px-6">
           <v-col><v-btn border
@@ -166,7 +166,7 @@
 
               <div class="mt-2 mb-4">
                 <cc-switch v-model="isCrit"
-                  :label="$t('active.fields.critical')"
+                  :label="$t('pm.shared.critical')"
                   class="mt-2"
                   :tooltip="$t('active.tooltips.rollAllDiceTakingThe')" />
                 <cc-switch v-model="Overkill"

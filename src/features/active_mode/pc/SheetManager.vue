@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div class="heading h2"> {{ $t('active.sheetMgr.characterSheets') }}</div>
+    <div class="heading h2"> {{ $t('active.titles.characterSheets') }}</div>
     <active-mode-sort-bar :sort="sort"
       :asc="asc"
       :items="activeSheets"
@@ -80,7 +80,7 @@
               </v-card>
               <v-card v-else
                 class="px-1 bg-success text-center">
-                {{ $t('active.sheetMgr.active') }}
+                {{ $t('ui.widget.active') }}
               </v-card>
             </v-col>
             <v-col cols="auto">

@@ -35,12 +35,12 @@
           tile
           style="width: 33%"
           value="doodad"
-          color="primary">{{ $t('gm.combatantSelector.doodads') }}</v-btn>
+          color="primary">{{ $t('gm.titles.doodads') }}</v-btn>
         <v-btn flat
           tile
           style="width: 33%"
           value="eidolon"
-          color="primary">{{ $t('gm.combatantSelector.eidolons') }}</v-btn>
+          color="primary">{{ $t('gm.titles.eidolons') }}</v-btn>
       </v-btn-toggle>
       <v-list class="mb-n3"
         style="height: 100%; min-height: calc(100vh - 86px); overflow-y: scroll">

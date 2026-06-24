@@ -31,7 +31,7 @@
     </template>
 
     <div class="text-caption mt-1">
-      {{ $t('pm.loadout.appliedTO') }}
+      {{ $t('pm.loadout.appliedTO') }}:
       <b class="heading text-accent">
         {{ weapon.Name }}
       </b>

@@ -24,7 +24,7 @@
       </v-col>
       <v-col v-if="blank && landscape"
         cols="auto">
-        <div class="text-caption text-primary mb-n1">{{ $t('pm.print.name') }}</div>
+        <div class="text-caption text-primary mb-n1"><span class="text-uppercase">{{ $t('common.name') }}</span></div>
         <blank-line :width="260"
           :height="40" />
       </v-col>
@@ -119,7 +119,7 @@
       justify="space-between"
       class="mt-n3 print-section">
       <v-col>
-        <div class="text-caption text-primary">{{ $t('pm.print.skillTRIGGERS') }}</div>
+        <div class="text-caption text-primary">{{ $t('pm.titles.skillTriggers') }}</div>
         <div class="text-left">
           <v-row v-if="blank"
             dense
@@ -153,7 +153,7 @@
       <v-col cols="4">
         <v-row class="mt-0 text-right mt-n2 pr-2">
           <v-col>
-            <div class="font-weight-bold caption">{{ $t('stats.hull') }}</div>
+            <div class="font-weight-bold caption"><span class="text-uppercase">{{ $t('pm.link.hull') }}</span></div>
             <v-icon v-if="blank"
               size="30"
               color="primary"
@@ -179,7 +179,7 @@
               class="heading h2 mt-n2" />
           </v-col>
           <v-col>
-            <div class="font-weight-bold caption">{{ $t('stats.sys') }}</div>
+            <div class="font-weight-bold caption"><span class="text-uppercase">{{ $t('pm.link.sys') }}</span></div>
             <v-icon v-if="blank"
               size="30"
               color="primary"
@@ -192,7 +192,7 @@
               class="heading h2 mt-n2" />
           </v-col>
           <v-col>
-            <div class="font-weight-bold caption">{{ $t('stats.eng') }}</div>
+            <div class="font-weight-bold caption"><span class="text-uppercase">{{ $t('pm.link.eng') }}</span></div>
             <v-icon v-if="blank"
               size="30"
               color="primary"
@@ -228,7 +228,7 @@
     <v-row dense
       class="mt-n2">
       <v-col>
-        <div class="text-caption mb-n2 mt-1 text-primary">{{ $t('pm.new.talents') }}</div>
+        <div class="text-caption mb-n2 mt-1 text-primary">{{ $t('common.talents') }}</div>
         <v-row v-if="blank"
           dense>
           <v-col v-for="n in 12"
@@ -311,7 +311,7 @@
 
     <div v-if="pilot.CoreBonusController.CoreBonuses.length || blank"
       class="text-caption mb-n2 text-primary">
-      {{ $t('pm.print.coreBonuses') }}
+      {{ $t('pm.level.coreBonuses') }}
     </div>
     <v-row v-if="blank"
       dense>

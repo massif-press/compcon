@@ -92,7 +92,7 @@
           location="top"
           :text="$t('pm.actions.createAndModifyMechsAndTheirLoadouts')">
           <template #activator="{ props }">
-            <span v-bind="props">{{ $t('pm.sheet.mechHANGAR') }}</span>
+            <span v-bind="props">{{ $t('pm.sheet.mechHangar') }}</span>
           </template>
         </v-tooltip>
       </nav-item>
@@ -149,7 +149,7 @@
 
     <v-tooltip open-delay="300"
       location="top"
-      :text="$t('pm.tooltips.pilotOptions')">
+      :text="$t('pm.sheet.pilotOptions')">
       <template #activator="{ props }">
         <edit-menu :pilot="pilot"
           class="unskew"

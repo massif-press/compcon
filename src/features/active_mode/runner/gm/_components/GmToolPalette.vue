@@ -14,7 +14,7 @@
         </template>
       </v-tooltip>
       <v-tooltip v-if="pc && combatant"
-        :text="$t('active.tooltips.deployables')">
+        :text="$t('common.deployables')">
         <template #activator="{ props: activatorProps }">
           <v-list-item v-bind="!expanded && activatorProps"
             :class="getBgClass('deployables')"
@@ -30,21 +30,21 @@
                 icon="cc:drone" />
             </template>
             <span v-if="expanded">
-              {{ $t('active.toolPalette.deployables') }}
+              {{ $t('common.deployables') }}
             </span>
           </v-list-item>
         </template>
       </v-tooltip>
       <v-divider class="my-2" />
     </div>
-    <v-tooltip :text="$t('active.tooltips.diceRoller')">
+    <v-tooltip :text="$t('active.diceRoller.title')">
       <template #activator="{ props: activatorProps }">
         <v-list-item v-bind="!expanded && activatorProps"
           @click="$emit('open-dice-roller')">
           <template #prepend>
             <v-icon icon="mdi-dice-d20-outline" />
           </template>
-          {{ $t('active.toolPalette.diceRoller') }}
+          {{ $t('active.diceRoller.title') }}
         </v-list-item>
       </template>
     </v-tooltip>
@@ -55,7 +55,7 @@
           <template #prepend>
             <v-icon icon="mdi-table-multiple" />
           </template>
-          {{ $t('active.toolPalette.rollableTables') }}
+          {{ $t('active.tooltips.rollableTables') }}
         </v-list-item>
       </template>
     </v-tooltip>
@@ -69,7 +69,7 @@
           <template #prepend>
             <v-icon icon="cc:encounter" />
           </template>
-          {{ $t('active.toolPalette.encounterInfo') }}
+          {{ $t('active.tooltips.encounterInfo') }}
         </v-list-item>
       </template>
     </v-tooltip>
@@ -99,7 +99,7 @@
         </v-list-item>
       </template>
     </v-tooltip>
-    <v-tooltip :text="$t('active.tooltips.combatQuickReference')">
+    <v-tooltip :text="$t('active.toolPalette.combatQuickRef')">
       <template #activator="{ props: activatorProps }">
         <v-list-item v-bind="!expanded && activatorProps"
           :class="getBgClass('quick-reference')"

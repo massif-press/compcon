@@ -22,7 +22,7 @@
         class="mt-1">
         <v-col cols="12"
           md="6">
-          <div class="text-cc-overline text-disabled">// {{ $t("mainMenu.syncSettings.frequency") }}</div>
+          <div class="text-cc-overline text-disabled">// {{ $t("ui.action.frequency_action") }}</div>
           <cc-select v-model="settings.frequency"
             :items="syncOptions"
             :tooltip="$t('mainMenu.tooltips.controlsHowOftenYourData')" />
@@ -38,13 +38,13 @@
             @update:model-value="applyItemTypePreset">
             <v-btn value="all"
               size="small"
-              height="30">{{ $t("common.all") }}</v-btn>
+              height="30">{{ $t("text-uppercase") }}</v-btn>
             <v-btn value="pilots"
               size="small"
               height="30">{{ $t("mainMenu.syncSettings.pilotsOnly") }}</v-btn>
             <v-btn value="custom"
               size="small"
-              height="30">{{ $t("mainMenu.syncSettings.custom") }}</v-btn>
+              height="30">{{ $t("gm.stats.custom") }}</v-btn>
           </v-btn-toggle>
           <cc-select v-if="itemTypePreset === 'custom'"
             v-model="settings.itemTypes"

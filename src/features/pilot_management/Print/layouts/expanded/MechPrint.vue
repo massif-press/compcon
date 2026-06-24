@@ -18,7 +18,7 @@
           <print-stat-box :label="$t('common.techAttack')"
             :value="signed(mech.TechAttack)"
             :blank="blank" />
-          <print-stat-box :label="$t('stats.save')"
+          <print-stat-box :label="$t('common.save').toUpperCase()"
             :value="mech.SaveTarget"
             :blank="blank" />
           <print-stat-box :label="$t('stats.speed')"
@@ -41,7 +41,7 @@
             :blank="blank" />
         </v-row>
 
-        <div class="text-overline mb-n3 text-primary">{{ $t('ui.card.frameTraits') }}</div>
+        <div class="text-overline mb-n3 text-primary">{{ $t('active.roster.frameTraits') }}</div>
         <v-row v-if="blank"
           dense>
           <v-col v-for="n in 4"
@@ -67,7 +67,7 @@
         </v-row>
 
         <div v-if="!blank">
-          <div class="text-overline mb-n1 text-primary mt-n1">{{ $t('pm.print.coreSYSTEM') }}</div>
+          <div class="text-overline mb-n1 text-primary mt-n1">{{ $t('active.roster.coreSystem') }}</div>
           <fieldset class="mt-n2"
             style="height: fit-content">
             <legend class="heading h4 ml-1 px-2">
@@ -126,7 +126,7 @@
     </v-row>
 
     <div v-if="blank">
-      <div class="text-cc-overline text-primary">{{ $t('pm.print.coreSYSTEM') }}</div>
+      <div class="text-cc-overline text-primary">{{ $t('active.roster.coreSystem') }}</div>
       <blank-line :height="124" />
     </div>
 
@@ -218,22 +218,22 @@
                 class="caption">{{ p.Effect }}</div>
               <div v-if="p.OnMiss"
                 class="caption">
-                <b>{{ $t('pm.print.onMISS') }}</b>
+                <b>{{ $t('pm.print.onMISS') }}:</b>
                 {{ p.OnMiss.Detail }}
               </div>
               <div v-if="p.OnAttack"
                 class="caption">
-                <b>{{ $t('pm.print.onATTACK') }}</b>
+                <b>{{ $t('pm.print.onATTACK') }}:</b>
                 {{ p.OnAttack.Detail }}
               </div>
               <div v-if="p.OnHit"
                 class="caption">
-                <b>{{ $t('pm.print.onHIT') }}</b>
+                <b>{{ $t('pm.print.onHIT') }}:</b>
                 {{ p.OnHit.Detail }}
               </div>
               <div v-if="p.OnCrit"
                 class="caption">
-                <b>{{ $t('pm.print.onCRIT') }}</b>
+                <b>{{ $t('pm.print.onCRIT') }}:</b>
                 {{ p.OnCrit.Detail }}
               </div>
               <print-action :actions="p.Actions" />

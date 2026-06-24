@@ -22,7 +22,7 @@
             <blank-line :height="lineHeight" />
           </v-col>
           <v-col cols="2">
-            <div class="caption text-grey">{{ $t('pm.print.type') }}</div>
+            <div class="caption text-grey"><span class="text-uppercase">{{ $t('common.type') }}</span></div>
             <blank-line :height="lineHeight" />
           </v-col>
           <v-col cols="1">
@@ -30,7 +30,7 @@
             <blank-line :height="lineHeight" />
           </v-col>
           <v-col cols="1">
-            <div class="caption text-grey">{{ $t('pm.print.damage') }}</div>
+            <div class="caption text-grey">{{ $t('ui.widget.damage') }}</div>
             <blank-line :height="lineHeight" />
           </v-col>
         </v-row>

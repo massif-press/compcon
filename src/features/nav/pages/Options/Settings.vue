@@ -113,13 +113,13 @@
             12"
         sm="6">
         <cc-heading is-title
-          :text="sp.logLevel" />
+          :text="$t('common.logLevel')" />
         <v-menu>
           <template #activator="{ props }">
             <v-list-item v-bind="props"
               three-line
               border>
-              <v-list-item-title>{{ sp.logLevelLabel }}</v-list-item-title>
+              <v-list-item-title>{{ sp.logLevelLabel }}:</v-list-item-title>
               <v-list-item-subtitle>
                 <b class="text-uppercase">{{ logLevel.name }}</b>
               </v-list-item-subtitle>
@@ -274,7 +274,7 @@
                 <cc-alert v-else-if="strategy === 'overwrite'"
                   color="error"
                   variant="outlined"
-                  :title="$t('nav.titles.warning')"
+                  :title="$t('common.warning')"
                   icon="mdi-alert"
                   class="mb-4">
                   {{ sp.overwriteWarning }}

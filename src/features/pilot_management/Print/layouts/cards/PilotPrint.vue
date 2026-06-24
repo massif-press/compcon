@@ -83,7 +83,7 @@
           justify="space-between"
           dense>
           <v-col>
-            <div class="font-weight-bold caption text-primary">{{ $t('stats.hull') }}</div>
+            <div class="font-weight-bold caption text-primary"><span class="text-uppercase">{{ $t('pm.link.hull') }}</span></div>
 
             <div v-html-safe="pilot.MechSkillsController.MechSkills.Hull"
               class="heading" />
@@ -95,13 +95,13 @@
               class="heading" />
           </v-col>
           <v-col>
-            <div class="font-weight-bold caption text-primary">{{ $t('stats.sys') }}</div>
+            <div class="font-weight-bold caption text-primary"><span class="text-uppercase">{{ $t('pm.link.sys') }}</span></div>
 
             <div v-html-safe="pilot.MechSkillsController.MechSkills.Sys"
               class="heading" />
           </v-col>
           <v-col>
-            <div class="font-weight-bold caption text-primary">{{ $t('stats.eng') }}</div>
+            <div class="font-weight-bold caption text-primary"><span class="text-uppercase">{{ $t('pm.link.eng') }}</span></div>
 
             <div v-html-safe="pilot.MechSkillsController.MechSkills.Eng"
               class="heading" />
@@ -182,7 +182,7 @@
       <card v-if="pilot.CoreBonusController.CoreBonuses.length">
         <div class="caption text-center mt-n1"
           style="letter-spacing: 10px; font-size: 10px">
-          {{ $t('pm.print.coreBonuses') }}
+          {{ $t('pm.level.coreBonuses') }}
         </div>
         <v-divider />
         <div v-for="cb in pilot.CoreBonusController.CoreBonuses"

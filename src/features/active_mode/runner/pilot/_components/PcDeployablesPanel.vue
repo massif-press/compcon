@@ -1,7 +1,7 @@
 <template>
   <div>
   <div class="heading"> {{ combatant.actor.CombatController.CombatName }}{{ possessive }}
-    {{ $t('active.pcDeploy.deployedEquipment') }} </div>
+    {{ $t('active.pcDeploy.deployedEquipment') }}: </div>
   <v-card class="pb-2 px-2">
     <v-row v-if="combatant.deployables.length"
       dense>

@@ -62,7 +62,7 @@
           size="small"
           icon
           style="border-left: none !important">
-          <v-tooltip :text="$t('ui.tooltips.savedConfigurations')"
+          <v-tooltip :text="$t('ui.filter.savedConfigs')"
             location="top">
             <template #activator="{ props }">
               <v-icon v-bind="props"

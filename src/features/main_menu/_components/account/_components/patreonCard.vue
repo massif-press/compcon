@@ -5,7 +5,7 @@
     tile
     flat
     @click="loginWithPatreon">
-    <b>{{ $t("mainMenu.patreon.accountLabel") }}</b>
+    <b>{{ $t("mainMenu.patreon.accountLabel") }}:</b>
 
     <div v-if="loadPatreon"
       class="ma-2">

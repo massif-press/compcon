@@ -23,7 +23,7 @@
         <v-col>
           <cc-dialog :close-on-click="false"
             icon="mdi-import"
-            :title="$t('active.titles.importCharacterSheetState')">
+            :title="$t('active.pcOptions.importState')">
             <template #activator="{ open }">
               <v-btn flat
                 tile
@@ -54,7 +54,7 @@
                     tile
                     color="panel">
                     <div class="text-cc-overline text-disabled">{{
-                      $t('active.pcOptions.stagedImport') }}</div>
+                      $t('active.pcOptions.stagedImport') }}:</div>
                     <div class="ml-3">
                       <b class="text-accent">
                         {{ (importObj as any).Combatant.actor.Callsign || 'Unnamed Character Sheet'

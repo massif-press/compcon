@@ -5,7 +5,7 @@
       justify="space-between">
       <v-col cols="auto"
         class="heading">
-        {{ $t('active.runnerHeader.lastSaved') }}
+        {{ $t('active.runnerHeader.lastSaved') }}:
         <b v-if="context.SaveController.LastModified > 0"
           :key="saveKey"
           class="text-accent ml-1">

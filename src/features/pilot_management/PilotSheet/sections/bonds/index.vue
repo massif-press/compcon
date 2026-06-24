@@ -267,7 +267,7 @@
           </cc-masonry-grid>
         </div>
 
-        <section-header :title="$t('pm.titles.burdens')" />
+        <section-header :title="$t('pm.print.burdens')" />
         <div>
           <div v-for="(b, i) in pilot.BondController.Burdens"
             :key="`burden-${i}`">

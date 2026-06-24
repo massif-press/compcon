@@ -3,7 +3,7 @@
     <cc-heading type="h3" center>{{ $t('mainMenu.auth.verifyEmailTitle') }}</cc-heading>
     <div class="my-2">
       <div v-if="preFill">{{ $t('mainMenu.auth.codeSentToLabel') }}</div>
-      <div v-else>{{ $t('mainMenu.auth.sendCodeToLabel') }}</div>
+      <div v-else>{{ $t('mainMenu.auth.sendCodeToLabel') }}:</div>
       <v-row dense justify="center" align="center">
         <v-col cols="12" sm="6" lg="4">
           <v-text-field

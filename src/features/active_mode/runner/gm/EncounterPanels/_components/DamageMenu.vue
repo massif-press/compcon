@@ -10,7 +10,7 @@
         class="mt-1"
         prepend-icon="cc:eclipse"
         @click="props.onClick($event)">
-        {{ $t('active.damageMenu.takeDamageLower') }}
+        {{ $t('active.damageMenu.takeDamage') }}
       </cc-button>
     </template>
     <template #default="{ isActive }">

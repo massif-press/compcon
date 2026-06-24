@@ -137,7 +137,7 @@
     </cc-modal>
 
     <br />
-    <cc-modal :title="$t('pm.titles.setLcpConfiguration')"
+    <cc-modal :title="$t('pm.sheet.setLCPConfiguration')"
       icon="mdi-list-status">
       <template #activator="{ open }">
         <cc-button size="large"

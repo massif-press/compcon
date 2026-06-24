@@ -1,18 +1,18 @@
 <template>
   <v-container>
-    <div class="heading h2 mb-1">{{ cr.lancerBy }}</div>
+    <div class="heading h2 mb-1">{{ cr.lancerBy }}:</div>
     <v-row>
       <dev-badge v-for="(c, cIdx) in credits.writers"
         :key="`writer-${cIdx}`"
         :info="c" />
     </v-row>
-    <div class="heading h2 mt-4 mb-1">{{ cr.compconBy }}</div>
+    <div class="heading h2 mt-4 mb-1">{{ cr.compconBy }}:</div>
     <v-row>
       <dev-badge v-for="(c, cIdx) in credits.lead_devs"
         :key="`lead-${cIdx}`"
         :info="c" />
     </v-row>
-    <div class="heading h3 mt-4 mb-1">{{ cr.with }}</div>
+    <div class="heading h3 mt-4 mb-1">{{ cr.with }}:</div>
     <v-row dense>
       <dev-badge v-for="(c, cIdx) in credits.devs1"
         :key="`dev1-${cIdx}`"
@@ -23,13 +23,13 @@
         :key="`dev2-${cIdx}`"
         :info="c" />
     </v-row>
-    <div class="heading h2 mt-4 mb-1">{{ cr.graphicDesignBy }}</div>
+    <div class="heading h2 mt-4 mb-1">{{ cr.graphicDesignBy }}:</div>
     <v-row dense>
       <dev-badge v-for="(c, cIdx) in credits.graphics"
         :key="`graphic-${cIdx}`"
         :info="c" />
     </v-row>
-    <div class="heading h2 mt-4 mb-1">{{ cr.additionalArtBy }}</div>
+    <div class="heading h2 mt-4 mb-1">{{ cr.additionalArtBy }}:</div>
     <v-row dense>
       <dev-badge v-for="(c, cIdx) in credits.art"
         :key="`art-${cIdx}`"
@@ -41,7 +41,7 @@
         <a v-html-safe="'support'"
           target="_blank"
           href="https://www.patreon.com/compcon" />
-        {{ cr.supportOf }}
+        {{ cr.supportOf }}:
       </span>
     </div>
 

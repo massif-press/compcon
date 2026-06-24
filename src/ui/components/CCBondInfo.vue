@@ -23,7 +23,7 @@
             @load="imageError = false" />
         </v-col>
         <v-col class="text-text">
-          <div class="heading h4 font-weight-bold">{{ $t('ui.bond.majorIdeals') }}</div>
+          <div class="heading h4 font-weight-bold">{{ $t('pm.sheet.majorIdeals') }}</div>
           <ul class="ml-6 mb-3">
             <li v-for="(s, index) in bond.MajorIdeals"
               :key="`major-${index}`"

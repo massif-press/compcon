@@ -1,7 +1,7 @@
 <template>
   <v-row align="end">
     <v-col>
-      <div class="heading">{{ $t('pm.sheet.lcpConfigurations') }}</div>
+      <div class="heading">{{ $t('pm.sheet.lcpConfigurations') }}:</div>
     </v-col>
     <v-col cols="auto">
       <cc-button
@@ -39,7 +39,7 @@
   <div>
     <v-divider class="my-4" />
     <div class="text-text text-cc-overline mb-2">
-      {{ $t('pm.sheet.currentConfiguration') }}
+      {{ $t('pm.sheet.currentConfiguration') }}:
       <strong class="text-accent">
         {{ actor.LcpConfig ? actor.LcpConfig.name : $t('pm.sheet.unrestrictedAccess') }}
       </strong>

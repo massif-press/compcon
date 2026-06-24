@@ -82,7 +82,7 @@
         </v-row>
         <div v-if="c.Description" class="font-weight-bold text-caption" v-text="$t('common.description')" />
         <div v-html-safe="c.Description" class="pl-2" />
-        <div v-if="c.Resolution" class="font-weight-bold text-caption" v-text="$t('gm.resolution')" />
+        <div v-if="c.Resolution" class="font-weight-bold text-caption" v-text="$t('ui.fields.resolution')" />
         <div v-html-safe="c.Resolution" class="pl-2" />
       </v-card>
     </div>

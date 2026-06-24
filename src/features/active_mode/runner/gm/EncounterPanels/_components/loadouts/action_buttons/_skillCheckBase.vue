@@ -87,7 +87,7 @@
     color="primary"
     size="small"
     block
-    @click="rollCheck()">{{ $t('common.roll') }}</v-btn>
+    @click="rollCheck()">{{ $t('common.roll_verb') }}</v-btn>
 
   <div v-if="rollResults.length"
     class="pa-2 border-s mt-2 text-left">

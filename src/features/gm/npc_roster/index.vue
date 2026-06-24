@@ -12,10 +12,10 @@
       <b>{{ $t('common.npcs') }}</b>
     </v-tab>
     <v-tab selected-class="bg-accent">
-      <b>{{ $t('gm.combatantSelector.doodads') }}</b>
+      <b>{{ $t('gm.titles.doodads') }}</b>
     </v-tab>
     <v-tab selected-class="bg-accent">
-      <b>{{ $t('gm.combatantSelector.eidolons') }}</b>
+      <b>{{ $t('gm.titles.eidolons') }}</b>
     </v-tab>
   </v-tabs>
 

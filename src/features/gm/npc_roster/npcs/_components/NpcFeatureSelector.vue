@@ -4,7 +4,7 @@
       color="primary"
       class="mt-2"
       @click="dialog = true">
-      {{ $t('gm.npcFeature.setFeatures') }}
+      {{ $t('gm.titles.setNpcFeatures') }}
     </cc-button>
     <v-row no-gutters
       justify="end">
@@ -192,7 +192,7 @@
                   <cc-dense-card :item="item">
                     <template #pre>
                       <div class="text-disabled text-cc-overline mt-n1">
-                        {{ $t('gm.npcFeature.featureType', { type: item.Base ? $t('gm.npcFeature.base') : $t('gm.npcFeature.optional') }) }}
+                        {{ $t('gm.npcFeature.featureType', { type: item.Base ? $t('gm.npcFeature.base') : $t('gm.fields.optional') }) }}
                       </div>
                     </template>
                   </cc-dense-card>

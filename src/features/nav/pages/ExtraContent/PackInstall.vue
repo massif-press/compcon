@@ -40,7 +40,7 @@
           color="warning"
           class="my-3">
           <span class="text-caption">
-            {{ $t('nav.packInstall.alreadyInstalledWarning', alreadyInstalledCount) }}
+            {{ $t('nav.packInstall.alreadyInstalledWarning', alreadyInstalledCount) }}:
           </span>
           <div v-for="pack in contentPacks.filter((x) => packAlreadyInstalled(x))"
             :key="pack.id"
@@ -86,7 +86,7 @@
             :key="pack.id"
             class="text-caption">
             <b>{{ pack.manifest.name }}</b>
-            {{ $t('nav.packInstall.byAuthor', { author: pack.manifest.author }) }}
+            {{ $t('nav.packConfig.byAuthor', { author: pack.manifest.author }) }}
           </div>
         </cc-alert>
 
@@ -95,7 +95,7 @@
           color="error"
           class="my-3">
           <span class="text-caption">
-            {{ $t('nav.packInstall.dependencyError', dependencyErrorCount) }}
+            {{ $t('nav.packInstall.dependencyError', dependencyErrorCount) }}:
           </span>
           <div v-for="pack in contentPacks.filter((x) => uninstalledDependencies(x).length > 0)"
             :key="pack.id"
@@ -164,7 +164,7 @@
               color="error"
               class="transition-swing"
               transition="slide-y-reverse-transition">
-              {{ pi.requiresContent }}
+              {{ pi.requiresContent }}:
               <div v-for="dep in uninstalledDependencies(contentPack)"
                 :key="dep.name + dep.version"
                 class="text-caption">

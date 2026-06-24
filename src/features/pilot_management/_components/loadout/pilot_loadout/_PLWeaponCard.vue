@@ -58,7 +58,7 @@
         <template #top>
           <div v-if="item">
             <span class="text-cc-overline">
-              {{ $t('pm.loadout.gmsArmoryPrintid') }} {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
+              {{ $t('pm.loadout.gmsArmoryPrintid') }}: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
               <span class="text-success text--darken-1">
                 {{ $t('pm.loadout.pilotMATERIELREGISTRATIONVERIFIED') }}
               </span>

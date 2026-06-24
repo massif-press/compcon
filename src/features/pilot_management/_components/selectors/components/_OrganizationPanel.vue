@@ -8,13 +8,13 @@
           <v-col cols="6">
             <v-text-field v-model="orgName"
               color="accent"
-              :label="$t('pm.fields.name')"
+              :label="$t('common.name')"
               variant="outlined"
               hide-details />
           </v-col>
           <v-col cols="6">
             <v-select v-model="orgType"
-              :label="$t('pm.fields.type')"
+              :label="$t('common.type')"
               color="accent"
               :items="orgTypes"
               variant="outlined"
@@ -22,7 +22,7 @@
           </v-col>
         </v-row>
         <v-textarea v-model="orgDetails"
-          :label="$t('pm.fields.purposeGoalAndOrganizationDetails')"
+          :label="$t('ui.fields.purposeGoalAndOrganizationDetails')"
           color="accent"
           auto-grow
           rows="2"
@@ -30,7 +30,7 @@
           hide-details
           class="mt-2" />
         <br />
-        <span class="heading h4">{{ $t('pm.selectors.startWith') }}</span>
+        <span class="heading h4">{{ $t('pm.selectors.startWith') }}:</span>
         <v-row justify="center"
           class="mx-4 py-1">
           <v-col class="text-center">
@@ -94,7 +94,7 @@
           :disabled="!orgName || !orgType || !orgStart"
           @click="add()">
           <v-icon start>mdi-plus</v-icon>
-          {{ $t('pm.selectors.addOrganization') }}
+          {{ $t('pm.titles.addOrganization') }}
         </v-btn>
       </cc-titled-panel>
     </v-col>

@@ -3,7 +3,7 @@
     <v-col v-if="item.StatController.MaxStats['hp']">
       <simple-mini-panel v-model.number="item.StatController.CurrentStats['hp']"
         :max="item.StatController.MaxStats['hp']"
-        :title="$t('active.titles.hitPoints')"
+        :title="$t('active.stats.hitPoints')"
         color=hp
         icon="mdi-heart-outline" />
       <simple-mini-panel v-if="item.StatController.MaxStats['structure']"
@@ -38,7 +38,7 @@
         icon="cc:overcharge" />
       <simple-mini-panel v-model.number="item.StatController.CurrentStats['heatcap']"
         :max="item.StatController.MaxStats['heatcap']"
-        :title="$t('active.titles.heat')"
+        :title="$t('pm.sheet.heat')"
         color=heat
         icon="cc:heat" />
       <simple-mini-panel v-model.number="item.StatController.CurrentStats['stress']"
@@ -131,7 +131,7 @@
         :prepend-icon="currentIcon"
         :color="item.CombatController.CorePower ? 'core' : 'grey'"
         @click.stop="props.onClick($event)">
-        {{ $t('active.trackable.corePower') }} {{ item.CombatController.CorePower ? $t('active.trackable.ready') : $t('active.trackable.unavailable') }}
+        {{ $t('active.trackable.corePower') }} {{ item.CombatController.CorePower ? $t('active.trackable.ready') : $t('pm.selectors.unavailable') }}
       </cc-button>
 
     </template>

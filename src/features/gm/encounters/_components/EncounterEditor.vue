@@ -132,7 +132,7 @@
                 size="small"
                 @click="item.NarrativeController.AddTable()">
                 <v-icon start>mdi-plus</v-icon>
-                {{ $t('gm.narrative.addTable') }}
+                {{ $t('text-lowercase') }}
               </cc-button>
             </v-col>
           </v-row>

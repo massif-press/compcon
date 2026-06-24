@@ -38,7 +38,7 @@
     </div>
     <div v-if="encounter.Sitrep.Extraction"
       class="mt-1">
-      <div class="text-caption"><b>{{ $t('gm.encPrint.extraction') }}</b></div>
+      <div class="text-caption"><b>{{ $t('gm.fields.extraction') }}</b></div>
       <v-divider style="width: 150px" />
       {{ encounter.Sitrep.Extraction }}
     </div>
@@ -96,7 +96,7 @@
       <v-icon icon="cc:mech"
         class="mt-n1" />
       {{encounter.Combatants.filter((x) => x.side === 'neutral').length}}
-      {{ $t('gm.encPrint.neutral') }}
+      {{ $t('gm.fields.neutral') }}
     </legend>
     <div v-for="(n, i) in SortedCombatants"
       :key="`combatant-${i}`">
@@ -170,7 +170,7 @@
           class="pl-2" />
         <div v-if="c.Resolution"
           class="font-weight-bold text-caption"
-          v-text="$t('gm.resolution')" />
+          v-text="$t('ui.fields.resolution')" />
         <div v-html-safe="c.Resolution"
           class="pl-2" />
       </v-card>

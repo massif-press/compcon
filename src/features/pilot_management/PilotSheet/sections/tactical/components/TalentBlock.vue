@@ -1,6 +1,6 @@
 <template>
   <div class="mb-4">
-    <section-header :title="$t('pm.titles.talents')">
+    <section-header :title="$t('common.talents')">
       <cc-modal v-if="!pilot.IsRemote" :title="$t('pm.titles.setPilotTalents')" icon="cc:trait">
         <template #activator="{ open }">
           <section-edit-chip

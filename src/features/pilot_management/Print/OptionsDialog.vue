@@ -30,7 +30,7 @@
           <v-col>
             <print-option-select v-model="options.bonds"
               mandatory
-              :title="$t('pm.titles.bonds')"
+              :title="$t('pm.sheet.bonds')"
               :items="bondsOptions" />
           </v-col>
         </v-row>

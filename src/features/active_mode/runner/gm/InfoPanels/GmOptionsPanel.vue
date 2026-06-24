@@ -23,7 +23,7 @@
         <v-col>
           <cc-dialog :close-on-click="false"
             icon="mdi-import"
-            :title="$t('active.titles.importEncounterState')">
+            :title="$t('active.gmOptions.importState')">
             <template #activator="{ open }">
               <v-btn flat
                 tile
@@ -54,7 +54,7 @@
                     tile
                     color="panel">
                     <div class="text-cc-overline text-disabled">{{
-                      $t('active.pcOptions.stagedImport') }}</div>
+                      $t('active.pcOptions.stagedImport') }}:</div>
                     <div class="ml-3">
                       <b class="text-accent">
                         {{ (importObj as any).encounter.name || 'Unnamed Encounter' }}
@@ -193,7 +193,7 @@
         <v-col cols="auto">
           <cc-number-field v-model="combatant.reinforcementTurn"
             color="primary"
-            :label="$t('active.fields.round')"
+            :label="$t('active.labels.round')"
             min="1" />
         </v-col>
         <v-col cols="auto">

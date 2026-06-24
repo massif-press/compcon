@@ -54,7 +54,7 @@
         style="max-height: 80vh" />
       <div class="text-right mt-n3">
         <cc-modal v-if="!mech.Pilot.IsRemote"
-          :title="$t('pm.titles.setMechImage')"
+          :title="$t('pm.sheet.setMechImage')"
           icon="cc:frame">
           <template #activator="{ open }">
             <cc-button variant="tonal"
@@ -97,7 +97,7 @@
     <v-container>
       <v-row align="start">
         <v-col>
-          <section-header :title="$t('pm.titles.operatorNotes')" />
+          <section-header :title="$t('pm.print.operatorNotes')" />
           <cc-rich-text-area v-model="mech.Notes"
             :readonly="mech.Pilot.IsRemote"
             class="mb-3 mt-2" />
@@ -128,7 +128,7 @@
             position="top center" />
           <div class="text-right mt-n3">
             <cc-modal v-if="!mech.Pilot.IsRemote"
-              :title="$t('pm.titles.setMechImage')"
+              :title="$t('pm.sheet.setMechImage')"
               icon="cc:frame">
               <template #activator="{ open }">
                 <cc-button variant="tonal"

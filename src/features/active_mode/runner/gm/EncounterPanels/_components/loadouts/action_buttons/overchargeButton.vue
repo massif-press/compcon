@@ -63,7 +63,7 @@
               color="overcharge"
               append-inner-icon="cc:heat" />
           </v-col>
-          <v-col cols="auto">{{ $t('active.newSheet.heat') }}</v-col>
+          <v-col cols="auto">{{ $t('pm.sheet.heat') }}</v-col>
         </v-row>
       </v-card>
       <menu-input :owner="owner" :encounter-instance="encounterInstance" :key="controller.ID"

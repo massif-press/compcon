@@ -17,7 +17,7 @@
     <template #item.LastUpdate="{ item }">{{ timeAgo((item as any).SaveController.LastModified) }}</template>
 
     <template #actions="{ selected, items, showDeleted, clearSelected, showDeleteConfirm, setShowDeleteConfirm }">
-      <v-list-item :title="$t('pm.titles.setGroup')"
+      <v-list-item :title="$t('pm.roster.setGroup')"
         :subtitle="$t('pm.subtitles.setPilotGroup')"
         prepend-icon="mdi-account-group"
         :disabled="!selected.length"

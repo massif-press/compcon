@@ -240,10 +240,10 @@
                             tile
                             class="px-2 ma-1"
                             color="surface-variant">
-                            <span class="text-cc-overline">{{ $t('active.pcEndRound.braced') }}</span>
+                            <span class="text-cc-overline">{{ $t('active.actions.braced') }}</span>
                           </v-card>
                         </template>
-                        <div class="heading h4">{{ $t('active.runnerItem.bracedHeading') }}</div>
+                        <div class="heading h4">{{ $t('active.actions.braced') }}</div>
                         <v-divider class="my-1" />
                         {{ $t('active.runnerItem.bracedDesc') }}
                       </v-tooltip>
@@ -254,7 +254,7 @@
                         tile
                         class="px-2 ma-1"
                         color="surface-variant">
-                        <span class="text-cc-overline">{{ $t('active.runnerItem.overwatch') }}</span>
+                        <span class="text-cc-overline">{{ $t('active.actions.overwatch') }}</span>
                       </v-card>
                     </v-col>
 
@@ -263,7 +263,7 @@
                         tile
                         class="px-2 ma-1"
                         color="surface-variant">
-                        <span class="text-cc-overline">{{ $t('active.runnerItem.prepared') }}</span>
+                        <span class="text-cc-overline">{{ $t('active.common.prepared') }}</span>
                       </v-card>
                     </v-col>
                   </v-row>

@@ -17,7 +17,7 @@
           <div v-if="equipped || swapSystem">
             <div v-if="!mobile"
               class="text-cc-overline">
-              {{ $t('pm.loadout.unionArmoryPrintid') }} {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
+              {{ $t('pm.loadout.unionArmoryPrintid') }}: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
               <span class="text-success">{{ $t('pm.loadout.frameEQUIPMENTREGISTRATIONVERIFIED') }}</span>
             </div>
             <div class="heading h2 text-accent">

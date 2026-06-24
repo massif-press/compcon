@@ -25,7 +25,7 @@
               flat
               tile
               class="pb-4">
-              <div class="heading" h3><cc-slashes /> {{ $t('active.encSummary.pilots') }}</div>
+              <div class="heading" h3><cc-slashes /> <span class="text-lowercase">{{ $t('pm.roster.pilots') }}</span></div>
               <v-divider class="mb-2" />
               <v-row v-for="(p, i) in participants"
                 :key="p.key"

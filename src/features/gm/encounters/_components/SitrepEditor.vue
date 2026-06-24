@@ -106,7 +106,7 @@
     <v-textarea v-if="shownKeys.includes('ControlZone')"
       v-model="item.Sitrep.ControlZone"
       :readonly="readonly"
-      :label="$t('gm.fields.controlZone')"
+      :label="$t('ui.card.controlZone')"
       density="compact"
       rows="1"
       variant="outlined"
@@ -143,7 +143,7 @@
       class="pa-2">
       <v-text-field v-model="c.title"
         :readonly="readonly"
-        :label="$t('gm.fields.title')"
+        :label="$t('ui.fields.title')"
         density="compact"
         hide-details
         class="mb-2">
@@ -182,7 +182,7 @@
           size="small"
           prepend-icon="mdi-plus"
           @click="item.Sitrep.Conditions.push({ title: 'New Condition', condition: '' })">
-          {{ $t('gm.sitrep.condition') }}
+          {{ $t('active.common.condition_status') }}
         </cc-button>
       </v-col>
       <v-col cols="auto"

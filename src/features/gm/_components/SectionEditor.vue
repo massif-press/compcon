@@ -19,7 +19,7 @@
             hide-details
             @update:model-value="debouncedSave">
             <template #label>
-              {{ $t('ui.rollTable.gmOnly') }}
+              {{ $t('ui.fields.gmOnly') }}
               <v-tooltip location="top">
                 <template #activator="{ props }">
                   <v-icon class="fade-select"
@@ -87,7 +87,7 @@
         <v-card-text>
           <v-combobox v-if="item.SectionSuggestions"
             v-model="newTextItemHeader"
-            :label="$t('gm.fields.title')"
+            :label="$t('ui.fields.title')"
             :items="item.SectionSuggestions" />
           <v-text-field v-else
             v-model="newTextItemHeader"

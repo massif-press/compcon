@@ -50,7 +50,7 @@
       <v-row dense
         align="center"
         class="my-n1">
-        <v-col cols="auto">{{ $t('stats.save') }}</v-col>
+        <v-col cols="auto"><span class="text-uppercase">{{ $t('common.save') }}</span></v-col>
         <v-col><v-divider /></v-col>
         <v-col cols="auto"
           class="text-primary">
@@ -175,7 +175,7 @@
 
     <div class="caption text-center text-primary mt-n1"
       style="letter-spacing: 5px; font-size: 10px">
-      {{ $t('ui.card.frameTraits') }}
+      {{ $t('active.roster.frameTraits') }}
     </div>
     <v-divider />
     <div v-for="t in mech.Frame.Traits"
@@ -188,7 +188,7 @@
     <div style="position: absolute; bottom: 4px; left: 4px; right: 4px">
       <div class="caption text-center text-primary mt-2"
         style="letter-spacing: 5px; font-size: 10px">
-        {{ $t('pm.print.coreSYSTEM') }}
+        {{ $t('active.roster.coreSystem') }}
       </div>
 
       <v-card class="caption pa-1"
@@ -265,7 +265,7 @@
 
     <fieldset class="pb-1">
       <legend class="font-weight-bold caption text-red px-2 text-center">
-        {{ $t('stats.heat') }}
+        <span class="text-uppercase">{{ $t('pm.sheet.heat') }}</span>
         <span class="text-black caption">{{ $t('pm.print.capacityParen', { n: mech.HeatCapacity }) }}</span>
       </legend>
       <div>
@@ -309,7 +309,7 @@
       </v-col>
       <v-col>
         <fieldset>
-          <legend class="font-weight-bold text-primary caption px-2 text-center">{{ $t('pm.print.core') }}</legend>
+          <legend class="font-weight-bold text-primary caption px-2 text-center"><span class="text-uppercase">{{ $t('common.core') }}</span></legend>
           <div class="pb-1">
             <blank-line :height="40" />
           </div>
@@ -433,22 +433,22 @@
               class="caption">{{ p.Effect }}</div>
             <div v-if="p.OnMiss"
               class="caption">
-              <b>{{ $t('pm.print.onMISS') }}</b>
+              <b>{{ $t('pm.print.onMISS') }}:</b>
               {{ p.OnMiss.Detail }}
             </div>
             <div v-if="p.OnAttack"
               class="caption">
-              <b>{{ $t('pm.print.onATTACK') }}</b>
+              <b>{{ $t('pm.print.onATTACK') }}:</b>
               {{ p.OnAttack.Detail }}
             </div>
             <div v-if="p.OnHit"
               class="caption">
-              <b>{{ $t('pm.print.onHIT') }}</b>
+              <b>{{ $t('pm.print.onHIT') }}:</b>
               {{ p.OnHit.Detail }}
             </div>
             <div v-if="p.OnCrit"
               class="caption">
-              <b>{{ $t('pm.print.onCRIT') }}</b>
+              <b>{{ $t('pm.print.onCRIT') }}:</b>
               {{ p.OnCrit.Detail }}
             </div>
           </div>
@@ -550,11 +550,11 @@
   <action-card v-for="a in allActions"
     :key="a.ID"
     :action="a"
-    :header="$t('pm.titles.mech')" />
+    :header="$t('common.mech')" />
   <deployable-card v-for="(d, i) in allDeployables"
     :key="`deployable-all-${i}`"
     :deployable="d"
-    :header="$t('pm.titles.mech')" />
+    :header="$t('common.mech')" />
 </template>
 
 <script setup lang="ts">

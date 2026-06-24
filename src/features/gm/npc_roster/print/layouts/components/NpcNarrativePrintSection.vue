@@ -45,7 +45,7 @@
           class="pl-2" />
         <div v-if="c.Resolution"
           class="font-weight-bold text-caption"
-          v-text="$t('gm.resolution')" />
+          v-text="$t('ui.fields.resolution')" />
         <div v-html-safe="c.Resolution"
           class="pl-2" />
       </v-card>

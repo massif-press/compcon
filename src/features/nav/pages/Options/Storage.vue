@@ -138,7 +138,7 @@
               tag="span"
               scope="global">
               <template #never>
-                <b class="text-accent">{{ $t('nav.storage.neverLabel') }}</b>
+                <b class="text-accent"><span class="text-lowercase">{{ $t('active.runnerHeader.never') }}</span></b>
               </template>
             </i18n-t>
           </span>
@@ -204,7 +204,7 @@
               tag="span"
               scope="global">
               <template #confirm>
-                <b class="text-accent">{{ st.deleteAllConfirm }}</b>
+                <b class="text-accent"><span class="text-uppercase">{{ $t('common.all') }}</span></b>
               </template>
             </i18n-t>
             <br />

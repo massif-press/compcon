@@ -3,7 +3,7 @@
     class="mt-2"
     :title="$t('pm.titles.missingLicenseData')">
     <p class="text-cc-overline text-disabled mb-2">
-      {{ $t('pm.selectors.notInCompendium', { type }) }}
+      {{ $t('pm.selectors.notInCompendium', { type }) }}:
     </p>
     <v-row v-for="(item, index) in itemArr"
       :key="`missing-${type}-${index}`"

@@ -14,7 +14,7 @@
 
     <v-row dense justify="space-around" align="center" class="text-center mt-2">
       <v-col cols="auto">
-        <div class="text-cc-overline">{{ $t('pm.sheet.currentLEVEL') }}</div>
+        <div class="text-cc-overline">{{ $t('pm.sheet.currentLEVEL') }}:</div>
         <div class="heading h1" style="line-height: 42px">
           {{ pilot.Level }}
         </div>
@@ -25,7 +25,7 @@
       </v-col>
 
       <v-col cols="auto">
-        <div class="text-cc-overline mb-2">{{ $t('pm.sheet.newLEVEL') }}</div>
+        <div class="text-cc-overline mb-2">{{ $t('pm.sheet.newLEVEL') }}:</div>
         <cc-select v-model.number="newLevel" :items="levels" type="number" color="primary" />
       </v-col>
     </v-row>

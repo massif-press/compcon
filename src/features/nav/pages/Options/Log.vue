@@ -1,7 +1,7 @@
 <template>
   <v-container :class="!mobile && 'px-12'">
     <div class="text-caption">
-      {{ lg.logLevel }}
+      {{ lg.logLevel }}:
       <b class="text-uppercase">{{ logger.level }}</b>
     </div>
     <v-expansion-panels multiple
@@ -51,7 +51,7 @@
                   style="white-space: pre-wrap; word-break: break-all">{{ safeStringify(sanitizeCaller(item.caller)) }}</pre>
               </div>
               <div v-else
-                class="text-center text-disabled"><i>{{ lg.noData }}</i></div>
+                class="text-center text-disabled text-lowercase"><i>{{ $t('common.noData') }}</i></div>
             </v-col>
           </v-row>
         </v-expansion-panel-text>

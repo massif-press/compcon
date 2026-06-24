@@ -33,7 +33,7 @@
       </v-col>
       <v-col cols="auto"
         class="text-right ml-4">
-        <div class="text-caption mr-9 text-primary">{{ $t('active.stats.grit') }}&nbsp;</div>
+        <div class="text-caption mr-9 text-primary">{{ $t('pm.print.grit') }}&nbsp;</div>
         <v-icon v-if="blank"
           size="60"
           color="primary"
@@ -60,7 +60,7 @@
           class="heading h3 ml-2">
           {{ pilot.Name }}
         </div>
-        <div class="text-caption text-primary h0 mt-1">{{ $t('pm.print.player') }}</div>
+        <div class="text-caption text-primary h0 mt-1">{{ $t('common.player') }}</div>
         <blank-line v-if="blank"
           :height="24"
           class="my-2" />
@@ -70,7 +70,7 @@
           class="heading h3 ml-2">
           {{ pilot.PlayerName }}
         </div>
-        <div class="text-caption text-primary h0 mt-1">{{ $t('pm.new.background') }}</div>
+        <div class="text-caption text-primary h0 mt-1">{{ $t('common.background') }}</div>
         <blank-line v-if="blank || !pilot.Background"
           :height="24"
           class="my-2" />
@@ -173,7 +173,7 @@
       </v-row>
     </fieldset>
 
-    <div class="text-caption text-primary mb-n2 mt-2">{{ $t('pm.print.skillTRIGGERS') }}</div>
+    <div class="text-caption text-primary mb-n2 mt-2">{{ $t('pm.titles.skillTriggers') }}</div>
     <div class="text-left">
       <v-row v-if="blank"
         dense
@@ -210,7 +210,7 @@
       </v-card>
     </div>
 
-    <div class="text-caption mb-n2 mt-1 text-primary">{{ $t('pm.new.talents') }}</div>
+    <div class="text-caption mb-n2 mt-1 text-primary">{{ $t('common.talents') }}</div>
     <v-row v-if="blank"
       dense>
       <v-col v-for="n in 8"
@@ -267,7 +267,7 @@
 
     <div v-if="pilot.CoreBonusController.CoreBonuses.length || blank"
       class="text-caption mb-n2 mt-2 text-primary">
-      {{ $t('pm.print.coreBonuses') }}
+      {{ $t('pm.level.coreBonuses') }}
     </div>
     <v-row v-if="blank"
       dense>
@@ -389,7 +389,7 @@
         <v-row class="text-center"
           justify="space-between">
           <v-col>
-            <div class="font-weight-bold caption text-primary mb-n2">{{ $t('stats.hull') }}</div>
+            <div class="font-weight-bold caption text-primary mb-n2"><span class="text-uppercase">{{ $t('pm.link.hull') }}</span></div>
             <blank-line v-if="blank"
               :width="80"
               :height="35"
@@ -636,14 +636,14 @@
           variant="outlined"
           color="grey"
           class="bg-white px-1 mx-1">
-          {{ $t('pm.print.mech') }}
+          {{ $t('common.mech') }}
         </v-chip>
         <v-chip label
           size="x-small"
           variant="outlined"
           color="grey"
           class="bg-white px-1 mx-1">
-          {{ $t('pm.print.other') }}
+          {{ $t('ui.widget.other') }}
         </v-chip>
       </div>
 

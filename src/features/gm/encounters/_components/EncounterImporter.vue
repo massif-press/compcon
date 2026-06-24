@@ -46,7 +46,7 @@
             </th>
             <th>{{ $t('common.name') }}</th>
             <th>{{ $t('common.sitrep') }}</th>
-            <th class="text-center">{{ $t('gm.encImport.combatants') }}</th>
+            <th class="text-center">{{ $t('gm.combatant.combatants') }}</th>
             <th class="text-center">{{ $t('common.status') }}</th>
           </tr>
         </thead>

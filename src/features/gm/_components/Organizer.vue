@@ -43,7 +43,7 @@
     </template>
 
     <template #actions="{ selected, items, showDeleted, clearSelected, showDeleteConfirm, setShowDeleteConfirm }">
-      <v-list-item :title="$t('gm.titles.setFolder')"
+      <v-list-item :title="$t('gm.folder.setFolder')"
         :subtitle="$t('gm.subtitles.setItemFolder')"
         prepend-icon="mdi-folder"
         :disabled="!selected.length"

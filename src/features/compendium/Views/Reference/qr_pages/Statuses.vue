@@ -9,7 +9,7 @@
     </cc-masonry-grid>
 
     <h1 id="conditions"
-      class="heading">{{ $t('compendium.reference.conditions') }}</h1>
+      class="heading">{{ $t('gm.fields.conditions') }}</h1>
     <cc-masonry-grid :items="conditions">
       <template #default="{ item }">
         <status-card :status="item" />

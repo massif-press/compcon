@@ -5,7 +5,7 @@
     tile
     flat
     @click="loginWithItch">
-    <b>{{ $t("mainMenu.itch.accountLabel") }}</b>
+    <b>{{ $t("mainMenu.itch.accountLabel") }}:</b>
     <div v-if="loadItch"
       class="ma-2">
       <v-progress-linear tile
@@ -72,7 +72,7 @@
     <v-card :loading="loading"
       flat>
       <v-card-text>
-        <div>{{ $t("mainMenu.itch.purchasesLinked") }}</div>
+        <div>{{ $t("mainMenu.itch.purchasesLinked") }}:</div>
         <cc-chip v-for="(game, gameIdx) in itch.gamedata"
           :key="`game-${gameIdx}`"
           bg-color="primary"
@@ -82,7 +82,7 @@
           :label="game.title"
           class="ma-1" />
         <div class="mt-2">
-          {{ $t("mainMenu.itch.eligibleUpdates") }}
+          {{ $t("mainMenu.itch.eligibleUpdates") }}:
         </div>
         <v-card flat
           border>

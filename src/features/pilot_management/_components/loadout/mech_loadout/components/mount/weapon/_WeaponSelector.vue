@@ -17,7 +17,7 @@
           <div v-if="weaponSlot.Weapon">
             <div v-if="!mobile"
               class="text-cc-overline">
-              {{ $t('pm.loadout.unionArmoryPrintid') }} {{ fID('ANN-NNN-NNN::AA//AA') }}
+              {{ $t('pm.loadout.unionArmoryPrintid') }}: {{ fID('ANN-NNN-NNN::AA//AA') }}
             </div>
             <div class="heading h2 text-accent">
               {{ weaponSlot.Weapon.Name }}

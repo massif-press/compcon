@@ -60,9 +60,9 @@
             size="small"
             block
             @click="rollAttack()">
-            {{ $t('common.roll') }}
+            {{ $t('common.roll_verb') }}
           </v-btn>
-          <div class="pa-2 text-left text-cc-overline text-accent">{{ $t('ui.combat.rollResults') }}</div>
+          <div class="pa-2 text-left text-cc-overline text-accent"><span class="text-lowercase">{{ $t('active.skillCheck.rollResults') }}</span></div>
           <div v-if="rollData.AttackRollResult"
             class="text-text">
             <span v-html-safe="rollData.AttackRollResult.toString()" />

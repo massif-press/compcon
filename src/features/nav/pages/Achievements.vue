@@ -37,7 +37,7 @@
               flat
               tile>
               <v-card-text>
-                <div class="text-cc-overline text-center font-weight-bold">{{ ac.byRarity }}</div>
+                <div class="text-cc-overline text-center font-weight-bold">{{ ac.byRarity }}:</div>
                 <div v-for="(r, i) in rarities"
                   :key="`rarity-${i}`">
                   <v-progress-linear
@@ -56,7 +56,7 @@
                   </div>
                 </div>
                 <v-divider class="my-2" />
-                <div class="text-cc-overline text-center font-weight-bold">{{ ac.byLabel }}</div>
+                <div class="text-cc-overline text-center font-weight-bold">{{ ac.byLabel }}:</div>
                 <v-row dense>
                   <v-col v-for="(l, lIdx) in labels"
                     :key="`label-${lIdx}`"
@@ -93,7 +93,7 @@
     </v-row>
     <v-row dense>
       <v-col cols="12">
-        <div class="text-cc-overline ml-n2">{{ ac.display }}</div>
+        <div class="text-cc-overline ml-n2">{{ ac.display }}:</div>
         <v-row justify="space-between"
           dense>
           <v-col>
@@ -157,7 +157,7 @@
           </template>
 
           <template #prepend-item>
-            <v-list-item :title="$t('nav.titles.selectAll')">
+            <v-list-item :title="$t('common.selectAll')">
               <template #prepend>
                 <v-checkbox-btn :model-value="showLabels.length === labels.length"
                   :indeterminate="showLabels.length > 0 && showLabels.length < labels.length"
@@ -172,7 +172,7 @@
     <v-row align="end">
       <v-col cols="12"
         md="8">
-        <div class="text-cc-overline ml-n2">{{ ac.sort }}</div>
+        <div class="text-cc-overline ml-n2"><span class="text-uppercase">{{ $t('gm.fields.sort') }}</span>:</div>
         <v-btn color="primary"
           size="x-small"
           flat
@@ -287,7 +287,7 @@
       </v-col>
       <v-col cols="auto">
         <cc-dialog :close-on-click="false"
-          :title="$t('nav.titles.resetAchievements')">
+          :title="$t('nav.achievements.resetAchievements')">
           <template #activator="{ open }">
             <cc-button size="x-small"
               color="error"

@@ -63,7 +63,7 @@
             size="small"
             block
             :color="pilot.CombatController.Prepared ? 'primary' : 'panel'"
-            :text="$t('active.actions.prepared')"
+            :text="$t('active.common.prepared')"
             @click="pilot.CombatController.Prepared = !pilot.CombatController.Prepared" />
         </v-col>
       </v-row>

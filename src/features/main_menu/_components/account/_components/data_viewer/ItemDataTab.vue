@@ -81,7 +81,7 @@
         </div>
       </template>
       <template #item.ItemType="{ item }">
-        <span v-if="item.ItemType === 'Encounter'">{{ $t("mainMenu.dataItem.typeEncounterData") }}</span>
+        <span v-if="item.ItemType === 'Encounter'">{{ $t("active.newEnc.encounterData") }}</span>
         <span v-else-if="item.ItemType === 'Campaign'">{{ $t("mainMenu.dataItem.typeCampaignData") }}</span>
         <span v-else-if="item.ItemType === 'EncounterInstance'">{{ $t("mainMenu.dataItem.typeActiveEncounter") }}</span>
         <span v-else-if="item.ItemType === 'EncounterArchive'">{{ $t("mainMenu.dataItem.typeArchivedEncounter") }}</span>
@@ -145,7 +145,7 @@
               color="success"
               icon="mdi-cloud-check-variant-outline" />
           </template>
-          <div class="text-center">{{ $t("share.upToDate") }}</div>
+          <div class="text-center">{{ $t("mainMenu.subscriptions.upToDate") }}</div>
         </v-tooltip>
         <v-tooltip v-else
           max-width="300px"
@@ -576,7 +576,7 @@
           <span class="heading h3">{{ $t("mainMenu.dataItem.deleteNItems", { count: selectedForDelete.length }, selectedForDelete.length) }}</span>
         </v-toolbar-title>
       </cc-alert>
-      {{ $t("mainMenu.dataItem.chooseDeleteMethod") }}
+      {{ $t("mainMenu.dataItem.chooseDeleteMethod") }}:
       <v-radio-group v-model="bulkDeleteScope"
         class="mt-2">
         <v-radio value="cloud"

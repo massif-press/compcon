@@ -46,7 +46,7 @@
             size="small"
             class="rounded-0 rounded-be-lg"
             prepend-icon="mdi-cloud-check-variant-outline">
-            {{ $t('share.upToDate') }}
+            {{ $t('mainMenu.subscriptions.upToDate') }}
           </v-chip>
         </div>
       </v-col>

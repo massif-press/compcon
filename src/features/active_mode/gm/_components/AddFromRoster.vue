@@ -131,7 +131,7 @@
               class="mt-1 px-3 py-1 bg-background text-center"
               justify="space-around">
               <v-col cols="auto">
-                <div class="pb-1 text-cc-overline">{{ $t('active.stats.grit') }}</div>
+                <div class="pb-1 text-cc-overline">{{ $t('pm.print.grit') }}</div>
                 <v-icon class="ml-1 mt-n1"
                   icon="mdi-star-four-points-outline" />
                 {{ selected.Grit }}
@@ -176,7 +176,7 @@
               class="px-3 pb-1 pt-3 bg-background text-center"
               justify="space-around">
               <v-col cols="auto">
-                <div class="pb-1 text-cc-overline">{{ $t('stats.hull') }}</div>
+                <div class="pb-1 text-cc-overline"><span class="text-uppercase">{{ $t('pm.link.hull') }}</span></div>
                 <v-icon class="ml-1 mt-n1"
                   icon="mdi-alpha-h-box-outline" />
                 {{ selected.MechSkillsController.MechSkills.Hull }}
@@ -326,7 +326,7 @@
                 <div v-if="selected.CoreBonusController.CoreBonuses.length">
                   <div class="text-cc-overline text-disabled mt-3">
                     <cc-slashes />
-                    {{ $t('compendium.categories.coreBonuses') }}
+                    {{ $t('pm.level.coreBonuses') }}
                   </div>
                   <cc-masonry-grid :items="selected.CoreBonusController.CoreBonuses"
                     :gap="16"

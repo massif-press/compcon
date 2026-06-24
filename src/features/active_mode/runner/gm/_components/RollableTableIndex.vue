@@ -16,7 +16,7 @@
     </v-toolbar>
     <div v-if="selected">
       <div class="heading bg-primary px-5">
-        <span class="text-disabled pr-2">{{ $t('active.common.currentlySelected') }}</span>
+        <span class="text-disabled pr-2">{{ $t('active.common.currentlySelected') }}:</span>
         <strong v-if="selected">
           {{ actor.Name }}
         </strong>
@@ -73,7 +73,7 @@
                 prepend-icon="mdi-dice-d20"
                 class="my-2"
                 @click="roll(selectedTable)">
-                {{ $t('common.roll') }} {{ `${selectedTable.Mult}d${selectedTable.Die}` }}
+                {{ $t('common.roll_verb') }} {{ `${selectedTable.Mult}d${selectedTable.Die}` }}
               </cc-button>
             </div>
             <div v-else

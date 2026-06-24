@@ -40,15 +40,13 @@
     "warning": "Warning",
     "alert": "Alert",
     "preview": "Preview",
-    "size": "Size",
     "mount": "Mount",
-    "rank": "RANK",
+    "rank": "Rank",
     "result": "Result",
     "copyLink": "Copy link",
     "attackBonus": "Attack Bonus",
     "difficulty": "Difficulty",
     "accuracy": "Accuracy",
-    "roll": "Roll",
     "roll_noun": "Roll",
     "remove": "Remove",
     "unlock": "Unlock",
@@ -105,7 +103,7 @@
     "tierN": "Tier {n}",
     "tierShort": "T{n}",
     "byAuthor": "by {author}",
-    "logLevel": "Log level:",
+    "logLevel": "Log level",
     "contentManager": "Content Manager",
     "contentPacks": "Content Packs",
     "lcpDirectory": "LCP Directory",
@@ -120,7 +118,6 @@
     "cloudAccount": "Cloud Account",
     "confirmImport": "Confirm Import",
     "forceImport": "Force Import",
-    "compconPrompt": ">>COMP/CON//",
     "addName": "Add {name}",
     "addingLocalCopyTooltip": "Adding this item as a local copy will create a new, editable version of this item saved to your local @:{'common.appName'} data. Changes made to this item will not affect the author's original data, and you will not receive updates from the author.",
     "armorBonus": "Armor Bonus",
@@ -169,7 +166,19 @@
     "pilotTalent": "Pilot Talent",
     "pilotArmor": "Pilot Armor",
     "pilotWeapon": "Pilot Weapon",
-    "repairs": "Repairs"
+    "repairs": "Repairs",
+    "background": "Background",
+    "mech": "Mech",
+    "player": "Player",
+    "hidden": "Hidden",
+    "changelog": "Changelog",
+    "deployables": "Deployables",
+    "talents": "Talents",
+    "roll_verb": "Roll",
+    "hase_h": "H",
+    "hase_a": "A",
+    "hase_s": "S",
+    "hase_e": "E"
   },
   "language": {
     "selectLanguage": "Language",
@@ -243,9 +252,9 @@
       "deleteTitle": "Delete Backup",
       "deleteConfirm": "Delete this pending v2 backup? This action cannot be undone.",
       "strippedTitle": "Items Stripped on Force Import",
-      "strippedBody": "The following items were removed because they could not be resolved:",
+      "strippedBody": "The following items were removed because they could not be resolved",
       "moreCount": "+{count} more",
-      "forceImportNotice": "This will import the {type} with all unresolvable items removed. The following dependencies cannot be found and will be stripped:"
+      "forceImportNotice": "This will import the {type} with all unresolvable items removed. The following dependencies cannot be found and will be stripped"
     },
     "common": {},
     "nav": {
@@ -276,8 +285,8 @@
     },
     "about": {
       "title": "@:{'common.appName'}",
-      "ccVersion": "C/C version:",
-      "lancerCoreVersion": "@:{'common.gameName'} CORE version:",
+      "ccVersion": "C/C version",
+      "lancerCoreVersion": "@:{'common.gameName'} CORE version",
       "description": "@:{'common.appName'} is a free, open-source digital toolkit and gameplay assistant for building and playing @:{'common.gameName'} TTRPG games.",
       "coreBookInfo": "The @:{'common.gameName'} CORE Book, @:{'common.appName'}, and associated content can be found at"
     },
@@ -309,35 +318,33 @@
       "discordLinkText": "the unofficial @:{'common.gameName'} discord"
     },
     "credits": {
-      "lancerBy": "@:{'common.gameName'} by:",
-      "compconBy": "@:{'common.appName'} by:",
-      "with": "With:",
-      "graphicDesignBy": "Graphic design by:",
-      "additionalArtBy": "Additional art by:",
+      "lancerBy": "@:{'common.gameName'} by",
+      "compconBy": "@:{'common.appName'} by",
+      "with": "With",
+      "graphicDesignBy": "Graphic design by",
+      "additionalArtBy": "Additional art by",
       "patronThanks": "The continued development of @:{'common.appName'} would not be possible without the generous",
-      "supportOf": "of:",
+      "supportOf": "of",
       "tier": "@:{'common.tier'}",
       "anonymousPatron": "Anonymous Patron"
     },
     "achievements": {
-      "unlocked": "unlocked",
-      "byRarity": "By Rarity:",
-      "byLabel": "By Label:",
+      "unlocked": "Unlocked",
+      "byRarity": "By Rarity",
+      "byLabel": "By Label",
       "secretAchievements": "Secret Achievements",
       "discovered": "Discovered",
-      "display": "Display:",
+      "display": "Display",
       "common": "Common",
       "epic": "Epic",
       "legendary": "Legendary",
       "mythic": "Mythic",
       "locked": "Locked",
       "selectAll": "@:{'common.selectAll'}",
-      "sort": "SORT:",
       "none": "@:{'common.none'}",
       "name": "@:{'common.name'}",
       "rarity": "Rarity",
       "dateUnlocked": "Date Unlocked",
-      "hidden": "Hidden",
       "notShown": "not shown",
       "createBackup": "Create Achievement Backup",
       "loadBackup": "Load Achievement Backup",
@@ -362,10 +369,8 @@
       "showExoticsTooltip": "Enabling this option may reveal campaign spoilers and it is recommended to leave this setting DISABLED if you are not the GM",
       "theme": "Theme",
       "font": "Font",
-      "logLevel": "Log Level",
       "logLevelLabel": "@:{'common.logLevel'}",
       "errorReporting": "Error Reporting",
-      "errorReportingPrefix": "Error reporting",
       "enhancedReportingPrefix": "Enhanced error reporting",
       "enabled": "enabled",
       "disabled": "disabled",
@@ -399,7 +404,6 @@
     "storage": {
       "storageUsageFull": "@:{'common.appName'} is currently using {used} of {total}, or {percent} of your available storage. This includes space reserved by @:{'common.appName'} for app management.",
       "neverAutoDeleteFull": "@:{'common.appName'} will {never} automatically delete data marked for deletion.",
-      "neverLabel": "never",
       "autoDeleteFull": "@:{'common.appName'} will permanently delete data after it has been marked as deleted for at least {days} This will not affect items not already marked for deletion.",
       "daysCount": "{count} days.",
       "deleteConfirmIntro": "This will delete {confirm} local @:{'common.appName'} data.",
@@ -421,7 +425,6 @@
       "userData": "User Data",
       "clearAllData": "@:{'common.clearAllData'}",
       "deleteWarningBanner": "Warning // warning // warning",
-      "deleteAllConfirm": "ALL",
       "cannotBeUndone": "be undone.",
       "areYouSure": "Are you sure you want to continue?",
       "deleteAllUserData": "Delete All User Data"
@@ -430,7 +433,6 @@
       "logLevel": "@:{'common.logLevel'}",
       "trace": "Trace",
       "caller": "Caller",
-      "noData": "no data",
       "exportLog": "Export Log",
       "copiedToClipboard": "Log entry copied to clipboard"
     },
@@ -454,17 +456,16 @@
     "packInstall": {
       "selectFile": "Select an .LCP file",
       "install": "Install",
-      "alreadyInstalledWarning": "The following content pack is already installed and will be replaced: | The following content packs are already installed and will be replaced:",
+      "alreadyInstalledWarning": "The following content pack is already installed and will be replaced: | The following content packs are already installed and will be replaced",
       "v3Warning": "The following content has not been registered as v3 compatible. These packs will still work, but will not be able to take advantage of v3 features, especially in active mode.",
-      "dependencyError": "The following content pack has uninstalled dependencies and cannot be installed yet. It will be skipped: | The following content packs have uninstalled dependencies and cannot be installed yet. They will be skipped:",
+      "dependencyError": "The following content pack has uninstalled dependencies and cannot be installed yet. It will be skipped: | The following content packs have uninstalled dependencies and cannot be installed yet. They will be skipped",
       "noPackSelected": "No content pack selected",
       "alreadyInstalledNote": "A pack with this same name and author is already installed.",
       "willReplace": "It will be replaced by this copy.",
-      "requiresContent": "This LCP requires the following content to be installed before it can be added:",
+      "requiresContent": "This LCP requires the following content to be installed before it can be added",
       "success": "Success",
       "successText": "Content packs installed successfully",
       "byAuthorVersion": "by {author} {'@'} {version}",
-      "byAuthor": "@:{'common.byAuthor'}",
       "byAuthorRequires": "by {author} requires",
       "upgradeFromTo": "Upgrade from {from} to {to}",
       "downgradeTo": "Downgrade to {version}",
@@ -476,7 +477,6 @@
     "packsDirectory": {
       "officialContent": "Official",
       "massifPress": "MASSIF PRESS",
-      "content": "Content",
       "communityContent": "@:{'common.gameName'} Community Content",
       "communityContentTitle": "@:{'common.gameName'} Community Content Packs",
       "communityAbout": "@:{'common.appName'} is proud to collaborate with the @:{'common.gameName'} community in making these unofficial content packs available. They are offered as-is at the discretion of the author.",
@@ -490,7 +490,7 @@
       "description": "Content configurations allow you to create and manage sets of LCPs that can be applied to Pilots and NPCs that allow or limit selections to specific content. Pilots and NPCs without configurations set will have access to all installed and activated LCPs",
       "applyNote": "These configurations can be applied to Pilots and NPCs in their options menus.",
       "noConfigs": "No configurations found.",
-      "lcpsInConfig": "LCPs in this configuration:",
+      "lcpsInConfig": "LCPs in this configuration",
       "noLcpsPrefix": "No LCPs added. Only content from the",
       "lancerCoreBook": "@:{'ui.missing.lancerCoreBook'}",
       "willBeAvailable": "will be available.",
@@ -507,15 +507,12 @@
       "v2ContentTitle": "v2 Content",
       "v2ContentDescription": "This content pack has not been registered as v3 compatible. This pack will still work correctly, but will not be able to take advantage of v3 features.",
       "noDescription": "@:{'ui.widget.noDescription'}",
-      "contentHeading": "Content",
       "dependencies": "Dependencies",
       "dependenciesTooltip": "Dependencies are other content packs that this pack requires to function properly. They must be installed and activated for this pack to load correctly.",
       "none": "@:{'common.none'}",
-      "changelog": "Changelog",
       "authorsWebsite": "Author's Website",
       "dependencyInstalled": "Dependency installed",
-      "version": "@:{'common.version'}",
-      "byAuthor": "@:{'common.byAuthor'}"
+      "version": "@:{'common.version'}"
     },
     "communityTable": {
       "noData": "No content packs available.",
@@ -527,7 +524,7 @@
       "subscribeTooltip": "Click to allow @:{'common.appName'} to update this LCP whenever a new version is published",
       "payWhatYouWant": "Pay What You Want",
       "free": "Free",
-      "currentVersion": "Current version:",
+      "currentVersion": "Current version",
       "itchStorePage": "itch.io Store Page",
       "authorsWebsite": "@:{'nav.packInfo.authorsWebsite'}"
     },
@@ -580,7 +577,7 @@
       "hiddenNote": "This achievement is hidden and will be revealed once unlocked",
       "secretLabel": "Secret achievement",
       "unlockedLabel": "Unlocked",
-      "createdBy": "Created By:"
+      "createdBy": "Created By"
     },
     "optionsPage": {
       "tabSettings": "@:{'common.settings'}",
@@ -611,13 +608,7 @@
       "joinTheLancerDiscord": "Join the LANCER discord",
       "supportCompconOnPatreon": "Support @:{'common.appName'} on Patreon"
     },
-    "titles": {
-      "selectAll": "Select All",
-      "version": "VERSION",
-      "warning": "Warning",
-      "resetAchievements": "reset achievements",
-      "v2DataMigration": "V2 Data Migration"
-    }
+    "titles": {}
   },
   "gm": {
     "import": {
@@ -626,7 +617,7 @@
       "readyForImport": "Item is ready for import",
       "missingPacks": "Item is missing required content packs. This item will be saved to the v2 Imports collection in the Content Manager, and can be imported once the required content packs are installed and activated.",
       "oldVersionWarning": "Some data to be imported was created using an older version of @:{'common.appName'} and does not include nested content pack information. This data will be saved to the v2 Imports collection in the Content Manager, but cannot be imported until the required content packs are installed and activated. These items can be imported once the required content packs are installed and activated, or force-imported in the Content Manager.",
-      "missingContentPacks": "Missing content packs:",
+      "missingContentPacks": "Missing content packs",
       "completeImport": "Complete Import ({n} Items)",
       "importErrorTitle": "Import Failed",
       "encounterImportErrorText": "Failed to import encounter: {error}",
@@ -654,7 +645,6 @@
       "campaignCollection": "Campaign Collection",
       "currentlyViewing": "Currently viewing",
       "addSectionBtn": "Add Section",
-      "addSubsectionBtn": "Add Subsection",
       "campaignInfo": "Campaign Information",
       "saveCampaign": "Save Campaign",
       "exportCampaign": "Export Campaign",
@@ -670,10 +660,10 @@
       "minor": "Minor",
       "patch": "Patch",
       "versionExists": "Version {version} already exists!",
-      "releaseNotes": "Release notes and changelog:",
+      "releaseNotes": "Release notes and changelog",
       "publishNewVersion": "Publish New Version",
       "latestVersion": "Latest version",
-      "latestChanges": "Latest Changes:",
+      "latestChanges": "Latest Changes",
       "exportLcd": "Export .lcd Package",
       "exportLcdHelp": "Download a Lancer Campaign Distributable (.lcd) file that can be imported into another user's @:{'common.appName'}",
       "saveLocal": "Save to Local Collection",
@@ -701,7 +691,6 @@
       "valueOptional": "Value (optional)",
       "addLabel": "Add Label",
       "labelPalette": "Label Palette",
-      "paletteHeading": "Label palette",
       "sortAlphabetically": "Sort Alphabetically",
       "sortByUsage": "Sort by Usage",
       "noLabelsAvailable": "No Labels Available",
@@ -734,7 +723,6 @@
       "setLcpConfig": "Set LCP Config"
     },
     "relationships": {
-      "heading": "Relationships",
       "addRelationship": "Add Relationship",
       "linkedEntities": "Linked entities",
       "label": "Relationships"
@@ -749,9 +737,8 @@
     },
     "filter": {
       "filters": "Filters",
-      "labels": "Labels",
-      "showItemsWith": "Show items with:",
-      "hideItemsWith": "Hide items with:",
+      "showItemsWith": "Show items with",
+      "hideItemsWith": "Hide items with",
       "showAll": "Show All",
       "hideAll": "Hide All",
       "clearAllFilters": "Clear All Filters"
@@ -769,25 +756,21 @@
       "missingContent": "Missing GM Content",
       "noItemSelected": "No Item Selected"
     },
-    "reinforcements": "Reinforcements",
     "narrative": {
       "additionalDetail": "Additional detail",
       "clocks": "Clocks",
-      "addTable": "Add New Table",
       "viewCollections": "View Collections",
       "itemTypePlural": "{type}s"
     },
     "print": {
       "othersCount": "(+{n} others)"
     },
-    "resolution": "Resolution",
     "overview": {
       "bannerImage": "Campaign Banner Image",
       "setBannerImage": "Set Banner Image",
       "imagesMustLink": "Campaign images must be linked, and cannot originate from local @:{'common.appName'} data.",
       "recommendedFor": "Recommended for",
       "to": "to",
-      "players": "players",
       "fromLicenseLevels": "From License Levels",
       "authorContact": "Author Contact Information (Optional)",
       "addContact": "Add New Contact",
@@ -825,8 +808,7 @@
       "setEncounter": "Set Encounter"
     },
     "encounterContent": {
-      "map": "Map",
-      "image": "Image"
+      "map": "Map"
     },
     "landing": {
       "toolkit": "GM toolkit"
@@ -869,7 +851,6 @@
     "sitrep": {
       "presets": "Presets",
       "myPresets": "My presets",
-      "condition": "Condition",
       "savePreset": "Save Preset",
       "modifiedWarning": "This sitrep has been modified. Loading a new preset will delete these changes. Are you sure you want to continue?",
       "deletePresetConfirm": "Delete preset {name}? This cannot be undone."
@@ -878,10 +859,8 @@
       "modifiedWarning": "This environment has been modified. Loading a new preset will delete these changes. Are you sure you want to continue?"
     },
     "encPrint": {
-      "extraction": "Extraction",
       "enemies": "Enemies",
       "allies": "Allies",
-      "neutral": "Neutral",
       "atLeastPcs": "At {count} or more PCs",
       "reinforcesOnTurn": "Reinforces on Turn {turn}",
       "npcTracking": "NPC tracking",
@@ -892,14 +871,11 @@
       "addNew": "Add New Encounter"
     },
     "combatantSelector": {
-      "doodads": "Doodads",
-      "eidolons": "Eidolons",
       "selectNpc": "Select an NPC"
     },
     "encImport": {
       "notEncounterFile": "The selected file does not contain encounter data.",
       "stagedEncounters": "Staged encounters",
-      "combatants": "Combatants",
       "readyForImport": "Encounter is ready for import",
       "missingNpcs": "This encounter references NPCs that have not been imported yet. It will be saved to the v2 Imports collection in the Content Manager and can be imported once the required NPCs are available.",
       "someMissingNpcs": "Some encounters reference NPCs that have not been imported yet. These encounters will be saved to the v2 Imports collection in the Content Manager and can be imported once the required NPCs are available.",
@@ -907,7 +883,6 @@
     },
     "gmNotes": "GM notes",
     "npcFeature": {
-      "setFeatures": "Set NPC Features",
       "resetFeatures": "Reset Features",
       "allAvailableFeatures": "All Available Features",
       "allAssignedFeatures": "All Assigned Features",
@@ -919,7 +894,6 @@
       "otherFeatures": "Other Features",
       "featureType": "{type} Feature",
       "base": "Base",
-      "optional": "Optional",
       "noSelectionsRemaining": "No NPC Feature selections remaining",
       "ignoreLimitHint": "Additional features beyond the recommended guidelines can be added by toggling the \"Ignore Limit\" option above",
       "noAssigned": "No NPC Features assigned",
@@ -959,8 +933,7 @@
       "noLayers": "no layers",
       "orderLower": "Order Lower",
       "orderHigher": "Order Higher",
-      "layerDescription": "Layer Description",
-      "persistentTraitsHeading": "Persistent traits"
+      "layerDescription": "Layer Description"
     },
     "layerSelector": {
       "noData": "No Eidolon data found!",
@@ -1010,8 +983,6 @@
       "statblock": "Statblock"
     },
     "titles": {
-      "missingContentPacks": "Missing Content Packs",
-      "setFolder": "Set Folder",
       "setGmLabel": "Set GM Label",
       "addSubsection": "Add Subsection",
       "addBeat": "Add Beat",
@@ -1037,17 +1008,14 @@
       "deletePreset": "delete preset",
       "sitrepModified": "sitrep modified",
       "organizeEncounters": "organize encounters",
-      "importData": "import data",
       "selectTemplate": "select template",
       "selectNpcClass": "select NPC class"
     },
     "fields": {
       "selectDataFile": "Select Data File",
-      "title": "Title",
       "newTitle": "New Title",
       "statName": "Stat Name",
       "folder": "Folder",
-      "label": "Label",
       "value": "Value",
       "group": "Group",
       "sort": "Sort",
@@ -1060,23 +1028,20 @@
       "service": "Service",
       "contactInformation": "Contact Information",
       "selectEncounterFile": "Select Encounter File",
-      "controlZone": "Control Zone",
       "extraction": "Extraction",
       "conditions": "Conditions",
       "enemyForces": "ENEMY FORCES",
       "alliedForces": "ALLIED FORCES",
-      "neutral": "NEUTRAL",
+      "neutral": "Neutral",
       "optional": "Optional",
       "groupBy": "Group By",
       "sortBy": "Sort By",
       "encounter": "Encounter",
       "pronouns": "Pronouns",
-      "organizationType": "Organization Type",
       "alias": "Alias",
       "items": "Items",
       "allowDuplicates": "Allow Duplicates",
       "npc": "Npc",
-      "gmNotes": "gm notes",
       "authors": "Author(s)",
       "mustBeAnItchioUrl": "Must be an itch.io URL to enable automatic management in @:{'common.appName'}"
     },
@@ -1149,19 +1114,14 @@
       "saveFailedText": "Failed to save Character Sheet: {callsign}"
     },
     "stats": {
-      "grit": "GRIT",
-      "hitPoints": "Hit points"
+      "hitPoints": "Hit Points"
     },
     "common": {
       "exportAsJson": "Export as JSON",
-      "currentlySelected": "Currently Selected:",
+      "currentlySelected": "Currently Selected",
       "destroyed": "Destroyed",
       "dangerZone": "Danger Zone",
-      "apply": "Apply",
-      "target": "Target",
-      "condition": "Condition",
       "override": "override",
-      "playedBy": "Played by",
       "prepared": "Prepared",
       "preparedText": "{name} has been marked as PREPARED.",
       "hiddenText": "{name} is now HIDDEN.",
@@ -1171,9 +1131,9 @@
       "saveSuccessful": "Save Successful",
       "saveFailed": "Save Failed",
       "copiedToClipboard": "Copied to Clipboard",
-      "noMapData": "No Map Data",
       "nominal": "Nominal",
-      "halfDamage": "Half Damage"
+      "halfDamage": "Half Damage",
+      "condition_status": "Condition"
     },
     "roster": {
       "addFromRoster": "add from roster",
@@ -1218,16 +1178,12 @@
       "noArchivedFoundFiltered": "No archived encounters found including \"{search}\""
     },
     "encSummary": {
-      "pilots": "pilots",
       "turnN": "(Turn {n})",
       "requiresPilot": "An encounter requires at least one pilot.",
       "createAndLaunch": "Create and Launch Encounter",
       "createReturnLibrary": "Create and return to library"
     },
     "pilotsPanel": {
-      "title": "Pilots",
-      "ll": "LL",
-      "activeMech": "Active Mech",
       "placeholderN": "Pilot Placeholder #{n}",
       "addFromFile": "Add from File",
       "addPlaceholder": "add pilot placeholder"
@@ -1242,28 +1198,21 @@
       "offline": "list of offline tables",
       "addNew": "add new table"
     },
-    "addShare": {
-      "addToEncounter": "add to encounter"
-    },
+    "addShare": {},
     "sheet": {
       "newCharacterSheet": "New Character Sheet"
     },
     "sheetMgr": {
-      "characterSheets": "Character Sheets",
       "archivedSheets": "Archived Sheets ({n})",
       "noArchivedFound": "No archived sheets found",
       "noArchivedFoundFiltered": "No archived sheets found including \"{search}\"",
       "kia": "KIA",
-      "active": "Active",
       "savePilotHistory": "Save Pilot History",
       "featureInDev": "Feature in development (v3.1)",
       "encounterHash": "encounter #"
     },
     "newSheet": {
       "llLevel": "LL{n}",
-      "str": "STR",
-      "heat": "Heat",
-      "repCap": "RepCap",
       "campaignName": "Campaign Name",
       "createAndLaunch": "Create and Launch ACtive Mode"
     },
@@ -1271,7 +1220,6 @@
       "archiveSheet": "Archive Sheet",
       "exportSheet": "Export Sheet",
       "deleteSheet": "Delete Sheet",
-      "mounted": "Mounted",
       "unmounted": "Unmounted",
       "roundN": "Round {n}",
       "started": "started",
@@ -1286,9 +1234,7 @@
     },
     "endEnc": {
       "endEncounter": "End Encounter",
-      "confirmEndEncounter": "Confirm End Encounter",
-      "endEncounterLower": "end encounter",
-      "confirmEndEncounterLower": "Confirm end encounter"
+      "confirmEndEncounter": "Confirm End Encounter"
     },
     "sortBar": {
       "sortByRecent": "Sort by Recent",
@@ -1298,7 +1244,7 @@
       "selected": "selected"
     },
     "runnerHeader": {
-      "lastSaved": "Last Saved:",
+      "lastSaved": "Last Saved",
       "never": "Never",
       "manualSave": "Manual Save",
       "autosave": "Autosave",
@@ -1318,12 +1264,11 @@
     },
     "pcEndRound": {
       "forfeitActions": "Ending the round will forfeit any unused actions.",
-      "nextRound": "Next Round:",
-      "willLoseStatuses": "will lose the following statuses:",
+      "nextRound": "Next Round",
+      "willLoseStatuses": "will lose the following statuses",
       "atThe": "at the",
       "endsOnTurn": "{when} of your turn",
       "braceExit": "You exit {braced} and enter {cooldown} state.",
-      "braced": "Braced",
       "braceCooldown": "Brace cooldown"
     },
     "joinTable": {
@@ -1347,7 +1292,7 @@
       "exportState": "Export Character Sheet State",
       "importState": "Import Character Sheet State",
       "importFileLabel": "Character Sheet Instance Import File (.json)",
-      "stagedImport": "Staged Import:",
+      "stagedImport": "Staged Import",
       "atRound": "at Round",
       "warningReplace": "Warning: The imported Character Sheet state will replace the current Character Sheet state.",
       "changeActiveMech": "Change Active Mech",
@@ -1358,7 +1303,7 @@
       "sessionNotes": "Session Notes"
     },
     "pcDeploy": {
-      "deployedEquipment": "Deployed Equipment:",
+      "deployedEquipment": "Deployed Equipment",
       "noActive": "No active equipment.",
       "noSelected": "No equipment selected."
     },
@@ -1386,7 +1331,6 @@
       "freeDeployment": "Free Deployment"
     },
     "gmNotes": {
-      "gmNotes": "GM Notes",
       "encounterClocks": "Encounter Clocks",
       "addClock": "Add Clock"
     },
@@ -1402,8 +1346,8 @@
       "roundN": "Round {n}"
     },
     "diceRoller": {
-      "title": "Dice roller",
-      "quickRoll": "Quick Roll:",
+      "title": "Dice Roller",
+      "quickRoll": "Quick Roll",
       "hullCheck": "Hull Check",
       "agilityCheck": "Agility Check",
       "systemsCheck": "Systems Check",
@@ -1416,10 +1360,6 @@
       "sessionHistory": "Session History"
     },
     "toolPalette": {
-      "deployables": "Deployables",
-      "diceRoller": "Dice Roller",
-      "rollableTables": "Rollable Tables",
-      "encounterInfo": "Encounter Info",
       "tagReference": "Tag Reference",
       "combatQuickRef": "Combat Quick Reference",
       "npcRef": "NPC Combat Reference"
@@ -1442,10 +1382,7 @@
       "forceDeploy": "Force Deploy",
       "resistanceLine": "{condition} to {type} damage",
       "reactorDestroyed": "Reactor destroyed",
-      "bracedHeading": "Braced",
       "bracedDesc": "You count as having RESISTANCE to all damage, heat, and burn from the attack that triggered this Brace, and until the end of your next turn, all other attacks against you are made at +1 Difficulty.",
-      "overwatch": "Overwatch",
-      "prepared": "Prepared",
       "coverLabel": "{cover} cover",
       "activationsRemaining": "{n} Activations remaining this round",
       "aiControl": "Mech under AI Control",
@@ -1467,10 +1404,10 @@
       "noPersist": "Placeholders do not persist outside of the encounter they are created in."
     },
     "gmEndRound": {
-      "unusedActions": "unused actions:",
+      "unusedActions": "unused actions",
       "endsOnTargetTurn": "{when} of {target} turn",
       "braceExit": "exits {braced} and enters {cooldown} state.",
-      "reinforcementsReady": "reinforcements ready next round:",
+      "reinforcementsReady": "reinforcements ready next round",
       "willBeReady": "will be ready to deploy."
     },
     "panelBase": {
@@ -1489,7 +1426,6 @@
       "counters": "Counters"
     },
     "damageMenu": {
-      "takeDamageLower": "Take damage",
       "takeDamage": "Take Damage",
       "incomingValue": "Incoming Damage Value",
       "armorPiercing": "Armor Piercing",
@@ -1502,7 +1438,6 @@
     "trackable": {
       "corePower": "Core Power",
       "ready": "Ready",
-      "unavailable": "Unavailable",
       "clearMechCore": "Clear this mech's",
       "restoreMechCore": "Restore this mech's",
       "corePowerQ": "core power?"
@@ -1533,13 +1468,11 @@
       "vulnerability": "Vulnerability",
       "resistance": "Resistance",
       "noDamage": "No damage",
-      "halfDamage": "Half damage",
       "doubleDamage": "Double damage",
       "fullDamage": "Full Damage",
       "fromAttacks": "from {type} attacks."
     },
     "timedEffect": {
-      "pending": "Pending",
       "roundsRemaining": "{n} Rounds remaining",
       "override": "// Override"
     },
@@ -1568,7 +1501,6 @@
       "mounted": "Mounted",
       "braced": "Braced",
       "overwatch": "Overwatch",
-      "prepared": "Prepared",
       "aiControl": "AI Control",
       "activeEffect": "Active Effect",
       "passiveBonus": "Passive Bonus",
@@ -1592,7 +1524,6 @@
       "clickUsed": "Click to mark Used"
     },
     "mountBonus": {
-      "not": "NOT",
       "warning": "Mount bonus effects on weapon attacks are {not} automatically enforced by @:{'common.appName'}. Please ensure you manually apply any relevant effects during gameplay."
     },
     "overcharge": {
@@ -1603,11 +1534,10 @@
       "hiddenFeatures": "Hidden Features",
       "rollRecharge": "Roll Recharge",
       "rechargeResult": "Recharge Result (d6)",
-      "rechargesFeatures": "Recharges the following features:",
+      "rechargesFeatures": "Recharges the following features",
       "rechargesOn": "(Recharges on {n}+)",
       "clickToRoll": "Click to roll. NPC Features will recharge on rolls equal to or higher than their roll value.",
-      "reroll": "reroll",
-      "applyLower": "apply"
+      "reroll": "reroll"
     },
     "skillCheck": {
       "checkStat": "Check Stat",
@@ -1618,13 +1548,10 @@
       "risky": "Risky",
       "heroic": "Heroic",
       "difficult": "Difficult",
-      "selectTarget": "Select Target",
-      "vs": "VS",
       "targetValue": "Target Value",
       "noCheckRolled": "No Check Rolled",
       "checkSuccess": "Check Successful",
       "checkFail": "Check Failed",
-      "result": "Result:",
       "wins": "Wins",
       "loses": "Loses",
       "skillCheckRoll": "Skill Check Roll",
@@ -1658,9 +1585,7 @@
       "selectWeapon": "Select a weapon to reload",
       "noTargets": "No valid targets for reload"
     },
-    "mechCore": {
-      "passive": "Passive"
-    },
+    "mechCore": {},
     "weaponAttack": {
       "destroyed": "This weapon has been destroyed and must be repaired before it can be activated.",
       "alreadyActivated": "This weapon has already been activated.",
@@ -1693,10 +1618,8 @@
       "active": "(Active)",
       "activeLayer": "Active Layer",
       "generateN": "Generate {n}",
-      "shards": "Shards",
       "shard": "Shard",
       "noShards": "Layer has no Shards",
-      "scan": "SCAN",
       "persistentTraits": "Persistent Traits ({n})"
     },
     "mechPanel": {
@@ -1711,7 +1634,7 @@
       "unconscious": "Pilot is unconscious, and any additional damage will kill them."
     },
     "pcPanel": {
-      "pilotMounted": "Pilot mounted",
+      "pilotMounted": "Pilot Mounted",
       "pilotUnmounted": "Pilot unmounted",
       "noReserves": "No reserves available"
     },
@@ -1719,7 +1642,6 @@
       "preparedTitle": "Pilot Prepared",
       "mountFailedTitle": "Mount Failed",
       "mountFailedText": "{name} is already mounted.",
-      "mountedTitle": "Pilot Mounted",
       "mountedText": "{name} has mounted their Mech.",
       "hiddenTitle": "Pilot Hidden",
       "disengagedTitle": "Pilot Disengaged"
@@ -1739,12 +1661,8 @@
       "lineWidth": "Line Width",
       "cedeControl": "Cede Control",
       "reclaimControl": "Reclaim Control",
-      "round": "Round",
       "selectEncounterExportFile": "Select Encounter Export File",
-      "critical": "Critical",
       "overkill": "Overkill",
-      "type": "Type",
-      "name": "Name",
       "mechName": "Mech Name",
       "addTable": "Add Table",
       "tableConnectCode": "Table Connect Code",
@@ -1758,30 +1676,20 @@
       "clearAnAdjacentAlliedCharacters": "Clear an adjacent allied character's condition that wasn't caused by one of their own systems, talents, etc."
     },
     "titles": {
-      "confirmEndEncounter": "Confirm End Encounter",
       "addPilotFromRoster": "Add Pilot from Roster",
       "noMechDataFound": "No Mech Data Found",
       "addFromShareCode": "Add from Share Code",
       "addPilots": "Add Pilots",
       "characterSheets": "Character Sheets",
       "recalledToMech": "Recalled to Mech",
-      "reportedAppearances": "Reported Appearances",
-      "hints": "Hints",
-      "rules": "Rules",
       "underAiControl": "Under AI Control",
       "pilotKia": "Pilot KIA",
       "downAndOut": "Down and Out",
-      "hitPoints": "Hit Points",
-      "heat": "Heat",
       "burn": "Burn",
       "movement": "Movement",
-      "importEncounterState": "Import Encounter State",
-      "importCharacterSheetState": "Import Character Sheet State",
-      "selectEncounter": "select encounter",
       "selectPilot": "select pilot",
       "selectActiveMech": "select active mech",
       "exitActiveMode": "Exit Active Mode?",
-      "activateFreeAction": "Activate (Free Action)",
       "mechDestroyedReactorMeltdown": "Mech Destroyed — Reactor Meltdown",
       "repairCap": "Repair Cap.",
       "whatIsAPlaceholder": "What is a Placeholder?",
@@ -1797,12 +1705,9 @@
       "markYourMechAsInCascade": "Mark your mech as IN CASCADE",
       "resetUses": "Reset Uses",
       "toggleDestroyed": "Toggle Destroyed",
-      "deployables": "Deployables",
-      "diceRoller": "Dice Roller",
       "rollableTables": "Rollable Tables",
       "encounterInfo": "Encounter Info",
       "listTagsPresentOnCharactersOrEquipmentInThisEncounter": "List tags present on characters or equipment in this encounter",
-      "combatQuickReference": "Combat Quick Reference",
       "thisWillAddACopy": "This will add a copy of this pilot to your encounter. If the author updates their original data, you will not receive those changes.",
       "addsAPilottypeCombatantPlaceholder": "Adds a pilot-type combatant placeholder without any pilot data.",
       "optionalForOrganizationalPurposes": "Optional, for organizational purposes.",
@@ -1823,7 +1728,6 @@
       "title": "Enter Unlock Code",
       "enterCode": "Enter code",
       "tooltip": "Enter an unlock code to gain access to additional account features or LCP content.",
-      "submit": "Submit",
       "invalidCode": "Invalid code",
       "success": "Code accepted! Your content should now be available.",
       "npcSubTitle": "Lancer Core Book NPC Data",
@@ -1874,7 +1778,7 @@
       "passwordRecovery": "Password Recovery",
       "verifyEmailTitle": "Verify e-mail address",
       "codeSentToLabel": "A verification code was sent to",
-      "sendCodeToLabel": "Send a verification code to:",
+      "sendCodeToLabel": "Send a verification code to",
       "resendVerificationCode": "Re-send Verification Code",
       "sendVerificationCode": "Send Verification Code",
       "alreadyHaveCode": "I already have a verification code",
@@ -1888,7 +1792,6 @@
       "setNewPassword": "Set New Password"
     },
     "menu": {
-      "gmToolkit": "GM Toolkit",
       "connected": "Connected",
       "logIn": "Log In",
       "supportProject": "Support This Project",
@@ -1916,14 +1819,13 @@
       "upgrade": "Upgrade"
     },
     "unit": {
-      "mb": "MB",
       "kb": "KB"
     },
     "itemLink": {
-      "noItemWithIdLabel": "No item with ID:",
+      "noItemWithIdLabel": "No item with ID",
       "foundInCompendium": "found in Compendium",
       "lcpHint": "If this item is part of a Lancer Content Pack, please ensure that the pack is installed and enabled.",
-      "requestedLcp": "Requested LCP:"
+      "requestedLcp": "Requested LCP"
     },
     "dataUsage": {
       "title": "Data usage",
@@ -1931,16 +1833,14 @@
       "resetMigrationTool": "Reset Account Migration Tool"
     },
     "patreon": {
-      "accountLabel": "Patreon account:",
+      "accountLabel": "Patreon account",
       "linkPatreon": "Link Patreon",
       "linkInfo": "If you are subscribed to the @:{'common.appName'} Patreon, linking your Patreon account will increase your maximum cloud storage space and unlock realtime table creation in GM mode.",
       "tierSuffix": "{title} Tier"
     },
     "syncSettings": {
-      "frequency": "Frequency",
       "syncItems": "Sync Items",
       "pilotsOnly": "Pilots Only",
-      "custom": "Custom",
       "updateSyncSettings": "Update Sync Settings",
       "cloudFullSync": "Cloud storage is full! Unable to sync new data.",
       "lastSynced": "Last synced: {label}",
@@ -1950,8 +1850,6 @@
     },
     "collection": {
       "byAuthor": "By {author}",
-      "colLastUpdate": "Last Update",
-      "changelog": "Changelog",
       "colChanges": "Changes",
       "showLess": "Show Less",
       "showMore": "Show More",
@@ -1969,7 +1867,7 @@
     },
     "management": {
       "notifications": "Notifications",
-      "accountCreatedV3": "Account created (v3):",
+      "accountCreatedV3": "Account created (v3)",
       "changePassword": "Change password",
       "changeEmail": "Change Account E-Mail",
       "working": "working…",
@@ -1978,7 +1876,7 @@
       "deleteCloudAccount": "Delete Cloud Account"
     },
     "deleteAccount": {
-      "intro": "This tool will delete your account and all associated data. This includes:",
+      "intro": "This tool will delete your account and all associated data. This includes",
       "incCredentials": "Account login credentials and settings",
       "incCloudData": "Cloud data, including saved pilots, mechs, and NPCs and other GM data",
       "incImages": "Images uploaded to your personal cloud archive",
@@ -1997,18 +1895,17 @@
       "irreversible": "This action is irreversible. This data will be permanently and irrevocably deleted.",
       "ensureBackup": "Please ensure you have a local backup of any data you wish to keep.",
       "enterTextToConfirm": "Enter the text {phrase} to confirm account deletion.",
-      "deleteAccountBtn": "Delete Account",
       "deletionInProgress": "Deletion in progress. This may take a few moments. @:{'common.appName'} will restart once this process is complete."
     },
     "itch": {
-      "accountLabel": "itch.io account:",
+      "accountLabel": "itch.io account",
       "linkItch": "Link itch.io",
       "linkInfo1": "Linking your itch.io account will allow you to download Massif content from the itch.io store with one click.",
       "linkInfo2": "You can also subscribe to Massif LCPs to auto-update your local copy when the author releases a new version.",
       "linked": "Itch linked",
       "clickForDetails": "Click for details",
-      "purchasesLinked": "@:{'common.appName'} has linked the following itch.io purchases to your account:",
-      "eligibleUpdates": "Your @:{'common.appName'} cloud account is eligible for the following automatic updates:",
+      "purchasesLinked": "@:{'common.appName'} has linked the following itch.io purchases to your account",
+      "eligibleUpdates": "Your @:{'common.appName'} cloud account is eligible for the following automatic updates",
       "manageContentHint": "Unlinked LCPs and other content can still be manually added via the {link} page.",
       "noAutoTrack": "@:{'common.appName'} does not automatically track new itch.io data.",
       "updateHint": "If you have new purchases or download keys on your itch.io account click the {update} button below to add these to @:{'common.appName'}. Unfortunately, it is not possible to link non-Massif purchases at this time due to limitations in the itch.io API.",
@@ -2026,7 +1923,7 @@
       "deletedCollectionInfo": "The collection \"{name}\" has been deleted by the author. Although your local data has not been removed, you will no longer receive updates from this collection."
     },
     "storage": {
-      "iosWarning": "iOS browsers limit storage for websites and may {emphasis} after 7 days of inactivity. To prevent data loss, install @:{'common.appName'} to your home screen:",
+      "iosWarning": "iOS browsers limit storage for websites and may {emphasis} after 7 days of inactivity. To prevent data loss, install @:{'common.appName'} to your home screen",
       "autoDeleteData": "automatically delete your data",
       "iosStep1": "Tap the {share} button {icon} in Safari's toolbar",
       "shareLabel": "Share",
@@ -2053,7 +1950,6 @@
       "encountersDetected": "{count} Encounter | {count} Encounters",
       "contentPacksAvailable": "Content packs (if available)",
       "v2NotModified": "Your v2 data will {not} be modified or deleted by this process.",
-      "notLabel": "not",
       "downloading": "Downloading and importing v2 data…",
       "noData": "No importable data was found in your v2 cloud storage.",
       "pilotsImported": "{count} pilot imported | {count} pilots imported",
@@ -2067,8 +1963,7 @@
       "completedSuccess": "Migration completed successfully!",
       "dismissNote": "This panel can be safely dismissed. If you need to retry the migration you can repeat this process from the \"Cloud Data\" tab.",
       "retryMigration": "Retry Migration",
-      "migrateNow": "Migrate Now",
-      "later": "Later"
+      "migrateNow": "Migrate Now"
     },
     "archive": {
       "patreonOnly": "Due to the server costs associated the creation and storage of backup data, this feature is only available to Patreon subscribers. If you would like access to automated cloud backups, please consider {link} to support the development of @:{'common.appName'} and gain access to additional features.",
@@ -2096,7 +1991,6 @@
       "howeverView": "However, you can still view and subscribe to collections created by other users.",
       "collectionsHeader": "Collections ({count}/{limit})",
       "addNew": "Add New",
-      "currentVersion": "Current Version",
       "itemModified": "This item has been modified locally and will be updated to the newest version on publishing.",
       "itemUpToDate": "This item is up to date with the version found in local data.",
       "itemNotFound": "This item cannot be found in local data and is unable to be updated. It will persist in the collection until removed.",
@@ -2115,8 +2009,7 @@
       "deleteCollectionWarning": "Deleting this collection will remove the collection from your local and cloud data, and will delete the collection archive from cloud storage. Users will not be able to subscribe to this content and current subscribers will no longer be able to update collection data. It {willNot} delete any collection content, either locally or on the cloud for you or collection subscribers.",
       "willNotLabel": "will not",
       "actionUndone": "This action cannot be undone.",
-      "confirmDelete": "Are you sure you want to delete this collection?",
-      "deleteCollectionBtn": "delete collection"
+      "confirmDelete": "Are you sure you want to delete this collection?"
     },
     "dataItem": {
       "cancelBulkSelection": "Cancel Bulk Selection",
@@ -2126,7 +2019,6 @@
       "remoteItemDesc": "This item is linked to another user's data. Changes they make will be downloaded on sync.",
       "remoteItemInaccessible": "Remote Item Inaccessible",
       "remoteInaccessibleDesc": "This cloud data for this item could not be found. This can happen when the owner deletes the item, or if there was an error during sync. You can attempt to restore the remote link or convert this item to a local copy.",
-      "typeEncounterData": "Encounter Data",
       "typeCampaignData": "Campaign Data",
       "typeActiveEncounter": "Active Encounter",
       "typeArchivedEncounter": "Archived Encounter",
@@ -2151,7 +2043,7 @@
       "deleteCloudItem": "Delete Cloud Item",
       "deleteCloudItemDesc": "Deleting this item will mark it as deleted in the cloud. It will not delete this item locally, but will prevent it from syncing to the cloud or to other devices.",
       "deleteNItems": "Delete {count} Item | Delete {count} Items",
-      "chooseDeleteMethod": "Choose how to delete the selected items:"
+      "chooseDeleteMethod": "Choose how to delete the selected items"
     },
     "fields": {
       "updates": "Updates",
@@ -2167,7 +2059,7 @@
       "verificationCode": "Verification Code",
       "passwordResetCode": "Password Reset Code",
       "deleteCloudDataOnlyKeep": "Delete cloud data only (keep local data)",
-      "deleteAccount": "delete account",
+      "deleteAccount": "Delete Account",
       "newEmail": "New E-Mail",
       "confirmNewEmail": "Confirm New E-Mail",
       "emailAddress": "E-Mail Address"
@@ -2191,16 +2083,11 @@
       "membershipBenefits": "Membership Benefits",
       "removeDeletedItems": "Remove Deleted Items",
       "accountDeletion": "Account Deletion",
-      "changelog": "Changelog",
-      "credits": "Credits",
       "roster": "Roster",
-      "gmToolkit": "GM Toolkit",
       "installCompconForReliableStorage": "Install @:{'common.appName'} for Reliable Storage",
       "storagePermissionRequired": "Storage Permission Required!",
       "youDoNotHaveAccess": "You do not have access to remote backups.",
-      "changeAccountEmail": "Change Account E-Mail",
       "youDoNotHaveAccess2": "You do not have access to the collection publishing tool.",
-      "deleteCollection": "delete collection",
       "compconCloudAccount": "@:{'common.appName'} Cloud Account"
     },
     "tooltips": {
@@ -2232,8 +2119,6 @@
       "availableLoadouts": "Available Loadouts",
       "synergyWarning": "The rules in these synergy hints are {not} automatically enforced by @:{'common.appName'}. Please ensure you manually apply any relevant effects during gameplay.",
       "not": "NOT",
-      "tap": "TAP",
-      "click": "Click",
       "coreBonusAvailable": "Core Bonus Available",
       "mountCOREBonus": "Mount CORE Bonus",
       "improvedARMAMENT": "(Improved armament)",
@@ -2256,7 +2141,7 @@
       "equipmentIDINVALIDORMISSING": "[ Equipment ID invalid or missing ]",
       "noMODINSTALLED": "No mod installed",
       "emptySYSTEMSLOT": "Empty system slot",
-      "appliedTO": "Applied to:",
+      "appliedTO": "Applied to",
       "mechSYSTEMS": "Mech SYSTEMS",
       "integratedEquipment": "Integrated Equipment",
       "reorderSystems": "Reorder Systems",
@@ -2272,8 +2157,8 @@
       "selectPilotWeapon": "Select Pilot Weapon",
       "gmsARMORYEQUIPMENTAUTHORIZATIONPILOTPERSONAL2": "GMS armory equipment authorization: pilot/personal armament::S0 - S3(LTD)",
       "toAddSlashes": "To add //",
-      "unionArmoryPrintid": "Union armory printid:",
-      "gmsArmoryPrintid": "GMS armory printid:"
+      "unionArmoryPrintid": "Union armory printid",
+      "gmsArmoryPrintid": "GMS armory printid"
     },
     "import": {
       "importSuccessTitle": "Import Successful",
@@ -2291,8 +2176,6 @@
       "exportSuccessText": "Pilot data saved as \"{callsign}.json\""
     },
     "level": {
-      "skills": "Skills",
-      "talents": "Talents",
       "mechSkills": "Mech Skills",
       "coreBonuses": "CORE Bonuses",
       "levelUpOverview": "Level Up (Overview)",
@@ -2301,7 +2184,7 @@
       "unOmni18364AndesCerroboneteNode": "un_omni-18364.andes.cerrobonete.node:9",
       "submittingUnauthorizedLicensingUpdatesAndOr": "Submitting unauthorized licensing updates and/or submitting applications for unauthorized or previously-witheld license rights without prior MV-8a/j authorization by a Union Administrator will result in the automatic rejection of the licensing application and may result in a licensing audit under DoJ/HR AR 716-J",
       "theUADIDENTServiceHasDetermined": "The UAD IDENT Service has determined that",
-      "isEligibleForTheFollowingLicense": "is eligible for the following license update:",
+      "isEligibleForTheFollowingLicense": "is eligible for the following license update",
       "pilotSKILLTRIGGERIMPROVEMENT": "Pilot skill trigger improvement",
       "pilotTALENTUPGRADE": "Pilot talent upgrade",
       "mechSKILLUPGRADE": "Mech skill upgrade",
@@ -2311,11 +2194,9 @@
       "ineligibleFORCOREBONUS": "Ineligible for core bonus"
     },
     "new": {
-      "tactics": "Tactics",
       "pilot": "Pilot",
       "skills": "Skills",
-      "talents": "Talents",
-      "i": "I:",
+      "i": "I",
       "gmsEVEREST": "GMS everest",
       "up": "up",
       "down": "down",
@@ -2331,7 +2212,6 @@
       "pilotNAME": "Pilot name",
       "rm402APPROVEDCALLSIGNOR": "RM-4-02 // approved callsign (or cadet designation, if applicable)",
       "rm403PRIOROCCUPATIONOR": "RM-4-03 // PRIOR OCCUPATION OR POSITION (ANSWER 17b ON RM-2-C)",
-      "background": "Background",
       "rm404ATTACHEDBIOGRAPHICALDOSSIER": "RM-4-04 // ATTACHED BIOGRAPHICAL DOSSIER (RM-4b SUPPLEMENTAL)",
       "biography": "Biography",
       "addPilotBiography": "Add Pilot Biography",
@@ -2339,7 +2219,6 @@
       "rm405ATTACHEDOHMHEALTH": "RM-4-05 // attached OHM health examination results",
       "appearance": "Appearance",
       "addPilotDescription": "Add Pilot Description",
-      "editPilotDescription": "Edit Pilot Description",
       "rm4EXTERNALLICENSEDATATRANSFER": "RM-4-δ // EXTERNAL LICENSE DATA TRANSFER (IF APPLICABLE)",
       "startingLL": "Starting LL",
       "rm406ATTACHEDOHMIMAGING": "RM-4-06 // attached OHM imaging scan",
@@ -2381,7 +2260,7 @@
       "duplicatingOrCloningAPilotWill": "Duplicating or Cloning a pilot will remove any Vault links, saving the copied Pilot as a new character on your account",
       "duplicatePilot": "Duplicate Pilot",
       "flashClonePilot": "Flash Clone Pilot",
-      "anyOrganizationsIndividualsOrTechnologiesEngaging": "Any organizations, individuals, or technologies engaging in or facilitating whole-body facsimile cloning are bound by the First Contact Accords of 3002. Any activities that violate the principles set forth in the Accords are prohibited, including but not limited to:",
+      "anyOrganizationsIndividualsOrTechnologiesEngaging": "Any organizations, individuals, or technologies engaging in or facilitating whole-body facsimile cloning are bound by the First Contact Accords of 3002. Any activities that violate the principles set forth in the Accords are prohibited, including but not limited to",
       "reproductionOfTheSubjectivePersonageOf": "Reproduction of the subjective personage of a sentient being or other subjective continuity in whole or in part.",
       "transferOrTheSubjectivePersonageOf": "Transfer or the subjective personage of a sentient being or other subjective continuity into a manufactured or cultivated substrate.",
       "emulationOfASentientIndividualS": "Emulation of a sentient individual's subjective personage in a manufactured or cultivated substrate.",
@@ -2391,22 +2270,19 @@
       "cloneQUIRK": "Clone quirk",
       "rerollQuirk": "Reroll Quirk",
       "decantFlashClone": "Decant Flash Clone",
-      "lcpConfigurations": "LCP Configurations:",
+      "lcpConfigurations": "LCP Configurations",
       "openConfigManager": "Open Config Manager",
-      "currentConfiguration": "Current Configuration:",
+      "currentConfiguration": "Current Configuration",
       "unrestrictedAccess": "Unrestricted Access",
       "clearConfiguration": "Clear Configuration",
       "editingThisPilotSLevelMay": "Editing this Pilot's level may prevent certain achievements from being unlocked with this Pilot. If you want to use this Pilot to unlock Pilot-related achievements, use the Level Up wizard instead.",
       "thisPilotSLevelHasBeen": "This pilot's level has been edited. This will prevent certain achievements from being unlocked with this Pilot.",
       "thisToolSkipsTheLevelUp": "This tool skips the level up wizard. Pilot attributes gained through levelling up, such as skill triggers, licenses, talents, mech skills, and CORE bonuses will have to be updated manually",
-      "currentLEVEL": "Current level:",
-      "newLEVEL": "New level:",
+      "currentLEVEL": "Current level",
+      "newLEVEL": "New level",
       "setPilotLevel": "Set Pilot Level",
       "ll": "LL",
       "levelUp": "Level Up",
-      "name": "name",
-      "background": "background",
-      "player": "player",
       "rm4IDENT": "rm-4://IDENT",
       "rm6DATA": "RM-6://data",
       "ndapSR01STATUSREPORT": "NDAP/SR-01://status report",
@@ -2417,11 +2293,9 @@
       "hangar": "Hangar",
       "narrativePROFILE": "Narrative profile",
       "tacticalPROFILE": "Tactical profile",
-      "mechHANGAR": "Mech hangar",
       "errNAMENOTFOUNDUNABLETO": "Err name not found unable to generate uuid",
       "ndlC": "//NDL-C-",
       "nameOrLegalAlias": "Name (or legal alias)",
-      "background2": "Background",
       "callsignAVAILABLE": "Callsign available",
       "identityVERIFIED": "Identity verified",
       "phHRDATAREGISTERED": "Ph/hr data registered",
@@ -2471,7 +2345,7 @@
       "mechOptions": "Mech Options",
       "warningLICENSEMISSING": "Warning: license missing",
       "gmsSTANDARDPILOTSLICENSE": "GMS standard pilot's license",
-      "requiredFor": "Required for:",
+      "requiredFor": "Required for",
       "setMechImage": "Set Mech Image",
       "killedINACTION": "Killed in action",
       "revert": "Revert",
@@ -2488,84 +2362,57 @@
       "mechSheetOptions": "Mech Sheet Options",
       "extras": "Extras",
       "pageBreak": "Page Break",
-      "type": "TYPE",
       "range": "Range",
-      "damage": "Damage",
       "system": "System",
       "uses": "USES",
-      "mech": "MECH",
       "1d3": "+1d3",
       "1d6": "+1d6",
       "1d64": "+1d6+4",
-      "corePOWER": "Core power",
-      "bond": "BOND",
       "xp": "XP",
       "majorIDEAL": "Major ideal",
-      "minorIDEAL": "Minor ideal",
       "burdens": "Burdens",
-      "otherCLOCKS": "Other clocks",
       "veteranPOWER2": "(Veteran power)",
       "downtimeREFERENCE": "Downtime reference",
       "skillTRIGGERDETAIL": "Skill trigger detail",
-      "h": "H",
-      "a": "A",
-      "s": "S",
-      "e": "E",
-      "coreSYSTEM": "Core system",
-      "core": "CORE",
       "mechWEAPONMOUNT": "Mech weapon mount",
-      "onMISS": "On miss:",
-      "onATTACK": "On attack:",
-      "onHIT": "On hit:",
-      "onCRIT": "On crit:",
+      "onMISS": "On miss",
+      "onATTACK": "On attack",
+      "onHIT": "On hit",
+      "onCRIT": "On crit",
       "mechSYSTEM": "Mech system",
       "gain": "Gain",
       "pilotHP": "Pilot HP",
       "maxHP": "Max HP",
       "reserve": "Reserve",
       "deployable": "Deployable",
-      "armor": "Armor:",
-      "heatCap": "Heat Cap.:",
-      "techAtk": "Tech Atk:",
+      "heatCap": "Heat Cap.",
+      "techAtk": "Tech Atk",
       "operatorNotes": "Operator Notes",
       "mountLOCKED": "Mount locked",
       "appliedMOD": "//Applied mod",
       "grit": "GRIT",
-      "player": "Player",
       "pilotNotes": "Pilot Notes",
       "missionLog": "Mission Log",
       "session": "Session",
       "cont": "(CONT.)",
-      "skillTRIGGERS": "Skill triggers",
       "gear": "//GEAR",
       "resource": "Resource",
-      "other": "Other",
       "1d32": "[+1d3",
       "1d62": "[+1d6",
       "1d642": "[+1d6+4",
-      "hull": "HULL:",
-      "size2": "SIZE:",
-      "corePOWER2": "Core power:",
       "atk": "ATK",
-      "techATK": "Tech atk",
       "ltdSYS": "LTD sys",
-      "armor3": "Armor:",
-      "grit2": "GRIT:",
-      "mechNAME": "Mech name",
       "repairCAPACITY": "Repair capacity",
       "repCAP": "Rep cap",
       "atkBONUS": "Atk bonus",
       "ltdBONUS": "LTD bonus",
-      "name": "NAME",
       "corePassive": "Core passive",
       "coreActive": "Core active",
       "maxParen": "({n} max)",
       "capacityParen": "({n} capacity)",
-      "coreBonuses": "Core bonuses",
       "slashesLl": "// LL"
     },
     "roster": {
-      "pilot": "Pilot",
       "history": "History",
       "finishEditing": "Finish Editing",
       "deleteGroup": "Delete Group",
@@ -2590,57 +2437,42 @@
       "editGroupHistory": "Edit Group History",
       "cr703UNITLIVERY": "CR-7-03 // unit livery",
       "setGroup": "Set Group",
-      "h": "H:",
-      "a": "A:",
-      "s2": "S:",
-      "e": "E:",
       "addGroupEmblem": "Add group emblem",
       "editGroupEmblem": "Edit group emblem",
       "thisAppearsToBePilotData": "This appears to be Pilot data from an older @:{'common.appName'} release. @:{'common.appName'} will attempt to convert and import this data, but may not be able to convert all items and may not be able to furnish information about missing LCP requirements.",
       "includesDATAFROMTHEFOLLOWINGCONTENT": "Includes data from the following content packs",
       "lastModified": "Last Modified",
-      "thisPilotContainsContentFromThe": "This Pilot contains content from the following Lancer Content Packs that are not currently installed/active, or have mismatching versions:",
+      "thisPilotContainsContentFromThe": "This Pilot contains content from the following Lancer Content Packs that are not currently installed/active, or have mismatching versions",
       "thisPilotWillBeSavedTo": "This Pilot will be saved to the v2 Imports collection in the Content Manager. It can be imported once the missing content packs are installed and activated, or force-imported with missing items stripped.",
       "thisPilotMayBeImportedBut": "This Pilot may be imported, but some items from missing content packs will be instanced from saved data. If removed, these items will not be able to be re-equipped without the missing content packs.",
       "and": "and",
       "doneReordering": "Done Reordering",
-      "hidden": "hidden",
       "addGroup": "Add Group",
       "pilots": "Pilots",
-      "pilotLower": "pilot",
-      "pilotsLower": "pilots",
-      "addANewPilotToName": "Add a new pilot to {name}",
-      "llColon": "LL:"
+      "addANewPilotToName": "Add a new pilot to {name}"
     },
     "misc": {
       "skipSTEP": "Skip step"
     },
     "selectors": {
-      "selectPilotBackground": "Select Pilot Background",
       "coreBonusSelectionComplete": "Core Bonus Selection Complete",
       "exotic": "Exotic",
       "equipment": "Equipment",
       "licenseSelectionComplete": "License Selection Complete",
       "mechSkillsSelected": "Mech Skills selected",
       "resetMechSkills": "Reset Mech Skills",
-      "addCustomReserve": "Add Custom Reserve",
       "addDowntimeProject": "Add Downtime Project",
-      "addOrganization": "Add Organization",
       "skillSelectionComplete": "Skill Selection Complete",
       "yourAbilityTo": "Your Ability To",
       "talentSelectionComplete": "Talent Selection Complete",
       "unavailable": "Unavailable",
-      "resource": "Resource",
-      "mech": "Mech",
-      "tactical": "Tactical",
       "addReserve": "Add Reserve",
-      "addProject": "Add Project",
       "download": "Download",
-      "startWith": "Start with:",
+      "startWith": "Start with",
       "efficiency": "Efficiency",
       "influence": "Influence",
       "collapse": "collapse",
-      "notInCompendium": "The following {type} are not present in the compendium:"
+      "notInCompendium": "The following {type} are not present in the compendium"
     },
     "shared": {
       "critical": "Critical",
@@ -2683,7 +2515,7 @@
       "rm4bPilotSelfAssessment1": "RM-4b Pilot Self Assessment (1/3)",
       "mv2ASkillImprovementAssessment": "MV-2//a Skill Improvement Assessment",
       "theRM4bPILOTSELFASSESSMENT2": "The RM-4b PILOT SELF ASSESSMENT (Skills) audit catalogs an individual pilot's self-reported strengths based on selections derived from the results of the OHM Health Examination//CR-2 Brain Activity Scan and uptake responses given to the presiding Union Administrator's NHP representative.",
-      "nb": "NB:",
+      "nb": "NB",
       "theFollowingFormIsComprisedOf": "The following form is comprised of unfiltered output generated by one or more UNI-TACANALYSIS Non-Human Persons and MAY NOT be copied, translated, reproduced, transmitted, or encoded without the express permission of Union Naval Intelligence.",
       "theMV2APilotSelfAssessment": "The MV2/a Pilot Self Assessment audit catalogs an individual pilot's self-reported strengths based on selections derived from battlefield telemetry and debrief records analyzed by a Union Naval NHP representative.",
       "identSERVICEPRIMARYHasGeneratedA": "IDENT.SERVICE.PRIMARY has generated a list of suggested Skill Triggers based on your answer to RM-4-03 (PRIOR OCCUPATION OR POSITION).",
@@ -2694,7 +2526,7 @@
       "mv2BCOAResourceRequisition": "MV-2//b COA Resource Requisition",
       "theRM4bPILOTSELFASSESSMENT3": "The RM-4b PILOT SELF ASSESSMENT (Talents) audit catalogs an individual pilot's self-reported combat operation aptitudes and confers requisition privileges for simulator time, holofield and cortical sensorium training materials, battlefield telemetry data at classifications below GREY SIERRA SHARP, and (in specific cases) GMS MM-pattern materiel licenses.",
       "theCombatOperationAbilityRequisitionOn": "The Combat Operation Ability Requisition, on the approval of a NHP-guided automated request approval system, confers UNI simulator privileges, holofield and cortical sensorium training materials, battlefield telemetry data at classifications below GREY SIERRA SHARP, and (in specific cases) GMS MM-pattern materiel licenses.",
-      "warningSubmission": "WARNING: Submission for IDENT record {id} has the following issue(s):",
+      "warningSubmission": "WARNING: Submission for IDENT record {id} has the following issue(s)",
       "addOrImproveSkill": "Add or Improve a Skill Trigger.",
       "improveMechSkill": "Improve a Mech Skill.",
       "addOrUpgradeTalent": "Add or Upgrade a Talent.",
@@ -2711,7 +2543,6 @@
     },
     "link": {
       "hull": "Hull",
-      "agi": "Agi",
       "sys": "Sys",
       "eng": "Eng",
       "pilotBiography": "Pilot Biography",
@@ -2732,24 +2563,15 @@
       "installName": "Install {name}"
     },
     "titles": {
-      "editPilotBiography": "Edit Pilot Biography",
       "statblockGenerator": "Statblock Generator",
       "sharePilotData": "Share Pilot Data",
       "clonePilot": "Clone Pilot",
-      "setLcpConfiguration": "Set LCP Configuration",
       "lcpConfigurationManager": "LCP Configuration Manager",
-      "generateStatblock": "Generate Statblock",
-      "exportPilot": "Export Pilot",
-      "clone": "Clone",
-      "downloadLatestData": "Download Latest Data",
       "selectBondPowers": "Select Bond powers",
-      "burdens": "Burdens",
       "otherClocks": "Other Clocks",
       "selectPilotBond": "Select Pilot Bond",
       "deleteMech": "Delete Mech",
       "duplicateMech": "Duplicate Mech",
-      "addNewMech": "Add New Mech",
-      "operatorNotes": "Operator Notes",
       "licensesRequired": "Licenses Required",
       "equipmentLoadout": "Equipment Loadout",
       "cloneQuirks": "Clone Quirks",
@@ -2758,34 +2580,22 @@
       "gearLoadout": "Gear Loadout",
       "skillTriggers": "Skill Triggers",
       "setPilotSkillTriggers": "Set Pilot Skill Triggers",
-      "pilotBiography": "Pilot Biography",
-      "pilotAppearance": "Pilot Appearance",
-      "pilotNotes": "Pilot Notes",
-      "coreBonuses": "CORE Bonuses",
       "setPilotCoreBonuses": "Set Pilot CORE Bonuses",
       "setPilotLicenses": "Set Pilot Licenses",
-      "mechSkills": "Mech Skills",
       "setPilotMechSkills": "Set Pilot Mech Skills",
       "specialEquipment": "Special Equipment",
       "addStandardEquipment": "Add Standard Equipment",
-      "addExoticEquipment": "Add Exotic Equipment",
-      "talents": "Talents",
       "setPilotTalents": "Set Pilot Talents",
       "layout": "Layout",
       "paper": "Paper",
       "orientation": "Orientation",
-      "bonds": "Bonds",
       "cardOptions": "Card Options",
-      "printOptions": "Print Options",
-      "mech": "MECH",
       "groupDescription": "Group Description",
-      "setGroup": "Set Group",
       "setGroupEmblem": "Set Group Emblem",
       "groupAlreadyExists": "Group Already Exists",
       "createPilotGroup": "Create Pilot Group",
       "addNewLoadout": "Add New Loadout",
       "changeItem": "Change Item",
-      "selectDamageType": "Select Damage Type",
       "setMaxUses": "Set Max Uses",
       "removeItem": "Remove Item",
       "selectBracingMount": "Select Bracing Mount",
@@ -2801,55 +2611,38 @@
       "missingLicenseData": "Missing License Data",
       "newOrganization": "New Organization",
       "skillSuggestionsAvailable": "Skill Suggestions Available",
-      "editPilotDescription": "edit Pilot Description",
-      "setPilotPortrait": "set pilot portrait",
+      "editPilotDescription": "Edit Pilot Description",
       "convertRemotePilot": "convert remote pilot",
       "confirmPilotDeletion": "confirm pilot deletion",
       "exportV2Json": "Export v2 JSON",
-      "editLicenseLevel": "edit license level",
-      "registerNewMech": "register new mech",
-      "setMechImage": "set mech image",
-      "v2Data": "v2 Data",
       "serverErrorTooManyRequests": "Server Error - Too Many Requests"
     },
     "fields": {
       "startingLicenseLevel": "Starting License Level",
-      "name": "Name",
-      "background": "Background",
       "generate": "Generate",
       "selectMech": "Select Mech",
       "maximumStress": "Maximum Stress",
       "editPilotBonds": "Edit Pilot Bonds",
       "showAllFrames": "Show All Frames",
-      "player": "Player",
-      "pilot": "Pilot",
-      "mech": "Mech",
       "groupName": "Group Name",
       "deletePilots": "Delete pilots",
       "selectPilotDataFile": "Select Pilot Data File",
       "setMaximumUses": "Set Maximum Uses",
-      "equipmentNotes": "Equipment Notes",
       "resourceName": "Resource Name",
       "projectName": "Project Name",
       "requirements": "Requirements",
-      "type": "Type",
       "pilotXp": "pilot xp",
       "pilotStress": "pilot stress",
-      "nameOrCallsign": "Name or callsign...",
-      "jumpTo": "jump to",
-      "purposeGoalAndOrganizationDetails": "Purpose, goal, and organization details"
+      "nameOrCallsign": "Name or callsign…",
+      "jumpTo": "jump to"
     },
     "tooltips": {
       "selectPredefinedBackground": "Select Predefined Background",
       "generateRandomName": "Generate random name",
       "generateRandomCallsign": "Generate random callsign",
-      "rerollQuirk": "Reroll quirk",
-      "pilotOptions": "Pilot Options",
       "copyStatBlockToClipboard": "Copy stat block to clipboard",
       "printMechSheet": "Print Mech Sheet",
-      "generateRandomName2": "Generate Random Name",
       "returnToPilotSheet": "Return to Pilot Sheet",
-      "mechOptions": "Mech Options",
       "removeCloneQuirk": "Remove Clone Quirk",
       "addSkill": "Add Skill",
       "thisProjectIsCompleteAndAvailableToUseAsAReserve": "This project is complete and available to use as a reserve",
@@ -2863,15 +2656,9 @@
       "thisProjectIsComplexResourceintensive": "This project is complex, resource-intensive, or generally difficult to complete"
     },
     "subtitles": {
-      "exportThisPilotAsAJsonFile": "Export this pilot as a JSON file",
-      "duplicateOrFlashCloneThisCharacter": "Duplicate or Flash Clone this character",
-      "manageWhichContentPacksAreAccessibleToThisPilot": "Manage which content packs are accessible to this pilot",
-      "removeThisPilotFromTheRoster": "Remove this pilot from the roster",
       "getAPlaintextRepresentationOfThisMechConfiguration": "Get a plaintext representation of this mech configuration",
       "removeMechFromTheHangar": "Remove mech from the Hangar",
       "setPilotGroup": "Set pilot group",
-      "printTabletopreadyCharacterAndMech": "Print tabletop-ready character and mech sheets",
-      "getAPlaintextRepresentationOf": "Get a plaintext representation of this character's build",
       "exportALegacyFormatFor": "Export a legacy format for VTT systems and v2 apps",
       "convertThisPilotToAn": "Convert this Pilot to an editable local data instance.",
       "printATabletopreadyMechSheet": "Print a tabletop-ready mech sheet"
@@ -2890,10 +2677,8 @@
     "categories": {
       "frames": "Frames",
       "mechWeapons": "Mech Weapons",
-      "mechSystems": "Mech Systems",
       "equipmentTags": "Equipment Tags",
       "pilotBackground": "Pilot Background",
-      "coreBonuses": "Core Bonuses",
       "environments": "Environments",
       "sitreps": "Sitreps",
       "downtimeActions": "Downtime Actions",
@@ -2928,10 +2713,9 @@
       "or": "or",
       "twoQuickActions": "2 Quick Actions",
       "statuses": "Statuses",
-      "conditions": "Conditions",
       "glossary": "Glossary",
       "faqErrata": "FAQ & errata",
-      "pleaseNote": "Please note:",
+      "pleaseNote": "Please note",
       "faqErrataNotice": "This FAQ and Errata is a community-driven project and is not part of an official Massif Press @:{'common.gameName'} release. This page is furnished by FAQ data from the {repoLink} on GitHub, currently maintained by lenaleciel. This document is also available at {siteLink}.",
       "lancerFaqRepo": "lancer-faq repository",
       "lancerFaqSite": "lancer-faq.netlify.app/",
@@ -2945,8 +2729,7 @@
     },
     "content": {
       "eidolonLayer": "Eidolon Layer",
-      "frameSuffix": "{type} Frame",
-      "npcClass": "NPC Class"
+      "frameSuffix": "{type} Frame"
     },
     "campaign": {
       "errNoCampaign": "Err: no campaign loaded",
@@ -2988,19 +2771,15 @@
     "card": {
       "suggestedSkills": "Suggested Skills",
       "deprecated": "This item is deprecated and can be removed.",
-      "modifies": "Modifies:",
+      "modifies": "Modifies",
       "kit": "Kit",
       "equipmentActions": "Equipment actions",
       "equipmentDeployables": "Equipment deployables",
-      "integratedEquipment": "Integrated equipment",
-      "equipmentTags": "Equipment tags",
       "compendiumData": "Compendium data",
       "variantFrame": "Variant Frame",
       "combatProfile": "Combat profile",
-      "frameTraits": "Frame traits",
       "availableMounts": "Available weapon mounts",
       "onboardCore": "Onboard core system",
-      "deployables": "Deployables",
       "integrations": "Integrations",
       "systemPoints": "System point{plural}",
       "profileActions": "Profile actions",
@@ -3012,7 +2791,6 @@
       "classOptionalFeatures": "Class Optional Features",
       "templateBaseFeatures": "Template Base Features",
       "templateOptionalFeatures": "Template Optional Features",
-      "extraction": "Extraction",
       "controlZone": "Control Zone",
       "modification": "Modification",
       "canBeAppliedTo": "Can be applied to",
@@ -3029,8 +2807,8 @@
       "fromOrigin": "From {name}",
       "originDestroyed": "Origin {type} has been destroyed",
       "originUsed": "Origin {type} has been used",
-      "ifLabel": "IF:",
-      "staged": "Staged:",
+      "ifLabel": "IF",
+      "staged": "Staged",
       "actionUsed": "Action already used.",
       "insufficientActions": "Insufficient {activation} actions remaining this turn.",
       "cannotActivate": "Cannot activate.",
@@ -3067,7 +2845,6 @@
       "currentlyEngaged": "(Currently ENGAGED)",
       "targetInCover": "(Target is in COVER)",
       "saveBonusVs": "(Save Bonus) vs",
-      "rollResults": "roll results",
       "diceD": "d",
       "areaOfEffect": "Area of Effect",
       "singleTarget": "Single Target",
@@ -3086,7 +2863,7 @@
       "exceptArmor": ", except for armor",
       "overkillYes": "This damage is subject to OVERKILL rules (reroll 1s, add heat (self))",
       "overkillNo": "This damage is not subject to OVERKILL rules",
-      "reliableDamage": "Reliable Damage:",
+      "reliableDamage": "Reliable Damage",
       "clearReliableDamage": "Clear Reliable Damage",
       "clickClearBonus": "Click to clear Bonus Damage",
       "clickAddBonus": "Click to add Bonus Damage",
@@ -3096,7 +2873,6 @@
     },
     "cascade": {
       "alert": "Cascade alert",
-      "status": "Status:",
       "pending": "Pending",
       "inCascade": "In cascade"
     },
@@ -3119,8 +2895,6 @@
       "noDescription": "No description given.",
       "other": "Other",
       "noSelection": "No selection",
-      "noDataUpper": "No data",
-      "bonus": "bonus",
       "deploy": "Deploy",
       "integratedMechWeapon": "Integrated mech weapon",
       "passive": "Passive",
@@ -3133,22 +2907,20 @@
       "installedDisabled": "LCP installed but disabled"
     },
     "bond": {
-      "majorIdeals": "Major ideals",
       "minorIdeals": "Minor ideals",
       "bondPowers": "Bond Powers",
       "veteranPower": "Veteran Power",
       "masterPower": "Master Power"
     },
     "clock": {
-      "deleteConfirm": "Do you want to delete this clock? This action cannot be undone.",
-      "resolutionHeading": "Resolution"
+      "deleteConfirm": "Do you want to delete this clock? This action cannot be undone."
     },
     "confirm": {
       "heading": "// Process interrupt: authorization required //"
     },
     "brokenRef": {
       "instancedItem": "Instanced Item",
-      "partOfPack": "This item is part of the following Lancer Content Pack:",
+      "partOfPack": "This item is part of the following Lancer Content Pack",
       "instancedNote": "This item has been instanced as a unique object and if removed will not be available until the associated LCP is installed."
     },
     "dice": {
@@ -3198,7 +2970,6 @@
       "qrTypeHelp": "This item is a {qr}. It can still be imported, but will appear in the {qr} list, not the {type} list."
     },
     "rollTable": {
-      "gmOnly": "GM Only",
       "gmOnlyTooltip": "Marking a field or item \"GM Only\" will hide it from player-facing exports and print output",
       "step": "Step",
       "rebuild": "Rebuild",
@@ -3236,7 +3007,6 @@
     },
     "selector": {
       "noManufacturer": "No Manufacturer",
-      "metric": "Metric",
       "select": "Select {name}"
     },
     "talent": {
@@ -3256,8 +3026,8 @@
       "influence": "Organization Influence"
     },
     "action": {
-      "frequency": "Frequency",
-      "compendiumEntry": "Compendium Entry"
+      "compendiumEntry": "Compendium Entry",
+      "frequency_action": "Frequency"
     },
     "counter": {
       "addCustom": "Add Custom Counter"
@@ -3339,19 +3109,15 @@
       "featureSelection": "Feature Selection",
       "resetAllInputs": "Reset All Inputs",
       "successfulHit": "Successful Hit",
-      "miss": "Miss",
       "printOptions": "Print Options",
-      "setAvatar": "Set Avatar",
       "externalDataWarning": "External Data Warning",
       "overheating": "OVERHEATING",
       "structureDamage": "STRUCTURE DAMAGE",
       "cascade": "CASCADE",
       "clockEditor": "clock editor",
-      "addFromShareCode": "add from share code",
       "activateFreeAction": "Activate (Free Action)"
     },
     "tooltips": {
-      "savedConfigurations": "Saved Configurations",
       "itemFilters": "Item Filters",
       "resetCounter": "Reset Counter",
       "deleteCounter": "Delete Counter",
@@ -3366,25 +3132,19 @@
     }
   },
   "stats": {
-    "hull": "HULL",
     "agility": "Agility",
     "systems": "Systems",
     "engineering": "Engineering",
     "agi": "AGI",
-    "sys": "SYS",
-    "eng": "ENG",
     "hp": "HP",
     "armor": "Armor",
     "evasion": "Evasion",
     "edef": "E-DEF",
     "edefense": "E-defense",
     "speed": "Speed",
-    "size": "SIZE",
-    "save": "SAVE",
     "sensors": "Sensors",
     "structure": "Structure",
     "stress": "Stress",
-    "heat": "HEAT",
     "sp": "SP"
   },
   "notify": {
@@ -3420,7 +3180,6 @@
       "syncFailedText": "{err}"
     },
     "common": {
-      "success": "Success",
       "error": "Error",
       "copied": "Copied"
     },
@@ -3548,7 +3307,6 @@
     "lastSynced": "Last synced",
     "notYetSynced": "Not yet synced",
     "syncNeeded": "Sync needed",
-    "upToDate": "Up to date",
     "shareCodeTooltip": "This code allows other users with a @:{'common.appName'} account to download a copy of this item and subscribe to updates you make.",
     "shareLink": "Share link",
     "publicLinkNote": "This link is a {emphasis} that allows anyone to view this pilot's data.",
@@ -3570,10 +3328,6 @@
   },
   "print": {
     "generalOptions": "General Print Options",
-    "extras": "Extras",
-    "titles": {
-      "paper": "Paper",
-      "orientation": "Orientation"
-    }
+    "titles": {}
   }
 }

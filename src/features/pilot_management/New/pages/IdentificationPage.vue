@@ -40,7 +40,7 @@
             class="text-caption">{{ $t('pm.new.pilotNAME') }}</div>
           <cc-text-field v-model="pilot.Name"
             variant="outlined"
-            :placeholder="$t('pm.fields.name')"
+            :placeholder="$t('common.name')"
             :icon="pilot.Name ? 'mdi-check-circle-outline' : 'mdi-alert'"
             :color="pilot.Name ? 'success' : 'error'"
             class="my-1 d-inline">
@@ -83,10 +83,10 @@
             {{ $t('pm.new.rm403PRIOROCCUPATIONOR') }}
           </div>
           <div v-else
-            class="text-caption">{{ $t('pm.new.background') }}</div>
+            class="text-caption">{{ $t('common.background') }}</div>
           <cc-text-field v-model="pilot.Background"
             variant="outlined"
-            :placeholder="$t('pm.fields.background')"
+            :placeholder="$t('common.background')"
             :icon="pilot.Background ? 'mdi-check-circle-outline' : 'mdi-circle-outline'"
             :color="pilot.Background ? 'success' : 'light-panel'"
             class="my-1 d-inline">
@@ -120,7 +120,7 @@
                 <div v-if="!pilot.History">{{ $t('pm.new.addPilotBiography') }}</div>
                 <div v-else>{{ $t('pm.new.editPilotBiography') }}</div>
                 <CCTextEditorDialog v-model="bioDialog"
-                  :title="$t('pm.titles.editPilotBiography')"
+                  :title="$t('pm.new.editPilotBiography')"
                   :original="pilot.History"
                   @save="$emit('set', { attr: 'History', val: $event })" />
               </cc-button>
@@ -150,7 +150,7 @@
                 :color="!pilot.TextAppearance ? 'light-panel' : 'success'"
                 @click="appearanceDialog = true">
                 <div v-if="!pilot.TextAppearance">{{ $t('pm.new.addPilotDescription') }}</div>
-                <div v-else>{{ $t('pm.new.editPilotDescription') }}</div>
+                <div v-else>{{ $t('pm.titles.editPilotDescription') }}</div>
                 <CCTextEditorDialog v-model="appearanceDialog"
                   :title="$t('pm.titles.editPilotDescription')"
                   :original="pilot.TextAppearance"
@@ -201,7 +201,7 @@
             aspect-ratio="1" />
         </div>
         <div class="mt-3">
-          <cc-modal :title="$t('pm.titles.setPilotPortrait')"
+          <cc-modal :title="$t('pm.sheet.setPilotPortrait')"
             icon="cc:pilot">
             <template #activator="{ open }">
               <cc-button block

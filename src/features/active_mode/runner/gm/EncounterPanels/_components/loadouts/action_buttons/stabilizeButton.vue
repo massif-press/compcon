@@ -46,7 +46,7 @@
         <v-row v-if="secondChoice === 'clear_self'"
           dense>
           <v-col>
-            <div class="text-cc-overline text-disabled">{{ $t('active.common.target') }}</div>
+            <div class="text-cc-overline text-disabled">{{ $t('ui.combat.target') }}</div>
             <v-select readonly
               variant="outlined"
               flat
@@ -55,7 +55,7 @@
               :value="controller.CombatName" />
           </v-col>
           <v-col>
-            <div class="text-cc-overline text-disabled">{{ $t('active.common.condition') }}</div>
+            <div class="text-cc-overline text-disabled">{{ $t('active.common.condition_status') }}</div>
             <v-select v-model="clearSelfCondition"
               :items="clearableConditions(controller.ActiveActor)"
               item-title="status.Name"
@@ -68,7 +68,7 @@
         </v-row>
         <v-row v-else-if="secondChoice === 'clear_ally'">
           <v-col>
-            <div class="text-cc-overline text-disabled">{{ $t('active.common.target') }}</div>
+            <div class="text-cc-overline text-disabled">{{ $t('ui.combat.target') }}</div>
             <v-select v-model="selectedTarget"
               :items="alliedTargets"
               item-title="actor.CombatController.CombatName"
@@ -79,7 +79,7 @@
               variant="outlined" />
           </v-col>
           <v-col>
-            <div class="text-cc-overline text-disabled">{{ $t('active.common.condition') }}</div>
+            <div class="text-cc-overline text-disabled">{{ $t('active.common.condition_status') }}</div>
             <v-select v-model="clearAlliedCondition"
               :items="clearableConditions(selectedTarget?.actor?.CombatController?.ActiveActor)"
               item-title="status.Name"

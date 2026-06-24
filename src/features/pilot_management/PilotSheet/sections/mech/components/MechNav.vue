@@ -26,7 +26,7 @@
           variant="plain"
           size="small"
           v-bind="props">
-          <v-tooltip :text="$t('pm.tooltips.mechOptions')"
+          <v-tooltip :text="$t('pm.sheet.mechOptions')"
             location="top">
             <template #activator="{ props }">
               <v-icon v-bind="props"
@@ -47,7 +47,7 @@
           @click="$router.push(`/print/${pilot.ID}/${mech.ID}`)" />
 
         <v-list-item prepend-icon="mdi-file-document-outline"
-          :title="$t('pm.titles.generateStatblock')"
+          :title="$t('pm.sheet.generateStatblock')"
           :subtitle="$t('pm.subtitles.getAPlaintextRepresentationOfThisMechConfiguration')"
           @click="statblockDialog = true" />
 
@@ -109,7 +109,7 @@
     <div id="end-cap" />
   </div>
   <cc-modal v-model="statblockDialog"
-    :title="$t('pm.titles.generateStatblock')"
+    :title="$t('pm.sheet.generateStatblock')"
     icon="mdi-code-block-tags">
     <statblock-dialog :pilot="<Pilot>pilot"
       :mech-i-d="mech.ID" />

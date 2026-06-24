@@ -40,7 +40,7 @@
       <div v-html-safe="template.description" class="pa-2" />
       <div class="sidebar-box ml-2" :style="`max-height:${expanded ? '100%' : '80px;'}`">
         <div class="panel clipped px-2">
-          <div class="caption text-accent mt-1"><b>{{ $t('pm.new.tactics') }}</b></div>
+          <div class="caption text-accent mt-1"><b>{{ $t('ui.titles.tactics') }}</b></div>
           <p v-html-safe="template.tactics" />
         </div>
         <div class="panel clipped py-1 px-2 my-2">
@@ -70,7 +70,7 @@
               <div class="caption text-accent">
                 {{ $t('pm.new.pilot') }}
                 <cc-slashes class="pr-1" />
-                <b>{{ $t('pm.new.talents') }}</b>
+                <b>{{ $t('common.talents') }}</b>
               </div>
               <v-row dense justify="center" class="px-2 text-center">
                 <v-col v-for="t in template.build.talents" :key="t" cols="12" md="auto" class="mx-1">
@@ -82,7 +82,7 @@
                       </cc-chip>
                     </template>
                     <div class="heading h3">
-                      {{ item('Talents', t).Name }} {{ $t('pm.new.i') }} {{ item('Talents', t).Rank(1).Name }}
+                      {{ item('Talents', t).Name }} {{ $t('pm.new.i') }}: {{ item('Talents', t).Rank(1).Name }}
                     </div>
                     <v-divider />
                     <div v-html-safe="item('Talents', t).Rank(1).Description" />

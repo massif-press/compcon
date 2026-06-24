@@ -9,7 +9,7 @@
         <thead>
           <tr>
             <th class="text-left side-border"
-              width="160px">{{ $t('ui.selector.metric') }}</th>
+              width="160px">{{ $t('ui.fields.metric') }}</th>
             <th class="text-center font-weight-bold text-primary side-border">
               <cc-item-modal small-btn
                 hide-type

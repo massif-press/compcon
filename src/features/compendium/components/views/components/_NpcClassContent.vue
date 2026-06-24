@@ -14,7 +14,7 @@
           class="pa-1 text-text" />
       </cc-panel>
     </template>
-    <template #overline>&mdash; {{ $t('compendium.content.npcClass') }}</template>
+    <template #overline>&mdash; {{ $t('gm.npcBuilder.npcClass') }}</template>
   </c-card-base>
 </template>
 

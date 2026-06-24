@@ -2,14 +2,16 @@
   <v-row dense
     align="center">
     <v-col>
-      <div class="heading h2">{{ item.Source }} {{ item.MechTypeString }} {{ $t('common.frame') }}</div>
+      <div class="heading h2">{{ item.Source }} {{ item.MechTypeString }} {{ $t('common.frame') }}
+      </div>
       <div v-if="item.Variant"
         class="heading h4 text-accent">{{ item.Variant }} {{ $t('ui.card.variantFrame') }}</div>
     </v-col>
     <v-col cols="auto">
       <cc-tooltip :icon="item.SizeIcon"
         size="65">
-        <div class="heading h3">{{ $t('common.size') }} {{ item.Size === 0.5 ? '½' : item.Size }}</div>
+        <div class="heading h3"><span class="text-uppercase">{{ $t('ui.fields.size') }}</span> {{ item.Size === 0.5 ? '½' : item.Size }}
+        </div>
         <v-divider class="my-1" />
         {{ glossary('size') }}
       </cc-tooltip>
@@ -37,7 +39,7 @@
     <frame-combat-chart :frame="item" />
   </div>
 
-  <div class="text-cc-overline text-text">{{ $t('ui.card.frameTraits') }}</div>
+  <div class="text-cc-overline text-text">{{ $t('active.roster.frameTraits') }}</div>
   <cc-masonry-grid :items="item.Traits">
     <template #default="{ item, index }">
       <cc-trait-item :trait="item"
@@ -60,7 +62,8 @@
             class="clipped"
             tile
             v-bind:="props">
-            <v-card-text class="heading h3 px-8 text-uppercase">{{ m }} {{ $t('common.mount') }}</v-card-text>
+            <v-card-text class="heading h3 px-8 text-uppercase">{{ m }} {{ $t('common.mount')
+              }}</v-card-text>
           </v-card>
         </template>
         <p v-html-safe="get_mount_tooltip(m)" />

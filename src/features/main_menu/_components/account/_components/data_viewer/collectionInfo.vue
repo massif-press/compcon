@@ -18,7 +18,7 @@
           <tr>
             <th>{{ $t("common.name") }}</th>
             <th>{{ $t("common.type") }}</th>
-            <th>{{ $t("mainMenu.collection.colLastUpdate") }}</th>
+            <th>{{ $t("active.labels.lastUpdate") }}</th>
           </tr>
         </thead>
         <tbody>
@@ -29,7 +29,7 @@
           </tr>
         </tbody>
       </v-table>
-      <div class="text-caption mt-2">{{ $t("mainMenu.collection.changelog") }}</div>
+      <div class="text-caption mt-2">{{ $t("common.changelog") }}</div>
       <v-table density="compact">
         <thead class="bg-primary heading">
           <tr>

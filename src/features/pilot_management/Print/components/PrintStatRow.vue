@@ -4,7 +4,7 @@
     class="mt-n4 mb-1">
     <v-col cols="auto"
       class="text-center">
-      <div class="font-weight-bold overline text-primary">{{ $t('stats.hull') }}</div>
+      <div class="font-weight-bold overline text-primary"><span class="text-uppercase">{{ $t('pm.link.hull') }}</span></div>
       <blank-line v-if="blank"
         :width="120"
         :height="35"
@@ -53,7 +53,7 @@
     <v-col cols="auto"
       class="text-center">
       <div v-if="blank">
-        <div class="font-weight-bold overline text-primary">{{ $t('stats.size') }}</div>
+        <div class="font-weight-bold overline text-primary"><span class="text-uppercase">{{ $t('ui.fields.size') }}</span></div>
         <blank-line v-if="blank"
           :width="120"
           :height="35"

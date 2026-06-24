@@ -26,22 +26,22 @@
             slim>
             <v-list-item :title="$t('common.print')"
               prepend-icon="mdi-printer"
-              :subtitle="$t('pm.subtitles.printTabletopreadyCharacterAndMech')"
+              :subtitle="$t('pm.sheet.printTabletopReadyCharacterAndMech')"
               @click="$router.push(`/print/${pilot.ID}`)" />
             <cc-modal :title="$t('pm.titles.statblockGenerator')"
               icon="mdi-code-block-tags">
               <template #activator="{ open }">
                 <v-list-item prepend-icon="mdi-file-document-outline"
-                  :title="$t('pm.titles.generateStatblock')"
-                  :subtitle="$t('pm.subtitles.getAPlaintextRepresentationOf')"
+                  :title="$t('pm.sheet.generateStatblock')"
+                  :subtitle="$t('pm.sheet.getAPlaintextRepresentationOfThis')"
                   @click.stop="open" />
               </template>
               <statblock-dialog :pilot="pilot" />
             </cc-modal>
             <v-list-item v-if="!pilot.IsRemote"
               prepend-icon="mdi-export-variant"
-              :title="$t('pm.titles.exportPilot')"
-              :subtitle="$t('pm.subtitles.exportThisPilotAsAJsonFile')"
+              :title="$t('pm.sheet.exportPilot')"
+              :subtitle="$t('pm.sheet.exportThisPilotAsAJSON')"
               @click="exportPilot()" />
 
             <v-list-item v-if="!pilot.IsRemote"
@@ -77,8 +77,8 @@
               icon="mdi-dna">
               <template #activator="{ open }">
                 <v-list-item prepend-icon="mdi-dna"
-                  :title="$t('pm.titles.clone')"
-                  :subtitle="$t('pm.subtitles.duplicateOrFlashCloneThisCharacter')"
+                  :title="$t('pm.sheet.clone')"
+                  :subtitle="$t('pm.sheet.duplicateOrFlashCloneThisCharacter')"
                   @click.stop="open" />
               </template>
               <template #default="{ close }">
@@ -87,14 +87,14 @@
               </template>
             </cc-modal>
 
-            <cc-dialog :title="$t('pm.titles.setLcpConfiguration')"
+            <cc-dialog :title="$t('pm.sheet.setLCPConfiguration')"
               :close-on-click="false"
               icon="mdi-list-status">
               <template #activator="{ open }">
                 <v-list-item v-if="!pilot.IsRemote"
                   prepend-icon="mdi-list-status"
-                  :title="$t('pm.titles.setLcpConfiguration')"
-                  :subtitle="$t('pm.subtitles.manageWhichContentPacksAreAccessibleToThisPilot')"
+                  :title="$t('pm.sheet.setLCPConfiguration')"
+                  :subtitle="$t('pm.sheet.manageWhichContentPacksAreAccessible')"
                   @click.stop="open" />
               </template>
               <lcp-config-selector :actor="pilot" />
@@ -104,7 +104,7 @@
               :loading="loading"
               :disabled="pilot.CloudController.isSynced"
               prepend-icon="mdi-cloud-sync"
-              :title="$t('pm.titles.downloadLatestData')"
+              :title="$t('pm.sheet.downloadLatestData')"
               :subtitle="pilot.CloudController.isSynced
                 ? 'Pilot is up to date with remote data'
                 : 'Download all remote changes to this pilot, overwriting local data.'
@@ -117,7 +117,7 @@
               icon="cc:pilot">
               <template #activator="{ open }">
                 <v-list-item :title="$t('common.deletePilot')"
-                  :subtitle="$t('pm.subtitles.removeThisPilotFromTheRoster')"
+                  :subtitle="$t('pm.sheet.removeThisPilotFromTheRoster')"
                   @click.stop="open">
                   <template #prepend>
                     <v-icon color="error">mdi-delete</v-icon>

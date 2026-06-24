@@ -91,7 +91,7 @@
                 density="compact"
                 style="width: 70px" />
             </v-col>
-            <v-col cols="auto">{{ $t('gm.overview.players') }}</v-col>
+            <v-col cols="auto"><span class="text-lowercase">{{ $t('active.joinTable.players') }}</span></v-col>
           </v-row>
           <div class="text-caption mt-1">{{ $t('gm.overview.fromLicenseLevels') }}</div>
           <v-row dense align="center">

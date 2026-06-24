@@ -79,7 +79,7 @@
                   :readonly="readonly"
                   color="primary"
                   variant="outlined"
-                  :label="$t('gm.fields.gmNotes')" />
+                  :label="$t('gm.gmNotes').toLowerCase()" />
               </v-col>
             </v-row>
           </v-col>

@@ -23,7 +23,7 @@
         border>
         <cc-alert v-if="isV2"
           icon="mdi-alert-circle-outline"
-          :title="$t('pm.titles.v2Data')">
+          :title="$t('nav.v2Auto.v2Data')">
           <p class="text-text">
             {{ $t('pm.roster.thisAppearsToBePilotData') }}
           </p>
@@ -78,7 +78,7 @@
         border>
         <v-card-text class="text-center">
           <p class="heading h4 text-accent">
-            {{ $t('pm.roster.thisPilotContainsContentFromThe') }}
+            {{ $t('pm.roster.thisPilotContainsContentFromThe') }}:
           </p>
           <p v-html-safe="missingContent"
             class="effect-text text-center" />

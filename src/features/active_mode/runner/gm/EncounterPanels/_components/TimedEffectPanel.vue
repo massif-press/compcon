@@ -1,6 +1,6 @@
 <template>
   <div v-if="item.CombatController.TimedEffects.length"
-    class="text-cc-overline text-disabled mt-2">{{ $t('active.timedEffect.pending') }}</div>
+    class="text-cc-overline text-disabled mt-2">{{ $t('ui.cascade.pending') }}</div>
   <v-row v-for="(t, idx) in item.CombatController.TimedEffects"
     :key="`timed-${idx}`"
     dense
@@ -42,7 +42,7 @@
                 block
                 tile
                 @click="apply(t, Number(idx))">
-                {{ $t('active.common.apply') }}
+                {{ $t('text-lowercase') }}
               </v-btn></v-col>
             <v-col><v-btn color="error"
                 size="x-small"

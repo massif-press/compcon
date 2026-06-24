@@ -105,7 +105,7 @@
               prepend-icon="mdi-check-circle"
               class="bg-success"
               @click="setHitResult(s, 'hit')" />
-            <v-list-item :title="$t('ui.titles.miss')"
+            <v-list-item :title="$t('ui.combat.miss')"
               prepend-icon="mdi-cancel"
               class="bg-error"
               @click="setHitResult(s, 'miss')" />

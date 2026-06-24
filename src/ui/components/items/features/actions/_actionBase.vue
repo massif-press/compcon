@@ -16,7 +16,7 @@
       v-html-safe="action.Init" />
     <div v-if="!action.Frequency.Unlimited">
       <div class="text-cc-overline"
-        style="opacity: 0.4">{{ $t('ui.action.frequency') }}</div>
+        style="opacity: 0.4">{{ $t('ui.action.frequency_action') }}</div>
       <div v-html-safe="action.Frequency.ToString()"
         class="ml-2" />
     </div>

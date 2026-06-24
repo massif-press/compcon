@@ -43,7 +43,7 @@
       <h1 class="heading h1 ml-8">{{ $t('compendium.reference.faqErrata') }}</h1>
       <v-container>
         <cc-alert color="panel" class="mb-5">
-          <div class="heading h4">{{ $t('compendium.reference.pleaseNote') }}</div>
+          <div class="heading h4">{{ $t('compendium.reference.pleaseNote') }}:</div>
           <div>
             <i18n-t keypath="compendium.reference.faqErrataNotice"
               tag="span"

@@ -31,7 +31,7 @@
           :to="'/pilot_management'" />
         <mobile-btn v-if="landscape"
           icon="cc:encounter"
-          :title="$t('mainMenu.titles.gmToolkit')"
+          :title="$t('gm.landing.toolkit')"
           :text="$t('mainMenu.actions.managePilots')"
           :to="'/gm'" />
         <mobile-btn icon="cc:content_manager"
@@ -111,7 +111,7 @@
         </v-col>
 
         <v-col cols="auto">
-          <cc-modal :title="$t('mainMenu.titles.credits')"
+          <cc-modal :title="$t('common.credits')"
             icon="cc:gms">
             <template #activator="{ open }">
               <cc-button class="text-uppercase pa-0"

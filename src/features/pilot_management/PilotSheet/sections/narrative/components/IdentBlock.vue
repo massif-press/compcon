@@ -17,7 +17,7 @@
       :class="mobile && 'd-flex justify-start'">
       <cc-text-label v-model="pilot.Name"
         :readonly="pilot.IsRemote"
-        :label="$t('pm.fields.name')" />
+        :label="$t('common.name')" />
     </v-col>
     <v-col cols="12"
       sm="6"
@@ -25,7 +25,7 @@
       :class="mobile && 'd-flex justify-start'">
       <cc-text-label v-model="pilot.PlayerName"
         :readonly="pilot.IsRemote"
-        :label="$t('pm.fields.player')" />
+        :label="$t('common.player')" />
     </v-col>
     <v-col cols="12"
       sm="6"
@@ -33,7 +33,7 @@
       :class="mobile && 'd-flex justify-start'">
       <cc-text-label v-model="pilot.Background"
         :readonly="pilot.IsRemote"
-        :label="$t('pm.fields.background')">
+        :label="$t('common.background')">
         <template #append>
           <background-selector v-if="!pilot.IsRemote"
             small

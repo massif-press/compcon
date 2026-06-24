@@ -160,7 +160,7 @@
           <v-col>
             <v-row class="text-center">
               <v-col>
-                <div class="font-weight-bold caption text-primary mb-n2">{{ $t('stats.hull') }}</div>
+                <div class="font-weight-bold caption text-primary mb-n2"><span class="text-uppercase">{{ $t('pm.link.hull') }}</span></div>
                 <blank-line v-if="blank"
                   :width="80"
                   :height="35"
@@ -211,7 +211,7 @@
           justify="space-between"
           class="mt-n3">
           <v-col>
-            <div class="text-caption text-primary">{{ $t('pm.print.skillTRIGGERS') }}</div>
+            <div class="text-caption text-primary">{{ $t('pm.titles.skillTriggers') }}</div>
             <div class="text-left">
               <v-row v-if="blank"
                 dense
@@ -302,7 +302,7 @@
     <v-row dense
       class="mt-n6">
       <v-col>
-        <div class="text-caption mb-n2 mt-1 text-primary">{{ $t('pm.new.talents') }}</div>
+        <div class="text-caption mb-n2 mt-1 text-primary">{{ $t('common.talents') }}</div>
         <v-row v-if="blank"
           dense>
           <v-col v-for="n in 12"
@@ -364,7 +364,7 @@
 
     <div v-if="pilot.CoreBonusController.CoreBonuses.length || blank"
       class="text-caption mb-n2 mt-2 text-primary">
-      {{ $t('pm.print.coreBonuses') }}
+      {{ $t('pm.level.coreBonuses') }}
     </div>
     <v-row v-if="blank"
       dense>
@@ -586,14 +586,14 @@
               variant="outlined"
               color="grey"
               class="bg-white px-1 mx-1">
-              {{ $t('pm.print.mech') }}
+              {{ $t('common.mech') }}
             </v-chip>
             <v-chip label
               size="x-small"
               variant="outlined"
               color="grey"
               class="bg-white px-1 mx-1">
-              {{ $t('pm.print.other') }}
+              {{ $t('ui.widget.other') }}
             </v-chip>
           </div>
 

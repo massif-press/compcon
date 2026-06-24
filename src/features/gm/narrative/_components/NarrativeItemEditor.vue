@@ -44,7 +44,7 @@
             :items="item.TypeSuggestions"
             variant="outlined"
             hide-details
-            :label="$t('gm.fields.organizationType')"
+            :label="$t('ui.fields.organizationType')"
             style="width: 335px" />
         </v-col>
       </v-row>
@@ -56,7 +56,7 @@
             :readonly="isRemote"
             color="primary"
             variant="outlined"
-            :label="$t('gm.fields.title')" />
+            :label="$t('ui.fields.title')" />
         </v-col>
         <v-col>
           <cc-text-field v-model="item.Alias"

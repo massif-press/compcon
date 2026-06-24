@@ -1,5 +1,5 @@
 <template>
-  <div class="text-overline">{{ $t('gm.relationships.heading') }}</div>
+  <div class="text-overline">{{ $t('gm.relationships.label') }}</div>
   <CCRelationshipItem
     v-for="(r, idx) in item.NarrativeController.Relationships"
     :key="`relationship-${idx}`"

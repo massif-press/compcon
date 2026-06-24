@@ -126,7 +126,7 @@
   </div>
 
   <cc-title id="skills"
-    class="mt-4 mb-2">{{ $t('pm.level.skills') }}</cc-title>
+    class="mt-4 mb-2">{{ $t('pm.new.skills') }}</cc-title>
   <cc-skill-item v-for="s in pilot.SkillsController.Skills"
     :key="s.ID"
     :bonus="s.Bonus"
@@ -159,7 +159,7 @@
 
   <div v-if="pilot.TalentsController.Talents.length"
     id="talents">
-    <cc-title class="mt-4 mb-2">{{ $t('pm.level.talents') }}</cc-title>
+    <cc-title class="mt-4 mb-2">{{ $t('common.talents') }}</cc-title>
     <cc-talent v-for="t in pilot.TalentsController.Talents"
       :key="t.Talent.ID"
       hide-locked
@@ -170,7 +170,7 @@
 
   <div v-if="pilot.CoreBonusController.CoreBonuses.length"
     id="core-bonuses">
-    <cc-title class="mt-4 mb-2">{{ $t('compendium.categories.coreBonuses') }}</cc-title>
+    <cc-title class="mt-4 mb-2">{{ $t('pm.level.coreBonuses') }}</cc-title>
     <cc-core-bonus-item v-for="b in pilot.CoreBonusController.CoreBonuses"
       :key="b.ID"
       :bonus="b"

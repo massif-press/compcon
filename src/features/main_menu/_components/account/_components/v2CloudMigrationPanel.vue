@@ -47,7 +47,7 @@
             </v-list-item>
           </div>
           <div class="my-1 text-caption text-center">
-            <i18n-t keypath="mainMenu.migration.v2NotModified" tag="span" scope="global"><template #not><strong>{{ $t("mainMenu.migration.notLabel") }}</strong></template></i18n-t>
+            <i18n-t keypath="mainMenu.migration.v2NotModified" tag="span" scope="global"><template #not><strong><span class="text-lowercase">{{ $t('pm.loadout.not') }}</span></strong></template></i18n-t>
           </div>
         </div>
 
@@ -157,7 +157,7 @@
         <cc-button :disabled="isMigrating"
           :loading="isMigrating"
           @click="dismiss">
-          {{ migrationResult ? $t("common.close") : $t("mainMenu.migration.later") }}
+          {{ migrationResult ? $t("common.close") : $t("ui.pwa.later") }}
         </cc-button>
       </v-card-actions>
     </cc-panel>

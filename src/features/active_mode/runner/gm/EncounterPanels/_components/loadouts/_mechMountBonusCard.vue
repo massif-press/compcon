@@ -64,7 +64,7 @@
             color="warning" />
         </template>
         <i18n-t keypath="active.mountBonus.warning" tag="span" scope="global">
-          <template #not><strong class="text-accent"><u>{{ $t('active.mountBonus.not') }}</u></strong></template>
+          <template #not><strong class="text-accent"><u>{{ $t('pm.loadout.not') }}</u></strong></template>
         </i18n-t>
       </v-tooltip>
     </div>

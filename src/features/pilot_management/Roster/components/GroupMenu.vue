@@ -41,7 +41,7 @@
               <div class="text-caption">{{ $t('pm.roster.cr701UNITDESIGNATION') }}</div>
               <cc-text-field v-model="group.Name"
                 variant="outlined"
-                :placeholder="$t('pm.fields.name')"
+                :placeholder="$t('common.name')"
                 :icon="group.Name ? 'mdi-check-circle-outline' : 'mdi-alert'"
                 :color="group.Name ? 'success' : 'error'"
                 class="my-1 d-inline">

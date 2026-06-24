@@ -42,7 +42,7 @@
       border="start"
       border-color="error">
       <template #title>
-        {{ $t("mainMenu.itemLink.noItemWithIdLabel") }}
+        {{ $t("mainMenu.itemLink.noItemWithIdLabel") }}:
         <code>{{ id }}</code>
         {{ $t("mainMenu.itemLink.foundInCompendium") }}
       </template>
@@ -50,7 +50,7 @@
         {{ $t("mainMenu.itemLink.lcpHint") }}
         <div class="text-right">
           <v-chip size="small">
-            {{ $t("mainMenu.itemLink.requestedLcp") }}
+            {{ $t("mainMenu.itemLink.requestedLcp") }}:
             <code>{{ pack }}</code>
           </v-chip>
         </div>

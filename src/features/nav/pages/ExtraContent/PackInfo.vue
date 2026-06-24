@@ -22,14 +22,14 @@
         :title="pack.manifest.name"
         hide-close>
         <template #toolbar-items>
-          <cc-chip :title="$t('nav.titles.version')"
+          <cc-chip :title="$t('common.version').toUpperCase()"
             size="x-small"
             color="secondary"
             :label="pack.manifest.version"
             class="my-1" />
         </template>
         <template #subtitle>
-          <div class="pl-2 mb-n2">{{ $t('nav.packInfo.byAuthor', { author: pack.manifest.author }) }}</div>
+          <div class="pl-2 mb-n2">{{ $t('nav.packConfig.byAuthor', { author: pack.manifest.author }) }}</div>
         </template>
       </cc-toolbar>
     </template>

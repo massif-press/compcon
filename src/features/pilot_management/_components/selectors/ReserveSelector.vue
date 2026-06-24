@@ -12,7 +12,7 @@
         class="mb-1"
         block
         @click="CustomDialog = true">
-        {{ $t('pm.selectors.addCustomReserve') }}
+        {{ $t('pm.titles.addCustomReserve') }}
       </cc-button>
       <cc-button size="x-small"
         color="secondary"
@@ -26,7 +26,7 @@
         class="mb-1"
         block
         @click="OrgDialog = true">
-        {{ $t('pm.selectors.addOrganization') }}
+        {{ $t('pm.titles.addOrganization') }}
       </cc-button>
     </template>
   </cc-compendium-browser>

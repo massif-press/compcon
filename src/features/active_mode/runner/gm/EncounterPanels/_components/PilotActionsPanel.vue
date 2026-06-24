@@ -89,7 +89,7 @@ function activate(event: string) {
         return;
       }
       controller.value.ToggleMounted();
-      notify({ type: 'success', title: t('active.pilotActions.mountedTitle'), text: t('active.pilotActions.mountedText', { name: controller.value.CombatName }) });
+      notify({ type: 'success', title: t('active.pcPanel.pilotMounted'), text: t('active.pilotActions.mountedText', { name: controller.value.CombatName }) });
       break;
     case 'act_hide':
       controller.value.AddStatus('hidden');

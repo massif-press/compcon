@@ -29,7 +29,7 @@
 
   <div v-if="item.Deployables && item.Deployables.length">
     <div v-show="!dense"
-      class="text-cc-overline text-disabled">//{{ $t('ui.card.deployables') }}</div>
+      class="text-cc-overline text-disabled">//{{ $t('common.deployables') }}</div>
     <v-row no-gutters
       justify="center">
       <v-col v-for="(d, index) in item.Deployables"

@@ -13,14 +13,14 @@
         <v-icon v-if="pilot.SkillsController.HasFullSkills"
           start
           icon="mdi-check" />
-        {{ $t('pm.level.skills') }}
+        {{ $t('pm.new.skills') }}
       </v-tab>
       <v-divider />
       <v-tab>
         <v-icon v-if="pilot.TalentsController.HasFullTalents"
           start
           icon="mdi-check" />
-        {{ $t('pm.level.talents') }}
+        {{ $t('common.talents') }}
       </v-tab>
       <v-divider />
       <v-tab>

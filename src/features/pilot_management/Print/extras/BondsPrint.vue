@@ -3,7 +3,7 @@
     <v-row dense
       align="center">
       <v-col cols="auto">
-        <div class="text-overline mt-n2 mb-n2 text-primary">{{ $t('pm.print.bond') }}</div>
+        <div class="text-overline mt-n2 mb-n2 text-primary"><span class="text-uppercase">{{ $t('pm.link.bond') }}</span></div>
         <div v-if="blank"
           style="min-width: 250px">
           <blank-line :height="40" />
@@ -66,7 +66,7 @@
       </v-col>
       <v-col v-if="bc.MinorIdeal">
         <div class="text-overline mt-n5"
-          style="line-height: 12px">{{ $t('pm.print.minorIDEAL') }}</div>
+          style="line-height: 12px">{{ $t('pm.sheet.minorIdeal') }}</div>
         <div class="text-left caption"
           v-text="bc.MinorIdeal" />
       </v-col>
@@ -117,7 +117,7 @@
     <div v-if="bc.Clocks.length > 0 && !blank"
       class="text-overline text-primary mt-4"
       style="line-height: 0">
-      {{ $t('pm.print.otherCLOCKS') }}
+      {{ $t('pm.titles.otherClocks') }}
     </div>
     <div v-if="!blank">
       <v-row v-for="(b, index) in bc.Clocks"

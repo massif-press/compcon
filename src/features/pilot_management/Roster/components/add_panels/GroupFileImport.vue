@@ -89,7 +89,7 @@
                 @click="importFile()">
                 {{ $t('common.import') }} {{ (stagedData as any).name }}
                 <span v-if="stagedPilots.length && importPilots">
-                  &nbsp;{{ $t('pm.roster.and') }} {{ stagedPilots.length }} {{ stagedPilots.length > 1 ? $t('pm.roster.pilots') : $t('pm.roster.pilot') }}</span>
+                  &nbsp;{{ $t('pm.roster.and') }} {{ stagedPilots.length }} {{ stagedPilots.length > 1 ? $t('pm.roster.pilots') : $t('pm.new.pilot') }}</span>
               </cc-button>
             </v-col>
           </v-row>

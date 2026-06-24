@@ -34,7 +34,7 @@
               {{ pilot.ID }}
             </div>
           </div>
-          &nbsp;{{ $t('pm.level.isEligibleForTheFollowingLicense') }}
+          &nbsp;{{ $t('pm.level.isEligibleForTheFollowingLicense') }}:
         </v-col>
       </v-row>
     </div>

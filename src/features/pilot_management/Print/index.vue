@@ -52,7 +52,7 @@
           density="compact"
           hide-details
           variant="outlined"
-          :label="$t('pm.fields.pilot')"
+          :label="$t('pm.new.pilot')"
           class="mx-3"
           clearable
           style="width: 10vw" />
@@ -63,13 +63,13 @@
           density="compact"
           hide-details
           variant="outlined"
-          :label="$t('pm.fields.mech')"
+          :label="$t('common.mech')"
           class="mx-3"
           clearable
           style="width: 10vw" />
         <v-spacer />
 
-        <cc-modal :title="$t('pm.titles.printOptions')">
+        <cc-modal :title="$t('ui.titles.printOptions')">
           <template #activator="{ open }">
             <v-btn @click="open">
               <span>{{ $t('common.options') }}</span>

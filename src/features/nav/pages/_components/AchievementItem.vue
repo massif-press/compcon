@@ -61,7 +61,7 @@
         opacity: 0.75;
       ">
       <cc-slashes />
-      {{ strings.createdBy }} {{ item.Author }}
+      {{ strings.createdBy }}: {{ item.Author }}
     </div>
   </v-card>
 </template>

@@ -2,7 +2,7 @@
   <div v-if="hasMigrationData">
 
     <cc-dialog icon="mdi-transfer"
-      :title="$t('nav.titles.v2DataMigration')"
+      :title="$t('nav.v2Auto.migrationTitle')"
       :close-on-click="false">
       <template #activator="{ open }">
         <cc-button size="small"

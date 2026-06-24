@@ -221,7 +221,7 @@
           <div class="text-cc-overline text-center mt-1">
             {{ $t('common.callsign') }}
             <br />
-            {{ $t('active.pilotsPanel.activeMech') }}
+            {{ $t('active.roster.activeMech') }}
           </div>
         </v-col>
       </v-row>

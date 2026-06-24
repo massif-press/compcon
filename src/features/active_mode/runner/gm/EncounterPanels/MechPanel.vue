@@ -77,7 +77,7 @@
             size="small"
             block
             :color="mech.CombatController.Prepared ? 'primary' : 'panel'"
-            :text="$t('active.actions.prepared')"
+            :text="$t('active.common.prepared')"
             @click="mech.CombatController.Prepared = !mech.CombatController.Prepared" />
         </v-col>
         <v-divider vertical />

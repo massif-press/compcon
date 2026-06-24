@@ -54,7 +54,7 @@
       align="center"
       class="mt-n4">
       <v-col cols="auto">
-        <b>{{ $t('pm.print.hull') }}</b>
+        <b><span class="text-uppercase">{{ $t('pm.link.hull') }}</span>:</b>
         <blank-line v-if="blank"
           class="d-inline-block mb-n1"
           :height="20"
@@ -70,7 +70,7 @@
         <b v-else>{{ mech.Agi }}</b>
       </v-col>
       <v-col cols="auto">
-        <b>{{ $t('stats.sys') }}:</b>
+        <b><span class="text-uppercase">{{ $t('pm.link.sys') }}</span>:</b>
         <blank-line v-if="blank"
           class="d-inline-block mb-n1"
           :height="20"
@@ -78,7 +78,7 @@
         <b v-else>{{ mech.Sys }}</b>
       </v-col>
       <v-col cols="auto">
-        <b>{{ $t('stats.eng') }}:</b>
+        <b><span class="text-uppercase">{{ $t('pm.link.eng') }}</span>:</b>
         <blank-line v-if="blank"
           class="d-inline-block mb-n1"
           :height="20"
@@ -86,7 +86,7 @@
         <b v-else>{{ mech.Eng }}</b>
       </v-col>
       <v-col cols="auto">
-        <b>{{ $t('pm.print.size2') }}</b>
+        <b><span class="text-uppercase">{{ $t('ui.fields.size') }}</span>:</b>
         <blank-line v-if="blank"
           class="d-inline-block mb-n1"
           :height="20"
@@ -99,7 +99,7 @@
       <v-col class="text-center"
         cols="auto">
         <div>
-          {{ $t('pm.print.corePOWER2') }}
+          {{ $t('active.trackable.corePower') }}:
           <v-icon icon="mdi-checkbox-blank-outline"
             class="mt-n1" />
         </div>
@@ -218,7 +218,7 @@
       <v-col :cols="'auto'"
         class="text-center">
         <div style="line-height: 0"
-          class="text-overline text-primary mb-2">{{ $t('stats.heat') }}</div>
+          class="text-overline text-primary mb-2"><span class="text-uppercase">{{ $t('pm.sheet.heat') }}</span></div>
         <div>
           <div class="d-inline-block"><blank-line :height="20"
               :width="40" /></div>
@@ -253,7 +253,7 @@
           </v-col>
           <v-col cols="auto">
             <span class="text-primary"
-              style="font-size: 15px">{{ $t('pm.print.techATK') }}</span>
+              style="font-size: 15px">{{ $t('pm.print.techAtk') }}</span>
             <blank-line v-if="blank"
               :width="30"
               :height="20"
@@ -263,7 +263,7 @@
           </v-col>
           <v-col cols="auto">
             <span class="text-primary"
-              style="font-size: 15px">{{ $t('stats.save') }}</span>
+              style="font-size: 15px"><span class="text-uppercase">{{ $t('common.save') }}</span></span>
             <blank-line v-if="blank"
               :width="30"
               :height="20"
@@ -323,7 +323,7 @@
           </v-col>
         </v-row>
 
-        <div class="text-overline mb-n3 text-primary">{{ $t('ui.card.frameTraits') }}</div>
+        <div class="text-overline mb-n3 text-primary">{{ $t('active.roster.frameTraits') }}</div>
         <v-row v-if="blank"
           dense>
           <v-col v-for="n in 4"
@@ -350,7 +350,7 @@
           </v-col>
         </v-row>
 
-        <div class="text-overline mb-n1 text-primary mt-n1">{{ $t('pm.print.coreSYSTEM') }}</div>
+        <div class="text-overline mb-n1 text-primary mt-n1">{{ $t('active.roster.coreSystem') }}</div>
         <div v-if="blank"
           dense
           class="">
@@ -457,7 +457,7 @@
                 <blank-line :height="20" />
               </v-col>
               <v-col cols="2">
-                <div class="caption text-grey">{{ $t('pm.print.type') }}</div>
+                <div class="caption text-grey"><span class="text-uppercase">{{ $t('common.type') }}</span></div>
                 <blank-line :height="20" />
               </v-col>
               <v-col cols="2">
@@ -465,7 +465,7 @@
                 <blank-line :height="20" />
               </v-col>
               <v-col cols="2">
-                <div class="caption text-grey">{{ $t('pm.print.damage') }}</div>
+                <div class="caption text-grey">{{ $t('ui.widget.damage') }}</div>
                 <blank-line :height="20" />
               </v-col>
             </v-row>
@@ -549,22 +549,22 @@
                   </div>
                   <div v-if="p.OnMiss"
                     class="caption">
-                    <b>{{ $t('pm.print.onMISS') }}</b>
+                    <b>{{ $t('pm.print.onMISS') }}:</b>
                     {{ p.OnMiss.Detail }}
                   </div>
                   <div v-if="p.OnAttack"
                     class="caption">
-                    <b>{{ $t('pm.print.onATTACK') }}</b>
+                    <b>{{ $t('pm.print.onATTACK') }}:</b>
                     {{ p.OnAttack.Detail }}
                   </div>
                   <div v-if="p.OnHit"
                     class="caption">
-                    <b>{{ $t('pm.print.onHIT') }}</b>
+                    <b>{{ $t('pm.print.onHIT') }}:</b>
                     {{ p.OnHit.Detail }}
                   </div>
                   <div v-if="p.OnCrit"
                     class="caption">
-                    <b>{{ $t('pm.print.onCRIT') }}</b>
+                    <b>{{ $t('pm.print.onCRIT') }}:</b>
                     {{ p.OnCrit.Detail }}
                   </div>
                   <print-action :compact="true"

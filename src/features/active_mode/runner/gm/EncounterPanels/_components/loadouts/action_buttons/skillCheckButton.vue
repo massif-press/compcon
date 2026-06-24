@@ -58,7 +58,7 @@
             </div>
           </v-col>
           <v-col v-else>
-            <div class="text-cc-overline text-disabled">{{ $t('active.skillCheck.selectTarget') }}</div>
+            <div class="text-cc-overline text-disabled">{{ $t('ui.fields.selectTarget') }}</div>
 
             <v-select v-model="selectedTarget"
               :items="targets"
@@ -87,7 +87,7 @@
               <v-col v-if="checkType === 'standard'"
                 cols="auto"
                 align-self="center">
-                <div class="text-center text-cc-overline px-2 mt-n3"><b>{{ $t('active.skillCheck.vs') }}</b></div>
+                <div class="text-center text-cc-overline px-2 mt-n3"><b>{{ $t('ui.combat.vs') }}</b></div>
               </v-col>
               <v-col v-if="checkType === 'standard'">
                 <div class="text-cc-overline text-disabled">{{ $t('active.skillCheck.targetValue') }}</div>
@@ -147,7 +147,7 @@
             cols="auto"
             class="mx-1">
             <v-chip size="large"
-              class="heading">{{ $t('active.skillCheck.vs') }}</v-chip>
+              class="heading">{{ $t('ui.combat.vs') }}</v-chip>
           </v-col>
           <v-col v-if="checkType === 'contested' && selectedTarget">
             <div class="text-center heading">
@@ -175,7 +175,7 @@
         :color="$refs.check.roll >= $refs.contest.roll ? 'success' : 'error'"
         outlined>
         <div class="text-center heading">
-          {{ $t('active.skillCheck.result') }}
+          {{ $t('common.result') }}:
           <span>
             {{ controller.CombatName }}
             {{ $refs.check.roll >= $refs.contest.roll ? $t('active.skillCheck.wins') : $t('active.skillCheck.loses') }}

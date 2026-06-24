@@ -11,7 +11,7 @@
           {{ pilot.MechSkillsController.MechSkills.Hull }}
         </div>
 
-        <div class="text-cc-overline text-accent">{{ $t('pm.link.agi') }}</div>
+        <div class="text-cc-overline text-accent">{{ $t('text-uppercase') }}</div>
         <div class="heading mt-n3"
           style="font-size: 41px">
           {{ pilot.MechSkillsController.MechSkills.Agi }}

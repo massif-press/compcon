@@ -68,7 +68,7 @@
             <div class="ml-2" v-html-safe="clock.Description" />
           </div>
           <div v-if="clock.Resolution">
-            <div class="text-caption mb-n1">{{ $t('ui.clock.resolutionHeading') }}</div>
+            <div class="text-caption mb-n1">{{ $t('ui.fields.resolution') }}</div>
             <div class="ml-2" v-html-safe="clock.Resolution" />
           </div>
         </v-col>

@@ -49,7 +49,7 @@
         </template>
         <template #item.size="{ item }">
           <span v-if="item.size > 1024 * 1024 + 1">
-            {{ (item.size / 1024 / 1024).toFixed(2) }} {{ $t("mainMenu.unit.mb") }}
+            {{ (item.size / 1024 / 1024).toFixed(2) }} {{ $t("ui.image.mb") }}
           </span>
           <span v-else>{{ (item.size / 1024).toFixed(2) }} {{ $t("mainMenu.unit.kb") }}</span>
         </template>

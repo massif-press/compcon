@@ -9,7 +9,7 @@
               :height="35" />
           </v-col>
           <v-col cols="auto">
-            <div class="text-overline mt-n4 mb-n2 text-primary">{{ $t('pm.print.mechNAME') }}</div>
+            <div class="text-overline mt-n4 mb-n2 text-primary">{{ $t('active.fields.mechName') }}</div>
             <blank-line :width="landscape ? 550 : 350"
               :height="35" />
           </v-col>
@@ -65,7 +65,7 @@
       class="mt-n5">
       <v-col cols="auto"
         class="mt-n5">
-        <div class="font-weight-bold overline text-primary">{{ $t('stats.hull') }}</div>
+        <div class="font-weight-bold overline text-primary"><span class="text-uppercase">{{ $t('pm.link.hull') }}</span></div>
         <blank-line v-if="blank"
           :width="landscape ? 100 : 60"
           :height="35"
@@ -92,7 +92,7 @@
       <v-col cols="auto"
         class="mt-n5">
         <div class="font-weight-bold overline text-primary">
-          {{ landscape ? $t('stats.systems') : $t('stats.sys') }}
+          {{ landscape ? $t('stats.systems') : $t('pm.link.sys').toUpperCase() }}
         </div>
         <blank-line v-if="blank"
           :width="landscape ? 90 : 60"
@@ -106,7 +106,7 @@
       <v-col cols="auto"
         class="mt-n5">
         <div class="font-weight-bold overline text-primary">
-          {{ landscape ? $t('stats.engineering') : $t('stats.eng') }}
+          {{ landscape ? $t('stats.engineering') : $t('pm.link.eng').toUpperCase() }}
         </div>
         <blank-line v-if="blank"
           :width="landscape ? 90 : 60"
@@ -120,7 +120,7 @@
       <v-col cols="auto"
         class="mt-n5">
         <div v-if="blank">
-          <div class="font-weight-bold overline text-primary">{{ $t('stats.size') }}</div>
+          <div class="font-weight-bold overline text-primary"><span class="text-uppercase">{{ $t('ui.fields.size') }}</span></div>
           <blank-line v-if="blank"
             :width="landscape ? 90 : 60"
             :height="35"
@@ -142,7 +142,7 @@
       </v-col>
 
       <v-col class="text-center">
-        <div class="text-overline mt-n4 text-primary">{{ $t('pm.print.corePOWER') }}</div>
+        <div class="text-overline mt-n4 text-primary">{{ $t('active.trackable.corePower') }}</div>
         <v-icon size="35"
           color="grey-lighten-1"
           class="mr-n1 mt-n3">mdi-battery-outline</v-icon>
@@ -341,7 +341,7 @@
         <div style="line-height: 10px"
           :class="blank ? '' : 'ml-6'"
           class="text-overline text-primary mb-5">
-          {{ $t('stats.heat') }}
+          <span class="text-uppercase">{{ $t('pm.sheet.heat') }}</span>
         </div>
         <v-row v-if="blank"
           no-gutters
@@ -394,7 +394,7 @@
           <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
             style="min-width: 8vw">
             <fieldset>
-              <legend class="caption font-weight-bold text-primary px-1">{{ $t('pm.print.techATK') }}</legend>
+              <legend class="caption font-weight-bold text-primary px-1">{{ $t('pm.print.techAtk') }}</legend>
               <div v-if="!blank"
                 class="heading h2 text-center mt-n2">
                 {{ signed(mech.TechAttack) }}
@@ -404,7 +404,7 @@
           <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
             style="min-width: 8vw">
             <fieldset>
-              <legend class="caption font-weight-bold text-primary px-1">{{ $t('stats.save') }}</legend>
+              <legend class="caption font-weight-bold text-primary px-1"><span class="text-uppercase">{{ $t('common.save') }}</span></legend>
               <div v-if="!blank"
                 class="heading h2 text-center mt-n2">{{ mech.SaveTarget }}</div>
             </fieldset>
@@ -457,7 +457,7 @@
           </v-col>
         </v-row>
 
-        <div class="text-overline mb-n3 text-primary">{{ $t('ui.card.frameTraits') }}</div>
+        <div class="text-overline mb-n3 text-primary">{{ $t('active.roster.frameTraits') }}</div>
         <v-row v-if="blank"
           dense>
           <v-col v-for="n in 4"
@@ -488,7 +488,7 @@
           </v-col>
         </v-row>
 
-        <div class="text-overline mb-n1 text-primary mt-n1">{{ $t('pm.print.coreSYSTEM') }}</div>
+        <div class="text-overline mb-n1 text-primary mt-n1">{{ $t('active.roster.coreSystem') }}</div>
         <div v-if="blank"
           dense
           class="mb-n2">
@@ -642,22 +642,22 @@
               class="caption">{{ p.Effect }}</div>
             <div v-if="p.OnMiss"
               class="caption">
-              <b>{{ $t('pm.print.onMISS') }}</b>
+              <b>{{ $t('pm.print.onMISS') }}:</b>
               {{ p.OnMiss.Detail }}
             </div>
             <div v-if="p.OnAttack"
               class="caption">
-              <b>{{ $t('pm.print.onATTACK') }}</b>
+              <b>{{ $t('pm.print.onATTACK') }}:</b>
               {{ p.OnAttack.Detail }}
             </div>
             <div v-if="p.OnHit"
               class="caption">
-              <b>{{ $t('pm.print.onHIT') }}</b>
+              <b>{{ $t('pm.print.onHIT') }}:</b>
               {{ p.OnHit.Detail }}
             </div>
             <div v-if="p.OnCrit"
               class="caption">
-              <b>{{ $t('pm.print.onCRIT') }}</b>
+              <b>{{ $t('pm.print.onCRIT') }}:</b>
               {{ p.OnCrit.Detail }}
             </div>
             <print-action :compact="true"

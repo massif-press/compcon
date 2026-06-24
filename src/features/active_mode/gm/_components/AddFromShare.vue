@@ -16,7 +16,7 @@
         :loading="dlLoading"
         :tooltip="$t('active.tooltips.thisWillAddACopy')"
         @click="addToEncounter">
-        {{ $t('active.addShare.addToEncounter') }}
+        {{ $t('active.roster.addToEncounter') }}
       </cc-button>
     </template>
   </cc-share-code-importer>

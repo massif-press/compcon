@@ -22,7 +22,7 @@
         equippable
         @equip="setBg($event.Name, close)">
         <template #header>
-          <div class="heading h4 text-center text-accent">{{ $t('pm.selectors.selectPilotBackground') }}</div>
+          <div class="heading h4 text-center text-accent">{{ $t('pm.titles.selectPilotBackground') }}</div>
         </template>
       </cc-compendium-browser>
     </template>

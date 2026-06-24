@@ -71,7 +71,7 @@
                   <cc-modal ref="crop_dialog"
                     icon="mdi-crop"
                     color="primary"
-                    :title="$t('ui.titles.setAvatar')">
+                    :title="$t('ui.image.setAvatar')">
                     <template #activator="{ open }">
                       <cc-button size="small"
                         color="success"
