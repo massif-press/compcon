@@ -247,6 +247,8 @@ function hide() {
       dialog.value = false
     }
 
+defineExpose({ show, hide })
+
 onMounted(() => {
 showNav.value = !mobile.value
 })
