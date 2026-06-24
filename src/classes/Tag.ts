@@ -5,6 +5,7 @@ import { CompendiumStore } from '@/features/compendium/store'
 import logger from '@/user/logger'
 import { applyLcpTracking, type ILcpTracked } from './LcpItemMixin'
 import { ByTier, replaceVal, resolveTier } from '@/util/tierFormat'
+import { localize } from '@/i18n/localize'
 
 export interface ITagData {
   id: string
@@ -75,7 +76,7 @@ class Tag implements ILcpTracked {
   }
 
   public get Name(): string {
-    return ByTier(replaceVal(this._name, 'X'))
+    return ByTier(replaceVal(localize(this.ID, 'name', this._name), 'X'))
   }
 
   public get Value(): number | string {
@@ -87,11 +88,12 @@ class Tag implements ILcpTracked {
   }
 
   public get Description(): string {
-    return ByTier(replaceVal(this._description, 'X'))
+    return ByTier(replaceVal(localize(this.ID, 'description', this._description), 'X'))
   }
 
   public GetDescription(addBonus?: number, tier?: number): string {
-    let out = this._description
+    const base = localize(this.ID, 'description', this._description)
+    let out = base
     let bonus = 0
     if (this.ID === 'tg_limited') bonus = addBonus || 0
     if (this._val) {
@@ -101,19 +103,19 @@ class Tag implements ILcpTracked {
           r = `${(this._val + bonus).toString()} <span class="caption text--secondary">(Limited ${
             this._val
           } + ${bonus} bonus)</span>`
-        out = this._description.replace(/{VAL}/g, r)
+        out = base.replace(/{VAL}/g, r)
       } else {
         const str = String(this._val)
         if (str.includes('+')) {
           const split = str.split('+')
           const newVal = `${split[0]}+${parseInt(split[1]) + bonus}`
-          const newDesc = this._description.replace(/{VAL}/g, newVal)
+          const newDesc = base.replace(/{VAL}/g, newVal)
           out = bonus ? `${newDesc} (+${bonus})` : newDesc
         } else {
           out =
             bonus > 0
-              ? this._description.replace(/{VAL}/g, `${this._val}+${bonus}`)
-              : this._description.replace(/{VAL}/g, this._val)
+              ? base.replace(/{VAL}/g, `${this._val}+${bonus}`)
+              : base.replace(/{VAL}/g, this._val)
         }
       }
     }
@@ -124,24 +126,25 @@ class Tag implements ILcpTracked {
   }
 
   public GetName(addBonus?: number, tier?: number): string {
-    let out = this._name
+    const base = localize(this.ID, 'name', this._name)
+    let out = base
     let bonus = 0
     if (this.IsLimited) bonus = addBonus || 0
     if (this._val) {
       if (typeof this._val === 'number') {
-        out = this._name.replace(/{VAL}/g, (this._val + bonus).toString())
+        out = base.replace(/{VAL}/g, (this._val + bonus).toString())
       } else {
         const str = String(this._val)
         if (str.includes('+')) {
           const split = str.split('+')
           const newVal = `${split[0]}+${parseInt(split[1]) + bonus}`
-          const newName = this._name.replace(/{VAL}/g, newVal)
+          const newName = base.replace(/{VAL}/g, newVal)
           out = bonus ? `${newName} (+${bonus})` : newName
         } else {
           out =
             bonus > 0
-              ? this._name.replace(/{VAL}/g, `${this._val}+${bonus}`)
-              : this._name.replace(/{VAL}/g, this._val)
+              ? base.replace(/{VAL}/g, `${this._val}+${bonus}`)
+              : base.replace(/{VAL}/g, this._val)
         }
       }
     }

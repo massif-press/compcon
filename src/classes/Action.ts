@@ -7,6 +7,7 @@ import { isNumber } from 'lodash-es'
 import { IDamageData } from './Damage'
 import { IRangeData } from './Range'
 import { ByTier } from '@/util/tierFormat'
+import { localize } from '@/i18n/localize'
 import { ActiveEffect, IActiveEffectData } from './components/feature/active_effects/ActiveEffect'
 import {
   EffectSpecial,
@@ -138,10 +139,10 @@ class Frequency {
 class Action {
   public LastUse: ActivationType | null
   public readonly ID: string
-  public readonly Name: string
+  private _name: string
   public readonly Origin: string
   public readonly Activation: ActivationType
-  public readonly Terse: string
+  private _terse: string
   public readonly Description: string
   public readonly Cost: number
   public readonly HeatCost: number
@@ -188,10 +189,10 @@ class Action {
 
   public constructor(data: IActionData, origin?: string, heat?: number) {
     data = Action.normalizeData(data)
-    if (data.name) this.Name = data.name
-    else this.Name = origin ? `Activate ${origin}` : 'Unknown Action'
+    this._name = data.name || (origin ? `Activate ${origin}` : 'Unknown Action')
     this.Description = data.description || ''
-    this.ID = data.id ? data.id : `act_${this.Name.toLowerCase().replace(/\s/g, '')}_${uuid()}`
+    const nameForId = this._name.toLowerCase().replace(/\s/g, '')
+    this.ID = data.id ? data.id : `act_${nameForId}_${uuid()}`
     this.Origin = origin || ''
     this.IsItemAction = !!origin
     this.SynergyLocations = data.synergy_locations ?? []
@@ -206,7 +207,7 @@ class Action {
       this.Attack = 'tech'
     }
 
-    this.Terse = data.terse || ''
+    this._terse = data.terse || ''
     this._detail = data.detail || data.effect || ''
     this.Cost = Object.hasOwn(data, 'cost') ? data.cost || 0 : 1
     this.HeatCost = heat && isNumber(heat) ? heat : 0
@@ -245,12 +246,15 @@ class Action {
     this.Hidden = data.hidden || false
   }
 
+  public get Name(): string { return localize(this.ID, 'name', this._name) }
+  public get Terse(): string { return localize(this.ID, 'terse', this._terse) }
+
   public get Detail(): string {
-    return ByTier(this._detail)
+    return ByTier(localize(this.ID, 'detail', this._detail))
   }
 
   public getDetail(tier?: number): string {
-    return ByTier(this._detail, tier)
+    return ByTier(localize(this.ID, 'detail', this._detail), tier)
   }
   public getCondition(tier?: number): string {
     return ByTier((this as any)._condition || (this as any).Condition || '', tier)
@@ -325,13 +329,13 @@ class Action {
   public static Serialize(action: Action): IActionData {
     return {
       id: action.ID,
-      name: action.Name,
+      name: action._name,
       activation: action.Activation,
       cost: action.Cost,
       frequency: action.Frequency.FreqText,
       init: action.Init,
       trigger: action.Trigger,
-      terse: action.Terse,
+      terse: action._terse,
       detail: action._detail,
       pilot: action.IsPilotAction,
       mech: action.IsMechAction,

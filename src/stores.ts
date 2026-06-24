@@ -8,6 +8,7 @@ import { CampaignStore } from './features/gm/store/campaign_store'
 
 export { NavStore } from '@/stores/nav'
 export type { IndexItem } from '@/stores/nav'
+export { LocalizationStore } from '@/stores/localization'
 
 export { AuthStore } from './user/store/AuthStore'
 export { UserMetadataStore } from './user/store/UserMetadataStore'

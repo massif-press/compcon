@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid'
 import { i18n } from '@/i18n'
+import { localize } from '@/i18n/localize'
 import { Encounter } from './Encounter'
 import { ContentPack } from '../ContentPack'
 import { ItemType } from '../enums'
@@ -19,34 +20,39 @@ interface ISitrepData {
 
 class Sitrep implements ILcpTracked {
   public readonly ID: string
-  public readonly Name: string
-  public readonly Description: string
+  private _name: string
+  private _description: string
   public LcpName: string = ''
   public InLcp: boolean = false
   public readonly ItemType: ItemType = ItemType.Sitrep
   public readonly Icon: string = 'mdi-timeline-text-outline'
   public readonly Conditions: { title: string; condition: string }[]
-  public readonly Deployment: string
-  public readonly Objective: string
-  public readonly ControlZone: string
-  public readonly Extraction: string
+  private _deployment: string
+  private _objective: string
+  private _controlZone: string
+  private _extraction: string
 
   constructor(data: ISitrepData, pack?: ContentPack) {
     this.ID = data.id
       ? data.id
       : `${pack?.Name || DEFAULT_LCP_NAME}_${data.name}`.replace(/ /g, '_')
-    this.Name = data.name
-    this.Description = data.description
+    this._name = data.name
+    this._description = data.description
     applyLcpTracking(this, pack)
 
-    this.Name = data.name
-    this.Description = data.description
     this.Conditions = data.conditions || []
-    this.Deployment = data.deployment || ''
-    this.Objective = data.objective || ''
-    this.ControlZone = data.controlZone || ''
-    this.Extraction = data.extraction || ''
+    this._deployment = data.deployment || ''
+    this._objective = data.objective || ''
+    this._controlZone = data.controlZone || ''
+    this._extraction = data.extraction || ''
   }
+
+  public get Name(): string { return localize(this.ID, 'name', this._name) }
+  public get Description(): string { return localize(this.ID, 'description', this._description) }
+  public get Deployment(): string { return localize(this.ID, 'deployment', this._deployment) }
+  public get Objective(): string { return localize(this.ID, 'objective', this._objective) }
+  public get ControlZone(): string { return localize(this.ID, 'controlZone', this._controlZone) }
+  public get Extraction(): string { return localize(this.ID, 'extraction', this._extraction) }
 }
 
 class SitrepInstance {

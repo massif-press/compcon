@@ -4,6 +4,7 @@ import { CompendiumStore } from '@/features/compendium/store'
 import { ItemType } from './enums'
 import { applyLcpTracking, type ILcpTracked } from './LcpItemMixin'
 import type { ISerializableStatic } from './ISerializable'
+import { localize } from '@/i18n/localize'
 
 interface IBackgroundData {
   id: string
@@ -14,8 +15,8 @@ interface IBackgroundData {
 
 class Background implements ILcpTracked {
   public readonly ID: string
-  public readonly Name: string
-  public readonly Description: string
+  private _name: string
+  private _description: string
   public readonly Skills: string[]
   public LcpName: string = ''
   public InLcp: boolean = false
@@ -23,17 +24,20 @@ class Background implements ILcpTracked {
 
   public constructor(data: IBackgroundData, pack?: ContentPack) {
     this.ID = data.id
-    this.Name = data.name
-    this.Description = data.description
+    this._name = data.name
+    this._description = data.description
     this.Skills = data.skills ? data.skills : []
     applyLcpTracking(this, pack)
   }
 
+  public get Name(): string { return localize(this.ID, 'name', this._name) }
+  public get Description(): string { return localize(this.ID, 'description', this._description) }
+
   public static Serialize(bg: Background): IBackgroundData {
     return {
       id: bg.ID,
-      name: bg.Name,
-      description: bg.Description,
+      name: bg._name,
+      description: bg._description,
       skills: bg.Skills as string[],
     }
   }

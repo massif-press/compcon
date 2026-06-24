@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid'
 import { i18n } from '@/i18n'
+import { localize } from '@/i18n/localize'
 import { Encounter } from './encounter/Encounter'
 import { ContentPack } from './ContentPack'
 import { ItemType } from './enums'
@@ -14,8 +15,8 @@ interface IEnvironmentData {
 
 class Environment implements ILcpTracked {
   public readonly ID: string
-  public readonly Name: string
-  public readonly Description: string
+  private _name: string
+  private _description: string
   public LcpName: string = ''
   public InLcp: boolean = false
   public readonly ItemType: ItemType = ItemType.Environment
@@ -25,10 +26,13 @@ class Environment implements ILcpTracked {
     this.ID = data.id
       ? data.id
       : `${pack?.Name || DEFAULT_LCP_NAME}_${data.name}`.replace(/ /g, '_')
-    this.Name = data.name
-    this.Description = data.description
+    this._name = data.name
+    this._description = data.description
     applyLcpTracking(this, pack)
   }
+
+  public get Name(): string { return localize(this.ID, 'name', this._name) }
+  public get Description(): string { return localize(this.ID, 'description', this._description) }
 }
 
 class EnvironmentInstance {

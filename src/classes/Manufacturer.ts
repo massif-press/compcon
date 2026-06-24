@@ -2,6 +2,7 @@ import { ContentPack } from './ContentPack'
 import { ItemType } from './enums'
 import { applyLcpTracking, type ILcpTracked } from './LcpItemMixin'
 import DOMPurify from 'dompurify'
+import { localize } from '@/i18n/localize'
 
 interface IManufacturerData {
   id: string
@@ -17,9 +18,9 @@ interface IManufacturerData {
 
 class Manufacturer implements ILcpTracked {
   public readonly ID: string
-  public readonly Name: string
-  public readonly Description: string
-  public readonly Quote: string
+  private _name: string
+  private _description: string
+  private _quote: string
   public readonly Light: string
   public readonly Dark: string
   public InLcp: boolean = false
@@ -32,9 +33,9 @@ class Manufacturer implements ILcpTracked {
 
   public constructor(data: IManufacturerData, lcp?: ContentPack) {
     this.ID = data.id.toUpperCase()
-    this.Name = data.name
-    this.Description = data.description
-    this.Quote = data.quote
+    this._name = data.name
+    this._description = data.description
+    this._quote = data.quote
     this.Light = data.light
     this.Dark = data.dark
     this._logo = data.logo
@@ -47,6 +48,10 @@ class Manufacturer implements ILcpTracked {
     this.IsHidden = false
     applyLcpTracking(this, lcp)
   }
+
+  public get Name(): string { return localize(this.ID, 'name', this._name) }
+  public get Description(): string { return localize(this.ID, 'description', this._description) }
+  public get Quote(): string { return localize(this.ID, 'quote', this._quote) }
 
   public get Color(): string {
     return this.Light ? this.Light : 'grey'

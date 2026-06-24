@@ -1,6 +1,7 @@
 import { v4 as uuid } from 'uuid'
 import { snakeCase, kebabCase, cloneDeep } from 'lodash-es'
 import { getActivePinia } from 'pinia'
+import { localize } from '@/i18n/localize'
 import { ItemType } from './enums'
 import type { MechEquipment } from './mech/components/equipment/MechEquipment'
 import type { MechSystem } from './mech/components/equipment/MechSystem'
@@ -188,7 +189,7 @@ abstract class CompendiumItem {
   }
 
   public get Name(): string {
-    return this._flavor_name ? this._flavor_name : this._name
+    return this._flavor_name ? this._flavor_name : localize(this.ID, 'name', this._name)
   }
 
   public set Name(val: string) {
@@ -208,7 +209,7 @@ abstract class CompendiumItem {
   }
 
   public get Description(): string {
-    return this._description || this.FlavorDescription || ''
+    return localize(this.ID, 'description', this._description) || this.FlavorDescription || ''
   }
 
   public set FlavorDescription(val: string) {
