@@ -1,0 +1,53 @@
+name: Locales sync
+
+on:
+  workflow_run:
+    workflows: ['CI']
+    types: [completed]
+    branches: [dev]
+  workflow_dispatch:
+
+concurrency:
+  group: locales-sync
+  cancel-in-progress: false
+
+env:
+  LOCALES_BRANCH: automated/locales-sync
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Sync base catalogs to compcon-locales (PR)
+        env:
+          GH_TOKEN: ${{ secrets.LOCALES_PR_TOKEN }}
+        run: |
+          gh auth setup-git
+          gh repo clone massif-press/compcon-locales locales-repo
+          cp src/i18n/locales/en.json locales-repo/ui/en.json
+          mkdir -p locales-repo/content/lancer-data
+          cp content/en/lancer-data.json locales-repo/content/lancer-data/en.json
+
+          cd locales-repo
+          git config user.name 'compcon-bot'
+          git config user.email 'bot@compcon.app'
+          if git diff --quiet -- ui/en.json content/lancer-data/en.json; then
+            echo 'base catalogs already up to date; nothing to sync.'
+            exit 0
+          fi
+          git checkout -B "$LOCALES_BRANCH"
+          git add ui/en.json content/lancer-data/en.json
+          git commit -m "chore: sync base catalogs from compcon@${GITHUB_SHA}"
+          git push -f origin "$LOCALES_BRANCH"
+          if [ -z "$(gh pr list --head "$LOCALES_BRANCH" --state open --json number -q '.[].number')" ]; then
+            gh pr create \
+              --base master \
+              --head "$LOCALES_BRANCH" \
+              --title 'chore: sync base catalogs from compcon' \
+              --body 'Automated English base sync (UI + content) from massif-press/compcon dev. English bases are read-only in Weblate; merging refreshes the source strings translators work from.'
+          fi
