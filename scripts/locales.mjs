@@ -7,7 +7,7 @@ import process from 'node:process'
 const here = dirname(fileURLToPath(import.meta.url))
 
 const SUITES = {
-  extract: ['extract-content-en.mjs'],
+  extract: ['extract-content-en.mjs', 'extract-srd-en.mjs'],
   check: ['i18n-check.mjs', 'check-content-drift.mjs'],
   pull: ['pull-locales.mjs', 'pull-completeness.mjs'],
 }

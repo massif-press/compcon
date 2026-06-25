@@ -18,7 +18,7 @@ const REMOTE = 'https://github.com/massif-press/compcon-locales.git'
 
 const PROTECTED_BASE = 'en.json'
 
-const CONTENT_COMPONENTS = ['lancer-data']
+const CONTENT_COMPONENTS = ['lancer-data', 'lancer-srd']
 
 // Weblate locale code -> app locale code. Weblate has BCP-47 subtags (zh_Hans);
 // the app uses the shorter code (zh) to match language/a11y

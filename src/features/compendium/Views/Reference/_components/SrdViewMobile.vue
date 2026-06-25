@@ -15,13 +15,13 @@
                 class="heading h3 my-2 text-link"
                 style="cursor: pointer"
                 @click="scrollTo(item)"
-                v-text="getLangItem(item, 'title')" />
+                v-text="srd(item, 'title')" />
               <div v-for="(child, childIdx) in (item as any).children" :key="`toc-child-${childIdx}`">
                 <div
                   color="accent"
                   class="heading h4 ml-4 my-1 text-link"
                   @click="scrollTo(child)"
-                  v-text="getLangItem(child, 'title')" />
+                  v-text="srd(child, 'title')" />
               </div>
             </div>
           </v-col>
@@ -36,7 +36,7 @@
           color="primary"
           class="mb-3 mt-6"
           style="padding-left: 50px !important; margin-left: -60px !important; max-width: 100%">
-          {{ getLangItem(item, 'title') }}
+          {{ srd(item, 'title') }}
         </cc-title>
         <cc-title
           v-else
@@ -44,21 +44,21 @@
           color="primary"
           class="mb-3 mt-6"
           style="padding-left: 300px !important; margin-left: -350px !important">
-          {{ getLangItem(item, 'title') }}
+          {{ srd(item, 'title') }}
         </cc-title>
-        <div v-html-safe="getLangItem(item, 'content')" class="content" />
+        <div v-html-safe="srd(item, 'content')" class="content" />
         <div v-for="(child, childIdx) in (item as any).children" :key="`child-${childIdx}`" :id="`e_${child.title.en.replace(/\W/g, '')}`">
           <h3
             class="text-accent mt-4"
             :class="mobile ? 'ml-n2' : 'ml-n5'"
-            v-text="getLangItem(child, 'title')" />
-          <div v-html-safe="getLangItem(child, 'content')" class="content" />
+            v-text="srd(child, 'title')" />
+          <div v-html-safe="srd(child, 'content')" class="content" />
           <div
             v-for="(subchild, subIdx) in (child as any).children"
             :key="`subchild-${subIdx}`"
             :id="`e_${subchild.title.en.replace(/\W/g, '')}`">
-            <b class="text-accent ml-n2" v-text="getLangItem(subchild, 'title')" />
-            <div v-html-safe="getLangItem(subchild, 'content')" class="content" />
+            <b class="text-accent ml-n2" v-text="srd(subchild, 'title')" />
+            <div v-html-safe="srd(subchild, 'content')" class="content" />
           </div>
         </div>
       </div>
@@ -66,7 +66,7 @@
   </v-container>
   <v-footer border app class="py-0 bg-primary">
     <v-tabs density="compact" center-active grow>
-      <v-tab v-for="(item, itemIdx) in content" :key="`tab-${itemIdx}`" v-text="getLangItem(item, 'title')" @click="scrollTo(item)" />
+      <v-tab v-for="(item, itemIdx) in content" :key="`tab-${itemIdx}`" v-text="srd(item, 'title')" @click="scrollTo(item)" />
     </v-tabs>
   </v-footer>
   <v-btn
@@ -96,7 +96,7 @@ const props = withDefaults(defineProps<{
 })
 
 const { smAndDown: mobile, xs: portrait } = useDisplay()
-const { lang, getLangItem, scrollTo } = useSrdView(props)
+const { srd, scrollTo } = useSrdView(props)
 </script>
 
 <style scoped>

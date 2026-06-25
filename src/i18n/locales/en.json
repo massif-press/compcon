@@ -2695,7 +2695,6 @@
       "noBondData": "No Bond Data",
       "noEidolonData": "No Eidolon Data",
       "lancerBasics": "Lancer Basics",
-      "experimentalPreview": "EXPERIMENTAL PREVIEW",
       "usingCompcon": "using @:{'common.appName'}",
       "narrativePlay": "narrative play"
     },
@@ -2718,8 +2717,7 @@
       "faqErrataNotice": "This FAQ and Errata is a community-driven project and is not part of an official Massif Press @:{'common.gameName'} release. This page is furnished by FAQ data from the {repoLink} on GitHub, currently maintained by lenaleciel. This document is also available at {siteLink}.",
       "lancerFaqRepo": "lancer-faq repository",
       "lancerFaqSite": "lancer-faq.netlify.app/",
-      "bookPage": "{book}, p. {page}",
-      "experimentalLangNote": "This is an experimental preview of the language selection feature. Non-English translation is currently machine-generated and may be inaccurate."
+      "bookPage": "{book}, p. {page}"
     },
     "search": {
       "resultCount": "{count} result | {count} results"

@@ -5,7 +5,8 @@
     },
     "content": {
       "en": "<p>Your pilot is the person inside the machine; the character whose entire career you’ll be playing out. Lancers are generally interesting people – if they weren’t, you probably wouldn’t be playing them! As you create your character, you will be able to figure out who they are and what makes them so interesting.</p>"
-    }
+    },
+    "id": "pilots_0"
   },
   {
     "title": {
@@ -21,9 +22,11 @@
         },
         "content": {
           "en": "<p>Outside of combat, you (or the GM) can <strong>invoke&nbsp;</strong>your pilot&rsquo;s background to receive <strong>1 ACCURACY</strong> or <strong>1 DIFFICULTY</strong> on any skill check, if their background is relevant. For example, someone who was a colonist might get <strong>+1 ACCURACY</strong> when negotiating with other colonists, navigating the wilderness, or farming. A character born in space, however, might get <strong>+1 DIFFICULTY</strong> when doing the same things.&nbsp;</p> <p>If there is any disagreement, the rest of the group &ndash; <strong>excluding both yourself and the GM</strong> &ndash; arbitrates. If the other players can&rsquo;t reach a consensus, the person who invoked the background decides.</p>"
-        }
+        },
+        "id": "pilots_1_0"
       }
-    ]
+    ],
+    "id": "pilots_1"
   },
   {
     "title": {
@@ -39,8 +42,10 @@
         },
         "content": {
           "en": "<p>With GM approval, you can write your own triggers. Custom triggers can be more specific than the examples in this book &ndash; <strong>Kill in Cold Blood</strong> or <strong>Insult Someone</strong>, for instance &ndash; but they shouldn&rsquo;t be more general. They should always apply to specific circumstances or actions.</p>"
-        }
+        },
+        "id": "pilots_2_0"
       }
-    ]
+    ],
+    "id": "pilots_2"
   }
 ]

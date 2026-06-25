@@ -45,9 +45,11 @@
           "zh": "<p>Lancer是一款涉及战争、战斗和面对银河系恐怖的游戏，无论是人类还是其他人类，但这并不意味着GM必须强迫他的玩家遇到可能会触发或有害的情节或内容。如果有一个经典的假设会让你或你的玩家感到不安或焦虑，那么就没有必要包括它。</p><p>我们建议使用以下工具：</p><p><a href=\"http://tinyurl.com/x-card-rpg\" target=\"_blank\" rel=\"noopener noreferrer\">X卡</a></p><p><a href=\"https://briebeau.com/thoughty/script-change/\" target=\"_blank\" rel=\"noopener noreferrer\">脚本更改工具箱</a></p><p><a href=\"http://bit.ly/ttrpgsafetytoolkit\" target=\"_blank\" rel=\"noopener noreferrer\">TTRPG安全工具包</a></p><p>角色扮演游戏的目的归根结底是为了享受乐趣；因此，确保你桌上的每个人都可以舒适地享受自己，始终是第一位的。</p>",
           "ja": "<p>Lancerは戦争、戦闘、銀河系の恐怖に直面するゲームであり、人間であれ他の何者であれ、GMがプレイヤーにトリガーになるか有害なシナリオやコンテンツに直面するよう強制する必要はありません。あなたやあなたのプレイヤーが不安や不安に感じるであろうカノニカルな仮定がある場合は、それを含める必要はありません。</p><p>私たちは、次のようなツールを使用することをお勧めします。</p><p><a href=\"http://tinyurl.com/x-card-rpg\" target=\"_blank\" rel=\"noopener noreferrer\">Xカード</a></p><p><a href=\"https://briebeau.com/thoughty/script-change/\" target=\"_blank\" rel=\"noopener noreferrer\">スクリプト変更ツールキット</a></p><p><a href=\"http://bit.ly/ttrpgsafetytoolkit\" target=\"_blank\" rel=\"noopener noreferrer\">TTRPGセーフティツールキット</a></p><p>ロールプレイングゲームの目的は、楽しむことです。したがって、あなたのテーブルの誰もが常に快適に楽しめるようにすることが最優先事項です。</p>",
           "ko": "<p>Lancer는 전쟁, 전투 및 은하계의 공포에 직면하는 게임이지만 인간이든 그 외의 누구든지 GM이 트리거가 될 수있는 또는 해로운 시나리오 또는 콘텐츠에 직면하도록 강요 할 필요는 없습니다. 당신이나 당신의 플레이어가 불안하거나 불안해 할 수있는 카논적 가정이있는 경우, 그것을 포함 할 필요가 없습니다.</p><p>우리는 다음과 같은 도구를 사용하는 것을 권장합니다.</p><p><a href=\"http://tinyurl.com/x-card-rpg\" target=\"_blank\" rel=\"noopener noreferrer\">X 카드</a></p><p><a href=\"https://briebeau.com/thoughty/script-change/\" target=\"_blank\" rel=\"noopener noreferrer\">스크립트 변경 도구 키트</a></p><p><a href=\"http://bit.ly/ttrpgsafetytoolkit\" target=\"_blank\" rel=\"noopener noreferrer\">TTRPG 안전 도구 키트</a></p><p>역할 연기 게임의 목적은 즐거움입니다. 따라서 당신의 테이블의 모든 사람들이 항상 편안하게 즐길 수 있도록하는 것이 최우선 과제입니다.</p>"
-        }
+        },
+        "id": "basics_0_0"
       }
-    ]
+    ],
+    "id": "basics_0"
   },
   {
     "title": {
@@ -71,7 +73,8 @@
       "fr": "<p>Il y a deux règles d'or à retenir lorsque vous jouez à Lancer :</p> <p><strong>I : Les règles spécifiques l'emportent sur les déclarations et les règles générales.</strong></p><p><em>Par exemple, lorsque vous tirez sur un ennemi, votre jet est normalement influencé par le fait qu'il soit ou non à couvert ; cependant, les armes <strong>CHERCHEUSES</strong> ignorent les couvertures. Parce que la balise <strong>CHERCHEUSE</strong> est une règle spécifique, elle supplante les règles générales régissant les couvertures.</em></p><p><strong>II : Toujours arrondir à l'entier supérieur.</strong></p>",
       "it": "<p>Ci sono due regole d'oro da ricordare quando si gioca a Lancer:</p> <p><strong>I: Le regole specifiche hanno la precedenza sulle dichiarazioni e le regole generali.</strong></p><p><em>Ad esempio, quando spari a un nemico, il tuo tiro è normalmente influenzato dal fatto che sia o meno sotto copertura; tuttavia, le armi <strong>RICERCANTI</strong> ignorano le coperture. Poiché il tag <strong>RICERCANTI</strong> è una regola specifica, prevale sulle regole generali che regolano le coperture.</em></p><p><strong>II: Arrotonda sempre per eccesso (al numero intero più vicino).</strong></p>",
       "es": "<p>Hay dos reglas de oro que debes recordar cuando juegas a Lancer:</p> <p><strong>I: Las reglas específicas tienen prioridad sobre las declaraciones y reglas generales.</strong></p><p><em>Por ejemplo, cuando disparas a un enemigo, tu tirada normalmente se ve afectada por si está o no bajo cobertura; sin embargo, las armas <strong>RASTREADORAS</strong> ignoran la cobertura. Dado que la etiqueta <strong>RASTREADORAS</strong> es una regla específica, supera a las reglas generales que rigen la cobertura.</em></p><p><strong>II: Siempre redondea hacia arriba (al número entero más cercano).</strong></p>"
-    }
+    },
+    "id": "basics_1"
   },
   {
     "title": {
@@ -119,7 +122,8 @@
           "es": "<p>En algunos casos, las reglas te dirán que hagas una tirada en disputa, que representa un desafío entre dos partes. En una<strong>&nbsp;tirada en disputa</strong>, ambos participantes hacen tiradas de habilidad y añaden cualquier bonificación. Quien tenga el resultado más alto gana. Si el resultado es un empate, el atacante &ndash; el que inició el concurso &ndash; gana.</p> <p>Puedes hacer tiradas en disputa tanto en el juego narrativo como en el combate de mechas.</p>",
           "ja": "<p>いくつかの場合、ルールはあなたに2つの当事者間の挑戦を表す争われたチェックを行うように指示します。 <strong>争われたチェック</strong>では、両方の参加者がスキルチェックを行い、すべてのボーナスを追加します。 最も高い結果を持つ人が勝ちます。 結果がタイの場合、攻撃者 - コンテストを開始した人 - が勝ちます。</p> <p>あなたは物語のプレイとメック戦闘の両方で争われたチェックを行うことができます。</p>",
           "zh": "<p>在某些情况下，规则会要求你进行争议检定，代表两个派系之间的挑战。在<strong>&nbsp;争议检定</strong>中，双方都进行技能检定并添加任何奖励。谁的结果最高谁就赢了。如果结果是平局，攻击者 - 发起挑战的人 - 赢了。</p> <p>你可以在叙事游戏和机甲战斗中都进行争议检定。</p>"
-        }
+        },
+        "id": "basics_2_0"
       },
       {
         "title": {
@@ -143,7 +147,8 @@
           "zh": "<p>你可以选择失败技能检定或豁免检定。如果盟友试图帮助你，或者只是因为你认为失败会创造出一个更有趣的故事，你可以这样做。</p>",
           "ru": "<p>Вы всегда можете выбрать провалить проверку умения или спасбросок. Вы можете сделать это, если союзник пытается вам помочь, или просто потому, что вы думаете, что провал создаст более интересную историю.</p>",
           "ko": "<p>당신은 항상 스킬 체크 또는 세이브를 실패할 수 있습니다. 당신은 당신을 돕기 위해 동맹이 시도하고 있거나 실패가 더 흥미로운 이야기를 만들 것이라고 생각하기 때문에 이것을 할 수 있습니다.</p>"
-        }
+        },
+        "id": "basics_2_1"
       },
       {
         "title": {
@@ -167,7 +172,8 @@
           "ko": "<p>Lancer에서 굴릴 수있는 세 가지 유형의 보너스가 있습니다:&nbsp;</p> <ul> <li><strong>정확도</strong></li> <li><strong>난이도</strong></li> <li><strong>스탯 보너스</strong></li> </ul><br><p><strong>정확도</strong>와 <strong>난이도</strong>는 일시적인 이점 또는 불이익을 나타냅니다. <strong>스탯 보너스</strong>는 세 가지 소스에서 나옵니다: 당신의 파이로트의 재능과 경험 (<strong>트리거</strong>), 그들의 메크 기술 (<strong>메크 기술</strong>) 및 그들의 <strong>GRIT</strong>. 각 롤은 한 번에 하나의 통계 보너스 만 받을 수 있습니다. 많은 경우 이러한 보너스 중 어느 것도 적용되지 않으며 당신은 단지 <strong>1d20</strong>을 굴릴 것입니다.</p>",
           "zh": "<p>Lancer中有三种类型的奖励可以应用于投掷:&nbsp;</p> <ul> <li><strong>精度</strong></li> <li><strong>难度</strong></li> <li><strong>状态奖励</strong></li> </ul><br><p><strong>精度</strong>和<strong>难度</strong>表示瞬时的优势或劣势。 <strong>状态奖励</strong>来自三个来源:您的飞行员的天赋和经验(<strong>触发器</strong>)、他们的机甲技能(<strong>机甲技能</strong>)和他们的<strong>GRIT</strong>. 每个投掷一次只能获得一个状态奖励。在许多情况下，这些奖励都不适用，您只需投掷<strong>1d20</strong>。</p>",
           "ru": "<p>В Lancer есть три типа бонусов, которые можно применить к броскам:&nbsp;</p> <ul> <li><strong>Точность</strong></li> <li><strong>Сложность</strong></li> <li><strong>Бонусы статистики</strong></li> </ul><br><p><strong>Точность</strong> и <strong>Сложность</strong> представляют собой мгновенные преимущества или недостатки. <strong>Бонусы статистики</strong> поступают из трех источников: талант и опыт вашего пилота (<strong>Триггер</strong>), его механические навыки (<strong>Навыки меха</strong>) и его <strong>GRIT</strong>. Каждый бросок может получить только один бонус статистики за раз. Во многих случаях ни один из этих бонусов не будет применяться, и вы просто бросите <strong>1d20</strong>.</p>"
-        }
+        },
+        "id": "basics_2_2"
       },
       {
         "title": {
@@ -191,7 +197,8 @@
           "es": "traducción pendiente",
           "ja": "翻訳待ち",
           "zh": "翻译待定"
-        }
+        },
+        "id": "basics_2_3"
       },
       {
         "title": {
@@ -215,9 +222,11 @@
           "ru": "<p>Пилоты &mdash; счастливые и уникальные личности, многосторонние и упорные. Тем не менее, совсем новые пилоты не могут сравниться с закаленными в боях ветеранами, когда дело доходит до толчка. Преимущества опыта измеряются <strong>GRIT</strong>, бонусом, который отражает глубокие запасы решимости и желания жить вашего пилота.</p> <p><strong>GRIT</strong> составляет половину уровня вашей лицензии, округленную вверх. Он улучшает бонусы атаки, очки здоровья и цели спасения как для вашего пилота, так и для вашего меха.</p>",
           "ja": "<p>パイロットは幸運でユニークな人物であり、多才で弾力があります。それでも、新人パイロットは、戦闘で鍛えられたベテランに追いつくことはできません。経験の利点は、<strong>GRIT</strong>によって測定されます。これは、あなたのパイロットが決意と生存意欲を持っていることを反映したボーナスです。</p> <p><strong>GRIT</strong>は、あなたのキャラクターのライセンスレベルの半分です。これにより、パイロットとメックの両方の攻撃ボーナス、ヒットポイント、および救助目標が向上します。</p>",
           "es": "<p>Los pilotos son personas afortunadas y únicas, versátiles y resistentes. Aun así, los pilotos novatos no pueden igualar a los veteranos endurecidos en combate cuando se trata de empujar. Los beneficios de la experiencia se miden por <strong>GRIT</strong>, un bonificador que refleja las profundas reservas de resolución y voluntad de vivir de tu piloto.</p> <p><strong>GRIT</strong> es la mitad del nivel de licencia de tu personaje, redondeado hacia arriba. Mejora los bonificadores de ataque, los puntos de golpe y los objetivos de salvación tanto para tu piloto como para tu mech.</p>"
-        }
+        },
+        "id": "basics_2_4"
       }
-    ]
+    ],
+    "id": "basics_2"
   },
   {
     "title": {
@@ -265,7 +274,8 @@
           "es": "traducción pendiente",
           "ja": "翻訳待ち",
           "zh": "翻译待定"
-        }
+        },
+        "id": "basics_3_0"
       },
       {
         "title": {
@@ -289,7 +299,8 @@
           "fr": "<p>Chaque fois que le <strong>LL</strong> de votre pilote augmente, vous avez également la possibilité d&rsquo;en choisir un :&nbsp;</p> <ul> <li>Réaffectez tous les rangs d&rsquo;un de vos talents à n&rsquo;importe quel autre talent.</li> <li>Réaffectez tous les rangs d&rsquo;une de vos licences à n&rsquo;importe quelle autre licence.</li> <li>Remplacez un bonus de base par un autre bonus de base pour lequel votre pilote est qualifié.</li> </ul> <p>Si la réaffectation des rangs d&rsquo;une licence à une autre signifie que votre pilote ne remplit plus les conditions requises pour un bonus de base, vous devez remplacer ce bonus de base par un autre pour lequel vous remplissez désormais les conditions requises.</p>",
           "it": "<p>Ogni volta che il <strong>LL</strong> del tuo pilota aumenta, hai anche la possibilità di scegliere uno dei seguenti:&nbsp;</p> <ul> <li>Riassegnare tutti i gradi di uno dei tuoi talenti a qualsiasi altro talento.</li> <li>Riassegnare tutti i gradi di una delle tue licenze a qualsiasi altra licenza.</li> <li>Sostituire un bonus base con un altro bonus base per cui il tuo pilota è qualificato.</li> </ul> <p>Se riassegnare i gradi da una licenza a un&rsquo;altra significa che il tuo pilota non è più qualificato per un bonus base, devi sostituire quel bonus base con un altro per cui ora sei qualificato.</p>",
           "ko": "<p>당신의 파이로트의 <strong>LL</strong>이 올라갈 때마다, 당신은 다음 중 하나를 선택할 수 있습니다:&nbsp;</p> <ul> <li>당신의 탤런트 중 하나의 모든 랭크를 다른 탤런트로 재할당합니다.</li> <li>당신의 라이선스 중 하나의 모든 랭크를 다른 라이선스로 재할당합니다.</li> <li>당신의 파이로트가 자격을 갖춘 다른 코어 보너스로 한 코어 보너스를 대체합니다.</li> </ul> <p>라이선스에서 다른 라이선스로 랭크를 재할당하는 것이 당신의 파이로트가 더 이상 코어 보너스의 자격이 없다는 것을 의미한다면, 당신은 그 코어 보너스를 당신이 지금 자격이 있는 코어 보너스로 대체해야 합니다.</p>"
-        }
+        },
+        "id": "basics_3_1"
       },
       {
         "title": {
@@ -337,7 +348,8 @@
               "es": "traducción pendiente",
               "ja": "翻訳待ち",
               "zh": "翻译待定"
-            }
+            },
+            "id": "basics_3_2_0"
           },
           {
             "title": {
@@ -361,7 +373,8 @@
               "fr": "<p>Vous pouvez également utiliser des horloges pour suivre l'état ou la pression temporelle d'une situation plus vaste en cours dans le monde ou la campagne, tels qu'une guerre, l'influence politique d'une faction ou un complot d'assassinat. Ces <strong>horloges de progression</strong> ont tendance à avancer d'elles-mêmes sans aucune influence des joueurs. Faites avancer les segments de ces horloges lorsque l'histoire ou la campagne avance. Un bon moment pour le faire est après que les joueurs aient terminé une période de temps mort. Lorsque vous faites avancer ces horloges, faites avancer un segment si la situation a progressé un peu, deux si elle a progressé normalement et trois s'il y a eu un grand progrès. Par exemple, si vous avez une horloge qui suit l'avancée d'une guerre et qu'elle touche à sa fin, vous pourriez faire avancer trois segments sur cette horloge à la fin de la période de temps mort.</p>",
               "it": "<p>Puoi anche utilizzare orologi per tenere traccia dello stato o della pressione temporale di una situazione più ampia in corso nel mondo o nella campagna, come ad esempio una guerra, l'influenza politica di una fazione o un complotto di assassinio. Questi <strong>orologi di progresso</strong> tendono a muoversi da soli senza alcuna influenza da parte dei giocatori. Fai avanzare i segmenti di questi orologi quando la storia o la campagna procede. Un buon momento per farlo è dopo che i giocatori hanno completato un periodo di inattività. Quando fai avanzare questi orologi, fai avanzare un segmento se la situazione è progredita leggermente, due se è progredita normalmente e tre se c'è stato un grande progresso. Ad esempio, se hai un orologio che tiene traccia dell'avanzamento di una guerra e sta per concludersi, potresti far avanzare tre segmenti su quell'orologio alla fine del periodo di inattività.</p>",
               "ko": "<p>세계나 캠페인 내에서 진행 중인 대규모 상황의 상태나 시간적 압박을 추적하기 위해 시계(clock)를 사용할 수도 있습니다. 이는 전쟁, 세력의 정치적 영향력 또는 암살 계획과 같은 상황을 대표합니다. 이러한 <strong>진행 상황 시계</strong>는 플레이어의 영향을 받지 않고 스스로 움직이는 경향이 있습니다. 이야기나 캠페인이 진행될 때 이러한 시계의 분절을 이동시킵니다. 플레이어가 휴식 시간을 완료한 후에 이를 수행하는 것이 좋습니다. 이러한 시계를 이동할 때 상황이 약간 진전되었다면 한 분절, 보통 진전이 있었다면 두 분절, 큰 진전이 있었다면 세 분절을 이동시킵니다. 예를 들어, 전쟁의 진행 상황을 추적하는 시계가 마무리 단계에 접어들면, 휴식 시간의 끝에 그 시계에서 세 분절을 이동시킬 수 있습니다.</p>"
-            }
+            },
+            "id": "basics_3_2_1"
           },
           {
             "title": {
@@ -385,7 +398,8 @@
               "fr": "<p>Lorsque tous les segments d&rsquo;une horloge ont été remplis, la conséquence ou le résultat qu&rsquo;elle suit se produit, ou la situation qu&rsquo;elle représente est résolue. Vous pouvez généralement effacer l&rsquo;horloge, mais parfois, en complétant une horloge, vous en démarrez une autre ! Vous pouvez remplir l&rsquo;horloge <strong>Chase</strong> pour traquer un chasseur de primes, mais maintenant vous mettez en place une horloge <strong>Interrogation</strong> pour obtenir des informations d&rsquo;eux.</p>",
               "it": "<p>Quando tutti i segmenti di un orologio sono stati riempiti, la conseguenza o il risultato che traccia si verifica, o la situazione che rappresenta viene risolta. Di solito puoi cancellare l&rsquo;orologio, ma a volte completarne uno ne avvia un altro! Potresti riempire l&rsquo;orologio <strong>Chase</strong> per inseguire un cacciatore di taglie, ma ora stai impostando un orologio <strong>Interrogation</strong> per ottenere informazioni da loro.</p>",
               "ko": "<p>시계의 모든 세그먼트가 채워지면 추적하는 결과 또는 결과가 발생하거나 나타내는 상황이 해결됩니다. 일반적으로 시계를 지울 수 있지만 때로는 하나의 시계를 완성하면 다른 시계가 시작됩니다! <strong>Chase</strong>시계를 채워서 현상 수배자를 추적 할 수 있지만 이제는 <strong>Interrogation</strong>시계를 설정하여 그들로부터 정보를 얻습니다.</p>"
-            }
+            },
+            "id": "basics_3_2_2"
           },
           {
             "title": {
@@ -409,7 +423,8 @@
               "fr": "<p>Vous pouvez également créer des horloges qui se remplissent en cas d'échec plutôt que de succès, en établissant des états d'échec pour les situations. Ces horloges se remplissent en conséquence d'un jet raté ou de complications d'un jet <strong>RISKY</strong>. Par exemple, si un groupe de PJ tente de s'échapper d'une bande de mercenaires, vous pouvez établir deux horloges : l'une représentant l'évasion en toute sécurité des PJ et l'autre représentant les mercenaires les rattrapant et les forçant à combattre. L'horloge <strong>Escape</strong> se remplit lorsque les PJ parviennent à mettre de la distance entre eux et leurs poursuivants, tandis que l'horloge <strong>Capture</strong> se remplit lorsqu'ils échouent dans ces actions ou doivent faire des concessions. Vous pourriez remplir deux segments chaque fois qu'un PJ rate un jet et un seul segment s'il réussit un jet <strong>RISKY</strong>.</p>",
               "it": "<p>Puoi anche creare orologi che si riempiono come risultato di fallimenti anziché di successi, stabilendo stati di fallimento per le situazioni. Questi orologi si riempiono come conseguenza di un tiro fallito o di complicazioni di un tiro <strong>RISKY</strong>. Ad esempio, se un gruppo di PG cerca di fuggire da una banda di mercenari, potresti stabilire due orologi: uno che rappresenta la fuga sicura dei PG e un altro che rappresenta i mercenari che li raggiungono e li costringono a combattere. L'orologio <strong>Escape</strong> si riempie quando i PG riescono a mettere distanza tra loro e i loro inseguitori, mentre l'orologio <strong>Capture</strong> si riempie quando falliscono in quelle azioni o devono fare delle concessioni. Potresti riempire due segmenti ogni volta che un PG fallisce un tiro e un solo segmento se riesce in un tiro <strong>RISKY</strong>.</p>",
               "ko": "<p>상황에 실패 상태를 설정하여 실패가 성공보다 더 많은 시계를 생성할 수도 있습니다. 이러한 시계는 실패한 굴림 또는 <strong>RISKY</strong> 굴림의 합병증으로 인해 채워집니다. 예를 들어, PC 그룹이 용병단에서 탈출하려고하는 경우 두 개의 시계를 설정할 수 있습니다. 하나는 PC의 안전한 탈출을 나타내고 다른 하나는 용병단이 그들을 따라잡고 싸우도록하는 것을 나타냅니다. <strong>Escape</strong>시계는 PC가 자신과 추격자 사이의 거리를 벌릴 때 채워지고 <strong>Capture</strong>시계는 그들이 이러한 행동을 실패하거나 양보해야 할 때 채워집니다. PC가 굴림을 실패하면 두 세그먼트를 채우고 <strong>RISKY</strong> 굴림에 성공하면 하나의 세그먼트를 채울 수 있습니다.</p>"
-            }
+            },
+            "id": "basics_3_2_3"
           },
           {
             "title": {
@@ -433,11 +448,14 @@
               "fr": "<p>Les segments d&rsquo;horloge remplis peuvent également être effacés si des mesures sont prises pour inverser une action ou une situation. Dans le scénario de poursuite décrit ci-dessus, par exemple, les PCs pourraient essayer quelque chose pour effacer des segments de l&rsquo;horloge <strong>Capture </strong>au lieu de remplir des segments sur l&rsquo;horloge <strong>Escape </strong>. Cela pourrait impliquer de déposer une fausse piste, de bloquer une porte ou de se diviser.</p>",
               "it": "<p>I segmenti dell&rsquo;orologio riempiti possono anche essere cancellati se vengono intraprese azioni per invertire un&rsquo;azione o una situazione. Nello scenario di inseguimento descritto sopra, ad esempio, i PC potrebbero provare qualcosa per cancellare i segmenti dell&rsquo;orologio <strong>Cattura </strong>invece di riempire i segmenti sull&rsquo;orologio <strong>Fuga </strong>. Questo potrebbe comportare il deposito di una falsa pista, il blocco di una porta o la divisione.</p>",
               "ko": "<p>채워진 시계 세그먼트는 행동이 취해져 행동 또는 상황을 뒤집을 경우 지워질 수도 있습니다. 위에서 설명한 추격 시나리오에서 예를 들어, PC는 <strong>탈출 </strong>시계에 세그먼트를 채우는 대신 <strong>포획 </strong>시계에서 세그먼트를 지우기 위해 무언가를 시도 할 수 있습니다. 이것은 가짜 트레일을 내려 놓거나 문을 막거나 분할하는 것을 포함할 수 있습니다.</p>"
-            }
+            },
+            "id": "basics_3_2_4"
           }
-        ]
+        ],
+        "id": "basics_3_2"
       }
-    ]
+    ],
+    "id": "basics_3"
   },
   {
     "title": {
@@ -461,6 +479,7 @@
       "es": "traducción pendiente",
       "ja": "翻訳待ち",
       "zh": "翻译待定"
-    }
+    },
+    "id": "basics_4"
   }
 ]
