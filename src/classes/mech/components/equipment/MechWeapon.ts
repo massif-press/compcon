@@ -1,6 +1,8 @@
 import { CompendiumStore } from '@/features/compendium/store'
 import * as _ from 'lodash-es'
 import { CompendiumItem, ICompendiumItemData } from '../../../CompendiumItem'
+import { localize } from '@/i18n/localize'
+import { keyPrefixes } from '@/i18n/contentKeys'
 import { ContentPack } from '../../../ContentPack'
 import { Damage, IDamageData } from '../../../Damage'
 import { DamageType, ItemType, RangeType, WeaponSize, WeaponType } from '../../../enums'
@@ -76,7 +78,8 @@ class WeaponProfile extends CompendiumItem {
 
   public Damage?: Damage[]
   public Range?: Range[]
-  public Effect?: string
+  private _effect: string
+  private _lkey?: string
   public OnMiss?: ActiveEffect
   public OnAttack?: ActiveEffect
   public OnHit?: ActiveEffect
@@ -92,9 +95,15 @@ class WeaponProfile extends CompendiumItem {
     idx?: number
   ) {
     const data = Object.assign({}, pData) as ICompendiumItemData
-    if (!data.id) data.id = container.ID
-    data.id += `_profile_${idx || 0}`
+    const lkey = keyPrefixes.get(pData as object)
+    if (lkey) {
+      data.id = lkey // explicit profile: name-slug key from the shared walk
+    } else if (idx !== undefined) {
+      data.id = `${data.id || container.ID}_profile_${idx}`
+    } // else implicit profile: keep the weapon id so Name/Effect localize to the weapon's own keys
+    else if (!data.id) data.id = container.ID
     super(data, pack)
+    this._lkey = lkey
     this.Parent = container
     this.Cost = Object.hasOwn(pData, 'cost') ? pData.cost || 0 : 1
     this.Barrage = pData.barrage != undefined ? pData.barrage : container.Barrage
@@ -104,7 +113,7 @@ class WeaponProfile extends CompendiumItem {
       this.Damage = pData.damage.map(x => new Damage(x))
       this.Damage.forEach(d => d.setDamageAttributes(this))
     }
-    this.Effect = pData?.effect
+    this._effect = pData?.effect
       ? typeof pData.effect === 'string'
         ? pData.effect
         : (pData.effect as any).description
@@ -159,6 +168,10 @@ class WeaponProfile extends CompendiumItem {
     if (this.Tags.some(t => t.ID === 'tg_accurate')) return 1
     if (this.Tags.some(t => t.ID === 'tg_inaccurate')) return -1
     return 0
+  }
+
+  public get Effect(): string {
+    return localize(this._lkey ?? this.ID, 'effect', this._effect)
   }
 
   public toActiveEffectData(actor: Mech): IActiveEffectData {

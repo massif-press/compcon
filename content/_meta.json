@@ -1,10 +1,10 @@
 {
   "lancerDataVersion": "4.0.7",
-  "extractedAt": "2026-06-25T16:31:58.384Z",
+  "extractedAt": "2026-06-25T21:12:51.743Z",
   "collections": {
     "actions": {
       "items": 44,
-      "keys": 132
+      "keys": 135
     },
     "backgrounds": {
       "items": 20,
@@ -12,7 +12,7 @@
     },
     "core_bonuses": {
       "items": 30,
-      "keys": 93
+      "keys": 135
     },
     "environments": {
       "items": 20,
@@ -20,7 +20,7 @@
     },
     "frames": {
       "items": 29,
-      "keys": 58
+      "keys": 550
     },
     "manufacturers": {
       "items": 5,
@@ -28,15 +28,15 @@
     },
     "mods": {
       "items": 8,
-      "keys": 24
+      "keys": 28
     },
     "pilot_gear": {
       "items": 37,
-      "keys": 81
+      "keys": 97
     },
     "reserves": {
       "items": 40,
-      "keys": 80
+      "keys": 93
     },
     "sitreps": {
       "items": 7,
@@ -52,7 +52,7 @@
     },
     "systems": {
       "items": 124,
-      "keys": 297
+      "keys": 686
     },
     "tags": {
       "items": 67,
@@ -60,15 +60,19 @@
     },
     "talents": {
       "items": 29,
-      "keys": 87
+      "keys": 504
     },
     "weapons": {
       "items": 85,
-      "keys": 166
+      "keys": 258
     },
     "downtime_actions": {
       "items": 9,
-      "keys": 27
+      "keys": 34
+    },
+    "glossary": {
+      "items": 39,
+      "keys": 78
     }
   }
 }

@@ -1,7 +1,7 @@
 import { LocalizationStore } from '@/stores/localization'
 import { DEFAULT_LOCALE } from './index'
 
-const modules = import.meta.glob('/content/*/*.json')
+const modules = import.meta.glob(['/content/*/*.json', '!/content/en/*.json'])
 
 export async function setContentLocale(code: string): Promise<void> {
   const store = LocalizationStore()

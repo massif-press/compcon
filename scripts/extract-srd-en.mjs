@@ -14,9 +14,12 @@ const catalog = {}
 
 function visit(node, id) {
   node.id = id
-  if (node.title?.en !== undefined && String(node.title.en).trim()) catalog[`${id}.title`] = node.title.en
-  if (node.content?.en !== undefined && String(node.content.en).trim())
-    catalog[`${id}.content`] = node.content.en
+  for (const field of ['title', 'content']) {
+    const en = node[field]?.en
+    if (en === undefined) continue
+    node[field] = { en } // strip non-en
+    if (String(en).trim()) catalog[`${id}.${field}`] = en
+  }
   if (Array.isArray(node.children)) node.children.forEach((c, i) => visit(c, `${id}_${i}`))
 }
 

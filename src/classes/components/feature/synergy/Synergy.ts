@@ -6,6 +6,8 @@ import type { CompendiumItem } from '../../../CompendiumItem'
 import { ItemType } from '../../../enums'
 import { FeatureController } from '../FeatureController'
 import { IFeatureController } from '../IFeatureController'
+import { localize } from '@/i18n/localize'
+import { keyPrefixes } from '@/i18n/contentKeys'
 
 interface ISynergyData {
   locations: string[]
@@ -18,6 +20,7 @@ interface ISynergyData {
 class Synergy {
   public readonly Locations: string[]
   private _detail: string
+  private _lkey?: string
   public readonly WeaponTypes: string[]
   public readonly WeaponSizes: string[]
   public readonly SystemTypes: string[]
@@ -27,17 +30,18 @@ class Synergy {
     this.Origin = origin || 'UNKNOWN ORIGIN'
     this.Locations = data.locations
     this._detail = data.detail
+    this._lkey = keyPrefixes.get(data as object)
     this.WeaponTypes = data.weapon_types || ['any']
     this.WeaponSizes = data.weapon_sizes || ['any']
     this.SystemTypes = data.system_types || ['any']
   }
 
   public get Detail(): string {
-    return this._detail
+    return this._lkey ? localize(this._lkey, 'detail', this._detail) : this._detail
   }
 
   public EvaluatedDetail(controller: FeatureController): string {
-    return controller.EvaluateSpecial(this._detail, true) as string
+    return controller.EvaluateSpecial(this.Detail, true) as string
   }
 
   public static Collect(

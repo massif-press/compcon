@@ -7,6 +7,7 @@ import { IDamageData } from './Damage'
 import { IRangeData } from './Range'
 import { ByTier } from '@/util/tierFormat'
 import { localize } from '@/i18n/localize'
+import { keyPrefixes } from '@/i18n/contentKeys'
 import { ActiveEffect, IActiveEffectData } from './components/feature/active_effects/ActiveEffect'
 import {
   EffectSpecial,
@@ -147,7 +148,8 @@ class Action {
   public readonly HeatCost: number
   public readonly Frequency: Frequency
   public readonly Init: string
-  public readonly Trigger: string
+  private _trigger: string
+  private _lkey?: string
   public readonly Damage: Damage[]
   public readonly Range: Range[]
   public readonly IsPilotAction: boolean
@@ -187,6 +189,7 @@ class Action {
   }
 
   public constructor(data: IActionData, origin?: string, heat?: number) {
+    this._lkey = keyPrefixes.get(data as object) // capture before normalizeData copies data
     data = Action.normalizeData(data)
     this._name = data.name || (origin ? `Activate ${origin}` : 'Unknown Action')
     this.Description = data.description || ''
@@ -216,7 +219,7 @@ class Action {
     this.Frequency = new Frequency(data.frequency || '')
     this._uses = this.Frequency.Uses
     this.Init = data.init || ''
-    this.Trigger = data.trigger || ''
+    this._trigger = data.trigger || ''
     this.Damage = data.damage ? data.damage.map(x => new Damage(x)) : []
     if (this.Damage.length) this.Damage.forEach(d => d.setDamageAttributes(this))
     this.Range = data.range ? data.range.map(x => new Range(x)) : []
@@ -245,21 +248,26 @@ class Action {
     this.Hidden = data.hidden || false
   }
 
-  public get Name(): string { return localize(this.ID, 'name', this._name) }
-  public get Terse(): string { return localize(this.ID, 'terse', this._terse) }
+  private get _lk(): string {
+    return this._lkey ?? this.ID
+  }
+
+  public get Name(): string { return localize(this._lk, 'name', this._name) }
+  public get Terse(): string { return localize(this._lk, 'terse', this._terse) }
+  public get Trigger(): string { return localize(this._lk, 'trigger', this._trigger) }
 
   public get Detail(): string {
-    return ByTier(localize(this.ID, 'detail', this._detail))
+    return ByTier(localize(this._lk, 'detail', this._detail))
   }
 
   public getDetail(tier?: number): string {
-    return ByTier(localize(this.ID, 'detail', this._detail), tier)
+    return ByTier(localize(this._lk, 'detail', this._detail), tier)
   }
   public getCondition(tier?: number): string {
     return ByTier((this as any)._condition || (this as any).Condition || '', tier)
   }
   public getTrigger(tier?: number): string {
-    return ByTier((this as any)._trigger || this.Trigger || '', tier)
+    return ByTier(this.Trigger || '', tier)
   }
 
   public get Uses(): number {

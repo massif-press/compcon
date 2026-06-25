@@ -5,6 +5,8 @@ import { IActionData, Action } from '../../../Action'
 import { IBonusData } from '../bonus/Bonus'
 import { ICompendiumItemData } from '../../../CompendiumItem'
 import { ByTier } from '@/util/tierFormat'
+import { localize } from '@/i18n/localize'
+import { keyPrefixes } from '@/i18n/contentKeys'
 import { ActiveEffect, IActiveEffectData } from '../active_effects/ActiveEffect'
 import { EffectStatus, IEffectStatusData } from '../active_effects/effect_subtype/EffectStatus'
 import { EffectSpecial, IEffectSpecialData } from '../active_effects/effect_subtype/EffectSpecial'
@@ -58,7 +60,8 @@ interface IDeployableData extends ICompendiumItemData {
 }
 
 class Deployable {
-  public readonly Name: string
+  private readonly _name: string
+  private readonly _lkey?: string
   public readonly Type: string
   public readonly Size: number
   public readonly SizeSpecial?: string
@@ -96,7 +99,8 @@ class Deployable {
   private _detail: string
 
   public constructor(data: IDeployableData) {
-    this.Name = data.name
+    this._name = data.name
+    this._lkey = keyPrefixes.get(data as object)
     this.ItemData = data
     this.Type = data.type || 'Deployable'
     this._detail = data.detail
@@ -143,9 +147,13 @@ class Deployable {
     if (data.tags) this.Tags = Tag.Deserialize(data.tags)
   }
 
+  public get Name(): string {
+    return this._lkey ? localize(this._lkey, 'name', this._name) : this._name
+  }
+
   public get Detail(): string {
     if (!this._detail) return ''
-    let out = this._detail
+    let out = this._lkey ? localize(this._lkey, 'detail', this._detail) : this._detail
     const perTier = /(\{.*?\})/gi
     const matches = out.match(perTier)
     if (matches) {
@@ -158,14 +166,14 @@ class Deployable {
 
   public get DeployAction(): Action {
     return new Action({
-      name: `Deploy ${this.Name}`,
+      name: `Deploy ${this._name}`,
       activation: this.Activation,
       detail: `Deploy this ${this.Type}.`,
     })
   }
 
   public getDetail(tier?: number) {
-    return ByTier(this._detail, tier)
+    return ByTier(this._lkey ? localize(this._lkey, 'detail', this._detail) : this._detail, tier)
   }
 
   public getStat(key: string, tier?: number): string {

@@ -15,6 +15,8 @@ import {
   ActiveEffect,
   IActiveEffectData,
 } from '@/classes/components/feature/active_effects/ActiveEffect'
+import { localize } from '@/i18n/localize'
+import { keyPrefixes } from '@/i18n/contentKeys'
 
 interface ICoreData {
   name: string
@@ -45,12 +47,13 @@ interface ICoreData {
 }
 
 class CoreSystem {
-  public readonly Name: string
-  public readonly Description: string
+  private readonly _name: string
+  private readonly _description: string
+  private readonly _lkey?: string
   public readonly Activation: ActivationType
   public readonly ActivateAction: Action
-  public readonly ActiveName: string
-  public readonly ActiveEffect: string
+  private readonly _activeName: string
+  private readonly _activeEffect: string
   public readonly CoreActiveEffects: ActiveEffect[]
   public readonly ActiveActions: Action[]
   public readonly ActiveBonuses: Bonus[]
@@ -60,8 +63,8 @@ class CoreSystem {
   public readonly Deactivation?: ActivationType
   public Use: Duration
   public readonly Duration: Duration
-  public readonly PassiveName: string
-  public readonly PassiveEffect: string
+  private readonly _passiveName: string
+  private readonly _passiveEffect: string
   public readonly PassiveEffects: ActiveEffect[]
   public readonly PassiveActions: Action[]
   public readonly PassiveBonuses: Bonus[]
@@ -78,17 +81,18 @@ class CoreSystem {
   private _tags: ITagData[]
 
   public constructor(data: ICoreData) {
-    this.Name = data.name
-    this.Description = data.description || ''
-    this.ActiveName = data.active_name
-    this.ActiveEffect = data.active_effect
+    this._name = data.name
+    this._description = data.description || ''
+    this._lkey = keyPrefixes.get(data as object)
+    this._activeName = data.active_name
+    this._activeEffect = data.active_effect
     this.Activation = data.activation
     this.CoreActiveEffects = data.active_effects
       ? data.active_effects.map(x => new ActiveEffect(x, this))
       : []
     this.ActiveActions = data.active_actions ? data.active_actions.map(x => new Action(x)) : []
     this.ActiveBonuses = data.active_bonuses
-      ? data.active_bonuses.map(x => new Bonus(x, `${this.Name} (ACTIVE)`))
+      ? data.active_bonuses.map(x => new Bonus(x, `${this._name} (ACTIVE)`))
       : []
     this.ActiveSynergies = data.active_synergies
       ? data.active_synergies.map(x => new Synergy(x, 'Frame CORE System (Active)'))
@@ -99,14 +103,14 @@ class CoreSystem {
     this.ActiveCounters = data.active_counters ? data.active_counters : []
     if (data.deactivation) this.Deactivation = data.deactivation
     this.Duration = data.use ? (data.use as Duration) : Duration.Mission
-    this.PassiveName = data.passive_name || ''
-    this.PassiveEffect = data.passive_effect || ''
+    this._passiveName = data.passive_name || ''
+    this._passiveEffect = data.passive_effect || ''
     this.PassiveEffects = data.passive_effects
       ? data.passive_effects.map(x => new ActiveEffect(x, this))
       : []
     this.PassiveActions = data.passive_actions ? data.passive_actions.map(x => new Action(x)) : []
     this.PassiveBonuses = data.passive_bonuses
-      ? data.passive_bonuses.map(x => new Bonus(x, `${this.Name} (PASSIVE)`))
+      ? data.passive_bonuses.map(x => new Bonus(x, `${this._name} (PASSIVE)`))
       : []
     this.PassiveSynergies = data.passive_synergies
       ? data.passive_synergies.map(x => new Synergy(x, 'Frame CORE System (Passive)'))
@@ -115,7 +119,7 @@ class CoreSystem {
     this.Deployables = data.deployables ? data.deployables.map(x => new Deployable(x)) : []
     if (data.deployables) {
       this.Actions = this.Actions.concat(
-        data.deployables.map(d => Action.CreateDeployAction(d, this.Name))
+        data.deployables.map(d => Action.CreateDeployAction(d, this._name))
       )
     }
     this.Counters = data.counters ? data.counters : []
@@ -125,9 +129,9 @@ class CoreSystem {
     this.ActivateAction = new Action(
       {
         id: `core_active_activate`,
-        name: `Activate ${this.ActiveName}`,
+        name: `Activate ${this._activeName}`,
         activation: this.Activation,
-        detail: this.ActiveEffect,
+        detail: this._activeEffect,
         mech: true,
         hide_active: true,
       },
@@ -137,6 +141,29 @@ class CoreSystem {
     this.Use = data.use ? (data.use as Duration) : Duration.Mission
 
     this.Energy = 1
+  }
+
+  public get Name(): string {
+    return this._lkey ? localize(this._lkey, 'name', this._name) : this._name
+  }
+  public get Description(): string {
+    return this._lkey ? localize(this._lkey, 'description', this._description) : this._description
+  }
+  public get ActiveName(): string {
+    return this._lkey ? localize(this._lkey, 'active_name', this._activeName) : this._activeName
+  }
+  public get ActiveEffect(): string {
+    return this._lkey
+      ? localize(this._lkey, 'active_effect', this._activeEffect)
+      : this._activeEffect
+  }
+  public get PassiveName(): string {
+    return this._lkey ? localize(this._lkey, 'passive_name', this._passiveName) : this._passiveName
+  }
+  public get PassiveEffect(): string {
+    return this._lkey
+      ? localize(this._lkey, 'passive_effect', this._passiveEffect)
+      : this._passiveEffect
   }
 
   // private activeFeatures(type: string): any[] {

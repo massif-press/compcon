@@ -4,6 +4,7 @@ import { CompendiumItem, ICompendiumItemData } from '../../../CompendiumItem'
 import { Deployable } from '../../../components/feature/deployable/Deployable'
 import { ContentPack } from '../../../ContentPack'
 import { ItemType } from '../../../enums'
+import { keyPrefixes } from '@/i18n/contentKeys'
 import DOMPurify from 'dompurify'
 
 interface ITalentRankData extends ICompendiumItemData {
@@ -21,7 +22,8 @@ class TalentRank extends CompendiumItem {
   public readonly Exclusive: boolean
 
   public constructor(data: ITalentRankData) {
-    super(data)
+    const lkey = keyPrefixes.get(data as object)
+    super(lkey ? { ...data, id: lkey } : data)
     this.Exclusive = data.exclusive
   }
 }

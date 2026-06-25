@@ -1,4 +1,5 @@
 import { ICounterSaveData } from './CounterController';
+import { localize } from '@/i18n/localize';
 
 interface ICounterData {
   id: string;
@@ -11,7 +12,7 @@ interface ICounterData {
 
 class Counter {
   public readonly ID: string;
-  public readonly Name: string;
+  private readonly _name: string;
   public readonly Min: number;
   public readonly Max: number;
   public readonly Default: number;
@@ -30,7 +31,7 @@ class Counter {
       );
 
     this.ID = id;
-    this.Name = name;
+    this._name = name;
     this.Min = min || -100;
     this.Max = max || 100;
     this.Default = default_value || 0;
@@ -39,6 +40,9 @@ class Counter {
   }
 
   private _value: number;
+  public get Name(): string {
+    return localize(this.ID, 'name', this._name);
+  }
   public get Value(): number {
     return this._value;
   }

@@ -1,4 +1,6 @@
 import { EffectSave } from './EffectSave'
+import { localize } from '@/i18n/localize'
+import { keyPrefixes } from '@/i18n/contentKeys'
 
 interface IEffectSpecialData {
   attribute: string
@@ -13,7 +15,8 @@ interface IEffectSpecialData {
 class EffectSpecial {
   public ID: string
   public readonly Attribute: string
-  public readonly Detail: string
+  private readonly _detail: string
+  private readonly _lkey?: string
   public readonly AoE: boolean
   public readonly Duration: string
   public readonly Target: 'self' | 'ally' | 'enemy' | 'any'
@@ -22,13 +25,18 @@ class EffectSpecial {
 
   public constructor(data: IEffectSpecialData) {
     this.ID = `effect_special_${Math.random().toString(36).substring(2, 15)}`
+    this._lkey = keyPrefixes.get(data as object)
     this.Attribute = data.attribute
-    this.Detail = data.detail
+    this._detail = data.detail
     this.AoE = data.aoe || false
     this.Duration = data.duration || 'End of Encounter'
     this.Target = data.target || 'any'
     if (data.save) this.Save = new EffectSave(data.save)
     if (data.attack) this.Attack = data.attack
+  }
+
+  public get Detail(): string {
+    return this._lkey ? localize(this._lkey, 'detail', this._detail) : this._detail
   }
 
   public static Serialize(effect: EffectSpecial): IEffectSpecialData {

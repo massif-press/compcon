@@ -9,6 +9,8 @@ import { EffectSave } from './effect_subtype/EffectSave'
 import { BonusDamage, IBonusDamageData } from './BonusDamage'
 import { ByTier } from '@/util/tierFormat'
 import { Action } from '@/classes/Action'
+import { localize } from '@/i18n/localize'
+import { keyPrefixes } from '@/i18n/contentKeys'
 
 // used for combat menu components for actions that have AE components
 export type ActiveEffectLike = ActiveEffect | Action
@@ -44,8 +46,9 @@ interface IActiveEffectData {
 class ActiveEffect {
   public readonly ID: string
   public readonly Origin: any
-  public readonly Name: string
-  public readonly Detail: string
+  private readonly _name: string
+  private readonly _detail: string
+  private readonly _lkey?: string
   public readonly Condition: string
   public readonly Damage: Damage[]
   public readonly Range: Range[]
@@ -88,8 +91,9 @@ class ActiveEffect {
       this.Pilot = pilotItems.includes(this.Origin.ItemType)
     }
 
-    this.Name = data.name || fallbackName || 'Unnamed Effect'
-    this.Detail = data.detail || ''
+    this._name = data.name || fallbackName || 'Unnamed Effect'
+    this._detail = data.detail || ''
+    this._lkey = keyPrefixes.get(data as object)
     this.Condition = data.condition || ''
     this.Accuracy = (data.attack === 'tech' ? data.tech_accuracy : undefined) ?? data.accuracy ?? 0
     this.AttackBonus =
@@ -105,10 +109,10 @@ class ActiveEffect {
       if (!Array.isArray(data.range)) data.range = [data.range]
       this.Range = data.range ? data.range.map(x => new Range(x)) : []
     }
-    this.Bonuses = data.bonuses ? data.bonuses.map(b => new Bonus(b, this.Name)) : []
+    this.Bonuses = data.bonuses ? data.bonuses.map(b => new Bonus(b, this._name)) : []
     this.Duration = data.duration
     this.Frequency = data.frequency
-    if (data.bonus_damage) this.BonusDamage = new BonusDamage(data.bonus_damage, this.Name)
+    if (data.bonus_damage) this.BonusDamage = new BonusDamage(data.bonus_damage, this._name)
     if (data.save) {
       this.Save = new EffectSave(data.save)
     }
@@ -173,6 +177,14 @@ class ActiveEffect {
       ...this.AddStatus,
     ].filter(s => s.Target && s.Target === 'self')
     return targetedSubtypes.length > 0
+  }
+
+  public get Name(): string {
+    return this._lkey ? localize(this._lkey, 'name', this._name) : this._name
+  }
+
+  public get Detail(): string {
+    return this._lkey ? localize(this._lkey, 'detail', this._detail) : this._detail
   }
 
   public getDetail(tier?: number): string {

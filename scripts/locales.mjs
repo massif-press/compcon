@@ -6,17 +6,17 @@ import process from 'node:process'
 
 const here = dirname(fileURLToPath(import.meta.url))
 
-const SUITES = {
+const SCRIPTS = {
   extract: ['extract-content-en.mjs', 'extract-srd-en.mjs'],
-  check: ['i18n-check.mjs', 'check-content-drift.mjs'],
+  check: ['i18n-check.mjs', 'check-content-drift.mjs', 'check-content-keys.mjs'],
   pull: ['pull-locales.mjs', 'pull-completeness.mjs'],
 }
-SUITES.all = [...SUITES.extract, ...SUITES.check, ...SUITES.pull]
+SCRIPTS.all = [...SCRIPTS.extract, ...SCRIPTS.check, ...SCRIPTS.pull]
 
 const cmd = process.argv[2] ?? 'check'
-const scripts = SUITES[cmd]
+const scripts = SCRIPTS[cmd]
 if (!scripts) {
-  console.error(`locales: unknown command '${cmd}'. Use one of: ${Object.keys(SUITES).join(', ')}`)
+  console.error(`locales: unknown command '${cmd}'. Use one of: ${Object.keys(SCRIPTS).join(', ')}`)
   process.exit(1)
 }
 

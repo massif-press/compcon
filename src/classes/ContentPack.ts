@@ -34,6 +34,7 @@ import { NpcFeatureFactory } from './npc/feature/NpcFeatureFactory'
 import { EidolonLayer, IEidolonLayerData } from './npc/eidolon/EidolonLayer'
 import { DowntimeAction, IDowntimeActionData } from './DowntimeAction'
 import type { IndexItem } from '@/stores/nav'
+import { stampContentKeys } from '@/i18n/contentKeys'
 
 type ContentPackDependency = {
   name: string
@@ -143,6 +144,7 @@ class ContentPack {
     else self._dependencies = []
 
     self._data = data
+    stampContentKeys(data) // tag nested (id-less) objects with their localization key prefix
 
     self._id = id
 

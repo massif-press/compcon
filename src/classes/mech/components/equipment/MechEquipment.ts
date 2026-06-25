@@ -1,6 +1,7 @@
 import { ITagData } from '@/classes/Tag'
 import { ContentPack } from '../../../ContentPack'
 import { ILicensedItemData, LicensedItem } from '../../../pilot/components/license/LicensedItem'
+import { localizeNested } from '@/i18n/localize'
 
 export interface IEquipmentData {
   id: string
@@ -45,7 +46,7 @@ abstract class MechEquipment extends LicensedItem {
   public readonly NoMods: boolean
   public readonly NoBonuses: boolean
   public readonly NoSynergies: boolean
-  public readonly Ammo: any[]
+  private readonly _ammo: any[]
 
   public constructor(data: IMechEquipmentData, pack?: ContentPack) {
     super(data, pack)
@@ -72,10 +73,18 @@ abstract class MechEquipment extends LicensedItem {
       this.CanSetDamage = this.setTagBool(data, 'tg_set_damage_type')
       this.CanSetUses = this.setTagBool(data, 'tg_set_max_uses')
     }
-    this.Ammo = data.ammo || []
+    this._ammo = data.ammo || []
     this.NoMods = data.no_mods || false
     this.NoBonuses = data.no_bonuses || false
     this.NoSynergies = data.no_synergies || false
+  }
+
+  public get Ammo(): any[] {
+    return this._ammo.map(a => ({
+      ...a,
+      name: localizeNested(a, 'name', a.name),
+      detail: localizeNested(a, 'detail', a.detail),
+    }))
   }
 
   private setTagBool(data: IMechEquipmentData, id: string): boolean {

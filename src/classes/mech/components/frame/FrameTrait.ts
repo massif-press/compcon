@@ -12,6 +12,8 @@ import {
   ActiveEffect,
   IActiveEffectData,
 } from '@/classes/components/feature/active_effects/ActiveEffect'
+import { localize } from '@/i18n/localize'
+import { keyPrefixes } from '@/i18n/contentKeys'
 
 interface IFrameTraitData {
   name: string
@@ -27,8 +29,9 @@ interface IFrameTraitData {
 }
 
 class FrameTrait {
-  public readonly Name: string
-  public readonly Description: string
+  private readonly _name: string
+  private readonly _description: string
+  private readonly _lkey?: string
   public readonly ActiveEffects: ActiveEffect[]
   public readonly Actions: Action[]
   public readonly Bonuses: Bonus[]
@@ -39,26 +42,35 @@ class FrameTrait {
   private _special_equipment: string[]
 
   public constructor(data: IFrameTraitData) {
-    this.Name = data.name
-    this.Description = data.description || ''
+    this._name = data.name
+    this._description = data.description || ''
+    this._lkey = keyPrefixes.get(data as object)
     this.ActiveEffects = data.active_effects
       ? data.active_effects.map(x => new ActiveEffect(x, this))
       : []
     this.Actions = data.actions ? data.actions.map(x => new Action(x)) : []
     this.Bonuses = data.bonuses
-      ? data.bonuses.map(x => new Bonus(x, `${this.Name} (Frame Trait)`))
+      ? data.bonuses.map(x => new Bonus(x, `${this._name} (Frame Trait)`))
       : []
 
     this.Synergies = data.synergies ? data.synergies.map(x => new Synergy(x, 'Frame Trait')) : []
     this.Deployables = data.deployables ? data.deployables.map(x => new Deployable(x)) : []
     if (data.deployables) {
       this.Actions = this.Actions.concat(
-        data.deployables.map(d => Action.CreateDeployAction(d, this.Name))
+        data.deployables.map(d => Action.CreateDeployAction(d, this._name))
       )
     }
     this.Counters = data.counters ? data.counters : []
     this._integrated = data.integrated ? data.integrated : []
     this._special_equipment = data.special_equipment || []
+  }
+
+  public get Name(): string {
+    return this._lkey ? localize(this._lkey, 'name', this._name) : this._name
+  }
+
+  public get Description(): string {
+    return this._lkey ? localize(this._lkey, 'description', this._description) : this._description
   }
 
   public get SpecialEquipment(): CompendiumItem[] {

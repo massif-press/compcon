@@ -15,6 +15,8 @@ import { computed, ref } from 'vue'
 import { sortBy } from 'lodash-es';
 import { glossary } from '@massif/lancer-data';
 import { DEFAULT_LCP_NAME } from '@/classes/LcpItemMixin';
+import { localize } from '@/i18n/localize';
+import { glossaryId } from '@/i18n/contentKeys';
 
 const options = ref({
   views: ['list'],
@@ -26,9 +28,9 @@ const options = ref({
 
 const items = computed(() => {
   return sortBy(glossary, [(x) => x.name]).map((e) => ({
-    ID: `glossary_${e.name.replace(/\W/g, '')}`,
-    Name: e.name,
-    Description: e.description,
+    ID: glossaryId(e.name),
+    Name: localize(glossaryId(e.name), 'name', e.name),
+    Description: localize(glossaryId(e.name), 'description', e.description),
     ItemType: 'Glossary',
     Icon: 'mdi-book-open-variant',
     LcpName: DEFAULT_LCP_NAME,

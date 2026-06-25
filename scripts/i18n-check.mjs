@@ -139,7 +139,7 @@ if (redeclared.length) {
   )
   for (const r of redeclared)
     console.log(`  - ${r.path}  ->  ${r.canonical}  (${JSON.stringify(r.value)})`)
-  console.log('Consider repointing call sites to the canonical, unless this is variable context.')
+  console.log('repoint call sites to the canonical unless this is variable context.')
 }
 
 if (unused.length) {
