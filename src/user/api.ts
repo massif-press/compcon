@@ -42,7 +42,7 @@ const collectionDataQuery = async () => {
   return createFetchRequest('/catalog')
 }
 
-const getItemDownloadLink = async (itch_userid, game_id, item_uri) => {
+const getItemDownloadLink = async (itch_userid, game_id, item_uri, hasCoreBook = false) => {
   const collectionHeaders = {
     'Content-Type': 'application/json',
     'x-api-key': import.meta.env.VITE_APP_API_KEY as string,
@@ -50,6 +50,7 @@ const getItemDownloadLink = async (itch_userid, game_id, item_uri) => {
 
   let url = `${import.meta.env.VITE_APP_INVOKE_URL}/content`
   url += `?itch_userid=${itch_userid}&game_id=${game_id}&item_uri=${item_uri}`
+  if (hasCoreBook) url += `&hasCoreBook=true`
 
   const result = await fetch(url, {
     method: 'GET',

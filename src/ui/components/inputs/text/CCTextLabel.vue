@@ -148,11 +148,14 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'update:model-value': []
+  'update:modelValue': [value: string]
 }>()
 
 const menu = ref(false)
-const localValue = ref('')
+const localValue = ref(props.modelValue || '')
+
+watch(() => props.modelValue, (v) => { localValue.value = v || '' })
+watch(localValue, (v) => emit('update:modelValue', v))
 
 const outlined = computed(() => {
   return props.variant === 'outlined';

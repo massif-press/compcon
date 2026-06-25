@@ -12,7 +12,7 @@ const PROTECTED_BASE = 'en.json'
 
 // Weblate locale code -> app locale code. Weblate has BCP-47 subtags (zh_Hans);
 // the app uses the shorter code (zh) to match language/a11y
-const ALIAS = { zh_Hans: 'zh' }
+const ALIAS = { zh_Hans: 'zh', pt_BR: 'pt' }
 
 const codes = new Set(
   [...readFileSync('src/i18n/index.ts', 'utf8').matchAll(/code:\s*'([^']+)'/g)].map(m => m[1])
