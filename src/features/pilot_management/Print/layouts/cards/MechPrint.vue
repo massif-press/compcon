@@ -131,28 +131,28 @@
       align="center">
       <v-col cols="auto"
         class="text-center">
-        <span class="font-weight-bold overline text-primary">{{ $t('pm.print.h') }}</span>
+        <span class="font-weight-bold overline text-primary">{{ $t('common.hase_h') }}</span>
         <cc-slashes />
         <span class="heading"
           v-text="mech.Hull" />
       </v-col>
       <v-col cols="auto"
         class="text-center">
-        <span class="font-weight-bold overline text-primary">{{ $t('pm.print.a') }}</span>
+        <span class="font-weight-bold overline text-primary">{{ $t('common.hase_a') }}</span>
         <cc-slashes />
         <span class="heading"
           v-text="mech.Agi" />
       </v-col>
       <v-col cols="auto"
         class="text-center">
-        <span class="font-weight-bold overline text-primary">{{ $t('pm.print.s') }}</span>
+        <span class="font-weight-bold overline text-primary">{{ $t('common.hase_s') }}</span>
         <cc-slashes />
         <span class="heading"
           v-text="mech.Sys" />
       </v-col>
       <v-col cols="auto"
         class="text-center">
-        <span class="font-weight-bold overline text-primary">{{ $t('pm.print.e') }}</span>
+        <span class="font-weight-bold overline text-primary">{{ $t('common.hase_e') }}</span>
         <cc-slashes />
         <span class="heading"
           v-text="mech.Eng" />

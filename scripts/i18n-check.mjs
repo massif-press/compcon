@@ -5,7 +5,7 @@ import { join } from 'node:path'
 import console from 'node:console'
 import process from 'node:process'
 
-const DYNAMIC_NAMESPACES = ['nav.']
+const DYNAMIC_NAMESPACES = ['nav.', 'language.components.']
 
 const selectorCodes = [
   ...readFileSync('src/i18n/index.ts', 'utf8').matchAll(/code:\s*'([^']+)'/g),
@@ -103,12 +103,6 @@ try {
 const report = JSON.parse(readFileSync(out, 'utf8'))
 rmSync(out, { force: true })
 
-const missing = report.missingKeys ?? []
-const unused = (report.unusedKeys ?? []).filter(
-  k => !DYNAMIC_NAMESPACES.some(ns => k.path.startsWith(ns))
-)
-
-const SHARED_NAMESPACES = ['common', 'stats', 'notify', 'classes']
 const catalog = JSON.parse(readFileSync('./src/i18n/locales/en.json', 'utf8'))
 const flat = {}
 ;(function walk(o, p) {
@@ -116,6 +110,17 @@ const flat = {}
     for (const [k, v] of Object.entries(o)) walk(v, p ? `${p}.${k}` : k)
   else if (typeof o === 'string') flat[p] = o
 })(catalog, '')
+
+const linkTargets = new Set()
+for (const v of Object.values(flat))
+  for (const m of v.matchAll(/@(?:\.[a-z]+)?:[{('"]*([\w.]+)/g)) linkTargets.add(m[1])
+
+const missing = report.missingKeys ?? []
+const unused = (report.unusedKeys ?? []).filter(
+  k => !DYNAMIC_NAMESPACES.some(ns => k.path.startsWith(ns)) && !linkTargets.has(k.path)
+)
+
+const SHARED_NAMESPACES = ['common', 'stats', 'notify', 'classes']
 
 const canonByValue = new Map()
 for (const [k, v] of Object.entries(flat)) {

@@ -93,7 +93,7 @@
                     </span>
                   </b>
                   <b>
-                    {{ $t('common.hase_2') }}:
+                    {{ $t('common.hase_s') }}:
                     <span class="text-weight-normal text-accent">
                       {{ pilot.MechSkillsController.MechSkills.Sys }}
                     </span>

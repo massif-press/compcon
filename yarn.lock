@@ -5413,6 +5413,7 @@ __metadata:
     vue-advanced-cropper: "npm:2.8.9"
     vue-chartjs: "npm:5.3.3"
     vue-eslint-parser: "npm:^10.4.0"
+    vue-html-secure: "npm:^1.0.10"
     vue-i18n: "npm:^11"
     vue-i18n-extract: "npm:^2.0.7"
     vue-router: "npm:4.6.4"
@@ -10791,6 +10792,13 @@ __metadata:
   peerDependencies:
     eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
   checksum: 10c0/ded1c52dfa6e08c384da43b8369814bd105e2dc3bbb04e95faa8365af0fcba70293ff8b3749824ae3cc98988aeaaa261d5a205febff23e15667176392dcfee4a
+  languageName: node
+  linkType: hard
+
+"vue-html-secure@npm:^1.0.10":
+  version: 1.0.10
+  resolution: "vue-html-secure@npm:1.0.10"
+  checksum: 10c0/814cbb2ee2b55ae4a1b572a5de0cfcfb4b08337cd1bf6e309fe314f4233a6f0a60b36426ff3fe82e6d0cc375a02b1a9cea571736ca01cded80095424446ad872
   languageName: node
   linkType: hard
 

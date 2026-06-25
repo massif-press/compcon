@@ -6,7 +6,7 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import { registerHorusText } from '@/ui/style/horusText'
 
 import { register } from '@/ui/style/quillSetup'
-void loadQuill().then((Quill) => {
+void loadQuill().then(Quill => {
   registerHorusText(Quill)
   register(Quill)
 })
@@ -34,6 +34,7 @@ import Startup from './io/Startup'
 import { reportWebVitals } from '@/util/performance'
 
 import { Amplify } from 'aws-amplify'
+import VueSecureHTML from 'vue-html-secure' // provides v-html-safe
 
 Amplify.configure({
   Auth: {
@@ -140,6 +141,7 @@ compcon.use(createPinia())
 compcon.use(i18n)
 compcon.use(vuetify)
 compcon.use(router)
+compcon.use(VueSecureHTML)
 compcon.use(Notifications)
 
 compcon.component('QuillEditor', QuillEditor)

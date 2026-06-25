@@ -83,24 +83,30 @@
             item-value="code" />
           <div v-if="showLanguageNote"
             class="text-center">
-            <v-progress-linear v-model="completeness[language]"
-              :color="getTransColor(language)"
-              height="26"
+            <div v-for="comp in TRANSLATION_COMPONENTS"
+              :key="comp"
               class="mt-1">
-              <v-chip variant="elevated"
-                flat
-                size="x-small"
-                color="panel">
-                <v-icon start
-                  :color="getTransColor(language)"
-                  :icon="getTransColor(language) === 'success' ? 'mdi-check-outline' : getTransColor(language) === 'warning' ? 'mdi-alert-circle-outline' : 'mdi-alert-circle'"
-                  size="18" />
-                <strong class="text-caption">
-                  {{ $t('language.pctTransComplete',
-                    { pct: completeness[language].toFixed(2) }) }}
-                </strong>
-              </v-chip>
-            </v-progress-linear>
+              <div class="text-caption text-left">
+                {{ $t(`language.components.${comp}`) }}
+              </div>
+              <v-progress-linear :model-value="componentPct(comp, language)"
+                :color="getTransColor(comp, language)"
+                height="26">
+                <v-chip variant="elevated"
+                  flat
+                  size="x-small"
+                  color="panel">
+                  <v-icon start
+                    :color="getTransColor(comp, language)"
+                    :icon="getTransColor(comp, language) === 'success' ? 'mdi-check-outline' : getTransColor(comp, language) === 'warning' ? 'mdi-alert-circle-outline' : 'mdi-alert-circle'"
+                    size="18" />
+                  <strong class="text-caption">
+                    {{ $t('language.pctTransComplete',
+                      { pct: componentPct(comp, language).toFixed(2) }) }}
+                  </strong>
+                </v-chip>
+              </v-progress-linear>
+            </div>
             <div class="text-caption text-disabled font-italic pt-1"
               style="line-height: 1">
               {{ $t('language.experimentalNote') }}
@@ -148,7 +154,7 @@
           </v-col>
           <v-col cols="auto"
             :class="`text-${user.ErrorReporting ? 'success' : 'disabled'}`">
-            {{ sp.errorReportingPrefix }} {{ user.ErrorReporting ? sp.enabled : sp.disabled }}
+            {{ sp.errorReporting }} {{ user.ErrorReporting ? sp.enabled : sp.disabled }}
           </v-col>
           <v-col cols="auto">
             <v-tooltip location="top"
@@ -192,7 +198,7 @@
                   scope="global">
                   <template #nonAnon>
                     <strong class="text-accent">{{ $t('nav.settingsPage.enhancedReportingPiiNote')
-                    }}</strong>
+                      }}</strong>
                   </template>
                   <template #notNecessary>
                     <strong class="text-accent">{{
@@ -351,7 +357,12 @@ import { useDisplay, useTheme } from 'vuetify'
 import * as allThemes from '@/ui/style/themes'
 import { UserStore, NavStore } from '@/stores'
 import { SUPPORTED_LOCALES, i18n } from '@/i18n'
-import { completeness, fetchCompleteness, QUALITY_THRESHOLD } from '@/i18n/completeness'
+import {
+  completeness,
+  fetchCompleteness,
+  QUALITY_THRESHOLD,
+  TRANSLATION_COMPONENTS,
+} from '@/i18n/completeness'
 const t = i18n.global.t
 import { exportAll, importAll } from '@/io/BulkData'
 import { saveFile } from '@/io/Data'
@@ -557,8 +568,11 @@ async function doImport(close: () => void) {
   }
   importLoading.value = false
 }
-function getTransColor(code: string) {
-  const pct = completeness.value[code] || 0
+function componentPct(comp: string, code: string): number {
+  return completeness.value[comp]?.[code] ?? 0
+}
+function getTransColor(comp: string, code: string) {
+  const pct = componentPct(comp, code)
   if (pct >= QUALITY_THRESHOLD) return 'success'
   if (pct > 60) return 'warning'
   return 'error'

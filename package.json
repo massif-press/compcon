@@ -12,8 +12,7 @@
     "format": "prettier --write 'src/**/*.{ts,vue,json,css,scss,md}'",
     "format:check": "prettier --check 'src/**/*.{ts,vue,json,css,scss,md}'",
     "typecheck": "vue-tsc --noEmit",
-    "i18n:check": "node scripts/i18n-check.mjs",
-    "locales:update": "node scripts/pull-locales.mjs;node scripts/pull-completeness.mjs",
+    "locales": "node scripts/locales.mjs",
     "prepare": "husky"
   },
   "lint-staged": {
@@ -51,6 +50,7 @@
     "vue": "3.5.29",
     "vue-advanced-cropper": "2.8.9",
     "vue-chartjs": "5.3.3",
+    "vue-html-secure": "^1.0.10",
     "vue-i18n": "^11",
     "vue-router": "4.6.4",
     "vuetify": "^3.12.1",

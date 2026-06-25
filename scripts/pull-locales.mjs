@@ -1,7 +1,15 @@
 import { execFileSync } from 'node:child_process'
-import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
 import console from 'node:console'
 import process from 'node:process'
 
@@ -9,6 +17,8 @@ const DEST = 'src/i18n/locales'
 const REMOTE = 'https://github.com/massif-press/compcon-locales.git'
 
 const PROTECTED_BASE = 'en.json'
+
+const CONTENT_COMPONENTS = ['lancer-data']
 
 // Weblate locale code -> app locale code. Weblate has BCP-47 subtags (zh_Hans);
 // the app uses the shorter code (zh) to match language/a11y
@@ -69,5 +79,29 @@ for (const file of readdirSync(uiDir)) {
   pulled++
 }
 
+let contentPulled = 0
+for (const comp of CONTENT_COMPONENTS) {
+  const compDir = join(src, 'content', comp)
+  if (!existsSync(compDir)) continue
+  for (const file of readdirSync(compDir)) {
+    if (!file.endsWith('.json')) continue
+    if (file === PROTECTED_BASE) continue
+    const rawCode = file.slice(0, -'.json'.length)
+    const code = ALIAS[rawCode] ?? rawCode
+    if (!codes.has(code)) continue
+
+    const destPath = join('content', code, `${comp}.json`)
+    const incoming = JSON.parse(readFileSync(join(compDir, file), 'utf8'))
+    mkdirSync(dirname(destPath), { recursive: true })
+    writeFileSync(destPath, JSON.stringify(incoming, null, 2) + '\n')
+    const label = rawCode === code ? file : `${file} -> ${code}.json`
+    console.log(`content/${comp}/${label}: ${Object.keys(incoming).length} key(s) from Weblate`)
+    contentPulled++
+  }
+}
+
 if (tmp) rmSync(tmp, { recursive: true, force: true })
-console.log(`locales:pull done (${pulled} catalog${pulled === 1 ? '' : 's'} merged, app-wins).`)
+console.log(
+  `locales:pull done (${pulled} ui catalog${pulled === 1 ? '' : 's'} app-wins, ` +
+    `${contentPulled} content catalog${contentPulled === 1 ? '' : 's'} overwritten).`
+)

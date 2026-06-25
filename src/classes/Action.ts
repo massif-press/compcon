@@ -190,12 +190,8 @@ class Action {
     data = Action.normalizeData(data)
     this._name = data.name || (origin ? `Activate ${origin}` : 'Unknown Action')
     this.Description = data.description || ''
-<<<<<<< Updated upstream
     const nameForId = this._name.toLowerCase().replace(/\s/g, '')
-    this.ID = data.id ? data.id : `act_${nameForId}_${uuid()}`
-=======
-    this.ID = data.id ? data.id : `act_${this.Name.toLowerCase().replace(/\s/g, '')}_${crypto.randomUUID()}`
->>>>>>> Stashed changes
+    this.ID = data.id ? data.id : `act_${nameForId}_${crypto.randomUUID()}`
     this.Origin = origin || ''
     this.IsItemAction = !!origin
     this.SynergyLocations = data.synergy_locations ?? []

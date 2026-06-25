@@ -26,8 +26,8 @@ jobs:
       - name: Build
         run: yarn build-nocheck
 
-      - name: i18n keys
-        run: yarn i18n:check
+      - name: Locales check
+        run: yarn locales check
 
       - name: Type-check (informational)
         continue-on-error: true

@@ -38,7 +38,7 @@
             @update:model-value="applyItemTypePreset">
             <v-btn value="all"
               size="small"
-              height="30">{{ $t("text-uppercase") }}</v-btn>
+              height="30">{{ $t("common.all") }}</v-btn>
             <v-btn value="pilots"
               size="small"
               height="30">{{ $t("mainMenu.syncSettings.pilotsOnly") }}</v-btn>

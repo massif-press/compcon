@@ -1,7 +1,6 @@
 {
   "common": {
     "appName": "COMP/CON",
-    "appShortName": "C/C",
     "gameName": "LANCER",
     "cancel": "Cancel",
     "save": "Save",
@@ -38,7 +37,6 @@
     "all": "All",
     "selectAll": "Select All",
     "warning": "Warning",
-    "alert": "Alert",
     "preview": "Preview",
     "mount": "Mount",
     "rank": "Rank",
@@ -67,8 +65,6 @@
     "saveAndClose": "Save and Close",
     "convertToLocal": "Convert to Local",
     "importCampaign": "Import Campaign",
-    "ok": "OK",
-    "loading": "Loading…",
     "website": "Website",
     "offline": "Offline",
     "options": "Options",
@@ -183,7 +179,12 @@
   "language": {
     "selectLanguage": "Language",
     "experimentalNote": "Non-English translation is community-contributed and a work in progress. Some text may be untranslated or imperfect.",
-    "pctTransComplete": "{pct}% translated"
+    "pctTransComplete": "{pct}% translated",
+    "components": {
+      "ui": "Interface",
+      "lancer-data": "Compendium",
+      "lancer-srd": "Rules Reference"
+    }
   },
   "classes": {
     "newCampaign": "New Campaign",
@@ -1198,7 +1199,6 @@
       "offline": "list of offline tables",
       "addNew": "add new table"
     },
-    "addShare": {},
     "sheet": {
       "newCharacterSheet": "New Character Sheet"
     },
@@ -1585,7 +1585,6 @@
       "selectWeapon": "Select a weapon to reload",
       "noTargets": "No valid targets for reload"
     },
-    "mechCore": {},
     "weaponAttack": {
       "destroyed": "This weapon has been destroyed and must be repaired before it can be activated.",
       "alreadyActivated": "This weapon has already been activated.",
@@ -1726,7 +1725,6 @@
   "mainMenu": {
     "codeEntry": {
       "title": "Enter Unlock Code",
-      "enterCode": "Enter code",
       "tooltip": "Enter an unlock code to gain access to additional account features or LCP content.",
       "invalidCode": "Invalid code",
       "success": "Code accepted! Your content should now be available.",
@@ -2543,6 +2541,7 @@
     },
     "link": {
       "hull": "Hull",
+      "agi": "Agi",
       "sys": "Sys",
       "eng": "Eng",
       "pilotBiography": "Pilot Biography",
@@ -2723,8 +2722,6 @@
       "experimentalLangNote": "This is an experimental preview of the language selection feature. Non-English translation is currently machine-generated and may be inaccurate."
     },
     "search": {
-      "switchToReference": "Switch to reference search",
-      "switchToCompendium": "Switch to compendium search",
       "resultCount": "{count} result | {count} results"
     },
     "content": {
@@ -3181,7 +3178,8 @@
     },
     "common": {
       "error": "Error",
-      "copied": "Copied"
+      "copied": "Copied",
+      "success": "Success"
     },
     "transfer": {
       "uploadCompleteTitle": "Upload Complete",
@@ -3327,7 +3325,6 @@
     }
   },
   "print": {
-    "generalOptions": "General Print Options",
-    "titles": {}
+    "generalOptions": "General Print Options"
   }
 }

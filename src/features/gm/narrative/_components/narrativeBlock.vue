@@ -46,7 +46,7 @@
       prepend-icon="mdi-plus"
       size="x-small"
       @click="item.NarrativeController.AddTable()">
-      {{ $t('text-lowercase') }}
+      {{ $t('active.fields.addTable') }}
     </cc-button>
   </div>
 </template>

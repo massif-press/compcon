@@ -42,7 +42,7 @@
                 block
                 tile
                 @click="apply(t, Number(idx))">
-                {{ $t('text-lowercase') }}
+                {{ $t('active.tooltips.apply') }}
               </v-btn></v-col>
             <v-col><v-btn color="error"
                 size="x-small"

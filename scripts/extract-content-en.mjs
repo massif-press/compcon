@@ -2,13 +2,11 @@
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const _require = createRequire(import.meta.url)
-const data = _require('@massif/lancer-data')
-const { version: lancerDataVersion } = _require('@massif/lancer-data/package.json')
 
-const ALLOWLIST = {
+export const ALLOWLIST = {
   actions: ['name', 'terse', 'detail'],
   backgrounds: ['name', 'description'],
   core_bonuses: ['name', 'description', 'effect', 'mounted_effect'],
@@ -28,45 +26,63 @@ const ALLOWLIST = {
   downtime_actions: ['name', 'terse', 'detail'],
 }
 
-const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const outDir = resolve(root, 'content/en')
-const metaPath = resolve(root, 'content/_meta.json')
+export function buildContent() {
+  const data = _require('@massif/lancer-data')
+  const { version } = _require('@massif/lancer-data/package.json')
+  const catalogs = {}
 
-mkdirSync(outDir, { recursive: true })
+  for (const [collection, fields] of Object.entries(ALLOWLIST)) {
+    const items = data[collection] ?? []
+    const catalog = {}
 
-const meta = {
-  lancerDataVersion,
-  extractedAt: new Date().toISOString(),
-  collections: {},
-}
-
-for (const [collection, fields] of Object.entries(ALLOWLIST)) {
-  const items = data[collection] ?? []
-  const catalog = {}
-
-  for (const item of items) {
-    if (!item.id) {
-      console.warn(`[${collection}] item without id skipped:`, item.name ?? '?')
-      continue
+    for (const item of items) {
+      if (!item.id) {
+        console.warn(`[${collection}] item without id skipped:`, item.name ?? '?')
+        continue
+      }
+      for (const field of fields) {
+        const val = item[field]
+        if (val == null || val === '') continue
+        const str = Array.isArray(val) ? val.join('\n') : String(val)
+        if (!str.trim()) continue
+        catalog[`${item.id}.${field}`] = str
+      }
     }
-    for (const field of fields) {
-      const val = item[field]
-      if (val == null || val === '') continue
-      const str = Array.isArray(val) ? val.join('\n') : String(val)
-      if (!str.trim()) continue
-      catalog[`${item.id}.${field}`] = str
+
+    catalogs[collection] = {
+      items: items.length,
+      catalog: Object.fromEntries(
+        Object.entries(catalog).sort(([a], [b]) => a.localeCompare(b))
+      ),
     }
   }
 
-  const sorted = Object.fromEntries(Object.entries(catalog).sort(([a], [b]) => a.localeCompare(b)))
-  writeFileSync(`${outDir}/${collection}.json`, JSON.stringify(sorted, null, 2) + '\n')
-
-  const keyCount = Object.keys(sorted).length
-  meta.collections[collection] = { items: items.length, keys: keyCount }
-  console.log(
-    `  ${collection.padEnd(18)} ${items.length.toString().padStart(3)} items  ${keyCount.toString().padStart(4)} keys`
-  )
+  return { version, catalogs }
 }
 
-writeFileSync(metaPath, JSON.stringify(meta, null, 2) + '\n')
-console.log(`\nDone. lancer-data ${lancerDataVersion} to content/en/`)
+function main() {
+  const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
+  const outDir = resolve(root, 'content/en')
+  const metaPath = resolve(root, 'content/_meta.json')
+  mkdirSync(outDir, { recursive: true })
+
+  const { version, catalogs } = buildContent()
+  const meta = { lancerDataVersion: version, extractedAt: new Date().toISOString(), collections: {} }
+
+  const merged = {}
+  for (const [collection, { items, catalog }] of Object.entries(catalogs)) {
+    Object.assign(merged, catalog)
+    const keyCount = Object.keys(catalog).length
+    meta.collections[collection] = { items, keys: keyCount }
+    console.log(
+      `  ${collection.padEnd(18)} ${items.toString().padStart(3)} items  ${keyCount.toString().padStart(4)} keys`
+    )
+  }
+
+  const sorted = Object.fromEntries(Object.entries(merged).sort(([a], [b]) => a.localeCompare(b)))
+  writeFileSync(`${outDir}/lancer-data.json`, JSON.stringify(sorted, null, 2) + '\n')
+  writeFileSync(metaPath, JSON.stringify(meta, null, 2) + '\n')
+  console.log(`\nDone. lancer-data ${version} -> content/en/lancer-data.json (${Object.keys(sorted).length} keys)`)
+}
+
+if (import.meta.url === pathToFileURL(process.argv[1]).href) main()
