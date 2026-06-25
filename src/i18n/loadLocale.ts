@@ -1,4 +1,10 @@
-import { i18n, SUPPORTED_LOCALES, DEFAULT_LOCALE, isSupportedLocale, type LocaleCode } from './index'
+import {
+  i18n,
+  SUPPORTED_LOCALES,
+  DEFAULT_LOCALE,
+  isSupportedLocale,
+  type LocaleCode,
+} from './index'
 import { setContentLocale } from './loadContent'
 import vuetify from '@/ui/style'
 
@@ -17,7 +23,7 @@ export async function setUiLocale(code: string): Promise<void> {
   i18n.global.locale.value = target
   document.documentElement.lang = target
   document.documentElement.dir = SUPPORTED_LOCALES.find(l => l.code === target)?.dir ?? 'ltr'
-  // Sync Vuetify so its components mirror for RTL (Vuetify reads its own `isRtl`, not document.dir).
+  // Sync Vuetify so its components mirror for RTL
   if (vuetify.locale?.current) vuetify.locale.current.value = target
   await setContentLocale(target)
 }
