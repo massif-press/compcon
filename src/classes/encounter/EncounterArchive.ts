@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import { ItemType } from '../enums'
 import {
   CloudController,
@@ -73,7 +72,7 @@ class EncounterArchive implements ISaveable, ICloudSyncable {
     instance.Encounter.Combatants = instance.Combatants
     const data = {
       itemType: 'EncounterArchive',
-      id: uuid(),
+      id: crypto.randomUUID(),
       name: instance.Encounter.Name,
       start: instance.Created,
       end: Date.now(),

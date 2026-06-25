@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import { i18n } from '@/i18n'
 import { CloudController, PortraitController, SaveController } from '../../components'
 import { NpcData, Npc } from '../Npc'
@@ -41,7 +40,7 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
   public CreateInstance<DoodadData>(): DoodadData {
     const data = this.Serialize(true) as DoodadData
     this.SetInstanceProxies<DoodadData>(data)
-    ;(data as any).instanceId = uuid()
+    ;(data as any).instanceId = crypto.randomUUID()
 
     return data
   }

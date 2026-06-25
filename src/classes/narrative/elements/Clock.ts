@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import { i18n } from '@/i18n'
 import { ItemType } from '../../enums'
 interface IClockData {
@@ -24,7 +23,7 @@ class Clock {
   public ItemType: ItemType = ItemType.Clock
 
   public constructor(data?: IClockData) {
-    this.ID = data?.id || uuid()
+    this.ID = data?.id || crypto.randomUUID()
     this.segments = data?.segments || 6
     this.Progress = data?.progress || 0
     this.Title = data?.title || i18n.global.t('classes.newClock')

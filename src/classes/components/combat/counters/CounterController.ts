@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import type { IControllerStatic } from '@/classes/ISerializable'
 import { ICounterData } from './Counter'
 import { ICounterContainer } from './ICounterContainer'
@@ -49,7 +48,7 @@ class CounterController {
   public createCustomCounter(name: string): void {
     const counter = {
       name,
-      id: uuid(),
+      id: crypto.randomUUID(),
       custom: true,
     }
     this._customCounters = [...this._customCounters, counter]

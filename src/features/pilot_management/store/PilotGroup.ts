@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import { CloudController, ICloudData } from '@/classes/components/cloud/CloudController'
 import { IPortraitContainer } from '@/classes/components/portrait/IPortraitContainer'
 import { IPortraitData, PortraitController } from '@/classes/components/portrait/PortraitController'
@@ -48,7 +47,7 @@ class PilotGroup implements ISaveable, IPortraitContainer {
   private _expanded: boolean
 
   constructor(data?: PilotGroupData) {
-    this._id = data?.id || uuid()
+    this._id = data?.id || crypto.randomUUID()
     this.SortIndex = data && !isNaN(data.sortIndex) ? data.sortIndex : -1
 
     this.SaveController = new SaveController(this)
@@ -71,7 +70,7 @@ class PilotGroup implements ISaveable, IPortraitContainer {
   }
 
   public RenewID(): string {
-    this._id = uuid()
+    this._id = crypto.randomUUID()
     this.Save()
     return this._id
   }

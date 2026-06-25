@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import { CombatController } from '../components/combat/CombatController'
 import { SaveController } from '../components/save/SaveController'
 import { ItemType } from '../enums'
@@ -101,7 +100,7 @@ class Placeholder {
 
   public Clone(): Placeholder {
     const data = structuredClone(this.Serialize())
-    data.id = uuid()
+    data.id = crypto.randomUUID()
     return Placeholder.Deserialize(data)
   }
 }

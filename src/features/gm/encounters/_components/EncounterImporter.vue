@@ -111,7 +111,6 @@ import { ref, computed } from 'vue'
 import logger from '@/user/logger'
 import { ImportData } from '@/io/Data'
 import { EncounterStore } from '@/stores'
-import { v4 as uuid } from 'uuid'
 import { Encounter } from '@/classes/encounter/Encounter'
 import { isV2Encounter, getV2EncounterMissingNpcs, preprocessEncounterImport } from '@/io/V2Importer'
 import { ImportEncounter } from '@/io/Importer'
@@ -202,7 +201,7 @@ async function importFile() {
           backedUp++
         }
       } else {
-        item.id = uuid()
+        item.id = crypto.randomUUID()
         EncounterStore().AddEncounter(Encounter.Deserialize(item))
       }
     } catch (error) {

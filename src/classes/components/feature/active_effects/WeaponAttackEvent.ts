@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 
 import { ActiveEffect } from './ActiveEffect'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
@@ -36,7 +35,7 @@ class WeaponAttackEvent {
     instance: EncounterInstance,
     attackActionString: string
   ) {
-    this.ID = uuid()
+    this.ID = crypto.randomUUID()
     this.AttackActionString = attackActionString
     this.Weapon = weapon
     let effectData

@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import { ImageTag } from '@/io/ImageManagement'
 import { i18n } from '@/i18n'
 import {
@@ -89,7 +88,7 @@ abstract class Npc
       this.IsInstance = true
     }
 
-    this._id = data ? data.id : uuid()
+    this._id = data ? data.id : crypto.randomUUID()
     this._note = data ? data.note : ''
     this._description = data ? data.description : ''
     this._gmDescription = data ? data.gmDescription : ''
@@ -147,7 +146,7 @@ abstract class Npc
   }
 
   public RenewID(): void {
-    this._id = uuid()
+    this._id = crypto.randomUUID()
   }
 
   public get Name(): string {

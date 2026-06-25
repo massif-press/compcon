@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import { Bonus, IBonusData } from '../bonus/Bonus'
 import { Damage, IDamageData } from '../../../Damage'
 import { IRangeData, Range } from '../../../Range'
@@ -79,7 +78,7 @@ class ActiveEffect {
     dismissible?: boolean,
     fallbackName?: string
   ) {
-    this.ID = data.id || uuid()
+    this.ID = data.id || crypto.randomUUID()
     this.Origin = origin
 
     if (data.pilot) this.Pilot = true

@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 
 interface IInstanceableData {
   instanceId: string | undefined;
@@ -17,7 +16,7 @@ interface IInstanceable {
 }
 
 function buildInstanceData(): IInstanceableData {
-  return { instanceId: uuid() }
+  return { instanceId: crypto.randomUUID() }
 }
 
 export type { IInstanceableData, IInstanceable }

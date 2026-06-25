@@ -1,5 +1,4 @@
 import { CompendiumStore } from '@/features/compendium/store'
-import { v4 as uuid } from 'uuid'
 import * as _ from 'lodash-es'
 import { Frame, IFrameData } from './components/frame/Frame'
 import Mount from './components/mount/Mount'
@@ -61,7 +60,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   public IsEncounterInstance = false
 
   public constructor(frame: Frame, pilot: Pilot) {
-    this._id = uuid()
+    this._id = crypto.randomUUID()
     this._frame = frame
     this._pilot = pilot
 
@@ -119,7 +118,7 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   public RenewID(): void {
-    this._id = uuid()
+    this._id = crypto.randomUUID()
   }
 
   public get Name(): string {

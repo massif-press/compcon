@@ -1,5 +1,4 @@
 import * as _ from 'lodash-es'
-import { v4 as uuid } from 'uuid'
 import { CompendiumItem } from '../CompendiumItem'
 import { MechEquipment } from '../mech/components/equipment/MechEquipment'
 import { MechSystem } from '../mech/components/equipment/MechSystem'
@@ -180,7 +179,7 @@ class Pilot
   public IsEncounterInstance = false
 
   public constructor(data?: PilotData) {
-    this._id = data?.id || uuid()
+    this._id = data?.id || crypto.randomUUID()
     this.IsLevelEdit = data?.le || false
     this.SaveController = new SaveController(this)
     this.CloudController = new CloudController(this)
@@ -362,7 +361,7 @@ class Pilot
   }
 
   public RenewID(): void {
-    this._id = uuid()
+    this._id = crypto.randomUUID()
     this.SaveController.save()
   }
 
@@ -620,7 +619,7 @@ class Pilot
   public CreateInstance<PilotData>(): PilotData {
     const data = this.Serialize(true) as any
     this.SetInstanceProxies<PilotData>(data)
-    ;(data as any).instanceId = uuid()
+    ;(data as any).instanceId = crypto.randomUUID()
     data.originId = this.ID
     data.id = data.instanceId
     data.is_instance = true
@@ -685,7 +684,7 @@ class Pilot
   // serializing as an instance should create a new object with a reference ID to the original
   public static Serialize(p: Pilot, asInstance: boolean = false): PilotData {
     let instanceID
-    if (asInstance) instanceID = uuid()
+    if (asInstance) instanceID = crypto.randomUUID()
 
     const data = {
       itemType: 'pilot',

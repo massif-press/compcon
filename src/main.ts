@@ -30,7 +30,6 @@ import * as globals from './ui/globals'
 import Notifications from '@kyvg/vue3-notification'
 import { flushNotifyQueue } from '@/util/notify'
 
-import VueSecureHTML from 'vue-html-secure'
 import Startup from './io/Startup'
 import { reportWebVitals } from '@/util/performance'
 
@@ -141,7 +140,6 @@ compcon.use(createPinia())
 compcon.use(i18n)
 compcon.use(vuetify)
 compcon.use(router)
-compcon.use(VueSecureHTML)
 compcon.use(Notifications)
 
 compcon.component('QuillEditor', QuillEditor)

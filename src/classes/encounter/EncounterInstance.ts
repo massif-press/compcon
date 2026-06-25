@@ -1,7 +1,6 @@
 import { markRaw } from 'vue'
 import { i18n } from '@/i18n'
 import logger from '@/user/logger'
-import { v4 as uuid } from 'uuid'
 import {
   CloudController,
   ICloudData,
@@ -67,7 +66,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     placeholders: Placeholder[] = []
   ) {
     this.Name = i18n.global.t('classes.newEncounter')
-    this._id = data?.id || uuid()
+    this._id = data?.id || crypto.randomUUID()
     this._round = data?.round || 1
     this.IsActive = data?.isActive || false
     this.SimpleTickbars = data?.simple_tickbars || false
@@ -336,7 +335,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
 
   public Clone(): EncounterInstance {
     const data = structuredClone(EncounterInstance.Serialize(this))
-    data.id = uuid()
+    data.id = crypto.randomUUID()
     return EncounterInstance.Deserialize(data)
   }
 

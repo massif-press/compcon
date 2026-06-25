@@ -3943,13 +3943,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/uuid@npm:10.0.0":
-  version: 10.0.0
-  resolution: "@types/uuid@npm:10.0.0"
-  checksum: 10c0/9a1404bf287164481cb9b97f6bb638f78f955be57c40c6513b7655160beb29df6f84c915aaf4089a1559c216557dc4d2f79b48d978742d3ae10b937420ddac60
-  languageName: node
-  linkType: hard
-
 "@types/uuid@npm:^9.0.0":
   version: 9.0.8
   resolution: "@types/uuid@npm:9.0.8"
@@ -5379,7 +5372,6 @@ __metadata:
     "@sentry/vue": "npm:^10.40.0"
     "@types/lodash-es": "npm:^4.17.12"
     "@types/node": "npm:22.19.11"
-    "@types/uuid": "npm:10.0.0"
     "@vitejs/plugin-vue": "npm:5.2.4"
     "@vue/eslint-config-typescript": "npm:^14.7.0"
     "@vueup/vue-quill": "npm:^1.2.0"
@@ -5389,7 +5381,6 @@ __metadata:
     chartjs-plugin-datalabels: "npm:2.2.0"
     dependency-cruiser: "npm:^17.4.0"
     dompurify: "npm:^3.3.1"
-    ef-infinite-canvas: "npm:0.6.9"
     eslint: "npm:^10.0.2"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-plugin-vue: "npm:^10.8.0"
@@ -5406,7 +5397,6 @@ __metadata:
     marked: "npm:^15.0.12"
     pinia: "npm:3.0.4"
     prettier: "npm:^3.8.1"
-    promisify-file-reader: "npm:4.1.0"
     quill: "npm:^2.0.2"
     sass: "npm:1.97.3"
     semver: "npm:7.7.4"
@@ -5415,7 +5405,6 @@ __metadata:
     typeit: "npm:^8.8.7"
     typescript: "npm:5.9.3"
     typescript-eslint: "npm:^8.56.1"
-    uuid: "npm:^11.1.1"
     vite: "npm:^6.4.3"
     vite-plugin-purgecss: "npm:^0.2.13"
     vite-plugin-pwa: "npm:^1.2.0"
@@ -5424,7 +5413,6 @@ __metadata:
     vue-advanced-cropper: "npm:2.8.9"
     vue-chartjs: "npm:5.3.3"
     vue-eslint-parser: "npm:^10.4.0"
-    vue-html-secure: "npm:1.0.10"
     vue-i18n: "npm:^11"
     vue-i18n-extract: "npm:^2.0.7"
     vue-router: "npm:4.6.4"
@@ -5869,13 +5857,6 @@ __metadata:
   version: 1.1.1
   resolution: "easy-bem@npm:1.1.1"
   checksum: 10c0/83b54e5c854795612a245fba9bc48053da3593205ff19d8aad38ef9bc0cbf56d2df7af73d90b533602696ead1ffe6beef55d756e2356e981f50156e044a1463e
-  languageName: node
-  linkType: hard
-
-"ef-infinite-canvas@npm:0.6.9":
-  version: 0.6.9
-  resolution: "ef-infinite-canvas@npm:0.6.9"
-  checksum: 10c0/aa8982d7d692449283309711b26dc5a858a57affc70400424b1557b27eaf82f03ca89df6d4ef143465ef5e59346f9f30e158a6e56871e2b6ddb8c64087820ab2
   languageName: node
   linkType: hard
 
@@ -8944,13 +8925,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"promisify-file-reader@npm:4.1.0":
-  version: 4.1.0
-  resolution: "promisify-file-reader@npm:4.1.0"
-  checksum: 10c0/1f27395567d22cc00bfe3e4c9ee524b7c4da508df1633cabf8a5aa1205196107dad7a914710a73ae9cffb067100c4d9e5b8e24aa75dcfbb3609b914526289fdd
-  languageName: node
-  linkType: hard
-
 "prompts@npm:2.4.2":
   version: 2.4.2
   resolution: "prompts@npm:2.4.2"
@@ -10656,7 +10630,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:^11.0.0, uuid@npm:^11.1.1":
+"uuid@npm:^11.0.0":
   version: 11.1.1
   resolution: "uuid@npm:11.1.1"
   bin:
@@ -10817,13 +10791,6 @@ __metadata:
   peerDependencies:
     eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
   checksum: 10c0/ded1c52dfa6e08c384da43b8369814bd105e2dc3bbb04e95faa8365af0fcba70293ff8b3749824ae3cc98988aeaaa261d5a205febff23e15667176392dcfee4a
-  languageName: node
-  linkType: hard
-
-"vue-html-secure@npm:1.0.10":
-  version: 1.0.10
-  resolution: "vue-html-secure@npm:1.0.10"
-  checksum: 10c0/814cbb2ee2b55ae4a1b572a5de0cfcfb4b08337cd1bf6e309fe314f4233a6f0a60b36426ff3fe82e6d0cc375a02b1a9cea571736ca01cded80095424446ad872
   languageName: node
   linkType: hard
 

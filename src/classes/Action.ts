@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import { Damage } from './Damage'
 import { ActivationType, ItemType } from './enums'
 import { Range } from './Range'
@@ -191,8 +190,12 @@ class Action {
     data = Action.normalizeData(data)
     this._name = data.name || (origin ? `Activate ${origin}` : 'Unknown Action')
     this.Description = data.description || ''
+<<<<<<< Updated upstream
     const nameForId = this._name.toLowerCase().replace(/\s/g, '')
     this.ID = data.id ? data.id : `act_${nameForId}_${uuid()}`
+=======
+    this.ID = data.id ? data.id : `act_${this.Name.toLowerCase().replace(/\s/g, '')}_${crypto.randomUUID()}`
+>>>>>>> Stashed changes
     this.Origin = origin || ''
     this.IsItemAction = !!origin
     this.SynergyLocations = data.synergy_locations ?? []
@@ -311,7 +314,7 @@ class Action {
   public static CreateDeployAction(d: IDeployableData, origin?: string): Action {
     const a = new Action(
       {
-        id: `deploy_${d.name}_${uuid()}`,
+        id: `deploy_${d.name}_${crypto.randomUUID()}`,
         name: `Deploy ${d.name}`,
         activation: d.activation || ActivationType.Quick,
         cost: Object.hasOwn(d, 'cost') ? d.cost : 1,

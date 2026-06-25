@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import { i18n } from '@/i18n'
 import { localize } from '@/i18n/localize'
 import { Encounter } from './Encounter'
@@ -72,7 +71,7 @@ class SitrepInstance {
 
   constructor(parent: Encounter, sitrep?: Sitrep) {
     this.Parent = parent
-    this.InstanceID = uuid()
+    this.InstanceID = crypto.randomUUID()
     if (sitrep) {
       this.Sitrep = sitrep
     } else {

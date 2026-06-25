@@ -1,5 +1,4 @@
 import { CompendiumStore } from '@/features/compendium/store';
-import { v4 as uuid } from 'uuid';
 
 const ordArr = [
   'Primary',
@@ -19,7 +18,7 @@ abstract class Loadout {
   protected _name: string;
 
   public constructor(count?: number, id?: string) {
-    this._id = id ? id : uuid();
+    this._id = id ? id : crypto.randomUUID();
     if (!count) this._name = 'Primary';
     else this._name = ordArr[count];
   }
@@ -37,7 +36,7 @@ abstract class Loadout {
   }
 
   public RenewID(): void {
-    this._id = uuid();
+    this._id = crypto.randomUUID();
     this.save();
   }
 

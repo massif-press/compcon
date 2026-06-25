@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import { i18n } from '@/i18n'
 import { CloudController } from '@/classes/components/cloud/CloudController'
 import { PortraitController } from '@/classes/components/portrait/PortraitController'
@@ -72,7 +71,7 @@ class Eidolon extends Npc implements IInstanceable {
 
   public CreateInstance<EidolonData>(): EidolonData {
     const data = this.Serialize() as EidolonData
-    ;(data as any).instanceId = uuid()
+    ;(data as any).instanceId = crypto.randomUUID()
     ;(data as any).is_instance = true
 
     return data

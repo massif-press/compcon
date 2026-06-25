@@ -116,7 +116,6 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 import { NpcStore } from '@/stores';
 import * as _ from 'lodash-es';
-import { v4 as uuid } from 'uuid';
 
 defineOptions({ name: 'GmAddNpcMenu' })
 
@@ -153,7 +152,7 @@ function add(rosterItem) {
     props.encounterInstance.Combatants.filter((c) => c.actor.Name === doodad.Name).length + 1;
 
   props.encounterInstance.Combatants.push({
-    id: uuid(),
+    id: crypto.randomUUID(),
     index: props.encounterInstance.Combatants.length,
     number: number,
     side: 'neutral',
@@ -190,7 +189,7 @@ function addEidolon(rosterItem) {
   });
 
   props.encounterInstance.Combatants.push({
-    id: uuid(),
+    id: crypto.randomUUID(),
     index: props.encounterInstance.Combatants.length,
     number: number,
     side: 'enemy',

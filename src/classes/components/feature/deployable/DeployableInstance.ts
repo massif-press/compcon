@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import logger from '@/user/logger'
 import { CombatantData } from '@/classes/encounter/Encounter'
 import type { SaveController } from '../../save/SaveController'
@@ -32,7 +31,7 @@ class DeployableInstance implements ICombatant {
   } as SaveController
 
   public constructor(data: IDeployableData, owner: CombatantData) {
-    this.ID = `${data.type || 'deployable'}_${uuid()}`
+    this.ID = `${data.type || 'deployable'}_${crypto.randomUUID()}`
     this.ItemData = data
     this.Base = new Deployable(data)
     this.Owner = owner

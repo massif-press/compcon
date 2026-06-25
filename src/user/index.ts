@@ -1,5 +1,4 @@
 //  This is the local user profile class. Cloud/cognito user information should be stored in a new class.
-import { v4 as uuid } from 'uuid'
 import { get } from 'lodash-es'
 
 import logger from './logger'
@@ -95,7 +94,7 @@ class UserProfile {
   private _enhancedReporting: boolean = false
 
   public constructor(id?: string) {
-    this.ID = id || uuid()
+    this.ID = id || crypto.randomUUID()
     this._theme = 'gms_dark'
     this._font = 'inter'
     this._language = 'en'
@@ -321,7 +320,7 @@ class UserProfile {
 
   public AddConfig(): void {
     const newConfig: LcpConfig = {
-      id: uuid(),
+      id: crypto.randomUUID(),
       name: `New Config ${this.LcpConfigs.length + 1}`,
       packList: [],
     }
@@ -414,7 +413,7 @@ async function getLocalProfile(): Promise<UserProfile> {
 
   if (!config) {
     try {
-      localStorage.setItem(CONFIG_FILE_NAME, JSON.stringify(new UserProfile(uuid())))
+      localStorage.setItem(CONFIG_FILE_NAME, JSON.stringify(new UserProfile(crypto.randomUUID())))
       config = localStorage.getItem(CONFIG_FILE_NAME)
       logger.info('Created user profile')
     } catch (err) {

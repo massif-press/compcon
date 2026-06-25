@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import { ContentPack } from './ContentPack'
 import { localize } from '@/i18n/localize'
 import { ItemType } from './enums'
@@ -30,8 +29,13 @@ class Status implements ILcpTracked {
 
   public constructor(data: IStatusData, pack?: ContentPack) {
     this.ID = data.id || `${pack?.Name || DEFAULT_LCP_NAME}_${data.name}`.replace(/ /g, '_')
+<<<<<<< Updated upstream
     this.InstanceID = uuid()
     this._name = data.name
+=======
+    this.InstanceID = crypto.randomUUID()
+    this.Name = data.name
+>>>>>>> Stashed changes
     this.Effects = data.effects
     if (data.terse) this._terse = data.terse
     else if (Array.isArray(data.effects)) this._terse = data.effects.join(', ')

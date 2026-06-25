@@ -1,7 +1,6 @@
 import { ContentPack } from '@/classes/ContentPack'
 import { ItemType } from '../../enums'
 import { applyLcpTracking, type ILcpTracked } from '@/classes/LcpItemMixin'
-import { v4 as uuid } from 'uuid'
 
 interface ITableRoll {
   min: number
@@ -34,7 +33,7 @@ class RollableTable {
   public LcpAuthor: string = ''
 
   public constructor(data?: IRollableTableData, lcp?: ContentPack) {
-    this.ID = data?.id || uuid()
+    this.ID = data?.id || crypto.randomUUID()
     this.Title = data?.title || ''
     this.Description = data?.description || ''
     this.Mult = data?.mult || 1

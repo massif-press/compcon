@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 
 import { Sitrep } from './encounter/Sitrep'
 import { ItemType } from './enums'
@@ -128,7 +127,7 @@ class ContentPack {
   public Key: string
 
   constructor(pack: IContentPack) {
-    this.Key = uuid()
+    this.Key = crypto.randomUUID()
 
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this

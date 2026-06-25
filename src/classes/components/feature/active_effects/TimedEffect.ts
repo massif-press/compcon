@@ -1,5 +1,4 @@
 import { DamageType } from '../../../enums'
-import { v4 as uuid } from 'uuid'
 import { markRaw } from 'vue'
 
 interface ITimedEffectAction {
@@ -26,7 +25,7 @@ class TimedEffect {
   private _data: ITimedEffectData
 
   public constructor(data: ITimedEffectData) {
-    this.ID = data.id || uuid()
+    this.ID = data.id || crypto.randomUUID()
     this._data = data
   }
 

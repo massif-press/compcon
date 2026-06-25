@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import { defineStore } from 'pinia'
 import * as _ from 'lodash-es'
 import License from '@/classes/pilot/components/license/License'
@@ -203,7 +202,7 @@ export const CompendiumStore = defineStore('compendium', {
           const i = col.find((x: any) => x.ID === id || x.id === id)
           if (i) {
             const cl = _.cloneDeep(i) as any
-            cl.InstanceID = uuid()
+            cl.InstanceID = crypto.randomUUID()
             return cl as CompendiumItem
           }
           return null

@@ -240,7 +240,6 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { v4 as uuid } from 'uuid'
 import { Encounter } from '@/classes/encounter/Encounter'
 import { Sitrep, SitrepInstance, type ISitrepData } from '@/classes/encounter/Sitrep'
 import { CompendiumStore } from '@/stores'
@@ -309,7 +308,7 @@ async function savePreset() {
     name = `${base} (${i})`
   }
   const preset: ISitrepData = {
-    id: uuid(),
+    id: crypto.randomUUID(),
     name,
     modified: false,
     description: props.item.Sitrep.Description,

@@ -83,7 +83,10 @@
               <v-divider />
               <b class="heading">{{ item.version }}</b>
               <div class="text-caption">
-                {{ $t("mainMenu.subscriptions.updatedOn", { date: new Date(item.updated).toLocaleString() }) }}
+                {{ $t("mainMenu.subscriptions.updatedOn", {
+                  date: new
+                    Date(item.updated).toLocaleString() })
+                }}
               </div>
             </span>
           </v-tooltip>
@@ -150,7 +153,8 @@
         </td>
       </template>
     </v-data-table>
-    <v-alert v-for="(item, itemIdx) in remoteDeletedItems" :key="`deleted-${itemIdx}`"
+    <v-alert v-for="(item, itemIdx) in remoteDeletedItems"
+      :key="`deleted-${itemIdx}`"
       class="mx-8 my-2"
       density="compact"
       prominent
@@ -190,98 +194,98 @@ const { smAndDown: mobile, xs: portrait } = useDisplay()
 const loading = ref(false)
 const expanded = ref([])
 const collectionHeaders = ref([
-      { title: '', key: 'data-table-expand', width: '0' },
-      { title: 'Content Collection', key: 'name' },
-      { title: 'Author', key: 'author' },
-      { title: 'Version', key: 'vers', align: 'center' },
-      { title: '', key: 'actions' },
-    ])
+  { title: '', key: 'data-table-expand', width: '0' },
+  { title: 'Content Collection', key: 'name' },
+  { title: 'Author', key: 'author' },
+  { title: 'Version', key: 'vers', align: 'center' },
+  { title: '', key: 'actions' },
+])
 const update_on = ref([
-      {
-        title: 'On Startup',
-        value: 'startup',
-      },
-      {
-        title: 'Manual Only',
-        value: 'manual',
-      },
-    ])
+  {
+    title: 'On Startup',
+    value: 'startup',
+  },
+  {
+    title: 'Manual Only',
+    value: 'manual',
+  },
+])
 
 const cloudUser = computed(() => {
-      return UserStore().UserMetadata;
-    })
+  return UserStore().UserMetadata;
+})
 const collectionItems = computed(() => {
-      return UserStore().RemoteCollections;
-    })
+  return UserStore().RemoteCollections;
+})
 const remoteDeletedItems = computed(() => {
-      return cloudUser.value.CollectionSubscriptionSettings.items.filter(
-        (sub) => !collectionItems.value.find((item) => item.id === sub.metadata.id)
-      );
-    })
+  return cloudUser.value.CollectionSubscriptionSettings.items.filter(
+    (sub) => !collectionItems.value.find((item) => item.id === sub.metadata.id)
+  );
+})
 
 async function saveUserMetadata() {
-      loading.value = true;
-      await UserStore().setUserMetadata();
-      loading.value = false;
-    }
+  loading.value = true;
+  await UserStore().setUserMetadata();
+  loading.value = false;
+}
 async function unsubscribe(item) {
-      loading.value = true;
-      await UserStore().removeContentSubscription(item);
-      loading.value = false;
-    }
+  loading.value = true;
+  await UserStore().removeContentSubscription(item);
+  loading.value = false;
+}
 async function update(item) {
-      loading.value = true;
-      let errors = await UserStore().updateRemoteCollection(item);
-      if (errors.length > 0) {
-        logger.error(`Error updating collection: ${errors}`, this);
-        notify({
-          title: t('mainMenu.account.collectionErrorTitle'),
-          text: t('mainMenu.account.collectionErrorText'),
-          data: { color: 'error', icon: 'mdi-alert-circle-outline' },
-        });
-      } else {
-        notify({
-          title: t('mainMenu.account.collectionUpdatedTitle'),
-          text: t('mainMenu.account.collectionUpdatedText'),
-          data: { color: 'success', icon: 'mdi-check-circle-outline' },
-        });
-      }
-      loading.value = false;
-    }
+  loading.value = true;
+  const errors = await UserStore().updateRemoteCollection(item);
+  if (errors.length > 0) {
+    logger.error(`Error updating collection: ${errors}`, this);
+    notify({
+      title: t('mainMenu.account.collectionErrorTitle'),
+      text: t('mainMenu.account.collectionErrorText'),
+      data: { color: 'error', icon: 'mdi-alert-circle-outline' },
+    });
+  } else {
+    notify({
+      title: t('mainMenu.account.collectionUpdatedTitle'),
+      text: t('mainMenu.account.collectionUpdatedText'),
+      data: { color: 'success', icon: 'mdi-check-circle-outline' },
+    });
+  }
+  loading.value = false;
+}
 async function refresh() {
-      loading.value = true;
-      await UserStore().getRemoteCollectionMetadata();
-      loading.value = false;
-    }
+  loading.value = true;
+  await UserStore().getRemoteCollectionMetadata();
+  loading.value = false;
+}
 async function updateAll() {
-      for (let item of collectionItems.value) {
-        const localSetting = getLocalUserSetting(item);
-        if (localSetting && localSetting.metadata.version === item.version) continue;
-        else await update(item);
-      }
-    }
+  for (let item of collectionItems.value) {
+    const localSetting = getLocalUserSetting(item);
+    if (localSetting && localSetting.metadata.version === item.version) continue;
+    else await update(item);
+  }
+}
 function getLocalUserSetting(item) {
-      return cloudUser.value.CollectionSubscriptionSettings.items.find(
-        (sub) => sub.metadata.id === item.id
-      );
-    }
+  return cloudUser.value.CollectionSubscriptionSettings.items.find(
+    (sub) => sub.metadata.id === item.id
+  );
+}
 function isLatestVersion(item) {
-      if (!getLocalUserSetting(item)) return false;
-      return item.version === getLocalUserSetting(item)!.metadata.version;
-    }
+  if (!getLocalUserSetting(item)) return false;
+  return item.version === getLocalUserSetting(item)!.metadata.version;
+}
 function copy(code) {
-      navigator.clipboard.writeText(code);
-    }
+  navigator.clipboard.writeText(code);
+}
 function parsedContent(json) {
-      return JSON.parse(json);
-    }
+  return JSON.parse(json);
+}
 function majorMinor(item) {
-      if (!getLocalUserSetting(item)) return '';
-      if (
-        getLocalUserSetting(item)!.metadata.version.split('.')[0] ===
-        item.version.split('.')[0]
-      )
-        return 'Minor';
-      return 'Major';
-    }
+  if (!getLocalUserSetting(item)) return '';
+  if (
+    getLocalUserSetting(item)!.metadata.version.split('.')[0] ===
+    item.version.split('.')[0]
+  )
+    return 'Minor';
+  return 'Major';
+}
 </script>

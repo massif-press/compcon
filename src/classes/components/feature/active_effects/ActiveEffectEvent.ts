@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 
 import { ActiveEffect } from './ActiveEffect'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
@@ -38,7 +37,7 @@ class ActiveEffectEvent {
   public IsPcLocal: boolean = false
 
   constructor(initiator: CombatantData, effect: ActiveEffect, instance: EncounterInstance) {
-    this.ID = uuid()
+    this.ID = crypto.randomUUID()
     this.IsPcLocal = instance.ItemType === 'PilotSheet'
     this.Initiator = initiator
     this.Effect = effect

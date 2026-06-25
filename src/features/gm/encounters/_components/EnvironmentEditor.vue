@@ -126,7 +126,6 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { v4 as uuid } from 'uuid'
 import { Environment, EnvironmentInstance, type IEnvironmentData } from '@/classes/Environment'
 import { Encounter } from '@/classes/encounter/Encounter'
 import { CompendiumStore } from '@/stores'
@@ -184,7 +183,7 @@ async function savePreset() {
     name = `${base} (${i})`
   }
   const preset: IEnvironmentData = {
-    id: uuid(),
+    id: crypto.randomUUID(),
     name,
     modified: false,
     description: props.item.Environment.Description,

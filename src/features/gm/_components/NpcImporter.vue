@@ -129,7 +129,6 @@ NpcStore,
 NarrativeStore,
 EncounterStore,
 } from '@/stores';
-import { v4 as uuid } from 'uuid';
 import { Unit } from '@/classes/npc/unit/Unit';
 import { Doodad } from '@/classes/npc/doodad/Doodad';
 import { Eidolon } from '@/classes/npc/eidolon/Eidolon';
@@ -260,7 +259,7 @@ async function importFile() {
               backedUp++;
             }
           } else {
-            item.id = uuid();
+            item.id = crypto.randomUUID();
             if (item.npcType) {
               if (item.npcType === 'unit') {
                 await NpcStore().AddNpc(Unit.Deserialize(item));

@@ -1,7 +1,6 @@
 import { getActivePinia } from 'pinia'
 import { i18n } from '@/i18n'
 import { ImageTag } from '@/io/ImageManagement'
-import { v4 as uuid } from 'uuid'
 import {
   CloudController,
   ICloudData,
@@ -64,7 +63,7 @@ abstract class CollectionItem
   static Name: string
 
   public constructor(data?: ICollectionItemData) {
-    this._id = data?.id || uuid()
+    this._id = data?.id || crypto.randomUUID()
     this._note = data?.note || ''
     this._description = data?.description || ''
     this.SaveController = new SaveController(this)
@@ -94,7 +93,7 @@ abstract class CollectionItem
   }
 
   public RenewID(): void {
-    this._id = uuid()
+    this._id = crypto.randomUUID()
   }
 
   public get Name(): string {

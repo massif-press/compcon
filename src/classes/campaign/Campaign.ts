@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import { i18n } from '@/i18n'
 import {
   CloudController,
@@ -71,7 +70,7 @@ class Campaign implements ISaveable, ICloudSyncable {
   constructor(data?: ICampaignData) {
     this.Published = data?.published || false
 
-    this.ID = data?.id || uuid()
+    this.ID = data?.id || crypto.randomUUID()
     this._title = data?.title || i18n.global.t('classes.newCampaign')
     this._subtitle = data?.subtitle || ''
     this._description = data?.description || ''
@@ -324,7 +323,7 @@ class Campaign implements ISaveable, ICloudSyncable {
 
     const data = this.Serialize()
 
-    data.id = uuid()
+    data.id = crypto.randomUUID()
     data.published = true
 
     return data
@@ -376,7 +375,7 @@ class Campaign implements ISaveable, ICloudSyncable {
 
   public Clone(): Campaign {
     const itemData = structuredClone(Campaign.Serialize(this))
-    itemData.id = uuid()
+    itemData.id = crypto.randomUUID()
     const newItem = Campaign.Deserialize(itemData)
     newItem.Title += ' (COPY)'
     return newItem

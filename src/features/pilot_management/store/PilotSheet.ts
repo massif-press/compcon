@@ -1,5 +1,4 @@
 // container for pilot-as-combatant data
-import { v4 as uuid } from 'uuid'
 import { Deployable } from '@/classes/components/feature/deployable/Deployable'
 import { ItemType } from '@/classes/enums'
 import { Mech } from '@/classes/mech/Mech'
@@ -81,7 +80,7 @@ class PilotSheet implements ISaveable, ICloudSyncable {
     pilot.FeatureController.BonusController.applyToStats(pilot.CombatController.StatController)
     pilot.CombatController.StatController.resetCurrentStats()
     const data = {
-      id: uuid(),
+      id: crypto.randomUUID(),
       combatant: {
         id: pilot.ID,
         index: -1,

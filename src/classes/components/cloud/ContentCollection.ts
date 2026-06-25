@@ -13,7 +13,6 @@ import { NpcStore } from '@/features/gm/store/npc_store'
 import { NarrativeStore } from '@/features/gm/store/narrative_store'
 import { EncounterStore } from '@/features/gm/store/encounter_store'
 import { CampaignStore } from '@/features/gm/store/campaign_store'
-import { v4 as uuid } from 'uuid'
 import logger from '@/user/logger'
 
 type CollectionContentItem = {
@@ -78,7 +77,7 @@ class ContentCollection {
   private _autoLog: string[] = []
 
   constructor(c_data?: CollectionData) {
-    this.ID = c_data?.id || uuid()
+    this.ID = c_data?.id || crypto.randomUUID()
     this.Name = c_data?.name || i18n.global.t('classes.newCollection')
     this.Author = c_data?.author || ''
     this.Description = c_data?.description || ''

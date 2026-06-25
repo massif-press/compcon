@@ -139,7 +139,6 @@ import { NpcStore, PilotStore, PilotGroupStore } from '@/stores'
 import { Pilot } from '@/classes/pilot/Pilot'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import * as _ from 'lodash-es'
-import { v4 as uuid } from 'uuid'
 
 defineOptions({ name: 'GmAddFromRosterMenu' })
 
@@ -203,7 +202,7 @@ function addNpc(rosterItem: any) {
   npc.CombatController.StatController.resetCurrentStats()
   npc.CombatController.Reset()
   props.encounterInstance.Combatants.push({
-    id: uuid(),
+    id: crypto.randomUUID(),
     index: props.encounterInstance.Combatants.length,
     number,
     side: 'enemy',

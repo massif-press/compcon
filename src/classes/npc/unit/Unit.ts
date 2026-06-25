@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import { CloudController } from '@/classes/components/cloud/CloudController'
 import { PortraitController } from '@/classes/components/portrait/PortraitController'
 import { SaveController } from '@/classes/components/save/SaveController'
@@ -149,7 +148,7 @@ class Unit extends Npc implements ICombatant, IInstanceable {
 
   public CreateInstance<UnitData>(): UnitData {
     const data = this.Serialize() as any
-    ;(data as any).instanceId = uuid()
+    ;(data as any).instanceId = crypto.randomUUID()
     data.originId = this.ID
     data.id = data.instanceId
     data.is_instance = true

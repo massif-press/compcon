@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import { snakeCase, kebabCase, cloneDeep } from 'lodash-es'
 import { getActivePinia } from 'pinia'
 import { localize } from '@/i18n/localize'
@@ -94,7 +93,7 @@ abstract class CompendiumItem {
   public Destroyed: boolean = false
 
   public constructor(data?: ICompendiumItemData, lcp?: ContentPack) {
-    this.InstanceID = uuid()
+    this.InstanceID = crypto.randomUUID()
     this.ItemType = ItemType.None
     this.ItemData = data || ({} as ICompendiumItemData)
     if (data) {
@@ -168,7 +167,7 @@ abstract class CompendiumItem {
       if (data.destroyed) this.Destroyed = data.destroyed
       if (data.isUsed) this.Used = data.isUsed
     } else {
-      this.ID = `err_${uuid()}`
+      this.ID = `err_${crypto.randomUUID()}`
       this._name = this._description = this._note = ''
       this.Brew = {} as BrewInfo
       this.Err = 'Item data not found!'

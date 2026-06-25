@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import { i18n } from '@/i18n'
 import {
   CloudController,
@@ -98,7 +97,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   private _combatants: CombatantData[] = []
 
   public constructor(data?: IEncounterData) {
-    this._id = data?.id || uuid()
+    this._id = data?.id || crypto.randomUUID()
     this._name = data?.name || ''
     this._note = data?.note || ''
     this._description = data?.description || ''
@@ -156,7 +155,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   }
 
   public RenewID(): void {
-    this._id = uuid()
+    this._id = crypto.randomUUID()
     this.save()
   }
 
@@ -382,7 +381,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
     }
 
     const item = {
-      id: data.id || uuid(),
+      id: data.id || crypto.randomUUID(),
       index: data.index,
       type: data.type,
       number: data.number || 1,
