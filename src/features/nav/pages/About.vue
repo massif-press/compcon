@@ -1,25 +1,21 @@
 <template>
   <v-container>
-    <div class="heading mech" style="line-height: 30px">{{ $t('nav.about.title') }}</div>
+    <div class="heading mech"
+      style="line-height: 30px">{{ $t('nav.about.title') }}</div>
     <div class="text-caption ml-1 my-2">
-<<<<<<< HEAD
-      {{ a.ccVersion }}:
-      <b class="text-accent">{{ $appVersion }}</b>
-      <cc-slashes class="pl-1" />
-      {{ a.lancerCoreVersion }}:
-=======
       {{ $t('nav.about.ccVersion') }}
       <b class="text-accent">{{ $appVersion }}</b>
       <cc-slashes class="pl-1" />
       {{ $t('nav.about.lancerCoreVersion') }}
->>>>>>> master
       <b class="text-accent">{{ $lancerVersion }}</b>
     </div>
-    <v-row dense align="center" justify="center" class="my-2">
+    <v-row dense
+      align="center"
+      justify="center"
+      class="my-2">
       <v-col cols="auto">
         <a href="https://app.netlify.com/sites/compcon/deploys">
-          <img
-            :alt="$t('nav.alt.netlifyStatus')"
+          <img :alt="$t('nav.alt.netlifyStatus')"
             src="https://api.netlify.com/api/v1/badges/8c8ba126-8074-4a99-98f9-9b0529107214/deploy-status" />
         </a>
       </v-col>
@@ -31,7 +27,9 @@
         </a>
       </v-col>
     </v-row>
-    <v-row no-gutters align="center" justify="center">
+    <v-row no-gutters
+      align="center"
+      justify="center">
       <v-col cols="auto">
         <a href="https://patreon.com/compcon">
           <img
@@ -41,13 +39,15 @@
       </v-col>
     </v-row>
 
-    <div class="d-flex justify-center align-center my-6" style="width: 100%">
+    <div class="d-flex justify-center align-center my-6"
+      style="width: 100%">
       <p style="max-width: 80vw; text-align: center">
         {{ $t('nav.about.description') }}
         <br />
         <br />
         {{ $t('nav.about.coreBookInfo') }}
-        <a target="_blank" href="http://www.massifpress.com">massifpress.com</a>
+        <a target="_blank"
+          href="http://www.massifpress.com">massifpress.com</a>
       </p>
     </div>
   </v-container>

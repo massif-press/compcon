@@ -61,11 +61,7 @@
         opacity: 0.75;
       ">
       <cc-slashes />
-<<<<<<< HEAD
-      {{ strings.createdBy }}: {{ item.Author }}
-=======
       {{ $t('nav.achievementItem.createdBy') }} {{ item.Author }}
->>>>>>> master
     </div>
   </v-card>
 </template>

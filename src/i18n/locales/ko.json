@@ -23,7 +23,6 @@
     "confirm": "확인",
     "search": "검색",
     "all": "전체",
-    "alert": "경고",
     "edit": "편집",
     "offline": "오프라인",
     "reset": "초기화",
@@ -50,7 +49,6 @@
     "copyShareCode": "공유코드 복사",
     "preview": "미리보기",
     "copyLink": "링크 복사",
-    "ok": "예",
     "attackBonus": "공격 보너스",
     "difficulty": "불리도",
     "accuracy": "정확도",
@@ -61,11 +59,9 @@
     "pilotRoster": "파일럿 목록",
     "closePreview": "미리보기 닫기",
     "saveAndClose": "저장 후 닫기",
-    "loading": "불러오는 중…",
     "type": "타입",
     "convert": "변환",
     "appName": "COMP/CON",
-    "appShortName": "C/C",
     "gameName": "LANCER",
     "submit": "등록",
     "removeName": "{name} 제거하기",
@@ -85,11 +81,25 @@
     "callsign": "콜사인",
     "cancelPermanentDeletion": "영구 삭제 취소",
     "confirmPermanentDeletion": "영구 삭제 확인",
-    "contentLabel": "컨텐츠"
+    "contentLabel": "컨텐츠",
+    "show": "보기",
+    "mount": "마운트",
+    "environment": "환경",
+    "background": "배경",
+    "changelog": "변경사항",
+    "hidden": "숨김",
+    "core": "코어",
+    "alert": "경고",
+    "ok": "예",
+    "loading": "불러오는 중…",
+    "appShortName": "C/C"
   },
   "gm": {
     "fields": {
       "authors": "작성자"
+    },
+    "campaign": {
+      "patch": "패치"
     },
     "combatantSelector": {
       "eidolons": "아이돌론"
@@ -110,7 +120,11 @@
     },
     "common": {
       "copiedToClipboard": "클립보드에 복사됨",
-      "halfDamage": "절반 피해"
+      "halfDamage": "절반 피해",
+      "exportAsJson": "JSON으로 내보내기",
+      "disengageFailed": "교전해제 실패",
+      "disengageFailedText": "{name}은 교전상태가 아닙니다.",
+      "disengagedText": "{name}(이)가 교전해제됨."
     },
     "dmgCond": {
       "doubleDamage": "두배 피해",
@@ -118,6 +132,24 @@
     },
     "scan": {
       "scan": "스캔"
+    },
+    "actionChips": {
+      "protocol": "프로토콜"
+    }
+  },
+  "compendium": {
+    "content": {
+      "eidolonLayer": "아이돌론 층위",
+      "frameSuffix": "{type} 프레임"
+    },
+    "campaign": {
+      "recommendedLicenseLevel": "추천 라이센스 레벨"
+    }
+  },
+  "nav": {
+    "packsDirectory": {
+      "communityContent": "@:{'common.gameName'} 커뮤니티 컨텐츠",
+      "communityContentTitle": "@:{'common.gameName'} 커뮤니티 컨텐츠 팩"
     }
   }
 }
