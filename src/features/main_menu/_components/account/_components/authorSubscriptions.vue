@@ -85,7 +85,8 @@
               <div class="text-caption">
                 {{ $t("mainMenu.subscriptions.updatedOn", {
                   date: new
-                    Date(item.updated).toLocaleString() })
+                    Date(item.updated).toLocaleString()
+                })
                 }}
               </div>
             </span>
@@ -235,19 +236,19 @@ async function unsubscribe(item) {
 }
 async function update(item) {
   loading.value = true;
-  const errors = await UserStore().updateRemoteCollection(item);
+  let errors = await UserStore().updateRemoteCollection(item);
   if (errors.length > 0) {
     logger.error(`Error updating collection: ${errors}`, this);
     notify({
       title: t('mainMenu.account.collectionErrorTitle'),
       text: t('mainMenu.account.collectionErrorText'),
-      data: { color: 'error', icon: 'mdi-alert-circle-outline' },
+      color: 'error', icon: 'mdi-alert-circle-outline',
     });
   } else {
     notify({
       title: t('mainMenu.account.collectionUpdatedTitle'),
       text: t('mainMenu.account.collectionUpdatedText'),
-      data: { color: 'success', icon: 'mdi-check-circle-outline' },
+      color: 'success', icon: 'mdi-check-circle-outline',
     });
   }
   loading.value = false;

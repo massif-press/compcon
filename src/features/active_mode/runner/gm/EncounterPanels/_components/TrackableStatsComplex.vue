@@ -106,7 +106,8 @@
           tile
           class="pt-4 text-cc-overline text-center"
           border="sm">
-          <div v-if="item.CombatController.CorePower">{{ $t('active.trackable.clearMechCore') }}</div>
+          <div v-if="item.CombatController.CorePower">{{ $t('active.trackable.clearMechCore') }}
+          </div>
           <div v-else>{{ $t('active.trackable.restoreMechCore') }}</div>
           {{ $t('active.trackable.corePowerQ') }}
           <template #actions>
@@ -115,7 +116,8 @@
               size="x-small"
               :prepend-icon="currentIcon"
               @click="drainBattery">
-              {{ $t('common.confirm') }} {{ item.CombatController.CorePower ? $t('common.clear') : $t('common.restore') }} {{ $t('common.core') }}
+              {{ $t('common.confirm') }} {{ item.CombatController.CorePower ? $t('common.clear') :
+                $t('common.restore') }} {{ $t('common.core') }}
             </cc-button>
           </template>
         </v-card>
@@ -131,7 +133,7 @@ import { useTrackableStats } from './useTrackableStats'
 
 const props = defineProps<{ item: object }>()
 
-const { batteryIcons, batteryIndex, overchargeTrack, getIcon, drainBattery } = useTrackableStats(props)
+const { batteryIcons, batteryIndex, overchargeTrack, drainBattery } = useTrackableStats(props)
 
 const currentIcon = computed(() => !props.item.CombatController.CorePower ? 'mdi-battery-outline' : batteryIcons.value[batteryIndex.value])
 </script>

@@ -30,10 +30,10 @@
 
       <div class="mb-4">
         <cc-heading is-title
-          :text="st.storageSettings" />
+          :text="$t('nav.storage.storageSettings')" />
         <cc-heading is-title
           small
-          :text="st.storageThresholds" />
+          :text="$t('nav.storage.storageThresholds')" />
         <v-range-slider v-model="storageRange"
           thumb-label
           hide-details
@@ -66,7 +66,7 @@
           </v-col>
           <v-col v-if="thresholdType === 'pct'">
             <v-text-field v-model.number="storageRange[0]"
-              :label="st.warningThresholdPct"
+              :label="$t('nav.storage.warningThresholdPct')"
               type="number"
               min="0"
               :max="storageRange[1]"
@@ -78,7 +78,7 @@
           </v-col>
           <v-col v-else>
             <v-text-field v-model.number="warnMb"
-              :label="st.warningThresholdMb"
+              :label="$t('nav.storage.warningThresholdMb')"
               type="number"
               min="0"
               :max="maxMb"
@@ -89,7 +89,7 @@
           </v-col>
           <v-col v-if="thresholdType === 'pct'">
             <v-text-field v-model.number="storageRange[1]"
-              :label="st.maxThresholdPct"
+              :label="$t('nav.storage.maxThresholdPct')"
               type="number"
               :min="storageRange[0]"
               max="100"
@@ -101,7 +101,7 @@
           </v-col>
           <v-col v-else>
             <v-text-field v-model.number="maxMb"
-              :label="st.maxThresholdMb"
+              :label="$t('nav.storage.maxThresholdMb')"
               type="number"
               :min="warnMb"
               variant="outlined"
@@ -111,21 +111,23 @@
           </v-col>
         </v-row>
         <div class="text-caption text-right text-stark">
-          {{ st.warningDescription }} {{ storageRange[0].toFixed(2) }}{{ st.ofAvailableStorage }}
+          {{ $t('nav.storage.warningDescription') }} {{ storageRange[0].toFixed(2) }}{{
+            $t('nav.storage.ofAvailableStorage') }}
           <b class="text-accent">{{ bytesToSize((storageRange[0] / 100) * size.quota) }}</b>
-          {{ st.hasBeenUsed }}
+          {{ $t('nav.storage.hasBeenUsed') }}
         </div>
         <div class="text-caption text-right text-stark">
-          {{ st.maxDescription }} {{ storageRange[1].toFixed(2) }}{{ st.ofAvailableStorage }}
+          {{ $t('nav.storage.maxDescription') }} {{ storageRange[1].toFixed(2) }}{{
+            $t('nav.storage.ofAvailableStorage') }}
           <b class="text-accent">{{ bytesToSize((storageRange[1] / 100) * size.quota) }}</b>
-          {{ st.hasBeenUsed }}
+          {{ $t('nav.storage.hasBeenUsed') }}
         </div>
       </div>
 
       <div class="mb-8">
         <cc-heading is-title
           small
-          :text="st.autoDelete" />
+          :text="$t('nav.storage.autoDelete')" />
 
         <cc-select v-model="deleteDays"
           :items="deleteDaySelections"
@@ -138,7 +140,8 @@
               tag="span"
               scope="global">
               <template #never>
-                <b class="text-accent"><span class="text-lowercase">{{ $t('active.runnerHeader.never') }}</span></b>
+                <b class="text-accent"><span class="text-lowercase">{{
+                  $t('active.runnerHeader.never') }}</span></b>
               </template>
             </i18n-t>
           </span>
@@ -156,13 +159,13 @@
     </v-card-text>
     <v-card-text v-else
       class="flavor-text">
-      {{ st.noStorageAccess }}
+      {{ $t('nav.storage.noStorageAccess') }}
     </v-card-text>
 
     <v-divider class="my-4" />
 
     <cc-heading is-title
-      :text="st.deletedItems" />
+      :text="$t('nav.storage.deletedItems')" />
     <v-card-text>
       <deleted-items />
     </v-card-text>
@@ -170,7 +173,7 @@
     <v-divider class="my-4" />
 
     <cc-heading is-title
-      :text="st.userData" />
+      :text="$t('nav.storage.userData')" />
     <user-data-viewer />
 
     <v-dialog v-model="deleteDialog"
@@ -184,7 +187,7 @@
             append-icon="mdi-alert-outline"
             prepend-icon="mdi-alert-outline"
             v-bind="props">
-            {{ st.clearAllData }}
+            {{ $t('nav.storage.clearAllData') }}
           </cc-button>
         </div>
       </template>
@@ -197,14 +200,14 @@
             icon="mdi-alert-circle"
             border="bottom"
             class="my-3">
-            <span class="heading h2">{{ st.deleteWarningBanner }}</span>
+            <span class="heading h2">{{ $t('nav.storage.deleteWarningBanner') }}</span>
           </v-alert>
           <p class="text-center heading h2 text-text">
             <i18n-t keypath="nav.storage.deleteConfirmIntro"
               tag="span"
               scope="global">
               <template #confirm>
-                <b class="text-accent"><span class="text-uppercase">{{ $t('common.all') }}</span></b>
+                <b class="text-accent">{{ $t('nav.storage.deleteAllConfirm') }}</b>
               </template>
             </i18n-t>
             <br />
@@ -212,12 +215,12 @@
               tag="span"
               scope="global">
               <template #undone>
-                <b class="text-accent">{{ st.cannotBeUndone }}</b>
+                <b class="text-accent">{{ $t('nav.storage.cannotBeUndone') }}</b>
               </template>
             </i18n-t>
             <br />
             <br />
-            <b class="text-accent">{{ st.areYouSure }}</b>
+            <b class="text-accent">{{ $t('nav.storage.areYouSure') }}</b>
           </p>
         </v-card-text>
         <v-divider />
@@ -235,7 +238,7 @@
             <v-icon start
               size="x-large"
               icon="mdi-alert-outline" />
-            {{ st.deleteAllUserData }}
+            {{ $t('nav.storage.deleteAllUserData') }}
             <v-icon end
               size="x-large"
               icon="mdi-alert-outline" />
@@ -254,11 +257,8 @@ import UserDataViewer from './components/UserDataViewer.vue'
 import { ClearAllData, GetTotalStorageSize } from '@/io/Storage'
 import logger from '@/user/logger'
 import { UserStore } from '@/stores'
-import { useNavStrings } from '@/features/nav/useNavStrings'
-const { section } = useNavStrings()
 
 const { mdAndDown: mobile } = useDisplay()
-const st = section('storage')
 
 const user = computed(() => UserStore().User)
 

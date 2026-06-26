@@ -205,7 +205,7 @@ async function exchangeItchToken(access_token) {
     notify({
       title: t('notify.account.itchLinkedTitle'),
       text: t('notify.account.itchLinkedText'),
-      data: { color: 'success' },
+      color: 'success',
     });
   } catch (error) {
     logger.error(`Error linking itch.io account: ${error}`, this, error);
@@ -213,7 +213,7 @@ async function exchangeItchToken(access_token) {
     notify({
       title: t('notify.account.itchLinkFailedTitle'),
       text: t('notify.account.itchLinkFailedText'),
-      data: { color: 'error' },
+      color: 'error',
     });
   }
 }
@@ -232,7 +232,7 @@ async function unlinkItch() {
   notify({
     title: t('notify.account.itchUnlinkedTitle'),
     text: t('notify.account.itchUnlinkedText'),
-    data: { color: 'success' },
+    color: 'success',
   });
 }
 </script>

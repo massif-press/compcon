@@ -48,14 +48,14 @@ function copy() {
       notify({
         title: t('notify.statblock.copiedTitle'),
         text: t('notify.statblock.copiedText'),
-        data: { icon: 'mdi-clipboard-text-outline' },
+        icon: 'mdi-clipboard-text-outline',
       })
     )
     .catch(() =>
       notify({
         title: t('notify.common.error'),
         text: t('notify.statblock.errorText'),
-        data: { icon: 'mdi-clipboard-text-outline', color: 'error' },
+        icon: 'mdi-clipboard-text-outline', color: 'error',
       })
     );
 }

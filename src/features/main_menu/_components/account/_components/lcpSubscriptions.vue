@@ -104,14 +104,14 @@ async function installLatest(pack) {
     notify({
       title: t('notify.lcp.lcpUpdatedTitle'),
       text: t('mainMenu.account.lcpUpdatedText', { title: pack.title }),
-      data: { color: 'success', icon: 'mdi-check-bold' },
+      color: 'success', icon: 'mdi-check-bold',
     });
   } catch (err) {
     logger.error(`Error downloading LCP: ${err}`, this, err);
     notify({
       title: t('notify.lcp.lcpUpdateErrorTitle'),
       text: t('mainMenu.account.lcpUpdateErrorText', { title: pack.title }),
-      data: { color: 'error', icon: 'mdi-alert-circle-outline' },
+      color: 'error', icon: 'mdi-alert-circle-outline',
     });
   } finally {
     loading.value = false;
@@ -132,14 +132,14 @@ async function updateAll() {
     notify({
       title: t('mainMenu.account.allLcpsUpdatedTitle'),
       text: t('mainMenu.account.allLcpsUpdatedText'),
-      data: { color: 'success', icon: 'mdi-check-bold' },
+      color: 'success', icon: 'mdi-check-bold',
     });
   } catch (err) {
     logger.error(`Error updating LCPs: ${err}`, this, err);
     notify({
       title: t('mainMenu.account.allLcpsUpdateErrorTitle'),
       text: t('mainMenu.account.allLcpsUpdateErrorText'),
-      data: { color: 'error', icon: 'mdi-alert-circle-outline' },
+      color: 'error', icon: 'mdi-alert-circle-outline',
     });
   } finally {
     loading.value = false;

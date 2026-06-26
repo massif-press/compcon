@@ -1,5 +1,5 @@
 <template>
-  <cc-dialog :title="strings.dialogTitle"
+  <cc-dialog :title="$t('nav.migrationRepair.dialogTitle')"
     icon="mdi-wrench"
     :close-on-click="false"
     min-width="60vw"
@@ -10,9 +10,9 @@
         size="small"
         color="primary"
         prepend-icon="mdi-wrench"
-        :tooltip="strings.buttonTooltip"
+        :tooltip="$t('nav.migrationRepair.buttonTooltip')"
         @click="startScan(open)">
-        {{ strings.buttonLabel }}
+        {{ $t('nav.migrationRepair.buttonLabel') }}
       </cc-button>
     </template>
     <template #default="{ close }">
@@ -32,7 +32,7 @@
             class="mb-4"
             style="width: 300px" />
           <div class="text-cc-overline text-disabled">
-            {{ scanning ? strings.scanning : `Applying fixes (${progress} / ${progressTotal})...`
+            {{ scanning ? $t('nav.migrationRepair.scanning') : `Applying fixes (${progress} / ${progressTotal})...`
             }}
           </div>
         </div>
@@ -44,7 +44,7 @@
               color="success"
               size="48"
               class="mb-2" />
-            <div class="text-cc-overline">{{ strings.noIssues }}</div>
+            <div class="text-cc-overline">{{ $t('nav.migrationRepair.noIssues') }}</div>
           </div>
 
           <template v-else>
@@ -62,10 +62,10 @@
               style="max-height: 60vh;">
               <thead>
                 <tr class="heading">
-                  <th>{{ strings.colCategory }}</th>
-                  <th>{{ strings.colItem }}</th>
-                  <th>{{ strings.colIssue }}</th>
-                  <th class="text-center">{{ strings.colFixable }}</th>
+                  <th>{{ $t('nav.migrationRepair.colCategory') }}</th>
+                  <th>{{ $t('nav.migrationRepair.colItem') }}</th>
+                  <th>{{ $t('nav.migrationRepair.colIssue') }}</th>
+                  <th class="text-center">{{ $t('nav.migrationRepair.colFixable') }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -94,7 +94,7 @@
                           color="warning"
                           size="small" />
                       </template>
-                      {{ strings.manualActionRequired }}
+                      {{ $t('nav.migrationRepair.manualActionRequired') }}
                     </v-tooltip>
                   </td>
                 </tr>
@@ -108,7 +108,7 @@
       <v-card-actions class="pa-4">
         <cc-button variant="text"
           @click="close">
-          {{ common.cancel }}
+          {{ $t('common.cancel') }}
         </cc-button>
         <v-spacer />
         <cc-button v-if="fixableCount > 0 && !applying"
@@ -124,12 +124,10 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { runMigrationScan, applyAllFixes, MigrationFinding } from '@/io/MigrationRepair'
-import { useNavStrings } from '@/features/nav/useNavStrings'
-const { section } = useNavStrings()
 
-const strings = section('migrationRepair')
-const common = section('common')
+const { t } = useI18n()
 
 const scanning = ref(false)
 const applying = ref(false)
@@ -177,9 +175,9 @@ function reset() {
 
 function categoryLabel(cat: string): string {
   switch (cat) {
-    case 'flavor_description': return strings.catFlavorText
-    case 'lcp_origin': return strings.catLcpOrigin
-    case 'npc_stats': return strings.catNpcStats
+    case 'flavor_description': return t('nav.migrationRepair.catFlavorText')
+    case 'lcp_origin': return t('nav.migrationRepair.catLcpOrigin')
+    case 'npc_stats': return t('nav.migrationRepair.catNpcStats')
     default: return cat
   }
 }

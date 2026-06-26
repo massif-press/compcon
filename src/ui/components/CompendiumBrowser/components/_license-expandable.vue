@@ -1,6 +1,7 @@
 <template>
   <v-expansion-panel v-for="item in items"
     :key="item.ID"
+    class="lic-cv-panel"
     flat
     tile
     :height="mobile ? 50 : 80">
@@ -47,8 +48,12 @@
             density="compact"
             class="text-center mx-10 mt-2 mb-n1"
             color="warning">
-            <div v-if="item.Prerequisite.cumulative">{{ $t('ui.license.prereqCumulative', { rank: item.Prerequisite.min_rank, source: item.Prerequisite.source }) }}</div>
-            <div v-else>{{ $t('ui.license.prereqSingle', { source: item.Prerequisite.source, rank: item.Prerequisite.min_rank }) }}
+            <div v-if="item.Prerequisite.cumulative">{{ $t('ui.license.prereqCumulative', {
+              rank:
+                item.Prerequisite.min_rank, source: item.Prerequisite.source }) }}</div>
+            <div v-else>{{ $t('ui.license.prereqSingle', {
+              source: item.Prerequisite.source, rank:
+                item.Prerequisite.min_rank }) }}
             </div>
           </v-alert>
 
@@ -68,7 +73,8 @@
                   prepend-icon="mdi-minus"
                   @click="$emit('remove', item)">
                   <span v-if="getControllerRank(item)">
-                    {{ $t('common.remove') }} {{ item.Name }} {{ 'I'.repeat(getControllerRank(item)) }}
+                    {{ $t('common.remove') }} {{ item.Name }} {{ 'I'.repeat(getControllerRank(item))
+                    }}
                   </span>
                   <span v-else>
                     {{ $t('ui.license.noRanks') }}
@@ -88,7 +94,9 @@
                 prepend-icon="mdi-plus"
                 @click="$emit('add', item)">
                 <span v-if="getControllerRank(item) < item.Unlocks.length">
-                  {{ $t('common.unlock') }} {{ item.Name }} {{ 'I'.repeat(getControllerRank(item) + 1) }}
+                  {{ $t('common.unlock') }} {{ item.Name }} {{ 'I'.repeat(getControllerRank(item) +
+                  1)
+                  }}
                 </span>
                 <span v-else>
                   {{ $t('ui.license.allUnlocked') }}
@@ -163,6 +171,12 @@ function getControllerRank(item) {
       rgba(var(--v-theme-surface), 1),
       rgba(var(--v-theme-surface), 0.55),
       rgba(var(--v-theme-surface), 1));
+}
+
+/* attempt to fix crashes on some lazy loading ooms by forcing element size */
+.lic-cv-panel {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 80px;
 }
 
 .img {

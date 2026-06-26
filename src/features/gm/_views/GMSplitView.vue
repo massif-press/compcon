@@ -250,4 +250,6 @@ const hidden = computed(() => {
 function minimize() {
       showNav.value = false;
     }
+
+defineExpose({ minimize })
 </script>

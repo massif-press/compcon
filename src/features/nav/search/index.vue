@@ -25,7 +25,7 @@
     <v-card border
       tile>
       <v-text-field v-model="search"
-        :label="sr.search"
+        :label="$t('nav.search.search')"
         prepend-inner-icon="mdi-magnify"
         outlined
         hide-details>
@@ -46,7 +46,7 @@
       <v-card-text :class="mobile && 'py-0 px-2'">
         <div v-if="search">
           <v-list density="compact">
-            <div class="text-caption font-weight-bold text-uppercase">{{ sr.searchResults }}</div>
+            <div class="text-caption font-weight-bold text-uppercase">{{ $t('nav.search.searchResults') }}</div>
             <v-scroll-y-transition group>
               <search-result-item v-for="r in searchResults"
                 :key="r.path"
@@ -61,7 +61,7 @@
         </div>
 
         <div v-else>
-          <div class="text-caption font-weight-bold text-uppercase">{{ sr.recentSearches }}</div>
+          <div class="text-caption font-weight-bold text-uppercase">{{ $t('nav.search.recentSearches') }}</div>
           <v-scroll-y-transition group>
             <search-result-item v-for="r in recent"
               :key="r.path"
@@ -83,12 +83,9 @@ import { useRouter } from 'vue-router'
 import { useDisplay } from 'vuetify'
 import { NavStore } from '@/stores'
 import SearchResultItem from './searchResultItem.vue'
-import { useNavStrings } from '@/features/nav/useNavStrings'
-const { section } = useNavStrings()
 
 const { smAndDown: mobile } = useDisplay()
 const router = useRouter()
-const sr = section('search')
 
 const search = ref('')
 const searchDialog = ref(false)

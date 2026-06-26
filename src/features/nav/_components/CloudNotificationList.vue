@@ -28,20 +28,17 @@
         block
         tile
         @click="store.clearCloudNotifications()">
-        {{ cn.dismissAll }}
+        {{ $t('nav.cloudNotifications.dismissAll') }}
       </v-btn>
     </v-list>
     <v-card-text v-else>
-      <i class="text-disabled">{{ cn.noRecentUpdates }}</i>
+      <i class="text-disabled">{{ $t('nav.cloudNotifications.noRecentUpdates') }}</i>
     </v-card-text>
   </v-card>
 </template>
 
 <script setup lang="ts">
 import { UserStore } from '@/stores'
-import { useNavStrings } from '@/features/nav/useNavStrings'
-const { section } = useNavStrings()
 
 const store = UserStore()
-const cn = section('cloudNotifications')
 </script>

@@ -9,7 +9,7 @@
           href="https://github.com/massif-press/compcon/wiki/Frequently-Asked-Questions"
           color="info"
         >
-          {{ h.faq }}
+          {{ $t('nav.help.faq') }}
         </cc-button>
       </v-col>
       <v-col>
@@ -20,7 +20,7 @@
           href="https://github.com/massif-press/compcon/wiki/FAQ%3A-Troubleshooting"
           color="info"
         >
-          {{ h.troubleshootingFaq }}
+          {{ $t('nav.help.troubleshootingFaq') }}
         </cc-button>
       </v-col>
     </v-row>
@@ -33,7 +33,7 @@
           href="https://github.com/massif-press/compcon/issues/new/choose"
           color="primary"
         >
-          {{ h.reportBug }}
+          {{ $t('nav.help.reportBug') }}
         </cc-button>
       </v-col>
 
@@ -45,7 +45,7 @@
           href="https://github.com/massif-press/compcon/issues/new/choose"
           color="primary"
         >
-          {{ h.suggestFeature }}
+          {{ $t('nav.help.suggestFeature') }}
         </cc-button>
       </v-col>
       <v-col>
@@ -57,7 +57,7 @@
           color="primary"
           class="text-white"
         >
-          {{ h.discussionForum }}
+          {{ $t('nav.help.discussionForum') }}
         </cc-button>
       </v-col>
       <v-col>
@@ -69,7 +69,7 @@
           color="primary"
           class="text-white"
         >
-          {{ h.projectWiki }}
+          {{ $t('nav.help.projectWiki') }}
         </cc-button>
       </v-col>
     </v-row>
@@ -79,10 +79,10 @@
       <br />
       // FEATURE IN DEVELOPMENT //
     </p> -->
-    <cc-heading is-title :text="h.quickFaq" />
+    <cc-heading is-title :text="$t('nav.help.quickFaq')" />
     <v-row class="body-text text-text">
       <v-col cols="12" md="6">
-        <cc-panel :title="h.whereAreNpcs">
+        <cc-panel :title="$t('nav.help.whereAreNpcs')">
           <i18n-t keypath="nav.help.whereAreNpcsBody"
             tag="span"
             scope="global">
@@ -94,7 +94,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <cc-panel
-          :title="h.howToAddContent"
+          :title="$t('nav.help.howToAddContent')"
         >
           <i18n-t keypath="nav.help.howToAddContentBody"
             tag="span"
@@ -115,7 +115,7 @@
     </v-row>
     <v-row class="body-text text-text">
       <v-col cols="12" md="6">
-        <cc-panel :title="h.howToSeeExotics">
+        <cc-panel :title="$t('nav.help.howToSeeExotics')">
           <i18n-t keypath="nav.help.howToSeeExoticsBody"
             tag="span"
             scope="global">
@@ -129,13 +129,13 @@
         </cc-panel>
       </v-col>
       <v-col cols="12" md="6">
-        <cc-panel :title="h.cloudAccountFaq">
+        <cc-panel :title="$t('nav.help.cloudAccountFaq')">
           {{ $t('nav.help.cloudAccountFaqBody') }}
         </cc-panel>
       </v-col>
     </v-row>
     <br />
-    <cc-heading is-title :text="h.additionalHelp" />
+    <cc-heading is-title :text="$t('nav.help.additionalHelp')" />
     <p class="body-text">
       <i18n-t keypath="nav.help.additionalHelpBody"
         tag="span"
@@ -165,8 +165,5 @@
 </template>
 
 <script setup lang="ts">
-import { useNavStrings } from '@/features/nav/useNavStrings'
-const { section } = useNavStrings()
 
-const h = section('help')
 </script>

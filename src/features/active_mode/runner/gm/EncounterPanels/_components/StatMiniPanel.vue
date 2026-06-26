@@ -129,6 +129,10 @@ const emit = defineEmits<{
 
 const internalValue = ref(props.modelValue || 0)
 
+watch(() => props.modelValue, (val) => {
+  internalValue.value = val || 0
+})
+
 function handleInput(val: string) {
   const m = val.trim().match(/^([+\-*/])(\d*\.?\d+)$/)
   if (m) {
@@ -142,7 +146,7 @@ function handleInput(val: string) {
 }
 
 function setVal(val) {
-  emit('update:model-value', val);
+  emit('update:model-value', Math.max(0, val));
 }
 </script>
 

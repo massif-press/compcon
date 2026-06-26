@@ -34,16 +34,16 @@
         </v-progress-linear>
       </v-col>
       <v-col v-else>
-        <div class="heading h3">[ {{ strings.dataRedacted }} ]</div>
-        <div>{{ strings.hiddenNote }}</div>
+        <div class="heading h3">[ {{ $t('nav.achievementItem.dataRedacted') }} ]</div>
+        <div>{{ $t('nav.achievementItem.hiddenNote') }}</div>
       </v-col>
       <v-col v-if="item.Unlocked"
         cols="12"
         md="auto"
         class="text-right py-1 mx-2">
         <div class="text-caption">
-          <span v-if="item.Secret">{{ strings.secretLabel }}</span>
-          {{ strings.unlockedLabel }}
+          <span v-if="item.Secret">{{ $t('nav.achievementItem.secretLabel') }}</span>
+          {{ $t('nav.achievementItem.unlockedLabel') }}
         </div>
         <div :class="mobile ? 'text-cc-overline' : 'heading'">
           {{ formatDate }}
@@ -61,7 +61,11 @@
         opacity: 0.75;
       ">
       <cc-slashes />
+<<<<<<< HEAD
       {{ strings.createdBy }}: {{ item.Author }}
+=======
+      {{ $t('nav.achievementItem.createdBy') }} {{ item.Author }}
+>>>>>>> master
     </div>
   </v-card>
 </template>
@@ -69,13 +73,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
-import { useNavStrings } from '@/features/nav/useNavStrings'
-const { section } = useNavStrings()
 
 const props = defineProps<{ item: Record<string, any> }>()
 
 const { smAndDown: mobile } = useDisplay()
-const strings = section('achievementItem')
 
 const getColor = computed(() => {
   if (!props.item.Unlocked) return 'grey-darken-2'

@@ -432,14 +432,14 @@ async function Publish(version: 'minor' | 'major') {
         notify({
           title: t('notify.account.publishedTitle'),
           text: t('notify.account.collectionPublishedText', { name: collection.Name, version: collection.Version }),
-          data: { color: 'success', icon: 'mdi-check-circle-outline' },
+          color: 'success', icon: 'mdi-check-circle-outline',
         });
       } catch (e) {
         logger.error(`Failed to publish collection ${collection.Name}: ${e}`, this, e);
         notify({
           title: t('notify.common.error'),
           text: t('notify.account.collectionPublishFailedText', { name: collection.Name }),
-          data: { color: 'error', icon: 'mdi-alert' },
+          color: 'error', icon: 'mdi-alert',
         });
       } finally {
         loading.value = false;
@@ -450,7 +450,7 @@ function copy(code) {
       notify({
         title: t('notify.common.copied'),
         text: t('notify.shareCode.collectionCopiedText'),
-        data: { color: 'success', icon: 'mdi-check-circle-outline' },
+        color: 'success', icon: 'mdi-check-circle-outline',
       });
     }
 async function deleteCollection(collection) {

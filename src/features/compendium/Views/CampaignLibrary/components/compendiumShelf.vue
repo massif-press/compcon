@@ -185,14 +185,14 @@ async function updateCampaign() {
         notify({
           title: t('notify.common.success'),
           text: t('notify.compendium.campaignUpdatedText'),
-          data: { color: 'success' },
+          color: 'success',
         });
       } catch (err) {
         logger.error(`Error updating campaign: ${err}`, this);
         notify({
           title: t('notify.common.error'),
           text: t('notify.compendium.campaignUpdateFailedText'),
-          data: { color: 'error' },
+          color: 'error',
         });
       } finally {
         loading.value = false;

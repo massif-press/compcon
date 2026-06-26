@@ -1,6 +1,6 @@
 <template>
   <div v-if="contentPacks.length === 0">
-    <cc-alert color="primary">{{ CM.noPacksInstalled }}</cc-alert>
+    <cc-alert color="primary">{{ $t('nav.contentManager.noPacksInstalled') }}</cc-alert>
   </div>
   <div v-else>
     <v-data-table v-model:expanded="expandedRows"
@@ -56,16 +56,16 @@
           </template>
           <v-card>
             <v-card-text>
-              {{ CM.deletePackConfirm }}
+              {{ $t('nav.contentManager.deletePackConfirm') }}
             </v-card-text>
             <v-divider />
             <v-card-actions>
-              <v-btn size="small">{{ CM.cancel }}</v-btn>
+              <v-btn size="small">{{ $t('common.cancel') }}</v-btn>
               <v-btn size="small"
                 color="error"
                 class="ml-auto"
                 @click="deletePack(item.ID)">
-                {{ CM.confirm }}
+                {{ $t('common.confirm') }}
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -84,7 +84,7 @@
         size="small"
         color="error"
         @click="deleteAll">
-        {{ CM.deleteAll }}
+        {{ $t('nav.contentManager.deleteAll') }}
       </cc-button>
     </div>
   </div>
@@ -97,11 +97,10 @@ import { notify } from '@/util/notify'
 import { ContentPack } from '@/classes/ContentPack'
 import PackInfoCard from './components/PackInfoCard.vue'
 import { CompendiumStore, ContentPackStore } from '@/stores'
-import { useNavStrings } from '@/features/nav/useNavStrings'
-const { section, t } = useNavStrings()
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const { smAndDown: mobile } = useDisplay()
-const CM = section('contentManager')
 
 const expandedRows = ref<any[]>([])
 const loading = ref(false)

@@ -1,7 +1,7 @@
 <template>
   <div v-if="pilot">
     <pilot-header :pilot="pilot" />
-    <div :style="`padding-top: ${mdAndDown ? '75px' : '100px'}`">
+    <div :style="`padding-top: ${calcNavPadding}px`">
       <narrative-view v-if="page < 2"
         :pilot="pilot" />
       <bonds-view v-else-if="page === 2"
@@ -36,7 +36,7 @@ import BondsView from './sections/bonds/index.vue';
 import { UserStore } from '@/stores';
 import MobileOptionsView from './MobileOptions.vue';
 
-const { mdAndDown } = useDisplay()
+const { smAndDown, md } = useDisplay()
 
 defineOptions({ name: 'PilotSheet' })
 
@@ -46,13 +46,19 @@ const props = defineProps<{
 
 const page = ref(0)
 
+const calcNavPadding = computed(() => {
+  if (smAndDown.value) return 80
+  if (md.value) return 230
+  return 100
+})
+
 
 const pilot = computed(() => {
-      return PilotStore().getPilotByID(props.pilotID);
-    })
+  return PilotStore().getPilotByID(props.pilotID);
+})
 
 onMounted(() => {
-page.value = parseInt(UserStore().User.View('pilotSheetPage', 1));
-    if (pilot.value) document.title = `${pilot.value.Callsign} (${pilot.value.Name})`;
+  page.value = parseInt(UserStore().User.View('pilotSheetPage', 1));
+  if (pilot.value) document.title = `${pilot.value.Callsign} (${pilot.value.Name})`;
 })
 </script>

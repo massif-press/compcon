@@ -5,10 +5,10 @@
         <p class="body-text text-text light-panel pa-2 mb-1">
           <span v-if="manifest.description"
             v-html-safe="manifest.description" />
-          <span v-else>{{ pf.noDescription }}</span>
+          <span v-else>{{ $t('nav.packInfo.noDescription') }}</span>
         </p>
         <div>
-          <cc-heading line>{{ pf.contentHeading }}</cc-heading>
+          <cc-heading line>{{ $t('nav.packInfo.contentHeading') }}</cc-heading>
           <div>
             <v-chip v-for="(item, itemIdx) in packContents"
               :key="`content-${itemIdx}`"
@@ -25,11 +25,11 @@
         </div>
         <div class="pt-2">
           <cc-heading line>
-            {{ pf.dependencies }}
-            <cc-tooltip :text="pf.dependenciesTooltip" />
+            {{ $t('nav.packInfo.dependencies') }}
+            <cc-tooltip :text="$t('nav.packInfo.dependenciesTooltip')" />
           </cc-heading>
           <i v-if="packDependencies.length === 0"
-            class="pl-2">{{ pf.none }}</i>
+            class="pl-2">{{ $t('nav.packInfo.none') }}</i>
           <div v-else>
             <v-card v-for="(item, itemIdx) in packDependencies"
               :key="`dep-${itemIdx}`"
@@ -44,7 +44,7 @@
               </div>
               <div class="text-caption px-2"
                 v-html-safe="d(item).installed
-                  ? pf.dependencyInstalled
+                  ? $t('nav.packInfo.dependencyInstalled')
                   : `${manifest.name} requires Lancer Content Pack <b>${d(item).name
                   } at version ${d(item).version}</b> to be installed before it can be loaded.`
                   " />
@@ -66,7 +66,7 @@
         </div>
         <div class="pt-2">
           <cc-heading line>
-            {{ pf.changelog }}
+            {{ $t('nav.packInfo.changelog') }}
           </cc-heading>
           <i v-if="!manifest.version_history || manifest.version_history.length === 0"
             class="pl-2">{{ $t('nav.packInfo.none') }}</i>
@@ -100,7 +100,7 @@
             :href="manifest.website"
             color="primary"
             size="small">
-            {{ pf.authorsWebsite }}
+            {{ $t('nav.packInfo.authorsWebsite') }}
           </cc-button>
           <v-spacer />
         </div>
@@ -115,13 +115,10 @@ import { useDisplay } from 'vuetify'
 import * as _ from 'lodash-es'
 import { ContentPack, ContentPackDependency, IContentPack, IContentPackManifest } from '@/classes/ContentPack'
 import { ContentPackStore } from '@/stores'
-import { useNavStrings } from '@/features/nav/useNavStrings'
-const { section } = useNavStrings()
 
 const props = defineProps<{ pack: IContentPack | ContentPack }>()
 
 const { smAndDown: mobile } = useDisplay()
-const pf = section('packInfo')
 
 const humanReadableMap: Record<string, [string, string]> = {
   manufacturers: ['manufacturer', 'manufacturers'],

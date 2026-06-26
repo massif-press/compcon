@@ -1,22 +1,22 @@
 <template>
   <v-card-text :style="mobile ? 'margin-top: 14px' : 'margin-top: 16px'">
-    <div class="heading h2">{{ pc.title }}</div>
+    <div class="heading h2">{{ $t('nav.packConfig.title') }}</div>
     <cc-alert class="mt-4 bg-panel pr-12 mb-4"
       color="info"
       prominent
       variant="text">
       <p class="text-text">
-        {{ pc.description }}
+        {{ $t('nav.packConfig.description') }}
       </p>
 
       <p class="text-text mt-2">
-        {{ pc.applyNote }}
+        {{ $t('nav.packConfig.applyNote') }}
       </p>
     </cc-alert>
 
     <div v-if="!user.LcpConfigs.length"
       class="text-disabled text-center">
-      <i>{{ pc.noConfigs }}</i>
+      <i>{{ $t('nav.packConfig.noConfigs') }}</i>
     </div>
     <v-card v-for="(config, index) in user.LcpConfigs"
       v-else
@@ -42,7 +42,7 @@
           </v-col>
           <v-col cols="auto">
             <v-tooltip location="top"
-              :text="pc.deleteConfig">
+              :text="$t('nav.packConfig.deleteConfig')">
               <template #activator="{ props }">
                 <v-btn color="error"
                   size="40"
@@ -58,7 +58,7 @@
           </v-col>
         </v-row>
 
-        <div class="text-text text-cc-overline">{{ pc.lcpsInConfig }}:</div>
+        <div class="text-text text-cc-overline">{{ $t('nav.packConfig.lcpsInConfig') }}</div>
 
         <v-card v-if="!config.packList.length"
           flat
@@ -66,9 +66,9 @@
           color="background"
           class="text-center pa-4">
           <i>
-            {{ pc.noLcpsPrefix }}
-            <b class="text-accent">{{ pc.lancerCoreBook }}</b>
-            {{ pc.willBeAvailable }}
+            {{ $t('nav.packConfig.noLcpsPrefix') }}
+            <b class="text-accent">{{ $t('nav.packConfig.lancerCoreBook') }}</b>
+            {{ $t('nav.packConfig.willBeAvailable') }}
           </i>
         </v-card>
 
@@ -85,11 +85,14 @@
             </v-col>
             <v-col>
               <span class="heading">{{ lcp.packName }}</span>
-              <span class="text-disabled"> {{ $t('nav.packConfig.byAuthor', { author: lcp.packAuthor }) }}</span>
+              <span class="text-disabled"> {{ $t('nav.packConfig.byAuthor', {
+                author: lcp.packAuthor
+              })
+              }}</span>
             </v-col>
             <v-col cols="auto">
               <v-tooltip location="top"
-                :text="pc.removeFromConfig">
+                :text="$t('nav.packConfig.removeFromConfig')">
                 <template #activator="{ props }">
                   <v-btn color="error"
                     size="30"
@@ -119,7 +122,7 @@
               item-title="Name"
               min-width="300px"
               max-width="400px"
-              :label="pc.addLcp"
+              :label="$t('nav.packConfig.addLcp')"
               @update:model-value="AddPack(config)" />
           </v-col>
           <v-col cols="auto"
@@ -145,15 +148,17 @@
           <div class="heading h3">{{ config.name }}</div>
           <div class="text-disabled text-caption">
             <span v-if="config.packList.length">
-              {{ $t('nav.packConfig.lcpsSuffix', { list: config.packList.map(x => x.packName).join(' // ') }) }}
+              {{$t('nav.packConfig.lcpsSuffix', {
+                list: config.packList.map(x => x.packName).join(' // ')
+              })}}
             </span>
-            <span v-else>{{ pc.coreBookOnly }}</span>
+            <span v-else>{{ $t('nav.packConfig.coreBookOnly') }}</span>
           </div>
         </v-col>
         <v-col cols="auto"
           class="ml-auto">
           <v-tooltip location="top"
-            :text="pc.editConfig">
+            :text="$t('nav.packConfig.editConfig')">
             <template #activator="{ props }">
               <v-btn color="primary"
                 size="40"
@@ -176,7 +181,7 @@
       block
       @click="user.AddConfig()">
       <v-icon left>mdi-plus</v-icon>
-      {{ pc.createConfig }}
+      {{ $t('nav.packConfig.createConfig') }}
     </cc-button>
   </v-card-text>
 </template>
@@ -187,11 +192,8 @@ import { useDisplay } from 'vuetify'
 import { CompendiumStore, UserStore } from '@/stores'
 import { LcpConfig, LcpConfigData } from '@/user'
 import { debounce } from 'lodash-es'
-import { useNavStrings } from '@/features/nav/useNavStrings'
-const { section } = useNavStrings()
 
 const { smAndDown: mobile } = useDisplay()
-const pc = section('packConfig')
 
 const selection = ref<any>(null)
 const editingIndex = ref<number | null>(null)

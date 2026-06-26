@@ -197,7 +197,7 @@ function AddItem(item: any) {
       notify({
         title: t('mainMenu.account.itemAddedTitle'),
         text: t('mainMenu.account.itemAddedText', { name: item.Name }),
-        data: { color: 'success', icon: 'mdi-check' },
+        color: 'success', icon: 'mdi-check',
       });
     }
 </script>

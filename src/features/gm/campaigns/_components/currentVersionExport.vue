@@ -146,13 +146,13 @@ async function saveLocalCollection() {
         notify({
           title: t('notify.gm.importCompleteTitle'),
           text: t('notify.gm.importCompleteText'),
-          data: { icon: 'cc:campaign', color: 'success' },
+          icon: 'cc:campaign', color: 'success',
         });
       } catch (error) {
         notify({
           title: t('notify.gm.importErrorTitle'),
           text: t('notify.gm.campaignTransferErrorText', { error }),
-          data: { icon: 'cc:campaign', color: 'error' },
+          icon: 'cc:campaign', color: 'error',
         });
       }
     }
@@ -161,7 +161,7 @@ async function upload() {
         notify({
           title: t('notify.gm.loginRequiredTitle'),
           text: t('notify.gm.loginRequiredText'),
-          data: { icon: 'cc:campaign', color: 'error' },
+          icon: 'cc:campaign', color: 'error',
         });
         return;
       }
@@ -171,13 +171,13 @@ async function upload() {
         notify({
           title: t('notify.gm.uploadSuccessTitle'),
           text: t('notify.gm.uploadSuccessText'),
-          data: { icon: 'cc:campaign', color: 'success' },
+          icon: 'cc:campaign', color: 'success',
         });
       } catch (error) {
         notify({
           title: t('notify.gm.uploadErrorTitle'),
           text: t('notify.gm.uploadErrorText', { error }),
-          data: { icon: 'cc:campaign', color: 'error' },
+          icon: 'cc:campaign', color: 'error',
         });
       } finally {
         uploading.value = false;
@@ -188,7 +188,7 @@ function copyShareCode() {
       notify({
         title: t('notify.common.copied'),
         text: t('notify.shareCode.copiedText'),
-        data: { icon: 'cc:campaign', color: 'success' },
+        icon: 'cc:campaign', color: 'success',
       });
     }
 </script>

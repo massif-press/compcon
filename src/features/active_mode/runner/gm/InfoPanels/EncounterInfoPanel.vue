@@ -174,13 +174,13 @@ function copy(text) {
         .then(() => {
           notify({
             text: t('active.common.copiedToClipboard'),
-            data: { color: 'success' },
+            color: 'success',
           });
         })
         .catch((err) => {
           notify({
-            title: t('active.encounter.failedToCopyTitle'),
-            data: { color: 'error' },
+            text: t('active.encounter.failedToCopyTitle'),
+            color: 'error',
           });
         });
     }

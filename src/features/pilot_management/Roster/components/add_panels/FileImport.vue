@@ -209,7 +209,7 @@ async function importFile() {
       notify({
         title: t('notify.gm.v2BackupTitle'),
         text: t('pm.import.v2BackupText', { callsign: (stagedData.value as any).callsign }),
-        data: { icon: 'mdi-information-box-outline', color: 'info' },
+        icon: 'mdi-information-box-outline', color: 'info',
       })
       reset()
       emit('done')
@@ -225,7 +225,7 @@ async function importFile() {
       notify({
         title: t('pm.import.importSuccessTitle'),
         text: t('pm.import.importSuccessText', { name: importPilot.Name, callsign: importPilot.Callsign }),
-        data: { icon: 'cc:pilot' },
+        icon: 'cc:pilot',
       })
       emit('done')
     } else {
@@ -237,7 +237,7 @@ async function importFile() {
     notify({
       title: t('notify.gm.importErrorTitle'),
       text: t('pm.import.importPilotErrorText', { error: String(error) }),
-      data: { icon: 'cc:pilot', color: 'error' },
+      icon: 'cc:pilot', color: 'error',
     })
   }
 }

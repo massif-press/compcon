@@ -2,21 +2,29 @@
   <lcp-table :packs="packs"
     :loading="loading"
     :headers="lcpHeaders"
-    :no-data-text="ct.noData"
-    :strings="ct" />
+    :no-data-text="$t('nav.communityTable.noData')"
+    :strings="strings" />
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+import { i18n } from '@/i18n'
 import LcpTable from '@/ui/components/LcpTable.vue'
-import { useNavStrings } from '@/features/nav/useNavStrings'
-const { section } = useNavStrings()
+
+const t = i18n.global.t
 
 defineProps<{
   packs: any[]
   loading?: boolean
 }>()
 
-const ct = section('communityTable')
+const strings = computed(() =>
+  Object.fromEntries(
+    ['v3Compatible', 'v3Incompatible', 'notInstalled', 'openWebsite', 'subscribedTooltip',
+      'subscribeTooltip', 'payWhatYouWant', 'free', 'currentVersion', 'itchStorePage', 'authorsWebsite']
+      .map(k => [k, t(`nav.communityTable.${k}`)])
+  )
+)
 
 const lcpHeaders = [
   { title: '', key: 'data-table-expand', width: '0' },

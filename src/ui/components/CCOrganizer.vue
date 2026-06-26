@@ -4,7 +4,7 @@
       <v-col>
         <slot name="filters" />
         <v-data-table :headers="allHeaders"
-          :items="items"
+          :items="visibleItems"
           item-value="ID"
           :sort-by="[{ key: 'Name', order: 'asc' }]"
           :items-per-page="-1"
@@ -13,9 +13,9 @@
             <v-btn icon
               flat
               size="small"
-              @click="selected.length ? (selected = []) : (selected = items.map((x: any) => x.ID))">
+              @click="selected.length ? (selected = []) : (selected = visibleItems.map((x: any) => x.ID))">
               <v-icon size="x-large"
-                :icon="selected.length === items.length
+                :icon="selected.length === visibleItems.length
                   ? 'mdi-checkbox-outline'
                   : selected.length > 0
                     ? 'mdi-minus-box-outline'
@@ -100,6 +100,12 @@ const emit = defineEmits<{
 const selected = ref<string[]>([])
 const showDeleted = ref(props.showDeleted ?? false)
 const showDeleteConfirm = ref(false)
+
+const visibleItems = computed(() =>
+  showDeleted.value
+    ? props.items
+    : props.items.filter((x: any) => !x.SaveController?.IsDeleted)
+)
 
 const customSlotKeys = computed(() => {
   const builtIn = new Set(['select', 'Name'])

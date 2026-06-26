@@ -1,7 +1,7 @@
 <template>
   <v-container :class="!mobile && 'px-12'">
     <div class="text-caption">
-      {{ lg.logLevel }}:
+      {{ $t('nav.log.logLevel') }}
       <b class="text-uppercase">{{ logger.level }}</b>
     </div>
     <v-expansion-panels multiple
@@ -28,7 +28,7 @@
         <v-expansion-panel-text class="bg-background">
           <v-row>
             <v-col>
-              <div class="heading h3">{{ lg.trace }}</div>
+              <div class="heading h3">{{ $t('nav.log.trace') }}</div>
               <v-divider />
               <ul v-if="Array.isArray(item.trace)">
                 <li v-for="(t, idxt) in item.trace"
@@ -41,7 +41,7 @@
 
             </v-col>
             <v-col>
-              <div class="heading h3">{{ lg.caller }}</div>
+              <div class="heading h3">{{ $t('nav.log.caller') }}</div>
               <v-divider />
               <div v-if="item.caller">
                 <div class="text-accent font-weight-bold">
@@ -51,7 +51,7 @@
                   style="white-space: pre-wrap; word-break: break-all">{{ safeStringify(sanitizeCaller(item.caller)) }}</pre>
               </div>
               <div v-else
-                class="text-center text-disabled text-lowercase"><i>{{ $t('common.noData') }}</i></div>
+                class="text-center text-disabled"><i>{{ $t('nav.log.noData') }}</i></div>
             </v-col>
           </v-row>
         </v-expansion-panel-text>
@@ -62,7 +62,7 @@
       <v-btn size="small"
         :disabled="!history.length"
         @click="exportLog()">
-        {{ lg.exportLog }}
+        {{ $t('nav.log.exportLog') }}
         <v-icon end
           icon="mdi-file-download" />
       </v-btn>
@@ -72,14 +72,13 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useDisplay } from 'vuetify'
 import { notify } from '@/util/notify'
 import logger from '@/user/logger'
-import { useNavStrings } from '@/features/nav/useNavStrings'
-const { section } = useNavStrings()
 
 const { mdAndDown: mobile } = useDisplay()
-const lg = section('log')
+const { t } = useI18n()
 
 const history = computed(() => {
   const severityMap: Record<string, number> = { debug: 1, info: 2, warn: 3, error: 4 }
@@ -116,7 +115,7 @@ function sendToClipboard(item: any) {
   const text = `${item.message} (${item.type})\n------\ntrace:\n${trace}\n------\n${item.caller ? 'caller:\n' + JSON.stringify(item.caller, null, 2) : 'no caller'
     }`
   navigator.clipboard.writeText(text)
-  notify({ type: 'success', text: lg.copiedToClipboard })
+  notify({ type: 'success', text: t('nav.log.copiedToClipboard') })
 }
 
 function exportLog() {

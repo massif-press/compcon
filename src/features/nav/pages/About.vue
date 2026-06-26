@@ -1,11 +1,18 @@
 <template>
   <v-container>
-    <div class="heading mech" style="line-height: 30px">{{ a.title }}</div>
+    <div class="heading mech" style="line-height: 30px">{{ $t('nav.about.title') }}</div>
     <div class="text-caption ml-1 my-2">
+<<<<<<< HEAD
       {{ a.ccVersion }}:
       <b class="text-accent">{{ $appVersion }}</b>
       <cc-slashes class="pl-1" />
       {{ a.lancerCoreVersion }}:
+=======
+      {{ $t('nav.about.ccVersion') }}
+      <b class="text-accent">{{ $appVersion }}</b>
+      <cc-slashes class="pl-1" />
+      {{ $t('nav.about.lancerCoreVersion') }}
+>>>>>>> master
       <b class="text-accent">{{ $lancerVersion }}</b>
     </div>
     <v-row dense align="center" justify="center" class="my-2">
@@ -36,10 +43,10 @@
 
     <div class="d-flex justify-center align-center my-6" style="width: 100%">
       <p style="max-width: 80vw; text-align: center">
-        {{ a.description }}
+        {{ $t('nav.about.description') }}
         <br />
         <br />
-        {{ a.coreBookInfo }}
+        {{ $t('nav.about.coreBookInfo') }}
         <a target="_blank" href="http://www.massifpress.com">massifpress.com</a>
       </p>
     </div>
@@ -47,8 +54,5 @@
 </template>
 
 <script setup lang="ts">
-import { useNavStrings } from '@/features/nav/useNavStrings'
-const { section } = useNavStrings()
 
-const a = section('about')
 </script>

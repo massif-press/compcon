@@ -1,6 +1,6 @@
 <template>
   <cc-modal v-model="modal"
-    :title="CM.packManagement"
+    :title="$t('nav.contentManager.packManagement')"
     icon="cc:content_manager">
     <cc-tabs modal
       fixed>
@@ -8,22 +8,22 @@
         <v-tab>
           <v-icon start
             icon="mdi-list-box" />
-          {{ CM.contentPacks }}
+          {{ $t('nav.contentManager.contentPacks') }}
         </v-tab>
         <v-tab>
           <v-icon start
             icon="mdi-download" />
-          {{ CM.installLcp }}
+          {{ $t('nav.contentManager.installLcp') }}
         </v-tab>
         <v-tab>
           <v-icon start
             icon="mdi-format-list-text" />
-          {{ CM.lcpDirectory }}
+          {{ $t('nav.contentManager.lcpDirectory') }}
         </v-tab>
         <v-tab>
           <v-icon start
             icon="mdi-list-status" />
-          {{ CM.contentConfig }}
+          {{ $t('nav.contentManager.contentConfig') }}
         </v-tab>
       </template>
       <v-window-item>
@@ -53,14 +53,11 @@ import PackInstall from './PackInstall.vue'
 import PacksDirectory from './PacksDirectory.vue'
 import PackConfig from './PackConfig.vue'
 import V2Imports from './components/v2Imports.vue'
-import { useNavStrings } from '@/features/nav/useNavStrings'
-const { section } = useNavStrings()
 
 const props = defineProps<{ modelValue?: boolean }>()
 const emit = defineEmits<{ 'update:modelValue': [value: boolean] }>()
 
 const { smAndDown: mobile } = useDisplay()
-const CM = section('contentManager')
 
 const modal = ref(props.modelValue ?? false)
 

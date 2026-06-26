@@ -145,7 +145,7 @@ function reset() {
       logger.error(`Error sending reset password email: ${err}`, this, err);
       loading.value = false;
       sent.value = false;
-      notify(t('mainMenu.auth.passwordResetErrorText', { msg: err.message }), 'error');
+      notify({ text: t('mainMenu.auth.passwordResetErrorText', { msg: err.message }), type: 'error' });
     });
 }
 function setNewPassword() {
@@ -166,7 +166,7 @@ function setNewPassword() {
       emit('set-state', 'sign-in');
     })
     .catch((err) => {
-      notify(t('mainMenu.auth.passwordChangeErrorText', { msg: err.message }), 'error');
+      notify({ text: t('mainMenu.auth.passwordChangeErrorText', { msg: err.message }), type: 'error' });
       loading.value = false;
     });
 }
