@@ -29,17 +29,29 @@
 
           <div class="text-cc-overline"
             :class="!portrait && 'pl-2'">
-            <v-icon size="10" class="mt-n1 mr-n1" icon="mdi-star-four-points-outline" />
+            <v-icon size="10"
+              class="mt-n1 mr-n1"
+              icon="mdi-star-four-points-outline" />
             {{ pilot.Grit }}
-            <v-icon size="10" class="mt-n1 mr-n1" icon="mdi-shield-outline" />
+            <v-icon size="10"
+              class="mt-n1 mr-n1"
+              icon="mdi-shield-outline" />
             {{ pilot.Armor }}
-            <v-icon size="10" class="mt-n1 mr-n1" icon="mdi-heart" />
+            <v-icon size="10"
+              class="mt-n1 mr-n1"
+              icon="mdi-heart" />
             {{ pilot.MaxHP }}
-            <v-icon size="11" class="mt-n1 mr-n1" icon="cc:edef" />
+            <v-icon size="11"
+              class="mt-n1 mr-n1"
+              icon="cc:edef" />
             {{ pilot.EDefense }}
-            <v-icon size="13" class="mt-n1 mr-n1" icon="cc:evasion" />
+            <v-icon size="13"
+              class="mt-n1 mr-n1"
+              icon="cc:evasion" />
             {{ pilot.Evasion }}
-            <v-icon size="13" class="mt-n1 mr-n1" icon="mdi-arrow-right-bold-hexagon-outline" />
+            <v-icon size="13"
+              class="mt-n1 mr-n1"
+              icon="mdi-arrow-right-bold-hexagon-outline" />
             {{ pilot.Speed }}
           </div>
         </v-col>
@@ -166,20 +178,33 @@
                 </v-col>
                 <v-col class="pb-0">
                   <div class="text-overline mb-n3"
-                    style="opacity: 0.4">{{ $t('pm.sheet.ndapSR01STATUSREPORT') }}</div>
+                    style="opacity: 0.4">{{ $t('pm.sheet.ndapSR01STATUSREPORT') }}
+                  </div>
                   <div class="heading"
                     style="padding-top: 4px; font-size: 14px">
-                    <v-icon size="18" class="ml-1 mt-n1" icon="mdi-star-four-points-outline" />
+                    <v-icon size="18"
+                      class="ml-1 mt-n1"
+                      icon="mdi-star-four-points-outline" />
                     {{ pilot.Grit }}
-                    <v-icon size="18" class="ml-1 mt-n1" icon="mdi-shield-outline" />
+                    <v-icon size="18"
+                      class="ml-1 mt-n1"
+                      icon="mdi-shield-outline" />
                     {{ pilot.Armor }}
-                    <v-icon size="18" class="ml-1 mt-n1" icon="mdi-heart" />
+                    <v-icon size="18"
+                      class="ml-1 mt-n1"
+                      icon="mdi-heart" />
                     {{ pilot.MaxHP }}
-                    <v-icon size="18" class="ml-1 mt-n1" icon="cc:edef" />
+                    <v-icon size="18"
+                      class="ml-1 mt-n1"
+                      icon="cc:edef" />
                     {{ pilot.EDefense }}
-                    <v-icon size="18" class="ml-1 mt-n1" icon="cc:evasion" />
+                    <v-icon size="18"
+                      class="ml-1 mt-n1"
+                      icon="cc:evasion" />
                     {{ pilot.Evasion }}
-                    <v-icon size="18" class="ml-1 mt-n1" icon="mdi-arrow-right-bold-hexagon-outline" />
+                    <v-icon size="18"
+                      class="ml-1 mt-n1"
+                      icon="mdi-arrow-right-bold-hexagon-outline" />
                     {{ pilot.Speed }}
                   </div>
                 </v-col>
@@ -260,20 +285,17 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useDisplay } from 'vuetify'
 import PilotRegistrationCard from './PilotRegistrationCard.vue'
 import LevelEditDialog from './LevelEditDialog.vue'
 import { Pilot } from '@/classes/pilot/Pilot'
 
-const router = useRouter()
 const route = useRoute()
 const _display = useDisplay()
 const { smAndDown: mobile } = useDisplay()
 
-defineOptions({ name: 'pilot-header' })
-
-const props = defineProps<{
+defineProps<{
   pilot: Pilot
 }>()
 

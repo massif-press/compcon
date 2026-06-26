@@ -141,7 +141,7 @@ async function stageImport(file) {
     notify({
       title: t('notify.gm.importErrorTitle'),
       text: t('pm.import.importErrorText', { error: String(error) }),
-      data: { icon: 'mdi-account-multiple', color: 'error' },
+      icon: 'mdi-account-multiple', color: 'error',
     })
     logger.error('File Import Error', { error, fileName: file.target.files[0].name })
     reset()
@@ -175,13 +175,13 @@ function importFile() {
     notify({
       title: t('pm.import.importSuccessTitle'),
       text: t('pm.import.groupImportSuccessText', { name: importGroup.Name }),
-      data: { icon: 'mdi-account-multiple' },
+      icon: 'mdi-account-multiple',
     })
   } catch (error) {
     notify({
       title: t('notify.gm.importErrorTitle'),
       text: t('pm.import.groupImportErrorText', { error: String(error) }),
-      data: { icon: 'mdi-account-multiple', color: 'error' },
+      icon: 'mdi-account-multiple', color: 'error',
     })
   }
 
@@ -199,13 +199,13 @@ function importFile() {
       notify({
         title: t('pm.import.importSuccessTitle'),
         text: t('pm.import.importSuccessText', { name: importPilot.Name, callsign: importPilot.Callsign }),
-        data: { icon: 'cc:pilot' },
+        icon: 'cc:pilot',
       })
     } catch (error) {
       notify({
         title: t('notify.gm.importErrorTitle'),
         text: t('pm.import.importPilotErrorText', { error: String(error) }),
-        data: { icon: 'cc:pilot', color: 'error' },
+        icon: 'cc:pilot', color: 'error',
       })
     }
   })

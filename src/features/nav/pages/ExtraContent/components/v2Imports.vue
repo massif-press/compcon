@@ -1,6 +1,6 @@
 <template>
   <cc-panel v-if="backups.length > 0"
-    :title="`${s.panelTitle} (${backups.length})`"
+    :title="`${$t('nav.v2Import.panelTitle')} (${backups.length})`"
     icon="mdi-database-import"
     class="mt-4">
     <div class="d-flex align-center mb-2">
@@ -54,7 +54,7 @@
           @click="reprocessSingle(item)">
           <v-icon icon="mdi-import" />
           <v-tooltip location="top"
-            activator="parent">{{ s.attemptReimport }}</v-tooltip>
+            activator="parent">{{ $t('nav.v2Import.attemptReimport') }}</v-tooltip>
         </v-btn>
         <v-menu width="400px">
           <template #activator="{ props }">
@@ -67,10 +67,10 @@
               v-bind="props">
               <v-icon icon="mdi-alert-circle" />
               <v-tooltip location="top"
-                activator="parent">{{ s.forceImport }}</v-tooltip>
+                activator="parent">{{ $t('nav.v2Import.forceImport') }}</v-tooltip>
             </v-btn>
           </template>
-          <cc-panel :title="s.forceImportPanelTitle">
+          <cc-panel :title="$t('nav.v2Import.forceImportPanelTitle')">
             <v-card-text class="pa-1">
               {{ $t('nav.v2Import.forceImportNotice', { type: item.type }) }}
               <div class="mt-2">
@@ -85,13 +85,13 @@
             </v-card-text>
             <v-divider />
             <v-card-actions>
-              <v-btn size="small">{{ common.cancel }}</v-btn>
+              <v-btn size="small">{{ $t('common.cancel') }}</v-btn>
               <cc-button size="small"
                 color="warning"
                 class="ml-auto"
                 :loading="loading"
                 @click="doForceImport(item)">
-                {{ s.confirmForceImport }}
+                {{ $t('nav.v2Import.confirmForceImport') }}
               </cc-button>
             </v-card-actions>
           </cc-panel>
@@ -108,18 +108,18 @@
               <v-icon icon="mdi-delete" />
             </v-btn>
           </template>
-          <cc-panel :title="s.deleteTitle">
+          <cc-panel :title="$t('nav.v2Import.deleteTitle')">
             <v-card-text class="pa-2">
-              {{ s.deleteConfirm }}
+              {{ $t('nav.v2Import.deleteConfirm') }}
             </v-card-text>
             <v-divider />
             <v-card-actions>
-              <v-btn size="small">{{ common.cancel }}</v-btn>
+              <v-btn size="small">{{ $t('common.cancel') }}</v-btn>
               <cc-button size="small"
                 color="error"
                 class="ml-auto"
                 @click="doDelete(item)">
-                {{ s.delete }}
+                {{ $t('common.delete') }}
               </cc-button>
             </v-card-actions>
           </cc-panel>
@@ -132,9 +132,9 @@
         <cc-button size="small"
           color="primary"
           :loading="loading"
-          :tooltip="s.importAllTooltip"
+          :tooltip="$t('nav.v2Import.importAllTooltip')"
           @click="reprocessAll">
-          {{ s.importAll }}
+          {{ $t('nav.v2Import.importAll') }}
         </cc-button>
       </v-col>
 
@@ -142,18 +142,18 @@
         <cc-button size="small"
           color="primary"
           :loading="loading"
-          :tooltip="s.forceImportAllTooltip"
+          :tooltip="$t('nav.v2Import.forceImportAllTooltip')"
           @click="forceImportAll()">
-          {{ s.forceImportAll }}
+          {{ $t('nav.v2Import.forceImportAll') }}
         </cc-button>
       </v-col>
     </v-row>
     <v-dialog v-model="showStripped"
       max-width="400px">
       <v-card>
-        <v-card-title class="text-subtitle-2">{{ s.strippedTitle }}</v-card-title>
+        <v-card-title class="text-subtitle-2">{{ $t('nav.v2Import.strippedTitle') }}</v-card-title>
         <v-card-text>
-          {{ s.strippedBody }}
+          {{ $t('nav.v2Import.strippedBody') }}
           <div class="mt-2">
             <div v-for="id in strippedItems"
               :key="id"
@@ -165,7 +165,7 @@
         <v-card-actions>
           <cc-button class="ml-auto"
             @click="showStripped = false">
-            {{ common.ok }}
+            {{ $t('common.ok') }}
           </cc-button>
         </v-card-actions>
       </v-card>
@@ -192,11 +192,8 @@ import {
 } from '@/io/V2Importer'
 import { ImportPilot, ImportNpcData, ImportEncounter } from '@/io/Importer'
 import { UserStore } from '@/stores'
-import { useNavStrings } from '@/features/nav/useNavStrings'
-const { section, t } = useNavStrings()
-
-const s = section('v2Import')
-const common = section('common')
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const backups = ref<any[]>([])
 const loading = ref(false)

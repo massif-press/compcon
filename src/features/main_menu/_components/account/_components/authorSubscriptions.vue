@@ -237,13 +237,13 @@ async function update(item) {
         notify({
           title: t('mainMenu.account.collectionErrorTitle'),
           text: t('mainMenu.account.collectionErrorText'),
-          data: { color: 'error', icon: 'mdi-alert-circle-outline' },
+          color: 'error', icon: 'mdi-alert-circle-outline',
         });
       } else {
         notify({
           title: t('mainMenu.account.collectionUpdatedTitle'),
           text: t('mainMenu.account.collectionUpdatedText'),
-          data: { color: 'success', icon: 'mdi-check-circle-outline' },
+          color: 'success', icon: 'mdi-check-circle-outline',
         });
       }
       loading.value = false;

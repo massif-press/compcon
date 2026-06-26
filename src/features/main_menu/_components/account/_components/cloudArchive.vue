@@ -345,7 +345,7 @@ async function createNew() {
         notify({
           title: t('notify.account.cloudArchiveTitle'),
           text: t('notify.account.cloudArchiveCooldownText', { seconds: Math.ceil((cooldown + cooldownTime - Date.now()) / 1000) }),
-          data: { icon: 'mdi-clock', type: 'error' },
+          icon: 'mdi-clock', type: 'error',
         });
         working.value = false;
         return;

@@ -183,13 +183,13 @@ async function remoteUpdate() {
         notify({
           title: t('notify.share.syncCompleteTitle'),
           text: t('notify.transfer.itemSynced', { type: props.item.ItemType, name: props.item.Name }),
-          data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
+          icon: 'mdi-cloud-check-variant', color: 'success-darken-2',
         })
       } catch (err) {
         notify({
           title: t('notify.share.syncFailedTitle'),
           text: t('notify.transfer.itemSyncFailed', { type: props.item.ItemType, name: props.item.Name, err }),
-          data: { icon: 'mdi-alert', color: 'error' },
+          icon: 'mdi-alert', color: 'error',
         })
       }
     }
@@ -206,7 +206,7 @@ function copyCode() {
       notify({
         title: t('notify.common.copied'),
         text: t('notify.shareCode.copiedText'),
-        data: { icon: 'mdi-clipboard-check', color: 'success' },
+        icon: 'mdi-clipboard-check', color: 'success',
       })
     }
 </script>

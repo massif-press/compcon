@@ -8,7 +8,6 @@
       <quill-editor v-model:content="text"
         :options="options"
         theme="snow"
-        style="min-height: 150px;"
         content-type="html" />
     </v-card-text>
     <v-row dense
@@ -56,3 +55,9 @@ const emitSave = debounce((value: string) => emit('save', value), 300);
 
 watch(text, value => { emitSave(value); });
 </script>
+
+<style scoped>
+:deep(.ql-editor) {
+  min-height: 150px;
+}
+</style>

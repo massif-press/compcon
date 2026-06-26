@@ -211,7 +211,7 @@ async function remoteUpdate() {
     notify({
       title: t('notify.pilot.upToDateTitle'),
       text: t('notify.pilot.upToDateText', { callsign: props.pilot.Callsign, name: props.pilot.Name }),
-      data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
+      icon: 'mdi-cloud-check-variant', color: 'success-darken-2',
     })
   } else {
     try {
@@ -220,13 +220,13 @@ async function remoteUpdate() {
       notify({
         title: t('notify.share.syncCompleteTitle'),
         text: t('notify.pilot.syncedText', { callsign: props.pilot.Callsign, name: props.pilot.Name }),
-        data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' },
+        icon: 'mdi-cloud-check-variant', color: 'success-darken-2',
       })
     } catch (err) {
       notify({
         title: t('notify.share.syncFailedTitle'),
         text: t('notify.pilot.syncFailedText', { callsign: props.pilot.Callsign, name: props.pilot.Name, err }),
-        data: { icon: 'mdi-alert', color: 'error' },
+        icon: 'mdi-alert', color: 'error',
       })
     }
   }

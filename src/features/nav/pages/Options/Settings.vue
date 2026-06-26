@@ -9,7 +9,7 @@
           size="small"
           prepend-icon="mdi-bell-ring-outline"
           @click="showUpdates">
-          {{ sp.showUpdateMessages }}
+          {{ $t('nav.settingsPage.showUpdateMessages') }}
         </cc-button>
         <migration-repair-dialog />
 
@@ -20,16 +20,16 @@
           density="compact"
           off-icon="mdi-star-off-outline"
           on-icon="mdi-star"
-          :tooltip="sp.showExoticsTooltip"
-          :label="sp.showExoticsLabel"></cc-switch>
+          :tooltip="$t('nav.settingsPage.showExoticsTooltip')"
+          :label="$t('nav.settingsPage.showExoticsLabel')"></cc-switch>
         <br />
         <cc-switch v-model="userDesktopTables"
           color="exotic"
           density="compact"
           off-icon="mdi-table"
           on-icon="mdi-table-large"
-          :tooltip="sp.showDesktopTablesTooltip"
-          :label="sp.showDesktopTablesLabel"></cc-switch>
+          :tooltip="$t('nav.settingsPage.showDesktopTablesTooltip')"
+          :label="$t('nav.settingsPage.showDesktopTablesLabel')"></cc-switch>
       </v-col>
     </v-row>
 
@@ -38,7 +38,7 @@
         sm="6">
         <div>
           <cc-heading is-title
-            :text="sp.theme" />
+            :text="$t('nav.settingsPage.theme')" />
           <cc-select v-model="theme"
             :items="themes"
             :item-title="item => `${item.name}`"
@@ -68,7 +68,7 @@
         </div>
         <div>
           <cc-heading is-title
-            :text="sp.font" />
+            :text="$t('nav.settingsPage.font')" />
           <cc-select v-model="font"
             :items="fonts"
             item-title="label"
@@ -113,13 +113,13 @@
             12"
         sm="6">
         <cc-heading is-title
-          :text="sp.logLevel" />
+          :text="$t('nav.settingsPage.logLevel')" />
         <v-menu>
           <template #activator="{ props }">
             <v-list-item v-bind="props"
               three-line
               border>
-              <v-list-item-title>{{ sp.logLevelLabel }}</v-list-item-title>
+              <v-list-item-title>{{ $t('nav.settingsPage.logLevelLabel') }}</v-list-item-title>
               <v-list-item-subtitle>
                 <b class="text-uppercase">{{ logLevel.name }}</b>
               </v-list-item-subtitle>
@@ -138,7 +138,7 @@
         </v-menu>
 
         <cc-heading is-title
-          :text="sp.errorReporting"
+          :text="$t('nav.settingsPage.errorReporting')"
           class="mt-3 mb-1" />
         <v-row>
           <v-col cols="auto">
@@ -148,7 +148,7 @@
           </v-col>
           <v-col cols="auto"
             :class="`text-${user.ErrorReporting ? 'success' : 'disabled'}`">
-            {{ sp.errorReportingPrefix }} {{ user.ErrorReporting ? sp.enabled : sp.disabled }}
+            {{ $t('nav.settingsPage.errorReportingPrefix') }} {{ user.ErrorReporting ? $t('nav.settingsPage.enabled') : $t('nav.settingsPage.disabled') }}
           </v-col>
           <v-col cols="auto">
             <v-tooltip location="top"
@@ -158,9 +158,9 @@
                   class="fade-select mx-1"
                   icon="mdi-information-slab-box-outline" />
               </template>
-              {{ sp.errorReportingTooltip }}
+              {{ $t('nav.settingsPage.errorReportingTooltip') }}
               <strong class="text-accent">
-                {{ sp.errorReportingPiiNote }}
+                {{ $t('nav.settingsPage.errorReportingPiiNote') }}
               </strong>
             </v-tooltip>
           </v-col>
@@ -175,7 +175,7 @@
               :class="`text-${user.EnhancedReporting ? 'success' : 'disabled'}`">
               {{ $t('nav.settingsPage.enhancedReportingStatus', {
                 status: user.EnhancedReporting ?
-                  sp.enabled : sp.disabled
+                  $t('nav.settingsPage.enabled') : $t('nav.settingsPage.disabled')
               }) }}
             </v-col>
             <v-col cols="auto">
@@ -213,33 +213,33 @@
           size="large"
           color="primary"
           prepend-icon="mdi-database"
-          :tooltip="sp.createBackupTooltip"
+          :tooltip="$t('nav.settingsPage.createBackupTooltip')"
           @click="bulkExport">
-          {{ sp.createBackup }}
+          {{ $t('nav.settingsPage.createBackup') }}
         </cc-button>
         <cc-button v-if="v2BackupData"
           block
           size="x-small"
           color="primary"
           prepend-icon="mdi-database"
-          :tooltip="sp.downloadV2Tooltip"
+          :tooltip="$t('nav.settingsPage.downloadV2Tooltip')"
           @click="downloadV2Backup">
-          {{ sp.downloadV2Backup }}
+          {{ $t('nav.settingsPage.downloadV2Backup') }}
         </cc-button>
       </v-col>
 
       <v-col cols="12"
         md="6">
-        <cc-dialog :title="sp.loadBackup"
+        <cc-dialog :title="$t('nav.settingsPage.loadBackup')"
           :close-on-click="false">
           <template #activator="{ open }">
             <cc-button block
               size="large"
               color="primary"
-              :tooltip="sp.loadBackupTooltip"
+              :tooltip="$t('nav.settingsPage.loadBackupTooltip')"
               prepend-icon="mdi-database"
               @click="open()">
-              {{ sp.loadBackup }}
+              {{ $t('nav.settingsPage.loadBackup') }}
             </cc-button>
           </template>
           <template #default="{ close }">
@@ -257,10 +257,10 @@
                   density="compact"
                   class="mb-4">
                   <v-btn value="append">
-                    {{ sp.mergeStrategy }}
+                    {{ $t('nav.settingsPage.mergeStrategy') }}
                   </v-btn>
                   <v-btn value="overwrite">
-                    {{ sp.overwriteStrategy }}
+                    {{ $t('nav.settingsPage.overwriteStrategy') }}
                   </v-btn>
                 </v-btn-toggle>
                 <cc-alert v-if="strategy === 'append'"
@@ -268,7 +268,7 @@
                   variant="outlined"
                   class="mb-4">
                   <p class="text-text">
-                    {{ sp.mergeWarning }}
+                    {{ $t('nav.settingsPage.mergeWarning') }}
                   </p>
                 </cc-alert>
                 <cc-alert v-else-if="strategy === 'overwrite'"
@@ -277,7 +277,7 @@
                   :title="$t('nav.titles.warning')"
                   icon="mdi-alert"
                   class="mb-4">
-                  {{ sp.overwriteWarning }}
+                  {{ $t('nav.settingsPage.overwriteWarning') }}
                 </cc-alert>
               </div>
 
@@ -286,7 +286,7 @@
                 variant="outlined"
                 density="compact"
                 hide-details
-                :label="sp.selectBulkFile"
+                :label="$t('nav.settingsPage.selectBulkFile')"
                 prepend-icon="mdi-paperclip"
                 @change="onFileSelect" />
 
@@ -294,13 +294,13 @@
                 color="warning"
                 icon="mdi-alert"
                 variant="outlined"
-                :title="sp.v2BackupDetected"
+                :title="$t('nav.settingsPage.v2BackupDetected')"
                 class="mt-4">
                 <p class="text-text">
-                  {{ sp.v2BackupDescription }}
+                  {{ $t('nav.settingsPage.v2BackupDescription') }}
                 </p>
                 <p class="mt-2">
-                  {{ sp.v2AppendNote }}
+                  {{ $t('nav.settingsPage.v2AppendNote') }}
                 </p>
               </cc-alert>
 
@@ -312,7 +312,7 @@
                     :loading="importLoading"
                     prepend-icon="mdi-database-arrow-left-outline"
                     @click="doImport(close)">
-                    {{ isV2File ? sp.importV2Backup : sp.confirmImport }}
+                    {{ isV2File ? $t('nav.settingsPage.importV2Backup') : $t('nav.settingsPage.confirmImport') }}
                   </cc-button>
                 </v-col>
               </v-row>
@@ -327,9 +327,9 @@
       <cc-button v-if="v2MigrationComplete"
         size="small"
         color="panel"
-        :tooltip="sp.resetV2Tooltip"
+        :tooltip="$t('nav.settingsPage.resetV2Tooltip')"
         @click="resetV2Migration">
-        {{ sp.resetV2Migration }}
+        {{ $t('nav.settingsPage.resetV2Migration') }}
       </cc-button>
     </v-row>
     <v-row justify="end">
@@ -360,12 +360,9 @@ import { isFullBackup, processFullBackup, downloadFullBackup } from '@/io/FullIm
 import { GetValue, SetValue } from '@/io/Storage'
 import { notify } from '@/util/notify'
 import MigrationRepairDialog from './components/MigrationRepairDialog.vue'
-import { useNavStrings } from '@/features/nav/useNavStrings'
-const { section } = useNavStrings()
 
 const { mdAndDown: mobile } = useDisplay()
 const themeObj = useTheme()
-const sp = section('settingsPage')
 
 const themeContributors = {
   vialra: 'vialra,',
@@ -511,7 +508,7 @@ async function onFileSelect(event: Event) {
     notify({
       title: t('notify.settings.unableToReadFileTitle'),
       text: t('notify.settings.errorPrefix', { err }),
-      data: { color: 'error', icon: 'mdi-database-off-outline' },
+      color: 'error', icon: 'mdi-database-off-outline',
     })
   }
 }
@@ -532,7 +529,7 @@ async function doImport(close: () => void) {
       notify({
         title: t('notify.settings.v2BackupImportedTitle'),
         text: parts.length ? parts.join(', ') + '.' : t('notify.settings.v2NoData'),
-        data: { icon: 'mdi-database-arrow-left-outline' },
+        icon: 'mdi-database-arrow-left-outline',
       })
     } else {
       await importAll(stagedImportData.value, strategy.value === 'overwrite')
@@ -541,7 +538,7 @@ async function doImport(close: () => void) {
         text: strategy.value === 'overwrite'
           ? t('notify.settings.dataReplaced')
           : t('notify.settings.dataMerged'),
-        data: { icon: 'mdi-database-arrow-left-outline' },
+        icon: 'mdi-database-arrow-left-outline',
       })
     }
     stagedImportData.value = null
@@ -552,7 +549,7 @@ async function doImport(close: () => void) {
     notify({
       title: t('notify.settings.unableToImportTitle'),
       text: t('notify.settings.errorPrefix', { err }),
-      data: { color: 'error', icon: 'mdi-database-off-outline' },
+      color: 'error', icon: 'mdi-database-off-outline',
     })
   }
   importLoading.value = false

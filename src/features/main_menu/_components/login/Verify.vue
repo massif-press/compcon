@@ -124,7 +124,7 @@ async function confirm() {
 
         if (isSignUpComplete) {
           loading.value = false;
-          notify(t('mainMenu.auth.accountCreated'));
+          notify({ text: t('mainMenu.auth.accountCreated'), type: 'success' });
           emit('set-state', 'sign-in');
         } else {
           loading.value = false;
@@ -144,7 +144,7 @@ async function resend() {
 
         const res = await resendSignUpCode({ username: userEmail });
 
-        notify(t('mainMenu.auth.verificationSent', { email: userEmail }));
+        notify({ text: t('mainMenu.auth.verificationSent', { email: userEmail }) });
 
         sentCode.value = true;
         preFill.value = true;

@@ -37,7 +37,7 @@
               flat
               tile>
               <v-card-text>
-                <div class="text-cc-overline text-center font-weight-bold">{{ ac.byRarity }}</div>
+                <div class="text-cc-overline text-center font-weight-bold">{{ $t('nav.achievements.byRarity') }}</div>
                 <div v-for="(r, i) in rarities"
                   :key="`rarity-${i}`">
                   <v-progress-linear
@@ -56,7 +56,7 @@
                   </div>
                 </div>
                 <v-divider class="my-2" />
-                <div class="text-cc-overline text-center font-weight-bold">{{ ac.byLabel }}</div>
+                <div class="text-cc-overline text-center font-weight-bold">{{ $t('nav.achievements.byLabel') }}</div>
                 <v-row dense>
                   <v-col v-for="(l, lIdx) in labels"
                     :key="`label-${lIdx}`"
@@ -78,10 +78,10 @@
                     <v-progress-linear :model-value="100"
                       height="20px"
                       color="deep-purple">
-                      {{ ac.secretAchievements }}
+                      {{ $t('nav.achievements.secretAchievements') }}
                     </v-progress-linear>
                     <div class="text-caption font-italic">
-                      {{ allUnlockedSecret.length }} {{ ac.discovered }}
+                      {{ allUnlockedSecret.length }} {{ $t('nav.achievements.discovered') }}
                     </div>
                   </v-col>
                 </v-row>
@@ -93,7 +93,7 @@
     </v-row>
     <v-row dense>
       <v-col cols="12">
-        <div class="text-cc-overline ml-n2">{{ ac.display }}</div>
+        <div class="text-cc-overline ml-n2">{{ $t('nav.achievements.display') }}</div>
         <v-row justify="space-between"
           dense>
           <v-col>
@@ -104,10 +104,10 @@
               tile
               density="compact"
               class="py-1">
-              <v-btn size="small">{{ ac.common }}</v-btn>
-              <v-btn size="small">{{ ac.epic }}</v-btn>
-              <v-btn size="small">{{ ac.legendary }}</v-btn>
-              <v-btn size="small">{{ ac.mythic }}</v-btn>
+              <v-btn size="small">{{ $t('nav.achievements.common') }}</v-btn>
+              <v-btn size="small">{{ $t('nav.achievements.epic') }}</v-btn>
+              <v-btn size="small">{{ $t('nav.achievements.legendary') }}</v-btn>
+              <v-btn size="small">{{ $t('nav.achievements.mythic') }}</v-btn>
             </v-btn-toggle>
           </v-col>
           <v-col>
@@ -118,8 +118,8 @@
               multiple
               density="compact"
               class="py-1">
-              <v-btn size="small">{{ ac.locked }}</v-btn>
-              <v-btn size="small">{{ ac.unlocked }}</v-btn>
+              <v-btn size="small">{{ $t('nav.achievements.locked') }}</v-btn>
+              <v-btn size="small">{{ $t('nav.achievements.unlocked') }}</v-btn>
             </v-btn-toggle>
           </v-col>
           <v-col cols="auto">
@@ -130,7 +130,7 @@
               tile
               density="compact"
               class="py-1">
-              <v-btn size="small">{{ ac.hidden }}</v-btn>
+              <v-btn size="small">{{ $t('nav.achievements.hidden') }}</v-btn>
             </v-btn-toggle>
           </v-col>
         </v-row>
@@ -172,32 +172,32 @@
     <v-row align="end">
       <v-col cols="12"
         md="8">
-        <div class="text-cc-overline ml-n2">{{ ac.sort }}</div>
+        <div class="text-cc-overline ml-n2">{{ $t('nav.achievements.sort') }}</div>
         <v-btn color="primary"
           size="x-small"
           flat
           tile
-          @click="sort = 'none'">{{ ac.none }}</v-btn>
+          @click="sort = 'none'">{{ $t('nav.achievements.none') }}</v-btn>
         <v-btn color="primary"
           size="x-small"
           flat
           tile
           @click="sort = sort === 'name_asc' ? 'name_desc' : 'name_asc'">
-          {{ ac.name }}
+          {{ $t('nav.achievements.name') }}
         </v-btn>
         <v-btn color="primary"
           size="x-small"
           flat
           tile
           @click="sort = sort === 'rarity_asc' ? 'rarity_desc' : 'rarity_asc'">
-          {{ ac.rarity }}
+          {{ $t('nav.achievements.rarity') }}
         </v-btn>
         <v-btn color="primary"
           size="x-small"
           flat
           tile
           @click="sort = sort === 'date_asc' ? 'date_desc' : 'date_asc'">
-          {{ ac.dateUnlocked }}
+          {{ $t('nav.achievements.dateUnlocked') }}
         </v-btn>
         <div class="pt-2">
           <cc-text-field v-model="search"
@@ -239,7 +239,7 @@
           color="primary"
           variant="elevated"
           @click="exportBackup()">
-          {{ ac.createBackup }}
+          {{ $t('nav.achievements.createBackup') }}
         </cc-button>
       </v-col>
       <v-spacer />
@@ -251,7 +251,7 @@
               color="primary"
               class="mx-3"
               @click="open">
-              {{ ac.loadBackup }}
+              {{ $t('nav.achievements.loadBackup') }}
             </cc-button>
           </template>
           <v-card-text class="pa-6">
@@ -260,7 +260,7 @@
                 tag="span"
                 scope="global">
                 <template #emphasis>
-                  <b class="text-accent">{{ ac.overwriteAllWarning }}</b>
+                  <b class="text-accent">{{ $t('nav.achievements.overwriteAllWarning') }}</b>
                 </template>
               </i18n-t>
               <br />
@@ -269,7 +269,7 @@
                 tag="span"
                 scope="global">
                 <template #emphasis>
-                  <b class="text-accent">{{ ac.cannot }}</b>
+                  <b class="text-accent">{{ $t('nav.achievements.cannot') }}</b>
                 </template>
               </i18n-t>
             </p>
@@ -279,7 +279,7 @@
               variant="outlined"
               density="compact"
               hide-details
-              :label="ac.selectExportFile"
+              :label="$t('nav.achievements.selectExportFile')"
               prepend-icon="mdi-paperclip"
               @change="importBackup()" />
           </v-card-text>
@@ -293,7 +293,7 @@
               color="error"
               variant="outlined"
               @click="open()">
-              {{ ac.resetAchievements }}
+              {{ $t('nav.achievements.resetAchievements') }}
             </cc-button>
           </template>
           <template #default="{ close }">
@@ -303,7 +303,7 @@
                   tag="span"
                   scope="global">
                   <template #emphasis>
-                    <b class="text-accent">{{ ac.eraseAllWarning }}</b>
+                    <b class="text-accent">{{ $t('nav.achievements.eraseAllWarning') }}</b>
                   </template>
                 </i18n-t>
                 <br />
@@ -311,7 +311,7 @@
                   tag="span"
                   scope="global">
                   <template #emphasis>
-                    <b class="text-accent">{{ ac.cannot }}</b>
+                    <b class="text-accent">{{ $t('nav.achievements.cannot') }}</b>
                   </template>
                 </i18n-t>
               </p>
@@ -319,7 +319,7 @@
                 block
                 class="mt-4"
                 @click="clearAchievements(close)">
-                {{ ac.resetAchievements }}
+                {{ $t('nav.achievements.resetAchievements') }}
                 <template #info>
                   <v-icon icon="mdi-alert" />
                 </template>
@@ -334,6 +334,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useDisplay } from 'vuetify'
 import { orderBy, uniq } from 'lodash-es'
 import AchievementItem from './_components/AchievementItem.vue'
@@ -342,11 +343,9 @@ import { AchievementManager } from '@/user/achievements/AchievementManager'
 import { GetAchievement } from '@/io/apis/account'
 import logger from '@/user/logger'
 import { notify } from '@/util/notify'
-import { useNavStrings } from '@/features/nav/useNavStrings'
-const { section } = useNavStrings()
 
 const { smAndDown: mobile } = useDisplay()
-const ac = section('achievements')
+const { t } = useI18n()
 
 defineEmits<{ close: [] }>()
 
@@ -473,8 +472,8 @@ async function addAchievement() {
   } catch (e) {
     logger.error(`Error adding achievement: ${e}`, null, e)
     notify({
-      title: ac.cannotAddTitle,
-      text: ac.cannotAddText,
+      title: t('nav.achievements.cannotAddTitle'),
+      text: t('nav.achievements.cannotAddText'),
       icon: 'mdi-star-off', color: 'error',
     })
   }

@@ -1,17 +1,17 @@
 <template>
   <v-card-text class="pa-2">
     <i class="text-cc-subtle">
-      {{ ud.description }}
+      {{ $t('nav.userDataViewer.description') }}
       <br />
-      {{ ud.achievementNote }}
+      {{ $t('nav.userDataViewer.achievementNote') }}
     </i>
 
     <v-table class="text-left mt-2"
       density="compact">
       <thead>
         <tr>
-          <th>{{ ud.item }}</th>
-          <th>{{ ud.value }}</th>
+          <th>{{ $t('nav.userDataViewer.item') }}</th>
+          <th>{{ $t('nav.userDataViewer.value') }}</th>
         </tr>
       </thead>
       <tbody>
@@ -40,7 +40,7 @@
         variant="tonal"
         color="error"
         @click="resetUserData()">
-        {{ ud.resetUserData }}
+        {{ $t('nav.userDataViewer.resetUserData') }}
       </cc-button>
     </div>
   </v-card-text>
@@ -50,12 +50,9 @@
 import { computed } from 'vue'
 import { useDisplay, useTheme } from 'vuetify'
 import { UserStore } from '@/stores'
-import { useNavStrings } from '@/features/nav/useNavStrings'
-const { section } = useNavStrings()
 
 const { smAndDown: mobile } = useDisplay()
 const theme = useTheme()
-const ud = section('userDataViewer')
 
 const user = computed(() => UserStore().User)
 

@@ -11,12 +11,12 @@
           prepend-icon="mdi-alert-circle"
           style="z-index: 999!important;"
           @click="open">
-          {{ va.v2Data }}
+          {{ $t('nav.v2Auto.v2Data') }}
         </cc-button>
       </template>
       <template #default="{ close }">
         <v-card-text>
-          <div>{{ va.autoMigrated }}</div>
+          <div>{{ $t('nav.v2Auto.autoMigrated') }}</div>
           <div v-if="migrationResult">
             <v-list-item v-if="migrationResult.pilotsImported"
               class="bg-background my-1"
@@ -57,7 +57,7 @@
           <div
             v-if="migrationResult && (migrationResult.pilotsBackedUp || migrationResult.npcsBackedUp || migrationResult.encountersBackedUp)"
             class="mt-2 text-caption text-warning">
-            {{ va.pendingNote }}
+            {{ $t('nav.v2Auto.pendingNote') }}
           </div>
 
           <v-expansion-panels
@@ -82,9 +82,9 @@
           <v-col>
             <cc-button color="primary"
               prepend-icon="mdi-download"
-              :tooltip="va.downloadBackupTooltip"
+              :tooltip="$t('nav.v2Auto.downloadBackupTooltip')"
               @click="downloadBackup">
-              {{ va.downloadBackup }}
+              {{ $t('nav.v2Auto.downloadBackup') }}
             </cc-button>
           </v-col>
           <v-col cols="auto">
@@ -101,12 +101,8 @@
 import { ref, onMounted } from 'vue'
 import { GetValue, SetValue } from '@/io/Storage'
 import { downloadFullBackup } from '@/io/FullImporter'
-import { useNavStrings } from '@/features/nav/useNavStrings'
-const { section } = useNavStrings()
 
 defineProps<{ block?: boolean }>()
-
-const va = section('v2Auto')
 
 const hasMigrationData = ref(false)
 const migrationResult = ref<any>(null)

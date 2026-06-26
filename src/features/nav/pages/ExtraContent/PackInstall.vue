@@ -8,7 +8,7 @@
         md="4"
         class="px-3 py-4">
         <v-file-input v-model="value"
-          :placeholder="pi.selectFile"
+          :placeholder="$t('nav.packInstall.selectFile')"
           variant="outlined"
           type="file"
           accept=".lcp"
@@ -31,7 +31,7 @@
             <v-icon icon="mdi-tray-arrow-down" />
           </template>
 
-          <span>{{ pi.install }}</span>
+          <span>{{ $t('nav.packInstall.install') }}</span>
         </cc-button>
         <v-progress-linear v-if="installing"
           indeterminate
@@ -80,7 +80,7 @@
           color="warning"
           class="my-3">
           <span class="text-caption">
-            {{ pi.v3Warning }}
+            {{ $t('nav.packInstall.v3Warning') }}
           </span>
           <div v-for="pack in contentPacks.filter((x) => !x.manifest.v3)"
             :key="pack.id"
@@ -89,7 +89,6 @@
             {{ $t('nav.packInstall.byAuthor', { author: pack.manifest.author }) }}
           </div>
         </cc-alert>
-
 
         <cc-alert v-if="hasUninstalledDependencies"
           color="error"
@@ -149,14 +148,14 @@
                 "
               class="transition-swing"
               transition="slide-y-reverse-transition">
-              {{ pi.alreadyInstalledNote }}
+              {{ $t('nav.packInstall.alreadyInstalledNote') }}
               <span v-if="gradeType(contentPack) === 'upgrade'">
                 {{ $t('nav.packInstall.willUpgradeTo', { version: contentPack.manifest.version }) }}
               </span>
               <span v-else-if="gradeType(contentPack) === 'downgrade'">
                 {{ $t('nav.packInstall.willDowngradeTo', { version: contentPack.manifest.version }) }}
               </span>
-              <span v-else>{{ pi.willReplace }}</span>
+              <span v-else>{{ $t('nav.packInstall.willReplace') }}</span>
             </v-alert>
             <v-alert v-show="uninstalledDependencies(contentPack).length > 0 && !installing"
               flat
@@ -164,7 +163,7 @@
               color="error"
               class="transition-swing"
               transition="slide-y-reverse-transition">
-              {{ pi.requiresContent }}
+              {{ $t('nav.packInstall.requiresContent') }}
               <div v-for="dep in uninstalledDependencies(contentPack)"
                 :key="dep.name + dep.version"
                 class="text-caption">
@@ -183,7 +182,7 @@
           <div v-else
             key="nopack"
             class="text-center my-6">
-            <div class="heading h3 font-italic text-disabled">{{ pi.noPackSelected }}</div>
+            <div class="heading h3 font-italic text-disabled">{{ $t('nav.packInstall.noPackSelected') }}</div>
           </div>
         </v-fade-transition>
       </v-col>
@@ -203,11 +202,8 @@ import { IContentPack, ContentPackDependency } from '@/classes/ContentPack'
 import { compare, coerce } from 'semver'
 import logger from '@/user/logger'
 import { notify } from '@/util/notify'
-import { useNavStrings } from '@/features/nav/useNavStrings'
-const { section } = useNavStrings()
 
 const { smAndDown: mobile } = useDisplay()
-const pi = section('packInstall')
 
 const emit = defineEmits<{ 'start-load': [] }>()
 
@@ -329,9 +325,9 @@ async function install(): Promise<void> {
   value.value = null
 
   notify({
-    title: pi.success,
-    text: pi.successText,
-    data: { color: 'success' },
+    title: t('nav.packInstall.success'),
+    text: t('nav.packInstall.successText'),
+    color: 'success',
   })
 }
 
@@ -426,7 +422,7 @@ function gradeType(pack: IContentPack) {
     notify({
       title: t('notify.common.error'),
       text: t('notify.lcp.removedInvalidVersionText', { name: pack.manifest.name || (pack.manifest as any).title || 'unknown LCP' }),
-      data: { color: 'error' },
+      color: 'error',
     })
     return 'error'
   }

@@ -207,11 +207,11 @@ async function importFile() {
       }
     } catch (error) {
       logger.error('Failed to import encounter', null, error)
-      notify({ title: t('gm.import.importErrorTitle'), text: t('gm.import.encounterImportErrorText', { error: String(error) }), data: { icon: 'cc:compendium', color: 'error' } })
+      notify({ title: t('gm.import.importErrorTitle'), text: t('gm.import.encounterImportErrorText', { error: String(error) }), icon: 'cc:compendium', color: 'error' })
     }
   }
   if (backedUp > 0) {
-    notify({ title: t('gm.import.v2BackupTitle'), text: t('gm.import.v2BackupText', { count: backedUp }, backedUp), data: { icon: 'mdi-information-box-outline', color: 'info' } })
+    notify({ title: t('gm.import.v2BackupTitle'), text: t('gm.import.v2BackupText', { count: backedUp }, backedUp), icon: 'mdi-information-box-outline', color: 'info' })
   }
   reset()
   emit('complete')

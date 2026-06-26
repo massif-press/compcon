@@ -1,18 +1,18 @@
 <template>
   <v-container>
-    <div class="heading h2 mb-1">{{ cr.lancerBy }}</div>
+    <div class="heading h2 mb-1">{{ $t('nav.credits.lancerBy') }}</div>
     <v-row>
       <dev-badge v-for="(c, cIdx) in credits.writers"
         :key="`writer-${cIdx}`"
         :info="c" />
     </v-row>
-    <div class="heading h2 mt-4 mb-1">{{ cr.compconBy }}</div>
+    <div class="heading h2 mt-4 mb-1">{{ $t('nav.credits.compconBy') }}</div>
     <v-row>
       <dev-badge v-for="(c, cIdx) in credits.lead_devs"
         :key="`lead-${cIdx}`"
         :info="c" />
     </v-row>
-    <div class="heading h3 mt-4 mb-1">{{ cr.with }}</div>
+    <div class="heading h3 mt-4 mb-1">{{ $t('nav.credits.with') }}</div>
     <v-row dense>
       <dev-badge v-for="(c, cIdx) in credits.devs1"
         :key="`dev1-${cIdx}`"
@@ -23,13 +23,13 @@
         :key="`dev2-${cIdx}`"
         :info="c" />
     </v-row>
-    <div class="heading h2 mt-4 mb-1">{{ cr.graphicDesignBy }}</div>
+    <div class="heading h2 mt-4 mb-1">{{ $t('nav.credits.graphicDesignBy') }}</div>
     <v-row dense>
       <dev-badge v-for="(c, cIdx) in credits.graphics"
         :key="`graphic-${cIdx}`"
         :info="c" />
     </v-row>
-    <div class="heading h2 mt-4 mb-1">{{ cr.additionalArtBy }}</div>
+    <div class="heading h2 mt-4 mb-1">{{ $t('nav.credits.additionalArtBy') }}</div>
     <v-row dense>
       <dev-badge v-for="(c, cIdx) in credits.art"
         :key="`art-${cIdx}`"
@@ -37,11 +37,11 @@
     </v-row>
     <div class="text-center mt-8">
       <span class="heading h3">
-        {{ cr.patronThanks }}
+        {{ $t('nav.credits.patronThanks') }}
         <a v-html-safe="'support'"
           target="_blank"
           href="https://www.patreon.com/compcon" />
-        {{ cr.supportOf }}
+        {{ $t('nav.credits.supportOf') }}
       </span>
     </div>
 
@@ -57,7 +57,7 @@
         :key="t"
         class="mb-6">
         <cc-title small
-          class="my-2">{{ t.toUpperCase() }} {{ cr.tier }}</cc-title>
+          class="my-2">{{ t.toUpperCase() }} {{ $t('nav.credits.tier') }}</cc-title>
         <v-row align="center"
           justify="space-around"
           dense>
@@ -89,15 +89,14 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useDisplay } from 'vuetify'
 import creditsData from './credits.json'
 import DevBadge from './SupporterBadges/Dev.vue'
 import { getPatreonSubscribers } from '@/user/oauth'
-import { useNavStrings } from '@/features/nav/useNavStrings'
-const { section } = useNavStrings()
 
 const { smAndDown: mobile } = useDisplay()
-const cr = section('credits')
+const { t } = useI18n()
 
 const credits = creditsData
 const patrons = ref<any[]>([])
@@ -115,7 +114,7 @@ onMounted(async () => {
 
 function cleanName(patron: any) {
   if (patron.display_name && patron.display_name !== 'N/A') return patron.display_name.trim()
-  if (!patron.name) return cr.anonymousPatron
+  if (!patron.name) return t('nav.credits.anonymousPatron')
   const name = patron.name.trim()
   if (name === 'John Barker') return 'The Upgrade Factory'
 

@@ -5,15 +5,15 @@
       class="text-center"
       color="subtle"
       density="compact">
-      <span>{{ di.noItemsFound }}</span>
+      <span>{{ $t('nav.deletedItems.noItemsFound') }}</span>
     </v-alert>
     <v-table v-if="items.length"
       class="text-left pa-2">
       <thead>
         <tr>
-          <th>{{ di.itemType }}</th>
-          <th>{{ di.itemName }}</th>
-          <th>{{ di.deletedOn }}</th>
+          <th>{{ $t('nav.deletedItems.itemType') }}</th>
+          <th>{{ $t('nav.deletedItems.itemName') }}</th>
+          <th>{{ $t('nav.deletedItems.deletedOn') }}</th>
           <th />
           <th />
         </tr>
@@ -29,7 +29,7 @@
               variant="plain"
               size="small"
               @click="item.SaveController.Restore()">
-              {{ di.restore }}
+              {{ $t('nav.deletedItems.restore') }}
             </v-btn>
           </td>
           <td class="text-right">
@@ -37,7 +37,7 @@
               variant="plain"
               size="small"
               @click="permanentlyDelete(item)">
-              {{ di.permanentlyDelete }}
+              {{ $t('nav.deletedItems.permanentlyDelete') }}
             </v-btn>
           </td>
         </tr>
@@ -52,7 +52,7 @@
               :loading="loading"
               color="accent"
               @click="restoreAll()">
-              {{ di.restoreAll }}
+              {{ $t('nav.deletedItems.restoreAll') }}
             </v-btn>
           </td>
           <td>
@@ -61,7 +61,7 @@
               :loading="loading"
               color="error"
               @click="deleteAll()">
-              {{ di.permanentlyDeleteAll }}
+              {{ $t('nav.deletedItems.permanentlyDeleteAll') }}
             </v-btn>
           </td>
         </tr>
@@ -75,10 +75,7 @@ import { ref, computed } from 'vue'
 import { CampaignStore, EncounterStore, NpcStore, PilotStore, PilotGroupStore, PilotSheetStore } from '@/stores'
 import { Pilot } from '@/classes/pilot/Pilot'
 import { PilotGroup } from '@/features/pilot_management/store/PilotGroup'
-import { useNavStrings } from '@/features/nav/useNavStrings'
-const { section } = useNavStrings()
 
-const di = section('deletedItems')
 const loading = ref(false)
 
 const items = computed(() => [

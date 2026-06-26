@@ -226,7 +226,7 @@ async function exchangePatreonToken(code) {
         notify({
           title: t('notify.account.patreonLinkedTitle'),
           text: t('notify.account.patreonLinkedText'),
-          data: { color: 'success' },
+          color: 'success',
         });
       } catch (error) {
         logger.error(`Error linking Patreon account: ${error}`, this, error);
@@ -235,13 +235,13 @@ async function exchangePatreonToken(code) {
           notify({
             title: t('notify.account.noSubscriptionTitle'),
             text: t('notify.account.noSubscriptionText'),
-            data: { color: 'warning' },
+            color: 'warning',
           });
         } else {
           notify({
             title: t('notify.account.patreonLinkFailedTitle'),
             text: t('notify.account.patreonLinkFailedText'),
-            data: { color: 'error' },
+            color: 'error',
           });
         }
       }
@@ -251,7 +251,7 @@ async function unlinkPatreon() {
       notify({
         title: t('notify.account.patreonUnlinkedTitle'),
         text: t('notify.account.patreonUnlinkedText'),
-        data: { color: 'success' },
+        color: 'success',
       });
     }
 </script>

@@ -11,7 +11,7 @@
     <cc-button v-if="standalone"
       :size="mobile ? 'large' : 'x-large'"
       icon="mdi-arrow-left"
-      :tooltip="n.navigateBack"
+      :tooltip="$t('nav.nav.navigateBack')"
       tooltip-location="bottom"
       @click="$router.go(-1)" />
     &nbsp;
@@ -19,15 +19,14 @@
     <cc-button v-if="standalone"
       :size="mobile ? 'large' : 'x-large'"
       icon="mdi-arrow-right"
-      :tooltip="n.navigateForward"
+      :tooltip="$t('nav.nav.navigateForward')"
       tooltip-location="bottom"
       @click="$router.go(1)" />
     &nbsp;
 
-
     <cc-button :size="mobile ? 'large' : 'x-large'"
       icon="mdi-home"
-      :tooltip="n.mainMenu"
+      :tooltip="$t('nav.nav.mainMenu')"
       tooltip-location="bottom"
       @click="$router.push({ name: 'main-menu' })" />
 
@@ -35,7 +34,7 @@
 
     <cc-button :size="mobile ? 'large' : 'x-large'"
       icon="mdi-book"
-      :tooltip="n.compendium"
+      :tooltip="$t('nav.nav.compendium')"
       tooltip-location="bottom"
       @click="$router.push({ path: '/srd' })" />
 
@@ -43,7 +42,7 @@
 
     <cc-button :size="mobile ? 'large' : 'x-large'"
       icon="cc:pilot"
-      :tooltip="n.pilotManagement"
+      :tooltip="$t('nav.nav.pilotManagement')"
       tooltip-location="bottom"
       @click="$router.push({ path: '/pilot_management' })" />
 
@@ -62,20 +61,20 @@
         class="text-caption pa-0">
         <v-list-item slim
           @click="$router.push({ path: '/gm/npcs' })">
-          {{ n.npcRoster }}
+          {{ $t('nav.nav.npcRoster') }}
         </v-list-item>
         <v-list-item slim
           @click="$router.push({ path: '/gm/encounters' })">
-          {{ n.encounters }}
+          {{ $t('nav.nav.encounters') }}
         </v-list-item>
         <v-list-item slim
           @click="$router.push({ path: '/gm/narrative' })">
-          {{ n.narrativeElements }}
+          {{ $t('nav.nav.narrativeElements') }}
         </v-list-item>
         <v-list-item v-if=isDevsite
           slim
           @click="$router.push({ path: '/gm/campaigns' })">
-          {{ n.campaignManager }}
+          {{ $t('nav.nav.campaignManager') }}
         </v-list-item>
       </v-list>
     </v-menu>
@@ -84,7 +83,7 @@
 
     <cc-button :size="mobile ? 'large' : 'x-large'"
       icon="cc:campaign"
-      :tooltip="n.activeMode"
+      :tooltip="$t('nav.nav.activeMode')"
       tooltip-location="bottom"
       @click="$router.push({ path: '/active-mode' })" />
 
@@ -99,13 +98,13 @@
             @click="refModal = true"></cc-button>
         </span>
       </template>
-      <span>{{ n.quickReference }}</span>
+      <span>{{ $t('nav.nav.quickReference') }}</span>
     </v-tooltip>
 
     &nbsp;
 
     <cc-modal v-model="refModal"
-      :title="n.quickReference">
+      :title="$t('nav.nav.quickReference')">
       <reference is-modal />
     </cc-modal>
 
@@ -127,9 +126,9 @@
             <v-chip color="warning"
               variant="elevated"
               size="x-small">
-              {{ common.warning }}
+              {{ $t('common.warning') }}
             </v-chip>
-            {{ n.storageWarningTooltip }}
+            {{ $t('nav.nav.storageWarningTooltip') }}
           </span>
         </v-tooltip>
       </span>
@@ -146,14 +145,14 @@
             <v-chip color="error"
               variant="elevated"
               size="x-small">
-              {{ common.alert }}
+              {{ $t('common.alert') }}
             </v-chip>
-            {{ n.storageAlertTooltip }}
+            {{ $t('nav.nav.storageAlertTooltip') }}
 
             <v-alert color="error">
-              <b>{{ n.noNewItemsSaved }}</b>
+              <b>{{ $t('nav.nav.noNewItemsSaved') }}</b>
             </v-alert>
-            {{ n.storageDetails }}
+            {{ $t('nav.nav.storageDetails') }}
           </span>
         </v-tooltip>
         <v-dialog v-model="storageFullDialog"
@@ -164,7 +163,7 @@
               <v-toolbar-title>
                 <v-icon icon="mdi-database-off"
                   start />
-                {{ n.storageLimitExceeded }}
+                {{ $t('nav.nav.storageLimitExceeded') }}
               </v-toolbar-title>
               <v-spacer />
               <v-btn icon
@@ -174,15 +173,15 @@
             </v-toolbar>
             <v-card-text>
               <p>
-                {{ n.storageAlertTooltip }}
+                {{ $t('nav.nav.storageAlertTooltip') }}
                 <br />
                 <br />
                 <b class="text-accent">
-                  {{ n.noNewItemsSaved }}
+                  {{ $t('nav.nav.noNewItemsSaved') }}
                 </b>
                 <br />
                 <br />
-                {{ n.storageDetails }}
+                {{ $t('nav.nav.storageDetails') }}
               </p>
             </v-card-text>
           </v-card>
@@ -204,7 +203,7 @@
       size="small"
       prepend-icon="mdi-wifi-off"
       class="mr-2">
-      {{ n.offline }}
+      {{ $t('common.offline') }}
     </v-chip>
 
     <v2-auto />
@@ -217,7 +216,7 @@
 
     <v-tooltip location="bottom">
       <template #activator="{ props }">
-        <cc-modal :title="n.cloudAccount"
+        <cc-modal :title="$t('nav.nav.cloudAccount')"
           icon="mdi-cloud-sync-outline">
           <template #activator="{ open }">
             <cc-button v-bind="props"
@@ -233,7 +232,7 @@
           <cloud-page />
         </cc-modal>
       </template>
-      {{ n.cloudAccount }}
+      {{ $t('nav.nav.cloudAccount') }}
     </v-tooltip>
 
     <v-divider v-if="!mobile"
@@ -242,7 +241,7 @@
 
     <v-tooltip location="bottom">
       <template #activator="{ props }">
-        <cc-modal :title="n.achievements"
+        <cc-modal :title="$t('nav.nav.achievements')"
           icon="cc:achievement_1">
           <template #activator="{ open }">
             <cc-button v-bind="props"
@@ -257,7 +256,7 @@
           </template>
         </cc-modal>
       </template>
-      {{ n.achievements }}
+      {{ $t('nav.nav.achievements') }}
     </v-tooltip>
 
     <v-divider v-if="!mobile"
@@ -273,40 +272,40 @@
       </template>
 
       <v-list density="compact">
-        <v-list-item @click.stop="contentModal = true">{{ n.manageContent }}</v-list-item>
+        <v-list-item @click.stop="contentModal = true">{{ $t('nav.nav.manageContent') }}</v-list-item>
         <content-page v-model="contentModal" />
         <cc-modal title="options"
           icon="mdi-cog">
           <template #activator="{ open }">
-            <v-list-item @click.stop="open">{{ n.options }}</v-list-item>
+            <v-list-item @click.stop="open">{{ $t('nav.nav.options') }}</v-list-item>
           </template>
           <options-page />
         </cc-modal>
         <cc-modal title="about"
           icon="mdi-information-outline">
           <template #activator="{ open }">
-            <v-list-item @click.stop="open">{{ n.about }}</v-list-item>
+            <v-list-item @click.stop="open">{{ $t('nav.nav.about') }}</v-list-item>
           </template>
           <about-page />
         </cc-modal>
         <cc-modal title="title"
           icon="cc:gms">
           <template #activator="{ open }">
-            <v-list-item @click.stop="open">{{ n.credits }}</v-list-item>
+            <v-list-item @click.stop="open">{{ $t('nav.nav.credits') }}</v-list-item>
           </template>
           <credits-page />
         </cc-modal>
         <cc-modal title="title"
           icon="mdi-help-circle-outline">
           <template #activator="{ open }">
-            <v-list-item @click.stop="open">{{ n.help }}</v-list-item>
+            <v-list-item @click.stop="open">{{ $t('nav.nav.help') }}</v-list-item>
           </template>
           <help-page />
         </cc-modal>
         <v-divider />
         <v-list-item target="_blank"
           href="https://www.patreon.com/compcon">
-          {{ n.supportCompcon }}
+          {{ $t('nav.nav.supportCompcon') }}
         </v-list-item>
       </v-list>
     </v-menu>
@@ -332,8 +331,6 @@ import SearchComponent from './search/index.vue'
 import V2Auto from './pages/ExtraContent/components/v2Auto.vue'
 import { UserStore } from '@/stores'
 import { useOnlineStatus } from '@/composables/useOnlineStatus'
-import { useNavStrings } from '@/features/nav/useNavStrings'
-const { section } = useNavStrings()
 
 defineProps<{ pilotManagement?: boolean; encounter?: boolean }>()
 
@@ -341,8 +338,6 @@ const route = useRoute()
 const { xs: portrait } = useDisplay()
 const mobile = portrait
 const { isOnline } = useOnlineStatus()
-const n = section('nav')
-const common = section('common')
 
 const userStore = UserStore()
 

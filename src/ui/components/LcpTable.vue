@@ -279,14 +279,14 @@ async function installLatest(pack: any) {
     notify({
       title: t('notify.lcp.lcpUpdatedTitle'),
       text: t('notify.lcp.lcpUpdatedText', { pack: pack.title }),
-      data: { color: 'success', icon: 'mdi-check-bold' },
+      color: 'success', icon: 'mdi-check-bold',
     })
   } catch (err) {
     logger.error(`Error downloading LCP: ${err}`, null, err)
     notify({
       title: t('notify.lcp.lcpUpdateErrorTitle'),
       text: t('notify.lcp.lcpUpdateErrorText', { pack: pack.title }),
-      data: { color: 'error', icon: 'mdi-alert-circle-outline' },
+      color: 'error', icon: 'mdi-alert-circle-outline',
     })
   } finally {
     downloadingPacks.value = downloadingPacks.value.filter(k => k !== pack.sortkey)

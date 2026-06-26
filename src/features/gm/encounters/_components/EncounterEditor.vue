@@ -334,9 +334,9 @@ async function remoteUpdate() {
   try {
     await CloudController.UpdateRemote(props.item)
     await UserStore().refreshDbData()
-    notify({ title: t('notify.share.syncCompleteTitle'), text: t('gm.sync.syncCompleteText', { itemType: props.item.ItemType, name: props.item.Name }), data: { icon: 'mdi-cloud-check-variant', color: 'success-darken-2' } })
+    notify({ title: t('notify.share.syncCompleteTitle'), text: t('gm.sync.syncCompleteText', { itemType: props.item.ItemType, name: props.item.Name }), icon: 'mdi-cloud-check-variant', color: 'success-darken-2' })
   } catch (err) {
-    notify({ title: t('notify.share.syncFailedTitle'), text: t('gm.sync.syncFailedText', { itemType: props.item.ItemType, name: props.item.Name, err: String(err) }), data: { icon: 'mdi-alert', color: 'error' } })
+    notify({ title: t('notify.share.syncFailedTitle'), text: t('gm.sync.syncFailedText', { itemType: props.item.ItemType, name: props.item.Name, err: String(err) }), icon: 'mdi-alert', color: 'error' })
   }
 }
 async function convert() {

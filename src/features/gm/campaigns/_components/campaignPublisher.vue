@@ -178,7 +178,7 @@ async function publishCampaign() {
       notify({
         title: t('notify.gm.campaignPublishedTitle'),
         text: t('notify.gm.campaignPublishedText', { version: version.value, name: props.campaign.Name }),
-        data: { color: 'success' },
+        color: 'success',
       });
     }
 async function exportLcd() {

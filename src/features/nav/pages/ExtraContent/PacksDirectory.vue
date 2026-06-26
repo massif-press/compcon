@@ -3,17 +3,17 @@
     <div class="packsList"
       style="min-height: 300px">
       <div class="heading h2 text-stark mt-3 px-2">
-        {{ pd.officialContent }}
+        {{ $t('nav.packsDirectory.officialContent') }}
         <a href="https://massifpress.com/shop"
-          target="_blank">{{ pd.massifPress }}</a>
-        {{ pd.content }}
+          target="_blank">{{ $t('nav.packsDirectory.massifPress') }}</a>
+        {{ $t('nav.packsDirectory.content') }}
       </div>
       <massif-lcp-table :packs="massifPacks"
         :loading="loading" />
       <v-divider class="my-6" />
       <div class="heading h2 text-stark mt-3 px-2">
-        {{ pd.communityContent }}
-        <cc-dialog :title="pd.communityContentTitle">
+        {{ $t('nav.packsDirectory.communityContent') }}
+        <cc-dialog :title="$t('nav.packsDirectory.communityContentTitle')">
           <template #activator="{ open }">
             <v-icon size="x-small"
               class="mt-n1 fade-select"
@@ -22,12 +22,12 @@
             </v-icon>
           </template>
           <v-card-text>
-            {{ pd.communityAbout }}
+            {{ $t('nav.packsDirectory.communityAbout') }}
             <br />
-            {{ pd.communityContribute }}
+            {{ $t('nav.packsDirectory.communityContribute') }}
             <a href="https://github.com/massif-press/lancer-data#lancer-community-content-packs"
               target="_blank">
-              {{ pd.clickHere }}
+              {{ $t('nav.packsDirectory.clickHere') }}
             </a>
           </v-card-text>
         </cc-dialog>
@@ -54,11 +54,8 @@ import { useDisplay } from 'vuetify'
 import CommunityTable from './components/CommunityTable.vue'
 import MassifLcpTable from '@/features/main_menu/_components/MassifLcpTable.vue'
 import { collectionDataQuery } from '@/user/api'
-import { useNavStrings } from '@/features/nav/useNavStrings'
-const { section } = useNavStrings()
 
 const { smAndDown: mobile } = useDisplay()
-const pd = section('packsDirectory')
 
 const catalog = ref<any[]>([])
 const loading = ref(true)

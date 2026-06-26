@@ -36,12 +36,12 @@
 
     <cc-alert v-if="!pack.manifest.v3"
       color="warning"
-      :title="pf.v2ContentTitle"
+      :title="$t('nav.packInfo.v2ContentTitle')"
       icon="mdi-alert"
       variant="outlined"
       class="my-3">
       <span class="text-text">
-        {{ pf.v2ContentDescription }}
+        {{ $t('nav.packInfo.v2ContentDescription') }}
       </span>
     </cc-alert>
 
@@ -54,11 +54,8 @@ import { useDisplay } from 'vuetify'
 import { PropType } from 'vue'
 import { IContentPack } from '@/classes/ContentPack'
 import PackInfoCard from './components/PackInfoCard.vue'
-import { useNavStrings } from '@/features/nav/useNavStrings'
-const { section } = useNavStrings()
 
 defineProps<{ pack: IContentPack }>()
 
 const { smAndDown: mobile } = useDisplay()
-const pf = section('packInfo')
 </script>

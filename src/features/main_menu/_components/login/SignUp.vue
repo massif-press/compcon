@@ -76,11 +76,6 @@
 import { computed, ref } from 'vue'
 import logger from '@/user/logger';
 import { signUp } from 'aws-amplify/auth';
-import { useDisplay } from 'vuetify';
-
-defineOptions({ name: 'sign-up' })
-
-const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const emit = defineEmits<{
   'success': []
@@ -92,46 +87,38 @@ const loading = ref(false)
 const show = ref(false)
 const email = ref('')
 const password = ref('')
-const rules = ref({
-      required: (value) => !!value || 'Required.',
-      min: (v) => v.length >= 6 || 'Min 6 characters',
-      emailMatch: (v) =>
-        !v ||
-        /^\w+([.-]?\w+)*(\+\w+([.-]?\w+)*)?@\w+([.-]?\w+)*(\.\w{2,6})+$/.test(v) ||
-        'E-mail must be valid',
-    })
 
 const submitOk = computed(() => {
-      return (
-        /^\w+([.-]?\w+)*(\+\w+([.-]?\w+)*)?@\w+([.-]?\w+)*(\.\w{2,6})+$/.test(email.value) &&
-        password.value.length >= 6
-      );
-    })
+  return (
+    /^\w+([.-]?\w+)*(\+\w+([.-]?\w+)*)?@\w+([.-]?\w+)*(\.\w{2,6})+$/.test(email.value) &&
+    password.value.length >= 6
+  );
+})
 
 async function createAccount() {
-      loading.value = true;
-      try {
-        const userEmail = email.value.trim().toLowerCase();
-        email.value = userEmail;
+  loading.value = true;
+  try {
+    const userEmail = email.value.trim().toLowerCase();
+    email.value = userEmail;
 
-        await signUp({
-          username: userEmail,
-          password: password.value,
-          options: {
-            userAttributes: {
-              email: userEmail,
-            },
-          },
-        });
+    await signUp({
+      username: userEmail,
+      password: password.value,
+      options: {
+        userAttributes: {
+          email: userEmail,
+        },
+      },
+    });
 
-        loading.value = false;
-        showError.value = false;
-        emit('success', userEmail);
-      } catch (error: any) {
-        logger.error(`Error creating account: ${error}`, this, error);
-        loading.value = false;
-        showError.value = true;
-        error.value = error.message;
-      }
-    }
+    loading.value = false;
+    showError.value = false;
+    emit('success', userEmail);
+  } catch (error: any) {
+    logger.error(`Error creating account: ${error}`, this, error);
+    loading.value = false;
+    showError.value = true;
+    error.value = error.message;
+  }
+}
 </script>
