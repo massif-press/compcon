@@ -26,6 +26,6 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'select': []
+  'select': [payload: CombatantData]
 }>()
 </script>

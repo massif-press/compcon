@@ -66,10 +66,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Unit } from '@/classes/npc/unit/Unit'
 import { ref } from 'vue'
 
 const props = withDefaults(defineProps<{
-  item: object
+  item: Unit
   readonly?: boolean
 }>(), {
   readonly: false

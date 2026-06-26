@@ -18,9 +18,10 @@
 </template>
 
 <script setup lang="ts">
+import type { MechEquipment } from '@/classes/mech/components/equipment/MechEquipment'
 import CCItemUses from '@/ui/components/CCItemUses.vue'
 const props = withDefaults(defineProps<{
-  item: object
+  item: MechEquipment
   color?: string
   useBonus?: number
   interior?: boolean

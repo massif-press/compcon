@@ -36,8 +36,8 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'add': []
-  'remove': []
+  'add': [payload: Bonus]
+  'remove': [payload: Bonus]
 }>()
 
 function ttContent() {

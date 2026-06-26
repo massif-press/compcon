@@ -41,7 +41,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'set-filters': []
+  'set-filters': [payload: any]
 }>()
 
 const sourceFilter = ref([] as string[])

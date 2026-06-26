@@ -59,12 +59,13 @@
 </template>
 
 <script setup lang="ts">
+import type { PilotArmor } from '@/classes/pilot/components/Loadout/equipment/PilotArmor'
 import CCardBase from './_cCardBase.vue';
 
 defineOptions({ name: 'gear-card-content' })
 
 const props = defineProps<{
-  item: object
+  item: PilotArmor
   small?: boolean
   hover?: boolean
   highlighted?: boolean

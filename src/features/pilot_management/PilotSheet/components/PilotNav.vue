@@ -190,7 +190,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'to': []
+  'to': [payload: number]
 }>()
 
 const loading = ref(false)

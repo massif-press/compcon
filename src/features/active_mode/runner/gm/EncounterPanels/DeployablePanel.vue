@@ -24,7 +24,7 @@
         block
         class="mt-2"
         options-icon="mdi-chevron-down"
-        :color="`action--${recall.toLowerCase()}` || 'primary'"
+        :color="`action--${recall?.toLowerCase()}` || 'primary'"
         :disabled="!canRedeploy"
         @click="handleRedeploy(false)">
         <div class="px-4">
@@ -118,7 +118,7 @@
           block
           class="mt-4"
           options-icon="mdi-chevron-down"
-          :color="`action--${recall.toLowerCase()}` || 'primary'"
+          :color="`action--${recall?.toLowerCase()}` || 'primary'"
           :disabled="!canRecall"
           @click="handleRecall(false)">
           <v-icon :icon="getActionIcon(recall)"
@@ -181,7 +181,7 @@ provide(EncounterContextKey, {
 })
 
 const emit = defineEmits<{
-  'deselect': []
+  'deselect': [payload: CombatantData]
 }>()
 
 const hide = ref(false)
@@ -212,6 +212,7 @@ function remove() {
       const combatant = props.encounterInstance.Combatants.find(
         (c) => c.id === props.combatant.Owner.id
       );
+      if (!combatant) return;
       const idx = combatant.deployables.findIndex((d) => d.id === props.combatant.id);
       if (idx === -1) return;
       combatant.deployables.splice(idx, 1);

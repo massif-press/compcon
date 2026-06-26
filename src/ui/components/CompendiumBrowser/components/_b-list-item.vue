@@ -42,7 +42,7 @@ defineOptions({ name: 'BrowserListItem' })
 
 const props = withDefaults(defineProps<{
   comparisons?: any[]
-  item: object
+  item: CompendiumItem
   compare?: boolean
   selected?: boolean
   equippable?: boolean
@@ -52,6 +52,6 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{
   'clicked': []
-  'equip': []
+  'equip': [payload: any]
 }>()
 </script>

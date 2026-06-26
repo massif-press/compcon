@@ -14,10 +14,10 @@
       <v-divider class="my-2" />
     </template>
     <template #quick-action-btn="{ action }">
-      <invade-button v-if="action.ID === 'act_invade'"
+      <invade-button v-if="action?.ID === 'act_invade'"
         :action="action"
         @activate="activate($event)" />
-      <pilot-reload-button v-else-if="action.ID === 'act_reload'"
+      <pilot-reload-button v-else-if="action?.ID === 'act_reload'"
         :action="action"
         @activate="activate($event)" />
       <basic-action-button v-else
@@ -25,10 +25,10 @@
         @activate="activate($event)" />
     </template>
     <template #full-action-btn="{ action }">
-      <skill-check-button v-if="action.ID === 'act_skill_check'"
+      <skill-check-button v-if="action?.ID === 'act_skill_check'"
         :action="action"
         @activate="activate($event)" />
-      <pilot-jockey-button v-else-if="action.ID === 'act_jockey'"
+      <pilot-jockey-button v-else-if="action?.ID === 'act_jockey'"
         :action="action"
         @activate="activate($event)" />
       <basic-action-button v-else

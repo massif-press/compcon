@@ -18,13 +18,14 @@
 </template>
 
 <script setup lang="ts">
+import type { StatController } from '@/classes/components/combat/stats/StatController'
 import { computed } from 'vue'
 import { Bonus } from '@/classes/components/feature/bonus/Bonus';
 
 defineOptions({ name: 'gm-stat-chip-display' })
 
 const props = withDefaults(defineProps<{
-  statController: object
+  statController: StatController
   bonuses?: Bonus[]
 }>(), {
   bonuses: () => []

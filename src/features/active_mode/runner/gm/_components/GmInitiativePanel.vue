@@ -194,7 +194,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'select': []
+  'select': [payload: any]
 }>()
 
 const sortableEl = ref<any>(null)

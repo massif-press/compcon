@@ -171,6 +171,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Unit } from '@/classes/npc/unit/Unit'
 import { computed, ref } from 'vue'
 import { useDisplay } from 'vuetify'
 import { CompendiumStore } from '@/stores';
@@ -181,7 +182,7 @@ const _display = useDisplay()
 defineOptions({ name: 'npc-template-selector' })
 
 const props = withDefaults(defineProps<{
-  item: object
+  item: Unit
   readonly?: boolean
 }>(), {
   readonly: false

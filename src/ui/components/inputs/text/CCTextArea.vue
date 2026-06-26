@@ -138,7 +138,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'update:model-value': []
+  'update:model-value': [payload: any]
 }>()
 
 const isFocused = ref(false)

@@ -204,7 +204,8 @@
 </template>
 
 <script setup lang="ts">
+import type { DamageEvent } from '@/classes/components/feature/active_effects/effect_events/damageEvent'
 const props = defineProps<{
-  damageEffect: object
+  damageEffect: DamageEvent
 }>()
 </script>

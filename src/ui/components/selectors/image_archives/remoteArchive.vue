@@ -112,7 +112,7 @@ import { SetItem, RemoveItem, GetKeys } from '@/io/Storage';
 defineOptions({ name: 'RemoteImageArchive' })
 
 const emit = defineEmits<{
-  'set-staged': []
+  'set-staged': [payload: any]
 }>()
 
 const currentRemotePage = ref(1)
@@ -162,7 +162,7 @@ async function setRemoteImage() {
       await getRemoteImages();
       currentRemotePage.value = totalRemotePages.value;
     }
-function Stackoverflow() {
+function validURL(str) {
       const pattern = new RegExp(
         '^(https?:\/\/)?' + // protocol
         '((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|' + // domain name

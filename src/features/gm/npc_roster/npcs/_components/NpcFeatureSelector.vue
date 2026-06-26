@@ -253,6 +253,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Unit } from '@/classes/npc/unit/Unit'
 import { computed, ref, watch } from 'vue'
 import * as _ from 'lodash-es'
 import { CompendiumStore } from '@/stores'
@@ -262,7 +263,7 @@ import { NpcFeature } from '@/classes/npc/feature/NpcFeature';
 defineOptions({ name: 'NpcFeatureSelectMenu' })
 
 const props = defineProps<{
-  npc: object
+  npc: Unit
 }>()
 
 const dialog = ref(false)
@@ -289,7 +290,7 @@ const currentSelection = computed(() => {
 const featureOrigins = computed(() => {
       return _.uniqBy(shownFeatures.value, 'Origin.ID').map(x => x.Origin)
     })
-const availableOrigins = computed(() => {
+const availableOrigins = computed<any[]>(() => {
       return _.uniq(props.npc.NpcFeatureController.AvailableFeatures.map(x => x.Origin))
     })
 

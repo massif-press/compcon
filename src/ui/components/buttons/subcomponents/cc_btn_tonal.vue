@@ -63,7 +63,7 @@ const props = withDefaults(defineProps<{
   pipColor?: string
 }>(), {})
 
-defineEmits<{ click: [] }>()
+defineEmits<{ click: [payload: any] }>()
 
 const sizeStyle = computed(() => props.size ? `size-${props.size}` : 'size-default')
 const optionsSize = computed(() => props.size ? `options-${props.size}` : 'options-default')

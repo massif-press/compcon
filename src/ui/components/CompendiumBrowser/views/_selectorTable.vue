@@ -165,7 +165,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'select': []
+  'select': [payload: any]
 }>()
 
 const mobile = computed(() => _display.mdAndDown.value)

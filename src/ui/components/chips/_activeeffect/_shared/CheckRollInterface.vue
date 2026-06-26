@@ -74,6 +74,7 @@
 </template>
 
 <script setup lang="ts">
+import type { ActiveEventTarget } from '@/classes/components/feature/active_effects/effect_events/eventTarget'
 import { computed } from 'vue';
 import { useDisplay } from 'vuetify';
 import { DiceRoller } from '@/classes/dice/DiceRoller'
@@ -82,7 +83,7 @@ import AccuracyDifficultyRow from './AccuracyDifficultyRow.vue'
 const { mdAndDown: mobile } = useDisplay()
 
 const props = defineProps<{
-  rollData: object
+  rollData: ActiveEventTarget
 }>()
 
 const emit = defineEmits<{

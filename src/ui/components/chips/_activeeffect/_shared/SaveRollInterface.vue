@@ -62,11 +62,12 @@
 </template>
 
 <script setup lang="ts">
+import type { ActiveEventTarget } from '@/classes/components/feature/active_effects/effect_events/eventTarget'
 import { DiceRoller } from '@/classes/dice/DiceRoller'
 import AccuracyDifficultyRow from './AccuracyDifficultyRow.vue'
 
 const props = defineProps<{
-  rollData: object
+  rollData: ActiveEventTarget
 }>()
 
 function reset() {

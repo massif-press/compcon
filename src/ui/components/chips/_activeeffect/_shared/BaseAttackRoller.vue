@@ -121,6 +121,7 @@
 </template>
 
 <script setup lang="ts">
+import type { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
 import { computed } from 'vue';
 import { useDisplay } from 'vuetify';
 import CheckRollInterface from './CheckRollInterface.vue';
@@ -128,7 +129,7 @@ import CheckRollInterface from './CheckRollInterface.vue';
 const { mdAndDown: mobile } = useDisplay()
 
 const props = withDefaults(defineProps<{
-  event: object
+  event: ActiveEffectEvent
   crits?: boolean
 }>(), {
   crits: false,

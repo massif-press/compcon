@@ -13,10 +13,10 @@
         </cc-short-string-editor>
       </div>
       <div class="heading h4">
-        {{ $t('common.tierShort', { n: actor.NpcClassController.Tier }) }}
-        {{ actor.NpcClassController.Class.Name }}
-        <span v-if="actor.NpcTemplateController.Templates.length">
-          {{actor.NpcTemplateController.Templates.map((x) => x.Name).join(' / ')}}
+        {{ $t('common.tierShort', { n: actor.NpcClassController?.Tier }) }}
+        {{ actor.NpcClassController?.Class?.Name }}
+        <span v-if="actor.NpcTemplateController?.Templates.length">
+          {{actor.NpcTemplateController?.Templates.map((x) => x.Name).join(' / ')}}
         </span>
       </div>
     </template>

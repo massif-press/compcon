@@ -43,7 +43,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'go': []
+  'go': [payload: any]
 }>()
 </script>
 

@@ -59,8 +59,9 @@
 </template>
 
 <script setup lang="ts">
+import type { NpcTemplateController } from '@/classes/npc/template/NpcTemplateController'
 const props = withDefaults(defineProps<{
-  templateController: object
+  templateController: NpcTemplateController
   expanded?: boolean
   hideComplete?: boolean
   color?: string

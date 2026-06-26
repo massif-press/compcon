@@ -68,7 +68,7 @@ import { convertTov2Npc } from '@/io/V2Exporter';
 defineOptions({ name: 'GmEditorNpc' })
 
 const props = withDefaults(defineProps<{
-  item: object
+  item: Unit
   readonly?: boolean
   hideToolbar?: boolean
   hideFooter?: boolean

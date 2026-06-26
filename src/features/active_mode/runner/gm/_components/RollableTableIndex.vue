@@ -81,7 +81,7 @@
               {{ $t('active.tableIndex.selectTable') }}
             </div>
             <v-scroll-y-reverse-transition>
-              <cc-panel v-if="results[selectedTable.ID].roll"
+              <cc-panel v-if="selectedTable && results[selectedTable.ID].roll"
                 :title="$t('common.result')">
                 <v-row align="center"
                   class="mb-1">
@@ -115,8 +115,8 @@ const props = defineProps<{
   instance: object
 }>()
 
-const selectedTable = ref(null)
-const results = ref([])
+const selectedTable = ref<any>(null)
+const results = ref<any>([])
 
 const portrait = computed(() => {
       return !_display.mdAndUp.value

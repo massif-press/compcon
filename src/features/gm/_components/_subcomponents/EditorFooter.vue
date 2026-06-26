@@ -147,9 +147,9 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{
   'exit': []
-  'export': []
+  'export': [payload: any]
   'convert': []
-  'print': []
+  'print': [payload: string]
 }>()
 
 const deleteMenu = ref(false)

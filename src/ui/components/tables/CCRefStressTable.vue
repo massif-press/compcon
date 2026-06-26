@@ -97,6 +97,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import RefRollTableBase from './_RefRollTableBase.vue';
 
 defineOptions({ name: 'ref-stress-table' })

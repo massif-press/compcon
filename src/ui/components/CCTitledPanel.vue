@@ -56,6 +56,6 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'click': []
+  'click': [payload: any]
 }>()
 </script>

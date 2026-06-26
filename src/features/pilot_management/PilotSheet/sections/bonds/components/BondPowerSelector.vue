@@ -24,7 +24,7 @@
             @click="featureSet = 'all'">
             <template #title>
               <div class="text-button">
-                <b class="text-accent">{{ pilot.BondController.Bond.Name }}</b>
+                <b class="text-accent">{{ pilot.BondController.Bond?.Name }}</b>
                 {{ $t('pm.sheet.powers') }}
               </div>
             </template>
@@ -185,7 +185,7 @@ const widescreen = computed(() => {
 const currentSelection = computed(() => {
       switch (featureSet.value) {
         case 'all':
-          return props.pilot.BondController.Bond.Name
+          return props.pilot.BondController.Bond?.Name
         case 'assigned':
           return 'All Assigned'
         default:
@@ -196,7 +196,7 @@ const shownPowers = computed(() => {
       let out;
       if (!props.pilot.BondController.TotalPowerSelections && !ignoreLimit.value) {
         if (featureSet.value === 'all')
-          out = props.pilot.BondController.Bond.Powers.filter(x =>
+          out = props.pilot.BondController.Bond?.Powers.filter(x =>
             props.pilot.BondController.BondPowers.some(y => y.name === x.name)
           )
         else if (featureSet.value === 'assigned') out = props.pilot.BondController.BondPowers
@@ -205,7 +205,7 @@ const shownPowers = computed(() => {
           ?.Powers.filter(x => props.pilot.BondController.BondPowers.some(y => y.name === x.name))
       }
 
-      else if (featureSet.value === 'all') out = props.pilot.BondController.Bond.Powers
+      else if (featureSet.value === 'all') out = props.pilot.BondController.Bond?.Powers
       else if (featureSet.value === 'assigned') out = props.pilot.BondController.BondPowers
 
       else out = CompendiumStore().Bonds.find(x => x.ID === featureSet.value)?.Powers
@@ -226,7 +226,7 @@ function allowAdd(power) {
       if (power.master) {
         let bond;
         if (featureSet.value === 'all')
-          bond = props.pilot.BondController.Bond.ID
+          bond = props.pilot.BondController.Bond?.ID
         else bond = featureSet.value
         if (bond && (props.pilot.BondController.BondPowers.filter(x => x.origin === bond).length >= 4)) return true
         return false

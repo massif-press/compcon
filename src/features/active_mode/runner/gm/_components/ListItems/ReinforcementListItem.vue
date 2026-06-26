@@ -32,7 +32,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'select': []
-  'activate': []
+  'select': [payload: CombatantData]
+  'activate': [payload: CombatantData]
 }>()
 </script>

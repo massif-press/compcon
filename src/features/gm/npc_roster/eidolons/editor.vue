@@ -35,7 +35,7 @@ import exportAsJson from '@/util/jsonExport';
 defineOptions({ name: 'GmEidolonEditorBase' })
 
 const props = withDefaults(defineProps<{
-  item: object
+  item: Eidolon
   readonly?: boolean
   hideToolbar?: boolean
   hideFooter?: boolean

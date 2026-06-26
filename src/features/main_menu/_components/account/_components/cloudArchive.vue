@@ -48,10 +48,10 @@
           {{ new Date(item.created).toLocaleString() }}
         </template>
         <template #item.size="{ item }">
-          <span v-if="item.size > 1024 * 1024 + 1">
-            {{ (item.size / 1024 / 1024).toFixed(2) }} {{ $t("ui.image.mb") }}
+          <span v-if="(item.size ?? 0) > 1024 * 1024 + 1">
+            {{ ((item.size ?? 0) / 1024 / 1024).toFixed(2) }} {{ $t("ui.image.mb") }}
           </span>
-          <span v-else>{{ (item.size / 1024).toFixed(2) }} {{ $t("mainMenu.unit.kb") }}</span>
+          <span v-else>{{ ((item.size ?? 0) / 1024).toFixed(2) }} {{ $t("mainMenu.unit.kb") }}</span>
         </template>
 
         <template #item.preserve="{ item }">

@@ -149,9 +149,9 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'update:modelValue': []
+  'update:modelValue': [payload: any]
   'set-all': []
-  'set-filters': []
+  'set-filters': [payload: any]
 }>()
 
 const itemFilter = ref<any>(null)

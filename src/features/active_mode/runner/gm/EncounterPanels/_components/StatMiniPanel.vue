@@ -123,8 +123,8 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'click': []
-  'update:model-value': []
+  'click': [payload: any]
+  'update:model-value': [payload: any]
 }>()
 
 const internalValue = ref(props.modelValue || 0)

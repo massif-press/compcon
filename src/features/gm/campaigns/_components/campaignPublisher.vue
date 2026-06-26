@@ -123,35 +123,22 @@ const patch = ref(0)
 const changes = ref('')
 const dOptions = ref({ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
 
-if (!versionHistory.value.length) {
-      major.value = 1;
-      minor.value = 0;
-      patch.value = 0;
-    } else {
-      const latest = versionHistory.value[versionHistory.value.length - 1].ver
-        .split('.')
-        .map((n) => parseInt(n));
-      major.value = latest[0];
-      minor.value = latest[1] + 1;
-      patch.value = latest[2];
-    }
-
-if (!versionHistory.value.length) {
-      major.value = 1;
-      minor.value = 0;
-      patch.value = 0;
-    } else {
-      const latest = versionHistory.value[versionHistory.value.length - 1].ver
-        .split('.')
-        .map((n) => parseInt(n));
-      major.value = latest[0];
-      minor.value = latest[1] + 1;
-      patch.value = latest[2];
-    }
-
 const versionHistory = computed(() => {
       return props.campaign.VersionHistory || [];
     })
+
+if (!versionHistory.value.length) {
+      major.value = 1;
+      minor.value = 0;
+      patch.value = 0;
+    } else {
+      const latest = versionHistory.value[versionHistory.value.length - 1].ver
+        .split('.')
+        .map((n) => parseInt(n));
+      major.value = latest[0];
+      minor.value = latest[1] + 1;
+      patch.value = latest[2];
+    }
 const version = computed(() => {
       return `${major.value}.${minor.value}.${patch.value}`;
     })

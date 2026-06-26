@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, nextTick } from 'vue'
 import ActionEconomy from './qr_pages/ActionEconomy.vue'
 import Actions from './qr_pages/Actions.vue'
 import DamageTables from './qr_pages/DamageTables.vue'
@@ -43,7 +43,7 @@ const props = withDefaults(defineProps<{
 
 onMounted(() => {
 if (props.preScroll) {
-        _nextTick(() => {
+        nextTick(() => {
           const el = document.getElementById(props.preScroll)
           if (el) {
             el.scrollIntoView()

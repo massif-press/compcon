@@ -92,7 +92,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'set-state': []
+  'set-state': [payload: string]
 }>()
 
 const error = ref('')

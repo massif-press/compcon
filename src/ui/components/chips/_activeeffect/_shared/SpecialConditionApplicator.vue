@@ -27,10 +27,11 @@
 
 
 <script setup lang="ts">
+import type { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
 import BaseDurationDisplay from './BaseDurationDisplay.vue';
 
 const props = withDefaults(defineProps<{
-  event: object
+  event: ActiveEffectEvent
   cols?: number | string
 }>(), {
   cols: 'auto',

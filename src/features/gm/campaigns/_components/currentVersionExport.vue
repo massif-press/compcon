@@ -124,6 +124,7 @@ const shareCode = computed(() => {
     })
 
 async function exportLcd() {
+      if (!latest.value) return;
       const filename = `${props.campaign.Name} - ${latest.value.ver}.lcd`;
       const zip = new JSZip();
 

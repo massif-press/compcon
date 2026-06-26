@@ -8,7 +8,7 @@
       align="center">
       <v-col cols="auto"
         class="heading">
-        <v-tooltip :text="title.toUpperCase()">
+        <v-tooltip :text="title?.toUpperCase()">
           <template #activator="{ props }">
             <v-icon v-if="icon"
               :icon="icon"

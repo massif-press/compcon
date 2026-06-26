@@ -252,6 +252,7 @@
 </template>
 
 <script setup lang="ts">
+import type { PilotEquipment } from '@/classes/pilot/components/Loadout/equipment/PilotEquipment'
 import { computed, ref } from 'vue'
 import { AchievementEventSystem } from '@/user/achievements/AchievementEvent';
 import CCDamageTypePicker from '@/ui/components/CCDamageTypePicker.vue'
@@ -263,7 +264,7 @@ const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = withDefaults(defineProps<{
   title: string
-  item?: object
+  item?: PilotEquipment
   extended?: boolean
   readonly?: boolean
 }>(), {
@@ -272,7 +273,7 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{
   'propagate-click': []
-  'remove': []
+  'remove': [payload: any]
   'save': []
 }>()
 

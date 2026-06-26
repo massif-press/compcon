@@ -270,7 +270,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'set': []
+  'set': [payload: any]
   'templates': []
   'next': []
   'done': []

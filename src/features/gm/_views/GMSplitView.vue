@@ -179,7 +179,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'open': []
+  'open': [payload: any]
   'add-new': []
   'open-import': []
   'open-organizer': []

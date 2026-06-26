@@ -87,6 +87,7 @@
 </template>
 
 <script setup lang="ts">
+import type { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
 import { useDisplay } from 'vuetify';
 import DiceRollInterface from './DiceRollInterface.vue';
 import DamageEffectOptions from './DamageEffectOptions.vue';
@@ -95,7 +96,7 @@ import { DamageEvent } from '@/classes/components/feature/active_effects/effect_
 const { mdAndDown: mobile } = useDisplay()
 
 const props = withDefaults(defineProps<{
-  event: object
+  event: ActiveEffectEvent
   aoe?: boolean
   cols?: number | string
 }>(), {

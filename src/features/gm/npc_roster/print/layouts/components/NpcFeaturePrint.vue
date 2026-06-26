@@ -98,13 +98,14 @@
 </template>
 
 <script setup lang="ts">
+import type { NpcFeature } from '@/classes/npc/feature/NpcFeature'
 import PrintDeployable from './PrintDeployable.vue';
 import PrintAction from './PrintAction.vue';
 
 defineOptions({ name: 'PrintNpcFeature' })
 
 const props = withDefaults(defineProps<{
-  feature: object
+  feature: NpcFeature
   tier?: number
 }>(), {
   tier: 1

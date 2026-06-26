@@ -36,7 +36,7 @@ const _display = useDisplay()
 defineOptions({ name: 'CloudAccount' })
 
 const emit = defineEmits<{
-  'set-state': []
+  'set-state': [payload: any]
 }>()
 
 const mobile = computed(() => {

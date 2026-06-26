@@ -12,12 +12,13 @@
 </template>
 
 <script setup lang="ts">
+import type { WeaponMod } from '@/classes/mech/components/equipment/WeaponMod'
 import CCardBase from './_cCardBase.vue';
 
 defineOptions({ name: 'frame-card-content' })
 
 const props = defineProps<{
-  item: object
+  item: WeaponMod
   small?: boolean
   hover?: boolean
   highlighted?: boolean

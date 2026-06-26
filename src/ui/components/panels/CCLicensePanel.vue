@@ -23,10 +23,11 @@
 </template>
 
 <script setup lang="ts">
+import type { License } from '@/classes/pilot/components/license/License'
 defineOptions({ name: 'cc-license-panel' })
 
 const props = withDefaults(defineProps<{
-  license: object
+  license: License
   ranked?: boolean
   rank?: number
 }>(), {

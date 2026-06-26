@@ -245,7 +245,7 @@ provide(EncounterContextKey, {
 const { smAndDown: mobile } = useDisplay();
 
 const xlColumns = computed(() => mobile.value ? 1 : props.encounterInstance.MaxMasonryColumns);
-const mech = computed(() => props.combatant.actor.ActiveMech);
+const mech = computed(() => props.combatant.actor.ActiveMech!);
 
 const aiSystems = computed(() => mech.value.MechLoadoutController.ActiveLoadout.AISystems);
 

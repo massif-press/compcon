@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 const props = withDefaults(defineProps<{
-  label: object
+  label: { title: string; value?: string | number }
   color?: string
 }>(), {
   color: 'primary'

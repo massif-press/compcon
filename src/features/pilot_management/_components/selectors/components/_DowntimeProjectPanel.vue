@@ -81,7 +81,7 @@ import Project from '@/classes/pilot/components/reserves/Project';
 defineOptions({ name: 'CustomReservePanel' })
 
 const emit = defineEmits<{
-  'add': []
+  'add': [payload: any]
 }>()
 
 const projectName = ref('')

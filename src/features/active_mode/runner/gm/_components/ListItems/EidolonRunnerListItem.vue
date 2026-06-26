@@ -13,7 +13,7 @@
       </span>
       <cc-slashes class="ml-2" />
       <span class="heading h4 px-2 mx-2 bg-primary">
-        {{ layer.Name }}
+        {{ layer?.Name }}
       </span>
     </div>
   </runner-list-item-base>
@@ -33,7 +33,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'select': []
+  'select': [payload: any]
 }>()
 
 const layer = computed(() => {

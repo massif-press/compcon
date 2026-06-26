@@ -156,7 +156,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'select-panel': []
+  'select-panel': [payload: any]
   'open-dice-roller': []
   'open-table-index': []
 }>()

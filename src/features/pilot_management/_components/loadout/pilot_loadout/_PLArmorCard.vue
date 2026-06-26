@@ -135,7 +135,7 @@ import { usePLCard } from './usePLCard'
 import { notify } from '@kyvg/vue3-notification'
 
 const props = withDefaults(defineProps<{
-  item?: object | null
+  item?: PilotArmor | null
   extended?: boolean
   readonly?: boolean
   pilot: Pilot

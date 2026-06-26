@@ -73,6 +73,7 @@
 </template>
 
 <script setup lang="ts">
+import type { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { useEncounterContext } from '../../../encounterContext'
 import type { CombatantData } from '@/classes/encounter/Encounter'
@@ -83,7 +84,7 @@ const { owner, encounterInstance } = useEncounterContext()
 
 const props = withDefaults(defineProps<{
   action: Action
-  presetWeapon?: object
+  presetWeapon?: MechWeapon
   mobile?: boolean
   actionColor?: string
   actionIcon?: string

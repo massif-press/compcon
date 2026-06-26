@@ -140,7 +140,7 @@ const emit = defineEmits<{
   'add-new': []
   'copy': []
   'delete': []
-  'export': []
+  'export': [payload: any]
 }>()
 
 const imageSelector = ref<any>(null)

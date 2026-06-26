@@ -100,10 +100,10 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'open': []
+  'open': [payload: any]
   'add-new': []
-  'set-folder-name': []
-  'remove-folder': []
+  'set-folder-name': [payload: any]
+  'remove-folder': [payload: any]
   'item-transferred': []
 }>()
 

@@ -196,9 +196,9 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'update:secondary': []
-  'update:model-value': []
-  'update:tertiary': []
+  'update:secondary': [payload: any]
+  'update:model-value': [payload: any]
+  'update:tertiary': [payload: any]
 }>()
 
 const hover = ref(null as number | null)

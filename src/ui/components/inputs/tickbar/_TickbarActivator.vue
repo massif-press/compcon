@@ -85,7 +85,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'set': []
+  'set': [payload: any]
   'reset': []
 }>()
 

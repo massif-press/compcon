@@ -67,7 +67,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'activate': []
+  'activate': [payload: string]
 }>()
 
 const tab = ref('jockey')

@@ -119,8 +119,8 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'set-page': []
-  'set-selected': []
+  'set-page': [payload: any]
+  'set-selected': [payload: any]
 }>()
 
 const lastSave = ref('')

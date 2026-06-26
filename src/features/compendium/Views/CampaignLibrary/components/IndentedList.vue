@@ -41,7 +41,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'clicked': []
+  'clicked': [payload: any]
 }>()
 
 function calcHeight(item: any) {

@@ -31,7 +31,7 @@ import exportAsJson from '@/util/jsonExport';
 defineOptions({ name: 'GmDoodadEditorBase' })
 
 const props = withDefaults(defineProps<{
-  item: object
+  item: Doodad
   readonly?: boolean
   hideToolbar?: boolean
   hideFooter?: boolean

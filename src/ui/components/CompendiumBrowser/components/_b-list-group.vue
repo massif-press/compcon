@@ -54,6 +54,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Manufacturer } from '@/classes/Manufacturer'
 import { computed } from 'vue'
 
 defineOptions({ name: 'BrowserListItem' })
@@ -61,7 +62,7 @@ defineOptions({ name: 'BrowserListItem' })
 const props = defineProps<{
   parent?: string
   collection: string | object
-  manufacturer?: object
+  manufacturer?: Manufacturer
   role?: string
   feature?: string
 }>()

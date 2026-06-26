@@ -78,6 +78,7 @@
 </template>
 
 <script setup lang="ts">
+import type { MechEquipment } from '@/classes/mech/components/equipment/MechEquipment'
 import type { Mech } from '@/classes/mech/Mech'
 import { computed, ref, useSlots } from 'vue'
 import { ItemType } from '@/classes/enums'
@@ -88,7 +89,7 @@ const { smAndDown: mobile, xs: portrait } = useDisplay()
 const slots = useSlots()
 
 const props = withDefaults(defineProps<{
-  item?: object
+  item?: MechEquipment
   mech: Mech
   empty?: boolean
   color?: string

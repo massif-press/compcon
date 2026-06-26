@@ -49,7 +49,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'set-filters': []
+  'set-filters': [payload: any]
 }>()
 
 const tagFilter = ref([] as string[])

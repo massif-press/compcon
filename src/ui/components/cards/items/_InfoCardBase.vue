@@ -92,8 +92,9 @@
 </template>
 
 <script setup lang="ts">
+import type { CompendiumItem } from '@/classes/CompendiumItem'
 defineProps<{
-  item: object
+  item: CompendiumItem
   notes?: boolean
   smallTags?: boolean
   dense?: boolean

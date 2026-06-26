@@ -16,10 +16,10 @@
         class="text-accent ml-2">#{{ combatant.number }}</span>
     </div>
     <div class="text-cc-overline">
-      {{ $t('common.tierShort', { n: combatant.actor.NpcClassController.Tier }) }}
-      {{ combatant.actor.NpcClassController.Class.Name }}
-      <span v-if="combatant.actor.NpcTemplateController.Templates.length">
-        {{combatant.actor.NpcTemplateController.Templates.map((x) => x.Name).join(' / ')}}
+      {{ $t('common.tierShort', { n: combatant.actor.NpcClassController?.Tier }) }}
+      {{ combatant.actor.NpcClassController?.Class?.Name }}
+      <span v-if="combatant.actor.NpcTemplateController?.Templates.length">
+        {{combatant.actor.NpcTemplateController?.Templates.map((x) => x.Name).join(' / ')}}
       </span>
     </div>
   </runner-list-item-base>
@@ -39,11 +39,11 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'select': []
+  'select': [payload: any]
 }>()
 
 const getPortrait = computed(() => {
-      if (props.combatant.actor.PortraitController.HasImage)
+      if (props.combatant.actor.PortraitController?.HasImage)
         return props.combatant.actor.Portrait || '';
       return '';
     })

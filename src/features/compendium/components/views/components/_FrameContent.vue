@@ -16,12 +16,13 @@
 </template>
 
 <script setup lang="ts">
+import type { Frame } from '@/classes/mech/components/frame/Frame'
 import CCardBase from './_cCardBase.vue';
 
 defineOptions({ name: 'FrameCardContent' })
 
 const props = defineProps<{
-  item: object
+  item: Frame
   small?: boolean
   hover?: boolean
   highlighted?: boolean

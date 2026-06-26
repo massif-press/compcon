@@ -3,26 +3,28 @@
     <v-toolbar flat density="compact" color="primary" class="ma-0 pa-0">
       <div class="mt-n1 px-2 pt-2 pb-1">
         <div class="heading h3">
-          <v-icon :icon="status.Icon" start class="mt-n1" />
-          <span v-text="status.Name" />
+          <v-icon :icon="status?.Icon" start class="mt-n1" />
+          <span v-text="status?.Name" />
         </div>
       </div>
       <v-spacer />
     </v-toolbar>
     <v-card-text class="py-2 px-4">
-      <p v-text="status.Terse" class="text-center font-weight-bold body-text" />
+      <p v-text="status?.Terse" class="text-center font-weight-bold body-text" />
       <v-divider class="my-1" />
-      <p v-html-safe="status.Effects" />
+      <p v-html-safe="status?.Effects" />
     </v-card-text>
     <div class="clip-fix" />
   </v-card>
 </template>
 
 <script setup lang="ts">
+import type { Status } from '@/classes/Status'
+
 defineOptions({ name: 'cc-panel' })
 
 const props = defineProps<{
-  status?: object
+  status?: Status
 }>()
 </script>
 

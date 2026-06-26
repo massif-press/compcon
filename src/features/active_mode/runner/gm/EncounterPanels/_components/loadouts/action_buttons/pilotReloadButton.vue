@@ -49,7 +49,7 @@ const controller = computed(() => {
       return owner.value.actor.CombatController;
     })
 const reloadOptions = computed(() => {
-      return owner.value.actor.Loadout.Weapons.filter((x) => x.IsLoading && x.Used);
+      return (owner.value.actor.Loadout?.Weapons ?? []).filter((x) => x.IsLoading && x.Used);
     })
 
 function apply(close) {

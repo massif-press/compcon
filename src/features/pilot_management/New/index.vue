@@ -50,7 +50,7 @@
             @done="onDone()"
             @next="step = 'skills'"
             @templates="step = 'templates'"
-            @set="pilot[$event.attr] = $event.val" />
+            @set="pilot[$event!.attr] = $event!.val" />
         </v-window-item>
         <v-window-item :key="1"
           value="skills">

@@ -98,7 +98,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'add-item': []
+  'add-item': [payload: any]
 }>()
 
 const search = ref('')

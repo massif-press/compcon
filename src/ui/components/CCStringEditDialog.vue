@@ -53,7 +53,7 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{
   'reset': []
-  'save': []
+  'save': [payload: any]
 }>()
 
 const newString = ref('')

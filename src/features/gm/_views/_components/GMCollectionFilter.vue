@@ -162,9 +162,9 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'add-filter': []
-  'remove-filter': []
-  'set-filters': []
+  'add-filter': [payload: any]
+  'remove-filter': [payload: any]
+  'set-filters': [payload: any]
 }>()
 
 const filterDialog = ref(false)

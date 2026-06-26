@@ -86,7 +86,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'set-staged': []
+  'set-staged': [payload: any]
 }>()
 
 const currentUserPage = ref(1)

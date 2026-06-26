@@ -71,7 +71,7 @@ const props = withDefaults(defineProps<{
   color: 'panel',
 })
 
-defineEmits<{ click: [] }>()
+defineEmits<{ click: [payload: any] }>()
 
 const sizeStyle = computed(() => props.size ? `size-${props.size}` : 'size-default')
 const optionsSize = computed(() => props.size ? `options-${props.size}` : 'options-default')

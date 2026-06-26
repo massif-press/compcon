@@ -17,12 +17,13 @@
 </template>
 
 <script setup lang="ts">
+import type { Eidolon } from '@/classes/npc/eidolon/Eidolon'
 import { ref } from 'vue'
 
 defineOptions({ name: 'LayerTierSelector' })
 
 const props = defineProps<{
-  item: object
+  item: Eidolon
 }>()
 
 const emit = defineEmits<{

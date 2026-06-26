@@ -16,12 +16,13 @@
 </template>
 
 <script setup lang="ts">
+import type { CoreBonus } from '@/classes/pilot/components/corebonus/CoreBonus'
 import CCardBase from './_cCardBase.vue';
 
 defineOptions({ name: 'CoreBonusCardContent' })
 
 const props = defineProps<{
-  item: object
+  item: CoreBonus
   small?: boolean
   hover?: boolean
   highlighted?: boolean

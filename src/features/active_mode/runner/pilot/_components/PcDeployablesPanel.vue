@@ -64,7 +64,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'activate': []
+  'activate': [payload: any]
 }>()
 
 const selected = ref(null)

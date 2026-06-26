@@ -45,7 +45,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'confirm': []
+  'confirm': [payload: any]
   'hide': []
 }>()
 

@@ -10,13 +10,14 @@
 </template>
 
 <script setup lang="ts">
+import type { EidolonLayer } from '@/classes/npc/eidolon/EidolonLayer'
 import { Stats } from '@/classes/components/combat/stats/Stats';
 import CCardBase from './_cCardBase.vue';
 
 defineOptions({ name: 'eidolon-layer-content' })
 
 const props = defineProps<{
-  item: object
+  item: EidolonLayer
   small?: boolean
   hover?: boolean
   highlighted?: boolean

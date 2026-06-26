@@ -58,8 +58,9 @@
 </template>
 
 <script setup lang="ts">
+import type { TalentRank } from '@/classes/pilot/components/talent/Talent'
 const props = withDefaults(defineProps<{
-  talentRank: object
+  talentRank: TalentRank
   inColumn?: boolean
   hideActions?: boolean
 }>(), {

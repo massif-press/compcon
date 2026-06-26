@@ -168,6 +168,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Unit } from '@/classes/npc/unit/Unit'
 import { computed, ref } from 'vue'
 import { UserStore } from '@/stores'
 import { NpcFeatureSelector } from './_components'
@@ -180,7 +181,7 @@ import * as _ from 'lodash-es'
 defineOptions({ name: 'NpcBuilderContent' })
 
 const props = withDefaults(defineProps<{
-  npc: object
+  npc: Unit
   readonly?: boolean
 }>(), {
   readonly: false,

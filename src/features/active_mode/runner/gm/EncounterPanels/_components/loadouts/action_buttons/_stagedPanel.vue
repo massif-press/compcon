@@ -31,7 +31,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'notify': []
+  'notify': [payload: string]
 }>()
 
 function copyText() {

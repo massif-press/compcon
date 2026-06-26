@@ -423,9 +423,9 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'click': []
-  'deployable-click': []
-  'activate': []
+  'click': [payload: any]
+  'deployable-click': [payload: any]
+  'activate': [payload: any]
 }>()
 
 const activations = computed(() => {

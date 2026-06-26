@@ -110,7 +110,7 @@ async function handleConfirmResetPassword({
 defineOptions({ name: 'auth-password-reset' })
 
 const emit = defineEmits<{
-  'set-state': []
+  'set-state': [payload: string]
 }>()
 
 const loading = ref(false)

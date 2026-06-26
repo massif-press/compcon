@@ -117,7 +117,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'activate': []
+  'activate': [payload: string]
 }>()
 
 const firstChoice = ref('cool')
@@ -158,10 +158,11 @@ function apply(close) {
         controller.value.Stabilize('clear_burn');
       } else if (secondChoice.value === 'clear_self') {
         controller.value.Stabilize('clear_self');
-        controller.value.RemoveStatus(clearSelfCondition.value.ID);
+        if (clearSelfCondition.value) controller.value.RemoveStatus(clearSelfCondition.value.ID);
       } else if (secondChoice.value === 'clear_ally') {
         controller.value.Stabilize('clear_ally');
-        selectedTarget.value.actor.CombatController.RemoveStatus(clearAlliedCondition.value.ID);
+        if (selectedTarget.value && clearAlliedCondition.value)
+          selectedTarget.value.actor.CombatController.RemoveStatus(clearAlliedCondition.value.ID);
       }
 
       emit('activate', props.action.ID);

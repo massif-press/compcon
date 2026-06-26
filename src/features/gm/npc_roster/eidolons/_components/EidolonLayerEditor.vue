@@ -139,6 +139,7 @@
 </template>
 
 <script setup lang="ts">
+import type { EidolonLayer } from '@/classes/npc/eidolon/EidolonLayer'
 import { ref } from 'vue'
 import StatEditor from '@/features/gm/_components/StatEditor.vue';
 import LayerSelector from './LayerSelector.vue';
@@ -146,7 +147,7 @@ import LayerSelector from './LayerSelector.vue';
 defineOptions({ name: 'EidolonLayers' })
 
 const props = withDefaults(defineProps<{
-  item: object
+  item: EidolonLayer
   readonly?: boolean
 }>(), {
   readonly: false

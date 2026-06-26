@@ -39,7 +39,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'update:modelValue': []
+  'update:modelValue': [payload: any]
 }>()
 
 const internalValue = computed({

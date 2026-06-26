@@ -165,7 +165,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'expand': []
+  'expand': [payload: string]
   'add': []
   'remove': []
 }>()

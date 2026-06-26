@@ -53,13 +53,14 @@
 </template>
 
 <script setup lang="ts">
+import type { Doodad } from '@/classes/npc/doodad/Doodad'
 import PrintNpcStats from './components/PrintNpcStats.vue';
 import NpcNarrativePrintSection from './components/NpcNarrativePrintSection.vue';
 
 defineOptions({ name: 'NpcPrint' })
 
 const props = defineProps<{
-  npc: object
+  npc: Doodad
   options: object
 }>()
 </script>

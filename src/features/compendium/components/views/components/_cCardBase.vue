@@ -38,10 +38,11 @@
 </template>
 
 <script setup lang="ts">
+import type { CompendiumItem } from '@/classes/CompendiumItem'
 defineOptions({ name: 'CardContentBase' })
 
 const props = defineProps<{
-  item: object
+  item: CompendiumItem
   small?: boolean
   hover?: boolean
   highlighted?: boolean

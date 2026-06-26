@@ -40,6 +40,8 @@
 </template>
 
 <script setup lang="ts">
+import type { WeaponMod } from '@/classes/mech/components/equipment/WeaponMod'
+import type { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
 import type { Mech } from '@/classes/mech/Mech'
 import { ref } from 'vue'
 import SlotCardBase from '../_SlotCardBase.vue';
@@ -52,8 +54,8 @@ const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = withDefaults(defineProps<{
   mech: Mech
-  weapon?: object
-  item?: object
+  weapon?: MechWeapon
+  item?: WeaponMod
   color?: string
   readonly?: boolean
   integrated?: boolean

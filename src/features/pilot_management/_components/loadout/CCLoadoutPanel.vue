@@ -74,7 +74,7 @@ const props = withDefaults(defineProps<{
 const emit = defineEmits<{
   'remove-loadout': []
   'add-loadout': []
-  'set-active': []
+  'set-active': [payload: any]
 }>()
 
 const confirmMenu = ref(false)

@@ -27,7 +27,7 @@ import GmEncounterListItem from '@/features/gm/_views/_components/gmItemCards/GM
 defineOptions({ name: 'campaign-encounter-selector' })
 
 const emit = defineEmits<{
-  'select': []
+  'select': [payload: any]
   'close': []
 }>()
 

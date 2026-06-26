@@ -48,9 +48,10 @@
 </template>
 
 <script setup lang="ts">
+import type { CombatantData } from '@/classes/encounter/Encounter'
 defineOptions({ name: 'combatant-chip' })
 
 const props = defineProps<{
-  item: object
+  item: CombatantData
 }>()
 </script>

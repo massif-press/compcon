@@ -109,7 +109,7 @@ import Organization from '@/classes/pilot/components/reserves/Organization';
 defineOptions({ name: 'CustomReservePanel' })
 
 const emit = defineEmits<{
-  'add': []
+  'add': [payload: any]
 }>()
 
 const orgName = ref('')

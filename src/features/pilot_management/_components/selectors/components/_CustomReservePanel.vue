@@ -46,7 +46,7 @@ import { ref } from 'vue'
 import { Reserve } from '@/classes/pilot/components/reserves/Reserve'
 
 const emit = defineEmits<{
-  'add': []
+  'add': [payload: any]
 }>()
 
 const customType = ref('Resource')

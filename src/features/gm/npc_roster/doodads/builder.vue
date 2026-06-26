@@ -14,10 +14,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Doodad } from '@/classes/npc/doodad/Doodad'
 defineOptions({ name: 'doodad-builder-content' })
 
 const props = withDefaults(defineProps<{
-  item: object
+  item: Doodad
   readonly?: boolean
 }>(), {
   readonly: false

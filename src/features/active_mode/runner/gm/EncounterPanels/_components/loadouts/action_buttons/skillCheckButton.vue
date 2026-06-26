@@ -108,9 +108,9 @@
                           variant="text"
                           flat
                           tile
-                          :color="!$refs.check.roll
+                          :color="!($refs.check as any).roll
                             ? ''
-                            : $refs.check.roll >= targetVal
+                            : ($refs.check as any).roll >= targetVal
                               ? 'success'
                               : 'error'
                             "
@@ -118,9 +118,9 @@
                           v-bind="props"
                           @click="overrideSave()">
                           <v-icon size="25"
-                            :icon="!$refs.check.roll
+                            :icon="!($refs.check as any).roll
                               ? 'mdi-circle-outline'
-                              : $refs.check.roll >= targetVal
+                              : ($refs.check as any).roll >= targetVal
                                 ? 'mdi-check-circle'
                                 : 'mdi-cancel'
                               " />
@@ -129,7 +129,7 @@
 
                       <div class="text-center">
                         {{
-                          !$refs.check.roll ? $t('active.skillCheck.noCheckRolled') : $refs.check.roll >= targetVal ? $t('active.skillCheck.checkSuccess') : $t('active.skillCheck.checkFail')
+                          !($refs.check as any).roll ? $t('active.skillCheck.noCheckRolled') : ($refs.check as any).roll >= targetVal ? $t('active.skillCheck.checkSuccess') : $t('active.skillCheck.checkFail')
                         }}
 
                         <div>
@@ -168,17 +168,17 @@
       <cc-alert v-if="
         checkType === 'contested' &&
         selectedTarget &&
-        $refs.check.roll &&
-        $refs.contest.roll
+        ($refs.check as any).roll &&
+        ($refs.contest as any).roll
       "
         class="mt-4"
-        :color="$refs.check.roll >= $refs.contest.roll ? 'success' : 'error'"
+        :color="($refs.check as any).roll >= ($refs.contest as any).roll ? 'success' : 'error'"
         outlined>
         <div class="text-center heading">
           {{ $t('common.result') }}:
           <span>
             {{ controller.CombatName }}
-            {{ $refs.check.roll >= $refs.contest.roll ? $t('active.skillCheck.wins') : $t('active.skillCheck.loses') }}
+            {{ ($refs.check as any).roll >= ($refs.contest as any).roll ? $t('active.skillCheck.wins') : $t('active.skillCheck.loses') }}
           </span>
         </div>
       </cc-alert>
@@ -209,7 +209,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'activate': []
+  'activate': [payload: string]
 }>()
 
 const check = ref<any>(null)
@@ -297,7 +297,7 @@ function rollCheck(idx) {
       roll.value = results[0].val;
     }
 function overrideCheck(idx) {
-      if (roll.value < targetVal.value) {
+      if ((roll.value ?? 0) < targetVal.value) {
         roll.value = 20;
       } else {
         roll.value = 1;

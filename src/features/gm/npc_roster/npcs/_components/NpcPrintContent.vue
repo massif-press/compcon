@@ -242,10 +242,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Unit } from '@/classes/npc/unit/Unit'
 import { computed } from 'vue'
 
 const props = defineProps<{
-  item: object
+  item: Unit
 }>()
 
 const hasClass = computed(() => {

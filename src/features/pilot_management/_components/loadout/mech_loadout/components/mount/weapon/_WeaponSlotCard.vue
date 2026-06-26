@@ -187,6 +187,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Mount } from '@/classes/mech/components/mount/Mount'
 import { computed, ref } from 'vue'
 import SlotCardBase from '../../_SlotCardBase.vue'
 import WeaponSelector from './_WeaponSelector.vue'
@@ -213,7 +214,7 @@ const { smAndDown: mobile, xs: portrait } = useDisplay()
 const props = defineProps<{
   weaponSlot: WeaponSlot
   mech: Mech
-  mount: object
+  mount: Mount
   readonly?: boolean
   intWeapon?: boolean
 }>()
@@ -231,7 +232,7 @@ const item = computed(() => {
       return props.weaponSlot.Weapon
     })
 const mod = computed(() => {
-      return item.value.Mod
+      return item.value?.Mod
     })
 const color = computed(() => {
       return props.mech.Frame.ManufacturerColor;
@@ -268,15 +269,15 @@ function finalizeSuperheavy(lockTarget: EquippableMount) {
       stagedSH.value = null
     }
 function install(mod: WeaponMod) {
-      item.value.Mod = mod
+      if (item.value) item.value.Mod = mod
       modDialog.value = false
       props.mech.Pilot.SaveController.save()
     }
 function uninstall() {
-      item.value.Mod = null
+      if (item.value) item.value.Mod = null
     }
 function remove() {
-      if (item.value.Size === WeaponSize.Superheavy) {
+      if (item.value?.Size === WeaponSize.Superheavy) {
         props.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy()
       }
       props.weaponSlot.UnequipWeapon()

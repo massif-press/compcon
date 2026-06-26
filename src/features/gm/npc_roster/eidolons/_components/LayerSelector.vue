@@ -38,20 +38,21 @@
 </template>
 
 <script setup lang="ts">
+import type { EidolonLayer } from '@/classes/npc/eidolon/EidolonLayer'
 import { computed, ref } from 'vue'
 import { CompendiumStore } from '@/stores';
 
 defineOptions({ name: 'npc-class-selector' })
 
 const props = withDefaults(defineProps<{
-  item: object
+  item: EidolonLayer
   readonly?: boolean
 }>(), {
   readonly: false
 })
 
 const emit = defineEmits<{
-  'add-layer': []
+  'add-layer': [payload: any]
 }>()
 
 const browser = ref<any>(null)

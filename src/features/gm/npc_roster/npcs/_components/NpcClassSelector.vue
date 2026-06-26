@@ -42,10 +42,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Unit } from '@/classes/npc/unit/Unit'
 import { useNpcClassSelector } from './useNpcClassSelector'
 
 const props = defineProps<{
-  item: object
+  item: Unit
 }>()
 
 const emit = defineEmits<{ close: [] }>()

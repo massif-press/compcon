@@ -48,7 +48,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'search': []
+  'search': [payload: any]
 }>()
 
 const input = ref<any>(null)

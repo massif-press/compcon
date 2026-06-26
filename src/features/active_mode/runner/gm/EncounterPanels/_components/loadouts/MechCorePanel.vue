@@ -37,7 +37,7 @@
           <cc-combat-action-chip :owner="owner" :encounter-instance="encounterInstance" :action="cs.ActivateAction"
             :disabled="!mech.CombatController.CorePower"
             custom-disabled-text="Core Power Depleted"
-            @activate="mech.CombatController.SetCore(true, encounterInstance.CurrentRound)"
+            @activate="mech.CombatController.SetCore(true)"
             @reset="mech.CombatController.CoreActive = false">
             <template #icon>
               <v-tooltip location="top"

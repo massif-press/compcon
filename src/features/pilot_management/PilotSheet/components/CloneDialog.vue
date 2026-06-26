@@ -136,9 +136,6 @@ const emit = defineEmits<{
 
 const quirk = ref(null)
 
-function show() {
-      (dialog.value as any).show();
-    }
 function hide() {
       quirk.value = null;
       emit('close');

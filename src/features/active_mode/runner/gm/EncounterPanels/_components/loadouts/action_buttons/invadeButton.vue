@@ -81,7 +81,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'activate': []
+  'activate': [payload: any]
 }>()
 
 const tab = ref('invade')

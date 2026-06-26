@@ -22,6 +22,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Pilot } from '@/classes/pilot/Pilot'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 
@@ -32,7 +33,7 @@ interface Props {
   outlined?: boolean
   color?: string
   tag: Record<string, any>
-  pilot?: object | null
+  pilot?: Pilot | null
   bonus?: number
   tier?: number
 }

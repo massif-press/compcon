@@ -5,7 +5,7 @@
     @deploy="$emit('deploy', $event)"
     @activate="activate($event)">
     <template #quick-action-btn="{ action }">
-      <invade-button v-if="action.ID === 'act_invade'"
+      <invade-button v-if="action?.ID === 'act_invade'"
         :action="action"
         @activate="activate($event)" />
       <basic-action-button v-else

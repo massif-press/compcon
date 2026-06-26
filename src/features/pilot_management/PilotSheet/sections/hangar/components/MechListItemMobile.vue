@@ -143,8 +143,8 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'go': []
-  'delete': []
-  'copy': []
+  'go': [payload: any]
+  'delete': [payload: any]
+  'copy': [payload: any]
 }>()
 </script>

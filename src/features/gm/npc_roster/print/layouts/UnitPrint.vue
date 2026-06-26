@@ -77,6 +77,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Unit } from '@/classes/npc/unit/Unit'
 import PrintAction from './components/PrintAction.vue';
 import NpcFeaturePrint from './components/NpcFeaturePrint.vue';
 import PrintNpcStats from './components/PrintNpcStats.vue';
@@ -85,7 +86,7 @@ import NpcNarrativePrintSection from './components/NpcNarrativePrintSection.vue'
 defineOptions({ name: 'npc-print' })
 
 const props = defineProps<{
-  npc: object
+  npc: Unit
   options: object
 }>()
 </script>

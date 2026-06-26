@@ -36,7 +36,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'confirm': []
+  'confirm': [payload: any]
 }>()
 
 const dialog = ref(false)

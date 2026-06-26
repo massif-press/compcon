@@ -94,7 +94,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'activate': []
+  'activate': [payload: string]
 }>()
 
 const heatCost = ref(1)

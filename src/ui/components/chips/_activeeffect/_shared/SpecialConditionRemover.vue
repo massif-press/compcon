@@ -16,8 +16,9 @@
 
 
 <script setup lang="ts">
+import type { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
 const props = withDefaults(defineProps<{
-  event: object
+  event: ActiveEffectEvent
   cols?: number | string
 }>(), {
   cols: 'auto',

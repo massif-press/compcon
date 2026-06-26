@@ -137,11 +137,11 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'remove': []
+  'remove': [payload: any]
   'done': []
   'equip': []
   'selector-open': []
-  'switch': []
+  'switch': [payload: any]
 }>()
 
 const base = ref<any>(null)

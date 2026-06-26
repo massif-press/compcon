@@ -18,7 +18,7 @@
           v-text="`(${combatant.actor.Player})`"></span>
       </span>
     </div>
-    <v-card v-if="mech.CombatController.IsAIControlled"
+    <v-card v-if="mech?.CombatController.IsAIControlled"
       flat
       tile
       class="mb-1">
@@ -28,7 +28,7 @@
         <div class="text-accent">{{aiSystems.map((x) => x.Name).join(' // ')}}</div>
       </div>
     </v-card>
-    <div v-if="mech.CombatController.IsInSelfDestruct"
+    <div v-if="mech?.CombatController.IsInSelfDestruct"
       class="sd-pulse">
       <div class="text-cc-overline text-center">
         <v-icon icon="mdi-alert-outline"
@@ -55,7 +55,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'select': []
+  'select': [payload: any]
 }>()
 
 const mech = computed(() => {

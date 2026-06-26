@@ -173,7 +173,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'open': []
+  'open': [payload: any]
 }>()
 
 const type = computed(() =>

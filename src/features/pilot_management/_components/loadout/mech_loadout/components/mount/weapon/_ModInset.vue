@@ -34,6 +34,7 @@
 </template>
 
 <script setup lang="ts">
+import type { WeaponMod } from '@/classes/mech/components/equipment/WeaponMod'
 import type { Mech } from '@/classes/mech/Mech'
 import { ref } from 'vue'
 import EquipmentHeader from '../../_EquipmentHeader.vue';
@@ -45,7 +46,7 @@ defineOptions({ name: 'mod-inset' })
 const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = withDefaults(defineProps<{
-  mod: object
+  mod: WeaponMod
   mech: Mech
   color?: string
 }>(), {

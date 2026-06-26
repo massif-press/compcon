@@ -74,7 +74,7 @@ const props = withDefaults(defineProps<{
   optionsIcon: 'mdi-chevron-down',
 })
 
-defineEmits<{ click: [] }>()
+defineEmits<{ click: [payload: any] }>()
 
 const sizeStyle = computed(() => props.size ? `size-${props.size}` : 'size-default')
 const bgColor = computed(() => `bg-${props.color}`)

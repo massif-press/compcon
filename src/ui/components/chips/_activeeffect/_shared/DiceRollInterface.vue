@@ -98,11 +98,12 @@
 </template>
 
 <script setup lang="ts">
+import type { DamageEvent } from '@/classes/components/feature/active_effects/effect_events/damageEvent'
 import { computed } from 'vue';
 import { DiceRoller } from '@/classes/dice/DiceRoller'
 
 const props = defineProps<{
-  rollData: object
+  rollData: DamageEvent
 }>()
 
 const emit = defineEmits<{

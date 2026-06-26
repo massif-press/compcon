@@ -78,7 +78,8 @@ import logger from '@/user/logger';
 import { signUp } from 'aws-amplify/auth';
 
 const emit = defineEmits<{
-  'success': []
+  'success': [payload: any]
+  'set-state': [payload: string]
 }>()
 
 const showError = ref(false)

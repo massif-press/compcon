@@ -78,12 +78,13 @@
 </template>
 
 <script setup lang="ts">
+import type { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
 import { useDisplay } from 'vuetify';
 
 const { smAndDown: mobile } = useDisplay()
 
 const props = defineProps<{
-  event: object
+  event: ActiveEffectEvent
 }>()
 
 function getOrdinal(n) {

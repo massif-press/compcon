@@ -62,7 +62,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'click': []
+  'click': [payload: any]
 }>()
 
 const sizeStyle = computed(() => {

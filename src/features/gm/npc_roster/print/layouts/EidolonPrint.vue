@@ -96,6 +96,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Eidolon } from '@/classes/npc/eidolon/Eidolon'
 import { computed } from 'vue'
 import NpcFeaturePrint from './components/NpcFeaturePrint.vue';
 import PrintNpcStats from './components/PrintNpcStats.vue';
@@ -105,7 +106,7 @@ import persistent_traits from '@/classes/npc/eidolon/persistent_traits.json';
 defineOptions({ name: 'npc-print' })
 
 const props = defineProps<{
-  npc: object
+  npc: Eidolon
   options: object
 }>()
 

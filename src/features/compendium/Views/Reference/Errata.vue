@@ -181,6 +181,7 @@ function cMarkdown(str) {
     }
 function scrollTo(id) {
       const el = document.getElementById(id);
+      if (!el) return;
       const offset = 50;
       const elementPosition = el.getBoundingClientRect().top + window.pageYOffset;
       const offsetPosition = elementPosition - offset;

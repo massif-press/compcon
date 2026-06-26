@@ -192,7 +192,7 @@ const fullMechActions = [
   'act_skill_check', 'act_dismount', 'act_boot_up',
 ];
 
-const controller = computed(() => owner.value.actor.ActiveMech.CombatController);
+const controller = computed(() => owner.value.actor.ActiveMech!.CombatController);
 
 function getBaseAction(actionId: string) {
   return CompendiumStore().Actions.find((a: any) => a.ID === actionId) || null;

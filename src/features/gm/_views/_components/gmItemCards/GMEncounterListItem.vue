@@ -101,6 +101,6 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'open': []
+  'open': [payload: any]
 }>()
 </script>

@@ -280,7 +280,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'commit': []
+  'commit': [payload: any]
 }>()
 
 const menu = ref(false)

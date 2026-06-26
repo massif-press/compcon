@@ -24,7 +24,7 @@
       <v-row dense>
         <v-col>
           <v-btn
-            v-if="combatant.actor.PlaceholderType.toLowerCase() === 'pilot'"
+            v-if="combatant.actor.PlaceholderType?.toLowerCase() === 'pilot'"
             flat
             tile
             size="small"

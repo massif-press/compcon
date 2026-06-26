@@ -113,12 +113,6 @@ const statblock = computed(() => {
 function clearSelected() {
       selected_mech.value = null;
     }
-function show() {
-      (dialog.value as any).show();
-    }
-function hide() {
-      (dialog.value as any).hide();
-    }
 function copy() {
       navigator.clipboard
         .writeText(statblock.value)

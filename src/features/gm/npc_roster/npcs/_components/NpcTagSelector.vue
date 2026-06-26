@@ -44,13 +44,14 @@
 </template>
 
 <script setup lang="ts">
+import type { Unit } from '@/classes/npc/unit/Unit'
 import { computed } from 'vue'
 import npcTags from '@/assets/npc_tags.json';
 
 defineOptions({ name: 'npc-class-selector' })
 
 const props = withDefaults(defineProps<{
-  item: object
+  item: Unit
   readonly?: boolean
 }>(), {
   readonly: false

@@ -18,12 +18,13 @@
 </template>
 
 <script setup lang="ts">
+import type { Reserve } from '@/classes/pilot/components/reserves/Reserve'
 import CCardBase from './_cCardBase.vue';
 
 defineOptions({ name: 'gear-card-content' })
 
 const props = defineProps<{
-  item: object
+  item: Reserve
   small?: boolean
   hover?: boolean
   highlighted?: boolean

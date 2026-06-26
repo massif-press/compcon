@@ -86,7 +86,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'sp-ll-change': []
+  'sp-ll-change': [payload: any]
 }>()
 
 const llFilter = ref([] as number[])

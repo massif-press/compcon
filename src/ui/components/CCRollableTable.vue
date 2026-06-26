@@ -230,13 +230,14 @@
 </template>
 
 <script setup lang="ts">
+import type { RollableTable } from '@/classes/narrative/elements/RollableTable'
 import { computed, ref, watch } from 'vue'
 import { useDisplay } from 'vuetify'
 
 const _display = useDisplay()
 
 const props = withDefaults(defineProps<{
-  table: object
+  table: RollableTable
   color?: string
   print?: boolean
   noDelete?: boolean

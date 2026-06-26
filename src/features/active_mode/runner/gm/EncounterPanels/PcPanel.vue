@@ -145,7 +145,7 @@ const mounted = computed(() => {
       return mech.value.CombatController.Mounted;
     })
 const orderedReserves = computed(() => {
-      const r = props.combatant.actor.ReservesController.Reserves.filter(
+      const r = (props.combatant.actor.ReservesController?.Reserves ?? []).filter(
         (x) => x.Type !== ReserveType.Organization && x.Type !== ReserveType.Project
       );
       if (!unusedOnly.value) {

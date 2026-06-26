@@ -26,10 +26,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Eidolon } from '@/classes/npc/eidolon/Eidolon'
 defineOptions({ name: 'eidolon-builder-content' })
 
 const props = withDefaults(defineProps<{
-  item: object
+  item: Eidolon
   readonly?: boolean
 }>(), {
   readonly: false

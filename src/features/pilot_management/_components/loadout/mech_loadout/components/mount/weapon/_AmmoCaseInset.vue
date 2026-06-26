@@ -24,19 +24,19 @@
           class="mb-1"
           @change="setSelection($event)" />
       </v-col>
-      <v-col v-if="selected.cost"
+      <v-col v-if="selected?.cost"
         class="ml-auto pl-4 pr-3 text-left">
         <div class="text-overline my-n2">{{ $t('pm.loadout.costAMMOCASE') }}</div>
         <div>
-          <v-icon v-for="(n, index) in selected.cost"
+          <v-icon v-for="(n, index) in selected?.cost"
             :key="`ammo-${index}`">mdi-hexagon-slice-6</v-icon>
         </div>
       </v-col>
     </v-row>
-    <div v-if="selected.effect"
+    <div v-if="selected?.effect"
       class="mb-1 py-1">
       <div class="caption px-2 font-weight-bold">{{ $t('common.effect') }}</div>
-      <div class="body-text px-4">{{ selected.effect }}</div>
+      <div class="body-text px-4">{{ selected?.effect }}</div>
     </div>
   </div>
 </template>
@@ -54,11 +54,11 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'set-cost': []
-  'set-damage': []
+  'set-cost': [payload: any]
+  'set-damage': [payload: any]
 }>()
 
-const selected = ref(null)
+const selected = ref<any>(null)
 const allAmmo = ref([
       {
         name: 'Standard',

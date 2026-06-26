@@ -58,10 +58,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Bond } from '@/classes/pilot/components/bond/Bond'
 import { ref } from 'vue'
 
 const props = defineProps<{
-  bond: object
+  bond: Bond
   hideTitle?: boolean
 }>()
 

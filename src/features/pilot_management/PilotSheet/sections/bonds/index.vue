@@ -18,7 +18,7 @@
       <div v-if="hasBond"
         class="heading"
         :class="mobile ? 'h2' : 'h1'">
-        {{ pilot.BondController.Bond.Name }}
+        {{ pilot.BondController.Bond?.Name }}
         <v-btn size="x-small"
           icon
           variant="plain"
@@ -349,7 +349,7 @@
 
 <script setup lang="ts">
 import type { Pilot } from '@/classes/pilot/Pilot'
-import { computed, ref, onMounted, watch } from 'vue'
+import { computed, ref, onMounted, watch, getCurrentInstance } from 'vue'
 import BondSelector from './components/BondSelector.vue'
 import BondPowerSelector from './components/BondPowerSelector.vue'
 import SectionHeader from '../components/SectionHeader.vue'
@@ -360,6 +360,8 @@ import { remove } from 'jszip'
 import { sortBy } from 'lodash-es'
 
 defineOptions({ name: 'BondsView' })
+
+const instance = getCurrentInstance()
 
 const { smAndDown: mobile, xs: portrait } = useDisplay()
 
@@ -388,12 +390,12 @@ const underlevel = computed(() => {
       return props.pilot.Level < 1 && !props.pilot.BondController.ForceBonds
     })
 const boon = computed(() => {
-      return props.pilot.BondController.Bond.Boon
+      return props.pilot.BondController.Bond?.Boon
     })
 
 async function setBond(bond) {
       props.pilot.BondController.Bond = bond
-      await _forceUpdate()
+      instance?.proxy?.$forceUpdate()
       bondModal.value = false
     }
 function bondConfirm() {

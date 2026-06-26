@@ -164,7 +164,7 @@
                       </template>
                     </v-data-table>
                     <collection-item-selector :added-items="collection.Contents.map((x) => x.id)"
-                      @add-item="collection.AddItem($event.type, $event.item)" />
+                      @add-item="collection.AddItem($event!.type, $event!.item)" />
                     <v-row dense
                       align="center"
                       class="mt-4">

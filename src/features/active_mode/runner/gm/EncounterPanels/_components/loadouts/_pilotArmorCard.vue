@@ -60,6 +60,7 @@
 </template>
 
 <script setup lang="ts">
+import type { PilotArmor } from '@/classes/pilot/components/Loadout/equipment/PilotArmor'
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { useEncounterContext } from '../../encounterContext'
 import type { CombatantData } from '@/classes/encounter/Encounter'
@@ -74,11 +75,11 @@ defineOptions({ name: 'PilotArmorCombatCard' })
 const { owner, encounterInstance } = useEncounterContext()
 
 const props = defineProps<{
-  item: object
+  item: PilotArmor
   pilot: Pilot
 }>()
 
-defineEmits<{ deploy: [] }>()
+defineEmits<{ deploy: [payload: any] }>()
 
 const { smAndDown: mobile, xs: portrait } = useDisplay()
 

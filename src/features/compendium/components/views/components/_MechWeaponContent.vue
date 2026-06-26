@@ -15,12 +15,13 @@
 </template>
 
 <script setup lang="ts">
+import type { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
 import CCardBase from './_cCardBase.vue';
 
 defineOptions({ name: 'weapon-card-content' })
 
 const props = defineProps<{
-  item: object
+  item: MechWeapon
   small?: boolean
   hover?: boolean
   highlighted?: boolean

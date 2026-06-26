@@ -112,10 +112,11 @@
 </template>
 
 <script setup lang="ts">
+import type { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
 import SaveRollInterface from './SaveRollInterface.vue';
 
 const props = defineProps<{
-  event: object
+  event: ActiveEffectEvent
 }>()
 
 function overrideSave(s) {

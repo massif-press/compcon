@@ -19,6 +19,7 @@
 </template>
 
 <script setup lang="ts">
+import type { NpcClass } from '@/classes/npc/class/NpcClass'
 import { computed } from 'vue'
 import { Stats } from '@/classes/components/combat/stats/Stats';
 import CCardBase from './_cCardBase.vue';
@@ -40,7 +41,7 @@ saveTarget: 'Save',
 defineOptions({ name: 'FrameCardContent' })
 
 const props = defineProps<{
-  item: object
+  item: NpcClass
   small?: boolean
   hover?: boolean
   highlighted?: boolean

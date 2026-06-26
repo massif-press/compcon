@@ -193,13 +193,14 @@
 </template>
 
 <script setup lang="ts">
+import type { Clock } from '@/classes/narrative/elements/Clock'
 import { computed, ref } from 'vue'
 
 defineOptions({ name: 'cc-clock' })
 
 const props = withDefaults(defineProps<{
   size?: number
-  clock: object
+  clock: Clock
   color?: string
   print?: boolean
   noDelete?: boolean

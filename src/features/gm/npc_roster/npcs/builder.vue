@@ -75,6 +75,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Unit } from '@/classes/npc/unit/Unit'
 import { ref } from 'vue'
 import {
   NpcClassSelector,
@@ -86,7 +87,7 @@ import { useNpcClassSelector } from './_components/useNpcClassSelector'
 defineOptions({ name: 'NpcBuilderContent' })
 
 const props = withDefaults(defineProps<{
-  item: object
+  item: Unit
   readonly?: boolean
 }>(), {
   readonly: false,
