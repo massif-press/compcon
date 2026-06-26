@@ -174,7 +174,9 @@
     "hase_h": "H",
     "hase_a": "A",
     "hase_s": "S",
-    "hase_e": "E"
+    "hase_e": "E",
+    "alert": "Alert",
+    "ok": "OK"
   },
   "language": {
     "selectLanguage": "Language",
@@ -330,6 +332,8 @@
       "anonymousPatron": "Anonymous Patron"
     },
     "achievements": {
+      "hidden": "@:{'common.hidden'}",
+      "sort": "Sort",
       "unlocked": "Unlocked",
       "byRarity": "By Rarity",
       "byLabel": "By Label",
@@ -372,6 +376,8 @@
       "font": "Font",
       "logLevelLabel": "@:{'common.logLevel'}",
       "errorReporting": "Error Reporting",
+      "logLevel": "@:{'common.logLevel'}",
+      "errorReportingPrefix": "Error reporting",
       "enhancedReportingPrefix": "Enhanced error reporting",
       "enabled": "enabled",
       "disabled": "disabled",
@@ -407,6 +413,7 @@
       "neverAutoDeleteFull": "@:{'common.appName'} will {never} automatically delete data marked for deletion.",
       "autoDeleteFull": "@:{'common.appName'} will permanently delete data after it has been marked as deleted for at least {days} This will not affect items not already marked for deletion.",
       "daysCount": "{count} days.",
+      "deleteAllConfirm": "ALL",
       "deleteConfirmIntro": "This will delete {confirm} local @:{'common.appName'} data.",
       "deleteConfirmUndone": "This {undone}",
       "storageSettings": "Storage Settings",
@@ -432,6 +439,7 @@
     },
     "log": {
       "logLevel": "@:{'common.logLevel'}",
+      "noData": "@:{'common.noData'}",
       "trace": "Trace",
       "caller": "Caller",
       "exportLog": "Export Log",
@@ -477,6 +485,7 @@
     },
     "packsDirectory": {
       "officialContent": "Official",
+      "content": "Content",
       "massifPress": "MASSIF PRESS",
       "communityContent": "@:{'common.gameName'} Community Content",
       "communityContentTitle": "@:{'common.gameName'} Community Content Packs",
@@ -505,6 +514,8 @@
       "lcpsSuffix": "{list} LCPs"
     },
     "packInfo": {
+      "contentHeading": "Content",
+      "changelog": "@:{'common.changelog'}",
       "v2ContentTitle": "v2 Content",
       "v2ContentDescription": "This content pack has not been registered as v3 compatible. This pack will still work correctly, but will not be able to take advantage of v3 features.",
       "noDescription": "@:{'ui.widget.noDescription'}",
