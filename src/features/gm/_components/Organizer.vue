@@ -131,8 +131,14 @@ const props = defineProps<{
 
 const folderDialog = ref<any>(null)
 const labelDialog = ref<any>(null)
-const shownTypes = ref([] as string[])
-const allTypes = ref([] as string[])
+const allTypes = ref(
+  props.type === 'npc'
+    ? ['unit', 'doodad', 'eidolon']
+    : props.type === 'narrative'
+      ? ['character', 'location', 'faction']
+      : ['encounter']
+)
+const shownTypes = ref([...allTypes.value])
 
 const headers = ref([
   { title: 'Name', key: 'Name', sortable: true },
