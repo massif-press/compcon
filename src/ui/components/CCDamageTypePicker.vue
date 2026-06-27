@@ -21,10 +21,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { DamageType } from '@/classes/enums'
 
-defineOptions({ name: 'cc-damage-type-picker' })
 
 const props = withDefaults(defineProps<{
   allowedTypes?: any[]
@@ -57,4 +56,8 @@ function select(t: string) {
 }
 
 defineExpose({ show, hide })
+
+onMounted(() => {
+  availableTypes.value = damageTypes().filter((t) => props.allowedTypes?.includes(t));
+})
 </script>
