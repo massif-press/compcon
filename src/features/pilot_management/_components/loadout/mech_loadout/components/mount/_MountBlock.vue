@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Mount } from '@/classes/mech/components/mount/Mount'
+import type Mount from '@/classes/mech/components/mount/Mount'
 import type { Mech } from '@/classes/mech/Mech'
 import WeaponSlotCard from './weapon/_WeaponSlotCard.vue';
 import CbMountMenu from './_CbMountMenu.vue';

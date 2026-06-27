@@ -65,11 +65,12 @@
 </template>
 
 <script setup lang="ts">
+import type { GMItem } from '../../gmItem'
 import { computed } from 'vue'
 import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer'
 
 const props = withDefaults(defineProps<{
-  item: object
+  item: GMItem
   grouping?: string
   sorting?: string
   selectedId?: string

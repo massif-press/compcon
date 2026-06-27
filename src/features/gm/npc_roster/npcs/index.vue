@@ -10,16 +10,16 @@
     @open="openItem($event)">
     <editor v-if="!!selected"
       :key="selected.ID"
-      :item="selected"
+      :item="<any>selected"
       :readonly="selected.Readonly"
       hide-toolbar
       @exit="exit()">
       <template #upper>
-        <builder :item="selected"
+        <builder :item="<any>selected"
           :readonly="selected.Readonly" />
       </template>
       <template #lower>
-        <features :npc="selected"
+        <features :npc="<any>selected"
           :readonly="selected.Readonly" />
       </template>
     </editor>

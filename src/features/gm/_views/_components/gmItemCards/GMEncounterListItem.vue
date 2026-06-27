@@ -80,6 +80,7 @@
 </template>
 
 <script setup lang="ts">
+import type { GMItem } from '../../../gmItem'
 import SortChips from './_subcomponents/sortChips.vue';
 import SitrepChip from './_subcomponents/sitrepChip.vue';
 import EnvironmentChip from './_subcomponents/envChip.vue';
@@ -88,11 +89,11 @@ import CombatantChip from './_subcomponents/combatantChip.vue';
 defineOptions({ name: 'GmLocationListItem' })
 
 const props = withDefaults(defineProps<{
-  item: object
+  item: GMItem
   big?: boolean
   odd?: boolean
-  grouping?: object | string
-  sorting?: object | string
+  grouping?: any
+  sorting?: any
   isSelected?: boolean
 }>(), {
   grouping: '',

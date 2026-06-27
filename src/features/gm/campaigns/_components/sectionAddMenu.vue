@@ -45,10 +45,11 @@
 </template>
 
 <script setup lang="ts">
+import type { GMItem } from '../../gmItem'
 defineOptions({ name: 'section-add-menu' })
 
 const props = withDefaults(defineProps<{
-  item: object
+  item: GMItem
   main?: boolean
 }>(), {
   main: false

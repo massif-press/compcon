@@ -187,7 +187,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Mount } from '@/classes/mech/components/mount/Mount'
+import type Mount from '@/classes/mech/components/mount/Mount'
 import { computed, ref } from 'vue'
 import SlotCardBase from '../../_SlotCardBase.vue'
 import WeaponSelector from './_WeaponSelector.vue'

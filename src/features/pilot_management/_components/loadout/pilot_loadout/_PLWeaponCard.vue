@@ -28,12 +28,11 @@
             :type-override="item.DamageTypeOverride" />
         </v-col>
       </v-row>
-      <v-row v-if="item.notes">
-        <v-col v-for="(n, i) in item.notes"
-          :key="`note_${i}`">
+      <v-row v-if="item.Note">
+        <v-col>
           <cc-tooltip simple
             inline
-            :content="n">
+            :content="item.Note">
             <v-icon size="small"
               color="active">
               mdi-note

@@ -127,6 +127,7 @@
 </template>
 
 <script setup lang="ts">
+import type { GMItem } from '../../gmItem'
 import { computed, ref } from 'vue'
 import { NpcStore, UserStore } from '@/stores';
 import { useDisplay } from 'vuetify';
@@ -137,7 +138,7 @@ defineOptions({ name: 'GmEditorFooter' })
 const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = withDefaults(defineProps<{
-  item: object
+  item: GMItem
   readonly?: boolean
   hideToolbar?: boolean
 }>(), {

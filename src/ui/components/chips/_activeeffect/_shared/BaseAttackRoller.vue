@@ -42,7 +42,7 @@
           <div class="text-center text-cc-overline px-2">{{ $t('ui.combat.vs') }}</div>
         </v-col>
         <v-col align-self="center">
-          <v-text-field :key="s.Combatant?.ID || `defense_${idx}`"
+          <v-text-field :key="s.Combatant?.id || `defense_${idx}`"
             v-model="s.TargetDefenseValue"
             density="compact"
             :class="mobile ? 'short' : 'mb-1'"

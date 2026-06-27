@@ -62,10 +62,10 @@
 
             <v-list-subheader class="mb-n3">{{ $t('gm.npcFeature.selectedClass') }}</v-list-subheader>
             <v-list-item color="accent"
-              :prepend-icon="npc.NpcClassController.Class.Icon"
-              @click="featureSet = npc.NpcClassController.Class.ID">
+              :prepend-icon="npc.NpcClassController.Class?.Icon"
+              @click="featureSet = npc.NpcClassController.Class?.ID ?? ''">
               <template #title>
-                <span class="text-button">{{ $t('gm.npcFeature.nameFeatures', { name: npc.NpcClassController.Class.Name }) }}</span>
+                <span class="text-button">{{ $t('gm.npcFeature.nameFeatures', { name: npc.NpcClassController.Class?.Name }) }}</span>
               </template>
             </v-list-item>
             <v-list-subheader v-if="npc.NpcTemplateController.Templates.length > 0"

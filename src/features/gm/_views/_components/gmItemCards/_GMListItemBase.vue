@@ -56,6 +56,7 @@
 </template>
 
 <script setup lang="ts">
+import type { GMItem } from '../../../gmItem'
 import { computed } from 'vue'
 import CCMissingContentList from '@/ui/components/CCMissingContentList.vue'
 import SortChips from './_subcomponents/sortChips.vue';
@@ -63,11 +64,11 @@ import SortChips from './_subcomponents/sortChips.vue';
 defineOptions({ name: 'gm-list-item-base' })
 
 const props = withDefaults(defineProps<{
-  item: object
+  item: GMItem
   big?: boolean
   odd?: boolean
-  grouping?: object | string
-  sorting?: object | string
+  grouping?: any
+  sorting?: any
 }>(), {
   grouping: '',
   sorting: ''

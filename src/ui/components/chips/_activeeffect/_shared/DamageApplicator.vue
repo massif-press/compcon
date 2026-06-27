@@ -41,8 +41,8 @@
         <div v-if=d.Bonus
           class=pt-1>
           <div class="text-cc-overline text-disabled ml-6">{{ $t('ui.combat.bonusDamage') }}</div>
-          <v-text-field v-model="d.BonusDamageValue"
-            :placeholder="d.BonusDamageString"
+          <v-text-field v-model="d.BonusDamageEvent!.DamageRolledValue"
+            :placeholder="d.BonusDamageEvent?.DamageRollString"
             class=bonusField
             type="number"
             density="compact"

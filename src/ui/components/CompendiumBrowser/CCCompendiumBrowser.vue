@@ -143,7 +143,7 @@
                 :key="`mf-${lcp}-${manufacturer}`"
                 :parent="lcp"
                 :collection="manufacturer"
-                :manufacturer="mf(manufacturer)">
+                :manufacturer="(mf(manufacturer) as any)">
                 <b-list-item v-for="item in (itemsByLcpBySource[lcp]?.[manufacturer] ?? [])"
                   :key="item.ID"
                   v-memo="[item.ID, selectedItem?.ID === item.ID, comparisons.includes(item), equippable && (!equipped || equipped?.ID !== item.ID), view]"

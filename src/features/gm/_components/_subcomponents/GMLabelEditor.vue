@@ -175,6 +175,7 @@
 </template>
 
 <script setup lang="ts">
+import type { GMItem } from '../../gmItem'
 import { computed, ref, watch } from 'vue'
 import { uniqBy } from 'lodash'
 import { NarrativeStore } from '../../store/narrative_store'
@@ -183,7 +184,7 @@ import { NpcStore } from '../../store/npc_store'
 defineOptions({ name: 'GmLabelEditor' })
 
 const props = defineProps<{
-  item: object
+  item: GMItem
   readonly?: boolean
 }>()
 

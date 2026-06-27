@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Mount } from '@/classes/mech/components/mount/Mount'
+import type Mount from '@/classes/mech/components/mount/Mount'
 import type { Mech } from '@/classes/mech/Mech'
 import { computed, ref } from 'vue'
 import EquippableMount from '@/classes/mech/components/mount/EquippableMount'

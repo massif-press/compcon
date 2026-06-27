@@ -30,7 +30,7 @@
     </v-row>
 
     <CCBondInfo v-if="item.ItemType === 'Bond'"
-      :bond="item" />
+      :bond="(item as any)" />
 
     <cc-talent v-else-if="item.ItemType === 'Talent'"
       :talent="item"

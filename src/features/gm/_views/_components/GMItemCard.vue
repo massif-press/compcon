@@ -151,6 +151,7 @@
 </template>
 
 <script setup lang="ts">
+import type { GMItem } from '../../gmItem'
 import { computed } from 'vue'
 import GmCardBase from './gmItemCards/_GMCardBase.vue'
 import GmListItemBase from './gmItemCards/_GMListItemBase.vue'
@@ -160,7 +161,7 @@ import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer
 defineOptions({ name: 'gm-item-card' })
 
 const props = withDefaults(defineProps<{
-  item: object
+  item: GMItem
   big?: boolean
   list?: boolean
   odd?: boolean

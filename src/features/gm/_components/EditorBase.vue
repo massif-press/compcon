@@ -102,6 +102,7 @@
 </template>
 
 <script setup lang="ts">
+import type { GMItem } from '../gmItem'
 import { i18n } from '@/i18n'
 const t = i18n.global.t
 import { computed, ref } from 'vue'
@@ -122,7 +123,7 @@ const router = useRouter()
 
 const props = withDefaults(defineProps<{
   showDescription?: boolean
-  item: object
+  item: GMItem
   readonly?: boolean
   hideToolbar?: boolean
   hideFooter?: boolean

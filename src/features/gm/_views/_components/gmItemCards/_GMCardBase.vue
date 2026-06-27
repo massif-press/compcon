@@ -45,17 +45,18 @@
 </template>
 
 <script setup lang="ts">
+import type { GMItem } from '../../../gmItem'
 import StatChips from './_subcomponents/statChips.vue';
 import SortChips from './_subcomponents/sortChips.vue';
 
 defineOptions({ name: 'gm-card-base' })
 
 const props = withDefaults(defineProps<{
-  item: object
+  item: GMItem
   big?: boolean
   odd?: boolean
-  grouping?: object | string
-  sorting?: object
+  grouping?: any
+  sorting?: any
 }>(), {
   grouping: '',
   sorting: ''

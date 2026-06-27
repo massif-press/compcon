@@ -15,7 +15,7 @@
               <span class="heading h6">
                 {{ $t('common.tierN', { n: item.Tier }) }}
                 <span v-if="hasClass">{{
-                  item.NpcClassController.Class.Name
+                  item.NpcClassController.Class?.Name
                   }}</span>
                 {{item.Templates.map((x) => x.Name).join('/')}}
               </span>
@@ -231,10 +231,10 @@
             class="mx-1 my-2"
             print />
         </div>
-        <div v-if="item.Notes">
+        <div v-if="item.Note">
           <v-divider class="my-2" />
           <div class="caption">{{ $t('gm.gmNotes') }}</div>
-          <p v-html-safe="item.Notes" />
+          <p v-html-safe="item.Note" />
         </div>
       </v-card>
     </div>

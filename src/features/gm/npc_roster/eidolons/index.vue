@@ -9,11 +9,11 @@
     @add-new="addNew()"
     @open="openItem($event)">
     <editor v-if="selected"
-      :item="selected"
+      :item="<any>selected"
       hide-toolbar
       @exit="exit()">
       <builder slot="upper"
-        :item="selected" />
+        :item="<any>selected" />
     </editor>
     <v-row v-else-if="!eidolonAccess"
       style="height: 85vh">

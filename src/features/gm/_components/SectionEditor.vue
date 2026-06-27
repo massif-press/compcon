@@ -110,12 +110,13 @@
 </template>
 
 <script setup lang="ts">
+import type { GMItem } from '../gmItem'
 import { ref } from 'vue'
 
 defineOptions({ name: 'CampaignItemTextItemEditor' })
 
 const props = withDefaults(defineProps<{
-  item: object
+  item: GMItem
   readonly?: boolean
 }>(), {
   readonly: false

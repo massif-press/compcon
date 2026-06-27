@@ -38,10 +38,11 @@
 </template>
 
 <script setup lang="ts">
+import type { GMItem } from '../../gmItem'
 import { ref } from 'vue'
 
 const props = defineProps<{
-  item: object
+  item: GMItem
   allFolders: any[]
 }>()
 

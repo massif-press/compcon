@@ -19,6 +19,7 @@
 </template>
 
 <script setup lang="ts">
+import type { GMItem } from '../../gmItem'
 import { computed, ref } from 'vue'
 import { EncounterStore, NarrativeStore } from '@/stores';
 import { NpcStore } from '../../store/npc_store';
@@ -26,7 +27,7 @@ import FolderMenu from '../../_views/_components/FolderMenu.vue';
 import { uniq } from 'lodash-es';
 
 const props = defineProps<{
-  item: object
+  item: GMItem
   readonly?: boolean
 }>()
 

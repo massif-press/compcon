@@ -70,16 +70,16 @@
 
       <v-divider />
       <v-chip size="small" class="mt-1">
-        <b>{{ $t('gm.eidolonPrint.newShards', { n: l.Layer.Shards.Count }) }}</b>
+        <b>{{ $t('gm.eidolonPrint.newShards', { n: l.Layer.Shards?.Count }) }}</b>
       </v-chip>
-      <div v-html-safe="l.Layer.Shards.Detail" class="pl-3 caption" />
+      <div v-html-safe="l.Layer.Shards?.Detail" class="pl-3 caption" />
       <print-npc-stats :item="l.Layer.Shards" :bonuses="[]" :tier="npc.Tier" hide-zero />
       <div
-        v-for="(f, i) in l.Layer.Shards.Features.filter((x) => !x.HideActive)"
+        v-for="(f, i) in (l.Layer.Shards?.Features ?? []).filter((x) => !x.HideActive)"
         :key="f.ID"
         class="mt-1 pl-3 caption no-print-break">
         <npc-feature-print :feature="f" :tier="npc.Tier" />
-        <v-divider v-if="i + 1 < l.Layer.Shards.Features.length" class="mt-1" />
+        <v-divider v-if="i + 1 < (l.Layer.Shards?.Features?.length ?? 0)" class="mt-1" />
       </div>
     </fieldset>
 

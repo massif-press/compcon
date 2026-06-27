@@ -27,7 +27,7 @@
     </template>
 
     <editor v-if="selected"
-      :item="selected"
+      :item="<any>selected"
       :footer-offset="view !== 'collection'"
       :hide-toolbar="view !== 'collection'"
       @exit="exit()"

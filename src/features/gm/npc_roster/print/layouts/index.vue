@@ -1,6 +1,6 @@
 <template>
   <div v-for="(n, i) in npcs" :key="(n as any).ID" class="py-1 mb-1">
-    <component :is="getComponentByType(n)" :npc="<Npc>n" :options="options" />
+    <component :is="getComponentByType(n)" :npc="(n as any)" :options="options" />
     <page-break v-if="i + 1 < npcs.length" />
   </div>
 </template>

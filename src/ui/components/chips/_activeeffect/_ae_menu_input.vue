@@ -51,7 +51,7 @@
 
       <effect-applicator v-if="!event.IsPassive"
         :pc="isPilotSheet"
-        :event="event" />
+        :event="<ActiveEffectEvent>event" />
 
     </v-card>
 

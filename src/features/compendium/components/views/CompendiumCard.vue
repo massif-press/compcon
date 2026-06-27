@@ -44,7 +44,6 @@
 </template>
 
 <script setup lang="ts">
-import type { CompendiumItem } from '@/classes/CompendiumItem'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import logger from '@/user/logger';
@@ -56,7 +55,7 @@ const _display = useDisplay()
 defineOptions({ name: 'CompendiumLargeCard' })
 
 const props = defineProps<{
-  item: CompendiumItem
+  item: object
   small?: boolean
   highlighted?: boolean
   selectable?: boolean

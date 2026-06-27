@@ -32,7 +32,7 @@
       <div v-if="readonly"
         class="heading h2 ml-2 mt-n2 text-accent">
         {{
-          item.NpcClassController?.HasClass ? item.NpcClassController.Class.Name : $t('gm.npcBuilder.noClass')
+          item.NpcClassController?.HasClass ? item.NpcClassController.Class?.Name : $t('gm.npcBuilder.noClass')
         }}
       </div>
       <div v-else>
@@ -46,7 +46,7 @@
               @click="open">
               {{
                 item.NpcClassController?.HasClass
-                  ? item.NpcClassController.Class.Name
+                  ? item.NpcClassController.Class?.Name
                   : $t('gm.npcBuilder.setClass')
               }}
             </cc-button>

@@ -9,7 +9,7 @@
           <div class="text-caption">
             <v-icon :icon="npc.TierIcon" class="mt-n1" />
             <v-icon :icon="npc.Icon" class="mt-n1" />
-            {{ npc.NpcClassController.Class.Name }}
+            {{ npc.NpcClassController.Class?.Name }}
           </div>
         </div>
       </v-col>

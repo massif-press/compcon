@@ -24,6 +24,7 @@
 </template>
 
 <script setup lang="ts">
+import type { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
 import StatusApplicator from './_shared/StatusApplicator.vue'
 import BaseAttackRoller from './_shared/BaseAttackRoller.vue'
 import BaseSaveRoller from './_shared/BaseSaveRoller.vue'
@@ -37,7 +38,7 @@ import LocalTargetSelector from './_shared/LocalTargetSelector.vue'
 import LocalAttackRoller from './_shared/LocalAttackRoller.vue'
 
 withDefaults(defineProps<{
-  event: Record<string, any>
+  event: ActiveEffectEvent
   pc?: boolean
 }>(), { pc: false })
 </script>
