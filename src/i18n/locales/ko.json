@@ -89,6 +89,7 @@
     "changelog": "변경사항",
     "hidden": "숨김",
     "core": "코어",
+    "restore": "복구",
     "alert": "경고",
     "ok": "예",
     "loading": "불러오는 중…",
@@ -124,17 +125,25 @@
       "exportAsJson": "JSON으로 내보내기",
       "disengageFailed": "교전해제 실패",
       "disengageFailedText": "{name}은 교전상태가 아닙니다.",
-      "disengagedText": "{name}(이)가 교전해제됨."
+      "disengagedText": "{name}(이)가 교전해제됨.",
+      "currentlySelected": "현재 선택됨:",
+      "destroyed": "파괴됨",
+      "saveFailed": "저장 실패"
     },
     "dmgCond": {
       "doubleDamage": "두배 피해",
-      "fullDamage": "최대 피해"
+      "fullDamage": "최대 피해",
+      "resistance": "저항"
     },
     "scan": {
       "scan": "스캔"
     },
     "actionChips": {
-      "protocol": "프로토콜"
+      "protocol": "프로토콜",
+      "quickAction": "빠른 행동"
+    },
+    "pcEndRound": {
+      "willLoseStatuses": "다음 상태를 잃습니다:"
     }
   },
   "compendium": {
@@ -144,12 +153,49 @@
     },
     "campaign": {
       "recommendedLicenseLevel": "추천 라이센스 레벨"
+    },
+    "categories": {
+      "frames": "프레임",
+      "mechWeapons": "메크 무기"
     }
   },
   "nav": {
     "packsDirectory": {
       "communityContent": "@:{'common.gameName'} 커뮤니티 컨텐츠",
       "communityContentTitle": "@:{'common.gameName'} 커뮤니티 컨텐츠 팩"
+    }
+  },
+  "stats": {
+    "armor": "장갑",
+    "agility": "민첩",
+    "systems": "시스템",
+    "engineering": "공학",
+    "agi": "민첩",
+    "hp": "HP",
+    "evasion": "회피",
+    "speed": "속도",
+    "sensors": "센서",
+    "structure": "구조",
+    "stress": "스트레스",
+    "sp": "SP"
+  },
+  "pm": {
+    "link": {
+      "hull": "선체",
+      "agi": "민첩",
+      "sys": "시스템",
+      "eng": "공학"
+    }
+  },
+  "ui": {
+    "fields": {
+      "size": "크기",
+      "license": "라이센스"
+    }
+  },
+  "mainMenu": {
+    "ui": {
+      "upgrade": "업그레이드"
     }
   }
 }
