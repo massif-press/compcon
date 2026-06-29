@@ -1,1 +1,13 @@
-{}
+{
+  "act_ace_supersonic_spinup.detail": "",
+  "act_ace_supersonic_spinup.name": "",
+  "act_activate_full.detail": "",
+  "act_activate_full.name": "",
+  "act_activate_full.terse": "",
+  "act_activate_quick.detail": "",
+  "act_activate_quick.name": "",
+  "act_activate_quick.terse": "",
+  "act_barrage.detail": "",
+  "act_barrage.name": "",
+  "act_barrage.terse": "Совершить атаку двумя видами оружия либо одним сверхтяжелым оружием."
+}

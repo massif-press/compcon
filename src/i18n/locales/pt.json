@@ -174,7 +174,9 @@
     "hase_h": "C",
     "hase_a": "A",
     "hase_s": "S",
-    "hase_e": "E"
+    "hase_e": "E",
+    "alert": "Alerta",
+    "ok": "OK"
   },
   "print": {
     "generalOptions": "Opções Gerais de Impressão"
@@ -182,7 +184,12 @@
   "language": {
     "selectLanguage": "Idioma",
     "experimentalNote": "A tradução para outros idiomas é uma colaboração da comunidade e está em desenvolvimento. Alguns textos podem estar em inglês ou incompletos.",
-    "pctTransComplete": "{pct}% traduzindo"
+    "pctTransComplete": "{pct}% traduzindo",
+    "components": {
+      "ui": "Interface",
+      "lancer-srd": "Referências de Regras",
+      "lancer-data": "Compêndio"
+    }
   },
   "classes": {
     "newCampaign": "Nova Campanha",
@@ -346,7 +353,9 @@
       "selectAll": "@:{'common.selectAll'}",
       "none": "@:{'common.none'}",
       "dateUnlocked": "Data de Desbloqueio",
-      "name": "@:{'common.name'}"
+      "name": "@:{'common.name'}",
+      "hidden": "@:{'common.hidden'}",
+      "sort": "Organizar"
     },
     "settingsPage": {
       "showUpdateMessages": "Mostrar Atualizações",
@@ -386,7 +395,9 @@
       "importV2Backup": "Importar Backup v2",
       "resetV2Migration": "Resetar status de migração da V2",
       "resetV2Tooltip": "Redefine o status de migração da v2, permitindo que o botão 'Dados da V2' apareça novamente caso tenha sido dispensado.",
-      "confirmImport": "@:{'common.confirmImport'}"
+      "confirmImport": "@:{'common.confirmImport'}",
+      "logLevel": "@:{'common.logLevel'}",
+      "errorReportingPrefix": "Reporte de Erro"
     },
     "credits": {
       "additionalArtBy": "Arte Adicional por",
@@ -446,7 +457,8 @@
       "massifPress": "MASSIF PRESS",
       "communityAbout": "O @:{'common.appName'} tem orgulho de colaborar com a comunidade de @:{'common.gameName'} para disponibilizar estes pacotes de conteúdo não oficiais. Eles são oferecidos no estado em que se encontram, a critério do autor.",
       "communityContribute": "Se você tiver interesse em criar seu próprio conteúdo homebrew de @:{'common.gameName'} ou em enviar seu conteúdo para ser destacado neste diretório, por favor",
-      "communityNotice": "O download no aplicativo e a inscrição automática para atualizações de LCPs da comunidade ainda não são suportados. Assim que as ferramentas de suporte ao autor estiverem disponíveis, os LCPs da comunidade serão migrados para a v3 e poderão aproveitar os mesmos mecanismos de atualização e inscrição dos pacotes de conteúdo oficiais da Massif Press. Acompanhe o {blog} para ficar por dentro do progresso."
+      "communityNotice": "O download no aplicativo e a inscrição automática para atualizações de LCPs da comunidade ainda não são suportados. Assim que as ferramentas de suporte ao autor estiverem disponíveis, os LCPs da comunidade serão migrados para a v3 e poderão aproveitar os mesmos mecanismos de atualização e inscrição dos pacotes de conteúdo oficiais da Massif Press. Acompanhe o {blog} para ficar por dentro do progresso.",
+      "content": "Conteúdo"
     },
     "packConfig": {
       "title": "Configurações de Conteúdo",
@@ -492,14 +504,16 @@
       "noStorageAccess": "O @:{'common.appName'} não consegue acessar o armazenamento do dispositivo. Isso pode ocorrer devido a uma configuração ou extensão do navegador. O @:{'common.appName'} usará o armazenamento local como alternativa, que é limitado a 5MB. Isso pode fazer com que o @:{'common.appName'} não consiga salvar os dados. Verifique as configurações do seu navegador ou permita que o @:{'common.appName'} acesse o \"Armazenamento Persistente\" se solicitado. Se você estiver usando uma extensão de navegador que bloqueia o acesso ao armazenamento, desative-a para o @:{'common.appName'}. Se nenhuma dessas opções funcionar, considere baixar o @:{'common.appName'} como um PWA.",
       "deletedItems": "Itens Excluídos (apenas dados locais)",
       "userData": "Dados do Usuário",
-      "clearAllData": "@:{'common.clearAllData'}"
+      "clearAllData": "@:{'common.clearAllData'}",
+      "deleteAllConfirm": "TODOS"
     },
     "log": {
       "logLevel": "@:{'common.logLevel'}",
       "caller": "Rastreamento",
       "exportLog": "Exportar Log",
       "copiedToClipboard": "Entrada de log copiada para a área de transferência",
-      "trace": "Rastreamento"
+      "trace": "Rastreamento",
+      "noData": "@:{'common.noData'}"
     },
     "packInfo": {
       "v2ContentTitle": "Conteúdo v2",
@@ -510,7 +524,9 @@
       "none": "@:{'common.none'}",
       "authorsWebsite": "Site do autor",
       "dependencyInstalled": "Dependências instaladas",
-      "version": "@:{'common.version'}"
+      "version": "@:{'common.version'}",
+      "changelog": "@:{'common.changelog'}",
+      "contentHeading": "Conteúdo"
     },
     "communityTable": {
       "noData": "Nenhum pacote de conteúdo disponível.",
@@ -1592,7 +1608,8 @@
     },
     "common": {
       "error": "Erro",
-      "copied": "Copiado"
+      "copied": "Copiado",
+      "success": "Sucesso"
     },
     "transfer": {
       "uploadCompleteTitle": "Upload Concluído",
@@ -3201,7 +3218,8 @@
       "couldNotBeFound": "não pôde ser encontrado.",
       "pilotRequiresReSync": "Piloto requer nova sincronização",
       "withShareCode": "com código de compartilhamento",
-      "mustBeReSyncedToThe": "deve ser sincronizado novamente na conta do autor antes que possa ser visualizado."
+      "mustBeReSyncedToThe": "deve ser sincronizado novamente na conta do autor antes que possa ser visualizado.",
+      "agi": "Agi"
     },
     "common": {
       "commaLl": ", NL",

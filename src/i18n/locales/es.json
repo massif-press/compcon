@@ -157,8 +157,15 @@
     "deployables": "Desplegables",
     "talents": "Talentos",
     "hase_h": "C",
-    "appShortName": "C/C",
+    "trigger": "Disparador",
     "alert": "Alerta",
+    "ok": "Aceptar",
+    "includeFeatureDetails": "incluir Detalles de la Característica",
+    "pilotTalents": "Talentos del Piloto",
+    "hase_a": "A",
+    "hase_s": "S",
+    "hase_e": "I",
+    "appShortName": "C/C",
     "loading": "Cargando…",
     "size": "Tamaño",
     "roll": "Tirada",
@@ -167,7 +174,12 @@
   "language": {
     "selectLanguage": "Idioma",
     "experimentalNote": "La traducción no inglesa es una contribución de la comunidad y un trabajo en progreso. Algunos textos pueden no estar traducidos o imperfectos.",
-    "pctTransComplete": "traducido {pct}%"
+    "pctTransComplete": "traducido {pct}%",
+    "components": {
+      "ui": "Interfaz",
+      "lancer-data": "Compendio",
+      "lancer-srd": "Referencia de reglas"
+    }
   },
   "classes": {
     "newCollection": "Nueva Colección",
@@ -207,7 +219,9 @@
     "settings": {
       "reset": "Restablecer valores predeterminados",
       "importData": "Importar Datos",
-      "exportData": "Exportar todos los datos"
+      "exportData": "Exportar todos los datos",
+      "title": "@:{'common.settings'}",
+      "clearData": ""
     },
     "v2Import": {
       "deleteTitle": "Eliminar Respaldo",
@@ -222,7 +236,9 @@
       "forceImportNotice": "Esto importará el {type} con todos los artículos no resueltos eliminados. No se pueden encontrar las siguientes dependencias y serán quitadas:",
       "panelTitle": "Importaciones V2 pendientes",
       "importAll": "Importar todo",
-      "moreCount": "+{count} más"
+      "moreCount": "+{count} más",
+      "forceImportPanelTitle": "",
+      "confirmForceImport": ""
     },
     "nav": {
       "navigateForward": "Navegar hacia adelante",
@@ -240,7 +256,8 @@
       "storageAlertTooltip": "@:{'common.appName'} ha superado el umbral máximo de almacenamiento.",
       "storageDetails": "Hay más detalles disponibles en la pestaña <b>Almacenamiento</b> del Menú de Opciones.",
       "supportCompcon": "Soporte @:{'common.appName'}",
-      "encounters": "Encuentros"
+      "encounters": "Encuentros",
+      "mainMenu": "@:{'common.mainMenu'}"
     },
     "help": {
       "faq": "Preguntas más frecuentes",
@@ -265,7 +282,9 @@
       "howToSeeExotics": "¿Cómo puedo ver artículos exóticos en el Compendio?",
       "additionalHelp": "Ayuda adicional",
       "downloadDemo": "Descargar demo",
-      "showExoticsToggleLabel": "\"Mostrar elementos exóticos en el Compendio\""
+      "showExoticsToggleLabel": "\"Mostrar elementos exóticos en el Compendio\"",
+      "lcpDirectory": "",
+      "optionsLabel": "@:{'common.options'}"
     },
     "credits": {
       "with": "Con:",
@@ -275,7 +294,8 @@
       "supportOf": "de:",
       "anonymousPatron": "Mecenas Anónimo",
       "graphicDesignBy": "Diseño gráfico por:",
-      "additionalArtBy": "Arte adicional por:"
+      "additionalArtBy": "Arte adicional por:",
+      "tier": "@:{'common.tier'}"
     },
     "achievements": {
       "unlocked": "desbloqueado",
@@ -306,8 +326,10 @@
       "progress": "{count} de {total} desbloqueado",
       "othersCount": "(+{count} otros)",
       "cannotBeUndoneFull": "Este {emphasis} será deshecho. Es muy recomendable crear una copia de seguridad primero.",
+      "hidden": "Oculto",
       "sort": "ORDEN:",
-      "hidden": "Oculto"
+      "selectAll": "",
+      "none": "@:{'common.none'}"
     },
     "settingsPage": {
       "errorReporting": "Error al reportar",
@@ -346,8 +368,8 @@
       "v2AppendNote": "las importaciones de copia de seguridad v2 siempre se procesan utilizando la estrategia de \"apéndice\".",
       "showDesktopTablesTooltip": "Por defecto, @:{'common.appName'} muestra una vista simplificada de las tablas de Compendio en dispósitivos móviles para mejorar la legibilidad y desempeño. Activar esta opción mostrará la versión completa de escritorio de las tablas en todos los dispositivos. Esto puede hacer que algunas tablas sean difíciles de leer o causar problemas de desempeño en algunos dispositivos móviles.",
       "showDesktopTablesLabel": "Forzar Tablas completas del Compendio",
-      "logLevel": "Nivel de Bitácora",
-      "errorReportingPrefix": "Reportar un Error"
+      "errorReportingPrefix": "Reportar un Error",
+      "logLevel": "Nivel de Bitácora"
     },
     "storage": {
       "userData": "Datos del usuario",
@@ -386,7 +408,8 @@
       "itemType": "Tipo de Artículo",
       "itemName": "Nombre de Artículo",
       "permanentlyDeleteAll": "Eliminar Todo Permanentemente",
-      "permanentlyDelete": "Eliminar permanentemente"
+      "permanentlyDelete": "Eliminar permanentemente",
+      "restore": "@:{'common.restore'}"
     },
     "userDataViewer": {
       "value": "Valor",
@@ -432,8 +455,10 @@
       "dependenciesTooltip": "Las dependencias son otros paquetes de contenido que este paquete requiere para funcionar correctamente. Deben ser instalados y activados para que este paquete se cargue correctamente.",
       "authorsWebsite": "Sitio web del autor",
       "dependencyInstalled": "Dependencia instalada",
+      "contentHeading": "Contenido",
       "changelog": "Historial de cambios",
-      "contentHeading": "Contenido"
+      "noDescription": "@:{'ui.widget.noDescription'}",
+      "none": "@:{'common.none'}"
     },
     "communityTable": {
       "noData": "No hay paquetes de contenido disponibles.",
@@ -451,13 +476,15 @@
     "roster": {
       "newPilot": "Nuevo Piloto",
       "importPilot": "Importar Piloto",
-      "clonePilot": "Clonar Piloto"
+      "clonePilot": "Clonar Piloto",
+      "deletePilot": ""
     },
     "about": {
       "lancerCoreVersion": "Versión del núcleo de @:{'common.gameName'}:",
       "description": "@:{'common.appName'} es una herramienta digital gratuita de código abierto, y asistente de juego para construir y jugar @:{'common.gameName'} TTRPG.",
       "coreBookInfo": "El libro BASE @:{'common.gameName'} , @:{'common.appName'}, y el contenido asociado se pueden encontrar en",
-      "ccVersion": "Versión C/C:"
+      "ccVersion": "Versión C/C:",
+      "title": "@:{'common.appName'}"
     },
     "log": {
       "trace": "Trazo",
@@ -479,7 +506,9 @@
       "createConfig": "Crear configuración",
       "deleteConfig": "Eliminar esta configuración",
       "editConfig": "Editar esta configuración",
-      "lcpsSuffix": "{list} LCPs"
+      "lcpsSuffix": "{list} LCPs",
+      "lancerCoreBook": "",
+      "byAuthor": "@:{'common.byAuthor'}"
     },
     "v2Auto": {
       "v2Data": "Datos V2",
@@ -2274,7 +2303,9 @@
       "licensesRequired": "Licencias Requeridas",
       "addReservesAndBonuses": "Añadir Reservas y Bonos",
       "reservesAndBonuses": "Reservas y Bonos",
-      "setPilotLicenses": "Establecer Licencias de Piloto"
+      "setPilotLicenses": "Establecer Licencias de Piloto",
+      "paper": "Papel",
+      "orientation": "Orientación"
     }
   },
   "share": {

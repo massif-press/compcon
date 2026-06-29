@@ -105,9 +105,37 @@
     "ignoreLimit": "Ignorer la limite",
     "actionCannotBeUndone": "Cette action ne peut pas être annulée",
     "systemPoints": "Points de Système",
-    "appShortName": "C/C",
+    "update": "Mettre à jour",
+    "pilotRoster": "Tableau de service",
+    "pilotLoadout": "Équipement de Pilote",
+    "noData": "Données Manquantes",
+    "organize": "Organiser",
+    "environment": "Environnement",
+    "item": "Élément",
+    "detail": "Détail",
+    "byAuthor": "par {author}",
+    "contentManager": "Gestionnaire de contenu",
+    "cloudAccount": "Profil en ligne",
+    "customItemDescription": "Description d'objet personnalisé",
+    "customItemName": "Nom d'objet personnalisé",
+    "deletePermanently": "Supprimer définitivement",
+    "npcAdded": "PNJ ajouté",
+    "npcAddedToRoster": "PNJ {name} ajouté au Roster",
+    "overview": "Vue d'ensemble",
+    "side": "Faction",
+    "syncNow": "Synchroniser maintenant",
+    "importOverwriteWarning": "Ces données importées vont écraser une campagne existante au nom de {title}. La campagne existante a été dernièrement mise à jour le {date}.",
+    "pilotArmor": "Armure de pilote",
+    "pilotWeapon": "Arme de pilote",
+    "player": "Joueur",
+    "hidden": "Masqué | Masqués",
+    "changelog": "Nouveautés",
     "alert": "Alerte",
     "ok": "Ok",
+    "skipToMainContent": "Sauter jusqu'au contenu principal",
+    "pilotGroup": "Groupe de pilotes",
+    "statsLabel": "Caractéristiques",
+    "appShortName": "C/C",
     "loading": "Chargement…"
   },
   "gm": {
@@ -117,7 +145,12 @@
   },
   "language": {
     "pctTransComplete": "{pct}% traduit",
-    "selectLanguage": "Langue"
+    "selectLanguage": "Langue",
+    "components": {
+      "ui": "Interface",
+      "lancer-data": "Compendium"
+    },
+    "experimentalNote": "Les traductions sont réalisées par la communauté et sont un travail en cours. Des phrases peuvent ne pas être traduites ou présenter des incohérences."
   },
   "classes": {
     "newTable": "Nouveau tableau",
@@ -129,21 +162,56 @@
     "newCharacter": "Nouveau personnage",
     "newFaction": "Nouvelle Faction",
     "newNpc": "Nouveau PNJ",
-    "newEidolon": "Nouvel Eidolon"
+    "newEidolon": "Nouvel Eidolon",
+    "newNarrativeItem": "Nouvel élément narratif",
+    "unknownStatus": "Statut inconnu",
+    "newLocation": "Nouveau lieu",
+    "newEncounter": "Nouvelle rencontre"
   },
   "nav": {
     "contentManager": {
       "installLcp": "Installer un fichier .LCP",
-      "deleteAll": "Tout supprimer"
+      "deleteAll": "Tout supprimer",
+      "title": "@:{'common.contentManager'}",
+      "contentPacks": "@:{'common.contentPacks'}",
+      "lcpDirectory": "@:{'common.lcpDirectory'}",
+      "addContent": "@:{'common.addContent'}",
+      "removeContent": "@:{'common.remove'}",
+      "refreshContent": "Actualiser",
+      "updateAll": "@:{'common.updateAll'}",
+      "noPacksInstalled": "Aucun contenu installé",
+      "contentConfig": "Configuration du contenu"
     },
     "roster": {
-      "newPilot": "Nouveau pilote"
+      "newPilot": "Nouveau pilote",
+      "title": "@:{'common.pilotRoster'}",
+      "importPilot": "Importer un pilote",
+      "deletePilot": "@:{'common.deletePilot'}",
+      "clonePilot": "Cloner un pilote"
     },
     "nav": {
       "campaignManager": "Gestionnaire de campagne",
       "encounters": "Rencontres",
       "narrativeElements": "Éléments narratifs",
-      "storageLimitExceeded": "Limite de stockage dépassée"
+      "storageLimitExceeded": "Limite de stockage dépassée",
+      "navigateBack": "Reculer",
+      "navigateForward": "Avancer",
+      "mainMenu": "@:{'common.mainMenu'}",
+      "compendium": "@:{'common.compendium'}",
+      "pilotManagement": "Gestion de pilote",
+      "activeMode": "@:{'common.activeMode'}",
+      "noNewItemsSaved": "Aucun nouvel élément ne sera sauvegardé avant que la limite ne soit augmenté ou des données supprimées",
+      "storageWarningTooltip": "@:{'common.appName'} a dépassé un seuil de stockage. Plus de détails disponibles dans l'onglet Stockage dans le menu des Options.",
+      "storageAlertTooltip": "@:{'common.appName'} a dépassé la limite maximum de stockage.",
+      "storageDetails": "Plus de détails sont disponibles dans l'onglet <b>Stockage</b> dans le menu des options.",
+      "cloudAccount": "@:{'common.cloudAccount'}",
+      "achievements": "Succès",
+      "manageContent": "@:{'common.manageContent'}",
+      "options": "@:{'common.options'}",
+      "about": "À propos",
+      "credits": "@:{'common.credits'}",
+      "help": "Aide",
+      "quickReference": "Pense-bête"
     },
     "packConfig": {
       "addLcp": "Ajouter LCP",
@@ -174,6 +242,28 @@
     },
     "migrationRepair": {
       "colCategory": "Catégorie"
+    },
+    "settings": {
+      "title": "@:{'common.settings'}",
+      "exportData": "Exporter toutes les données",
+      "importData": "Importer les données",
+      "clearData": "@:{'common.clearAllData'}"
+    },
+    "v2Import": {
+      "panelTitle": "Importations V2 en attente",
+      "importAll": "Tout importer",
+      "importAllTooltip": "Tentative d'importer tous les éléments en attente. Les éléments aux dépendances manquantes resteront en attente.",
+      "forceImportAll": "Forcer toutes les importations",
+      "forceImportAllTooltip": "Forcer l'importation de tous les éléments en attente, retirant toutes les dépendances ne pouvant être résolues. Utilisez ceci si vous voulez tout importer quelque soit le contenu manquant, mais soyez conscients que les éléments importés seront purgés des données manquantes et peuvent nécessiter d'être corrigés manuellement après l'importation.",
+      "forceImport": "Forcer l'importation (Retire les éléments manquants)",
+      "forceImportPanelTitle": "@:{'common.forceImport'}",
+      "attemptReimport": "Nouvelle tentative d'importation",
+      "confirmForceImport": "@:{'common.forceImport'}",
+      "strippedTitle": "Éléments retirés lors l'importation forcée",
+      "strippedBody": "Les éléments suivants ont été retiré car ils ne pouvaient être résolus",
+      "moreCount": "+{count} supplémentaires",
+      "deleteTitle": "Supprimer la sauvegarde de données",
+      "deleteConfirm": "Supprimer cette sauvegarde de données V2 en attente? Cette action ne peut être annulée."
     }
   }
 }

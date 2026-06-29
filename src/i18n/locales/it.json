@@ -162,10 +162,23 @@
     "weapon": "Arma",
     "website": "Sito Web",
     "yes": "Sì",
+    "roll_noun": "Tiro",
+    "background": "Background",
+    "mech": "Mech",
+    "player": "Giocatore",
+    "hidden": "Nascosto",
+    "changelog": "Changelog",
+    "deployables": "Dispiegabili",
+    "talents": "Talenti",
+    "roll_verb": "Tira",
+    "hase_h": "SCA",
+    "hase_a": "AGI",
+    "hase_s": "SIS",
+    "hase_e": "ING",
     "alert": "Allarme",
+    "ok": "OK",
     "appShortName": "C/C",
     "loading": "Caricamento…",
-    "ok": "OK",
     "compconPrompt": ">>COMP/CON//",
     "roll": "Tira",
     "size": "Taglia"
@@ -173,7 +186,12 @@
   "language": {
     "experimentalNote": "Le traduzioni non in inglese sono fornite dalla community e in continua evoluzione. Alcuni testi potrebbero non essere tradotti o risultare imperfetti.",
     "pctTransComplete": "{pct}% tradotto",
-    "selectLanguage": "Lingua"
+    "selectLanguage": "Lingua",
+    "components": {
+      "ui": "Interfaccia",
+      "lancer-data": "Compendio",
+      "lancer-srd": "Riferimento Regole"
+    }
   },
   "print": {
     "generalOptions": "Opzioni di Stampa Generali",
@@ -642,8 +660,8 @@
       "cannot": "non può",
       "warningDataFull": "Questa operazione {emphasis} i dati degli obiettivi utente.",
       "cannotBeUndoneFull": "Questa operazione {emphasis} essere annullata. Si consiglia vivamente di creare prima un backup.",
-      "sort": "ORDINA:",
-      "hidden": "Nascosto"
+      "hidden": "Nascosto",
+      "sort": "ORDINA:"
     },
     "log": {
       "logLevel": "@:{'common.logLevel'}",
@@ -750,6 +768,8 @@
       "confirmImport": "@:{'common.confirmImport'}",
       "resetV2Migration": "Reimposta Stato Migrazione V2",
       "resetV2Tooltip": "Reimposta lo stato della migrazione v2, permettendo al pulsante Dati V2 di riapparire se era stato chiuso.",
+      "showDesktopTablesLabel": "Forza tabelle complete del Compendio",
+      "showDesktopTablesTooltip": "Per impostazione predefinita, @:{'common.appName'} mostra una vista semplificata delle tabelle del Compendio sui dispositivi mobili per migliorare leggibilità e prestazioni. Attivando questa opzione verrà mostrata la versione desktop completa delle tabelle su tutti i dispositivi. Questo potrebbe rendere alcune tabelle difficili da leggere o causare problemi di prestazioni sui dispositivi mobili.",
       "logLevel": "Livello di Log",
       "errorReportingPrefix": "Segnalazione errori"
     },
@@ -780,8 +800,8 @@
       "cannotBeUndone": "essere annullata.",
       "areYouSure": "Sei sicuro di voler continuare?",
       "deleteAllUserData": "Elimina Tutti i Dati Utente",
-      "neverLabel": "mai",
-      "deleteAllConfirm": "TUTTI"
+      "deleteAllConfirm": "TUTTI",
+      "neverLabel": "mai"
     },
     "packInstall": {
       "selectFile": "Seleziona un file .LCP",
@@ -1316,11 +1336,22 @@
     "unit": {
       "kb": "KB",
       "mb": "MB"
+    },
+    "codeEntry": {
+      "title": "Inserisci Codice di Sblocco",
+      "tooltip": "Inserisci un codice di sblocco per accedere a funzioni aggiuntive dell'account o a contenuti LCP.",
+      "invalidCode": "Codice non valido",
+      "success": "Codice accettato! Il tuo contenuto dovrebbe ora essere disponibile.",
+      "npcSubTitle": "Dati PNG del Lancer Core Book",
+      "npcSubTooltipOff": "Abilita il download e l'accesso agli aggiornamenti automatici dei dati PNG del Core Book collegando il tuo account itch.io a un acquisto del Lancer Core Book, oppure inserendo l'URL dal codice QR all'inizio della tua copia del Lancer Core Book.",
+      "npcsAddedViaItch": "Il tuo account ha accesso ai dati PNG del Lancer Core Book. Questo contenuto è stato aggiunto al tuo account tramite un acquisto itch.io collegato.",
+      "npcsAddedViaCode": "Il tuo account ha accesso ai dati PNG del Lancer Core Book. Questo contenuto è stato aggiunto al tuo account tramite collegamento con codice QR."
     }
   },
   "ui": {
     "action": {
       "compendiumEntry": "Voce del Compendio",
+      "frequency_action": "Frequenza",
       "frequency": "Frequenza"
     },
     "alt": {
@@ -2245,6 +2276,7 @@
       "copiedToClipboard": "Copiato negli Appunti",
       "nominal": "Nominale",
       "halfDamage": "Danno Dimezzato",
+      "condition_status": "Condizione",
       "apply": "Applica",
       "target": "Bersaglio",
       "noMapData": "Nessun Dato Mappa",
@@ -2491,6 +2523,7 @@
     "toolPalette": {
       "tagReference": "Riferimento Tag",
       "combatQuickRef": "Riferimento Rapido Combattimento",
+      "npcRef": "Riferimento Combattimento PNG",
       "rollableTables": "Tabelle Casuali",
       "encounterInfo": "Info Scontro",
       "deployables": "Dispiegabili",
