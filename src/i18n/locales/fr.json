@@ -140,7 +140,316 @@
   },
   "gm": {
     "fields": {
-      "authors": "Auteur·rice(s)"
+      "authors": "Auteur·rice(s)",
+      "selectDataFile": "Sélectionner un fichier de données",
+      "newTitle": "Nouveau titre",
+      "folder": "Dossier",
+      "value": "Valeur",
+      "group": "Groupe",
+      "sort": "Trier",
+      "moveIntoSection": "Déplacer dans la section",
+      "imageUrl": "URL de l'image",
+      "subtitle": "Sous-titre"
+    },
+    "import": {
+      "collection": "Collection",
+      "readyForImport": "L'élément est prêt à l'importation",
+      "completeImport": "Importation complète ({n} élément)",
+      "importErrorTitle": "Importation échoué",
+      "encounterImportErrorText": "Échec de l'importation d'une rencontre: {error}",
+      "v2BackupTitle": "Importé vers une sauvegarde de données V2",
+      "v2BackupText": "{count} rencontre sauvegardée vers une importation V2 pour importation ultérieure. | {count} rencontres sauvegardées vers une importation V2 pour importation ultérieure."
+    },
+    "sync": {
+      "syncCompleteText": "{itemType} {name} synchronisé.",
+      "syncFailedText": "Échec pour synchroniser {itemType}{name}. {err}"
+    },
+    "campaign": {
+      "managedIn": "Les campagnes importées sont gérées dans la {library}",
+      "yourCampaigns": "Vos campagnes",
+      "versionLabel": "v{version}",
+      "unpublished": "Non publiée",
+      "permanentDeletion": "Suppression définitive",
+      "deleteWarn1": "Cette campagne sera {strong}. Cette action ne peut pas être annulée. Si vous êtes certain de vouloir supprimer",
+      "permanentlyDeleted": "supprimé définitivement",
+      "deleteWarn2": "saisissez le titre de la campagne dans le champ textuel ci-dessous et cliquez {confirm}.",
+      "deletePermanently": "Supprimer la campagne définitivement",
+      "importJsonTitle": "Importer les données JSON de la campagne",
+      "importHelp": "Cet outil importera un {jsonFile} de campagne modifiable et non publiée depuis votre appareil.{br} Pour importer un fichier de campagne publiée avec l'extension {lcd} dans votre collection, utilisez l'outil d'importation de fichier dans le menu {campaignCollection}, ou l'outil d'importation de campagne dans le {manageContent} en dessous du menu principal.",
+      "jsonFile": "Fichier JSON",
+      "lcdExt": ".lcd",
+      "campaignCollection": "Collection de campagne",
+      "addSectionBtn": "Ajouter une section",
+      "campaignInfo": "Information de la campagne",
+      "saveCampaign": "Sauvegarder la campagne",
+      "exportCampaign": "Exporter la campagne",
+      "currentPublishedVersion": "Version publiée actuelle",
+      "exportEditableHelp": "Vous pouvez exporter cette campagne modifiable comme un fichier JSON pour la sauvegarder, la transférer ou la modifier collaborativement.",
+      "publishCampaign": "Publier la campagne",
+      "exportCampaignJson": "Exporter le JSON de campagne",
+      "returnToIndex": "Retour à l'index",
+      "major": "Majeur",
+      "minor": "Mineur",
+      "patch": "Correctif",
+      "versionExists": "La version {version} existe déjà!",
+      "publishNewVersion": "Publier une nouvelle version",
+      "latestVersion": "Dernière version",
+      "latestChanges": "Dernières modifications",
+      "exportLcdHelp": "Télécharger un fichier de distribution de campagne Lancer (.lcd) qui peut être importé dans le @:{'common.appName'} d'un autre utilisateur",
+      "saveLocal": "Sauvegarder vers une collection locale",
+      "saveLocalHelp": "Sauvegarder comme une copie en lecture seule de cette campagne dans votre bibliothèque locale de campagne pour utilisation en mode actif ou en jeu en ligne",
+      "copyShareCodeHelp": "Copiez le code de partage de cette campagne dans votre presse-papier. Les codes de partage peuvent être utilisées pour importer cette campagne dans une autre instance @:{'common.appName'} compcon.",
+      "generateShareCode": "Générer un code de partage",
+      "generateShareCodeHelp": "Téléverser cette campagne dans le dépôt en ligne pour générer un code de partage permettant aux autres utilisateurs d'importer cette campagne dans leur instance @:{'common.appName'}. Générer un code de partage mettra automatiquement à jour le dépôt avec la dernière version de cette campagne chaque d'une nouvelle version est publiée.",
+      "changeSectionType": "Changer le type de section",
+      "movePage": "Déplacer page",
+      "moveToTop": "déplacer au sommet",
+      "moveUp": "déplacer vers le haut",
+      "moveDown": "déplacer vers le bas",
+      "moveToBottom": "déplacer au fond",
+      "deletePageConfirm": "Voulez vous supprimer le {type} \"{title}\" ? Cette action ne peut pas être annulée.",
+      "selectEncounter": "Sélectionner rencontre"
+    },
+    "encounter": {
+      "combatantAddedTitle": "{name} ajouté",
+      "combatantAddedText": "Une instance de {name} a été ajouté à {encounterName}."
+    },
+    "labels": {
+      "heading": "Étiquettes de MJ",
+      "labels": "Étiquettes",
+      "label": "Étiquette",
+      "valueOptional": "Valeur (optionnel)",
+      "addLabel": "Ajouter une étiquette",
+      "sortAlphabetically": "Trier alphabétiquement",
+      "sortByUsage": "Trier par utilisation",
+      "noLabelsAvailable": "Aucune étiquette disponible",
+      "noLabels": "Aucune étiquette"
+    },
+    "stats": {
+      "noStats": "Aucune statistique à afficher",
+      "resetConfirm": "Ceci réinitialisera toutes les statistiques aux valeurs par défaut du T{tier} {name}. Êtes vous certain?",
+      "confirmResetStats": "Confirmer la réinitialisation des statistiques",
+      "addStat": "Ajouter statistique",
+      "custom": "Personnalisé",
+      "statCountSuffix": "{n} statistique | {n} statistiques"
+    },
+    "editorFooter": {
+      "mustLogin": "Vous devez être connecté pour mettre à jour"
+    },
+    "sectionEditor": {
+      "confirmDelete": "Voulez vous supprimer l'élément de texte \"{title}\"? Cette action ne peut pas être annulée.",
+      "addSection": "Ajouter une nouvelle section de texte"
+    },
+    "editorBase": {
+      "descriptionHeading": "Description de {type}"
+    },
+    "relationships": {
+      "addRelationship": "Ajouter une relation",
+      "linkedEntities": "Entité liée",
+      "label": "Relations"
+    },
+    "folder": {
+      "collectionFolder": "Dossier de collection",
+      "noFolder": "Pas de dossier"
+    },
+    "organizer": {
+      "itemCount": "{n} éléments"
+    },
+    "filter": {
+      "filters": "Filtres",
+      "showItemsWith": "Montrer les éléments avec",
+      "hideItemsWith": "Masquer les éléments avec",
+      "showAll": "Tout montrer",
+      "hideAll": "Tout masquer",
+      "clearAllFilters": "Retirer tous les filtres"
+    },
+    "split": {
+      "itemsHidden": "{n} éléments masqués par les filtres",
+      "addType": "Ajouter {type}",
+      "createNewType": "Créer un nouveau {type}"
+    },
+    "itemCard": {
+      "tierShort": "T{tier}",
+      "classLabel": "Classe {class}"
+    },
+    "noItem": {
+      "missingContent": "Contenu de MJ manquant",
+      "noItemSelected": "Aucun élément sélectionné"
+    },
+    "narrative": {
+      "additionalDetail": "Détail additionnel",
+      "viewCollections": "Afficher les collections",
+      "itemTypePlural": "{type}s"
+    },
+    "print": {
+      "othersCount": "(+{n} autres)"
+    },
+    "overview": {
+      "bannerImage": "Bannière de la campagne",
+      "setBannerImage": "Insérer une bannière",
+      "imagesMustLink": "Les images de la campagne doivent provenir d'un lien, et ne peuvent pas provenir de données @:{'common.appName'} locales.",
+      "recommendedFor": "Recommandé pour",
+      "to": "vers",
+      "authorContact": "Information de contact de l'auteur (optionnel)",
+      "addContact": "Ajouter nouveau contact",
+      "coverImage": "Image de couverture de la campagne",
+      "setCoverImage": "Insérer une image de couverture",
+      "deleteHistory": "Supprimer l'historique (v.{ver})"
+    },
+    "pageContent": {
+      "h1": "H1",
+      "h2": "H2",
+      "h3": "H3",
+      "h4": "H4",
+      "hideTitle": "Masquer le titre",
+      "block": "Bloc",
+      "quote": "Citation",
+      "themeAwareColors": "Couleurs adaptées au thème",
+      "palette": "Palette",
+      "themeColorsHelp": "Ces couleurs changeront en fonction du thème de @:{'common.appName'} sélectionné par l'utilisateur",
+      "paletteColorsHelp": "Ces couleurs changent {strong} en fonction du thème de @:{'common.appName'} sélectionné par l'utilisateur",
+      "deleteItemConfirm": "Voulez vous supprimer cet élément? Cette action ne peut pas être annulée.",
+      "noImage": "Pas d'image"
+    },
+    "narrativeLink": {
+      "noElementSelected": "Aucun élément sélectionné",
+      "noEncounterSelected": "Aucune rencontre sélectionnée",
+      "linkedHelp": "Cet élément est actuellement liée à un élément narratif de votre collection de MJ. Lorsque des modifications sont faites sur l'élément liée, cet élément recevra des mises à jour automatiquement. Cliquez sur le bouton pour délier cet élément de la collection de MJ et le garder comme un élément instancié dans vos données de campagne.",
+      "relinkHelp": "Pour relier cet élément, sélectionnez-le dans le menu \"Insérer un élément narratif\".",
+      "notLinkedHelp": "Cet élément n'est pas lié à un élément narratif dans votre collection de MJ et ne recevra pas de mise à jour automatique, mais il sera sauvegardé comme un élément instancié dans les données de campagne.",
+      "linkHelp": "Pour lier cet élément à un élément narratif, sélectionnez le dans le menu \"Insérer un élément narratif\".",
+      "unlinkElement": "Délier l'élément",
+      "setNarrativeElement": "Insérer un élément narratif"
+    },
+    "encounterContent": {
+      "map": "Carte"
+    },
+    "landing": {
+      "toolkit": "Outils de MJ"
+    },
+    "combatant": {
+      "combatants": "Combattants",
+      "addNpc": "Ajouter PNJ",
+      "selectNpc": "Sélectionner PNJ",
+      "currentlyEditing": "En cours d'édition",
+      "uniqueInstanceHelp": "Ceci est une instance unique de ce PNJ lié aux données de cette rencontre. Modifier ce PNJ n'affectera les données de PNJ originales.",
+      "linkedSource": "La source de l'instance de ce PNJ est présent dans votre roster de PNJ ({name}) et peut recevoir des mises à jour depuis l'original",
+      "notLinkedSource": "Cette instance de PNJ n'est pas lié à une source valide dans votre roster de PNJ",
+      "notLinkedSourceDot": "Cette instance de PNJ n'est pas lié à une source valide dans votre roster de PNJ.",
+      "sourceLinked": "Source liée",
+      "sourceUnavailable": "Source non disponible",
+      "instanceSource": "Source de l'instance",
+      "change": "Modification",
+      "thisInstance": "Cette instance",
+      "source": "Source",
+      "updateInstanceTooltip": "Mettez à jour cette propriété d'instance à la source",
+      "updateAllTooltip": "Mettez à jour toutes les propriétés d'instance à la source",
+      "noChanges": "Aucune modification",
+      "pcsCount": "({n}+ Pjs)",
+      "clickToEdit": "Cliquez pour modifier",
+      "atPcCountHelp": "Ce PNJ sera marqué comme faisant parti de la rencontre seulement il y a au moins autant de personnages joueurs qu'indiqué. Laissez cette section vide indiquera qu'il fera parti de la rencontre quelque soit le nombre de PJs.",
+      "addToRoster": "Copier vers le roster",
+      "addToRosterTooltip": "Ajouter une copie de ce PNJ à votre roster et lier cette instance à cette nouvelle entrée du roster."
+    },
+    "encounterEditor": {
+      "editorHeading": "Éditeur de rencontre",
+      "details": "Détails de la rencontre",
+      "noMapData": "Aucune donnée de carte",
+      "additionalNotes": "Notes supplémentaires"
+    },
+    "sitrep": {
+      "presets": "Préréglages",
+      "myPresets": "Mes préréglages",
+      "savePreset": "Sauvegarder un préréglage",
+      "deletePresetConfirm": "Supprimer le préréglage \"{name}\"? Ceci ne peut pas être annulé."
+    },
+    "environment": {
+      "modifiedWarning": "Cet environnement a été modifié. Charger un nouveau préréglage supprimera ces modifications. Êtes vous certain de vouloir continuer?"
+    },
+    "encPrint": {
+      "enemies": "Ennemis",
+      "allies": "Alliés",
+      "atLeastPcs": "A partir de {count} PJs ou plus",
+      "npcTracking": "Suivi des PNJs",
+      "pcsAllies": "PJs/alliés"
+    },
+    "encounterIndex": {
+      "addFolder": "Ajouter un dossier",
+      "addNew": "Ajouter une nouvelle rencontre"
+    },
+    "combatantSelector": {
+      "selectNpc": "Sélectionner un PNJ"
+    },
+    "encImport": {
+      "notEncounterFile": "Le fichier sélectionné ne contient pas de données de rencontre.",
+      "readyForImport": "La rencontre est prête pour l'importation",
+      "missingNpcs": "Cette rencontre référence des PNJs qui n'ont pas encore été importés. Elle sera sauvegardée dans la collection des importations V2 dans le gestionnaire de contenu et peut être importés une fois que les PNJs requis seront disponibles.",
+      "someMissingNpcs": "Plusieurs rencontres référencent des PNJs qui n'ont pas encore été importés. Elles seront sauvegardées dans la collection des importations V2 dans le gestionnaire de contenu et peuvent être importées une fois que les PNJs requis seront disponibles.",
+      "importCount": "Importer ({n} rencontre {plural})"
+    },
+    "gmNotes": "Notes de MJ",
+    "npcFeature": {
+      "selectedClass": "Classe sélectionnée",
+      "otherNpcClasses": "Autres classes de PNJ"
+    },
+    "npcTemplate": {
+      "cannotAssign": "Ne peut pas être assigné (En conflit avec {conflict})"
+    },
+    "tier": {
+      "changeTo": "Modifier en Tier {n}",
+      "detectedEdits": "@:{'common.appName'} a détecté des valeurs de statistiques modifiées. Comment voulez vous procéder?"
+    },
+    "eidolon": {
+      "layers": "Couches",
+      "addLayer": "Ajouter une couche",
+      "addRandomLayer": "Ajouter une couche aléatoirement",
+      "noLayers": "pas de couches"
+    },
+    "layerSelector": {
+      "noData": "Aucune donnée d'Eidolon trouvé!",
+      "help1": "Les Eidolons sont inclus dans le livre de campagne No Room for a Wallflower et ne sont donc pas incluses avec @:{'common.appName'} par défaut. Vous pouvez trouver les Eidolons en tant que contenu supplémentaire sur la {link} page du livre de campagne.",
+      "linkText": "No Room for a Wallflower",
+      "help2": "Si vous avez déjà téléchargé les données des Eidolons, vous pouvez les importer dans @:{'common.appName'} via le gestionnaire de contenu disponible dans le menu principal ou le menu des options sur le côté droit de la barre de navigation."
+    },
+    "eidolonData": {
+      "noData": "Aucune données d'éditeur d'Eidolon trouvé!",
+      "help1": "Les Eidolons sont inclus avec la version payante de No Room for a Wallflower: Acte 1, et peut être trouvé dans la section du contenu téléchargeable sur le {link}",
+      "linkText": "Page itch.io de No Room for a Wallflower: Acte 1.",
+      "help2": "Si vous avez déjà téléchargé le LCP de MJ de No Room for a Wallflower, vous pouvz l'importer dans @:{'common.appName'} via le gestionnaire de contenu disponible dans le menu principal ou le menu des options sur le côté droit de la barre de navigation."
+    },
+    "npcBuilder": {
+      "npcClass": "Classe de PNJ",
+      "noClass": "Pas de classe de PNJ",
+      "setClass": "Définir classe de PNJ"
+    },
+    "npcFeatures": {
+      "saveConfig": "Sauvegarder la configuration"
+    },
+    "eidolonPrint": {
+      "classLabel": "Classe {class}"
+    },
+    "npcEditor": {
+      "v2Export": "Exportation V2"
+    },
+    "titles": {
+      "setGmLabel": "Définir étiquette de MJ",
+      "addSubsection": "Ajouter une sous-section",
+      "addMission": "Ajouter une mission",
+      "addCombat": "Ajouter un combat",
+      "textSection": "Section de texte",
+      "image": "Image",
+      "rollableTable": "Table aléatoire",
+      "narrativeElement": "Élément narratif",
+      "combatEncounter": "Rencontre de combat",
+      "setMapImage": "Insérer image de la carte",
+      "missingNpcs": "PNJs manquants",
+      "eidolons": "Eidolons",
+      "confirmTierChange": "Confirmer modification de Tier",
+      "selectImage": "sélectionner une image",
+      "environmentDataModified": "données d'environnement modifiées",
+      "deletePreset": "supprimer le préréglage",
+      "organizeEncounters": "organiser les rencontres",
+      "selectNpcClass": "sélectionner une classe de PNJ"
     }
   },
   "language": {
@@ -211,37 +520,83 @@
       "about": "À propos",
       "credits": "@:{'common.credits'}",
       "help": "Aide",
-      "quickReference": "Pense-bête"
+      "quickReference": "Pense-bête",
+      "supportCompcon": "Support @:{'common.appName'}"
     },
     "packConfig": {
       "addLcp": "Ajouter LCP",
       "createConfig": "Créer configuration",
       "deleteConfig": "Supprimer cette configuration",
-      "editConfig": "Éditer cette configuration"
+      "editConfig": "Éditer cette configuration",
+      "title": "Configurations de contenu",
+      "description": "La configuration de contenu vous permets de créer et gérer des lots de LCPs qui peuvent être appliqués aux pilotes et PNJs qui autorisent ou limitent la sélection à un contenu spécifique. Les pilotes et PNJs sans configuration auront accès à les LCPs installés et activés",
+      "applyNote": "Ces configurations peuvent être appliqués aux pilotes et PNJs dans leurs menus d'options.",
+      "noConfigs": "Aucune configuration trouvée.",
+      "lcpsInConfig": "LCPs dans cette configuration",
+      "noLcpsPrefix": "Aucun LCP ajouté. Seul le contenu du",
+      "lancerCoreBook": "@:{'ui.missing.lancerCoreBook'}",
+      "willBeAvailable": "sera disponible.",
+      "coreBookOnly": "Contenu du Lancer Core Book uniquement",
+      "byAuthor": "@:{'common.byAuthor'}",
+      "lcpsSuffix": "{list} LCPs"
     },
     "packInfo": {
       "v2ContentTitle": "Contenu V2",
       "dependencies": "Dépendances",
       "authorsWebsite": "Site de l'auteur",
-      "dependencyInstalled": "Dépendance installée"
+      "dependencyInstalled": "Dépendance installée",
+      "contentHeading": "Contenu",
+      "changelog": "@:{'common.changelog'}",
+      "noDescription": "@:{'ui.widget.noDescription'}",
+      "none": "@:{'common.none'}",
+      "version": "@:{'common.version'}"
     },
     "communityTable": {
       "notInstalled": "Non installé",
       "free": "Gratuit",
-      "currentVersion": "Version actuelle"
+      "currentVersion": "Version actuelle",
+      "subscribedTooltip": "Actuellement abonné aux dernières mises à jour. Cliquez pour vous désabonner",
+      "subscribeTooltip": "Cliquez pour autoriser @:{'common.appName'} à mettre à jour ce LCP dès qu'une nouvelle version est publiée",
+      "payWhatYouWant": "Payez ce que vous voulez",
+      "itchStorePage": "Page de vente itch.io",
+      "authorsWebsite": "@:{'nav.packInfo.authorsWebsite'}"
     },
     "v2Auto": {
       "v2Data": "Données V2",
       "migrationTitle": "Migration des données V2",
       "downloadBackup": "Télécharger une sauvegarde des données V2",
-      "downloadBackupTooltip": "Ce fichier .compcon peut être utiliser sur la V2 sur https://old.compcon.app. Il peut être téléchargé à tout moment depuis le menu des Options"
+      "downloadBackupTooltip": "Ce fichier .compcon peut être utiliser sur la V2 sur https://old.compcon.app. Il peut être téléchargé à tout moment depuis le menu des Options",
+      "autoMigrated": "Vos données V2 ont été migrées automatiquement vers la V3",
+      "pilotsImported": "{count} pilote importé | {count} pilotes importés",
+      "pilotsPending": "{count} pilote en attente (LCPs manquants) | {count} pilotes en attente (LCPs manquants)",
+      "npcsImported": "{count} PNJ importé | {count} PNJs importés",
+      "npcsPending": "{count} PNJ en attente (LCPs manquants) | {count} PNJs en attente (LCPs manquants)",
+      "encountersPending": "{count} rencontre en attente (PNJs manquants) | {count} rencontres en attente (PNJs manquants)",
+      "errorsDuringMigration": "{count} erreur pendant la migration | {count} erreurs pendant la migration"
     },
     "search": {
       "searchResults": "résultats de la recherche",
-      "recentSearches": "recherches récentes"
+      "recentSearches": "recherches récentes",
+      "search": "@:{'common.search'}"
     },
     "migrationRepair": {
-      "colCategory": "Catégorie"
+      "colCategory": "Catégorie",
+      "dialogTitle": "Réparation des données migrées",
+      "buttonLabel": "Outils de réparation de la migration",
+      "buttonTooltip": "Scan et réparation des problèmes communs avec les données V2 migrées.",
+      "scanning": "Scan des données…",
+      "noIssues": "Aucun problème de migration trouvé.",
+      "colItem": "@:{'common.item'}",
+      "colIssue": "Problème",
+      "colFixable": "Réparable",
+      "manualActionRequired": "Action manuelle requise",
+      "cancel": "@:{'common.cancel'}",
+      "catFlavorText": "Texte d'ambiance",
+      "catLcpOrigin": "Origine du LCP",
+      "catNpcStats": "Statistique de PNJ",
+      "foundFixable": "A trouvé {count} problème résolvable | A trouvé {count} problèmes résolvables",
+      "andRequiringManual": " et {count} problème requérant une action manuelle | et {count} problèmes requérant une action manuelle",
+      "applyFixesButton": "Application de {count} résolution | Application de {count} résolutions"
     },
     "settings": {
       "title": "@:{'common.settings'}",
@@ -264,6 +619,222 @@
       "moreCount": "+{count} supplémentaires",
       "deleteTitle": "Supprimer la sauvegarde de données",
       "deleteConfirm": "Supprimer cette sauvegarde de données V2 en attente? Cette action ne peut être annulée."
+    },
+    "about": {
+      "title": "@:{'common.appName'}",
+      "ccVersion": "Version de C/C",
+      "lancerCoreVersion": "Version Core de @:{'common.gameName'}",
+      "description": "@:{'common.appName'} est un assistant de jeu, libre et gratuit, pour préparer et jouer au jeu de rôle @:{'common.gameName'}.",
+      "coreBookInfo": "Le livre de règles de @:{'common.gameName'}, @:{'common.appName'}, et les contenus associés peuvent être trouvés sur"
+    },
+    "help": {
+      "faq": "Foire aux Questions",
+      "troubleshootingFaq": "FAQ des dépannages",
+      "reportBug": "Signaler un bug",
+      "suggestFeature": "Suggérer une fonctionnalité",
+      "discussionForum": "Forum de discussion",
+      "projectWiki": "Wiki du projet",
+      "quickFaq": "FAQ brève",
+      "whereAreNpcs": "Où sont les PNJs ?",
+      "howToAddContent": "Comment j'ajoute le contenu des suppléments de Lancer à @:{'common.appName'}?",
+      "howToSeeExotics": "Où puis-je voir les équipements exotiques dans le Compendium ?",
+      "cloudAccountFaq": "Dois-je payer pour créer un profil @:{'common.appName'} en ligne?",
+      "additionalHelp": "Pour plus d'aide",
+      "whereAreNpcsBody": "Si vous avez acheté le Lancer Core Book, vous trouverez un fichier téléchargeable qui contient toutes les données des PNJs sur la page itch.io du Lancer Core Book, auquel vous pouvez accéder via le gestionnaire de contenu. Vous pouvez utiliser l'onglet {installLcp} dans le gestionnaire de contenu pour importer le fichier et commencer à créer et mener des affrontements.",
+      "installLcpTab": "Installer un LCP",
+      "howToAddContentBody": "Le contenu officiel de @:{'common.gameName'} peut être trouvé sur {itchLink}. Le LCP des contenus des joueurs pour @:{'common.appName'} peut être trouvé dans la section {downloadDemo} de toutes les publications de Massif Press; Le contenu du MJ (i.e. les PNJs) peut être acheté avec la version PDF. Les liens vers ces contenus (et d'autres contenus de la communauté mises en avant ) peuvent être trouvé dans l'onglet {lcpDirectory} du gestionnaire de contenu.",
+      "itchPageText": "Page itch.io de Massif Press",
+      "downloadDemo": "Télécharger la démo",
+      "lcpDirectory": "@:{'common.lcpDirectory'}",
+      "howToSeeExoticsBody": "Pour éviter de divulgâcher les joueurs, @:{'common.appName'} masque par défaut les équipements exotiques. Pour les rendre visible, vous pouvez utiliser le menu {options} de @:{'common.appName'} et l'activer avec le bouton {showExoticsToggle}.",
+      "optionsLabel": "@:{'common.options'}",
+      "showExoticsToggleLabel": "\"Montrez les équipements exotiques dans le Compendium\"",
+      "additionalHelpBody": "La {faqLink} peut avoir la réponse à vos questions! Si malgré tout vous ne trouvez pas ce que vous cherchez, n'hésitez pas à passer sur {discordLink} (et spécifiquement le canal #comp-con channel) avec vos questions ou commentaires pour les développeurs.",
+      "faqLinkText": "FAQ @:{'common.appName'}",
+      "discordLinkText": "Le discord non officel de @:{'common.gameName'}"
+    },
+    "credits": {
+      "lancerBy": "@:{'common.gameName'} par",
+      "compconBy": "@:{'common.appName'} par",
+      "with": "Avec",
+      "graphicDesignBy": "Design graphique par",
+      "additionalArtBy": "Illustrations supplémentaires par",
+      "patronThanks": "Le développement continu de @:{'common.appName'} ne serait pas possible sans les généreux",
+      "supportOf": "de",
+      "tier": "@:{'common.tier'}",
+      "anonymousPatron": "Donateurs anonymes"
+    },
+    "achievements": {
+      "hidden": "@:{'common.hidden'}",
+      "sort": "Trier",
+      "unlocked": "Débloqué",
+      "byRarity": "Par rareté",
+      "byLabel": "Par étiquette",
+      "secretAchievements": "Succès secrets",
+      "discovered": "Découvert",
+      "common": "Commun",
+      "epic": "Épique",
+      "legendary": "Légendaire",
+      "mythic": "Mythique",
+      "locked": "Bloqué",
+      "selectAll": "@:{'common.selectAll'}",
+      "none": "@:{'common.none'}",
+      "name": "@:{'common.name'}",
+      "rarity": "Rareté",
+      "dateUnlocked": "Date de déblocage",
+      "notShown": "Masqué",
+      "createBackup": "Créer une sauvegarde des succès",
+      "loadBackup": "Charger une sauvegarde des succès",
+      "overwriteAllWarning": "Tout écraser",
+      "eraseAllWarning": "Tout effacer",
+      "selectExportFile": "Sélectionner le fichier d'exportation des succès @:{'common.appName'}",
+      "resetAchievements": "Réinitialiser les succès",
+      "cannotAddTitle": "Ne peut pas ajouter de succès",
+      "cannotAddText": "Code invalide ou déjà débloqué",
+      "progress": "{count} sur {total} débloqué",
+      "othersCount": "(+{count} autres)",
+      "hiddenCount": "{count} succès masqué | {count}succès masqués"
+    },
+    "settingsPage": {
+      "showUpdateMessages": "Montrer les notes de mise à jour",
+      "showExoticsLabel": "Montrer les équipements exotiques dans le Compendium",
+      "showDesktopTablesLabel": "Forcer l'affichage de bureau des tables du Compendium",
+      "showDesktopTablesTooltip": "Par défaut, @:{'common.appName'} montre une version simplifié des tables du Compendium sur les appareils mobiles pour améliorer leur lisibilité et leur performance. Activer cette option forcera l'affichage en mode bureau sur tous les appareils. Cela peut rendre certaines tables difficiles à lire ou causer des problèmes de performances sur les appareils mobiles.",
+      "showExoticsTooltip": "Activer cette option peut divulgâcher une campagne et il est recommandé de laisser ce paramètre DÉSACTIVÉ si vous n'êtes pas le MJ",
+      "theme": "Thème",
+      "font": "Police de caractère",
+      "logLevelLabel": "@:{'common.logLevel'}",
+      "errorReporting": "Rapport d'erreur",
+      "logLevel": "@:{'common.logLevel'}",
+      "errorReportingPrefix": "Rapport d'erreur",
+      "enhancedReportingPrefix": "Rapport d'erreur avancé",
+      "enabled": "activé",
+      "disabled": "désactivé",
+      "errorReportingTooltip": "Les rapports d'erreurs permettent l'envoi de données d'erreur anonymes au développeur pour identifier et résoudre des bugs et autres problèmes.",
+      "errorReportingPiiNote": "Aucune information personnelle identifiable n'est collecté à ce niveau.",
+      "enhancedReportingTooltip": "Les rapports d'erreur avancés envoient au développeur des données supplémentaires, incluant {nonAnon}. Toutes les autres informations personnelles identifiables sont expurgées avant la transmission. Ceci est {notNecessary} à moins que vous ne travailliez activement avec le développeur pour résoudre un problème spécifique et avez été demandé d'activer ce paramètre.",
+      "enhancedReportingPiiNote": "informations non anonyme, spécifiquement l'adresse IP et l'identifiant d'utilisateur",
+      "enhancedReportingNotNecessary": "non nécessaire",
+      "enhancedReportingStatus": "Rapport d'erreur avancé {status}",
+      "communityThemesBy": "Thèmes communautaires par {vialra}{asger}{thecrystalwoods} et {suji}",
+      "importStrategy": "// Stratégie d'importation",
+      "createBackup": "Créer une sauvegarde des données",
+      "createBackupTooltip": "@:{'common.appName'} repose sur le stockage sécurisé de votre navigateur pour sauvegarder et charger ses données. Généralement, ces données sont à l'abri d'une suppression, mais certains paramètres de navigateurs peuvent parfois les effacer, résultant en la perte des vos données @:{'common.appName'}. Il est de bon usage de sauvegarder régulièrement vos données de temps en temps.",
+      "downloadV2Backup": "Télécharger la sauvegarde des données V2",
+      "downloadV2Tooltip": "@:{'common.appName'} a créé une sauvegarde complète de vos données @:{'common.appName'} V2. Ils peuvent être importé dans la version V2 sur old.compcon.app.",
+      "loadBackup": "Charger la sauvegarde des données",
+      "loadBackupTooltip": "Les fichiers .compcon sont des fichiers d'exportations contenant l'intégralité de vos données locales en un seul fichier. Vous pouvez créer un fichier de sauvegarde .compcon en utilisant le bouton \"Créer une sauvegarde des données\". Utilisez cette option pour charger un fichier de sauvegarde .compcon que vous avez créé ou obtenu d'une autre source. Il est recommandé de créer une sauvegarde avant de charger un fichier .compcon, surtout si le fichier d'une autre source.",
+      "mergeStrategy": "Fusionner avec les données existantes",
+      "overwriteStrategy": "Écraser toutes les données existantes",
+      "mergeWarning": "@:{'common.appName'} va essayer de fusionner les données importées avec vos données existantes.",
+      "overwriteWarning": "Écraser remplacera toutes les données locales existantes avec les données du fichier importé et ne peut pas être annulé. Il est fortement recommandé de créer une sauvegarde avant d'utiliser cette option.",
+      "selectBulkFile": "Sélectionner le fichier d'export .compcon",
+      "v2BackupDetected": "Sauvegarde de données V2 détectée",
+      "importV2Backup": "Importer une sauvegarde de données V2",
+      "confirmImport": "@:{'common.confirmImport'}"
+    },
+    "storage": {
+      "storageUsageFull": "@:{'common.appName'} utilise actuellement {used} sur {total}, ou {percent} de votre stockage disponible. Cela inclut l'espace réservé par @:{'common.appName'} pour la gestion de l'aplication.",
+      "neverAutoDeleteFull": "@:{'common.appName'} ne supprimera {never} automatiquement les données marqué pour suppression.",
+      "autoDeleteFull": "@:{'common.appName'} supprimera définitivement les données après avoir été marqué comme supprimé pour au moins {days}. Cela n'affectera pas les éléments non marqués pour suppression.",
+      "daysCount": "{count} jours.",
+      "deleteAllConfirm": "TOUT",
+      "storageSettings": "Paramètres de stockage",
+      "storageThresholds": "Limites de stockage",
+      "maxThresholdPct": "Limite maximale (%)",
+      "warningDescription": "@:{'common.appName'} affichera un message d'avertissement quand",
+      "maxDescription": "@:{'common.appName'} empêchera la création de nouvelles données après",
+      "ofAvailableStorage": "% du stockage disponible (",
+      "hasBeenUsed": ") aura été utilisé",
+      "autoDelete": "Supprime automatiquement",
+      "neverAutoDelete": "efface automatiquement les données marquées pour suppression.",
+      "deletedItems": "Éléments supprimés (données locales uniquement)",
+      "userData": "Données d'utilisateur",
+      "clearAllData": "@:{'common.clearAllData'}",
+      "deleteWarningBanner": "Alerte // alerte // alerte",
+      "areYouSure": "Êtes vous certain de vouloir continuer?",
+      "deleteAllUserData": "Supprimer toutes les données d'utilisateur"
+    },
+    "log": {
+      "logLevel": "@:{'common.logLevel'}",
+      "noData": "@:{'common.noData'}",
+      "exportLog": "Journal d'export",
+      "copiedToClipboard": "Entrée de journal copiée dans le presse-papier"
+    },
+    "deletedItems": {
+      "noItemsFound": "Aucun élément trouvé",
+      "itemType": "",
+      "deletedOn": "Supprimé le",
+      "restore": "@:{'common.restore'}",
+      "permanentlyDelete": "Supprimer définitivement",
+      "restoreAll": "Tout restaurer",
+      "permanentlyDeleteAll": "Tout supprimer définitivement"
+    },
+    "userDataViewer": {
+      "description": "Ce sont les données d'utilisateur sauvegardées localement. Ces éléments ne devraient généralement pas être réinitialisées, mais peuvent être utiles pour débugguer ou résoudre des problèmes persistants de chargement.",
+      "achievementNote": "Réinitialiser les données d'utilisateurs ne réinitialisera pas les succès débloqués (Cela peut être fait dans le menu des succès).",
+      "item": "@:{'common.item'}",
+      "value": "Valeur",
+      "resetUserData": "Réinitialiser les données d'utilisateur"
+    },
+    "packInstall": {
+      "selectFile": "Sélectionner un fichier .LCP",
+      "install": "Installer",
+      "willReplace": "Il va être remplacé par cette copie.",
+      "requiresContent": "Ce LCP requiert le contenu suivant pour être installé avant d'être ajouté",
+      "success": "Réussite",
+      "byAuthorVersion": "par {author} {'@'} {version}",
+      "byAuthorRequires": "Par {author} requiert",
+      "upgradeFromTo": "",
+      "noChange": "Aucun changement {from} à {to}",
+      "willUpgradeTo": "Il va être mis à jour à la v.{version}",
+      "willDowngradeTo": "Il va être mis à jour à la v.{version}"
+    },
+    "packsDirectory": {
+      "officialContent": "Officiel",
+      "content": "Contenu",
+      "massifPress": "MASSIF PRESS",
+      "communityContent": "Contenu communautaire de @:{'common.gameName'}",
+      "communityContribute": "Si vous êtes intéressé par la création de votre propre contenu @:{'common.gameName'} maison, ou la présentation de votre contenu dans ce répertoire, merci",
+      "clickHere": "de cliquer ici.",
+      "developmentBlog": "blog de développement"
+    },
+    "cloudNotifications": {
+      "dismissAll": "Masquer toutes les notifications",
+      "noRecentUpdates": "Aucune mise à jour récente"
+    },
+    "achievementItem": {
+      "dataRedacted": "Données expurgées",
+      "hiddenNote": "Ce succès est masqué et ne sera révélé qu'une fois débloqué",
+      "secretLabel": "Succès secret",
+      "unlockedLabel": "Débloqué",
+      "createdBy": "Créé par"
+    },
+    "optionsPage": {
+      "tabSettings": "@:{'common.settings'}",
+      "tabStorage": "Stockage",
+      "tabLog": "Journal"
+    },
+    "packsList": {
+      "activated": "activé",
+      "deactivated": "désactivé",
+      "toggleErrorText": "Impossible d'activer le LCP: {error}"
+    },
+    "v2ImportNotify": {
+      "reimportSuccessText": "{count} élément importés avec succès. | {count} éléments importés avec succès.",
+      "reimportPendingText": "{count} élément en attente avec du contenu manquant. | {count} éléments en attente avec du contenu manquant.",
+      "noItemsToReimport": "Aucun élément à ré-importer.",
+      "reimportFailedText": "Ré-importation échoué: {error}",
+      "missingDependencies": "Les dépendances manquantes ne sont pas encore disponibles.",
+      "importedSuccessfully": "Importé avec succès.",
+      "importFailedText": "Importation échoué: {error}",
+      "forceImportComplete": "Forcer l'importation complète.",
+      "forceImportFailedText": "Importation forcé échoué: {error}"
+    },
+    "alt": {
+      "netlifyStatus": "Statut Netlify",
+      "joinTheLancerDiscord": "Rejoignez le discord LANCER",
+      "supportCompconOnPatreon": "Soutenez @:{'common.appName'} sur Patreon"
     }
   }
 }
