@@ -1,1 +1,6 @@
-{}
+{
+  "act_bolster.special_0.detail": "Recibe +2 Precisión en la próxima prueba de habilidad o salvación que hagas.",
+  "act_bolster.terse": "Mejora los sistemas de otro personaje.",
+  "act_boost.terse": "Toma un movimiento extra de al menos 1 espacio, hasta tu VELOCIDAD.",
+  "act_invade.name": "Invadir"
+}

@@ -772,7 +772,7 @@
       "additionalDetail": "Additional detail",
       "clocks": "Clocks",
       "viewCollections": "View Collections",
-      "itemTypePlural": "{type}s"
+      "itemTypePlural": "{type}"
     },
     "print": {
       "othersCount": "(+{n} others)"
@@ -891,7 +891,7 @@
       "readyForImport": "Encounter is ready for import",
       "missingNpcs": "This encounter references NPCs that have not been imported yet. It will be saved to the v2 Imports collection in the Content Manager and can be imported once the required NPCs are available.",
       "someMissingNpcs": "Some encounters reference NPCs that have not been imported yet. These encounters will be saved to the v2 Imports collection in the Content Manager and can be imported once the required NPCs are available.",
-      "importCount": "Import ({n} Encounter{plural})"
+      "importCount": "Import ({n} Encounter) | Import ({n} Encounters)"
     },
     "gmNotes": "GM notes",
     "npcFeature": {
@@ -899,7 +899,7 @@
       "allAvailableFeatures": "All Available Features",
       "allAssignedFeatures": "All Assigned Features",
       "selectedClass": "Selected class",
-      "selectedTemplate": "Selected template{plural}",
+      "selectedTemplate": "Selected template | Selected templates",
       "nameFeatures": "{name} Features",
       "otherNpcClasses": "Other NPC Classes",
       "otherNpcTemplates": "Other NPC Templates",
@@ -2787,7 +2787,7 @@
       "availableMounts": "Available weapon mounts",
       "onboardCore": "Onboard core system",
       "integrations": "Integrations",
-      "systemPoints": "System point{plural}",
+      "systemPoints": "System point | System points",
       "profileActions": "Profile actions",
       "profileDeployables": "Profile deployables",
       "profileTags": "Profile tags",
@@ -2982,9 +2982,8 @@
       "rebuildConfirm": "Do you want to rebuild this table? This will clear out the current data. This action cannot be undone.",
       "confirmRebuild": "Confirm Rebuild",
       "deleteConfirm": "Do you want to delete this table? This action cannot be undone.",
-      "multipleOnes": "Multiple 1{plural}",
-      "d": "D",
-      "pluralS": "s"
+      "multipleOnes": "Multiple 1s",
+      "d": "D"
     },
     "relationship": {
       "deleteConfirm": "Do you want to delete this relationship? This action cannot be undone."
@@ -3155,7 +3154,7 @@
   },
   "notify": {
     "dataItem": {
-      "bulkDeletedTitle": "{n} Item{s} Deleted",
+      "bulkDeletedTitle": "{n} Item Deleted | {n} Items Deleted",
       "bulkDeletedText": "Selected items have been deleted.",
       "bulkPartialTitle": "{n} Deleted, {f} Failed",
       "bulkPartialText": "Could not delete: {items}",

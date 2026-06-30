@@ -98,7 +98,7 @@
             prepend-icon="mdi-plus"
             :disabled="!selected.length"
             @click="importFile">
-            {{ $t('gm.encImport.importCount', { n: selected.length, plural: selected.length !== 1 ? 's' : '' }) }}
+            {{ $t('gm.encImport.importCount', { n: selected.length }, selected.length) }}
           </v-btn>
         </v-col>
       </v-row>

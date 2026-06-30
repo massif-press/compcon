@@ -40,7 +40,7 @@
             class="mt-n1 ml-n1"
             icon="cc:system_point" />
         </div>
-        <span class="text-overline">{{ $t('ui.card.systemPoints', { plural: item.SP > 1 ? 'S' : '' }) }}</span>
+        <span class="text-overline">{{ $t('ui.card.systemPoints', {}, item.SP) }}</span>
       </v-col>
       <v-col cols="auto"
         class="ml-auto text-right">

@@ -50,7 +50,7 @@
     "clear": "Limpar",
     "skipToMainContent": "Pular para o conteúdo principal",
     "mainMenu": "Menu Principal",
-    "pilotRoster": "Quadro de Pilotos",
+    "pilotRoster": "Pilotos",
     "compendium": "Compêndio",
     "manageContent": "Gerenciar Conteúdo",
     "campaignLibrary": "Biblioteca de Campanhas",
@@ -166,10 +166,10 @@
     "talents": "Talentos",
     "roll_verb": "Rolagem",
     "mech": "Mecha",
-    "roll_noun": "Rolagem",
+    "roll_noun": "Rolar",
     "background": "Antecedente",
     "changelog": "Registro de Mudanças",
-    "deployables": "Posicionáveis",
+    "deployables": "Implantáveis",
     "player": "Jogador",
     "hase_h": "C",
     "hase_a": "A",
@@ -278,7 +278,7 @@
       "mainMenu": "@:{'common.mainMenu'}",
       "compendium": "@:{'common.compendium'}",
       "pilotManagement": "Gerenciar Piloto",
-      "npcRoster": "Quadro de PNJs",
+      "npcRoster": "PNJs",
       "activeMode": "@:{'common.activeMode'}",
       "cloudAccount": "@:{'common.cloudAccount'}",
       "about": "Sobre",
@@ -330,7 +330,7 @@
       "notShown": "Não mostrar",
       "createBackup": "Criar Backup de Conquistas",
       "loadBackup": "Carregar backup de Conquistas",
-      "overwriteAllWarning": "Rescrever tudo",
+      "overwriteAllWarning": "Sobrescrever tudo",
       "eraseAllWarning": "Apagar tudo",
       "selectExportFile": "Selecionar arquivo de exportação de Conquistas do @:{'common.appName'}",
       "resetAchievements": "Resetar Conquistas",
@@ -344,7 +344,7 @@
       "cannotBeUndoneFull": "Isso {emphasis} não poderá ser desfeito. É altamente recomendado criar um backup antes.",
       "byRarity": "Por Raridade",
       "secretAchievements": "Conquistas Secretas",
-      "display": "Exibição",
+      "display": "Exibir",
       "common": "Comum",
       "rarity": "Raridade",
       "unlocked": "Desbloqueado(a)",
@@ -411,11 +411,11 @@
       "anonymousPatron": "Patrono Anônimo"
     },
     "deletedItems": {
-      "itemType": "Tipo do Item",
+      "itemType": "Tipo de Item",
       "itemName": "Nome do Item",
       "deletedOn": "Excluído em",
       "permanentlyDelete": "Excluir Permanentemente",
-      "restoreAll": "Restaurar Tudo",
+      "restoreAll": "Restaurar Todos",
       "permanentlyDeleteAll": "Excluir Tudo Permanentemente",
       "restore": "@:{'common.restore'}",
       "noItemsFound": "Nenhum item encontrado"
@@ -452,7 +452,7 @@
       "officialContent": "Oficial",
       "communityContent": "@:{'common.gameName'} Conteúdo da comunidade",
       "communityContentTitle": "@:{'common.gameName'} Pacotes de Conteúdo da Comunidade",
-      "clickHere": "Clica aqui.",
+      "clickHere": "clique aqui.",
       "developmentBlog": "Blog de desenvolvimento",
       "massifPress": "MASSIF PRESS",
       "communityAbout": "O @:{'common.appName'} tem orgulho de colaborar com a comunidade de @:{'common.gameName'} para disponibilizar estes pacotes de conteúdo não oficiais. Eles são oferecidos no estado em que se encontram, a critério do autor.",
@@ -462,7 +462,7 @@
     },
     "packConfig": {
       "title": "Configurações de Conteúdo",
-      "noConfigs": "Nenhuma configurações achada.",
+      "noConfigs": "Nenhuma configuração encontrada.",
       "addLcp": "Adicionar LCP",
       "createConfig": "Criar Configuração",
       "deleteConfig": "Excluir essa Configuração",
@@ -490,7 +490,7 @@
       "warningThresholdPct": "Alerta Limite (%)",
       "deleteWarningBanner": "Aviso// Aviso // Aviso",
       "cannotBeUndone": "ser desfeito.",
-      "areYouSure": "Voce tem certeza que quer continuar?",
+      "areYouSure": "Tem certeza de que quer continuar?",
       "deleteAllUserData": "Apagar todos Dado do Usuário",
       "maxThresholdPct": "Limite Máximo (%)",
       "warningThresholdMb": "Aviso de Limite (MB)",
@@ -512,7 +512,7 @@
       "caller": "Rastreamento",
       "exportLog": "Exportar Log",
       "copiedToClipboard": "Entrada de log copiada para a área de transferência",
-      "trace": "Rastreamento",
+      "trace": "Rastro",
       "noData": "@:{'common.noData'}"
     },
     "packInfo": {
@@ -533,11 +533,11 @@
       "v3Compatible": "Este pacote de conteúdo é compatível com a versão mais recente do @:{'common.appName'} e suporta os recursos da v3.",
       "v3Incompatible": "Este pacote de conteúdo usa o formato de conteúdo v2. Ele funcionará corretamente, mas não terá os recursos dos pacotes compatíveis com a v3. O @:{'common.appName'} não será capaz de gerenciar efeitos ou status deste pacote no Modo Ativo.",
       "notInstalled": "Não Instalado",
-      "openWebsite": "abrir site",
+      "openWebsite": "Abrir site",
       "subscribedTooltip": "Inscrição ativa para as atualizações mais recentes. Clique para cancelar a inscrição.",
       "subscribeTooltip": "Clique para permitir que o @:{'common.appName'} atualize este LCP sempre que uma nova versão for publicada",
       "payWhatYouWant": "Pague o Quanto Quiser",
-      "free": "Grátis",
+      "free": "Livre",
       "currentVersion": "Versão atual",
       "itchStorePage": "Pagina do itch.io",
       "authorsWebsite": "@:{'nav.packInfo.authorsWebsite'}"
@@ -564,8 +564,8 @@
     },
     "search": {
       "search": "@:{'common.search'}",
-      "searchResults": "Resultados da busca",
-      "recentSearches": "Buscas recentes"
+      "searchResults": "resultados da busca",
+      "recentSearches": "buscas recentes"
     },
     "migrationRepair": {
       "dialogTitle": "Reparo de Dados de Migração",
@@ -846,7 +846,7 @@
     },
     "cascade": {
       "alert": "Alerta de Cascata",
-      "pending": "Pedente",
+      "pending": "Pendente",
       "inCascade": "em Cascata"
     },
     "table": {
@@ -1166,7 +1166,7 @@
       "returnToIndex": "Voltar ao Índice",
       "notPublishedHelp": "Esta campanha não foi publicada. Publique a primeira versão desta campanha para exportar um pacote de campanha via arquivo ou código de compartilhamento.",
       "releaseFor": "Lançamento para",
-      "major": "Maior",
+      "major": "Major",
       "minor": "Menor",
       "patch": "Patch",
       "versionExists": "A versão {version} já existe!",
@@ -1196,10 +1196,10 @@
     },
     "labels": {
       "heading": "Etiquetas do Mestre",
-      "labels": "Etiquetas",
-      "label": "Etiqueta",
+      "labels": "Rótulos",
+      "label": "Rótulo",
       "valueOptional": "Valor (opcional)",
-      "addLabel": "Adicionar Etiqueta",
+      "addLabel": "Adiciona rótulo",
       "labelPalette": "Paleta de Etiquetas",
       "sortAlphabetically": "Ordenar Alfabeticamente",
       "sortByUsage": "Ordenar por Uso",
@@ -1233,9 +1233,9 @@
       "setLcpConfig": "Definir Config de LCP"
     },
     "relationships": {
-      "addRelationship": "Adicionar Relacionamento",
+      "addRelationship": "Adicionar Relação",
       "linkedEntities": "Entidades vinculadas",
-      "label": "Relacionamentos"
+      "label": "Relações"
     },
     "folder": {
       "collectionFolder": "Pasta da coleção",
@@ -1303,7 +1303,7 @@
       "palette": "Paleta",
       "themeColorsHelp": "Essas cores mudarão com base no tema do @:{'common.appName'} selecionado pelo usuário",
       "paletteColorsHelp": "Essas cores {strong} mudam com base no tema do @:{'common.appName'} selecionado pelo usuário",
-      "deleteItemConfirm": "Você deseja excluir este item? Esta ação não pode ser desfeita.",
+      "deleteItemConfirm": "Você tem certeza que quer remover isto? Esta ação não pode ser desfeita.",
       "noImage": "Sem Imagem"
     },
     "narrativeLink": {
@@ -1321,7 +1321,7 @@
       "map": "Mapa"
     },
     "landing": {
-      "toolkit": "Kit de ferramentas do Mestre"
+      "toolkit": "ferramentas de MJ"
     },
     "combatant": {
       "combatants": "Combatentes",
@@ -1421,7 +1421,7 @@
       "removeTemplate": "Remover Modelo",
       "assignTemplate": "Atribuir Modelo",
       "cannotAssign": "Não pode atribuir (conflita com {conflict})",
-      "selectNpcTemplate": "selecionar modelo de pnj"
+      "selectNpcTemplate": "selecionar modelo de PNJ"
     },
     "tier": {
       "changeTo": "Mudar para o Patamar {n}",
@@ -1438,9 +1438,9 @@
     },
     "eidolon": {
       "layers": "Camadas",
-      "addLayer": "adicionar camada",
+      "addLayer": "Adicionar nova Camada",
       "addRandomLayer": "Adicionar camada aleatória",
-      "noLayers": "nenhuma camada",
+      "noLayers": "sem camadas",
       "orderLower": "Ordem Mais Baixa",
       "orderHigher": "Ordem Mais Alta",
       "layerDescription": "Descrição da Camada"
@@ -1490,7 +1490,7 @@
     },
     "npcEditor": {
       "v2Export": "Exportação v2",
-      "statblock": "Bloco de estatísticas"
+      "statblock": "Bloco de Estatísticas"
     },
     "titles": {
       "setGmLabel": "Definir Etiqueta do Mestre",
@@ -1542,7 +1542,7 @@
       "conditions": "Condições",
       "enemyForces": "FORÇAS INIMIGAS",
       "alliedForces": "FORÇAS ALIADAS",
-      "neutral": "Neutros",
+      "neutral": "Neutro",
       "optional": "Opcional",
       "groupBy": "Agrupar Por",
       "sortBy": "Ordenar Por",
@@ -1614,7 +1614,7 @@
     "transfer": {
       "uploadCompleteTitle": "Upload Concluído",
       "uploadFailedTitle": "Falha no Upload",
-      "downloadCompleteTitle": "Download Concluído",
+      "downloadCompleteTitle": "Download Completo",
       "downloadFailedTitle": "Falha no Download",
       "itemSynced": "{type} {name} sincronizado.",
       "itemSyncFailed": "Falha ao sincronizar {type} {name}. {err}",
@@ -1697,7 +1697,7 @@
       "errorPrefix": "Erro: {err}",
       "v2BackupImportedTitle": "Backup v2 importado",
       "v2NoData": "Nenhum dado encontrado.",
-      "dataImportSuccessTitle": "Importação de dados bem-sucedida",
+      "dataImportSuccessTitle": "Importação bem sucedida",
       "dataReplaced": "Todos os dados existentes foram substituídos pelos dados importados.",
       "dataMerged": "Os dados importados foram mesclados com os dados existentes.",
       "unableToImportTitle": "Não foi possível importar os dados"
@@ -1910,7 +1910,7 @@
     "runnerHeader": {
       "lastSaved": "Último Salvamento",
       "never": "Nunca",
-      "manualSave": "Salvamento Manual",
+      "manualSave": "Salvar Manualmente",
       "autosave": "Salvamento Automático",
       "layoutOptions": "Opções de Layout"
     },
@@ -1941,7 +1941,7 @@
       "sortLastOnline": "Ordenar pelo Último Acesso",
       "sortNextSession": "Ordenar pela Próxima Sessão",
       "online": "Online",
-      "gm": "Mestre",
+      "gm": "MJ",
       "players": "Jogadores",
       "lastOnline": "Último Acesso",
       "cdt": "CDT",
@@ -1956,7 +1956,7 @@
       "exportState": "Exportar Estado da Ficha de Personagem",
       "importState": "Importar Estado da Ficha de Personagem",
       "importFileLabel": "Arquivo de Importação de Instância de Ficha de Personagem (.json)",
-      "stagedImport": "Importação em Estágio",
+      "stagedImport": "Estágio de Importação",
       "atRound": "na Rodada",
       "warningReplace": "Aviso: O estado da Ficha de Personagem importado substituirá o estado atual da Ficha de Personagem.",
       "changeActiveMech": "Alterar Mecha Ativo",
@@ -1980,7 +1980,7 @@
       "importFileLabel": "Arquivo de Importação de Instância de Encontro (.json)",
       "warningReplace": "Aviso: O estado do encontro importado substituirá o estado atual do encontro.",
       "setRound": "Definir Rodada",
-      "overrides": "Sobrescritas",
+      "overrides": "Substitui",
       "current": "Atual",
       "max": "Máx",
       "removeFromEncounter": "Remover {name} do Encontro",
@@ -2745,7 +2745,7 @@
       "membershipBenefits": "Benefícios de Assinatura",
       "removeDeletedItems": "Remover Itens Excluídos",
       "accountDeletion": "Exclusão de Conta",
-      "roster": "Lista (Roster)",
+      "roster": "Pilotos",
       "installCompconForReliableStorage": "Instale o @:{'common.appName'} para um Armazenamento Confiável",
       "storagePermissionRequired": "Permissão de Armazenamento Necessária!",
       "youDoNotHaveAccess": "Você não tem acesso a backups remotos.",
@@ -2857,7 +2857,7 @@
     },
     "new": {
       "pilot": "Piloto",
-      "skills": "Perícias",
+      "skills": "Gatilhos",
       "i": "I",
       "gmsEVEREST": "GMS Evereste",
       "up": "cima",
@@ -2939,7 +2939,7 @@
       "clearConfiguration": "Limpar Configuração",
       "editingThisPilotSLevelMay": "Editar o nível deste Piloto pode impedir que certas conquistas sejam desbloqueadas com este Piloto. Se você deseja usar este Piloto para desbloquear conquistas relacionadas ao Piloto, use o assistente de Subir de Nível em vez disso.",
       "thisPilotSLevelHasBeen": "O nível deste piloto foi editado. Isso impedirá que certas conquistas sejam desbloqueadas com este Piloto.",
-      "thisToolSkipsTheLevelUp": "Esta ferramenta pula o assistente de subida de nível. Os atributos do piloto ganhos ao subir de nível, como Gatilhos, licenças, talentos, perícias de mecha e bônus de núcleo terão que ser atualizados manualmente",
+      "thisToolSkipsTheLevelUp": "Esta ferramenta pula o assistente de subida de nível. Os atributos do piloto ganhos ao subir de nível, como gatilhos, licenças, talentos, perícias de mecha e bônus de núcleo terão que ser atualizados manualmente",
       "currentLEVEL": "Nível atual",
       "newLEVEL": "Novo nível",
       "setPilotLevel": "Definir Nível do Piloto",
@@ -3181,7 +3181,7 @@
       "theFollowingFormIsComprisedOf": "O formulário a seguir é composto por resultados não filtrados gerados por uma ou mais Pessoas Não Humanas UNI-TACANALYSIS e NÃO PODE ser copiado, traduzido, reproduzido, transmitido ou codificado sem a permissão expressa da Inteligência Naval da União.",
       "theMV2APilotSelfAssessment": "A auditoria de Autoavaliação do Piloto MV2/a cataloga os pontos fortes auto-relatados de um piloto individual com base em seleções derivadas da telemetria de campo de batalha e relatórios analisados por um representante PNH Naval da União.",
       "identSERVICEPRIMARYHasGeneratedA": "IDENT.SERVICE.PRIMARY gerou uma lista de Gatilhos sugeridos com base em sua resposta ao RM-4-03 (OCUPAÇÃO OU POSIÇÃO ANTERIOR).",
-      "suggestedSkillsAdded": "Perícias Sugeridas Adicionadas.",
+      "suggestedSkillsAdded": "Gatilhos Sugeridos Adicionados.",
       "addSuggestedSkills": "Adicionar Perícias Sugeridas",
       "improveTalents": "Melhorar Talentos",
       "rm4cPilotSelfAssessment2": "Autoavaliação de Piloto RM-4c (2/3)",
@@ -3273,7 +3273,7 @@
       "newProject": "Novo Projeto",
       "missingLicenseData": "Dados de Licença Ausentes",
       "newOrganization": "Nova Organização",
-      "skillSuggestionsAvailable": "Sugestões de Perícias Disponíveis",
+      "skillSuggestionsAvailable": "Sugestões de Gatilhos Disponíveis",
       "editPilotDescription": "Editar Descrição do Piloto",
       "convertRemotePilot": "converter piloto remoto",
       "confirmPilotDeletion": "confirmar exclusão do piloto",

@@ -10,7 +10,7 @@
     "add": "Aggiungi",
     "addContent": "Aggiungi Contenuto",
     "addName": "Aggiungi {name}",
-    "addingLocalCopyTooltip": "Aggiungere questo elemento come copia locale creerà una nuova versione modificabile salvata nei tuoi dati locali di COMP/CON. Le modifiche a questo elemento non influiranno sui dati originali dell'autore e non riceverai aggiornamenti dall'autore.",
+    "addingLocalCopyTooltip": "Aggiungere questo elemento come copia locale creerà una nuova versione modificabile salvata nei tuoi dati locali di @:{'common.appName'}. Le modifiche a questo elemento non influiranno sui dati originali dell'autore e non riceverai aggiornamenti dall'autore.",
     "all": "Tutti",
     "appName": "COMP/CON",
     "armorBonus": "Bonus Armatura",
@@ -86,7 +86,7 @@
     "licenses": "Licenze",
     "limitedBonus": "Bonus Limitato",
     "loadout": "Equipaggiamento",
-    "logLevel": "Livello di log:",
+    "logLevel": "Livello di log",
     "mainMenu": "Menu Principale",
     "manageContent": "Gestisci Contenuti",
     "mount": "Supporto",
@@ -175,7 +175,7 @@
     "hase_a": "AGI",
     "hase_s": "SIS",
     "hase_e": "ING",
-    "alert": "Allarme",
+    "alert": "Avviso",
     "ok": "OK",
     "appShortName": "C/C",
     "loading": "Caricamento…",
@@ -346,7 +346,7 @@
       "or": "o",
       "perTurn": "Per Turno",
       "pilotActions": "Azioni del Pilota",
-      "pleaseNote": "Nota bene:",
+      "pleaseNote": "Nota bene",
       "statuses": "Status",
       "twoQuickActions": "2 Azioni Rapide",
       "conditions": "Condizioni",
@@ -368,7 +368,7 @@
       "noEidolonData": "Nessun Dato sugli Eidolon",
       "notYetImplemented": "Non ancora implementato",
       "reference": "Riferimento",
-      "usingCompcon": "usare comp/con",
+      "usingCompcon": "usare @:{'common.appName'}",
       "experimentalPreview": "ANTEPRIMA SPERIMENTALE"
     }
   },
@@ -416,7 +416,7 @@
     "common": {
       "copied": "Copiato",
       "error": "Errore",
-      "success": "Successo"
+      "success": "Operazione riuscita"
     },
     "compendium": {
       "campaignUpdateFailedText": "Aggiornamento della campagna non riuscito",
@@ -585,8 +585,8 @@
     },
     "about": {
       "title": "@:{'common.appName'}",
-      "ccVersion": "Versione C/C:",
-      "lancerCoreVersion": "Versione CORE di @:{'common.gameName'}:",
+      "ccVersion": "Versione C/C",
+      "lancerCoreVersion": "Versione CORE di @:{'common.gameName'}",
       "description": "@:{'common.appName'} è un toolkit digitale gratuito e open-source e un assistente di gioco per creare e giocare partite di @:{'common.gameName'}.",
       "coreBookInfo": "Il Manuale CORE di @:{'common.gameName'}, @:{'common.appName'} e i contenuti associati si trovano su"
     },
@@ -618,23 +618,23 @@
       "discordLinkText": "il Discord non ufficiale di @:{'common.gameName'}"
     },
     "credits": {
-      "lancerBy": "@:{'common.gameName'} di:",
-      "compconBy": "@:{'common.appName'} di:",
-      "with": "Con:",
-      "graphicDesignBy": "Progettazione grafica di:",
-      "additionalArtBy": "Illustrazioni aggiuntive di:",
+      "lancerBy": "@:{'common.gameName'} di",
+      "compconBy": "@:{'common.appName'} di",
+      "with": "Con",
+      "graphicDesignBy": "Progettazione grafica di",
+      "additionalArtBy": "Illustrazioni aggiuntive di",
       "patronThanks": "Il continuo sviluppo di @:{'common.appName'} non sarebbe possibile senza il generoso",
-      "supportOf": "sostegno di:",
+      "supportOf": "sostegno di",
       "tier": "@:{'common.tier'}",
       "anonymousPatron": "Sostenitore Anonimo"
     },
     "achievements": {
-      "unlocked": "sbloccati",
-      "byRarity": "Per Rarità:",
-      "byLabel": "Per Etichetta:",
+      "unlocked": "Sbloccati",
+      "byRarity": "Per Rarità",
+      "byLabel": "Per Etichetta",
       "secretAchievements": "Obiettivi Segreti",
       "discovered": "Scoperto",
-      "display": "Visualizza:",
+      "display": "Visualizza",
       "common": "Comune",
       "epic": "Epico",
       "legendary": "Leggendario",
@@ -660,8 +660,8 @@
       "cannot": "non può",
       "warningDataFull": "Questa operazione {emphasis} i dati degli obiettivi utente.",
       "cannotBeUndoneFull": "Questa operazione {emphasis} essere annullata. Si consiglia vivamente di creare prima un backup.",
-      "hidden": "Nascosto",
-      "sort": "ORDINA:"
+      "hidden": "@:{'common.hidden'}",
+      "sort": "Ordina"
     },
     "log": {
       "logLevel": "@:{'common.logLevel'}",
@@ -669,7 +669,7 @@
       "caller": "Chiamante",
       "exportLog": "Esporta Log",
       "copiedToClipboard": "Voce di log copiata negli appunti",
-      "noData": "nessun dato"
+      "noData": "@:{'common.noData'}"
     },
     "deletedItems": {
       "noItemsFound": "Nessun elemento trovato",
@@ -702,7 +702,7 @@
       "hiddenNote": "Questo obiettivo è nascosto e verrà rivelato una volta sbloccato",
       "secretLabel": "Obiettivo segreto",
       "unlockedLabel": "Sbloccato",
-      "createdBy": "Creato da:"
+      "createdBy": "Creato da"
     },
     "optionsPage": {
       "tabSettings": "@:{'common.settings'}",
@@ -712,7 +712,7 @@
     "alt": {
       "netlifyStatus": "Stato Netlify",
       "joinTheLancerDiscord": "Unisciti al Discord di LANCER",
-      "supportCompconOnPatreon": "Sostieni COMP/CON su Patreon"
+      "supportCompconOnPatreon": "Sostieni @:{'common.appName'} su Patreon"
     },
     "v2Import": {
       "panelTitle": "Importazioni V2 in Sospeso",
@@ -727,9 +727,9 @@
       "deleteTitle": "Elimina Backup",
       "deleteConfirm": "Eliminare questo backup v2 in sospeso? Questa azione non può essere annullata.",
       "strippedTitle": "Elementi Rimossi nella Forzatura",
-      "strippedBody": "I seguenti elementi sono stati rimossi perché non risolvibili:",
+      "strippedBody": "I seguenti elementi sono stati rimossi perché non risolvibili",
       "moreCount": "+{count} altri",
-      "forceImportNotice": "Questo importerà {type} rimuovendo tutti gli elementi non risolvibili. Le seguenti dipendenze non sono state trovate e verranno rimosse:"
+      "forceImportNotice": "Questo importerà {type} rimuovendo tutti gli elementi non risolvibili. Le seguenti dipendenze non sono state trovate e verranno rimosse"
     },
     "settingsPage": {
       "showUpdateMessages": "Mostra Messaggi di Aggiornamento",
@@ -770,7 +770,7 @@
       "resetV2Tooltip": "Reimposta lo stato della migrazione v2, permettendo al pulsante Dati V2 di riapparire se era stato chiuso.",
       "showDesktopTablesLabel": "Forza tabelle complete del Compendio",
       "showDesktopTablesTooltip": "Per impostazione predefinita, @:{'common.appName'} mostra una vista semplificata delle tabelle del Compendio sui dispositivi mobili per migliorare leggibilità e prestazioni. Attivando questa opzione verrà mostrata la versione desktop completa delle tabelle su tutti i dispositivi. Questo potrebbe rendere alcune tabelle difficili da leggere o causare problemi di prestazioni sui dispositivi mobili.",
-      "logLevel": "Livello di Log",
+      "logLevel": "@:{'common.logLevel'}",
       "errorReportingPrefix": "Segnalazione errori"
     },
     "storage": {
@@ -806,13 +806,13 @@
     "packInstall": {
       "selectFile": "Seleziona un file .LCP",
       "install": "Installa",
-      "alreadyInstalledWarning": "Il seguente pacchetto di contenuti è già installato e verrà sostituito: | I seguenti pacchetti di contenuti sono già installati e verranno sostituiti:",
+      "alreadyInstalledWarning": "Il seguente pacchetto di contenuti è già installato e verrà sostituito: | I seguenti pacchetti di contenuti sono già installati e verranno sostituiti",
       "v3Warning": "I seguenti contenuti non sono stati registrati come compatibili con la v3. Questi pacchetti funzioneranno comunque, ma non potranno sfruttare le funzionalità della v3, specialmente in modalità attiva.",
-      "dependencyError": "Il seguente pacchetto di contenuti ha dipendenze non installate e non può ancora essere installato. Verrà saltato: | I seguenti pacchetti di contenuti hanno dipendenze non installate e non possono ancora essere installati. Verranno saltati:",
+      "dependencyError": "Il seguente pacchetto di contenuti ha dipendenze non installate e non può ancora essere installato. Verrà saltato: | I seguenti pacchetti di contenuti hanno dipendenze non installate e non possono ancora essere installati. Verranno saltati",
       "noPackSelected": "Nessun pacchetto di contenuti selezionato",
       "alreadyInstalledNote": "Un pacchetto con lo stesso nome e autore è già installato.",
       "willReplace": "Verrà sostituito da questa copia.",
-      "requiresContent": "Questo LCP richiede l'installazione dei seguenti contenuti prima di poter essere aggiunto:",
+      "requiresContent": "Questo LCP richiede l'installazione dei seguenti contenuti prima di poter essere aggiunto",
       "success": "Successo",
       "successText": "Pacchetti di contenuti installati con successo",
       "byAuthorVersion": "di {author} {'@'} {version}",
@@ -842,7 +842,7 @@
       "description": "Le configurazioni di contenuto ti permettono di creare e gestire insiemi di LCP da applicare a Piloti e PNG, consentendo o limitando le scelte a contenuti specifici. I Piloti e i PNG senza configurazione avranno accesso a tutti gli LCP installati e attivati",
       "applyNote": "Queste configurazioni possono essere applicate a Piloti e PNG nei rispettivi menu opzioni.",
       "noConfigs": "Nessuna configurazione trovata.",
-      "lcpsInConfig": "LCP in questa configurazione:",
+      "lcpsInConfig": "LCP in questa configurazione",
       "noLcpsPrefix": "Nessun LCP aggiunto. Solo i contenuti del",
       "lancerCoreBook": "@:{'ui.missing.lancerCoreBook'}",
       "willBeAvailable": "saranno disponibili.",
@@ -866,7 +866,7 @@
       "dependencyInstalled": "Dipendenza installata",
       "version": "@:{'common.version'}",
       "contentHeading": "Contenuto",
-      "changelog": "Changelog",
+      "changelog": "@:{'common.changelog'}",
       "byAuthor": "@:{'common.byAuthor'}"
     },
     "communityTable": {
@@ -879,7 +879,7 @@
       "subscribeTooltip": "Clicca per consentire a @:{'common.appName'} di aggiornare questo LCP ogni volta che viene pubblicata una nuova versione",
       "payWhatYouWant": "Paga Quanto Vuoi",
       "free": "Gratis",
-      "currentVersion": "Versione attuale:",
+      "currentVersion": "Versione attuale",
       "itchStorePage": "Pagina Store itch.io",
       "authorsWebsite": "@:{'nav.packInfo.authorsWebsite'}"
     },
@@ -1021,7 +1021,7 @@
       "resetCodeSentTo": "Codice di reimpostazione password inviato a {email}",
       "resetPassword": "Reimposta Password",
       "retry": "Riprova",
-      "sendCodeToLabel": "Invia un codice di verifica a:",
+      "sendCodeToLabel": "Invia un codice di verifica a",
       "sendPasswordResetEmail": "Invia E-Mail di Reimpostazione Password",
       "sendVerificationCode": "Invia Codice di Verifica",
       "setNewPassword": "Imposta Nuova Password",
@@ -1054,7 +1054,7 @@
     "dataItem": {
       "bulkDelete": "Eliminazione Multipla",
       "cancelBulkSelection": "Annulla Selezione Multipla",
-      "chooseDeleteMethod": "Scegli come eliminare gli elementi selezionati:",
+      "chooseDeleteMethod": "Scegli come eliminare gli elementi selezionati",
       "cloudOnly": "Solo cloud — non ancora scaricato.",
       "convertToLocalDesc": "Rimuove il collegamento remoto. I dati vengono mantenuti localmente.",
       "deleteCloudData": "Elimina Dati Cloud",
@@ -1107,7 +1107,7 @@
       "incCloudData": "I dati cloud, inclusi piloti, mech e PNG salvati e altri dati del GM",
       "incCredentials": "Le credenziali di accesso e le impostazioni dell'account",
       "incImages": "Le immagini caricate nel tuo archivio cloud personale",
-      "intro": "Questo strumento eliminerà il tuo account e tutti i dati associati. Questo include:",
+      "intro": "Questo strumento eliminerà il tuo account e tutti i dati associati. Questo include",
       "irreversible": "Questa azione è irreversibile. Questi dati verranno eliminati in modo permanente e irrevocabile.",
       "notLocalData": "Eliminare alcun dato locale sul tuo dispositivo",
       "notPurchases": "Revocare alcun acquisto tramite itch.io o terminare il tuo abbonamento Patreon",
@@ -1117,7 +1117,7 @@
     "fields": {
       "autoBackupFrequency": "Frequenza Backup Automatico",
       "confirmNewEmail": "Conferma Nuova E-Mail",
-      "deleteAccount": "elimina account",
+      "deleteAccount": "Elimina Account",
       "deleteCloudAndMarkLocalAsDeleted": "Elimina cloud e contrassegna locale come eliminato",
       "deleteCloudDataOnlyKeep": "Elimina solo dati cloud (mantieni dati locali)",
       "doNotShowThisWarningAgain": "Non mostrare più questo avviso",
@@ -1134,9 +1134,9 @@
       "verificationCode": "Codice di Verifica"
     },
     "itch": {
-      "accountLabel": "account itch.io:",
+      "accountLabel": "account itch.io",
       "clickForDetails": "Clicca per i dettagli",
-      "eligibleUpdates": "Il tuo account cloud @:{'common.appName'} è idoneo ai seguenti aggiornamenti automatici:",
+      "eligibleUpdates": "Il tuo account cloud @:{'common.appName'} è idoneo ai seguenti aggiornamenti automatici",
       "lastPolled": "@:{'common.appName'} ha controllato il tuo account itch l'ultima volta il {date}",
       "linkInfo1": "Collegare il tuo account itch.io ti permetterà di scaricare i contenuti Massif dallo store itch.io con un solo clic.",
       "linkInfo2": "Puoi anche iscriverti agli LCP Massif per aggiornare automaticamente la tua copia locale quando l'autore pubblica una nuova versione.",
@@ -1144,17 +1144,17 @@
       "linked": "Itch collegato",
       "manageContentHint": "Gli LCP non collegati e altri contenuti possono comunque essere aggiunti manualmente dalla pagina {link}.",
       "noAutoTrack": "@:{'common.appName'} non tiene traccia automaticamente dei nuovi dati itch.io.",
-      "purchasesLinked": "@:{'common.appName'} ha collegato i seguenti acquisti itch.io al tuo account:",
+      "purchasesLinked": "@:{'common.appName'} ha collegato i seguenti acquisti itch.io al tuo account",
       "updateHint": "Se hai nuovi acquisti o chiavi di download sul tuo account itch.io, clicca il pulsante {update} qui sotto per aggiungerli a @:{'common.appName'}. Purtroppo, al momento non è possibile collegare acquisti non-Massif a causa delle limitazioni dell'API itch.io."
     },
     "itemLink": {
       "foundInCompendium": "trovato nel Compendio",
       "lcpHint": "Se questo elemento fa parte di un Lancer Content Pack, assicurati che il pacchetto sia installato e attivato.",
-      "noItemWithIdLabel": "Nessun elemento con ID:",
-      "requestedLcp": "LCP richiesto:"
+      "noItemWithIdLabel": "Nessun elemento con ID",
+      "requestedLcp": "LCP richiesto"
     },
     "management": {
-      "accountCreatedV3": "Account creato (v3):",
+      "accountCreatedV3": "Account creato (v3)",
       "changeEmail": "Cambia E-Mail Account",
       "changePassword": "Cambia password",
       "deleteCloudAccount": "Elimina Account Cloud",
@@ -1199,7 +1199,7 @@
       "notLabel": "non"
     },
     "patreon": {
-      "accountLabel": "account Patreon:",
+      "accountLabel": "account Patreon",
       "linkInfo": "Se sei abbonato al Patreon di @:{'common.appName'}, collegare il tuo account Patreon aumenterà il tuo spazio di archiviazione cloud massimo e sbloccherà la creazione di tavoli in tempo reale in modalità GM.",
       "linkPatreon": "Collega Patreon",
       "tierSuffix": "Livello {title}"
@@ -1241,7 +1241,7 @@
       "iosStep1": "Tocca il pulsante {share} {icon} nella barra degli strumenti di Safari",
       "iosStep2": "Scorri verso il basso e tocca {target}",
       "iosStep3": "Tocca {target}",
-      "iosWarning": "I browser iOS limitano l'archiviazione per i siti web e potrebbero {emphasis} dopo 7 giorni di inattività. Per evitare la perdita di dati, installa @:{'common.appName'} nella tua schermata home:",
+      "iosWarning": "I browser iOS limitano l'archiviazione per i siti web e potrebbero {emphasis} dopo 7 giorni di inattività. Per evitare la perdita di dati, installa @:{'common.appName'} nella tua schermata home",
       "noStorageWarning": "Il browser attuale non sembra supportare l'archiviazione persistente. È {recommended} eseguire @:{'common.appName'} su un browser in grado di archiviare dati persistenti dell'app, oppure salvare ed eseguire @:{'common.appName'} {pwaLink}",
       "onceInstalled": "Una volta installato, apri @:{'common.appName'} dall'icona nella schermata home.",
       "shareLabel": "Condividi",
@@ -1289,10 +1289,10 @@
       "roster": "Lista",
       "youDoNotHaveAccess": "Non hai accesso ai backup remoti.",
       "addNewSubscription": "Aggiungi Nuova Iscrizione",
-      "compconCloudAccount": "Account Cloud COMP/CON",
+      "compconCloudAccount": "Account Cloud @:{'common.appName'}",
       "convertToLocalData": "Converti in Dati Locali",
       "forceDownload": "Forza Download",
-      "installCompconForReliableStorage": "Installa COMP/CON per un'Archiviazione Affidabile",
+      "installCompconForReliableStorage": "Installa @:{'common.appName'} per un'Archiviazione Affidabile",
       "membershipBenefits": "Vantaggi dell'Abbonamento",
       "removeDeletedItems": "Rimuovi Elementi Eliminati",
       "storagePermissionRequired": "Autorizzazione Archiviazione Richiesta!",
@@ -1305,12 +1305,12 @@
     },
     "tooltips": {
       "controlsWhichDataTypesAre": "Controlla quali tipi di dati vengono sincronizzati con il cloud.",
-      "thisIsAViewOf": "Questa è una vista dei tuoi dati COMP/CON, archiviati sia localmente sia nel cloud. Puoi usare questo strumento per gestire lo stato dei tuoi dati e per sincronizzare le modifiche tra i dati locali e il cloud.",
+      "thisIsAViewOf": "Questa è una vista dei tuoi dati @:{'common.appName'}, archiviati sia localmente sia nel cloud. Puoi usare questo strumento per gestire lo stato dei tuoi dati e per sincronizzare le modifiche tra i dati locali e il cloud.",
       "yourUniqueAccountIdThis": "Il tuo ID account univoco. Viene usato per identificare il tuo account nel cloud e potrebbe essere richiesto per la risoluzione dei problemi.",
       "controlsHowOftenYourData": "Controlla la frequenza con cui i tuoi dati vengono sincronizzati con il cloud. A causa dei costi del server, alcune opzioni sono disponibili solo per gli abbonati Patreon.",
       "paidLcpContentRequiresA": "I contenuti LCP a pagamento richiedono un acquisto itch.io collegato prima di poter essere aggiornati automaticamente. Al momento sono supportati solo gli LCP pubblicati da Massif.",
       "theseOptionsControlHowAnd": "Queste opzioni controllano come e quando i tuoi dati vengono sincronizzati con il cloud. Per impostazione predefinita, i dati vengono sincronizzati solo manualmente. A differenza delle altre impostazioni utente, queste impostazioni sono archiviate nel cloud e applicate a tutti i dispositivi che usi.",
-      "thisToolWillCaptureA": "Questo strumento catturerà un'istantanea dei tuoi dati COMP/CON locali e la archivierà in un archivio cloud. Puoi usarlo per riportare i tuoi dati COMP/CON a uno stato precedente. Questa funzionalità è disponibile solo per i sostenitori Patreon.",
+      "thisToolWillCaptureA": "Questo strumento catturerà un'istantanea dei tuoi dati @:{'common.appName'} locali e la archivierà in un archivio cloud. Puoi usarlo per riportare i tuoi dati @:{'common.appName'} a uno stato precedente. Questa funzionalità è disponibile solo per i sostenitori Patreon.",
       "usernameOptional": "Questo è un campo <b>facoltativo</b> che puoi usare per impostare un nome personalizzato per il tuo account. Questo nome utente <b>sarà</b> visibile agli altri utenti in modalità attiva e quando condividi i dati."
     },
     "ui": {
@@ -1367,7 +1367,7 @@
     "brokenRef": {
       "instancedItem": "Elemento Istanziato",
       "instancedNote": "Questo elemento è stato istanziato come oggetto unico e, se rimosso, non sarà disponibile finché non verrà installato l'LCP associato.",
-      "partOfPack": "Questo elemento fa parte del seguente Lancer Content Pack:"
+      "partOfPack": "Questo elemento fa parte del seguente Lancer Content Pack"
     },
     "card": {
       "availableMounts": "Supporti d'arma disponibili",
@@ -1384,7 +1384,7 @@
       "integrations": "Integrazioni",
       "kit": "Kit",
       "modification": "Modifica",
-      "modifies": "Modifica:",
+      "modifies": "Modifica",
       "onboardCore": "Sistema primario di bordo",
       "profileActions": "Azioni del profilo",
       "profileDeployables": "Dispiegabili del profilo",
@@ -1446,7 +1446,7 @@
       "half": "Metà",
       "heatSelf": "+{n} Calore (Sé Stessi)",
       "hit": "Colpito",
-      "ifLabel": "SE:",
+      "ifLabel": "SE",
       "insufficientActions": "Azioni {activation} rimanenti insufficienti in questo turno.",
       "insufficientActionsShort": "Azioni Insufficienti",
       "irreducibleNo": "Questo danno può essere ridotto dalle difese del bersaglio",
@@ -1463,7 +1463,7 @@
       "overkillNo": "Questo danno non è soggetto alle regole ECCESSIVA",
       "overkillYes": "Questo danno è soggetto alle regole ECCESSIVA (ritira gli 1, aggiungi calore (sé stessi))",
       "passiveEffect": "Effetto Passivo",
-      "reliableDamage": "Danno Affidabile:",
+      "reliableDamage": "Danno Affidabile",
       "reliableN": "Affidabile {n}",
       "reliableOnMiss": "AFFIDABILE {n} {type} si applica in caso di colpo mancato",
       "removeSpecialCondition": "rimuovi condizione speciale",
@@ -1475,7 +1475,7 @@
       "saveSuffix": "Tiro Salvezza {stat}",
       "singleTarget": "Bersaglio Singolo",
       "specialEffect": "Effetto Speciale Disponibile",
-      "staged": "In coda:",
+      "staged": "In coda",
       "statusEffect": "Effetto di Status Disponibile",
       "successfulAttack": "Attacco Riuscito",
       "successfulSave": "Tiro Salvezza Riuscito",
@@ -1734,7 +1734,7 @@
       "readyForImport": "L'elemento è pronto per l'importazione",
       "missingPacks": "All'elemento mancano i pacchetti di contenuti richiesti. Questo elemento verrà salvato nella raccolta Importazioni v2 nella Gestione Contenuti e potrà essere importato una volta installati e attivati i pacchetti di contenuti richiesti.",
       "oldVersionWarning": "Alcuni dati da importare sono stati creati con una versione precedente di @:{'common.appName'} e non includono le informazioni nidificate sui pacchetti di contenuti. Questi dati verranno salvati nella raccolta Importazioni v2 nella Gestione Contenuti, ma non potranno essere importati finché i pacchetti di contenuti richiesti non saranno installati e attivati. Questi elementi potranno essere importati una volta installati e attivati i pacchetti di contenuti richiesti, oppure importati forzatamente nella Gestione Contenuti.",
-      "missingContentPacks": "Pacchetti di contenuti mancanti:",
+      "missingContentPacks": "Pacchetti di contenuti mancanti",
       "completeImport": "Completa Importazione ({n} Elementi)",
       "importErrorTitle": "Importazione Fallita",
       "encounterImportErrorText": "Impossibile importare lo scontro: {error}",
@@ -1777,10 +1777,10 @@
       "minor": "Minore",
       "patch": "Patch",
       "versionExists": "La versione {version} esiste già!",
-      "releaseNotes": "Note di rilascio e changelog:",
+      "releaseNotes": "Note di rilascio e changelog",
       "publishNewVersion": "Pubblica Nuova Versione",
       "latestVersion": "Ultima versione",
-      "latestChanges": "Ultime Modifiche:",
+      "latestChanges": "Ultime Modifiche",
       "exportLcd": "Esporta Pacchetto .lcd",
       "exportLcdHelp": "Scarica un file Lancer Campaign Distributable (.lcd) che può essere importato nel @:{'common.appName'} di un altro utente",
       "saveLocal": "Salva nella Raccolta Locale",
@@ -1857,8 +1857,8 @@
     },
     "filter": {
       "filters": "Filtri",
-      "showItemsWith": "Mostra elementi con:",
-      "hideItemsWith": "Nascondi elementi con:",
+      "showItemsWith": "Mostra elementi con",
+      "hideItemsWith": "Nascondi elementi con",
       "showAll": "Mostra Tutto",
       "hideAll": "Nascondi Tutto",
       "clearAllFilters": "Cancella Tutti i Filtri",
@@ -2167,7 +2167,7 @@
       "conditions": "Condizioni",
       "enemyForces": "FORZE NEMICHE",
       "alliedForces": "FORZE ALLEATE",
-      "neutral": "NEUTRALI",
+      "neutral": "Neutrali",
       "optional": "Facoltativo",
       "groupBy": "Raggruppa Per",
       "sortBy": "Ordina Per",
@@ -2178,7 +2178,7 @@
       "allowDuplicates": "Consenti Duplicati",
       "npc": "PNG",
       "authors": "Autore/i",
-      "mustBeAnItchioUrl": "Deve essere un URL itch.io per abilitare la gestione automatica in COMP/CON",
+      "mustBeAnItchioUrl": "Deve essere un URL itch.io per abilitare la gestione automatica in @:{'common.appName'}",
       "title": "Titolo",
       "label": "Etichetta",
       "controlZone": "Zona di Controllo",
@@ -2256,12 +2256,12 @@
       "saveFailedText": "Impossibile salvare la Scheda: {callsign}"
     },
     "stats": {
-      "hitPoints": "Punti ferita",
+      "hitPoints": "Punti Ferita",
       "grit": "GRINTA"
     },
     "common": {
       "exportAsJson": "Esporta come JSON",
-      "currentlySelected": "Attualmente Selezionato:",
+      "currentlySelected": "Attualmente Selezionato",
       "destroyed": "Distrutto",
       "dangerZone": "Zona di Pericolo",
       "override": "forza",
@@ -2403,7 +2403,7 @@
       "selected": "selezionati"
     },
     "runnerHeader": {
-      "lastSaved": "Ultimo Salvataggio:",
+      "lastSaved": "Ultimo Salvataggio",
       "never": "Mai",
       "manualSave": "Salvataggio Manuale",
       "autosave": "Salvataggio Automatico",
@@ -2423,8 +2423,8 @@
     },
     "pcEndRound": {
       "forfeitActions": "Terminare il round farà perdere le azioni non utilizzate.",
-      "nextRound": "Prossimo Round:",
-      "willLoseStatuses": "perderà i seguenti status:",
+      "nextRound": "Prossimo Round",
+      "willLoseStatuses": "perderà i seguenti status",
       "atThe": "al",
       "endsOnTurn": "{when} del tuo turno",
       "braceExit": "Esci da {braced} ed entri nello stato di {cooldown}.",
@@ -2452,7 +2452,7 @@
       "exportState": "Esporta Stato Scheda",
       "importState": "Importa Stato Scheda",
       "importFileLabel": "File di Importazione Istanza Scheda (.json)",
-      "stagedImport": "Importazione in coda:",
+      "stagedImport": "Importazione in coda",
       "atRound": "al Round",
       "warningReplace": "Attenzione: lo stato importato della Scheda sostituirà lo stato attuale della Scheda.",
       "changeActiveMech": "Cambia Mech Attivo",
@@ -2463,7 +2463,7 @@
       "sessionNotes": "Note di Sessione"
     },
     "pcDeploy": {
-      "deployedEquipment": "Equipaggiamento Dispiegato:",
+      "deployedEquipment": "Equipaggiamento Dispiegato",
       "noActive": "Nessun equipaggiamento attivo.",
       "noSelected": "Nessun equipaggiamento selezionato."
     },
@@ -2507,8 +2507,8 @@
       "roundN": "Round {n}"
     },
     "diceRoller": {
-      "title": "Lancia dadi",
-      "quickRoll": "Tiro Rapido:",
+      "title": "Lancia Dadi",
+      "quickRoll": "Tiro Rapido",
       "hullCheck": "Prova di Scafo",
       "agilityCheck": "Prova di Agilità",
       "systemsCheck": "Prova di Sistemi",
@@ -2572,10 +2572,10 @@
       "noPersist": "I segnaposto non persistono al di fuori dello scontro in cui sono creati."
     },
     "gmEndRound": {
-      "unusedActions": "azioni non usate:",
+      "unusedActions": "azioni non usate",
       "endsOnTargetTurn": "{when} del turno di {target}",
       "braceExit": "esce da {braced} ed entra nello stato di {cooldown}.",
-      "reinforcementsReady": "rinforzi pronti il prossimo round:",
+      "reinforcementsReady": "rinforzi pronti il prossimo round",
       "willBeReady": "sarà pronto a dispiegarsi."
     },
     "panelBase": {
@@ -2708,7 +2708,7 @@
       "hiddenFeatures": "Caratteristiche Nascoste",
       "rollRecharge": "Tira per la Ricarica",
       "rechargeResult": "Risultato Ricarica (d6)",
-      "rechargesFeatures": "Ricarica le seguenti caratteristiche:",
+      "rechargesFeatures": "Ricarica le seguenti caratteristiche",
       "rechargesOn": "(Si ricarica con {n}+)",
       "clickToRoll": "Clicca per tirare. Le Caratteristiche PNG si ricaricano con tiri pari o superiori al loro valore di ricarica.",
       "reroll": "ritira",
@@ -2813,7 +2813,7 @@
       "unconscious": "Il pilota è privo di sensi, e qualsiasi danno aggiuntivo lo ucciderà."
     },
     "pcPanel": {
-      "pilotMounted": "Pilota a bordo",
+      "pilotMounted": "Pilota a Bordo",
       "pilotUnmounted": "Pilota sceso",
       "noReserves": "Nessuna risorsa disponibile"
     },
@@ -2956,7 +2956,7 @@
       "equipmentIDINVALIDORMISSING": "[ ID equipaggiamento non valido o mancante ]",
       "noMODINSTALLED": "Nessuna modifica installata",
       "emptySYSTEMSLOT": "Slot sistema vuoto",
-      "appliedTO": "Applicata a:",
+      "appliedTO": "Applicata a",
       "mechSYSTEMS": "SISTEMI mech",
       "integratedEquipment": "Equipaggiamento Integrato",
       "reorderSystems": "Riordina Sistemi",
@@ -2972,8 +2972,8 @@
       "selectPilotWeapon": "Seleziona Arma Pilota",
       "gmsARMORYEQUIPMENTAUTHORIZATIONPILOTPERSONAL2": "Autorizzazione equipaggiamento armeria GMS: armamento pilota/personale::S0 - S3(LTD)",
       "toAddSlashes": "Per aggiungere //",
-      "unionArmoryPrintid": "Printid armeria dell'Unione:",
-      "gmsArmoryPrintid": "Printid armeria GMS:",
+      "unionArmoryPrintid": "Printid armeria dell'Unione",
+      "gmsArmoryPrintid": "Printid armeria GMS",
       "synergyWarning": "Le regole in questi suggerimenti di sinergia {not} vengono applicate automaticamente da @:{'common.appName'}. Assicurati di applicare manualmente eventuali effetti rilevanti durante il gioco.",
       "tap": "TOCCA",
       "click": "Clicca"
@@ -3002,7 +3002,7 @@
       "unOmni18364AndesCerroboneteNode": "un_omni-18364.andes.cerrobonete.node:9",
       "submittingUnauthorizedLicensingUpdatesAndOr": "L'invio di aggiornamenti di licenza non autorizzati e/o l'invio di domande per diritti di licenza non autorizzati o precedentemente negati senza previa autorizzazione MV-8a/j da parte di un Amministratore dell'Unione comporterà il rifiuto automatico della domanda di licenza e potrà comportare un audit di licenza ai sensi del DoJ/HR AR 716-J",
       "theUADIDENTServiceHasDetermined": "Il Servizio UAD IDENT ha determinato che",
-      "isEligibleForTheFollowingLicense": "è idoneo al seguente aggiornamento di licenza:",
+      "isEligibleForTheFollowingLicense": "è idoneo al seguente aggiornamento di licenza",
       "pilotSKILLTRIGGERIMPROVEMENT": "Miglioramento impulso del pilota",
       "pilotTALENTUPGRADE": "Potenziamento talento del pilota",
       "mechSKILLUPGRADE": "Potenziamento abilità mech",
@@ -3016,7 +3016,7 @@
     "new": {
       "pilot": "Pilota",
       "skills": "Impulsi",
-      "i": "I:",
+      "i": "I",
       "gmsEVEREST": "GMS everest",
       "up": "su",
       "down": "giù",
@@ -3084,7 +3084,7 @@
       "duplicatingOrCloningAPilotWill": "Duplicare o clonare un pilota rimuoverà eventuali collegamenti al Vault, salvando il Pilota copiato come nuovo personaggio sul tuo account",
       "duplicatePilot": "Duplica Pilota",
       "flashClonePilot": "Clona Pilota (Accelerato)",
-      "anyOrganizationsIndividualsOrTechnologiesEngaging": "Qualsiasi organizzazione, individuo o tecnologia che pratichi o agevoli la clonazione facsimile dell'intero corpo è vincolata agli Accordi del Primo Contatto del 3002. Qualsiasi attività che violi i principi enunciati negli Accordi è proibita, incluse ma non limitate a:",
+      "anyOrganizationsIndividualsOrTechnologiesEngaging": "Qualsiasi organizzazione, individuo o tecnologia che pratichi o agevoli la clonazione facsimile dell'intero corpo è vincolata agli Accordi del Primo Contatto del 3002. Qualsiasi attività che violi i principi enunciati negli Accordi è proibita, incluse ma non limitate a",
       "reproductionOfTheSubjectivePersonageOf": "La riproduzione del personaggio soggettivo di un essere senziente o di altra continuità soggettiva, in tutto o in parte.",
       "transferOrTheSubjectivePersonageOf": "Il trasferimento del personaggio soggettivo di un essere senziente o di altra continuità soggettiva in un substrato fabbricato o coltivato.",
       "emulationOfASentientIndividualS": "L'emulazione del personaggio soggettivo di un individuo senziente in un substrato fabbricato o coltivato.",
@@ -3094,16 +3094,16 @@
       "cloneQUIRK": "Peculiarità del clone",
       "rerollQuirk": "Ritira Peculiarità",
       "decantFlashClone": "Decanta Clone Accelerato",
-      "lcpConfigurations": "Configurazioni LCP:",
+      "lcpConfigurations": "Configurazioni LCP",
       "openConfigManager": "Apri Gestione Configurazione",
-      "currentConfiguration": "Configurazione Attuale:",
+      "currentConfiguration": "Configurazione Attuale",
       "unrestrictedAccess": "Accesso Illimitato",
       "clearConfiguration": "Cancella Configurazione",
       "editingThisPilotSLevelMay": "Modificare il livello di questo Pilota potrebbe impedire lo sblocco di alcuni achievement con questo Pilota. Se vuoi usare questo Pilota per sbloccare achievement legati ai Piloti, usa invece la procedura guidata Sali di Livello.",
       "thisPilotSLevelHasBeen": "Il livello di questo pilota è stato modificato. Questo impedirà lo sblocco di alcuni achievement con questo Pilota.",
       "thisToolSkipsTheLevelUp": "Questo strumento salta la procedura guidata di salita di livello. Gli attributi del pilota ottenuti salendo di livello, come impulsi, licenze, talenti, abilità mech e bonus licenza, dovranno essere aggiornati manualmente",
-      "currentLEVEL": "Livello attuale:",
-      "newLEVEL": "Nuovo livello:",
+      "currentLEVEL": "Livello attuale",
+      "newLEVEL": "Nuovo livello",
       "setPilotLevel": "Imposta Livello Pilota",
       "ll": "LL",
       "levelUp": "Sali di Livello",
@@ -3169,7 +3169,7 @@
       "mechOptions": "Opzioni Mech",
       "warningLICENSEMISSING": "Attenzione: licenza mancante",
       "gmsSTANDARDPILOTSLICENSE": "Licenza pilota standard GMS",
-      "requiredFor": "Richiesta per:",
+      "requiredFor": "Richiesta per",
       "setMechImage": "Imposta Immagine Mech",
       "killedINACTION": "Caduto in azione",
       "revert": "Ripristina",
@@ -3204,18 +3204,18 @@
       "downtimeREFERENCE": "Riferimento interludio",
       "skillTRIGGERDETAIL": "Dettaglio impulso",
       "mechWEAPONMOUNT": "Supporto arma mech",
-      "onMISS": "Mancato:",
-      "onATTACK": "Attacco:",
-      "onHIT": "Colpito:",
-      "onCRIT": "Critico:",
+      "onMISS": "Mancato",
+      "onATTACK": "Attacco",
+      "onHIT": "Colpito",
+      "onCRIT": "Critico",
       "mechSYSTEM": "Sistema mech",
       "gain": "Guadagno",
       "pilotHP": "PF Pilota",
       "maxHP": "PF Max",
       "reserve": "Risorsa",
       "deployable": "Dispiegabile",
-      "heatCap": "Cap. Calore:",
-      "techAtk": "A-Tech:",
+      "heatCap": "Cap. Calore",
+      "techAtk": "A-Tech",
       "operatorNotes": "Note operatore",
       "mountLOCKED": "Supporto bloccato",
       "appliedMOD": "//Mod applicata",
@@ -3297,7 +3297,7 @@
       "thisAppearsToBePilotData": "Questi sembrano dati Pilota di una versione precedente di @:{'common.appName'}. @:{'common.appName'} tenterà di convertire e importare questi dati, ma potrebbe non riuscire a convertire tutti gli elementi e potrebbe non essere in grado di fornire informazioni sui requisiti LCP mancanti.",
       "includesDATAFROMTHEFOLLOWINGCONTENT": "Include dati dai seguenti pacchetti di contenuti",
       "lastModified": "Ultima Modifica",
-      "thisPilotContainsContentFromThe": "Questo Pilota contiene contenuti dai seguenti Lancer Content Pack che attualmente non sono installati/attivi, o hanno versioni non corrispondenti:",
+      "thisPilotContainsContentFromThe": "Questo Pilota contiene contenuti dai seguenti Lancer Content Pack che attualmente non sono installati/attivi, o hanno versioni non corrispondenti",
       "thisPilotWillBeSavedTo": "Questo Pilota verrà salvato nella raccolta Importazioni v2 nella Gestione Contenuti. Potrà essere importato una volta installati e attivati i pacchetti di contenuti mancanti, oppure importato forzatamente con gli elementi mancanti rimossi.",
       "thisPilotMayBeImportedBut": "Questo Pilota può essere importato, ma alcuni elementi dai pacchetti di contenuti mancanti verranno istanziati dai dati salvati. Se rimossi, questi elementi non potranno essere riequipaggiati senza i pacchetti di contenuti mancanti.",
       "and": "e",
@@ -3332,11 +3332,11 @@
       "unavailable": "Non Disponibile",
       "addReserve": "Aggiungi Risorsa",
       "download": "Scarica",
-      "startWith": "Inizia con:",
+      "startWith": "Inizia con",
       "efficiency": "Efficienza",
       "influence": "Influenza",
       "collapse": "comprimi",
-      "notInCompendium": "I seguenti {type} non sono presenti nel compendio:",
+      "notInCompendium": "I seguenti {type} non sono presenti nel compendio",
       "selectPilotBackground": "Seleziona Background Pilota",
       "addCustomReserve": "Aggiungi Risorsa Personalizzata",
       "addOrganization": "Aggiungi Organizzazione",
@@ -3386,7 +3386,7 @@
       "rm4bPilotSelfAssessment1": "Autovalutazione Pilota RM-4b (1/3)",
       "mv2ASkillImprovementAssessment": "Valutazione Miglioramento Abilità MV-2//a",
       "theRM4bPILOTSELFASSESSMENT2": "L'audit dell'AUTOVALUTAZIONE PILOTA RM-4b (Abilità) cataloga i punti di forza autodichiarati di un singolo pilota in base a selezioni derivate dai risultati dell'Esame Medico OHM//Scansione dell'Attività Cerebrale CR-2 e dalle risposte fornite al rappresentante PNU dell'Amministratore dell'Unione presiedente.",
-      "nb": "NB:",
+      "nb": "NB",
       "theFollowingFormIsComprisedOf": "Il modulo seguente è composto da output non filtrato generato da una o più Persone Non Umane UNI-TACANALYSIS e NON PUÒ essere copiato, tradotto, riprodotto, trasmesso o codificato senza l'espresso permesso dell'Intelligence Navale dell'Unione.",
       "theMV2APilotSelfAssessment": "L'audit dell'Autovalutazione Pilota MV2/a cataloga i punti di forza autodichiarati di un singolo pilota in base a selezioni derivate dalla telemetria del campo di battaglia e dai registri di debriefing analizzati da un rappresentante PNU Navale dell'Unione.",
       "identSERVICEPRIMARYHasGeneratedA": "IDENT.SERVICE.PRIMARY ha generato un elenco di Impulsi suggeriti in base alla tua risposta a RM-4-03 (OCCUPAZIONE O POSIZIONE PRECEDENTE).",
@@ -3397,7 +3397,7 @@
       "mv2BCOAResourceRequisition": "Requisizione Risorse COA MV-2//b",
       "theRM4bPILOTSELFASSESSMENT3": "L'audit dell'AUTOVALUTAZIONE PILOTA RM-4b (Talenti) cataloga le attitudini operative di combattimento autodichiarate di un singolo pilota e conferisce privilegi di requisizione per tempo di simulatore, materiali di addestramento con holofield e sensorium corticale, dati di telemetria del campo di battaglia con classificazioni inferiori a GREY SIERRA SHARP e (in casi specifici) licenze di materiale GMS pattern-MM.",
       "theCombatOperationAbilityRequisitionOn": "La Requisizione di Capacità Operativa di Combattimento, previa approvazione di un sistema automatizzato di approvazione richieste guidato da PNU, conferisce privilegi di simulatore UNI, materiali di addestramento con holofield e sensorium corticale, dati di telemetria del campo di battaglia con classificazioni inferiori a GREY SIERRA SHARP e (in casi specifici) licenze di materiale GMS pattern-MM.",
-      "warningSubmission": "ATTENZIONE: l'invio per il registro IDENT {id} presenta i seguenti problemi:",
+      "warningSubmission": "ATTENZIONE: l'invio per il registro IDENT {id} presenta i seguenti problemi",
       "addOrImproveSkill": "Aggiungi o Migliora un Impulso.",
       "improveMechSkill": "Migliora un'Abilità Mech.",
       "addOrUpgradeTalent": "Aggiungi o Potenzia un Talento.",
@@ -3483,7 +3483,7 @@
       "missingLicenseData": "Dati Licenza Mancanti",
       "newOrganization": "Nuova Organizzazione",
       "skillSuggestionsAvailable": "Suggerimenti Impulsi Disponibili",
-      "editPilotDescription": "modifica Descrizione Pilota",
+      "editPilotDescription": "Modifica Descrizione Pilota",
       "convertRemotePilot": "converti pilota remoto",
       "confirmPilotDeletion": "conferma eliminazione pilota",
       "exportV2Json": "Esporta JSON v2",
@@ -3558,7 +3558,7 @@
       "startThisPilotAtA": "Fai partire questo Pilota a uno specifico livello di licenza. Consigliato per utenti esperti.",
       "thisWillCreateACopy": "Questo creerà una copia dei dati di questo pilota, registrata nella tua lista piloti.",
       "thisWillCloneTheSelected": "Questo clonerà il pilota selezionato. I personaggi clonati non possono unirsi a una missione in corso e ricevono una peculiarità casuale. Ulteriori clonazioni e imprinting di soggettività aggiungono altre peculiarità.",
-      "addingThisItemAsA": "Aggiungere questo elemento come risorsa remota creerà una versione in sola lettura di questo elemento collegata ai dati originali dell'autore. Quando l'autore salva un aggiornamento di questo elemento sul suo account cloud COMP/CON, la tua versione locale può ricevere quelle modifiche.",
+      "addingThisItemAsA": "Aggiungere questo elemento come risorsa remota creerà una versione in sola lettura di questo elemento collegata ai dati originali dell'autore. Quando l'autore salva un aggiornamento di questo elemento sul suo account cloud @:{'common.appName'}, la tua versione locale può ricevere quelle modifiche.",
       "thisProjectIsComplexResourceintensive": "Questo progetto è complesso, dispendioso in risorse o generalmente difficile da completare",
       "pilotOptions": "Opzioni Pilota",
       "mechOptions": "Opzioni Mech",

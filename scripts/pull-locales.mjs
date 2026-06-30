@@ -27,12 +27,16 @@ const ALIAS = { zh_Hans: 'zh', pt_BR: 'pt' }
 const codes = new Set(
   [...readFileSync('src/i18n/index.ts', 'utf8').matchAll(/code:\s*'([^']+)'/g)].map(m => m[1])
 )
-function mergeAppWins(app, incoming) {
+// Weblate is the source of truth for translations, so incoming wins on every key
+// it provides. Two guards: keep app-only keys Weblate hasn't translated yet, and
+// never overwrite a populated app value with an empty incoming string (which would
+// render blank instead of falling back to en).
+function mergeWeblateWins(existing, incoming) {
   const isObj = v => v && typeof v === 'object' && !Array.isArray(v)
-  if (!isObj(app)) return app === undefined ? incoming : app
-  const out = isObj(incoming) ? { ...incoming } : {}
-  for (const k of Object.keys(app)) {
-    out[k] = isObj(app[k]) && isObj(out[k]) ? mergeAppWins(app[k], out[k]) : app[k]
+  if (!isObj(incoming)) return incoming === '' && existing ? existing : incoming
+  const out = isObj(existing) ? { ...existing } : {}
+  for (const k of Object.keys(incoming)) {
+    out[k] = mergeWeblateWins(out[k], incoming[k])
   }
   return out
 }
@@ -69,12 +73,12 @@ for (const file of readdirSync(uiDir)) {
 
   const incoming = JSON.parse(readFileSync(join(uiDir, file), 'utf8'))
   const existing = existsSync(destPath) ? JSON.parse(readFileSync(destPath, 'utf8')) : {}
-  const merged = mergeAppWins(existing, incoming)
+  const merged = mergeWeblateWins(existing, incoming)
   const added = countLeaves(merged) - countLeaves(existing)
   writeFileSync(destPath, JSON.stringify(merged, null, 2) + '\n')
   const src = rawCode === code ? file : `${file} -> ${code}.json`
   console.log(
-    `${src}: +${added} new key(s) from Weblate; ${countLeaves(existing)} app value(s) preserved`
+    `${src}: ${countLeaves(merged)} key(s) from Weblate (+${added} new; updates applied)`
   )
   pulled++
 }

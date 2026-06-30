@@ -8,7 +8,7 @@ const here = dirname(fileURLToPath(import.meta.url))
 
 const SCRIPTS = {
   extract: ['extract-content-en.mjs', 'extract-srd-en.mjs'],
-  check: ['i18n-check.mjs', 'check-content-drift.mjs', 'check-content-keys.mjs'],
+  check: ['check-locale-syntax.mjs', 'i18n-check.mjs', 'check-content-drift.mjs', 'check-content-keys.mjs'],
   pull: ['pull-locales.mjs', 'pull-completeness.mjs'],
 }
 SCRIPTS.all = [...SCRIPTS.extract, ...SCRIPTS.check, ...SCRIPTS.pull]

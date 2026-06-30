@@ -184,13 +184,7 @@
         <td v-if="!mobile"
           class="text-center heading h3 px-3"
           style="width: 75px; line-height: 18px;">
-          <i18n-t v-if="r.max === -1"
-            keypath="ui.rollTable.multipleOnes"
-            tag="span"
-            scope="global">
-            <template #plural><span style="font-size: small; ">{{ $t('ui.rollTable.pluralS')
-                }}</span></template>
-          </i18n-t>
+          <span v-if="r.max === -1">{{ $t('ui.rollTable.multipleOnes') }}</span>
           <span v-else-if="r.min === r.max">{{ r.max }}</span>
           <span v-else>{{ r.min }} - {{ r.max }}</span>
         </td>
@@ -211,13 +205,7 @@
               flat
               tile
               color="background">
-              <i18n-t v-if="r.max === -1"
-                keypath="ui.rollTable.multipleOnes"
-                tag="strong"
-                scope="global">
-                <template #plural><span class="text-caption">{{ $t('ui.rollTable.pluralS')
-                    }}</span></template>
-              </i18n-t>
+              <strong v-if="r.max === -1">{{ $t('ui.rollTable.multipleOnes') }}</strong>
               <strong v-else-if="r.min === r.max">{{ r.max }}</strong>
               <strong v-else>{{ r.min }} - {{ r.max }}</strong>
             </v-card>

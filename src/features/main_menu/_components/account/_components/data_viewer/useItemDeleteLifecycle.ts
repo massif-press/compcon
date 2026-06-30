@@ -58,7 +58,7 @@ export function useItemDeleteLifecycle(opts: { refresh: () => void }) {
       const succeeded = selectedForDelete.value.length - failures.length
       if (failures.length === 0) {
         vueNotify({
-          title: t('notify.dataItem.bulkDeletedTitle', { n: succeeded, s: succeeded !== 1 ? 's' : '' }),
+          title: t('notify.dataItem.bulkDeletedTitle', { n: succeeded }, succeeded),
           text: t('notify.dataItem.bulkDeletedText'),
           data: { icon: 'mdi-delete', color: 'success' },
         })

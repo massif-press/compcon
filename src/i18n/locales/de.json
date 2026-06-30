@@ -36,7 +36,7 @@
     "selectAll": "Alle auswählen",
     "warning": "Warnung",
     "preview": "Vorschau",
-    "rank": "RANG",
+    "rank": "Rang",
     "versionHistory": "Versionsgeschichte",
     "copyToClipboard": "In Zwischenablage kopieren",
     "saveAndExit": "Speichern und beenden",
@@ -45,10 +45,10 @@
     "description": "Beschreibung",
     "tier": "Rang",
     "shareCode": "Teilbarer Code",
-    "mount": "Aufsitzen",
-    "manageContent": "Inhalt verwalten",
+    "mount": "Halterung",
+    "manageContent": "Inhalte verwalten",
     "campaignLibrary": "Kampagnen-Bibliothek",
-    "pilotLoadout": "Piloten-Ausrüstung",
+    "pilotLoadout": "Pilot:innen-Ausrüstung",
     "fileImport": "Datei importieren",
     "convertToLocal": "Zu Lokaldaten konvertieren",
     "importCampaign": "Kampagne importieren",
@@ -65,13 +65,13 @@
     "all": "Alle",
     "loadout": "Ausrüstung",
     "weapon": "Waffe",
-    "frame": "Chassis",
+    "frame": "Rahmen",
     "tierN": "Rang {n}",
     "tierShort": "R{n}",
     "byAuthor": "von {author}",
-    "logLevel": "Logstufe:",
+    "logLevel": "Logstufe",
     "contentManager": "Inhaltsverwaltung",
-    "deletePilot": "Pilot löschen",
+    "deletePilot": "Pilot:in löschen",
     "clearAllData": "Alle Daten löschen",
     "encounters": "Gefechte",
     "activeMode": "Aktiver Modus",
@@ -79,7 +79,7 @@
     "forceImport": "Import erzwingen",
     "addName": "{name} hinzufügen",
     "features": "Funktionen",
-    "pilotRoster": "Pilotenliste",
+    "pilotRoster": "Pilot:innenliste",
     "copyShareCode": "Teilbaren Code kopieren",
     "closePreview": "Vorschau schließen",
     "sitrep": "LAGEBERICHT",
@@ -93,7 +93,7 @@
     "trigger": "Auslöser",
     "core": "Kern",
     "electronicDefense": "Elektronische Verteidigung",
-    "hpBonus": "HP-Bonus",
+    "hpBonus": "TP-Bonus",
     "ignoreLimit": "Limit ignorieren",
     "includeFeatureDetails": "Funktionsdetails beifügen",
     "licenses": "Lizenzen",
@@ -103,11 +103,11 @@
     "overcharge": "Überladen",
     "overshield": "Überschild",
     "overview": "Übersicht",
-    "pilotBonds": "Pilotenbunde",
-    "pilotGroup": "Pilotengruppe",
-    "pilotSheet": "Pilotenblatt",
-    "pilotSkillTriggers": "Piloten-Knifftrigger",
-    "pilotTalents": "Pilotentalente",
+    "pilotBonds": "Pilot:innenbunde",
+    "pilotGroup": "Pilot:innengruppe",
+    "pilotSheet": "Pilot:innenblatt",
+    "pilotSkillTriggers": "Pilot:innen-Fertigkeitstrigger",
+    "pilotTalents": "Pilot:innentalente",
     "removeName": "{name} entfernen",
     "reserves": "Reserven",
     "setCustomDescription": "Eigene Beschreibung setzen",
@@ -122,12 +122,12 @@
     "techAttack": "Cyberattacke",
     "sensorRange": "Sensorreichweite",
     "limitedBonus": "Bonus zu begrenzten Systemen",
-    "pilotGear": "Pilotenzeug",
-    "pilotTalent": "Pilotentalent",
-    "pilotArmor": "Pilotenpanzerung",
-    "pilotWeapon": "Pilotenwaffe",
+    "pilotGear": "Pilot*innenzeug",
+    "pilotTalent": "Pilot*innentalent",
+    "pilotArmor": "Pilot*innenpanzerung",
+    "pilotWeapon": "Pilot*innenwaffe",
     "repairs": "Reparaturen",
-    "contentPacks": "Inhaltsbündel",
+    "contentPacks": "Inhaltspakete",
     "lcpDirectory": "LCP Verzeichnis",
     "addContent": "Inhalte hinzufügen",
     "updateAll": "Alle aktualisieren",
@@ -153,7 +153,7 @@
     "callsign": "Callsign",
     "roll_noun": "Wurf",
     "remoteResource": "Entfernte Ressource",
-    "addingLocalCopyTooltip": "Wenn Sie dieses Element als Lokalkopie hinzufügen, wird eine neue, editierbare Version dieses Elements in Ihren lokalen @:{'common.appName'} Daten gespeichert. Änderungen an diesem Element werden die Originalversion des*der Urheber*in nicht beeinflussen, und Sie werden auch keine Aktualisierungen erhalten.",
+    "addingLocalCopyTooltip": "Wenn Sie dieses Element als Lokalkopie hinzufügen, wird eine neue, editierbare Version dieses Elements in Ihren lokalen @:{'common.appName'}-Daten gespeichert. Änderungen an diesem Element werden die Originalversion des:der Urheber:in nicht beeinflussen, und Sie werden auch keine Aktualisierungen erhalten.",
     "armorBonus": "Panzerungsbonus",
     "cancelPermanentDeletion": "Permanente Löschung abbrechen",
     "confirmPermanentDeletion": "Permanente Löschung bestätigen",
@@ -175,9 +175,9 @@
     "hase_a": "A",
     "hase_s": "S",
     "hase_e": "T",
+    "ok": "OK",
     "appShortName": "C/C",
     "alert": "Alarm",
-    "ok": "OK",
     "loading": "Wird geladen…"
   },
   "language": {
@@ -186,7 +186,8 @@
     "selectLanguage": "Sprache",
     "components": {
       "ui": "Schnittstelle",
-      "lancer-data": "Kompendium"
+      "lancer-data": "Kompendium",
+      "lancer-srd": "Regelreferenzwerk"
     }
   },
   "classes": {
@@ -204,7 +205,7 @@
     "newEncounter": "Neues Gefecht",
     "newCollection": "Neue Sammlung",
     "unknownStatus": "Unbekannter Status",
-    "newSkillTrigger": "Neuer Knifftrigger",
+    "newSkillTrigger": "Neuer Fertigkeitstrigger",
     "newSection": "Neuer Abschnitt",
     "newContent": "Neue Inhalte",
     "newClock": "Neue Uhr",
@@ -215,8 +216,8 @@
   "nav": {
     "contentManager": {
       "title": "@:{'common.contentManager'}",
-      "packManagement": "Inhaltsbündel-Verwaltung",
-      "installedPacks": "Installierte Inhaltsbündel",
+      "packManagement": "Inhaltspaket-Verwaltung",
+      "installedPacks": "Installierte Inhaltspakete",
       "contentPacks": "@:{'common.contentManager'}",
       "installLcp": ".LCP-Datei installieren",
       "lcpDirectory": "@:{'common.lcpDirectory'}",
@@ -226,15 +227,15 @@
       "refreshContent": "Aktualisieren",
       "updateAll": "@:{'common.updateAll'}",
       "deleteAll": "Alle löschen",
-      "noPacksInstalled": "Keine Inhaltsbündel installiert.",
+      "noPacksInstalled": "Keine Inhaltspakete installiert.",
       "deletePackConfirm": "Dies wird dieses Paketund sämtliche Inhalte darin von @:{'common.appName'} entfernen. Nutzer:innendaten, die auf diese Inhalte angewiesen sind, bleiben weiterhin verfügbar. Sind Sie sicher, dass Sie fortfahren wollen?"
     },
     "roster": {
       "title": "@:{'common.pilotRoster'}",
-      "newPilot": "Neuer Pilot",
-      "importPilot": "Pilot importieren",
+      "newPilot": "Neue:r Pilot:in",
+      "importPilot": "Pilot:in importieren",
       "deletePilot": "@:{'common.deletePilot'}",
-      "clonePilot": "Pilot klonen"
+      "clonePilot": "Pilot:in klonen"
     },
     "settings": {
       "title": "@:{'common.settings'}",
@@ -246,9 +247,9 @@
     "v2Import": {
       "panelTitle": "Ausstehende V2 Importe",
       "importAll": "Alle importieren",
-      "importAllTooltip": "Versuche, alle ausstehenden Elemente zu importieren. Elemente, deren Dependenzen fehlen, bleiben weiterhin ausstehend.",
-      "forceImportAll": "Alle importieren erzwingen",
-      "forceImportAllTooltip": "Erzwingen des Imports aller ausstehender Elemente. Nicht auflösbare Dependenzen werden entfernt. Benutzen Sie diese Option, wenn Sie alles trotz fehlender Inhalte importieren wollen, aber bedenken Sie, dass den importierten Elementen fehlende Daten entfernt werden. Eventuell werden Sie diese nach dem Import manuell beheben müssen.",
+      "importAllTooltip": "Versuche, alle ausstehenden Elemente zu importieren. Elemente, deren Abhängigkeiten fehlen, bleiben weiterhin ausstehend.",
+      "forceImportAll": "Import Aller erzwingen",
+      "forceImportAllTooltip": "Erzwingen des Imports aller ausstehender Elemente. Nicht auflösbare Abhängigkeiten werden entfernt. Benutzen Sie diese Option, wenn Sie alles trotz fehlender Inhalte importieren wollen, aber bedenken Sie, dass den importierten Elementen fehlende Daten entfernt werden. Eventuell werden Sie diese nach dem Import manuell beheben müssen.",
       "forceImport": "Import erzwingen (entfernt fehlende Elemente)",
       "forceImportPanelTitle": "@:{'common.forceImport'}",
       "attemptReimport": "Import neu versuchen",
@@ -256,16 +257,16 @@
       "deleteTitle": "Backup löschen",
       "deleteConfirm": "Dieses ausstehende V2 Backup löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
       "strippedTitle": "Elemente die bei erzwungenem Import entfernt wurden",
-      "strippedBody": "Die folgenden Elemente wurden entfernt, weil sie nicht aufgelöst werden konnten:",
+      "strippedBody": "Die folgenden Elemente wurden entfernt, weil sie nicht aufgelöst werden konnten",
       "moreCount": "+{count} weitere",
-      "forceImportNotice": "Dies wird den {type} importieren, aber alle nicht auflösbaren Elemente entfernen. Die folgenden Dependenzen konnten nicht gefunden werden:"
+      "forceImportNotice": "Dies wird den {type} importieren, aber alle nicht auflösbaren Elemente entfernen. Die folgenden Abhängigkeiten konnten nicht gefunden werden:"
     },
     "nav": {
       "navigateBack": "Zurück navigieren",
       "navigateForward": "Vorwärts navigieren",
       "mainMenu": "@:{'common.mainMenu'}",
       "compendium": "@:{'common.compendium'}",
-      "pilotManagement": "Pilotenverwaltung",
+      "pilotManagement": "Pilot:innenverwaltung",
       "npcRoster": "NSC-Liste",
       "encounters": "Gefechte",
       "narrativeElements": "Erzählelemente",
@@ -274,9 +275,9 @@
       "quickReference": "Schnellreferenz",
       "storageLimitExceeded": "Speicherkapazität überschritten",
       "noNewItemsSaved": "Keine neuen Elemente können gespeichert werden, bis die Kapazität erweitert wird oder Daten gelöscht werden.",
-      "storageWarningTooltip": "@:{'common.activeMode'} hat den Speicherwarnwert überschritten. Mehr Details können im Speicher-Tab des Optionsmenüs eingesehen werden.",
+      "storageWarningTooltip": "@:{'common.activeMode'} hat den Speicherwarnwert überschritten. Mehr Details können im Speicher-Reiter des Optionsmenüs eingesehen werden.",
       "storageAlertTooltip": "@:{'common.appName'} hat den Speicher-Maximalwert überschritten.",
-      "storageDetails": "Mehr Details können im <b>Speicher</b>-Tab des Optionsmenüs eingesehen werden.",
+      "storageDetails": "Mehr Details können im <b>Speicher</b>-Reiter des Optionsmenüs eingesehen werden.",
       "cloudAccount": "@:{'common.cloudAccount'}",
       "achievements": "Errungenschaften",
       "manageContent": "@:{'common.manageContent'}",
@@ -288,14 +289,14 @@
     },
     "about": {
       "title": "@:{'common.appName'}",
-      "ccVersion": "C/C Version:",
-      "lancerCoreVersion": "@:{'common.gameName'} CORE Version:",
-      "description": "@:{'common.appName'} ist ein kostenloser, digitaler open-source Werkzeugkasten und Spielassistent zum Erstellen und Spielen von @:{'common.gameName'} Tabletop-Rollenspielen.",
-      "coreBookInfo": "Das @:{'common.gameName'} CORE Buch, @:{'common.appName'} und damit verbundene Inhalte können hier gefunden werden:"
+      "ccVersion": "C/C Version",
+      "lancerCoreVersion": "@:{'common.gameName'} CORE Version",
+      "description": "@:{'common.appName'} ist ein kostenloser, digitaler, quelloffener Werkzeugkasten und Spielassistent zum Erstellen und Spielen von @:{'common.gameName'} Tabletop-Rollenspielen.",
+      "coreBookInfo": "Das @:{'common.gameName'} CORE Buch, @:{'common.appName'} und damit verbundene Inhalte können hier gefunden werden"
     },
     "help": {
       "faq": "Häufig gestellte Fragen",
-      "troubleshootingFaq": "Fehlerbehebung FAQ",
+      "troubleshootingFaq": "Fehlerbehebungs-FAQ",
       "reportBug": "Einen Fehler melden",
       "suggestFeature": "Eine Funktion vorschlagen",
       "discussionForum": "Diskussionsforum",
@@ -308,33 +309,33 @@
       "additionalHelp": "Zusätzliche Hilfe",
       "whereAreNpcsBody": "Wenn Sie das Lancer Core Buch gekauft haben, werden Sie auf der itch.io-Seite davon ein herunterladbares Datenpaket finden, in dem alle Core NSC-Daten enthalten sind. Auf diese können Sie dann über die Inhaltsverwaltung zugreifen. Sie können das {installLcp}-Tab der Inhaltsverwaltung benutzen, um das Paket zu importieren und im Anschluss Ihre eigenen Gefechte erstellen und spielen.",
       "installLcpTab": "LCP installieren",
-      "howToAddContentBody": "Offizielle @:{'common.gameName'}-Inhalte können auf {itchLink} gefunden werden. Spielerseitige LCP Inhalte für @:{'common.appName'} finden Sie im {downloadDemo}-Abschnitt sämtlicher Massif Press Herausgaben. GM-seitige Inhalte (wie z.B. NSCs) können zusammen mit den PDF Inhalten gekauft werden. Links zu diesen Inhalten (und hervorgehobenen Community-Inhalten) finden Sie auch im {lcpDirectory} der Inhaltsverwaltung.",
+      "howToAddContentBody": "Offizielle @:{'common.gameName'}-Inhalte können auf {itchLink} gefunden werden. Spielerseitige LCP-Inhalte für @:{'common.appName'} finden Sie im {downloadDemo}-Abschnitt sämtlicher Massif Press Herausgaben. Spielleiterseitige Inhalte (wie z.B. NSCs) können zusammen mit den PDF-Inhalten gekauft werden. Links zu diesen Inhalten (und hervorgehobenen Community-Inhalten) finden Sie auch im {lcpDirectory} der Inhaltsverwaltung.",
       "itchPageText": "Die itch.io-Seite von Massif Press.",
       "downloadDemo": "Demo herunterladen",
       "lcpDirectory": "@:{'common.lcpDirectory'}",
-      "howToSeeExoticsBody": "Um Spoiler für Spieler zu vermeiden, blendet @:{'common.appName'} standardmäßig Exotische Elemente aus. Um die Sichtbarkeit zu ändern, können Sie das Optionsmenü von @:{'common.appName'} verwenden und dort den {showExoticsToggle} Schalter einschalten.",
+      "howToSeeExoticsBody": "Um Spoiler für Spieler zu vermeiden, blendet @:{'common.appName'} standardmäßig Exotische Elemente aus. Um die Sichtbarkeit zu ändern, können Sie das {options}-Menü von @:{'common.appName'} verwenden und dort den {showExoticsToggle}-Schalter einschalten.",
       "optionsLabel": "@:{'common.options'}",
       "showExoticsToggleLabel": "\"Exotische Elemente im Kompendium anzeigen\"",
-      "cloudAccountFaqBody": "@:{'common.options'} Cloud-Konten sind gratis für alle Nutzer. Unterstützer auf Patreon erhalten Zugang zu zusätzlichen Funktionen in ihren Cloud-Konten, wie zum Beispiel erweiterter Cloud-Speicher und zusätzliche aktive Tisch-Instanzen.",
+      "cloudAccountFaqBody": "@:{'common.options'} Cloud-Konten sind gratis für alle Nutzer:innen. Unterstützer:innen auf Patreon erhalten Zugang zu zusätzlichen Funktionen in ihren Cloud-Konten, wie zum Beispiel erweiterter Cloud-Speicher und zusätzliche aktive Tisch-Instanzen.",
       "additionalHelpBody": "Das {faqLink} kann Ihnen mit Ihrer Frage evtl. weiterhelfen! Falls Sie dennoch nicht finden können, wonach Sie suchen, besuchen Sie uns gerne auf {discordLink} (insbesondere im #comp-con Kanal) und posten Sie Ihre Frage oder Ihren Kommentar direkt an die Entwickler.",
       "faqLinkText": "@:{'common.appName'} FAQ",
-      "discordLinkText": "der unoffizielle @:{'common.gameName'} Discord"
+      "discordLinkText": "dem unoffiziellen @:{'common.gameName'} Discord-Server"
     },
     "credits": {
-      "lancerBy": "@:{'common.gameName'} von:",
-      "compconBy": "@:{'common.appName'} von:",
-      "with": "Mit:",
-      "graphicDesignBy": "Grafikdesign von:",
-      "additionalArtBy": "Zusätzliche Bilder von:",
+      "lancerBy": "@:{'common.gameName'} von",
+      "compconBy": "@:{'common.appName'} von",
+      "with": "Mit",
+      "graphicDesignBy": "Grafikdesign von",
+      "additionalArtBy": "Zusätzliche Bilder von",
       "patronThanks": "Die anhaltende Weiterentwicklung von @:{'common.appName'} wäre nicht möglich ohne die großzügige",
-      "supportOf": "von:",
+      "supportOf": "von",
       "tier": "@:{'common.tier'}",
       "anonymousPatron": "Anonymer Patron"
     },
     "achievements": {
       "unlocked": "freigeschaltet",
-      "byRarity": "Nach Seltenheit:",
-      "byLabel": "Nach Label:",
+      "byRarity": "Nach Seltenheit",
+      "byLabel": "Nach Marke",
       "secretAchievements": "Geheime Errungenschaften",
       "discovered": "Entdeckt",
       "display": "Anzeige",
@@ -361,14 +362,15 @@
       "hiddenCount": "{count} Errungenschaft nicht angezeigt | {count} Errungenschaften nicht angezeigt",
       "cannot": "kann nicht",
       "othersCount": "(+{count} andere)",
-      "warningDataFull": "Dies wird Nutzer:innen-Errungenschaftsdaten {emphasis}."
+      "warningDataFull": "Dies wird Nutzer:innen-Errungenschaftsdaten {emphasis}.",
+      "hidden": "@:{'common.hidden'}"
     },
     "storage": {
       "noStorageAccess": "@:{'common.appName'} kann nicht auf den Gerätespeicher zugreifen. Dies kann aufgrund einer Browsereinstellung oder -erweiterung sein. @:{'common.appName'} wird stattdessen \"Local Storage\" verwenden, welches auf 5MB begrenzt ist. Dies kann dazu führen, dass @:{'common.appName'} gewisse Daten nicht speichern kann. Bitte überprüfen Sie Ihre Browser-Einstellungen und erlauben @:{'common.appName'} Zugriff auf \"Persistent Storage\" wenn Sie dazu aufgefordert werden. Falls Sie eine Browsererweiterung verwenden, die Zugriff auf den Speicher blockiert, bitte deaktivieren Sie diese für @:{'common.appName'}. Falls keine dieser Optionen funktioniert, bitte laden Sie @:{'common.appName'} als PWA herunter.",
-      "warningDescription": "@:{'common.appName'} wird eine Warnnachricht anzeigen, wenn",
-      "maxDescription": "@:{'common.appName'} wird das Erstellen neuer Daten verhindern nach",
-      "ofAvailableStorage": "% an verfügbarem Systemspeicher (",
-      "hasBeenUsed": ") ist in Benutzung",
+      "warningDescription": "@:{'common.appName'} wird eine Warnnachricht anzeigen, falls",
+      "maxDescription": "@:{'common.appName'} wird das Erstellen neuer Daten verhindern, sobald",
+      "ofAvailableStorage": "% des verfügbaren Systemspeichers (",
+      "hasBeenUsed": ") belegt ist",
       "autoDelete": "Automatisches Löschen",
       "neverAutoDelete": "automatisches Löschen von vormarkierten Daten.",
       "deletedItems": "Gelöschte Elemente (nur Lokaldaten)",
@@ -377,10 +379,20 @@
       "clearAllData": "@:{'common.clearAllData'}",
       "cannotBeUndone": "rückgängig gemacht werden.",
       "areYouSure": "Sind Sie sicher, dass Sie fortfahren möchten?",
-      "deleteWarningBanner": "Achtung // Achtung // Achtung"
+      "deleteWarningBanner": "Achtung // Achtung // Achtung",
+      "daysCount": "{count} Tage.",
+      "deleteAllConfirm": "ALLE",
+      "deleteConfirmIntro": "Dies wird {confirm} lokalen @:{'common.appName'}-Daten löschen.",
+      "deleteConfirmUndone": "Dies {undone}",
+      "storageSettings": "Speichereinstellungen",
+      "storageThresholds": "Speichergrenzwerte",
+      "warningThresholdPct": "Warngrenzwert (%)",
+      "maxThresholdPct": "Maximaler Grenzwert (%)",
+      "warningThresholdMb": "Warngrenzwert (MB)",
+      "maxThresholdMb": "Maximaler Grenzwert (MB)"
     },
     "v2Auto": {
-      "errorsDuringMigration": "{count} Fehler während des Umzugs | {count} Fehler während des Umzugs",
+      "errorsDuringMigration": "{count} Fehler während der Migration | {count} Fehler während der Migration",
       "pilotsImported": "{count} Pilot:in importiert | {count} Pilot:innen importiert",
       "pilotsPending": "{count}Pilot:in ausstehend (fehlende LCPs) | {count} Pilot:innen ausstehend (fehlende LCPs)",
       "npcsImported": "{count} NSC importiert | {count} NSCs importiert",
@@ -389,7 +401,8 @@
       "encountersPending": "{count} Gefecht ausstehend (fehlende NSCs) | {count} Gefechte ausstehend (fehlende NSCs)",
       "lcpsImported": "{count} Inhaltspaket importiert | {count} Inhaltspakete importiert",
       "migrationTitle": "V2 Datenmigration",
-      "pendingNote": "Ausstehende Elemente können vom Inhaltspaket neu importiert werden, nachdem die benötigten LCPs installiert wurden."
+      "pendingNote": "Ausstehende Elemente können vom Inhaltspaket neu importiert werden, nachdem die benötigten LCPs installiert wurden.",
+      "downloadBackupTooltip": "Diese .compcon-Datei kann unter https://old.compcon.app in einer V2-Umgebung benutzt werden. Sie kann jederzeit im Options-Menü heruntergeladen werden"
     },
     "packConfig": {
       "applyNote": "Diese Konfigurationen können auf Pilot:innen und NSCs in deren Optionsmenüs angewendet werden.",
@@ -477,7 +490,11 @@
       "reimportPendingText": "{count} Element hat ausstehende fehlende Inhalte. | {count} Elemente haben ausstehende fehlende Inhalte.",
       "missingDependencies": "Fehlende Abhängigkeiten sind noch nicht verfügbar.",
       "noItemsToReimport": "Keine Elemente zum erneuten Import verfügbar.",
-      "reimportFailedText": "Erneuter Import fehlgeschlagen: {error}"
+      "reimportFailedText": "Erneuter Import fehlgeschlagen: {error}",
+      "importedSuccessfully": "Erfolgreich importiert.",
+      "importFailedText": "Import fehlgeschlagen: {error}",
+      "forceImportComplete": "Erzwungener Import abgeschlossen.",
+      "forceImportFailedText": "Erzwungener Import fehlgeschlagen: {error}"
     },
     "settingsPage": {
       "resetV2Migration": "V2 Migrationsstatus zurücksetzen",
@@ -511,7 +528,11 @@
       "selectBulkFile": ".compcon-Massenexportdatei auswählen",
       "v2BackupDetected": "V2 Backup erkannt",
       "v2AppendNote": "Importe von V2 Backups werden immer zu existierenden Daten zusätzlich hinzugefügt.",
-      "importV2Backup": "V2 Backup importieren"
+      "importV2Backup": "V2 Backup importieren",
+      "logLevel": "@:{'common.logLevel'}",
+      "errorReportingPrefix": "Fehlerberichterstattung",
+      "enhancedReportingPrefix": "Erweiterte Fehlerberichterstattung",
+      "enabled": "aktiviert"
     },
     "packsDirectory": {
       "officialContent": "Offiziell",
@@ -522,7 +543,8 @@
       "clickHere": "klicken Sie hier.",
       "communityNotice": "In-App Downloads und automatische Abonnements zu Community-LCP-Aktualisierungen werden aktuell noch nicht unterstützt. Sobald die nötigen Werkzeuge für Autor:innen verfügbar sind, werden Community LCPs zu V3 migriert und können von denselben Update- und Abonnementfunktionen profitieren, die auch für offizielle Massif Press Inhaltspakete verfügbar sind. Folgen Sie {blog} um über die Entwicklungen auf dem Laufenden zu bleiben.",
       "developmentBlog": "Entwickler-Blog",
-      "massifPress": "MASSIF PRESS"
+      "massifPress": "MASSIF PRESS",
+      "content": "Inhalte"
     },
     "packInfo": {
       "v2ContentTitle": "V2 Inhalte",
@@ -533,7 +555,9 @@
       "none": "@:{'common.none'}",
       "authorsWebsite": "Webseite der Autor:in",
       "dependencyInstalled": "Abhängigkeit installiert",
-      "version": "@:{'common.version'}"
+      "version": "@:{'common.version'}",
+      "contentHeading": "Inhalte",
+      "changelog": "@:{'common.changelog'}"
     },
     "communityTable": {
       "noData": "Keine Inhaltspakete verfügbar.",
@@ -543,7 +567,8 @@
       "notInstalled": "Nicht installiert",
       "subscribedTooltip": "Aktuell auf Aktualisierungen abonniert. Zum Abbestellen klicken.",
       "subscribeTooltip": "Hier klicken, um @:{'common.appName'} zu erlauben, dieses LCP zu aktualisieren, sobald eine neue Version verfügbar ist",
-      "openWebsite": "Webseite öffnen"
+      "openWebsite": "Webseite öffnen",
+      "free": "Gratis"
     },
     "packsList": {
       "toggleSuccessText": "Paket erfolgreich {action}.",
@@ -560,7 +585,8 @@
     },
     "achievementItem": {
       "unlockedLabel": "Freigeschaltet",
-      "createdBy": "Erstellt von"
+      "createdBy": "Erstellt von",
+      "secretLabel": "Geheime Errungenschaft"
     },
     "optionsPage": {
       "tabSettings": "@:{'common.settings'}",
@@ -568,7 +594,12 @@
       "tabLog": "Protokoll"
     },
     "alt": {
-      "supportCompconOnPatreon": "Unterstützen Sie @:{'common.appName'} auf Patreon"
+      "supportCompconOnPatreon": "Unterstützen Sie @:{'common.appName'} auf Patreon",
+      "netlifyStatus": "Netlify-Status",
+      "joinTheLancerDiscord": "Treten Sie dem LANCER Discord-Server bei"
+    },
+    "cloudNotifications": {
+      "dismissAll": "Alle Benachrichtigungen verwerfen"
     }
   },
   "active": {
@@ -584,7 +615,7 @@
       "checkFail": "Test gescheitert",
       "wins": "Gewinnt",
       "loses": "Verliert",
-      "skillCheckRoll": "Knifftestwurf",
+      "skillCheckRoll": "Fertigkeitstestwurf",
       "rollResults": "Wurfergebnisse",
       "difficultMod": "-1 (Schwierig)",
       "targetValue": "Zielwert",
@@ -595,7 +626,7 @@
       "result": "Ergebnis:"
     },
     "mechPanel": {
-      "pilotSkills": "Pilotenkniffe ({n})"
+      "pilotSkills": "Pilotenfertigkeiten ({n})"
     },
     "mechActions": {
       "mechBootedUpText": "{name} hat sich HOCHGEFAHREN."
@@ -606,13 +637,13 @@
   },
   "pm": {
     "level": {
-      "mechSkills": "Mechkniffe",
-      "pilotSKILLTRIGGERIMPROVEMENT": "Pilotenknifftrigger-Verbesserung",
-      "mechSKILLUPGRADE": "Mechkniff-Verbesserung",
+      "mechSkills": "Mechfertigkeiten",
+      "pilotSKILLTRIGGERIMPROVEMENT": "Pilotenfertigkeitstrigger-Verbesserung",
+      "mechSKILLUPGRADE": "Mechfertigkeits-Verbesserung",
       "skills": "Kniffe"
     },
     "new": {
-      "skills": "Kniffe"
+      "skills": "Fertigkeiten"
     },
     "shared": {
       "selectLicenseRanks": "{word} ({count}) Lizenzrang auswählen. | {word} ({count}) Lizenzränge auswählen."
@@ -712,11 +743,16 @@
       "moveDown": "nach unten bewegen",
       "moveToBottom": "nach ganz unten verschieben",
       "deletePageConfirm": "Möchten Sie das {type} \"{title}\" löschen? Diese Handlung kann nicht rückgängig gemacht werden.",
-      "selectEncounter": "Gefecht auswählen"
+      "selectEncounter": "Gefecht auswählen",
+      "managedIn": "Importierte Kampagnen können in der {library} verwaltet werden",
+      "yourCampaigns": "Ihre Kampagnen",
+      "exportCampaignJson": "Kampagnen-JSON exportieren",
+      "changeSectionType": "Abschnittstyp ändern",
+      "movePage": "Seite bewegen"
     },
     "pageContent": {
-      "themeColorsHelp": "Diese Farben ändern sich basierend auf dem ausgewählten @:{'common.appName'}-Farbschema des*der Nutzer*in",
-      "paletteColorsHelp": "Diese Farben {strong} ändern sich basierend auf dem ausgewählten @:{'common.appName'}-Farbschema des*der Nutzer*in",
+      "themeColorsHelp": "Diese Farben ändern sich basierend auf dem ausgewählten @:{'common.appName'}-Farbschema des:der Nutzer:in",
+      "paletteColorsHelp": "Diese Farben {strong} ändern sich basierend auf dem ausgewählten @:{'common.appName'}-Farbschema des:der Nutzer:in",
       "outlined": "Umrandet",
       "tonal": "Ton",
       "h1": "H1",
@@ -724,7 +760,13 @@
       "h3": "H3",
       "h4": "H4",
       "hideTitle": "Titel verbergen",
-      "block": "Block"
+      "block": "Block",
+      "clippedBlock": "Abgeschnittener Block",
+      "quote": "Zitat",
+      "themeAwareColors": "Farbschemabewusste Farben",
+      "palette": "Farbschema",
+      "deleteItemConfirm": "Möchten Sie dieses Element löschen? Diese Handlung kann nicht rückgängig gemacht werden.",
+      "noImage": "Ohne Bild"
     },
     "import": {
       "v2BackupText": "{count} Gefecht zu den V2 Importierungen für spätere Importierung gespeichert. | {count} Gefechte zu den V2 Importierungen für spätere Importierung gespeichert.",
@@ -733,9 +775,11 @@
       "missingContentPacks": "Fehlende Inhaltspakete",
       "stagedItems": "Bereitgestellte Elemente",
       "readyForImport": "Element bereit zum Import",
-      "completeImport": "Import fertig ({n} Elemente)",
+      "completeImport": "Import fertigstellen ({n} Elemente)",
       "collection": "Sammlung",
-      "importErrorTitle": "Import fehlgeschlagen"
+      "importErrorTitle": "Import fehlgeschlagen",
+      "encounterImportErrorText": "Import von Gefecht fehlgeschlagen: {error}",
+      "v2BackupTitle": "Zu V2-Backups importiert"
     },
     "stats": {
       "statCountSuffix": "{n} Statistik | {n} Statistiken",
@@ -766,11 +810,14 @@
       "noLabels": "Keine Marken"
     },
     "editorFooter": {
-      "upToDate": "Element wurde mit rechnerfernen Änderungen aktualisiert.",
-      "downloadRemote": "Alle rechnerfernen Änderungen auf diesem Element herunterladen, wodurch Lokaldaten überschrieben werden."
+      "upToDate": "Element wurde mit rechnerfernen Änderungen aktualisiert",
+      "downloadRemote": "Alle rechnerfernen Änderungen auf diesem Element herunterladen, wodurch Lokaldaten überschrieben werden.",
+      "mustLogin": "Müssen für Aktualisierungen angemeldet sein"
     },
     "split": {
-      "createNewType": "Neue:s {type} erstellen"
+      "createNewType": "Neue:s {type} erstellen",
+      "itemsHidden": "{n} Elemente durch Filter ausgeblendet",
+      "addType": "{type} hinzufügen"
     },
     "itemCard": {
       "tierShort": "R{tier}",
@@ -791,7 +838,8 @@
     },
     "overview": {
       "setCoverImage": "Titelbild festlegen",
-      "deleteHistory": "Verlauf löschen (v.{ver})"
+      "deleteHistory": "Verlauf löschen (v.{ver})",
+      "bannerImage": "Kampagnen-Bannerbild"
     },
     "narrativeLink": {
       "noEncounterSelected": "Kein Gefecht ausgewählt",
@@ -801,7 +849,8 @@
       "linkHelp": "Wählen Sie dieses Element im \"Erzählelement setzen\"-Menü aus, um es mit einem Erzählelement zu verknüpfen.",
       "unlinkElement": "Element trennen",
       "setNarrativeElement": "Erzählelement setzen",
-      "setEncounter": "Gefecht setzen"
+      "setEncounter": "Gefecht setzen",
+      "noElementSelected": "Kein Element ausgewählt"
     },
     "encounterContent": {
       "map": "Karte"
@@ -826,7 +875,8 @@
       "thisInstance": "Diese Instanz",
       "source": "Quelle",
       "updateInstanceTooltip": "Diese Instanz-Eigenschaft an der Quelle aktualisieren",
-      "updateAllTooltip": "Alle Instanz-Eigenschaften an der Quelle aktualisieren"
+      "updateAllTooltip": "Alle Instanz-Eigenschaften an der Quelle aktualisieren",
+      "noChanges": "Ohne Änderungen"
     },
     "encounterIndex": {
       "addFolder": "Ordner hinzufügen",
@@ -838,7 +888,116 @@
     "encImport": {
       "notEncounterFile": "Die ausgewählte Datei enthält keine Gefechtsdaten.",
       "stagedEncounters": "Vorbereitete Gefechte",
-      "readyForImport": "Gefecht bereit für den Import"
+      "readyForImport": "Gefecht bereit für den Import",
+      "missingNpcs": "Dieses Gefecht beruft sich auf NSCs, die noch nicht importiert wurden. Es wird zur V2 Importierungs-Sammlung in der Inhaltsverwaltung abgelegt und kann importiert werden, sobald die benötigten NSCs verfügbar sind.",
+      "someMissingNpcs": "Einige Gefechte beziehen sich auf NSCs, die noch nicht importiert werden. Diese Gefechte werden zur V2 Importierungs-Sammlung in der Inhaltsverwaltung abgelegt und können importiert werden, sobald die benötigten NSCs verfügbar sind."
+    },
+    "sync": {
+      "syncCompleteText": "{itemType} {name} synchronisiert.",
+      "syncFailedText": "Synchronisierung von {itemType} {name} fehlgeschlagen. {err}"
+    },
+    "sectionEditor": {
+      "confirmDelete": "Möchten Sie den Textgegenstand \"{title}\" löschen? Diese Handlung kann nicht rückgängig gemacht werden.",
+      "addSection": "Neuen Textabschnitt hinzufügen"
+    },
+    "editorBase": {
+      "descriptionHeading": "{type} Beschreibung",
+      "setLcpConfig": "LCP-Konfiguration setzen"
+    },
+    "relationships": {
+      "linkedEntities": "Verknüpfte Entitäten"
+    },
+    "filter": {
+      "filters": "Filter",
+      "showItemsWith": "Zeige Elemente mit",
+      "hideItemsWith": "Verstecke Elemente mit",
+      "showAll": "Alle anzeigen",
+      "hideAll": "Alle ausblenden",
+      "clearAllFilters": "Alle Filter entfernen"
+    },
+    "encounterEditor": {
+      "details": "Gefechts-Details",
+      "noMapData": "Ohne Kartendaten",
+      "additionalNotes": "Zusätzliche Notizen"
+    },
+    "sitrep": {
+      "presets": "Voreinstellungen",
+      "myPresets": "Meine Voreinstellungen",
+      "savePreset": "Voreinstellung speichern",
+      "modifiedWarning": "Dieser Lagebericht wurde bearbeitet. Das Laden einer neuen Voreinstellung wird diese Änderungen löschen. Wollen Sie fortfahren?",
+      "deletePresetConfirm": "Die Voreinstellung {name} löschen? Dies kann nicht rückgängig gemacht werden."
+    },
+    "environment": {
+      "modifiedWarning": "Dieses Umfeld wurde bearbeitet. Das Laden einer neuen Voreinstellung wird diese Änderungen löschen. Wollen Sie fortfahren?"
+    },
+    "encPrint": {
+      "enemies": "Feinde",
+      "allies": "Verbündete",
+      "atLeastPcs": "Bei {count} oder mehr Spielercharakteren",
+      "reinforcesOnTurn": "Verstärkt auf Zug {turn}",
+      "npcTracking": "NSC-Verfolgung",
+      "pcsAllies": "Spielercharaktere/Verbündete"
+    },
+    "gmNotes": "Spielleiternotizen",
+    "npcTemplate": {
+      "assignTemplates": "NSC-Vorlagen zuweisen",
+      "removeTemplate": "Vorlage entfernen",
+      "assignTemplate": "Vorlage zuweisen",
+      "cannotAssign": "Zuweisung nicht möglich (in Konflikt mit {conflict})",
+      "selectNpcTemplate": "NSC-Vorlage auswählen"
+    },
+    "tier": {
+      "changeTo": "Zu Rang {n} ändern",
+      "detectedEdits": "@:{'common.appName'} hat bearbeitete Statistik-Werte entdeckt. Wie möchten Sie fortfahren?"
+    },
+    "npcTag": {
+      "selectTag": "NSC-Marke auswählen"
+    },
+    "eidolon": {
+      "layers": "Schichten",
+      "addLayer": "Schicht hinzufügen",
+      "addRandomLayer": "Zufällige Schicht hinzufügen",
+      "noLayers": "Ohne Schichten",
+      "orderLower": "Niedriger anordnen",
+      "orderHigher": "Höher anordnen",
+      "layerDescription": "Schichtbeschreibung"
+    },
+    "layerSelector": {
+      "noData": "Keine Eidolondaten gefunden!",
+      "help1": "Eidolondaten sind im No Room for a Wallflower Kampagnenbuch enthalten und daher nicht standardmäßig in @:{'common.appName'} verfügbar. Sie können Eidolondaten als zusätzliche herunterladbare Inhlte auf der {link} Kampagnenbuchseite finden.",
+      "help2": "Falls Sie die Eidolondaten bereits heruntergeladen haben, können Sie diese in @:{'common.appName'} über die Inhaltsverwaltung im Hauptmenü oder Options-Menü rechts in der Navigationsleiste importieren."
+    },
+    "npcFeatures": {
+      "selectClassToAdd": "Wählen Sie eine Klasse, um Funktionen hinzuzufügen",
+      "noFeatures": "Ohne NSC-Funktionen",
+      "saveConfig": "Konfiguration speichern"
+    },
+    "npcStats": {
+      "activations": "Aktivierungen/Runde"
+    },
+    "eidolonPrint": {
+      "classLabel": "Klasse {class}",
+      "persistentTraits": "Bestehende Eigenschaften",
+      "layer": "Schicht",
+      "newShards": "Neue Scherben: {n}"
+    },
+    "featurePrint": {
+      "weaponAttacks": "Diese Waffe kann {count} Angriffe auf einmal durchführen."
+    },
+    "eidolonTier": {
+      "heading": "Eidolonrang"
+    },
+    "doodad": {
+      "whatIs": "Was ist ein Dingsbums?"
+    },
+    "titles": {
+      "image": "Bild",
+      "clock": "Uhr",
+      "setMapImage": "Kartenbild setzen",
+      "missingNpcs": "Fehlende NSCs",
+      "doodads": "Dingsbumse",
+      "selectLayer": "Schicht auswählen",
+      "eidolons": "Eidolons"
     }
   },
   "compendium": {

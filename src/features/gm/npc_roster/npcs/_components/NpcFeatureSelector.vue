@@ -70,7 +70,7 @@
             </v-list-item>
             <v-list-subheader v-if="npc.NpcTemplateController.Templates.length > 0"
               class="mb-n3">
-              {{ $t('gm.npcFeature.selectedTemplate', { plural: npc.NpcTemplateController.Templates.length > 1 ? 'S' : '' }) }}
+              {{ $t('gm.npcFeature.selectedTemplate', {}, npc.NpcTemplateController.Templates.length) }}
             </v-list-subheader>
             <v-list-item v-for="t in npc.NpcTemplateController.Templates"
               :key="t.ID"

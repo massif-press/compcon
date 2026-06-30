@@ -11,7 +11,7 @@
     "pilotLoadout": "파일럿 로드아웃",
     "copyToClipboard": "클립보드에 복사",
     "cancel": "취소",
-    "rank": "순위",
+    "rank": "등급",
     "changeImage": "이미지 변경",
     "delete": "삭제",
     "result": "결과",
@@ -117,7 +117,7 @@
   },
   "active": {
     "mechActions": {
-      "pilotEjectedText": "{name}(이)가 메크에서 사출되어 ‘손상’  상태이상을 얻음."
+      "pilotEjectedText": "{name}(이)가 메크에서 사출되어 ‘손상’ 상태이상을 얻음."
     },
     "common": {
       "copiedToClipboard": "클립보드에 복사됨",
@@ -152,7 +152,7 @@
       "frameSuffix": "{type} 프레임"
     },
     "campaign": {
-      "recommendedLicenseLevel": "추천 라이센스 레벨"
+      "recommendedLicenseLevel": "권장 라이센스 레벨"
     },
     "categories": {
       "frames": "프레임",

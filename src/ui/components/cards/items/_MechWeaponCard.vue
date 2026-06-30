@@ -41,7 +41,7 @@
             size="30"
             class="mt-n2 ml-n1" />
         </div>
-        <div class="text-cc-overline mt-n2">{{ $t('ui.card.systemPoints', { plural: item.SP > 1 ? 'S' : '' }) }}</div>
+        <div class="text-cc-overline mt-n2">{{ $t('ui.card.systemPoints', {}, item.SP) }}</div>
       </v-col>
 
       <v-col cols="12"
