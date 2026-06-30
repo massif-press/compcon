@@ -35,7 +35,7 @@
                   size="small"
                   variant="elevated"
                   :prepend-icon="displayIcon || ''">
-                  {{ action.Activation }}
+                  {{ $enum('activationType', action.Activation) }}
                 </v-chip>
                 {{ $t('active.combatAction.actionsRemaining') }}
               </div>

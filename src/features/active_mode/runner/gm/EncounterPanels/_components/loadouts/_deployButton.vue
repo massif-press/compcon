@@ -23,7 +23,7 @@
               size="small"
               variant="elevated"
               :prepend-icon="deployable.DeployAction.Icon || ''">
-              {{ deployable.DeployAction.Activation }}
+              {{ $enum('activationType', deployable.DeployAction.Activation) }}
             </v-chip>
             {{ $t('active.combatAction.actionsRemaining') }}
           </div>

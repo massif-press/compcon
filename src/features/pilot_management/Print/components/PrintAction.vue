@@ -10,7 +10,7 @@
         <span :class="compact ? 'caption' : 'flavor-text text-black pl-1'"
           :style="compact ? '' : 'font-size: 13px'">
           <b>{{ (a as Action).Name }}</b>
-          ({{ (a as Action).Activation }})
+          ({{ $enum('activationType', (a as Action).Activation) }})
         </span>
       </div>
 

@@ -33,7 +33,7 @@
           <div class="text-disabled">
             <span v-if="activation && (activeEffect as any).Activation !== 'None'"
               style="letter-spacing: 1px">
-              {{ isFree ? $t('ui.combat.free') : (activeEffect as any).Activation }}
+              {{ isFree ? $t('ui.combat.free') : $enum('activationType', (activeEffect as any).Activation) }}
 
             </span>
             <span v-if="
@@ -96,7 +96,7 @@
           <div class="text-disabled">
             <span v-if="activation"
               style="letter-spacing: 1px">
-              {{ isFree ? $t('ui.combat.free') : (activeEffect as any).Activation }}
+              {{ isFree ? $t('ui.combat.free') : $enum('activationType', (activeEffect as any).Activation) }}
             </span>
             <span v-if="
               (activeEffect as any).Activation &&

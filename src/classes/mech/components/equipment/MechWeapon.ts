@@ -118,29 +118,16 @@ class WeaponProfile extends CompendiumItem {
         ? pData.effect
         : (pData.effect as any).description
       : ''
-    if (pData.on_miss) {
-      if (typeof pData.on_miss === 'string')
-        this.OnMiss = new ActiveEffect({ name: 'On Miss Effect', detail: pData.on_miss }, this)
-      else this.OnMiss = new ActiveEffect(pData.on_miss, this, false, 'On Miss Effect')
+    const mkEffect = (key: string, raw: string | IActiveEffectData | undefined, name: string) => {
+      if (!raw) return undefined
+      const data = typeof raw === 'string' ? { name, detail: raw } : raw
+      keyPrefixes.set(data as object, `${this._lkey ?? this.ID}.${key}`)
+      return new ActiveEffect(data, this, false, name)
     }
-    if (pData.on_attack) {
-      if (typeof pData.on_attack === 'string')
-        this.OnAttack = new ActiveEffect(
-          { name: 'On Attack Effect', detail: pData.on_attack },
-          this
-        )
-      else this.OnAttack = new ActiveEffect(pData.on_attack, this, false, 'On Attack Effect')
-    }
-    if (pData.on_hit) {
-      if (typeof pData.on_hit === 'string')
-        this.OnHit = new ActiveEffect({ name: 'On Hit Effect', detail: pData.on_hit }, this)
-      else this.OnHit = new ActiveEffect(pData.on_hit, this, false, 'On Hit Effect')
-    }
-    if (pData.on_crit) {
-      if (typeof pData.on_crit === 'string')
-        this.OnCrit = new ActiveEffect({ name: 'On Crit Effect', detail: pData.on_crit }, this)
-      else this.OnCrit = new ActiveEffect(pData.on_crit, this, false, 'On Crit Effect')
-    }
+    this.OnMiss = mkEffect('on_miss', pData.on_miss, 'On Miss Effect')
+    this.OnAttack = mkEffect('on_attack', pData.on_attack, 'On Attack Effect')
+    this.OnHit = mkEffect('on_hit', pData.on_hit, 'On Hit Effect')
+    this.OnCrit = mkEffect('on_crit', pData.on_crit, 'On Crit Effect')
   }
 
   public DamageSum(type?: DamageType) {

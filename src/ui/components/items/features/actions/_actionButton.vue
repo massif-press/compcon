@@ -23,7 +23,7 @@
         </template>
         <v-card>
           <div class="heading h3 ma-1 pl-3">
-            {{ action.Name.toUpperCase() }} &mdash; {{ action.Activation.toUpperCase() }} {{ $t('common.action') }}
+            {{ action.Name.toUpperCase() }} &mdash; {{ $enum('activationType', action.Activation).toUpperCase() }} {{ $t('common.action') }}
           </div>
           <v-divider v-if="action.Detail || displayFreq" />
           <v-card-text v-if="displayFreq"

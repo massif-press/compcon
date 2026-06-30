@@ -36,7 +36,7 @@
     </v-tooltip>
     <div v-if="!small"
       class="text-cc-overline mt-n1">
-      {{ r.Type }}
+      {{ $enum('rangeType', r.Type) }}
     </div>
   </div>
 </template>

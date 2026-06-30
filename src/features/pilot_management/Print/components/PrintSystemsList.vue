@@ -16,7 +16,7 @@
         </v-col>
         <v-col cols="auto">
           <span class="text-overline"
-            style="line-height: 0">{{ s.Source }} {{ s.Type }}</span>
+            style="line-height: 0">{{ s.Source }} {{ $enum('systemType', s.Type) }}</span>
         </v-col>
         <v-col v-if="s.Uses"
           cols="auto"

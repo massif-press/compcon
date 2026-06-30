@@ -9,6 +9,7 @@ declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     $lancerVersion: string
     $appVersion: string
+    $enum: (kind: string, value?: string | null) => string
     $vuetify: Framework
     $notify: Notify
     $router: Router

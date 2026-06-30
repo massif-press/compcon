@@ -7,7 +7,7 @@
       class="card-effect pa-2 mb-1"
       style="font-size: 15px"
     />
-    <span slot="overline">{{ item.Type }}</span>
+    <span slot="overline">{{ $enum('systemType', item.Type) }}</span>
   </c-card-base>
 </template>
 

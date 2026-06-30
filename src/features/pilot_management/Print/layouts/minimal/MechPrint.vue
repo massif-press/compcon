@@ -505,7 +505,7 @@
                 <v-col>
                   <span class="caption"
                     style="line-height: 0">
-                    {{ w.Size }} {{ w.WeaponTypes.join('/') }}
+                    {{ $enum('weaponSize', w.Size) }} {{ w.WeaponTypes.map(t => $enum('weaponType', t)).join('/') }}
                   </span>
                 </v-col>
                 <v-col v-if="w.Uses"
@@ -648,7 +648,7 @@
         </v-col>
         <v-col>
           <span class="text-overline"
-            style="line-height: 0">{{ s.Source }} {{ s.Type }}</span>
+            style="line-height: 0">{{ s.Source }} {{ $enum('systemType', s.Type) }}</span>
         </v-col>
         <v-col v-if="s.Uses"
           cols="auto">

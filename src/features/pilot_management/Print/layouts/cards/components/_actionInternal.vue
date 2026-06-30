@@ -10,7 +10,7 @@
       <v-col cols="auto"
         class="text-center heading caption"
         :class="`text-${action.Color}`">
-        {{ action.Activation }}
+        {{ $enum('activationType', action.Activation) }}
       </v-col>
     </v-row>
     <div class="caption">

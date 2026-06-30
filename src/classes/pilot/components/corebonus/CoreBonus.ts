@@ -3,6 +3,7 @@ import { ContentPack } from '../../../ContentPack'
 import { ItemType } from '../../../enums'
 import { Manufacturer } from '../../../Manufacturer'
 import { CompendiumStore } from '../../../../stores'
+import { localize } from '@/i18n/localize'
 
 interface ICoreBonusData extends ICompendiumItemData {
   source: string
@@ -12,15 +13,23 @@ interface ICoreBonusData extends ICompendiumItemData {
 
 class CoreBonus extends CompendiumItem {
   public readonly Source: string
-  public readonly Effect: string
-  public readonly MountedEffect: string
+  private _effect: string
+  private _mountedEffect: string
 
   public constructor(data?: ICoreBonusData, pack?: ContentPack) {
     super(data, pack)
     this.ItemType = ItemType.CoreBonus
     this.Source = data?.source ? data.source.toUpperCase() : ''
-    this.Effect = data?.effect || ''
-    this.MountedEffect = data?.mounted_effect || ''
+    this._effect = data?.effect || ''
+    this._mountedEffect = data?.mounted_effect || ''
+  }
+
+  public get Effect(): string {
+    return localize(this.ID, 'effect', this._effect)
+  }
+
+  public get MountedEffect(): string {
+    return localize(this.ID, 'mounted_effect', this._mountedEffect)
   }
 
   public get Manufacturer(): Manufacturer {

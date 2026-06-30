@@ -10,7 +10,7 @@
         </v-col>
       </v-row>
     </template>
-    <template #overline>{{ item.Size }} {{ item.WeaponTypes.join('/') }}</template>
+    <template #overline>{{ $enum('weaponSize', item.Size) }} {{ item.WeaponTypes.map(t => $enum('weaponType', t)).join('/') }}</template>
   </c-card-base>
 </template>
 

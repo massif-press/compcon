@@ -390,7 +390,7 @@
           class="ml-auto">
           <span class="caption"
             style="line-height: 0">
-            {{ w.Size }} {{ w.WeaponTypes.join('/') }}
+            {{ $enum('weaponSize', w.Size) }} {{ w.WeaponTypes.map(t => $enum('weaponType', t)).join('/') }}
           </span>
         </v-col>
       </v-row>
@@ -496,7 +496,7 @@
       align="center"
       class="mt-n4">
       <v-col cols="auto">
-        <i class="caption">{{ s.Type }}</i>
+        <i class="caption">{{ $enum('systemType', s.Type) }}</i>
       </v-col>
       <v-col v-if="s.Uses"
         cols="auto"

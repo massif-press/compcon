@@ -23,15 +23,15 @@
           {{ item.Name }}
           <div v-if="!mobile"
             class="text-cc-overline text-disabled ">
-            {{ item.WeaponType }}
-            {{ item.Size }}
-            {{ item.WeaponTypes.join('/') }}
+            {{ $enum('weaponType', item.WeaponType) }}
+            {{ $enum('weaponSize', item.Size) }}
+            {{ item.WeaponTypes.map(t => $enum('weaponType', t)).join('/') }}
           </div>
         </v-col>
       </v-row>
       <div v-else
         class="px-2">
-        {{ weaponSlot.Size }} {{ $t('common.weapon') }}
+        {{ $enum('weaponSize', weaponSlot.Size) }} {{ $t('common.weapon') }}
       </div>
     </template>
 

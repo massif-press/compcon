@@ -19,7 +19,7 @@
         cols="auto"
         class="ml-auto text-right">
         <div class="heading h3">
-          {{ item.Type }}
+          {{ $enum('systemType', item.Type) }}
           <div v-if="item.Source"
             class="flavor-text text-disabled">{{ item.LicenseString }}</div>
         </div>

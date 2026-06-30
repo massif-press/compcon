@@ -25,6 +25,7 @@ import App from './App.vue'
 
 import router from './router'
 import { i18n } from './i18n'
+import { enumLabel } from './i18n/enumLabel'
 import vuetify from './ui/style'
 import * as globals from './ui/globals'
 import Notifications from '@kyvg/vue3-notification'
@@ -153,6 +154,7 @@ Object.keys(globals).forEach((key: string) => {
 
 compcon.config.globalProperties.$appVersion = version
 compcon.config.globalProperties.$lancerVersion = lancerData.info.version
+compcon.config.globalProperties.$enum = enumLabel
 
 // Enable Vue component-level timing in DevTools (dev only)
 if (import.meta.env.DEV) {

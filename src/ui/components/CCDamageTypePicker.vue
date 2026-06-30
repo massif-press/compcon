@@ -13,7 +13,7 @@
           :prepend-icon="`cc:${t.toLowerCase()}`"
           :color="`damage--${t.toLowerCase()}`"
           @click="select(t)">
-          {{ t }}
+          {{ $enum('damageType', t) }}
         </cc-button>
       </v-card-text>
     </v-card>

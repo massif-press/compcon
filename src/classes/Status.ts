@@ -18,7 +18,7 @@ class Status implements ILcpTracked {
   public readonly ID: string
   public readonly InstanceID: string
   private _name: string
-  public readonly Effects: string[]
+  private _effects: string[]
   private _terse: string
   public LcpName: string = ''
   public InLcp: boolean = false
@@ -31,7 +31,7 @@ class Status implements ILcpTracked {
     this.ID = data.id || `${pack?.Name || DEFAULT_LCP_NAME}_${data.name}`.replace(/ /g, '_')
     this.InstanceID = crypto.randomUUID()
     this._name = data.name
-    this.Effects = data.effects
+    this._effects = data.effects
     if (data.terse) this._terse = data.terse
     else if (Array.isArray(data.effects)) this._terse = data.effects.join(', ')
     else this._terse = data.effects as unknown as string
@@ -43,6 +43,10 @@ class Status implements ILcpTracked {
 
   public get Name(): string { return localize(this.ID, 'name', this._name) }
   public get Terse(): string { return localize(this.ID, 'terse', this._terse) }
+  public get Effects(): string[] {
+    const raw = Array.isArray(this._effects) ? this._effects.join('\n') : String(this._effects)
+    return localize(this.ID, 'effects', raw).split('\n')
+  }
 
   public static Serialize(status: Status): IStatusData {
     return {
@@ -50,7 +54,7 @@ class Status implements ILcpTracked {
       name: status._name,
       type: status.StatusType,
       icon: status._icon,
-      effects: status.Effects,
+      effects: status._effects,
       terse: status._terse,
       svg: status._svg,
     }

@@ -21,7 +21,7 @@
                   size="small"
                   variant="elevated"
                   :prepend-icon="action.Icon || ''">
-                  {{ action.Activation }}
+                  {{ $enum('activationType', action.Activation) }}
                 </v-chip>
               </template>
             </i18n-t>

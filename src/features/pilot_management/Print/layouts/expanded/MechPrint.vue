@@ -173,7 +173,7 @@
           <v-col>
             <span class="text-overline"
               style="line-height: 0">
-              {{ w.Source }} {{ w.Size }} {{ w.WeaponTypes.join('/') }}
+              {{ w.Source }} {{ $enum('weaponSize', w.Size) }} {{ w.WeaponTypes.map(t => $enum('weaponType', t)).join('/') }}
             </span>
           </v-col>
           <v-col v-if="w.Uses"

@@ -94,7 +94,7 @@
                           size="35" />
                       </v-card>
                     </template>
-                    <div class="heading h3">{{ dmg.Type }}</div>
+                    <div class="heading h3">{{ $enum('damageType', dmg.Type) }}</div>
                   </v-tooltip>
                 </v-col>
               </v-row>

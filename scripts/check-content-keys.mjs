@@ -29,7 +29,7 @@ for (const arr of Object.values(data)) {
   if (!Array.isArray(arr)) continue
   for (const item of arr) {
     for (const e of nestedEntries(null, item)) {
-      if (keyPrefixes.get(e.obj) !== e.prefix) stampMismatch++
+      if (e.obj && keyPrefixes.get(e.obj) !== e.prefix) stampMismatch++
     }
   }
 }

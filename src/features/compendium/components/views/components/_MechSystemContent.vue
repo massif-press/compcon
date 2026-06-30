@@ -10,7 +10,7 @@
         style="font-size: 15px" />
     </template>
     <template #overline>
-      <span>{{ item.Type }}</span>
+      <span>{{ $enum('systemType', item.Type) }}</span>
     </template>
   </c-card-base>
 </template>

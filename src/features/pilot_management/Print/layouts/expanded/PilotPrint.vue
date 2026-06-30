@@ -584,7 +584,7 @@
       :key="`reserve-${index}`">
       <legend class="px-1 mb-n2">
         <span class="heading caption text-primary">{{ r.Name }}</span>
-        <i class="caption text-grey">&nbsp;({{ r.Type }})</i>
+        <i class="caption text-grey">&nbsp;({{ $enum('reserveType', r.Type) }})</i>
       </legend>
       <div v-if="r.ResourceName || r.Note || r.ResourceCost">
         <b class="caption">{{ r.ResourceName }}</b>

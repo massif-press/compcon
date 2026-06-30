@@ -132,7 +132,7 @@
           <cc-chip size="x-small"
             variant="elevated"
             :bg-color="`action--${cs.Activation?.toLowerCase()}`">
-            {{ cs.Activation?.toUpperCase() || '' }}
+            {{ cs.Activation ? $enum('activationType', cs.Activation).toUpperCase() : '' }}
           </cc-chip>
         </v-col>
       </v-row>

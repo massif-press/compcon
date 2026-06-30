@@ -3152,6 +3152,121 @@
     "stress": "Stress",
     "sp": "SP"
   },
+  "enums": {
+    "damageType": {
+      "kinetic": "Kinetic",
+      "energy": "Energy",
+      "explosive": "Explosive",
+      "heat": "Heat",
+      "burn": "Burn",
+      "applied_burn": "Applied Burn",
+      "variable": "Variable",
+      "aoe": "AoE"
+    },
+    "weaponType": {
+      "rifle": "Rifle",
+      "cannon": "Cannon",
+      "launcher": "Launcher",
+      "cqb": "CQB",
+      "nexus": "Nexus",
+      "melee": "Melee",
+      "improvised": "Improvised"
+    },
+    "weaponSize": {
+      "auxiliary": "Auxiliary",
+      "main": "Main",
+      "heavy": "Heavy",
+      "superheavy": "Superheavy"
+    },
+    "mountType": {
+      "main": "Main",
+      "heavy": "Heavy",
+      "aux_aux": "Aux/Aux",
+      "aux": "Aux",
+      "main_aux": "Main/Aux",
+      "flex": "Flex",
+      "integrated": "Integrated",
+      "superheavy": "Superheavy"
+    },
+    "rangeType": {
+      "range": "Range",
+      "threat": "Threat",
+      "thrown": "Thrown",
+      "line": "Line",
+      "cone": "Cone",
+      "blast": "Blast",
+      "burst": "Burst"
+    },
+    "activationType": {
+      "none": "None",
+      "free": "Free",
+      "protocol": "Protocol",
+      "quick": "Quick",
+      "full": "Full",
+      "invade": "Invade",
+      "jockey": "Jockey",
+      "full_tech": "Full Tech",
+      "quick_tech": "Quick Tech",
+      "reaction": "Reaction",
+      "move": "Move",
+      "other": "Other"
+    },
+    "systemType": {
+      "system": "System",
+      "ai": "AI",
+      "shield": "Shield",
+      "deployable": "Deployable",
+      "drone": "Drone",
+      "tech": "Tech",
+      "invade": "Invade",
+      "flight_system": "Flight System",
+      "integrated": "Integrated",
+      "mod": "Mod",
+      "mine": "Mine",
+      "grenade": "Grenade"
+    },
+    "mechType": {
+      "balanced": "Balanced",
+      "artillery": "Artillery",
+      "striker": "Striker",
+      "controller": "Controller",
+      "support": "Support",
+      "defender": "Defender"
+    },
+    "reserveType": {
+      "resources": "Resources",
+      "tactical": "Tactical",
+      "mech": "Mech",
+      "project": "Project",
+      "organization": "Organization",
+      "bonus": "Bonus"
+    },
+    "orgType": {
+      "military": "Military",
+      "scientific": "Scientific",
+      "academic": "Academic",
+      "criminal": "Criminal",
+      "humanitarian": "Humanitarian",
+      "industrial": "Industrial",
+      "entertainment": "Entertainment",
+      "political": "Political"
+    },
+    "duration": {
+      "free": "Free",
+      "turn": "Turn",
+      "next_turn": "Next Turn",
+      "round": "Round",
+      "next_round": "Next Round",
+      "scene": "Scene",
+      "encounter": "Encounter",
+      "mission": "Mission"
+    },
+    "attackType": {
+      "melee": "Melee",
+      "ranged": "Ranged",
+      "tech": "Tech"
+    }
+  },
   "notify": {
     "dataItem": {
       "bulkDeletedTitle": "{n} Item Deleted | {n} Items Deleted",

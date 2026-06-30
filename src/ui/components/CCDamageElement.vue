@@ -30,12 +30,12 @@
           </v-col>
         </v-row>
       </template>
-      <div class="heading h3">{{ displayValue(d.Value) }} {{ typeOverride || d.Type }} {{ $t('ui.widget.damage') }}</div>
+      <div class="heading h3">{{ displayValue(d.Value) }} {{ $enum('damageType', typeOverride || d.Type) }} {{ $t('ui.widget.damage') }}</div>
       <div v-html-safe="gloss(d)" />
     </v-tooltip>
     <div v-if="!small"
       class="text-cc-overline mt-n2">
-      {{ typeOverride ? typeOverride : d.Type }}
+      {{ $enum('damageType', typeOverride ? typeOverride : d.Type) }}
     </div>
   </div>
 </template>

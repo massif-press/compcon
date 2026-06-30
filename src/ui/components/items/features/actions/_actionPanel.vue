@@ -17,7 +17,7 @@
         cols="auto"
         class="ml-auto mr-2">
         <cc-chip size="small">
-          {{ action.Activation.toUpperCase() }}
+          {{ $enum('activationType', action.Activation).toUpperCase() }}
         </cc-chip>
       </v-col>
     </v-row>

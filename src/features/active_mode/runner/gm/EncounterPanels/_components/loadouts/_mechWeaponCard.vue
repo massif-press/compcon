@@ -12,8 +12,8 @@
           {{ item.Name }}
           <span class="text-cc-overline text-disabled">
             <cc-slashes class="mx-1" />
-            {{ item.WeaponTypes.join('/') }} -
-            {{ item.Size }}
+            {{ item.WeaponTypes.map(t => $enum('weaponType', t)).join('/') }} -
+            {{ $enum('weaponSize', item.Size) }}
           </span>
         </div>
       </v-col>

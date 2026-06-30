@@ -47,7 +47,7 @@
       <v-col cols="12"
         sm="auto"
         :class="portrait ? 'text-center' : 'ml-auto text-right'">
-        <div class="heading h2">{{ item.Size }} {{ item.WeaponTypes.join('/') }}</div>
+        <div class="heading h2">{{ $enum('weaponSize', item.Size) }} {{ item.WeaponTypes.map(t => $enum('weaponType', t)).join('/') }}</div>
         <div v-if="item.Source"
           class="flavor-text text-disabled">{{ item.LicenseString }}</div>
 

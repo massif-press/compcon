@@ -8,7 +8,7 @@
         :color="(a as Action).Color" />
       <span class="caption">
         <b>{{ (a as Action).Name }}</b>
-        ({{ (a as Action).Activation }})
+        ({{ $enum('activationType', (a as Action).Activation) }})
       </span>
     </div>
 

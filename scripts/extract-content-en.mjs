@@ -24,7 +24,7 @@ export const ALLOWLIST = {
   systems: ['name', 'description', 'effect'],
   tags: ['name', 'description'],
   talents: ['name', 'terse', 'description'],
-  weapons: ['name', 'description', 'effect', 'on_attack', 'on_hit', 'on_crit'],
+  weapons: ['name', 'description', 'effect'],
   downtime_actions: ['name', 'terse', 'detail'],
 }
 

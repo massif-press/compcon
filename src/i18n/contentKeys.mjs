@@ -33,6 +33,8 @@ const SINGLE_CONTAINERS = {
   bonus_damage: 'bonus_damage',
   table: 'table',
 }
+
+const EFFECT_FIELDS = ['on_attack', 'on_hit', 'on_crit', 'on_miss']
 const EMIT_FIELDS = [
   'name',
   'description',
@@ -92,6 +94,17 @@ export function nestedEntries(_collection, item) {
         walk(el, p)
       })
     }
+    for (const key of EFFECT_FIELDS) {
+      const v = obj[key]
+      if (v == null) continue
+      const p = `${prefix}.${key}`
+      if (typeof v === 'string') {
+        if (v.trim()) out.push({ prefix: p, obj: null, fields: { detail: v } })
+      } else if (typeof v === 'object' && !Array.isArray(v)) {
+        emit(v, p)
+        walk(v, p)
+      }
+    }
   }
 
   walk(item, item.id)
@@ -110,6 +123,6 @@ export function stampContentKeys(data) {
   for (const arr of Object.values(data)) {
     if (!Array.isArray(arr)) continue
     for (const item of arr)
-      for (const e of nestedEntries(null, item)) keyPrefixes.set(e.obj, e.prefix)
+      for (const e of nestedEntries(null, item)) if (e.obj) keyPrefixes.set(e.obj, e.prefix)
   }
 }
