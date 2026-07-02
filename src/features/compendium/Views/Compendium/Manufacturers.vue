@@ -1,94 +1,35 @@
 <template>
-  <v-container>
-    <div class="heading mt-n4"
-      :class="mobile ? 'h2' : 'h1'">{{ $t('compendium.categories.manufacturers') }}</div>
-    <v-row>
-      <v-col cols="12"
-        lg="2">
-        <v-tabs v-model="tabModel"
-          :direction="$vuetify.display.lgAndUp ? 'vertical' : 'horizontal'"
-          :vertical="$vuetify.display.lgAndUp"
-          :slider-height="12"
-          slider-color="secondary"
-          density="compact"
-          icons-and-text
-          show-arrows>
-          <v-tab v-for="(m, i) in manufacturers"
-            :key="m.ID"
-            ripple>
-            <v-row dense
-              align="center">
-              <v-col cols="auto">
-                <cc-logo size="large"
-                  :source="m"
-                  :color="tabModel === i ? m.Color : ''" />
-              </v-col>
-              <v-col>
-                {{ m.ID }}
-              </v-col>
-            </v-row>
-          </v-tab>
-        </v-tabs>
-      </v-col>
-      <v-col>
-        <v-window v-model="tabModel">
-          <v-window-item v-for="m in manufacturers"
-            :key="`manufacturer-${m.ID}`">
-            <cc-panel color="panel-dark"
-              :density="mobile ? 'compact' : ''"
-              style="position: relative">
-              <cc-lcp-info :item="m"
-                style="position: absolute; top: 4px; right: 4px" />
-              <div :class="`heading ${$vuetify.display.lgAndUp ? 'mech' : 'h2'}`"
-                :style="`color: ${m.Color};`">
-                <span style="overflow-wrap: normal !important">
-                  {{ m.Name }}
-                </span>
-              </div>
-              <v-card-text class="pr-4 pt-0">
-                <div v-if="!mobile"
-                  style="float: right; width: 22vw; height: 22vw">
-                  <cc-logo width="22vw"
-                    :source="m"
-                    :color="m.Color" />
-                </div>
-                <blockquote v-html-safe="m.Quote"
-                  class="quote-block" />
-                <v-divider v-if="!mobile"
-                  class="ma-2"
-                  style="width: 30vw" />
-                <p v-html-safe="m.Description"
-                  class="body-text stark-text-text mb-2" />
-              </v-card-text>
-            </cc-panel>
-          </v-window-item>
-        </v-window>
-      </v-col>
-    </v-row>
-  </v-container>
+  <cc-compendium-browser :items="manufacturers"
+    item-type="Manufacturer"
+    :table-headers="headers"
+    :options="options"
+    :manufacturers="manufacturers"
+    view-key="cb-manufacturers">
+    <template #header>
+      <div class="heading h3 text-center text-accent">{{ $t('compendium.categories.manufacturers')
+        }}</div>
+    </template>
+  </cc-compendium-browser>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { CompendiumStore } from '@/stores';
-import { useDisplay } from 'vuetify';
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+const headers = ref([
+  { title: 'Name', key: 'Name' },
+])
 
-const tabModel = ref(0)
-const loading = ref(false)
+const options = ref({
+  views: ['list', 'table'],
+  initialView: 'list',
+  groups: ['lcp', 'none'],
+  initialGroup: 'none',
+  noSource: true,
+})
 
 const manufacturers = computed(() => {
-      return CompendiumStore().Manufacturers.filter((x) => !x.IsHidden);
-    })
-</script>
+  return CompendiumStore().Manufacturers;
+})
 
-<style scoped>
-.quote-block {
-  border-left: 6px solid rgb(var(--v-theme-panel));
-  border-radius: 0px;
-  padding-left: 12px;
-  font-size: 1.15rem;
-  font-style: italic;
-}
-</style>
+</script>

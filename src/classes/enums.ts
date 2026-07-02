@@ -194,6 +194,28 @@ enum OrgType {
   Political = 'Political',
 }
 
+enum PilotStatus {
+  Active = 'ACTIVE',
+  Injured = 'INJURED',
+  KIA = 'KIA',
+  MIA = 'MIA',
+  Disengaged = 'DISENGAGED',
+}
+
+enum NpcStatus {
+  Operational = 'OPERATIONAL',
+  Destroyed = 'DESTROYED',
+  Routed = 'ROUTED',
+  Disengaged = 'DISENGAGED',
+}
+
+enum MechStatus {
+  Operational = 'OPERATIONAL',
+  Cascade = 'IN CASCADE',
+  Destroyed = 'DESTROYED',
+  ReactorMeltdown = 'REACTOR MELTDOWN',
+}
+
 enum ImageTag {
   Pilot = 'pilot',
   NPC = 'npc',
@@ -224,5 +246,8 @@ export {
   MechType,
   ReserveType,
   OrgType,
+  PilotStatus,
+  NpcStatus,
+  MechStatus,
   ImageTag,
 }

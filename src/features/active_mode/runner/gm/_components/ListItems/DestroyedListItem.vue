@@ -3,7 +3,7 @@
     :collapsed="collapsed"
     :selected="selected"
     :side="combatant.side"
-    icon="cc:destroyed_outline"
+    :icon="icon"
     @click="$emit('select', combatant)">
     <div>
       <span class="heading">
@@ -21,8 +21,10 @@ const props = withDefaults(defineProps<{
   combatant: CombatantData
   collapsed?: boolean
   selected?: boolean
+  icon?: string
 }>(), {
-  collapsed: false
+  collapsed: false,
+  icon: 'cc:destroyed_outline'
 })
 
 const emit = defineEmits<{

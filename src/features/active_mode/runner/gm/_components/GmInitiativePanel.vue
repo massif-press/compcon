@@ -43,13 +43,7 @@
     item-key="index">
     <template #item="{ element }">
       <div class="mb-1">
-        <placeholder-runner-list-item v-if="element.actor?.Placeholder"
-          :combatant="element"
-          :collapsed="!expanded"
-          :selected="selected && selected.id === element.id"
-          @select="$emit('select', $event)" />
         <component :is="getComponent(element)"
-          v-else
           :combatant="element"
           :collapsed="!expanded"
           :selected="selected && selected.id === element.id"
@@ -90,7 +84,8 @@
     </v-scroll-y-reverse-transition>
   </v-card>
 
-  <v-card v-if="destroyedCombatants.length"
+  <v-card v-for="group in statusGroups"
+    :key="group.label"
     class="ma-2"
     flat
     tile
@@ -98,23 +93,24 @@
     <div v-if="expanded"
       class="text-cc-overline pa-1 text-disabled d-flex align-center"
       style="cursor: pointer; user-select: none"
-      @click="destroyedCollapsed = !destroyedCollapsed">
+      @click="collapsedGroups[group.label] = !collapsedGroups[group.label]">
       <cc-slashes />
-      {{ $t('active.initiative.destroyedN', { n: destroyedCombatants.length }) }}
+      {{ $t('active.initiative.statusGroupN', { status: group.label, n: group.combatants.length }) }}
       <v-spacer />
       <v-icon size="small"
-        :icon="destroyedCollapsed ? 'mdi-chevron-down' : 'mdi-chevron-up'" />
+        :icon="collapsedGroups[group.label] ? 'mdi-chevron-down' : 'mdi-chevron-up'" />
     </div>
     <v-divider v-else
       class="my-2" />
 
     <v-scroll-y-reverse-transition>
-      <div v-if="!destroyedCollapsed">
-        <destroyed-list-item v-for="r in destroyedCombatants"
+      <div v-if="!collapsedGroups[group.label]">
+        <destroyed-list-item v-for="r in group.combatants"
           :key="r.id"
           :combatant="r"
           :collapsed="!expanded"
           :selected="selected && selected.id === r.id"
+          :icon="group.icon"
           no-drag
           @select="$emit('select', $event)" />
       </div>
@@ -181,8 +177,33 @@ import PlaceholderRunnerListItem from './ListItems/PlaceholderRunnerListItem.vue
 import ReinforcementListItem from './ListItems/ReinforcementListItem.vue';
 import DestroyedListItem from './ListItems/DestroyedListItem.vue';
 import { CombatantData } from '@/classes/encounter/Encounter';
+import { NpcStatus, PilotStatus, MechStatus } from '@/classes/enums';
 
 defineOptions({ name: 'GmEncounterRunnerInitiativePanel' })
+
+const ACTIVE_STATUSES = new Set<string>([
+  NpcStatus.Operational,
+  PilotStatus.Active,
+  PilotStatus.Injured,
+  MechStatus.Operational,
+  MechStatus.Cascade,
+])
+
+// null == still in combat; otherwise the out-of-combat group key (a status label).
+// A destroyed or reactor-melted actor (both zero structure => IsDestroyed) groups as Destroyed.
+function statusGroupKey(c: CombatantData): string | null {
+  const cc = c.actor.CombatController
+  const isPilot = c.actor.ItemType === 'Pilot'
+  if (isPilot && cc.IsDead) return PilotStatus.KIA
+  if (cc.IsDestroyed) return NpcStatus.Destroyed
+  const label = isPilot ? c.pilotStatus : c.status
+  if (!label || ACTIVE_STATUSES.has(label)) return null
+  return label
+}
+
+function isOutOfCombat(c: CombatantData): boolean {
+  return statusGroupKey(c) !== null
+}
 
 const props = withDefaults(defineProps<{
   encounterInstance: EncounterInstance
@@ -203,13 +224,13 @@ const sort = ref('')
 const sortAsc = ref(true)
 const sortableKey = ref(`sk-0`)
 const reinforcementsCollapsed = ref(false)
-const destroyedCollapsed = ref(false)
+const collapsedGroups = ref<Record<string, boolean>>({})
 
 const combatants = computed(() => {
   if (!props.encounterInstance || !props.encounterInstance.Combatants) {
     return [];
   }
-  return props.encounterInstance.Combatants.filter((c) => !c.actor.CombatController.IsDestroyed);
+  return props.encounterInstance.Combatants.filter((c) => !isOutOfCombat(c));
 })
 const activeCombatants = computed(() => {
   let list = combatants.value.filter((c) => !c.reinforcement);
@@ -245,8 +266,26 @@ const activeCombatants = computed(() => {
 const reinforcements = computed(() => {
   return combatants.value.filter((c) => c.reinforcement);
 })
-const destroyedCombatants = computed(() => {
-  return props.encounterInstance.Combatants.filter((c) => c.actor.CombatController.IsDestroyed);
+const statusGroups = computed(() => {
+  const map = new Map<string, CombatantData[]>();
+  for (const c of props.encounterInstance?.Combatants ?? []) {
+    const key = statusGroupKey(c);
+    if (!key) continue;
+    if (!map.has(key)) map.set(key, []);
+    map.get(key)!.push(c);
+  }
+  // Destroyed first, then remaining groups alphabetically.
+  return [...map.entries()]
+    .sort((a, b) => {
+      if (a[0] === NpcStatus.Destroyed) return -1;
+      if (b[0] === NpcStatus.Destroyed) return 1;
+      return a[0].localeCompare(b[0]);
+    })
+    .map(([label, combatants]) => ({
+      label,
+      combatants,
+      icon: label === NpcStatus.Destroyed ? 'cc:destroyed_outline' : 'mdi-exit-run',
+    }));
 })
 
 function itemSort(key) {
@@ -267,21 +306,14 @@ function getItem(combatant) {
 function activateReinforcement(combatant) {
   combatant.reinforcement = false;
 }
+const listItemMap: Record<string, any> = {
+  pilot: PilotRunnerListItem,
+  unit: UnitRunnerListItem,
+  doodad: DoodadRunnerListItem,
+  eidolon: EidolonRunnerListItem,
+  placeholder: PlaceholderRunnerListItem,
+};
 function getComponent(combatant: CombatantData) {
-  if (combatant.actor?.Placeholder) {
-    return PlaceholderRunnerListItem;
-  }
-  switch (combatant.actor.ItemType) {
-    case 'Pilot':
-      return PilotRunnerListItem;
-    case 'Unit':
-      return UnitRunnerListItem;
-    case 'Doodad':
-      return DoodadRunnerListItem;
-    case 'Eidolon':
-      return EidolonRunnerListItem;
-    default:
-      return UnitRunnerListItem;
-  }
+  return listItemMap[combatant.type] || UnitRunnerListItem;
 }
 </script>

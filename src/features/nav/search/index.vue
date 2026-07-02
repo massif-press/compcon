@@ -94,7 +94,7 @@ const hasCmdKey = ref(false)
 const searchResults = computed(() => {
   if (!search.value || search.value.length < 3) return []
   return NavStore()
-    .Index.filter(item => item.title.toLowerCase().includes(search.value.toLowerCase()))
+    .Index.filter(item => item.title?.toLowerCase().includes(search.value.toLowerCase()))
     .slice(0, 5)
 })
 

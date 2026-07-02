@@ -107,7 +107,7 @@ class DamageController {
     const target = this.resolveTarget(direct)
 
     if (
-      type === DamageType.Heat.toLowerCase() &&
+      type.toLowerCase() === DamageType.Heat.toLowerCase() &&
       !target.StatController.getMax(StatKey.STRESS)
     ) {
       type = DamageType.Energy

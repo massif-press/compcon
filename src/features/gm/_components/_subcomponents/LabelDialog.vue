@@ -98,4 +98,6 @@ function confirm() {
       });
       close();
     }
+
+defineExpose({ open })
 </script>

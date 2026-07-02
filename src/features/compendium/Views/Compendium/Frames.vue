@@ -27,7 +27,7 @@ const options = ref({
 const headers = ref([
       { title: '', key: 'Source' },
       { title: 'Name', key: 'Name' },
-      { title: 'Size', key: 'SizeIcon', align: 'center' },
+      { title: 'Size', key: 'SizeIcon', align: 'center', sortRaw: (a: any, b: any) => a.Size - b.Size },
       { title: 'Mounts', key: 'Mounts' },
       { title: 'Armor', key: 'Armor', align: 'center' },
       { title: 'HP', key: 'HP', align: 'center' },

@@ -1,6 +1,7 @@
 import { i18n } from '@/i18n'
 import {
   CloudController,
+  ICloudData,
   IPortraitData,
   ISaveData,
   ISaveable,
@@ -8,7 +9,6 @@ import {
   SaveController,
 } from '../components'
 import { ISitrepData, Sitrep, SitrepInstance } from './Sitrep'
-import { EncounterMap, IMapData } from './EncounterMap'
 import { FolderController, IFolderData } from '../components/folder/FolderController'
 import { NarrativeController, NarrativeElementData } from '../narrative/NarrativeController'
 import { IFolderPlaceable } from '../components/folder/IFolderPlaceable'
@@ -19,7 +19,7 @@ import { Npc } from '../npc/Npc'
 import { Unit, UnitData } from '../npc/unit/Unit'
 import { Doodad, DoodadData } from '../npc/doodad/Doodad'
 import { Eidolon, EidolonData } from '../npc/eidolon/Eidolon'
-import { ItemType } from '../enums'
+import { ItemType, PilotStatus, NpcStatus, MechStatus } from '../enums'
 import { Pilot, PilotData } from '../pilot/Pilot'
 import { ICombatant } from '../components/combat/ICombatant'
 import {
@@ -27,6 +27,10 @@ import {
   IDeployableInstanceData,
 } from '../components/feature/deployable/DeployableInstance'
 import { IPlaceholderData, Placeholder } from './Placeholder'
+
+type CombatantType = 'unit' | 'doodad' | 'eidolon' | 'pilot' | 'placeholder'
+type CombatantSide = 'enemy' | 'ally' | 'neutral'
+type ActorData = UnitData | DoodadData | EidolonData | PilotData | IPlaceholderData
 
 interface IEncounterData {
   itemType: 'Encounter'
@@ -36,39 +40,77 @@ interface IEncounterData {
   description?: string
   gmDescription?: string
   save: ISaveData
+  cloud?: ICloudData
   folder: IFolderData
   img: IPortraitData
   narrative: NarrativeElementData
   sitrep?: ISitrepData
   environment?: IEnvironmentData
-  map?: IMapData
   combatants?: CombatantSaveData[]
 }
 
 export type CombatantData = {
   id: string
   index: number
-  type: 'unit' | 'doodad' | 'eidolon' | 'pilot' | 'placeholder'
+  type: CombatantType
   actor: ICombatant
   number: number
-  side: 'enemy' | 'ally' | 'neutral'
+  side: CombatantSide
   deployables: DeployableInstance[]
   playerCount?: number
   reinforcement?: boolean
   reinforcementTurn?: number
+  status?: NpcStatus
+  pilotStatus?: PilotStatus
+  mechStatus?: MechStatus
 }
 
 type CombatantSaveData = {
   id?: string
   index: number
-  type: 'unit' | 'doodad' | 'eidolon' | 'pilot' | 'placeholder'
-  actor: UnitData | DoodadData | EidolonData | PilotData | IPlaceholderData
-  side?: 'enemy' | 'ally' | 'neutral'
+  type: CombatantType
+  actor: ActorData
+  npc?: ActorData
+  side?: CombatantSide
   playerCount?: number
   reinforcement?: boolean
   reinforcementTurn?: number
   deployables?: IDeployableInstanceData[]
   number?: number
+  status?: NpcStatus
+  pilotStatus?: PilotStatus
+  mechStatus?: MechStatus
+}
+
+const DESERIALIZE_ACTOR: Record<CombatantType, (d: any) => any> = {
+  unit: d => Unit.Deserialize(d),
+  doodad: d => Doodad.Deserialize(d),
+  eidolon: d => Eidolon.Deserialize(d),
+  pilot: d => Pilot.Deserialize(d),
+  placeholder: d => Placeholder.Deserialize(d),
+}
+
+function makeCombatant(
+  actor: ICombatant,
+  type: CombatantType,
+  over: Partial<CombatantData> = {}
+): CombatantData {
+  return {
+    id: actor.ID,
+    index: 0,
+    type,
+    number: 1,
+    actor,
+    side: 'enemy',
+    playerCount: 0,
+    reinforcement: false,
+    reinforcementTurn: 0,
+    deployables: [],
+    status: NpcStatus.Operational,
+    pilotStatus: PilotStatus.Active,
+    mechStatus: MechStatus.Operational,
+    ...over,
+  }
 }
 
 class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
@@ -84,8 +126,6 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   private _gmDescription: string
   private _sitrep?: SitrepInstance
   private _environment?: EnvironmentInstance
-
-  public _map?: EncounterMap
 
   public ImageTag: ImageTag = ImageTag.Map
   public SaveController: SaveController
@@ -111,19 +151,9 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
       this._environment = new EnvironmentInstance(this, new Environment(data.environment))
     }
 
-    if (data?.map) {
-      this._map = EncounterMap.Deserialize(data.map)
-    }
-
     if (data?.combatants) {
       this._combatants = data.combatants.map(c => Encounter.DeserializeCombatant(c))
-
-      const seen = [] as string[]
-
-      this._combatants.forEach((c: any) => {
-        seen.push(c.actor.Name)
-        c.number = seen.filter(x => x === c.actor.Name).length
-      })
+      this.renumber()
     }
 
     this.SaveController = new SaveController(this)
@@ -227,15 +257,6 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
     this.save()
   }
 
-  public get Map(): EncounterMap | undefined {
-    return this._map
-  }
-
-  public set Map(val: EncounterMap | undefined) {
-    this._map = val
-    this.save()
-  }
-
   public get Combatants(): CombatantData[] {
     return this._combatants
   }
@@ -245,41 +266,23 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   }
 
   public AddCombatant(npc: Npc): void {
-    const type = npc.ItemType.toLowerCase()
-    let c
-    let iData
-
-    switch (type) {
-      case 'unit':
-        iData = (npc as unknown as Unit).CreateInstance()
-        c = Unit.Deserialize(iData as UnitData)
-        break
-      case 'doodad':
-        iData = (npc as unknown as Doodad).CreateInstance()
-        c = Doodad.Deserialize(iData as DoodadData)
-        break
-      case 'eidolon':
-        iData = (npc as unknown as Eidolon).CreateInstance()
-        c = Eidolon.Deserialize(iData as EidolonData)
-        break
-      default:
-        throw new Error('Invalid combatant type')
+    const type = npc.ItemType.toLowerCase() as CombatantType
+    if (type !== 'unit' && type !== 'doodad' && type !== 'eidolon') {
+      throw new Error('Invalid combatant type')
     }
 
-    this.Combatants.push({
-      id: c.ID,
-      index: this.Combatants.length,
-      type,
-      actor: c,
-      number: this.Combatants.filter((x: any) => x.actor.Name === c.Name).length + 1,
-      side: 'enemy',
-      playerCount: 0,
-      reinforcement: false,
-      reinforcementTurn: 0,
-      deployables: [],
-    })
-
+    const actor = DESERIALIZE_ACTOR[type](npc.CreateInstance())
+    this._combatants.push(makeCombatant(actor, type, { index: this._combatants.length }))
+    this.renumber()
     this.save()
+  }
+
+  private renumber(): void {
+    const counts: Record<string, number> = {}
+    this._combatants.forEach(c => {
+      counts[c.actor.Name] = (counts[c.actor.Name] || 0) + 1
+      c.number = counts[c.actor.Name]
+    })
   }
 
   public RemoveCombatant(index: number): void {
@@ -307,7 +310,6 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
       gmDescription: enc.GmDescription,
       sitrep: SitrepInstance.Serialize(enc.Sitrep),
       environment: EnvironmentInstance.Serialize(enc.Environment),
-      map: enc.Map ? EncounterMap.Serialize(enc.Map) : undefined,
       combatants: enc.Combatants.map(c => Encounter.SerializeCombatant(c)),
     } as IEncounterData
 
@@ -325,13 +327,16 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
       id: combatant.id,
       index: combatant.index,
       type: combatant.type,
-      actor: (combatant.actor as any).Serialize(true),
+      actor: combatant.actor.Serialize!(true),
       side: combatant.side,
       playerCount: combatant.playerCount,
       reinforcement: combatant.reinforcement,
-      reinforcementTurn: Number(combatant.reinforcementTurn),
+      reinforcementTurn: combatant.reinforcementTurn,
       deployables: combatant.deployables.map(d => DeployableInstance.Serialize(d)),
       number: combatant.number,
+      status: combatant.status || NpcStatus.Operational,
+      pilotStatus: combatant.pilotStatus || PilotStatus.Active,
+      mechStatus: combatant.mechStatus || MechStatus.Operational,
     }
   }
 
@@ -348,7 +353,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   public static Deserialize(data: IEncounterData): Encounter {
     const encounter = new Encounter(data)
     SaveController.Deserialize(encounter, data.save)
-    CloudController.Deserialize(encounter, (data as any).cloud)
+    CloudController.Deserialize(encounter, data.cloud)
     PortraitController.Deserialize(encounter, data.img)
     NarrativeController.Deserialize(encounter, data.narrative)
     FolderController.Deserialize(encounter, data.folder)
@@ -357,41 +362,21 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   }
 
   public static DeserializeCombatant(data: CombatantSaveData): CombatantData {
-    if ((data as any).npc)
-      data.actor = (data as any).npc as UnitData | DoodadData | EidolonData | PilotData
-    let actor
-    switch (data.type) {
-      case 'unit':
-        actor = Unit.Deserialize(data.actor as UnitData)
-        break
-      case 'doodad':
-        actor = Doodad.Deserialize(data.actor as DoodadData)
-        break
-      case 'eidolon':
-        actor = Eidolon.Deserialize(data.actor as EidolonData)
-        break
-      case 'pilot':
-        actor = Pilot.Deserialize(data.actor as PilotData)
-        break
-      case 'placeholder':
-        actor = Placeholder.Deserialize(data.actor as IPlaceholderData)
-        break
-      default:
-        throw new Error('Invalid combatant type')
-    }
+    const deserialize = DESERIALIZE_ACTOR[data.type]
+    if (!deserialize) throw new Error('Invalid combatant type')
 
-    const item = {
+    const item = makeCombatant(deserialize(data.npc ?? data.actor), data.type, {
       id: data.id || crypto.randomUUID(),
       index: data.index,
-      type: data.type,
       number: data.number || 1,
-      actor,
-      side: (data.side?.toLowerCase() as 'enemy' | 'ally' | 'neutral') || 'enemy',
+      side: (data.side?.toLowerCase() as CombatantSide) || 'enemy',
       playerCount: data.playerCount || 1,
       reinforcement: data.reinforcement || false,
       reinforcementTurn: Number(data.reinforcementTurn) || 0,
-      deployables: [] as DeployableInstance[],
-    }
+      status: data.status || NpcStatus.Operational,
+      pilotStatus: data.pilotStatus || PilotStatus.Active,
+      mechStatus: data.mechStatus || MechStatus.Operational,
+    })
 
     if (data.deployables)
       item.deployables = data.deployables.map(d => DeployableInstance.Deserialize(d, item))

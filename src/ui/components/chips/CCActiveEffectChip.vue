@@ -5,7 +5,7 @@
     min-width="75vw">
     <template #activator="{ open }">
       <div class="top-element mr-6 mb-1"
-        style="position: relative; display: inline-block">
+        style="position: relative; display: inline-flex; vertical-align: top">
         <div v-if="!activeEffect.IsPassive"
           :class="`light bg-${isGreyed ? 'panel-border' : lightColor}`" />
         <v-chip :color="isGreyed ? 'panel-border' : 'primary'"
@@ -136,7 +136,9 @@
               <cc-alert v-if="isDestroyed"
                 variant="tonal"
                 color="error">
-                {{ $t('ui.combat.originDestroyed', { type: activeEffect.Origin.Type || 'equipment' }) }}
+                {{ $t('ui.combat.originDestroyed', {
+                  type: activeEffect.Origin.Type || 'equipment'
+                }) }}
               </cc-alert>
 
               <cc-alert v-else-if="isUsed"
@@ -297,7 +299,7 @@ function frequencyText(frequency: string): string {
 .end {
   position: absolute;
   right: -14px;
-  top: -0px;
+  top: 0px;
   bottom: 0;
   width: 15px;
   display: inline-block;

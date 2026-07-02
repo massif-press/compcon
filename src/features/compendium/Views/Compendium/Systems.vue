@@ -12,36 +12,43 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { orderBy } from 'lodash-es';
 import { CompendiumStore, UserStore } from '@/stores';
-import { MechEquipment } from '@/classes/mech/components/equipment/MechEquipment'
 
 const options = ref({
-      views: ['single', 'table'],
-      initialView: 'single',
-      groups: ['source', 'lcp', 'license', 'none'],
-      initialGroup: 'license',
-      showExotics: UserStore().User.Option('showExotics') as boolean,
-    })
+  views: ['single', 'table'],
+  initialView: 'single',
+  groups: ['source', 'lcp', 'license', 'none'],
+  initialGroup: 'license',
+  showExotics: UserStore().User.Option('showExotics') as boolean,
+})
 const headers = ref([
-      { title: '', align: 'left', key: 'Source' },
-      { title: 'System', align: 'left', key: 'Name' },
-      { title: 'License', key: 'License' },
-      { title: 'License Level', align: 'center', key: 'LicenseLevel' },
-      { title: 'Tags', align: 'center', key: 'Tags' },
-      { title: 'SP Cost', align: 'center', key: 'SP' },
-    ])
+  { title: '', align: 'left', key: 'Source' },
+  { title: 'System', align: 'left', key: 'Name' },
+  { title: 'License', key: 'License' },
+  { title: 'License Level', align: 'center', key: 'LicenseLevel' },
+  { title: 'Tags', align: 'center', key: 'Tags' },
+  { title: 'SP Cost', align: 'center', key: 'SP' },
+])
 
 const manufacturers = computed(() => {
-      return CompendiumStore().Manufacturers;
-    })
+  return CompendiumStore().Manufacturers;
+})
 const systems = computed(() => {
-      return orderBy(
-        [...CompendiumStore().MechSystems, ...CompendiumStore().WeaponMods].filter(
-          (x) => !x.IsHidden
-        ),
-        'Name'
-      );
-    })
+  return orderBy(
+    [...CompendiumStore().MechSystems, ...CompendiumStore().WeaponMods].filter(
+      (x) => !x.IsHidden
+    ),
+    'Name'
+  );
+})
+
+onMounted(() => {
+  const s = CompendiumStore().MechSystems.find(x => x.ID === 'test00system')
+  console.log({ IsExotic: s.IsExotic, IsHidden: s.IsHidden, LcpName: s.LcpName, License: s.License })
+  console.log('showExotics:', UserStore().User.Option('showExotics'))
+  console.log('saved view:', UserStore().User.View('cb-systems', null))
+
+});
 </script>

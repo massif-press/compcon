@@ -539,7 +539,16 @@
               flat
               height="100%">
               <div class="text-accent font-weight-bold">
-                <v-icon :icon="s.Icon"
+                <div v-if="s.Svg"
+                  v-html-safe="cleanSvg(s.Svg)"
+                  class="d-inline-block"
+                  :style="{
+                    width: s.IconSize(),
+                    height: s.IconSize(),
+                    filter: `invert(${$vuetify.theme.current.dark ? 1 : 0})`,
+                  }" />
+                <v-icon v-else
+                  :icon="s.Icon"
                   class="mt-n1" />
                 {{ s.Name.toUpperCase() }}
               </div>
@@ -579,11 +588,13 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { CompendiumStore } from '@/stores';
-import { Status } from '@/classes/Status';
+import DOMPurify from 'dompurify';
 
-defineOptions({ name: 'CombatRefEncounter' })
+function cleanSvg(svg: string) {
+  return DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true, svgFilters: true } });
+}
 
 const statuses = computed(() => {
-      return CompendiumStore().Statuses;
-    })
+  return CompendiumStore().Statuses;
+})
 </script>

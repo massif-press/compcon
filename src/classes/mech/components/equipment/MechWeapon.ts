@@ -136,6 +136,7 @@ class WeaponProfile extends CompendiumItem {
   }
 
   public RangeSum(type?: RangeType) {
+    if (type === RangeType.Thrown) return this.Tags.find(t => t.ID === 'tg_thrown')?.Value || 0
     if (!this.Range) return 0
     if (!type) return Math.max(...this.Range.map(r => r.Max))
     return this.Range.find(x => x.Type === type)?.Max || 0

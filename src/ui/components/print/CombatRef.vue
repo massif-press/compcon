@@ -79,7 +79,8 @@
               class="mt-n1 ml-n1" />.
           </div>
           <div class="caption">
-            Characters that become <b>ENGAGED</b> by targets of <b>&gt;= SIZE</b> during movement stop
+            Characters that become <b>ENGAGED</b> by targets of <b>&gt;= SIZE</b> during movement
+            stop
             immediately and lose unused movement.
           </div>
         </fieldset>
@@ -375,14 +376,23 @@
       </v-col>
     </v-row>
     <fieldset class="px-2">
-      <legend class="text-overline text-primary px-2 mb-n2 font-weight-bold">Statuses</legend>
+      <legend class="text-overline text-primary px-2 mb-n2 font-weight-bold">STATUSES</legend>
       <v-row dense
         class="caption">
         <v-col v-for="s in statuses.filter((x) => x.StatusType === 'Status')"
           :key="s.Name"
           style="min-width: 14vw">
           <div class="text-primary font-weight-bold">
-            <v-icon :icon="s.Icon"
+            <div v-if="s.Svg"
+              v-html-safe="cleanSvg(s.Svg)"
+              class="d-inline-block"
+              :style="{
+                width: s.IconSize(),
+                height: s.IconSize(),
+                filter: `invert(${$vuetify.theme.current.dark ? 1 : 0})`,
+              }" />
+            <v-icon v-else
+              :icon="s.Icon"
               class="mt-n1" />{{ s.Name.toUpperCase() }}
           </div>
           <div v-html-safe="s.Terse" />
@@ -409,7 +419,10 @@
 
 <script setup lang="ts">
 import { Status } from '@/classes/Status'
-
+import DOMPurify from 'dompurify';
+function cleanSvg(svg: string) {
+  return DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true, svgFilters: true } });
+}
 const { statuses } = defineProps<{ statuses: Status[] }>()
 </script>
 

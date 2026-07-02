@@ -53,8 +53,7 @@ class ActiveEventTarget {
 
     if (effect.Save) {
       this.SaveType = event.Save
-      this.SaveBonus =
-        this.Combatant?.actor.CombatController.GetSavingThrowBonus(effect.Save[0].Stat) || 0
+      this.SaveBonus = 0
       this.SaveRollString = `1d20+${this.SaveBonus}`
     }
   }

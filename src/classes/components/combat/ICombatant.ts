@@ -57,6 +57,7 @@ interface ICombatant {
   PortraitController?: PortraitController
   GetLinkedItem?: (...args: any[]) => any
   SetLayerHp?: (...args: any[]) => any
+  Serialize?: (includeInstance?: boolean) => any
 }
 
 export type { ICombatant }

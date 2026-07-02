@@ -118,30 +118,7 @@
       <v-col cols="
             12"
         sm="6">
-        <cc-heading is-title
-          :text="$t('nav.settingsPage.logLevel')" />
-        <v-menu>
-          <template #activator="{ props }">
-            <v-list-item v-bind="props"
-              three-line
-              border>
-              <v-list-item-title>{{ $t('nav.settingsPage.logLevelLabel') }}</v-list-item-title>
-              <v-list-item-subtitle>
-                <b class="text-uppercase">{{ logLevel.name }}</b>
-              </v-list-item-subtitle>
-              <template #append>
-                <v-icon>mdi-chevron-down</v-icon>
-              </template>
-            </v-list-item>
-          </template>
-          <v-list>
-            <v-list-item v-for="item in logLevels"
-              :key="item.level"
-              :title="item.name"
-              :subtitle="item.detail"
-              @click="setLogLevel(item)" />
-          </v-list>
-        </v-menu>
+
 
         <cc-heading is-title
           :text="$t('nav.settingsPage.errorReporting')"
@@ -368,7 +345,6 @@ import {
 const t = i18n.global.t
 import { exportAll, importAll } from '@/io/BulkData'
 import { saveFile } from '@/io/Data'
-import { ClearAllData } from '@/io/Storage'
 import { isFullBackup, processFullBackup, downloadFullBackup } from '@/io/FullImporter'
 import { GetValue, SetValue } from '@/io/Storage'
 import { notify } from '@/util/notify'
@@ -385,13 +361,6 @@ const themeContributors = {
 }
 
 const user = computed(() => UserStore().User)
-
-const logLevels = [
-  { name: 'Debug', key: 'debug', level: 1, detail: 'Record all log messages (very slow)' },
-  { name: 'Info', key: 'info', level: 2, detail: 'Record info, warning, and error messages' },
-  { name: 'Warning', key: 'warn', level: 3, detail: 'Record warning and error messages (recommended)' },
-  { name: 'Error', key: 'error', level: 4, detail: 'Record only error messages' },
-]
 
 const fonts = [
   { label: 'Inter (v3 default)', value: 'inter' },
@@ -414,10 +383,9 @@ const isV2File = ref(false)
 const importLoading = ref(false)
 const v2BackupData = ref<any>(null)
 const v2MigrationComplete = ref(false)
-const logLevel = ref(logLevels.find(x => x.key === UserStore().User.LogLevel) || logLevels[2])
 
 const userViewExotics = computed({
-  get: () => user.value.Option('showExotics'),
+  get: () => !!user.value.Option('showExotics'),
   set: (newVal: boolean) => user.value.SetOption('showExotics', newVal),
 })
 
@@ -474,11 +442,6 @@ function reload() {
 function showUpdates() {
   user.value.ReadMessages = []
   reload()
-}
-
-function setLogLevel(item: typeof logLevels[number]) {
-  logLevel.value = item
-  user.value.LogLevel = item.key
 }
 
 function downloadV2Backup() {

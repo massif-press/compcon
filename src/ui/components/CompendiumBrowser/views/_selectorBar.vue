@@ -216,7 +216,6 @@ const licenseTab = ref(0)
 const sort = ref('')
 
 const axes = computed(() => getChartAxes((props.items[0] as CompendiumItem).ItemType))
-const subtypes = computed(() => _.uniq(props.items.map((x: any) => x.Type)))
 const itemsByLcp = computed(() => _.groupBy(props.items, 'LcpName'))
 const options = computed((): any => {
   const o = {
@@ -289,7 +288,7 @@ function mf(id: string) {
   return findManufacturer(props.manufacturers as Manufacturer[], id);
 }
 function mapItems(items: any[]) {
-  let arr = [] as any[];
+  let arr;
   if (items && items.length > 0 && (items[0] as any).StatsByProfile)
     arr = (items as MechWeapon[]).flatMap((x: MechWeapon) => x.StatsByProfile);
   else if (

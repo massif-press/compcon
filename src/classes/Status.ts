@@ -41,8 +41,12 @@ class Status implements ILcpTracked {
     applyLcpTracking(this, pack)
   }
 
-  public get Name(): string { return localize(this.ID, 'name', this._name) }
-  public get Terse(): string { return localize(this.ID, 'terse', this._terse) }
+  public get Name(): string {
+    return localize(this.ID, 'name', this._name)
+  }
+  public get Terse(): string {
+    return localize(this.ID, 'terse', this._terse)
+  }
   public get Effects(): string[] {
     const raw = Array.isArray(this._effects) ? this._effects.join('\n') : String(this._effects)
     return localize(this.ID, 'effects', raw).split('\n')
@@ -71,6 +75,12 @@ class Status implements ILcpTracked {
   public get Icon(): string {
     if (!this._icon) return 'cc:talent'
     return `cc:${this.StatusType.toLowerCase()}_${this._icon.replaceAll(/-|_/g, '').toLowerCase()}`
+  }
+
+  public IconSize(size?: string): string {
+    if (size === 'large') return '100px'
+    if (size === 'small') return '50px'
+    return 'calc(30px + 1vw)'
   }
 }
 

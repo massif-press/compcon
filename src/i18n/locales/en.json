@@ -442,7 +442,11 @@
       "noData": "@:{'common.noData'}",
       "trace": "Trace",
       "caller": "Caller",
-      "exportLog": "Export Log",
+      "exportThisSession": "Export This Session Log",
+      "exportAllSessions": "Export All Session Logs",
+      "clearLog": "Clear Log",
+      "error": "Error",
+      "session": "Session",
       "copiedToClipboard": "Log entry copied to clipboard"
     },
     "deletedItems": {
@@ -1384,7 +1388,8 @@
     },
     "initiative": {
       "reinforcementsN": "reinforcements ({n})",
-      "destroyedN": "Destroyed ({n})"
+      "destroyedN": "Destroyed ({n})",
+      "statusGroupN": "{status} ({n})"
     },
     "runnerItem": {
       "deploysOnRound": "Deploys on Round {n}",

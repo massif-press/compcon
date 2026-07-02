@@ -24,42 +24,40 @@
         </v-col>
 
         <v-col class="pb-0 pl-2">
-          <v-toolbar density="compact" color="panel" class="pr-1" style="height: 32px">
-            <div class="mt-n4" style="width: 100%">
-              <v-row dense>
-                <v-col cols="auto">
-                  <div :class="`heading h3 ${isHovering ? 'text-accent' : ''}`">
-                    <slot name="title" />
-                  </div>
-                </v-col>
+          <div class="pr-1" style="background-color: rgb(var(--v-theme-panel))">
+            <v-row dense align="start" class="flex-nowrap">
+              <v-col style="min-width: 0">
+                <div :class="`heading h3 ${isHovering ? 'text-accent' : ''}`">
+                  <slot name="title" />
+                </div>
+              </v-col>
 
-                <v-col cols="auto" class="ml-auto pt-0">
-                  <combatant-settings-menu :readonly="readonly" :item="item" />
-                </v-col>
+              <v-col cols="auto" class="ml-auto pt-0">
+                <combatant-settings-menu :readonly="readonly" :item="item" />
+              </v-col>
 
-                <v-col v-if="!readonly" cols="auto">
-                  <v-menu v-model="deleteMenu">
-                    <template #activator="{ props }">
-                      <v-btn
-                        v-bind.stop="props"
-                        color="error"
-                        :text="$t('common.remove')"
-                        size="x-small"
-                        flat
-                        tile
-                        variant="plain"
-                        class="pt-1" />
-                    </template>
-                    <cc-confirmation
-                      cancellable
-                      :content="`Confirm deletion of ${item.actor.Name} from the encounter`"
-                      @confirm="removeItem"
-                      @cancel="deleteMenu = false" />
-                  </v-menu>
-                </v-col>
-              </v-row>
-            </div>
-          </v-toolbar>
+              <v-col v-if="!readonly" cols="auto">
+                <v-menu v-model="deleteMenu">
+                  <template #activator="{ props }">
+                    <v-btn
+                      v-bind.stop="props"
+                      color="error"
+                      :text="$t('common.remove')"
+                      size="x-small"
+                      flat
+                      tile
+                      variant="plain"
+                      class="pt-1" />
+                  </template>
+                  <cc-confirmation
+                    cancellable
+                    :content="`Confirm deletion of ${item.actor.Name} from the encounter`"
+                    @confirm="removeItem"
+                    @cancel="deleteMenu = false" />
+                </v-menu>
+              </v-col>
+            </v-row>
+          </div>
           <slot />
         </v-col>
         <v-tooltip v-if="!readonly" :open-delay="500" max-width="300px">

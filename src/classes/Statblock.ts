@@ -17,26 +17,33 @@ function linebreak(i: number, length: number): string {
   }
 }
 
-function addWeaponToOutput(output: string, discordEmoji: boolean, w: MechWeapon | null): string {
-  if (w) output += `${w.TrueName}`
-  if (w && discordEmoji) {
-    if (w.Range) {
-      const ranges: string[] = []
-      w.Range.forEach(r => {
-        ranges.push(`${r.DiscordEmoji} ${r.Value}`)
-      })
-      output += ` ${ranges.join(' ')}`
-    }
-    if (w.Damage) {
-      const damages: string[] = []
-      w.Damage.forEach(d => {
-        damages.push(`${d.DiscordEmoji} ${d.Value}`)
-      })
-      output += ` ${damages.join(' ')}`
-    }
-  }
+// Discord emoji range/damage suffix, shared by every weapon line.
+function emojiWeaponStats(w: MechWeapon | PilotWeapon): string {
+  let out = ''
+  if (w.Range && w.Range.length)
+    out += ' ' + w.Range.filter(Boolean).map(r => `${r.DiscordEmoji} ${r.Value}`).join(' ')
+  if (w.Damage && w.Damage.length)
+    out += ' ' + w.Damage.filter(Boolean).map(d => `${d.DiscordEmoji} ${d.Value}`).join(' ')
+  return out
+}
 
+function addWeaponToOutput(output: string, discordEmoji: boolean, w: MechWeapon | null): string {
+  if (w) output += `${w.TrueName}${discordEmoji ? emojiWeaponStats(w) : ''}`
   return output
+}
+
+// NPC "..., Tier N " / "..., Custom " + tag suffix, shared by NPC headers.
+function npcSubtitle(npc: Unit): string {
+  const tier =
+    typeof npc.NpcClassController.Tier === 'number'
+      ? `, Tier ${npc.NpcClassController.Tier} `
+      : ', Custom '
+  return `${tier}${npc.Tag}`
+}
+
+// "LABEL: max | LABEL: max ..." stat grid row.
+function maxStats(npc: Unit, cols: [string, string][]): string {
+  return cols.map(([label, key]) => `${label}: ${npc.StatController.getMax(key)}`).join(' | ')
 }
 
 class Statblock {
@@ -62,27 +69,12 @@ class Statblock {
       if (loadout) {
         output += '[ GEAR ]\n  '
         for (let i = 0; i < loadout.Items.length; i++) {
-          if (loadout.Items[i]) {
-            if (discordEmoji) {
-              const weapon = loadout.Items[i] as PilotWeapon
-              let str = weapon.TrueName
-              if ('Range' in weapon) {
-                const ranges: string[] = []
-                weapon.Range.forEach(r => {
-                  ranges.push(`${r.DiscordEmoji} ${r.Value}`)
-                })
-                str += ` ${ranges.join(' ')}`
-              }
-              if ('Damage' in weapon) {
-                const damages: string[] = []
-                weapon.Damage.forEach(d => {
-                  damages.push(`${d.DiscordEmoji} ${d.Value}`)
-                })
-                str += ` ${damages.join(' ')}`
-                output += `${str}${linebreak(i, loadout.Items.length)}`
-              }
-            } else output += `${loadout.Items[i].TrueName}${linebreak(i, loadout.Items.length)}`
-          }
+          const item = loadout.Items[i]
+          if (!item) continue
+          let str = item.TrueName
+          if (discordEmoji && ('Range' in item || 'Damage' in item))
+            str += emojiWeaponStats(item as PilotWeapon)
+          output += `${str}${linebreak(i, loadout.Items.length)}`
         }
       }
 
@@ -154,48 +146,43 @@ class Statblock {
         output += `  ATK BONUS:${mech.AttackBonus} TECH ATK:${mech.TechAttack} LTD BONUS:${mech.LimitedBonus}\n`
         output += `  SPD:${mech.Speed} EVA:${mech.Evasion} EDEF:${mech.EDefense} SENS:${mech.SensorRange} SAVE:${mech.SaveTarget}\n`
 
+        const loadout = mech.MechLoadoutController.ActiveLoadout
         output += '[ WEAPONS ]\n'
-        for (const im of mech.MechLoadoutController.ActiveLoadout.IntegratedMounts) {
+        for (const im of loadout.IntegratedMounts) {
           for (const mw of im.Weapons) {
             output += '  INTEGRATED MOUNT: '
             output = addWeaponToOutput(output, discordEmoji, mw)
             output += '\n'
           }
         }
-        const loadout = mech.MechLoadoutController.ActiveLoadout
-          ? mech.MechLoadoutController.ActiveLoadout
-          : mech.MechLoadoutController.Loadouts[0]
-        if (loadout) {
-          for (const mount of loadout.AllEquippableMounts(
-            pilot && pilot.has('CoreBonus', 'cb_improved_armament'),
-            pilot && pilot.has('CoreBonus', 'cb_integrated_weapon')
-          )) {
-            output += `  ${mount.Name}: `
-            if (mount.IsLocked) {
-              output += 'SUPERHEAVY WEAPON BRACING'
-            } else {
-              mount.Weapons.forEach((w, idx) => {
-                output = addWeaponToOutput(output, discordEmoji, w)
-                if (w.Mod) output += ` (${w.Mod.TrueName})`
-                if (idx + 1 < mount.Weapons.length) output += ' / '
-              })
-            }
-
-            if (mount.Bonuses.length > 0) {
-              output += ' // ' + mount.Bonuses.map(bonus => bonus.Name).join(', ')
-            }
-
-            output += '\n'
+        for (const mount of loadout.AllEquippableMounts(
+          pilot && pilot.has('CoreBonus', 'cb_improved_armament'),
+          pilot && pilot.has('CoreBonus', 'cb_integrated_weapon'),
+          pilot && pilot.has('CoreBonus', 'cb_superheavy_mounting')
+        )) {
+          output += `  ${mount.Name}: `
+          if (mount.IsLocked) {
+            output += 'SUPERHEAVY WEAPON BRACING'
+          } else {
+            mount.Weapons.forEach((w, idx) => {
+              output = addWeaponToOutput(output, discordEmoji, w)
+              if (w.Mod) output += ` (${w.Mod.TrueName})`
+              if (idx + 1 < mount.Weapons.length) output += ' / '
+            })
           }
 
-          output += '[ SYSTEMS ]\n  '
-          const allsys = mech.MechLoadoutController.ActiveLoadout.IntegratedSystems.concat(
-            loadout.Systems
-          )
-          allsys.forEach((sys, i) => {
-            output += `${sys.TrueName}${linebreak(i, allsys.length)}`
-          })
+          if (mount.Bonuses.length > 0) {
+            output += ' // ' + mount.Bonuses.map(bonus => bonus.Name).join(', ')
+          }
+
+          output += '\n'
         }
+
+        output += '[ SYSTEMS ]\n  '
+        const allsys = loadout.IntegratedSystems.concat(loadout.Systems)
+        allsys.forEach((sys, i) => {
+          output += `${sys.TrueName}${linebreak(i, allsys.length)}`
+        })
       }
     } else if (view === 'full') {
       output += '\n>> NO MECH SELECTED <<'
@@ -206,8 +193,6 @@ class Statblock {
   public static GenerateBuildSummary(pilot: Pilot, mech: Mech, discordEmoji: boolean): string {
     if (mech) {
       const mechLoadout = mech.MechLoadoutController.ActiveLoadout
-        ? mech.MechLoadoutController.ActiveLoadout
-        : mech.MechLoadoutController.Loadouts[0]
       return `-- ${mech.Frame.Source} ${mech.Frame.Name} @ LL${pilot.Level} --
 [ LICENSES ]
   ${
@@ -241,22 +226,10 @@ class Statblock {
     mech.SaveTarget
   }
 [ WEAPONS ]
-  ${mech.MechLoadoutController.ActiveLoadout.IntegratedMounts.map(
+  ${mechLoadout.IntegratedMounts.map(
     mount =>
       `Integrated: ${mount.Weapon ? mount.Weapon.TrueName : 'N/A  '}${
-        discordEmoji && mount.Weapon && mount.Weapon.Range
-          ? ' ' +
-            mount.Weapon.Range.filter(Boolean)
-              .map(r => `${r.DiscordEmoji}${r.Value}`)
-              .join(' ')
-          : ''
-      }${
-        discordEmoji && mount.Weapon && mount.Weapon.Damage
-          ? ' ' +
-            mount.Weapon.Damage.filter(Boolean)
-              .map(d => `${d.DiscordEmoji}${d.Value}`)
-              .join(' ')
-          : ''
+        discordEmoji && mount.Weapon ? emojiWeaponStats(mount.Weapon) : ''
       }\n  `
   ).join('')}${mechLoadout
     .AllEquippableMounts(
@@ -271,21 +244,9 @@ class Statblock {
         out += mount.Weapons.filter(Boolean)
           .map(
             weapon =>
-              `${weapon.TrueName}${
-                discordEmoji && weapon.Range
-                  ? ' ' +
-                    weapon.Range.filter(Boolean)
-                      .map(r => `${r.DiscordEmoji}${r.Value}`)
-                      .join(' ')
-                  : ''
-              }${
-                discordEmoji && weapon.Damage
-                  ? ' ' +
-                    weapon.Damage.filter(Boolean)
-                      .map(d => `${d.DiscordEmoji}${d.Value}`)
-                      .join(' ')
-                  : ''
-              }${weapon.Mod ? ` (${weapon.Mod.TrueName})` : ''}`
+              `${weapon.TrueName}${discordEmoji ? emojiWeaponStats(weapon) : ''}${
+                weapon.Mod ? ` (${weapon.Mod.TrueName})` : ''
+              }`
           )
           .join(' / ')
 
@@ -310,33 +271,35 @@ class Statblock {
       output += `${npc.NpcTemplateController.Templates.map(t => t.Name).join(' ')}`
     if (npc.NpcClassController.HasClass)
       output += ` ${npc.NpcClassController.Class!.Name.toUpperCase()}`
-    output +=
-      typeof npc.NpcClassController.Tier === 'number'
-        ? `, Tier ${npc.NpcClassController.Tier} `
-        : ', Custom '
-    output += `${npc.Tag}\n`
+    output += npcSubtitle(npc)
+    output += '\n'
     output += '[ STATS ]\n'
-    output += `  H: ${npc.StatController.getMax('Hull')} | A: ${npc.StatController.getMax(
-      'Agi'
-    )} | S: ${npc.StatController.getMax('Sys')} | E: ${npc.StatController.getMax('Eng')}\n`
-    output += `  STRUCT: ${npc.StatController.getMax(
-      'Structure'
-    )} | ARMOR: ${npc.StatController.getMax('Armor')} | HP: ${npc.StatController.getMax('hp')}\n`
-    output += `  STRESS: ${npc.StatController.getMax(
-      'Stress'
-    )} | HEATCAP: ${npc.StatController.getMax('heatcap')} | SPD: ${npc.StatController.getMax(
-      'Speed'
-    )}\n`
-    output += `  SAVE: ${npc.StatController.getMax(
-      'SaveTarget'
-    )} | EVADE: ${npc.StatController.getMax('Evasion')} | EDEF: ${npc.StatController.getMax(
-      'EDefense'
-    )}\n`
-    output += `  SENS: ${npc.StatController.getMax(
-      'SensorRange'
-    )} | SIZE: ${npc.StatController.getMax('Size')} | ACT: ${npc.StatController.getMax(
-      'Activations'
-    )}\n`
+    output += `  ${maxStats(npc, [
+      ['H', 'Hull'],
+      ['A', 'Agi'],
+      ['S', 'Sys'],
+      ['E', 'Eng'],
+    ])}\n`
+    output += `  ${maxStats(npc, [
+      ['STRUCT', 'Structure'],
+      ['ARMOR', 'Armor'],
+      ['HP', 'hp'],
+    ])}\n`
+    output += `  ${maxStats(npc, [
+      ['STRESS', 'Stress'],
+      ['HEATCAP', 'heatcap'],
+      ['SPD', 'Speed'],
+    ])}\n`
+    output += `  ${maxStats(npc, [
+      ['SAVE', 'SaveTarget'],
+      ['EVADE', 'Evasion'],
+      ['EDEF', 'EDefense'],
+    ])}\n`
+    output += `  ${maxStats(npc, [
+      ['SENS', 'SensorRange'],
+      ['SIZE', 'Size'],
+      ['ACT', 'Activations'],
+    ])}\n`
     const customStats = npc.StatController.CustomStats(npc.ItemType)
     if (customStats.length) {
       output += `  ${customStats.map(s => `${s.title.toUpperCase()}: ${npc.StatController.getMax(s.key)}`).join(' | ')}\n`
@@ -358,27 +321,29 @@ class Statblock {
     if (npc.NpcClassController.HasClass) output += `${npc.NpcClassController.Class!.Name}`
     if (npc.NpcTemplateController.Templates)
       output += ` ${npc.NpcTemplateController.Templates.map(t => t.Name).join(' ')}`
-    output +=
-      typeof npc.NpcClassController.Tier === 'number'
-        ? `, Tier ${npc.NpcClassController.Tier} `
-        : ', Custom '
-    output += `${npc.Tag}\n\n`
+    output += npcSubtitle(npc)
+    output += '\n\n'
     output += `ACTIVATIONS: ${npc.StatController.getCurrent('activations')} / ${npc.StatController.getMax('activations')}\n`
 
     output += `STRUCT: ${npc.StatController.getCurrent('structure')} / ${npc.StatController.getMax('structure')} | ARMOR: ${npc.StatController.getMax('armor')} | HP: ${npc.StatController.getCurrent('hp')} / ${npc.StatController.getMax('hp')}\n`
     output += `STRESS: ${npc.StatController.getCurrent('stress')} / ${npc.StatController.getMax('stress')} | HEAT: ${npc.StatController.getCurrent('heatcap')} / ${npc.StatController.getMax('heatcap')} | SPD: ${npc.StatController.getCurrent('speed')} / ${npc.StatController.getMax('speed')}\n\n`
 
-    output += `H: ${npc.StatController.getMax('Hull')} | A: ${npc.StatController.getMax(
-      'Agi'
-    )} | S: ${npc.StatController.getMax('Sys')} | E: ${npc.StatController.getMax('Eng')}\n`
-    output += `SAVE: ${npc.StatController.getMax(
-      'SaveTarget'
-    )} | EVADE: ${npc.StatController.getMax('Evasion')} | EDEF: ${npc.StatController.getMax(
-      'EDefense'
-    )}\n`
-    output += `SENS: ${npc.StatController.getMax(
-      'SensorRange'
-    )} | TECH_ATK: ${npc.StatController.getMax('Tech Attack')} | SIZE: ${npc.StatController.getMax('Size')} \n\n`
+    output += `${maxStats(npc, [
+      ['H', 'Hull'],
+      ['A', 'Agi'],
+      ['S', 'Sys'],
+      ['E', 'Eng'],
+    ])}\n`
+    output += `${maxStats(npc, [
+      ['SAVE', 'SaveTarget'],
+      ['EVADE', 'Evasion'],
+      ['EDEF', 'EDefense'],
+    ])}\n`
+    output += `${maxStats(npc, [
+      ['SENS', 'SensorRange'],
+      ['TECH_ATK', 'Tech Attack'],
+      ['SIZE', 'Size'],
+    ])} \n\n`
 
     output += this.getFeatures(npc, includeFeatures)
 
@@ -396,12 +361,12 @@ class Statblock {
       output += ' '
       output += npc.NpcFeatureController.Features.map(
         (item, index) => `${item.Name}${linebreak(index, npc.NpcFeatureController.Features.length)}`
-      ).join('\n')
+      ).join('')
     }
     return output
   }
 
-  public static generateNarrativeBlock(npc: Unit): string {
+  private static generateNarrativeBlock(npc: Unit): string {
     let output = ''
     if (npc.NarrativeController.TextItems.length > 0) {
       output += '[ ADDITIONAL DETAIL ]\n'

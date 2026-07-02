@@ -132,7 +132,7 @@ class StatusController {
     } else if (condition && condition !== 'off') {
       target.Resistances[existingIndex].condition = condition
     } else {
-      this.Resistances.splice(existingIndex, 1)
+      target.Resistances.splice(existingIndex, 1)
       this._parent.log(`Lost ${type} ${condition}`)
     }
   }
@@ -146,7 +146,7 @@ class StatusController {
     const target = this._active.StatusController
     const existingIndex = target.Resistances.findIndex(s => s.type === type)
     if (existingIndex > -1) {
-      this.Resistances.splice(existingIndex, 1)
+      target.Resistances.splice(existingIndex, 1)
     }
   }
 

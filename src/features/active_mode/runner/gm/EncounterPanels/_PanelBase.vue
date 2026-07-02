@@ -46,49 +46,71 @@
               <v-col cols="auto"
                 align-self="start"
                 class="ml-auto mr-1 mt-1">
-                <v-menu>
-                  <template #activator="{ props: activatorProps }">
-                    <v-btn v-for="i in item.CombatController.StatController.MaxStats['activations']"
-                      :key="`activation-${i}`"
-                      icon="cc:activate"
-                      size="40"
-                      flat
-                      variant=outlined
-                      class="mx-1"
-                      :disabled="item.CombatController.StatController.CurrentStats['activations'] < i"
-                      :class="item.CombatController.StatController.CurrentStats['activations'] >= i ? 'bg-success' : ''"
-                      style="corner-shape: bevel; border-radius: 10px 0px !important;"
-                      :color="item.CombatController.StatController.CurrentStats['activations'] >= i
-                        ? 'panel'
-                        : 'grey'
-                        "
-                      v-bind="activatorProps" />
-                  </template>
-                  <v-card flat
-                    tile
-                    max-width="300"
-                    class="pa-2 text-center"
-                    border="sm">
-                    <div>{{ $t('active.panelBase.markActivation') }}
-                    </div>
-
-                    <div v-if="item.CombatController.StatController.CurrentStats['activations'] > 1"
-                      class="text-cc-overline text-text mt-1 mb-2">
-                      {{ $t('active.panelBase.reduceActivations') }}
-                    </div>
-                    <div v-else
-                      class="text-cc-overline text-text mt-1 mb-2">
-                      {{ $t('active.panelBase.endTurn', { name: item.Name }) }}
-                    </div>
-                    <v-btn block
-                      flat
+                <div class="text-center">
+                  <v-menu>
+                    <template #activator="{ props: activatorProps }">
+                      <v-btn
+                        v-for="i in item.CombatController.StatController.MaxStats['activations']"
+                        :key="`activation-${i}`"
+                        icon="cc:activate"
+                        size="40"
+                        flat
+                        variant=outlined
+                        class="mx-1"
+                        :disabled="item.CombatController.StatController.CurrentStats['activations'] < i"
+                        :class="item.CombatController.StatController.CurrentStats['activations'] >= i ? 'bg-success' : ''"
+                        style="corner-shape: bevel; border-radius: 10px 0px !important;"
+                        :color="item.CombatController.StatController.CurrentStats['activations'] >= i
+                          ? 'panel'
+                          : 'grey'
+                          "
+                        v-bind="activatorProps" />
+                    </template>
+                    <v-card flat
                       tile
-                      size="small"
-                      color="primary"
-                      @click="handleActivate">
-                      {{ $t('common.confirm') }}
+                      max-width="300"
+                      class="pa-2 text-center"
+                      border="sm">
+                      <div>{{ $t('active.panelBase.markActivation') }}
+                      </div>
+
+                      <div
+                        v-if="item.CombatController.StatController.CurrentStats['activations'] > 1"
+                        class="text-cc-overline text-text mt-1 mb-2">
+                        {{ $t('active.panelBase.reduceActivations') }}
+                      </div>
+                      <div v-else
+                        class="text-cc-overline text-text mt-1 mb-2">
+                        {{ $t('active.panelBase.endTurn', { name: item.Name }) }}
+                      </div>
+                      <v-btn block
+                        flat
+                        tile
+                        size="small"
+                        color="primary"
+                        @click="handleActivate">
+                        {{ $t('common.confirm') }}
+                      </v-btn>
+                    </v-card>
+                  </v-menu>
+                </div>
+                <v-menu>
+                  <template #activator="{ props: statusProps }">
+                    <v-btn v-bind="statusProps"
+                      size="x-small"
+                      :color="getStatusColor()"
+                      flat>
+                      <span v-if="(owner as any)[statusField]">{{ (owner as any)[statusField]
+                        }}</span>
                     </v-btn>
-                  </v-card>
+                  </template>
+                  <v-list density="compact">
+                    <v-list-item v-for="s in statusOptions"
+                      :key="s"
+                      :title="s"
+                      :active="(owner as any)[statusField] === s"
+                      @click="applyStatus(s)" />
+                  </v-list>
                 </v-menu>
               </v-col>
             </v-row>
@@ -183,7 +205,8 @@
                 :class="mobile ? '' : 'ml-auto'"
                 align-self="center">
                 <div v-if="mobile"
-                  class="text-cc-overline text-disabled">{{ $t('active.panelBase.cover') }}</div>
+                  class="text-cc-overline text-disabled">{{ $t('active.panelBase.cover') }}
+                </div>
                 <v-btn-toggle v-model="item.CombatController.Cover"
                   flat
                   tile
@@ -191,13 +214,16 @@
                   style="height: 30px">
                   <v-btn size="small"
                     height="30"
-                    value="none">{{ mobile ? $t('common.none') : $t('active.panelBase.noCover') }}</v-btn>
+                    value="none">{{ mobile ? $t('common.none') :
+                      $t('active.panelBase.noCover') }}</v-btn>
                   <v-btn size="small"
                     height="30"
-                    value="soft">{{ mobile ? $t('active.panelBase.soft') : $t('active.panelBase.softCover') }}</v-btn>
+                    value="soft">{{ mobile ? $t('active.panelBase.soft') :
+                      $t('active.panelBase.softCover') }}</v-btn>
                   <v-btn size="small"
                     height="30"
-                    value="hard">{{ mobile ? $t('active.panelBase.hard') : $t('active.panelBase.hardCover') }}</v-btn>
+                    value="hard">{{ mobile ? $t('active.panelBase.hard') :
+                      $t('active.panelBase.hardCover') }}</v-btn>
                 </v-btn-toggle>
               </v-col>
             </v-row>
@@ -245,14 +271,16 @@
                 color="panel"
                 flat>
                 <v-expansion-panel>
-                  <v-expansion-panel-title class="heading h4 ">{{ $t('active.panelBase.resistances') }}</v-expansion-panel-title>
+                  <v-expansion-panel-title class="heading h4 ">{{ $t('active.panelBase.resistances')
+                    }}</v-expansion-panel-title>
                   <v-expansion-panel-text style="border: 2px solid rgb(var(--v-theme-panel))">
                     <damage-condition-selector :controller="item.CombatController" />
                   </v-expansion-panel-text>
                 </v-expansion-panel>
                 <v-expansion-panel>
-                  <v-expansion-panel-title
-                    class="heading h4 ">{{ $t('active.panelBase.statusesConditions') }}</v-expansion-panel-title>
+                  <v-expansion-panel-title class="heading h4 ">{{
+                    $t('active.panelBase.statusesConditions')
+                    }}</v-expansion-panel-title>
                   <v-expansion-panel-text style="border: 2px solid rgb(var(--v-theme-panel))">
                     <status-condition-selector :controller="item.CombatController" />
                   </v-expansion-panel-text>
@@ -291,6 +319,7 @@ import TimedEffectPanel from './_components/TimedEffectPanel.vue';
 import TrackableStatsComplex from './_components/TrackableStatsComplex.vue';
 import TrackableStatsSimple from './_components/TrackableStatsSimple.vue';
 import { ICombatant } from '@/classes/components/combat/ICombatant'
+import { PilotStatus, NpcStatus, MechStatus } from '@/classes/enums'
 
 const _TrackableStatsComplex = markRaw(TrackableStatsComplex)
 const _TrackableStatsSimple = markRaw(TrackableStatsSimple)
@@ -299,7 +328,37 @@ const _display = useDisplay()
 
 defineOptions({ name: 'EncounterPanelBase' })
 
-const { encounterInstance } = useEncounterContext()
+const { encounterInstance, owner } = useEncounterContext()
+
+const itemType = computed(() => props.item.ItemType.toLowerCase())
+const statusField = computed<'status' | 'pilotStatus' | 'mechStatus'>(() => {
+  if (itemType.value === 'mech') return 'mechStatus'
+  if (itemType.value === 'pilot') return 'pilotStatus'
+  return 'status'
+})
+const statusOptions = computed(() => {
+  if (itemType.value === 'mech') {
+    const opts = Object.values(MechStatus)
+    return props.item.CombatController.HasAISystems
+      ? opts
+      : opts.filter(s => s !== MechStatus.Cascade)
+  }
+  if (itemType.value === 'pilot') return Object.values(PilotStatus)
+  return Object.values(NpcStatus)
+})
+
+function applyStatus(s: string) {
+  ; (owner.value as any)[statusField.value] = s
+  const cc = props.item.CombatController
+  if (statusField.value === 'mechStatus') {
+    cc.SetDestroyed(s === MechStatus.Destroyed || s === MechStatus.ReactorMeltdown)
+    cc.ReactorDestroyed = s === MechStatus.ReactorMeltdown
+  } else if (statusField.value === 'pilotStatus') {
+    cc.IsDead = s === PilotStatus.KIA
+  } else {
+    cc.SetDestroyed(s === NpcStatus.Destroyed)
+  }
+}
 
 const props = withDefaults(defineProps<{
   item: ICombatant
@@ -353,6 +412,40 @@ function getBonuses(statKey) {
 }
 function handleActivate() {
   props.item.CombatController.EndTurn();
+}
+function getStatusColor() {
+  const status = (owner.value as any)[statusField.value]
+  if (!status) return 'grey'
+  if (itemType.value === 'mech') {
+    switch (status) {
+      case MechStatus.Operational:
+        return 'success'
+      case MechStatus.Cascade:
+        return 'warning'
+      default:
+        return 'error'
+    }
+  } else if (itemType.value === 'pilot') {
+    switch (status) {
+      case PilotStatus.Active:
+        return 'success'
+      case PilotStatus.Injured:
+        return 'warning'
+      default:
+        return 'error'
+    }
+  } else {
+    switch (status) {
+      case NpcStatus.Operational:
+        return 'success'
+      case NpcStatus.Routed:
+      case NpcStatus.Disengaged:
+        return 'warning'
+      default:
+        return 'error'
+    }
+  }
+  return 'grey'
 }
 </script>
 

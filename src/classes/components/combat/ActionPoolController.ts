@@ -5,17 +5,21 @@ import { StatKey } from './stats/Stats'
 import { TimedEffect } from '../feature/active_effects/TimedEffect'
 import type { CombatController } from './CombatController'
 
+const DEFAULT_COMBAT_ACTIONS = {
+  Protocol: true,
+  Full: true,
+  Quick1: true,
+  Quick2: true,
+  Overcharge: true,
+  Reaction: true,
+}
+
+export { DEFAULT_COMBAT_ACTIONS }
+
 class ActionPoolController {
   private _parent: CombatController
 
-  public _combatActions: any = {
-    Protocol: true,
-    Full: true,
-    Quick1: true,
-    Quick2: true,
-    Overcharge: true,
-    Reaction: true,
-  }
+  public _combatActions: any = { ...DEFAULT_COMBAT_ACTIONS }
 
   private _usedActions: string[] = []
 
@@ -87,14 +91,7 @@ class ActionPoolController {
   }
 
   public ResetCombatActions(): void {
-    this.CombatActions = {
-      Protocol: true,
-      Full: true,
-      Quick1: true,
-      Quick2: true,
-      Overcharge: true,
-      Reaction: true,
-    }
+    this.CombatActions = { ...DEFAULT_COMBAT_ACTIONS }
   }
 
   public toggleCombatAction(action: string): void {

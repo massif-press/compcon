@@ -29,22 +29,6 @@ function end() {
 
 onMounted(() => {
 const actor = props.sheet.Pilot.CombatController.RootActor;
-    const out = {
-      id: actor.ID,
-      name: actor.CombatController.CombatName,
-    } as any;
-    if (actor.ItemType !== 'Pilot') {
-      out.status = actor.CombatController.IsDestroyed ? 'DESTROYED' : 'OPERATIONAL';
-    } else {
-      out.pilotStatus = 'COMBAT EFFECTIVE';
-      if (actor.IsDead) out.pilotStatus = 'KIA';
-      if (actor.CombatController.StatController.CurrentStats['hp'] !== actor.CombatController.StatController.MaxStats['hp']) out.pilotStatus = 'INJURED';
-      const mech = actor.ActiveMech;
-      out.mechStatus = 'MECH OPERATIONAL';
-      if (mech.CombatController.AIControl && mech.CombatController.InCascade) out.mechStatus = 'AI CONTROL - IN CASCADE';
-      if (mech.CombatController.IsDestroyed) out.mechStatus = 'MECH DESTROYED';
-      if (mech.CombatController.ReactorDestroyed) out.mechStatus = 'MECH DESTROYED - REACTOR MELTDOWN';
-    }
-    actionReport.value = [out];
+    actionReport.value = [{ id: actor.ID, actor }];
 })
 </script>

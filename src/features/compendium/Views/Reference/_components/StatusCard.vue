@@ -1,16 +1,34 @@
 <template>
-  <v-card class="parent cc-panel-clip" flat tile border>
-    <v-toolbar flat density="compact" color="primary" class="ma-0 pa-0">
+  <v-card class="parent cc-panel-clip"
+    flat
+    tile
+    border>
+    <v-toolbar flat
+      density="compact"
+      color="primary"
+      class="ma-0 pa-0">
       <div class="mt-n1 px-2 pt-2 pb-1">
         <div class="heading h3">
-          <v-icon :icon="status?.Icon" start class="mt-n1" />
+          <div v-if="status?.Svg"
+            v-html-safe="cleanSvg(status.Svg)"
+            class="d-inline-block"
+            :style="{
+              width: status.IconSize(),
+              height: status.IconSize(),
+              filter: `invert(${$vuetify.theme.current.dark ? 1 : 0})`,
+            }" />
+          <v-icon v-else
+            :icon="status?.Icon"
+            start
+            class="mt-n1" />
           <span v-text="status?.Name" />
         </div>
       </div>
       <v-spacer />
     </v-toolbar>
     <v-card-text class="py-2 px-4">
-      <p v-text="status?.Terse" class="text-center font-weight-bold body-text" />
+      <p v-text="status?.Terse"
+        class="text-center font-weight-bold body-text" />
       <v-divider class="my-1" />
       <p v-html-safe="status?.Effects" />
     </v-card-text>
@@ -20,9 +38,12 @@
 
 <script setup lang="ts">
 import type { Status } from '@/classes/Status'
+import DOMPurify from 'dompurify';
 
 defineOptions({ name: 'cc-panel' })
-
+function cleanSvg(svg: string) {
+  return DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true, svgFilters: true } });
+}
 const props = defineProps<{
   status?: Status
 }>()

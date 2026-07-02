@@ -32,7 +32,7 @@ import { CombatLogEntry, CombatLog } from './CombatLog'
 import { Bonus } from '../feature/bonus/Bonus'
 import { assertController } from '../../utility/assertController'
 import { StatusController } from './StatusController'
-import { ActionPoolController } from './ActionPoolController'
+import { ActionPoolController, DEFAULT_COMBAT_ACTIONS } from './ActionPoolController'
 import { DamageController } from './DamageController'
 
 enum CoverType {
@@ -41,36 +41,35 @@ enum CoverType {
   Hard = 'hard',
 }
 
-class CombatData {
-  resistances: { type: DamageType; condition: string }[] = []
-  statuses: { status: string; expires: string }[] = []
-  customStatuses: { status: IEffectSpecialData; expires: string }[] = []
-  counters: ICounterCollection = {} as ICounterCollection
-  cover: CoverType = CoverType.None
-  corePower: boolean = true
+interface CombatData {
+  resistances: { type: DamageType; condition: string }[]
+  statuses: { status: string; expires: string }[]
+  customStatuses: { status: IEffectSpecialData; expires: string }[]
+  counters: ICounterCollection
+  cover: CoverType
+  corePower: boolean
 
-  mounted: boolean = true
-  overwatch: boolean = false
-  braced: boolean = false
-  prepared: boolean = false
-  coreActive: boolean = false
-  aiControl: boolean = false
+  mounted: boolean
+  overwatch: boolean
+  braced: boolean
+  prepared: boolean
+  coreActive: boolean
+  aiControl: boolean
 
-  isInSelfDestruct: boolean = false
-  reactorDestroyed: boolean = false
-  isDead: boolean = false
+  isInSelfDestruct: boolean
+  reactorDestroyed: boolean
+  isDead: boolean
 
-  stats: IStatData = {} as IStatData
+  stats: IStatData
 
-  timed_effects: ITimedEffectData[] = []
+  timed_effects: ITimedEffectData[]
 
-  combatActions: any = {}
-  usedActions: string[] = []
+  combatActions: any
+  usedActions: string[]
 
-  combat_history: CombatLogEntry[] = []
-  round: number = 1
-  turn: number = 1
-  action: number = 1
+  combat_history: CombatLogEntry[]
+  round: number
+  turn: number
 }
 
 class CombatController implements ICounterContainer, IStatContainer {
@@ -141,7 +140,6 @@ class CombatController implements ICounterContainer, IStatContainer {
   public CombatLogVersion: number = 0
   public Round: number = 1
   public Turn: number = 1
-  public Action: number = 1
 
   // prevent applied events after successful saves. Must be disabled after effect iteration.
   public SaveLock: boolean = false
@@ -230,11 +228,6 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   public get LimitedBonus(): number {
     if ((this.Parent as any).LimitedBonus !== undefined) return (this.Parent as any).LimitedBonus
-    return 0
-  }
-
-  public GetSavingThrowBonus(stat: string): number {
-    // TODO
     return 0
   }
 
@@ -408,6 +401,12 @@ class CombatController implements ICounterContainer, IStatContainer {
     else if (this.StatController.getMax(StatKey.HP) > 0)
       return this.StatController.getCurrent(StatKey.HP) <= 0
     return false
+  }
+
+  public SetDestroyed(val: boolean): void {
+    if (val === this.IsDestroyed) return
+    const key = this.StatController.getMax(StatKey.STRUCTURE) > 0 ? StatKey.STRUCTURE : StatKey.HP
+    this.StatController.setCurrentStat(key, val ? 0 : this.StatController.getMax(key))
   }
 
   public get IsInDangerZone(): boolean {
@@ -590,7 +589,7 @@ class CombatController implements ICounterContainer, IStatContainer {
       apply.resist = ae.AddResist.map(x => ({ type: x.Resist, value: x.ResistType }))
     if (ae.AddSpecial.length)
       apply.special = ae.AddSpecial.map(x => ({ attribute: x.Attribute, detail: x.Detail }))
-    if (ae.AddSpecial.length) apply.status = ae.AddStatus.map(x => x.Status.ID)
+    if (ae.AddStatus.length) apply.status = ae.AddStatus.map(x => x.Status.ID)
 
     this.TimedEffects.push(
       markRaw(
@@ -633,35 +632,23 @@ class CombatController implements ICounterContainer, IStatContainer {
       })
       this.log('Brace ended; entered Brace Cooldown period')
       this.CombatActions = {
+        ...DEFAULT_COMBAT_ACTIONS,
         Protocol: false,
         Full: false,
-        Quick1: true,
         Quick2: false,
         Overcharge: false,
         Reaction: false,
       }
     } else {
       this.StatController.setCurrentStat(StatKey.SPEED, this.StatController.getMax(StatKey.SPEED))
-      this.CombatActions = {
-        Protocol: true,
-        Full: true,
-        Quick1: true,
-        Quick2: true,
-        Overcharge: true,
-        Reaction: true,
-      }
+      this.CombatActions = { ...DEFAULT_COMBAT_ACTIONS }
     }
     this.StatController.setCurrentStat(
       StatKey.ACTIVATIONS,
       this.StatController.getMax(StatKey.ACTIVATIONS)
     )
     this.ActionPoolController.clearAllUsedActions()
-    const equipment = this.AllEquipment
-    equipment.forEach(eq => {
-      if (!eq.IsReloading) return
-      if (eq.Recharge < 0) return
-      eq.IsUsed = false
-    })
+    this._resetReloadableEquipment()
 
     const newEffects: TimedEffect[] = []
 
@@ -680,9 +667,7 @@ class CombatController implements ICounterContainer, IStatContainer {
       )
     }
 
-    const statusExpires = this.Statuses.filter(s =>
-      s.expires?.HasExpired(this.Round, this.Parent.ID, this.Turn)
-    )
+    const statusExpires = this.getExpiredStatuses(this.Round, this.Parent.ID)
 
     const specialStatusExpires = this.CustomStatuses.filter(s =>
       s.expires?.HasExpired(this.Round, this.Parent.ID, this.Turn)
@@ -727,11 +712,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     )
     this.StatController.setCurrentStat(StatKey.SPEED, this.StatController.getMax(StatKey.SPEED))
     this.ActionPoolController.clearAllUsedActions()
-    this.AllEquipment.forEach(eq => {
-      if (!eq.IsReloading) return
-      if (eq.Recharge < 0) return
-      eq.IsUsed = false
-    })
+    this._resetReloadableEquipment()
     if (this.Parent instanceof Pilot) {
       if (this.Parent.ActiveMech) this.Parent.ActiveMech.CombatController.Reset()
     }
@@ -740,6 +721,14 @@ class CombatController implements ICounterContainer, IStatContainer {
   public Reload(): void {
     this.AllEquipment.forEach(eq => {
       if (eq.IsReloading) eq.IsUsed = false
+    })
+  }
+
+  private _resetReloadableEquipment(): void {
+    this.AllEquipment.forEach(eq => {
+      if (!eq.IsReloading) return
+      if (eq.Recharge < 0) return
+      eq.IsUsed = false
     })
   }
 
@@ -785,7 +774,6 @@ class CombatController implements ICounterContainer, IStatContainer {
     target.combat_history = controller.CombatLog.History
     target.round = controller.Round
     target.turn = controller.Turn
-    target.action = controller.Action
 
     target.usedActions = controller.ActionPoolController.usedActions
 
@@ -811,11 +799,11 @@ class CombatController implements ICounterContainer, IStatContainer {
     }))
 
     controller.Cover = data?.cover || CoverType.None
-    controller.Mounted = data?.mounted || true
+    controller.Mounted = data?.mounted ?? true
     controller.Overwatch = data?.overwatch || false
     controller.Braced = data?.braced || false
     controller.Prepared = data?.prepared || false
-    controller.CorePower = data?.corePower !== undefined ? data.corePower : true
+    controller.CorePower = data?.corePower ?? true
     controller.CoreActive = data?.coreActive || false
     controller.AIControl = data?.aiControl || false
 
@@ -831,7 +819,6 @@ class CombatController implements ICounterContainer, IStatContainer {
 
     controller.Round = data?.round || 1
     controller.Turn = data?.turn || 1
-    controller.Action = data?.action || 1
 
     controller.TimedEffects = (data?.timed_effects || []).map(te => TimedEffect.Deserialize(te))
 

@@ -95,7 +95,10 @@ export function isV2Encounter(data: unknown): boolean {
 // LCP requirement analysis
 // ---------------------------------------------------------------------------
 
-export function getV2PilotMissingLcps(data: V2Pilot): { missingIds: string[]; missingNames: string[] } {
+export function getV2PilotMissingLcps(data: V2Pilot): {
+  missingIds: string[]
+  missingNames: string[]
+} {
   const missingIds: string[] = []
   const missingNames: string[] = []
   const brews: any[] = data.brews || []
@@ -151,8 +154,18 @@ export function getV2EncounterMissingNpcs(data: V2Encounter): string[] {
 // Transformation
 // ---------------------------------------------------------------------------
 
+// preserves the v2 item's original modified time so a remigration on a second
+// browser produces stale timestamps and loses the sync merge to prevent overwriting
+// newer data
+function v2ItemTimestamp(data: any): number {
+  const raw = data?.lastModified ?? data?.lastUpdate_cloud ?? data?.lastSync
+  if (raw == null || raw === '') return Date.now()
+  const num = typeof raw === 'number' ? raw : new Date(raw).getTime()
+  return Number.isFinite(num) ? num : Date.now()
+}
+
 export function transformV2Pilot(data: V2Pilot): Record<string, unknown> {
-  const now = Date.now()
+  const now = v2ItemTimestamp(data)
   const brews = (data.brews || []).map((b: any) => ({ ...b, Status: 'OK' }))
 
   return {
@@ -234,7 +247,7 @@ export function transformV2Pilot(data: V2Pilot): Record<string, unknown> {
 }
 
 export function transformV2Npc(data: V2Npc): Record<string, unknown> {
-  const now = Date.now()
+  const now = v2ItemTimestamp(data)
 
   const features = (data.items || []).map((item: any) => ({
     id: item.itemID,
@@ -301,11 +314,13 @@ export function transformV2Npc(data: V2Npc): Record<string, unknown> {
   return result
 }
 
-export function transformV2Encounter(rawData: V2Encounter | V2Encounter[]): Record<string, unknown>[] {
+export function transformV2Encounter(
+  rawData: V2Encounter | V2Encounter[]
+): Record<string, unknown>[] {
   const encounters: V2Encounter[] = Array.isArray(rawData) ? rawData : [rawData]
-  const now = Date.now()
 
   return encounters.map(enc => {
+    const now = v2ItemTimestamp(enc)
     const combatants: any[] = []
     let index = 0
 
@@ -547,7 +562,11 @@ export async function reprocessV2Backups(): Promise<{
 
 export async function preprocessPilotImport(
   data: unknown
-): Promise<{ action: 'import' | 'backup'; transformed?: Record<string, unknown>; missingLcps?: string[] }> {
+): Promise<{
+  action: 'import' | 'backup'
+  transformed?: Record<string, unknown>
+  missingLcps?: string[]
+}> {
   if (!isV2Pilot(data)) return { action: 'import', transformed: data as Record<string, unknown> }
 
   const v2 = data as V2Pilot
@@ -562,7 +581,11 @@ export async function preprocessPilotImport(
 
 export async function preprocessNpcImport(
   data: unknown
-): Promise<{ action: 'import' | 'backup'; transformed?: Record<string, unknown>; missingLcps?: string[] }> {
+): Promise<{
+  action: 'import' | 'backup'
+  transformed?: Record<string, unknown>
+  missingLcps?: string[]
+}> {
   if (!isV2Npc(data)) return { action: 'import', transformed: data as Record<string, unknown> }
 
   const v2 = data as V2Npc
@@ -577,8 +600,13 @@ export async function preprocessNpcImport(
 
 export async function preprocessEncounterImport(
   data: unknown
-): Promise<{ action: 'import' | 'backup'; transformed?: Record<string, unknown>[]; missingNpcs?: string[] }> {
-  if (!isV2Encounter(data)) return { action: 'import', transformed: data as Record<string, unknown>[] }
+): Promise<{
+  action: 'import' | 'backup'
+  transformed?: Record<string, unknown>[]
+  missingNpcs?: string[]
+}> {
+  if (!isV2Encounter(data))
+    return { action: 'import', transformed: data as Record<string, unknown>[] }
 
   const v2 = data as V2Encounter | V2Encounter[]
   const encounters: V2Encounter[] = Array.isArray(v2) ? v2 : [v2]

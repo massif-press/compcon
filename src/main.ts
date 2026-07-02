@@ -18,6 +18,8 @@ import { createPinia } from 'pinia'
 
 import * as Sentry from '@sentry/vue'
 
+import logger from '@/user/logger'
+
 import './assets/css/global.css'
 import './ui/style/_style.css'
 
@@ -104,10 +106,7 @@ if (
     app: compcon,
     dsn: import.meta.env.VITE_APP_SENTRY_DSN,
     tunnel: `${import.meta.env.VITE_APP_INVOKE_URL}/sentry-tunnel`,
-    integrations: [Sentry.browserTracingIntegration({ router }), Sentry.replayIntegration()],
-    tracesSampleRate: 0.1, // 10% of transactions
-    replaysSessionSampleRate: 0,
-    replaysOnErrorSampleRate: 1.0, // 100% of error sessions
+    integrations: [],
     environment: import.meta.env.MODE,
     release: APP_VERSION,
     beforeSend(event, hint) {
@@ -121,6 +120,10 @@ if (
       ) {
         return null
       }
+      const now = Date.now()
+      const last = Number(sessionStorage.getItem('sentry_last_sent') || 0)
+      if (now - last < 10 * 60 * 1000) return null
+      sessionStorage.setItem('sentry_last_sent', String(now))
       if (!isEnhancedReportingEnabled()) {
         // Strip PII when enhanced reporting is off
         delete event.user
@@ -129,10 +132,6 @@ if (
           delete event.request.headers
         }
       }
-      return event
-    },
-    beforeSendTransaction(event) {
-      if (!isErrorReportingEnabled()) return null
       return event
     },
   })
@@ -144,6 +143,8 @@ compcon.use(vuetify)
 compcon.use(router)
 compcon.use(VueSecureHTML)
 compcon.use(Notifications)
+
+logger.attachGlobalHandlers(compcon)
 
 compcon.component('QuillEditor', QuillEditor)
 

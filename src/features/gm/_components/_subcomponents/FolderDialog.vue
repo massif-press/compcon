@@ -50,4 +50,6 @@ function confirm() {
       emit('confirm', folderName.value);
       dialog.value = false;
     }
+
+defineExpose({ open })
 </script>

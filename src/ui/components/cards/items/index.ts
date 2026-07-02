@@ -26,6 +26,7 @@ import TagCard from './_TagCard.vue'
 import DowntimeActionCard from './_DowntimeActionCard.vue'
 import ActionCard from './_ActionCard.vue'
 import GlossaryCard from './_GlossaryCard.vue'
+import ManufacturerCard from './_ManufacturerCard.vue'
 
 export {
   EquipmentCardBase,
@@ -56,4 +57,5 @@ export {
   DowntimeActionCard,
   ActionCard,
   GlossaryCard,
+  ManufacturerCard,
 }

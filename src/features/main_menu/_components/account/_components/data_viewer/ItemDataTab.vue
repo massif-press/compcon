@@ -5,7 +5,8 @@
         :color="bulkDeleteMode ? 'panel' : 'error'"
         prepend-icon="mdi-delete-sweep"
         @click="toggleBulkDelete">
-        {{ bulkDeleteMode ? $t("mainMenu.dataItem.cancelBulkSelection") : $t("mainMenu.dataItem.bulkDelete") }}
+        {{ bulkDeleteMode ? $t("mainMenu.dataItem.cancelBulkSelection") :
+          $t("mainMenu.dataItem.bulkDelete") }}
       </cc-button>
       <cc-button v-if="bulkDeleteMode && selectedForDelete.length"
         size="small"
@@ -82,9 +83,12 @@
       </template>
       <template #item.ItemType="{ item }">
         <span v-if="item.ItemType === 'Encounter'">{{ $t("active.newEnc.encounterData") }}</span>
-        <span v-else-if="item.ItemType === 'Campaign'">{{ $t("mainMenu.dataItem.typeCampaignData") }}</span>
-        <span v-else-if="item.ItemType === 'EncounterInstance'">{{ $t("mainMenu.dataItem.typeActiveEncounter") }}</span>
-        <span v-else-if="item.ItemType === 'EncounterArchive'">{{ $t("mainMenu.dataItem.typeArchivedEncounter") }}</span>
+        <span v-else-if="item.ItemType === 'Campaign'">{{ $t("mainMenu.dataItem.typeCampaignData")
+          }}</span>
+        <span v-else-if="item.ItemType === 'EncounterInstance'">{{
+          $t("mainMenu.dataItem.typeActiveEncounter") }}</span>
+        <span v-else-if="item.ItemType === 'EncounterArchive'">{{
+          $t("mainMenu.dataItem.typeArchivedEncounter") }}</span>
         <span v-else-if="item.ItemType === 'PilotSheet'">{{ $t("common.pilotSheet") }}</span>
         <span v-else-if="item.ItemType === 'pilotgroup'">{{ $t("common.pilotGroup") }}</span>
         <span v-else
@@ -573,7 +577,10 @@
       :close-on-click="false">
       <cc-alert color="error">
         <v-toolbar-title>
-          <span class="heading h3">{{ $t("mainMenu.dataItem.deleteNItems", { count: selectedForDelete.length }, selectedForDelete.length) }}</span>
+          <span class="heading h3">{{ $t("mainMenu.dataItem.deleteNItems", {
+            count:
+              selectedForDelete.length
+          }, selectedForDelete.length) }}</span>
         </v-toolbar-title>
       </cc-alert>
       {{ $t("mainMenu.dataItem.chooseDeleteMethod") }}:
@@ -719,7 +726,6 @@ const cloudStorageFull = computed(() => UserStore().CloudStorageFull)
 
 function sortWithChildren(items: any[]): any[] {
   const result: any[] = []
-  const encounterMap = new Map<string, any>()
   const pilotMap = new Map<string, any>()
 
   const encounters: any[] = []
@@ -730,7 +736,7 @@ function sortWithChildren(items: any[]): any[] {
 
   for (const item of items) {
     const t = normalizeItemType(item.ItemType)
-    if (t === 'encounter') { encounters.push(item); encounterMap.set(item.ID, item) }
+    if (t === 'encounter') { encounters.push(item); }
     else if (t === 'encounterinstance') instances.push(item)
     else if (t === 'pilot') { pilots.push(item); pilotMap.set(item.ID, item) }
     else if (t === 'pilotsheet') sheets.push(item)
@@ -750,7 +756,7 @@ function sortWithChildren(items: any[]): any[] {
   const pairedInstances = new Set(
     instances.filter(inst => {
       const parentEnc = (inst as any).Encounter
-      return parentEnc && encounterMap.has(parentEnc.ID)
+      return parentEnc
     }).map(i => i.ID)
   )
   for (const inst of instances) {

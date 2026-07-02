@@ -14,7 +14,16 @@
       align="center"
       justify="center">
       <v-col cols="auto">
-        <v-icon :icon="s.Icon"
+        <div v-if="s.Svg"
+          v-html-safe="cleanSvg(s.Svg)"
+          class="d-inline-block"
+          :style="{
+            width: s.IconSize(),
+            height: s.IconSize(),
+            filter: `invert(${$vuetify.theme.current.dark ? 1 : 0})`,
+          }" />
+        <v-icon v-else
+          :icon="s.Icon"
           size="280"
           color="rgba(0,0,0,0.1)"
           style="padding: 0; margin-left: -32px" />
@@ -35,8 +44,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { CompendiumStore } from '@/stores';
+import DOMPurify from 'dompurify';
 import card from './components/PrintCard.vue';
-
+function cleanSvg(svg: string) {
+  return DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true, svgFilters: true } });
+}
 const statuses = computed(() => {
   return CompendiumStore().Statuses;
 })

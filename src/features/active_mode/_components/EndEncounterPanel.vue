@@ -1,12 +1,12 @@
 <template>
   <v-dialog max-width="900px">
-    <template #activator="{ props }">
+    <template #activator="{ props: activatorProps }">
       <v-btn flat
         block
         variant="text"
         color="accent"
         prepend-icon="mdi-progress-check"
-        @click="props.onClick($event)">
+        @click="deriveStatuses(); activatorProps.onClick($event)">
         {{ $t('active.endEnc.endEncounter') }}
       </v-btn>
     </template>
@@ -39,26 +39,27 @@
                 <v-col><cc-chip :bg-color="c.pilotStatus ? 'info' : 'primary'"
                     size="large"
                     flat
-                    tile><span class="heading h3 text-text pr-3">{{ c.name
-                    }}</span></cc-chip></v-col>
-                <v-col cols="auto"
-                  v-if="c.status"><v-combobox v-model="c.status"
+                    tile><span class="heading h3 text-text pr-3">{{ c.name ??
+                      c.actor?.CombatController?.CombatName
+                      }}</span></cc-chip></v-col>
+                <v-col v-if="c.status"
+                  cols="auto"><v-combobox v-model="c.status"
                     flat
                     tile
                     hide-details
                     density="compact"
                     min-width="250"
                     :items="npcStatusTypes" /></v-col>
-                <v-col cols="auto"
-                  v-if="c.pilotStatus"><v-combobox v-model="c.pilotStatus"
+                <v-col v-if="c.pilotStatus"
+                  cols="auto"><v-combobox v-model="c.pilotStatus"
                     flat
                     tile
                     hide-details
                     density="compact"
                     min-width="250"
                     :items="pilotStatusTypes" /></v-col>
-                <v-col cols="auto"
-                  v-if="c.mechStatus"><v-combobox v-model="c.mechStatus"
+                <v-col v-if="c.mechStatus"
+                  cols="auto"><v-combobox v-model="c.mechStatus"
                     flat
                     tile
                     hide-details
@@ -92,16 +93,18 @@
           </v-slide-y-reverse-transition>
           <v-row>
             <v-col>
-              <cc-button block
-                v-if="!confirm"
+              <cc-button v-if="!confirm"
+                block
                 size="small"
                 color="primary"
-                @click="confirm = true"><span class="text-lowercase">{{ $t('active.endEnc.endEncounter') }}</span></cc-button>
-              <cc-button block
-                v-else
+                @click="confirm = true"><span class="text-lowercase">{{
+                  $t('active.endEnc.endEncounter') }}</span></cc-button>
+              <cc-button v-else
+                block
                 size="small"
                 color="warning"
-                @click="$emit('end', result)"><span class="text-lowercase">{{ $t('active.endEnc.confirmEndEncounter') }}</span></cc-button>
+                @click="$emit('end', result)"><span class="text-lowercase">{{
+                  $t('active.endEnc.confirmEndEncounter') }}</span></cc-button>
             </v-col>
           </v-row>
         </v-card-text>
@@ -112,8 +115,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { PilotStatus, NpcStatus, MechStatus } from '@/classes/enums'
 
-defineProps<{
+const props = defineProps<{
   actionReport: any[]
   confirmMessage: string
 }>()
@@ -124,23 +128,32 @@ defineEmits<{
 
 const confirm = ref(false)
 const result = ref('PC VICTORY')
-const pilotStatusTypes = ref([
-  'COMBAT EFFECTIVE',
-  'INJURED',
-  'KIA',
-  'MIA',
-  'ESCAPED',
-  'DISENGAGED',
-])
-const npcStatusTypes = ref([
-  'OPERATIONAL',
-  'DESTROYED',
-  'ESCAPED',
-  'DISENGAGED',
-])
-const mechStatusTypes = ref([
-  'OPERATIONAL',
-  'DESTROYED',
-  'DESTROYED - REACTOR MELTDOWN',
-])
+const pilotStatusTypes = Object.values(PilotStatus)
+const npcStatusTypes = Object.values(NpcStatus)
+const mechStatusTypes = Object.values(MechStatus)
+
+// derive each combatant's status from its live combat state as the dialog opens
+function deriveStatuses() {
+  for (const row of props.actionReport) {
+    const actor = row.actor?.CombatController?.RootActor
+    if (!actor) continue
+    if (actor.ItemType !== 'Pilot') {
+      row.status = actor.CombatController.IsDestroyed ? NpcStatus.Destroyed : NpcStatus.Operational
+    } else {
+      row.pilotStatus = PilotStatus.Active
+      if (actor.IsDead) row.pilotStatus = PilotStatus.KIA
+      if (
+        actor.CombatController.StatController.CurrentStats['hp'] !==
+        actor.CombatController.StatController.MaxStats['hp']
+      )
+        row.pilotStatus = PilotStatus.Injured
+      const mech = actor.ActiveMech
+      row.mechStatus = MechStatus.Operational
+      if (mech.CombatController.AIControl && mech.CombatController.InCascade)
+        row.mechStatus = MechStatus.Cascade
+      if (mech.CombatController.IsDestroyed) row.mechStatus = MechStatus.Destroyed
+      if (mech.CombatController.ReactorDestroyed) row.mechStatus = MechStatus.ReactorMeltdown
+    }
+  }
+}
 </script>

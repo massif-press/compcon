@@ -71,7 +71,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     this.IsActive = data?.isActive || false
     this.SimpleTickbars = data?.simple_tickbars || false
     this.ForceComplexTickbars = data?.force_complex_tickbars || false
-    this.LayoutColumns = !!data?.layout_columns || true
+    this.LayoutColumns = data?.layout_columns ?? true
     this.MaxMasonryColumns = data?.max_masonry_columns || 1
 
     if (data) {
@@ -80,7 +80,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
       else this.Combatants = []
       this.Encounter = Encounter.Deserialize(data.encounter)
       this.Name = this.Encounter.Name
-      this.Autosave = data.autosave || true
+      this.Autosave = data.autosave ?? true
     } else {
       if (!encounter) {
         throw new Error(
