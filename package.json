@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@kyvg/vue3-notification": "3.4.2",
-    "@massif/lancer-data": "^4.0.7",
+    "@massif/lancer-data": "^4.0.8",
     "@mdi/font": "7.4.47",
     "@sentry/vite-plugin": "^5.1.1",
     "@sentry/vue": "^10.40.0",
