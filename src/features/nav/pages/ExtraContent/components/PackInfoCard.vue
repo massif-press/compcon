@@ -87,6 +87,36 @@
             </v-card>
           </div>
         </div>
+        <div class="pt-2">
+          <cc-heading line>
+            {{ $t('nav.packInfo.languagePatches') }}
+            <cc-tooltip :text="$t('nav.packInfo.languagePatchesTooltip')" />
+          </cc-heading>
+          <i v-if="languagePatches.length === 0"
+            class="pl-2">{{ $t('nav.packInfo.none') }}</i>
+          <div v-else>
+            <v-chip v-for="p in languagePatches"
+              :key="p.id"
+              variant="outlined"
+              :color="patchIsStale(p, manifest.version) ? 'warning' : 'accent'"
+              class="mr-2 mb-1 text-overline"
+              closable
+              close-icon="mdi-delete"
+              :title="$t('nav.packInfo.removePatch')"
+              @click:close="removePatch(p.id)">
+              <v-avatar color="primary"
+                start
+                class="text-uppercase"
+                v-text="p.lang" />
+              {{ p.translator || $t('nav.packInfo.patchUnknownAuthor') }}
+              <v-icon v-if="patchIsStale(p, manifest.version)"
+                end
+                size="x-small"
+                icon="mdi-alert"
+                :title="$t('nav.packInfo.patchOutdated', { version: p.target_version })" />
+            </v-chip>
+          </div>
+        </div>
       </v-col>
       <v-col cols="12"
         md="4">
@@ -110,15 +140,28 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useDisplay } from 'vuetify'
 import * as _ from 'lodash-es'
 import { ContentPack, ContentPackDependency, IContentPack, IContentPackManifest } from '@/classes/ContentPack'
 import { ContentPackStore } from '@/stores'
+import { LocalizationStore } from '@/stores/localization'
+import { packPatches, removePatch, patchIsStale } from '@/i18n/translationPatch'
 
 const props = defineProps<{ pack: IContentPack | ContentPack }>()
 
 const { smAndDown: mobile } = useDisplay()
+
+const localizationStore = LocalizationStore()
+onMounted(() => localizationStore.ensurePatchesLoaded())
+
+const languagePatches = computed(() =>
+  packPatches([
+    (props.pack as IContentPack).id ?? (props.pack as ContentPack).ID,
+    manifest.value.item_prefix,
+    manifest.value.name,
+  ])
+)
 
 const humanReadableMap: Record<string, [string, string]> = {
   manufacturers: ['manufacturer', 'manufacturers'],

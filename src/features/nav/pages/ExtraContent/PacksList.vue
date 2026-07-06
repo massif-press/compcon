@@ -12,6 +12,57 @@
       density="compact"
       :show-expand="mobile"
       :mobile="$vuetify.display.xs">
+      <template #item.Name="{ item }">
+        {{ item.Name }}
+        <v-menu v-if="patchesFor(item).length"
+          :close-on-content-click="false"
+          location="bottom start">
+          <template #activator="{ props }">
+            <v-btn v-bind="props"
+              variant="text"
+              size="x-small"
+              color="accent"
+              class="ml-1"
+              :title="$t('nav.packInfo.languagePatches')">
+              <v-chip v-for="p in patchesFor(item)"
+                :key="p.id + 'badge'"
+                size="x-small"
+                :color="patchIsStale(p, item.Manifest.version) ? 'warning' : undefined">{{ p.lang }}</v-chip>
+            </v-btn>
+          </template>
+          <v-card min-width="280">
+            <v-card-title class="text-caption bg-primary px-3 py-1">
+              <v-icon start
+                size="small"
+                icon="mdi-translate" />
+              {{ $t('nav.packInfo.languagePatches') }}
+            </v-card-title>
+            <v-list density="compact">
+              <v-list-item v-for="p in patchesFor(item)"
+                :key="p.id">
+                <template #prepend>
+                  <v-icon v-if="patchIsStale(p, item.Manifest.version)"
+                    color="warning"
+                    icon="mdi-alert"
+                    :title="$t('nav.packInfo.patchOutdated', { version: p.target_version })" />
+                </template>
+                <v-list-item-title class="text-uppercase">{{ p.lang }}</v-list-item-title>
+                <v-list-item-subtitle>
+                  {{ p.translator || $t('nav.packInfo.patchUnknownAuthor') }}
+                </v-list-item-subtitle>
+                <template #append>
+                  <v-btn icon="mdi-delete"
+                    variant="plain"
+                    color="error"
+                    size="small"
+                    :title="$t('nav.packInfo.removePatch')"
+                    @click="removePatch(p.id)" />
+                </template>
+              </v-list-item>
+            </v-list>
+          </v-card>
+        </v-menu>
+      </template>
       <template #item.toggleActive="{ item }">
         <cc-switch v-if="!item.Missing"
           :model-value="item.Active"
@@ -91,16 +142,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useDisplay } from 'vuetify'
 import { notify } from '@/util/notify'
 import { ContentPack } from '@/classes/ContentPack'
 import PackInfoCard from './components/PackInfoCard.vue'
 import { CompendiumStore, ContentPackStore } from '@/stores'
+import { LocalizationStore } from '@/stores/localization'
+import { packPatches, removePatch, patchIsStale } from '@/i18n/translationPatch'
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
 const { smAndDown: mobile } = useDisplay()
+
+const localizationStore = LocalizationStore()
+onMounted(() => localizationStore.ensurePatchesLoaded())
+
+function patchesFor(pack: ContentPack) {
+  return packPatches([pack.ID, pack.Manifest.item_prefix, pack.Manifest.name])
+}
 
 const expandedRows = ref<any[]>([])
 const loading = ref(false)

@@ -478,6 +478,7 @@
       "requiresContent": "This LCP requires the following content to be installed before it can be added",
       "success": "Success",
       "successText": "Content packs installed successfully",
+      "patchStringCount": "{count} strings",
       "byAuthorVersion": "by {author} {'@'} {version}",
       "byAuthorRequires": "by {author} requires",
       "upgradeFromTo": "Upgrade from {from} to {to}",
@@ -528,7 +529,13 @@
       "none": "@:{'common.none'}",
       "authorsWebsite": "Author's Website",
       "dependencyInstalled": "Dependency installed",
-      "version": "@:{'common.version'}"
+      "version": "@:{'common.version'}",
+      "languagePatches": "Language Patches",
+      "languagePatchesTooltip": "Community translations installed for this content pack. Applied when their language is selected.",
+      "patchByAuthor": "by {translator}",
+      "patchUnknownAuthor": "Unknown translator",
+      "patchOutdated": "This translation was written for pack version {version} and may be out of date.",
+      "removePatch": "Remove patch"
     },
     "communityTable": {
       "noData": "No content packs available.",

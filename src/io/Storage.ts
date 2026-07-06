@@ -24,6 +24,11 @@ const storeRegistry = {
     storeName: 'content',
     description: 'Stores LCP data',
   }),
+  translations: localforage.createInstance({
+    name: dbName,
+    storeName: 'translations',
+    description: 'Stores installed LCP language patches (.llp)',
+  }),
   content_collection: localforage.createInstance({
     name: dbName,
     storeName: 'content_collection',

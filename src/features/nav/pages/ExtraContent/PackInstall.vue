@@ -11,7 +11,7 @@
           :placeholder="$t('nav.packInstall.selectFile')"
           variant="outlined"
           type="file"
-          accept=".lcp"
+          accept=".lcp,.llp"
           prepend-icon="cc:content_manager"
           clearable
           multiple
@@ -48,7 +48,8 @@
             <b>{{ pack.manifest.name }}</b>
             {{ $t('nav.packInstall.byAuthorVersion', {
               author: pack.manifest.author, version:
-                alreadyInstalledVersion(pack) }) }}
+                alreadyInstalledVersion(pack)
+            }) }}
             <div class="ml-3 mb-2"
               style="margin-top: -2px">
               <v-chip v-if="gradeType(pack) === 'upgrade'"
@@ -60,7 +61,8 @@
                   icon="mdi-arrow-up" />
                 {{ $t('nav.packInstall.upgradeFromTo', {
                   from: alreadyInstalledVersion(pack), to:
-                    pack.manifest.version }) }}
+                    pack.manifest.version
+                }) }}
               </v-chip>
               <v-chip v-else-if="gradeType(pack) === 'downgrade'"
                 color="error"
@@ -139,6 +141,38 @@
       <v-col class="px-3 py-4"
         :style="mobile ? '' : 'height: calc(95vh - 83px)'"
         style="overflow-y: scroll">
+        <v-card v-for="patch in stagedPatches"
+          :key="patch.id"
+          color="info"
+          class="mb-4">
+          <v-card-title class="d-flex align-center text-body-1">
+            <v-icon start
+              icon="mdi-translate" />
+            {{ patch.target }}
+            <v-chip class="ml-2 text-uppercase"
+              size="x-small"
+              variant="elevated"
+              elevation="0"
+              color="accent">{{
+                patch.lang }}</v-chip>
+            <v-spacer />
+            <v-btn icon="mdi-close"
+              variant="plain"
+              size="small"
+              @click="unstagePatch(patch.id)" />
+          </v-card-title>
+          <v-card-text class="text-caption">
+            <div>
+              {{ patch.translator
+                ? $t('nav.packInfo.patchByAuthor', { translator: patch.translator })
+                : $t('nav.packInfo.patchUnknownAuthor') }}
+            </div>
+            <div>
+              {{ $t('nav.packInstall.patchStringCount', { count: Object.keys(patch.data).length })
+              }}
+            </div>
+          </v-card-text>
+        </v-card>
         <v-fade-transition v-for="contentPack in contentPacks"
           :key="contentPack ? contentPack.id : 'nopack'"
           mode="out-in">
@@ -206,7 +240,9 @@ import { i18n } from '@/i18n'
 const t = i18n.global.t
 import { ref, computed, nextTick } from 'vue'
 import { useDisplay } from 'vuetify'
-import { parseContentPack } from '@/io/ContentPackParser'
+import { parseContentPack, getBundledPatches } from '@/io/ContentPackParser'
+import { installPatch, type LanguagePatch } from '@/i18n/translationPatch'
+import { validatePatch } from '@/i18n/validatePatch'
 import { CompendiumStore, ContentPackStore } from '@/stores'
 import PackInfo from './PackInfo.vue'
 import { IContentPack, ContentPackDependency } from '@/classes/ContentPack'
@@ -221,6 +257,7 @@ const emit = defineEmits<{ 'start-load': [] }>()
 const value = ref<any>(null)
 const installing = ref(false)
 const contentPacks = ref<IContentPack[]>([])
+const stagedPatches = ref<LanguagePatch[]>([])
 const error = ref('')
 
 const hasAlreadyInstalled = computed(() =>
@@ -240,14 +277,19 @@ const dependencyErrorCount = computed(() =>
   contentPacks.value.filter(pack => uninstalledDependencies(pack).length > 0).length
 )
 
-const disableInstall = computed(() =>
-  installing.value ||
-  contentPacks.value.length === 0 ||
-  contentPacks.value.filter(pack => uninstalledDependencies(pack).length > 0).length === contentPacks.value.length
-)
+const disableInstall = computed(() => {
+  if (installing.value) return true
+  if (contentPacks.value.length === 0 && stagedPatches.value.length === 0) return true
+
+  const allPacksBlocked =
+    contentPacks.value.length > 0 &&
+    contentPacks.value.every(pack => uninstalledDependencies(pack).length > 0)
+  return allPacksBlocked && stagedPatches.value.length === 0
+})
 
 async function reset() {
   contentPacks.value = []
+  stagedPatches.value = []
   error.value = ''
   value.value = null
   await nextTick()
@@ -267,9 +309,30 @@ async function fileChange(event: Event) {
   const files = (event.target as HTMLInputElement).files
   if (files?.length) {
     for (let i = 0; i < files.length; i++) {
-      await readFileAsBinaryString(files[i])
+      if (files[i].name.toLowerCase().endsWith('.llp')) await stageLanguagePatch(files[i])
+      else await readFileAsBinaryString(files[i])
     }
   }
+}
+
+function stagePatch(raw: unknown): boolean {
+  const res = validatePatch(raw)
+  if (!res.ok) throw new Error(res.error)
+  stagedPatches.value = [...stagedPatches.value.filter(p => p.id !== res.patch.id), res.patch]
+  return true
+}
+
+async function stageLanguagePatch(file: File) {
+  try {
+    stagePatch(JSON.parse(await file.text()))
+  } catch (err) {
+    logger.error(`Error reading language patch: ${err}`, null, err)
+    notify({ title: t('notify.common.error'), text: String(err), color: 'error' })
+  }
+}
+
+function unstagePatch(id: string) {
+  stagedPatches.value = stagedPatches.value.filter(p => p.id !== id)
 }
 
 async function readFileAsBinaryString(file: File) {
@@ -277,6 +340,14 @@ async function readFileAsBinaryString(file: File) {
     const fileData = await readAsBinaryStringAsync(file)
     const pack = await parseContentPack(fileData as string)
     contentPacks.value.push(pack)
+    // Auto-stage any .llp language patches the author bundled inside the .lcp.
+    for (const raw of await getBundledPatches(fileData as string)) {
+      try {
+        stagePatch(raw)
+      } catch (err) {
+        logger.error(`Skipping invalid bundled patch: ${err}`, null, err)
+      }
+    }
   } catch (err) {
     logger.error(`Error reading file: ${err}`, null, err)
   }
@@ -330,7 +401,16 @@ async function install(): Promise<void> {
 
   ContentPackStore().installContentPacks(contentPacks.value)
 
+  for (const patch of stagedPatches.value) {
+    try {
+      await installPatch(patch)
+    } catch (err) {
+      logger.error(`Error installing language patch ${patch.id}: ${err}`, null, err)
+    }
+  }
+
   contentPacks.value = []
+  stagedPatches.value = []
   installing.value = false
   error.value = ''
   value.value = null

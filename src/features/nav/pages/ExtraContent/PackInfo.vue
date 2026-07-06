@@ -29,7 +29,8 @@
             class="my-1" />
         </template>
         <template #subtitle>
-          <div class="pl-2 mb-n2">{{ $t('nav.packConfig.byAuthor', { author: pack.manifest.author }) }}</div>
+          <div class="pl-2 mb-n2">{{ $t('nav.packConfig.byAuthor', { author: pack.manifest.author })
+          }}</div>
         </template>
       </cc-toolbar>
     </template>
@@ -46,16 +47,42 @@
     </cc-alert>
 
     <pack-info-card :pack="pack" />
+
   </cc-panel>
 </template>
 
 <script setup lang="ts">
+import { ref, computed, onMounted } from 'vue'
 import { useDisplay } from 'vuetify'
-import { PropType } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { IContentPack } from '@/classes/ContentPack'
 import PackInfoCard from './components/PackInfoCard.vue'
+import { LocalizationStore } from '@/stores/localization'
+import { packPatches, removePatch, type LanguagePatch } from '@/i18n/translationPatch'
 
-defineProps<{ pack: IContentPack }>()
+const props = defineProps<{ pack: IContentPack }>()
 
 const { smAndDown: mobile } = useDisplay()
+const { t } = useI18n()
+
+const dialog = ref(false)
+
+const localizationStore = LocalizationStore()
+onMounted(() => localizationStore.ensurePatchesLoaded())
+
+const languagePatches = computed(() =>
+  packPatches([props.pack.id, props.pack.manifest.item_prefix, props.pack.manifest.name])
+)
+
+function patchSubtitle(p: LanguagePatch): string {
+  const by = p.translator
+    ? t('nav.packInfo.patchByAuthor', { translator: p.translator })
+    : t('nav.packInfo.patchUnknownAuthor')
+  return p.translation_version ? `${by} · v${p.translation_version}` : by
+}
+
+async function remove(id: string) {
+  await removePatch(id)
+  if (!languagePatches.value.length) dialog.value = false
+}
 </script>

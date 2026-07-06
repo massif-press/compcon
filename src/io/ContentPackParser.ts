@@ -279,4 +279,22 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
   }
 }
 
-export { parseContentPack }
+// Language patches (.llp) an LCP author bundled inside the .lcp zip for single-file distribution.
+// Returns the raw parsed JSON objects; the caller validates them.
+const getBundledPatches = async function (binString: string): Promise<unknown[]> {
+  const zip = await JSZip.loadAsync(binString)
+  const names = await getZipFiles(zip)
+  const out: unknown[] = []
+  for (const name of names) {
+    if (!name.toLowerCase().endsWith('.llp')) continue
+    try {
+      const obj = await readZipJSON<unknown>(zip, name)
+      if (obj) out.push(obj)
+    } catch (e) {
+      logger.error(`Error reading bundled language patch ${name}, skipping. Error: ${e}`, {}, e)
+    }
+  }
+  return out
+}
+
+export { parseContentPack, getBundledPatches }
