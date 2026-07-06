@@ -52,7 +52,6 @@ export interface ISession {
 class Logger {
   private static instance: Logger
   private _level: LEVELS = LEVELS.WARN
-  // _sessions is newest-first; _sessions[0] is the current (live) session.
   private _sessions: ISession[] = []
   private _current!: ISession
   private _saveTimer: ReturnType<typeof setTimeout> | null = null
@@ -66,7 +65,6 @@ class Logger {
     return Logger.instance
   }
 
-  // Entries of the current session (back-compat with existing callers).
   public get History(): IErrorReport[] {
     return this._current.entries
   }
@@ -92,8 +90,6 @@ class Logger {
     return JSON.stringify(obj, this._replacer(), 2)
   }
 
-  // Deep, circular-safe, redacted plain-object snapshot. Drops Vue internals ($-keys)
-  // and functions so we never persist live refs or secrets.
   private snapshot(obj: any): any {
     if (!obj || typeof obj !== 'object') return obj
     try {
@@ -117,7 +113,6 @@ class Logger {
     }
   }
 
-  // Pull the real error out of whichever slot a caller passed it in.
   private extractError(caller: any, err: any): Error | null {
     if (err instanceof Error) return err
     if (caller instanceof Error) return caller
@@ -141,8 +136,6 @@ class Logger {
       timestamp: Date.now(),
     }
 
-    // Capture everything to the current session; console output is gated by the active level.
-    // (Only error-level entries are persisted, see _persistSnapshot.)
     this._current.entries.push(entry)
     if (this._current.entries.length > MAX_HISTORY) this._current.entries.shift()
     this._scheduleSave()
@@ -172,7 +165,6 @@ class Logger {
   public info = (message: string, caller?: any) => this.log(message, 'info', caller)
   public debug = (message: string, caller?: any) => this.log(message, 'debug', caller)
 
-  // Human label for a session by its position in the newest-first list.
   public sessionLabel(index: number): string {
     if (index <= 0) return 'current session'
     if (index === 1) return 'last session'
@@ -184,7 +176,6 @@ class Logger {
     this._scheduleSave()
   }
 
-  // Export the given session, or all sessions when no id is passed.
   public export(sessionId?: string): string {
     const sessions = sessionId ? this._sessions.filter(s => s.id === sessionId) : this._sessions
 
@@ -219,11 +210,9 @@ class Logger {
     return `${ctx}\n\n${body}\n`
   }
 
-  // Wire uncaught errors + rejections into the log so bugs get captured without a call site.
   public attachGlobalHandlers(app?: App): void {
     if (app) {
-      // Sentry.init already installed an errorHandler; chain to it so it does the single
-      // Sentry capture. We only add history + console here (log, not error).
+      // Sentry.init already installed an errorHandler
       const prev = app.config.errorHandler
       app.config.errorHandler = (err, instance, info) => {
         this.log(`Vue error (${info}): ${err}`, 'error', instance, err)
@@ -232,7 +221,7 @@ class Logger {
     }
     if (typeof window !== 'undefined') {
       window.addEventListener('error', e => {
-        if (!e.error) return // resource-load errors (img/script) have no error object; skip noise
+        if (!e.error) return // resource load errors (img/script) have no error object
         this.log(`Uncaught: ${e.message}`, 'error', null, e.error)
       })
       window.addEventListener('unhandledrejection', e => {
@@ -247,7 +236,6 @@ class Logger {
     }
   }
 
-  // Persisted form: all sessions, but only error-level entries are written to disk.
   private _persistSnapshot(): ISession[] {
     return this._sessions.map(s => ({
       id: s.id,
@@ -277,9 +265,6 @@ class Logger {
       if (raw) {
         const parsed = JSON.parse(raw)
         if (Array.isArray(parsed)) {
-          // Only persisted sessions carry entries (errors); drop empty ones so a run full of
-          // clean reloads can't evict an older session that actually captured a crash.
-          // Keep the most recent (MAX_SESSIONS - 1); the fresh current session takes the last slot.
           prior = parsed
             .filter(s => s && Array.isArray(s.entries) && s.entries.length)
             .slice(0, MAX_SESSIONS - 1)
