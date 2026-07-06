@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 // Build LCP language patches (.llp). Two modes:
 //
 //   extract <lcp-dir> [--lang <code>] [--out <file>]
@@ -6,10 +7,11 @@
 //     translatable key + its English source string. Copy it, change `lang`, translate the values.
 //
 //   pack <flat.json> --target <pack-id> [--lang <code>] [--out <file>]
-//     Wrap an already-translated flat `<id>.<field>` map (e.g. a Weblate content/<c>/<lang>.json)
-//     in a .llp header. Weblate locale codes are normalized to the app's (zh_Hans->zh, pt_BR->pt).
+//     Wrap an already-translated flat `<id>.<field>` map (like a Weblate content/<c>/<lang>.json)
+//     in a .llp header.
 //
-// Keys match exactly what the app's localize() resolver reads, so authors never hand-guess them.
+// Keys match exactly what the localize() resolver reads, so authors don't need to guess paths.
+
 import { readFileSync, writeFileSync, existsSync, statSync } from 'node:fs'
 import { join, basename, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
@@ -17,7 +19,7 @@ import { pathToFileURL } from 'node:url'
 import { nestedEntries } from '../src/i18n/contentKeys.mjs'
 import { ALLOWLIST } from './extract-content-en.mjs'
 
-// Weblate locale code -> app locale code (mirrors scripts/pull-locales.mjs ALIAS).
+// Weblate locale code -> app locale code
 const ALIAS = { zh_Hans: 'zh', pt_BR: 'pt' }
 const appLocale = code => ALIAS[code] ?? code
 
