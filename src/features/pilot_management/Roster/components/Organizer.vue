@@ -14,14 +14,16 @@
         {{ getPilotGroup(item) }}
       </v-chip>
     </template>
-    <template #item.LastUpdate="{ item }">{{ timeAgo((item as any).SaveController.LastModified) }}</template>
+    <template #item.LastUpdate="{ item }">{{ timeAgo((item as any).SaveController.LastModified)
+    }}</template>
 
-    <template #actions="{ selected, items, showDeleted, clearSelected, showDeleteConfirm, setShowDeleteConfirm }">
+    <template
+      #actions="{ selected, items, showDeleted, clearSelected, showDeleteConfirm, setShowDeleteConfirm }">
       <v-list-item :title="$t('pm.roster.setGroup')"
         :subtitle="$t('pm.subtitles.setPilotGroup')"
         prepend-icon="mdi-account-group"
         :disabled="!selected.length"
-        @click="setGroupDialog = true" />
+        @click="setGroupDialog = true; sel = selected" />
       <v-list-item :title="selected.length < 2 ? 'Export' : 'Export Collection'"
         :subtitle="selected.length < 2 ? 'Export item JSON' : 'Generate a multi-item export package'"
         prepend-icon="mdi-upload"
@@ -111,6 +113,7 @@ defineProps<{ type: string }>()
 
 const setGroupDialog = ref(false)
 const stagedGroup = ref<any>(null)
+const sel: string[] = []
 
 const headers = computed(() => [
   { title: 'Name', key: 'Name', sortable: true },
@@ -128,11 +131,14 @@ const items = computed(() =>
 const allGroups = computed(() => PilotGroupStore().getPilotGroups())
 
 async function setGroup() {
-  for (const group of allGroups.value) {
-    await PilotGroupStore().TransferPilot(
-      items.value.find((x: any) => x.ID === stagedGroup.value?.ID) as any,
-      stagedGroup.value ? (stagedGroup.value as PilotGroup).ID : undefined
-    )
+  for (const id of sel) {
+    const pilot = items.value.find((x: any) => x.ID === id)
+    if (pilot) {
+      await PilotGroupStore().TransferPilot(
+        pilot as any,
+        stagedGroup.value ? (stagedGroup.value as PilotGroup).ID : undefined
+      )
+    }
   }
   stagedGroup.value = null
   setGroupDialog.value = false
