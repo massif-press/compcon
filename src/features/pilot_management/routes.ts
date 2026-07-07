@@ -37,7 +37,7 @@ const routes = [
         name: 'mech-sheet',
         component: MechSheet,
         props: true,
-        meta: { title: 'pm.titles.mech' },
+        meta: { title: 'common.mech' },
       },
 
       {

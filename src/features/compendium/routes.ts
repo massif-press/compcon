@@ -46,24 +46,24 @@ const routes = [
     component: Main,
     props: true,
     searchData: {
-      title: 'compendium.titles.compendium',
+      title: 'common.compendium',
       icon: 'mdi-book-variant',
     },
-    meta: { title: 'compendium.titles.compendium' },
+    meta: { title: 'common.compendium' },
   },
   {
     path: 'compendium/search',
     component: SearchResults,
-    meta: { title: 'compendium.titles.search' },
+    meta: { title: 'common.search' },
   },
   {
     path: 'compendium/licenses',
     component: Licenses,
     searchData: {
-      title: 'compendium.titles.licenses',
+      title: 'common.licenses',
       icon: 'mdi-book-variant',
     },
-    meta: { title: 'compendium.titles.licenses' },
+    meta: { title: 'common.licenses' },
   },
   {
     path: 'compendium/manufacturers',
@@ -218,10 +218,10 @@ const routes = [
     path: 'compendium/reserves',
     component: Reserves,
     searchData: {
-      title: 'compendium.titles.reserves',
+      title: 'common.reserves',
       icon: 'mdi-book-variant',
     },
-    meta: { title: 'compendium.titles.reserves' },
+    meta: { title: 'common.reserves' },
   },
   {
     path: 'compendium/downtime',
@@ -262,7 +262,7 @@ const routes = [
   {
     path: 'compendium/tables',
     component: Tables,
-    meta: { title: 'compendium.titles.tables' },
+    meta: { title: 'common.tables' },
   },
   {
     path: 'compendium/lists',

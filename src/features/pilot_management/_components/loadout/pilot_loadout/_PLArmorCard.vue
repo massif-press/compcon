@@ -151,13 +151,13 @@ const base = ref<InstanceType<typeof PlCardBase> | null>(null)
 
 const headers = ref([
   { title: t('pm.titles.contentPack'), key: 'LcpName' },
-  { title: t('pm.titles.type'), key: 'Type' },
-  { title: t('pm.titles.item'), key: 'Name' },
-  { title: t('pm.titles.armor'), key: 'ArmorString' },
+  { title: t('common.type'), key: 'Type' },
+  { title: t('common.item'), key: 'Name' },
+  { title: t('stats.armor'), key: 'ArmorString' },
   { title: t('common.hpBonus'), key: 'HpString' },
   { title: t('pm.titles.eDefense'), key: 'EdefString' },
-  { title: t('pm.titles.evasion'), key: 'EvasionString' },
-  { title: t('pm.titles.speed'), key: 'SpeedString' },
+  { title: t('stats.evasion'), key: 'EvasionString' },
+  { title: t('stats.speed'), key: 'SpeedString' },
   { title: t('pm.titles.tags'), align: 'center', key: 'Tags' },
 ])
 

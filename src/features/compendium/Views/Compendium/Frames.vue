@@ -31,17 +31,17 @@ const headers = ref([
       { title: 'Name', key: 'Name' },
       { title: t('compendium.titles.size'), key: 'SizeIcon', align: 'center', sortRaw: (a: any, b: any) => a.Size - b.Size },
       { title: t('compendium.titles.mounts'), key: 'Mounts' },
-      { title: t('compendium.titles.armor'), key: 'Armor', align: 'center' },
+      { title: t('stats.armor'), key: 'Armor', align: 'center' },
       { title: 'HP', key: 'HP', align: 'center' },
-      { title: t('compendium.titles.evasion'), key: 'Evasion', align: 'center' },
+      { title: t('stats.evasion'), key: 'Evasion', align: 'center' },
       { title: t('compendium.titles.edef'), key: 'EDefense', align: 'center' },
       { title: t('compendium.titles.heatcap'), key: 'HeatCap', align: 'center' },
       { title: t('compendium.titles.repcap'), key: 'RepCap', align: 'center' },
-      { title: t('compendium.titles.sensors'), key: 'SensorRange', align: 'center' },
+      { title: t('stats.sensors'), key: 'SensorRange', align: 'center' },
       { title: t('compendium.titles.techatk'), key: 'TechAttack', align: 'center' },
-      { title: t('compendium.titles.save'), key: 'SaveTarget', align: 'center' },
-      { title: t('compendium.titles.speed'), key: 'Speed', align: 'center' },
-      { title: t('compendium.titles.sp'), key: 'SP', align: 'center' },
+      { title: t('common.save'), key: 'SaveTarget', align: 'center' },
+      { title: t('stats.speed'), key: 'Speed', align: 'center' },
+      { title: t('stats.sp'), key: 'SP', align: 'center' },
     ])
 
 const manufacturers = computed(() => {

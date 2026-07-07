@@ -59,9 +59,9 @@ const typeFilter = ref([] as string[])
 
 const types = computed(() => {
       return [
-        { title: t('ui.titles.armor'), value: 'PilotArmor' },
+        { title: t('stats.armor'), value: 'PilotArmor' },
         { title: t('ui.titles.gear'), value: 'PilotGear' },
-        { title: t('ui.titles.weapon'), value: 'PilotWeapon' },
+        { title: t('common.weapon'), value: 'PilotWeapon' },
       ];
     })
 

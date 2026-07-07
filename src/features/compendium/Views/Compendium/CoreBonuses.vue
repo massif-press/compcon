@@ -23,7 +23,7 @@ const headers = ref([
       { title: t('compendium.titles.contentPack'), key: 'LcpName' },
       { title: t('compendium.titles.manufacturer'), key: 'Source' },
       { title: 'Name', key: 'Name' },
-      { title: t('compendium.titles.effect'), key: 'Effect' },
+      { title: t('common.effect'), key: 'Effect' },
     ])
 const options = ref({
       views: ['list', 'table'],

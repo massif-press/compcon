@@ -28,11 +28,11 @@ const options = ref({
     })
 const headers = ref([
       { title: '', align: 'left', key: 'Source' },
-      { title: t('compendium.titles.weapon'), align: 'left', key: 'Name' },
+      { title: t('common.weapon'), align: 'left', key: 'Name' },
       { title: 'License', align: 'left', key: 'LicenseString' },
       { title: t('compendium.titles.size'), align: 'left', key: 'Size' },
       {
-        title: t('compendium.titles.type'),
+        title: t('common.type'),
         align: 'left',
         key: 'WeaponTypes',
         sortRaw(a, b) {

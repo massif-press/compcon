@@ -198,7 +198,7 @@ const collectionHeaders = ref([
   { title: '', key: 'data-table-expand', width: '0' },
   { title: t('mainMenu.titles.contentCollection'), key: 'name' },
   { title: t('mainMenu.titles.author'), key: 'author' },
-  { title: t('mainMenu.titles.version'), key: 'vers', align: 'center' },
+  { title: t('common.version'), key: 'vers', align: 'center' },
   { title: '', key: 'actions' },
 ])
 const update_on = ref([

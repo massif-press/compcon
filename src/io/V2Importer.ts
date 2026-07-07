@@ -355,7 +355,7 @@ export function transformV2Encounter(
       })
     }
 
-    const textItems = enc.narrativeNotes ? [{ header: i18n.global.t('ui.titles.notes'), body: enc.narrativeNotes }] : []
+    const textItems = enc.narrativeNotes ? [{ header: i18n.global.t('common.notes'), body: enc.narrativeNotes }] : []
 
     return {
       itemType: 'Encounter',

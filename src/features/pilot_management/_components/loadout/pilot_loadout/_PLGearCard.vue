@@ -108,8 +108,8 @@ const base = ref<InstanceType<typeof PlCardBase> | null>(null)
 
 const headers = ref([
   { title: t('pm.titles.contentPack'), key: 'LcpName' },
-  { title: t('pm.titles.type'), key: 'Type' },
-  { title: t('pm.titles.item'), key: 'Name' },
+  { title: t('common.type'), key: 'Type' },
+  { title: t('common.item'), key: 'Name' },
   { title: t('pm.titles.uses'), key: 'MaxUses' },
   { title: t('pm.titles.tags'), align: 'center', key: 'Tags' },
 ])

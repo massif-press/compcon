@@ -117,7 +117,7 @@ const dialog = ref(true)
 const headers = ref([
       {
         icon: 'cc:lancer',
-        title: t('active.titles.lancer'),
+        title: t('common.gameName'),
       },
       {
         icon: 'cc:nhp',

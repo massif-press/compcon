@@ -160,17 +160,17 @@ const links = computed(() => {
       if (pilot.value.SkillsController.Skills.length > 0)
         links.push({ title: t('pm.titles.skills'), target: 'skills' });
       if (pilot.value.ReservesController.Reserves.length > 0)
-        links.push({ title: t('pm.titles.reserves'), target: 'reserves' });
-      links.push({ title: t('pm.titles.loadout'), target: 'loadout' });
+        links.push({ title: t('common.reserves'), target: 'reserves' });
+      links.push({ title: t('common.loadout'), target: 'loadout' });
       if (pilot.value.LicenseController.Licenses.length > 0)
-        links.push({ title: t('pm.titles.licenses'), target: 'licenses' });
+        links.push({ title: t('common.licenses'), target: 'licenses' });
       if (pilot.value.CoreBonusController.CoreBonuses.length > 0)
         links.push({ title: t('pm.titles.coreBonuses'), target: 'core-bonuses' });
       if (pilot.value.TalentsController.Talents.length > 0)
-        links.push({ title: t('pm.titles.talents'), target: 'talents' });
+        links.push({ title: t('common.talents'), target: 'talents' });
 
       if (mech.value) {
-        links.push({ title: t('pm.titles.mech'), target: 'mech' });
+        links.push({ title: t('common.mech'), target: 'mech' });
       }
 
       return links;

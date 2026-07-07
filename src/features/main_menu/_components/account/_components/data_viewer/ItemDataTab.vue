@@ -679,7 +679,7 @@ function isItemSynced(item: any): boolean {
 const dataHeaders = [
   { title: '', key: 'ID', width: '0px', },
   { title: 'Name', key: 'Name' },
-  { title: t('mainMenu.titles.type'), key: 'ItemType' },
+  { title: t('common.type'), key: 'ItemType' },
   {
     title: t('mainMenu.titles.lastSync'),
     key: 'lastSync',
@@ -694,7 +694,7 @@ const dataHeaders = [
     align: 'center' as const,
   },
   {
-    title: t('mainMenu.titles.status'),
+    title: t('common.status'),
     key: 'syncStatus',
     width: '0px',
     align: 'center' as const,

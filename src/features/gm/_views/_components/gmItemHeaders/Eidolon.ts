@@ -1,14 +1,14 @@
 export default [
   { text: '', value: 'ItemType', align: 'right' },
   {
-    title: 'gm.titles.name',
+    title: 'common.name',
     align: 'start',
     value: 'Name',
     groupable: false,
     sortable: true,
   },
   {
-    title: 'gm.titles.tier',
+    title: 'common.tier',
     align: 'start',
     value: 'Tier',
     groupable: true,

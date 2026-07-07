@@ -215,7 +215,7 @@ const shareLink = computed(
 
 const mechOptions = computed(() => {
   if (!isPilot.value) return []
-  const arr: { title: string; value: string }[] = [{ title: t('ui.titles.none'), value: '' }]
+  const arr: { title: string; value: string }[] = [{ title: t('common.none'), value: '' }]
   arr.push(...props.item.Mechs.map((m: any) => ({
     title: `${m.Name} (${m.Frame.Source} ${m.Frame.Name})`,
     value: m.ID,

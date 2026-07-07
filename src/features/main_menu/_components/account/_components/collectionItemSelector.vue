@@ -105,8 +105,8 @@ const search = ref('')
 const selectedType = ref('pilots' as any)
 const itemTypes = ref([
       { title: t('mainMenu.titles.pilots'), value: 'pilots' },
-      { title: t('mainMenu.titles.npcs'), value: 'npcs' },
-      { title: t('mainMenu.titles.encounters'), value: 'encounters' },
+      { title: t('common.npcs'), value: 'npcs' },
+      { title: t('common.encounters'), value: 'encounters' },
       { title: t('mainMenu.titles.narrativeElements'), value: 'narrative' },
       // { title: t('mainMenu.titles.campaigns'), value: 'campaigns' },
       // { title: t('mainMenu.titles.lcps'), value: 'lcps' },
@@ -151,16 +151,16 @@ const filteredItems = computed(() => {
 const headers = computed(() => {
       let base = [
         { title: 'Name', value: 'Name' },
-        { title: t('mainMenu.titles.type'), value: 'ItemType' },
+        { title: t('common.type'), value: 'ItemType' },
       ] as any;
       switch (selectedType.value) {
         case 'pilots':
           base = [
             ...base,
-            { title: t('mainMenu.titles.player'), value: 'Player' },
-            { title: t('mainMenu.titles.callsign'), value: 'Callsign' },
+            { title: t('common.player'), value: 'Player' },
+            { title: t('common.callsign'), value: 'Callsign' },
             { title: t('mainMenu.titles.licenseLevel'), value: 'Level', align: 'center' },
-            { title: t('mainMenu.titles.status'), value: 'Status' },
+            { title: t('common.status'), value: 'Status' },
             { title: t('mainMenu.titles.lastUpdate'), key: 'updated' },
           ];
           break;
@@ -184,7 +184,7 @@ const headers = computed(() => {
           base = [
             ...base,
             { title: t('mainMenu.titles.author'), value: 'Author' },
-            { title: t('mainMenu.titles.version'), value: 'Version' },
+            { title: t('common.version'), value: 'Version' },
           ];
           break;
       }

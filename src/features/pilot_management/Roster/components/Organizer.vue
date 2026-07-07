@@ -119,9 +119,9 @@ const sel: string[] = []
 
 const headers = computed(() => [
   { title: 'Name', key: 'Name', sortable: true },
-  { title: t('pm.titles.callsign'), key: 'Callsign', sortable: true },
+  { title: t('common.callsign'), key: 'Callsign', sortable: true },
   { title: t('pm.titles.ll'), key: 'Level', sortable: true },
-  { title: t('pm.titles.mech'), key: 'Mech', sortable: true },
+  { title: t('common.mech'), key: 'Mech', sortable: true },
   { title: t('pm.titles.group'), key: 'group', sortable: true, value: (item: any) => getPilotGroup(item) },
   { title: 'Updated', key: 'LastUpdate', sortable: true },
 ])

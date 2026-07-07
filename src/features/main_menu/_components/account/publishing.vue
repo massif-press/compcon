@@ -390,7 +390,7 @@ const loading = ref(false)
 const colIdx = ref(0)
 const dataHeaders = ref([
       { title: 'Name', key: 'name' },
-      { title: t('mainMenu.titles.type'), key: 'item_type' },
+      { title: t('common.type'), key: 'item_type' },
       { title: t('mainMenu.titles.lastUpdated'), key: 'update' },
       { title: '', key: 'actions', width: '115px' },
     ])

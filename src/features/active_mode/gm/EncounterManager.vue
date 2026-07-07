@@ -351,7 +351,7 @@ const asc = ref(true);
 
 const encounterOrganizerColumns = [
   { key: 'Name', title: 'Name', sortable: true, value: (e: EncounterInstance) => e.Name },
-  { key: 'Environment', title: t('active.titles.environment'), value: (e: EncounterInstance) => e.Encounter?.Environment?.Name || '' },
+  { key: 'Environment', title: t('common.environment'), value: (e: EncounterInstance) => e.Encounter?.Environment?.Name || '' },
   { key: 'Sitrep', title: t('active.titles.sitrep'), value: (e: EncounterInstance) => e.Encounter?.Sitrep?.Name || '' },
   { key: 'Round', title: t('active.titles.round'), sortable: true, value: (e: EncounterInstance) => e.Round },
   { key: 'Created', title: 'Created', sortable: true, value: (e: EncounterInstance) => new Date(e.SaveController.Created).toLocaleDateString() },

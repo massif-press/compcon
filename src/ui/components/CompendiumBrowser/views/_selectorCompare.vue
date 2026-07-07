@@ -111,24 +111,24 @@ const metrics = computed(() => {
     case 'Frame':
       return [
         { title: 'HP', value: 'hp' },
-        { title: t('ui.titles.evasion'), value: 'evasion' },
-        { title: t('ui.titles.armor'), value: 'armor' },
+        { title: t('stats.evasion'), value: 'evasion' },
+        { title: t('stats.armor'), value: 'armor' },
         { title: t('ui.titles.eDefense'), value: 'edef' },
         { title: t('ui.titles.heatCapacity'), value: 'heatcap' },
         { title: t('ui.titles.repairCapacity'), value: 'repcap' },
-        { title: t('ui.titles.sensors'), value: 'sensor_range' },
+        { title: t('stats.sensors'), value: 'sensor_range' },
         { title: t('common.techAttack'), value: 'tech_attack' },
-        { title: t('ui.titles.save'), value: 'save' },
-        { title: t('ui.titles.speed'), value: 'speed' },
+        { title: t('common.save'), value: 'save' },
+        { title: t('stats.speed'), value: 'speed' },
         { title: t('common.systemPoints'), value: 'sp' },
       ]
     case 'PilotArmor':
       return [
-        { title: t('ui.titles.armor'), value: 'armor' },
+        { title: t('stats.armor'), value: 'armor' },
         { title: t('common.hpBonus'), value: 'hp' },
         { title: t('ui.titles.eDefense'), value: 'edef' },
-        { title: t('ui.titles.evasion'), value: 'evasion' },
-        { title: t('ui.titles.speed'), value: 'speed' },
+        { title: t('stats.evasion'), value: 'evasion' },
+        { title: t('stats.speed'), value: 'speed' },
       ]
     case 'PilotWeapon':
       return [
@@ -138,15 +138,15 @@ const metrics = computed(() => {
     case 'NpcClass':
       return [
         { title: t('ui.titles.hull'), value: 'hull' },
-        { title: t('ui.titles.agility'), value: 'agi' },
-        { title: t('ui.titles.systems'), value: 'sys' },
-        { title: t('ui.titles.engineering'), value: 'eng' },
-        { title: t('ui.titles.armor'), value: 'armor' },
+        { title: t('stats.agility'), value: 'agi' },
+        { title: t('stats.systems'), value: 'sys' },
+        { title: t('stats.engineering'), value: 'eng' },
+        { title: t('stats.armor'), value: 'armor' },
         { title: 'HP', value: 'hp' },
         { title: t('ui.titles.heatcap'), value: 'heatcap' },
         { title: t('ui.titles.evade'), value: 'evasion' },
         { title: t('ui.titles.eDefense'), value: 'edef' },
-        { title: t('ui.titles.speed'), value: 'speed' },
+        { title: t('stats.speed'), value: 'speed' },
         { title: t('common.sensorRange'), value: 'sensorRange' },
         { title: t('ui.titles.saveTarget'), value: 'saveTarget' },
       ]

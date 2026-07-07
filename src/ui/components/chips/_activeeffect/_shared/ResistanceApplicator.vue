@@ -47,7 +47,7 @@ const resistanceOptions = [
   { title: t('ui.titles.heat'), value: 'heat' },
   { title: t('ui.titles.burn'), value: 'burn' },
   { title: t('ui.titles.areaOfEffect'), value: 'aoe' },
-  { title: t('ui.titles.all'), value: 'all' },
+  { title: t('common.all'), value: 'all' },
 ]
 
 const resistTypes = [

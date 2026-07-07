@@ -78,7 +78,7 @@ const OrgDialog = ref(false)
 const headers = [
   { title: t('pm.titles.contentPack'), key: 'LcpName' },
   { title: 'Name', key: 'Name' },
-  { title: t('pm.titles.type'), key: 'Type' },
+  { title: t('common.type'), key: 'Type' },
 ]
 
 const options = {

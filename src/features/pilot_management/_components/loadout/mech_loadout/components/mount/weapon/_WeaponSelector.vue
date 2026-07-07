@@ -141,10 +141,10 @@ const options = reactive({
 
 const headers = [
   { title: t('pm.titles.manufacturer'), align: 'left', key: 'Source' },
-  { title: t('pm.titles.weapon'), align: 'left', key: 'Name' },
+  { title: t('common.weapon'), align: 'left', key: 'Name' },
   { title: 'License', align: 'left', key: 'LicenseString' },
   { title: t('pm.titles.size'), align: 'left', key: 'Size' },
-  { title: t('pm.titles.type'), align: 'left', key: 'WeaponTypes' },
+  { title: t('common.type'), align: 'left', key: 'WeaponTypes' },
   { title: t('pm.titles.tags'), align: 'center', key: 'Tags' },
   { title: t('pm.titles.range'), align: 'left', key: 'Range' },
   { title: t('pm.titles.damage'), align: 'left', key: 'Damage' },

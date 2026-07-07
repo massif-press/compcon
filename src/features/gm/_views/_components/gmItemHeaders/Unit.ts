@@ -1,7 +1,7 @@
 export default [
   { text: '', value: 'ItemType', align: 'right' },
   {
-    title: 'gm.titles.name',
+    title: 'common.name',
     align: 'start',
     value: 'Name',
     groupable: false,
@@ -13,7 +13,7 @@ export default [
     groupable: true,
   },
   {
-    title: 'gm.titles.tier',
+    title: 'common.tier',
     align: 'start',
     value: 'NpcClassController.Tier',
     groupable: true,

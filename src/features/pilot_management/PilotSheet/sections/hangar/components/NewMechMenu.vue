@@ -109,17 +109,17 @@ const headers = ref([
       { title: t('pm.titles.manufacturer'), key: 'Source' },
       { title: 'Name', key: 'Name' },
       { title: t('pm.titles.size'), key: 'Size' },
-      { title: t('pm.titles.armor'), key: 'Armor' },
+      { title: t('stats.armor'), key: 'Armor' },
       { title: 'HP', key: 'HP' },
-      { title: t('pm.titles.evasion'), key: 'Evasion' },
+      { title: t('stats.evasion'), key: 'Evasion' },
       { title: t('pm.titles.edef'), key: 'EDefense' },
       { title: t('pm.titles.heatcap'), key: 'HeatCap' },
       { title: t('pm.titles.repcap'), key: 'RepCap' },
-      { title: t('pm.titles.sensors'), key: 'SensorRange' },
+      { title: t('stats.sensors'), key: 'SensorRange' },
       { title: t('pm.titles.techatk'), key: 'TechAttack' },
-      { title: t('pm.titles.save'), key: 'SaveTarget' },
-      { title: t('pm.titles.speed'), key: 'Speed' },
-      { title: t('pm.titles.sp'), key: 'SP' },
+      { title: t('common.save'), key: 'SaveTarget' },
+      { title: t('stats.speed'), key: 'Speed' },
+      { title: t('stats.sp'), key: 'SP' },
     ])
 
 const manufacturers = computed(() => {

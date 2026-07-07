@@ -229,10 +229,10 @@ const modifier = ref('')
 const selectedTarget = ref(null)
 const hase = ref([
       { title: t('active.titles.hull'), value: 'hull' },
-      { title: t('active.titles.agility'), value: 'agility' },
-      { title: t('active.titles.systems'), value: 'systems' },
-      { title: t('active.titles.engineering'), value: 'engineering' },
-      { title: t('active.titles.none'), value: '' },
+      { title: t('stats.agility'), value: 'agility' },
+      { title: t('stats.systems'), value: 'systems' },
+      { title: t('stats.engineering'), value: 'engineering' },
+      { title: t('common.none'), value: '' },
     ])
 
 const controller = computed(() => {

@@ -21,7 +21,7 @@ const { t } = useI18n()
 const headers = ref([
       { title: t('compendium.titles.contentPack'), key: 'LcpName' },
       { title: 'Name', key: 'Name' },
-      { title: t('compendium.titles.overview'), key: 'Terse' },
+      { title: t('common.overview'), key: 'Terse' },
     ])
 const options = ref({
       views: ['list', 'table'],

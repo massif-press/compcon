@@ -83,7 +83,7 @@ const skills = computed(() => [
   {
     val: 'Agi',
     icon: 'mdi-alpha-a-box-outline',
-    text: t('pm.tooltips.agility'),
+    text: t('stats.agility'),
     description: t('pm.subtitles.yourAgilitySkillDescribesYourAbility'),
     bonuses: [
       { text: t('pm.tooltips.evasion'), value: props.pilot.MechSkillsController.MechSkills.Agi },
@@ -93,18 +93,18 @@ const skills = computed(() => [
   {
     val: 'Sys',
     icon: 'mdi-alpha-s-box-outline',
-    text: t('pm.tooltips.systems'),
+    text: t('stats.systems'),
     description: t('pm.subtitles.yourSystemsSkillDescribesYourAbility'),
     bonuses: [
       { text: t('pm.tooltips.electronicDefense'), value: props.pilot.MechSkillsController.MechSkills.Sys },
       { text: t('pm.tooltips.techAttack'), value: props.pilot.MechSkillsController.MechSkills.Sys },
-      { text: t('pm.tooltips.sp'), value: Math.floor(props.pilot.MechSkillsController.MechSkills.Sys / 2) },
+      { text: t('stats.sp'), value: Math.floor(props.pilot.MechSkillsController.MechSkills.Sys / 2) },
     ],
   },
   {
     val: 'Eng',
     icon: 'mdi-alpha-e-box-outline',
-    text: t('pm.tooltips.engineering'),
+    text: t('stats.engineering'),
     description: t('pm.subtitles.yourEngineeringSkillDescribesYourAbility'),
     bonuses: [
       { text: t('pm.tooltips.heatCapacity'), value: props.pilot.MechSkillsController.MechSkills.Eng },
