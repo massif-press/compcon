@@ -10,7 +10,7 @@
         style="position: relative; z-index: 1">
         <v-row align="center">
           <v-col cols="auto">
-            <v-avatar size="10y0px">
+            <v-avatar size="100px">
               <v-img src="/img/misc/supporters/kana_av.png"
                 alt="kanakovt" />
             </v-avatar>
