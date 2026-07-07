@@ -15,6 +15,8 @@
 import { computed, onMounted, ref } from 'vue'
 import { orderBy } from 'lodash-es';
 import { CompendiumStore, UserStore } from '@/stores';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const options = ref({
   views: ['single', 'table'],
@@ -25,11 +27,11 @@ const options = ref({
 })
 const headers = ref([
   { title: '', align: 'left', key: 'Source' },
-  { title: 'System', align: 'left', key: 'Name' },
+  { title: t('compendium.titles.system'), align: 'left', key: 'Name' },
   { title: 'License', key: 'License' },
-  { title: 'License Level', align: 'center', key: 'LicenseLevel' },
-  { title: 'Tags', align: 'center', key: 'Tags' },
-  { title: 'SP Cost', align: 'center', key: 'SP' },
+  { title: t('compendium.titles.licenseLevel'), align: 'center', key: 'LicenseLevel' },
+  { title: t('compendium.titles.tags'), align: 'center', key: 'Tags' },
+  { title: t('compendium.titles.spCost'), align: 'center', key: 'SP' },
 ])
 
 const manufacturers = computed(() => {

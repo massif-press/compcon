@@ -178,36 +178,36 @@ const patreonTier = computed(() => {
 const syncOptions = computed(() => {
       return [
         {
-          title: 'Manual Only',
+          title: t('mainMenu.titles.manualOnly'),
           value: 'manual',
-          subtitle: 'Data is only synced when you click Sync.',
+          subtitle: t('mainMenu.subtitles.dataIsOnlySyncedWhenYou'),
         },
         {
-          title: 'On Open & Close',
+          title: t('mainMenu.titles.onOpenClose'),
           value: 'startAndClose',
-          subtitle: 'Syncs when you open and close the app. Close sync may not be supported on all browsers.',
+          subtitle: t('mainMenu.subtitles.syncsWhenYouOpenAndClose'),
         },
         {
-          title: 'Every 30 Minutes',
+          title: t('mainMenu.titles.every30Minutes'),
           value: 'minutes_30',
-          subtitle: 'Syncs automatically every 30 minutes. Requires Patreon supporter.',
+          subtitle: t('mainMenu.subtitles.syncsAutomaticallyEvery30MinutesRequires'),
           disabled: patreonTier.value < 1,
         },
         {
-          title: 'Every 60 Minutes',
+          title: t('mainMenu.titles.every60Minutes'),
           value: 'minutes_60',
-          subtitle: 'Syncs automatically every 60 minutes. Requires Patreon supporter.',
+          subtitle: t('mainMenu.subtitles.syncsAutomaticallyEvery60MinutesRequires'),
           disabled: patreonTier.value < 1,
         },
       ]
     })
 const syncItems = computed(() => {
       return [
-        { title: 'Pilot Data', value: 'pilot' },
-        { title: 'Pilot Groups', value: 'pilotgroup' },
-        { title: 'NPC Data', value: 'npc' },
-        { title: 'Encounter Data', value: 'encounter' },
-        { title: 'Narrative Data', value: 'collectionitem' },
+        { title: t('mainMenu.titles.pilotData'), value: 'pilot' },
+        { title: t('mainMenu.titles.pilotGroups'), value: 'pilotgroup' },
+        { title: t('mainMenu.titles.npcData'), value: 'npc' },
+        { title: t('mainMenu.titles.encounterData'), value: 'encounter' },
+        { title: t('mainMenu.titles.narrativeData'), value: 'collectionitem' },
       ]
     })
 const itemTypePreset = computed(() => {

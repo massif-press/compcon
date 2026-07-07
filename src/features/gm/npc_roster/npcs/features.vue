@@ -130,7 +130,7 @@
           <div class="d-flex flex-column align-center">
             <v-icon class="feature-drag-handle"
               icon="mdi-drag"
-              aria-label="Drag to reorder"
+              :aria-label="$t('gm.a11y.dragToReorder')"
               tabindex="0"
               style="cursor: move; opacity: 0.5" />
           </div>

@@ -3,6 +3,7 @@ import { Pilot } from '@/classes/pilot/Pilot'
 import { UserStore } from '@/stores'
 import { CloudController } from '@/classes/components/cloud/CloudController'
 import logger from '@/user/logger'
+import { i18n } from '@/i18n'
 
 export const pilotActionsMixin = {
   methods: {
@@ -15,7 +16,7 @@ export const pilotActionsMixin = {
           v2
         )
         this.$notify({
-          title: 'Export Success',
+          title: i18n.global.t('pm.titles.exportSuccess'),
           text: `Pilot data saved as "${this.pilot.Callsign.toUpperCase().replace(
             /\W/g,
             ''
@@ -25,8 +26,8 @@ export const pilotActionsMixin = {
       } catch (error) {
         logger.error(`Pilot export failed: ${error}`, this, error)
         this.$notify({
-          title: 'Export Error',
-          text: 'COMP/CON was unable to export pilot data',
+          title: i18n.global.t('pm.titles.exportError'),
+          text: i18n.global.t('pm.tooltips.compConWasUnableToExport'),
           data: { type: 'error', icon: 'mdi-alert' },
         })
       }

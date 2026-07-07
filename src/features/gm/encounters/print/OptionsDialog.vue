@@ -8,6 +8,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import PrintOptionsBase from '@/shared/print/PrintOptionsBase.vue'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const props = defineProps<{ options: Record<string, any> }>()
 

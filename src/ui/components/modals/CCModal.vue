@@ -66,6 +66,8 @@ import { ref, watch, nextTick } from 'vue';
 
 defineOptions({ inheritAttrs: false });
 import { useDisplay } from 'vuetify';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const { smAndDown: mobile } = useDisplay();
 

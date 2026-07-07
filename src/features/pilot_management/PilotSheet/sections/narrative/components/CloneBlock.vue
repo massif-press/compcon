@@ -26,7 +26,7 @@
               </v-btn>
             </template>
             <cc-confirmation
-              content="This will clone the selected pilot. Cloned characters can’t join a mission in progress, and cloned characters receive a random quirk. Additional cloning and subjectivity imprinting adds further quirks."
+              :content="$t('pm.tooltips.thisWillCloneTheSelectedPilot')"
               @confirm="setQuirk" />
           </v-menu>
           <v-menu offset-y
@@ -41,7 +41,7 @@
               </v-btn>
             </template>
             <cc-confirmation
-              content="This will restore the selected pilot and clear the KIA status."
+              :content="$t('pm.tooltips.thisWillRestoreTheSelectedPilot')"
               @confirm="pilot.Status = 'Active'" />
           </v-menu>
         </div>

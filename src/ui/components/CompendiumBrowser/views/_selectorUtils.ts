@@ -1,4 +1,5 @@
 import type { Manufacturer } from '@/classes/Manufacturer';
+import { i18n } from '@/i18n'
 
 export function getChartAxes(itemType: string, opts: { includeSize?: boolean; heatCapKey?: string } = {}) {
   const { includeSize = false, heatCapKey = 'heatcap' } = opts;
@@ -6,63 +7,63 @@ export function getChartAxes(itemType: string, opts: { includeSize?: boolean; he
     case 'Frame': {
       const axes = [
         { title: 'HP', value: 'hp' },
-        { title: 'Evasion', value: 'evasion' },
-        { title: 'Armor', value: 'armor' },
-        { title: 'E-Defense', value: 'edef' },
-        { title: 'Heat Capacity', value: 'heatcap' },
-        { title: 'Repair Capacity', value: 'repcap' },
-        { title: 'Sensors', value: 'sensor_range' },
-        { title: 'Tech Attack', value: 'tech_attack' },
-        { title: 'Save', value: 'save' },
-        { title: 'Speed', value: 'speed' },
-        { title: 'System Points', value: 'sp' },
+        { title: i18n.global.t('ui.titles.evasion'), value: 'evasion' },
+        { title: i18n.global.t('ui.titles.armor'), value: 'armor' },
+        { title: i18n.global.t('ui.titles.eDefense'), value: 'edef' },
+        { title: i18n.global.t('ui.titles.heatCapacity'), value: 'heatcap' },
+        { title: i18n.global.t('ui.titles.repairCapacity'), value: 'repcap' },
+        { title: i18n.global.t('ui.titles.sensors'), value: 'sensor_range' },
+        { title: i18n.global.t('common.techAttack'), value: 'tech_attack' },
+        { title: i18n.global.t('ui.titles.save'), value: 'save' },
+        { title: i18n.global.t('ui.titles.speed'), value: 'speed' },
+        { title: i18n.global.t('common.systemPoints'), value: 'sp' },
       ];
-      if (includeSize) axes.push({ title: 'Size', value: 'size' });
+      if (includeSize) axes.push({ title: i18n.global.t('ui.titles.size'), value: 'size' });
       return axes;
     }
     case 'PilotArmor':
       return [
-        { title: 'Armor', value: 'armor' },
-        { title: 'HP Bonus', value: 'hp' },
-        { title: 'E-Defense', value: 'edef' },
-        { title: 'Evasion', value: 'evasion' },
-        { title: 'Speed', value: 'speed' },
+        { title: i18n.global.t('ui.titles.armor'), value: 'armor' },
+        { title: i18n.global.t('common.hpBonus'), value: 'hp' },
+        { title: i18n.global.t('ui.titles.eDefense'), value: 'edef' },
+        { title: i18n.global.t('ui.titles.evasion'), value: 'evasion' },
+        { title: i18n.global.t('ui.titles.speed'), value: 'speed' },
       ];
     case 'PilotWeapon':
       return [
-        { title: 'Range', value: 'range' },
-        { title: 'Total Damage', value: 'damage' },
+        { title: i18n.global.t('ui.titles.range'), value: 'range' },
+        { title: i18n.global.t('ui.titles.totalDamage'), value: 'damage' },
       ];
     case 'NpcClass':
       return [
-        { title: 'Hull', value: 'hull' },
-        { title: 'Agility', value: 'agi' },
-        { title: 'Systems', value: 'sys' },
-        { title: 'Engineering', value: 'eng' },
-        { title: 'Armor', value: 'armor' },
+        { title: i18n.global.t('ui.titles.hull'), value: 'hull' },
+        { title: i18n.global.t('ui.titles.agility'), value: 'agi' },
+        { title: i18n.global.t('ui.titles.systems'), value: 'sys' },
+        { title: i18n.global.t('ui.titles.engineering'), value: 'eng' },
+        { title: i18n.global.t('ui.titles.armor'), value: 'armor' },
         { title: 'HP', value: 'hp' },
-        { title: 'HeatCap', value: heatCapKey },
-        { title: 'Evade', value: 'evasion' },
-        { title: 'E-Defense', value: 'edef' },
-        { title: 'Speed', value: 'speed' },
-        { title: 'Sensor Range', value: 'sensorRange' },
-        { title: 'Save Target', value: 'saveTarget' },
+        { title: i18n.global.t('ui.titles.heatcap'), value: heatCapKey },
+        { title: i18n.global.t('ui.titles.evade'), value: 'evasion' },
+        { title: i18n.global.t('ui.titles.eDefense'), value: 'edef' },
+        { title: i18n.global.t('ui.titles.speed'), value: 'speed' },
+        { title: i18n.global.t('common.sensorRange'), value: 'sensorRange' },
+        { title: i18n.global.t('ui.titles.saveTarget'), value: 'saveTarget' },
       ];
     default:
       return [
-        { title: 'Range', value: 'range' },
-        { title: 'Total Damage', value: 'damage' },
-        { title: 'Threat', value: 'threat' },
-        { title: 'Thrown', value: 'thrown' },
-        { title: 'Line', value: 'line' },
-        { title: 'Blast', value: 'blast' },
-        { title: 'Burst', value: 'burst' },
-        { title: 'Cone', value: 'cone' },
-        { title: 'Kinetic Damage', value: 'kineticDamage' },
-        { title: 'Energy Damage', value: 'energyDamage' },
-        { title: 'Heat Damage', value: 'heatDamage' },
-        { title: 'Explosive Damage', value: 'explosiveDamage' },
-        { title: 'Variable Damage', value: 'variableDamage' },
+        { title: i18n.global.t('ui.titles.range'), value: 'range' },
+        { title: i18n.global.t('ui.titles.totalDamage'), value: 'damage' },
+        { title: i18n.global.t('ui.titles.threat'), value: 'threat' },
+        { title: i18n.global.t('ui.titles.thrown'), value: 'thrown' },
+        { title: i18n.global.t('ui.titles.line'), value: 'line' },
+        { title: i18n.global.t('ui.titles.blast'), value: 'blast' },
+        { title: i18n.global.t('ui.titles.burst'), value: 'burst' },
+        { title: i18n.global.t('ui.titles.cone'), value: 'cone' },
+        { title: i18n.global.t('ui.titles.kineticDamage'), value: 'kineticDamage' },
+        { title: i18n.global.t('ui.titles.energyDamage'), value: 'energyDamage' },
+        { title: i18n.global.t('ui.titles.heatDamage'), value: 'heatDamage' },
+        { title: i18n.global.t('ui.titles.explosiveDamage'), value: 'explosiveDamage' },
+        { title: i18n.global.t('ui.titles.variableDamage'), value: 'variableDamage' },
       ];
   }
 }

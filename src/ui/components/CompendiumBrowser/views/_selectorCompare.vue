@@ -80,6 +80,8 @@
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import { CompendiumItem } from '@/classes/CompendiumItem'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const props = defineProps({
     items: {
@@ -109,58 +111,58 @@ const metrics = computed(() => {
     case 'Frame':
       return [
         { title: 'HP', value: 'hp' },
-        { title: 'Evasion', value: 'evasion' },
-        { title: 'Armor', value: 'armor' },
-        { title: 'E-Defense', value: 'edef' },
-        { title: 'Heat Capacity', value: 'heatcap' },
-        { title: 'Repair Capacity', value: 'repcap' },
-        { title: 'Sensors', value: 'sensor_range' },
-        { title: 'Tech Attack', value: 'tech_attack' },
-        { title: 'Save', value: 'save' },
-        { title: 'Speed', value: 'speed' },
-        { title: 'System Points', value: 'sp' },
+        { title: t('ui.titles.evasion'), value: 'evasion' },
+        { title: t('ui.titles.armor'), value: 'armor' },
+        { title: t('ui.titles.eDefense'), value: 'edef' },
+        { title: t('ui.titles.heatCapacity'), value: 'heatcap' },
+        { title: t('ui.titles.repairCapacity'), value: 'repcap' },
+        { title: t('ui.titles.sensors'), value: 'sensor_range' },
+        { title: t('common.techAttack'), value: 'tech_attack' },
+        { title: t('ui.titles.save'), value: 'save' },
+        { title: t('ui.titles.speed'), value: 'speed' },
+        { title: t('common.systemPoints'), value: 'sp' },
       ]
     case 'PilotArmor':
       return [
-        { title: 'Armor', value: 'armor' },
-        { title: 'HP Bonus', value: 'hp' },
-        { title: 'E-Defense', value: 'edef' },
-        { title: 'Evasion', value: 'evasion' },
-        { title: 'Speed', value: 'speed' },
+        { title: t('ui.titles.armor'), value: 'armor' },
+        { title: t('common.hpBonus'), value: 'hp' },
+        { title: t('ui.titles.eDefense'), value: 'edef' },
+        { title: t('ui.titles.evasion'), value: 'evasion' },
+        { title: t('ui.titles.speed'), value: 'speed' },
       ]
     case 'PilotWeapon':
       return [
-        { title: 'Range', value: 'range' },
-        { title: 'Total Damage', value: 'damage' },
+        { title: t('ui.titles.range'), value: 'range' },
+        { title: t('ui.titles.totalDamage'), value: 'damage' },
       ]
     case 'NpcClass':
       return [
-        { title: 'Hull', value: 'hull' },
-        { title: 'Agility', value: 'agi' },
-        { title: 'Systems', value: 'sys' },
-        { title: 'Engineering', value: 'eng' },
-        { title: 'Armor', value: 'armor' },
+        { title: t('ui.titles.hull'), value: 'hull' },
+        { title: t('ui.titles.agility'), value: 'agi' },
+        { title: t('ui.titles.systems'), value: 'sys' },
+        { title: t('ui.titles.engineering'), value: 'eng' },
+        { title: t('ui.titles.armor'), value: 'armor' },
         { title: 'HP', value: 'hp' },
-        { title: 'HeatCap', value: 'heatcap' },
-        { title: 'Evade', value: 'evasion' },
-        { title: 'E-Defense', value: 'edef' },
-        { title: 'Speed', value: 'speed' },
-        { title: 'Sensor Range', value: 'sensorRange' },
-        { title: 'Save Target', value: 'saveTarget' },
+        { title: t('ui.titles.heatcap'), value: 'heatcap' },
+        { title: t('ui.titles.evade'), value: 'evasion' },
+        { title: t('ui.titles.eDefense'), value: 'edef' },
+        { title: t('ui.titles.speed'), value: 'speed' },
+        { title: t('common.sensorRange'), value: 'sensorRange' },
+        { title: t('ui.titles.saveTarget'), value: 'saveTarget' },
       ]
     default:
       return [
-        { title: 'Range', value: 'range', bold: true },
-        { title: 'Line', value: 'line' },
-        { title: 'Blast', value: 'blast' },
-        { title: 'Burst', value: 'burst' },
-        { title: 'Cone', value: 'cone' },
-        { title: 'Total Damage', value: 'damage', bold: true },
-        { title: 'Kinetic Damage', value: 'kineticDamage' },
-        { title: 'Energy Damage', value: 'energyDamage' },
-        { title: 'Heat Damage', value: 'heatDamage' },
-        { title: 'Explosive Damage', value: 'explosiveDamage' },
-        { title: 'Variable Damage', value: 'variableDamage' },
+        { title: t('ui.titles.range'), value: 'range', bold: true },
+        { title: t('ui.titles.line'), value: 'line' },
+        { title: t('ui.titles.blast'), value: 'blast' },
+        { title: t('ui.titles.burst'), value: 'burst' },
+        { title: t('ui.titles.cone'), value: 'cone' },
+        { title: t('ui.titles.totalDamage'), value: 'damage', bold: true },
+        { title: t('ui.titles.kineticDamage'), value: 'kineticDamage' },
+        { title: t('ui.titles.energyDamage'), value: 'energyDamage' },
+        { title: t('ui.titles.heatDamage'), value: 'heatDamage' },
+        { title: t('ui.titles.explosiveDamage'), value: 'explosiveDamage' },
+        { title: t('ui.titles.variableDamage'), value: 'variableDamage' },
       ]
   }
 })

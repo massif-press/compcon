@@ -679,22 +679,22 @@ function isItemSynced(item: any): boolean {
 const dataHeaders = [
   { title: '', key: 'ID', width: '0px', },
   { title: 'Name', key: 'Name' },
-  { title: 'Type', key: 'ItemType' },
+  { title: t('mainMenu.titles.type'), key: 'ItemType' },
   {
-    title: 'Last Sync',
+    title: t('mainMenu.titles.lastSync'),
     key: 'lastSync',
     align: 'center' as const,
     sortRaw: (a: any, b: any) =>
       a.CloudController.Metadata?.Updated - b.CloudController.Metadata?.Updated,
   },
   {
-    title: 'Last Modified',
+    title: t('mainMenu.titles.lastModified'),
     key: 'localLastModified',
     value: 'SaveController.LastModified',
     align: 'center' as const,
   },
   {
-    title: 'Status',
+    title: t('mainMenu.titles.status'),
     key: 'syncStatus',
     width: '0px',
     align: 'center' as const,
@@ -710,7 +710,7 @@ const dataHeaders = [
     },
   },
   {
-    title: 'Share Code',
+    title: t('common.shareCode'),
     key: 'code',
     align: 'center' as const,
     width: '195px',

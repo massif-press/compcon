@@ -49,8 +49,11 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import * as _ from 'lodash-es';
 import * as headers from './_components/gmItemHeaders';
+
+const { t } = useI18n()
 
 defineOptions({ name: 'item-card-grid' })
 
@@ -104,7 +107,9 @@ const headers = computed(() => {
         });
       }
 
-      return headers[props.itemType].concat(statHeaders).concat(labelHeaders);
+      return headers[props.itemType]
+        .map((h: any) => ({ ...h, title: t(h.title) }))
+        .concat(statHeaders).concat(labelHeaders);
     })
 const groupings = computed(() => {
       if (props.grouping === 'None') return [`All`];

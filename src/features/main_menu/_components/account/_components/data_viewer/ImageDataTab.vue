@@ -152,8 +152,8 @@ const itemSize = ref('200')
 const deleteLoading = ref(false)
 const headers = ref([
   { title: '', key: 'image' },
-  { title: 'Filename', key: 'name' },
-  { title: 'Upload Date', key: 'created' },
+  { title: t('mainMenu.titles.filename'), key: 'name' },
+  { title: t('mainMenu.titles.uploadDate'), key: 'created' },
   { title: '', key: 'actions', width: '155px' },
 ])
 

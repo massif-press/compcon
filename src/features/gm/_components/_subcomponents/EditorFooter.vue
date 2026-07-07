@@ -16,7 +16,7 @@
       </template>
       <v-card-text>
         <cc-confirmation
-          content="This will delete this NPC from your NPC roster. NPCs of this type added to Encounters will not be affected. Are you sure?"
+          :content="$t('gm.tooltips.thisWillDeleteThisNpcFrom')"
           @confirm="deleteItem()" />
       </v-card-text>
     </v-menu>
@@ -69,9 +69,7 @@
           {{ $t('common.convert') }}
         </cc-button>
       </template>
-      <cc-confirmation content="Converting this item to local data will allow local editing but remove its remote link to the
-      author's cloud account, and prevent any further updates from being received. To re-enable
-      remote syncing, you will have to re-import this item via its share code."
+      <cc-confirmation :content="$t('gm.tooltips.convertingThisItemToLocalData')"
         @confirm="$emit('convert')" />
     </v-menu>
 
@@ -109,7 +107,7 @@
           {{ $t('common.duplicate') }}
         </cc-button>
       </template>
-      <cc-confirmation content="Confirm duplication of this NPC"
+      <cc-confirmation :content="$t('gm.tooltips.confirmDuplicationOfThisNpc')"
         @confirm="dupe()" />
     </v-menu>
 

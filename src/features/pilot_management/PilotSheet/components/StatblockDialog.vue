@@ -83,9 +83,9 @@ const selected_mech = ref(null as any)
 const discordEmoji = ref(false)
 const genRadios = ref('full')
 const genItems = ref([
-      { title: 'Full', value: 'full' },
-      { title: 'Pilot Only', value: 'pilotBuild' },
-      { title: 'Mech Only', value: 'mechBuild' },
+      { title: t('pm.titles.full'), value: 'full' },
+      { title: t('pm.titles.pilotOnly'), value: 'pilotBuild' },
+      { title: t('pm.titles.mechOnly'), value: 'mechBuild' },
     ])
 
 const defaultMechID = computed(() => {

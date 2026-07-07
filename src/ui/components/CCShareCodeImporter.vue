@@ -136,6 +136,8 @@ import { ref, computed } from 'vue';
 import { useDisplay } from 'vuetify';
 import { downloadFromS3, GetFromCode } from '@/io/apis/account';
 import logger from '@/user/logger';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const { smAndDown: mobile } = useDisplay();
 

@@ -123,7 +123,7 @@ const dialog = ref(false)
 const loadPatreon = ref(false)
 const tiers = ref([
       {
-        title: 'Free',
+        title: t('mainMenu.titles.free'),
         value: 0,
         benefits: [
           '100 MB cloud storage',
@@ -158,7 +158,7 @@ const tiers = ref([
         ],
       },
       {
-        title: 'Lancer (and above)',
+        title: t('mainMenu.titles.lancerAndAbove'),
         value: 3,
         benefits: ['10 GB cloud storage', 'Unlimited active mode table hosting'],
       },

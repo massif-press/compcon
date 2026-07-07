@@ -62,10 +62,7 @@
                   @click.stop="open" />
               </template>
               <template #default="{ close }">
-                <cc-confirmation content="Converting this pilot to local data will allow local editing but remove its
-                    remote link to the author's cloud account, and prevent any further updates from
-                    being received. To re-enable remote syncing, you will have to re-import this
-                    pilot via its share code."
+                <cc-confirmation :content="$t('pm.tooltips.convertingThisPilotToLocalData')"
                   cancellable
                   @confirm="convert()"
                   @cancel="close" />

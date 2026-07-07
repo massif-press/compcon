@@ -4,7 +4,7 @@
       class="skip-link">{{ $t('common.skipToMainContent') }}</a>
     <pwa-update-prompt />
     <cc-notify />
-    <navbar aria-label="Main navigation" />
+    <navbar :aria-label="$t('common.a11y.mainNavigation')" />
     <div :style="`height: ${heightOffset}`"
       class="no-print" />
     <main id="main-content"

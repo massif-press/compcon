@@ -32,6 +32,8 @@
 
 <script setup lang="ts">
 import BaseDurationDisplay from './BaseDurationDisplay.vue'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 withDefaults(defineProps<{
   event: Record<string, any>
@@ -39,18 +41,18 @@ withDefaults(defineProps<{
 }>(), { cols: 'auto' })
 
 const resistanceOptions = [
-  { title: 'Kinetic', value: 'kinetic' },
-  { title: 'Energy', value: 'energy' },
-  { title: 'Explosive', value: 'explosive' },
-  { title: 'Heat', value: 'heat' },
-  { title: 'Burn', value: 'burn' },
-  { title: 'Area of Effect', value: 'aoe' },
-  { title: 'All', value: 'all' },
+  { title: t('ui.titles.kinetic'), value: 'kinetic' },
+  { title: t('ui.titles.energy'), value: 'energy' },
+  { title: t('ui.titles.explosive'), value: 'explosive' },
+  { title: t('ui.titles.heat'), value: 'heat' },
+  { title: t('ui.titles.burn'), value: 'burn' },
+  { title: t('ui.titles.areaOfEffect'), value: 'aoe' },
+  { title: t('ui.titles.all'), value: 'all' },
 ]
 
 const resistTypes = [
-  { title: 'Resistance', value: 'Resistance' },
-  { title: 'Immunity', value: 'Immunity' },
-  { title: 'Vulnerability', value: 'Vulnerability' },
+  { title: t('ui.titles.resistance'), value: 'Resistance' },
+  { title: t('ui.titles.immunity'), value: 'Immunity' },
+  { title: t('ui.titles.vulnerability'), value: 'Vulnerability' },
 ]
 </script>

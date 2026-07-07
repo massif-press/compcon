@@ -238,7 +238,7 @@
                   tile>
                   <v-card-text>
                     <cc-confirmation
-                      content="This will reset your Stress to zero and add a new Burden. Continue?"
+                      :content="$t('pm.tooltips.thisWillResetYourStressTo')"
                       @confirm="confirmBurden()" />
                   </v-card-text>
                 </v-card>
@@ -337,7 +337,7 @@
           </template>
           <v-card-text>
             <cc-confirmation
-              content="This will remove this bond from the pilot and reset all related selections. This cannot be undone. Continue?"
+              :content="$t('pm.tooltips.thisWillRemoveThisBondFrom')"
               @confirm="removeBond()" />
           </v-card-text>
         </v-menu>

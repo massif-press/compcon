@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { i18n } from '@/i18n'
 import gmRoutes from './features/gm/routes'
 import pilotRoutes from './features/pilot_management/routes'
 import compendiumRoutes from './features/compendium/routes'
@@ -80,7 +81,7 @@ router.afterEach(to => {
     return
   }
   if (typeof to.meta.title === 'function') document.title = `CC - ${to.meta.title(to)}`
-  else document.title = `C/C - ${to.meta.title}`
+  else document.title = `C/C - ${i18n.global.t(to.meta.title as string)}`
 })
 
 export default router

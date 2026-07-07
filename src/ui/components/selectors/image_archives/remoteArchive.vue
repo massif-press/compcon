@@ -66,7 +66,7 @@
       <div class="heading h3">
         {{ $t('ui.image.addRemote') }}
         <cc-tooltip inline
-          content="Link a remotely-hosted image to this asset. These images are not stored or managed by COMP/CON and are subject to change or removal based on their hosts.">
+          :content="$t('ui.tooltips.linkARemotelyHostedImageTo')">
           <v-icon left>mdi-information-outline</v-icon>
         </cc-tooltip>
       </div>
@@ -163,15 +163,11 @@ async function setRemoteImage() {
       currentRemotePage.value = totalRemotePages.value;
     }
 function validURL(str) {
-      const pattern = new RegExp(
-        '^(https?:\/\/)?' + // protocol
-        '((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|' + // domain name
-        '((\d{1,3}\.){3}\d{1,3}))' + // OR ip (v4) address
-        '(\:\d+)?(\/[-a-z\d%_.~+]*)*' + // port and path
-        '(\?[;&a-z\d%_.~+=-]*)?' + // query string
-        '(\#[-a-z\d_]*)?$',
-        'i'
-      ); // fragment locator
-      return !!pattern.test(str);
+      try {
+        const url = new URL(str);
+        return url.protocol === 'http:' || url.protocol === 'https:';
+      } catch {
+        return false;
+      }
     }
 </script>

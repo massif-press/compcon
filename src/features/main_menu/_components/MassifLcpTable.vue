@@ -41,6 +41,8 @@
 import { computed } from 'vue'
 import { UserStore } from '@/stores'
 import LcpTable from '@/ui/components/LcpTable.vue'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 defineProps<{
   packs: any[]
@@ -56,12 +58,12 @@ function coreBookOverride(pack: any) {
 
 const lcpHeaders = [
   { title: '', key: 'data-table-expand', width: '0' },
-  { title: 'LCP', key: 'title' },
-  { title: 'Collection', key: 'collection' },
+  { title: t('mainMenu.titles.lcp'), key: 'title' },
+  { title: t('mainMenu.titles.collection'), key: 'collection' },
   { title: 'v3', value: 'v3' },
-  { title: 'Latest Version', key: 'remote_version', align: 'center', sortable: false },
-  { title: 'Installed Version', key: 'local_version', align: 'center', sortable: false },
-  { title: 'Auto Update', key: 'auto', align: 'center', sortable: false },
+  { title: t('mainMenu.titles.latestVersion'), key: 'remote_version', align: 'center', sortable: false },
+  { title: t('mainMenu.titles.installedVersion'), key: 'local_version', align: 'center', sortable: false },
+  { title: t('mainMenu.titles.autoUpdate'), key: 'auto', align: 'center', sortable: false },
   { title: '', key: 'actions', align: 'end', sortable: false, width: '120px' },
 ]
 </script>

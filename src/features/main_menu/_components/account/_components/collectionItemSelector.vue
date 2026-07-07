@@ -104,12 +104,12 @@ const emit = defineEmits<{
 const search = ref('')
 const selectedType = ref('pilots' as any)
 const itemTypes = ref([
-      { title: 'Pilots', value: 'pilots' },
-      { title: 'NPCs', value: 'npcs' },
-      { title: 'Encounters', value: 'encounters' },
-      { title: 'Narrative Elements', value: 'narrative' },
-      // { title: 'Campaigns', value: 'campaigns' },
-      // { title: 'LCPs', value: 'lcps' },
+      { title: t('mainMenu.titles.pilots'), value: 'pilots' },
+      { title: t('mainMenu.titles.npcs'), value: 'npcs' },
+      { title: t('mainMenu.titles.encounters'), value: 'encounters' },
+      { title: t('mainMenu.titles.narrativeElements'), value: 'narrative' },
+      // { title: t('mainMenu.titles.campaigns'), value: 'campaigns' },
+      // { title: t('mainMenu.titles.lcps'), value: 'lcps' },
     ])
 
 const filteredItems = computed(() => {
@@ -151,44 +151,44 @@ const filteredItems = computed(() => {
 const headers = computed(() => {
       let base = [
         { title: 'Name', value: 'Name' },
-        { title: 'Type', value: 'ItemType' },
+        { title: t('mainMenu.titles.type'), value: 'ItemType' },
       ] as any;
       switch (selectedType.value) {
         case 'pilots':
           base = [
             ...base,
-            { title: 'Player', value: 'Player' },
-            { title: 'Callsign', value: 'Callsign' },
-            { title: 'License Level', value: 'Level', align: 'center' },
-            { title: 'Status', value: 'Status' },
-            { title: 'Last Update', key: 'updated' },
+            { title: t('mainMenu.titles.player'), value: 'Player' },
+            { title: t('mainMenu.titles.callsign'), value: 'Callsign' },
+            { title: t('mainMenu.titles.licenseLevel'), value: 'Level', align: 'center' },
+            { title: t('mainMenu.titles.status'), value: 'Status' },
+            { title: t('mainMenu.titles.lastUpdate'), key: 'updated' },
           ];
           break;
         case 'npcs':
           base = [
             ...base,
-            { title: 'Role', value: 'Role' },
-            { title: 'Last Update', key: 'updated' },
+            { title: t('mainMenu.titles.role'), value: 'Role' },
+            { title: t('mainMenu.titles.lastUpdate'), key: 'updated' },
           ];
           break;
         case 'encounters':
-          base = [...base, { title: 'Last Update', key: 'updated' }];
+          base = [...base, { title: t('mainMenu.titles.lastUpdate'), key: 'updated' }];
           break;
         case 'narrative':
-          base = [...base, { title: 'Last Update', key: 'updated' }];
+          base = [...base, { title: t('mainMenu.titles.lastUpdate'), key: 'updated' }];
           break;
         case 'campaigns':
-          base = [...base, { title: 'Last Update', key: 'updated' }];
+          base = [...base, { title: t('mainMenu.titles.lastUpdate'), key: 'updated' }];
           break;
         case 'lcps':
           base = [
             ...base,
-            { title: 'Author', value: 'Author' },
-            { title: 'Version', value: 'Version' },
+            { title: t('mainMenu.titles.author'), value: 'Author' },
+            { title: t('mainMenu.titles.version'), value: 'Version' },
           ];
           break;
       }
-      base.push({ title: 'Add Item', value: 'actions', align: 'center' });
+      base.push({ title: t('mainMenu.titles.addItem'), value: 'actions', align: 'center' });
       return base;
     })
 

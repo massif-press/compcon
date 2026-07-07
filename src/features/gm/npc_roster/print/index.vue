@@ -56,6 +56,8 @@ import OptionsDialog from './OptionsDialog.vue';
 import { NpcStore } from '@/stores';
 import PageBreak from '@/features/pilot_management/Print/components/PageBreak.vue';
 import { Npc } from '@/classes/npc/Npc';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 defineOptions({ name: 'combined-print' })
 

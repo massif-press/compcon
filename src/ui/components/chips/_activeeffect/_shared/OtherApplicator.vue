@@ -27,6 +27,8 @@
 
 <script setup lang="ts">
 import BaseDurationDisplay from './BaseDurationDisplay.vue'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 withDefaults(defineProps<{
   event: Record<string, any>
@@ -34,8 +36,8 @@ withDefaults(defineProps<{
 }>(), { cols: 'auto' })
 
 const cover = [
-  { title: 'Soft Cover', value: 'soft' },
-  { title: 'Hard Cover', value: 'hard' },
-  { title: 'No Cover', value: 'none' },
+  { title: t('ui.titles.softCover'), value: 'soft' },
+  { title: t('ui.titles.hardCover'), value: 'hard' },
+  { title: t('ui.titles.noCover'), value: 'none' },
 ]
 </script>

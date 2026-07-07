@@ -64,9 +64,12 @@
           <v-col
             v-for="(p, pIdx) in patrons.filter((x) => x.tier.toLowerCase().includes(t.toLowerCase()))"
             :key="`patron-${pIdx}`"
-            cols="12"
-            :md="getCols(t)">
-            <v-chip border
+            :cols="getCols(t)">
+            <component v-if="isCutout(p)"
+              :is="getComponent(p)"
+              :info="p" />
+            <v-chip v-else
+              border
               class="heading h3 rounded-e-0 cc-panel-clip"
               :class="t.toLowerCase()"
               :size="!mobile ? 'x-large' : 'default'"
@@ -80,7 +83,7 @@
               </v-avatar>
               {{ cleanName(p) }}
             </v-chip>
-          </v-col>
+          </v-col :cols="getCols(t)">
         </v-row>
       </div>
     </div>
@@ -93,6 +96,7 @@ import { useI18n } from 'vue-i18n'
 import { useDisplay } from 'vuetify'
 import creditsData from './credits.json'
 import DevBadge from './SupporterBadges/Dev.vue'
+import KanakovtBadge from './SupporterBadges/kanakovt.vue'
 import { getPatreonSubscribers } from '@/user/oauth'
 
 const { smAndDown: mobile } = useDisplay()
@@ -111,6 +115,16 @@ onMounted(async () => {
   }
   loading.value = false
 })
+
+function isCutout(patron: any) {
+  return cleanName(patron).toLowerCase() === 'kanakovt'
+}
+
+function getComponent(patron: any) {
+  // monist cutouts
+  if (cleanName(patron).toLowerCase() === 'kanakovt') return KanakovtBadge
+  return 'v-col'
+}
 
 function cleanName(patron: any) {
   if (patron.display_name && patron.display_name !== 'N/A') return patron.display_name.trim()

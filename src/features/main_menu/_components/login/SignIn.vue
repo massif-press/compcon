@@ -6,7 +6,7 @@
         <div role="status"
           aria-live="polite"
           aria-atomic="false"
-          aria-label="Sign-in progress log">
+          :aria-label="$t('mainMenu.a11y.signInProgressLog')">
           <v-row v-for="(l, lIdx) in loginLog"
             :key="`log-${lIdx}`"
             no-gutters>
@@ -36,21 +36,21 @@
                 <cc-button variant="tonal"
                   block
                   color="primary"
-                  aria-label="Abort sign-in"
+                  :aria-label="$t('mainMenu.a11y.abortSignIn')"
                   @click="abort">{{ $t('mainMenu.auth.abort') }}</cc-button>
               </v-col>
               <v-col>
                 <cc-button variant="tonal"
                   block
                   color="primary"
-                  aria-label="Retry sign-in"
+                  :aria-label="$t('mainMenu.a11y.retrySignIn')"
                   @click="retry">{{ $t('mainMenu.auth.retry') }}</cc-button>
               </v-col>
               <v-col>
                 <cc-button variant="tonal"
                   block
                   color="primary"
-                  aria-label="Cancel and close"
+                  :aria-label="$t('mainMenu.a11y.cancelAndClose')"
                   @click="fail">{{ $t('common.cancel') }}</cc-button>
               </v-col>
             </v-row>
@@ -60,7 +60,7 @@
     </v-fade-transition>
     <v-fade-transition>
       <div v-if="!signingIn">
-        <form aria-label="Sign in"
+        <form :aria-label="$t('mainMenu.a11y.signIn')"
           @submit.prevent="signIn">
           <v-row class="mt-1">
             <v-col lg="6"
@@ -73,7 +73,7 @@
                 variant="outlined"
                 type="email"
                 autocomplete="email"
-                aria-label="E-Mail" />
+                :aria-label="$t('mainMenu.a11y.eMail')" />
             </v-col>
             <v-col lg="6"
               cols="12">
@@ -86,7 +86,7 @@
                 :type="show ? 'text' : 'password'"
                 :append-inner-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                 autocomplete="current-password"
-                aria-label="Password"
+                :aria-label="$t('mainMenu.a11y.password')"
                 :append-inner-aria-label="show ? 'Hide password' : 'Show password'"
                 @click-append-inner="show = !show" />
             </v-col>
@@ -139,7 +139,10 @@ import { computed, ref } from 'vue'
 import { useDisplay } from 'vuetify'
 import { UserStore } from '@/stores';
 import logger from '@/user/logger';
+import { notifyError } from '@/util/notify'
 import { signIn as amplifySignIn } from 'aws-amplify/auth';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const _display = useDisplay()
 
@@ -194,6 +197,7 @@ async function signIn() {
     showError.value = true;
     await addLoginLog('Auth service reports failure to connect', true);
     await addLoginLog('Error: ' + error.message, true);
+    notifyError(error.message);
     return;
   }
 
@@ -201,6 +205,7 @@ async function signIn() {
     showError.value = true;
     await addLoginLog('Auth service reports failure to connect', true);
     await addLoginLog('Error: sign-in failed', true);
+    notifyError(t('mainMenu.tooltips.signInFailed'));
     return;
   }
 
@@ -214,6 +219,7 @@ async function signIn() {
     showError.value = true;
     await addLoginLog('Failed to verify user credentials', true);
     await addLoginLog('Error: ' + error.message, true);
+    notifyError(error.message);
     return;
   }
 
@@ -227,12 +233,15 @@ async function signIn() {
     showError.value = true;
     await addLoginLog('Failed to retrieve user data', true);
     await addLoginLog('Error: ' + error.message, true);
+    notifyError(error.message);
     return;
   }
 
   if (!Object.keys(UserStore().UserMetadata).length) {
     showError.value = true;
     error.value = 'User data not found or could not be created';
+    await addLoginLog('User data not found or could not be created', true);
+    notifyError(error.value);
     return;
   }
 
@@ -244,6 +253,7 @@ async function signIn() {
     showError.value = true;
     await addLoginLog('Failed to set metadata', true);
     await addLoginLog('Error: ' + error.message, true);
+    notifyError(error.message);
     return;
   }
 

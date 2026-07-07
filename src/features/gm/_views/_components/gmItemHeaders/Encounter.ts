@@ -1,21 +1,21 @@
 export default [
   { text: '', value: 'ItemType', align: 'right' },
   {
-    title: 'Name',
+    title: 'gm.titles.name',
     align: 'start',
     value: 'Name',
     groupable: false,
     sortable: true,
   },
   {
-    title: 'SITREP',
+    title: 'gm.titles.sitrep',
     align: 'start',
     value: 'Sitrep.Name',
     groupable: true,
     sortable: true,
   },
   {
-    title: 'Environment',
+    title: 'gm.titles.environment',
     align: 'start',
     value: 'Environment.Name',
     groupable: true,

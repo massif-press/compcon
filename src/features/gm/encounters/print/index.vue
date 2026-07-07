@@ -54,6 +54,8 @@ import OptionsDialog from './OptionsDialog.vue'
 import { EncounterStore, CompendiumStore } from '@/stores'
 import PageBreak from '@/features/pilot_management/Print/components/PageBreak.vue'
 import { Encounter } from '@/classes/encounter/Encounter'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const props = withDefaults(defineProps<{ id?: string }>(), {})
 

@@ -127,6 +127,8 @@ import { useDisplay } from 'vuetify'
 import { UserStore } from '@/stores'
 import ItemDataTab from './data_viewer/ItemDataTab.vue'
 import ImageDataTab from './data_viewer/ImageDataTab.vue'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const display = useDisplay()
 const mobile = computed(() => display.mdAndDown.value)
@@ -137,12 +139,12 @@ const loading = ref(false)
 const itemTypeFilter = ref<string[]>(['pilot', 'pilotgroup', 'npc', 'collectionItem', 'encounter', 'campaign'])
 
 const syncableItemTypes = [
-  { title: 'Pilot', value: 'pilot' },
-  { title: 'Pilot Groups', value: 'pilotgroup' },
-  { title: 'NPC', value: 'npc' },
-  { title: 'Narrative Element', value: 'collectionItem' },
-  { title: 'Encounter', value: 'encounter' },
-  // { title: 'Campaign', value: 'campaign' },
+  { title: t('mainMenu.titles.pilot'), value: 'pilot' },
+  { title: t('mainMenu.titles.pilotGroups'), value: 'pilotgroup' },
+  { title: t('mainMenu.titles.npc'), value: 'npc' },
+  { title: t('mainMenu.titles.narrativeElement'), value: 'collectionItem' },
+  { title: t('mainMenu.titles.encounter'), value: 'encounter' },
+  // { title: t('mainMenu.titles.campaign'), value: 'campaign' },
 ]
 
 watch(itemTypeFilter, (val) => {

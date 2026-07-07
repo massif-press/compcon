@@ -2,6 +2,7 @@ import { CompendiumStore, NpcStore } from '@/stores'
 import { GetAll, SetItem, RemoveItem } from './Storage'
 import { ImportEncounter, ImportNpcData, ImportPilot } from './Importer'
 import type { V2Pilot, V2Npc, V2Encounter } from './v2-types'
+import { i18n } from '@/i18n'
 
 const V2_STAT_RENAME: Record<string, string> = {
   evade: 'evasion',
@@ -354,7 +355,7 @@ export function transformV2Encounter(
       })
     }
 
-    const textItems = enc.narrativeNotes ? [{ header: 'Notes', body: enc.narrativeNotes }] : []
+    const textItems = enc.narrativeNotes ? [{ header: i18n.global.t('ui.titles.notes'), body: enc.narrativeNotes }] : []
 
     return {
       itemType: 'Encounter',

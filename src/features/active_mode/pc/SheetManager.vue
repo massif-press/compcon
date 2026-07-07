@@ -201,10 +201,12 @@ import { useDisplay } from 'vuetify';
 import ActiveModeSortBar from '@/features/active_mode/_components/ActiveModeSortBar.vue';
 import logger from '@/user/logger.js';
 import { notify } from '@/util/notify.js';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const router = useRouter()
 const sheetOrganizerColumns = [
   { key: 'Name', title: 'Name', sortable: true, value: (s: PilotSheet) => s.Name },
-  { key: 'Pilot', title: 'Pilot', value: (s: PilotSheet) => s.Pilot.Callsign },
+  { key: 'Pilot', title: t('active.titles.pilot'), value: (s: PilotSheet) => s.Pilot.Callsign },
   { key: 'Created', title: 'Created', sortable: true, value: (s: PilotSheet) => new Date(s.Created).toLocaleDateString() },
   { key: 'Updated', title: 'Updated', sortable: true, value: (s: PilotSheet) => new Date(s.Updated).toLocaleDateString() },
 ];
@@ -293,7 +295,7 @@ function importSelect() {
         router.push(`pilot-runner/${sheet.ID}`);
       } catch (error) {
         logger.error('Failed to import sheet:', error);
-        notify({ type: 'error', text: 'Failed to import sheet. Please ensure the file is a valid character sheet JSON.' });
+        notify({ type: 'error', text: t('active.tooltips.failedToImportSheetPleaseEnsure') });
       }
     };
     reader.readAsText(file);

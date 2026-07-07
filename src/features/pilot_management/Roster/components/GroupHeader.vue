@@ -9,7 +9,7 @@
     <v-icon v-if="!noGroup && (!mobile || dragModeActive)"
       icon="mdi-drag"
       class="group-drag-handle mr-1 ml-2"
-      aria-label="Drag to reorder group"
+      :aria-label="$t('pm.a11y.dragToReorderGroup')"
       tabindex="0"
       style="cursor: move; opacity: 0.5; transition: opacity 0.2s"
       @click.stop />

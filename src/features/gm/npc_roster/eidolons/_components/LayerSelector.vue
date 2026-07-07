@@ -41,6 +41,8 @@
 import type { EidolonLayer } from '@/classes/npc/eidolon/EidolonLayer'
 import { computed, ref } from 'vue'
 import { CompendiumStore } from '@/stores';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 defineOptions({ name: 'npc-class-selector' })
 
@@ -65,10 +67,10 @@ const options = ref({
       initialGroup: 'none',
     })
 const headers = ref([
-      { title: 'Content Pack', key: 'LcpName' },
+      { title: t('gm.titles.contentPack'), key: 'LcpName' },
       { title: 'Name', key: 'Name' },
       {
-        title: 'Shards',
+        title: t('gm.titles.shards'),
         key: 'ShardCount',
       },
     ])

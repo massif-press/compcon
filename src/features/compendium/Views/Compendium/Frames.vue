@@ -16,6 +16,8 @@ import { computed, ref } from 'vue'
 import { orderBy } from 'lodash-es';
 import { CompendiumStore } from '../../store';
 import { UserStore } from '@/stores';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const options = ref({
       views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
@@ -27,19 +29,19 @@ const options = ref({
 const headers = ref([
       { title: '', key: 'Source' },
       { title: 'Name', key: 'Name' },
-      { title: 'Size', key: 'SizeIcon', align: 'center', sortRaw: (a: any, b: any) => a.Size - b.Size },
-      { title: 'Mounts', key: 'Mounts' },
-      { title: 'Armor', key: 'Armor', align: 'center' },
+      { title: t('compendium.titles.size'), key: 'SizeIcon', align: 'center', sortRaw: (a: any, b: any) => a.Size - b.Size },
+      { title: t('compendium.titles.mounts'), key: 'Mounts' },
+      { title: t('compendium.titles.armor'), key: 'Armor', align: 'center' },
       { title: 'HP', key: 'HP', align: 'center' },
-      { title: 'Evasion', key: 'Evasion', align: 'center' },
-      { title: 'EDef', key: 'EDefense', align: 'center' },
-      { title: 'HeatCap', key: 'HeatCap', align: 'center' },
-      { title: 'RepCap', key: 'RepCap', align: 'center' },
-      { title: 'Sensors', key: 'SensorRange', align: 'center' },
-      { title: 'TechAtk', key: 'TechAttack', align: 'center' },
-      { title: 'Save', key: 'SaveTarget', align: 'center' },
-      { title: 'Speed', key: 'Speed', align: 'center' },
-      { title: 'SP', key: 'SP', align: 'center' },
+      { title: t('compendium.titles.evasion'), key: 'Evasion', align: 'center' },
+      { title: t('compendium.titles.edef'), key: 'EDefense', align: 'center' },
+      { title: t('compendium.titles.heatcap'), key: 'HeatCap', align: 'center' },
+      { title: t('compendium.titles.repcap'), key: 'RepCap', align: 'center' },
+      { title: t('compendium.titles.sensors'), key: 'SensorRange', align: 'center' },
+      { title: t('compendium.titles.techatk'), key: 'TechAttack', align: 'center' },
+      { title: t('compendium.titles.save'), key: 'SaveTarget', align: 'center' },
+      { title: t('compendium.titles.speed'), key: 'Speed', align: 'center' },
+      { title: t('compendium.titles.sp'), key: 'SP', align: 'center' },
     ])
 
 const manufacturers = computed(() => {

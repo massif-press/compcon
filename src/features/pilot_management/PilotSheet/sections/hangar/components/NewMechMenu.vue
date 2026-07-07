@@ -84,6 +84,8 @@ import { Mech } from '@/classes/mech/Mech'
 import { ItemType } from '@/classes/enums'
 import { mechname } from '@/io/Generators'
 import { AchievementEventSystem } from '@/user/achievements/AchievementEvent'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const props = defineProps<{
   pilot: Pilot
@@ -104,20 +106,20 @@ const options = ref({
       initialGroup: 'source',
     })
 const headers = ref([
-      { title: 'Manufacturer', key: 'Source' },
+      { title: t('pm.titles.manufacturer'), key: 'Source' },
       { title: 'Name', key: 'Name' },
-      { title: 'Size', key: 'Size' },
-      { title: 'Armor', key: 'Armor' },
+      { title: t('pm.titles.size'), key: 'Size' },
+      { title: t('pm.titles.armor'), key: 'Armor' },
       { title: 'HP', key: 'HP' },
-      { title: 'Evasion', key: 'Evasion' },
-      { title: 'EDef', key: 'EDefense' },
-      { title: 'HeatCap', key: 'HeatCap' },
-      { title: 'RepCap', key: 'RepCap' },
-      { title: 'Sensors', key: 'SensorRange' },
-      { title: 'TechAtk', key: 'TechAttack' },
-      { title: 'Save', key: 'SaveTarget' },
-      { title: 'Speed', key: 'Speed' },
-      { title: 'SP', key: 'SP' },
+      { title: t('pm.titles.evasion'), key: 'Evasion' },
+      { title: t('pm.titles.edef'), key: 'EDefense' },
+      { title: t('pm.titles.heatcap'), key: 'HeatCap' },
+      { title: t('pm.titles.repcap'), key: 'RepCap' },
+      { title: t('pm.titles.sensors'), key: 'SensorRange' },
+      { title: t('pm.titles.techatk'), key: 'TechAttack' },
+      { title: t('pm.titles.save'), key: 'SaveTarget' },
+      { title: t('pm.titles.speed'), key: 'Speed' },
+      { title: t('pm.titles.sp'), key: 'SP' },
     ])
 
 const manufacturers = computed(() => {

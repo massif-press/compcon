@@ -75,6 +75,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import logger from '@/user/logger';
+import { notifyError } from '@/util/notify'
 import { signUp } from 'aws-amplify/auth';
 
 const emit = defineEmits<{
@@ -115,11 +116,12 @@ async function createAccount() {
     loading.value = false;
     showError.value = false;
     emit('success', userEmail);
-  } catch (error: any) {
-    logger.error(`Error creating account: ${error}`, this, error);
+  } catch (err: any) {
+    logger.error(`Error creating account: ${err}`, this, err);
     loading.value = false;
     showError.value = true;
-    error.value = error.message;
+    error.value = err.message;
+    notifyError(err.message);
   }
 }
 </script>

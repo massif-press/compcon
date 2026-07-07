@@ -37,6 +37,8 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 defineOptions({ name: 'pilot-gear-filter' })
 
@@ -57,9 +59,9 @@ const typeFilter = ref([] as string[])
 
 const types = computed(() => {
       return [
-        { title: 'Armor', value: 'PilotArmor' },
-        { title: 'Gear', value: 'PilotGear' },
-        { title: 'Weapon', value: 'PilotWeapon' },
+        { title: t('ui.titles.armor'), value: 'PilotArmor' },
+        { title: t('ui.titles.gear'), value: 'PilotGear' },
+        { title: t('ui.titles.weapon'), value: 'PilotWeapon' },
       ];
     })
 

@@ -18,7 +18,7 @@ const routes = [
         path: '',
         name: 'pilot_roster',
         component: Roster,
-        meta: { title: 'Pilot Roster' },
+        meta: { title: 'common.pilotRoster' },
       },
       {
         path: '/print/:presetPilot/:presetMech?',
@@ -30,14 +30,14 @@ const routes = [
         path: '/pilot/:pilotID',
         component: Sheet,
         props: true,
-        meta: { title: 'Pilot' },
+        meta: { title: 'pm.titles.pilot' },
       },
       {
         path: '/pilot/:pilotID/mech/:mechID',
         name: 'mech-sheet',
         component: MechSheet,
         props: true,
-        meta: { title: 'Mech' },
+        meta: { title: 'pm.titles.mech' },
       },
 
       {
@@ -45,14 +45,14 @@ const routes = [
         name: 'level-up',
         props: true,
         component: Level,
-        meta: { title: 'Level Up' },
+        meta: { title: 'pm.titles.levelUp' },
       },
       {
         path: '/new/:groupID',
         name: 'new',
         props: true,
         component: New,
-        meta: { title: 'New Pilot Wizard' },
+        meta: { title: 'pm.titles.newPilotWizard' },
       },
     ],
   },

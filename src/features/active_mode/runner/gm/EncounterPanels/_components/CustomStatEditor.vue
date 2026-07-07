@@ -107,6 +107,8 @@ import { computed, ref } from 'vue'
 import { MandatoryStats, StatController } from '@/classes/components/combat/stats/StatController';
 import { Bonus } from '@/classes/components/feature/bonus/Bonus';
 import { useDisplay } from 'vuetify';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const npcStatOrder = [
 'hull',
 'agi',
@@ -132,28 +134,28 @@ const npcStatOrder = [
 ];
 const trackable = [
 { title: 'HP', key: 'hp' },
-{ title: 'Reactor', key: 'stress' },
-{ title: 'Heat Capacity', key: 'heatcap' },
-{ title: 'Structure', key: 'structure' },
-{ title: 'Repair Capacity', key: 'repairCapacity' },
-{ title: 'Overcharge', key: 'overcharge' },
-{ title: 'Activations', key: 'activations' },
-{ title: 'Speed', key: 'speed' },
+{ title: t('active.titles.reactor'), key: 'stress' },
+{ title: t('active.titles.heatCapacity'), key: 'heatcap' },
+{ title: t('active.titles.structure'), key: 'structure' },
+{ title: t('active.titles.repairCapacity'), key: 'repairCapacity' },
+{ title: t('active.titles.overcharge'), key: 'overcharge' },
+{ title: t('active.titles.activations'), key: 'activations' },
+{ title: t('active.titles.speed'), key: 'speed' },
 ];
 const statics = [
-{ title: 'Hull', key: 'hull' },
-{ title: 'Agility', key: 'agi' },
-{ title: 'Systems', key: 'sys' },
-{ title: 'Engineering', key: 'eng' },
-{ title: 'Size', key: 'size' },
-{ title: 'Sensor Range', key: 'sensorRange' },
-{ title: 'Evasion', key: 'evasion' },
-{ title: 'E-Defense', key: 'edef' },
-{ title: 'Attack Bonus', key: 'attackBonus' },
-{ title: 'Tech Attack', key: 'techAttack' },
-{ title: 'Save Target', key: 'saveTarget' },
-{ title: 'Grapple', key: 'grapple' },
-{ title: 'Ram', key: 'ram' },
+{ title: t('active.titles.hull'), key: 'hull' },
+{ title: t('active.titles.agility'), key: 'agi' },
+{ title: t('active.titles.systems'), key: 'sys' },
+{ title: t('active.titles.engineering'), key: 'eng' },
+{ title: t('active.titles.size'), key: 'size' },
+{ title: t('common.sensorRange'), key: 'sensorRange' },
+{ title: t('active.titles.evasion'), key: 'evasion' },
+{ title: t('active.titles.eDefense'), key: 'edef' },
+{ title: t('common.attackBonus'), key: 'attackBonus' },
+{ title: t('common.techAttack'), key: 'techAttack' },
+{ title: t('active.titles.saveTarget'), key: 'saveTarget' },
+{ title: t('active.titles.grapple'), key: 'grapple' },
+{ title: t('active.titles.ram'), key: 'ram' },
 ];
 
 defineOptions({ name: 'StatEditor' })

@@ -3,7 +3,8 @@
     dense>
     <v-col>
       <div class="heading h2">{{ combatant.actor.Name }}</div>
-      <div class="text-cc-overline">{{ $t('active.eidolon.tierEidolon', { n: combatant.actor.Tier }) }}</div>
+      <div class="text-cc-overline">{{ $t('active.eidolon.tierEidolon', { n: combatant.actor.Tier })
+      }}</div>
     </v-col>
     <v-col v-for="n in combatant.actor.Layers.length"
       :key="`layer-${n}`"
@@ -15,7 +16,6 @@
           <v-btn v-bind="props"
             flat
             tile
-            icon
             stacked
             :variant="n - 1 === combatant.actor.ActiveLayerIndex ? 'elevated' : 'tonal'"
             :color="n - 1 === combatant.actor.ActiveLayerIndex ? 'exotic' : 'primary'"
@@ -26,12 +26,12 @@
           </v-btn>
         </template>
         {{ $t('active.eidolon.nameLayer', { name: combatant.actor.Layers[n - 1].Name }) }}
-        <span v-if="n - 1 === combatant.actor.ActiveLayerIndex">&nbsp;{{ $t('active.eidolon.active') }}</span>
+        <span v-if="n - 1 === combatant.actor.ActiveLayerIndex">&nbsp;{{ $t('active.eidolon.active')
+        }}</span>
       </v-tooltip>
     </v-col>
   </v-row>
-  <panel-base
-    :item="layer"
+  <panel-base :item="layer"
     hide-palette>
     <template #name-block>
       <div class="mr-12">

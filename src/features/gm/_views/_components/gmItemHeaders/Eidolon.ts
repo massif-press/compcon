@@ -1,28 +1,28 @@
 export default [
   { text: '', value: 'ItemType', align: 'right' },
   {
-    title: 'Name',
+    title: 'gm.titles.name',
     align: 'start',
     value: 'Name',
     groupable: false,
     sortable: true,
   },
   {
-    title: 'Tier',
+    title: 'gm.titles.tier',
     align: 'start',
     value: 'Tier',
     groupable: true,
     sortable: true,
   },
   {
-    title: 'Class',
+    title: 'gm.titles.class',
     align: 'start',
     value: 'Class',
     groupable: true,
     sortable: true,
   },
   {
-    title: 'Layers',
+    title: 'gm.titles.layers',
     key: 'Layers',
     align: 'start',
     groupable: false,

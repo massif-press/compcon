@@ -656,6 +656,8 @@ import License from '@/classes/pilot/components/license/License'
 import { Manufacturer } from '@/classes/Manufacturer'
 import { useCompendiumFacets } from './useCompendiumFacets'
 import { useCompendiumViewState } from './useCompendiumViewState'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 defineOptions({ name: 'CCCompendiumBrowser' })
 

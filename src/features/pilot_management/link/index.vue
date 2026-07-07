@@ -115,6 +115,8 @@ import { CompendiumStore } from '@/stores';
 import logger from '@/user/logger';
 import FullLinkSheet from './_views/FullLinkSheet.vue';
 import BuildLinkSheet from './_views/BuildLinkSheet.vue';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const router = useRouter()
 
 defineOptions({ name: 'PilotLink' })
@@ -153,22 +155,22 @@ const rateLimitRetryLabel = computed(() => {
     })
 const links = computed(() => {
       if (!pilot.value) return [];
-      const links = [{ title: 'Biography', target: 'biography' }];
-      if (pilot.value.BondController.Bond) links.push({ title: 'Bond', target: 'bond' });
+      const links = [{ title: t('pm.titles.biography'), target: 'biography' }];
+      if (pilot.value.BondController.Bond) links.push({ title: t('pm.titles.bond'), target: 'bond' });
       if (pilot.value.SkillsController.Skills.length > 0)
-        links.push({ title: 'Skills', target: 'skills' });
+        links.push({ title: t('pm.titles.skills'), target: 'skills' });
       if (pilot.value.ReservesController.Reserves.length > 0)
-        links.push({ title: 'Reserves', target: 'reserves' });
-      links.push({ title: 'Loadout', target: 'loadout' });
+        links.push({ title: t('pm.titles.reserves'), target: 'reserves' });
+      links.push({ title: t('pm.titles.loadout'), target: 'loadout' });
       if (pilot.value.LicenseController.Licenses.length > 0)
-        links.push({ title: 'Licenses', target: 'licenses' });
+        links.push({ title: t('pm.titles.licenses'), target: 'licenses' });
       if (pilot.value.CoreBonusController.CoreBonuses.length > 0)
-        links.push({ title: 'Core Bonuses', target: 'core-bonuses' });
+        links.push({ title: t('pm.titles.coreBonuses'), target: 'core-bonuses' });
       if (pilot.value.TalentsController.Talents.length > 0)
-        links.push({ title: 'Talents', target: 'talents' });
+        links.push({ title: t('pm.titles.talents'), target: 'talents' });
 
       if (mech.value) {
-        links.push({ title: 'Mech', target: 'mech' });
+        links.push({ title: t('pm.titles.mech'), target: 'mech' });
       }
 
       return links;

@@ -16,12 +16,14 @@ import { computed, ref } from 'vue'
 import { orderBy } from 'lodash-es';
 import { CompendiumStore, UserStore } from '@/stores';
 import { CoreBonus } from '@/classes/pilot/components/corebonus/CoreBonus'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const headers = ref([
-      { title: 'Content Pack', key: 'LcpName' },
-      { title: 'Manufacturer', key: 'Source' },
+      { title: t('compendium.titles.contentPack'), key: 'LcpName' },
+      { title: t('compendium.titles.manufacturer'), key: 'Source' },
       { title: 'Name', key: 'Name' },
-      { title: 'Effect', key: 'Effect' },
+      { title: t('compendium.titles.effect'), key: 'Effect' },
     ])
 const options = ref({
       views: ['list', 'table'],

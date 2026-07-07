@@ -339,6 +339,8 @@ import { ActionSummary } from '@/classes/components/feature/active_effects/Effec
 import { EncounterStore } from '@/stores';
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import { EncounterArchive } from '@/classes/encounter/EncounterArchive';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const { smAndDown: mobile } = useDisplay();
 const router = useRouter();
@@ -349,9 +351,9 @@ const asc = ref(true);
 
 const encounterOrganizerColumns = [
   { key: 'Name', title: 'Name', sortable: true, value: (e: EncounterInstance) => e.Name },
-  { key: 'Environment', title: 'Environment', value: (e: EncounterInstance) => e.Encounter?.Environment?.Name || '' },
-  { key: 'Sitrep', title: 'Sitrep', value: (e: EncounterInstance) => e.Encounter?.Sitrep?.Name || '' },
-  { key: 'Round', title: 'Round', sortable: true, value: (e: EncounterInstance) => e.Round },
+  { key: 'Environment', title: t('active.titles.environment'), value: (e: EncounterInstance) => e.Encounter?.Environment?.Name || '' },
+  { key: 'Sitrep', title: t('active.titles.sitrep'), value: (e: EncounterInstance) => e.Encounter?.Sitrep?.Name || '' },
+  { key: 'Round', title: t('active.titles.round'), sortable: true, value: (e: EncounterInstance) => e.Round },
   { key: 'Created', title: 'Created', sortable: true, value: (e: EncounterInstance) => new Date(e.SaveController.Created).toLocaleDateString() },
 ];
 

@@ -62,6 +62,8 @@
 import { computed, watch } from 'vue'
 import { useDisplay } from 'vuetify'
 import { Pilot } from '@/classes/pilot/Pilot'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const props = defineProps<{ pilot: Pilot }>()
 
@@ -71,42 +73,42 @@ const skills = computed(() => [
   {
     val: 'Hull',
     icon: 'mdi-alpha-h-box-outline',
-    text: 'Hull',
-    description: 'Your HULL skill describes your ability to build and pilot durable, heavy mechs that can take punches and keep going',
+    text: t('pm.tooltips.hull'),
+    description: t('pm.subtitles.yourHullSkillDescribesYourAbility'),
     bonuses: [
-      { text: 'MECH HP', value: props.pilot.MechSkillsController.MechSkills.Hull * 2 },
-      { text: 'REPAIR CAPACITY', value: Math.floor(props.pilot.MechSkillsController.MechSkills.Hull / 2) },
+      { text: t('pm.tooltips.mechHp'), value: props.pilot.MechSkillsController.MechSkills.Hull * 2 },
+      { text: t('pm.tooltips.repairCapacity'), value: Math.floor(props.pilot.MechSkillsController.MechSkills.Hull / 2) },
     ],
   },
   {
     val: 'Agi',
     icon: 'mdi-alpha-a-box-outline',
-    text: 'Agility',
-    description: 'Your AGILITY skill describes your ability to build and pilot fast, evasive mechs',
+    text: t('pm.tooltips.agility'),
+    description: t('pm.subtitles.yourAgilitySkillDescribesYourAbility'),
     bonuses: [
-      { text: 'EVASION', value: props.pilot.MechSkillsController.MechSkills.Agi },
-      { text: 'SPEED', value: Math.floor(props.pilot.MechSkillsController.MechSkills.Agi / 2) },
+      { text: t('pm.tooltips.evasion'), value: props.pilot.MechSkillsController.MechSkills.Agi },
+      { text: t('pm.tooltips.speed'), value: Math.floor(props.pilot.MechSkillsController.MechSkills.Agi / 2) },
     ],
   },
   {
     val: 'Sys',
     icon: 'mdi-alpha-s-box-outline',
-    text: 'Systems',
-    description: 'Your SYSTEMS skill describes your ability to build and pilot technical mechs with powerful electronic warfare tools',
+    text: t('pm.tooltips.systems'),
+    description: t('pm.subtitles.yourSystemsSkillDescribesYourAbility'),
     bonuses: [
-      { text: 'ELECTRONIC DEFENSE', value: props.pilot.MechSkillsController.MechSkills.Sys },
-      { text: 'TECH ATTACK', value: props.pilot.MechSkillsController.MechSkills.Sys },
-      { text: 'SP', value: Math.floor(props.pilot.MechSkillsController.MechSkills.Sys / 2) },
+      { text: t('pm.tooltips.electronicDefense'), value: props.pilot.MechSkillsController.MechSkills.Sys },
+      { text: t('pm.tooltips.techAttack'), value: props.pilot.MechSkillsController.MechSkills.Sys },
+      { text: t('pm.tooltips.sp'), value: Math.floor(props.pilot.MechSkillsController.MechSkills.Sys / 2) },
     ],
   },
   {
     val: 'Eng',
     icon: 'mdi-alpha-e-box-outline',
-    text: 'Engineering',
-    description: 'Your ENGINEERING skill describes your ability to build and pilot mechs with powerful reactors, supplies and support systems',
+    text: t('pm.tooltips.engineering'),
+    description: t('pm.subtitles.yourEngineeringSkillDescribesYourAbility'),
     bonuses: [
-      { text: 'HEAT CAPACITY', value: props.pilot.MechSkillsController.MechSkills.Eng },
-      { text: 'LIMITED SYSTEMS BONUS', value: Math.floor(props.pilot.MechSkillsController.MechSkills.Eng / 2) },
+      { text: t('pm.tooltips.heatCapacity'), value: props.pilot.MechSkillsController.MechSkills.Eng },
+      { text: t('pm.tooltips.limitedSystemsBonus'), value: Math.floor(props.pilot.MechSkillsController.MechSkills.Eng / 2) },
     ],
   },
 ])

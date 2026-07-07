@@ -10,6 +10,7 @@ import * as GmRoutes from '@/features/gm/routes'
 import { UserStore } from '@/user/store'
 import { setUiLocale } from '@/i18n/loadLocale'
 import logger from '@/user/logger'
+import { i18n } from '@/i18n'
 
 export type IndexItem = {
   id: string
@@ -82,7 +83,7 @@ export const NavStore = defineStore('nav', {
           .filter(x => !!x.searchData)
           .map(route => ({
             id: route.path,
-            title: route.searchData.title,
+            title: i18n.global.t(route.searchData.title),
             type: 'Compendium Page',
             pack: '',
             path: route.path,
@@ -95,7 +96,7 @@ export const NavStore = defineStore('nav', {
           .filter((x: any) => !!x.searchData)
           .map((route: any) => ({
             id: route.path,
-            title: route.searchData.title,
+            title: i18n.global.t(route.searchData.title),
             type: 'GM Tool',
             pack: '',
             path: '/gm/' + route.path,
@@ -105,7 +106,7 @@ export const NavStore = defineStore('nav', {
 
       staticIndex.push({
         id: '/pilot-roster',
-        title: 'Pilot Roster',
+        title: i18n.global.t('common.pilotRoster'),
         type: 'Roster View',
         pack: '',
         path: '/pilot-roster',

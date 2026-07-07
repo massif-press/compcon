@@ -16,6 +16,8 @@ import { computed, ref } from 'vue'
 import { orderBy } from 'lodash-es';
 import { CompendiumStore } from '../../store';
 import { UserStore } from '@/stores';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const options = ref({
       views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
@@ -26,11 +28,11 @@ const options = ref({
     })
 const headers = ref([
       { title: '', align: 'left', key: 'Source' },
-      { title: 'Weapon', align: 'left', key: 'Name' },
+      { title: t('compendium.titles.weapon'), align: 'left', key: 'Name' },
       { title: 'License', align: 'left', key: 'LicenseString' },
-      { title: 'Size', align: 'left', key: 'Size' },
+      { title: t('compendium.titles.size'), align: 'left', key: 'Size' },
       {
-        title: 'Type',
+        title: t('compendium.titles.type'),
         align: 'left',
         key: 'WeaponTypes',
         sortRaw(a, b) {
@@ -41,9 +43,9 @@ const headers = ref([
           return 0;
         },
       },
-      { title: 'Tags', align: 'center', key: 'Tags' },
+      { title: t('compendium.titles.tags'), align: 'center', key: 'Tags' },
       {
-        title: 'Range',
+        title: t('compendium.titles.range'),
         align: 'left',
         key: 'Range',
         sortRaw(a, b) {
@@ -51,7 +53,7 @@ const headers = ref([
         },
       },
       {
-        title: 'Damage',
+        title: t('compendium.titles.damage'),
         align: 'left',
         key: 'Damage',
         sortRaw(a, b) {

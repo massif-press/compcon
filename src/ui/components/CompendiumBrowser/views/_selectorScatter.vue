@@ -65,6 +65,8 @@ import { Manufacturer } from '@/classes/Manufacturer'
 import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
 import { NpcClass } from '@/classes/npc/class/NpcClass';
 import { getChartAxes, findManufacturer } from './_selectorUtils';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend, ChartDataLabels);
 
@@ -125,7 +127,7 @@ const chartData = computed(() => {
     {
       data: collateData(itemMap.value),
       backgroundColor: '#991E2A',
-      label: 'All Items',
+      label: t('ui.fields.allItems'),
     },
   ] as any[];
 

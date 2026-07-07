@@ -31,6 +31,9 @@ const LITERAL_ATTRS = [
   'text',
   'tooltip',
   'alt',
+  'content',
+  'aria-label',
+  'description',
 ]
 const LITERAL_ALLOW = new Set(['CC-ID', 'CC-username', 'N/A', 'HP', 'E-DEF', 'E-DEFENSE'])
 const LITERAL_SKIP_FILES = [

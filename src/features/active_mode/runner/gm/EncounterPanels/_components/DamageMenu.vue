@@ -206,6 +206,8 @@ import * as _ from 'lodash-es';
 import { useDisplay } from 'vuetify';
 import { CombatController } from '@/classes/components/combat/CombatController';
 import { DamageType } from '@/classes/enums';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const { smAndDown: mobile } = useDisplay()
 
@@ -240,14 +242,14 @@ const getActiveStatuses = computed(() => {
     {
       id: 'exposed',
       icon: 'cc:status_exposed',
-      title: 'Exposed',
-      description: 'Kinetic, explosive, and heat damage doubled.',
+      title: t('active.titles.exposed'),
+      description: t('active.subtitles.kineticExplosiveAndHeatDamageDoubled'),
     },
     {
       id: 'shredded',
       icon: 'cc:condition_shredded',
-      title: 'Shredded',
-      description: 'Damage ignores armor and resistance.',
+      title: t('active.titles.shredded'),
+      description: t('active.subtitles.damageIgnoresArmorAndResistance'),
     }
   ]
 

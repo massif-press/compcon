@@ -52,7 +52,7 @@ class EnvironmentInstance {
       this.Environment = new Environment({
         name: 'No Environmental Effects',
         modified: false,
-        description: 'A standard environment with no special combat conditions',
+        description: i18n.global.t('classes.subtitles.aStandardEnvironmentWithNoSpecial'),
       })
     }
 

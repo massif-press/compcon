@@ -16,6 +16,8 @@ import { computed, ref } from 'vue'
 import { orderBy } from 'lodash-es';
 import { CompendiumStore } from '@/stores';
 import { NpcFeature } from '@/classes/npc/feature/NpcFeature';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const browser = ref<any>(null)
 
@@ -33,10 +35,10 @@ const features = computed(() => {
     })
 const headers = computed(() => {
       const h = [
-        { title: 'Content Pack', key: 'LcpName' },
-        { title: 'Origin', key: 'Origin' },
+        { title: t('compendium.titles.contentPack'), key: 'LcpName' },
+        { title: t('compendium.titles.origin'), key: 'Origin' },
         { title: 'Name', key: 'Name' },
-        { title: 'Tags', key: 'Tags' },
+        { title: t('compendium.titles.tags'), key: 'Tags' },
       ] as any[];
       return h;
     })

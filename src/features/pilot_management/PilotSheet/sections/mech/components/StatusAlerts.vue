@@ -14,6 +14,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Mech } from '@/classes/mech/Mech'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 defineOptions({ name: 'status-alerts' })
 
@@ -25,15 +27,15 @@ const statuses = computed((): StatusAlert[] => {
   const m = props.mech as Mech
   const out: StatusAlert[] = []
   if (m.FreeSP < 0)
-    out.push({ title: 'SYSTEM CAPACITY EXCEEDED', text: 'Loadout configuration exceeds available Frame System Capacity', icon: 'mdi-alert', color: 'error' })
+    out.push({ title: t('pm.titles.systemCapacityExceeded'), text: t('pm.tooltips.loadoutConfigurationExceedsAvailableFrameSyste'), icon: 'mdi-alert', color: 'error' })
   if (m.FreeSP > 0)
-    out.push({ title: 'SYSTEM CAPACITY REMAINING', text: 'Operational capacity significantly impaired', icon: 'mdi-alert-decagram-outline', color: 'warning' })
+    out.push({ title: t('pm.titles.systemCapacityRemaining'), text: t('pm.tooltips.operationalCapacitySignificantlyImpaired'), icon: 'mdi-alert-decagram-outline', color: 'warning' })
   if (m.MechLoadoutController.ActiveLoadout.HasEmptyMounts)
-    out.push({ title: 'EMPTY MOUNTS DETECTED', text: 'Operational capacity significantly impaired', icon: 'mdi-alert-decagram-outline', color: 'warning' })
+    out.push({ title: t('pm.titles.emptyMountsDetected'), text: t('pm.tooltips.operationalCapacitySignificantlyImpaired'), icon: 'mdi-alert-decagram-outline', color: 'warning' })
   if (m.RequiredLicenses.filter((x: any) => x.missing).length)
-    out.push({ title: 'UNLICENSED EQUIPMENT DETECTED', text: 'Pilot is missing one or more licenses required to legally print or operate this configuration', icon: 'mdi-alert', color: 'warning' })
+    out.push({ title: t('pm.titles.unlicensedEquipmentDetected'), text: t('pm.tooltips.pilotIsMissingOneOrMore'), icon: 'mdi-alert', color: 'warning' })
   if (!m.HasCompatibleMods())
-    out.push({ title: 'INCOMPATIBLE WEAPON MOD', text: 'One or more weapon mods are installed to incompatible weapons', icon: 'mdi-cancel', color: 'warning' })
+    out.push({ title: t('pm.titles.incompatibleWeaponMod'), text: t('pm.tooltips.oneOrMoreWeaponModsAre'), icon: 'mdi-cancel', color: 'warning' })
   return out
 })
 </script>

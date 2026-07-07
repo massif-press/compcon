@@ -196,9 +196,7 @@
             {{ $t('common.convert') }}
           </cc-button>
         </template>
-        <cc-confirmation content="Converting this item to local data will allow local editing but remove its remote link to the
-      author's cloud account, and prevent any further updates from being received. To re-enable
-      remote syncing, you will have to re-import this item via its share code."
+        <cc-confirmation :content="$t('gm.tooltips.convertingThisItemToLocalData')"
           @confirm="convert()" />
       </v-menu>
 
@@ -237,7 +235,7 @@
             {{ $t('common.duplicate') }}
           </cc-button>
         </template>
-        <cc-confirmation content="Confirm duplication of this NPC"
+        <cc-confirmation :content="$t('gm.tooltips.confirmDuplicationOfThisNpc')"
           @confirm="dupe()" />
       </v-menu>
 
@@ -257,7 +255,7 @@
             {{ $t('common.delete') }}
           </cc-button>
         </template>
-        <cc-confirmation content="This will delete this Encounter from your library. Are you sure?"
+        <cc-confirmation :content="$t('gm.tooltips.thisWillDeleteThisEncounterFrom')"
           @confirm="deleteItem()" />
       </v-menu>
       <cc-button size="small"

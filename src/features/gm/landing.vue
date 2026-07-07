@@ -20,7 +20,7 @@
         to="gm/campaigns"
         name="Campaign Manager"
         :disabled="!isDevsite"
-        description="Create, modify, and browse LANCER campaigns (v3.1)"
+        :description="$t('gm.subtitles.createModifyAndBrowseLancerCampaigns')"
         img="campaign"
         :max-height="mobile ? 'calc((100vh - 20px) * 0.95)' : 'calc((100vh - 50px) * 0.95)'" />
 
@@ -28,19 +28,19 @@
         <v-row>
           <landing-card to="gm/npcs"
             name="NPCS"
-            description="Manage non-player combat units"
+            :description="$t('gm.subtitles.manageNonPlayerCombatUnits')"
             img="npcs"
             :max-height="mobile ? 'calc((100vh - 20px) * 0.46)' : 'calc((100vh - 50px) * 0.46)'" />
           <landing-card to="gm/narrative"
             name="Narrative Elements"
-            description="Manage characters, locations, and factions"
+            :description="$t('gm.subtitles.manageCharactersLocationsAndFactions')"
             img="location"
             :max-height="mobile ? 'calc((100vh - 20px) * 0.46)' : 'calc((100vh - 50px) * 0.46)'" />
         </v-row>
         <v-row>
           <landing-card to="gm/encounters"
             name="Encounters"
-            description="Create combat encounters"
+            :description="$t('gm.subtitles.createCombatEncounters')"
             img="encounters"
             :max-height="mobile ? 'calc((100vh - 20px) * 0.46)' : 'calc((100vh - 50px) * 0.46)'" />
         </v-row>

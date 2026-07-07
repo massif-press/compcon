@@ -15,11 +15,13 @@ import { computed, ref } from 'vue'
 import { orderBy } from 'lodash-es';
 import { CompendiumStore } from '@/stores';
 import { Talent } from '@/classes/pilot/components/talent/Talent'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const headers = ref([
-      { title: 'Content Pack', key: 'LcpName' },
+      { title: t('compendium.titles.contentPack'), key: 'LcpName' },
       { title: 'Name', key: 'Name' },
-      { title: 'Overview', key: 'Terse' },
+      { title: t('compendium.titles.overview'), key: 'Terse' },
     ])
 const options = ref({
       views: ['list', 'table'],

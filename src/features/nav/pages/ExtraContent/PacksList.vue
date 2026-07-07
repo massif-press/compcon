@@ -167,10 +167,10 @@ const loading = ref(false)
 
 const initHeaders = [
   { title: '', key: 'data-table-expand' },
-  { title: 'Active', value: 'toggleActive', sortable: false },
+  { title: t('nav.titles.active'), value: 'toggleActive', sortable: false },
   { title: 'Name', value: 'Name' },
-  { title: 'Author', value: 'Author' },
-  { title: 'Version', value: 'Version' },
+  { title: t('nav.titles.author'), value: 'Author' },
+  { title: t('nav.titles.version'), value: 'Version' },
   { title: 'v3', value: 'v3' },
   { title: '', value: 'deleteAction', sortable: false },
 ]

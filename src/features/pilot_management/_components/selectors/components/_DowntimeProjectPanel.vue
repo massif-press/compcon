@@ -77,6 +77,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import Project from '@/classes/pilot/components/reserves/Project';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 defineOptions({ name: 'CustomReservePanel' })
 
@@ -101,7 +103,7 @@ function add() {
         id: 'reserve_project',
         type: 'Project',
         name: `${projectName.value} ${finished.value ? '' : ' (In Progress)'}`,
-        label: 'Project',
+        label: t('pm.fields.project'),
         description: '',
         complicated: complicated.value,
         can_finish: false,

@@ -107,11 +107,11 @@ const { allGear, fID } = usePLCard(props)
 const base = ref<InstanceType<typeof PlCardBase> | null>(null)
 
 const headers = ref([
-  { title: 'Content Pack', key: 'LcpName' },
-  { title: 'Type', key: 'Type' },
-  { title: 'Item', key: 'Name' },
-  { title: 'Uses', key: 'MaxUses' },
-  { title: 'Tags', align: 'center', key: 'Tags' },
+  { title: t('pm.titles.contentPack'), key: 'LcpName' },
+  { title: t('pm.titles.type'), key: 'Type' },
+  { title: t('pm.titles.item'), key: 'Name' },
+  { title: t('pm.titles.uses'), key: 'MaxUses' },
+  { title: t('pm.titles.tags'), align: 'center', key: 'Tags' },
 ])
 
 const options = ref({

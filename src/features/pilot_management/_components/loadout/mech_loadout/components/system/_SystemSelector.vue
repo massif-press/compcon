@@ -61,6 +61,8 @@ import { MechSystem } from '@/classes/mech/components/equipment/MechSystem'
 import { Mech } from '@/classes/mech/Mech'
 import { useLcpFilter } from '../_composables/useLcpFilter'
 import SelectorFilterSwitches from '../_SelectorFilterSwitches.vue'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const props = defineProps<{
   equipped?: MechSystem
@@ -87,12 +89,12 @@ const options = reactive({
 })
 
 const headers = [
-  { title: 'Manufacturer', align: 'left', key: 'Source' },
-  { title: 'System', align: 'left', key: 'Name' },
+  { title: t('pm.titles.manufacturer'), align: 'left', key: 'Source' },
+  { title: t('pm.titles.system'), align: 'left', key: 'Name' },
   { title: 'License', align: 'left', key: 'License' },
-  { title: 'Tags', align: 'center', key: 'Tags' },
-  { title: 'License Level', align: 'left', key: 'LicenseLevel' },
-  { title: 'SP Cost', align: 'left', key: 'SP' },
+  { title: t('pm.titles.tags'), align: 'center', key: 'Tags' },
+  { title: t('pm.titles.licenseLevel'), align: 'left', key: 'LicenseLevel' },
+  { title: t('pm.titles.spCost'), align: 'left', key: 'SP' },
 ]
 
 const manufacturers = computed(() => CompendiumStore().Manufacturers)

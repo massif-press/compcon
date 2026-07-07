@@ -50,7 +50,7 @@
                   </v-btn>
                 </template>
                 <cc-confirmation
-                  content="This will permanently delete this image from cloud storage. Do you want to continue?"
+                  :content="$t('ui.tooltips.thisWillPermanentlyDeleteThisImage')"
                   @confirm="deleteCloudImage(image)" />
               </v-menu>
             </v-card>

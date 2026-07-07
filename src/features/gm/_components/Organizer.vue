@@ -122,6 +122,8 @@ import { EncounterStore } from '@/stores'
 import { DeleteItemPermanent, GenerateExportCollection } from '@/io/Importer'
 import FolderDialog from './_subcomponents/FolderDialog.vue'
 import LabelDialog from './_subcomponents/LabelDialog.vue'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const router = useRouter()
 
@@ -142,8 +144,8 @@ const shownTypes = ref([...allTypes.value])
 
 const headers = ref([
   { title: 'Name', key: 'Name', sortable: true },
-  { title: 'Folder', key: 'folder', sortable: true, value: (item: any) => item.FolderController?.Folder || '' },
-  { title: 'GM Labels', key: 'labels', sortable: true, value: (item: any) => item.NarrativeController?.Labels?.map((l: any) => l.title).join(', ') || '' },
+  { title: t('gm.titles.folder'), key: 'folder', sortable: true, value: (item: any) => item.FolderController?.Folder || '' },
+  { title: t('gm.titles.gmLabels'), key: 'labels', sortable: true, value: (item: any) => item.NarrativeController?.Labels?.map((l: any) => l.title).join(', ') || '' },
 ])
 
 const items = computed(() => {

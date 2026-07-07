@@ -257,19 +257,21 @@ import UserDataViewer from './components/UserDataViewer.vue'
 import { ClearAllData, GetTotalStorageSize } from '@/io/Storage'
 import logger from '@/user/logger'
 import { UserStore } from '@/stores'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const { mdAndDown: mobile } = useDisplay()
 
 const user = computed(() => UserStore().User)
 
 const deleteDaySelections = [
-  { title: 'Never', value: 0 },
-  { title: '1 Week', value: 7 },
-  { title: '2 Weeks', value: 14 },
-  { title: '1 Month', value: 30 },
-  { title: '3 Months', value: 90 },
-  { title: '6 Months', value: 180 },
-  { title: '1 Year', value: 365 },
+  { title: t('nav.titles.never'), value: 0 },
+  { title: t('nav.titles.x1Week'), value: 7 },
+  { title: t('nav.titles.x2Weeks'), value: 14 },
+  { title: t('nav.titles.x1Month'), value: 30 },
+  { title: t('nav.titles.x3Months'), value: 90 },
+  { title: t('nav.titles.x6Months'), value: 180 },
+  { title: t('nav.titles.x1Year'), value: 365 },
 ]
 
 const deleteDialog = ref(false)

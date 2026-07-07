@@ -74,6 +74,8 @@ import { Status } from '@/classes/Status'
 import { CompendiumStore } from '@/stores'
 import _scrollTo from '@/util/scrollTo'
 import DOMPurify from 'dompurify';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const props = defineProps<{
   isModal?: boolean
@@ -113,7 +115,7 @@ const content = computed(() => {
         name: 'Variable/Other',
         icon: 'cc:variable',
         color: 'damage--variable',
-        text: 'User selected damage type or damage type not specified',
+        text: t('compendium.tooltips.userSelectedDamageTypeOrDamage'),
       },
     ],
     'Range / Attack Types': [
@@ -132,34 +134,34 @@ const content = computed(() => {
       {
         name: 'Threat',
         icon: 'cc:threat',
-        text: 'Weapon Threat Range',
+        text: t('compendium.tooltips.weaponThreatRange'),
       },
       {
         name: 'Burst',
         icon: 'cc:burst',
-        text: '"Burst" Area of Effect',
+        text: t('compendium.tooltips.burstAreaOfEffect'),
       },
       {
         name: 'Blast',
         icon: 'cc:blast',
-        text: '"Blast" Area of Effect',
+        text: t('compendium.tooltips.blastAreaOfEffect'),
       },
       {
         name: 'Line',
         icon: 'cc:line',
-        text: '"Line" Area of Effect',
+        text: t('compendium.tooltips.lineAreaOfEffect'),
       },
       {
         name: 'Cone',
         icon: 'cc:cone',
-        text: '"Cone" Area of Effect',
+        text: t('compendium.tooltips.coneAreaOfEffect'),
       },
     ],
     'Tracked Stats': [
       {
         name: 'HP',
         icon: 'mdi-heart',
-        text: 'Hit Points',
+        text: t('compendium.tooltips.hitPoints'),
         color: 'hp',
       },
       {
@@ -389,7 +391,7 @@ const content = computed(() => {
       {
         name: 'Content Pack',
         icon: 'cc:compendium',
-        text: 'Denotes content added by a Lancer Content Pack (.lcp) file',
+        text: t('compendium.tooltips.denotesContentAddedByALancer'),
       },
     ],
   }

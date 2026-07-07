@@ -62,7 +62,7 @@
             <cc-tooltip v-if="extended"
               simple
               inline
-              content="Extended Harness">
+              :content="$t('pm.tooltips.extendedHarness')">
               <v-icon dark
                 right>mdi-alpha-e-box-outline</v-icon>
             </cc-tooltip>

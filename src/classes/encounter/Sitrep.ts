@@ -79,7 +79,7 @@ class SitrepInstance {
         name: 'BASIC COMBAT',
         modified: false,
         description:
-          'A simple affair, with two sides facing off against each other until one of them is broken or destroyed.',
+          i18n.global.t('classes.subtitles.aSimpleAffairWithTwoSides'),
       })
     }
 

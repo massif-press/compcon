@@ -2,6 +2,7 @@ import { computed, ref } from 'vue'
 import { CompendiumStore } from '@/stores'
 import { NpcClass } from '@/classes/npc/class/NpcClass'
 import * as _ from 'lodash-es'
+import { i18n } from '@/i18n'
 
 export const keymap: Record<string, string> = {
   hull: 'Hull', agi: 'Agi', sys: 'Sys', eng: 'Eng', armor: 'Armor',
@@ -25,8 +26,8 @@ function useNpcClassSelector() {
 
   const headers = computed(() => {
     const h = [
-      { title: 'Content Pack', key: 'LcpName' },
-      { title: 'Role', key: 'Icon' },
+      { title: i18n.global.t('gm.titles.contentPack'), key: 'LcpName' },
+      { title: i18n.global.t('gm.titles.role'), key: 'Icon' },
       { title: 'Name', key: 'Name' },
     ] as any[]
     for (const key in keymap) {

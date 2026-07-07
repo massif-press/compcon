@@ -174,6 +174,8 @@
 import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
 import type { Mech } from '@/classes/mech/Mech'
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 defineOptions({ name: 'EngineerWeaponInset' })
 
@@ -185,35 +187,35 @@ const props = defineProps<{
 
 const weaponType = ref(null)
 const weaponTypes = ref([
-  { title: 'Rifle', value: 'rifle', icon: 'cc:range' },
-  { title: 'Cannon', value: 'cannon', icon: 'cc:range' },
-  { title: 'Launcher', value: 'launcher', icon: 'cc:range' },
-  { title: 'CQB', value: 'cqb', icon: 'cc:range' },
-  { title: 'Nexus', value: 'nexus', icon: 'cc:range' },
-  { title: 'Melee', value: 'melee', icon: 'cc:threat' },
+  { title: t('pm.titles.rifle'), value: 'rifle', icon: 'cc:range' },
+  { title: t('pm.titles.cannon'), value: 'cannon', icon: 'cc:range' },
+  { title: t('pm.titles.launcher'), value: 'launcher', icon: 'cc:range' },
+  { title: t('pm.titles.cqb'), value: 'cqb', icon: 'cc:range' },
+  { title: t('pm.titles.nexus'), value: 'nexus', icon: 'cc:range' },
+  { title: t('pm.titles.melee'), value: 'melee', icon: 'cc:threat' },
 ])
 const damageType = ref(null)
 const damageTypes = ref([
-  { title: 'Kinetic', value: 'kinetic' },
-  { title: 'Energy', value: 'energy' },
-  { title: 'Explosive', value: 'explosive' },
+  { title: t('pm.titles.kinetic'), value: 'kinetic' },
+  { title: t('pm.titles.energy'), value: 'energy' },
+  { title: t('pm.titles.explosive'), value: 'explosive' },
 ])
 const uses = ref(0)
 const revisions = ref([
   {
-    title: 'Tweaked Optics',
+    title: t('pm.titles.tweakedOptics'),
     value: 'tweaked_optics',
     icon: 'cc:talent',
     detail: 'Your prototype weapon always gains +1 Accuracy on attacks',
   },
   {
-    title: 'Tweaked Computer',
+    title: t('pm.titles.tweakedComputer'),
     value: 'tweaked_computer',
     icon: 'cc:talent',
     detail: 'Your prototype weapon is Smart',
   },
   {
-    title: 'Stripped Reactor Shielding',
+    title: t('pm.titles.strippedReactorShielding'),
     value: 'stripped_reactor',
     icon: 'cc:talent',
     detail:

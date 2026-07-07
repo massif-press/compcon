@@ -31,49 +31,49 @@
               justify="center"
               style="border: 1px solid rgb(var(--v-theme-primary)); border-radius: 2px">
               <v-col v-show="moreDice" cols="auto">
-                <cc-tooltip content="Add coin flip (d2)">
+                <cc-tooltip :content="$t('ui.tooltips.addCoinFlipD2')">
                   <v-btn icon color="accent" @click="addDice(2)">
                     <v-icon large>mdi-numeric-2-circle-outline</v-icon>
                   </v-btn>
                 </cc-tooltip>
               </v-col>
               <v-col v-show="moreDice" cols="auto">
-                <cc-tooltip content="Add d4 roll">
+                <cc-tooltip :content="$t('ui.tooltips.addD4Roll')">
                   <v-btn icon color="accent" @click="addDice(4)">
                     <v-icon large>mdi-dice-d4-outline</v-icon>
                   </v-btn>
                 </cc-tooltip>
               </v-col>
               <v-col cols="auto">
-                <cc-tooltip content="Add d6 roll">
+                <cc-tooltip :content="$t('ui.tooltips.addD6Roll')">
                   <v-btn icon color="accent" @click="addDice(6)">
                     <v-icon large>mdi-dice-d6-outline</v-icon>
                   </v-btn>
                 </cc-tooltip>
               </v-col>
               <v-col v-show="moreDice" cols="auto">
-                <cc-tooltip content="Add d8 roll">
+                <cc-tooltip :content="$t('ui.tooltips.addD8Roll')">
                   <v-btn icon color="accent" @click="addDice(8)">
                     <v-icon large>mdi-dice-d8-outline</v-icon>
                   </v-btn>
                 </cc-tooltip>
               </v-col>
               <v-col v-show="moreDice" cols="auto">
-                <cc-tooltip content="Add d10 roll">
+                <cc-tooltip :content="$t('ui.tooltips.addD10Roll')">
                   <v-btn icon color="accent" @click="addDice(10)">
                     <v-icon large>mdi-dice-d10-outline</v-icon>
                   </v-btn>
                 </cc-tooltip>
               </v-col>
               <v-col v-show="moreDice" cols="auto">
-                <cc-tooltip content="Add d12 roll">
+                <cc-tooltip :content="$t('ui.tooltips.addD12Roll')">
                   <v-btn icon color="accent" @click="addDice(12)">
                     <v-icon large>mdi-dice-d12-outline</v-icon>
                   </v-btn>
                 </cc-tooltip>
               </v-col>
               <v-col cols="auto">
-                <cc-tooltip content="Add d20 roll">
+                <cc-tooltip :content="$t('ui.tooltips.addD20Roll')">
                   <v-btn icon color="accent" @click="addDice(20)">
                     <v-icon large>mdi-dice-d20-outline</v-icon>
                   </v-btn>
@@ -86,14 +86,14 @@
                 </v-btn>
               </v-col>
               <v-col cols="auto">
-                <cc-tooltip content="Add Accuracy">
+                <cc-tooltip :content="$t('ui.tooltips.addAccuracy')">
                   <v-btn icon color="accent" @click="accuracy++">
                     <v-icon large>cc:accuracy</v-icon>
                   </v-btn>
                 </cc-tooltip>
               </v-col>
               <v-col cols="auto">
-                <cc-tooltip content="Add Difficulty">
+                <cc-tooltip :content="$t('ui.tooltips.addDifficulty')">
                   <v-btn icon color="accent" @click="accuracy--">
                     <v-icon large>cc:difficulty</v-icon>
                   </v-btn>

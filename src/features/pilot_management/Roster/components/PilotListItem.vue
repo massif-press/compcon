@@ -34,7 +34,7 @@
               <v-icon icon="mdi-drag"
                 size="23.5"
                 class="drag-handle"
-                aria-label="Drag to reorder"
+                :aria-label="$t('pm.a11y.dragToReorder')"
                 tabindex="0"
                 style="cursor: move; opacity: 0.4; transition: opacity 0.2s"
                 @click.stop />

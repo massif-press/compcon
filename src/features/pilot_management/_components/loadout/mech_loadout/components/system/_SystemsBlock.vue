@@ -91,7 +91,7 @@
                 style="padding-top: 8px">
                 <v-icon class="system-drag-handle"
                   icon="mdi-drag"
-                  aria-label="Drag to reorder"
+                  :aria-label="$t('pm.a11y.dragToReorder')"
                   tabindex="0"
                   color="stark"
                   style="cursor: move; opacity: 0.5" />

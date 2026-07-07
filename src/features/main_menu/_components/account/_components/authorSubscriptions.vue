@@ -196,18 +196,18 @@ const loading = ref(false)
 const expanded = ref([])
 const collectionHeaders = ref([
   { title: '', key: 'data-table-expand', width: '0' },
-  { title: 'Content Collection', key: 'name' },
-  { title: 'Author', key: 'author' },
-  { title: 'Version', key: 'vers', align: 'center' },
+  { title: t('mainMenu.titles.contentCollection'), key: 'name' },
+  { title: t('mainMenu.titles.author'), key: 'author' },
+  { title: t('mainMenu.titles.version'), key: 'vers', align: 'center' },
   { title: '', key: 'actions' },
 ])
 const update_on = ref([
   {
-    title: 'On Startup',
+    title: t('mainMenu.titles.onStartup'),
     value: 'startup',
   },
   {
-    title: 'Manual Only',
+    title: t('mainMenu.titles.manualOnly'),
     value: 'manual',
   },
 ])

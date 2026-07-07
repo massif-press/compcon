@@ -201,10 +201,10 @@ const strippedItems = ref<string[]>([])
 const showStripped = ref(false)
 
 const headers = [
-  { title: 'Type', key: 'type', sortable: true },
+  { title: t('nav.titles.type'), key: 'type', sortable: true },
   { title: 'Name', key: 'name', sortable: true },
-  { title: 'Missing', key: 'missing', sortable: false },
-  { title: 'Backed Up', key: 'date', sortable: true },
+  { title: t('nav.titles.missing'), key: 'missing', sortable: false },
+  { title: t('nav.titles.backedUp'), key: 'date', sortable: true },
   { title: '', key: 'actions', sortable: false },
 ]
 

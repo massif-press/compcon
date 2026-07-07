@@ -64,6 +64,8 @@ import { Organization } from '@/classes/pilot/components'
 import CustomReservePanel from './components/_CustomReservePanel.vue'
 import DowntimeProjectPanel from './components/_DowntimeProjectPanel.vue'
 import OrganizationPanel from './components/_OrganizationPanel.vue'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const props = defineProps<{ pilot: Record<string, any> }>()
 
@@ -74,9 +76,9 @@ const ProjectDialog = ref(false)
 const OrgDialog = ref(false)
 
 const headers = [
-  { title: 'Content Pack', key: 'LcpName' },
+  { title: t('pm.titles.contentPack'), key: 'LcpName' },
   { title: 'Name', key: 'Name' },
-  { title: 'Type', key: 'Type' },
+  { title: t('pm.titles.type'), key: 'Type' },
 ]
 
 const options = {

@@ -9,7 +9,8 @@
     @select="stageSelect($event)"
     @equip="handleEquip($event)">
     <template #header>
-      <div class="heading h3 text-center text-accent">{{ $t('compendium.categories.mechWeapons') }}</div>
+      <div class="heading h3 text-center text-accent">{{ $t('compendium.categories.mechWeapons') }}
+      </div>
     </template>
     <template #top>
       <v-row>
@@ -83,7 +84,8 @@
               {{ $t('pm.loadout.unionARMORYEQUIPMENTAUTHORIZATIONFRAMEEQUIPMENT') }}
             </div>
             <div class="heading h2 text-disabled">{{ $t('ui.widget.noSelection') }}</div>
-            <div class="flavor-text overline text-error">{{ $t('pm.loadout.equipmentIDINVALIDORMISSING') }}</div>
+            <div class="flavor-text overline text-error">{{
+              $t('pm.loadout.equipmentIDINVALIDORMISSING') }}</div>
           </div>
         </v-col>
         <v-col cols="12"
@@ -113,6 +115,8 @@ import Tag from '@/classes/Tag'
 import WeaponSlot from '@/classes/mech/components/mount/WeaponSlot'
 import { useLcpFilter } from '../../_composables/useLcpFilter'
 import SelectorFilterSwitches from '../../_SelectorFilterSwitches.vue'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const props = defineProps<{
   weaponSlot: WeaponSlot
@@ -136,14 +140,14 @@ const options = reactive({
 })
 
 const headers = [
-  { title: 'Manufacturer', align: 'left', key: 'Source' },
-  { title: 'Weapon', align: 'left', key: 'Name' },
+  { title: t('pm.titles.manufacturer'), align: 'left', key: 'Source' },
+  { title: t('pm.titles.weapon'), align: 'left', key: 'Name' },
   { title: 'License', align: 'left', key: 'LicenseString' },
-  { title: 'Size', align: 'left', key: 'Size' },
-  { title: 'Type', align: 'left', key: 'WeaponTypes' },
-  { title: 'Tags', align: 'center', key: 'Tags' },
-  { title: 'Range', align: 'left', key: 'Range' },
-  { title: 'Damage', align: 'left', key: 'Damage' },
+  { title: t('pm.titles.size'), align: 'left', key: 'Size' },
+  { title: t('pm.titles.type'), align: 'left', key: 'WeaponTypes' },
+  { title: t('pm.titles.tags'), align: 'center', key: 'Tags' },
+  { title: t('pm.titles.range'), align: 'left', key: 'Range' },
+  { title: t('pm.titles.damage'), align: 'left', key: 'Damage' },
 ]
 
 const selected = ref<MechWeapon | null>(null)
@@ -171,6 +175,8 @@ const availableWeapons = computed((): MechWeapon[] => {
   )
 
   if (isAICapacityFull()) i = i.filter(x => !x.IsAI)
+
+  if (!showOverSP.value) i = i.filter(x => x.SP <= props.mech.FreeSP)
 
   return i
 })

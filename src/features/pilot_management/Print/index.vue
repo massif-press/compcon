@@ -107,6 +107,8 @@ import { PilotStore, CompendiumStore } from '@/stores';
 import { Pilot } from '@/classes/pilot/Pilot'
 import { Mech } from '@/classes/mech/Mech'
 import PageBreak from './components/PageBreak.vue';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 defineOptions({ name: 'CombinedPrint' })
 

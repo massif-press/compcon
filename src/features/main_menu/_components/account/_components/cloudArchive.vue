@@ -286,29 +286,29 @@ const updateLoading = ref(false)
 const working = ref(false)
 const headers = ref([
       { title: 'Created', key: 'created' },
-      { title: 'Source', key: 'source' },
-      { title: 'Size', key: 'size' },
-      { title: 'Preserve', key: 'preserve' },
+      { title: t('mainMenu.titles.source'), key: 'source' },
+      { title: t('mainMenu.titles.size'), key: 'size' },
+      { title: t('mainMenu.titles.preserve'), key: 'preserve' },
       { title: '', key: 'actions', sortable: false, width: '155px' },
     ])
 const pruneSetting = ref(30)
 const pruneOptions = ref([
-      { title: 'Keep All', subtitle: 'Do not automatically delete any archives.', value: -1 },
-      { title: 'Last 30', subtitle: 'Keep the 30 newest archives.', value: 30 },
-      { title: 'Last 10', subtitle: 'Keep the 10 newest archives.', value: 10 },
-      { title: 'Last 5', subtitle: 'Keep the 5 newest archives.', value: 5 },
+      { title: t('mainMenu.titles.keepAll'), subtitle: t('mainMenu.subtitles.doNotAutomaticallyDeleteAnyArchives'), value: -1 },
+      { title: t('mainMenu.titles.last30'), subtitle: t('mainMenu.subtitles.keepThe30NewestArchives'), value: 30 },
+      { title: t('mainMenu.titles.last10'), subtitle: t('mainMenu.subtitles.keepThe10NewestArchives'), value: 10 },
+      { title: t('mainMenu.titles.last5'), subtitle: t('mainMenu.subtitles.keepThe5NewestArchives'), value: 5 },
       {
-        title: 'Most Recent Only',
-        subtitle: 'Keep only the most recent archive.',
+        title: t('mainMenu.titles.mostRecentOnly'),
+        subtitle: t('mainMenu.subtitles.keepOnlyTheMostRecentArchive'),
         value: 1,
       },
     ])
 const backupFrequency = ref([
-      { title: 'Off', value: 'none' },
-      { title: 'On App Start', value: 'appstart' },
-      { title: 'Daily', value: 'daily' },
-      { title: 'Weekly', value: 'weekly' },
-      { title: 'Monthly', value: 'monthly' },
+      { title: t('mainMenu.titles.off'), value: 'none' },
+      { title: t('mainMenu.titles.onAppStart'), value: 'appstart' },
+      { title: t('mainMenu.titles.daily'), value: 'daily' },
+      { title: t('mainMenu.titles.weekly'), value: 'weekly' },
+      { title: t('mainMenu.titles.monthly'), value: 'monthly' },
     ])
 const prunePct = ref(50)
 

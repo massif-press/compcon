@@ -105,6 +105,8 @@ import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useDisplay } from 'vuetify'
 import { EncounterStore, PilotSheetStore } from '@/stores';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const router = useRouter()
 
 const _display = useDisplay()
@@ -115,36 +117,36 @@ const dialog = ref(true)
 const headers = ref([
       {
         icon: 'cc:lancer',
-        title: 'LANCER',
+        title: t('active.titles.lancer'),
       },
       {
         icon: 'cc:nhp',
-        title: 'GAME MASTER',
+        title: t('active.titles.gameMaster'),
       },
       {
         icon: 'cc:diasporan',
-        title: 'OBSERVER',
-        subtitle: 'In Development (release v3.2)',
+        title: t('active.titles.observer'),
+        subtitle: t('active.subtitles.inDevelopmentReleaseV32'),
       },
     ])
 const lists = ref([
       [
         {
-          title: 'Active Character Sheets',
-          subtitle: 'Create, manage, and run active Player Character sheets',
+          title: t('active.titles.activeCharacterSheets'),
+          subtitle: t('active.subtitles.createManageAndRunActivePlayer'),
           icon: 'cc:pilot',
           to: '/active-mode/sheet-manager',
         },
         {
           id: 'last-sheet',
           small: true,
-          subtitle: 'resume last',
+          subtitle: t('active.subtitles.resumeLast'),
           icon: 'mdi-restart',
           to: '',
         },
         {
-          title: 'Join an Online Table',
-          subtitle: 'Feature in development (v3.2)',
+          title: t('active.titles.joinAnOnlineTable'),
+          subtitle: t('active.subtitles.featureInDevelopmentV32'),
           disabled: true,
           icon: 'cc:squad',
           to: '',
@@ -152,28 +154,28 @@ const lists = ref([
       ],
       [
         {
-          title: 'Local Encounters',
-          subtitle: 'Create, manage, and run local Encounters for your Lancer games',
+          title: t('active.titles.localEncounters'),
+          subtitle: t('active.subtitles.createManageAndRunLocalEncounters'),
           icon: 'cc:encounter',
           to: '/active-mode/manage-encounters',
         },
         {
           id: 'last-local',
           small: true,
-          subtitle: 'resume last',
+          subtitle: t('active.subtitles.resumeLast'),
           icon: 'mdi-restart',
           to: '',
         },
         {
-          title: 'Local Campaigns',
-          subtitle: 'Feature in development (v3.1)',
+          title: t('active.titles.localCampaigns'),
+          subtitle: t('active.subtitles.featureInDevelopmentV31'),
           disabled: true,
           icon: 'cc:campaign',
           to: '',
         },
         {
-          title: 'Host an Online Table',
-          subtitle: 'Feature in development (v3.2)',
+          title: t('active.titles.hostAnOnlineTable'),
+          subtitle: t('active.subtitles.featureInDevelopmentV32'),
           disabled: true,
           icon: 'mdi-lan',
           to: '',
@@ -181,21 +183,21 @@ const lists = ref([
       ],
       [
         {
-          title: 'Spectator Mode',
-          subtitle: 'Feature in development (v3.2)',
+          title: t('active.titles.spectatorMode'),
+          subtitle: t('active.subtitles.featureInDevelopmentV32'),
           disabled: true,
           icon: 'mdi-monitor-share',
           to: '',
         },
         {
           small: true,
-          subtitle: 'resume last',
+          subtitle: t('active.subtitles.resumeLast'),
           icon: 'mdi-restart',
           to: '',
         },
         {
-          title: 'Campaign Display',
-          subtitle: 'Feature in development (v3.2)',
+          title: t('active.titles.campaignDisplay'),
+          subtitle: t('active.subtitles.featureInDevelopmentV32'),
           disabled: true,
           icon: 'mdi-monitor-dashboard',
           to: '',

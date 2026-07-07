@@ -150,15 +150,15 @@ const { allGear, fID } = usePLCard(props)
 const base = ref<InstanceType<typeof PlCardBase> | null>(null)
 
 const headers = ref([
-  { title: 'Content Pack', key: 'LcpName' },
-  { title: 'Type', key: 'Type' },
-  { title: 'Item', key: 'Name' },
-  { title: 'Armor', key: 'ArmorString' },
-  { title: 'HP Bonus', key: 'HpString' },
-  { title: 'E-Defense', key: 'EdefString' },
-  { title: 'Evasion', key: 'EvasionString' },
-  { title: 'Speed', key: 'SpeedString' },
-  { title: 'Tags', align: 'center', key: 'Tags' },
+  { title: t('pm.titles.contentPack'), key: 'LcpName' },
+  { title: t('pm.titles.type'), key: 'Type' },
+  { title: t('pm.titles.item'), key: 'Name' },
+  { title: t('pm.titles.armor'), key: 'ArmorString' },
+  { title: t('common.hpBonus'), key: 'HpString' },
+  { title: t('pm.titles.eDefense'), key: 'EdefString' },
+  { title: t('pm.titles.evasion'), key: 'EvasionString' },
+  { title: t('pm.titles.speed'), key: 'SpeedString' },
+  { title: t('pm.titles.tags'), align: 'center', key: 'Tags' },
 ])
 
 const options = ref({

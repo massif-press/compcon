@@ -108,6 +108,8 @@ import * as _ from 'lodash-es'
 import { PilotStore, PilotGroupStore } from '../../store'
 import exportAsJson from '@/util/jsonExport'
 import { PilotGroup } from '../../store/PilotGroup'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 defineProps<{ type: string }>()
 
@@ -117,10 +119,10 @@ const sel: string[] = []
 
 const headers = computed(() => [
   { title: 'Name', key: 'Name', sortable: true },
-  { title: 'Callsign', key: 'Callsign', sortable: true },
-  { title: 'LL', key: 'Level', sortable: true },
-  { title: 'Mech', key: 'Mech', sortable: true },
-  { title: 'Group', key: 'group', sortable: true, value: (item: any) => getPilotGroup(item) },
+  { title: t('pm.titles.callsign'), key: 'Callsign', sortable: true },
+  { title: t('pm.titles.ll'), key: 'Level', sortable: true },
+  { title: t('pm.titles.mech'), key: 'Mech', sortable: true },
+  { title: t('pm.titles.group'), key: 'group', sortable: true, value: (item: any) => getPilotGroup(item) },
   { title: 'Updated', key: 'LastUpdate', sortable: true },
 ])
 

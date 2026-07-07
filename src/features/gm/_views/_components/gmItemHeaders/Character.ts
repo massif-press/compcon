@@ -1,7 +1,7 @@
 // export default [
 //   { title: '', value: 'ItemType', align: 'start', width: '1px', groupable: false },
 //   {
-//     title: 'Name',
+//     title: 'gm.titles.name',
 //     align: 'start',
 //     value: 'Name',
 //     groupable: false,
@@ -11,23 +11,23 @@
 export default [
   { title: '', value: 'ItemType', align: 'start', width: '1px', groupable: false },
   {
-    title: 'Name',
+    title: 'gm.titles.name',
     align: 'start',
     value: 'Name',
     groupable: false,
   },
   {
-    title: 'Alias',
+    title: 'gm.titles.alias',
     value: 'Alias',
     groupable: false,
   },
   {
-    title: 'Title',
+    title: 'gm.titles.title',
     value: 'Title',
     groupable: false,
   },
   {
-    title: 'Pronouns',
+    title: 'gm.titles.pronouns',
     value: 'Pronouns',
     groupable: true,
   },

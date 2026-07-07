@@ -308,6 +308,8 @@ import MechCardLoadoutField from '@/features/pilot_management/PilotSheet/section
 import PilotListItemDetails from '@/features/pilot_management/Roster/components/_pilotListItemDetails.vue';
 import { PilotStore, PilotGroupStore, PilotSheetStore } from '@/stores';
 import { useDisplay } from 'vuetify';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const router = useRouter()
 
 const { smAndDown: mobile } = useDisplay()
@@ -319,7 +321,7 @@ const group = ref(undefined)
 const campaign = ref('')
 
 const groups = computed(() => {
-  const groups = [{ title: 'All Pilots', value: null }];
+  const groups = [{ title: t('active.titles.allPilots'), value: null }];
   return [...groups,
   ...(PilotGroupStore().PilotGroups as PilotGroup[]).map((g: PilotGroup) => ({ title: g.Name, value: g.ID }))
   ];

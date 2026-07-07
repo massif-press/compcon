@@ -49,6 +49,8 @@ import { computed, ref } from 'vue'
 import { Pilot } from '@/classes/pilot/Pilot'
 import BackgroundSelector from '../../../../_components/selectors/BackgroundSelector.vue';
 import { useDisplay } from 'vuetify';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 defineOptions({ name: 'ident-block' })
 
@@ -59,12 +61,12 @@ const props = defineProps<{
 }>()
 
 const pilotStatuses = ref([
-      { title: 'Active', value: 'ACTIVE' },
-      { title: 'Inactive', value: 'INACTIVE' },
-      { title: 'Retired', value: 'RET' },
-      { title: 'Missing In Action', value: 'MIA' },
-      { title: 'Killed In Action', value: 'KIA' },
-      { title: 'Unknown', value: 'UNKNOWN' },
+      { title: t('pm.titles.active'), value: 'ACTIVE' },
+      { title: t('pm.titles.inactive'), value: 'INACTIVE' },
+      { title: t('pm.titles.retired'), value: 'RET' },
+      { title: t('pm.titles.missingInAction'), value: 'MIA' },
+      { title: t('pm.titles.killedInAction'), value: 'KIA' },
+      { title: t('pm.titles.unknown'), value: 'UNKNOWN' },
     ])
 const noteColor = ref('')
 const notification = ref('')

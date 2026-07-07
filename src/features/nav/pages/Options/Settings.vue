@@ -363,10 +363,10 @@ const themeContributors = {
 const user = computed(() => UserStore().User)
 
 const fonts = [
-  { label: 'Inter (v3 default)', value: 'inter' },
-  { label: 'Noto Sans (v3 alt)', value: 'noto' },
-  { label: 'Helvetica (v2 default)', value: 'helvetica' },
-  { label: 'OpenDyslexic (experimental)', value: 'opendyslexic' },
+  { label: t('nav.fields.interV3Default'), value: 'inter' },
+  { label: t('nav.fields.notoSansV3Alt'), value: 'noto' },
+  { label: t('nav.fields.helveticaV2Default'), value: 'helvetica' },
+  { label: t('nav.fields.opendyslexicExperimental'), value: 'opendyslexic' },
 ]
 
 const themes = Object.keys(allThemes).map(x => ({

@@ -81,7 +81,7 @@
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 import { ref } from 'vue'
-import { notify } from '@/util/notify'
+import { notify, notifyError } from '@/util/notify'
 import logger from '@/user/logger';
 import { confirmSignUp, resendSignUpCode } from 'aws-amplify/auth';
 
@@ -131,10 +131,12 @@ async function confirm() {
           showError.value = true;
           error.value = 'Error confirming account. Please try again.';
         }
-      } catch (error: any) {
-        logger.error(`error confirming sign up: ${error}`, this);
+      } catch (err: any) {
+        logger.error(`error confirming sign up: ${err}`, this);
+        loading.value = false;
         showError.value = true;
-        error.value = error.message;
+        error.value = err.message;
+        notifyError(err.message);
       }
     }
 async function resend() {
@@ -148,10 +150,11 @@ async function resend() {
 
         sentCode.value = true;
         preFill.value = true;
-      } catch (error: any) {
-        logger.error(`error resending code: ${error}`, this, error);
+      } catch (err: any) {
+        logger.error(`error resending code: ${err}`, this, err);
         showError.value = true;
-        error.value = error.message;
+        error.value = err.message;
+        notifyError(err.message);
       }
     }
 </script>

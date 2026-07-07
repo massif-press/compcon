@@ -36,6 +36,8 @@ import { computed, ref } from 'vue'
 import { orderBy } from 'lodash-es';
 import { CompendiumStore } from '@/stores';
 import { NpcClass } from '@/classes/npc/class/NpcClass';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const keymap = {
   hull: 'Hull',
   agi: 'Agi',
@@ -68,7 +70,7 @@ const classes = computed(() => {
 })
 const headers = computed(() => {
   const h = [
-    { title: 'Role', key: 'Icon' },
+    { title: t('compendium.titles.role'), key: 'Icon' },
     { title: 'Name', key: 'Name' },
   ] as any[];
   for (const key in keymap) {

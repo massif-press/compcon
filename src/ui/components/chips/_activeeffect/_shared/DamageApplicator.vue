@@ -92,6 +92,8 @@ import { useDisplay } from 'vuetify';
 import DiceRollInterface from './DiceRollInterface.vue';
 import DamageEffectOptions from './DamageEffectOptions.vue';
 import { DamageEvent } from '@/classes/components/feature/active_effects/effect_events/damageEvent';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const { mdAndDown: mobile } = useDisplay()
 
@@ -104,11 +106,11 @@ const props = withDefaults(defineProps<{
 })
 
 const damageOptions = [
-  { title: 'Kinetic', value: 'kinetic' },
-  { title: 'Energy', value: 'energy' },
-  { title: 'Explosive', value: 'explosive' },
-  { title: 'Heat', value: 'heat' },
-  { title: 'Burn', value: 'burn' },
+  { title: t('ui.titles.kinetic'), value: 'kinetic' },
+  { title: t('ui.titles.energy'), value: 'energy' },
+  { title: t('ui.titles.explosive'), value: 'explosive' },
+  { title: t('ui.titles.heat'), value: 'heat' },
+  { title: t('ui.titles.burn'), value: 'burn' },
 ]
 
 function damageHints(d: DamageEvent) {

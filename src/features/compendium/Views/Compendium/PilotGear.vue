@@ -14,33 +14,35 @@
 import { computed, ref } from 'vue'
 import { orderBy } from 'lodash-es';
 import { CompendiumStore, UserStore } from '@/stores';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const headers = ref({
       PilotArmor: [
-        { title: 'Content Pack', key: 'LcpName' },
-        { title: 'Type', key: 'Type' },
-        { title: 'Item', key: 'Name' },
-        { title: 'Armor', key: 'ArmorString' },
-        { title: 'HP Bonus', key: 'HpString' },
-        { title: 'E-Defense', key: 'EdefString' },
-        { title: 'Evasion', key: 'EvasionString' },
-        { title: 'Speed', key: 'SpeedString' },
-        { title: 'Tags', align: 'center', key: 'Tags' },
+        { title: t('compendium.titles.contentPack'), key: 'LcpName' },
+        { title: t('compendium.titles.type'), key: 'Type' },
+        { title: t('compendium.titles.item'), key: 'Name' },
+        { title: t('compendium.titles.armor'), key: 'ArmorString' },
+        { title: t('common.hpBonus'), key: 'HpString' },
+        { title: t('compendium.titles.eDefense'), key: 'EdefString' },
+        { title: t('compendium.titles.evasion'), key: 'EvasionString' },
+        { title: t('compendium.titles.speed'), key: 'SpeedString' },
+        { title: t('compendium.titles.tags'), align: 'center', key: 'Tags' },
       ],
       PilotWeapon: [
-        { title: 'Content Pack', key: 'LcpName' },
-        { title: 'Type', key: 'Type' },
-        { title: 'Item', key: 'Name' },
-        { title: 'Range', key: 'Range' },
-        { title: 'Damage', key: 'Damage' },
-        { title: 'Tags', align: 'center', key: 'Tags' },
+        { title: t('compendium.titles.contentPack'), key: 'LcpName' },
+        { title: t('compendium.titles.type'), key: 'Type' },
+        { title: t('compendium.titles.item'), key: 'Name' },
+        { title: t('compendium.titles.range'), key: 'Range' },
+        { title: t('compendium.titles.damage'), key: 'Damage' },
+        { title: t('compendium.titles.tags'), align: 'center', key: 'Tags' },
       ],
       PilotGear: [
-        { title: 'Content Pack', key: 'LcpName' },
-        { title: 'Type', key: 'Type' },
-        { title: 'Item', key: 'Name' },
-        { title: 'Uses', key: 'MaxUses' },
-        { title: 'Tags', align: 'center', key: 'Tags' },
+        { title: t('compendium.titles.contentPack'), key: 'LcpName' },
+        { title: t('compendium.titles.type'), key: 'Type' },
+        { title: t('compendium.titles.item'), key: 'Name' },
+        { title: t('compendium.titles.uses'), key: 'MaxUses' },
+        { title: t('compendium.titles.tags'), align: 'center', key: 'Tags' },
       ],
     })
 const options = ref({

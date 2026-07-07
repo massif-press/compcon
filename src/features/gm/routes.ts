@@ -26,20 +26,20 @@ const routes = [
         name: 'gm-toolkit-home',
         component: Home,
         searchData: {
-          title: 'GM Toolkit',
+          title: 'gm.titles.gmToolkit',
           icon: 'cc:encounter',
         },
-        meta: { title: 'GM Toolkit' },
+        meta: { title: 'gm.titles.gmToolkit' },
       },
       {
         path: 'campaigns',
         name: 'gm-campaigns',
         component: Campaigns,
         searchData: {
-          title: 'Campaign Editor',
+          title: 'gm.titles.campaignEditor',
           icon: 'cc:encounter',
         },
-        meta: { title: 'Campaign Editor' },
+        meta: { title: 'gm.titles.campaignEditor' },
       },
       {
         path: 'campaigns/edit/:id',
@@ -53,10 +53,10 @@ const routes = [
         props: true,
         component: NpcRoster,
         searchData: {
-          title: 'NPC Roster',
+          title: 'gm.titles.npcRoster',
           icon: 'cc:encounter',
         },
-        meta: { title: 'NPC Roster' },
+        meta: { title: 'gm.titles.npcRoster' },
       },
       {
         path: 'encounters/:id?',
@@ -64,10 +64,10 @@ const routes = [
         component: Encounters,
         props: true,
         searchData: {
-          title: 'Encounter Editor',
+          title: 'gm.titles.encounterEditor',
           icon: 'cc:encounter',
         },
-        meta: { title: 'Encounter Editor' },
+        meta: { title: 'gm.titles.encounterEditor' },
       },
       {
         path: 'narrative/:type?/:id?',
@@ -75,10 +75,10 @@ const routes = [
         props: true,
         component: NarrativeIndex,
         searchData: {
-          title: 'Narrative Item Manager',
+          title: 'gm.titles.narrativeItemManager',
           icon: 'cc:encounter',
         },
-        meta: { title: 'Narrative Item Manager' },
+        meta: { title: 'gm.titles.narrativeItemManager' },
       },
       {
         path: 'narrative/graph',

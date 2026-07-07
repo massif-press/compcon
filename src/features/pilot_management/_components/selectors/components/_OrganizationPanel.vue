@@ -71,9 +71,7 @@
               {{ $t('pm.selectors.influence') }}
               <cc-tooltip simple
                 inline
-                content="Influence is your organization’s size, reach, wealth, and reputation.
-                Influence be used to acquire assets, create opportunities, or sway public
-                opinion.">
+                :content="$t('pm.tooltips.influenceIsYourOrganizationsSizeReach')">
                 <v-icon size="small"
                   end>mdi-help-circle-outline</v-icon>
               </cc-tooltip>
