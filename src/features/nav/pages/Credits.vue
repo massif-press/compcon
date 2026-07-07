@@ -40,7 +40,10 @@
         {{ $t('nav.credits.patronThanks') }}
         <a v-html-safe="'support'"
           target="_blank"
-          href="https://www.patreon.com/compcon" />
+          rel="noopener noreferrer"
+          href="https://www.patreon.com/compcon">
+          {{ $t('nav.credits.support') }}
+        </a>
         {{ $t('nav.credits.supportOf') }}
       </span>
     </div>
@@ -53,37 +56,37 @@
         indeterminate />
     </div>
     <div v-else>
-      <div v-for="t in tiers"
-        :key="t"
+      <div v-for="tier in tiers"
+        :key="tier"
         class="mb-6">
         <cc-title small
-          class="my-2">{{ t.toUpperCase() }} {{ $t('nav.credits.tier') }}</cc-title>
+          class="my-2">{{ tier.toUpperCase() }} {{ $t('nav.credits.tier') }}</cc-title>
         <v-row align="center"
           justify="space-around"
           dense>
           <v-col
-            v-for="(p, pIdx) in patrons.filter((x) => x.tier.toLowerCase().includes(t.toLowerCase()))"
+            v-for="(p, pIdx) in patrons.filter((x) => x.tier.toLowerCase().includes(tier.toLowerCase()))"
             :key="`patron-${pIdx}`"
-            :cols="getCols(t)">
-            <component v-if="isCutout(p)"
-              :is="getComponent(p)"
+            :cols="getCols(tier)">
+            <component :is="getComponent(p)"
+              v-if="isCutout(p)"
               :info="p" />
             <v-chip v-else
               border
               class="heading h3 rounded-e-0 cc-panel-clip"
-              :class="t.toLowerCase()"
+              :class="tier.toLowerCase()"
               :size="!mobile ? 'x-large' : 'default'"
               color="background"
               variant="elevated"
               style="width: 100%">
-              <v-avatar :color="getColor(t)"
+              <v-avatar :color="getColor(tier)"
                 start>
-                <v-icon :icon="`cc:${t.toLowerCase()}`"
+                <v-icon :icon="`cc:${tier.toLowerCase()}`"
                   :size="mobile ? 32 : 40" />
               </v-avatar>
               {{ cleanName(p) }}
             </v-chip>
-          </v-col :cols="getCols(t)">
+          </v-col>
         </v-row>
       </div>
     </div>

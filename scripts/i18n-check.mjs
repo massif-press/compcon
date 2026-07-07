@@ -63,6 +63,8 @@ const propLiterals = []
 for (const file of collectVue('src')) {
   if (LITERAL_SKIP_FILES.some(s => file.replace(/\\/g, '/').includes(s))) continue
   const src = readFileSync(file, 'utf8')
+  // honor a document-wide disable of the rule this check mirrors
+  if (/<!--\s*eslint-disable\s+(?:[^>]*\s)?@intlify\/vue-i18n\/no-raw-text/.test(src)) continue
   const tEnd = src.indexOf('<script')
   const tmpl = tEnd === -1 ? src : src.slice(0, tEnd)
   for (const attr of LITERAL_ATTRS) {
