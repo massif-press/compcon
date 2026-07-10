@@ -60,12 +60,13 @@
         :key="tier"
         class="mb-6">
         <cc-title small
-          class="my-2">{{ tier.toUpperCase() }} {{ $t('nav.credits.tier') }}</cc-title>
+          class="my-2">{{ $t('nav.credits.tier', { patreonTierName: tier.toUpperCase() })
+          }}</cc-title>
         <v-row align="center"
           justify="space-around"
           dense>
           <v-col
-            v-for="(p, pIdx) in patrons.filter((x) => x.tier.toLowerCase().includes(tier.toLowerCase()))"
+            v-for="(p, pIdx) in patrons.filter((x) => x.tier.toLowerCase().includes(tier.toLowerCase())).sort((a, b) => getSortOrder(a, b))"
             :key="`patron-${pIdx}`"
             :cols="getCols(tier)">
             <component :is="getComponent(p)"
@@ -100,6 +101,7 @@ import { useDisplay } from 'vuetify'
 import creditsData from './credits.json'
 import DevBadge from './SupporterBadges/Dev.vue'
 import KanakovtBadge from './SupporterBadges/kanakovt.vue'
+import VenabapBadge from './SupporterBadges/venabap.vue'
 import { getPatreonSubscribers } from '@/user/oauth'
 
 const { smAndDown: mobile } = useDisplay()
@@ -119,14 +121,27 @@ onMounted(async () => {
   loading.value = false
 })
 
+const cutoutNames = ['kanakovt', 'venabap']
+
 function isCutout(patron: any) {
-  return cleanName(patron).toLowerCase() === 'kanakovt'
+  return cutoutNames.includes(cleanName(patron).toLowerCase())
 }
 
 function getComponent(patron: any) {
   // monist cutouts
   if (cleanName(patron).toLowerCase() === 'kanakovt') return KanakovtBadge
+  if (cleanName(patron).toLowerCase() === 'venabap') return VenabapBadge
   return 'v-col'
+}
+
+function getSortOrder(a: any, b: any) {
+  const aName = cleanName(a).toLowerCase()
+  const bName = cleanName(b).toLowerCase()
+  const rank = (n: string) => (n === 'kanakovt' ? 0 : n === 'venabap' ? 1 : 2)
+  const ra = rank(aName)
+  const rb = rank(bName)
+  if (ra !== rb) return ra - rb
+  return aName.localeCompare(bName)
 }
 
 function cleanName(patron: any) {

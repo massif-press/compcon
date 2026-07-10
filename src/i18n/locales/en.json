@@ -340,7 +340,7 @@
       "patronThanks": "The continued development of @:{'common.appName'} would not be possible without the generous",
       "support": "support",
       "supportOf": "of",
-      "tier": "Tier",
+      "tier": "{patreonTierName} Tier",
       "anonymousPatron": "Anonymous Patron"
     },
     "achievements": {
