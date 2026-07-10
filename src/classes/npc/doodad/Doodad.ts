@@ -16,6 +16,7 @@ import { Rules } from '@/classes/utility/Rules'
 class DoodadData extends NpcData implements IInstanceableData {
   npcType: string = 'unit'
   combat_data: any = {}
+  ui_state?: Record<string, boolean>
 }
 
 class Doodad extends Npc implements ICombatant, IInstanceable {
@@ -26,11 +27,13 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
   public MandatoryStats: string[] = []
 
   public IsEncounterInstance = false
+  public UIState: Record<string, boolean> = {}
 
   public constructor(data?: DoodadData) {
     super(data)
 
     this.InstanceID = data?.instanceId
+    this.UIState = data?.ui_state || {}
 
     this._name = data?.name || i18n.global.t('classes.newDoodad')
     this.CombatController = new CombatController(this)
@@ -84,6 +87,7 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
       note: doodad.Note,
       config: doodad.LcpConfig,
       combat_data: {} as any,
+      ui_state: Object.keys(doodad.UIState).length ? doodad.UIState : undefined,
     } as DoodadData
 
     SaveController.Serialize(doodad, data)

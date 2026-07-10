@@ -6,12 +6,12 @@
       tabindex="0"
       :aria-label="$t('common.a11y.toggleNavigation')"
       :aria-expanded="showNav"
-      :style="`left: ${showNav ? (mobile ? '322' : '347') : '0'}px; top: 0; bottom: 0;  width: ${showNav ? '14' : '22'}px;`"
+      :style="`left: ${showNav ? (mobile ? '322' : '349') : '0'}px; top: 30%; bottom: 30%; width: ${showNav ? '14' : '22'}px; border-top-right-radius: 14px; border-bottom-right-radius: 14px; corner-shape: bevel;`"
       @click="toggleNav()"
       @keydown.enter="toggleNav()"
       @keydown.space.prevent="toggleNav()">
-      <div style="position: absolute; z-index: 999"
-        :style="`left: ${showNav ? '-9' : '2'}px; top: 50% `">
+      <div class="open-panel-chevron"
+        :style="`left: ${showNav ? '-9' : '2'}px;`">
         <cc-button :icon="showNav ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'"
           color="primary"
           size="large"
@@ -281,6 +281,12 @@ provide(CompendiumBrowserKey, {
 
 .open-panel:hover {
   background-color: rgb(var(--v-theme-accent))
+}
+
+.open-panel-chevron {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .open-panel :deep(.v-btn) {

@@ -340,7 +340,7 @@
       "patronThanks": "The continued development of @:{'common.appName'} would not be possible without the generous",
       "support": "support",
       "supportOf": "of",
-      "tier": "@:{'common.tier'}",
+      "tier": "Tier",
       "anonymousPatron": "Anonymous Patron"
     },
     "achievements": {
@@ -1299,7 +1299,7 @@
     "newSheet": {
       "llLevel": "LL{n}",
       "campaignName": "Campaign Name",
-      "createAndLaunch": "Create and Launch ACtive Mode"
+      "createAndLaunch": "Create and Launch Active Mode"
     },
     "sheetItem": {
       "archiveSheet": "Archive Sheet",

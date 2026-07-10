@@ -198,11 +198,12 @@ const showCommandPanel = computed(() => {
 const collapsed = computed({
   get() {
     const key = props.item.ID
-    if (key in props.unit.UIState) return props.unit.UIState[key]
+    if (props.unit.UIState && key in props.unit.UIState) return props.unit.UIState[key]
     if (props.item.IsV2 || props.item.FlavorName || props.item.FlavorDescription) return false
     return !showCommandPanel.value
   },
   set(val: boolean) {
+    if (!props.unit.UIState) return
     props.unit.UIState[props.item.ID] = val
     props.unit.SaveController.save()
   },

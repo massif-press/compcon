@@ -20,6 +20,7 @@ class EidolonLayerSaveData implements IFeatureContainer, ICombatant {
   public SaveController: SaveController
   public FeatureController: FeatureController
   public CombatController: CombatController
+  public UIState: Record<string, boolean> = {}
 
   private _description: string
 
@@ -49,12 +50,14 @@ class EidolonLayerSaveData implements IFeatureContainer, ICombatant {
       description: string
       stats?: IStatData
       shard?: IStatData
+      ui_state?: Record<string, boolean>
     },
     parent: Eidolon
   ) {
     this.Parent = parent
     this.ID = data.id
     this.Name = data.data.name || data.id
+    this.UIState = data.ui_state || {}
 
     this.SaveController = parent.SaveController
     this.CombatController = new CombatController(this)
@@ -162,12 +165,14 @@ class EidolonLayerSaveData implements IFeatureContainer, ICombatant {
       description: string
       stats?: IStatData
       shard?: IStatData
+      ui_state?: Record<string, boolean>
     } = {
       id: layerSave.Layer.ID,
       data: layerSave.Layer.Data,
       description: layerSave.Description,
       shard: undefined,
       stats: {} as IStatData,
+      ui_state: Object.keys(layerSave.UIState).length ? layerSave.UIState : undefined,
     }
 
     StatController.Serialize(layerSave, data.stats!)
@@ -182,7 +187,14 @@ class EidolonLayerSaveData implements IFeatureContainer, ICombatant {
   }
 
   public static Deserialize(
-    data: { id: string; data: any; description: string; stats?: IStatData; shard?: IStatData },
+    data: {
+      id: string
+      data: any
+      description: string
+      stats?: IStatData
+      shard?: IStatData
+      ui_state?: Record<string, boolean>
+    },
     parent: Eidolon
   ): EidolonLayerSaveData {
     return new EidolonLayerSaveData(data, parent)
