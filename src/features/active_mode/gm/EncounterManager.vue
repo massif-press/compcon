@@ -410,8 +410,8 @@ async function launch(encounter: EncounterInstance) {
   router.push(`gm-encounter-runner/${encounter.ID}`);
 }
 
-function deleteEncounter(encounter: EncounterInstance | EncounterArchive) {
-  encounter.SaveController.Delete();
+async function deleteEncounter(encounter: EncounterArchive) {
+  await EncounterStore().RemoveEncounterArchive(encounter);
 }
 
 async function RemoveEncounter(encounter: EncounterInstance) {

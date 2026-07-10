@@ -1,6 +1,5 @@
 <template>
   <cc-panel :variant="hideTitle ? 'flat' : 'outlined'"
-    class="my-1"
     color="text-text"
     style="border-color: rgb(var(--v-theme-panel)) !important">
     <template v-if="!hideTitle"
@@ -173,30 +172,30 @@ const emit = defineEmits<{
 const showAll = ref(false)
 
 const showFull = computed(() => {
-      if (props.hideLocked) return showAll.value;
-      return true;
-    })
+  if (props.hideLocked) return showAll.value;
+  return true;
+})
 
 function isUnlocked(rank: number) {
-      if (props.selectable) {
-        if (rank === 1) return true;
-        if (Number(props.rank) + 1 >= rank) return true;
-        return false;
-      }
+  if (props.selectable) {
+    if (rank === 1) return true;
+    if (Number(props.rank) + 1 >= rank) return true;
+    return false;
+  }
 
-      if (!props.rank) {
-        return true;
-      }
+  if (!props.rank) {
+    return true;
+  }
 
-      return Number(props.rank) >= rank;
-    }
+  return Number(props.rank) >= rank;
+}
 function isCurrentlyUnlockable(rank: number) {
-      if (props.selectable) {
-        if (Number(props.rank) + 1 === rank) return true;
-      }
+  if (props.selectable) {
+    if (Number(props.rank) + 1 === rank) return true;
+  }
 
-      return false;
-    }
+  return false;
+}
 </script>
 
 <style scoped>

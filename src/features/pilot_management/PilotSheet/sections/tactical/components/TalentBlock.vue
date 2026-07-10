@@ -1,10 +1,12 @@
 <template>
   <div class="mb-4">
     <section-header :title="$t('common.talents')">
-      <cc-modal v-if="!pilot.IsRemote" :title="$t('pm.titles.setPilotTalents')" icon="cc:trait">
+      <cc-modal v-if="!pilot.IsRemote"
+        :title="$t('pm.titles.setPilotTalents')"
+        fullscreen
+        icon="cc:trait">
         <template #activator="{ open }">
-          <section-edit-chip
-            v-if="!pilot.IsRemote"
+          <section-edit-chip v-if="!pilot.IsRemote"
             :highlight="!pilot.TalentsController.HasFullTalents"
             :current="pilot.TalentsController.CurrentTalentPoints"
             :max="pilot.TalentsController.MaxTalentPoints"
@@ -17,8 +19,7 @@
 
     <v-container class="px-0">
       <no-data-block v-if="!pilot.TalentsController.Talents.length" />
-      <cc-talent
-        v-for="t in pilot.TalentsController.Talents"
+      <cc-talent v-for="t in pilot.TalentsController.Talents"
         :key="t.Talent.ID"
         hide-locked
         :talent="t.Talent"
@@ -38,9 +39,6 @@ import SectionEditChip from '../../components/SectionEditChip.vue';
 import NoDataBlock from '../../components/NoDataBlock.vue';
 import TalentSelector from '@/features/pilot_management/_components/selectors/TalentSelector.vue';
 import { Pilot } from '@/classes/pilot/Pilot'
-import { UserStore } from '@/stores';
-
-defineOptions({ name: 'skill-block' })
 
 const props = defineProps<{
   pilot: Pilot

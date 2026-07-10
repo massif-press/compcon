@@ -30,8 +30,6 @@ import { UserStore } from '@/stores';
 import ShareCodeResult from '@/shared/ShareCodeResult.vue';
 import { Pilot } from '@/classes/pilot/Pilot';
 
-defineOptions({ name: 'ShareCodeDialog' })
-
 const props = defineProps<{
   pilots: Pilot[]
 }>()

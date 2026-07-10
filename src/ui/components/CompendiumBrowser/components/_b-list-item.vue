@@ -1,14 +1,22 @@
 <template>
   <v-list-item tile
-    :class="selected && !equippable ? 'bg-primary' : ''"
-    :style="selected && equippable ? 'border: 3px solid rgb(var(--v-theme-primary)' : ''"
+    :class="selected && !equippable && !outline ? 'bg-primary' : ''"
+    :style="[
+      selected && equippable ? { border: '3px solid rgb(var(--v-theme-primary))' } : {},
+      selected && outline ? { border: '2px solid rgb(var(--v-theme-accent))' } : {},
+      active ? { backgroundColor: 'rgba(var(--v-theme-primary), 0.15)' } : {},
+    ]"
     height="0px"
     style="padding-left: 20px!important;"
     @click="$emit('clicked')">
     <template #title>
       <span class="text-button">
-        <slot v-if="compare && !selected"
-          name="checkbox" />
+        <v-checkbox-btn v-if="compare && !selected"
+          v-model="comparisons"
+          density="compact"
+          class="d-inline ml-3"
+          :value="item"
+          @click.stop />
         <v-icon v-else-if="item.IsExotic"
           start
           class="ml-3"
@@ -17,7 +25,7 @@
         <v-icon v-else
           start
           class="ml-3"
-          :icon="(item as CompendiumItem).Icon" />
+          :icon="iconOverride || (item as CompendiumItem).Icon" />
         {{ (item as CompendiumItem).Name }}
       </span>
     </template>
@@ -35,22 +43,23 @@
 </template>
 
 <script setup lang="ts">
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { CompendiumItem } from '@/classes/CompendiumItem'
 
 defineOptions({ name: 'BrowserListItem' })
 
-const props = withDefaults(defineProps<{
-  comparisons?: any[]
+defineProps<{
   item: CompendiumItem
   compare?: boolean
   selected?: boolean
   equippable?: boolean
-}>(), {
-  comparisons: () => []
-})
+  active?: boolean
+  outline?: boolean
+  iconOverride?: string
+}>()
 
-const emit = defineEmits<{
+const comparisons = defineModel<any[]>('comparisons', { default: () => [] })
+
+defineEmits<{
   'clicked': []
   'equip': [payload: any]
 }>()

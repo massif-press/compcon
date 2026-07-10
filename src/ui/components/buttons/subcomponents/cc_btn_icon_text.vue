@@ -5,9 +5,13 @@
     style="position: relative">
     <template #activator="{ props }">
       <div class="top-element d-inline-block"
+        role="button"
+        :tabindex="disabled ? -1 : 0"
         style="position: relative; align-content: center"
         v-bind="props"
-        @click.stop="!disabled && !loading && $emit('click', $event)">
+        @click.stop="!disabled && !loading && $emit('click', $event)"
+        @keydown.enter="!disabled && !loading && $emit('click', $event)"
+        @keydown.space="!disabled && !loading && $emit('click', $event)">
         <v-icon v-if="outlined"
           :size="iconSize * 1.85"
           :color="getColor"
@@ -40,40 +44,42 @@ import { useDisplay } from 'vuetify'
 import { Anchor } from 'vuetify';
 
 const props = defineProps({
-    color: { type: String },
-    loading: { type: Boolean },
-    disabled: { type: Boolean },
-    size: { type: String },
-    icon: { type: String, required: true, default: 'mdi-help' },
-    variant: { type: String, default: 'default' },
-    href: { type: String },
-    to: { type: [String, Object] },
-    target: { type: String },
-    tooltip: { type: String },
-    tooltipLocation: { type: String },
-  })
+  color: { type: String },
+  loading: { type: Boolean },
+  disabled: { type: Boolean },
+  size: { type: String },
+  icon: { type: String, required: true, default: 'mdi-help' },
+  variant: { type: String, default: 'default' },
+  href: { type: String },
+  to: { type: [String, Object] },
+  target: { type: String },
+  tooltip: { type: String },
+  tooltipLocation: { type: String },
+})
 
 const emit = defineEmits(['click'])
 
 const { smAndDown: mobile, xs: portrait } = useDisplay()
 
-const getColor = computed(() => {return props.disabled ? 'grey' : props.color;})
-const outlined = computed(() => {return props.variant === 'outlined';})
-const colorClass = computed(() => {return `bg-${props.color}`;})
-const iconSize = computed(() => {switch (props.size) {
-        case 'x-small':
-          return 17;
-        case 'small':
-          return 25;
-        case 'large':
-          return 35;
-        case 'x-large':
-          return 43;
-        case 'xx-large':
-          return 51;
-        default:
-          return 29;
-      }})
+const getColor = computed(() => { return props.disabled ? 'grey' : props.color; })
+const outlined = computed(() => { return props.variant === 'outlined'; })
+const colorClass = computed(() => { return `bg-${props.color}`; })
+const iconSize = computed(() => {
+  switch (props.size) {
+    case 'x-small':
+      return 17;
+    case 'small':
+      return 25;
+    case 'large':
+      return 35;
+    case 'x-large':
+      return 43;
+    case 'xx-large':
+      return 51;
+    default:
+      return 29;
+  }
+})
 const getTooltipLocation = computed(() => {
   if (!mobile.value && props.tooltipLocation) return props.tooltipLocation as Anchor
   return 'top' as Anchor

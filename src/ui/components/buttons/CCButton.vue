@@ -46,6 +46,7 @@ interface Props {
   variant?: string
   tooltip?: string
   tooltipIcon?: string
+  hideLight?: boolean
   prependIcon?: string
   appendIcon?: string
   optionsIcon?: string

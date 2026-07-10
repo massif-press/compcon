@@ -35,6 +35,7 @@
       <v-col>
         <cc-modal :title="$t('pm.titles.addStandardEquipment')"
           icon="mdi-star-circle-outline"
+          fullscreen
           clip>
           <template #activator="{ open }">
             <cc-button v-if="!pilot.IsRemote"
@@ -55,6 +56,7 @@
       <v-col>
         <cc-modal :title="$t('pm.sheet.addExoticEquipment')"
           icon="mdi-star-circle-outline"
+          fullscreen
           clip>
           <template #activator="{ open }">
             <cc-button size="x-small"
@@ -87,10 +89,10 @@ const props = defineProps<{
 }>()
 
 function addItem(item, close) {
-      props.pilot.AddSpecialEquipment(item);
-      close();
-    }
+  props.pilot.AddSpecialEquipment(item);
+  close();
+}
 function removeItem(item) {
-      props.pilot.RemoveSpecialEquipment(item);
-    }
+  props.pilot.RemoveSpecialEquipment(item);
+}
 </script>

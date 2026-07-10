@@ -263,7 +263,8 @@ abstract class CompendiumItem {
   }
 
   public get Tags(): Tag[] {
-    return [...this._baseTags, ...Tag.Populate(this)]
+    const baseIds = new Set(this._baseTags.map(t => t.ID))
+    return [...this._baseTags, ...Tag.Populate(this).filter(t => !baseIds.has(t.ID))]
   }
 
   public get Note(): string {

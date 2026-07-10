@@ -57,7 +57,7 @@
 import type { Manufacturer } from '@/classes/Manufacturer'
 import { computed } from 'vue'
 
-defineOptions({ name: 'BrowserListItem' })
+defineOptions({ name: 'BrowserListGroup' })
 
 const props = defineProps<{
   parent?: string
@@ -65,11 +65,6 @@ const props = defineProps<{
   manufacturer?: Manufacturer
   role?: string
   feature?: string
-}>()
-
-const emit = defineEmits<{
-  'clicked': []
-  'equip': []
 }>()
 
 const groupValue = computed(() => {

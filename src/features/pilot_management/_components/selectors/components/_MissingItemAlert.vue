@@ -51,12 +51,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-const props = withDefaults(defineProps<{
-  type?: string
+const props = defineProps<{
+  type: string
   items: any[]
-}>(), {
-  type: 'items'
-})
+}>()
 
 const itemArr = computed(() => {
       if (!props.items) return [];

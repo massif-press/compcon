@@ -34,20 +34,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { useDisplay } from 'vuetify'
 import CCLicensePanel from '../panels/CCLicensePanel.vue'
 import type { PilotLicense } from '@/classes/pilot/components/license/PilotLicense'
 
 const { smAndDown: mobile } = useDisplay()
 
-const props = defineProps<{
+defineProps<{
   pilotLicense: PilotLicense
   title?: boolean
 }>()
 
-const emit = defineEmits<{ close: [] }>()
+defineEmits<{ close: [] }>()
 
-const dialog = ref(false)
-const color = ref('primary')
 </script>

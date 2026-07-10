@@ -47,7 +47,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'add-custom': { skill: string; description: string; detail: string }
+  'add-custom': [payload: { skill: string; description: string; detail: string }]
 }>()
 
 const newSkill = ref('')

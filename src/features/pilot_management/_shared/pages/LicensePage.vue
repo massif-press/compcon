@@ -5,44 +5,52 @@
     back
     @back="$emit('back')"
     @complete="$emit('next')">
-    <cc-title offset>{{ context === 'new' ? $t('common.pilotTalents') : $t('pm.shared.unlockLicense') }}&emsp;</cc-title>
+    <cc-title offset>{{ context === 'new' ? $t('common.pilotTalents') :
+      $t('pm.shared.unlockLicense') }}&emsp;</cc-title>
 
-    <div v-if="context === 'new'"
-      class="heading h2">
-      {{ $t('pm.new.uadIDENTService') }} <cc-slashes /> &nbsp;{{ $t('pm.shared.rm4cS1LicensingAuthorization') }}
-    </div>
-    <div v-else
-      class="heading h2">
-      {{ $t('pm.level.mv2LicenseAcquisitionRequest') }} <cc-slashes /> &nbsp;{{ $t('pm.shared.mv2DLicensorLicenseeTransmit') }}
-    </div>
+    <div v-if="!smAndDown"
+      class="px-4">
 
-    <p v-if="context === 'new'"
-      class="flavor-text"
-      style="font-size: 14px">
-      {{ $t('pm.shared.theRM4SupplementalILicensing') }}
-    </p>
-    <p v-else
-      class="flavor-text"
-      style="font-size: 14px">
-      {{ $t('pm.shared.theMV2LicensorLicenseeTransmit') }}
-    </p>
-
-    <v-alert color="accent"
-      variant="outlined"
-      density="compact"
-      class="mt-2"
-      tile>
-      <div class="heading">
-        {{ context === 'new' ? $t('pm.shared.selectLicenseRanks', { word, count }, count) : $t('pm.shared.unlockALicense') }}
+      <div v-if="context === 'new'"
+        class="heading h2">
+        {{ $t('pm.new.uadIDENTService') }} <cc-slashes /> &nbsp;{{
+          $t('pm.shared.rm4cS1LicensingAuthorization') }}
       </div>
-      <p class="text-cc-overline">
-        {{ $t('pm.shared.unionAndItsRepresentativesAreNot') }}
-      </p>
-    </v-alert>
+      <div v-else
+        class="heading h2">
+        {{ $t('pm.level.mv2LicenseAcquisitionRequest') }} <cc-slashes /> &nbsp;{{
+          $t('pm.shared.mv2DLicensorLicenseeTransmit') }}
+      </div>
 
-    <license-selector flat
-      :level-up="context === 'level'"
-      :pilot="<Pilot>pilot" />
+      <p v-if="context === 'new'"
+        class="flavor-text px-6"
+        style="font-size: 14px">
+        {{ $t('pm.shared.theRM4SupplementalILicensing') }}
+      </p>
+      <p v-else
+        class="flavor-text px-6"
+        style="font-size: 14px">
+        {{ $t('pm.shared.theMV2LicensorLicenseeTransmit') }}
+      </p>
+
+      <v-alert color="accent"
+        variant="outlined"
+        density="compact"
+        class="mt-2"
+        tile>
+        <div class="heading">
+          {{ context === 'new' ? $t('pm.shared.selectLicenseRanks', { word, count }, count) :
+            $t('pm.shared.unlockALicense') }}
+        </div>
+        <p class="text-cc-overline">
+          {{ $t('pm.shared.unionAndItsRepresentativesAreNot') }}
+        </p>
+      </v-alert>
+    </div>
+
+    <div v-fill-height>
+      <license-selector :pilot="<Pilot>pilot" />
+    </div>
   </stepper-content>
 </template>
 
@@ -50,9 +58,11 @@
 import { computed } from 'vue'
 import StepperContent from '../../_components/StepperContent.vue'
 import LicenseSelector from '../../_components/selectors/LicenseSelector.vue'
+import vFillHeight from '../vFillHeight'
 import { Pilot } from '@/classes/pilot/Pilot'
+import { useDisplay } from 'vuetify'
 
-defineOptions({ name: 'license-page' })
+const { smAndDown } = useDisplay()
 
 const props = defineProps<{
   pilot: Pilot
@@ -68,7 +78,7 @@ const canContinue = computed(() =>
 )
 const count = computed(() => (props.pilot as any).LicenseController.MaxLicensePoints)
 const word = computed(() => {
-  const words = ['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen']
+  const words = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen']
   return words[count.value] ?? count.value
 })
 </script>

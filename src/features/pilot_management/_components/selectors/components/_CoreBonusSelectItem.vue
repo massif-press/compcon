@@ -2,9 +2,9 @@
   <cc-core-bonus-item :bonus="bonus" />
   <cc-button size="small"
     block
+    class="mb-n1"
     :color="isSelected ? 'error' : 'success'"
-    class="mb-6"
-    :disabled="!isSelectable && !isSelected && !isSelectable"
+    :disabled="!isSelectable && !isSelected"
     @click="$emit(isSelected ? 'remove' : 'add', bonus)">
     <span>
       <span v-if="isSelected">
@@ -25,24 +25,15 @@
 
 <script setup lang="ts">
 import type { Bonus } from '@/classes/components/feature/bonus/Bonus'
-defineOptions({ name: 'CbItem' })
 
-const props = defineProps<{
+defineProps<{
   bonus: Bonus
-  color: string
   isSelected: boolean
   isSelectable: boolean
-  id?: string
 }>()
 
-const emit = defineEmits<{
+defineEmits<{
   'add': [payload: Bonus]
   'remove': [payload: Bonus]
 }>()
-
-function ttContent() {
-      if (!props.isSelected && !props.isSelectable) return 'Locked';
-      else if (props.isSelected) return `Remove ${props.bonus.Name}`;
-      return `Add ${props.bonus.Name}`;
-    }
 </script>

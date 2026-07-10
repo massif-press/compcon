@@ -105,7 +105,7 @@
           class="detail-row-mobile px-2 pt-1 text-cc-overline">
           <div v-if="pilot.CombatController.Mounted && mech">
             <b class="text-stark">{{ $t('active.actions.mounted') }}</b> &mdash; <i>{{ mech.Name
-              }} ({{
+            }} ({{
                 mech.Frame.Source }} {{
                 mech.Frame.Name
               }})</i>
@@ -196,7 +196,7 @@
               <div v-if="mech">
                 <v-divider class="my-1" />
                 <div><b>{{ mech.Name }}</b> ({{ mech.Frame.Source }} {{ mech.Frame.Name
-                  }}) </div>
+                }}) </div>
                 <v-row dense
                   justify="space-around"
                   align="center">
@@ -278,8 +278,6 @@ import { Stats } from '@/classes/components/combat/stats/Stats';
 import PilotSheet from '@/features/pilot_management/store/PilotSheet';
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify';
-
-defineOptions({ name: 'SheetListItem' })
 
 const { smAndDown: mobile } = useDisplay()
 

@@ -1,6 +1,5 @@
 <template>
-  <v-btn
-    size="small"
+  <v-btn size="small"
     variant="flat"
     rounded="0"
     :color="selected ? 'white' : 'primary'"
@@ -15,9 +14,7 @@
 </template>
 
 <script setup lang="ts">
-defineOptions({ name: 'nav-item' })
-
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   to?: string
   selected?: boolean
   disabled?: boolean

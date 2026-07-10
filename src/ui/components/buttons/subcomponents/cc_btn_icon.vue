@@ -6,7 +6,8 @@
     <template #activator="{ props }">
       <div class="top-element"
         v-bind="props">
-        <span :class="`light ${size} bg-${color} ${tonal && 'tonal-light'}`" />
+        <span v-if="!hideLight"
+          :class="`light ${size} bg-${color} ${tonal && 'tonal-light'}`" />
         <v-btn :class="`hex ${size} ${colorClass}`"
           style="container-type: inline-size"
           :variant="variant ? 'tonal' : undefined"
@@ -39,21 +40,22 @@ import { useDisplay } from 'vuetify'
 import { Anchor } from 'vuetify';
 
 const props = defineProps({
-    color: { type: String },
-    disabled: { type: Boolean },
-    loading: { type: Boolean },
-    block: { type: Boolean },
-    size: { type: String },
-    variant: { type: String },
-    prependIcon: { type: String },
-    appendIcon: { type: String },
-    icon: { type: String, required: true, default: 'mdi-help' },
-    href: { type: String },
-    to: { type: [String, Object] },
-    target: { type: String },
-    tooltip: { type: String },
-    tooltipLocation: { type: String },
-  })
+  color: { type: String },
+  disabled: { type: Boolean },
+  loading: { type: Boolean },
+  block: { type: Boolean },
+  size: { type: String },
+  variant: { type: String },
+  prependIcon: { type: String },
+  appendIcon: { type: String },
+  icon: { type: String, required: true, default: 'mdi-help' },
+  href: { type: String },
+  to: { type: [String, Object] },
+  target: { type: String },
+  tooltip: { type: String },
+  tooltipLocation: { type: String },
+  hideLight: { type: Boolean },
+})
 
 const emit = defineEmits(['click'])
 

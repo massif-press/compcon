@@ -14,7 +14,7 @@
           no-gutters
           style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"
           class="gradient-background py-2"
-          :class="{ mobile: mobile, selected: selected?.ID === item.ID }">
+          :class="{ mobile: mobile, selected: selected?.ID === item.ID || isActive(item) }">
           <v-col class="px-2"
             cols="auto">
             <div class="text-cc-overline">{{ item.Frame.Source }}</div>
@@ -36,12 +36,12 @@
           </v-col>
         </v-row>
         <div class="img"
-          :class="expanded && !mobile ? 'img-expanded' : 'img-hover'"
+          :class="(expanded && !mobile) || isActive(item) ? 'img-expanded' : 'img-hover'"
           :style="getBgStyle(item)" />
       </template>
     </v-expansion-panel-title>
-    <v-expansion-panel-text>
-      <v-lazy min-height="200">
+    <v-expansion-panel-text class="bg-panel">
+      <v-lazy min-height="170">
         <div>
           <v-alert v-if="item && item.Prerequisite"
             variant="outlined"
@@ -50,10 +50,12 @@
             color="warning">
             <div v-if="item.Prerequisite.cumulative">{{ $t('ui.license.prereqCumulative', {
               rank:
-                item.Prerequisite.min_rank, source: item.Prerequisite.source }) }}</div>
+                item.Prerequisite.min_rank, source: item.Prerequisite.source
+            }) }}</div>
             <div v-else>{{ $t('ui.license.prereqSingle', {
               source: item.Prerequisite.source, rank:
-                item.Prerequisite.min_rank }) }}
+                item.Prerequisite.min_rank
+            }) }}
             </div>
           </v-alert>
 
@@ -95,7 +97,7 @@
                 @click="$emit('add', item)">
                 <span v-if="getControllerRank(item) < item.Unlocks.length">
                   {{ $t('common.unlock') }} {{ item.Name }} {{ 'I'.repeat(getControllerRank(item) +
-                  1)
+                    1)
                   }}
                 </span>
                 <span v-else>
@@ -135,6 +137,10 @@ const props = defineProps({
     required: false,
     default: null,
   },
+  activeIds: {
+    type: Array<string>,
+    default: () => [],
+  },
 })
 
 defineEmits(['add', 'remove'])
@@ -154,6 +160,9 @@ function getBgStyle(item) {
 function getControllerRank(item) {
   if (!props.controller) return 0;
   return props.controller.getLicenseRank(item.Name);
+}
+function isActive(item) {
+  return props.activeIds.includes(item.ID);
 }
 </script>
 
@@ -185,6 +194,15 @@ function getControllerRank(item) {
 
 .img-expanded {
   filter: brightness(115%) saturate(1.1);
+}
+
+.img-hover {
+  filter: brightness(80%) saturate(0.3);
+  transition: all 0.15s ease-in-out;
+}
+
+.hover-parent:hover>.img-hover {
+  filter: brightness(100%);
 }
 
 .selected {

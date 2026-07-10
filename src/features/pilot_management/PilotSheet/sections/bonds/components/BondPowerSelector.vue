@@ -1,255 +1,166 @@
 <template>
   <cc-modal v-model="dialog"
-    color="blue-grey darken-4"
     :title="$t('pm.titles.selectBondPowers')">
-    <v-layout :style="!mobile && 'overflow-y: scroll; height: 89vh'">
-      <div style="position: absolute; z-index: 999"
-        :style="`left: ${showNav ? (mobile ? '322' : '238') : '0'}px; top: 6px`">
-        <cc-button :icon="showNav ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'"
-          size="small"
-          color="primary"
-          @click="(showNav as any) = !showNav" />
-      </div>
-      <v-navigation-drawer v-model="showNav"
-        :width="mobile ? 320 : 250"
-        style="overflow-y: scroll"
-        :style="[
-          mobile ? 'height:95.5vh; top:30px' : 'height: 89vh; top: 40px',
-          showNav && ' position: fixed',
-        ]">
-        <v-list density="compact"
-          slim>
-          <v-list-item color="accent"
-            selectable
-            @click="featureSet = 'all'">
-            <template #title>
-              <div class="text-button">
-                <b class="text-accent">{{ pilot.BondController.Bond?.Name }}</b>
-                {{ $t('pm.sheet.powers') }}
-              </div>
-            </template>
-          </v-list-item>
-          <v-list-item color="accent"
-            selectable
-            @click="featureSet = 'assigned'">
-            <template #title>
-              <div class="text-button">
-                <b>{{ $t('pm.sheet.allSelectedPowers') }}</b>
-              </div>
-            </template>
-          </v-list-item>
-          <v-divider />
-
-          <v-divider />
-
-          <v-list-group color="accent"
-            class="pt-0">
-            <template #activator="{ props }">
-              <v-list-item v-bind="props">
-                <template #title>
-                  <span class="text-button">
-                    <b>{{ $t('pm.sheet.otherBonds') }}</b>
-                  </span>
-                </template>
-              </v-list-item>
-            </template>
-
-            <v-list-item v-for="b in Bonds"
-              :key="b.ID"
+    <cc-compendium-browser :items="shownItems"
+      item-type="BondPower"
+      :options="options"
+      :active-ids="activeIds"
+      outline-selected
+      view-key="sel-bond-power"
+      @group-change="currentGroup = $event">
+      <template #nav-list>
+        <template v-if="currentGroup === 'bond'">
+          <template v-for="s in navSections"
+            :key="s.key">
+            <v-divider v-if="s.divider"
+              class="my-2" />
+            <v-list-item :active="selected === s.key"
               color="accent"
-              class="pl-6"
-              @click="featureSet = b.ID">
+              @click="selected = s.key">
               <template #title>
-                <b class="text-button">{{ b.Name }}</b>
+                <span class="text-button"
+                  :class="s.accent ? 'text-accent' : ''">
+                  <b>{{ s.label }}</b>
+                </span>
               </template>
             </v-list-item>
-          </v-list-group>
-        </v-list>
-        <div style="height: 20px" />
-      </v-navigation-drawer>
-      <v-main>
-        <v-card-text class="py-2">
-          <v-row density="compact"
-            align="start"
-            class="ml-4">
-            <v-col>
-              <span class="heading h3">
-                <span class="text-accent">{{ currentSelection }}</span>
-                {{ $t('pm.sheet.powers') }}
-              </span>
-            </v-col>
-            <v-col>
-              <span class="heading h3">
-                <b class="text-accent">{{ pilot.BondController.TotalPowerSelections }}</b>
-                {{ $t('pm.sheet.selectionsAvailable') }}
-              </span>
-            </v-col>
-            <v-col cols="auto">
-              <cc-switch v-model="ignoreLimit"
-                inset
-                density="compact"
-                hide-details
-                class="ma-0"
-                color="accent"
-                :label="$t('common.ignoreLimit')" />
-            </v-col>
-          </v-row>
-          <v-divider class="mt-2 mb-4" />
-          <v-row>
-            <cc-masonry-grid :items="shownPowers">
-              <template #default="
-                {
-                  item
-                }">
-                <div v-if="item">
-                  <cc-bond-power-card :power="item" />
-                  <cc-button v-if="allowAdd(item)"
-                    color="success"
-                    block
-                    size="x-small"
-                    @click="pilot.BondController.AddPower(item)">
-                    <v-icon start>mdi-plus</v-icon>
-                    {{ $t('common.addName', { name: (item as any).name }) }}
-                  </cc-button>
-                  <cc-button v-if="hasPower(item)"
-                    color="warning darken-1"
-                    block
-                    size="x-small"
-                    @click="pilot.BondController.RemovePower(item)">
-                    <v-icon start>mdi-minus</v-icon>
-                    {{ $t('common.removeName', { name: (item as any).name }) }}
-                  </cc-button>
-                </div>
-              </template>
-            </cc-masonry-grid>
+          </template>
+        </template>
+      </template>
 
-            <v-col v-if="!shownPowers.length"
-              cols="12">
-              <v-alert v-if="featureSet === 'all'"
-                variant="outlined"
-                class="text-center">
-                {{ $t('pm.sheet.noBondPowerSelectionsRemaining') }}
-                <br />
-                <span class="caption text--secondary">
-                  {{ $t('gm.npcFeature.ignoreLimitHint') }}
-                </span>
-              </v-alert>
-              <v-alert v-else-if="featureSet === 'assigned'"
-                variant="outlined"
-                class="text-center">
-                {{ $t('pm.sheet.noBondPowersAssigned') }}
-              </v-alert>
-              <v-alert v-else
-                variant="outlined"
-                class="text-center">
-                {{ $t('pm.sheet.noBondPowersAvailable') }}
-                <br />
-                <span class="caption text--secondary">
-                  {{ $t('gm.npcFeature.ignoreLimitHint') }}
-                </span>
-              </v-alert>
-            </v-col>
-          </v-row>
-        </v-card-text>
-      </v-main>
-    </v-layout>
+      <template #top>
+        <v-row align="center"
+          no-gutters>
+          <v-col cols="auto"
+            class="pr-4">
+            <span class="heading h4">
+              <b class="text-accent">{{ pilot.BondController.TotalPowerSelections }}</b>
+              {{ $t('pm.sheet.selectionsAvailable') }}
+            </span>
+          </v-col>
+          <v-col cols="auto">
+            <cc-switch v-model="ignoreLimit"
+              inset
+              density="compact"
+              hide-details
+              class="ma-0"
+              color="accent"
+              :label="$t('common.ignoreLimit')" />
+          </v-col>
+        </v-row>
+      </template>
+
+      <template #item="{ item }">
+        <cc-bond-power-card :power="item._p" />
+        <cc-button v-if="allowAdd(item._p)"
+          color="success"
+          block
+          size="x-small"
+          @click="pilot.BondController.AddPower(item._p)">
+          <v-icon start>mdi-plus</v-icon>
+          {{ $t('common.addName', { name: item._p.name }) }}
+        </cc-button>
+        <cc-button v-if="hasPower(item._p)"
+          color="warning darken-1"
+          block
+          size="x-small"
+          @click="pilot.BondController.RemovePower(item._p)">
+          <v-icon start>mdi-minus</v-icon>
+          {{ $t('common.removeName', { name: item._p.name }) }}
+        </cc-button>
+      </template>
+    </cc-compendium-browser>
   </cc-modal>
 </template>
 
 <script setup lang="ts">
 import type { Pilot } from '@/classes/pilot/Pilot'
-import { computed, ref, onMounted } from 'vue'
-import { useDisplay } from 'vuetify'
+import type { BondPower } from '@/classes/pilot/components/bond/Bond'
+import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { CompendiumStore } from '@/stores'
-import { sortBy } from 'lodash-es';
+import { sortBy } from 'lodash-es'
 
-const _display = useDisplay()
+const { t } = useI18n()
 
 defineOptions({ name: 'BondPowerSelectMenu' })
-
-const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = defineProps<{
   pilot: Pilot
 }>()
 
 const dialog = ref(false)
-const featureSet = ref('all')
 const ignoreLimit = ref(false)
-const allowDupes = ref(false)
-const showNav = ref(true)
+const selected = ref(props.pilot.BondController.Bond ? 'sel-bond' : 'selected')
+const currentGroup = ref('bond')
 
-const widescreen = computed(() => {
-      return _display.lgAndUp.value
-    })
-const currentSelection = computed(() => {
-      switch (featureSet.value) {
-        case 'all':
-          return props.pilot.BondController.Bond?.Name
-        case 'assigned':
-          return 'All Assigned'
-        default:
-          return Bonds.value.find(x => x.ID === featureSet.value)?.Name
-      }
-    })
-const shownPowers = computed(() => {
-      let out;
-      if (!props.pilot.BondController.TotalPowerSelections && !ignoreLimit.value) {
-        if (featureSet.value === 'all')
-          out = props.pilot.BondController.Bond?.Powers.filter(x =>
-            props.pilot.BondController.BondPowers.some(y => y.name === x.name)
-          )
-        else if (featureSet.value === 'assigned') out = props.pilot.BondController.BondPowers
-        else out = CompendiumStore()
-          .Bonds.find(x => x.ID === featureSet.value)
-          ?.Powers.filter(x => props.pilot.BondController.BondPowers.some(y => y.name === x.name))
-      }
+const options = {
+  views: ['list'],
+  initialView: 'list',
+  groups: ['bond', 'none'],
+  initialGroup: 'bond',
+}
 
-      else if (featureSet.value === 'all') out = props.pilot.BondController.Bond?.Powers
-      else if (featureSet.value === 'assigned') out = props.pilot.BondController.BondPowers
+function shim(p: BondPower, bond: { LcpName: string }) {
+  return { ID: `${p.origin}:${p.name}`, Name: p.name, LcpName: bond.LcpName, IsExotic: false, _p: p }
+}
 
-      else out = CompendiumStore().Bonds.find(x => x.ID === featureSet.value)?.Powers
+const allBonds = computed(() => {
+  const list = [...CompendiumStore().Bonds]
+  const pb = props.pilot.BondController.Bond
+  if (pb && !list.some(b => b.ID === pb.ID)) list.unshift(pb)
+  return list
+})
 
-      return sortBy(out, ['master', 'veteran', 'origin', 'name']).reverse()
-    })
-const Bonds = computed(() => {
-      return CompendiumStore().Bonds.map(x => ({
-        Name: x.Name,
-        ID: x.ID,
-      }))
-    })
+const browserItems = computed(() => {
+  const bondId = props.pilot.BondController.Bond?.ID
+  const all = allBonds.value.flatMap(bond => bond.Powers.map(p => shim(p, bond)))
+  return sortBy(all, i => (i._p.origin === bondId ? 0 : 1))
+})
 
-function allowAdd(power) {
-      if (hasPower(power)) return false
-      if (ignoreLimit.value) return true
-      if (power.veteran) return false
-      if (power.master) {
-        let bond;
-        if (featureSet.value === 'all')
-          bond = props.pilot.BondController.Bond?.ID
-        else bond = featureSet.value
-        if (bond && (props.pilot.BondController.BondPowers.filter(x => x.origin === bond).length >= 4)) return true
-        return false
-      }
-      if (!props.pilot.BondController.TotalPowerSelections) return true
-      return props.pilot.BondController.TotalPowerSelections > 0
-    }
-function hasPower(power) {
-      return props.pilot.BondController.BondPowers.some(y => y.name === power.name)
-    }
-function resetPowers() {
-      props.pilot.BondController.BondPowers.splice(0, props.pilot.BondController.BondPowers.length)
-    }
+const navSections = computed(() => {
+  const bond = props.pilot.BondController.Bond
+  const byBond = (id?: string) => browserItems.value.filter(i => i._p.origin === id)
+  const sections: { key: string; label: string; accent?: boolean; divider?: boolean; items: any[] }[] = []
+  if (bond) sections.push({ key: 'sel-bond', label: `${bond.Name} ${t('pm.sheet.powers')}`, accent: true, items: byBond(bond.ID) })
+  sections.push({ key: 'selected', label: t('pm.sheet.allSelectedPowers'), items: browserItems.value.filter(i => hasPower(i._p)) })
+  allBonds.value.filter(b => b.ID !== bond?.ID).forEach((b, idx) =>
+    sections.push({ key: b.ID, label: b.Name, divider: idx === 0, items: byBond(b.ID) })
+  )
+  return sections
+})
+
+const shownItems = computed(() =>
+  currentGroup.value === 'none'
+    ? browserItems.value
+    : navSections.value.find(s => s.key === selected.value)?.items ?? []
+)
+
+const activeIds = computed(() =>
+  props.pilot.BondController.BondPowers.map(p => `${p.origin}:${p.name}`)
+)
+
+function allowAdd(power: BondPower) {
+  if (hasPower(power)) return false
+  if (ignoreLimit.value) return true
+  if (power.veteran) return false
+  if (power.master) {
+    const bond = power.origin
+    return !!bond && props.pilot.BondController.BondPowers.filter(x => x.origin === bond).length >= 4
+  }
+  return props.pilot.BondController.TotalPowerSelections > 0
+}
+
+function hasPower(power: BondPower) {
+  return props.pilot.BondController.BondPowers.some(y => y.name === power.name)
+}
+
 function show() {
-      dialog.value = true
-    }
+  dialog.value = true
+}
 function hide() {
-      dialog.value = false
-    }
+  dialog.value = false
+}
 
 defineExpose({ show, hide })
-
-onMounted(() => {
-showNav.value = !mobile.value
-})
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="top-element"
     :style="`display: ${block ? 'block' : 'inline-block'}; position: relative`">
-    <span v-if="!text"
+    <span v-if="!text && !hideLight"
       :class="`${disabled && 'disabled'} light ${size} ${bgColor} ${tonal && 'light-tonal'}`" />
     <v-btn
       :class="`${disabled && 'disabled'} ${colorClass} ${sizeStyle} px-0  ${outlined && `border-sm text-${color}`}`"
@@ -70,6 +70,7 @@ const props = withDefaults(defineProps<{
   to?: string | object
   target?: string
   optionsText?: string
+  hideLight?: boolean
 }>(), {
   optionsIcon: 'mdi-chevron-down',
 })

@@ -2,6 +2,7 @@
   <div>
     <section-header :title="$t('pm.titles.skillTriggers')">
       <cc-modal :title="$t('pm.titles.setPilotSkillTriggers')"
+        fullscreen
         icon="cc:skill">
         <template #activator="{ open }">
           <section-edit-chip v-if="!pilot.IsRemote"

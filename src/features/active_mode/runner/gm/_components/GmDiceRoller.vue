@@ -71,7 +71,8 @@
                 align="center">
                 <v-col cols=6
                   md="">
-                  <div class="text-cc-overline text-disabled">{{ $t('active.diceRoller.count') }}</div>
+                  <div class="text-cc-overline text-disabled">{{ $t('active.diceRoller.count') }}
+                  </div>
                   <v-text-field v-model="count"
                     density="compact"
                     variant="outlined"
@@ -83,7 +84,8 @@
                 </v-col>
                 <v-col cols=6
                   md="">
-                  <div class="text-cc-overline text-disabled">{{ $t('active.diceRoller.die') }}</div>
+                  <div class="text-cc-overline text-disabled">{{ $t('active.diceRoller.die') }}
+                  </div>
                   <v-select v-model="die"
                     :items="dice"
                     density="compact"
@@ -181,7 +183,8 @@
                 block
                 color="panel"
                 class="mt-1"
-                @click="reset()">{{ $t('common.reset') }}</v-btn>
+                @click="reset()">{{
+                  $t('common.reset') }}</v-btn>
 
 
             </v-card-text>
@@ -232,9 +235,6 @@
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed, ref } from 'vue'
 import { DiceRoller } from '@/classes/dice/DiceRoller'
-import DiceRollInterface from '@/ui/components/chips/_activeeffect/_shared/DiceRollInterface.vue'
-
-defineOptions({ name: 'GmDiceRoller' })
 
 const props = withDefaults(defineProps<{
   selected?: object | false
@@ -319,7 +319,7 @@ function rollDice() {
   if (isCrit.value) str += ' [CRIT]'
   if (Overkill.value) str += ' [OVERKILL]'
   str += ` ${lastRollString.value}`
-  ;(props.encounterInstance as any).RollHistory.unshift(str)
+    ; (props.encounterInstance as any).RollHistory.unshift(str)
   rollType.value = ''
 }
 </script>

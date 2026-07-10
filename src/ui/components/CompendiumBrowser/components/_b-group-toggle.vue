@@ -63,6 +63,8 @@ function groupIcon(i: string) {
           return 'cc:npc_feature';
         case 'origin':
           return 'cc:npc_template';
+        case 'bond':
+          return 'mdi-link-variant';
         case 'none':
           return 'mdi-cancel';
         default:
@@ -85,6 +87,8 @@ function groupTooltip(i: string) {
           return 'Group by Feature Type';
         case 'origin':
           return 'Group by Origin';
+        case 'bond':
+          return 'Group by Bond';
         case 'none':
           return 'No Grouping';
         default:

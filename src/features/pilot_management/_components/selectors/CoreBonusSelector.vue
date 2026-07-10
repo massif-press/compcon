@@ -1,195 +1,110 @@
 <template>
-  <missing-item-alert v-if="pilot.CoreBonusController.MissingCoreBonuses.length"
-    type="core bonuses"
-    :items="pilot.CoreBonusController.MissingCoreBonuses"
-    @remove="pilot.CoreBonusController.RemoveCoreBonus($event)" />
+  <cc-compendium-browser :items="baseCoreBonuses"
+    item-type="CoreBonus"
+    :options="options"
+    :manufacturers="manufacturers"
+    :active-ids="activeCbIds"
+    outline-selected
+    view-key="sel-corebonus"
+    page-scroll>
+    <template #item="{ item }">
+      <core-bonus-select-item :bonus="item"
+        :is-selectable="isSelectable(item)"
+        :is-selected="isSelected(item)"
+        @add="pilot.CoreBonusController.AddCoreBonus(item)"
+        @remove="pilot.CoreBonusController.RemoveCoreBonus(item)" />
+    </template>
 
-  <selector :title="$t('pm.titles.pilotCoreBonuses')"
-    :success="!pilot.CoreBonusController.IsMissingCBs"
-    :selected="pilot.CoreBonusController.CurrentCBPoints"
-    :total="pilot.CoreBonusController.MaxCBPoints">
-    <template #float>
-      <v-card v-if="!pilot.CoreBonusController.IsMissingCBs"
-        flat
-        tile
-        class="text-cc-overline"
-        :class="mobile ? 'pa-1' : 'pa-2'"
-        variant="outlined"
-        density="compact"
-        color="success"
-        v-text="$t('pm.selectors.coreBonusSelectionComplete')" />
-      <v-card
-        v-if="pilot.CoreBonusController.MaxCBPoints > pilot.CoreBonusController.CurrentCBPoints"
-        flat
-        tile
-        class="text-cc-overline"
-        :class="mobile ? 'pa-1' : 'pa-2'"
-        variant="outlined"
-        density="compact"
-        color="accent"
-        v-text="`${pilot.CoreBonusController.MaxCBPoints - pilot.CoreBonusController.CurrentCBPoints}
-            Core Bonus Selections remaining`
-          " />
-
-      <cc-button variant="text"
-        size="x-small"
+    <template #header>
+      <cc-button size="x-small"
+        color="error"
         block
+        prepend-icon="mdi-refresh"
         :disabled="!pilot.CoreBonusController.CoreBonuses.length"
         @click="pilot.CoreBonusController.ClearCoreBonuses()">
         {{ $t('common.reset') }}
       </cc-button>
     </template>
 
-    <template #jump>
-      <div class="px-2">
-        <cc-select v-model="jump"
-          :label="$t('pm.fields.jumpTo')"
-          color="primary"
-          variant="outlined"
-          :items="jumpItems" />
-      </div>
-    </template>
+    <template #top>
+      <missing-item-alert v-if="pilot.CoreBonusController.MissingCoreBonuses.length"
+        :type="$t('pm.titles.coreBonuses')"
+        :items="pilot.CoreBonusController.MissingCoreBonuses"
+        @remove="pilot.CoreBonusController.RemoveCoreBonus($event)" />
 
-    <template #right-column>
-      <v-expansion-panels v-model="open"
-        multiple
-        flat
-        tile>
-        <v-expansion-panel v-for="{ manufacturer, coreBonuses } in manufacturersWithCBs"
-          :key="`panel_${manufacturer.ID}`">
-          <v-expansion-panel-title>
-            <div class="pr-5">
-              <div class="heading h1"
-                :style="`color: ${manufacturer.Color}`"
-                style="font-size: calc(20px + 1vw)">
-                <v-icon :icon="manufacturer.Icon"
-                  class="mt-n1" />
-                {{ manufacturer.Name }}
-              </div>
-              <v-card variant="outlined"
-                :color="manufacturer?.GetColor($vuetify.theme.current.dark) || 'panel'"
-                class="my-1 pa-3">
-                <div v-html-safe="requirement(manufacturer)"
-                  class="flavor-text text-text text-center" />
-              </v-card>
-            </div>
-          </v-expansion-panel-title>
-
-          <v-expansion-panel-text color="panel">
-            <core-bonus-select-item v-for="b in coreBonuses"
-              :id="b.ID"
-              :key="b.ID"
-              :bonus="b"
-              :is-selectable="isSelectable(b)"
-              :is-selected="isSelected(b)"
-              :color="manufacturer?.GetColor($vuetify.theme.current.dark) || 'panel'"
-              @add="pilot.CoreBonusController.AddCoreBonus(b)"
-              @remove="pilot.CoreBonusController.RemoveCoreBonus(b)" />
-          </v-expansion-panel-text>
-        </v-expansion-panel>
-      </v-expansion-panels>
+      <selector-header :current="pilot.CoreBonusController.CurrentCBPoints"
+        :max="pilot.CoreBonusController.MaxCBPoints"
+        :complete="complete"
+        :complete-text="$t('pm.selectors.coreBonusSelectionComplete')">
+        <v-chip v-for="a in availability"
+          :key="a.manufacturer.ID"
+          class="ma-1"
+          size="small"
+          :color="a.manufacturer.GetColor($vuetify.theme.current.dark)"
+          :prepend-icon="a.manufacturer.Icon">
+          {{ $t('pm.selectors.coreBonusAvailable', { count: a.count, mf: a.manufacturer.ID },
+            a.count) }}
+        </v-chip>
+        <selector-chip v-for="b in pilot.CoreBonusController.CoreBonuses"
+          :key="b.ID"
+          :color="b.Manufacturer?.GetColor($vuetify.theme.current.dark)"
+          :prepend-icon="b.Manufacturer?.Icon || 'cc:corebonus'"
+          @remove="pilot.CoreBonusController.RemoveCoreBonus(b)">
+          {{ b.Name }}
+        </selector-chip>
+      </selector-header>
     </template>
-  </selector>
+  </cc-compendium-browser>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue'
-import { useDisplay } from 'vuetify'
+import { computed } from 'vue'
+import { orderBy } from 'lodash-es'
 import { CompendiumStore } from '@/stores'
-import { Pilot } from '@/classes/pilot/Pilot'
 import { CoreBonus } from '@/classes/pilot/components/corebonus/CoreBonus'
-import { Manufacturer } from '@/classes/Manufacturer'
-import { Bonus, BonusId } from '@/classes/components/feature/bonus/Bonus'
-import logger from '@/user/logger'
-import Selector from './components/_SelectorBase.vue'
 import CoreBonusSelectItem from './components/_CoreBonusSelectItem.vue'
 import MissingItemAlert from './components/_MissingItemAlert.vue'
+import SelectorHeader from './components/_SelectorHeader.vue'
+import SelectorChip from './components/_SelectorChip.vue'
+import { filterByLcpConfig } from './useLcpFilter'
 
-const props = withDefaults(defineProps<{
-  pilot: Record<string, any>
-  levelUp?: boolean
-  modal?: boolean
-  flat?: boolean
-}>(), { levelUp: false, modal: false, flat: false })
+const props = defineProps<{ pilot: Record<string, any> }>()
 
-const emit = defineEmits<{ 'update:selectionComplete': [value: boolean] }>()
+const options = {
+  views: ['list'],
+  initialView: 'list',
+  groups: ['source', 'none'],
+  initialGroup: 'source',
+  noSource: true,
+}
 
-const { smAndDown: mobile, mdAndDown } = useDisplay()
+const manufacturers = computed(() => CompendiumStore().Manufacturers)
 
-const search = ref('')
-const open = ref<number[]>([])
-const jump = ref('')
-
-const baseCoreBonuses = computed(() => {
-  if (!props.pilot.LcpConfig) return CompendiumStore().CoreBonuses
-  return CompendiumStore().CoreBonuses.filter(
-    (x: any) =>
-      !x.InLcp ||
-      props.pilot.LcpConfig?.packList.some((y: any) => y.packID === x.Brew?.LcpId) ||
-      props.pilot.LcpConfig?.packList.some((y: any) => y.packName === x.Brew?.LcpName)
+const baseCoreBonuses = computed<CoreBonus[]>(() =>
+  orderBy(
+    filterByLcpConfig(
+      CompendiumStore().CoreBonuses.filter((x: any) => !x.IsHidden),
+      props.pilot.LcpConfig
+    ),
+    'Manufacturer'
   )
-})
-
-const coreBonuses = computed<CoreBonus[]>(() => {
-  const cbs = baseCoreBonuses.value.filter((x: any) => !x.IsHidden)
-  if (search.value) return cbs.filter((x: any) => x.Name.toLowerCase().includes(search.value.toLowerCase()))
-  return cbs
-})
-
-const jumpItems = computed<{ title: string; value: string; subtitle?: string }[]>(() => [
-  ...props.pilot.CoreBonusController.CoreBonuses.map((x: any) => ({
-    title: x.Name,
-    value: x.ID,
-    subtitle: `// Unlocked`,
-  })),
-  ...coreBonuses.value
-    .filter((x: any) => !props.pilot.has('CoreBonus', x.ID))
-    .map((x: any) => ({ title: x.Name, value: x.ID })),
-])
-
-const manufacturersWithCBs = computed<{ manufacturer: Manufacturer; coreBonuses: CoreBonus[] }[]>(() =>
-  CompendiumStore().Manufacturers
-    .filter((x: any) => !x.IsHidden)
-    .map((manufacturer: any) => ({
-      manufacturer,
-      coreBonuses: coreBonuses.value.filter((cb: any) => cb.Manufacturer.ID === manufacturer.ID),
-    }))
-    .filter((x: any) => x.coreBonuses.length > 0)
 )
 
-const selectionComplete = computed(() => props.levelUp && !props.pilot.CoreBonusController.IsMissingCBs)
+const activeCbIds = computed<string[]>(() =>
+  props.pilot.CoreBonusController.CoreBonuses.map((x: any) => x.ID)
+)
 
-watch(selectionComplete, (val) => {
-  emit('update:selectionComplete', val)
+const complete = computed(() => !props.pilot.CoreBonusController.IsMissingCBs)
+
+const availability = computed<{ manufacturer: any; count: number }[]>(() => {
+  const remaining =
+    props.pilot.CoreBonusController.MaxCBPoints - props.pilot.CoreBonusController.CurrentCBPoints
+  if (remaining < 1) return []
+  return CompendiumStore().Manufacturers
+    .filter((m: any) => !m.IsHidden)
+    .map((m: any) => ({ manufacturer: m, count: Math.min(availableCount(m.ID), remaining) }))
+    .filter((a: any) => a.count > 0)
 })
-
-watch(jump, (val) => scrollTo(String(val)))
-
-watch(search, (newval) => {
-  if (!newval) open.value = []
-  else open.value = manufacturersWithCBs.value.map((_, i) => i)
-})
-
-onMounted(() => {
-  emit('update:selectionComplete', selectionComplete.value)
-})
-
-function requirement(m: Manufacturer): string {
-  const br = mdAndDown.value ? '<br>' : '&emsp;//&emsp;'
-  const abbr = `<b>${m.ID}</b>`
-  const name = `<b>${m.Name}</b>`
-  if (m.ID === 'GMS')
-    return `<b>${selectedCount(m.ID)}</b> ${abbr} CORE Bonuses Selected<br>${name} CORE Bonuses do not have a license requirement`
-  const lvl = `<b>${props.pilot.LicenseController.LicenseLevel(m.ID)}</b>`
-  let output = `${lvl} ${abbr} Licenses Acquired ${br} `
-  let remain = (3 % props.pilot.Level || 3) - props.pilot.LicenseController.LicenseLevel(m.ID)
-  if (remain < 1) remain += 3
-  output += `<b>${availableCount(m.ID)}</b> ${abbr} CORE Bonuses Available ${br} `
-  output += `<b>${selectedCount(m.ID)}</b> ${abbr} CORE Bonuses Selected`
-  if (props.pilot.Level < 12)
-    output += `<br>${props.pilot.Level < 3 ? 'First' : 'Next'} ${name} CORE Bonus available in <b>${remain}</b> License Level${remain === 1 ? '' : 's'}`
-  return output
-}
 
 function selectedCount(m: string): number {
   return props.pilot.CoreBonusController.CoreBonuses.filter((x: CoreBonus) => x.Source === m).length
@@ -197,12 +112,7 @@ function selectedCount(m: string): number {
 
 function availableCount(m: string): number {
   if (m.toUpperCase() === 'GMS') return Infinity
-  const extraLicenses = Bonus.Int(0, BonusId.CB_POINT, props.pilot as unknown as Pilot)
-  return (
-    Math.floor(props.pilot.LicenseController.LicenseLevel(m) / 3) +
-    extraLicenses -
-    selectedCount(m)
-  )
+  return Math.floor(props.pilot.LicenseController.LicenseLevel(m) / 3) - selectedCount(m)
 }
 
 function isSelectable(b: CoreBonus): boolean {
@@ -211,14 +121,5 @@ function isSelectable(b: CoreBonus): boolean {
 
 function isSelected(b: CoreBonus): boolean {
   return props.pilot.has('CoreBonus', b.ID)
-}
-
-function scrollTo(e: string): void {
-  const el = document.getElementById(e)
-  if (!el) {
-    logger.warn(`Element with ID ${e} not found`, null)
-    return
-  }
-  el.scrollIntoView({ behavior: 'smooth', block: 'center' })
 }
 </script>

@@ -24,12 +24,11 @@ const sortFn = (a: any, b: any): number => {
 }
 
 const manufacturerSortFn = (a: string, b: string): number => {
-  const order = ['gms', 'ips-n', 'ssc', 'horus', 'ha']
   const excl = ['exotic']
   if (!a || excl.includes(a.toLowerCase())) return 1
   if (!b || excl.includes(b.toLowerCase())) return -1
-  const indexA = order.indexOf(a.toLowerCase())
-  const indexB = order.indexOf(b.toLowerCase())
+  const indexA = mfOrder.indexOf(a.toLowerCase())
+  const indexB = mfOrder.indexOf(b.toLowerCase())
   if (indexA !== -1 && indexB !== -1) return indexA - indexB
   else if (indexA !== -1) return -1
   else if (indexB !== -1) return 1
@@ -100,30 +99,20 @@ export function useCompendiumFacets(input: CompendiumFacetsInput) {
     { immediate: true }
   )
 
-  const itemsByLcpBySource = computed(() => Object.fromEntries(_lcpGroupCache.value))
-  const itemsByLcpByRole = computed(() => Object.fromEntries(_lcpGroupCache.value))
-  const itemsByLcpByOrigin = computed(() => Object.fromEntries(_lcpGroupCache.value))
+  const itemsByLcpGrouped = computed(() => Object.fromEntries(_lcpGroupCache.value))
+  const groupsByLcp = computed(() => {
+    const isMfg = itemType() !== 'NpcClass' && itemType() !== 'NpcFeature'
+    const sortGroups = isMfg ? manufacturerSortFn : sortFn
+    const m: Record<string, string[]> = {}
+    for (const [lcp, groups] of _lcpGroupCache.value) m[lcp] = Object.keys(groups).filter(Boolean).sort(sortGroups)
+    return m
+  })
   const manufacturerSources = computed(() =>
     _.uniq(shownItems.value.map((x: any) => x.Source)).sort((a, b) => manufacturerSortFn(a, b))
   )
-  const manufacturersByLcp = computed(() => {
-    const m: Record<string, string[]> = {}
-    for (const [lcp, groups] of _lcpGroupCache.value) m[lcp] = Object.keys(groups).filter(Boolean).sort(sortFn)
-    return m
-  })
   const roles = computed(() => _.uniq(shownItems.value.map((x: any) => x.Role)).sort(sortFn))
-  const rolesByLcp = computed(() => {
-    const m: Record<string, string[]> = {}
-    for (const [lcp, groups] of _lcpGroupCache.value) m[lcp] = Object.keys(groups).filter(Boolean).sort(sortFn)
-    return m
-  })
   const featureTypes = computed(() => _.uniq(shownItems.value.map((x: any) => x.FeatureType)).sort(sortFn))
   const origins = computed(() => _.uniq(shownItems.value.map((x: any) => x.Origin?.Name).filter(Boolean)).sort(sortFn))
-  const originsByLcp = computed(() => {
-    const m: Record<string, string[]> = {}
-    for (const [lcp, groups] of _lcpGroupCache.value) m[lcp] = Object.keys(groups).filter(Boolean).sort(sortFn)
-    return m
-  })
   const lcps = computed(() => Object.keys(itemsByLcp.value).sort(sortFn))
   const filteredLcps = computed(() => Object.keys(filteredItemsByLcp.value).sort(sortFn))
   const licenses = computed(() => _.uniq(shownItems.value.map((x: any) => x.License)).sort(sortFn))
@@ -164,16 +153,12 @@ export function useCompendiumFacets(input: CompendiumFacetsInput) {
     itemsByRoleGroup,
     itemsByFeatureTypeGroup,
     itemsByOriginGroup,
-    itemsByLcpBySource,
-    itemsByLcpByRole,
-    itemsByLcpByOrigin,
+    itemsByLcpGrouped,
+    groupsByLcp,
     manufacturerSources,
-    manufacturersByLcp,
     roles,
-    rolesByLcp,
     featureTypes,
     origins,
-    originsByLcp,
     lcps,
     filteredLcps,
     licenses,

@@ -4,7 +4,7 @@
       accordion
       tile
       flat>
-      <v-expansion-panel class="border-sm">
+      <v-expansion-panel class="bg-transparent">
         <v-expansion-panel-title class="pl-1 pr-3">
           <v-row no-gutters>
             <v-col cols="12"

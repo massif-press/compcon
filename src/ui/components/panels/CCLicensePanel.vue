@@ -1,7 +1,8 @@
 <template>
-  <v-row density="compact" justify="space-around" dense>
-    <v-col
-      v-for="n in license.MaxRank"
+  <v-row density="compact"
+    justify="space-around"
+    dense>
+    <v-col v-for="n in license.MaxRank"
       :key="`rank-${n}`"
       v-show="license.Unlocks[n - 1].length"
       lg="4"
@@ -11,11 +12,15 @@
       <div class="text-center">
         <span class="text-cc-overline text-disabled">
           {{ $t('common.rank') }} {{ 'I'.repeat(n) }}
-          <v-icon v-if="ranked && rank < n" right>mdi-lock-outline</v-icon>
-          <v-icon v-else-if="ranked && rank >= n" right>mdi-lock-open-outline</v-icon>
+          <v-icon v-if="ranked && rank < n"
+            right>mdi-lock-outline</v-icon>
+          <v-icon v-else-if="ranked && rank >= n"
+            right>mdi-lock-open-outline</v-icon>
         </span>
-        <div v-for="i in license.Unlocks[n - 1]" :key="i.ID">
-          <cc-item-modal :item="i" block />
+        <div v-for="i in license.Unlocks[n - 1]"
+          :key="i.ID">
+          <cc-item-modal :item="i"
+            block />
         </div>
       </div>
     </v-col>
@@ -24,9 +29,8 @@
 
 <script setup lang="ts">
 import type License from '@/classes/pilot/components/license/License'
-defineOptions({ name: 'cc-license-panel' })
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   license: License
   ranked?: boolean
   rank?: number
@@ -34,9 +38,7 @@ const props = withDefaults(defineProps<{
   rank: 0
 })
 
-function align(n: number) {
-      return n === 1 ? 'left' : n === 2 ? 'center' : 'right';
-    }
+
 </script>
 
 <style scoped>

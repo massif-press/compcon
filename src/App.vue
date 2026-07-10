@@ -31,8 +31,6 @@ import {
 
 const _display = useDisplay()
 
-defineOptions({ name: 'CompCon' })
-
 provide<CompendiumDataProvider>(CompendiumDataKey, {
   get Statuses() {
     return CompendiumStore().Statuses

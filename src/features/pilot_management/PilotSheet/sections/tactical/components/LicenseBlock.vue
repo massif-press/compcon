@@ -1,9 +1,10 @@
 <template>
   <div>
     <section-header :title="$t('common.licenses')">
-      <cc-modal :title="$t('pm.titles.setPilotLicenses')"
+      <cc-modal ref="licenseSelector"
+        :title="$t('pm.titles.setPilotLicenses')"
         icon="cc:frame"
-        ref="licenseSelector">
+        fullscreen>
         <template #activator="{ open }">
           <section-edit-chip v-if="!pilot.IsRemote"
             :highlight="!pilot.LicenseController.HasLicenses"

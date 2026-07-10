@@ -178,7 +178,8 @@
     "alert": "Alert",
     "ok": "OK",
     "a11y": {
-      "mainNavigation": "Main navigation"
+      "mainNavigation": "Main navigation",
+      "toggleNavigation": "Toggle navigation panel"
     }
   },
   "language": {
@@ -2645,6 +2646,7 @@
     },
     "selectors": {
       "coreBonusSelectionComplete": "Core Bonus Selection Complete",
+      "coreBonusAvailable": "{count} {mf} Core Bonus available | {count} {mf} Core Bonuses available",
       "exotic": "Exotic",
       "equipment": "Equipment",
       "licenseSelectionComplete": "License Selection Complete",

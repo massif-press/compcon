@@ -50,7 +50,7 @@
       <v-divider />
       <v-tab>{{ $t('common.confirm') }}</v-tab>
     </template>
-    <v-container>
+    <v-container fluid>
       <template #default>
         <v-window-item>
           <overview-page :pilot="pilot"
@@ -100,7 +100,6 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { useRoute } from 'vue-router'
 import OverviewPage from './pages/OverviewPage.vue';
 import SkillsPage from '../_shared/pages/SkillsPage.vue';
 import TalentsPage from '../_shared/pages/TalentsPage.vue';
@@ -110,10 +109,6 @@ import CoreBonusPage from '../_shared/pages/CoreBonusPage.vue';
 import ConfirmPage from '../_shared/pages/ConfirmPage.vue';
 import { PilotStore } from '@/stores';
 import { Pilot } from '@/classes/pilot/Pilot'
-
-defineOptions({ name: 'level-wizard' })
-
-const route = useRoute()
 
 const props = defineProps<{
   pilotID: string
@@ -126,18 +121,15 @@ const pilot = ref({} as Pilot)
 const cbEligible = ref(false)
 
 const currentPilot = computed(() => {
-      return PilotStore().Pilots.find((p) => p.ID === props.pilotID) as Pilot;
-    })
+  return PilotStore().Pilots.find((p) => p.ID === props.pilotID) as Pilot;
+})
 
 pilot.value = Pilot.Deserialize(Pilot.Serialize(currentPilot.value));
 pilot.value.Level++;
 cbEligible.value = pilot.value.CoreBonusController.IsMissingCBs;
 
-function setTab(tab: number) {
-      step.value = tab;
-    }
 function setStep(n: number) {
-      step.value = n;
-      tabs.value.setTab(n);
-    }
+  step.value = n;
+  tabs.value.setTab(n);
+}
 </script>

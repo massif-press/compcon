@@ -3,6 +3,7 @@
     <section-header :title="$t('pm.level.mechSkills')">
       <cc-modal :title="$t('pm.titles.setPilotMechSkills')"
         icon="cc:frame"
+        fullscreen
         shrink>
         <template #activator="{ open }">
           <section-edit-chip v-if="!pilot.IsRemote"

@@ -1,6 +1,6 @@
 import { CompendiumItem } from './CompendiumItem'
 import { ContentPack } from './ContentPack'
-import { ItemType } from './enums'
+import { ActivationType, ItemType } from './enums'
 import { CompendiumStore } from '@/features/compendium/store'
 import logger from '@/user/logger'
 import { applyLcpTracking, type ILcpTracked } from './LcpItemMixin'
@@ -161,6 +161,16 @@ class Tag implements ILcpTracked {
     return new Tag(t)
   }
 
+  private static _activationTags: Partial<Record<ActivationType, string>> = {
+    [ActivationType.Quick]: 'tg_quick_action',
+    [ActivationType.Full]: 'tg_full_action',
+    [ActivationType.QuickTech]: 'tg_quick_tech',
+    [ActivationType.FullTech]: 'tg_full_tech',
+    [ActivationType.Protocol]: 'tg_protocol',
+    [ActivationType.Reaction]: 'tg_reaction',
+    [ActivationType.Invade]: 'tg_invade',
+  }
+
   public static Populate(item: CompendiumItem): Tag[] {
     const tags = [] as Tag[]
     if (item.Deployables) {
@@ -168,6 +178,16 @@ class Tag implements ILcpTracked {
       if (item.Deployables.some(x => x.Type === 'Mine')) tags.push(Tag._genTag('tg_mine'))
       if (item.Deployables.some(x => x.Type !== 'Drone' && x.Type !== 'Mine'))
         tags.push(Tag._genTag('tg_deployable'))
+    }
+    if (item.Actions) {
+      const seen = new Set<string>()
+      for (const a of item.Actions) {
+        const id = Tag._activationTags[a.Activation]
+        if (id && !seen.has(id)) {
+          seen.add(id)
+          tags.push(Tag._genTag(id))
+        }
+      }
     }
     return tags
   }
