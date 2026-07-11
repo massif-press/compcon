@@ -12,7 +12,7 @@
           {{ item.Name }}
           <span class="text-cc-overline text-disabled">
             <cc-slashes class="mx-1" />
-            {{ item.WeaponTypes.map(t => $enum('weaponType', t)).join('/') }} -
+            {{item.WeaponTypes.map(t => $enum('weaponType', t)).join('/')}} -
             {{ $enum('weaponSize', item.Size) }}
           </span>
         </div>
@@ -98,7 +98,8 @@
               </cc-combat-action-chip>
 
               <div v-if="item.Profiles[item.ProfileIndex].Deployables.length">
-                <div class="text-cc-overline text-disabled">//{{ $t('ui.card.profileDeployables') }}</div>
+                <div class="text-cc-overline text-disabled">//{{ $t('ui.card.profileDeployables') }}
+                </div>
                 <v-row no-gutters
                   justify="center">
                   <v-col v-for="(d, i) in item.Profiles[item.ProfileIndex].Deployables"
@@ -111,18 +112,19 @@
                 </v-row>
               </div>
               <div v-if="item.Profiles[item.ProfileIndex].Tags.length">
-                <div class="text-cc-overline mb-n1 text-disabled">//{{ $t('ui.card.profileTags') }}</div>
+                <div class="text-cc-overline mb-n1 text-disabled">//{{ $t('ui.card.profileTags') }}
+                </div>
                 <cc-tags :tags="item.Profiles[item.ProfileIndex].Tags"
                   extended
                   :bonus="mech.LimitedBonus" />
               </div>
-              <on-element v-for="action in ['hit', 'crit', 'attack']"
+              <on-element v-for="action in ['attack', 'hit', 'crit', 'miss']"
                 :key="action"
                 :profile="item.Profiles[item.ProfileIndex]"
                 :action="action" />
             </div>
             <div v-else>
-              <on-element v-for="action in ['hit', 'crit', 'attack']"
+              <on-element v-for="action in ['attack', 'hit', 'crit', 'miss']"
                 :key="action"
                 :profile="item.Profiles[0]"
                 :action="action" />

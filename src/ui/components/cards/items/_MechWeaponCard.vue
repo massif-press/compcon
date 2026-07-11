@@ -47,14 +47,15 @@
       <v-col cols="12"
         sm="auto"
         :class="portrait ? 'text-center' : 'ml-auto text-right'">
-        <div class="heading h2">{{ $enum('weaponSize', item.Size) }} {{ item.WeaponTypes.map(t => $enum('weaponType', t)).join('/') }}</div>
+        <div class="heading h2">{{ $enum('weaponSize', item.Size) }} {{item.WeaponTypes.map(t =>
+          $enum('weaponType', t)).join('/') }}</div>
         <div v-if="item.Source"
           class="flavor-text text-disabled">{{ item.LicenseString }}</div>
 
       </v-col>
     </v-row>
 
-    <on-element v-for="action in ['hit', 'crit', 'attack']"
+    <on-element v-for="action in ['attack', 'hit', 'crit', 'miss']"
       :key="`on-${action}`"
       :profile="item.Profiles[tab]"
       :action="action" />

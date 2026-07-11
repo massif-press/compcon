@@ -70,7 +70,7 @@
             :key="`patron-${pIdx}`"
             :cols="getCols(tier)">
             <component :is="getComponent(p)"
-              v-if="isCutout(p)"
+              v-if="isCutout(tier, p)"
               :info="p" />
             <v-chip v-else
               border
@@ -123,7 +123,8 @@ onMounted(async () => {
 
 const cutoutNames = ['kanakovt', 'venabap']
 
-function isCutout(patron: any) {
+function isCutout(tier: string, patron: any) {
+  if (tier.toLowerCase() !== 'monist') return false
   return cutoutNames.includes(cleanName(patron).toLowerCase())
 }
 

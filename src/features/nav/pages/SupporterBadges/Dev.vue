@@ -25,7 +25,7 @@
             <a v-if="info.website"
               target="_blank"
               :href="`${info.website}`">
-              <v-icon start
+              <v-icon class="mr-1"
                 color="primary"
                 icon="mdi-web" />
               <span>{{ $t('common.website') }}</span>
@@ -35,17 +35,24 @@
             <a v-if="info.twitter"
               target="_blank"
               :href="`https://twitter.com/${info.twitter}`">
-              <v-icon start
+              <v-icon class="ml-4 mr-1"
                 color="primary"
                 icon="mdi-twitter" />
               <span>@{{ info.twitter }}</span>
             </a>
-            <span v-if="info.website && info.github"
-              class="mx-3">|</span>
+            <a v-if="info.bsky"
+              target="_blank"
+              :href="`https://bsky.app/profile/${info.bsky}`">
+              <v-icon class="ml-4 mr-1"
+                color="primary"
+                icon="mdi-butterfly" />
+              <span>@{{ info.bsky }}</span>
+            </a>
+
             <a v-if="info.github"
               target="_blank"
               :href="`https://github.com/${info.github}`">
-              <v-icon start
+              <v-icon class="ml-4 mr-1"
                 color="primary"
                 icon="mdi-github" />
               <span>GitHub</span>

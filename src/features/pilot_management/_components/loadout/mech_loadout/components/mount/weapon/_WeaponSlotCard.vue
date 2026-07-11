@@ -25,7 +25,7 @@
             class="text-cc-overline text-disabled ">
             {{ $enum('weaponType', item.WeaponType) }}
             {{ $enum('weaponSize', item.Size) }}
-            {{ item.WeaponTypes.map(t => $enum('weaponType', t)).join('/') }}
+            {{item.WeaponTypes.map(t => $enum('weaponType', t)).join('/')}}
           </div>
         </v-col>
       </v-row>
@@ -126,7 +126,8 @@
           </div>
 
           <div v-if="item.Profiles[item.ProfileIndex].Deployables.length">
-            <div class="text-cc-overline text-disabled">//{{ $t('ui.card.profileDeployables') }}</div>
+            <div class="text-cc-overline text-disabled">//{{ $t('ui.card.profileDeployables') }}
+            </div>
             <v-row no-gutters
               justify="center">
               <v-col v-for="(d, i) in item.Profiles[item.ProfileIndex].Deployables"
@@ -141,17 +142,18 @@
             </v-row>
           </div>
           <div v-if="item.Profiles[item.ProfileIndex].Tags.length">
-            <div class="text-cc-overline mb-n1 text-disabled">//{{ $t('ui.card.profileTags') }}</div>
+            <div class="text-cc-overline mb-n1 text-disabled">//{{ $t('ui.card.profileTags') }}
+            </div>
             <cc-tags :tags="item.Profiles[item.ProfileIndex].Tags"
               extended />
           </div>
-          <on-element v-for="action in ['hit', 'crit', 'attack']"
+          <on-element v-for="action in ['attack', 'hit', 'crit', 'miss']"
             :key="`on_${item.ProfileIndex}_${action}`"
             :profile="item.Profiles[item.ProfileIndex]"
             :action="action" />
         </div>
         <div v-else>
-          <on-element v-for="action in ['hit', 'crit', 'attack']"
+          <on-element v-for="action in ['attack', 'hit', 'crit', 'miss']"
             :key="`on_${action}`"
             :profile="item.Profiles[0]"
             :action="action" />
@@ -226,63 +228,63 @@ const modDialog = ref(false)
 const lockDialog = ref(false)
 
 const isEngineerWeapon = computed(() => {
-      return item.value && item.value.ID.includes('mw_prototype_')
-    })
+  return item.value && item.value.ID.includes('mw_prototype_')
+})
 const item = computed(() => {
-      return props.weaponSlot.Weapon
-    })
+  return props.weaponSlot.Weapon
+})
 const mod = computed(() => {
-      return item.value?.Mod
-    })
+  return item.value?.Mod
+})
 const color = computed(() => {
-      return props.mech.Frame.ManufacturerColor;
-    })
+  return props.mech.Frame.ManufacturerColor;
+})
 const getRange = computed(() => {
-      if (!item.value) return []
-      return Range.CalculateRange(item.value, props.mech as Mech)
-    })
+  if (!item.value) return []
+  return Range.CalculateRange(item.value, props.mech as Mech)
+})
 const getDamage = computed(() => {
-      if (!item.value) return []
-      return Damage.CalculateDamage(item.value, props.mech as Mech)
-    })
+  if (!item.value) return []
+  return Damage.CalculateDamage(item.value, props.mech as Mech)
+})
 
 function equip(item: MechWeapon) {
-      ; (base.value as any).selectorDialog = false
-      if (item.Size === WeaponSize.Superheavy) {
-        equipSuperheavy(item)
-      } else {
-        if (item.value && item.value.Size === WeaponSize.Superheavy)
-          props.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy()
-        props.weaponSlot.EquipWeapon(item, props.mech.Pilot)
-      }
-    }
+  ; (base.value as any).selectorDialog = false
+  if (item.Size === WeaponSize.Superheavy) {
+    equipSuperheavy(item)
+  } else {
+    if (item.value && item.value.Size === WeaponSize.Superheavy)
+      props.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy()
+    props.weaponSlot.EquipWeapon(item, props.mech.Pilot)
+  }
+}
 function equipSuperheavy(item: MechWeapon) {
-      stagedSH.value = item
-      lockDialog.value = true
-    }
+  stagedSH.value = item
+  lockDialog.value = true
+}
 function finalizeSuperheavy(lockTarget: EquippableMount) {
-      if (item.value && item.value.Size === WeaponSize.Superheavy)
-        props.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy()
-      lockTarget.Lock(props.mount as EquippableMount)
-      props.weaponSlot.EquipWeapon(stagedSH.value, props.mech.Pilot)
-      lockDialog.value = false
-      stagedSH.value = null
-    }
+  if (item.value && item.value.Size === WeaponSize.Superheavy)
+    props.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy()
+  lockTarget.Lock(props.mount as EquippableMount)
+  props.weaponSlot.EquipWeapon(stagedSH.value, props.mech.Pilot)
+  lockDialog.value = false
+  stagedSH.value = null
+}
 function install(mod: WeaponMod) {
-      if (item.value) item.value.Mod = mod
-      modDialog.value = false
-      props.mech.Pilot.SaveController.save()
-    }
+  if (item.value) item.value.Mod = mod
+  modDialog.value = false
+  props.mech.Pilot.SaveController.save()
+}
 function uninstall() {
-      if (item.value) item.value.Mod = null
-    }
+  if (item.value) item.value.Mod = null
+}
 function remove() {
-      if (item.value?.Size === WeaponSize.Superheavy) {
-        props.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy()
-      }
-      props.weaponSlot.UnequipWeapon()
-    }
+  if (item.value?.Size === WeaponSize.Superheavy) {
+    props.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy()
+  }
+  props.weaponSlot.UnequipWeapon()
+}
 function save() {
-      props.mech.Parent.SaveController.save();
-    }
+  props.mech.Parent.SaveController.save();
+}
 </script>

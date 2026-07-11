@@ -64,27 +64,30 @@
       </v-chip>
     </v-col>
   </v-row>
-  <div v-if="feature.Attacks && feature.Attacks.some((x) => x > 1)">
-    <i18n-t keypath="gm.featurePrint.weaponAttacks" tag="span" scope="global">
-      <template #count><b>{{ tier ? feature.Attacks[tier - 1] : feature.Attacks.join(' / ') }}</b></template>
+  <div v-if="(feature as NpcWeapon).Attacks && (feature as NpcWeapon).Attacks.some((x) => x > 1)">
+    <i18n-t keypath="gm.featurePrint.weaponAttacks"
+      tag="span"
+      scope="global">
+      <template #count><b>{{ tier ? (feature as NpcWeapon).Attacks[tier - 1] : (feature as
+        NpcWeapon).Attacks.join(' / ') }}</b></template>
     </i18n-t>
   </div>
 
-  <div v-if="feature.OnMiss">
+  <div v-if="(feature as NpcWeapon).OnMiss">
     <b>{{ $t('pm.print.onMISS') }}:</b>
-    {{ feature.OnMiss.Detail }}
+    {{ (feature as NpcWeapon).OnMiss?.Detail }}
   </div>
-  <div v-if="feature.OnAttack">
+  <div v-if="(feature as NpcWeapon).OnAttack">
     <b>{{ $t('pm.print.onATTACK') }}:</b>
-    {{ feature.OnAttack.Detail }}
+    {{ (feature as NpcWeapon).OnAttack?.Detail }}
   </div>
-  <div v-if="feature.OnHit">
+  <div v-if="(feature as NpcWeapon).OnHit">
     <b>{{ $t('pm.print.onHIT') }}:</b>
-    {{ feature.OnHit.Detail }}
+    {{ (feature as NpcWeapon).OnHit?.Detail }}
   </div>
-  <div v-if="feature.OnCrit">
+  <div v-if="(feature as NpcWeapon).OnCrit">
     <b>{{ $t('pm.print.onCRIT') }}:</b>
-    {{ feature.OnCrit.Detail }}
+    {{ (feature as NpcWeapon).OnCrit?.Detail }}
   </div>
 
   <div v-html-safe="feature.EffectByTier(tier)" />
@@ -101,10 +104,11 @@
 import type { NpcFeature } from '@/classes/npc/feature/NpcFeature'
 import PrintDeployable from './PrintDeployable.vue';
 import PrintAction from './PrintAction.vue';
+import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon.js';
 
 defineOptions({ name: 'PrintNpcFeature' })
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   feature: NpcFeature
   tier?: number
 }>(), {

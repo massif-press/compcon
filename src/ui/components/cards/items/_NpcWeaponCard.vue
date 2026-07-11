@@ -101,7 +101,12 @@
                   v-bind="props"
                   :icon="item.Accuracy(1) < 0 ? 'cc:difficulty' : 'cc:accuracy'" />
               </template>
-              <span>{{ item.Accuracy(1) < 0 ? $t('common.difficulty') : $t('common.accuracy') }}</span>
+              <span>{{ item.Accuracy(1) < 0
+                ?
+                $t('common.difficulty')
+                  :
+                  $t('common.accuracy')
+                  }}</span>
             </v-tooltip>
           </v-col>
           <v-col v-if="tier"
@@ -120,7 +125,12 @@
         </v-row>
         <div v-if="!dense"
           class="text-cc-overline mt-n2">
-          {{ item.Accuracy(1) < 0 ? $t('common.difficulty') : $t('common.accuracy') }}
+          {{ item.Accuracy(1) < 0
+            ?
+            $t('common.difficulty')
+            :
+            $t('common.accuracy')
+            }}
             </div>
       </v-col>
     </v-row>
@@ -130,13 +140,19 @@
       variant="tonal"
       icon="cc:weapon"
       class="my-1">
-      <i18n-t keypath="ui.card.weaponAttacks" tag="span" scope="global">
-        <template #count><b class="text-accent">{{ tier ? item.Attacks[tier - 1] : item.Attacks.join(' / ') }}</b></template>
+      <i18n-t keypath="ui.card.weaponAttacks"
+        tag="span"
+        scope="global">
+        <template #count><b class="text-accent">{{ tier ? item.Attacks[tier - 1] :
+          item.Attacks.join(' / ') }}</b></template>
       </i18n-t>
     </v-alert>
     <template #statblock>
       <p v-if="item.OnMiss"
         v-html-safe="`<b>On Miss:&nbsp;</b>${item.OnMiss.Detail}`"
+        class="panel text-text py-1" />
+      <p v-if="item.OnAttack"
+        v-html-safe="`<b>On Hit:&nbsp;</b>${item.OnAttack.Detail}`"
         class="panel text-text py-1" />
       <p v-if="item.OnHit"
         v-html-safe="`<b>On Hit:&nbsp;</b>${item.OnHit.Detail}`"

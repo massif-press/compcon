@@ -9,7 +9,7 @@
       "name": "Tom Parkinson Morgan",
       "website": "https://killsixbilliondemons.com/",
       "image": "/badges/tom.webp",
-      "bsky": "https://bsky.app/profile/orbitaldropkick.bsky.social"
+      "bsky": "orbitaldropkick.bsky.social"
     }
   ],
   "lead_devs": [
@@ -17,8 +17,8 @@
       "name": "John Arena",
       "website": "http://jarena3.github.io/",
       "image": "/badges/beef.webp",
-      "github": "https://github.com/massif-press",
-      "bsky": "https://bsky.app/profile/beeftime.itch.io"
+      "github": "massif-press",
+      "bsky": "beeftime.itch.io"
     }
   ],
   "devs1": [
@@ -65,7 +65,7 @@
       "name": "Retrograde Minis",
       "image": "/badges/retrograde.webp",
       "website": "https://www.retrogrademinis.com/",
-      "bsky": "https://bsky.app/profile/retrogrademinis.bsky.social"
+      "bsky": "retrogrademinis.bsky.social"
     },
     {
       "name": "juan gee",

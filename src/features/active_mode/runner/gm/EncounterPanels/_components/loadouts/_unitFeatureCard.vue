@@ -92,7 +92,7 @@
 
           <div v-if="item"
             class="pt-1">
-            <on-element v-for="action in ['hit', 'crit', 'attack']"
+            <on-element v-for="action in ['attack', 'hit', 'crit', 'miss']"
               :key="action"
               :profile="item"
               :action="action" />

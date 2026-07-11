@@ -73,7 +73,7 @@
         <v-col>
           <div class="text-cc-overline text-disabled">{{ $t('common.reserves') }}</div>
         </v-col>
-        <v-col v-if="orderedReserves.length"
+        <v-col v-if="baseReserves.length"
           cols="auto"
           class="ml-auto">
           <cc-switch v-model="unusedOnly"
@@ -82,7 +82,7 @@
             dense />
         </v-col>
       </v-row>
-      <div v-if="!orderedReserves.length"
+      <div v-if="!baseReserves.length"
         class="mt-n4 mb-4">
         <i class="text-disabled text-caption">{{ $t('active.pcPanel.noReserves') }}</i>
       </div>
@@ -144,10 +144,12 @@ const mounted = computed(() => {
       if (!mech.value) return false;
       return mech.value.CombatController.Mounted;
     })
-const orderedReserves = computed(() => {
-      const r = (props.combatant.actor.ReservesController?.Reserves ?? []).filter(
+const baseReserves = computed(() =>
+      (props.combatant.actor.ReservesController?.Reserves ?? []).filter(
         (x) => x.Type !== ReserveType.Organization && x.Type !== ReserveType.Project
-      );
+      ))
+const orderedReserves = computed(() => {
+      const r = baseReserves.value;
       if (!unusedOnly.value) {
         return r.filter((x) => !x.Used).sort((a, b) => a.ResourceLabel.localeCompare(b.Name));
       }

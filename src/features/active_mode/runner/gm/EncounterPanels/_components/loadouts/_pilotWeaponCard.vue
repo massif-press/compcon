@@ -38,7 +38,7 @@
 
         <div v-if="item"
           class="pt-1">
-          <on-element v-for="action in ['hit', 'crit', 'attack']"
+          <on-element v-for="action in ['attack', 'hit', 'crit', 'miss']"
             :key="action"
             :profile="item"
             :action="action" />
@@ -49,8 +49,7 @@
           @deploy="$emit('deploy', $event)" />
       </v-card-text>
     </div>
-    <equip-command-panel
-      :controller="pilot.CombatController"
+    <equip-command-panel :controller="pilot.CombatController"
       :item="item" />
   </v-card>
 </template>
