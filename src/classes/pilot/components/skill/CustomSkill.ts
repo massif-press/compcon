@@ -1,4 +1,5 @@
 import { ItemType } from '../../../enums'
+import { DEFAULT_LCP_NAME } from '../../../LcpItemMixin'
 
 class CustomSkill {
   public readonly ItemType: ItemType;
@@ -43,6 +44,14 @@ class CustomSkill {
 
   public get Family(): string {
     return 'Custom';
+  }
+
+  public get Icon(): string {
+    return 'cc:skill';
+  }
+
+  public get LcpName(): string {
+    return DEFAULT_LCP_NAME;
   }
 }
 

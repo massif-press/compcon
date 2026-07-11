@@ -87,11 +87,17 @@ const options = {
 }
 
 const familyOrder = ['str', 'dex', 'int', 'cha']
+const familyRank = (f: string) => (familyOrder.indexOf(f) + 1 || familyOrder.length + 1)
+const customSkills = computed(() =>
+  props.pilot.SkillsController.Skills.filter((s: any) => s.IsCustom).map((s: any) => s.Skill)
+)
 const baseSkills = computed(() =>
-  filterByLcpConfig(CompendiumStore().Skills, props.pilot.LcpConfig).sort((a, b) => {
-    const d = familyOrder.indexOf(a.Family) - familyOrder.indexOf(b.Family)
-    return d !== 0 ? d : a.Name.localeCompare(b.Name)
-  })
+  [...filterByLcpConfig(CompendiumStore().Skills, props.pilot.LcpConfig), ...customSkills.value].sort(
+    (a, b) => {
+      const d = familyRank(a.Family) - familyRank(b.Family)
+      return d !== 0 ? d : a.Name.localeCompare(b.Name)
+    }
+  )
 )
 
 const activeSkillIds = computed(() => props.pilot.SkillsController.Skills.map((s: any) => s.Skill.ID))
