@@ -2,5 +2,17 @@
   "act_bolster.special_0.detail": "Recibe +2 Precisión en la próxima prueba de habilidad o salvación que hagas.",
   "act_bolster.terse": "Mejora los sistemas de otro personaje.",
   "act_boost.terse": "Toma un movimiento extra de al menos 1 espacio, hasta tu VELOCIDAD.",
-  "act_invade.name": "Invadir"
+  "act_invade.name": "Invadir",
+  "act_activate_full.name": "Activación completa",
+  "act_activate_full.terse": "Activar un sistema o equipamiento que utilice una acción completa",
+  "act_activate_quick.detail": "Cuando ACTIVAS, utilizas un sistema o equipamiento que requiere una acción rápida o completa. Estos sistemas tienen la característica de ACCION RAPIDA o ACCION COMPLETA. Puedes ACTIVAR la cantidad de veces que quieras durante tu turno pero no puedes Activar el mismo sistema más de una vez a menos que puedas hacerlo como acción gratuita.",
+  "act_activate_quick.name": "Activación Rapida",
+  "act_activate_quick.terse": "Activa un sistema o equipamiento que utilice u a acción rápida.",
+  "act_brace.trigger": "Has sido golpeado por un ataque y el daño se ha lanzado.",
+  "act_dismount.detail": "Cuando DESMONTAR, bajas de tu mecha. Desmontar es el término preferido entre los pilotos.<br>Puedes DESMONTAR como acción completa. Cuando te DESMONTAR, eres colocado en un espacio adjacente - si no hay espacios libres no puedes DESMONTAR.<br>Adicionalmente, también puedes DESMONTAR mechas aliados voluntarios o vehículos que hayas MONTADO.",
+  "act_dismount.name": "Desmontar",
+  "act_dismount.terse": "Salir de tu mech",
+  "act_eject.detail": "También puedes EJECTAR como acción adicional, volando 6 espacios en la dirección que escojas; pero, este es un sistema de un solo uso para emergencias - deja tu mecha IMPAIRED. Tú mecha se queda IMPAIRED y tú no puedes EJECTAR de nuevo hasta tu próxima REPARACIÓN COMPLETA.",
+  "act_eject.name": "Ejectar",
+  "act_eject.terse": "Ejectar de tu mecha, volando 6 espacios en la dirección que escojas."
 }

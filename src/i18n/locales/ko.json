@@ -123,12 +123,14 @@
       "copiedToClipboard": "클립보드에 복사됨",
       "halfDamage": "절반 피해",
       "exportAsJson": "JSON으로 내보내기",
-      "disengageFailed": "교전해제 실패",
+      "disengageFailed": "퇴각 실패",
       "disengageFailedText": "{name}은 교전상태가 아닙니다.",
       "disengagedText": "{name}(이)가 교전해제됨.",
       "currentlySelected": "현재 선택됨:",
       "destroyed": "파괴됨",
-      "saveFailed": "저장 실패"
+      "saveFailed": "저장 실패",
+      "hiddenText": "{name}(이)가 은신함.",
+      "dangerZone": "열위험 상태"
     },
     "dmgCond": {
       "doubleDamage": "두배 피해",
@@ -144,6 +146,39 @@
     },
     "pcEndRound": {
       "willLoseStatuses": "다음 상태를 잃습니다:"
+    },
+    "invade": {
+      "invade": "침투"
+    },
+    "addCombatant": {
+      "addedText": "{name}(이)가 인카운터에 추가되었습니다."
+    },
+    "panelBase": {
+      "hard": "완전",
+      "cover": "엄폐",
+      "noCover": "엄폐 없음",
+      "resistances": "저항",
+      "statusesConditions": "상태/상태이상"
+    },
+    "actorLogs": {
+      "exportText": "텍스트 로그 내보내기",
+      "exportJson": "JSON 로그 내보내기"
+    },
+    "timedEffect": {
+      "roundsRemaining": "{n} 라운드 남음"
+    },
+    "statusCond": {
+      "title": "상태 / 상태이상",
+      "addCustom": "커스텀 상태 추가"
+    },
+    "combatAction": {
+      "alreadyUsed": "이 행동은 이미 이 턴에 사용되었습니다."
+    },
+    "cards": {
+      "equipmentDestroyed": "장비 파괴됨"
+    },
+    "titles": {
+      "burn": "화재"
     }
   },
   "compendium": {
@@ -152,11 +187,20 @@
       "frameSuffix": "{type} 프레임"
     },
     "campaign": {
-      "recommendedLicenseLevel": "권장 라이센스 레벨"
+      "recommendedLicenseLevel": "권장 라이센스 레벨",
+      "sortByTitle": "제목에 따라 정렬",
+      "addCampaign": "캠페인 추가"
     },
     "categories": {
       "frames": "프레임",
-      "mechWeapons": "메크 무기"
+      "mechWeapons": "메크 무기",
+      "statusesConditions": "상태 & 상태이상"
+    },
+    "reference": {
+      "mechActions": "메크 행동",
+      "pilotActions": "파일럿 행동",
+      "statuses": "상태",
+      "glossary": "용어"
     }
   },
   "nav": {
@@ -177,7 +221,8 @@
     "sensors": "센서",
     "structure": "구조",
     "stress": "스트레스",
-    "sp": "SP"
+    "sp": "SP",
+    "edefense": "전자방어"
   },
   "pm": {
     "link": {
@@ -191,11 +236,96 @@
     "fields": {
       "size": "크기",
       "license": "라이센스"
+    },
+    "pwa": {
+      "updateAvailable": "@:{'common.appName'}의 새로운 버전이 있습니다.",
+      "updateNow": "지금 업데이트하기",
+      "offlineReady": "@:{'common.appName'}(이)가 오프라인 사용 준비됨."
+    },
+    "filter": {
+      "savedConfigs": "저장된 설정",
+      "clearFilters": "필터 비우기",
+      "setItemFilters": "아이템 필터 설정",
+      "noFilters": "유효한 필터 없음"
+    },
+    "titles": {
+      "structureDamage": "구조 피해"
     }
   },
   "mainMenu": {
     "ui": {
       "upgrade": "업그레이드"
+    }
+  },
+  "enums": {
+    "systemType": {
+      "ai": "AI",
+      "invade": "침투",
+      "flight_system": "비행 시스템",
+      "system": "시스템",
+      "mod": "모드",
+      "mine": "지뢰",
+      "grenade": "수류탄"
+    },
+    "activationType": {
+      "invade": "침투",
+      "free": "자유행동",
+      "protocol": "프로토콜",
+      "quick": "빠른행동",
+      "full": "전력행동",
+      "reaction": "반응행동",
+      "move": "이동"
+    },
+    "duration": {
+      "turn": "턴",
+      "next_turn": "다음 턴",
+      "round": "라운드",
+      "next_round": "다음 라운드",
+      "scene": "장면"
+    },
+    "attackType": {
+      "melee": "근접",
+      "ranged": "원거리"
+    },
+    "damageType": {
+      "kinetic": "물리",
+      "energy": "에너지",
+      "explosive": "폭발",
+      "heat": "열",
+      "burn": "화재",
+      "aoe": "광역"
+    },
+    "weaponType": {
+      "melee": "근접",
+      "rifle": "",
+      "cannon": "",
+      "launcher": "",
+      "cqb": "",
+      "nexus": ""
+    },
+    "weaponSize": {
+      "auxiliary": "보조",
+      "main": "주",
+      "superheavy": "초대형",
+      "heavy": ""
+    },
+    "mountType": {
+      "main": "주",
+      "aux_aux": "보조/보조",
+      "aux": "보조",
+      "main_aux": "주/보조",
+      "superheavy": "초대형",
+      "heavy": ""
+    },
+    "rangeType": {
+      "range": "사거리",
+      "blast": "방출"
+    }
+  },
+  "notify": {
+    "dataItem": {
+      "bulkDeletedText": "선택된 아이템이 제거되었습니다.",
+      "bulkPartialTitle": "{n}개 제거됨, {f}개 실패"
     }
   }
 }

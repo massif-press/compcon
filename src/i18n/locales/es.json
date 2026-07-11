@@ -146,10 +146,10 @@
     "pilotSheet": "Hoja del Piloto",
     "side": "Lado",
     "systemPoints": "Puntos de Sistema",
-    "remove": "Eliminar",
+    "remove": "Quitar",
     "hidden": "Oculto",
     "roll_noun": "Tira",
-    "hpBonus": "Bono de Pv",
+    "hpBonus": "Bono de PV",
     "setCustomDescription": "Asignar Descripción Personalizada",
     "pilotGroup": "Grupo de Pilotos",
     "background": "Trasfondo",
@@ -161,7 +161,7 @@
     "alert": "Alerta",
     "ok": "Aceptar",
     "includeFeatureDetails": "incluir Detalles de la Característica",
-    "pilotTalents": "Talentos del Piloto",
+    "pilotTalents": "Talentos de Piloto",
     "hase_a": "A",
     "hase_s": "S",
     "hase_e": "I",
@@ -169,7 +169,13 @@
     "loading": "Cargando…",
     "size": "Tamaño",
     "roll": "Tirada",
-    "compconPrompt": ">>COMP/CON//"
+    "compconPrompt": ">>COMP/CON//",
+    "pilotBonds": "Lazos del Piloto",
+    "setCustomName": "Elegir Nombre Personalizado",
+    "roll_verb": "Tirar",
+    "changelog": "Bitácora de cambios",
+    "mech": "Mecha",
+    "pilotSkillTriggers": "Skill Triggers de Piloto"
   },
   "language": {
     "selectLanguage": "Idioma",
@@ -201,7 +207,8 @@
     "newFaction": "Nueva Facción",
     "newEidolon": "Nuevo Eidolon",
     "newDoodad": "Nuevo Doodad",
-    "newSitrep": "Nuevo Sitrep"
+    "newSitrep": "Nuevo Sitrep",
+    "newSkillTrigger": "Nuevo Skill Trigger"
   },
   "nav": {
     "contentManager": {
@@ -227,7 +234,7 @@
       "deleteTitle": "Eliminar Respaldo",
       "importAllTooltip": "Intente importar todos los artículos pendientes. Los artículos con dependencias faltantes permanecerán en un estado pendiente.",
       "forceImportAll": "Forzar Importación de Todo",
-      "forceImportAllTooltip": "Forzar la importación de todos los artículos pendientes, despojando cualquier dependencia no resuelta. Utilice esto si desea obtener todo importado independientemente del contenido faltante, pero tenga en cuenta que los artículos importados serán despojados de los datos faltantes y tal vez necesiten ser arreglados manualmente después de la importación.",
+      "forceImportAllTooltip": "Forzar la importación de todos los artículos pendientes, removiendo cualquier dependencia no resuelta. Utilice esto si desea obtener todo importado independientemente del contenido faltante, pero tenga en cuenta que los artículos importados serán despojados de los datos faltantes y tal vez necesiten ser arreglados manualmente después de la importación.",
       "forceImport": "Forzar Importación (remueve artículos faltantes)",
       "attemptReimport": "Intentar Re-importar",
       "deleteConfirm": "¿Eliminar esta copia de seguridad v2 pendiente? Esta acción no se puede deshacer.",
@@ -245,10 +252,10 @@
       "achievements": "Logros",
       "about": "Acerca de",
       "help": "Ayuda",
-      "pilotManagement": "Gestión de piloto",
+      "pilotManagement": "Gestión de Piloto",
       "npcRoster": "Listado de PNJ",
       "narrativeElements": "Elementos Narrativos",
-      "campaignManager": "Gestión de Campaña",
+      "campaignManager": "Gestor de Campaña",
       "quickReference": "Referencia Rápida",
       "storageLimitExceeded": "Límite de Almacenamiento Excedido",
       "noNewItemsSaved": "No se guardaran nuevos artículos hasta que el límite sea incrementado o se eliminen datos.",
@@ -257,7 +264,8 @@
       "storageDetails": "Hay más detalles disponibles en la pestaña <b>Almacenamiento</b> del Menú de Opciones.",
       "supportCompcon": "Soporte @:{'common.appName'}",
       "encounters": "Encuentros",
-      "mainMenu": "@:{'common.mainMenu'}"
+      "mainMenu": "@:{'common.mainMenu'}",
+      "navigateBack": "Navegar de Vuelta"
     },
     "help": {
       "faq": "Preguntas más frecuentes",
@@ -311,13 +319,13 @@
       "display": "Mostrar",
       "mythic": "Mítico",
       "dateUnlocked": "Fecha Desbloqueo",
-      "createBackup": "Crear Copia de seguridad del Logro",
-      "loadBackup": "Cargar Copia de seguridad del Logro",
+      "createBackup": "Crear Copia de Respaldo del Logro",
+      "loadBackup": "Cargar Copia de Respaldo del Logro",
       "overwriteAllWarning": "Sobre-escribir todo",
       "eraseAllWarning": "Borrar todo",
       "selectExportFile": "Seleccionar archivo @:{'common.appName'} de Exportación de Logro",
       "resetAchievements": "Reiniciar Logros",
-      "cannotAddTitle": "No se puede añadir logro",
+      "cannotAddTitle": "No Se Puede Añadir Logro",
       "hiddenCount": "{count} logro no mostrado | {count} logros no mostrados",
       "cannot": "no puede",
       "warningDataFull": "Esto {emphasis} los datos de progreso del usuario.",
@@ -386,7 +394,7 @@
       "noStorageAccess": "@:{'common.appName'} no puede acceder al dispositivo de almacenamiento. Esto puede deberse a una extensión o configuración del navegador. @:{'common.appName'} volverá a usar almacenamiento local, el cual está limitado a 5MB. Esto puede dar lugar a que @:{'common.appName'} no pueda guardar datos. Por favor, compruebe la configuración de su navegador, o permita que @:{'common.appName'} acceda a \"Alamcenamiento Persistente\" si se solicita. Si está usando una extensión del navegador que bloquea el acceso al almacenamiento, por favor deshabilitarlo para @:{'common.appName'}. Si ninguna de estas opciones funciona, por favor considere la posibilidad de descargar @:{'common.appName'} como PWA.",
       "deletedItems": "Artículos eliminados (sólo datos locales)",
       "deleteWarningBanner": "Advertencia // advertencia // advertencia",
-      "areYouSure": "¿Está usted seguro de que desea continuar?",
+      "areYouSure": "¿Está seguro de que desea continuar?",
       "daysCount": "{count} días.",
       "deleteConfirmUndone": "Este {undone}",
       "warningThresholdPct": "Umbral de alerta (%)",
@@ -414,7 +422,7 @@
     "userDataViewer": {
       "value": "Valor",
       "description": "Estos son los datos de usuario almacenados localmente. Estos artículos generalmente no deben ser reiniciados, pero pueden ser útiles para depurar o aclarar un problema de carga persistente.",
-      "achievementNote": "Reiniciar datos de usuario no restablecerá los logros desbloqueados (eso puede hacerse en el Explorador de Logros).",
+      "achievementNote": "Reiniciar Datos de Usuario no restablecerá los logros desbloqueados (eso puede hacerse en el Explorador de Logros).",
       "resetUserData": "Restablecer datos de usuario"
     },
     "packInstall": {
@@ -446,7 +454,8 @@
       "communityContribute": "Si usted está interesado en crear su propio contenido casero de @:{'common.gameName'}, o enviar su contenido para ser incluido en este directorio, por favor",
       "clickHere": "presione aquí.",
       "communityNotice": "La descarga dentro de aplicaciones y la suscripción automática a las actualizaciones de LCP de la comunidad aún no son soportadas . Una vez disponibles las herramientas de soporte del autor, los LCP comunitarios serán migrados a v3 y podrán aprovechar los mismos mecanismos de actualización y suscripción que los paquetes oficiales de contenido de Massif Press. Siga el {blog} para mantenerse al día en el progreso.",
-      "content": "Contenido"
+      "content": "Contenido",
+      "developmentBlog": "bitácora de desarrollo"
     },
     "packInfo": {
       "v2ContentTitle": "Contenido v2",
@@ -487,13 +496,14 @@
       "title": "@:{'common.appName'}"
     },
     "log": {
-      "trace": "Trazo",
+      "trace": "Rastro",
       "exportLog": "Bitácora de Exportación",
       "copiedToClipboard": "Registro copiado al portapapeles",
-      "noData": "@:{'common.noData'}"
+      "noData": "@:{'common.noData'}",
+      "caller": "Llamado por"
     },
     "packConfig": {
-      "title": "Configuración de Contenido",
+      "title": "Configuraciones de Contenido",
       "description": "Las configuraciones de contenidos le permiten crear y gestionar conjuntos de LCP que se pueden aplicar a Pilotos y PNJs que permiten o limitan las selecciones a contenidos específicos. Pilotos y PNJs sin configuración tendrán acceso a todos los LCP instalados y activados",
       "applyNote": "Estas configuraciones se pueden aplicar a Pilotos y PNJs en sus menús de opciones.",
       "noConfigs": "No se hallaron configuraciones.",
@@ -734,7 +744,7 @@
       "bannerImage": "Imagen del Banderín de la Campaña",
       "setBannerImage": "Seleccionar Imagen de Pancarta",
       "imagesMustLink": "Las imágenes de la campaña deben estar vinculadas, y no pueden provenir de datos locales de @:{'common.appName'} .",
-      "fromLicenseLevels": "Desde los Niveles de Licencia",
+      "fromLicenseLevels": "De los Niveles de Licencia",
       "authorContact": "Información de contacto del Autor (Opcional)",
       "addContact": "Agregar Nuevo Contacto",
       "coverImage": "Imagen de Portada de Campaña",
@@ -769,7 +779,7 @@
       "allies": "Aliados",
       "atLeastPcs": "Con {count} o más PJs",
       "reinforcesOnTurn": "Refuerzos en Turno {turn}",
-      "npcTracking": "Rastreo de PNJ",
+      "npcTracking": "Seguimiento de PNJ",
       "pcsAllies": "PJs/aliados",
       "extraction": "Extracción",
       "neutral": "Neutral"
@@ -781,11 +791,11 @@
     },
     "encImport": {
       "notEncounterFile": "El archivo seleccionado no contiene datos de encuentro.",
-      "stagedEncounters": "Encuentros escenificados",
+      "stagedEncounters": "Encuentros preparados",
       "readyForImport": "Encuentro listo para importar",
       "missingNpcs": "Este encuentro hace referencia a PNJs que aún no han sido importados. Se guardará en la colección Importados v2 en el Gestor de Contenidos y se podrá importar una vez que estén disponibles los PNJs requeridos.",
       "someMissingNpcs": "Algunos encuentros hacen referencia a PNJs que aún no han sido importados. Estos encuentros se guardarán en la colección Importados v2 en el Gestor de Contenidos y podrán ser importados cuando estén disponibles los PNJs requeridos.",
-      "importCount": "Importar ({n} Encuentro{plural})",
+      "importCount": "Importar ({n} Encuentro) | Importar ({n} Encuentros)",
       "combatants": "Combatientes"
     },
     "npcFeature": {
@@ -795,7 +805,7 @@
       "allAvailableFeatures": "Todas las Características Disponibles",
       "allAssignedFeatures": "Todas las Características Asignadas",
       "selectedClass": "Clase seleccionada",
-      "selectedTemplate": "Plantilla{plural} seleccionada{plural}",
+      "selectedTemplate": "Plantilla seleccionada | Plantillas seleccionadas",
       "otherNpcClasses": "Otras Clases de PNJ",
       "otherNpcTemplates": "Otras Plantillas de PNJ",
       "otherFeatures": "Otras Características",
@@ -858,7 +868,7 @@
     "sitrep": {
       "presets": "Pre-configuraciones",
       "myPresets": "Mis pre-configuraciones",
-      "savePreset": "Guardar la Pre-configuración",
+      "savePreset": "Guardar la Preselección",
       "modifiedWarning": "Este sitrep ha sido modificado. Cargar una nueva pre-selección eliminará estos cambios. ¿Seguro que quiere continuar?",
       "deletePresetConfirm": "Eliminar pre-selección {name}? Esto no puede deshacerse.",
       "condition": "Condición"
@@ -975,7 +985,7 @@
       "notLinkedSource": "Esta instancia de PNJ no está vinculada a una fuente válida en su lista de PNJ",
       "notLinkedSourceDot": "Esta instancia de PNJ no está vinculada a una fuente válida en su lista de PNJ.",
       "sourceLinked": "Origen Vinculado",
-      "sourceUnavailable": "Origen no disponible",
+      "sourceUnavailable": "Origen No Disponible",
       "instanceSource": "Origen de Instancia",
       "change": "Cambiar",
       "thisInstance": "Esta Instancia",
@@ -1047,7 +1057,10 @@
       "addDowntime": "Añadir Tiempo Apeado",
       "missingContentPacks": "Paquetes de Contenido Faltantes",
       "setFolder": "Seleccionar Directorio",
-      "importData": "importar datos"
+      "importData": "importar datos",
+      "eidolons": "Eidolones",
+      "clock": "Reloj",
+      "addBeat": "Añadir Beat"
     },
     "subtitles": {
       "setItemFolder": "Seleccionar directorio del artículo",
@@ -1056,7 +1069,8 @@
       "addANewEmptyFreeform": "Añadir una nueva sección de forma libre vacía bajo esta página. Una sección es un contenedor para otros artículos de contenido, y puede usarse para organizar su campaña en la manera que encuentre apropiada.",
       "addANewEmptyBeat": "Añade un nuevo Pulso bajo esta sección. Un Pulso es una sección para un evento o momento importante en la historia.",
       "addANewEmptyMission": "Añade una nueva Misión vacía bajo esta página. Una Misión contiene objetivos y metas específicas que pueden ser completadas dentro de un periodo de tiempo discreto, y típicamente contiene Combates.",
-      "addANewEmptyCombat": "Añade un Combate nuevo vacío bajo esta página. Un Combate contiene Encuentros, así como también directrices para DJ, detalles narrativos pertinentes a la batalla, y resultados potenciales."
+      "addANewEmptyCombat": "Añade un Combate nuevo vacío bajo esta página. Un Combate contiene Encuentros, así como también directrices para DJ, detalles narrativos pertinentes a la batalla, y resultados potenciales.",
+      "addANewEmptyDowntime": "Añade un nuevo Downtime vacío bajo esta página. Downtime es el espacio narrativo entre misiones, donde la acción momento a momento no importa tanto y el juego de roles importa mucho más."
     },
     "actions": {
       "noncharacterObjectsSuchAsTerrain": "Objetos no-personaje (tales como artículos del terreno) que pueden ser monitoreados en encuentros de combate."
@@ -1205,7 +1219,7 @@
     "newEnc": {
       "title": "Nuevo Encuentro Local Activo",
       "encounterData": "Datos de encuentro",
-      "additionalNpcs": "Los NPC adicionales pueden ser añadidos en el corredor de encuentros después de la creación."
+      "additionalNpcs": "Los PNJ adicionales pueden ser añadidos en el Corredor de Encuentros después de la creación."
     },
     "tableManager": {
       "published": "lista de mesas publicadas",
@@ -1443,7 +1457,7 @@
       "cover": "Cobertura",
       "noCover": "Sin Cobertura",
       "soft": "Suave",
-      "softCover": "Cobertura Suave",
+      "softCover": "Cobertura Blanda",
       "hard": "Dura",
       "hardCover": "Cobertura Dura",
       "resistances": "Resistencias",
@@ -1594,7 +1608,8 @@
       "difficultMod": "-1 (Difícil)",
       "selectTarget": "Seleccionar Blanco",
       "vs": "VS",
-      "result": "Resultado:"
+      "result": "Resultado:",
+      "checkStat": "Prueba de Estadística"
     },
     "stabilize": {
       "chooseOne": "elija uno"
@@ -1711,7 +1726,10 @@
       "round": "Ronda",
       "critical": "Crítico",
       "type": "Tipo",
-      "name": "Nombre"
+      "name": "Nombre",
+      "overkill": "Saña",
+      "maxLoadoutFeatureSetColumns": "Max Equipamiento Piloto/Juego de Columnas Presentadas",
+      "pilotNameOrCallsign": "Nombre del Piloto o Callsign"
     },
     "titles": {
       "addPilotFromRoster": "Agregar Piloto de la Lista",
@@ -1736,10 +1754,13 @@
       "importEncounterState": "Importar Estado de Encuentro",
       "importCharacterSheetState": "Importar Estado de Hoja de Personaje",
       "selectEncounter": "seleccionar encuentro",
-      "activateFreeAction": "Activar (Acción Libre)"
+      "activateFreeAction": "Activar (Acción Libre)",
+      "burn": "Abrasar",
+      "downAndOut": "Caído y Fuera",
+      "repairCap": "Lim. Reparaciones"
     },
     "tooltips": {
-      "addAPilotFromYourLocalPilotRoster": "Agregar un piloto desde su Lista de Piloto local",
+      "addAPilotFromYourLocalPilotRoster": "Agregar un piloto desde su Lista de Pilotos local",
       "importAPilotFromJsonData": "Importar un piloto desde datos JSON",
       "apply": "Aplicar",
       "dismissWithoutApplying": "Descargar sin aplicar",
@@ -1765,7 +1786,8 @@
       "reroll1s": "Re-lanzar 1s",
       "combatQuickReference": "Referencia Rápida de Combate",
       "deployables": "Desplegables",
-      "diceRoller": "Lanzador de Dados"
+      "diceRoller": "Lanzador de Dados",
+      "pilotGrit": "Grit del Piloto"
     },
     "mechCore": {
       "passive": "Pasiva"
@@ -1889,7 +1911,8 @@
       "syncWithSettings": "sincronizar con la configuración actual",
       "syncOverridesNote": "Las siguientes operaciones anulan la configuración de sincronización y deben usarse con precaución.",
       "custom": "Personalizado",
-      "frequency": "Frecuencia"
+      "frequency": "Frecuencia",
+      "syncOverrides": "Anulaciones de sincronización"
     },
     "collection": {
       "byAuthor": "Por {author}",
@@ -2111,7 +2134,8 @@
       "newEmail": "Nuevo Correo-E",
       "confirmNewEmail": "Confirmar Nuevo Correo-E",
       "emailAddress": "Dirección Correo-E",
-      "updates": "Actualizar"
+      "updates": "Actualizar",
+      "itemLimit": "Limite de Artículos"
     },
     "actions": {
       "remoteBackups": "Copias de Respaldo Remotas",
@@ -2200,7 +2224,25 @@
       "equipmentIDINVALIDORMISSING": "[ ID del Equipamiento inválida o faltante ]",
       "lancerSuperheavyClassArmamentRequiresTwo": "Lancer, armamento de clase Superpesada requiere dos monturas. Por favor seleccione una {mount}",
       "notSET": "Sin selección",
-      "click": "Clic"
+      "click": "Clic",
+      "availableLoadouts": "Equipamientos Disponibles",
+      "weaponMods": "Mods de Arma",
+      "noMODINSTALLED": "Sin mod instalado",
+      "emptySYSTEMSLOT": "Ranura de sistema vacía",
+      "mechSYSTEMS": "SISTEMAS mecha",
+      "selectPilotArmor": "Seleccione Armadura de Piloto",
+      "pilotMATERIELREGISTRATIONVERIFIED": "[ Registro del material bélico de piloto verificado ]",
+      "gmsARMORYEQUIPMENTAUTHORIZATIONPILOTPERSONAL": "Autorización de equipamiento armería GMS: piloto/armadura personal::GI - GVII-a",
+      "materielIDINVALIDORMISSING": "[ ID del Material Bélico inválido o faltante ]",
+      "itemUSES": "Usos del artículo",
+      "gmsEQUIPMENTAUTHORIZATIONPILOTADDITIONALGEAR": "Autorización de equipo GMS: piloto/equipo adicional (cualquiera)",
+      "gmsARMORYEQUIPMENTAUTHORIZATIONPILOTPERSONAL2": "Autorización de equipo de GMS armory: piloto/armamento personal::S0-S3(LTD)",
+      "toAddSlashes": "Para añadir //",
+      "gmsArmoryPrintid": "id impresión armería GMS",
+      "mountCOREBonus": "Bono CORE de Montura",
+      "setUSES": "Establecer usos",
+      "unionARMORYEQUIPMENTAUTHORIZATIONFRAMEEQUIPMENT": "Autorización de equipo de la armería de la Unión: chasis equipamiento//sistema de combate",
+      "frameEQUIPMENTREGISTRATIONVERIFIED": "[ Registro del equipo del chasis verificado ]"
     },
     "import": {
       "importSuccessTitle": "Importado Exitósamente",
@@ -2208,7 +2250,8 @@
       "importPilotErrorText": "No es posible importar Piloto: {error}",
       "groupImportSuccessText": "{name} añadido con éxito.",
       "groupImportErrorText": "No es posible importar grupo de piloto: {error}",
-      "v2BackupText": "{callsign} guardado en las importaciones v2 pendientes en el Gestor de Contenidos."
+      "v2BackupText": "{callsign} guardado en las importaciones v2 pendientes en el Gestor de Contenidos.",
+      "importSuccessText": "{name} // {callsign} añadido con éxito a la lista."
     },
     "export": {
       "exportErrorText": "@:{'common.appName'} no pudo exportar datos de piloto",
@@ -2221,7 +2264,17 @@
       "submittingUnauthorizedLicensingUpdatesAndOr": "Presentar actualizaciones de licencias no autorizadas y/o presentar de solicitudes no autorizadas de licencia o de derechos de licencia previamente retenidos sin previa autorización MV-8a/j por un Administrador de la Unión resultará en el rechazo automático de la solicitud de licencia y podrá resultar en una auditoría de licencia bajo DoJ/HR AR 716-J",
       "isEligibleForTheFollowingLicense": "es elegible para la siguiente actualización de licencia",
       "newLICENSEUNLOCK": "Desbloquear nueva licencia",
-      "mv2LicenseAcquisitionRequest": "Solicitud de Adquisición de Licencia MV-2"
+      "mv2LicenseAcquisitionRequest": "Solicitud de Adquisición de Licencia MV-2",
+      "theUADIDENTServiceHasDetermined": "El Servicio de IDENT de la UAD ha determinado que",
+      "mechSkills": "Habilidades de Mecha",
+      "levelUpOverview": "Subir de Nivel (Vista General)",
+      "coreBONUSINSTALLATION": "Instalación de bono Base",
+      "ineligibleFORCOREBONUS": "No elegible para bonos base",
+      "coreBonuses": "Bonos CORE",
+      "pilotSKILLTRIGGERIMPROVEMENT": "Mejora de skill trigger de Piloto",
+      "pilotTALENTUPGRADE": "Mejora talento de Piloto",
+      "mechSKILLUPGRADE": "Mejora habilidad Mecha",
+      "gritIMPROVEMENT": "Mejora de Grit"
     },
     "new": {
       "pilot": "Piloto",
@@ -2244,7 +2297,26 @@
       "skills": "Habilidades",
       "pilotNAME": "Nombre piloto",
       "appearance": "Apariencia",
-      "mustINCLUDERETINALDATA": "(Debe incluir datos de retina)"
+      "mustINCLUDERETINALDATA": "(Debe incluir datos de retina)",
+      "welcomeToTheUnionAdministrativeDepartment": "Bienvenido al servicio de registro IDENT del Departamento Administrativo de la Unión. IDENT es el sistema de certificación basado en omninet que guía al usuario a través del proceso de registro piloto de la UAD. IDENT ayuda a garantizar que los pilotos cumplan con los requisitos reglamentarios y normativos mediante el uso de Protocolos de validación de datos dirigidos por NHP. Regulares de la Unión para los que ya se haya emitido una huella dactilar RM-4 IDENT no debe completar este formulario a menos que sea instruido por su oficial al mando.",
+      "allFieldsMarkedWithThe": "Todos los campos marcados con el",
+      "addPilotDescription": "Añadir Descripción de Piloto",
+      "rm4EXTERNALLICENSEDATATRANSFER": "RM-4-δ // TRANSFERFERENCIA DE DATOS LICENCIA EXTERNA (SI APLICA)",
+      "rm406ATTACHEDOHMIMAGING": "RM-4-06 // escaneo de imagenología OHM adjunta",
+      "rm402APPROVEDCALLSIGNOR": "RM-4-02 // callsign aprobado (o designación del cadete, si aplica)",
+      "rm403PRIOROCCUPATIONOR": "RM-4-03 // OCUPACIÓN PREVIA O POSICIÓN (RESPUESTA 17b EN RM-2-C)",
+      "rm405ATTACHEDOHMHEALTH": "RM-4-05 // resultados de examen de salud OHM adjunto",
+      "startingLL": "LL Inicial",
+      "selectTemplate": "Seleccionar plantilla {name}",
+      "templateSelected": "plantilla {name} seleccionada",
+      "glyphMustBePopulated": "glifo debe ser poblado.",
+      "bySubmittingThisFormYouAttest": "Al presentar este formulario usted atestigua que sus respuestas son veraces y precisas acuerdo a su conocimiento. Proporcionar información falsa o incompleta a sabiendas es punible bajo DoJ/HR AR 303-J.",
+      "uadIDENTService": "Servicio IDENT UAD",
+      "rm4PersonnelPilotC": "RM-4 Personal::Piloto (C)",
+      "rm401FULLNAMEOR": "RM-4-01 // nombre completo o alias primario",
+      "rm404ATTACHEDBIOGRAPHICALDOSSIER": "RM-4-04 // ARCHIVO BIOGRÁFICO ADJUNTO (SUPLEMENTO RM-4b)",
+      "prmALTQUICKACCESSSELECTION": "Prm-alt selección de acceso rápido",
+      "mechARTCOURTESYOF": "Arte de Mecha cortesía de"
     },
     "sheet": {
       "exportThisPilotAsAV2": "Exportar este piloto como un archivo v2 JSON compatible con sistemas VTT y aplicaciones v2",
@@ -2262,7 +2334,7 @@
       "clearConfiguration": "Limpiar Configuración",
       "editingThisPilotSLevelMay": "Editar el nivel de este Piloto puede evitar que ciertos logros se desbloqueen con este Piloto. Si desea utilizar este Piloto para desbloquear logros relacionados al Piloto, utilice el asistente de Subida de Nivel en su lugar.",
       "thisPilotSLevelHasBeen": "El nivel de este piloto ha sido editado. Esto impedirá que se desbloqueen ciertos logros con este Piloto.",
-      "thisToolSkipsTheLevelUp": "Esta herramienta salta el asistente de subida de nivel. Atributos de piloto adquiridos mediante subidas del nivel, como gatillos de habilidad, licencias, talentos, habilidades mecha y bonos CORE tendrán que ser actualizados manualmente",
+      "thisToolSkipsTheLevelUp": "Esta herramienta salta el asistente de subida de nivel. Atributos de piloto adquiridos mediante subidas del nivel, como skill triggers, licencias, talentos, habilidades mecha y bonos CORE tendrán que ser actualizados manualmente",
       "newLEVEL": "Nuevo nivel",
       "setPilotLevel": "Establecer Nivel de Piloto",
       "clone": "Clonar",
@@ -2279,11 +2351,81 @@
       "sortByManufacturer": "Ordenar por Fabricantes",
       "addNewMech": "Agregar Nuevo Mecha",
       "mechOptions": "Opciones Mecha",
-      "requiredFor": "Necesario para",
+      "requiredFor": "Requerido por",
       "setMechImage": "Seleccionar Imagen de Mecha",
       "identRecordNotice": "El uso indebido de este registro de IDENT y/o sus datos constitutivos por el titular del registro o cualquier otra persona se castiga de acuerdo al DoJ/HR A-645-c. Este registro es propiedad de la Oficina Administrativa de la Unión y la información en este documento debe ser transmitida a petición bajo los protocolos de encriptación NDL-C-DISCORDANT-BREATH. Este registro RM-4 debe actualizarse cada cinco (5) Años Estándar Cuna de tiempo objetivo para conservar los derechos de licenciamiento GMS. Los operativos de campo lejano que anticipan despliegues que duran más de cinco Años Estándar Cuna que no han solicitado un Gancho Omninet humano-portable deben aplicar por la RM-11-B IDENT Extensión Complementaria (b). Comuníquese con su Oficial local Administrativo de la Unión para cualquier otro asunto relacionado con este registro. V-CDL//M-265-114-831 (A)",
       "warningLICENSEMISSING": "Advertencia: licencia faltante",
-      "killedINACTION": "Muerto en acción"
+      "killedINACTION": "Muerto en acción",
+      "pilotOptions": "Opciones del Piloto",
+      "printTabletopReadyCharacterAndMech": "Imprimir hojas de personaje y mecha listas para la mesa",
+      "getAPlaintextRepresentationOfThis": "Obtener una representación en texto plano de la construcción de este personaje",
+      "exportThisPilotAsAJSON": "Exportar este piloto como un archivo JSON",
+      "transferOrTheSubjectivePersonageOf": "Transferir o la personalidad subjetiva de un ser sensible u otra continuidad subjetiva en un sustrato fabricado o cultivado.",
+      "emulationOfASentientIndividualS": "Emulación de la personalidad subjetiva de un individuo sensible en un sustrato manufacturado o cultivado.",
+      "intentionalDecorporealizationOfASentientBeing": "Descorporalización intencional de un ser sensible u otra continuidad subjetiva.",
+      "engagingInAnyActivityThatCould": "Participación en cualquier actividad que pudiera potencialmente someter a un ser sensible u otra continuidad subjetiva al proceso de desordenamiento, disonancia esquizo-ontológica, disolución de la personalidad, u otra forma de desintegración subjetiva.",
+      "exportLegacyJSON": "Exportar JSON Antiguo",
+      "removeThisPilotFromTheRoster": "Quitar este piloto de la lista",
+      "flashClonePilot": "Clonación Relámpago de Piloto",
+      "anyOrganizationsIndividualsOrTechnologiesEngaging": "Cualquier organización, individuo o tecnología que participe o facilite la clonación de facsímil de cuerpo entero está vinculada por los Primeros Acuerdos de Contacto de 3002. Cualquier actividad que viole los principios enunciados en los Acuerdos está prohíbida, incluiyendo, pero sin limitarse a",
+      "reproductionOfTheSubjectivePersonageOf": "Reproducción total o parcial de la personalidad subjetiva de un ser sensible u otra continuidad subjetiva.",
+      "allFormsOfWholeSubjectivityRapid": "Toda formas de clonación de procesos rápidos de subjetividad completa están prohibidas bajo la jurisdicción de la Unión. Cualquier persona que haya infringido este estatuto estará sujeta a la acción judicial del Departamento de Justicia de la Unión y el Departamento de Derechos de Facsímiles de Recursos Humanos.",
+      "exportPilot": "Exportar Piloto",
+      "generateStatblock": "Generar Bloque de Estadísticas",
+      "cloneQUIRK": "Clonar particularidad",
+      "rerollQuirk": "Relanzar Particularidad",
+      "decantFlashClone": "Decantar Clon Relámpago",
+      "lcpConfigurations": "Configuraciones LCP",
+      "openConfigManager": "Abrir Gestor de Config",
+      "phHRDATAREGISTERED": "Datos ph/hr registrados",
+      "errTALENTAUDITINCOMPLETE": "Err auditoría de talento incompleta",
+      "errorINVALIDPILOT": "Error // piloto no válido",
+      "nameOrLegalAlias": "Nombre (o alias jurídicos)",
+      "noBondPowersAssigned": "Sin Poderes de Lazo asignados",
+      "noBondPowersAvailable": "No hay Poderes de Lazo disponibles",
+      "bondsAvailableAfterLicenseLevel1": "Lazos disponibles después del Nivel de Licencia 1",
+      "overrideAllowLL0Bond": "[ANULAR]:// Permitir LL0 Bond",
+      "selectBond": "Seleccionar Lazo",
+      "majorIdeals": "Principales Ideales",
+      "minorIdeal": "Ideal Menor",
+      "bondPowersAvailable": "Poderes de Lazo Disponibles",
+      "setMaximumPilotStressStressGains": "Establecer el estrés máximo del piloto. Estrés obtenido de fuentes como Poderes de Lazo seleccionados no son automatizados",
+      "statusNominal": "Estado Nominal",
+      "burdenLimitReached": "Límite de Carga Alcanzado",
+      "addBurden": "Añadir Carga",
+      "addNewBurden": "Añadir Nueva Carga",
+      "addNewClock": "Añadir Nuevo Reloj",
+      "removeBond": "Quitar Lazo",
+      "gainBondPower": "Obtener Poder de Lazo",
+      "setMaximumStress": "Establecer Estrés Máximo",
+      "ndapSR01STATUSREPORT": "NDAP/SR-01/reporte de estado",
+      "addEquipment": "Agregar Equipo",
+      "addExoticEquipment": "Agregar Equipo Exótico",
+      "revert": "Revertir",
+      "rm6DATA": "RM-6://datos",
+      "narrativePROFILE": "Perfil narrativo",
+      "tacticalPROFILE": "Perfil táctico",
+      "errNAMENOTFOUNDUNABLETO": "Err nombre no hallado no es posible generar uuid",
+      "frameCONFIGURATIONOPTIONS": "Opciones de configuración de Chasis {remit}",
+      "hASEOMNINETVAULT": "(\"C.A.S.I\" remite bóveda omninet)",
+      "selectNewFrame": "Seleccionar Nuevo Chasis",
+      "mechHangar": "Hangar Mechas",
+      "setPilotPortrait": "Seleccionar Retrato de Piloto",
+      "unionAdministrativeIdentRecord": "Administrativo de la Unión RM-4 Registro de Protocolo de Identificación de Piloto (IDENT)",
+      "biometricRecordValid": "Registro biométrico válido [[",
+      "powers": "Poderes",
+      "allSelectedPowers": "Todas los Poderes Seleccionados",
+      "noBondPowerSelectionsRemaining": "No quedan selecciones de Poder de Lazo",
+      "registerNewMech": "Registrar Nuevo Mecha",
+      "narrative": "Narrativo",
+      "bonds": "Lazos",
+      "tactical": "Táctico",
+      "pilotSKILLTRIGGERAUDIT": "Auditoría de skill trigger de Piloto",
+      "errSKILLAUDITINCOMPLETE": "Err auditoría de habilidad incompleta",
+      "pilotTALENTAUDIT": "Auditoría de talento de Piloto",
+      "broken": "Roto",
+      "repcap": "RepLim",
+      "xk401REGISTERMECHNAME": "XK-4-01 // registrar nombre mecha"
     },
     "print": {
       "pilotSheetOptions": "Opciones Hoja de Piloto",
@@ -2295,7 +2437,36 @@
       "mechWEAPONMOUNT": "Montura arma mecha",
       "onATTACK": "Al atacar",
       "reserve": "Reserva",
-      "extras": "Extras"
+      "extras": "Extras",
+      "uses": "USOS",
+      "resource": "Recurso",
+      "capacityParen": "({n} capacidad)",
+      "xp": "EXP",
+      "majorIDEAL": "Ideal Principal",
+      "downtimeREFERENCE": "Referencia downtime",
+      "missionLog": "Bitácora de Misión",
+      "session": "Sesión",
+      "repCAP": "Rep lím",
+      "atkBONUS": "Bono Atq",
+      "ltdBONUS": "Bono LTD",
+      "corePassive": "Pasiva Base",
+      "coreActive": "Activa Base",
+      "operatorNotes": "Notas de Operador",
+      "pilotNotes": "Notas del Piloto",
+      "gain": "Ganancia",
+      "veteranPOWER2": "(Poder veterano)",
+      "skillTRIGGERDETAIL": "Detalle Skill trigger",
+      "onHIT": "Al golpear",
+      "onCRIT": "En crít",
+      "mechSYSTEM": "Mecha sistema",
+      "pilotHP": "HP Piloto",
+      "maxHP": "HP Máx",
+      "deployable": "Desplegable",
+      "heatCap": "Heat Lím.",
+      "mountLOCKED": "Montura asegurada",
+      "appliedMOD": "//Mod aplicado",
+      "ltdSYS": "LTD sis",
+      "repairCAPACITY": "Capacidad de reparación"
     },
     "titles": {
       "sharePilotData": "Compartir Datos de Piloto",
@@ -2308,11 +2479,535 @@
       "setPilotLicenses": "Establecer Licencias de Piloto",
       "paper": "Papel",
       "orientation": "Orientación"
+    },
+    "roster": {
+      "history": "Historial",
+      "finishEditing": "Terminar Edición",
+      "deleteGroup": "Borrar Grupo",
+      "allPilotsAssignedToThisGroup": "Todos los pilotos asignados a este grupo serán eliminados permanentemente.",
+      "cr701UNITDESIGNATION": "CR-7-01 // designación de unidad",
+      "addGroupDescription": "Agregar Descripción de Grupo",
+      "editGroupDescription": "Editar Descripción de Grupo",
+      "cr702bATTACHEDTACANALYSISRECORDS": "CR-7-02b // REGISTROS TACANALYSIS ADJUNTOS (SUPLEMENTARIO)",
+      "addGroupHistory": "Agregar Historia del Grupo",
+      "editGroupHistory": "Editar Historia del Grupo",
+      "cr703UNITLIVERY": "CR-7-03 // librea de unidad",
+      "addGroupEmblem": "Agregar emblema de grupo",
+      "editGroupEmblem": "Editar emblema de grupo",
+      "thisAppearsToBePilotData": "Estos parecen ser datos de piloto de una versión anterior de @:{'common.appName'}. @:{'common.appName'} intentará convertir e importar estos datos, pero puede que no sea posible convertir todos los artículos y no sea posible proporcionar información sobre los LCP requeridos faltantes.",
+      "thisPilotContainsContentFromThe": "Este Piloto incluye contenido de los siguientes paquetes de contenido de Lancer que no están actualmente instalados/activos, o tienen versiones que no concuerdan",
+      "thisPilotWillBeSavedTo": "Este Piloto se guardará en la colección Importados v2 en el Gestor de Contenidos. Puede ser importado una vez se instalen y activen los paquetes de contenido faltantes, o importado a la fuerza con objetos faltantes removidos.",
+      "thisPilotMayBeImportedBut": "Este Piloto puede ser importado, pero algunos artículos de los paquetes de contenido faltantes serán instanciados desde datos guardados. Si se eliminan, estos artículos no podrán ser reequipados sin los paquetes de contenido faltantes.",
+      "and": "y",
+      "pilots": "Pilotos",
+      "addANewPilotToName": "Añadir un nuevo piloto en {name}",
+      "cr702aATTACHEDNDAPCOMP": "CR-7-02a // ANÁLISIS DE RESULTADOS COMP/DISP NDAP ADJUNTO",
+      "setGroup": "Elegir Grupo",
+      "includesDATAFROMTHEFOLLOWINGCONTENT": "Incluye datos de los siguientes paquetes de contenido",
+      "doneReordering": "Terminar Reordenamiento",
+      "lastModified": "Última Modificación",
+      "addGroup": "Añadir grupo",
+      "allPilotsAssignedToThisGroup2": "Todos los pilotos asignados a este grupo se moverán a la sección \"Ningún Grupo\"",
+      "transfer": "Transferir",
+      "transferPilots": "Transferir Pilotos",
+      "createNewPilot": "Crear Nuevo Piloto",
+      "addANewPilotToThe": "Añadir un nuevo piloto a la lista",
+      "uadCAVCOMOfficeOfRecords": "Oficina de Registros UAD/CAVCOM",
+      "i7aSelfServiceUnitRegistration": "I-7a Registro de Unidad de Auto-Servicio",
+      "identCR7aCAVALRYUNITREGISTRATION": "IDENT-CR-7a (CAVALRY UNIT REGISTRATION) es un formulario de registro autodirigido para el propósito de registrar una nueva designación de unidad para uno o más pilotos registrados en IDENT. Esta formulario es para ser utilizado por pilotos que no están asignados actualmente a una unidad o que están registrando una nueva designación de unidad por primera vez. Si desea registrar una nueva designación para una unidad existente, por favor envíe el formulario CR-7b (CAVALRY UNIT DOCUMENTATION UPDATE) en su lugar."
+    },
+    "selectors": {
+      "exotic": "Exótico",
+      "licenseSelectionComplete": "Selección de Licencia Completa",
+      "mechSkillsSelected": "Habilidades Mecha seleccionadas",
+      "resetMechSkills": "Reiniciar las Habilidades de Mecha",
+      "coreBonusSelectionComplete": "Selección de Bonos Base Completada",
+      "addDowntimeProject": "Añadir Proyecto Downtime",
+      "equipment": "Equipo",
+      "skillSelectionComplete": "Selección de Habilidad Completa",
+      "yourAbilityTo": "Su Habilidad Para",
+      "talentSelectionComplete": "Selección de Talentos Completada",
+      "unavailable": "No Disponible",
+      "addReserve": "Agregar Reserva",
+      "download": "Descargar",
+      "startWith": "Comienza con",
+      "efficiency": "Eficiencia"
+    },
+    "misc": {
+      "skipSTEP": "Saltar paso"
+    },
+    "shared": {
+      "theRM4bPILOTSELFASSESSMENT": "La AUTO-EVALUACIÓN DE PILOTO RM-4b (Habilidades Mecha) se transmitirá al personal de impresión para finalizar la configuración de su GMS-SP1 EVEREST provisto.",
+      "bySubmittingThisFormYouAttest": "Al presentar este formulario usted atestigua que sus respuestas son veraces y precisas acuerdo a su conocimiento. Proporcionar información falsa o incompleta es punible bajo DoJ/HR AR 303-J.",
+      "rm4bPilotSelfAssessment1": "RM-4b Auto-evaluación de Piloto (1/3)",
+      "mv2ASkillImprovementAssessment": "MV-2//a Evaluación de la Mejora de Habilidad",
+      "theRM4bPILOTSELFASSESSMENT2": "La auditoría AUTO-EVALUACIÓN DE PILOTO (habilidades) RM-4b cataloga el auto-reporte de fortalezas individual de un piloto basada en selecciones derivadas de los resultados del Examen de Salud OHM//CR-2 Análisis de Actividad Cerebral y toma de respuestas dadas al representante NHP del Administrador de la Unión presidiendo.",
+      "theFollowingFormIsComprisedOf": "El siguiente formulario está compuesto por salida no filtrada generada por uno o más Personas No-Humanas UNI-TACANALYSIS y NO PUEDEN ser copiadas, traducidas, reproducidas, transmitidas o codificadas sin el permiso expreso de Inteligencia Naval de la Unión.",
+      "theMV2APilotSelfAssessment": "La auditoría Auto-Evaluación de Piloto cMV2/a cataloga los puntos fuertes auto-reportados de un piloto individual basado en selecciones derivadas de la telemetría del campo de batalla y registros de informes analizados por un representante NHP Naval de la Unión.",
+      "identSERVICEPRIMARYHasGeneratedA": "IDENT.SERVICE.PRIMARY ha generado una lista de los Skill Triggers sugeridos basada en su respuesta a RM-4-03 (OCUPACIÓN OR POSICIÓN PREVIA ).",
+      "suggestedSkillsAdded": "Habilidades Sugeridas Añadidas.",
+      "addSuggestedSkills": "Añadir Habilidades Sugeridas",
+      "improveTalents": "Mejorar Talentos",
+      "rm4cPilotSelfAssessment2": "RM-4c Auto-Evaluación de Piloto (2/3)",
+      "mv2BCOAResourceRequisition": "MV-2//b COA Requisición de Recurso",
+      "theRM4bPILOTSELFASSESSMENT3": "La RM-4b AUTO-EVALUACIÓN DE PILOTO (Talentos) cataloga las aptitudes de operación en combate auto-reportadas de un piloto individual y otorga privilegios de requisición para el tiempo de simulación, materiales de entrenamiento de senso-cortical y holofield , datos de telemetría del campo de batalla en clasificaciones inferiores GREY SIERRA SHARP, y (en casos específicos) GMS MM-pattern licencias de material bélico.",
+      "theCombatOperationAbilityRequisitionOn": "La Requisición Habilidad Operativa de Combate, con la aprobación del sistema de aprobación automatizado de solicitudes guiado por NHP, confiere privilegios de simulador UNI, holofield y materiales de entrenamiento senso-cortical, datos de telemetría del campo de batalla en clasificaciones debajo de GREY SIERRA SHARP, y (en casos específicos) GMS MM-pattern licencias de material bélico.",
+      "warningSubmission": "ADVERTENCIA: La presentación para el registro IDENT {id} tiene los siguientes inconvenientes"
+    },
+    "link": {
+      "bond": "Lazo",
+      "theDailyRequestLimitHasBeen": "Se ha alcanzado el límite diario de solicitudes. Por favor, intente de nuevo mañana.",
+      "tooManyRequestsPleaseTryAgain": "Demasiadas solicitudes. Por favor intente nuevamente en",
+      "tooManyRequestsPleaseTryAgain2": "Demasiadas solicitudes. Por favor, intente de nuevo pronto.",
+      "pilotNotFound": "Piloto No Encontrado",
+      "aPilotWithTheShareCode": "Un piloto con el código para compartir",
+      "couldNotBeFound": "no se pudo encontrar.",
+      "pilotRequiresReSync": "Piloto requiere re-sinc",
+      "withShareCode": "con código para compartir",
+      "mustBeReSyncedToThe": "debe re-sincronizarse con la cuenta del autor antes de que pueda verse."
     }
   },
   "share": {
     "includeMech": "Incluir mecha",
     "sheetStyle": "Tipo de Ficha",
-    "publicLinkNoteBold": "uRL accesible públicamente"
+    "publicLinkNoteBold": "URL accesible públicamente",
+    "titles": {
+      "pleaseUseResponsibly": "Por favor úsese responsablemente"
+    },
+    "resultLastUpdated": "Última Actualización",
+    "addAsLocalCopy": "añadir como copia local",
+    "addAsRemote": "añadir como recurso remoto",
+    "noShareCode": "Este artículo no tiene un código de compartir. Para compartirlo, sincronícelo a su cuenta @:{'common.appName'} haciendo clic arriba en el botón \"Sincronizar Ahora\".",
+    "shareCodeTooltip": "Este código permite a otros usuarios con una cuenta @:{'common.appName'} descargar una copia de este artículo y suscribirse a las actualizaciones que haga.",
+    "syncNeeded": "Sincronización necesaria",
+    "notYetSynced": "Aún no se ha sincronizado",
+    "shareCodesNote": "Los códigos compartidos permiten a cualquiera con una cuenta @:{'common.appName'} descargar una copia de este artículo y recibir actualizaciones que haga. Por favor sea conciente al compartir datos con otros.",
+    "resultAuthor": "Autor",
+    "shareLink": "Compartir enlace",
+    "lastSynced": "Ultima sincronización",
+    "lastLocalUpdate": "Ultima actualización local",
+    "tooltips": {
+      "copyShareLinkToClipboard": "Copiar enlace de compartir en el portapapeles",
+      "copyShareCodeToClipboard": "Copiar código de compartir en el portapapeles"
+    },
+    "publicLinkNote": "Este enlace es un {emphasis} que permite a cualquiera ver los datos de este piloto."
+  },
+  "print": {
+    "generalOptions": "Opciones Generales de Impresión"
+  },
+  "notify": {
+    "link": {
+      "copiedText": "{name} enlace estático ha sido copiado al portapapeles.",
+      "copiedTitle": "Enlace Copiado"
+    },
+    "image": {
+      "deleteFailedText": "No es posible comunicarse con el servidor. {err}",
+      "deleteFailedTitle": "Eliminación Fallida",
+      "deletedTitle": "Imagen Eliminada",
+      "deletedText": "Quitado {type} {name}.",
+      "uploadedText": "Subido {file} ({size}MB)",
+      "uploadedTitle": "Imagen Subida"
+    },
+    "compendium": {
+      "campaignUpdateFailedText": "Fallo al actualizar campaña",
+      "campaignUpdatedText": "Campaña actualizada con éxito"
+    },
+    "lcp": {
+      "lcpUpdateErrorText": "Se produjo un error al intentar descargar {pack}.",
+      "lcpUpdateErrorTitle": "Error Actualizando LCP",
+      "lcpUpdatedText": "La versión más reciente de {pack} ha sido descargada e instalada.",
+      "lcpUpdatedTitle": "LCP Actualizado",
+      "removedInvalidVersionText": "Quitado {name} de la importación -- cadena de versión inválida rompe semver"
+    },
+    "settings": {
+      "unableToImportTitle": "No es posible importar datos",
+      "dataMerged": "Los datos importados se han fusionado con los datos existentes.",
+      "dataReplaced": "Todos los datos existentes han sido reemplazados por los datos importados.",
+      "dataImportSuccessTitle": "Importación de datos exitosa",
+      "v2NoData": "No se encontraron datos.",
+      "v2BackupImportedTitle": "copia de respaldo v2 importada",
+      "errorPrefix": "Error: {err}",
+      "unableToReadFileTitle": "No es posible leer el archivo"
+    },
+    "account": {
+      "cloudArchiveCooldownText": "Debe esperar {seconds} segundos antes de crear un nuevo archivo.",
+      "cloudArchiveTitle": "Archivo en Nube",
+      "collectionPublishFailedText": "Fallo al publicar colección {name}",
+      "collectionPublishedText": "Colección {name} publicada como versión {version}",
+      "patreonUnlinkedText": "Tu cuenta de Patreon no está enlazada",
+      "patreonUnlinkedTitle": "Patreon No-enlazado",
+      "patreonLinkFailedText": "Hubo un error enlazando su cuenta Patreon",
+      "patreonLinkFailedTitle": "Enlace Patreon Fallido",
+      "noSubscriptionText": "Su cuenta Patreon estaba vinculada pero no se encontró ningún nivel de suscripción activo. Suscríbase al Patreon @:{'common.appName'} e inténtelo de nuevo.",
+      "noSubscriptionTitle": "No se Encontró Suscripción",
+      "patreonLinkedText": "Su cuenta Patreon ha estado vinculada",
+      "patreonLinkedTitle": "Patreon Enlazado",
+      "itchUnlinkedText": "Su cuenta itch.io ha sido des-vinculada",
+      "itchUnlinkedTitle": "Itch.io Des-vinculada",
+      "itchLinkFailedText": "Hubo un error enlazando su cuenta itch.io",
+      "itchLinkFailedTitle": "Enlace Itch.io Fallido",
+      "itchLinkedText": "Su cuenta de itch.io ha sido vinculada",
+      "itchLinkedTitle": "Itch.io Enlazada",
+      "emailChangeCancelledText": "El cambio de correo electrónico ha sido cancelado",
+      "emailChangeFailedTitle": "Cambio de correo-electrónico fallido",
+      "emailChangeCompleteText": "Su dirección de correo electrónico ha sido cambiada",
+      "emailChangeCompleteTitle": "Cambio de correo electrónico completo",
+      "dataUpdatedText": "Datos de usuario actualizados",
+      "signOutText": "Servicio Auth reporta baja exitosa",
+      "signOutTitle": "Dado de Baja Exitósamente",
+      "publishedTitle": "Publicado",
+      "emailChangeCancelledTitle": "Cambio de correo electrónico cancelado",
+      "updateFailedTitle": "Actualización fallida",
+      "emailChangeInitFailedTitle": "Fallo al iniciar cambio de correo electrónico",
+      "verificationSentText": "Por favor, compruebe su buzón de entrada para el código de verificación",
+      "verificationSentTitle": "Correo electrónico de verificación enviado",
+      "serverError": "El servidor devolvió un error",
+      "passwordFailedTitle": "La actualización de contraseña falló",
+      "passwordChangedText": "Contraseña de usuario cambiada",
+      "updateCompleteTitle": "Actualización completada"
+    },
+    "achievement": {
+      "unlockedTitle": "¡Logro Desbloqueado!"
+    },
+    "gm": {
+      "uploadErrorText": "No es posible actualizar la nube: {error}",
+      "uploadErrorTitle": "Error al Cargar",
+      "uploadSuccessText": "¡Datos de nube actualizados!",
+      "uploadSuccessTitle": "Cargado con Éxito",
+      "loginRequiredTitle": "Requiere Inicio de Sesión",
+      "loginRequiredText": "Debes iniciar sesión para cargar datos de campaña en el repositorio de la nube.",
+      "campaignTransferErrorText": "No es posible transferir campaña: {error}",
+      "importErrorTitle": "Error al Importar",
+      "importCompleteText": "¡Campaña agregada a la colección local!",
+      "importCompleteTitle": "Importación Completada",
+      "campaignPublishedText": "La versión {version} de {name} ha sido publicada.",
+      "campaignPublishedTitle": "Campaña Publicada",
+      "v2BackupText": "{count} artículo guardado en las importaciones v2 pendientes en el Gestor de Contenidos. | {count} artículos guardados en las importaciones v2 pendientes en el Gestor de Contenidos.",
+      "v2BackupTitle": "Importar Respaldo v2",
+      "npcImportErrorText": "No es posible importar datos DJ: {error}"
+    },
+    "statblock": {
+      "errorText": "No es posible copiar el bloque de estadísticas",
+      "copiedText": "Copiado Éxitosamente",
+      "copiedTitle": "Bloque de Estadísticas Copiado al Portapapeles"
+    },
+    "pilot": {
+      "syncFailedText": "Fallo al sincronizar Piloto {callsign} // {name}. {err}",
+      "syncedText": "Piloto {callsign} // {name} sincronizado.",
+      "upToDateText": "Piloto {callsign} // {name} ya tiene los datos de nube más recientes. No es necesario actualizar.",
+      "upToDateTitle": "Piloto Actualizado"
+    },
+    "shareCode": {
+      "collectionCopiedText": "Codigo de compartir colección copiado a portapapeles",
+      "copiedText": "Código de compartir copiado al portapapeles."
+    },
+    "transfer": {
+      "itemDownloadFailed": "Fallo al descargar {type} {name}. {err}",
+      "itemDownloaded": "{type} {name} fusionado desde la nube.",
+      "itemUploadFailed": "Fallo al cargar {type} {name}. {err}",
+      "itemUploaded": "{type} {name} cargado.",
+      "itemSyncFailed": "Fallo al sincronizar {type} {name}. {err}",
+      "itemSynced": "{type} {name} sincronizado.",
+      "downloadFailedTitle": "Descarga Fallida",
+      "downloadCompleteTitle": "Descarga Completa",
+      "uploadFailedTitle": "Error al Cargar",
+      "uploadCompleteTitle": "Carga Completa"
+    },
+    "share": {
+      "syncFailedTitle": "Sincronización Fallida",
+      "syncCompleteTitle": "Sincronización Completada",
+      "syncCompleteText": "{name} sincronizado con la nube.",
+      "syncInProgressText": "Por favor, espere que la sincronización actual se complete.",
+      "syncInProgressTitle": "Sincronización en Progreso"
+    },
+    "common": {
+      "copied": "Copiado",
+      "error": "Error",
+      "success": "Éxito"
+    },
+    "dataItem": {
+      "failedToDeleteText": "Fallo al eliminar {type} {name}. {err}",
+      "removedText": "Quitado {type} {name}.",
+      "deletedPermanentlyTitle": "Artículo Eliminado Permanentemente",
+      "restoreFailedTitle": "Restauración Fallida",
+      "restoredText": "Restaurado {type} {name}.",
+      "itemRestoredTitle": "Artículo Restaurado",
+      "serverError": "No es posible comunicarse con el servidor. {err}",
+      "deleteFailedTitle": "Eliminar Fallido",
+      "itemDeletedTitle": "Artículo Eliminado",
+      "markedDeletedText": "Marcado {type} {name} como eliminado.",
+      "convertedText": "{name} es ahora un artículo solo local.",
+      "convertedTitle": "Convertido en Local",
+      "retryFailedText": "El elemento remoto para {name} no se pudo encontrar.",
+      "retryFailedTitle": "Reintento Fallido",
+      "connectionRestoredTitle": "Conexión Restablecida",
+      "connectionRestoredText": "{name} está vinculada de nuevo.",
+      "bulkFailedTitle": "Eliminación en Bloque Fallida",
+      "bulkPartialText": "No es posible eliminar: {items}",
+      "bulkPartialTitle": "{n} Eliminado, {f} Fallido",
+      "bulkDeletedText": "Se han eliminado los elementos seleccionados.",
+      "bulkDeletedTitle": "{n} Artículo Eliminado | {n} Artículos Eliminados"
+    }
+  },
+  "stats": {
+    "sp": "PS",
+    "stress": "Estrés",
+    "structure": "Estructura",
+    "sensors": "Sensores",
+    "edefense": "Defensa-E",
+    "edef": "DEF-E",
+    "evasion": "Evasión",
+    "armor": "Armadura",
+    "hp": "PV",
+    "agi": "AGI",
+    "engineering": "Ingeniería",
+    "systems": "Sistemas",
+    "speed": "Velocidad",
+    "agility": "Agilidad"
+  },
+  "ui": {
+    "image": {
+      "remoteGalleryNote": "Imágenes en esta galería son enlaces a recursos remotos y no son gestionados por @:{'common.appName'}. Si no controla el host remoto, los elementos pueden ser eliminados o cambiados en cualquier momento.",
+      "artworkBy": "Obras de arte por {artist}",
+      "patreonNote": "En una próxima versión podrás vincular tu cuenta Patreon, y los mecenas de @:{'common.appName'} no estarán sujetos a ningún límite de almacenamiento.",
+      "addRemote": "Agregar Imagen Remota",
+      "overCapacity": "Tu cuenta sobrepasó la capacidad. Las cuentas gratuitas se restringen a {max}MB de almacenamiento.",
+      "capacityExceeded": "Capacidad excedida",
+      "accountUsage": "Uso de cuenta",
+      "uploadImage": "Cargar imagen",
+      "requiresAccount": "Requiere Cuenta @:{'common.appName'}",
+      "dragHelp2": "Arrastre la imagen para reposicionarla, rueda del ratón para redimensionar la imagen",
+      "dragHelp1": "Arrastre la plantilla para recortar el objetivo, arrastre empuñaduras para cambiar el tamaño",
+      "clearAvatar": "limpiar avatar",
+      "setAvatar": "Elegir Avatar",
+      "clearImage": "limpiar imagen",
+      "requiresSelection": "Requiere Selección de Imagen",
+      "noAvatar": "sin avatar elegido",
+      "archive": "@:{'common.appName'} Archivo de imágenes",
+      "remoteImages": "Imágenes Remotas",
+      "load": "Cargar",
+      "upload": "Cargar"
+    },
+    "corePanel": {
+      "special": "Equipo especial Base",
+      "integrated": "Equipo Base integrado"
+    },
+    "counter": {
+      "addCustom": "Añadir Conteo Personalizado"
+    },
+    "action": {
+      "compendiumEntry": "Entrada Compendio"
+    },
+    "org": {
+      "influence": "Influencia de la Organización",
+      "efficiency": "Eficiencia de la Organización"
+    },
+    "coreBonus": {
+      "instancedWarning": "{warning} Este es un artículo instanciado. Si se elimina, este bono Base no estará disponible hasta que se instale el LCP asociado.",
+      "additional": "Bono Base equipo adicional",
+      "integrated": "Bono Base equipo integrado",
+      "deployables": "Bono Base desplegables",
+      "actions": "Bono Base acciones",
+      "remove": "Quitar este bono BASE"
+    },
+    "talent": {
+      "unlocked": "Desbloqueado",
+      "rankLocked": "Rango de Talento Bloqueado"
+    },
+    "selector": {
+      "select": "Seleccione {name}",
+      "noManufacturer": "Sin Fabricante"
+    },
+    "license": {
+      "allUnlocked": "Todos los Rangos Desbloqueados",
+      "noRanks": "Sin Rangos de Licencia",
+      "prereqSingle": "Esta Licencia requiere al menos otra {source} Licencia en Rango {rank} o superior",
+      "prereqCumulative": "Esta Licencia requiere al menos {rank} Rangos acumulados de licencias {source}"
+    },
+    "fields": {
+      "metric": "Métrico"
+    },
+    "filter": {
+      "greaterThan": "Mayor Que",
+      "equalTo": "Igual A",
+      "lessThan": "Menor Que",
+      "spCost": "Costo PS",
+      "noFilters": "Sin filtros disponibles",
+      "setItemFilters": "Establecer Filtros de Artículos",
+      "clearFilters": "Limpiar Filtros",
+      "savedConfigs": "Configuraciones Guardadas"
+    },
+    "pwa": {
+      "offlineReady": "@:{'common.appName'} está listo para uso fuera de línea.",
+      "updateNow": "Actualizar Ahora",
+      "later": "Más Tarde",
+      "updateAvailable": "Una nueva versión de @:{'common.appName'} está disponible."
+    },
+    "relationship": {
+      "deleteConfirm": "¿Quieres eliminar esta relación? Esta acción no se puede deshacer."
+    },
+    "rollTable": {
+      "d": "D",
+      "multipleOnes": "Múltiple 1s",
+      "deleteConfirm": "¿Quiere borrar esta tabla? Esta acción no se puede deshacer.",
+      "confirmRebuild": "Confirmar Reconstrucción",
+      "rebuildConfirm": "¿Quieres reconstruir esta tabla? Esto limpiará los datos actuales. Esta acción no se puede deshacer.",
+      "gmOnlyTooltip": "Marcar un campo o artículo \"Solamente DJ\" lo ocultará de las exportaciones y la salida de impresión para los jugadores",
+      "rebuild": "Reconstruir",
+      "step": "Paso"
+    },
+    "shareImport": {
+      "qrTypeHelp": "Este artículo es un {qr}. Puede ser importado, pero aparecerá en la lista {qr}, no en la lista {type}.",
+      "alreadyAdded": "Este artículo ya se ha añadido como un recurso remoto.",
+      "userOwned": "Usted es el autor de este artículo. No puede agregar sus propios elementos como recursos remotos.",
+      "dataFound": "// {type} datos hallados",
+      "noItemFound": "No se encontró ningún artículo con el código {code}.",
+      "findItem": "Encontrar Artículo",
+      "itemShareCode": "Código de Compartir Artículo"
+    },
+    "missing": {
+      "npcDataHelp": "Los datos PNJ se incluyen con la versión pagada del Libro Core Lancer y por lo tanto no se incluyen con @:{'common.appName'} por defecto. Puede encontrar datos de Clase PNJ, Plantilla y Caraterísticas como contenido descargable adicional en el {link}.",
+      "gmHelp2": "Si usted compró una copia física del Libro Core de Lancer, pero no ha recibido instrucciones sobre cómo redimir su copia de la versión digital y sus activos asociados, incluyendo datos básicos de PNJ, póngase en contacto con Massif Press en {email}",
+      "gmHelp1": "Si ya ha descargado los datos de PNJ, puede importarlo a @:{'common.appName'} a través del Gestor de Contenidos disponible en el Menú Principal o en el menú Opciones en el lado derecho de la barra de navegación.",
+      "coreBookLink": "Libro @:{'common.gameName'}: Core página itch.io",
+      "noNpcData": "¡No se han encontrado datos del editor de PNJ!",
+      "checkLog": "Por favor, compruebe el registro de errores en la pestaña \"Bitácora\" del menú Opciones para más información",
+      "otherError": "@:{'common.appName'} encontró un error al cargar este artículo.",
+      "packActive": "El {pack} Paquete de Contenido Lancer está instalado y activo.",
+      "requestsNewer": "Este artículo solicita una versión del {pack} Paquete de Contenido Lancer más nuevo que el que instalado actualmente.",
+      "installedActivated": "instalados y activados",
+      "instanced": "instanciado",
+      "usesContent": "Este artículo utiliza el contenido del {pack} Paquete de Contenido Lancer. El equipo de este paquete de contenido será {instanced} hasta que el LCP requerido sea {state} a través del menú Gestor de Contenido.",
+      "lancerCoreBook": "Libro Lancer Core",
+      "npcHelp": "@:{'common.appName'} no puede cargar datos PNJ sin la instalación del paquete de contenido PNJ proporcionado con la versión pagada (DJ) de {pack}",
+      "eidolonHelp": "Eidolons requieren la instalación del Paquete de Contenido proporcionado con {pack}",
+      "detected": "Falta de Contenido Detectada",
+      "hoverHelp": "Este {type} no tiene los datos LCP necesarios. @:{'common.appName'} no podrá cargar este {type} hasta que se añada el contenido faltante.",
+      "missingContent": "Contenido faltante",
+      "activated": "activado"
+    },
+    "remote": {
+      "remoteHelp": "Este {type} es un recurso remoto vinculado a la cuenta de otro usuario. Es sólo lectura y recibirá actualizaciones desde la cuenta vinculada.",
+      "collectionHelp": "Este {type} está vinculado a una colección de contenidos. Es de solo lectura y recibirá actualizaciones cuando una nueva versión de la colección sea publicada por el autor de la colección.",
+      "collectionResource": "Recurso de colección"
+    },
+    "dice": {
+      "commitResult": "Enviar Resultado",
+      "resetAll": "Restablecer Todo",
+      "clearAll": "Limpiar Todo",
+      "total": "Total",
+      "flatModifier": "Modificador fijo",
+      "rolling": "Tirando {n}D{sides}",
+      "noRoll": "Sin Tirada",
+      "critical": "// Crítico"
+    },
+    "brokenRef": {
+      "instancedNote": "Este artículo ha sido señalado como un objeto único y si se elimina no estará disponible hasta que se instale el LCP asociado.",
+      "partOfPack": "Este artículo forma parte del siguiente Paquete de Contenido de Lancer",
+      "instancedItem": "Artículo Instanciado"
+    },
+    "confirm": {
+      "heading": "// Proceso interrumpido: autorización requerida //"
+    },
+    "clock": {
+      "deleteConfirm": "¿Quiere eliminar este reloj? Esta acción no se puede deshacer."
+    },
+    "bond": {
+      "masterPower": "Poder Principal",
+      "veteranPower": "Poder Veterano",
+      "bondPowers": "Poderes de Lazo",
+      "minorIdeals": "Ideales menores"
+    },
+    "lcp": {
+      "installedDisabled": "LCP instalado pero deshabilitado",
+      "updateLcp": "Actualizar LCP",
+      "downloadLcp": "Descargar LCP",
+      "content": "Contenido LCP"
+    },
+    "widget": {
+      "active": "Activo",
+      "passive": "Pasivo",
+      "integratedMechWeapon": "Arma integrada meca",
+      "deploy": "Desplegar",
+      "noSelection": "Sin selección",
+      "other": "Otro",
+      "noDescription": "Sin descripción dada.",
+      "toClose": "Para cerrar",
+      "click": "Clic",
+      "tap": "TOQUE",
+      "missingData": "Datos faltantes",
+      "selectedCount": "{n} seleccionado(s)",
+      "selectDamageType": "Seleccione el Tipo de Daño",
+      "damage": "Daño"
+    },
+    "ref": {
+      "equipmentTagDetail": "Detalle chapa de Equipo",
+      "actionReference": "Referencia acción"
+    },
+    "cascade": {
+      "inCascade": "En cascada",
+      "pending": "Pendiente"
+    },
+    "table": {
+      "previous": "anterior"
+    }
+  },
+  "enums": {
+    "attackType": {
+      "ranged": "De Rango",
+      "melee": "Cuerpo a cuerpo"
+    },
+    "duration": {
+      "mission": "Misión",
+      "encounter": "Encuentro",
+      "scene": "Escena",
+      "next_round": "Siguiente Ronda",
+      "round": "Ronda",
+      "next_turn": "Turno Siguiente",
+      "turn": "Turno",
+      "free": "Libre"
+    },
+    "orgType": {
+      "political": "Política",
+      "entertainment": "Entretenimiento",
+      "industrial": "",
+      "humanitarian": "Humanitaria",
+      "academic": "Académica",
+      "scientific": "Cientifica",
+      "military": "Militar"
+    },
+    "reserveType": {
+      "bonus": "Bono",
+      "organization": "Organización",
+      "project": "Proyecto",
+      "mech": "Meca",
+      "tactical": "Táctica",
+      "resources": "Recursos"
+    },
+    "mechType": {
+      "defender": "Defensor",
+      "support": "Apoyo",
+      "controller": "Controlador",
+      "striker": "Atacante",
+      "artillery": "Artillería",
+      "balanced": "Balanceado"
+    },
+    "systemType": {
+      "grenade": "Granada",
+      "mine": "Mina",
+      "integrated": "Integrado",
+      "flight_system": "Sistema de Vuelo",
+      "invade": "Invadir",
+      "tech": "Tec",
+      "drone": "Dron",
+      "deployable": "Desplegable",
+      "shield": "Escudo",
+      "ai": "IA",
+      "system": "Sistema"
+    },
+    "activationType": {
+      "other": "Otro",
+      "reaction": "Reacción"
+    }
   }
 }

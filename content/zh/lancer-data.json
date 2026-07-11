@@ -1,1 +1,6 @@
-{}
+{
+  "act_ace_supersonic_spinup.detail": "在你回合时，你可以使用快速动作来转动推进器。若你以飞行结束的回合，你可以指明在视线内的一个角色并且射程等同你的速度，并获得 超音速 反应。",
+  "act_ace_supersonic_spinup.name": "转动推进器",
+  "act_activate_full.detail": "当你激活时，你使用需用快速或完整动作的系统或装备。这些系统均有快速动作或完整动作标签。你可以在一回合内可多次激活，但不能多次激活同一系统，除非你能以自由动作进行。",
+  "act_activate_full.name": "完整动作"
+}

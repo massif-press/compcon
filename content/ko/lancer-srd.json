@@ -1,5 +1,5 @@
 {
-  "combat_4_4_0.title": "방어",
+  "combat_4_4_0.title": "충격대비",
   "combat_4_2.title": "전력 행동",
   "combat_4_2_8.title": "스킬 판정",
   "combat_4_2_7.title": "탑승/하차",
@@ -14,5 +14,16 @@
   "mechs_3.title": "메크 무기",
   "mechs_2_1.title": "크기",
   "mechs_3_2.title": "피해",
-  "combat_4_1_1.title": "붙잡기"
+  "combat_4_1_1.title": "붙잡기",
+  "combat_4_2_0.title": "전력 공격",
+  "combat_4_1_3_0.title": "강화",
+  "combat_4_1_0.title": "부스트",
+  "combat_4_2_1.title": "퇴각",
+  "combat_4_1_9.title": "탈출",
+  "combat_4_0_3.title": "자유 행동",
+  "combat_4_1_3_3.title": "침투",
+  "combat_4_0_4.title": "반응행동",
+  "combat_3_3.title": "화재",
+  "combat_4_1_5.title": "색적",
+  "combat_7_1_3.title": "열위험 상태"
 }

@@ -176,7 +176,10 @@
     "hase_s": "S",
     "hase_e": "E",
     "alert": "Alerta",
-    "ok": "OK"
+    "ok": "OK",
+    "a11y": {
+      "mainNavigation": "Menu Principal"
+    }
   },
   "print": {
     "generalOptions": "Opções Gerais de Impressão"
@@ -212,7 +215,15 @@
     "newCollection": "Nova Coleção",
     "unknownStatus": "Estado Desconhecido",
     "unknownLicense": "Licença Desconhecida",
-    "newSkillTrigger": "Novo Gatilho"
+    "newSkillTrigger": "Novo Gatilho",
+    "subtitles": {
+      "aSimpleAffairWithTwoSides": "Um confronto simples, com dois lados se enfrentando até que um deles seja derrotado ou destruído.",
+      "aStandardEnvironmentWithNoSpecial": "Um ambiente padrão, sem condições especiais de combate"
+    },
+    "titles": {
+      "titlePage": "Capa",
+      "contributors": "Colaboradores"
+    }
   },
   "nav": {
     "contentManager": {
@@ -228,7 +239,7 @@
       "updateAll": "@:{'common.updateAll'}",
       "deleteAll": "Excluir Tudo",
       "contentPacks": "@:{'common.contentPacks'}",
-      "addContent": "@:[common.addContent'}",
+      "addContent": "@:{'common.addContent'}",
       "removeContent": "@:{'common.remove'}"
     },
     "roster": {
@@ -404,11 +415,12 @@
       "lancerBy": "@:{'common.gameName'} by",
       "with": "Com",
       "graphicDesignBy": "Design Gráfico por",
-      "tier": "@:{'common.tier'}",
+      "tier": "Ranque",
       "patronThanks": "O desenvolvimento contínuo do @:{'common.appName'} não seria possível sem o generoso",
       "supportOf": "de",
       "compconBy": "@:{'common.appName'} Por",
-      "anonymousPatron": "Patrono Anônimo"
+      "anonymousPatron": "Patrono Anônimo",
+      "support": "Suporte"
     },
     "deletedItems": {
       "itemType": "Tipo de Item",
@@ -446,7 +458,8 @@
       "successText": "Pacotes de conteúdo instalados com sucesso",
       "installingPacks": "Instalando {count} pacote de conteúdo… | Instalando {count} pacotes de conteúdo…",
       "willUpgradeTo": "Ele será atualizado para a v.{version}",
-      "willDowngradeTo": "Ele será revertido para a versão {version}"
+      "willDowngradeTo": "Ele será revertido para a versão {version}",
+      "patchStringCount": "{count} strings"
     },
     "packsDirectory": {
       "officialContent": "Oficial",
@@ -491,9 +504,9 @@
       "deleteWarningBanner": "Aviso// Aviso // Aviso",
       "cannotBeUndone": "ser desfeito.",
       "areYouSure": "Tem certeza de que quer continuar?",
-      "deleteAllUserData": "Apagar todos Dado do Usuário",
+      "deleteAllUserData": "Apagar todos Dados do Usuário",
       "maxThresholdPct": "Limite Máximo (%)",
-      "warningThresholdMb": "Aviso de Limite (MB)",
+      "warningThresholdMb": "Limite de Aviso (MB)",
       "maxThresholdMb": "Limite Máximo (MB)",
       "warningDescription": "O @:{'common.appName'} exibirá uma mensagem de aviso quando",
       "maxDescription": "O @:{'common.appName'} impedirá a criação de novos dados após",
@@ -513,7 +526,12 @@
       "exportLog": "Exportar Log",
       "copiedToClipboard": "Entrada de log copiada para a área de transferência",
       "trace": "Rastro",
-      "noData": "@:{'common.noData'}"
+      "noData": "@:{'common.noData'}",
+      "exportThisSession": "Exportar este Registro de Sessão",
+      "exportAllSessions": "Exportar todos Registros de Sessão",
+      "clearLog": "Limpar Registros",
+      "error": "Erro",
+      "session": "Sessão"
     },
     "packInfo": {
       "v2ContentTitle": "Conteúdo v2",
@@ -526,7 +544,13 @@
       "dependencyInstalled": "Dependências instaladas",
       "version": "@:{'common.version'}",
       "changelog": "@:{'common.changelog'}",
-      "contentHeading": "Conteúdo"
+      "contentHeading": "Conteúdo",
+      "patchByAuthor": "por {translator}",
+      "patchUnknownAuthor": "Tradutor desconhecido",
+      "removePatch": "Remover patch",
+      "languagePatches": "Patches de linguagem",
+      "languagePatchesTooltip": "Traduções da comunidade instaladas para este pacote. Ativadas ao selecionar o respectivo idioma.",
+      "patchOutdated": "Esta tradução foi feita para a versão {version} do pacote e pode estar desatualizada."
     },
     "communityTable": {
       "noData": "Nenhum pacote de conteúdo disponível.",
@@ -621,6 +645,30 @@
       "netlifyStatus": "Status do Netlify",
       "joinTheLancerDiscord": "Junte-se ao discord de LANCER",
       "supportCompconOnPatreon": "Apoie o @:{'common.appName'} no Patreon"
+    },
+    "titles": {
+      "latestVersion": "Versão Mais Recente",
+      "installedVersion": "Versão instalada",
+      "backedUp": "Backup concluído",
+      "x1Week": "1 semana",
+      "x2Weeks": "2 semanas",
+      "x1Month": "1 mês",
+      "x3Months": "3 meses",
+      "x6Months": "6 meses",
+      "x1Year": "1 ano",
+      "active": "Ativo",
+      "author": "Autor(a)",
+      "version": "Versão",
+      "type": "Tipo",
+      "missing": "Faltando",
+      "never": "Nunca",
+      "lcp": "LCP"
+    },
+    "fields": {
+      "interV3Default": "Inter (v3 padrão)",
+      "notoSansV3Alt": "Noto Sans (v3 alt)",
+      "helveticaV2Default": "Helvetica (v2 padrão)",
+      "opendyslexicExperimental": "OpenDyslexic (experimental)"
     }
   },
   "share": {
@@ -674,7 +722,58 @@
       "noEidolonData": "Sem Dados de Eidolon",
       "lancerBasics": "Básico de Lancer",
       "usingCompcon": "usando @:{'common.appName'}",
-      "narrativePlay": "jogo narrativo"
+      "narrativePlay": "jogo narrativo",
+      "contentPack": "Pacote de Conteúdo",
+      "tierI": "Grau I",
+      "tierIi": "Grau II",
+      "tierIii": "Grau III",
+      "licenseLevel": "Nível de Licença",
+      "spCost": "Custo de SP",
+      "manufacturer": "Fabricante",
+      "shards": "Fragmentos",
+      "size": "Tamanho",
+      "mounts": "Suportes",
+      "edef": "E.Def",
+      "heatcap": "CapCalor",
+      "repcap": "CapRep",
+      "techatk": "AtaqTec",
+      "role": "Função",
+      "origin": "Origem",
+      "tags": "Tags",
+      "eDefense": "E-Defesa",
+      "range": "Alcance",
+      "damage": "Dano",
+      "uses": "Usos",
+      "icon": "Ícone",
+      "system": "Sistema",
+      "mechWeapons": "Armas de Mecha",
+      "mechSystems": "Sistemas de Mecha",
+      "skillTriggers": "Gatilhos de Perícia",
+      "eidolonLayers": "Camadas de Eidolon",
+      "statusesConditions": "Status e Condições",
+      "equipmentTags": "Tags de Equipamento",
+      "coreBonuses": "Bônus de Núcleo",
+      "pilotBackgrounds": "Antecedentes de Piloto",
+      "downtimeActions": "Ações de Tempo de Inatividade",
+      "referenceBasics": "Referência: Noções Básicas",
+      "referenceCompCon": "Referência: COMP/CON",
+      "referencePilots": "Referência: Pilotos",
+      "referenceMechs": "Referência: Mechs",
+      "referenceCombat": "Referência: Combate",
+      "referenceNarrativePlay": "Referência: Jogo Narrativo",
+      "referenceErrata": "Referência: Errata",
+      "referenceGlossary": "Referência: Glossário",
+      "manufacturers": "Fabricantes",
+      "frames": "Chassis",
+      "glossary": "Glossário",
+      "downtimeactions": "AçõesDeTempoDeInatividade",
+      "bonds": "Vínculos",
+      "environments": "Ambientes",
+      "sitreps": "SITREPs",
+      "lists": "Listas",
+      "npcClasses": "Classes PNJ",
+      "npcFeatures": "Características PNJ",
+      "npcTemplates": "Modelo PNJ"
     },
     "nav": {
       "systemReference": "Referência do Sistema"
@@ -738,6 +837,16 @@
       "searchTheCampaignLibrary": "Pesquisar na Biblioteca de Campanhas",
       "showFull": "Mostrar Completo",
       "selectLcdFile": "Selecionar Arquivo .lcd"
+    },
+    "tooltips": {
+      "userSelectedDamageTypeOrDamage": "Tipo de dano selecionado pelo usuário ou tipo de dano não especificado",
+      "weaponThreatRange": "Alcance de Ameaça da Arma",
+      "burstAreaOfEffect": "Área de Efeito \"Emanação\"",
+      "blastAreaOfEffect": "Área de Efeito \"Explosão\"",
+      "lineAreaOfEffect": "Área de Efeito \"Linha\"",
+      "coneAreaOfEffect": "Área de Efeito \"Cone\"",
+      "hitPoints": "Pontos de Vida",
+      "denotesContentAddedByALancer": "Denota conteúdo adicionado por um arquivo Lancer Content Pack (.lcp)"
     }
   },
   "ui": {
@@ -754,7 +863,7 @@
       "availableMounts": "Encaixes de armas disponíveis",
       "onboardCore": "Sistema de núcleo integrado",
       "integrations": "Integrações",
-      "systemPoints": "Ponto{plural} de Sistema",
+      "systemPoints": "Ponto de Sistema | Pontos de Sistemas",
       "profileActions": "Ações do perfil",
       "profileDeployables": "Implantáveis do perfil",
       "profileTags": "Tags de perfil",
@@ -949,7 +1058,7 @@
       "rebuildConfirm": "Você deseja reconstruir esta tabela? Isso limpará os dados atuais. Esta ação não pode ser desfeita.",
       "confirmRebuild": "Confirmar Reconstrução",
       "deleteConfirm": "Você deseja excluir esta tabela? Esta ação não pode ser desfeita.",
-      "multipleOnes": "Múltiplos 1{plural}",
+      "multipleOnes": "Múltiplos 1s",
       "d": "D",
       "pluralS": "s"
     },
@@ -1070,7 +1179,8 @@
       "imageType": "Tipo de Imagem",
       "linkImage": "Vincular Imagem",
       "purposeGoalAndOrganizationDetails": "Propósito, objetivo e detalhes da organização",
-      "costcomplications": "Custo/Complicações"
+      "costcomplications": "Custo/Complicações",
+      "allItems": "Todos os Itens"
     },
     "titles": {
       "reportedAppearances": "Aparições Relatadas",
@@ -1088,14 +1198,60 @@
       "structureDamage": "DANO ESTRUTURAL",
       "cascade": "CASCATA",
       "clockEditor": "editor de relógio",
-      "activateFreeAction": "Ativar (Ação Livre)"
+      "activateFreeAction": "Ativar (Ação Livre)",
+      "heatCapacity": "Capacidade de Calor",
+      "repairCapacity": "Capacidade de Reparos",
+      "totalDamage": "Dano Total",
+      "saveTarget": "Alvo de Salvamento",
+      "kineticDamage": "Dano Cinético",
+      "energyDamage": "Dano de Energia",
+      "heatDamage": "Dano de Calor",
+      "explosiveDamage": "Dano Explosivo",
+      "variableDamage": "Dano Variável",
+      "softCover": "Cobertura Leve",
+      "hardCover": "Cobertura Pesada",
+      "noCover": "Sem Cobertura",
+      "areaOfEffect": "Área de Efeito",
+      "eDefense": "E-Defesa",
+      "size": "Tamanho",
+      "range": "Alcance",
+      "hull": "Casco",
+      "heatcap": "Cap.Calor",
+      "evade": "Evasão",
+      "threat": "Ameaça",
+      "thrown": "Arremesso",
+      "line": "Linha",
+      "blast": "Explosão",
+      "burst": "Emanação",
+      "cone": "Cone",
+      "kinetic": "Cinético",
+      "energy": "Energia",
+      "explosive": "Explosivo",
+      "heat": "Calor",
+      "burn": "Queimadura",
+      "resistance": "Resistência",
+      "immunity": "Imunidade",
+      "vulnerability": "Vulnerabilidade",
+      "gear": "Equipamento"
     },
     "tooltips": {
       "itemFilters": "Filtros de Item",
       "resetCounter": "Resetar Contador",
       "deleteCounter": "Excluir Contador",
       "markingAFieldOrItem": "Marcar um campo ou item como 'Somente Mestre' o esconderá das exportações e impressões visíveis aos jogadores",
-      "markThisResourceAsUsed": "Marcar este recurso como usado ou indisponível (mas não consumido, destruído ou perdido)"
+      "markThisResourceAsUsed": "Marcar este recurso como usado ou indisponível (mas não consumido, destruído ou perdido)",
+      "addCoinFlipD2": "Adicionar cara ou coroa (d2)",
+      "addD4Roll": "Adicionar rolagem de d4",
+      "addD6Roll": "Adicionar rolagem de d6",
+      "addD8Roll": "Adicionar rolagem de d8",
+      "addD10Roll": "Adicionar rolagem de d10",
+      "addD12Roll": "Adicionar rolagem de d12",
+      "addD20Roll": "Adicionar rolagem de d20",
+      "addAccuracy": "Adicionar Precisão",
+      "addDifficulty": "Adicionar Dificuldade",
+      "influenceIsYourOrganizationsSizeReach": "A influência é o tamanho, alcance, riqueza e reputação de sua organização.\n                A influência pode ser usada para adquirir ativos, criar oportunidades ou influenciar a opinião\n                pública.",
+      "thisWillPermanentlyDeleteThisImage": "Isso excluirá permanentemente esta imagem do armazenamento em nuvem. Deseja continuar?",
+      "linkARemotelyHostedImageTo": "Vincule uma imagem hospedada remotamente a este ativo. Essas imagens não são armazenadas nem gerenciadas pelo COMP/CON e estão sujeitas a alterações ou remoção com base em seus hosts."
     },
     "alt": {
       "packImage": "Imagem do pacote"
@@ -1270,7 +1426,7 @@
       "additionalDetail": "Detalhe adicional",
       "clocks": "Relógios",
       "viewCollections": "Ver Coleções",
-      "itemTypePlural": "{type}s"
+      "itemTypePlural": "{type}"
     },
     "print": {
       "othersCount": "(+{n} outros)"
@@ -1389,7 +1545,7 @@
       "readyForImport": "O encontro está pronto para importação",
       "missingNpcs": "Este encontro faz referência a PNJs que ainda não foram importados. Ele será salvo na coleção de Importações v2 no Gerenciador de Conteúdo e pode ser importado assim que os PNJs necessários estiverem disponíveis.",
       "someMissingNpcs": "Alguns encontros fazem referência a PNJs que ainda não foram importados. Esses encontros serão salvos na coleção de Importações v2 no Gerenciador de Conteúdo e podem ser importados assim que os PNJs necessários estiverem disponíveis.",
-      "importCount": "Importar ({n} Encontro{plural})"
+      "importCount": "Importar ({n} Encontro) | Importar ({n} Encontros)"
     },
     "gmNotes": "Notas do Mestre",
     "npcFeature": {
@@ -1397,12 +1553,12 @@
       "allAvailableFeatures": "Todos os Sistemas Disponíveis",
       "allAssignedFeatures": "Todos os Sistemas Atribuídos",
       "selectedClass": "Classe selecionada",
-      "selectedTemplate": "Modelo selecionado{plural}",
+      "selectedTemplate": "Modelo selecionado | Modelos selecionados",
       "nameFeatures": "Sistema de {name}",
       "otherNpcClasses": "Outras Classes de PNJ",
       "otherNpcTemplates": "Outros Modelos de PNJ",
       "otherFeatures": "Outros Sistemas",
-      "featureType": "Característica do(a) {type}",
+      "featureType": "{type} Característica",
       "base": "Base",
       "noSelectionsRemaining": "Não há mais seleções de Sistemas de PNJ",
       "ignoreLimitHint": "Sistemas adicionais além das diretrizes recomendadas podem ser adicionadas ativando a opção \"Ignorar Limite\" acima",
@@ -1519,7 +1675,24 @@
       "sitrepModified": "resit modificado",
       "organizeEncounters": "organizar encontros",
       "selectTemplate": "selecionar modelo",
-      "selectNpcClass": "selecionar classe do PNJ"
+      "selectNpcClass": "selecionar classe do PNJ",
+      "gmLabels": "Etiquetas do Mestre",
+      "folder": "Pasta",
+      "shards": "Fragmentos",
+      "npcRoster": "PNJs",
+      "title": "Título",
+      "pronouns": "Pronomes",
+      "class": "Classe",
+      "layers": "Camadas",
+      "templates": "Modelos",
+      "contentPack": "Conteúdos",
+      "gmToolkit": "Ferramentas de GM",
+      "campaignEditor": "Editor de Campanha",
+      "encounterEditor": "Editor de Encontros",
+      "alias": "Alias",
+      "tag": "Tag",
+      "role": "Função",
+      "narrativeItemManager": "Gerenciar item Narrativos"
     },
     "fields": {
       "selectDataFile": "Selecionar Arquivo de Dados",
@@ -1563,7 +1736,11 @@
       "addANewEmptyBeat": "Adiciona um novo Ponto vazio nesta seção. Um Ponto é uma seção para um evento importante ou momento na história.",
       "addANewEmptyMission": "Adiciona uma nova Missão vazia nesta página. Uma Missão contém objetivos específicos que podem ser concluídos em um período de tempo discreto, e geralmente contém Combates.",
       "addANewEmptyCombat": "Adiciona um novo Combate vazio nesta página. Um Combate contém Encontros, bem como diretrizes do Mestre, detalhes narrativos sobre a batalha e resultados potenciais.",
-      "addANewEmptyDowntime": "Adiciona um novo Recesso vazio nesta página. O Recesso é o espaço narrativo entre as missões, onde a ação momento a momento não importa tanto e o RPG importa muito mais."
+      "addANewEmptyDowntime": "Adiciona um novo Recesso vazio nesta página. O Recesso é o espaço narrativo entre as missões, onde a ação momento a momento não importa tanto e o RPG importa muito mais.",
+      "manageNonPlayerCombatUnits": "Gerencia PNJs de combate",
+      "manageCharactersLocationsAndFactions": "Gerenciar personagens, locais e facções",
+      "createCombatEncounters": "Criar encontros de combate",
+      "createModifyAndBrowseLancerCampaigns": "Crie, modifique e navegue por campanhas de LANCER (v3.1)"
     },
     "actions": {
       "noncharacterObjectsSuchAsTerrain": "Objetos que não são personagens (como itens de terreno) que podem ser rastreados em encontros de combate."
@@ -1571,12 +1748,19 @@
     "tooltips": {
       "changeTierAndAdjustEdited": "Mudar de patamar e ajustar atributos editados na mesma proporção que as mudanças de atributos padrão.",
       "changeTierAndKeepEdited": "Mudar de patamar e manter os valores de atributos editados, mesmo que caiam abaixo dos padrões do novo patamar.",
-      "changeTierAndDiscardAll": "Mudar de patamar e descartar todos os valores de atributos editados."
+      "changeTierAndDiscardAll": "Mudar de patamar e descartar todos os valores de atributos editados.",
+      "thisWillDeleteThisNpcFrom": "Isso excluirá este NPC da sua lista de NPCs. NPCs deste tipo adicionados a Encontros não serão afetados. Tem certeza?",
+      "convertingThisItemToLocalData": "A conversão deste item em dados locais permitirá a edição local, mas removerá seu vínculo remoto com a\n      conta na nuvem do autor e impedirá que quaisquer atualizações futuras sejam recebidas. Para reativar a\n      sincronização remota, você terá que importar este item novamente através do seu código de compartilhamento.",
+      "thisWillDeleteThisEncounterFrom": "Isso excluirá este Encontro da sua biblioteca. Tem certeza?",
+      "confirmDuplicationOfThisNpc": "Confirmar duplicação desse PNJ"
+    },
+    "a11y": {
+      "dragToReorder": "Arraste para ordenar"
     }
   },
   "notify": {
     "dataItem": {
-      "bulkDeletedTitle": "{n} Item{s} Excluído(s)",
+      "bulkDeletedTitle": "{n} Item Excluído | {n} Itens Excluídos",
       "bulkDeletedText": "Os itens selecionados foram excluídos.",
       "bulkPartialTitle": "{n} Excluído(s), {f} Falha(s)",
       "bulkPartialText": "Não foi possível excluir: {items}",
@@ -1956,7 +2140,7 @@
       "exportState": "Exportar Estado da Ficha de Personagem",
       "importState": "Importar Estado da Ficha de Personagem",
       "importFileLabel": "Arquivo de Importação de Instância de Ficha de Personagem (.json)",
-      "stagedImport": "Estágio de Importação",
+      "stagedImport": "Importação em Estágio",
       "atRound": "na Rodada",
       "warningReplace": "Aviso: O estado da Ficha de Personagem importado substituirá o estado atual da Ficha de Personagem.",
       "changeActiveMech": "Alterar Mecha Ativo",
@@ -1982,7 +2166,7 @@
       "setRound": "Definir Rodada",
       "overrides": "Substitui",
       "current": "Atual",
-      "max": "Máx",
+      "max": "Max",
       "removeFromEncounter": "Remover {name} do Encontro",
       "noStatController": "Nenhum Controlador de Atributos Encontrado",
       "editReinforcements": "Editar Reforços",
@@ -2037,7 +2221,8 @@
     },
     "initiative": {
       "reinforcementsN": "reforços ({n})",
-      "destroyedN": "Destruído ({n})"
+      "destroyedN": "Destruído ({n})",
+      "statusGroupN": "{status} ({n})"
     },
     "runnerItem": {
       "deploysOnRound": "Implementa na Rodada {n}",
@@ -2356,7 +2541,33 @@
       "mechDestroyedReactorMeltdown": "Mecha Destruído — Derretimento do Reator",
       "repairCap": "Capacidade de Reparo",
       "whatIsAPlaceholder": "O que é um Espaço Reservado?",
-      "youHaveRemainingActions": "Você tem ações restantes!"
+      "youHaveRemainingActions": "Você tem ações restantes!",
+      "gameMaster": "MESTRE DE JOGO",
+      "activeCharacterSheets": "Fichas de Personagem Ativas",
+      "joinAnOnlineTable": "Entrar em uma Mesa Online",
+      "localEncounters": "Encontros Locais",
+      "localCampaigns": "Campanhas Locais",
+      "hostAnOnlineTable": "Hospedar uma Mesa Online",
+      "spectatorMode": "Modo Espectador",
+      "campaignDisplay": "Exibição de Campanha",
+      "allPilots": "Todos os Pilotos",
+      "heatCapacity": "Capacidade de Calor",
+      "repairCapacity": "Capacidade de Reparos",
+      "saveTarget": "Alvo de Salvamento",
+      "items": "Itens",
+      "sitrep": "SITREP",
+      "round": "Rodada",
+      "observer": "OBSERVADOR",
+      "pilot": "Piloto",
+      "reactor": "Reator",
+      "activations": "Ativações",
+      "hull": "Casco",
+      "size": "Tamanho",
+      "eDefense": "E-Defesa",
+      "grapple": "Agarrar",
+      "ram": "Investida",
+      "exposed": "Exposto",
+      "shredded": "Despedaçado"
     },
     "tooltips": {
       "addAPilotFromYourLocalPilotRoster": "Adicione um piloto da sua Lista de Pilotos local",
@@ -2383,7 +2594,18 @@
       "exportsAStructuredJsonVersion": "Exporta uma versão JSON estruturada do registro de combate para uso em outras aplicações.",
       "exportsAPlainTextVersion2": "Exporta uma versão em texto simples dos atributos atuais do combatente.",
       "rollAllDiceTakingThe": "Role todos os dados, pegando o melhor resultado",
-      "reroll1s": "Rolar novamente 1s"
+      "reroll1s": "Rolar novamente 1s",
+      "failedToImportSheetPleaseEnsure": "Falha ao importar a ficha. Certifique-se de que o arquivo é um JSON de ficha de personagem válido."
+    },
+    "subtitles": {
+      "inDevelopmentReleaseV32": "Em Desenvolvimento (lançamento v3.2)",
+      "createManageAndRunActivePlayer": "Criar, gerenciar e executar fichas de Personagens de Jogador ativas",
+      "resumeLast": "retomar último",
+      "featureInDevelopmentV32": "Recurso em desenvolvimento (v3.2)",
+      "createManageAndRunLocalEncounters": "Criar, gerenciar e executar Encontros locais para seus jogos de Lancer",
+      "featureInDevelopmentV31": "Recurso em desenvolvimento (v3.1)",
+      "kineticExplosiveAndHeatDamageDoubled": "Dano cinético, explosivo e de calor dobrado.",
+      "damageIgnoresArmorAndResistance": "O dano ignora armadura e resistência."
     }
   },
   "mainMenu": {
@@ -2750,7 +2972,57 @@
       "storagePermissionRequired": "Permissão de Armazenamento Necessária!",
       "youDoNotHaveAccess": "Você não tem acesso a backups remotos.",
       "youDoNotHaveAccess2": "Você não tem acesso à ferramenta de publicação de coleções.",
-      "compconCloudAccount": "Conta na Nuvem do @:{'common.appName'}"
+      "compconCloudAccount": "Conta na Nuvem do @:{'common.appName'}",
+      "latestVersion": "Última Versão",
+      "installedVersion": "Versão Instalada",
+      "autoUpdate": "Atualização Automática",
+      "contentCollection": "Coleção de Conteúdo",
+      "onStartup": "Na Inicialização",
+      "manualOnly": "Apenas Manual",
+      "keepAll": "Manter Todos",
+      "last30": "Últimos 30",
+      "last10": "Últimos 10",
+      "last5": "Últimos 5",
+      "mostRecentOnly": "Apenas o Mais Recente",
+      "onAppStart": "Ao Iniciar o Aplicativo",
+      "pilotGroups": "Grupos de Pilotos",
+      "narrativeElement": "Elemento Narrativo",
+      "narrativeElements": "Elementos Narrativos",
+      "licenseLevel": "Nível de Licença",
+      "lastUpdate": "Última Atualização",
+      "addItem": "Adicionar Item",
+      "uploadDate": "Data de Upload",
+      "lastSync": "Última Sincronização",
+      "lastModified": "Última Modificação",
+      "lancerAndAbove": "Lancer (e acima)",
+      "onOpenClose": "Ao Abrir e Fechar",
+      "every30Minutes": "A cada 30 Minutos",
+      "every60Minutes": "A cada 60 Minutos",
+      "pilotData": "Dados do Piloto",
+      "encounterData": "Dados do Encontro",
+      "narrativeData": "Dados Narrativos",
+      "lastUpdated": "Última Atualização",
+      "lcp": "LCP",
+      "collection": "Coleção",
+      "author": "Autor",
+      "source": "Fonte",
+      "size": "Tamanho",
+      "preserve": "Preservar",
+      "off": "Desligado",
+      "daily": "Diariamente",
+      "weekly": "Semanalmente",
+      "monthly": "Mensalmente",
+      "pilot": "Piloto",
+      "encounter": "Encontro",
+      "campaign": "Campanha",
+      "pilots": "Pilotos",
+      "campaigns": "Campanhas",
+      "lcps": "LCPs",
+      "role": "Função",
+      "filename": "Nome do arquivo",
+      "free": "Livre",
+      "npcData": "PNJ Data",
+      "npc": "PNJ"
     },
     "tooltips": {
       "thisToolWillCaptureA": "Esta ferramenta capturará um instantâneo de seus dados locais do @:{'common.appName'} e o armazenará em um arquivo na nuvem. Você pode usar isso para restaurar seus dados do @:{'common.appName'} para um estado anterior. Este recurso está disponível apenas para apoiadores do Patreon.",
@@ -2760,7 +3032,8 @@
       "controlsHowOftenYourData": "Controla com que frequência seus dados são sincronizados com a nuvem. Devido aos custos de servidor, certas opções estão disponíveis apenas para assinantes do Patreon.",
       "controlsWhichDataTypesAre": "Controla quais tipos de dados são sincronizados com a nuvem.",
       "yourUniqueAccountIdThis": "Seu ID de conta exclusivo. Ele é usado para identificar sua conta na nuvem e pode ser solicitado para fins de solução de problemas.",
-      "usernameOptional": "Este é um campo <b>opcional</b> que você pode usar para definir um nome personalizado para sua conta. Esse nome de usuário <b>ficará</b> visível para outros usuários no modo ativo e ao compartilhar dados."
+      "usernameOptional": "Este é um campo <b>opcional</b> que você pode usar para definir um nome personalizado para sua conta. Esse nome de usuário <b>ficará</b> visível para outros usuários no modo ativo e ao compartilhar dados.",
+      "signInFailed": "Falha no login"
     },
     "subtitles": {
       "mergeAndSyncThisItem": "Mescle e sincronize este item imediatamente.",
@@ -2769,7 +3042,25 @@
       "removeTheRemoteLinkAnd": "Remova o link remoto e mantenha os dados localmente.",
       "pushesAllLocalDataTo": "Envia todos os dados locais para a nuvem incondicionalmente, redefinindo os registros de tempo dos campos para o momento atual. Use após uma restauração ou importação.",
       "pullsAllCloudDataAnd": "Puxa todos os dados da nuvem e os mescla com os dados locais. Campos locais com registros de tempo mais recentes são preservados.",
-      "permanentlyRemovesItemsFlaggedFor": "Remove permanentemente os itens marcados para exclusão."
+      "permanentlyRemovesItemsFlaggedFor": "Remove permanentemente os itens marcados para exclusão.",
+      "doNotAutomaticallyDeleteAnyArchives": "Não excluir nenhum arquivo automaticamente.",
+      "keepThe30NewestArchives": "Manter os 30 arquivos mais recentes.",
+      "keepThe10NewestArchives": "Manter os 10 arquivos mais recentes.",
+      "keepThe5NewestArchives": "Manter os 5 arquivos mais recentes.",
+      "keepOnlyTheMostRecentArchive": "Manter apenas o arquivo mais recente.",
+      "dataIsOnlySyncedWhenYou": "Os dados só são sincronizados quando você clica em Sincronizar.",
+      "syncsWhenYouOpenAndClose": "Sincroniza quando você abre e fecha o aplicativo. A sincronização ao fechar pode não ser suportada em todos os navegadores.",
+      "syncsAutomaticallyEvery30MinutesRequires": "Sincroniza automaticamente a cada 30 minutos. Requer apoiador no Patreon.",
+      "syncsAutomaticallyEvery60MinutesRequires": "Sincroniza automaticamente a cada 60 minutos. Requer apoiador no Patreon."
+    },
+    "a11y": {
+      "signInProgressLog": "Registro de progresso do login",
+      "abortSignIn": "Interromper login",
+      "retrySignIn": "Tentar login novamente",
+      "cancelAndClose": "Cancelar e fechar",
+      "signIn": "Entrar",
+      "eMail": "E-Mail",
+      "password": "Senha"
     }
   },
   "pm": {
@@ -3278,7 +3569,59 @@
       "convertRemotePilot": "converter piloto remoto",
       "confirmPilotDeletion": "confirmar exclusão do piloto",
       "exportV2Json": "Exportar JSON v2",
-      "serverErrorTooManyRequests": "Erro de Servidor - Muitas Solicitações"
+      "serverErrorTooManyRequests": "Erro de Servidor - Muitas Solicitações",
+      "exportSuccess": "Sucesso na Exportação",
+      "exportError": "Erro de Exportação",
+      "pilotOnly": "Apenas Piloto",
+      "mechOnly": "Apenas Mecha",
+      "systemCapacityExceeded": "CAPACIDADE DO SISTEMA EXCEDIDA",
+      "systemCapacityRemaining": "CAPACIDADE DO SISTEMA RESTANTE",
+      "emptyMountsDetected": "SUPORTES VAZIOS DETECTADOS",
+      "unlicensedEquipmentDetected": "EQUIPAMENTO NÃO LICENCIADO DETECTADO",
+      "incompatibleWeaponMod": "MODIFICAÇÃO DE ARMA INCOMPATÍVEL",
+      "missingInAction": "Desaparecido Em Combate",
+      "killedInAction": "Morto Em Combate",
+      "tweakedOptics": "Óptica Ajustada",
+      "tweakedComputer": "Computador Ajustado",
+      "strippedReactorShielding": "Blindagem do Reator Removida",
+      "licenseLevel": "Nível de Licença",
+      "spCost": "Custo de SP",
+      "contentPack": "Pacote de Conteúdo",
+      "coreBonuses": "Bônus de Núcleo",
+      "full": "Completo",
+      "manufacturer": "Fabricante",
+      "size": "Tamanho",
+      "edef": "E.Def",
+      "heatcap": "Cap.Calor",
+      "repcap": "Cap.Rep",
+      "techatk": "Ataq.Tec",
+      "active": "Ativo",
+      "inactive": "Inativo",
+      "retired": "Aposentado",
+      "unknown": "Desconhecido",
+      "pilot": "Piloto",
+      "ll": "NL",
+      "group": "Grupo",
+      "rifle": "Rifle",
+      "cannon": "Canhão",
+      "launcher": "Lançador",
+      "cqb": "CQB",
+      "nexus": "Nexo",
+      "melee": "Corpo a Corpo",
+      "kinetic": "Cinético",
+      "energy": "Energia",
+      "explosive": "Explosivo",
+      "system": "Sistema",
+      "tags": "Tags",
+      "range": "Alcance",
+      "damage": "Dano",
+      "eDefense": "E-Defesa",
+      "uses": "Usos",
+      "biography": "Biografia",
+      "bond": "Vínculo",
+      "skills": "Perícias",
+      "levelUp": "Subir de Nível",
+      "newPilotWizard": "Assistente de Novo Piloto"
     },
     "fields": {
       "startingLicenseLevel": "Nível de Licença Inicial",
@@ -3297,7 +3640,8 @@
       "pilotXp": "xp do piloto",
       "pilotStress": "estresse do piloto",
       "nameOrCallsign": "Nome ou codinome…",
-      "jumpTo": "pular para"
+      "jumpTo": "pular para",
+      "project": "Projeto"
     },
     "tooltips": {
       "selectPredefinedBackground": "Selecionar Origem Predefinida",
@@ -3316,7 +3660,28 @@
       "thisWillCreateACopy": "Isso criará uma cópia destes dados do piloto, registrada em sua lista de pilotos.",
       "thisWillCloneTheSelected": "Isso clonará o piloto selecionado. Personagens clonados não podem participar de uma missão em andamento, e recebem uma peculiaridade aleatória. Clonagem adicional e impressão de subjetividade adicionam outras peculiaridades.",
       "addingThisItemAsA": "Adicionar este item como um recurso remoto criará uma versão somente leitura deste item, vinculada aos dados originais do autor. Quando o autor salvar uma atualização deste item em sua conta na nuvem do @:{'common.appName'}, sua versão local poderá receber essas alterações.",
-      "thisProjectIsComplexResourceintensive": "Este projeto é complexo, intensivo em recursos ou geralmente difícil de concluir"
+      "thisProjectIsComplexResourceintensive": "Este projeto é complexo, intensivo em recursos ou geralmente difícil de concluir",
+      "convertingThisPilotToLocalData": "A conversão deste piloto em dados locais permitirá a edição local, mas removerá seu\n                    vínculo remoto com a conta na nuvem do autor e impedirá que quaisquer atualizações futuras sejam\n                    recebidas. Para reativar a sincronização remota, você terá que importar este\n                    piloto novamente através de seu código de compartilhamento.",
+      "thisWillResetYourStressTo": "Isso redefinirá seu Estresse para zero e adicionará um novo Fardo. Continuar?",
+      "thisWillRemoveThisBondFrom": "Isso removerá este vínculo do piloto e redefinirá todas as seleções relacionadas. Isso não pode ser desfeito. Continuar?",
+      "thisWillCloneTheSelectedPilot": "Isso clonará o piloto selecionado. Personagens clonados não podem participar de uma missão em andamento e recebem uma peculiaridade aleatória. A clonagem adicional e a impressão de subjetividade adicionam mais peculiaridades.",
+      "thisWillRestoreTheSelectedPilot": "Isso restaurará o piloto selecionado e limpará o status KIA.",
+      "extendedHarness": "Arreios Estendidos",
+      "influenceIsYourOrganizationsSizeReach": "A influência é o tamanho, o alcance, a riqueza e a reputação de sua organização.\n                A influência pode ser usada para adquirir ativos, criar oportunidades ou influenciar a opinião\n                pública.",
+      "compConWasUnableToExport": "COMP/CON não conseguiu exportar os dados do piloto",
+      "loadoutConfigurationExceedsAvailableFrameSyste": "A configuração do equipamento excede a Capacidade do Sistema do Chassi disponível",
+      "operationalCapacitySignificantlyImpaired": "Capacidade operacional significativamente prejudicada",
+      "pilotIsMissingOneOrMore": "O piloto não possui uma ou mais licenças necessárias para imprimir ou operar legalmente esta configuração",
+      "oneOrMoreWeaponModsAre": "Uma ou mais modificações de arma estão instaladas em armas incompatíveis",
+      "mechHp": "PV DO MECHA",
+      "repairCapacity": "CAPACIDADE DE REPAROS",
+      "electronicDefense": "DEFESA ELETRÔNICA",
+      "techAttack": "ATAQUE TECNOLÓGICO",
+      "heatCapacity": "CAPACIDADE DE CALOR",
+      "limitedSystemsBonus": "BÔNUS DE SISTEMAS LIMITADOS",
+      "hull": "Casco",
+      "evasion": "EVASÃO",
+      "speed": "VELOCIDADE"
     },
     "subtitles": {
       "getAPlaintextRepresentationOfThisMechConfiguration": "Obter uma representação em texto simples da configuração deste mecha",
@@ -3324,7 +3689,11 @@
       "setPilotGroup": "Definir grupo de pilotos",
       "exportALegacyFormatFor": "Exportar um formato legado para sistemas VTT e aplicativos v2",
       "convertThisPilotToAn": "Converter este Piloto em uma instância de dados locais editáveis.",
-      "printATabletopreadyMechSheet": "Imprimir uma ficha de mecha pronta para mesa"
+      "printATabletopreadyMechSheet": "Imprimir uma ficha de mecha pronta para mesa",
+      "yourHullSkillDescribesYourAbility": "Sua perícia CASCO descreve sua capacidade de construir e pilotar mechas duráveis e pesados que podem levar pancadas e continuar seguindo",
+      "yourAgilitySkillDescribesYourAbility": "Sua perícia AGILIDADE descreve sua capacidade de construir e pilotar mechas rápidos e evasivos",
+      "yourSystemsSkillDescribesYourAbility": "Sua perícia SISTEMAS descreve sua capacidade de construir e pilotar mechas técnicos com ferramentas poderosas de guerra eletrônica",
+      "yourEngineeringSkillDescribesYourAbility": "Sua perícia ENGENHARIA descreve sua capacidade de construir e pilotar mechas com reatores potentes, suprimentos e sistemas de suporte"
     },
     "actions": {
       "editLicenseLevel": "Editar Nível de Licença",
@@ -3332,6 +3701,125 @@
       "thisPilotIsARemote": "Este piloto é um recurso remoto vinculado à conta de outro usuário. É somente leitura e receberá atualizações da conta vinculada.",
       "pilotSkillTriggersReservesAnd": "Gatilhos, Reservas e Equipamento do Piloto",
       "pilotLicensesMechSkillsCore": "Licenças do Piloto, Perícias de Mecha, Bônus de Núcleo e Talentos"
+    },
+    "a11y": {
+      "dragToReorderGroup": "Arraste para reordenar o grupo",
+      "dragToReorder": "Arraste para reordenar"
+    }
+  },
+  "enums": {
+    "damageType": {
+      "kinetic": "Cinético",
+      "energy": "Energia",
+      "explosive": "Explosivo",
+      "heat": "Calor",
+      "burn": "Queimadura",
+      "applied_burn": "aplicar Queimadura",
+      "variable": "Variável",
+      "aoe": "Dano em Área"
+    },
+    "weaponType": {
+      "rifle": "Rifle",
+      "cannon": "Canhão",
+      "launcher": "Lançador",
+      "cqb": "CQR",
+      "nexus": "Nexos",
+      "melee": "Corpo a Corpo",
+      "improvised": "Improvisado"
+    },
+    "weaponSize": {
+      "superheavy": "Superpesado",
+      "auxiliary": "Auxiliar",
+      "main": "Principal",
+      "heavy": "Pesado"
+    },
+    "mountType": {
+      "aux_aux": "Aux/Aux",
+      "aux": "Auxiliar",
+      "main_aux": "Principal/Auxiliar",
+      "flex": "Flexível",
+      "integrated": "Integrado",
+      "superheavy": "Superpesado",
+      "main": "Principal",
+      "heavy": "Pesado"
+    },
+    "rangeType": {
+      "range": "Alcance",
+      "threat": "Ameaça",
+      "thrown": "Arremessável",
+      "line": "Linha",
+      "cone": "Cone",
+      "blast": "Explosão",
+      "burst": "Emanação"
+    },
+    "activationType": {
+      "none": "Nenhum",
+      "quick": "Rápida",
+      "move": "Mover",
+      "free": "Livre",
+      "protocol": "Protocolo",
+      "full": "Completa",
+      "invade": "Invadir",
+      "jockey": "Atracar",
+      "full_tech": "Programar Completo",
+      "quick_tech": "Programar Rápido",
+      "reaction": "Reação",
+      "other": "Outros"
+    },
+    "systemType": {
+      "ai": "AI",
+      "drone": "Drone",
+      "tech": "Tecnológico",
+      "flight_system": "Sistema de Voo",
+      "integrated": "Integrado",
+      "mod": "Mod",
+      "system": "Sistema",
+      "shield": "Escudo",
+      "deployable": "Posicionável",
+      "invade": "Invadir",
+      "mine": "Mina",
+      "grenade": "Granada"
+    },
+    "mechType": {
+      "artillery": "Artilheiro",
+      "striker": "Atacante",
+      "defender": "Defensor",
+      "balanced": "Equilibrado",
+      "controller": "Controlador",
+      "support": "Suporte"
+    },
+    "reserveType": {
+      "resources": "Reservas",
+      "tactical": "Tático",
+      "mech": "Mecha",
+      "project": "Projeto",
+      "organization": "Organização",
+      "bonus": "Bônus"
+    },
+    "orgType": {
+      "humanitarian": "Humanitário",
+      "military": "Militar",
+      "scientific": "Científico",
+      "academic": "Acadêmicos",
+      "criminal": "Criminoso",
+      "industrial": "Industrial",
+      "entertainment": "Entretenimento",
+      "political": "Política"
+    },
+    "duration": {
+      "turn": "Turno",
+      "next_turn": "Próximo Turno",
+      "round": "Rodada",
+      "next_round": "Próxima Rodada",
+      "scene": "Cena",
+      "free": "Livre",
+      "encounter": "Encontro",
+      "mission": "Missão"
+    },
+    "attackType": {
+      "melee": "Corpo a Corpo",
+      "ranged": "a Distância",
+      "tech": "Tecnológico"
     }
   }
 }
