@@ -30,7 +30,7 @@ export default defineConfig({
         display: 'standalone',
         scope: '/',
         start_url: '/',
-        orientation: 'any',
+        orientation: 'natural',
         categories: ['games', 'utilities'],
         icons: [
           {
