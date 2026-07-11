@@ -12,7 +12,7 @@
       <template #default="{ expanded }">
         <v-row :align="mobile ? 'center' : 'start'"
           no-gutters
-          style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"
+          style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; z-index: 1"
           class="gradient-background py-2"
           :class="{ mobile: mobile, selected: selected?.ID === item.ID || isActive(item) }">
           <v-col class="px-2"
