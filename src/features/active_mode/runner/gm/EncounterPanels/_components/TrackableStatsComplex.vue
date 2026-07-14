@@ -1,4 +1,6 @@
 <template>
+  <slot name="dmg" />
+
   <v-row>
     <v-col v-if="item.StatController.MaxStats['hp']">
       <cc-tickbar v-model="item.StatController.CurrentStats['hp']"
@@ -16,6 +18,9 @@
         :ticks="item.StatController.MaxStats['hp']"
         :secondary-ticks="item.StatController.MaxStats['structure']"
         editable />
+      <cc-structure-check-alert v-if="item.StatController.MaxStats['structure']"
+        :cc="item.CombatController"
+        kind="structure" />
     </v-col>
     <v-col v-else>
       <cc-tickbar v-model="item.StatController.CurrentStats['overshield']"
@@ -34,8 +39,7 @@
         :base-value="item.StatController.MaxStats['armor']" />
     </v-col>
   </v-row>
-  <slot name="dmg" />
-  <div class="mb-2" />
+
 
 
   <v-row v-if="item.StatController.MaxStats['heatcap']">
@@ -55,6 +59,9 @@
         :ticks="item.StatController.MaxStats['heatcap']"
         :secondary-ticks="item.StatController.MaxStats['stress']"
         :tertiary-ticks="3" />
+      <cc-structure-check-alert v-if="item.StatController.MaxStats['stress']"
+        :cc="item.CombatController"
+        kind="stress" />
     </v-col>
     <v-col cols="12"
       md="auto">
@@ -130,8 +137,9 @@
 import { computed } from 'vue'
 import StatMiniPanel from './StatMiniPanel.vue'
 import { useTrackableStats } from './useTrackableStats'
+import { ICombatant } from '@/classes/components/combat/ICombatant.js';
 
-const props = defineProps<{ item: object }>()
+const props = defineProps<{ item: ICombatant }>()
 
 const { batteryIcons, batteryIndex, overchargeTrack, drainBattery } = useTrackableStats(props)
 

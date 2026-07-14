@@ -82,24 +82,66 @@
           </div>
         </div>
 
+        <div v-if="hasBurn">
+          <v-divider class="my-4" />
+          <cc-alert color="burn"
+            icon="cc:burn"
+            variant="outlined"
+            :title="$t('active.pcEndRound.burnTitle')">
+            <div class="body-text"
+              v-html-safe="$t('active.burnCheck.prompt', { n: currentBurn })" />
+            <div v-if="!burnHandled"
+              class="d-flex flex-wrap mt-2"
+              style="gap: 8px">
+              <cc-button color="primary"
+                prepend-icon="mdi-dice-d20"
+                @click="burnDialog = true">
+                {{ $t('active.pcEndRound.resolveBurn') }}
+              </cc-button>
+              <cc-button variant="text"
+                @click="markBurnHandled">
+                {{ $t('active.burnCheck.ignore') }}
+              </cc-button>
+            </div>
+            <div v-else
+              class="text-cc-overline text-success mt-2">
+              <v-icon icon="mdi-check"
+                size="small"
+                start />{{ $t('active.pcEndRound.burnResolved') }}
+            </div>
+          </cc-alert>
+        </div>
+
         <v-divider class="my-4" />
         <cc-button color="primary"
           block
           prepend-icon="mdi-check-all"
+          :disabled="hasBurn && !burnHandled"
           @click="endRound(isActive)">
           {{ $t('active.endRound.endRound') }}
         </cc-button>
+        <div v-if="hasBurn && !burnHandled"
+          class="text-cc-overline text-error text-center mt-1">
+          {{ $t('active.pcEndRound.burnRequired') }}
+        </div>
+
+        <burn-check-modal v-if="mechController"
+          v-model="burnDialog"
+          :cc="mechController"
+          @resolved="markBurnHandled" />
       </v-card-text>
     </template>
   </end-round-dialog>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import * as _ from 'lodash-es';
 import PilotSheet from '@/features/pilot_management/store/PilotSheet';
 import EndRoundDialog from '../../_shared/_EndRoundDialog.vue';
 import EndRoundActionChips from '../../_components/EndRoundActionChips.vue';
+import BurnCheckModal from '../../gm/EncounterPanels/_components/BurnCheckModal.vue';
+import { StatKey } from '@/classes/components/combat/stats/Stats';
 import DOMPurify from 'dompurify';
 
 defineOptions({ name: 'PcEndRoundPanel' })
@@ -107,6 +149,19 @@ defineOptions({ name: 'PcEndRoundPanel' })
 const props = defineProps<{
   sheet: PilotSheet
 }>()
+
+const burnDialog = ref(false)
+const burnHandledRound = ref<number | null>(null)
+const burnHandled = computed(() => burnHandledRound.value === props.sheet.Round)
+const mechController = computed(() => props.sheet.Pilot.ActiveMech?.CombatController)
+const currentBurn = computed(() =>
+  mechController.value?.StatController.getCurrent(StatKey.BURN) ?? 0
+)
+const hasBurn = computed(() => currentBurn.value > 0)
+
+function markBurnHandled() {
+  burnHandledRound.value = props.sheet.Round
+}
 function cleanSvg(svg: string) {
   return DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true, svgFilters: true } });
 }
@@ -124,7 +179,7 @@ const braced = computed(() => {
   return controller.value.Braced;
 })
 
-function getTimeoutStatuses(custom = false) {
+function getTimeoutStatuses(custom = false): any[] {
   return controller.value[custom ? 'CustomStatuses' : 'Statuses'].filter(
     (s) =>
       s.expires &&

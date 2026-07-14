@@ -46,54 +46,7 @@
               <v-col cols="auto"
                 align-self="start"
                 class="ml-auto mr-1 mt-1">
-                <div class="text-center">
-                  <v-menu>
-                    <template #activator="{ props: activatorProps }">
-                      <v-btn
-                        v-for="i in item.CombatController.StatController.MaxStats['activations']"
-                        :key="`activation-${i}`"
-                        icon="cc:activate"
-                        size="40"
-                        flat
-                        variant=outlined
-                        class="mx-1"
-                        :disabled="item.CombatController.StatController.CurrentStats['activations'] < i"
-                        :class="item.CombatController.StatController.CurrentStats['activations'] >= i ? 'bg-success' : ''"
-                        style="corner-shape: bevel; border-radius: 10px 0px !important;"
-                        :color="item.CombatController.StatController.CurrentStats['activations'] >= i
-                          ? 'panel'
-                          : 'grey'
-                          "
-                        v-bind="activatorProps" />
-                    </template>
-                    <v-card flat
-                      tile
-                      max-width="300"
-                      class="pa-2 text-center"
-                      border="sm">
-                      <div>{{ $t('active.panelBase.markActivation') }}
-                      </div>
-
-                      <div
-                        v-if="item.CombatController.StatController.CurrentStats['activations'] > 1"
-                        class="text-cc-overline text-text mt-1 mb-2">
-                        {{ $t('active.panelBase.reduceActivations') }}
-                      </div>
-                      <div v-else
-                        class="text-cc-overline text-text mt-1 mb-2">
-                        {{ $t('active.panelBase.endTurn', { name: item.Name }) }}
-                      </div>
-                      <v-btn block
-                        flat
-                        tile
-                        size="small"
-                        color="primary"
-                        @click="handleActivate">
-                        {{ $t('common.confirm') }}
-                      </v-btn>
-                    </v-card>
-                  </v-menu>
-                </div>
+                <activation-tracker :item="item" />
                 <v-menu>
                   <template #activator="{ props: statusProps }">
                     <v-btn v-bind="statusProps"
@@ -316,6 +269,7 @@ import DamageMenu from './_components/DamageMenu.vue';
 import CustomStatEditor from './_components/CustomStatEditor.vue';
 import ActiveEffectPanel from './_components/ActiveEffectPanel.vue';
 import TimedEffectPanel from './_components/TimedEffectPanel.vue';
+import ActivationTracker from './_components/ActivationTracker.vue';
 import TrackableStatsComplex from './_components/TrackableStatsComplex.vue';
 import TrackableStatsSimple from './_components/TrackableStatsSimple.vue';
 import { ICombatant } from '@/classes/components/combat/ICombatant'
@@ -409,9 +363,6 @@ function getBonuses(statKey) {
   if (statKey === 'sys') statKey = 'systems';
   if (statKey === 'eng') statKey = 'engineering';
   return props.item.CombatController.Bonuses.filter((b) => b.ID === statKey);
-}
-function handleActivate() {
-  props.item.CombatController.EndTurn();
 }
 function getStatusColor() {
   const status = (owner.value as any)[statusField.value]

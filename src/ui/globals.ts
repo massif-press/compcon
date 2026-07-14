@@ -45,6 +45,8 @@ import CCDiceMenu from './components/CCDiceMenu.vue'
 import CCRangeElement from './components/CCRangeElement.vue'
 import CCRollableTable from './components/CCRollableTable.vue'
 import CCShortStringEditor from './components/CCShortStringEditor.vue'
+import CCStructureCheckAlert from './components/CCStructureCheckAlert.vue'
+import CCStructureCheckModal from './components/CCStructureCheckModal.vue'
 import CCSlashes from './components/CCSlashes.vue'
 import CCStatblockPanel from './components/CCStatblockPanel.vue'
 import CCStringEditDialog from './components/CCStringEditDialog.vue'
@@ -143,6 +145,8 @@ export {
   CCRangeElement,
   CCRollableTable,
   CCShortStringEditor,
+  CCStructureCheckAlert,
+  CCStructureCheckModal,
   CCSlashes,
   CCStatblockPanel,
   CCStringEditDialog,

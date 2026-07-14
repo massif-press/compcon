@@ -2950,12 +2950,76 @@
     },
     "table": {
       "previous": "anterior"
+    },
+    "alt": {
+      "packImage": "Imagen de paquete"
+    },
+    "titles": {
+      "resistance": "Resistencia",
+      "heat": "Calor",
+      "explosive": "Explosivo",
+      "heatcap": "CalorLím.",
+      "size": "Tamaño",
+      "eDefense": "Defensa-E",
+      "variableDamage": "Daño Variable",
+      "totalDamage": "Daño Total",
+      "repairCapacity": "Capacidad de Reparación",
+      "gear": "Equipo",
+      "vulnerability": "Vulnerabilidad",
+      "immunity": "Inmunidad",
+      "burn": "Incendiar",
+      "energy": "Energético",
+      "kinetic": "Cinético",
+      "cone": "Cono",
+      "burst": "Explosión",
+      "blast": "Estallido",
+      "line": "Línea",
+      "thrown": "Expulsado",
+      "threat": "Amenaza",
+      "evade": "Evadir",
+      "hull": "Casco",
+      "range": "Rango",
+      "areaOfEffect": "Área de Efecto",
+      "noCover": "Sin Cobertura",
+      "hardCover": "Cobertura Pesada",
+      "softCover": "Cobertura Ligera",
+      "explosiveDamage": "Daño Explosivo",
+      "heatDamage": "Daño Calor",
+      "energyDamage": "Daño Energético",
+      "kineticDamage": "Daño Cinético",
+      "saveTarget": "Dificultad Salvación",
+      "heatCapacity": "Capacidad Calor",
+      "clockEditor": "editor de reloj",
+      "cascade": "CASCADA",
+      "activateFreeAction": "Activar (Acción Libre)"
+    },
+    "subtitles": {
+      "selectResult": "Seleccionar resultado"
+    },
+    "tooltips": {
+      "thisWillPermanentlyDeleteThisImage": "Esto eliminará permanentemente esta imagen del almacenamiento en nube. ¿Quiere continuar?",
+      "influenceIsYourOrganizationsSizeReach": "Influencia es el tamaño, alcance, riqueza y reputación de su organización.\n                Influencia es usada para adquirir activos, crear oportunidades, o influir en la opinión\n                publica.",
+      "addDifficulty": "Añadir Dificultad",
+      "addAccuracy": "Añadir Precisión",
+      "addD20Roll": "Añadir tirada d20",
+      "addD12Roll": "Añadir tirada d12",
+      "addD10Roll": "Añadir tirada d10",
+      "addD8Roll": "Añadir tirada d8",
+      "addD6Roll": "Añadir tirada d6",
+      "addD4Roll": "Añadir tirada d4",
+      "addCoinFlipD2": "Añadir tirada de moneda (d2)",
+      "markThisResourceAsUsed": "Marca este recurso como usado o no disponible (pero no consumido, destruido o perdido)",
+      "markingAFieldOrItem": "Marcar un campo o artículo 'Solo DJ' lo ocultará de para los jugadores en exportaciones y salida de impresión",
+      "deleteCounter": "Borrar Contador",
+      "resetCounter": "Reiniciar Contador",
+      "itemFilters": "Filtros de Artículo"
     }
   },
   "enums": {
     "attackType": {
       "ranged": "De Rango",
-      "melee": "Cuerpo a cuerpo"
+      "melee": "Cuerpo a cuerpo",
+      "tech": "Tec"
     },
     "duration": {
       "mission": "Misión",
@@ -3007,7 +3071,54 @@
     },
     "activationType": {
       "other": "Otro",
-      "reaction": "Reacción"
+      "reaction": "Reacción",
+      "move": "Mover",
+      "jockey": "Cabalgar",
+      "invade": "Invadir",
+      "full": "Completa",
+      "quick": "Rápida",
+      "protocol": "Protocolo",
+      "free": "Libre",
+      "none": "Ninguno"
+    },
+    "rangeType": {
+      "burst": "Explosión",
+      "blast": "Estallido",
+      "cone": "Cono",
+      "line": "Línea",
+      "thrown": "Expulsado",
+      "threat": "Amenaza",
+      "range": "Rango"
+    },
+    "mountType": {
+      "integrated": "Integrado",
+      "heavy": "Pesada",
+      "main": "Principal",
+      "superheavy": "Superpesada",
+      "main_aux": "Principal/Aux"
+    },
+    "weaponSize": {
+      "heavy": "Pesada",
+      "main": "Principal",
+      "auxiliary": "Auxiliar",
+      "superheavy": "Superpesada"
+    },
+    "weaponType": {
+      "improvised": "Improvisada",
+      "melee": "Cuerpo a cuerpo",
+      "launcher": "Lanzador",
+      "nexus": "Nexo",
+      "cqb": "CCD",
+      "cannon": "Cañón",
+      "rifle": "Fusil"
+    },
+    "damageType": {
+      "heat": "Calor",
+      "explosive": "Explosivo",
+      "energy": "Energético",
+      "kinetic": "Cinético",
+      "aoe": "AdE",
+      "burn": "Incendiario"
     }
   }
 }

@@ -279,7 +279,10 @@ class StatController {
 
   public setCurrentStat(stat: string, val: number): void {
     const k = Stats.cleanKey(stat)
-    this._currentStats[k] = Math.max(val, this._statFloors[k] ?? -Infinity)
+    const prev = this._currentStats[k]
+    const next = Math.max(val, this._statFloors[k] ?? -Infinity)
+    this._currentStats[k] = next
+    if (next < prev) (this.Parent as any).onStatDecrease?.(k, prev, next)
   }
 
   public setFloor(key: string, val: number): void {

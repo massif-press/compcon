@@ -33,7 +33,8 @@
         <slot v-bind="{ dialog, open, close }" />
       </v-card-text>
       <div v-if="closeOnClick">
-        <div class="panel-footer text-center bg-panel">{{ mobile ? $t('ui.widget.tap') : $t('ui.widget.click') }} {{ $t('ui.widget.toClose') }}</div>
+        <div class="panel-footer text-center bg-panel">{{ mobile ? $t('ui.widget.tap') :
+          $t('ui.widget.click') }} {{ $t('ui.widget.toClose') }}</div>
       </div>
     </v-card>
   </v-dialog>
@@ -43,8 +44,6 @@
 import { ref, watch } from 'vue';
 
 import { useDisplay } from 'vuetify';
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
 
 defineOptions({ inheritAttrs: false });
 
@@ -69,6 +68,8 @@ const props = withDefaults(defineProps<{
   closeOnClick: true,
   maxWidth: '60vw',
   minWidth: '40vw',
+  controller: undefined,
+  icon: undefined
 });
 
 const emit = defineEmits<{

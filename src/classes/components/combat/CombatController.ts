@@ -34,6 +34,7 @@ import { assertController } from '../../utility/assertController'
 import { StatusController } from './StatusController'
 import { ActionPoolController, DEFAULT_COMBAT_ACTIONS } from './ActionPoolController'
 import { DamageController } from './DamageController'
+import type { CheckKind, IPendingCheck } from './StructureCheck'
 
 enum CoverType {
   None = 'none',
@@ -70,6 +71,8 @@ interface CombatData {
   combat_history: CombatLogEntry[]
   round: number
   turn: number
+
+  pending_checks: IPendingCheck[]
 }
 
 class CombatController implements ICounterContainer, IStatContainer {
@@ -240,6 +243,24 @@ class CombatController implements ICounterContainer, IStatContainer {
     return this.StatController.getCurrent(StatKey.STRESS) || 0
   }
 
+  public PendingChecks: IPendingCheck[] = []
+  public SuppressChecks: boolean = false
+
+  public AddPendingCheck(kind: CheckKind): void {
+    if (this.SuppressChecks) return
+    if (this.PendingChecks.some(p => p.kind === kind)) return
+    this.PendingChecks.push({ id: crypto.randomUUID(), kind })
+  }
+
+  public RemovePendingCheck(id: string): void {
+    this.PendingChecks = this.PendingChecks.filter(p => p.id !== id)
+  }
+
+  public onStatDecrease(key: string): void {
+    if (key === StatKey.STRUCTURE) this.AddPendingCheck('structure')
+    else if (key === StatKey.STRESS) this.AddPendingCheck('stress')
+  }
+
   public log(str: string): void {
     this.CombatLog.LogSimpleEvent(str)
   }
@@ -406,7 +427,13 @@ class CombatController implements ICounterContainer, IStatContainer {
   public SetDestroyed(val: boolean): void {
     if (val === this.IsDestroyed) return
     const key = this.StatController.getMax(StatKey.STRUCTURE) > 0 ? StatKey.STRUCTURE : StatKey.HP
-    this.StatController.setCurrentStat(key, val ? 0 : this.StatController.getMax(key))
+    const prevSuppress = this.SuppressChecks
+    this.SuppressChecks = true
+    try {
+      this.StatController.setCurrentStat(key, val ? 0 : this.StatController.getMax(key))
+    } finally {
+      this.SuppressChecks = prevSuppress
+    }
   }
 
   public get IsInDangerZone(): boolean {
@@ -652,21 +679,6 @@ class CombatController implements ICounterContainer, IStatContainer {
 
     const newEffects: TimedEffect[] = []
 
-    if (this.StatController.getCurrent(StatKey.BURN) > 0) {
-      newEffects.push(
-        new TimedEffect({
-          name: 'Burn Damage',
-          detail: `Take ${this.StatController.getCurrent(StatKey.BURN)} burn damage at the end of your turn.`,
-          round: this.Round + 1,
-          apply: {
-            damage: [
-              { type: DamageType.AppliedBurn, value: this.StatController.getCurrent(StatKey.BURN) },
-            ],
-          },
-        })
-      )
-    }
-
     const statusExpires = this.getExpiredStatuses(this.Round, this.Parent.ID)
 
     const specialStatusExpires = this.CustomStatuses.filter(s =>
@@ -775,6 +787,8 @@ class CombatController implements ICounterContainer, IStatContainer {
     target.round = controller.Round
     target.turn = controller.Turn
 
+    target.pending_checks = controller.PendingChecks
+
     target.usedActions = controller.ActionPoolController.usedActions
 
     target.timed_effects = controller.TimedEffects.map(te => TimedEffect.Serialize(te))
@@ -819,6 +833,8 @@ class CombatController implements ICounterContainer, IStatContainer {
 
     controller.Round = data?.round || 1
     controller.Turn = data?.turn || 1
+
+    controller.PendingChecks = data?.pending_checks || []
 
     controller.TimedEffects = (data?.timed_effects || []).map(te => TimedEffect.Deserialize(te))
 

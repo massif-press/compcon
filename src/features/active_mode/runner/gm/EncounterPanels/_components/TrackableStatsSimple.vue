@@ -1,4 +1,6 @@
 <template>
+  <slot name="dmg" />
+
   <v-row dense>
     <v-col v-if="item.StatController.MaxStats['hp']">
       <simple-mini-panel v-model.number="item.StatController.CurrentStats['hp']"
@@ -25,8 +27,12 @@
         color="armor"
         :base-value="item.StatController.MaxStats['armor']" />
     </v-col>
+
   </v-row>
-  <slot name="dmg" />
+  <cc-structure-check-alert v-if="item.StatController.MaxStats['structure']"
+    :cc="item.CombatController"
+    kind="structure" />
+
 
   <v-row v-if="item.StatController.MaxStats['heatcap']"
     dense>
@@ -46,10 +52,14 @@
         :title="$t('stats.stress')"
         color=stress
         icon="cc:reactor" />
-
     </v-col>
-    <v-col cols="12"
-      md="">
+  </v-row>
+  <cc-structure-check-alert v-if="item.StatController.MaxStats['stress']"
+    :cc="item.CombatController"
+    kind="stress" />
+
+  <v-row>
+    <v-col md="">
       <simple-mini-panel v-model.number="item.StatController.CurrentStats['burn']"
         :title="$t('active.titles.burn')"
         icon="cc:burn"
@@ -95,6 +105,7 @@
   </v-row>
 
 
+
   <v-row v-if="item.StatController.MaxStats['speed']"
     dense
     class="mb-3">
@@ -131,7 +142,8 @@
         :prepend-icon="currentIcon"
         :color="item.CombatController.CorePower ? 'core' : 'grey'"
         @click.stop="props.onClick($event)">
-        {{ $t('active.trackable.corePower') }} {{ item.CombatController.CorePower ? $t('active.trackable.ready') : $t('pm.selectors.unavailable') }}
+        {{ $t('active.trackable.corePower') }} {{ item.CombatController.CorePower ?
+          $t('active.trackable.ready') : $t('pm.selectors.unavailable') }}
       </cc-button>
 
     </template>
@@ -148,7 +160,8 @@
           size="x-small"
           :prepend-icon="currentIcon"
           @click="drainBattery">
-          {{ $t('common.confirm') }} {{ item.CombatController.CorePower ? $t('common.clear') : $t('common.restore') }} {{ $t('common.core') }}
+          {{ $t('common.confirm') }} {{ item.CombatController.CorePower ? $t('common.clear') :
+            $t('common.restore') }} {{ $t('common.core') }}
         </cc-button>
       </template>
     </v-card>

@@ -19,6 +19,29 @@
           <i v-else
             class="text-disabled">{{ $t('common.none') }}</i>
 
+          <div class="text-cc-overline mt-4">{{ $t('active.gmEndRound.turnsNotEnded') }}:</div>
+          <div v-if="unendedTurns.length">
+            <v-row v-for="c in unendedTurns"
+              :key="c.Parent.ID"
+              dense
+              align="center"
+              class="my-1 mx-4 px-2 text-text bg-panel">
+              <v-col>
+                <span class="heading h4">{{ c.CombatName }}</span>
+                <span class="text-cc-overline text-disabled ml-2">
+                  {{ c.StatController.CurrentStats['activations'] }}/{{ c.StatController.MaxStats['activations'] }}
+                </span>
+              </v-col>
+              <v-col cols="auto">
+                <cc-button size="x-small"
+                  prepend-icon="cc:activate"
+                  @click="endActorTurn(c)">{{ $t('active.gmEndRound.endTurnBtn') }}</cc-button>
+              </v-col>
+            </v-row>
+          </div>
+          <i v-else
+            class="text-disabled">{{ $t('common.none') }}</i>
+
 
           <div v-if="nextRoundAlerts">
             <v-divider class="my-4" />
@@ -84,7 +107,7 @@
             <div v-for="r in reinforcements"
               :key="r.actor.ID"
               class="my-1 mx-4 px-2 text-text bg-panel">
-              <b class="text-secondary">{{ r.CombatName }}</b>
+              <b class="text-secondary">{{ r.actor.CombatController.CombatName }}</b>
               {{ $t('active.gmEndRound.willBeReady') }}
             </div>
           </div>
@@ -102,6 +125,11 @@
         </v-card-text>
     </template>
   </end-round-dialog>
+
+  <burn-check-modal v-if="burnTarget"
+    v-model="burnDialog"
+    :cc="burnTarget"
+    @resolved="burnTarget?.EndTurn()" />
 </template>
 
 <script setup lang="ts">
@@ -109,12 +137,23 @@ import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed, ref, nextTick } from 'vue'
 import EndRoundDialog from '../../../_shared/_EndRoundDialog.vue';
 import EndRoundActionChips from '../../../_components/EndRoundActionChips.vue';
+import BurnCheckModal from './BurnCheckModal.vue';
+import { StatKey } from '@/classes/components/combat/stats/Stats';
 
 const props = defineProps<{
   encounterInstance: EncounterInstance
 }>()
 
 const loading = ref(false)
+const burnDialog = ref(false)
+const burnTarget = ref<any>(null)
+
+function endActorTurn(c: any) {
+  if (c.StatController.getCurrent(StatKey.BURN) > 0) {
+    burnTarget.value = c
+    burnDialog.value = true
+  } else c.EndTurn()
+}
 
 const nextRoundAlerts = computed(() => {
       return braced.value.length || activeActors.value.some(c => getTimeoutStatuses(c).length || getTimeoutStatuses(c, true).length);
@@ -126,6 +165,11 @@ const activeActors = computed(() => {
     })
 const hasRemainingActions = computed(() => {
       return activeActors.value.filter((c) => c.HasRemainingActions);
+    })
+const unendedTurns = computed(() => {
+      return activeActors.value.filter(
+        (c) => c.StatController.MaxStats['activations'] && c.StatController.CurrentStats['activations'] > 0
+      );
     })
 const hasTimedEffects = computed(() => {
       return activeActors.value.filter((c) => c.TimedEffects.length > 0);

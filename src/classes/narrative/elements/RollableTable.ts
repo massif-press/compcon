@@ -5,6 +5,7 @@ import { applyLcpTracking, type ILcpTracked } from '@/classes/LcpItemMixin'
 interface ITableRoll {
   min: number
   max: number
+  title?: string
   result: string
 }
 
@@ -95,4 +96,4 @@ class RollableTable {
 }
 
 export { RollableTable }
-export type { IRollableTableData }
+export type { IRollableTableData, ITableRoll }

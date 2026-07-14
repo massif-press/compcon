@@ -1349,6 +1349,10 @@
     },
     "pcEndRound": {
       "forfeitActions": "Ending the round will forfeit any unused actions.",
+      "burnTitle": "Burn",
+      "resolveBurn": "Resolve Burn",
+      "burnResolved": "Burn resolved",
+      "burnRequired": "Resolve or ignore your Burn to end the round.",
       "nextRound": "Next Round",
       "willLoseStatuses": "will lose the following statuses",
       "atThe": "at the",
@@ -1491,6 +1495,8 @@
     },
     "gmEndRound": {
       "unusedActions": "unused actions",
+      "turnsNotEnded": "turns not ended",
+      "endTurnBtn": "End Turn",
       "endsOnTargetTurn": "{when} of {target} turn",
       "braceExit": "exits {braced} and enters {cooldown} state.",
       "reinforcementsReady": "reinforcements ready next round",
@@ -1499,6 +1505,7 @@
     "panelBase": {
       "itemDestroyed": "{type} destroyed",
       "markActivation": "Mark an activation as complete?",
+      "endActivation": "End Activation",
       "reduceActivations": "This will reduce reduced the remaining activations by 1 and reset all actions.",
       "endTurn": "This will end {name}'s turn.",
       "cover": "Cover",
@@ -1843,6 +1850,35 @@
       "featureInDevelopmentV31": "Feature in development (v3.1)",
       "kineticExplosiveAndHeatDamageDoubled": "Kinetic, explosive, and heat damage doubled.",
       "damageIgnoresArmorAndResistance": "Damage ignores armor and resistance."
+    },
+    "structureCheck": {
+      "structure": "Structure Damage",
+      "stress": "Reactor Stress",
+      "pending": "{type} marked",
+      "rollLabel": "Roll {n}d{die}",
+      "rolled": "Rolled",
+      "lowest": "Lowest",
+      "applyResolve": "Apply & Resolve",
+      "markResolved": "Mark Resolved",
+      "manualNote": "This result must be resolved manually",
+      "diceCount": "{n} point(s) marked",
+      "resolution": "Resolution",
+      "success": "Success",
+      "fail": "Failure",
+      "saveCheck": "{check} check",
+      "applyManual": "apply manually",
+      "chooseOne": "Choose one",
+      "reroll": "Re-roll",
+      "rollCheck": "Roll {check}",
+      "rollPrompt": "Roll {n}d{die} and choose the lowest"
+    },
+    "burnCheck": {
+      "title": "Burn Check",
+      "prompt": "This unit has <b>{n}</b> Burn. Make an ENGINEERING check.",
+      "onSuccess": "On success: clear all Burn",
+      "onFail": "On failure: take {n} Burn damage (Burn remains)",
+      "resolveEndTurn": "Resolve & End Turn",
+      "ignore": "Ignore"
     }
   },
   "mainMenu": {
