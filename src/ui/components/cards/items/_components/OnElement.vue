@@ -4,7 +4,7 @@
     density="compact"
     icon="cc:weapon"
     class="my-1"
-    :title="`On ${namedAction}`">
+    :title="$t(`pm.print.on${action === 'crit' ? 'CRIT' : action.toUpperCase()}`)">
     <div v-html-safe="profile[`On${capitalizeAction}`].Detail" />
   </cc-panel>
 </template>
@@ -18,5 +18,4 @@ const props = defineProps<{
 }>()
 
 const capitalizeAction = computed(() => props.action.charAt(0).toUpperCase() + props.action.slice(1))
-const namedAction = computed(() => props.action === 'crit' ? 'critical hit' : props.action)
 </script>

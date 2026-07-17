@@ -152,7 +152,7 @@
         v-html-safe="`<b>On Miss:&nbsp;</b>${item.OnMiss.Detail}`"
         class="panel text-text py-1" />
       <p v-if="item.OnAttack"
-        v-html-safe="`<b>On Hit:&nbsp;</b>${item.OnAttack.Detail}`"
+        v-html-safe="`<b>${$t('pm.print.onATTACK')}:&nbsp;</b>${item.OnAttack.Detail}`"
         class="panel text-text py-1" />
       <p v-if="item.OnHit"
         v-html-safe="`<b>On Hit:&nbsp;</b>${item.OnHit.Detail}`"
