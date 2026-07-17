@@ -53,7 +53,7 @@
       <compendium-page-button
         color="secondary"
         icon="cc:orbit"
-        :name="$t('common.background')"
+        :name="$t('compendium.titles.pilotBackgrounds')"
         to="/srd/compendium/backgrounds" />
       <compendium-page-button
         color="secondary"
