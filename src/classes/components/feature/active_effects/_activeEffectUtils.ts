@@ -1,4 +1,5 @@
 import { ActiveEffect, IActiveEffectData } from './ActiveEffect'
+import { keyPrefixes } from '@/i18n/contentKeys'
 
 interface IActiveEffectCallbackData {
   on_miss?: string | IActiveEffectData
@@ -14,29 +15,25 @@ interface IActiveEffectCallbackTarget {
   OnCrit?: ActiveEffect
 }
 
+const mkEffect = (
+  key: string,
+  raw: string | IActiveEffectData | undefined,
+  name: string,
+  owner: any
+): ActiveEffect | undefined => {
+  if (!raw) return undefined
+  const data = typeof raw === 'string' ? { name, detail: raw } : raw
+  keyPrefixes.set(data as object, `${owner.ID}.${key}`)
+  return new ActiveEffect(data, owner, undefined, name)
+}
+
 export function initActiveEffectCallbacks(
   data: IActiveEffectCallbackData,
   target: IActiveEffectCallbackTarget,
   owner: any
 ): void {
-  if (data.on_miss) {
-    if (typeof data.on_miss === 'string')
-      target.OnMiss = new ActiveEffect({ name: 'On Miss Effect', detail: data.on_miss }, owner)
-    else target.OnMiss = new ActiveEffect(data.on_miss, owner)
-  }
-  if (data.on_attack) {
-    if (typeof data.on_attack === 'string')
-      target.OnAttack = new ActiveEffect({ name: 'On Attack Effect', detail: data.on_attack }, owner)
-    else target.OnAttack = new ActiveEffect(data.on_attack, owner)
-  }
-  if (data.on_hit) {
-    if (typeof data.on_hit === 'string')
-      target.OnHit = new ActiveEffect({ name: 'On Hit Effect', detail: data.on_hit }, owner)
-    else target.OnHit = new ActiveEffect(data.on_hit, owner)
-  }
-  if (data.on_crit) {
-    if (typeof data.on_crit === 'string')
-      target.OnCrit = new ActiveEffect({ name: 'On Crit Effect', detail: data.on_crit }, owner)
-    else target.OnCrit = new ActiveEffect(data.on_crit, owner)
-  }
+  target.OnMiss = mkEffect('on_miss', data.on_miss, 'On Miss Effect', owner)
+  target.OnAttack = mkEffect('on_attack', data.on_attack, 'On Attack Effect', owner)
+  target.OnHit = mkEffect('on_hit', data.on_hit, 'On Hit Effect', owner)
+  target.OnCrit = mkEffect('on_crit', data.on_crit, 'On Crit Effect', owner)
 }
