@@ -19,56 +19,56 @@
       align="center">
       <compendium-page-button
         icon="cc:manufacturer"
-        name="Manufacturers"
+        :name="$t('compendium.categories.manufacturers')"
         to="/srd/compendium/manufacturers" />
       <compendium-page-button
         color="primary"
         icon="cc:license"
-        name="Licenses"
+        :name="$t('common.licenses')"
         to="/srd/compendium/licenses" />
       <compendium-page-button
         icon="cc:corebonus"
-        name="CORE Bonuses"
+        :name="$t('compendium.titles.coreBonuses')"
         to="/srd/compendium/corebonuses" />
       <compendium-page-button
         color="frame"
         icon="cc:frame"
-        name="Frames"
+        :name="$t('compendium.titles.frames')"
         to="/srd/compendium/frames" />
       <compendium-page-button
         color="weapon"
         icon="cc:melee"
-        name="Mech Weapons"
+        :name="$t('compendium.titles.mechWeapons')"
         to="/srd/compendium/weapons" />
       <compendium-page-button
         color="system"
         icon="mdi-chip"
-        name="Mech Systems"
+        :name="$t('compendium.titles.mechSystems')"
         to="/srd/compendium/systems" />
       <compendium-page-button
         color="secondary"
         icon="cc:pilot"
-        name="Pilot Gear"
+        :name="$t('common.pilotGear')"
         to="/srd/compendium/pilot_gear" />
       <compendium-page-button
         color="secondary"
         icon="cc:orbit"
-        name="Backgrounds"
+        :name="$t('common.background')"
         to="/srd/compendium/backgrounds" />
       <compendium-page-button
         color="secondary"
         icon="cc:accuracy"
-        name="Skill Triggers"
+        :name="$t('compendium.titles.skillTriggers')"
         to="/srd/compendium/skills" />
       <compendium-page-button
         color="secondary"
         icon="cc:rank_3"
-        name="Talents"
+        :name="$t('common.talents')"
         to="/srd/compendium/talents" />
       <compendium-page-button
         color="secondary"
         icon="mdi-vector-link"
-        name="Bonds"
+        :name="$t('compendium.titles.bonds')"
         to="/srd/compendium/bonds" />
     </v-row>
     <cc-icon-divider icon="cc:campaign" class="mb-n4" />
@@ -76,22 +76,22 @@
       <compendium-page-button
         color="error"
         icon="cc:npc_class"
-        name="NPC Classes"
+        :name="$t('compendium.titles.npcClasses')"
         to="/srd/compendium/npc_classes" />
       <compendium-page-button
         color="error"
         icon="cc:npc_feature"
-        name="NPC Features"
+        :name="$t('compendium.titles.npcFeatures')"
         to="/srd/compendium/npc_features" />
       <compendium-page-button
         color="error"
         icon="cc:npc_template"
-        name="NPC Templates"
+        :name="$t('compendium.titles.npcTemplates')"
         to="/srd/compendium/npc_templates" />
       <compendium-page-button
         color="exotic"
         icon="cc:monist"
-        name="Eidolon Layers"
+        :name="$t('compendium.titles.eidolonLayers')"
         to="/srd/compendium/eidolon_layers" />
     </v-row>
   </v-container>
