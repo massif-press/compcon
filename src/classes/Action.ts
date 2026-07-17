@@ -7,6 +7,7 @@ import { IDamageData } from './Damage'
 import { IRangeData } from './Range'
 import { ByTier } from '@/util/tierFormat'
 import { localize } from '@/i18n/localize'
+import { i18n } from '@/i18n'
 import { keyPrefixes } from '@/i18n/contentKeys'
 import { ActiveEffect, IActiveEffectData } from './components/feature/active_effects/ActiveEffect'
 import {
@@ -114,8 +115,9 @@ class Frequency {
   }
 
   public ToString(): string {
-    if (this.Unlimited) return this.Duration
-    return `${this.Uses}/${this.Duration}`
+    const durationLocal = i18n.global.t(`enums.duration.${this.Duration.toLowerCase()}`)
+    if (this.Unlimited) return durationLocal
+    return `${this.Uses}/${durationLocal}`
   }
 
   public RegainUsesOnEvent(event: ActivePeriod): boolean {
@@ -252,7 +254,41 @@ class Action {
     return this._lkey ?? this.ID
   }
 
-  public get Name(): string { return localize(this._lk, 'name', this._name) }
+  public get Name(): string {
+    const raw = localize(this._lk, 'name', '')
+    if (raw) return raw
+
+    if (this._name.startsWith('Activate ') && this.Origin) {
+      const activate = i18n.global.t('ui.combat.activate')
+      let originName = this.Origin
+      if (this._lk && this._lk.includes('.')) {
+        const parentLkey = this._lk.substring(0, this._lk.lastIndexOf('.'))
+        const pName = localize(parentLkey, 'name', '')
+        if (pName) originName = pName
+      }
+      return `${activate} ${originName}`
+    }
+
+    if (this._name.startsWith('Deploy ')) {
+      let deployableName = this._name.substring(7)
+      if (this.Deployable) {
+        const dLkey = keyPrefixes.get(this.Deployable as object)
+        if (dLkey) {
+          const localizedDName = localize(dLkey, 'name', '')
+          if (localizedDName) deployableName = localizedDName
+        } else if (this.Deployable.name) {
+          deployableName = this.Deployable.name
+        }
+      } else if (this._lk && this._lk.includes('.')) {
+        const parentLkey = this._lk.substring(0, this._lk.lastIndexOf('.'))
+        const pName = localize(parentLkey, 'name', '')
+        if (pName) deployableName = pName
+      }
+      return i18n.global.t('ui.deploy.deployNamed', { name: deployableName })
+    }
+
+    return localize(this._lk, 'name', this._name)
+  }
   public get Terse(): string { return localize(this._lk, 'terse', this._terse) }
   public get Trigger(): string { return localize(this._lk, 'trigger', this._trigger) }
 
