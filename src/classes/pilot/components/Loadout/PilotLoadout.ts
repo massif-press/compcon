@@ -7,6 +7,7 @@ import { PilotWeapon } from './equipment/PilotWeapon'
 import Tag from '../../../Tag'
 import { PilotLoadoutController } from './PilotLoadoutController'
 import { IEquipmentData } from '@/classes/mech/components/equipment/MechEquipment'
+import { i18n } from '@/i18n'
 
 declare interface IPilotLoadoutData {
   name: string
@@ -36,6 +37,7 @@ class PilotLoadout {
   }
 
   public get Name(): string {
+    if (this._name === 'Default Loadout') return i18n.global.t('common.loadout')
     return this._name
   }
   public set Name(name: string) {
