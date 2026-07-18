@@ -284,7 +284,7 @@ class Action {
         const pName = localize(parentLkey, 'name', '')
         if (pName) deployableName = pName
       }
-      return i18n.global.t('ui.deploy.deployNamed', { name: deployableName })
+      return i18n.global.t('ui.widget.deploy', { name: deployableName })
     }
 
     return localize(this._lk, 'name', this._name)
