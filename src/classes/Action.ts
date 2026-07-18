@@ -6,9 +6,9 @@ import { isNumber } from 'lodash-es'
 import { IDamageData } from './Damage'
 import { IRangeData } from './Range'
 import { ByTier } from '@/util/tierFormat'
-import { localize } from '@/i18n/localize'
+import { localize, localizeNested } from '@/i18n/localize'
 import { i18n } from '@/i18n'
-import { keyPrefixes } from '@/i18n/contentKeys'
+import { keyPrefixes, slug } from '@/i18n/contentKeys'
 import { ActiveEffect, IActiveEffectData } from './components/feature/active_effects/ActiveEffect'
 import {
   EffectSpecial,
@@ -255,9 +255,6 @@ class Action {
   }
 
   public get Name(): string {
-    const raw = localize(this._lk, 'name', '')
-    if (raw) return raw
-
     if (this._name.startsWith('Activate ') && this.Origin) {
       const activate = i18n.global.t('ui.combat.activate')
       let originName = this.Origin
@@ -270,21 +267,21 @@ class Action {
     }
 
     if (this._name.startsWith('Deploy ')) {
-      let deployableName = this._name.substring(7)
-      if (this.Deployable) {
+      let deployableName = localize(this._lk, 'name', '')
+
+      if (!deployableName && this.Deployable) {
         const dLkey = keyPrefixes.get(this.Deployable as object)
-        if (dLkey) {
-          const localizedDName = localize(dLkey, 'name', '')
-          if (localizedDName) deployableName = localizedDName
-        } else if (this.Deployable.name) {
-          deployableName = this.Deployable.name
-        }
-      } else if (this._lk && this._lk.includes('.')) {
-        const parentLkey = this._lk.substring(0, this._lk.lastIndexOf('.'))
-        const pName = localize(parentLkey, 'name', '')
-        if (pName) deployableName = pName
+        if (dLkey) deployableName = localize(dLkey, 'name', '')
+        if (!deployableName && this.Deployable.id) deployableName = localize(this.Deployable.id, 'name', '')
+        if (!deployableName && this.Deployable.name) deployableName = this.Deployable.name
       }
-      return i18n.global.t('ui.deploy.deployNamed', { name: deployableName })
+
+      if (!deployableName) {
+        deployableName = this._name.substring(7)
+      }
+
+      const verb = i18n.global.t('ui.widget.deploy')
+      return `${verb} ${deployableName}`
     }
 
     return localize(this._lk, 'name', this._name)
@@ -351,7 +348,7 @@ class Action {
     }
   }
 
-  public static CreateDeployAction(d: IDeployableData, origin?: string): Action {
+  public static CreateDeployAction(d: IDeployableData, origin?: string, parentId?: string): Action {
     const a = new Action(
       {
         id: `deploy_${d.name}_${crypto.randomUUID()}`,
@@ -366,6 +363,10 @@ class Action {
       origin
     )
     a.Deployable = d
+    const pKey = parentId || (origin && origin.includes('_') ? origin : undefined)
+    if (pKey) {
+      a._lkey = `${pKey}.deployable_${slug(d.name)}`
+    }
     return a
   }
 
