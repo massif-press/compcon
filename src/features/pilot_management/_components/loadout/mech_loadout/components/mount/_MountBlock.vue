@@ -3,7 +3,7 @@
     style="border-color: rgba(155, 155, 155, 0.6)">
     <legend :style="`color: ${color}`"
       class="heading h4 mx-2">
-      {{ mount.Name }}
+      {{ mountName }}
       <span v-if="impArm"
         class="text-cc-overline">{{ $t('pm.loadout.improvedARMAMENT') }}</span>
       <span v-if="superheavy"
@@ -29,6 +29,8 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import type Mount from '@/classes/mech/components/mount/Mount'
 import type { Mech } from '@/classes/mech/Mech'
 import WeaponSlotCard from './weapon/_WeaponSlotCard.vue';
@@ -47,6 +49,25 @@ const props = withDefaults(defineProps<{
   superheavy?: boolean
 }>(), {
   color: 'primary'
+})
+
+const { t } = useI18n()
+
+const mountTypeKey: Record<string, string> = {
+  Main: 'main',
+  Heavy: 'heavy',
+  'Aux/Aux': 'aux_aux',
+  Aux: 'aux',
+  'Main/Aux': 'main_aux',
+  Flex: 'flex',
+  Integrated: 'integrated',
+  Superheavy: 'superheavy',
+}
+
+const mountName = computed(() => {
+  if (props.mount.Name !== `${props.mount.Type} Mount`) return props.mount.Name
+  const key = mountTypeKey[props.mount.Type] ?? props.mount.Type.toLowerCase()
+  return `${t(`enums.mountType.${key}`)} ${t('common.mount')}`
 })
 </script>
 

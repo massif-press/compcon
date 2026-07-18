@@ -15,7 +15,7 @@
             <statblock-item v-if="mobile"
               cols="3"
               sm="3"
-              attr="Size"
+              :attr="$t('ui.titles.size')"
               :icon="mech.SizeIcon"
               :val="mech.Size"
               :contributors="mech.SizeContributors"
@@ -24,7 +24,7 @@
             <statblock-item cols="3"
               sm=""
               md="4"
-              :attr="mobile ? 'Struct' : 'Structure'"
+              :attr="$t('stats.structure')"
               icon="cc:structure"
               :val="mech.MaxStructure"
               :contributors="mech.StructureContributors"
@@ -33,7 +33,7 @@
             <statblock-item cols="3"
               sm=""
               md=""
-              attr="HP"
+              :attr="$t('stats.hp')"
               icon="mdi-heart"
               :val="mech.MaxHP"
               :contributors="mech.HPContributors"
@@ -42,7 +42,7 @@
             <statblock-item cols="3"
               sm=""
               md="4"
-              attr="Armor"
+              :attr="$t('stats.armor')"
               :val="mech.Armor"
               icon="mdi-shield"
               :contributors="mech.ArmorContributors"
@@ -51,7 +51,7 @@
             <statblock-item cols="4"
               sm="4"
               md="4"
-              attr="Stress"
+              :attr="$t('stats.stress')"
               :val="mech.MaxStress"
               icon="cc:reactor"
               :contributors="mech.StressContributors"
@@ -60,7 +60,7 @@
             <statblock-item cols="4"
               sm=""
               md=""
-              :attr="mobile ? 'Heatcap' : 'Heat Capacity'"
+              :attr="mobile ? $t('compendium.titles.heatcap') : $t('ui.titles.heatCapacity')"
               icon="cc:heat"
               :val="mech.HeatCapacity"
               :contributors="mech.HeatCapContributors"
@@ -69,7 +69,7 @@
             <statblock-item cols="4"
               sm="4"
               md="4"
-              :attr="mobile ? 'Repcap' : 'Repair Capacity'"
+              :attr="mobile ? $t('compendium.titles.repcap') : $t('ui.titles.repairCapacity')"
               icon="cc:repair"
               :val="mech.RepairCapacity"
               :contributors="mech.RepCapContributors"
@@ -103,7 +103,7 @@
         <statblock-item cols="3"
           sm="4"
           md="3"
-          :attr="portrait ? '+ LTD' : widescreen ? 'Limited System Bonus' : 'Limited Sys Bonus'"
+          :attr="$t('common.limitedBonus')"
           signed
           icon="cc:ammo"
           :val="mech.LimitedBonus"
@@ -112,14 +112,14 @@
           :color="color" />
         <statblock-item cols="4"
           sm="3"
-          :attr="portrait ? 'ATK Bonus' : 'Attack Bonus'"
+          :attr="$t('common.attackBonus')"
           signed
           icon="cc:weapon"
           :val="mech.AttackBonus"
           :contributors="mech.AttackBonusContributors"
           :bonuses="getBonuses('attack')"
           :color="color" />
-        <statblock-item attr="Speed"
+        <statblock-item :attr="$t('stats.speed')"
           sm=""
           :val="mech.Speed"
           icon="mdi-arrow-right-bold-hexagon-outline"
@@ -129,7 +129,7 @@
         <statblock-item cols="4"
           sm="2"
           md="3"
-          attr="Evasion"
+          :attr="$t('stats.evasion')"
           icon="cc:evasion"
           :val="mech.Evasion"
           :contributors="mech.EvasionContributors"
@@ -138,7 +138,7 @@
         <statblock-item cols="4"
           sm="3"
           md="3"
-          :attr="portrait ? 'Tech ATK' : 'Tech Attack'"
+          :attr="mobile ? $t('compendium.titles.techatk') : $t('common.techAttack')"
           icon="cc:full_tech"
           signed
           :val="mech.TechAttack"
@@ -149,14 +149,14 @@
           sm="3"
           md=""
           icon="cc:edef"
-          :attr="portrait ? 'EDEF' : 'E-Defense'"
+          :attr="mobile ? $t('compendium.titles.edef') : $t('common.electronicDefense')"
           :val="mech.EDefense"
           :contributors="mech.EDefenseContributors"
           :bonuses="getBonuses('edef')"
           :color="color" />
         <statblock-item cols="6"
           sm="3"
-          attr="Sensors"
+          :attr="$t('stats.sensors')"
           icon="cc:sensor"
           :val="mech.SensorRange"
           :contributors="mech.SensorRangeContributors"
@@ -165,7 +165,7 @@
         <statblock-item cols="6"
           sm=""
           md="3"
-          attr="Save"
+          :attr="$t('common.save')"
           icon="cc:save"
           :val="mech.SaveTarget"
           :contributors="mech.SaveTargetContributors"
@@ -193,8 +193,7 @@ const props = defineProps({
   },
 })
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
-const { lgAndUp: widescreen } = useDisplay()
+const { smAndDown: mobile } = useDisplay()
 
 function getBonuses(key: string): any[] {
   return (props.mech as Mech).FeatureController.Bonuses.filter((x) => x.ID === key)
