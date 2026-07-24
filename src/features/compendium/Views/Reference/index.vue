@@ -21,47 +21,47 @@
       <compendium-page-button
         color="exotic"
         icon="mdi-search-web"
-        name="Quick Reference"
+        :name="$t('nav.nav.quickReference')"
         to="srd/reference/reference" />
       <compendium-page-button
         color="exotic"
         icon="cc:save"
-        name="Basics"
+        :name="$t('compendium.titles.lancerBasics')"
         to="srd/reference/basics" />
       <compendium-page-button
         color="exotic"
         icon="cc:pilot"
-        name="Pilots"
+        :name="$t('compendium.titles.referencePilots')"
         to="srd/reference/pilots" />
       <compendium-page-button
         color="exotic"
         icon="cc:frame"
-        name="Mechs"
+        :name="$t('compendium.titles.referenceMechs')"
         to="srd/reference/mechs" />
       <compendium-page-button
         color="exotic"
         icon="cc:ammo"
-        name="Combat"
+        :name="$t('compendium.titles.referenceCombat')"
         to="srd/reference/combat" />
       <compendium-page-button
         color="exotic"
         icon="cc:downtime"
-        name="Narrative Play"
+        :name="$t('compendium.titles.referenceNarrativePlay')"
         to="srd/reference/narrative" />
       <compendium-page-button
         color="exotic"
         icon="cc:repair"
-        name="FAQ & Errata"
+        :name="$t('compendium.titles.referenceErrata')"
         to="srd/reference/errata" />
       <compendium-page-button
         color="exotic"
         icon="cc:compendium"
-        name="Glossary"
+        :name="$t('compendium.titles.referenceGlossary')"
         to="srd/reference/glossary" />
       <compendium-page-button
         color="exotic"
         icon="cc:system_point"
-        name="Using COMP/CON"
+        :name="$t('compendium.titles.usingCompcon')"
         to="srd/reference/compcon"
         disabled />
     </v-row>
@@ -70,37 +70,37 @@
     <v-row>
       <compendium-page-button
         icon="cc:reserve_mech"
-        name="Reserves"
+        :name="$t('common.reserves')"
         to="/srd/compendium/reserves" />
       <compendium-page-button
         icon="cc:status_exposed"
-        name="Statuses & Conditions"
+        :name="$t('compendium.titles.statusesConditions')"
         to="/srd/compendium/statuses" />
-      <compendium-page-button icon="mdi-tag" name="Equipment Tags" to="/srd/compendium/tags" />
+      <compendium-page-button icon="mdi-tag" :name="$t('compendium.titles.equipmentTags')" to="/srd/compendium/tags" />
       <compendium-page-button
         color="primary"
         icon="mdi-map"
-        name="Environments"
+        :name="$t('compendium.titles.environments')"
         to="/srd/compendium/environments" />
       <compendium-page-button
         color="primary"
         icon="mdi-timeline-text-outline"
-        name="Sitreps"
+        :name="$t('compendium.titles.sitreps')"
         to="/srd/compendium/sitreps" />
       <compendium-page-button
         color="primary"
         icon="cc:downtime"
-        name="Downtime Actions"
+        :name="$t('compendium.titles.downtimeActions')"
         to="/srd/compendium/downtime" />
       <compendium-page-button
         color="primary"
         icon="mdi-table-multiple"
-        name="Table Browser"
+        :name="$t('common.tables')"
         to="/srd/compendium/tables" />
       <compendium-page-button
         color="primary"
         icon="mdi-list-box-outline"
-        name="List Browser"
+        :name="$t('compendium.titles.lists')"
         to="/srd/compendium/lists" />
     </v-row>
   </v-container>
