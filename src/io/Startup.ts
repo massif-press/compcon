@@ -13,6 +13,8 @@ import { collectionDataQuery } from '@/user/api'
 import { lt, coerce } from 'semver'
 
 import { Initialize } from './Storage'
+import { lancerData } from '@/features/compendium/store/compendiumUtils'
+import { stampContentKeys } from '@/i18n/contentKeys'
 import { AchievementManager } from '@/user/achievements/AchievementManager'
 import { UnauthorizedError } from '@/io/apis/account'
 import logger from '@/user/logger'
@@ -54,6 +56,8 @@ export default async function (skipSync = false): Promise<void> {
     logger.info('v2 localStorage migration complete', migrationResult)
   }
 
+  logger.info('stamping content keys')
+  stampContentKeys(lancerData)
   logger.info('refreshing extra content')
   await CompendiumStore().refreshExtraContent()
   logger.info('extra content refreshed')

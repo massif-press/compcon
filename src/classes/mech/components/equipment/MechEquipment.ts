@@ -1,7 +1,7 @@
 import { ITagData } from '@/classes/Tag'
 import { ContentPack } from '../../../ContentPack'
 import { ILicensedItemData, LicensedItem } from '../../../pilot/components/license/LicensedItem'
-import { localizeNested } from '@/i18n/localize'
+import { localize, localizeNested } from '@/i18n/localize'
 
 export interface IEquipmentData {
   id: string
@@ -33,7 +33,10 @@ interface IMechEquipmentData extends ILicensedItemData {
 abstract class MechEquipment extends LicensedItem {
   public IsIntegrated: boolean
   public readonly SP: number
-  public readonly Effect: string
+  public get Effect(): string {
+    return localize(this.ID, 'effect', this._effect)
+  }
+  private _effect: string = ''
   public readonly IsUnique: boolean = false
   public readonly IsLimited: boolean = false
   public readonly IsLoading: boolean = false
@@ -51,7 +54,7 @@ abstract class MechEquipment extends LicensedItem {
   public constructor(data: IMechEquipmentData, pack?: ContentPack) {
     super(data, pack)
     this.SP = parseInt(data.sp as any) || 0
-    this.Effect = data?.effect
+    this._effect = data?.effect
       ? typeof data.effect === 'string'
         ? data.effect
         : (data.effect as any).description
