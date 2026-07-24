@@ -4,7 +4,7 @@ import { CompendiumItem, ICompendiumItemData } from '../../../CompendiumItem'
 import { Deployable } from '../../../components/feature/deployable/Deployable'
 import { ContentPack } from '../../../ContentPack'
 import { ItemType } from '../../../enums'
-import { keyPrefixes } from '@/i18n/contentKeys'
+import { keyPrefixes, slug } from '@/i18n/contentKeys'
 import DOMPurify from 'dompurify'
 
 interface ITalentRankData extends ICompendiumItemData {
@@ -21,8 +21,11 @@ interface ITalentData extends ICompendiumItemData {
 class TalentRank extends CompendiumItem {
   public readonly Exclusive: boolean
 
-  public constructor(data: ITalentRankData) {
-    const lkey = keyPrefixes.get(data as object)
+  public constructor(data: ITalentRankData, parentId?: string) {
+    let lkey = keyPrefixes.get(data as object)
+    if (!lkey && parentId && data.name) {
+      lkey = `${parentId}.rank_${slug(data.name)}`
+    }
     super(lkey ? { ...data, id: lkey } : data)
     this.Exclusive = data.exclusive
   }
@@ -39,7 +42,7 @@ class Talent extends CompendiumItem {
     this.Terse = data.terse || ''
     this._icon_url = data.icon_url || ''
     this._icon_svg = data.icon_svg ? DOMPurify.sanitize(data.icon_svg) : ''
-    this._ranks = data.ranks.map(x => new TalentRank(x))
+    this._ranks = data.ranks.map(x => new TalentRank(x, this.ID))
     this.ItemType = ItemType.Talent
   }
 
