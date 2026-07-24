@@ -7,6 +7,7 @@ import { ICoreData, CoreSystem } from './CoreSystem'
 import { FrameTrait, IFrameTraitData } from './FrameTrait'
 import { CompendiumStore } from '@/features/compendium/store'
 import { Rules } from '@/classes/utility/Rules'
+import { enumLabel } from '@/i18n/enumLabel'
 
 interface IFrameStats {
   size: number
@@ -84,8 +85,8 @@ class Frame extends LicensedItem implements IFeatureContainer {
   }
 
   public get MechTypeString(): string {
-    if (this.MechType.length === 1) return this.MechType[0]
-    return `${this.MechType[0]} / ${this.MechType[1]}`
+    if (!this.MechType || this.MechType.length === 0) return ''
+    return this.MechType.map(t => enumLabel('mechType', t)).join(' / ')
   }
 
   public get Stats(): IFrameStats {
