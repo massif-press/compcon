@@ -57,7 +57,7 @@ class FrameTrait {
     this.Deployables = data.deployables ? data.deployables.map(x => new Deployable(x)) : []
     if (data.deployables) {
       this.Actions = this.Actions.concat(
-        data.deployables.map(d => Action.CreateDeployAction(d, this._name))
+        data.deployables.map(d => Action.CreateDeployAction(d, this._name, this._lkey))
       )
     }
     this.Counters = data.counters ? data.counters : []
