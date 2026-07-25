@@ -3680,7 +3680,8 @@
       "next_round": "Next Round",
       "scene": "Scene",
       "encounter": "Encounter",
-      "mission": "Mission"
+      "mission": "Mission",
+      "unlimited": "Unlimited"
     },
     "attackType": {
       "melee": "Melee",

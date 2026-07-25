@@ -71,7 +71,7 @@ const usable = computed(() => {
 })
 
 const displayFreq = computed(() => {
-  return props.action.Frequency.ToString() !== 'Unlimited';
+  return !props.action.Frequency.Unlimited;
 })
 
 function byTier(value: string) {

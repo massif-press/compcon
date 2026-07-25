@@ -97,18 +97,18 @@ class CloudSyncOrchestrator {
 
         const chunkData = chunk.map(item => {
           item.CloudController.ensureOwnedUri()
-          const previousMeta = item.CloudController.Metadata.Serialize()
+          const baseMeta = item.CloudController.Metadata.Serialize()
           const savedata = (item as any).__pendingSavedata
           const sc = toRaw(item).SaveController
           const meta: dbItemMeta = {
-            ...previousMeta,
+            ...baseMeta,
             item_modified: sc.LastModified,
             name: item.Name,
             size: CloudController.stringifySafe(savedata).length,
             ...(sc?.IsDeleted ? { deleted: sc.DeleteTime } : {}),
           }
           ;(meta as any).itemScope = 'item'
-          return { item, previousMeta, savedata, meta }
+          return { item, savedata, meta }
         })
 
         let presigns: Record<string, string>

@@ -90,6 +90,8 @@ function roll() {
   outcome.value = r.total >= 10 ? 'success' : 'fail'
 }
 
+watch(() => props.modelValue, v => { if (v) seed() }, { immediate: true })
+
 function onToggle(v: boolean) {
   if (v) seed()
 }

@@ -162,7 +162,7 @@ class CloudTransferController {
       const uploadResult = await putContent()
 
       const res = await updateItem(this.cc.Metadata.Serialize(), scope)
-      if (res.error) return res.error
+      if (res.error) throw new Error(res.error)
 
       if (res.data) CloudTransferController.commitUpload(this.cc, savedata, newTs, hash, res.data)
 
