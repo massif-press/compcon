@@ -48,7 +48,7 @@
         <div v-if="view === 'list' && bprops.itemType === 'License'">
           <v-row v-for="m in facets.manufacturerSources.value"
             :key="`mf-list-${m}`">
-            <v-col v-if="!!mf(m)"
+            <v-col v-if="!isFallbackGroup(m)"
               class="text-center pa-3">
               <v-row align="center"
                 justify="center">
@@ -175,6 +175,7 @@ import LicenseExpandable from './_license-expandable.vue'
 import { CompendiumItem } from '@/classes/CompendiumItem'
 import type License from '@/classes/pilot/components/license/License'
 import { CompendiumBrowserKey } from '../browserContext'
+import { isFallbackGroup, groupLabel } from '../useCompendiumFacets'
 import { hasSlotContent } from '../hasSlotContent'
 
 defineOptions({ name: 'BrowserContent' })
@@ -212,13 +213,18 @@ const tableGroups = computed(() => {
   const th = bprops.tableHeaders
   const accent = 'heading h2 text-accent mt-4'
   const map = (keys: string[], get: (k: string) => any[], opts: any = {}) =>
-    keys.map((k) => ({ key: k, label: k, headClass: accent, logo: null, headers: th, items: get(k), ...opts }))
+    keys.map((k) => ({ key: k, label: groupLabel(k), headClass: accent, logo: null, headers: th, items: get(k), ...opts }))
   switch (group.value) {
     case 'lcp':
       return map(facets.filteredLcps.value, (k) => facets.filteredItemsByLcp.value[k], { headClass: 'heading mech' })
     case 'source':
       return facets.manufacturerSources.value.map((k) => ({
-        key: k, label: k, headClass: 'heading mech', logo: mf(k), headers: th, items: facets.itemsBySourceGroup.value[k],
+        key: k,
+        label: groupLabel(k),
+        headClass: 'heading mech',
+        logo: isFallbackGroup(k) ? null : mf(k),
+        headers: th,
+        items: facets.itemsBySourceGroup.value[k],
       }))
     case 'license':
       return map(facets.licenses.value, (k) => facets.itemsByLicenseGroup.value[k])

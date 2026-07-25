@@ -1,10 +1,34 @@
 import { computed, ref, watch, type Ref } from 'vue'
 import * as _ from 'lodash-es'
 import ItemFilter from '@/classes/utility/ItemFilter'
+import { i18n } from '@/i18n'
 import type { CompendiumItem } from '@/classes/CompendiumItem'
 import type License from '@/classes/pilot/components/license/License'
 
 const mfOrder = ['gms', 'ips-n', 'ssc', 'horus', 'ha']
+
+const fallbackGroups: Record<string, string> = {
+  __exotic: 'pm.selectors.exotic',
+  __integrated: 'pm.loadout.integratedEquipment',
+  __other: 'ui.widget.other',
+}
+
+const fallbackGroup = (x: any): string =>
+  x.IsExotic ? '__exotic' : x.IsIntegrated ? '__integrated' : '__other'
+
+export const sourceGroup = (x: any): string => x.Source || fallbackGroup(x)
+
+export const licenseGroup = (x: any): string => x.License || fallbackGroup(x)
+
+export const isFallbackGroup = (key: string): boolean => key in fallbackGroups
+
+export const groupLabel = (key: string): string =>
+  fallbackGroups[key] ? i18n.global.t(fallbackGroups[key]) : key
+
+const withFallbackTail = (keys: string[], sort: (a: string, b: string) => number): string[] => {
+  const tail = Object.keys(fallbackGroups).filter((k) => keys.includes(k))
+  return keys.filter((k) => !isFallbackGroup(k)).sort(sort).concat(tail)
+}
 
 const ManufacturerSort = (mArr: any[]) =>
   mArr.sort((a, b) => {
@@ -17,16 +41,14 @@ const ManufacturerSort = (mArr: any[]) =>
   })
 
 const sortFn = (a: any, b: any): number => {
-  const excl = ['exotic']
-  if (!a || excl.includes(a.toLowerCase())) return 1
-  if (!b || excl.includes(b.toLowerCase())) return -1
+  if (!a) return 1
+  if (!b) return -1
   return a.localeCompare(b)
 }
 
 const manufacturerSortFn = (a: string, b: string): number => {
-  const excl = ['exotic']
-  if (!a || excl.includes(a.toLowerCase())) return 1
-  if (!b || excl.includes(b.toLowerCase())) return -1
+  if (!a) return 1
+  if (!b) return -1
   const indexA = mfOrder.indexOf(a.toLowerCase())
   const indexB = mfOrder.indexOf(b.toLowerCase())
   if (indexA !== -1 && indexB !== -1) return indexA - indexB
@@ -61,8 +83,8 @@ export function useCompendiumFacets(input: CompendiumFacetsInput) {
   })
   const filteredItemsByLcp = computed(() => _.groupBy(shownItems.value, 'LcpName'))
   const itemsByType = computed(() => _.groupBy(shownItems.value, (x: any) => x.Type))
-  const itemsBySourceGroup = computed(() => _.groupBy(shownItems.value, (x: any) => x.Source))
-  const itemsByLicenseGroup = computed(() => _.groupBy(shownItems.value, (x: any) => x.License))
+  const itemsBySourceGroup = computed(() => _.groupBy(shownItems.value, sourceGroup))
+  const itemsByLicenseGroup = computed(() => _.groupBy(shownItems.value, licenseGroup))
   const itemsByRoleGroup = computed(() => _.groupBy(shownItems.value, (x: any) => x.Role))
   const itemsByFeatureTypeGroup = computed(() => _.groupBy(shownItems.value, (x: any) => x.FeatureType))
   const itemsByOriginGroup = computed(() => _.groupBy(shownItems.value, (x: any) => x.Origin?.Name))
@@ -70,7 +92,7 @@ export function useCompendiumFacets(input: CompendiumFacetsInput) {
   function _groupLcpItems(lcpItems: any[]): Record<string, any[]> {
     if (itemType() === 'NpcClass') return _.groupBy(lcpItems.filter((x: any) => x.Role), (x: any) => x.Role)
     if (itemType() === 'NpcFeature') return _.groupBy(lcpItems, (x: any) => x.Origin?.Name)
-    return _.groupBy(lcpItems, (x: any) => (x.IsExotic ? 'exotic' : x.Source))
+    return _.groupBy(lcpItems, sourceGroup)
   }
 
   const _lcpGroupCache = ref(new Map<string, Record<string, any[]>>())
@@ -104,18 +126,19 @@ export function useCompendiumFacets(input: CompendiumFacetsInput) {
     const isMfg = itemType() !== 'NpcClass' && itemType() !== 'NpcFeature'
     const sortGroups = isMfg ? manufacturerSortFn : sortFn
     const m: Record<string, string[]> = {}
-    for (const [lcp, groups] of _lcpGroupCache.value) m[lcp] = Object.keys(groups).filter(Boolean).sort(sortGroups)
+    for (const [lcp, groups] of _lcpGroupCache.value)
+      m[lcp] = withFallbackTail(Object.keys(groups).filter(Boolean), sortGroups)
     return m
   })
   const manufacturerSources = computed(() =>
-    _.uniq(shownItems.value.map((x: any) => x.Source)).sort((a, b) => manufacturerSortFn(a, b))
+    withFallbackTail(_.uniq(shownItems.value.map(sourceGroup)), manufacturerSortFn)
   )
   const roles = computed(() => _.uniq(shownItems.value.map((x: any) => x.Role)).sort(sortFn))
   const featureTypes = computed(() => _.uniq(shownItems.value.map((x: any) => x.FeatureType)).sort(sortFn))
   const origins = computed(() => _.uniq(shownItems.value.map((x: any) => x.Origin?.Name).filter(Boolean)).sort(sortFn))
   const lcps = computed(() => Object.keys(itemsByLcp.value).sort(sortFn))
   const filteredLcps = computed(() => Object.keys(filteredItemsByLcp.value).sort(sortFn))
-  const licenses = computed(() => _.uniq(shownItems.value.map((x: any) => x.License)).sort(sortFn))
+  const licenses = computed(() => withFallbackTail(_.uniq(shownItems.value.map(licenseGroup)), sortFn))
   const subtypes = computed(() => _.uniq(shownItems.value.map((x: any) => x.Type)).sort(sortFn))
   const navOrderedItems = computed((): any[] => {
     switch (group.value) {

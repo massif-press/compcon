@@ -94,7 +94,7 @@
         size="small"
         rounded="0"
         @click="licenseTab = i">
-        {{ !l ? $t('common.none') : l }}
+        {{ groupLabel(l) }}
       </v-btn>
     </div>
 
@@ -103,7 +103,7 @@
         :key="`lic-win-${l}`"
         eager>
         <div class="heading h2 text-primary mt-4"
-          v-text="l" />
+          v-text="groupLabel(l)" />
         <v-row class="mt-n8">
           <v-col style="height: calc(100vh - 225px)">
             <bar :data="getChartData(getLicenseItems(l as string))"
@@ -184,6 +184,7 @@ import { Manufacturer } from '@/classes/Manufacturer'
 import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
 import { NpcClass } from '@/classes/npc/class/NpcClass';
 import { getChartAxes, findManufacturer } from './_selectorUtils';
+import { licenseGroup, groupLabel } from '../useCompendiumFacets';
 
 ChartJS.register(
   LinearScale, PointElement, LineElement, Tooltip, Legend,
@@ -324,6 +325,6 @@ function getItems(manufacturer?: Manufacturer, lcp?: string) {
   return props.items.filter((i: any) => i.Source === manufacturer?.ID);
 }
 function getLicenseItems(license: string) {
-  return props.items.filter((i: any) => i.License === license);
+  return props.items.filter((i: any) => licenseGroup(i) === license);
 }
 </script>

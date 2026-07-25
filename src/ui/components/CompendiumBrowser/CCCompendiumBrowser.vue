@@ -97,7 +97,7 @@ import BrowserContent from './components/_BrowserContent.vue';
 import { CompendiumItem } from '@/classes/CompendiumItem'
 import License from '@/classes/pilot/components/license/License'
 import { Manufacturer } from '@/classes/Manufacturer'
-import { useCompendiumFacets } from './useCompendiumFacets'
+import { useCompendiumFacets, sourceGroup } from './useCompendiumFacets'
 import { useCompendiumViewState } from './useCompendiumViewState'
 import { CompendiumBrowserKey, type BrowserOptions } from './browserContext'
 import { hasSlotContent } from './hasSlotContent'
@@ -203,7 +203,7 @@ watch(search, (val) => {
     const subGroups: string[] = [];
     for (const lcp of curLcps) {
       const lcpItems: any[] = itemsByLcp.value[lcp] || [];
-      _.uniq(lcpItems.map((x: any) => x.IsExotic ? 'exotic' : x.Source).filter(Boolean))
+      _.uniq(lcpItems.map(sourceGroup).filter(Boolean))
         .forEach((mfId: string) => subGroups.push(`${lcp}_${mfId}`));
       _.uniq(lcpItems.filter((x: any) => x.Role).map((x: any) => x.Role))
         .forEach((role: string) => subGroups.push(`${lcp}_${role}`));

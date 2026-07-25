@@ -44,7 +44,7 @@
             :key="`mf-${lcp}-${manufacturer}`"
             :parent="lcp"
             :collection="manufacturer"
-            :manufacturer="(mf(manufacturer) as any)">
+            :manufacturer="isFallbackGroup(manufacturer) ? undefined : (mf(manufacturer) as any)">
             <browser-item-list :items="facets.itemsByLcpGrouped.value[lcp]?.[manufacturer] ?? []" />
           </b-list-group>
         </template>
@@ -63,12 +63,13 @@
           v-bind="act"
           slim>
           <template #prepend>
-            <cc-logo :source="mf(manufacturer)" />
+            <cc-logo v-if="!isFallbackGroup(manufacturer)"
+              :source="mf(manufacturer)" />
             &nbsp;
           </template>
           <template #title>
             <span class="text-button">
-              <b>{{ manufacturer ? manufacturer : $t('ui.widget.other') }}</b>
+              <b>{{ groupLabel(manufacturer) }}</b>
             </span>
           </template>
         </v-list-item>
@@ -116,7 +117,7 @@
           v-bind="act">
           <template #title>
             <span class="text-button">
-              <b>{{ license ? license : $t('ui.widget.other') }}</b>
+              <b>{{ groupLabel(license) }}</b>
             </span>
           </template>
         </v-list-item>
@@ -155,6 +156,7 @@ import { inject } from 'vue'
 import bListGroup from './_b-list-group.vue'
 import BrowserItemList from './_BrowserItemList.vue'
 import { CompendiumBrowserKey } from '../browserContext'
+import { isFallbackGroup, groupLabel } from '../useCompendiumFacets'
 
 defineOptions({ name: 'BrowserNavList' })
 

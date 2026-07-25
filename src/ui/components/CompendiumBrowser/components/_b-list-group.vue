@@ -43,7 +43,7 @@
           </div>
           <div v-else>
             <span class="text-button">
-              <b>{{ collection }}</b>
+              <b>{{ groupLabel(collection.toString()) }}</b>
             </span>
           </div>
         </template>
@@ -56,6 +56,7 @@
 <script setup lang="ts">
 import type { Manufacturer } from '@/classes/Manufacturer'
 import { computed } from 'vue'
+import { groupLabel } from '../useCompendiumFacets'
 
 defineOptions({ name: 'BrowserListGroup' })
 
@@ -72,7 +73,6 @@ const groupValue = computed(() => {
       return props.collection.toString();
     })
 const mName = computed(() => {
-      if (props.collection?.toLowerCase() === 'exotic') return 'Exotic';
       const name = props.manufacturer?.Name || 'Other';
       if (name === 'err') return 'Other';
       return name;
