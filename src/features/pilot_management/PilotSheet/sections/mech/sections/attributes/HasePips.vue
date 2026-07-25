@@ -1,10 +1,10 @@
 <template>
   <div :class="mobile && 'd-inline-block mr-11'">
-    <v-tooltip :text="`${attr.toUpperCase()}: ${val}`">
+    <v-tooltip :text="`${label.toUpperCase()}: ${val}`">
       <template #activator="{ props }">
         <span class="text-overline no-height ml-n1"
           v-bind="props">
-          {{ attr }}
+          {{ label }}
         </span>
       </template>
     </v-tooltip>
@@ -32,21 +32,23 @@
 
 <script setup lang="ts">
 import type { Mech } from '@/classes/mech/Mech'
-import { ref } from 'vue'
+import { computed } from 'vue'
 import { useDisplay } from 'vuetify';
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+const { smAndDown: mobile } = useDisplay()
 
 const props = withDefaults(defineProps<{
   mech: Mech
   attr: string
   val: number
   color?: string
+  label?: string
 }>(), {
-  color: 'primary'
+  color: 'primary',
+  label: '',
 })
 
-const maxHASE = ref(6)
+const label = computed(() => props.label ?? props.attr)
 </script>
 
 <style scoped>

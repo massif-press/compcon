@@ -2,7 +2,7 @@
   <v-row dense
     align="center">
     <v-col>
-      <div class="heading h2">{{ item.Source }} {{ item.MechTypeString }} {{ $t('common.frame') }}
+      <div class="heading h2">{{ item.Source }} {{ $t('compendium.content.frameSuffix', { type: item.MechTypeString }) }}
       </div>
       <div v-if="item.Variant"
         class="heading h4 text-accent">{{ item.Variant }} {{ $t('ui.card.variantFrame') }}</div>
@@ -13,7 +13,7 @@
         <div class="heading h3"><span class="text-uppercase">{{ $t('ui.fields.size') }}</span> {{ item.Size === 0.5 ? '½' : item.Size }}
         </div>
         <v-divider class="my-1" />
-        {{ glossary('size') }}
+        <div v-html-safe="glossary('size')" />
       </cc-tooltip>
     </v-col>
   </v-row>
@@ -62,8 +62,7 @@
             class="clipped"
             tile
             v-bind:="props">
-            <v-card-text class="heading h3 px-8 text-uppercase">{{ m }} {{ $t('common.mount')
-              }}</v-card-text>
+            <v-card-text class="heading h3 px-8 text-uppercase">{{ mountLabel(m) }}</v-card-text>
           </v-card>
         </template>
         <p v-html-safe="get_mount_tooltip(m)" />
@@ -80,8 +79,32 @@ import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import { FrameCombatChart } from '../frame'
 import { glossary as glossaryData } from '@massif/lancer-data'
+import { useI18n } from 'vue-i18n'
+import { slug } from '@/i18n/contentKeys.mjs'
+import { localize } from '@/i18n/localize'
 
+const { t, te } = useI18n()
 const { smAndDown: mobile } = useDisplay()
+
+const mountSrdKeyMap: Record<string, string> = {
+  Main: 'mechs_2_3_0',
+  Heavy: 'mechs_2_3_1',
+  'Aux/Aux': 'mechs_2_3_2',
+  'Main/Aux': 'mechs_2_3_3',
+  Flex: 'mechs_2_3_4',
+  Integrated: 'mechs_2_3_5',
+}
+
+function mountLabel(m: string) {
+  const srdKey = mountSrdKeyMap[m]
+  if (srdKey) {
+    const title = localize(srdKey, 'title', '')
+    if (title) return title
+  }
+  const key = `enums.mountType.${slug(m)}`
+  const mountTypeName = te(key) ? t(key) : m
+  return `${mountTypeName} ${t('common.mount')}`
+}
 
 const props = defineProps<{
   item: Record<string, any>
@@ -96,10 +119,21 @@ const props = defineProps<{
 const mColor = computed(() => props.item.ManufacturerColor)
 
 function glossary(name: string) {
-  return glossaryData.find((x) => x.name.toLowerCase() === name.toLowerCase())!.description
+  if (name.toLowerCase() === 'size') {
+    const localizedSize = localize('mechs_2_1', 'content', '')
+    if (localizedSize) return localizedSize
+  }
+  const n = glossaryData.find((x) => x.name.toLowerCase() === name.toLowerCase())
+  return n ? n.description : ''
 }
 
 function get_mount_tooltip(mount_type: string) {
+  const srdKey = mountSrdKeyMap[mount_type]
+  if (srdKey) {
+    const content = localize(srdKey, 'content', '')
+    if (content) return content
+  }
+
   const mount_tooltips: Record<string, string> = {
     Heavy: 'Holds one <b>HEAVY</b>, <b>MAIN</b>, or <b>AUXILIARY</b> weapon',
     Main: 'Holds one <b>MAIN</b> or <b>AUXILIARY</b> weapon',

@@ -2,6 +2,7 @@ import { CompendiumStore } from '../../../../stores'
 import { CompendiumItem, ICompendiumItemData } from '../../../CompendiumItem'
 import { ContentPack } from '../../../ContentPack'
 import { SkillFamily, ItemType } from '../../../enums'
+import { localize } from '@/i18n/localize'
 
 interface ISkillData extends ICompendiumItemData {
   detail: string
@@ -21,7 +22,7 @@ class Skill extends CompendiumItem {
   }
 
   public get Trigger(): string {
-    return this._name
+    return localize(this.ID, 'name', this._name)
   }
 
   public get Color(): string {

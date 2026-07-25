@@ -4,18 +4,22 @@
     <template #prepend>
       <hase-pips :mech="mech"
         attr="hull"
+        :label="$t('ui.titles.hull')"
         :val="pilot.MechSkillsController.MechSkills.Hull"
         :color="color" />
       <hase-pips :mech="mech"
         attr="agility"
+        :label="$t('stats.agility')"
         :val="pilot.MechSkillsController.MechSkills.Agi"
         :color="color" />
       <hase-pips :mech="mech"
         attr="systems"
+        :label="$t('stats.systems')"
         :val="pilot.MechSkillsController.MechSkills.Sys"
         :color="color" />
       <hase-pips :mech="mech"
         attr="engineering"
+        :label="$t('stats.engineering')"
         :val="pilot.MechSkillsController.MechSkills.Eng"
         :color="color" />
       <div>
@@ -29,7 +33,7 @@
             </span>
           </template>
           <div class="heading h4"
-            v-text="`${mech.MaxSP} System Points`" />
+            v-text="`${mech.MaxSP} ${$t('common.systemPoints')}`" />
           <v-divider />
           <p v-html-safe="mech.SPContributors.join('<br />')"
             class="py-2" />

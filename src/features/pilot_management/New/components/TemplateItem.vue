@@ -100,7 +100,7 @@
           </div>
           <v-row dense justify="center" class="px-2 text-center">
             <v-col v-for="(m, index) in template.build.mech.mounts" :key="`mount-${index}`">
-              <div class="flavor-text text-stark text-center">{{ m.mount_type }} {{ $t('common.mount') }}</div>
+              <div class="flavor-text text-stark text-center">{{ $t('enums.mountType.' + slug(m.mount_type)) }} {{ $t('common.mount') }}</div>
               <v-row dense>
                 <v-col v-for="(w, index) in m.slots" :key="`slot-${index}`" class="text-center">
                   <cc-item-modal class="mx-1" :item="item('MechWeapons', w)" />
@@ -138,6 +138,7 @@
 import { computed, ref } from 'vue'
 import { CompendiumStore } from '@/stores';
 import { useDisplay } from 'vuetify';
+import { slug } from '@/i18n/contentKeys.mjs';
 
 defineOptions({ name: 'template-item' })
 

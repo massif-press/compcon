@@ -18,13 +18,13 @@
                 start
                 size="40" />
             </template>
-            <div class="heading h3">{{ name }}</div>
+            <div class="heading h3">{{ displayName }}</div>
             <v-divider class="my-2" />
             <div v-html-safe="glossary" />
           </v-tooltip>
         </v-col>
         <v-col class="heading h3">
-          <span>{{ name }}</span>
+          <span>{{ displayName }}</span>
           <div v-if="isNaN(Number(value)) && value !== '½'"
             class="text-accent"
             style="font-size: 16px;">
@@ -48,7 +48,9 @@ import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import { glossary as glossaryData } from '@massif/lancer-data'
 import { isArray } from 'lodash-es'
+import { useI18n } from 'vue-i18n'
 
+const { t, te } = useI18n()
 const { xs, smAndDown } = useDisplay()
 
 const props = withDefaults(defineProps<{
@@ -68,6 +70,28 @@ const props = withDefaults(defineProps<{
 const portrait = computed(() => xs.value)
 const isInline = computed(() => props.inline || smAndDown.value)
 const isArrayVal = computed(() => isArray(props.value))
+
+const statKeyMap: Record<string, string> = {
+  Structure: 'stats.structure',
+  HP: 'stats.hp',
+  Armor: 'stats.armor',
+  Stress: 'stats.stress',
+  'Heat Capacity': 'ui.titles.heatCapacity',
+  Evasion: 'stats.evasion',
+  Speed: 'stats.speed',
+  'E-Defense': 'stats.edefense',
+  'Tech Attack': 'common.techAttack',
+  Sensors: 'stats.sensors',
+  'Repair Capacity': 'ui.titles.repairCapacity',
+  'Save Target': 'ui.titles.saveTarget',
+  'System Points': 'common.systemPoints',
+}
+
+const displayName = computed(() => {
+  const key = statKeyMap[props.name]
+  return key && te(key) ? t(key) : props.name
+})
+
 const glossary = computed(() => {
   let name = props.name.toLowerCase()
   if (name === 'e-def') name = 'e-defense'

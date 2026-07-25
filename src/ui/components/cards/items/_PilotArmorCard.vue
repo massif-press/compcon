@@ -10,19 +10,19 @@
       <v-row dense
         justify="center">
         <cc-statblock-panel icon="mdi-shield"
-          name="Armor"
+          :name="$t('stats.armor')"
           :value="item.ArmorString" />
         <cc-statblock-panel icon="mdi-heart"
-          name="HP Bonus"
+          :name="$t('common.hpBonus')"
           :value="`+${item.HpString}`" />
         <cc-statblock-panel icon="cc:edef"
-          name="E-Defense"
+          :name="$t('stats.edefense')"
           :value="item.EdefString" />
         <cc-statblock-panel icon="cc:evasion"
-          name="Evasion"
+          :name="$t('stats.evasion')"
           :value="item.EvasionString" />
         <cc-statblock-panel icon="mdi-arrow-right-bold-hexagon-outline"
-          name="Speed"
+          :name="$t('stats.speed')"
           :value="item.SpeedString" />
       </v-row>
     </template>
