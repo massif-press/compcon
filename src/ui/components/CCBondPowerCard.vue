@@ -8,9 +8,6 @@
         minor
         :color="headerColor"
         :extended="power.veteran || power.master">
-        <template #title>
-          {{ power.name }}
-        </template>
         <template #toolbar-items>
           <span v-if="power.frequency"
             class="text-caption mr-1">
