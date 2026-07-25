@@ -4,29 +4,11 @@ import { createRequire } from 'node:module'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
-import { nestedEntries, glossaryId } from '../src/i18n/contentKeys.mjs'
+import { nestedEntries, glossaryId, ALLOWLIST } from '../src/i18n/contentKeys.mjs'
+
+export { ALLOWLIST }
 
 const _require = createRequire(import.meta.url)
-
-export const ALLOWLIST = {
-  actions: ['name', 'terse', 'detail', 'trigger'],
-  backgrounds: ['name', 'description'],
-  core_bonuses: ['name', 'description', 'effect', 'mounted_effect'],
-  environments: ['name', 'description'],
-  frames: ['name', 'description'],
-  manufacturers: ['name', 'description', 'quote'],
-  mods: ['name', 'description', 'effect'],
-  pilot_gear: ['name', 'description', 'effect'],
-  reserves: ['name', 'description'],
-  sitreps: ['name', 'description', 'objective', 'deployment', 'controlZone', 'extraction'],
-  skills: ['name', 'description', 'detail'],
-  statuses: ['name', 'terse', 'effects'],
-  systems: ['name', 'description', 'effect'],
-  tags: ['name', 'description'],
-  talents: ['name', 'terse', 'description'],
-  weapons: ['name', 'description', 'effect'],
-  downtime_actions: ['name', 'terse', 'detail'],
-}
 
 export function buildContent() {
   const data = _require('@massif/lancer-data')

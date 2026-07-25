@@ -1,5 +1,7 @@
 export function slug(s: unknown): string
 
+export const ALLOWLIST: Record<string, string[]>
+
 export function nestedEntries(
   _collection: unknown,
   item: any

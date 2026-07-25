@@ -3,7 +3,7 @@
 
 @font-face {
   font-family: 'OpenDyslexic';
-  src: url('@/assets/fonts/OpenDyslexic-Regular.otf') format('opentype');
+  src: url('@/assets/fonts/OpenDyslexic-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -11,7 +11,7 @@
 
 @font-face {
   font-family: 'Helvetica';
-  src: url('@/assets/fonts/Helvetica.otf') format('opentype');
+  src: url('@/assets/fonts/Helvetica.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -39,43 +39,31 @@ html[data-font='opendyslexic'] body {
 
 @font-face {
   font-family: 'Helvetica Black';
-  src: url('../../assets/fonts/Helvetica-Black.otf') format('opentype');
+  src: url('@/assets/fonts/Helvetica-Black.woff2') format('woff2');
   font-weight: bolder;
 }
 
 @font-face {
   font-family: 'Helvetica Bold';
-  src: url('../../assets/fonts/Helvetica-Bold.otf') format('opentype');
+  src: url('@/assets/fonts/Helvetica-Bold.woff2') format('woff2');
   font-weight: bold;
 }
 
 @font-face {
   font-family: 'Helvetica Light';
-  src: url('../../assets/fonts/Helvetica-Light.otf') format('opentype');
+  src: url('@/assets/fonts/Helvetica-Light.woff2') format('woff2');
   font-weight: lighter;
 }
 
 @font-face {
-  font-family: 'Helvetica';
-  src: url('../../assets/fonts/Helvetica.otf') format('opentype');
-  font-weight: normal;
-}
-
-@font-face {
-  font-family: 'Helvetica Oblique';
-  src: url('../../assets/fonts/Helvetica-LightOblique.otf') format('opentype');
-  font-style: italic, oblique;
-}
-
-@font-face {
   font-family: 'Consolas';
-  src: url('../../assets/fonts/Consolas.ttf') format('truetype');
+  src: url('@/assets/fonts/Consolas.woff2') format('woff2');
   font-weight: normal;
 }
 
 @font-face {
   font-family: 'IBM VGA';
-  src: url('../../assets/fonts/PxPlus_IBM_VGA8.ttf') format('truetype');
+  src: url('@/assets/fonts/PxPlus_IBM_VGA8.woff2') format('woff2');
   font-weight: normal;
 }
 
@@ -157,7 +145,6 @@ html[data-font='opendyslexic'] body {
 }
 
 .body-text {
-  font-family: 'Helvetica Regular', sans-serif;
   font-size: 12pt;
   color: rgb(var(--v-theme-text));
 }
@@ -196,7 +183,7 @@ html[data-font='opendyslexic'] body {
 }
 
 .fluff-text {
-  font-family: 'Helvetica Oblique', sans-serif;
+  font-family: 'Helvetica Light', sans-serif;
   font-style: italic;
   font-size: 13pt;
   color: rgb(var(--v-theme-light-text));
@@ -372,7 +359,6 @@ code.horus:hover {
   font-weight: 500;
   line-height: 1.2;
   letter-spacing: 0.17em !important;
-  font-family: 'Roboto', sans-serif;
   text-transform: uppercase !important;
 }
 
@@ -383,7 +369,7 @@ code.horus:hover {
 }
 
 .text-cc-fluff {
-  font-family: 'Helvetica Oblique', sans-serif;
+  font-family: 'Helvetica Light', sans-serif;
   font-style: italic;
 }
 

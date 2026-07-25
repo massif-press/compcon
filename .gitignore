@@ -36,3 +36,4 @@ dist-ssr
 
 # Sentry Config File
 .env.sentry-build-plugin
+build-lcp.mjs

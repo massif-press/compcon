@@ -100,7 +100,7 @@
           </div>
           <v-row dense justify="center" class="px-2 text-center">
             <v-col v-for="(m, index) in template.build.mech.mounts" :key="`mount-${index}`">
-              <div class="flavor-text text-stark text-center">{{ $t('enums.mountType.' + slug(m.mount_type)) }} {{ $t('common.mount') }}</div>
+              <div class="flavor-text text-stark text-center">{{ mountLabel(m.mount_type) }}</div>
               <v-row dense>
                 <v-col v-for="(w, index) in m.slots" :key="`slot-${index}`" class="text-center">
                   <cc-item-modal class="mx-1" :item="item('MechWeapons', w)" />
@@ -136,6 +136,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { CompendiumStore } from '@/stores';
 import { useDisplay } from 'vuetify';
 import { slug } from '@/i18n/contentKeys.mjs';
@@ -143,6 +144,12 @@ import { slug } from '@/i18n/contentKeys.mjs';
 defineOptions({ name: 'template-item' })
 
 const { smAndDown: mobile, xs: portrait } = useDisplay()
+const { t, te } = useI18n()
+
+function mountLabel(m: string) {
+  const key = `enums.mountType.${slug(m)}`
+  return `${te(key) ? t(key) : m} ${t('common.mount')}`
+}
 
 const props = defineProps<{
   template: object

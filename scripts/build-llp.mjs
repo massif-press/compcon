@@ -1,23 +1,24 @@
 #!/usr/bin/env node
 
-// Build LCP language patches (.llp). Two modes:
-//
-//   extract <lcp-dir> [--lang <code>] [--out <file>]
-//     Walk an unpacked LCP's JSON collections and emit an English base .llp holding every
-//     translatable key + its English source string. Copy it, change `lang`, translate the values.
-//
-//   pack <flat.json> --target <pack-id> [--lang <code>] [--out <file>]
-//     Wrap an already-translated flat `<id>.<field>` map (like a Weblate content/<c>/<lang>.json)
-//     in a .llp header.
-//
-// Keys match exactly what the localize() resolver reads, so authors don't need to guess paths.
+/*!
+Build LCP language patches (.llp). Two modes:
+
+  extract <lcp-dir> [--lang <code>] [--out <file>]
+    Walk an unpacked LCP's JSON collections and emit an English base .llp holding every
+    translatable key + its English source string. Copy it, change `lang`, translate the values.
+
+  pack <flat.json> --target <pack-id> [--lang <code>] [--out <file>]
+    Wrap an already-translated flat `<id>.<field>` map (like a Weblate content/<c>/<lang>.json)
+    in a .llp header.
+
+Keys match exactly what the localize() resolver reads, so authors don't need to guess paths.
+*/
 
 import { readFileSync, writeFileSync, existsSync, statSync } from 'node:fs'
 import { join, basename, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-import { nestedEntries } from '../src/i18n/contentKeys.mjs'
-import { ALLOWLIST } from './extract-content-en.mjs'
+import { nestedEntries, ALLOWLIST } from '../src/i18n/contentKeys.mjs'
 
 // Weblate locale code -> app locale code
 const ALIAS = { zh_Hans: 'zh', pt_BR: 'pt' }
@@ -135,7 +136,12 @@ async function main() {
       console.error('bundle: usage: bundle <file.lcp> <patch.llp> [more.llp ...] [--out <file>]')
       process.exit(1)
     }
-    const { default: JSZip } = await import('jszip')
+    const JSZip = await import('jszip')
+      .then(m => m.default)
+      .catch(() => {
+        console.error('bundle: this mode needs jszip. run: npm i jszip')
+        process.exit(1)
+      })
     const zip = await JSZip.loadAsync(readFileSync(lcpPath))
     for (const p of llpPaths) {
       if (!existsSync(p)) {
@@ -151,7 +157,7 @@ async function main() {
   }
 
   console.error(
-    'usage: build-llp.mjs extract <lcp-dir> | pack <flat.json> --target <id> | bundle <file.lcp> <patch.llp...>'
+    `usage: ${basename(process.argv[1])} extract <lcp-dir> | pack <flat.json> --target <id> | bundle <file.lcp> <patch.llp...>`
   )
   process.exit(1)
 }

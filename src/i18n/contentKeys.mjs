@@ -8,6 +8,26 @@ export function slug(s) {
   )
 }
 
+export const ALLOWLIST = {
+  actions: ['name', 'terse', 'detail', 'trigger'],
+  backgrounds: ['name', 'description'],
+  core_bonuses: ['name', 'description', 'effect', 'mounted_effect'],
+  environments: ['name', 'description'],
+  frames: ['name', 'description'],
+  manufacturers: ['name', 'description', 'quote'],
+  mods: ['name', 'description', 'effect'],
+  pilot_gear: ['name', 'description', 'effect'],
+  reserves: ['name', 'description'],
+  sitreps: ['name', 'description', 'objective', 'deployment', 'controlZone', 'extraction'],
+  skills: ['name', 'description', 'detail'],
+  statuses: ['name', 'terse', 'effects'],
+  systems: ['name', 'description', 'effect'],
+  tags: ['name', 'description'],
+  talents: ['name', 'terse', 'description'],
+  weapons: ['name', 'description', 'effect'],
+  downtime_actions: ['name', 'terse', 'detail'],
+}
+
 // anything not is not emitted
 const ARRAY_CONTAINERS = {
   traits: 'trait',

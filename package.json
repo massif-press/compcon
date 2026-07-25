@@ -13,6 +13,7 @@
     "format:check": "prettier --check 'src/**/*.{ts,vue,json,css,scss,md}'",
     "typecheck": "vue-tsc --noEmit",
     "locales": "node scripts/locales.mjs",
+    "build:lcp-script": "esbuild scripts/build-llp.mjs --bundle --platform=node --format=esm --external:jszip --legal-comments=none --banner:js=\"$(sed -n '/^\\/\\*!/,/^\\*\\//p' scripts/build-llp.mjs)\" --outfile=build-lcp.mjs",
     "prepare": "husky"
   },
   "lint-staged": {
