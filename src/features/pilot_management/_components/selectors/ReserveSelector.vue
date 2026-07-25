@@ -31,27 +31,24 @@
     </template>
   </cc-compendium-browser>
 
-  <cc-modal v-model="CustomDialog"
+  <cc-dialog v-model="CustomDialog"
     max-width="60vw"
-    shrink
     :title="$t('pm.titles.addCustomReserve')"
-    icon="cc:orbital">
+    icon="cc:orbital" :close-on-click="false" major>
     <custom-reserve-panel @add="add($event)" />
-  </cc-modal>
-  <cc-modal v-model="ProjectDialog"
+  </cc-dialog>
+  <cc-dialog v-model="ProjectDialog"
     max-width="60vw"
-    shrink
     :title="$t('pm.titles.addProject')"
-    icon="cc:orbital">
+    icon="cc:orbital" :close-on-click="false" major>
     <downtime-project-panel @add="add($event)" />
-  </cc-modal>
-  <cc-modal v-model="OrgDialog"
+  </cc-dialog>
+  <cc-dialog v-model="OrgDialog"
     max-width="60vw"
-    shrink
     :title="$t('pm.titles.addOrganization')"
-    icon="cc:orbital">
+    icon="cc:orbital" :close-on-click="false" major>
     <organization-panel @add="addOrg($event)" />
-  </cc-modal>
+  </cc-dialog>
 </template>
 
 <script setup lang="ts">

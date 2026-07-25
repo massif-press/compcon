@@ -87,18 +87,22 @@ class SitrepInstance {
   }
 
   private setInstanceData() {
-    for (const key in this.Sitrep) {
-      if (key === 'Conditions') {
-        this._conditions = [...this.Sitrep.Conditions]
-      } else {
-        this[`_${key.charAt(0).toLowerCase() + key.slice(1)}`] = this.Sitrep[key]
-      }
-    }
+    this._name = this.Sitrep.Name
+    this._description = this.Sitrep.Description
+    this._conditions = [...this.Sitrep.Conditions]
+    this._deployment = this.Sitrep.Deployment
+    this._objective = this.Sitrep.Objective
+    this._controlZone = this.Sitrep.ControlZone
+    this._extraction = this.Sitrep.Extraction
   }
 
   private save() {
     this.modified = true
     this.Parent.save()
+  }
+
+  public Touch() {
+    this.save()
   }
 
   public get Name() {
@@ -184,7 +188,7 @@ class SitrepInstance {
   }
 
   public static Deserialize(data: ISitrepData, parent: Encounter): SitrepInstance {
-    return new SitrepInstance(
+    const instance = new SitrepInstance(
       parent,
       new Sitrep({
         id: data.id,
@@ -198,6 +202,8 @@ class SitrepInstance {
         conditions: data.conditions,
       })
     )
+    instance.modified = data.modified || false
+    return instance
   }
 }
 

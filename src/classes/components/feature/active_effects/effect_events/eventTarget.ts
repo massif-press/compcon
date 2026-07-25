@@ -146,8 +146,19 @@ class ActiveEventTarget {
     return str.trim()
   }
 
+  public get HeatExempt(): boolean {
+    const isFriendly = (c: CombatantData | null) =>
+      !!c && (c.type === 'pilot' || c.side === 'ally')
+    return (
+      this.Event.Attack === 'tech' &&
+      isFriendly(this.Event.Initiator) &&
+      isFriendly(this.Combatant)
+    )
+  }
+
   public ApplyDamage(damageEvent: DamageEvent) {
     if (!this.Combatant) return
+    if (damageEvent.DamageType.toLowerCase() === 'heat' && this.HeatExempt) return
     damageEvent.CalcFinalDamage(this.Event, this)
     if (this.FinalDamageValue > 0)
       this.Combatant.actor.CombatController.ApplyDamage(

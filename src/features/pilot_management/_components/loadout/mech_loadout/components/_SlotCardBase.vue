@@ -60,21 +60,20 @@
     </v-card-text>
   </v-card>
 
-  <cc-modal v-model="detailDialog"
+  <cc-dialog v-model="detailDialog"
     :title="item?.Name || ''"
-    :icon="item?.Icon || ''"
-    shrink>
+    :icon="item?.Icon || ''" :close-on-click="false" major max-width="90vw">
     <cc-item-card :item="item"
       notes />
     <slot name="detail" />
-  </cc-modal>
+  </cc-dialog>
 
-  <cc-modal v-model="selectorDialog"
+  <cc-dialog v-model="selectorDialog"
     :title="$t('pm.titles.selectEquipment')"
     clip
-    @close="$emit('selector-close')">
+    @close="$emit('selector-close')" :close-on-click="false" major full-height max-width="90vw">
     <slot name="selector" />
-  </cc-modal>
+  </cc-dialog>
 </template>
 
 <script setup lang="ts">

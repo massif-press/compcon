@@ -69,7 +69,7 @@
           style="width: 10vw" />
         <v-spacer />
 
-        <cc-modal :title="$t('ui.titles.printOptions')">
+        <cc-dialog :title="$t('ui.titles.printOptions')" :close-on-click="false" major full-height max-width="90vw">
           <template #activator="{ open }">
             <v-btn @click="open">
               <span>{{ $t('common.options') }}</span>
@@ -78,7 +78,7 @@
           </template>
           <options-dialog :has-bonds="hasBondData"
             :options="options" />
-        </cc-modal>
+        </cc-dialog>
         <v-btn @click="print()">
           <span>{{ $t('common.print') }}</span>
           <v-icon icon="mdi-printer" />

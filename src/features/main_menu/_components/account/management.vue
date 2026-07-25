@@ -207,9 +207,8 @@
       </v-col>
       <v-col cols="auto">
         <div class="text-right">
-          <cc-modal :title="$t('mainMenu.management.changeEmail')"
-            shrink
-            max-width="50vw">
+          <cc-dialog :title="$t('mainMenu.management.changeEmail')"
+            max-width="50vw" :close-on-click="false" major>
             <template #activator="{ open }">
               <cc-button color="accent"
                 :disabled="!newEmail || newEmail !== newEmailConfirm"
@@ -269,7 +268,7 @@
                 </v-col>
               </v-row>
             </template>
-          </cc-modal>
+          </cc-dialog>
         </div>
       </v-col>
     </v-row>
@@ -286,9 +285,8 @@
     </cc-button>
 
     <div class="text-right">
-      <cc-modal :title="$t('mainMenu.titles.accountDeletion')"
-        max-width="50vw"
-        shrink>
+      <cc-dialog :title="$t('mainMenu.titles.accountDeletion')"
+        max-width="50vw" :close-on-click="false" major>
         <template #activator="{ open }">
           <cc-button variant="tonal"
             color="error"
@@ -300,7 +298,7 @@
         <template #default="{ close }">
           <delete-account @close="close()" />
         </template>
-      </cc-modal>
+      </cc-dialog>
     </div>
   </v-container>
 </template>

@@ -64,4 +64,6 @@ const f = props.activeFilters;
     if (f.Source) sourceFilter.value = f.Source[0] ?? [];
     if (f.LcpName) lcpFilter.value = f.LcpName[0] ?? [];
 })
+
+defineExpose({ clear })
 </script>

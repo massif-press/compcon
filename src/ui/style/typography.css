@@ -435,8 +435,14 @@ code.horus:hover {
 } */
 
 .ql-font-serif {
-  font-family: Georgia, Times New Roman, serif;
+  font-family:
+    Georgia,
+    Times New Roman,
+    serif;
 }
 .ql-font-monospace {
-  font-family: Monaco, Courier New, monospace;
+  font-family:
+    Monaco,
+    Courier New,
+    monospace;
 }

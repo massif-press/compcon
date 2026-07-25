@@ -1,10 +1,9 @@
 <template>
-  <cc-modal id="bs-dialog"
+  <cc-dialog id="bs-dialog"
     ref="dialog"
     fullscreen
-    no-confirm
     :title="$t('pm.titles.selectPilotBackground')"
-    clip>
+    clip :close-on-click="false" major full-height max-width="90vw">
     <template #activator="{ open }">
       <v-icon :small="small"
         color="accent"
@@ -26,7 +25,7 @@
         </template>
       </cc-compendium-browser>
     </template>
-  </cc-modal>
+  </cc-dialog>
 </template>
 
 <script setup lang="ts">

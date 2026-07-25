@@ -97,4 +97,6 @@ const f = props.activeFilters;
     if (f.Tags) tagFilter.value = f.Tags;
     if (f.LcpName) lcpFilter.value = f.LcpName[0] ?? [];
 })
+
+defineExpose({ clear })
 </script>

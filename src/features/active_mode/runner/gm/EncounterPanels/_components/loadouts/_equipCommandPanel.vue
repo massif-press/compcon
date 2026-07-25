@@ -138,7 +138,7 @@
             height="26"
             variant="text"
             :disabled="item.Destroyed"
-            @click="item.Uses = 0">
+            @click="resetUses">
             <v-icon icon="mdi-reload" />
           </v-btn>
         </template>
@@ -159,7 +159,7 @@
             height="26"
             variant="text"
             :class="item.Destroyed ? 'bg-success' : 'bg-primary'"
-            @click="item.Destroyed = !item.Destroyed">
+            @click="toggleDestroyed">
             <v-icon size="x-large"
               :icon="item.Destroyed ? 'mdi-wrench' : 'mdi-cube-off'" />
           </v-btn>
@@ -181,7 +181,7 @@
             variant="text"
             :disabled="!item.Used"
             :class="item.Used ? 'bg-primary' : ''"
-            @click="item.Used = !item.Used">
+            @click="toggleUsed">
             <v-icon icon="mdi-reload" />
           </v-btn>
         </template>
@@ -207,6 +207,10 @@ import { CombatController } from '@/classes/components/combat/CombatController'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { MechEquipment } from '@/classes/mech/components/equipment/MechEquipment'
 import { NpcFeature } from '@/classes/npc/feature/NpcFeature'
+import { snapshot } from '@/classes/encounter/EncounterUndoStack'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const _display = useDisplay()
 
@@ -245,12 +249,28 @@ const totalUses = computed(() => {
   return Number(props.item.MaxUses || 0) + Number(props.controller.LimitedBonus || 0)
 })
 
+function snapshotItemEdit() {
+  if (encounterInstance.value) snapshot(encounterInstance.value, t('active.equipCmd.undoEditItem', { name: props.item.Name }))
+}
 function setUses(n) {
+  snapshotItemEdit()
   if (props.item.Uses === 1 && n === 1) {
     props.item.Uses = 0
   } else if (totalUses.value && n <= totalUses.value) {
     props.item.Uses = n
   }
+}
+function resetUses() {
+  snapshotItemEdit()
+  props.item.Uses = 0
+}
+function toggleDestroyed() {
+  snapshotItemEdit()
+  props.item.Destroyed = !props.item.Destroyed
+}
+function toggleUsed() {
+  snapshotItemEdit()
+  props.item.Used = !props.item.Used
 }
 function enableAI() {
   props.controller.CombatActions.Protocol = false
@@ -275,6 +295,7 @@ function cascade() {
   )
 }
 function onUseToggle() {
+  snapshotItemEdit()
   props.item.Use()
 }
 </script>

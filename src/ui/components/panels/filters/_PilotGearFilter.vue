@@ -83,4 +83,6 @@ const f = props.activeFilters;
     if (f.Tags) tagFilter.value = f.Tags;
     if (f.ItemType) typeFilter.value = f.ItemType;
 })
+
+defineExpose({ clear })
 </script>

@@ -1,8 +1,7 @@
 <template>
-  <cc-modal ref="modal"
-    shrink
+  <cc-dialog ref="modal"
     :title="$t('active.titles.addFromShareCode').toLowerCase()"
-    icon="mdi-code-block-brackets">
+    icon="mdi-code-block-brackets" :close-on-click="false" major max-width="90vw">
     <template #activator="{ open }">
       <cc-button :color="color"
         :size="size"
@@ -128,7 +127,7 @@
         </div>
       </v-scroll-y-reverse-transition>
     </v-card-text>
-  </cc-modal>
+  </cc-dialog>
 </template>
 
 <script setup lang="ts">

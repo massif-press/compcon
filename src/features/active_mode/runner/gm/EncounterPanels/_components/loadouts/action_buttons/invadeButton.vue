@@ -1,6 +1,5 @@
 <template>
-  <combat-action-button
-    :action="action">
+  <combat-action-button :action="action">
     <template #default="{ close }">
       <v-row>
         <v-col cols="12"
@@ -11,7 +10,8 @@
             <v-tab height="30"
               value="invade">{{ $t('active.invade.invade') }}</v-tab>
             <v-divider v-if="!mobile" />
-            <div class="pa-2 text-cc-overline text-disabled">{{ $t('active.invade.available') }}</div>
+            <div class="pa-2 text-cc-overline text-disabled">{{ $t('active.invade.available') }}
+            </div>
             <v-tab v-for="item in invadeActions"
               :key="item.ID"
               height="30"
@@ -48,7 +48,9 @@
                 :mech="controller.Parent"
                 alert />
 
-              <menu-input :owner="owner" :encounter-instance="encounterInstance" :key="controller.ID"
+              <menu-input :owner="owner"
+                :encounter-instance="encounterInstance"
+                :key="controller.ID"
                 :active-effect="getSelectedAction(tab)"
                 :close="close"
                 @apply="apply"
@@ -62,9 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { useEncounterContext } from '../../../encounterContext'
-import type { CombatantData } from '@/classes/encounter/Encounter'
 import type { Action } from '@/classes/Action'
 import { computed, ref } from 'vue'
 import { useDisplay } from 'vuetify'
@@ -87,24 +87,24 @@ const emit = defineEmits<{
 const tab = ref('invade')
 
 const mobile = computed(() => {
-      return _display.mdAndDown.value;
-    })
+  return _display.mdAndDown.value;
+})
 const controller = computed(() => {
-      return owner.value.actor.CombatController.ActiveActor.CombatController;
-    })
+  return owner.value.actor.CombatController.ActiveActor.CombatController;
+})
 const invadeActions = computed(() => {
-      return [...CompendiumStore().Actions.filter((a) => a.Activation === 'Invade'),
-        ...controller.value.AllActions('Invade')]
-        .sort((a, b) => a.Name.localeCompare(b.Name));
-    })
+  return [...CompendiumStore().Actions.filter((a) => a.Activation === 'Invade'),
+  ...controller.value.AllActions('Invade')]
+    .sort((a, b) => a.Name.localeCompare(b.Name));
+})
 
 function getSelectedAction(id) {
-      return invadeActions.value.find((a) => a.ID === id);
-    }
+  return invadeActions.value.find((a) => a.ID === id);
+}
 function apply() {
-      emit('activate', tab.value);
-    }
+  emit('activate', tab.value);
+}
 function reset() {
-      controller.value.ResetActivation(props.action.Activation);
-    }
+  controller.value.ResetActivation(props.action.Activation);
+}
 </script>

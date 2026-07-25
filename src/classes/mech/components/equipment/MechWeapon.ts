@@ -109,6 +109,10 @@ class WeaponProfile extends CompendiumItem {
     this.Barrage = pData.barrage != undefined ? pData.barrage : container.Barrage
     this.Skirmish = pData.skirmish != undefined ? pData.skirmish : container.Skirmish
     if (pData.range) this.Range = pData.range.map(x => new Range(x))
+    const thrownTag = container.Tags.find(t => t.ID === 'tg_thrown')
+    if (thrownTag && thrownTag.Value) {
+      this.Range?.push(new Range({ type: RangeType.Thrown, val: thrownTag.Value }))
+    }
     if (pData.damage) {
       this.Damage = pData.damage.map(x => new Damage(x))
       this.Damage.forEach(d => d.setDamageAttributes(this))

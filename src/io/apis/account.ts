@@ -203,6 +203,22 @@ export async function updateItem(metadata: any, scope = 'item'): Promise<any> {
   return data
 }
 
+export async function getUploadPresigns(uris: string[]): Promise<Record<string, string>> {
+  const url = new URL(`${invoke}/user`)
+  url.searchParams.append('user_id', UserStore().Cognito.userId ?? '')
+  url.searchParams.append('scope', 'presign')
+
+  const response = await fetchWithRetry(url.toString(), {
+    method: 'POST',
+    headers: await getHeaders(),
+    body: JSON.stringify({ uris }),
+  })
+
+  const data = await response.json()
+  if (data?.error) throw new Error(data.error)
+  return data?.presigns ?? {}
+}
+
 export async function batchUpsert(items: any[]): Promise<any> {
   const url = new URL(`${invoke}/user`)
   url.searchParams.append('user_id', UserStore().Cognito.userId)

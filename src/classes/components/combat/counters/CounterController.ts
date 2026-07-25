@@ -38,6 +38,7 @@ class CounterController {
       this._counterSaveData[index] = inputData
       this._counterSaveData = [...this._counterSaveData]
     }
+    this.Parent.CombatLogVersion++
     // this.Parent.SaveController.save();
   }
 
@@ -53,6 +54,7 @@ class CounterController {
     }
     this._customCounters = [...this._customCounters, counter]
     this.Parent.SaveController.save()
+    this.Parent.CombatLogVersion++
   }
 
   public deleteCustomCounter(id: string): void {
@@ -62,6 +64,7 @@ class CounterController {
       this._customCounters = [...this._customCounters]
     }
     this.Parent.SaveController.save()
+    this.Parent.CombatLogVersion++
   }
 
   public get CounterData(): ICounterData[] {

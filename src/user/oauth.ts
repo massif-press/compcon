@@ -30,7 +30,7 @@ const authPatreon = async (code: string) => {
     }),
   })
 
-  if (!response.ok) throw new Error(`Patreon callback failed: ${response.status}`)
+  if (!response.ok) throw new Error(`Patreon callback failed: ${response.status} ${await response.text()}`)
   const data = await response.json()
   return data
 }
@@ -44,7 +44,7 @@ const authItch = async (access_token: string) => {
     }),
   })
 
-  if (!response.ok) throw new Error(`Itch callback failed: ${response.status}`)
+  if (!response.ok) throw new Error(`Itch callback failed: ${response.status} ${await response.text()}`)
   const data = await response.json()
   return data
 }
@@ -57,7 +57,7 @@ const getPatronProfile = async (access_token: string) => {
     headers: { ...headers, 'X-Patreon-Token': access_token },
   })
 
-  if (!response.ok) throw new Error(`Patreon profile fetch failed: ${response.status}`)
+  if (!response.ok) throw new Error(`Patreon profile fetch failed: ${response.status} ${await response.text()}`)
   const json = await response.json()
 
   if (json.errors) {
@@ -75,7 +75,7 @@ async function getPatreonSubscribers() {
     headers,
   })
 
-  if (!response.ok) throw new Error(`Patreon subscribers fetch failed: ${response.status}`)
+  if (!response.ok) throw new Error(`Patreon subscribers fetch failed: ${response.status} ${await response.text()}`)
   const json = await response.json()
 
   if (json.errors) {

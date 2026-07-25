@@ -1,6 +1,7 @@
 import { toRaw } from 'vue'
 import {
   downloadFromS3,
+  getUploadPresigns,
   invalidateETagCache,
   updateItem,
   uploadToS3,
@@ -24,6 +25,7 @@ class CloudTransferController {
   public _lastContentHash: string | null = null
   public _lastFieldHashes: FieldHashMap | null = null
   public _fieldTs: FieldTimestamps = {}
+  public _lastSyncedUpdated: number = 0
 
   public constructor(cc: CloudController) {
     this.cc = cc
@@ -93,10 +95,11 @@ class CloudTransferController {
     hash: string,
     responseData: any
   ): void {
-    cc.Metadata = { ...cc.Metadata.raw, ...responseData, updated: Date.now() }
+    cc.Metadata = { ...cc.Metadata.raw, ...responseData }
     cc.TransferController._lastContentHash = hash
     cc.TransferController._fieldTs = newTs
     cc.TransferController._lastFieldHashes = buildFieldHashMap(savedata)
+    cc.TransferController._lastSyncedUpdated = cc.Metadata.Updated ?? 0
     const _sc = toRaw(cc.Parent).SaveController
     cc._lastUploadedItemModified = _sc.LastModified || _sc.Created
     CloudTransferController.pruneOldFieldTimestamps(cc)
@@ -128,44 +131,46 @@ class CloudTransferController {
     const { savedata, newTs, hash } = prepared
 
     const rawParent = toRaw(this.cc.Parent)
+    this.cc.ensureOwnedUri()
     this.cc.Metadata.ItemModified = rawParent.SaveController.LastModified
     this.cc.Metadata.Name = rawParent.Name
     this.cc.Metadata.Size = CloudTransferController.stringifySafe(savedata).length
     if (rawParent.SaveController?.IsDeleted) this.cc.Metadata.Deleted = rawParent.SaveController.DeleteTime
 
     const previousMetadata = this.cc.Metadata.raw ? { ...this.cc.Metadata.raw } : null
+    const uri = this.cc.Metadata.Uri
 
-    const doUpload = async (retried = false): Promise<any> => {
-      const res = await updateItem(this.cc.Metadata.Serialize(), scope)
-
-      if (res.error) return res.error
-
-      if (!res.presign?.upload) throw new Error('No presign returned.')
+    const putContent = async (retried = false): Promise<any> => {
+      const presigns = await getUploadPresigns([uri])
+      const upload = presigns[uri]
+      if (!upload) throw new Error('No presign returned.')
 
       try {
-        const uploadResult = await uploadToS3(savedata, res.presign.upload)
-        if (!uploadResult) {
-          if (previousMetadata) this.cc.Metadata = previousMetadata
-          updateItem(previousMetadata ?? this.cc.Metadata.Serialize(), scope).catch(err =>
-            logger.warn('CloudController: DynamoDB compensation failed after S3 upload failure', err)
-          )
-          throw new Error('S3 upload failed. Metadata not committed.')
-        }
-
-        if (res.data) CloudTransferController.commitUpload(this.cc, savedata, newTs, hash, res.data)
-
+        const uploadResult = await uploadToS3(savedata, upload)
+        if (!uploadResult) throw new Error('S3 upload failed. Metadata not committed.')
         return uploadResult
       } catch (e) {
         if (e instanceof PresignExpiredError && !retried) {
           logger.info('Presigned URL expired, requesting fresh URL and retrying...')
-          return doUpload(true)
+          return putContent(true)
         }
-        if (previousMetadata) this.cc.Metadata = previousMetadata
         throw e
       }
     }
 
-    return doUpload()
+    try {
+      const uploadResult = await putContent()
+
+      const res = await updateItem(this.cc.Metadata.Serialize(), scope)
+      if (res.error) return res.error
+
+      if (res.data) CloudTransferController.commitUpload(this.cc, savedata, newTs, hash, res.data)
+
+      return uploadResult
+    } catch (e) {
+      if (previousMetadata) this.cc.Metadata = previousMetadata
+      throw e
+    }
   }
 
   public async syncFromCloud(): Promise<void> {
@@ -193,6 +198,7 @@ class CloudTransferController {
         newItem.CloudController.Metadata = { ...this.cc.Metadata.raw, item_modified: remoteModified }
         newItem.CloudController.TransferController._lastContentHash = CloudTransferController.computeContentHash(remoteData)
         newItem.CloudController._lastUploadedItemModified = remoteModified
+        newItem.CloudController._lastSyncedUpdated = this.cc.Metadata.Updated ?? 0
         await CloudSyncOrchestrator.AddByType(itemType, newItem)
         toRaw(newItem).SaveController.saveSilent()
       } else {
@@ -204,6 +210,7 @@ class CloudTransferController {
         } else {
           this._lastContentHash = localHash
           this.cc._lastUploadedItemModified = localModified
+          this._lastSyncedUpdated = this.cc.Metadata.Updated ?? 0
         }
       }
       return
@@ -247,6 +254,7 @@ class CloudTransferController {
       newItem.CloudController.Metadata = originalMeta
       newItem.CloudController.TransferController._lastContentHash = remoteHash
       newItem.CloudController._lastUploadedItemModified = serverItemModified
+      newItem.CloudController._lastSyncedUpdated = originalMeta.updated ?? 0
       await CloudSyncOrchestrator.AddByType(itemType, newItem)
       toRaw(newItem).SaveController.saveSilent()
     } else {

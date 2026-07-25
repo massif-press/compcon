@@ -14,7 +14,7 @@
         </v-btn>
         <slot name="selector" />
         <v-spacer />
-        <cc-modal :title="$t('ui.titles.printOptions')" icon="mdi-cog">
+        <cc-dialog :title="$t('ui.titles.printOptions')" icon="mdi-cog" :close-on-click="false" major full-height max-width="90vw">
           <template #activator="{ open }">
             <v-btn @click="open">
               <span>{{ $t('common.options') }}</span>
@@ -22,7 +22,7 @@
             </v-btn>
           </template>
           <slot name="options-dialog" />
-        </cc-modal>
+        </cc-dialog>
         <v-btn @click="print()">
           <span>{{ $t('common.print') }}</span>
           <v-icon icon="mdi-printer" />

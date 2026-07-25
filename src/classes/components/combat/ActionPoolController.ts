@@ -100,6 +100,7 @@ class ActionPoolController {
   }
 
   public SetCombatAction(action: string, value: boolean): void {
+    this._parent.CombatLogVersion++
     const str = action.toLowerCase()
     switch (str) {
       case 'protocol':
@@ -165,7 +166,10 @@ class ActionPoolController {
   }
 
   public MarkActionUsed(actionId: string): void {
-    if (!this._usedActions.includes(actionId)) this._usedActions.push(actionId)
+    if (!this._usedActions.includes(actionId)) {
+      this._usedActions.push(actionId)
+      this._parent.CombatLogVersion++
+    }
   }
 
   public IsActionUsed(actionId: string): boolean {
@@ -174,7 +178,10 @@ class ActionPoolController {
 
   public ClearActionUsed(actionId: string): void {
     const index = this._usedActions.indexOf(actionId)
-    if (index !== -1) this._usedActions.splice(index, 1)
+    if (index !== -1) {
+      this._usedActions.splice(index, 1)
+      this._parent.CombatLogVersion++
+    }
   }
 
   public clearAllUsedActions(): void {

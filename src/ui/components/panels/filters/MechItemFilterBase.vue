@@ -112,4 +112,6 @@ const f = props.activeFilters;
     const spKey = Object.keys(f).find((k: string) => k.startsWith('SP_'));
     if (spKey) { spType.value = spKey.slice(3); sp.value = f[spKey]; }
 })
+
+defineExpose({ clear })
 </script>

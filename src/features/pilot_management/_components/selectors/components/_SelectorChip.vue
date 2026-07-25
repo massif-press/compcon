@@ -2,6 +2,8 @@
   <v-chip class="ma-1"
     size="small"
     closable
+    :model-value="true"
+    @update:model-value="() => {}"
     @click:close="$emit('remove')">
     <slot />
     <template #close>

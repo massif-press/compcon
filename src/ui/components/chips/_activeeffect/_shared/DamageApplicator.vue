@@ -1,7 +1,7 @@
 <template>
-  <v-col v-if="event.DamageEvents?.length"
+  <v-col v-if="visibleDamageEvents.length"
     :cols="mobile ? 12 : cols">
-    <v-row v-for="(d, d_idx) in event.DamageEvents"
+    <v-row v-for="(d, d_idx) in visibleDamageEvents"
       :key="`damageEvent_${event.ID}_${d_idx}`"
       no-gutters>
       <v-col :cols="mobile ? '' : 'auto'">
@@ -88,6 +88,7 @@
 
 <script setup lang="ts">
 import type { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
+import { computed } from 'vue';
 import { useDisplay } from 'vuetify';
 import DiceRollInterface from './DiceRollInterface.vue';
 import DamageEffectOptions from './DamageEffectOptions.vue';
@@ -103,6 +104,14 @@ const props = withDefaults(defineProps<{
   cols?: number | string
 }>(), {
   cols: 'auto',
+})
+
+const visibleDamageEvents = computed(() => {
+  const targets = props.event.Targets.filter(t => t && t.Combatant)
+  return (props.event.DamageEvents || []).filter(d => {
+    if (d.DamageType.toLowerCase() !== 'heat') return true
+    return !(targets.length > 0 && targets.every(t => t.HeatExempt))
+  })
 })
 
 const damageOptions = [

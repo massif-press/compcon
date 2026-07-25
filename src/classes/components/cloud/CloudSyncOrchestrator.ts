@@ -2,6 +2,7 @@ import { toRaw } from 'vue'
 import { UserStore } from '@/user/store'
 import {
   downloadFromS3,
+  getUploadPresigns,
   invalidateETagCache,
   updateItem,
   uploadToS3,
@@ -95,6 +96,7 @@ class CloudSyncOrchestrator {
         const chunk = toUpload.slice(i, i + BATCH_SIZE)
 
         const chunkData = chunk.map(item => {
+          item.CloudController.ensureOwnedUri()
           const previousMeta = item.CloudController.Metadata.Serialize()
           const savedata = (item as any).__pendingSavedata
           const sc = toRaw(item).SaveController
@@ -109,69 +111,77 @@ class CloudSyncOrchestrator {
           return { item, previousMeta, savedata, meta }
         })
 
+        let presigns: Record<string, string>
+        try {
+          presigns = await getUploadPresigns(chunkData.map(p => p.meta.uri))
+        } catch (e: any) {
+          logger.error(`BatchUpdateCloud: presign failed (${e?.message})`)
+          chunk.forEach(item => failures.push({ item, error: e }))
+          continue
+        }
+
+        const uploaded: typeof chunkData = []
+        for (let j = 0; j < chunkData.length; j += UPLOAD_CONCURRENCY) {
+          const uploadBatch = chunkData.slice(j, j + UPLOAD_CONCURRENCY)
+          const results = await Promise.allSettled(
+            uploadBatch.map(async task => {
+              const upload = presigns[task.meta.uri]
+              if (!upload) throw new Error(`No presign URL for ${task.item.Name}`)
+              const uploadOk = await uploadToS3(task.savedata, upload)
+              if (!uploadOk) throw new Error(`S3 upload failed for ${task.item.Name}`)
+            })
+          )
+
+          results.forEach((r, rIdx) => {
+            const task = uploadBatch[rIdx]
+            if (r.status === 'rejected') {
+              logger.error(`BatchUpdateCloud upload failed: ${task.item.Name}`, r.reason)
+              failures.push({ item: task.item, error: r.reason })
+            } else {
+              uploaded.push(task)
+            }
+          })
+        }
+
+        if (uploaded.length === 0) {
+          chunkData.length = 0
+          continue
+        }
+
         let response: any
         try {
-          response = await batchUpsert(chunkData.map(p => p.meta))
+          response = await batchUpsert(uploaded.map(p => p.meta))
         } catch (e: any) {
           logger.error(
             `BatchUpdateCloud: chunk failed (${e?.message})`,
-            chunkData.map(p => (p.meta as any).sortkey)
+            uploaded.map(p => (p.meta as any).sortkey)
           )
-          chunk.forEach(item => failures.push({ item, error: e }))
+          uploaded.forEach(p => failures.push({ item: p.item, error: e }))
+          chunkData.length = 0
           continue
         }
 
         if (!response.results || !Array.isArray(response.results)) {
           logger.error('BatchUpdateCloud: unexpected batch response', response)
-          chunk.forEach(item => failures.push({ item, error: 'Bad batch response' }))
+          uploaded.forEach(p => failures.push({ item: p.item, error: 'Bad batch response' }))
+          chunkData.length = 0
           continue
         }
 
-        const uploadTasks = chunkData.map((p, idx) => ({ ...p, result: response.results[idx] }))
-
-        for (let j = 0; j < uploadTasks.length; j += UPLOAD_CONCURRENCY) {
-          const uploadBatch = uploadTasks.slice(j, j + UPLOAD_CONCURRENCY)
-          const results = await Promise.allSettled(
-            uploadBatch.map(async task => {
-              if (!task.result?.presign?.upload) {
-                throw new Error(`No presign URL for ${task.item.Name}`)
-              }
-
-              const uploadOk = await uploadToS3(task.savedata, task.result.presign.upload)
-              if (!uploadOk) throw new Error(`S3 upload failed for ${task.item.Name}`)
-
-              if (task.result.data) {
-                CloudController.commitUpload(
-                  task.item.CloudController,
-                  task.savedata,
-                  (task.item as any).__pendingTs,
-                  (task.item as any).__pendingHash,
-                  task.result.data
-                )
-              }
-            })
+        uploaded.forEach((task, idx) => {
+          const result = response.results[idx]
+          if (!result?.data) {
+            failures.push({ item: task.item, error: 'No metadata returned for uploaded item' })
+            return
+          }
+          CloudController.commitUpload(
+            task.item.CloudController,
+            task.savedata,
+            (task.item as any).__pendingTs,
+            (task.item as any).__pendingHash,
+            result.data
           )
-
-          const compensations: Promise<any>[] = []
-          results.forEach((r, rIdx) => {
-            if (r.status === 'rejected') {
-              const task = uploadBatch[rIdx]
-              logger.error(`BatchUpdateCloud upload failed: ${task.item.Name}`, r.reason)
-              failures.push({ item: task.item, error: r.reason })
-              compensations.push(
-                updateItem(
-                  toRaw(task.item).SaveController?.IsDeleted ? task.meta : task.previousMeta
-                ).catch(err =>
-                  logger.warn(
-                    `BatchUpdateCloud: DynamoDB compensation failed for ${task.item.Name}`,
-                    err
-                  )
-                )
-              )
-            }
-          })
-          if (compensations.length > 0) await Promise.allSettled(compensations)
-        }
+        })
 
         chunkData.length = 0
       }
@@ -212,6 +222,7 @@ class CloudSyncOrchestrator {
     updatedItem.CloudController._lastFieldHashes = buildFieldHashMap(data)
     updatedItem.CloudController._fieldTs = data._ts ?? {}
     updatedItem.CloudController._lastUploadedItemModified = meta.item_modified ?? 0
+    updatedItem.CloudController._lastSyncedUpdated = meta.updated ?? 0
 
     await CloudSyncOrchestrator.AddByType(itemType, updatedItem)
 
@@ -281,14 +292,14 @@ class CloudSyncOrchestrator {
     const newItem = CloudSyncOrchestrator.NewByType(itemType, data)
 
     if (originalMeta) {
-      const now = Date.now()
-      newItem.CloudController.Metadata = { ...originalMeta, updated: now }
+      newItem.CloudController.Metadata = { ...originalMeta }
       if (originalMeta.item_modified) {
         newItem.SaveController.LastModified = originalMeta.item_modified
         newItem.CloudController._lastContentHash = CloudController.computeContentHash(data)
         newItem.CloudController._lastFieldHashes = buildFieldHashMap(data)
         newItem.CloudController._fieldTs = data._ts ?? {}
         newItem.CloudController._lastUploadedItemModified = originalMeta.item_modified
+        newItem.CloudController._lastSyncedUpdated = originalMeta.updated ?? 0
       }
     }
 

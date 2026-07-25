@@ -71,8 +71,8 @@
     <v-footer app
       density="compact"
       class="border-t">
-      <cc-modal :title="$t('common.organize')"
-        icon="mdi-queue-first-in-last-out">
+      <cc-dialog :title="$t('common.organize')"
+        icon="mdi-queue-first-in-last-out" :close-on-click="false" major full-height max-width="90vw">
         <template #activator="{ open }">
           <cc-button size="small"
             color="primary"
@@ -83,7 +83,7 @@
           </cc-button>
         </template>
         <organizer type="pilot" />
-      </cc-modal>
+      </cc-dialog>
       <v-spacer />
 
       <cc-text-field v-if="!mobile"
@@ -133,8 +133,8 @@
         <v-card tile
           border>
           <v-card-text>
-            <cc-modal :title="$t('pm.titles.createPilotGroup')"
-              icon="mdi-account-group">
+            <cc-dialog :title="$t('pm.titles.createPilotGroup')"
+              icon="mdi-account-group" :close-on-click="false" major full-height max-width="90vw">
               <template #activator="{ open }">
                 <cc-button color="primary"
                   size="small"
@@ -147,10 +147,10 @@
               <template #default="{ close }">
                 <group-menu @close="close" />
               </template>
-            </cc-modal>
-            <cc-modal :title="$t('common.import')"
+            </cc-dialog>
+            <cc-dialog :title="$t('common.import')"
               icon="mdi-import"
-              max-width="900">
+              max-width="900" :close-on-click="false" major full-height>
               <template #activator="{ open }">
                 <cc-button color="primary"
                   size="small"
@@ -163,7 +163,7 @@
               <template #default="{ close }">
                 <group-file-import @done="close" />
               </template>
-            </cc-modal>
+            </cc-dialog>
 
             <group-share-dialog block-btn />
 

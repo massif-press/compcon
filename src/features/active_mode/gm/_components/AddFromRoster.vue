@@ -1,6 +1,6 @@
 <template>
-  <cc-modal :title="$t('active.titles.addPilotFromRoster')"
-    icon="mdi-account-plus">
+  <cc-dialog :title="$t('active.titles.addPilotFromRoster')"
+    icon="mdi-account-plus" :close-on-click="false" major full-height max-width="90vw">
     <template #activator="{ open }">
       <cc-button size="small"
         block
@@ -392,7 +392,7 @@
         </v-row>
       </div>
     </CCSidebarLayout>
-  </cc-modal>
+  </cc-dialog>
 </template>
 
 <script setup lang="ts">

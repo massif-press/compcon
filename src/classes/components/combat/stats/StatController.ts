@@ -283,6 +283,8 @@ class StatController {
     const next = Math.max(val, this._statFloors[k] ?? -Infinity)
     this._currentStats[k] = next
     if (next < prev) (this.Parent as any).onStatDecrease?.(k, prev, next)
+    const parent = this.Parent as any
+    if (typeof parent.CombatLogVersion === 'number') parent.CombatLogVersion++
   }
 
   public setFloor(key: string, val: number): void {

@@ -273,14 +273,13 @@
     </div>
   </template>
 
-  <cc-modal v-model="levelEdit"
+  <cc-dialog v-model="levelEdit"
     :title="$t('pm.actions.editLicenseLevel')"
     icon="cc:pilot"
-    shrink
-    width="600px">
+    width="600px" :close-on-click="false" major max-width="90vw">
     <level-edit-dialog :pilot="pilot"
       @close="levelEdit = false" />
-  </cc-modal>
+  </cc-dialog>
 </template>
 
 <script setup lang="ts">

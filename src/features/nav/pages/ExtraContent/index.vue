@@ -1,7 +1,7 @@
 <template>
-  <cc-modal v-model="modal"
+  <cc-dialog v-model="modal"
     :title="$t('nav.contentManager.packManagement')"
-    icon="cc:content_manager">
+    icon="cc:content_manager" :close-on-click="false" major full-height max-width="90vw">
     <cc-tabs modal
       fixed>
       <template #tabs>
@@ -42,7 +42,7 @@
         <pack-config />
       </v-window-item>
     </cc-tabs>
-  </cc-modal>
+  </cc-dialog>
 </template>
 
 <script setup lang="ts">

@@ -43,7 +43,24 @@
       </v-col>
 
       <v-col>
-        <v-card :key="`targetSel_${idx}`"
+        <v-btn-toggle v-if="idx === 0 && event.TargetType === 'self'"
+          :model-value="event.LocalTargetIsSelf ? 'self' : 'target'"
+          mandatory
+          divided
+          density="compact"
+          variant="outlined"
+          color="primary"
+          class="mb-1 w-100"
+          @update:model-value="v => event.LocalTargetIsSelf = v === 'self'">
+          <v-btn value="target"
+            size="small"
+            class="flex-grow-1">{{ $t('ui.combat.target') }}</v-btn>
+          <v-btn value="self"
+            size="small"
+            class="flex-grow-1">{{ $t('ui.combat.self') }}</v-btn>
+        </v-btn-toggle>
+        <v-card v-else
+          :key="`targetSel_${idx}`"
           class="mb-1 px-3 pa-1 text-center"
           :class="!mobile ? 'heading h3' : 'font-weight-bold text-caption'"
           color="panel"

@@ -8,7 +8,7 @@ import {
   PortraitController,
   SaveController,
 } from '../components'
-import { ISitrepData, Sitrep, SitrepInstance } from './Sitrep'
+import { ISitrepData, SitrepInstance } from './Sitrep'
 import { FolderController, IFolderData } from '../components/folder/FolderController'
 import { NarrativeController, NarrativeElementData } from '../narrative/NarrativeController'
 import { IFolderPlaceable } from '../components/folder/IFolderPlaceable'
@@ -144,7 +144,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
     this._gmDescription = data?.gmDescription || ''
 
     if (data?.sitrep) {
-      this._sitrep = new SitrepInstance(this, new Sitrep(data.sitrep))
+      this._sitrep = SitrepInstance.Deserialize(data.sitrep, this)
     }
 
     if (data?.environment) {
@@ -186,6 +186,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
 
   public RenewID(): void {
     this._id = crypto.randomUUID()
+    this.CloudController.ResetIdentity()
     this.save()
   }
 

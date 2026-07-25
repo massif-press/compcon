@@ -54,8 +54,8 @@
               <v-col cols="6"
                 md="12">
                 <cc-img :src="item.PortraitController.Image" />
-                <cc-modal v-if="!readonly"
-                  :title="$t('gm.titles.selectImage')">
+                <cc-dialog v-if="!readonly"
+                  :title="$t('gm.titles.selectImage')" :close-on-click="false" major full-height max-width="90vw">
                   <template #activator="{ open }">
                     <cc-button size="x-small"
                       block
@@ -69,7 +69,7 @@
                     :item="item"
                     type="doodad"
                     @set="item.PortraitController.Image = $event" />
-                </cc-modal>
+                </cc-dialog>
               </v-col>
               <v-col v-if="!readonly || (readonly && item.Note.length)"
                 cols="12">

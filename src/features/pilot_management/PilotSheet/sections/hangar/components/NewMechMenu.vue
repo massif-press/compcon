@@ -21,10 +21,9 @@
     </template>
   </cc-compendium-browser>
 
-  <cc-modal v-model="nameDialog"
-    shrink
+  <cc-dialog v-model="nameDialog"
     :title="$t('pm.sheet.registerNewMech')"
-    icon="cc:frame">
+    icon="cc:frame" :close-on-click="false" major max-width="90vw">
     <v-row justify="center">
       <v-col cols="11"
         md="8">
@@ -71,7 +70,7 @@
         {{ $t('pm.sheet.registerNewMech') }}
       </cc-button>
     </div>
-  </cc-modal>
+  </cc-dialog>
 </template>
 
 <script setup lang="ts">

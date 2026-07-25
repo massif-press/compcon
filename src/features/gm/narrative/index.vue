@@ -25,19 +25,17 @@
     </v-window-item>
   </v-window>
 
-  <cc-modal v-model="importModal"
+  <cc-dialog v-model="importModal"
     icon="mdi-download-multiple"
-    :title="$t('common.import')"
-    shrink>
+    :title="$t('common.import')" :close-on-click="false" major max-width="90vw">
     <importer @complete="($refs as any).import.hide()" />
-  </cc-modal>
+  </cc-dialog>
 
-  <cc-modal v-model="orgModal"
+  <cc-dialog v-model="orgModal"
     icon="mdi-queue-first-in-last-out"
-    shrink
-    :title="$t('common.organize')">
+    :title="$t('common.organize')" :close-on-click="false" major max-width="90vw">
     <organizer type="narrative" />
-  </cc-modal>
+  </cc-dialog>
 </template>
 
 <script setup lang="ts">

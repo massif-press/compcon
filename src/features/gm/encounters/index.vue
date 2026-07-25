@@ -3,8 +3,8 @@
     <v-row>
       <v-col class="heading h2">{{ $t('common.encounters') }}</v-col>
       <v-col cols="auto">
-        <cc-modal :title="$t('gm.titles.organizeEncounters')"
-          icon="mdi-queue-first-in-last-out">
+        <cc-dialog :title="$t('gm.titles.organizeEncounters')"
+          icon="mdi-queue-first-in-last-out" :close-on-click="false" major full-height max-width="90vw">
           <template #activator="{ open }">
             <cc-button size="small"
               color="primary"
@@ -15,7 +15,7 @@
             <organizer type="encounter"
               @exit="close" />
           </template>
-        </cc-modal>
+        </cc-dialog>
       </v-col>
     </v-row>
     <v-card flat
@@ -147,10 +147,9 @@
         {{ $t('gm.encounterIndex.addFolder') }}
       </cc-button>
       <v-spacer />
-      <cc-modal ref="import"
+      <cc-dialog ref="import"
         :title="$t('nav.settings.importData').toLowerCase()"
-        icon="mdi-download"
-        no-confirm>
+        icon="mdi-download" :close-on-click="false" major full-height max-width="90vw">
         <template #activator="{ open }">
           <cc-button size="small"
             color="primary"
@@ -163,7 +162,7 @@
         <template #default="{ close }">
           <importer @complete="close" />
         </template>
-      </cc-modal>
+      </cc-dialog>
 
       <share-code-dialog import-type="encounter" />
       <cc-button size="small"

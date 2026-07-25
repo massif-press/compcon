@@ -297,7 +297,7 @@ provide(CompendiumBrowserKey, {
   background-color: rgb(var(--v-theme-accent)) !important;
 }
 
-/* Cancel cc-modal's px-4 gutter so the browser (and its collapse strip) sits
+/* Cancel cc-dialog's px-4 gutter so the browser (and its collapse strip) sits
    flush with the dialog edge. Desktop only; mobile modals have no px-4. */
 @media (min-width: 960px) {
   .v-overlay__content .browser-layout {

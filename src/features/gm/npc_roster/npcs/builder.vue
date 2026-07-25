@@ -36,9 +36,9 @@
         }}
       </div>
       <div v-else>
-        <cc-modal :title="$t('gm.titles.selectNpcClass')"
+        <cc-dialog :title="$t('gm.titles.selectNpcClass')"
           fullscreen
-          icon="cc:encounter">
+          icon="cc:encounter" :close-on-click="false" major full-height max-width="90vw">
           <template #activator="{ open }">
             <cc-button block
               :prepend-icon="item.NpcClassController.Class?.Icon || undefined"
@@ -55,7 +55,7 @@
             <npc-class-selector :item="item"
               @close="close" />
           </template>
-        </cc-modal>
+        </cc-dialog>
       </div>
     </v-col>
 

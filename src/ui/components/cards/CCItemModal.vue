@@ -1,9 +1,8 @@
 <template>
-  <cc-modal ref="dialog"
+  <cc-dialog ref="dialog"
     :color="item.Color ? item.Color : 'primary'"
     :title="`${item.Name}`"
-    :icon="item.Icon"
-    shrink>
+    :icon="item.Icon" :close-on-click="false" major max-width="90vw">
     <template #activator="{ open }">
       <cc-button :color="item.Color ? item.Color : 'primary'"
         :class="density === 'compact' ? '' : 'ma-1'"
@@ -41,7 +40,7 @@
     <item-card-link :item="item" />
 
     <div style="height: 30px" />
-  </cc-modal>
+  </cc-dialog>
 </template>
 
 <script setup lang="ts">

@@ -16,23 +16,21 @@
     </template>
 
     <template #header>
-      <cc-button size="x-small"
-        color="error"
-        block
-        class="mb-1"
-        prepend-icon="mdi-refresh"
-        :disabled="!pilot.SkillsController.Skills.length"
-        @click="resetSkills()">
-        {{ $t('common.reset') }}
-      </cc-button>
-      <cc-button size="x-small"
-        :disabled="pilot.SkillsController.HasFullSkills"
-        color="info"
-        block
-        prepend-icon="mdi-plus"
-        @click="customDialog = true">
-        {{ $t('classes.newSkillTrigger') }}
-      </cc-button>
+      <div class="d-flex align-center">
+        <div class="flex-grow-1">
+          <cc-button size="x-small"
+            :disabled="pilot.SkillsController.HasFullSkills"
+            color="info"
+            block
+            prepend-icon="mdi-plus"
+            @click="customDialog = true">
+            {{ $t('classes.newSkillTrigger') }}
+          </cc-button>
+        </div>
+        <selector-options-menu class="ml-1"
+          :disabled="!pilot.SkillsController.Skills.length"
+          @reset="resetSkills()" />
+      </div>
     </template>
 
     <template #top>
@@ -49,16 +47,15 @@
     </template>
   </cc-compendium-browser>
 
-  <cc-modal v-model="customDialog"
+  <cc-dialog v-model="customDialog"
     max-width="60vw"
-    shrink
     :title="$t('classes.newSkillTrigger')"
-    icon="cc:skill">
+    icon="cc:skill" :close-on-click="false" major>
     <div class="pa-3">
       <add-custom-skill :pilot="pilot"
         @add-custom="onAddCustom($event)" />
     </div>
-  </cc-modal>
+  </cc-dialog>
 </template>
 
 <script setup lang="ts">
@@ -70,6 +67,7 @@ import AddCustomSkill from './components/_AddCustomSkill.vue'
 import SkillSelectItem from './components/_SkillSelectItem.vue'
 import SelectorHeader from './components/_SelectorHeader.vue'
 import SelectorChip from './components/_SelectorChip.vue'
+import SelectorOptionsMenu from './components/_SelectorOptionsMenu.vue'
 import { filterByLcpConfig } from './useLcpFilter'
 
 const props = defineProps<{ pilot: Pilot }>()

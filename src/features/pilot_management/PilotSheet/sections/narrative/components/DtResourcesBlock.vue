@@ -1,9 +1,9 @@
 <template>
   <div class="my-3">
-    <cc-modal :title="$t('pm.titles.addReservesAndBonuses')"
+    <cc-dialog :title="$t('pm.titles.addReservesAndBonuses')"
       icon="cc:barrage"
       fullscreen
-      clip>
+      clip :close-on-click="false" major full-height max-width="90vw">
       <template #activator="{ open }">
         <section-header :title="$t('pm.titles.reservesAndBonuses')"
           :label="$t('pm.titles.addReservesAndBonuses')"
@@ -14,7 +14,7 @@
         <reserve-selector :pilot="pilot"
           @close="close" />
       </template>
-    </cc-modal>
+    </cc-dialog>
 
     <v-container>
       <no-data-block v-if="

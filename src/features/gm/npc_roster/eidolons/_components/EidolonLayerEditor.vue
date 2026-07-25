@@ -130,12 +130,12 @@
 
   <div class="my-4" />
 
-  <cc-modal v-model="layerSelector"
+  <cc-dialog v-model="layerSelector"
     :title="$t('gm.titles.selectLayer')"
-    icon="mdi-layers-triple">
+    icon="mdi-layers-triple" :close-on-click="false" major full-height max-width="90vw">
     <layer-selector :item="item"
       @add-layer="addLayer($event)" />
-  </cc-modal>
+  </cc-dialog>
 </template>
 
 <script setup lang="ts">

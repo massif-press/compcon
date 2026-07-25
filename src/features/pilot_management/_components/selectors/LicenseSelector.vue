@@ -8,14 +8,10 @@
     view-key="sel-license"
     page-scroll>
     <template #header>
-      <cc-button size="x-small"
-        color="error"
-        block
-        prepend-icon="mdi-refresh"
-        :disabled="!pilot.LicenseController.Licenses.length"
-        @click="pilot.LicenseController.ClearLicenses()">
-        {{ $t('common.reset') }}
-      </cc-button>
+      <div class="text-right">
+        <selector-options-menu :disabled="!pilot.LicenseController.Licenses.length"
+          @reset="pilot.LicenseController.ClearLicenses()" />
+      </div>
     </template>
 
     <template #top>
@@ -46,6 +42,7 @@ import License from '@/classes/pilot/components/license/License'
 import MissingItemAlert from './components/_MissingItemAlert.vue'
 import SelectorHeader from './components/_SelectorHeader.vue'
 import SelectorChip from './components/_SelectorChip.vue'
+import SelectorOptionsMenu from './components/_SelectorOptionsMenu.vue'
 import { filterByLcpConfig } from './useLcpFilter'
 
 const props = defineProps<{ pilot: Pilot }>()

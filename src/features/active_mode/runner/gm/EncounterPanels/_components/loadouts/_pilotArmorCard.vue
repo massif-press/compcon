@@ -61,9 +61,7 @@
 
 <script setup lang="ts">
 import type { PilotArmor } from '@/classes/pilot/components/Loadout/equipment/PilotArmor'
-import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { useEncounterContext } from '../../encounterContext'
-import type { CombatantData } from '@/classes/encounter/Encounter'
 import type { Pilot } from '@/classes/pilot/Pilot'
 import { useDisplay } from 'vuetify'
 import DestroyedOverlay from './_DestroyedOverlay.vue'

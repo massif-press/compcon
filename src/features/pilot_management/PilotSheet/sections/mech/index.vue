@@ -53,9 +53,9 @@
       <cc-img :src="mech.Portrait"
         style="max-height: 80vh" />
       <div class="text-right mt-n3">
-        <cc-modal v-if="!mech.Pilot.IsRemote"
+        <cc-dialog v-if="!mech.Pilot.IsRemote"
           :title="$t('pm.sheet.setMechImage')"
-          icon="cc:frame">
+          icon="cc:frame" :close-on-click="false" major full-height max-width="90vw">
           <template #activator="{ open }">
             <cc-button variant="tonal"
               color="secondary"
@@ -68,7 +68,7 @@
           <cc-image-selector ref="imageSelector"
             :item="mech"
             type="mech" />
-        </cc-modal>
+        </cc-dialog>
       </div>
     </div>
 
@@ -127,9 +127,9 @@
             width="22vw"
             position="top center" />
           <div class="text-right mt-n3">
-            <cc-modal v-if="!mech.Pilot.IsRemote"
+            <cc-dialog v-if="!mech.Pilot.IsRemote"
               :title="$t('pm.sheet.setMechImage')"
-              icon="cc:frame">
+              icon="cc:frame" :close-on-click="false" major full-height max-width="90vw">
               <template #activator="{ open }">
                 <cc-button variant="tonal"
                   color="secondary"
@@ -142,7 +142,7 @@
               <cc-image-selector ref="imageSelector"
                 :item="mech"
                 type="mech" />
-            </cc-modal>
+            </cc-dialog>
           </div>
         </v-col>
       </v-row>

@@ -1,7 +1,8 @@
 <template>
-  <div>
+  <div style="max-width: 100%; overflow-wrap: anywhere">
     <v-row justify="center"
-      dense>
+      dense
+      style="flex-wrap: wrap">
       <cc-statblock-panel v-if="deployable.Size"
         :icon="deployable.SizeIcon"
         name="Size"

@@ -201,8 +201,12 @@
             aspect-ratio="1" />
         </div>
         <div class="mt-3">
-          <cc-modal :title="$t('pm.sheet.setPilotPortrait')"
-            icon="cc:pilot">
+          <cc-dialog :title="$t('pm.sheet.setPilotPortrait')"
+            icon="cc:pilot"
+            :close-on-click="false"
+            major
+            full-height
+            max-width="90vw">
             <template #activator="{ open }">
               <cc-button block
                 size="small"
@@ -217,7 +221,7 @@
               :item="pilot"
               type="pilot"
               avatar />
-          </cc-modal>
+          </cc-dialog>
         </div>
       </v-col>
     </v-row>
@@ -232,7 +236,9 @@
           @click="savePilot">
           {{ $t('pm.new.skipNewPilotRegistration') }}
         </cc-button>
-        <div class="text-caption text-disabled"><i>{{ $t('pm.new.recommendedForAdvancedUsers') }}</i></div>
+        <div class="text-caption text-disabled"><i>{{ $t('pm.new.recommendedForAdvancedUsers')
+            }}</i>
+        </div>
       </v-col>
       <v-spacer />
       <v-col cols="12"
@@ -244,7 +250,8 @@
           @click="$emit('templates')">
           {{ $t('pm.new.selectCharacterTemplate') }}
         </cc-button>
-        <div class="text-caption text-disabled"><i>{{ $t('pm.new.recommendedForNewPlayers') }}</i></div>
+        <div class="text-caption text-disabled"><i>{{ $t('pm.new.recommendedForNewPlayers') }}</i>
+        </div>
       </v-col>
     </v-row>
   </stepper-content>
@@ -290,9 +297,7 @@ async function randomName() {
   emit('set', { attr: 'Name', val: generatedName })
 }
 async function savePilot() {
-      props.pilot.Callsign = props.pilot.Callsign;
-      props.pilot.Name = props.pilot.Name;
-      PilotStore().AddPilot(props.pilot as Pilot, props.groupID);
-      await emit('done');
-    }
+  PilotStore().AddPilot(props.pilot as Pilot, props.groupID);
+  await emit('done');
+}
 </script>

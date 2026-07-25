@@ -1,8 +1,7 @@
 <template>
-  <cc-modal :title="item.Name"
+  <cc-dialog :title="item.Name"
     :icon="item.Icon"
-    :color="item.Color"
-    shrink>
+    :color="item.Color" :close-on-click="false" major max-width="90vw">
     <template #activator="{ open }">
       <div class="clickable"
         @click="open">
@@ -40,7 +39,7 @@
       <cc-item-card :item="item"
         hide-title />
     </v-card-text>
-  </cc-modal>
+  </cc-dialog>
 </template>
 
 <script setup lang="ts">

@@ -3,12 +3,12 @@
     <cc-heading size="large">modals</cc-heading>
 
     <div>
-      <cc-modal title="Modal Title" icon="cc:campaign" color="primary" cancel-action confirm-action>
+      <cc-dialog title="Modal Title" icon="cc:campaign" color="primary" :close-on-click="false" major full-height max-width="90vw">
         <template #activator="{ open }">
           <cc-button @click="open" color="primary">Open Modal</cc-button>
         </template>
         <p v-html-safe="loremIpsum" />
-      </cc-modal>
+      </cc-dialog>
     </div>
 
     <div class="my-4">

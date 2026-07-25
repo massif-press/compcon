@@ -117,7 +117,7 @@
       </v-row>
     </v-card-text>
 
-    <cc-modal v-model="editDialog" shrink :title="$t('ui.titles.clockEditor')" icon="mdi-clock">
+    <cc-dialog v-model="editDialog" :title="$t('ui.titles.clockEditor')" icon="mdi-clock" :close-on-click="false" major max-width="90vw">
       <v-card>
         <v-card-text class="pa-2">
           <div class="text-center ma-2">
@@ -188,7 +188,7 @@
             @change="$emit('change')" />
         </v-card-text>
       </v-card>
-    </cc-modal>
+    </cc-dialog>
   </v-card>
 </template>
 

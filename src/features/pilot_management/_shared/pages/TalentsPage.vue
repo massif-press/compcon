@@ -47,8 +47,16 @@
         </p>
       </v-alert>
     </div>
+    <div v-if="context === 'level'"
+      style="height: calc(100vh - 80px)">
 
-    <div v-fill-height>
+      <div v-fill-height>
+        <talent-selector :pilot="<Pilot>pilot" />
+
+      </div>
+    </div>
+    <div v-else
+      v-fill-height>
       <talent-selector :pilot="<Pilot>pilot" />
     </div>
   </stepper-content>

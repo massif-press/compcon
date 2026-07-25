@@ -77,7 +77,17 @@
       </cc-alert>
     </v-scroll-y-reverse-transition>
 
-    <div v-fill-height>
+    <div v-if="context === 'level'"
+      style="height: calc(100vh - 80px)">
+
+      <div v-fill-height>
+
+        <skill-selector :pilot="<Pilot>pilot"
+          @reset="suggestedSet = false" />
+      </div>
+    </div>
+    <div v-else
+      v-fill-height>
       <skill-selector :pilot="<Pilot>pilot"
         @reset="suggestedSet = false" />
     </div>

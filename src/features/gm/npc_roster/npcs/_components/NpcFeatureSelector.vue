@@ -17,9 +17,9 @@
         </cc-button>
       </v-col>
     </v-row>
-    <cc-modal v-model="dialog"
+    <cc-dialog v-model="dialog"
       :title="$t('gm.titles.setNpcFeatures')"
-      icon="cc:npc_feature">
+      icon="cc:npc_feature" :close-on-click="false" major full-height max-width="90vw">
       <template #toolbar-items>
         <npc-feature-alerts :hide="npc.BrewController.MissingContent"
           :template-controller="npc.NpcTemplateController"
@@ -222,7 +222,7 @@
           </div>
         </template>
       </cc-compendium-browser>
-    </cc-modal>
+    </cc-dialog>
   </div>
 </template>
 

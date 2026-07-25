@@ -8,10 +8,11 @@
         :placeholder="placeholder"
         :type="number ? 'number' : 'text'"
         variant="outlined"
-        hide-details
+        persistent-hint
+        :hint="$t('common.shiftEnterNewline')"
         class="pa-4"
         @focus="$event.target.select()"
-        @keyup.enter="confirm()" />
+        @keyup.enter.exact="confirm()" />
       <v-divider />
       <v-card-actions>
         <v-btn size="small"

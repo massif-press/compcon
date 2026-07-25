@@ -334,7 +334,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
   }
 
   public Clone(): EncounterInstance {
-    const data = structuredClone(EncounterInstance.Serialize(this))
+    const data = JSON.parse(JSON.stringify(EncounterInstance.Serialize(this)))
     data.id = crypto.randomUUID()
     return EncounterInstance.Deserialize(data)
   }

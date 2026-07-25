@@ -135,14 +135,14 @@
         </v-col>
       </v-row>
 
-      <cc-modal v-model="selector"
+      <cc-dialog v-model="selector"
         icon="cc:system"
         :title="$t('pm.titles.selectEquipment')"
-        clip>
+        clip :close-on-click="false" major full-height max-width="90vw">
         <system-selector :mech="mech"
           :swap-system="swapSystem"
           @done="handleDone" />
-      </cc-modal>
+      </cc-dialog>
     </fieldset>
   </v-card>
 </template>

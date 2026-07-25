@@ -9,12 +9,9 @@
         {{ $t('pm.selectors.mechSkillsSelected') }}
       </cc-alert>
       <div class="text-right">
-        <v-btn size="x-small"
-          color="accent"
-          variant="text"
-          @click="pilot.MechSkillsController.Reset()">
-          {{ $t('pm.selectors.resetMechSkills') }}
-        </v-btn>
+        <selector-options-menu :label="$t('pm.selectors.resetMechSkills')"
+          :disabled="!pilot.MechSkillsController.CurrentHASEPoints"
+          @reset="pilot.MechSkillsController.Reset()" />
       </div>
     </div>
 
@@ -62,6 +59,7 @@
 import { computed, watch } from 'vue'
 import { useDisplay } from 'vuetify'
 import { Pilot } from '@/classes/pilot/Pilot'
+import SelectorOptionsMenu from './components/_SelectorOptionsMenu.vue'
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 

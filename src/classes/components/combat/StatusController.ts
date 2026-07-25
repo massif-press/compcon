@@ -50,6 +50,7 @@ class StatusController {
     const existingIndex = target.Statuses.findIndex(s => s.status.ID === statusID)
     if (existingIndex !== -1) {
       target.Statuses.splice(existingIndex, 1)
+      this._parent.CombatLogVersion++
     }
   }
 
@@ -118,6 +119,7 @@ class StatusController {
     const existingIndex = target.CustomStatuses.findIndex(s => s.status.Attribute === attribute)
     if (existingIndex !== -1) {
       target.CustomStatuses.splice(existingIndex, 1)
+      this._parent.CombatLogVersion++
     }
   }
 
@@ -147,6 +149,7 @@ class StatusController {
     const existingIndex = target.Resistances.findIndex(s => s.type === type)
     if (existingIndex > -1) {
       target.Resistances.splice(existingIndex, 1)
+      this._parent.CombatLogVersion++
     }
   }
 

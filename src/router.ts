@@ -5,7 +5,6 @@ import pilotRoutes from './features/pilot_management/routes'
 import compendiumRoutes from './features/compendium/routes'
 import activeModeRoutes from './features/active_mode/routes'
 import MainMenu from './features/main_menu/index.vue'
-const UITest = () => import('./features/ui_test/old.vue')
 const UITestv3 = () => import('./features/ui_test/index.vue')
 
 const ItemLink = () => import('./features/main_menu/itemLink.vue')
@@ -32,12 +31,6 @@ const router = createRouter({
       name: 'pilot_link',
       component: PilotLink,
       props: true,
-    },
-    {
-      path: '/ui-test',
-      name: 'ui-test',
-      component: UITest,
-      meta: { title: 'UI Test' },
     },
     {
       path: '/ui-test-new',

@@ -69,7 +69,7 @@
                       style="padding-top:125px; padding-bottom: 125px;">{{ $t('gm.encounterEditor.noMapData') }}</div>
                     <cc-img v-else
                       :src="item.PortraitController.Image" />
-                    <cc-modal :title="$t('gm.titles.setMapImage')">
+                    <cc-dialog :title="$t('gm.titles.setMapImage')" :close-on-click="false" major full-height max-width="90vw">
                       <template #activator="{ open }">
                         <cc-button v-if="!isRemote"
                           size="x-small"
@@ -83,7 +83,7 @@
                         :item="item"
                         type="doodad"
                         @set="item.PortraitController.Image = $event" />
-                    </cc-modal>
+                    </cc-dialog>
                   </v-window-item>
                 </v-window>
               </v-card>

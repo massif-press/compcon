@@ -65,14 +65,13 @@
       </v-row>
     </v-card>
   </div>
-  <cc-modal
+  <cc-dialog
     v-model="managerDialog"
     icon="mdi-list-status"
     :title="$t('pm.titles.lcpConfigurationManager')"
-    fullscreen
-  >
+    fullscreen :close-on-click="false" major full-height max-width="90vw">
     <pack-config />
-  </cc-modal>
+  </cc-dialog>
 </template>
 
 <script setup lang="ts">

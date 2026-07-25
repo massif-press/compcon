@@ -60,10 +60,9 @@
               <v-row align="center"
                 dense>
                 <v-col>
-                  <cc-modal :title="$t('pm.titles.groupDescription')"
+                  <cc-dialog :title="$t('pm.titles.groupDescription')"
                     icon="mdi-account-group"
-                    shrink
-                    max-width="75vw">
+                    max-width="75vw" :close-on-click="false" major>
                     <template #activator="{ open }">
                       <cc-button block
                         size="small"
@@ -87,7 +86,7 @@
                         </div>
                       </v-card-text>
                     </template>
-                  </cc-modal>
+                  </cc-dialog>
                 </v-col>
                 <v-col cols="auto">
                   <v-icon v-if="!group.Description"
@@ -109,10 +108,9 @@
               <v-row align="center"
                 dense>
                 <v-col>
-                  <cc-modal :title="$t('pm.titles.groupDescription')"
+                  <cc-dialog :title="$t('pm.titles.groupDescription')"
                     icon="mdi-account-group"
-                    shrink
-                    max-width="75vw">
+                    max-width="75vw" :close-on-click="false" major>
                     <template #activator="{ open }">
                       <cc-button block
                         size="small"
@@ -136,7 +134,7 @@
                         </div>
                       </v-card-text>
                     </template>
-                  </cc-modal>
+                  </cc-dialog>
                 </v-col>
                 <v-col cols="auto">
                   <v-icon v-if="!group.History"

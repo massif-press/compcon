@@ -33,10 +33,10 @@
     <v-row v-if="!pilot.IsRemote"
       class="mt-1 mb-5">
       <v-col>
-        <cc-modal :title="$t('pm.titles.addStandardEquipment')"
+        <cc-dialog :title="$t('pm.titles.addStandardEquipment')"
           icon="mdi-star-circle-outline"
           fullscreen
-          clip>
+          clip :close-on-click="false" major full-height max-width="90vw">
           <template #activator="{ open }">
             <cc-button v-if="!pilot.IsRemote"
               size="x-small"
@@ -51,13 +51,13 @@
             <equipment-selector :pilot="pilot"
               @equip="addItem($event, close)" />
           </template>
-        </cc-modal>
+        </cc-dialog>
       </v-col>
       <v-col>
-        <cc-modal :title="$t('pm.sheet.addExoticEquipment')"
+        <cc-dialog :title="$t('pm.sheet.addExoticEquipment')"
           icon="mdi-star-circle-outline"
           fullscreen
-          clip>
+          clip :close-on-click="false" major full-height max-width="90vw">
           <template #activator="{ open }">
             <cc-button size="x-small"
               color="exotic"
@@ -72,7 +72,7 @@
               exotic
               @equip="addItem($event, close)" />
           </template>
-        </cc-modal>
+        </cc-dialog>
       </v-col>
     </v-row>
   </div>

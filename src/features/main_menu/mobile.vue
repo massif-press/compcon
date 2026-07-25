@@ -51,8 +51,8 @@
         align="center"
         justify="space-around">
         <v-col cols="auto">
-          <cc-modal :title="$t('common.cloudAccount')"
-            icon="mdi-cloud-sync">
+          <cc-dialog :title="$t('common.cloudAccount')"
+            icon="mdi-cloud-sync" :close-on-click="false" major full-height max-width="90vw">
             <template #activator="{ open }">
               <cc-button v-if="landscape"
                 :loading="startingUp"
@@ -74,15 +74,15 @@
                 @click="open" />
             </template>
             <sign-in />
-          </cc-modal>
+          </cc-dialog>
         </v-col>
 
         <v-divider vertical
           class="mr-2" />
 
         <v-col cols="auto">
-          <cc-modal :title="$t('common.options')"
-            icon="mdi-cog">
+          <cc-dialog :title="$t('common.options')"
+            icon="mdi-cog" :close-on-click="false" major full-height max-width="90vw">
             <template #activator="{ open }">
               <cc-button class="text-uppercase pa-0"
                 size="small"
@@ -92,12 +92,12 @@
               </cc-button>
             </template>
             <options-page />
-          </cc-modal>
+          </cc-dialog>
         </v-col>
 
         <v-col cols="auto">
-          <cc-modal :title="$t('common.about')"
-            icon="mdi-information">
+          <cc-dialog :title="$t('common.about')"
+            icon="mdi-information" :close-on-click="false" major full-height max-width="90vw">
             <template #activator="{ open }">
               <cc-button class="text-uppercase pa-0"
                 size="small"
@@ -107,12 +107,12 @@
               </cc-button>
             </template>
             <about-page />
-          </cc-modal>
+          </cc-dialog>
         </v-col>
 
         <v-col cols="auto">
-          <cc-modal :title="$t('common.credits')"
-            icon="cc:gms">
+          <cc-dialog :title="$t('common.credits')"
+            icon="cc:gms" :close-on-click="false" major full-height max-width="90vw">
             <template #activator="{ open }">
               <cc-button class="text-uppercase pa-0"
                 size="small"
@@ -122,12 +122,12 @@
               </cc-button>
             </template>
             <credits-page />
-          </cc-modal>
+          </cc-dialog>
         </v-col>
 
         <v-col cols="auto">
-          <cc-modal :title="$t('common.help')"
-            icon="mdi-help-circle">
+          <cc-dialog :title="$t('common.help')"
+            icon="mdi-help-circle" :close-on-click="false" major full-height max-width="90vw">
             <template #activator="{ open }">
               <cc-button class="text-uppercase pa-0"
                 size="small"
@@ -137,7 +137,7 @@
               </cc-button>
             </template>
             <help-page />
-          </cc-modal>
+          </cc-dialog>
         </v-col>
       </v-row>
     </v-bottom-navigation>

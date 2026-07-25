@@ -1,6 +1,6 @@
 <template>
-  <cc-modal v-model="dialog"
-    :title="$t('pm.titles.selectBondPowers')">
+  <cc-dialog v-model="dialog"
+    :title="$t('pm.titles.selectBondPowers')" :close-on-click="false" major full-height max-width="90vw">
     <cc-compendium-browser :items="shownItems"
       item-type="BondPower"
       :options="options"
@@ -70,7 +70,7 @@
         </cc-button>
       </template>
     </cc-compendium-browser>
-  </cc-modal>
+  </cc-dialog>
 </template>
 
 <script setup lang="ts">

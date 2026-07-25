@@ -1,10 +1,10 @@
 <template>
   <div class="mb-4">
     <section-header :title="$t('common.talents')">
-      <cc-modal v-if="!pilot.IsRemote"
+      <cc-dialog v-if="!pilot.IsRemote"
         :title="$t('pm.titles.setPilotTalents')"
         fullscreen
-        icon="cc:trait">
+        icon="cc:trait" :close-on-click="false" major full-height max-width="90vw">
         <template #activator="{ open }">
           <section-edit-chip v-if="!pilot.IsRemote"
             :highlight="!pilot.TalentsController.HasFullTalents"
@@ -14,7 +14,7 @@
             @open-selector="open" />
         </template>
         <talent-selector :pilot="pilot" />
-      </cc-modal>
+      </cc-dialog>
     </section-header>
 
     <v-container class="px-0">

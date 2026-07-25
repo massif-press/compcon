@@ -68,10 +68,10 @@
               <v-col v-if="avatar"
                 cols="auto">
                 <div class="d-flex justify-end">
-                  <cc-modal ref="crop_dialog"
+                  <cc-dialog ref="crop_dialog"
                     icon="mdi-crop"
                     color="primary"
-                    :title="$t('ui.image.setAvatar')">
+                    :title="$t('ui.image.setAvatar')" :close-on-click="false" major full-height max-width="90vw">
                     <template #activator="{ open }">
                       <cc-button size="small"
                         color="success"
@@ -87,7 +87,7 @@
                         @hide="close"
                         @confirm="setAvatar($event, close)" />
                     </template>
-                  </cc-modal>
+                  </cc-dialog>
                 </div>
                 <div class="d-flex justify-center mt-1">
                   <cc-button size="x-small"

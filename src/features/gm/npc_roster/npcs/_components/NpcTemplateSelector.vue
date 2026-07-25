@@ -41,9 +41,9 @@
     </v-col>
   </v-row>
 
-  <cc-modal v-model="dialog"
+  <cc-dialog v-model="dialog"
     :title="$t('gm.titles.selectTemplate')"
-    icon="cc:npc_template">
+    icon="cc:npc_template" :close-on-click="false" major full-height max-width="90vw">
     <v-card-text v-if="!templates.length">
       <v-container class="mt-n4">
         <cc-missing-gm-lcp-text />
@@ -134,7 +134,7 @@
         </cc-button>
       </template>
     </cc-compendium-browser>
-  </cc-modal>
+  </cc-dialog>
 </template>
 
 <script setup lang="ts">

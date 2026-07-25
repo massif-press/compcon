@@ -1,6 +1,5 @@
 <template>
-  <v-col :cols="portrait ? '' : cols"
-    :style="portrait ? 'max-width: 100%; min-width: fit-content' : ''">
+  <v-col :cols="portrait ? 12 : cols">
     <v-tooltip max-width="400">
       <template #activator="{ props }">
         <v-card v-bind="props"
@@ -8,9 +7,18 @@
           tile
           :color="color"
           :variant="<any>variant"
-          :style="portrait ? 'max-width: 100%; min-width: fit-content' : ''"
-          class="text-center px-2">
-          <div class="heading h3 py-1">
+          class="h-100"
+          :class="portrait ? 'px-2' : 'text-center px-2'">
+          <div v-if="portrait"
+            class="d-flex align-center py-1">
+            <v-icon :icon="icon"
+              size="28"
+              class="mr-2" />
+            <span class="heading h3 flex-grow-1 text-left">{{ name }}</span>
+            <span class="pl-2 heading text-accent text-right">{{ value }}</span>
+          </div>
+          <div v-else
+            class="heading h3 py-1">
             <v-icon :icon="icon"
               start
               size="40"
@@ -23,8 +31,7 @@
                 {{ value }}
               </div>
               <span v-else
-                class="pl-2 heading text-accent"
-                :class="!portrait && 'h2'">
+                class="pl-2 heading text-accent h2">
                 {{ value }}
               </span>
             </div>

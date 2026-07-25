@@ -71,6 +71,7 @@ class PilotGroup implements ISaveable, IPortraitContainer {
 
   public RenewID(): string {
     this._id = crypto.randomUUID()
+    this.CloudController.ResetIdentity()
     this.Save()
     return this._id
   }

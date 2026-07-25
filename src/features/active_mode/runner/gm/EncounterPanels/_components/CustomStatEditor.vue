@@ -103,11 +103,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, inject, ref } from 'vue'
 import { MandatoryStats, StatController } from '@/classes/components/combat/stats/StatController';
 import { Bonus } from '@/classes/components/feature/bonus/Bonus';
 import { useDisplay } from 'vuetify';
 import { useI18n } from 'vue-i18n'
+import { EncounterContextKey } from '../encounterContext';
+import { snapshot } from '@/classes/encounter/EncounterUndoStack';
 const { t } = useI18n()
 const npcStatOrder = [
 'hull',
@@ -171,6 +173,14 @@ const props = withDefaults(defineProps<{
   allowCore: false
 })
 
+const encounterCtx = inject(EncounterContextKey, undefined)
+
+function snapshotEdit(statKey: string) {
+  const inst = encounterCtx?.encounterInstance.value
+  if (!inst) return
+  snapshot(inst, t('active.customStat.undoEditStat', { name: props.item.Name, stat: statKey }))
+}
+
 const trackableStat = ref(undefined)
 const trackableValue = ref(0)
 const staticStat = ref(undefined)
@@ -225,6 +235,7 @@ function isCoreStat(key) {
     }
 function addTrackableStat() {
       if (!trackableStat.value) return;
+      snapshotEdit(trackableStat.value);
       const val = Number(trackableValue.value) || 0;
       props.item.StatController.setMax(trackableStat.value, val);
       props.item.StatController.CurrentStats[trackableStat.value] = val;
@@ -234,6 +245,7 @@ function addTrackableStat() {
     }
 function addStaticStat() {
       if (!staticStat.value) return;
+      snapshotEdit(staticStat.value);
       const val = Number(staticValue.value) || 0;
       props.item.StatController.setMax(staticStat.value, val);
       props.item.StatController.CurrentStats[staticStat.value] = val;
@@ -243,6 +255,7 @@ function addStaticStat() {
     }
 function removeStat(key) {
       if (!hasStat(key)) return;
+      snapshotEdit(key);
       delete props.item.StatController.MaxStats[key];
       delete props.item.StatController.CurrentStats[key];
       props.item.SaveController.save();

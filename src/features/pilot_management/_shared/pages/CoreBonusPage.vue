@@ -54,7 +54,10 @@
       </v-alert>
     </div>
 
-    <template v-if="context === 'level'">
+    <!-- <template v-if="context === 'level'"> -->
+    <div v-if="context === 'level'"
+      style="height: calc(100vh - 80px)">
+
       <div v-fill-height>
         <core-bonus-selector v-if="cbEligible"
           :pilot="pilot" />
@@ -72,7 +75,8 @@
           </v-card-text>
         </v-card>
       </div>
-    </template>
+    </div>
+    <!-- </template> -->
     <div v-else
       v-fill-height
       class="pb-4">

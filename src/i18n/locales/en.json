@@ -148,6 +148,7 @@
     "reserves": "Reserves",
     "setCustomDescription": "Set Custom Description",
     "setCustomName": "Set Custom Name",
+    "shiftEnterNewline": "Shift + Enter for newline",
     "side": "Side",
     "statsLabel": "Stats",
     "syncNow": "Sync Now",
@@ -1411,7 +1412,9 @@
       "removeFromEncounter": "Remove {name} From Encounter",
       "noStatController": "No Stat Controller Found",
       "editReinforcements": "Edit Reinforcements",
-      "noReinforcementSchedule": "No Reinforcement Schedule"
+      "noReinforcementSchedule": "No Reinforcement Schedule",
+      "undoEditOverrides": "Edit {name} overrides",
+      "undoRemoveCombatant": "Remove {name} from encounter"
     },
     "encInfo": {
       "reinforcements": "Reinforcements",
@@ -1432,7 +1435,13 @@
     },
     "gmRunner": {
       "loading": "Loading encounter instance…",
-      "roundN": "Round {n}"
+      "roundN": "Round {n}",
+      "undo": "Undo",
+      "redo": "Redo",
+      "undoTooltip": "Undo: {label}",
+      "redoTooltip": "Redo: {label}",
+      "undoRoundChange": "Round change",
+      "undoAction": "Combat action"
     },
     "diceRoller": {
       "title": "Dice Roller",
@@ -1539,7 +1548,8 @@
       "editStats": "Edit Stats",
       "trackable": "Trackable",
       "static": "Static",
-      "removeStat": "Remove Stat"
+      "removeStat": "Remove Stat",
+      "undoEditStat": "Edit {name} {stat}"
     },
     "telemetry": {
       "telemetry": "Telemetry",
@@ -1614,7 +1624,8 @@
       "markUsedHint": "Click to mark as {used} . Weapons with the LOADING tag must be reloaded before they can be loaded again",
       "reloadHint": "Click to {reload} this weapon.",
       "clickUnused": "Click to mark Unused",
-      "clickUsed": "Click to mark Used"
+      "clickUsed": "Click to mark Used",
+      "undoEditItem": "Edit {name}"
     },
     "mountBonus": {
       "warning": "Mount bonus effects on weapon attacks are {not} automatically enforced by @:{'common.appName'}. Please ensure you manually apply any relevant effects during gameplay."
@@ -3217,6 +3228,7 @@
       "singleTarget": "Single Target",
       "addTarget": "Add Target",
       "target": "Target",
+      "self": "Self",
       "damageValue": "damage value",
       "bonusDamage": "Bonus Damage",
       "bonusDamageHalved": "Bonus Damage will be halved (Area of Effect)",
@@ -3385,7 +3397,8 @@
       "deployables": "Core bonus deployables",
       "integrated": "Core bonus integrated equipment",
       "additional": "Core bonus additional equipment",
-      "instancedWarning": "{warning} This is an instanced item. If removed, this Core bonus will not be available until the associated LCP is installed."
+      "instancedWarning": "{warning} This is an instanced item. If removed, this Core bonus will not be available until the associated LCP is installed.",
+      "ignoreRequirements": "Ignore Core Bonus requirements"
     },
     "org": {
       "efficiency": "Organization Efficiency",

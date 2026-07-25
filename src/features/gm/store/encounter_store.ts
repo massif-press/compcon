@@ -10,6 +10,7 @@ import { CloudController } from '@/classes/components/cloud/CloudController'
 import logger from '@/user/logger'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { EncounterArchive } from '@/classes/encounter/EncounterArchive'
+import { clearUndoStack } from '@/classes/encounter/EncounterUndoStack'
 
 export const EncounterStore = defineStore('encounter', {
   state: () => ({
@@ -132,6 +133,12 @@ export const EncounterStore = defineStore('encounter', {
       this.SaveActiveEncounterData()
     },
 
+    ReplaceActiveEncounter(payload: EncounterInstance): void {
+      const idx = this.ActiveEncounters.findIndex(x => x.ID === payload.ID)
+      if (idx === -1) return
+      this.ActiveEncounters.splice(idx, 1, payload)
+    },
+
     async RemoveEncounterInstance(payload: EncounterInstance): Promise<void> {
       this.ActiveEncounters.forEach(x => (x.IsActive = false))
       const id = payload.ID || (payload as any)._id
@@ -140,6 +147,7 @@ export const EncounterStore = defineStore('encounter', {
         this.ActiveEncounters.splice(idx, 1)
         await RemoveItem('active_encounters', id)
         this.SaveActiveEncounterData()
+        clearUndoStack(id)
       }
     },
 

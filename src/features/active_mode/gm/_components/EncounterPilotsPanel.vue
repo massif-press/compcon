@@ -141,8 +141,8 @@
             <add-from-share :pilots="pilots" />
           </v-col>
           <v-col>
-            <cc-modal :title="$t('common.import')"
-              icon="mdi-import">
+            <cc-dialog :title="$t('common.import')"
+              icon="mdi-import" :close-on-click="false" major full-height max-width="90vw">
               <template #activator="{ open }">
                 <cc-button color="primary"
                   size="small"
@@ -158,7 +158,7 @@
                   @import-complete="emit('add-pilot', $event)"
                   @done="close" />
               </template>
-            </cc-modal>
+            </cc-dialog>
           </v-col>
           <v-col>
             <cc-button size="small"

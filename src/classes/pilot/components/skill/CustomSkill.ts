@@ -3,7 +3,7 @@ import { DEFAULT_LCP_NAME } from '../../../LcpItemMixin'
 
 class CustomSkill {
   public readonly ItemType: ItemType;
-  public readonly Name: string;
+  public Name: string;
   private _description: string;
   private _detail: string;
 

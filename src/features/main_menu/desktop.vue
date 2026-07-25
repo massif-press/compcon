@@ -63,8 +63,8 @@
         align="center">
         <v-col cols="auto"
           class="text-center mr-1">
-          <cc-modal :title="$t('common.cloudAccount')"
-            icon="mdi-cloud-sync">
+          <cc-dialog :title="$t('common.cloudAccount')"
+            icon="mdi-cloud-sync" :close-on-click="false" major full-height max-width="90vw">
             <template #activator="{ open }">
               <cc-button size="small"
                 :color="isLoggedIn ? 'success' : ''"
@@ -76,7 +76,7 @@
               </cc-button>
             </template>
             <sign-in />
-          </cc-modal>
+          </cc-dialog>
         </v-col>
         <v-col cols="auto"
           class="text-center">
@@ -88,8 +88,8 @@
           <v-row dense
             justify="space-between">
             <v-col cols="auto">
-              <cc-modal :title="$t('common.options')"
-                icon="mdi-cog">
+              <cc-dialog :title="$t('common.options')"
+                icon="mdi-cog" :close-on-click="false" major full-height max-width="90vw">
                 <template #activator="{ open }">
                   <cc-button size="small"
                     variant="tonal"
@@ -100,7 +100,7 @@
                   </cc-button>
                 </template>
                 <options-page />
-              </cc-modal>
+              </cc-dialog>
             </v-col>
 
             <v-col cols="auto">
@@ -120,8 +120,8 @@
             </v-col>
 
             <v-col cols="auto">
-              <cc-modal :title="$t('common.credits')"
-                icon="cc:gms">
+              <cc-dialog :title="$t('common.credits')"
+                icon="cc:gms" :close-on-click="false" major full-height max-width="90vw">
                 <template #activator="{ open }">
                   <cc-button size="small"
                     variant="tonal"
@@ -132,12 +132,12 @@
                   </cc-button>
                 </template>
                 <credits-page />
-              </cc-modal>
+              </cc-dialog>
             </v-col>
 
             <v-col cols="auto">
-              <cc-modal :title="$t('common.help')"
-                icon="mdi-help-circle">
+              <cc-dialog :title="$t('common.help')"
+                icon="mdi-help-circle" :close-on-click="false" major full-height max-width="90vw">
                 <template #activator="{ open }">
                   <cc-button size="small"
                     variant="tonal"
@@ -148,7 +148,7 @@
                   </cc-button>
                 </template>
                 <help-page />
-              </cc-modal>
+              </cc-dialog>
             </v-col>
 
             <v-col cols="auto">

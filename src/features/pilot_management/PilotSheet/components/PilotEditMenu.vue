@@ -28,8 +28,8 @@
               prepend-icon="mdi-printer"
               :subtitle="$t('pm.sheet.printTabletopReadyCharacterAndMech')"
               @click="$router.push(`/print/${pilot.ID}`)" />
-            <cc-modal :title="$t('pm.titles.statblockGenerator')"
-              icon="mdi-code-block-tags">
+            <cc-dialog :title="$t('pm.titles.statblockGenerator')"
+              icon="mdi-code-block-tags" :close-on-click="false" major full-height max-width="90vw">
               <template #activator="{ open }">
                 <v-list-item prepend-icon="mdi-file-document-outline"
                   :title="$t('pm.sheet.generateStatblock')"
@@ -37,7 +37,7 @@
                   @click.stop="open" />
               </template>
               <statblock-dialog :pilot="pilot" />
-            </cc-modal>
+            </cc-dialog>
             <v-list-item v-if="!pilot.IsRemote"
               prepend-icon="mdi-export-variant"
               :title="$t('pm.sheet.exportPilot')"
@@ -69,9 +69,9 @@
               </template>
             </cc-dialog>
 
-            <cc-modal v-else
+            <cc-dialog v-else
               :title="$t('pm.titles.clonePilot')"
-              icon="mdi-dna">
+              icon="mdi-dna" :close-on-click="false" major full-height max-width="90vw">
               <template #activator="{ open }">
                 <v-list-item prepend-icon="mdi-dna"
                   :title="$t('pm.sheet.clone')"
@@ -82,7 +82,7 @@
                 <clone-dialog :pilot="pilot"
                   @close="close" />
               </template>
-            </cc-modal>
+            </cc-dialog>
 
             <cc-dialog :title="$t('pm.sheet.setLCPConfiguration')"
               :close-on-click="false"

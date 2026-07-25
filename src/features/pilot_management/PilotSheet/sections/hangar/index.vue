@@ -45,10 +45,10 @@
         @copy="pilot.CloneMech($event)"
         @go="toMechSheet($event)" />
     </v-container>
-    <cc-modal v-if="!pilot.IsRemote"
+    <cc-dialog v-if="!pilot.IsRemote"
       icon="cc:frame"
       :title="$t('pm.sheet.addNewMech')"
-      clip>
+      clip :close-on-click="false" major full-height max-width="90vw">
       <template #activator="{ open }">
         <cc-button color="primary"
           class="mx-6"
@@ -63,7 +63,7 @@
         <new-mech-menu :pilot="pilot"
           @close="close" />
       </template>
-    </cc-modal>
+    </cc-dialog>
   </div>
 </template>
 

@@ -16,14 +16,13 @@
     </template>
 
     <template #header>
-      <cc-button size="x-small"
-        color="error"
-        block
-        prepend-icon="mdi-refresh"
-        :disabled="!pilot.CoreBonusController.CoreBonuses.length"
-        @click="pilot.CoreBonusController.ClearCoreBonuses()">
-        {{ $t('common.reset') }}
-      </cc-button>
+      <div class="d-flex align-center">
+        <cc-switch v-model="ignoreReq"
+          :label="$t('ui.coreBonus.ignoreRequirements')" />
+        <v-spacer />
+        <selector-options-menu :disabled="!pilot.CoreBonusController.CoreBonuses.length"
+          @reset="pilot.CoreBonusController.ClearCoreBonuses()" />
+      </div>
     </template>
 
     <template #top>
@@ -58,7 +57,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { orderBy } from 'lodash-es'
 import { CompendiumStore } from '@/stores'
 import { CoreBonus } from '@/classes/pilot/components/corebonus/CoreBonus'
@@ -66,6 +65,7 @@ import CoreBonusSelectItem from './components/_CoreBonusSelectItem.vue'
 import MissingItemAlert from './components/_MissingItemAlert.vue'
 import SelectorHeader from './components/_SelectorHeader.vue'
 import SelectorChip from './components/_SelectorChip.vue'
+import SelectorOptionsMenu from './components/_SelectorOptionsMenu.vue'
 import { filterByLcpConfig } from './useLcpFilter'
 
 const props = defineProps<{ pilot: Record<string, any> }>()
@@ -79,6 +79,8 @@ const options = {
 }
 
 const manufacturers = computed(() => CompendiumStore().Manufacturers)
+
+const ignoreReq = ref(false)
 
 const baseCoreBonuses = computed<CoreBonus[]>(() =>
   orderBy(
@@ -111,6 +113,7 @@ function selectedCount(m: string): number {
 }
 
 function availableCount(m: string): number {
+  if (ignoreReq.value) return Infinity
   if (m.toUpperCase() === 'GMS') return Infinity
   return Math.floor(props.pilot.LicenseController.LicenseLevel(m) / 3) - selectedCount(m)
 }

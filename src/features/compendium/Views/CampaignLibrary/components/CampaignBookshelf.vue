@@ -154,12 +154,10 @@
 
     <campaign-share-code-dialog />
 
-    <cc-modal
+    <cc-dialog
       v-model="importDialog"
       :title="$t('compendium.titles.importLancerCampaignData')"
-      max-width="50vw"
-      min-width="500"
-    >
+      max-width="50vw" :close-on-click="false" major full-height>
       <template #activator="{ open }">
         <cc-button
           color="primary"
@@ -243,7 +241,7 @@
           </v-card>
         </div>
       </v-card-text>
-    </cc-modal>
+    </cc-dialog>
   </v-footer>
 </template>
 

@@ -146,12 +146,13 @@
         :label="$t('ui.fields.title')"
         density="compact"
         hide-details
-        class="mb-2">
+        class="mb-2"
+        @update:model-value="item.Sitrep.Touch()">
         <template #append>
           <v-icon v-if="!readonly"
             icon="mdi-delete"
             class="fade-select"
-            @click="item.Sitrep.Conditions.splice(i)" />
+            @click="item.Sitrep.Conditions.splice(i, 1); item.Sitrep.Touch()" />
         </template>
       </v-text-field>
       <v-textarea v-model="c.condition"
@@ -162,7 +163,8 @@
         variant="outlined"
         auto-grow
         hide-details
-        class="mb-2" />
+        class="mb-2"
+        @update:model-value="item.Sitrep.Touch()" />
     </v-card>
 
     <v-row v-if="!readonly"
@@ -181,7 +183,7 @@
         <cc-button color="primary"
           size="small"
           prepend-icon="mdi-plus"
-          @click="item.Sitrep.Conditions.push({ title: 'New Condition', condition: '' })">
+          @click="item.Sitrep.Conditions.push({ title: 'New Condition', condition: '' }); item.Sitrep.Touch()">
           {{ $t('active.common.condition_status') }}
         </cc-button>
       </v-col>

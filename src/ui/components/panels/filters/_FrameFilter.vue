@@ -136,4 +136,6 @@ const f = props.activeFilters;
     if (f.MechSize) sizeFilter.value = f.MechSize;
     if (f.License) licenseFilter.value = f.License;
 })
+
+defineExpose({ clear })
 </script>

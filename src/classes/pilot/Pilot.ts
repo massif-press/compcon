@@ -362,6 +362,7 @@ class Pilot
 
   public RenewID(): void {
     this._id = crypto.randomUUID()
+    this.CloudController.ResetIdentity()
     this.SaveController.save()
   }
 

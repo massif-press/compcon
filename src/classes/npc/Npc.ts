@@ -147,6 +147,7 @@ abstract class Npc
 
   public RenewID(): void {
     this._id = crypto.randomUUID()
+    this.CloudController.ResetIdentity()
   }
 
   public get Name(): string {

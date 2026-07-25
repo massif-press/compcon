@@ -48,9 +48,19 @@
       </v-alert>
     </div>
 
-    <div v-fill-height>
+    <div v-if="context === 'level'"
+      style="height: calc(100vh - 80px)">
+
+      <div v-fill-height>
+
+        <license-selector :pilot="<Pilot>pilot" />
+      </div>
+    </div>
+    <div v-else
+      v-fill-height>
       <license-selector :pilot="<Pilot>pilot" />
     </div>
+
   </stepper-content>
 </template>
 

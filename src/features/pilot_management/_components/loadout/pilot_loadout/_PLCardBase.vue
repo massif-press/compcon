@@ -202,16 +202,15 @@
       </div>
     </v-card>
 
-    <cc-modal v-model="selectorDialog"
+    <cc-dialog v-model="selectorDialog"
       :title="`Equip ${title}`"
-      clip>
+      clip :close-on-click="false" major full-height max-width="90vw">
       <slot name="selector" />
-    </cc-modal>
+    </cc-dialog>
 
-    <cc-modal v-model="detailDialog"
-      no-confirm
+    <cc-dialog v-model="detailDialog"
       :title="itemTitle"
-      large>
+      large :close-on-click="false" major full-height max-width="90vw">
       <div class="py-2 px-4">
         <cc-item-card :item="item" />
         <slot name="detail" />
@@ -228,7 +227,7 @@
             class="mt-2" />
         </div>
       </div>
-    </cc-modal>
+    </cc-dialog>
 
     <cc-string-edit-dialog v-if="item"
       ref="cName"

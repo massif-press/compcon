@@ -3,7 +3,7 @@
     <div class="border">
       <cc-img v-if="pilot.Portrait" :src="pilot.Portrait" max-width="100%" />
     </div>
-    <cc-modal v-if="!pilot.IsRemote" :title="$t('pm.sheet.setPilotPortrait')" icon="cc:pilot" tabs>
+    <cc-dialog v-if="!pilot.IsRemote" :title="$t('pm.sheet.setPilotPortrait')" icon="cc:pilot" tabs :close-on-click="false" major full-height max-width="90vw">
       <template #activator="{ open }">
         <v-btn color="secondary" size="small" block variant="tonal" @click="open">
           <v-icon start>mdi-circle-edit-outline</v-icon>
@@ -11,7 +11,7 @@
         </v-btn>
       </template>
       <cc-image-selector ref="imageSelector" :item="pilot" type="pilot" avatar />
-    </cc-modal>
+    </cc-dialog>
   </div>
 </template>
 

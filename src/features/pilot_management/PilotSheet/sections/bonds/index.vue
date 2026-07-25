@@ -315,12 +315,12 @@
         :pilot="pilot"
         @set="setBond($event)" />
 
-      <cc-modal v-model="bondModal"
+      <cc-dialog v-model="bondModal"
         :title="$t('pm.titles.selectPilotBond')"
-        clip>
+        clip :close-on-click="false" major full-height max-width="90vw">
         <bond-selector :pilot="pilot"
           @set="setBond($event)" />
-      </cc-modal>
+      </cc-dialog>
     </div>
     <v-row justify="end"
       class="mt-12">

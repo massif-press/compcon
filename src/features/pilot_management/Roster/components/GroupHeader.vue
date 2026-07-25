@@ -271,9 +271,9 @@
             <v-card tile
               border>
               <v-card-text>
-                <cc-modal :title="$t('common.import')"
+                <cc-dialog :title="$t('common.import')"
                   icon="mdi-import"
-                  max-width="900">
+                  max-width="900" :close-on-click="false" major full-height>
                   <template #activator="{ open }">
                     <cc-button color="primary"
                       size="small"
@@ -287,7 +287,7 @@
                     <file-import :group-id="group.ID"
                       @done="close" />
                   </template>
-                </cc-modal>
+                </cc-dialog>
                 <br />
                 <share-code-dialog import-type="pilot"
                   block-btn />

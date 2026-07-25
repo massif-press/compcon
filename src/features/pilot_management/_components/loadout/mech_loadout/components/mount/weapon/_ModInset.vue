@@ -23,12 +23,11 @@
         :color="color"
         synergy-location="mod" />
 
-      <cc-modal v-model="detailDialog"
+      <cc-dialog v-model="detailDialog"
         :title="mod.Name"
-        icon="cc:weaponmod"
-        shrink>
+        icon="cc:weaponmod" :close-on-click="false" major max-width="90vw">
         <cc-item-card :item="mod" />
-      </cc-modal>
+      </cc-dialog>
     </v-card-text>
   </cc-panel>
 </template>

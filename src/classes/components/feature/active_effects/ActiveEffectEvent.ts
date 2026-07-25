@@ -3,6 +3,7 @@ import { ActiveEffect } from './ActiveEffect'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { CombatantData } from '@/classes/encounter/Encounter'
 import { Damage } from '../../../Damage'
+import { DamageType } from '../../../enums'
 import { DamageEvent } from './effect_events/damageEvent'
 import { ActiveEventTarget } from './effect_events/eventTarget'
 import { ResistEvent } from './effect_events/resistEvent'
@@ -94,6 +95,10 @@ class ActiveEffectEvent {
       this.DamageEvents[0].BonusDamageEvent.DamageRollString = String(effect.BonusDamage.Value)
     }
 
+    if ((effect as any).Activation === 'Invade') {
+      this.DamageEvents.push(new DamageEvent(new Damage({ type: DamageType.Heat, val: 2 }), tier))
+    }
+
     if (effect.AddStatus?.length) {
       this.StatusEvents = effect.AddStatus.map(s => new StatusEvent(s))
       this.Save = effect.AddStatus[0].Save?.Stat
@@ -167,6 +172,21 @@ class ActiveEffectEvent {
     this._targets[index] = new ActiveEventTarget(this, target, this.Effect)
   }
 
+  public get LocalTargetIsSelf(): boolean {
+    return (
+      this._targets[0]?.Combatant?.actor.CombatController.RootActor.ID ===
+      this.Initiator.actor.CombatController.RootActor.ID
+    )
+  }
+
+  public set LocalTargetIsSelf(val: boolean) {
+    this._targets[0] = new ActiveEventTarget(
+      this,
+      val ? this.Initiator : (null as unknown as CombatantData),
+      this.Effect
+    )
+  }
+
   // add a new target slot
   public AddTarget() {
     console.log('Adding target slot')
@@ -235,6 +255,12 @@ class ActiveEffectEvent {
     if (this.Effect.AddOther && this.Effect.AddOther.length) {
       out = this.Effect.AddOther[0].Target
     }
+    if (this.Effect.AddResist && this.Effect.AddResist.length) {
+      out = this.Effect.AddResist[0].Target
+    }
+    if (this.Effect.AddSpecial && this.Effect.AddSpecial.length) {
+      out = this.Effect.AddSpecial[0].Target
+    }
     if (out === 'any') out = 'enemy'
     return out
   }
@@ -290,7 +316,7 @@ class ActiveEffectEvent {
 
   public ApplyAll() {
     this.Targets.forEach(t => {
-      if (!t || this.IsPcLocal) return
+      if (!t || !t.Combatant) return
       this.DamageEvents.forEach(de => {
         t.ApplyDamage(de)
       })

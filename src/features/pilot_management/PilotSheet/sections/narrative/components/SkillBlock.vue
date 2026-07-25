@@ -1,9 +1,9 @@
 <template>
   <div>
     <section-header :title="$t('pm.titles.skillTriggers')">
-      <cc-modal :title="$t('pm.titles.setPilotSkillTriggers')"
+      <cc-dialog :title="$t('pm.titles.setPilotSkillTriggers')"
         fullscreen
-        icon="cc:skill">
+        icon="cc:skill" :close-on-click="false" major full-height max-width="90vw">
         <template #activator="{ open }">
           <section-edit-chip v-if="!pilot.IsRemote"
             :highlight="!pilot.SkillsController.HasFullSkills"
@@ -14,7 +14,7 @@
         </template>
         <skill-selector :pilot="<Pilot>pilot"
           modal />
-      </cc-modal>
+      </cc-dialog>
     </section-header>
     <div :style="!mobile && 'width: calc(100vw - 275px)'"
       dense

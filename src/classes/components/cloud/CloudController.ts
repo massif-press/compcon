@@ -26,6 +26,9 @@ class CloudController {
   public get _fieldTs(): FieldTimestamps { return this.TransferController._fieldTs }
   public set _fieldTs(v: FieldTimestamps) { this.TransferController._fieldTs = v }
 
+  public get _lastSyncedUpdated(): number { return this.TransferController._lastSyncedUpdated }
+  public set _lastSyncedUpdated(v: number) { this.TransferController._lastSyncedUpdated = v }
+
   public get _lastUploadedItemModified(): number {
     return this.MetadataController._lastUploadedItemModified
   }
@@ -80,6 +83,7 @@ class CloudController {
     if (!this._metadata?.Updated) return false
     if (!this._lastUploadedItemModified) return false
     if (this.Parent.SaveController?.IsDeleted && !this._metadata.Deleted) return false
+    if (this._lastSyncedUpdated < this._metadata.Updated) return false
     const sc = this.Parent.SaveController
     const localModified = sc?.LastModified || sc?.Created || 0
     return (
@@ -91,6 +95,7 @@ class CloudController {
   public get serverVersionChanged(): boolean {
     if (!this._metadata?.Updated) return false
     if (!this._lastUploadedItemModified) return true
+    if (this._lastSyncedUpdated < this._metadata.Updated) return true
     return this._metadata.ItemModified > this._lastUploadedItemModified
   }
 
@@ -104,6 +109,25 @@ class CloudController {
 
   public GenerateMetadata(): void {
     this._metadata = new DbItemMetadata(CloudController.GenerateMetadata(this))
+  }
+
+  public ensureOwnedUri(): void {
+    if (this.Parent.SaveController?.IsRemote) return
+    const userId = UserStore().Cognito.userId ?? ''
+    if (!userId || !this._metadata) return
+    const expected = `${userId}/${this.GenerateSortKey()}.json`
+    if (this._metadata.Uri === expected) return
+    this._metadata.Uri = expected
+    this._metadata.UserId = userId
+  }
+
+  public ResetIdentity(): void {
+    this.GenerateMetadata()
+    this.TransferController._lastContentHash = null
+    this.TransferController._lastFieldHashes = null
+    this.TransferController._fieldTs = {}
+    this.TransferController._lastSyncedUpdated = 0
+    this.MetadataController._lastUploadedItemModified = 0
   }
 
   public static GenerateMetadata(controller: CloudController) {
@@ -175,6 +199,9 @@ class CloudController {
     if (parent.CloudController._lastUploadedItemModified) {
       target.cloud._lastUploadedItemModified = parent.CloudController._lastUploadedItemModified
     }
+    if (parent.CloudController._lastSyncedUpdated) {
+      target.cloud._lastSyncedUpdated = parent.CloudController._lastSyncedUpdated
+    }
   }
 
   public static Deserialize(parent: ICloudSyncable, data: any) {
@@ -183,6 +210,8 @@ class CloudController {
     if (data?._lastHash) parent.CloudController._lastContentHash = data._lastHash
     if (data?._lastUploadedItemModified)
       parent.CloudController._lastUploadedItemModified = data._lastUploadedItemModified
+    if (data?._lastSyncedUpdated)
+      parent.CloudController._lastSyncedUpdated = data._lastSyncedUpdated
 
     if (data?._lastHashes) {
       parent.CloudController._lastFieldHashes = data._lastHashes

@@ -2,8 +2,8 @@
   <v-col :cols="portrait ? 12 : landscape ? 6 : 4">
     <v-hover>
       <template #default="{ isHovering, props }">
-        <cc-modal :icon="item.Icon"
-          :title="itemDialogTitle">
+        <cc-dialog :icon="item.Icon"
+          :title="itemDialogTitle" :close-on-click="false" major full-height max-width="90vw">
           <template #activator="{ open }">
             <div style="position: relative">
               <div :class="`pip bg-${isHovering ? 'accent' : 'panel'}`" />
@@ -37,7 +37,7 @@
             <cc-item-card :item="item" />
             <item-card-link :item="item" />
           </v-card-text>
-        </cc-modal>
+        </cc-dialog>
       </template>
     </v-hover>
   </v-col>

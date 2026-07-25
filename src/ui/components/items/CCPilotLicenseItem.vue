@@ -1,8 +1,8 @@
 <template>
-  <cc-modal shrink
+  <cc-dialog
     :title="`${pilotLicense.License?.Source} ${pilotLicense.License?.Name}`"
     :icon="`cc:rank_${pilotLicense.Rank}`"
-    :color="pilotLicense.License?.Manufacturer.Color">
+    :color="pilotLicense.License?.Manufacturer.Color" :close-on-click="false" major max-width="90vw">
     <template #activator="{ open }">
       <cc-button :size="mobile ? 'x-small' : 'small'"
         :prepend-icon="`cc:rank_${pilotLicense.Rank}`"
@@ -30,7 +30,7 @@
           :rank="pilotLicense.Rank" />
       </v-card-text>
     </v-card>
-  </cc-modal>
+  </cc-dialog>
 </template>
 
 <script setup lang="ts">

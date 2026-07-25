@@ -1,10 +1,11 @@
 <template>
   <div>
     <section-header :title="$t('pm.level.coreBonuses')">
-      <cc-modal :title="$t('pm.titles.setPilotCoreBonuses')" icon="cc:corebonus">
+      <cc-dialog :title="$t('pm.titles.setPilotCoreBonuses')"
+        icon="cc:corebonus"
+        fullscreen :close-on-click="false" major full-height max-width="90vw">
         <template #activator="{ open }">
-          <section-edit-chip
-            v-if="!pilot.IsRemote"
+          <section-edit-chip v-if="!pilot.IsRemote"
             :highlight="!pilot.CoreBonusController.HasCBs"
             :current="pilot.CoreBonusController.CurrentCBPoints"
             :max="pilot.CoreBonusController.MaxCBPoints"
@@ -12,14 +13,13 @@
             @open-selector="open" />
         </template>
         <core-bonus-selector :pilot="pilot" />
-      </cc-modal>
+      </cc-dialog>
     </section-header>
 
     <v-container class="px-0">
       <no-data-block v-if="!pilot.CoreBonusController.CoreBonuses.length" />
 
-      <cc-core-bonus-item
-        v-for="item in pilot.CoreBonusController.CoreBonuses"
+      <cc-core-bonus-item v-for="item in pilot.CoreBonusController.CoreBonuses"
         :key="item.ID"
         :bonus="item"
         terse />
@@ -38,13 +38,11 @@ import CoreBonusSelector from '@/features/pilot_management/_components/selectors
 
 const _display = useDisplay()
 
-defineOptions({ name: 'skill-block' })
-
-const props = defineProps<{
+defineProps<{
   pilot: Pilot
 }>()
 
-const widescreen = computed(() => {
-      return _display.lgAndUp.value;
-    })
+computed(() => {
+  return _display.lgAndUp.value;
+})
 </script>

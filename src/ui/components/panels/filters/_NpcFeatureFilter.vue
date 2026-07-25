@@ -73,4 +73,6 @@ const f = props.activeFilters;
     if (f.Origin) originFilter.value = f.Origin;
     if (f.FeatureType) typeFilter.value = f.FeatureType;
 })
+
+defineExpose({ clear })
 </script>

@@ -14,8 +14,8 @@
 
     <br />
 
-    <cc-modal :title="$t('pm.titles.statblockGenerator')"
-      icon="mdi-code-block-tags">
+    <cc-dialog :title="$t('pm.titles.statblockGenerator')"
+      icon="mdi-code-block-tags" :close-on-click="false" major full-height max-width="90vw">
       <template #activator="{ open }">
         <cc-button block
           size="large"
@@ -31,7 +31,7 @@
         </cc-button>
       </template>
       <statblock-dialog :pilot="pilot" />
-    </cc-modal>
+    </cc-dialog>
     <br />
 
     <cc-button v-if="!pilot.IsRemote"
@@ -112,9 +112,9 @@
       </template>
     </cc-dialog>
 
-    <cc-modal v-else
+    <cc-dialog v-else
       :title="$t('pm.titles.clonePilot')"
-      icon="mdi-dna">
+      icon="mdi-dna" :close-on-click="false" major full-height max-width="90vw">
       <template #activator="{ open }">
         <cc-button size="large"
           block
@@ -131,11 +131,11 @@
         <clone-dialog :pilot="pilot"
           @close="close" />
       </template>
-    </cc-modal>
+    </cc-dialog>
 
     <br />
-    <cc-modal :title="$t('pm.sheet.setLCPConfiguration')"
-      icon="mdi-list-status">
+    <cc-dialog :title="$t('pm.sheet.setLCPConfiguration')"
+      icon="mdi-list-status" :close-on-click="false" major full-height max-width="90vw">
       <template #activator="{ open }">
         <cc-button size="large"
           block
@@ -151,7 +151,7 @@
         </cc-button>
       </template>
       <lcp-config-selector :actor="pilot" />
-    </cc-modal>
+    </cc-dialog>
 
     <br />
 

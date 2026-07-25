@@ -1,10 +1,9 @@
 <template>
   <div>
     <section-header :title="$t('pm.level.mechSkills')">
-      <cc-modal :title="$t('pm.titles.setPilotMechSkills')"
+      <cc-dialog :title="$t('pm.titles.setPilotMechSkills')"
         icon="cc:frame"
-        fullscreen
-        shrink>
+        fullscreen :close-on-click="false" major max-width="90vw">
         <template #activator="{ open }">
           <section-edit-chip v-if="!pilot.IsRemote"
             :highlight="!pilot.MechSkillsController.HasFullHASE"
@@ -14,7 +13,7 @@
             @open-selector="open" />
         </template>
         <mech-skills-selector :pilot="pilot" />
-      </cc-modal>
+      </cc-dialog>
     </section-header>
 
     <v-row class="mt-1 mb-5"

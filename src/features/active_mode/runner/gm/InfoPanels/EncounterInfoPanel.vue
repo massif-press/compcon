@@ -58,7 +58,16 @@
         <div v-if="encounter.Sitrep[block].length"
           class="mb-4">
           <div class="text-cc-overline">{{ block }}</div>
-          <p v-html-safe="encounter.Sitrep[block]"
+          <div v-if="block === 'Conditions'"
+            class="pr-12">
+            <cc-panel v-for="c in encounter.Sitrep.Conditions"
+              :key="c.title"
+              :title="c.title">
+              {{ c.condition }}
+            </cc-panel>
+          </div>
+          <p v-else
+            v-html-safe="encounter.Sitrep[block]"
             class="text-text" />
           <div class="text-right mt-n2">
             <v-btn size="x-small"
@@ -111,7 +120,8 @@
           dense
           align="center">
           <v-col cols="auto"
-            class="text-accent heading"><span v-if=reinforcement.turn>{{ $t('active.encInfo.turnN', { n: reinforcement.turn }) }}</span>
+            class="text-accent heading"><span v-if=reinforcement.turn>{{ $t('active.encInfo.turnN',
+              { n: reinforcement.turn }) }}</span>
             <span v-else> {{ $t('active.encInfo.freeDeployment') }}</span></v-col>
           <v-col>
             <ul class="text-text">
@@ -148,40 +158,40 @@ const props = withDefaults(defineProps<{
 const sitrepBlocks = ref(['Description', 'Deployment', 'Objective', 'Extraction', 'Conditions'])
 
 const reinforcementsByTurn = computed(() => {
-      const source = props.encounterInstance || props.encounter;
-      if (!source || !source.Combatants) return [];
+  const source = props.encounterInstance || props.encounter;
+  if (!source || !source.Combatants) return [];
 
-      const reinforcements = {};
-      source.Combatants.forEach((combatant) => {
-        if (combatant.reinforcement) {
-          const turn = combatant.reinforcementTurn || 0;
-          if (!reinforcements[turn]) {
-            reinforcements[turn] = [];
-          }
-          reinforcements[turn].push(combatant);
-        }
-      });
-      const res = Object.entries(reinforcements).map(([turn, combatants]) => ({
-        turn: Number(turn),
-        combatants,
-      }));
-      return _.sortBy(res, 'turn');
-    })
+  const reinforcements = {};
+  source.Combatants.forEach((combatant) => {
+    if (combatant.reinforcement) {
+      const turn = combatant.reinforcementTurn || 0;
+      if (!reinforcements[turn]) {
+        reinforcements[turn] = [];
+      }
+      reinforcements[turn].push(combatant);
+    }
+  });
+  const res = Object.entries(reinforcements).map(([turn, combatants]) => ({
+    turn: Number(turn),
+    combatants,
+  }));
+  return _.sortBy(res, 'turn');
+})
 
 function copy(text) {
-      navigator.clipboard
-        .writeText(text)
-        .then(() => {
-          notify({
-            text: t('active.common.copiedToClipboard'),
-            color: 'success',
-          });
-        })
-        .catch((err) => {
-          notify({
-            text: t('active.encounter.failedToCopyTitle'),
-            color: 'error',
-          });
-        });
-    }
+  navigator.clipboard
+    .writeText(text)
+    .then(() => {
+      notify({
+        text: t('active.common.copiedToClipboard'),
+        color: 'success',
+      });
+    })
+    .catch((err) => {
+      notify({
+        text: t('active.encounter.failedToCopyTitle'),
+        color: 'error',
+      });
+    });
+}
 </script>

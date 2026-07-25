@@ -17,7 +17,6 @@ import CCAlert from './components/panel_bases/CCAlert.vue'
 import CCHeading from './components/headings/CCHeading.vue'
 import CCToolbar from './components/headings/CCToolbar.vue'
 
-import CCModal from './components/modals/CCModal.vue'
 import CCDialog from './components/modals/CCDialog.vue'
 
 import CCTabs from './components/CCTabs.vue'
@@ -118,7 +117,6 @@ export {
   CCClickablePanel,
   CCAlert,
   // ---
-  CCModal,
   CCDialog,
   // ---
   CCTabs,

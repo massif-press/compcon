@@ -102,8 +102,8 @@
       justify="center">
       <v-col v-for="(d, i) in cs.Deployables"
         :key="`deployable-${i}`"
-        cols="auto"
-        style="max-width: 700px;">
+        :cols="mobile ? 12 : 'auto'"
+        :style="mobile ? '' : 'max-width: 700px;'">
         <cc-deployable-info :deployable="d"
           panel
           :owner="owner"

@@ -1,6 +1,6 @@
 <template>
-  <cc-modal :title="$t('pm.titles.setGroupEmblem')"
-    icon="mdi-image">
+  <cc-dialog :title="$t('pm.titles.setGroupEmblem')"
+    icon="mdi-image" :close-on-click="false" major full-height max-width="90vw">
     <template #activator="{ open }">
       <div class="d-flex justify-center">
         <cc-button size="small"
@@ -19,7 +19,7 @@
     </template>
     <cc-image-selector :item="group"
       type="emblem" />
-  </cc-modal>
+  </cc-dialog>
 </template>
 
 <script setup lang="ts">

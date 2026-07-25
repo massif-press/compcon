@@ -82,19 +82,19 @@
                   [
                   <b>
                     {{ $t('common.hase_h') }}:
-                    <span class="text-weight-normal text-accent">
+                    <span class="text-weight-normal text-accent pr-2">
                       {{ pilot.MechSkillsController.MechSkills.Hull }}
                     </span>
                   </b>
                   <b>
                     {{ $t('common.hase_a') }}:
-                    <span class="text-weight-normal text-accent">
+                    <span class="text-weight-normal text-accent pr-2">
                       {{ pilot.MechSkillsController.MechSkills.Agi }}
                     </span>
                   </b>
                   <b>
                     {{ $t('common.hase_s') }}:
-                    <span class="text-weight-normal text-accent">
+                    <span class="text-weight-normal text-accent pr-2">
                       {{ pilot.MechSkillsController.MechSkills.Sys }}
                     </span>
                   </b>

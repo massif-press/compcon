@@ -177,15 +177,15 @@
     :mech="mech"
     @select="finalizeSuperheavy($event)" />
 
-  <cc-modal v-if="item"
+  <cc-dialog v-if="item"
     v-model="modDialog"
     :title="`${mod ? 'Modify' : 'Install'} ${item.Name} Modification`"
     clip
-    icon="cc:weaponmod">
+    icon="cc:weaponmod" :close-on-click="false" major full-height max-width="90vw">
     <mod-selector :weapon="item"
       :mech="mech"
       @equip="install($event)" />
-  </cc-modal>
+  </cc-dialog>
 </template>
 
 <script setup lang="ts">

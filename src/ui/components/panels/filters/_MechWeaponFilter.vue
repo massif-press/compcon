@@ -173,4 +173,6 @@ const f = props.activeFilters;
     if (f.RangeType) attackTypeFilter.value = f.RangeType;
     if (f.DamageType) damageTypeFilter.value = f.DamageType;
 })
+
+defineExpose({ clear })
 </script>

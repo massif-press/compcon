@@ -68,6 +68,13 @@ function onSpLlChange(partial: any) {
   updateFilters();
 }
 
+function clear() {
+  tagFilter.value = [];
+  systemTypeFilter.value = [];
+  spLlFilters.value = {};
+  (base.value as any)?.clear();
+}
+
 function updateFilters() {
   const fObj = { ...spLlFilters.value } as any;
   if (tagFilter.value && tagFilter.value.length) fObj.Tags = tagFilter.value;
@@ -84,4 +91,6 @@ onMounted(() => {
   if (f.Tags) tagFilter.value = f.Tags;
   if (f.Type) systemTypeFilter.value = f.Type[0] ?? [];
 })
+
+defineExpose({ clear })
 </script>

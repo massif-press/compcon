@@ -1,6 +1,6 @@
 <template>
-  <cc-modal :title="`Organize ${title}`"
-    icon="mdi-queue-first-in-last-out">
+  <cc-dialog :title="`Organize ${title}`"
+    icon="mdi-queue-first-in-last-out" :close-on-click="false" major full-height max-width="90vw">
     <template #activator="{ open }">
       <cc-button color="primary"
         size="small"
@@ -70,7 +70,7 @@
         </v-col>
       </v-row>
     </v-card-text>
-  </cc-modal>
+  </cc-dialog>
 </template>
 
 <script lang="ts" setup>

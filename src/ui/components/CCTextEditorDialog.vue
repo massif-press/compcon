@@ -1,9 +1,8 @@
 <template>
-  <cc-modal v-model="dialogValue"
+  <cc-dialog v-model="dialogValue"
     :title="title"
     icon="mdi-circle-edit-outline"
-    :max-width="width"
-    shrink>
+    :max-width="width" :close-on-click="false" major>
     <v-card-text class="px-0 pb-0">
       <quill-editor v-model:content="text"
         :options="options"
@@ -20,7 +19,7 @@
         </cc-button>
       </v-col>
     </v-row>
-  </cc-modal>
+  </cc-dialog>
 </template>
 
 <script setup lang="ts">

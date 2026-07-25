@@ -3,33 +3,42 @@
     v-bind="{ dialog, open, close }"></slot>
 
   <v-dialog v-model="dialog"
+    :id="id"
     :aria-label="title || undefined"
-    :fullscreen="mobile"
+    :fullscreen="fullscreen || mobile"
     :max-width="mobile ? '' : maxWidth"
     :min-width="mobile ? '' : minWidth"
+    :min-height="mobile ? '100vh' : fullHeight ? '95vh' : ''"
     :persistent="persistent"
     :close-on-content-click="closeOnClick">
     <v-card tile
       flat
+      :min-height="mobile ? '100vh' : fullHeight ? '95vh' : ''"
       :class="[!mobile && 'cc-panel-clip', closeOnClick && 'hoverClose']"
-      style="position: relative"
-      border="sm"
+      :style="clip ? 'position: relative; overflow: clip' : 'position: relative'"
+      :border="mobile || fullscreen ? false : 'sm'"
       :ripple="false">
-      <cc-toolbar minor
+      <cc-toolbar :minor="!major"
         :title="title"
         :icon="icon"
         :color="color"
-        style="position: sticky; top: 0; z-index: 10"
+        :extended="extended"
+        :class="major && 'border-b-sm'"
+        :style="`position: sticky; top: 0; z-index: ${major ? 999 : 10}`"
         :hide-close="closeOnClick"
         @close="close">
-        <slot name="title" />
+        <template #title>
+          <slot name="title" />
+        </template>
         <template #toolbar-items>
           <slot name="toolbar-items"
             v-bind="{ close }" />
-
+        </template>
+        <template #extension>
+          <slot name="extension" />
         </template>
       </cc-toolbar>
-      <v-card-text :class="noGutters ? 'pa-0' : 'pt-1 pb-4 px-4'">
+      <v-card-text :class="cardTextClass">
         <slot v-bind="{ dialog, open, close }" />
       </v-card-text>
       <div v-if="closeOnClick">
@@ -41,7 +50,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { computed, ref, watch, nextTick } from 'vue';
 
 import { useDisplay } from 'vuetify';
 
@@ -58,9 +67,13 @@ const props = withDefaults(defineProps<{
   maxWidth?: string | number;
   minWidth?: string | number;
   noGutters?: boolean;
-  noActions?: boolean;
-  large?: boolean;
-  controller?: object;
+  tabs?: boolean;
+  extended?: boolean;
+  clip?: boolean;
+  fullscreen?: boolean;
+  fullHeight?: boolean;
+  major?: boolean;
+  id?: string;
   modelValue?: boolean;
 }>(), {
   title: 'Default Title',
@@ -68,22 +81,34 @@ const props = withDefaults(defineProps<{
   closeOnClick: true,
   maxWidth: '60vw',
   minWidth: '40vw',
-  controller: undefined,
   icon: undefined
 });
 
 const emit = defineEmits<{
-  activate: [];
   close: [];
   'update:modelValue': [value: boolean];
 }>();
 
 const dialog = ref(false);
+const savedScrollY = ref(0);
+
+const cardTextClass = computed(() => {
+  if (props.noGutters) return 'pa-0';
+  if (props.tabs) return mobile.value ? 'pa-0' : 'pa-0 px-4';
+  return 'pt-1 pb-4 px-4';
+});
 
 watch(() => props.modelValue, val => { if (val !== undefined) dialog.value = !!val; }, { immediate: true });
 watch(dialog, val => {
+  if (props.modelValue !== undefined) {
+    if (val) {
+      savedScrollY.value = window.scrollY;
+    } else {
+      nextTick(() => window.scrollTo({ top: savedScrollY.value, behavior: 'instant' }));
+    }
+    emit('update:modelValue', val);
+  }
   if (!val) emit('close');
-  if (props.modelValue !== undefined) emit('update:modelValue', val);
 });
 
 function open() { dialog.value = true; }

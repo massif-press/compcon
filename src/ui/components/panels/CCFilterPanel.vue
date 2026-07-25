@@ -1,5 +1,6 @@
 <template>
-  <div :style="display.mdAndDown.value ? 'z-index:2; position: fixed; bottom: 28px; right: 28px' : ''">
+  <div
+    :style="display.mdAndDown.value ? 'z-index:2; position: fixed; bottom: 28px; right: 28px' : ''">
     <v-badge :value="filterCount"
       overlap
       right
@@ -36,7 +37,8 @@
         <v-spacer />
         <cc-button color="accent"
           class="mr-3"
-          @click="clearFilters">{{ $t('ui.dice.clearAll') }}</cc-button>
+          @click="clearFilters">{{ $t('ui.dice.clearAll')
+          }}</cc-button>
       </v-card-actions>
     </v-sheet>
   </v-navigation-drawer>

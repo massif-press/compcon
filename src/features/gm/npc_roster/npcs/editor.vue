@@ -28,10 +28,9 @@
         @click="exportV2Item(item)">
         {{ $t('gm.npcEditor.v2Export') }}
       </cc-button>
-      <cc-modal :title="$t('gm.titles.npcStatblock')"
+      <cc-dialog :title="$t('gm.titles.npcStatblock')"
         icon="mdi-text-account"
-        shrink
-        max-width="1200px">
+        max-width="1200px" :close-on-click="false" major>
         <template #activator="{ open }">
           <cc-button prepend-icon="mdi-text-account"
             size="small"
@@ -44,7 +43,7 @@
           <npc-statblock :item="<Unit>item"
             @close="close" />
         </template>
-      </cc-modal>
+      </cc-dialog>
     </template>
     <div v-if="item.NpcClassController?.HasClass">
       <features :npc="item"

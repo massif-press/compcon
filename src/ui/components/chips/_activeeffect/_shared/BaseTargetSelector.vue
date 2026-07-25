@@ -12,6 +12,7 @@
       return-object
       class="mb-1"
       :item-title="t => t.actor.CombatController.CombatName"
+      :item-value="t => t.id"
       :items="event.AvailableTargets"
       flat
       :error="!event.Targets?.[idx - 1]?.Combatant?.id"

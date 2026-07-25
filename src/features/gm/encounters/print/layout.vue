@@ -110,7 +110,9 @@
             <v-icon icon="mdi-account-group"
               color="accent"
               class="mr-1" />
-            <i18n-t keypath="gm.encPrint.atLeastPcs" tag="span" scope="global">
+            <i18n-t keypath="gm.encPrint.atLeastPcs"
+              tag="span"
+              scope="global">
               <template #count><b>{{ n.playerCount }}</b></template>
             </i18n-t>
           </v-col>

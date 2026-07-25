@@ -263,6 +263,7 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   public log(str: string): void {
     this.CombatLog.LogSimpleEvent(str)
+    this.CombatLogVersion++
   }
   // ------------------------------------------------------
   public get Activations(): number {

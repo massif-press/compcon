@@ -1,9 +1,8 @@
 <template>
-  <cc-modal v-model="dialog"
+  <cc-dialog v-model="dialog"
     width="50vw"
-    shrink
     icon="cc:role_striker"
-    :title="$t('pm.titles.selectBracingMount')">
+    :title="$t('pm.titles.selectBracingMount')" :close-on-click="false" major max-width="90vw">
     <v-card-text class="text-center pt-0">
       <span class="text-cc-overline">{{ $t('ui.confirm.heading') }}</span>
       <div class="flavor-text">
@@ -34,7 +33,7 @@
         <i>{{ $t('pm.loadout.theSUPERHEAVYMOUNTINGCoreBonusRequires') }}</i>
       </div>
     </v-card-text>
-  </cc-modal>
+  </cc-dialog>
 </template>
 
 <script setup lang="ts">

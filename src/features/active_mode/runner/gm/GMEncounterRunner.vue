@@ -39,8 +39,24 @@
 
         <v-main style="overflow-y: scroll"
           :style="`padding-left:${mainLeftOffset}`">
-          <div class="text-center bg-panel pa-1 heading h3">
-            {{ instance.Name }} &mdash; {{ $t('active.gmRunner.roundN', { n: instance.Round }) }}
+          <div class="d-flex align-center justify-center bg-panel pa-1">
+            <cc-button icon="mdi-undo"
+              size="x-small"
+              color="primary"
+              class="mr-2"
+              :disabled="!undoMeta.canUndo"
+              :tooltip="undoMeta.canUndo ? $t('active.gmRunner.undoTooltip', { label: undoMeta.undoLabel }) : $t('active.gmRunner.undo')"
+              @click="doUndo" />
+            <div class="text-center heading h3">
+              {{ instance.Name }} &mdash; {{ $t('active.gmRunner.roundN', { n: instance.Round }) }}
+            </div>
+            <cc-button icon="mdi-redo"
+              size="x-small"
+              color="primary"
+              class="ml-2"
+              :disabled="!undoMeta.canRedo"
+              :tooltip="undoMeta.canRedo ? $t('active.gmRunner.redoTooltip', { label: undoMeta.redoLabel }) : $t('active.gmRunner.redo')"
+              @click="doRedo" />
           </div>
           <v-container>
             <div v-if="panel && instance">
@@ -138,10 +154,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { useDisplay } from 'vuetify';
 import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { orderBy } from 'lodash-es';
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
+import {
+  undo as undoStack,
+  redo as redoStack,
+  pushCachedSnapshot,
+  serializeSnapshot,
+  getUndoMeta,
+} from '@/classes/encounter/EncounterUndoStack';
 import DeployablePanel from './EncounterPanels/DeployablePanel.vue';
 import DoodadPanel from './EncounterPanels/DoodadPanel.vue';
 import UnitPanel from './EncounterPanels/UnitPanel.vue';
@@ -187,6 +212,7 @@ const typeMap: Record<string, any> = {
 const props = withDefaults(defineProps<{ id?: string | null }>(), { id: null });
 
 const { mdAndDown: mobile, xs } = useDisplay();
+const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
 
@@ -216,10 +242,100 @@ const mainLeftOffset = computed(() => {
   return '155px';
 });
 
+const undoMeta = computed(() => getUndoMeta(instance.value?.ID ?? ''));
+
+let restoring = false;
+let cachedSnapshot: ReturnType<typeof serializeSnapshot> | null = null;
+let cachedVersions: number[] = [];
+let cachedRound = 0;
+
+const versionSignal = computed(() => {
+  if (!instance.value) return [] as number[];
+  return instance.value.Combatants.map((c: any) => c.actor.CombatController.CombatLogVersion as number);
+});
+
+function recacheUndoBaseline() {
+  if (!instance.value) return;
+  cachedSnapshot = serializeSnapshot(instance.value);
+  cachedVersions = versionSignal.value.slice();
+  cachedRound = instance.value.Round;
+}
+
+function labelForAutoCapture(): string {
+  if (!instance.value) return '';
+  if (instance.value.Round !== cachedRound) return t('active.gmRunner.undoRoundChange');
+  const combatants = instance.value.Combatants;
+  for (let i = 0; i < combatants.length; i++) {
+    if (versionSignal.value[i] !== cachedVersions[i]) {
+      const actor = combatants[i].actor;
+      const name = actor.Callsign || actor.Name;
+      const history = actor.CombatController.CombatLog?.History || [];
+      const last = history[history.length - 1];
+      const desc = last?.event || last?.action?.effectName || '';
+      return desc ? `${name}: ${desc}` : name;
+    }
+  }
+  return t('active.gmRunner.undoAction');
+}
+
+watch([versionSignal, () => instance.value?.Round], () => {
+  if (restoring || !instance.value || !cachedSnapshot) return;
+  if (versionSignal.value.length !== cachedVersions.length) {
+    recacheUndoBaseline();
+    return;
+  }
+  pushCachedSnapshot(instance.value.ID, cachedSnapshot, labelForAutoCapture());
+  recacheUndoBaseline();
+});
+
+function reselectById(inst: EncounterInstance | undefined, id: string | undefined) {
+  if (!inst || !id) {
+    selected.value = null;
+    return;
+  }
+  selected.value = inst.Combatants.find((c: any) => c.id === id) ?? null;
+}
+
+async function applyRestore(data: ReturnType<typeof serializeSnapshot> | null) {
+  if (!data) return;
+  restoring = true;
+  const selectedId = selected.value?.id;
+  const restored = EncounterInstance.Deserialize(data);
+  EncounterStore().ReplaceActiveEncounter(restored);
+  await nextTick();
+  reselectById(restored, selectedId);
+  recacheUndoBaseline();
+  restoring = false;
+}
+
+async function doUndo() {
+  if (!instance.value) return;
+  await applyRestore(undoStack(instance.value));
+}
+
+async function doRedo() {
+  if (!instance.value) return;
+  await applyRestore(redoStack(instance.value));
+}
+
+function handleUndoRedoKeydown(e: KeyboardEvent) {
+  const target = e.target as HTMLElement | null;
+  if (target && ['INPUT', 'TEXTAREA'].includes(target.tagName)) return;
+  if (target?.isContentEditable) return;
+  if (!(e.ctrlKey || e.metaKey) || e.key.toLowerCase() !== 'z') return;
+  e.preventDefault();
+  if (e.shiftKey) doRedo();
+  else doUndo();
+}
+
+onMounted(() => window.addEventListener('keydown', handleUndoRedoKeydown));
+onBeforeUnmount(() => window.removeEventListener('keydown', handleUndoRedoKeydown));
+
 watch(instanceID, (newval) => {
   if (!newval) return;
   setEidolonHp();
   actors.value.forEach((a: any) => a.CombatController.Round = instance.value!.Round);
+  recacheUndoBaseline();
 }, { immediate: true });
 
 watch(actorCount, (newval, oldval) => {

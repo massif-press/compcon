@@ -123,10 +123,11 @@
 
     <v-card-text>
       <div class="text-cc-overline text-disabled">{{ $t('active.gmOptions.overrides') }}</div>
-      <v-expansion-panels variant="accordion"
+      <v-expansion-panels v-model="expandedOverridePanel"
+        variant="accordion"
         color="panel">
         <v-expansion-panel
-          v-for="combatant in encounterInstance.Combatants.filter((c) => !c.reinforcement)"
+          v-for="combatant in overridableCombatants"
           :key="combatant.id">
           <v-expansion-panel-title>
             <div class="heading h3">{{ combatant.actor.Name }}</div>
@@ -220,11 +221,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import logger from '@/user/logger'
 import { useRouter } from 'vue-router'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { EncounterStore } from '@/stores'
+import { snapshot } from '@/classes/encounter/EncounterUndoStack'
 import RunnerOptionsHeader from '../../_shared/_RunnerOptionsHeader.vue'
 import { useRunnerOptions } from '../../_shared/useRunnerOptions'
 import { notify } from '@kyvg/vue3-notification'
@@ -245,10 +247,25 @@ onMounted(() => { reset() })
 const reinforcements = computed(() =>
   (props.encounterInstance as any).Combatants.filter((c: any) => c.reinforcement)
 )
+const overridableCombatants = computed(() =>
+  (props.encounterInstance as any).Combatants.filter((c: any) => !c.reinforcement)
+)
+
+const expandedOverridePanel = ref<number | undefined>(undefined)
+
+watch(expandedOverridePanel, (val) => {
+  if (val === undefined || val === null) return
+  const combatant = overridableCombatants.value[val as number]
+  if (!combatant) return
+  snapshot(props.encounterInstance, t('active.gmOptions.undoEditOverrides', { name: combatant.actor.Name }))
+})
 
 function removeActor(actor: any) {
   const idx = (props.encounterInstance as any).Combatants.findIndex((c: any) => c.actor.ID === actor.ID)
-  if (idx !== -1) (props.encounterInstance as any).Combatants.splice(idx, 1)
+  if (idx !== -1) {
+    snapshot(props.encounterInstance, t('active.gmOptions.undoRemoveCombatant', { name: actor.Name }));
+    (props.encounterInstance as any).Combatants.splice(idx, 1)
+  }
 }
 
 function manualSave() {

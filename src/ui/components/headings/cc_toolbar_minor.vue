@@ -10,6 +10,7 @@
       <span class="text-cc-overline">
         <v-icon v-if="icon" :icon="icon" start style="padding-bottom: 2px" />
         <span v-text="title" />
+        <slot name="title" />
       </span>
     </v-toolbar-title>
     <v-spacer />

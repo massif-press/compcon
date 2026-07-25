@@ -103,10 +103,10 @@
 
     &nbsp;
 
-    <cc-modal v-model="refModal"
-      :title="$t('nav.nav.quickReference')">
+    <cc-dialog v-model="refModal"
+      :title="$t('nav.nav.quickReference')" :close-on-click="false" major full-height max-width="90vw">
       <reference is-modal />
-    </cc-modal>
+    </cc-dialog>
 
     <v-divider v-if="!mobile"
       vertical
@@ -216,8 +216,8 @@
 
     <v-tooltip location="bottom">
       <template #activator="{ props }">
-        <cc-modal :title="$t('nav.nav.cloudAccount')"
-          icon="mdi-cloud-sync-outline">
+        <cc-dialog :title="$t('nav.nav.cloudAccount')"
+          icon="mdi-cloud-sync-outline" :close-on-click="false" major full-height max-width="90vw">
           <template #activator="{ open }">
             <cc-button v-bind="props"
               class="mx-1"
@@ -230,7 +230,7 @@
               :content="notifications.length" />
           </template>
           <cloud-page />
-        </cc-modal>
+        </cc-dialog>
       </template>
       {{ $t('nav.nav.cloudAccount') }}
     </v-tooltip>
@@ -241,8 +241,8 @@
 
     <v-tooltip location="bottom">
       <template #activator="{ props }">
-        <cc-modal :title="$t('nav.nav.achievements')"
-          icon="cc:achievement_1">
+        <cc-dialog :title="$t('nav.nav.achievements')"
+          icon="cc:achievement_1" :close-on-click="false" major full-height max-width="90vw">
           <template #activator="{ open }">
             <cc-button v-bind="props"
               class="mx-1"
@@ -254,7 +254,7 @@
           <template #default="{ close }">
             <achievements-page @close="close()" />
           </template>
-        </cc-modal>
+        </cc-dialog>
       </template>
       {{ $t('nav.nav.achievements') }}
     </v-tooltip>
@@ -274,34 +274,34 @@
       <v-list density="compact">
         <v-list-item @click.stop="contentModal = true">{{ $t('nav.nav.manageContent') }}</v-list-item>
         <content-page v-model="contentModal" />
-        <cc-modal title="options"
-          icon="mdi-cog">
+        <cc-dialog title="options"
+          icon="mdi-cog" :close-on-click="false" major full-height max-width="90vw">
           <template #activator="{ open }">
             <v-list-item @click.stop="open">{{ $t('nav.nav.options') }}</v-list-item>
           </template>
           <options-page />
-        </cc-modal>
-        <cc-modal title="about"
-          icon="mdi-information-outline">
+        </cc-dialog>
+        <cc-dialog title="about"
+          icon="mdi-information-outline" :close-on-click="false" major full-height max-width="90vw">
           <template #activator="{ open }">
             <v-list-item @click.stop="open">{{ $t('nav.nav.about') }}</v-list-item>
           </template>
           <about-page />
-        </cc-modal>
-        <cc-modal title="title"
-          icon="cc:gms">
+        </cc-dialog>
+        <cc-dialog title="title"
+          icon="cc:gms" :close-on-click="false" major full-height max-width="90vw">
           <template #activator="{ open }">
             <v-list-item @click.stop="open">{{ $t('nav.nav.credits') }}</v-list-item>
           </template>
           <credits-page />
-        </cc-modal>
-        <cc-modal title="title"
-          icon="mdi-help-circle-outline">
+        </cc-dialog>
+        <cc-dialog title="title"
+          icon="mdi-help-circle-outline" :close-on-click="false" major full-height max-width="90vw">
           <template #activator="{ open }">
             <v-list-item @click.stop="open">{{ $t('nav.nav.help') }}</v-list-item>
           </template>
           <help-page />
-        </cc-modal>
+        </cc-dialog>
         <v-divider />
         <v-list-item target="_blank"
           href="https://www.patreon.com/compcon">

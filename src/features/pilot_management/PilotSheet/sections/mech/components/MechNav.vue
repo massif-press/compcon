@@ -108,12 +108,12 @@
 
     <div id="end-cap" />
   </div>
-  <cc-modal v-model="statblockDialog"
+  <cc-dialog v-model="statblockDialog"
     :title="$t('pm.sheet.generateStatblock')"
-    icon="mdi-code-block-tags">
+    icon="mdi-code-block-tags" :close-on-click="false" major full-height max-width="90vw">
     <statblock-dialog :pilot="<Pilot>pilot"
       :mech-i-d="mech.ID" />
-  </cc-modal>
+  </cc-dialog>
 </template>
 
 <script setup lang="ts">
