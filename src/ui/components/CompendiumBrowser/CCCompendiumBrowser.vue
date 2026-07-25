@@ -1,26 +1,9 @@
 <template>
   <v-layout class="browser-layout">
-    <div style="position: absolute; z-index: 999;"
-      class="open-panel"
-      role="button"
-      tabindex="0"
-      :aria-label="$t('common.a11y.toggleNavigation')"
-      :aria-expanded="showNav"
-      :style="`left: ${showNav ? (mobile ? '322' : '349') : '0'}px; top: 30%; bottom: 30%; width: ${showNav ? '14' : '22'}px; border-top-right-radius: 14px; border-bottom-right-radius: 14px; corner-shape: bevel;`"
-      @click="toggleNav()"
-      @keydown.enter="toggleNav()"
-      @keydown.space.prevent="toggleNav()">
-      <div class="open-panel-chevron"
-        :style="`left: ${showNav ? '-9' : '2'}px;`">
-        <cc-button :icon="showNav ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'"
-          color="primary"
-          size="large"
-          hide-light
-          tabindex="-1"
-          aria-hidden="true"
-          @click="toggleNav()" />
-      </div>
-    </div>
+    <cc-panel-toggle v-model="showNav"
+      side="left"
+      :open-offset="mobile ? 322 : 349"
+      :closed-offset="0" />
 
     <v-navigation-drawer v-model="showNav"
       :width="mobile ? 320 : 350">
@@ -88,6 +71,7 @@ import { computed, ref, watch, provide } from 'vue'
 import { useDisplay } from 'vuetify'
 import * as _ from 'lodash-es';
 
+import CcPanelToggle from '../buttons/CCPanelToggle.vue';
 import bViewToggle from './components/_b-view-toggle.vue';
 import bGroupToggle from './components/_b-group-toggle.vue';
 import bFilterSet from './components/_b-filter-set.vue';
@@ -223,9 +207,6 @@ view.value = props.options.initialView
 group.value = props.options.initialGroup
 loadView()
 
-function toggleNav() {
-  showNav.value = !showNav.value
-}
 function toggleItem(item: CompendiumItem | License) {
   selectItem(selectedItem.value?.ID === item.ID ? null : item)
 }
@@ -273,30 +254,6 @@ provide(CompendiumBrowserKey, {
 </script>
 
 <style scoped>
-.open-panel {
-  cursor: pointer;
-  background-color: rgb(var(--v-theme-primary));
-  transition: background-color 0.3s ease;
-}
-
-.open-panel:hover {
-  background-color: rgb(var(--v-theme-accent))
-}
-
-.open-panel-chevron {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.open-panel :deep(.v-btn) {
-  transition: background-color 0.3s ease;
-}
-
-.open-panel:hover :deep(.v-btn) {
-  background-color: rgb(var(--v-theme-accent)) !important;
-}
-
 /* Cancel cc-dialog's px-4 gutter so the browser (and its collapse strip) sits
    flush with the dialog edge. Desktop only; mobile modals have no px-4. */
 @media (min-width: 960px) {

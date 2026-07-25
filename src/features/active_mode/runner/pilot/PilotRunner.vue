@@ -43,13 +43,11 @@
           </v-container>
         </v-main>
 
-        <div style="position: absolute; z-index: 999"
-          :style="`right: ${showRight ? (mobile ? '60' : '256') : mobile ? '6' : '62'}px; top: 6px`">
-          <cc-button :icon="showRight ? 'mdi-chevron-double-right' : 'mdi-chevron-double-left'"
-            size="small"
-            color="primary"
-            @click="showRight = !showRight" />
-        </div>
+        <cc-panel-toggle v-model="showRight"
+          side="right"
+          :open-offset="mobile ? 55 : 255"
+          :closed-offset="mobile ? 0 : 55"
+          :bottom-inset="36" />
 
         <v-navigation-drawer v-if="!mobile"
           :rail="!showRight"
@@ -140,6 +138,7 @@ import DeployablesPanel from './_components/PcDeployablesPanel.vue';
 import PcEndRound from './_components/PcEndRound.vue';
 import PcEndEncounter from './_components/PcEndEncounter.vue';
 import RunnerLeaveDialog from '../_shared/_RunnerLeaveDialog.vue';
+import CcPanelToggle from '@/ui/components/buttons/CCPanelToggle.vue';
 
 const panelMap: Record<string, any> = {
   'pc': PcPanel,

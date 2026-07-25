@@ -10,13 +10,11 @@
   <div v-else>
     <div style="overflow-y: hidden">
       <v-layout :style="`height: calc(100vh - ${xs ? '23px' : '41px'})`">
-        <div style="position: absolute; z-index: 999"
-          :style="`left: ${showLeft ? '430' : '122'}px; top: 5px`">
-          <cc-button :icon="showLeft ? 'mdi-chevron-double-left' : 'mdi-chevron-double-right'"
-            size="small"
-            color="primary"
-            @click="showLeft = !showLeft" />
-        </div>
+        <cc-panel-toggle v-model="showLeft"
+          side="left"
+          :open-offset="419"
+          :closed-offset="91"
+          :bottom-inset="36" />
         <div location="left"
           class="bg-background border-sm"
           :style="`width: ${showLeft ? '420' : '92'}px;`"
@@ -47,7 +45,7 @@
               :disabled="!undoMeta.canUndo"
               :tooltip="undoMeta.canUndo ? $t('active.gmRunner.undoTooltip', { label: undoMeta.undoLabel }) : $t('active.gmRunner.undo')"
               @click="doUndo" />
-            <div class="text-center heading h3">
+            <div class="text-center heading h3 mx-3">
               {{ instance.Name }} &mdash; {{ $t('active.gmRunner.roundN', { n: instance.Round }) }}
             </div>
             <cc-button icon="mdi-redo"
@@ -96,14 +94,12 @@
             </div>
           </v-container>
         </v-main>
-        <div v-if="!mobile"
-          style="position: absolute; z-index: 999"
-          :style="`right: ${showRight ? (mobile ? '222' : '256') : '62'}px; top: 6px`">
-          <cc-button :icon="showRight ? 'mdi-chevron-double-right' : 'mdi-chevron-double-left'"
-            size="small"
-            color="primary"
-            @click="showRight = !showRight" />
-        </div>
+        <cc-panel-toggle v-if="!mobile"
+          v-model="showRight"
+          side="right"
+          :open-offset="249"
+          :closed-offset="55"
+          :bottom-inset="36" />
 
         <v-navigation-drawer :rail="!showRight"
           :width="250"
@@ -190,6 +186,7 @@ import ActorLogs from './EncounterPanels/_components/ActorLogs.vue';
 import CombatStatblockExport from './EncounterPanels/_components/CombatStatblockExport.vue';
 import ActorTelemetry from './EncounterPanels/_components/ActorTelemetry.vue';
 import RunnerLeaveDialog from '../_shared/_RunnerLeaveDialog.vue';
+import CcPanelToggle from '@/ui/components/buttons/CCPanelToggle.vue';
 
 const panelMap: Record<string, any> = {
   'encounter-info': EncounterInfoPanel,
