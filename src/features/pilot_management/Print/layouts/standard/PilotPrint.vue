@@ -349,10 +349,10 @@
                   </v-col>
                   <v-col>
                     <div v-html-safe="t.Talent.Ranks[n - 1].Description" />
-                    <print-action v-if="t.Talent.Actions.length"
-                      :actions="t.Talent.Actions" />
-                    <print-deployable v-if="t.Talent.Deployables.length"
-                      :deployables="t.Talent.Deployables" />
+                    <print-action v-if="t.Talent.Ranks[n - 1].Actions.length"
+                      :actions="t.Talent.Ranks[n - 1].Actions" />
+                    <print-deployable v-if="t.Talent.Ranks[n - 1].Deployables.length"
+                      :deployables="t.Talent.Ranks[n - 1].Deployables" />
                   </v-col>
                 </v-row>
               </fieldset>

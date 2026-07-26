@@ -183,7 +183,7 @@ class Reserve extends CompendiumItem {
   public static Deserialize(rData: IReserveData): Reserve {
     let r
     if (CompendiumStore().has('Reserves', rData.id))
-      r = CompendiumStore().referenceByID('Reserves', rData.id)
+      r = CompendiumItem.Clone(CompendiumStore().referenceByID('Reserves', rData.id)) as Reserve
     else r = new Reserve(rData)
 
     r._resource_name = rData.resource_name
