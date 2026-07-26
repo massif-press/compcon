@@ -66,7 +66,7 @@
           <v-col cols="auto">{{ $t('pm.sheet.heat') }}</v-col>
         </v-row>
       </v-card>
-      <menu-input :owner="owner" :encounter-instance="encounterInstance" :key="controller.ID"
+      <menu-input :owner="owner" :encounter-instance="encounterInstance" :key="controller.RootActor.ID"
         hide-input
         :active-effect="action"
         :close="close"

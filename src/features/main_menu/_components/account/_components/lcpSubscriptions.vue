@@ -107,7 +107,7 @@ async function installLatest(pack) {
       color: 'success', icon: 'mdi-check-bold',
     });
   } catch (err) {
-    logger.error(`Error downloading LCP: ${err}`, this, err);
+    logger.error(`Error downloading LCP: ${err}`, undefined, err);
     notify({
       title: t('notify.lcp.lcpUpdateErrorTitle'),
       text: t('mainMenu.account.lcpUpdateErrorText', { title: pack.title }),
@@ -135,7 +135,7 @@ async function updateAll() {
       color: 'success', icon: 'mdi-check-bold',
     });
   } catch (err) {
-    logger.error(`Error updating LCPs: ${err}`, this, err);
+    logger.error(`Error updating LCPs: ${err}`, undefined, err);
     notify({
       title: t('mainMenu.account.allLcpsUpdateErrorTitle'),
       text: t('mainMenu.account.allLcpsUpdateErrorText'),

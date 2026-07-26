@@ -285,7 +285,7 @@ const emit = defineEmits<{
 
 const menu = ref(false)
 const moreDice = ref(false)
-const dice = ref([])
+const dice = ref<{ sides: number; count: number }[]>([])
 const accRolls = ref([])
 const flat = ref(0)
 const result = ref(null)
@@ -321,13 +321,13 @@ const total = computed(() => {
       );
     })
 
-function addDice(sides) {
+function addDice(sides: number) {
       result.value = null;
       const idx = dice.value.findIndex((x) => x.sides === sides);
       if (idx > -1) dice.value[idx].count++;
       else dice.value.push({ sides, count: 1 });
     }
-function removeDice(sides) {
+function removeDice(sides: number) {
       result.value = null;
       const idx = dice.value.findIndex((x) => x.sides === sides);
       dice.value[idx].count--;
@@ -371,8 +371,8 @@ function reset() {
         const arr = props.preset.split(/\+|\-/);
         arr.forEach((e) => {
           if (e.includes('d')) {
-            const dice = e.split('d');
-            dice.value.push({ sides: dice[1], count: dice[0] });
+            const parts = e.split('d');
+            dice.value.push({ sides: parseInt(parts[1]), count: parseInt(parts[0]) || 1 });
           } else flat.value += parseInt(e);
         });
       }

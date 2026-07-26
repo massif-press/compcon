@@ -35,22 +35,24 @@ const options = ref({
       zIndex: 9999,
     })
 
-function open(title: string,
-      message: string,
-      options: {
+function open(newTitle: string,
+      newMessage: string,
+      newOptions: {
         color?: string;
         width?: number;
         zIndex?: number;
       } = {}) {
       dialog.value = true;
-      title.value = title;
-      message.value = message;
-      options.value = Object.assign({}, options.value, options);
-      return new Promise((resolve, reject) => {
-        resolve.value = resolve;
-        reject.value = reject;
+      title.value = newTitle;
+      message.value = newMessage;
+      options.value = Object.assign({}, options.value, newOptions);
+      return new Promise((res, rej) => {
+        resolve.value = res;
+        reject.value = rej;
       });
     }
+
+defineExpose({ open })
 function agree() {
       resolve.value(true);
       dialog.value = false;

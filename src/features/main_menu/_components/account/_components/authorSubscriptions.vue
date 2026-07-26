@@ -238,7 +238,7 @@ async function update(item) {
   loading.value = true;
   let errors = await UserStore().updateRemoteCollection(item);
   if (errors.length > 0) {
-    logger.error(`Error updating collection: ${errors}`, this);
+    logger.error(`Error updating collection: ${errors}`);
     notify({
       title: t('mainMenu.account.collectionErrorTitle'),
       text: t('mainMenu.account.collectionErrorText'),

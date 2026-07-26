@@ -225,7 +225,7 @@ const allEventsStaged = computed(() => {
 })
 
 function reset(clearAction = false) {
-  if (clearAction) (owner.value as any).CombatController.ClearActionUsed((props.action as any).ID)
+  if (clearAction) owner.value.actor.CombatController.ClearActionUsed((props.action as any).ID)
   selectedWeapons.value = new Array(2)
   events.value = new Array(2)
   if (!selectedWeapons.value[0] && props.presetWeapon) {

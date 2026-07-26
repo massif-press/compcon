@@ -188,7 +188,7 @@ async function updateCampaign() {
           color: 'success',
         });
       } catch (err) {
-        logger.error(`Error updating campaign: ${err}`, this);
+        logger.error(`Error updating campaign: ${err}`);
         notify({
           title: t('notify.common.error'),
           text: t('notify.compendium.campaignUpdateFailedText'),

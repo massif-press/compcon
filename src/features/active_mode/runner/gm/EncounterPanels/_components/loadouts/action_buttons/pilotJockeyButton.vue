@@ -37,7 +37,7 @@
             </div>
 
             <div v-else>
-              <menu-input :owner="owner" :encounter-instance="encounterInstance" :key="controller.ID"
+              <menu-input :owner="owner" :encounter-instance="encounterInstance" :key="controller.RootActor.ID"
                 :active-effect="selectedAction(tab)"
                 :close="close"
                 @apply="apply"

@@ -229,7 +229,7 @@ async function exchangePatreonToken(code) {
           color: 'success',
         });
       } catch (error) {
-        logger.error(`Error linking Patreon account: ${error}`, this, error);
+        logger.error(`Error linking Patreon account: ${error}`, undefined, error);
         loadPatreon.value = false;
         if (error instanceof NoPatreonTierError) {
           notify({

@@ -157,7 +157,7 @@ const tier = computed(() => {
 })
 
 function reset(clearAction = false) {
-  if (clearAction) owner.value.CombatController.ClearActionUsed(props.action.ID);
+  if (clearAction) owner.value.actor.CombatController.ClearActionUsed(props.action.ID);
   const self = encounterInstance.value.Combatants.find(
     (c: CombatantData) => c.actor.CombatController.RootActor.ID === owner.value.actor.CombatController.RootActor.ID
   );

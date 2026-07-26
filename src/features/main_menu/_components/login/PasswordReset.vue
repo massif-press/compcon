@@ -142,7 +142,7 @@ function reset() {
       sent.value = true;
     })
     .catch((err) => {
-      logger.error(`Error sending reset password email: ${err}`, this, err);
+      logger.error(`Error sending reset password email: ${err}`, undefined, err);
       loading.value = false;
       sent.value = false;
       notify({ text: t('mainMenu.auth.passwordResetErrorText', { msg: err.message }), type: 'error' });

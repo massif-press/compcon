@@ -12,7 +12,7 @@
         item-title="Name"
         return-object
         size="small" />
-      <menu-input :owner="owner" :encounter-instance="encounterInstance" :key="controller.ID"
+      <menu-input :owner="owner" :encounter-instance="encounterInstance" :key="controller.RootActor.ID"
         hide-input
         :active-effect="action"
         :disabled="!selection"

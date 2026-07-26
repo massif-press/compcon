@@ -183,7 +183,7 @@
         </div>
       </cc-alert>
       <menu-input :owner="owner" :encounter-instance="encounterInstance" hide-input
-        :key="controller.ID"
+        :key="controller.RootActor.ID"
         :active-effect="action"
         :close="close"
         @apply="apply"

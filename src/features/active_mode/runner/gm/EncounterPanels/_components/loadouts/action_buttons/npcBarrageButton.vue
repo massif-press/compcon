@@ -172,7 +172,7 @@ const tier = computed(() => {
     })
 
 function reset(clearAction = false) {
-      if (clearAction) owner.value.CombatController.ClearActionUsed(props.action.ID);
+      if (clearAction) owner.value.actor.CombatController.ClearActionUsed(props.action.ID);
       selectedWeapons.value = new Array(2);
       events.value = new Array(2);
       if (!selectedWeapons.value[0] && props.presetWeapon) {

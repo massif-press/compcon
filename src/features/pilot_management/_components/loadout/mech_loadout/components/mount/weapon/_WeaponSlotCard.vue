@@ -23,7 +23,6 @@
           {{ item.Name }}
           <div v-if="!mobile"
             class="text-cc-overline text-disabled ">
-            {{ $enum('weaponType', item.WeaponType) }}
             {{ $enum('weaponSize', item.Size) }}
             {{item.WeaponTypes.map(t => $enum('weaponType', t)).join('/')}}
           </div>

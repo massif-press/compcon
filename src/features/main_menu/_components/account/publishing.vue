@@ -435,7 +435,7 @@ async function Publish(version: 'minor' | 'major') {
           color: 'success', icon: 'mdi-check-circle-outline',
         });
       } catch (e) {
-        logger.error(`Failed to publish collection ${collection.Name}: ${e}`, this, e);
+        logger.error(`Failed to publish collection ${collection.Name}: ${e}`, undefined, e);
         notify({
           title: t('notify.common.error'),
           text: t('notify.account.collectionPublishFailedText', { name: collection.Name }),

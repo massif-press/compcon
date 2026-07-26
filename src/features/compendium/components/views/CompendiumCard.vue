@@ -69,12 +69,12 @@ const landscape = computed(() => {
     })
 const componentLoader = computed(() => {
       if (!props.item) {
-        logger.error('No item provided to CompendiumCard', this);
+        logger.error('No item provided to CompendiumCard');
         return null;
       }
 
       if (!props.item.ItemType && !props.item.type) {
-        logger.error('No item type provided to CompendiumCard', this);
+        logger.error('No item type provided to CompendiumCard');
         return null;
       }
 
@@ -83,7 +83,7 @@ const componentLoader = computed(() => {
       t += 'Content';
 
       if (!content[t]) {
-        logger.error(`No card found for item type ${t}`, this);
+        logger.error(`No card found for item type ${t}`);
         return null;
       }
 
