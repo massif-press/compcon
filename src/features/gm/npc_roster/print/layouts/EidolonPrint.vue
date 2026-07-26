@@ -96,6 +96,7 @@
 </template>
 
 <script setup lang="ts">
+import type { GmPrintOptions } from '@/ui/print/types'
 import type { Eidolon } from '@/classes/npc/eidolon/Eidolon'
 import { computed } from 'vue'
 import NpcFeaturePrint from './components/NpcFeaturePrint.vue';
@@ -107,7 +108,7 @@ defineOptions({ name: 'npc-print' })
 
 const props = defineProps<{
   npc: Eidolon
-  options: object
+  options: GmPrintOptions
 }>()
 
 const persistentTraits = computed(() => {

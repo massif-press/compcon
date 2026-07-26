@@ -125,6 +125,7 @@
 </template>
 
 <script setup lang="ts">
+import type { GmPrintOptions } from '@/ui/print/types'
 import { computed } from 'vue'
 import BlankLine from '@/features/gm/npc_roster/print/components/blank/line.vue';
 import Notes from '@/features/gm/npc_roster/print/components/blank/notes.vue';
@@ -133,7 +134,7 @@ defineOptions({ name: 'item-print' })
 
 const props = defineProps<{
   item: object
-  options: object
+  options: GmPrintOptions
 }>()
 
 const landscape = computed(() => {

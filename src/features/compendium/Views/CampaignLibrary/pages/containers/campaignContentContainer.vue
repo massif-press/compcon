@@ -40,6 +40,7 @@
 </template>
 
 <script setup lang="ts">
+import type { ContentBlock } from '@/classes/campaign/CampaignContentBlock'
 import { computed, ref } from 'vue'
 import NarrativeContent from '@/features/gm/campaigns/pages/_components/NarrativeContent.vue';
 import EncounterContent from '@/features/gm/campaigns/pages/_components/EncounterContent.vue';
@@ -48,7 +49,7 @@ import { campaignColorSelections, campaignColorPalette } from '@/shared/campaign
 defineOptions({ name: 'campaign-page-content-container' })
 
 const props = defineProps<{
-  item: object
+  item: ContentBlock
 }>()
 
 const colorTab = ref(0)

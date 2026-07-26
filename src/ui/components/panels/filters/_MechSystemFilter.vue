@@ -35,6 +35,7 @@
 </template>
 
 <script setup lang="ts">
+import type { ItemFilters } from '@/ui/components/panels/filters/types'
 import { computed, ref, onMounted } from 'vue'
 import { SystemType } from '@/classes/enums'
 import MechItemFilterBase from './MechItemFilterBase.vue'
@@ -42,7 +43,7 @@ import MechItemFilterBase from './MechItemFilterBase.vue'
 defineOptions({ name: 'mech-system-filter' })
 
 const props = withDefaults(defineProps<{
-  activeFilters?: object
+  activeFilters?: ItemFilters
   systemTags?: any[]
 }>(), {
   activeFilters: () => ({}),

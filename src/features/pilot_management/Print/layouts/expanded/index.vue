@@ -16,6 +16,7 @@
 </template>
 
 <script setup lang="ts">
+import type { PilotPrintOptions } from '@/ui/print/types'
 import { computed } from 'vue'
 import { Pilot } from '@/classes/pilot/Pilot'
 import { Mech } from '@/classes/mech/Mech'
@@ -29,7 +30,7 @@ defineOptions({ name: 'ExpandedPrint' })
 const props = withDefaults(defineProps<{
   selectedPilot?: Pilot | null
   selectedMech?: Mech | null
-  options: object
+  options: PilotPrintOptions
   hasBonds?: boolean
 }>(), {
   selectedPilot: null as any,

@@ -6,6 +6,7 @@
 </template>
 
 <script setup lang="ts">
+import type { GmPrintOptions } from '@/ui/print/types'
 import UnitPrint from './UnitPrint.vue';
 import EidolonPrint from './EidolonPrint.vue';
 import DoodadPrint from './DoodadPrint.vue';
@@ -16,7 +17,7 @@ defineOptions({ name: 'combined-print' })
 
 const props = defineProps<{
   npcs: Npc[]
-  options: object
+  options: GmPrintOptions
 }>()
 
 function getComponentByType(npc) {

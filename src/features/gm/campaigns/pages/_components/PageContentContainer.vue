@@ -244,6 +244,7 @@
 </template>
 
 <script setup lang="ts">
+import type { ContentBlock } from '@/classes/campaign/CampaignContentBlock'
 import { ref } from 'vue'
 import NarrativeContentContainer from './NarrativeContentContainer.vue';
 import EncounterContainer from './EncounterContainer.vue';
@@ -252,7 +253,7 @@ import { campaignColorSelections, campaignColorPalette } from '@/shared/campaign
 defineOptions({ name: 'campaign-page-content-container' })
 
 const props = defineProps<{
-  item: object
+  item: ContentBlock
 }>()
 
 const colorTab = ref(0)

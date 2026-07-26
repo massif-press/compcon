@@ -699,6 +699,7 @@
 </template>
 
 <script setup lang="ts">
+import type { PilotPrintOptions } from '@/ui/print/types'
 import type { Pilot } from '@/classes/pilot/Pilot'
 import PrintAction from '../../components/PrintAction.vue';
 import PrintDeployable from '../../components/PrintDeployable.vue';
@@ -712,7 +713,7 @@ defineOptions({ name: 'PilotPrint' })
 
 const props = defineProps<{
   pilot: Pilot
-  options: object
+  options: PilotPrintOptions
 }>()
 
 const { blank, hasPilotOption } = usePrintOptions(props)

@@ -199,7 +199,7 @@
       </v-card>
     </div>
 
-    <fieldset v-if="options.include?.includes('Append Lined Section')"
+    <fieldset v-if="options.include?.some((x) => x.title === 'Append Lined Section')"
       class="mx-1 my-2 px-3">
       <div class="mb-4">
         <notes :rows="16"
@@ -207,7 +207,7 @@
       </div>
     </fieldset>
 
-    <fieldset v-if="options.include?.includes('Append Unlined Section')"
+    <fieldset v-if="options.include?.some((x) => x.title === 'Append Unlined Section')"
       class="mx-1 my-2 px-3">
       <div class="mb-4">
         <notes :rows="16" />
@@ -217,6 +217,7 @@
 </template>
 
 <script setup lang="ts">
+import type { GmPrintOptions } from '@/ui/print/types'
 import { computed } from 'vue'
 import { sortBy } from 'lodash-es'
 import UnitPrint from '@/features/gm/npc_roster/print/layouts/UnitPrint.vue'
@@ -228,7 +229,7 @@ import PageBreak from '@/features/pilot_management/Print/components/PageBreak.vu
 
 const props = defineProps<{
   encounter: Record<string, any>
-  options: Record<string, any>
+  options: GmPrintOptions
 }>()
 
 const SortedCombatants = computed(() => sortBy(props.encounter.Combatants, (x: any) => x.playerCount))

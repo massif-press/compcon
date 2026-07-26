@@ -98,12 +98,13 @@
 </template>
 
 <script setup lang="ts">
+import type { GmPrintOptions } from '@/ui/print/types'
 import type { Unit } from '@/classes/npc/unit/Unit'
 import blankLine from '../../components/blank/line.vue';
 import notes from '../../components/blank/notes.vue';
 
 const props = defineProps<{
   npc: Unit
-  options: object
+  options: GmPrintOptions
 }>()
 </script>
