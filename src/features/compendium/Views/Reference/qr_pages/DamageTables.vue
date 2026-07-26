@@ -43,11 +43,11 @@ const props = defineProps<{
 }>()
 
 const tables = computed(() => {
-      return CompendiumStore().Tables
-    })
+  return CompendiumStore().Tables
+})
 
 function scrollTo(item: any) {
-      const el = document.getElementById(`${item.replace(/\W/g, '')}`)
-      if (el) _scrollTo(el, props.isModal)
-    }
+  const el = document.getElementById(`${item.replace(/\W/g, '')}`)
+  if (el) _scrollTo(el, props.isModal)
+}
 </script>

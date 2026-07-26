@@ -267,7 +267,8 @@
             <span class="text-overline">&nbsp;{{ $t('pm.print.appliedMOD') }}</span>
             <br />
             <p v-if="w.Mod.Effect"
-              :v-html-safe="w.Mod.Effect"
+              v-html-safe="w.Mod.Effect"
+              class="caption"
               print />
           </div>
         </div>

@@ -209,6 +209,8 @@
               <strong v-else-if="r.min === r.max">{{ r.max }}</strong>
               <strong v-else>{{ r.min }} - {{ r.max }}</strong>
             </v-card>
+            <div v-if=r.title
+              class="text-cc-overline text-disabled"><b>{{ r.title }}</b></div>
             <p v-html-safe="r.result" />
           </v-card>
         </td>
