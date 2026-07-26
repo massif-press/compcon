@@ -160,7 +160,7 @@ import {
   undo as undoStack,
   redo as redoStack,
   pushCachedSnapshot,
-  serializeSnapshot,
+  trySerializeSnapshot,
   getUndoMeta,
 } from '@/classes/encounter/EncounterUndoStack';
 import DeployablePanel from './EncounterPanels/DeployablePanel.vue';
@@ -242,7 +242,7 @@ const mainLeftOffset = computed(() => {
 const undoMeta = computed(() => getUndoMeta(instance.value?.ID ?? ''));
 
 let restoring = false;
-let cachedSnapshot: ReturnType<typeof serializeSnapshot> | null = null;
+let cachedSnapshot: ReturnType<typeof trySerializeSnapshot> = null;
 let cachedVersions: number[] = [];
 let cachedRound = 0;
 
@@ -253,7 +253,7 @@ const versionSignal = computed(() => {
 
 function recacheUndoBaseline() {
   if (!instance.value) return;
-  cachedSnapshot = serializeSnapshot(instance.value);
+  cachedSnapshot = trySerializeSnapshot(instance.value);
   cachedVersions = versionSignal.value.slice();
   cachedRound = instance.value.Round;
 }
@@ -293,7 +293,7 @@ function reselectById(inst: EncounterInstance | undefined, id: string | undefine
   selected.value = inst.Combatants.find((c: any) => c.id === id) ?? null;
 }
 
-async function applyRestore(data: ReturnType<typeof serializeSnapshot> | null) {
+async function applyRestore(data: ReturnType<typeof trySerializeSnapshot>) {
   if (!data) return;
   restoring = true;
   const selectedId = selected.value?.id;

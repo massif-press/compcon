@@ -302,6 +302,8 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   }
 
   public static Serialize(enc: Encounter): IEncounterData {
+    if (!(enc instanceof Encounter)) return (enc ?? {}) as IEncounterData
+
     const data = {
       itemType: 'Encounter',
       id: enc.ID,
