@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted } from 'vue'
-import { INarrativeElement } from '@/classes/narrative/INarrativeElement';
+import type { INarrativeEntity } from '@/classes/narrative/INarrativeEntity';
 import { NarrativeStore } from '../../store/narrative_store';
 import { Character } from '@/classes/narrative/Character';
 import { Location } from '@/classes/narrative/Location';
@@ -39,7 +39,7 @@ const props = withDefaults(defineProps<{
   view: 'collection'
 })
 
-const selected = ref(null as INarrativeElement | null)
+const selected = ref(null as INarrativeEntity | null)
 
 const allNarrativeItems = computed(() => {
       return NarrativeStore().CollectionItems.length;

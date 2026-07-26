@@ -92,8 +92,9 @@
 </template>
 
 <script setup lang="ts">
+import type { IInfoCardItem } from './IInfoCardItem'
 defineProps<{
-  item: object
+  item: IInfoCardItem
   notes?: boolean
   smallTags?: boolean
   dense?: boolean

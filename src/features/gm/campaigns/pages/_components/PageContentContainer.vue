@@ -82,7 +82,7 @@
               class="pa-2 my-1"
               :color="item.Color || 'primary'"
               variant="outlined"
-              @click="item.Variant = 'outlined'">
+              @click="item.Variant = 'outline'">
               <span class="text-text">{{ $t('gm.pageContent.outlined') }}</span>
             </v-card>
             <v-card
@@ -103,7 +103,7 @@
               class="pa-2 pr-4 my-1 rounded-0 clipped"
               :color="item.Color || 'primary'"
               variant="elevated"
-              @click="item.Variant = 'clipped'">
+              @click="item.Variant = 'clipped-block'">
               {{ $t('gm.pageContent.clippedBlock') }}
             </v-card>
             <v-card
@@ -199,27 +199,27 @@
       <v-col>
         <cc-rollable-table
           v-if="item.ContentType === 'table'"
-          :table="item.Content"
+          :table="item.AsTable"
           no-delete
           density="compact" />
         <cc-clock
           v-else-if="item.ContentType === 'clock'"
-          :clock="item.Content"
+          :clock="item.AsClock"
           density="compact"
           no-delete />
         <div v-else-if="item.ContentType === 'image'" class="text-center">
-          <img v-if="item.Content.ImageUrl" :src="item.Content.ImageUrl" />
+          <img v-if="item.AsImage.ImageUrl" :src="item.AsImage.ImageUrl" />
           <v-card v-else color="panel" variant="outlined" class="pa-2 ma-4">
             <i class="text-caption text-disabled">{{ $t('gm.pageContent.noImage') }}</i>
           </v-card>
           <v-text-field
-            v-model="item.Content.ImageUrl"
+            v-model="item.AsImage.ImageUrl"
             :label="$t('gm.fields.imageUrl')"
             hide-details
             class="my-2 mx-2"
             density="compact" />
           <v-text-field
-            v-model="item.Content.Caption"
+            v-model="item.AsImage.Caption"
             :label="$t('gm.fields.caption')"
             hide-details
             class="my-2 mx-2"
@@ -227,9 +227,9 @@
         </div>
         <narrative-content-container
           v-else-if="item.ContentType === 'narrative'"
-          :item="item.Content" />
-        <encounter-container v-else-if="item.ContentType === 'encounter'" :item="item.Content" />
-        <cc-rich-text-area v-else v-model="item.Content.Body" />
+          :item="item.AsNarrative" />
+        <encounter-container v-else-if="item.ContentType === 'encounter'" :item="item.AsEncounter" />
+        <cc-rich-text-area v-else v-model="item.AsText.Body" />
       </v-col>
       <v-col cols="auto" class="pr-3 py-2" style="position: relative; min-height: 65px">
         <cc-button icon="mdi-arrow-up" class="fade-select" @click="item.MoveUp()" />
@@ -244,7 +244,7 @@
 </template>
 
 <script setup lang="ts">
-import type { ContentBlock } from '@/classes/campaign/CampaignContentBlock'
+import type { ContentBlock, ContentStringIdentifier } from '@/classes/campaign/CampaignContentBlock'
 import { ref } from 'vue'
 import NarrativeContentContainer from './NarrativeContentContainer.vue';
 import EncounterContainer from './EncounterContainer.vue';
@@ -262,13 +262,13 @@ const colorPalette = ref(campaignColorPalette)
 
 function getIcon(variant: string) {
       switch (variant) {
-        case 'outlined':
+        case 'outline':
           return 'mdi-card-outline';
         case 'tonal':
           return 'mdi-square-opacity';
         case 'block':
           return 'mdi-square-rounded';
-        case 'clipped':
+        case 'clipped-block':
           return 'mdi-rounded-corner';
         case 'quote':
           return 'mdi-format-quote-open';
@@ -292,7 +292,7 @@ function getTypeIcon(type: string) {
           return 'mdi-puzzle';
       }
     }
-function setContentType(type: string) {
+function setContentType(type: ContentStringIdentifier) {
       props.item.ContentType = type;
     }
 </script>

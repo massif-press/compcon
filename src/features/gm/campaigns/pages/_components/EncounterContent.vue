@@ -87,13 +87,14 @@
 </template>
 
 <script setup lang="ts">
+import type { Encounter } from '@/classes/encounter/Encounter'
 import { computed, ref } from 'vue'
 import { EncounterStore } from '@/stores';
 import CCEnvironmentDisplay from '@/ui/components/CCEnvironmentDisplay.vue'
 import CCSitrepDisplay from '@/ui/components/CCSitrepDisplay.vue'
 
 const props = defineProps<{
-  data: object
+  data: Encounter | null
 }>()
 
 const mapTab = ref(0)

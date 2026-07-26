@@ -1,4 +1,5 @@
 import { Character, CharacterData } from '../narrative/Character';
+import type { INarrativeEntity } from '../narrative/INarrativeEntity';
 import { Faction, FactionData } from '../narrative/Faction';
 import { Location, LocationData } from '../narrative/Location';
 import { ContentBlock } from './CampaignContentBlock';
@@ -9,7 +10,7 @@ interface INarrativeDataContainer {
 
 class NarrativeDataContainer {
   public readonly Parent: ContentBlock;
-  private _data: Character | Location | Faction | null = null;
+  private _data: INarrativeEntity | null = null;
 
   constructor(parent: ContentBlock, ndc?: INarrativeDataContainer) {
     this.Parent = parent;
@@ -21,11 +22,11 @@ class NarrativeDataContainer {
     }
   }
 
-  public get Data(): Character | Location | Faction | null {
+  public get Data(): INarrativeEntity | null {
     return this._data;
   }
 
-  public set Data(value: Character | Location | Faction | null) {
+  public set Data(value: INarrativeEntity | null) {
     this._data = value;
     this.Parent.Campaign.save();
   }

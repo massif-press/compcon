@@ -6,32 +6,32 @@
     <v-card :variant="cardVariant" :color="cardColor" :class="cardClass" class="text-text">
       <cc-rollable-table
         v-if="item.ContentType === 'table'"
-        :table="item.Content"
+        :table="item.AsTable"
         readonly
         density="compact" />
       <cc-clock
         v-else-if="item.ContentType === 'clock'"
-        :clock="item.Content"
+        :clock="item.AsClock"
         density="compact"
         readonly />
       <div v-else-if="item.ContentType === 'image'" class="text-center">
-        <img :src="item.Content.ImageUrl" class="pa-1" />
+        <img :src="item.AsImage.ImageUrl" class="pa-1" />
 
-        <div v-if="item.Content.Caption" class="mt-n5">
+        <div v-if="item.AsImage.Caption" class="mt-n5">
           <v-chip variant="flat" size="x-small" label color="panel">
-            {{ item.Content.Caption }}
+            {{ item.AsImage.Caption }}
           </v-chip>
         </div>
       </div>
-      <narrative-content v-else-if="item.ContentType === 'narrative'" :data="item.Content.Data" />
-      <encounter-content v-else-if="item.ContentType === 'encounter'" :data="item.Content.Data" />
+      <narrative-content v-else-if="item.ContentType === 'narrative'" :data="item.AsNarrative.Data" />
+      <encounter-content v-else-if="item.ContentType === 'encounter'" :data="item.AsEncounter.Data" />
       <v-card-text v-else>
         <v-row dense>
           <v-col v-if="item.Variant === 'quote'" cols="auto">
             <div class="rounded bg-panel pa-1 mx-2" style="height: 100%" />
           </v-col>
           <v-col>
-            <p v-html-safe="item.Content.Body" />
+            <p v-html-safe="item.AsText.Body" />
           </v-col>
         </v-row>
       </v-card-text>
@@ -83,18 +83,20 @@ const titleStyle = computed(() => {
 const cardVariant = computed(() => {
       switch (props.item.Variant) {
         case 'block':
-        case 'clipped':
+        case 'clipped-block':
           return 'flat';
         case 'quote':
         case '':
           return 'text';
 
+        case 'outline':
+          return 'outlined';
         default:
-          return props.item.Variant;
+          return 'flat';
       }
     })
 const cardClass = computed(() => {
-      return props.item.Variant === 'clipped' ? 'clipped' : '';
+      return props.item.Variant === 'clipped-block' ? 'clipped' : '';
     })
 const cardColor = computed(() => {
       const noColor = ['text', 'quote', ''];

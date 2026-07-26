@@ -28,12 +28,13 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import type { BrowserOptions } from '../browserContext'
 
 defineOptions({ name: 'browser-view-toggle' })
 
 const props = defineProps<{
   modelValue: string
-  options: object
+  options: BrowserOptions
 }>()
 
 const emit = defineEmits<{
