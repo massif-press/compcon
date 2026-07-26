@@ -1,4 +1,5 @@
 import { reactive } from 'vue'
+import logger from '@/user/logger'
 import { EncounterInstance, IEncounterInstanceData } from './EncounterInstance'
 
 const MAX_ENTRIES = 30
@@ -54,8 +55,19 @@ export function serializeSnapshot(instance: EncounterInstance): IEncounterInstan
   return JSON.parse(JSON.stringify(EncounterInstance.Serialize(instance)))
 }
 
+export function trySerializeSnapshot(instance: EncounterInstance): IEncounterInstanceData | null {
+  try {
+    return serializeSnapshot(instance)
+  } catch (err) {
+    logger.error('Failed to serialize encounter undo snapshot', instance, err)
+    return null
+  }
+}
+
 export function snapshot(instance: EncounterInstance, label: string): void {
-  pushEntry(instance.ID, serializeSnapshot(instance), label)
+  const data = trySerializeSnapshot(instance)
+  if (!data) return
+  pushEntry(instance.ID, data, label)
 }
 
 export function pushCachedSnapshot(id: string, data: IEncounterInstanceData, label: string): void {
@@ -66,7 +78,8 @@ export function undo(instance: EncounterInstance): IEncounterInstanceData | null
   const s = getStack(instance.ID)
   const entry = s.undo.pop()
   if (!entry) return null
-  s.redo.push({ label: entry.label, data: serializeSnapshot(instance) })
+  const current = trySerializeSnapshot(instance)
+  if (current) s.redo.push({ label: entry.label, data: current })
   refreshMeta(instance.ID)
   return entry.data
 }
@@ -75,7 +88,8 @@ export function redo(instance: EncounterInstance): IEncounterInstanceData | null
   const s = getStack(instance.ID)
   const entry = s.redo.pop()
   if (!entry) return null
-  s.undo.push({ label: entry.label, data: serializeSnapshot(instance) })
+  const current = trySerializeSnapshot(instance)
+  if (current) s.undo.push({ label: entry.label, data: current })
   refreshMeta(instance.ID)
   return entry.data
 }
