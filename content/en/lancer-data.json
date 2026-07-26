@@ -2607,7 +2607,7 @@
   "t_hunter.rank_disdainful_blade.synergy_0.detail": "1/round, when you hit a character with a melee attack, you may also throw an Auxiliary melee weapon as an attack against any character within Range as a free action. This attack can’t deal bonus damage.",
   "t_hunter.rank_knife_juggler.description": "All your Auxiliary melee weapons gain Thrown 5, if they don’t have this property already – if they already have Thrown, it increases to Thrown 5. At the end of your turn, all weapons you have thrown this turn automatically return to you.",
   "t_hunter.rank_knife_juggler.name": "Knife Juggler",
-  "t_hunter.rank_knife_juggler.synergy_0.detail": "This weapon gains Thrown 5 and will return to you at the end if your turn if thrown.",
+  "t_hunter.rank_knife_juggler.synergy_0.detail": "This weapon gains Thrown 5 and will return to you at the end of your turn if thrown.",
   "t_hunter.rank_lunge.active_effect_lunge.detail": "1/round, when you attack with an Auxiliary melee weapon, you may fly up to 3 spaces directly towards the targeted character before the attack. This movement ignores engagement and doesn’t provoke reactions.",
   "t_hunter.rank_lunge.active_effect_lunge.name": "Lunge",
   "t_hunter.rank_lunge.description": "1/round, when you attack with an Auxiliary melee weapon, you may fly up to 3 spaces directly towards the targeted character before the attack. This movement ignores engagement and doesn’t provoke reactions.",
