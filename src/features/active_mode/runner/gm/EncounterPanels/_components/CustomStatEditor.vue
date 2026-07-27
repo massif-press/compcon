@@ -43,11 +43,11 @@
                     hide-details />
                   <cc-button block
                     class="my-2"
-                    :color="hasStat(trackableStat) ? 'success' : 'primary'"
+                    :color="hasStat(trackableStat || '') ? 'success' : 'primary'"
                     size="small"
                     :disabled="!trackableStat"
                     @click="addTrackableStat()">
-                    {{ hasStat(trackableStat) ? $t('common.save') : $t('common.add') }}
+                    {{ hasStat(trackableStat || '') ? $t('common.save') : $t('common.add') }}
                   </cc-button>
                   <cc-button v-if="
                     trackableStat &&
@@ -58,7 +58,7 @@
                     class="my-2"
                     color="error"
                     size="x-small"
-                    @click="removeStat(trackableStat.title)">
+                    @click="removeStat(trackableStat)">
                     {{ $t('active.customStat.removeStat') }}
                   </cc-button>
                 </v-window-item>
@@ -105,6 +105,7 @@
 <script setup lang="ts">
 import { computed, inject, ref } from 'vue'
 import { MandatoryStats, StatController } from '@/classes/components/combat/stats/StatController';
+import type { ICombatant } from '@/classes/components/combat/ICombatant';
 import { Bonus } from '@/classes/components/feature/bonus/Bonus';
 import { useDisplay } from 'vuetify';
 import { useI18n } from 'vue-i18n'
@@ -165,7 +166,7 @@ defineOptions({ name: 'StatEditor' })
 const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = withDefaults(defineProps<{
-  item: object
+  item: ICombatant
   bonuses?: Bonus[]
   allowCore?: boolean
 }>(), {
@@ -181,9 +182,9 @@ function snapshotEdit(statKey: string) {
   snapshot(inst, t('active.customStat.undoEditStat', { name: props.item.Name, stat: statKey }))
 }
 
-const trackableStat = ref(undefined)
+const trackableStat = ref<string | undefined>(undefined)
 const trackableValue = ref(0)
-const staticStat = ref(undefined)
+const staticStat = ref<string | undefined>(undefined)
 const staticValue = ref(0)
 const menuTab = ref(0)
 const hiddenKeys = ref([
@@ -221,7 +222,7 @@ const customStats = computed(() => {
       );
     })
 const hasStat = computed(() => {
-      return (key) => Object.keys(props.item.StatController.MaxStats).includes(key);
+      return (key: string) => Object.keys(props.item.StatController.MaxStats).includes(key);
     })
 const availableTrackableStats = computed(() => {
       return props.allowCore ? trackable : trackable.filter((x) => !isCoreStat(x.title));
@@ -230,7 +231,7 @@ const availableStaticStats = computed(() => {
       return props.allowCore ? statics : statics.filter((x) => !isCoreStat(x.title));
     })
 
-function isCoreStat(key) {
+function isCoreStat(key: string) {
       return coreStats.value.map((x) => x.key).includes(key);
     }
 function addTrackableStat() {
@@ -253,8 +254,8 @@ function addStaticStat() {
       staticStat.value = undefined;
       staticValue.value = 0;
     }
-function removeStat(key) {
-      if (!hasStat(key)) return;
+function removeStat(key: string) {
+      if (!hasStat.value(key)) return;
       snapshotEdit(key);
       delete props.item.StatController.MaxStats[key];
       delete props.item.StatController.CurrentStats[key];

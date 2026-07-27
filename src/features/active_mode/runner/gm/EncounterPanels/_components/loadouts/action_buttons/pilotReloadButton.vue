@@ -12,7 +12,7 @@
         item-title="Name"
         return-object
         size="small" />
-      <menu-input :owner="owner" :encounter-instance="encounterInstance" :key="controller.ID"
+      <menu-input :owner="owner" :encounter-instance="encounterInstance" :key="controller.RootActor.ID"
         hide-input
         :active-effect="action"
         :disabled="!selection"
@@ -52,7 +52,7 @@ const reloadOptions = computed(() => {
       return (owner.value.actor.Loadout?.Weapons ?? []).filter((x) => x.IsLoading && x.Used);
     })
 
-function apply(close) {
+function apply() {
       if (selection.value) {
         selection.value.Used = false;
       }

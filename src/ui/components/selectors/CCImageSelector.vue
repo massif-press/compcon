@@ -120,7 +120,15 @@ const distributor = import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR || '';
 defineOptions({ name: 'ImageSelector' })
 
 const props = defineProps<{
-  item: object
+  item: {
+    Portrait: string
+    PortraitController: {
+      Avatar: any
+      CloudImage: string
+      Clear(): void
+      SetLocalImage(src: string): void
+    }
+  }
   type: string
   avatar?: boolean
 }>()

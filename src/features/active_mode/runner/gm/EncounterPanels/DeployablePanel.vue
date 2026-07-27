@@ -69,8 +69,6 @@
           outlined>
           <div v-if="combatant.Base.Detail"
             v-html-safe="combatant.Base.Detail" />
-          <div v-if=combatant.Base.Description
-            v-html-safe="combatant.Base.Description" />
           <cc-combat-action-chip :owner="combatant.Owner" :encounter-instance="encounterInstance" v-for="action in combatant.Base.Actions"
             :key="action.ID"
             :action="action" />
@@ -196,16 +194,13 @@ const recall = computed(() => {
       return props.combatant.Base.Recall || null;
     })
 const canRecall = computed(() => {
-      return owner.value.CombatController.CanActivate(recall.value);
+      return owner.value.CombatController.CanActivate(recall.value ?? '');
     })
 const redeploy = computed(() => {
       return props.combatant.Base.Redeploy || null;
     })
 const canRedeploy = computed(() => {
-      return owner.value.CombatController.CanActivate(redeploy.value);
-    })
-const deactivate = computed(() => {
-      return props.combatant.Base.Deactivate || null;
+      return owner.value.CombatController.CanActivate(redeploy.value ?? '');
     })
 
 function remove() {

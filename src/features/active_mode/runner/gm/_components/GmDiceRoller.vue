@@ -237,7 +237,7 @@ import { computed, ref } from 'vue'
 import { DiceRoller } from '@/classes/dice/DiceRoller'
 
 const props = withDefaults(defineProps<{
-  selected?: object | false
+  selected?: { actor?: any } | false
   encounterInstance: EncounterInstance
 }>(), {
   selected: false,
@@ -257,7 +257,7 @@ const rollResult = ref<any>(null)
 const rollType = ref('')
 const bonus = ref(0)
 
-const actor = computed(() => props.selected ? (props.selected as any).actor : null)
+const actor = computed(() => props.selected ? props.selected.actor : null)
 
 function reset() {
   count.value = 1

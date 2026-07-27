@@ -129,6 +129,10 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
     return 'mdi-cube-outline'
   }
 
+  public get Tag(): string {
+    return 'Doodad'
+  }
+
   public get TagIcon(): string {
     return 'mdi-cube-outline'
   }

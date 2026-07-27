@@ -172,10 +172,10 @@ const props = withDefaults(defineProps<{
   title: string
   groupings: any[]
   sortings: any[]
-  selected?: object
+  selected?: { ID: string }
 }>(), {
-  groupings: ['Folder'],
-  sortings: ['Name']
+  groupings: () => ['Folder'],
+  sortings: () => ['Name']
 })
 
 const emit = defineEmits<{

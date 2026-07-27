@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  events: object
+  events: { Summary: string }[]
 }>()
 
 const emit = defineEmits<{
@@ -35,7 +35,7 @@ const emit = defineEmits<{
 }>()
 
 function copyText() {
-      const text = props.events.map((e: any) => e.Summary).join('\n');
+      const text = props.events.map((e) => e.Summary).join('\n');
       navigator.clipboard.writeText(text);
       emit('notify', 'Copied to clipboard');
     }

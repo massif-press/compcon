@@ -97,7 +97,7 @@ const props = withDefaults(defineProps<{
   weapon?: boolean
   readonly?: boolean
 }>(), {
-  item: null,
+  item: undefined,
   mech: null,
   empty: false,
   color: 'primary',

@@ -28,7 +28,7 @@ const props = withDefaults(defineProps<{
   dark?: boolean
   mod?: boolean
 }>(), {
-  color: null,
+  color: undefined,
   useBonus: 0
 })
 </script>

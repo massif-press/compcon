@@ -20,12 +20,13 @@
 </template>
 
 <script setup lang="ts">
+import type { ItemFilters } from '@/ui/components/panels/filters/types'
 import { ref, onMounted } from 'vue'
 
 defineOptions({ name: 'npc-class-filter' })
 
 const props = withDefaults(defineProps<{
-  activeFilters?: object
+  activeFilters?: ItemFilters
   roles?: any[]
 }>(), {
   activeFilters: () => ({}),

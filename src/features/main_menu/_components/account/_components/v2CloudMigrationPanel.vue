@@ -191,7 +191,7 @@ async function startMigration() {
       isMigrating.value = true
       migrationResult.value = null
       try {
-        const result = await runV2CloudMigration(store.Cognito.userId)
+        const result = await runV2CloudMigration(store.Cognito.userId ?? '')
         migrationResult.value = result
       } finally {
         isMigrating.value = false

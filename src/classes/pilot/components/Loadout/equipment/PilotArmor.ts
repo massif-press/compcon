@@ -82,11 +82,13 @@ class PilotArmor extends PilotEquipment {
     return Bonus.Evaluate(b, pilot)
   }
 
-  private cleanAttrValue(attr?: Bonus) {
+  private cleanAttrValue(attr?: Bonus): string | number {
     const e = attr ? attr.Value : 0
     if (typeof e === 'string') {
       return e.replace(/\{|\}/g, '')
     }
+    if (Array.isArray(e)) return e.join(', ')
+    if (typeof e === 'boolean') return e ? 1 : 0
     return e
   }
 

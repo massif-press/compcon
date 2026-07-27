@@ -214,7 +214,7 @@ const blank = computed(() => {
   return props.options.content.title === 'Blank';
 })
 const landscape = computed(() => {
-  return props.options.orientation === 'landscape';
+  return props.options.orientation.title.toLowerCase() === 'landscape';
 })
 </script>
 

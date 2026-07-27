@@ -91,7 +91,7 @@ const selectionComplete = computed(() => {
 
 function getItem(type: string, id: string) {
       const compendium = CompendiumStore();
-      return CompendiumItem.Clone(compendium.referenceByID(type, id) as CompendiumItem);
+      return CompendiumItem.Clone(compendium.referenceByID(type, id) as CompendiumItem) as any;
     }
 async function setTemplate() {
       const t = selected.value.build;

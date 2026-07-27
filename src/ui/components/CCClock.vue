@@ -219,10 +219,10 @@ const dense = computed(() => {
     })
 const progress = computed(() => {
       if (props.print) return 0;
-      return parseInt(props.clock.Progress);
+      return props.clock.Progress;
     })
 const total = computed(() => {
       if (props.print) return 0;
-      return (parseInt(progress.value as any) / parseInt(props.clock.Segments)) * 100;
+      return (progress.value / props.clock.Segments) * 100;
     })
 </script>

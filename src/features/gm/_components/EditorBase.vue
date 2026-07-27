@@ -67,8 +67,7 @@
                   </template>
                   <cc-image-selector ref="imageSelector"
                     :item="item"
-                    type="doodad"
-                    @set="item.PortraitController.Image = $event" />
+                    type="doodad" />
                 </cc-dialog>
               </v-col>
               <v-col v-if="!readonly || (readonly && item.Note.length)"

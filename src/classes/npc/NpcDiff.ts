@@ -35,16 +35,16 @@ const GenerateItemDiff = (target: Npc, source: Npc) => {
   })
 
   target.NarrativeController.TextItems.forEach(text => {
-    const sourceText = source.NarrativeController.TextItems.find(x => x.title === text.title)
+    const sourceText = source.NarrativeController.TextItems.find(x => x.header === text.header)
     if (!sourceText)
-      return (diff.AdditionalDetail[text.title] = {
-        instance: `${text.title}: ${text.body.length} chars.${text.gm_only ? ' (GM Only)' : ''}`,
+      return (diff.AdditionalDetail[text.header] = {
+        instance: `${text.header}: ${text.body.length} chars.${text.gm_only ? ' (GM Only)' : ''}`,
         source: 'None',
       })
     if (text.body !== sourceText.body || text.gm_only !== sourceText.gm_only)
-      diff.AdditionalDetail[text.title] = {
-        instance: `${text.title}: ${text.body.length} chars.${text.gm_only ? ' (GM Only)' : ''}`,
-        source: `${sourceText.title}: ${text.body.length} chars.${
+      diff.AdditionalDetail[text.header] = {
+        instance: `${text.header}: ${text.body.length} chars.${text.gm_only ? ' (GM Only)' : ''}`,
+        source: `${sourceText.header}: ${text.body.length} chars.${
           text.gm_only ? ' (GM Only)' : ''
         }`,
       }

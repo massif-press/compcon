@@ -7,11 +7,11 @@
         class="mr-1" />
       <b v-text="feature.Name" />
     </v-col>
-    <v-col v-if="feature.WeaponType"
+    <v-col v-if="isWeapon"
       cols="auto"
       class="px-1">
       <cc-slashes />
-      <span class="text-grey pl-1">{{ feature.WeaponType }}</span>
+      <span class="text-grey pl-1">{{ asWeapon.WeaponType }}</span>
     </v-col>
     <v-col v-else="feature.FeatureType"
       cols="auto"
@@ -19,38 +19,38 @@
       <cc-slashes />
       <span class="text-grey pl-1">{{ feature.FeatureType }}</span>
     </v-col>
-    <v-col v-if="feature.WeaponType || feature.FeatureType === 'Weapon'"
+    <v-col v-if="isWeapon || feature.FeatureType === 'Weapon'"
       class="px-1 text-center">
-      <span v-for="(r, ri) in feature.Range(tier)"
+      <span v-for="(r, ri) in asWeapon.Range(tier)"
         :key="`range-${ri}`"
         class="pl-1">
         <v-icon :icon="r.Icon"
           class="mt-n1" />
         {{ r.Value }}
       </span>
-      <cc-slashes v-if="feature.Damage(tier).length"
+      <cc-slashes v-if="asWeapon.Damage(tier).length"
         class="pl-2" />
-      <span v-for="(d, di) in feature.Damage(tier)"
+      <span v-for="(d, di) in asWeapon.Damage(tier)"
         :key="`damage-${di}`"
         class="pl-1">
         <v-icon :icon="d.Icon"
           class="mt-n1" />
         {{ d.Value }}
       </span>
-      <span v-if="feature.Accuracy(tier)"
+      <span v-if="asWeapon.Accuracy(tier)"
         class="pl-1">
         <cc-slashes class="pl-1" />
         <v-icon icon="cc:accuracy"
           class="mt-n1" />
-        {{ feature.Accuracy(tier) }}
+        {{ asWeapon.Accuracy(tier) }}
       </span>
-      <span v-if="feature.AttackBonus(tier)"
+      <span v-if="asWeapon.AttackBonus(tier)"
         class="pl-1">
         <cc-slashes class="pl-1 pr-2" />
         <v-icon icon="cc:reticle"
           class="mt-n1"
           size="small" />
-        {{ feature.AttackBonus(tier) }}
+        {{ asWeapon.AttackBonus(tier) }}
       </span>
     </v-col>
     <v-col cols="auto"
@@ -102,18 +102,22 @@
 
 <script setup lang="ts">
 import type { NpcFeature } from '@/classes/npc/feature/NpcFeature'
+import { computed } from 'vue'
 import PrintDeployable from './PrintDeployable.vue';
 import PrintAction from './PrintAction.vue';
 import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon.js';
 
 defineOptions({ name: 'PrintNpcFeature' })
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   feature: NpcFeature
   tier?: number
 }>(), {
   tier: 1
 })
+
+const isWeapon = computed(() => props.feature instanceof NpcWeapon)
+const asWeapon = computed(() => props.feature as NpcWeapon)
 </script>
 
 <style scoped>

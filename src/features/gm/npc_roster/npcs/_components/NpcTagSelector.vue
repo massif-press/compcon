@@ -60,7 +60,7 @@ const props = withDefaults(defineProps<{
 const locked = computed(() => {
       let lockTemplate = '';
       if (props.item.NpcClassController) {
-        lockTemplate = props.item.NpcClassController.ForceTag;
+        lockTemplate = props.item.NpcClassController.Class?.ForceTag ?? '';
       }
 
       if (lockTemplate && lockTemplate.length > 0) {

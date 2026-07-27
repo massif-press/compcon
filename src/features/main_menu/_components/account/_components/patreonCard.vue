@@ -45,12 +45,12 @@
             <v-col cols="auto">
               <v-avatar size="40"
                 color="primary">
-                <v-img :src="patreon.profile.thumb_url" />
+                <v-img :src="patreon.profile?.thumb_url" />
               </v-avatar>
             </v-col>
             <v-col>
               <div class="heading h3 text-center text-accent">
-                <b>{{ $t("mainMenu.patreon.tierSuffix", { title: patreon.profile.tierData.title }) }}</b>
+                <b>{{ $t("mainMenu.patreon.tierSuffix", { title: patreon.profile?.tierData.title }) }}</b>
               </div>
               <div>
                 {{ supportText }}
@@ -168,7 +168,7 @@ const patreon = computed(() => {
       return UserStore().User.Patreon;
     })
 const tier = computed(() => {
-      return patreon.value.profile.tierData.title || 'Free';
+      return patreon.value.profile?.tierData.title || 'Free';
     })
 const tierValue = computed(() => {
       return UserStore().User.PatreonTierValue || 0;
@@ -229,7 +229,7 @@ async function exchangePatreonToken(code) {
           color: 'success',
         });
       } catch (error) {
-        logger.error(`Error linking Patreon account: ${error}`, this, error);
+        logger.error(`Error linking Patreon account: ${error}`, undefined, error);
         loadPatreon.value = false;
         if (error instanceof NoPatreonTierError) {
           notify({

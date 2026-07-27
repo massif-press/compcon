@@ -118,7 +118,7 @@
 
               <v-col cols="auto">
                 <v-text-field
-                  v-model="flat"
+                  v-model.number="flat"
                   density="compact"
                   hide-details
                   variant="outlined"
@@ -285,10 +285,10 @@ const emit = defineEmits<{
 
 const menu = ref(false)
 const moreDice = ref(false)
-const dice = ref([])
-const accRolls = ref([])
+const dice = ref<{ sides: number; count: number }[]>([])
+const accRolls = ref<number[]>([])
 const flat = ref(0)
-const result = ref(null)
+const result = ref<{ sides: number; rolls: number[]; class: string[]; overkill: number }[] | null>(null)
 const accuracy = ref(0)
 const accTotal = ref(0)
 
@@ -307,7 +307,7 @@ const overkillRolls = computed(() => {
       return result.value.map((x) => x.overkill).reduce((a, b) => a + b, 0);
     })
 const total = computed(() => {
-      if (!result.value) return parseInt(flat.value);
+      if (!result.value) return flat.value;
       return (
         result.value
           .flatMap((x) =>
@@ -316,18 +316,18 @@ const total = computed(() => {
             })
           )
           .reduce((a, b) => a + b, 0) +
-        parseInt(flat.value) +
-        parseInt(accTotal.value)
+        flat.value +
+        accTotal.value
       );
     })
 
-function addDice(sides) {
+function addDice(sides: number) {
       result.value = null;
       const idx = dice.value.findIndex((x) => x.sides === sides);
       if (idx > -1) dice.value[idx].count++;
       else dice.value.push({ sides, count: 1 });
     }
-function removeDice(sides) {
+function removeDice(sides: number) {
       result.value = null;
       const idx = dice.value.findIndex((x) => x.sides === sides);
       dice.value[idx].count--;
@@ -356,6 +356,7 @@ function roll() {
     }
 function rollAccuracy() {
       accTotal.value = 0;
+      accRolls.value = [];
       if (accuracy.value) {
         accRolls.value = DiceRoller.rollDamage(
           `${Math.abs(accuracy.value)}d${6}`,
@@ -371,8 +372,8 @@ function reset() {
         const arr = props.preset.split(/\+|\-/);
         arr.forEach((e) => {
           if (e.includes('d')) {
-            const dice = e.split('d');
-            dice.value.push({ sides: dice[1], count: dice[0] });
+            const parts = e.split('d');
+            dice.value.push({ sides: parseInt(parts[1]), count: parseInt(parts[0]) || 1 });
           } else flat.value += parseInt(e);
         });
       }
@@ -380,7 +381,7 @@ function reset() {
     }
 function clear() {
       dice.value.splice(0, dice.value.length);
-      accRolls.value.splice(0, dice.value.length);
+      accRolls.value.splice(0, accRolls.value.length);
       flat.value = 0;
       result.value = null;
       accuracy.value = 0;

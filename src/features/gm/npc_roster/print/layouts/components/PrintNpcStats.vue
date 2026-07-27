@@ -21,14 +21,14 @@
 </template>
 
 <script setup lang="ts">
-import type { Unit } from '@/classes/npc/unit/Unit'
+import type { StatController } from '@/classes/components/combat/stats/StatController'
 import BlankLine from '../../components/blank/line.vue';
 import { Bonus } from '@/classes/components/feature/bonus/Bonus';
 
 defineOptions({ name: 'npc-stat-print' })
 
 const props = withDefaults(defineProps<{
-  item: Unit
+  item: { StatController: StatController }
   bonuses?: Bonus[]
   tier?: number
   hideZero?: boolean

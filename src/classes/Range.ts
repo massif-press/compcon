@@ -58,6 +58,9 @@ class Range {
   public get Min(): number {
     return this._min
   }
+  public get Bonus(): number {
+    return this._bonus
+  }
 
   public get Icon(): string {
     if (!this._range_type) return 'cc:range'

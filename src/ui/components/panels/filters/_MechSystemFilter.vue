@@ -19,7 +19,7 @@
         @update:modelValue="updateFilters()" />
     </v-col>
     <v-col cols="12">
-      <v-select v-model="<any>systemTypeFilter"
+      <v-select v-model="systemTypeFilter"
         class="px-2"
         density="compact"
         prepend-icon="cc:system"
@@ -35,6 +35,7 @@
 </template>
 
 <script setup lang="ts">
+import type { ItemFilters } from '@/ui/components/panels/filters/types'
 import { computed, ref, onMounted } from 'vue'
 import { SystemType } from '@/classes/enums'
 import MechItemFilterBase from './MechItemFilterBase.vue'
@@ -42,7 +43,7 @@ import MechItemFilterBase from './MechItemFilterBase.vue'
 defineOptions({ name: 'mech-system-filter' })
 
 const props = withDefaults(defineProps<{
-  activeFilters?: object
+  activeFilters?: ItemFilters
   systemTags?: any[]
 }>(), {
   activeFilters: () => ({}),
@@ -56,7 +57,7 @@ const emit = defineEmits<{
 const base = ref<any>(null)
 
 const tagFilter = ref([] as string[])
-const systemTypeFilter = ref([] as SystemType[])
+const systemTypeFilter = ref<SystemType | undefined>(undefined)
 const spLlFilters = ref({} as any)
 
 const systemTypes = computed(() => {
@@ -70,7 +71,7 @@ function onSpLlChange(partial: any) {
 
 function clear() {
   tagFilter.value = [];
-  systemTypeFilter.value = [];
+  systemTypeFilter.value = undefined;
   spLlFilters.value = {};
   (base.value as any)?.clear();
 }
@@ -78,7 +79,7 @@ function clear() {
 function updateFilters() {
   const fObj = { ...spLlFilters.value } as any;
   if (tagFilter.value && tagFilter.value.length) fObj.Tags = tagFilter.value;
-  if (systemTypeFilter.value && systemTypeFilter.value.length) {
+  if (systemTypeFilter.value) {
     const types = systemTypeFilter.value === SystemType.Tech ? [SystemType.Tech, SystemType.Invade] : [systemTypeFilter.value];
     fObj.Type = types;
   }
@@ -89,7 +90,7 @@ onMounted(() => {
   const f = props.activeFilters;
   if (!f || !Object.keys(f).length) return;
   if (f.Tags) tagFilter.value = f.Tags;
-  if (f.Type) systemTypeFilter.value = f.Type[0] ?? [];
+  if (f.Type) systemTypeFilter.value = f.Type[0];
 })
 
 defineExpose({ clear })

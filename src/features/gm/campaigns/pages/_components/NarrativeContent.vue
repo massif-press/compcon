@@ -46,13 +46,14 @@
 </template>
 
 <script setup lang="ts">
+import type { INarrativeEntity } from '@/classes/narrative/INarrativeEntity'
 import { computed } from 'vue'
 import { NarrativeStore } from '@/stores';
 
 defineOptions({ name: 'narrative-content' })
 
 const props = defineProps<{
-  data: object
+  data: INarrativeEntity | null
 }>()
 
 const item = computed(() => {

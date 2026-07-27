@@ -77,6 +77,7 @@
 </template>
 
 <script setup lang="ts">
+import type { GmPrintOptions } from '@/ui/print/types'
 import type { Unit } from '@/classes/npc/unit/Unit'
 import PrintAction from './components/PrintAction.vue';
 import NpcFeaturePrint from './components/NpcFeaturePrint.vue';
@@ -87,7 +88,7 @@ defineOptions({ name: 'npc-print' })
 
 const props = defineProps<{
   npc: Unit
-  options: object
+  options: GmPrintOptions
 }>()
 </script>
 

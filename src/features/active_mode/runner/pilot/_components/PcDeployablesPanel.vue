@@ -13,7 +13,6 @@
         xl="2">
         <deployable-list-item :key="d.id"
           :selected="!!selected && selected.ID === d.ID"
-          :parent="combatant"
           :deployable="d"
           :encounter-instance="encounterInstance"
           @click="select(d)"
@@ -34,8 +33,7 @@
       <div class="heading h2">{{ selected.Name }}</div>
       <v-divider class="mt-2 mb-4" />
       <deployable-panel :combatant="selected"
-        :encounter-instance="sheet"
-        :parent="combatant"
+        :encounter-instance="encounterInstance"
         @deselect="selected = null" />
     </v-card>
     <v-card v-else
@@ -53,27 +51,27 @@
 <script setup lang="ts">
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import type { CombatantData } from '@/classes/encounter/Encounter'
-import { computed, ref } from 'vue'
+import type { DeployableInstance } from '@/classes/components/feature/deployable/DeployableInstance'
+import { computed, shallowRef } from 'vue'
 import DeployableListItem from '../../gm/_components/ListItems/DeployableListItem.vue';
 import DeployablePanel from '../../gm/EncounterPanels/DeployablePanel.vue';
 
 const props = defineProps<{
   combatant: CombatantData
   encounterInstance: EncounterInstance
-  sheet: object
 }>()
 
 const emit = defineEmits<{
   'activate': [payload: any]
 }>()
 
-const selected = ref(null)
+const selected = shallowRef<DeployableInstance | null>(null)
 
 const possessive = computed(() => {
       return props.combatant.actor.Name.endsWith('s') ? `'` : `'s`;
     })
 
-function select(deployable) {
+function select(deployable: DeployableInstance) {
       selected.value = deployable;
     }
 </script>

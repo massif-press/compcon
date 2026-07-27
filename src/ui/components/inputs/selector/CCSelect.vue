@@ -156,7 +156,7 @@ import { useDisplay } from 'vuetify';
 const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = withDefaults(defineProps<{
-  modelValue?: string | number | boolean | any[] | object
+  modelValue?: string | number | boolean | any[] | object | null
   items?: any[]
   color?: string
   size?: string

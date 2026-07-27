@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Campaign } from '@/classes/campaign/Campaign'
+import type { ICampaignData } from '@/classes/campaign/Campaign'
 import { ref } from 'vue'
 import { useDisplay } from 'vuetify';
 
@@ -61,12 +61,12 @@ defineOptions({ name: 'campaign-detail-panel' })
 const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = defineProps<{
-  campaign?: Campaign
+  campaign?: ICampaignData
 }>()
 
 const dOptions = ref({ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
 
-function getLatest(publish_info) {
-      return publish_info.version_history[publish_info.version_history.length - 1];
+function getLatest(publish_info: ICampaignData['publish_info']) {
+      return publish_info!.version_history[publish_info!.version_history.length - 1];
     }
 </script>

@@ -80,12 +80,13 @@
 </template>
 
 <script setup lang="ts">
+import type { BrewController } from '@/classes/components/brew/BrewController';
 import { computed } from 'vue'
 
 defineOptions({ name: 'cc-brew-info' })
 
 const props = withDefaults(defineProps<{
-  controller: object
+  controller: BrewController
   color?: string
 }>(), {
   color: ''

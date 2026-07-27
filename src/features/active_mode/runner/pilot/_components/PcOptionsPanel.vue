@@ -126,7 +126,7 @@
         <v-col cols="auto">
           <cc-button text
             color="primary"
-            :disabled="activeMech && (activeMech as Mech).ID === sheet.Combatant.actor.ActiveMech.ID"
+            :disabled="!!activeMech && activeMech.ID === sheet.Combatant.actor.ActiveMech?.ID"
             @click="setActiveMech()">
             {{ $t('active.pcOptions.applySave') }}
           </cc-button>
@@ -153,7 +153,7 @@ const { t } = useI18n()
 defineOptions({ name: 'PcOptionsPanel' })
 
 const props = defineProps<{
-  sheet: object
+  sheet: PilotSheet
 }>()
 
 const router = useRouter()

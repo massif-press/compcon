@@ -50,7 +50,7 @@
 
               <menu-input :owner="owner"
                 :encounter-instance="encounterInstance"
-                :key="controller.ID"
+                :key="controller.RootActor.ID"
                 :active-effect="getSelectedAction(tab)"
                 :close="close"
                 @apply="apply"

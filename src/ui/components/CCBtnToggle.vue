@@ -18,8 +18,8 @@ import { ref, watch } from 'vue'
 const props = withDefaults(defineProps<{
   modelValue?: any
   color?: string
-  variant?: string
-  density?: string
+  variant?: 'flat' | 'text' | 'outlined' | 'tonal' | 'plain' | 'elevated'
+  density?: 'default' | 'comfortable' | 'compact'
   multiple?: boolean
   mandatory?: boolean
 }>(), {

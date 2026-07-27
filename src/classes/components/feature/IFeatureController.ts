@@ -7,4 +7,10 @@ interface IFeatureController {
   getEntityRef?(name: string): IFeatureController | null;
 }
 
-export type { IFeatureController };
+type DeployableOwner = {
+  FeatureController?: { BonusController?: any };
+  CombatController?: { StatController?: { MaxStats?: Record<string, number> } };
+  getExpressionContext?(): ExpressionContext;
+};
+
+export type { IFeatureController, DeployableOwner };

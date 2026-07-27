@@ -146,7 +146,7 @@
                         size="x-small"
                         class="success-pulse mb-1"
                         prepend-icon="mdi-arrow-right-bold-box-outline"
-                        @click="$emit('activate', combatant)">
+                        @click="$emit('activate', actor)">
                         {{ $t('active.runnerItem.readyToDeploy') }}
                       </cc-button>
                       <v-btn v-else
@@ -157,7 +157,7 @@
                         size="x-small"
                         class="mt-2 fade-select"
                         prepend-icon="mdi-arrow-right-bold-box-outline"
-                        @click="$emit('activate', combatant)">
+                        @click="$emit('activate', actor)">
                         {{ $t('active.runnerItem.forceDeploy') }}
                       </v-btn>
                     </div>
@@ -372,7 +372,6 @@
               <deployable-list-item v-for="d in deployed"
                 :key="d.ID"
                 :deployable="d"
-                :parent="actor"
                 :collapsed="collapsed"
                 @click="onDeployableClick($event, d)">
                 {{ d.Name }}

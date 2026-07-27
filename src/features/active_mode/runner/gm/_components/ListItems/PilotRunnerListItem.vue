@@ -14,8 +14,8 @@
       <span class="text-caption text-disabled ml-2">
         <cc-slashes />
         {{ combatant.actor.Name }}
-        <span v-if="combatant.actor.Player"
-          v-text="`(${combatant.actor.Player})`"></span>
+        <span v-if="combatant.actor.PlayerName"
+          v-text="`(${combatant.actor.PlayerName})`"></span>
       </span>
     </div>
     <v-card v-if="mech?.CombatController.IsAIControlled"

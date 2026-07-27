@@ -152,7 +152,7 @@ const props = withDefaults(defineProps<{
 }>(), {
   expanded: false,
   selected: '',
-  combatant: null
+  combatant: undefined
 })
 
 const emit = defineEmits<{

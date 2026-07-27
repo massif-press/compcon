@@ -267,7 +267,7 @@ const props = withDefaults(defineProps<{
   extended?: boolean
   readonly?: boolean
 }>(), {
-  item: null
+  item: undefined
 })
 
 const emit = defineEmits<{

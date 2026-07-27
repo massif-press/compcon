@@ -28,7 +28,7 @@ const props = withDefaults(defineProps<{
   emptyIcon?: string
   fullIcon?: string
   color?: string
-  item: object
+  item: { Uses: number; getTotalUses(bonus?: number): number }
   bonus?: number
 }>(), {
   small: false,
@@ -46,7 +46,7 @@ const current = computed(() => {
       return props.item.Uses;
     })
 
-function set(val) {
+function set(val: number) {
       if (val > current.value) props.item.Uses = props.item.Uses + 1;
       else props.item.Uses = props.item.Uses - 1;
     }

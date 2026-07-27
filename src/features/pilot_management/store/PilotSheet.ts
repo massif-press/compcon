@@ -76,18 +76,21 @@ class PilotSheet implements ISaveable, ICloudSyncable {
   }
 
   public static FromPilot(pilot: Pilot, campaign?: string) {
-    pilot.SetStats()
-    pilot.FeatureController.BonusController.applyToStats(pilot.CombatController.StatController)
-    pilot.CombatController.StatController.resetCurrentStats()
+    const combatPilot = Pilot.Deserialize(JSON.parse(JSON.stringify(Pilot.Serialize(pilot))))
+    combatPilot.SetStats()
+    combatPilot.FeatureController.BonusController.applyToStats(
+      combatPilot.CombatController.StatController
+    )
+    combatPilot.CombatController.StatController.resetCurrentStats()
     const data = {
       id: crypto.randomUUID(),
       combatant: {
-        id: pilot.ID,
+        id: combatPilot.ID,
         index: -1,
         number: -1,
         side: 'ally',
         type: 'pilot',
-        actor: Pilot.Serialize(pilot),
+        actor: Pilot.Serialize(combatPilot),
         deployables: [],
       },
       campaign: campaign,

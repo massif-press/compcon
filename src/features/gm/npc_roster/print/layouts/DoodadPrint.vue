@@ -53,6 +53,7 @@
 </template>
 
 <script setup lang="ts">
+import type { GmPrintOptions } from '@/ui/print/types'
 import type { Doodad } from '@/classes/npc/doodad/Doodad'
 import PrintNpcStats from './components/PrintNpcStats.vue';
 import NpcNarrativePrintSection from './components/NpcNarrativePrintSection.vue';
@@ -61,7 +62,7 @@ defineOptions({ name: 'NpcPrint' })
 
 const props = defineProps<{
   npc: Doodad
-  options: object
+  options: GmPrintOptions
 }>()
 </script>
 

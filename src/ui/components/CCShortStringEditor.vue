@@ -68,8 +68,10 @@ function edit() {
     const vn = slotVnodes[0];
     let prev = '';
     if (typeof vn.children === 'string') prev = vn.children.trim();
-    else if (Array.isArray(vn.children) && vn.children[0] && typeof vn.children[0].children === 'string')
-      prev = vn.children[0].children.trim();
+    else if (Array.isArray(vn.children)) {
+      const first = vn.children[0] as { children?: unknown } | null;
+      if (first && typeof first.children === 'string') prev = first.children.trim();
+    }
     newStr.value = prev;
   }
 }

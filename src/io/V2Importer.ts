@@ -62,7 +62,7 @@ interface V2BackupRecord {
 // Detection
 // ---------------------------------------------------------------------------
 
-export function isV2Pilot(data: unknown): boolean {
+export function isV2Pilot(data: unknown): data is V2Pilot {
   if (!data || typeof data !== 'object' || Array.isArray(data)) return false
   const d = data as Record<string, unknown>
   if (d.itemType === 'pilot') return false

@@ -142,7 +142,7 @@ const props = withDefaults(defineProps<{
   lcps: any[]
   itemType: string
   lcpFilter: any[]
-  otherFilter: object
+  otherFilter: Record<string, any>
   lcpConfigs?: any[]
 }>(), {
   lcpConfigs: () => []

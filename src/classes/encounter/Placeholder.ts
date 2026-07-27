@@ -1,4 +1,5 @@
 import { CombatController } from '../components/combat/CombatController'
+import { FeatureController } from '../components/feature/FeatureController'
 import { SaveController } from '../components/save/SaveController'
 import { ItemType } from '../enums'
 interface IPlaceholderData {
@@ -20,13 +21,15 @@ class Placeholder {
   public PlaceholderType: string
   public SaveController: SaveController
   public CombatController: CombatController
+  public FeatureController: FeatureController
+  public readonly IsEncounterInstance: boolean = false
   public Icon: string = 'mdi-receipt-text'
   public readonly ItemType: ItemType = ItemType.Placeholder
   public readonly StorageType: string = 'none'
   public readonly Placeholder = true
   public Deployables: any = []
 
-  public ActiveMech?: Placeholder
+  public ActiveMech?: any
 
   constructor(data: IPlaceholderData) {
     this.ID = data.id
@@ -36,6 +39,7 @@ class Placeholder {
     this.Notes = data.notes
     this.PlaceholderType = data.type
     this.SaveController = new SaveController(this)
+    this.FeatureController = new FeatureController(this)
     this.CombatController = new CombatController(this)
 
     if (this.PlaceholderType === 'pilot') {

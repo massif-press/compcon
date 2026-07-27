@@ -28,6 +28,7 @@ interface ICombatant {
 
   SetStats(): void
 
+  PlayerName?: string
   Callsign?: string
   Icon?: string
   Portrait?: string
@@ -41,7 +42,7 @@ interface ICombatant {
   ActiveLayerIndex?: number
   IsLinked?: boolean
   IsNameless?: boolean
-  ActiveMech?: Mech
+  ActiveMech?: Mech | null
   Mechs?: Mech[]
   ActiveLayer?: EidolonLayer
   Layers?: EidolonLayer[]

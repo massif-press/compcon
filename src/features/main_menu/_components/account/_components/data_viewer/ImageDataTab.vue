@@ -169,7 +169,7 @@ const cloudStorageFull = computed(() => {
 const images = computed(() => {
   return allImages.value.filter((item) => {
     if (!item.uri) return false;
-    if (props.search && !item.Name.toLowerCase().includes(props.search.toLowerCase()))
+    if (props.search && !item.name.toLowerCase().includes(props.search.toLowerCase()))
       return false;
     return true;
   });
@@ -195,7 +195,7 @@ async function downloadImage(url) {
     link.click();
     link.remove();
   } catch (error) {
-    logger.error(`Error downloading image: ${error}`, this, error);
+    logger.error(`Error downloading image: ${error}`, undefined, error);
   }
 }
 async function deleteImage(item) {
@@ -213,7 +213,7 @@ async function deleteImage(item) {
     deleteLoading.value = false;
     return true;
   } catch (err) {
-    logger.error(`Error deleting image: ${err}`, this, err);
+    logger.error(`Error deleting image: ${err}`, undefined, err);
     notify({
       title: t('notify.image.deleteFailedTitle'),
       text: t('notify.dataItem.serverError', { err: String(err) }),

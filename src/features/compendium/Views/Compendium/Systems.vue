@@ -46,11 +46,4 @@ const systems = computed(() => {
   );
 })
 
-onMounted(() => {
-  const s = CompendiumStore().MechSystems.find(x => x.ID === 'test00system')
-  console.log({ IsExotic: s.IsExotic, IsHidden: s.IsHidden, LcpName: s.LcpName, License: s.License })
-  console.log('showExotics:', UserStore().User.Option('showExotics'))
-  console.log('saved view:', UserStore().User.View('cb-systems', null))
-
-});
 </script>

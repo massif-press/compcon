@@ -165,7 +165,7 @@ const availableWeapons = computed((): MechWeapon[] => {
 
   i = i.concat(
     props.mech.Pilot.SpecialEquipment.filter(
-      x => x.ItemType === 'MechWeapon' && fittings.includes(x.Size)
+      x => x.ItemType === 'MechWeapon' && fittings.includes((x as MechWeapon).Size)
     ) as MechWeapon[]
   )
 

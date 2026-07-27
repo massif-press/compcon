@@ -1,6 +1,9 @@
 import { CompendiumStore } from '@/features/compendium/store'
 import { CompendiumItem } from '../../../CompendiumItem'
-import { resolveSpecialEquipment, resolveIntegratedEquipment } from '../../../components/_equipmentUtils'
+import {
+  resolveSpecialEquipment,
+  resolveIntegratedEquipment,
+} from '../../../components/_equipmentUtils'
 import { ISynergyData, Synergy } from '../../../components/feature/synergy/Synergy'
 import { ContentPack } from '../../../ContentPack'
 import { ReserveType, ItemType } from '../../../enums'
@@ -13,6 +16,7 @@ import { IBonusData, Bonus } from '@/classes/components/feature/bonus/Bonus'
 import { IDeployableData } from '@/classes/components/feature/deployable/Deployable'
 import { IActiveEffectData } from '@/classes/components/feature/active_effects/ActiveEffect'
 import { ICounterData } from '@/classes/components'
+import { localize } from '@/i18n/localize'
 
 declare interface IReserveData {
   id: string
@@ -107,7 +111,7 @@ class Reserve extends CompendiumItem {
   }
 
   public get Name(): string {
-    return this._name
+    return localize(this.ID, 'name', this._name)
   }
 
   public set Name(n: string) {
@@ -133,7 +137,7 @@ class Reserve extends CompendiumItem {
   }
 
   public get Description(): string {
-    return this._description
+    return localize(this.ID, 'description', this._description)
   }
 
   public get Note(): string {

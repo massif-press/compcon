@@ -161,17 +161,22 @@ const plus = computed({
   },
 })
 
+function reset() {
+  props.rollData.DamageRollResult = undefined;
+  props.rollData.OverkillHeat = 0;
+  if (count.value && die.value) props.rollData.DamageRolledValue = undefined;
+}
+
 function rollDamage() {
-  const diceValue = count.value && die.value ? `${count.value}d${die.value}+${plus.value || 0}` : 0;
   let rollResult: any;
-  try {
+  if (count.value && die.value) {
     rollResult = DiceRoller.rollDamage(
-      diceValue,
+      `${count.value}d${die.value}+${plus.value || 0}`,
       props.rollData.IsCrit,
       props.rollData.Overkill,
       props.rollData.Reliable,
     );
-  } catch {
+  } else {
     rollResult = { total: Number(plus.value), toString: () => plus.value.toString() };
   }
   props.rollData.DamageRollResult = rollResult;

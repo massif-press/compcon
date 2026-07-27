@@ -139,16 +139,6 @@ const reliableDamageEvents = computed(() =>
   (props.event.DamageEvents || []).filter((de: any) => de.Reliable > 0)
 )
 
-function getTargetCoverDifficulty(idx) {
-  const target = props.selectedTargets[idx];
-  if (!target) return 0;
-
-  return target.actor.CombatController.Cover === 'none'
-    ? 0
-    : target.actor.CombatController.Cover === 'soft'
-      ? 1
-      : 2;
-}
 
 function overrideSave(s) {
   if (!s.HitResult) return;

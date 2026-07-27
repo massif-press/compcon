@@ -40,7 +40,7 @@
                       //
                       <b>{{ mech.Frame.Source }} {{ mech.Frame.Name }}</b>
                       <br />
-                      <mech-card-loadout-field :mech="mech" />
+                      <mech-card-loadout-field :mech="(mech as any)" />
                       <v-row no-gutters
                         justify="space-between">
                         <v-col cols="auto">

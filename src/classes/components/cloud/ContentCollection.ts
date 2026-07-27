@@ -262,3 +262,4 @@ class ContentCollection {
 }
 
 export { ContentCollection }
+export type { CollectionMetadata }

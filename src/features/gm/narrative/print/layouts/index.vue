@@ -6,6 +6,7 @@
 </template>
 
 <script setup lang="ts">
+import type { GmPrintOptions } from '@/ui/print/types'
 import NarrativeItemPrint from './NarrativeItemPrint.vue';
 import PageBreak from '@/features/pilot_management/Print/components/PageBreak.vue';
 
@@ -13,6 +14,6 @@ defineOptions({ name: 'combined-print' })
 
 const props = defineProps<{
   items: any[]
-  options: object
+  options: GmPrintOptions
 }>()
 </script>

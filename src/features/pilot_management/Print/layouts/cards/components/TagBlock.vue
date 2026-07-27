@@ -19,11 +19,12 @@
 </template>
 
 <script setup lang="ts">
+import type { PilotPrintOptions } from '@/ui/print/types'
 import Tag from '@/classes/Tag'
 
 defineProps<{
   tags: Tag[]
-  options: object
+  options: PilotPrintOptions
   mech?: boolean
   block?: boolean
 }>()

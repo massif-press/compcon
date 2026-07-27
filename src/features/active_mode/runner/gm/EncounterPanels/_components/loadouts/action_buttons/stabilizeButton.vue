@@ -92,7 +92,7 @@
         </v-row>
       </v-card>
       <menu-input :owner="owner" :encounter-instance="encounterInstance" hide-input
-        :key="controller.ID"
+        :key="controller.RootActor.ID"
         :active-effect="action"
         :close="close"
         @apply="apply"
@@ -109,6 +109,9 @@ import type { Action } from '@/classes/Action'
 import { computed, ref } from 'vue'
 import CombatActionButton from './CombatActionButton.vue';
 import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
+import type { Status } from '@/classes/Status';
+
+type ClearableCondition = { status: Status; expires: any };
 
 const { owner, encounterInstance } = useEncounterContext()
 
@@ -122,9 +125,9 @@ const emit = defineEmits<{
 
 const firstChoice = ref('cool')
 const secondChoice = ref('reload')
-const clearSelfCondition = ref(null)
-const clearAlliedCondition = ref(null)
-const selectedTarget = ref(null)
+const clearSelfCondition = ref<ClearableCondition | null>(null)
+const clearAlliedCondition = ref<ClearableCondition | null>(null)
+const selectedTarget = ref<CombatantData | null>(null)
 
 const controller = computed(() => {
       return owner.value.actor.CombatController;
@@ -139,13 +142,13 @@ const alliedTargets = computed(() => {
       );
     })
 
-function clearableConditions(target) {
+function clearableConditions(target: any): ClearableCondition[] {
       if (!target) return [];
       return target.CombatController.Statuses.filter(
         (s) => s.status.StatusType.toLowerCase() === 'condition'
       );
     }
-function apply(close) {
+function apply() {
       if (firstChoice.value === 'cool') {
         controller.value.Stabilize('cool');
       } else if (firstChoice.value === 'repair') {
@@ -158,11 +161,11 @@ function apply(close) {
         controller.value.Stabilize('clear_burn');
       } else if (secondChoice.value === 'clear_self') {
         controller.value.Stabilize('clear_self');
-        if (clearSelfCondition.value) controller.value.RemoveStatus(clearSelfCondition.value.ID);
+        if (clearSelfCondition.value) controller.value.RemoveStatus(clearSelfCondition.value.status.ID);
       } else if (secondChoice.value === 'clear_ally') {
         controller.value.Stabilize('clear_ally');
         if (selectedTarget.value && clearAlliedCondition.value)
-          selectedTarget.value.actor.CombatController.RemoveStatus(clearAlliedCondition.value.ID);
+          selectedTarget.value.actor.CombatController.RemoveStatus(clearAlliedCondition.value.status.ID);
       }
 
       emit('activate', props.action.ID);

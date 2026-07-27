@@ -125,6 +125,8 @@
 </template>
 
 <script setup lang="ts">
+import type { INarrativeEntity } from '@/classes/narrative/INarrativeEntity'
+import type { GmPrintOptions } from '@/ui/print/types'
 import { computed } from 'vue'
 import BlankLine from '@/features/gm/npc_roster/print/components/blank/line.vue';
 import Notes from '@/features/gm/npc_roster/print/components/blank/notes.vue';
@@ -132,12 +134,12 @@ import Notes from '@/features/gm/npc_roster/print/components/blank/notes.vue';
 defineOptions({ name: 'item-print' })
 
 const props = defineProps<{
-  item: object
-  options: object
+  item: INarrativeEntity
+  options: GmPrintOptions
 }>()
 
 const landscape = computed(() => {
-      return props.options.orientation === 'landscape';
+      return props.options.orientation.title.toLowerCase() === 'landscape';
     })
 </script>
 

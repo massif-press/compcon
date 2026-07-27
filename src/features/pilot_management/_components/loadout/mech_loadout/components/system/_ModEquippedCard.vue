@@ -60,8 +60,8 @@ const props = withDefaults(defineProps<{
   readonly?: boolean
   integrated?: boolean
 }>(), {
-  weapon: null,
-  item: null,
+  weapon: undefined,
+  item: undefined,
   color: 'primary',
   integrated: false
 })

@@ -6,7 +6,7 @@
       <div class="text-caption">
         v. {{ collection.version }}
         <cc-slashes />
-        {{ new Date(collection.updated).toLocaleString() }}
+        {{ new Date(collection.updated ?? 0).toLocaleString() }}
       </div>
     </v-col>
     <v-col>
@@ -64,11 +64,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import type { CollectionMetadata } from '@/classes/components/cloud/ContentCollection'
 
 defineOptions({ name: 'collection-info' })
 
 const props = defineProps<{
-  collection: object
+  collection: CollectionMetadata
 }>()
 
 const showMore = ref(false)

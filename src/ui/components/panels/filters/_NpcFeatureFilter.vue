@@ -34,12 +34,13 @@
 </template>
 
 <script setup lang="ts">
+import type { ItemFilters } from '@/ui/components/panels/filters/types'
 import { ref, onMounted } from 'vue'
 
 defineOptions({ name: 'npc-feature-filter' })
 
 const props = withDefaults(defineProps<{
-  activeFilters?: object
+  activeFilters?: ItemFilters
   origins?: any[]
   featureTypes?: any[]
 }>(), {

@@ -77,10 +77,11 @@
 </template>
 
 <script setup lang="ts">
+import type { BrewController } from '@/classes/components/brew/BrewController';
 defineOptions({ name: 'cc-brew-info' })
 
 const props = withDefaults(defineProps<{
-  controller: object
+  controller: BrewController
   width?: string
 }>(), {
   width: '100%'

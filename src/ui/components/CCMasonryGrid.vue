@@ -27,7 +27,7 @@ const props = withDefaults(defineProps<{
   xlColumns?: number
 }>(), {
   gap: 16,
-  keyMapper: null,
+  keyMapper: undefined,
   xlColumns: 3
 })
 

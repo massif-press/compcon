@@ -77,14 +77,11 @@ const asc = ref(true)
 sort.value = UserStore().User.View('hangarSort', 'Created');
     asc.value = UserStore().User.View('hangarAsc', false);
 
-sort.value = UserStore().User.View('hangarSort', 'Created');
-    asc.value = UserStore().User.View('hangarAsc', false);
-
-function setSort(sort: string) {
-      if (sort.value === sort) {
+function setSort(newSort: string) {
+      if (sort.value === newSort) {
         asc.value = !asc.value;
       } else {
-        sort.value = sort;
+        sort.value = newSort;
         asc.value = true;
       }
 

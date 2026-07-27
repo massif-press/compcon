@@ -299,6 +299,7 @@
 </template>
 
 <script setup lang="ts">
+import type { PilotPrintOptions } from '@/ui/print/types'
 import { computed } from 'vue'
 import { Mech } from '@/classes/mech/Mech'
 import PrintAction from '../../components/PrintAction.vue';
@@ -319,7 +320,7 @@ defineOptions({ name: 'MechPrint' })
 
 const props = defineProps<{
   mech: Mech
-  options: object
+  options: PilotPrintOptions
 }>()
 
 const { blank, hasMechOption, signed, showCollectedEffect } = usePrintOptions(props)

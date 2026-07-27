@@ -281,7 +281,7 @@ defineOptions({ name: 'Beef' })
 const mobile = ref(false)
 const sort = ref('Updated')
 const asc = ref(true)
-const tables = ref([
+const tables = ref<any[]>([
       {
         id: 'table-1',
         name: "Beef's Table",
@@ -330,6 +330,12 @@ const tables = ref([
         MechPortrait: 'https://d2c79xe1p61csc.cloudfront.net/frames/mf_goblin.png',
       },
     ])
+
+function setSort(key: string) {
+  if (sort.value === key) asc.value = !asc.value
+  else sort.value = key
+}
+
 </script>
 
 <style scoped>

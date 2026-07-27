@@ -132,7 +132,7 @@ const props = withDefaults(defineProps<{
   hideChange?: boolean
   rank?: number | string
 }>(), {
-  rank: null
+  rank: undefined
 })
 
 const emit = defineEmits<{

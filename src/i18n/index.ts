@@ -29,7 +29,7 @@ export const i18n = createI18n({
   globalInjection: true,
   locale: DEFAULT_LOCALE,
   fallbackLocale: DEFAULT_LOCALE,
-  messages: { en },
+  messages: { en } as Record<LocaleCode, typeof en>,
   missingWarn: import.meta.env.DEV,
   fallbackWarn: import.meta.env.DEV,
 })

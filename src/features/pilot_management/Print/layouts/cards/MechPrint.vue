@@ -558,6 +558,7 @@
 </template>
 
 <script setup lang="ts">
+import type { PilotPrintOptions } from '@/ui/print/types'
 import type { Mech } from '@/classes/mech/Mech'
 import { computed } from 'vue'
 import card from './components/PrintCard.vue';
@@ -568,7 +569,7 @@ import tagBlock from './components/TagBlock.vue';
 
 const props = defineProps<{
   mech: Mech
-  options: object
+  options: PilotPrintOptions
 }>()
 
 const mounts = computed(() => {

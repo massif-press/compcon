@@ -274,7 +274,7 @@ async function stageImport(file: any) {
         const c = new Campaign(data);
         stagedData.value = c;
       } catch (e) {
-        logger.error(`Error staging import: ${e}`, this);
+        logger.error(`Error staging import: ${e}`);
         stagedData.value = null;
         errorMessage.value = JSON.stringify(e);
       }

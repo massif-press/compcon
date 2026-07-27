@@ -110,7 +110,21 @@ import { useDisplay } from 'vuetify';
 
 const { smAndDown: mobile, xs: portrait } = useDisplay()
 
-const faq = ref('')
+type MdNode = {
+  heading?: string
+  body?: string
+  children: MdNode[]
+}
+
+type ErrataEntry = {
+  book: string
+  page?: string | number
+  title?: string
+  body?: string
+  children?: ErrataEntry[]
+}
+
+const faq = ref<ErrataEntry[]>([])
 const loading = ref(true)
 const showNav = ref(false)
 
@@ -118,7 +132,7 @@ const books = computed(() => {
       return new Set(faq.value.map((item) => item.book));
     })
 
-function sanitize(text) {
+function sanitize(text: string) {
       let out = text;
 
       // remove all <wot:*> tags
@@ -126,10 +140,10 @@ function sanitize(text) {
 
       return out;
     }
-function convertToJson(markdown) {
+function convertToJson(markdown: string): MdNode[] {
       const lines = markdown.split('\n');
-      const root = { children: [] };
-      const stack = [root];
+      const root: MdNode = { children: [] };
+      const stack: MdNode[] = [root];
 
       lines.forEach((line) => {
         const match = line.match(/^(#{1,6})\s+(.*)/); // Match headers (#, ##, ###, etc.)
@@ -137,7 +151,7 @@ function convertToJson(markdown) {
         if (match) {
           const level = match[1].length; // Determine heading level
           const text = match[2].trim();
-          const node = { heading: text, children: [] };
+          const node: MdNode = { heading: text, children: [] };
 
           while (stack.length > level) stack.pop(); // Adjust stack for hierarchy
 
@@ -152,18 +166,18 @@ function convertToJson(markdown) {
 
       return root.children;
     }
-function srdFormat(arr) {
+function srdFormat(arr: MdNode[]): ErrataEntry[] {
       return arr.map((item) => {
-        let out = {
+        let out: ErrataEntry = {
           book: DEFAULT_LCP_NAME,
         };
-        const titleMatch = item.heading.match(/^page (\d+), (.+)$/i);
+        const titleMatch = item.heading!.match(/^page (\d+), (.+)$/i);
         if (titleMatch) {
           out.page = titleMatch[1];
           out.title = titleMatch[2];
         } else {
           // capture expansion book and page number
-          const extraMatch = item.heading.match(/^(.+?)(?:\s*page\s*)?(\d+),\s*(.+)$/i); // Non-capturing group for optional "page"
+          const extraMatch = item.heading!.match(/^(.+?)(?:\s*page\s*)?(\d+),\s*(.+)$/i); // Non-capturing group for optional "page"
           if (extraMatch) {
             out.book = extraMatch[1].trim();
             out.page = parseInt(extraMatch[2], 10);
@@ -176,11 +190,11 @@ function srdFormat(arr) {
         return out;
       });
     }
-function cMarkdown(str) {
-      return marked(str);
+function cMarkdown(str?: string) {
+      return marked(str || '');
     }
-function scrollTo(id) {
-      const el = document.getElementById(id);
+function scrollTo(id?: string) {
+      const el = id ? document.getElementById(id) : null;
       if (!el) return;
       const offset = 50;
       const elementPosition = el.getBoundingClientRect().top + window.pageYOffset;
@@ -198,11 +212,10 @@ onMounted(async () => {
     'https://raw.githubusercontent.com/aritsune/lancer-faq/refs/heads/master/src/index.md'
   )
   if (res.ok) {
-    let text = await res.text()
-    text = sanitize(text)
-    text = convertToJson(text)
-    faq.value = srdFormat(text[0].children)
-  } else logger.error(`Error fetching FAQ data: ${res.statusText}`, this)
+    const text = sanitize(await res.text())
+    const nodes = convertToJson(text)
+    faq.value = srdFormat(nodes[0].children)
+  } else logger.error(`Error fetching FAQ data: ${res.statusText}`)
   loading.value = false
 })
 </script>

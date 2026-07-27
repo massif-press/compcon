@@ -91,7 +91,7 @@
               </v-col>
               <v-col v-if="checkType === 'standard'">
                 <div class="text-cc-overline text-disabled">{{ $t('active.skillCheck.targetValue') }}</div>
-                <v-text-field v-model="targetVal"
+                <v-text-field v-model.number="targetVal"
                   density="compact"
                   variant="outlined"
                   type="number"
@@ -100,7 +100,7 @@
                   tile
                   hide-details>
                   <template #append>
-                    <v-tooltip v-if="$refs.check"
+                    <v-tooltip v-if="check"
                       location="top">
                       <template #activator="{ props }">
                         <v-btn icon
@@ -108,19 +108,19 @@
                           variant="text"
                           flat
                           tile
-                          :color="!($refs.check as any).roll
+                          :color="!check?.roll
                             ? ''
-                            : ($refs.check as any).roll >= targetVal
+                            : check?.roll >= targetVal
                               ? 'success'
                               : 'error'
                             "
                           class="ml-n2"
                           v-bind="props"
-                          @click="overrideSave()">
+                          @click="check?.overrideRoll(targetVal)">
                           <v-icon size="25"
-                            :icon="!($refs.check as any).roll
+                            :icon="!check?.roll
                               ? 'mdi-circle-outline'
-                              : ($refs.check as any).roll >= targetVal
+                              : check?.roll >= targetVal
                                 ? 'mdi-check-circle'
                                 : 'mdi-cancel'
                               " />
@@ -129,7 +129,7 @@
 
                       <div class="text-center">
                         {{
-                          !($refs.check as any).roll ? $t('active.skillCheck.noCheckRolled') : ($refs.check as any).roll >= targetVal ? $t('active.skillCheck.checkSuccess') : $t('active.skillCheck.checkFail')
+                          !check?.roll ? $t('active.skillCheck.noCheckRolled') : check?.roll >= targetVal ? $t('active.skillCheck.checkSuccess') : $t('active.skillCheck.checkFail')
                         }}
 
                         <div>
@@ -168,22 +168,22 @@
       <cc-alert v-if="
         checkType === 'contested' &&
         selectedTarget &&
-        ($refs.check as any).roll &&
-        ($refs.contest as any).roll
+        check?.roll &&
+        contest?.roll
       "
         class="mt-4"
-        :color="($refs.check as any).roll >= ($refs.contest as any).roll ? 'success' : 'error'"
+        :color="check?.roll >= contest?.roll ? 'success' : 'error'"
         outlined>
         <div class="text-center heading">
           {{ $t('common.result') }}:
           <span>
             {{ controller.CombatName }}
-            {{ ($refs.check as any).roll >= ($refs.contest as any).roll ? $t('active.skillCheck.wins') : $t('active.skillCheck.loses') }}
+            {{ check?.roll >= contest?.roll ? $t('active.skillCheck.wins') : $t('active.skillCheck.loses') }}
           </span>
         </div>
       </cc-alert>
       <menu-input :owner="owner" :encounter-instance="encounterInstance" hide-input
-        :key="controller.ID"
+        :key="controller.RootActor.ID"
         :active-effect="action"
         :close="close"
         @apply="apply"
@@ -214,19 +214,15 @@ const emit = defineEmits<{
   'activate': [payload: string]
 }>()
 
-const check = ref<any>(null)
-const contest = ref<any>(null)
+const check = ref<InstanceType<typeof SkillCheckBase> | null>(null)
+const contest = ref<InstanceType<typeof SkillCheckBase> | null>(null)
 
-const roll = ref(null)
-const bonus = ref(0)
-const accDiff = ref(0)
 const targetVal = ref(10)
-const rollResults = ref([])
 const selectedHase = ref('hull')
 const checkType = ref('standard')
 const difficult = ref(false)
 const modifier = ref('')
-const selectedTarget = ref(null)
+const selectedTarget = ref<any>(null)
 const hase = ref([
       { title: t('active.titles.hull'), value: 'hull' },
       { title: t('stats.agility'), value: 'agility' },
@@ -249,60 +245,10 @@ const targets = computed(() => {
           c.actor.ID !== controller.value.RootActor.ID
       ).map((x) => x.actor.CombatController.ActiveActor);
     })
-const applicableBonuses = computed(() => {
-      let bonuses = [];
-      bonuses = controller.value.ActiveActor.FeatureController?.Bonuses?.filter(
-        (b) => b.ID === selectedHase.value || b.ID === 'check'
-      );
-      const result = {
-        bonuses: bonuses.filter((b) => !!b.Value) || [],
-        accDiff: bonuses.filter((b) => !!b.Accuracy) || [],
-      };
-      if (selectedHase.value) {
-        const statBonus = controller.value.ActiveActor.CombatController.StatController.getStat(
-          selectedHase.value
-        );
-        if (statBonus) {
-          result.bonuses.push({
-            Source: `${selectedHase.value.charAt(0).toUpperCase() + selectedHase.value.slice(1)} Stat`,
-            Value: statBonus,
-          });
-        }
-      }
-      return result;
-    })
-
-function apply(close) {
+function apply() {
       emit('activate', props.action.ID);
     }
 function reset() {
       controller.value.ResetActivation(props.action.Activation);
-    }
-function rollCheck(idx) {
-      rollResults.value = [];
-      const results = [];
-      const count = 1 + Math.abs(accDiff.value);
-
-      for (let i = 1; i <= count; i++) {
-        const roll = Math.floor(Math.random() * 20) + 1;
-        const val = roll + bonus.value;
-        results.push({ val, text: `${roll} + ${bonus.value} (${val})` });
-      }
-
-      if (accDiff.value < 0) {
-        results.sort((a, b) => a.val - b.val);
-      } else {
-        results.sort((a, b) => b.val - a.val);
-      }
-
-      rollResults.value = results;
-      roll.value = results[0].val;
-    }
-function overrideCheck(idx) {
-      if ((roll.value ?? 0) < targetVal.value) {
-        roll.value = 20;
-      } else {
-        roll.value = 1;
-      }
     }
 </script>

@@ -37,7 +37,7 @@
             </div>
 
             <div v-else>
-              <menu-input :owner="owner" :encounter-instance="encounterInstance" :key="controller.ID"
+              <menu-input :owner="owner" :encounter-instance="encounterInstance" :key="controller.RootActor.ID"
                 :active-effect="selectedAction(tab)"
                 :close="close"
                 @apply="apply"
@@ -81,10 +81,10 @@ const jockeyActions = computed(() => {
         .sort((a, b) => a.Name.localeCompare(b.Name));
     })
 
-function selectedAction(id) {
-      return CompendiumStore().Actions.find((a) => a.ID === id);
+function selectedAction(id: string) {
+      return CompendiumStore().Actions.find((a) => a.ID === id)!;
     }
-function apply(close) {
+function apply() {
       emit('activate', props.action.ID);
     }
 function reset() {

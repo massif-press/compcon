@@ -93,7 +93,9 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
       this.Encounter = Encounter.Deserialize(eData)
 
       this.Combatants = [
-        ...encounter.Combatants,
+        ...encounter.Combatants.map(c =>
+          Encounter.DeserializeCombatant(Encounter.SerializeCombatant(c))
+        ),
         ...pilots.map(p => {
           // clear non-active mechs from instanced pilot
           const pData = p.Serialize() as PilotData

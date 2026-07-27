@@ -63,7 +63,7 @@
       :loading="loading"
       hide-default-footer>
       <template #item.last_update="{ item }">
-        {{ new Date(item.updated).toLocaleString() }}
+        {{ new Date(item.updated ?? 0).toLocaleString() }}
       </template>
       <template #item.vers="{ item }">
         <span v-if="!getLocalUserSetting(item)">-</span>
@@ -85,7 +85,7 @@
               <div class="text-caption">
                 {{ $t("mainMenu.subscriptions.updatedOn", {
                   date: new
-                    Date(item.updated).toLocaleString()
+                    Date(item.updated ?? 0).toLocaleString()
                 })
                 }}
               </div>
@@ -220,7 +220,7 @@ const collectionItems = computed(() => {
 })
 const remoteDeletedItems = computed(() => {
   return cloudUser.value.CollectionSubscriptionSettings.items.filter(
-    (sub) => !collectionItems.value.find((item) => item.id === sub.metadata.id)
+    (sub) => !collectionItems.value.find((item) => item.sortkey === sub.metadata.sortkey)
   );
 })
 
@@ -238,7 +238,7 @@ async function update(item) {
   loading.value = true;
   let errors = await UserStore().updateRemoteCollection(item);
   if (errors.length > 0) {
-    logger.error(`Error updating collection: ${errors}`, this);
+    logger.error(`Error updating collection: ${errors}`);
     notify({
       title: t('mainMenu.account.collectionErrorTitle'),
       text: t('mainMenu.account.collectionErrorText'),

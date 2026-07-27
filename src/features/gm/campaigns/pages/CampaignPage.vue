@@ -224,6 +224,7 @@
 </template>
 
 <script setup lang="ts">
+import type { CampaignSection } from '@/classes/campaign/CampaignSection'
 import { computed, ref } from 'vue'
 import * as _ from 'lodash-es';
 import PageContentContainer from './_components/PageContentContainer.vue';
@@ -232,7 +233,7 @@ import sectionAddMenu from '../_components/sectionAddMenu.vue';
 defineOptions({ name: 'campaign-editor-page' })
 
 const props = defineProps<{
-  item: object
+  item: CampaignSection
 }>()
 
 const linkSelectDialog = ref(false)

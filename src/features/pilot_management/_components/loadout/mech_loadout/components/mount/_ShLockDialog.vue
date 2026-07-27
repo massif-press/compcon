@@ -60,7 +60,7 @@ const availableMounts = computed(() => {
   if (superheavySelect.value) {
     candidates = props.mech.MechLoadoutController.ActiveLoadout.Mounts.filter(
       (m) => m.Type === MountType.Heavy
-    );
+    ) as EquippableMount[];
   }
   return candidates.filter((x) => x.Name !== props.mount.Name);
 })

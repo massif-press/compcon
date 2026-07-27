@@ -79,6 +79,7 @@
 </template>
 
 <script setup lang="ts">
+import type { INarrativeEntity } from '@/classes/narrative/INarrativeEntity'
 import { computed } from 'vue'
 import { Character } from '@/classes/narrative/Character'
 import { Faction } from '@/classes/narrative/Faction'
@@ -92,7 +93,7 @@ import exportAsJson from '@/util/jsonExport'
 defineOptions({ name: 'NarrativeItemEditor' })
 
 const props = defineProps<{
-  item: object
+  item: INarrativeEntity
   itemType: 'Character' | 'Faction' | 'Location'
 }>()
 

@@ -81,7 +81,7 @@ const props = withDefaults(defineProps<{
   internalValue: 0,
   width: '158px',
   clip: false,
-  valueAtlas: null
+  valueAtlas: undefined
 })
 
 const emit = defineEmits<{

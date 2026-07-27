@@ -12,7 +12,7 @@
         <td v-for="h in <any[]>visibleHeaders"
           :key="h.key"
           class="text-left px-2"
-          :class="`text-${h.align} ${selected && (selected as any).ID === item.ID ? 'bg-light-panel' : ''
+          :class="`text-${h.align} ${selected && selected.ID === item.ID ? 'bg-light-panel' : ''
             }`">
           <div v-if="h.key === 'Source'">
             <span v-if="item.Source">
@@ -158,10 +158,10 @@ const _display = useDisplay()
 const props = withDefaults(defineProps<{
   headers: any[]
   items: any[]
-  selected?: object
+  selected?: { ID: string }
   selectable?: boolean
 }>(), {
-  selected: null
+  selected: undefined
 })
 
 const emit = defineEmits<{

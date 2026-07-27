@@ -186,7 +186,7 @@ export async function getUserDataChanged(
 export async function updateItem(metadata: any, scope = 'item'): Promise<any> {
   logger.info('Updating item with metadata:', metadata)
   const url = new URL(`${invoke}/user`)
-  url.searchParams.append('user_id', UserStore().Cognito.userId)
+  url.searchParams.append('user_id', UserStore().Cognito.userId ?? '')
   url.searchParams.append('scope', scope)
 
   const body = typeof metadata === 'string' ? metadata : JSON.stringify(metadata)
@@ -221,7 +221,7 @@ export async function getUploadPresigns(uris: string[]): Promise<Record<string, 
 
 export async function batchUpsert(items: any[]): Promise<any> {
   const url = new URL(`${invoke}/user`)
-  url.searchParams.append('user_id', UserStore().Cognito.userId)
+  url.searchParams.append('user_id', UserStore().Cognito.userId ?? '')
   url.searchParams.append('scope', 'batch')
 
   const response = await fetchWithRetry(url.toString(), {
@@ -236,7 +236,7 @@ export async function batchUpsert(items: any[]): Promise<any> {
 
 export async function patchItem(sortkey: string, fields: Record<string, any>): Promise<any> {
   const url = new URL(`${invoke}/user`)
-  url.searchParams.append('user_id', UserStore().Cognito.userId)
+  url.searchParams.append('user_id', UserStore().Cognito.userId ?? '')
   url.searchParams.append('scope', 'patch')
 
   const response = await fetchWithRetry(url.toString(), {
