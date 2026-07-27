@@ -106,7 +106,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, onMounted, type Ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Pilot } from '@/classes/pilot/Pilot'
 import { unCamelCase } from '@/classes/utility/accent_fold';
@@ -131,7 +131,7 @@ const props = withDefaults(defineProps<{
 
 const loading = ref(true)
 const itemData = ref(null as any)
-const pilot = ref(null as Pilot | null)
+const pilot = ref(null as Pilot | null) as Ref<Pilot | null>
 const rateLimitError = ref(null as { retryAfter: number | null; isDaily: boolean } | null)
 
 const compendiumLoaded = computed(() => {

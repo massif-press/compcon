@@ -130,7 +130,7 @@ const fightWeapons = computed(() => {
   return arr;
 })
 const eventArray = computed(() => {
-  return [event.value];
+  return event.value ? [event.value] : [];
 })
 
 function reset(clearAction = false) {

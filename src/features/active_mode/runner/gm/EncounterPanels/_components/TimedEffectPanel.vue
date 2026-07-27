@@ -94,6 +94,7 @@
 <script setup lang="ts">
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { useEncounterContext } from '../encounterContext'
+import { EffectSpecial } from '@/classes/components/feature/active_effects/effect_subtype/EffectSpecial'
 import type { ICombatant } from '@/classes/components/combat/ICombatant'
 import { TimedEffect } from '@/classes/components/feature/active_effects/TimedEffect';
 
@@ -112,7 +113,17 @@ function apply(effect: TimedEffect, index: number) {
   if (e) {
     if (e.damage) e.damage.forEach((d: any) => props.item.CombatController.TakeDamage(d.type, d.value));
     if (e.status) e.status.forEach((s: any) => props.item.CombatController.AddStatus(s));
-    if (e.special) e.special.forEach((s: any) => props.item.CombatController.ApplySpecial(s.attribute, s.detail));
+    if (e.special)
+      e.special.forEach((s: any) => {
+        const cc = props.item.CombatController;
+        cc.ApplyCustomStatus(
+          new EffectSpecial({ attribute: s.attribute, detail: s.detail }),
+          '',
+          cc,
+          cc,
+          encounterInstance.value
+        );
+      });
     if (e.resist) e.resist.forEach((r: any) => props.item.CombatController.AddResist(r.type, r.value));
     if (e.other === 'self_destruct') props.item.CombatController.CommitSelfDestruct();
   }

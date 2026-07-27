@@ -37,6 +37,7 @@
 </template>
 
 <script setup lang="ts">
+import type { DeployableOwner } from '@/classes/components/feature/IFeatureController'
 import { computed } from 'vue'
 import DeployableInfoBase from './_deployableInfoBase.vue'
 import { Deployable } from '@/classes/components/feature/deployable/Deployable';
@@ -44,7 +45,7 @@ import { Deployable } from '@/classes/components/feature/deployable/Deployable';
 const props = withDefaults(defineProps<{
   deployable: Deployable
   tier?: number
-  owner?: object | null
+  owner?: DeployableOwner | null
 }>(), {
   owner: null,
 })

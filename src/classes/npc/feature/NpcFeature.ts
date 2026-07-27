@@ -42,6 +42,7 @@ abstract class NpcFeature extends CompendiumItem {
   public IsHidden: boolean = false
   public Recharge: number = 0
   public Used: boolean = false
+  public IsLoading: boolean = false
   public readonly Base: boolean
   public readonly Deprecated: boolean = false
   public readonly BuildFeature: boolean = false
@@ -56,6 +57,7 @@ abstract class NpcFeature extends CompendiumItem {
     if (this.Tags.some(x => x.IsRecharging)) {
       this.Recharge = Number(this.Tags.find(x => x.IsRecharging)?.Value) || 0
     }
+    this.IsLoading = this.Tags.some(x => x.IsLoading)
 
     this._hide_active = data.hide_active || false
     this.Base = data.base || false

@@ -72,26 +72,26 @@ import { computed, ref } from 'vue'
 import { EncounterStore } from '@/stores';
 import EncounterSelector from './EncounterSelector.vue';
 import EncounterContent from './EncounterContent.vue';
+import type { EncounterDataContainer } from '@/classes/campaign/EncounterDataContainer';
+import type { Encounter } from '@/classes/encounter/Encounter';
 
 defineOptions({ name: 'EncounterContentContainer' })
 
 const props = defineProps<{
-  item: object
+  item: EncounterDataContainer
 }>()
 
 const encounterDialog = ref(false)
 
 const isItemLinked = computed(() => {
-  return (
-    props.item.Data &&
-    props.item.Data.ID &&
-    EncounterStore()
-      .Encounters.filter((x) => !x.SaveController.IsDeleted)
-      .find((x) => x.ID === props.item.Data.ID)
-  );
+  const data = props.item.Data;
+  if (!data?.ID) return false;
+  return EncounterStore()
+    .Encounters.filter((x) => !x.SaveController.IsDeleted)
+    .some((x) => x.ID === data.ID);
 })
 
-function addEncounter(encounter) {
+function addEncounter(encounter: Encounter) {
   props.item.Data = encounter;
 }
 </script>

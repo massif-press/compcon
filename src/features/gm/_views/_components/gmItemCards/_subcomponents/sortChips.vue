@@ -9,11 +9,12 @@
 </template>
 
 <script setup lang="ts">
+import type { BrewController } from '@/classes/components/brew/BrewController';
 defineOptions({ name: 'gm-card-sort-chip-display' })
 
 const props = withDefaults(defineProps<{
   sorting?: object | string
-  controller?: object
+  controller?: BrewController
 }>(), {
   sorting: ''
 })

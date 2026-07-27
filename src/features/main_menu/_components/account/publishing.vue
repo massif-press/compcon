@@ -204,15 +204,15 @@
                           {{ $t("mainMenu.publishing.viewFullChangelog") }}
                         </cc-button>
                       </template>
-                      <template #default="{ isActive }">
-                        <v-card v-show="isActive">
+                      <template #default="{ close }">
+                        <v-card>
                           <v-toolbar color="primary"
                             density="compact">
                             <v-toolbar-title class="heading h3">
                               {{ $t("mainMenu.publishing.collectionChangelogTitle", { name: collection.Name.toUpperCase() }) }}
                             </v-toolbar-title>
                             <cc-button icon
-                              @click="isActive.value = false">
+                              @click="close()">
                               <v-icon>mdi-close</v-icon>
                             </cc-button>
                           </v-toolbar>

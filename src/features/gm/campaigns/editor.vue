@@ -58,6 +58,8 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import type { Campaign } from '@/classes/campaign/Campaign';
+import type { CampaignSection } from '@/classes/campaign/CampaignSection';
 import campaignEditorSidebar from './_components/campaignEditorSidebar.vue';
 import Overview from './pages/overview.vue';
 import Credits from '@/features/compendium/Views/CampaignLibrary/pages/credits.vue';
@@ -76,7 +78,7 @@ const props = defineProps<{
 
 const componentType = ref('overview')
 const previewType = ref('credits')
-const selected = ref(null)
+const selected = ref<CampaignSection | null>(null)
 const previewDialog = ref(false)
 
 const itemComponent = computed(() => {
@@ -95,8 +97,8 @@ const previewItemComponent = computed(() => {
           return ContentPage;
       }
     })
-const campaign = computed(() => {
-      return CampaignStore().Campaigns.find((c) => c.ID === props.id);
+const campaign = computed<Campaign | undefined>(() => {
+      return CampaignStore().Campaigns.find((c) => c.ID === props.id) as Campaign | undefined;
     })
 const currentPage = computed(() => {
       return componentType.value;

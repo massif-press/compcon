@@ -43,6 +43,7 @@ abstract class MechEquipment extends LicensedItem {
   public readonly IsAI: boolean = false
   public readonly NoCascade: boolean = false
   public readonly IsIndestructible: boolean = false
+  public IsCascading: boolean = false
   public readonly IsOrdnance: boolean = false
   public readonly CanSetDamage: boolean = false
   public readonly CanSetUses: boolean = false

@@ -208,10 +208,10 @@ function isOutOfCombat(c: CombatantData): boolean {
 const props = withDefaults(defineProps<{
   encounterInstance: EncounterInstance
   expanded?: boolean
-  selected?: object
+  selected?: { id: string }
 }>(), {
   expanded: true,
-  selected: null
+  selected: undefined
 })
 
 const emit = defineEmits<{

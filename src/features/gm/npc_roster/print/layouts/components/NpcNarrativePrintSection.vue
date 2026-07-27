@@ -99,12 +99,12 @@
 
 <script setup lang="ts">
 import type { GmPrintOptions } from '@/ui/print/types'
-import type { Unit } from '@/classes/npc/unit/Unit'
+import type { NarrativeController } from '@/classes/narrative/NarrativeController'
 import blankLine from '../../components/blank/line.vue';
 import notes from '../../components/blank/notes.vue';
 
 const props = defineProps<{
-  npc: Unit
+  npc: { NarrativeController: NarrativeController }
   options: GmPrintOptions
 }>()
 </script>

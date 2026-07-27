@@ -26,7 +26,7 @@
 import { computed } from 'vue'
 
 const props = withDefaults(defineProps<{
-  item?: object
+  item?: { SaveController?: { IsRemote: boolean; IsCollectionItem: boolean } }
   color?: string
 }>(), {
   color: ''

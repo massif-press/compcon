@@ -9,7 +9,7 @@ import { AchievementSaveData } from './achievements/Achievement'
 const CONFIG_FILE_NAME = 'cc_user'
 
 type PatreonData = {
-  token: {
+  token?: {
     access_token: string
     token_type: string
     expires_in: number
@@ -17,7 +17,7 @@ type PatreonData = {
     scope: string
     version: string
   }
-  profile: {
+  profile?: {
     full_name: string
     thumb_url: string
     patron_status: string

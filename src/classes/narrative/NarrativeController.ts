@@ -5,7 +5,7 @@ import { INarrativeElement } from './INarrativeElement';
 import { assertController } from '../utility/assertController'
 
 type TextItem = {
-  title: string;
+  header: string;
   body: string;
   gm_only?: boolean;
 };
@@ -84,7 +84,7 @@ class NarrativeController {
   }
 
   public DeleteTextItem(s: TextItem) {
-    const idx = this.TextItems.findIndex((x) => x.body === s.body && x.title === s.title);
+    const idx = this.TextItems.findIndex((x) => x.body === s.body && x.header === s.header);
     if (idx === -1) return;
     this.TextItems.splice(idx, 1);
     this.Parent.SaveController.save();

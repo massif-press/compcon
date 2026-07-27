@@ -76,6 +76,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import type { Frame } from '@/classes/mech/components/frame/Frame'
 import { useDisplay } from 'vuetify'
 import { FrameCombatChart } from '../frame'
 import { glossary as glossaryData } from '@massif/lancer-data'
@@ -107,7 +108,7 @@ function mountLabel(m: string) {
 }
 
 const props = defineProps<{
-  item: Record<string, any>
+  item: Frame
   notes?: boolean
   smallTags?: boolean
   dense?: boolean

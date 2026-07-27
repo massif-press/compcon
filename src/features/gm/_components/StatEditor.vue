@@ -150,6 +150,7 @@ import { Bonus } from '@/classes/components/feature/bonus/Bonus';
 import { useDisplay } from 'vuetify';
 import { Doodad } from '@/classes/npc/doodad/Doodad.js';
 import { Eidolon } from '@/classes/npc/eidolon/Eidolon.js';
+import type { EidolonLayerSaveData } from '@/classes/npc/eidolon/EidolonLayerSaveData';
 import { Unit } from '@/classes/npc/unit/Unit.js';
 import { NpcClassController } from '@/classes/npc/class/NpcClassController.js';
 const npcStatOrder = [
@@ -179,7 +180,7 @@ const npcStatOrder = [
 const { smAndDown: mobile } = useDisplay()
 
 const props = withDefaults(defineProps<{
-  item: Unit | Eidolon | Doodad
+  item: Unit | Eidolon | Doodad | EidolonLayerSaveData
   controller?: NpcClassController
   bonuses?: Bonus[]
   prefix?: string

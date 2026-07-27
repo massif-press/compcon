@@ -176,7 +176,7 @@
                     flat
                     tile>
                     <cc-slashes />
-                    {{ status.Attribute }}
+                    {{ status.status.Attribute }}
                     <cc-slashes />
                   </v-chip>
                 </v-progress-linear>
@@ -209,13 +209,13 @@
 
 <script setup lang="ts">
 import type { Status } from '@/classes/Status'
+import type { DeployableInstance } from '@/classes/components/feature/deployable/DeployableInstance'
 import { computed } from 'vue'
 
 const props = withDefaults(defineProps<{
   selected?: boolean
   collapsed?: boolean
-  deployable: object
-  parent: object
+  deployable: DeployableInstance
   statuses?: Status[]
 }>(), {
   selected: false,
@@ -240,7 +240,7 @@ const icon = computed(() => {
       return props.deployable.Base.Icon;
     })
 
-function damageClass(damage) {
+function damageClass(damage: any) {
       if (damage.condition === 'immune') {
         return 'bg-exotic';
       } else if (damage.condition === 'resistant') {

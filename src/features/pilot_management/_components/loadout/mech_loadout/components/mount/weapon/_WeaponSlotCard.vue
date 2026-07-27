@@ -1,6 +1,6 @@
 <template>
   <slot-card-base ref="base"
-    :item="item"
+    :item="item ?? undefined"
     :mech="mech"
     :color="color"
     :empty="!item"
@@ -36,7 +36,7 @@
 
     <template v-if="!mobile && item"
       #header-items>
-      <weapon-slot-toolbar-items :item="item"
+      <weapon-slot-toolbar-items :item="item!"
         :range="getRange"
         :damage="getDamage"
         :readonly="readonly"
@@ -46,7 +46,7 @@
 
     <template v-else-if="item"
       #extension>
-      <weapon-slot-toolbar-items :item="item"
+      <weapon-slot-toolbar-items :item="item!"
         :range="getRange"
         :damage="getDamage"
         :readonly="readonly"
@@ -189,7 +189,7 @@
 
 <script setup lang="ts">
 import type Mount from '@/classes/mech/components/mount/Mount'
-import { computed, ref } from 'vue'
+import { computed, ref, type Ref } from 'vue'
 import SlotCardBase from '../../_SlotCardBase.vue'
 import WeaponSelector from './_WeaponSelector.vue'
 import ModSelector from './_ModSelector.vue'
@@ -222,7 +222,7 @@ const props = defineProps<{
 
 const base = ref<any>(null)
 
-const stagedSH = ref(null as MechWeapon | null)
+const stagedSH = ref(null as MechWeapon | null) as Ref<MechWeapon | null>
 const modDialog = ref(false)
 const lockDialog = ref(false)
 
@@ -247,25 +247,25 @@ const getDamage = computed(() => {
   return Damage.CalculateDamage(item.value, props.mech as Mech)
 })
 
-function equip(item: MechWeapon) {
+function equip(weapon: MechWeapon) {
   ; (base.value as any).selectorDialog = false
-  if (item.Size === WeaponSize.Superheavy) {
-    equipSuperheavy(item)
+  if (weapon.Size === WeaponSize.Superheavy) {
+    equipSuperheavy(weapon)
   } else {
     if (item.value && item.value.Size === WeaponSize.Superheavy)
       props.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy()
-    props.weaponSlot.EquipWeapon(item, props.mech.Pilot)
+    props.weaponSlot.EquipWeapon(weapon)
   }
 }
-function equipSuperheavy(item: MechWeapon) {
-  stagedSH.value = item
+function equipSuperheavy(weapon: MechWeapon) {
+  stagedSH.value = weapon
   lockDialog.value = true
 }
 function finalizeSuperheavy(lockTarget: EquippableMount) {
   if (item.value && item.value.Size === WeaponSize.Superheavy)
     props.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy()
   lockTarget.Lock(props.mount as EquippableMount)
-  props.weaponSlot.EquipWeapon(stagedSH.value, props.mech.Pilot)
+  if (stagedSH.value) props.weaponSlot.EquipWeapon(stagedSH.value)
   lockDialog.value = false
   stagedSH.value = null
 }

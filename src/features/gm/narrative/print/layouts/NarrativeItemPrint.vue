@@ -139,7 +139,7 @@ const props = defineProps<{
 }>()
 
 const landscape = computed(() => {
-      return props.options.orientation === 'landscape';
+      return props.options.orientation.title.toLowerCase() === 'landscape';
     })
 </script>
 

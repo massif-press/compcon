@@ -8,7 +8,7 @@ import { GetBlob } from '@/io/Storage';
 import { Preview } from 'vue-advanced-cropper';
 
 const props = withDefaults(defineProps<{
-  avatar: object
+  avatar: { image: { src: string }; coordinates: any }
   size?: number | string
 }>(), {
   size: 200,

@@ -216,11 +216,11 @@ async function importFile() {
       return
     }
 
-    const importPilot = new Pilot(result.transformed as PilotData)
+    const importPilot = new Pilot(result.transformed as unknown as PilotData)
     importPilot.RenewID()
 
     if (!props.skipRosterSave) {
-      await PilotStore().AddPilot(importPilot, props.groupId)
+      await PilotStore().AddPilot(importPilot, props.groupId ?? undefined)
       reset()
       notify({
         title: t('pm.import.importSuccessTitle'),

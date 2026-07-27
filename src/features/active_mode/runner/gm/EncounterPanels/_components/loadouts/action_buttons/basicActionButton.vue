@@ -47,7 +47,7 @@ const isTechAttack = computed(() => {
       return props.action.ActiveEffects.some((ae) => ae.Attack && ae.Attack === 'tech');
     })
 
-function apply(close) {
+function apply() {
       emit('activate', props.action.ID);
     }
 function reset() {

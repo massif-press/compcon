@@ -18,7 +18,7 @@
 withDefaults(defineProps<{
   color?: string
   size?: string
-  variant?: string
+  variant?: 'flat' | 'text' | 'outlined' | 'tonal' | 'plain' | 'elevated'
   icon?: string
   closable?: boolean
 }>(), {

@@ -73,7 +73,7 @@
         <b>{{ $t('gm.eidolonPrint.newShards', { n: l.Layer.Shards?.Count }) }}</b>
       </v-chip>
       <div v-html-safe="l.Layer.Shards?.Detail" class="pl-3 caption" />
-      <print-npc-stats :item="l.Layer.Shards" :bonuses="[]" :tier="npc.Tier" hide-zero />
+      <print-npc-stats v-if="l.Layer.Shards" :item="l.Layer.Shards" :bonuses="[]" :tier="npc.Tier" hide-zero />
       <div
         v-for="(f, i) in (l.Layer.Shards?.Features ?? []).filter((x) => !x.HideActive)"
         :key="f.ID"

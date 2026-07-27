@@ -27,8 +27,8 @@
         </template>
       </cc-combat-action-chip>
 
-      <deploy-button v-for="d in mod.Deployables"
-        :key="d.ID"
+      <deploy-button v-for="(d, di) in mod.Deployables"
+        :key="`${di}_${d.Name}`"
         :deployable="d"
         :actor="mech"
         @deploy="$emit('deploy', d)" />

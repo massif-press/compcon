@@ -21,7 +21,7 @@
             align="center">
             <v-col cols="auto"
               v-if="icon && (!prominent || mobile)">
-              <v-icon :icon="icon" />
+              <v-icon :icon="typeof icon === 'string' ? icon : undefined" />
             </v-col>
             <v-col cols="auto">
               <slot name="title">

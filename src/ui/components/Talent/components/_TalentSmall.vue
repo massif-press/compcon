@@ -121,7 +121,7 @@ const props = withDefaults(defineProps<{
   selectable?: boolean
   rank?: number | string
 }>(), {
-  rank: null
+  rank: undefined
 })
 
 const emit = defineEmits<{

@@ -153,7 +153,7 @@ defineEmits<{ deploy: [event: any]; activate: [event: string] }>();
 const controller = computed(() => owner.value.actor.CombatController);
 
 function getBaseAction(actionId: string) {
-  return CompendiumStore().Actions.find((a: any) => a.ID === actionId);
+  return CompendiumStore().Actions.find((a: any) => a.ID === actionId)!;
 }
 
 function toDeployable(action: any) {

@@ -5,11 +5,11 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { MechEquipment } from '@/classes/mech/components/equipment/MechEquipment';
+import type { CompendiumItem } from '@/classes/CompendiumItem';
 import { getFeatureRenderer } from '../featureRenderers'
 
 const props = withDefaults(defineProps<{
-  item: MechEquipment
+  item: CompendiumItem
   popup?: boolean
   panel?: boolean
   hover?: boolean

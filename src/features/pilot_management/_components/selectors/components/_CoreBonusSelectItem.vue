@@ -5,7 +5,7 @@
     class="mb-n1"
     :color="isSelected ? 'error' : 'success'"
     :disabled="!isSelectable && !isSelected"
-    @click="$emit(isSelected ? 'remove' : 'add', bonus)">
+    @click="isSelected ? $emit('remove', bonus) : $emit('add', bonus)">
     <span>
       <span v-if="isSelected">
         <v-icon start>cc:difficulty</v-icon>
@@ -24,16 +24,16 @@
 </template>
 
 <script setup lang="ts">
-import type { Bonus } from '@/classes/components/feature/bonus/Bonus'
+import type { CoreBonus } from '@/classes/pilot/components/corebonus/CoreBonus'
 
 defineProps<{
-  bonus: Bonus
+  bonus: CoreBonus
   isSelected: boolean
   isSelectable: boolean
 }>()
 
 defineEmits<{
-  'add': [payload: Bonus]
-  'remove': [payload: Bonus]
+  'add': [payload: CoreBonus]
+  'remove': [payload: CoreBonus]
 }>()
 </script>

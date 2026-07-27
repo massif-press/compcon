@@ -45,7 +45,7 @@
         :loading="loading"
         density="compact">
         <template #item.created="{ item }">
-          {{ new Date(item.created).toLocaleString() }}
+          {{ new Date(item.created ?? 0).toLocaleString() }}
         </template>
         <template #item.size="{ item }">
           <span v-if="(item.size ?? 0) > 1024 * 1024 + 1">
@@ -132,8 +132,8 @@
                 color="accent"
                 icon
                 variant="text"
-                :loading="item.downloading"
-                :disabled="item.downloading"
+                :loading="downloading.has(item.sortkey)"
+                :disabled="downloading.has(item.sortkey)"
                 v-bind="props"
                 @click="downloadArchive(item)">
                 <v-icon size="x-large">mdi-download</v-icon>
@@ -318,6 +318,8 @@ const mobile = computed(() => {
 const hasArchiveAccess = computed(() => {
       return UserStore().User.PatreonTierValue > 0;
     })
+const downloading = ref(new Set<string>())
+
 const archives = computed(() => {
       return UserStore().CloudArchives;
     })
@@ -370,8 +372,8 @@ async function deleteArchive(item) {
       await refresh();
       loading.value = false;
     }
-async function downloadArchive(item) {
-      item.downloading = true;
+async function downloadArchive(item: any) {
+      downloading.value.add(item.sortkey);
       const data = await downloadFromS3(item.uri);
 
       const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
@@ -382,7 +384,7 @@ async function downloadArchive(item) {
       a.click();
       window.URL.revokeObjectURL(url);
 
-      item.downloading = false;
+      downloading.value.delete(item.sortkey);
     }
 async function revertCC(item) {
       loading.value = true;

@@ -99,7 +99,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, type Ref } from 'vue'
 import OverviewPage from './pages/OverviewPage.vue';
 import SkillsPage from '../_shared/pages/SkillsPage.vue';
 import TalentsPage from '../_shared/pages/TalentsPage.vue';
@@ -117,7 +117,7 @@ const props = defineProps<{
 const tabs = ref<any>(null)
 
 const step = ref(1)
-const pilot = ref({} as Pilot)
+const pilot = ref({} as Pilot) as Ref<Pilot>
 const cbEligible = ref(false)
 
 const currentPilot = computed(() => {

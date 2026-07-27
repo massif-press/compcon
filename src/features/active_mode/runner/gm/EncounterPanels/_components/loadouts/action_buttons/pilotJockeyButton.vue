@@ -81,10 +81,10 @@ const jockeyActions = computed(() => {
         .sort((a, b) => a.Name.localeCompare(b.Name));
     })
 
-function selectedAction(id) {
-      return CompendiumStore().Actions.find((a) => a.ID === id);
+function selectedAction(id: string) {
+      return CompendiumStore().Actions.find((a) => a.ID === id)!;
     }
-function apply(close) {
+function apply() {
       emit('activate', props.action.ID);
     }
 function reset() {

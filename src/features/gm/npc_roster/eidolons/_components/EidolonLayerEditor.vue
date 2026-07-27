@@ -92,7 +92,6 @@
           </v-card-text>
           <v-card-text class="pt-0 mt-2">
             <stat-editor :item="layer"
-              :controller="layer"
               :bonuses="layer.FeatureController.Bonuses"
               :readonly="readonly"
               prefix="layer" />
@@ -139,7 +138,7 @@
 </template>
 
 <script setup lang="ts">
-import type { EidolonLayer } from '@/classes/npc/eidolon/EidolonLayer'
+import type { Eidolon } from '@/classes/npc/eidolon/Eidolon'
 import { ref } from 'vue'
 import StatEditor from '@/features/gm/_components/StatEditor.vue';
 import LayerSelector from './LayerSelector.vue';
@@ -147,7 +146,7 @@ import LayerSelector from './LayerSelector.vue';
 defineOptions({ name: 'EidolonLayers' })
 
 const props = withDefaults(defineProps<{
-  item: EidolonLayer
+  item: Eidolon
   readonly?: boolean
 }>(), {
   readonly: false

@@ -55,7 +55,7 @@ const _display = useDisplay()
 defineOptions({ name: 'CompendiumLargeCard' })
 
 const props = defineProps<{
-  item: object
+  item: Record<string, any>
   small?: boolean
   highlighted?: boolean
   selectable?: boolean

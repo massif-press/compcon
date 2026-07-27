@@ -42,7 +42,7 @@ import type { CompendiumItem } from '@/classes/CompendiumItem'
 defineOptions({ name: 'CardContentBase' })
 
 const props = defineProps<{
-  item: CompendiumItem
+  item: CompendiumItem & { Source?: string }
   small?: boolean
   hover?: boolean
   highlighted?: boolean

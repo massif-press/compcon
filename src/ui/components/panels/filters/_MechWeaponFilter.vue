@@ -120,8 +120,8 @@ const base = ref<any>(null)
 
 const sourceFilter = ref([] as any[])
 const tagFilter = ref([] as string[])
-const weaponTypeFilter = ref([] as WeaponType[])
-const weaponSizeFilter = ref([] as WeaponSize[])
+const weaponTypeFilter = ref<WeaponType | undefined>(undefined)
+const weaponSizeFilter = ref<WeaponSize | undefined>(undefined)
 const attackTypeFilter = ref([] as RangeType[])
 const damageTypeFilter = ref([] as DamageType[])
 const spLlFilters = ref({} as any)
@@ -146,8 +146,8 @@ function onSpLlChange(partial: any) {
 function clear() {
       sourceFilter.value = (props.manufacturers as any[]).map((x) => x.value);
       tagFilter.value = [];
-      weaponTypeFilter.value = [];
-      weaponSizeFilter.value = [];
+      weaponTypeFilter.value = undefined;
+      weaponSizeFilter.value = undefined;
       attackTypeFilter.value = [];
       damageTypeFilter.value = [];
       spLlFilters.value = {};
@@ -157,8 +157,8 @@ function updateFilters() {
       const fObj = { ...spLlFilters.value } as any;
       if (sourceFilter.value) fObj.Source = sourceFilter.value;
       if (tagFilter.value && tagFilter.value.length) fObj.Tags = tagFilter.value;
-      if (weaponTypeFilter.value && weaponTypeFilter.value.length) fObj.WeaponType = [weaponTypeFilter.value];
-      if (weaponSizeFilter.value && weaponSizeFilter.value.length) fObj.Size = [weaponSizeFilter.value];
+      if (weaponTypeFilter.value) fObj.WeaponType = [weaponTypeFilter.value];
+      if (weaponSizeFilter.value) fObj.Size = [weaponSizeFilter.value];
       if (attackTypeFilter.value && attackTypeFilter.value.length) fObj.RangeType = attackTypeFilter.value;
       if (damageTypeFilter.value && damageTypeFilter.value.length) fObj.DamageType = damageTypeFilter.value;
       emit('set-filters', fObj);

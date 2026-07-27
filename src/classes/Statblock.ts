@@ -371,7 +371,7 @@ class Statblock {
     if (npc.NarrativeController.TextItems.length > 0) {
       output += '[ ADDITIONAL DETAIL ]\n'
       npc.NarrativeController.TextItems.forEach(item => {
-        output += `  ${item.title || (item as any).header}\n   ${item.body.replace(
+        output += `  ${item.header || (item as any).title}\n   ${item.body.replace(
           /<[^>]*>/gi,
           ''
         )}\n`

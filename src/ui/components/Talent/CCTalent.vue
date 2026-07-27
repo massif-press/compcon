@@ -46,7 +46,7 @@ const props = withDefaults(defineProps<{
   dark?: boolean
 }>(), {
   rankView: false,
-  rank: null,
+  rank: undefined,
   dark: false
 })
 

@@ -118,7 +118,7 @@
 
               <v-col cols="auto">
                 <v-text-field
-                  v-model="flat"
+                  v-model.number="flat"
                   density="compact"
                   hide-details
                   variant="outlined"
@@ -286,9 +286,9 @@ const emit = defineEmits<{
 const menu = ref(false)
 const moreDice = ref(false)
 const dice = ref<{ sides: number; count: number }[]>([])
-const accRolls = ref([])
+const accRolls = ref<number[]>([])
 const flat = ref(0)
-const result = ref(null)
+const result = ref<{ sides: number; rolls: number[]; class: string[]; overkill: number }[] | null>(null)
 const accuracy = ref(0)
 const accTotal = ref(0)
 
@@ -307,7 +307,7 @@ const overkillRolls = computed(() => {
       return result.value.map((x) => x.overkill).reduce((a, b) => a + b, 0);
     })
 const total = computed(() => {
-      if (!result.value) return parseInt(flat.value);
+      if (!result.value) return flat.value;
       return (
         result.value
           .flatMap((x) =>
@@ -316,8 +316,8 @@ const total = computed(() => {
             })
           )
           .reduce((a, b) => a + b, 0) +
-        parseInt(flat.value) +
-        parseInt(accTotal.value)
+        flat.value +
+        accTotal.value
       );
     })
 
@@ -356,6 +356,7 @@ function roll() {
     }
 function rollAccuracy() {
       accTotal.value = 0;
+      accRolls.value = [];
       if (accuracy.value) {
         accRolls.value = DiceRoller.rollDamage(
           `${Math.abs(accuracy.value)}d${6}`,
@@ -380,7 +381,7 @@ function reset() {
     }
 function clear() {
       dice.value.splice(0, dice.value.length);
-      accRolls.value.splice(0, dice.value.length);
+      accRolls.value.splice(0, accRolls.value.length);
       flat.value = 0;
       result.value = null;
       accuracy.value = 0;

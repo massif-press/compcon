@@ -24,6 +24,15 @@ interface IStatData {
 
 const CURRENT_STAT_VERSION = 1
 
+type DisplayStat = {
+  key: string
+  title: string
+  type: string
+  icon: string
+  sort: number
+  added: boolean
+}
+
 const MandatoryStats: string[] = [
   StatKey.ACTIVATIONS,
   StatKey.SIZE,
@@ -135,14 +144,7 @@ class StatController {
     this._maxStats = stats
   }
 
-  public get DisplayKeys(): {
-    key: string
-    title: string
-    type: string
-    icon: string
-    sort: number
-    added: boolean
-  }[] {
+  public get DisplayKeys(): DisplayStat[] {
     return Object.keys(this._maxStats)
       .filter(x => x.toLowerCase() !== 'sizes')
       .filter(
@@ -168,19 +170,19 @@ class StatController {
     return TrackableStatKeys.has(key) || this._customTrackable.has(key)
   }
 
-  public get TrackableStats(): { key: string; title: string; type: string }[] {
+  public get TrackableStats(): DisplayStat[] {
     return this.DisplayKeys.filter(x => this.isTrackable(x.key))
   }
 
-  public get NonTrackableStats(): { key: string; title: string; type: string }[] {
+  public get NonTrackableStats(): DisplayStat[] {
     return this.DisplayKeys.filter(x => !this.isTrackable(x.key))
   }
 
-  public GetStatCollection(keys: string[]): { key: string; title: string; type: string }[] {
+  public GetStatCollection(keys: string[]): DisplayStat[] {
     return this.DisplayKeys.filter(x => keys.includes(x.key))
   }
 
-  public CustomStats(itemType: string): { key: string; title: string; type: string }[] {
+  public CustomStats(itemType: string): DisplayStat[] {
     const hiddenStats = {
       mech: ['limitedbonus', 'attack', 'sp', 'attackbonus'],
       Drone: ['resist'],
@@ -346,4 +348,4 @@ class StatController {
 
 const _checkController: IControllerStatic<IStatContainer, IStatData> = StatController
 export { StatController, MandatoryStats }
-export type { IStatData, ICustomStatData }
+export type { IStatData, ICustomStatData, DisplayStat }

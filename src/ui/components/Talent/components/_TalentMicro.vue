@@ -36,10 +36,10 @@
           class="pa-2">
           <div v-for="n in rank"
             :key="`rank-${n}`">
-            <b>{{ talent.Rank(n).Name }}</b>
+            <b>{{ talent.Rank(Number(n)).Name }}</b>
             <cc-slashes class="px-2" />
             <span class="text-cc-overline text-disabled">{{ $t('common.rank') }} {{ 'I'.repeat(Number(n)) }}</span>
-            <talent-rank-contents :talent-rank="talent.Rank(n)" />
+            <talent-rank-contents :talent-rank="talent.Rank(Number(n))" />
           </div>
         </v-card-text>
       </v-card>
@@ -57,7 +57,7 @@ const props = withDefaults(defineProps<{
   rank?: number | string
   dark?: boolean
 }>(), {
-  rank: null,
+  rank: undefined,
   dark: false
 })
 

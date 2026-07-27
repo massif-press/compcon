@@ -150,7 +150,7 @@ const skirmishWeapons = computed(() => {
   return arr;
 })
 const eventArray = computed(() => {
-  return [event.value]
+  return event.value ? [event.value] : []
 })
 const tier = computed(() => {
   return controller.value.ActiveActor.Tier;

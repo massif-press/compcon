@@ -5,6 +5,7 @@ interface INarrativeEntity {
   Note: string;
   readonly Portrait: string;
   NarrativeController: any;
+  SaveController: { IsRemote: boolean; IsCollectionItem: boolean; IsDeleted: boolean };
 
   RenewID(): void;
 

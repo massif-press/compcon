@@ -19,7 +19,7 @@
       <v-col>
         <div :class="`${readonly ? '' : reverse ? 'reverse-light' : 'light'} ${`bg-${color}`}`" />
         <top-bar v-if="tertiaryLabel"
-          :label="tertiaryLabel"
+          :label="typeof tertiaryLabel === 'string' ? tertiaryLabel : ''"
           :icon="tertiaryIcon"
           :editable="editable"
           :readonly="readonly"

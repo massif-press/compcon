@@ -139,6 +139,7 @@ class Pilot
   public IsInstance: boolean = false
   public InstanceID: string = ''
   public OriginId: string = ''
+  public isTemplate: boolean = false
 
   public SortIndex: number
 

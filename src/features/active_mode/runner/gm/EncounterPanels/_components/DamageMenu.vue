@@ -35,7 +35,8 @@
             <v-col cols="12"
               md=""
               :style="mobile ? '' : 'max-width: 300px'">
-              <div class="text-cc-overline text-disabled">{{ $t('active.damageMenu.incomingValue') }}</div>
+              <div class="text-cc-overline text-disabled">{{ $t('active.damageMenu.incomingValue')
+                }}</div>
               <v-divider />
               <v-text-field ref="damageInput"
                 v-model="incomingDamageValue"
@@ -73,7 +74,8 @@
                 @click="toggleDamageMod('force')">
                 {{ $t('active.damageMenu.irreducible') }}
               </v-btn>
-              <div class="text-cc-overline text-disabled mt-3">{{ $t('ui.fields.damageType') }}</div>
+              <div class="text-cc-overline text-disabled mt-3">{{ $t('ui.fields.damageType') }}
+              </div>
               <v-divider />
               <v-row dense
                 class="mt-1">
@@ -101,7 +103,8 @@
             </v-col>
             <v-col cols="12"
               md="">
-              <div class="text-cc-overline text-disabled">{{ $t('active.damageMenu.defenderStatus') }}</div>
+              <div class="text-cc-overline text-disabled">{{ $t('active.damageMenu.defenderStatus')
+                }}</div>
               <v-divider class="mb-2" />
               <v-row v-if="controller.StatController.CurrentStats['armor']"
                 no-gutters
@@ -114,7 +117,10 @@
                 </v-col>
                 <v-col class="text-cc-overline mt-1"
                   :style="damageMods.includes('ap') ? 'text-decoration: line-through' : ''">
-                  {{ $t('active.damageMenu.armorN', { n: controller.StatController.CurrentStats['armor'] || 0 }) }}
+                  {{ $t('active.damageMenu.armorN', {
+                    n:
+                      controller.StatController.CurrentStats['armor'] || 0 })
+                  }}
                 </v-col>
               </v-row>
               <v-row v-for="damage in controller.Resistances"
@@ -155,7 +161,8 @@
               </v-card>
             </v-col>
             <v-col>
-              <div class="text-cc-overline text-disabled">{{ $t('active.damageMenu.totalDamage') }}</div>
+              <div class="text-cc-overline text-disabled">{{ $t('active.damageMenu.totalDamage') }}
+              </div>
               <v-divider class="mb-2" />
               <v-card flat
                 tile
@@ -260,7 +267,7 @@ const getActiveStatuses = computed(() => {
 
 function damageArgs() {
   let dmg = Number(incomingDamageValue.value);
-  if (damageMods.value.includes('half')) dmg = Math.floor(dmg / 2);
+  if (damageMods.value.includes('half')) dmg = Math.ceil(dmg / 2);
   return {
     type: incomingDamageType.value.Type as DamageType,
     dmg,

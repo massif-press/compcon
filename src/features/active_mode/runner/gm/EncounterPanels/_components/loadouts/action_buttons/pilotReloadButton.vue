@@ -52,7 +52,7 @@ const reloadOptions = computed(() => {
       return (owner.value.actor.Loadout?.Weapons ?? []).filter((x) => x.IsLoading && x.Used);
     })
 
-function apply(close) {
+function apply() {
       if (selection.value) {
         selection.value.Used = false;
       }

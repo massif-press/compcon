@@ -25,7 +25,6 @@
                 dense>
                 <cc-remote-hover :item="item"
                   color="accent" />
-                <cc-missing-content-hover :item="item" />
                 <v-col>
                   <div class="mt-n3">
                     <cc-short-string-editor large
@@ -81,8 +80,7 @@
                       </template>
                       <cc-image-selector ref="imageSelector"
                         :item="item"
-                        type="doodad"
-                        @set="item.PortraitController.Image = $event" />
+                        type="doodad" />
                     </cc-dialog>
                   </v-window-item>
                 </v-window>
@@ -292,7 +290,7 @@ import { CloudController } from '@/classes/components/cloud/CloudController'
 const props = withDefaults(defineProps<{
   isNew?: boolean
   showDescription?: boolean
-  item: Record<string, any>
+  item: Encounter
 }>(), {})
 
 const emit = defineEmits<{ exit: [] }>()

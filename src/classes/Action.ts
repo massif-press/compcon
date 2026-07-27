@@ -55,6 +55,7 @@ interface IActionData {
   bonus_damage?: IBonusDamageData
   attack?: 'melee' | 'ranged' | 'tech'
   hidden?: boolean
+  sub_actions?: IActionData[]
 }
 
 enum ActivePeriod {
@@ -140,6 +141,7 @@ class Frequency {
 
 class Action {
   public LastUse: ActivationType | null
+  public Used: boolean = false
   public readonly ID: string
   private _name: string
   public readonly Origin: string
@@ -170,6 +172,7 @@ class Action {
   public readonly BonusDamage?: BonusDamage
   public readonly Attack?: 'melee' | 'ranged' | 'tech'
   public readonly Hidden: boolean = false
+  public readonly SubActions: Action[] = []
   public Deployable: IDeployableData | undefined
   private _detail: string
   private _uses: number
@@ -248,6 +251,7 @@ class Action {
     this._ignore_used = data.ignore_used || false
     this.LastUse = null
     this.Hidden = data.hidden || false
+    this.SubActions = data.sub_actions ? data.sub_actions.map(x => new Action(x, origin, heat)) : []
   }
 
   private get _lk(): string {

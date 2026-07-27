@@ -67,8 +67,8 @@
 
       <div v-if="cs.Deployables?.length"
         class="mb-2">
-        <deploy-button v-for="d in cs.Deployables"
-          :key="d.ID"
+        <deploy-button v-for="(d, di) in cs.Deployables"
+          :key="`${di}_${d.Name}`"
           :deployable="d"
           :actor="mech"
           @deploy="$emit('deploy', d)" />

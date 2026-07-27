@@ -207,7 +207,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Pilot } from '@/classes/pilot/Pilot'
 import CloneDialog from './components/CloneDialog.vue'
@@ -216,6 +216,7 @@ import LcpConfigSelector from './components/LcpConfigSelector.vue'
 import { useDisplay } from 'vuetify'
 import ShareDialog from '@/shared/ShareDialog.vue'
 import { usePilotActions } from './usePilotActions'
+import { UserStore } from '@/stores'
 
 defineOptions({ name: 'MobileOptionsMenu' })
 
@@ -226,6 +227,8 @@ const props = defineProps<{
 const emit = defineEmits<{ close: [] }>()
 
 const { smAndDown: mobile, xs: portrait } = useDisplay()
+
+const isAuthed = computed(() => UserStore().IsLoggedIn)
 const { exportPilot, remoteUpdate, convert } = usePilotActions(props)
 
 const route = useRoute()

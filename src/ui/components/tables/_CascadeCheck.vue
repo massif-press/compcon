@@ -48,7 +48,7 @@ const props = defineProps<{
   mech: Mech
 }>()
 
-const checked = ref([])
+const checked = ref<number[]>([])
 
 const AiSystems = computed(() => {
       return props.mech.MechLoadoutController.ActiveLoadout.Equipment.filter(
@@ -56,7 +56,7 @@ const AiSystems = computed(() => {
       );
     })
 
-function checkCascade(roll, index) {
+function checkCascade(roll: number, index: number) {
       checked.value.push(index);
       if (roll === 1) AiSystems.value[index].IsCascading = true;
       else AiSystems.value[index].IsCascading = false;

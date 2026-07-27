@@ -99,6 +99,7 @@
 <script setup lang="ts">
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import type { CombatantData } from '@/classes/encounter/Encounter'
+import type { CombatController } from '@/classes/components/combat/CombatController'
 import { computed, ref } from 'vue'
 import * as _ from 'lodash-es'
 import { CompendiumStore } from '@/stores'
@@ -111,7 +112,7 @@ defineOptions({ name: 'StatusConditionSelector' })
 const { owner, encounterInstance } = useEncounterContext()
 
 const props = defineProps<{
-  controller: object
+  controller: CombatController
 }>()
 
 const { smAndDown: mobile, xs: portrait } = useDisplay()

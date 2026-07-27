@@ -190,7 +190,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     else return this.StatController.getCurrent(StatKey.TECH_ATTACK) || 0
   }
 
-  public AllActions(activation: ActivationType): Action[] {
+  public AllActions(activation: `${ActivationType}`): Action[] {
     return this.Parent.FeatureController.Actions.filter(a => a.Activation === activation)
   }
 
@@ -551,7 +551,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public Stabilize(
-    action: 'cool' | 'repair' | 'reload' | 'clear_burn' | 'clear self' | 'clear ally' | 'npc'
+    action: 'cool' | 'repair' | 'reload' | 'clear_burn' | 'clear_self' | 'clear_ally' | 'npc'
   ): void {
     switch (action) {
       case 'cool':
@@ -581,10 +581,10 @@ class CombatController implements ICounterContainer, IStatContainer {
         this.RemoveStatus('exposed')
         this.log('Stabilized')
         break
-      case 'clear self':
-      case 'clear ally':
+      case 'clear_self':
+      case 'clear_ally':
         this.log(
-          `Stabilized: Cleared negative status: ${action === 'clear self' ? 'self' : 'ally'}`
+          `Stabilized: Cleared negative status: ${action === 'clear_self' ? 'self' : 'ally'}`
         )
         break
       default:

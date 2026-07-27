@@ -62,7 +62,7 @@ const { smAndDown: mobile, xs: portrait } = useDisplay()
 
 const props = withDefaults(defineProps<{
   loadouts: Loadout[]
-  activeLoadout: object
+  activeLoadout: { Name: string }
   color?: string
   readonly?: boolean
   noFrame?: boolean

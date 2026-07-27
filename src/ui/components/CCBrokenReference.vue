@@ -64,7 +64,7 @@
 import { computed } from 'vue'
 
 const props = withDefaults(defineProps<{
-  item: object
+  item: { FromInstance?: boolean; Brew?: any; ItemData?: { brew?: any } }
   start?: boolean
   end?: boolean
   width?: string

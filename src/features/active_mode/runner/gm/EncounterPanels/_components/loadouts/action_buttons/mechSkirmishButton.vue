@@ -224,7 +224,7 @@ const skirmishWeapons = computed(() => {
     })
 const eventArray = computed(() => {
       const enabledAuxes = auxEvents.value.filter((x, idx) => include.value[idx]);
-      return [event.value].concat(enabledAuxes)
+      return event.value ? [event.value, ...enabledAuxes] : enabledAuxes;
     })
 
 function reset(clearAction = false) {

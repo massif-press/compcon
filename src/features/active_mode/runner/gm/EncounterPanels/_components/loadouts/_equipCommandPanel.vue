@@ -5,42 +5,32 @@
     <v-col v-if="canDealDamage && item.ItemType === 'PilotWeapon'">
       <pilot-fight-button
         :action="fightAction"
-        :controller="controller"
-        :preset-weapon="item"
-        @activate="activate($event)" />
+        :preset-weapon="asPilotWeapon" />
     </v-col>
-    <v-col v-if="canDealDamage && isFeature && !item.IsSuperheavy">
+    <v-col v-if="canDealDamage && isFeature && !isSuperheavy">
       <npc-skirmish-button
         :action="skirmishAction"
-        :controller="controller"
-        :preset-weapon="item"
-        @activate="activate($event)" />
+        :preset-weapon="asNpcWeapon" />
     </v-col>
     <v-col v-if="canDealDamage && isFeature">
       <npc-barrage-button
         :action="barrageAction"
-        :controller="controller"
-        :preset-weapon="item"
-        @activate="activate($event)" />
+        :preset-weapon="asNpcWeapon" />
     </v-col>
-    <v-col v-if="!isFeature && canDealDamage && item.Skirmish"
+    <v-col v-if="!isFeature && canDealDamage && canSkirmish"
       cols="auto">
-      <mech-skirmish-button v-if="item.Skirmish"
+      <mech-skirmish-button v-if="canSkirmish"
         :action="skirmishAction"
-        :controller="controller"
-        :preset-weapon="item"
-        @activate="activate($event)" />
+        :preset-weapon="asMechWeapon" />
     </v-col>
-    <v-col v-if="!isFeature && canDealDamage && item.Barrage"
+    <v-col v-if="!isFeature && canDealDamage && canBarrage"
       cols="auto"
       class="ml-1">
-      <mech-barrage-button v-if="item.Barrage"
+      <mech-barrage-button v-if="canBarrage"
         :action="barrageAction"
-        :controller="controller"
-        :preset-weapon="item"
-        @activate="activate($event)" />
+        :preset-weapon="asMechWeapon" />
     </v-col>
-    <v-col v-if="item.IsAI"
+    <v-col v-if="isAI"
       cols="auto">
       <ai-control-button v-if="!controller.AIControl"
         :controller="controller"
@@ -92,7 +82,7 @@
             <v-icon size="x-large"
               :icon="item.Used
                 ? 'mdi-checkbox-marked-circle-outline'
-                : item.IsLoading
+                : isLoading
                   ? 'cc:ammo'
                   : 'cc:reticle'
                 " />
@@ -101,7 +91,7 @@
         <v-card class="text-center text-text text-cc-overline pa-2"
           width="300"
           border>
-          <div v-if="item.IsLoading">
+          <div v-if="isLoading">
             <i18n-t v-if="!item.Used" keypath="active.equipCmd.markUsedHint" tag="span" scope="global">
               <template #used><b>{{ $t('ui.fields.used') }}</b></template>
             </i18n-t>
@@ -167,11 +157,11 @@
       </v-tooltip>
     </v-col>
 
-    <v-col v-if="item.Recharge"
+    <v-col v-if="recharge"
       cols="auto"
       class="ml-1">
       <v-tooltip location="top"
-        :text="`Force Recharge (Recharges on: ${item.Recharge}+)`">
+        :text="`Force Recharge (Recharges on: ${recharge}+)`">
         <template #activator="{ props }">
           <v-btn v-bind="props"
             icon
@@ -205,8 +195,11 @@ import PilotFightButton from './action_buttons/pilotFightButton.vue'
 import AiControlButton from './_aiControlButton.vue'
 import { CombatController } from '@/classes/components/combat/CombatController'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-import { MechEquipment } from '@/classes/mech/components/equipment/MechEquipment'
+import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
+import { MechSystem } from '@/classes/mech/components/equipment/MechSystem'
+import { PilotWeapon } from '@/classes/pilot/components/Loadout/equipment/PilotWeapon'
 import { NpcFeature } from '@/classes/npc/feature/NpcFeature'
+import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon'
 import { snapshot } from '@/classes/encounter/EncounterUndoStack'
 import { useI18n } from 'vue-i18n'
 
@@ -217,7 +210,7 @@ const _display = useDisplay()
 const { owner, encounterInstance } = useEncounterContext()
 
 const props = defineProps<{
-  item: MechEquipment | NpcFeature
+  item: MechWeapon | MechSystem | PilotWeapon | NpcFeature
   controller: CombatController
 }>()
 
@@ -228,22 +221,34 @@ const isFeature = computed(() => {
   if (!props.item?.ItemType) return false
   return props.item.ItemType.toLowerCase().includes('npc')
 })
+const asMechWeapon = computed(() => props.item as MechWeapon)
+const asNpcWeapon = computed(() => props.item as NpcWeapon)
+const asPilotWeapon = computed(() => props.item as PilotWeapon)
+
+const isSuperheavy = computed(() => props.item instanceof NpcWeapon && props.item.IsSuperheavy)
+const canSkirmish = computed(() => props.item instanceof MechWeapon && !!props.item.Skirmish)
+const canBarrage = computed(() => props.item instanceof MechWeapon && !!props.item.Barrage)
+const isAI = computed(() => 'IsAI' in props.item && props.item.IsAI)
+const isLoading = computed(() => 'IsLoading' in props.item && props.item.IsLoading)
+const recharge = computed(() => (props.item instanceof NpcFeature ? props.item.Recharge : 0))
+
 const isDestroyable = computed(() => {
-  if (props.item.IsIndestructible || props.item.Tags?.some(x => x.IsIndestructible)) return false
+  if ('IsIndestructible' in props.item && props.item.IsIndestructible) return false
+  if (props.item.Tags?.some(x => x.IsIndestructible)) return false
   if (props.item.ItemType === 'NpcFeature') return false
   return true
 })
 const canDealDamage = computed(() => {
-  return !!props.item.Damage
+  return 'Damage' in props.item && !!props.item.Damage
 })
 const skirmishAction = computed(() => {
-  return CompendiumStore().Actions.find(x => x.ID === 'act_skirmish')
+  return CompendiumStore().Actions.find(x => x.ID === 'act_skirmish')!
 })
 const barrageAction = computed(() => {
-  return CompendiumStore().Actions.find(x => x.ID === 'act_barrage')
+  return CompendiumStore().Actions.find(x => x.ID === 'act_barrage')!
 })
 const fightAction = computed(() => {
-  return CompendiumStore().Actions.find(x => x.ID === 'act_fight')
+  return CompendiumStore().Actions.find(x => x.ID === 'act_fight')!
 })
 const totalUses = computed(() => {
   return Number(props.item.MaxUses || 0) + Number(props.controller.LimitedBonus || 0)

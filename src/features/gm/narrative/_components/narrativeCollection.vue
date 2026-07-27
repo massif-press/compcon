@@ -35,7 +35,7 @@ const props = withDefaults(defineProps<{
   id?: string
   view?: string
 }>(), {
-  id: null,
+  id: undefined,
   view: 'collection'
 })
 

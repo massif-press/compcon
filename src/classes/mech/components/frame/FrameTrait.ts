@@ -18,6 +18,7 @@ import { keyPrefixes } from '@/i18n/contentKeys'
 interface IFrameTraitData {
   name: string
   description: string
+  use?: string
   actions?: IActionData[]
   bonuses?: IBonusData[]
   synergies?: ISynergyData[]
@@ -32,6 +33,7 @@ class FrameTrait {
   private readonly _name: string
   private readonly _description: string
   private readonly _lkey?: string
+  public readonly Use: string
   public readonly ActiveEffects: ActiveEffect[]
   public readonly Actions: Action[]
   public readonly Bonuses: Bonus[]
@@ -45,6 +47,7 @@ class FrameTrait {
     this._name = data.name
     this._description = data.description || ''
     this._lkey = keyPrefixes.get(data as object)
+    this.Use = data.use || ''
     this.ActiveEffects = data.active_effects
       ? data.active_effects.map(x => new ActiveEffect(x, this))
       : []

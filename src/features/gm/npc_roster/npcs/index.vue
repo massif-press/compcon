@@ -57,7 +57,7 @@ const { smAndDown: mobile, xs: portrait } = useDisplay()
 const props = withDefaults(defineProps<{
   id?: string
 }>(), {
-  id: null
+  id: undefined
 })
 
 const view = ref<any>(null)
