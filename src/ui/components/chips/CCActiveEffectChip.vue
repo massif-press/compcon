@@ -158,18 +158,18 @@
 
               <div v-if="activeEffect.Frequency"
                 class="text-cc-overline text-center">
-                <v-chip :color="activeEffect.Applied ? 'success' : 'text'"
+                <v-chip :color="isApplied ? 'success' : 'text'"
                   size="small"
-                  :prepend-icon="activeEffect.Applied ? 'mdi-check' : frequencyIcon(activeEffect.Frequency)
+                  :prepend-icon="isApplied ? 'mdi-check' : frequencyIcon(activeEffect.Frequency)
                     ">
                   {{ activeEffect.Frequency }}
                 </v-chip>
               </div>
               <div v-if="activeEffect.Duration"
                 class="text-cc-overline text-center">
-                <v-chip :color="activeEffect.Applied ? 'success' : 'text'"
+                <v-chip :color="isApplied ? 'success' : 'text'"
                   size="small"
-                  :prepend-icon="activeEffect.Applied ? 'mdi-check' : ''">
+                  :prepend-icon="isApplied ? 'mdi-check' : ''">
                   {{ activeEffect.Duration }}
                 </v-chip>
               </div>
@@ -236,7 +236,13 @@ const isUsed = computed(() => !!props.activeEffect.Origin?.Used)
 
 const isDestroyed = computed(() => !!props.activeEffect.Origin?.Destroyed)
 
-const isGreyed = computed(() => props.activeEffect.Applied || isUsed.value || isDestroyed.value)
+const isApplied = computed(() =>
+  !!getCombatant.value?.actor.CombatController.ActiveActor.CombatController.IsActionUsed(
+    props.activeEffect.ID
+  )
+)
+
+const isGreyed = computed(() => isApplied.value || isUsed.value || isDestroyed.value)
 
 const lightColor = computed(() => props.activeEffect.Origin.Color || 'orange')
 

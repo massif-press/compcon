@@ -194,7 +194,6 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
       'PortraitController',
       'BrewController',
       'CloudController',
-      'ReservesController',
       'NarrativeController',
       'FolderController',
       'NpcClassController',

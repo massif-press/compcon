@@ -94,7 +94,7 @@
             small />
         </v-col>
         <v-col cols="auto">
-          <cc-checkbox v-model="r.Used"
+          <cc-checkbox v-model="r.ReserveUsed"
             color="primary"
             inset
             dense />
@@ -107,7 +107,7 @@
 <script setup lang="ts">
 import type { CombatantData, Encounter } from '@/classes/encounter/Encounter'
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-import { computed, onMounted, provide, ref } from 'vue'
+import { computed, provide, ref } from 'vue'
 import { ReserveType } from '@/classes/enums'
 import { EncounterContextKey } from './encounterContext';
 import MechPanel from './MechPanel.vue';
@@ -151,17 +151,14 @@ const baseReserves = computed(() =>
 const orderedReserves = computed(() => {
       const r = baseReserves.value;
       if (!unusedOnly.value) {
-        return r.filter((x) => !x.Used).sort((a, b) => a.ResourceLabel.localeCompare(b.Name));
+        return r
+          .filter((x) => !x.ReserveUsed)
+          .sort((a, b) => a.ResourceLabel.localeCompare(b.ResourceLabel));
       }
-      return r.sort((a, b) => {
-        if (a.Used && !b.Used) return 1;
-        if (!a.Used && b.Used) return -1;
+      return [...r].sort((a, b) => {
+        if (a.ReserveUsed && !b.ReserveUsed) return 1;
+        if (!a.ReserveUsed && b.ReserveUsed) return -1;
         return a.Name.localeCompare(b.Name);
       });
     })
-
-onMounted(() => {
-if (!mech.value) return false;
-      return mech.value.CombatController.Mounted;
-})
 </script>

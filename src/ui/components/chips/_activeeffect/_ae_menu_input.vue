@@ -94,7 +94,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import { CombatantData } from '@/classes/encounter/Encounter';
 
 import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
@@ -136,7 +136,7 @@ const isPilotSheet = computed(() => props.encounterInstance.ItemType === 'PilotS
 
 
 function reset(clearAction = false) {
-  if (clearAction) props.owner.actor.CombatController.ClearActionUsed(props.activeEffect.ID);
+  if (clearAction) props.owner.actor.CombatController.ActiveActor.CombatController.ClearActionUsed(props.activeEffect.ID);
   const self = props.encounterInstance.Combatants.find(
     (c: CombatantData) => c.actor.CombatController.RootActor.ID === props.owner.actor.CombatController.RootActor.ID
   );
@@ -150,7 +150,5 @@ function copyText(text: string) {
   navigator.clipboard.writeText(text);
 }
 
-onMounted(() => {
-  reset();
-})
+reset()
 </script>

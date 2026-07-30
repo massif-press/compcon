@@ -42,12 +42,13 @@
 </template>
 
 <script setup lang="ts">
-import { Skill } from '@/classes/pilot/components';
+import type { PropType } from 'vue'
+import type { Skill, CustomSkill } from '@/classes/pilot/components';
 import { useDisplay } from 'vuetify'
 
 defineProps({
   skill: {
-    type: Skill,
+    type: Object as PropType<Skill | CustomSkill>,
     required: true,
   },
   canAdd: {
