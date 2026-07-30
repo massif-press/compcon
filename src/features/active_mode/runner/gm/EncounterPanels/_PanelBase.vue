@@ -47,7 +47,7 @@
                 align-self="start"
                 class="ml-auto mr-1 mt-1">
                 <activation-tracker :item="item" />
-                <v-menu>
+                <v-menu v-if="(owner as any)[statusField]">
                   <template #activator="{ props: statusProps }">
                     <v-btn v-bind="statusProps"
                       size="x-small"

@@ -63,10 +63,19 @@ const sortDir = ref('asc')
 const hideUsed = ref(true)
 const showTypes = ref(['passive', 'damage', 'status', 'save', 'resistance', 'other', 'special'])
 
+const actionPool = computed(() => {
+      const combatant = encounterInstance.value.Combatants.find(
+        (c) => c.actor.CombatController.RootActor.ID === props.item.CombatController.RootActor.ID
+      );
+      return combatant?.actor.CombatController.ActiveActor.CombatController;
+    })
+
 const sortedActiveEffects = computed(() => {
       let out = props.item.CombatController.SortedActiveEffects(sortMode.value, sortDir.value);
       if (hideUsed.value) {
-        out = out.filter((ae) => !ae.Applied && !ae.Origin?.Used && !ae.Origin?.Destroyed);
+        out = out.filter(
+          (ae) => !actionPool.value?.IsActionUsed(ae.ID) && !ae.Origin?.Used && !ae.Origin?.Destroyed
+        );
       }
 
       return out;

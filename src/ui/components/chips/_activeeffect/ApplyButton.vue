@@ -261,7 +261,7 @@ function stage(asFree) {
 function apply(close: () => void) {
   if (!isFree.value && (isApplied.value || !ready.value)) return;
   if (!isFree.value) {
-    props.owner.actor.CombatController.MarkActionUsed(activeEffect.value.ID);
+    props.owner.actor.CombatController.ActiveActor.CombatController.MarkActionUsed(activeEffect.value.ID);
     const action = props.activationOverride || props.action?.Activation || (activeEffect.value as any).Activation || 'free';
     if (action !== 'Reaction') props.owner.actor.CombatController.SetCombatAction(action, false);
   }

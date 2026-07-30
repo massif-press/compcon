@@ -5,12 +5,12 @@
     :color="reserve.Color">
     <template #activator="{ open }">
       <cc-button :color="reserve.Color"
-        :style="reserve.Used ? 'opacity: 0.5' : ''"
+        :style="reserve.ReserveUsed ? 'opacity: 0.5' : ''"
         :size="small || mobile ? 'small' : undefined"
         block
         :prepend-icon="reserve.Icon"
         @click="open">
-        <template v-if="reserve.Used"
+        <template v-if="reserve.ReserveUsed"
           #info>
           <v-icon icon="mdi-circle-off-outline" />
         </template>
