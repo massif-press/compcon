@@ -20,7 +20,16 @@
           chips
           density="compact"
           @click:clear="reset()"
-          @change="fileChange($event)" />
+          @change="fileChange($event)">
+          <template #append-inner>
+            <v-btn size="x-small"
+              color="primary"
+              variant="text"
+              prepend-icon="mdi-upload">
+              {{ $t('common.upload') }}
+            </v-btn>
+          </template>
+        </v-file-input>
         <cc-button block
           type="flat"
           size="small"
