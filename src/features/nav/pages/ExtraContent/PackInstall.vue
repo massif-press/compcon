@@ -26,7 +26,7 @@
               color="primary"
               variant="text"
               prepend-icon="mdi-upload">
-              {{ $t('common.upload') }}
+              {{ $t('ui.image.upload') }}
             </v-btn>
           </template>
         </v-file-input>
