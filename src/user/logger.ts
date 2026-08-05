@@ -28,6 +28,8 @@ const STORAGE_KEY = 'cc_log_history'
 const LEVEL_KEY = 'cc_log_level'
 const MAX_HISTORY = 200 // entries kept per session
 const MAX_SESSIONS = 10 // sessions retained across restarts
+const MAX_BYTES = 8 * 1024 * 1024
+const PERSIST_BYTES = 2 * 1024 * 1024
 const REDACT_KEY =
   /pass(word|wd)?|secret|token|jwt|api[-_]?key|authorization|auth[-_]?token|credential|session[-_]?id|bearer/i
 
@@ -55,6 +57,7 @@ class Logger {
   private _sessions: ISession[] = []
   private _current!: ISession
   private _saveTimer: ReturnType<typeof setTimeout> | null = null
+  private _sizes = new WeakMap<IErrorReport, number>()
 
   private constructor() {
     this._load()
@@ -92,10 +95,46 @@ class Logger {
 
   private snapshot(obj: any): any {
     if (!obj || typeof obj !== 'object') return obj
-    try {
-      return JSON.parse(JSON.stringify(obj, this._replacer(), 0))
-    } catch {
-      return '[Unserializable]'
+    const out: Record<string, any> = {}
+    for (const key of Object.keys(obj)) {
+      if (key.startsWith('$')) continue
+      let value: any
+      try {
+        value = obj[key]
+      } catch {
+        continue
+      }
+      if (typeof value === 'function') continue
+      if (REDACT_KEY.test(key)) out[key] = '[REDACTED]'
+      else if (value === null || typeof value !== 'object') out[key] = value
+      else if (Array.isArray(value)) out[key] = `[Array(${value.length})]`
+      else out[key] = `[${value.constructor?.name || 'Object'}]`
+    }
+    return out
+  }
+
+  private _size(entry: IErrorReport): number {
+    let n = this._sizes.get(entry)
+    if (n === undefined) {
+      try {
+        n = JSON.stringify(entry)?.length ?? 0
+      } catch {
+        n = 0
+      }
+      this._sizes.set(entry, n)
+    }
+    return n
+  }
+
+  private _trim(): void {
+    let total = 0
+    for (const session of this._sessions) {
+      for (const entry of session.entries) total += this._size(entry)
+    }
+    while (total > MAX_BYTES) {
+      const oldest = [...this._sessions].reverse().find(s => s.entries.length)
+      if (!oldest) return
+      total -= this._size(oldest.entries.shift()!)
     }
   }
 
@@ -123,6 +162,8 @@ class Logger {
     let type = (t || 'info').toLowerCase()
     if (!severityMap[type]) type = 'info'
 
+    if (severityMap[type] < severityMap[this._level]) return
+
     const error = this.extractError(caller, err)
     const entry: IErrorReport = {
       type,
@@ -138,9 +179,8 @@ class Logger {
 
     this._current.entries.push(entry)
     if (this._current.entries.length > MAX_HISTORY) this._current.entries.shift()
+    this._trim()
     this._scheduleSave()
-
-    if (severityMap[type] < severityMap[this._level]) return
 
     console.log(
       `%cCOMP/CON%c${type.toUpperCase()}%c${message}`,
@@ -215,7 +255,8 @@ class Logger {
       // Sentry.init already installed an errorHandler
       const prev = app.config.errorHandler
       app.config.errorHandler = (err, instance, info) => {
-        this.log(`Vue error (${info}): ${err}`, 'error', instance, err)
+        const component = (instance?.$ as any)?.type?.__name || instance?.$options?.name || null
+        this.log(`Vue error (${info}) in <${component || 'unknown'}>`, 'error', null, err)
         if (typeof prev === 'function') prev(err, instance, info)
       }
     }
@@ -237,11 +278,18 @@ class Logger {
   }
 
   private _persistSnapshot(): ISession[] {
-    return this._sessions.map(s => ({
-      id: s.id,
-      startedAt: s.startedAt,
-      entries: s.entries.filter(e => e.type === 'error'),
-    }))
+    let budget = PERSIST_BYTES
+    return this._sessions.map(s => {
+      const entries: IErrorReport[] = []
+      for (let i = s.entries.length - 1; i >= 0; i--) {
+        const entry = s.entries[i]
+        if (entry.type !== 'error') continue
+        budget -= this._size(entry)
+        if (budget < 0) break
+        entries.unshift(entry)
+      }
+      return { id: s.id, startedAt: s.startedAt, entries }
+    })
   }
 
   private _scheduleSave(): void {
@@ -275,6 +323,7 @@ class Logger {
     }
     this._current = { id: `${Date.now()}`, startedAt: Date.now(), entries: [] }
     this._sessions = [this._current, ...prior]
+    this._trim()
   }
 }
 

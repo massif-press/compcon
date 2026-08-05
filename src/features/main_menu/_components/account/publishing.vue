@@ -1,13 +1,18 @@
 <template>
   <v-container :class="!mobile && 'px-12'">
-    <v-card flat
+    <v-card
+      flat
       border
       tile
-      class="mb-4">
-      <v-toolbar density="compact"
-        color="panel">
+      class="mb-4"
+    >
+      <v-toolbar
+        density="compact"
+        color="panel"
+      >
         <v-toolbar-title>
-          <cc-heading is-title
+          <cc-heading
+            is-title
             :text="mobile ? 'COLLECTION PUBLISHING' : 'CONTENT COLLECTION PUBLISHING'"
             tooltip="Through this tool you can create and publish collections of COMP/CON content to
                 other users, who can then subscribe to your content collections and automatically
@@ -17,73 +22,115 @@
                 <br />
                 Please use this tool responsibly. Publishing inappropriate or harmful content, or
                 content you do not have permission to distribute, may result in your account being
-                banned from the COMP/CON cloud service." />
+                banned from the COMP/CON cloud service."
+          />
         </v-toolbar-title>
       </v-toolbar>
       <v-card-text v-if="!collectionLimit">
-        <cc-alert color="text"
+        <cc-alert
+          color="text"
           icon="mdi-information-outline"
           variant="outlined"
-          :title="$t('mainMenu.titles.youDoNotHaveAccess2')">
-          <i18n-t keypath="mainMenu.publishing.accessInfo" tag="span" scope="global">
-            <template #link><a href="https://www.patreon.com/compcon" target="_blank">{{ $t("mainMenu.archive.subscribing") }}</a></template>
+          :title="$t('mainMenu.titles.youDoNotHaveAccess2')"
+        >
+          <i18n-t
+            keypath="mainMenu.publishing.accessInfo"
+            tag="span"
+            scope="global"
+          >
+            <template #link>
+              <a
+                href="https://www.patreon.com/compcon"
+                target="_blank"
+              >
+                {{ $t('mainMenu.archive.subscribing') }}
+              </a>
+            </template>
           </i18n-t>
           <br />
           <br />
-          {{ $t("mainMenu.publishing.howeverView") }}
+          {{ $t('mainMenu.publishing.howeverView') }}
         </cc-alert>
       </v-card-text>
       <v-card-text v-else>
         <v-row dense>
           <v-col :style="!mobile && 'max-width: 250px'">
-            <v-tabs v-model="colIdx"
+            <v-tabs
+              v-model="colIdx"
               color="accent"
-              direction="vertical">
+              direction="vertical"
+            >
               <div class="heading text-accent mb-2">
-                {{ $t("mainMenu.publishing.collectionsHeader", { count: collections.length, limit: collectionLimit > -1 ? collectionLimit : '∞' }) }}
+                {{
+                  $t('mainMenu.publishing.collectionsHeader', {
+                    count: collections.length,
+                    limit: collectionLimit > -1 ? collectionLimit : '∞',
+                  })
+                }}
               </div>
-              <v-tab v-for="(collection, colTabIdx) in collections" :key="`col-tab-${colTabIdx}`"
+              <v-tab
+                v-for="(collection, colTabIdx) in collections"
+                :key="`col-tab-${colTabIdx}`"
                 density="compact"
                 prepend-icon="mdi-broadcast"
                 size="small"
-                :text="collection.Name" />
-              <cc-button color="primary"
+                :text="collection.Name"
+              />
+              <cc-button
+                color="primary"
                 size="small"
                 tile
                 block
                 prepend-icon="mdi-plus"
                 class="mt-2"
-                :disabled="collections.length >= (collectionLimit > -1 ? collectionLimit : Infinity)
-                  "
-                @click="AddNew()">
-                {{ $t("mainMenu.publishing.addNew") }}
+                :disabled="
+                  collections.length >= (collectionLimit > -1 ? collectionLimit : Infinity)
+                "
+                @click="AddNew()"
+              >
+                {{ $t('mainMenu.publishing.addNew') }}
               </cc-button>
             </v-tabs>
           </v-col>
-          <v-divider v-if="mobile"
-            class="my-1" />
+          <v-divider
+            v-if="mobile"
+            class="my-1"
+          />
           <v-col>
             <v-window v-model="colIdx">
-              <v-window-item v-for="(collection, colWinIdx) in collections" :key="`col-win-${colWinIdx}`">
+              <v-window-item
+                v-for="(collection, colWinIdx) in collections"
+                :key="`col-win-${colWinIdx}`"
+              >
                 <v-card flat>
                   <div class="px-4">
                     <v-row dense>
-                      <v-col cols="12"
-                        lg="7">
-                        <v-text-field v-model="collection.Name"
+                      <v-col
+                        cols="12"
+                        lg="7"
+                      >
+                        <v-text-field
+                          v-model="collection.Name"
                           :label="!collection.Name ? 'Name (required)' : 'Name'"
-                          density="compact" />
+                          density="compact"
+                        />
                       </v-col>
-                      <v-col cols="12"
-                        lg="">
-                        <v-text-field v-model="collection.Author"
+                      <v-col
+                        cols="12"
+                        lg=""
+                      >
+                        <v-text-field
+                          v-model="collection.Author"
                           :error="!collection.Author"
                           density="compact"
-                          :label="!collection.Author ? 'Author (required)' : 'Author'" />
+                          :label="!collection.Author ? 'Author (required)' : 'Author'"
+                        />
                       </v-col>
                       <v-col>
                         <div class="text-center">
-                          <span class="text-caption">{{ $t("nav.communityTable.currentVersion") }}</span>
+                          <span class="text-caption">
+                            {{ $t('nav.communityTable.currentVersion') }}
+                          </span>
                           <v-divider />
                           <span class="heading h3 text-accent">
                             {{ collection.Version }}
@@ -91,140 +138,199 @@
                         </div>
                       </v-col>
                     </v-row>
-                    <v-textarea v-model="collection.Description"
+                    <v-textarea
+                      v-model="collection.Description"
                       density="compact"
                       :label="$t('common.description')"
                       rows="3"
-                      auto-grow />
-                    <v-row dense
-                      align="center">
-                      <v-col class="heading text-accent">{{ $t("common.contents") }}</v-col>
+                      auto-grow
+                    />
+                    <v-row
+                      dense
+                      align="center"
+                    >
+                      <v-col class="heading text-accent">{{ $t('common.contents') }}</v-col>
                       <v-col cols="auto">
-                        <cc-button color="primary"
+                        <cc-button
+                          color="primary"
                           size="small"
                           tile
                           flat
-                          prepend-icon="mdi-update">
-                          {{ $t("common.updateAll") }}
+                          prepend-icon="mdi-update"
+                        >
+                          {{ $t('common.updateAll') }}
                         </cc-button>
                       </v-col>
                     </v-row>
-                    <v-data-table density="compact"
+                    <v-data-table
+                      density="compact"
                       :headers="dataHeaders"
                       :items="collection.Contents"
                       :items-per-page="-1"
-                      hide-default-footer>
+                      hide-default-footer
+                    >
                       <template #item.update="{ item }">
-                        <v-tooltip v-if="newLocalData(item)"
+                        <v-tooltip
+                          v-if="newLocalData(item)"
                           max-width="300px"
-                          location="top">
+                          location="top"
+                        >
                           <template #activator="{ props }">
-                            <v-icon v-bind="props"
-                              color="primary">mdi-update</v-icon>
+                            <v-icon
+                              v-bind="props"
+                              color="primary"
+                            >
+                              mdi-update
+                            </v-icon>
                           </template>
-                          {{ $t("mainMenu.publishing.itemModified") }}
+                          {{ $t('mainMenu.publishing.itemModified') }}
                         </v-tooltip>
-                        <v-tooltip v-else-if="hasLocalData(item)"
+                        <v-tooltip
+                          v-else-if="hasLocalData(item)"
                           max-width="300px"
-                          location="top">
+                          location="top"
+                        >
                           <template #activator="{ props }">
-                            <v-icon v-bind="props"
-                              color="success">mdi-check-circle-outline</v-icon>
+                            <v-icon
+                              v-bind="props"
+                              color="success"
+                            >
+                              mdi-check-circle-outline
+                            </v-icon>
                           </template>
-                          {{ $t("mainMenu.publishing.itemUpToDate") }}
+                          {{ $t('mainMenu.publishing.itemUpToDate') }}
                         </v-tooltip>
                         {{ new Date((item as any).last_updated).toLocaleString() }}
-                        <v-tooltip v-if="!hasLocalData(item)"
+                        <v-tooltip
+                          v-if="!hasLocalData(item)"
                           max-width="300px"
-                          location="top">
+                          location="top"
+                        >
                           <template #activator="{ props }">
-                            <v-icon v-bind="props"
-                              color="error">mdi-alert</v-icon>
+                            <v-icon
+                              v-bind="props"
+                              color="error"
+                            >
+                              mdi-alert
+                            </v-icon>
                           </template>
-                          {{ $t("mainMenu.publishing.itemNotFound") }}
+                          {{ $t('mainMenu.publishing.itemNotFound') }}
                         </v-tooltip>
                       </template>
                       <template #item.actions="{ item }">
-                        <v-tooltip max-width="300px"
-                          location="top">
+                        <v-tooltip
+                          max-width="300px"
+                          location="top"
+                        >
                           <template #activator="{ props }">
-                            <cc-button size="small"
+                            <cc-button
+                              size="small"
                               color="primary"
                               variant="text"
                               v-bind="props"
                               icon
-                              @click="collection.RemoveItem(item)">
+                              @click="collection.RemoveItem(item)"
+                            >
                               <v-icon size="x-large">mdi-delete-outline</v-icon>
                             </cc-button>
                           </template>
                           <div class="text-center">
-                            {{ $t("mainMenu.publishing.removeItemTooltip") }}
+                            {{ $t('mainMenu.publishing.removeItemTooltip') }}
                           </div>
                         </v-tooltip>
                       </template>
                     </v-data-table>
-                    <collection-item-selector :added-items="collection.Contents.map((x) => x.id)"
-                      @add-item="collection.AddItem($event!.type, $event!.item)" />
-                    <v-row dense
+                    <collection-item-selector
+                      :added-items="collection.Contents.map(x => x.id)"
+                      @add-item="collection.AddItem($event!.type, $event!.item)"
+                    />
+                    <v-row
+                      dense
                       align="center"
-                      class="mt-4">
-                      <v-col class="heading text-accent">{{ $t("common.changelog") }}</v-col>
+                      class="mt-4"
+                    >
+                      <v-col class="heading text-accent">{{ $t('common.changelog') }}</v-col>
                       <v-col cols="auto">
-                        <v-tooltip max-width="300px"
-                          location="top">
+                        <v-tooltip
+                          max-width="300px"
+                          location="top"
+                        >
                           <template #activator="{ props }">
-                            <v-btn color="primary"
+                            <v-btn
+                              color="primary"
                               size="x-small"
                               class="mb-2"
                               flat
                               tile
                               icon
                               v-bind="props"
-                              @click="collection.NextChangelog = collection.GenerateChangelog()">
+                              @click="collection.NextChangelog = collection.GenerateChangelog()"
+                            >
                               <v-icon size="x-large">mdi-auto-fix</v-icon>
                             </v-btn>
                           </template>
-                          <div class="text-center">{{ $t("mainMenu.publishing.autoGenChangelog") }}</div>
+                          <div class="text-center">
+                            {{ $t('mainMenu.publishing.autoGenChangelog') }}
+                          </div>
                         </v-tooltip>
                       </v-col>
                     </v-row>
-                    <v-textarea v-model="collection.NextChangelog"
+                    <v-textarea
+                      v-model="collection.NextChangelog"
                       density="compact"
                       rows="3"
                       hide-details
-                      auto-grow />
+                      auto-grow
+                    />
                   </div>
                   <div class="text-right">
                     <cc-dialog :title="$t('common.changelog')">
                       <template #activator="{ open }">
-                        <cc-button size="small"
+                        <cc-button
+                          size="small"
                           class="my-2"
                           prepend-icon="mdi-note-multiple-outline"
-                          @click="open">
-                          {{ $t("mainMenu.publishing.viewFullChangelog") }}
+                          @click="open"
+                        >
+                          {{ $t('mainMenu.publishing.viewFullChangelog') }}
                         </cc-button>
                       </template>
                       <template #default="{ close }">
                         <v-card>
-                          <v-toolbar color="primary"
-                            density="compact">
+                          <v-toolbar
+                            color="primary"
+                            density="compact"
+                          >
                             <v-toolbar-title class="heading h3">
-                              {{ $t("mainMenu.publishing.collectionChangelogTitle", { name: collection.Name.toUpperCase() }) }}
+                              {{
+                                $t('mainMenu.publishing.collectionChangelogTitle', {
+                                  name: collection.Name.toUpperCase(),
+                                })
+                              }}
                             </v-toolbar-title>
-                            <cc-button icon
-                              @click="close()">
+                            <cc-button
+                              icon
+                              @click="close()"
+                            >
                               <v-icon>mdi-close</v-icon>
                             </cc-button>
                           </v-toolbar>
                           <v-card-text>
-                            <div v-for="(entry, entryIdx) in collection.Changelog" :key="`entry-${entryIdx}`">
-                              <div class="heading h4">{{ $t("mainMenu.publishing.versionN", { version: entry.version }) }}</div>
-                              <v-textarea v-model="entry.changes"
+                            <div
+                              v-for="(entry, entryIdx) in collection.Changelog"
+                              :key="`entry-${entryIdx}`"
+                            >
+                              <div class="heading h4">
+                                {{ $t('mainMenu.publishing.versionN', { version: entry.version }) }}
+                              </div>
+                              <v-textarea
+                                v-model="entry.changes"
                                 density="compact"
                                 rows="2"
                                 hide-details
                                 auto-grow
-                                readonly />
+                                readonly
+                              />
                             </div>
                           </v-card-text>
                         </v-card>
@@ -233,129 +339,189 @@
                   </div>
                   <v-divider class="mb-3" />
                   <v-footer>
-                    <cc-button color="primary"
+                    <cc-button
+                      color="primary"
                       size="small"
-                      @click="collection.Save()">
-                      {{ $t("mainMenu.publishing.saveDraft") }}
+                      @click="collection.Save()"
+                    >
+                      {{ $t('mainMenu.publishing.saveDraft') }}
                     </cc-button>
 
                     <v-spacer />
-                    <cc-button color="primary"
+                    <cc-button
+                      color="primary"
                       :loading="loading"
                       size="small"
                       class="mx-4"
                       :disabled="!canPublish(collection)"
-                      @click="Publish('minor')">
-                      {{ $t("mainMenu.publishing.publishMinor", { version: collection.NextVersion("minor") }) }}
+                      @click="Publish('minor')"
+                    >
+                      {{
+                        $t('mainMenu.publishing.publishMinor', {
+                          version: collection.NextVersion('minor'),
+                        })
+                      }}
                     </cc-button>
-                    <cc-button color="primary"
+                    <cc-button
+                      color="primary"
                       :loading="loading"
                       size="small"
                       :disabled="!canPublish(collection)"
-                      @click="Publish('major')">
-                      {{ $t("mainMenu.publishing.publishMajor", { version: collection.NextVersion("major") }) }}
+                      @click="Publish('major')"
+                    >
+                      {{
+                        $t('mainMenu.publishing.publishMajor', {
+                          version: collection.NextVersion('major'),
+                        })
+                      }}
                     </cc-button>
                   </v-footer>
                   <div class="my-2">
-                    <span class="text-caption">{{ $t("mainMenu.publishing.collectionShareCode") }}</span>
-                    <div v-if="collection.Metadata?.code"
-                      class="text-center">
-                      <v-chip v-for="(n, nIdx) in collection.Metadata.code.substring(0, 4)" :key="`code0-${nIdx}`"
+                    <span class="text-caption">
+                      {{ $t('mainMenu.publishing.collectionShareCode') }}
+                    </span>
+                    <div
+                      v-if="collection.Metadata?.code"
+                      class="text-center"
+                    >
+                      <v-chip
+                        v-for="(n, nIdx) in collection.Metadata.code.substring(0, 4)"
+                        :key="`code0-${nIdx}`"
                         color="primary"
                         class="mt-1 mx-1"
                         size="x-large"
-                        label>
+                        label
+                      >
                         <span class="heading h2 text-text">{{ n }}</span>
                       </v-chip>
-                      <v-chip variant="text"
+                      <v-chip
+                        variant="text"
                         class="mt-1"
                         size="x-large"
-                        label>
+                        label
+                      >
                         <span class="heading h2">&ndash;</span>
                       </v-chip>
-                      <v-chip v-for="(n, nIdx) in collection.Metadata.code.substring(4, 8)" :key="`code4-${nIdx}`"
+                      <v-chip
+                        v-for="(n, nIdx) in collection.Metadata.code.substring(4, 8)"
+                        :key="`code4-${nIdx}`"
                         color="primary"
                         class="mt-1 mx-1"
                         size="x-large"
-                        label>
+                        label
+                      >
                         <span class="heading h2 text-text">{{ n }}</span>
                       </v-chip>
-                      <v-chip variant="text"
+                      <v-chip
+                        variant="text"
                         class="mt-1"
                         size="x-large"
-                        label>
+                        label
+                      >
                         <span class="heading h2">&ndash;</span>
                       </v-chip>
-                      <v-chip v-for="(n, nIdx) in collection.Metadata.code.substring(8, 12)" :key="`code8-${nIdx}`"
+                      <v-chip
+                        v-for="(n, nIdx) in collection.Metadata.code.substring(8, 12)"
+                        :key="`code8-${nIdx}`"
                         color="primary"
                         class="mt-1 mx-1"
                         size="x-large"
-                        label>
+                        label
+                      >
                         <span class="heading h2 text-text">{{ n }}</span>
                       </v-chip>
-                      <v-tooltip max-width="300px"
-                        location="top">
+                      <v-tooltip
+                        max-width="300px"
+                        location="top"
+                      >
                         <template #activator="{ props }">
-                          <v-icon v-bind="props"
+                          <v-icon
+                            v-bind="props"
                             color="accent"
                             size="small"
                             end
                             icon="mdi-content-copy"
                             class="fade-select"
-                            @click="copy(collection.Metadata.code)" />
+                            @click="copy(collection.Metadata.code)"
+                          />
                         </template>
-                        <div class="text-center">{{ $t("common.copyShareCode") }}</div>
+                        <div class="text-center">{{ $t('common.copyShareCode') }}</div>
                       </v-tooltip>
                       <div class="text-left text-caption text-disabled">
-                        {{ $t("mainMenu.publishing.lastUpdateOn", { date: new Date(collection.Metadata?.updated || 0).toLocaleString() }) }}
+                        {{
+                          $t('mainMenu.publishing.lastUpdateOn', {
+                            date: new Date(collection.Metadata?.updated || 0).toLocaleString(),
+                          })
+                        }}
                       </div>
                     </div>
-                    <div v-else
-                      class="text-caption text-disabled">
-                      <i>{{ $t("mainMenu.publishing.mustPublish") }}</i>
+                    <div
+                      v-else
+                      class="text-caption text-disabled"
+                    >
+                      <i>{{ $t('mainMenu.publishing.mustPublish') }}</i>
                     </div>
                   </div>
                   <v-card-actions>
                     <v-spacer />
-                    <cc-dialog :title="$t('mainMenu.publishing.deleteCollection')"
+                    <cc-dialog
+                      :title="$t('mainMenu.publishing.deleteCollection')"
                       color="error"
-                      :close-on-click="false">
+                      :close-on-click="false"
+                    >
                       <template #activator="{ open }">
-                        <cc-button color="error"
+                        <cc-button
+                          color="error"
                           size="small"
                           prepend-icon="mdi-delete"
-                          @click="open">
-                          {{ $t("mainMenu.publishing.deleteCollection") }}
+                          @click="open"
+                        >
+                          {{ $t('mainMenu.publishing.deleteCollection') }}
                         </cc-button>
                       </template>
                       <template #default="{ close }">
                         <v-card-text v-if="collection.Metadata?.code">
                           <div>
                             <p>
-                              <i18n-t keypath="mainMenu.publishing.deleteCollectionWarning" tag="span" scope="global"><template #willNot><strong>{{ $t("mainMenu.publishing.willNotLabel") }}</strong></template></i18n-t>
+                              <i18n-t
+                                keypath="mainMenu.publishing.deleteCollectionWarning"
+                                tag="span"
+                                scope="global"
+                              >
+                                <template #willNot>
+                                  <strong>{{ $t('mainMenu.publishing.willNotLabel') }}</strong>
+                                </template>
+                              </i18n-t>
                             </p>
-                            <span class="text-caption">{{ $t("mainMenu.publishing.actionUndone") }}</span>
+                            <span class="text-caption">
+                              {{ $t('mainMenu.publishing.actionUndone') }}
+                            </span>
                           </div>
                         </v-card-text>
                         <v-card-text v-else>
                           <div>
-                            <p>{{ $t("mainMenu.publishing.confirmDelete") }}</p>
-                            <span class="text-caption">{{ $t("mainMenu.publishing.actionUndone") }}</span>
+                            <p>{{ $t('mainMenu.publishing.confirmDelete') }}</p>
+                            <span class="text-caption">
+                              {{ $t('mainMenu.publishing.actionUndone') }}
+                            </span>
                           </div>
                         </v-card-text>
                         <v-divider />
                         <v-card-actions>
-                          <cc-button variant="text"
-                            @click="close">{{ $t("common.cancel") }}</cc-button>
+                          <cc-button
+                            variant="text"
+                            @click="close"
+                          >
+                            {{ $t('common.cancel') }}
+                          </cc-button>
                           <v-spacer />
-                          <cc-button color="error"
+                          <cc-button
+                            color="error"
                             prepend-icon="mdi-delete"
                             :loading="loading"
-                            @click="
-                              deleteCollection(collection);
-                            close;
-                            ">
-                            {{ $t("mainMenu.publishing.deleteCollection") }}
+                            @click="deleteCollection(collection, close)"
+                          >
+                            {{ $t('mainMenu.publishing.deleteCollection') }}
                           </cc-button>
                         </v-card-actions>
                       </template>
@@ -372,90 +538,97 @@
 </template>
 
 <script setup lang="ts">
-import { i18n } from '@/i18n'
-const t = i18n.global.t
-import { computed, ref } from 'vue'
-import { notify } from '@/util/notify'
-import { ContentCollection } from '@/classes/components/cloud/ContentCollection';
-import { ContentCollectionStore, UserStore } from '@/stores';
-import CollectionItemSelector from './_components/collectionItemSelector.vue';
-import logger from '@/user/logger';
-import { useDisplay } from 'vuetify';
+  import { i18n } from '@/i18n'
+  const t = i18n.global.t
+  import { computed, ref } from 'vue'
+  import { notify } from '@/util/notify'
+  import { ContentCollection } from '@/classes/components/cloud/ContentCollection'
+  import { ContentCollectionStore, UserStore } from '@/stores'
+  import CollectionItemSelector from './_components/collectionItemSelector.vue'
+  import logger from '@/user/logger'
+  import { useDisplay } from 'vuetify'
 
-defineOptions({ name: 'CloudPublish' })
+  defineOptions({ name: 'CloudPublish' })
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+  const { smAndDown: mobile, xs: portrait } = useDisplay()
 
-const loading = ref(false)
-const colIdx = ref(0)
-const dataHeaders = ref([
-      { title: 'Name', key: 'name' },
-      { title: t('common.type'), key: 'item_type' },
-      { title: t('mainMenu.titles.lastUpdated'), key: 'update' },
-      { title: '', key: 'actions', width: '115px' },
-    ])
+  const loading = ref(false)
+  const colIdx = ref(0)
+  const dataHeaders = ref([
+    { title: 'Name', key: 'name' },
+    { title: t('common.type'), key: 'item_type' },
+    { title: t('mainMenu.titles.lastUpdated'), key: 'update' },
+    { title: '', key: 'actions', width: '115px' },
+  ])
 
-const collectionLimit = computed(() => {
-      return UserStore().CollectionPublishLimit;
-    })
-const collections = computed(() => {
-      return UserStore().UserCollections;
-    })
+  const collectionLimit = computed(() => {
+    return UserStore().CollectionPublishLimit
+  })
+  const collections = computed(() => {
+    return UserStore().UserCollections
+  })
 
-function canPublish(collection) {
-      return collection.Contents.length > 0 && collection.Name && collection.Author;
+  function canPublish(collection) {
+    return collection.Contents.length > 0 && collection.Name && collection.Author
+  }
+  function AddNew() {
+    if (collectionLimit.value > -1 && collections.value.length >= collectionLimit.value) {
+      return
     }
-function AddNew() {
-      if (collections.value.length >= collectionLimit.value) {
-        return;
-      }
-      const col = new ContentCollection();
-      if (UserStore().UserMetadata.Username) {
-        col.Author = UserStore().UserMetadata.Username;
-      }
-      ContentCollectionStore().ContentCollections.push(col);
+    const col = new ContentCollection()
+    if (UserStore().UserMetadata.Username) {
+      col.Author = UserStore().UserMetadata.Username
     }
-function hasLocalData(item: any) {
-      return !!item.data;
-    }
-function newLocalData(item: any) {
-      if (!hasLocalData(item)) return false;
-      if (!item.data.SaveController) return false;
-      return item.last_updated !== item.data.SaveController.LastModified;
-    }
-async function Publish(version: 'minor' | 'major') {
-      loading.value = true;
-      const collection = collections.value[colIdx.value];
-      try {
-        await collection.Publish(version);
-        await UserStore().refreshDbData();
-        notify({
-          title: t('notify.account.publishedTitle'),
-          text: t('notify.account.collectionPublishedText', { name: collection.Name, version: collection.Version }),
-          color: 'success', icon: 'mdi-check-circle-outline',
-        });
-      } catch (e) {
-        logger.error(`Failed to publish collection ${collection.Name}: ${e}`, undefined, e);
-        notify({
-          title: t('notify.common.error'),
-          text: t('notify.account.collectionPublishFailedText', { name: collection.Name }),
-          color: 'error', icon: 'mdi-alert',
-        });
-      } finally {
-        loading.value = false;
-      }
-    }
-function copy(code) {
-      navigator.clipboard.writeText(code);
+    ContentCollectionStore().ContentCollections.push(col)
+  }
+  function hasLocalData(item: any) {
+    return !!item.data
+  }
+  function newLocalData(item: any) {
+    if (!hasLocalData(item)) return false
+    if (!item.data.SaveController) return false
+    return item.last_updated !== item.data.SaveController.LastModified
+  }
+  async function Publish(version: 'minor' | 'major') {
+    loading.value = true
+    const collection = collections.value[colIdx.value]
+    try {
+      await collection.Publish(version)
+      await UserStore().refreshDbData()
       notify({
-        title: t('notify.common.copied'),
-        text: t('notify.shareCode.collectionCopiedText'),
-        color: 'success', icon: 'mdi-check-circle-outline',
-      });
+        title: t('notify.account.publishedTitle'),
+        text: t('notify.account.collectionPublishedText', {
+          name: collection.Name,
+          version: collection.Version,
+        }),
+        color: 'success',
+        icon: 'mdi-check-circle-outline',
+      })
+    } catch (e) {
+      logger.error(`Failed to publish collection ${collection.Name}: ${e}`, undefined, e)
+      notify({
+        title: t('notify.common.error'),
+        text: t('notify.account.collectionPublishFailedText', { name: collection.Name }),
+        color: 'error',
+        icon: 'mdi-alert',
+      })
+    } finally {
+      loading.value = false
     }
-async function deleteCollection(collection) {
-      loading.value = true;
-      await ContentCollection.Delete(collection);
-      loading.value = false;
-    }
+  }
+  function copy(code) {
+    navigator.clipboard.writeText(code)
+    notify({
+      title: t('notify.common.copied'),
+      text: t('notify.shareCode.collectionCopiedText'),
+      color: 'success',
+      icon: 'mdi-check-circle-outline',
+    })
+  }
+  async function deleteCollection(collection, close?: () => void) {
+    loading.value = true
+    await ContentCollection.Delete(collection)
+    loading.value = false
+    close?.()
+  }
 </script>
