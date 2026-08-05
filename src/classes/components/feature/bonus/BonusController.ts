@@ -122,6 +122,7 @@ class BonusController {
     'limited_bonus',
     'knockback',
     'threat',
+    'add_weapon_type',
     'attack',
     'melee',
     'accuracy',
