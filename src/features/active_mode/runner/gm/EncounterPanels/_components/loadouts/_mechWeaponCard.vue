@@ -12,7 +12,7 @@
           {{ item.Name }}
           <span class="text-cc-overline text-disabled">
             <cc-slashes class="mx-1" />
-            {{item.WeaponTypes.map(t => $enum('weaponType', t)).join('/')}} -
+            {{item.getWeaponTypes(mech).map(t => $enum('weaponType', t)).join('/')}} -
             {{ $enum('weaponSize', item.Size) }}
           </span>
         </div>

@@ -178,7 +178,10 @@ const availableWeapons = computed((): MechWeapon[] => {
 
   if (!showOverSP.value) i = i.filter(x => x.SP <= props.mech.FreeSP)
 
-  return i
+  return i.map(w => {
+    w.ParentMech = props.mech
+    return w
+  })
 })
 
 function handleEquip(event: any) {

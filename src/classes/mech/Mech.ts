@@ -287,7 +287,10 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
 
   public HasCompatibleMods(): boolean {
     for (const w of this.MechLoadoutController.ActiveLoadout.Weapons.filter(x => !!x.Mod)) {
-      if (!w.Mod!.AllowedTypes.includes(w.ModType) || !w.Mod!.AllowedSizes.includes(w.ModSize)) {
+      const wTypes = w.getWeaponTypes(this)
+      const typeOk = w.Mod!.AllowedTypes.some(t => wTypes.includes(t as any))
+      const sizeOk = w.Mod!.AllowedSizes.includes(w.ModSize)
+      if (!typeOk || !sizeOk) {
         return false
       }
     }

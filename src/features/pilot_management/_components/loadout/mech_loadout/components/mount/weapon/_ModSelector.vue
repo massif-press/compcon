@@ -112,7 +112,8 @@ const availableMods = computed((): WeaponMod[] => {
   let i = filterByLcp(CompendiumStore().WeaponMods).filter(x => !x.IsHidden && !x.IsExotic)
 
   if (!showIncompatible.value) {
-    i = i.filter(x => x.AllowedTypes && x.AllowedTypes.includes(props.weapon.ModType))
+    const wTypes = props.weapon.getWeaponTypes(props.mech)
+    i = i.filter(x => x.AllowedTypes && x.AllowedTypes.some(t => wTypes.includes(t as any)))
     i = i.filter(x => x.AllowedSizes && x.AllowedSizes.includes(props.weapon.ModSize))
   }
 
