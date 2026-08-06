@@ -73,7 +73,13 @@ class CounterController {
       ? actor.FeatureController.Counters
       : []
 
-    return [...parent_counters, ...this.CustomCounterData].flat().filter(x => x)
+    const all = [...parent_counters, ...this.CustomCounterData].flat().filter(x => x)
+    const map = new Map<string, ICounterData>()
+    for (const c of all) {
+      const key = c.id || c.name
+      map.set(key, c)
+    }
+    return Array.from(map.values())
   }
 
   public static Serialize(parent: ICounterContainer, target: any) {
