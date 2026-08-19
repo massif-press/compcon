@@ -7,7 +7,7 @@ import intlifyVueI18n from '@intlify/eslint-plugin-vue-i18n'
 import prettierConfig from 'eslint-config-prettier'
 
 const noRawTextOptions = {
-  ignorePattern: '^[^a-zA-Z]+$',
+  ignorePattern: '^[^a-zA-Z]*$',
   ignoreText: [
     'COMP/CON',
     'LANCER',
@@ -64,6 +64,14 @@ export default [
       'vue/no-deprecated-v-on-native-modifier': 'warn',
       'vue/no-use-v-if-with-v-for': 'warn',
       'no-case-declarations': 'off',
+      'vue/no-restricted-syntax': [
+        'error',
+        {
+          selector: 'VOnExpression > *:nth-child(2)',
+          message:
+            "Multi-statement inline handler. Prettier runs with semi:false and will split this across lines and strip the ';' separators, producing a template that no longer compiles. Extract the body into a named function.",
+        },
+      ],
     },
   },
   {

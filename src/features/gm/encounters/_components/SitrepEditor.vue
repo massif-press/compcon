@@ -1,41 +1,51 @@
 <template>
   <div class="text-overline">{{ $t('common.sitrep') }}</div>
-  <v-card class="py-2 px-4"
+  <v-card
+    class="py-2 px-4"
     variant="outlined"
-    style="border-color: rgb(var(--v-theme-panel))">
+    style="border-color: rgb(var(--v-theme-panel))"
+  >
     <v-row align="center">
       <v-col>
-        <cc-short-string-editor justify="start"
+        <cc-short-string-editor
+          justify="start"
           :readonly="readonly"
           :placeholder="item.Sitrep.Name"
-          @set="item.Sitrep.Name = $event">
+          @set="item.Sitrep.Name = $event"
+        >
           <span class="heading h3">{{ item.Sitrep.Name }}</span>
         </cc-short-string-editor>
       </v-col>
       <v-col cols="auto">
-        <cc-button color="primary"
+        <cc-button
+          color="primary"
           size="small"
           :prepend-icon="showPresets ? 'mdi-chevron-double-down' : 'mdi-chevron-double-right'"
-          @click="showPresets = !showPresets">
+          @click="showPresets = !showPresets"
+        >
           {{ $t('gm.sitrep.presets') }}
         </cc-button>
       </v-col>
     </v-row>
 
     <v-slide-y-transition>
-      <v-card v-if="showPresets"
+      <v-card
+        v-if="showPresets"
         flat
         tile
         variant="tonal"
         color="secondary"
-        class="px-1">
+        class="px-1"
+      >
         <v-chip-group show-arrows>
-          <v-chip v-for="sitrep in sitreps"
+          <v-chip
+            v-for="sitrep in sitreps"
             :key="sitrep.Name"
             size="small"
             class="rounded-0"
             label
-            @click="setSitrep(sitrep)">
+            @click="setSitrep(sitrep)"
+          >
             {{ sitrep.Name }}
           </v-chip>
         </v-chip-group>
@@ -43,24 +53,29 @@
           <v-divider class="my-1" />
           <div class="text-cc-overline text-disabled px-2">{{ $t('gm.sitrep.myPresets') }}</div>
           <v-chip-group>
-            <v-chip v-for="(preset, i) in userPresets"
+            <v-chip
+              v-for="(preset, i) in userPresets"
               :key="preset.id"
               size="small"
               class="rounded-0"
               label
-              @click="loadUserPreset(preset)">
+              @click="loadUserPreset(preset)"
+            >
               {{ preset.name }}
-              <v-icon size="14"
+              <v-icon
+                size="14"
                 class="ml-1"
                 icon="mdi-close"
-                @click.stop="stagedDeleteIndex = i; deleteConfirmDialog = true" />
+                @click.stop="confirmDelete(i)"
+              />
             </v-chip>
           </v-chip-group>
         </template>
       </v-card>
     </v-slide-y-transition>
 
-    <v-textarea v-model="item.Sitrep.Description"
+    <v-textarea
+      v-model="item.Sitrep.Description"
       :readonly="readonly"
       :label="$t('common.description')"
       density="compact"
@@ -68,8 +83,10 @@
       variant="outlined"
       auto-grow
       hide-details
-      class="mb-2 mt-2" />
-    <v-textarea v-if="shownKeys.includes('Deployment')"
+      class="mb-2 mt-2"
+    />
+    <v-textarea
+      v-if="shownKeys.includes('Deployment')"
       v-model="item.Sitrep.Deployment"
       :readonly="readonly"
       :label="$t('common.deployment')"
@@ -78,15 +95,19 @@
       variant="outlined"
       auto-grow
       hide-details
-      class="mb-2">
+      class="mb-2"
+    >
       <template #append-inner>
-        <v-icon v-if="!readonly"
+        <v-icon
+          v-if="!readonly"
           icon="mdi-close"
           class="fade-select"
-          @click="removeKey('Deployment')" />
+          @click="removeKey('Deployment')"
+        />
       </template>
     </v-textarea>
-    <v-textarea v-if="shownKeys.includes('Objective')"
+    <v-textarea
+      v-if="shownKeys.includes('Objective')"
       v-model="item.Sitrep.Objective"
       :readonly="readonly"
       :label="$t('common.objective')"
@@ -95,15 +116,19 @@
       variant="outlined"
       auto-grow
       hide-details
-      class="mb-2">
+      class="mb-2"
+    >
       <template #append-inner>
-        <v-icon v-if="!readonly"
+        <v-icon
+          v-if="!readonly"
           icon="mdi-close"
           class="fade-select"
-          @click="removeKey('Objective')" />
+          @click="removeKey('Objective')"
+        />
       </template>
     </v-textarea>
-    <v-textarea v-if="shownKeys.includes('ControlZone')"
+    <v-textarea
+      v-if="shownKeys.includes('ControlZone')"
       v-model="item.Sitrep.ControlZone"
       :readonly="readonly"
       :label="$t('ui.card.controlZone')"
@@ -112,15 +137,19 @@
       variant="outlined"
       auto-grow
       hide-details
-      class="mb-2">
+      class="mb-2"
+    >
       <template #append-inner>
-        <v-icon v-if="!readonly"
+        <v-icon
+          v-if="!readonly"
           icon="mdi-close"
           class="fade-select"
-          @click="removeKey('ControlZone')" />
+          @click="removeKey('ControlZone')"
+        />
       </template>
     </v-textarea>
-    <v-textarea v-if="shownKeys.includes('Extraction')"
+    <v-textarea
+      v-if="shownKeys.includes('Extraction')"
       v-model="item.Sitrep.Extraction"
       :readonly="readonly"
       :label="$t('gm.fields.extraction')"
@@ -129,33 +158,43 @@
       variant="outlined"
       auto-grow
       hide-details
-      class="mb-2">
+      class="mb-2"
+    >
       <template #append-inner>
-        <v-icon v-if="!readonly"
+        <v-icon
+          v-if="!readonly"
           icon="mdi-close"
           class="fade-select"
-          @click="removeKey('Extraction')" />
+          @click="removeKey('Extraction')"
+        />
       </template>
     </v-textarea>
 
-    <v-card v-for="(c, i) in item.Sitrep.Conditions"
+    <v-card
+      v-for="(c, i) in item.Sitrep.Conditions"
       :key="`condition-${i}`"
-      class="pa-2">
-      <v-text-field v-model="c.title"
+      class="pa-2"
+    >
+      <v-text-field
+        v-model="c.title"
         :readonly="readonly"
         :label="$t('ui.fields.title')"
         density="compact"
         hide-details
         class="mb-2"
-        @update:model-value="item.Sitrep.Touch()">
+        @update:model-value="item.Sitrep.Touch()"
+      >
         <template #append>
-          <v-icon v-if="!readonly"
+          <v-icon
+            v-if="!readonly"
             icon="mdi-delete"
             class="fade-select"
-            @click="item.Sitrep.Conditions.splice(i, 1); item.Sitrep.Touch()" />
+            @click="deleteCondition(i)"
+          />
         </template>
       </v-text-field>
-      <v-textarea v-model="c.condition"
+      <v-textarea
+        v-model="c.condition"
         :readonly="readonly"
         :label="$t('gm.fields.conditions')"
         density="compact"
@@ -164,169 +203,226 @@
         auto-grow
         hide-details
         class="mb-2"
-        @update:model-value="item.Sitrep.Touch()" />
+        @update:model-value="item.Sitrep.Touch()"
+      />
     </v-card>
 
-    <v-row v-if="!readonly"
-      dense>
-      <v-col v-for="key in keys.filter((x) => !item.Sitrep[x])"
+    <v-row
+      v-if="!readonly"
+      dense
+    >
+      <v-col
+        v-for="key in keys.filter(x => !item.Sitrep[x])"
         :key="key"
-        cols="auto">
-        <cc-button color="primary"
+        cols="auto"
+      >
+        <cc-button
+          color="primary"
           size="small"
           prepend-icon="mdi-plus"
-          @click="showKey(key)">
+          @click="showKey(key)"
+        >
           {{ key }}
         </cc-button>
       </v-col>
       <v-col>
-        <cc-button color="primary"
+        <cc-button
+          color="primary"
           size="small"
           prepend-icon="mdi-plus"
-          @click="item.Sitrep.Conditions.push({ title: 'New Condition', condition: '' }); item.Sitrep.Touch()">
+          @click="addCondition()"
+        >
           {{ $t('active.common.condition_status') }}
         </cc-button>
       </v-col>
-      <v-col cols="auto"
-        class="ml-auto">
-        <cc-button v-if="!readonly"
+      <v-col
+        cols="auto"
+        class="ml-auto"
+      >
+        <cc-button
+          v-if="!readonly"
           color="info"
           size="small"
           prepend-icon="mdi-content-save-outline"
           :disabled="!item.Sitrep.modified"
-          @click="savePreset">
+          @click="savePreset"
+        >
           {{ $t('gm.sitrep.savePreset') }}
         </cc-button>
       </v-col>
     </v-row>
 
-    <cc-dialog v-model="confirmDialog"
+    <cc-dialog
+      v-model="confirmDialog"
       :title="$t('gm.titles.sitrepModified')"
       icon="mdi-undo-variant"
       :close-on-click="false"
-      color="error">
+      color="error"
+    >
       <v-card-text class="text-center">{{ $t('gm.sitrep.modifiedWarning') }}</v-card-text>
       <div class="d-flex justify-between px-6">
-        <cc-button color="primary"
+        <cc-button
+          color="primary"
           size="small"
-          @click="confirmDialog = false">{{ $t('common.cancel') }}</cc-button>
+          @click="confirmDialog = false"
+        >
+          {{ $t('common.cancel') }}
+        </cc-button>
         <v-spacer />
-        <cc-button color="success"
+        <cc-button
+          color="success"
           size="small"
-          @click="confirm()">{{ $t('common.confirm') }}</cc-button>
+          @click="confirm()"
+        >
+          {{ $t('common.confirm') }}
+        </cc-button>
       </div>
     </cc-dialog>
 
-    <cc-dialog v-model="deleteConfirmDialog"
+    <cc-dialog
+      v-model="deleteConfirmDialog"
       :title="$t('gm.titles.deletePreset')"
       icon="mdi-delete"
       :close-on-click="false"
-      color="error">
+      color="error"
+    >
       <v-card-text class="text-center">
-        <i18n-t keypath="gm.sitrep.deletePresetConfirm" tag="span" scope="global">
-          <template #name><b>{{ userPresets[stagedDeleteIndex]?.name }}</b></template>
+        <i18n-t
+          keypath="gm.sitrep.deletePresetConfirm"
+          tag="span"
+          scope="global"
+        >
+          <template #name>
+            <b>{{ userPresets[stagedDeleteIndex]?.name }}</b>
+          </template>
         </i18n-t>
       </v-card-text>
       <div class="d-flex justify-between px-6">
-        <cc-button color="primary"
+        <cc-button
+          color="primary"
           size="small"
-          @click="deleteConfirmDialog = false">{{ $t('common.cancel') }}</cc-button>
+          @click="deleteConfirmDialog = false"
+        >
+          {{ $t('common.cancel') }}
+        </cc-button>
         <v-spacer />
-        <cc-button color="error"
+        <cc-button
+          color="error"
           size="small"
-          @click="confirmDeletePreset">{{ $t('common.delete') }}</cc-button>
+          @click="confirmDeletePreset"
+        >
+          {{ $t('common.delete') }}
+        </cc-button>
       </div>
     </cc-dialog>
   </v-card>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
-import { Encounter } from '@/classes/encounter/Encounter'
-import { Sitrep, SitrepInstance, type ISitrepData } from '@/classes/encounter/Sitrep'
-import { CompendiumStore } from '@/stores'
-import { GetValue, SetValue } from '@/io/Storage'
+  import { ref, computed, onMounted } from 'vue'
+  import { Encounter } from '@/classes/encounter/Encounter'
+  import { Sitrep, SitrepInstance, type ISitrepData } from '@/classes/encounter/Sitrep'
+  import { CompendiumStore } from '@/stores'
+  import { GetValue, SetValue } from '@/io/Storage'
 
-const STORAGE_KEY = 'user_sitrep_presets'
+  const STORAGE_KEY = 'user_sitrep_presets'
 
-const props = withDefaults(defineProps<{
-  item: Record<string, any>
-  readonly?: boolean
-}>(), { readonly: false })
+  const props = withDefaults(
+    defineProps<{
+      item: Record<string, any>
+      readonly?: boolean
+    }>(),
+    { readonly: false }
+  )
 
-const keys = ['Deployment', 'Objective', 'ControlZone', 'Extraction']
-const shownKeys = ref<string[]>([])
-const confirmDialog = ref(false)
-const showPresets = ref(false)
-const stagedSitrep = ref<Sitrep | null>(null)
-const userPresets = ref<ISitrepData[]>([])
-const deleteConfirmDialog = ref(false)
-const stagedDeleteIndex = ref(-1)
+  const keys = ['Deployment', 'Objective', 'ControlZone', 'Extraction']
+  const shownKeys = ref<string[]>([])
+  const confirmDialog = ref(false)
+  const showPresets = ref(false)
+  const stagedSitrep = ref<Sitrep | null>(null)
+  const userPresets = ref<ISitrepData[]>([])
+  const deleteConfirmDialog = ref(false)
+  const stagedDeleteIndex = ref(-1)
 
-const sitreps = computed(() => CompendiumStore().Sitreps)
+  const sitreps = computed(() => CompendiumStore().Sitreps)
 
-onMounted(async () => {
-  shownKeys.value = keys.filter((x) => props.item.Sitrep[x].length)
-  userPresets.value = (await GetValue(STORAGE_KEY)) || []
-})
+  onMounted(async () => {
+    shownKeys.value = keys.filter(x => props.item.Sitrep[x].length)
+    userPresets.value = (await GetValue(STORAGE_KEY)) || []
+  })
 
-function showKey(key: string) {
-  if (!shownKeys.value.includes(key)) shownKeys.value.push(key)
-}
-function removeKey(key: string) {
-  props.item.Sitrep[key] = ''
-  shownKeys.value = shownKeys.value.filter((x) => x !== key)
-}
-function setSitrep(sitrep: Sitrep) {
-  if (props.item.Sitrep.modified) {
-    stagedSitrep.value = sitrep
-    confirmDialog.value = true
-    return
+  function confirmDelete(i: number) {
+    stagedDeleteIndex.value = i
+    deleteConfirmDialog.value = true
   }
-  _setSitrep(sitrep)
-}
-function confirm() {
-  confirmDialog.value = false
-  _setSitrep(stagedSitrep.value)
-  stagedSitrep.value = null
-}
-function _setSitrep(sitrep: any) {
-  props.item.Sitrep = new SitrepInstance(props.item as Encounter, sitrep)
-  shownKeys.value = keys.filter((x) => props.item.Sitrep[x].length)
-}
-function loadUserPreset(preset: ISitrepData) {
-  setSitrep(new Sitrep(preset))
-}
-async function savePreset() {
-  const base = props.item.Sitrep.Name.replace(/ \(\d+\)$/, '')
-  const existing = [
-    ...sitreps.value.map((s: any) => s.Name),
-    ...userPresets.value.map((p) => p.name),
-  ]
-  let name = base
-  if (existing.includes(name)) {
-    let i = 2
-    while (existing.includes(`${base} (${i})`)) i++
-    name = `${base} (${i})`
+
+  function deleteCondition(i: number) {
+    props.item.Sitrep.Conditions.splice(i, 1)
+    props.item.Sitrep.Touch()
   }
-  const preset: ISitrepData = {
-    id: crypto.randomUUID(),
-    name,
-    modified: false,
-    description: props.item.Sitrep.Description,
-    deployment: props.item.Sitrep.Deployment,
-    objective: props.item.Sitrep.Objective,
-    controlZone: props.item.Sitrep.ControlZone,
-    extraction: props.item.Sitrep.Extraction,
-    conditions: [...props.item.Sitrep.Conditions],
+
+  function addCondition() {
+    props.item.Sitrep.Conditions.push({ title: 'New Condition', condition: '' })
+    props.item.Sitrep.Touch()
   }
-  userPresets.value.push(preset)
-  await SetValue(STORAGE_KEY, userPresets.value)
-}
-async function confirmDeletePreset() {
-  userPresets.value.splice(stagedDeleteIndex.value, 1)
-  await SetValue(STORAGE_KEY, userPresets.value)
-  deleteConfirmDialog.value = false
-  stagedDeleteIndex.value = -1
-}
+
+  function showKey(key: string) {
+    if (!shownKeys.value.includes(key)) shownKeys.value.push(key)
+  }
+  function removeKey(key: string) {
+    props.item.Sitrep[key] = ''
+    shownKeys.value = shownKeys.value.filter(x => x !== key)
+  }
+  function setSitrep(sitrep: Sitrep) {
+    if (props.item.Sitrep.modified) {
+      stagedSitrep.value = sitrep
+      confirmDialog.value = true
+      return
+    }
+    _setSitrep(sitrep)
+  }
+  function confirm() {
+    confirmDialog.value = false
+    _setSitrep(stagedSitrep.value)
+    stagedSitrep.value = null
+  }
+  function _setSitrep(sitrep: any) {
+    props.item.Sitrep = new SitrepInstance(props.item as Encounter, sitrep)
+    shownKeys.value = keys.filter(x => props.item.Sitrep[x].length)
+  }
+  function loadUserPreset(preset: ISitrepData) {
+    setSitrep(new Sitrep(preset))
+  }
+  async function savePreset() {
+    const base = props.item.Sitrep.Name.replace(/ \(\d+\)$/, '')
+    const existing = [
+      ...sitreps.value.map((s: any) => s.Name),
+      ...userPresets.value.map(p => p.name),
+    ]
+    let name = base
+    if (existing.includes(name)) {
+      let i = 2
+      while (existing.includes(`${base} (${i})`)) i++
+      name = `${base} (${i})`
+    }
+    const preset: ISitrepData = {
+      id: crypto.randomUUID(),
+      name,
+      modified: false,
+      description: props.item.Sitrep.Description,
+      deployment: props.item.Sitrep.Deployment,
+      objective: props.item.Sitrep.Objective,
+      controlZone: props.item.Sitrep.ControlZone,
+      extraction: props.item.Sitrep.Extraction,
+      conditions: [...props.item.Sitrep.Conditions],
+    }
+    userPresets.value.push(preset)
+    await SetValue(STORAGE_KEY, userPresets.value)
+  }
+  async function confirmDeletePreset() {
+    userPresets.value.splice(stagedDeleteIndex.value, 1)
+    await SetValue(STORAGE_KEY, userPresets.value)
+    deleteConfirmDialog.value = false
+    stagedDeleteIndex.value = -1
+  }
 </script>

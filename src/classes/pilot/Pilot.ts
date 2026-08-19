@@ -139,6 +139,7 @@ class Pilot
   public IsInstance: boolean = false
   public InstanceID: string = ''
   public OriginId: string = ''
+  public isTemplate: boolean = false
 
   public SortIndex: number
 
@@ -211,6 +212,10 @@ class Pilot
     this._quirks = data?.quirks || []
     this._background = data?.background || ''
     this._favoriteMech = data?.favorite_mech || ''
+
+    this.IsInstance = data?.is_instance || false
+    this.InstanceID = data?.instanceId || ''
+    this.OriginId = data?.originId || ''
 
     if (data) {
       SaveController.Deserialize(this, data.save)
@@ -617,7 +622,9 @@ class Pilot
 
   // -- Instance -----------------------------------------------------------------------------------
   public CreateInstance<PilotData>(): PilotData {
+    const sourceInstanceID = this.InstanceID
     const data = this.Serialize(true) as any
+    this.InstanceID = sourceInstanceID
     this.SetInstanceProxies<PilotData>(data)
     ;(data as any).instanceId = crypto.randomUUID()
     data.originId = this.ID
@@ -683,14 +690,13 @@ class Pilot
 
   // serializing as an instance should create a new object with a reference ID to the original
   public static Serialize(p: Pilot, asInstance: boolean = false): PilotData {
-    let instanceID
-    if (asInstance) instanceID = crypto.randomUUID()
+    if (asInstance && !p.InstanceID) p.InstanceID = crypto.randomUUID()
 
     const data = {
       itemType: 'pilot',
       id: p.ID,
       is_instance: p.IsInstance || !!asInstance,
-      instanceId: instanceID || p.InstanceID,
+      instanceId: p.InstanceID,
       originId: p.OriginId || p.ID,
       le: p.IsLevelEdit,
       level: p.Level,

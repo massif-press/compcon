@@ -1,71 +1,92 @@
 <template>
-  <div style="position: absolute; top: 0; right: 0; left: 0; height: 50px"
-    class="bg-primary" />
-  <v-tabs v-model="tab"
+  <div
+    style="position: absolute; top: 0; right: 0; left: 0; height: 50px"
+    class="bg-primary"
+  />
+  <v-tabs
+    v-model="tab"
     grow
     slider-color="secondary"
     :height="mobile ? '24px' : '28px'"
     density="compact"
     mandatory
-    bg-color="primary">
-    <v-tab v-for="itemType in itemTypes"
+    bg-color="primary"
+  >
+    <v-tab
+      v-for="itemType in itemTypes"
       :key="itemType"
-      selected-class="bg-accent">
+      selected-class="bg-accent"
+    >
       <b>{{ $t('gm.narrative.itemTypePlural', { type: itemType }) }}</b>
     </v-tab>
   </v-tabs>
 
   <v-window v-model="tab">
-    <v-window-item v-for="itemType in itemTypes"
-      :key="itemType">
-      <narrative-collection :id="id"
+    <v-window-item
+      v-for="itemType in itemTypes"
+      :key="itemType"
+    >
+      <narrative-collection
+        :id="id"
         :item-type="itemType"
         @open-import="importModal = true"
-        @open-organizer="orgModal = true" />
+        @open-organizer="orgModal = true"
+      />
     </v-window-item>
   </v-window>
 
-  <cc-dialog v-model="importModal"
+  <cc-dialog
+    v-model="importModal"
     icon="mdi-download-multiple"
-    :title="$t('common.import')" :close-on-click="false" major max-width="90vw">
+    :title="$t('common.import')"
+    :close-on-click="false"
+    major
+    max-width="90vw"
+  >
     <importer @complete="($refs as any).import.hide()" />
   </cc-dialog>
 
-  <cc-dialog v-model="orgModal"
+  <cc-dialog
+    v-model="orgModal"
     icon="mdi-queue-first-in-last-out"
-    :title="$t('common.organize')" :close-on-click="false" major max-width="90vw">
+    :title="$t('common.organize')"
+    :close-on-click="false"
+    major
+    max-width="90vw"
+  >
     <organizer type="narrative" />
   </cc-dialog>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import NarrativeCollection from './_components/narrativeCollection.vue';
-import Organizer from '../_components/Organizer.vue';
-import Importer from '../_components/NpcImporter.vue';
-import ShareCodeDialog from '@/shared/ShareCodeDialog.vue';
-import { useDisplay } from 'vuetify';
+  import { ref } from 'vue'
+  import type { NarrativeItemType } from '@/classes/narrative/INarrativeEntity'
+  import NarrativeCollection from './_components/narrativeCollection.vue'
+  import Organizer from '../_components/Organizer.vue'
+  import Importer from '../_components/NpcImporter.vue'
+  import ShareCodeDialog from '@/shared/ShareCodeDialog.vue'
+  import { useDisplay } from 'vuetify'
 
-defineOptions({ name: 'NarrativeRoster' })
+  defineOptions({ name: 'NarrativeRoster' })
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+  const { smAndDown: mobile, xs: portrait } = useDisplay()
 
-const props = defineProps<{
-  type?: string
-  id?: string
-}>()
+  const props = defineProps<{
+    type?: string
+    id?: string
+  }>()
 
-const tab = ref(0)
-const importModal = ref(false)
-const orgModal = ref(false)
-const itemTypes = ref(['Character', 'Location', 'Faction'])
-const view = ref('collection')
+  const tab = ref(0)
+  const importModal = ref(false)
+  const orgModal = ref(false)
+  const itemTypes = ref<NarrativeItemType[]>(['Character', 'Location', 'Faction'])
+  const view = ref('collection')
 
-if (props.type) {
-      tab.value = ['character', 'location', 'faction'].indexOf(props.type);
-    }
+  if (props.type) {
+    tab.value = ['character', 'location', 'faction'].indexOf(props.type)
+  }
 
-if (props.type) {
-      tab.value = ['character', 'location', 'faction'].indexOf(props.type);
-    }
+  if (props.type) {
+    tab.value = ['character', 'location', 'faction'].indexOf(props.type)
+  }
 </script>

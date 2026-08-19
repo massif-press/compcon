@@ -208,7 +208,7 @@ async function exchangeItchToken(access_token) {
       color: 'success',
     });
   } catch (error) {
-    logger.error(`Error linking itch.io account: ${error}`, this, error);
+    logger.error(`Error linking itch.io account: ${error}`, undefined, error);
     loadItch.value = false;
     notify({
       title: t('notify.account.itchLinkFailedTitle'),

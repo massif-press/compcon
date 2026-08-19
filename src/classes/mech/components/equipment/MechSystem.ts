@@ -32,13 +32,14 @@ class MechSystem extends MechEquipment {
     return this._system_type
   }
 
-  public get Color(): string {
+  public override get Color(): string {
     return 'system'
   }
 
   public static Serialize(item: MechSystem): IEquipmentData {
     const data = {
       id: item.ID,
+      instanceId: item.InstanceID,
       data: item.ItemData,
       note: item.Note,
       flavorName: item._flavor_name,
@@ -66,6 +67,7 @@ class MechSystem extends MechEquipment {
       item.FromInstance = true
     }
 
+    if (data.instanceId) item.InstanceID = data.instanceId
     item._note = data.note
     item._flavor_name = data.flavorName || ''
     item._flavor_description = data.flavorDescription || ''

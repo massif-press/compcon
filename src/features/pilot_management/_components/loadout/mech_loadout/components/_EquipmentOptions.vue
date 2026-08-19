@@ -56,16 +56,17 @@
       @reset="save('FlavorDescription', '')" />
     <CCDamageTypePicker ref="damageTypeDialog"
       :allowed-types="['Explosive', 'Energy', 'Kinetic']"
-      @select="item.DamageTypeOverride = ($event as DamageType)" />
+      @select="asWeapon.DamageTypeOverride = ($event as DamageType)" />
     <cc-string-edit-dialog ref="maxUseDialog"
       number
-      :placeholder="(item.max_use_override || item.MaxUses).toString()"
+      :placeholder="(asWeapon.max_use_override || item.MaxUses).toString()"
       :label="$t('pm.fields.setMaximumUses')"
-      @save="item.max_use_override = Number($event)" />
+      @save="asWeapon.max_use_override = Number($event)" />
   </span>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { DamageType } from '@/classes/enums';
 import { MechSystem } from '@/classes/mech/components/equipment/MechSystem';
 import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon';
@@ -81,7 +82,9 @@ const props = defineProps({
 
 const emit = defineEmits(['update', 'swap', 'remove'])
 
-function save(prop, newName) {
+const asWeapon = computed(() => props.item as MechWeapon)
+
+function save(prop: string, newName: string) {
   AchievementEventSystem.emit('add_equipment_description')
     ; (props.item as any)[prop] = newName
   emit('update')

@@ -3,6 +3,7 @@ import { toRaw } from 'vue'
 import { getUserDataChanged, bulkDelete, cloudDelete } from '@/io/apis/account'
 import { DbItemMetadata } from '@/classes/components/cloud/CloudController'
 import type { dbItemMeta } from '@/classes/components/cloud/CloudController'
+import type { CollectionMetadata } from '@/classes/components/cloud/ContentCollection'
 import { getItemRegistration } from '@/classes/components/cloud/ItemRegistry'
 import { normalizeItemType, expandFilterTypes } from '@/classes/components/cloud/ItemTypeMap'
 import { setServerTimeOffset } from '@/classes/components/cloud/fieldMerge'
@@ -42,7 +43,7 @@ export const CloudDataStore = defineStore('cloudData', {
     CloudArchives: [] as dbItemMeta[],
     CloudImages: [] as dbItemMeta[],
     UserPublishedCollections: [] as dbItemMeta[],
-    RemoteCollections: [] as dbItemMeta[],
+    RemoteCollections: [] as CollectionMetadata[],
     LastQuery: 0,
     CloudSizeMap: {} as Record<string, number>,
     SyncVersion: 0,
@@ -61,6 +62,7 @@ export const CloudDataStore = defineStore('cloudData', {
       return baseMbVal * 1024 * 1024
     },
     CollectionPublishLimit(): number {
+      if (window.location.hostname === 'localhost') return -1
       const tier =
         UserMetadataStore().UserMetadata?.PatreonData?.profile?.tierData?.title?.toLowerCase() ?? ''
       if (tier === 'diasporan') return 3

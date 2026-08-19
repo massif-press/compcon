@@ -1,6 +1,9 @@
 import { CompendiumStore } from '@/features/compendium/store'
 import { CompendiumItem } from '../../../CompendiumItem'
-import { resolveSpecialEquipment, resolveIntegratedEquipment } from '../../../components/_equipmentUtils'
+import {
+  resolveSpecialEquipment,
+  resolveIntegratedEquipment,
+} from '../../../components/_equipmentUtils'
 import { ISynergyData, Synergy } from '../../../components/feature/synergy/Synergy'
 import { ContentPack } from '../../../ContentPack'
 import { ReserveType, ItemType } from '../../../enums'
@@ -13,6 +16,7 @@ import { IBonusData, Bonus } from '@/classes/components/feature/bonus/Bonus'
 import { IDeployableData } from '@/classes/components/feature/deployable/Deployable'
 import { IActiveEffectData } from '@/classes/components/feature/active_effects/ActiveEffect'
 import { ICounterData } from '@/classes/components'
+import { localize } from '@/i18n/localize'
 
 declare interface IReserveData {
   id: string
@@ -38,7 +42,7 @@ declare interface IReserveData {
 class Reserve extends CompendiumItem {
   private _pilot = null as Pilot | null
 
-  public readonly ID: string
+  public override readonly ID: string
   public readonly ResourceLabel: string
   public readonly Consumable: boolean
   public readonly Type: ReserveType
@@ -75,42 +79,42 @@ class Reserve extends CompendiumItem {
     if (this._pilot) this._pilot.SaveController.save()
   }
 
-  public get Icon(): string {
+  public override get Icon(): string {
     if (this.Type === ReserveType.Organization) return 'mdi-account-group'
     if (this.Type === ReserveType.Project) return 'cc:downtime'
     if (this.Type === ReserveType.Bonus) return 'cc:accuracy'
     return `cc:reserve_${this.Type.toString().toLowerCase()}`
   }
 
-  public get SpecialEquipment(): CompendiumItem[] {
+  public override get SpecialEquipment(): CompendiumItem[] {
     return resolveSpecialEquipment(this._special_equipment)
   }
 
-  public get IntegratedEquipment(): MechEquipment[] {
+  public override get IntegratedEquipment(): MechEquipment[] {
     return resolveIntegratedEquipment(this._integrated)
   }
 
-  public get IntegratedWeapons(): MechWeapon[] {
+  public override get IntegratedWeapons(): MechWeapon[] {
     return this._integrated
       .map(x => CompendiumStore().MechWeapons.find(item => item.ID === x))
       .filter(x => !!x) as MechWeapon[]
   }
 
-  public get IntegratedSystems(): MechSystem[] {
+  public override get IntegratedSystems(): MechSystem[] {
     return this._integrated
       .map(x => CompendiumStore().MechSystems.find(item => item.ID === x))
       .filter(x => !!x) as MechSystem[]
   }
 
-  public get Color(): string {
+  public override get Color(): string {
     return this._used ? 'grey darken-1' : `reserve`
   }
 
-  public get Name(): string {
-    return this._name
+  public override get Name(): string {
+    return localize(this.ID, 'name', this._name)
   }
 
-  public set Name(n: string) {
+  public override set Name(n: string) {
     this._name = n
   }
 
@@ -132,15 +136,15 @@ class Reserve extends CompendiumItem {
     this.save()
   }
 
-  public get Description(): string {
-    return this._description
+  public override get Description(): string {
+    return localize(this.ID, 'description', this._description)
   }
 
-  public get Note(): string {
+  public override get Note(): string {
     return this._resource_note
   }
 
-  public set Note(note: string) {
+  public override set Note(note: string) {
     this._resource_note = note
     this.save()
   }

@@ -163,4 +163,10 @@ function rollCheck() {
   rollResults.value = `Base Roll: ${baseRoll}${bonus.value ? ` ${bonus.value > 0 ? '+' : '-'} ${Math.abs(bonus.value)}` : ''}${finalAccDiff ? `, ${finalAccDiff > 0 ? 'Accuracy: +' : 'Difficulty: -'} ${Math.abs(finalAccDiff)}` : ''} = <strong>${roll.value}</strong>`;
 
 }
+
+function overrideRoll(target: number) {
+  roll.value = (roll.value ?? 0) < target ? 20 : 1;
+}
+
+defineExpose({ roll, rollCheck, overrideRoll })
 </script>

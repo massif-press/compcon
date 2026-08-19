@@ -24,6 +24,15 @@ interface IStatData {
 
 const CURRENT_STAT_VERSION = 1
 
+type DisplayStat = {
+  key: string
+  title: string
+  type: string
+  icon: string
+  sort: number
+  added: boolean
+}
+
 const MandatoryStats: string[] = [
   StatKey.ACTIVATIONS,
   StatKey.SIZE,
@@ -135,14 +144,7 @@ class StatController {
     this._maxStats = stats
   }
 
-  public get DisplayKeys(): {
-    key: string
-    title: string
-    type: string
-    icon: string
-    sort: number
-    added: boolean
-  }[] {
+  public get DisplayKeys(): DisplayStat[] {
     return Object.keys(this._maxStats)
       .filter(x => x.toLowerCase() !== 'sizes')
       .filter(
@@ -168,19 +170,19 @@ class StatController {
     return TrackableStatKeys.has(key) || this._customTrackable.has(key)
   }
 
-  public get TrackableStats(): { key: string; title: string; type: string }[] {
+  public get TrackableStats(): DisplayStat[] {
     return this.DisplayKeys.filter(x => this.isTrackable(x.key))
   }
 
-  public get NonTrackableStats(): { key: string; title: string; type: string }[] {
+  public get NonTrackableStats(): DisplayStat[] {
     return this.DisplayKeys.filter(x => !this.isTrackable(x.key))
   }
 
-  public GetStatCollection(keys: string[]): { key: string; title: string; type: string }[] {
+  public GetStatCollection(keys: string[]): DisplayStat[] {
     return this.DisplayKeys.filter(x => keys.includes(x.key))
   }
 
-  public CustomStats(itemType: string): { key: string; title: string; type: string }[] {
+  public CustomStats(itemType: string): DisplayStat[] {
     const hiddenStats = {
       mech: ['limitedbonus', 'attack', 'sp', 'attackbonus'],
       Drone: ['resist'],
@@ -273,6 +275,20 @@ class StatController {
     return this.getMax(stat)
   }
 
+  // read-only counterpart to BonusController.applyToStats: layers feature bonuses over the
+  // stored max without mutating it, for surfaces that display an un-instanced actor
+  public getMaxWithBonuses(stat: string): any {
+    const base = this.getMax(stat)
+    // encounter instances already have bonuses baked in by BonusController.applyToStats
+    if (this.IsEncounterInstance) return base
+    // Parent is a CombatController for most actors, the entity itself for eidolon shards
+    const p = this.Parent as any
+    const bc =
+      p?.FeatureController?.BonusController ?? p?.Parent?.FeatureController?.BonusController
+    if (!bc || !bc.getFor(stat).length) return base
+    return bc.sum(stat, Number(base) || 0)
+  }
+
   public getCurrent(stat: string): any {
     return this._currentStats[Stats.cleanKey(stat)]
   }
@@ -346,4 +362,4 @@ class StatController {
 
 const _checkController: IControllerStatic<IStatContainer, IStatData> = StatController
 export { StatController, MandatoryStats }
-export type { IStatData, ICustomStatData }
+export type { IStatData, ICustomStatData, DisplayStat }

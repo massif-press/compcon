@@ -31,6 +31,7 @@
 </template>
 
 <script setup lang="ts">
+import type Tag from '@/classes/Tag';
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { computed, ref, onMounted } from 'vue'
 import * as _ from 'lodash-es';
@@ -39,12 +40,12 @@ import { CompendiumStore } from '@/stores';
 defineOptions({ name: 'ReferenceTagPage' })
 
 const props = defineProps<{
-  selected?: object
+  selected?: { Name?: string; actor?: any }
   encounterInstance: EncounterInstance
   pc?: boolean
 }>()
 
-const allTags = ref([])
+const allTags = ref<Tag[]>([])
 
 const actorTags = computed(() => {
       if (props.pc) return getActorTags(props.selected);
@@ -52,7 +53,7 @@ const actorTags = computed(() => {
       return [];
     })
 const relevantTags = computed(() => {
-      const tags = [];
+      const tags: Tag[] = [];
       props.encounterInstance.Combatants.forEach((c) => {
         if (c.actor) {
           if (c.actor.PilotLoadoutController) {

@@ -160,7 +160,7 @@ const props = withDefaults(defineProps<{
   inColumn?: boolean
   rank?: number | string
 }>(), {
-  rank: null
+  rank: undefined
 })
 
 const emit = defineEmits<{

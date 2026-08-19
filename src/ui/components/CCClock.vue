@@ -1,13 +1,26 @@
 <template>
-  <v-card variant="tonal" tile flat style="position: relative" class="rounded-s-xl">
+  <v-card
+    variant="tonal"
+    tile
+    flat
+    style="position: relative"
+    class="rounded-s-xl"
+  >
     <v-card-text :class="dense ? 'px-1 py-0' : 'py-1 px-2'">
-      <v-row :dense="dense" :align="clock.Linear ? 'start' : 'center'">
-        <v-col v-if="!clock.Linear" cols="auto">
+      <v-row
+        :dense="dense"
+        :align="clock.Linear ? 'start' : 'center'"
+      >
+        <v-col
+          v-if="!clock.Linear"
+          cols="auto"
+        >
           <v-progress-circular
             v-model="total"
             :size="dense ? size / 2 : size"
             :width="dense ? size / 20 : size / 5"
-            :color="color">
+            :color="color"
+          >
             <b v-if="print">&emsp;&nbsp; /{{ clock.Segments }}&nbsp;</b>
             <b v-else>{{ progress }} / {{ clock.Segments }}</b>
           </v-progress-circular>
@@ -22,10 +35,14 @@
                   size="x-small"
                   variant="text"
                   icon="mdi-circle-edit-outline"
-                  @click="editDialog = true" />
+                  @click="editDialog = true"
+                />
               </span>
               <span class="d-inline-block ml-2">
-                <v-menu offset-x left>
+                <v-menu
+                  offset-x
+                  left
+                >
                   <template #activator="{ props }">
                     <cc-button
                       v-if="!readonly"
@@ -33,7 +50,8 @@
                       variant="text"
                       icon="mdi-delete"
                       color="error"
-                      v-bind="props" />
+                      v-bind="props"
+                    />
                   </template>
                   <v-card>
                     <v-card-text>
@@ -42,7 +60,11 @@
                     <v-divider />
                     <v-card-actions>
                       <v-spacer />
-                      <cc-button size="small" color="error" @click="$emit('delete')">
+                      <cc-button
+                        size="small"
+                        color="error"
+                        @click="$emit('delete')"
+                      >
                         {{ $t('common.confirmDeletion') }}
                       </cc-button>
                     </v-card-actions>
@@ -57,67 +79,83 @@
             v-model="total"
             background-color="grey lighten-2"
             :height="dense ? size / 6 : size / 2.5"
-            :color="color">
-            <div class="bg-background text-accent" style="border-radius: 2px">
+            :color="color"
+          >
+            <div
+              class="bg-background text-accent"
+              style="border-radius: 2px"
+            >
               <b v-if="print">&emsp; / {{ clock.Segments }}&nbsp;</b>
               <b v-else>&nbsp;{{ progress }} / {{ clock.Segments }}&nbsp;</b>
             </div>
           </v-progress-linear>
           <div v-if="clock.Description">
             <div class="text-caption mb-n1">{{ $t('common.description') }}</div>
-            <div class="ml-2" v-html-safe="clock.Description" />
+            <div
+              v-html-safe="clock.Description"
+              class="ml-2"
+            />
           </div>
           <div v-if="clock.Resolution">
             <div class="text-caption mb-n1">{{ $t('ui.fields.resolution') }}</div>
-            <div class="ml-2" v-html-safe="clock.Resolution" />
+            <div
+              v-html-safe="clock.Resolution"
+              class="ml-2"
+            />
           </div>
         </v-col>
-        <v-col v-if="!print && !dense && !readonly" cols="auto">
+        <v-col
+          v-if="!print && !dense && !readonly"
+          cols="auto"
+        >
           <div style="position: absolute; right: 12px; top: 10px">
             <cc-button
               variant="outlined"
               icon="mdi-plus"
-              @click="
-                clock.Increment();
-                $emit('change');
-              " />
+              @click="increment()"
+            />
           </div>
 
           <div style="position: absolute; right: 12px; bottom: 10px">
             <cc-button
               variant="outlined"
               icon="mdi-minus"
-              @click="
-                clock.Decrement();
-                $emit('change');
-              " />
+              @click="decrement()"
+            />
           </div>
         </v-col>
-        <v-col v-else-if="dense && !readonly" cols="auto" align-self="end">
+        <v-col
+          v-else-if="dense && !readonly"
+          cols="auto"
+          align-self="end"
+        >
           <cc-button
             variant="tonal"
             icon="mdi-plus"
             color="accent"
             style="width: 22px; height: 22px"
             class="mr-2"
-            @click="
-              clock.Increment();
-              $emit('change');
-            " />
+            @click="increment()"
+          />
           <cc-button
             variant="tonal"
             icon="mdi-minus"
             color="accent"
             style="width: 22px; height: 22px"
-            @click="
-              clock.Decrement();
-              $emit('change');
-            " />
+            @click="decrement()"
+          />
         </v-col>
       </v-row>
     </v-card-text>
 
-    <cc-dialog v-model="editDialog" :title="$t('ui.titles.clockEditor')" icon="mdi-clock" :close-on-click="false" major max-width="90vw">
+    <cc-dialog
+      v-model="editDialog"
+      :title="$t('ui.titles.clockEditor')"
+      icon="mdi-clock"
+      :close-on-click="false"
+      major
+      max-width="90vw"
+    >
       <v-card>
         <v-card-text class="pa-2">
           <div class="text-center ma-2">
@@ -126,45 +164,68 @@
                 background-color="grey lighten-2"
                 :height="size / 3"
                 :value="total"
-                :color="color">
+                :color="color"
+              >
                 <b>{{ progress }} / {{ clock.Segments }}</b>
               </v-progress-linear>
             </div>
-            <div v-else density="compact">
-              <v-progress-circular :size="size" :width="size / 5" :value="total" :color="color">
+            <div
+              v-else
+              density="compact"
+            >
+              <v-progress-circular
+                :size="size"
+                :width="size / 5"
+                :value="total"
+                :color="color"
+              >
                 <b>{{ progress }} / {{ clock.Segments }}</b>
               </v-progress-circular>
             </div>
           </div>
-          <v-row align="center" dense justify="space-around">
-            <v-col cols="12" md="5">
+          <v-row
+            align="center"
+            dense
+            justify="space-around"
+          >
+            <v-col
+              cols="12"
+              md="5"
+            >
               <cc-text-field
                 v-model="clock.Title"
                 :label="$t('ui.fields.title')"
                 color="panel"
-                @change="$emit('change')" />
+                @change="$emit('change')"
+              />
             </v-col>
-            <v-col cols="12" md="3">
+            <v-col
+              cols="12"
+              md="3"
+            >
               <cc-text-field
                 v-model.number="clock.Segments"
                 :label="$t('ui.fields.segments')"
                 type="number"
                 color="panel"
-                @change="$emit('change')" />
+                @change="$emit('change')"
+              />
             </v-col>
             <v-col cols="auto">
               <cc-switch
                 v-model="clock.Linear"
                 :label="$t('ui.fields.linear')"
                 hide-details
-                @change="$emit('change')" />
+                @change="$emit('change')"
+              />
             </v-col>
             <v-col cols="auto">
               <div>
                 <cc-checkbox
-                  :label="$t('ui.fields.gmOnly')"
                   v-model="clock.GmOnly"
-                  :tooltip="$t('ui.tooltips.markingAFieldOrItem')"></cc-checkbox>
+                  :label="$t('ui.fields.gmOnly')"
+                  :tooltip="$t('ui.tooltips.markingAFieldOrItem')"
+                ></cc-checkbox>
               </div>
             </v-col>
           </v-row>
@@ -176,7 +237,8 @@
             auto-grow
             :label="$t('common.description')"
             class="mx-1 my-4"
-            @change="$emit('change')" />
+            @change="$emit('change')"
+          />
           <cc-text-area
             v-model="clock.Resolution"
             variant="outlined"
@@ -185,7 +247,8 @@
             auto-grow
             :label="$t('ui.fields.resolution')"
             class="mx-1 my-4"
-            @change="$emit('change')" />
+            @change="$emit('change')"
+          />
         </v-card-text>
       </v-card>
     </cc-dialog>
@@ -193,36 +256,51 @@
 </template>
 
 <script setup lang="ts">
-import type { Clock } from '@/classes/narrative/elements/Clock'
-import { computed, ref } from 'vue'
+  import type { Clock } from '@/classes/narrative/elements/Clock'
+  import { computed, ref } from 'vue'
 
-defineOptions({ name: 'cc-clock' })
+  defineOptions({ name: 'cc-clock' })
 
-const props = withDefaults(defineProps<{
-  size?: number
-  clock: Clock
-  color?: string
-  print?: boolean
-  noDelete?: boolean
-  readonly?: boolean
-  density?: string
-}>(), {
-  size: 100,
-  color: 'accent',
-  density: ''
-})
+  const props = withDefaults(
+    defineProps<{
+      size?: number
+      clock: Clock
+      color?: string
+      print?: boolean
+      noDelete?: boolean
+      readonly?: boolean
+      density?: string
+    }>(),
+    {
+      size: 100,
+      color: 'accent',
+      density: '',
+    }
+  )
 
-const editDialog = ref(false)
+  const emit = defineEmits<{ change: []; delete: [] }>()
 
-const dense = computed(() => {
-      return props.density === 'compact';
-    })
-const progress = computed(() => {
-      if (props.print) return 0;
-      return parseInt(props.clock.Progress);
-    })
-const total = computed(() => {
-      if (props.print) return 0;
-      return (parseInt(progress.value as any) / parseInt(props.clock.Segments)) * 100;
-    })
+  function increment() {
+    props.clock.Increment()
+    emit('change')
+  }
+
+  function decrement() {
+    props.clock.Decrement()
+    emit('change')
+  }
+
+  const editDialog = ref(false)
+
+  const dense = computed(() => {
+    return props.density === 'compact'
+  })
+  const progress = computed(() => {
+    if (props.print) return 0
+    return props.clock.Progress
+  })
+  const total = computed(() => {
+    if (props.print) return 0
+    return (progress.value / props.clock.Segments) * 100
+  })
 </script>

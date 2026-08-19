@@ -1,63 +1,69 @@
 <template>
-  <combat-action-button
-    :action="action">
+  <combat-action-button :action="action">
     <template #default="{ close }">
       <div class="text-cc-overline text-disabled">{{ $t('active.reload.selectWeapon') }}</div>
       <div v-if="!reloadOptions.length">
         <div class="text-center my-4">{{ $t('active.reload.noTargets') }}</div>
       </div>
-      <cc-select v-else
+      <cc-select
+        v-else
         v-model="selection"
         :items="reloadOptions"
         item-title="Name"
         return-object
-        size="small" />
-      <menu-input :owner="owner" :encounter-instance="encounterInstance" :key="controller.ID"
+        size="small"
+      />
+      <menu-input
+        :key="controller.RootActor.ID"
+        :owner="owner"
+        :encounter-instance="encounterInstance"
         hide-input
         :active-effect="action"
         :disabled="!selection"
         :close="close"
         @apply="apply"
-        @reset="reset" />
+        @reset="reset"
+      />
     </template>
   </combat-action-button>
 </template>
 
 <script setup lang="ts">
-import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-import { useEncounterContext } from '../../../encounterContext'
-import type { CombatantData } from '@/classes/encounter/Encounter'
-import type { Action } from '@/classes/Action'
-import { computed, ref } from 'vue'
-import { PilotWeapon } from '@/classes/pilot/components/Loadout/equipment/PilotWeapon';
-import CombatActionButton from './CombatActionButton.vue';
-import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
+  import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+  import { useEncounterContext } from '../../../encounterContext'
+  import type { CombatantData } from '@/classes/encounter/Encounter'
+  import type { Action } from '@/classes/Action'
+  import { computed, ref } from 'vue'
+  import { PilotWeapon } from '@/classes/pilot/components/Loadout/equipment/PilotWeapon'
+  import CombatActionButton from './CombatActionButton.vue'
+  import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue'
 
-const { owner, encounterInstance } = useEncounterContext()
+  const { owner, encounterInstance } = useEncounterContext()
 
-const props = defineProps<{
-  action: Action
-}>()
+  const props = defineProps<{
+    action: Action
+  }>()
 
-const emit = defineEmits<{
-  'activate': []
-}>()
+  const emit = defineEmits<{
+    activate: [payload: string]
+  }>()
 
-const selection = ref(null as PilotWeapon | null)
+  const selection = ref(null as PilotWeapon | null)
 
-const controller = computed(() => {
-      return owner.value.actor.CombatController;
-    })
-const reloadOptions = computed(() => {
-      return (owner.value.actor.Loadout?.Weapons ?? []).filter((x) => x.IsLoading && x.Used);
-    })
+  const controller = computed(() => {
+    return owner.value.actor.CombatController
+  })
+  const reloadOptions = computed(() => {
+    return (owner.value.actor.Loadout?.Weapons ?? []).filter(x => x.IsLoading && x.Used)
+  })
 
-function apply(close) {
-      if (selection.value) {
-        selection.value.Used = false;
-      }
+  function apply() {
+    if (selection.value) {
+      selection.value.Used = false
     }
-function reset() {
-      controller.value.ResetActivation(props.action.Activation);
-    }
+    emit('activate', props.action.ID)
+  }
+  function reset() {
+    controller.value.ResetActivation(props.action.Activation)
+  }
 </script>

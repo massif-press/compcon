@@ -28,7 +28,7 @@ class SkillsController extends RankedCollectionController<Skill | CustomSkill, P
     return wrapper.Skill
   }
 
-  protected _sort(): void {
+  protected override _sort(): void {
     this._collection = this._collection.sort((a, b) => (a.Title > b.Title ? 1 : -1))
   }
 

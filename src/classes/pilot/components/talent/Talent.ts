@@ -60,11 +60,11 @@ class Talent extends CompendiumItem {
     return `/talent/${this.Name.toUpperCase()}.svg`
   }
 
-  public get Icon(): string {
+  public override get Icon(): string {
     return 'cc:talent'
   }
 
-  public get Color(): string {
+  public override get Color(): string {
     return 'accent'
   }
 

@@ -35,7 +35,7 @@
 import { computed } from 'vue'
 
 const props = defineProps<{
-  item: object & { Table?: { die: string, results: any[] } }
+  item: { Terse: string; Detail: string; Table?: { die: string; results: any[] } }
   notes?: boolean
   smallTags?: boolean
   dense?: boolean

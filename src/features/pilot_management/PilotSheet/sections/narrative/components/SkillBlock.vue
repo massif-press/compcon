@@ -12,8 +12,7 @@
             :label="`Edit Pilot Skill Triggers (${pilot.SkillsController.CurrentSkillPoints}/${pilot.SkillsController.MaxSkillPoints})`"
             @open-selector="open" />
         </template>
-        <skill-selector :pilot="<Pilot>pilot"
-          modal />
+        <skill-selector :pilot="<Pilot>pilot" />
       </cc-dialog>
     </section-header>
     <div :style="!mobile && 'width: calc(100vw - 275px)'"

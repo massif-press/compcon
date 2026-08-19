@@ -138,6 +138,7 @@
 </template>
 
 <script setup lang="ts">
+import type { CombatantData } from '@/classes/encounter/Encounter';
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import type { Encounter } from '@/classes/encounter/Encounter'
 import { computed, ref } from 'vue'
@@ -152,7 +153,7 @@ const props = withDefaults(defineProps<{
   encounter: Encounter
   encounterInstance?: EncounterInstance
 }>(), {
-  encounterInstance: null
+  encounterInstance: undefined
 })
 
 const sitrepBlocks = ref(['Description', 'Deployment', 'Objective', 'Extraction', 'Conditions'])
@@ -161,7 +162,7 @@ const reinforcementsByTurn = computed(() => {
   const source = props.encounterInstance || props.encounter;
   if (!source || !source.Combatants) return [];
 
-  const reinforcements = {};
+  const reinforcements: Record<number, CombatantData[]> = {};
   source.Combatants.forEach((combatant) => {
     if (combatant.reinforcement) {
       const turn = combatant.reinforcementTurn || 0;

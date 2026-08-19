@@ -5,7 +5,7 @@
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/massif-press/compcon)
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-closed/massif-press/compcon)
 
-[![Translation status](https://hosted.weblate.org/widget/compcon/open-graph.png)](https://hosted.weblate.org/engage/compcon/)
+[![Translation status](https://hosted.weblate.org/widget/compcon/multi-auto.svg)](https://hosted.weblate.org/engage/compcon/)
 Localization tooling and hosting has been generously provided by [Weblate](https://weblate.org) under their Libre plan.
 
 COMP/CON is the official digital companion for the [LANCER](https://massif-press.itch.io/lancer-core-book) tabletop role playing game. It provides a full suite of tools for players and game masters, from building and managing pilots and mechs to running combat encounters and campaigns.

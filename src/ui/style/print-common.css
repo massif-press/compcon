@@ -1,16 +1,61 @@
+.v-application .caption {
+  line-height: normal !important;
+}
+
+.printable .h0 {
+  line-height: 0;
+}
+
+.printable .caption {
+  font-size: 11px;
+}
+
+.printable .p-stat {
+  font-size: 34px;
+}
+
+.printable fieldset {
+  padding: 0 4px;
+  height: 100%;
+  border-radius: 3px;
+  border-color: rgb(var(--v-theme-grey-lighten2));
+}
+
+.printable .heading,
+.printable legend {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
 @media print {
-  .caption {
-    font-size: 12px;
+  html,
+  body {
+    background-color: white !important;
   }
 
-  .p-stat {
-    font-size: 34px;
+  * {
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
 
-  fieldset {
-    padding: 0 4px;
-    height: 100%;
-    border-radius: 3px;
-    border-color: rgb(var(--v-theme-grey-lighten2));
+  p,
+  .flavor-text,
+  .caption,
+  .text-caption {
+    widows: 2;
+    orphans: 2;
+  }
+
+  .print-section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .print-section-header,
+  fieldset > legend,
+  .text-overline {
+    break-after: avoid;
+    page-break-after: avoid;
   }
 }

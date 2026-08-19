@@ -6,12 +6,12 @@ import { FolderController } from '../components/folder/FolderController'
 import { i18n } from '@/i18n'
 
 class FactionData extends ICollectionItemData {
-  collectionItemType: string = 'faction'
+  override collectionItemType: string = 'faction'
   factionType: string = ''
 }
 
 class Faction extends CollectionItem {
-  public ItemType: ItemType = ItemType.Faction
+  public override ItemType: ItemType = ItemType.Faction
   private _factionType: string
 
   public constructor(data?: FactionData) {

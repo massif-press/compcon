@@ -10,9 +10,9 @@
       </cc-short-string-editor>
     </v-col>
 
-    <v-col v-if="combatant.actor.Player" cols="auto">
+    <v-col v-if="combatant.actor.PlayerName" cols="auto">
       <span class="text-cc-overline pr-1">{{ $t('active.roster.playedBy') }}</span>
-      <b class="text-accent">{{ combatant.actor.Player }}</b>
+      <b class="text-accent">{{ combatant.actor.PlayerName }}</b>
     </v-col>
   </v-row>
 

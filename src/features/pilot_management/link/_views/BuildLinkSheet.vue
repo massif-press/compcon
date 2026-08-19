@@ -127,6 +127,6 @@ const props = withDefaults(defineProps<{
   pilot: Pilot
   mech?: Mech
 }>(), {
-  mech: null
+  mech: undefined
 })
 </script>

@@ -42,7 +42,7 @@
             <b>will not</b>
             be shown to other users in active mode or in shared data." />
 
-        {{ cognito.signInDetails.loginId }}
+        {{ cognito.signInDetails?.loginId }}
       </v-col>
       <v-col cols="12"
         md="4">
@@ -413,7 +413,7 @@ function ccSignOut() {
 async function userUpdate(key: string) {
   if (key === 'Username') nameLoading.value = true;
   const backendKeys: Record<string, string> = { Username: 'username' };
-  const res = await updateUser(cognito.value.userId, { [backendKeys[key] || key]: meta.value[key] });
+  const res = await updateUser(cognito.value.userId ?? '', { [backendKeys[key] || key]: meta.value[key] });
   if (res && res.status === 200) {
     notify({ title: t('notify.account.updateCompleteTitle'), text: t('notify.account.dataUpdatedText'), data: { color: 'success' } } as any)
   } else {
@@ -437,7 +437,7 @@ async function completeVerify() {
 async function acctUnlock() {
   codeLoading.value = true
   try {
-    const res = await redeemKeycode(cognito.value.userId, unlockCode.value)
+    const res = await redeemKeycode(cognito.value.userId ?? '', unlockCode.value)
     if (res.granted?.includes('hasCoreBook')) {
       meta.value.HasCoreBook = true
     }

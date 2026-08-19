@@ -3,22 +3,28 @@
     <v-row>
       <v-col>
         <p class="body-text text-text light-panel pa-2 mb-1">
-          <span v-if="manifest.description"
-            v-html-safe="manifest.description" />
+          <span
+            v-if="manifest.description"
+            v-html-safe="manifest.description"
+          />
           <span v-else>{{ $t('nav.packInfo.noDescription') }}</span>
         </p>
         <div>
           <cc-heading line>{{ $t('nav.packInfo.contentHeading') }}</cc-heading>
           <div>
-            <v-chip v-for="(item, itemIdx) in packContents"
+            <v-chip
+              v-for="(item, itemIdx) in packContents"
               :key="`content-${itemIdx}`"
               variant="outlined"
               color="accent"
               size="small"
-              class="mr-2 mb-1 text-overline rounded-s-full rounded-e-0">
-              <v-avatar color="primary"
+              class="mr-2 mb-1 text-overline rounded-s-full rounded-e-0"
+            >
+              <v-avatar
+                color="primary"
                 start
-                v-text="item.count" />
+                v-text="item.count"
+              />
               {{ item.name }}
             </v-chip>
           </div>
@@ -28,36 +34,52 @@
             {{ $t('nav.packInfo.dependencies') }}
             <cc-tooltip :text="$t('nav.packInfo.dependenciesTooltip')" />
           </cc-heading>
-          <i v-if="packDependencies.length === 0"
-            class="pl-2">{{ $t('nav.packInfo.none') }}</i>
+          <i
+            v-if="packDependencies.length === 0"
+            class="pl-2"
+          >
+            {{ $t('nav.packInfo.none') }}
+          </i>
           <div v-else>
-            <v-card v-for="(item, itemIdx) in packDependencies"
+            <v-card
+              v-for="(item, itemIdx) in packDependencies"
               :key="`dep-${itemIdx}`"
               :variant="d(item).installed ? 'flat' : 'text'"
               :color="d(item).installed ? 'success' : 'error'"
               size="small"
-              class="ma-1 pa-1">
+              class="ma-1 pa-1"
+            >
               <div class="font-weight-bold">
-                <v-icon :icon="d(item).installed ? 'mdi-check' : 'mdi-close'"
-                  class="mr-1" />
+                <v-icon
+                  :icon="d(item).installed ? 'mdi-check' : 'mdi-close'"
+                  class="mr-1"
+                />
                 {{ d(item).name }} @ {{ d(item).version }}
               </div>
-              <div class="text-caption px-2"
-                v-html-safe="d(item).installed
-                  ? $t('nav.packInfo.dependencyInstalled')
-                  : `${manifest.name} requires Lancer Content Pack <b>${d(item).name
-                  } at version ${d(item).version}</b> to be installed before it can be loaded.`
-                  " />
-              <div v-if="d(item).link"
-                class="text-caption px-2 text-right">
-                <v-btn v-if="!d(item).installed"
+              <div
+                v-html-safe="
+                  d(item).installed
+                    ? $t('nav.packInfo.dependencyInstalled')
+                    : `${manifest.name} requires Lancer Content Pack <b>${
+                        d(item).name
+                      } at version ${d(item).version}</b> to be installed before it can be loaded.`
+                "
+                class="text-caption px-2"
+              />
+              <div
+                v-if="d(item).link"
+                class="text-caption px-2 text-right"
+              >
+                <v-btn
+                  v-if="!d(item).installed"
                   flat
                   tile
                   :href="d(item).link"
                   target="_blank"
                   rel="noopener noreferrer"
                   prepend-icon="mdi-download"
-                  size="x-small">
+                  size="x-small"
+                >
                   {{ d(item).name }}
                 </v-btn>
               </div>
@@ -68,20 +90,28 @@
           <cc-heading line>
             {{ $t('nav.packInfo.changelog') }}
           </cc-heading>
-          <i v-if="!manifest.version_history || manifest.version_history.length === 0"
-            class="pl-2">{{ $t('nav.packInfo.none') }}</i>
+          <i
+            v-if="!manifest.version_history || manifest.version_history.length === 0"
+            class="pl-2"
+          >
+            {{ $t('nav.packInfo.none') }}
+          </i>
           <div v-else>
-            <v-card v-for="(item, itemIdx) in manifest.version_history"
+            <v-card
+              v-for="(item, itemIdx) in manifest.version_history"
               :key="`version-${itemIdx}`"
-              class="ma-1 pa-1">
+              class="ma-1 pa-1"
+            >
               <div class="font-weight-bold bg-primary px-2">
                 {{ item.version }} ({{ new Date(item.date).toLocaleDateString() }}):
               </div>
               <div class="pa-2">
                 <ul>
-                  <li v-for="(change, changeIdx) in item.changes"
+                  <li
+                    v-for="(change, changeIdx) in item.changes"
                     :key="`change-${changeIdx}`"
-                    v-html-safe="change" />
+                    v-html-safe="change"
+                  />
                 </ul>
               </div>
             </v-card>
@@ -92,10 +122,15 @@
             {{ $t('nav.packInfo.languagePatches') }}
             <cc-tooltip :text="$t('nav.packInfo.languagePatchesTooltip')" />
           </cc-heading>
-          <i v-if="languagePatches.length === 0"
-            class="pl-2">{{ $t('nav.packInfo.none') }}</i>
+          <i
+            v-if="languagePatches.length === 0"
+            class="pl-2"
+          >
+            {{ $t('nav.packInfo.none') }}
+          </i>
           <div v-else>
-            <v-chip v-for="p in languagePatches"
+            <v-chip
+              v-for="p in languagePatches"
               :key="p.id"
               variant="outlined"
               :color="patchIsStale(p, manifest.version) ? 'warning' : 'accent'"
@@ -103,33 +138,46 @@
               closable
               close-icon="mdi-delete"
               :title="$t('nav.packInfo.removePatch')"
-              @click:close="removePatch(p.id)">
-              <v-avatar color="primary"
+              @click:close="removePatch(p.id)"
+            >
+              <v-avatar
+                color="primary"
                 start
                 class="text-uppercase"
-                v-text="p.lang" />
+                v-text="p.lang"
+              />
               {{ p.translator || $t('nav.packInfo.patchUnknownAuthor') }}
-              <v-icon v-if="patchIsStale(p, manifest.version)"
+              <v-icon
+                v-if="patchIsStale(p, manifest.version)"
                 end
                 size="x-small"
                 icon="mdi-alert"
-                :title="$t('nav.packInfo.patchOutdated', { version: p.target_version })" />
+                :title="$t('nav.packInfo.patchOutdated', { version: p.target_version })"
+              />
             </v-chip>
           </div>
         </div>
       </v-col>
-      <v-col cols="12"
-        md="4">
-        <v-img :src="manifest.image_url"
-          max-height="300px" />
-        <div v-if="manifest.website"
-          class="mt-2 d-flex">
+      <v-col
+        cols="12"
+        md="4"
+      >
+        <v-img
+          :src="manifest.image_url"
+          max-height="300px"
+        />
+        <div
+          v-if="manifest.website"
+          class="mt-2 d-flex"
+        >
           <v-spacer />
-          <cc-button target="_blank"
+          <cc-button
+            target="_blank"
             prepend-icon="mdi-open-in-new"
             :href="manifest.website"
             color="primary"
-            size="small">
+            size="small"
+          >
             {{ $t('nav.packInfo.authorsWebsite') }}
           </cc-button>
           <v-spacer />
@@ -140,104 +188,109 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
-import { useDisplay } from 'vuetify'
-import * as _ from 'lodash-es'
-import { ContentPack, ContentPackDependency, IContentPack, IContentPackManifest } from '@/classes/ContentPack'
-import { ContentPackStore } from '@/stores'
-import { LocalizationStore } from '@/stores/localization'
-import { packPatches, removePatch, patchIsStale } from '@/i18n/translationPatch'
+  import { computed, onMounted } from 'vue'
+  import { useDisplay } from 'vuetify'
+  import * as _ from 'lodash-es'
+  import {
+    ContentPack,
+    ContentPackDependency,
+    IContentPack,
+    IContentPackManifest,
+  } from '@/classes/ContentPack'
+  import { ContentPackStore } from '@/stores'
+  import { LocalizationStore } from '@/stores/localization'
+  import { packPatches, removePatch, patchIsStale } from '@/i18n/translationPatch'
 
-const props = defineProps<{ pack: IContentPack | ContentPack }>()
+  const props = defineProps<{ pack: IContentPack | ContentPack }>()
 
-const { smAndDown: mobile } = useDisplay()
+  const { smAndDown: mobile } = useDisplay()
 
-const localizationStore = LocalizationStore()
-onMounted(() => localizationStore.ensurePatchesLoaded())
+  const localizationStore = LocalizationStore()
+  onMounted(() => localizationStore.ensurePatchesLoaded())
 
-const languagePatches = computed(() =>
-  packPatches([
-    (props.pack as IContentPack).id ?? (props.pack as ContentPack).ID,
-    manifest.value.item_prefix,
-    manifest.value.name,
-  ])
-)
+  const languagePatches = computed(() =>
+    packPatches([
+      (props.pack as IContentPack).id ?? (props.pack as ContentPack).ID,
+      manifest.value.item_prefix,
+      manifest.value.name,
+    ])
+  )
 
-const humanReadableMap: Record<string, [string, string]> = {
-  manufacturers: ['manufacturer', 'manufacturers'],
-  coreBonuses: ['core bonus', 'core bonuses'],
-  frames: ['frame', 'frames'],
-  weapons: ['weapon', 'weapons'],
-  systems: ['system', 'systems'],
-  skills: ['skill', 'skills'],
-  mods: ['weapon mod', 'weapon mods'],
-  pilotGear: ['pilot gear item', 'pilot gear items'],
-  backgrounds: ['background', 'backgrounds'],
-  bonds: ['bond', 'bonds'],
-  reserves: ['reserve', 'reserves'],
-  talents: ['pilot talent', 'pilot talents'],
-  tags: ['equipment tag', 'equipment tags'],
-  npcClasses: ['NPC class', 'NPC classes'],
-  npcFeatures: ['NPC feature', 'NPC features'],
-  npcTemplates: ['NPC template', 'NPC templates'],
-  actions: ['Player action', 'Player actions'],
-  statuses: ['Status/Condition', 'Statuses/Conditions'],
-  environments: ['Combat Environment', 'Combat Environments'],
-  factions: ['faction', 'factions'],
-  sitreps: ['sitrep', 'sitreps'],
-  tables: ['Data Table', 'Data Tables'],
-  eidolonLayers: ['Eidolon Layer', 'Eidolon Layers'],
-  downtimeActions: ['Downtime Action', 'Downtime Actions'],
-  bondPowers: ['Bond Power', 'Bond Powers'],
-  extraNpcFeatures: ['Extra Npc Feature', 'Extra Npc Features'],
-}
+  const humanReadableMap: Record<string, [string, string]> = {
+    manufacturers: ['manufacturer', 'manufacturers'],
+    coreBonuses: ['core bonus', 'core bonuses'],
+    frames: ['frame', 'frames'],
+    weapons: ['weapon', 'weapons'],
+    systems: ['system', 'systems'],
+    skills: ['skill', 'skills'],
+    mods: ['weapon mod', 'weapon mods'],
+    pilotGear: ['pilot gear item', 'pilot gear items'],
+    backgrounds: ['background', 'backgrounds'],
+    bonds: ['bond', 'bonds'],
+    reserves: ['reserve', 'reserves'],
+    talents: ['pilot talent', 'pilot talents'],
+    tags: ['equipment tag', 'equipment tags'],
+    npcClasses: ['NPC class', 'NPC classes'],
+    npcFeatures: ['NPC feature', 'NPC features'],
+    npcTemplates: ['NPC template', 'NPC templates'],
+    actions: ['Player action', 'Player actions'],
+    statuses: ['Status/Condition', 'Statuses/Conditions'],
+    environments: ['Combat Environment', 'Combat Environments'],
+    factions: ['faction', 'factions'],
+    sitreps: ['sitrep', 'sitreps'],
+    tables: ['Data Table', 'Data Tables'],
+    eidolonLayers: ['Eidolon Layer', 'Eidolon Layers'],
+    downtimeActions: ['Downtime Action', 'Downtime Actions'],
+    bondPowers: ['Bond Power', 'Bond Powers'],
+    extraNpcFeatures: ['Extra Npc Feature', 'Extra Npc Features'],
+  }
 
-const manifest = computed(() =>
-  (props.pack as IContentPack).manifest
-    ? (props.pack as IContentPack).manifest
-    : (props.pack as ContentPack).Manifest
-)
-
-const packContents = computed(() => {
-  const data = (props.pack as IContentPack).data
-    ? (props.pack as IContentPack).data
-    : (props.pack as ContentPack).Data
-
-  return _.toPairs(data)
-    .map(([key, value]: [string, object[]]) => {
-      const count = value.length
-      return [key, count]
-    })
-    .filter(([, count]) => Number(count) > 0)
-    .map(([key, count]) => {
-      const pair = humanReadableMap[key as string]
-      if (!pair) return { count, name: `${key}--NOT--HUMANIZED` }
-      const [singular, plural]: [string, string] = pair
-      return { count, name: Number(count) > 1 ? plural : singular }
-    })
-})
-
-const packDependencies = computed(() => {
-  const mf = (
-    (props.pack as any).manifest
+  const manifest = computed(() =>
+    (props.pack as IContentPack).manifest
       ? (props.pack as IContentPack).manifest
       : (props.pack as ContentPack).Manifest
-  ) as IContentPackManifest
-  return mf.dependencies ? mf.dependencies : []
-})
+  )
 
-function parseVersion(version: string) {
-  if (version.includes('*')) return 'any version'
-  if (version.includes('=')) return version.replace('=', '')
-  return version + ' or later'
-}
+  const packContents = computed(() => {
+    const data = (props.pack as IContentPack).data
+      ? (props.pack as IContentPack).data
+      : (props.pack as ContentPack).Data
 
-function d(dep: ContentPackDependency) {
-  return {
-    name: dep.name,
-    version: parseVersion(dep.version),
-    link: dep.link,
-    installed: ContentPackStore().packAlreadyInstalled(dep.name, dep.version, true),
+    return _.toPairs(data)
+      .map(([key, value]: [string, object[]]) => {
+        const count = value.length
+        return [key, count]
+      })
+      .filter(([, count]) => Number(count) > 0)
+      .map(([key, count]) => {
+        const pair = humanReadableMap[key as string]
+        if (!pair) return { count, name: `${key}--NOT--HUMANIZED` }
+        const [singular, plural]: [string, string] = pair
+        return { count, name: Number(count) > 1 ? plural : singular }
+      })
+  })
+
+  const packDependencies = computed(() => {
+    const mf = (
+      (props.pack as any).manifest
+        ? (props.pack as IContentPack).manifest
+        : (props.pack as ContentPack).Manifest
+    ) as IContentPackManifest
+    return mf.dependencies ? mf.dependencies : []
+  })
+
+  function parseVersion(version: string) {
+    if (version.includes('*')) return 'any version'
+    if (version.includes('=')) return version.replace('=', '')
+    return version + ' or later'
   }
-}
+
+  function d(dep: ContentPackDependency) {
+    return {
+      name: dep.name,
+      version: parseVersion(dep.version),
+      link: dep.link,
+      installed: ContentPackStore().packAlreadyInstalled(dep.name, dep.version, true),
+    }
+  }
 </script>

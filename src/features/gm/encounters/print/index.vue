@@ -1,25 +1,29 @@
 <template>
-  <print-page-shell :orientation="options.orientation.title">
-    <div v-if="selectedEncounter" class="pb-4">
-      <layout :options="options" :encounter="selectedEncounter" />
-      <div v-if="options && options.extras">
-        <page-break v-if="options.extras.some((x) => x.title === 'GM Tracker')" />
-        <gm-tracker
-          v-if="options.extras.some((x) => x.title === 'GM Tracker')"
-          :encounter="selectedEncounter" />
-        <page-break v-if="options.extras.some((x) => x.title === 'Combat Quick Reference')" />
-        <combat-ref
-          v-if="options.extras.some((x) => x.title === 'Combat Quick Reference')"
-          :statuses="CompendiumStore().Statuses" />
-        <page-break v-if="options.extras.some((x) => x.title === 'Action Reference')" />
-        <action-ref
-          v-if="options.extras.some((x) => x.title === 'Action Reference')"
-          :all-actions="CompendiumStore().Actions" />
-        <page-break v-if="options.extras.some((x) => x.title === 'Tag Reference')" />
-        <tag-info-print
-          v-if="options.extras.some((x) => x.title === 'Tag Reference')"
-          :all-tags="CompendiumStore().Tags" />
-      </div>
+  <print-page-shell :options="options">
+    <div
+      v-if="selectedEncounter"
+      class="pb-4"
+    >
+      <layout
+        :options="options"
+        :encounter="selectedEncounter"
+      />
+      <template v-if="has(options.extras, 'gmTracker')">
+        <page-break />
+        <gm-tracker :encounter="selectedEncounter" />
+      </template>
+      <template v-if="has(options.extras, 'combatRef')">
+        <page-break />
+        <combat-ref :statuses="CompendiumStore().Statuses" />
+      </template>
+      <template v-if="has(options.extras, 'actionRef')">
+        <page-break />
+        <action-ref :all-actions="CompendiumStore().Actions" />
+      </template>
+      <template v-if="has(options.extras, 'tagRef')">
+        <page-break />
+        <tag-info-print :npcs="encounterNpcs" />
+      </template>
     </div>
 
     <template #selector>
@@ -33,7 +37,8 @@
         variant="outlined"
         :label="$t('gm.fields.encounter')"
         class="mx-3"
-        clearable />
+        clearable
+      />
     </template>
 
     <template #options-dialog>
@@ -43,35 +48,42 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import PrintPageShell from '@/ui/components/print/PrintPageShell.vue'
-import Layout from './layout.vue'
-import TagInfoPrint from '@/ui/components/print/TagInfoPrint.vue'
-import CombatRef from '@/ui/components/print/CombatRef.vue'
-import ActionRef from '@/ui/components/print/ActionRef.vue'
-import GmTracker from './extras/GmTracker.vue'
-import OptionsDialog from './OptionsDialog.vue'
-import { EncounterStore, CompendiumStore } from '@/stores'
-import PageBreak from '@/features/pilot_management/Print/components/PageBreak.vue'
-import { Encounter } from '@/classes/encounter/Encounter'
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
+  import { ref, computed } from 'vue'
+  import PrintPageShell from '@/ui/components/print/PrintPageShell.vue'
+  import Layout from './layout.vue'
+  import TagInfoPrint from '@/ui/components/print/TagInfoPrint.vue'
+  import CombatRef from '@/ui/components/print/CombatRef.vue'
+  import ActionRef from '@/ui/components/print/ActionRef.vue'
+  import GmTracker from './extras/GmTracker.vue'
+  import OptionsDialog from './OptionsDialog.vue'
+  import { EncounterStore, CompendiumStore } from '@/stores'
+  import PageBreak from '@/ui/components/print/PageBreak.vue'
+  import { Encounter } from '@/classes/encounter/Encounter'
+  import { LAYOUT, ORIENTATION, PAPER, has } from '@/ui/print/options'
+  import type { GmPrintOptions } from '@/ui/print/types'
+  import type { Npc } from '@/classes/npc/Npc'
 
-const props = withDefaults(defineProps<{ id?: string }>(), {})
+  defineOptions({ name: 'EncounterPrint' })
 
-const selectedEncounter = ref<Encounter | null>(null)
-const options = ref<any>({
-  layout: { title: 'Standard', icon: 'mdi-book-open' },
-  orientation: { title: 'Portrait', icon: 'mdi-file' },
-  paper: { title: 'Letter', icon: 'mdi-text-box-check-outline' },
-  include: [],
-  extras: [],
-  card: [],
-})
+  const props = withDefaults(defineProps<{ id?: string }>(), {})
 
-if (props.id) {
-  selectedEncounter.value = EncounterStore().Encounters.find((p) => p.ID === props.id) as Encounter
-}
+  const selectedEncounter = ref<Encounter | null>(null)
+  const options = ref<GmPrintOptions>({
+    layout: LAYOUT.standard,
+    orientation: ORIENTATION.portrait,
+    paper: PAPER.letter,
+    include: [],
+    extras: [],
+  })
 
-const allEncounters = computed(() => EncounterStore().Encounters.filter((x) => !x.SaveController.IsDeleted))
+  if (props.id) {
+    selectedEncounter.value = EncounterStore().Encounters.find(p => p.ID === props.id) as Encounter
+  }
+
+  const allEncounters = computed(() =>
+    EncounterStore().Encounters.filter(x => !x.SaveController.IsDeleted)
+  )
+  const encounterNpcs = computed(
+    () => (selectedEncounter.value?.Combatants.map((c: any) => c.actor) ?? []) as Npc[]
+  )
 </script>

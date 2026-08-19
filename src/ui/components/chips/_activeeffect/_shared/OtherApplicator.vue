@@ -1,43 +1,57 @@
 <template>
-  <v-col :cols="cols"
-    v-if="event.OtherEvents?.length">
-    <div v-for="(o, index) in event.OtherEvents" :key="`other-${index}`">
+  <v-col
+    v-if="event.OtherEvents?.length"
+    :cols="cols"
+  >
+    <div
+      v-for="(o, index) in event.OtherEvents"
+      :key="`other-${index}`"
+    >
       <div class="text-cc-overline text-disabled">{{ o.Type }}</div>
-      <v-text-field v-if="['overshield', 'hp', 'repair'].includes(o.Type)"
+      <v-text-field
+        v-if="['overshield', 'hp', 'repair'].includes(o.Type)"
         v-model="o.Value"
         type="number"
         density="compact"
         hide-details
         variant="outlined"
         flat
-        tile />
-      <v-select v-if="o.Type === 'cover'"
+        tile
+      />
+      <v-select
+        v-if="o.Type === 'cover'"
         v-model="o.Value"
         :items="cover"
         density="compact"
         hide-details
         variant="outlined"
         flat
-        tile />
-      <base-duration-display v-if="o.Duration"
-        :duration="o.Duration" />
+        tile
+      />
+      <base-duration-display
+        v-if="o.Duration"
+        :duration="o.Duration"
+      />
     </div>
   </v-col>
 </template>
 
 <script setup lang="ts">
-import BaseDurationDisplay from './BaseDurationDisplay.vue'
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
+  import BaseDurationDisplay from './BaseDurationDisplay.vue'
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
 
-withDefaults(defineProps<{
-  event: Record<string, any>
-  cols?: number | string
-}>(), { cols: 'auto' })
+  withDefaults(
+    defineProps<{
+      event: Record<string, any>
+      cols?: number | string
+    }>(),
+    { cols: 'auto' }
+  )
 
-const cover = [
-  { title: t('ui.titles.softCover'), value: 'soft' },
-  { title: t('ui.titles.hardCover'), value: 'hard' },
-  { title: t('ui.titles.noCover'), value: 'none' },
-]
+  const cover = [
+    { title: t('ui.titles.softCover'), value: 'soft' },
+    { title: t('ui.titles.hardCover'), value: 'hard' },
+    { title: t('ui.titles.noCover'), value: 'none' },
+  ]
 </script>

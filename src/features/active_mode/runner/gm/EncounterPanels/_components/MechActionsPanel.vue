@@ -13,7 +13,7 @@
             <deploy-button v-if="pa.Deployable"
               action-only
               :deployable="toDeployable(pa)"
-              :actor="owner.actor.ActiveMech"
+              :actor="activeMech"
               @deploy="$emit('deploy', $event)" />
             <basic-action-button v-else
               :action="pa"
@@ -24,7 +24,7 @@
             <deploy-button v-if="fa.Deployable"
               action-only
               :deployable="toDeployable(fa)"
-              :actor="owner.actor.ActiveMech"
+              :actor="activeMech"
               @deploy="$emit('deploy', $event)" />
             <basic-action-button v-else
               :action="fa"
@@ -64,7 +64,7 @@
                 <deploy-button v-if="qa.Deployable"
                   action-only
                   :deployable="toDeployable(qa)"
-                  :actor="owner.actor.ActiveMech"
+                  :actor="activeMech"
                   @deploy="$emit('deploy', $event)" />
                 <basic-action-button v-else
                   :action="qa"
@@ -75,7 +75,7 @@
                 <deploy-button v-if="qta.Deployable"
                   action-only
                   :deployable="toDeployable(qta)"
-                  :actor="owner.actor.ActiveMech"
+                  :actor="activeMech"
                   @deploy="$emit('deploy', $event)" />
                 <basic-action-button v-else
                   :action="qta"
@@ -103,7 +103,7 @@
                 <deploy-button v-if="fa.Deployable"
                   action-only
                   :deployable="toDeployable(fa)"
-                  :actor="owner.actor.ActiveMech"
+                  :actor="activeMech"
                   @deploy="$emit('deploy', $event)" />
                 <basic-action-button v-else
                   :action="fa"
@@ -114,7 +114,7 @@
                 <deploy-button v-if="fta.Deployable"
                   action-only
                   :deployable="toDeployable(fta)"
-                  :actor="owner.actor.ActiveMech"
+                  :actor="activeMech"
                   @deploy="$emit('deploy', $event)" />
                 <basic-action-button v-else
                   :action="fta"
@@ -141,7 +141,7 @@
             <deploy-button v-if="ra.Deployable"
               action-only
               :deployable="toDeployable(ra)"
-              :actor="owner.actor.ActiveMech"
+              :actor="activeMech"
               @deploy="$emit('deploy', $event)" />
             <basic-action-button v-else
               :action="ra"
@@ -178,9 +178,6 @@ import MechBarrageButton from './loadouts/action_buttons/mechBarrageButton.vue';
 
 const { owner, encounterInstance } = useEncounterContext()
 
-const props = defineProps<{
-}>();
-
 defineEmits<{ deploy: [event: any] }>();
 
 const quickMechActions = [
@@ -192,10 +189,11 @@ const fullMechActions = [
   'act_skill_check', 'act_dismount', 'act_boot_up',
 ];
 
-const controller = computed(() => owner.value.actor.ActiveMech!.CombatController);
+const activeMech = computed(() => owner.value.actor.ActiveMech!);
+const controller = computed(() => activeMech.value.CombatController);
 
 function getBaseAction(actionId: string) {
-  return CompendiumStore().Actions.find((a: any) => a.ID === actionId) || null;
+  return CompendiumStore().Actions.find((a: any) => a.ID === actionId)!;
 }
 
 function toDeployable(action: any) {

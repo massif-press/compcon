@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import type { EidolonLayer } from '@/classes/npc/eidolon/EidolonLayer'
+import type { Eidolon } from '@/classes/npc/eidolon/Eidolon'
 import { computed, ref } from 'vue'
 import { CompendiumStore } from '@/stores';
 import { useI18n } from 'vue-i18n'
@@ -47,7 +47,7 @@ const { t } = useI18n()
 defineOptions({ name: 'npc-class-selector' })
 
 const props = withDefaults(defineProps<{
-  item: EidolonLayer
+  item: Eidolon
   readonly?: boolean
 }>(), {
   readonly: false

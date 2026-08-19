@@ -5,6 +5,7 @@ import { localize, localizeNested } from '@/i18n/localize'
 
 export interface IEquipmentData {
   id: string
+  instanceId?: string
   note: string
   flavorName?: string
   flavorDescription?: string
@@ -31,7 +32,7 @@ interface IMechEquipmentData extends ILicensedItemData {
 }
 
 abstract class MechEquipment extends LicensedItem {
-  public IsIntegrated: boolean
+  public override IsIntegrated: boolean
   public readonly SP: number
   public get Effect(): string {
     return localize(this.ID, 'effect', this._effect)
@@ -43,6 +44,7 @@ abstract class MechEquipment extends LicensedItem {
   public readonly IsAI: boolean = false
   public readonly NoCascade: boolean = false
   public readonly IsIndestructible: boolean = false
+  public IsCascading: boolean = false
   public readonly IsOrdnance: boolean = false
   public readonly CanSetDamage: boolean = false
   public readonly CanSetUses: boolean = false

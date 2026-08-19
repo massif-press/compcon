@@ -1,9 +1,21 @@
 <template>
-  <v-chip v-if="readonly" size="large" variant="tonal" color="secondary" label>
-    <v-icon start :icon="getTagIcon" />
+  <v-chip
+    v-if="readonly"
+    size="large"
+    variant="tonal"
+    color="secondary"
+    label
+  >
+    <v-icon
+      start
+      :icon="getTagIcon"
+    />
     {{ item.Tag ? item.Tag : $t('gm.npcTag.setTag') }}
   </v-chip>
-  <v-menu v-else offset-y>
+  <v-menu
+    v-else
+    offset-y
+  >
     <template #activator="{ props }">
       <v-btn
         flat
@@ -12,19 +24,37 @@
         style="width: auto; margin-left: -1px"
         class="px-4 border-s-sm"
         color="primary"
-        v-bind="props">
-        <v-icon :icon="getTagIcon" class="mr-2" />
+        v-bind="props"
+      >
+        <v-icon
+          :icon="getTagIcon"
+          class="mr-2"
+        />
         {{ item.Tag ? item.Tag : $t('gm.npcTag.setTag') }}
         <v-tooltip location="top">
           <template #activator="{ props }">
-            <v-icon v-if="locked" v-bind="props" end>mdi-lock</v-icon>
+            <v-icon
+              v-if="locked"
+              v-bind="props"
+              end
+            >
+              mdi-lock
+            </v-icon>
           </template>
           <span v-if="locked">{{ $t('gm.npcTag.lockedBy', { name: locked }) }}</span>
         </v-tooltip>
       </v-btn>
     </template>
-    <v-card max-width="550px" border tile>
-      <v-list lines="two" density="compact" slim>
+    <v-card
+      max-width="550px"
+      border
+      tile
+    >
+      <v-list
+        lines="two"
+        density="compact"
+        slim
+      >
         <v-list-subheader v-if="locked && locked.length > 0">
           {{ $t('gm.npcTag.limitedBy', { name: locked }) }}
         </v-list-subheader>
@@ -36,56 +66,60 @@
           :title="t.name"
           :subtitle="t.description"
           :prepend-icon="t.icon"
+          :disabled="tagDisabled(t)"
           @click="item.Tag = t.name"
-          :disabled="tagDisabled(t)" />
+        />
       </v-list>
     </v-card>
   </v-menu>
 </template>
 
 <script setup lang="ts">
-import type { Unit } from '@/classes/npc/unit/Unit'
-import { computed } from 'vue'
-import npcTags from '@/assets/npc_tags.json';
+  import type { Unit } from '@/classes/npc/unit/Unit'
+  import { computed } from 'vue'
+  import npcTags from '@/assets/npc_tags.json'
 
-defineOptions({ name: 'npc-class-selector' })
+  defineOptions({ name: 'npc-class-selector' })
 
-const props = withDefaults(defineProps<{
-  item: Unit
-  readonly?: boolean
-}>(), {
-  readonly: false
-})
-
-const locked = computed(() => {
-      let lockTemplate = '';
-      if (props.item.NpcClassController) {
-        lockTemplate = props.item.NpcClassController.ForceTag;
-      }
-
-      if (lockTemplate && lockTemplate.length > 0) {
-        return lockTemplate;
-      }
-
-      if (props.item.NpcTemplateController) {
-        if (props.item.NpcTemplateController.Templates)
-          lockTemplate = props.item.NpcTemplateController.Templates.find((t) => t.ForceTag)?.Name;
-      }
-
-      return lockTemplate;
-    })
-const tags = computed(() => {
-      return npcTags;
-    })
-const getTagIcon = computed(() => {
-      if (!props.item.Tag) return 'mdi-tag-outline';
-      const tag = tags.value.find((t) => t.name.toLowerCase() === props.item.Tag.toLowerCase());
-      if (!tag) return 'mdi-tag-outline';
-      return tag.icon;
-    })
-
-function tagDisabled(tag) {
-      if (!locked.value) return false;
-      return locked.value !== tag.name;
+  const props = withDefaults(
+    defineProps<{
+      item: Unit
+      readonly?: boolean
+    }>(),
+    {
+      readonly: false,
     }
+  )
+
+  const locked = computed(() => {
+    let lockTemplate = ''
+    if (props.item.NpcClassController) {
+      lockTemplate = props.item.NpcClassController.Class?.ForceTag ?? ''
+    }
+
+    if (lockTemplate && lockTemplate.length > 0) {
+      return lockTemplate
+    }
+
+    if (props.item.NpcTemplateController) {
+      if (props.item.NpcTemplateController.Templates)
+        lockTemplate = props.item.NpcTemplateController.Templates.find(t => t.ForceTag)?.Name ?? ''
+    }
+
+    return lockTemplate
+  })
+  const tags = computed(() => {
+    return npcTags
+  })
+  const getTagIcon = computed(() => {
+    if (!props.item.Tag) return 'mdi-tag-outline'
+    const tag = tags.value.find(t => t.name.toLowerCase() === props.item.Tag.toLowerCase())
+    if (!tag) return 'mdi-tag-outline'
+    return tag.icon
+  })
+
+  function tagDisabled(tag) {
+    if (!locked.value) return false
+    return locked.value !== tag.name
+  }
 </script>

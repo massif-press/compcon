@@ -11,7 +11,7 @@ import { assertController } from '../../utility/assertController'
 interface INpcFeatureSaveData {
   is_instance?: boolean
   instance?: boolean
-  features: { id: string; data: INpcFeatureData }[]
+  features: { id: string; instanceId?: string; data: INpcFeatureData }[]
 }
 
 class NpcFeatureController implements IFeatureContainer {
@@ -131,7 +131,7 @@ class NpcFeatureController implements IFeatureContainer {
   }
 
   public static Serialize(parent: Unit, target: any) {
-    const features = [] as { id: string; data: INpcFeatureData }[]
+    const features = [] as { id: string; instanceId?: string; data: INpcFeatureData }[]
     parent.NpcFeatureController.Features.forEach(x => {
       const combatModifiedData = x.ItemData as any
       combatModifiedData.isUsed = x.Used
@@ -140,6 +140,7 @@ class NpcFeatureController implements IFeatureContainer {
 
       features.push({
         id: x.ID,
+        instanceId: x.InstanceID,
         data: combatModifiedData as INpcFeatureData,
       })
     })
@@ -155,13 +156,18 @@ class NpcFeatureController implements IFeatureContainer {
       if (CompendiumStore().has('NpcFeatures', id)) {
         const ref = CompendiumStore().referenceByID('NpcFeatures', id) as NpcFeature
         const clone = NpcFeatureFactory.Build<NpcFeature>(ref.ItemData as INpcFeatureData)
+        if (x.instanceId) clone.InstanceID = x.instanceId
         clone.Used = x.data?.isUsed || false
         if ((x.data as any)?.flavorName) clone.Name = (x.data as any).flavorName
-        if ((x.data as any)?.flavorDescription) clone.FlavorDescription = (x.data as any).flavorDescription
+        if ((x.data as any)?.flavorDescription)
+          clone.FlavorDescription = (x.data as any).flavorDescription
         parent.NpcFeatureController._selectedFeatures.push(clone)
       } else if (!!x.data && Object.keys(x.data).length) {
         const built = NpcFeatureFactory.Build<NpcFeature>(x.data)
+        if (x.instanceId) built.InstanceID = x.instanceId
         if ((x.data as any)?.flavorName) built.Name = (x.data as any).flavorName
+        if ((x.data as any)?.flavorDescription)
+          built.FlavorDescription = (x.data as any).flavorDescription
         parent.NpcFeatureController._selectedFeatures.push(built)
       }
     })

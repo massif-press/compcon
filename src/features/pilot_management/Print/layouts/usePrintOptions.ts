@@ -1,15 +1,16 @@
 import { computed } from 'vue'
+import { CONTENT, ORIENTATION, has } from '@/ui/print/options'
 
 function usePrintOptions(props: { options: any }) {
-  const blank = computed(() => props.options?.content?.title === 'Blank')
-  const landscape = computed(() => props.options?.orientation?.title === 'Landscape')
+  const blank = computed(() => props.options?.content?.key === CONTENT.blank.key)
+  const landscape = computed(() => props.options?.orientation?.key === ORIENTATION.landscape.key)
 
-  function hasPilotOption(title: string): boolean {
-    return props.options?.pilotInclude?.some((x: any) => x.title === title) ?? false
+  function hasPilotOption(key: string): boolean {
+    return has(props.options?.pilotInclude, key)
   }
 
-  function hasMechOption(title: string): boolean {
-    return props.options?.mechInclude?.some((x: any) => x.title === title) ?? false
+  function hasMechOption(key: string): boolean {
+    return has(props.options?.mechInclude, key)
   }
 
   function signed(val: number): string {

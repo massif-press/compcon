@@ -1,30 +1,46 @@
 <template>
-  <v-col cols="auto"
-    v-if="event.Save">
-    <v-row no-gutters
-      class="text-cc-overline text-disabled">
-      <v-col> {{ $t('ui.combat.saveSuffix', { stat: event.Save }) }}</v-col>
-      <v-col cols="auto"
-        v-if="event.SaveHalf && !!event.Targets[0]">{{ $t('ui.combat.half') }}</v-col>
+  <v-col
+    v-if="event.Save"
+    cols="auto"
+  >
+    <v-row
+      no-gutters
+      class="text-cc-overline text-disabled"
+    >
+      <v-col>{{ $t('ui.combat.saveSuffix', { stat: event.Save }) }}</v-col>
+      <v-col
+        v-if="event.SaveHalf && !!event.Targets[0]"
+        cols="auto"
+      >
+        {{ $t('ui.combat.half') }}
+      </v-col>
     </v-row>
-    <div v-for="(s, idx) in event.Targets"
-      :key="`target-${idx}`">
-      <v-row v-if="!s"
+    <div
+      v-for="(s, idx) in event.Targets"
+      :key="`target-${idx}`"
+    >
+      <v-row
+        v-if="!s"
         no-gutters
         align="center"
         justify="center"
-        style="min-height: 43px;">
-        <v-col cols="auto"
-          class="mt-1">
+        style="min-height: 43px"
+      >
+        <v-col
+          cols="auto"
+          class="mt-1"
+        >
           <i class="text-caption text-disabled">{{ $t('ui.combat.noTarget') }}</i>
         </v-col>
       </v-row>
 
-      <v-row v-else
-        no-gutters>
-
+      <v-row
+        v-else
+        no-gutters
+      >
         <v-col>
-          <v-text-field v-model="s.SaveRolledValue"
+          <v-text-field
+            v-model="s.SaveRolledValue"
             density="compact"
             variant="outlined"
             class="mb-1"
@@ -35,18 +51,22 @@
             hide-details
             :error="!s.SaveRolledValue"
             tile
-            @update:model-value="s.SaveRolledValue = Number($event)">
+            @update:model-value="s.SaveRolledValue = Number($event)"
+          >
             <template #prepend>
               <save-roll-interface :roll-data="s" />
             </template>
           </v-text-field>
         </v-col>
-        <v-col cols="auto"
-          align-self="center">
+        <v-col
+          cols="auto"
+          align-self="center"
+        >
           <div class="text-center text-cc-overline px-2">{{ $t('ui.combat.vs') }}</div>
         </v-col>
         <v-col>
-          <v-text-field :value="s.SaveTarget"
+          <v-text-field
+            :value="s.SaveTarget"
             density="compact"
             variant="outlined"
             type="number"
@@ -55,27 +75,32 @@
             flat
             :error="!s.SaveTarget"
             hide-details
-            @update:model-value="s.SaveRolledValue = Number($event)">
+            @update:model-value="s.SaveRolledValue = Number($event)"
+          >
             <template #append>
               <v-tooltip location="top">
                 <template #activator="{ props }">
-                  <v-btn icon
+                  <v-btn
+                    icon
                     size="x-small"
                     variant="text"
                     flat
                     tile
-                    :color="s.SaveResult === 'success' ? 'success' : 'error'
-                      "
+                    :color="s.SaveResult === 'success' ? 'success' : 'error'"
                     class="ml-n2"
                     v-bind="props"
-                    @click="overrideSave(s)">
-                    <v-icon size="25"
-                      :icon="!s.SaveResult
-                        ? 'mdi-circle-outline'
-                        : s.SaveResult === 'success'
-                          ? 'mdi-check-circle'
-                          : 'mdi-cancel'
-                        " />
+                    @click="overrideSave(s)"
+                  >
+                    <v-icon
+                      size="25"
+                      :icon="
+                        !s.SaveResult
+                          ? 'mdi-circle-outline'
+                          : s.SaveResult === 'success'
+                            ? 'mdi-check-circle'
+                            : 'mdi-cancel'
+                      "
+                    />
                   </v-btn>
                 </template>
 
@@ -96,35 +121,38 @@
             </template>
           </v-text-field>
         </v-col>
-        <v-col v-if="event.SaveHalf && !!s"
+        <v-col
+          v-if="event.SaveHalf && !!s"
           cols="auto"
           class="ml-2 px-2 pt-2"
-          style="min-height: 44px;">
-          <cc-checkbox v-model="s.SavedHalf"
+          style="min-height: 44px"
+        >
+          <cc-checkbox
+            v-model="s.SavedHalf"
             color="error"
-            size=small
-            bg-color="background" />
+            size="small"
+            bg-color="background"
+          />
         </v-col>
       </v-row>
     </div>
   </v-col>
-
 </template>
 
 <script setup lang="ts">
-import type { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
-import SaveRollInterface from './SaveRollInterface.vue';
+  import type { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
+  import SaveRollInterface from './SaveRollInterface.vue'
 
-const props = defineProps<{
-  event: ActiveEffectEvent
-}>()
+  const props = defineProps<{
+    event: ActiveEffectEvent
+  }>()
 
-function overrideSave(s) {
-  if (!s.SaveResult) return;
-  if (s.SaveResult === 'success') {
-    s.SaveRolledValue = 1;
-  } else {
-    s.SaveRolledValue = s.SaveTarget
+  function overrideSave(s) {
+    if (!s.SaveResult) return
+    if (s.SaveResult === 'success') {
+      s.SaveRolledValue = 1
+    } else {
+      s.SaveRolledValue = s.SaveTarget
+    }
   }
-}
 </script>

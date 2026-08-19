@@ -57,9 +57,6 @@ import InvadeButton from './loadouts/action_buttons/invadeButton.vue';
 
 const { owner, encounterInstance } = useEncounterContext()
 
-const props = defineProps<{
-}>();
-
 defineEmits<{ deploy: [event: any] }>();
 
 const quickPilotActions = [
@@ -71,7 +68,7 @@ const fullPilotActions = ['act_skill_check', 'act_mount', 'act_disengage', 'act_
 const controller = computed(() => owner.value.actor.CombatController);
 
 function getBaseAction(actionId: string) {
-  return CompendiumStore().Actions.find((a: any) => a.ID === actionId);
+  return CompendiumStore().Actions.find((a: any) => a.ID === actionId)!;
 }
 
 function activate(event: string) {

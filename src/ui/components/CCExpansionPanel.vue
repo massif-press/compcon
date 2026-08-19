@@ -22,7 +22,7 @@ const props = withDefaults(defineProps<{
   tile?: boolean
   color?: string
   bgColor?: string
-  variant?: string
+  variant?: 'default' | 'inset' | 'accordion' | 'popout'
   focusable?: boolean
 }>(), {
   flat: true,

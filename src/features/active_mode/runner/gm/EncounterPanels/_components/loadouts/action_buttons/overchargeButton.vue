@@ -1,19 +1,28 @@
 <template>
   <combat-action-button :action="action">
     <template #default="{ close }">
-      <v-card color="panel"
+      <v-card
+        color="panel"
         flat
         tile
-        class="px-12">
-        <cc-synergy-display location="overcharge"
+        class="px-12"
+      >
+        <cc-synergy-display
+          location="overcharge"
           :mech="controller.Parent"
-          alert />
-        <div class="text-center text-cc-overline text-disabled my-2">{{ $t('active.overcharge.cost') }}</div>
+          alert
+        />
+        <div class="text-center text-cc-overline text-disabled my-2">
+          {{ $t('active.overcharge.cost') }}
+        </div>
         <v-row no-gutters>
-          <v-col v-for="(t, n) in controller.OverchargeTrack"
+          <v-col
+            v-for="(t, n) in controller.OverchargeTrack"
             :key="`overcharge-${n}`"
-            class="text-center mx-n4">
-            <v-card flat
+            class="text-center mx-n4"
+          >
+            <v-card
+              flat
               color="overcharge"
               class="py-2"
               style="
@@ -24,7 +33,8 @@
                 border-bottom-right-radius: 0px;
               "
               :style="currentOvercharge > n ? 'opacity: 0.4 ' : ''"
-              :variant="currentOvercharge >= n ? 'flat' : 'outlined'">
+              :variant="currentOvercharge >= n ? 'flat' : 'outlined'"
+            >
               <div class="heading h3">
                 <v-icon>cc:heat</v-icon>
                 +{{ t }}
@@ -32,25 +42,32 @@
             </v-card>
           </v-col>
         </v-row>
-        <v-row dense
+        <v-row
+          dense
           class="text-center my-3"
           align="center"
-          justify="center">
+          justify="center"
+        >
           <v-col cols="auto">{{ $t('active.overcharge.willIncur') }}</v-col>
           <v-col cols="auto">
-            <v-btn icon
+            <v-btn
+              icon
               flat
               tile
               color="panel"
               size="x-small"
               class="fade-select ml-2 mr-n2 mt-n1"
-              @click="roll()">
-              <v-icon icon="mdi-dice-d20"
-                size="30" />
+              @click="roll()"
+            >
+              <v-icon
+                icon="mdi-dice-d20"
+                size="30"
+              />
             </v-btn>
           </v-col>
           <v-col cols="auto">
-            <v-text-field v-model="heatCost"
+            <v-text-field
+              v-model="heatCost"
               :placeholder="controller.OverchargeCost"
               class="d-inline-block"
               density="compact"
@@ -61,62 +78,67 @@
               tile
               variant="outlined"
               color="overcharge"
-              append-inner-icon="cc:heat" />
+              append-inner-icon="cc:heat"
+            />
           </v-col>
           <v-col cols="auto">{{ $t('pm.sheet.heat') }}</v-col>
         </v-row>
       </v-card>
-      <menu-input :owner="owner" :encounter-instance="encounterInstance" :key="controller.ID"
+      <menu-input
+        :key="controller.RootActor.ID"
+        :owner="owner"
+        :encounter-instance="encounterInstance"
         hide-input
         :active-effect="action"
         :close="close"
         @apply="apply"
-        @reset="reset" />
+        @reset="reset"
+      />
     </template>
   </combat-action-button>
 </template>
 
 <script setup lang="ts">
-import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-import { useEncounterContext } from '../../../encounterContext'
-import type { CombatantData } from '@/classes/encounter/Encounter'
-import type { Action } from '@/classes/Action'
-import { computed, ref } from 'vue'
-import { DamageType } from '@/classes/enums';
-import { DiceRoller } from '@/classes/dice/DiceRoller';
-import CombatActionButton from './CombatActionButton.vue';
-import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
+  import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+  import { useEncounterContext } from '../../../encounterContext'
+  import type { CombatantData } from '@/classes/encounter/Encounter'
+  import type { Action } from '@/classes/Action'
+  import { computed, ref } from 'vue'
+  import { DamageType } from '@/classes/enums'
+  import { DiceRoller } from '@/classes/dice/DiceRoller'
+  import CombatActionButton from './CombatActionButton.vue'
+  import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue'
 
-const { owner, encounterInstance } = useEncounterContext()
+  const { owner, encounterInstance } = useEncounterContext()
 
-const props = defineProps<{
-  action: Action
-}>()
+  const props = defineProps<{
+    action: Action
+  }>()
 
-const emit = defineEmits<{
-  'activate': [payload: string]
-}>()
+  const emit = defineEmits<{
+    activate: [payload: string]
+  }>()
 
-const heatCost = ref(1)
+  const heatCost = ref(1)
 
-const controller = computed(() => {
-      return owner.value.actor.CombatController.ActiveActor.CombatController;
-    })
-const currentOvercharge = computed(() => {
-      return controller.value.OverchargeLevel;
-    })
+  const controller = computed(() => {
+    return owner.value.actor.CombatController.ActiveActor.CombatController
+  })
+  const currentOvercharge = computed(() => {
+    return controller.value.OverchargeLevel
+  })
 
-function roll() {
-      heatCost.value = DiceRoller.roll(controller.value.OverchargeCost);
-    }
-function apply() {
-      controller.value.toggleCombatAction('Overcharge');
-      controller.value.ResetActivation('quick')
-      controller.value.TakeDamage(DamageType.Heat, Number(heatCost.value));
-      controller.value.IncreaseOverchargeLevel();
-      emit('activate', props.action.ID);
-    }
-function reset() {
-      controller.value.ResetActivation(props.action.Activation);
-    }
+  function roll() {
+    heatCost.value = DiceRoller.roll(controller.value.OverchargeCost)
+  }
+  function apply() {
+    controller.value.toggleCombatAction('Overcharge')
+    controller.value.ResetActivation('quick')
+    controller.value.TakeDamage(DamageType.Heat, Number(heatCost.value))
+    controller.value.IncreaseOverchargeLevel()
+    emit('activate', props.action.ID)
+  }
+  function reset() {
+    controller.value.ResetActivation(props.action.Activation)
+  }
 </script>

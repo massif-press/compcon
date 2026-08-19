@@ -1,6 +1,6 @@
 <template>
   <slot-card-base ref="base"
-    :item="item"
+    :item="item ?? undefined"
     :color="color"
     :mech="mech"
     :empty="empty"

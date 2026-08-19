@@ -1,4 +1,3 @@
-
 import { ActiveEffect } from './ActiveEffect'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { CombatantData } from '@/classes/encounter/Encounter'
@@ -9,6 +8,7 @@ import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon'
 import { ActiveEffectEvent } from './ActiveEffectEvent'
 import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon'
 import { ActiveEventTarget } from './effect_events/eventTarget'
+import { combatantLabel } from '@/util/combatantLabel'
 
 // per-event target instances are cached here (rather than on the instance) so the cache stays
 // outside Vue reactivity. Reading and writing a reactive cell inside the TargetEvents getter,
@@ -143,13 +143,13 @@ class WeaponAttackEvent {
   public get Summary(): string {
     let str = ''
     const isAdditional = this.AttackActionString.toLowerCase().includes('additional')
-    if (!isAdditional) str = `${this.BaseEvent.Initiator.actor.CombatController.CombatName}: `
+    if (!isAdditional) str = `${combatantLabel(this.BaseEvent.Initiator)}: `
     else str = ' ⤷ '
     str += `${this.AttackActionString} with ${this.Weapon.Name}:\n`
     this.BaseEvent.Targets.forEach((t, idx) => {
       this.BaseEvent.DamageEvents.forEach(de => {
         const { finalDamage } = de.CalcFinalDamageValues(this.BaseEvent, t)
-        str += `   - [${t.Combatant?.actor.CombatController.CombatName || `Target ${idx + 1}`}]`
+        str += `   - [${combatantLabel(t.Combatant) || `Target ${idx + 1}`}]`
         switch (this.BaseEvent.Attack && t.HitResult) {
           case 'crit':
             str += ` ⟪Critical Hit!⟫ `
@@ -178,7 +178,7 @@ class WeaponAttackEvent {
             (this.Weapon as WeaponProfile).HeatCost + (de.Overkill ? de.OverkillHeat : 0)
 
           if (totalHeat > 0) {
-            str += `\n     ${this.BaseEvent.Initiator.actor.CombatController.CombatName} takes ${totalHeat} Heat (`
+            str += `\n     ${combatantLabel(this.BaseEvent.Initiator)} takes ${totalHeat} Heat (`
             const heatSources: string[] = []
             if ((this.Weapon as WeaponProfile).HeatCost) heatSources.push('Self')
             if (de.Overkill) heatSources.push('Overkill')

@@ -33,13 +33,14 @@
 </template>
 
 <script setup lang="ts">
+import type { BrewController } from '@/classes/components/brew/BrewController';
 import { computed } from 'vue'
 import CCMissingContentList from './CCMissingContentList.vue'
 
 defineOptions({ name: 'cc-brew-info' })
 
 const props = withDefaults(defineProps<{
-  item?: object
+  item?: { BrewController?: BrewController; [key: string]: any }
   simple?: boolean
   width?: string
   color?: string

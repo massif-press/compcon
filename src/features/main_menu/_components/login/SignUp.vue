@@ -117,7 +117,7 @@ async function createAccount() {
     showError.value = false;
     emit('success', userEmail);
   } catch (err: any) {
-    logger.error(`Error creating account: ${err}`, this, err);
+    logger.error(`Error creating account: ${err}`, undefined, err);
     loading.value = false;
     showError.value = true;
     error.value = err.message;

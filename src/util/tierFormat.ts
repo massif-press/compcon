@@ -1,22 +1,30 @@
 const BRACE_PATTERN = /(\{.*?\})/gi
 
+// braced groups, plus unbraced tier triples (`1/2/3`) as found in NPC feature text
+const LOOSE_PATTERN = /\{.*?\}|\d+\/\d+\/\d+/g
+
 const TIER_PATTERN = /\{\d+\/\d+\/\d+\}/g
 
-const ByTier = (str: string, tier?: number): string => {
+const resolve = (str: string, tier: number | undefined, pattern: RegExp): string => {
   if (!str) return ''
   if (typeof str !== 'string') return JSON.stringify(str)
   let fmt = str
-  const m = str.match(BRACE_PATTERN)
+  const m = str.match(pattern)
   if (m) {
     m.forEach(x => {
       if (tier) {
         const tArr = x.replace('{', '').replace('}', '').split('/')
-        fmt = fmt.replace(x, `<b class="text-accent">${tArr[tier - 1]}</b>`)
+        const val = tArr[tier - 1] ?? tArr[tArr.length - 1]
+        fmt = fmt.replace(x, `<b class="text-accent">${val}</b>`)
       } else fmt = fmt.replace(x, x.replace('{', '<b class="text-accent">').replace('}', '</b>'))
     })
   }
   return fmt
 }
+
+const ByTier = (str: string, tier?: number): string => resolve(str, tier, BRACE_PATTERN)
+
+const ByTierLoose = (str: string, tier?: number): string => resolve(str, tier, LOOSE_PATTERN)
 
 const ByTierArray = (arr: string, tier?: number): string => {
   if (!arr) return ''
@@ -46,4 +54,13 @@ const resolveTier = (str: string, tier: number): string => {
   })
 }
 
-export { ByTier, ByTierArray, replaceVal, resolveTier, BRACE_PATTERN, TIER_PATTERN }
+export {
+  ByTier,
+  ByTierLoose,
+  ByTierArray,
+  replaceVal,
+  resolveTier,
+  BRACE_PATTERN,
+  LOOSE_PATTERN,
+  TIER_PATTERN,
+}

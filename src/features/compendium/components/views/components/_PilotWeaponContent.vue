@@ -8,8 +8,8 @@
           class="card-effect pa-2 mb-1 text-text"
           style="font-size: 15px" />
         <p
-          v-if="item.Detail"
-          v-html-safe="item.Detail"
+          v-if="item.Effect"
+          v-html-safe="item.Effect"
           class="card-effect pa-2 mb-1 text-text"
           style="font-size: 15px" />
         <div>

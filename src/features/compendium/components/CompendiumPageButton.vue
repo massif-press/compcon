@@ -7,17 +7,25 @@
         :color="color"
         :class="mobile ? 'px-3 py-1' : 'pa-2'"
         tile
-        @click="$router.push(to)"
         style="clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%, 0 20px)"
-        :disabled="disabled">
+        :disabled="disabled"
+        @click="$router.push(to)"
+      >
         <v-row align="center">
           <v-col cols="auto">
-            <v-icon class="icn" :size="mobile ? 40 : 50" :color="`${color} lighten-1`">
+            <v-icon
+              class="icn"
+              :size="mobile ? 40 : 50"
+              :color="`${color} lighten-1`"
+            >
               {{ icon }}
             </v-icon>
           </v-col>
           <v-col>
-            <div :class="mobile ? 'h3' : 'h2'" class="heading text-stark">
+            <div
+              :class="mobile ? 'h3' : 'h2'"
+              class="heading text-stark"
+            >
               {{ name }}
             </div>
           </v-col>
@@ -28,11 +36,11 @@
 </template>
 
 <script setup lang="ts">
-import { useDisplay } from 'vuetify'
-import { useRouter } from 'vue-router'
-const router = useRouter()
+  import { useDisplay } from 'vuetify'
+  import { useRouter } from 'vue-router'
+  const router = useRouter()
 
-const props = defineProps({
+  const props = defineProps({
     name: {
       type: String,
       required: true,
@@ -61,18 +69,18 @@ const props = defineProps({
     },
   })
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+  const { smAndDown: mobile, xs: portrait } = useDisplay()
 </script>
 
 <style scoped>
-@import './compendium-card-base.css';
+  @import './compendium-card-base.css';
 
-.v-card:hover {
-  filter: brightness(140%) saturate(2) hue-rotate(40deg);
-}
+  .v-card:hover {
+    filter: brightness(140%) saturate(2) hue-rotate(40deg);
+  }
 
-.top-element:hover .pip {
-  opacity: 1;
-  filter: brightness(2) saturate(200%) hue-rotate(20deg);
-}
+  .top-element:hover .pip {
+    opacity: 1;
+    filter: brightness(2) saturate(200%) hue-rotate(20deg);
+  }
 </style>

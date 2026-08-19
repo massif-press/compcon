@@ -106,7 +106,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, onMounted, type Ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Pilot } from '@/classes/pilot/Pilot'
 import { unCamelCase } from '@/classes/utility/accent_fold';
@@ -131,7 +131,7 @@ const props = withDefaults(defineProps<{
 
 const loading = ref(true)
 const itemData = ref(null as any)
-const pilot = ref(null as Pilot | null)
+const pilot = ref(null as Pilot | null) as Ref<Pilot | null>
 const rateLimitError = ref(null as { retryAfter: number | null; isDaily: boolean } | null)
 
 const compendiumLoaded = computed(() => {
@@ -183,7 +183,7 @@ function scrollTo(id) {
       const el = document.getElementById(id);
       const offset = 50;
       if (!el) {
-        logger.error(`Element with ID ${id} not found for scrolling`, this);
+        logger.error(`Element with ID ${id} not found for scrolling`);
         return;
       }
       const elementPosition = el.getBoundingClientRect().top + window.pageYOffset;
@@ -206,7 +206,7 @@ async function getFromCode() {
           loading.value = false;
           return;
         }
-        logger.error(`Unable to find pilot at share code ${props.sharecode}`, this, err);
+        logger.error(`Unable to find pilot at share code ${props.sharecode}`, undefined, err);
       }
 
       try {
@@ -214,7 +214,7 @@ async function getFromCode() {
         itemData.value = data;
         pilot.value = new Pilot(data);
       } catch (err) {
-        logger.error(`Error downloading pilot data: ${err}`, this, err);
+        logger.error(`Error downloading pilot data: ${err}`, undefined, err);
       }
 
       loading.value = false;

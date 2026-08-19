@@ -132,7 +132,7 @@ async function confirm() {
           error.value = 'Error confirming account. Please try again.';
         }
       } catch (err: any) {
-        logger.error(`error confirming sign up: ${err}`, this);
+        logger.error(`error confirming sign up: ${err}`);
         loading.value = false;
         showError.value = true;
         error.value = err.message;
@@ -151,7 +151,7 @@ async function resend() {
         sentCode.value = true;
         preFill.value = true;
       } catch (err: any) {
-        logger.error(`error resending code: ${err}`, this, err);
+        logger.error(`error resending code: ${err}`, undefined, err);
         showError.value = true;
         error.value = err.message;
         notifyError(err.message);

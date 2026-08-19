@@ -1,26 +1,42 @@
 <template>
-  <v-row density="compact"
+  <v-row
+    density="compact"
     justify="space-around"
-    dense>
-    <v-col v-for="n in license.MaxRank"
-      :key="`rank-${n}`"
+    dense
+  >
+    <v-col
+      v-for="n in license.MaxRank"
       v-show="license.Unlocks[n - 1].length"
+      :key="`rank-${n}`"
       lg="4"
       md="6"
       cols="12"
-      :class="{ locked: ranked && rank < n }">
+      :class="{ locked: ranked && rank < n }"
+    >
       <div class="text-center">
         <span class="text-cc-overline text-disabled">
           {{ $t('common.rank') }} {{ 'I'.repeat(n) }}
-          <v-icon v-if="ranked && rank < n"
-            right>mdi-lock-outline</v-icon>
-          <v-icon v-else-if="ranked && rank >= n"
-            right>mdi-lock-open-outline</v-icon>
+          <v-icon
+            v-if="ranked && rank < n"
+            right
+          >
+            mdi-lock-outline
+          </v-icon>
+          <v-icon
+            v-else-if="ranked && rank >= n"
+            right
+          >
+            mdi-lock-open-outline
+          </v-icon>
         </span>
-        <div v-for="i in license.Unlocks[n - 1]"
-          :key="i.ID">
-          <cc-item-modal :item="i"
-            block />
+        <div
+          v-for="i in license.Unlocks[n - 1]"
+          :key="i.ID"
+        >
+          <cc-item-modal
+            :item="i"
+            block
+          />
         </div>
       </div>
     </v-col>
@@ -28,21 +44,22 @@
 </template>
 
 <script setup lang="ts">
-import type License from '@/classes/pilot/components/license/License'
+  import type License from '@/classes/pilot/components/license/License'
 
-withDefaults(defineProps<{
-  license: License
-  ranked?: boolean
-  rank?: number
-}>(), {
-  rank: 0
-})
-
-
+  withDefaults(
+    defineProps<{
+      license: License
+      ranked?: boolean
+      rank?: number
+    }>(),
+    {
+      rank: 0,
+    }
+  )
 </script>
 
 <style scoped>
-.locked {
-  opacity: 0.35;
-}
+  .locked {
+    opacity: 0.35;
+  }
 </style>

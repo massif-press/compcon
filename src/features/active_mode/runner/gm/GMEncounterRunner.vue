@@ -155,12 +155,12 @@ import { useDisplay } from 'vuetify';
 import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { orderBy } from 'lodash-es';
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
+import { EncounterInstance, IEncounterInstanceData } from '@/classes/encounter/EncounterInstance';
 import {
   undo as undoStack,
   redo as redoStack,
   pushCachedSnapshot,
-  trySerializeSnapshot,
+  captureSnapshotJson,
   getUndoMeta,
 } from '@/classes/encounter/EncounterUndoStack';
 import DeployablePanel from './EncounterPanels/DeployablePanel.vue';
@@ -242,7 +242,7 @@ const mainLeftOffset = computed(() => {
 const undoMeta = computed(() => getUndoMeta(instance.value?.ID ?? ''));
 
 let restoring = false;
-let cachedSnapshot: ReturnType<typeof trySerializeSnapshot> = null;
+let cachedSnapshot: string | null = null;
 let cachedVersions: number[] = [];
 let cachedRound = 0;
 
@@ -253,7 +253,7 @@ const versionSignal = computed(() => {
 
 function recacheUndoBaseline() {
   if (!instance.value) return;
-  cachedSnapshot = trySerializeSnapshot(instance.value);
+  cachedSnapshot = captureSnapshotJson(instance.value);
   cachedVersions = versionSignal.value.slice();
   cachedRound = instance.value.Round;
 }
@@ -293,7 +293,7 @@ function reselectById(inst: EncounterInstance | undefined, id: string | undefine
   selected.value = inst.Combatants.find((c: any) => c.id === id) ?? null;
 }
 
-async function applyRestore(data: ReturnType<typeof trySerializeSnapshot>) {
+async function applyRestore(data: IEncounterInstanceData | null) {
   if (!data) return;
   restoring = true;
   const selectedId = selected.value?.id;

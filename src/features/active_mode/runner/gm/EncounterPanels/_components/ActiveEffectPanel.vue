@@ -5,20 +5,28 @@
     </v-col>
 
     <v-col cols="auto">
-      <v-btn-group flat
+      <v-btn-group
+        flat
         tile
         density="compact"
-        style="max-height: 24px !important">
-        <v-tooltip location="top"
-          :text="`${hideUsed ? 'Hiding' : 'Showing'} used/expired effects`">
+        style="max-height: 24px !important"
+      >
+        <v-tooltip
+          location="top"
+          :text="`${hideUsed ? 'Hiding' : 'Showing'} used/expired effects`"
+        >
           <template #activator="{ props }">
-            <v-btn v-bind="props"
+            <v-btn
+              v-bind="props"
               size="small"
               icon
-              @click="hideUsed = !hideUsed">
-              <v-icon :color="hideUsed ? 'primary' : ''"
+              @click="hideUsed = !hideUsed"
+            >
+              <v-icon
+                :color="hideUsed ? 'primary' : ''"
                 size="18"
-                icon="mdi-eye-off" />
+                icon="mdi-eye-off"
+              />
             </v-btn>
           </template>
         </v-tooltip>
@@ -26,19 +34,31 @@
     </v-col>
   </v-row>
 
-  <v-row no-gutters
-    class="mt-2">
-    <v-col v-for="(ae, idx) in sortedActiveEffects"
+  <v-row
+    no-gutters
+    class="mt-2"
+  >
+    <v-col
+      v-for="(ae, idx) in sortedActiveEffects"
       :key="`ae_${idx}_${ae.Name}`"
-      cols="auto">
-      <CCActiveEffectChip :owner="item" :encounter-instance="encounterInstance" :active-effect="ae" />
+      cols="auto"
+    >
+      <CCActiveEffectChip
+        :owner="item"
+        :encounter-instance="encounterInstance"
+        :active-effect="ae"
+      />
     </v-col>
-    <v-col v-if="hidden > 0"
-      cols="auto">
-      <v-chip size="x-small"
+    <v-col
+      v-if="hidden > 0"
+      cols="auto"
+    >
+      <v-chip
+        size="x-small"
         class="pa-2"
         flat
-        style="opacity: 0.75">
+        style="opacity: 0.75"
+      >
         +{{ hidden }} {{ $t('active.activeEffect.hiddenEffects') }}
       </v-chip>
     </v-col>
@@ -46,43 +66,52 @@
 </template>
 
 <script setup lang="ts">
-import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-import { useEncounterContext } from '../encounterContext'
-import type { ICombatant } from '@/classes/components/combat/ICombatant'
-import { computed, ref } from 'vue'
-import CCActiveEffectChip from '@/ui/components/chips/CCActiveEffectChip.vue'
+  import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+  import { useEncounterContext } from '../encounterContext'
+  import type { ICombatant } from '@/classes/components/combat/ICombatant'
+  import { computed, ref } from 'vue'
+  import CCActiveEffectChip from '@/ui/components/chips/CCActiveEffectChip.vue'
 
-const { encounterInstance } = useEncounterContext()
+  const { encounterInstance } = useEncounterContext()
 
-const props = defineProps<{
-  item: ICombatant
-}>()
+  const props = defineProps<{
+    item: ICombatant
+  }>()
 
-const sortMode = ref('')
-const sortDir = ref('asc')
-const hideUsed = ref(true)
-const showTypes = ref(['passive', 'damage', 'status', 'save', 'resistance', 'other', 'special'])
+  const sortMode = ref('')
+  const sortDir = ref<'asc' | 'desc'>('asc')
+  const hideUsed = ref(true)
+  const showTypes = ref(['passive', 'damage', 'status', 'save', 'resistance', 'other', 'special'])
 
-const sortedActiveEffects = computed(() => {
-      let out = props.item.CombatController.SortedActiveEffects(sortMode.value, sortDir.value);
-      if (hideUsed.value) {
-        out = out.filter((ae) => !ae.Applied && !ae.Origin?.Used && !ae.Origin?.Destroyed);
-      }
+  const actionPool = computed(() => {
+    const combatant = encounterInstance.value.Combatants.find(
+      c => c.actor.CombatController.RootActor.ID === props.item.CombatController.RootActor.ID
+    )
+    return combatant?.actor.CombatController.ActiveActor.CombatController
+  })
 
-      return out;
-    })
-const hidden = computed(() => {
-      return props.item.CombatController.ActiveEffects.length - sortedActiveEffects.value.length;
-    })
-
-function sortBy(criteria) {
-      if (sortMode.value === criteria) {
-        sortDir.value = sortDir.value === 'asc' ? 'desc' : 'asc';
-      } else {
-        sortDir.value = 'asc';
-      }
-      sortMode.value = criteria || '';
+  const sortedActiveEffects = computed(() => {
+    let out = props.item.CombatController.SortedActiveEffects(sortMode.value, sortDir.value)
+    if (hideUsed.value) {
+      out = out.filter(
+        ae => !actionPool.value?.IsActionUsed(ae.ID) && !ae.Origin?.Used && !ae.Origin?.Destroyed
+      )
     }
+
+    return out
+  })
+  const hidden = computed(() => {
+    return props.item.CombatController.ActiveEffects.length - sortedActiveEffects.value.length
+  })
+
+  function sortBy(criteria) {
+    if (sortMode.value === criteria) {
+      sortDir.value = sortDir.value === 'asc' ? 'desc' : 'asc'
+    } else {
+      sortDir.value = 'asc'
+    }
+    sortMode.value = criteria || ''
+  }
 </script>
 
 <style scoped></style>

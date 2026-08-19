@@ -41,10 +41,12 @@ class Damage {
   public Target: string = 'enemy'
 
   public _raw_value: string | number
+  public _raw_bonus?: string | number
 
   public constructor(damage: IDamageData) {
     this.Type = this.getDamageType(damage.type)
     this._raw_value = damage.val
+    this._raw_bonus = damage.bonus
 
     if (Array.isArray(damage.val)) {
       this.Value = damage.val.map(v => (typeof v === 'number' ? v.toString() : v)).join(' / ')
@@ -210,9 +212,9 @@ class Damage {
   public static Serialize(damage: Damage): IDamageData {
     return {
       type: damage.Type,
-      val: damage.Value,
+      val: damage._raw_value,
       override: damage.Override,
-      bonus: damage.Bonus,
+      bonus: damage._raw_bonus,
       aoe: damage.AoE,
       ap: damage.AP,
       irreducible: damage.Irreducible,

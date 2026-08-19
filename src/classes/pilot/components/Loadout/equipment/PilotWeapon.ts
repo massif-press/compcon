@@ -116,11 +116,11 @@ class PilotWeapon extends PilotEquipment {
     }
   }
 
-  public get Icon(): string {
+  public override get Icon(): string {
     return 'cc:pilot'
   }
 
-  public get Color(): string {
+  public override get Color(): string {
     return this.IsExotic ? 'exotic' : 'pilot'
   }
 }

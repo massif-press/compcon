@@ -2,7 +2,8 @@
   <div>
     <v-row no-gutters>
       <v-col cols="auto">
-        <tickbar-activator :label="label"
+        <tickbar-activator
+          :label="label"
           :icon="icon"
           :readonly="readonly"
           :bg-color="bgColor"
@@ -11,28 +12,38 @@
           :internal-value="internalValue"
           width="158px"
           @set="setVal($event)"
-          @reset="$emit('reset')" />
+          @reset="$emit('reset')"
+        />
       </v-col>
 
       <v-col class="ml-2">
-        <div v-if="!ticks"
+        <div
+          v-if="!ticks"
           class="ml-1"
           :class="`bg-${bgColor}`"
-          style="height: 20px; width: 100%; margin-top: 4px" />
+          style="height: 20px; width: 100%; margin-top: 4px"
+        />
 
-        <div v-else-if="ticks > tickThreshold"
+        <div
+          v-else-if="ticks > tickThreshold"
           style="height: 20px; width: 100%; margin-top: 4px; margin-right: 4px"
-          :style="pctBackground" />
+          :style="pctBackground"
+        />
 
-        <div v-for="i in ticks"
-          :key="`tick-${i}`"
+        <div
+          v-for="i in ticks"
           v-else-if="ticks"
+          :key="`tick-${i}`"
           class="d-inline-block"
-          :style="`width: ${100 / ticks}%;`">
-          <v-tooltip location="top"
-            :open-delay="400">
+          :style="`width: ${100 / ticks}%;`"
+        >
+          <v-tooltip
+            location="top"
+            :open-delay="400"
+          >
             <template #activator="{ props }">
-              <v-btn v-bind="props"
+              <v-btn
+                v-bind="props"
                 tile
                 flat
                 :readonly="readonly || disabled || loading"
@@ -42,7 +53,8 @@
                 :class="`${isHovered(i) && 'hovered'} ${isMouseovered(i) || (isActive(i) && 'highlighted')} ${isHovered(i) || isActive(i) ? `bg-${color}` : `bg-${bgColor}`}  px-0 `"
                 @mouseover="hover = i"
                 @mouseleave="hover = null"
-                @click="setVal(i)" />
+                @click="setVal(i)"
+              />
             </template>
             <div class="heading h3 text-center">
               <div class="text-cc-overline text-disabled">{{ label }}</div>
@@ -52,44 +64,60 @@
         </div>
       </v-col>
 
-      <v-col cols="auto"
-        class="ml-1">
-        <div :class="`bg-${bgColor}`"
-          style="height: 24px; width: 14px" />
+      <v-col
+        cols="auto"
+        class="ml-1"
+      >
+        <div
+          :class="`bg-${bgColor}`"
+          style="height: 24px; width: 14px"
+        />
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script setup lang="ts">
-import TickbarActivator from './_TickbarActivator.vue'
-import { useTickbar } from './useTickbar'
+  import TickbarActivator from './_TickbarActivator.vue'
+  import { useTickbar } from './useTickbar'
 
-const props = withDefaults(defineProps<{
-  modelValue?: number
-  label?: string
-  color?: string
-  bgColor?: string
-  disabled?: boolean
-  icon?: string
-  ticks?: number
-  stopAdd?: boolean
-  readonly?: boolean
-  editable?: boolean
-  loading?: boolean
-}>(), {
-  modelValue: 0,
-  color: 'secondary',
-  bgColor: 'panel',
-  editable: false,
-  loading: false,
-})
+  const props = withDefaults(
+    defineProps<{
+      modelValue?: number
+      label?: string
+      color?: string
+      bgColor?: string
+      disabled?: boolean
+      icon?: string
+      ticks?: number
+      stopAdd?: boolean
+      readonly?: boolean
+      editable?: boolean
+      loading?: boolean
+    }>(),
+    {
+      modelValue: 0,
+      color: 'secondary',
+      bgColor: 'panel',
+      editable: false,
+      loading: false,
+    }
+  )
 
-const emit = defineEmits<{ 'update:modelValue': [val: number]; reset: [] }>()
+  const emit = defineEmits<{ 'update:modelValue': [val: number]; reset: [] }>()
 
-const { hover, internalValue, tickThreshold, pctBackground, isHovered, isMouseovered, isActive, setVal } = useTickbar(props, emit)
+  const {
+    hover,
+    internalValue,
+    tickThreshold,
+    pctBackground,
+    isHovered,
+    isMouseovered,
+    isActive,
+    setVal,
+  } = useTickbar(props, emit)
 </script>
 
 <style scoped>
-@import './tickbar.css';
+  @import './tickbar.css';
 </style>

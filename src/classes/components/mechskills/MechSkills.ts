@@ -14,12 +14,19 @@ class MechSkills {
     this.Eng = d ? 0 : arr[3]
   }
 
+  private static key(field: HASE): 'Hull' | 'Agi' | 'Sys' | 'Eng' {
+    const f = String(field)
+    return (f.charAt(0).toUpperCase() + f.slice(1).toLowerCase()) as 'Hull' | 'Agi' | 'Sys' | 'Eng'
+  }
+
   public Increment(field: HASE): void {
-    if (this[field] < Rules.MaxHase) this[field] += 1
+    const key = MechSkills.key(field)
+    if (this[key] < Rules.MaxHase) this[key] += 1
   }
 
   public Decrement(field: HASE): void {
-    if (this[field] > 0) this[field] -= 1
+    const key = MechSkills.key(field)
+    if (this[key] > 0) this[key] -= 1
   }
 
   public Reset(): void {

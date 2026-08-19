@@ -128,7 +128,7 @@
   <cc-title id="skills"
     class="mt-4 mb-2">{{ $t('pm.new.skills') }}</cc-title>
   <cc-skill-item v-for="s in pilot.SkillsController.Skills"
-    :key="s.ID"
+    :key="s.Skill.ID"
     :bonus="s.Bonus"
     :skill="s.Skill" />
 

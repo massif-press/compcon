@@ -24,7 +24,7 @@
         :panel="!mobile"
         :owner="mech"
         class="my-2" />
-      <cc-integrated-info v-for="(x, index) in trait.Integrated"
+      <cc-integrated-info v-for="(x, index) in trait.IntegratedEquipment"
         :key="`integrated-${index}`"
         :item="x"
         :panel="!mobile"

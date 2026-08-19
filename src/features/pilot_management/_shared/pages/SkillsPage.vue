@@ -1,53 +1,73 @@
 <template>
-  <stepper-content :complete="canContinue"
+  <stepper-content
+    :complete="canContinue"
     :mandatory="context === 'new'"
     :exit="context === 'new' ? '../pilot_management' : `/pilot/${pilot.ID}`"
     back
     @back="$emit('back')"
-    @complete="$emit('next')">
-    <cc-title offset>{{ context === 'new' ? $t('common.pilotSkillTriggers') :
-      $t('pm.shared.improveSkillTriggers') }}</cc-title>
+    @complete="$emit('next')"
+  >
+    <cc-title offset>
+      {{
+        context === 'new' ? $t('common.pilotSkillTriggers') : $t('pm.shared.improveSkillTriggers')
+      }}
+    </cc-title>
 
-    <div v-if="!smAndDown"
-      class="px-4">
-      <div v-if="context === 'new'"
-        class="heading h2">
+    <div
+      v-if="!smAndDown"
+      class="px-4"
+    >
+      <div
+        v-if="context === 'new'"
+        class="heading h2"
+      >
         {{ $t('pm.new.uadIDENTService') }}
         <cc-slashes />
         {{ $t('pm.shared.rm4bPilotSelfAssessment1') }}
       </div>
-      <div v-else
-        class="heading h2">
+      <div
+        v-else
+        class="heading h2"
+      >
         {{ $t('pm.level.mv2LicenseAcquisitionRequest') }}
         <cc-slashes />
         &nbsp;{{ $t('pm.shared.mv2ASkillImprovementAssessment') }}
       </div>
 
-      <p v-if="context === 'new'"
+      <p
+        v-if="context === 'new'"
         class="flavor-text px-6"
-        style="font-size: 14px">
+        style="font-size: 14px"
+      >
         {{ $t('pm.shared.theRM4bPILOTSELFASSESSMENT2') }}
         <br />
         <b>{{ $t('pm.shared.nb') }}:</b>
         {{ $t('pm.shared.theFollowingFormIsComprisedOf') }}
       </p>
-      <p v-else
+      <p
+        v-else
         class="flavor-text px-6"
-        style="font-size: 14px">
+        style="font-size: 14px"
+      >
         {{ $t('pm.shared.theMV2APilotSelfAssessment') }}
         <br />
         <b>{{ $t('pm.shared.nb') }}:</b>
         {{ $t('pm.shared.theFollowingFormIsComprisedOf') }}
       </p>
 
-      <v-alert color="accent"
+      <v-alert
+        color="accent"
         variant="outlined"
         density="compact"
         class="mt-2"
-        tile>
+        tile
+      >
         <div class="heading">
-          {{ context === 'new' ? $t('pm.shared.selectSkillTriggers', { word, count }) :
-            $t('pm.shared.addOrImproveSkill') }}
+          {{
+            context === 'new'
+              ? $t('pm.shared.selectSkillTriggers', { word, count })
+              : $t('pm.shared.addOrImproveSkill')
+          }}
         </div>
         <p class="text-cc-overline">
           {{ $t('pm.new.bySubmittingThisFormYouAttest') }}
@@ -56,83 +76,116 @@
     </div>
 
     <v-scroll-y-reverse-transition v-if="context === 'new'">
-      <cc-alert v-if="pilot.Background && !pilot.SkillsController.HasFullSkills"
+      <cc-alert
+        v-if="pilot.Background && !pilot.SkillsController.HasFullSkills"
         class="my-2"
         icon="mdi-orbit"
-        :title="$t('pm.titles.skillSuggestionsAvailable')">
+        :title="$t('pm.titles.skillSuggestionsAvailable')"
+      >
         <p class="text-cc-overline text-disabled">
           {{ $t('pm.shared.identSERVICEPRIMARYHasGeneratedA') }}
         </p>
         <div class="mx-3 mt-2">
-          <cc-button size="small"
+          <cc-button
+            size="small"
             :color="suggestedSet ? 'success' : 'accent'"
             block
             prepend-icon="mdi-auto-mode"
             :append-icon="suggestedSet ? 'mdi-check' : undefined"
-            @click="setSuggestedSkills()">
-            {{ suggestedSet ? $t('pm.shared.suggestedSkillsAdded') :
-              $t('pm.shared.addSuggestedSkills') }}
+            @click="setSuggestedSkills()"
+          >
+            {{
+              suggestedSet
+                ? $t('pm.shared.suggestedSkillsAdded')
+                : $t('pm.shared.addSuggestedSkills')
+            }}
           </cc-button>
         </div>
       </cc-alert>
     </v-scroll-y-reverse-transition>
 
-    <div v-if="context === 'level'"
-      style="height: calc(100vh - 80px)">
-
+    <div
+      v-if="context === 'level'"
+      style="height: calc(100vh - 80px)"
+    >
       <div v-fill-height>
-
-        <skill-selector :pilot="<Pilot>pilot"
-          @reset="suggestedSet = false" />
+        <skill-selector
+          :pilot="<Pilot>pilot"
+          @reset="suggestedSet = false"
+        />
       </div>
     </div>
-    <div v-else
-      v-fill-height>
-      <skill-selector :pilot="<Pilot>pilot"
-        @reset="suggestedSet = false" />
+    <div
+      v-else
+      v-fill-height
+    >
+      <skill-selector
+        :pilot="<Pilot>pilot"
+        @reset="suggestedSet = false"
+      />
     </div>
   </stepper-content>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { CompendiumStore } from '@/stores'
-import StepperContent from '../../_components/StepperContent.vue'
-import SkillSelector from '../../_components/selectors/SkillSelector.vue'
-import vFillHeight from '../vFillHeight'
-import { Pilot } from '@/classes/pilot/Pilot'
-import { useDisplay } from 'vuetify'
+  import { computed, ref } from 'vue'
+  import { CompendiumStore } from '@/stores'
+  import StepperContent from '../../_components/StepperContent.vue'
+  import SkillSelector from '../../_components/selectors/SkillSelector.vue'
+  import vFillHeight from '../vFillHeight'
+  import { Pilot } from '@/classes/pilot/Pilot'
+  import { useDisplay } from 'vuetify'
 
-const props = defineProps<{
-  pilot: Pilot
-  context: 'new' | 'level'
-}>()
+  const props = defineProps<{
+    pilot: Pilot
+    context: 'new' | 'level'
+  }>()
 
-const { smAndDown } = useDisplay()
+  const { smAndDown } = useDisplay()
 
-defineEmits<{ back: []; next: [] }>()
+  defineEmits<{ back: []; next: [] }>()
 
-const suggestedSet = ref(false)
+  const suggestedSet = ref(false)
 
-const canContinue = computed(() => !(props.pilot as any).SkillsController.IsMissingSkills)
-const count = computed(() => (props.pilot as any).SkillsController.MaxSkillPoints)
-const word = computed(() => {
-  const words = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen']
-  return words[count.value] ?? count.value
-})
+  const canContinue = computed(() => !(props.pilot as any).SkillsController.IsMissingSkills)
+  const count = computed(() => (props.pilot as any).SkillsController.MaxSkillPoints)
+  const word = computed(() => {
+    const words = [
+      'zero',
+      'one',
+      'two',
+      'three',
+      'four',
+      'five',
+      'six',
+      'seven',
+      'eight',
+      'nine',
+      'ten',
+      'eleven',
+      'twelve',
+      'thirteen',
+      'fourteen',
+      'fifteen',
+      'sixteen',
+    ]
+    return words[count.value] ?? count.value
+  })
 
-function setSuggestedSkills() {
-  const bgItem = CompendiumStore().Backgrounds.find(
-    (b) => b.Name.toLowerCase() === (props.pilot as any).Background.toLowerCase()
-  )
-  if (!bgItem || !bgItem.SuggestedSkills?.length) return
-  if (suggestedSet.value) {
-    bgItem.SuggestedSkills.forEach((skill) => (props.pilot as any).SkillsController.RemoveSkill(skill))
-    suggestedSet.value = false
-    return
+  function setSuggestedSkills() {
+    const bgItem = CompendiumStore().Backgrounds.find(
+      b => b.Name.toLowerCase() === (props.pilot as any).Background.toLowerCase()
+    )
+    if (!bgItem || !bgItem.SuggestedSkills?.length) return
+    if (suggestedSet.value) {
+      bgItem.SuggestedSkills.forEach(skill =>
+        (props.pilot as any).SkillsController.RemoveSkill(skill)
+      )
+      suggestedSet.value = false
+      return
+    }
+    ;(props.pilot as any).SkillsController.ClearSkills()
+    bgItem.SuggestedSkills.forEach(skill => (props.pilot as any).SkillsController.AddSkill(skill))
+    suggestedSet.value = true
   }
-  ; (props.pilot as any).SkillsController.ClearSkills()
-  bgItem.SuggestedSkills.forEach((skill) => (props.pilot as any).SkillsController.AddSkill(skill))
-  suggestedSet.value = true
-}
 </script>

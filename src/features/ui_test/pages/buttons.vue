@@ -2,7 +2,10 @@
   <v-window-item>
     <cc-heading size="large">buttons</cc-heading>
     <cc-heading line>standard</cc-heading>
-    <v-card flat border>
+    <v-card
+      flat
+      border
+    >
       <v-row justify="center">
         <v-col align-self="center">
           <v-card-text>
@@ -17,19 +20,29 @@
                   :block="block && buttonType === 'std'"
                   :tooltip="showTooltip ? 'This is a tooltip' : undefined"
                   :prepend-icon="prependIcon"
-                  :append-icon="appendIcon">
+                  :append-icon="appendIcon"
+                >
                   {{ label }}
-                  <template v-if="showOptions" #options>
+                  <template
+                    v-if="showOptions"
+                    #options
+                  >
                     <v-list>
                       <v-list-item title="Example" />
                       <v-list-item title="Example" />
                       <v-list-item title="Example" />
                     </v-list>
                   </template>
-                  <template v-if="subtitle" #subtitle>
+                  <template
+                    v-if="subtitle"
+                    #subtitle
+                  >
                     {{ infotext }}
                   </template>
-                  <template v-if="infotext" #info>
+                  <template
+                    v-if="infotext"
+                    #info
+                  >
                     {{ subtitle }}
                   </template>
                 </cc-button>
@@ -38,103 +51,128 @@
           </v-card-text>
         </v-col>
         <v-divider vertical />
-        <v-col cols="3" style="min-width: 400px">
+        <v-col
+          cols="3"
+          style="min-width: 400px"
+        >
           <v-card flat>
             <v-card-text>
               <v-btn-toggle
                 v-model="buttonType"
                 density="compact"
                 hide-details
-                @update:model-value="block = false">
+                @update:model-value="block = false"
+              >
                 <v-btn value="std">standard</v-btn>
                 <v-btn value="stk">stacked</v-btn>
                 <v-btn value="icn">icon</v-btn>
               </v-btn-toggle>
               <v-text-field
+                v-model="label"
                 density="compact"
                 label="label"
                 hide-details
-                v-model="label"
-                clearable />
+                clearable
+              />
               <v-text-field
                 v-if="buttonType === 'std' && block"
+                v-model="subtitle"
                 density="compact"
                 label="subtitle"
                 hide-details
-                v-model="subtitle"
-                clearable />
+                clearable
+              />
               <v-text-field
                 v-if="buttonType === 'std' && block"
+                v-model="infotext"
                 density="compact"
                 label="info text"
                 hide-details
-                v-model="infotext"
-                clearable />
+                clearable
+              />
               <v-text-field
+                v-model="label"
                 density="compact"
                 label="label"
                 hide-details
-                v-model="label"
-                clearable />
+                clearable
+              />
               <v-select
                 v-if="buttonType === 'icn'"
+                v-model="icon"
                 density="compact"
                 label="icon"
                 hide-details
-                v-model="icon"
-                :items="icons" />
+                :items="icons"
+              />
               <v-select
+                v-model="color"
                 density="compact"
                 label="color"
                 hide-details
-                v-model="color"
-                :items="colors" />
-              <v-select density="compact" label="size" hide-details v-model="size" :items="sizes" />
+                :items="colors"
+              />
               <v-select
+                v-model="size"
+                density="compact"
+                label="size"
+                hide-details
+                :items="sizes"
+              />
+              <v-select
+                v-model="variant"
                 density="compact"
                 label="variant"
                 hide-details
-                v-model="variant"
-                :items="['default', 'outlined', 'tonal', 'text']" />
+                :items="['default', 'outlined', 'tonal', 'text']"
+              />
               <v-select
                 v-if="buttonType !== 'icn'"
+                v-model="prependIcon"
                 density="compact"
                 label="prepend icon"
                 hide-details
-                v-model="prependIcon"
-                :items="['', ...icons]" />
+                :items="['', ...icons]"
+              />
               <v-select
                 v-if="buttonType === 'std'"
+                v-model="appendIcon"
                 density="compact"
                 label="append icon"
                 hide-details
-                v-model="appendIcon"
-                :items="['', ...icons]" />
+                :items="['', ...icons]"
+              />
               <v-checkbox
                 v-if="buttonType === 'std'"
-                density="compact"
-                hide-details
                 v-model="block"
-                label="block" />
-              <v-checkbox
-                v-if="buttonType === 'std'"
                 density="compact"
                 hide-details
+                label="block"
+              />
+              <v-checkbox
+                v-if="buttonType === 'std'"
                 v-model="showTooltip"
-                label="tooltip" />
+                density="compact"
+                hide-details
+                label="tooltip"
+              />
               <v-checkbox
                 v-if="buttonType !== 'icn'"
+                v-model="showOptions"
                 density="compact"
                 hide-details
-                v-model="showOptions"
-                label="options" />
+                label="options"
+              />
             </v-card-text>
           </v-card>
         </v-col>
       </v-row>
     </v-card>
     <cc-heading line>toggles</cc-heading>
-    <v-card flat border>
+    <v-card
+      flat
+      border
+    >
       <v-row justify="center">
         <v-col align-self="center">
           <v-card-text>
@@ -152,7 +190,8 @@
                   :tooltip="showTooltip ? 'This is a tooltip' : undefined"
                   :prepend-icon="prependIcon"
                   :on-icon="onIcon"
-                  :off-icon="offIcon" />
+                  :off-icon="offIcon"
+                />
                 <cc-checkbox
                   v-else-if="toggleType === 'chk'"
                   v-model="toggle"
@@ -165,7 +204,8 @@
                   :tooltip="showTooltip ? 'This is a tooltip' : undefined"
                   :prepend-icon="prependIcon"
                   :on-icon="onIcon"
-                  :off-icon="offIcon" />
+                  :off-icon="offIcon"
+                />
                 <CCRadio
                   v-else-if="toggleType === 'rad'"
                   v-model="toggle"
@@ -178,79 +218,102 @@
                   :tooltip="showTooltip ? 'This is a tooltip' : undefined"
                   :prepend-icon="prependIcon"
                   :on-icon="onIcon"
-                  :off-icon="offIcon" />
+                  :off-icon="offIcon"
+                />
               </v-col>
             </v-row>
           </v-card-text>
         </v-col>
         <v-divider vertical />
-        <v-col cols="3" style="min-width: 400px">
+        <v-col
+          cols="3"
+          style="min-width: 400px"
+        >
           <v-card flat>
             <v-card-text>
               <v-btn-toggle
                 v-model="toggleType"
                 density="compact"
                 hide-details
-                @update:model-value="block = false">
+                @update:model-value="block = false"
+              >
                 <v-btn value="swi">switch</v-btn>
                 <v-btn value="chk">checkbox</v-btn>
                 <v-btn value="rad">radio</v-btn>
               </v-btn-toggle>
 
               <v-text-field
+                v-model="toggleLabel"
                 density="compact"
                 label="label"
                 hide-details
-                v-model="toggleLabel"
-                clearable />
+                clearable
+              />
 
               <v-select
+                v-model="bgColor"
                 density="compact"
                 label="background color"
                 hide-details
-                v-model="bgColor"
                 clearable
-                :items="colors" />
+                :items="colors"
+              />
               <v-select
+                v-model="toggleActiveColor"
                 density="compact"
                 label="active color"
                 hide-details
-                v-model="toggleActiveColor"
                 clearable
-                :items="colors" />
+                :items="colors"
+              />
               <v-select
+                v-model="toggleColor"
                 density="compact"
                 label="inactive color"
                 hide-details
                 clearable
-                v-model="toggleColor"
-                :items="colors" />
-              <v-select density="compact" label="size" hide-details v-model="size" :items="sizes" />
+                :items="colors"
+              />
               <v-select
+                v-model="size"
+                density="compact"
+                label="size"
+                hide-details
+                :items="sizes"
+              />
+              <v-select
+                v-model="prependIcon"
                 density="compact"
                 label="prepend icon"
                 hide-details
                 clearable
-                v-model="prependIcon"
-                :items="icons" />
+                :items="icons"
+              />
               <v-select
                 v-if="toggleType === 'swi' || toggleType === 'chk'"
+                v-model="onIcon"
                 density="compact"
                 label="on icon"
                 hide-details
                 clearable
-                v-model="onIcon"
-                :items="icons" />
+                :items="icons"
+              />
               <v-select
                 v-if="toggleType === 'swi' || toggleType === 'chk'"
+                v-model="offIcon"
                 density="compact"
                 label="off icon"
                 hide-details
                 clearable
-                v-model="offIcon"
-                :items="icons" />
+                :items="icons"
+              />
 
-              <v-checkbox density="compact" hide-details v-model="showTooltip" label="tooltip" />
+              <v-checkbox
+                v-model="showTooltip"
+                density="compact"
+                hide-details
+                label="tooltip"
+              />
             </v-card-text>
           </v-card>
         </v-col>
@@ -260,57 +323,57 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import CCRadio from '@/ui/components/buttons/CCRadio.vue'
+  import { ref } from 'vue'
+  import CCRadio from '@/ui/components/buttons/CCRadio.vue'
 
-defineOptions({ name: 'ui-test-buttons' })
+  defineOptions({ name: 'ui-test-buttons' })
 
-const toggle = ref(false)
-const label = ref('button text')
-const toggleLabel = ref('')
-const subtitle = ref('subtitle')
-const infotext = ref('details')
-const buttonType = ref('std')
-const color = ref('primary')
-const size = ref('default')
-const variant = ref('default')
-const block = ref(false)
-const prependIcon = ref('')
-const appendIcon = ref('')
-const icon = ref('cc:campaign')
-const showTooltip = ref(false)
-const showOptions = ref(false)
-const toggleType = ref('swi')
-const bgColor = ref('panel')
-const toggleActiveColor = ref('success')
-const toggleColor = ref('error')
-const onIcon = ref('')
-const offIcon = ref('')
-const icons = ref([
-      'cc:campaign',
-      'mdi-alert',
-      'cc:pilot',
-      'mdi-cog',
-      'cc:kinetic',
-      'mdi-content-save',
-      'cc:encounter',
-      'mdi-help',
-      'mdi-cancel',
-      'cc:monist',
-    ])
-const colors = ref([
-      'primary',
-      'secondary',
-      'accent',
-      'damage--heat',
-      'damage--energy',
-      'exotic',
-      'cyan',
-      'panel',
-      'overcharge',
-      'success',
-      'warning',
-      'error',
-    ])
-const sizes = ref(['default', 'x-small', 'small', 'large', 'x-large', 'xx-large'])
+  const toggle = ref(false)
+  const label = ref('button text')
+  const toggleLabel = ref('')
+  const subtitle = ref('subtitle')
+  const infotext = ref('details')
+  const buttonType = ref('std')
+  const color = ref('primary')
+  const size = ref('default')
+  const variant = ref('default')
+  const block = ref(false)
+  const prependIcon = ref('')
+  const appendIcon = ref('')
+  const icon = ref('cc:campaign')
+  const showTooltip = ref(false)
+  const showOptions = ref(false)
+  const toggleType = ref('swi')
+  const bgColor = ref('panel')
+  const toggleActiveColor = ref('success')
+  const toggleColor = ref('error')
+  const onIcon = ref('')
+  const offIcon = ref('')
+  const icons = ref([
+    'cc:campaign',
+    'mdi-alert',
+    'cc:pilot',
+    'mdi-cog',
+    'cc:kinetic',
+    'mdi-content-save',
+    'cc:encounter',
+    'mdi-help',
+    'mdi-cancel',
+    'cc:monist',
+  ])
+  const colors = ref([
+    'primary',
+    'secondary',
+    'accent',
+    'damage--heat',
+    'damage--energy',
+    'exotic',
+    'cyan',
+    'panel',
+    'overcharge',
+    'success',
+    'warning',
+    'error',
+  ])
+  const sizes = ref(['default', 'x-small', 'small', 'large', 'x-large', 'xx-large'])
 </script>

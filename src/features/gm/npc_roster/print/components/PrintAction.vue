@@ -1,10 +1,14 @@
 <template>
-  <div v-for="(a, index) in actions"
+  <div
+    v-for="(a, index) in actions"
     :key="`action-${index}`"
-    class="no-print-break">
+    class="no-print-break"
+  >
     <div>
-      <v-icon size="x-small"
-        :icon="(a as Action).Icon" />
+      <v-icon
+        size="x-small"
+        :icon="(a as Action).Icon"
+      />
       <span class="caption">
         <b>{{ (a as Action).Name }}</b>
         ({{ $enum('activationType', (a as Action).Activation) }})
@@ -12,28 +16,44 @@
     </div>
 
     <div class="ml-3 mt-n1">
-      <div v-if="(a as Action).Init"
+      <div
+        v-if="(a as Action).Init"
         v-html-safe="(a as Action).Init"
-        class="caption" />
-      <v-row v-if="(a as Action).Trigger"
-        no-gutters>
-        <v-col cols="auto"
-          class="caption font-weight-bold">{{ $t('common.trigger') }}:&nbsp;</v-col>
+        class="caption"
+      />
+      <v-row
+        v-if="(a as Action).Trigger"
+        no-gutters
+      >
+        <v-col
+          cols="auto"
+          class="caption font-weight-bold"
+        >
+          {{ $t('common.trigger') }}:&nbsp;
+        </v-col>
         <v-col>
-          <div v-html-safe="(a as Action).Trigger"
-            class="caption" />
+          <div
+            v-html-safe="(a as Action).Trigger"
+            class="caption"
+          />
         </v-col>
       </v-row>
-      <v-row v-if="(a as Action).Detail"
-        no-gutters>
-        <v-col v-if="(a as Action).Trigger"
+      <v-row
+        v-if="(a as Action).Detail"
+        no-gutters
+      >
+        <v-col
+          v-if="(a as Action).Trigger"
           cols="auto"
-          class="caption font-weight-bold">
+          class="caption font-weight-bold"
+        >
           {{ $t('common.effect') }}:&nbsp;
         </v-col>
         <v-col>
-          <div v-html-safe="(a as Action).Detail"
-            class="caption" />
+          <div
+            v-html-safe="(a as Action).Detail"
+            class="caption"
+          />
         </v-col>
       </v-row>
     </div>
@@ -41,13 +61,9 @@
 </template>
 
 <script setup lang="ts">
-import { Action } from '@/classes/Action';
+  import { Action } from '@/classes/Action'
 
-const props = defineProps<{
-  actions: Action[]
-}>()
+  const props = defineProps<{
+    actions: Action[]
+  }>()
 </script>
-
-<style scoped>
-@import '@/ui/style/print-common.css';
-</style>

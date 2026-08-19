@@ -11,7 +11,7 @@
     <v-chip v-for="t in filteredTags"
       :key="t.ID"
       variant="outlined"
-      size="small"
+      size="x-small"
       label
       class="mx-1 mt-n1 my-0">
       {{ t.GetName(bonus, tier) }}
@@ -37,52 +37,52 @@ import CCExtendedTag from './CCExtendedTag.vue'
 import Tag from '@/classes/Tag'
 
 const props = defineProps({
-    size: {
-      type: String,
-      required: false,
-    },
-    density: {
-      type: String,
-      required: false,
-    },
-    outlined: {
-      type: Boolean,
-      required: false,
-    },
-    extended: {
-      type: Boolean,
-      required: false,
-    },
-    print: {
-      type: Boolean,
-      required: false,
-    },
-    color: {
-      type: String,
-      required: false,
-    },
-    tags: {
-      type: Array,
-      required: true,
-    },
-    bonus: {
-      type: Number,
-      required: false,
-      default: 0,
-    },
-    tier: {
-      type: Number,
-      required: false,
-      default: 1,
-    },
-    combat: {
-      type: Boolean,
-      required: false,
-    },
-    forceExtended: {
-      type: Boolean,
-    },
-  })
+  size: {
+    type: String,
+    required: false,
+  },
+  density: {
+    type: String,
+    required: false,
+  },
+  outlined: {
+    type: Boolean,
+    required: false,
+  },
+  extended: {
+    type: Boolean,
+    required: false,
+  },
+  print: {
+    type: Boolean,
+    required: false,
+  },
+  color: {
+    type: String,
+    required: false,
+  },
+  tags: {
+    type: Array,
+    required: true,
+  },
+  bonus: {
+    type: Number,
+    required: false,
+    default: 0,
+  },
+  tier: {
+    type: Number,
+    required: false,
+    default: 1,
+  },
+  combat: {
+    type: Boolean,
+    required: false,
+  },
+  forceExtended: {
+    type: Boolean,
+  },
+})
 
 const { smAndDown: mobile, xs: portrait } = useDisplay()
 

@@ -1,13 +1,9 @@
 import { cloudDelete, updateItem, uploadToS3 } from '@/io/apis/account'
 import { i18n } from '@/i18n'
 import { GenerateExportCollection } from '@/io/Importer'
-import { RemoveItem, SetItem } from '@/io/Storage'
+import { RemoveItem } from '@/io/Storage'
 import { UserStore } from '@/user/store'
-import {
-  CompendiumStore,
-  ContentCollectionStore,
-  ContentPackStore,
-} from '@/features/compendium/store'
+import { ContentCollectionStore, ContentPackStore } from '@/features/compendium/store'
 import { PilotStore } from '@/features/pilot_management/store'
 import { NpcStore } from '@/features/gm/store/npc_store'
 import { NarrativeStore } from '@/features/gm/store/narrative_store'
@@ -262,3 +258,4 @@ class ContentCollection {
 }
 
 export { ContentCollection }
+export type { CollectionMetadata }

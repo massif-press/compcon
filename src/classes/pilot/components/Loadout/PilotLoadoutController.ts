@@ -88,6 +88,17 @@ class PilotLoadoutController implements IFeatureContainer {
     this.Parent.SaveController.save()
   }
 
+  public CloneLoadout(): void {
+    const newLoadout = PilotLoadout.Deserialize(
+      structuredClone(PilotLoadout.Serialize(this.ActiveLoadout)),
+      this
+    )
+    newLoadout.Name += ' (Copy)'
+    this._loadouts.splice(this._activeIndex + 1, 0, newLoadout)
+    this._activeIndex = this._activeIndex + 1
+    this.Parent.SaveController.save()
+  }
+
   public RemoveLoadout(index?: number): void {
     const idx = index ?? this._activeIndex
     if (this.Loadouts.length <= 1) return

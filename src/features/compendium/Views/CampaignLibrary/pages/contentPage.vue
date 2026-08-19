@@ -20,10 +20,11 @@
 
 <script setup lang="ts">
 import PageContentContainer from './containers/campaignContentContainer.vue';
+import type { CampaignSection } from '@/classes/campaign/CampaignSection';
 
 defineOptions({ name: 'campaign-content-page' })
 
 const props = defineProps<{
-  item: object
+  item: CampaignSection
 }>()
 </script>

@@ -20,7 +20,7 @@ import type { Encounter } from '@/classes/encounter/Encounter'
 import { Clock } from '@/classes/narrative/elements/Clock';
 
 const props = defineProps<{
-  selected: object
+  selected: { Name: string; Notes: string }
   encounter: Encounter
 }>()
 </script>

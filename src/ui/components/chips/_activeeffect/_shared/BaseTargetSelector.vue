@@ -3,37 +3,43 @@
     <div class="text-cc-overline text-disabled">
       <span>{{ `Target${event.AoE ? 's' : ''}` }}</span>
     </div>
-    <v-select v-for="(idx) in event.Targets.length"
+    <v-select
+      v-for="idx in event.Targets.length"
       :key="event.Targets?.[idx - 1]?.Combatant?.id || `empty-selector-${idx}`"
-      :value="event.Targets?.[idx - 1]?.Combatant?.actor.CombatController.CombatName || ''"
+      :value="combatantLabel(event.Targets?.[idx - 1]?.Combatant)"
       :placeholder="$t('ui.fields.selectTarget')"
       density="compact"
       variant="outlined"
       return-object
       class="mb-1"
-      :item-title="t => t.actor.CombatController.CombatName"
+      :item-title="combatantLabel"
       :item-value="t => t.id"
       :items="event.AvailableTargets"
       flat
       :error="!event.Targets?.[idx - 1]?.Combatant?.id"
       hide-details
       tile
-      @update:model-value="event.SetTarget($event, idx - 1)">
+      @update:model-value="event.SetTarget($event, idx - 1)"
+    >
       <template #prepend>
         <div v-if="idx === 1">
           <v-tooltip location="top">
             <template #activator="{ props }">
-              <v-btn icon
+              <v-btn
+                icon
                 size="x-small"
                 variant="text"
                 flat
                 tile
                 class="mr-n2"
                 v-bind="props"
-                @click="event.AoE = !event.AoE">
-                <v-icon size="25"
+                @click="event.AoE = !event.AoE"
+              >
+                <v-icon
+                  size="25"
                   :icon="event.AoeIcon"
-                  class="mr-n2" />
+                  class="mr-n2"
+                />
               </v-btn>
             </template>
 
@@ -48,8 +54,10 @@
               </div>
             </div>
 
-            <div v-else
-              class="text-center">
+            <div
+              v-else
+              class="text-center"
+            >
               {{ $t('ui.combat.singleTarget') }}
               <div>
                 <i class="text-caption text-disabled">{{ $t('ui.combat.clickToOverride') }}</i>
@@ -57,23 +65,30 @@
             </div>
           </v-tooltip>
         </div>
-        <div v-else
-          style="width: 24px"></div>
+        <div
+          v-else
+          style="width: 24px"
+        ></div>
       </template>
       <template #append>
-        <v-btn icon
+        <v-btn
+          icon
           size="x-small"
           variant="text"
           flat
           tile
-          class="mx-n2">
-          <v-icon size="20"
+          class="mx-n2"
+        >
+          <v-icon
+            size="20"
             icon="mdi-close"
-            @click="event.RemoveTarget(idx - 1)" />
+            @click="event.RemoveTarget(idx - 1)"
+          />
         </v-btn>
       </template>
     </v-select>
-    <v-btn v-if="event.AoE"
+    <v-btn
+      v-if="event.AoE"
       :key="`targetSel_${event.AvailableTargets?.length}`"
       size="x-small"
       block
@@ -82,16 +97,18 @@
       :color="event.AvailableTargets?.length ? 'primary' : ''"
       class="ma-1"
       :disabled="!event.AvailableTargets?.length"
-      @click="event.AddTarget()">
+      @click="event.AddTarget()"
+    >
       {{ $t('ui.combat.addTarget') }}
     </v-btn>
   </v-col>
 </template>
 
 <script setup lang="ts">
-import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
+  import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
+  import { combatantLabel } from '@/util/combatantLabel'
 
-defineProps<{
-  event: ActiveEffectEvent
-}>()
+  defineProps<{
+    event: ActiveEffectEvent
+  }>()
 </script>

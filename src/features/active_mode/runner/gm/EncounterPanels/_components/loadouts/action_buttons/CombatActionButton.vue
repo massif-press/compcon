@@ -83,7 +83,7 @@ const { owner, encounterInstance } = useEncounterContext()
 
 const props = withDefaults(defineProps<{
   action: Action
-  presetWeapon?: object
+  presetWeapon?: { InstanceID: string }
   mobile?: boolean
   actionColor?: string
   actionIcon?: string
@@ -91,8 +91,8 @@ const props = withDefaults(defineProps<{
 }>(), {
   presetWeapon: undefined,
   mobile: false,
-  actionColor: null,
-  actionIcon: null,
+  actionColor: undefined,
+  actionIcon: undefined,
   minWidth: '70vw'
 })
 

@@ -70,10 +70,8 @@ const emit = defineEmits<{
   'set-selected': [payload: any]
 }>()
 
-const lastSave = ref('')
+const lastSave = ref(0)
 const selected = ref(null)
-
-lastSave.value = props.campaign.SaveController.LastModified;
 
 lastSave.value = props.campaign.SaveController.LastModified;
 

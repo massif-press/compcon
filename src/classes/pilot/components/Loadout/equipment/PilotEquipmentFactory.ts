@@ -23,6 +23,7 @@ function DeserializePilotEquipment(itemData: IEquipmentData): PilotEquipment | n
     item = PilotEquipmentFactory(itemData.data) as PilotEquipment
     item.FromInstance = true
   }
+  if (itemData.instanceId) item.InstanceID = itemData.instanceId
   item._note = itemData.note
   item._flavor_name = itemData.flavorName
   item._flavor_description =

@@ -1,37 +1,41 @@
 <template>
-  <cc-compendium-browser :items="templates"
-    :itemType="'NpcTemplate'"
+  <cc-compendium-browser
+    :items="templates"
+    :item-type="'NpcTemplate'"
     :table-headers="headers"
     :options="options"
-    view-key="cb-npc-templates">
+    view-key="cb-npc-templates"
+  >
     <template #header>
-      <div class="heading h3 text-center text-accent">{{ $t('compendium.categories.npcTemplates') }}</div>
+      <div class="heading h3 text-center text-accent">
+        {{ $t('compendium.categories.npcTemplates') }}
+      </div>
     </template>
   </cc-compendium-browser>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { orderBy } from 'lodash-es';
-import { CompendiumStore } from '@/stores';
-import { NpcTemplate } from '@/classes/npc/template/NpcTemplate';
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
+  import { computed, ref } from 'vue'
+  import { orderBy } from 'lodash-es'
+  import { CompendiumStore } from '@/stores'
+  import { NpcTemplate } from '@/classes/npc/template/NpcTemplate'
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
 
-const headers = ref([
-      { title: t('compendium.titles.contentPack'), key: 'LcpName' },
-      { title: 'Name', key: 'Name' },
-      { title: '', key: 'Terse' },
-    ])
-const options = ref({
-      views: ['single', 'table', 'list'],
-      initialView: 'single',
-      groups: ['lcp', 'none'],
-      initialGroup: 'lcp',
-      noSource: true,
-    })
+  const headers = ref([
+    { title: t('compendium.titles.contentPack'), key: 'LcpName' },
+    { title: 'Name', key: 'Name' },
+    { title: '', key: 'Terse' },
+  ])
+  const options = ref({
+    views: ['single', 'table', 'list'],
+    initialView: 'single',
+    groups: ['lcp', 'none'],
+    initialGroup: 'lcp',
+    noSource: true,
+  })
 
-const templates = computed(() => {
-      return orderBy(CompendiumStore().NpcTemplates, 'Name');
-    })
+  const templates = computed(() => {
+    return orderBy(CompendiumStore().NpcTemplates, 'Name')
+  })
 </script>

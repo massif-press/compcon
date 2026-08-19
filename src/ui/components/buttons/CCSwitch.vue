@@ -1,29 +1,40 @@
 <template>
-  <div v-if="topLabel"
-    class="text-cc-overline">
+  <div
+    v-if="topLabel"
+    class="text-cc-overline"
+  >
     <cc-slashes class="mr-1" />
     {{ topLabel }}
   </div>
   <div style="display: inline-flex">
-    <v-icon v-if="prependIcon"
+    <v-icon
+      v-if="prependIcon"
       style="align-self: center"
       :size="size"
       :start="!label"
-      :icon="prependIcon" />
-    <div v-if="label"
+      :icon="prependIcon"
+    />
+    <div
+      v-if="label"
       class="d-inline-block text-cc-overline ml-3"
-      style="align-self: center">
+      style="align-self: center"
+    >
       {{ label }}
       <cc-slashes class="mr-2 ml-1" />
     </div>
     <v-hover>
       <template #default="{ props, isHovering }">
-        <div v-bind="props"
+        <div
+          v-bind="props"
           class="top-element"
-          style="display: inline-block; position: relative; align-self: center">
-          <span :class="`light ${size} bg-${getLightColor(isHovering)}`"
-            style="position: absolute; left: 0" />
-          <div class="toggle"
+          style="display: inline-block; position: relative; align-self: center"
+        >
+          <span
+            :class="`light ${size} bg-${getLightColor(isHovering)}`"
+            style="position: absolute; left: 0"
+          />
+          <div
+            class="toggle"
             role="switch"
             :aria-checked="isOn"
             :aria-label="ariaLabel"
@@ -31,35 +42,46 @@
             :class="`${size} ${isOn && 'on'} size-${size} bg-${bgColor}`"
             @click="toggle"
             @keydown.enter.prevent="toggle"
-            @keydown.space.prevent="toggle">
-            <div class="toggle-knob"
-              :class="`${size} bg-${isOn ? activeColor : color}`" />
+            @keydown.space.prevent="toggle"
+          >
+            <div
+              class="toggle-knob"
+              :class="`${size} bg-${isOn ? activeColor : color}`"
+            />
           </div>
         </div>
       </template>
     </v-hover>
     <v-slide-x-transition leave-absolute>
-      <v-icon v-if="isOn && onIcon"
+      <v-icon
+        v-if="isOn && onIcon"
         style="align-self: center"
         end
         :size="size"
-        :icon="onIcon" />
-      <v-icon v-if="!isOn && offIcon"
+        :icon="onIcon"
+      />
+      <v-icon
+        v-if="!isOn && offIcon"
         style="align-self: center"
         end
         :size="size"
-        :icon="offIcon" />
+        :icon="offIcon"
+      />
     </v-slide-x-transition>
 
-    <v-tooltip v-if="tooltip"
+    <v-tooltip
+      v-if="tooltip"
       location="top"
-      max-width="300px">
-      <template v-slot:activator="{ props }">
-        <v-icon style="align-self: center"
+      max-width="300px"
+    >
+      <template #activator="{ props }">
+        <v-icon
+          style="align-self: center"
           :size="size"
           v-bind="props"
           class="fade-select mx-1"
-          :icon="tooltipIcon || 'mdi-information-slab-box-outline'" />
+          :icon="tooltipIcon || 'mdi-information-slab-box-outline'"
+        />
       </template>
       {{ tooltip }}
     </v-tooltip>
@@ -67,220 +89,220 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+  import { computed } from 'vue'
 
-defineOptions({ inheritAttrs: false })
+  defineOptions({ inheritAttrs: false })
 
-interface Props {
-  modelValue: boolean
-  value?: boolean
-  size?: string
-  bgColor?: string
-  color?: string
-  activeColor?: string
-  prependIcon?: string
-  onIcon?: string
-  offIcon?: string
-  tooltip?: string
-  tooltipIcon?: string
-  label?: string | boolean
-  topLabel?: string
-}
+  interface Props {
+    modelValue: boolean
+    value?: boolean
+    size?: string
+    bgColor?: string
+    color?: string
+    activeColor?: string
+    prependIcon?: string
+    onIcon?: string
+    offIcon?: string
+    tooltip?: string
+    tooltipIcon?: string
+    label?: string | boolean
+    topLabel?: string
+  }
 
-const props = withDefaults(defineProps<Props>(), {
-  size: 'default',
-  bgColor: 'panel',
-  color: 'primary',
-  activeColor: 'success',
-  topLabel: '',
-})
+  const props = withDefaults(defineProps<Props>(), {
+    size: 'default',
+    bgColor: 'panel',
+    color: 'primary',
+    activeColor: 'success',
+    topLabel: '',
+  })
 
-const emit = defineEmits<{ 'update:modelValue': [value: boolean] }>()
+  const emit = defineEmits<{ 'update:modelValue': [value: boolean] }>()
 
-const isOn = computed(() => props.value || props.modelValue)
+  const isOn = computed(() => props.value || props.modelValue)
 
-const ariaLabel = computed(() =>
-  typeof props.label === 'string' && props.label
-    ? props.label
-    : props.topLabel || props.tooltip || undefined
-)
+  const ariaLabel = computed(() =>
+    typeof props.label === 'string' && props.label
+      ? props.label
+      : props.topLabel || props.tooltip || undefined
+  )
 
-function toggle() {
-  emit('update:modelValue', !isOn.value)
-}
+  function toggle() {
+    emit('update:modelValue', !isOn.value)
+  }
 
-function getLightColor(isHovering: boolean | null) {
-  if (isHovering && !isOn.value) return props.activeColor
-  return isOn.value ? props.activeColor : props.color
-}
+  function getLightColor(isHovering: boolean | null) {
+    if (isHovering && !isOn.value) return props.activeColor
+    return isOn.value ? props.activeColor : props.color
+  }
 </script>
 
 <style scoped>
-.v-btn {
-  position: relative;
-}
+  .v-btn {
+    position: relative;
+  }
 
-.offset {
-  margin-top: -5px;
-}
+  .offset {
+    margin-top: -5px;
+  }
 
-.light {
-  position: absolute;
-  clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
-  border-top-left-radius: 1px;
-  transition: filter 0.2s ease-in-out;
-}
+  .light {
+    position: absolute;
+    clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
+    border-top-left-radius: 1px;
+    transition: filter 0.2s ease-in-out;
+  }
 
-.top-element:hover .light {
-  filter: brightness(2) saturate(200%) hue-rotate(20deg);
-}
+  .top-element:hover .light {
+    filter: brightness(2) saturate(200%) hue-rotate(20deg);
+  }
 
-.light.x-small {
-  width: 8px;
-  height: 8px;
-}
+  .light.x-small {
+    width: 8px;
+    height: 8px;
+  }
 
-.light.small {
-  width: 9.5px;
-  height: 9.5px;
-}
+  .light.small {
+    width: 9.5px;
+    height: 9.5px;
+  }
 
-.light.default {
-  width: 13.5px;
-  height: 13.5px;
-}
+  .light.default {
+    width: 13.5px;
+    height: 13.5px;
+  }
 
-.light.large {
-  width: 17px;
-  height: 17px;
-}
+  .light.large {
+    width: 17px;
+    height: 17px;
+  }
 
-.light.x-large {
-  width: 21px;
-  height: 21px;
-}
+  .light.x-large {
+    width: 21px;
+    height: 21px;
+  }
 
-.light.xx-large {
-  width: 27px;
-  height: 27px;
-}
+  .light.xx-large {
+    width: 27px;
+    height: 27px;
+  }
 
-.toggle {
-  position: relative;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
+  .toggle {
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
 
-.toggle.x-small {
-  width: 30px;
-  height: 10px;
-}
+  .toggle.x-small {
+    width: 30px;
+    height: 10px;
+  }
 
-.toggle.small {
-  width: 40px;
-  height: 14px;
-}
+  .toggle.small {
+    width: 40px;
+    height: 14px;
+  }
 
-.toggle.default {
-  width: 80px;
-  height: 18px;
-}
+  .toggle.default {
+    width: 80px;
+    height: 18px;
+  }
 
-.toggle.large {
-  width: 80px;
-  height: 22px;
-}
+  .toggle.large {
+    width: 80px;
+    height: 22px;
+  }
 
-.toggle.x-large {
-  width: 120px;
-  height: 30px;
-}
+  .toggle.x-large {
+    width: 120px;
+    height: 30px;
+  }
 
-.toggle.xx-large {
-  width: 160px;
-  height: 36px;
-}
+  .toggle.xx-large {
+    width: 160px;
+    height: 36px;
+  }
 
-.toggle-knob {
-  opacity: 0.5;
-  height: 80px;
-  transition: all 0.2s ease-in-out;
-}
+  .toggle-knob {
+    opacity: 0.5;
+    height: 80px;
+    transition: all 0.2s ease-in-out;
+  }
 
-.toggle-knob.x-small {
-  width: 8px;
-}
+  .toggle-knob.x-small {
+    width: 8px;
+  }
 
-.toggle-knob.small {
-  width: 10px;
-}
+  .toggle-knob.small {
+    width: 10px;
+  }
 
-.toggle-knob.default {
-  width: 14px;
-}
+  .toggle-knob.default {
+    width: 14px;
+  }
 
-.toggle-knob.large {
-  width: 19px;
-}
+  .toggle-knob.large {
+    width: 19px;
+  }
 
-.toggle-knob.x-large {
-  width: 22px;
-}
+  .toggle-knob.x-large {
+    width: 22px;
+  }
 
-.toggle-knob.xx-large {
-  width: 28px;
-}
+  .toggle-knob.xx-large {
+    width: 28px;
+  }
 
-.toggle.on .toggle-knob {
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 100%);
-  opacity: 1;
-}
+  .toggle.on .toggle-knob {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 100%);
+    opacity: 1;
+  }
 
-.toggle.on .toggle-knob.x-small {
-  transform: translateX(22px);
-}
+  .toggle.on .toggle-knob.x-small {
+    transform: translateX(22px);
+  }
 
-.toggle.on .toggle-knob.small {
-  transform: translateX(30px);
-}
+  .toggle.on .toggle-knob.small {
+    transform: translateX(30px);
+  }
 
-.toggle.on .toggle-knob.default {
-  transform: translateX(50px);
-}
+  .toggle.on .toggle-knob.default {
+    transform: translateX(50px);
+  }
 
-.toggle.on .toggle-knob.large {
-  transform: translateX(70px);
-}
+  .toggle.on .toggle-knob.large {
+    transform: translateX(70px);
+  }
 
-.toggle.on .toggle-knob.x-large {
-  transform: translateX(105px);
-}
+  .toggle.on .toggle-knob.x-large {
+    transform: translateX(105px);
+  }
 
-.toggle.on .toggle-knob.xx-large {
-  transform: translateX(140px);
-}
+  .toggle.on .toggle-knob.xx-large {
+    transform: translateX(140px);
+  }
 
-.size-x-small {
-  clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
-}
+  .size-x-small {
+    clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
+  }
 
-.size-small {
-  clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
-}
+  .size-small {
+    clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
+  }
 
-.size-default {
-  clip-path: polygon(16px 0, 100% 0, 100% 100%, 0 100%, 0 16px);
-}
+  .size-default {
+    clip-path: polygon(16px 0, 100% 0, 100% 100%, 0 100%, 0 16px);
+  }
 
-.size-large {
-  clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%, 0 20px);
-}
+  .size-large {
+    clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%, 0 20px);
+  }
 
-.size-x-large {
-  clip-path: polygon(24px 0, 100% 0, 100% 100%, 0 100%, 0 24px);
-}
+  .size-x-large {
+    clip-path: polygon(24px 0, 100% 0, 100% 100%, 0 100%, 0 24px);
+  }
 
-.size-xx-large {
-  clip-path: polygon(30px 0, 100% 0, 100% 100%, 0 100%, 0 30px);
-}
+  .size-xx-large {
+    clip-path: polygon(30px 0, 100% 0, 100% 100%, 0 100%, 0 30px);
+  }
 </style>

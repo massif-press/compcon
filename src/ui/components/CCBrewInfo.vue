@@ -1,38 +1,54 @@
 <template>
-  <v-menu offset-y
+  <v-menu
+    offset-y
     open-on-hover
-    max-width="600px">
-    <template v-slot:activator="{ props }">
-      <v-icon v-if="controller.Brews.length"
+    max-width="600px"
+  >
+    <template #activator="{ props }">
+      <v-icon
+        v-if="controller.Brews.length"
         v-bind="props"
         icon="cc:compendium"
         class="fade-select"
-        :color="color" />
+        :color="color"
+      />
     </template>
     <v-card>
-      <v-toolbar density="compact"
+      <v-toolbar
+        density="compact"
         color="indigo"
-        height="20px">
+        height="20px"
+      >
         <v-toolbar-title class="text-caption">{{ $t('ui.lcp.content') }}</v-toolbar-title>
       </v-toolbar>
       <v-card-text class="py-2">
-        <v-row v-for="b in controller.Brews"
+        <v-row
+          v-for="b in controller.Brews"
           :key="b.LcpName"
           dense
-          align="center">
+          align="center"
+        >
           <v-col cols="auto">
-            <v-icon v-if="b.Status === 'MISSING'"
+            <v-icon
+              v-if="b.Status === 'MISSING'"
               color="error"
-              icon="mdi-alert-rhombus" />
-            <v-icon v-else-if="b.Status === 'OFF'"
+              icon="mdi-alert-rhombus"
+            />
+            <v-icon
+              v-else-if="b.Status === 'OFF'"
               color="secondary"
-              icon="mdi-power-plug-off-outline" />
-            <v-icon v-else-if="b.Status === 'OLD'"
+              icon="mdi-power-plug-off-outline"
+            />
+            <v-icon
+              v-else-if="b.Status === 'OLD'"
               color="secondary"
-              icon="mdi-clock-alert-outline" />
-            <v-icon v-else
+              icon="mdi-clock-alert-outline"
+            />
+            <v-icon
+              v-else
               color="success"
-              icon="mdi-check-bold" />
+              icon="mdi-check-bold"
+            />
           </v-col>
           <v-col cols="auto">
             {{ b.LcpName }}
@@ -42,35 +58,49 @@
           <v-col cols="auto">
             {{ b.LcpVersion }}
           </v-col>
-          <v-col v-if="b.Status === 'MISSING' && b.Website"
+          <v-col
+            v-if="b.Status === 'MISSING' && b.Website"
             cols="auto"
-            class="ml-6">
-            <v-btn size="x-small"
+            class="ml-6"
+          >
+            <v-btn
+              size="x-small"
               :href="b.Website"
               target="_blank"
               rel="noopener noreferrer"
-              color="error">
-              <v-icon icon="mdi-open-in-new"
-                start />
+              color="error"
+            >
+              <v-icon
+                icon="mdi-open-in-new"
+                start
+              />
               {{ $t('ui.lcp.downloadLcp') }}
             </v-btn>
           </v-col>
-          <v-col v-else-if="b.Status === 'OLD' && b.Website"
+          <v-col
+            v-else-if="b.Status === 'OLD' && b.Website"
             cols="auto"
-            class="ml-6">
-            <v-btn size="x-small"
+            class="ml-6"
+          >
+            <v-btn
+              size="x-small"
               :href="b.Website"
               target="_blank"
               rel="noopener noreferrer"
-              color="secondary">
-              <v-icon icon="mdi-open-in-new"
-                start />
+              color="secondary"
+            >
+              <v-icon
+                icon="mdi-open-in-new"
+                start
+              />
               {{ $t('ui.lcp.updateLcp') }}
             </v-btn>
           </v-col>
-          <v-col v-else-if="b.Status === 'OFF'"
+          <v-col
+            v-else-if="b.Status === 'OFF'"
             cols="auto"
-            class="ml-6 text-disabled">
+            class="ml-6 text-disabled"
+          >
             <i>{{ $t('ui.lcp.installedDisabled') }}</i>
           </v-col>
         </v-row>
@@ -80,20 +110,24 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+  import type { BrewController } from '@/classes/components/brew/BrewController'
+  import { computed } from 'vue'
 
-defineOptions({ name: 'cc-brew-info' })
+  defineOptions({ name: 'cc-brew-info' })
 
-const props = withDefaults(defineProps<{
-  controller: object
-  color?: string
-}>(), {
-  color: ''
-})
+  const props = withDefaults(
+    defineProps<{
+      controller: BrewController
+      color?: string
+    }>(),
+    {
+      color: '',
+    }
+  )
 
-const hasMissing = computed(() => {
-      return props.controller.Brews.some(
-        (b) => b.Status === 'MISSING' || b.Status === 'OLD' || b.Status === 'OFF'
-      );
-    })
+  const hasMissing = computed(() => {
+    return props.controller.Brews.some(
+      b => b.Status === 'MISSING' || b.Status === 'OLD' || b.Status === 'OFF'
+    )
+  })
 </script>

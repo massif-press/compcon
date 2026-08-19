@@ -12,8 +12,8 @@
 
     <cb-mount-menu v-if="!intWeapon && !integrated && !readonly"
       :mech="mech"
-      :mount="mount" />
-    <cb-card v-for="(b, index) in mount.Bonuses"
+      :mount="asEquippable" />
+    <cb-card v-for="(b, index) in mountBonuses"
       :key="`bonus-${index}`"
       :bonus="b" />
     <sh-lock-card v-if="mount.IsLocked" />
@@ -32,6 +32,7 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type Mount from '@/classes/mech/components/mount/Mount'
+import type EquippableMount from '@/classes/mech/components/mount/EquippableMount'
 import type { Mech } from '@/classes/mech/Mech'
 import WeaponSlotCard from './weapon/_WeaponSlotCard.vue';
 import CbMountMenu from './_CbMountMenu.vue';
@@ -50,6 +51,9 @@ const props = withDefaults(defineProps<{
 }>(), {
   color: 'primary'
 })
+
+const asEquippable = computed(() => props.mount as EquippableMount)
+const mountBonuses = computed(() => asEquippable.value.Bonuses ?? [])
 
 const { t } = useI18n()
 

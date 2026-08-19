@@ -4,9 +4,11 @@
       v-if="item.Actions?.length"
       class="mb-2 mt-1"
     >
-      <cc-combat-action-chip :owner="owner" :encounter-instance="encounterInstance"
+      <cc-combat-action-chip
         v-for="a in item.Actions"
         :key="a.ID || a.Name"
+        :owner="owner"
+        :encounter-instance="encounterInstance"
         :action="a"
         @activate="handleActivation($event)"
         @reset="handleRefund($event)"
@@ -43,28 +45,31 @@
 </template>
 
 <script setup lang="ts">
-import type { CombatantData } from '@/classes/encounter/Encounter'
-import { useEncounterContext } from '../../encounterContext'
-import type { ICombatant } from '@/classes/components/combat/ICombatant'
-import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-import { toRef } from 'vue'
-import DeployButton from './_deployButton.vue'
-import { useEquipmentActions } from '@/composables/useEquipmentActions'
+  import type { CombatantData } from '@/classes/encounter/Encounter'
+  import { useEncounterContext } from '../../encounterContext'
+  import type { ICombatant } from '@/classes/components/combat/ICombatant'
+  import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+  import { toRef } from 'vue'
+  import DeployButton from './_deployButton.vue'
+  import { useEquipmentActions } from '@/composables/useEquipmentActions'
 
-const { owner, encounterInstance } = useEncounterContext()
+  const { owner, encounterInstance } = useEncounterContext()
 
-const props = withDefaults(defineProps<{
-  item: any
-  actor: ICombatant
-  actionIcon?: string
-}>(), {
-  actionIcon: 'cc:system',
-})
+  const props = withDefaults(
+    defineProps<{
+      item: any
+      actor: ICombatant
+      actionIcon?: string
+    }>(),
+    {
+      actionIcon: 'cc:system',
+    }
+  )
 
-const emit = defineEmits<{ (e: 'deploy', deployable: any): void }>()
+  const emit = defineEmits<{ (e: 'deploy', deployable: any): void }>()
 
-const { handleActivation, handleRefund, handleDeploy } = useEquipmentActions(
-  toRef(props, 'item'),
-  (_event, deployable) => emit('deploy', deployable)
-)
+  const { handleActivation, handleRefund, handleDeploy } = useEquipmentActions(
+    toRef(props, 'item'),
+    (_event, deployable) => emit('deploy', deployable)
+  )
 </script>

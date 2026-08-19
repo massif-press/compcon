@@ -18,8 +18,8 @@ export const PilotStore = defineStore('pilot', {
     Pilots: [] as Pilot[],
   }),
   getters: {
-    getPilotByID: state => (id: string) => {
-      return state.Pilots.find(p => p.ID === id)
+    getPilotByID: state => (id: string): Pilot | undefined => {
+      return state.Pilots.find(p => p.ID === id) as Pilot | undefined
     },
     getPilots:
       state =>
@@ -29,7 +29,7 @@ export const PilotStore = defineStore('pilot', {
         if (!group) return []
         let out = state.Pilots.filter(p => group.Pilots.some(x => x?.id === p.ID))
         if (!showDeleted) out = out.filter(x => !x.SaveController.IsDeleted)
-        return out
+        return out as Pilot[]
       },
     getUngroupedPilots: state => {
       const groupedIds = PilotGroupStore().PilotGroups.flatMap(x => x.Pilots)

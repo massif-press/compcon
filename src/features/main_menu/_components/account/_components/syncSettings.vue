@@ -1,52 +1,87 @@
 <template>
-  <v-progress-linear v-if="!metadata"
+  <v-progress-linear
+    v-if="!metadata"
     indeterminate
-    color="accent" />
-  <v-card v-else
+    color="accent"
+  />
+  <v-card
+    v-else
     flat
     border
     tile
-    class="mb-4">
-    <v-toolbar density="compact"
-      color="panel">
+    class="mb-4"
+  >
+    <v-toolbar
+      density="compact"
+      color="panel"
+    >
       <v-toolbar-title>
-        <cc-heading is-title
+        <cc-heading
+          is-title
           :text="$t('mainMenu.actions.syncSettings')"
-          :tooltip="$t('mainMenu.tooltips.theseOptionsControlHowAnd')" />
+          :tooltip="$t('mainMenu.tooltips.theseOptionsControlHowAnd')"
+        />
       </v-toolbar-title>
     </v-toolbar>
 
     <div class="px-6">
-      <v-row align="center"
+      <v-row
+        align="center"
         justify="space-around"
-        class="mt-1">
-        <v-col cols="12"
-          md="6">
-          <div class="text-cc-overline text-disabled">// {{ $t("ui.action.frequency_action") }}</div>
-          <cc-select v-model="settings.frequency"
+        class="mt-1"
+      >
+        <v-col
+          cols="12"
+          md="6"
+        >
+          <div class="text-cc-overline text-disabled">
+            // {{ $t('ui.action.frequency_action') }}
+          </div>
+          <cc-select
+            v-model="settings.frequency"
             :items="syncOptions"
-            :tooltip="$t('mainMenu.tooltips.controlsHowOftenYourData')" />
+            :tooltip="$t('mainMenu.tooltips.controlsHowOftenYourData')"
+          />
         </v-col>
-        <v-col cols="12"
-          md="6">
-          <div class="text-cc-overline text-disabled">// {{ $t("mainMenu.syncSettings.syncItems") }}</div>
-          <v-btn-toggle :model-value="itemTypePreset"
+        <v-col
+          cols="12"
+          md="6"
+        >
+          <div class="text-cc-overline text-disabled">
+            // {{ $t('mainMenu.syncSettings.syncItems') }}
+          </div>
+          <v-btn-toggle
+            :model-value="itemTypePreset"
             density="compact"
             variant="outlined"
             flat
             tile
-            @update:model-value="applyItemTypePreset">
-            <v-btn value="all"
+            @update:model-value="applyItemTypePreset"
+          >
+            <v-btn
+              value="all"
               size="small"
-              height="30">{{ $t("common.all") }}</v-btn>
-            <v-btn value="pilots"
+              height="30"
+            >
+              {{ $t('common.all') }}
+            </v-btn>
+            <v-btn
+              value="pilots"
               size="small"
-              height="30">{{ $t("mainMenu.syncSettings.pilotsOnly") }}</v-btn>
-            <v-btn value="custom"
+              height="30"
+            >
+              {{ $t('mainMenu.syncSettings.pilotsOnly') }}
+            </v-btn>
+            <v-btn
+              value="custom"
               size="small"
-              height="30">{{ $t("gm.stats.custom") }}</v-btn>
+              height="30"
+            >
+              {{ $t('gm.stats.custom') }}
+            </v-btn>
           </v-btn-toggle>
-          <cc-select v-if="itemTypePreset === 'custom'"
+          <cc-select
+            v-if="itemTypePreset === 'custom'"
             v-model="settings.itemTypes"
             multiple
             clearable
@@ -57,222 +92,249 @@
             select-all
             :max="$vuetify.display.lgAndUp ? 3 : 2"
             :tooltip="$t('mainMenu.tooltips.controlsWhichDataTypesAre')"
-            :items="syncItems" />
+            :items="syncItems"
+          />
         </v-col>
       </v-row>
       <v-fade-transition>
-        <div v-if="settingsDirty"
-          class="text-right mt-2">
-          <cc-button prepend-icon="mdi-cog-sync"
+        <div
+          v-if="settingsDirty"
+          class="text-right mt-2"
+        >
+          <cc-button
+            prepend-icon="mdi-cog-sync"
             color="primary"
             size="small"
             :loading="loadingSync"
-            @click="updateSyncSettings">
-            {{ $t("mainMenu.syncSettings.updateSyncSettings") }}
+            @click="updateSyncSettings"
+          >
+            {{ $t('mainMenu.syncSettings.updateSyncSettings') }}
           </cc-button>
         </div>
       </v-fade-transition>
     </div>
 
     <div class="text-center text-caption mt-1 mb-4 px-6">
-      <span v-if="cloudStorageFull"
-        class="text-error">{{ $t("mainMenu.syncSettings.cloudFullSync") }}</span>
-
+      <span
+        v-if="cloudStorageFull"
+        class="text-error"
+      >
+        {{ $t('mainMenu.syncSettings.cloudFullSync') }}
+      </span>
     </div>
-    <div v-if="lastSyncTime"
-      class="text-center text-caption text-disabled mt-1">
-      {{ $t("mainMenu.syncSettings.lastSynced", { label: lastSyncLabel }) }}
+    <div
+      v-if="lastSyncTime"
+      class="text-center text-caption text-disabled mt-1"
+    >
+      {{ $t('mainMenu.syncSettings.lastSynced', { label: lastSyncLabel }) }}
     </div>
 
-    <cc-button block
+    <cc-button
+      block
       color="primary"
       class="mt-4 mx-6"
       :loading="syncing"
       :disabled="!itemsPendingSync || cloudStorageFull"
       prepend-icon="mdi-sync"
-      @click="runSync()">
-      {{ $t("mainMenu.syncSettings.syncWithSettings") }}
+      @click="runSync()"
+    >
+      {{ $t('mainMenu.syncSettings.syncWithSettings') }}
       <template #options>
-        <v-list max-width="500"
+        <v-list
+          max-width="500"
           lines="two"
-          border>
+          border
+        >
           <div class="px-2 pb-2">
-            <div class="heading">{{ $t("mainMenu.syncSettings.syncOverrides") }}</div>
+            <div class="heading">{{ $t('mainMenu.syncSettings.syncOverrides') }}</div>
             <div class="text-caption text-accent">
-              {{ $t("mainMenu.syncSettings.syncOverridesNote") }}
+              {{ $t('mainMenu.syncSettings.syncOverridesNote') }}
             </div>
           </div>
           <v-divider />
-          <v-list-item :title="$t('mainMenu.titles.forceUpload')"
+          <v-list-item
+            :title="$t('mainMenu.titles.forceUpload')"
             :subtitle="$t('mainMenu.subtitles.pushesAllLocalDataTo')"
-            @click="runSync('upload')" />
-          <v-list-item :title="$t('mainMenu.titles.forceDownload')"
+            @click="runSync('upload')"
+          />
+          <v-list-item
+            :title="$t('mainMenu.titles.forceDownload')"
             :subtitle="$t('mainMenu.subtitles.pullsAllCloudDataAnd')"
-            @click="runSync('download')" />
+            @click="runSync('download')"
+          />
           <v-divider />
-          <v-list-item :title="$t('mainMenu.titles.removeDeletedItems')"
+          <v-list-item
+            :title="$t('mainMenu.titles.removeDeletedItems')"
             :subtitle="$t('mainMenu.subtitles.permanentlyRemovesItemsFlaggedFor')"
-            @click="permDeleteSync()" />
+            @click="permDeleteSync()"
+          />
         </v-list>
       </template>
     </cc-button>
 
-    <div v-if="syncCountLabel"
-      class="text-disabled text-center text-cc-overline pb-1">{{ syncCountLabel
-      }}
+    <div
+      v-if="syncCountLabel"
+      class="text-disabled text-center text-cc-overline pb-1"
+    >
+      {{ syncCountLabel }}
     </div>
-
   </v-card>
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
-import { computed, ref, watch } from 'vue'
-import { notify } from '@/util/notify'
-import { UserStore } from '@/stores'
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
+  import { computed, ref, watch } from 'vue'
+  import { notify } from '@/util/notify'
+  import { UserStore } from '@/stores'
 
-const settingsDirty = ref(false)
-const loadingSync = ref(false)
-const syncing = ref(false)
-const selectedItems = ref([] as string[])
-const forceCustom = ref(false)
+  const settingsDirty = ref(false)
+  const loadingSync = ref(false)
+  const syncing = ref(false)
+  const selectedItems = ref([] as string[])
+  const forceCustom = ref(false)
 
-const metadata = computed(() => {
-      return UserStore().UserMetadata
-    })
-const settings = computed(() => {
-      return UserStore().UserMetadata.SyncSettings
-    })
-const itemsPendingSync = computed(() => {
-      return UserStore().AllItemsToSync.length + UserStore().AllRemoteItemsToSync.length
-    })
-const syncCountLabel = computed(() => {
-      const items = UserStore().AllItemsToSync
-      if (!items.length) return '0 items'
-      const counts: Record<string, number> = {}
-      for (const item of items) {
-        const t = item.ItemType?.toLowerCase() ?? 'item'
-        counts[t] = (counts[t] ?? 0) + 1
-      }
-      const parts = Object.entries(counts).map(([t, n]) => `${n} ${t}${n > 1 ? 's' : ''}`)
-      return parts.join(' · ')
-    })
-const lastSyncTime = computed(() => {
-      return UserStore().SyncSettings?.lastSyncTime ?? 0
-    })
-const lastSyncLabel = computed(() => {
-      if (!lastSyncTime.value) return null
-      const diff = Date.now() - lastSyncTime.value
-      if (diff < 60_000) return 'just now'
-      if (diff < 3_600_000) return `${Math.floor(diff / 60_000)} min ago`
-      if (diff < 86_400_000) return `${Math.floor(diff / 3_600_000)} hr ago`
-      return new Date(lastSyncTime.value).toLocaleDateString()
-    })
-const cloudStorageFull = computed(() => {
-      return UserStore().CloudStorageFull
-    })
-const patreonTier = computed(() => {
-      return UserStore().User.PatreonTierValue
-    })
-const syncOptions = computed(() => {
-      return [
-        {
-          title: t('mainMenu.titles.manualOnly'),
-          value: 'manual',
-          subtitle: t('mainMenu.subtitles.dataIsOnlySyncedWhenYou'),
-        },
-        {
-          title: t('mainMenu.titles.onOpenClose'),
-          value: 'startAndClose',
-          subtitle: t('mainMenu.subtitles.syncsWhenYouOpenAndClose'),
-        },
-        {
-          title: t('mainMenu.titles.every30Minutes'),
-          value: 'minutes_30',
-          subtitle: t('mainMenu.subtitles.syncsAutomaticallyEvery30MinutesRequires'),
-          disabled: patreonTier.value < 1,
-        },
-        {
-          title: t('mainMenu.titles.every60Minutes'),
-          value: 'minutes_60',
-          subtitle: t('mainMenu.subtitles.syncsAutomaticallyEvery60MinutesRequires'),
-          disabled: patreonTier.value < 1,
-        },
-      ]
-    })
-const syncItems = computed(() => {
-      return [
-        { title: t('mainMenu.titles.pilotData'), value: 'pilot' },
-        { title: t('mainMenu.titles.pilotGroups'), value: 'pilotgroup' },
-        { title: t('mainMenu.titles.npcData'), value: 'npc' },
-        { title: t('mainMenu.titles.encounterData'), value: 'encounter' },
-        { title: t('mainMenu.titles.narrativeData'), value: 'collectionitem' },
-      ]
-    })
-const itemTypePreset = computed(() => {
-      if (forceCustom.value) return 'custom'
-      const all = syncItems.value.map((i: any) => i.value)
-      const current = settings.value.itemTypes ?? []
-      if (!current.length || all.every((v: string) => current.includes(v))) return 'all'
-      if (current.length === 1 && current[0] === 'pilot') return 'pilots'
-      return 'custom'
-    })
-
-function applyItemTypePreset(preset: string) {
-      const all = syncItems.value.map((i: any) => i.value)
-      if (preset === 'all') { settings.value.itemTypes = all; forceCustom.value = false }
-      else if (preset === 'pilots') { settings.value.itemTypes = ['pilot']; forceCustom.value = false }
-      else if (preset === 'custom') { forceCustom.value = true }
+  const metadata = computed(() => {
+    return UserStore().UserMetadata
+  })
+  const settings = computed(() => {
+    return UserStore().UserMetadata.SyncSettings
+  })
+  const itemsPendingSync = computed(() => {
+    return UserStore().AllItemsToSync.length + UserStore().AllRemoteItemsToSync.length
+  })
+  const syncCountLabel = computed(() => {
+    const items = UserStore().AllItemsToSync
+    if (!items.length) return '0 items'
+    const counts: Record<string, number> = {}
+    for (const item of items) {
+      const t = item.ItemType?.toLowerCase() ?? 'item'
+      counts[t] = (counts[t] ?? 0) + 1
     }
-async function updateSyncSettings() {
-      loadingSync.value = true
-      await UserStore().setUserMetadata()
-      UserStore().setSyncTimer()
-      settingsDirty.value = false
-      loadingSync.value = false
+    const parts = Object.entries(counts).map(([t, n]) => `${n} ${t}${n > 1 ? 's' : ''}`)
+    return parts.join(' · ')
+  })
+  const lastSyncTime = computed(() => {
+    return UserStore().SyncSettings?.lastSyncTime ?? 0
+  })
+  const lastSyncLabel = computed(() => {
+    if (!lastSyncTime.value) return null
+    const diff = Date.now() - lastSyncTime.value
+    if (diff < 60_000) return 'just now'
+    if (diff < 3_600_000) return `${Math.floor(diff / 60_000)} min ago`
+    if (diff < 86_400_000) return `${Math.floor(diff / 3_600_000)} hr ago`
+    return new Date(lastSyncTime.value).toLocaleDateString()
+  })
+  const cloudStorageFull = computed(() => {
+    return UserStore().CloudStorageFull
+  })
+  const patreonTier = computed(() => {
+    return UserStore().User.PatreonTierValue
+  })
+  const syncOptions = computed(() => {
+    return [
+      {
+        title: t('mainMenu.titles.manualOnly'),
+        value: 'manual',
+        subtitle: t('mainMenu.subtitles.dataIsOnlySyncedWhenYou'),
+      },
+      {
+        title: t('mainMenu.titles.onOpenClose'),
+        value: 'startAndClose',
+        subtitle: t('mainMenu.subtitles.syncsWhenYouOpenAndClose'),
+      },
+      {
+        title: t('mainMenu.titles.every30Minutes'),
+        value: 'minutes_30',
+        subtitle: t('mainMenu.subtitles.syncsAutomaticallyEvery30MinutesRequires'),
+        disabled: patreonTier.value < 1,
+      },
+      {
+        title: t('mainMenu.titles.every60Minutes'),
+        value: 'minutes_60',
+        subtitle: t('mainMenu.subtitles.syncsAutomaticallyEvery60MinutesRequires'),
+        disabled: patreonTier.value < 1,
+      },
+    ]
+  })
+  const syncItems = computed(() => {
+    return [
+      { title: t('mainMenu.titles.pilotData'), value: 'pilot' },
+      { title: t('mainMenu.titles.pilotGroups'), value: 'pilotgroup' },
+      { title: t('mainMenu.titles.npcData'), value: 'npc' },
+      { title: t('mainMenu.titles.encounterData'), value: 'encounter' },
+      { title: t('mainMenu.titles.narrativeData'), value: 'collectionitem' },
+    ]
+  })
+  const itemTypePreset = computed(() => {
+    if (forceCustom.value) return 'custom'
+    const all = syncItems.value.map((i: any) => i.value)
+    const current = settings.value.itemTypes ?? []
+    if (!current.length || all.every((v: string) => current.includes(v))) return 'all'
+    if (current.length === 1 && current[0] === 'pilot') return 'pilots'
+    return 'custom'
+  })
+
+  function applyItemTypePreset(preset: string) {
+    const all = syncItems.value.map((i: any) => i.value)
+    if (preset === 'all') {
+      settings.value.itemTypes = all
+      forceCustom.value = false
+    } else if (preset === 'pilots') {
+      settings.value.itemTypes = ['pilot']
+      forceCustom.value = false
+    } else if (preset === 'custom') {
+      forceCustom.value = true
     }
-async function runSync(override?: 'upload' | 'download') {
-      const total = UserStore().AllItemsToSync.length
-      syncing.value = true
-      const failures = await UserStore().AutoSync(override)
-      settingsDirty.value = false
+  }
+  async function updateSyncSettings() {
+    loadingSync.value = true
+    await UserStore().setUserMetadata()
+    UserStore().setSyncTimer()
+    settingsDirty.value = false
+    loadingSync.value = false
+  }
+  async function runSync(override?: 'upload' | 'download') {
+    const total = UserStore().AllItemsToSync.length
+    syncing.value = true
+    const failures = await UserStore().AutoSync(override)
+    settingsDirty.value = false
+    syncing.value = false
+
+    if (failures.length) {
+      notify({
+        title: t('mainMenu.account.syncPartialTitle', { synced: total - failures.length, total }),
+        text: t('mainMenu.account.syncPartialText', { failures: failures.length }),
+        type: 'error',
+      })
+    } else {
+      notify({
+        title: t('mainMenu.account.syncCompleteTitle', { total }),
+        text: t('mainMenu.account.syncCompleteText'),
+        type: 'success',
+      })
+    }
+  }
+  async function permDeleteSync() {
+    syncing.value = true
+    try {
+      const count = await UserStore().permDeleteFlaggedItems()
+      notify({
+        title: t('mainMenu.account.deletionCompleteTitle', { count }, count),
+        text:
+          count > 0
+            ? t('mainMenu.account.flaggedRemovedText')
+            : t('mainMenu.account.noFlaggedText'),
+        type: count > 0 ? 'success' : 'info',
+      })
+    } catch (e) {
+      notify({
+        title: t('notify.image.deleteFailedTitle'),
+        text: t('mainMenu.account.deletionFailedBulkText'),
+        type: 'error',
+      })
+    } finally {
       syncing.value = false
-
-      if (failures.length) {
-        notify({
-          title: t('mainMenu.account.syncPartialTitle', { synced: total - failures.length, total }),
-          text: t('mainMenu.account.syncPartialText', { failures: failures.length }),
-          type: 'error',
-        })
-      } else {
-        notify({
-          title: t('mainMenu.account.syncCompleteTitle', { total }),
-          text: t('mainMenu.account.syncCompleteText'),
-          type: 'success',
-        })
-      }
     }
-async function permDeleteSync() {
-      syncing.value = true
-      try {
-        const count = await UserStore().permDeleteFlaggedItems()
-        notify({
-          title: t('mainMenu.account.deletionCompleteTitle', count, { count }),
-          text:
-            count > 0
-              ? t('mainMenu.account.flaggedRemovedText')
-              : t('mainMenu.account.noFlaggedText'),
-          type: count > 0 ? 'success' : 'info',
-        })
-      } catch (e) {
-        notify({
-          title: t('notify.image.deleteFailedTitle'),
-          text: t('mainMenu.account.deletionFailedBulkText'),
-          type: 'error',
-        })
-      } finally {
-        syncing.value = false
-      }
-    }
+  }
 </script>

@@ -7,11 +7,6 @@
           v-html-safe="item.Description"
           class="card-effect pa-2 mb-1 text-text"
           style="font-size: 15px" />
-        <p
-          v-if="item.Detail"
-          v-html-safe="item.Detail"
-          class="card-effect pa-2 mb-1 text-text"
-          style="font-size: 15px" />
       </div>
     </template>
   </c-card-base>

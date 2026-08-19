@@ -28,6 +28,12 @@ const STORAGE_KEY = 'cc_log_history'
 const LEVEL_KEY = 'cc_log_level'
 const MAX_HISTORY = 200 // entries kept per session
 const MAX_SESSIONS = 10 // sessions retained across restarts
+const MAX_BYTES = 8 * 1024 * 1024
+const PERSIST_BYTES = 2 * 1024 * 1024
+const MAX_CALLER_DEPTH = 4
+const MAX_CALLER_ITEMS_PER_LEVEL = 40
+const MAX_CALLER_STRING_CHARS = 500
+const MAX_CALLER_NODES = 2000
 const REDACT_KEY =
   /pass(word|wd)?|secret|token|jwt|api[-_]?key|authorization|auth[-_]?token|credential|session[-_]?id|bearer/i
 
@@ -55,6 +61,7 @@ class Logger {
   private _sessions: ISession[] = []
   private _current!: ISession
   private _saveTimer: ReturnType<typeof setTimeout> | null = null
+  private _sizes = new WeakMap<IErrorReport, number>()
 
   private constructor() {
     this._load()
@@ -82,7 +89,7 @@ class Logger {
     try {
       localStorage.setItem(LEVEL_KEY, level)
     } catch {
-      /* ignore quota/private-mode */
+      // ignore
     }
   }
 
@@ -90,12 +97,84 @@ class Logger {
     return JSON.stringify(obj, this._replacer(), 2)
   }
 
-  private snapshot(obj: any): any {
+  private snapshot(
+    obj: any,
+    depth = 0,
+    seen = new WeakSet(),
+    budget = { nodesLeft: MAX_CALLER_NODES }
+  ): any {
+    if (typeof obj === 'string') {
+      return obj.length > MAX_CALLER_STRING_CHARS
+        ? `${obj.slice(0, MAX_CALLER_STRING_CHARS)}…[truncated]`
+        : obj
+    }
+    if (typeof obj === 'function') return undefined
     if (!obj || typeof obj !== 'object') return obj
+    if (seen.has(obj)) return '[Circular]'
+    if (budget.nodesLeft-- <= 0) return '[Budget exceeded]'
+    if (depth >= MAX_CALLER_DEPTH) {
+      return Array.isArray(obj)
+        ? `[Array(${obj.length})]`
+        : `[${obj.constructor?.name || 'Object'}]`
+    }
+    seen.add(obj)
+
+    if (Array.isArray(obj)) {
+      const out = obj
+        .slice(0, MAX_CALLER_ITEMS_PER_LEVEL)
+        .map(v => this.snapshot(v, depth + 1, seen, budget))
+      if (obj.length > MAX_CALLER_ITEMS_PER_LEVEL)
+        out.push(`…${obj.length - MAX_CALLER_ITEMS_PER_LEVEL} more`)
+      return out
+    }
+
+    const out: Record<string, any> = {}
+    let keys: string[]
     try {
-      return JSON.parse(JSON.stringify(obj, this._replacer(), 0))
+      keys = Object.keys(obj)
     } catch {
       return '[Unserializable]'
+    }
+    for (const key of keys.slice(0, MAX_CALLER_ITEMS_PER_LEVEL)) {
+      if (key.startsWith('$')) continue
+      if (REDACT_KEY.test(key)) {
+        out[key] = '[REDACTED]'
+        continue
+      }
+      try {
+        const value = this.snapshot(obj[key], depth + 1, seen, budget)
+        if (value !== undefined) out[key] = value
+      } catch {
+        out[key] = '[Unreadable]'
+      }
+    }
+    if (keys.length > MAX_CALLER_ITEMS_PER_LEVEL)
+      out['…'] = `${keys.length - MAX_CALLER_ITEMS_PER_LEVEL} more keys`
+    return out
+  }
+
+  private _size(entry: IErrorReport): number {
+    let n = this._sizes.get(entry)
+    if (n === undefined) {
+      try {
+        n = JSON.stringify(entry)?.length ?? 0
+      } catch {
+        n = 0
+      }
+      this._sizes.set(entry, n)
+    }
+    return n
+  }
+
+  private _trim(): void {
+    let total = 0
+    for (const session of this._sessions) {
+      for (const entry of session.entries) total += this._size(entry)
+    }
+    while (total > MAX_BYTES) {
+      const oldest = [...this._sessions].reverse().find(s => s.entries.length)
+      if (!oldest) return
+      total -= this._size(oldest.entries.shift()!)
     }
   }
 
@@ -138,6 +217,7 @@ class Logger {
 
     this._current.entries.push(entry)
     if (this._current.entries.length > MAX_HISTORY) this._current.entries.shift()
+    this._trim()
     this._scheduleSave()
 
     if (severityMap[type] < severityMap[this._level]) return
@@ -173,6 +253,12 @@ class Logger {
 
   public clear(): void {
     this._current.entries = []
+    this._scheduleSave()
+  }
+
+  public clearAll(): void {
+    this._current.entries = []
+    this._sessions = [this._current]
     this._scheduleSave()
   }
 
@@ -215,7 +301,12 @@ class Logger {
       // Sentry.init already installed an errorHandler
       const prev = app.config.errorHandler
       app.config.errorHandler = (err, instance, info) => {
-        this.log(`Vue error (${info}): ${err}`, 'error', instance, err)
+        const component =
+          (instance as any)?.$options?.name ||
+          (instance?.$ as any)?.type?.__name ||
+          (instance as any)?.$?.type?.name ||
+          'unknown'
+        this.log(`Vue error (${info}) in <${component}>: ${err}`, 'error', null, err)
         if (typeof prev === 'function') prev(err, instance, info)
       }
     }
@@ -237,11 +328,18 @@ class Logger {
   }
 
   private _persistSnapshot(): ISession[] {
-    return this._sessions.map(s => ({
-      id: s.id,
-      startedAt: s.startedAt,
-      entries: s.entries.filter(e => e.type === 'error'),
-    }))
+    let budget = PERSIST_BYTES
+    return this._sessions.map(s => {
+      const entries: IErrorReport[] = []
+      for (let i = s.entries.length - 1; i >= 0; i--) {
+        const entry = s.entries[i]
+        if (entry.type !== 'error') continue
+        budget -= this._size(entry)
+        if (budget < 0) break
+        entries.unshift(entry)
+      }
+      return { id: s.id, startedAt: s.startedAt, entries }
+    })
   }
 
   private _scheduleSave(): void {
@@ -251,7 +349,7 @@ class Logger {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(this._persistSnapshot()))
       } catch {
-        /* quota exceeded / private mode: keep in-memory only */
+        // quota exceeded / private mode: keep in-memory only
       }
     }, 500)
   }
@@ -271,10 +369,11 @@ class Logger {
         }
       }
     } catch {
-      /* corrupt/unavailable storage: start fresh */
+      // corrupt/unavailable storage: start fresh
     }
     this._current = { id: `${Date.now()}`, startedAt: Date.now(), entries: [] }
     this._sessions = [this._current, ...prior]
+    this._trim()
   }
 }
 

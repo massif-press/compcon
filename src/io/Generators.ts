@@ -102,7 +102,7 @@ async function cargo_formatted(): Promise<string> {
 
   const secrets = ['Redacted', 'Classified', 'None of your business']
   const chance = Math.random()
-  let cargo = ''
+  let cargo: string
 
   if (chance <= 0.05) {
     cargo = '<span class="horus--subtle">' + _.sample(secrets) + '</span>'

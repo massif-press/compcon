@@ -26,7 +26,7 @@ import { computed } from 'vue'
 defineOptions({ name: 'cc-brew-info' })
 
 const props = defineProps<{
-  item: object
+  item: { LcpName?: string; InLcp?: boolean }
   color?: string
 }>()
 

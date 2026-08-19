@@ -8,6 +8,7 @@ export interface IOrganizationData {
   efficiency: number
   influence: number
   actions: string
+  used?: boolean
 }
 
 class Organization {
@@ -19,6 +20,7 @@ class Organization {
   private _efficiency: number
   private _influence: number
   private _actions: string
+  private _used: boolean
 
   public constructor(data: IOrganizationData) {
     this._name = data.name
@@ -27,6 +29,7 @@ class Organization {
     this._influence = data.influence
     this._description = data.description
     this._actions = data.actions
+    this._used = data.used || false
   }
 
   public static Clone(org: Organization): Organization {
@@ -43,6 +46,15 @@ class Organization {
 
   public get Type(): string {
     return 'Organization'
+  }
+
+  public get Used(): boolean {
+    return this._used
+  }
+
+  public set Used(val: boolean) {
+    this._used = val
+    this.save()
   }
 
   public get Purpose(): OrgType {
@@ -109,6 +121,7 @@ class Organization {
       efficiency: org.Efficiency,
       influence: org.Influence,
       actions: org.Actions,
+      used: org.Used,
     }
   }
 

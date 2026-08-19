@@ -107,7 +107,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, type Ref } from 'vue'
 import { useRouter } from 'vue-router'
 import IdentificationPage from './pages/IdentificationPage.vue';
 import SkillsPage from '../_shared/pages/SkillsPage.vue';
@@ -136,7 +136,7 @@ const confirm = ref<any>(null)
 const tabs = ref<any>(null)
 
 const step = ref('ident')
-const pilot = ref({} as Pilot)
+const pilot = ref({} as Pilot) as Ref<Pilot>
 const done = ref(false)
 
 pilot.value = new Pilot()

@@ -1,11 +1,15 @@
 <template>
-  <div v-for="(a, index) in actions"
+  <div
+    v-for="(a, index) in actions"
     :key="`action-${index}`"
-    class="mt-n1 mb-1 no-print-break">
+    class="mt-n1 mb-1 no-print-break"
+  >
     <div>
-      <v-icon size="x-small"
+      <v-icon
+        size="x-small"
         :icon="(a as Action).Icon"
-        :color="(a as Action).Color" />
+        :color="(a as Action).Color"
+      />
       <span class="caption">
         <b>{{ (a as Action).Name }}</b>
         ({{ $enum('activationType', (a as Action).Activation) }})
@@ -13,29 +17,45 @@
     </div>
 
     <div class="ml-3">
-      <div v-if="(a as Action).Init"
-        v-html-safe="(a as Action).Init"
-        class="caption" />
-      <v-row v-if="(a as Action).Trigger"
-        no-gutters>
-        <v-col cols="auto"
-          class="caption font-weight-bold">{{ $t('common.trigger') }}:&nbsp;</v-col>
+      <div
+        v-if="(a as Action).Init"
+        v-html-safe="ByTier((a as Action).Init, tier)"
+        class="caption"
+      />
+      <v-row
+        v-if="(a as Action).Trigger"
+        no-gutters
+      >
+        <v-col
+          cols="auto"
+          class="caption font-weight-bold"
+        >
+          {{ $t('common.trigger') }}:&nbsp;
+        </v-col>
         <v-col>
-          <div v-html-safe="(a as Action).Trigger"
-            class="caption" />
+          <div
+            v-html-safe="(a as Action).getTrigger(tier)"
+            class="caption"
+          />
         </v-col>
       </v-row>
-      <v-row v-if="(a as Action).Detail"
-        no-gutters>
-        <v-col v-if="(a as Action).Trigger"
+      <v-row
+        v-if="(a as Action).Detail"
+        no-gutters
+      >
+        <v-col
+          v-if="(a as Action).Trigger"
           cols="auto"
-          class="caption font-weight-bold">
+          class="caption font-weight-bold"
+        >
           {{ $t('common.effect') }}:&nbsp;
         </v-col>
         <v-col>
-          <div v-html-safe="(a as Action).Detail"
+          <div
+            v-html-safe="(a as Action).getDetail(tier)"
             class="caption mb-1 pl-2"
-            style="margin-top: 2px" />
+            style="margin-top: 2px"
+          />
         </v-col>
       </v-row>
     </div>
@@ -43,16 +63,16 @@
 </template>
 
 <script setup lang="ts">
-import { Action } from '@/classes/Action';
+  import { Action } from '@/classes/Action'
+  import { ByTier } from '@/util/tierFormat'
 
-const props = withDefaults(defineProps<{
-  actions: Action[]
-  tier?: number
-}>(), {
-  tier: 1
-})
+  const props = withDefaults(
+    defineProps<{
+      actions: Action[]
+      tier?: number
+    }>(),
+    {
+      tier: 1,
+    }
+  )
 </script>
-
-<style scoped>
-@import '@/ui/style/print-common.css';
-</style>

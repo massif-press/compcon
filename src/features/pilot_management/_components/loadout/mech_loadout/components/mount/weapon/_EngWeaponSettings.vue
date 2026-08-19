@@ -251,7 +251,7 @@ if (props.item.GetOverride('effect')) {
 }
 
 const level = computed(() => {
-  return props.item.ID.split('_')[2] || 1;
+  return Number(props.item.ID.split('_')[2]) || 1;
 })
 const itemName = computed(() => {
   return ['Prototype', 'Revision', 'Final Draft'][level.value - 1];
@@ -287,7 +287,7 @@ function rollUses() {
   const max = (level.value < 3 ? 8 : 12) + limitedBonus.value;
   uses.value = Math.floor(Math.random() * max) + 1;
 }
-function setRevision(revision) {
+function setRevision(revision: string) {
   if (selectedRevisions.value.includes(revision)) {
     selectedRevisions.value = selectedRevisions.value.filter((rev) => rev !== revision);
   } else {

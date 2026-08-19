@@ -7,6 +7,7 @@
     "strict": true,
     "jsx": "preserve",
     "resolveJsonModule": true,
+    "types": ["vitest/globals", "node"],
     "isolatedModules": true,
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
@@ -16,6 +17,9 @@
       "@/*": ["./src/*"]
     },
     "noImplicitAny": false,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
     "allowJs": true,
     "checkJs": false,
     "noEmitOnError": false

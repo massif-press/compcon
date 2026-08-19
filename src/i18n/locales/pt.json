@@ -530,6 +530,8 @@
       "exportThisSession": "Exportar este Registro de Sessão",
       "exportAllSessions": "Exportar todos Registros de Sessão",
       "clearLog": "Limpar Registros",
+      "clearAllLogs": "Limpar Todos os Registros",
+      "clearAllLogsConfirm": "Isso apagará permanentemente todas as entradas de registro de todas as sessões, incluindo sessões salvas de visitas anteriores.",
       "error": "Erro",
       "session": "Sessão"
     },

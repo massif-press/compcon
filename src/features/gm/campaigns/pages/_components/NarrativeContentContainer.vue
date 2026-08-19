@@ -84,11 +84,13 @@
 import { computed, ref } from 'vue'
 import { NarrativeStore } from '@/stores';
 import NarrativeContent from './NarrativeContent.vue';
+import type { NarrativeDataContainer } from '@/classes/campaign/NarrativeDataContainer';
+import type { INarrativeEntity } from '@/classes/narrative/INarrativeEntity';
 
 defineOptions({ name: 'narrative-content-container' })
 
 const props = defineProps<{
-  item: object
+  item: NarrativeDataContainer
 }>()
 
 const menu = ref(false)
@@ -114,16 +116,14 @@ const factions = computed(() => {
       return arr;
     })
 const isItemLinked = computed(() => {
-      return (
-        props.item.Data &&
-        props.item.Data.ID &&
-        NarrativeStore()
-          .CollectionItems.filter((x) => !x.SaveController.IsDeleted)
-          .find((x) => x.ID === props.item.Data.ID)
-      );
+      const data = props.item.Data;
+      if (!data?.ID) return false;
+      return NarrativeStore()
+        .CollectionItems.filter((x) => !x.SaveController.IsDeleted)
+        .some((x) => x.ID === data.ID);
     })
 
-function select(e) {
+function select(e: INarrativeEntity) {
       props.item.Data = e;
       menu.value = false;
     }

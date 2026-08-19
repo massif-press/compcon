@@ -6,6 +6,7 @@ import { INpcFeatureData, NpcFeature } from '../feature/NpcFeature'
 import { NpcFeatureFactory } from '../feature/NpcFeatureFactory'
 import { EidolonShard, IEidolonShardData } from './EidolonShard'
 import logger from '@/user/logger'
+import { ByTier } from '@/util/tierFormat'
 
 interface IEidolonLayerData {
   id: string
@@ -94,32 +95,11 @@ class EidolonLayer implements ILcpTracked {
   }
 
   public get Rules(): string {
-    if (!this._rules) return ''
-    let out = this._rules
-    const perTier = /(\{.*?\})/gi
-    const matches = out.match(perTier)
-    if (matches) {
-      matches.forEach(m => {
-        out = out.replace(m, m.replace('{', '<b class="text-accent">').replace('}', '</b>'))
-      })
-    }
-    return out
+    return ByTier(this._rules)
   }
 
   public RulesByTier(tier: number): string {
-    if (!this._rules) return ''
-    let fmt = this._rules
-    const perTier = /(\{.*?\})/g
-    const m = this._rules.match(perTier)
-    if (m) {
-      m.forEach(x => {
-        if (tier) {
-          const tArr = x.replace('{', '').replace('}', '').split('/')
-          fmt = fmt.replace(x, `<b class="text-accent">${tArr[tier - 1]}</b>`)
-        } else fmt = fmt.replace(x, x.replace('{', '<b class="text-accent">').replace('}', '</b>'))
-      })
-    }
-    return fmt
+    return ByTier(this._rules, tier)
   }
 
   public get ShardCount(): string {

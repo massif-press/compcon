@@ -14,6 +14,6 @@ defineOptions({ name: 'EquipmentFlavorDescription' })
 const props = withDefaults(defineProps<{
   description?: string
 }>(), {
-  description: null
+  description: undefined
 })
 </script>

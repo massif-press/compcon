@@ -297,11 +297,11 @@ function reset() {
         stagedData.value = null
         errorMessage.value = ''
       }
-function setSort(sort: string) {
-        if (sort.value === sort) {
+function setSort(newSort: string) {
+        if (sort.value === newSort) {
           asc.value = !asc.value
         } else {
-          sort.value = sort
+          sort.value = newSort
           asc.value = true
         }
       }
@@ -320,7 +320,7 @@ async function stageImport(file: any) {
         try {
           stagedData.value = data
         } catch (e) {
-          logger.error(`Error parsing campaign data: ${e}`, this)
+          logger.error(`Error parsing campaign data: ${e}`)
           stagedData.value = null
           errorMessage.value = JSON.stringify(e)
         }

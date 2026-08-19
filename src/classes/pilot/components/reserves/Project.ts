@@ -65,7 +65,7 @@ class Project extends Reserve {
     this.save()
   }
 
-  public static Serialize(project: Project): IProjectData {
+  public static override Serialize(project: Project): IProjectData {
     return {
       id: project.ID,
       type: ReserveType.Project,
@@ -85,7 +85,7 @@ class Project extends Reserve {
     }
   }
 
-  public static Deserialize(data: IProjectData): Project {
+  public static override Deserialize(data: IProjectData): Project {
     return new Project(data)
   }
 }

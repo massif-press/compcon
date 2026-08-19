@@ -1,6 +1,7 @@
 import { Bonus } from './Bonus'
 import { IFeatureController } from '../IFeatureController'
 import { StatController } from '../../combat/stats/StatController'
+import { Stats } from '../../combat/stats/Stats'
 
 const CHILD_PREFIXES = ['drone_', 'deployable_']
 
@@ -17,7 +18,8 @@ class BonusController {
   }
 
   public getFor(statId: string): Bonus[] {
-    return this.Bonuses.filter(b => b.ID === statId)
+    const key = Stats.cleanKey(statId)
+    return this.Bonuses.filter(b => Stats.cleanKey(b.ID) === key)
   }
 
   public evaluate(bonus: Bonus): number {
@@ -60,7 +62,7 @@ class BonusController {
       ...new Set(
         bonuses
           .filter(b => !b.PerPc && !b.IsFlag && !CHILD_PREFIXES.some(p => b.ID.startsWith(p)))
-          .map(b => b.ID)
+          .map(b => Stats.cleanKey(b.ID))
       ),
     ]
 
@@ -122,6 +124,7 @@ class BonusController {
     'limited_bonus',
     'knockback',
     'threat',
+    'add_weapon_type',
     'attack',
     'melee',
     'accuracy',

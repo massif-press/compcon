@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-alert v-if="pilot.Status === 'KIA' || pilot.IsDead"
+    <v-alert v-if="pilot.Status === 'KIA' || pilot.CombatController.IsDead"
       prominent
       density="compact"
       variant="outlined"
@@ -109,7 +109,7 @@ function setQuirk() {
       if (!props.pilot.Callsign.includes('※')) props.pilot.Callsign += '※';
       if (!props.pilot.Callsign.includes('※')) props.pilot.Name += '※';
       const compendium = CompendiumStore();
-      props.pilot.AddQuirk(_.sample(compendium.Tables.quirks));
+      props.pilot.AddQuirk(_.sample(compendium.Lists.quirks));
     }
 function updateQuirk(index, str) {
       props.pilot.Quirks[index] = str;

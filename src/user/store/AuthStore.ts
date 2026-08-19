@@ -5,7 +5,7 @@ import logger from '../logger'
 export const AuthStore = defineStore('auth', {
   state: () => ({
     IsLoggedIn: false,
-    Cognito: {} as { username?: string; userId?: string },
+    Cognito: {} as { username?: string; userId?: string; signInDetails?: { loginId?: string } },
   }),
   actions: {
     async setCognito(): Promise<void> {

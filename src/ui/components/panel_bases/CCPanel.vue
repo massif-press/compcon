@@ -8,7 +8,7 @@
     :ripple="false"
     :border="border"
     :height="height"
-    :variant="variant">
+    :variant="(variant as any)">
     <slot name="toolbar" />
     <v-toolbar v-if="hasTitle"
       flat
@@ -19,7 +19,7 @@
         <div class="text-cc-overline">
           <slot name="title-prepend" />
           <v-icon v-if="icon"
-            :icon="icon"
+            :icon="typeof icon === 'string' ? icon : undefined"
             start
             class="mt-n1" />
           <span v-if="title"
@@ -53,7 +53,19 @@ interface Props {
   titleColor?: string
   border?: boolean
   density?: string
-  variant?: string
+  variant?:
+    | 'flat'
+    | 'text'
+    | 'outlined'
+    | 'tonal'
+    | 'plain'
+    | 'elevated'
+    | 'flavor'
+    | 'fluff'
+    | 'admin'
+    | 'emphasis'
+    | 'subtle'
+    | 'effect'
   title?: string | boolean
   icon?: string | boolean
   height?: string

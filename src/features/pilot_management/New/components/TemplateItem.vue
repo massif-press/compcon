@@ -140,6 +140,7 @@ import { useI18n } from 'vue-i18n'
 import { CompendiumStore } from '@/stores';
 import { useDisplay } from 'vuetify';
 import { slug } from '@/i18n/contentKeys.mjs';
+import type Templates from '../pregens.json';
 
 defineOptions({ name: 'template-item' })
 
@@ -152,7 +153,7 @@ function mountLabel(m: string) {
 }
 
 const props = defineProps<{
-  template: object
+  template: (typeof Templates)[number]
   isSelected?: boolean
 }>()
 

@@ -33,7 +33,7 @@
       :bond="(item as any)" />
 
     <cc-talent v-else-if="item.ItemType === 'Talent'"
-      :talent="item"
+      :talent="(item as any)"
       hide-change />
 
     <cc-panel v-else

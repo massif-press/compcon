@@ -5,7 +5,7 @@
         <v-icon>cc:rank_{{ n }}</v-icon>
       </v-col>
       <v-col>
-        <talent-rank-contents :talent-rank="talent.Rank(n)" hide-actions />
+        <talent-rank-contents :talent-rank="talent.Rank(Number(n))" hide-actions />
       </v-col>
     </v-row>
     <slot name="combat" />
@@ -33,7 +33,7 @@ const props = withDefaults(defineProps<{
   inColumn?: boolean
   rank?: number | string
 }>(), {
-  rank: null
+  rank: undefined
 })
 
 const emit = defineEmits<{

@@ -3,18 +3,18 @@ import { NpcFeature, INpcFeatureData, NpcFeatureType } from '../NpcFeature'
 import { ContentPack } from '../../../ContentPack'
 
 export class NpcTrait extends NpcFeature {
-  public ItemType: ItemType = ItemType.NpcTrait
-  public FeatureType = NpcFeatureType.Trait
+  public override ItemType: ItemType = ItemType.NpcTrait
+  public override FeatureType = NpcFeatureType.Trait
 
   public constructor(data: INpcFeatureData, pack?: ContentPack) {
     super(data, pack)
   }
 
-  public get Color(): string {
+  public override get Color(): string {
     return this.Actions.length || this.Deployables.length ? 'npc--action' : 'npc--passive'
   }
 
-  public get Icon(): string {
+  public override get Icon(): string {
     return 'cc:trait'
   }
 }

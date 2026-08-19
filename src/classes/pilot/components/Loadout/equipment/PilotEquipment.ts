@@ -76,6 +76,7 @@ abstract class PilotEquipment extends CompendiumItem {
     if (!item) return null
     return {
       id: item.ID,
+      instanceId: item.InstanceID,
       type: item.ItemType,
       note: item.Note,
       data: item.ItemData,

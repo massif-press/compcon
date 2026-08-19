@@ -80,7 +80,7 @@ import artistMap from '@/assets/artistmap.json';
 defineOptions({ name: 'LibraryImageArchive' })
 
 const props = defineProps<{
-  item: object
+  item: { Portrait: string }
   type: string
   avatar?: boolean
 }>()

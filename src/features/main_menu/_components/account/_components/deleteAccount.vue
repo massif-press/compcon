@@ -90,7 +90,7 @@ async function handleDeleteUser() {
         await deleteUser();
         location.reload();
       } catch (error) {
-        logger.error(`Error deleting user: ${error}`, this, error);
+        logger.error(`Error deleting user: ${error}`, undefined, error);
       }
     }
 </script>

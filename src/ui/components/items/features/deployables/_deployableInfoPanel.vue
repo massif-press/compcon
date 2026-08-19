@@ -11,12 +11,13 @@
 
 <script setup lang="ts">
 import { Deployable } from '@/classes/components/feature/deployable/Deployable';
+import type { DeployableOwner } from '@/classes/components/feature/IFeatureController';
 import DeployableInfoBase from './_deployableInfoBase.vue'
 
 const props = withDefaults(defineProps<{
   deployable: Deployable
   tier?: number
-  owner?: object | null
+  owner?: DeployableOwner | null
 }>(), {
   owner: null,
 })

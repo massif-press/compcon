@@ -94,7 +94,7 @@ export const StageImport = async (data: any): Promise<StagedObject[]> => {
       const result = await preprocessNpcImport(item)
       if (result.action === 'import' && result.transformed) {
         stagedObjects.push(
-          new StagedObject('NPC', result.transformed.npcType || 'unit', result.transformed)
+          new StagedObject('NPC', (result.transformed.npcType as string) || 'unit', result.transformed)
         )
       } else if (result.action === 'backup') {
         stagedObjects.push(new StagedObject('V2Backup', 'npc', item))

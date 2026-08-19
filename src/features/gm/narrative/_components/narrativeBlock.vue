@@ -52,12 +52,13 @@
 </template>
 
 <script setup lang="ts">
+import type { INarrativeEntity } from '@/classes/narrative/INarrativeEntity'
 import SectionEditor from '../../_components/SectionEditor.vue';
 
 defineOptions({ name: 'gm-narrative-block' })
 
 const props = withDefaults(defineProps<{
-  item: object
+  item: INarrativeEntity
   readonly?: boolean
 }>(), {
   readonly: false

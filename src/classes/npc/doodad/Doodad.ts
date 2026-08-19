@@ -23,7 +23,7 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
   public InstanceID?: string
 
   public CombatController: CombatController
-  public ItemType: ItemType = ItemType.Doodad
+  public override ItemType: ItemType = ItemType.Doodad
   public MandatoryStats: string[] = []
 
   public IsEncounterInstance = false
@@ -44,6 +44,9 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
     const data = this.Serialize(true) as DoodadData
     this.SetInstanceProxies<DoodadData>(data)
     ;(data as any).instanceId = crypto.randomUUID()
+    ;(data as any).originId = this.ID
+    ;(data as any).id = (data as any).instanceId
+    ;(data as any).is_instance = true
 
     return data
   }
@@ -118,7 +121,7 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
   }
 
   public Clone<Doodad>(setName = true): Doodad {
-    const itemData = structuredClone(Doodad.Serialize(this, false))
+    const itemData = JSON.parse(JSON.stringify(Doodad.Serialize(this, false)))
     const newItem = Doodad.Deserialize(itemData)
     newItem.RenewID()
     if (setName) newItem.Name += ' (COPY)'
@@ -127,6 +130,10 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
 
   public get Icon(): string {
     return 'mdi-cube-outline'
+  }
+
+  public get Tag(): string {
+    return 'Doodad'
   }
 
   public get TagIcon(): string {

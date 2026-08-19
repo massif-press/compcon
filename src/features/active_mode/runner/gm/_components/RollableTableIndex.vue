@@ -18,7 +18,7 @@
       <div class="heading bg-primary px-5">
         <span class="text-disabled pr-2">{{ $t('active.common.currentlySelected') }}:</span>
         <strong v-if="selected">
-          {{ actor.Name }}
+          {{ actor?.Name }}
         </strong>
         <span v-else
           class="text-disabled">{{ $t('common.none') }}</span>
@@ -106,13 +106,15 @@
 import { computed, ref } from 'vue'
 import { useDisplay } from 'vuetify'
 import { RollableTable } from '@/classes/narrative/elements/RollableTable';
+import type { EncounterInstance } from '@/classes/encounter/EncounterInstance';
+import type { CombatantData } from '@/classes/encounter/Encounter';
 import { CompendiumStore } from '@/stores';
 
 const _display = useDisplay()
 
 const props = defineProps<{
-  selected?: object
-  instance: object
+  selected?: CombatantData
+  instance: EncounterInstance
 }>()
 
 const selectedTable = ref<any>(null)

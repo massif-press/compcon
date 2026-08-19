@@ -11,8 +11,7 @@ type ContentType =
   | RollableTable
   | Clock
   | NarrativeDataContainer
-  | EncounterDataContainer
-  | null;
+  | EncounterDataContainer;
 
 type ContentDataType =
   | CampaignTextSection
@@ -28,10 +27,22 @@ type ContentStringIdentifier = 'text' | 'image' | 'table' | 'clock' | 'narrative
 interface IContentBlockData {
   title: string;
   headerType: 'header-1' | 'header-2' | 'header-3' | 'header-4' | '';
-  variant: 'outline' | 'tonal' | 'block' | 'clipped-block' | 'quote' | '';
+  variant: ContentVariant;
   color: string;
   contentType: ContentStringIdentifier;
   content: ContentDataType;
+}
+
+type ContentVariant = 'outline' | 'tonal' | 'block' | 'clipped-block' | 'quote' | '';
+
+const LEGACY_VARIANTS: Record<string, ContentVariant> = {
+  outlined: 'outline',
+  clipped: 'clipped-block',
+};
+
+function normalizeVariant(value?: string): ContentVariant {
+  if (!value) return '';
+  return LEGACY_VARIANTS[value] ?? (value as ContentVariant);
 }
 
 type CampaignTextSection = {
@@ -48,7 +59,7 @@ class ContentBlock {
   public readonly Campaign: Campaign;
   private _title: string;
   private _headerType: 'header-1' | 'header-2' | 'header-3' | 'header-4' | '';
-  private _variant: 'outline' | 'tonal' | 'block' | 'clipped-block' | 'quote' | '';
+  private _variant: ContentVariant;
   private _color: string;
   private _contentType: ContentStringIdentifier;
   private _content: ContentType;
@@ -58,7 +69,7 @@ class ContentBlock {
     this.Campaign = campaign;
     this._title = data?.title || '';
     this._headerType = data?.headerType || '';
-    this._variant = data?.variant || '';
+    this._variant = normalizeVariant(data?.variant);
     this._color = data?.color || '';
     this._contentType = data?.contentType || 'text';
     this._content = { Body: '' };
@@ -93,11 +104,11 @@ class ContentBlock {
     this.Campaign.save();
   }
 
-  public get Variant(): 'outline' | 'tonal' | 'block' | 'clipped-block' | 'quote' | '' {
+  public get Variant(): ContentVariant {
     return this._variant;
   }
 
-  public set Variant(value: 'outline' | 'tonal' | 'block' | 'clipped-block' | 'quote' | '') {
+  public set Variant(value: ContentVariant) {
     this._variant = value;
     this.Campaign.save();
   }
@@ -129,6 +140,30 @@ class ContentBlock {
 
   public get Content(): ContentType {
     return this._content;
+  }
+
+  public get AsText(): CampaignTextSection {
+    return this._content as CampaignTextSection;
+  }
+
+  public get AsImage(): CampaignImageSection {
+    return this._content as CampaignImageSection;
+  }
+
+  public get AsTable(): RollableTable {
+    return this._content as RollableTable;
+  }
+
+  public get AsClock(): Clock {
+    return this._content as Clock;
+  }
+
+  public get AsNarrative(): NarrativeDataContainer {
+    return this._content as NarrativeDataContainer;
+  }
+
+  public get AsEncounter(): EncounterDataContainer {
+    return this._content as EncounterDataContainer;
   }
 
   public MoveUp(): void {
@@ -176,4 +211,10 @@ class ContentBlock {
 }
 
 export { ContentBlock };
-export type { IContentBlockData, CampaignTextSection, CampaignImageSection };
+export type {
+  IContentBlockData,
+  CampaignTextSection,
+  CampaignImageSection,
+  ContentVariant,
+  ContentStringIdentifier,
+};
