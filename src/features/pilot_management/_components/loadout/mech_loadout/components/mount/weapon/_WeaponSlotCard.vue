@@ -24,7 +24,7 @@
           <div v-if="!mobile"
             class="text-cc-overline text-disabled ">
             {{ $enum('weaponSize', item.Size) }}
-            {{item.WeaponTypes.map(t => $enum('weaponType', t)).join('/')}}
+            {{item.getWeaponTypes(mech).map(t => $enum('weaponType', t)).join('/')}}
           </div>
         </v-col>
       </v-row>

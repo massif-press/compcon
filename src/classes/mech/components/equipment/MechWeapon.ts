@@ -13,6 +13,7 @@ import { IRangeData, Range } from '../../../Range'
 import Tag, { ITagCompendiumData } from '../../../Tag'
 import { IActionData } from '@/classes/Action'
 import { IBonusData } from '@/classes/components/feature/bonus/Bonus'
+import { BonusId } from '@/classes/components/feature/bonus/bonus_dictionary'
 import { IDeployableData } from '@/classes/components/feature/deployable/Deployable'
 import {
   ActiveEffect,
@@ -461,9 +462,37 @@ class MechWeapon extends MechEquipment {
     return this.SelectedProfile.Range ? this.SelectedProfile.Range.map(x => x.Type) : []
   }
 
-  public get WeaponTypes(): WeaponType[] {
+  public getWeaponTypes(mech?: any): WeaponType[] {
     if (this._custom_weapon_type) return [this._custom_weapon_type as WeaponType]
-    return this._weaponTypes
+    const types = [...this._weaponTypes]
+    const actor = mech || (this as any).ParentMech
+    if (actor?.FeatureController?.Bonuses) {
+      const bonuses: any[] = actor.FeatureController.Bonuses
+      for (const b of bonuses) {
+        const val = b.Value ?? b.val ?? b.Val
+        if ((b.ID === 'add_weapon_type' || b.ID === BonusId.ADD_WEAPON_TYPE) && val) {
+          const appliesTypes =
+            !b.WeaponTypes?.length ||
+            b.WeaponTypes.includes('any') ||
+            b.WeaponTypes.some((wt: string) => types.includes(wt as WeaponType))
+          const appliesSizes =
+            !b.WeaponSizes?.length ||
+            b.WeaponSizes.includes('any') ||
+            b.WeaponSizes.includes(this.Size)
+          if (appliesTypes && appliesSizes) {
+            const added = val as WeaponType
+            if (!types.includes(added)) {
+              types.push(added)
+            }
+          }
+        }
+      }
+    }
+    return types
+  }
+
+  public get WeaponTypes(): WeaponType[] {
+    return this.getWeaponTypes()
   }
 
   public set Mod(mod: WeaponMod | null) {
