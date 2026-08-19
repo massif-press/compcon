@@ -82,7 +82,6 @@ class DowntimeAction implements ILcpTracked {
   }
 }
 
-// Compile-time check: DowntimeAction satisfies ISerializableStatic
 const _checkSerializable: ISerializableStatic<IDowntimeActionData, DowntimeAction> = DowntimeAction
 void _checkSerializable
 

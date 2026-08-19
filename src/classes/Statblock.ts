@@ -441,8 +441,6 @@ function mapNpcActions(actions: Action[], tier: number): string {
 }
 
 function mapNpcWeaponStats(feature: NpcWeapon, tier: number): string {
-  // Called for every feature; weapon-only details (tags like AP, on-hit/crit
-  // effects) must be skipped for non-weapon features.
   if (!(feature instanceof NpcWeapon)) return ''
 
   let output = ''

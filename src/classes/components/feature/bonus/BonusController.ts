@@ -50,8 +50,6 @@ class BonusController {
     return Bonus.Contributors(statId, this._parent)
   }
 
-  // apply all stat bonuses to a StatController
-  // pass encounter to also handle per-PC bonuses (activations_pct, hp_per_player, etc)
   public applyToStats(
     statController: StatController,
     encounter?: { Combatants: { type: string }[] }
@@ -86,8 +84,6 @@ class BonusController {
     this._buildFlags()
   }
 
-  // apply parent bonuses that target a child entity (e.g. prefix = 'drone_' or 'deployable_')
-  // strips the prefix to find the child stat key and applies overwrite/replace/additive logic
   public applyChildBonuses(childStats: StatController, prefix: string): void {
     const prefixed = this.Bonuses.filter(b => b.ID.startsWith(prefix) && !b.IsFlag)
     if (!prefixed.length) return

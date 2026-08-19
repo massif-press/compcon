@@ -324,12 +324,10 @@ class MechWeapon extends MechEquipment {
     if (!this.Mod?.AddedDamage) return this.SelectedProfile.Damage || []
 
     const damages = [...(this.SelectedProfile.Damage || []), ...(this.Mod?.AddedDamage || [])]
-    // add Damages of same type together
     const combined: Damage[] = []
     damages.forEach(r => {
       const existing = combined.find(c => c.Type === r.Type)
       if (existing) {
-        // combine xdy dicemath:
         if (typeof existing._raw_value === 'string' && typeof r._raw_value === 'string') {
           const [existingQty, existingDie] = existing._raw_value.split('d').map(Number)
           const [rQty, rDie] = r._raw_value.split('d').map(Number)
@@ -338,9 +336,7 @@ class MechWeapon extends MechEquipment {
           } else {
             if (typeof existing._raw_value === 'number' && typeof r._raw_value === 'number') {
               existing._raw_value = existing._raw_value + r._raw_value
-            } else
-              // different dice, just add them together as a string (e.g. "2d6 + 1d8")
-              existing._raw_value = `${existing._raw_value} + ${r._raw_value}`
+            } else existing._raw_value = `${existing._raw_value} + ${r._raw_value}`
           }
         }
       } else {
@@ -421,7 +417,6 @@ class MechWeapon extends MechEquipment {
   }
 
   public static SanitizeUsesInput(val: number): number {
-    // Prevent Uses icon overflow - set reasonable limit on maximum uses
     const absoluteMax = 25
     const absoluteMin = 0
     return Math.max(Math.min(val, absoluteMax), absoluteMin)
@@ -597,7 +592,6 @@ class MechWeapon extends MechEquipment {
     item._custom_effect = data.customEffect || null
 
     // combat props
-    // item.MaxUses = data.maxUses || 0;
     item.Uses = data.currentUses || 0
     item.Destroyed = data.destroyed || false
     item.Used = data.isUsed || false

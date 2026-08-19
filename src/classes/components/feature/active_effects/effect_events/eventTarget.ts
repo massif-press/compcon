@@ -12,8 +12,6 @@ import { CoverType } from '@/classes/components/combat/CombatController'
 import { ActionSummaryData } from '../EffectActionSummary'
 import { combatantLabel } from '@/util/combatantLabel'
 
-// this should include everything that can happen to a target, and components manage
-// what is shown/not shown based on the effect data
 class ActiveEventTarget {
   public Event: ActiveEffectEvent
   private _combatant!: CombatantData | null

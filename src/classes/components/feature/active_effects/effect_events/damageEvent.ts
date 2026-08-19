@@ -4,7 +4,6 @@ import { DamageType } from '../../../../enums'
 import { ActiveEffectEvent } from '../ActiveEffectEvent'
 import { ActiveEventTarget } from './eventTarget'
 
-// details of damage applied to target. These can be multiple based on effect (weapon action, etc). May include multiple but apply to all targets
 class DamageEvent {
   public DamageType: DamageType = DamageType.Kinetic
   public DamageRollString = '' // dice string or static

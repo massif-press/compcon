@@ -135,12 +135,6 @@ class Deployable {
     this.Grapple = data.grapple || 0
     this.AttackBonus = data.attack_bonus || 0
 
-    // if (this.Type.toLowerCase() === 'drone') {
-    //   if (!this.MaxHP) this.MaxHP = Number(this.Size || 0.5) * 10
-    //   if (!this.Evasion) this.Evasion = 5
-    //   if (!this.EDefense) this.EDefense = 8
-    // }
-
     this.IsPilotDeployable = data.pilot || false
     this.IsMechDeployable = data.mech || !data.pilot
 
@@ -204,8 +198,6 @@ class Deployable {
     }
   }
 
-  // resolves a raw stat to a number: tier lists by tier, `{hull}` style expressions against the
-  // owner's stats. Returns undefined when an expression cannot be resolved without an owner.
   private resolveStatBase(
     raw: number | string | undefined,
     tier?: number,
@@ -235,8 +227,6 @@ class Deployable {
     return isNaN(num) ? 0 : num
   }
 
-  // owner is optional: without it, expression-valued stats fall back to their descriptive text
-  // and the owner's drone_/deployable_ bonuses are not applied
   public getStat(key: string, tier?: number, owner?: any): number | string {
     const def = Deployable.StatMap[Deployable.statKey(key)]
     if (!def) {

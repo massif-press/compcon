@@ -10,9 +10,6 @@ import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon'
 import { ActiveEventTarget } from './effect_events/eventTarget'
 import { combatantLabel } from '@/util/combatantLabel'
 
-// per-event target instances are cached here (rather than on the instance) so the cache stays
-// outside Vue reactivity. Reading and writing a reactive cell inside the TargetEvents getter,
-// which runs during render, would self-invalidate and trigger "Maximum recursive updates".
 const onEventTargetCaches = new WeakMap<WeaponAttackEvent, Record<string, ActiveEventTarget[]>>()
 
 class WeaponAttackEvent {
@@ -28,7 +25,6 @@ class WeaponAttackEvent {
   public OnHitEvent?: ActiveEffectEvent
   public OnCritEvent?: ActiveEffectEvent
 
-  // must rebuild when changing profiles
   constructor(
     weapon: WeaponProfile | NpcWeapon | PilotWeapon,
     owner: CombatantData,
@@ -102,10 +98,6 @@ class WeaponAttackEvent {
     ]
   }
 
-  // build (and cache) the set of targets for an on-hit/on-crit/etc. effect. Each effect gets
-  // its own ActiveEventTarget instances mirroring the matching base attack targets, so save
-  // rolls entered on one effect do not bleed into the others. Targets are reused across calls
-  // (matched by index + combatant) so entered rolls persist between renders.
   private buildEventTargets(
     event: ActiveEffectEvent,
     filter: (t: ActiveEventTarget) => boolean
@@ -229,9 +221,6 @@ class WeaponAttackEvent {
   public ApplyAll() {
     this.BaseEvent.ApplyAll()
 
-    // apply each on-hit/on-crit/etc. effect through its own targets (built/cached by
-    // buildEventTargets) so the save state the GM entered on that specific effect is what
-    // gets applied. on-hit/on-attack fire on both hits and crits, matching what is displayed.
     this.EventConfigs.forEach(config => {
       if (!config.event) return
       const targets = this.buildEventTargets(config.event, config.filter)

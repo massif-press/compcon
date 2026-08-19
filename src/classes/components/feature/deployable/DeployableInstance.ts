@@ -65,11 +65,9 @@ class DeployableInstance implements ICombatant {
     if (val === undefined) return 0
     if (typeof val === 'number') return val
 
-    // Handle string expressions of format "x operator {key}"
     if (typeof val === 'string') {
       const expression = val.trim()
 
-      // Match pattern: optional number and operator, followed by {key}
       const match = expression.match(/^(?:(\d+)\s*([+\-*/%**&|^<>=]+)\s*)?\{([^}]+)\}$/)
 
       if (!match) {
@@ -83,7 +81,6 @@ class DeployableInstance implements ICombatant {
       if (statKey === 'grit') {
         rightValue = ownerController.Grit || 0
       } else {
-        // Get the stat value from Owner's MaxStats
         const maxStats = ownerController.StatController?.MaxStats
         rightValue = maxStats?.[statKey]
       }
@@ -93,7 +90,6 @@ class DeployableInstance implements ICombatant {
         return 0
       }
 
-      // If there's no left operand or operator, just return the stat value
       if (!leftOperand || !operator) {
         return Math.floor(rightValue)
       }
@@ -105,7 +101,6 @@ class DeployableInstance implements ICombatant {
         return 0
       }
 
-      // Safely evaluate the mathematical expression
       try {
         let result: number
         switch (operator) {

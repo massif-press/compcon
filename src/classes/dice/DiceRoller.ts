@@ -227,9 +227,6 @@ class DamageRollResult implements IDamageRollResult {
 }
 
 class DiceRoller {
-  // this class will make rolls, given all the inputs
-  // it makes no evaluation re their success or failure
-
   public static rollAny(
     diceString: string,
     bonus = 0,
@@ -318,9 +315,6 @@ class DiceRoller {
     const parsedRoll = DiceRoller.parseDiceString(diceString)
 
     if (!parsedRoll) {
-      // return as a error - they get back the dice string
-      // and can handle as a special case
-
       return new DamageRollResult(diceString, 0, [0], [], 0, 0, false, true)
     } else {
       let total = 0
@@ -398,10 +392,8 @@ class DiceRoller {
   }
 
   public static parseDiceString(diceString: string): ParsedDieString {
-    // remove all spaces
     const parsedString = diceString.replace(/\s/g, '')
 
-    // parse
     const numberTest = new RegExp('^([\\+-]?[0-9]*)$').exec(parsedString)
     const simpleDieTest = new RegExp('^([\\+-]?[0-9]*)d([0-9]*)$').exec(parsedString)
     const complexDieTest = new RegExp('^([\\+-]?[0-9]*)d([0-9]*)([\\+-][0-9]*)$').exec(parsedString)
@@ -413,8 +405,6 @@ class DiceRoller {
       return new ParsedDieString([dieSet], modifier)
     } else if (simpleDieTest) {
       const dieSet = new DieSet(parseInt(simpleDieTest[1]), parseInt(simpleDieTest[2]))
-      // let modifier = 0
-
       return new ParsedDieString([dieSet], 0)
     } else if (complexDieTest) {
       const dieSet = new DieSet(parseInt(complexDieTest[1]), parseInt(complexDieTest[2]))
