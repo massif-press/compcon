@@ -23,7 +23,7 @@
           :readonly="selected.Readonly" />
       </template>
     </editor>
-    <no-gm-item v-else />
+    <no-gm-item v-else item-type="NPC" @add-new="addNew()" />
   </gm-split-view>
 </template>
 
