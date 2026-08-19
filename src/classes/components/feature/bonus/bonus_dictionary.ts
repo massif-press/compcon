@@ -71,7 +71,6 @@ export const BonusId = {
   MOUNT_DAMAGE_TYPE: 'mount_damage_type (override)',
   MOUNT_RANGE_TYPE: 'mount_range_type (override)',
   MOUNT_WEAPON_TYPE: 'mount_weapon_type (override)',
-  ADD_WEAPON_TYPE: 'add_weapon_type',
   ADD_MOUNT: 'add_mount',
   NO_MODS: 'no_mods',
   ARMOR_MAX: 'armor_max',
