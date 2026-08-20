@@ -328,8 +328,8 @@ class StatController {
 
   public static Serialize(parent: IStatContainer, target: any) {
     if (!target.stats) target.stats = {}
-    target.max = parent.StatController._maxStats
-    target.current = parent.StatController._currentStats
+    target.max = structuredClone(parent.StatController._maxStats)
+    target.current = structuredClone(parent.StatController._currentStats)
     target.stat_version = CURRENT_STAT_VERSION
     target.user_added_keys = [...parent.StatController._userAddedKeys]
   }
@@ -344,10 +344,10 @@ class StatController {
       return
     }
 
-    if (data.max) parent.StatController._maxStats = data.max
+    if (data.max) parent.StatController._maxStats = structuredClone(data.max)
     if (data.user_added_keys) parent.StatController._userAddedKeys = new Set(data.user_added_keys)
     if (data.current && Object.keys(data.current).length) {
-      parent.StatController._currentStats = data.current
+      parent.StatController._currentStats = structuredClone(data.current)
       for (const key of MandatoryStats) {
         if (!(key in parent.StatController._currentStats)) {
           parent.StatController._currentStats[key] =
