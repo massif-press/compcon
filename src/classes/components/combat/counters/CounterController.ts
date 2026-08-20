@@ -83,18 +83,20 @@ class CounterController {
   }
 
   public static Serialize(parent: ICounterContainer, target: any) {
-    target.counter_data = parent.CounterController.CounterData
-    target.custom_counters = parent.CounterController.CustomCounterData
+    target.counter_data = parent.CounterController.CounterSaveData.map(c => ({ ...c }))
+    target.custom_counters = parent.CounterController.CustomCounterData.map(c => ({ ...c }))
   }
 
   public static Deserialize(parent: ICounterContainer, data: ICounterCollection) {
     assertController(parent.CounterController, 'CounterController')
 
-    parent.CounterController._counterSaveData = data.counter_data || []
+    parent.CounterController._counterSaveData = (data.counter_data || []).filter(
+      c => typeof c?.val === 'number'
+    )
     parent.CounterController._customCounters = (data.custom_counters as ICounterData[]) || []
   }
 }
 
-const _checkController: IControllerStatic<ICounterContainer, ICounterCollection> = CounterController
+CounterController satisfies IControllerStatic<ICounterContainer, ICounterCollection>
 export { CounterController }
 export type { ICounterSaveData, ICounterCollection }

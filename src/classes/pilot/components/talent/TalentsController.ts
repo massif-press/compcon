@@ -149,6 +149,6 @@ class TalentsController
   }
 }
 
-const _checkController: IControllerStatic<Pilot, ITalentsData> = TalentsController
+TalentsController satisfies IControllerStatic<Pilot, ITalentsData>
 export { TalentsController }
 export type { ITalentsData }

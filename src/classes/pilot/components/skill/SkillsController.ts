@@ -128,6 +128,6 @@ class SkillsController extends RankedCollectionController<Skill | CustomSkill, P
   }
 }
 
-const _checkController: IControllerStatic<Pilot, ISkillsData> = SkillsController
+SkillsController satisfies IControllerStatic<Pilot, ISkillsData>
 export { SkillsController }
 export type { ISkillsData }

@@ -25,8 +25,7 @@ class CampaignSection {
     this.Parent = parent
     this.Campaign = campaign
     this._title = data
-      ? data?.title ||
-        `New ${data?.sectionType.charAt(0).toUpperCase() + data?.sectionType.slice(1)}`
+      ? data?.title || `New ${_.upperFirst(data?.sectionType)}`
       : i18n.global.t('classes.newSection')
     this._sectionType = data?.sectionType || 'section'
     this._content = data?.children ? data.content.map(x => new ContentBlock(this, campaign, x)) : []

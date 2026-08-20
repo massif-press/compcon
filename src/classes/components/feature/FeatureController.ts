@@ -1,5 +1,5 @@
 import { IFeatureContainer } from './IFeatureContainer'
-import { FeatureCollector } from './FeatureCollector'
+import { Collect } from './FeatureCollector'
 import { IFeatureController } from './IFeatureController'
 import { Bonus } from './bonus/Bonus'
 import { BonusController } from './bonus/BonusController'
@@ -62,9 +62,7 @@ class FeatureController {
       return []
     }
 
-    return this.Containers.flatMap(container =>
-      FeatureCollector.Collect(collection, container.FeatureSource)
-    )
+    return this.Containers.flatMap(container => Collect(collection, container.FeatureSource))
   }
 
   private getRootEntity(node: object): object {

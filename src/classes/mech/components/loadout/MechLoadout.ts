@@ -1,6 +1,5 @@
 import * as _ from 'lodash-es'
 import { MountType } from '../../../enums'
-import Loadout from '../../../Loadout'
 import { IEquipmentData, MechEquipment } from '../equipment/MechEquipment'
 import { MechSystem } from '../equipment/MechSystem'
 import { IMechWeaponSaveData, MechWeapon } from '../equipment/MechWeapon'
@@ -26,7 +25,22 @@ interface IMechLoadoutData {
   superheavy_mounting: IMountData
 }
 
-class MechLoadout extends Loadout {
+const ordArr = [
+  'Primary',
+  'Secondary',
+  'Tertiary',
+  'Quaternary',
+  'Quinary',
+  'Senary',
+  'Septenary',
+  'Octonary',
+  'Nonary',
+  'Denary',
+]
+
+class MechLoadout {
+  private _id: string
+  private _name: string
   private Parent: Mech
   private _integratedMounts: IntegratedMount[]
   private _equippableMounts: EquippableMount[]
@@ -37,7 +51,9 @@ class MechLoadout extends Loadout {
   private _integratedSystems: MechSystem[]
 
   public constructor(mech: Mech) {
-    super(mech.MechLoadoutController ? mech.MechLoadoutController.Loadouts.length : 0)
+    const count = mech.MechLoadoutController ? mech.MechLoadoutController.Loadouts.length : 0
+    this._id = crypto.randomUUID()
+    this._name = ordArr[count] ?? 'Primary'
     this.Parent = mech
     this._equippableMounts = mech.Frame.Mounts.map(x => new EquippableMount(x, this))
     this._integratedMounts = []
@@ -51,8 +67,27 @@ class MechLoadout extends Loadout {
   public saveMechLoadout() {
     this.SetAllIntegrated()
 
-    this.save()
     this.Parent.SaveController.save()
+  }
+
+  public get ID(): string {
+    return this._id
+  }
+
+  public set ID(id: string) {
+    this._id = id
+  }
+
+  public RenewID(): void {
+    this._id = crypto.randomUUID()
+  }
+
+  public get Name(): string {
+    return this._name
+  }
+
+  public set Name(newName: string) {
+    this._name = newName
   }
 
   public get FullyEquipped() {

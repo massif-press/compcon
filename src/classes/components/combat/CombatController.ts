@@ -768,7 +768,7 @@ class CombatController implements ICounterContainer, IStatContainer {
       status: EffectSpecial.Serialize(s.status),
       expires: s.expires?.Raw,
     }))
-    target.resistances = controller.Resistances
+    target.resistances = controller.Resistances.map(r => ({ ...r }))
     target.cover = controller.Cover
     target.mounted = controller.Mounted
     target.overwatch = controller.Overwatch
@@ -782,15 +782,15 @@ class CombatController implements ICounterContainer, IStatContainer {
     target.reactorDestroyed = controller.ReactorDestroyed
     target.isDead = controller.IsDead
 
-    target.combatActions = controller.CombatActions
+    target.combatActions = { ...controller.CombatActions }
 
-    target.combat_history = controller.CombatLog.History
+    target.combat_history = [...controller.CombatLog.History]
     target.round = controller.Round
     target.turn = controller.Turn
 
-    target.pending_checks = controller.PendingChecks
+    target.pending_checks = controller.PendingChecks.map(p => ({ ...p }))
 
-    target.usedActions = controller.ActionPoolController.usedActions
+    target.usedActions = [...controller.ActionPoolController.usedActions]
 
     target.timed_effects = controller.TimedEffects.map(te => TimedEffect.Serialize(te))
 
@@ -863,6 +863,6 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 }
 
-const _checkController: IControllerStatic<CombatController, CombatData> = CombatController
+CombatController satisfies IControllerStatic<CombatController, CombatData>
 export { CombatController }
 export type { CombatData, CoverType }

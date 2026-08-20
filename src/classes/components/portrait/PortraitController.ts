@@ -118,6 +118,6 @@ class PortraitController {
   }
 }
 
-const _checkController: IControllerStatic<IPortraitContainer, IPortraitData> = PortraitController
+PortraitController satisfies IControllerStatic<IPortraitContainer, IPortraitData>
 export { PortraitController }
 export type { IPortraitData, IImageContainer }

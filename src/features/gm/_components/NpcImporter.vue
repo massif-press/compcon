@@ -118,6 +118,7 @@
 </template>
 
 <script setup lang="ts">
+import * as _ from 'lodash-es'
 import { i18n } from '@/i18n'
 const t = i18n.global.t
 import { computed, ref } from 'vue'
@@ -206,8 +207,7 @@ async function stageImport(file) {
           item.missingInfo = missing.map((id) => `NPC: ${id}`);
         } else if (item.npcType) {
           item.collection = 'NPC';
-          item.type =
-            item.npcType.charAt(0).toUpperCase() + item.npcType.slice(1);
+          item.type = _.upperFirst(item.npcType);
           item.content_packs = item.brews
             ? item.brews.map((x) => `${x.LcpName} @ ${x.LcpVersion}`).join(', ')
             : 'N/A';
@@ -215,9 +215,7 @@ async function stageImport(file) {
           item.missingInfo = [];
         } else if (item.collectionItemType) {
           item.collection = 'Narrative Item';
-          item.type =
-            item.collectionItemType.charAt(0).toUpperCase() +
-            item.collectionItemType.slice(1);
+          item.type = _.upperFirst(item.collectionItemType);
           item.content_packs = 'N/A';
           item.status = 'ok';
           item.missingInfo = [];

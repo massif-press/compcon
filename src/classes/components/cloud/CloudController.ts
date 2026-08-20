@@ -252,6 +252,6 @@ class CloudController {
   }
 }
 
-const _checkController: IControllerStatic<ICloudSyncable, any> = CloudController
+CloudController satisfies IControllerStatic<ICloudSyncable, any>
 export { CloudController, DbItemMetadata }
 export type { ICloudData, dbItemMeta }

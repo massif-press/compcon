@@ -90,7 +90,7 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
       note: doodad.Note,
       config: doodad.LcpConfig,
       combat_data: {} as any,
-      ui_state: Object.keys(doodad.UIState).length ? doodad.UIState : undefined,
+      ui_state: Object.keys(doodad.UIState).length ? { ...doodad.UIState } : undefined,
     } as DoodadData
 
     SaveController.Serialize(doodad, data)

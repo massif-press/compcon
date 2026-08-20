@@ -302,6 +302,6 @@ class BondController {
   }
 }
 
-const _checkController: IControllerStatic<Pilot, IPilotBondData> = BondController
+BondController satisfies IControllerStatic<Pilot, IPilotBondData>
 export { BondController }
 export type { IPilotBondData }

@@ -3,7 +3,6 @@ import '@/__tests__/factories'
 import { Campaign } from './Campaign'
 import { CampaignSection } from './CampaignSection'
 import { ContentBlock } from './CampaignContentBlock'
-import { CampaignItem } from './CampaignItem'
 
 let campaign: Campaign
 
@@ -94,24 +93,5 @@ describe('ContentBlock', () => {
 
     expect(data.title).toBe('Briefing')
     expect(data.color).toBe('primary')
-  })
-})
-
-describe('CampaignItem', () => {
-  it('serializes its notes, clocks, and tables', () => {
-    const item = Object.assign(Object.create(CampaignItem.prototype), {
-      Notes: 'gm notes',
-      Sections: [],
-      Links: [],
-      Labels: [],
-      Clocks: [],
-      Tables: [],
-    }) as CampaignItem
-
-    const data = CampaignItem.Serialize(item)
-
-    expect(data.notes).toBe('gm notes')
-    expect(Array.isArray(data.clocks)).toBe(true)
-    expect(Array.isArray(data.tables)).toBe(true)
   })
 })

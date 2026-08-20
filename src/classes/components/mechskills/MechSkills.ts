@@ -1,3 +1,4 @@
+import * as _ from 'lodash-es'
 import { HASE } from '../../enums'
 import { Rules } from '../../utility/Rules'
 class MechSkills {
@@ -16,7 +17,7 @@ class MechSkills {
 
   private static key(field: HASE): 'Hull' | 'Agi' | 'Sys' | 'Eng' {
     const f = String(field)
-    return (f.charAt(0).toUpperCase() + f.slice(1).toLowerCase()) as 'Hull' | 'Agi' | 'Sys' | 'Eng'
+    return _.capitalize(f) as 'Hull' | 'Agi' | 'Sys' | 'Eng'
   }
 
   public Increment(field: HASE): void {

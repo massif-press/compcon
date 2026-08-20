@@ -133,10 +133,12 @@ class NpcFeatureController implements IFeatureContainer {
   public static Serialize(parent: Unit, target: any) {
     const features = [] as { id: string; instanceId?: string; data: INpcFeatureData }[]
     parent.NpcFeatureController.Features.forEach(x => {
-      const combatModifiedData = x.ItemData as any
-      combatModifiedData.isUsed = x.Used
-      combatModifiedData.flavorName = x.FlavorName || undefined
-      combatModifiedData.flavorDescription = x.FlavorDescription || undefined
+      const combatModifiedData = {
+        ...(x.ItemData as any),
+        isUsed: x.Used,
+        flavorName: x.FlavorName || undefined,
+        flavorDescription: x.FlavorDescription || undefined,
+      }
 
       features.push({
         id: x.ID,
@@ -165,6 +167,7 @@ class NpcFeatureController implements IFeatureContainer {
       } else if (!!x.data && Object.keys(x.data).length) {
         const built = NpcFeatureFactory.Build<NpcFeature>(x.data)
         if (x.instanceId) built.InstanceID = x.instanceId
+        built.Used = (x.data as any)?.isUsed || false
         if ((x.data as any)?.flavorName) built.Name = (x.data as any).flavorName
         if ((x.data as any)?.flavorDescription)
           built.FlavorDescription = (x.data as any).flavorDescription
@@ -174,6 +177,6 @@ class NpcFeatureController implements IFeatureContainer {
   }
 }
 
-const _checkController: IControllerStatic<Unit, INpcFeatureSaveData> = NpcFeatureController
+NpcFeatureController satisfies IControllerStatic<Unit, INpcFeatureSaveData>
 export { NpcFeatureController }
 export type { INpcFeatureSaveData }

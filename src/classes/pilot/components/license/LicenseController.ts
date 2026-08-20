@@ -184,6 +184,6 @@ class LicenseController extends RankedCollectionController<License, PilotLicense
   }
 }
 
-const _checkController: IControllerStatic<Pilot, ILicenseSaveData> = LicenseController
+LicenseController satisfies IControllerStatic<Pilot, ILicenseSaveData>
 export { LicenseController }
 export type { ILicenseSaveData }

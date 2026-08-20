@@ -169,6 +169,6 @@ class SaveController {
   }
 }
 
-const _checkController: IControllerStatic<ISaveable, ISaveData> = SaveController
+SaveController satisfies IControllerStatic<ISaveable, ISaveData>
 export { SaveController }
 export type { ISaveData }

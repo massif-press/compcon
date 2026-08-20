@@ -15,9 +15,4 @@ interface IInstanceable {
   GetLinkedItem<T>(): T;
 }
 
-function buildInstanceData(): IInstanceableData {
-  return { instanceId: crypto.randomUUID() }
-}
-
 export type { IInstanceableData, IInstanceable }
-export { buildInstanceData }

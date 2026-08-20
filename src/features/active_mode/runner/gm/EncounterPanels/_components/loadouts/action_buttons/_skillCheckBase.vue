@@ -122,7 +122,7 @@ const applicableBonuses = computed(() => {
     accDiff: bonuses.filter((b) => !!b.Accuracy) || [],
   };
   if (props.selectedHase) {
-    const statBonus = props.controller.ActiveActor.CombatController.StatController.getStat(
+    const statBonus = props.controller.ActiveActor.CombatController.StatController.getMax(
       props.selectedHase
     );
     if (statBonus) {

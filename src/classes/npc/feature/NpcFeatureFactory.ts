@@ -6,9 +6,11 @@ import { NpcTech, INpcTechData } from './NpcItem/NpcTech'
 import { NpcTrait } from './NpcItem/NpcTrait'
 import { NpcWeapon, INpcWeaponData } from './NpcItem/NpcWeapon'
 import { transformV2NpcFeatureData } from './v2compat'
+import * as _ from 'lodash-es'
 
 class NpcFeatureFactory {
   public static Build<T>(data: INpcFeatureData, pack?: ContentPack): T {
+    if (!pack) data = _.cloneDeep(data)
     const raw = data as Record<string, any>
 
     // transforms v2 bonus data. safe to call on v3 data

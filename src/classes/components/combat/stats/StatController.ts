@@ -270,11 +270,6 @@ class StatController {
     return this._maxStats[Stats.cleanKey(stat)]
   }
 
-  /** @deprecated Use getMax() instead */
-  public getStat(stat: string): any {
-    return this.getMax(stat)
-  }
-
   // read-only counterpart to BonusController.applyToStats: layers feature bonuses over the
   // stored max without mutating it, for surfaces that display an un-instanced actor
   public getMaxWithBonuses(stat: string): any {
@@ -328,8 +323,8 @@ class StatController {
 
   public static Serialize(parent: IStatContainer, target: any) {
     if (!target.stats) target.stats = {}
-    target.max = structuredClone(parent.StatController._maxStats)
-    target.current = structuredClone(parent.StatController._currentStats)
+    target.max = _.cloneDeep(parent.StatController._maxStats)
+    target.current = _.cloneDeep(parent.StatController._currentStats)
     target.stat_version = CURRENT_STAT_VERSION
     target.user_added_keys = [...parent.StatController._userAddedKeys]
   }
@@ -344,10 +339,10 @@ class StatController {
       return
     }
 
-    if (data.max) parent.StatController._maxStats = structuredClone(data.max)
+    if (data.max) parent.StatController._maxStats = _.cloneDeep(data.max)
     if (data.user_added_keys) parent.StatController._userAddedKeys = new Set(data.user_added_keys)
     if (data.current && Object.keys(data.current).length) {
-      parent.StatController._currentStats = structuredClone(data.current)
+      parent.StatController._currentStats = _.cloneDeep(data.current)
       for (const key of MandatoryStats) {
         if (!(key in parent.StatController._currentStats)) {
           parent.StatController._currentStats[key] =
@@ -360,6 +355,6 @@ class StatController {
   }
 }
 
-const _checkController: IControllerStatic<IStatContainer, IStatData> = StatController
+StatController satisfies IControllerStatic<IStatContainer, IStatData>
 export { StatController, MandatoryStats }
 export type { IStatData, ICustomStatData, DisplayStat }

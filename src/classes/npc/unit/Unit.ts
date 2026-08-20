@@ -170,7 +170,7 @@ class Unit extends Npc implements ICombatant, IInstanceable {
       gmDescription: unit.GmDescription,
       combat_data: {} as CombatData,
       config: unit.LcpConfig,
-      ui_state: Object.keys(unit.UIState).length ? unit.UIState : undefined,
+      ui_state: Object.keys(unit.UIState).length ? { ...unit.UIState } : undefined,
     } as UnitData
 
     SaveController.Serialize(unit, data)

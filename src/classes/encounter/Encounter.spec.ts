@@ -38,6 +38,48 @@ describe('Encounter.AddCombatant', () => {
     expect(encounter.Combatants[0].actor).not.toBe(npc)
   })
 
+  it('does not share max stats with the roster npc, even through a round trip', () => {
+    const npc = makeNpc('Pursuer')
+    npc.CombatController.StatController.setMax('hp', 10)
+    encounter.AddCombatant(npc as never)
+
+    const combatant = encounter.Combatants[0]
+    const roundTripped = Encounter.DeserializeCombatant(Encounter.SerializeCombatant(combatant))
+
+    expect(roundTripped.actor.CombatController.StatController.getMax('hp')).toBe(10)
+
+    roundTripped.actor.CombatController.StatController.setMax('hp', 99)
+    combatant.actor.CombatController.StatController.setMax('hp', 50)
+
+    expect(npc.CombatController.StatController.getMax('hp')).toBe(10)
+  })
+
+  it('does not share mutable per-actor state with the roster npc', () => {
+    const npc = makeNpc('Pursuer')
+    npc.UIState['expanded'] = true
+    npc.CombatController.CounterController.createCustomCounter('ammo')
+    encounter.AddCombatant(npc as never)
+    const actor = encounter.Combatants[0].actor as any
+    const counters = actor.CombatController.CounterController
+    const fullBefore = npc.CombatController.CombatActions.Full
+
+    actor.CombatController.AddResist('kinetic', 'resistance')
+    actor.CombatController.MarkActionUsed('act_x')
+    actor.CombatController.AddPendingCheck('structure')
+    actor.CombatController.SetCombatAction('Full', !fullBefore)
+    actor.CombatController.CombatLog.History.push({ timestamp: 1 } as never)
+    actor.UIState['expanded'] = false
+    counters.deleteCustomCounter(counters.CustomCounterData[0].id)
+
+    expect(npc.CombatController.Resistances).toHaveLength(0)
+    expect(npc.CombatController.IsActionUsed('act_x')).toBe(false)
+    expect(npc.CombatController.PendingChecks).toHaveLength(0)
+    expect(npc.CombatController.CombatActions.Full).toBe(fullBefore)
+    expect(npc.CombatController.CombatLog.History).toHaveLength(0)
+    expect(npc.UIState['expanded']).toBe(true)
+    expect(npc.CombatController.CounterController.CustomCounterData).toHaveLength(1)
+  })
+
   it('numbers duplicates of the same name', () => {
     encounter.AddCombatant(makeNpc('Pursuer') as never)
     encounter.AddCombatant(makeNpc('Pursuer') as never)
