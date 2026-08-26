@@ -58,6 +58,17 @@ describe('Action.Frequency', () => {
     expect(a.Frequency.Duration).toBe(duration)
   })
 
+  it('is unlimited when the use count is not a number', () => {
+    const a = Action.Deserialize({
+      name: 'x',
+      activation: ActivationType.Quick,
+      detail: '',
+      frequency: 'x/round',
+    })
+    expect(a.Frequency.Unlimited).toBe(true)
+    expect(a.Frequency.Duration).toBe(ActivePeriod.Unlimited)
+  })
+
   it('is unlimited without a slash', () => {
     const a = Action.Deserialize({ name: 'x', activation: ActivationType.Quick, detail: '' })
     expect(a.Frequency.Unlimited).toBe(true)

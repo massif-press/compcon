@@ -1616,7 +1616,10 @@
       "alreadyUsed": "This action has already been used this turn.",
       "insufficient": "Insufficient",
       "actionsRemaining": "actions remaining this turn.",
-      "activationAction": "{n} Action"
+      "activationAction": "{n} Action",
+      "usesRemaining": "{n} of {max} uses remaining this {period}",
+      "usesExhausted": "No uses remaining this {period}",
+      "restoreUse": "Click to restore one use"
     },
     "deploy": {
       "deployNamed": "Deploy {name}",

@@ -155,6 +155,14 @@
     else if (controller.value.CanActivate('quick')) actions.push('⦗ QUICK ⦘')
     if (controller.value.CanActivate('overcharge')) actions.push('⦗ OVERCHARGE ⦘')
     if (controller.value.CanActivate('reaction')) actions.push('⦗ REACTION ⦘')
+    const actionUses: [string, any][] = Object.entries(
+      controller.value.ActionPoolController.ActionUses
+    )
+    actionUses.forEach(([id, record]) => {
+      if (record.max < 2) return
+      const name = controller.value.FindAction(id)?.Name || id
+      actions.push(`⦗ ${name.toUpperCase()} ${record.max - record.used}/${record.max} ⦘`)
+    })
     return actions.join(' ') + '\n'
   })
   const statuses = computed(() => {

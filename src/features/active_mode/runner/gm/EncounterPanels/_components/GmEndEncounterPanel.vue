@@ -17,6 +17,7 @@ const props = defineProps<{
 }>()
 
 async function end(result: string) {
+      props.encounterInstance.EndEncounter();
       const report = props.encounterInstance.Combatants.map(c => ({
         name: c.actor.CombatController.CombatName,
         status: c.status,

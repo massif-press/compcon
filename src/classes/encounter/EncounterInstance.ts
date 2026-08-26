@@ -210,6 +210,13 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     combatant.actor.CombatController.toggleCombatAction(deployable.DeployAction.Activation)
   }
 
+  public EndEncounter(): void {
+    for (const c of this.Combatants) {
+      c.actor.CombatController.EndEncounter()
+      if (c.actor.ActiveMech) c.actor.ActiveMech.CombatController.EndEncounter()
+    }
+  }
+
   public async EndRound(): Promise<void> {
     await new Promise<void>(r => setTimeout(r, 100))
     for (const c of this.Combatants) {
