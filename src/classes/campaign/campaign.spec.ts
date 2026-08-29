@@ -23,7 +23,7 @@ describe('Campaign', () => {
     campaign.Description = 'Campaign description'
     campaign.Author = 'GM'
 
-    expect(campaign.Title).toBe('Operation Solstice')
+    expect(campaign.Title).toBe('Operation Solstice Rain')
     expect(campaign.Subtitle).toBe('Act One')
     expect(campaign.Description).toBe('Campaign Description')
     expect(campaign.Author).toBe('GM')
