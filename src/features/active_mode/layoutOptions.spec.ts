@@ -9,7 +9,7 @@ import {
 } from './layoutOptions'
 
 describe('layoutOptions', () => {
-  it('default resolves to today rendering on desktop', () => {
+  it('default resolves to rendering on desktop', () => {
     const r = resolveLayout(DEFAULTS, false)
     expect(r.showIcon).toBe(true)
     expect(r.showLabel).toBe(false)
