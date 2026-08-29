@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import logger from './logger'
+import logger, { LEVELS } from './logger'
 
 const MAX_CALLER_DEPTH = 4
 const MAX_CALLER_ITEMS_PER_LEVEL = 40
@@ -8,6 +8,7 @@ const MAX_CALLER_STRING_CHARS = 500
 const lastCaller = () => logger.History[logger.History.length - 1].caller
 
 beforeEach(() => {
+  logger.level = LEVELS.DEBUG
   logger.clear()
 })
 
