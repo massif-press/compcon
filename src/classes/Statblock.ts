@@ -21,9 +21,17 @@ function linebreak(i: number, length: number): string {
 function emojiWeaponStats(w: MechWeapon | PilotWeapon): string {
   let out = ''
   if (w.Range && w.Range.length)
-    out += ' ' + w.Range.filter(Boolean).map(r => `${r.DiscordEmoji} ${r.Value}`).join(' ')
+    out +=
+      ' ' +
+      w.Range.filter(Boolean)
+        .map(r => `${r.DiscordEmoji} ${r.Value}`)
+        .join(' ')
   if (w.Damage && w.Damage.length)
-    out += ' ' + w.Damage.filter(Boolean).map(d => `${d.DiscordEmoji} ${d.Value}`).join(' ')
+    out +=
+      ' ' +
+      w.Damage.filter(Boolean)
+        .map(d => `${d.DiscordEmoji} ${d.Value}`)
+        .join(' ')
   return out
 }
 
@@ -42,8 +50,11 @@ function npcSubtitle(npc: Unit): string {
 }
 
 // "LABEL: max | LABEL: max ..." stat grid row.
-function maxStats(npc: Unit, cols: [string, string][]): string {
-  return cols.map(([label, key]) => `${label}: ${npc.StatController.getMax(key)}`).join(' | ')
+function maxStats(npc: Unit, cols: [string, string][], withBonuses = false): string {
+  const sc = npc.StatController
+  return cols
+    .map(([label, key]) => `${label}: ${withBonuses ? sc.getMaxWithBonuses(key) : sc.getMax(key)}`)
+    .join(' | ')
 }
 
 class Statblock {
@@ -200,6 +211,7 @@ class Statblock {
       ? `${pilot.LicenseController.Licenses.map(l => {
           if (l.License) return `${l.License.Source} ${l.License.Name} ${l.Rank}`
           else if (l.Stub) return `${l.Stub.Source} ${l.Stub.Name}`
+          return ''
         }).join(', ')}`
       : 'N/A'
   }
@@ -274,35 +286,55 @@ class Statblock {
     output += npcSubtitle(npc)
     output += '\n'
     output += '[ STATS ]\n'
-    output += `  ${maxStats(npc, [
-      ['H', 'Hull'],
-      ['A', 'Agi'],
-      ['S', 'Sys'],
-      ['E', 'Eng'],
-    ])}\n`
-    output += `  ${maxStats(npc, [
-      ['STRUCT', 'Structure'],
-      ['ARMOR', 'Armor'],
-      ['HP', 'hp'],
-    ])}\n`
-    output += `  ${maxStats(npc, [
-      ['STRESS', 'Stress'],
-      ['HEATCAP', 'heatcap'],
-      ['SPD', 'Speed'],
-    ])}\n`
-    output += `  ${maxStats(npc, [
-      ['SAVE', 'SaveTarget'],
-      ['EVADE', 'Evasion'],
-      ['EDEF', 'EDefense'],
-    ])}\n`
-    output += `  ${maxStats(npc, [
-      ['SENS', 'SensorRange'],
-      ['SIZE', 'Size'],
-      ['ACT', 'Activations'],
-    ])}\n`
+    output += `  ${maxStats(
+      npc,
+      [
+        ['H', 'Hull'],
+        ['A', 'Agi'],
+        ['S', 'Sys'],
+        ['E', 'Eng'],
+      ],
+      true
+    )}\n`
+    output += `  ${maxStats(
+      npc,
+      [
+        ['STRUCT', 'Structure'],
+        ['ARMOR', 'Armor'],
+        ['HP', 'hp'],
+      ],
+      true
+    )}\n`
+    output += `  ${maxStats(
+      npc,
+      [
+        ['STRESS', 'Stress'],
+        ['HEATCAP', 'heatcap'],
+        ['SPD', 'Speed'],
+      ],
+      true
+    )}\n`
+    output += `  ${maxStats(
+      npc,
+      [
+        ['SAVE', 'SaveTarget'],
+        ['EVADE', 'Evasion'],
+        ['EDEF', 'EDefense'],
+      ],
+      true
+    )}\n`
+    output += `  ${maxStats(
+      npc,
+      [
+        ['SENS', 'SensorRange'],
+        ['SIZE', 'Size'],
+        ['ACT', 'Activations'],
+      ],
+      true
+    )}\n`
     const customStats = npc.StatController.CustomStats(npc.ItemType)
     if (customStats.length) {
-      output += `  ${customStats.map(s => `${s.title.toUpperCase()}: ${npc.StatController.getMax(s.key)}`).join(' | ')}\n`
+      output += `  ${customStats.map(s => `${s.title.toUpperCase()}: ${npc.StatController.getMaxWithBonuses(s.key)}`).join(' | ')}\n`
     }
     output += '[ FEATURES ]\n  '
     output += npc.NpcFeatureController.Features.map(
@@ -409,8 +441,6 @@ function mapNpcActions(actions: Action[], tier: number): string {
 }
 
 function mapNpcWeaponStats(feature: NpcWeapon, tier: number): string {
-  // Called for every feature; weapon-only details (tags like AP, on-hit/crit
-  // effects) must be skipped for non-weapon features.
   if (!(feature instanceof NpcWeapon)) return ''
 
   let output = ''
@@ -445,11 +475,7 @@ function mapNpcWeaponStats(feature: NpcWeapon, tier: number): string {
   return output
 }
 
-function mapNpcWeaponEffect(
-  label: string,
-  effect: ActiveEffect | undefined,
-  tier: number
-): string {
+function mapNpcWeaponEffect(label: string, effect: ActiveEffect | undefined, tier: number): string {
   const detail = effect?.getDetail(tier)
   if (!detail) return ''
   return `\n  ${label}: ${detail.replace(/<[^>]*>/gi, '')}`

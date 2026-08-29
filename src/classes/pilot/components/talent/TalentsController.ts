@@ -32,17 +32,17 @@ class TalentsController
     return wrapper.Talent
   }
 
-  protected _sort(): void {
+  protected override _sort(): void {
     this._collection = this._collection.sort((a, b) =>
       a.Rank === b.Rank ? 0 : a.Rank > b.Rank ? -1 : 1
     )
   }
 
-  protected _afterAdd(_raw: Talent): void {
+  protected override _afterAdd(_raw: Talent): void {
     this.updateIntegratedTalents()
   }
 
-  protected _afterRemove(_raw: Talent): void {
+  protected override _afterRemove(_raw: Talent): void {
     this.updateIntegratedTalents()
   }
 
@@ -149,6 +149,6 @@ class TalentsController
   }
 }
 
-const _checkController: IControllerStatic<Pilot, ITalentsData> = TalentsController
+TalentsController satisfies IControllerStatic<Pilot, ITalentsData>
 export { TalentsController }
 export type { ITalentsData }

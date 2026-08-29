@@ -101,7 +101,7 @@ class Frame extends LicensedItem implements IFeatureContainer {
     return Rules.SizeIcon(this.Size)
   }
 
-  public get Icon(): string {
+  public override get Icon(): string {
     if (this.Variant) return 'mdi-alpha-v-box'
     else return 'cc:frame'
   }

@@ -37,12 +37,17 @@ export const CampaignStore = defineStore('campaign', {
   },
   actions: {
     async LoadCampaigns(): Promise<void> {
-      let campaignData = await GetAll('campaigns')
+      const campaignData = await GetAll('campaigns')
       this.Campaigns = campaignData.map(x => Campaign.Deserialize(x))
       this.CampaignCollection = await GetAll('campaign_collection')
     },
     async SaveCampaigns(): Promise<void> {
-      await saveAll('campaigns', this.Campaigns, y => Campaign.Serialize(y as Campaign), 'Campaign data')
+      await saveAll(
+        'campaigns',
+        this.Campaigns,
+        y => Campaign.Serialize(y as Campaign),
+        'Campaign data'
+      )
     },
     async SaveCampaign(payload: Campaign): Promise<void> {
       await SetItem('campaigns', Campaign.Serialize(payload))

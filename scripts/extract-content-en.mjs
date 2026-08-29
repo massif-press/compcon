@@ -4,7 +4,13 @@ import { createRequire } from 'node:module'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
-import { nestedEntries, glossaryId, ALLOWLIST } from '../src/i18n/contentKeys.mjs'
+import {
+  nestedEntries,
+  glossaryId,
+  ALLOWLIST,
+  normalizeMarkup,
+  markupFault,
+} from '../src/i18n/contentKeys.mjs'
 
 export { ALLOWLIST }
 
@@ -33,13 +39,13 @@ export function buildContent() {
             ? (val.detail ?? '') // on_hit/on_crit/on_attack
             : String(val)
         if (!str.trim()) continue
-        catalog[`${item.id}.${field}`] = str
+        catalog[`${item.id}.${field}`] = normalizeMarkup(str)
       }
 
       for (const { prefix, fields } of nestedEntries(collection, item)) {
         for (const [field, val] of Object.entries(fields)) {
           const str = Array.isArray(val) ? val.join('\n') : String(val)
-          if (str.trim()) catalog[`${prefix}.${field}`] = str
+          if (str.trim()) catalog[`${prefix}.${field}`] = normalizeMarkup(str)
         }
       }
     }
@@ -55,9 +61,9 @@ export function buildContent() {
   const gcat = {}
   for (const g of glossary) {
     if (!g?.name) continue
-    if (String(g.name).trim()) gcat[`${glossaryId(g.name)}.name`] = g.name
+    if (String(g.name).trim()) gcat[`${glossaryId(g.name)}.name`] = normalizeMarkup(g.name)
     if (g.description && String(g.description).trim())
-      gcat[`${glossaryId(g.name)}.description`] = g.description
+      gcat[`${glossaryId(g.name)}.description`] = normalizeMarkup(g.description)
   }
   catalogs.glossary = {
     items: glossary.length,
@@ -92,6 +98,14 @@ function main() {
 
   const sorted = Object.fromEntries(Object.entries(merged).sort(([a], [b]) => a.localeCompare(b)))
   writeFileSync(`${outDir}/lancer-data.json`, JSON.stringify(sorted, null, 2) + '\n')
+
+  const faults = Object.entries(sorted)
+    .map(([k, v]) => [k, markupFault(v)])
+    .filter(([, f]) => f)
+  if (faults.length) {
+    console.warn(`\n${faults.length} string(s) still unparseable as XML (fix upstream):`)
+    for (const [k, f] of faults) console.warn(`  ${k}: ${f}`)
+  }
   writeFileSync(metaPath, JSON.stringify(meta, null, 2) + '\n')
   console.log(
     `\nDone. lancer-data ${version} -> content/en/lancer-data.json (${Object.keys(sorted).length} keys)`

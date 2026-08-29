@@ -6,6 +6,7 @@ import { NpcTemplate } from '../template/NpcTemplate'
 import { CompendiumStore } from '@/features/compendium/store'
 import { ITagData } from '@/classes/Tag'
 import { NpcClass } from '../class/NpcClass'
+import { ByTierLoose } from '@/util/tierFormat'
 
 export enum NpcFeatureType {
   Trait = 'Trait',
@@ -27,32 +28,38 @@ interface INpcFeatureData extends ICompendiumItemData {
   mod?: string
   tags: ITagData[]
   hide_active: boolean
+  accuracy?: number | number[]
+  attack_bonus?: number | number[]
   type: string
   deprecated?: boolean
   build_feature?: boolean
 }
 
 abstract class NpcFeature extends CompendiumItem {
-  public InLcp: boolean = true
+  public override InLcp: boolean = true
   // this needs to be public (for now) to support v2 style NPC data
   public _originID: string
   private _effect: string
   private _hide_active: boolean
   public FeatureType: NpcFeatureType = NpcFeatureType.Trait
-  public IsHidden: boolean = false
+  public override IsHidden: boolean = false
   public Recharge: number = 0
-  public Used: boolean = false
+  public override Used: boolean = false
   public IsLoading: boolean = false
   public readonly Base: boolean
   public readonly Deprecated: boolean = false
   public readonly BuildFeature: boolean = false
   public readonly Kit?: string
   public readonly Mod?: string
+  protected _accuracy: number[]
+  protected _attack_bonus: number[]
 
   public constructor(data: INpcFeatureData, pack?: ContentPack) {
     super(data as ICompendiumItemData, pack)
     this._originID = data.origin
     this._effect = data.effect || data.detail || ''
+    this._accuracy = this._expand(data.accuracy)
+    this._attack_bonus = this._expand(data.attack_bonus)
 
     if (this.Tags.some(x => x.IsRecharging)) {
       this.Recharge = Number(this.Tags.find(x => x.IsRecharging)?.Value) || 0
@@ -104,14 +111,6 @@ abstract class NpcFeature extends CompendiumItem {
     return null
   }
 
-  public get Name(): string {
-    return this._name
-  }
-
-  public set Name(v: string) {
-    this._name = v
-  }
-
   public get Origin() {
     if (CompendiumStore().has('NpcClasses', this._originID))
       return CompendiumStore().referenceByID('NpcClasses', this._originID) as unknown as NpcClass
@@ -124,32 +123,42 @@ abstract class NpcFeature extends CompendiumItem {
   }
 
   public get Effect(): string {
-    if (!this._effect) return ''
-    let out = this._effect
-    const perTier = /(\{.*?\})/gi
-    const matches = out.match(perTier)
-    if (matches) {
-      matches.forEach(m => {
-        out = out.replace(m, m.replace('{', '<b class="text-accent">').replace('}', '</b>'))
-      })
-    }
-    return out
+    return ByTierLoose(this._effect)
   }
 
   public EffectByTier(tier: number): string {
-    if (!this._effect) return ''
-    let fmt = this._effect
-    const perTier = /(?:\{)?(\d+)\/(\d+)\/(\d+)(?:\})?/g
-    const m = this._effect.match(perTier)
-    if (m) {
-      m.forEach(x => {
-        if (tier) {
-          const tArr = x.replace('{', '').replace('}', '').split('/')
-          fmt = fmt.replace(x, `<b class="text-accent">${tArr[tier - 1]}</b>`)
-        } else fmt = fmt.replace(x, x.replace('{', '<b class="text-accent">').replace('}', '</b>'))
-      })
-    }
-    return fmt
+    return ByTierLoose(this._effect, tier)
+  }
+
+  // tier triples arrive as a bare number, a 3-entry array, or not at all
+  protected _expand(x: any): number[] {
+    if (!x) return [0, 0, 0]
+    if (Array.isArray(x)) return x
+    return [x, x, x]
+  }
+
+  public get HasAccuracy(): boolean {
+    return this._accuracy.some(x => !!x)
+  }
+
+  public Accuracy(tier: number): number {
+    return this._accuracy[tier - 1] ?? 0
+  }
+
+  public get HasAttackBonus(): boolean {
+    return this._attack_bonus.some(x => !!x)
+  }
+
+  public AttackBonus(tier: number): number {
+    return this._attack_bonus[tier - 1] ?? 0
+  }
+
+  public get Trigger(): string {
+    return ''
+  }
+
+  public TriggerByTier(tier: number): string {
+    return ByTierLoose(this.Trigger, tier)
   }
 
   public get HideActive(): boolean {

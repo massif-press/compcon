@@ -84,7 +84,6 @@ class Status implements ILcpTracked {
   }
 }
 
-// Compile-time check: Status satisfies ISerializableStatic
 const _checkSerializable: ISerializableStatic<IStatusData, Status> = Status
 void _checkSerializable
 

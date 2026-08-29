@@ -32,13 +32,37 @@
       {{ $t('active.actionChips.quickAction') }}
     </v-chip>
   </v-col>
+  <v-col v-for="use in partialUses"
+    :key="use.id"
+    cols="auto">
+    <v-chip color="text"
+      prepend-icon="mdi-hexagon-multiple-outline"
+      class="ml-2"
+      :size="large ? 'large' : 'small'"
+      :tile="large"
+      variant="flat">
+      {{ use.name }} {{ use.remaining }}/{{ use.max }}
+    </v-chip>
+  </v-col>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { CombatController } from '@/classes/components/combat/CombatController'
 
-defineProps<{
+const props = defineProps<{
   controller: CombatController
   large?: boolean
 }>()
+
+const partialUses = computed(() =>
+  Object.entries(props.controller.ActionPoolController.ActionUses)
+    .filter(([, record]) => record.max > 1 && record.used < record.max)
+    .map(([id, record]) => ({
+      id,
+      name: props.controller.FindAction(id)?.Name || id,
+      remaining: record.max - record.used,
+      max: record.max,
+    }))
+)
 </script>

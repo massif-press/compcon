@@ -270,9 +270,18 @@ class StatController {
     return this._maxStats[Stats.cleanKey(stat)]
   }
 
-  /** @deprecated Use getMax() instead */
-  public getStat(stat: string): any {
-    return this.getMax(stat)
+  // read-only counterpart to BonusController.applyToStats: layers feature bonuses over the
+  // stored max without mutating it, for surfaces that display an un-instanced actor
+  public getMaxWithBonuses(stat: string): any {
+    const base = this.getMax(stat)
+    // encounter instances already have bonuses baked in by BonusController.applyToStats
+    if (this.IsEncounterInstance) return base
+    // Parent is a CombatController for most actors, the entity itself for eidolon shards
+    const p = this.Parent as any
+    const bc =
+      p?.FeatureController?.BonusController ?? p?.Parent?.FeatureController?.BonusController
+    if (!bc || !bc.getFor(stat).length) return base
+    return bc.sum(stat, Number(base) || 0)
   }
 
   public getCurrent(stat: string): any {
@@ -314,8 +323,8 @@ class StatController {
 
   public static Serialize(parent: IStatContainer, target: any) {
     if (!target.stats) target.stats = {}
-    target.max = parent.StatController._maxStats
-    target.current = parent.StatController._currentStats
+    target.max = _.cloneDeep(parent.StatController._maxStats)
+    target.current = _.cloneDeep(parent.StatController._currentStats)
     target.stat_version = CURRENT_STAT_VERSION
     target.user_added_keys = [...parent.StatController._userAddedKeys]
   }
@@ -330,10 +339,10 @@ class StatController {
       return
     }
 
-    if (data.max) parent.StatController._maxStats = data.max
+    if (data.max) parent.StatController._maxStats = _.cloneDeep(data.max)
     if (data.user_added_keys) parent.StatController._userAddedKeys = new Set(data.user_added_keys)
     if (data.current && Object.keys(data.current).length) {
-      parent.StatController._currentStats = data.current
+      parent.StatController._currentStats = _.cloneDeep(data.current)
       for (const key of MandatoryStats) {
         if (!(key in parent.StatController._currentStats)) {
           parent.StatController._currentStats[key] =
@@ -346,6 +355,6 @@ class StatController {
   }
 }
 
-const _checkController: IControllerStatic<IStatContainer, IStatData> = StatController
+StatController satisfies IControllerStatic<IStatContainer, IStatData>
 export { StatController, MandatoryStats }
 export type { IStatData, ICustomStatData, DisplayStat }

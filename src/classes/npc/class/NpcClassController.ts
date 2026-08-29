@@ -138,6 +138,6 @@ class NpcClassController {
   }
 }
 
-const _checkController: IControllerStatic<Unit, INpcClassSaveData> = NpcClassController
+NpcClassController satisfies IControllerStatic<Unit, INpcClassSaveData>
 export { NpcClassController }
 export type { INpcClassSaveData }

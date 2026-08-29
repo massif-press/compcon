@@ -3,3 +3,4 @@ node_modules/
 amplify/
 public/
 *.snap
+src/__tests__/fixtures/*.json

@@ -10,6 +10,7 @@ import {
 import { Encounter, IEncounterData } from './Encounter'
 import { CombatLogEntry } from '../components/combat/CombatLog'
 import { EncounterInstance } from './EncounterInstance'
+import { combatantLabel } from '@/util/combatantLabel'
 
 interface IEncounterArchiveData {
   itemType: 'EncounterArchive'
@@ -85,7 +86,7 @@ class EncounterArchive implements ISaveable, ICloudSyncable {
       },
       encounter: Encounter.Serialize(instance.Encounter),
       history: instance.Combatants.map(c => ({
-        combatantName: c.actor.CombatController.RootActor.CombatController.CombatName,
+        combatantName: combatantLabel(c),
         log: c.actor.CombatController.CombatLog.History,
         telemetry: c.actor.CombatController.CombatLog.Telemetry,
       })),

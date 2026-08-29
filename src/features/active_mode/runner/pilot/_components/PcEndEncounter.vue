@@ -22,6 +22,7 @@ const props = defineProps<{
 const actionReport = ref([] as any[])
 
 function end() {
+      props.sheet.Pilot.CombatController.EndEncounter();
       props.sheet.Archive();
       PilotSheetStore().SetActiveSheet('');
       router.replace('/active-mode/sheet-manager');

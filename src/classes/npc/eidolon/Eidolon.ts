@@ -15,7 +15,7 @@ import { EidolonLayer, IEidolonLayerData } from './EidolonLayer'
 import { ItemType } from '../../enums'
 class EidolonData extends NpcData implements IInstanceableData {
   npcType: string = 'eidolon'
-  instanceId: string = ''
+  override instanceId: string = ''
 
   tier: number = 1
   activeLayer: number = 0
@@ -32,7 +32,7 @@ class Eidolon extends Npc implements IInstanceable {
   public InstanceID?: string
   public ActiveLayerIndex: number = 0
 
-  public readonly ItemType: ItemType = ItemType.Eidolon
+  public override readonly ItemType: ItemType = ItemType.Eidolon
   private _tier: number
 
   private _layers: EidolonLayerSaveData[]
@@ -72,6 +72,8 @@ class Eidolon extends Npc implements IInstanceable {
   public CreateInstance<EidolonData>(): EidolonData {
     const data = this.Serialize() as EidolonData
     ;(data as any).instanceId = crypto.randomUUID()
+    ;(data as any).originId = this.ID
+    ;(data as any).id = (data as any).instanceId
     ;(data as any).is_instance = true
 
     return data

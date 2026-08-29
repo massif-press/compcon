@@ -353,7 +353,6 @@
       "currentlyEditing": "En cours d'édition",
       "uniqueInstanceHelp": "Ceci est une instance unique de ce PNJ lié aux données de cette rencontre. Modifier ce PNJ n'affectera les données de PNJ originales.",
       "linkedSource": "La source de l'instance de ce PNJ est présent dans votre roster de PNJ ({name}) et peut recevoir des mises à jour depuis l'original",
-      "notLinkedSource": "Cette instance de PNJ n'est pas lié à une source valide dans votre roster de PNJ",
       "notLinkedSourceDot": "Cette instance de PNJ n'est pas lié à une source valide dans votre roster de PNJ.",
       "sourceLinked": "Source liée",
       "sourceUnavailable": "Source non disponible",
@@ -876,7 +875,6 @@
       "createdBy": "Créé par"
     },
     "optionsPage": {
-      "tabSettings": "@:{'common.settings'}",
       "tabStorage": "Stockage",
       "tabLog": "Journal"
     },

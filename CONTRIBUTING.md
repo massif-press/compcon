@@ -12,6 +12,7 @@ Thank you for your interest in contributing to COMP/CON, the official digital to
 - [Setting Up Your Development Environment](#setting-up-your-development-environment)
 - [Project Structure](#project-structure)
 - [Development Workflow](#development-workflow)
+- [Testing](#testing)
 - [Coding Standards](#coding-standards)
 - [Submitting a Pull Request](#submitting-a-pull-request)
 - [Reporting Bugs](#reporting-bugs)
@@ -151,8 +152,9 @@ Do not bypass hooks with `--no-verify` except in emergencies (e.g., fixup commit
 
 ### Testing Your Changes
 
-There is no automated test suite at this time. Before submitting a PR you are expected to manually verify:
+Before submitting a PR you are expected to verify:
 
+- `yarn test` passes (see [Testing](#testing))
 - The specific behavior you changed or added works as intended
 - Adjacent functionality is still intact
 - No new typescript errors (`yarn typecheck`)
@@ -160,6 +162,42 @@ There is no automated test suite at this time. Before submitting a PR you are ex
 - The build succeeds (`yarn build`)
 
 If your change touches the UI, include screenshots in your PR.
+
+---
+
+## Testing
+
+`yarn test` (watch) or `yarn test:run` (once). `yarn test:coverage` adds the coverage report.
+
+### Finding something to test
+
+`yarn test:ledger --missing` lists every module that has a `Serialize`/`Deserialize` pair or exported functions and no colocated spec, grouped by directory. Drop `--missing` for the full picture with totals. That list, not a coverage percentage, is what "covered" means here.
+
+### Adding a test for a domain class
+
+1. Create `Foo.spec.ts` next to `Foo.ts`.
+2. Build inputs with a factory from `src/__tests__/factories`.
+3. If the class has `Serialize`/`Deserialize`, add a round-trip from `src/__tests__/roundtrip.ts` first. That one line is often the whole test file.
+   - `assertDataRoundTrip(arb, Serialize, Deserialize)` for a leaf type. The arbitrary generates the **data interface** (`IRangeData`), not the class, so the constructor's coercions are part of what gets tested. `src/classes/Range.spec.ts` is the model.
+   - `assertFixtureRoundTrip(data, Serialize, Deserialize)` for an aggregate root (`Pilot`, `Unit`, `Encounter`), where writing a generator that produces a valid object costs more than it catches.
+4. `yarn test Foo` to run just that file in watch mode.
+5. A bug fix requires one test that fails without the fix. This is mandatory and bugfix PRs without these tests will not be accepted.
+
+### Adding a test for a component
+
+Component specs live in the `component` project, which loads Vuetify, i18n, and the global component registry for you. Mount the component and query it the way a user or a screen reader would: `w.get('[role="checkbox"]')`, not a CSS class. `src/ui/components/buttons/CCCheckbox.spec.ts` is the model. If the behavior lives in a composable, test the composable directly instead: `src/ui/components/inputs/tickbar/useTickbar.spec.ts`.
+
+### Conventions
+
+- `.spec.ts` only, never `.test.ts`.
+- Colocated next to the file under test. Only `src/__tests__/` holds shared setup, fixtures, and factories.
+- Two Vitest projects: `domain` (Pinia setup only) and `component` (Vuetify, i18n, global component registry). Domain tests **must not** import UI.
+
+### Mutation testing
+
+`yarn test:mutation` runs StrykerJS over the files that have a spec, reporting how many of its injected bugs the tests actually catch. A passing test that asserts nothing scores zero here. It is slow (tens of seconds per file), so it is **never** part of a PR gate: it runs nightly and on demand, and the report lands as a workflow artifact. Target is 75-85%.
+
+Worth running locally on one file after writing a spec: `yarn test:mutation:file src/classes/Foo.ts`.
 
 ---
 
@@ -199,6 +237,7 @@ Run `yarn format && yarn lint` before committing if you want to avoid unexpected
 - Fill out the PR template.
 - Link the relevant issue using `Closes #<number>`.
 - Add screenshots for UI changes.
+- If this PR fixes a bug, it must include a test that fails against the target branch.
 
 ## Reporting Bugs
 

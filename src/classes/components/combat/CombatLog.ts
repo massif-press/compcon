@@ -94,6 +94,8 @@ function getBlankTelemetry(): TelemetryData {
   }
 }
 
+const MAX_HISTORY = 500
+
 class CombatLog {
   public RootActor: any
   public History: CombatLogEntry[] = []
@@ -106,7 +108,7 @@ class CombatLog {
     telemetry_data?: TelemetryData
   ) {
     this.RootActor = rootActor
-    this.History = log_data
+    this.History = CombatLog.trim(log_data)
     this.Telemetry = telemetry_data || getBlankTelemetry()
     this._telemetryCache = getBlankTelemetry()
   }
@@ -115,8 +117,17 @@ class CombatLog {
     return this.RootActor.CombatController
   }
 
+  public static trim(history: CombatLogEntry[]): CombatLogEntry[] {
+    return history.length > MAX_HISTORY ? history.slice(-MAX_HISTORY) : history
+  }
+
+  private push(entry: CombatLogEntry): void {
+    this.History.push(entry)
+    if (this.History.length > MAX_HISTORY) this.History.splice(0, this.History.length - MAX_HISTORY)
+  }
+
   public LogAction(action: ActionSummaryData, dir: 'incoming' | 'outgoing' = 'outgoing'): void {
-    this.History.push({
+    this.push({
       timestamp: Date.now(),
       round: this.CombatController.Round,
       dir,
@@ -125,7 +136,7 @@ class CombatLog {
   }
 
   public LogEvent(event: string, dir: 'incoming' | 'outgoing' = 'incoming'): void {
-    this.History.push({
+    this.push({
       timestamp: Date.now(),
       round: this.CombatController.Round,
       dir,

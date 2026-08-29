@@ -1,43 +1,61 @@
 <template>
-  <v-row dense
-    class="mt-n1">
-    <print-hp-block title="HP"
+  <v-row
+    dense
+    class="mt-n1"
+  >
+    <print-hp-block
+      title="HP"
       :value="mech.MaxHP"
       max-label="MAX HP"
       :blank="blank"
-      :cols="4" />
+      :cols="4"
+    />
 
-    <print-hp-block :title="$t('stats.structure')"
+    <print-hp-block
+      :title="$t('stats.structure')"
       :value="mech.MaxStructure"
       max-label="MAX STRUCTURE"
       :blank="blank"
       :cols="3"
-      v-bind="compact ? { 'show-upper-section': false } : {}" />
+      v-bind="compact ? { 'show-upper-section': false } : {}"
+    />
 
-    <print-hp-block :title="$t('common.overshield')"
+    <print-hp-block
+      :title="$t('common.overshield')"
       :blank="true"
       :show-value="false"
       :show-max-label="false"
-      :cols="3" />
+      :cols="3"
+    />
 
-    <v-col v-if="mech.Armor"
-      class="text-center">
+    <v-col
+      v-if="mech.Armor"
+      class="text-center"
+    >
       <fieldset>
-        <legend class="font-weight-bold caption text-primary px-2 text-center">{{ $t('stats.armor') }}</legend>
+        <legend class="font-weight-bold caption text-primary px-2 text-center">
+          {{ $t('stats.armor') }}
+        </legend>
 
-        <blank-line v-if="blank"
-          :height="102" />
+        <blank-line
+          v-if="blank"
+          :height="102"
+        />
 
-        <v-row v-else
+        <v-row
+          v-else
           style="height: 100%"
           class="mt-0"
-          align="center">
+          align="center"
+        >
           <v-col class="text-primary">
-            <v-icon v-for="n in mech.Armor"
+            <v-icon
+              v-for="n in mech.Armor"
               :key="`armor-${n}`"
               size="40"
               style="opacity: 0.6"
-              icon="mdi-shield-outline" />
+              icon="mdi-shield-outline"
+            />
           </v-col>
         </v-row>
       </fieldset>
@@ -45,42 +63,56 @@
   </v-row>
 
   <v-row dense>
-    <print-hp-block :title="$t('pm.sheet.heat').toUpperCase()"
+    <print-hp-block
+      :title="$t('pm.sheet.heat').toUpperCase()"
       :value="mech.HeatCapacity"
       max-label="HEAT CAPACITY"
       :blank="blank"
       :cols="4"
-      v-bind="compact ? { 'show-upper-section': false } : {}" />
+      v-bind="compact ? { 'show-upper-section': false } : {}"
+    />
 
-    <print-hp-block :title="$t('stats.stress')"
+    <print-hp-block
+      :title="$t('stats.stress')"
       :value="mech.MaxStress"
       max-label="MAX STRESS"
       :blank="blank"
       :cols="3"
-      v-bind="compact ? { 'show-upper-section': false } : {}" />
+      v-bind="compact ? { 'show-upper-section': false } : {}"
+    />
 
-    <print-hp-block :title="$t('common.repairs')"
+    <print-hp-block
+      :title="$t('common.repairs')"
       :value="mech.RepairCapacity"
       max-label="REPAIR CAPACITY"
       :blank="blank"
       :cols="3"
-      v-bind="compact ? { 'show-upper-section': false } : {}" />
+      v-bind="compact ? { 'show-upper-section': false } : {}"
+    />
 
     <v-col class="text-center">
       <fieldset>
-        <legend class="font-weight-bold caption text-primary px-2 text-center">{{ $t('active.trackable.corePower') }}</legend>
+        <legend class="font-weight-bold caption text-primary px-2 text-center">
+          {{ $t('active.trackable.corePower') }}
+        </legend>
 
-        <blank-line v-if="blank"
-          :height="102" />
+        <blank-line
+          v-if="blank"
+          :height="102"
+        />
 
-        <v-row v-else
+        <v-row
+          v-else
           style="height: 100%"
           class="mt-0"
-          align="center">
+          align="center"
+        >
           <v-col class="text-primary">
-            <v-icon size="40"
+            <v-icon
+              size="40"
               style="opacity: 0.6"
-              icon="mdi-battery-outline" />
+              icon="mdi-battery-outline"
+            />
           </v-col>
         </v-row>
       </fieldset>
@@ -89,12 +121,12 @@
 </template>
 
 <script setup lang="ts">
-import type { Mech } from '@/classes/mech/Mech'
-import BlankLine from './blank/line.vue';
-import PrintHpBlock from './PrintHpBlock.vue';
-defineProps<{
-  mech: Mech
-  blank: boolean
-  compact?: boolean
-}>()
+  import type { Mech } from '@/classes/mech/Mech'
+  import BlankLine from '@/ui/components/print/BlankLine.vue'
+  import PrintHpBlock from './PrintHpBlock.vue'
+  defineProps<{
+    mech: Mech
+    blank: boolean
+    compact?: boolean
+  }>()
 </script>

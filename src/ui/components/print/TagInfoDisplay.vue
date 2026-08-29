@@ -1,13 +1,21 @@
 <template>
   <div class="pa-2 mt-3 no-print-break">
-    <div class="text-overline text-primary"
-      style="line-height: 0">{{ $t('ui.ref.equipmentTagDetail') }}</div>
-    <div v-for="t in tags"
+    <div
+      class="text-overline text-primary"
+      style="line-height: 0"
+    >
+      {{ $t('ui.ref.equipmentTagDetail') }}
+    </div>
+    <div
+      v-for="t in tags"
       :key="t.ID"
-      class="ma-2 no-print-break">
-      <v-card variant="outlined"
+      class="ma-2 no-print-break"
+    >
+      <v-card
+        variant="outlined"
         class="pa-2"
-        color="grey">
+        color="grey"
+      >
         <v-row dense>
           <v-col cols="auto">
             <v-icon icon="mdi-tag-outline" />
@@ -27,9 +35,5 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{ tags: any[] }>();
+  defineProps<{ tags: any[] }>()
 </script>
-
-<style scoped>
-@import '@/ui/style/print-common.css';
-</style>

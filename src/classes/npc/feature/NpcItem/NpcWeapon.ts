@@ -31,13 +31,11 @@ export interface INpcWeaponData extends INpcFeatureData {
 }
 
 export class NpcWeapon extends NpcFeature {
-  public ItemType: ItemType = ItemType.NpcWeapon
+  public override ItemType: ItemType = ItemType.NpcWeapon
 
   private _weapon_type: string
   private _damage_data: INpcDamageData[]
   private _range: Range[]
-  private _accuracy: number[]
-  private _attack_bonus: number[]
   public OnMiss?: ActiveEffect
   public OnAttack?: ActiveEffect
   public OnHit?: ActiveEffect
@@ -52,15 +50,7 @@ export class NpcWeapon extends NpcFeature {
     this._weapon_type = data.weapon_type
     initActiveEffectCallbacks(data, this, this)
     this.Attacks = this._expand(data.attacks)
-    this._accuracy = this._expand(data.accuracy)
-    this._attack_bonus = this._expand(data.attack_bonus)
     this.FeatureType = NpcFeatureType.Weapon
-  }
-
-  private _expand(x: any) {
-    if (!x) return [0, 0, 0]
-    if (Array.isArray(x)) return x
-    return [x, x, x]
   }
 
   public get WeaponType(): string {
@@ -177,23 +167,11 @@ export class NpcWeapon extends NpcFeature {
     })
   }
 
-  public get HasAccuracy(): boolean {
-    return this._accuracy.some(x => x !== undefined)
-  }
-
-  public Accuracy(tier: number): number {
-    return this._accuracy[tier - 1]
-  }
-
-  public AttackBonus(tier: number): number {
-    return this._attack_bonus[tier - 1]
-  }
-
-  public get Color(): string {
+  public override get Color(): string {
     return 'npc--weapon'
   }
 
-  public get Icon(): string {
+  public override get Icon(): string {
     return 'cc:weapon'
   }
 

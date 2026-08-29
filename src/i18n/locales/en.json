@@ -36,6 +36,7 @@
     "changeImage": "Change Image",
     "all": "All",
     "selectAll": "Select All",
+    "unknown": "Unknown",
     "warning": "Warning",
     "preview": "Preview",
     "mount": "Mount",
@@ -181,7 +182,8 @@
     "a11y": {
       "mainNavigation": "Main navigation",
       "toggleNavigation": "Toggle navigation panel"
-    }
+    },
+    "deselectAll": "Deselect All"
   },
   "language": {
     "selectLanguage": "Language",
@@ -458,6 +460,8 @@
       "exportThisSession": "Export This Session Log",
       "exportAllSessions": "Export All Session Logs",
       "clearLog": "Clear Log",
+      "clearAllLogs": "Clear All Logs",
+      "clearAllLogsConfirm": "This will permanently delete all log entries from every session, including saved sessions from previous visits.",
       "error": "Error",
       "session": "Session",
       "copiedToClipboard": "Log entry copied to clipboard"
@@ -616,9 +620,9 @@
       "createdBy": "Created By"
     },
     "optionsPage": {
-      "tabSettings": "@:{'common.settings'}",
       "tabStorage": "Storage",
-      "tabLog": "Log"
+      "tabLog": "Log",
+      "tabActiveMode": "Active Mode"
     },
     "packsList": {
       "toggleSuccessText": "Successfully {action} pack.",
@@ -698,7 +702,7 @@
       "deleteWarn2": "type the campaign title into the text entry field below and click {confirm}.",
       "deletePermanently": "Delete campaign permanently",
       "importJsonTitle": "Import Campaign JSON Data",
-      "importHelp": "This tool will import an editable, unpublished Campaign {jsonFile} from your device.{br}To import a published campaign file with the {lcd} extension into your collection, use the file import tool in the {campaignCollection} menu, or the Import Campaign tool in the {manageContent} dialog under the main menu .",
+      "importHelp": "This tool will import an editable, unpublished Campaign {jsonFile} from your device.{br}To import a published campaign file with the {lcd} extension into your collection, use the file import tool in the {campaignCollection} menu, or the Import Campaign tool in the {manageContent} dialog under the main menu.",
       "jsonFile": "JSON file",
       "lcdExt": ".lcd",
       "campaignCollection": "Campaign Collection",
@@ -789,7 +793,8 @@
     "folder": {
       "collectionFolder": "Collection folder",
       "setFolder": "Set Folder",
-      "noFolder": "No Folder"
+      "noFolder": "No Folder",
+      "deleteFolderWarning": "This will delete the '{folder}' folder. All items will be sent to the '{noFolder}' group"
     },
     "organizer": {
       "itemCount": "{n} items"
@@ -880,7 +885,6 @@
       "encounterInstance": "(Encounter Instance #{n})",
       "uniqueInstanceHelp": "This is a unique instance of this NPC tied to this Encounter data. Editing this NPC will not affect the original NPC data.",
       "linkedSource": "The source of this NPC instance is present in your NPC roster ({name}) and can receive updates from the original",
-      "notLinkedSource": "This NPC instance is not linked to a valid source in your NPC roster",
       "notLinkedSourceDot": "This NPC instance is not linked to a valid source in your NPC roster.",
       "sourceLinked": "Source Linked",
       "sourceUnavailable": "Source Unavailable",
@@ -1106,6 +1110,7 @@
       "selectEncounterFile": "Select Encounter File",
       "extraction": "Extraction",
       "conditions": "Conditions",
+      "condition": "Condition",
       "enemyForces": "ENEMY FORCES",
       "alliedForces": "ALLIED FORCES",
       "neutral": "Neutral",
@@ -1310,7 +1315,8 @@
       "roundN": "Round {n}",
       "started": "started",
       "lastTurn": "last turn",
-      "na": "N/A"
+      "na": "N/A",
+      "noCampaignInformation": "No Campaign Information"
     },
     "campaignDialog": {
       "setCampaign": "Set Campaign"
@@ -1334,7 +1340,9 @@
       "never": "Never",
       "manualSave": "Manual Save",
       "autosave": "Autosave",
-      "layoutOptions": "Layout Options"
+      "layoutOptions": "Layout Options",
+      "autosaveOnRoundEnd": "On Round End",
+      "autosaveOff": "Off (Manual Saves Only)"
     },
     "leaveDialog": {
       "prompt": "Do you want to save this encounter before exiting?",
@@ -1539,10 +1547,12 @@
     },
     "trackable": {
       "corePower": "Core Power",
-      "ready": "Ready",
-      "clearMechCore": "Clear this mech's",
-      "restoreMechCore": "Restore this mech's",
-      "corePowerQ": "core power?"
+      "corePowerReady": "Core Power Ready",
+      "corePowerUnavailable": "Core Power Unavailable",
+      "clearCorePowerQ": "Clear this mech's core power?",
+      "restoreCorePowerQ": "Restore this mech's core power?",
+      "confirmClearCore": "Confirm Clear Core",
+      "confirmRestoreCore": "Confirm Restore Core"
     },
     "customStat": {
       "editStats": "Edit Stats",
@@ -1567,6 +1577,7 @@
     },
     "dmgCond": {
       "title": "Resist / immune / vuln.",
+      "normal": "Normal",
       "immunity": "Immunity",
       "vulnerability": "Vulnerability",
       "resistance": "Resistance",
@@ -1596,7 +1607,9 @@
     },
     "activeEffect": {
       "title": "Active effects",
-      "hiddenEffects": "Hidden Effects"
+      "hiddenEffects": "Hidden Effects",
+      "hidingUsedEffects": "Hiding used/expired effects",
+      "showingUsedEffects": "Showing used/expired effects"
     },
     "actions": {
       "allActions": "All Actions",
@@ -1613,7 +1626,19 @@
       "alreadyUsed": "This action has already been used this turn.",
       "insufficient": "Insufficient",
       "actionsRemaining": "actions remaining this turn.",
-      "activationAction": "{n} Action"
+      "activationAction": "{n} Action",
+      "usesRemaining": "{n} of {max} uses remaining this {period}",
+      "usesExhausted": "No uses remaining this {period}",
+      "restoreUse": "Click to restore one use",
+      "protocol": "Protocol",
+      "full": "Full",
+      "quick": "Quick",
+      "quickN": "Quick {n}",
+      "move": "Move",
+      "overcharge": "Overcharge",
+      "reaction": "Reaction",
+      "spent": "Spent",
+      "orTwoQuick": "A full action may be spent as two quick actions"
     },
     "deploy": {
       "deployNamed": "Deploy {name}",
@@ -1641,7 +1666,9 @@
       "rechargesFeatures": "Recharges the following features",
       "rechargesOn": "(Recharges on {n}+)",
       "clickToRoll": "Click to roll. NPC Features will recharge on rolls equal to or higher than their roll value.",
-      "reroll": "reroll"
+      "reroll": "reroll",
+      "hidingPassiveFeatures": "Hiding passive features",
+      "showingPassiveFeatures": "Showing passive features"
     },
     "skillCheck": {
       "checkStat": "Check Stat",
@@ -1739,7 +1766,8 @@
     "pcPanel": {
       "pilotMounted": "Pilot Mounted",
       "pilotUnmounted": "Pilot unmounted",
-      "noReserves": "No reserves available"
+      "noReserves": "No reserves available",
+      "unusedOnly": "Unused Only"
     },
     "pilotActions": {
       "preparedTitle": "Pilot Prepared",
@@ -1775,7 +1803,7 @@
       "mark1RepairToRestore": "Mark 1 REPAIR to restore all HP.",
       "reloadAllLoadedWeapons": "Reload all LOADED weapons.",
       "clearAnyBurnCurrentlyAffecting": "Clear any burn currently affecting your mech.",
-      "clearAConditionThatWasnt": "Clear a condition that wasn't caused by one of your own systems, talents, etc",
+      "clearAConditionThatWasnt": "Clear a condition that wasn't caused by one of your own systems, talents, etc.",
       "clearAnAdjacentAlliedCharacters": "Clear an adjacent allied character's condition that wasn't caused by one of their own systems, talents, etc."
     },
     "titles": {
@@ -1890,6 +1918,49 @@
       "onFail": "On failure: take {n} Burn damage (Burn remains)",
       "resolveEndTurn": "Resolve & End Turn",
       "ignore": "Ignore"
+    },
+    "layout": {
+      "title": "Active Mode Layout",
+      "description": "Controls how combatant panels, stats and action controls are drawn during an encounter. These settings are yours alone and do not affect other players at the table.",
+      "preset": "Preset",
+      "presets": {
+        "default": "Default",
+        "textFirst": "Text First",
+        "dense": "Dense",
+        "phone": "Phone",
+        "custom": "Custom"
+      },
+      "labels": "Labels",
+      "labelModes": {
+        "icon": "Icons only",
+        "iconText": "Icons with text",
+        "text": "Text only"
+      },
+      "density": "Density",
+      "densities": {
+        "compact": "Compact",
+        "default": "Default",
+        "comfortable": "Comfortable"
+      },
+      "tickbars": "Stat Trackers",
+      "tickbarModes": {
+        "auto": "Automatic (simple on small screens)",
+        "simple": "Always simple",
+        "standard": "Always standard"
+      },
+      "statSet": "Stat Display",
+      "statSets": {
+        "all": "All stats",
+        "core": "Core stats only (custom stats always shown)"
+      },
+      "structure": "Panel Structure",
+      "columnsLabel": "Split panels into columns",
+      "content": "Content",
+      "showPortraits": "Show portraits",
+      "showPortraitsTooltip": "Hide combatant portrait images to fit more information on screen.",
+      "showFlavor": "Show flavor text",
+      "showFlavorTooltip": "Show descriptive and lore text on equipment and feature cards. Turn off for a rules-only view.",
+      "resetToDefault": "Reset to Default"
     }
   },
   "mainMenu": {
@@ -2088,7 +2159,10 @@
       "unsubscribeInfo": "Unsubscribing from this collection will remove it from your collection list. You will no longer receive updates from this author. The local data from this collection will not be removed.",
       "newVersionAvailable": "There is a new version of this collection available.",
       "deletedCollection": "Deleted Collection",
-      "deletedCollectionInfo": "The collection \"{name}\" has been deleted by the author. Although your local data has not been removed, you will no longer receive updates from this collection."
+      "deletedCollectionInfo": "The collection \"{name}\" has been deleted by the author. Although your local data has not been removed, you will no longer receive updates from this collection.",
+      "authorContentShort": "Author Content",
+      "authorContentHeader": "AUTHOR CONTENT SUBSCRIPTIONS",
+      "lcpHeader": "LCP Subscriptions"
     },
     "storage": {
       "iosWarning": "iOS browsers limit storage for websites and may {emphasis} after 7 days of inactivity. To prevent data loss, install @:{'common.appName'} to your home screen",
@@ -2177,7 +2251,11 @@
       "deleteCollectionWarning": "Deleting this collection will remove the collection from your local and cloud data, and will delete the collection archive from cloud storage. Users will not be able to subscribe to this content and current subscribers will no longer be able to update collection data. It {willNot} delete any collection content, either locally or on the cloud for you or collection subscribers.",
       "willNotLabel": "will not",
       "actionUndone": "This action cannot be undone.",
-      "confirmDelete": "Are you sure you want to delete this collection?"
+      "confirmDelete": "Are you sure you want to delete this collection?",
+      "headerShort": "COLLECTION PUBLISHING",
+      "header": "CONTENT COLLECTION PUBLISHING",
+      "nameRequired": "Name (required)",
+      "authorRequired": "Author (required)"
     },
     "dataItem": {
       "cancelBulkSelection": "Cancel Bulk Selection",
@@ -2395,7 +2473,18 @@
       "gmsARMORYEQUIPMENTAUTHORIZATIONPILOTPERSONAL2": "GMS armory equipment authorization: pilot/personal armament::S0 - S3(LTD)",
       "toAddSlashes": "To add //",
       "unionArmoryPrintid": "Union armory printid",
-      "gmsArmoryPrintid": "GMS armory printid"
+      "gmsArmoryPrintid": "GMS armory printid",
+      "showUnlicensed": "Show Unlicensed",
+      "unlicensedShown": "Unlicensed equipment: SHOWN",
+      "unlicensedHidden": "Unlicensed equipment: HIDDEN",
+      "showExceedsSp": "Show Exceeds SP",
+      "exceedsSpShown": "Systems exceeding SP Capacity: SHOWN",
+      "exceedsSpHidden": "Systems exceeding SP Capacity: HIDDEN",
+      "incompatibleModsShown": "Incompatible Mods: SHOWN",
+      "incompatibleModsHidden": "Incompatible Mods: HIDDEN",
+      "modifyModification": "Modify {name} Modification",
+      "installModification": "Install {name} Modification",
+      "showIncompatibleMods": "Show Incompatible"
     },
     "import": {
       "importSuccessTitle": "Import Successful",
@@ -2592,7 +2681,10 @@
       "unionAdministrativeIdentRecord": "Union Administrative RM-4 Pilot Identification Protocol (IDENT) Record",
       "biometricRecordValid": "Biometric record valid [[",
       "pbOhmC": "PB]] :: OHM c//",
-      "identRecordNotice": "Improper use of this IDENT record and/or its constituent data by the record holder or any other persons is punishable under the DoJ/HR A-645-c. This record is the property of the Union Administrative Office and the information herein must be transmitted on request under NDL-C-DISCORDANT-BREATH encryption protocols. This RM-4 record must be updated every five (5) Cradle Standard Years of objective time to retain GMS licensing rights. Far-field operatives that anticipate deployments lasting longer than five Cradle Standard Years that have not been issued a man-portable Omninet Hook should apply for the RM-11-B IDENT Supplemental (b) Extension. Contact your local Union Administrative Officer for any other matters regarding this record. V-CDL//M-265-114-831 (A)"
+      "identRecordNotice": "Improper use of this IDENT record and/or its constituent data by the record holder or any other persons is punishable under the DoJ/HR A-645-c. This record is the property of the Union Administrative Office and the information herein must be transmitted on request under NDL-C-DISCORDANT-BREATH encryption protocols. This RM-4 record must be updated every five (5) Cradle Standard Years of objective time to retain GMS licensing rights. Far-field operatives that anticipate deployments lasting longer than five Cradle Standard Years that have not been issued a man-portable Omninet Hook should apply for the RM-11-B IDENT Supplemental (b) Extension. Contact your local Union Administrative Officer for any other matters regarding this record. V-CDL//M-265-114-831 (A)",
+      "requiresCloudAccount": "Requires Cloud Account",
+      "favoriteMech": "Favorite Mech",
+      "unfavoriteMech": "Unfavorite Mech"
     },
     "print": {
       "pilotSheetOptions": "Pilot Sheet Options",
@@ -2686,7 +2778,8 @@
       "doneReordering": "Done Reordering",
       "addGroup": "Add Group",
       "pilots": "Pilots",
-      "addANewPilotToName": "Add a new pilot to {name}"
+      "addANewPilotToName": "Add a new pilot to {name}",
+      "editGroupInformation": "Edit Group Information"
     },
     "misc": {
       "skipSTEP": "Skip step"
@@ -2733,7 +2826,7 @@
       "rm4cS2CoreModification": "RM-4c (S-2) Core Modification Supplemental",
       "mv2ACORESupplemental": "MV-2(a) CORE Supplemental",
       "theRM4SupplementalIICore": "The RM-4β Supplemental II (Core Modification) registers a individual pilot's Core Modification Data (CMD) Archive to be made available for printing and outfitting services.",
-      "theMV2ASupplementalAmendment": "The MV-2(a) Supplemental Amendment registers a major CORE modification, upgrade, retrofit, or enhancement. The Union Naval Intelligence Board only recognizes CORE augmentation from a Union-approved and registered Lincensor.",
+      "theMV2ASupplementalAmendment": "The MV-2(a) Supplemental Amendment registers a major CORE modification, upgrade, retrofit, or enhancement. The Union Naval Intelligence Board only recognizes CORE augmentation from a Union-approved and registered Licensor.",
       "theUnionLicensingAuthorityAndThe": "The Union Licensing Authority and the Union Administration Department hereby disclaim any and all responsibility for Core Modifications.",
       "pilotINELIGIBLEFORCOREBONUS": "Pilot ineligible for core bonus",
       "unlockLicense": "Unlock License",
@@ -3065,7 +3158,6 @@
       "manufacturers": "Manufacturers",
       "frames": "Frames",
       "glossary": "Glossary",
-      "downtimeactions": "DowntimeActions",
       "bonds": "Bonds",
       "environments": "Environments",
       "sitreps": "SITREPs",
@@ -3084,6 +3176,7 @@
       "or": "or",
       "twoQuickActions": "2 Quick Actions",
       "statuses": "Statuses",
+      "conditions": "Conditions",
       "glossary": "Glossary",
       "faqErrata": "FAQ & errata",
       "pleaseNote": "Please note",
@@ -3335,7 +3428,9 @@
     "remote": {
       "collectionResource": "Collection resource",
       "collectionHelp": "This {type} is linked to a content collection. It is read-only and will receive updates when a new version of the collection is published by the collection's author.",
-      "remoteHelp": "This {type} is a remote resource linked to another user's account. It is read-only and will receive updates from the linked account."
+      "remoteHelp": "This {type} is a remote resource linked to another user's account. It is read-only and will receive updates from the linked account.",
+      "mustBeLoggedInToAdd": "You must be logged in to add items as remote resources.",
+      "addRemoteResourceInfo": "Adding this item as a remote resource will create a readonly version of this item linked to the author's original data. When the author saves an update to this item to their @:{'common.appName'} cloud account, your local version can receive those changes."
     },
     "missing": {
       "missingContent": "Missing content",
@@ -3409,7 +3504,9 @@
     },
     "talent": {
       "rankLocked": "Talent rank locked",
-      "unlocked": "Unlocked"
+      "unlocked": "Unlocked",
+      "hideAll": "Hide All",
+      "showAll": "Show All"
     },
     "coreBonus": {
       "remove": "Remove this CORE Bonus",
@@ -3433,7 +3530,9 @@
     },
     "corePanel": {
       "integrated": "Core integrated equipment",
-      "special": "Core special equipment"
+      "special": "Core special equipment",
+      "corePowerAvailable": "Core Power Available",
+      "corePowerDepleted": "Core Power Depleted"
     },
     "image": {
       "remoteImages": "Remote Images",
@@ -3575,6 +3674,20 @@
     },
     "subtitles": {
       "selectResult": "Select result"
+    },
+    "organizer": {
+      "archive": "Archive",
+      "archiveMultiple": "Archive Multiple",
+      "deleteMultiple": "Delete Multiple",
+      "printMultiple": "Print Multiple",
+      "exportCollection": "Export Collection",
+      "exportItemJson": "Export item JSON",
+      "exportPackage": "Generate a multi-item export package",
+      "markDeleted": "Mark item as Deleted",
+      "markDeletedMultiple": "Mark multiple items as Deleted",
+      "restoreMultiple": "Restore Multiple",
+      "unmarkDeleted": "Remove Deleted status from item",
+      "unmarkDeletedMultiple": "Remove Deleted status from items"
     }
   },
   "stats": {

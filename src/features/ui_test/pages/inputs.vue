@@ -2,9 +2,15 @@
   <v-window-item>
     <cc-heading size="large">inputs</cc-heading>
     <cc-heading line>text field</cc-heading>
-    <v-card flat border>
+    <v-card
+      flat
+      border
+    >
       <v-row justify="center">
-        <v-col class="text-center" align-self="center">
+        <v-col
+          class="text-center"
+          align-self="center"
+        >
           <v-card-text>
             <cc-text-field
               v-if="inputType === 'field'"
@@ -20,8 +26,12 @@
               :details="
                 showDetails ? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit' : undefined
               "
-              :icon="icon">
-              <template v-if="showOptions" #options>
+              :icon="icon"
+            >
+              <template
+                v-if="showOptions"
+                #options
+              >
                 <v-list>
                   <v-list-item title="Example" />
                   <v-list-item title="Example" />
@@ -44,8 +54,12 @@
               :details="
                 showDetails ? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit' : undefined
               "
-              :icon="icon">
-              <template v-if="showOptions" #options>
+              :icon="icon"
+            >
+              <template
+                v-if="showOptions"
+                #options
+              >
                 <v-list>
                   <v-list-item title="Example" />
                   <v-list-item title="Example" />
@@ -61,8 +75,12 @@
               :append-icon="appendIcon"
               :color="color"
               :variant="variant"
-              :tooltip="showTooltip ? 'This is a tooltip' : undefined">
-              <template v-if="showOptions" #options>
+              :tooltip="showTooltip ? 'This is a tooltip' : undefined"
+            >
+              <template
+                v-if="showOptions"
+                #options
+              >
                 <v-list>
                   <v-list-item title="Example" />
                   <v-list-item title="Example" />
@@ -73,87 +91,110 @@
           </v-card-text>
         </v-col>
         <v-divider vertical />
-        <v-col cols="3" style="min-width: 500px">
+        <v-col
+          cols="3"
+          style="min-width: 500px"
+        >
           <v-card flat>
             <v-card-text>
-              <v-btn-toggle v-model="inputType" density="compact" hide-details>
+              <v-btn-toggle
+                v-model="inputType"
+                density="compact"
+                hide-details
+              >
                 <v-btn value="label">label</v-btn>
                 <v-btn value="field">field</v-btn>
                 <v-btn value="area">area</v-btn>
               </v-btn-toggle>
               <v-text-field
+                v-model="label"
                 density="compact"
                 label="label"
                 hide-details
-                v-model="label"
-                clearable />
-              <v-select density="compact" label="icon" hide-details v-model="icon" :items="icons" />
+                clearable
+              />
               <v-select
+                v-model="icon"
+                density="compact"
+                label="icon"
+                hide-details
+                :items="icons"
+              />
+              <v-select
+                v-model="color"
                 density="compact"
                 label="color"
                 hide-details
                 clearable
-                v-model="color"
-                :items="colors" />
+                :items="colors"
+              />
               <v-select
+                v-model="variant"
                 density="compact"
                 label="variant"
                 hide-details
                 clearable
-                v-model="variant"
-                :items="inputType === 'label' ? chipVariants : variants" />
+                :items="inputType === 'label' ? chipVariants : variants"
+              />
               <v-select
+                v-model="prependIcon"
                 density="compact"
                 label="prepend icon"
                 hide-details
                 clearable
-                v-model="prependIcon"
-                :items="icons" />
+                :items="icons"
+              />
               <v-select
+                v-model="appendIcon"
                 density="compact"
                 label="append icon"
                 hide-details
                 clearable
-                v-model="appendIcon"
-                :items="icons" />
+                :items="icons"
+              />
               <v-text-field
+                v-model="label"
                 density="compact"
                 label="label"
                 hide-details
-                v-model="label"
-                clearable />
+                clearable
+              />
               <v-row>
                 <v-col cols="auto">
                   <v-checkbox
-                    density="compact"
-                    hide-details
                     v-model="showTooltip"
-                    label="tooltip" />
+                    density="compact"
+                    hide-details
+                    label="tooltip"
+                  />
                 </v-col>
                 <v-col cols="auto">
                   <v-checkbox
-                    density="compact"
-                    hide-details
                     v-model="showOptions"
-                    label="options" />
+                    density="compact"
+                    hide-details
+                    label="options"
+                  />
                 </v-col>
                 <v-col cols="auto">
                   <v-checkbox
                     v-if="inputType !== 'label'"
-                    density="compact"
-                    hide-details
-                    clearable
                     v-model="showClearable"
-                    label="clearable" />
+                    density="compact"
+                    hide-details
+                    clearable
+                    label="clearable"
+                  />
                 </v-col>
                 <v-col cols="auto">
                   <v-checkbox
                     v-if="inputType !== 'label'"
+                    v-model="showDetails"
                     density="compact"
                     hide-details
                     clearable
-                    v-model="showDetails"
-                    label="details" />
+                    label="details"
+                  />
                 </v-col>
               </v-row>
             </v-card-text>
@@ -163,14 +204,20 @@
     </v-card>
 
     <cc-heading line>select</cc-heading>
-    <v-card flat border>
+    <v-card
+      flat
+      border
+    >
       <v-row justify="center">
-        <v-col class="text-center" align-self="center">
+        <v-col
+          class="text-center"
+          align-self="center"
+        >
           <v-card-text>
             <cc-select
+              v-model="selectedItem"
               :combobox="selectType === 'combo'"
               :autocomplete="selectType === 'auto'"
-              v-model="selectedItem"
               :color="color"
               :label="label"
               :tooltip="showTooltip ? 'This is a tooltip' : undefined"
@@ -188,8 +235,12 @@
                 { title: 'Item 1', value: 'item-1' },
                 { title: 'Item 2', value: 'item-2' },
                 { title: 'Item 3', value: 'item-3' },
-              ]">
-              <template v-if="showOptions" #options>
+              ]"
+            >
+              <template
+                v-if="showOptions"
+                #options
+              >
                 <v-list>
                   <v-list-item title="Example" />
                   <v-list-item title="Example" />
@@ -200,95 +251,119 @@
           </v-card-text>
         </v-col>
         <v-divider vertical />
-        <v-col cols="3" style="min-width: 500px">
+        <v-col
+          cols="3"
+          style="min-width: 500px"
+        >
           <v-card flat>
             <v-card-text>
-              <v-btn-toggle v-model="selectType" density="compact" hide-details>
+              <v-btn-toggle
+                v-model="selectType"
+                density="compact"
+                hide-details
+              >
                 <v-btn value="select">select</v-btn>
                 <v-btn value="combo">combobox</v-btn>
                 <v-btn value="auto">autocomplete</v-btn>
               </v-btn-toggle>
               <v-text-field
+                v-model="label"
                 density="compact"
                 label="label"
                 hide-details
-                v-model="label"
-                clearable />
-              <v-select density="compact" label="icon" hide-details v-model="icon" :items="icons" />
+                clearable
+              />
               <v-select
+                v-model="icon"
+                density="compact"
+                label="icon"
+                hide-details
+                :items="icons"
+              />
+              <v-select
+                v-model="color"
                 density="compact"
                 label="color"
                 hide-details
                 clearable
-                v-model="color"
-                :items="colors" />
+                :items="colors"
+              />
               <v-select
+                v-model="prependIcon"
                 density="compact"
                 label="prepend icon"
                 hide-details
                 clearable
-                v-model="prependIcon"
-                :items="icons" />
+                :items="icons"
+              />
               <v-select
+                v-model="appendIcon"
                 density="compact"
                 label="append icon"
                 hide-details
                 clearable
-                v-model="appendIcon"
-                :items="icons" />
+                :items="icons"
+              />
               <v-select
+                v-model="selectChipVariant"
                 density="compact"
                 label="chip variant"
                 hide-details
                 clearable
-                v-model="selectChipVariant"
-                :items="chipVariants" />
+                :items="chipVariants"
+              />
               <v-row dense>
                 <v-col cols="auto">
                   <v-checkbox
-                    density="compact"
-                    hide-details
                     v-model="showTooltip"
-                    label="tooltip" />
+                    density="compact"
+                    hide-details
+                    label="tooltip"
+                  />
                 </v-col>
                 <v-col cols="auto">
                   <v-checkbox
-                    density="compact"
-                    hide-details
                     v-model="showOptions"
-                    label="options" />
+                    density="compact"
+                    hide-details
+                    label="options"
+                  />
                 </v-col>
                 <v-col cols="auto">
                   <v-checkbox
-                    density="compact"
-                    hide-details
-                    clearable
                     v-model="showClearable"
-                    label="clearable" />
-                </v-col>
-                <v-col cols="auto">
-                  <v-checkbox
                     density="compact"
                     hide-details
                     clearable
+                    label="clearable"
+                  />
+                </v-col>
+                <v-col cols="auto">
+                  <v-checkbox
                     v-model="showDetails"
-                    label="details" />
-                </v-col>
-                <v-col cols="auto">
-                  <v-checkbox
                     density="compact"
                     hide-details
                     clearable
+                    label="details"
+                  />
+                </v-col>
+                <v-col cols="auto">
+                  <v-checkbox
                     v-model="multiple"
-                    label="multiple" />
-                </v-col>
-                <v-col cols="auto">
-                  <v-checkbox
                     density="compact"
                     hide-details
                     clearable
+                    label="multiple"
+                  />
+                </v-col>
+                <v-col cols="auto">
+                  <v-checkbox
                     v-model="lightChip"
-                    label="outlined chip color override" />
+                    density="compact"
+                    hide-details
+                    clearable
+                    label="outlined chip color override"
+                  />
                 </v-col>
               </v-row>
             </v-card-text>
@@ -298,9 +373,15 @@
     </v-card>
 
     <cc-heading line>numeric</cc-heading>
-    <v-card flat border>
+    <v-card
+      flat
+      border
+    >
       <v-row justify="center">
-        <v-col class="text-center" align-self="center">
+        <v-col
+          class="text-center"
+          align-self="center"
+        >
           <v-card-text>
             <cc-number-field
               v-model.number="selectedNumber"
@@ -316,8 +397,12 @@
                 showDetails ? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit' : undefined
               "
               :controls="showControls"
-              :icon="icon">
-              <template v-if="showOptions" #options>
+              :icon="icon"
+            >
+              <template
+                v-if="showOptions"
+                #options
+              >
                 <v-list>
                   <v-list-item title="Example" />
                   <v-list-item title="Example" />
@@ -328,88 +413,108 @@
           </v-card-text>
         </v-col>
         <v-divider vertical />
-        <v-col cols="3" style="min-width: 500px">
+        <v-col
+          cols="3"
+          style="min-width: 500px"
+        >
           <v-card flat>
             <v-card-text>
               <v-text-field
+                v-model="label"
                 density="compact"
                 label="label"
                 hide-details
-                v-model="label"
-                clearable />
-              <v-select density="compact" label="icon" hide-details v-model="icon" :items="icons" />
+                clearable
+              />
               <v-select
+                v-model="icon"
+                density="compact"
+                label="icon"
+                hide-details
+                :items="icons"
+              />
+              <v-select
+                v-model="color"
                 density="compact"
                 label="color"
                 hide-details
                 clearable
-                v-model="color"
-                :items="colors" />
+                :items="colors"
+              />
               <v-select
+                v-model="prependIcon"
                 density="compact"
                 label="prepend icon"
                 hide-details
                 clearable
-                v-model="prependIcon"
-                :items="icons" />
+                :items="icons"
+              />
               <v-select
+                v-model="appendIcon"
                 density="compact"
                 label="append icon"
                 hide-details
                 clearable
-                v-model="appendIcon"
-                :items="icons" />
+                :items="icons"
+              />
               <v-text-field
+                v-model.number="min"
                 density="compact"
                 label="min"
                 hide-details
-                v-model.number="min"
-                type="number" />
+                type="number"
+              />
               <v-text-field
+                v-model.number="max"
                 density="compact"
                 label="max"
                 hide-details
-                v-model.number="max"
-                type="number" />
+                type="number"
+              />
 
               <v-row dense>
                 <v-col cols="auto">
                   <v-checkbox
-                    density="compact"
-                    hide-details
                     v-model="showTooltip"
-                    label="tooltip" />
+                    density="compact"
+                    hide-details
+                    label="tooltip"
+                  />
                 </v-col>
                 <v-col cols="auto">
                   <v-checkbox
-                    density="compact"
-                    hide-details
                     v-model="showOptions"
-                    label="options" />
+                    density="compact"
+                    hide-details
+                    label="options"
+                  />
                 </v-col>
                 <v-col cols="auto">
                   <v-checkbox
-                    density="compact"
-                    hide-details
-                    clearable
                     v-model="showClearable"
-                    label="clearable" />
-                </v-col>
-                <v-col cols="auto">
-                  <v-checkbox
                     density="compact"
                     hide-details
                     clearable
+                    label="clearable"
+                  />
+                </v-col>
+                <v-col cols="auto">
+                  <v-checkbox
                     v-model="showDetails"
-                    label="details" />
-                </v-col>
-                <v-col cols="auto">
-                  <v-checkbox
                     density="compact"
                     hide-details
                     clearable
+                    label="details"
+                  />
+                </v-col>
+                <v-col cols="auto">
+                  <v-checkbox
                     v-model="showControls"
-                    label="controls" />
+                    density="compact"
+                    hide-details
+                    clearable
+                    label="controls"
+                  />
                 </v-col>
               </v-row>
             </v-card-text>
@@ -419,9 +524,15 @@
     </v-card>
 
     <cc-heading line>tickbar</cc-heading>
-    <v-card flat border>
+    <v-card
+      flat
+      border
+    >
       <v-row justify="center">
-        <v-col class="text-center" align-self="center">
+        <v-col
+          class="text-center"
+          align-self="center"
+        >
           <v-card-text>
             <v-row justify="center">
               <cc-tickbar
@@ -441,8 +552,12 @@
                     ? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
                     : undefined
                 "
-                :controls="showControls">
-                <template v-if="showOptions" #options>
+                :controls="showControls"
+              >
+                <template
+                  v-if="showOptions"
+                  #options
+                >
                   <v-list>
                     <v-list-item title="Example" />
                     <v-list-item title="Example" />
@@ -454,88 +569,118 @@
           </v-card-text>
         </v-col>
         <v-divider vertical />
-        <v-col cols="3" style="min-width: 500px">
+        <v-col
+          cols="3"
+          style="min-width: 500px"
+        >
           <v-card flat>
             <v-card-text>
               <v-text-field
+                v-model="label"
                 density="compact"
                 hide-details
-                v-model="label"
                 clearable
-                label="label" />
-              <v-select density="compact" label="icon" hide-details v-model="icon" :items="icons" />
+                label="label"
+              />
               <v-select
+                v-model="icon"
+                density="compact"
+                label="icon"
+                hide-details
+                :items="icons"
+              />
+              <v-select
+                v-model="color"
                 density="compact"
                 label="color"
                 hide-details
                 clearable
-                v-model="color"
-                :items="colors" />
+                :items="colors"
+              />
               <v-select
+                v-model="bgColor"
                 density="compact"
                 label="bg-color"
                 hide-details
                 clearable
-                v-model="bgColor"
-                :items="colors" />
-              <v-select density="compact" label="size" hide-details v-model="size" :items="sizes" />
-              <v-text-field density="compact" hide-details v-model.number="ticks" label="length" />
+                :items="colors"
+              />
+              <v-select
+                v-model="size"
+                density="compact"
+                label="size"
+                hide-details
+                :items="sizes"
+              />
+              <v-text-field
+                v-model.number="ticks"
+                density="compact"
+                hide-details
+                label="length"
+              />
 
               <v-row dense>
                 <v-col cols="auto">
                   <v-checkbox
+                    v-model="showTooltip"
                     density="compact"
                     hide-details
-                    v-model="showTooltip"
-                    label="tooltip" />
+                    label="tooltip"
+                  />
                 </v-col>
                 <v-col cols="auto">
                   <v-checkbox
+                    v-model="showOptions"
                     density="compact"
                     hide-details
-                    v-model="showOptions"
-                    label="options" />
+                    label="options"
+                  />
                 </v-col>
 
                 <v-col cols="auto">
                   <v-checkbox
-                    density="compact"
-                    hide-details
-                    clearable
                     v-model="showDetails"
-                    label="details" />
-                </v-col>
-                <v-col cols="auto">
-                  <v-checkbox
                     density="compact"
                     hide-details
                     clearable
+                    label="details"
+                  />
+                </v-col>
+                <v-col cols="auto">
+                  <v-checkbox
                     v-model="showControls"
-                    label="controls" />
-                </v-col>
-                <v-col cols="auto">
-                  <v-checkbox
                     density="compact"
                     hide-details
                     clearable
+                    label="controls"
+                  />
+                </v-col>
+                <v-col cols="auto">
+                  <v-checkbox
                     v-model="showDisplay"
-                    label="display" />
-                </v-col>
-                <v-col cols="auto">
-                  <v-checkbox
                     density="compact"
                     hide-details
                     clearable
+                    label="display"
+                  />
+                </v-col>
+                <v-col cols="auto">
+                  <v-checkbox
                     v-model="showClearable"
-                    label="clearable" />
-                </v-col>
-                <v-col cols="auto">
-                  <v-checkbox
                     density="compact"
                     hide-details
                     clearable
+                    label="clearable"
+                  />
+                </v-col>
+                <v-col cols="auto">
+                  <v-checkbox
                     v-model="showValTooltips"
-                    label="show value tooltips" />
+                    density="compact"
+                    hide-details
+                    clearable
+                    label="show value tooltips"
+                  />
                 </v-col>
               </v-row>
             </v-card-text>
@@ -550,52 +695,60 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-defineOptions({ name: 'ui-test-buttons' })
+  defineOptions({ name: 'ui-test-buttons' })
 
-const label = ref('')
-const selectedItem = ref('item-1')
-const selectedNumber = ref(50)
-const tickValue = ref(0)
-const inputText = ref('hello world')
-const rteText = ref('<p>hello world</p>')
-const inputType = ref('label')
-const selectType = ref('select')
-const color = ref(undefined)
-const bgColor = ref(undefined)
-const variant = ref(undefined)
-const block = ref(false)
-const prependIcon = ref(undefined)
-const appendIcon = ref(undefined)
-const icon = ref('cc:campaign')
-const showTooltip = ref(false)
-const showOptions = ref(false)
-const showClearable = ref(false)
-const showDetails = ref(false)
-const multiple = ref(false)
-const selectChipVariant = ref(undefined)
-const lightChip = ref(false)
-const showControls = ref(false)
-const showDisplay = ref(true)
-const showValTooltips = ref(false)
-const size = ref('default')
-const icons = ref([
-      '',
-      'cc:campaign',
-      'mdi-alert',
-      'cc:pilot',
-      'mdi-cog',
-      'cc:kinetic',
-      'mdi-content-save',
-      'cc:encounter',
-      'mdi-help',
-    ])
-const colors = ref(['primary', 'secondary', 'accent', 'damage--heat', 'damage--energy', 'exotic', 'cyan'])
-const variants = ref(['default', 'outlined'])
-const chipVariants = ref(['tonal', 'outlined', 'text'])
-const sizes = ref(['x-small', 'small', 'default', 'large', 'x-large'])
-const min = ref(0)
-const max = ref(100)
-const ticks = ref(6)
+  const label = ref('')
+  const selectedItem = ref('item-1')
+  const selectedNumber = ref(50)
+  const tickValue = ref(0)
+  const inputText = ref('hello world')
+  const rteText = ref('<p>hello world</p>')
+  const inputType = ref('label')
+  const selectType = ref('select')
+  const color = ref(undefined)
+  const bgColor = ref(undefined)
+  const variant = ref(undefined)
+  const block = ref(false)
+  const prependIcon = ref(undefined)
+  const appendIcon = ref(undefined)
+  const icon = ref('cc:campaign')
+  const showTooltip = ref(false)
+  const showOptions = ref(false)
+  const showClearable = ref(false)
+  const showDetails = ref(false)
+  const multiple = ref(false)
+  const selectChipVariant = ref(undefined)
+  const lightChip = ref(false)
+  const showControls = ref(false)
+  const showDisplay = ref(true)
+  const showValTooltips = ref(false)
+  const size = ref('default')
+  const icons = ref([
+    '',
+    'cc:campaign',
+    'mdi-alert',
+    'cc:pilot',
+    'mdi-cog',
+    'cc:kinetic',
+    'mdi-content-save',
+    'cc:encounter',
+    'mdi-help',
+  ])
+  const colors = ref([
+    'primary',
+    'secondary',
+    'accent',
+    'damage--heat',
+    'damage--energy',
+    'exotic',
+    'cyan',
+  ])
+  const variants = ref(['default', 'outlined'])
+  const chipVariants = ref(['tonal', 'outlined', 'text'])
+  const sizes = ref(['x-small', 'small', 'default', 'large', 'x-large'])
+  const min = ref(0)
+  const max = ref(100)
+  const ticks = ref(6)
 </script>

@@ -1,29 +1,34 @@
 <template>
-
-  <v-menu open-on-hover
+  <v-menu
+    open-on-hover
     max-width="400"
-    :close-on-content-click="false">
+    :close-on-content-click="false"
+  >
     <template #activator="{ props }">
       <div class="mr-n4 ml-n2">
-        <v-btn icon
+        <v-btn
+          icon
           size="x-small"
           variant="text"
           flat
           tile
           v-bind="props"
-          @click="rollSave()">
-          <v-icon size="25"
-            icon="mdi-dice-d20" />
+          @click="rollSave()"
+        >
+          <v-icon
+            size="25"
+            icon="mdi-dice-d20"
+          />
         </v-btn>
       </div>
     </template>
     <template #default>
-      <v-card class="text-center text-text text-cc-overline"
-        style="overflow-x: hidden;"
-        border>
+      <v-card
+        class="text-center text-text text-cc-overline"
+        style="overflow-x: hidden"
+        border
+      >
         <v-card-text class="pa-2">
-
-
           <div class="text-center">
             {{ $t('ui.combat.d20Plus') }}
             {{ rollData.SaveBonus }} {{ $t('ui.combat.saveBonusVs') }} {{ rollData.SaveTarget }}
@@ -31,28 +36,39 @@
 
           <accuracy-difficulty-row
             v-model="rollData.AttackAccuracy"
-            v-model:bonus="rollData.SaveBonus" />
+            v-model:bonus="rollData.SaveBonus"
+          />
 
-          <v-btn size="x-small"
+          <v-btn
+            size="x-small"
             flat
             tile
             block
             color="panel"
             class="mt-1"
-            @click="reset()">{{ $t('common.reset') }}</v-btn>
+            @click="reset()"
+          >
+            {{ $t('common.reset') }}
+          </v-btn>
 
-          <v-btn flat
+          <v-btn
+            flat
             tile
             class="mt-2"
             color="primary"
             size="small"
             block
-            @click="rollSave()">
+            @click="rollSave()"
+          >
             {{ $t('common.roll_verb') }}
           </v-btn>
-          <div class="pa-2 text-left text-cc-overline text-accent"><span class="text-lowercase">{{ $t('active.skillCheck.rollResults') }}</span></div>
-          <div v-if="rollData.SaveRollResult"
-            class="text-text">
+          <div class="pa-2 text-left text-cc-overline text-accent">
+            <span class="text-lowercase">{{ $t('active.skillCheck.rollResults') }}</span>
+          </div>
+          <div
+            v-if="rollData.SaveRollResult"
+            class="text-text"
+          >
             <span v-html-safe="rollData.SaveRollResult.toString()" />
           </div>
         </v-card-text>
@@ -62,24 +78,25 @@
 </template>
 
 <script setup lang="ts">
-import type { ActiveEventTarget } from '@/classes/components/feature/active_effects/effect_events/eventTarget'
-import { DiceRoller } from '@/classes/dice/DiceRoller'
-import AccuracyDifficultyRow from './AccuracyDifficultyRow.vue'
+  import type { ActiveEventTarget } from '@/classes/components/feature/active_effects/effect_events/eventTarget'
+  import { DiceRoller } from '@/classes/dice/DiceRoller'
+  import AccuracyDifficultyRow from './AccuracyDifficultyRow.vue'
 
-const props = defineProps<{
-  rollData: ActiveEventTarget
-}>()
+  const props = defineProps<{
+    rollData: ActiveEventTarget
+  }>()
 
-function reset() {
-  props.rollData.AttackAccuracy = 0;
-  props.rollData.SaveRollResult = null;
-}
+  function reset() {
+    props.rollData.AttackAccuracy = 0
+    props.rollData.SaveRollResult = undefined
+  }
 
-function rollSave() {
-  const rollResult = DiceRoller.rollSkillCheck(
-    props.rollData.SaveBonus, props.rollData.AttackAccuracy
-  );
-  props.rollData.SaveRollResult = rollResult;
-  props.rollData.SaveRolledValue = rollResult.total;
-}
+  function rollSave() {
+    const rollResult = DiceRoller.rollSkillCheck(
+      props.rollData.SaveBonus,
+      props.rollData.AttackAccuracy
+    )
+    props.rollData.SaveRollResult = rollResult
+    props.rollData.SaveRolledValue = rollResult.total
+  }
 </script>

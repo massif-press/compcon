@@ -1,176 +1,223 @@
 <template>
-  <combat-action-button
-    :action="action">
+  <combat-action-button :action="action">
     <template #default="{ close }">
-      <v-card color="panel"
+      <v-card
+        color="panel"
         flat
         tile
-        class="px-12">
-        <cc-synergy-display location="stabilize"
+        class="px-12"
+      >
+        <cc-synergy-display
+          location="stabilize"
           :mech="controller.Parent"
-          alert />
+          alert
+        />
 
-        <v-row dense
-          class="mb-4">
+        <v-row
+          dense
+          class="mb-4"
+        >
           <v-col>
-            <div class="text-center text-cc-overline text-disabled py-2">{{ $t('active.stabilize.chooseOne') }}</div>
+            <div class="text-center text-cc-overline text-disabled py-2">
+              {{ $t('active.stabilize.chooseOne') }}
+            </div>
             <v-divider />
-            <v-radio-group v-model="firstChoice"
-              row>
-              <v-radio :label="$t('active.fields.coolYourMechClearingAll')"
-                value="cool" />
-              <v-radio :label="$t('active.fields.mark1RepairToRestore')"
-                value="repair" />
+            <v-radio-group
+              v-model="firstChoice"
+              row
+            >
+              <v-radio
+                :label="$t('active.fields.coolYourMechClearingAll')"
+                value="cool"
+              />
+              <v-radio
+                :label="$t('active.fields.mark1RepairToRestore')"
+                value="repair"
+              />
             </v-radio-group>
           </v-col>
           <v-col>
-            <div class="text-center text-cc-overline text-disabled py-2">{{ $t('active.stabilize.chooseOne') }}</div>
+            <div class="text-center text-cc-overline text-disabled py-2">
+              {{ $t('active.stabilize.chooseOne') }}
+            </div>
             <v-divider />
-            <v-radio-group v-model="secondChoice"
-              row>
-              <v-radio class="mt-1"
+            <v-radio-group
+              v-model="secondChoice"
+              row
+            >
+              <v-radio
+                class="mt-1"
                 :label="$t('active.fields.reloadAllLoadedWeapons')"
-                value="reload" />
-              <v-radio class="mt-1"
+                value="reload"
+              />
+              <v-radio
+                class="mt-1"
                 :label="$t('active.fields.clearAnyBurnCurrentlyAffecting')"
-                value="clear_burn" />
-              <v-radio class="mt-1"
+                value="clear_burn"
+              />
+              <v-radio
+                class="mt-1"
                 :label="$t('active.fields.clearAConditionThatWasnt')"
-                value="clear_self" />
-              <v-radio class="mt-1"
+                value="clear_self"
+              />
+              <v-radio
+                class="mt-1"
                 :label="$t('active.fields.clearAnAdjacentAlliedCharacters')"
-                value="clear_ally" />
+                value="clear_ally"
+              />
             </v-radio-group>
           </v-col>
         </v-row>
-        <v-row v-if="secondChoice === 'clear_self'"
-          dense>
+        <v-row
+          v-if="secondChoice === 'clear_self'"
+          dense
+        >
           <v-col>
             <div class="text-cc-overline text-disabled">{{ $t('ui.combat.target') }}</div>
-            <v-select readonly
+            <v-select
+              readonly
               variant="outlined"
               flat
               tile
               density="compact"
-              :value="controller.CombatName" />
+              :value="controller.CombatName"
+            />
           </v-col>
           <v-col>
-            <div class="text-cc-overline text-disabled">{{ $t('active.common.condition_status') }}</div>
-            <v-select v-model="clearSelfCondition"
+            <div class="text-cc-overline text-disabled">
+              {{ $t('active.common.condition_status') }}
+            </div>
+            <v-select
+              v-model="clearSelfCondition"
               :items="clearableConditions(controller.ActiveActor)"
               item-title="status.Name"
               return-object
               flat
               tile
               density="compact"
-              variant="outlined" />
+              variant="outlined"
+            />
           </v-col>
         </v-row>
         <v-row v-else-if="secondChoice === 'clear_ally'">
           <v-col>
             <div class="text-cc-overline text-disabled">{{ $t('ui.combat.target') }}</div>
-            <v-select v-model="selectedTarget"
+            <v-select
+              v-model="selectedTarget"
               :items="alliedTargets"
-              item-title="actor.CombatController.CombatName"
+              :item-title="combatantLabel"
               return-object
               flat
               tile
               density="compact"
-              variant="outlined" />
+              variant="outlined"
+            />
           </v-col>
           <v-col>
-            <div class="text-cc-overline text-disabled">{{ $t('active.common.condition_status') }}</div>
-            <v-select v-model="clearAlliedCondition"
+            <div class="text-cc-overline text-disabled">
+              {{ $t('active.common.condition_status') }}
+            </div>
+            <v-select
+              v-model="clearAlliedCondition"
               :items="clearableConditions(selectedTarget?.actor?.CombatController?.ActiveActor)"
               item-title="status.Name"
               return-object
               flat
               tile
               density="compact"
-              variant="outlined" />
+              variant="outlined"
+            />
           </v-col>
         </v-row>
       </v-card>
-      <menu-input :owner="owner" :encounter-instance="encounterInstance" hide-input
+      <menu-input
         :key="controller.RootActor.ID"
+        :owner="owner"
+        :encounter-instance="encounterInstance"
+        hide-input
         :active-effect="action"
         :close="close"
         @apply="apply"
-        @reset="reset" />
+        @reset="reset"
+      />
     </template>
   </combat-action-button>
 </template>
 
 <script setup lang="ts">
-import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-import { useEncounterContext } from '../../../encounterContext'
-import type { CombatantData } from '@/classes/encounter/Encounter'
-import type { Action } from '@/classes/Action'
-import { computed, ref } from 'vue'
-import CombatActionButton from './CombatActionButton.vue';
-import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue';
-import type { Status } from '@/classes/Status';
+  import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+  import { useEncounterContext } from '../../../encounterContext'
+  import type { CombatantData } from '@/classes/encounter/Encounter'
+  import type { Action } from '@/classes/Action'
+  import { computed, ref } from 'vue'
+  import { combatantLabel } from '@/util/combatantLabel'
+  import CombatActionButton from './CombatActionButton.vue'
+  import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue'
+  import type { Status } from '@/classes/Status'
 
-type ClearableCondition = { status: Status; expires: any };
+  type ClearableCondition = { status: Status; expires: any }
 
-const { owner, encounterInstance } = useEncounterContext()
+  const { owner, encounterInstance } = useEncounterContext()
 
-const props = defineProps<{
-  action: Action
-}>()
+  const props = defineProps<{
+    action: Action
+  }>()
 
-const emit = defineEmits<{
-  'activate': [payload: string]
-}>()
+  const emit = defineEmits<{
+    activate: [payload: string]
+  }>()
 
-const firstChoice = ref('cool')
-const secondChoice = ref('reload')
-const clearSelfCondition = ref<ClearableCondition | null>(null)
-const clearAlliedCondition = ref<ClearableCondition | null>(null)
-const selectedTarget = ref<CombatantData | null>(null)
+  const firstChoice = ref('cool')
+  const secondChoice = ref('reload')
+  const clearSelfCondition = ref<ClearableCondition | null>(null)
+  const clearAlliedCondition = ref<ClearableCondition | null>(null)
+  const selectedTarget = ref<CombatantData | null>(null)
 
-const controller = computed(() => {
-      return owner.value.actor.CombatController;
-    })
-const alliedTargets = computed(() => {
-      const thisCombatant = encounterInstance.value.Combatants.find(
-        (c) => c.actor.ID === controller.value.RootActor.ID
-      );
-      if (!thisCombatant) return [];
-      return encounterInstance.value.Combatants.filter(
-        (c) => c.id !== thisCombatant.id && c.side === thisCombatant.side
-      );
-    })
+  const controller = computed(() => {
+    return owner.value.actor.CombatController
+  })
+  const alliedTargets = computed(() => {
+    const thisCombatant = encounterInstance.value.Combatants.find(
+      c => c.actor.ID === controller.value.RootActor.ID
+    )
+    if (!thisCombatant) return []
+    return encounterInstance.value.Combatants.filter(
+      c => c.id !== thisCombatant.id && c.side === thisCombatant.side
+    )
+  })
 
-function clearableConditions(target: any): ClearableCondition[] {
-      if (!target) return [];
-      return target.CombatController.Statuses.filter(
-        (s) => s.status.StatusType.toLowerCase() === 'condition'
-      );
+  function clearableConditions(target: any): ClearableCondition[] {
+    if (!target) return []
+    return target.CombatController.Statuses.filter(
+      s => s.status.StatusType.toLowerCase() === 'condition'
+    )
+  }
+  function apply() {
+    if (firstChoice.value === 'cool') {
+      controller.value.Stabilize('cool')
+    } else if (firstChoice.value === 'repair') {
+      controller.value.Stabilize('repair')
     }
-function apply() {
-      if (firstChoice.value === 'cool') {
-        controller.value.Stabilize('cool');
-      } else if (firstChoice.value === 'repair') {
-        controller.value.Stabilize('repair');
-      }
 
-      if (secondChoice.value === 'reload') {
-        controller.value.Stabilize('reload');
-      } else if (secondChoice.value === 'clear_burn') {
-        controller.value.Stabilize('clear_burn');
-      } else if (secondChoice.value === 'clear_self') {
-        controller.value.Stabilize('clear_self');
-        if (clearSelfCondition.value) controller.value.RemoveStatus(clearSelfCondition.value.status.ID);
-      } else if (secondChoice.value === 'clear_ally') {
-        controller.value.Stabilize('clear_ally');
-        if (selectedTarget.value && clearAlliedCondition.value)
-          selectedTarget.value.actor.CombatController.RemoveStatus(clearAlliedCondition.value.status.ID);
-      }
+    if (secondChoice.value === 'reload') {
+      controller.value.Stabilize('reload')
+    } else if (secondChoice.value === 'clear_burn') {
+      controller.value.Stabilize('clear_burn')
+    } else if (secondChoice.value === 'clear_self') {
+      controller.value.Stabilize('clear_self')
+      if (clearSelfCondition.value)
+        controller.value.RemoveStatus(clearSelfCondition.value.status.ID)
+    } else if (secondChoice.value === 'clear_ally') {
+      controller.value.Stabilize('clear_ally')
+      if (selectedTarget.value && clearAlliedCondition.value)
+        selectedTarget.value.actor.CombatController.RemoveStatus(
+          clearAlliedCondition.value.status.ID
+        )
+    }
 
-      emit('activate', props.action.ID);
-    }
-function reset() {
-      controller.value.ResetActivation(props.action.Activation);
-    }
+    emit('activate', props.action.ID)
+  }
+  function reset() {
+    controller.value.ResetActivation(props.action.Activation)
+  }
 </script>

@@ -87,7 +87,6 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
           'EncounterInstance constructor requires encounter data if no serialized data is provided.'
         )
       }
-      // store encounter without combatant data
       const eData = Encounter.Serialize(encounter)
       delete eData.combatants
       this.Encounter = Encounter.Deserialize(eData)
@@ -97,7 +96,6 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
           Encounter.DeserializeCombatant(Encounter.SerializeCombatant(c))
         ),
         ...pilots.map(p => {
-          // clear non-active mechs from instanced pilot
           const pData = p.Serialize() as PilotData
           pData.mechs = [pData.mechs[0]]
           const actor = Pilot.Deserialize(pData)
@@ -127,7 +125,6 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
 
       this.Combatants.sort((a, b) => a.index - b.index)
 
-      // filter our combatants to remove any with a playercount greater than the number of player-side actors
       const playerCount = pilots.length + placeholders.length
       this.Combatants = this.Combatants.filter(c => !c.playerCount || c.playerCount <= playerCount)
 
@@ -164,7 +161,6 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     this._cachedEncounterData = markRaw(Encounter.Serialize(this.Encounter))
     markRaw(this.Encounter)
 
-    // prevent saveControllers from creating new entries
     this.Combatants.forEach(c => {
       c.actor.IsEncounterInstance = true
       this._markStaticControllers(c.actor)
@@ -182,8 +178,6 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
   }
 
   private _markStaticControllers(actor: any): void {
-    // These controllers are read-only during combat. Marking them raw removes
-    // them from Pinia's sync deep watcher traversal on every reactive mutation.
     const staticKeys = [
       'SkillsController',
       'TalentsController',
@@ -214,6 +208,13 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     deployableInstance.SetStats()
     combatant.deployables.push(deployableInstance)
     combatant.actor.CombatController.toggleCombatAction(deployable.DeployAction.Activation)
+  }
+
+  public EndEncounter(): void {
+    for (const c of this.Combatants) {
+      c.actor.CombatController.EndEncounter()
+      if (c.actor.ActiveMech) c.actor.ActiveMech.CombatController.EndEncounter()
+    }
   }
 
   public async EndRound(): Promise<void> {
@@ -283,7 +284,6 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     })
 
     return allTargets.sort((a, b) => {
-      // if targetType is self, make the combatant with the same ID as origin come first
       if (targetType === 'self' && self_id) {
         if (a.id === self_id) return -1
         if (b.id === self_id) return 1

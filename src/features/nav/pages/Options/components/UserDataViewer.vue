@@ -6,8 +6,10 @@
       {{ $t('nav.userDataViewer.achievementNote') }}
     </i>
 
-    <v-table class="text-left mt-2"
-      density="compact">
+    <v-table
+      class="text-left mt-2"
+      density="compact"
+    >
       <thead>
         <tr>
           <th>{{ $t('nav.userDataViewer.item') }}</th>
@@ -15,31 +17,42 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="key in userDataKeys" :key="key">
+        <tr
+          v-for="key in userDataKeys"
+          :key="key"
+        >
           <td v-text="key.replace('_', '')" />
           <td v-if="key === '_options'">
             <v-row dense>
-              <v-col cols="4"
+              <v-col
                 v-for="viewKey in Object.keys(user[key].views)"
-              :key="viewKey">
+                :key="viewKey"
+                cols="4"
+              >
                 {{ viewKey }}:
                 <b class="text-accent">{{ user[key].views[viewKey] }}</b>
               </v-col>
             </v-row>
           </td>
-          <td v-else-if="Array.isArray(user[key])"
-            v-text="`${user[key].length} items`" />
-          <td v-else
-            v-text="user[key]" />
+          <td
+            v-else-if="Array.isArray(user[key])"
+            v-text="`${user[key].length} items`"
+          />
+          <td
+            v-else
+            v-text="user[key]"
+          />
         </tr>
       </tbody>
     </v-table>
 
     <div class="text-right">
-      <cc-button size="small"
+      <cc-button
+        size="small"
         variant="tonal"
         color="error"
-        @click="resetUserData()">
+        @click="resetUserData()"
+      >
         {{ $t('nav.userDataViewer.resetUserData') }}
       </cc-button>
     </div>
@@ -47,23 +60,23 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useDisplay, useTheme } from 'vuetify'
-import { UserStore } from '@/stores'
+  import { computed } from 'vue'
+  import { useDisplay, useTheme } from 'vuetify'
+  import { UserStore } from '@/stores'
 
-const { smAndDown: mobile } = useDisplay()
-const theme = useTheme()
+  const { smAndDown: mobile } = useDisplay()
+  const theme = useTheme()
 
-const user = computed(() => UserStore().User)
+  const user = computed(() => UserStore().User)
 
-const userDataKeys = computed(() => {
-  const skipKeys = ['LcpSubscriptionData', '_patreonData', '_itchData']
-  if (mobile.value) skipKeys.push('_options')
-  return Object.keys(UserStore().User).filter(key => !skipKeys.includes(key))
-})
+  const userDataKeys = computed(() => {
+    const skipKeys = ['LcpSubscriptionData', '_patreonData', '_itchData']
+    if (mobile.value) skipKeys.push('_options')
+    return Object.keys(UserStore().User).filter(key => !skipKeys.includes(key))
+  })
 
-function resetUserData() {
-  user.value.Reset()
-  theme.global.name.value = user.value.Theme
-}
+  function resetUserData() {
+    user.value.Reset()
+    theme.global.name.value = user.value.Theme
+  }
 </script>

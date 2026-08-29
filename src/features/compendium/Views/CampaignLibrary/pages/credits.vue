@@ -1,8 +1,19 @@
 <template>
   <v-container>
-    <v-card flat class="ma-n4" style="container: inline-size">
-      <v-img :src="campaign.BannerImageUrl || ''" cover>
-        <v-row justify="center" align="center" style="height: 100%; min-height: 300px">
+    <v-card
+      flat
+      class="ma-n4"
+      style="container: inline-size"
+    >
+      <v-img
+        :src="campaign.BannerImageUrl || ''"
+        cover
+      >
+        <v-row
+          justify="center"
+          align="center"
+          style="height: 100%; min-height: 300px"
+        >
           <v-col class="text-center">
             <div
               class="heading h1"
@@ -10,10 +21,15 @@
                 font-size: calc(12px + 4cqw);
                 letter-spacing: calc(4px + 0.6cqw);
                 background-color: rgba(122, 122, 122, 0.3);
-              ">
+              "
+            >
               {{ campaign.Title }}
             </div>
-            <v-card flat tile style="opacity: 0.85">
+            <v-card
+              flat
+              tile
+              style="opacity: 0.85"
+            >
               <v-card-text>
                 <div>
                   {{ campaign.Subtitle }}
@@ -21,9 +37,11 @@
                 <v-divider />
                 <div>{{ $t('compendium.campaign.byAuthor', { author: campaign.Author }) }}</div>
                 <div class="text-center text-caption">
-                  <i18n-t keypath="compendium.campaign.campaignForLine"
+                  <i18n-t
+                    keypath="compendium.campaign.campaignForLine"
                     tag="span"
-                    scope="global">
+                    scope="global"
+                  >
                     <template #lancer>
                       <i>Lancer</i>
                     </template>
@@ -50,13 +68,24 @@
       </v-img>
     </v-card>
 
-    <v-row justify="end" class="my-2">
+    <v-row
+      justify="end"
+      class="my-2"
+    >
       <v-col cols="auto">
-        <a :href="campaign.Website" target="_blank" rel="noopener noreferrer">
+        <a
+          :href="campaign.Website"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {{ campaign.Website }}
         </a>
       </v-col>
-      <v-col cols="auto" v-for="(item, index) in campaign.AuthorContact" :key="`contact-${index}`">
+      <v-col
+        v-for="(item, index) in campaign.AuthorContact"
+        :key="`contact-${index}`"
+        cols="auto"
+      >
         {{ item.service }}: {{ item.contact }}
       </v-col>
     </v-row>
@@ -66,48 +95,49 @@
       :key="`content-${i}`"
       :item="item"
       class="mb-4"
-      @delete-item="campaign.TitlePageContent.RemoveContentItem(i)" />
+      @delete-item="campaign.TitlePageContent.RemoveContentItem(i)"
+    />
   </v-container>
 </template>
 
 <script setup lang="ts">
-import type { Campaign } from '@/classes/campaign/Campaign'
-import { ref } from 'vue'
-import PageContentContainer from './containers/campaignContentContainer.vue';
+  import type { Campaign } from '@/classes/campaign/Campaign'
+  import { ref } from 'vue'
+  import PageContentContainer from './containers/campaignContentContainer.vue'
 
-defineOptions({ name: 'campaign-credits-page' })
+  defineOptions({ name: 'campaign-credits-page' })
 
-const props = defineProps<{
-  campaign: Campaign
-}>()
+  const props = defineProps<{
+    campaign: Campaign
+  }>()
 
-const bannerPreview = ref('')
-const coverPreview = ref('')
-const bannerDialog = ref(false)
-const coverDialog = ref(false)
-const socialItems = ref(['Discord', 'Twitch', 'Twitter', 'Email'])
+  const bannerPreview = ref('')
+  const coverPreview = ref('')
+  const bannerDialog = ref(false)
+  const coverDialog = ref(false)
+  const socialItems = ref(['Discord', 'Twitch', 'Twitter', 'Email'])
 
-function setBannerImage() {
-      props.campaign.BannerImageUrl = bannerPreview.value;
-      bannerPreview.value = '';
-      bannerDialog.value = false;
-    }
-function setCoverImage() {
-      props.campaign.CoverImageUrl = coverPreview.value;
-      coverPreview.value = '';
-      coverDialog.value = false;
-    }
-function addContentItem() {
-      props.campaign.TitlePageContent.AddContentItem();
-    }
+  function setBannerImage() {
+    props.campaign.BannerImageUrl = bannerPreview.value
+    bannerPreview.value = ''
+    bannerDialog.value = false
+  }
+  function setCoverImage() {
+    props.campaign.CoverImageUrl = coverPreview.value
+    coverPreview.value = ''
+    coverDialog.value = false
+  }
+  function addContentItem() {
+    props.campaign.TitlePageContent.AddContentItem()
+  }
 </script>
 
 <style scoped>
-.text-outline {
-  text-shadow:
-    -3px -3px 0 rgb(var(--v-theme-anti)),
-    3px -3px 0 rgb(var(--v-theme-anti)),
-    -3px 3px 0 rgb(var(--v-theme-anti)),
-    3px 3px 0 rgb(var(--v-theme-anti));
-}
+  .text-outline {
+    text-shadow:
+      -3px -3px 0 rgb(var(--v-theme-anti)),
+      3px -3px 0 rgb(var(--v-theme-anti)),
+      -3px 3px 0 rgb(var(--v-theme-anti)),
+      3px 3px 0 rgb(var(--v-theme-anti));
+  }
 </style>

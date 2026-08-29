@@ -1,6 +1,8 @@
 <template>
-  <div v-if="item"
-    class="text-text">
+  <div
+    v-if="item"
+    class="text-text"
+  >
     <v-row>
       <v-col>
         <v-row dense>
@@ -10,30 +12,39 @@
             </div>
           </v-col>
         </v-row>
-        <CCSitrepDisplay :sitrep="item.Sitrep" />
-        <CCEnvironmentDisplay :environment="item.Environment" />
+        <CCSitrepDisplay :sitrep="<any>item.Sitrep" />
+        <CCEnvironmentDisplay :environment="<any>item.Environment" />
       </v-col>
-      <v-col cols="3"
-        class="text-center ml-auto">
+      <v-col
+        cols="3"
+        class="text-center ml-auto"
+      >
         <v-card>
-          <v-tabs v-model="mapTab"
+          <v-tabs
+            v-model="mapTab"
             grow
             color="secondary"
             bg-color="panel"
-            density="compact">
+            density="compact"
+          >
             <v-tab>{{ $t('gm.encounterContent.map') }}</v-tab>
             <v-tab>{{ $t('gm.titles.image') }}</v-tab>
           </v-tabs>
           <v-window v-model="mapTab">
             <v-window-item>
-              <v-card style="height: 100%"
-                variant="outlined">
-                <v-row style="min-height: 22vw; max-width: 100%"
+              <v-card
+                style="height: 100%"
+                variant="outlined"
+              >
+                <v-row
+                  style="min-height: 22vw; max-width: 100%"
                   align="center"
-                  justify="center">
+                  justify="center"
+                >
                   <v-col>
-                    <i class="text-disabled text-caption">{{ $t('gm.encounterEditor.noMapData')
-                      }}</i>
+                    <i class="text-disabled text-caption">
+                      {{ $t('gm.encounterEditor.noMapData') }}
+                    </i>
                   </v-col>
                 </v-row>
               </v-card>
@@ -46,65 +57,80 @@
       </v-col>
     </v-row>
 
-    <v-card variant="tonal"
-      class="ma-2">
-      <p class="pa-2"
-        v-html-safe="item.Description" />
+    <v-card
+      variant="tonal"
+      class="ma-2"
+    >
+      <p
+        v-html-safe="item.Description"
+        class="pa-2"
+      />
     </v-card>
 
-    <combatant-editor :encounter="item"
-      readonly />
+    <combatant-editor
+      :encounter="item"
+      readonly
+    />
 
-    <v-divider v-if="
-      item.NarrativeController.TextItems.length ||
-      item.NarrativeController.Clocks.length ||
-      item.NarrativeController.Tables.length
-    "
-      class="my-4" />
+    <v-divider
+      v-if="
+        item.NarrativeController.TextItems.length ||
+        item.NarrativeController.Clocks.length ||
+        item.NarrativeController.Tables.length
+      "
+      class="my-4"
+    />
 
     <div class="text-text px-4">
-      <v-card v-for="(t, index) in item.NarrativeController.TextItems"
+      <v-card
+        v-for="(t, index) in item.NarrativeController.TextItems"
         :key="`text-${index}`"
-        variant="plain">
+        variant="plain"
+      >
         <div class="heading mt-1">{{ t.header }}</div>
-        <p class="pl-4"
-          v-html-safe="t.body" />
+        <p
+          v-html-safe="t.body"
+          class="pl-4"
+        />
       </v-card>
-      <cc-clock v-for="(c, index) in item.NarrativeController.Clocks"
+      <cc-clock
+        v-for="(c, index) in item.NarrativeController.Clocks"
         :key="`clock-${index}`"
         :clock="c"
         density="compact"
         class="my-2"
-        readonly />
-      <cc-rollable-table v-for="(t, index) in item.NarrativeController.Tables"
+        readonly
+      />
+      <cc-rollable-table
+        v-for="(t, index) in item.NarrativeController.Tables"
         :key="`table-${index}`"
         :table="t"
         density="compact"
         class="my-2"
-        readonly />
+        readonly
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Encounter } from '@/classes/encounter/Encounter'
-import { computed, ref } from 'vue'
-import { EncounterStore } from '@/stores';
-import CCEnvironmentDisplay from '@/ui/components/CCEnvironmentDisplay.vue'
-import CCSitrepDisplay from '@/ui/components/CCSitrepDisplay.vue'
+  import type { Encounter } from '@/classes/encounter/Encounter'
+  import { computed, ref } from 'vue'
+  import { EncounterStore } from '@/stores'
+  import CCEnvironmentDisplay from '@/ui/components/CCEnvironmentDisplay.vue'
+  import CCSitrepDisplay from '@/ui/components/CCSitrepDisplay.vue'
 
-const props = defineProps<{
-  data: Encounter | null
-}>()
+  const props = defineProps<{
+    data: Encounter | null
+  }>()
 
-const mapTab = ref(0)
+  const mapTab = ref(0)
 
-const item = computed(() => {
-  const refElement = EncounterStore()
-    .Encounters.filter((x) => !x.SaveController.IsDeleted)
-    .find((x) => x.ID === props.data?.ID);
-  if (refElement) return refElement;
-  return props.data;
-})
-
+  const item = computed(() => {
+    const refElement = EncounterStore()
+      .Encounters.filter(x => !x.SaveController.IsDeleted)
+      .find(x => x.ID === props.data?.ID)
+    if (refElement) return refElement
+    return props.data
+  })
 </script>

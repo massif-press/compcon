@@ -1,63 +1,75 @@
 <template>
   <fieldset class="flavor-text">
     <legend class="px-2">
-      {{ $t('common.loadout') }} <cc-slashes /> {{
+      {{ $t('common.loadout') }}
+      <cc-slashes />
+      {{
         mech.MechLoadoutController.ActiveLoadout
           ? mech.MechLoadoutController.ActiveLoadout.Name
           : $t('pm.sheet.err')
       }}
     </legend>
-    <div v-if="mech.MechLoadoutController.ActiveLoadout"
-      class="px-2 pb-2">
-      <span v-for="(item, i) in loadoutWeapons" :key="`weapon-${i}`">
+    <div
+      v-if="mech.MechLoadoutController.ActiveLoadout"
+      class="px-2 pb-2"
+    >
+      <span
+        v-for="(item, i) in loadoutWeapons"
+        :key="`weapon-${i}`"
+      >
         <span v-html-safe="item" />
-        <span v-if="i + 1 < loadoutWeapons.length">&nbsp;&mdash;&nbsp;</span></span>
+        <span v-if="i + 1 < loadoutWeapons.length">&nbsp;&mdash;&nbsp;</span>
+      </span>
       <div class="mt-1" />
-      <span v-for="(item, i) in loadoutSystems" :key="`system-${i}`">
-        <span v-if="Number(i) > 0"> - </span>
-        <span class="text-text"
-          v-html-safe="item" />
+      <span
+        v-for="(item, i) in loadoutSystems"
+        :key="`system-${i}`"
+      >
+        <span v-if="Number(i) > 0">-</span>
+        <span
+          v-html-safe="item"
+          class="text-text"
+        />
       </span>
     </div>
   </fieldset>
-
 </template>
 
 <script setup lang="ts">
-import type { Mech } from '@/classes/mech/Mech'
-import { computed } from 'vue'
+  import type { Mech } from '@/classes/mech/Mech'
+  import { computed } from 'vue'
 
-defineOptions({ name: 'mech-card-loadout-field' })
+  defineOptions({ name: 'mech-card-loadout-field' })
 
-const props = defineProps<{
-  mech: Mech
-}>()
+  const props = defineProps<{
+    mech: Mech
+  }>()
 
-const loadoutWeapons = computed(() => {
-      const output = [] as string[];
-      for (const mount of props.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
-        props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-        props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
-        props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
-      )) {
-        if (!mount.IsLocked) {
-          let str = `<i style="opacity:0.8">${mount.Name}</i>:`;
-          if (!mount.Weapons.length) str += ' EMPTY';
-          else {
-            mount.Weapons.forEach((w, i) => {
-              str += `<span class='text-text'> ${w.Name}`;
-              if (w.Mod) str += ` (${w.Mod.Name})`;
-              if (i + 1 < mount.Weapons.length) str += ' /';
-              str += '</span>';
-            });
-          }
-          output.push(str);
+  const loadoutWeapons = computed(() => {
+    const output = [] as string[]
+    for (const mount of props.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
+      props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
+      props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
+      props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
+    )) {
+      if (!mount.IsLocked) {
+        let str = `<i style="opacity:0.8">${mount.Name}</i>:`
+        if (!mount.Weapons.length) str += ' EMPTY'
+        else {
+          mount.Weapons.forEach((w, i) => {
+            str += `<span class='text-text'> ${w.Name}`
+            if (w.Mod) str += ` (${w.Mod.Name})`
+            if (i + 1 < mount.Weapons.length) str += ' /'
+            str += '</span>'
+          })
         }
+        output.push(str)
       }
+    }
 
-      return output;
-    })
-const loadoutSystems = computed(() => {
-      return props.mech.MechLoadoutController.ActiveLoadout.AllActiveSystems.map((x) => x.Name);
-    })
+    return output
+  })
+  const loadoutSystems = computed(() => {
+    return props.mech.MechLoadoutController.ActiveLoadout.AllActiveSystems.map(x => x.Name)
+  })
 </script>

@@ -3,6 +3,18 @@ import { IFeatureController } from '../IFeatureController'
 import { getBonusDictionary } from './bonus_dictionary'
 import { IBonusDataContainer } from './IBonusDataContainer'
 
+const TIER_LIST = /^-?\d+(\.\d+)?(\/-?\d+(\.\d+)?)*$/
+
+function isTierList(value: string): boolean {
+  return TIER_LIST.test(value.trim())
+}
+
+function tierValue(value: string, tier: number): string {
+  if (!isTierList(value)) return value
+  const parts = value.trim().split('/')
+  return parts[Math.min(tier - 1, parts.length - 1)]
+}
+
 interface IBonusData {
   id: string
   val: string | number | string[] | boolean
@@ -78,10 +90,13 @@ class Bonus {
 
     const repNum = Array.isArray(this.Value)
       ? Number(this.Value[0])
-      : typeof rep === 'string' && rep.includes('/')
-        ? Number(rep.split('/')[0])
-        : Number(rep)
-    str = str.replace(/{INC_DEC}/g, !isNaN(repNum) && repNum > -1 ? 'Increases' : 'Decreases')
+      : Number(tierValue(String(rep), 1))
+    const isDec = isNaN(repNum)
+      ? String(rep ?? '-')
+          .trim()
+          .startsWith('-')
+      : repNum <= -1
+    str = str.replace(/{INC_DEC}/g, isDec ? 'Decreases' : 'Increases')
     str = str.replace(
       /{RANGE_TYPES}/g,
       ` ${this.RangeTypes.length ? this.RangeTypes.join('/').toUpperCase() : ''}`
@@ -177,16 +192,15 @@ class Bonus {
     if (!bonus.Value) return 0
 
     if (Array.isArray(bonus.Value)) {
-      const tier: number = (source as any).CombatController?.Tier ?? 1
+      const tier: number = (source as any).Tier ?? (source as any).CombatController?.Tier ?? 1
       const val = bonus.Value[Math.min(tier - 1, bonus.Value.length - 1)]
       return Math.ceil(Number(val))
     }
 
     let value = bonus.Value
-    if (typeof value === 'string' && value.includes('/')) {
-      const tier: number = (source as any).CombatController?.Tier ?? 1
-      const parts = value.split('/')
-      value = parts[Math.min(tier - 1, parts.length - 1)]
+    if (typeof value === 'string') {
+      const tier: number = (source as any).Tier ?? (source as any).CombatController?.Tier ?? 1
+      value = tierValue(value, tier)
     }
 
     if (typeof value === 'number') return Math.ceil(value)
@@ -219,7 +233,12 @@ class Bonus {
   }
 }
 
-export { Bonus }
-export type { IBonusData }
+type ResolvedBonus = Pick<
+  Bonus,
+  'ID' | 'Source' | 'Value' | 'Title' | 'Detail' | 'Icon' | 'Overwrite' | 'Replace' | 'PerPc'
+>
+
+export { Bonus, isTierList, tierValue }
+export type { IBonusData, ResolvedBonus }
 export { BonusId } from './bonus_dictionary'
 export type { BonusIdType } from './bonus_dictionary'

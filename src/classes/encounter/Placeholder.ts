@@ -2,12 +2,13 @@ import { CombatController } from '../components/combat/CombatController'
 import { FeatureController } from '../components/feature/FeatureController'
 import { SaveController } from '../components/save/SaveController'
 import { ItemType } from '../enums'
+import type { CombatantSide } from './Encounter'
 interface IPlaceholderData {
   id: string
   name: string
   Mechname?: string
   type: string // 'pilot' | 'npc' | 'other'
-  side: string // 'ally' | 'enemy'
+  side: CombatantSide
   notes?: string
   combat_data?: any
 }
@@ -15,7 +16,7 @@ interface IPlaceholderData {
 class Placeholder {
   public ID: string
   public Name: string
-  public Side: string = 'ally' // Default side
+  public Side: CombatantSide = 'ally'
   public Mechname?: string
   public Notes?: string
   public PlaceholderType: string

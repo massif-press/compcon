@@ -17,12 +17,12 @@
   </cc-alert>
   <v-card flat
     tile
-    class="pa-2">
+    :class="`pa-${layout.padX}`">
     <v-row no-gutters>
       <v-col cols="12"
         :xl="xlPanels">
         <v-row class="pr-4">
-          <v-col v-if="item.PortraitController?.HasImage && !mobile"
+          <v-col v-if="item.PortraitController?.HasImage && !mobile && layout.showPortraits"
             cols="auto">
             <cc-img width="155px"
               height="100%"
@@ -80,11 +80,16 @@
                 <v-tooltip location="top"
                   :text="$t('active.tooltips.pilotGrit')">
                   <template #activator="{ props }">
-                    <span v-bind="props">
-                      <v-icon icon="mdi-star-four-points-outline"
-                        :size="mobile ? '20' : 'x-large'"
+                    <span v-bind="props"
+                      class="text-no-wrap">
+                      <v-icon v-if="layout.showIcon"
+                        icon="mdi-star-four-points-outline"
+                        :size="layout.iconSize"
                         :class="mobile ? 'mr-1' : 'mt-n2 mr-1'" />
-                      <span :class="mobile ? '' : 'h2'"
+                      <span v-if="layout.showLabel"
+                        class="text-caption text-disabled mr-1">{{
+                          $t('active.tooltips.pilotGrit') }}</span>
+                      <span :class="mobile || layout.showLabel ? '' : 'h2'"
                         class="heading text-accent">
                         {{ (item as any).Grit || (item as any).Parent?.Grit || 0 }}</span>
                     </span>
@@ -101,13 +106,18 @@
                     location="top"
                     open-delay="400">
                     <template #activator="{ props }">
-                      <v-icon v-bind="props"
-                        :icon="stat.icon"
-                        :size="mobile ? '20' : 'x-large'"
-                        :class="mobile ? 'mr-1' : 'mt-n2 mr-1'" />
-                      <span :class="mobile ? '' : 'h2'"
-                        class="heading text-accent">
-                        {{ item.CombatController.StatController.MaxStats[stat.key] || 0 }}
+                      <span v-bind="props"
+                        class="text-no-wrap">
+                        <v-icon v-if="layout.showIcon"
+                          :icon="stat.icon"
+                          :size="layout.iconSize"
+                          :class="mobile ? 'mr-1' : 'mt-n2 mr-1'" />
+                        <span v-if="layout.showLabel"
+                          class="text-caption text-disabled mr-1">{{ stat.title }}</span>
+                        <span :class="mobile || layout.showLabel ? '' : 'h2'"
+                          class="heading text-accent">
+                          {{ item.CombatController.StatController.MaxStats[stat.key] || 0 }}
+                        </span>
                       </span>
                     </template>
                   </v-tooltip>
@@ -121,13 +131,19 @@
                   location="top"
                   open-delay="400">
                   <template #activator="{ props }">
-                    <v-icon v-bind="props"
-                      icon="cc:weapon"
-                      :size="mobile ? '20' : 'x-large'"
-                      :class="mobile ? 'mr-1' : 'mt-n2 mr-1'" />
-                    <span :class="mobile ? '' : 'h2'"
-                      class="heading text-accent">
-                      {{ (item as any).AttackBonus }}
+                    <span v-bind="props"
+                      class="text-no-wrap">
+                      <v-icon v-if="layout.showIcon"
+                        icon="cc:weapon"
+                        :size="layout.iconSize"
+                        :class="mobile ? 'mr-1' : 'mt-n2 mr-1'" />
+                      <span v-if="layout.showLabel"
+                        class="text-caption text-disabled mr-1">{{ $t('common.attackBonus')
+                        }}</span>
+                      <span :class="mobile || layout.showLabel ? '' : 'h2'"
+                        class="heading text-accent">
+                        {{ (item as any).AttackBonus }}
+                      </span>
                     </span>
                   </template>
                 </v-tooltip>
@@ -203,7 +219,7 @@
             <slot name="actions" />
 
             <div v-if="!noConditions"
-              class="mt-4">
+              :class="`mt-${layout.padX * 2}`">
               <v-row v-if="!mobile"
                 dense>
                 <v-col cols="12"
@@ -274,6 +290,7 @@ import TrackableStatsComplex from './_components/TrackableStatsComplex.vue';
 import TrackableStatsSimple from './_components/TrackableStatsSimple.vue';
 import { ICombatant } from '@/classes/components/combat/ICombatant'
 import { PilotStatus, NpcStatus, MechStatus } from '@/classes/enums'
+import { useLayoutOptions, filterStats } from '@/features/active_mode/layoutOptions'
 
 const _TrackableStatsComplex = markRaw(TrackableStatsComplex)
 const _TrackableStatsSimple = markRaw(TrackableStatsSimple)
@@ -283,6 +300,7 @@ const _display = useDisplay()
 defineOptions({ name: 'EncounterPanelBase' })
 
 const { encounterInstance, owner } = useEncounterContext()
+const { layout } = useLayoutOptions()
 
 const itemType = computed(() => props.item.ItemType.toLowerCase())
 const statusField = computed<'status' | 'pilotStatus' | 'mechStatus'>(() => {
@@ -330,9 +348,8 @@ const props = withDefaults(defineProps<{
 })
 
 const xlPanels = computed(() => {
-  if (!encounterInstance.value.LayoutColumns) return 12;
+  if (!layout.value.columns) return 12;
   if (props.onePanel) return 12;
-  if (mobile.value) return 12;
   return 6
 })
 const extraStatSet = computed(() => {
@@ -345,18 +362,14 @@ const statColumns = computed(() => {
   const g2 = props.item.CombatController.StatController.GetStatCollection(['evasion', 'edef', 'techAttack', 'sensorRange', 'saveTarget'])
   const g3 = props.item.CombatController.StatController.GetStatCollection(extraStatSet.value).filter((x: any) => props.item.CombatController.StatController.MaxStats[x.key])
   const g4 = props.item.CombatController.StatController.CustomStats(props.item.ItemType)
-  return [...g1, spacer, ...g2, ...g3, ...g4]
+  return [...filterStats([...g1, spacer, ...g2, ...g3], layout.value.coreStatsOnly), ...g4]
 })
 const mobile = computed(() => {
   return _display.mdAndDown.value;
 })
-const trackableStatsComponent = computed(() => {
-  if (!encounterInstance.value.ForceComplexTickbars && (mobile.value || encounterInstance.value.SimpleTickbars)) {
-    return _TrackableStatsSimple;
-  } else {
-    return _TrackableStatsComplex;
-  }
-})
+const trackableStatsComponent = computed(() =>
+  layout.value.simpleTickbars ? _TrackableStatsSimple : _TrackableStatsComplex
+)
 
 function getBonuses(statKey) {
   if (statKey === 'agi') statKey = 'agility';

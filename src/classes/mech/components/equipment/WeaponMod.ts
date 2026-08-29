@@ -68,7 +68,7 @@ class WeaponMod extends MechEquipment {
     this.ItemType = ItemType.WeaponMod
   }
 
-  public get Color(): string {
+  public override get Color(): string {
     return 'mod'
   }
 
@@ -79,6 +79,7 @@ class WeaponMod extends MechEquipment {
   public static Serialize(item: WeaponMod): IEquipmentData {
     return {
       id: item.ID,
+      instanceId: item.InstanceID,
       data: item.ItemData,
       note: item.Note,
     }
@@ -95,6 +96,7 @@ class WeaponMod extends MechEquipment {
       item.FromInstance = true
     }
 
+    if (data.instanceId) item.InstanceID = data.instanceId
     item._note = data.note
     return item
   }

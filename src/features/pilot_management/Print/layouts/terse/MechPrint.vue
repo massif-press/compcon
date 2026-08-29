@@ -5,295 +5,457 @@
         <v-row dense>
           <v-col cols="auto">
             <div class="text-overline mt-n4 mb-n2 text-primary">{{ $t('common.frame') }}</div>
-            <blank-line :width="landscape ? 200 : 150"
-              :height="35" />
+            <blank-line
+              :width="landscape ? 200 : 150"
+              :height="35"
+            />
           </v-col>
           <v-col cols="auto">
-            <div class="text-overline mt-n4 mb-n2 text-primary">{{ $t('active.fields.mechName') }}</div>
-            <blank-line :width="landscape ? 550 : 350"
-              :height="35" />
+            <div class="text-overline mt-n4 mb-n2 text-primary">
+              {{ $t('active.fields.mechName') }}
+            </div>
+            <blank-line
+              :width="landscape ? 550 : 350"
+              :height="35"
+            />
           </v-col>
         </v-row>
       </v-col>
-      <v-col v-else
-        cols="auto">
+      <v-col
+        v-else
+        cols="auto"
+      >
         <div class="text-overline my-n2 text-primary">
           {{ mech.Frame.Source }} {{ mech.Frame.Name }}
         </div>
-        <div class="heading h2 mt-n4 font-weight-bolder">{{ mech.Name }}</div>
+        <div class="heading ph2 mt-n4 font-weight-bolder">{{ mech.Name }}</div>
       </v-col>
-      <v-col cols="auto"
-        class="ml-auto mr-2 text-center caption">
+      <v-col
+        cols="auto"
+        class="ml-auto mr-2 text-center caption"
+      >
         <div class="text-overline text-primary my-n2">{{ $t('common.overcharge') }}</div>
-        <v-chip size="20"
+        <v-chip
+          size="20"
           variant="outlined"
           color="red"
-          class="ml-1">
+          class="ml-1"
+        >
           &nbsp;+1
-          <v-icon size="small"
-            icon="mdi-fire" />
+          <v-icon
+            size="small"
+            icon="mdi-fire"
+          />
         </v-chip>
-        <v-chip size="20"
+        <v-chip
+          size="20"
           variant="outlined"
           color="red"
-          class="ml-1">
+          class="ml-1"
+        >
           &nbsp;{{ $t('pm.print.1d3') }}
-          <v-icon size="small"
-            icon="mdi-fire" />
+          <v-icon
+            size="small"
+            icon="mdi-fire"
+          />
         </v-chip>
-        <v-chip size="20"
+        <v-chip
+          size="20"
           variant="outlined"
           color="red"
-          class="ml-1">
+          class="ml-1"
+        >
           &nbsp;{{ $t('pm.print.1d6') }}
-          <v-icon size="small"
-            icon="mdi-fire" />
+          <v-icon
+            size="small"
+            icon="mdi-fire"
+          />
         </v-chip>
-        <v-chip size="20"
+        <v-chip
+          size="20"
           variant="outlined"
           color="red"
-          class="ml-1">
+          class="ml-1"
+        >
           &nbsp;{{ $t('pm.print.1d64') }}
-          <v-icon size="small"
-            icon="mdi-fire" />
+          <v-icon
+            size="small"
+            icon="mdi-fire"
+          />
         </v-chip>
       </v-col>
     </v-row>
 
-    <v-row justify="space-around"
+    <v-row
+      justify="space-around"
       align="center"
-      class="mt-n5">
-      <v-col cols="auto"
-        class="mt-n5">
-        <div class="font-weight-bold overline text-primary"><span class="text-uppercase">{{ $t('pm.link.hull') }}</span></div>
-        <blank-line v-if="blank"
+      class="mt-n5"
+    >
+      <v-col
+        cols="auto"
+        class="mt-n5"
+      >
+        <div class="font-weight-bold overline text-primary">
+          <span class="text-uppercase">{{ $t('pm.link.hull') }}</span>
+        </div>
+        <blank-line
+          v-if="blank"
           :width="landscape ? 100 : 60"
           :height="35"
-          class="mt-n1" />
-        <div v-else
-          class="heading h2"
+          class="mt-n1"
+        />
+        <div
+          v-else
+          class="heading ph2"
           style="line-height: 10px"
-          v-text="mech.Hull" />
+          v-text="mech.Hull"
+        />
       </v-col>
-      <v-col cols="auto"
-        class="mt-n5">
+      <v-col
+        cols="auto"
+        class="mt-n5"
+      >
         <div class="font-weight-bold overline text-primary">
           {{ landscape ? $t('stats.agility') : $t('stats.agi') }}
         </div>
-        <blank-line v-if="blank"
+        <blank-line
+          v-if="blank"
           :width="landscape ? 90 : 60"
           :height="35"
-          class="mt-n1" />
-        <div v-else
-          class="heading h2"
+          class="mt-n1"
+        />
+        <div
+          v-else
+          class="heading ph2"
           style="line-height: 10px"
-          v-text="mech.Agi" />
+          v-text="mech.Agi"
+        />
       </v-col>
-      <v-col cols="auto"
-        class="mt-n5">
+      <v-col
+        cols="auto"
+        class="mt-n5"
+      >
         <div class="font-weight-bold overline text-primary">
           {{ landscape ? $t('stats.systems') : $t('pm.link.sys').toUpperCase() }}
         </div>
-        <blank-line v-if="blank"
+        <blank-line
+          v-if="blank"
           :width="landscape ? 90 : 60"
           :height="35"
-          class="mt-n1" />
-        <div v-else
-          class="heading h2"
+          class="mt-n1"
+        />
+        <div
+          v-else
+          class="heading ph2"
           style="line-height: 10px"
-          v-text="mech.Sys" />
+          v-text="mech.Sys"
+        />
       </v-col>
-      <v-col cols="auto"
-        class="mt-n5">
+      <v-col
+        cols="auto"
+        class="mt-n5"
+      >
         <div class="font-weight-bold overline text-primary">
           {{ landscape ? $t('stats.engineering') : $t('pm.link.eng').toUpperCase() }}
         </div>
-        <blank-line v-if="blank"
+        <blank-line
+          v-if="blank"
           :width="landscape ? 90 : 60"
           :height="35"
-          class="mt-n1" />
-        <div v-else
-          class="heading h2"
+          class="mt-n1"
+        />
+        <div
+          v-else
+          class="heading ph2"
           style="line-height: 10px"
-          v-text="mech.Eng" />
+          v-text="mech.Eng"
+        />
       </v-col>
-      <v-col cols="auto"
-        class="mt-n5">
+      <v-col
+        cols="auto"
+        class="mt-n5"
+      >
         <div v-if="blank">
-          <div class="font-weight-bold overline text-primary"><span class="text-uppercase">{{ $t('ui.fields.size') }}</span></div>
-          <blank-line v-if="blank"
+          <div class="font-weight-bold overline text-primary">
+            <span class="text-uppercase">{{ $t('ui.fields.size') }}</span>
+          </div>
+          <blank-line
+            v-if="blank"
             :width="landscape ? 90 : 60"
             :height="35"
-            class="mt-n1" />
+            class="mt-n1"
+          />
         </div>
-        <v-icon v-else
+        <v-icon
+          v-else
           color="primary"
-          size="40">{{ mech.SizeIcon }}</v-icon>
+          size="40"
+        >
+          {{ mech.SizeIcon }}
+        </v-icon>
       </v-col>
-      <v-col v-if="blank"
-        cols="auto">
+      <v-col
+        v-if="blank"
+        cols="auto"
+      >
         <div>
           <div class="font-weight-bold overline text-primary">{{ $t('stats.sp') }}</div>
-          <blank-line v-if="blank"
+          <blank-line
+            v-if="blank"
             :width="landscape ? 90 : 60"
             :height="35"
-            class="mt-n1" />
+            class="mt-n1"
+          />
         </div>
       </v-col>
 
       <v-col class="text-center">
         <div class="text-overline mt-n4 text-primary">{{ $t('active.trackable.corePower') }}</div>
-        <v-icon size="35"
+        <v-icon
+          size="35"
           color="grey-lighten-1"
-          class="mr-n1 mt-n3">mdi-battery-outline</v-icon>
-        <div v-if="!blank"
-          class="d-inline-block flavor-text font-weight-bold mb-n2">/1</div>
+          class="mr-n1 mt-n3"
+        >
+          mdi-battery-outline
+        </v-icon>
+        <div
+          v-if="!blank"
+          class="d-inline-block flavor-text font-weight-bold mb-n2"
+        >
+          /1
+        </div>
       </v-col>
       <v-col class="text-center">
         <div class="text-overline text-primary mt-n4 pb-1">
           {{ landscape ? $t('pm.print.repairCAPACITY') : $t('pm.print.repCAP') }}
         </div>
-        <v-row v-if="blank"
+        <v-row
+          v-if="blank"
           dense
           align="center"
           justify="center"
-          class="mt-n4">
+          class="mt-n4"
+        >
           <v-col cols="auto">
-            <blank-line :width="landscape ? 80 : 50"
-              :height="35" />
+            <blank-line
+              :width="landscape ? 80 : 50"
+              :height="35"
+            />
           </v-col>
-          <v-col cols="auto"
-            class="px-1">
-            <span class="heading h3 text-grey"
-              style="line-height: 0">/</span>
+          <v-col
+            cols="auto"
+            class="px-1"
+          >
+            <span
+              class="heading h3 text-grey"
+              style="line-height: 0"
+            >
+              /
+            </span>
           </v-col>
           <v-col cols="auto">
-            <blank-line :width="landscape ? 80 : 50"
-              :height="35" />
+            <blank-line
+              :width="landscape ? 80 : 50"
+              :height="35"
+            />
           </v-col>
         </v-row>
         <div v-else>
-          <v-icon size="40"
+          <v-icon
+            size="40"
             color="grey-lighten-1"
-            class="mr-n1 mt-n5">cc:repair</v-icon>
-          <div v-html-safe="`/${mech.RepairCapacity}`"
-            class="d-inline-block flavor-text font-weight-bold mb-n2" />
+            class="mr-n1 mt-n5"
+          >
+            cc:repair
+          </v-icon>
+          <div
+            v-html-safe="`/${mech.RepairCapacity}`"
+            class="d-inline-block flavor-text font-weight-bold mb-n2"
+          />
         </div>
       </v-col>
     </v-row>
 
-    <v-row dense
-      justify="space-around">
-      <v-col cols="auto"
-        class="text-center">
-        <div style="line-height: 10px"
-          class="text-overline text-primary mb-4">{{ $t('stats.structure') }}</div>
-        <v-row v-if="blank"
+    <v-row
+      dense
+      justify="space-around"
+    >
+      <v-col
+        cols="auto"
+        class="text-center"
+      >
+        <div
+          style="line-height: 10px"
+          class="text-overline text-primary mb-4"
+        >
+          {{ $t('stats.structure') }}
+        </div>
+        <v-row
+          v-if="blank"
           dense
           align="center"
           justify="center"
-          class="mt-n5">
+          class="mt-n5"
+        >
           <v-col cols="auto">
-            <blank-line :width="landscape ? 75 : 58"
+            <blank-line
+              :width="landscape ? 75 : 58"
               :height="35"
-              class="d-inline-block" />
+              class="d-inline-block"
+            />
           </v-col>
-          <v-col cols="auto"
-            class="px-1">
-            <span class="heading h3 text-grey"
-              style="line-height: 0">/</span>
+          <v-col
+            cols="auto"
+            class="px-1"
+          >
+            <span
+              class="heading h3 text-grey"
+              style="line-height: 0"
+            >
+              /
+            </span>
           </v-col>
           <v-col cols="auto">
-            <blank-line :width="landscape ? 75 : 58"
+            <blank-line
+              :width="landscape ? 75 : 58"
               :height="35"
-              class="d-inline-block" />
+              class="d-inline-block"
+            />
           </v-col>
         </v-row>
         <div v-else>
-          <v-icon size="60"
+          <v-icon
+            size="60"
             color="grey-lighten-1"
-            class="mr-n3 mt-n5">cc:structure</v-icon>
-          <b class="d-inline-block flavor-text font-weight-bold mb-n2"
-            v-text="`&nbsp;/${mech.MaxStructure}`" />
+            class="mr-n3 mt-n5"
+          >
+            cc:structure
+          </v-icon>
+          <b
+            class="d-inline-block flavor-text font-weight-bold mb-n2"
+            v-text="`&nbsp;/${mech.MaxStructure}`"
+          />
         </div>
       </v-col>
 
       <v-col :cols="getHpCols">
-        <v-row dense
-          justify="center">
-          <v-col cols="auto"
-            class="text-center">
-            <div style="line-height: 10px"
+        <v-row
+          dense
+          justify="center"
+        >
+          <v-col
+            cols="auto"
+            class="text-center"
+          >
+            <div
+              style="line-height: 10px"
               :class="blank ? '' : 'mr-6'"
-              class="text-overline text-primary mb-4">
+              class="text-overline text-primary mb-4"
+            >
               {{ $t('stats.hp') }}
             </div>
-            <v-row v-if="blank"
+            <v-row
+              v-if="blank"
               dense
               align="center"
               justify="center"
-              class="mt-n5">
+              class="mt-n5"
+            >
               <v-col cols="auto">
-                <blank-line :width="landscape ? 75 : 58"
+                <blank-line
+                  :width="landscape ? 75 : 58"
                   :height="35"
-                  class="d-inline-block" />
+                  class="d-inline-block"
+                />
               </v-col>
-              <v-col cols="auto"
-                class="px-1">
-                <span class="heading h3 text-grey"
-                  style="line-height: 0">/</span>
+              <v-col
+                cols="auto"
+                class="px-1"
+              >
+                <span
+                  class="heading h3 text-grey"
+                  style="line-height: 0"
+                >
+                  /
+                </span>
               </v-col>
               <v-col cols="auto">
-                <blank-line :width="landscape ? 75 : 58"
+                <blank-line
+                  :width="landscape ? 75 : 58"
                   :height="35"
-                  class="d-inline-block" />
+                  class="d-inline-block"
+                />
               </v-col>
             </v-row>
             <div v-else>
-              <v-icon size="60"
+              <v-icon
+                size="60"
                 color="grey-lighten-1"
-                class="mr-n3 mt-n4">
+                class="mr-n3 mt-n4"
+              >
                 mdi-hexagon-outline
               </v-icon>
-              <b class="d-inline-block flavor-text font-weight-bold mb-n2"
-                v-text="`&nbsp;/${mech.MaxHP}`" />
+              <b
+                class="d-inline-block flavor-text font-weight-bold mb-n2"
+                v-text="`&nbsp;/${mech.MaxHP}`"
+              />
             </div>
           </v-col>
         </v-row>
       </v-col>
 
-      <v-col v-if="mech.Armor"
+      <v-col
+        v-if="mech.Armor"
         cols="auto"
         :class="blank ? 'ml-4' : ''"
-        class="text-center mb-1">
-        <div style="line-height: 10px"
-          class="text-overline text-primary mb-4">{{ $t('stats.armor') }}</div>
-        <v-row v-if="blank"
+        class="text-center mb-1"
+      >
+        <div
+          style="line-height: 10px"
+          class="text-overline text-primary mb-4"
+        >
+          {{ $t('stats.armor') }}
+        </div>
+        <v-row
+          v-if="blank"
           dense
           align="center"
           justify="center"
-          class="mt-n5">
+          class="mt-n5"
+        >
           <v-col cols="auto">
-            <blank-line :width="landscape ? 75 : 58"
+            <blank-line
+              :width="landscape ? 75 : 58"
               :height="35"
-              class="d-inline-block" />
+              class="d-inline-block"
+            />
           </v-col>
         </v-row>
-        <div v-else
-          class="heading h2 mr-n2 text-primary"
-          :class="'mt-n2'">
-          <v-icon size="35"
+        <div
+          v-else
+          class="heading ph2 mr-n2 text-primary"
+          :class="'mt-n2'"
+        >
+          <v-icon
+            size="35"
             class="mt-n1 mr-n1"
-            style="opacity: 0.6">mdi-shield-outline</v-icon>
+            style="opacity: 0.6"
+          >
+            mdi-shield-outline
+          </v-icon>
           {{ mech.Armor }}
         </div>
       </v-col>
 
-      <v-col cols="auto"
-        class="text-center mb-1">
-        <div style="line-height: 10px"
+      <v-col
+        cols="auto"
+        class="text-center mb-1"
+      >
+        <div
+          style="line-height: 10px"
           :class="blank ? '' : 'pb-2'"
-          class="text-overline text-primary">
+          class="text-overline text-primary"
+        >
           {{ $t('common.overshield') }}
         </div>
         <div class="px-6">
@@ -301,156 +463,255 @@
         </div>
       </v-col>
 
-      <v-col cols="auto"
-        class="text-center">
-        <div style="line-height: 10px"
-          class="text-overline text-primary mb-4 mr-2">{{ $t('stats.stress') }}</div>
-        <v-row v-if="blank"
+      <v-col
+        cols="auto"
+        class="text-center"
+      >
+        <div
+          style="line-height: 10px"
+          class="text-overline text-primary mb-4 mr-2"
+        >
+          {{ $t('stats.stress') }}
+        </div>
+        <v-row
+          v-if="blank"
           dense
           align="center"
           justify="center"
-          class="mt-n5">
+          class="mt-n5"
+        >
           <v-col cols="auto">
-            <blank-line :width="landscape ? 75 : 58"
+            <blank-line
+              :width="landscape ? 75 : 58"
               :height="35"
-              class="d-inline-block" />
+              class="d-inline-block"
+            />
           </v-col>
-          <v-col cols="auto"
-            class="px-1">
-            <span class="heading h3 text-grey"
-              style="line-height: 0">/</span>
+          <v-col
+            cols="auto"
+            class="px-1"
+          >
+            <span
+              class="heading h3 text-grey"
+              style="line-height: 0"
+            >
+              /
+            </span>
           </v-col>
           <v-col cols="auto">
-            <blank-line :width="landscape ? 75 : 58"
+            <blank-line
+              :width="landscape ? 75 : 58"
               :height="35"
-              class="d-inline-block" />
+              class="d-inline-block"
+            />
           </v-col>
         </v-row>
 
         <div v-else>
-          <v-icon size="60"
+          <v-icon
+            size="60"
             color="grey-lighten-1"
-            class="mr-n3 mt-n5">cc:reactor</v-icon>
-          <b class="d-inline-block flavor-text font-weight-bold mb-n2"
-            v-text="`&nbsp;/${mech.MaxStress}`" />
+            class="mr-n3 mt-n5"
+          >
+            cc:reactor
+          </v-icon>
+          <b
+            class="d-inline-block flavor-text font-weight-bold mb-n2"
+            v-text="`&nbsp;/${mech.MaxStress}`"
+          />
         </div>
       </v-col>
 
-      <v-col :cols="'auto'"
-        class="text-center">
-        <div style="line-height: 10px"
+      <v-col
+        :cols="'auto'"
+        class="text-center"
+      >
+        <div
+          style="line-height: 10px"
           :class="blank ? '' : 'ml-6'"
-          class="text-overline text-primary mb-5">
+          class="text-overline text-primary mb-5"
+        >
           <span class="text-uppercase">{{ $t('pm.sheet.heat') }}</span>
         </div>
-        <v-row v-if="blank"
+        <v-row
+          v-if="blank"
           no-gutters
           align="center"
           justify="center"
-          class="mt-n5">
+          class="mt-n5"
+        >
           <v-col cols="auto">
-            <blank-line :width="landscape ? 75 : 58"
+            <blank-line
+              :width="landscape ? 75 : 58"
               :height="35"
-              class="d-inline-block" />
+              class="d-inline-block"
+            />
           </v-col>
-          <v-col cols="auto"
-            class="px-1">
-            <span class="heading h3 text-grey"
-              style="line-height: 0">/</span>
+          <v-col
+            cols="auto"
+            class="px-1"
+          >
+            <span
+              class="heading h3 text-grey"
+              style="line-height: 0"
+            >
+              /
+            </span>
           </v-col>
           <v-col cols="auto">
-            <blank-line :width="landscape ? 75 : 58"
+            <blank-line
+              :width="landscape ? 75 : 58"
               :height="35"
-              class="d-inline-block" />
+              class="d-inline-block"
+            />
           </v-col>
         </v-row>
         <div v-else>
-          <v-icon size="60"
+          <v-icon
+            size="60"
             color="grey-lighten-1"
-            class="mr-n3 mt-n5">mdi-fire</v-icon>
-          <b class="d-inline-block flavor-text font-weight-bold mb-n2"
-            v-text="`&nbsp;/${mech.HeatCapacity}`" />
+            class="mr-n3 mt-n5"
+          >
+            mdi-fire
+          </v-icon>
+          <b
+            class="d-inline-block flavor-text font-weight-bold mb-n2"
+            v-text="`&nbsp;/${mech.HeatCapacity}`"
+          />
         </div>
       </v-col>
     </v-row>
 
     <v-row dense>
-      <v-col :cols="hasMechOption('Mech Image') ? (landscape ? 9 : 8) : 12
-        ">
-        <v-row dense
-          :class="blank ? 'mt-n3' : ''">
-          <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 4vw">
+      <v-col :cols="hasMechOption('mechImage') ? (landscape ? 9 : 8) : 12">
+        <v-row
+          dense
+          :class="blank ? 'mt-n3' : ''"
+        >
+          <v-col
+            :style="`min-height: ${blank ? '60' : '50'}px`"
+            style="min-width: 4vw"
+          >
             <fieldset>
               <legend class="caption font-weight-bold text-primary px-1">
                 {{ landscape ? $t('pm.print.atkBONUS') : $t('pm.print.atk') }}
               </legend>
-              <div v-if="!blank"
-                class="heading h2 text-center mt-n2">
+              <div
+                v-if="!blank"
+                class="heading ph2 text-center mt-n2"
+              >
                 {{ signed(mech.AttackBonus) }}
               </div>
             </fieldset>
           </v-col>
-          <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 8vw">
+          <v-col
+            :style="`min-height: ${blank ? '60' : '50'}px`"
+            style="min-width: 8vw"
+          >
             <fieldset>
-              <legend class="caption font-weight-bold text-primary px-1">{{ $t('pm.print.techAtk') }}</legend>
-              <div v-if="!blank"
-                class="heading h2 text-center mt-n2">
+              <legend class="caption font-weight-bold text-primary px-1">
+                {{ $t('pm.print.techAtk') }}
+              </legend>
+              <div
+                v-if="!blank"
+                class="heading ph2 text-center mt-n2"
+              >
                 {{ signed(mech.TechAttack) }}
               </div>
             </fieldset>
           </v-col>
-          <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 8vw">
+          <v-col
+            :style="`min-height: ${blank ? '60' : '50'}px`"
+            style="min-width: 8vw"
+          >
             <fieldset>
-              <legend class="caption font-weight-bold text-primary px-1"><span class="text-uppercase">{{ $t('common.save') }}</span></legend>
-              <div v-if="!blank"
-                class="heading h2 text-center mt-n2">{{ mech.SaveTarget }}</div>
+              <legend class="caption font-weight-bold text-primary px-1">
+                <span class="text-uppercase">{{ $t('common.save') }}</span>
+              </legend>
+              <div
+                v-if="!blank"
+                class="heading ph2 text-center mt-n2"
+              >
+                {{ mech.SaveTarget }}
+              </div>
             </fieldset>
           </v-col>
-          <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 8vw">
+          <v-col
+            :style="`min-height: ${blank ? '60' : '50'}px`"
+            style="min-width: 8vw"
+          >
             <fieldset>
-              <legend class="caption font-weight-bold text-primary px-1">{{ $t('stats.speed') }}</legend>
-              <div v-if="!blank"
-                class="heading h2 text-center mt-n2">{{ mech.Speed }}</div>
+              <legend class="caption font-weight-bold text-primary px-1">
+                {{ $t('stats.speed') }}
+              </legend>
+              <div
+                v-if="!blank"
+                class="heading ph2 text-center mt-n2"
+              >
+                {{ mech.Speed }}
+              </div>
             </fieldset>
           </v-col>
-          <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 8vw">
+          <v-col
+            :style="`min-height: ${blank ? '60' : '50'}px`"
+            style="min-width: 8vw"
+          >
             <fieldset>
               <legend class="caption font-weight-bold text-primary px-1">
                 {{ landscape ? $t('stats.edefense') : $t('stats.edef') }}
               </legend>
-              <div v-if="!blank"
-                class="heading h2 text-center mt-n2">{{ mech.EDefense }}</div>
+              <div
+                v-if="!blank"
+                class="heading ph2 text-center mt-n2"
+              >
+                {{ mech.EDefense }}
+              </div>
             </fieldset>
           </v-col>
-          <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 8vw">
+          <v-col
+            :style="`min-height: ${blank ? '60' : '50'}px`"
+            style="min-width: 8vw"
+          >
             <fieldset>
-              <legend class="caption font-weight-bold text-primary px-1">{{ $t('stats.evasion') }}</legend>
-              <div v-if="!blank"
-                class="heading h2 text-center mt-n2">{{ mech.Evasion }}</div>
+              <legend class="caption font-weight-bold text-primary px-1">
+                {{ $t('stats.evasion') }}
+              </legend>
+              <div
+                v-if="!blank"
+                class="heading ph2 text-center mt-n2"
+              >
+                {{ mech.Evasion }}
+              </div>
             </fieldset>
           </v-col>
-          <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 8vw">
+          <v-col
+            :style="`min-height: ${blank ? '60' : '50'}px`"
+            style="min-width: 8vw"
+          >
             <fieldset>
-              <legend class="caption font-weight-bold text-primary px-1">{{ $t('stats.sensors') }}</legend>
-              <div v-if="!blank"
-                class="heading h2 text-center mt-n2">{{ mech.SensorRange }}</div>
+              <legend class="caption font-weight-bold text-primary px-1">
+                {{ $t('stats.sensors') }}
+              </legend>
+              <div
+                v-if="!blank"
+                class="heading ph2 text-center mt-n2"
+              >
+                {{ mech.SensorRange }}
+              </div>
             </fieldset>
           </v-col>
-          <v-col :style="`min-height: ${blank ? '60' : '50'}px`"
-            style="min-width: 8vw">
+          <v-col
+            :style="`min-height: ${blank ? '60' : '50'}px`"
+            style="min-width: 8vw"
+          >
             <fieldset>
               <legend class="caption font-weight-bold text-primary px-1">
                 {{ landscape ? $t('pm.print.ltdBONUS') : $t('pm.print.ltdSYS') }}
               </legend>
-              <div v-if="!blank"
-                class="heading h2 text-center mt-n2">
+              <div
+                v-if="!blank"
+                class="heading ph2 text-center mt-n2"
+              >
                 {{ signed(mech.LimitedBonus) }}
               </div>
             </fieldset>
@@ -458,46 +719,58 @@
         </v-row>
 
         <div class="text-overline mb-n3 text-primary">{{ $t('active.roster.frameTraits') }}</div>
-        <v-row v-if="blank"
-          dense>
-          <v-col v-for="n in 4"
+        <v-row
+          v-if="blank"
+          dense
+        >
+          <v-col
+            v-for="n in 4"
             :key="`trait-${n}`"
-            cols="6">
-            <blank-line :height="landscape
-              ? hasMechOption('Mech Image')
-                ? 80
-                : 40
-              : 64
-              " />
+            cols="6"
+          >
+            <blank-line :height="landscape ? (hasMechOption('mechImage') ? 80 : 40) : 64" />
           </v-col>
         </v-row>
-        <v-row v-else
+        <v-row
+          v-else
           dense
           justify="space-between"
-          class="caption mt-n1">
-          <v-col v-for="t in mech.Frame.Traits"
-            :key="t.Name">
+          class="caption mt-n1"
+        >
+          <v-col
+            v-for="t in mech.Frame.Traits"
+            :key="t.Name"
+          >
             <fieldset>
               <legend class="heading ml-1 px-2">{{ t.Name }}</legend>
               <p v-html-safe="t.Description" />
-              <print-action :compact="true"
-                :actions="t.Actions" />
-              <print-deployable :compact="true"
-                :deployables="t.Deployables" />
+              <print-action
+                :compact="true"
+                :actions="t.Actions"
+              />
+              <print-deployable
+                :compact="true"
+                :deployables="t.Deployables"
+              />
             </fieldset>
           </v-col>
         </v-row>
 
-        <div class="text-overline mb-n1 text-primary mt-n1">{{ $t('active.roster.coreSystem') }}</div>
-        <div v-if="blank"
-          dense
-          class="mb-n2">
-          <blank-line :height="landscape ? (hasMechOption('Mech Image') ? 92 : 40) : 64
-            " />
+        <div class="text-overline mb-n1 text-primary mt-n1">
+          {{ $t('active.roster.coreSystem') }}
         </div>
-        <fieldset v-else
+        <div
+          v-if="blank"
+          dense
+          class="mb-n2"
+        >
+          <blank-line :height="landscape ? (hasMechOption('mechImage') ? 92 : 40) : 64" />
+        </div>
+        <fieldset
+          v-else
           class="mt-n2"
-          style="height: fit-content">
+          style="height: fit-content"
+        >
           <legend class="heading h4 ml-1 px-2">
             {{ mech.Frame.CoreSystem.Name }}
           </legend>
@@ -509,11 +782,15 @@
                   : $t('pm.print.corePassive')
               }}
             </span>
-            <p v-html-safe="mech.Frame.CoreSystem.PassiveEffect"
-              class="caption ml-6 mb-1" />
+            <p
+              v-html-safe="mech.Frame.CoreSystem.PassiveEffect"
+              class="caption ml-6 mb-1"
+            />
             +
-            <print-action :compact="true"
-              :actions="mech.Frame.CoreSystem.PassiveActions" />
+            <print-action
+              :compact="true"
+              :actions="mech.Frame.CoreSystem.PassiveActions"
+            />
           </div>
           <template v-if="mech.Frame.CoreSystem.ActiveEffect">
             <div class="heading ml-4">
@@ -523,58 +800,92 @@
                   : $t('pm.print.coreActive')
               }}
             </div>
-            <p v-html-safe="mech.Frame.CoreSystem.ActiveEffect"
-              class="caption ml-6 mb-1" />
-            <print-action :compact="true"
-              :actions="mech.Frame.CoreSystem.ActiveActions" />
-            <print-deployable :compact="true"
-              :deployables="mech.Frame.CoreSystem.Deployables" />
+            <p
+              v-html-safe="mech.Frame.CoreSystem.ActiveEffect"
+              class="caption ml-6 mb-1"
+            />
+            <print-action
+              :compact="true"
+              :actions="mech.Frame.CoreSystem.ActiveActions"
+            />
+            <print-deployable
+              :compact="true"
+              :deployables="mech.Frame.CoreSystem.Deployables"
+            />
           </template>
 
-          <div v-if="mech.Frame.CoreSystem.Tags"
-            class="text-right">
-            <span v-for="t in mech.Frame.CoreSystem.Tags"
+          <div
+            v-if="mech.Frame.CoreSystem.Tags"
+            class="text-right"
+          >
+            <span
+              v-for="t in mech.Frame.CoreSystem.Tags"
               :key="t.Name"
-              class="mx-1">
+              class="mx-1"
+            >
               {{ t.GetName() }}
             </span>
           </div>
         </fieldset>
 
-        <div v-if="hasMechOption('Mech Notes') && mech.Notes && !blank"
-          class="pt-2">
-          <div class="text-overline text-primary mt-3"
-            style="line-height: 0">{{ $t('common.notes') }}</div>
-          <div v-html-safe="mech.Notes"
-            class="mt-2 caption" />
+        <div
+          v-if="hasMechOption('mechNotes') && mech.Notes && !blank"
+          class="pt-2"
+        >
+          <div
+            class="text-overline text-primary mt-3"
+            style="line-height: 0"
+          >
+            {{ $t('common.notes') }}
+          </div>
+          <div
+            v-html-safe="mech.Notes"
+            class="mt-2 caption"
+          />
         </div>
       </v-col>
 
-      <v-col v-if="hasMechOption('Mech Image')"
+      <v-col
+        v-if="hasMechOption('mechImage')"
         cols="4"
-        class="mt-5">
-        <v-card height="100%"
+        class="mt-5"
+      >
+        <v-card
+          height="100%"
           variant="outlined"
-          color="grey">
-          <v-row style="height: 100%"
-            align="center">
+          color="grey"
+        >
+          <v-row
+            style="height: 100%"
+            align="center"
+          >
             <v-col>
-              <print-img v-if="!blank"
+              <print-img
+                v-if="!blank"
                 :src="mech.Portrait"
-                cover />
+                cover
+              />
             </v-col>
           </v-row>
         </v-card>
       </v-col>
     </v-row>
 
-    <div v-if="hasMechOption('Mech Notes') && blank"
-      class="pt-3">
-      <div class="text-overline text-primary"
-        style="line-height: 0">{{ $t('common.notes') }}</div>
+    <div
+      v-if="hasMechOption('mechNotes') && blank"
+      class="pt-3"
+    >
+      <div
+        class="text-overline text-primary"
+        style="line-height: 0"
+      >
+        {{ $t('common.notes') }}
+      </div>
       <div class="mb-4">
-        <notes :rows="5"
-          lined />
+        <notes
+          :rows="5"
+          lined
+        />
       </div>
     </div>
 
@@ -582,135 +893,203 @@
 
     <div class="text-overline mb-n3 mt-1 text-primary">{{ $t('common.loadout') }}</div>
 
-    <print-blank-loadout v-if="blank"
-      :extra-mounts="hasMechOption('Extra Mount Panel')"
+    <print-blank-loadout
+      v-if="blank"
+      :extra-mounts="hasMechOption('extraMountPanel')"
       :line-height="20"
-      :slot-height="landscape ? 40 : 64" />
+      :slot-height="landscape ? 40 : 64"
+    />
 
-    <fieldset v-for="(m, i) in mounts"
+    <fieldset
+      v-for="(m, i) in mounts"
       v-else
       :key="`mount-${i}`"
       style="position: relative; break-inside: avoid"
-      class="pb-1 no-print-break">
+      class="pb-1 no-print-break"
+    >
       <legend class="heading h4 ml-1 px-2 mb-n1">{{ m.Name }}</legend>
-      <div v-if="m.IsLocked"
-        class="text-center flavor-text">
+      <div
+        v-if="m.IsLocked"
+        class="text-center flavor-text"
+      >
         {{ $t('pm.print.mountLOCKED') }}
         <br />
         <span class="text-overline">// {{ $t('pm.loadout.superheavyWEAPONBRACING') }} //</span>
       </div>
-      <div v-for="w in m.Weapons.filter(Boolean)"
+      <div
+        v-for="w in m.Weapons.filter(Boolean)"
         v-else
         :key="w.ID"
-        class="px-1 caption">
+        class="px-1 caption"
+      >
         <v-row dense>
           <v-col cols="auto">
             <b class="text-cc-overline font-weight-black">{{ w.Name }}</b>
           </v-col>
           <v-col>
             <span class="text-cc-overline">
-              {{ w.Source }} {{ $enum('weaponSize', w.Size) }} {{ w.WeaponTypes.map(t => $enum('weaponType', t)).join('/') }}
+              {{ w.Source }} {{ $enum('weaponSize', w.Size) }}
+              {{ w.WeaponTypes.map(t => $enum('weaponType', t)).join('/') }}
             </span>
           </v-col>
-          <v-col v-if="w.Uses"
-            cols="auto">
-            <v-icon v-for="n in w.getTotalUses(mech.LimitedBonus)"
+          <v-col
+            v-if="w.Uses"
+            cols="auto"
+          >
+            <v-icon
+              v-for="n in w.getTotalUses(mech.LimitedBonus)"
               :key="`use-${n}`"
               size="small"
-              color="primary">
+              color="primary"
+            >
               mdi-hexagon-outline
             </v-icon>
           </v-col>
         </v-row>
 
-        <div v-if="showCollectedEffect(w)"
-          class="caption mb-1">{{ w.Profiles[0].Effect }}</div>
-        <div v-for="(p, index) in w.Profiles"
-          :key="`profile-${index}`">
+        <div
+          v-if="showCollectedEffect(w)"
+          class="caption mb-1"
+        >
+          {{ w.Profiles[0].Effect }}
+        </div>
+        <div
+          v-for="(p, index) in w.Profiles"
+          :key="`profile-${index}`"
+        >
           <div class="caption">
-            <span v-if="w.Profiles.length > 1 && p.Name"
-              class="heading">{{ p.Name }}:&nbsp;</span>
-            <b v-for="(r, ri) in p.Range"
+            <span
+              v-if="w.Profiles.length > 1 && p.Name"
+              class="heading"
+            >
+              {{ p.Name }}:&nbsp;
+            </span>
+            <b
+              v-for="(r, ri) in p.Range"
               :key="`range-${ri}`"
-              class="px-1">{{ r.Text }}</b>
-            <span v-if="p.Damage && p.Damage.length"
-              class="px-1">|</span>
-            <b v-for="(d, di) in p.Damage"
+              class="px-1"
+            >
+              {{ r.Text }}
+            </b>
+            <span
+              v-if="p.Damage && p.Damage.length"
+              class="px-1"
+            >
+              |
+            </span>
+            <b
+              v-for="(d, di) in p.Damage"
               :key="`damage-${di}`"
-              class="px-1">{{ d.Text }}</b>
-            <div v-if="p.Effect && !showCollectedEffect(w)"
-              class="caption">{{ p.Effect }}</div>
-            <div v-if="p.OnMiss"
-              class="caption">
+              class="px-1"
+            >
+              {{ d.Text }}
+            </b>
+            <div
+              v-if="p.Effect && !showCollectedEffect(w)"
+              class="caption"
+            >
+              {{ p.Effect }}
+            </div>
+            <div
+              v-if="p.OnMiss"
+              class="caption"
+            >
               <b>{{ $t('pm.print.onMISS') }}:</b>
               {{ p.OnMiss.Detail }}
             </div>
-            <div v-if="p.OnAttack"
-              class="caption">
+            <div
+              v-if="p.OnAttack"
+              class="caption"
+            >
               <b>{{ $t('pm.print.onATTACK') }}:</b>
               {{ p.OnAttack.Detail }}
             </div>
-            <div v-if="p.OnHit"
-              class="caption">
+            <div
+              v-if="p.OnHit"
+              class="caption"
+            >
               <b>{{ $t('pm.print.onHIT') }}:</b>
               {{ p.OnHit.Detail }}
             </div>
-            <div v-if="p.OnCrit"
-              class="caption">
+            <div
+              v-if="p.OnCrit"
+              class="caption"
+            >
               <b>{{ $t('pm.print.onCRIT') }}:</b>
               {{ p.OnCrit.Detail }}
             </div>
-            <print-action :compact="true"
-              :actions="p.Actions" />
-            <print-deployable :compact="true"
-              :deployables="p.Deployables" />
+            <print-action
+              :compact="true"
+              :actions="p.Actions"
+            />
+            <print-deployable
+              :compact="true"
+              :deployables="p.Deployables"
+            />
           </div>
           <div class="text-right">
-            <v-chip v-for="t in p.Tags"
+            <v-chip
+              v-for="t in p.Tags"
+              v-show="showTag(t.ID)"
               :key="t.ID"
               size="x-small"
               label
               variant="outlined"
-              class="mx-1 bg-white">
-              {{ t.Name }}
+              class="mx-1 bg-white"
+            >
+              {{ t.GetName() }}
             </v-chip>
           </div>
         </div>
 
-        <div v-if="w.Mod"
-          class="px-2">
+        <div
+          v-if="w.Mod"
+          class="px-2"
+        >
           <span class="heading">
             {{ w.Mod.Name }}
           </span>
           <span class="text-overline">&nbsp;{{ $t('pm.print.appliedMOD') }}</span>
           <br />
-          <p v-if="w.Mod.Effect"
+          <p
+            v-if="w.Mod.Effect"
             v-html-safe="w.Mod.Effect"
             class="caption"
-            print />
+            print
+          />
         </div>
       </div>
     </fieldset>
 
-    <print-blank-systems v-if="blank"
-      :extra-system-space="hasMechOption('Extra System Space')"
+    <print-blank-systems
+      v-if="blank"
+      :extra-system-space="hasMechOption('extraSystemSpace')"
       :line-height="20"
-      :slot-height="landscape ? 40 : 64" />
+      :slot-height="landscape ? 40 : 64"
+    />
 
-    <print-systems-list v-else
+    <print-systems-list
+      v-else
       :mech="mech"
-      :options="options" />
+      :options="options"
+    />
 
-    <fieldset v-if="hasMechOption('Append Lined Section')"
-      class="mx-1 my-3 px-3 no-print-break">
+    <fieldset
+      v-if="hasMechOption('appendLined')"
+      class="mx-1 my-3 px-3 no-print-break"
+    >
       <div class="mb-4">
-        <notes :rows="16"
-          lined />
+        <notes
+          :rows="16"
+          lined
+        />
       </div>
     </fieldset>
 
-    <fieldset v-if="hasMechOption('Append Unlined Section')"
-      class="mx-1 my-3 px-3 no-print-break">
+    <fieldset
+      v-if="hasMechOption('appendUnlined')"
+      class="mx-1 my-3 px-3 no-print-break"
+    >
       <div class="mb-4">
         <notes :rows="16" />
       </div>
@@ -719,40 +1098,37 @@
 </template>
 
 <script setup lang="ts">
-import type { PilotPrintOptions } from '@/ui/print/types'
-import type { Mech } from '@/classes/mech/Mech'
-import { computed } from 'vue'
-import PrintAction from '../../components/PrintAction.vue';
-import PrintDeployable from '../../components/PrintDeployable.vue';
-import blankLine from '../../components/blank/line.vue';
-import notes from '../../components/blank/notes.vue';
-import PageBreak from '../../components/PageBreak.vue';
-import PrintBlankLoadout from '../../components/PrintBlankLoadout.vue';
-import PrintBlankSystems from '../../components/PrintBlankSystems.vue';
-import PrintSystemsList from '../../components/PrintSystemsList.vue';
-import { usePrintOptions } from '../usePrintOptions';
+  import type { PilotPrintOptions } from '@/ui/print/types'
+  import type { Mech } from '@/classes/mech/Mech'
+  import { computed } from 'vue'
+  import PrintAction from '../../components/PrintAction.vue'
+  import PrintDeployable from '../../components/PrintDeployable.vue'
+  import blankLine from '@/ui/components/print/BlankLine.vue'
+  import notes from '@/ui/components/print/BlankNotes.vue'
+  import PageBreak from '@/ui/components/print/PageBreak.vue'
+  import PrintBlankLoadout from '../../components/PrintBlankLoadout.vue'
+  import PrintBlankSystems from '../../components/PrintBlankSystems.vue'
+  import PrintSystemsList from '../../components/PrintSystemsList.vue'
+  import { usePrintOptions } from '../usePrintOptions'
 
-defineOptions({ name: 'MechPrint' })
+  defineOptions({ name: 'MechPrint' })
 
-const props = defineProps<{
-  mech: Mech
-  options: PilotPrintOptions
-}>()
+  const props = defineProps<{
+    mech: Mech
+    options: PilotPrintOptions
+  }>()
 
-const { blank, landscape, hasMechOption, signed, showCollectedEffect } = usePrintOptions(props)
+  const { blank, landscape, hasMechOption, signed, showTag, showCollectedEffect } =
+    usePrintOptions(props)
 
-const mounts = computed(() => {
-  return props.mech.MechLoadoutController.ActiveLoadout.AllMounts(
-    props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-    props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
-    props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
-  );
-})
-const getHpCols = computed(() => {
-  return 'auto';
-})
+  const mounts = computed(() => {
+    return props.mech.MechLoadoutController.ActiveLoadout.AllMounts(
+      props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
+      props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
+      props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
+    )
+  })
+  const getHpCols = computed(() => {
+    return 'auto'
+  })
 </script>
-
-<style scoped>
-@import '@/ui/style/print-mech.css';
-</style>

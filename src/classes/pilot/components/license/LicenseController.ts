@@ -29,7 +29,7 @@ class LicenseController extends RankedCollectionController<License, PilotLicense
     return wrapper.License ?? null
   }
 
-  protected _afterAdd(raw: License): void {
+  protected override _afterAdd(raw: License): void {
     if (!this.Parent.IsLevelEdit) {
       const index = this._findIndex(raw)
       if (index === -1) return
@@ -184,6 +184,6 @@ class LicenseController extends RankedCollectionController<License, PilotLicense
   }
 }
 
-const _checkController: IControllerStatic<Pilot, ILicenseSaveData> = LicenseController
+LicenseController satisfies IControllerStatic<Pilot, ILicenseSaveData>
 export { LicenseController }
 export type { ILicenseSaveData }

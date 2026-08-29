@@ -55,7 +55,7 @@ interface ICompendiumItemData {
 }
 
 abstract class CompendiumItem {
-  public readonly InstanceID: string
+  public InstanceID: string
   public readonly ItemData: ICompendiumItemData
   public FromInstance: boolean = false
   public ItemType: ItemType

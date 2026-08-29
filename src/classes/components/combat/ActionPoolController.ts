@@ -3,6 +3,7 @@ import { Mech } from '../../mech/Mech'
 import { Pilot } from '../../pilot/Pilot'
 import { StatKey } from './stats/Stats'
 import { TimedEffect } from '../feature/active_effects/TimedEffect'
+import { ActivePeriod, regainsOn, type Frequency } from '../../Frequency'
 import type { CombatController } from './CombatController'
 
 const DEFAULT_COMBAT_ACTIONS = {
@@ -16,12 +17,18 @@ const DEFAULT_COMBAT_ACTIONS = {
 
 export { DEFAULT_COMBAT_ACTIONS }
 
+interface IActionUseRecord {
+  used: number
+  max: number
+  period: ActivePeriod
+}
+
 class ActionPoolController {
   private _parent: CombatController
 
   public _combatActions: any = { ...DEFAULT_COMBAT_ACTIONS }
 
-  private _usedActions: string[] = []
+  private _actionUses: Record<string, IActionUseRecord> = {}
 
   public IsInSelfDestruct = false
   public ReactorDestroyed: boolean = false
@@ -165,35 +172,58 @@ class ActionPoolController {
     }
   }
 
-  public MarkActionUsed(actionId: string): void {
-    if (!this._usedActions.includes(actionId)) {
-      this._usedActions.push(actionId)
-      this._parent.CombatLogVersion++
+  public MarkActionUsed(actionId: string, frequency?: Frequency): void {
+    const limited = frequency && !frequency.Unlimited ? frequency : undefined
+    const record = this._actionUses[actionId] ?? {
+      used: 0,
+      max: limited?.Uses ?? 1,
+      period: limited?.Duration ?? ActivePeriod.Turn,
     }
+    if (record.used >= record.max) return
+    record.used++
+    this._actionUses[actionId] = record
+    this._parent.CombatLogVersion++
+  }
+
+  public UsedCount(actionId: string): number {
+    return this._actionUses[actionId]?.used ?? 0
+  }
+
+  public RemainingUses(actionId: string): number {
+    const record = this._actionUses[actionId]
+    return record ? record.max - record.used : Number.MAX_SAFE_INTEGER
   }
 
   public IsActionUsed(actionId: string): boolean {
-    return this._usedActions.includes(actionId)
+    return this.RemainingUses(actionId) <= 0
   }
 
   public ClearActionUsed(actionId: string): void {
-    const index = this._usedActions.indexOf(actionId)
-    if (index !== -1) {
-      this._usedActions.splice(index, 1)
-      this._parent.CombatLogVersion++
+    if (!this._actionUses[actionId]) return
+    delete this._actionUses[actionId]
+    this._parent.CombatLogVersion++
+  }
+
+  public RestoreUse(actionId: string): void {
+    const record = this._actionUses[actionId]
+    if (!record) return
+    record.used--
+    if (record.used < 1) delete this._actionUses[actionId]
+    this._parent.CombatLogVersion++
+  }
+
+  public ClearUses(event: ActivePeriod): void {
+    for (const [id, record] of Object.entries(this._actionUses)) {
+      if (regainsOn(record.period, event)) delete this._actionUses[id]
     }
   }
 
-  public clearAllUsedActions(): void {
-    this._usedActions = []
+  public get ActionUses(): Record<string, IActionUseRecord> {
+    return this._actionUses
   }
 
-  public get usedActions(): string[] {
-    return this._usedActions
-  }
-
-  public set usedActions(val: string[]) {
-    this._usedActions = val
+  public set ActionUses(val: Record<string, IActionUseRecord>) {
+    this._actionUses = val
   }
 
   public get OverchargeTrack(): any[] {
@@ -259,3 +289,4 @@ class ActionPoolController {
 }
 
 export { ActionPoolController }
+export type { IActionUseRecord }

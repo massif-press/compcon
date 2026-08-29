@@ -13,6 +13,7 @@ import { IRangeData, Range } from '../../../Range'
 import Tag, { ITagCompendiumData } from '../../../Tag'
 import { IActionData } from '@/classes/Action'
 import { IBonusData } from '@/classes/components/feature/bonus/Bonus'
+import { BonusId } from '@/classes/components/feature/bonus/bonus_dictionary'
 import { IDeployableData } from '@/classes/components/feature/deployable/Deployable'
 import {
   ActiveEffect,
@@ -323,12 +324,10 @@ class MechWeapon extends MechEquipment {
     if (!this.Mod?.AddedDamage) return this.SelectedProfile.Damage || []
 
     const damages = [...(this.SelectedProfile.Damage || []), ...(this.Mod?.AddedDamage || [])]
-    // add Damages of same type together
     const combined: Damage[] = []
     damages.forEach(r => {
       const existing = combined.find(c => c.Type === r.Type)
       if (existing) {
-        // combine xdy dicemath:
         if (typeof existing._raw_value === 'string' && typeof r._raw_value === 'string') {
           const [existingQty, existingDie] = existing._raw_value.split('d').map(Number)
           const [rQty, rDie] = r._raw_value.split('d').map(Number)
@@ -337,9 +336,7 @@ class MechWeapon extends MechEquipment {
           } else {
             if (typeof existing._raw_value === 'number' && typeof r._raw_value === 'number') {
               existing._raw_value = existing._raw_value + r._raw_value
-            } else
-              // different dice, just add them together as a string (e.g. "2d6 + 1d8")
-              existing._raw_value = `${existing._raw_value} + ${r._raw_value}`
+            } else existing._raw_value = `${existing._raw_value} + ${r._raw_value}`
           }
         }
       } else {
@@ -420,7 +417,6 @@ class MechWeapon extends MechEquipment {
   }
 
   public static SanitizeUsesInput(val: number): number {
-    // Prevent Uses icon overflow - set reasonable limit on maximum uses
     const absoluteMax = 25
     const absoluteMin = 0
     return Math.max(Math.min(val, absoluteMax), absoluteMin)
@@ -461,9 +457,37 @@ class MechWeapon extends MechEquipment {
     return this.SelectedProfile.Range ? this.SelectedProfile.Range.map(x => x.Type) : []
   }
 
-  public get WeaponTypes(): WeaponType[] {
+  public getWeaponTypes(mech?: Mech | null): WeaponType[] {
     if (this._custom_weapon_type) return [this._custom_weapon_type as WeaponType]
-    return this._weaponTypes
+    const types = [...this._weaponTypes]
+    const actor = mech
+    if (actor?.FeatureController?.Bonuses) {
+      const bonuses: any[] = actor.FeatureController.Bonuses
+      for (const b of bonuses) {
+        const val = b.Value ?? b.val ?? b.Val
+        if ((b.ID === 'add_weapon_type' || b.ID === BonusId.ADD_WEAPON_TYPE) && val) {
+          const appliesTypes =
+            !b.WeaponTypes?.length ||
+            b.WeaponTypes.includes('any') ||
+            b.WeaponTypes.some((wt: string) => types.includes(wt as WeaponType))
+          const appliesSizes =
+            !b.WeaponSizes?.length ||
+            b.WeaponSizes.includes('any') ||
+            b.WeaponSizes.includes(this.Size)
+          if (appliesTypes && appliesSizes) {
+            const added = val as WeaponType
+            if (!types.includes(added)) {
+              types.push(added)
+            }
+          }
+        }
+      }
+    }
+    return types
+  }
+
+  public get WeaponTypes(): WeaponType[] {
+    return this.getWeaponTypes()
   }
 
   public set Mod(mod: WeaponMod | null) {
@@ -479,7 +503,7 @@ class MechWeapon extends MechEquipment {
     return this._mod
   }
 
-  public get Color(): string {
+  public override get Color(): string {
     return 'mech-weapon'
   }
 
@@ -518,6 +542,7 @@ class MechWeapon extends MechEquipment {
   public static Serialize(item: MechWeapon): IMechWeaponSaveData {
     const data = {
       id: item.ID,
+      instanceId: item.InstanceID,
       data: item.ItemData,
       note: item.Note,
       mod: item.Mod ? (WeaponMod.Serialize(item.Mod) as IEquipmentData) : undefined,
@@ -553,6 +578,7 @@ class MechWeapon extends MechEquipment {
       item.FromInstance = true
     }
 
+    if (data.instanceId) item.InstanceID = data.instanceId
     item._mod = data.mod ? WeaponMod.Deserialize(data.mod) : null
     item._note = data.note
     item._flavor_name = data.flavorName || ''
@@ -566,7 +592,6 @@ class MechWeapon extends MechEquipment {
     item._custom_effect = data.customEffect || null
 
     // combat props
-    // item.MaxUses = data.maxUses || 0;
     item.Uses = data.currentUses || 0
     item.Destroyed = data.destroyed || false
     item.Used = data.isUsed || false

@@ -39,7 +39,7 @@
             <span v-if="
               (activeEffect as any).Activation &&
               activeEffect.Frequency &&
-              (activeEffect.Frequency as any).Duration !== 'Unlimited'
+              !activeEffect.Frequency.Unlimited
             ">
               •
             </span>
@@ -101,7 +101,7 @@
             <span v-if="
               (activeEffect as any).Activation &&
               activeEffect.Frequency &&
-              (activeEffect.Frequency as any).Duration !== 'Unlimited'
+              !activeEffect.Frequency.Unlimited
             ">
               •
             </span>
@@ -234,19 +234,7 @@ const hasAction = computed(() =>
 
 const activation = computed((): boolean => (activeEffect.value as any).Activation != null)
 
-const frequencyText = computed((): string => {
-  if (activeEffect.value.Frequency) {
-    if (
-      typeof activeEffect.value.Frequency === 'object' &&
-      (activeEffect.value.Frequency as any).FreqText
-    ) {
-      return (activeEffect.value.Frequency as any).FreqText;
-    } else if (typeof activeEffect.value.Frequency === 'string') {
-      return activeEffect.value.Frequency;
-    }
-  }
-  return '';
-})
+const frequencyText = computed((): string => activeEffect.value.Frequency?.ToString() || '')
 
 const mandatoryRemaining = computed((): boolean => !events.value.every(x => x.Ready))
 
@@ -261,7 +249,7 @@ function stage(asFree) {
 function apply(close: () => void) {
   if (!isFree.value && (isApplied.value || !ready.value)) return;
   if (!isFree.value) {
-    props.owner.actor.CombatController.ActiveActor.CombatController.MarkActionUsed(activeEffect.value.ID);
+    props.owner.actor.CombatController.ActiveActor.CombatController.MarkActionUsed(activeEffect.value.ID, activeEffect.value.Frequency);
     const action = props.activationOverride || props.action?.Activation || (activeEffect.value as any).Activation || 'free';
     if (action !== 'Reaction') props.owner.actor.CombatController.SetCombatAction(action, false);
   }

@@ -1,5 +1,5 @@
 <template>
-  <v-card v-if="description"
+  <v-card v-if="description && layout.showFlavor"
     tile
     color="panel"
     class="px-2 py-1 mb-2 clipped">
@@ -9,7 +9,11 @@
 </template>
 
 <script setup lang="ts">
+import { useLayoutOptions } from '@/features/active_mode/layoutOptions'
+
 defineOptions({ name: 'EquipmentFlavorDescription' })
+
+const { layout } = useLayoutOptions()
 
 const props = withDefaults(defineProps<{
   description?: string

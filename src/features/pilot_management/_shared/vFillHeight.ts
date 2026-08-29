@@ -6,10 +6,12 @@ const MOBILE_MAX = 960
 function fit(el: HTMLElement) {
   if (window.innerWidth < MOBILE_MAX) {
     el.style.height = ''
+    el.style.minHeight = ''
     return
   }
   const top = el.getBoundingClientRect().top
   el.style.height = `${Math.max(0, window.innerHeight - top - RESERVE)}px`
+  el.style.minHeight = '90vh'
 }
 
 const handlers = new WeakMap<HTMLElement, () => void>()

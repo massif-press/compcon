@@ -1,14 +1,19 @@
 <template>
-  <div class="top-element"
-    style="display: block; position: relative">
-    <div v-if="(mobile || small) && label"
+  <div
+    class="top-element"
+    style="display: block; position: relative"
+  >
+    <div
+      v-if="(mobile || small) && label"
       class="text-cc-overline"
-      style="position: absolute; top: -14px; left: 10px">
+      style="position: absolute; top: -14px; left: 10px"
+    >
       <cc-slashes />
       {{ label }}
     </div>
     <span :class="`light bg-${color || 'stark'}`" />
-    <component :is="component"
+    <component
+      :is="component"
       :model-value="modelValue"
       :items="items"
       :color="color"
@@ -34,114 +39,162 @@
       hide-details
       rounded="0"
       @update:focused="isFocused = $event"
-      @update:model-value="$emit('update:model-value', $event)">
+      @update:model-value="$emit('update:model-value', $event)"
+    >
       <template #prepend>
         <div
           :class="`prepend bg-${color} ${isFocused && 'color-rotate'} ${(icon || label) && 'mr-n1'}`"
           :style="`min-width: ${icon ? '30' : '12'}px`"
-          style="	display:flex; align-items:center;'">
-          <v-icon v-if="icon"
+          style="	display:flex; align-items:center;'"
+        >
+          <v-icon
+            v-if="icon"
             :icon="icon"
             :class="label ? 'ml-2' : 'ml-1'"
-            class="mt-1" />
-          <div v-if="label && !mobile && !small"
-            class="d-inline-block text-cc-overline ml-3">
+            class="mt-1"
+          />
+          <div
+            v-if="label && !mobile && !small"
+            class="d-inline-block text-cc-overline ml-3"
+          >
             {{ label }}
             <cc-slashes class="ml-1 mr-2" />
           </div>
         </div>
       </template>
-      <template v-if="prependInnerIcon || noneSelected"
-        #prepend-inner>
-        <v-icon v-if="prependInnerIcon"
-          :icon="prependInnerIcon" />
-        <v-chip v-if="noneSelected"
+      <template
+        v-if="prependInnerIcon || noneSelected"
+        #prepend-inner
+      >
+        <v-icon
+          v-if="prependInnerIcon"
+          :icon="prependInnerIcon"
+        />
+        <v-chip
+          v-if="noneSelected"
           size="small"
           variant="text"
-          class="pl-1 pr-3 mx-1 text-disabled">
+          class="pl-1 pr-3 mx-1 text-disabled"
+        >
           <span>{{ noneText }}</span>
         </v-chip>
       </template>
-      <template v-if="selectAll"
-        #prepend-item>
-        <v-list-item :title="allSelected ? 'Deselect All' : 'Select All'"
-          :prepend-icon="allSelected ? 'mdi-checkbox-marked' : (Array.isArray(modelValue) && modelValue.length > 0 ? 'mdi-minus-box' : 'mdi-checkbox-blank-outline')"
-          @click="toggleAll" />
+      <template
+        v-if="selectAll"
+        #prepend-item
+      >
+        <v-list-item
+          :title="allSelected ? $t('common.deselectAll') : $t('common.selectAll')"
+          :prepend-icon="
+            allSelected
+              ? 'mdi-checkbox-marked'
+              : Array.isArray(modelValue) && modelValue.length > 0
+                ? 'mdi-minus-box'
+                : 'mdi-checkbox-blank-outline'
+          "
+          @click="toggleAll"
+        />
         <v-divider />
       </template>
-      <template v-if="items && typeof items[0] === 'object'"
-        #item="{ props, item }">
-        <v-list-item v-bind="props"
+      <template
+        v-if="items && typeof items[0] === 'object'"
+        #item="{ props, item }"
+      >
+        <v-list-item
+          v-bind="props"
           :subtitle="resolveSubtitle(item.raw)"
           :prepend-icon="item.raw.icon"
-          :disabled="item.raw.disabled" />
+          :disabled="item.raw.disabled"
+        />
       </template>
       <template #chip="{ item, index }">
         <template v-if="allText && allSelected">
-          <v-chip v-if="index === 0"
+          <v-chip
+            v-if="index === 0"
             size="large"
             rounded="sm"
             class="chip-clip pl-1 pr-3 mx-1"
-            :variant="<any>chipVariant">
+            :variant="<any>chipVariant"
+          >
             <span>{{ allText }}</span>
           </v-chip>
         </template>
         <template v-else-if="!max || index < Number(max)">
-          <v-chip flat
+          <v-chip
+            flat
             size="large"
             tile
             class="chip-clip pl-1 pr-3 mx-1"
-            :variant="<any>chipVariant">
-            <v-icon v-if="(item as any).icon"
-              :icon="(item as any).icon" />
+            :variant="<any>chipVariant"
+          >
+            <v-icon
+              v-if="(item as any).icon"
+              :icon="(item as any).icon"
+            />
             <span>{{ item.title }}</span>
-            <div v-if="chipVariant === 'outlined'"
+            <div
+              v-if="chipVariant === 'outlined'"
               class="chip-diagonal"
-              :class="getChipClass" />
+              :class="getChipClass"
+            />
           </v-chip>
         </template>
-        <v-chip v-else-if="index === Number(max)"
+        <v-chip
+          v-else-if="index === Number(max)"
           size="small"
           rounded="sm"
-          class="mx-1">
+          class="mx-1"
+        >
           +{{ (modelValue as any[]).length - Number(max) }}
         </v-chip>
       </template>
       <template #append>
-        <v-menu v-if="$slots.options"
-          offset-y>
+        <v-menu
+          v-if="$slots.options"
+          offset-y
+        >
           <template #activator="{ props }">
-            <v-btn size="32"
+            <v-btn
+              size="32"
               :color="color"
               icon
               tile
               flat
               v-bind="props"
-              style="margin-left: -1px">
+              style="margin-left: -1px"
+            >
               <v-icon :icon="optionsIcon || 'mdi-dots-vertical'" />
             </v-btn>
           </template>
           <slot name="options" />
         </v-menu>
 
-        <div v-if="!autocomplete"
+        <div
+          v-if="!autocomplete"
           :class="`bg-${color} end-light`"
-          style="width: 3px; height: 100%; margin-left: 3px; z-index: 1" />
+          style="width: 3px; height: 100%; margin-left: 3px; z-index: 1"
+        />
 
-        <cc-tooltip v-if="tooltip"
+        <cc-tooltip
+          v-if="tooltip"
           location="top"
-          max-width="300px">
+          max-width="300px"
+        >
           {{ tooltip }}
         </cc-tooltip>
       </template>
-      <template v-if="appendInnerIcon"
-        #append-inner>
+      <template
+        v-if="appendInnerIcon"
+        #append-inner
+      >
         <v-icon :icon="appendInnerIcon" />
       </template>
     </component>
     <v-slide-y-transition>
-      <div v-if="details"
-        class="text-right text-caption">
+      <div
+        v-if="details"
+        class="text-right text-caption"
+      >
         {{ details }}
       </div>
     </v-slide-y-transition>
@@ -149,175 +202,185 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { VSelect, VAutocomplete, VCombobox } from 'vuetify/components';
-import { useDisplay } from 'vuetify';
+  import { computed, ref } from 'vue'
+  import { VSelect, VAutocomplete, VCombobox } from 'vuetify/components'
+  import { useDisplay } from 'vuetify'
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+  const { smAndDown: mobile, xs: portrait } = useDisplay()
 
-const props = withDefaults(defineProps<{
-  modelValue?: string | number | boolean | any[] | object | null
-  items?: any[]
-  color?: string
-  size?: string
-  prependInnerIcon?: string
-  appendInnerIcon?: string
-  block?: boolean
-  loading?: boolean
-  disabled?: boolean
-  placeholder?: string
-  label?: string
-  icon?: string
-  clearable?: boolean
-  tooltip?: string
-  tooltipIcon?: string
-  details?: string
-  closeableChips?: boolean
-  readonly?: boolean
-  itemTitle?: string | Function
-  itemValue?: string
-  multiple?: boolean
-  variant?: string
-  chipVariant?: string
-  lightChip?: boolean
-  combobox?: boolean
-  autocomplete?: boolean
-  optionsIcon?: string
-  returnObject?: boolean
-  small?: boolean
-  bgColor?: string
-  max?: string | number
-  allText?: string
-  noneText?: string
-  selectAll?: boolean
-  rules?: any[]
-  prefix?: string
-  suffix?: string
-  counter?: boolean | number
-  hint?: string
-  itemSubtitle?: string | Function
-}>(), {
-  items: () => [],
-  color: 'panel',
-  variant: 'solo',
-  chipVariant: 'text',
-  bgColor: 'background'
-})
+  const props = withDefaults(
+    defineProps<{
+      modelValue?: string | number | boolean | any[] | object | null
+      items?: any[]
+      color?: string
+      size?: string
+      prependInnerIcon?: string
+      appendInnerIcon?: string
+      block?: boolean
+      loading?: boolean
+      disabled?: boolean
+      placeholder?: string
+      label?: string
+      icon?: string
+      clearable?: boolean
+      tooltip?: string
+      tooltipIcon?: string
+      details?: string
+      closeableChips?: boolean
+      readonly?: boolean
+      itemTitle?: string | ((item: any) => string)
+      itemValue?: string
+      multiple?: boolean
+      variant?: string
+      chipVariant?: string
+      lightChip?: boolean
+      combobox?: boolean
+      autocomplete?: boolean
+      optionsIcon?: string
+      returnObject?: boolean
+      small?: boolean
+      bgColor?: string
+      max?: string | number
+      allText?: string
+      noneText?: string
+      selectAll?: boolean
+      rules?: any[]
+      prefix?: string
+      suffix?: string
+      counter?: boolean | number
+      hint?: string
+      itemSubtitle?: string | ((item: any) => string)
+    }>(),
+    {
+      items: () => [],
+      color: 'panel',
+      variant: 'solo',
+      chipVariant: 'text',
+      bgColor: 'background',
+    }
+  )
 
-const emit = defineEmits<{
-  'update:model-value': [payload: any]
-}>()
+  const emit = defineEmits<{
+    'update:model-value': [payload: any]
+  }>()
 
-const isFocused = ref(false)
+  const isFocused = ref(false)
 
-const getChipClass = computed(() => {
-  return props.lightChip ? 'chip-light' : 'chip-dark';
-})
-const isSelect = computed(() => {
-  return !props.combobox && !props.autocomplete;
-})
-const allSelected = computed(() => {
-  return props.multiple && Array.isArray(props.modelValue) && props.modelValue.length === props.items.length;
-})
-const noneSelected = computed(() => {
-  return props.noneText && (!props.modelValue || (Array.isArray(props.modelValue) && props.modelValue.length === 0));
-})
-const component = computed(() => {
-  return props.combobox ? VCombobox : props.autocomplete ? VAutocomplete : VSelect;
-})
+  const getChipClass = computed(() => {
+    return props.lightChip ? 'chip-light' : 'chip-dark'
+  })
+  const isSelect = computed(() => {
+    return !props.combobox && !props.autocomplete
+  })
+  const allSelected = computed(() => {
+    return (
+      props.multiple &&
+      Array.isArray(props.modelValue) &&
+      props.modelValue.length === props.items.length
+    )
+  })
+  const noneSelected = computed(() => {
+    return (
+      props.noneText &&
+      (!props.modelValue || (Array.isArray(props.modelValue) && props.modelValue.length === 0))
+    )
+  })
+  const component = computed(() => {
+    return props.combobox ? VCombobox : props.autocomplete ? VAutocomplete : VSelect
+  })
 
-function resolveSubtitle(raw: any) {
-  if (typeof props.itemSubtitle === 'function') return props.itemSubtitle(raw);
-  if (typeof props.itemSubtitle === 'string') return raw?.[props.itemSubtitle];
-  return raw?.subtitle;
-}
-
-function toggleAll() {
-  if (allSelected.value) {
-    emit('update:model-value', []);
-  } else {
-    const key = props.itemValue || 'value';
-    const allValues = props.items.map((item: any) =>
-      props.returnObject ? item : (typeof item === 'object' ? item[key] : item)
-    );
-    emit('update:model-value', allValues);
+  function resolveSubtitle(raw: any) {
+    if (typeof props.itemSubtitle === 'function') return props.itemSubtitle(raw)
+    if (typeof props.itemSubtitle === 'string') return raw?.[props.itemSubtitle]
+    return raw?.subtitle
   }
-}
+
+  function toggleAll() {
+    if (allSelected.value) {
+      emit('update:model-value', [])
+    } else {
+      const key = props.itemValue || 'value'
+      const allValues = props.items.map((item: any) =>
+        props.returnObject ? item : typeof item === 'object' ? item[key] : item
+      )
+      emit('update:model-value', allValues)
+    }
+  }
 </script>
 
 <style scoped>
-.top-element :deep(.v-field__input) {
-  padding-left: 4px !important;
-  padding-top: 0px !important;
-  padding-bottom: 0px !important;
-}
+  .top-element :deep(.v-field__input) {
+    padding-left: 4px !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+  }
 
-.top-element :deep(.v-input--horizontal .v-input__prepend) {
-  margin-inline-end: 0px !important;
-}
+  .top-element :deep(.v-input--horizontal .v-input__prepend) {
+    margin-inline-end: 0px !important;
+  }
 
-.top-element :deep(.v-input--horizontal .v-input__append) {
-  margin-inline-start: 0px !important;
-}
+  .top-element :deep(.v-input--horizontal .v-input__append) {
+    margin-inline-start: 0px !important;
+  }
 
-.top-element :deep(.v-field__input) {
-  height: auto !important;
-  min-height: 30px;
-}
+  .top-element :deep(.v-field__input) {
+    height: auto !important;
+    min-height: 30px;
+  }
 
-.prepend {
-  height: 100%;
-  min-width: 16px;
-  clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
-  z-index: 1;
-}
+  .prepend {
+    height: 100%;
+    min-width: 16px;
+    clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
+    z-index: 1;
+  }
 
-.light {
-  top: 0;
-  left: 0;
-  width: 9px;
-  height: 9px;
-  position: absolute;
-  clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
-  border-top-left-radius: 1px;
-  transition: filter 0.2s ease-in-out;
-}
+  .light {
+    top: 0;
+    left: 0;
+    width: 9px;
+    height: 9px;
+    position: absolute;
+    clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
+    border-top-left-radius: 1px;
+    transition: filter 0.2s ease-in-out;
+  }
 
-.end-light {
-  transition: filter 0.2s ease-in-out;
-}
+  .end-light {
+    transition: filter 0.2s ease-in-out;
+  }
 
-.top-element:hover .light,
-.top-element:hover .end-light {
-  filter: brightness(3) saturate(200%) hue-rotate(40deg);
-}
+  .top-element:hover .light,
+  .top-element:hover .end-light {
+    filter: brightness(3) saturate(200%) hue-rotate(40deg);
+  }
 
-.chip-clip {
-  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
-  height: auto;
-  white-space: normal;
-}
+  .chip-clip {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+    height: auto;
+    white-space: normal;
+  }
 
-.chip-diagonal {
-  position: absolute;
-  bottom: -4px;
-  right: -4px;
-  width: 10px;
-  height: 10px;
-  clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
-}
+  .chip-diagonal {
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    width: 10px;
+    height: 10px;
+    clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
+  }
 
-.chip-light {
-  background-color: white;
-}
+  .chip-light {
+    background-color: white;
+  }
 
-.chip-dark {
-  background-color: black;
-}
+  .chip-dark {
+    background-color: black;
+  }
 
-:deep(.v-list-item-subtitle) {
-  font-size: 0.75rem !important;
-  line-height: 1.25rem !important;
-  letter-spacing: 0.0333333333em !important;
-}
+  :deep(.v-list-item-subtitle) {
+    font-size: 0.75rem !important;
+    line-height: 1.25rem !important;
+    letter-spacing: 0.0333333333em !important;
+  }
 </style>

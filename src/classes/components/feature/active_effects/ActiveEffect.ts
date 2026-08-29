@@ -11,6 +11,7 @@ import { ByTier } from '@/util/tierFormat'
 import { Action } from '@/classes/Action'
 import { localize } from '@/i18n/localize'
 import { keyPrefixes } from '@/i18n/contentKeys'
+import { Frequency } from '@/classes/Frequency'
 
 // used for combat menu components for actions that have AE components
 export type ActiveEffectLike = ActiveEffect | Action
@@ -54,7 +55,7 @@ class ActiveEffect {
   public readonly Range: Range[]
   public readonly Bonuses: Bonus[]
   public readonly Duration?: string
-  public readonly Frequency?: string
+  public readonly Frequency?: Frequency
   public readonly BonusDamage?: BonusDamage
   public readonly CanCrit: boolean
   public readonly Accuracy: number
@@ -111,7 +112,7 @@ class ActiveEffect {
     }
     this.Bonuses = data.bonuses ? data.bonuses.map(b => new Bonus(b, this._name)) : []
     this.Duration = data.duration
-    this.Frequency = data.frequency
+    this.Frequency = data.frequency ? new Frequency(data.frequency) : undefined
     if (data.bonus_damage) this.BonusDamage = new BonusDamage(data.bonus_damage, this._name)
     if (data.save) {
       this.Save = new EffectSave(data.save)

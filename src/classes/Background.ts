@@ -30,8 +30,12 @@ class Background implements ILcpTracked {
     applyLcpTracking(this, pack)
   }
 
-  public get Name(): string { return localize(this.ID, 'name', this._name) }
-  public get Description(): string { return localize(this.ID, 'description', this._description) }
+  public get Name(): string {
+    return localize(this.ID, 'name', this._name)
+  }
+  public get Description(): string {
+    return localize(this.ID, 'description', this._description)
+  }
 
   public static Serialize(bg: Background): IBackgroundData {
     return {
@@ -57,10 +61,7 @@ class Background implements ILcpTracked {
   public get SuggestedSkills(): Skill[] {
     let arr = [] as Skill[]
     if (this.Skills)
-      arr = this.Skills.map(id => {
-        const item = CompendiumStore().Skills.find(s => s.ID === id)
-        if (item) return item as Skill
-      }) as Skill[]
+      arr = this.Skills.map(id => CompendiumStore().Skills.find(s => s.ID === id)) as Skill[]
     return arr.filter(s => s !== undefined) as Skill[]
   }
 }

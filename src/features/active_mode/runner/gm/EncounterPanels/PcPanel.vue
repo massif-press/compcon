@@ -77,7 +77,7 @@
           cols="auto"
           class="ml-auto">
           <cc-switch v-model="unusedOnly"
-            :label="!unusedOnly ? 'Unused Only' : 'All'"
+            :label="!unusedOnly ? $t('active.pcPanel.unusedOnly') : $t('common.all')"
             inset
             dense />
         </v-col>

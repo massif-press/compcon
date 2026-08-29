@@ -6,11 +6,11 @@ import { FolderController } from '../components/folder/FolderController'
 import { i18n } from '@/i18n'
 
 class LocationData extends ICollectionItemData {
-  collectionItemType: string = 'location'
+  override collectionItemType: string = 'location'
 }
 
 class Location extends CollectionItem {
-  public ItemType: ItemType = ItemType.Location
+  public override ItemType: ItemType = ItemType.Location
 
   public constructor(data?: LocationData) {
     super(data)

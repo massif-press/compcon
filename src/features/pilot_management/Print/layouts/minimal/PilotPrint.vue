@@ -1,19 +1,27 @@
 <template>
   <div class="text-black px-2">
-    <v-row dense
+    <v-row
+      dense
       justify="space-around"
       align="center"
-      class="print-section">
+      class="print-section"
+    >
       <v-col cols="auto">
-        <blank-line v-if="blank"
+        <blank-line
+          v-if="blank"
           :width="170"
-          :height="24" />
-        <div v-else
-          class="heading h3">
+          :height="24"
+        />
+        <div
+          v-else
+          class="heading h3"
+        >
           {{ pilot.Callsign }}
         </div>
-        <div v-if="!blank"
-          class="text-caption mt-n2">
+        <div
+          v-if="!blank"
+          class="text-caption mt-n2"
+        >
           {{ pilot.Name }}
         </div>
       </v-col>
@@ -21,63 +29,79 @@
       <v-col cols="auto">
         <div>
           {{ $t('stats.hp') }}:
-          <div class="d-inline-block mb-n1"><blank-line :height="24"
-              :width="30" /></div>
+          <div class="d-inline-block mb-n1">
+            <blank-line
+              :height="24"
+              :width="30"
+            />
+          </div>
           <span>/</span>
-          <blank-line v-if="blank"
+          <blank-line
+            v-if="blank"
             :width="30"
             :height="24"
-            class="d-inline-block mb-n1" />
+            class="d-inline-block mb-n1"
+          />
           <b v-else>{{ pilot.MaxHP }}</b>
         </div>
       </v-col>
       <v-col cols="auto">
         <div>
           {{ $t('stats.armor') }}:
-          <blank-line v-if="blank"
+          <blank-line
+            v-if="blank"
             :width="30"
             :height="24"
-            class="d-inline-block mb-n1" />
+            class="d-inline-block mb-n1"
+          />
           <b v-else>{{ pilot.Armor }}</b>
         </div>
       </v-col>
       <v-col cols="auto">
         <div>
           {{ $t('stats.edef') }}:
-          <blank-line v-if="blank"
+          <blank-line
+            v-if="blank"
             :width="30"
             :height="24"
-            class="d-inline-block mb-n1" />
+            class="d-inline-block mb-n1"
+          />
           <b v-else>{{ pilot.EDefense }}</b>
         </div>
       </v-col>
       <v-col cols="auto">
         <div>
           {{ $t('stats.evasion') }}:
-          <blank-line v-if="blank"
+          <blank-line
+            v-if="blank"
             :width="30"
             :height="24"
-            class="d-inline-block mb-n1" />
+            class="d-inline-block mb-n1"
+          />
           <b v-else>{{ pilot.Evasion }}</b>
         </div>
       </v-col>
       <v-col cols="auto">
         <div>
           {{ $t('stats.speed') }}:
-          <blank-line v-if="blank"
+          <blank-line
+            v-if="blank"
             :width="30"
             :height="24"
-            class="d-inline-block mb-n1" />
+            class="d-inline-block mb-n1"
+          />
           <b v-else>{{ pilot.Speed }}</b>
         </div>
       </v-col>
       <v-col cols="auto">
         <div>
           {{ $t('pm.print.grit') }}:
-          <blank-line v-if="blank"
+          <blank-line
+            v-if="blank"
             :width="30"
             :height="24"
-            class="d-inline-block mb-n1" />
+            class="d-inline-block mb-n1"
+          />
           <b v-else>+{{ pilot.Grit }}</b>
         </div>
       </v-col>
@@ -87,154 +111,221 @@
 
     <div class="text-caption text-primary">{{ $t('pm.titles.skillTriggers') }}</div>
 
-    <v-row dense
+    <v-row
+      dense
       justify="space-between"
-      class="mt-n2 print-section">
+      class="mt-n2 print-section"
+    >
       <v-col>
-        <v-row v-if="blank"
-          dense>
-          <v-col v-for="n in 6"
+        <v-row
+          v-if="blank"
+          dense
+        >
+          <v-col
+            v-for="n in 6"
             :key="`skill-${n}`"
-            cols="4">
+            cols="4"
+          >
             <blank-line :height="24" />
           </v-col>
         </v-row>
-        <div v-else
-          class="text-left">
-          <v-chip v-for="s in pilot.SkillsController.Skills"
+        <div
+          v-else
+          class="text-left"
+        >
+          <v-chip
+            v-for="s in pilot.SkillsController.Skills"
             :key="s.Skill.ID"
             label
             variant="outlined"
             size="small"
-            class="mx-1">
+            class="mx-1"
+          >
             <span class="stat-text ml-n1 mr-1">+{{ s.Bonus }}</span>
             <span>{{ s.Skill.Trigger }}</span>
           </v-chip>
         </div>
       </v-col>
 
-      <v-col cols="auto"
-        class="px-1">
+      <v-col
+        cols="auto"
+        class="px-1"
+      >
         <div>
-          <span class="text-uppercase">{{ $t('pm.link.hull') }}</span>:
-          <blank-line v-if="blank"
+          <span class="text-uppercase">{{ $t('pm.link.hull') }}</span>
+          :
+          <blank-line
+            v-if="blank"
             :width="30"
             :height="24"
-            class="d-inline-block mb-n1" />
+            class="d-inline-block mb-n1"
+          />
           <b v-else>{{ pilot.MechSkillsController.MechSkills.Hull }}</b>
         </div>
       </v-col>
-      <v-col cols="auto"
-        class="px-1">
+      <v-col
+        cols="auto"
+        class="px-1"
+      >
         <div>
           {{ $t('stats.agi') }}:
-          <blank-line v-if="blank"
+          <blank-line
+            v-if="blank"
             :width="30"
             :height="24"
-            class="d-inline-block mb-n1" />
+            class="d-inline-block mb-n1"
+          />
           <b v-else>{{ pilot.MechSkillsController.MechSkills.Agi }}</b>
         </div>
       </v-col>
-      <v-col cols="auto"
-        class="px-1">
+      <v-col
+        cols="auto"
+        class="px-1"
+      >
         <div>
-          <span class="text-uppercase">{{ $t('pm.link.sys') }}</span>:
-          <blank-line v-if="blank"
+          <span class="text-uppercase">{{ $t('pm.link.sys') }}</span>
+          :
+          <blank-line
+            v-if="blank"
             :width="30"
             :height="24"
-            class="d-inline-block mb-n1" />
+            class="d-inline-block mb-n1"
+          />
           <b v-else>{{ pilot.MechSkillsController.MechSkills.Sys }}</b>
         </div>
       </v-col>
-      <v-col cols="auto"
-        class="px-1">
+      <v-col
+        cols="auto"
+        class="px-1"
+      >
         <div>
-          <span class="text-uppercase">{{ $t('pm.link.eng') }}</span>:
-          <blank-line v-if="blank"
+          <span class="text-uppercase">{{ $t('pm.link.eng') }}</span>
+          :
+          <blank-line
+            v-if="blank"
             :width="30"
             :height="24"
-            class="d-inline-block mb-n1" />
+            class="d-inline-block mb-n1"
+          />
           <b v-else>{{ pilot.MechSkillsController.MechSkills.Eng }}</b>
         </div>
       </v-col>
     </v-row>
 
-    <v-row dense
-      class="mt-n1">
+    <v-row
+      dense
+      class="mt-n1"
+    >
       <v-col :cols="blank ? 8 : 'auto'">
         <div class="text-caption mb-n1 text-primary">{{ $t('common.talents') }}</div>
-        <v-row v-if="blank"
-          dense>
-          <v-col v-for="n in 9"
+        <v-row
+          v-if="blank"
+          dense
+        >
+          <v-col
+            v-for="n in 9"
             :key="`talent-${n}`"
-            cols="4">
+            cols="4"
+          >
             <blank-line :height="24" />
           </v-col>
         </v-row>
-        <v-chip v-for="t in pilot.TalentsController.Talents"
+        <v-chip
+          v-for="t in pilot.TalentsController.Talents"
           v-else
           :key="t.Talent.ID"
           label
           variant="outlined"
           size="small"
-          class="caption mx-1">
-          <v-icon :icon="`cc:rank_${t.Rank}`"
+          class="caption mx-1"
+        >
+          <v-icon
+            :icon="`cc:rank_${t.Rank}`"
             color="primary"
-            class="ml-n2" />
+            class="ml-n2"
+          />
           {{ t.Talent.Name }}
           {{ 'I'.repeat(t.Rank) }}
         </v-chip>
       </v-col>
       <v-col :cols="blank ? '' : 'auto'">
-        <div v-if="pilot.CoreBonusController.CoreBonuses.length"
-          class="text-caption mb-n1 text-primary">
+        <div
+          v-if="pilot.CoreBonusController.CoreBonuses.length"
+          class="text-caption mb-n1 text-primary"
+        >
           {{ $t('pm.level.coreBonuses') }}
         </div>
 
-        <v-row v-if="blank"
-          dense>
-          <v-col v-for="n in 3"
+        <v-row
+          v-if="blank"
+          dense
+        >
+          <v-col
+            v-for="n in 3"
             :key="`cb-${n}`"
-            cols="12">
+            cols="12"
+          >
             <blank-line :height="24" />
           </v-col>
         </v-row>
 
-        <v-chip v-for="b in pilot.CoreBonusController.CoreBonuses"
+        <v-chip
+          v-for="b in pilot.CoreBonusController.CoreBonuses"
           v-else
           :key="b.ID"
           label
           variant="outlined"
           size="small"
-          class="caption mx-1">
+          class="caption mx-1"
+        >
           {{ b.Name }}
         </v-chip>
       </v-col>
     </v-row>
 
-    <div class="text-caption mb-n2 mt-1 text-primary">{{ $t('common.pilotLoadout') }}</div>
-    <v-row dense
+    <div
+      v-if="hasLoadout || blank"
+      class="text-caption mb-n2 mt-1 text-primary"
+    >
+      {{ $t('common.pilotLoadout') }}
+    </div>
+    <v-row
+      v-if="armorItems.length || weaponItems.length || blank"
+      dense
       justify="space-between"
-      class="mt-n1 caption">
-      <v-col v-for="a in pilot.Loadout.Armor.filter((x) => x)"
+      class="mt-n1 caption"
+    >
+      <v-col
+        v-for="a in armorItems"
         :key="a.ID"
         style="position: relative"
-        class="no-print-break">
+        class="no-print-break"
+      >
         <fieldset v-if="a">
           <legend class="heading ml-1 px-1">
             <span v-if="!blank">
               {{ a.Name }}
               <span class="text-caption flavor-text">//{{ $t('stats.armor') }}</span>
             </span>
-            <span v-else
-              class="text-grey">{{ $t('common.pilotArmor') }}</span>
+            <span
+              v-else
+              class="text-grey"
+            >
+              {{ $t('common.pilotArmor') }}
+            </span>
           </legend>
-          <div v-if="blank"
-            style="height: 75px" />
-          <div v-else
-            class="pb-2">
-            <v-row dense
-              justify="space-around">
+          <div
+            v-if="blank"
+            style="height: 75px"
+          />
+          <div
+            v-else
+            class="pb-2"
+          >
+            <v-row
+              dense
+              justify="space-around"
+            >
               <v-col cols="auto">
                 <v-icon icon="mdi-shield-outline" />
                 <span v-text="`+${a.Armor(pilot)}`" />
@@ -256,66 +347,96 @@
                 <span v-text="`${a.Speed(pilot) ? `${a.Speed(pilot)}` : ''}`" />
               </v-col>
             </v-row>
-            <print-action :compact="true"
-              :actions="a.Actions" />
-            <print-deployable :compact="true"
-              :deployables="a.Deployables" />
+            <print-action
+              :compact="true"
+              :actions="a.Actions"
+            />
+            <print-deployable
+              :compact="true"
+              :deployables="a.Deployables"
+            />
             <div class="text-right mb-n2">
-              <v-chip v-for="t in a.Tags"
+              <v-chip
+                v-for="t in a.Tags"
                 v-show="showTag(t.ID)"
                 :key="t.ID"
                 size="x-small"
                 label
                 variant="outlined"
-                class="ml-1 bg-white">
+                class="ml-1 bg-white"
+              >
                 {{ t.GetName() }}
               </v-chip>
             </div>
           </div>
         </fieldset>
       </v-col>
-      <v-col v-for="w in pilot.Loadout.Weapons.filter((x) => x)"
+      <v-col
+        v-for="w in weaponItems"
         :key="w.ID"
         style="position: relative"
-        class="no-print-break">
+        class="no-print-break"
+      >
         <fieldset v-if="w || blank">
           <legend class="heading ml-1 px-1">
             <span v-if="!blank">
               {{ w.Name }}
               <span class="text-caption flavor-text">//{{ $t('common.weapon') }}</span>
             </span>
-            <span v-else
-              class="text-grey">{{ $t('common.pilotWeapon') }}</span>
+            <span
+              v-else
+              class="text-grey"
+            >
+              {{ $t('common.pilotWeapon') }}
+            </span>
           </legend>
-          <div v-if="blank"
-            style="height: 75px" />
+          <div
+            v-if="blank"
+            style="height: 75px"
+          />
           <div v-else>
-            <span v-for="(r, ri) in w.Range"
-              :key="`range-${ri}`">
-              <v-icon size="15"
-                :icon="r.Icon" />
+            <span
+              v-for="(r, ri) in w.Range"
+              :key="`range-${ri}`"
+            >
+              <v-icon
+                size="15"
+                :icon="r.Icon"
+              />
               {{ r.Value }}
             </span>
-            <span v-for="(d, di) in w.Damage"
-              :key="`damage-${di}`">
-              <v-icon size="20"
+            <span
+              v-for="(d, di) in w.Damage"
+              :key="`damage-${di}`"
+            >
+              <v-icon
+                size="20"
                 :icon="d.Icon"
-                :color="d.Color" />
+                :color="d.Color"
+              />
               {{ d.Value }}
             </span>
-            <print-action :compact="true"
-              :actions="w.Actions" />
-            <print-deployable :compact="true"
-              :deployables="w.Deployables" />
-            <div class="text-right"
-              style="position: absolute; bottom: 10px; right: 5px">
-              <v-chip v-for="t in w.Tags"
+            <print-action
+              :compact="true"
+              :actions="w.Actions"
+            />
+            <print-deployable
+              :compact="true"
+              :deployables="w.Deployables"
+            />
+            <div
+              class="text-right"
+              style="position: absolute; bottom: 10px; right: 5px"
+            >
+              <v-chip
+                v-for="t in w.Tags"
                 v-show="showTag(t.ID)"
                 :key="t.ID"
                 size="x-small"
                 label
                 variant="outlined"
-                class="mx-1 bh-white">
+                class="mx-1 bh-white"
+              >
                 {{ t.GetName() }}
               </v-chip>
             </div>
@@ -324,41 +445,62 @@
       </v-col>
     </v-row>
 
-    <v-row dense
+    <v-row
+      v-if="gearItems.length || blank"
+      dense
       justify="space-between"
-      class="mt-n1 caption pb-1">
-      <v-col v-for="g in pilot.Loadout.Gear.filter((x) => x)"
+      class="mt-n1 caption pb-1"
+    >
+      <v-col
+        v-for="g in gearItems"
         :key="g.ID"
         style="position: relative"
-        class="no-print-break">
+        class="no-print-break"
+      >
         <fieldset v-if="g || blank">
           <legend class="heading ml-1 px-1">
             <span v-if="!blank">
               {{ g.Name }}
               <span class="text-caption flavor-text">{{ $t('pm.print.gear') }}</span>
             </span>
-            <span v-else
-              class="text-grey">{{ $t('common.pilotGear') }}</span>
+            <span
+              v-else
+              class="text-grey"
+            >
+              {{ $t('common.pilotGear') }}
+            </span>
           </legend>
-          <div v-if="blank"
-            style="height: 75px" />
-          <div v-else
-            class="pb-1">
-            <div v-if="g.Description"
-              v-html-safe="g.Description" />
-            <print-action :compact="true"
-              :actions="g.Actions" />
-            <print-deployable :compact="true"
-              :deployables="g.Deployables" />
+          <div
+            v-if="blank"
+            style="height: 75px"
+          />
+          <div
+            v-else
+            class="pb-1"
+          >
+            <div
+              v-if="g.Description"
+              v-html-safe="g.Description"
+            />
+            <print-action
+              :compact="true"
+              :actions="g.Actions"
+            />
+            <print-deployable
+              :compact="true"
+              :deployables="g.Deployables"
+            />
           </div>
           <div class="text-right">
-            <v-chip v-for="t in g.Tags"
+            <v-chip
+              v-for="t in g.Tags"
               v-show="showTag(t.ID)"
               :key="t.ID"
               size="x-small"
               label
               variant="outlined"
-              class="ml-1 bg-white">
+              class="ml-1 bg-white"
+            >
               {{ t.GetName() }}
             </v-chip>
           </div>
@@ -369,26 +511,34 @@
     <div v-if="!blank && pilot.ReservesController.Reserves.length">
       <div class="text-caption my-n1 text-primary">{{ $t('common.reserves') }}</div>
       <div class="pb-1">
-        <v-chip v-for="r in pilot.ReservesController.Reserves.filter((x) => x.Type !== 'Bonus')"
+        <v-chip
+          v-for="r in pilot.ReservesController.Reserves.filter(x => x.Type !== 'Bonus')"
           :key="r.ID"
           label
           variant="outlined"
           size="small"
-          class="caption mx-1">
-          <v-icon :icon="r.Icon"
-            start />
+          class="caption mx-1"
+        >
+          <v-icon
+            :icon="r.Icon"
+            start
+          />
           <div class="text-caption mb-n1 text-primary">{{ r.Name }}</div>
         </v-chip>
       </div>
     </div>
 
-    <div v-if="blank"
-      class="pa-2 mt-n5">
+    <div
+      v-if="blank"
+      class="pa-2 mt-n5"
+    >
       <div class="text-caption mb-n1 mt-1 text-primary">{{ $t('common.reserves') }}</div>
       <v-row dense>
-        <v-col v-for="r in hasPilotOption('Extra Reserve Space') ? 8 : 4"
+        <v-col
+          v-for="r in hasPilotOption('extraReserveSpace') ? 8 : 4"
           :key="`reserve-${r}`"
-          cols="3">
+          cols="3"
+        >
           <blank-line :height="26" />
         </v-col>
       </v-row>
@@ -397,23 +547,27 @@
 </template>
 
 <script setup lang="ts">
-import type { PilotPrintOptions } from '@/ui/print/types'
-import type { Pilot } from '@/classes/pilot/Pilot'
-import blankLine from '../../components/blank/line.vue';
-import PrintAction from '../../components/PrintAction.vue';
-import PrintDeployable from '../../components/PrintDeployable.vue';
-import { usePrintOptions } from '../usePrintOptions';
+  import { computed } from 'vue'
+  import type { PilotPrintOptions } from '@/ui/print/types'
+  import type { Pilot } from '@/classes/pilot/Pilot'
+  import blankLine from '@/ui/components/print/BlankLine.vue'
+  import PrintAction from '../../components/PrintAction.vue'
+  import PrintDeployable from '../../components/PrintDeployable.vue'
+  import { usePrintOptions } from '../usePrintOptions'
 
-defineOptions({ name: 'PilotPrint' })
+  defineOptions({ name: 'PilotPrint' })
 
-const props = defineProps<{
-  pilot: Pilot
-  options: PilotPrintOptions
-}>()
+  const props = defineProps<{
+    pilot: Pilot
+    options: PilotPrintOptions
+  }>()
 
-const { blank, hasPilotOption, showTag } = usePrintOptions(props)
+  const { blank, hasPilotOption, showTag } = usePrintOptions(props)
+
+  const armorItems = computed(() => props.pilot.Loadout.Armor.filter(x => x))
+  const weaponItems = computed(() => props.pilot.Loadout.Weapons.filter(x => x))
+  const gearItems = computed(() => props.pilot.Loadout.Gear.filter(x => x))
+  const hasLoadout = computed(
+    () => !!(armorItems.value.length || weaponItems.value.length || gearItems.value.length)
+  )
 </script>
-
-<style scoped>
-@import '@/ui/style/print-common.css';
-</style>

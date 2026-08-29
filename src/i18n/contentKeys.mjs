@@ -131,6 +131,49 @@ export function nestedEntries(_collection, item) {
   return out
 }
 
+const HAS_MARKUP = /<[a-zA-Z/]/
+const BARE_AMP = /&(?!#\d+;|#x[0-9a-fA-F]+;|[a-zA-Z][a-zA-Z0-9]*;)/g
+const VOID_TAG = /<(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)\b([^<>]*?)\s*\/?>/gi
+
+export function normalizeMarkup(str) {
+  const s = String(str)
+  if (!HAS_MARKUP.test(s)) return s
+  return s.replace(BARE_AMP, '&amp;').replace(VOID_TAG, (_, tag, attrs) => `<${tag}${attrs}/>`)
+}
+
+const VOID_NAMES = new Set(
+  'area base br col embed hr img input link meta param source track wbr'.split(' ')
+)
+const TAG = /<(\/?)([a-zA-Z][\w-]*)([^<>]*?)(\/?)>/g
+
+export function markupFault(str) {
+  const s = String(str)
+  if (!HAS_MARKUP.test(s)) return null
+  if (BARE_AMP.test(s)) {
+    BARE_AMP.lastIndex = 0
+    return 'bare & (not an entity)'
+  }
+  if (/<[^<>]*$/.test(s)) return 'unterminated tag'
+  const stack = []
+  let m
+  TAG.lastIndex = 0
+  while ((m = TAG.exec(s))) {
+    const [, close, name, , selfClose] = m
+    const tag = name.toLowerCase()
+    if (VOID_NAMES.has(tag)) {
+      if (!selfClose) return `<${tag}> not self-closed`
+      continue
+    }
+    if (selfClose) continue
+    if (close) {
+      if (!stack.length) return `stray </${tag}>`
+      const open = stack.pop()
+      if (open !== tag) return `</${tag}> closes <${open}>`
+    } else stack.push(tag)
+  }
+  return stack.length ? `unclosed <${stack[stack.length - 1]}>` : null
+}
+
 // glossary has no id and is rendered directly
 export function glossaryId(name) {
   return `glossary_${String(name).replace(/\W/g, '')}`

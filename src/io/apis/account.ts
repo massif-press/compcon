@@ -325,8 +325,9 @@ export async function uploadToS3(data, presignedUrl, type = 'application/json') 
   }
 }
 
-const _etagCache = new Map<string, { etag: string; data: any }>()
+const _etagCache = new Map<string, { etag: string; data: any; bytes: number }>()
 const ETAG_CACHE_MAX = 100
+const ETAG_CACHE_MAX_BYTES = 16 * 1024 * 1024
 
 export function invalidateETagCache(s3Url: string) {
   _etagCache.delete(s3Url)
@@ -351,13 +352,22 @@ export async function downloadFromS3(s3Url: string) {
   }
 
   if (response.ok) {
-    const jsonData = await response.json()
+    const text = await response.text()
+    const jsonData = JSON.parse(text)
     const etag = response.headers.get('ETag')
     if (etag) {
-      if (_etagCache.size >= ETAG_CACHE_MAX) {
-        _etagCache.delete(_etagCache.keys().next().value!)
+      _etagCache.delete(s3Url)
+      _etagCache.set(s3Url, { etag, data: jsonData, bytes: text.length })
+      let bytes = 0
+      for (const e of _etagCache.values()) bytes += e.bytes
+      while (
+        (_etagCache.size > ETAG_CACHE_MAX || bytes > ETAG_CACHE_MAX_BYTES) &&
+        _etagCache.size > 1
+      ) {
+        const oldest = _etagCache.keys().next().value!
+        bytes -= _etagCache.get(oldest)!.bytes
+        _etagCache.delete(oldest)
       }
-      _etagCache.set(s3Url, { etag, data: jsonData })
     }
     return jsonData
   } else {

@@ -101,6 +101,6 @@ class ReservesController implements IFeatureContainer {
   }
 }
 
-const _checkController: IControllerStatic<Pilot, IReservesSaveData> = ReservesController
+ReservesController satisfies IControllerStatic<Pilot, IReservesSaveData>
 export { ReservesController }
 export type { IReservesSaveData }

@@ -65,8 +65,10 @@ class Tag implements ILcpTracked {
     this.IsExotic = this.ID === 'tg_exotic'
     this.IsDangerZone = this.ID === 'tg_danger_zone'
 
-    if (this.ID === 'tg_full') this.UsageCost = 2
-    else if (this.ID === 'tg_quick') this.UsageCost = 1
+    if (this.ID === 'tg_full' || this.ID === 'tg_full_action' || this.ID === 'tg_full_tech')
+      this.UsageCost = 2
+    else if (this.ID === 'tg_quick' || this.ID === 'tg_quick_action' || this.ID === 'tg_quick_tech')
+      this.UsageCost = 1
 
     applyLcpTracking(this, pack)
 

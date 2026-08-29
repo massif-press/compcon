@@ -1,58 +1,74 @@
 <template>
   <div class="no-print-break">
-    <v-row dense
-      align="center">
-      <v-col cols="auto"
-        class="text-center heading caption my-1">
+    <v-row
+      dense
+      align="center"
+    >
+      <v-col
+        cols="auto"
+        class="text-center heading caption my-1"
+      >
         {{ action.Name }}
       </v-col>
       <v-col><v-divider /></v-col>
-      <v-col cols="auto"
+      <v-col
+        cols="auto"
         class="text-center heading caption"
-        :class="`text-${action.Color}`">
+        :class="`text-${action.Color}`"
+      >
         {{ $enum('activationType', action.Activation) }}
       </v-col>
     </v-row>
     <div class="caption">
-      <v-card v-if="action.Init"
+      <v-card
+        v-if="action.Init"
         class="pa-1 text-center mb-1"
         color="grey-darken-3"
-        variant="outlined">
-        <span v-html-safe="action.Init"
-          class="caption" />
+        variant="outlined"
+      >
+        <span
+          v-html-safe="action.Init"
+          class="caption"
+        />
       </v-card>
-      <v-card v-if="action.Trigger"
+      <v-card
+        v-if="action.Trigger"
         class="pa-1 mb-1"
-        color="grey-lighten-2">
-        <span cols="auto"
-          class="caption font-weight-bold">{{ $t('common.trigger') }}:&nbsp;</span>
-        <span v-html-safe="action.Trigger"
-          class="caption" />
+        color="grey-lighten-2"
+      >
+        <span
+          cols="auto"
+          class="caption font-weight-bold"
+        >
+          {{ $t('common.trigger') }}:&nbsp;
+        </span>
+        <span
+          v-html-safe="action.Trigger"
+          class="caption"
+        />
       </v-card>
       <div v-if="action.Detail">
-        <span v-if="action.Trigger"
+        <span
+          v-if="action.Trigger"
           cols="auto"
-          class="caption font-weight-bold">
+          class="caption font-weight-bold"
+        >
           {{ $t('common.effect') }}:&nbsp;
         </span>
-        <span v-html-safe="action.Detail"
-          class="caption" />
+        <span
+          v-html-safe="action.Detail"
+          class="caption"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Action } from '@/classes/Action'
-defineOptions({ name: 'print-action-internal' })
+  import type { Action } from '@/classes/Action'
+  defineOptions({ name: 'print-action-internal' })
 
-defineProps<{
-  action: Action
-}>()
+  defineProps<{
+    action: Action
+  }>()
 </script>
-
-<style scoped>
-.caption {
-  font-size: 11px;
-}
-</style>

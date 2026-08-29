@@ -1,7 +1,13 @@
 <template>
-  <c-list-item-base :item="item" :readonly="readonly">
+  <c-list-item-base
+    :item="item"
+    :readonly="readonly"
+  >
     <template #title>
-      <v-icon :icon="item.actor.NpcClassController.Class.Icon" class="mt-n1 ml-1" />
+      <v-icon
+        :icon="item.actor.NpcClassController.Class.Icon"
+        class="mt-n1 ml-1"
+      />
       {{ item.actor.Name }}
 
       <span v-if="item.actor.NpcClassController.HasClass && !item.actor.IsNameless">
@@ -14,10 +20,13 @@
           :key="t.ID"
           size="small"
           variant="plain"
-          label
           color="primary"
-          class="mr-3 mt-n1">
-          <v-icon icon="cc:npc_template" start />
+          class="mr-3 mt-n1"
+        >
+          <v-icon
+            icon="cc:npc_template"
+            start
+          />
           {{ t.Name }}&emsp;
         </cc-chip>
       </span>
@@ -29,16 +38,20 @@
         :key="f.ID"
         :item="f"
         :tier="item.actor.NpcClassController.Tier"
-        style="margin: 2px" />
+        style="margin: 2px"
+      />
     </div>
   </c-list-item-base>
 </template>
 
 <script setup lang="ts">
-import cListItemBase from './cListItemBase.vue'
+  import cListItemBase from './cListItemBase.vue'
 
-withDefaults(defineProps<{
-  item: Record<string, any>
-  readonly?: boolean
-}>(), { readonly: false })
+  withDefaults(
+    defineProps<{
+      item: Record<string, any>
+      readonly?: boolean
+    }>(),
+    { readonly: false }
+  )
 </script>

@@ -3,7 +3,7 @@ import { FeatureController } from '../feature/FeatureController'
 import { SaveController } from '../save/SaveController'
 import { CombatController } from './CombatController'
 import { MechLoadoutController } from '@/classes/mech/components/loadout/MechLoadoutController'
-import { EidolonLayer } from '@/classes/npc/eidolon/EidolonLayer'
+import type { EidolonLayerSaveData } from '@/classes/npc/eidolon/EidolonLayerSaveData'
 import { NpcFeatureController } from '@/classes/npc/feature/NpcFeatureController'
 import { NpcTemplateController } from '@/classes/npc/template/NpcTemplateController'
 import { ReservesController } from '@/classes/pilot/components'
@@ -44,8 +44,8 @@ interface ICombatant {
   IsNameless?: boolean
   ActiveMech?: Mech | null
   Mechs?: Mech[]
-  ActiveLayer?: EidolonLayer
-  Layers?: EidolonLayer[]
+  ActiveLayer?: EidolonLayerSaveData
+  Layers?: EidolonLayerSaveData[]
   Loadout?: MechLoadout | PilotLoadout
   Class?: NpcClass
   LcpConfig?: LcpConfig | null

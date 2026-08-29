@@ -388,8 +388,8 @@ function transformNpcFeature(feature: any, tier: number): any {
   return {
     itemID: feature.id,
     tier,
-    flavorName: '',
-    description: '',
+    flavorName: feature.data?.flavorName ?? '',
+    description: feature.data?.flavorDescription ?? '',
     destroyed: false,
     charged: !(feature.data?.isUsed ?? false),
     uses: 0,

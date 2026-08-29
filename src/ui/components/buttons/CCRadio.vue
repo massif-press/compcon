@@ -5,8 +5,13 @@
       style="align-self: center"
       :size="iconSize(prependIcon)"
       :start="!label"
-      :icon="prependIcon" />
-    <div v-if="label" class="d-inline-block text-cc-overline ml-3" style="align-self: center">
+      :icon="prependIcon"
+    />
+    <div
+      v-if="label"
+      class="d-inline-block text-cc-overline ml-3"
+      style="align-self: center"
+    >
       {{ label }}
       <cc-slashes class="mr-2 ml-1" />
     </div>
@@ -15,7 +20,8 @@
         <div
           v-bind="props"
           class="top-element"
-          :style="`display: inline-block; position: relative`">
+          :style="`display: inline-block; position: relative`"
+        >
           <span :class="`light ${size} bg-${getLightColor(isHovering)}`" />
           <v-btn
             icon
@@ -25,23 +31,37 @@
             :aria-label="ariaLabel"
             :size="iconSize('btn')"
             :class="`${size} ${isOn && 'on'} size-${size} bg-${bgColor}`"
-            @click="toggle">
+            @click="toggle"
+          >
             <v-fade-transition leave-absolute>
-              <v-btn v-if="isOn" icon tile aria-hidden="true" tabindex="-1" :color="activeColor" :size="iconSize('btn')" />
+              <v-btn
+                v-if="isOn"
+                icon
+                tile
+                aria-hidden="true"
+                tabindex="-1"
+                :color="activeColor"
+                :size="iconSize('btn')"
+              />
             </v-fade-transition>
           </v-btn>
         </div>
       </template>
     </v-hover>
 
-    <v-tooltip v-if="tooltip" location="top" max-width="300px">
-      <template v-slot:activator="{ props }">
+    <v-tooltip
+      v-if="tooltip"
+      location="top"
+      max-width="300px"
+    >
+      <template #activator="{ props }">
         <v-icon
           style="align-self: center"
           :size="iconSize('tt')"
           v-bind="props"
           class="fade-select mx-1"
-          :icon="tooltipIcon || 'mdi-information-slab-box-outline'" />
+          :icon="tooltipIcon || 'mdi-information-slab-box-outline'"
+        />
       </template>
       {{ tooltip }}
     </v-tooltip>
@@ -49,46 +69,46 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useToggleIndicator } from '@/composables/useToggleIndicator'
+  import { computed } from 'vue'
+  import { useToggleIndicator } from '@/composables/useToggleIndicator'
 
-interface Props {
-  modelValue: boolean
-  size?: string
-  bgColor?: string
-  color?: string
-  activeColor?: string
-  prependIcon?: string
-  tooltip?: string
-  tooltipIcon?: string
-  label?: string
-}
+  interface Props {
+    modelValue: boolean
+    size?: string
+    bgColor?: string
+    color?: string
+    activeColor?: string
+    prependIcon?: string
+    tooltip?: string
+    tooltipIcon?: string
+    label?: string
+  }
 
-const props = withDefaults(defineProps<Props>(), {
-  size: 'default',
-  bgColor: 'panel',
-  color: 'primary',
-  activeColor: 'success',
-})
+  const props = withDefaults(defineProps<Props>(), {
+    size: 'default',
+    bgColor: 'panel',
+    color: 'primary',
+    activeColor: 'success',
+  })
 
-const emit = defineEmits<{ 'update:modelValue': [value: boolean] }>()
+  const emit = defineEmits<{ 'update:modelValue': [value: boolean] }>()
 
-const isOn = computed(() => props.modelValue)
+  const isOn = computed(() => props.modelValue)
 
-const ariaLabel = computed(() => props.label || props.tooltip || undefined)
+  const ariaLabel = computed(() => props.label || props.tooltip || undefined)
 
-function toggle() {
-  emit('update:modelValue', !isOn.value)
-}
+  function toggle() {
+    emit('update:modelValue', !isOn.value)
+  }
 
-const { iconSize, getLightColor } = useToggleIndicator(
-  () => props.size,
-  () => props.color,
-  () => props.activeColor,
-  isOn
-)
+  const { iconSize, getLightColor } = useToggleIndicator(
+    () => props.size,
+    () => props.color,
+    () => props.activeColor,
+    isOn
+  )
 </script>
 
 <style scoped>
-@import '@/ui/style/toggle-indicator.css';
+  @import '@/ui/style/toggle-indicator.css';
 </style>

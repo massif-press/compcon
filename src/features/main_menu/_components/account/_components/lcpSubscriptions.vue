@@ -7,7 +7,7 @@
       color="panel">
       <v-toolbar-title>
         <cc-heading is-title
-          :text="mobile ? 'LCPs' : 'LCP Subscriptions'"
+          :text="mobile ? $t('mainMenu.titles.lcps') : $t('mainMenu.subscriptions.lcpHeader')"
           :tooltip="$t('mainMenu.tooltips.paidLcpContentRequiresA')" />
       </v-toolbar-title>
       <v-spacer />

@@ -23,7 +23,7 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
   public InstanceID?: string
 
   public CombatController: CombatController
-  public ItemType: ItemType = ItemType.Doodad
+  public override ItemType: ItemType = ItemType.Doodad
   public MandatoryStats: string[] = []
 
   public IsEncounterInstance = false
@@ -44,6 +44,9 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
     const data = this.Serialize(true) as DoodadData
     this.SetInstanceProxies<DoodadData>(data)
     ;(data as any).instanceId = crypto.randomUUID()
+    ;(data as any).originId = this.ID
+    ;(data as any).id = (data as any).instanceId
+    ;(data as any).is_instance = true
 
     return data
   }
@@ -87,7 +90,7 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
       note: doodad.Note,
       config: doodad.LcpConfig,
       combat_data: {} as any,
-      ui_state: Object.keys(doodad.UIState).length ? doodad.UIState : undefined,
+      ui_state: Object.keys(doodad.UIState).length ? { ...doodad.UIState } : undefined,
     } as DoodadData
 
     SaveController.Serialize(doodad, data)

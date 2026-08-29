@@ -1,19 +1,21 @@
 interface INarrativeEntity {
-  readonly ID: string;
-  Name: string;
-  Description: string;
-  Note: string;
-  readonly Portrait: string;
-  NarrativeController: any;
-  SaveController: { IsRemote: boolean; IsCollectionItem: boolean; IsDeleted: boolean };
+  readonly ID: string
+  Name: string
+  Description: string
+  Note: string
+  readonly Portrait: string
+  NarrativeController: any
+  SaveController: { IsRemote: boolean; IsCollectionItem: boolean; IsDeleted: boolean }
 
-  RenewID(): void;
+  RenewID(): void
 
-  Alias?: string;
-  Title?: string;
-  Pronouns?: string;
-  FactionType?: string;
-  TypeSuggestions?: string[];
+  Alias?: string
+  Title?: string
+  Pronouns?: string
+  FactionType?: string
+  TypeSuggestions?: string[]
 }
 
-export type { INarrativeEntity };
+type NarrativeItemType = 'Character' | 'Location' | 'Faction'
+
+export type { INarrativeEntity, NarrativeItemType }

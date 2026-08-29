@@ -24,7 +24,7 @@
           <div v-if="!mobile"
             class="text-cc-overline text-disabled ">
             {{ $enum('weaponSize', item.Size) }}
-            {{item.WeaponTypes.map(t => $enum('weaponType', t)).join('/')}}
+            {{item.getWeaponTypes(mech).map(t => $enum('weaponType', t)).join('/')}}
           </div>
         </v-col>
       </v-row>
@@ -178,7 +178,9 @@
 
   <cc-dialog v-if="item"
     v-model="modDialog"
-    :title="`${mod ? 'Modify' : 'Install'} ${item.Name} Modification`"
+    :title="mod
+          ? $t('pm.loadout.modifyModification', { name: item.Name })
+          : $t('pm.loadout.installModification', { name: item.Name })"
     clip
     icon="cc:weaponmod" :close-on-click="false" major full-height max-width="90vw">
     <mod-selector :weapon="item"

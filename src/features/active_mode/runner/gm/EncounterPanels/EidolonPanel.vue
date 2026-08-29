@@ -142,6 +142,7 @@ import UnitFeatureCard from './_components/loadouts/_unitFeatureCard.vue';
 import PanelBase from './_PanelBase.vue';
 import PersistentTraits from '@/classes/npc/eidolon/persistent_traits.json';
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
+import { useLayoutOptions } from '@/features/active_mode/layoutOptions'
 
 const props = defineProps({
   combatant: {
@@ -163,10 +164,8 @@ const emit = defineEmits(['deselect'])
 
 const { smAndDown: mobile, xs: portrait } = useDisplay()
 
-const xlColumns = computed(() => {
-  if (mobile.value) return 1
-  else return (props.encounterInstance as any).MaxMasonryColumns
-})
+const { layout } = useLayoutOptions()
+const xlColumns = computed(() => layout.value.maxColumns)
 const traits = computed(() => PersistentTraits)
 const layer = computed(() => (props.combatant as any).actor.ActiveLayer)
 const features = computed(() => layer.value?.Layer?.Features || [])

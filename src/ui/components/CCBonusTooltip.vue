@@ -1,22 +1,30 @@
 <template>
   <div v-if="bonuses.length">
-    <div v-for="(bonus, bi) in bonuses"
+    <div
+      v-for="(bonus, bi) in bonuses"
       :key="`bonus-${bi}`"
-      class="text-right">
+      class="text-right"
+    >
       <v-menu open-on-hover>
         <template #activator="{ props }">
-          <v-icon v-bind="props"
+          <v-icon
+            v-bind="props"
             :icon="bonus.Icon"
             color="exotic"
-            :style="`position: absolute; bottom: 0; right: ${rightOffset}px`" />
+            :style="`position: absolute; bottom: 0; right: ${rightOffset}px`"
+          />
         </template>
         <v-card>
-          <v-toolbar density="compact"
+          <v-toolbar
+            density="compact"
             color="exotic"
-            height="46">
+            height="46"
+          >
             <div class="heading h4 px-2">
-              <v-icon start
-                :icon="bonus.Icon" />
+              <v-icon
+                start
+                :icon="bonus.Icon"
+              />
               {{ bonus.Title }}
             </div>
           </v-toolbar>
@@ -35,12 +43,15 @@
 </template>
 
 <script setup lang="ts">
-import { Bonus } from '@/classes/components/feature/bonus/Bonus';
+  import type { ResolvedBonus } from '@/classes/components/feature/bonus/Bonus'
 
-const props = withDefaults(defineProps<{
-  bonuses: Array<Bonus>
-  rightOffset?: number
-}>(), {
-  rightOffset: 3
-})
+  const props = withDefaults(
+    defineProps<{
+      bonuses: ResolvedBonus[]
+      rightOffset?: number
+    }>(),
+    {
+      rightOffset: 3,
+    }
+  )
 </script>

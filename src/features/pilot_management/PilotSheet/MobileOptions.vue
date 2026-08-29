@@ -1,27 +1,39 @@
 <template>
   <v-container>
     <div class="heading h3 py-0 px-2">{{ $t('pm.sheet.pilotOptions') }}</div>
-    <cc-button block
+    <cc-button
+      block
       size="large"
       color="panel"
       prepend-icon="mdi-printer"
-      @click="$router.push(`/print/${pilot.ID}`)">
+      @click="$router.push(`/print/${pilot.ID}`)"
+    >
       {{ $t('common.print') }}
       <template #subtitle>
-        <span class="text-cc-overline">{{ $t('pm.sheet.printTabletopReadyCharacterAndMech') }}</span>
+        <span class="text-cc-overline">
+          {{ $t('pm.sheet.printTabletopReadyCharacterAndMech') }}
+        </span>
       </template>
     </cc-button>
 
     <br />
 
-    <cc-dialog :title="$t('pm.titles.statblockGenerator')"
-      icon="mdi-code-block-tags" :close-on-click="false" major full-height max-width="90vw">
+    <cc-dialog
+      :title="$t('pm.titles.statblockGenerator')"
+      icon="mdi-code-block-tags"
+      :close-on-click="false"
+      major
+      full-height
+      max-width="90vw"
+    >
       <template #activator="{ open }">
-        <cc-button block
+        <cc-button
+          block
           size="large"
           color="panel"
           prepend-icon="mdi-file-document-outline"
-          @click="open">
+          @click="open"
+        >
           {{ $t('pm.sheet.generateStatblock') }}
           <template #subtitle>
             <span class="text-cc-overline">
@@ -34,23 +46,27 @@
     </cc-dialog>
     <br />
 
-    <cc-button v-if="!pilot.IsRemote"
+    <cc-button
+      v-if="!pilot.IsRemote"
       block
       size="large"
       color="panel"
       prepend-icon="mdi-download"
-      @click="exportPilot()">
+      @click="exportPilot()"
+    >
       {{ $t('pm.sheet.exportPilot') }}
       <template #subtitle>
         <span class="text-cc-overline">{{ $t('pm.sheet.exportThisPilotAsAJSON') }}</span>
       </template>
     </cc-button>
-    <cc-button v-if="!pilot.IsRemote"
+    <cc-button
+      v-if="!pilot.IsRemote"
       block
       size="small"
       color="panel"
       prepend-icon="mdi-download"
-      @click="exportPilot(true)">
+      @click="exportPilot(true)"
+    >
       {{ $t('pm.sheet.exportLegacyJSON') }}
       <template #subtitle>
         <span class="text-cc-overline">{{ $t('pm.sheet.exportThisPilotAsAV2') }}</span>
@@ -58,21 +74,27 @@
     </cc-button>
     <br />
 
-    <cc-dialog v-if="!pilot.IsRemote"
+    <cc-dialog
+      v-if="!pilot.IsRemote"
       :title="$t('pm.titles.sharePilotData')"
       icon="cc:pilot"
-      :close-on-click="false">
+      :close-on-click="false"
+    >
       <template #activator="{ open }">
-        <v-tooltip open-delay="300"
+        <v-tooltip
+          open-delay="300"
           location="top"
-          :text="isAuthed ? 'Share Pilot Data' : 'Requires Cloud Account'">
+          :text="isAuthed ? $t('pm.titles.sharePilotData') : $t('pm.sheet.requiresCloudAccount')"
+        >
           <template #activator="{ props }">
-            <cc-button v-bind="props"
+            <cc-button
+              v-bind="props"
               block
               size="large"
               color="panel"
               prepend-icon="mdi-code-block-brackets"
-              @click="open()">
+              @click="open()"
+            >
               {{ $t('pm.sheet.sharePilot') }}
               <template #subtitle>
                 <span class="text-cc-overline">{{ $t('pm.sheet.shareThisPilotSDataWith') }}</span>
@@ -86,15 +108,19 @@
 
     <br />
 
-    <cc-dialog v-if="pilot.IsRemote"
+    <cc-dialog
+      v-if="pilot.IsRemote"
       :close-on-click="false"
       :title="$t('pm.titles.convertRemotePilot')"
-      icon="cc:pilot">
+      icon="cc:pilot"
+    >
       <template #activator="{ open }">
-        <cc-button block
+        <cc-button
+          block
           color="panel"
           prepend-icon="mdi-content-copy"
-          @click="open">
+          @click="open"
+        >
           {{ $t('common.convertToLocal') }}
           <template #subtitle>
             <span class="text-cc-overline">
@@ -104,44 +130,66 @@
         </cc-button>
       </template>
       <template #default="{ close }">
-        <cc-confirmation full-width
+        <cc-confirmation
+          full-width
           :content="$t('pm.tooltips.convertingThisPilotToLocalData')"
           cancellable
           @confirm="convert()"
-          @cancel="close" />
+          @cancel="close"
+        />
       </template>
     </cc-dialog>
 
-    <cc-dialog v-else
+    <cc-dialog
+      v-else
       :title="$t('pm.titles.clonePilot')"
-      icon="mdi-dna" :close-on-click="false" major full-height max-width="90vw">
+      icon="mdi-dna"
+      :close-on-click="false"
+      major
+      full-height
+      max-width="90vw"
+    >
       <template #activator="{ open }">
-        <cc-button size="large"
+        <cc-button
+          size="large"
           block
           color="panel"
           prepend-icon="mdi-dna"
-          @click="open">
+          @click="open"
+        >
           {{ $t('pm.sheet.clone') }}
           <template #subtitle>
-            <span class="text-cc-overline">{{ $t('pm.sheet.duplicateOrFlashCloneThisCharacter') }}</span>
+            <span class="text-cc-overline">
+              {{ $t('pm.sheet.duplicateOrFlashCloneThisCharacter') }}
+            </span>
           </template>
         </cc-button>
       </template>
       <template #default="{ close }">
-        <clone-dialog :pilot="pilot"
-          @close="close" />
+        <clone-dialog
+          :pilot="pilot"
+          @close="close"
+        />
       </template>
     </cc-dialog>
 
     <br />
-    <cc-dialog :title="$t('pm.sheet.setLCPConfiguration')"
-      icon="mdi-list-status" :close-on-click="false" major full-height max-width="90vw">
+    <cc-dialog
+      :title="$t('pm.sheet.setLCPConfiguration')"
+      icon="mdi-list-status"
+      :close-on-click="false"
+      major
+      full-height
+      max-width="90vw"
+    >
       <template #activator="{ open }">
-        <cc-button size="large"
+        <cc-button
+          size="large"
           block
           color="panel"
           prepend-icon="mdi-list-status"
-          @click="open">
+          @click="open"
+        >
           {{ $t('pm.sheet.setLCPConfiguration') }}
           <template #subtitle>
             <span class="text-cc-overline">
@@ -155,14 +203,16 @@
 
     <br />
 
-    <cc-button v-if="pilot.IsRemote"
+    <cc-button
+      v-if="pilot.IsRemote"
       block
       size="large"
       color="panel"
       :loading="loading"
       :disabled="pilot.CloudController.isSynced"
       prepend-icon="mdi-cloud-sync"
-      @click="remoteUpdate()">
+      @click="remoteUpdate()"
+    >
       {{ $t('pm.sheet.downloadLatestData') }}
       <template #subtitle>
         <span class="text-cc-overline">
@@ -176,16 +226,20 @@
     </cc-button>
     <br />
 
-    <cc-dialog :close-on-click="false"
+    <cc-dialog
+      :close-on-click="false"
       :title="$t('pm.titles.confirmPilotDeletion')"
-      icon="cc:pilot">
+      icon="cc:pilot"
+    >
       <template #activator="{ open }">
-        <cc-button v-if="!pilot.IsRemote"
+        <cc-button
+          v-if="!pilot.IsRemote"
           block
           size="large"
           color="error"
           prepend-icon="mdi-delete"
-          @click="open">
+          @click="open"
+        >
           {{ $t('common.deletePilot') }}
           <template #subtitle>
             <span class="text-cc-overline">{{ $t('pm.sheet.removeThisPilotFromTheRoster') }}</span>
@@ -193,53 +247,55 @@
         </cc-button>
       </template>
       <template #default="{ close }">
-        <cc-confirmation full-width
+        <cc-confirmation
+          full-width
           :content="`Lancer, please confirm deletion of Pilot Registration Information for:<br/>
           <span class='text-accent'>
             ${pilot.Callsign} (${pilot.Name}, LL${pilot.Level})
           </span>`"
           cancellable
           @confirm="delete_pilot(close)"
-          @cancel="close" />
+          @cancel="close"
+        />
       </template>
     </cc-dialog>
   </v-container>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { Pilot } from '@/classes/pilot/Pilot'
-import CloneDialog from './components/CloneDialog.vue'
-import StatblockDialog from './components/StatblockDialog.vue'
-import LcpConfigSelector from './components/LcpConfigSelector.vue'
-import { useDisplay } from 'vuetify'
-import ShareDialog from '@/shared/ShareDialog.vue'
-import { usePilotActions } from './usePilotActions'
-import { UserStore } from '@/stores'
+  import { computed, ref } from 'vue'
+  import { useRoute, useRouter } from 'vue-router'
+  import { Pilot } from '@/classes/pilot/Pilot'
+  import CloneDialog from './components/CloneDialog.vue'
+  import StatblockDialog from './components/StatblockDialog.vue'
+  import LcpConfigSelector from './components/LcpConfigSelector.vue'
+  import { useDisplay } from 'vuetify'
+  import ShareDialog from '@/shared/ShareDialog.vue'
+  import { usePilotActions } from './usePilotActions'
+  import { UserStore } from '@/stores'
 
-defineOptions({ name: 'MobileOptionsMenu' })
+  defineOptions({ name: 'MobileOptionsMenu' })
 
-const props = defineProps<{
-  pilot: Pilot
-}>()
+  const props = defineProps<{
+    pilot: Pilot
+  }>()
 
-const emit = defineEmits<{ close: [] }>()
+  const emit = defineEmits<{ close: [] }>()
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+  const { smAndDown: mobile, xs: portrait } = useDisplay()
 
-const isAuthed = computed(() => UserStore().IsLoggedIn)
-const { exportPilot, remoteUpdate, convert } = usePilotActions(props)
+  const isAuthed = computed(() => UserStore().IsLoggedIn)
+  const { exportPilot, remoteUpdate, convert } = usePilotActions(props)
 
-const route = useRoute()
-const router = useRouter()
+  const route = useRoute()
+  const router = useRouter()
 
-const loading = ref(false)
-const deleteDialog = ref(false)
+  const loading = ref(false)
+  const deleteDialog = ref(false)
 
-function delete_pilot(close?: Function) {
-  props.pilot.SaveController.Delete()
-  if (close) close()
-  if (route.path !== '/pilot_management') router.push('/pilot_management')
-}
+  function delete_pilot(close?: () => void) {
+    props.pilot.SaveController.Delete()
+    if (close) close()
+    if (route.path !== '/pilot_management') router.push('/pilot_management')
+  }
 </script>

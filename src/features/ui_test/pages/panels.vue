@@ -2,42 +2,60 @@
   <v-window-item>
     <cc-heading size="large">panels</cc-heading>
 
-    <cc-heading small
-      line>standard</cc-heading>
+    <cc-heading
+      small
+      line
+    >
+      standard
+    </cc-heading>
 
-    <v-card flat
-      border>
+    <v-card
+      flat
+      border
+    >
       <v-row justify="center">
         <v-col align-self="center">
           <v-card-text>
-            <cc-panel :border="border"
+            <cc-panel
+              :border="border"
               :variant="variant"
-              :title="title">
-              <span v-html-safe="loremIpsum"
-                class="text-text" />
+              :title="title"
+            >
+              <span
+                v-html-safe="loremIpsum"
+                class="text-text"
+              />
             </cc-panel>
           </v-card-text>
         </v-col>
         <v-divider vertical />
-        <v-col cols="3"
-          style="min-width: 400px">
+        <v-col
+          cols="3"
+          style="min-width: 400px"
+        >
           <v-card flat>
             <v-card-text>
-              <v-select density="compact"
+              <v-select
+                v-model="variant"
+                density="compact"
                 label="variant"
                 hide-details
                 clearable
-                v-model="variant"
-                :items="variants" />
-              <v-text-field density="compact"
+                :items="variants"
+              />
+              <v-text-field
+                v-model="title"
+                density="compact"
                 hide-details
                 clearable
-                v-model="title"
-                label="title" />
-              <v-checkbox density="compact"
-                hide-details
+                label="title"
+              />
+              <v-checkbox
                 v-model="border"
-                label="border" />
+                density="compact"
+                hide-details
+                label="border"
+              />
             </v-card-text>
           </v-card>
         </v-col>
@@ -46,38 +64,50 @@
 
     <div class="my-12" />
 
-    <v-card flat
-      border>
+    <v-card
+      flat
+      border
+    >
       <v-row justify="center">
         <v-col align-self="center">
           <v-card-text>
-            <cc-alert :title="title"
+            <cc-alert
+              :title="title"
               :icon="icon"
               :prominent="prominent"
-              closeable>
+              closeable
+            >
               <span v-html-safe="loremIpsum" />
             </cc-alert>
           </v-card-text>
         </v-col>
         <v-divider vertical />
-        <v-col cols="3"
-          style="min-width: 400px">
+        <v-col
+          cols="3"
+          style="min-width: 400px"
+        >
           <v-card flat>
             <v-card-text>
-              <v-text-field density="compact"
+              <v-text-field
+                v-model="title"
+                density="compact"
                 hide-details
                 clearable
-                v-model="title"
-                label="title" />
-              <v-select v-model="icon"
+                label="title"
+              />
+              <v-select
+                v-model="icon"
                 :items="icons"
                 label="icon"
                 hide-details
-                clearable />
-              <v-checkbox density="compact"
-                hide-details
+                clearable
+              />
+              <v-checkbox
                 v-model="prominent"
-                label="prominent" />
+                density="compact"
+                hide-details
+                label="prominent"
+              />
             </v-card-text>
           </v-card>
         </v-col>
@@ -132,36 +162,46 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-defineOptions({ name: 'ui-test-panels' })
+  defineOptions({ name: 'ui-test-panels' })
 
-const title = ref('')
-const label = ref('button text')
-const subtitle = ref('subtitle')
-const infotext = ref('info text')
-const buttonType = ref('std')
-const color = ref('primary')
-const size = ref('default')
-const variant = ref('default')
-const block = ref(false)
-const prependIcon = ref('')
-const appendIcon = ref('')
-const icon = ref('cc:campaign')
-const showTooltip = ref(false)
-const border = ref(false)
-const prominent = ref(false)
-const icons = ref([
-      'cc:campaign',
-      'mdi-alert',
-      'cc:pilot',
-      'mdi-cog',
-      'cc:kinetic',
-      'mdi-content-save',
-      'cc:encounter',
-      'mdi-help',
-    ])
-const colors = ref(['primary', 'secondary', 'accent', 'damage--heat', 'damage--energy', 'exotic', 'cyan'])
-const variants = ref(['default', 'flavor', 'fluff', 'admin', 'emphasis', 'subtle'])
-const loremIpsum = ref('<p>Lorem ipsum odor amet, consectetuer adipiscing elit. Nisi aliquet venenatis egestas mi dictum. Etiam enim iaculis eleifend eu facilisi mauris vitae dictum. Duis dictum ultrices montes laoreet scelerisque sapien habitant. Fermentum nisi condimentum habitant porta ex platea. Fringilla vel mollis fusce congue ac quisque hac rhoncus. Hac consequat torquent velit parturient proin maecenas mollis nascetur porta. Adipiscing posuere turpis fames aliquet facilisis, hac integer netus. Venenatis nulla aptent accumsan, sed hendrerit fusce varius. Habitant conubia egestas nulla placerat ac montes.</p><p>Nulla sociosqu cras nibh sociosqu nam ex platea platea. Felis adipiscing duis; suspendisse facilisi duis felis iaculis risus malesuada. Cubilia morbi ad dui commodo maximus. Auctor tincidunt condimentum quisque nullam blandit aliquam leo aenean. Hendrerit cras rutrum neque sit, urna volutpat. Erat parturient pellentesque, tempor ultricies aptent gravida. Proin purus magna lacus cras volutpat nascetur nulla mi. Magnis nullam malesuada ac mi imperdiet tempus magnis euismod vel.</p>')
+  const title = ref('')
+  const label = ref('button text')
+  const subtitle = ref('subtitle')
+  const infotext = ref('info text')
+  const buttonType = ref('std')
+  const color = ref('primary')
+  const size = ref('default')
+  const variant = ref('default')
+  const block = ref(false)
+  const prependIcon = ref('')
+  const appendIcon = ref('')
+  const icon = ref('cc:campaign')
+  const showTooltip = ref(false)
+  const border = ref(false)
+  const prominent = ref(false)
+  const icons = ref([
+    'cc:campaign',
+    'mdi-alert',
+    'cc:pilot',
+    'mdi-cog',
+    'cc:kinetic',
+    'mdi-content-save',
+    'cc:encounter',
+    'mdi-help',
+  ])
+  const colors = ref([
+    'primary',
+    'secondary',
+    'accent',
+    'damage--heat',
+    'damage--energy',
+    'exotic',
+    'cyan',
+  ])
+  const variants = ref(['default', 'flavor', 'fluff', 'admin', 'emphasis', 'subtle'])
+  const loremIpsum = ref(
+    '<p>Lorem ipsum odor amet, consectetuer adipiscing elit. Nisi aliquet venenatis egestas mi dictum. Etiam enim iaculis eleifend eu facilisi mauris vitae dictum. Duis dictum ultrices montes laoreet scelerisque sapien habitant. Fermentum nisi condimentum habitant porta ex platea. Fringilla vel mollis fusce congue ac quisque hac rhoncus. Hac consequat torquent velit parturient proin maecenas mollis nascetur porta. Adipiscing posuere turpis fames aliquet facilisis, hac integer netus. Venenatis nulla aptent accumsan, sed hendrerit fusce varius. Habitant conubia egestas nulla placerat ac montes.</p><p>Nulla sociosqu cras nibh sociosqu nam ex platea platea. Felis adipiscing duis; suspendisse facilisi duis felis iaculis risus malesuada. Cubilia morbi ad dui commodo maximus. Auctor tincidunt condimentum quisque nullam blandit aliquam leo aenean. Hendrerit cras rutrum neque sit, urna volutpat. Erat parturient pellentesque, tempor ultricies aptent gravida. Proin purus magna lacus cras volutpat nascetur nulla mi. Magnis nullam malesuada ac mi imperdiet tempus magnis euismod vel.</p>'
+  )
 </script>

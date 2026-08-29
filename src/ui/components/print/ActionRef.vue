@@ -1,29 +1,43 @@
 <template>
   <div class="pa-2 mt-3">
-    <div class="text-cc-overline text-primary mb-3"
-      style="line-height: 15px">{{ $t('ui.ref.actionReference') }}</div>
+    <div
+      class="text-cc-overline text-primary mb-3"
+      style="line-height: 15px"
+    >
+      {{ $t('ui.ref.actionReference') }}
+    </div>
 
     <cc-masonry-grid :items="actions">
       <template #default="{ item }">
-        <v-card flat
+        <v-card
+          flat
           tile
-          variant="text">
+          variant="text"
+        >
           <fieldset class="px-2">
             <legend class="text-cc-overline text-primary px-2 font-weight-bold">
-              <v-icon :icon="item.Icon"
-                :color="item.Color" />
+              <v-icon
+                :icon="item.Icon"
+                :color="item.Color"
+              />
               {{ item.Name }}
-              <v-icon v-if="item.IsMechAction"
+              <v-icon
+                v-if="item.IsMechAction"
                 icon="cc:frame"
                 color="grey-darken-2"
-                class="mt-n1" />
-              <v-icon v-if="item.IsPilotAction"
+                class="mt-n1"
+              />
+              <v-icon
+                v-if="item.IsPilotAction"
                 icon="cc:pilot"
                 color="grey-darken-2"
-                class="mt-n1" />
+                class="mt-n1"
+              />
             </legend>
-            <div v-html-safe="item.Terse"
-              class="caption" />
+            <div
+              v-html-safe="item.Terse"
+              class="caption"
+            />
           </fieldset>
         </v-card>
       </template>
@@ -32,20 +46,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { Action } from '@/classes/Action'
+  import { computed } from 'vue'
+  import { Action } from '@/classes/Action'
 
-defineOptions({ name: 'ActionRefPrint' })
+  defineOptions({ name: 'ActionRefPrint' })
 
-const props = defineProps<{ allActions: Action[] }>()
+  const props = defineProps<{ allActions: Action[] }>()
 
-const actions = computed(() =>
-  props.allActions.filter((a) => a && !a.IsDowntimeAction).sort((a, b) =>
-    a.Name > b.Name ? 1 : -1
+  const actions = computed(() =>
+    props.allActions
+      .filter(a => a && !a.IsDowntimeAction)
+      .sort((a, b) => (a.Name > b.Name ? 1 : -1))
   )
-)
 </script>
-
-<style scoped>
-@import '@/ui/style/print-common.css';
-</style>

@@ -230,7 +230,7 @@ const routes = [
       title: 'compendium.titles.downtimeActions',
       icon: 'mdi-book-variant',
     },
-    meta: { title: 'compendium.titles.downtimeactions' },
+    meta: { title: 'compendium.titles.downtimeActions' },
   },
   {
     path: 'compendium/bonds',

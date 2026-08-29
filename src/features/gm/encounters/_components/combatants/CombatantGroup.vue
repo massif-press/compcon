@@ -12,7 +12,7 @@
   </div>
   <sortable :key="`${type}-${transferKey}`"
     :list="list"
-    item-key="instanceId"
+    item-key="id"
     :options="{ animation: 200, handle: '.combatant-drag-handle', scroll: false, group: { name: 'combatants', pull: true, put: true } }"
     @start="$emit('drag-start', $event)"
     @end="$emit('reorder', type, $event)"

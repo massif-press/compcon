@@ -38,11 +38,11 @@ class UnitData
 }
 
 class Unit extends Npc implements ICombatant, IInstanceable {
-  public IsInstance: boolean
+  public override IsInstance: boolean
   public InstanceID: string
   public OriginId: string
 
-  public ItemType: ItemType = ItemType.Unit
+  public override ItemType: ItemType = ItemType.Unit
   private _tag: string = 'Mech'
 
   public NpcFeatureController: NpcFeatureController
@@ -72,12 +72,12 @@ class Unit extends Npc implements ICombatant, IInstanceable {
     this.CloudController = new CloudController(this)
   }
 
-  public get Name(): string {
+  public override get Name(): string {
     if (this._name) return this._name
     return this.DefaultName
   }
 
-  public set Name(val: string) {
+  public override set Name(val: string) {
     this._name = val
     this.save()
   }
@@ -170,7 +170,7 @@ class Unit extends Npc implements ICombatant, IInstanceable {
       gmDescription: unit.GmDescription,
       combat_data: {} as CombatData,
       config: unit.LcpConfig,
-      ui_state: Object.keys(unit.UIState).length ? unit.UIState : undefined,
+      ui_state: Object.keys(unit.UIState).length ? { ...unit.UIState } : undefined,
     } as UnitData
 
     SaveController.Serialize(unit, data)

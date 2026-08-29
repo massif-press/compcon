@@ -70,7 +70,7 @@
         <template #activator="{ open }">
           <v-tooltip open-delay="300"
             location="top"
-            :text="isAuthed ? 'Share Pilot Data' : 'Requires Cloud Account'">
+            :text="isAuthed ? $t('pm.titles.sharePilotData') : $t('pm.sheet.requiresCloudAccount')">
             <template #activator="{ props }">
               <span v-bind="props">
                 <v-btn icon
@@ -90,7 +90,7 @@
     </div>
 
     <div class="d-inline">
-      <v-tooltip :text="pilot.FavoriteMech?.ID === mech.ID ? 'Unfavorite Mech' : 'Favorite Mech'"
+      <v-tooltip :text="pilot.FavoriteMech?.ID === mech.ID ? $t('pm.sheet.unfavoriteMech') : $t('pm.sheet.favoriteMech')"
         location="top">
         <template #activator="{ props }">
           <v-btn v-bind="props"

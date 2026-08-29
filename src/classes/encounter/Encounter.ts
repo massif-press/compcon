@@ -389,4 +389,4 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
 }
 
 export { Encounter }
-export type { IEncounterData, CombatantSaveData }
+export type { IEncounterData, CombatantSaveData, CombatantSide }

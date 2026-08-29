@@ -1,36 +1,28 @@
 <template>
   <print-options-base
     :options="options"
-    :include-options="includeOptions"
-    :extra-options="extraOptions" />
+    :include-groups="includeGroups"
+    :extra-options="extraOptions"
+  />
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import PrintOptionsBase from '@/shared/print/PrintOptionsBase.vue'
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
+  import { computed } from 'vue'
+  import PrintOptionsBase from '@/shared/print/PrintOptionsBase.vue'
+  import { INCLUDE, EXTRA } from '@/ui/print/options'
+  import { useI18n } from 'vue-i18n'
 
-const props = defineProps<{ options: Record<string, any> }>()
+  const { t } = useI18n()
 
-const includeOptions = computed(() => {
-  switch (props.options.layout.title) {
-    case 'Minimal':
-      return []
-    default:
-      return [
-        { title: 'Include Image' },
-        { title: 'Include Map' },
-        { title: 'Append Lined Section' },
-        { title: 'Append Unlined Section' },
-      ]
-  }
-})
+  defineProps<{ options: Record<string, any> }>()
 
-const extraOptions = computed(() => [
-  { title: 'GM Tracker' },
-  { title: 'Tag Reference' },
-  { title: 'Combat Quick Reference' },
-  { title: 'Action Reference' },
-])
+  const includeGroups = computed(() => [
+    {
+      field: 'include',
+      legend: t('common.options'),
+      items: [INCLUDE.image, INCLUDE.map, INCLUDE.appendLined, INCLUDE.appendUnlined],
+    },
+  ])
+
+  const extraOptions = [EXTRA.gmTracker, EXTRA.tagRef, EXTRA.combatRef, EXTRA.actionRef]
 </script>

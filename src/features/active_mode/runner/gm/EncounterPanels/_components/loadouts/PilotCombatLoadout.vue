@@ -32,6 +32,7 @@ import PilotGearCard from './_pilotGearCard.vue'
 import PilotWeaponCard from './_pilotWeaponCard.vue'
 import PilotArmorCard from './_pilotArmorCard.vue'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { useLayoutOptions } from '@/features/active_mode/layoutOptions'
 
 const { owner, encounterInstance } = useEncounterContext()
 
@@ -42,7 +43,8 @@ const emit = defineEmits(['deploy'])
 
 const { smAndDown: mobile, xs: portrait } = useDisplay()
 
-const xlColumns = computed(() => mobile.value ? 1 : encounterInstance.value.MaxMasonryColumns)
+const { layout } = useLayoutOptions()
+const xlColumns = computed(() => layout.value.maxColumns)
 const pilot = computed(() => (owner.value as any).actor)
 const armor = computed(() => pilot.value.Loadout.Armor)
 const weapons = computed(() => pilot.value.Loadout.Weapons)

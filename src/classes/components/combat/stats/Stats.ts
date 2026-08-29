@@ -1,3 +1,4 @@
+import * as _ from 'lodash-es'
 export const StatKey = {
   ACTIVATIONS: 'activations',
   SIZE: 'size',
@@ -156,84 +157,53 @@ class Stats {
     burn: 26,
   }
 
+  private static readonly KEY_ALIASES: Record<string, string> = {
+    repcap: 'repairCapacity',
+    repaircapacity: 'repairCapacity',
+    savebonus: 'saveBonus',
+    save: 'saveTarget',
+    savetarget: 'saveTarget',
+    sensor: 'sensorRange',
+    sensors: 'sensorRange',
+    sensorrange: 'sensorRange',
+    edefense: 'edef',
+    agility: 'agi',
+    systems: 'sys',
+    engineering: 'eng',
+    techattack: 'techAttack',
+    limitedbonus: 'limitedBonus',
+    attackbonus: 'attackBonus',
+    heatcapacity: 'heatcap',
+  }
+
+  private static readonly KEY_LABELS: Record<string, string> = {
+    hp: 'HP',
+    heat: 'Heat Capacity',
+    heatcap: 'Heat Capacity',
+    heatcapacity: 'Heat Capacity',
+    techattack: 'Tech Attack',
+    edef: 'E-Defense',
+    agi: 'Agility',
+    sys: 'Systems',
+    eng: 'Engineering',
+  }
+
   public static cleanKey(key: string): string {
-    let k = key.replace(/[\s_-]/g, '')
-
-    switch (k.toLowerCase()) {
-      case 'repcap':
-      case 'repaircapacity':
-        k = 'repairCapacity'
-        break
-      case 'savebonus':
-        k = 'saveBonus'
-        break
-      case 'save':
-      case 'savetarget':
-        k = 'saveTarget'
-        break
-      case 'sensor':
-      case 'sensors':
-      case 'sensorrange':
-        k = 'sensorRange'
-        break
-      case 'edefense':
-        k = 'edef'
-        break
-      case 'agility':
-        k = 'agi'
-        break
-      case 'systems':
-        k = 'sys'
-        break
-      case 'engineering':
-        k = 'eng'
-        break
-      case 'techattack':
-        k = 'techAttack'
-        break
-      case 'limitedbonus':
-        k = 'limitedBonus'
-        break
-      case 'attackbonus':
-        k = 'attackBonus'
-        break
-      case 'heatcapacity':
-        k = 'heatcap'
-        break
-    }
-
+    const stripped = key.replace(/[\s_-]/g, '')
+    const k = Stats.KEY_ALIASES[stripped.toLowerCase()] ?? stripped
     return k.charAt(0).toLowerCase() + k.slice(1)
   }
 
   public static expandKey(key: string): string {
+    const label = Stats.KEY_LABELS[key.toLowerCase()]
+    if (label) return label
+
     let k = key
-    switch (key.toLowerCase()) {
-      case 'hp':
-        return 'HP'
-      case 'heat':
-      case 'heatcap':
-      case 'heatcapacity':
-        return 'Heat Capacity'
-      case 'techattack':
-        return 'Tech Attack'
-      case 'edef':
-        return 'E-Defense'
-      case 'grapple':
-      case 'ram':
-        k += ' bonus'
-        break
-      case 'agi':
-        return 'Agility'
-      case 'sys':
-        return 'Systems'
-      case 'eng':
-        return 'Engineering'
-    }
+    if (['grapple', 'ram'].includes(key.toLowerCase())) k += ' bonus'
 
-    k = k.charAt(0).toUpperCase() + k.slice(1)
-    k = k.replace(/([A-Z])/g, ' $1').trim()
-
-    return k
+    return _.upperFirst(k)
+      .replace(/([A-Z])/g, ' $1')
+      .trim()
   }
 }
 

@@ -12,7 +12,7 @@
           {{ item.Name }}
           <span class="text-cc-overline text-disabled">
             <cc-slashes class="mx-1" />
-            {{item.WeaponTypes.map(t => $enum('weaponType', t)).join('/')}} -
+            {{item.getWeaponTypes(mech).map(t => $enum('weaponType', t)).join('/')}} -
             {{ $enum('weaponSize', item.Size) }}
           </span>
         </div>
@@ -79,10 +79,10 @@
                 </div>
               </div>
 
-              <cc-combat-action-chip :owner="owner"
-                :encounter-instance="encounterInstance"
-                v-for="a in item.Profiles[item.ProfileIndex].Actions"
+              <cc-combat-action-chip v-for="a in item.Profiles[item.ProfileIndex].Actions"
                 :key="a.ID"
+                :owner="owner"
+                :encounter-instance="encounterInstance"
                 :action="a"
                 @activate="handleActivation($event)"
                 @reset="handleRefund($event)">
@@ -98,7 +98,8 @@
               </cc-combat-action-chip>
 
               <div v-if="item.Profiles[item.ProfileIndex].Deployables.length">
-                <div class="text-cc-overline text-disabled">//{{ $t('ui.card.profileDeployables') }}
+                <div class="text-cc-overline text-disabled">
+                  //{{ $t('ui.card.profileDeployables') }}
                 </div>
                 <v-row no-gutters
                   justify="center">
@@ -112,7 +113,8 @@
                 </v-row>
               </div>
               <div v-if="item.Profiles[item.ProfileIndex].Tags.length">
-                <div class="text-cc-overline mb-n1 text-disabled">//{{ $t('ui.card.profileTags') }}
+                <div class="text-cc-overline mb-n1 text-disabled">
+                  //{{ $t('ui.card.profileTags') }}
                 </div>
                 <cc-tags :tags="item.Profiles[item.ProfileIndex].Tags"
                   extended
@@ -224,17 +226,19 @@ defineOptions({ name: 'MechWeaponCombatCard' })
 
 const { owner, encounterInstance } = useEncounterContext()
 
-const props = withDefaults(defineProps<{
-  item: MechWeapon
-  mech: Mech
-  readonly?: boolean
-}>(), {
-  readonly: false
-})
+const props = withDefaults(
+  defineProps<{
+    item: MechWeapon
+    mech: Mech
+    readonly?: boolean
+  }>(),
+  {
+    readonly: false,
+  }
+)
 
 defineEmits<{
-  'deploy': [value: any]
-
+  deploy: [value: any]
 }>()
 
 const { smAndDown: mobile } = useDisplay()

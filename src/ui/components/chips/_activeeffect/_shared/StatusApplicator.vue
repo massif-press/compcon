@@ -1,14 +1,21 @@
 <template>
-  <v-col :cols="cols"
-    v-if="event.StatusEvents?.length">
-    <div v-if="!mobile"
-      class="text-cc-overline text-disabled">
+  <v-col
+    v-if="event.StatusEvents?.length"
+    :cols="cols"
+  >
+    <div
+      v-if="!mobile"
+      class="text-cc-overline text-disabled"
+    >
       {{ $t('common.status') }}
     </div>
-    <div v-for="(s, s_idx) in event.StatusEvents"
+    <div
+      v-for="(s, s_idx) in event.StatusEvents"
       :key="`statusEvent_${event.ID}_${s_idx}`"
-      no-gutters>
-      <v-select v-model="s.Status"
+      no-gutters
+    >
+      <v-select
+        v-model="s.Status"
         :items="statusOptions"
         return-object
         density="compact"
@@ -17,25 +24,31 @@
         :item-title="s => s.Name"
         :item-value="s => s.ID"
         flat
-        tile />
-      <base-duration-display v-if="s.Duration"
-        :duration="s.Duration" />
+        tile
+      />
+      <base-duration-display
+        v-if="s.Duration"
+        :duration="s.Duration"
+      />
     </div>
   </v-col>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useDisplay } from 'vuetify'
-import { useCompendiumData } from '@/ui/providers'
-import BaseDurationDisplay from './BaseDurationDisplay.vue'
+  import { computed } from 'vue'
+  import { useDisplay } from 'vuetify'
+  import { useCompendiumData } from '@/ui/providers'
+  import BaseDurationDisplay from './BaseDurationDisplay.vue'
 
-withDefaults(defineProps<{
-  event: Record<string, any>
-  cols?: number | string
-}>(), { cols: 'auto' })
+  withDefaults(
+    defineProps<{
+      event: Record<string, any>
+      cols?: number | string
+    }>(),
+    { cols: 'auto' }
+  )
 
-const compendium = useCompendiumData()
-const { mdAndDown: mobile } = useDisplay()
-const statusOptions = computed(() => compendium.Statuses)
+  const compendium = useCompendiumData()
+  const { mdAndDown: mobile } = useDisplay()
+  const statusOptions = computed(() => compendium.Statuses)
 </script>

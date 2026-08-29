@@ -3,76 +3,122 @@
     <v-row>
       <v-col>
         <slot name="filters" />
-        <v-data-table :headers="allHeaders"
+        <v-data-table
+          :headers="allHeaders"
           :items="visibleItems"
           item-value="ID"
           :sort-by="[{ key: 'Name', order: 'asc' }]"
           :items-per-page="-1"
-          density="compact">
+          density="compact"
+        >
           <template #header.select>
-            <v-btn icon
+            <v-btn
+              icon
               flat
               size="small"
-              @click="selected.length ? (selected = []) : (selected = visibleItems.map((x: any) => x.ID))">
-              <v-icon size="x-large"
-                :icon="selected.length === visibleItems.length
-                  ? 'mdi-checkbox-outline'
-                  : selected.length > 0
-                    ? 'mdi-minus-box-outline'
-                    : 'mdi-checkbox-blank-outline'" />
+              @click="
+                selected.length ? (selected = []) : (selected = visibleItems.map((x: any) => x.ID))
+              "
+            >
+              <v-icon
+                size="x-large"
+                :icon="
+                  selected.length === visibleItems.length
+                    ? 'mdi-checkbox-outline'
+                    : selected.length > 0
+                      ? 'mdi-minus-box-outline'
+                      : 'mdi-checkbox-blank-outline'
+                "
+              />
             </v-btn>
           </template>
 
           <template #item.select="{ item }">
-            <v-checkbox v-model="selected"
+            <v-checkbox
+              v-model="selected"
               multiple
               :value="(item as any).ID"
-              hide-details />
+              hide-details
+            />
           </template>
 
           <template #item.Name="{ item }">
-            <span :class="(item as any).SaveController?.IsDeleted ? 'text-error text-decoration-line-through' : ''">
-              <slot name="name-prefix"
-                :item="item" />
+            <span
+              :class="
+                (item as any).SaveController?.IsDeleted
+                  ? 'text-error text-decoration-line-through'
+                  : ''
+              "
+            >
+              <slot
+                name="name-prefix"
+                :item="item"
+              />
               {{ (item as any).Name }}
             </span>
           </template>
 
-          <template v-for="col in customSlotKeys"
-            #[`item.${col}`]="slotData">
-            <slot :name="`item.${col}`"
-              v-bind="slotData || {}" />
+          <template
+            v-for="col in customSlotKeys"
+            #[`item.${col}`]="slotData"
+          >
+            <slot
+              :name="`item.${col}`"
+              v-bind="slotData || {}"
+            />
           </template>
 
           <template #bottom>
-            <v-row dense
-              justify="end">
+            <v-row
+              dense
+              justify="end"
+            >
               <v-col cols="auto">
-                <v-checkbox v-model="showDeleted"
+                <v-checkbox
+                  v-model="showDeleted"
                   density="compact"
                   :label="$t('ui.fields.showDeleted')"
-                  @update:model-value="$emit('update:showDeleted', $event)" />
+                  @update:model-value="$emit('update:showDeleted', $event)"
+                />
               </v-col>
             </v-row>
           </template>
         </v-data-table>
       </v-col>
 
-      <v-col cols="auto"
-        style="width: 350px">
+      <v-col
+        cols="auto"
+        style="width: 350px"
+      >
         <div>
-          <i18n-t keypath="ui.widget.selectedCount" tag="span" scope="global">
-            <template #n><b class="text-accent">{{ selected.length }}</b></template>
+          <i18n-t
+            keypath="ui.widget.selectedCount"
+            tag="span"
+            scope="global"
+          >
+            <template #n>
+              <b class="text-accent">{{ selected.length }}</b>
+            </template>
           </i18n-t>
         </div>
         <v-list>
-          <slot name="actions"
+          <slot
+            name="actions"
             :selected="selected"
             :items="items"
             :show-deleted="showDeleted"
-            :clear-selected="() => { selected = [] }"
+            :clear-selected="
+              () => {
+                selected = []
+              }
+            "
             :show-delete-confirm="showDeleteConfirm"
-            :set-show-delete-confirm="(v: boolean) => { showDeleteConfirm = v }" />
+            :set-show-delete-confirm="
+              (v: boolean) => {
+                showDeleteConfirm = v
+              }
+            "
+          />
         </v-list>
       </v-col>
     </v-row>
@@ -82,38 +128,36 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+  import { computed, ref } from 'vue'
 
-defineOptions({ name: 'CCOrganizer' })
+  defineOptions({ name: 'CCOrganizer' })
 
-const props = defineProps<{
-  items: any[]
-  headers: any[]
-  showDeleted?: boolean
-}>()
+  const props = defineProps<{
+    items: any[]
+    headers: any[]
+    showDeleted?: boolean
+  }>()
 
-const emit = defineEmits<{
-  'update:showDeleted': [val: boolean]
-  'update:selected': [val: string[]]
-}>()
+  const emit = defineEmits<{
+    'update:showDeleted': [val: boolean | null]
+    'update:selected': [val: string[]]
+  }>()
 
-const selected = ref<string[]>([])
-const showDeleted = ref(props.showDeleted ?? false)
-const showDeleteConfirm = ref(false)
+  const selected = ref<string[]>([])
+  const showDeleted = ref(props.showDeleted ?? false)
+  const showDeleteConfirm = ref(false)
 
-const visibleItems = computed(() =>
-  showDeleted.value
-    ? props.items
-    : props.items.filter((x: any) => !x.SaveController?.IsDeleted)
-)
+  const visibleItems = computed(() =>
+    showDeleted.value ? props.items : props.items.filter((x: any) => !x.SaveController?.IsDeleted)
+  )
 
-const customSlotKeys = computed(() => {
-  const builtIn = new Set(['select', 'Name'])
-  return props.headers.map((h) => h.key).filter((k) => !builtIn.has(k))
-})
+  const customSlotKeys = computed(() => {
+    const builtIn = new Set(['select', 'Name'])
+    return props.headers.map(h => h.key).filter(k => !builtIn.has(k))
+  })
 
-const allHeaders = computed(() => [
-  { key: 'select', sortable: false, width: '40px' },
-  ...props.headers,
-])
+  const allHeaders = computed(() => [
+    { key: 'select', sortable: false, width: '40px' },
+    ...props.headers,
+  ])
 </script>

@@ -116,6 +116,6 @@ class CoreBonusController implements IFeatureContainer {
   }
 }
 
-const _checkController: IControllerStatic<Pilot, ICoreBonusSaveData> = CoreBonusController
+CoreBonusController satisfies IControllerStatic<Pilot, ICoreBonusSaveData>
 export { CoreBonusController }
 export type { ICoreBonusSaveData }

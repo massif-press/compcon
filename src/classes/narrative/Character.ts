@@ -6,14 +6,14 @@ import { FolderController } from '../components/folder/FolderController'
 import { i18n } from '@/i18n'
 
 class CharacterData extends ICollectionItemData {
-  collectionItemType: string = 'character'
+  override collectionItemType: string = 'character'
   alias?: string
   title?: string
   pronouns?: string
 }
 
 class Character extends CollectionItem {
-  public ItemType: ItemType = ItemType.Character
+  public override ItemType: ItemType = ItemType.Character
 
   private _alias!: string
   private _title!: string

@@ -36,7 +36,7 @@
               md=""
               :style="mobile ? '' : 'max-width: 300px'">
               <div class="text-cc-overline text-disabled">{{ $t('active.damageMenu.incomingValue')
-                }}</div>
+              }}</div>
               <v-divider />
               <v-text-field ref="damageInput"
                 v-model="incomingDamageValue"
@@ -104,7 +104,7 @@
             <v-col cols="12"
               md="">
               <div class="text-cc-overline text-disabled">{{ $t('active.damageMenu.defenderStatus')
-                }}</div>
+              }}</div>
               <v-divider class="mb-2" />
               <v-row v-if="controller.StatController.CurrentStats['armor']"
                 no-gutters
@@ -119,7 +119,8 @@
                   :style="damageMods.includes('ap') ? 'text-decoration: line-through' : ''">
                   {{ $t('active.damageMenu.armorN', {
                     n:
-                      controller.StatController.CurrentStats['armor'] || 0 })
+                      controller.StatController.CurrentStats['armor'] || 0
+                  })
                   }}
                 </v-col>
               </v-row>

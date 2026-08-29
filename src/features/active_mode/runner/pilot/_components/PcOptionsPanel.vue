@@ -1,37 +1,47 @@
 <template>
   <v-card>
-    <runner-options-header :context="sheet"
+    <runner-options-header
+      :context="sheet"
       :save-key="saveUpdate"
       autosave-tooltip="Autosave Character Sheet data on the end of every round. Defaults to ON."
-      @manual-save="manualSave()" />
+      @manual-save="manualSave()"
+    />
     <v-divider class="my-2" />
     <v-card-text>
-      <v-row dense
+      <v-row
+        dense
         align="center"
-        justify="space-between">
+        justify="space-between"
+      >
         <v-col>
-          <v-btn flat
+          <v-btn
+            flat
             tile
             block
             color="primary"
             size="small"
             prepend-icon="mdi-export"
-            @click="exportState">
+            @click="exportState"
+          >
             {{ $t('active.pcOptions.exportState') }}
           </v-btn>
         </v-col>
         <v-col>
-          <cc-dialog :close-on-click="false"
+          <cc-dialog
+            :close-on-click="false"
             icon="mdi-import"
-            :title="$t('active.pcOptions.importState')">
+            :title="$t('active.pcOptions.importState')"
+          >
             <template #activator="{ open }">
-              <v-btn flat
+              <v-btn
+                flat
                 tile
                 block
                 color="primary"
                 size="small"
                 prepend-icon="mdi-import"
-                @click="open">
+                @click="open"
+              >
                 {{ $t('active.pcOptions.importState') }}
               </v-btn>
             </template>
@@ -39,25 +49,31 @@
               <div class="text-cc-overline text-disabled">
                 {{ $t('active.pcOptions.importFileLabel') }}
               </div>
-              <v-file-input v-model="fileValue"
+              <v-file-input
+                v-model="fileValue"
                 accept=".json"
                 variant="outlined"
                 density="compact"
                 hide-details
                 :placeholder="$t('active.fields.selectCharacterSheetExportFile')"
                 prepend-icon="mdi-paperclip"
-                @change="stageImport" />
+                @change="stageImport"
+              />
               <v-scroll-y-reverse-transition>
                 <div v-if="importOk && importObj">
-                  <v-card class="mt-2 pa-2"
+                  <v-card
+                    class="mt-2 pa-2"
                     flat
                     tile
-                    color="panel">
-                    <div class="text-cc-overline text-disabled">{{
-                      $t('active.pcOptions.stagedImport') }}:</div>
+                    color="panel"
+                  >
+                    <div class="text-cc-overline text-disabled">
+                      {{ $t('active.pcOptions.stagedImport') }}:
+                    </div>
                     <div class="ml-3">
                       <b class="text-accent">
-                        {{ (importObj as any).Combatant.actor.Callsign || 'Unnamed Character Sheet'
+                        {{
+                          (importObj as any).Combatant.actor.Callsign || 'Unnamed Character Sheet'
                         }}
                       </b>
                       {{ $t('active.pcOptions.atRound') }}
@@ -67,37 +83,46 @@
                       </i>
                     </div>
                   </v-card>
-                  <cc-alert color="warning"
+                  <cc-alert
+                    color="warning"
                     prominent
-                    class="mt-2">
-                    <v-icon icon="mdi-alert"
-                      start />
+                    class="mt-2"
+                  >
+                    <v-icon
+                      icon="mdi-alert"
+                      start
+                    />
                     {{ $t('active.pcOptions.warningReplace') }}
                   </cc-alert>
                 </div>
-                <cc-alert v-if="importError"
+                <cc-alert
+                  v-if="importError"
                   color="error"
                   prominent
-                  class="mt-2">
-                  <v-icon icon="mdi-alert"
-                    start />
+                  class="mt-2"
+                >
+                  <v-icon
+                    icon="mdi-alert"
+                    start
+                  />
                   {{ importError }}
                 </cc-alert>
               </v-scroll-y-reverse-transition>
               <v-card-actions>
-                <v-btn text
+                <v-btn
+                  text
                   color="accent"
-                  @click="
-                    reset();
-                  close();
-                  ">
+                  @click="resetAndClose(close)"
+                >
                   {{ $t('common.cancel') }}
                 </v-btn>
                 <v-spacer />
-                <cc-button text
+                <cc-button
+                  text
                   color="primary"
                   :disabled="!importOk"
-                  @click="importState()">
+                  @click="importState()"
+                >
                   {{ $t('common.confirmImport') }}
                 </cc-button>
               </v-card-actions>
@@ -109,107 +134,137 @@
     <v-divider class="my-2" />
 
     <v-card-text>
-      <v-row dense
+      <v-row
+        dense
         align="center"
-        justify="end">
-        <v-col cols="12"
+        justify="end"
+      >
+        <v-col
+          cols="12"
           md=""
-          class="heading">{{ $t('active.pcOptions.changeActiveMech') }}</v-col>
-        <v-col cols="12"
-          md="">
-          <cc-select v-model="activeMech"
+          class="heading"
+        >
+          {{ $t('active.pcOptions.changeActiveMech') }}
+        </v-col>
+        <v-col
+          cols="12"
+          md=""
+        >
+          <cc-select
+            v-model="activeMech"
             color="primary"
             :items="sheet.Combatant.actor.Mechs"
-            :item-title="(m) => `${m.Name} (${m.Frame.Source} ${m.Frame.Name})`"
-            return-object />
+            :item-title="m => `${m.Name} (${m.Frame.Source} ${m.Frame.Name})`"
+            return-object
+          />
         </v-col>
         <v-col cols="auto">
-          <cc-button text
+          <cc-button
+            text
             color="primary"
             :disabled="!!activeMech && activeMech.ID === sheet.Combatant.actor.ActiveMech?.ID"
-            @click="setActiveMech()">
+            @click="setActiveMech()"
+          >
             {{ $t('active.pcOptions.applySave') }}
           </cc-button>
         </v-col>
       </v-row>
     </v-card-text>
-
   </v-card>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import logger from '@/user/logger'
-import { useRouter } from 'vue-router'
-import { Mech } from '@/classes/mech/Mech'
-import PilotSheet from '@/features/pilot_management/store/PilotSheet'
-import { PilotSheetStore } from '@/stores'
-import RunnerOptionsHeader from '../../_shared/_RunnerOptionsHeader.vue'
-import { useRunnerOptions } from '../../_shared/useRunnerOptions'
-import { notify } from '@kyvg/vue3-notification'
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
+  import { onMounted, ref } from 'vue'
+  import logger from '@/user/logger'
+  import { useRouter } from 'vue-router'
+  import { Mech } from '@/classes/mech/Mech'
+  import PilotSheet from '@/features/pilot_management/store/PilotSheet'
+  import { PilotSheetStore } from '@/stores'
+  import RunnerOptionsHeader from '../../_shared/_RunnerOptionsHeader.vue'
+  import { useRunnerOptions } from '../../_shared/useRunnerOptions'
+  import { notify } from '@kyvg/vue3-notification'
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
 
-defineOptions({ name: 'PcOptionsPanel' })
+  defineOptions({ name: 'PcOptionsPanel' })
 
-const props = defineProps<{
-  sheet: PilotSheet
-}>()
+  const props = defineProps<{
+    sheet: PilotSheet
+  }>()
 
-const router = useRouter()
-const { fileValue, importObj, importOk, importError, saveUpdate, reset, exportStateFile, stageImportFile } = useRunnerOptions()
+  const router = useRouter()
+  const {
+    fileValue,
+    importObj,
+    importOk,
+    importError,
+    saveUpdate,
+    reset,
+    exportStateFile,
+    stageImportFile,
+  } = useRunnerOptions()
 
-const activeMech = ref<Mech | null>(null)
-
-onMounted(() => {
-  reset()
-  activeMech.value = (props.sheet as any).Combatant.actor.ActiveMech
-})
-
-function setActiveMech() {
-  if (!activeMech.value) return
-    ; (props.sheet as any).SetActiveMech(activeMech.value)
-  notify({
-    title: t('active.pcSheet.activeMechChangedTitle'),
-    text: t('active.pcSheet.activeMechChangedText', { mechName: activeMech.value.Name }),
-    data: { icon: 'cc:mech', color: 'info' },
-  })
-  manualSave()
-}
-
-function manualSave() {
-  try {
-    ; (props.sheet as any).Save()
-    saveUpdate.value = Date.now()
-    notify({
-      title: t('active.common.saveSuccessful'),
-      text: t('active.pcSheet.saveSuccessfulText', { callsign: (props.sheet as any).Combatant.actor.Callsign, round: (props.sheet as any).Round }),
-      data: { icon: 'mdi-content-save', color: 'success' },
-    })
-  } catch (error) {
-    logger.error('Manual Save Failed', null, error)
-    notify({
-      title: t('active.common.saveFailed'),
-      text: t('active.pcSheet.saveFailedText', { callsign: (props.sheet as any).Combatant.actor.Callsign }),
-      data: { icon: 'mdi-alert', color: 'error' },
-    })
+  function resetAndClose(close: () => void) {
+    reset()
+    close()
   }
-}
 
-function exportState() {
-  exportStateFile(
-    (props.sheet as any).Serialize(),
-    `Character Sheet_${(props.sheet as any).Combatant.actor.Callsign || 'unknown'}_${Date.now()}.json`
-  )
-}
+  const activeMech = ref<Mech | null>(null)
 
-function importState() {
-  if (!importOk.value || !importObj.value) return
-  PilotSheetStore().ImportPilotSheet(PilotSheet.Deserialize(importObj.value as any))
-  router.go(0)
-}
+  onMounted(() => {
+    reset()
+    activeMech.value = (props.sheet as any).Combatant.actor.ActiveMech
+  })
 
-function stageImport() {
-  stageImportFile('sheet', 'Invalid Character Sheet Instance file.')
-}
+  function setActiveMech() {
+    if (!activeMech.value) return
+    ;(props.sheet as any).SetActiveMech(activeMech.value)
+    notify({
+      title: t('active.pcSheet.activeMechChangedTitle'),
+      text: t('active.pcSheet.activeMechChangedText', { mechName: activeMech.value.Name }),
+      data: { icon: 'cc:mech', color: 'info' },
+    })
+    manualSave()
+  }
+
+  function manualSave() {
+    try {
+      ;(props.sheet as any).Save()
+      saveUpdate.value = Date.now()
+      notify({
+        title: t('active.common.saveSuccessful'),
+        text: t('active.pcSheet.saveSuccessfulText', {
+          callsign: (props.sheet as any).Combatant.actor.Callsign,
+          round: (props.sheet as any).Round,
+        }),
+        data: { icon: 'mdi-content-save', color: 'success' },
+      })
+    } catch (error) {
+      logger.error('Manual Save Failed', null, error)
+      notify({
+        title: t('active.common.saveFailed'),
+        text: t('active.pcSheet.saveFailedText', {
+          callsign: (props.sheet as any).Combatant.actor.Callsign,
+        }),
+        data: { icon: 'mdi-alert', color: 'error' },
+      })
+    }
+  }
+
+  function exportState() {
+    exportStateFile(
+      (props.sheet as any).Serialize(),
+      `Character Sheet_${(props.sheet as any).Combatant.actor.Callsign || 'unknown'}_${Date.now()}.json`
+    )
+  }
+
+  function importState() {
+    if (!importOk.value || !importObj.value) return
+    PilotSheetStore().ImportPilotSheet(PilotSheet.Deserialize(importObj.value as any))
+    router.go(0)
+  }
+
+  function stageImport() {
+    stageImportFile('sheet', 'Invalid Character Sheet Instance file.')
+  }
 </script>

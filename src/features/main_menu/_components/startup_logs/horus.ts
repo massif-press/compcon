@@ -8,9 +8,9 @@ import _admin from './horus_chat/admin.txt?raw'
 import _bans from './horus_chat/bans.txt?raw'
 
 const HorusStart = async typer => {
-  let nfo = _nfo as unknown as string
+  const nfo = _nfo as unknown as string
 
-  let motd = _.sample((_motd as unknown as string).split('\n'))
+  const motd = _.sample((_motd as unknown as string).split('\n'))
 
   typer
     .type('<br>')
@@ -133,13 +133,13 @@ function randomNoRepeat(arr) {
 }
 
 const HorusChat = async output => {
-  let chat = (_chat as unknown as string).split('\n')
+  const chat = (_chat as unknown as string).split('\n')
 
-  let mods = (_mods as unknown as string).split('\n')
+  const mods = (_mods as unknown as string).split('\n')
 
-  let admin = (_admin as unknown as string).split('\n')
+  const admin = (_admin as unknown as string).split('\n')
 
-  let bans = (_bans as unknown as string).split('\n')
+  const bans = (_bans as unknown as string).split('\n')
 
   const allLines = [] as string[]
 

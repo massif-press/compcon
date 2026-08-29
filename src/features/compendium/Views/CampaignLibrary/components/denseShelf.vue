@@ -1,39 +1,58 @@
 <template>
-  <v-card v-if="!campaigns.length"
-    class="text-center py-6 text-disabled">
+  <v-card
+    v-if="!campaigns.length"
+    class="text-center py-6 text-disabled"
+  >
     <div class="heading">{{ $t('compendium.campaign.noCampaignsFound') }}</div>
     <div class="text-caption">
       {{ $t('compendium.campaign.importHint') }}
     </div>
   </v-card>
-  <v-sheet v-else
+  <v-sheet
+    v-else
     class="mx-auto"
-    border>
-    <v-slide-group v-model="slide"
+    border
+  >
+    <v-slide-group
+      v-model="slide"
       class="pa-2"
       selected-class="text-secondary"
       show-arrows
-      center-active>
-      <v-slide-group-item v-for="(c, n) in campaigns" :key="`campaign-${n}`"
-        v-slot="{ isSelected, toggle, selectedClass }">
-        <v-card :class="['ma-4', selectedClass]"
+      center-active
+    >
+      <v-slide-group-item
+        v-for="(c, n) in campaigns"
+        :key="`campaign-${n}`"
+        v-slot="{ toggle, selectedClass }"
+      >
+        <v-card
+          :class="['ma-4', selectedClass]"
           :color="c.cover_image_url ? 'transparent' : 'rgba(125, 125, 125, 0.5)'"
           variant="outlined"
           height="220"
           width="170"
           style="border-width: 2px"
-          @click="toggle">
-          <v-img v-if="c.cover_image_url"
+          @click="toggle"
+        >
+          <v-img
+            v-if="c.cover_image_url"
             :src="c.cover_image_url"
-            height="220" />
-          <v-row v-else
+            height="220"
+          />
+          <v-row
+            v-else
             align="center"
             justify="center"
-            style="height: 100%">
-            <v-col cols="auto"
-              class="text-text text-center">
-              <v-icon size="60"
-                icon="cc:campaign" />
+            style="height: 100%"
+          >
+            <v-col
+              cols="auto"
+              class="text-text text-center"
+            >
+              <v-icon
+                size="60"
+                icon="cc:campaign"
+              />
               <div class="heading">{{ c.title }}</div>
               <div class="text-caption">{{ c.subtitle }}</div>
               <v-divider class="mt-1" />
@@ -46,8 +65,10 @@
 
     <v-expand-transition>
       <v-card-text v-if="slide != null">
-        <v-toolbar density="compact"
-          color="primary">
+        <v-toolbar
+          density="compact"
+          color="primary"
+        >
           <v-toolbar-title class="heading h2 text-center">
             {{ campaigns[slide].title }}
           </v-toolbar-title>
@@ -64,25 +85,33 @@
           }}
         </div>
         <div class="text-center my-1">
-          <v-tooltip location="top"
-            open-delay="300">
-            <template v-slot:activator="{ props }">
-              <v-icon v-bind="props"
+          <v-tooltip
+            location="top"
+            open-delay="300"
+          >
+            <template #activator="{ props }">
+              <v-icon
+                v-bind="props"
                 icon="cc:pilot"
                 class="mt-n1"
-                start />
+                start
+              />
             </template>
             <span>{{ $t('compendium.campaign.recommendedPlayers') }}</span>
           </v-tooltip>
           {{ campaigns[slide].players[0] }} - {{ campaigns[slide].players[1] }}
           <cc-slashes class="mx-4" />
-          <v-tooltip location="top"
-            open-delay="300">
-            <template v-slot:activator="{ props }">
-              <v-icon v-bind="props"
+          <v-tooltip
+            location="top"
+            open-delay="300"
+          >
+            <template #activator="{ props }">
+              <v-icon
+                v-bind="props"
                 icon="cc:license"
                 class="mt-n1"
-                start />
+                start
+              />
             </template>
             <span>{{ $t('compendium.campaign.recommendedLicenseLevel') }}</span>
           </v-tooltip>
@@ -90,44 +119,58 @@
         </div>
         <v-row align="center">
           <v-col>
-            <v-card variant="outlined"
+            <v-card
+              variant="outlined"
               class="mx-auto pa-2"
-              color="panel">
-              <p class="text-text"
-                v-html-safe="campaigns[slide].description" />
+              color="panel"
+            >
+              <p
+                v-html-safe="campaigns[slide].description"
+                class="text-text"
+              />
             </v-card>
           </v-col>
           <v-col cols="auto">
-            <v-tooltip location="top"
-              open-delay="300">
-              <template v-slot:activator="{ props }">
-                <v-btn v-bind="props"
+            <v-tooltip
+              location="top"
+              open-delay="300"
+            >
+              <template #activator="{ props }">
+                <v-btn
+                  v-bind="props"
                   :href="campaigns[slide].website"
                   target="_blank"
                   icon
-                  variant="text">
+                  variant="text"
+                >
                   <v-icon icon="mdi-web" />
                 </v-btn>
               </template>
-              <span>{{ $t('compendium.campaign.campaignWebsite', { url: campaigns[slide].website }) }}</span>
+              <span>
+                {{ $t('compendium.campaign.campaignWebsite', { url: campaigns[slide].website }) }}
+              </span>
             </v-tooltip>
           </v-col>
         </v-row>
         <div class="text-right mt-2">
-          <v-btn variant="tonal"
+          <v-btn
+            variant="tonal"
             color="accent"
             prepend-icon="mdi-magnify"
-            :to="`/srd/campaign/${campaigns[slide].id}`">
+            :to="`/srd/campaign/${campaigns[slide].id}`"
+          >
             {{ $t('compendium.campaign.openInReader') }}
           </v-btn>
           <v-spacer class="my-2" />
           <v-menu>
             <template #activator="{ props }">
-              <v-btn v-bind="props"
+              <v-btn
+                v-bind="props"
                 size="x-small"
                 variant="tonal"
                 color="error"
-                prepend-icon="mdi-delete">
+                prepend-icon="mdi-delete"
+              >
                 {{ $t('compendium.campaign.removeFromCollection') }}
               </v-btn>
             </template>
@@ -137,12 +180,13 @@
               </v-card-text>
               <v-divider />
               <v-card-actions>
-                <v-btn variant="text"
-                  @click="">{{ $t('common.cancel') }}</v-btn>
+                <v-btn variant="text">{{ $t('common.cancel') }}</v-btn>
                 <v-spacer />
-                <v-btn variant="text"
+                <v-btn
+                  variant="text"
                   color="error"
-                  @click="removeCampaign(campaigns[slide as number])">
+                  @click="removeCampaign(campaigns[slide as number])"
+                >
                   {{ $t('common.remove') }}
                 </v-btn>
               </v-card-actions>
@@ -155,40 +199,43 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { CampaignStore } from '@/stores';
-import { orderBy } from 'lodash-es';
+  import { computed, ref } from 'vue'
+  import { CampaignStore } from '@/stores'
+  import { orderBy } from 'lodash-es'
 
-defineOptions({ name: 'campaign-library-dense' })
+  defineOptions({ name: 'campaign-library-dense' })
 
-const props = withDefaults(defineProps<{
-  search?: string
-  sort?: string
-  sortDir?: boolean
-}>(), {
-  search: '',
-  sort: 'title'
-})
-
-const slide = ref(null as number | null)
-const libDialog = ref(false)
-const dOptions = ref({ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
-
-const campaigns = computed(() => {
-      return orderBy(
-        CampaignStore().CampaignCollection.filter((c) =>
-          c.title.toLowerCase().includes(props.search.toLowerCase())
-        ),
-        props.sort,
-        props.sortDir ? 'asc' : 'desc'
-      );
-    })
-
-function removeCampaign(campaign) {
-      slide.value = null;
-      CampaignStore().DeleteCollectionCampaign(campaign);
+  const props = withDefaults(
+    defineProps<{
+      search?: string
+      sort?: string
+      sortDir?: boolean
+    }>(),
+    {
+      search: '',
+      sort: 'title',
     }
-function getLatest(publish_info) {
-      return publish_info.version_history[publish_info.version_history.length - 1];
-    }
+  )
+
+  const slide = ref(null as number | null)
+  const libDialog = ref(false)
+  const dOptions = ref({ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+
+  const campaigns = computed(() => {
+    return orderBy(
+      CampaignStore().CampaignCollection.filter(c =>
+        c.title.toLowerCase().includes(props.search.toLowerCase())
+      ),
+      props.sort,
+      props.sortDir ? 'asc' : 'desc'
+    )
+  })
+
+  function removeCampaign(campaign) {
+    slide.value = null
+    CampaignStore().DeleteCollectionCampaign(campaign)
+  }
+  function getLatest(publish_info) {
+    return publish_info.version_history[publish_info.version_history.length - 1]
+  }
 </script>

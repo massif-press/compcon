@@ -10,9 +10,8 @@ import { ResistEvent } from './resistEvent'
 import { EffectSpecial } from '../effect_subtype/EffectSpecial'
 import { CoverType } from '@/classes/components/combat/CombatController'
 import { ActionSummaryData } from '../EffectActionSummary'
+import { combatantLabel } from '@/util/combatantLabel'
 
-// this should include everything that can happen to a target, and components manage
-// what is shown/not shown based on the effect data
 class ActiveEventTarget {
   public Event: ActiveEffectEvent
   private _combatant!: CombatantData | null
@@ -147,12 +146,9 @@ class ActiveEventTarget {
   }
 
   public get HeatExempt(): boolean {
-    const isFriendly = (c: CombatantData | null) =>
-      !!c && (c.type === 'pilot' || c.side === 'ally')
+    const isFriendly = (c: CombatantData | null) => !!c && (c.type === 'pilot' || c.side === 'ally')
     return (
-      this.Event.Attack === 'tech' &&
-      isFriendly(this.Event.Initiator) &&
-      isFriendly(this.Combatant)
+      this.Event.Attack === 'tech' && isFriendly(this.Event.Initiator) && isFriendly(this.Combatant)
     )
   }
 
@@ -239,7 +235,7 @@ class ActiveEventTarget {
 
   public ToJSON() {
     return {
-      CombatantName: this.Combatant?.actor.CombatController.CombatName || 'Unknown Target',
+      CombatantName: combatantLabel(this.Combatant) || 'Unknown Target',
       CombatantType: this.Combatant?.actor.ItemType || 'Unknown Target',
       CombatantId: this.Combatant?.actor.ID || 'Unknown Target',
       TargetDefense: this.TargetDefense,

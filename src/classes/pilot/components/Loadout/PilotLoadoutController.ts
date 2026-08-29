@@ -137,6 +137,6 @@ class PilotLoadoutController implements IFeatureContainer {
   }
 }
 
-const _checkController: IControllerStatic<Pilot, IPilotLoadoutSaveData> = PilotLoadoutController
+PilotLoadoutController satisfies IControllerStatic<Pilot, IPilotLoadoutSaveData>
 export { PilotLoadoutController }
 export type { IPilotLoadoutSaveData }

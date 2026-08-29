@@ -172,7 +172,7 @@ class EidolonLayerSaveData implements IFeatureContainer, ICombatant {
       description: layerSave.Description,
       shard: undefined,
       stats: {} as IStatData,
-      ui_state: Object.keys(layerSave.UIState).length ? layerSave.UIState : undefined,
+      ui_state: Object.keys(layerSave.UIState).length ? { ...layerSave.UIState } : undefined,
     }
 
     StatController.Serialize(layerSave, data.stats!)

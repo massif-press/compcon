@@ -4,7 +4,7 @@ import { Rules } from '@/classes/utility/Rules'
 import { IActionData, Action } from '../../../Action'
 import { IBonusData } from '../bonus/Bonus'
 import { ICompendiumItemData } from '../../../CompendiumItem'
-import { ByTier } from '@/util/tierFormat'
+import { ByTier, ByTierArray } from '@/util/tierFormat'
 import { localize } from '@/i18n/localize'
 import { keyPrefixes } from '@/i18n/contentKeys'
 import { ActiveEffect, IActiveEffectData } from '../active_effects/ActiveEffect'
@@ -135,12 +135,6 @@ class Deployable {
     this.Grapple = data.grapple || 0
     this.AttackBonus = data.attack_bonus || 0
 
-    // if (this.Type.toLowerCase() === 'drone') {
-    //   if (!this.MaxHP) this.MaxHP = Number(this.Size || 0.5) * 10
-    //   if (!this.Evasion) this.Evasion = 5
-    //   if (!this.EDefense) this.EDefense = 8
-    // }
-
     this.IsPilotDeployable = data.pilot || false
     this.IsMechDeployable = data.mech || !data.pilot
 
@@ -153,15 +147,7 @@ class Deployable {
 
   public get Detail(): string {
     if (!this._detail) return ''
-    let out = this._lkey ? localize(this._lkey, 'detail', this._detail) : this._detail
-    const perTier = /(\{.*?\})/gi
-    const matches = out.match(perTier)
-    if (matches) {
-      matches.forEach(m => {
-        out = out.replace(m, m.replace('{', '<b class="text-accent">').replace('}', '</b>'))
-      })
-    }
-    return out
+    return ByTier(this._lkey ? localize(this._lkey, 'detail', this._detail) : this._detail)
   }
 
   public get DeployAction(): Action {
@@ -176,10 +162,75 @@ class Deployable {
     return ByTier(this._lkey ? localize(this._lkey, 'detail', this._detail) : this._detail, tier)
   }
 
-  public getStat(key: string, tier?: number): string {
-    const v = this[key] as any
-    if (Array.isArray(v) && tier) return v[tier - 1]
-    return v
+  // property to read, and the bonus id suffix the owner may modify it through
+  private static readonly StatMap: Record<string, { prop: string; bonus: string }> = {
+    size: { prop: 'Size', bonus: 'size' },
+    armor: { prop: 'Armor', bonus: 'armor' },
+    hp: { prop: 'MaxHP', bonus: 'hp' },
+    maxhp: { prop: 'MaxHP', bonus: 'hp' },
+    evasion: { prop: 'Evasion', bonus: 'evasion' },
+    edef: { prop: 'EDefense', bonus: 'edef' },
+    edefense: { prop: 'EDefense', bonus: 'edef' },
+    heatcap: { prop: 'Heatcap', bonus: 'heatcap' },
+    heatcapacity: { prop: 'Heatcap', bonus: 'heatcap' },
+    sensors: { prop: 'Sensors', bonus: 'sensor_range' },
+    sensor: { prop: 'Sensors', bonus: 'sensor_range' },
+    sensorrange: { prop: 'Sensors', bonus: 'sensor_range' },
+    techattack: { prop: 'TechAttack', bonus: 'tech_attack' },
+    repcap: { prop: 'Repcap', bonus: 'repcap' },
+    repaircapacity: { prop: 'Repcap', bonus: 'repcap' },
+    save: { prop: 'SaveTarget', bonus: 'save' },
+    savetarget: { prop: 'SaveTarget', bonus: 'save' },
+    speed: { prop: 'Speed', bonus: 'speed' },
+  }
+
+  private resolveStatBase(
+    raw: number | string | undefined,
+    tier?: number,
+    owner?: any
+  ): number | undefined {
+    if (raw === undefined || raw === null || raw === '') return 0
+    if (typeof raw === 'number') return raw
+    const str = String(raw).trim()
+    if (str.includes('{')) {
+      if (!owner) return undefined
+      const ctx: Record<string, number> =
+        owner.getExpressionContext?.() ?? owner.CombatController?.StatController?.MaxStats ?? {}
+      const resolved = str.replace(
+        /\{([^}]+)\}/gi,
+        (_, key) => (ctx[key] ?? ctx[key.toLowerCase()] ?? 0) as any
+      )
+      try {
+        // eslint-disable-next-line no-new-func
+        const num = Function('return (' + resolved + ')')()
+        return isNaN(num) ? undefined : Math.floor(num)
+      } catch {
+        const num = parseFloat(resolved)
+        return isNaN(num) ? undefined : Math.floor(num)
+      }
+    }
+    const num = parseFloat(ByTierArray(str, tier) as string)
+    return isNaN(num) ? 0 : num
+  }
+
+  public getStat(key: string, tier?: number, owner?: any): number | string {
+    const def = Deployable.StatMap[key.toLowerCase().replace(/[\s_-]/g, '')]
+    if (!def) {
+      const v = this[key] as any
+      return Array.isArray(v) && tier ? v[tier - 1] : v
+    }
+
+    const raw = this[def.prop] as any
+    const base = this.resolveStatBase(raw, tier, owner)
+    if (base === undefined) {
+      const stripped = String(raw).replace(/[{}]/g, '')
+      return /\d/.test(stripped) ? stripped : `mech's ${stripped}`
+    }
+
+    const bc = owner?.FeatureController?.BonusController
+    if (!bc) return base
+    const prefix = this.Type?.toLowerCase() === 'drone' ? 'drone_' : 'deployable_'
+    return bc.sum(`${prefix}${def.bonus}`, base)
   }
 
   public get Icon(): string {

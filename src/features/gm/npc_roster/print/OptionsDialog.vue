@@ -1,37 +1,37 @@
 <template>
   <print-options-base
     :options="options"
-    :include-options="includeOptions"
-    :extra-options="extraOptions" />
+    :include-groups="includeGroups"
+    :extra-options="extraOptions"
+  />
 </template>
 
 <script setup lang="ts">
-import { computed, watch } from 'vue'
-import PrintOptionsBase from '@/shared/print/PrintOptionsBase.vue'
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
+  import { computed } from 'vue'
+  import PrintOptionsBase from '@/shared/print/PrintOptionsBase.vue'
+  import { INCLUDE, EXTRA } from '@/ui/print/options'
+  import { useI18n } from 'vue-i18n'
 
-const props = defineProps<{ options: Record<string, any> }>()
-const emit = defineEmits<{ set: [options: any] }>()
+  const { t } = useI18n()
 
-watch(() => props.options, (val) => emit('set', val), { deep: true })
+  defineProps<{ options: Record<string, any> }>()
 
-const includeOptions = computed(() => {
-  switch (props.options.layout.title) {
-    case 'Minimal':
-      return []
-    default:
-      return [
-        { title: 'Include Image' },
-        { title: 'Additional Detail' },
-        { title: 'Clocks' },
-        { title: 'Tables' },
-        { title: 'GM Notes' },
-        { title: 'Append Lined Section' },
-        { title: 'Append Unlined Section' },
-      ]
-  }
-})
+  const includeGroups = computed(() => [
+    {
+      field: 'include',
+      legend: t('common.options'),
+      items: [
+        INCLUDE.image,
+        INCLUDE.additionalDetail,
+        INCLUDE.clocks,
+        INCLUDE.tables,
+        INCLUDE.gmNotes,
+        INCLUDE.passiveFeatures,
+        INCLUDE.appendLined,
+        INCLUDE.appendUnlined,
+      ],
+    },
+  ])
 
-const extraOptions = computed(() => [{ title: 'Relevant Tag Reference' }])
+  const extraOptions = [EXTRA.tagRef]
 </script>

@@ -1,38 +1,56 @@
 <template>
-  <v-card v-if="!campaigns.length"
-    class="text-center py-6 text-disabled mt-4">
+  <v-card
+    v-if="!campaigns.length"
+    class="text-center py-6 text-disabled mt-4"
+  >
     <div class="heading">{{ $t('compendium.campaign.noCampaignsFound') }}</div>
     <div class="text-caption">
       {{ $t('compendium.campaign.importHint') }}
     </div>
   </v-card>
   <div class="mt-4">
-    <v-row dense
-      justify="space-around">
-      <v-col cols="auto"
+    <v-row
+      dense
+      justify="space-around"
+    >
+      <v-col
         v-for="(c, n) in campaigns"
         :key="`campaign-${n}`"
-        class="mx-1">
-        <v-badge :model-value="!!c.hasUpdate"
+        cols="auto"
+        class="mx-1"
+      >
+        <v-badge
+          :model-value="!!c.hasUpdate"
           color="secondary"
-          content="!">
-          <v-card variant="plain"
+          content="!"
+        >
+          <v-card
+            variant="plain"
             :height="mobile ? 198 : 320"
             :width="mobile ? 150 : 250"
             style="border-width: 2px"
-            @click="openInfo(c)">
-            <v-img v-if="c.cover_image_url"
+            @click="openInfo(c)"
+          >
+            <v-img
+              v-if="c.cover_image_url"
               :src="c.cover_image_url"
               style="height: 100%"
-              cover />
-            <v-row v-else
+              cover
+            />
+            <v-row
+              v-else
               align="center"
               justify="center"
-              style="height: 100%">
-              <v-col cols="auto"
-                class="text-text text-center">
-                <v-icon size="60"
-                  icon="cc:campaign" />
+              style="height: 100%"
+            >
+              <v-col
+                cols="auto"
+                class="text-text text-center"
+              >
+                <v-icon
+                  size="60"
+                  icon="cc:campaign"
+                />
                 <div class="heading">{{ c.title }}</div>
                 <div class="text-caption">{{ c.subtitle }}</div>
                 <v-divider class="mt-1" />
@@ -44,29 +62,39 @@
       </v-col>
     </v-row>
 
-    <v-dialog v-model="dialog"
+    <v-dialog
+      v-model="dialog"
       :fullscreen="mobile"
-      :width="mobile ? '' : '80vw'">
-      <v-card v-if="selected"
-        style="overflow-y: hidden; position: relative">
-        <cc-toolbar :title="selected.title"
+      :width="mobile ? '' : '80vw'"
+    >
+      <v-card
+        v-if="selected"
+        style="overflow-y: hidden; position: relative"
+      >
+        <cc-toolbar
+          :title="selected.title"
           icon="cc:campaign"
           color="primary"
           style="position: sticky; top: 0; z-index: 10"
           class="border-b-sm"
-          @close="dialog = false" />
+          @close="dialog = false"
+        />
 
-        <cc-alert v-if="selected.hasUpdate"
+        <cc-alert
+          v-if="selected.hasUpdate"
           color="secondary"
           icon="mdi-information"
-          prominent>
+          prominent
+        >
           <div class="text-cc-overline">
             {{ $t('compendium.campaign.newVersionAvailable') }}
           </div>
           <div class="text-right mt-1 mr-2">
-            <cc-button size="small"
+            <cc-button
+              size="small"
               :loading="loading"
-              @click="updateCampaign()">
+              @click="updateCampaign()"
+            >
               {{ $t('compendium.campaign.updateCampaign') }}
             </cc-button>
           </div>
@@ -76,12 +104,14 @@
           <div class="text-right mt-2">
             <v-menu>
               <template #activator="{ props }">
-                <v-btn v-bind="props"
+                <v-btn
+                  v-bind="props"
                   size="x-small"
                   tile
                   variant="tonal"
                   color="error"
-                  prepend-icon="mdi-delete">
+                  prepend-icon="mdi-delete"
+                >
                   {{ $t('compendium.campaign.removeFromCollection') }}
                 </v-btn>
               </template>
@@ -91,12 +121,13 @@
                 </v-card-text>
                 <v-divider />
                 <v-card-actions>
-                  <v-btn variant="text"
-                    @click="">{{ $t('common.cancel') }}</v-btn>
+                  <v-btn variant="text">{{ $t('common.cancel') }}</v-btn>
                   <v-spacer />
-                  <v-btn variant="text"
+                  <v-btn
+                    variant="text"
                     color="error"
-                    @click="removeCampaign(selected)">
+                    @click="removeCampaign(selected)"
+                  >
                     {{ $t('common.remove') }}
                   </v-btn>
                 </v-card-actions>
@@ -106,10 +137,12 @@
         </campaign-detail-panel>
 
         <div style="position: fixed; bottom: 8px; left: 8px; right: 2px">
-          <cc-button block
+          <cc-button
+            block
             prepend-icon="mdi-chevron-double-right"
             color="primary"
-            :to="`/srd/campaign/${selected.id}`">
+            :to="`/srd/campaign/${selected.id}`"
+          >
             {{ $t('compendium.campaign.openCampaign') }}
           </cc-button>
         </div>
@@ -119,83 +152,86 @@
 </template>
 
 <script setup lang="ts">
-import { i18n } from '@/i18n'
-const t = i18n.global.t
-import { computed, ref } from 'vue'
-import { notify } from '@/util/notify'
-import { CampaignStore } from '@/stores';
-import { orderBy } from 'lodash-es';
-import CampaignDetailPanel from './CampaignDetailPanel.vue';
-import { downloadFromS3, GetFromCode } from '@/io/apis/account';
-import logger from '@/user/logger';
-import { useDisplay } from 'vuetify';
+  import { i18n } from '@/i18n'
+  const t = i18n.global.t
+  import { computed, ref } from 'vue'
+  import { notify } from '@/util/notify'
+  import { CampaignStore } from '@/stores'
+  import { orderBy } from 'lodash-es'
+  import CampaignDetailPanel from './CampaignDetailPanel.vue'
+  import { downloadFromS3, GetFromCode } from '@/io/apis/account'
+  import logger from '@/user/logger'
+  import { useDisplay } from 'vuetify'
 
-defineOptions({ name: 'campaign-library-compendium' })
+  defineOptions({ name: 'campaign-library-compendium' })
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+  const { smAndDown: mobile, xs: portrait } = useDisplay()
 
-const props = withDefaults(defineProps<{
-  search?: string
-  sort?: string
-  sortDir?: boolean
-}>(), {
-  search: '',
-  sort: 'title'
-})
-
-const selected = ref(null as any)
-const dialog = ref(false)
-const loading = ref(false)
-const dOptions = ref({ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
-
-const campaigns = computed(() => {
-      return orderBy(
-        CampaignStore().CampaignCollection.filter((c) =>
-          c.title.toLowerCase().includes(props.search.toLowerCase())
-        ),
-        props.sort,
-        props.sortDir ? 'asc' : 'desc'
-      );
-    })
-
-function openInfo(p) {
-      if (p) {
-        selected.value = p;
-        dialog.value = true;
-      }
+  const props = withDefaults(
+    defineProps<{
+      search?: string
+      sort?: string
+      sortDir?: boolean
+    }>(),
+    {
+      search: '',
+      sort: 'title',
     }
-function removeCampaign(campaign) {
-      selected.value = null;
-      CampaignStore().DeleteCollectionCampaign(campaign);
-      dialog.value = false;
-    }
-function getLatest(publish_info) {
-      return publish_info.version_history[publish_info.version_history.length - 1];
-    }
-async function updateCampaign() {
-      loading.value = true;
+  )
 
-      try {
-        const code = selected.value.publish_info.code;
-        if (!code) throw new Error('No share code found');
-        const queryResult = await GetFromCode(code);
-        const campaign = await downloadFromS3(queryResult.uri);
-        CampaignStore().AddCollectionCampaign(campaign);
-        selected.value = campaign;
-        notify({
-          title: t('notify.common.success'),
-          text: t('notify.compendium.campaignUpdatedText'),
-          color: 'success',
-        });
-      } catch (err) {
-        logger.error(`Error updating campaign: ${err}`);
-        notify({
-          title: t('notify.common.error'),
-          text: t('notify.compendium.campaignUpdateFailedText'),
-          color: 'error',
-        });
-      } finally {
-        loading.value = false;
-      }
+  const selected = ref(null as any)
+  const dialog = ref(false)
+  const loading = ref(false)
+  const dOptions = ref({ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+
+  const campaigns = computed(() => {
+    return orderBy(
+      CampaignStore().CampaignCollection.filter(c =>
+        c.title.toLowerCase().includes(props.search.toLowerCase())
+      ),
+      props.sort,
+      props.sortDir ? 'asc' : 'desc'
+    )
+  })
+
+  function openInfo(p) {
+    if (p) {
+      selected.value = p
+      dialog.value = true
     }
+  }
+  function removeCampaign(campaign) {
+    selected.value = null
+    CampaignStore().DeleteCollectionCampaign(campaign)
+    dialog.value = false
+  }
+  function getLatest(publish_info) {
+    return publish_info.version_history[publish_info.version_history.length - 1]
+  }
+  async function updateCampaign() {
+    loading.value = true
+
+    try {
+      const code = selected.value.publish_info.code
+      if (!code) throw new Error('No share code found')
+      const queryResult = await GetFromCode(code)
+      const campaign = await downloadFromS3(queryResult.uri)
+      CampaignStore().AddCollectionCampaign(campaign)
+      selected.value = campaign
+      notify({
+        title: t('notify.common.success'),
+        text: t('notify.compendium.campaignUpdatedText'),
+        color: 'success',
+      })
+    } catch (err) {
+      logger.error(`Error updating campaign: ${err}`)
+      notify({
+        title: t('notify.common.error'),
+        text: t('notify.compendium.campaignUpdateFailedText'),
+        color: 'error',
+      })
+    } finally {
+      loading.value = false
+    }
+  }
 </script>

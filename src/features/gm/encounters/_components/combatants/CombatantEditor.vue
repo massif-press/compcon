@@ -341,6 +341,7 @@ function onCombatantReorder(side: string, event: any) {
   let sideIdx = 0
   props.encounter.Combatants = all.map((c) => (c.side === side ? sideItems[sideIdx++] : c))
   props.encounter.save()
+  transferKey.value++
 }
 function onCombatantAdded(side: string, event: any) {
   const itemId = event.item.dataset.combatantId

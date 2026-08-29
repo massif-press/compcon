@@ -1,4 +1,5 @@
 import { ActiveEffectEvent } from './ActiveEffectEvent'
+import { combatantLabel } from '@/util/combatantLabel'
 
 type ActionSummaryData = {
   initiatorName: string
@@ -127,7 +128,7 @@ class ActionSummary {
   public static fromActiveEffectEvent(event: ActiveEffectEvent): ActionSummaryData {
     const initiator = event.Initiator.actor.CombatController.RootActor
     return {
-      initiatorName: initiator.CombatController.CombatName,
+      initiatorName: combatantLabel(event.Initiator),
       initiatorType: initiator.ItemType,
       initiatorID: initiator.ID,
       effectName: event.Effect.Name,
@@ -148,27 +149,6 @@ class ActionSummary {
         })
       })
       .flat()
-  }
-
-  public static fromBasicAction(
-    initiator: any,
-    effectName: string,
-    activation?: string
-  ): ActionSummary {
-    initiator = initiator.CombatController.RootActor
-    const data: ActionSummaryData = {
-      initiatorName: initiator.CombatController.CombatName,
-      initiatorType: initiator.ItemType,
-      initiatorID: initiator.ID,
-      effectName,
-      activation,
-      damageEvents: [],
-      statusEvents: [],
-      otherEvents: [],
-      specialEvents: [],
-      resistEvents: [],
-    }
-    return new ActionSummary(data)
   }
 }
 

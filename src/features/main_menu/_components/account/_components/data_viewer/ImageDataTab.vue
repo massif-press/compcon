@@ -1,43 +1,63 @@
 <template>
-  <v-btn-toggle v-model="itemSize"
+  <v-btn-toggle
+    v-model="itemSize"
     color="primary"
     mandatory
-    style="height: 20px; margin-top: -6px; width: 100%">
-    <v-btn key="100"
+    style="height: 20px; margin-top: -6px; width: 100%"
+  >
+    <v-btn
+      key="100"
       value="100"
       size="small"
-      style="width: 25%">
-      <v-icon size="x-large"
-        icon="mdi-size-s" />
+      style="width: 25%"
+    >
+      <v-icon
+        size="x-large"
+        icon="mdi-size-s"
+      />
     </v-btn>
-    <v-btn key="200"
+    <v-btn
+      key="200"
       value="200"
       size="small"
-      style="width: 25%">
-      <v-icon size="x-large"
-        icon="mdi-size-m" />
+      style="width: 25%"
+    >
+      <v-icon
+        size="x-large"
+        icon="mdi-size-m"
+      />
     </v-btn>
-    <v-btn key="300"
+    <v-btn
+      key="300"
       value="300"
       size="small"
-      style="width: 25%">
-      <v-icon size="x-large"
-        icon="mdi-size-l" />
+      style="width: 25%"
+    >
+      <v-icon
+        size="x-large"
+        icon="mdi-size-l"
+      />
     </v-btn>
-    <v-btn key="450"
+    <v-btn
+      key="450"
       value="450"
       size="small"
-      style="width: 25%">
-      <v-icon size="x-large"
-        icon="mdi-size-xl" />
+      style="width: 25%"
+    >
+      <v-icon
+        size="x-large"
+        icon="mdi-size-xl"
+      />
     </v-btn>
   </v-btn-toggle>
-  <v-data-table density="compact"
+  <v-data-table
+    density="compact"
     :mobile="mobile"
     :headers="headers"
     :items="images"
     item-key="name"
-    :items-per-page="25">
+    :items-per-page="25"
+  >
     <template #item.image="{ item }">
       <div :style="{ width: itemSize + 'px' }">
         <v-img :src="`${distributor}/${item.uri}`" />
@@ -48,21 +68,30 @@
     </template>
     <template #item.created="{ item }">
       <span>
-        {{ new Date(item.created).toLocaleString() }}
+        {{ item.created ? new Date(item.created).toLocaleString() : '' }}
       </span>
     </template>
     <template #item.actions="{ item }">
       <v-dialog>
         <template #activator="{ props }">
-          <v-btn size="small"
+          <v-btn
+            size="small"
             color="accent"
             icon
             variant="text"
-            v-bind="props">
-            <v-tooltip max-width="300px"
-              location="top">
-              <template #activator="{ props }">
-                <v-icon size="x-large">mdi-magnify</v-icon>
+            v-bind="props"
+          >
+            <v-tooltip
+              max-width="300px"
+              location="top"
+            >
+              <template #activator="{ props: tooltipProps }">
+                <v-icon
+                  size="x-large"
+                  v-bind="tooltipProps"
+                >
+                  mdi-magnify
+                </v-icon>
               </template>
               <div class="text-center">{{ $t('mainMenu.ui.viewImage') }}</div>
             </v-tooltip>
@@ -70,10 +99,12 @@
         </template>
         <template #default="{ isActive }">
           <v-card style="position: relative">
-            <v-btn icon
+            <v-btn
+              icon
               color="primary"
               style="position: fixed; top: 8px; right: 8px; z-index: 9"
-              @click="isActive.value = false">
+              @click="isActive.value = false"
+            >
               <v-icon>mdi-close</v-icon>
             </v-btn>
             <v-img :src="`${distributor}/${item.uri}`" />
@@ -81,30 +112,38 @@
         </template>
       </v-dialog>
 
-      <v-tooltip max-width="300px"
-        location="top">
+      <v-tooltip
+        max-width="300px"
+        location="top"
+      >
         <template #activator="{ props }">
-          <v-btn size="small"
+          <v-btn
+            size="small"
             color="accent"
             icon
             variant="text"
             v-bind="props"
-            @click="downloadImage(`${distributor}/${item.uri}`)">
+            @click="downloadImage(`${distributor}/${item.uri}`)"
+          >
             <v-icon size="x-large">mdi-download</v-icon>
           </v-btn>
         </template>
         <div class="text-center">{{ $t('mainMenu.ui.downloadCopy') }}</div>
       </v-tooltip>
 
-      <v-tooltip max-width="300px"
-        location="top">
+      <v-tooltip
+        max-width="300px"
+        location="top"
+      >
         <template #activator="{ props }">
-          <v-btn size="small"
+          <v-btn
+            size="small"
             color="accent"
             variant="text"
             icon
             v-bind="props"
-            @click="deleteImage(item)">
+            @click="deleteImage(item)"
+          >
             <v-icon size="x-large">mdi-delete-outline</v-icon>
           </v-btn>
         </template>
@@ -121,111 +160,119 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
-import { computed, ref } from 'vue'
-import { notify } from '@/util/notify'
-import { useDisplay } from 'vuetify'
-import { UserStore } from '@/stores';
-import { cloudDelete, } from '@/io/apis/account';
-import logger from '@/user/logger';
-const distributor = import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR || '';
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
+  import { computed, ref } from 'vue'
+  import { notify } from '@/util/notify'
+  import { useDisplay } from 'vuetify'
+  import { UserStore } from '@/stores'
+  import { cloudDelete } from '@/io/apis/account'
+  import logger from '@/user/logger'
+  const distributor = import.meta.env.VITE_APP_USERDATA_DISTRIBUTOR || ''
 
-const _display = useDisplay()
+  const _display = useDisplay()
 
-defineOptions({ name: 'CloudItemDataTab' })
+  defineOptions({ name: 'CloudItemDataTab' })
 
-const props = withDefaults(defineProps<{
-  search?: string
-  loading?: boolean
-}>(), {
-  search: '',
-  loading: false
-})
-
-const emit = defineEmits<{
-  'refresh': []
-}>()
-
-const tab = ref('Images')
-const itemSize = ref('200')
-const deleteLoading = ref(false)
-const headers = ref([
-  { title: '', key: 'image' },
-  { title: t('mainMenu.titles.filename'), key: 'name' },
-  { title: t('mainMenu.titles.uploadDate'), key: 'created' },
-  { title: '', key: 'actions', width: '155px' },
-])
-
-const mobile = computed(() => {
-  return _display.mdAndDown.value;
-})
-const allImages = computed(() => {
-  return UserStore().CloudImages;
-})
-const cloudStorageFull = computed(() => {
-  return UserStore().CloudStorageFull;
-})
-const images = computed(() => {
-  return allImages.value.filter((item) => {
-    if (!item.uri) return false;
-    if (props.search && !item.name.toLowerCase().includes(props.search.toLowerCase()))
-      return false;
-    return true;
-  });
-})
-const skipDeleteWarning = computed({
-  get: () => UserStore().User.View('skipDeleteWarning_image', false),
-  set: (val) => { UserStore().User.SetView('skipDeleteWarning_image', val); },
-})
-
-async function downloadImage(url) {
-  const filename = url.split('/').pop();
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+  const props = withDefaults(
+    defineProps<{
+      search?: string
+      loading?: boolean
+    }>(),
+    {
+      search: '',
+      loading: false,
     }
+  )
 
-    const blob = await response.blob();
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  } catch (error) {
-    logger.error(`Error downloading image: ${error}`, undefined, error);
-  }
-}
-async function deleteImage(item) {
-  deleteLoading.value = true;
-  try {
-    const { user_id, sortkey, uri } = item;
-    await cloudDelete(user_id, sortkey, uri);
+  const emit = defineEmits<{
+    refresh: []
+  }>()
 
-    emit('refresh');
-    notify({
-      title: t('notify.image.deletedTitle'),
-      text: t('mainMenu.account.imageDeletedText', { itemType: item.ItemType, name: item.Name }),
-      icon: 'mdi-delete', color: 'success',
-    });
-    deleteLoading.value = false;
-    return true;
-  } catch (err) {
-    logger.error(`Error deleting image: ${err}`, undefined, err);
-    notify({
-      title: t('notify.image.deleteFailedTitle'),
-      text: t('notify.dataItem.serverError', { err: String(err) }),
-      icon: 'mdi-alert', color: 'error',
-    });
+  const tab = ref('Images')
+  const itemSize = ref('200')
+  const deleteLoading = ref(false)
+  const headers = ref([
+    { title: '', key: 'image' },
+    { title: t('mainMenu.titles.filename'), key: 'name' },
+    { title: t('mainMenu.titles.uploadDate'), key: 'created' },
+    { title: '', key: 'actions', width: '155px' },
+  ])
+
+  const mobile = computed(() => {
+    return _display.mdAndDown.value
+  })
+  const allImages = computed(() => {
+    return UserStore().CloudImages
+  })
+  const cloudStorageFull = computed(() => {
+    return UserStore().CloudStorageFull
+  })
+  const images = computed(() => {
+    return allImages.value.filter(item => {
+      if (!item.uri) return false
+      if (props.search && !item.name.toLowerCase().includes(props.search.toLowerCase()))
+        return false
+      return true
+    })
+  })
+  const skipDeleteWarning = computed({
+    get: () => UserStore().User.View('skipDeleteWarning_image', false),
+    set: val => {
+      UserStore().User.SetView('skipDeleteWarning_image', val)
+    },
+  })
+
+  async function downloadImage(url) {
+    const filename = url.split('/').pop()
+    try {
+      const response = await fetch(url)
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+
+      const blob = await response.blob()
+      const link = document.createElement('a')
+      link.href = URL.createObjectURL(blob)
+      link.download = filename
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
+    } catch (error) {
+      logger.error(`Error downloading image: ${error}`, undefined, error)
+    }
   }
-  deleteLoading.value = false;
-}
+  async function deleteImage(item) {
+    deleteLoading.value = true
+    try {
+      const { user_id, sortkey, uri } = item
+      await cloudDelete(user_id, sortkey, uri)
+
+      emit('refresh')
+      notify({
+        title: t('notify.image.deletedTitle'),
+        text: t('mainMenu.account.imageDeletedText', { itemType: item.ItemType, name: item.Name }),
+        icon: 'mdi-delete',
+        color: 'success',
+      })
+      deleteLoading.value = false
+      return true
+    } catch (err) {
+      logger.error(`Error deleting image: ${err}`, undefined, err)
+      notify({
+        title: t('notify.image.deleteFailedTitle'),
+        text: t('notify.dataItem.serverError', { err: String(err) }),
+        icon: 'mdi-alert',
+        color: 'error',
+      })
+    }
+    deleteLoading.value = false
+    return false
+  }
 </script>
 
 <style>
-.v-data-table-header__content {
-  font-weight: bold !important;
-}
+  .v-data-table-header__content {
+    font-weight: bold !important;
+  }
 </style>

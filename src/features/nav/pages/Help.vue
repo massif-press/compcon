@@ -1,6 +1,9 @@
 <template>
   <v-container>
-    <v-row justify="space-around" dense>
+    <v-row
+      justify="space-around"
+      dense
+    >
       <v-col>
         <cc-button
           block
@@ -24,7 +27,11 @@
         </cc-button>
       </v-col>
     </v-row>
-    <v-row justify="space-around" dense class="mb-4">
+    <v-row
+      justify="space-around"
+      dense
+      class="mb-4"
+    >
       <v-col>
         <cc-button
           block
@@ -79,29 +86,44 @@
       <br />
       // FEATURE IN DEVELOPMENT //
     </p> -->
-    <cc-heading is-title :text="$t('nav.help.quickFaq')" />
+    <cc-heading
+      is-title
+      :text="$t('nav.help.quickFaq')"
+    />
     <v-row class="body-text text-text">
-      <v-col cols="12" md="6">
+      <v-col
+        cols="12"
+        md="6"
+      >
         <cc-panel :title="$t('nav.help.whereAreNpcs')">
-          <i18n-t keypath="nav.help.whereAreNpcsBody"
+          <i18n-t
+            keypath="nav.help.whereAreNpcsBody"
             tag="span"
-            scope="global">
+            scope="global"
+          >
             <template #installLcp>
               <b>{{ $t('nav.help.installLcpTab') }}</b>
             </template>
           </i18n-t>
         </cc-panel>
       </v-col>
-      <v-col cols="12" md="6">
-        <cc-panel
-          :title="$t('nav.help.howToAddContent')"
-        >
-          <i18n-t keypath="nav.help.howToAddContentBody"
+      <v-col
+        cols="12"
+        md="6"
+      >
+        <cc-panel :title="$t('nav.help.howToAddContent')">
+          <i18n-t
+            keypath="nav.help.howToAddContentBody"
             tag="span"
-            scope="global">
+            scope="global"
+          >
             <template #itchLink>
-              <a target="_blank"
-                href="https://massif-press.itch.io/">{{ $t('nav.help.itchPageText') }}</a>
+              <a
+                target="_blank"
+                href="https://massif-press.itch.io/"
+              >
+                {{ $t('nav.help.itchPageText') }}
+              </a>
             </template>
             <template #downloadDemo>
               <b>{{ $t('nav.help.downloadDemo') }}</b>
@@ -114,11 +136,16 @@
       </v-col>
     </v-row>
     <v-row class="body-text text-text">
-      <v-col cols="12" md="6">
+      <v-col
+        cols="12"
+        md="6"
+      >
         <cc-panel :title="$t('nav.help.howToSeeExotics')">
-          <i18n-t keypath="nav.help.howToSeeExoticsBody"
+          <i18n-t
+            keypath="nav.help.howToSeeExoticsBody"
             tag="span"
-            scope="global">
+            scope="global"
+          >
             <template #options>
               <b>{{ $t('nav.help.optionsLabel') }}</b>
             </template>
@@ -128,29 +155,41 @@
           </i18n-t>
         </cc-panel>
       </v-col>
-      <v-col cols="12" md="6">
+      <v-col
+        cols="12"
+        md="6"
+      >
         <cc-panel :title="$t('nav.help.cloudAccountFaq')">
           {{ $t('nav.help.cloudAccountFaqBody') }}
         </cc-panel>
       </v-col>
     </v-row>
     <br />
-    <cc-heading is-title :text="$t('nav.help.additionalHelp')" />
+    <cc-heading
+      is-title
+      :text="$t('nav.help.additionalHelp')"
+    />
     <p class="body-text">
-      <i18n-t keypath="nav.help.additionalHelpBody"
+      <i18n-t
+        keypath="nav.help.additionalHelpBody"
         tag="span"
-        scope="global">
+        scope="global"
+      >
         <template #faqLink>
-          <a target="_blank"
-            href="https://github.com/massif-press/compcon/wiki/Frequently-Asked-Questions"
+          <a
             v-html-safe="$t('nav.help.faqLinkText')"
-            tabindex="0" />
+            target="_blank"
+            href="https://github.com/massif-press/compcon/wiki/Frequently-Asked-Questions"
+            tabindex="0"
+          />
         </template>
         <template #discordLink>
-          <a target="_blank"
-            href="https://discord.gg/rwcpzsU"
+          <a
             v-html-safe="$t('nav.help.discordLinkText')"
-            tabindex="0" />
+            target="_blank"
+            href="https://discord.gg/rwcpzsU"
+            tabindex="0"
+          />
         </template>
       </i18n-t>
     </p>
@@ -164,6 +203,4 @@
   </v-container>
 </template>
 
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>

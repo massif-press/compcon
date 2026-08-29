@@ -103,11 +103,13 @@
     <v-tooltip v-if="pilot.IsRemote"
       open-delay="300"
       location="top"
-      :text="isAuthed
-        ? pilot.CloudController.isSynced
-          ? 'Pilot is up to date with remote data'
-          : 'Download all remote changes to this pilot, overwriting local data.'
-        : 'Must be logged in to update'">
+      :text="
+        isAuthed
+          ? pilot.CloudController.isSynced
+            ? $t('pm.sheet.pilotIsUpToDateWith')
+            : $t('pm.sheet.downloadAllRemoteChangesToThis')
+          : $t('gm.editorFooter.mustLogin')
+      ">
       <template #activator="{ props }">
         <v-btn icon
           variant="text"
@@ -129,7 +131,7 @@
       <template #activator="{ open }">
         <v-tooltip open-delay="300"
           location="top"
-          :text="isAuthed ? 'Share Pilot Data' : 'Requires Cloud Account'">
+          :text="isAuthed ? $t('pm.titles.sharePilotData') : $t('pm.sheet.requiresCloudAccount')">
           <template #activator="{ props }">
             <span v-bind="props">
               <v-btn icon

@@ -26,9 +26,11 @@ export interface CompendiumBrowserContext {
   lcpFilter: Ref<string[]>
   isEquippable: (item: CompendiumItem) => boolean
   toggleItem: (item: CompendiumItem | License) => void
+  revealItem: (item: CompendiumItem | License) => void
   handleEquip: (item: CompendiumItem) => void
   emitEquip: (item: CompendiumItem) => void
   mf: (id: string) => any
 }
 
-export const CompendiumBrowserKey: InjectionKey<CompendiumBrowserContext> = Symbol('compendiumBrowser')
+export const CompendiumBrowserKey: InjectionKey<CompendiumBrowserContext> =
+  Symbol('compendiumBrowser')

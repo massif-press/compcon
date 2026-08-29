@@ -30,6 +30,10 @@ const MAX_HISTORY = 200 // entries kept per session
 const MAX_SESSIONS = 10 // sessions retained across restarts
 const MAX_BYTES = 8 * 1024 * 1024
 const PERSIST_BYTES = 2 * 1024 * 1024
+const MAX_CALLER_DEPTH = 4
+const MAX_CALLER_ITEMS_PER_LEVEL = 40
+const MAX_CALLER_STRING_CHARS = 500
+const MAX_CALLER_NODES = 2000
 const REDACT_KEY =
   /pass(word|wd)?|secret|token|jwt|api[-_]?key|authorization|auth[-_]?token|credential|session[-_]?id|bearer/i
 
@@ -85,7 +89,7 @@ class Logger {
     try {
       localStorage.setItem(LEVEL_KEY, level)
     } catch {
-      /* ignore quota/private-mode */
+      // ignore
     }
   }
 
@@ -93,23 +97,59 @@ class Logger {
     return JSON.stringify(obj, this._replacer(), 2)
   }
 
-  private snapshot(obj: any): any {
+  private snapshot(
+    obj: any,
+    depth = 0,
+    seen = new WeakSet(),
+    budget = { nodesLeft: MAX_CALLER_NODES }
+  ): any {
+    if (typeof obj === 'string') {
+      return obj.length > MAX_CALLER_STRING_CHARS
+        ? `${obj.slice(0, MAX_CALLER_STRING_CHARS)}…[truncated]`
+        : obj
+    }
+    if (typeof obj === 'function') return undefined
     if (!obj || typeof obj !== 'object') return obj
+    if (seen.has(obj)) return '[Circular]'
+    if (budget.nodesLeft-- <= 0) return '[Budget exceeded]'
+    if (depth >= MAX_CALLER_DEPTH) {
+      return Array.isArray(obj)
+        ? `[Array(${obj.length})]`
+        : `[${obj.constructor?.name || 'Object'}]`
+    }
+    seen.add(obj)
+
+    if (Array.isArray(obj)) {
+      const out = obj
+        .slice(0, MAX_CALLER_ITEMS_PER_LEVEL)
+        .map(v => this.snapshot(v, depth + 1, seen, budget))
+      if (obj.length > MAX_CALLER_ITEMS_PER_LEVEL)
+        out.push(`…${obj.length - MAX_CALLER_ITEMS_PER_LEVEL} more`)
+      return out
+    }
+
     const out: Record<string, any> = {}
-    for (const key of Object.keys(obj)) {
+    let keys: string[]
+    try {
+      keys = Object.keys(obj)
+    } catch {
+      return '[Unserializable]'
+    }
+    for (const key of keys.slice(0, MAX_CALLER_ITEMS_PER_LEVEL)) {
       if (key.startsWith('$')) continue
-      let value: any
-      try {
-        value = obj[key]
-      } catch {
+      if (REDACT_KEY.test(key)) {
+        out[key] = '[REDACTED]'
         continue
       }
-      if (typeof value === 'function') continue
-      if (REDACT_KEY.test(key)) out[key] = '[REDACTED]'
-      else if (value === null || typeof value !== 'object') out[key] = value
-      else if (Array.isArray(value)) out[key] = `[Array(${value.length})]`
-      else out[key] = `[${value.constructor?.name || 'Object'}]`
+      try {
+        const value = this.snapshot(obj[key], depth + 1, seen, budget)
+        if (value !== undefined) out[key] = value
+      } catch {
+        out[key] = '[Unreadable]'
+      }
     }
+    if (keys.length > MAX_CALLER_ITEMS_PER_LEVEL)
+      out['…'] = `${keys.length - MAX_CALLER_ITEMS_PER_LEVEL} more keys`
     return out
   }
 
@@ -216,6 +256,12 @@ class Logger {
     this._scheduleSave()
   }
 
+  public clearAll(): void {
+    this._current.entries = []
+    this._sessions = [this._current]
+    this._scheduleSave()
+  }
+
   public export(sessionId?: string): string {
     const sessions = sessionId ? this._sessions.filter(s => s.id === sessionId) : this._sessions
 
@@ -255,8 +301,12 @@ class Logger {
       // Sentry.init already installed an errorHandler
       const prev = app.config.errorHandler
       app.config.errorHandler = (err, instance, info) => {
-        const component = (instance?.$ as any)?.type?.__name || instance?.$options?.name || null
-        this.log(`Vue error (${info}) in <${component || 'unknown'}>`, 'error', null, err)
+        const component =
+          (instance as any)?.$options?.name ||
+          (instance?.$ as any)?.type?.__name ||
+          (instance as any)?.$?.type?.name ||
+          'unknown'
+        this.log(`Vue error (${info}) in <${component}>: ${err}`, 'error', null, err)
         if (typeof prev === 'function') prev(err, instance, info)
       }
     }
@@ -299,7 +349,7 @@ class Logger {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(this._persistSnapshot()))
       } catch {
-        /* quota exceeded / private mode: keep in-memory only */
+        // quota exceeded / private mode: keep in-memory only
       }
     }, 500)
   }
@@ -319,7 +369,7 @@ class Logger {
         }
       }
     } catch {
-      /* corrupt/unavailable storage: start fresh */
+      // corrupt/unavailable storage: start fresh
     }
     this._current = { id: `${Date.now()}`, startedAt: Date.now(), entries: [] }
     this._sessions = [this._current, ...prior]

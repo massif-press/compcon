@@ -38,7 +38,7 @@
                       :icon="frequencyIcon(activeEffect.Frequency)"
                       size="18" />
                   </template>
-                  {{ frequencyText(activeEffect.Frequency) }}
+                  {{ activeEffect.Frequency.ToString() }}
                 </v-tooltip>
               </v-avatar>
               <v-tooltip v-if="activeEffect.IsPassive"
@@ -162,7 +162,7 @@
                   size="small"
                   :prepend-icon="isApplied ? 'mdi-check' : frequencyIcon(activeEffect.Frequency)
                     ">
-                  {{ activeEffect.Frequency }}
+                  {{ activeEffect.Frequency.ToString() }}
                 </v-chip>
               </div>
               <div v-if="activeEffect.Duration"
@@ -216,6 +216,7 @@ import { CombatantData } from '@/classes/encounter/Encounter';
 import type { ICombatant } from '@/classes/components/combat/ICombatant';
 import { ByTier } from '@/util/tierFormat';
 import MenuInput from './_activeeffect/_ae_menu_input.vue';
+import { ActivePeriod, type Frequency } from '@/classes/Frequency';
 
 const props = withDefaults(defineProps<{
   activeEffect: ActiveEffect
@@ -252,37 +253,18 @@ function byTier(detail: string) {
   return ByTier(detail, props.tier);
 }
 
-function frequencyIcon(frequency: string): string {
-  const str = frequency.toLowerCase();
-  switch (str) {
-    case '1/round':
+function frequencyIcon(frequency: Frequency): string {
+  switch (frequency.Duration) {
+    case ActivePeriod.Round:
       return 'mdi-alpha-r-circle';
-    case '1/turn':
+    case ActivePeriod.Turn:
       return 'mdi-alpha-t-circle';
-    case '1/scene':
-    case '1/encounterInstance':
+    case ActivePeriod.Scene:
       return 'mdi-alpha-e-circle';
-    case '1/mission':
+    case ActivePeriod.Mission:
       return 'mdi-alpha-m-circle';
     default:
       return 'mdi-timer-sand';
-  }
-}
-
-function frequencyText(frequency: string): string {
-  const str = frequency.toLowerCase();
-  switch (str) {
-    case '1/round':
-      return 'Usable once per Round';
-    case '1/turn':
-      return 'Usable once per Turn';
-    case '1/scene':
-    case '1/encounterInstance':
-      return 'Usable once per Encounter';
-    case '1/mission':
-      return 'Usable once per Mission';
-    default:
-      return frequency;
   }
 }
 </script>

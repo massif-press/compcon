@@ -62,6 +62,7 @@ export const CloudDataStore = defineStore('cloudData', {
       return baseMbVal * 1024 * 1024
     },
     CollectionPublishLimit(): number {
+      if (window.location.hostname === 'localhost') return -1
       const tier =
         UserMetadataStore().UserMetadata?.PatreonData?.profile?.tierData?.title?.toLowerCase() ?? ''
       if (tier === 'diasporan') return 3

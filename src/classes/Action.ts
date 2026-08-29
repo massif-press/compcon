@@ -24,6 +24,7 @@ import {
 } from './components/feature/active_effects/effect_subtype/EffectResist'
 import { EffectStatus } from './components/feature/active_effects/effect_subtype/EffectStatus'
 import { BonusDamage, IBonusDamageData } from './components/feature/active_effects/BonusDamage'
+import { Frequency, ActivePeriod } from './Frequency'
 
 interface IActionData {
   id?: string
@@ -56,87 +57,6 @@ interface IActionData {
   attack?: 'melee' | 'ranged' | 'tech'
   hidden?: boolean
   sub_actions?: IActionData[]
-}
-
-enum ActivePeriod {
-  Turn = 'Turn',
-  Round = 'Round',
-  Scene = 'Scene',
-  Encounter = 'Encounter',
-  Mission = 'Mission',
-  Unlimited = 'Unlimited',
-}
-
-class Frequency {
-  public readonly Uses: number
-  public readonly Duration: ActivePeriod
-  public readonly FreqText: string
-  public readonly Unlimited: boolean
-
-  public constructor(frq: string) {
-    this.FreqText = frq
-    this.Unlimited = false
-    if (!frq || !frq.includes('/')) {
-      this.Uses = 1
-      this.Duration = ActivePeriod.Unlimited
-      this.Unlimited = true
-    } else {
-      const fArr = frq.split('/')
-      const num = parseInt(fArr[0])
-
-      if (!Number.isNaN(num) && Number.isInteger(num)) {
-        this.Uses = num
-      } else {
-        this.Uses = 1
-        this.Duration = ActivePeriod.Unlimited
-        this.Unlimited = true
-      }
-
-      switch (fArr[1].toLowerCase()) {
-        case 'turn':
-          this.Duration = ActivePeriod.Turn
-          break
-        case 'round':
-          this.Duration = ActivePeriod.Round
-          break
-        case 'scene':
-        case 'encounter':
-          this.Duration = ActivePeriod.Scene
-          break
-        case 'mission':
-          this.Duration = ActivePeriod.Mission
-          break
-        default:
-          this.Uses = Number.MAX_SAFE_INTEGER
-          this.Duration = ActivePeriod.Unlimited
-          this.Unlimited = true
-          break
-      }
-    }
-  }
-
-  public ToString(): string {
-    const durationLocal = i18n.global.t(`enums.duration.${this.Duration.toLowerCase()}`)
-    if (this.Unlimited) return durationLocal
-    return `${this.Uses}/${durationLocal}`
-  }
-
-  public RegainUsesOnEvent(event: ActivePeriod): boolean {
-    //Nothing takes an unlimited time to regain uses
-    if (event === ActivePeriod.Unlimited) return false
-
-    const order: Record<ActivePeriod, number> = {
-      Unlimited: 0,
-      Turn: 1,
-      Round: 2,
-      Scene: 3,
-      Encounter: 3,
-      Mission: 4,
-    }
-    //This action is free to regain uses if the given event
-    //meets the duration threshold
-    return order[this.Duration] <= order[event]
-  }
 }
 
 class Action {
@@ -175,7 +95,6 @@ class Action {
   public readonly SubActions: Action[] = []
   public Deployable: IDeployableData | undefined
   private _detail: string
-  private _uses: number
   private _ignore_used: boolean
 
   private static normalizeData(data: IActionData): IActionData {
@@ -222,7 +141,6 @@ class Action {
     if (data.heat_cost || data.heat_cost === 0)
       this.HeatCost = isNumber(data.heat_cost) ? data.heat_cost : 0
     this.Frequency = new Frequency(data.frequency || '')
-    this._uses = this.Frequency.Uses
     this.Init = data.init || ''
     this._trigger = data.trigger || ''
     this.Damage = data.damage ? data.damage.map(x => new Damage(x)) : []
@@ -305,10 +223,6 @@ class Action {
   }
   public getTrigger(tier?: number): string {
     return ByTier(this.Trigger || '', tier)
-  }
-
-  public get Uses(): number {
-    return this._uses
   }
 
   public get Color(): string {
@@ -402,5 +316,5 @@ class Action {
   }
 }
 
-export { Action, ActivePeriod }
+export { Action, Frequency, ActivePeriod }
 export type { IActionData }

@@ -1,5 +1,5 @@
 import { sentryVitePlugin } from '@sentry/vite-plugin'
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
 import vuetify from 'vite-plugin-vuetify'
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
@@ -110,10 +110,11 @@ export default defineConfig({
         }
       },
     },
-    sentryVitePlugin({
-      org: 'massif-press',
-      project: 'compcon',
-    }),
+    !process.env.VITEST &&
+      sentryVitePlugin({
+        org: 'massif-press',
+        project: 'compcon',
+      }),
   ],
   build: {
     target: 'esnext',
@@ -146,5 +147,53 @@ export default defineConfig({
   },
   define: {
     APP_VERSION: JSON.stringify(pkg.version),
+  },
+  test: {
+    globals: true,
+    server: {
+      deps: { inline: ['vuetify'] },
+    },
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: 'domain',
+          environment: 'happy-dom',
+          include: ['src/**/*.spec.ts'],
+          exclude: ['src/ui/**', 'src/features/**'],
+          setupFiles: ['src/__tests__/setup.ts'],
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'component',
+          environment: 'happy-dom',
+          include: ['src/{ui,features}/**/*.spec.ts'],
+          setupFiles: ['src/__tests__/setup.ts', 'src/__tests__/setup.component.ts'],
+        },
+      },
+    ],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'lcov', 'html'],
+      include: [
+        'src/classes/**/*.ts',
+        'src/io/**/*.ts',
+        'src/util/**/*.ts',
+        'src/composables/**/*.ts',
+      ],
+      exclude: [
+        'src/**/*.spec.ts',
+        'src/__tests__/**',
+        'src/**/*.d.ts',
+        'src/**/enums.ts',
+        'src/**/*_dictionary.ts',
+      ],
+      thresholds: {
+        'src/io/**': { functions: 62 },
+        'src/classes/**': { functions: 46 },
+      },
+    },
   },
 })

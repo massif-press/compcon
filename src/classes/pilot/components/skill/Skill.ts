@@ -25,7 +25,7 @@ class Skill extends CompendiumItem {
     return localize(this.ID, 'name', this._name)
   }
 
-  public get Color(): string {
+  public override get Color(): string {
     return 'skill'
   }
 

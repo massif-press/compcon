@@ -52,14 +52,14 @@
             <b class="text-accent">{{ selected.length }}</b> {{ $t('active.organizer.selected') }}
           </div>
           <v-list>
-            <v-list-item :title="selected.length < 2 ? 'Archive' : 'Archive Multiple'"
+            <v-list-item :title="selected.length < 2 ? $t('ui.organizer.archive') : $t('ui.organizer.archiveMultiple')"
               :subtitle="selected.length < 2
                 ? `Move ${noun} to archive`
                 : `Move selected ${noun}s to archive`"
               prepend-icon="mdi-archive-arrow-down-outline"
               :disabled="!selected.length"
               @click="emitArchive" />
-            <v-list-item :title="selected.length < 2 ? 'Delete' : 'Delete Multiple'"
+            <v-list-item :title="selected.length < 2 ? $t('common.delete') : $t('ui.organizer.deleteMultiple')"
               :subtitle="selected.length < 2
                 ? `Permanently remove ${noun}`
                 : `Permanently remove selected ${noun}s`"

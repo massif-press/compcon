@@ -81,35 +81,35 @@
         @click="openLabelDialog(selected, clearSelected)"
       />
       <v-list-item
-        :title="selected.length < 2 ? 'Print' : 'Print Multiple'"
+        :title="selected.length < 2 ? $t('common.print') : $t('ui.organizer.printMultiple')"
         :subtitle="$t('gm.subtitles.generateItemPrintables')"
         prepend-icon="mdi-printer"
         :disabled="!selected.length"
         @click="routePrint(selected)"
       />
       <v-list-item
-        :title="selected.length < 2 ? 'Export' : 'Export Collection'"
+        :title="selected.length < 2 ? $t('common.export') : $t('ui.organizer.exportCollection')"
         :subtitle="
-          selected.length < 2 ? 'Export item JSON' : 'Generate a multi-item export package'
+          selected.length < 2 ? $t('ui.organizer.exportItemJson') : $t('ui.organizer.exportPackage')
         "
         prepend-icon="mdi-upload"
         :disabled="!selected.length"
         @click="exportItems(selected, items)"
       />
       <v-list-item
-        :title="selected.length < 2 ? 'Delete' : 'Delete Multiple'"
-        :subtitle="selected.length < 2 ? 'Mark item as Deleted' : 'Mark multiple items as Deleted'"
+        :title="selected.length < 2 ? $t('common.delete') : $t('ui.organizer.deleteMultiple')"
+        :subtitle="selected.length < 2 ? $t('ui.organizer.markDeleted') : $t('ui.organizer.markDeletedMultiple')"
         prepend-icon="mdi-delete"
         :disabled="!selected.length"
         @click="deleteItems(selected, items, false, clearSelected)"
       />
       <v-list-item
         v-if="showDeleted"
-        :title="selected.length < 2 ? 'Restore' : 'Restore Multiple'"
+        :title="selected.length < 2 ? $t('common.restore') : $t('ui.organizer.restoreMultiple')"
         :subtitle="
           selected.length < 2
-            ? 'Remove Deleted status from item'
-            : 'Remove Deleted status from items'
+            ? $t('ui.organizer.unmarkDeleted')
+            : $t('ui.organizer.unmarkDeletedMultiple')
         "
         prepend-icon="mdi-file-restore-outline"
         :disabled="!selected.length"

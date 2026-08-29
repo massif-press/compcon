@@ -25,6 +25,7 @@ import {
   IEffectSpecialData,
 } from '../feature/active_effects/effect_subtype/EffectSpecial'
 import { Action } from '@/classes/Action'
+import { ActivePeriod, type Frequency } from '@/classes/Frequency'
 import { BonusController } from '../feature/bonus/BonusController'
 import { CompendiumStore } from '@/features/compendium/store'
 import { expiration } from './Expiration'
@@ -32,7 +33,11 @@ import { CombatLogEntry, CombatLog } from './CombatLog'
 import { Bonus } from '../feature/bonus/Bonus'
 import { assertController } from '../../utility/assertController'
 import { StatusController } from './StatusController'
-import { ActionPoolController, DEFAULT_COMBAT_ACTIONS } from './ActionPoolController'
+import {
+  ActionPoolController,
+  DEFAULT_COMBAT_ACTIONS,
+  type IActionUseRecord,
+} from './ActionPoolController'
 import { DamageController } from './DamageController'
 import type { CheckKind, IPendingCheck } from './StructureCheck'
 
@@ -67,6 +72,7 @@ interface CombatData {
 
   combatActions: any
   usedActions: string[]
+  actionUses: Record<string, IActionUseRecord>
 
   combat_history: CombatLogEntry[]
   round: number
@@ -290,9 +296,12 @@ class CombatController implements ICounterContainer, IStatContainer {
       StatKey.ACTIVATIONS,
       this.StatController.getCurrent(StatKey.ACTIVATIONS) - 1
     )
+    this.ClearUses(ActivePeriod.Turn)
+    if (this.Parent instanceof Pilot && this.Parent.ActiveMech)
+      this.Parent.ActiveMech.CombatController.ClearUses(ActivePeriod.Turn)
     if (this.StatController.getCurrent(StatKey.ACTIVATIONS) >= 1) {
       const remaining = this.StatController.getCurrent(StatKey.ACTIVATIONS)
-      this.Reset()
+      this.Reset(ActivePeriod.Turn)
       this.StatController.setCurrentStat(StatKey.ACTIVATIONS, remaining)
       this.Turn++
       this.CombatLog.AddTurn()
@@ -365,8 +374,25 @@ class CombatController implements ICounterContainer, IStatContainer {
     this.ActionPoolController.ResetActivation(action, propagate)
   }
 
-  public MarkActionUsed(actionId: string): void {
-    this.ActionPoolController.MarkActionUsed(actionId)
+  public FindAction(actionId: string): Action | undefined {
+    return (
+      this.Parent.FeatureController?.Actions.find(a => a.ID === actionId) ??
+      CompendiumStore().Actions.find((a: Action) => a.ID === actionId)
+    )
+  }
+
+  public ActionFrequency(actionId: string): Frequency | undefined {
+    return this.FindAction(actionId)?.Frequency
+  }
+
+  public MarkActionUsed(actionId: string, frequency?: Frequency): void {
+    const action = this.FindAction(actionId)
+    const freq = frequency ?? action?.Frequency
+    this.ActionPoolController.MarkActionUsed(actionId, freq)
+    if (freq && !freq.Unlimited && freq.Uses > 1)
+      this.log(
+        `${action?.Name || actionId} used (${this.RemainingUses(actionId)} of ${freq.Uses} remaining per ${freq.Duration})`
+      )
   }
 
   public IsActionUsed(actionId: string): boolean {
@@ -375,6 +401,22 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   public ClearActionUsed(actionId: string): void {
     this.ActionPoolController.ClearActionUsed(actionId)
+  }
+
+  public UsedCount(actionId: string): number {
+    return this.ActionPoolController.UsedCount(actionId)
+  }
+
+  public RemainingUses(actionId: string): number {
+    return this.ActionPoolController.RemainingUses(actionId)
+  }
+
+  public RestoreUse(actionId: string): void {
+    this.ActionPoolController.RestoreUse(actionId)
+  }
+
+  public ClearUses(event: ActivePeriod): void {
+    this.ActionPoolController.ClearUses(event)
   }
 
   public setStats(statArr: { key: string; val: number }[]): void {
@@ -600,6 +642,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public StartEncounter(): void {
+    this.ClearUses(ActivePeriod.Scene)
     const selfApplied = this.ActiveEffects.filter(ae => ae.InitialSelfApplied)
 
     if (selfApplied.length > 0) {
@@ -675,7 +718,7 @@ class CombatController implements ICounterContainer, IStatContainer {
       StatKey.ACTIVATIONS,
       this.StatController.getMax(StatKey.ACTIVATIONS)
     )
-    this.ActionPoolController.clearAllUsedActions()
+    this.ClearUses(ActivePeriod.Round)
     this._resetReloadableEquipment()
 
     const newEffects: TimedEffect[] = []
@@ -717,18 +760,24 @@ class CombatController implements ICounterContainer, IStatContainer {
     this.StartRound()
   }
 
-  public Reset(): void {
+  public Reset(scope: ActivePeriod = ActivePeriod.Mission): void {
     this.ResetCombatActions()
     this.StatController.setCurrentStat(
       StatKey.ACTIVATIONS,
       this.StatController.getMax(StatKey.ACTIVATIONS)
     )
     this.StatController.setCurrentStat(StatKey.SPEED, this.StatController.getMax(StatKey.SPEED))
-    this.ActionPoolController.clearAllUsedActions()
+    this.ClearUses(scope)
     this._resetReloadableEquipment()
     if (this.Parent instanceof Pilot) {
-      if (this.Parent.ActiveMech) this.Parent.ActiveMech.CombatController.Reset()
+      if (this.Parent.ActiveMech) this.Parent.ActiveMech.CombatController.Reset(scope)
     }
+  }
+
+  public EndEncounter(): void {
+    this.ClearUses(ActivePeriod.Scene)
+    if (this.Parent instanceof Pilot && this.Parent.ActiveMech)
+      this.Parent.ActiveMech.CombatController.ClearUses(ActivePeriod.Scene)
   }
 
   public Reload(): void {
@@ -768,7 +817,7 @@ class CombatController implements ICounterContainer, IStatContainer {
       status: EffectSpecial.Serialize(s.status),
       expires: s.expires?.Raw,
     }))
-    target.resistances = controller.Resistances
+    target.resistances = controller.Resistances.map(r => ({ ...r }))
     target.cover = controller.Cover
     target.mounted = controller.Mounted
     target.overwatch = controller.Overwatch
@@ -782,15 +831,16 @@ class CombatController implements ICounterContainer, IStatContainer {
     target.reactorDestroyed = controller.ReactorDestroyed
     target.isDead = controller.IsDead
 
-    target.combatActions = controller.CombatActions
+    target.combatActions = { ...controller.CombatActions }
 
-    target.combat_history = controller.CombatLog.History
+    target.combat_history = [...controller.CombatLog.History]
     target.round = controller.Round
     target.turn = controller.Turn
 
-    target.pending_checks = controller.PendingChecks
+    target.pending_checks = controller.PendingChecks.map(p => ({ ...p }))
 
-    target.usedActions = controller.ActionPoolController.usedActions
+    target.actionUses = { ...controller.ActionPoolController.ActionUses }
+    target.usedActions = Object.keys(controller.ActionPoolController.ActionUses)
 
     target.timed_effects = controller.TimedEffects.map(te => TimedEffect.Serialize(te))
 
@@ -828,9 +878,16 @@ class CombatController implements ICounterContainer, IStatContainer {
 
     if (data?.combatActions) controller.CombatActions = data.combatActions
 
-    controller.ActionPoolController.usedActions = data?.usedActions || []
+    controller.ActionPoolController.ActionUses =
+      data?.actionUses ??
+      Object.fromEntries(
+        (data?.usedActions || []).map(id => [
+          id,
+          { used: 1, max: 1, period: ActivePeriod.Round } as IActionUseRecord,
+        ])
+      )
 
-    controller.CombatLog.History = data?.combat_history || []
+    controller.CombatLog.History = CombatLog.trim(data?.combat_history || [])
 
     controller.Round = data?.round || 1
     controller.Turn = data?.turn || 1
@@ -863,6 +920,6 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 }
 
-const _checkController: IControllerStatic<CombatController, CombatData> = CombatController
+CombatController satisfies IControllerStatic<CombatController, CombatData>
 export { CombatController }
 export type { CombatData, CoverType }

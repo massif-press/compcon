@@ -146,6 +146,6 @@ class MechLoadoutController implements IFeatureContainer {
   }
 }
 
-const _checkController: IControllerStatic<Mech, IMechLoadoutSaveData> = MechLoadoutController
+MechLoadoutController satisfies IControllerStatic<Mech, IMechLoadoutSaveData>
 export { MechLoadoutController }
 export type { IMechLoadoutSaveData }

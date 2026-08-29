@@ -1,16 +1,29 @@
 <template>
-  <v-tooltip max-width="350px" location="top" :open-on-click="mobile" :open-on-hover="!mobile">
+  <v-tooltip
+    max-width="350px"
+    location="top"
+    :open-on-click="mobile"
+    :open-on-hover="!mobile"
+  >
     <template #activator="{ props }">
       <v-chip
-        v-bind="props"
         v-show="!tag.IsHidden"
+        v-bind="props"
         class="ma-1 cc-tag-clip pl-4 pr-2"
         :color="getColor"
         tile
         variant="elevated"
-        :size="size">
-        <v-icon v-if="tag.err" icon="mdi-label-off" />
-        <v-icon v-else start icon="mdi-label" />
+        :size="size"
+      >
+        <v-icon
+          v-if="tag.err"
+          icon="mdi-label-off"
+        />
+        <v-icon
+          v-else
+          start
+          icon="mdi-label"
+        />
         <span v-if="tag.err">{{ $t('ui.widget.missingData') }}</span>
         <span v-else>{{ tag.GetName(bonus, tier).toUpperCase() }}</span>
       </v-chip>
@@ -22,37 +35,37 @@
 </template>
 
 <script setup lang="ts">
-import type { Pilot } from '@/classes/pilot/Pilot'
-import { computed } from 'vue'
-import { useDisplay } from 'vuetify'
+  import type { Pilot } from '@/classes/pilot/Pilot'
+  import { computed } from 'vue'
+  import { useDisplay } from 'vuetify'
 
-const { smAndDown: mobile } = useDisplay()
+  const { smAndDown: mobile } = useDisplay()
 
-interface Props {
-  size?: string
-  outlined?: boolean
-  color?: string
-  tag: Record<string, any>
-  pilot?: Pilot | null
-  bonus?: number
-  tier?: number
-}
+  interface Props {
+    size?: string
+    outlined?: boolean
+    color?: string
+    tag: Record<string, any>
+    pilot?: Pilot | null
+    bonus?: number
+    tier?: number
+  }
 
-const props = withDefaults(defineProps<Props>(), {
-  color: 'primary',
-  pilot: null,
-  bonus: 0,
-  tier: 1,
-})
+  const props = withDefaults(defineProps<Props>(), {
+    color: 'primary',
+    pilot: null,
+    bonus: 0,
+    tier: 1,
+  })
 
-const getColor = computed(() => {
-  return props.tag.err ? 'error' : props.tag.IsExotic ? 'exotic' : props.color
-})
+  const getColor = computed(() => {
+    return props.tag.err ? 'error' : props.tag.IsExotic ? 'exotic' : props.color
+  })
 </script>
 
 <style scoped>
-.cc-tag-clip {
-  clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
-  padding-right: 16px;
-}
+  .cc-tag-clip {
+    clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
+    padding-right: 16px;
+  }
 </style>

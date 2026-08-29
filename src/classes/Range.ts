@@ -124,12 +124,17 @@ class Range {
       )
     })
 
-    if (!Bonus.get(BonusId.RANGE, mech) || item.NoCoreBonus) return output
-    const bonuses = mech.FeatureController.Bonuses.filter(x => x.ID === 'range')
+    if (item.NoCoreBonus) return output
+
+    const itemTypes = (item as any).getWeaponTypes ? (item as any).getWeaponTypes(mech) : item.WeaponTypes
+
+    const bonuses = mech.FeatureController.Bonuses.filter(
+      x => x.ID === 'range' || x.ID === BonusId.RANGE
+    )
     output.forEach(r => {
       if (r.Override) return
       bonuses.forEach(b => {
-        if (b.WeaponTypes.length && !b.WeaponTypes.some(wt => item.WeaponTypes.includes(wt))) return
+        if (b.WeaponTypes.length && !b.WeaponTypes.some(wt => itemTypes.includes(wt))) return
         if (b.WeaponSizes.length && !b.WeaponSizes.some(ws => item.Size === ws)) return
         if (b.DamageTypes.length && !b.DamageTypes.some(dt => item.DamageType.some(x => x === dt)))
           return
@@ -138,6 +143,34 @@ class Range {
         }
       })
     })
+
+    const threatBonuses = mech.FeatureController.Bonuses.filter(
+      x => x.ID === 'threat' || x.ID === BonusId.THREAT
+    )
+    threatBonuses.forEach(b => {
+      if (b.WeaponTypes.length && !b.WeaponTypes.some(wt => itemTypes.includes(wt))) return
+      if (b.WeaponSizes.length && !b.WeaponSizes.some(ws => item.Size === ws)) return
+      if (b.DamageTypes.length && !b.DamageTypes.some(dt => item.DamageType.some(x => x === dt)))
+        return
+
+      const val = Bonus.Evaluate(b, mech.Pilot)
+      const existingThreat = output.find(r => r.Type === RangeType.Threat)
+      if (existingThreat) {
+        if (b.Replace || b.Overwrite) {
+          existingThreat.Value = val
+        } else {
+          ;(existingThreat as any)._bonus += val
+        }
+      } else {
+        output.push(
+          new Range({
+            type: RangeType.Threat,
+            val: val,
+          })
+        )
+      }
+    })
+
     return output
   }
 

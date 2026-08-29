@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue'
+import { computed, onScopeDispose, ref } from 'vue'
 import { Rules } from '@/classes/utility/Rules'
 
 function useTrackableStats(props: { item: any }) {
@@ -19,18 +19,32 @@ function useTrackableStats(props: { item: any }) {
     return icons[stat]
   }
 
+  let drainTimer: ReturnType<typeof setInterval> | null = null
+
+  function stopDrain() {
+    if (drainTimer) clearInterval(drainTimer)
+    drainTimer = null
+  }
+
   function drainBattery() {
     if (batteryIndex.value > 0) {
       props.item.CombatController.CorePower = false
-      const interval = setInterval(() => {
+      stopDrain()
+      drainTimer = setInterval(() => {
         batteryIndex.value--
-        if (batteryIndex.value === 0) clearInterval(interval)
+        if (batteryIndex.value <= 0) {
+          batteryIndex.value = 0
+          stopDrain()
+        }
       }, 60)
     } else {
+      stopDrain()
       props.item.CombatController.CorePower = true
       batteryIndex.value = 3
     }
   }
+
+  onScopeDispose(stopDrain, true)
 
   return { batteryIcons, batteryIndex, overchargeTrack, getIcon, drainBattery }
 }

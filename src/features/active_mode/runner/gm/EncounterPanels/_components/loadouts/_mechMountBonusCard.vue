@@ -1,70 +1,102 @@
 <template>
   <div style="position: relative">
-    <cc-alert variant="outlined"
+    <cc-alert
+      variant="outlined"
       border-color="primary"
       color="text"
       :icon="expanded && 'cc:weapon_profile'"
       :title="expanded && bonus.Name"
-      class="mb-2">
+      class="mb-2"
+    >
       <v-card-text class="pa-0">
         <v-row dense>
-          <v-col v-if="!expanded"
-            cols="auto">
-            <v-tooltip location="top"
-              :text="bonus.Name">
+          <v-col
+            v-if="!expanded"
+            cols="auto"
+          >
+            <v-tooltip
+              location="top"
+              :text="bonus.Name"
+            >
               <template #activator="{ props }">
-                <v-icon v-bind="props"
+                <v-icon
+                  v-bind="props"
                   size="25"
                   color="primary"
                   class="mt-n1"
-                  icon="cc:weapon_profile" />
+                  icon="cc:weapon_profile"
+                />
               </template>
             </v-tooltip>
           </v-col>
           <v-col>
-            <span v-html-safe="bonus.MountedEffect"
-              class=text-text />
+            <span
+              v-html-safe="bonus.MountedEffect"
+              class="text-text"
+            />
           </v-col>
         </v-row>
 
         <template v-if="!expanded">
-          <cc-combat-action-chip :owner="owner" :encounter-instance="encounterInstance" v-for="a in bonus.Actions"
+          <cc-combat-action-chip
+            v-for="a in bonus.Actions"
             :key="a.ID"
+            :owner="owner"
+            :encounter-instance="encounterInstance"
             :action="a"
-            class="mt-1">
+            class="mt-1"
+          >
             <template #icon>
-              <v-tooltip location="top"
-                :text="$t('active.tooltips.equipmentAction')">
+              <v-tooltip
+                location="top"
+                :text="$t('active.tooltips.equipmentAction')"
+              >
                 <template #activator="{ props }">
-                  <v-icon v-bind="props"
-                    icon="cc:system" />
+                  <v-icon
+                    v-bind="props"
+                    icon="cc:system"
+                  />
                 </template>
               </v-tooltip>
             </template>
           </cc-combat-action-chip>
 
-          <deploy-button v-for="(d, i) in bonus.Deployables"
+          <deploy-button
+            v-for="(d, i) in bonus.Deployables"
             :key="d.Name + i"
             :deployable="d"
             :actor="mech"
-            @deploy="$emit('deploy', d)" />
+            @deploy="$emit('deploy', d)"
+          />
         </template>
       </v-card-text>
-
-
     </cc-alert>
-    <div style="position: absolute; right: -5px; bottom: -4px"
-      class="fade-select">
-      <v-tooltip max-width="300"
-        location="top">
+    <div
+      style="position: absolute; right: -5px; bottom: -4px"
+      class="fade-select"
+    >
+      <v-tooltip
+        max-width="300"
+        location="top"
+      >
         <template #activator="{ props }">
-          <v-icon v-bind="props"
+          <v-icon
+            v-bind="props"
             icon="mdi-alert-outline"
             size="16"
-            color="warning" />
+            color="warning"
+          />
         </template>
-        <i18n-t keypath="active.mountBonus.warning" tag="span" scope="global">
-          <template #not><strong class="text-accent"><u>{{ $t('pm.loadout.not') }}</u></strong></template>
+        <i18n-t
+          keypath="active.mountBonus.warning"
+          tag="span"
+          scope="global"
+        >
+          <template #not>
+            <strong class="text-accent">
+              <u>{{ $t('pm.loadout.not') }}</u>
+            </strong>
+          </template>
         </i18n-t>
       </v-tooltip>
     </div>
@@ -72,27 +104,27 @@
 </template>
 
 <script setup lang="ts">
-import DeployButton from './_deployButton.vue';
-import { useEncounterContext } from '../../encounterContext'
-import { Mech } from '@/classes/mech/Mech';
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
-import { CoreBonus } from '@/classes/pilot/components/index';
+  import DeployButton from './_deployButton.vue'
+  import { useEncounterContext } from '../../encounterContext'
+  import { Mech } from '@/classes/mech/Mech'
+  import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+  import { CoreBonus } from '@/classes/pilot/components/index'
 
-const { owner, encounterInstance } = useEncounterContext()
+  const { owner, encounterInstance } = useEncounterContext()
 
-defineProps({
-  bonus: {
-    type: CoreBonus,
-    required: true,
-  },
-  mech: {
-    type: Mech,
-    required: true,
-  },
-  expanded: {
-    type: Boolean,
-  },
-})
+  defineProps({
+    bonus: {
+      type: CoreBonus,
+      required: true,
+    },
+    mech: {
+      type: Mech,
+      required: true,
+    },
+    expanded: {
+      type: Boolean,
+    },
+  })
 
-defineEmits(['deploy'])
+  defineEmits(['deploy'])
 </script>

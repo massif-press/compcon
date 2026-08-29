@@ -4,9 +4,11 @@ import { Campaign } from './Campaign'
 import { IContentBlockData, ContentBlock } from './CampaignContentBlock'
 import { Encounter, IEncounterData } from '../encounter/Encounter'
 
+type SectionType = 'section' | 'beat' | 'mission' | 'combat' | 'downtime'
+
 type ICampaignSectionData = {
   title: string
-  sectionType: 'section' | 'beat' | 'mission' | 'combat' | 'other'
+  sectionType: SectionType
   content: IContentBlockData[]
   children: ICampaignSectionData[]
 }
@@ -15,7 +17,7 @@ class CampaignSection {
   public readonly Campaign: Campaign
   public Parent: CampaignSection | null
   private _title: string
-  private _sectionType: 'section' | 'beat' | 'mission' | 'combat' | 'other'
+  private _sectionType: SectionType
   private _content: ContentBlock[]
   private _children: CampaignSection[]
 
@@ -23,8 +25,7 @@ class CampaignSection {
     this.Parent = parent
     this.Campaign = campaign
     this._title = data
-      ? data?.title ||
-        `New ${data?.sectionType.charAt(0).toUpperCase() + data?.sectionType.slice(1)}`
+      ? data?.title || `New ${_.upperFirst(data?.sectionType)}`
       : i18n.global.t('classes.newSection')
     this._sectionType = data?.sectionType || 'section'
     this._content = data?.children ? data.content.map(x => new ContentBlock(this, campaign, x)) : []
@@ -67,11 +68,11 @@ class CampaignSection {
     this.Campaign.save()
   }
 
-  public get SectionType(): 'section' | 'beat' | 'mission' | 'combat' | 'other' {
+  public get SectionType(): SectionType {
     return this._sectionType
   }
 
-  public set SectionType(value: 'section' | 'beat' | 'mission' | 'combat' | 'other') {
+  public set SectionType(value: SectionType) {
     this._sectionType = value
     this.Campaign.save()
   }
@@ -142,7 +143,7 @@ class CampaignSection {
   }
 
   public MoveUp(): void {
-    let parent = this.Parent || this.Campaign
+    const parent = this.Parent || this.Campaign
     const index = parent.Children.indexOf(this)
     if (index === 0) return
     parent.Children.splice(index, 1)
@@ -151,7 +152,7 @@ class CampaignSection {
   }
 
   public MoveToTop(): void {
-    let parent = this.Parent || this.Campaign
+    const parent = this.Parent || this.Campaign
     const index = parent.Children.indexOf(this)
     if (index === 0) return
     parent.Children.splice(index, 1)
@@ -160,7 +161,7 @@ class CampaignSection {
   }
 
   public MoveDown(): void {
-    let parent = this.Parent || this.Campaign
+    const parent = this.Parent || this.Campaign
     const index = parent.Children.indexOf(this)
     if (index === parent.Children.length - 1) return
     parent.Children.splice(index, 1)
@@ -169,7 +170,7 @@ class CampaignSection {
   }
 
   public MoveToBottom(): void {
-    let parent = this.Parent || this.Campaign
+    const parent = this.Parent || this.Campaign
     const index = parent.Children.indexOf(this)
     if (index === parent.Children.length - 1) return
     parent.Children.splice(index, 1)
@@ -178,7 +179,7 @@ class CampaignSection {
   }
 
   public MoveToSection(section: CampaignSection): void {
-    let parent = this.Parent || this.Campaign
+    const parent = this.Parent || this.Campaign
     const index = parent.Children.indexOf(this)
     parent.Children.splice(index, 1)
     section.Children.push(this)
@@ -218,4 +219,4 @@ class CampaignSection {
 }
 
 export { CampaignSection }
-export type { ICampaignSectionData }
+export type { ICampaignSectionData, SectionType }

@@ -2,7 +2,10 @@ import { CompendiumStore } from '@/features/compendium/store'
 import { ActivationType, Duration } from '../../../enums'
 import { MechSystem } from '../equipment/MechSystem'
 import { MechWeapon } from '../equipment/MechWeapon'
-import { resolveSpecialEquipment, resolveIntegratedEquipment } from '../../../components/_equipmentUtils'
+import {
+  resolveSpecialEquipment,
+  resolveIntegratedEquipment,
+} from '../../../components/_equipmentUtils'
 import Tag, { ITagData } from '../../../Tag'
 import { IActionData, Action } from '../../../Action'
 import { IBonusData, Bonus } from '../../../components/feature/bonus/Bonus'
@@ -165,10 +168,6 @@ class CoreSystem {
       ? localize(this._lkey, 'passive_effect', this._passiveEffect)
       : this._passiveEffect
   }
-
-  // private activeFeatures(type: string): any[] {
-  //   return this[`Passive${type}`].concat(this.IsActive ? this[`Active${type}`] : []);
-  // }
 
   private Features(type: string): any[] {
     return []

@@ -1,92 +1,104 @@
 <template>
   <div class="mt-1 mx-2 no-print-break">
-    <div v-for="(d, index) in deployables" :key="`deployable-${index}`" style="border: 1px solid rgba(0, 0, 0, 0.2); border-radius: 3px">
-      <v-row justify="center" dense class="text-center">
-        <v-col v-if="(d as any).getStat('Size', tier)" cols="auto">
+    <div
+      v-for="(d, index) in deployables"
+      :key="`deployable-${index}`"
+      style="border: 1px solid rgba(0, 0, 0, 0.2); border-radius: 3px"
+    >
+      <div class="caption font-weight-bold px-2 pt-1">
+        <v-icon
+          size="x-small"
+          :icon="d.Icon"
+          class="mr-1"
+        />
+        {{ d.Name }}
+        <span class="text-grey">// {{ d.Type }}</span>
+      </div>
+      <v-row
+        justify="center"
+        dense
+        class="text-center"
+      >
+        <v-col
+          v-if="d.Size"
+          cols="auto"
+        >
           <div
             class="caption font-weight-bold"
-            v-html-safe="
-              `Size ${
-                (d as any).getStat('Size', tier) === 0.5 ? '½' : (d as any).getStat('Size', tier)
-              }`
-            " />
-        </v-col>
-        <v-col v-if="(d as any).Armor" cols="auto">
-          <div class="caption" v-html-safe="`<b>Armor</b>: ${(d as any).getStat('Armor', tier)}`" />
+            v-html-safe="`Size ${d.Size === 0.5 ? '½' : d.Size}`"
+          />
         </v-col>
         <v-col
-          v-if="(d as any).getStat('HP', tier) || (d as any).getStat('Size', tier)"
-          cols="auto">
+          v-for="s in shownStats(d)"
+          :key="s.key"
+          cols="auto"
+        >
           <div
             class="caption"
-            v-html-safe="
-              `<b>HP</b>: ${
-                (d as any).getStat('HP', tier)
-                  ? (d as any).getStat('HP', tier).toString().replace(/[{}]/gim, '')
-                  : parseFloat((d as any).getStat('Size', tier) || 0.5) * 10
-              }`
-            " />
-        </v-col>
-        <v-col v-if="(d as any).Evasion" cols="auto">
-          <div
-            class="caption"
-            v-html-safe="`<b>Evasion:</b> ${(d as any).getStat('Evasion', tier) || 10}`" />
-        </v-col>
-        <v-col v-if="(d as any).EDefense" cols="auto">
-          <div
-            class="caption"
-            v-html-safe="`<b>E-Defense:</b> ${(d as any).getStat('EDefense', tier)}`" />
-        </v-col>
-        <v-col v-if="(d as any).Heatcap" cols="auto">
-          <div
-            class="caption"
-            v-html-safe="`<b>Heat Capacity:</b> ${(d as any).getStat('Heatcap', tier)}`" />
-        </v-col>
-        <v-col v-if="(d as any).Sensor" cols="auto">
-          <div
-            class="caption"
-            v-html-safe="`<b>Sensor Range:</b> ${(d as any).getStat('Sensor', tier)}`" />
-        </v-col>
-        <v-col v-if="(d as any).TechAttack" cols="auto">
-          <div
-            class="caption"
-            v-html-safe="`<b>Tech Attack:</b> ${(d as any).getStat('TechAttack', tier)}`" />
-        </v-col>
-        <v-col v-if="(d as any).Repcap" cols="auto">
-          <div
-            class="caption"
-            v-html-safe="`<b>Repair Capacity:</b> ${(d as any).getStat('Repcap', tier)}`" />
-        </v-col>
-        <v-col v-if="(d as any).Save" cols="auto">
-          <div class="caption" v-html-safe="`<b>Save Target:</b> ${(d as any).getStat('Save', tier)}`" />
-        </v-col>
-        <v-col v-if="(d as any).Speed" cols="auto">
-          <div class="caption" v-html-safe="`<b>Speed:</b> ${(d as any).getStat('Speed', tier)}`" />
+            v-html-safe="`<b>${s.label}:</b> ${s.value}`"
+          />
         </v-col>
       </v-row>
       <div>
-        <p class="caption mb-0 px-2" v-html-safe="(d as any).getDetail(tier)" />
+        <p
+          class="caption mb-0 px-2"
+          v-html-safe="d.getDetail(tier)"
+        />
       </div>
-      <div v-if="(d as any).Actions.length">
-        <print-action :actions="(d as any).Actions" />
+      <div v-if="d.Actions.length">
+        <print-action
+          :actions="d.Actions"
+          :tier="tier"
+        />
       </div>
+      <cc-tags
+        v-if="d.Tags?.length"
+        print
+        :tags="d.Tags"
+        :tier="tier"
+        class="px-2 pb-1"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import PrintAction from './PrintAction.vue';
+  import PrintAction from './PrintAction.vue'
+  import type { Deployable } from '@/classes/components/feature/deployable/Deployable'
+  import type { DeployableOwner } from '@/classes/components/feature/IFeatureController'
 
-defineOptions({ name: 'print-deployable' })
+  defineOptions({ name: 'print-deployable' })
 
-const props = withDefaults(defineProps<{
-  deployables: any[]
-  tier?: number
-}>(), {
-  tier: 1
-})
+  const STATS: { key: string; label: string; prop: string }[] = [
+    { key: 'armor', label: 'Armor', prop: 'Armor' },
+    { key: 'hp', label: 'HP', prop: 'MaxHP' },
+    { key: 'evasion', label: 'Evasion', prop: 'Evasion' },
+    { key: 'edef', label: 'E-Defense', prop: 'EDefense' },
+    { key: 'heatcap', label: 'Heat Capacity', prop: 'Heatcap' },
+    { key: 'sensors', label: 'Sensor Range', prop: 'Sensors' },
+    { key: 'techattack', label: 'Tech Attack', prop: 'TechAttack' },
+    { key: 'repcap', label: 'Repair Capacity', prop: 'Repcap' },
+    { key: 'save', label: 'Save Target', prop: 'SaveTarget' },
+    { key: 'speed', label: 'Speed', prop: 'Speed' },
+  ]
+
+  const props = withDefaults(
+    defineProps<{
+      deployables: Deployable[]
+      tier?: number
+      owner?: DeployableOwner | null
+    }>(),
+    {
+      tier: 1,
+      owner: null,
+    }
+  )
+
+  function shownStats(d: Deployable) {
+    return STATS.filter(s => (d as any)[s.prop]).map(s => ({
+      key: s.key,
+      label: s.label,
+      value: d.getStat(s.key, props.tier, props.owner),
+    }))
+  }
 </script>
-
-<style scoped>
-@import '@/ui/style/print-common.css';
-</style>

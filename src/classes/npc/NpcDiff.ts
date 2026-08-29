@@ -22,11 +22,13 @@ const GenerateItemDiff = (target: Npc, source: Npc) => {
 
   target.NarrativeController.Labels.forEach(label => {
     const sourceLabel = source.NarrativeController.Labels.find(x => x.title === label.title)
-    if (!sourceLabel)
-      return (diff.Labels[label.title] = {
+    if (!sourceLabel) {
+      diff.Labels[label.title] = {
         instance: `${label.title}: ${label.value}`,
         source: 'None',
-      })
+      }
+      return
+    }
     if (label.value !== sourceLabel.value)
       diff.Labels[label.title] = {
         instance: `${label.title}: ${label.value}`,
@@ -36,11 +38,13 @@ const GenerateItemDiff = (target: Npc, source: Npc) => {
 
   target.NarrativeController.TextItems.forEach(text => {
     const sourceText = source.NarrativeController.TextItems.find(x => x.header === text.header)
-    if (!sourceText)
-      return (diff.AdditionalDetail[text.header] = {
+    if (!sourceText) {
+      diff.AdditionalDetail[text.header] = {
         instance: `${text.header}: ${text.body.length} chars.${text.gm_only ? ' (GM Only)' : ''}`,
         source: 'None',
-      })
+      }
+      return
+    }
     if (text.body !== sourceText.body || text.gm_only !== sourceText.gm_only)
       diff.AdditionalDetail[text.header] = {
         instance: `${text.header}: ${text.body.length} chars.${text.gm_only ? ' (GM Only)' : ''}`,
@@ -52,13 +56,15 @@ const GenerateItemDiff = (target: Npc, source: Npc) => {
 
   target.NarrativeController.Clocks.forEach(clock => {
     const sourceClock = source.NarrativeController.Clocks.find(x => x.ID === clock.ID)
-    if (!sourceClock)
-      return (diff.Clocks[clock.Title] = {
+    if (!sourceClock) {
+      diff.Clocks[clock.Title] = {
         instance: `${clock.Title}: ${clock.Progress}/${clock.Segments}, ${
           clock.Description.length
         } chars.${clock.GmOnly ? ' (GM Only)' : ''}`,
         source: 'None',
-      })
+      }
+      return
+    }
     if (
       clock.Title !== sourceClock.Title ||
       clock.Segments !== sourceClock.Segments ||
@@ -77,13 +83,15 @@ const GenerateItemDiff = (target: Npc, source: Npc) => {
 
   target.NarrativeController.Tables.forEach(table => {
     const sourceTable = source.NarrativeController.Tables.find(x => x.ID === table.ID)
-    if (!sourceTable)
-      return (diff.Tables[table.Title] = {
+    if (!sourceTable) {
+      diff.Tables[table.Title] = {
         instance: `${table.Title}: ${table.Results.length} items.${
           table.GmOnly ? ' (GM Only)' : ''
         }`,
         source: 'None',
-      })
+      }
+      return
+    }
     if (
       table.Title !== sourceTable.Title ||
       table.Results.length !== sourceTable.Results.length ||

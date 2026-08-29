@@ -1,9 +1,12 @@
 <template>
-  <v-row density="compact"
+  <v-row
+    density="compact"
     justify="space-around"
-    class="mx-4">
+    class="mx-4"
+  >
     <v-col cols="12">
-      <v-select v-model="roleFilter"
+      <v-select
+        v-model="roleFilter"
         class="px-2"
         hide-details
         density="compact"
@@ -14,45 +17,49 @@
         :label="$t('ui.fields.role')"
         :items="roles"
         multiple
-        @update:modelValue="updateFilters()" />
+        @update:model-value="updateFilters()"
+      />
     </v-col>
   </v-row>
 </template>
 
 <script setup lang="ts">
-import type { ItemFilters } from '@/ui/components/panels/filters/types'
-import { ref, onMounted } from 'vue'
+  import type { ItemFilters } from '@/ui/components/panels/filters/types'
+  import { ref, onMounted } from 'vue'
 
-defineOptions({ name: 'npc-class-filter' })
+  defineOptions({ name: 'npc-class-filter' })
 
-const props = withDefaults(defineProps<{
-  activeFilters?: ItemFilters
-  roles?: any[]
-}>(), {
-  activeFilters: () => ({}),
-  roles: () => []
-})
-
-const emit = defineEmits<{
-  'set-filters': [payload: any]
-}>()
-
-const roleFilter = ref([] as string[])
-
-function clear() {
-      roleFilter.value = [];
+  const props = withDefaults(
+    defineProps<{
+      activeFilters?: ItemFilters
+      roles?: any[]
+    }>(),
+    {
+      activeFilters: () => ({}),
+      roles: () => [],
     }
-function updateFilters() {
-      const fObj = {} as any;
-      if (roleFilter.value && roleFilter.value.length > 0) fObj.Role = roleFilter.value;
-      emit('set-filters', fObj);
-    }
+  )
 
-onMounted(() => {
-const f = props.activeFilters;
-    if (!f || !Object.keys(f).length) return;
-    if (f.Role) roleFilter.value = f.Role;
-})
+  const emit = defineEmits<{
+    'set-filters': [payload: any]
+  }>()
 
-defineExpose({ clear })
+  const roleFilter = ref([] as string[])
+
+  function clear() {
+    roleFilter.value = []
+  }
+  function updateFilters() {
+    const fObj = {} as any
+    if (roleFilter.value && roleFilter.value.length > 0) fObj.Role = roleFilter.value
+    emit('set-filters', fObj)
+  }
+
+  onMounted(() => {
+    const f = props.activeFilters
+    if (!f || !Object.keys(f).length) return
+    if (f.Role) roleFilter.value = f.Role
+  })
+
+  defineExpose({ clear })
 </script>

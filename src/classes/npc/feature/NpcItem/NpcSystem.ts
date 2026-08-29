@@ -7,18 +7,18 @@ export interface INpcSystemData extends INpcFeatureData {
 }
 
 export class NpcSystem extends NpcFeature {
-  public ItemType: ItemType = ItemType.NpcSystem
+  public override ItemType: ItemType = ItemType.NpcSystem
 
   public constructor(data: INpcSystemData, pack?: ContentPack) {
     super(data, pack)
     this.FeatureType = NpcFeatureType.System
   }
 
-  public get Color(): string {
+  public override get Color(): string {
     return this.Actions.length || this.Deployables.length ? 'npc--action' : 'npc--passive'
   }
 
-  public get Icon(): string {
+  public override get Icon(): string {
     return 'cc:system'
   }
 }
