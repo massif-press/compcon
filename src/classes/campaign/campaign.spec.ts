@@ -25,7 +25,7 @@ describe('Campaign', () => {
 
     expect(campaign.Title).toBe('Operation Solstice Rain')
     expect(campaign.Subtitle).toBe('Act One')
-    expect(campaign.Description).toBe('Campaign Description')
+    expect(campaign.Description).toBe('Campaign description')
     expect(campaign.Author).toBe('GM')
   })
 
