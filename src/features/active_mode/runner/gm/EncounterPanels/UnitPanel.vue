@@ -25,29 +25,7 @@
     </template>
 
     <template #action-palette>
-      <v-row dense>
-        <v-col>
-          <v-btn
-            flat
-            tile
-            size="small"
-            block
-            :color="actor.CombatController.Overwatch ? 'primary' : 'panel'"
-            :text="$t('active.actions.overwatch')"
-            @click="actor.CombatController.Overwatch = !actor.CombatController.Overwatch"
-          />
-          <v-divider />
-          <v-btn
-            flat
-            tile
-            size="small"
-            block
-            :color="actor.CombatController.Prepared ? 'primary' : 'panel'"
-            :text="$t('active.common.prepared')"
-            @click="actor.CombatController.Prepared = !actor.CombatController.Prepared"
-          />
-        </v-col>
-      </v-row>
+      <turn-state-toggles :states="turnStates" />
     </template>
 
     <unit-combat-loadout
@@ -71,6 +49,10 @@
   import NpcActionsPanel from './_components/NpcActionsPanel.vue'
   import ScanMenu from './_components/ScanMenu.vue'
   import PanelBase from './_PanelBase.vue'
+  import { useI18n } from 'vue-i18n'
+  import TurnStateToggles from './_components/TurnStateToggles.vue'
+
+  const { t } = useI18n()
 
   const props = defineProps<{
     combatant: CombatantData
@@ -93,4 +75,22 @@
   function deploy(deployable) {
     props.encounterInstance.Deploy(deployable, props.combatant)
   }
+
+  const turnStates = computed(() => {
+    const cc = (actor.value as any).CombatController
+    return [
+      {
+        key: 'overwatch',
+        label: t('active.actions.overwatch'),
+        active: cc.Overwatch,
+        toggle: () => (cc.Overwatch = !cc.Overwatch),
+      },
+      {
+        key: 'prepared',
+        label: t('active.common.prepared'),
+        active: cc.Prepared,
+        toggle: () => (cc.Prepared = !cc.Prepared),
+      },
+    ]
+  })
 </script>

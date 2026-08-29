@@ -127,7 +127,7 @@
       </v-card-text>
       <div v-if="hideLocked"
         style="position: absolute; top: 0; right: -14px">
-        <v-tooltip :text="`${showAll ? 'Hide' : 'Show'} All`">
+        <v-tooltip :text="showAll ? $t('ui.talent.hideAll') : $t('ui.talent.showAll')">
           <template #activator="{ props }">
             <cc-button size="x-small"
               variant="text"

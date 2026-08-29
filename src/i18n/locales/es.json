@@ -982,7 +982,6 @@
       "encounterInstance": "(Instancia de Encuentro #{n})",
       "uniqueInstanceHelp": "Esta es una instancia única de este PNJ enlazado a los datos de este Encuentro. Editar este PNJ no afectará los datos originales del PNJ.",
       "linkedSource": "La fuente de esta instancia de PNJ está presente en su lista de PNJ ({name}) y puede recibir actualizaciones del original",
-      "notLinkedSource": "Esta instancia de PNJ no está vinculada a una fuente válida en su lista de PNJ",
       "notLinkedSourceDot": "Esta instancia de PNJ no está vinculada a una fuente válida en su lista de PNJ.",
       "sourceLinked": "Origen Vinculado",
       "sourceUnavailable": "Origen No Disponible",
@@ -1477,10 +1476,6 @@
     },
     "trackable": {
       "corePower": "Poder del Núcleo",
-      "ready": "Listo",
-      "clearMechCore": "Limpiar los de este mecha",
-      "restoreMechCore": "Restaurar los de este mecha",
-      "corePowerQ": "¿poder de núcleo?",
       "unavailable": "No Disponible"
     },
     "customStat": {

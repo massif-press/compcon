@@ -36,31 +36,13 @@
         </div>
         <cc-switch v-model="context.Autosave"
           size="large"
-          :label="context.Autosave ? 'On Round End' : 'Off (Manual Saves Only)'"
+          :label="context.Autosave ? $t('active.runnerHeader.autosaveOnRoundEnd') : $t('active.runnerHeader.autosaveOff')"
           :tooltip="autosaveTooltip" />
       </v-col>
       <v-col>
         <div class="text-cc-overline mt-1 text-disabled">{{ $t('active.runnerHeader.layoutOptions')
-          }}</div>
-        <cc-switch v-model="context.SimpleTickbars"
-          size="large"
-          color="primary"
-          :label="context.SimpleTickbars ? 'Simple Tickbars' : 'Standard Tickbars'"
-          :tooltip="$t('active.tooltips.replaceTheThematicStatTrackers')" />
-        <cc-switch v-model="context.LayoutColumns"
-          size="large"
-          :label="$t('active.fields.layoutColumns')"
-          color="primary"
-          :tooltip="$t('active.tooltips.thisControlsIfColumnsWill')" />
-        <cc-checkbox v-model="context.ForceComplexTickbars"
-          :label="$t('active.fields.forceStandardTickbars')"
-          class="my-1"
-          :tooltip="$t('active.tooltips.simpleTickbarsAreShownOn')" />
-        <cc-number-field v-model="context.MaxMasonryColumns"
-          size="large"
-          :label="$t('active.fields.maxLoadoutFeatureSetColumns')"
-          color="primary"
-          :tooltip="$t('active.tooltips.thisControlsHowManyColumns')" />
+        }}</div>
+        <layout-options-controls dense />
       </v-col>
     </v-row>
   </v-card-text>
@@ -69,6 +51,7 @@
 <script setup lang="ts">
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import PilotSheet from '@/features/pilot_management/store/PilotSheet';
+import LayoutOptionsControls from '@/features/active_mode/_components/LayoutOptionsControls.vue';
 
 defineProps<{
   context: EncounterInstance | PilotSheet

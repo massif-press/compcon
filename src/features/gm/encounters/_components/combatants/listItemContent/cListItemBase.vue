@@ -117,7 +117,7 @@
               <b class="text-accent">{{ item.actor.GetLinkedItem().Name }}</b>
             </template>
           </i18n-t>
-          <span v-else>{{ $t('gm.combatant.notLinkedSource') }}</span>
+          <span v-else>{{ $t('gm.combatant.notLinkedSourceDot') }}</span>
         </v-tooltip>
       </v-row>
     </template>

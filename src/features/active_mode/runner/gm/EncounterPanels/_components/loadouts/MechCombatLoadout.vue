@@ -65,6 +65,7 @@ import ShLockCard from '@/features/pilot_management/_components/loadout/mech_loa
 import MechSystemCard from './_mechSystemCard.vue';
 import MechWeaponCard from './_mechWeaponCard.vue';
 import MechMountBonusCard from './_mechMountBonusCard.vue';
+import { useLayoutOptions } from '@/features/active_mode/layoutOptions'
 
 const _display = useDisplay()
 
@@ -79,10 +80,8 @@ const emit = defineEmits<{
 
 }>()
 
-const xlColumns = computed(() => {
-  if (mobile.value) return 1
-  else return encounterInstance.value.MaxMasonryColumns
-})
+const { layout } = useLayoutOptions()
+const xlColumns = computed(() => layout.value.maxColumns)
 const mobile = computed(() => {
   return _display.mdAndDown.value;
 })

@@ -232,7 +232,7 @@
           prepend-icon="mdi-plus"
           @click="addCondition()"
         >
-          {{ $t('active.common.condition_status') }}
+          {{ $t('gm.fields.condition') }}
         </cc-button>
       </v-col>
       <v-col

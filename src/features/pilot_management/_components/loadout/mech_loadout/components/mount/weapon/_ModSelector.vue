@@ -63,12 +63,12 @@
               <br />
               <cc-switch
                 v-model="showIncompatible"
-                :label="mobile && 'Show Exceeds SP'"
+                :label="mobile && $t('pm.loadout.showIncompatibleMods')"
                 color="error"
                 :tooltip="
                   !mobile && showIncompatible
-                    ? 'Incompatible Mods: SHOWN'
-                    : 'Incompatible Mods: HIDDEN'
+                    ? $t('pm.loadout.incompatibleModsShown')
+                    : $t('pm.loadout.incompatibleModsHidden')
                 "
                 :prepend-icon="mobile ? undefined : 'cc:status_downandout'"
                 on-icon="mdi-lock-open"

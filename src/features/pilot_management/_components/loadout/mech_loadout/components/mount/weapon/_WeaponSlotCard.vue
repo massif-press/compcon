@@ -178,7 +178,9 @@
 
   <cc-dialog v-if="item"
     v-model="modDialog"
-    :title="`${mod ? 'Modify' : 'Install'} ${item.Name} Modification`"
+    :title="mod
+          ? $t('pm.loadout.modifyModification', { name: item.Name })
+          : $t('pm.loadout.installModification', { name: item.Name })"
     clip
     icon="cc:weaponmod" :close-on-click="false" major full-height max-width="90vw">
     <mod-selector :weapon="item"

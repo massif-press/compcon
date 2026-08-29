@@ -56,7 +56,7 @@
             <template #icon>
               <v-tooltip
                 location="top"
-                :text="`Core Power ${mech.CombatController.CorePower ? 'Available' : 'Depleted'}`"
+                :text="mech.CombatController.CorePower ? $t('ui.corePanel.corePowerAvailable') : $t('ui.corePanel.corePowerDepleted')"
               >
                 <template #activator="{ props }">
                   <v-icon

@@ -152,8 +152,8 @@
               :title="$t('pm.sheet.downloadLatestData')"
               :subtitle="
                 pilot.CloudController.isSynced
-                  ? 'Pilot is up to date with remote data'
-                  : 'Download all remote changes to this pilot, overwriting local data.'
+                  ? $t('pm.sheet.pilotIsUpToDateWith')
+                  : $t('pm.sheet.downloadAllRemoteChangesToThis')
               "
               @click="remoteUpdate()"
             />

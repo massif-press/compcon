@@ -59,7 +59,7 @@
         </span>
         <cc-tooltip
           v-if="hideLocked"
-          :content="`${showAll ? 'Hide' : 'Show'} All`"
+          :content="showAll ? $t('ui.talent.hideAll') : $t('ui.talent.showAll')"
         >
           <v-btn
             small

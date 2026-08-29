@@ -4,6 +4,8 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import console from 'node:console'
 
+import { normalizeMarkup, markupFault } from '../src/i18n/contentKeys.mjs'
+
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const srdDir = resolve(root, 'src/assets/srd/lib')
 const outPath = resolve(root, 'content/en/lancer-srd.json')
@@ -18,7 +20,7 @@ function visit(node, id) {
     const en = node[field]?.en
     if (en === undefined) continue
     node[field] = { en } // strip non-en
-    if (String(en).trim()) catalog[`${id}.${field}`] = en
+    if (String(en).trim()) catalog[`${id}.${field}`] = normalizeMarkup(en)
   }
   if (Array.isArray(node.children)) node.children.forEach((c, i) => visit(c, `${id}_${i}`))
 }
@@ -32,6 +34,14 @@ for (const f of FILES) {
 
 const sorted = Object.fromEntries(Object.entries(catalog).sort(([a], [b]) => a.localeCompare(b)))
 writeFileSync(outPath, JSON.stringify(sorted, null, 2) + '\n')
+
+const faults = Object.entries(sorted)
+  .map(([k, v]) => [k, markupFault(v)])
+  .filter(([, f]) => f)
+if (faults.length) {
+  console.warn(`\n${faults.length} string(s) still unparseable as XML (fix upstream):`)
+  for (const [k, f] of faults) console.warn(`  ${k}: ${f}`)
+}
 console.log(
   `srd: ids injected into ${FILES.length} files, ${Object.keys(sorted).length} keys -> content/en/lancer-srd.json`
 )

@@ -18,9 +18,9 @@
         class="my-1"
         :loading="dlLoading"
         :disabled="!isLoggedIn || isUserOwned"
-        :tooltip="isLoggedIn
-          ? 'You must be logged in to add items as remote resources.'
-          : 'Adding this item as a remote resource will create a readonly version of this item linked to the author\'s original data. When the author saves an update to this item to their COMP/CON cloud account, your local version can receive those changes.'"
+        :tooltip="
+          isLoggedIn ? $t('ui.remote.mustBeLoggedInToAdd') : $t('ui.remote.addRemoteResourceInfo')
+        "
         @click="downloadAsRemote()">
         {{ $t('share.addAsRemote') }}
       </cc-button>

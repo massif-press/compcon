@@ -496,7 +496,6 @@
     },
     "optionsPage": {
       "tabStorage": "Хранилище",
-      "tabSettings": "@:{'common.settings'}",
       "tabLog": "Лог"
     },
     "packInfo": {
@@ -1128,12 +1127,8 @@
       "selected": "выбрано"
     },
     "trackable": {
-      "ready": "Готов",
       "unavailable": "Недоступно",
-      "corePower": "Заряд ядра",
-      "clearMechCore": "Пометить использование для этого меха",
-      "restoreMechCore": "Восстановить для этого меха",
-      "corePowerQ": "заряд ключевой способности?"
+      "corePower": "Заряд ядра"
     },
     "dmgCond": {
       "resistance": "Сопротивление",
@@ -2998,7 +2993,6 @@
       "npcFeatures": "Особенности персонажа ведущего",
       "frames": "Модели",
       "downtimeActions": "Действия простоя",
-      "downtimeactions": "Действия простоя",
       "techatk": "Тех. атака",
       "referenceBasics": "Справочник: базовая информация",
       "referenceCompCon": "Справочник: COMP/CON",

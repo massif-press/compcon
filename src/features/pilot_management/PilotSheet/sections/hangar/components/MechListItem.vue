@@ -127,7 +127,7 @@
                 <v-tooltip
                   location="top"
                   :text="
-                    mech.Parent.FavoriteMech?.ID === mech.ID ? 'Unfavorite Mech' : 'Favorite Mech'
+                    mech.Parent.FavoriteMech?.ID === mech.ID ? $t('pm.sheet.unfavoriteMech') : $t('pm.sheet.favoriteMech')
                   "
                 >
                   <template #activator="{ props }">

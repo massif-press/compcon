@@ -36,37 +36,7 @@
     </template>
 
     <template #action-palette>
-      <v-row no-gutters>
-        <v-col>
-          <v-btn flat
-            tile
-            size="small"
-            block
-            :color="pilot.ActiveMech?.CombatController.Mounted ? 'primary' : 'panel'"
-            :text="$t('active.actions.mounted')"
-            @click="setMounted" />
-        </v-col>
-        <v-divider vertical />
-        <v-col>
-          <v-btn flat
-            tile
-            size="small"
-            block
-            :color="pilot.CombatController.Overwatch ? 'primary' : 'panel'"
-            :text="$t('active.actions.overwatch')"
-            @click="pilot.CombatController.Overwatch = !pilot.CombatController.Overwatch" />
-        </v-col>
-        <v-divider vertical />
-        <v-col>
-          <v-btn flat
-            tile
-            size="small"
-            block
-            :color="pilot.CombatController.Prepared ? 'primary' : 'panel'"
-            :text="$t('active.common.prepared')"
-            @click="pilot.CombatController.Prepared = !pilot.CombatController.Prepared" />
-        </v-col>
-      </v-row>
+      <turn-state-toggles :states="turnStates" />
     </template>
 
     <template #actions>
@@ -163,6 +133,10 @@ import DeployButton from './_components/loadouts/_deployButton.vue';
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import { Pilot } from '@/classes/pilot/Pilot';
 import { ICombatant } from '@/classes/components/combat/ICombatant';
+import { useI18n } from 'vue-i18n'
+import TurnStateToggles from './_components/TurnStateToggles.vue'
+
+const { t } = useI18n()
 
 const props = defineProps<{
   combatant: CombatantData
@@ -185,5 +159,29 @@ const xlColumns = computed(() => {
 const pilot = computed(() => props.combatant.actor as Pilot)
 
 function deploy(deployable) { props.encounterInstance.Deploy(deployable, props.combatant) }
+const turnStates = computed(() => {
+  const cc = pilot.value.CombatController
+  return [
+    {
+      key: 'mounted',
+      label: t('active.actions.mounted'),
+      active: !!pilot.value.ActiveMech?.CombatController.Mounted,
+      toggle: setMounted,
+    },
+    {
+      key: 'overwatch',
+      label: t('active.actions.overwatch'),
+      active: cc.Overwatch,
+      toggle: () => (cc.Overwatch = !cc.Overwatch),
+    },
+    {
+      key: 'prepared',
+      label: t('active.common.prepared'),
+      active: cc.Prepared,
+      toggle: () => (cc.Prepared = !cc.Prepared),
+    },
+  ]
+})
+
 function setMounted() { pilot.value?.ActiveMech?.CombatController?.ToggleMounted() }
 </script>

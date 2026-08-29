@@ -142,8 +142,8 @@
         :prepend-icon="currentIcon"
         :color="item.CombatController.CorePower ? 'core' : 'grey'"
         @click.stop="props.onClick($event)">
-        {{ $t('active.trackable.corePower') }} {{ item.CombatController.CorePower ?
-          $t('active.trackable.ready') : $t('pm.selectors.unavailable') }}
+        {{ item.CombatController.CorePower ? $t('active.trackable.corePowerReady') :
+          $t('active.trackable.corePowerUnavailable') }}
       </cc-button>
 
     </template>
@@ -151,17 +151,16 @@
       tile
       class="pt-2 text-cc-overline text-center"
       border="sm">
-      <div v-if="item.CombatController.CorePower">{{ $t('active.trackable.clearMechCore') }}</div>
-      <div v-else>{{ $t('active.trackable.restoreMechCore') }}</div>
-      {{ $t('active.trackable.corePowerQ') }}
+      <div v-if="item.CombatController.CorePower">{{ $t('active.trackable.clearCorePowerQ') }}</div>
+      <div v-else>{{ $t('active.trackable.restoreCorePowerQ') }}</div>
       <template #actions>
         <cc-button block
           :color="item.CombatController.CorePower ? 'error' : 'core'"
           size="x-small"
           :prepend-icon="currentIcon"
           @click="drainBattery">
-          {{ $t('common.confirm') }} {{ item.CombatController.CorePower ? $t('common.clear') :
-            $t('common.restore') }} {{ $t('common.core') }}
+          {{ item.CombatController.CorePower ? $t('active.trackable.confirmClearCore') :
+            $t('active.trackable.confirmRestoreCore') }}
         </cc-button>
       </template>
     </v-card>

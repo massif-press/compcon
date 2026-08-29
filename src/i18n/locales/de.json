@@ -605,7 +605,6 @@
       "hiddenNote": "Diese Errungenschaft ist versteckt und wird nach Freischaltung aufgedeckt"
     },
     "optionsPage": {
-      "tabSettings": "@:{'common.settings'}",
       "tabStorage": "Speicherplatz",
       "tabLog": "Protokoll"
     },
@@ -1079,8 +1078,7 @@
       "sessionHistory": "Sitzungsverlauf"
     },
     "trackable": {
-      "corePower": "Kernbatterie",
-      "ready": "Bereit"
+      "corePower": "Kernbatterie"
     },
     "customStat": {
       "static": "Statisch",
@@ -1727,7 +1725,6 @@
       "encounterInstance": "(Gefechtsinstanz #{n})",
       "uniqueInstanceHelp": "Dies ist eine einzige Instanz dieses NCSs, die mit diesem Gefecht verknüpft ist. Änderungen an diesem NSC haben keine Auswirkungen auf die Daten des ursprünglichen NSCs.",
       "linkedSource": "Die Quelle der Instanz dieses NSCs kann in Ihrer NSC-Liste ({name}) aufgefunden werden, und kann Aktualisierungen vom Original erhalten",
-      "notLinkedSource": "Diese NSC-Instanz ist mit keiner gültigen Quelle in Ihrer NSC-Liste verknüpft",
       "notLinkedSourceDot": "Diese NSC-Instanz ist mit keiner gültigen Quelle in Ihrer NSC-Liste verknüpft.",
       "sourceLinked": "Quelle verknüpft",
       "sourceUnavailable": "Quelle nicht verfügbar",

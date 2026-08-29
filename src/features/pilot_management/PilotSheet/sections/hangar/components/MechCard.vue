@@ -124,7 +124,7 @@
                         </template>
                       </v-tooltip>
                       <v-tooltip location="top"
-                        :text="mech.Parent.FavoriteMech?.ID === mech.ID ? 'Unfavorite Mech' : 'Favorite Mech'">
+                        :text="mech.Parent.FavoriteMech?.ID === mech.ID ? $t('pm.sheet.unfavoriteMech') : $t('pm.sheet.favoriteMech')">
                         <template #activator="{ props }">
                           <v-btn v-bind="props"
                             size="x-small"

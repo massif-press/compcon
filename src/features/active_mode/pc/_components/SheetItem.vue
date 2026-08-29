@@ -61,7 +61,7 @@
               <cc-chip size="x-small"
                 variant="elevated"
                 :title="'local'"
-                :label="sheet.Campaign || 'No Campaign Information'"
+                :label="sheet.Campaign || $t('active.sheetItem.noCampaignInformation')"
                 :color="'panel'"
                 :bg-color="sheet.Campaign ? 'exotic' : ''">
                 <v-icon v-if="sheet.Campaign"

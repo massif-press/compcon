@@ -9,6 +9,10 @@ export function nestedEntries(
 
 export function glossaryId(name: unknown): string
 
+export function normalizeMarkup(str: unknown): string
+
+export function markupFault(str: unknown): string | null
+
 export const keyPrefixes: WeakMap<object, string>
 
 export function stampContentKeys(data: unknown): void

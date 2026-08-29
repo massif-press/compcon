@@ -13,7 +13,7 @@
         <v-toolbar-title>
           <cc-heading
             is-title
-            :text="mobile ? 'COLLECTION PUBLISHING' : 'CONTENT COLLECTION PUBLISHING'"
+            :text="mobile ? $t('mainMenu.publishing.headerShort') : $t('mainMenu.publishing.header')"
             tooltip="Through this tool you can create and publish collections of COMP/CON content to
                 other users, who can then subscribe to your content collections and automatically
                 receive updates when you publish new content. This tool is intended for GMs and
@@ -111,7 +111,7 @@
                       >
                         <v-text-field
                           v-model="collection.Name"
-                          :label="!collection.Name ? 'Name (required)' : 'Name'"
+                          :label="!collection.Name ? $t('mainMenu.publishing.nameRequired') : $t('common.name')"
                           density="compact"
                         />
                       </v-col>
@@ -123,7 +123,7 @@
                           v-model="collection.Author"
                           :error="!collection.Author"
                           density="compact"
-                          :label="!collection.Author ? 'Author (required)' : 'Author'"
+                          :label="!collection.Author ? $t('mainMenu.publishing.authorRequired') : $t('share.resultAuthor')"
                         />
                       </v-col>
                       <v-col>

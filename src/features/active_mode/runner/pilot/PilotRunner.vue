@@ -64,10 +64,10 @@
 
         <v-navigation-drawer v-else
           v-model="showRight"
-          rail
-          location="right">
+          location="right"
+          temporary>
           <gm-tool-palette pc
-            :expanded="showRight"
+            expanded
             :selected="panel"
             :combatant="combatant"
             @select-panel="selectPanel"

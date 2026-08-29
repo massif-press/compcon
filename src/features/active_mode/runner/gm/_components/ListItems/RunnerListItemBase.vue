@@ -5,8 +5,8 @@
         <v-tooltip location="right">
           <template #activator="{ props: tooltipProps }">
             <v-card v-bind="props"
-              class="pa-1 border-fade"
-              :class="selected ? 'bg-panel' : ''"
+              class="border-fade"
+              :class="[`pa-${layout.padY}`, selected ? 'bg-panel' : '']"
               flat
               tile
               variant="outlined"
@@ -36,52 +36,50 @@
                   z-index: 2;
                   border-radius: 4px;
                 " />
-                  <v-img v-if="portrait"
+                  <v-img v-if="portrait && layout.showPortraits"
                     height="100%"
-                    width="80px"
+                    :width="`${size.portrait}px`"
                     cover
                     :src="portrait"
                     :style="destroyed ? 'opacity: 0.6' : ''" />
                   <v-avatar v-else
                     flat
                     tile
-                    size="80"
+                    :size="size.portrait"
                     style="height: 100%"
                     :style="destroyed ? 'opacity: 0.6' : ''"
                     class="bg-panel">
                     <v-icon :icon="icon || 'mdi-cube'"
-                      size="80" />
+                      :size="size.portrait" />
                   </v-avatar>
                 </v-col>
                 <v-col v-if="!collapsed"
-                  class="mx-1">
+                  :class="`mx-${layout.padY}`">
                   <slot />
 
                   <div v-if="!destroyed && !reinforcementTurn && !isReinforcement"
-                    style="font-size: 16px">
+                    :style="`font-size: ${size.font}px`">
                     <v-row dense
                       justify="space-between"
                       align="center"
                       class="pr-1">
-                      <v-col v-for="stat in actor.StatController.GetStatCollection([
-                        'hp',
-                        'overshield',
-                        'stress',
-                        'heatcap',
-                        'structure',
-                        'repairCapacity',
-                      ])"
+                      <v-col v-for="stat in trackedStats"
                         :key="stat.key"
                         cols="auto">
                         <v-tooltip location="top"
                           open-delay="400">
                           <template #activator="{ props }">
-                            <v-icon v-bind="props"
-                              size="18"
-                              class="mx-1 mt-n1"
-                              :icon="stat.icon" />
-                            <b class="text-accent">{{ actor.StatController.CurrentStats[stat.key]
-                              }}</b>
+                            <span v-bind="props"
+                              class="text-no-wrap">
+                              <v-icon v-if="layout.showIcon"
+                                :size="size.statIcon"
+                                class="mx-1 mt-n1"
+                                :icon="stat.icon" />
+                              <span v-if="layout.showLabel"
+                                class="text-cc-overline text-disabled mr-1">{{ stat.title }}</span>
+                              <b class="text-accent">{{
+                                actor.StatController.CurrentStats[stat.key] }}</b>
+                            </span>
                           </template>
                           <div class="text-cc-overline text-center">
                             {{ stat.title }}
@@ -95,30 +93,30 @@
                         </v-tooltip>
                       </v-col>
                     </v-row>
-                    <v-divider class="my-1" />
+                    <v-divider :class="`my-${layout.padY}`" />
                     <v-row dense
                       justify="space-between"
                       align="center"
                       class="pl-2 pr-6">
-                      <v-col v-for="stat in actor.StatController.GetStatCollection([
-                        'armor',
-                        'evasion',
-                        'edef',
-                        'saveTarget',
-                      ])"
+                      <v-col v-for="stat in defenceStats"
                         :key="stat.key"
                         cols="auto">
                         <v-tooltip :text="stat.title"
                           location="top"
                           open-delay="400">
                           <template #activator="{ props }">
-                            <v-icon v-bind="props"
-                              size="18"
-                              class="mx-1 mt-n1"
-                              :icon="stat.icon" />
-                            <b class="text-secondary">
-                              {{ actor.StatController.CurrentStats[stat.key] }}
-                            </b>
+                            <span v-bind="props"
+                              class="text-no-wrap">
+                              <v-icon v-if="layout.showIcon"
+                                :size="size.statIcon"
+                                class="mx-1 mt-n1"
+                                :icon="stat.icon" />
+                              <span v-if="layout.showLabel"
+                                class="text-cc-overline text-disabled mr-1">{{ stat.title }}</span>
+                              <b class="text-secondary">
+                                {{ actor.StatController.CurrentStats[stat.key] }}
+                              </b>
+                            </span>
                           </template>
                         </v-tooltip>
                       </v-col>
@@ -164,7 +162,7 @@
                   </div>
 
                   <v-row v-if="actor.CombatController.Resistances.length > 0"
-                    style="line-height: 0"
+                    :style="layout.showLabel ? '' : 'line-height: 0'"
                     no-gutters
                     justify="center"
                     class="text-center my-1">
@@ -172,11 +170,21 @@
                       :key="`${actor.CombatController.Resistances.length}_${damage.type}-${damage.condition}`"
                       location="top">
                       <template #activator="{ props }">
-                        <v-icon v-bind="props"
-                          class="mr-4"
-                          :icon="`cc:${damage.type.toLowerCase()}`"
-                          style="border-bottom-right-radius: 5px"
-                          :class="damageClass(damage)" />
+                        <div v-bind="props"
+                          class="align-center resist-mark"
+                          :class="layout.showLabel
+                            ? 'd-flex resist-block my-1'
+                            : 'd-inline-flex flex-column justify-center mr-4'">
+                          <v-icon v-if="layout.showIcon"
+                            :icon="`cc:${damage.type.toLowerCase()}`"
+                            :class="[damageClass(damage), { 'mr-2': layout.showLabel }]"
+                            style="border-bottom-right-radius: 5px" />
+                          <span v-if="layout.showLabel"
+                            class="text-cc-overline resist-label flex-grow-1 text-start"
+                            :class="damageClass(damage)">
+                            {{ typeLabel(damage.type) }} {{ conditionLabel(damage.condition) }}
+                          </span>
+                        </div>
                       </template>
                       <span class="text-cc-overline">
                         {{ $t('active.runnerItem.resistanceLine', { condition: damage.condition, type: damage.type }) }}
@@ -392,7 +400,9 @@
 import type { ICombatant } from '@/classes/components/combat/ICombatant'
 import type { Status } from '@/classes/Status'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import DeployableListItem from './DeployableListItem.vue';
+import { useLayoutOptions, filterStats } from '@/features/active_mode/layoutOptions';
 
 const props = withDefaults(defineProps<{
   selected?: boolean
@@ -427,6 +437,37 @@ const emit = defineEmits<{
   'activate': [payload: any]
 }>()
 
+const { layout } = useLayoutOptions()
+
+const ITEM_SIZES = {
+  compact: { portrait: 56, statIcon: 14, font: 14 },
+  default: { portrait: 80, statIcon: 18, font: 16 },
+  comfortable: { portrait: 104, statIcon: 24, font: 18 },
+}
+const size = computed(() => ITEM_SIZES[layout.value.density])
+const { t, te } = useI18n()
+
+const trackedStats = computed(() =>
+  filterStats(
+    props.actor.StatController.GetStatCollection([
+      'hp',
+      'overshield',
+      'stress',
+      'heatcap',
+      'structure',
+      'repairCapacity',
+    ]),
+    layout.value.statSet
+  )
+)
+
+const defenceStats = computed(() =>
+  filterStats(
+    props.actor.StatController.GetStatCollection(['armor', 'evasion', 'edef', 'saveTarget']),
+    layout.value.statSet
+  )
+)
+
 const activations = computed(() => {
       return props.actor.StatController.CurrentStats['activations'] || 0;
     })
@@ -444,6 +485,16 @@ function onDeployableClick(e, d) {
       if (e?.stopPropagation) e.stopPropagation()
       emit('deployable-click', d)
     }
+function typeLabel(type: string) {
+  const key = `enums.damageType.${type.toLowerCase()}`
+  return te(key) ? t(key) : type
+}
+
+function conditionLabel(condition: string) {
+  const key = `active.dmgCond.${condition === 'vulnerable' ? 'vulnerability' : condition}`
+  return te(key) ? t(key) : condition
+}
+
 function damageClass(damage) {
       if (damage.condition === 'immunity') {
         return 'bg-exotic';
@@ -458,6 +509,16 @@ function damageClass(damage) {
 
 <style scoped>
 @import './runner-list-item.css';
+
+.resist-label {
+  line-height: 1.1;
+  padding: 0 3px;
+  border-bottom-right-radius: 5px;
+}
+
+.resist-block {
+  flex: 0 0 100%;
+}
 
 .success-pulse {
   animation: success-pulse 2.8s infinite;

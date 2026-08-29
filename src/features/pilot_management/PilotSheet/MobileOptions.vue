@@ -84,7 +84,7 @@
         <v-tooltip
           open-delay="300"
           location="top"
-          :text="isAuthed ? 'Share Pilot Data' : 'Requires Cloud Account'"
+          :text="isAuthed ? $t('pm.titles.sharePilotData') : $t('pm.sheet.requiresCloudAccount')"
         >
           <template #activator="{ props }">
             <cc-button

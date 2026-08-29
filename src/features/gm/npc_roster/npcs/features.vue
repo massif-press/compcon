@@ -266,7 +266,11 @@
   function onFeatureReorder(event: any) {
     stopDragScroll()
     if (event.oldIndex === event.newIndex) return
-    ;(props.npc as any).NpcFeatureController.ReorderFeature(event.oldIndex, event.newIndex)
+    const raw = (props.npc as any).NpcFeatureController.Features as any[]
+    const from = raw.indexOf(allFeatures.value[event.oldIndex])
+    const to = raw.indexOf(allFeatures.value[event.newIndex])
+    if (from === -1 || to === -1) return
+    ;(props.npc as any).NpcFeatureController.ReorderFeature(from, to)
   }
 
   function moveFeature(from: number, to: number) {

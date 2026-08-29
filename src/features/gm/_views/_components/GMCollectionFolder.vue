@@ -45,7 +45,9 @@
           </v-btn>
         </template>
         <cc-confirmation
-          :content="`This will delete the '${folder}' folder. All items will be sent to the 'No Folder' group`"
+          :content="
+            $t('gm.folder.deleteFolderWarning', { folder, noFolder: $t('gm.folder.noFolder') })
+          "
           @confirm="$emit('remove-folder', folder)" />
       </v-menu>
     </v-toolbar>

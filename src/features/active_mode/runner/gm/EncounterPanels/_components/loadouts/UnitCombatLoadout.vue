@@ -12,7 +12,7 @@
     <v-col cols="auto">
       <v-tooltip
         location="top"
-        :text="`${hidePassives ? 'Hiding' : 'Showing'} passive features`"
+        :text="hidePassives ? $t('active.unitLoadout.hidingPassiveFeatures') : $t('active.unitLoadout.showingPassiveFeatures')"
       >
         <template #activator="{ props }">
           <v-btn
@@ -157,6 +157,7 @@
   import UnitFeatureCard from './_unitFeatureCard.vue'
   import * as _ from 'lodash-es'
   import { UserStore } from '@/stores'
+import { useLayoutOptions } from '@/features/active_mode/layoutOptions'
 
   defineOptions({ name: 'MechCombatLoadout' })
 
@@ -181,10 +182,8 @@
       UserStore().User.SetView('npcCombatHidePassives', val)
     },
   })
-  const xlColumns = computed(() => {
-    if (mobile.value) return 1
-    else return encounterInstance.value.MaxMasonryColumns
-  })
+  const { layout } = useLayoutOptions()
+  const xlColumns = computed(() => layout.value.maxColumns)
   const features = computed(() => {
     let features = props.unit.NpcFeatureController.Features.filter(x => !x.Mod).sort((a, b) => {
       const getPriority = item => {

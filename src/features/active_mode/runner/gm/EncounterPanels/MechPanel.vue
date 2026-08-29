@@ -51,68 +51,7 @@
     </template>
 
     <template #action-palette>
-      <v-row no-gutters>
-        <v-col>
-          <v-btn
-            flat
-            tile
-            size="small"
-            block
-            :color="mech.CombatController.Mounted ? 'primary' : 'panel'"
-            :text="$t('active.actions.mounted')"
-            @click="setMounted"
-          />
-        </v-col>
-        <v-divider vertical />
-        <v-col>
-          <v-btn
-            flat
-            tile
-            size="small"
-            block
-            :color="mech.CombatController.Braced ? 'primary' : 'panel'"
-            :text="$t('active.actions.braced')"
-            @click="mech.CombatController.Braced = !mech.CombatController.Braced"
-          />
-        </v-col>
-        <v-divider vertical />
-        <v-col>
-          <v-btn
-            flat
-            tile
-            size="small"
-            block
-            :color="mech.CombatController.Overwatch ? 'primary' : 'panel'"
-            :text="$t('active.actions.overwatch')"
-            @click="mech.CombatController.Overwatch = !mech.CombatController.Overwatch"
-          />
-        </v-col>
-        <v-divider vertical />
-        <v-col>
-          <v-btn
-            flat
-            tile
-            size="small"
-            block
-            :color="mech.CombatController.Prepared ? 'primary' : 'panel'"
-            :text="$t('active.common.prepared')"
-            @click="mech.CombatController.Prepared = !mech.CombatController.Prepared"
-          />
-        </v-col>
-        <v-divider vertical />
-        <v-col>
-          <v-btn
-            v-if="mech.MechLoadoutController.ActiveLoadout.AICount"
-            flat
-            tile
-            size="small"
-            block
-            :color="mech.CombatController.AIControl ? 'primary' : 'panel'"
-            :text="$t('active.actions.aiControl')"
-            @click="mech.CombatController.AIControl = !mech.CombatController.AIControl"
-          />
-        </v-col>
-      </v-row>
+      <turn-state-toggles :states="turnStates" />
     </template>
 
     <template #actions>
@@ -290,7 +229,6 @@
   import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
   import type { CombatantData } from '@/classes/encounter/Encounter'
   import { computed, provide } from 'vue'
-  import { useDisplay } from 'vuetify'
   import { EncounterContextKey } from './encounterContext'
   import PanelBase from './_PanelBase.vue'
   import MechCombatLoadout from './_components/loadouts/MechCombatLoadout.vue'
@@ -299,6 +237,11 @@
   import DeployButton from './_components/loadouts/_deployButton.vue'
   import CombatActionsBlock from './_CombatActionsBlock.vue'
   import { Deployable } from '@/classes/components/feature/deployable/Deployable'
+  import { useI18n } from 'vue-i18n'
+  import TurnStateToggles from './_components/TurnStateToggles.vue'
+
+  const { t } = useI18n()
+  import { useLayoutOptions } from '@/features/active_mode/layoutOptions'
 
   const props = defineProps<{
     combatant: CombatantData
@@ -310,9 +253,8 @@
     encounterInstance: computed(() => props.encounterInstance),
   })
 
-  const { smAndDown: mobile } = useDisplay()
-
-  const xlColumns = computed(() => (mobile.value ? 1 : props.encounterInstance.MaxMasonryColumns))
+  const { layout } = useLayoutOptions()
+  const xlColumns = computed(() => layout.value.maxColumns)
   const mech = computed(() => props.combatant.actor.ActiveMech!)
 
   const aiSystems = computed(() => mech.value.MechLoadoutController.ActiveLoadout.AISystems)
@@ -320,6 +262,43 @@
   function deploy(deployable: Deployable) {
     props.encounterInstance.Deploy(deployable, props.combatant)
   }
+
+  const turnStates = computed(() => {
+    const cc = mech.value.CombatController
+    return [
+      {
+        key: 'mounted',
+        label: t('active.actions.mounted'),
+        active: cc.Mounted,
+        toggle: setMounted,
+      },
+      {
+        key: 'braced',
+        label: t('active.actions.braced'),
+        active: cc.Braced,
+        toggle: () => (cc.Braced = !cc.Braced),
+      },
+      {
+        key: 'overwatch',
+        label: t('active.actions.overwatch'),
+        active: cc.Overwatch,
+        toggle: () => (cc.Overwatch = !cc.Overwatch),
+      },
+      {
+        key: 'prepared',
+        label: t('active.common.prepared'),
+        active: cc.Prepared,
+        toggle: () => (cc.Prepared = !cc.Prepared),
+      },
+      {
+        key: 'aiControl',
+        label: t('active.actions.aiControl'),
+        active: cc.AIControl,
+        show: !!mech.value.MechLoadoutController.ActiveLoadout.AICount,
+        toggle: () => (cc.AIControl = !cc.AIControl),
+      },
+    ]
+  })
 
   function setMounted() {
     mech.value.CombatController.ToggleMounted()

@@ -59,7 +59,17 @@ const collectVue = (d, a = []) => {
   }
   return a
 }
+const BOUND_LITERAL_SKIP_FILES = [
+  'src/ui/components/cards/CCSearchResultModal.vue',
+  'src/ui/components/cards/items/_components/OnElement.vue',
+]
+const BOUND_ATTR_RE = new RegExp(`(?<=\\s):(${LITERAL_ATTRS.join('|')})="([^"]*)"`, 'g')
+const SINGLE_QUOTED = /'((?:[^'\\]|\\.)*)'/g
+const T_KEY_ARG = /\$?\bt\(\s*'((?:[^'\\]|\\.)*)'/g
+const KEBAB_OR_SNAKE = /^[a-z][a-z0-9]*(?:[-_][a-z0-9]+)+$/
+
 const propLiterals = []
+const boundLiterals = []
 for (const file of collectVue('src')) {
   if (LITERAL_SKIP_FILES.some(s => file.replace(/\\/g, '/').includes(s))) continue
   const src = readFileSync(file, 'utf8')
@@ -74,6 +84,25 @@ for (const file of collectVue('src')) {
       if (looksLikeDisplayText(m[2])) propLiterals.push({ file, attr, value: m[2] })
     }
   }
+  if (BOUND_LITERAL_SKIP_FILES.some(f => file.replace(/\\/g, '/').includes(f))) continue
+  BOUND_ATTR_RE.lastIndex = 0
+  let b
+  while ((b = BOUND_ATTR_RE.exec(tmpl))) {
+    const expr = b[2]
+    const keys = new Set([...expr.matchAll(T_KEY_ARG)].map(k => k[1]))
+    for (const [, value] of expr.matchAll(SINGLE_QUOTED)) {
+      if (keys.has(value)) continue
+      if (KEBAB_OR_SNAKE.test(value)) continue
+      if (looksLikeDisplayText(value)) boundLiterals.push({ file, attr: b[1], value })
+    }
+  }
+}
+if (boundLiterals.length) {
+  console.warn(
+    `\ni18n: ${boundLiterals.length} literal(s) inside bound display attributes (bind via :attr="cond ? $t('a') : $t('b')"):`
+  )
+  for (const p of boundLiterals)
+    console.warn(`  - :${p.attr} ${JSON.stringify(p.value).slice(0, 60)}  (${p.file})`)
 }
 if (propLiterals.length) {
   console.error(

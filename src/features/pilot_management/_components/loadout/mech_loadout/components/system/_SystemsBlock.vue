@@ -112,7 +112,7 @@
 
         <sortable
           :list="activeSystems"
-          item-key="ID"
+          item-key="InstanceID"
           :options="{ animation: 200, handle: '.system-drag-handle', scroll: false }"
           @start="startDragScroll"
           @end="onSystemReorder"

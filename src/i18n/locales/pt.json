@@ -620,7 +620,6 @@
       "secretLabel": "Conquista Secreta"
     },
     "optionsPage": {
-      "tabSettings": "@:{'common.settings'}",
       "tabLog": "Log",
       "tabStorage": "Armazenamento"
     },
@@ -768,7 +767,6 @@
       "manufacturers": "Fabricantes",
       "frames": "Chassis",
       "glossary": "Glossário",
-      "downtimeactions": "AçõesDeTempoDeInatividade",
       "bonds": "Vínculos",
       "environments": "Ambientes",
       "sitreps": "SITREPs",
@@ -1489,7 +1487,6 @@
       "encounterInstance": "(Instância de Encontro #{n})",
       "uniqueInstanceHelp": "Esta é uma instância única deste PNJ vinculada a esses dados de Encontro. Editar este PNJ não afetará os dados originais do PNJ.",
       "linkedSource": "A origem desta instância de PNJ está presente na sua lista de PNJs ({name}) e pode receber atualizações do original",
-      "notLinkedSource": "Esta instância de PNJ não está vinculada a uma origem válida na sua lista de PNJs",
       "notLinkedSourceDot": "Esta instância de PNJ não está vinculada a uma origem válida na sua lista de PNJs.",
       "sourceLinked": "Origem Vinculada",
       "sourceUnavailable": "Origem Indisponível",
@@ -2287,11 +2284,7 @@
       "applyClose": "Aplicar e Fechar"
     },
     "trackable": {
-      "corePower": "Poder de Núcleo",
-      "ready": "Pronto",
-      "clearMechCore": "Limpar deste mecha a",
-      "restoreMechCore": "Restaurar deste mecha a",
-      "corePowerQ": "Poder de Núcleo?"
+      "corePower": "Poder de Núcleo"
     },
     "customStat": {
       "editStats": "Editar Atributos",

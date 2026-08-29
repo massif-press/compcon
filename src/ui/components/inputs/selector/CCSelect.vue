@@ -84,7 +84,7 @@
         #prepend-item
       >
         <v-list-item
-          :title="allSelected ? 'Deselect All' : 'Select All'"
+          :title="allSelected ? $t('common.deselectAll') : $t('common.selectAll')"
           :prepend-icon="
             allSelected
               ? 'mdi-checkbox-marked'

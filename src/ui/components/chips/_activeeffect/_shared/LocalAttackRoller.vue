@@ -91,14 +91,15 @@
           <v-card class="pa-2">
 
             <v-list-item class="text-center"
-              :title="s.HitResult !== 'crit'
-                ? 'No Attack Rolled'
-                : s.HitResult === 'crit'
-                  ? 'Critical Hit'
-                  : s.HitResult === 'hit'
-                    ? 'Successful Attack'
-                    : 'Miss'
-                "
+              :title="
+        s.HitResult !== 'crit'
+          ? $t('ui.combat.noAttackRolled')
+          : s.HitResult === 'crit'
+            ? $t('ui.combat.criticalHit')
+            : s.HitResult === 'hit'
+              ? $t('ui.combat.successfulAttack')
+              : $t('ui.combat.miss')
+      "
               :subtitle="$t('ui.subtitles.selectResult')" />
             <v-divider class="my-2" />
             <v-list-item :title="$t('ui.titles.successfulHit')"

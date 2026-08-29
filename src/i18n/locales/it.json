@@ -705,7 +705,6 @@
       "createdBy": "Creato da"
     },
     "optionsPage": {
-      "tabSettings": "@:{'common.settings'}",
       "tabStorage": "Archiviazione",
       "tabLog": "Log"
     },
@@ -1945,7 +1944,6 @@
       "encounterInstance": "(Istanza Scontro #{n})",
       "uniqueInstanceHelp": "Questa è un'istanza unica di questo PNG legata ai dati di questo Scontro. Modificare questo PNG non influenzerà i dati del PNG originale.",
       "linkedSource": "La sorgente di questa istanza PNG è presente nella tua Lista PNG ({name}) e può ricevere aggiornamenti dall'originale",
-      "notLinkedSource": "Questa istanza PNG non è collegata a una sorgente valida nella tua Lista PNG",
       "notLinkedSourceDot": "Questa istanza PNG non è collegata a una sorgente valida nella tua Lista PNG.",
       "sourceLinked": "Sorgente Collegata",
       "sourceUnavailable": "Sorgente Non Disponibile",
@@ -2606,10 +2604,6 @@
     },
     "trackable": {
       "corePower": "Riserva Primaria",
-      "ready": "Pronta",
-      "clearMechCore": "Azzerare la",
-      "restoreMechCore": "Ripristinare la",
-      "corePowerQ": "riserva primaria di questo mech?",
       "unavailable": "Non Disponibile"
     },
     "customStat": {

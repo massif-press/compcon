@@ -8,6 +8,7 @@
     density="compact"
     :grow="!fixedTabs"
     :fixed-tabs="fixedTabs"
+    show-arrows
     style="margin-top: -1px"
     :style="modal && 'left: 1px; width: calc(100% - 2px);'">
     <slot name="tabs"
@@ -67,7 +68,6 @@ defineExpose({ setTab })
 .tabs {
   z-index: 901;
   height: 32px;
-  max-height: 32px;
 }
 
 .fixed {
@@ -82,13 +82,11 @@ defineExpose({ setTab })
 .portrait {
   top: 28px;
   height: 24px;
-  max-height: 24px;
 }
 
 .mobile {
   top: 45px;
   height: 24px;
-  max-height: 24px;
 }
 
 .desktop {

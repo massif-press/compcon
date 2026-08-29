@@ -197,7 +197,7 @@
       style="position: relative"
     >
       <div style="position: absolute; bottom: -4px; right: -4px">
-        <cc-tooltip :content="`${showAll ? 'Hide' : 'Show'} All`">
+        <cc-tooltip :content="showAll ? $t('ui.talent.hideAll') : $t('ui.talent.showAll')">
           <v-btn
             size="small"
             icon

@@ -18,7 +18,7 @@ import { readFileSync, writeFileSync, existsSync, statSync } from 'node:fs'
 import { join, basename, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-import { nestedEntries, ALLOWLIST } from '../src/i18n/contentKeys.mjs'
+import { nestedEntries, ALLOWLIST, normalizeMarkup, markupFault } from '../src/i18n/contentKeys.mjs'
 
 // Weblate locale code -> app locale code
 const ALIAS = { zh_Hans: 'zh', pt_BR: 'pt' }
@@ -48,12 +48,12 @@ function extractFromLcp(dir) {
           : typeof val === 'object'
             ? (val.detail ?? '')
             : String(val)
-        if (str.trim()) data[`${item.id}.${field}`] = str
+        if (str.trim()) data[`${item.id}.${field}`] = normalizeMarkup(str)
       }
       for (const { prefix, fields: nf } of nestedEntries(collection, item)) {
         for (const [field, val] of Object.entries(nf)) {
           const str = Array.isArray(val) ? val.join('\n') : String(val)
-          if (str.trim()) data[`${prefix}.${field}`] = str
+          if (str.trim()) data[`${prefix}.${field}`] = normalizeMarkup(str)
         }
       }
     }
@@ -106,6 +106,13 @@ async function main() {
     })
     const out = flags.out || `${target}.${llp.lang}.llp`
     writeFileSync(out, JSON.stringify(llp, null, 2) + '\n')
+    const faults = Object.entries(data)
+      .map(([k, v]) => [k, markupFault(v)])
+      .filter(([, f]) => f)
+    if (faults.length) {
+      console.warn(`${faults.length} string(s) still unparseable as XML (fix in the pack source):`)
+      for (const [k, f] of faults) console.warn(`  ${k}: ${f}`)
+    }
     console.log(`extract: ${Object.keys(data).length} keys -> ${out}`)
     return
   }

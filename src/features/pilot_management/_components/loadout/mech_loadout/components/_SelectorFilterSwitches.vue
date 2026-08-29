@@ -1,10 +1,10 @@
 <template>
   <cc-switch
     :model-value="unlicensed"
-    :label="mobile && 'Show Unlicensed'"
+    :label="mobile && $t('pm.loadout.showUnlicensed')"
     color="error"
     :tooltip="
-      !mobile && unlicensed ? 'Unlicensed equipment: SHOWN' : 'Unlicensed equipment: HIDDEN'
+      !mobile && unlicensed ? $t('pm.loadout.unlicensedShown') : $t('pm.loadout.unlicensedHidden')
     "
     :prepend-icon="mobile ? undefined : 'cc:system'"
     on-icon="mdi-lock-open"
@@ -14,12 +14,12 @@
   <br />
   <cc-switch
     :model-value="overSp"
-    :label="mobile && 'Show Exceeds SP'"
+    :label="mobile && $t('pm.loadout.showExceedsSp')"
     color="error"
     :tooltip="
       !mobile && overSp
-        ? 'Systems exceeding SP Capacity: SHOWN'
-        : 'Systems exceeding SP Capacity: HIDDEN'
+        ? $t('pm.loadout.exceedsSpShown')
+        : $t('pm.loadout.exceedsSpHidden')
     "
     :prepend-icon="mobile ? undefined : 'cc:system_point'"
     on-icon="mdi-lock-open"
