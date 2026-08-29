@@ -61,7 +61,7 @@ function trim(activeId: string): void {
   let bytes = totalBytes()
   if (bytes <= MAX_BYTES_ALL_STACKS) return
 
-  for (const [id, s] of leastRecentlyUsedFirst()) {
+  for (const [id, s] of stacks) {
     const undoEntriesToKeep = id === activeId ? 1 : 0
     while (bytes > MAX_BYTES_ALL_STACKS && s.redo.length) bytes -= s.redo.shift()!.json.length
     while (bytes > MAX_BYTES_ALL_STACKS && s.undo.length > undoEntriesToKeep) {
@@ -71,10 +71,6 @@ function trim(activeId: string): void {
   }
 
   for (const id of stacks.keys()) refreshMeta(id)
-}
-
-function leastRecentlyUsedFirst(): Iterable<[string, StackState]> {
-  return stacks
 }
 
 function markMostRecentlyUsed(id: string): StackState {

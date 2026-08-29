@@ -54,13 +54,4 @@ const resolveTier = (str: string, tier: number): string => {
   })
 }
 
-export {
-  ByTier,
-  ByTierLoose,
-  ByTierArray,
-  replaceVal,
-  resolveTier,
-  BRACE_PATTERN,
-  LOOSE_PATTERN,
-  TIER_PATTERN,
-}
+export { ByTier, ByTierLoose, ByTierArray, replaceVal, resolveTier }

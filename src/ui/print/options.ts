@@ -1,7 +1,7 @@
 import type { PrintOption } from './types'
 
 function opt(key: string, title: string, icon?: string): PrintOption {
-  return icon ? { key, title, icon } : { key, title }
+  return { key, title, icon }
 }
 
 const LAYOUT = {

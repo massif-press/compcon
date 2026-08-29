@@ -457,14 +457,14 @@ const trackedStats = computed(() =>
       'structure',
       'repairCapacity',
     ]),
-    layout.value.statSet
+    layout.value.coreStatsOnly
   )
 )
 
 const defenceStats = computed(() =>
   filterStats(
     props.actor.StatController.GetStatCollection(['armor', 'evasion', 'edef', 'saveTarget']),
-    layout.value.statSet
+    layout.value.coreStatsOnly
   )
 )
 

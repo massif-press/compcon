@@ -1,6 +1,7 @@
 import fc from 'fast-check'
 import { describe, it, expect } from 'vitest'
 import { Action, ActivePeriod, type IActionData } from './Action'
+import { regainsOn } from './Frequency'
 import { ActivationType } from './enums'
 import { assertDataRoundTrip } from '@/__tests__/roundtrip'
 
@@ -83,10 +84,10 @@ describe('Action.Frequency', () => {
       frequency: '1/round',
     }).Frequency
 
-    expect(perRound.RegainUsesOnEvent(ActivePeriod.Turn)).toBe(false)
-    expect(perRound.RegainUsesOnEvent(ActivePeriod.Round)).toBe(true)
-    expect(perRound.RegainUsesOnEvent(ActivePeriod.Mission)).toBe(true)
-    expect(perRound.RegainUsesOnEvent(ActivePeriod.Unlimited)).toBe(false)
+    expect(regainsOn(perRound.Duration, ActivePeriod.Turn)).toBe(false)
+    expect(regainsOn(perRound.Duration, ActivePeriod.Round)).toBe(true)
+    expect(regainsOn(perRound.Duration, ActivePeriod.Mission)).toBe(true)
+    expect(regainsOn(perRound.Duration, ActivePeriod.Unlimited)).toBe(false)
   })
 })
 

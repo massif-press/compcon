@@ -12,14 +12,14 @@ export type ActiveModeLayoutOptions = {
   tickbars: TickbarMode
   columns: boolean
   maxColumns: number
-  statSet: string[] | 'all'
+  coreStatsOnly: boolean
   showPortraits: boolean
   showFlavor: boolean
 }
 
-export const LAYOUT_VIEW_KEY = 'activeModeLayout'
+const LAYOUT_VIEW_KEY = 'activeModeLayout'
 
-export const CORE_STATS = [
+const CORE_STATS = [
   'hp',
   'overshield',
   'structure',
@@ -38,7 +38,7 @@ export const DEFAULTS: ActiveModeLayoutOptions = {
   tickbars: 'auto',
   columns: false,
   maxColumns: 1,
-  statSet: 'all',
+  coreStatsOnly: false,
   showPortraits: true,
   showFlavor: true,
 }
@@ -54,8 +54,20 @@ const DENSITY: Record<
   }
 > = {
   compact: { btnSize: 'x-small', iconSize: 18, tile: [30, 40], tileIcon: [24, 20], pad: [1, 1] },
-  default: { btnSize: 'small', iconSize: 'x-large', tile: [48, 58], tileIcon: [36, 28], pad: [2, 1] },
-  comfortable: { btnSize: 'default', iconSize: 48, tile: [60, 74], tileIcon: [44, 34], pad: [4, 3] },
+  default: {
+    btnSize: 'small',
+    iconSize: 'x-large',
+    tile: [48, 58],
+    tileIcon: [36, 28],
+    pad: [2, 1],
+  },
+  comfortable: {
+    btnSize: 'default',
+    iconSize: 48,
+    tile: [60, 74],
+    tileIcon: [44, 34],
+    pad: [4, 3],
+  },
 }
 
 export const PRESETS: Record<string, Partial<ActiveModeLayoutOptions>> = {
@@ -66,7 +78,7 @@ export const PRESETS: Record<string, Partial<ActiveModeLayoutOptions>> = {
     labels: 'icon+text',
     columns: false,
     tickbars: 'simple',
-    statSet: CORE_STATS,
+    coreStatsOnly: true,
     showPortraits: false,
     showFlavor: false,
   },
@@ -74,8 +86,10 @@ export const PRESETS: Record<string, Partial<ActiveModeLayoutOptions>> = {
 
 export const PRESET_KEYS = Object.keys(PRESETS)
 
-export function readLayoutOptions(): ActiveModeLayoutOptions {
-  return { ...DEFAULTS, ...(UserStore().User.View(LAYOUT_VIEW_KEY, null) || {}) }
+function readLayoutOptions(): ActiveModeLayoutOptions {
+  const { statSet, ...stored } = (UserStore().User.View(LAYOUT_VIEW_KEY, null) || {}) as any
+  if (statSet !== undefined) stored.coreStatsOnly = statSet !== 'all'
+  return { ...DEFAULTS, ...stored }
 }
 
 export function applyPreset(name: string): void {
@@ -136,24 +150,19 @@ export function useLayoutOptions() {
 
   const layout = computed(() => resolveLayout(options.value, mdAndDown.value))
 
-  function set<K extends keyof ActiveModeLayoutOptions>(
-    key: K,
-    value: ActiveModeLayoutOptions[K]
-  ): void {
-    options.value = { ...options.value, [key]: value }
-  }
-
   function field<K extends keyof ActiveModeLayoutOptions>(key: K) {
     return computed({
       get: () => options.value[key],
-      set: (v: ActiveModeLayoutOptions[K]) => set(key, v),
+      set: (v: ActiveModeLayoutOptions[K]) => {
+        options.value = { ...options.value, [key]: v }
+      },
     })
   }
 
-  return { options, layout, set, field }
+  return { options, layout, field }
 }
 
-export function filterStats(stats: any[], statSet: string[] | 'all'): any[] {
-  if (statSet === 'all') return stats
-  return stats.filter(s => s.key === '__spacer__' || statSet.includes(s.key))
+export function filterStats(stats: any[], coreStatsOnly: boolean): any[] {
+  if (!coreStatsOnly) return stats
+  return stats.filter(s => s.key === '__spacer__' || CORE_STATS.includes(s.key))
 }

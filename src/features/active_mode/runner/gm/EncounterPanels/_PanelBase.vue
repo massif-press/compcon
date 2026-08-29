@@ -362,7 +362,7 @@ const statColumns = computed(() => {
   const g2 = props.item.CombatController.StatController.GetStatCollection(['evasion', 'edef', 'techAttack', 'sensorRange', 'saveTarget'])
   const g3 = props.item.CombatController.StatController.GetStatCollection(extraStatSet.value).filter((x: any) => props.item.CombatController.StatController.MaxStats[x.key])
   const g4 = props.item.CombatController.StatController.CustomStats(props.item.ItemType)
-  return [...filterStats([...g1, spacer, ...g2, ...g3], layout.value.statSet), ...g4]
+  return [...filterStats([...g1, spacer, ...g2, ...g3], layout.value.coreStatsOnly), ...g4]
 })
 const mobile = computed(() => {
   return _display.mdAndDown.value;

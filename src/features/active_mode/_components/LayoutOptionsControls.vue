@@ -48,7 +48,7 @@
       >
         <div class="text-cc-overline text-disabled mt-2">{{ $t('active.layout.statSet') }}</div>
         <cc-select
-          v-model="statSetMode"
+          v-model="coreStatsOnly"
           :items="statSetItems"
           item-title="title"
           item-value="value"
@@ -96,13 +96,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import {
-    useLayoutOptions,
-    applyPreset,
-    matchedPreset,
-    PRESET_KEYS,
-    CORE_STATS,
-  } from '../layoutOptions'
+  import { useLayoutOptions, applyPreset, matchedPreset, PRESET_KEYS } from '../layoutOptions'
 
   defineOptions({ name: 'LayoutOptionsControls' })
   withDefaults(defineProps<{ dense?: boolean }>(), { dense: false })
@@ -117,7 +111,7 @@
   const maxColumns = field('maxColumns')
   const showPortraits = field('showPortraits')
   const showFlavor = field('showFlavor')
-  const statSet = field('statSet')
+  const coreStatsOnly = field('coreStatsOnly')
 
   const CUSTOM = '__custom__'
 
@@ -128,38 +122,17 @@
     },
   })
 
-  const presetItems = computed(() => [
-    ...PRESET_KEYS.map(k => ({ value: k, title: t(`active.layout.presets.${k}`) })),
-    { value: CUSTOM, title: t('active.layout.presets.custom') },
-  ])
+  function items(group: string, values: any[], keys: string[] = values): any[] {
+    return values.map((value, i) => ({ value, title: t(`active.layout.${group}.${keys[i]}`) }))
+  }
 
-  const labelItems = computed(() => [
-    { value: 'icon', title: t('active.layout.labelModes.icon') },
-    { value: 'icon+text', title: t('active.layout.labelModes.iconText') },
-    { value: 'text', title: t('active.layout.labelModes.text') },
-  ])
-
-  const densityItems = computed(() => [
-    { value: 'compact', title: t('active.layout.densities.compact') },
-    { value: 'default', title: t('active.layout.densities.default') },
-    { value: 'comfortable', title: t('active.layout.densities.comfortable') },
-  ])
-
-  const tickbarItems = computed(() => [
-    { value: 'auto', title: t('active.layout.tickbarModes.auto') },
-    { value: 'simple', title: t('active.layout.tickbarModes.simple') },
-    { value: 'standard', title: t('active.layout.tickbarModes.standard') },
-  ])
-
-  const statSetItems = computed(() => [
-    { value: 'all', title: t('active.layout.statSets.all') },
-    { value: 'core', title: t('active.layout.statSets.core') },
-  ])
-
-  const statSetMode = computed({
-    get: () => (statSet.value === 'all' ? 'all' : 'core'),
-    set: (v: string) => {
-      statSet.value = v === 'all' ? 'all' : CORE_STATS
-    },
-  })
+  const presetItems = computed(() =>
+    items('presets', [...PRESET_KEYS, CUSTOM], [...PRESET_KEYS, 'custom'])
+  )
+  const labelItems = computed(() =>
+    items('labelModes', ['icon', 'icon+text', 'text'], ['icon', 'iconText', 'text'])
+  )
+  const densityItems = computed(() => items('densities', ['compact', 'default', 'comfortable']))
+  const tickbarItems = computed(() => items('tickbarModes', ['auto', 'simple', 'standard']))
+  const statSetItems = computed(() => items('statSets', [false, true], ['all', 'core']))
 </script>

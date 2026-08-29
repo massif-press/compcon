@@ -57,10 +57,6 @@ class Frequency {
     if (this.Unlimited) return durationLocal
     return `${this.Uses}/${durationLocal}`
   }
-
-  public RegainUsesOnEvent(event: ActivePeriod): boolean {
-    return regainsOn(this.Duration, event)
-  }
 }
 
 export { Frequency, ActivePeriod, regainsOn }

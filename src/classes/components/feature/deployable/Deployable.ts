@@ -167,35 +167,21 @@ class Deployable {
     size: { prop: 'Size', bonus: 'size' },
     armor: { prop: 'Armor', bonus: 'armor' },
     hp: { prop: 'MaxHP', bonus: 'hp' },
+    maxhp: { prop: 'MaxHP', bonus: 'hp' },
     evasion: { prop: 'Evasion', bonus: 'evasion' },
     edef: { prop: 'EDefense', bonus: 'edef' },
+    edefense: { prop: 'EDefense', bonus: 'edef' },
     heatcap: { prop: 'Heatcap', bonus: 'heatcap' },
+    heatcapacity: { prop: 'Heatcap', bonus: 'heatcap' },
     sensors: { prop: 'Sensors', bonus: 'sensor_range' },
+    sensor: { prop: 'Sensors', bonus: 'sensor_range' },
+    sensorrange: { prop: 'Sensors', bonus: 'sensor_range' },
     techattack: { prop: 'TechAttack', bonus: 'tech_attack' },
     repcap: { prop: 'Repcap', bonus: 'repcap' },
+    repaircapacity: { prop: 'Repcap', bonus: 'repcap' },
     save: { prop: 'SaveTarget', bonus: 'save' },
+    savetarget: { prop: 'SaveTarget', bonus: 'save' },
     speed: { prop: 'Speed', bonus: 'speed' },
-  }
-
-  private static statKey(key: string): string {
-    const k = key.toLowerCase().replace(/[\s_-]/g, '')
-    switch (k) {
-      case 'maxhp':
-        return 'hp'
-      case 'edefense':
-        return 'edef'
-      case 'sensor':
-      case 'sensorrange':
-        return 'sensors'
-      case 'savetarget':
-        return 'save'
-      case 'repaircapacity':
-        return 'repcap'
-      case 'heatcapacity':
-        return 'heatcap'
-      default:
-        return k
-    }
   }
 
   private resolveStatBase(
@@ -228,7 +214,7 @@ class Deployable {
   }
 
   public getStat(key: string, tier?: number, owner?: any): number | string {
-    const def = Deployable.StatMap[Deployable.statKey(key)]
+    const def = Deployable.StatMap[key.toLowerCase().replace(/[\s_-]/g, '')]
     if (!def) {
       const v = this[key] as any
       return Array.isArray(v) && tier ? v[tier - 1] : v

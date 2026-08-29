@@ -4,7 +4,7 @@ type PrintOption = {
   icon?: string
 }
 
-type PrintOptionsBaseShape = {
+type GmPrintOptions = {
   layout: PrintOption
   orientation: PrintOption
   paper: PrintOption
@@ -24,6 +24,4 @@ type PilotPrintOptions = {
   card: PrintOption[]
 }
 
-type GmPrintOptions = PrintOptionsBaseShape
-
-export type { PrintOption, PrintOptionsBaseShape, PilotPrintOptions, GmPrintOptions }
+export type { PrintOption, PilotPrintOptions, GmPrintOptions }

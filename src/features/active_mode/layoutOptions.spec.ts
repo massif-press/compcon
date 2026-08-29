@@ -1,12 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import {
-  DEFAULTS,
-  PRESETS,
-  CORE_STATS,
-  resolveLayout,
-  filterStats,
-  matchedPreset,
-} from './layoutOptions'
+import { DEFAULTS, PRESETS, resolveLayout, filterStats, matchedPreset } from './layoutOptions'
 
 describe('layoutOptions', () => {
   it('default resolves to rendering on desktop', () => {
@@ -43,8 +36,8 @@ describe('layoutOptions', () => {
 
   it('filterStats keeps spacers and drops unlisted keys', () => {
     const stats = [{ key: 'hp' }, { key: '__spacer__' }, { key: 'techAttack' }]
-    expect(filterStats(stats, 'all')).toHaveLength(3)
-    expect(filterStats(stats, CORE_STATS).map(s => s.key)).toEqual(['hp', '__spacer__'])
+    expect(filterStats(stats, false)).toHaveLength(3)
+    expect(filterStats(stats, true).map(s => s.key)).toEqual(['hp', '__spacer__'])
   })
 
   it('matchedPreset round-trips every preset and returns null for custom', () => {

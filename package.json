@@ -15,13 +15,9 @@
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "test:ledger": "node scripts/test-ledger.mjs",
-    "test:mutation": "stryker run",
-    "test:mutation:file": "stryker run --mutate",
     "locales": "node scripts/locales.mjs",
     "build:lcp-script": "esbuild scripts/build-llp.mjs --bundle --platform=node --format=esm --external:jszip --legal-comments=none --banner:js=\"$(sed -n '/^\\/\\*!/,/^\\*\\//p' scripts/build-llp.mjs)\" --outfile=build-lcp.mjs",
-    "prepare": "husky",
-    "check:print": "node scripts/check-print-consistency.mjs"
+    "prepare": "husky"
   },
   "lint-staged": {
     "*.{ts,vue}": [
@@ -30,9 +26,6 @@
     ],
     "*.{json,md,css,scss}": [
       "prettier --write"
-    ],
-    "src/{features/pilot_management/Print,features/gm/*/print,ui/components/print,ui/print,shared/print}/**/*.{ts,vue}": [
-      "node scripts/check-print-consistency.mjs"
     ]
   },
   "dependencies": {
@@ -72,8 +65,6 @@
     "@intlify/eslint-plugin-vue-i18n": "^4.5.1",
     "@intlify/unplugin-vue-i18n": "^11.2.3",
     "@pinia/testing": "1.0.3",
-    "@stryker-mutator/core": "9.6.1",
-    "@stryker-mutator/vitest-runner": "9.6.1",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "22.19.11",
     "@vitejs/plugin-vue": "5.2.4",
@@ -91,7 +82,6 @@
     "lint-staged": "^16.2.7",
     "madge": "^8.0.0",
     "prettier": "^3.8.1",
-    "resize-observer-polyfill": "^1.5.1",
     "sass": "1.97.3",
     "typescript": "5.9.3",
     "typescript-eslint": "^8.56.1",
