@@ -606,7 +606,8 @@
     },
     "optionsPage": {
       "tabStorage": "Speicherplatz",
-      "tabLog": "Protokoll"
+      "tabLog": "Protokoll",
+      "tabSettings": "@:{'common.settings'}"
     },
     "alt": {
       "supportCompconOnPatreon": "Unterstützen Sie @:{'common.appName'} auf Patreon",
@@ -1078,7 +1079,8 @@
       "sessionHistory": "Sitzungsverlauf"
     },
     "trackable": {
-      "corePower": "Kernbatterie"
+      "corePower": "Kernbatterie",
+      "ready": "Bereit"
     },
     "customStat": {
       "static": "Statisch",
@@ -1743,7 +1745,8 @@
       "onTurn": "In Zug",
       "onTurnHelp": "Dieser NSC wird dem Gefecht im angegebenen Zug beitreten. Wenn dieses Feld leergelassen wird, kann die:der Spielleiter:in diesen NSC zu einem beliebigen Zeitpunkt als Verstärkung einsetzen.",
       "addToRoster": "Zu Liste kopieren",
-      "addToRosterTooltip": "Fügt eine Kopie dieses NSCs zu Ihrer Liste hinzu und verknüpft diese Instanz mit dem neuen Listeneintrag."
+      "addToRosterTooltip": "Fügt eine Kopie dieses NSCs zu Ihrer Liste hinzu und verknüpft diese Instanz mit dem neuen Listeneintrag.",
+      "notLinkedSource": "Diese NSC-Instanz ist mit keiner gültigen Quelle in Ihrer NSC-Liste verknüpft"
     },
     "encounterIndex": {
       "addFolder": "Ordner hinzufügen",

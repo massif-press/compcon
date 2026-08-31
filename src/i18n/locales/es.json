@@ -1000,7 +1000,8 @@
       "onTurn": "En Turno",
       "onTurnHelp": "Este personaje será marcado para unirse al encuentro en el turno especificado. Dejar esto en blanco indica que este PNJ puede ser usado como refuerzo a discreción del DJ.",
       "addToRoster": "Copiar a la Lista",
-      "addToRosterTooltip": "Agrega una copia de este PNJ a su lista y vincula esta instancia a la nueva entrada de la lista."
+      "addToRosterTooltip": "Agrega una copia de este PNJ a su lista y vincula esta instancia a la nueva entrada de la lista.",
+      "notLinkedSource": "Esta instancia de PNJ no está vinculada a una fuente válida en su lista de PNJ"
     },
     "encounterEditor": {
       "editorHeading": "Editor de Encuentro",
@@ -1476,7 +1477,11 @@
     },
     "trackable": {
       "corePower": "Poder del Núcleo",
-      "unavailable": "No Disponible"
+      "unavailable": "No Disponible",
+      "ready": "Listo",
+      "clearMechCore": "Limpiar los de este mecha",
+      "restoreMechCore": "Restaurar los de este mecha",
+      "corePowerQ": "¿poder de núcleo?"
     },
     "customStat": {
       "editStats": "Editar Estadísticas",
