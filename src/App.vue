@@ -1,11 +1,12 @@
 <template>
-  <v-app id="app">
+  <v-app id="app"
+    :style="`--cc-app-offset: ${heightOffset}`">
     <a href="#main-content"
       class="skip-link">{{ $t('common.skipToMainContent') }}</a>
     <pwa-update-prompt />
     <cc-notify />
     <navbar :aria-label="$t('common.a11y.mainNavigation')" />
-    <div :style="`height: ${heightOffset}`"
+    <div :style="`height: ${heightOffset}; flex: 0 0 auto`"
       class="no-print" />
     <main id="main-content"
       tabindex="-1">

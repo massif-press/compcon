@@ -286,3 +286,29 @@ ol li[data-list='bullet'] {
   outline: 2px solid rgb(var(--v-theme-accent));
   outline-offset: 1px;
 }
+
+.cc-fill {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.cc-fill-window > .v-window__container,
+.cc-fill-window > .v-window__container > .v-window-item {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: auto;
+}
+
+.cc-fill-root {
+  height: calc(100dvh - var(--cc-app-offset, 41px));
+}
+
+@media print {
+  .cc-fill-root {
+    height: auto;
+  }
+}

@@ -7,10 +7,13 @@
       class="my-5" />
     <div class="text-center text-cc-overline">{{ $t('active.pilotRunner.loading') }}</div>
   </div>
-  <div v-else>
-    <div style="overflow-y: hidden">
-      <v-layout :style="`height: calc(100vh - ${$vuetify.display.xs ? '23px' : '41px'})`">
-        <v-main style="overflow-y: scroll">
+  <div v-else
+    class="cc-fill cc-fill-root">
+    <div class="cc-fill"
+      style="overflow: hidden">
+      <v-layout style="height: 100%; flex: 1 1 auto; min-height: 0">
+        <v-main tabindex="0"
+          style="overflow-y: auto">
           <v-container fluid>
             <div>
               <div v-if="panel && sheet">

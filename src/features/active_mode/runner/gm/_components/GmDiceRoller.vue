@@ -380,8 +380,9 @@
   }
 
   function rollDice() {
+    const mod = Number(plus.value) || 0
     const diceValue =
-      count.value && die.value ? `${count.value}d${die.value}+${plus.value || 0}` : '0'
+      count.value && die.value ? `${count.value}d${die.value}${mod < 0 ? '' : '+'}${mod}` : '0'
     const isAcc = accuracy.value > -1
 
     rollResult.value = DiceRoller.rollAny(

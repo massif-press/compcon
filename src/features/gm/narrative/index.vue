@@ -21,7 +21,10 @@
     </v-tab>
   </v-tabs>
 
-  <v-window v-model="tab">
+  <v-window
+    v-model="tab"
+    class="cc-fill cc-fill-window"
+  >
     <v-window-item
       v-for="itemType in itemTypes"
       :key="itemType"
