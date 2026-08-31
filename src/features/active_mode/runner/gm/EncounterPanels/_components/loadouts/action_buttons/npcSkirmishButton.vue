@@ -176,7 +176,7 @@ function reset(clearAction = false) {
 }
 function apply() {
   const actor = owner.value.actor.CombatController.ActiveActor.CombatController;
-  actor.MarkActionUsed(selectedWeapon.value!.InstanceID);
+  actor.UseAttackAction(props.action.ID, selectedWeapon.value!.InstanceID);
   if (selectedWeapon.value!.IsLoading) selectedWeapon.value!.Used = true;
   reset();
 }

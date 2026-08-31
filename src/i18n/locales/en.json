@@ -1638,7 +1638,10 @@
       "overcharge": "Overcharge",
       "reaction": "Reaction",
       "spent": "Spent",
-      "orTwoQuick": "A full action may be spent as two quick actions"
+      "orTwoQuick": "A full action may be spent as two quick actions",
+      "restoreAction": "Click to restore this action",
+      "asOvercharge": "As Overcharge",
+      "overchargeReady": "Overcharged - any quick action is free"
     },
     "deploy": {
       "deployNamed": "Deploy {name}",

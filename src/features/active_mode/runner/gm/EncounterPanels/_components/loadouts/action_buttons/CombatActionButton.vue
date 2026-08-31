@@ -82,6 +82,17 @@
             </span>
           </template>
         </v-tooltip>
+        <v-tooltip v-if="actionLocked"
+          location="top"
+          :text="$t('active.combatAction.restoreAction')">
+          <template #activator="{ props }">
+            <v-icon v-bind="props"
+              class="ml-2"
+              size="14"
+              icon="mdi-restore"
+              @click.stop="controller.ClearActionUsed(action.ID)" />
+          </template>
+        </v-tooltip>
       </v-btn>
     </template>
     <template #default="{ close }">
@@ -118,9 +129,11 @@ const props = withDefaults(defineProps<{
 })
 
 const displayColor = computed(() => {
+      if (overchargeUse.value) return 'action--overcharge';
       return props.actionColor ?? props.action.Color;
     })
 const displayIcon = computed(() => {
+      if (overchargeUse.value) return 'cc:overcharge';
       return props.actionIcon ?? props.action.Icon;
     })
 const controller = computed(() => {
@@ -130,7 +143,10 @@ const canActivate = computed(() => {
       return controller.value.CanActivate(props.action.Activation);
     })
 const useId = computed(() => props.presetWeapon?.InstanceID ?? props.action.ID)
-const canUse = computed(() => controller.value.RemainingUses(useId.value) > 0)
+const overchargeUse = computed(() =>
+      controller.value.CanRepeatAsOvercharge(props.action.ID, props.action.Activation))
+const canUse = computed(() =>
+      controller.value.CanTakeAction(props.action.ID, props.action.Activation, useId.value))
 const usedCount = computed(() => controller.value.UsedCount(useId.value))
 const remainingUses = computed(() => props.action.Frequency.Uses - usedCount.value)
 const isLimited = computed(() =>
@@ -140,6 +156,8 @@ const periodLabel = computed(() => {
       const key = duration === ActivePeriod.Scene ? 'encounter' : duration.toLowerCase()
       return t(`enums.duration.${key}`)
     })
+const actionLocked = computed(() =>
+      controller.value.IsActionUsed(props.action.ID) && !isLimited.value)
 const unavailableText = computed(() =>
       isLimited.value
         ? t('active.combatAction.usesExhausted', { period: periodLabel.value })

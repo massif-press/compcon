@@ -21,7 +21,7 @@
         size="small"
         stacked
         :color="color"
-        :disabled="!isFree && (isApplied || mandatoryRemaining)"
+        :disabled="!isFree && !overchargeUse && (isApplied || mandatoryRemaining)"
         @click="stage(false)">
         <div class="px-4">
           <v-icon v-if="icon"
@@ -33,7 +33,11 @@
           <div class="text-disabled">
             <span v-if="activation && (activeEffect as any).Activation !== 'None'"
               style="letter-spacing: 1px">
-              {{ isFree ? $t('ui.combat.free') : $enum('activationType', (activeEffect as any).Activation) }}
+              {{ isFree
+                ? $t('ui.combat.free')
+                : overchargeUse
+                  ? $t('active.combatAction.asOvercharge')
+                  : $enum('activationType', (activeEffect as any).Activation) }}
 
             </span>
             <span v-if="
@@ -85,7 +89,7 @@
         size="small"
         stacked
         :color="color"
-        :disabled="!isFree && isApplied"
+        :disabled="!isFree && !overchargeUse && isApplied"
         @click="apply(close)">
         <div class="px-4">
           <v-icon v-if="icon"
@@ -96,7 +100,11 @@
           <div class="text-disabled">
             <span v-if="activation"
               style="letter-spacing: 1px">
-              {{ isFree ? $t('ui.combat.free') : $enum('activationType', (activeEffect as any).Activation) }}
+              {{ isFree
+                ? $t('ui.combat.free')
+                : overchargeUse
+                  ? $t('active.combatAction.asOvercharge')
+                  : $enum('activationType', (activeEffect as any).Activation) }}
             </span>
             <span v-if="
               (activeEffect as any).Activation &&
@@ -200,6 +208,7 @@ const icon = computed(() =>
 
 const color = computed(() => {
   if (isFree.value) return 'action--free';
+  if (overchargeUse.value) return 'action--overcharge';
   return props.action?.Color || (activeEffect.value as any).Color || activeEffect.value.Origin.Color || 'primary';
 })
 
@@ -210,6 +219,12 @@ const isApplied = computed((): boolean => {
   }
   return props.owner.actor.CombatController.ActiveActor.CombatController.IsActionUsed(activeEffect.value.ID);
 })
+
+const overchargeUse = computed((): boolean =>
+  props.owner.actor.CombatController.ActiveActor.CombatController.CanRepeatAsOvercharge(
+    props.action?.ID ?? activeEffect.value.ID,
+    props.activationOverride || props.action?.Activation || (activeEffect.value as any).Activation || 'free')
+)
 
 const noAction = computed((): boolean =>
   !props.owner.actor.CombatController.ActiveActor.CombatController.CanActivate(props.activationOverride || props.action?.Activation || (activeEffect.value as any).Activation || 'free')
@@ -241,13 +256,13 @@ const mandatoryRemaining = computed((): boolean => !events.value.every(x => x.Re
 function stage(asFree) {
   events.value.forEach(e => e.Staged = true)
   isFree.value = asFree || false;
-  if (!isFree.value && isApplied.value) return;
+  if (!isFree.value && !overchargeUse.value && isApplied.value) return;
   ready.value = true;
   emit('stage');
 }
 
 function apply(close: () => void) {
-  if (!isFree.value && (isApplied.value || !ready.value)) return;
+  if (!isFree.value && !overchargeUse.value && (isApplied.value || !ready.value)) return;
   if (!isFree.value) {
     props.owner.actor.CombatController.ActiveActor.CombatController.MarkActionUsed(activeEffect.value.ID, activeEffect.value.Frequency);
     const action = props.activationOverride || props.action?.Activation || (activeEffect.value as any).Activation || 'free';

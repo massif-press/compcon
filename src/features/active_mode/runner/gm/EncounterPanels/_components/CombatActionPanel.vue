@@ -40,7 +40,7 @@
                 class="text-cc-overline combat-action-label">
                 {{ action.label }}
               </span>
-              <span v-else-if="!action.available"
+              <span v-if="!action.available && layout.showLabel"
                 class="text-caption text-disabled">
                 {{ $t('active.combatAction.spent') }}
               </span>
@@ -83,6 +83,7 @@ const { t } = useI18n()
 const { layout } = useLayoutOptions()
 
 const movement = computed(() => props.controller.StatController?.CurrentStats['speed'] || 0)
+const inOvercharge = computed(() => props.controller.InOvercharge)
 
 type Tile = {
   key: string
@@ -119,17 +120,17 @@ const actions = computed<Tile[]>(() => {
     { key: 'sep', separator: true },
     {
       key: 'quick1',
-      icon: 'mdi-hexagon-slice-3',
+      icon: inOvercharge.value ? 'cc:overcharge' : 'mdi-hexagon-slice-3',
       label: t('active.combatAction.quickN', { n: 1 }),
-      color: 'action--quick',
+      color: inOvercharge.value ? 'action--overcharge' : 'action--quick',
       available: c.CombatActions.Quick1,
       toggle: () => (c.CombatActions.Quick1 = !c.CombatActions.Quick1),
     },
     {
       key: 'quick2',
-      icon: 'mdi-hexagon-slice-3',
+      icon: inOvercharge.value ? 'cc:overcharge' : 'mdi-hexagon-slice-3',
       label: t('active.combatAction.quickN', { n: 2 }),
-      color: 'action--quick',
+      color: inOvercharge.value ? 'action--overcharge' : 'action--quick',
       available: c.CombatActions.Quick2,
       toggle: () => (c.CombatActions.Quick2 = !c.CombatActions.Quick2),
       breakAfter: true,
@@ -148,9 +149,11 @@ const actions = computed<Tile[]>(() => {
     tiles.push({
       key: 'overcharge',
       icon: 'cc:overcharge',
-      label: t('active.combatAction.overcharge'),
+      label: inOvercharge.value
+        ? t('active.combatAction.overchargeReady')
+        : t('active.combatAction.overcharge'),
       color: 'overcharge',
-      available: c.CanActivate('overcharge'),
+      available: c.CanActivate('overcharge') || inOvercharge.value,
       toggle: () => c.toggleCombatAction('overcharge'),
     })
   }

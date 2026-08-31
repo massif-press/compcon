@@ -165,6 +165,14 @@ class CombatController implements ICounterContainer, IStatContainer {
     this.ActionPoolController.CombatActions = value
   }
 
+  public get InOvercharge(): boolean {
+    return this.ActionPoolController.InOvercharge
+  }
+
+  public set InOvercharge(value: boolean) {
+    this.ActionPoolController.InOvercharge = value
+  }
+
   constructor(parent: ICombatant) {
     this.Parent = parent
     this.StatusController = new StatusController(this)
@@ -372,6 +380,22 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   public ResetActivation(action: string, propagate = true): void {
     this.ActionPoolController.ResetActivation(action, propagate)
+  }
+
+  public UseAttackAction(actionId: string, weaponInstanceId?: string): void {
+    this.ActionPoolController.UseAttackAction(actionId, weaponInstanceId)
+  }
+
+  public CanTakeAction(actionId: string, activation: string, useId?: string): boolean {
+    return this.ActionPoolController.CanTakeAction(actionId, activation, useId)
+  }
+
+  public CanRepeatAsOvercharge(actionId: string, activation: string): boolean {
+    return this.ActionPoolController.CanRepeatAsOvercharge(actionId, activation)
+  }
+
+  public StartOvercharge(): void {
+    this.ActionPoolController.StartOvercharge()
   }
 
   public FindAction(actionId: string): Action | undefined {

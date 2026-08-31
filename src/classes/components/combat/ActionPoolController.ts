@@ -13,9 +13,15 @@ const DEFAULT_COMBAT_ACTIONS = {
   Quick2: true,
   Overcharge: true,
   Reaction: true,
+  InOvercharge: false,
 }
 
-export { DEFAULT_COMBAT_ACTIONS }
+const QUICK_ACTIVATIONS = ['quick', 'quicktech', 'invade']
+
+const isQuickActivation = (activation: string): boolean =>
+  QUICK_ACTIVATIONS.includes((activation || '').toLowerCase().replace(' ', ''))
+
+export { DEFAULT_COMBAT_ACTIONS, isQuickActivation }
 
 interface IActionUseRecord {
   used: number
@@ -46,6 +52,18 @@ class ActionPoolController {
 
   public set CombatActions(value: any) {
     this._parent.RootActor.CombatController.ActionPoolController._combatActions = value
+  }
+
+  public get InOvercharge(): boolean {
+    return !!this.CombatActions.InOvercharge
+  }
+
+  public get OverchargeApplies(): boolean {
+    return this.InOvercharge && this._parent.ActiveActor instanceof Mech
+  }
+
+  public set InOvercharge(value: boolean) {
+    this.CombatActions.InOvercharge = value
   }
 
   public get HasRemainingActions(): boolean {
@@ -85,7 +103,9 @@ class ActionPoolController {
       case 'quick':
       case 'quicktech':
       case 'invade':
-        return this.CombatActions.Quick1 || this.CombatActions.Quick2
+        return (
+          this.OverchargeApplies || this.CombatActions.Quick1 || this.CombatActions.Quick2
+        )
       case 'overcharge':
         return this.CombatActions.Overcharge
       case 'reaction':
@@ -123,6 +143,10 @@ class ActionPoolController {
       case 'quicktech':
       case 'quick tech':
       case 'invade':
+        if (!value && this.OverchargeApplies) {
+          this.InOvercharge = false
+          break
+        }
         if (this.CombatActions.Quick1 && !value) this.CombatActions.Quick1 = false
         else if (this.CombatActions.Quick2 && !value) this.CombatActions.Quick2 = false
         else if (!this.CombatActions.Quick1 && value) this.CombatActions.Quick1 = true
@@ -131,6 +155,7 @@ class ActionPoolController {
         break
       case 'overcharge':
         this.CombatActions.Overcharge = value
+        if (value) this.InOvercharge = false
         break
       case 'reaction':
         this.CombatActions.Reaction = value
@@ -224,6 +249,35 @@ class ActionPoolController {
 
   public set ActionUses(val: Record<string, IActionUseRecord>) {
     this._actionUses = val
+  }
+
+  public UseAttackAction(actionId: string, weaponInstanceId?: string): void {
+    this._parent.MarkActionUsed(actionId)
+    if (weaponInstanceId) this._parent.MarkActionUsed(weaponInstanceId)
+  }
+
+  public CanTakeAction(actionId: string, activation: string, useId?: string): boolean {
+    if (this.CanRepeatAsOvercharge(actionId, activation)) return true
+    return this.RemainingUses(actionId) > 0 && this.RemainingUses(useId ?? actionId) > 0
+  }
+
+  public CanRepeatAsOvercharge(actionId: string, activation: string): boolean {
+    if (!this.OverchargeApplies) return false
+    if (!isQuickActivation(activation)) return false
+    const action = this._parent.FindAction(actionId)
+    if (action?.IsPilotAction) return false
+    const freq = action?.Frequency
+    if (freq && !freq.Unlimited) return this.RemainingUses(actionId) > 0
+    const record = this._actionUses[actionId]
+    if (record && (record.max > 1 || record.period !== ActivePeriod.Turn))
+      return record.max - record.used > 0
+    return true
+  }
+
+  public StartOvercharge(): void {
+    this.CombatActions.Overcharge = false
+    this.InOvercharge = true
+    this._parent.log('Overcharged: any quick action may be taken as a free action')
   }
 
   public get OverchargeTrack(): any[] {

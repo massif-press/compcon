@@ -132,8 +132,7 @@
     heatCost.value = DiceRoller.roll(controller.value.OverchargeCost)
   }
   function apply() {
-    controller.value.toggleCombatAction('Overcharge')
-    controller.value.ResetActivation('quick')
+    controller.value.StartOvercharge()
     controller.value.TakeDamage(DamageType.Heat, Number(heatCost.value))
     controller.value.IncreaseOverchargeLevel()
     emit('activate', props.action.ID)
