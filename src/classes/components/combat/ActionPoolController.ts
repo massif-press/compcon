@@ -51,10 +51,39 @@ class ActionPoolController {
   }
 
   public set CombatActions(value: any) {
+    if (this._parent.Parent instanceof Mech && this._parent.IsAIControlled) {
+      this._combatActions = value
+      return
+    }
     this._parent.RootActor.CombatController.ActionPoolController._combatActions = value
   }
 
+  public ReactionsUsed: string[] = []
+
+  public get AvailableReactions(): string[] {
+    return ['brace', 'overwatch'].filter(id => this.CanUseReaction(id))
+  }
+
+  public CanUseReaction(id: string): boolean {
+    return this.CombatActions.Reaction && !this.ReactionsUsed.includes(id.toLowerCase())
+  }
+
+  public UseReaction(id: string): void {
+    if (!this.CanUseReaction(id)) return
+    this.ReactionsUsed.push(id.toLowerCase())
+    this._parent.SetCombatAction('reaction', false)
+  }
+
+  public RefreshReactions(): void {
+    this.CombatActions.Reaction = true
+  }
+
+  public ClearReactionUses(): void {
+    this.ReactionsUsed = []
+  }
+
   public get InOvercharge(): boolean {
+    if (this._parent.DeniesActivation('overcharge')) return false
     return !!this.CombatActions.InOvercharge
   }
 
@@ -76,6 +105,8 @@ class ActionPoolController {
 
   public CanActivate(action: string): boolean {
     const str = action.toLowerCase().replace(' ', '')
+    if (this._parent.DeniesActivation(str)) return false
+    if (this._parent.IsNpc && (str === 'brace' || str === 'overcharge')) return false
     switch (str) {
       case 'free':
       case 'none':
@@ -85,14 +116,15 @@ class ActionPoolController {
           this.CombatActions.Protocol &&
           this.CombatActions.Quick1 &&
           this.CombatActions.Quick2 &&
-          this.CombatActions.Full
+          this.CombatActions.Full &&
+          this._parent.StatController.getCurrent(StatKey.SPEED) >=
+            this._parent.StatController.getMax(StatKey.SPEED)
         )
       case 'ordnance':
         return (
           this.CombatActions.Quick1 &&
           this.CombatActions.Quick2 &&
           this.CombatActions.Full &&
-          this.CombatActions.Overcharge &&
           this._parent.StatController.getCurrent(StatKey.SPEED) >=
             this._parent.StatController.getMax(StatKey.SPEED)
         )
@@ -106,12 +138,31 @@ class ActionPoolController {
         return (
           this.OverchargeApplies || this.CombatActions.Quick1 || this.CombatActions.Quick2
         )
+      case 'quick1':
+        return this.CombatActions.Quick1
+      case 'quick2':
+        return this.CombatActions.Quick2
       case 'overcharge':
         return this.CombatActions.Overcharge
       case 'reaction':
         return this.CombatActions.Reaction
       case 'move':
+      case 'boost':
         return this._parent.StatController.getCurrent(StatKey.SPEED) > 0
+      case 'fight':
+      case 'mount':
+      case 'dismount':
+      case 'eject':
+      case 'grapple':
+      case 'ram':
+        return this.CombatActions.Full && this.CombatActions.Quick1 && this.CombatActions.Quick2
+      case 'improvised_attack':
+      case 'activate':
+      case 'search':
+      case 'prepare':
+        return this.OverchargeApplies || this.CombatActions.Quick1 || this.CombatActions.Quick2
+      case 'brace':
+        return this._parent.CanUseReaction('brace')
       default:
         return false
     }
@@ -137,7 +188,7 @@ class ActionPoolController {
         this.CombatActions.Full = value
         this.CombatActions.Quick1 = this.CombatActions.Full
         this.CombatActions.Quick2 = this.CombatActions.Full
-        if (!value) this.CombatActions.Protocol = !value
+        if (!value) this.CombatActions.Protocol = false
         break
       case 'quick':
       case 'quicktech':
@@ -151,8 +202,18 @@ class ActionPoolController {
         else if (this.CombatActions.Quick2 && !value) this.CombatActions.Quick2 = false
         else if (!this.CombatActions.Quick1 && value) this.CombatActions.Quick1 = true
         else if (!this.CombatActions.Quick2 && value) this.CombatActions.Quick2 = true
-        if (!value) this.CombatActions.Protocol = !value
+        if (!value) this.CombatActions.Protocol = false
         break
+      case 'quick1':
+      case 'quick2': {
+        if (!value && this.OverchargeApplies) {
+          this.InOvercharge = false
+          break
+        }
+        this.CombatActions[str === 'quick1' ? 'Quick1' : 'Quick2'] = value
+        if (!value) this.CombatActions.Protocol = false
+        break
+      }
       case 'overcharge':
         this.CombatActions.Overcharge = value
         if (value) this.InOvercharge = false
@@ -216,7 +277,7 @@ class ActionPoolController {
 
   public RemainingUses(actionId: string): number {
     const record = this._actionUses[actionId]
-    return record ? record.max - record.used : Number.MAX_SAFE_INTEGER
+    return record ? record.max - record.used : 1
   }
 
   public IsActionUsed(actionId: string): boolean {
@@ -254,6 +315,7 @@ class ActionPoolController {
   public UseAttackAction(actionId: string, weaponInstanceId?: string): void {
     this._parent.MarkActionUsed(actionId)
     if (weaponInstanceId) this._parent.MarkActionUsed(weaponInstanceId)
+    this._parent.DropAttackRevealedStatuses()
   }
 
   public CanTakeAction(actionId: string, activation: string, useId?: string): boolean {
@@ -321,7 +383,7 @@ class ActionPoolController {
     this._parent.log('Self Destruct sequence initiated!')
   }
 
-  public CommitSelfDestruct(): void {
+  public CommitReactorMeltdown(): void {
     this._parent.StatController.setCurrentStat(StatKey.STRUCTURE, 0)
     this._parent.StatController.setCurrentStat(StatKey.HP, 0)
     this._parent.StatController.setCurrentStat(StatKey.HEATCAP, 0)
@@ -332,6 +394,10 @@ class ActionPoolController {
       const pilot = this._parent.Parent.Parent
       pilot.CombatController.Kill()
     }
+  }
+
+  public CommitSelfDestruct(): void {
+    this.CommitReactorMeltdown()
     this._parent.log('Mech has self-destructed!')
   }
 

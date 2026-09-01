@@ -146,9 +146,12 @@
           >
             <div class="body-text mb-1">
               {{
-                $t('active.structureCheck.saveCheck', {
-                  check: step.label,
-                })
+                $t(
+                  step.mode === 'save'
+                    ? 'active.structureCheck.saveSave'
+                    : 'active.structureCheck.saveCheck',
+                  { check: step.label }
+                )
               }}
             </div>
             <accuracy-difficulty-row

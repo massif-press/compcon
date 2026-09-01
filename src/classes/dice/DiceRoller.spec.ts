@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach, vi } from 'vitest'
-import { DiceRoller, DieSet } from './DiceRoller'
+import { DiceRoller, DieSet, seedRng, resetRng } from './DiceRoller'
 
 const rollsOf = (...values: number[]) => {
   let i = 0
@@ -193,5 +193,46 @@ describe('DiceRoller.rollSkillCheck', () => {
   it('nets accuracy against difficulty', () => {
     rollsOf(10, 3, 3)
     expect(DiceRoller.rollSkillCheck(0, 2, 2).accuracyDiceCount).toBe(0)
+  })
+})
+
+describe('seedRng', () => {
+  afterEach(() => {
+    resetRng()
+  })
+
+  it('produces an identical sequence for the same seed', () => {
+    seedRng(1234)
+    const a = Array.from({ length: 20 }, () => DiceRoller.rollDie(20))
+    seedRng(1234)
+    const b = Array.from({ length: 20 }, () => DiceRoller.rollDie(20))
+
+    expect(a).toEqual(b)
+  })
+
+  it('produces a different sequence for a different seed', () => {
+    seedRng(1)
+    const a = Array.from({ length: 20 }, () => DiceRoller.rollDie(20))
+    seedRng(2)
+    const b = Array.from({ length: 20 }, () => DiceRoller.rollDie(20))
+
+    expect(a).not.toEqual(b)
+  })
+
+  it('stays within die bounds', () => {
+    seedRng(99)
+    const rolls = Array.from({ length: 500 }, () => DiceRoller.rollDie(6))
+
+    expect(Math.min(...rolls)).toBeGreaterThanOrEqual(1)
+    expect(Math.max(...rolls)).toBeLessThanOrEqual(6)
+    expect(new Set(rolls).size).toBe(6)
+  })
+
+  it('restores Math.random as the source on reset', () => {
+    seedRng(7)
+    resetRng()
+    vi.spyOn(Math, 'random').mockReturnValue(0)
+
+    expect(DiceRoller.rollDie(20)).toBe(1)
   })
 })

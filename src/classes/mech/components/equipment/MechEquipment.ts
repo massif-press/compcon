@@ -45,7 +45,6 @@ abstract class MechEquipment extends LicensedItem {
   public readonly NoCascade: boolean = false
   public readonly IsIndestructible: boolean = false
   public IsCascading: boolean = false
-  public readonly IsOrdnance: boolean = false
   public readonly CanSetDamage: boolean = false
   public readonly CanSetUses: boolean = false
   public readonly NoMods: boolean
@@ -74,7 +73,6 @@ abstract class MechEquipment extends LicensedItem {
       }
       this.NoCascade = this.setTagBool(data, 'tg_no_cascade')
       this.IsIndestructible = this.setTagBool(data, 'tg_indestructible')
-      this.IsOrdnance = this.setTagBool(data, 'tg_ordnance')
       this.CanSetDamage = this.setTagBool(data, 'tg_set_damage_type')
       this.CanSetUses = this.setTagBool(data, 'tg_set_max_uses')
     }

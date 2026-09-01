@@ -26,6 +26,7 @@ class ActiveEffectEvent {
   private _targets: ActiveEventTarget[] = []
   private _aoe: boolean = false
   public Attack?: 'melee' | 'ranged' | 'tech'
+  public TargetDefense?: 'edef' | 'evasion'
   public Save?: 'hull' | 'agi' | 'sys' | 'eng'
   public SaveHalf?: boolean
   public RemoveSpecialStatus?: string[]
@@ -43,6 +44,7 @@ class ActiveEffectEvent {
     this.Initiator = initiator
     this.Effect = effect
     this.Attack = effect.Attack
+    this.TargetDefense = effect.TargetDefense
     this.EncounterInstance = instance
     if (this.TargetType === 'self')
       this._targets = [new ActiveEventTarget(this, this.Initiator, effect)]

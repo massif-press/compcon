@@ -41,6 +41,10 @@ class PilotWeapon extends PilotEquipment {
     return this.Tags.some(x => x.ID === 'tg_sidearm')
   }
 
+  public get FightActivation(): 'quick' | 'full' {
+    return this.IsSidearm ? 'quick' : 'full'
+  }
+
   public get DamageTypeOverride(): string {
     return this._custom_damage_type || ''
   }
@@ -95,8 +99,11 @@ class PilotWeapon extends PilotEquipment {
     }
   }
 
+  public get IsSmart(): boolean {
+    return this.Tags.some(x => x.IsSmart)
+  }
+
   public GetAttack(): 'ranged' | 'melee' | 'tech' {
-    if (this.Tags.some(x => x.IsSmart)) return 'tech'
     if (this.Range[0]) {
       if (this.Range[0].Type === RangeType.Threat) return 'melee'
       return 'ranged'
@@ -112,6 +119,7 @@ class PilotWeapon extends PilotEquipment {
       damage: this.Damage.map(d => Damage.Serialize(d)),
       range: this.Range.map(r => Range.Serialize(r)),
       attack: this.GetAttack(),
+      target_defense: this.IsSmart ? 'edef' : undefined,
       can_crit: true,
     }
   }

@@ -1908,6 +1908,7 @@
       "success": "Success",
       "fail": "Failure",
       "saveCheck": "{check} check",
+      "saveSave": "{check} save",
       "applyManual": "apply manually",
       "chooseOne": "Choose one",
       "reroll": "Re-roll",

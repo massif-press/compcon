@@ -119,7 +119,7 @@
     activate: [payload: string]
   }>()
 
-  const heatCost = ref(1)
+  const heatCost = ref<number | null>(null)
 
   const controller = computed(() => {
     return owner.value.actor.CombatController.ActiveActor.CombatController
@@ -132,9 +132,8 @@
     heatCost.value = DiceRoller.roll(controller.value.OverchargeCost)
   }
   function apply() {
-    controller.value.StartOvercharge()
-    controller.value.TakeDamage(DamageType.Heat, Number(heatCost.value))
-    controller.value.IncreaseOverchargeLevel()
+    controller.value.Overcharge(heatCost.value === null ? undefined : Number(heatCost.value))
+    heatCost.value = null
     emit('activate', props.action.ID)
   }
   function reset() {

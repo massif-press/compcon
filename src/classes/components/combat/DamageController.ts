@@ -40,20 +40,20 @@ class DamageController {
     value: number,
     ap: boolean = false,
     irreducible = false,
-    reliable = 0,
     direct = false
-  ): { total: number; resist: string[]; condition: string[] } {
-    const out = { total: value, resist: [] as string[], condition: [] as string[] }
-
-    if (reliable > 0 && out.total < reliable) {
-      out.total = reliable
+  ): { total: number; resist: string[]; condition: string[]; tookDamage: boolean } {
+    const out = {
+      total: value,
+      resist: [] as string[],
+      condition: [] as string[],
+      tookDamage: true,
     }
 
     if (
       this._parent.HasStatus('exposed') &&
-      type !== DamageType.Heat &&
-      type !== DamageType.Burn &&
-      type !== DamageType.AppliedBurn
+      (type === DamageType.Kinetic ||
+        type === DamageType.Explosive ||
+        type === DamageType.Energy)
     ) {
       out.total *= 2
       out.condition.push('exposed')
@@ -84,12 +84,9 @@ class DamageController {
         out.resist.push('resistance')
       } else if (!this._parent.HasStatus('shredded') && resist.condition === 'immunity') {
         out.total = 0
+        out.tookDamage = false
         out.resist.push('immunity')
       }
-    }
-
-    if (reliable > 0 && out.total < reliable) {
-      out.total = reliable
     }
 
     return out
@@ -108,12 +105,12 @@ class DamageController {
 
     if (
       type.toLowerCase() === DamageType.Heat.toLowerCase() &&
-      !target.StatController.getMax(StatKey.STRESS)
+      !target.StatController.getMax(StatKey.HEATCAP)
     ) {
       type = DamageType.Energy
     }
 
-    const damage = this.CalculateDamage(type, value, ap, irreducible, 0, direct)
+    const damage = this.CalculateDamage(type, value, ap, irreducible, direct)
 
     this.ApplyDamage(type, damage.total, direct)
 
@@ -185,9 +182,15 @@ class DamageController {
     }
   }
 
-  public ApplyHeat(value: number): void {
+  public ApplyHeat(value: number, opts: { external?: boolean } = {}): void {
     const totalValue = value
     const target = this._active
+
+    if (opts.external && this._parent.IsGrunt) {
+      this._parent.SetDestroyed(true)
+      this._parent.log('Grunt destroyed by external heat')
+      return
+    }
 
     target.StatController.setCurrentStat(
       StatKey.HEATCAP,
@@ -200,6 +203,20 @@ class DamageController {
       this._parent.log(
         `In Danger Zone! Current Heat: ${target.StatController.getCurrent(StatKey.HEATCAP)}`
       )
+
+    if (
+      target.StatController.getCurrent(StatKey.HEATCAP) >
+        target.StatController.getMax(StatKey.HEATCAP) &&
+      !target.RollsStressChart
+    ) {
+      target.StatController.setCurrentStat(
+        StatKey.HEATCAP,
+        target.StatController.getMax(StatKey.HEATCAP)
+      )
+      target.AddStatus('exposed')
+      this._parent.log('Heat capacity exceeded: Exposed')
+      return
+    }
 
     while (
       target.StatController.getCurrent(StatKey.HEATCAP) >
@@ -227,8 +244,7 @@ class DamageController {
     }
 
     if (target.StatController.getCurrent(StatKey.STRESS) === 0) {
-      this._parent.ReactorDestroyed = true
-      this._parent.log('Reactor destroyed!')
+      this._parent.ScheduleReactorMeltdown(1)
     }
   }
 }

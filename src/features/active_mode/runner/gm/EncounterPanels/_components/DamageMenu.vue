@@ -279,7 +279,7 @@ function damageArgs() {
 
 const totalDamage = computed(() => {
   const { type, dmg, ap, irreducible } = damageArgs();
-  return props.controller.CalculateDamage(type, dmg, ap, irreducible, 0, true).total;
+  return props.controller.CalculateDamage(type, dmg, ap, irreducible, true).total;
 })
 
 function toggleDamageMod(mod) {

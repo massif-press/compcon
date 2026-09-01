@@ -49,21 +49,28 @@ class expiration {
     this.Text = text
   }
 
-  HasExpired(currentRound: number, currentActorID: string, currentActorTurn: number): boolean {
+  HasExpired(
+    currentRound: number,
+    currentActorID: string,
+    currentActorTurn: number,
+    phase: 'start' | 'end' = 'end',
+    context?: { encounterEnded?: boolean }
+  ): boolean {
     if (this.Period === 'round') {
-      if (this.RoundEndNumber !== null && currentRound >= this.RoundEndNumber) {
-        return true
-      }
-    } else if (this.Period === 'turn') {
-      if (
-        this.ExpirationActorID === currentActorID &&
-        this.ExpirationActorTurn !== null &&
-        currentActorTurn >= this.ExpirationActorTurn
-      ) {
-        return true
-      }
+      if (this.RoundEndNumber === null) return false
+      if (currentRound > this.RoundEndNumber) return true
+      return currentRound === this.RoundEndNumber && (this.EndsOn === 'start' || phase === 'end')
     }
-    return false
+
+    if (this.Period === 'turn') {
+      if (this.ExpirationActorID !== currentActorID || this.ExpirationActorTurn === null)
+        return false
+      const endsAfter = this.ExpirationActorTurn + 1
+      if (currentActorTurn > endsAfter) return true
+      return currentActorTurn === endsAfter && (this.EndsOn === 'start' || phase === 'end')
+    }
+
+    return !!context?.encounterEnded
   }
 
   public static Serialize(exp: expiration): any {

@@ -226,7 +226,14 @@ const overchargeUse = computed((): boolean =>
     props.activationOverride || props.action?.Activation || (activeEffect.value as any).Activation || 'free')
 )
 
+const ordnanceBlocked = computed((): boolean => {
+  const cc = props.owner.actor.CombatController.ActiveActor.CombatController
+  const events = Array.isArray(props.weaponEvent) ? props.weaponEvent : props.weaponEvent ? [props.weaponEvent] : []
+  return events.some(e => e?.Weapon && !cc.CanFireWeapon(e.Weapon))
+})
+
 const noAction = computed((): boolean =>
+  ordnanceBlocked.value ||
   !props.owner.actor.CombatController.ActiveActor.CombatController.CanActivate(props.activationOverride || props.action?.Activation || (activeEffect.value as any).Activation || 'free')
 )
 

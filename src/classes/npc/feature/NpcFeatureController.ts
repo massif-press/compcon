@@ -1,6 +1,6 @@
 import { CompendiumStore } from '@/features/compendium/store'
 import { Unit } from '../unit/Unit'
-import { INpcFeatureData, NpcFeature } from './NpcFeature'
+import { INpcFeatureData, NpcFeature, NpcFeatureType } from './NpcFeature'
 import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer'
 import { NpcClass } from '../class/NpcClass'
 import { NpcTemplate } from '../template/NpcTemplate'
@@ -50,6 +50,14 @@ class NpcFeatureController implements IFeatureContainer {
 
   public get Features(): NpcFeature[] {
     return this._selectedFeatures
+  }
+
+  public get BarrageWeapons(): NpcFeature[] {
+    return this.Features.filter(x => x.FeatureType === NpcFeatureType.Weapon)
+  }
+
+  public get SkirmishWeapons(): NpcFeature[] {
+    return this.BarrageWeapons.filter(x => !(x as any).IsSuperheavy)
   }
 
   public set Features(features: NpcFeature[]) {

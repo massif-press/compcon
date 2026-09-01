@@ -202,6 +202,10 @@ class DamageRollResult implements IDamageRollResult {
     return this._overkillRerolls
   }
 
+  public get overkillHeat(): number {
+    return this._overkillRerolls
+  }
+
   public toString(): string {
     if (this.parseError) {
       return `Error parsing dice string: ${this.diceString}`
@@ -416,6 +420,20 @@ class DiceRoller {
     }
   }
 
+  public static overkillTriggers({
+    die,
+    represents,
+    rolled,
+  }: {
+    die: number
+    represents?: number
+    rolled: number
+  }): boolean {
+    if (!die || !rolled) return false
+    const scale = represents ?? die
+    return Math.ceil((rolled * scale) / die) === 1
+  }
+
   public static rollDieSet(
     dieSet: DieSet,
     overkill?: boolean,
@@ -430,7 +448,7 @@ class DiceRoller {
 
     for (let x = 0; x < quantity; x++) {
       const result = DiceRoller.rollDie(dieSet.type)
-      if (overkill && result === 1) {
+      if (overkill && DiceRoller.overkillTriggers({ die: dieSet.type, rolled: result })) {
         rerolls += 1
         x -= 1
       } else {
@@ -469,8 +487,37 @@ class DiceRoller {
 
   public static rollDie(dieType: number): number {
     if (dieType <= 0) return 0
-    return Math.floor(Math.random() * Math.floor(dieType)) + 1
+    return Math.floor(rng() * Math.floor(dieType)) + 1
   }
 }
 
-export { DiceRoller, D20RollResult, DamageRollResult, ParsedDieString, DieSet }
+let rng: () => number = () => Math.random()
+
+function mulberry32(seed: number): () => number {
+  let a = seed >>> 0
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0
+    let t = a
+    t = Math.imul(t ^ (t >>> 15), t | 1)
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61)
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
+}
+
+function seedRng(seed: number): void {
+  rng = mulberry32(seed)
+}
+
+function resetRng(): void {
+  rng = () => Math.random()
+}
+
+export {
+  DiceRoller,
+  D20RollResult,
+  DamageRollResult,
+  ParsedDieString,
+  DieSet,
+  seedRng,
+  resetRng,
+}

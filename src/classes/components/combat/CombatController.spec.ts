@@ -47,9 +47,9 @@ describe('CombatController.CalculateDamage', () => {
     expect(cc().CalculateDamage(DamageType.Kinetic, 5, false, true).total).toBe(5)
   })
 
-  it('raises the total to the reliable floor', () => {
+  it('does not floor a hit at the reliable value', () => {
     setStat(StatKey.ARMOR, 4)
-    expect(cc().CalculateDamage(DamageType.Kinetic, 5, false, false, 3).total).toBe(3)
+    expect(cc().CalculateDamage(DamageType.Kinetic, 5).total).toBe(1)
   })
 
   it('doubles non-heat damage while exposed', () => {

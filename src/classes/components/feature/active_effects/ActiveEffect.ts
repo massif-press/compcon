@@ -12,6 +12,7 @@ import { Action } from '@/classes/Action'
 import { localize } from '@/i18n/localize'
 import { keyPrefixes } from '@/i18n/contentKeys'
 import { Frequency } from '@/classes/Frequency'
+import logger from '@/user/logger'
 
 // used for combat menu components for actions that have AE components
 export type ActiveEffectLike = ActiveEffect | Action
@@ -35,6 +36,7 @@ interface IActiveEffectData {
   add_status?: IEffectStatusData[] | string[]
   can_crit?: boolean
   attack?: 'melee' | 'ranged' | 'tech'
+  target_defense?: 'edef' | 'evasion'
   accuracy?: number
   tech_accuracy?: number
   attack_bonus?: number
@@ -62,6 +64,7 @@ class ActiveEffect {
   public readonly AttackBonus: number
 
   public readonly Attack?: 'melee' | 'ranged' | 'tech'
+  public readonly TargetDefense?: 'edef' | 'evasion'
   public readonly Save?: EffectSave
 
   public readonly AddResist: EffectResist[] = []
@@ -112,7 +115,12 @@ class ActiveEffect {
     }
     this.Bonuses = data.bonuses ? data.bonuses.map(b => new Bonus(b, this._name)) : []
     this.Duration = data.duration
-    this.Frequency = data.frequency ? new Frequency(data.frequency) : undefined
+    try {
+      this.Frequency = data.frequency ? new Frequency(data.frequency) : undefined
+    } catch (e) {
+      logger.warn(`ActiveEffect ${data.name}: ${(e as Error).message} - treating as unlimited`)
+      this.Frequency = new Frequency('')
+    }
     if (data.bonus_damage) this.BonusDamage = new BonusDamage(data.bonus_damage, this._name)
     if (data.save) {
       this.Save = new EffectSave(data.save)
@@ -140,6 +148,7 @@ class ActiveEffect {
     }
 
     this.Attack = data.attack
+    this.TargetDefense = data.target_defense
     this.CanCrit = data.can_crit || false
     this.Dismissible = dismissible || false
     this.Applied = data.applied || false

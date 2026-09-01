@@ -4,6 +4,10 @@ import { DamageType } from '../../../../enums'
 import { ActiveEffectEvent } from '../ActiveEffectEvent'
 import { ActiveEventTarget } from './eventTarget'
 
+export function reliableIncoming(hitResult: string, rolled: number, reliable: number): number {
+  return hitResult === 'miss' ? reliable || 0 : rolled
+}
+
 class DamageEvent {
   public DamageType: DamageType = DamageType.Kinetic
   public DamageRollString = '' // dice string or static
@@ -40,6 +44,18 @@ class DamageEvent {
         tier,
         true
       )
+  }
+
+  public ApplyRoll(rollResult: any): void {
+    ;(this as any).DamageRollResult = rollResult
+    this.DamageRolledValue = rollResult?.total ?? 0
+    this.OverkillHeat = this.Overkill ? (rollResult?.overkillHeat ?? rollResult?.overkillRerolls ?? 0) : 0
+  }
+
+  public ClearRoll(): void {
+    ;(this as any).DamageRollResult = undefined
+    this.DamageRolledValue = undefined
+    this.OverkillHeat = 0
   }
 
   public get IncomingSummary(): string {
@@ -80,7 +96,7 @@ class DamageEvent {
     event: ActiveEffectEvent,
     target: ActiveEventTarget
   ): { finalDamage: number; armorReduction: number } {
-    let incoming = 0
+    let incoming = reliableIncoming(target.HitResult, 0, this.Reliable)
     let bonus = 0
 
     if (target.HitResult !== 'miss') {
@@ -98,9 +114,8 @@ class DamageEvent {
         this.DamageType,
         incoming,
         this.AP,
-        this.Irreducible,
-        this.Reliable
-      ).total || incoming
+        this.Irreducible
+      ).total ?? incoming
 
     const armorReduction =
       target.Combatant?.actor.CombatController.CalculateArmorReduction(

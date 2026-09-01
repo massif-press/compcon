@@ -91,7 +91,7 @@
           :close="close"
           :action="action"
           :action-id="selectedWeapon ? selectedWeapon.InstanceID : ''"
-          :activation-override="selectedWeapon?.IsSidearm ? 'quick' : 'full'"
+          :activation-override="fightActivation"
           @reset="reset($event)"
           @apply="apply"
         />
@@ -129,23 +129,14 @@
   const controller = computed(() => {
     return owner.value.actor.CombatController.ActiveActor.CombatController
   })
-  const fightIcon = computed(() => {
-    if (props.presetWeapon && props.presetWeapon.IsSidearm) return 'mdi-hexagon-slice-3'
-    if (selectedWeapon.value && selectedWeapon.value.IsSidearm) return 'mdi-hexagon-slice-3'
-    return 'mdi-hexagon-slice-6'
-  })
-  const fightColor = computed(() => {
-    if (props.presetWeapon && props.presetWeapon.IsSidearm) return 'action--quick'
-    if (selectedWeapon.value && selectedWeapon.value.IsSidearm) return 'action--quick'
-    return 'action--full'
-  })
-  const ordnanceWarning = computed(() => {
-    if (!selectedWeapon.value) return false
-    if (selectedWeapon.value.Tags.find(t => t.ID.toLowerCase() === 'tg_ordnance')) {
-      return owner.value.actor.CombatController.CanActivate('ordnance') === false
-    }
-    return false
-  })
+  const fightWeapon = computed(() => props.presetWeapon || selectedWeapon.value)
+  const fightActivation = computed(() => fightWeapon.value?.FightActivation || 'full')
+  const fightIcon = computed(() =>
+    fightActivation.value === 'quick' ? 'mdi-hexagon-slice-3' : 'mdi-hexagon-slice-6'
+  )
+  const fightColor = computed(() =>
+    fightActivation.value === 'quick' ? 'action--quick' : 'action--full'
+  )
   const fightWeapons = computed(() => {
     const pilot = controller.value.RootActor
     let arr = pilot.Loadout.Weapons

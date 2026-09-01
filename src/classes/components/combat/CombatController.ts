@@ -25,7 +25,7 @@ import {
   IEffectSpecialData,
 } from '../feature/active_effects/effect_subtype/EffectSpecial'
 import { Action } from '@/classes/Action'
-import { ActivePeriod, type Frequency } from '@/classes/Frequency'
+import { ActivePeriod, Frequency } from '@/classes/Frequency'
 import { BonusController } from '../feature/bonus/BonusController'
 import { CompendiumStore } from '@/features/compendium/store'
 import { expiration } from './Expiration'
@@ -39,6 +39,9 @@ import {
   type IActionUseRecord,
 } from './ActionPoolController'
 import { DamageController } from './DamageController'
+import { DiceRoller } from '@/classes/dice/DiceRoller'
+import { ruleFor, customRuleFor, kindsFor } from './StatusRules'
+import type { IStatusRule } from './StatusRules'
 import type { CheckKind, IPendingCheck } from './StructureCheck'
 
 enum CoverType {
@@ -64,6 +67,9 @@ interface CombatData {
 
   isInSelfDestruct: boolean
   reactorDestroyed: boolean
+  rechargeRolledRound?: number
+  reactionsUsed?: string[]
+  braceGranted?: string[]
   isDead: boolean
 
   stats: IStatData
@@ -114,6 +120,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   public Mounted = true
   public Overwatch = false
   public Braced = false
+  public BraceGranted: string[] = []
   public Prepared = false
   public CoreActive = false
   public AIControl = false
@@ -257,12 +264,17 @@ class CombatController implements ICounterContainer, IStatContainer {
     return this.StatController.getCurrent(StatKey.STRESS) || 0
   }
 
+  public RechargeRolledRound: number = -1
+
+  public get CanRollRecharge(): boolean {
+    return this.RechargeRolledRound !== this.Round
+  }
+
   public PendingChecks: IPendingCheck[] = []
   public SuppressChecks: boolean = false
 
   public AddPendingCheck(kind: CheckKind): void {
     if (this.SuppressChecks) return
-    if (this.PendingChecks.some(p => p.kind === kind)) return
     this.PendingChecks.push({ id: crypto.randomUUID(), kind })
   }
 
@@ -270,9 +282,34 @@ class CombatController implements ICounterContainer, IStatContainer {
     this.PendingChecks = this.PendingChecks.filter(p => p.id !== id)
   }
 
+  public get RollsStructureChart(): boolean {
+    return this.StatController.getMax(StatKey.STRUCTURE) > 1
+  }
+
+  public get RollsStressChart(): boolean {
+    return this.StatController.getMax(StatKey.STRESS) > 1
+  }
+
   public onStatDecrease(key: string): void {
-    if (key === StatKey.STRUCTURE) this.AddPendingCheck('structure')
-    else if (key === StatKey.STRESS) this.AddPendingCheck('stress')
+    if (key === StatKey.STRUCTURE) {
+      if (this.RollsStructureChart) this.AddPendingCheck('structure')
+    } else if (key === StatKey.STRESS) {
+      if (this.RollsStressChart) this.AddPendingCheck('stress')
+    } else if (key === StatKey.HP) {
+      this._checkDownAndOut()
+    }
+  }
+
+  private _checkDownAndOut(): void {
+    if (!(this.Parent instanceof Pilot)) return
+    if (this.StatController.getCurrent(StatKey.HP) > 0) return
+    if (this.IsDead) return
+    if (this.HasStatus('downandout')) {
+      this.Kill()
+      return
+    }
+    this.AddStatus('downandout')
+    this.log('Down and out')
   }
 
   public log(str: string): void {
@@ -300,6 +337,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public EndTurn(): void {
+    this.ActionPoolController.InOvercharge = false
     this.StatController.setCurrentStat(
       StatKey.ACTIVATIONS,
       this.StatController.getCurrent(StatKey.ACTIVATIONS) - 1
@@ -307,9 +345,12 @@ class CombatController implements ICounterContainer, IStatContainer {
     this.ClearUses(ActivePeriod.Turn)
     if (this.Parent instanceof Pilot && this.Parent.ActiveMech)
       this.Parent.ActiveMech.CombatController.ClearUses(ActivePeriod.Turn)
+    if (this.Parent instanceof Mech && this.Parent.Pilot)
+      this.Parent.Pilot.CombatController.ClearUses(ActivePeriod.Turn)
     if (this.StatController.getCurrent(StatKey.ACTIVATIONS) >= 1) {
       const remaining = this.StatController.getCurrent(StatKey.ACTIVATIONS)
       this.Reset(ActivePeriod.Turn)
+      this.RefreshReactions()
       this.StatController.setCurrentStat(StatKey.ACTIVATIONS, remaining)
       this.Turn++
       this.CombatLog.AddTurn()
@@ -353,8 +394,18 @@ class CombatController implements ICounterContainer, IStatContainer {
     )
   }
 
+  public SetAIControl(value: boolean): void {
+    if (this.AIControl === value) return
+    this.SetCombatAction('protocol', false)
+    this.CombatActions.Protocol = false
+    this.AIControl = value
+    this.log(value ? 'AI assumed control' : 'Pilot reclaimed control')
+  }
+
   public ToggleMounted(): void {
     this.Mounted = !this.Mounted
+    this.SetCombatAction('protocol', false)
+    this.CombatActions.Protocol = false
     this.log(`${this.Mounted ? 'Mounted' : 'Dismounted'} Mech`)
     if (!this.Mounted && this.HasAISystems) {
       this.AIControl = true
@@ -364,6 +415,81 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   public CanActivate(action: string): boolean {
     return this.ActionPoolController.CanActivate(action)
+  }
+
+  public CanFireWeapon(weapon: any): boolean {
+    const tags = weapon?.ActiveTags || weapon?.Tags || []
+    const isOrdnance = tags.some((t: any) => t?.ID?.toLowerCase() === 'tg_ordnance')
+    if (!isOrdnance) return true
+    return this.CanActivate('ordnance')
+  }
+
+  public ResolveBurn(success: boolean): void {
+    const burn = this.StatController.getCurrent(StatKey.BURN)
+    if (!burn) return
+    if (success) {
+      this.StatController.setCurrentStat(StatKey.BURN, 0)
+      this.log('Engineering check passed: Burn cleared')
+      return
+    }
+    this.DamageController.ApplyDamage(DamageType.AppliedBurn, burn)
+    this.log(`Engineering check failed: took ${burn} burn damage`)
+  }
+
+  private static readonly BRACE_RESIST = ['kinetic', 'energy', 'explosive', 'heat', 'burn']
+
+  public Brace(): boolean {
+    if (!this.CanUseReaction('brace')) return false
+    this.UseReaction('brace')
+    this.Braced = true
+    this.BraceGranted = CombatController.BRACE_RESIST.filter(
+      t => !this.Resistances.some(r => r.type === t)
+    )
+    this.BraceGranted.forEach(t => this.AddResist(t, 'resistance'))
+    this.log('Braced')
+    return true
+  }
+
+  private _clearBraceResistance(): void {
+    this.BraceGranted.forEach(t => this.RemoveResist(t))
+    this.BraceGranted = []
+  }
+
+  public CanOverwatch(weapon?: any): boolean {
+    if (!this.CanUseReaction('overwatch')) return false
+    const tags = weapon?.ActiveTags || weapon?.Tags || []
+    return !tags.some((t: any) => t?.ID?.toLowerCase() === 'tg_ordnance')
+  }
+
+  public TakeOverwatch(weapon?: any): boolean {
+    if (!this.CanOverwatch(weapon)) return false
+    this.UseReaction('overwatch')
+    this.Overwatch = true
+    this.log('Overwatch: skirmishing as a reaction')
+    return true
+  }
+
+  public CanUseQuickTech(option: string): boolean {
+    return this.CanActivate('quicktech') && !this.IsActionUsed(`quicktech:${option.toLowerCase()}`)
+  }
+
+  public UseQuickTech(option: string): boolean {
+    if (!this.CanUseQuickTech(option)) return false
+    this.MarkActionUsed(`quicktech:${option.toLowerCase()}`)
+    this.SetCombatAction('quicktech', false)
+    return true
+  }
+
+  public CanUseReaction(id: string): boolean {
+    return this.ActionPoolController.CanUseReaction(id)
+  }
+
+  public UseReaction(id: string): void {
+    this.ActionPoolController.UseReaction(id)
+  }
+
+  public RefreshReactions(): void {
+    this.ActionPoolController.RefreshReactions()
   }
 
   public ResetCombatActions(): void {
@@ -475,6 +601,300 @@ class CombatController implements ICounterContainer, IStatContainer {
     return this.StatusController.HasStatus(statusID)
   }
 
+  public HasCondition(id: string): boolean {
+    return this.StatusController.HasCondition(id)
+  }
+
+
+  private get _activeStatusRules(): IStatusRule[] {
+    return [
+      ...this.Statuses.map(s => ruleFor(s.status.ID)),
+      ...this.CustomStatuses.map(s => customRuleFor(s.status.Attribute || '')),
+    ].filter(Boolean) as IStatusRule[]
+  }
+
+  public DifficultyFor(kind: string): number {
+    const kinds = kindsFor(kind)
+    return this._activeStatusRules.reduce(
+      (sum, r) => sum + kinds.reduce((k, key) => k + (r.difficulty?.[key] ?? 0), 0),
+      0
+    )
+  }
+
+  public AccuracyAgainst(): number {
+    return this._activeStatusRules.reduce((sum, r) => sum + (r.accuracyAgainst ?? 0), 0)
+  }
+
+  public DifficultyAgainst(kind = 'ranged'): number {
+    const fromStatuses = this._activeStatusRules.reduce(
+      (sum, r) => sum + (r.difficultyAgainst ?? 0),
+      0
+    )
+    const cover =
+      kindsFor(kind).includes('ranged') && this.Cover !== CoverType.None
+        ? this.Cover === CoverType.Hard
+          ? 2
+          : 1
+        : 0
+    return fromStatuses + cover + (this.Braced ? 1 : 0)
+  }
+
+  public static RepairCost(kind: 'hp' | 'item' | 'structure' | 'stress' | 'destroyed'): number {
+    return { hp: 1, item: 1, structure: 2, stress: 2, destroyed: 4 }[kind]
+  }
+
+  public SetUnlicensed(unlicensed: boolean): void {
+    if (unlicensed) {
+      this.AddStatus('impaired')
+      this.AddStatus('slow')
+      this.log('Piloted without its license: impaired and slowed')
+      return
+    }
+    this.RemoveStatus('impaired')
+    this.RemoveStatus('slow')
+  }
+
+  public Bolster(): void {
+    if (this.HasCustomStatus('Bolster')) return
+    this.ApplyCustomStatus(
+      new EffectSpecial({ attribute: 'Bolster', detail: '+2 accuracy on the next roll.' }),
+      '',
+      this,
+      this,
+      undefined as any
+    )
+    this.log('Bolstered')
+  }
+
+  public AccuracyFrom(source: string): number {
+    if (source.toLowerCase() === 'bolster') return this.HasCustomStatus('Bolster') ? 2 : 0
+    return 0
+  }
+
+  public get SelfDestructWindow(): number[] {
+    return [this.Round + 1, this.Round + 2, this.Round + 3]
+  }
+
+  public EndOfTurnEffects(): { effect: TimedEffect; fromOther: boolean }[] {
+    const own = this.Parent.ID
+    return this.TimedEffects.filter(t => t.Round <= this.Round)
+      .map(t => ({ effect: t, fromOther: !!t.Origin && t.Origin !== own }))
+      .sort((a, b) => Number(b.fromOther) - Number(a.fromOther))
+  }
+
+  public get MeltdownCountdown(): number {
+    const pending = this.TimedEffects.find(
+      t => t.Apply?.other === 'self_destruct' || t.Apply?.other === 'reactor_meltdown'
+    )
+    return pending ? Math.max(0, pending.Round - this.Round) : 0
+  }
+
+  public ClearableConditions(): { status: Status; expires: expiration }[] {
+    return this.Statuses.filter(
+      s => s.status.StatusType === 'Condition' && !(s as any).SelfInflicted
+    )
+  }
+
+  public AutoFails(check: string): boolean {
+    const key = check.toLowerCase()
+    return this._activeStatusRules.some(r => r.autoFail?.includes(key as any))
+  }
+
+  public DeniesActivation(action: string): boolean {
+    const str = action.toLowerCase().replace(' ', '')
+    return this._activeStatusRules.some(r => {
+      if (r.permits?.includes(str)) return false
+      if (r.denies?.includes('*')) return true
+      return !!r.denies?.includes(str)
+    })
+  }
+
+  public StatCap(stat: string): number | undefined {
+    const key = stat.toLowerCase()
+    const caps = this._activeStatusRules
+      .map(r => r.caps?.[key])
+      .filter((v): v is number => typeof v === 'number')
+    return caps.length ? Math.min(...caps) : undefined
+  }
+
+  public get CanBeTargeted(): boolean {
+    return !this._activeStatusRules.some(r => r.untargetable)
+  }
+
+  public get InvisibilityMissChance(): number {
+    return Math.max(0, ...this._activeStatusRules.map(r => r.missChance ?? 0))
+  }
+
+  public DropAttackRevealedStatuses(): void {
+    this.Statuses.filter(s => ruleFor(s.status.ID)?.dropsOnAttack).forEach(s =>
+      this.RemoveStatus(s.status.ID)
+    )
+  }
+
+  public get ImmuneToTech(): boolean {
+    return this._activeStatusRules.some(r => r.immuneToTech)
+  }
+
+  public ShutDown(): void {
+    if (this.HasStatus('shut-down')) return
+    this.StatController.setCurrentStat(StatKey.HEATCAP, 0)
+    this.RemoveStatus('exposed')
+    if (this.InCascade) {
+      this.RemoveCustomStatus(StatusController.CASCADE_ATTRIBUTE)
+      this.AIControl = false
+    }
+    this.Statuses.filter(s => ruleFor(s.status.ID)?.fromTechAction).forEach(s =>
+      this.RemoveStatus(s.status.ID)
+    )
+    this.AddStatus('shut-down')
+    this.SetCombatAction('quick', false)
+    this.log('Shut down')
+  }
+
+  public BootUp(): void {
+    if (!this.HasStatus('shut-down')) return
+    this.RemoveStatus('shut-down')
+    this.RemoveStatus('stunned')
+    this.SetCombatAction('full', false)
+    this.log('Booted up')
+  }
+
+  public ConsumeLockOn(): number {
+    if (!this.HasStatus('lockon')) return 0
+    this.RemoveStatus('lockon')
+    this.log('Lock On consumed')
+    return 1
+  }
+
+  public ImprovisedAttackDamage(): number {
+    return DiceRoller.rollDie(6)
+  }
+
+  public Ram(target: CombatController, outcome: { hit: boolean }): boolean {
+    this.SetCombatAction('full', false)
+    if (!outcome.hit) return false
+    target.AddStatus('prone')
+    this.log('Ram: target knocked prone')
+    return true
+  }
+
+  public Grapple(
+    target: CombatController,
+    outcome: { hit: boolean; smaller?: CombatController }
+  ): boolean {
+    this.SetCombatAction('full', false)
+    if (!outcome.hit) return false
+    this.AddStatus('engaged')
+    target.AddStatus('engaged')
+    ;(outcome.smaller ?? target).AddStatus('immobilized')
+    this.log('Grapple: both characters engaged')
+    return true
+  }
+
+  public Invade(target: CombatController, opts: { willing?: boolean } = {}): {
+    automatic: boolean
+    isAttack: boolean
+  } {
+    if (target.ImmuneTo('tech', 'invade')) return { automatic: false, isAttack: false }
+    if (opts.willing) {
+      this.log('Invaded a willing ally: automatic success, no heat')
+      return { automatic: true, isAttack: false }
+    }
+    return { automatic: false, isAttack: true }
+  }
+
+  public Eject(): void {
+    this.SetCombatAction('full', false)
+    this.AddStatus('impaired')
+    this.log('Ejected; mech is impaired until a full repair')
+  }
+
+  public Prepare(): void {
+    if (this.Prepared) return
+    this.Prepared = true
+    this.SetCombatAction('quick', false)
+    this.CombatActions.Quick1 = false
+    this.CombatActions.Quick2 = false
+    this.CombatActions.Full = false
+    this.CombatActions.Reaction = false
+    this.StatController.setCurrentStat(StatKey.SPEED, 0)
+    this.log('Prepared an action')
+  }
+
+  public ReleasePrepared(): void {
+    if (!this.Prepared) return
+    this.Prepared = false
+    this.log('Released the prepared action')
+  }
+
+  public Search(target: CombatController, outcome: { success: boolean }): boolean {
+    this.SetCombatAction('quick', false)
+    if (!outcome.success) return false
+    target.RemoveStatus('hidden')
+    this.log('Search: target is no longer hidden')
+    return true
+  }
+
+  public Jockey(
+    target: CombatController,
+    outcome: { success: boolean; option?: 'distract' | 'shred' | 'damage' }
+  ): boolean {
+    this.SetCombatAction('quick', false)
+    if (!outcome.success) return false
+    if (outcome.option === 'distract') target.AddStatus('impaired')
+    if (outcome.option === 'shred') target.AddStatus('shredded')
+    this.log(`Jockey: ${outcome.option ?? 'success'}`)
+    return true
+  }
+
+  public get IsNpc(): boolean {
+    return !(this.Parent instanceof Mech) && !(this.Parent instanceof Pilot)
+  }
+
+  public get CanCrit(): boolean {
+    return !this.IsNpc
+  }
+
+  public get IsGrunt(): boolean {
+    const templates = (this.Parent as any)?.NpcTemplateController?.Templates || []
+    return templates.some((t: any) => String(t?.ID ?? t?.Name ?? '').toLowerCase().includes('grunt'))
+  }
+
+  public get IsBiological(): boolean {
+    return !!(this.Parent as any)?.IsBiological
+  }
+
+  public UseFullTech(options: string[]): boolean {
+    if (!this.CanActivate('fulltech')) return false
+    if (this.IsNpc && options.length === 2 && options[0] === options[1]) return false
+    this.SetCombatAction('full', false)
+    const frequency = new Frequency(`${Math.max(1, options.length)}/turn`)
+    options.forEach(o => this.MarkActionUsed(o, frequency))
+    return true
+  }
+
+  public NpcInvade(target: CombatController): void {
+    target.ApplyHeat(2)
+    target.AddStatus('impaired')
+    this.log('NPC invade: 2 heat and impaired')
+  }
+
+  public BeginCascade(encounter?: any): void {
+    if (this.InCascade) return
+    this.AIControl = true
+    this.ApplyCustomStatus(
+      new EffectSpecial({
+        attribute: StatusController.CASCADE_ATTRIBUTE,
+        detail: StatusController.CASCADE_DETAIL,
+      }),
+      '',
+      this,
+      this,
+      encounter
+    )
+    this.log('NHP has entered cascade; control passes to the GM')
+  }
+
   public AddStatus(statusID: string, expires?: any): void {
     this.StatusController.AddStatus(statusID, expires)
   }
@@ -501,6 +921,18 @@ class CombatController implements ICounterContainer, IStatContainer {
     } finally {
       this.SuppressChecks = prevSuppress
     }
+  }
+
+  public CanUseEquipment(item: any): boolean {
+    if (!item?.DangerZone) return true
+    return this.IsInDangerZone
+  }
+
+  public ImmuneTo(kind: string, action: string): boolean {
+    if (kind.toLowerCase() !== 'tech') return false
+    if (this.ImmuneToTech) return true
+    if (!this.IsBiological && !(this.Parent instanceof Pilot)) return false
+    return !['scan', 'lock_on', 'lockon'].includes(action.toLowerCase())
   }
 
   public get IsInDangerZone(): boolean {
@@ -551,10 +983,9 @@ class CombatController implements ICounterContainer, IStatContainer {
     value: number,
     ap: boolean = false,
     irreducible = false,
-    reliable = 0,
     direct = false
-  ): { total: number; resist: string[]; condition: string[] } {
-    return this.DamageController.CalculateDamage(type, value, ap, irreducible, reliable, direct)
+  ): { total: number; resist: string[]; condition: string[]; tookDamage: boolean } {
+    return this.DamageController.CalculateDamage(type, value, ap, irreducible, direct)
   }
 
   public TakeDamage(
@@ -571,8 +1002,8 @@ class CombatController implements ICounterContainer, IStatContainer {
     this.DamageController.ApplyDamage(type, value)
   }
 
-  public ApplyHeat(value: number): void {
-    this.DamageController.ApplyHeat(value)
+  public ApplyHeat(value: number, opts: { external?: boolean } = {}): void {
+    this.DamageController.ApplyHeat(value, opts)
   }
 
   public RemoveStatus(statusID: string): void {
@@ -612,8 +1043,35 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   public SetCore(active: boolean): void {
     this.CoreActive = active
-    this.CorePower = false
+    if (active) this.CorePower = false
     this.log(`${active ? 'Activated' : 'Deactivated'} Core System`)
+  }
+
+  public Overcharge(heat?: number): number {
+    const cost = typeof heat === 'number' ? heat : DiceRoller.roll(this.OverchargeCost as any)
+    this.StartOvercharge()
+    this.TakeDamage(DamageType.Heat, cost)
+    this.IncreaseOverchargeLevel()
+    return cost
+  }
+
+  public FullRepair(): void {
+    this.StatController.resetCurrentStats()
+    this.StatController.setCurrentStat(StatKey.HEATCAP, 0)
+    this.StatController.setCurrentStat(StatKey.BURN, 0)
+    this.StatController.setCurrentStat(StatKey.OVERCHARGE, 0)
+    this.Statuses = []
+    this.CustomStatuses = []
+    this.CorePower = true
+    this.CoreActive = false
+    this.ReactorDestroyed = false
+    this.SetDestroyed(false)
+    this.IsDead = false
+    this.TimedEffects = []
+    this.PendingChecks = []
+    this.ResetCombatActions()
+    this.ClearUses(ActivePeriod.Mission)
+    this.log('Full repair')
   }
 
   public Stabilize(
@@ -699,7 +1157,15 @@ class CombatController implements ICounterContainer, IStatContainer {
     )
   }
 
+  public StartTurn(): void {
+    this.RollRecharge(this.AllEquipment)
+    this.RefreshReactions()
+    this.ReleasePrepared()
+  }
+
   public StartRound(): void {
+    this.StartTurn()
+
     const selfApplied = this.ActiveEffects.filter(ae => ae.InitialSelfApplied)
 
     if (selfApplied.length > 0) {
@@ -725,6 +1191,7 @@ class CombatController implements ICounterContainer, IStatContainer {
           new expiration('end_turn_self', this.Parent.CombatController, this, encounter)
         ),
       })
+      this._clearBraceResistance()
       this.log('Brace ended; entered Brace Cooldown period')
       this.CombatActions = {
         ...DEFAULT_COMBAT_ACTIONS,
@@ -738,6 +1205,7 @@ class CombatController implements ICounterContainer, IStatContainer {
       this.StatController.setCurrentStat(StatKey.SPEED, this.StatController.getMax(StatKey.SPEED))
       this.CombatActions = { ...DEFAULT_COMBAT_ACTIONS }
     }
+    this.ActionPoolController.ClearReactionUses()
     this.StatController.setCurrentStat(
       StatKey.ACTIVATIONS,
       this.StatController.getMax(StatKey.ACTIVATIONS)
@@ -799,6 +1267,12 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public EndEncounter(): void {
+    this.Statuses.filter(s =>
+      s.expires?.HasExpired(this.Round, this.Parent.ID, this.Turn, 'end', { encounterEnded: true })
+    ).forEach(s => {
+      this.log(`Status expired with the encounter: ${s.status.Name}`)
+      this.RemoveStatus(s.status.ID)
+    })
     this.ClearUses(ActivePeriod.Scene)
     if (this.Parent instanceof Pilot && this.Parent.ActiveMech)
       this.Parent.ActiveMech.CombatController.ClearUses(ActivePeriod.Scene)
@@ -814,8 +1288,23 @@ class CombatController implements ICounterContainer, IStatContainer {
     this.AllEquipment.forEach(eq => {
       if (!eq.IsReloading) return
       if (eq.Recharge < 0) return
+      if (eq.Recharge > 0) return
       eq.IsUsed = false
     })
+  }
+
+  public RollRecharge(features: any[]): number {
+    const recharging = (features || []).filter(f => f?.Recharge > 0 && f.Used)
+    if (!recharging.length) return 0
+    const roll = DiceRoller.rollDie(6)
+    this.RechargeRolledRound = this.Round
+    recharging.forEach(f => {
+      if (roll >= f.Recharge) {
+        f.Used = false
+        this.log(`${f.Name || 'Feature'} recharged on a ${roll}`)
+      }
+    })
+    return roll
   }
 
   public StartSelfDestruct(): void {
@@ -824,6 +1313,43 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   public CommitSelfDestruct(): void {
     this.ActionPoolController.CommitSelfDestruct()
+  }
+
+  public CommitReactorMeltdown(): void {
+    this.ActionPoolController.CommitReactorMeltdown()
+    this.log('Reactor meltdown!')
+  }
+
+  public ScheduleReactorMeltdown(turns: number): void {
+    const pending = this.TimedEffects.find(t => t.Apply?.other === 'reactor_meltdown')
+    if (pending) {
+      if (pending.Round <= this.Round + turns) return
+      this.TimedEffects.splice(this.TimedEffects.indexOf(pending), 1)
+    }
+    this.TimedEffects.push(
+      markRaw(
+        new TimedEffect({
+          name: 'Reactor Meltdown',
+          detail: `This mech's reactor will melt down, annihilating it and killing everyone inside, dealing 4d6 explosive damage to all targets in a burst 2 area around it.`,
+          round: this.Round + turns,
+          apply: { other: 'reactor_meltdown' },
+        })
+      )
+    )
+    this.log(`Reactor meltdown in ${turns} turn(s)`)
+  }
+
+  public RetryMeltdownCheck(success: boolean): boolean {
+    const index = this.TimedEffects.findIndex(t => t.Apply?.other === 'reactor_meltdown')
+    if (index === -1) return false
+    this.SetCombatAction('full', false)
+    if (!success) {
+      this.log('Failed to avert the reactor meltdown')
+      return false
+    }
+    this.TimedEffects.splice(index, 1)
+    this.log('Reactor meltdown averted')
+    return true
   }
 
   public Kill(): void {
@@ -846,6 +1372,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     target.mounted = controller.Mounted
     target.overwatch = controller.Overwatch
     target.braced = controller.Braced
+    target.braceGranted = [...controller.BraceGranted]
     target.prepared = controller.Prepared
     target.coreActive = controller.CoreActive
     target.corePower = controller.CorePower
@@ -853,6 +1380,8 @@ class CombatController implements ICounterContainer, IStatContainer {
 
     target.isInSelfDestruct = controller.IsInSelfDestruct
     target.reactorDestroyed = controller.ReactorDestroyed
+    target.rechargeRolledRound = controller.RechargeRolledRound
+    target.reactionsUsed = [...controller.ActionPoolController.ReactionsUsed]
     target.isDead = controller.IsDead
 
     target.combatActions = { ...controller.CombatActions }
@@ -891,6 +1420,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     controller.Mounted = data?.mounted ?? true
     controller.Overwatch = data?.overwatch || false
     controller.Braced = data?.braced || false
+    controller.BraceGranted = data?.braceGranted ? [...data.braceGranted] : []
     controller.Prepared = data?.prepared || false
     controller.CorePower = data?.corePower ?? true
     controller.CoreActive = data?.coreActive || false
@@ -898,6 +1428,8 @@ class CombatController implements ICounterContainer, IStatContainer {
 
     controller.IsInSelfDestruct = data?.isInSelfDestruct || false
     controller.ReactorDestroyed = data?.reactorDestroyed || false
+    controller.RechargeRolledRound = data?.rechargeRolledRound ?? -1
+    controller.ActionPoolController.ReactionsUsed = data?.reactionsUsed ? [...data.reactionsUsed] : []
     controller.IsDead = data?.isDead || false
 
     if (data?.combatActions) controller.CombatActions = data.combatActions

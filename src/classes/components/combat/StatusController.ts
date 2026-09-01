@@ -1,6 +1,7 @@
 import { markRaw } from 'vue'
 import { Status } from '@/classes/Status'
 import { CompendiumStore } from '@/features/compendium/store'
+import { ruleFor } from './StatusRules'
 import { expiration } from './Expiration'
 import { EffectSpecial } from '../feature/active_effects/effect_subtype/EffectSpecial'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
@@ -34,12 +35,15 @@ class StatusController {
   public AddStatus(statusID: string, expires?: any): void {
     const status = CompendiumStore().Statuses.find(s => s.ID === statusID)
     if (!status) return
+    const rule = ruleFor(statusID)
+    if (rule?.immuneIf?.some(id => this.HasCondition(id))) return
     const target = this._active.StatusController
     const resolvedExpires = this._resolveExpiration(expires, this._active)
     const existingIndex = target.Statuses.findIndex(s => s.status.ID === status.ID)
     if (existingIndex === -1) {
       target.Statuses.push({ status, expires: resolvedExpires })
       this._parent.log(`Gained ${status.Name}`)
+      rule?.implies?.forEach(id => this.AddStatus(id, expires))
     } else if (resolvedExpires) {
       target.Statuses[existingIndex].expires = resolvedExpires
     }
@@ -50,6 +54,7 @@ class StatusController {
     const existingIndex = target.Statuses.findIndex(s => s.status.ID === statusID)
     if (existingIndex !== -1) {
       target.Statuses.splice(existingIndex, 1)
+      ruleFor(statusID)?.implies?.forEach(id => this.RemoveStatus(id))
       this._parent.CombatLogVersion++
     }
   }
@@ -106,12 +111,24 @@ class StatusController {
     }
   }
 
+  public HasCondition(id: string): boolean {
+    if (this.HasStatus(id)) return true
+    const key = id.toLowerCase()
+    return this._active.StatusController.CustomStatuses.some(
+      s => s.status.Attribute?.toLowerCase() === key
+    )
+  }
+
   public HasCustomStatus(attribute: string): boolean {
     return this._active.StatusController.CustomStatuses.some(s => s.status.Attribute === attribute)
   }
 
+  public static readonly CASCADE_ATTRIBUTE = 'In Cascade'
+  public static readonly CASCADE_DETAIL =
+    'An installed NHP has entered CASCADE and has taken full control of the mech. The mech is in control of the GM until the Pilot reclaims control by choosing to Shut Down the mech.'
+
   public get InCascade(): boolean {
-    return this.HasCustomStatus('In Cascade')
+    return this.HasCustomStatus(StatusController.CASCADE_ATTRIBUTE)
   }
 
   public RemoveCustomStatus(attribute: string): void {

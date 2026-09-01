@@ -8,6 +8,7 @@ import { Damage, IDamageData } from '../../../Damage'
 import { DamageType, ItemType, RangeType, WeaponSize, WeaponType } from '../../../enums'
 import { IEquipmentData, IMechEquipmentData, MechEquipment } from './MechEquipment'
 import { WeaponMod } from './WeaponMod'
+import { resolveTier } from '@/util/tierFormat'
 import { Mech } from '../../Mech'
 import { IRangeData, Range } from '../../../Range'
 import Tag, { ITagCompendiumData } from '../../../Tag'
@@ -148,7 +149,6 @@ class WeaponProfile extends CompendiumItem {
   }
 
   public get Attack(): 'ranged' | 'melee' | 'tech' {
-    if (this.Parent.IsSmart) return 'tech'
     if (this.Range && this.Range[0]) {
       if (this.Range[0].Type === RangeType.Threat) return 'melee'
       return 'ranged'
@@ -175,6 +175,7 @@ class WeaponProfile extends CompendiumItem {
       damage: this.Damage?.map(d => Damage.Serialize(d)) || [],
       range: this.Range?.map(r => Range.Serialize(r)) || [],
       attack: this.Attack,
+      target_defense: this.Parent.IsSmart ? 'edef' : undefined,
       can_crit: true,
       accuracy: this.Accuracy,
     }
@@ -249,8 +250,8 @@ class MechWeapon extends MechEquipment {
 
   public get Reliable(): number {
     const tag = this.ActiveTags.find(t => t.ID === 'tg_reliable')
-    if (tag && tag.Value) return Number(tag.Value)
-    return 0
+    if (!tag || !tag.Value) return 0
+    return Number(resolveTier(String(tag.Value), 1)) || 0
   }
 
   public get Overkill(): boolean {

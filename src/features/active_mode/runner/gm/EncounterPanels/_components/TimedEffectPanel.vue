@@ -175,6 +175,7 @@
       if (e.resist)
         e.resist.forEach((r: any) => props.item.CombatController.AddResist(r.type, r.value))
       if (e.other === 'self_destruct') props.item.CombatController.CommitSelfDestruct()
+      if (e.other === 'reactor_meltdown') props.item.CombatController.CommitReactorMeltdown()
     }
     const r = effect.Remove
     if (r) {

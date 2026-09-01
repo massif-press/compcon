@@ -230,6 +230,7 @@
   import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
   import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon'
   import MechWeaponAttack from './_mechWeaponAttack.vue'
+  import { additionalAuxAttacks, suppressBonusDamage } from '@/classes/components/combat/AttackRules'
   import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue'
   import StagedPanel from './_stagedPanel.vue'
   import CombatActionButton from './CombatActionButton.vue'
@@ -313,13 +314,6 @@
     reset()
   }
 
-  function ordnanceWarning(selectedWeapon: any) {
-    if (!selectedWeapon) return false
-    if (selectedWeapon.ActiveTags.find((t: any) => t.ID.toLowerCase() === 'tg_ordnance')) {
-      return (owner.value as any).actor.CombatController.CanActivate('ordnance') === false
-    }
-    return false
-  }
 
   function selectedMount(selectedWeapon: any) {
     if (!selectedWeapon) return null
@@ -339,18 +333,17 @@
     )
     if (!self) throw new Error('Owner combatant not found in encounterInstance')
     selectedWeapons.value[index] = weapon
-    const auxes =
-      selectedMount(weapon)?.Weapons.filter(
-        (x: any) => x.InstanceID !== weapon.InstanceID && x.Size.toLowerCase() === 'auxiliary'
-      ) ?? []
-    const auxEvents = auxes.map(
-      (x: any) =>
+    const fired = selectedWeapons.value.filter(Boolean).map((w: any) => w.InstanceID)
+    const auxes = additionalAuxAttacks(selectedMount(weapon)?.Weapons ?? [], fired)
+    const auxEvents = auxes.map((x: any) =>
+      suppressBonusDamage(
         new WeaponAttackEvent(
           x.SelectedProfile as WeaponProfile,
           owner.value as CombatantData,
           encounterInstance.value,
           'Additional Aux Attack'
         )
+      )
     )
     events.value[index] = {
       weaponEvent: new WeaponAttackEvent(

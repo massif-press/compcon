@@ -196,6 +196,7 @@ export class NpcWeapon extends NpcFeature {
         : this.WeaponType.toLowerCase().includes('tech')
           ? 'tech'
           : 'melee',
+      target_defense: this.Tags?.some(t => t.IsSmart) ? 'edef' : undefined,
       can_crit: true,
       accuracy: this.HasAccuracy ? this.Accuracy(actor.Tier) : undefined,
       attack_bonus: this.AttackBonus(actor.Tier) || undefined,

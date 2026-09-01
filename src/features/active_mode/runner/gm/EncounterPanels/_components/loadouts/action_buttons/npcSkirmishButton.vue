@@ -139,9 +139,7 @@ const controller = computed(() => {
 const skirmishWeapons = computed(() => {
   const npc = controller.value.ActiveActor;
 
-  let arr = (npc.NpcFeatureController?.Features || []).filter(
-    (x) => !x.IsSuperheavy
-  );
+  let arr = npc.NpcFeatureController?.SkirmishWeapons || [];
 
   if (props.presetWeapon) {
     arr = arr.filter(w => w.InstanceID === props.presetWeapon!.InstanceID);

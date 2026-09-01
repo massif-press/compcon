@@ -217,12 +217,30 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     }
   }
 
+  public static AlternateSides(
+    combatants: { side: string }[],
+    previousSide?: string
+  ): { side: string }[] {
+    const allies = combatants.filter(c => c.side !== 'enemy')
+    const enemies = combatants.filter(c => c.side === 'enemy')
+    const startWithEnemies = previousSide !== undefined && previousSide !== 'enemy'
+
+    const first = startWithEnemies ? enemies : allies
+    const second = startWithEnemies ? allies : enemies
+
+    const longer = first.length >= second.length ? first : second
+    return longer.flatMap((_, i) => [first[i], second[i]]).filter(Boolean)
+  }
+
+  private _lastSide?: string
+
   public async EndRound(): Promise<void> {
     await new Promise<void>(r => setTimeout(r, 100))
     for (const c of this.Combatants) {
       c.actor.CombatController.EndRound(this)
       if (c.actor.ActiveMech) c.actor.ActiveMech.CombatController.EndRound(this)
     }
+    this._lastSide = EncounterInstance.AlternateSides(this.Combatants, this._lastSide).at(-1)?.side
     this._round += 1
     if (this.Autosave) {
       await this.Save()

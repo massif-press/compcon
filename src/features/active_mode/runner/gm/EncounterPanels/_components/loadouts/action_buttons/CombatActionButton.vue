@@ -146,6 +146,7 @@ const useId = computed(() => props.presetWeapon?.InstanceID ?? props.action.ID)
 const overchargeUse = computed(() =>
       controller.value.CanRepeatAsOvercharge(props.action.ID, props.action.Activation))
 const canUse = computed(() =>
+      controller.value.CanFireWeapon(props.presetWeapon) &&
       controller.value.CanTakeAction(props.action.ID, props.action.Activation, useId.value))
 const usedCount = computed(() => controller.value.UsedCount(useId.value))
 const remainingUses = computed(() => props.action.Frequency.Uses - usedCount.value)

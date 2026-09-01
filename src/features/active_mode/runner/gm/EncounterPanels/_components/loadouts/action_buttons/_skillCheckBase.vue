@@ -100,6 +100,7 @@
 <script setup lang="ts">
 import { CombatController } from '@/classes/components/combat/CombatController';
 import { computed, ref } from 'vue'
+import { DiceRoller } from '@/classes/dice/DiceRoller'
 
 const props = withDefaults(defineProps<{
   controller: CombatController
@@ -141,27 +142,14 @@ const bonus = ref((applicableBonuses.value.bonuses.reduce((acc, b) => acc + b.Va
 const accDiff = ref(applicableBonuses.value.accDiff.reduce((acc, b) => acc + b.Accuracy, 0) || 0)
 
 function rollCheck() {
-  const baseRoll = Math.floor(Math.random() * 20) + 1;
+  const result = DiceRoller.rollSkillCheck(Number(bonus.value), accDiff.value, 0);
 
-  const count = Math.abs(accDiff.value);
-  const accResults = [] as number[];
+  const baseRoll = result.rawDieRoll;
+  const finalAccDiff = result.accuracyResult;
 
-  for (let i = 1; i <= count; i++) {
-    accResults.push((Math.floor(Math.random() * 6) + 1) * Math.sign(accDiff.value));
-  }
-
-  if (accDiff.value < 0) {
-    accResults.sort((a, b) => a - b);
-  } else {
-    accResults.sort((a, b) => b - a);
-  }
-
-  const finalAccDiff = accResults.length ? accResults[0] : 0;
-
-  roll.value = baseRoll + Number(bonus.value) + finalAccDiff;
+  roll.value = result.total;
 
   rollResults.value = `Base Roll: ${baseRoll}${bonus.value ? ` ${bonus.value > 0 ? '+' : '-'} ${Math.abs(bonus.value)}` : ''}${finalAccDiff ? `, ${finalAccDiff > 0 ? 'Accuracy: +' : 'Difficulty: -'} ${Math.abs(finalAccDiff)}` : ''} = <strong>${roll.value}</strong>`;
-
 }
 
 function overrideRoll(target: number) {

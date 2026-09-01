@@ -12,6 +12,11 @@ import { CoverType } from '@/classes/components/combat/CombatController'
 import { ActionSummaryData } from '../EffectActionSummary'
 import { combatantLabel } from '@/util/combatantLabel'
 
+export function canCrit(attack: string | undefined, effectCanCrit: boolean): boolean {
+  if (!effectCanCrit) return false
+  return attack === 'melee' || attack === 'ranged'
+}
+
 class ActiveEventTarget {
   public Event: ActiveEffectEvent
   private _combatant!: CombatantData | null
@@ -65,17 +70,16 @@ class ActiveEventTarget {
     this._combatant = value
 
     // if this is attack roll:
-    switch (this.AttackType) {
-      case 'tech':
-        this.TargetDefense = 'E-Defense'
-        this.TargetDefenseValue =
-          this._combatant?.actor.CombatController.ActiveActor.StatController.getMax('edef') || 10
-        break
-      default:
-        this.TargetDefense = 'Evasion'
-        this.TargetDefenseValue =
-          this._combatant?.actor.CombatController.ActiveActor.StatController.getMax('evasion') || 10
-        break
+    const against =
+      this.Event.TargetDefense || (this.AttackType === 'tech' ? 'edef' : 'evasion')
+    if (against === 'edef') {
+      this.TargetDefense = 'E-Defense'
+      this.TargetDefenseValue =
+        this._combatant?.actor.CombatController.ActiveActor.StatController.getMax('edef') || 10
+    } else {
+      this.TargetDefense = 'Evasion'
+      this.TargetDefenseValue =
+        this._combatant?.actor.CombatController.ActiveActor.StatController.getMax('evasion') || 10
     }
   }
 
@@ -86,7 +90,15 @@ class ActiveEventTarget {
   public set AttackRolledValue(value: number | undefined) {
     this._attackRolledValue = value
     if (this.Event.SaveHalf) this.SavedHalf = this.HitResult !== 'miss'
-    if (value && value >= 20 && this.Event.Effect.CanCrit) this.Event.SetCrit()
+    const attackerCanCrit =
+      this.Event.Initiator?.actor?.CombatController?.ActiveActor?.CombatController?.CanCrit ?? true
+    if (
+      value &&
+      value >= 20 &&
+      attackerCanCrit &&
+      canCrit(this.AttackType, this.Event.Effect.CanCrit)
+    )
+      this.Event.SetCrit()
   }
 
   public get HitResult(): string {

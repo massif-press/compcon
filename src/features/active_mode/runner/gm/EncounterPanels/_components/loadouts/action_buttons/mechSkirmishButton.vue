@@ -216,6 +216,7 @@
   import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent'
   import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon'
   import MechWeaponAttack from './_mechWeaponAttack.vue'
+  import { additionalAuxAttacks, suppressBonusDamage } from '@/classes/components/combat/AttackRules'
   import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue'
   import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
   import StagedPanel from './_stagedPanel.vue'
@@ -249,13 +250,6 @@
     return aa.ActiveMech.MechLoadoutController.ActiveLoadout.Mounts.find(m =>
       m.Weapons.some(w => w.InstanceID === selectedWeapon.value!.InstanceID)
     )
-  })
-  const ordnanceWarning = computed(() => {
-    if (!selectedWeapon.value) return false
-    if (selectedWeapon.value.ActiveTags.find(t => t.ID.toLowerCase() === 'tg_ordnance')) {
-      return owner.value.actor.CombatController.CanActivate('ordnance') === false
-    }
-    return false
   })
   const skirmishWeapons = computed(() => {
     const mech = controller.value.ActiveActor
@@ -295,20 +289,19 @@
       encounterInstance.value,
       'Skirmish'
     )
-    const auxes =
-      selectedMount.value?.Weapons.filter(
-        x =>
-          x.InstanceID !== selectedWeapon.value!.InstanceID && x.Size.toLowerCase() === 'auxiliary'
-      ) ?? []
+    const auxes = additionalAuxAttacks(selectedMount.value?.Weapons ?? [], [
+      selectedWeapon.value!.InstanceID,
+    ])
 
-    auxEvents.value = auxes.map(
-      x =>
+    auxEvents.value = auxes.map(x =>
+      suppressBonusDamage(
         new WeaponAttackEvent(
           x.SelectedProfile as WeaponProfile,
           owner.value as CombatantData,
           encounterInstance.value,
           'Additional Aux Attack'
         )
+      )
     )
 
     include.value = auxEvents.value.map(() => true)

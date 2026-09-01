@@ -104,10 +104,7 @@ const isPilotSheet = computed(() => {
     })
 const ordnanceWarning = computed(() => {
       if (!props.profile) return false;
-      if (props.profile.Tags.find((t) => t.ID.toLowerCase() === 'tg_ordnance')) {
-        return owner.value.actor.CombatController.CanActivate('ordnance') === false;
-      }
-      return false;
+      return !owner.value.actor.CombatController.CanFireWeapon(props.profile);
     })
 const canUse = computed(() => {
       if (!props.profile) return false;

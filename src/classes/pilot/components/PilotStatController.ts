@@ -44,7 +44,7 @@ class PilotStatController {
   }
 
   public get TechAttack(): number {
-    return Bonus.Int(this._pilot.Grit, BonusId.TECH_ATTACK, this._pilot)
+    return Bonus.Int(0, BonusId.TECH_ATTACK, this._pilot)
   }
 
   public getExpressionContext(): ExpressionContext {

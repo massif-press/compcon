@@ -182,9 +182,7 @@
   const barrageWeapons = computed(() => {
     const npc = controller.value.ActiveActor
 
-    let arr = (npc.NpcFeatureController?.Features || []).filter(
-      x => x.FeatureType === NpcFeatureType.Weapon
-    )
+    let arr = npc.NpcFeatureController?.BarrageWeapons || []
 
     if (props.presetWeapon) {
       arr = arr.filter(w => w.InstanceID !== props.presetWeapon!.InstanceID)
@@ -228,13 +226,6 @@
       if (w.IsLoading) w.Used = true
     })
     reset()
-  }
-  function ordnanceWarning(selectedWeapon) {
-    if (!selectedWeapon) return false
-    if (selectedWeapon.ActiveTags.find(t => t.ID.toLowerCase() === 'tg_ordnance')) {
-      return owner.value.actor.CombatController.CanActivate('ordnance') === false
-    }
-    return false
   }
   function setSelected(index: number, weapon: NpcWeapon) {
     if (!weapon) return

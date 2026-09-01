@@ -185,7 +185,6 @@ import type { CombatantData } from '@/classes/encounter/Encounter'
 import { useEncounterContext } from '../../encounterContext'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
-import { EffectSpecial } from '@/classes/components/feature/active_effects/effect_subtype/EffectSpecial'
 import MechSkirmishButton from './action_buttons/mechSkirmishButton.vue'
 import { CompendiumStore } from '@/stores'
 import MechBarrageButton from './action_buttons/mechBarrageButton.vue'
@@ -278,26 +277,13 @@ function toggleUsed() {
   props.item.Used = !props.item.Used
 }
 function enableAI() {
-  props.controller.CombatActions.Protocol = false
-  props.controller.AIControl = true
+  props.controller.SetAIControl(true)
 }
 function disableAI() {
-  props.controller.CombatActions.Protocol = false
-  props.controller.AIControl = false
+  props.controller.SetAIControl(false)
 }
 function cascade() {
-  props.controller.AIControl = true
-  props.controller.ApplyCustomStatus(
-    new EffectSpecial({
-      attribute: 'In Cascade',
-      detail:
-        'An installed NHP has entered CASCADE and has taken full control of the mech. The mech is in control of the GM until the Pilot reclaims control by choosing to Shut Down the mech.',
-    }),
-    '',
-    props.controller,
-    props.controller,
-    encounterInstance.value
-  )
+  props.controller.BeginCascade(encounterInstance.value)
 }
 function onUseToggle() {
   snapshotItemEdit()

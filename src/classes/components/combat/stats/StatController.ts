@@ -274,6 +274,8 @@ class StatController {
   // stored max without mutating it, for surfaces that display an un-instanced actor
   public getMaxWithBonuses(stat: string): any {
     const base = this.getMax(stat)
+    const cap = (this.Parent as any)?.StatCap?.(stat)
+    if (typeof cap === 'number') return Math.min(Number(base) || 0, cap)
     // encounter instances already have bonuses baked in by BonusController.applyToStats
     if (this.IsEncounterInstance) return base
     // Parent is a CombatController for most actors, the entity itself for eidolon shards
