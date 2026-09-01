@@ -11,11 +11,8 @@ import { EffectSpecial } from '../effect_subtype/EffectSpecial'
 import { CoverType } from '@/classes/components/combat/CombatController'
 import { ActionSummaryData } from '../EffectActionSummary'
 import { combatantLabel } from '@/util/combatantLabel'
-
-export function canCrit(attack: string | undefined, effectCanCrit: boolean): boolean {
-  if (!effectCanCrit) return false
-  return attack === 'melee' || attack === 'ranged'
-}
+import { targetDefenseFor, hitResultFor, critTriggers, canCrit } from '@/classes/components/combat/WeaponAttackFlow'
+export { canCrit }
 
 class ActiveEventTarget {
   public Event: ActiveEffectEvent
@@ -70,8 +67,7 @@ class ActiveEventTarget {
     this._combatant = value
 
     // if this is attack roll:
-    const against =
-      this.Event.TargetDefense || (this.AttackType === 'tech' ? 'edef' : 'evasion')
+    const against = targetDefenseFor(this.AttackType, this.Event.TargetDefense)
     if (against === 'edef') {
       this.TargetDefense = 'E-Defense'
       this.TargetDefenseValue =
@@ -92,20 +88,12 @@ class ActiveEventTarget {
     if (this.Event.SaveHalf) this.SavedHalf = this.HitResult !== 'miss'
     const attackerCanCrit =
       this.Event.Initiator?.actor?.CombatController?.ActiveActor?.CombatController?.CanCrit ?? true
-    if (
-      value &&
-      value >= 20 &&
-      attackerCanCrit &&
-      canCrit(this.AttackType, this.Event.Effect.CanCrit)
-    )
+    if (critTriggers(value, this.AttackType, this.Event.Effect.CanCrit, attackerCanCrit))
       this.Event.SetCrit()
   }
 
   public get HitResult(): string {
-    if (this.AttackRolledValue === undefined || !this.TargetDefenseValue) return ''
-    if (this.AttackRolledValue >= 20) return 'crit'
-    if (this.AttackRolledValue >= this.TargetDefenseValue) return 'hit'
-    return 'miss'
+    return hitResultFor(this.AttackRolledValue, this.TargetDefenseValue)
   }
 
   public set HitResult(value: string) {

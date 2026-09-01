@@ -264,11 +264,11 @@ function activate(event: string) {
       notify({ type: 'success', title: t('active.mechActions.selfDestructInitiatedTitle'), text: t('active.mechActions.selfDestructInitiatedText', { name: controller.value.CombatName }) });
       break;
     case 'act_brace':
-      controller.value.Braced = true;
+      controller.value.Brace();
       notify({ type: 'success', title: t('active.mechActions.mechBracedTitle'), text: t('active.mechActions.mechBracedText', { name: controller.value.CombatName }) });
       break;
     case 'act_overwatch':
-      controller.value.Overwatch = true;
+      controller.value.TakeOverwatch();
       notify({ type: 'success', title: t('active.mechActions.overwatchTitle'), text: t('active.mechActions.overwatchText', { name: controller.value.CombatName }) });
       break;
     default:

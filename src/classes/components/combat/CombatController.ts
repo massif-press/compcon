@@ -41,8 +41,13 @@ import {
 import { DamageController } from './DamageController'
 import { DiceRoller } from '@/classes/dice/DiceRoller'
 import { ruleFor, customRuleFor, kindsFor } from './StatusRules'
+import { ActivationFlow, BraceFlow, OverwatchFlow } from './ActivationFlow'
+import type { IActivationState } from './ActivationFlow'
 import type { IStatusRule } from './StatusRules'
 import type { CheckKind, IPendingCheck } from './StructureCheck'
+import { TAG, hasTag } from '@/classes/TagRules'
+import { expiredIn, isDue, roundsRemaining } from './Duration'
+import type { IDurationContext } from './Duration'
 
 enum CoverType {
   None = 'none',
@@ -200,15 +205,13 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public get AttackBonus(): number {
-    if (this.Parent instanceof Pilot || this.Parent instanceof Mech)
-      return this.Parent.AttackBonus || 0
-    else return this.StatController.getCurrent(StatKey.ATTACK_BONUS) || 0
+    if (this.IsNpc) return this.StatController.getCurrent(StatKey.ATTACK_BONUS) || 0
+    return (this.Parent as Mech | Pilot).AttackBonus || 0
   }
 
   public get TechAttackBonus(): number {
-    if (this.Parent instanceof Pilot || this.Parent instanceof Mech)
-      return this.Parent.TechAttack || 0
-    else return this.StatController.getCurrent(StatKey.TECH_ATTACK) || 0
+    if (this.IsNpc) return this.StatController.getCurrent(StatKey.TECH_ATTACK) || 0
+    return (this.Parent as Mech | Pilot).TechAttack || 0
   }
 
   public AllActions(activation: `${ActivationType}`): Action[] {
@@ -220,19 +223,17 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public get AllEquipment(): any[] {
-    let items: any[]
-    if (this.Parent instanceof Mech)
-      items = this.Parent.MechLoadoutController.ActiveLoadout.Equipment
-    else if (this.Parent instanceof Pilot)
-      items = this.Parent.PilotLoadoutController.ActiveLoadout.Items
-    else if (this.Parent.NpcFeatureController) items = this.Parent.NpcFeatureController.Features
-    else return []
-    return items.filter(Boolean)
+    const p = this.Parent as any
+    const byKind: Record<string, () => any[]> = {
+      mech: () => p.MechLoadoutController.ActiveLoadout.Equipment,
+      pilot: () => p.PilotLoadoutController.ActiveLoadout.Items,
+      npc: () => p.NpcFeatureController?.Features ?? [],
+    }
+    return (byKind[this.Kind]() ?? []).filter(Boolean)
   }
 
   public get RootActor(): any {
-    if (this.Parent instanceof Mech) return this.Parent.Parent
-    return this.Parent
+    return this.IsMech ? (this.Parent as Mech).Parent : this.Parent
   }
 
   // use whenever access is needed to guarantee correct mounted pilot selection
@@ -301,7 +302,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   private _checkDownAndOut(): void {
-    if (!(this.Parent instanceof Pilot)) return
+    if (!this.IsPilot) return
     if (this.StatController.getCurrent(StatKey.HP) > 0) return
     if (this.IsDead) return
     if (this.HasStatus('downandout')) {
@@ -323,7 +324,7 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   public get ActiveEffects(): ActiveEffect[] {
     const fx = this.Parent.FeatureController?.ActiveEffects || []
-    if (this.Parent instanceof Pilot) return fx.filter(e => e.Pilot)
+    if (this.IsPilot) return fx.filter(e => e.Pilot)
     return fx.filter(e => !e.Pilot)
   }
 
@@ -343,10 +344,7 @@ class CombatController implements ICounterContainer, IStatContainer {
       this.StatController.getCurrent(StatKey.ACTIVATIONS) - 1
     )
     this.ClearUses(ActivePeriod.Turn)
-    if (this.Parent instanceof Pilot && this.Parent.ActiveMech)
-      this.Parent.ActiveMech.CombatController.ClearUses(ActivePeriod.Turn)
-    if (this.Parent instanceof Mech && this.Parent.Pilot)
-      this.Parent.Pilot.CombatController.ClearUses(ActivePeriod.Turn)
+    this.Counterpart?.ClearUses(ActivePeriod.Turn)
     if (this.StatController.getCurrent(StatKey.ACTIVATIONS) >= 1) {
       const remaining = this.StatController.getCurrent(StatKey.ACTIVATIONS)
       this.Reset(ActivePeriod.Turn)
@@ -419,7 +417,7 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   public CanFireWeapon(weapon: any): boolean {
     const tags = weapon?.ActiveTags || weapon?.Tags || []
-    const isOrdnance = tags.some((t: any) => t?.ID?.toLowerCase() === 'tg_ordnance')
+    const isOrdnance = hasTag(tags, TAG.Ordnance)
     if (!isOrdnance) return true
     return this.CanActivate('ordnance')
   }
@@ -438,16 +436,45 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   private static readonly BRACE_RESIST = ['kinetic', 'energy', 'explosive', 'heat', 'burn']
 
-  public Brace(): boolean {
-    if (!this.CanUseReaction('brace')) return false
-    this.UseReaction('brace')
+  public ApplyBraceEffects(): void {
     this.Braced = true
     this.BraceGranted = CombatController.BRACE_RESIST.filter(
       t => !this.Resistances.some(r => r.type === t)
     )
     this.BraceGranted.forEach(t => this.AddResist(t, 'resistance'))
     this.log('Braced')
+  }
+
+  public Brace(): boolean {
+    return BraceFlow.Begin(this._activationState('brace', { reaction: 'brace' })).outcome === 'complete'
+  }
+
+  public SetBraced(value: boolean): boolean {
+    if (value === this.Braced) return false
+    if (value) return this.Brace()
+    this.Braced = false
+    this._clearBraceResistance()
+    this.log('Brace released')
     return true
+  }
+
+  public SetOverwatch(value: boolean): boolean {
+    if (value === this.Overwatch) return false
+    if (value) return this.TakeOverwatch()
+    this.Overwatch = false
+    this.log('Overwatch released')
+    return true
+  }
+
+  public Activate(
+    activation: string,
+    opts: { actionId?: string; useId?: string; frequency?: Frequency; heat?: number } = {}
+  ): boolean {
+    return ActivationFlow.Begin(this._activationState(activation, opts)).outcome === 'complete'
+  }
+
+  private _activationState(activation: string, opts: Partial<IActivationState> = {}): IActivationState {
+    return { cc: this, activation, legal: false, ...opts }
   }
 
   private _clearBraceResistance(): void {
@@ -458,15 +485,15 @@ class CombatController implements ICounterContainer, IStatContainer {
   public CanOverwatch(weapon?: any): boolean {
     if (!this.CanUseReaction('overwatch')) return false
     const tags = weapon?.ActiveTags || weapon?.Tags || []
-    return !tags.some((t: any) => t?.ID?.toLowerCase() === 'tg_ordnance')
+    return !hasTag(tags, TAG.Ordnance)
   }
 
   public TakeOverwatch(weapon?: any): boolean {
-    if (!this.CanOverwatch(weapon)) return false
-    this.UseReaction('overwatch')
-    this.Overwatch = true
-    this.log('Overwatch: skirmishing as a reaction')
-    return true
+    return (
+      OverwatchFlow.Begin(
+        this._activationState('overwatch', { reaction: 'overwatch', weapon })
+      ).outcome === 'complete'
+    )
   }
 
   public CanUseQuickTech(option: string): boolean {
@@ -677,7 +704,7 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   public EndOfTurnEffects(): { effect: TimedEffect; fromOther: boolean }[] {
     const own = this.Parent.ID
-    return this.TimedEffects.filter(t => t.Round <= this.Round)
+    return this.TimedEffects.filter(t => isDue(t, this.Round))
       .map(t => ({ effect: t, fromOther: !!t.Origin && t.Origin !== own }))
       .sort((a, b) => Number(b.fromOther) - Number(a.fromOther))
   }
@@ -686,7 +713,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     const pending = this.TimedEffects.find(
       t => t.Apply?.other === 'self_destruct' || t.Apply?.other === 'reactor_meltdown'
     )
-    return pending ? Math.max(0, pending.Round - this.Round) : 0
+    return roundsRemaining(pending, this.Round)
   }
 
   public ClearableConditions(): { status: Status; expires: expiration }[] {
@@ -847,8 +874,28 @@ class CombatController implements ICounterContainer, IStatContainer {
     return true
   }
 
+  public get Kind(): 'mech' | 'pilot' | 'npc' {
+    if (this.Parent instanceof Mech) return 'mech'
+    if (this.Parent instanceof Pilot) return 'pilot'
+    return 'npc'
+  }
+
+  public get IsMech(): boolean {
+    return this.Kind === 'mech'
+  }
+
+  public get IsPilot(): boolean {
+    return this.Kind === 'pilot'
+  }
+
   public get IsNpc(): boolean {
-    return !(this.Parent instanceof Mech) && !(this.Parent instanceof Pilot)
+    return this.Kind === 'npc'
+  }
+
+  public get Counterpart(): CombatController | null {
+    if (this.IsPilot) return (this.Parent as Pilot).ActiveMech?.CombatController ?? null
+    if (this.IsMech) return (this.Parent as Mech).Pilot?.CombatController ?? null
+    return null
   }
 
   public get CanCrit(): boolean {
@@ -931,7 +978,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   public ImmuneTo(kind: string, action: string): boolean {
     if (kind.toLowerCase() !== 'tech') return false
     if (this.ImmuneToTech) return true
-    if (!this.IsBiological && !(this.Parent instanceof Pilot)) return false
+    if (!this.IsBiological && !this.IsPilot) return false
     return !['scan', 'lock_on', 'lockon'].includes(action.toLowerCase())
   }
 
@@ -964,9 +1011,8 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public getCheckBonus(type: 'Hull' | 'Agi' | 'Sys' | 'Eng'): number {
-    if (this.Parent instanceof Pilot) {
-      return this.Parent.ActiveMech![type]
-    } else return this.StatController.getMax(type.toLowerCase()) || 0
+    if (this.IsPilot) return (this.Parent as Pilot).ActiveMech![type]
+    return this.StatController.getMax(type.toLowerCase()) || 0
   }
 
   public CalculateArmorReduction(
@@ -1116,6 +1162,10 @@ class CombatController implements ICounterContainer, IStatContainer {
     }
   }
 
+  private _durationContext(over: Partial<IDurationContext> = {}): IDurationContext {
+    return { round: this.Round, actorId: this.Parent.ID, turn: this.Turn, ...over }
+  }
+
   public getExpiredStatuses(
     currentRound: number,
     currentActorID: string
@@ -1217,9 +1267,7 @@ class CombatController implements ICounterContainer, IStatContainer {
 
     const statusExpires = this.getExpiredStatuses(this.Round, this.Parent.ID)
 
-    const specialStatusExpires = this.CustomStatuses.filter(s =>
-      s.expires?.HasExpired(this.Round, this.Parent.ID, this.Turn)
-    )
+    const specialStatusExpires = expiredIn(this.CustomStatuses, this._durationContext())
 
     statusExpires.forEach(s => {
       this.log(`Status expired: ${s.status.Name}`)
@@ -1261,21 +1309,16 @@ class CombatController implements ICounterContainer, IStatContainer {
     this.StatController.setCurrentStat(StatKey.SPEED, this.StatController.getMax(StatKey.SPEED))
     this.ClearUses(scope)
     this._resetReloadableEquipment()
-    if (this.Parent instanceof Pilot) {
-      if (this.Parent.ActiveMech) this.Parent.ActiveMech.CombatController.Reset(scope)
-    }
+    if (this.IsPilot) this.Counterpart?.Reset(scope)
   }
 
   public EndEncounter(): void {
-    this.Statuses.filter(s =>
-      s.expires?.HasExpired(this.Round, this.Parent.ID, this.Turn, 'end', { encounterEnded: true })
-    ).forEach(s => {
+    expiredIn(this.Statuses, this._durationContext({ encounterEnded: true })).forEach(s => {
       this.log(`Status expired with the encounter: ${s.status.Name}`)
       this.RemoveStatus(s.status.ID)
     })
     this.ClearUses(ActivePeriod.Scene)
-    if (this.Parent instanceof Pilot && this.Parent.ActiveMech)
-      this.Parent.ActiveMech.CombatController.ClearUses(ActivePeriod.Scene)
+    if (this.IsPilot) this.Counterpart?.ClearUses(ActivePeriod.Scene)
   }
 
   public Reload(): void {

@@ -2,6 +2,7 @@ import { IEquipmentData } from '@/classes/mech/components/equipment/MechEquipmen
 import { ITagData } from '@/classes/Tag'
 import { CompendiumItem, ICompendiumItemData } from '../../../../CompendiumItem'
 import { ContentPack } from '../../../../ContentPack'
+import { TAG, hasTag, findTag } from '@/classes/TagRules'
 
 interface IPilotEquipmentData extends ICompendiumItemData {
   type?: string
@@ -43,16 +44,16 @@ abstract class PilotEquipment extends CompendiumItem {
         : (data.effect as any).description
       : ''
     if (data.tags) {
-      const ltd = data.tags.find(x => x.id === 'tg_limited')
+      const ltd = findTag(data.tags, TAG.Limited)
       this.IsLimited = !!ltd
       this._max_uses = ltd && typeof ltd.val === 'number' ? ltd.val : 0
-      this.IsUnique = data.tags.some(x => x.id === 'tg_unique')
-      this.IsLoading = data.tags.some(x => x.id === 'tg_loading')
-      this.IsAI = data.tags.some(x => x.id === 'tg_ai')
-      this.NoCascade = data.tags.some(x => x.id === 'tg_no_cascade')
-      this.IsIndestructible = data.tags.some(x => x.id === 'tg_indestructible')
-      this.CanSetDamage = data.tags.some(x => x.id === 'tg_set_damage_type')
-      this.CanSetUses = data.tags.some(x => x.id === 'tg_set_max_uses')
+      this.IsUnique = hasTag(data.tags, TAG.Unique)
+      this.IsLoading = hasTag(data.tags, TAG.Loading)
+      this.IsAI = hasTag(data.tags, TAG.AI)
+      this.NoCascade = hasTag(data.tags, TAG.NoCascade)
+      this.IsIndestructible = hasTag(data.tags, TAG.Indestructible)
+      this.CanSetDamage = hasTag(data.tags, TAG.SetDamageType)
+      this.CanSetUses = hasTag(data.tags, TAG.SetMaxUses)
       this.max_use_override = this.CanSetUses ? 0 : null
     } else {
       this._max_uses = 0

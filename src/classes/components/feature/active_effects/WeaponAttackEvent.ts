@@ -9,6 +9,7 @@ import { ActiveEffectEvent } from './ActiveEffectEvent'
 import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon'
 import { ActiveEventTarget } from './effect_events/eventTarget'
 import { combatantLabel } from '@/util/combatantLabel'
+import { routesTo, attackCountFor } from '@/classes/components/combat/WeaponAttackFlow'
 
 const onEventTargetCaches = new WeakMap<WeaponAttackEvent, Record<string, ActiveEventTarget[]>>()
 
@@ -66,12 +67,8 @@ class WeaponAttackEvent {
     if (weapon.OnHit) this.OnHitEvent = new ActiveEffectEvent(owner, weapon.OnHit, instance)
     if (weapon.OnCrit) this.OnCritEvent = new ActiveEffectEvent(owner, weapon.OnCrit, instance)
 
-    if (weapon instanceof NpcWeapon) {
-      const attackCount = weapon.getAttacks(owner.actor.CombatController.Tier) - 1
-      for (let i = 0; i < attackCount; i++) {
-        this.BaseEvent.AddTarget()
-      }
-    }
+    const extraAttacks = attackCountFor(weapon, owner.actor.CombatController.Tier) - 1
+    for (let i = 0; i < extraAttacks; i++) this.BaseEvent.AddTarget()
   }
 
   private get EventConfigs(): {
@@ -79,22 +76,10 @@ class WeaponAttackEvent {
     filter: (t: ActiveEventTarget) => boolean
   }[] {
     return [
-      {
-        event: this.OnAttackEvent,
-        filter: (t: ActiveEventTarget) => t.HitResult === 'hit' || t.HitResult === 'crit',
-      },
-      {
-        event: this.OnHitEvent,
-        filter: (t: ActiveEventTarget) => t.HitResult === 'hit' || t.HitResult === 'crit',
-      },
-      {
-        event: this.OnCritEvent,
-        filter: (t: ActiveEventTarget) => t.HitResult === 'crit',
-      },
-      {
-        event: this.OnMissEvent,
-        filter: (t: ActiveEventTarget) => t.HitResult === 'miss',
-      },
+      { event: this.OnAttackEvent, filter: (t: ActiveEventTarget) => routesTo(t.HitResult).onAttack },
+      { event: this.OnHitEvent, filter: (t: ActiveEventTarget) => routesTo(t.HitResult).onHit },
+      { event: this.OnCritEvent, filter: (t: ActiveEventTarget) => routesTo(t.HitResult).onCrit },
+      { event: this.OnMissEvent, filter: (t: ActiveEventTarget) => routesTo(t.HitResult).onMiss },
     ]
   }
 

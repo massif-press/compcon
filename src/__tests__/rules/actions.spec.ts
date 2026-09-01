@@ -280,6 +280,25 @@ describe('action economy defects', () => {
     expect(cc().DifficultyAgainst()).toBe(0)
   })
 
+  it('T-ACTION-brace-01: releasing a brace clears only what it granted', () => {
+    cc().AddResist('kinetic', 'immunity')
+    expect(cc().SetBraced(true)).toBe(true)
+    expect(cc().GetResistance('energy')).toBe('resistance')
+
+    expect(cc().SetBraced(false)).toBe(true)
+    expect(cc().Braced).toBe(false)
+    expect(cc().GetResistance('energy')).toBe('none')
+    expect(cc().GetResistance('kinetic')).toBe('immunity')
+  })
+
+  it('T-ACTION-overwatch-01: releasing overwatch clears the flag', () => {
+    expect(cc().SetOverwatch(true)).toBe(true)
+    expect(cc().Overwatch).toBe(true)
+
+    expect(cc().SetOverwatch(false)).toBe(true)
+    expect(cc().Overwatch).toBe(false)
+  })
+
   it('T-ACTION-brace-01: bracing leaves a resistance the character already had', () => {
     cc().AddResist('kinetic', 'immunity')
     cc().Brace()

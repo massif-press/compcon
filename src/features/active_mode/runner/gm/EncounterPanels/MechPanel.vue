@@ -276,13 +276,13 @@
         key: 'braced',
         label: t('active.actions.braced'),
         active: cc.Braced,
-        toggle: () => (cc.Braced = !cc.Braced),
+        toggle: () => cc.SetBraced(!cc.Braced),
       },
       {
         key: 'overwatch',
         label: t('active.actions.overwatch'),
         active: cc.Overwatch,
-        toggle: () => (cc.Overwatch = !cc.Overwatch),
+        toggle: () => cc.SetOverwatch(!cc.Overwatch),
       },
       {
         key: 'prepared',
@@ -295,7 +295,7 @@
         label: t('active.actions.aiControl'),
         active: cc.AIControl,
         show: !!mech.value.MechLoadoutController.ActiveLoadout.AICount,
-        toggle: () => (cc.AIControl = !cc.AIControl),
+        toggle: () => cc.SetAIControl(!cc.AIControl),
       },
     ]
   })

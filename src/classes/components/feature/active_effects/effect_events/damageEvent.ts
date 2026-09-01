@@ -3,10 +3,8 @@ import { DamageRollResult } from '../../../../dice/DiceRoller'
 import { DamageType } from '../../../../enums'
 import { ActiveEffectEvent } from '../ActiveEffectEvent'
 import { ActiveEventTarget } from './eventTarget'
-
-export function reliableIncoming(hitResult: string, rolled: number, reliable: number): number {
-  return hitResult === 'miss' ? reliable || 0 : rolled
-}
+import { incomingDamage, overkillHeatFor, reliableIncoming } from '@/classes/components/combat/WeaponAttackFlow'
+export { reliableIncoming }
 
 class DamageEvent {
   public DamageType: DamageType = DamageType.Kinetic
@@ -49,7 +47,10 @@ class DamageEvent {
   public ApplyRoll(rollResult: any): void {
     ;(this as any).DamageRollResult = rollResult
     this.DamageRolledValue = rollResult?.total ?? 0
-    this.OverkillHeat = this.Overkill ? (rollResult?.overkillHeat ?? rollResult?.overkillRerolls ?? 0) : 0
+    this.OverkillHeat = overkillHeatFor(
+      this.Overkill,
+      rollResult?.overkillHeat ?? rollResult?.overkillRerolls ?? 0
+    )
   }
 
   public ClearRoll(): void {
@@ -96,18 +97,14 @@ class DamageEvent {
     event: ActiveEffectEvent,
     target: ActiveEventTarget
   ): { finalDamage: number; armorReduction: number } {
-    let incoming = reliableIncoming(target.HitResult, 0, this.Reliable)
-    let bonus = 0
-
-    if (target.HitResult !== 'miss') {
-      incoming += this.DamageRolledValue || 0
-      if (this.BonusDamageEvent) bonus = this.BonusDamageEvent.DamageRolledValue || 0
-      if (event.AoE) bonus = Math.ceil(bonus / 2)
-      incoming += bonus
-      if (target.SavedHalf) {
-        incoming = Math.ceil(incoming / 2)
-      }
-    }
+    const incoming = incomingDamage({
+      hitResult: target.HitResult,
+      rolled: this.DamageRolledValue || 0,
+      bonus: this.BonusDamageEvent?.DamageRolledValue || 0,
+      reliable: this.Reliable,
+      isAoE: !!event.AoE,
+      savedHalf: !!target.SavedHalf,
+    })
 
     const finalDamage =
       target.Combatant?.actor.CombatController.CalculateDamage(

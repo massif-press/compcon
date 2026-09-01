@@ -2,6 +2,7 @@ import { ITagData } from '@/classes/Tag'
 import { ContentPack } from '../../../ContentPack'
 import { ILicensedItemData, LicensedItem } from '../../../pilot/components/license/LicensedItem'
 import { localize, localizeNested } from '@/i18n/localize'
+import { TAG, hasTag, findTag } from '@/classes/TagRules'
 
 export interface IEquipmentData {
   id: string
@@ -62,19 +63,19 @@ abstract class MechEquipment extends LicensedItem {
       : ''
     this.IsIntegrated = data.talent_item || data.frame_id || data.id.includes('_integrated')
     if (data.tags) {
-      const ltd = data.tags.find(x => x.id === 'tg_limited')
+      const ltd = findTag(data.tags, TAG.Limited)
       this.IsLimited = !!ltd
       this.MaxUses = ltd && typeof ltd.val === 'number' ? parseInt(ltd.val as any) : 0
-      this.IsUnique = this.setTagBool(data, 'tg_unique')
-      this.IsLoading = this.setTagBool(data, 'tg_loading')
-      this.IsAI = this.setTagBool(data, 'tg_ai')
+      this.IsUnique = hasTag(data.tags, TAG.Unique)
+      this.IsLoading = hasTag(data.tags, TAG.Loading)
+      this.IsAI = hasTag(data.tags, TAG.AI)
       if (this.ID === 'ms_technophile_3') {
         this.IsAI = false // hardcode enlightenment ai system workaround
       }
-      this.NoCascade = this.setTagBool(data, 'tg_no_cascade')
-      this.IsIndestructible = this.setTagBool(data, 'tg_indestructible')
-      this.CanSetDamage = this.setTagBool(data, 'tg_set_damage_type')
-      this.CanSetUses = this.setTagBool(data, 'tg_set_max_uses')
+      this.NoCascade = hasTag(data.tags, TAG.NoCascade)
+      this.IsIndestructible = hasTag(data.tags, TAG.Indestructible)
+      this.CanSetDamage = hasTag(data.tags, TAG.SetDamageType)
+      this.CanSetUses = hasTag(data.tags, TAG.SetMaxUses)
     }
     this._ammo = data.ammo || []
     this.NoMods = data.no_mods || false
@@ -90,9 +91,6 @@ abstract class MechEquipment extends LicensedItem {
     }))
   }
 
-  private setTagBool(data: IMechEquipmentData, id: string): boolean {
-    return data.tags.some(x => x.id === id)
-  }
 
   public getTotalUses(bonus?: number): number {
     const b = bonus ? bonus : 0

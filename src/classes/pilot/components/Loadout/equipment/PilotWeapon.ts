@@ -8,6 +8,7 @@ import {
   ActiveEffect,
   IActiveEffectData,
 } from '@/classes/components/feature/active_effects/ActiveEffect'
+import { TAG, hasTag } from '@/classes/TagRules'
 
 interface IPilotWeaponData extends IPilotEquipmentData {
   range: IRangeData[]
@@ -38,7 +39,7 @@ class PilotWeapon extends PilotEquipment {
   }
 
   public get IsSidearm(): boolean {
-    return this.Tags.some(x => x.ID === 'tg_sidearm')
+    return hasTag(this.Tags, TAG.Sidearm)
   }
 
   public get FightActivation(): 'quick' | 'full' {

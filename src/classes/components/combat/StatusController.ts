@@ -6,6 +6,7 @@ import { expiration } from './Expiration'
 import { EffectSpecial } from '../feature/active_effects/effect_subtype/EffectSpecial'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import type { CombatController } from './CombatController'
+import { expiredIn } from './Duration'
 
 class StatusController {
   private _parent: CombatController
@@ -189,9 +190,11 @@ class StatusController {
     currentActorID: string,
     currentTurn: number
   ): { status: Status; expires: expiration }[] {
-    return this.Statuses.filter(s =>
-      s.expires?.HasExpired(currentRound, currentActorID, currentTurn)
-    )
+    return expiredIn(this.Statuses, {
+      round: currentRound,
+      actorId: currentActorID,
+      turn: currentTurn,
+    })
   }
 }
 

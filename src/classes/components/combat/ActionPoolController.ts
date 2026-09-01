@@ -45,13 +45,12 @@ class ActionPoolController {
   }
 
   public get CombatActions(): any {
-    if (this._parent.Parent instanceof Mech && this._parent.IsAIControlled)
-      return this._combatActions
+    if (this._parent.IsMech && this._parent.IsAIControlled) return this._combatActions
     return this._parent.RootActor.CombatController.ActionPoolController._combatActions
   }
 
   public set CombatActions(value: any) {
-    if (this._parent.Parent instanceof Mech && this._parent.IsAIControlled) {
+    if (this._parent.IsMech && this._parent.IsAIControlled) {
       this._combatActions = value
       return
     }
@@ -88,7 +87,7 @@ class ActionPoolController {
   }
 
   public get OverchargeApplies(): boolean {
-    return this.InOvercharge && this._parent.ActiveActor instanceof Mech
+    return this.InOvercharge && this._parent.ActiveActor?.CombatController?.IsMech
   }
 
   public set InOvercharge(value: boolean) {
@@ -162,7 +161,8 @@ class ActionPoolController {
       case 'prepare':
         return this.OverchargeApplies || this.CombatActions.Quick1 || this.CombatActions.Quick2
       case 'brace':
-        return this._parent.CanUseReaction('brace')
+      case 'overwatch':
+        return this._parent.CanUseReaction(str)
       default:
         return false
     }
@@ -251,10 +251,7 @@ class ActionPoolController {
         break
     }
     if (propagate) {
-      if (this._parent.Parent instanceof Pilot) {
-        this._parent.Parent.ActiveMech?.CombatController.ResetActivation(action, false)
-      } else if (this._parent.Parent instanceof Mech)
-        this._parent.Parent.Pilot?.CombatController.ResetActivation(action, false)
+      this._parent.Counterpart?.ResetActivation(action, false)
     }
   }
 
@@ -390,10 +387,7 @@ class ActionPoolController {
     this._parent.StatController.setCurrentStat(StatKey.STRESS, 0)
     this.ReactorDestroyed = true
     this.IsInSelfDestruct = false
-    if (this._parent.Mounted && this._parent.Parent instanceof Mech) {
-      const pilot = this._parent.Parent.Parent
-      pilot.CombatController.Kill()
-    }
+    if (this._parent.Mounted && this._parent.IsMech) this._parent.RootActor.CombatController.Kill()
   }
 
   public CommitSelfDestruct(): void {

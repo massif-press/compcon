@@ -43,7 +43,7 @@
             :color="combatant.actor.CombatController.Braced ? 'primary' : 'panel'"
             :text="$t('active.actions.braced')"
             @click="
-              combatant.actor.CombatController.Braced = !combatant.actor.CombatController.Braced
+              combatant.actor.CombatController.SetBraced(!combatant.actor.CombatController.Braced)
             " />
         </v-col>
         <v-col>

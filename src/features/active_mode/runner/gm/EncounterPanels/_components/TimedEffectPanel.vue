@@ -144,6 +144,7 @@
   import { EffectSpecial } from '@/classes/components/feature/active_effects/effect_subtype/EffectSpecial'
   import type { ICombatant } from '@/classes/components/combat/ICombatant'
   import { TimedEffect } from '@/classes/components/feature/active_effects/TimedEffect'
+  import { roundsRemaining } from '@/classes/components/combat/Duration'
 
   const { encounterInstance } = useEncounterContext()
 
@@ -152,7 +153,7 @@
   }>()
 
   function getRoundsRemaining(effect: TimedEffect) {
-    return Math.max(effect.Round - encounterInstance.value.Round, 0)
+    return roundsRemaining(effect, encounterInstance.value.Round)
   }
 
   function apply(effect: TimedEffect, index: number) {
