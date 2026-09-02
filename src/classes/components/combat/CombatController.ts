@@ -394,21 +394,17 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   public SetAIControl(value: boolean): void {
     if (this.AIControl === value) return
-    this.SetCombatAction('protocol', false)
-    this.CombatActions.Protocol = false
+    const spender = this.RootActor.CombatController
+    spender.SetCombatAction('protocol', false)
+    spender.CombatActions.Protocol = false
     this.AIControl = value
     this.log(value ? 'AI assumed control' : 'Pilot reclaimed control')
   }
 
   public ToggleMounted(): void {
     this.Mounted = !this.Mounted
-    this.SetCombatAction('protocol', false)
-    this.CombatActions.Protocol = false
     this.log(`${this.Mounted ? 'Mounted' : 'Dismounted'} Mech`)
-    if (!this.Mounted && this.HasAISystems) {
-      this.AIControl = true
-      this.log(`AI Assumed control of ${this.RootActor.ActiveMech.Name}`)
-    }
+    if (!this.Mounted && this.HasAISystems) this.SetAIControl(true)
   }
 
   public CanActivate(action: string): boolean {
@@ -778,12 +774,13 @@ class CombatController implements ICounterContainer, IStatContainer {
     this.log('Shut down')
   }
 
-  public BootUp(): void {
-    if (!this.HasStatus('shut-down')) return
+  public BootUp(): boolean {
+    if (!this.HasStatus('shut-down')) return false
     this.RemoveStatus('shut-down')
     this.RemoveStatus('stunned')
     this.SetCombatAction('full', false)
     this.log('Booted up')
+    return true
   }
 
   public ConsumeLockOn(): number {
@@ -793,23 +790,10 @@ class CombatController implements ICounterContainer, IStatContainer {
     return 1
   }
 
-  public ImprovisedAttackDamage(): number {
-    return DiceRoller.rollDie(6)
-  }
 
-  public Ram(target: CombatController, outcome: { hit: boolean }): boolean {
-    this.SetCombatAction('full', false)
-    if (!outcome.hit) return false
-    target.AddStatus('prone')
-    this.log('Ram: target knocked prone')
-    return true
-  }
 
-  public Grapple(
-    target: CombatController,
-    outcome: { hit: boolean; smaller?: CombatController }
-  ): boolean {
-    this.SetCombatAction('full', false)
+  public Grapple(target: any, outcome: { hit: boolean; smaller?: any }): boolean {
+    this.SetCombatAction('quick', false)
     if (!outcome.hit) return false
     this.AddStatus('engaged')
     target.AddStatus('engaged')
@@ -818,11 +802,11 @@ class CombatController implements ICounterContainer, IStatContainer {
     return true
   }
 
-  public Invade(target: CombatController, opts: { willing?: boolean } = {}): {
+  public Invade(target: any, opts: { willing?: boolean } = {}): {
     automatic: boolean
     isAttack: boolean
   } {
-    if (target.ImmuneTo('tech', 'invade')) return { automatic: false, isAttack: false }
+    if (target?.ImmuneTo('tech', 'invade')) return { automatic: false, isAttack: false }
     if (opts.willing) {
       this.log('Invaded a willing ally: automatic success, no heat')
       return { automatic: true, isAttack: false }
@@ -830,10 +814,20 @@ class CombatController implements ICounterContainer, IStatContainer {
     return { automatic: false, isAttack: true }
   }
 
-  public Eject(): void {
-    this.SetCombatAction('full', false)
+  public Eject(): boolean {
+    if (!this.Mounted) return false
+    this.SetCombatAction('quick', false)
+    this.ToggleMounted()
     this.AddStatus('impaired')
     this.log('Ejected; mech is impaired until a full repair')
+    return true
+  }
+
+  public Dismount(): boolean {
+    if (!this.Mounted) return false
+    this.SetCombatAction('full', false)
+    this.ToggleMounted()
+    return true
   }
 
   public Prepare(): void {
@@ -854,7 +848,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     this.log('Released the prepared action')
   }
 
-  public Search(target: CombatController, outcome: { success: boolean }): boolean {
+  public Search(target: any, outcome: { success: boolean }): boolean {
     this.SetCombatAction('quick', false)
     if (!outcome.success) return false
     target.RemoveStatus('hidden')
@@ -862,15 +856,125 @@ class CombatController implements ICounterContainer, IStatContainer {
     return true
   }
 
-  public Jockey(
-    target: CombatController,
-    outcome: { success: boolean; option?: 'distract' | 'shred' | 'damage' }
+  public static readonly TARGETED_ACTIONS = ['act_grapple', 'act_search', 'act_bolster']
+
+  public static readonly CONTESTED_ACTIONS = ['act_grapple', 'act_search']
+
+  public NeedsTarget(actionId: string): boolean {
+    return CombatController.TARGETED_ACTIONS.includes(actionId)
+  }
+
+  public IsContested(actionId: string): boolean {
+    return CombatController.CONTESTED_ACTIONS.includes(actionId)
+  }
+
+  /**
+   * The one entry point a view uses to take a base action whose effect the content data
+   * does not express. The view supplies the target and the contested result; the mapping
+   * from action id to rule lives here, not in a component.
+   */
+  public PerformAction(
+    actionId: string,
+    opts: { target?: any; success?: boolean; smaller?: any; willing?: boolean; options?: string[] } = {}
   ): boolean {
-    this.SetCombatAction('quick', false)
+    const target = opts.target
+    const success = opts.success !== false
+
+    switch (actionId) {
+      case 'act_shut_down':
+        this.ShutDown()
+        return true
+      case 'act_boot_up':
+        return this.BootUp()
+      case 'act_hide':
+        return this.Hide()
+      case 'act_disengage':
+        return this.Disengage()
+      case 'act_eject':
+        return this.Eject()
+      case 'act_dismount':
+        return this.Dismount()
+      case 'act_prepare':
+        this.Prepare()
+        return true
+      case 'act_grapple':
+        return target ? this.Grapple(target, { hit: success, smaller: opts.smaller }) : false
+      case 'act_search':
+        return target ? this.Search(target, { success }) : false
+      case 'act_bolster':
+        if (!target) return false
+        this.SetCombatAction('quicktech', false)
+        target.Bolster()
+        return true
+      case 'act_jockey':
+        return target ? this.Jockey(target, { success }) : false
+      case 'act_invade':
+        this.SetCombatAction('quicktech', false)
+        if (!target) return true
+        if (this.IsNpc) {
+          this.NpcInvade(target)
+          return true
+        }
+        return this.Invade(target, { willing: opts.willing }).automatic
+      case 'act_full_tech':
+        return this.UseFullTech(opts.options ?? [])
+      default:
+        return false
+    }
+  }
+
+  public JockeyOptions(): Action[] {
+    return this.SubActions(ActivationType.Jockey)
+  }
+
+  public InvadeOptions(): Action[] {
+    return this.SubActions(ActivationType.Invade)
+  }
+
+  /**
+   * The sub-actions of a parent action: those the compendium ships plus any the actor's
+   * own equipment grants. The bare parent stays available for at-table play and for
+   * third-party content that ships no sub-actions of its own.
+   */
+  public SubActions(activation: `${ActivationType}`): Action[] {
+    return [
+      ...CompendiumStore().Actions.filter(a => a.Activation === activation),
+      ...this.AllActions(activation),
+    ].sort((a, b) => a.Name.localeCompare(b.Name))
+  }
+
+  public CanConsumeLockOn(target: any): boolean {
+    return !!target?.HasStatus?.('lockon')
+  }
+
+  public ConsumeLockOnAgainst(target: any): number {
+    return target?.ConsumeLockOn?.() ?? 0
+  }
+
+  public Jockey(target: any, outcome: { success: boolean }): boolean {
+    this.SetCombatAction('full', false)
     if (!outcome.success) return false
-    if (outcome.option === 'distract') target.AddStatus('impaired')
-    if (outcome.option === 'shred') target.AddStatus('shredded')
-    this.log(`Jockey: ${outcome.option ?? 'success'}`)
+    this.log('Jockey: climbed onto the mech')
+    return true
+  }
+
+  public Hide(): boolean {
+    this.AddStatus('hidden')
+    this.log('Hidden')
+    return true
+  }
+
+  public Disengage(): boolean {
+    if (!this.HasStatus('engaged')) return false
+    this.RemoveStatus('engaged')
+    this.log('Disengaged')
+    return true
+  }
+
+  public ClearCondition(statusID: string, target: any = this): boolean {
+    if (!target.ClearableConditions().some(c => c.status.ID === statusID)) return false
+    target.RemoveStatus(statusID)
+    this.log(`Cleared ${statusID}`)
     return true
   }
 
@@ -920,7 +1024,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     return true
   }
 
-  public NpcInvade(target: CombatController): void {
+  public NpcInvade(target: any): void {
     target.ApplyHeat(2)
     target.AddStatus('impaired')
     this.log('NPC invade: 2 heat and impaired')
@@ -1350,8 +1454,31 @@ class CombatController implements ICounterContainer, IStatContainer {
     return roll
   }
 
-  public StartSelfDestruct(): void {
-    this.ActionPoolController.StartSelfDestruct()
+  public StartSelfDestruct(fireOnRound?: number): void {
+    this.ActionPoolController.StartSelfDestruct(fireOnRound)
+  }
+
+  public SetSelfDestructRound(round: number): boolean {
+    if (!this.SelfDestructWindow.includes(round)) return false
+    const pending = this.TimedEffects.find(t => t.Apply?.other === 'self_destruct')
+    if (!pending) return false
+    this.TimedEffects = this.TimedEffects.filter(t => t !== pending)
+    this.StartSelfDestructAt(round, pending)
+    return true
+  }
+
+  private StartSelfDestructAt(round: number, previous: TimedEffect): void {
+    this.TimedEffects.push(
+      markRaw(
+        new TimedEffect({
+          name: previous.Name,
+          detail: previous.Detail,
+          round,
+          apply: { other: 'self_destruct' },
+        })
+      )
+    )
+    this.log(`Self destruct set to detonate on round ${round}`)
   }
 
   public CommitSelfDestruct(): void {

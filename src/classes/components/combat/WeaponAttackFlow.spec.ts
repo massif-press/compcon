@@ -10,6 +10,11 @@ import {
   overkillHeatFor,
   routesTo,
   attackCountFor,
+  heatExempt,
+  accuracyFor,
+  consumeWeaponUses,
+  selfHeatFor,
+  applySelfHeat,
 } from './WeaponAttackFlow'
 
 const state = (over = {}) =>
@@ -48,6 +53,23 @@ describe('WeaponAttackFlow', () => {
 
     expect(r.outcome).toBe('awaiting')
     expect(r.pending).toBe('damage-roll')
+  })
+
+  it('fills its steps rather than passing through: type, accuracy and uses all land', () => {
+    const weapon = { Accuracy: 1, IsLoading: true, Used: false }
+    const r = WeaponAttackFlow.Begin(
+      state({
+        weapon,
+        event: { Attack: 'ranged', Accuracy: 2, Initiator: { type: 'pilot' } },
+        targets: [{ AttackRolledValue: 14, Combatant: null, DamageEvents: [] }],
+      })
+    )
+
+    expect(r.outcome).toBe('complete')
+    expect(r.state.attackType).toBe('ranged')
+    expect(r.state.accuracy).toBe(3)
+    expect(r.state.attackCount).toBe(1)
+    expect(weapon.Used).toBe(true)
   })
 
   it('runs to the end once every target has rolled', () => {
@@ -112,6 +134,50 @@ describe('rules moved out of the attack event classes', () => {
     expect(attackCountFor({ getAttacks: (t: number) => t + 1 }, 2)).toBe(3)
     expect(attackCountFor({}, 2)).toBe(1)
     expect(attackCountFor(undefined, 2)).toBe(1)
+  })
+
+  it('exempts a friendly tech attack from heat, and nothing else', () => {
+    const ally = { type: 'npc', side: 'ally' }
+    const pilot = { type: 'pilot' }
+    const enemy = { type: 'npc', side: 'enemy' }
+
+    expect(heatExempt('tech', pilot, ally)).toBe(true)
+    expect(heatExempt('tech', pilot, enemy)).toBe(false)
+    expect(heatExempt('ranged', pilot, ally)).toBe(false)
+    expect(heatExempt('tech', enemy, ally)).toBe(false)
+  })
+
+  it('adds the weapon accuracy to whatever the effect declares', () => {
+    expect(accuracyFor({ Accuracy: 1 }, 2)).toBe(3)
+    expect(accuracyFor({ Accuracy: -1 }, 0)).toBe(-1)
+    expect(accuracyFor(undefined, 2)).toBe(2)
+    expect(accuracyFor({}, 0)).toBe(0)
+  })
+
+  it('marks a loading weapon used, and leaves any other weapon alone', () => {
+    const loading = { IsLoading: true, Used: false }
+    const rifle = { IsLoading: false, Used: false }
+
+    consumeWeaponUses(loading)
+    consumeWeaponUses(rifle)
+    consumeWeaponUses(undefined)
+
+    expect(loading.Used).toBe(true)
+    expect(rifle.Used).toBe(false)
+  })
+
+  it('charges the attacker the weapon self-heat, which was displayed and never applied', () => {
+    let heat = 0
+    const attacker = { ApplyHeat: (n: number) => (heat += n) }
+
+    expect(selfHeatFor({ HeatCost: 2 })).toBe(2)
+    expect(selfHeatFor({})).toBe(0)
+
+    expect(applySelfHeat(attacker, { HeatCost: 2 })).toBe(2)
+    expect(heat).toBe(2)
+
+    applySelfHeat(attacker, { HeatCost: 0 })
+    expect(heat).toBe(2)
   })
 
   it('routes a result to the events it triggers', () => {

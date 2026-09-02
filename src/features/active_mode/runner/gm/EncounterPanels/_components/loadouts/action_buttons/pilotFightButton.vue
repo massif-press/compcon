@@ -113,6 +113,7 @@
   import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue'
   import StagedPanel from './_stagedPanel.vue'
   import PilotWeaponAttack from './_pilotWeaponAttack.vue'
+  import { consumeWeaponUses } from '@/classes/components/combat/WeaponAttackFlow'
 
   const { owner, encounterInstance } = useEncounterContext()
 
@@ -171,7 +172,7 @@
   function apply() {
     const actor = owner.value.actor.CombatController.ActiveActor.CombatController
     actor.UseAttackAction(props.action.ID, selectedWeapon.value!.InstanceID)
-    if (selectedWeapon.value!.IsLoading) selectedWeapon.value!.Used = true
+    consumeWeaponUses(selectedWeapon.value)
     reset()
   }
   function onWeaponChanged(weapon: PilotWeapon) {

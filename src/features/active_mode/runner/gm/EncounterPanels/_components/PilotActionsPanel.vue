@@ -89,7 +89,7 @@ function activate(event: string) {
       notify({ type: 'success', title: t('active.pcPanel.pilotMounted'), text: t('active.pilotActions.mountedText', { name: controller.value.CombatName }) });
       break;
     case 'act_hide':
-      controller.value.AddStatus('hidden');
+      controller.value.Hide();
       notify({ type: 'success', title: t('active.pilotActions.hiddenTitle'), text: t('active.common.hiddenText', { name: controller.value.CombatName }) });
       break;
     case 'act_disengage':
@@ -98,7 +98,7 @@ function activate(event: string) {
         controller.value.ResetActivation('full');
         controller.value.ClearActionUsed('act_disengage');
       } else {
-        controller.value.RemoveStatus('engaged');
+        controller.value.Disengage();
         notify({ type: 'success', title: t('active.pilotActions.disengagedTitle'), text: t('active.common.disengagedText', { name: controller.value.CombatName }) });
       }
       break;

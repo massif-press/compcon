@@ -157,6 +157,7 @@
   import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon'
   import { NpcFeatureType } from '@/classes/npc/feature/NpcFeature'
   import CombatActionButton from './CombatActionButton.vue'
+  import { consumeWeaponUses } from '@/classes/components/combat/WeaponAttackFlow'
 
   const { owner, encounterInstance } = useEncounterContext()
 
@@ -223,7 +224,7 @@
     const actor = owner.value.actor.CombatController.ActiveActor.CombatController
     selectedWeapons.value.forEach(w => {
       actor.MarkActionUsed(w.InstanceID)
-      if (w.IsLoading) w.Used = true
+      consumeWeaponUses(w)
     })
     reset()
   }

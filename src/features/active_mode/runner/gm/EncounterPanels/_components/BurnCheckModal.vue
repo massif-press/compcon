@@ -147,13 +147,7 @@
 
   function apply() {
     if (!outcome.value) return
-    if (outcome.value === 'success') {
-      props.cc.StatController.setCurrentStat(StatKey.BURN, 0)
-      props.cc.log('Burn check passed: cleared all burn')
-    } else {
-      props.cc.TakeDamage(DamageType.AppliedBurn, burn.value)
-      props.cc.log(`Burn check failed: took ${burn.value} burn damage`)
-    }
+    props.cc.ResolveBurn(outcome.value === 'success')
     open.value = false
     emit('resolved')
   }

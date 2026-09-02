@@ -188,9 +188,7 @@
 
   function clearableConditions(target: any): ClearableCondition[] {
     if (!target) return []
-    return target.CombatController.Statuses.filter(
-      s => s.status.StatusType.toLowerCase() === 'condition'
-    )
+    return target.CombatController.ClearableConditions()
   }
   function apply() {
     if (firstChoice.value === 'cool') {
@@ -206,12 +204,13 @@
     } else if (secondChoice.value === 'clear_self') {
       controller.value.Stabilize('clear_self')
       if (clearSelfCondition.value)
-        controller.value.RemoveStatus(clearSelfCondition.value.status.ID)
+        controller.value.ClearCondition(clearSelfCondition.value.status.ID)
     } else if (secondChoice.value === 'clear_ally') {
       controller.value.Stabilize('clear_ally')
       if (selectedTarget.value && clearAlliedCondition.value)
-        selectedTarget.value.actor.CombatController.RemoveStatus(
-          clearAlliedCondition.value.status.ID
+        controller.value.ClearCondition(
+          clearAlliedCondition.value.status.ID,
+          selectedTarget.value.actor.CombatController
         )
     }
 

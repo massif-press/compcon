@@ -11,7 +11,7 @@ import { EffectSpecial } from '../effect_subtype/EffectSpecial'
 import { CoverType } from '@/classes/components/combat/CombatController'
 import { ActionSummaryData } from '../EffectActionSummary'
 import { combatantLabel } from '@/util/combatantLabel'
-import { targetDefenseFor, hitResultFor, critTriggers, canCrit } from '@/classes/components/combat/WeaponAttackFlow'
+import { targetDefenseFor, hitResultFor, critTriggers, canCrit, heatExempt, applyAttackDamage } from '@/classes/components/combat/WeaponAttackFlow'
 export { canCrit }
 
 class ActiveEventTarget {
@@ -146,27 +146,11 @@ class ActiveEventTarget {
   }
 
   public get HeatExempt(): boolean {
-    const isFriendly = (c: CombatantData | null) => !!c && (c.type === 'pilot' || c.side === 'ally')
-    return (
-      this.Event.Attack === 'tech' && isFriendly(this.Event.Initiator) && isFriendly(this.Combatant)
-    )
+    return heatExempt(this.Event.Attack, this.Event.Initiator, this.Combatant)
   }
 
   public ApplyDamage(damageEvent: DamageEvent) {
-    if (!this.Combatant) return
-    if (damageEvent.DamageType.toLowerCase() === 'heat' && this.HeatExempt) return
-    damageEvent.CalcFinalDamage(this.Event, this)
-    if (this.FinalDamageValue > 0)
-      this.Combatant.actor.CombatController.ApplyDamage(
-        damageEvent.DamageType,
-        this.FinalDamageValue
-      )
-    this.Event.Initiator.actor.CombatController.RootActor.CombatController.CombatLog.DealDamage(
-      this.FinalDamageValue,
-      damageEvent.DamageType
-    )
-    if (damageEvent.OverkillHeat)
-      this.Event.Initiator.actor.CombatController.ApplyHeat(damageEvent.OverkillHeat || 0)
+    applyAttackDamage(this, damageEvent, this.Event)
   }
 
   public ApplyStatus(statusEvent: StatusEvent) {

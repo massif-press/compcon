@@ -231,6 +231,7 @@
   import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon'
   import MechWeaponAttack from './_mechWeaponAttack.vue'
   import { additionalAuxAttacks, suppressBonusDamage } from '@/classes/components/combat/AttackRules'
+  import { consumeWeaponUses } from '@/classes/components/combat/WeaponAttackFlow'
   import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue'
   import StagedPanel from './_stagedPanel.vue'
   import CombatActionButton from './CombatActionButton.vue'
@@ -309,7 +310,7 @@
     const actor = (owner.value as any).actor.CombatController.ActiveActor.CombatController
     selectedWeapons.value.forEach((w: any) => {
       actor.MarkActionUsed(w.InstanceID)
-      if (w.IsLoading) w.Used = true
+      consumeWeaponUses(w)
     })
     reset()
   }

@@ -48,6 +48,14 @@
             </div>
           </div>
 
+          <v-checkbox
+            v-if="canConsumeLockOn"
+            v-model="consumeLockOn"
+            density="compact"
+            hide-details
+            :label="$t('ui.combat.consumeLockOn')"
+          />
+
           <accuracy-difficulty-row
             v-model="rollData.AttackAccuracy"
             v-model:bonus="rollData.AttackBonus"
@@ -93,7 +101,7 @@
 
 <script setup lang="ts">
   import type { ActiveEventTarget } from '@/classes/components/feature/active_effects/effect_events/eventTarget'
-  import { computed } from 'vue'
+  import { computed, ref } from 'vue'
   import { useDisplay } from 'vuetify'
   import { DiceRoller } from '@/classes/dice/DiceRoller'
   import AccuracyDifficultyRow from './AccuracyDifficultyRow.vue'
@@ -112,16 +120,15 @@
 
   const isRanged = computed(() => props.rollData.AttackType === 'ranged')
 
-  const targetCoverDifficulty = computed(() => {
-    const target = props.rollData.Combatant?.actor?.CombatController
-    if (!target) return 0
+  const targetController = computed(() => props.rollData.Combatant?.actor?.CombatController)
+  const attacker = computed(() => props.rollData.Event.Initiator.actor.CombatController)
 
-    return target.Cover === 'none' ? 0 : target.Cover === 'soft' ? 1 : 2
-  })
+  const targetCoverDifficulty = computed(() => targetController.value?.DifficultyAgainst('ranged') ?? 0)
 
-  const engagedDifficulty = computed(() =>
-    props.rollData.Event.Initiator.actor.CombatController.HasStatus('engaged') ? 1 : 0
-  )
+  const engagedDifficulty = computed(() => attacker.value.DifficultyFor('ranged'))
+
+  const canConsumeLockOn = computed(() => attacker.value.CanConsumeLockOn(targetController.value))
+  const consumeLockOn = ref(false)
 
   function reset() {
     props.rollData.AttackBonus = props.rollData.Event.AttackBonus || 0
@@ -131,9 +138,14 @@
   }
 
   function rollAttack() {
+    const lockOn = consumeLockOn.value
+      ? attacker.value.ConsumeLockOnAgainst(targetController.value)
+      : 0
+    consumeLockOn.value = false
+
     const rollResult = DiceRoller.rollSkillCheck(
       Number(props.rollData.AttackBonus),
-      props.rollData.AttackAccuracy
+      props.rollData.AttackAccuracy + lockOn
     )
     props.rollData.AttackRollResult = rollResult
     props.rollData.AttackRolledValue = rollResult.total

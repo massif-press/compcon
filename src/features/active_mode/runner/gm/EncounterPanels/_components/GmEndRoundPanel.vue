@@ -172,7 +172,7 @@ const unendedTurns = computed(() => {
       );
     })
 const hasTimedEffects = computed(() => {
-      return activeActors.value.filter((c) => c.TimedEffects.length > 0);
+      return activeActors.value.filter((c) => c.EndOfTurnEffects().length > 0 || c.TimedEffects.length > 0);
     })
 const reinforcements = computed(() => {
       return props.encounterInstance.Combatants.filter(

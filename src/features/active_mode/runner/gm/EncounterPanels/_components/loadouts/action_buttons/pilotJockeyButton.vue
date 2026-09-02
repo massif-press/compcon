@@ -96,16 +96,13 @@
   const controller = computed(() => {
     return owner.value.actor.CombatController
   })
-  const jockeyActions = computed(() => {
-    return CompendiumStore()
-      .Actions.filter(a => a.Activation === 'Jockey')
-      .sort((a, b) => a.Name.localeCompare(b.Name))
-  })
+  const jockeyActions = computed(() => controller.value.JockeyOptions())
 
   function selectedAction(id: string) {
     return CompendiumStore().Actions.find(a => a.ID === id)!
   }
   function apply() {
+    if (tab.value === 'jockey') controller.value.PerformAction('act_jockey')
     emit('activate', props.action.ID)
   }
   function reset() {

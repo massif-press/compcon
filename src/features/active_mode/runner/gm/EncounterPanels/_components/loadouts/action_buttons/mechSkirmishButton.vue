@@ -217,6 +217,7 @@
   import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon'
   import MechWeaponAttack from './_mechWeaponAttack.vue'
   import { additionalAuxAttacks, suppressBonusDamage } from '@/classes/components/combat/AttackRules'
+  import { consumeWeaponUses } from '@/classes/components/combat/WeaponAttackFlow'
   import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue'
   import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
   import StagedPanel from './_stagedPanel.vue'
@@ -309,7 +310,7 @@
   function apply() {
     const actor = owner.value.actor.CombatController.ActiveActor.CombatController
     actor.UseAttackAction(props.action.ID, selectedWeapon.value!.InstanceID)
-    if (selectedWeapon.value!.IsLoading) selectedWeapon.value!.Used = true
+    consumeWeaponUses(selectedWeapon.value)
     reset()
   }
   function onWeaponChanged(weapon: MechWeapon) {

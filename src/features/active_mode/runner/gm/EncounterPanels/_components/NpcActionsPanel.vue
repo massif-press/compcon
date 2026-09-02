@@ -72,7 +72,7 @@
         })
         break
       case 'act_hide':
-        controller.value.AddStatus('hidden')
+        controller.value.Hide()
         notify({
           type: 'success',
           title: t('active.npcActions.npcHiddenTitle'),
@@ -89,7 +89,7 @@
           controller.value.ResetActivation('full')
           controller.value.ClearActionUsed('act_disengage')
         } else {
-          controller.value.RemoveStatus('engaged')
+          controller.value.Disengage()
           notify({
             type: 'success',
             title: t('active.npcActions.npcDisengagedTitle'),

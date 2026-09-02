@@ -123,19 +123,16 @@
   const controller = computed(() => {
     return owner.value.actor.CombatController.ActiveActor.CombatController
   })
-  const invadeActions = computed(() => {
-    return [
-      ...CompendiumStore().Actions.filter(a => a.Activation === 'Invade'),
-      ...controller.value.AllActions('Invade'),
-    ].sort((a, b) => a.Name.localeCompare(b.Name))
-  })
+  const invadeActions = computed(() => controller.value.InvadeOptions())
 
   function getSelectedAction(id) {
     return invadeActions.value.find(a => a.ID === id)
   }
   function apply() {
+    if (tab.value === 'invade') controller.value.PerformAction('act_invade')
     emit('activate', tab.value)
   }
+
   function reset() {
     controller.value.ResetActivation(props.action.Activation)
   }

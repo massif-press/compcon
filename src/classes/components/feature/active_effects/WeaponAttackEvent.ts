@@ -9,7 +9,7 @@ import { ActiveEffectEvent } from './ActiveEffectEvent'
 import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon'
 import { ActiveEventTarget } from './effect_events/eventTarget'
 import { combatantLabel } from '@/util/combatantLabel'
-import { routesTo, attackCountFor } from '@/classes/components/combat/WeaponAttackFlow'
+import { routesTo, attackCountFor, applySelfHeat } from '@/classes/components/combat/WeaponAttackFlow'
 
 const onEventTargetCaches = new WeakMap<WeaponAttackEvent, Record<string, ActiveEventTarget[]>>()
 
@@ -205,6 +205,7 @@ class WeaponAttackEvent {
 
   public ApplyAll() {
     this.BaseEvent.ApplyAll()
+    applySelfHeat(this.BaseEvent.Initiator.actor.CombatController, this.Weapon)
 
     this.EventConfigs.forEach(config => {
       if (!config.event) return

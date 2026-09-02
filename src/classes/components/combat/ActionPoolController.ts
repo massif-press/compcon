@@ -151,14 +151,19 @@ class ActionPoolController {
       case 'fight':
       case 'mount':
       case 'dismount':
+      case 'disengage':
+      case 'improvised_attack':
+      case 'jockey_action':
+        return this.CombatActions.Full && this.CombatActions.Quick1 && this.CombatActions.Quick2
       case 'eject':
       case 'grapple':
       case 'ram':
-        return this.CombatActions.Full && this.CombatActions.Quick1 && this.CombatActions.Quick2
-      case 'improvised_attack':
       case 'activate':
       case 'search':
       case 'prepare':
+      case 'hide':
+      case 'shutdown':
+      case 'shut_down':
         return this.OverchargeApplies || this.CombatActions.Quick1 || this.CombatActions.Quick2
       case 'brace':
       case 'overwatch':
@@ -364,7 +369,7 @@ class ActionPoolController {
     }
   }
 
-  public StartSelfDestruct(): void {
+  public StartSelfDestruct(fireOnRound?: number): void {
     if (this.IsInSelfDestruct) return
     this.IsInSelfDestruct = true
     this._parent.TimedEffects.push(
@@ -372,7 +377,7 @@ class ActionPoolController {
         new TimedEffect({
           name: 'Self Destruct',
           detail: `This mech will explode as though it suffered a reactor meltdown. The explosion will annihilate this mech, killing everyone inside and dealing 4d6 explosive damage to all targets in a burst 2 area around it.`,
-          round: this._parent.Round + 3,
+          round: fireOnRound ?? this._parent.Round + 3,
           apply: { other: 'self_destruct' },
         })
       )

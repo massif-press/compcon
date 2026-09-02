@@ -383,24 +383,34 @@ describe('action economy defects', () => {
     expect(m.Pilot!.CombatController.CanActivate('full')).toBe(true)
   })
 
-  it('T-TAG-ai-01: handing control to the AI is a protocol', () => {
+  it('T-TAG-ai-01: handing control to the AI is a protocol, and dismounting alone is not', () => {
     cc().ToggleMounted()
-    expect(cc().CanActivate('protocol')).toBe(false)
+    expect(cc().AIControl).toBe(false)
+    expect(cc().CanActivate('protocol')).toBe(true)
+
+    cc().ToggleMounted()
+    vi.spyOn(cc(), 'HasAISystems', 'get').mockReturnValue(true)
+    cc().ToggleMounted()
+
+    expect(cc().AIControl).toBe(true)
+    expect(p.CombatController.CanActivate('protocol')).toBe(false)
   })
 
   it('T-TAG-ai-01: taking control back is a protocol too, through the one engine path', () => {
+    const pool = () => p.CombatController
+
     cc().SetAIControl(true)
     expect(cc().AIControl).toBe(true)
-    expect(cc().CanActivate('protocol')).toBe(false)
+    expect(pool().CanActivate('protocol')).toBe(false)
 
-    cc().ResetCombatActions()
+    pool().ResetCombatActions()
     cc().SetAIControl(false)
     expect(cc().AIControl).toBe(false)
-    expect(cc().CanActivate('protocol')).toBe(false)
+    expect(pool().CanActivate('protocol')).toBe(false)
 
-    cc().ResetCombatActions()
+    pool().ResetCombatActions()
     cc().SetAIControl(false)
-    expect(cc().CanActivate('protocol')).toBe(true)
+    expect(pool().CanActivate('protocol')).toBe(true)
   })
 })
 
@@ -507,7 +517,13 @@ describe('action gaps', () => {
 
   it('T-ACTION-selfdestruct-01: detonation is offered across a window, not fixed three rounds out', () => {
     cc().StartSelfDestruct()
-    expect(cc().SelfDestructWindow).toEqual([cc().Round + 1, cc().Round + 2, cc().Round + 3])
+    const window = cc().SelfDestructWindow
+    expect(window).toEqual([cc().Round + 1, cc().Round + 2, cc().Round + 3])
+
+    expect(cc().SetSelfDestructRound(window[0])).toBe(true)
+    expect(cc().MeltdownCountdown).toBe(1)
+
+    expect(cc().SetSelfDestructRound(cc().Round + 9)).toBe(false)
   })
 
   it('T-ACTION-corepower-01: core power replenishes only on a full repair', () => {
@@ -573,6 +589,62 @@ describe('action gaps', () => {
     ).toBe(true)
   })
 
+  it('T-ACTION-invade-01: the bare parent invade is the selectionless fallback, and its options come from the engine', () => {
+    const options = cc().InvadeOptions()
+
+    expect(options.length).toBeGreaterThan(0)
+    expect(options.every(a => a.Activation === 'Invade')).toBe(true)
+
+    expect(cc().PerformAction('act_invade')).toBe(true)
+    expect(cc().CanActivate('quicktech')).toBe(true)
+  })
+
+  it('T-ACTION-fulltech-01: the bare parent full tech is reachable through the same dispatch', () => {
+    expect(cc().PerformAction('act_full_tech', { options: ['scan', 'lock_on'] })).toBe(true)
+    expect(cc().CanActivate('full')).toBe(false)
+  })
+
+  it('T-STATUS-lockon-01: an attacker consumes lock on through the engine, and only when it is there', () => {
+    const target = mech().CombatController
+
+    expect(cc().CanConsumeLockOn(target)).toBe(false)
+    expect(cc().ConsumeLockOnAgainst(target)).toBe(0)
+
+    target.AddStatus('lockon')
+    expect(cc().CanConsumeLockOn(target)).toBe(true)
+    expect(cc().ConsumeLockOnAgainst(target)).toBe(1)
+    expect(target.HasStatus('lockon')).toBe(false)
+  })
+
+  it('T-ACTION-hide-02: hiding and disengaging run through the engine, not the panel', () => {
+    expect(cc().Hide()).toBe(true)
+    expect(cc().HasStatus('hidden')).toBe(true)
+
+    expect(cc().Disengage()).toBe(false)
+    cc().AddStatus('engaged')
+    expect(cc().Disengage()).toBe(true)
+    expect(cc().HasStatus('engaged')).toBe(false)
+  })
+
+  it('T-ACTION-mount-01: ejecting dismounts, and neither eject nor dismount works unmounted', () => {
+    expect(cc().Mounted).toBe(true)
+
+    expect(cc().Eject()).toBe(true)
+    expect(cc().Mounted).toBe(false)
+    expect(cc().HasStatus('impaired')).toBe(true)
+
+    expect(cc().Eject()).toBe(false)
+    expect(cc().Dismount()).toBe(false)
+  })
+
+  it('T-ACTION-stabilize-02: clearing a condition goes through the engine, which refuses one it does not offer', () => {
+    cc().AddStatus('impaired')
+
+    expect(cc().ClearCondition('impaired')).toBe(true)
+    expect(cc().HasStatus('impaired')).toBe(false)
+    expect(cc().ClearCondition('impaired')).toBe(false)
+  })
+
   it('T-ACTION-search-01: search contests systems against agility and clears hidden on success', () => {
     const target = mech().CombatController
     target.AddStatus('hidden')
@@ -584,20 +656,27 @@ describe('action gaps', () => {
     expect(target.HasStatus('hidden')).toBe(false)
   })
 
-  it('T-ACTION-improvised-01: deals 1d6 kinetic on a hit', () => {
-    rolls(4)
-    expect(cc().ImprovisedAttackDamage()).toBe(4)
+  it('T-ACTION-improvised-01: deals 1d6 kinetic on a hit, prepopulated from the action data', () => {
+    const action = CompendiumStore().Actions.find(a => a.ID === 'act_improvised_attack')!
+
+    expect(action.Activation).toBe('Full')
+    expect(action.Damage[0].Type.toLowerCase()).toBe('kinetic')
+    expect(String(action.Damage[0].Value)).toBe('1d6')
   })
 
-  it('T-ACTION-ram-01: knocks the target prone on a hit', () => {
-    const target = mech()
-    cc().Ram(target.CombatController, { hit: true })
-    expect(target.CombatController.HasStatus('prone')).toBe(true)
+  it('T-ACTION-ram-01: knocks the target prone on a hit, prepopulated from the action data', () => {
+    const action = CompendiumStore().Actions.find(a => a.ID === 'act_ram')!
+
+    // a quick action, not a full one, and the PRONE is carried by the effect on a melee hit
+    expect(action.Activation).toBe('Quick')
+    expect(cc().CanActivate('ram')).toBe(true)
+    expect(action.AddStatus.some((x: any) => x.Status.ID === 'prone')).toBe(true)
   })
 
   it('T-ACTION-grapple-01: a grapple engages both characters, immobilizes the smaller, and denies boost and reactions', () => {
     const target = mech().CombatController
 
+    expect(cc().CanActivate('grapple')).toBe(true)
     cc().Grapple(target, { hit: true, smaller: target })
 
     expect(cc().HasStatus('engaged')).toBe(true)
@@ -624,15 +703,21 @@ describe('action gaps', () => {
     const target = mech().CombatController
 
     expect(cc().Jockey(target, { success: false })).toBe(false)
-    expect(target.HasStatus('impaired')).toBe(false)
-
     cc().ResetCombatActions()
-    cc().Jockey(target, { success: true, option: 'distract' })
-    expect(target.HasStatus('impaired')).toBe(true)
+    expect(cc().Jockey(target, { success: true })).toBe(true)
+    expect(cc().CanActivate('full')).toBe(false)
 
-    cc().ResetCombatActions()
-    cc().Jockey(target, { success: true, option: 'shred' })
-    expect(target.HasStatus('shredded')).toBe(true)
+    // the three outcomes are prepopulated from the action data, not applied by the method
+    const options = cc().JockeyOptions()
+    expect(options.map(a => a.ID)).toEqual([
+      'act_jockey_damage',
+      'act_jockey_distract',
+      'act_jockey_shred',
+    ])
+
+    const damage = options.find(a => a.ID === 'act_jockey_damage')!
+    expect(damage.Damage[0].Type.toLowerCase()).toBe('kinetic')
+    expect(String(damage.Damage[0].Value)).toBe('4')
   })
 
   it("T-ACTION-pilotpool-01: a mech turn end also clears its pilot's turn uses", () => {

@@ -1187,6 +1187,8 @@
       "selfDestructFailedText": "{name} is already in SELF DESTRUCT.",
       "selfDestructInitiatedTitle": "Mech Self-Destruct Initiated",
       "selfDestructInitiatedText": "{name} is about to SELF DESTRUCT.",
+      "shutDownTitle": "Mech Shut Down",
+      "shutDownText": "{name} has shut down. Heat and EXPOSED are cleared; the mech is STUNNED and immune to tech until it boots up.",
       "mechBracedTitle": "Mech Braced",
       "mechBracedText": "{name} is now BRACED.",
       "overwatchTitle": "Mech Overwatch",
@@ -1587,6 +1589,7 @@
       "fromAttacks": "from {type} attacks."
     },
     "timedEffect": {
+      "retryMeltdown": "Retry the ENGINEERING check (full action) to avert the meltdown",
       "roundsRemaining": "{n} Rounds remaining",
       "override": "// Override"
     },
@@ -3318,6 +3321,7 @@
       "failedSave": "Failed Save",
       "vsTarget": "vs Target's",
       "currentlyEngaged": "(Currently ENGAGED)",
+      "consumeLockOn": "Consume LOCK ON for +1 accuracy",
       "targetInCover": "(Target is in COVER)",
       "saveBonusVs": "(Save Bonus) vs",
       "diceD": "d",

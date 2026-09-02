@@ -110,7 +110,7 @@
       <v-icon v-for="n in totalUses"
         :key="n"
         :icon="n > item.Uses ? 'mdi-hexagon-outline' : 'mdi-hexagon'"
-        :disabled="item.Destroyed"
+        :disabled="item.Destroyed || !canUseItem"
         class="mr-1"
         @click="setUses(n)" />
     </v-col>
@@ -127,7 +127,7 @@
             tile
             height="26"
             variant="text"
-            :disabled="item.Destroyed"
+            :disabled="item.Destroyed || !canUseItem"
             @click="resetUses">
             <v-icon icon="mdi-reload" />
           </v-btn>
@@ -230,6 +230,8 @@ const canBarrage = computed(() => props.item instanceof MechWeapon && !!props.it
 const isAI = computed(() => 'IsAI' in props.item && props.item.IsAI)
 const isLoading = computed(() => 'IsLoading' in props.item && props.item.IsLoading)
 const recharge = computed(() => (props.item instanceof NpcFeature ? props.item.Recharge : 0))
+
+const canUseItem = computed(() => props.controller.CanUseEquipment(props.item))
 
 const isDestroyable = computed(() => {
   if ('IsIndestructible' in props.item && props.item.IsIndestructible) return false

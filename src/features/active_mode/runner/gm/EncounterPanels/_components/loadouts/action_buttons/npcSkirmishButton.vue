@@ -119,6 +119,7 @@ import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon';
 import NpcWeaponAttack from './_npcWeaponAttack.vue';
 import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
 import CombatActionButton from './CombatActionButton.vue';
+  import { consumeWeaponUses } from '@/classes/components/combat/WeaponAttackFlow'
 
 const { owner, encounterInstance } = useEncounterContext()
 
@@ -175,7 +176,7 @@ function reset(clearAction = false) {
 function apply() {
   const actor = owner.value.actor.CombatController.ActiveActor.CombatController;
   actor.UseAttackAction(props.action.ID, selectedWeapon.value!.InstanceID);
-  if (selectedWeapon.value!.IsLoading) selectedWeapon.value!.Used = true;
+  consumeWeaponUses(selectedWeapon.value);
   reset();
 }
 </script>
