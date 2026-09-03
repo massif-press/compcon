@@ -115,6 +115,10 @@
         </div>
       </div>
 
+      <cc-flow-request
+        :request="result?.request"
+        class="px-4 pb-2"
+      />
       <v-slide-y-transition>
         <staged-panel
           v-if="allEventsStaged"
@@ -132,7 +136,7 @@
           :weapon-event="<WeaponAttackEvent[]>events.map(e => e.weaponEvent)"
           :close="close"
           :action="action"
-          :action-id="selectedWeapons.length ? selectedWeapons.map(w => w.InstanceID) : []"
+          :action-id="selectedWeapons.filter(Boolean).map(w => w.InstanceID)"
           activation-override="full"
           @reset="reset($event)"
           @apply="apply"
@@ -146,7 +150,7 @@
   import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
   import { useEncounterContext } from '../../../encounterContext'
   import type { Action } from '@/classes/Action'
-  import { computed, ref } from 'vue'
+  import { computed, ref, shallowRef } from 'vue'
   import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue'
   import { CombatantData } from '@/classes/encounter/Encounter'
   import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent'
@@ -157,7 +161,9 @@
   import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon'
   import { NpcFeatureType } from '@/classes/npc/feature/NpcFeature'
   import CombatActionButton from './CombatActionButton.vue'
-  import { consumeWeaponUses } from '@/classes/components/combat/WeaponAttackFlow'
+  import { WeaponUseFlow, weaponUseState, activeEvents } from '@/classes/components/combat/flows/WeaponUseFlow'
+  import type { IWeaponUseState } from '@/classes/components/combat/flows/WeaponUseFlow'
+  import type { IFlowResult } from '@/classes/components/combat/flows/Flow'
 
   const { owner, encounterInstance } = useEncounterContext()
 
@@ -166,71 +172,11 @@
     presetWeapon?: NpcWeapon
   }>()
 
-  const events = ref(
-    [] as {
-      weaponEvent: WeaponAttackEvent
-    }[]
-  )
-  const selectedWeapons = ref([] as NpcWeapon[])
-
-  reset()
-
-  reset()
-
   const controller = computed(() => {
     return owner.value.actor.CombatController.ActiveActor.CombatController
   })
-  const barrageWeapons = computed(() => {
-    const npc = controller.value.ActiveActor
 
-    let arr = npc.NpcFeatureController?.BarrageWeapons || []
-
-    if (props.presetWeapon) {
-      arr = arr.filter(w => w.InstanceID !== props.presetWeapon!.InstanceID)
-    }
-
-    return arr
-  })
-  const eventArray = computed(() => {
-    const out = [] as any[]
-    for (let i = 0; i < selectedWeapons.value.length; i++) {
-      const ev = events.value[i]
-      if (ev && ev.weaponEvent) {
-        out.push(ev.weaponEvent)
-      }
-    }
-    return out
-  })
-  const allEventsStaged = computed(() => {
-    if (!eventArray.value.length) return false
-    return eventArray.value.every(e => e.BaseEvent.Staged)
-  })
-  const tier = computed(() => {
-    return owner.value.actor.CombatController.Tier
-  })
-
-  function reset(clearAction = false) {
-    if (clearAction)
-      owner.value.actor.CombatController.ActiveActor.CombatController.ClearActionUsed(
-        props.action.ID
-      )
-    selectedWeapons.value = new Array(2)
-    events.value = new Array(2)
-    if (!selectedWeapons.value[0] && props.presetWeapon) {
-      setSelected(0, props.presetWeapon)
-    }
-  }
-  function apply() {
-    const actor = owner.value.actor.CombatController.ActiveActor.CombatController
-    selectedWeapons.value.forEach(w => {
-      actor.MarkActionUsed(w.InstanceID)
-      consumeWeaponUses(w)
-    })
-    reset()
-  }
-  function setSelected(index: number, weapon: NpcWeapon) {
-    if (!weapon) return
-
+  function newState(): IWeaponUseState {
     const self = encounterInstance.value.Combatants.find(
       (c: CombatantData) =>
         c.actor.CombatController.RootActor.ID === owner.value.actor.CombatController.RootActor.ID
@@ -238,19 +184,63 @@
     if (!self) {
       throw new Error('Owner combatant not found in encounterInstance')
     }
-
-    selectedWeapons.value[index] = weapon
-
-    events.value[index] = {
-      weaponEvent: new WeaponAttackEvent(weapon, self, encounterInstance.value, 'Barrage'),
-    }
-
-    if (weapon.IsSuperheavy) {
-      selectedWeapons.value = [weapon]
-      events.value = [events.value[index]]
-    } else if (selectedWeapons.value.length === 1) {
-      selectedWeapons.value.push(undefined as any)
-      events.value.push(undefined as any)
-    }
+    return weaponUseState({
+      cc: controller.value,
+      actionId: props.action.ID,
+      mode: 'barrage',
+      makeEvent: (weapon: any, label: string) =>
+        new WeaponAttackEvent(weapon as NpcWeapon, self, encounterInstance.value, label),
+    })
   }
+
+  const useState = ref<IWeaponUseState>(newState())
+  const result = shallowRef<IFlowResult<IWeaponUseState> | null>(null)
+
+  function run() {
+    result.value =
+      result.value?.outcome === 'awaiting'
+        ? WeaponUseFlow.Resume(result.value as IFlowResult<IWeaponUseState>)
+        : WeaponUseFlow.Begin(useState.value)
+  }
+
+  function reset(clearAction = false) {
+    if (clearAction) controller.value.ClearActionUsed(props.action.ID)
+    useState.value = newState()
+    if (props.presetWeapon) useState.value.selected = [props.presetWeapon]
+    result.value = null
+    run()
+  }
+
+  function apply() {
+    run()
+    reset()
+  }
+
+  function setSelected(index: number, weapon: NpcWeapon) {
+    if (!weapon) return
+    const chosen = useState.value.selected.filter(Boolean)
+    chosen[index] = weapon
+    useState.value.selected = chosen
+    result.value = null
+    run()
+  }
+
+  const selectedWeapons = computed(() => {
+    const chosen = useState.value.selected.filter(Boolean) as NpcWeapon[]
+    if (chosen.length >= useState.value.capacity) return chosen
+    return [...chosen, undefined as unknown as NpcWeapon]
+  })
+  const barrageWeapons = computed(() => useState.value.options as NpcWeapon[])
+  const events = computed(() =>
+    useState.value.entries.map(e => ({ weaponEvent: e.event as WeaponAttackEvent }))
+  )
+  const eventArray = computed(() => activeEvents(useState.value))
+  const allEventsStaged = computed(
+    () => !!eventArray.value.length && eventArray.value.every((e: any) => e.BaseEvent.Staged)
+  )
+  const tier = computed(() => {
+    return owner.value.actor.CombatController.Tier
+  })
+
+  reset()
 </script>

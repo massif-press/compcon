@@ -42,7 +42,7 @@ describe('CCTooltip', () => {
     expect(w.findComponent({ name: 'VIcon' }).props('icon')).toBe('mdi-alert')
   })
 
-  it('honours the requested location on a pointer device', () => {
+  it('honors the requested location on a pointer device', () => {
     vi.stubGlobal('navigator', { maxTouchPoints: 0 })
     const w = tooltip({ text: 'x', location: 'end' })
     expect(w.findComponent({ name: 'VTooltip' }).props('location')).toBe('end')

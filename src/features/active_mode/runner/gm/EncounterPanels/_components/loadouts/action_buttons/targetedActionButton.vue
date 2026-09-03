@@ -50,10 +50,6 @@
     action: Action
   }>()
 
-  const emit = defineEmits<{
-    activate: [payload: string]
-  }>()
-
   const selectedTarget = ref<CombatantData | null>(null)
   const succeeded = ref(true)
 
@@ -70,7 +66,6 @@
       target: selectedTarget.value.actor.CombatController,
       success: succeeded.value,
     })
-    emit('activate', props.action.ID)
     selectedTarget.value = null
     succeeded.value = true
     close()

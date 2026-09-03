@@ -64,7 +64,7 @@ describe('CCTitle', () => {
     expect(w.attributes('style')).toContain('width: 100%')
   })
 
-  it('takes a colour and an offset', () => {
+  it('takes a color and an offset', () => {
     const w = mount(CCTitle, { props: { color: 'secondary', offset: true } })
 
     expect(w.classes()).toContain('bg-secondary')

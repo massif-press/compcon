@@ -14,6 +14,8 @@ interface IStatusRule {
   untargetable?: boolean
   missChance?: number
   dropsOnAttack?: boolean
+  dropsOnHostileAction?: boolean
+  immuneToAlliedTech?: boolean
   immuneToTech?: boolean
   fromTechAction?: boolean
 }
@@ -24,7 +26,7 @@ const STATUS_RULES: Record<string, IStatusRule> = {
   },
   stunned: {
     denies: ['*'],
-    permits: ['mount', 'dismount', 'eject'],
+    permits: ['mount', 'dismount', 'eject', 'act_boot_up'],
     caps: { evasion: 5 },
     autoFail: ['hull', 'agi'],
   },
@@ -48,16 +50,19 @@ const STATUS_RULES: Record<string, IStatusRule> = {
   hidden: {
     untargetable: true,
     dropsOnAttack: true,
+    dropsOnHostileAction: true,
   },
   jammed: {
     denies: ['*'],
     permits: ['move', 'boost', 'improvised_attack', 'grapple', 'ram'],
+    immuneToAlliedTech: true,
   },
   downandout: {
     denies: ['*'],
   },
   'shut-down': {
     implies: ['stunned'],
+    permits: ['act_boot_up'],
     immuneToTech: true,
   },
   lockon: {

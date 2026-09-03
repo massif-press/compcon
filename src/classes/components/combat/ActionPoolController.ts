@@ -1,9 +1,8 @@
 import { markRaw } from 'vue'
-import { Mech } from '../../mech/Mech'
-import { Pilot } from '../../pilot/Pilot'
 import { StatKey } from './stats/Stats'
 import { TimedEffect } from '../feature/active_effects/TimedEffect'
 import { ActivePeriod, regainsOn, type Frequency } from '../../Frequency'
+import { ActivationType } from '../../enums'
 import type { CombatController } from './CombatController'
 
 const DEFAULT_COMBAT_ACTIONS = {
@@ -18,10 +17,13 @@ const DEFAULT_COMBAT_ACTIONS = {
 
 const QUICK_ACTIVATIONS = ['quick', 'quicktech', 'invade']
 
-const isQuickActivation = (activation: string): boolean =>
-  QUICK_ACTIVATIONS.includes((activation || '').toLowerCase().replace(' ', ''))
+const normalizeActivation = (activation: string): string =>
+  (activation || '').toLowerCase().replace(/\s+/g, '')
 
-export { DEFAULT_COMBAT_ACTIONS, isQuickActivation }
+const isQuickActivation = (activation: string): boolean =>
+  QUICK_ACTIVATIONS.includes(normalizeActivation(activation))
+
+export { DEFAULT_COMBAT_ACTIONS, isQuickActivation, normalizeActivation }
 
 interface IActionUseRecord {
   used: number
@@ -59,8 +61,13 @@ class ActionPoolController {
 
   public ReactionsUsed: string[] = []
 
+  public get ReactionOptions(): string[] {
+    const granted = this._parent.AllActions(ActivationType.Reaction).map(a => a.ID.toLowerCase())
+    return [...new Set(['brace', 'overwatch', ...granted])]
+  }
+
   public get AvailableReactions(): string[] {
-    return ['brace', 'overwatch'].filter(id => this.CanUseReaction(id))
+    return this.ReactionOptions.filter(id => this._parent.CanActivate(id))
   }
 
   public CanUseReaction(id: string): boolean {
@@ -71,6 +78,13 @@ class ActionPoolController {
     if (!this.CanUseReaction(id)) return
     this.ReactionsUsed.push(id.toLowerCase())
     this._parent.SetCombatAction('reaction', false)
+  }
+
+  public RestoreReaction(id: string): void {
+    const key = id.toLowerCase()
+    if (!this.ReactionsUsed.includes(key)) return
+    this.ReactionsUsed = this.ReactionsUsed.filter(r => r !== key)
+    this._parent.SetCombatAction('reaction', true)
   }
 
   public RefreshReactions(): void {
@@ -102,10 +116,15 @@ class ActionPoolController {
     )
   }
 
-  public CanActivate(action: string): boolean {
-    const str = action.toLowerCase().replace(' ', '')
-    if (this._parent.DeniesActivation(str)) return false
-    if (this._parent.IsNpc && (str === 'brace' || str === 'overcharge')) return false
+  public CanActivate(action: string, actionId?: string): boolean {
+    const str = normalizeActivation(action)
+    if (this._parent.DeniesActivation(str, actionId)) return false
+    if (
+      this._parent.IsNpc &&
+      (str === 'brace' || str === 'overcharge') &&
+      !this._parent.GrantsAction(str)
+    )
+      return false
     switch (str) {
       case 'free':
       case 'none':
@@ -134,9 +153,7 @@ class ActionPoolController {
       case 'quick':
       case 'quicktech':
       case 'invade':
-        return (
-          this.OverchargeApplies || this.CombatActions.Quick1 || this.CombatActions.Quick2
-        )
+        return this.OverchargeApplies || this.CombatActions.Quick1 || this.CombatActions.Quick2
       case 'quick1':
         return this.CombatActions.Quick1
       case 'quick2':
@@ -146,8 +163,12 @@ class ActionPoolController {
       case 'reaction':
         return this.CombatActions.Reaction
       case 'move':
-      case 'boost':
         return this._parent.StatController.getCurrent(StatKey.SPEED) > 0
+      case 'boost':
+        return (
+          this._parent.StatController.getCurrent(StatKey.SPEED) > 0 &&
+          (this.OverchargeApplies || this.CombatActions.Quick1 || this.CombatActions.Quick2)
+        )
       case 'fight':
       case 'mount':
       case 'dismount':
@@ -169,6 +190,7 @@ class ActionPoolController {
       case 'overwatch':
         return this._parent.CanUseReaction(str)
       default:
+        if (this.ReactionOptions.includes(str)) return this._parent.CanUseReaction(str)
         return false
     }
   }
@@ -184,20 +206,24 @@ class ActionPoolController {
 
   public SetCombatAction(action: string, value: boolean): void {
     this._parent.CombatLogVersion++
-    const str = action.toLowerCase()
+    const str = normalizeActivation(action)
     switch (str) {
       case 'protocol':
+        this.CombatActions.Protocol = value
         break
       case 'full':
-      case 'full tech':
+      case 'fulltech':
+      case 'jockey':
         this.CombatActions.Full = value
         this.CombatActions.Quick1 = this.CombatActions.Full
         this.CombatActions.Quick2 = this.CombatActions.Full
-        if (!value) this.CombatActions.Protocol = false
+        if (!value) {
+          this.CombatActions.Protocol = false
+          this.InOvercharge = false
+        }
         break
       case 'quick':
       case 'quicktech':
-      case 'quick tech':
       case 'invade':
         if (!value && this.OverchargeApplies) {
           this.InOvercharge = false
@@ -225,6 +251,7 @@ class ActionPoolController {
         break
       case 'reaction':
         this.CombatActions.Reaction = value
+        if (!value) this.InOvercharge = false
         break
       default:
         break
@@ -232,17 +259,21 @@ class ActionPoolController {
   }
 
   public ResetActivation(action: string, propagate = true): void {
-    const str = action.toLowerCase()
+    const str = normalizeActivation(action)
     switch (str) {
       case 'protocol':
         this.CombatActions.Protocol = true
         break
       case 'full':
+      case 'fulltech':
+      case 'jockey':
         this.CombatActions.Full = true
         this.CombatActions.Quick1 = true
         this.CombatActions.Quick2 = true
         break
       case 'quick':
+      case 'quicktech':
+      case 'invade':
         if (!this.CombatActions.Quick1) this.CombatActions.Quick1 = true
         else if (!this.CombatActions.Quick2) this.CombatActions.Quick2 = true
         break
@@ -377,7 +408,7 @@ class ActionPoolController {
         new TimedEffect({
           name: 'Self Destruct',
           detail: `This mech will explode as though it suffered a reactor meltdown. The explosion will annihilate this mech, killing everyone inside and dealing 4d6 explosive damage to all targets in a burst 2 area around it.`,
-          round: fireOnRound ?? this._parent.Round + 3,
+          round: fireOnRound ?? this._parent.SelfDestructWindow[0],
           apply: { other: 'self_destruct' },
         })
       )

@@ -1,5 +1,7 @@
 import { DamageType } from '../../enums'
 import { StatKey } from './stats/Stats'
+import { DamageCalculationFlow, DamageApplicationFlow, HeatFlow, armorReduction } from './flows/DamageFlow'
+import type { IDamageCalcState, IDamageResult } from './flows/DamageFlow'
 import type { CombatController } from './CombatController'
 
 class DamageController {
@@ -24,15 +26,26 @@ class DamageController {
     irreducible: boolean,
     direct = false
   ): number {
-    if (
-      irreducible ||
-      ap ||
-      type === DamageType.Heat ||
-      type === DamageType.Burn ||
-      type === DamageType.AppliedBurn
-    )
-      return 0
-    return this.resolveTarget(direct).StatController.getCurrent(StatKey.ARMOR) || 0
+    return armorReduction(this._calcState(type, value, ap, irreducible, direct))
+  }
+
+  private _calcState(
+    type: DamageType,
+    value: number,
+    ap: boolean,
+    irreducible: boolean,
+    direct: boolean
+  ): IDamageCalcState {
+    return {
+      cc: this._parent,
+      target: this.resolveTarget(direct),
+      type,
+      value,
+      ap,
+      irreducible,
+      armorReduction: 0,
+      out: { total: value, resist: [], condition: [], tookDamage: true },
+    }
   }
 
   public CalculateDamage(
@@ -41,55 +54,9 @@ class DamageController {
     ap: boolean = false,
     irreducible = false,
     direct = false
-  ): { total: number; resist: string[]; condition: string[]; tookDamage: boolean } {
-    const out = {
-      total: value,
-      resist: [] as string[],
-      condition: [] as string[],
-      tookDamage: true,
-    }
-
-    if (
-      this._parent.HasStatus('exposed') &&
-      (type === DamageType.Kinetic ||
-        type === DamageType.Explosive ||
-        type === DamageType.Energy)
-    ) {
-      out.total *= 2
-      out.condition.push('exposed')
-    }
-
-    if (this._parent.HasStatus('shredded')) {
-      out.condition.push('shredded')
-      ap = true
-    }
-
-    if (irreducible) return out
-
-    out.total = Math.max(
-      0,
-      out.total - this.CalculateArmorReduction(type, value, ap, irreducible, direct)
-    )
-
-    const resist = this.resolveTarget(direct).Resistances.find(
-      r => r.type === type.toLowerCase()
-    )
-
-    if (resist) {
-      if (resist.condition === 'vulnerable') {
-        out.total = Math.ceil(out.total * 2)
-        out.resist.push('vulnerable')
-      } else if (!this._parent.HasStatus('shredded') && resist.condition === 'resistance') {
-        out.total = Math.ceil(out.total / 2)
-        out.resist.push('resistance')
-      } else if (!this._parent.HasStatus('shredded') && resist.condition === 'immunity') {
-        out.total = 0
-        out.tookDamage = false
-        out.resist.push('immunity')
-      }
-    }
-
-    return out
+  ): IDamageResult {
+    return DamageCalculationFlow.Begin(this._calcState(type, value, ap, irreducible, direct)).state
+      .out
   }
 
   public TakeDamage(
@@ -122,130 +89,21 @@ class DamageController {
   }
 
   public ApplyDamage(type: DamageType, value: number, direct = false): void {
-    const target = this.resolveTarget(direct)
-
-    if (type.toLowerCase() === DamageType.Heat.toLowerCase()) {
-      target.ApplyHeat(value)
-      return
-    }
-    if (type.toLowerCase() === DamageType.Burn.toLowerCase()) {
-      target.StatController.setCurrentStat(
-        StatKey.BURN,
-        target.StatController.getCurrent(StatKey.BURN) + value
-      )
-    }
-
-    if (target.StatController.getCurrent(StatKey.OVERSHIELD) > 0) {
-      const overshield = target.StatController.getCurrent(StatKey.OVERSHIELD) || 0
-      if (value <= overshield) {
-        target.StatController.setCurrentStat(StatKey.OVERSHIELD, overshield - value)
-        this._parent.log(`Overshield absorbed ${value} damage`)
-        this._parent.CombatLog.StatChange(-value, 'overshield')
-        return
-      } else {
-        target.StatController.setCurrentStat(StatKey.OVERSHIELD, 0)
-        value -= overshield
-        this._parent.log(`Overshield absorbed ${overshield} damage before breaking`)
-        this._parent.CombatLog.StatChange(-overshield, 'overshield')
-      }
-    }
-
-    target.StatController.setCurrentStat(
-      StatKey.HP,
-      target.StatController.getCurrent(StatKey.HP) - value
-    )
-    this._parent.log(`Took ${value} ${type} damage`)
-    this._parent.CombatLog.StatChange(-value, 'hp')
-
-    while (
-      target.StatController.getCurrent(StatKey.HP) <= 0 &&
-      target.StatController.getCurrent(StatKey.STRUCTURE) > 0
-    ) {
-      target.StatController.setCurrentStat(
-        StatKey.STRUCTURE,
-        target.StatController.getCurrent(StatKey.STRUCTURE) - 1
-      )
-      if (target.StatController.getCurrent(StatKey.STRUCTURE) >= 0)
-        this._parent.log(
-          `Structure damaged! Remaining structure: ${target.StatController.getCurrent(StatKey.STRUCTURE)}`
-        )
-      if (target.StatController.getCurrent(StatKey.STRUCTURE) > 0)
-        this._parent.CombatLog.StatChange(-1, 'structure')
-      target.StatController.setCurrentStat(
-        StatKey.HP,
-        target.StatController.getCurrent(StatKey.HP) + target.StatController.getMax(StatKey.HP)
-      )
-    }
-
-    if (target.StatController.getCurrent(StatKey.STRUCTURE) < 0) {
-      target.StatController.setCurrentStat(StatKey.STRUCTURE, 0)
-    }
+    DamageApplicationFlow.Begin({
+      cc: this._parent,
+      target: this.resolveTarget(direct),
+      type,
+      value,
+    })
   }
 
   public ApplyHeat(value: number, opts: { external?: boolean } = {}): void {
-    const totalValue = value
-    const target = this._active
-
-    if (opts.external && this._parent.IsGrunt) {
-      this._parent.SetDestroyed(true)
-      this._parent.log('Grunt destroyed by external heat')
-      return
-    }
-
-    target.StatController.setCurrentStat(
-      StatKey.HEATCAP,
-      target.StatController.getCurrent(StatKey.HEATCAP) + totalValue
-    )
-    this._parent.log(`Gained ${totalValue} Heat`)
-    this._parent.CombatLog.StatChange(value, 'heat')
-
-    if (this._parent.IsInDangerZone)
-      this._parent.log(
-        `In Danger Zone! Current Heat: ${target.StatController.getCurrent(StatKey.HEATCAP)}`
-      )
-
-    if (
-      target.StatController.getCurrent(StatKey.HEATCAP) >
-        target.StatController.getMax(StatKey.HEATCAP) &&
-      !target.RollsStressChart
-    ) {
-      target.StatController.setCurrentStat(
-        StatKey.HEATCAP,
-        target.StatController.getMax(StatKey.HEATCAP)
-      )
-      target.AddStatus('exposed')
-      this._parent.log('Heat capacity exceeded: Exposed')
-      return
-    }
-
-    while (
-      target.StatController.getCurrent(StatKey.HEATCAP) >
-      target.StatController.getMax(StatKey.HEATCAP)
-    ) {
-      target.StatController.setCurrentStat(
-        StatKey.STRESS,
-        target.StatController.getCurrent(StatKey.STRESS) - 1
-      )
-      if (target.StatController.getCurrent(StatKey.STRESS) >= 0)
-        this._parent.log(
-          `Reactor stressed! Remaining Reactor Stress: ${target.StatController.getCurrent(StatKey.STRESS)}`
-        )
-      if (target.StatController.getCurrent(StatKey.STRESS) > 0)
-        this._parent.CombatLog.StatChange(-1, 'stress')
-      target.StatController.setCurrentStat(
-        StatKey.HEATCAP,
-        target.StatController.getCurrent(StatKey.HEATCAP) -
-          target.StatController.getMax(StatKey.HEATCAP)
-      )
-    }
-
-    if (target.StatController.getCurrent(StatKey.STRESS) < 0) {
-      target.StatController.setCurrentStat(StatKey.STRESS, 0)
-    }
-
-    if (target.StatController.getCurrent(StatKey.STRESS) === 0) {
-      this._parent.ScheduleReactorMeltdown(1)
-    }
+    HeatFlow.Begin({
+      cc: this._parent,
+      target: this._active,
+      value,
+      external: !!opts.external,
+    })
   }
 }
 

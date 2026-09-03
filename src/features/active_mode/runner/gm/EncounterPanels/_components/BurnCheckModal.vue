@@ -101,7 +101,10 @@
   import type { CombatController } from '@/classes/components/combat/CombatController'
 
   const props = defineProps<{ modelValue: boolean; cc: CombatController }>()
-  const emit = defineEmits<{ 'update:modelValue': [boolean]; resolved: [] }>()
+  const emit = defineEmits<{
+    'update:modelValue': [boolean]
+    resolved: [answer: { success?: boolean; skip?: boolean }]
+  }>()
 
   const open = computed({
     get: () => props.modelValue,
@@ -142,13 +145,12 @@
 
   function ignore() {
     open.value = false
-    emit('resolved')
+    emit('resolved', { skip: true })
   }
 
   function apply() {
     if (!outcome.value) return
-    props.cc.ResolveBurn(outcome.value === 'success')
     open.value = false
-    emit('resolved')
+    emit('resolved', { success: outcome.value === 'success' })
   }
 </script>

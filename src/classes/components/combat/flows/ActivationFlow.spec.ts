@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { ActivationFlow, BraceFlow, OverwatchFlow } from './ActivationFlow'
 import { makeMech, makePilot } from '@/__tests__/factories'
-import { StatKey } from './stats/Stats'
+import { StatKey } from '../stats/Stats'
 import type { Mech } from '@/classes/mech/Mech'
 
 let m: Mech
@@ -16,14 +16,41 @@ beforeEach(() => {
 })
 
 describe('ActivationFlow', () => {
-  it('names its steps in the order the audit assigns them', () => {
+  it('runs its steps in the documented order', () => {
     expect(ActivationFlow.Steps).toEqual([
       'activation-normalization',
       'legality',
       'consume-uses',
       'heat-application',
       'consume',
+      'reveal',
     ])
+  })
+
+  it('declares an inverse for every step that mutates, and names the one that has none', () => {
+    expect(ActivationFlow.UndoCoverage).toEqual({
+      'activation-normalization': 'none',
+      legality: 'none',
+      'consume-uses': 'undo',
+      'heat-application': 'undo',
+      consume: 'undo',
+      reveal: 'irreversible',
+    })
+  })
+
+  it('walks its own steps backwards to undo an activation, reporting what it cannot take back', () => {
+    const s = state('quick', { actionId: 'act_hide', heat: 3 })
+    ActivationFlow.Begin(s)
+
+    expect(cc().CombatActions.Quick1).toBe(false)
+    expect(cc().IsActionUsed('act_hide')).toBe(true)
+    expect(cc().StatController.getCurrent(StatKey.HEATCAP)).toBe(3)
+
+    expect(ActivationFlow.UndoAll(s)).toEqual(['reveal'])
+
+    expect(cc().CombatActions.Quick1).toBe(true)
+    expect(cc().IsActionUsed('act_hide')).toBe(false)
+    expect(cc().StatController.getCurrent(StatKey.HEATCAP)).toBe(0)
   })
 
   it('normalizes the activation before anything reads it', () => {
@@ -133,11 +160,7 @@ describe('flows composed from ActivationFlow', () => {
   })
 
   it('OverwatchFlow checks weapon eligibility before it spends anything', () => {
-    expect(OverwatchFlow.Steps).toEqual([
-      'weapon-eligibility',
-      'activation',
-      'overwatch-effects',
-    ])
+    expect(OverwatchFlow.Steps).toEqual(['weapon-eligibility', 'activation', 'overwatch-effects'])
 
     const ordnance = { Tags: [{ ID: 'tg_ordnance' }] }
     cc().StatController.setCurrentStat(StatKey.SPEED, 0)

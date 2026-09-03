@@ -39,7 +39,7 @@
 
 ## Top Level Source Layout
 
-```ts
+```js
 src
 ├── classes // Domain model (Pilot, Mech, NPC, Encounter)
 ├── features // Feature modules (routing, views, stores per feature)
@@ -269,9 +269,9 @@ anywhere under `src/ui/`. A ui component gets the data it needs in one of two wa
 ## Provide/Inject Contexts
 
 There are two app-level provide/inject seams. Both exist so that `src/ui/` and the deep
-encounter subtree can read shared state without store reach-in or multi-level prop drilling.
-Injected values are reactive: providers expose `computed` or getter-backed values, so the
-getter runs inside each consumer's reactive scope.
+encounter subtree can read shared state without store reach-in or multilevel prop drilling.
+
+Providers expose `computed` or getter values, so the getter runs inside each consumer's scope.
 
 ### UI data providers (`src/ui/providers.ts`)
 
@@ -283,7 +283,7 @@ Decouples the ui library from the stores. Declares two typed interfaces and thei
   storage, `downloadLcp`, `refreshDbData`.
 
 `App.vue` (the single `createApp` root) provides the store-backed implementations once. The
-interfaces are typed against `@/classes` domain types (allowed), never against `@/stores`.
+interfaces are typed against `@/classes` domain types, never against `@/stores`.
 
 ### Encounter runner context (`src/features/.../EncounterPanels/encounterContext.ts`)
 
@@ -298,10 +298,9 @@ directly by the runner pages (outside any panel) keep explicit props.
 
 Component logic is decomposed into composables (`useX.ts`) rather than larger single-file
 components, following single-responsibility. Examples from the compendium browser and account
-data viewer: `useCompendiumFacets` (multi-axis grouping and facet index), `useCompendiumViewState`
-(per-view UI state persistence), `useItemTransfer` and `useItemDeleteLifecycle` (cloud
-transfer and delete orchestration). Responsive breakpoints use Vuetify's `useDisplay()`
-directly.
+data viewer: `useCompendiumFacets` (facet index), `useCompendiumViewState` (per-view UI state
+persistence), `useItemTransfer` and `useItemDeleteLifecycle` (cloud transfer and delete
+orchestration). Responsive breakpoints use Vuetify's `useDisplay()` directly.
 
 ---
 

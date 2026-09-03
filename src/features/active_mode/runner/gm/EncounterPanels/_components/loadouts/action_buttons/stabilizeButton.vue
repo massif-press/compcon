@@ -163,10 +163,6 @@
     action: Action
   }>()
 
-  const emit = defineEmits<{
-    activate: [payload: string]
-  }>()
-
   const firstChoice = ref('cool')
   const secondChoice = ref('reload')
   const clearSelfCondition = ref<ClearableCondition | null>(null)
@@ -191,32 +187,24 @@
     return target.CombatController.ClearableConditions()
   }
   function apply() {
-    if (firstChoice.value === 'cool') {
-      controller.value.Stabilize('cool')
-    } else if (firstChoice.value === 'repair') {
-      controller.value.Stabilize('repair')
-    }
+    const performed = controller.value.PerformAction(props.action.ID, {
+      options: [firstChoice.value, secondChoice.value],
+    })
+    if (!performed) return
 
-    if (secondChoice.value === 'reload') {
-      controller.value.Stabilize('reload')
-    } else if (secondChoice.value === 'clear_burn') {
-      controller.value.Stabilize('clear_burn')
-    } else if (secondChoice.value === 'clear_self') {
-      controller.value.Stabilize('clear_self')
-      if (clearSelfCondition.value)
-        controller.value.ClearCondition(clearSelfCondition.value.status.ID)
-    } else if (secondChoice.value === 'clear_ally') {
-      controller.value.Stabilize('clear_ally')
-      if (selectedTarget.value && clearAlliedCondition.value)
-        controller.value.ClearCondition(
-          clearAlliedCondition.value.status.ID,
-          selectedTarget.value.actor.CombatController
-        )
-    }
-
-    emit('activate', props.action.ID)
+    if (secondChoice.value === 'clear_self' && clearSelfCondition.value)
+      controller.value.ClearCondition(clearSelfCondition.value.status.ID)
+    else if (
+      secondChoice.value === 'clear_ally' &&
+      selectedTarget.value &&
+      clearAlliedCondition.value
+    )
+      controller.value.ClearCondition(
+        clearAlliedCondition.value.status.ID,
+        selectedTarget.value.actor.CombatController
+      )
   }
   function reset() {
-    controller.value.ResetActivation(props.action.Activation)
+    controller.value.UndoActivation(props.action.Activation, { actionId: props.action.ID })
   }
 </script>

@@ -51,6 +51,6 @@ function apply() {
       emit('activate', props.action.ID);
     }
 function reset() {
-      controller.value.ResetActivation(props.action.Activation);
+      controller.value.UndoActivation(props.action.Activation, { actionId: props.action.ID });
     }
 </script>

@@ -72,7 +72,7 @@ describe('structure and stress checks', () => {
     expect(getCheckTable('structure', cc())?.ID).toBe('core-structure-damage')
   })
 
-  it('T-STRESS-roll-01: takes the lowest die and honours multiple ones', () => {
+  it('T-STRESS-roll-01: takes the lowest die and honors multiple ones', () => {
     rollSeq(1, 1, 4)
     const r = rollCheck(table('core-overheating'), 3)
 
@@ -197,6 +197,30 @@ describe('chart defects', () => {
     applyCheckEffects(cc(), r.actions)
 
     expect(cur(cc(), StatKey.HP)).toBe(hp - 4)
+  })
+
+  it('T-STRUCT-monstrosity-01: chart damage that costs a structure point queues its own check', () => {
+    rolls(6)
+    setMax(cc(), StatKey.HP, 10)
+    set(cc(), StatKey.HP, 2)
+    set(cc(), StatKey.STRUCTURE, 3)
+    cc().PendingChecks = []
+
+    const r = resolveEffects(
+      effectsFor('core-monstrosity-structure-damage', { title: 'Dismemberment' } as any),
+      {
+        currentStructure: 3,
+        currentStress: 4,
+        rolls: { '1': 6 },
+        saveChoices: {},
+        equipChoices: {},
+      },
+      cc()
+    )
+    applyCheckEffects(cc(), r.actions)
+
+    expect(cur(cc(), StatKey.STRUCTURE)).toBe(2)
+    expect(cc().PendingChecks.filter(p => p.kind === 'structure')).toHaveLength(1)
   })
 
   it('T-STRUCT-monstrosity-01: dismemberment slows for the rest of the scene', () => {

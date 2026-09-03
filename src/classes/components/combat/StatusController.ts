@@ -1,7 +1,7 @@
 import { markRaw } from 'vue'
 import { Status } from '@/classes/Status'
-import { CompendiumStore } from '@/features/compendium/store'
 import { ruleFor } from './StatusRules'
+import { AddStatusFlow } from './flows/StatusFlow'
 import { expiration } from './Expiration'
 import { EffectSpecial } from '../feature/active_effects/effect_subtype/EffectSpecial'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
@@ -12,7 +12,7 @@ class StatusController {
   private _parent: CombatController
 
   public Resistances: { type: string; condition: string }[] = []
-  public Statuses: { status: Status; expires: expiration }[] = []
+  public Statuses: { status: Status; expires: expiration; selfInflicted?: boolean }[] = []
   public CustomStatuses: { status: EffectSpecial; expires: expiration }[] = []
 
   constructor(parent: CombatController) {
@@ -29,25 +29,34 @@ class StatusController {
     return expires as expiration
   }
 
+  public ResolveExpiration(expires: any, target?: CombatController): expiration {
+    return this._resolveExpiration(expires, target)
+  }
+
+  public get ActiveController(): CombatController {
+    return this._active
+  }
+
+  public get ActiveStatusController(): StatusController {
+    return this._active.StatusController
+  }
+
+  public LogStatusGained(status: Status): void {
+    this._parent.log(`Gained ${status.Name}`)
+  }
+
   public HasStatus(statusID: string): boolean {
     return this._active.StatusController.Statuses.some(s => s.status.ID === statusID)
   }
 
-  public AddStatus(statusID: string, expires?: any): void {
-    const status = CompendiumStore().Statuses.find(s => s.ID === statusID)
-    if (!status) return
-    const rule = ruleFor(statusID)
-    if (rule?.immuneIf?.some(id => this.HasCondition(id))) return
-    const target = this._active.StatusController
-    const resolvedExpires = this._resolveExpiration(expires, this._active)
-    const existingIndex = target.Statuses.findIndex(s => s.status.ID === status.ID)
-    if (existingIndex === -1) {
-      target.Statuses.push({ status, expires: resolvedExpires })
-      this._parent.log(`Gained ${status.Name}`)
-      rule?.implies?.forEach(id => this.AddStatus(id, expires))
-    } else if (resolvedExpires) {
-      target.Statuses[existingIndex].expires = resolvedExpires
-    }
+  public AddStatus(statusID: string, expires?: any, opts: { selfInflicted?: boolean } = {}): void {
+    AddStatusFlow.Begin({
+      sc: this,
+      statusID,
+      expires,
+      selfInflicted: !!opts.selfInflicted,
+      applied: false,
+    })
   }
 
   public RemoveStatus(statusID: string): void {

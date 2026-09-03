@@ -98,7 +98,7 @@
                       justify="space-between"
                       align="center"
                       class="pl-2 pr-6">
-                      <v-col v-for="stat in defenceStats"
+                      <v-col v-for="stat in defenseStats"
                         :key="stat.key"
                         cols="auto">
                         <v-tooltip :text="stat.title"
@@ -187,7 +187,10 @@
                         </div>
                       </template>
                       <span class="text-cc-overline">
-                        {{ $t('active.runnerItem.resistanceLine', { condition: damage.condition, type: damage.type }) }}
+                        {{ $t('active.runnerItem.resistanceLine', {
+                          condition: damage.condition,
+                        type: damage.type })
+                        }}
                       </span>
                     </v-tooltip>
                   </v-row>
@@ -290,7 +293,8 @@
                         icon="mdi-texture-box"
                         start
                         class="mt-n1" />
-                      {{ $t('active.runnerItem.coverLabel', { cover: actor.CombatController.Cover }) }}
+                      {{ $t('active.runnerItem.coverLabel', { cover: actor.CombatController.Cover })
+                      }}
                     </span>
                   </v-card>
 
@@ -461,7 +465,7 @@ const trackedStats = computed(() =>
   )
 )
 
-const defenceStats = computed(() =>
+const defenseStats = computed(() =>
   filterStats(
     props.actor.StatController.GetStatCollection(['armor', 'evasion', 'edef', 'saveTarget']),
     layout.value.coreStatsOnly
@@ -469,22 +473,22 @@ const defenceStats = computed(() =>
 )
 
 const activations = computed(() => {
-      return props.actor.StatController.CurrentStats['activations'] || 0;
-    })
+  return props.actor.StatController.CurrentStats['activations'] || 0;
+})
 const destroyed = computed(() => {
-      return props.actor.CombatController.IsDestroyed;
-    })
+  return props.actor.CombatController.IsDestroyed;
+})
 const customStatuses = computed(() => {
-      return props.actor.CombatController.CustomStatuses || [];
-    })
+  return props.actor.CombatController.CustomStatuses || [];
+})
 const timeToDeploy = computed(() => {
-      return props.reinforcementTurn - props.round;
-    })
+  return props.reinforcementTurn - props.round;
+})
 
 function onDeployableClick(e, d) {
-      if (e?.stopPropagation) e.stopPropagation()
-      emit('deployable-click', d)
-    }
+  if (e?.stopPropagation) e.stopPropagation()
+  emit('deployable-click', d)
+}
 function typeLabel(type: string) {
   const key = `enums.damageType.${type.toLowerCase()}`
   return te(key) ? t(key) : type
@@ -496,15 +500,15 @@ function conditionLabel(condition: string) {
 }
 
 function damageClass(damage) {
-      if (damage.condition === 'immunity') {
-        return 'bg-exotic';
-      } else if (damage.condition === 'resistance') {
-        return `bg-success`;
-      } else if (damage.condition === 'vulnerable') {
-        return 'bg-error';
-      }
-      return '';
-    }
+  if (damage.condition === 'immunity') {
+    return 'bg-exotic';
+  } else if (damage.condition === 'resistance') {
+    return `bg-success`;
+  } else if (damage.condition === 'vulnerable') {
+    return 'bg-error';
+  }
+  return '';
+}
 </script>
 
 <style scoped>

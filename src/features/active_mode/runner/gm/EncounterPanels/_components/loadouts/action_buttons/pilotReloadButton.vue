@@ -44,26 +44,17 @@
     action: Action
   }>()
 
-  const emit = defineEmits<{
-    activate: [payload: string]
-  }>()
-
   const selection = ref(null as PilotWeapon | null)
 
   const controller = computed(() => {
     return owner.value.actor.CombatController
   })
-  const reloadOptions = computed(() => {
-    return (owner.value.actor.Loadout?.Weapons ?? []).filter(x => x.IsLoading && x.Used)
-  })
+  const reloadOptions = computed(() => controller.value.ReloadOptions())
 
   function apply() {
-    if (selection.value) {
-      selection.value.Used = false
-    }
-    emit('activate', props.action.ID)
+    controller.value.PerformAction(props.action.ID, { target: selection.value })
   }
   function reset() {
-    controller.value.ResetActivation(props.action.Activation)
+    controller.value.UndoActivation(props.action.Activation, { actionId: props.action.ID })
   }
 </script>

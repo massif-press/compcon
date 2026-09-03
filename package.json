@@ -16,6 +16,8 @@
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
     "locales": "node scripts/locales.mjs",
+    "rules:table": "node scripts/gen-rules-table.mjs",
+    "rules:check": "node scripts/gen-rules-table.mjs --check",
     "build:lcp-script": "esbuild scripts/build-llp.mjs --bundle --platform=node --format=esm --external:jszip --legal-comments=none --banner:js=\"$(sed -n '/^\\/\\*!/,/^\\*\\//p' scripts/build-llp.mjs)\" --outfile=build-lcp.mjs",
     "prepare": "husky"
   },

@@ -156,7 +156,6 @@
                     v-model="events[idx].include[aidx]"
                     bg-color="background"
                     :label="`Include`"
-                    @update:model-value="setInclude(idx, selectedWeapon as MechWeapon)"
                   />
                 </v-col>
               </v-row>
@@ -182,6 +181,10 @@
         </div>
       </div>
 
+      <cc-flow-request
+        :request="result?.request"
+        class="px-4 pb-2"
+      />
       <v-slide-y-transition>
         <staged-panel
           v-if="allEventsStaged"
@@ -219,7 +222,7 @@
   import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
   import { useEncounterContext } from '../../../encounterContext'
   import type { Action } from '@/classes/Action'
-  import { computed, ref, onMounted } from 'vue'
+  import { computed, ref, shallowRef } from 'vue'
   import { useDisplay } from 'vuetify'
   import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue'
   import MechMountBonusCard from '../_mechMountBonusCard.vue'
@@ -230,8 +233,9 @@
   import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
   import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon'
   import MechWeaponAttack from './_mechWeaponAttack.vue'
-  import { additionalAuxAttacks, suppressBonusDamage } from '@/classes/components/combat/AttackRules'
-  import { consumeWeaponUses } from '@/classes/components/combat/WeaponAttackFlow'
+  import { WeaponUseFlow, weaponUseState, activeEvents } from '@/classes/components/combat/flows/WeaponUseFlow'
+  import type { IWeaponUseState } from '@/classes/components/combat/flows/WeaponUseFlow'
+  import type { IFlowResult } from '@/classes/components/combat/flows/Flow'
   import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue'
   import StagedPanel from './_stagedPanel.vue'
   import CombatActionButton from './CombatActionButton.vue'
@@ -247,74 +251,62 @@
 
   const { mdAndDown: mobile } = useDisplay()
 
-  const events = ref<
-    {
-      weaponEvent: WeaponAttackEvent
-      auxes: MechWeapon[]
-      auxEvents: WeaponAttackEvent[]
-      include: boolean[]
-    }[]
-  >([])
-
-  const selectedWeapons = ref<MechWeapon[]>([])
-
   const controller = computed(
     () => (owner.value as any).actor.CombatController.ActiveActor.CombatController
   )
 
-  const barrageWeapons = computed(() => {
-    const mech = controller.value.ActiveActor
-    if (!mech || !mech.MechLoadoutController) return []
-    let arr = mech.MechLoadoutController.ActiveLoadout.Weapons.filter((x: any) => x.Barrage)
-    arr = arr.filter(
-      (w: any) =>
-        !selectedWeapons.value
-          .filter(Boolean)
-          .map((x: any) => x.InstanceID)
-          .some((y: any) => y === w.InstanceID)
+  function newState(): IWeaponUseState {
+    const self = (encounterInstance.value as any).Combatants.find(
+      (c: CombatantData) =>
+        c.actor.CombatController.RootActor.ID ===
+        (owner.value as any).actor.CombatController.RootActor.ID
     )
-    return arr
-  })
+    if (!self) throw new Error('Owner combatant not found in encounterInstance')
+    return weaponUseState({
+      cc: controller.value,
+      actionId: props.action.ID,
+      mode: 'barrage',
+      makeEvent: (weapon: any, label: string) =>
+        new WeaponAttackEvent(
+          weapon.SelectedProfile as WeaponProfile,
+          self,
+          encounterInstance.value,
+          label
+        ),
+    })
+  }
 
-  const eventArray = computed(() => {
-    let out: any[] = []
-    for (let i = 0; i < selectedWeapons.value.length; i++) {
-      const ev = events.value[i]
-      if (ev && ev.weaponEvent) {
-        out.push(ev.weaponEvent)
-        const enabledAuxes = ev.auxEvents.filter((x, idx) => ev.include[idx])
-        out = out.concat(enabledAuxes)
-      }
-    }
-    return out
-  })
+  const useState = ref<IWeaponUseState>(newState())
+  const result = shallowRef<IFlowResult<IWeaponUseState> | null>(null)
 
-  const allEventsStaged = computed(() => {
-    if (!eventArray.value.length) return false
-    return eventArray.value.every((e: any) => e.BaseEvent.Staged)
-  })
+  function run() {
+    result.value =
+      result.value?.outcome === 'awaiting'
+        ? WeaponUseFlow.Resume(result.value as IFlowResult<IWeaponUseState>)
+        : WeaponUseFlow.Begin(useState.value)
+  }
 
   function reset(clearAction = false) {
-    if (clearAction)
-      owner.value.actor.CombatController.ActiveActor.CombatController.ClearActionUsed(
-        (props.action as any).ID
-      )
-    selectedWeapons.value = new Array(2)
-    events.value = new Array(2)
-    if (!selectedWeapons.value[0] && props.presetWeapon) {
-      setSelected(0, props.presetWeapon)
-    }
+    if (clearAction) controller.value.ClearActionUsed((props.action as any).ID)
+    useState.value = newState()
+    if (props.presetWeapon) useState.value.selected = [props.presetWeapon]
+    result.value = null
+    run()
   }
 
   function apply() {
-    const actor = (owner.value as any).actor.CombatController.ActiveActor.CombatController
-    selectedWeapons.value.forEach((w: any) => {
-      actor.MarkActionUsed(w.InstanceID)
-      consumeWeaponUses(w)
-    })
+    run()
     reset()
   }
 
+  function setSelected(index: number, weapon: MechWeapon) {
+    if (!weapon) return
+    const chosen = useState.value.selected.filter(Boolean)
+    chosen[index] = weapon
+    useState.value.selected = chosen
+    result.value = null
+    run()
+  }
 
   function selectedMount(selectedWeapon: any) {
     if (!selectedWeapon) return null
@@ -325,71 +317,24 @@
     )
   }
 
-  function setSelected(index: number, weapon: MechWeapon) {
-    if (!weapon) return
-    const self = (encounterInstance.value as any).Combatants.find(
-      (c: CombatantData) =>
-        c.actor.CombatController.RootActor.ID ===
-        (owner.value as any).actor.CombatController.RootActor.ID
-    )
-    if (!self) throw new Error('Owner combatant not found in encounterInstance')
-    selectedWeapons.value[index] = weapon
-    const fired = selectedWeapons.value.filter(Boolean).map((w: any) => w.InstanceID)
-    const auxes = additionalAuxAttacks(selectedMount(weapon)?.Weapons ?? [], fired)
-    const auxEvents = auxes.map((x: any) =>
-      suppressBonusDamage(
-        new WeaponAttackEvent(
-          x.SelectedProfile as WeaponProfile,
-          owner.value as CombatantData,
-          encounterInstance.value,
-          'Additional Aux Attack'
-        )
-      )
-    )
-    events.value[index] = {
-      weaponEvent: new WeaponAttackEvent(
-        weapon.SelectedProfile as WeaponProfile,
-        self,
-        encounterInstance.value,
-        'Barrage'
-      ),
-      auxes,
-      auxEvents,
-      include: auxEvents.map(() => true),
-    }
-    if (weapon.Size.toLowerCase() === 'superheavy') {
-      selectedWeapons.value = [weapon]
-      events.value = [events.value[index]]
-    } else if (selectedWeapons.value.length === 1) {
-      selectedWeapons.value.push(undefined as any)
-      events.value.push(undefined as any)
-    }
-  }
-
-  function setInclude(index: number, selectedWeapon: MechWeapon) {
-    const self = (encounterInstance.value as any).Combatants.find(
-      (c: CombatantData) =>
-        c.actor.CombatController.RootActor.ID ===
-        (owner.value as any).actor.CombatController.RootActor.ID
-    )
-    if (!self) throw new Error('Owner combatant not found in encounterInstance')
-    const auxes =
-      selectedMount(selectedWeapon)?.Weapons.filter(
-        (x: any) =>
-          x.InstanceID !== selectedWeapon.InstanceID && x.Size.toLowerCase() === 'auxiliary'
-      ) ?? []
-    events.value[index].auxEvents = []
-    for (let i = 0; i < events.value[index].include.length; i++) {
-      events.value[index].auxEvents.push(
-        new WeaponAttackEvent(
-          auxes[i].SelectedProfile as WeaponProfile,
-          owner.value as CombatantData,
-          encounterInstance.value,
-          'Additional Aux Attack'
-        )
-      )
-    }
-  }
+  const selectedWeapons = computed(() => {
+    const chosen = useState.value.selected.filter(Boolean) as MechWeapon[]
+    if (chosen.length >= useState.value.capacity) return chosen
+    return [...chosen, undefined as unknown as MechWeapon]
+  })
+  const barrageWeapons = computed(() => useState.value.options as MechWeapon[])
+  const events = computed(() =>
+    useState.value.entries.map(e => ({
+      weaponEvent: e.event as WeaponAttackEvent,
+      auxes: e.auxes as MechWeapon[],
+      auxEvents: e.auxEvents as WeaponAttackEvent[],
+      include: e.include,
+    }))
+  )
+  const eventArray = computed(() => activeEvents(useState.value))
+  const allEventsStaged = computed(
+    () => !!eventArray.value.length && eventArray.value.every((e: any) => e.BaseEvent.Staged)
+  )
 
   reset()
 </script>

@@ -11,7 +11,8 @@ import { EffectSpecial } from '../effect_subtype/EffectSpecial'
 import { CoverType } from '@/classes/components/combat/CombatController'
 import { ActionSummaryData } from '../EffectActionSummary'
 import { combatantLabel } from '@/util/combatantLabel'
-import { targetDefenseFor, hitResultFor, critTriggers, canCrit, heatExempt, applyAttackDamage } from '@/classes/components/combat/WeaponAttackFlow'
+import { hitResultFor, canCrit, heatExempt, applyAttackDamage, attackModifiers } from '@/classes/components/combat/flows/WeaponAttackFlow'
+import { TargetRollFlow, resolveTargetDefense } from '@/classes/components/combat/flows/TargetResolutionFlow'
 export { canCrit }
 
 class ActiveEventTarget {
@@ -31,6 +32,9 @@ class ActiveEventTarget {
   // damage info
   public FinalDamageValue: number = 0
   public TotalArmorReduction: number = 0
+  public TookDamage: boolean = false
+  public MissedFromInvisibility: boolean = false
+  public HitResultOverride?: 'hit' | 'miss'
 
   // save roll
   public SaveTarget: number = 10
@@ -65,18 +69,7 @@ class ActiveEventTarget {
 
   public set Combatant(value: CombatantData | null) {
     this._combatant = value
-
-    // if this is attack roll:
-    const against = targetDefenseFor(this.AttackType, this.Event.TargetDefense)
-    if (against === 'edef') {
-      this.TargetDefense = 'E-Defense'
-      this.TargetDefenseValue =
-        this._combatant?.actor.CombatController.ActiveActor.StatController.getMax('edef') || 10
-    } else {
-      this.TargetDefense = 'Evasion'
-      this.TargetDefenseValue =
-        this._combatant?.actor.CombatController.ActiveActor.StatController.getMax('evasion') || 10
-    }
+    resolveTargetDefense(this, this.Event)
   }
 
   public get AttackRolledValue(): number | undefined {
@@ -85,20 +78,27 @@ class ActiveEventTarget {
 
   public set AttackRolledValue(value: number | undefined) {
     this._attackRolledValue = value
-    if (this.Event.SaveHalf) this.SavedHalf = this.HitResult !== 'miss'
-    const attackerCanCrit =
-      this.Event.Initiator?.actor?.CombatController?.ActiveActor?.CombatController?.CanCrit ?? true
-    if (critTriggers(value, this.AttackType, this.Event.Effect.CanCrit, attackerCanCrit))
-      this.Event.SetCrit()
+    TargetRollFlow.Begin({ target: this, event: this.Event, kind: 'attack' })
+  }
+
+  public get StatusAccuracy(): number {
+    return attackModifiers(
+      this.Event.Initiator?.actor?.CombatController,
+      this.Combatant?.actor?.CombatController,
+      this.AttackType
+    )
   }
 
   public get HitResult(): string {
+    if (this.MissedFromInvisibility) return 'miss'
+    if (this.HitResultOverride === 'miss') return 'miss'
+    if (this.HitResultOverride === 'hit')
+      return (this.AttackRolledValue ?? 0) >= 20 ? 'crit' : 'hit'
     return hitResultFor(this.AttackRolledValue, this.TargetDefenseValue)
   }
 
-  public set HitResult(value: string) {
-    if (value === 'miss') this.TargetDefenseValue = 999
-    else this.TargetDefenseValue = 1
+  public OverrideHitResult(value: 'hit' | 'miss' | undefined): void {
+    this.HitResultOverride = value
   }
 
   public get SaveRolledValue(): number | undefined {
@@ -107,7 +107,7 @@ class ActiveEventTarget {
 
   public set SaveRolledValue(value: number | undefined) {
     this._saveRolledValue = value
-    if (this.Event.SaveHalf) this.SavedHalf = this.SaveResult === 'success'
+    TargetRollFlow.Begin({ target: this, event: this.Event, kind: 'save' })
   }
 
   public get SaveResult(): string {
@@ -155,7 +155,13 @@ class ActiveEventTarget {
 
   public ApplyStatus(statusEvent: StatusEvent) {
     if (!this.Combatant) return
-    this.Combatant.actor.CombatController.AddStatus(statusEvent.Status.ID, statusEvent.Duration)
+    const initiator = this.Event.Initiator?.actor?.CombatController
+    const selfInflicted =
+      !!initiator &&
+      initiator.RootActor?.ID === this.Combatant.actor.CombatController.RootActor?.ID
+    this.Combatant.actor.CombatController.AddStatus(statusEvent.Status.ID, statusEvent.Duration, {
+      selfInflicted,
+    })
   }
 
   public ApplyOther(otherEvent: OtherEvent) {
@@ -229,6 +235,7 @@ class ActiveEventTarget {
       AttackRollResult: this.AttackRollResult?.toJSON(),
       AttackRolledValue: this.AttackRolledValue,
       HitResult: this.HitResult,
+      HitResultOverride: this.HitResultOverride,
       FinalDamageValue: this.FinalDamageValue,
       TotalArmorReduction: this.TotalArmorReduction,
       SaveResult: this.SaveResult,

@@ -18,8 +18,7 @@
         :action="action"
         @activate="activate($event)" />
       <pilot-reload-button v-else-if="action?.ID === 'act_reload'"
-        :action="action"
-        @activate="activate($event)" />
+        :action="action" />
       <basic-action-button v-else
         :action="action"
         @activate="activate($event)" />
@@ -71,39 +70,23 @@ function getBaseAction(actionId: string) {
   return CompendiumStore().Actions.find((a: any) => a.ID === actionId)!;
 }
 
+const NOTICES: Record<string, { ok: [string, string]; fail?: [string, string] }> = {
+  act_prepare: { ok: ['active.pilotActions.preparedTitle', 'active.common.preparedText'] },
+  act_mount: {
+    ok: ['active.pcPanel.pilotMounted', 'active.pilotActions.mountedText'],
+    fail: ['active.pilotActions.mountFailedTitle', 'active.pilotActions.mountFailedText'] },
+  act_hide: { ok: ['active.pilotActions.hiddenTitle', 'active.common.hiddenText'] },
+  act_disengage: {
+    ok: ['active.pilotActions.disengagedTitle', 'active.common.disengagedText'],
+    fail: ['active.common.disengageFailed', 'active.common.disengageFailedText'] },
+};
+
 function activate(event: string) {
-  controller.value.MarkActionUsed(event);
-  switch (event) {
-    case 'act_prepare':
-      controller.value.Prepared = true;
-      notify({ type: 'success', title: t('active.pilotActions.preparedTitle'), text: t('active.common.preparedText', { name: controller.value.CombatName }) });
-      break;
-    case 'act_mount':
-      if (controller.value.Mounted) {
-        notify({ type: 'warning', title: t('active.pilotActions.mountFailedTitle'), text: t('active.pilotActions.mountFailedText', { name: controller.value.CombatName }) });
-        controller.value.ResetActivation('full');
-        controller.value.ClearActionUsed('mount');
-        return;
-      }
-      controller.value.ToggleMounted();
-      notify({ type: 'success', title: t('active.pcPanel.pilotMounted'), text: t('active.pilotActions.mountedText', { name: controller.value.CombatName }) });
-      break;
-    case 'act_hide':
-      controller.value.Hide();
-      notify({ type: 'success', title: t('active.pilotActions.hiddenTitle'), text: t('active.common.hiddenText', { name: controller.value.CombatName }) });
-      break;
-    case 'act_disengage':
-      if (!controller.value.HasStatus('engaged')) {
-        notify({ type: 'warning', title: t('active.common.disengageFailed'), text: t('active.common.disengageFailedText', { name: controller.value.CombatName }) });
-        controller.value.ResetActivation('full');
-        controller.value.ClearActionUsed('act_disengage');
-      } else {
-        controller.value.Disengage();
-        notify({ type: 'success', title: t('active.pilotActions.disengagedTitle'), text: t('active.common.disengagedText', { name: controller.value.CombatName }) });
-      }
-      break;
-    default:
-      break;
-  }
+  const ok = controller.value.PerformAction(event);
+  const notice = NOTICES[event];
+  if (!notice) return;
+  if (!ok && !notice.fail) return
+  const [title, text] = ok ? notice.ok : notice.fail!;
+  notify({ type: ok ? 'success' : 'warning', title: t(title), text: t(text, { name: controller.value.CombatName }) });
 }
 </script>

@@ -41,6 +41,28 @@ function additionalAuxAttacks(weapons: any[], firedInstanceIds: string[] = []): 
   )
 }
 
+type WeaponUseMode = 'skirmish' | 'barrage' | 'fight'
+
+function isSuperheavy(weapon: any): boolean {
+  return !!weapon?.IsSuperheavy || String(weapon?.Size ?? '').toLowerCase() === 'superheavy'
+}
+
+function weaponPool(cc: any, mode: WeaponUseMode): any[] {
+  if (mode === 'fight') return cc?.RootActor?.Loadout?.Weapons ?? []
+  const npc = cc?.ActiveActor?.NpcFeatureController
+  if (npc) return (mode === 'barrage' ? npc.BarrageWeapons : npc.SkirmishWeapons) ?? []
+  const all = cc?.ActiveActor?.MechLoadoutController?.ActiveLoadout?.Weapons ?? []
+  return all.filter((w: any) => (mode === 'barrage' ? w.Barrage : w.Skirmish))
+}
+
+function mountWeapons(cc: any, weapon: any): any[] {
+  const mounts = cc?.ActiveActor?.MechLoadoutController?.ActiveLoadout?.Mounts ?? []
+  const mount = mounts.find((m: any) =>
+    (m.Weapons ?? []).some((w: any) => w.InstanceID === weapon?.InstanceID)
+  )
+  return mount?.Weapons ?? []
+}
+
 function suppressBonusDamage(event: any): any {
   ;(event?.BaseEvent?.DamageEvents ?? event?.DamageEvents ?? []).forEach((d: any) => {
     d.Bonus = false
@@ -50,6 +72,9 @@ function suppressBonusDamage(event: any): any {
 }
 
 export {
+  weaponPool,
+  mountWeapons,
+  isSuperheavy,
   additionalAuxAttacks,
   suppressBonusDamage,
   objectStats,
@@ -57,3 +82,4 @@ export {
   bonusDamage,
   resolveAreaAttack,
 }
+export type { WeaponUseMode }

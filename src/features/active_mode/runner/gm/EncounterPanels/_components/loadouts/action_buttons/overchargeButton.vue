@@ -115,10 +115,6 @@
     action: Action
   }>()
 
-  const emit = defineEmits<{
-    activate: [payload: string]
-  }>()
-
   const heatCost = ref<number | null>(null)
 
   const controller = computed(() => {
@@ -132,11 +128,12 @@
     heatCost.value = DiceRoller.roll(controller.value.OverchargeCost)
   }
   function apply() {
-    controller.value.Overcharge(heatCost.value === null ? undefined : Number(heatCost.value))
+    controller.value.PerformAction(props.action.ID, {
+      value: heatCost.value === null ? undefined : Number(heatCost.value),
+    })
     heatCost.value = null
-    emit('activate', props.action.ID)
   }
   function reset() {
-    controller.value.ResetActivation(props.action.Activation)
+    controller.value.UndoActivation(props.action.Activation, { actionId: props.action.ID })
   }
 </script>

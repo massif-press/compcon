@@ -4,6 +4,7 @@ import type { RollableTable, ITableRoll } from '@/classes/narrative/elements/Rol
 import { DamageType } from '../../enums'
 import { StatKey } from './stats/Stats'
 import type { CombatController } from './CombatController'
+import type { IFlowRequest } from './flows/Flow'
 
 type CheckKind = 'structure' | 'stress'
 
@@ -44,7 +45,12 @@ type Effect =
   | { type: 'reactor_meltdown'; delay?: number; delay_roll?: string; note?: string }
   | { type: 'damage'; roll: string; damage_type?: string; note?: string }
   | { type: 'branch'; on: CheckKind; cases: BranchCase[] }
-  | { type: 'save' | 'check'; check: 'hull' | 'agi' | 'sys' | 'eng'; on_success: Effect[]; on_fail: Effect[] }
+  | {
+      type: 'save' | 'check'
+      check: 'hull' | 'agi' | 'sys' | 'eng'
+      on_success: Effect[]
+      on_fail: Effect[]
+    }
   | { type: 'sub_roll'; die: number; cases: SubRollCase[] }
   | { type: 'destroy_equipment'; target: 'mount' | 'system'; note?: string }
 
@@ -67,7 +73,7 @@ interface ResolveStep {
   path: string
   kind: 'apply' | 'branch' | 'save' | 'subroll' | 'equip' | 'damage' | 'note'
   label: string
-  check?: string
+  check?: 'hull' | 'agi' | 'sys' | 'eng'
   target?: 'mount' | 'system'
   options?: { id: string; label: string; items?: any[] }[]
   rolled?: number
@@ -85,14 +91,26 @@ const END_OF_NEXT_TURN = 'end_turn_self'
 const REST_OF_SCENE = 'scene'
 
 const EFFECT_MAP: Record<string, Effect[]> = {
-  'core-structure-damage::Glancing Blow': [{ type: 'status', id: 'impaired', duration: END_OF_NEXT_TURN }],
+  'core-structure-damage::Glancing Blow': [
+    { type: 'status', id: 'impaired', duration: END_OF_NEXT_TURN },
+  ],
   'core-structure-damage::System Trauma': [
     {
       type: 'sub_roll',
       die: 6,
       cases: [
-        { min: 1, max: 3, label: 'All weapons on one mount are destroyed', effects: [{ type: 'destroy_equipment', target: 'mount' }] },
-        { min: 4, max: 6, label: 'One system is destroyed', effects: [{ type: 'destroy_equipment', target: 'system' }] },
+        {
+          min: 1,
+          max: 3,
+          label: 'All weapons on one mount are destroyed',
+          effects: [{ type: 'destroy_equipment', target: 'mount' }],
+        },
+        {
+          min: 4,
+          max: 6,
+          label: 'One system is destroyed',
+          effects: [{ type: 'destroy_equipment', target: 'system' }],
+        },
       ],
     },
   ],
@@ -101,14 +119,31 @@ const EFFECT_MAP: Record<string, Effect[]> = {
       type: 'branch',
       on: 'structure',
       cases: [
-        { at_least: 3, label: '3+ Structure', effects: [{ type: 'status', id: 'stunned', duration: END_OF_NEXT_TURN }] },
-        { equals: 2, label: '2 Structure', effects: [{ type: 'check', check: 'hull', on_success: [{ type: 'status', id: 'stunned' }], on_fail: [{ type: 'destroy' }] }] },
+        {
+          at_least: 3,
+          label: '3+ Structure',
+          effects: [{ type: 'status', id: 'stunned', duration: END_OF_NEXT_TURN }],
+        },
+        {
+          equals: 2,
+          label: '2 Structure',
+          effects: [
+            {
+              type: 'check',
+              check: 'hull',
+              on_success: [{ type: 'status', id: 'stunned' }],
+              on_fail: [{ type: 'destroy' }],
+            },
+          ],
+        },
         { at_most: 1, label: '1 Structure', effects: [{ type: 'destroy' }] },
       ],
     },
   ],
   'core-structure-damage::Crushing Hit': [{ type: 'destroy' }],
-  'core-overheating::Emergency Shunt': [{ type: 'status', id: 'impaired', duration: END_OF_NEXT_TURN }],
+  'core-overheating::Emergency Shunt': [
+    { type: 'status', id: 'impaired', duration: END_OF_NEXT_TURN },
+  ],
   'core-overheating::Destabilized Power Plant': [{ type: 'status', id: 'exposed' }],
   'core-overheating::Meltdown': [
     {
@@ -116,13 +151,34 @@ const EFFECT_MAP: Record<string, Effect[]> = {
       on: 'stress',
       cases: [
         { at_least: 3, label: '3+ Stress', effects: [{ type: 'status', id: 'exposed' }] },
-        { equals: 2, label: '2 Stress', effects: [{ type: 'check', check: 'eng', on_success: [{ type: 'status', id: 'exposed' }], on_fail: [{ type: 'reactor_meltdown', delay_roll: '1d6', note: 'after 1d6 of your turns' }] }] },
-        { at_most: 1, label: '1 Stress', effects: [{ type: 'reactor_meltdown', delay: 1, note: 'at the end of your next turn' }] },
+        {
+          equals: 2,
+          label: '2 Stress',
+          effects: [
+            {
+              type: 'check',
+              check: 'eng',
+              on_success: [{ type: 'status', id: 'exposed' }],
+              on_fail: [
+                { type: 'reactor_meltdown', delay_roll: '1d6', note: 'after 1d6 of your turns' },
+              ],
+            },
+          ],
+        },
+        {
+          at_most: 1,
+          label: '1 Stress',
+          effects: [{ type: 'reactor_meltdown', delay: 1, note: 'at the end of your next turn' }],
+        },
       ],
     },
   ],
-  'core-overheating::Irreversible Meltdown': [{ type: 'reactor_meltdown', delay: 1, note: 'at the end of your next turn' }],
-  'core-monstrosity-structure-damage::Glancing Hit': [{ type: 'status', id: 'impaired', duration: END_OF_NEXT_TURN }],
+  'core-overheating::Irreversible Meltdown': [
+    { type: 'reactor_meltdown', delay: 1, note: 'at the end of your next turn' },
+  ],
+  'core-monstrosity-structure-damage::Glancing Hit': [
+    { type: 'status', id: 'impaired', duration: END_OF_NEXT_TURN },
+  ],
   'core-monstrosity-structure-damage::Powerful Hit': [{ type: 'status', id: 'prone' }],
   'core-monstrosity-structure-damage::Dismemberment': [
     { type: 'status', id: 'slow', duration: REST_OF_SCENE },
@@ -133,8 +189,18 @@ const EFFECT_MAP: Record<string, Effect[]> = {
       type: 'branch',
       on: 'structure',
       cases: [
-        { at_least: 3, label: '3+ Structure', effects: [{ type: 'status', id: 'stunned', duration: END_OF_NEXT_TURN }] },
-        { equals: 2, label: '2 Structure', effects: [{ type: 'save', check: 'hull', on_success: [], on_fail: [{ type: 'destroy' }] }] },
+        {
+          at_least: 3,
+          label: '3+ Structure',
+          effects: [{ type: 'status', id: 'stunned', duration: END_OF_NEXT_TURN }],
+        },
+        {
+          equals: 2,
+          label: '2 Structure',
+          effects: [
+            { type: 'save', check: 'hull', on_success: [], on_fail: [{ type: 'destroy' }] },
+          ],
+        },
         { at_most: 1, label: '1 Structure', effects: [{ type: 'destroy' }] },
       ],
     },
@@ -158,7 +224,11 @@ function rollExpr(expr: string): number {
   return total
 }
 
-function prerollEffects(effects: Effect[], path = '', out: Record<string, number> = {}): Record<string, number> {
+function prerollEffects(
+  effects: Effect[],
+  path = '',
+  out: Record<string, number> = {}
+): Record<string, number> {
   effects.forEach((e, i) => {
     const p = path ? `${path}.${i}` : String(i)
     if (e.type === 'sub_roll') {
@@ -180,7 +250,10 @@ function prerollEffects(effects: Effect[], path = '', out: Record<string, number
 
 function toDamageType(raw?: string): DamageType {
   const key = (raw || '').toLowerCase()
-  return (Object.values(DamageType).find(d => d.toLowerCase() === key) as DamageType) ?? DamageType.Kinetic
+  return (
+    (Object.values(DamageType).find(d => d.toLowerCase() === key) as DamageType) ??
+    DamageType.Kinetic
+  )
 }
 
 const DURATION_LABEL: Record<string, string> = {
@@ -204,13 +277,19 @@ function structureDamageTargets(cc: CombatController): any[] {
   return [...weapons, ...(loadout.Systems || [])].filter(isDestroyable)
 }
 
-function systemTraumaFallback(available: { mounts: unknown[]; systems: unknown[] }): 'mount' | 'system' | 'direct_hit' {
+function systemTraumaFallback(available: {
+  mounts: unknown[]
+  systems: unknown[]
+}): 'mount' | 'system' | 'direct_hit' {
   if (available.mounts.length) return 'mount'
   if (available.systems.length) return 'system'
   return 'direct_hit'
 }
 
-function equipmentOptions(cc: CombatController, target: 'mount' | 'system'): { id: string; label: string; items: any[] }[] {
+function equipmentOptions(
+  cc: CombatController,
+  target: 'mount' | 'system'
+): { id: string; label: string; items: any[] }[] {
   const loadout = (cc.Parent as any)?.MechLoadoutController?.ActiveLoadout
   if (!loadout) return []
   if (target === 'mount') {
@@ -229,14 +308,22 @@ function equipmentOptions(cc: CombatController, target: 'mount' | 'system'): { i
     .map((s: any, i: number) => ({ id: String(i), label: s.Name, items: [s] }))
 }
 
-function pickTraumaTarget(cc: CombatController, rolled: 'mount' | 'system'): 'mount' | 'system' | 'direct_hit' {
+function pickTraumaTarget(
+  cc: CombatController,
+  rolled: 'mount' | 'system'
+): 'mount' | 'system' | 'direct_hit' {
   const mounts = equipmentOptions(cc, 'mount')
   const systems = equipmentOptions(cc, 'system')
   if (rolled === 'system' && systems.length) return 'system'
   return systemTraumaFallback({ mounts, systems })
 }
 
-function resolveEffects(effects: Effect[], ctx: ResolveContext, cc: CombatController, path = ''): ResolveResult {
+function resolveEffects(
+  effects: Effect[],
+  ctx: ResolveContext,
+  cc: CombatController,
+  path = ''
+): ResolveResult {
   const steps: ResolveStep[] = []
   const actions: TerminalAction[] = []
   let complete = true
@@ -246,7 +333,11 @@ function resolveEffects(effects: Effect[], ctx: ResolveContext, cc: CombatContro
     switch (e.type) {
       case 'status': {
         const qualifier = e.note || (e.duration ? DURATION_LABEL[e.duration] : '')
-        steps.push({ path: p, kind: 'apply', label: `${e.id}${qualifier ? ` (${qualifier})` : ''}` })
+        steps.push({
+          path: p,
+          kind: 'apply',
+          label: `${e.id}${qualifier ? ` (${qualifier})` : ''}`,
+        })
         actions.push({ kind: 'status', id: e.id, duration: e.duration })
         break
       }
@@ -256,24 +347,36 @@ function resolveEffects(effects: Effect[], ctx: ResolveContext, cc: CombatContro
         break
       case 'reactor_meltdown': {
         const turns = e.delay_roll ? ctx.rolls[p] : (e.delay ?? 0)
-        steps.push({ path: p, kind: 'apply', label: `Reactor meltdown${e.note ? ` (${e.note})` : ''}`, rolled: e.delay_roll ? turns : undefined })
+        steps.push({
+          path: p,
+          kind: 'apply',
+          label: `Reactor meltdown${e.note ? ` (${e.note})` : ''}`,
+          rolled: e.delay_roll ? turns : undefined,
+        })
         if (typeof turns !== 'number') complete = false
         else actions.push({ kind: 'reactor_meltdown', delayTurns: turns })
         break
       }
       case 'damage': {
         const rolled = ctx.rolls[p]
-        steps.push({ path: p, kind: 'damage', label: `${e.roll} ${e.damage_type || ''} damage`.trim(), rolled })
+        steps.push({
+          path: p,
+          kind: 'damage',
+          label: `${e.roll} ${e.damage_type || ''} damage`.trim(),
+          rolled,
+        })
         if (typeof rolled !== 'number') complete = false
-        else actions.push({ kind: 'damage', damageType: toDamageType(e.damage_type), value: rolled })
+        else
+          actions.push({ kind: 'damage', damageType: toDamageType(e.damage_type), value: rolled })
         break
       }
       case 'branch': {
         const val = e.on === 'stress' ? ctx.currentStress : ctx.currentStructure
-        const hit = e.cases.find(c =>
-          (c.at_least === undefined || val >= c.at_least) &&
-          (c.at_most === undefined || val <= c.at_most) &&
-          (c.equals === undefined || val === c.equals)
+        const hit = e.cases.find(
+          c =>
+            (c.at_least === undefined || val >= c.at_least) &&
+            (c.at_most === undefined || val <= c.at_most) &&
+            (c.equals === undefined || val === c.equals)
         )
         if (hit) {
           const ci = e.cases.indexOf(hit)
@@ -288,7 +391,13 @@ function resolveEffects(effects: Effect[], ctx: ResolveContext, cc: CombatContro
       case 'check':
       case 'save': {
         const choice = ctx.saveChoices[p]
-        steps.push({ path: p, kind: 'save', label: e.check.toUpperCase(), check: e.check, mode: e.type })
+        steps.push({
+          path: p,
+          kind: 'save',
+          label: e.check.toUpperCase(),
+          check: e.check,
+          mode: e.type,
+        })
         if (!choice) {
           complete = false
         } else {
@@ -325,7 +434,13 @@ function resolveEffects(effects: Effect[], ctx: ResolveContext, cc: CombatContro
         }
         const options = equipmentOptions(cc, target)
         const chosen = ctx.equipChoices[p]
-        steps.push({ path: p, kind: 'equip', label: target === 'mount' ? 'Mount to destroy' : 'System to destroy', target, options })
+        steps.push({
+          path: p,
+          kind: 'equip',
+          label: target === 'mount' ? 'Mount to destroy' : 'System to destroy',
+          target,
+          options,
+        })
         if (!chosen) {
           complete = false
         } else {
@@ -341,31 +456,42 @@ function resolveEffects(effects: Effect[], ctx: ResolveContext, cc: CombatContro
 }
 
 function applyCheckEffects(cc: CombatController, actions: TerminalAction[]): void {
-  cc.SuppressChecks = true
-  try {
-    for (const a of actions) {
-      if (a.kind === 'status') cc.AddStatus(a.id, a.duration)
-      else if (a.kind === 'destroy') {
-        cc.SetDestroyed(true)
-        cc.log('Destroyed by structure/stress check')
-      } else if (a.kind === 'reactor_meltdown') {
-        if (a.delayTurns > 0) cc.ScheduleReactorMeltdown(a.delayTurns)
-        else {
-          cc.ReactorDestroyed = true
-          cc.log('Reactor meltdown from stress check')
-        }
-      } else if (a.kind === 'destroy_equipment') {
-        a.items.forEach(it => {
-          it.Destroyed = true
-        })
-        cc.log('Equipment destroyed by structure check')
-      } else if (a.kind === 'damage') {
-        cc.TakeDamage(a.damageType, a.value)
+  for (const a of actions) {
+    if (a.kind === 'status') cc.AddStatus(a.id, a.duration)
+    else if (a.kind === 'destroy') {
+      cc.SetDestroyed(true)
+      cc.log('Destroyed by structure/stress check')
+    } else if (a.kind === 'reactor_meltdown') {
+      if (a.delayTurns > 0) cc.ScheduleReactorMeltdown(a.delayTurns)
+      else {
+        cc.ReactorDestroyed = true
+        cc.log('Reactor meltdown from stress check')
       }
+    } else if (a.kind === 'destroy_equipment') {
+      a.items.forEach(it => {
+        it.Destroyed = true
+      })
+      cc.log('Equipment destroyed by structure check')
+    } else if (a.kind === 'damage') {
+      cc.TakeDamage(a.damageType, a.value)
     }
-  } finally {
-    cc.SuppressChecks = false
   }
+}
+
+/**
+ * The subset of resolve steps that are actually asking the user something, in the one request
+ * vocabulary the flows use. Narration steps (apply, branch, damage, note) return undefined.
+ */
+function requestFor(step: ResolveStep): IFlowRequest | undefined {
+  if (step.kind === 'save') return { kind: 'check', label: step.label }
+  if (step.kind === 'equip')
+    return {
+      kind: 'select',
+      label: step.label,
+      options: (step.options ?? []).map(o => ({ id: o.id, label: o.label })),
+    }
+  if (step.kind === 'subroll') return { kind: 'roll', label: step.label }
+  return undefined
 }
 
 function isMonstrosity(cc: CombatController): boolean {
@@ -412,8 +538,17 @@ export {
   rollCheck,
   isMonstrosity,
   effectsFor,
+  requestFor,
   applyCheckEffects,
   prerollEffects,
   resolveEffects,
 }
-export type { CheckKind, ICheckRollResult, IPendingCheck, Effect, ResolveContext, ResolveStep, TerminalAction }
+export type {
+  CheckKind,
+  ICheckRollResult,
+  IPendingCheck,
+  Effect,
+  ResolveContext,
+  ResolveStep,
+  TerminalAction,
+}

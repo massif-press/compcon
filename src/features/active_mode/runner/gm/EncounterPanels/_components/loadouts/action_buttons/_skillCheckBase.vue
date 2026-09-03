@@ -101,6 +101,7 @@
 import { CombatController } from '@/classes/components/combat/CombatController';
 import { computed, ref } from 'vue'
 import { DiceRoller } from '@/classes/dice/DiceRoller'
+import { checkSources, totalBonus, totalAccDiff } from '@/classes/components/combat/SkillCheckRules'
 
 const props = withDefaults(defineProps<{
   controller: CombatController
@@ -114,32 +115,11 @@ const props = withDefaults(defineProps<{
 const roll = ref(null as number | null)
 const rollResults = ref('')
 
-const applicableBonuses = computed(() => {
-  const bonuses = props.controller.ActiveActor.FeatureController?.Bonuses?.filter(
-    (b) => b.ID === props.selectedHase || b.ID === 'check'
-  );
-  const result = {
-    bonuses: bonuses.filter((b) => !!b.Value) || [],
-    accDiff: bonuses.filter((b) => !!b.Accuracy) || [],
-  };
-  if (props.selectedHase) {
-    const statBonus = props.controller.ActiveActor.CombatController.StatController.getMax(
-      props.selectedHase
-    );
-    if (statBonus) {
-      result.bonuses.push({
-        Source: `${props.selectedHase.charAt(0).toUpperCase() + props.selectedHase.slice(1)} Stat`,
-        Value: statBonus,
-      });
-    }
-  }
+const applicableBonuses = computed(() => checkSources(props.controller, props.selectedHase))
 
-  return result;
-})
+const bonus = ref(totalBonus(applicableBonuses.value, props.difficult))
 
-const bonus = ref((applicableBonuses.value.bonuses.reduce((acc, b) => acc + b.Value, 0) || 0) + (props.difficult ? -1 : 0))
-
-const accDiff = ref(applicableBonuses.value.accDiff.reduce((acc, b) => acc + b.Accuracy, 0) || 0)
+const accDiff = ref(totalAccDiff(applicableBonuses.value))
 
 function rollCheck() {
   const result = DiceRoller.rollSkillCheck(Number(bonus.value), accDiff.value, 0);

@@ -232,10 +232,20 @@ const ordnanceBlocked = computed((): boolean => {
   return events.some(e => e?.Weapon && !cc.CanFireWeapon(e.Weapon))
 })
 
-const noAction = computed((): boolean =>
-  ordnanceBlocked.value ||
-  !props.owner.actor.CombatController.ActiveActor.CombatController.CanActivate(props.activationOverride || props.action?.Activation || (activeEffect.value as any).Activation || 'free')
+const activationName = computed((): string =>
+  props.activationOverride || props.action?.Activation || (activeEffect.value as any).Activation || 'free'
 )
+
+const noAction = computed((): boolean => {
+  const cc = props.owner.actor.CombatController.ActiveActor.CombatController
+  if (ordnanceBlocked.value) return true
+  if (!cc.CanActivate(activationName.value)) return true
+  return !cc.CanTakeAction(
+    activeEffect.value.ID,
+    activationName.value,
+    actionIds.value.length === 1 ? actionIds.value[0] : undefined
+  )
+})
 
 const canOverride = computed(() =>
   activeEffect.value.AddOther?.length ||
@@ -271,9 +281,14 @@ function stage(asFree) {
 function apply(close: () => void) {
   if (!isFree.value && !overchargeUse.value && (isApplied.value || !ready.value)) return;
   if (!isFree.value) {
-    props.owner.actor.CombatController.ActiveActor.CombatController.MarkActionUsed(activeEffect.value.ID, activeEffect.value.Frequency);
-    const action = props.activationOverride || props.action?.Activation || (activeEffect.value as any).Activation || 'free';
-    if (action !== 'Reaction') props.owner.actor.CombatController.SetCombatAction(action, false);
+    const cc = props.owner.actor.CombatController.ActiveActor.CombatController;
+    const spent = cc.Activate(activationName.value, {
+      actionId: activeEffect.value.ID,
+      useId: actionIds.value.length === 1 ? actionIds.value[0] : undefined,
+      frequency: activeEffect.value.Frequency,
+      heat: weaponAttackEvents.value.length ? 0 : props.action?.HeatCost || 0,
+    });
+    if (!spent) return;
   }
   if (weaponAttackEvents.value.length)
     weaponAttackEvents.value.forEach(we => we.ApplyAll());

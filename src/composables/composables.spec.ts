@@ -125,7 +125,7 @@ describe('useToggleIndicator', () => {
     expect(indicator('default').iconSize('cc:frame')).toBe('28px')
   })
 
-  it('lights up in the active colour when on, or when hovered while off', () => {
+  it('lights up in the active color when on, or when hovered while off', () => {
     expect(indicator('default', true).getLightColor(false)).toBe('success')
     expect(indicator('default', false).getLightColor(true)).toBe('success')
     expect(indicator('default', false).getLightColor(false)).toBe('primary')

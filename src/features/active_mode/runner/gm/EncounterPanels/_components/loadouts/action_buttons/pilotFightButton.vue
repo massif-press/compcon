@@ -73,6 +73,10 @@
           :weapon="<PilotWeapon>event.Weapon"
         />
       </div>
+      <cc-flow-request
+        :request="result?.request"
+        class="px-4 pb-2"
+      />
       <v-slide-y-transition>
         <staged-panel
           v-if="event && event.BaseEvent.Staged"
@@ -104,7 +108,7 @@
   import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
   import { useEncounterContext } from '../../../encounterContext'
   import type { Action } from '@/classes/Action'
-  import { computed, ref } from 'vue'
+  import { computed, ref, shallowRef } from 'vue'
   import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent'
   import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
   import { CombatantData } from '@/classes/encounter/Encounter'
@@ -113,7 +117,9 @@
   import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue'
   import StagedPanel from './_stagedPanel.vue'
   import PilotWeaponAttack from './_pilotWeaponAttack.vue'
-  import { consumeWeaponUses } from '@/classes/components/combat/WeaponAttackFlow'
+  import { WeaponUseFlow, weaponUseState, activeEvents } from '@/classes/components/combat/flows/WeaponUseFlow'
+  import type { IWeaponUseState } from '@/classes/components/combat/flows/WeaponUseFlow'
+  import type { IFlowResult } from '@/classes/components/combat/flows/Flow'
 
   const { owner, encounterInstance } = useEncounterContext()
 
@@ -122,13 +128,60 @@
     presetWeapon?: PilotWeapon
   }>()
 
-  const event = ref(null as WeaponAttackEvent | null)
-  const selectedWeapon = ref(null as PilotWeapon | null)
-
-  reset()
-
   const controller = computed(() => {
     return owner.value.actor.CombatController.ActiveActor.CombatController
+  })
+
+  function newState(): IWeaponUseState {
+    const self = encounterInstance.value.Combatants.find(
+      (c: CombatantData) =>
+        c.actor.CombatController.RootActor.ID === owner.value.actor.CombatController.RootActor.ID
+    )
+    if (!self) throw new Error('Owner combatant not found in encounterInstance')
+    return weaponUseState({
+      cc: controller.value,
+      actionId: props.action.ID,
+      mode: 'fight',
+      presetWeapon: props.presetWeapon,
+      makeEvent: (weapon: any, label: string) =>
+        new WeaponAttackEvent(weapon as PilotWeapon, self, encounterInstance.value, label),
+    })
+  }
+
+  const useState = ref<IWeaponUseState>(newState())
+  const result = shallowRef<IFlowResult<IWeaponUseState> | null>(null)
+
+  function run() {
+    result.value =
+      result.value?.outcome === 'awaiting'
+        ? WeaponUseFlow.Resume(result.value as IFlowResult<IWeaponUseState>)
+        : WeaponUseFlow.Begin(useState.value)
+  }
+
+  function reset(clearAction = false) {
+    if (clearAction) controller.value.ClearActionUsed(props.action.ID)
+    const carried = useState.value.selected[0] ?? props.presetWeapon ?? null
+    useState.value = newState()
+    if (carried) useState.value.selected = [carried]
+    result.value = null
+    run()
+  }
+
+  function apply() {
+    run()
+    reset()
+  }
+
+  function onWeaponChanged(weapon: PilotWeapon) {
+    selectedWeapon.value = weapon
+    reset()
+  }
+
+  const selectedWeapon = computed<PilotWeapon | null>({
+    get: () => (useState.value.selected[0] as PilotWeapon) ?? null,
+    set: (weapon: PilotWeapon | null) => {
+      useState.value.selected = weapon ? [weapon] : []
+    },
   })
   const fightWeapon = computed(() => props.presetWeapon || selectedWeapon.value)
   const fightActivation = computed(() => fightWeapon.value?.FightActivation || 'full')
@@ -138,45 +191,9 @@
   const fightColor = computed(() =>
     fightActivation.value === 'quick' ? 'action--quick' : 'action--full'
   )
-  const fightWeapons = computed(() => {
-    const pilot = controller.value.RootActor
-    let arr = pilot.Loadout.Weapons
-    if (props.presetWeapon) {
-      arr = arr.filter(w => w.InstanceID === props.presetWeapon!.InstanceID)
-    }
-    return arr
-  })
-  const eventArray = computed(() => {
-    return event.value ? [event.value] : []
-  })
+  const fightWeapons = computed(() => useState.value.options as PilotWeapon[])
+  const event = computed(() => (useState.value.entries[0]?.event as WeaponAttackEvent) ?? null)
+  const eventArray = computed(() => activeEvents(useState.value))
 
-  function reset(clearAction = false) {
-    if (clearAction)
-      owner.value.actor.CombatController.ActiveActor.CombatController.ClearActionUsed(
-        props.action.ID
-      )
-    const self = encounterInstance.value.Combatants.find(
-      (c: CombatantData) =>
-        c.actor.CombatController.RootActor.ID === owner.value.actor.CombatController.RootActor.ID
-    )
-    if (!self) throw new Error('Owner combatant not found in encounterInstance')
-    if (!selectedWeapon.value && props.presetWeapon) selectedWeapon.value = props.presetWeapon
-    if (!selectedWeapon.value) return
-    event.value = new WeaponAttackEvent(
-      selectedWeapon.value as PilotWeapon,
-      self,
-      encounterInstance.value,
-      'Skirmish'
-    )
-  }
-  function apply() {
-    const actor = owner.value.actor.CombatController.ActiveActor.CombatController
-    actor.UseAttackAction(props.action.ID, selectedWeapon.value!.InstanceID)
-    consumeWeaponUses(selectedWeapon.value)
-    reset()
-  }
-  function onWeaponChanged(weapon: PilotWeapon) {
-    selectedWeapon.value = weapon
-    reset()
-  }
+  reset()
 </script>

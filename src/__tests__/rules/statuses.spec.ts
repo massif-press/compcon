@@ -2,7 +2,9 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { expiration } from '@/classes/components/combat/Expiration'
 import { StatusController } from '@/classes/components/combat/StatusController'
 import { EffectSpecial } from '@/classes/components/feature/active_effects/effect_subtype/EffectSpecial'
-import { mech, set, setMax, StatKey } from './_helpers'
+import { mech, npc, set, setMax, rolls, StatKey } from './_helpers'
+import { WeaponAttackFlow } from '@/classes/components/combat/flows/WeaponAttackFlow'
+import { ActiveEventTarget } from '@/classes/components/feature/active_effects/effect_events/eventTarget'
 import type { Mech } from '@/classes/mech/Mech'
 import type { Pilot } from '@/classes/pilot/Pilot'
 
@@ -103,6 +105,25 @@ describe('statuses with no enforcement', () => {
     set(p.CombatController, StatKey.HP, 0)
     p.CombatController.DamageController.ApplyDamage('Kinetic' as any, 1, true)
     expect(p.CombatController.IsDead).toBe(true)
+  })
+
+  it('T-STATUS-stunned-01: one status permitting an action does not excuse another status that denies it', () => {
+    cc().AddStatus('stunned')
+    cc().AddStatus('jammed')
+
+    expect(cc().DeniesActivation('move')).toBe(true)
+    expect(cc().DeniesActivation('eject')).toBe(true)
+  })
+
+  it('T-STATUS-shutdown-01: booting up is permitted while shut down, though shut down implies stunned', () => {
+    expect(cc().PerformAction('act_shut_down')).toBe(true)
+    expect(cc().HasStatus('stunned')).toBe(true)
+
+    cc().Reset()
+    expect(cc().DeniesActivation('full')).toBe(true)
+    expect(cc().DeniesActivation('full', 'act_boot_up')).toBe(false)
+    expect(cc().PerformAction('act_boot_up')).toBe(true)
+    expect(cc().HasStatus('shut-down')).toBe(false)
   })
 
   it('T-STATUS-shutdown-01: shutting down clears heat and exposed, purges tech statuses, grants tech immunity, and applies indefinite stunned', () => {
@@ -215,5 +236,195 @@ describe('statuses with no enforcement', () => {
 
     cc().RemoveCustomStatus(StatusController.CASCADE_ATTRIBUTE)
     expect(cc().InCascade).toBe(false)
+  })
+})
+
+describe('rules carried by the printed book that the extraction missed', () => {
+  it('T-STATUS-prone-01: standing up costs the standard move, and is refused while immobilized', () => {
+    cc().AddStatus('prone')
+    expect(cc().HasStatus('prone')).toBe(true)
+
+    expect(cc().StandUp()).toBe(true)
+    expect(cc().HasStatus('prone')).toBe(false)
+    expect(cc().CanActivate('move')).toBe(false)
+  })
+
+  it('T-STATUS-prone-01: standing up is not movement, so it cannot be done while immobilized', () => {
+    cc().AddStatus('prone')
+    cc().AddStatus('immobilized')
+
+    expect(cc().StandUp()).toBe(false)
+    expect(cc().HasStatus('prone')).toBe(true)
+  })
+
+  it('T-ACTOR-unmounted-01: a biological character cannot take tech actions, only be spared them', () => {
+    const u = npc()
+    const c = u.CombatController
+    vi.spyOn(c, 'IsBiological', 'get').mockReturnValue(true)
+
+    expect(c.CanTakeTechActions).toBe(false)
+    expect(c.CanUseQuickTech('scan')).toBe(false)
+    expect(c.UseFullTech(['scan', 'lockon'])).toBe(false)
+  })
+})
+
+describe('status and action corrections from the errata', () => {
+  it('T-STATUS-jammed-01: a jammed character cannot be targeted by allied tech either', () => {
+    cc().AddStatus('jammed')
+
+    expect(cc().ImmuneToAlliedTech).toBe(true)
+    expect(cc().ImmuneTo('tech', 'bolster', true)).toBe(true)
+    expect(cc().ImmuneTo('tech', 'scan', true)).toBe(true)
+    expect(cc().ImmuneTo('ranged', 'skirmish', true)).toBe(false)
+  })
+
+  it('T-ACTION-prepare-01: dropping a prepared action returns the reaction it locked away', () => {
+    cc().Prepare()
+    expect(cc().Prepared).toBe(true)
+    expect(cc().CanActivate('reaction')).toBe(false)
+
+    cc().ReleasePrepared()
+
+    expect(cc().Prepared).toBe(false)
+    expect(cc().CanActivate('reaction')).toBe(true)
+  })
+})
+
+describe('status rules reaching the attack path', () => {
+  const statusAccuracyAgainst = (target: any, attackType = 'ranged') =>
+    new ActiveEventTarget(
+      {
+        Initiator: { actor: { CombatController: cc() } },
+        Attack: attackType,
+        Accuracy: 0,
+        AttackBonus: 0,
+        SaveHalf: false,
+        Effect: { CanCrit: true },
+        SetCrit: () => undefined,
+      } as any,
+      { actor: { CombatController: target } } as any,
+      {} as any
+    ).StatusAccuracy
+
+  const attackOn = (target: any, over: any = {}) =>
+    WeaponAttackFlow.Begin({
+      attacker: {
+        CanFireWeapon: () => true,
+        ApplyHeat: () => undefined,
+        DropAttackRevealedStatuses: () => undefined,
+      },
+      weapon: {},
+      event: { Initiator: { actor: { CombatController: cc() } } },
+      targets: [{ AttackRolledValue: 12, Combatant: { actor: { CombatController: target } } }],
+      eligible: false,
+      applied: false,
+      ...over,
+    } as any)
+
+  it('T-STATUS-hidden-01: a direct attack on a hidden character is refused by the attack flow', () => {
+    const target = mech().CombatController
+    target.AddStatus('hidden')
+
+    const r = attackOn(target)
+    expect(r.outcome).toBe('halted')
+    expect(r.state.blockedBy).toBe('untargetable')
+  })
+
+  it('T-STATUS-hidden-01: an area attack still reaches a hidden character', () => {
+    const target = mech().CombatController
+    target.AddStatus('hidden')
+
+    const r = attackOn(target, {
+      event: { AoE: true, Initiator: { actor: { CombatController: cc() } } },
+    })
+    expect(r.state.blockedBy).not.toBe('untargetable')
+  })
+
+  it('T-STATUS-invisible-01: a pre-roll miss is a miss on the real target, and a later 20 is not a crit', () => {
+    const target = mech().CombatController
+    target.AddStatus('invisible')
+    rolls(20)
+
+    const real = new ActiveEventTarget(
+      {
+        Initiator: { actor: { CombatController: cc() } },
+        Attack: 'ranged',
+        Accuracy: 0,
+        AttackBonus: 0,
+        SaveHalf: false,
+        Effect: { CanCrit: true },
+        SetCrit: () => undefined,
+      } as any,
+      { actor: { CombatController: target } } as any,
+      {} as any
+    )
+
+    const r = attackOn(target, { targets: [real] })
+
+    expect(real.MissedFromInvisibility).toBe(true)
+    expect(real.HitResult).toBe('miss')
+    expect(r.outcome).toBe('complete')
+
+    real.AttackRolledValue = 20
+    expect(real.HitResult).toBe('miss')
+  })
+
+  it('T-STATUS-hidden-01: an attack on two targets skips the hidden one and resolves the other', () => {
+    const hidden = mech().CombatController
+    hidden.AddStatus('hidden')
+    const open = mech().CombatController
+
+    const r = attackOn(open, {
+      targets: [
+        { AttackRolledValue: 12, Combatant: { actor: { CombatController: hidden } } },
+        { AttackRolledValue: 12, Combatant: { actor: { CombatController: open } } },
+      ],
+    })
+
+    expect(r.outcome).toBe('complete')
+    expect(r.state.targets).toHaveLength(1)
+  })
+
+  it('T-STATUS-invisible-01: the miss chance is rolled by the attack flow before the attack roll', () => {
+    const target = mech().CombatController
+    target.AddStatus('invisible')
+    rolls(20)
+
+    const r = attackOn(target, {
+      targets: [{ Combatant: { actor: { CombatController: target } } }],
+    })
+    expect(r.state.targets[0].MissedFromInvisibility).toBe(true)
+  })
+
+  it('T-STATUS-prone-01: the attacker accuracy against a prone target reaches the roll', () => {
+    const target = mech().CombatController
+    target.AddStatus('prone')
+
+    expect(statusAccuracyAgainst(target)).toBe(1)
+  })
+
+  it('T-STATUS-engaged-01: the engaged difficulty reaches the roll, and only for ranged', () => {
+    const target = mech().CombatController
+    cc().AddStatus('engaged')
+
+    expect(statusAccuracyAgainst(target, 'ranged')).toBe(-1)
+    expect(statusAccuracyAgainst(target, 'melee')).toBe(0)
+  })
+
+  it('T-STATUS-impaired-01: the impaired difficulty reaches every attack type', () => {
+    const target = mech().CombatController
+    cc().AddStatus('impaired')
+
+    for (const kind of ['ranged', 'melee', 'tech'] as const) {
+      expect(statusAccuracyAgainst(target, kind), kind).toBe(-1)
+    }
+  })
+
+  it('T-MOVE-cover-01: declared cover reaches the roll and is ignored by melee and tech', () => {
+    const target = mech().CombatController
+    target.Cover = 'hard' as any
+
+    expect(statusAccuracyAgainst(target, 'ranged')).toBe(-2)
+    expect(statusAccuracyAgainst(target, 'melee')).toBe(0)
   })
 })

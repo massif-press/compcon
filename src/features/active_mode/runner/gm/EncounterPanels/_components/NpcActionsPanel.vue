@@ -51,54 +51,28 @@
 
   const controller = computed(() => owner.value.actor.CombatController)
 
-  function activate(event: string) {
-    controller.value.MarkActionUsed(event)
+    const NOTICES: Record<string, { ok: [string, string]; fail?: [string, string] }> = {
+    act_prepare: { ok: ['active.npcActions.npcPreparedTitle', 'active.common.preparedText'] },
+    act_stabilize_npc: {
+      ok: ['active.npcActions.npcStabilizedTitle', 'active.npcActions.npcStabilizedText'],
+    },
+    act_hide: { ok: ['active.npcActions.npcHiddenTitle', 'active.common.hiddenText'] },
+    act_disengage: {
+      ok: ['active.npcActions.npcDisengagedTitle', 'active.common.disengagedText'],
+      fail: ['active.common.disengageFailed', 'active.common.disengageFailedText'],
+    },
+  }
 
-    switch (event) {
-      case 'act_prepare':
-        controller.value.Prepared = true
-        notify({
-          type: 'success',
-          title: t('active.npcActions.npcPreparedTitle'),
-          text: t('active.common.preparedText', { name: controller.value.CombatName }),
-        })
-        break
-      case 'act_stabilize_npc':
-        controller.value.Stabilize('npc')
-        notify({
-          type: 'success',
-          title: t('active.npcActions.npcStabilizedTitle'),
-          text: t('active.npcActions.npcStabilizedText', { name: controller.value.CombatName }),
-        })
-        break
-      case 'act_hide':
-        controller.value.Hide()
-        notify({
-          type: 'success',
-          title: t('active.npcActions.npcHiddenTitle'),
-          text: t('active.common.hiddenText', { name: controller.value.CombatName }),
-        })
-        break
-      case 'act_disengage':
-        if (!controller.value.HasStatus('engaged')) {
-          notify({
-            type: 'warning',
-            title: t('active.common.disengageFailed'),
-            text: t('active.common.disengageFailedText', { name: controller.value.CombatName }),
-          })
-          controller.value.ResetActivation('full')
-          controller.value.ClearActionUsed('act_disengage')
-        } else {
-          controller.value.Disengage()
-          notify({
-            type: 'success',
-            title: t('active.npcActions.npcDisengagedTitle'),
-            text: t('active.common.disengagedText', { name: controller.value.CombatName }),
-          })
-        }
-        break
-      default:
-        break
-    }
+  function activate(event: string) {
+    const ok = controller.value.PerformAction(event)
+    const notice = NOTICES[event]
+    if (!notice) return
+    if (!ok && !notice.fail) return
+    const [title, text] = ok ? notice.ok : notice.fail!
+    notify({
+      type: ok ? 'success' : 'warning',
+      title: t(title),
+      text: t(text, { name: controller.value.CombatName }),
+    })
   }
 </script>

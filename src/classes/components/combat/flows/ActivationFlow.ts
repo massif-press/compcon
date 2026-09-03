@@ -1,6 +1,6 @@
 import { Flow } from './Flow'
 import type { IFlowStep } from './Flow'
-import type { CombatController } from './CombatController'
+import type { CombatController } from '../CombatController'
 import type { Frequency } from '@/classes/Frequency'
 
 interface IActivationState {
@@ -29,7 +29,7 @@ const normalization: IFlowStep<IActivationState> = {
 const legality: IFlowStep<IActivationState> = {
   Name: 'legality',
   Run: s => {
-    if (!s.cc.CanActivate(s.reaction ?? s.activation)) {
+    if (!s.cc.CanActivate(s.reaction ?? s.activation, s.actionId)) {
       s.legal = false
       s.blockedBy = 'activation'
       return 'halt'
@@ -51,6 +51,10 @@ const consumeUses: IFlowStep<IActivationState> = {
     if (s.useId && s.useId !== s.actionId) s.cc.MarkActionUsed(s.useId, s.frequency)
     return 'continue'
   },
+  Undo: s => {
+    if (s.actionId) s.cc.RestoreUse(s.actionId)
+    if (s.useId && s.useId !== s.actionId) s.cc.RestoreUse(s.useId)
+  },
 }
 
 const heatApplication: IFlowStep<IActivationState> = {
@@ -58,6 +62,9 @@ const heatApplication: IFlowStep<IActivationState> = {
   Run: s => {
     if (s.heat) s.cc.ApplyHeat(s.heat)
     return 'continue'
+  },
+  Undo: s => {
+    if (s.heat) s.cc.RemoveHeat(s.heat)
   },
 }
 
@@ -68,6 +75,22 @@ const consume: IFlowStep<IActivationState> = {
     else if (!FREE.includes(s.activation)) s.cc.SetCombatAction(s.activation, false)
     return 'continue'
   },
+  Undo: s => {
+    if (s.reaction) s.cc.RestoreReaction(s.reaction)
+    else if (!FREE.includes(s.activation)) s.cc.ResetActivation(s.activation)
+  },
+}
+
+const REVEALING = ['boost', 'act_boost']
+
+const reveal: IFlowStep<IActivationState> = {
+  Name: 'reveal',
+  Run: s => {
+    if (REVEALING.includes(s.activation) || REVEALING.includes((s.actionId || '').toLowerCase()))
+      s.cc.DropHostileActionStatuses()
+    return 'continue'
+  },
+  Undo: 'irreversible',
 }
 
 const makeActivationFlow = (): Flow<IActivationState> =>
@@ -77,6 +100,7 @@ const makeActivationFlow = (): Flow<IActivationState> =>
     consumeUses,
     heatApplication,
     consume,
+    reveal,
   ])
 
 const ActivationFlow = makeActivationFlow()

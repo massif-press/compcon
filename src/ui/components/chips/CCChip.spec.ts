@@ -29,7 +29,7 @@ describe('CCChip variant resolution', () => {
 })
 
 describe('CCChip', () => {
-  it('passes colour and size through', () => {
+  it('passes color and size through', () => {
     const w = chip({ label: 'Limited', color: 'error', size: 'large' })
 
     expect(w.findComponent(std).props('color')).toBe('error')

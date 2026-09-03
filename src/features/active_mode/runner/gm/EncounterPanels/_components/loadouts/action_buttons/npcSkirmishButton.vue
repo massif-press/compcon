@@ -81,6 +81,10 @@
           :weapon="<NpcWeapon>event.Weapon" />
 
       </div>
+      <cc-flow-request
+        :request="result?.request"
+        class="px-4 pb-2"
+      />
       <v-slide-y-transition>
         <staged-panel v-if="event && event.BaseEvent.Staged"
           :events=eventArray />
@@ -110,7 +114,7 @@
 <script setup lang="ts">
 import { useEncounterContext } from '../../../encounterContext'
 import type { Action } from '@/classes/Action'
-import { computed, ref } from 'vue'
+import { computed, ref, shallowRef } from 'vue'
 import { CombatantData } from '@/classes/encounter/Encounter';
 import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
 import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue';
@@ -119,7 +123,9 @@ import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon';
 import NpcWeaponAttack from './_npcWeaponAttack.vue';
 import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
 import CombatActionButton from './CombatActionButton.vue';
-  import { consumeWeaponUses } from '@/classes/components/combat/WeaponAttackFlow'
+import { WeaponUseFlow, weaponUseState, activeEvents } from '@/classes/components/combat/flows/WeaponUseFlow'
+import type { IWeaponUseState } from '@/classes/components/combat/flows/WeaponUseFlow'
+import type { IFlowResult } from '@/classes/components/combat/flows/Flow'
 
 const { owner, encounterInstance } = useEncounterContext()
 
@@ -128,55 +134,63 @@ const props = defineProps<{
   presetWeapon?: NpcWeapon
 }>()
 
-const event = ref(null as WeaponAttackEvent | null)
-const selectedWeapon = ref(null as NpcWeapon | null)
-
-reset();
-
 const controller = computed(() => {
   return owner.value.actor.CombatController.ActiveActor.CombatController;
 })
 
-const skirmishWeapons = computed(() => {
-  const npc = controller.value.ActiveActor;
-
-  let arr = npc.NpcFeatureController?.SkirmishWeapons || [];
-
-  if (props.presetWeapon) {
-    arr = arr.filter(w => w.InstanceID === props.presetWeapon!.InstanceID);
-  }
-
-  return arr;
-})
-const eventArray = computed(() => {
-  return event.value ? [event.value] : []
-})
-const tier = computed(() => {
-  return controller.value.ActiveActor.Tier;
-})
-
-function reset(clearAction = false) {
-  if (clearAction) owner.value.actor.CombatController.ActiveActor.CombatController.ClearActionUsed(props.action.ID);
+function newState(): IWeaponUseState {
   const self = encounterInstance.value.Combatants.find(
     (c: CombatantData) => c.actor.CombatController.RootActor.ID === owner.value.actor.CombatController.RootActor.ID
   );
   if (!self) {
     throw new Error('Owner combatant not found in encounterInstance');
   }
-  if (!selectedWeapon.value && props.presetWeapon) {
-    selectedWeapon.value = props.presetWeapon;
-  }
-
-  if (!selectedWeapon.value)
-    return;
-
-  if (selectedWeapon.value)
-    event.value = new WeaponAttackEvent(selectedWeapon.value as NpcWeapon, self, encounterInstance.value, 'Skirmish');
+  return weaponUseState({
+    cc: controller.value,
+    actionId: props.action.ID,
+    mode: 'skirmish',
+    presetWeapon: props.presetWeapon,
+    makeEvent: (weapon: any, label: string) =>
+      new WeaponAttackEvent(weapon as NpcWeapon, self, encounterInstance.value, label),
+  })
 }
+
+const useState = ref<IWeaponUseState>(newState())
+const result = shallowRef<IFlowResult<IWeaponUseState> | null>(null)
+
+function run() {
+  result.value =
+    result.value?.outcome === 'awaiting'
+      ? WeaponUseFlow.Resume(result.value as IFlowResult<IWeaponUseState>)
+      : WeaponUseFlow.Begin(useState.value)
+}
+
+function reset(clearAction = false) {
+  if (clearAction) controller.value.ClearActionUsed(props.action.ID);
+  const carried = useState.value.selected[0] ?? props.presetWeapon ?? null
+  useState.value = newState()
+  if (carried) useState.value.selected = [carried]
+  result.value = null
+  run()
+}
+
 function apply() {
-  const actor = owner.value.actor.CombatController.ActiveActor.CombatController;
-  actor.UseAttackAction(props.action.ID, selectedWeapon.value!.InstanceID);
-  consumeWeaponUses(selectedWeapon.value);
-  reset();
+  run()
+  reset()
 }
+
+const selectedWeapon = computed<NpcWeapon | null>({
+  get: () => (useState.value.selected[0] as NpcWeapon) ?? null,
+  set: (weapon: NpcWeapon | null) => {
+    useState.value.selected = weapon ? [weapon] : []
+  },
+})
+const skirmishWeapons = computed(() => useState.value.options as NpcWeapon[])
+const event = computed(() => (useState.value.entries[0]?.event as WeaponAttackEvent) ?? null)
+const eventArray = computed(() => activeEvents(useState.value))
+const tier = computed(() => {
+  return controller.value.ActiveActor.Tier;
+})
+
+reset();
 </script>

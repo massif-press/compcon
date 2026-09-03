@@ -2,7 +2,10 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { CompendiumStore } from '@/features/compendium/store'
 import { DiceRoller } from '@/classes/dice/DiceRoller'
 import { isDestroyable } from '@/classes/components/combat/StructureCheck'
-import { mech, rollSeq } from './_helpers'
+import { mech, rollSeq, cur, StatKey } from './_helpers'
+import { weaponPool } from '@/classes/components/combat/AttackRules'
+import { usableWeapons, weaponUseState } from '@/classes/components/combat/flows/WeaponUseFlow'
+import { DamageType } from '@/classes/enums'
 
 declare function overkillTriggers(o: { die: number; represents: number; rolled: number }): boolean
 declare function structureDamageTargets(mech: any): any[]
@@ -28,24 +31,29 @@ describe('loading', () => {
     expect(w.IsLoading).toBe(true)
   })
 
-  it('T-TAG-loading-01: reload clears every expended loading weapon', () => {
-    const eq = { IsReloading: true, IsUsed: true, Recharge: 0 }
-    const spy = vi.spyOn(cc(), 'AllEquipment', 'get').mockReturnValue([eq] as any)
+  it('T-TAG-loading-01: reload clears every expended loading weapon, and offers only those', () => {
+    const loading = { IsLoading: true, Used: true, Name: 'loading' }
+    const spent = { IsLoading: false, Used: true, Name: 'other' }
+    const ready = { IsLoading: true, Used: false, Name: 'ready' }
+    vi.spyOn(cc(), 'AllEquipment', 'get').mockReturnValue([loading, spent, ready] as any)
 
-    cc().Reload()
+    expect(
+      cc()
+        .ReloadOptions()
+        .map((x: any) => x.Name)
+    ).toEqual(['loading'])
 
-    expect(eq.IsUsed).toBe(false)
-    spy.mockRestore()
+    expect(cc().Reload()).toBe(true)
+    expect(loading.Used).toBe(false)
+    expect(spent.Used).toBe(true)
   })
 
-  it('T-TAG-loading-01: reload leaves non-loading equipment alone', () => {
-    const eq = { IsReloading: false, IsUsed: true, Recharge: 0 }
-    const spy = vi.spyOn(cc(), 'AllEquipment', 'get').mockReturnValue([eq] as any)
+  it('T-TAG-loading-01: reload leaves non-loading equipment alone, and reports when there is nothing to reload', () => {
+    const eq = { IsLoading: false, Used: true, Name: 'other' }
+    vi.spyOn(cc(), 'AllEquipment', 'get').mockReturnValue([eq] as any)
 
-    cc().Reload()
-
-    expect(eq.IsUsed).toBe(true)
-    spy.mockRestore()
+    expect(cc().Reload()).toBe(false)
+    expect(eq.Used).toBe(true)
   })
 })
 
@@ -71,5 +79,41 @@ describe('tag defects', () => {
     expect(isDestroyable(mod)).toBe(false)
 
     expect(isDestroyable({ Destroyed: false, IsLimited: false })).toBe(true)
+  })
+})
+
+describe('barrage weapon selection and burn resistance', () => {
+  it('T-ACTION-barrage-01: the same weapon cannot be chosen twice, but two copies can', () => {
+    const a = { InstanceID: 'a', Name: 'rifle', Barrage: true }
+    const b = { InstanceID: 'b', Name: 'rifle', Barrage: true }
+    const notBarrage = { InstanceID: 'c', Name: 'aux', Barrage: false }
+    const cc = {
+      ActiveActor: {
+        MechLoadoutController: { ActiveLoadout: { Weapons: [a, b, notBarrage] } },
+      },
+    }
+    const offered = (selected: any[]) =>
+      usableWeapons(
+        weaponUseState({ cc, actionId: 'act_barrage', mode: 'barrage', makeEvent: () => ({}), selected })
+      ).map(w => w.InstanceID)
+
+    expect(weaponPool(cc, 'barrage').map(w => w.InstanceID)).toEqual(['a', 'b'])
+    expect(offered([])).toEqual(['a', 'b'])
+    expect(offered([a])).toEqual(['b'])
+    expect(offered([a, b])).toEqual([])
+  })
+
+  it('T-DMG-burn-01: resistance halves the burn taken on application, not the end-of-turn tick', () => {
+    const m = mech()
+    const cc = m.CombatController
+    cc.AddResist('burn', 'resistance')
+
+    cc.TakeDamage(DamageType.Burn, 4)
+    expect(cur(cc, StatKey.BURN)).toBe(2)
+
+    const hp = cur(cc, StatKey.HP)
+    cc.ResolveBurn(false)
+
+    expect(cur(cc, StatKey.HP)).toBe(hp - 2)
   })
 })

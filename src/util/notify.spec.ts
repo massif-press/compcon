@@ -41,7 +41,7 @@ describe('notify', () => {
     expect(notifySpy.mock.calls[0][0].data).toMatchObject({ icon, color })
   })
 
-  it('keeps the caller icon and colour for a plain notification', () => {
+  it('keeps the caller icon and color for a plain notification', () => {
     notify({ text: 'msg', icon: 'mdi-custom', color: 'accent' })
 
     expect(notifySpy.mock.calls[0][0].data).toMatchObject({ icon: 'mdi-custom', color: 'accent' })

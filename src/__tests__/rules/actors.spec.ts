@@ -275,6 +275,20 @@ describe('actor and NPC gaps', () => {
     expect(c.ActionPoolController.OverchargeApplies).toBe(false)
   })
 
+  it('T-NPC-overwatch-01: an NPC takes overwatch on the same terms a player character does', () => {
+    const c = npc().CombatController
+    const rifle = { Tags: [{ ID: 'tg_ap' }] }
+    const ordnance = { Tags: [{ ID: 'tg_ordnance' }] }
+
+    expect(c.CanOverwatch(ordnance)).toBe(false)
+
+    expect(c.TakeOverwatch(rifle)).toBe(true)
+    expect(c.CanActivate('reaction')).toBe(false)
+
+    c.StartRound()
+    expect(c.CanOverwatch(rifle)).toBe(false)
+  })
+
   it('T-NPC-actions-02: bracing is denied to an NPC as a stated rule, brace being available to a mech', () => {
     expect(mech().CombatController.CanActivate('brace')).toBe(true)
     expect(npc().CombatController.CanActivate('brace')).toBe(false)
@@ -415,12 +429,21 @@ describe('actor and NPC gaps', () => {
   })
 
   it("T-DMG-meltdown-01: a meltdown countdown ticks at the round boundary, where the character's next turn begins", () => {
-    cc().StartSelfDestruct()
+    cc().StartSelfDestruct(cc().SelfDestructWindow[2])
     const before = cc().MeltdownCountdown
     expect(before).toBe(3)
 
     cc().EndRound(undefined)
     expect(cc().MeltdownCountdown).toBe(before - 1)
+  })
+
+  it('T-ACTION-selfdestruct-01: detonation defaults to the end of the next turn, the rest of the window being a choice', () => {
+    cc().StartSelfDestruct()
+
+    expect(cc().MeltdownCountdown).toBe(1)
+    expect(cc().SelfDestructWindow).toEqual([cc().Round + 1, cc().Round + 2, cc().Round + 3])
+    expect(cc().SetSelfDestructRound(cc().Round + 3)).toBe(true)
+    expect(cc().MeltdownCountdown).toBe(3)
   })
 
   it('T-DMG-bonus-01: bonus damage is kinetic, explosive, or energy only, and halves against multiple targets', () => {
@@ -479,5 +502,143 @@ describe('actor and NPC gaps', () => {
     expect(attacks).toEqual(['a', 'b'])
     expect(bonusDamage('ranged', 5, DamageType.Kinetic, 2)!.value).toBe(3)
     expect(bonusDamage('ranged', 5, DamageType.Kinetic, 1)!.value).toBe(5)
+  })
+})
+
+describe('reaction offers and NPC grants', () => {
+  it('T-NPC-actions-02: brace is not offered to an NPC, not merely refused when taken', () => {
+    const u = npc()
+    expect(u.CombatController.CanActivate('brace')).toBe(false)
+    expect(u.CombatController.AvailableReactions).not.toContain('brace')
+    expect(u.CombatController.AvailableReactions).toContain('overwatch')
+  })
+
+  it('T-ACTION-defaultreactions-01: a mech is offered both defaults, and loses one once spent', () => {
+    expect(cc().AvailableReactions).toEqual(['brace', 'overwatch'])
+
+    cc().UseReaction('brace')
+    cc().RefreshReactions()
+    expect(cc().AvailableReactions).toEqual(['overwatch'])
+  })
+
+  it('T-ACTION-defaultreactions-01: a granted reaction joins the offer list and the activation check', () => {
+    vi.spyOn(cc(), 'AllActions').mockImplementation((activation: any) =>
+      activation === 'Reaction' ? ([{ ID: 'act_test_reaction' }] as any) : []
+    )
+
+    expect(cc().ReactionOptions).toContain('act_test_reaction')
+    expect(cc().CanActivate('act_test_reaction')).toBe(true)
+    expect(cc().AvailableReactions).toContain('act_test_reaction')
+
+    cc().UseReaction('act_test_reaction')
+    expect(cc().AvailableReactions).not.toContain('act_test_reaction')
+  })
+
+  it('T-NPC-actions-02: an NPC granted brace by a feature may take it', () => {
+    const u = npc()
+    expect(u.CombatController.CanActivate('brace')).toBe(false)
+
+    vi.spyOn(u.CombatController, 'GrantsAction').mockImplementation((id: string) => id === 'brace')
+    expect(u.CombatController.CanActivate('brace')).toBe(true)
+  })
+})
+
+describe('NPC template exceptions', () => {
+  it('T-NPC-actions-01: an ordinary multi-turn NPC keeps its per-reaction round limit across turns', () => {
+    const u = npc()
+    const c = u.CombatController
+    setMax(c, StatKey.ACTIVATIONS, 2)
+    set(c, StatKey.ACTIVATIONS, 2)
+
+    c.UseReaction('overwatch')
+    c.EndTurn()
+
+    expect(c.CanActivate('reaction')).toBe(true)
+    expect(c.CanUseReaction('overwatch')).toBe(false)
+  })
+
+  it('T-NPC-actions-01: an Ultra refreshes its reactions on each of its turns', () => {
+    const u = npc()
+    const c = u.CombatController
+    setMax(c, StatKey.ACTIVATIONS, 2)
+    set(c, StatKey.ACTIVATIONS, 2)
+    vi.spyOn(c, 'HasTemplate').mockImplementation((n: string) => n.toLowerCase() === 'ultra')
+
+    c.UseReaction('overwatch')
+    expect(c.CanUseReaction('overwatch')).toBe(false)
+
+    c.EndTurn()
+
+    expect(c.CanUseReaction('overwatch')).toBe(true)
+  })
+})
+
+describe('rules the canonical set had not reached', () => {
+  it('T-REPAIR-rest-01: repairing a destroyed mech returns it at one structure and one stress', () => {
+    const c = mech().CombatController
+    set(c, StatKey.STRUCTURE, 0)
+    expect(c.IsDestroyed).toBe(true)
+
+    expect(c.RepairDestroyed(4)).toBe(true)
+
+    expect(c.IsDestroyed).toBe(false)
+    expect(cur(c, StatKey.STRUCTURE)).toBe(1)
+    expect(cur(c, StatKey.STRESS)).toBe(1)
+    expect(cur(c, StatKey.HP)).toBe(max(c, StatKey.HP))
+  })
+
+  it('T-REPAIR-rest-01: it costs four repairs, and a vaporised wreck cannot be repaired at all', () => {
+    const c = mech().CombatController
+    set(c, StatKey.STRUCTURE, 0)
+    expect(c.RepairDestroyed(3)).toBe(false)
+    expect(c.IsDestroyed).toBe(true)
+
+    const gone = mech().CombatController
+    set(gone, StatKey.STRUCTURE, 0)
+    gone.ReactorDestroyed = true
+    expect(gone.RepairDestroyed(4)).toBe(false)
+  })
+
+  it('T-REPAIR-costs-01: the destroyed-mech cost is the one repair pilots may pool', () => {
+    expect(CombatController.RepairCost('destroyed')).toBe(4)
+  })
+
+  it('T-TAG-ai-01: handing control to the AI costs a protocol and gives the mech its own pool', () => {
+    const c = mech().CombatController
+    const spender = c.RootActor.CombatController
+    expect(spender.CanActivate('protocol')).toBe(true)
+
+    c.Mounted = false
+    c.SetAIControl(true)
+
+    expect(spender.CanActivate('protocol')).toBe(false)
+    expect(c.IsAIControlled).toBe(true)
+
+    c.SetCombatAction('quick', false)
+    expect(spender.CanActivate('quick')).toBe(true)
+  })
+
+  it('T-STATUS-slowed-01: dragging slows, lifting immobilizes, and neither permits reactions', () => {
+    const c = mech().CombatController
+
+    c.Carry('drag')
+    expect(c.HasStatus('slow')).toBe(true)
+    expect(c.CanUseReaction('brace')).toBe(false)
+    expect(c.Carrying).toBe('drag')
+
+    c.Carry('none')
+    expect(c.HasStatus('slow')).toBe(false)
+    expect(c.CanUseReaction('brace')).toBe(true)
+
+    c.Carry('lift')
+    expect(c.HasStatus('immobilized')).toBe(true)
+    expect(c.CanUseReaction('brace')).toBe(false)
+  })
+
+  it('T-ACTION-stabilize-02: a condition taken on by carrying is self-inflicted and not clearable', () => {
+    const c = mech().CombatController
+    c.Carry('lift')
+
+    expect(c.ClearableConditions().map(x => x.status.ID)).not.toContain('immobilized')
   })
 })

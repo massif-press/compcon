@@ -4,3 +4,4 @@ amplify/
 public/
 *.snap
 src/__tests__/fixtures/*.json
+src/__tests__/rules/LANCER-RULES.md

@@ -3,7 +3,7 @@ import { DamageRollResult } from '../../../../dice/DiceRoller'
 import { DamageType } from '../../../../enums'
 import { ActiveEffectEvent } from '../ActiveEffectEvent'
 import { ActiveEventTarget } from './eventTarget'
-import { incomingDamage, overkillHeatFor, reliableIncoming } from '@/classes/components/combat/WeaponAttackFlow'
+import { incomingDamage, overkillHeatFor, reliableIncoming } from '@/classes/components/combat/flows/WeaponAttackFlow'
 export { reliableIncoming }
 
 class DamageEvent {
@@ -96,7 +96,7 @@ class DamageEvent {
   public CalcFinalDamageValues(
     event: ActiveEffectEvent,
     target: ActiveEventTarget
-  ): { finalDamage: number; armorReduction: number } {
+  ): { finalDamage: number; armorReduction: number; tookDamage: boolean } {
     const incoming = incomingDamage({
       hitResult: target.HitResult,
       rolled: this.DamageRolledValue || 0,
@@ -106,13 +106,16 @@ class DamageEvent {
       savedHalf: !!target.SavedHalf,
     })
 
-    const finalDamage =
-      target.Combatant?.actor.CombatController.CalculateDamage(
-        this.DamageType,
-        incoming,
-        this.AP,
-        this.Irreducible
-      ).total ?? incoming
+    const calculated = target.Combatant?.actor.CombatController.CalculateDamage(
+      this.DamageType,
+      incoming,
+      this.AP,
+      this.Irreducible
+    )
+
+    const finalDamage = calculated?.total ?? incoming
+    const negated = calculated ? !calculated.tookDamage : false
+    const tookDamage = incoming > 0 && !negated
 
     const armorReduction =
       target.Combatant?.actor.CombatController.CalculateArmorReduction(
@@ -122,13 +125,14 @@ class DamageEvent {
         this.Irreducible
       ) || 0
 
-    return { finalDamage, armorReduction }
+    return { finalDamage, armorReduction, tookDamage }
   }
 
   public CalcFinalDamage(event: ActiveEffectEvent, target: ActiveEventTarget) {
-    const { finalDamage, armorReduction } = this.CalcFinalDamageValues(event, target)
+    const { finalDamage, armorReduction, tookDamage } = this.CalcFinalDamageValues(event, target)
     target.FinalDamageValue = finalDamage
     target.TotalArmorReduction = armorReduction
+    target.TookDamage = tookDamage
   }
 
   public ToJSON() {

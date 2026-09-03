@@ -40,10 +40,10 @@
           </div>
 
           <div class="text-center">
-            <div v-if="isRanged && engagedDifficulty">
+            <div v-if="engagedDifficulty">
               - {{ engagedDifficulty }} {{ $t('ui.combat.currentlyEngaged') }}
             </div>
-            <div v-if="isRanged && targetCoverDifficulty">
+            <div v-if="targetCoverDifficulty">
               - {{ targetCoverDifficulty }} {{ $t('ui.combat.targetInCover') }}
             </div>
           </div>
@@ -118,14 +118,19 @@
 
   const dice = [2, 3, 4, 6, 8, 10, 12, 20, 100]
 
-  const isRanged = computed(() => props.rollData.AttackType === 'ranged')
 
   const targetController = computed(() => props.rollData.Combatant?.actor?.CombatController)
   const attacker = computed(() => props.rollData.Event.Initiator.actor.CombatController)
 
-  const targetCoverDifficulty = computed(() => targetController.value?.DifficultyAgainst('ranged') ?? 0)
+  const attackType = computed(() => props.rollData.AttackType ?? 'ranged')
 
-  const engagedDifficulty = computed(() => attacker.value.DifficultyFor('ranged'))
+  const targetCoverDifficulty = computed(
+    () => targetController.value?.DifficultyAgainst(attackType.value) ?? 0
+  )
+
+  const engagedDifficulty = computed(() => attacker.value.DifficultyFor(attackType.value))
+
+  const statusAccuracy = computed(() => props.rollData.StatusAccuracy)
 
   const canConsumeLockOn = computed(() => attacker.value.CanConsumeLockOn(targetController.value))
   const consumeLockOn = ref(false)
@@ -145,7 +150,7 @@
 
     const rollResult = DiceRoller.rollSkillCheck(
       Number(props.rollData.AttackBonus),
-      props.rollData.AttackAccuracy + lockOn
+      props.rollData.AttackAccuracy + statusAccuracy.value + lockOn
     )
     props.rollData.AttackRollResult = rollResult
     props.rollData.AttackRolledValue = rollResult.total

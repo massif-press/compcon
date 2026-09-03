@@ -55,8 +55,7 @@
                   @activate="activate($event)" />
 
                 <targeted-action-button v-else-if="controller.NeedsTarget(action)"
-                  :action="getBaseAction(action)"
-                  @activate="activate($event)" />
+                  :action="getBaseAction(action)" />
 
                 <basic-action-button v-else
                   :action="getBaseAction(action)"
@@ -92,8 +91,7 @@
               <v-col v-for="(action, index) in fullMechActions"
                 :key="`full-${index}`">
                 <stabilize-button v-if="action === 'act_stabilize'"
-                  :action="getBaseAction(action)"
-                  @activate="activate($event)" />
+                  :action="getBaseAction(action)" />
                 <skill-check-button v-else-if="action === 'act_skill_check'"
                   :action="getBaseAction(action)"
                   @activate="activate($event)" />
@@ -206,84 +204,41 @@ function toDeployable(action: any) {
   return new Deployable(action.Deployable);
 }
 
-function activate(event: string) {
-  controller.value.MarkActionUsed(event);
+const NOTICES: Record<string, { ok: [string, string]; fail?: [string, string] }> = {
+  act_prepare: { ok: ['active.mechActions.preparedTitle', 'active.common.preparedText'] },
+  act_eject: {
+    ok: ['active.mechActions.pilotEjectedTitle', 'active.mechActions.pilotEjectedText'],
+    fail: ['active.mechActions.ejectFailedTitle', 'active.mechActions.ejectFailedText'] },
+  act_dismount: {
+    ok: ['active.mechActions.pilotDismountedTitle', 'active.mechActions.pilotDismountedText'],
+    fail: ['active.mechActions.dismountFailedTitle', 'active.mechActions.dismountFailedText'] },
+  act_hide: { ok: ['active.mechActions.mechHiddenTitle', 'active.common.hiddenText'] },
+  act_disengage: {
+    ok: ['active.mechActions.mechDisengagedTitle', 'active.common.disengagedText'],
+    fail: ['active.common.disengageFailed', 'active.common.disengageFailedText'] },
+  act_boot_up: {
+    ok: ['active.mechActions.mechBootedUpTitle', 'active.mechActions.mechBootedUpText'],
+    fail: ['active.mechActions.bootUpFailedTitle', 'active.mechActions.bootUpFailedText'] },
+  act_self_destruct: {
+    ok: ['active.mechActions.selfDestructInitiatedTitle', 'active.mechActions.selfDestructInitiatedText'],
+    fail: ['active.mechActions.selfDestructFailedTitle', 'active.mechActions.selfDestructFailedText'] },
+  act_shut_down: { ok: ['active.mechActions.shutDownTitle', 'active.mechActions.shutDownText'] },
+  act_brace: { ok: ['active.mechActions.mechBracedTitle', 'active.mechActions.mechBracedText'] },
+  act_overwatch: { ok: ['active.mechActions.overwatchTitle', 'active.mechActions.overwatchText'] },
+};
 
-  switch (event) {
-    case 'act_prepare':
-      controller.value.Prepare();
-      notify({ type: 'success', title: t('active.mechActions.preparedTitle'), text: t('active.common.preparedText', { name: controller.value.CombatName }) });
-      break;
-    case 'act_eject':
-      if (!controller.value.Mounted) {
-        notify({ type: 'warning', title: t('active.mechActions.ejectFailedTitle'), text: t('active.mechActions.ejectFailedText', { name: controller.value.CombatName }) });
-        controller.value.ResetActivation('quick');
-        controller.value.ClearActionUsed('eject');
-        return;
-      }
-      controller.value.Eject();
-      notify({ type: 'success', title: t('active.mechActions.pilotEjectedTitle'), text: t('active.mechActions.pilotEjectedText', { name: controller.value.CombatName }) });
-      break;
-    case 'act_dismount':
-      if (!controller.value.Mounted) {
-        notify({ type: 'warning', title: t('active.mechActions.dismountFailedTitle'), text: t('active.mechActions.dismountFailedText', { name: controller.value.CombatName }) });
-        controller.value.ResetActivation('full');
-        controller.value.ClearActionUsed('act_dismount');
-        return;
-      }
-      controller.value.Dismount();
-      notify({ type: 'success', title: t('active.mechActions.pilotDismountedTitle'), text: t('active.mechActions.pilotDismountedText', { name: controller.value.CombatName }) });
-      break;
-    case 'act_hide':
-      controller.value.Hide();
-      notify({ type: 'success', title: t('active.mechActions.mechHiddenTitle'), text: t('active.common.hiddenText', { name: controller.value.CombatName }) });
-      break;
-    case 'act_disengage':
-      if (!controller.value.Disengage()) {
-        notify({ type: 'warning', title: t('active.common.disengageFailed'), text: t('active.common.disengageFailedText', { name: controller.value.CombatName }) });
-        controller.value.ResetActivation('full');
-        controller.value.ClearActionUsed('act_disengage');
-      } else {
-        notify({ type: 'success', title: t('active.mechActions.mechDisengagedTitle'), text: t('active.common.disengagedText', { name: controller.value.CombatName }) });
-      }
-      break;
-    case 'act_boot_up':
-      if (!controller.value.PerformAction('act_boot_up')) {
-        notify({ type: 'warning', title: t('active.mechActions.bootUpFailedTitle'), text: t('active.mechActions.bootUpFailedText', { name: controller.value.CombatName }) });
-        controller.value.ResetActivation('full');
-        controller.value.ClearActionUsed('act_boot_up');
-        return;
-      }
-      notify({ type: 'success', title: t('active.mechActions.mechBootedUpTitle'), text: t('active.mechActions.mechBootedUpText', { name: controller.value.CombatName }) });
-      break;
-    case 'act_self_destruct':
-      if (controller.value.IsInSelfDestruct) {
-        notify({ type: 'warning', title: t('active.mechActions.selfDestructFailedTitle'), text: t('active.mechActions.selfDestructFailedText', { name: controller.value.CombatName }) });
-        controller.value.ResetActivation('quick');
-        controller.value.ClearActionUsed('act_self_destruct');
-        return;
-      }
-      controller.value.StartSelfDestruct();
-      notify({ type: 'success', title: t('active.mechActions.selfDestructInitiatedTitle'), text: t('active.mechActions.selfDestructInitiatedText', { name: controller.value.CombatName }) });
-      break;
-    case 'act_full_tech':
-      controller.value.PerformAction('act_full_tech');
-      break;
-    case 'act_shut_down':
-      controller.value.PerformAction('act_shut_down');
-      notify({ type: 'success', title: t('active.mechActions.shutDownTitle'), text: t('active.mechActions.shutDownText', { name: controller.value.CombatName }) });
-      break;
-    case 'act_brace':
-      controller.value.Brace();
-      notify({ type: 'success', title: t('active.mechActions.mechBracedTitle'), text: t('active.mechActions.mechBracedText', { name: controller.value.CombatName }) });
-      break;
-    case 'act_overwatch':
-      controller.value.TakeOverwatch();
-      notify({ type: 'success', title: t('active.mechActions.overwatchTitle'), text: t('active.mechActions.overwatchText', { name: controller.value.CombatName }) });
-      break;
-    default:
-      break;
-  }
+function announce(event: string, ok: boolean) {
+  const notice = NOTICES[event];
+  if (!notice) return;
+  if (!ok && !notice.fail) return
+  const [title, text] = ok ? notice.ok : notice.fail!;
+  notify({ type: ok ? 'success' : 'warning', title: t(title), text: t(text, { name: controller.value.CombatName }) });
+}
+
+function activate(event: string) {
+  if (event === 'act_brace') return announce(event, controller.value.Brace());
+  if (event === 'act_overwatch') return announce(event, controller.value.TakeOverwatch());
+  announce(event, controller.value.PerformAction(event));
 }
 </script>
 <style scoped>

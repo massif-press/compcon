@@ -102,10 +102,13 @@
     return CompendiumStore().Actions.find(a => a.ID === id)!
   }
   function apply() {
-    if (tab.value === 'jockey') controller.value.PerformAction('act_jockey')
+    if (tab.value === 'jockey') {
+      controller.value.PerformAction('act_jockey')
+      return
+    }
     emit('activate', props.action.ID)
   }
   function reset() {
-    controller.value.ResetActivation(props.action.Activation)
+    controller.value.UndoActivation(props.action.Activation, { actionId: props.action.ID })
   }
 </script>

@@ -12,7 +12,7 @@ import { Frequency } from '@/classes/Frequency'
 import { Action } from '@/classes/Action'
 import { ActiveEffect } from '@/classes/components/feature/active_effects/ActiveEffect'
 import { DiceRoller } from '@/classes/dice/DiceRoller'
-import { mech, npc, cur, max, set, rolls, rollSeq, StatKey } from './_helpers'
+import { mech, npc, cur, max, set, setMax, rolls, rollSeq, StatKey } from './_helpers'
 import type { Pilot } from '@/classes/pilot/Pilot'
 
 declare function auxAttackFor(mech: any): any
@@ -183,6 +183,117 @@ describe('turn structure', () => {
     expect(cur(cc(), StatKey.ACTIVATIONS)).toBe(0)
     expect(cc().HasRemainingActions).toBe(true)
   })
+
+  it('T-TURN-activations-01: a two-activation character takes a second turn in the same round', () => {
+    setMax(cc(), StatKey.ACTIVATIONS, 2)
+    set(cc(), StatKey.ACTIVATIONS, 2)
+    const turn = cc().Turn
+
+    cc().SetCombatAction('full', false)
+    cc().EndTurn()
+
+    expect(cur(cc(), StatKey.ACTIVATIONS)).toBe(1)
+    expect(cc().Turn).toBe(turn + 1)
+    expect(cc().CanActivate('full')).toBe(true)
+  })
+
+  it('T-TURN-activations-01: a two-activation character is out of turns after both are spent', () => {
+    setMax(cc(), StatKey.ACTIVATIONS, 2)
+    set(cc(), StatKey.ACTIVATIONS, 2)
+
+    cc().EndTurn()
+    cc().EndTurn()
+
+    expect(cur(cc(), StatKey.ACTIVATIONS)).toBe(0)
+  })
+})
+
+describe('the one activation door', () => {
+  it('T-ACTION-protocol-01: spending the protocol through the pool closes the window, and the inverse reopens it', () => {
+    expect(cc().CanActivate('protocol')).toBe(true)
+
+    cc().SetCombatAction('protocol', false)
+    expect(cc().CombatActions.Protocol).toBe(false)
+
+    cc().ResetActivation('protocol')
+    expect(cc().CanActivate('protocol')).toBe(true)
+  })
+
+  it('T-ACTION-fulltech-01: a full tech activation reaches the pool under either spelling', () => {
+    expect(cc().CanActivate('Full Tech')).toBe(true)
+
+    expect(cc().Activate('Full Tech', { actionId: 'act_full_tech' })).toBe(true)
+
+    expect(cc().CombatActions.Full).toBe(false)
+    expect(cc().CanActivate('quick')).toBe(false)
+  })
+
+  it('T-ACTION-stabilize-01: stabilizing costs a full action', () => {
+    expect(cc().PerformAction('act_stabilize', { options: ['cool', 'reload'] })).toBe(true)
+
+    expect(cc().CombatActions.Full).toBe(false)
+    expect(cc().CanActivate('quick')).toBe(false)
+  })
+
+  it('T-ACTION-selfdestruct-01: starting a self destruct costs a quick action and cannot be started twice', () => {
+    expect(cc().PerformAction('act_self_destruct')).toBe(true)
+    expect(cc().IsInSelfDestruct).toBe(true)
+    expect(cc().CombatActions.Quick1).toBe(false)
+
+    expect(cc().PerformAction('act_self_destruct')).toBe(false)
+    expect(cc().CombatActions.Quick2).toBe(true)
+  })
+
+  it('T-ACTION-mount-01: mounting costs a full action and is refused while already mounted', () => {
+    expect(cc().Mounted).toBe(true)
+    expect(cc().PerformAction('act_mount')).toBe(false)
+    expect(cc().CombatActions.Full).toBe(true)
+
+    expect(cc().PerformAction('act_dismount')).toBe(true)
+    expect(cc().Mounted).toBe(false)
+    expect(cc().CombatActions.Full).toBe(false)
+  })
+
+  it('T-ACTION-grapple-01: a grapple with no action left spends nothing and applies nothing', () => {
+    const target = mech().CombatController
+    cc().SetCombatAction('full', false)
+
+    expect(cc().PerformAction('act_grapple', { target, success: true })).toBe(false)
+    expect(target.HasStatus('engaged')).toBe(false)
+    expect(cc().IsActionUsed('act_grapple')).toBe(false)
+  })
+
+  it('T-ACTION-search-01: a failed search still costs the quick action', () => {
+    const target = mech().CombatController
+    target.AddStatus('hidden')
+
+    expect(cc().PerformAction('act_search', { target, success: false })).toBe(false)
+    expect(target.HasStatus('hidden')).toBe(true)
+    expect(cc().CombatActions.Quick1).toBe(false)
+  })
+
+  it('T-ACTION-pool-01: the inverse of an activation restores the slot, the use, and the heat', () => {
+    const before = cur(cc(), StatKey.HEATCAP)
+
+    expect(cc().Activate('quick', { actionId: 'act_hide', heat: 2 })).toBe(true)
+    expect(cc().CombatActions.Quick1).toBe(false)
+    expect(cc().IsActionUsed('act_hide')).toBe(true)
+    expect(cur(cc(), StatKey.HEATCAP)).toBe(before + 2)
+
+    cc().UndoActivation('quick', { actionId: 'act_hide', heat: 2 })
+
+    expect(cc().CombatActions.Quick1).toBe(true)
+    expect(cc().IsActionUsed('act_hide')).toBe(false)
+    expect(cur(cc(), StatKey.HEATCAP)).toBe(before)
+  })
+
+  it('T-ACTION-reaction-01: the inverse of a reaction gives the reaction back', () => {
+    cc().UseReaction('overwatch')
+    expect(cc().CanUseReaction('overwatch')).toBe(false)
+
+    cc().UndoActivation('overwatch', { reaction: 'overwatch' })
+    expect(cc().CanUseReaction('overwatch')).toBe(true)
+  })
 })
 
 describe('action economy defects', () => {
@@ -231,6 +342,17 @@ describe('action economy defects', () => {
 
     cc().FullRepair()
     expect(cc().OverchargeLevel).toBe(0)
+  })
+
+  it('T-ACTION-reaction-01: an actor with another activation starts a fresh turn through the same hook', () => {
+    cc().StatController.setCurrentStat(StatKey.ACTIVATIONS, 2)
+    cc().UseReaction('brace')
+    cc().Prepare()
+
+    cc().EndTurn()
+
+    expect(cc().CanActivate('reaction')).toBe(true)
+    expect(cc().Prepared).toBe(false)
   })
 
   it("T-ACTION-reaction-01: a spent reaction returns at the start of the character's own turn", () => {
@@ -325,13 +447,14 @@ describe('action economy defects', () => {
   })
 
   it('T-ACTION-shutdown-01: shutting down is a quick action applying the shut-down status', () => {
-    cc().ShutDown()
+    expect(cc().PerformAction('act_shut_down')).toBe(true)
 
     expect(cc().HasStatus('shut-down')).toBe(true)
     expect(cc().CombatActions.Quick1).toBe(false)
     expect(cc().CombatActions.Quick2).toBe(true)
 
-    cc().BootUp()
+    cc().Reset()
+    expect(cc().PerformAction('act_boot_up')).toBe(true)
     expect(cc().HasStatus('shut-down')).toBe(false)
     expect(cc().CombatActions.Full).toBe(false)
   })
@@ -573,10 +696,11 @@ describe('action gaps', () => {
   })
 
   it('T-ACTION-bootup-01: booting up is a full action that clears shut down', () => {
-    cc().ShutDown()
+    expect(cc().PerformAction('act_shut_down')).toBe(true)
     expect(cc().HasStatus('shut-down')).toBe(true)
 
-    cc().BootUp()
+    cc().Reset()
+    expect(cc().PerformAction('act_boot_up')).toBe(true)
     expect(cc().HasStatus('shut-down')).toBe(false)
     expect(cc().CombatActions.Full).toBe(false)
   })
@@ -616,14 +740,84 @@ describe('action gaps', () => {
     expect(target.HasStatus('lockon')).toBe(false)
   })
 
+  it('T-ACTION-boost-01: boost is a quick action, denied while slowed or immobilized', () => {
+    expect(cc().CanActivate('boost')).toBe(true)
+
+    cc().AddStatus('slow')
+    expect(cc().CanActivate('boost')).toBe(false)
+    cc().RemoveStatus('slow')
+
+    cc().AddStatus('immobilized')
+    expect(cc().CanActivate('boost')).toBe(false)
+    cc().RemoveStatus('immobilized')
+
+    cc().SetCombatAction('full', false)
+    expect(cc().CanActivate('boost')).toBe(false)
+  })
+
+  it('T-ACTION-disengage-01: disengaging costs a full action and clears engaged', () => {
+    expect(cc().CanActivate('disengage')).toBe(true)
+
+    cc().AddStatus('engaged')
+    expect(cc().PerformAction('act_disengage')).toBe(true)
+    expect(cc().HasStatus('engaged')).toBe(false)
+  })
+
+  it('T-ACTION-disengage-01: is available when not engaged, and holds until the turn starts', () => {
+    expect(cc().HasStatus('engaged')).toBe(false)
+
+    expect(cc().PerformAction('act_disengage')).toBe(true)
+    expect(cc().Disengaged).toBe(true)
+
+    cc().StartTurn()
+    expect(cc().Disengaged).toBe(false)
+  })
+
+  it('T-ACTION-hide-01: hiding makes the character untargetable until it attacks', () => {
+    expect(cc().CanActivate('hide')).toBe(true)
+
+    cc().PerformAction('act_hide')
+    expect(cc().HasStatus('hidden')).toBe(true)
+    expect(cc().CanBeTargeted).toBe(false)
+
+    cc().UseAttackAction('act_skirmish')
+    expect(cc().HasStatus('hidden')).toBe(false)
+    expect(cc().CanBeTargeted).toBe(true)
+  })
+
   it('T-ACTION-hide-02: hiding and disengaging run through the engine, not the panel', () => {
     expect(cc().Hide()).toBe(true)
     expect(cc().HasStatus('hidden')).toBe(true)
 
-    expect(cc().Disengage()).toBe(false)
     cc().AddStatus('engaged')
     expect(cc().Disengage()).toBe(true)
     expect(cc().HasStatus('engaged')).toBe(false)
+  })
+
+  it('T-ACTION-hide-01: hiding is refused while engaged', () => {
+    cc().AddStatus('engaged')
+    expect(cc().Hide()).toBe(false)
+    expect(cc().HasStatus('hidden')).toBe(false)
+
+    cc().RemoveStatus('engaged')
+    expect(cc().Hide()).toBe(true)
+  })
+
+  it('T-ACTION-hide-02: boosting, reacting, and locking on all drop hidden', () => {
+    cc().Hide()
+    expect(cc().HasStatus('hidden')).toBe(true)
+    cc().Activate('quick', { actionId: 'act_boost' })
+    expect(cc().HasStatus('hidden')).toBe(false)
+
+    cc().Hide()
+    cc().UseReaction('overwatch')
+    expect(cc().HasStatus('hidden')).toBe(false)
+
+    cc().Hide()
+    const target = mech().CombatController
+    expect(cc().LockOn(target)).toBe(true)
+    expect(target.HasStatus('lockon')).toBe(true)
+    expect(cc().HasStatus('hidden')).toBe(false)
   })
 
   it('T-ACTION-mount-01: ejecting dismounts, and neither eject nor dismount works unmounted', () => {
@@ -702,9 +896,11 @@ describe('action gaps', () => {
   it('T-ACTION-jockey-01: jockey contests grit against hull and applies distract, shred, or damage', () => {
     const target = mech().CombatController
 
-    expect(cc().Jockey(target, { success: false })).toBe(false)
-    cc().ResetCombatActions()
-    expect(cc().Jockey(target, { success: true })).toBe(true)
+    expect(cc().PerformAction('act_jockey', { target, success: false })).toBe(false)
+    expect(cc().CanActivate('full')).toBe(false)
+
+    cc().Reset()
+    expect(cc().PerformAction('act_jockey', { target, success: true })).toBe(true)
     expect(cc().CanActivate('full')).toBe(false)
 
     // the three outcomes are prepopulated from the action data, not applied by the method
@@ -813,5 +1009,126 @@ describe('T-ACTION-skillcheck-01 — accuracy netting parity', () => {
   it('T-ACTION-skillcheck-01: no accuracy or difficulty contributes nothing', () => {
     rollSeq(10)
     expect(DiceRoller.rollSkillCheck(2, 0, 0).total).toBe(12)
+  })
+})
+
+describe('activation through the single engine handle', () => {
+  it('T-ACTION-overcharge-01: a granted quick action cannot be banked behind another action', () => {
+    cc().StartOvercharge()
+    expect(cc().InOvercharge).toBe(true)
+
+    cc().SetCombatAction('full', false)
+
+    expect(cc().InOvercharge).toBe(false)
+  })
+
+  it('T-ACTION-overcharge-01: spending the granted quick action consumes the overcharge itself', () => {
+    cc().StartOvercharge()
+    cc().SetCombatAction('quick', false)
+
+    expect(cc().InOvercharge).toBe(false)
+  })
+
+  it('T-ACTION-activate-01: activating a system spends the slot, the use, and the heat together', () => {
+    const heat = () => cur(cc(), StatKey.HEATCAP)
+    const before = heat()
+
+    expect(cc().Activate('quick', { actionId: 'act_test_system', heat: 2 })).toBe(true)
+
+    expect(heat()).toBe(before + 2)
+    expect(cc().IsActionUsed('act_test_system')).toBe(true)
+    expect(cc().CanActivate('quick1')).toBe(false)
+  })
+
+  it('T-ACTION-activate-01: undoing an activation returns the slot, the use, and the heat', () => {
+    const before = cur(cc(), StatKey.HEATCAP)
+    cc().Activate('quick', { actionId: 'act_test_system', heat: 2 })
+
+    cc().UndoActivation('quick', { actionId: 'act_test_system', heat: 2 })
+
+    expect(cur(cc(), StatKey.HEATCAP)).toBe(before)
+    expect(cc().IsActionUsed('act_test_system')).toBe(false)
+    expect(cc().CanActivate('quick1')).toBe(true)
+  })
+
+  it('T-ACTION-activate-01: an activation the pool refuses spends nothing at all', () => {
+    const before = cur(cc(), StatKey.HEATCAP)
+    cc().AddStatus('stunned')
+
+    expect(cc().Activate('quick', { actionId: 'act_test_system', heat: 2 })).toBe(false)
+
+    expect(cur(cc(), StatKey.HEATCAP)).toBe(before)
+    expect(cc().IsActionUsed('act_test_system')).toBe(false)
+  })
+})
+
+describe('condition provenance and the reaction clock', () => {
+  it('T-ACTION-stabilize-02: a condition the character inflicted on itself is not offered', () => {
+    cc().AddStatus('impaired', undefined, { selfInflicted: true })
+    cc().AddStatus('jammed')
+
+    const offered = cc()
+      .ClearableConditions()
+      .map(c => c.status.ID)
+    expect(offered).toContain('jammed')
+    expect(offered).not.toContain('impaired')
+
+    expect(cc().ClearCondition('impaired')).toBe(false)
+    expect(cc().HasStatus('impaired')).toBe(true)
+    expect(cc().ClearCondition('jammed')).toBe(true)
+  })
+
+  it('T-ACTION-stabilize-02: the same condition reapplied from outside becomes clearable', () => {
+    cc().AddStatus('impaired', undefined, { selfInflicted: true })
+    expect(
+      cc()
+        .ClearableConditions()
+        .map(c => c.status.ID)
+    ).not.toContain('impaired')
+
+    cc().AddStatus('impaired')
+    expect(
+      cc()
+        .ClearableConditions()
+        .map(c => c.status.ID)
+    ).toContain('impaired')
+  })
+
+  it('T-ACTOR-unlicensed-01: the unlicensed penalties are self-inflicted and cannot be stabilized off', () => {
+    cc().SetUnlicensed(true)
+
+    const offered = cc()
+      .ClearableConditions()
+      .map(c => c.status.ID)
+    expect(offered).not.toContain('impaired')
+    expect(offered).not.toContain('slow')
+  })
+
+  it('T-ACTION-reaction-01: a reaction returns at the start of every turn, not once per round', () => {
+    const other = mech().CombatController
+    const encounter = {
+      Combatants: [{ actor: { CombatController: cc() } }, { actor: { CombatController: other } }],
+    }
+
+    cc().UseReaction('brace')
+    expect(cc().CanActivate('reaction')).toBe(false)
+
+    other.EndTurn(encounter)
+
+    expect(cc().CanActivate('reaction')).toBe(true)
+  })
+
+  it('T-ACTION-reaction-01: the per-reaction round limit survives the turn refresh', () => {
+    const other = mech().CombatController
+    const encounter = {
+      Combatants: [{ actor: { CombatController: cc() } }, { actor: { CombatController: other } }],
+    }
+
+    cc().UseReaction('brace')
+    other.EndTurn(encounter)
+
+    expect(cc().CanActivate('reaction')).toBe(true)
+    expect(cc().CanUseReaction('brace')).toBe(false)
+    expect(cc().CanUseReaction('overwatch')).toBe(true)
   })
 })

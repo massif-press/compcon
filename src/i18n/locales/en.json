@@ -1916,7 +1916,8 @@
       "chooseOne": "Choose one",
       "reroll": "Re-roll",
       "rollCheck": "Roll {check}",
-      "rollPrompt": "Roll {n}d{die} and choose the lowest"
+      "rollPrompt": "Roll {n}d{die} and choose the lowest",
+      "blocksTurn": "Resolve the pending structure or stress check before ending this turn"
     },
     "burnCheck": {
       "title": "Burn Check",
@@ -3696,6 +3697,10 @@
       "restoreMultiple": "Restore Multiple",
       "unmarkDeleted": "Remove Deleted status from item",
       "unmarkDeletedMultiple": "Remove Deleted status from items"
+    },
+    "flow": {
+      "unresolved": "Unresolved: {list}",
+      "awaiting": "Waiting on {n} input(s)"
     }
   },
   "stats": {

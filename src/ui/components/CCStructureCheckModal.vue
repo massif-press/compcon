@@ -200,19 +200,11 @@
             </div>
           </div>
 
-          <div v-else-if="step.kind === 'equip'">
-            <div class="body-text mb-1">{{ step.label }}:</div>
-            <v-select
-              v-model="equipChoices[step.path]"
-              :items="step.options"
-              item-title="label"
-              item-value="id"
-              :placeholder="$t('active.structureCheck.chooseOne')"
-              density="compact"
-              variant="outlined"
-              hide-details
-            />
-          </div>
+          <cc-flow-request
+            v-else-if="step.kind === 'equip'"
+            v-model="equipChoices[step.path]"
+            :request="requestFor(step)"
+          />
         </div>
       </div>
     </div>
@@ -256,6 +248,7 @@
     prerollEffects,
     resolveEffects,
     applyCheckEffects,
+    requestFor,
   } from '@/classes/components/combat/StructureCheck'
 
   const props = defineProps<{

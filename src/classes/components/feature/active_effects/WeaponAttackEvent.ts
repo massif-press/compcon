@@ -9,7 +9,8 @@ import { ActiveEffectEvent } from './ActiveEffectEvent'
 import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon'
 import { ActiveEventTarget } from './effect_events/eventTarget'
 import { combatantLabel } from '@/util/combatantLabel'
-import { routesTo, attackCountFor, applySelfHeat } from '@/classes/components/combat/WeaponAttackFlow'
+import { routesTo, attackCountFor, WeaponAttackFlow } from '@/classes/components/combat/flows/WeaponAttackFlow'
+import type { IWeaponAttackState } from '@/classes/components/combat/flows/WeaponAttackFlow'
 
 const onEventTargetCaches = new WeakMap<WeaponAttackEvent, Record<string, ActiveEventTarget[]>>()
 
@@ -20,6 +21,8 @@ class WeaponAttackEvent {
   public BaseEvent: ActiveEffectEvent // the weapon attack itself
   public SubEvents: ActiveEffectEvent[] = []
   public ModEvents: ActiveEffectEvent[] = []
+
+  private _applied = false
 
   public OnMissEvent?: ActiveEffectEvent
   public OnAttackEvent?: ActiveEffectEvent
@@ -203,20 +206,29 @@ class WeaponAttackEvent {
     return str
   }
 
+  public get FlowState(): IWeaponAttackState {
+    const attacker = this.BaseEvent.Initiator.actor.CombatController
+    return {
+      attacker,
+      weapon: this.Weapon as any,
+      event: this.BaseEvent as any,
+      targets: this.BaseEvent.Targets as any,
+      routes: this.EventConfigs.map(config => ({
+        event: config.event as any,
+        targets: () => this.buildEventTargets(config.event!, config.filter) as any,
+      })).filter(r => !!r.event),
+      followUps: [...this.SubEvents, ...this.ModEvents],
+      eligible: false,
+      applied: false,
+    }
+  }
+
   public ApplyAll() {
-    this.BaseEvent.ApplyAll()
-    applySelfHeat(this.BaseEvent.Initiator.actor.CombatController, this.Weapon)
-
-    this.EventConfigs.forEach(config => {
-      if (!config.event) return
-      const targets = this.buildEventTargets(config.event, config.filter)
-      targets.forEach(t => {
-        if (t) config.event!.Apply(t)
-      })
-    })
-
-    this.SubEvents.forEach(se => se.ApplyAll())
-    this.ModEvents.forEach(me => me.ApplyAll())
+    const state = this.FlowState
+    state.applied = this._applied
+    const result = WeaponAttackFlow.Begin(state)
+    this._applied = result.state.applied
+    return result
   }
 }
 

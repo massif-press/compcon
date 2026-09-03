@@ -129,11 +129,14 @@
     return invadeActions.value.find(a => a.ID === id)
   }
   function apply() {
-    if (tab.value === 'invade') controller.value.PerformAction('act_invade')
+    if (tab.value === 'invade') {
+      controller.value.PerformAction('act_invade')
+      return
+    }
     emit('activate', tab.value)
   }
 
   function reset() {
-    controller.value.ResetActivation(props.action.Activation)
+    controller.value.UndoActivation(props.action.Activation, { actionId: props.action.ID })
   }
 </script>
