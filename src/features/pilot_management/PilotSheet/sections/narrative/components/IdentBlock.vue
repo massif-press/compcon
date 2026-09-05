@@ -7,6 +7,14 @@
       sm="6"
       md="3"
       :class="mobile && 'd-flex justify-start'">
+      <cc-text-label v-model="pilot.Status"
+        :readonly="pilot.IsRemote"
+        :label="$t('common.status')" />
+    </v-col>
+    <v-col cols="12"
+      sm="6"
+      md="3"
+      :class="mobile && 'd-flex justify-start'">
       <cc-text-label v-model="pilot.Callsign"
         :readonly="pilot.IsRemote"
         :label="$t('common.callsign')" />
