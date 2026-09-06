@@ -1,35 +1,44 @@
 <template>
-  <runner-list-item-base :actor="combatant.actor"
+  <runner-list-item-base
+    :actor="combatant.actor"
     :portrait="combatant.actor.Portrait"
     :deployed="combatant.deployables"
     :collapsed="collapsed"
     :selected="selected"
     :side="combatant.side"
     @click="$emit('select', combatant)"
-    @deployable-click="$emit('select', $event)">
+    @deployable-click="$emit('select', $event)"
+  >
     <div>
       <span class="heading h4">
-        {{ combatant.actor.Name }}
+        {{ combatant.Label }}
       </span>
-      <span v-if="combatant.number"
-        class="text-accent ml-2">#{{ combatant.number }}</span>
+      <span
+        v-if="combatant.number"
+        class="text-accent ml-2"
+      >
+        #{{ combatant.number }}
+      </span>
     </div>
   </runner-list-item-base>
 </template>
 
 <script setup lang="ts">
-import type { CombatantData } from '@/classes/encounter/Encounter'
-import RunnerListItemBase from './RunnerListItemBase.vue';
+  import type { CombatantData } from '@/classes/encounter/Encounter'
+  import RunnerListItemBase from './RunnerListItemBase.vue'
 
-const props = withDefaults(defineProps<{
-  combatant: CombatantData
-  collapsed?: boolean
-  selected?: boolean
-}>(), {
-  collapsed: false
-})
+  const props = withDefaults(
+    defineProps<{
+      combatant: CombatantData
+      collapsed?: boolean
+      selected?: boolean
+    }>(),
+    {
+      collapsed: false,
+    }
+  )
 
-const emit = defineEmits<{
-  'select': [payload: any]
-}>()
+  const emit = defineEmits<{
+    select: [payload: any]
+  }>()
 </script>

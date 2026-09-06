@@ -67,18 +67,9 @@ export class NpcWeapon extends NpcFeature {
     return this.Attacks[tier - 1] || 1
   }
 
-  // public get IsLimited(): boolean {
-  //   return this.Tags.some((x) => x.IsLimited);
-  // }
-
   public get IsRecharging(): boolean {
     return this.Tags.some(x => x.IsRecharging)
   }
-
-  // public get ChargeRoll(): string {
-  //   const rechargingTag = this.Tags.find((x) => x.IsRecharging);
-  //   return rechargingTag ? rechargingTag.Value.toString() : '';
-  // }
 
   public get RangeData(): Range[] {
     return this._range

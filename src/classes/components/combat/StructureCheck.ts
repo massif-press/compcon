@@ -3,6 +3,7 @@ import { DiceRoller } from '@/classes/dice/DiceRoller'
 import type { RollableTable, ITableRoll } from '@/classes/narrative/elements/RollableTable'
 import { DamageType } from '../../enums'
 import { StatKey } from './stats/Stats'
+import { hasUsesRemaining } from './AttackRules'
 import type { CombatController } from './CombatController'
 import type { IFlowRequest } from './flows/Flow'
 
@@ -264,7 +265,7 @@ const DURATION_LABEL: Record<string, string> = {
 function isDestroyable(item: any): boolean {
   if (item.Destroyed || item.IsIndestructible) return false
   if (item.IsMod) return false
-  return !item.IsLimited || item.Uses > 0
+  return hasUsesRemaining(item)
 }
 
 function structureDamageTargets(cc: CombatController): any[] {
@@ -460,28 +461,22 @@ function applyCheckEffects(cc: CombatController, actions: TerminalAction[]): voi
     if (a.kind === 'status') cc.AddStatus(a.id, a.duration)
     else if (a.kind === 'destroy') {
       cc.SetDestroyed(true)
-      cc.log('Destroyed by structure/stress check')
+      cc.Record('mech.status', { to: 'destroyed' })
     } else if (a.kind === 'reactor_meltdown') {
       if (a.delayTurns > 0) cc.ScheduleReactorMeltdown(a.delayTurns)
       else {
         cc.ReactorDestroyed = true
-        cc.log('Reactor meltdown from stress check')
       }
     } else if (a.kind === 'destroy_equipment') {
       a.items.forEach(it => {
         it.Destroyed = true
       })
-      cc.log('Equipment destroyed by structure check')
     } else if (a.kind === 'damage') {
       cc.TakeDamage(a.damageType, a.value)
     }
   }
 }
 
-/**
- * The subset of resolve steps that are actually asking the user something, in the one request
- * vocabulary the flows use. Narration steps (apply, branch, damage, note) return undefined.
- */
 function requestFor(step: ResolveStep): IFlowRequest | undefined {
   if (step.kind === 'save') return { kind: 'check', label: step.label }
   if (step.kind === 'equip')

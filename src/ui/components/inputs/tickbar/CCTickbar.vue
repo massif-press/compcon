@@ -41,6 +41,8 @@
           :bg-color="bgColor"
           :model-value="modelValue"
           :ticks="ticks"
+          :bonus-ticks="bonusTicks"
+          :bonus-color="bonusColor"
           :color="color"
           :reverse="reverse"
           @update:model-value="(val) => setVal(val)">
@@ -160,6 +162,8 @@ const props = withDefaults(defineProps<{
   tooltip?: string
   tooltipIcon?: string
   ticks?: number
+  bonusTicks?: number
+  bonusColor?: string
   secondaryTicks?: number
   tertiaryTicks?: number
   optionsIcon?: string
@@ -187,6 +191,8 @@ const props = withDefaults(defineProps<{
   bgColor: 'panel',
   size: 'default',
   ticks: 6,
+  bonusTicks: 0,
+  bonusColor: 'exotic',
   optionsIcon: 'mdi-dots-vertical',
   display: true,
   valueTooltips: false,

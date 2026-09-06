@@ -27,7 +27,6 @@ describe('the damage flows', () => {
     expect(HeatFlow.Steps).toEqual([
       'grunt-external-heat',
       'heat-accumulation',
-      'danger-zone',
       'heat-cap',
       'stress-cascade',
       'meltdown-watch',

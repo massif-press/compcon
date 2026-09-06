@@ -19,6 +19,10 @@
           class="text-cc-overline text-disabled pl-3 py-2"
         >
           {{ $t('active.barrage.selectWeapon') }}
+          <unavailable-toggle
+            v-model="useState.showUnavailable"
+            :count="hiddenWeapons"
+          />
         </div>
         <v-row
           dense
@@ -161,86 +165,38 @@
   import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon'
   import { NpcFeatureType } from '@/classes/npc/feature/NpcFeature'
   import CombatActionButton from './CombatActionButton.vue'
-  import { WeaponUseFlow, weaponUseState, activeEvents } from '@/classes/components/combat/flows/WeaponUseFlow'
-  import type { IWeaponUseState } from '@/classes/components/combat/flows/WeaponUseFlow'
-  import type { IFlowResult } from '@/classes/components/combat/flows/Flow'
+  import { useWeaponUse } from './useWeaponUse'
+  import UnavailableToggle from './_unavailableToggle.vue'
 
-  const { owner, encounterInstance } = useEncounterContext()
+  const { owner, encounterInstance, ownerController } = useEncounterContext()
 
   const props = defineProps<{
     action: Action
     presetWeapon?: NpcWeapon
   }>()
 
-  const controller = computed(() => {
-    return owner.value.actor.CombatController.ActiveActor.CombatController
+  const {
+    controller,
+    useState,
+    result,
+    reset,
+    apply,
+    setSelected,
+    selectedWeapons,
+    weapons: barrageWeapons,
+    hiddenWeapons,
+    eventArray,
+    allEventsStaged,
+  } = useWeaponUse({
+    mode: 'barrage',
+    actionId: () => props.action.ID,
+    presetWeapon: () => props.presetWeapon,
+    makeEvent: (self, weapon, label) =>
+      new WeaponAttackEvent(weapon as NpcWeapon, self, encounterInstance.value, label),
   })
 
-  function newState(): IWeaponUseState {
-    const self = encounterInstance.value.Combatants.find(
-      (c: CombatantData) =>
-        c.actor.CombatController.RootActor.ID === owner.value.actor.CombatController.RootActor.ID
-    )
-    if (!self) {
-      throw new Error('Owner combatant not found in encounterInstance')
-    }
-    return weaponUseState({
-      cc: controller.value,
-      actionId: props.action.ID,
-      mode: 'barrage',
-      makeEvent: (weapon: any, label: string) =>
-        new WeaponAttackEvent(weapon as NpcWeapon, self, encounterInstance.value, label),
-    })
-  }
-
-  const useState = ref<IWeaponUseState>(newState())
-  const result = shallowRef<IFlowResult<IWeaponUseState> | null>(null)
-
-  function run() {
-    result.value =
-      result.value?.outcome === 'awaiting'
-        ? WeaponUseFlow.Resume(result.value as IFlowResult<IWeaponUseState>)
-        : WeaponUseFlow.Begin(useState.value)
-  }
-
-  function reset(clearAction = false) {
-    if (clearAction) controller.value.ClearActionUsed(props.action.ID)
-    useState.value = newState()
-    if (props.presetWeapon) useState.value.selected = [props.presetWeapon]
-    result.value = null
-    run()
-  }
-
-  function apply() {
-    run()
-    reset()
-  }
-
-  function setSelected(index: number, weapon: NpcWeapon) {
-    if (!weapon) return
-    const chosen = useState.value.selected.filter(Boolean)
-    chosen[index] = weapon
-    useState.value.selected = chosen
-    result.value = null
-    run()
-  }
-
-  const selectedWeapons = computed(() => {
-    const chosen = useState.value.selected.filter(Boolean) as NpcWeapon[]
-    if (chosen.length >= useState.value.capacity) return chosen
-    return [...chosen, undefined as unknown as NpcWeapon]
-  })
-  const barrageWeapons = computed(() => useState.value.options as NpcWeapon[])
   const events = computed(() =>
     useState.value.entries.map(e => ({ weaponEvent: e.event as WeaponAttackEvent }))
   )
-  const eventArray = computed(() => activeEvents(useState.value))
-  const allEventsStaged = computed(
-    () => !!eventArray.value.length && eventArray.value.every((e: any) => e.BaseEvent.Staged)
-  )
-  const tier = computed(() => {
-    return owner.value.actor.CombatController.Tier
-  })
-
-  reset()
+  const tier = computed(() => ownerController.value.Tier)
 </script>

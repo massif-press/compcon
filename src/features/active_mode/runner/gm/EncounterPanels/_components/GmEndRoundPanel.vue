@@ -242,13 +242,11 @@
       return
     }
     pendingTurn.value = result
-    // the burn check has a bespoke modal; anything else the step can describe goes to the
-    // shared renderer, and a step that describes nothing opens no dialog at all
     burnDialog.value = result.pending === 'burn-check'
     holdDialog.value = !burnDialog.value && !!result.request
   }
 
-  function finishTurn(answer: { success?: boolean; skip?: boolean }) {
+  function finishTurn(answer: { success?: boolean; skip?: boolean; rolled?: number }) {
     if (!pendingTurn.value || !holdTarget.value) return
     hold(holdTarget.value.ResumeEndTurn(pendingTurn.value, answer))
   }

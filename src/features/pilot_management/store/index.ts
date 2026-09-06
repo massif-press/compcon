@@ -1,8 +1,10 @@
 import { defineStore } from 'pinia'
 import { SetItem, RemoveItem, GetAll } from '@/io/Storage'
 import { Pilot } from '@/classes/pilot/Pilot'
+import { PilotLogbook } from '@/classes/pilot/PilotLogbook'
 import { PilotGroup } from './PilotGroup'
 import { CloudController } from '@/classes/components/cloud/CloudController'
+import type { ILogStream } from '@/classes/components/combat/log/events'
 import * as _ from 'lodash-es'
 import { NavStore } from '@/stores/nav'
 import type { IndexItem } from '@/stores/nav'
@@ -16,11 +18,17 @@ export { PilotGroupStore } from './PilotGroupStore'
 export const PilotStore = defineStore('pilot', {
   state: () => ({
     Pilots: [] as Pilot[],
+    PilotLogbooks: [] as PilotLogbook[],
   }),
   getters: {
-    getPilotByID: state => (id: string): Pilot | undefined => {
-      return state.Pilots.find(p => p.ID === id) as Pilot | undefined
+    getLogbookByPilotID: state => (pilotId: string) => {
+      return state.PilotLogbooks.find(l => l.PilotID === pilotId) as PilotLogbook | undefined
     },
+    getPilotByID:
+      state =>
+      (id: string): Pilot | undefined => {
+        return state.Pilots.find(p => p.ID === id) as Pilot | undefined
+      },
     getPilots:
       state =>
       (groupID: string, showDeleted?: boolean): Pilot[] => {
@@ -73,6 +81,7 @@ export const PilotStore = defineStore('pilot', {
       await PilotGroupStore().RebuildGroups()
       await PilotGroupStore().ImportUngroupedPilots()
       await PilotSheetStore().LoadPilotSheets()
+      await this.LoadPilotLogbooks()
     },
     async AddPilot(pilot: Pilot, groupID?: string): Promise<void> {
       if (this.Pilots.some(x => x.ID === pilot.ID)) {
@@ -122,6 +131,9 @@ export const PilotStore = defineStore('pilot', {
       if (pilotIndex === -1) return
 
       this.Pilots.splice(pilotIndex, 1)
+
+      const logbook = this.PilotLogbooks.find(l => l.PilotID === id)
+      if (logbook) await this.RemovePilotLogbook(logbook as PilotLogbook)
 
       if (pilot.PortraitController.LocalImage) {
         await RemoveItem('images', pilot.PortraitController.LocalImage)
@@ -188,6 +200,55 @@ export const PilotStore = defineStore('pilot', {
       if (fromIdx === -1) return
       this.movePilotIndex(group as PilotGroup, fromIdx, toIndex)
       this.SaveGroupData()
+    },
+    async LoadPilotLogbooks(): Promise<void> {
+      this.PilotLogbooks = await GetAll('pilot_logbooks').then(data =>
+        data.map(x => PilotLogbook.Deserialize(x))
+      )
+    },
+
+    // logbooks are created on first recorded encounter
+    async LogbookForPilot(pilotId: string): Promise<PilotLogbook> {
+      const existing = this.PilotLogbooks.find(l => l.PilotID === pilotId)
+      if (existing) return existing as PilotLogbook
+
+      const logbook = new PilotLogbook({ pilotId })
+      this.PilotLogbooks.push(logbook)
+      await this.SaveLogbook(logbook)
+      return this.PilotLogbooks.find(l => l.ID === logbook.ID) as PilotLogbook
+    },
+
+    async RecordStream(stream: ILogStream, pilotId: string, actorId: string): Promise<void> {
+      const logbook = await this.LogbookForPilot(pilotId)
+      const plan = logbook.PlanImport(stream)
+      logbook.Import(stream, actorId, plan.action === 'replace' ? plan.targetIndex : -1)
+      await this.SaveLogbook(logbook)
+    },
+
+    async SaveLogbook(logbook: PilotLogbook): Promise<void> {
+      await SetItem('pilot_logbooks', PilotLogbook.Serialize(logbook))
+    },
+
+    async ImportPilotLogbook(logbook: PilotLogbook): Promise<void> {
+      const idx = this.PilotLogbooks.findIndex(x => x.ID === logbook.ID)
+      if (idx !== -1) {
+        logger.info(`Pilot logbook ${logbook.ID} already exists`)
+        this.PilotLogbooks.splice(idx, 1, logbook)
+      } else {
+        this.PilotLogbooks.push(logbook)
+      }
+      await this.SaveLogbook(logbook)
+    },
+
+    async RemovePilotLogbook(logbook: PilotLogbook): Promise<void> {
+      const id = logbook.ID || (logbook as any)._id
+      const idx = this.PilotLogbooks.findIndex(x => x.ID === id)
+      if (idx === -1) return
+      this.PilotLogbooks.splice(idx, 1)
+      await RemoveItem('pilot_logbooks', id)
+      if (logbook.CloudController?.ShareCode) {
+        await CloudController.MarkCloudDeleted(logbook.CloudController.Metadata)
+      }
     },
   },
 })

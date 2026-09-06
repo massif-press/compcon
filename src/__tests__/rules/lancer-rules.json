@@ -49,14 +49,14 @@
       "title": "a protocol is a free action usable only at the start of a turn, once each",
       "category": "ACTION",
       "classification": "AUTO",
-      "statement": "A protocol is a free action available only at the start of a turn, once each per turn. Every path that spends an action must close the protocol window, including paths in the UI."
+      "statement": "A protocol is a free action available only at the start of a turn, once each per turn. Every path that spends an action must close the protocol window."
     },
     {
       "id": "T-ACTION-reaction-01",
       "title": "one reaction per turn, each reaction once per round, unlimited per round overall",
       "category": "ACTION",
       "classification": "AUTO",
-      "statement": "Reactions obey three independent limits: one reaction per turn, each specific reaction once per round, and uses refresh at the start of the character's own turn rather than at the round boundary."
+      "statement": "one reaction per turn, each specific reaction once per round, and uses refresh at the start of the character's own turn rather than at the round boundary."
     },
     {
       "id": "T-ACTION-defaultreactions-01",

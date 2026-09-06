@@ -33,11 +33,14 @@ export default {
 
   // damage types
   'damage--kinetic': '#757575',
+  'damage--other': '#757575',
   'damage--energy': '#29B6F6',
   'damage--explosive': '#FFA726',
   'damage--burn': '#B71C1C',
+  'damage--applied-burn': '#B71C1C',
   'damage--heat': '#FF7043',
   'damage--variable': '#D500F9',
+  'damage--aoe': '#D500F9',
 
   // npc colors
   'npc--passive': '#991E2A',

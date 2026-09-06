@@ -3,6 +3,11 @@ import { expiration } from '@/classes/components/combat/Expiration'
 import { StatusController } from '@/classes/components/combat/StatusController'
 import { EffectSpecial } from '@/classes/components/feature/active_effects/effect_subtype/EffectSpecial'
 import { mech, npc, set, setMax, rolls, StatKey } from './_helpers'
+import { makeMech, makeNpc, makePilot } from '@/__tests__/factories'
+import { Encounter } from '@/classes/encounter/Encounter'
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { ActiveEffect } from '@/classes/components/feature/active_effects/ActiveEffect'
+import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
 import { WeaponAttackFlow } from '@/classes/components/combat/flows/WeaponAttackFlow'
 import { ActiveEventTarget } from '@/classes/components/feature/active_effects/effect_events/eventTarget'
 import type { Mech } from '@/classes/mech/Mech'
@@ -316,10 +321,17 @@ describe('status rules reaching the attack path', () => {
       weapon: {},
       event: { Initiator: { actor: { CombatController: cc() } } },
       targets: [{ AttackRolledValue: 12, Combatant: { actor: { CombatController: target } } }],
-      eligible: false,
       applied: false,
       ...over,
     } as any)
+
+  it('T-STATUS-lockon-01: lock on is not an automatic accuracy bonus, unlike prone', () => {
+    const target = mech().CombatController
+    target.AddStatus('lockon')
+
+    expect(target.AccuracyAgainst()).toBe(0)
+    expect(statusAccuracyAgainst(target)).toBe(0)
+  })
 
   it('T-STATUS-hidden-01: a direct attack on a hidden character is refused by the attack flow', () => {
     const target = mech().CombatController
@@ -426,5 +438,62 @@ describe('status rules reaching the attack path', () => {
 
     expect(statusAccuracyAgainst(target, 'ranged')).toBe(-2)
     expect(statusAccuracyAgainst(target, 'melee')).toBe(0)
+  })
+})
+
+describe('lock on across a real attack', () => {
+  const attackOn = (attack?: string) => {
+    const attacker = makePilot({ level: 3 })
+    makeMech(attacker)
+    const encounter = new Encounter()
+    encounter.Name = 'T'
+    encounter.AddCombatant(makeNpc('ASSAULT'))
+    const instance = new EncounterInstance(undefined, encounter, [attacker])
+    const initiator = instance.Combatants.find(c => c.type === 'pilot')!
+    const defender = instance.Combatants.find(c => c.type !== 'pilot')!
+
+    const event = new ActiveEffectEvent(
+      initiator,
+      new ActiveEffect({ name: 'X', attack } as any, initiator.actor),
+      instance
+    )
+    event.SetTarget(defender, 0)
+    return { event, target: defender.actor.CombatController }
+  }
+
+  it('T-STATUS-lockon-01: an attacker who spends lock on clears it once the attack resolves', () => {
+    const { event, target } = attackOn('ranged')
+    target.AddStatus('lockon')
+
+    event.Targets[0].ConsumingLockOn = true
+    event.Targets[0].AttackRolledValue = 15
+
+    // the choice survives the roll, so a reroll keeps the accuracy it was made with
+    expect(target.HasStatus('lockon')).toBe(true)
+
+    event.ApplyAll()
+
+    expect(target.HasStatus('lockon')).toBe(false)
+    expect(event.Targets[0].ConsumingLockOn).toBe(false)
+  })
+
+  it('T-STATUS-lockon-01: an attacker who does not spend it leaves lock on on the target', () => {
+    const { event, target } = attackOn('ranged')
+    target.AddStatus('lockon')
+
+    event.Targets[0].AttackRolledValue = 15
+    event.ApplyAll()
+
+    expect(target.HasStatus('lockon')).toBe(true)
+  })
+
+  it('T-STATUS-lockon-01: a non-attack effect cannot spend it', () => {
+    const { event, target } = attackOn()
+    target.AddStatus('lockon')
+
+    event.Targets[0].ConsumingLockOn = true
+    event.ApplyAll()
+
+    expect(target.HasStatus('lockon')).toBe(true)
   })
 })

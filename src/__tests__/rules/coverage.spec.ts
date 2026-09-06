@@ -8,14 +8,25 @@ const here = dirname(fileURLToPath(import.meta.url))
 
 type Spec = { name: string; modifier: string }
 
+const ruleFiles = () =>
+  readdirSync(here).filter(f => f.endsWith('.spec.ts') && f !== 'coverage.spec.ts')
+
 const specs = (): Spec[] => {
   const out: Spec[] = []
-  for (const file of readdirSync(here)) {
-    if (!file.endsWith('.spec.ts') || file === 'coverage.spec.ts') continue
+  for (const file of ruleFiles()) {
     const src = readFileSync(join(here, file), 'utf8')
     for (const m of src.matchAll(/\b(?:it|test)(\.\w+)?\(\s*(['"`])(.+?)\2/g)) {
       out.push({ name: m[3], modifier: m[1] ?? '' })
     }
+  }
+  return out
+}
+
+const suiteModifiers = (): string[] => {
+  const out: string[] = []
+  for (const file of ruleFiles()) {
+    const src = readFileSync(join(here, file), 'utf8')
+    for (const m of src.matchAll(/\bdescribe(\.\w+)\(/g)) out.push(`${file}: describe${m[1]}`)
   }
   return out
 }
@@ -56,6 +67,10 @@ describe('rule coverage', () => {
     const known = new Set(rules.map(r => r.id))
     const dangling = interactions.flatMap(r => r.composes.filter(c => !known.has(c)))
     expect(dangling).toEqual([])
+  })
+
+  it('has no suite-level modifier, which would hide skipped tests from this gate', () => {
+    expect(suiteModifiers()).toEqual([])
   })
 
   it('every test in this directory is prefixed with a rule id', () => {

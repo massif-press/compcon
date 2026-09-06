@@ -135,16 +135,14 @@ class ActionPoolController {
           this.CombatActions.Quick1 &&
           this.CombatActions.Quick2 &&
           this.CombatActions.Full &&
-          this._parent.StatController.getCurrent(StatKey.SPEED) >=
-            this._parent.StatController.getMax(StatKey.SPEED)
+          this._parent.StatController.getCurrent(StatKey.SPEED) >= this._parent.BoostedSpeed
         )
       case 'ordnance':
         return (
           this.CombatActions.Quick1 &&
           this.CombatActions.Quick2 &&
           this.CombatActions.Full &&
-          this._parent.StatController.getCurrent(StatKey.SPEED) >=
-            this._parent.StatController.getMax(StatKey.SPEED)
+          this._parent.StatController.getCurrent(StatKey.SPEED) >= this._parent.BoostedSpeed
         )
       case 'full':
       case 'fulltech':
@@ -225,6 +223,9 @@ class ActionPoolController {
       case 'quick':
       case 'quicktech':
       case 'invade':
+      case 'boost':
+      case 'grapple':
+      case 'ram':
         if (!value && this.OverchargeApplies) {
           this.InOvercharge = false
           break
@@ -274,6 +275,9 @@ class ActionPoolController {
       case 'quick':
       case 'quicktech':
       case 'invade':
+      case 'boost':
+      case 'grapple':
+      case 'ram':
         if (!this.CombatActions.Quick1) this.CombatActions.Quick1 = true
         else if (!this.CombatActions.Quick2) this.CombatActions.Quick2 = true
         break
@@ -372,7 +376,6 @@ class ActionPoolController {
   public StartOvercharge(): void {
     this.CombatActions.Overcharge = false
     this.InOvercharge = true
-    this._parent.log('Overcharged: any quick action may be taken as a free action')
   }
 
   public get OverchargeTrack(): any[] {
@@ -389,15 +392,8 @@ class ActionPoolController {
   }
 
   public IncreaseOverchargeLevel(): void {
-    if (this.OverchargeLevel < this.OverchargeTrack.length - 1) {
-      this._parent.StatController.setCurrentStat(
-        StatKey.OVERCHARGE,
-        this._parent.StatController.getCurrent(StatKey.OVERCHARGE) + 1
-      )
-      this._parent.log(
-        `Increased overcharge to level ${this.OverchargeLevel} (${this.OverchargeCost} Heat)`
-      )
-    }
+    if (this.OverchargeLevel < this.OverchargeTrack.length - 1)
+      this._parent.StatController.bumpCurrentStat(StatKey.OVERCHARGE, 1)
   }
 
   public StartSelfDestruct(fireOnRound?: number): void {
@@ -413,28 +409,32 @@ class ActionPoolController {
         })
       )
     )
-    this._parent.log('Self Destruct sequence initiated!')
+    this._parent.Record('meltdown', {
+      state: 'self_destruct',
+      round: fireOnRound ?? this._parent.SelfDestructWindow[0],
+    })
   }
 
   public CommitReactorMeltdown(): void {
     this._parent.StatController.setCurrentStat(StatKey.STRUCTURE, 0)
     this._parent.StatController.setCurrentStat(StatKey.HP, 0)
-    this._parent.StatController.setCurrentStat(StatKey.HEATCAP, 0)
+    this._parent.StatController.setCurrentStat(StatKey.HEATCAP, 0, { silent: true })
     this._parent.StatController.setCurrentStat(StatKey.STRESS, 0)
     this.ReactorDestroyed = true
     this.IsInSelfDestruct = false
+    this._parent.Record('mech.status', { to: 'reactor_destroyed' })
     if (this._parent.Mounted && this._parent.IsMech) this._parent.RootActor.CombatController.Kill()
   }
 
   public CommitSelfDestruct(): void {
     this.CommitReactorMeltdown()
-    this._parent.log('Mech has self-destructed!')
+    this._parent.Record('meltdown', { state: 'self_destruct' })
   }
 
   public Kill(): void {
     this._parent.StatController.setCurrentStat(StatKey.HP, 0)
     this.IsDead = true
-    this._parent.log('Pilot registered as KIA')
+    this._parent.Record('pilot.status', { to: 'kia' })
   }
 }
 

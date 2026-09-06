@@ -155,6 +155,42 @@ describe('DiceRoller.rollDamage', () => {
   })
 })
 
+describe('DiceRoller.rollAny', () => {
+  it('rolls every die and keeps only the highest on a critical', () => {
+    rollsOf(2, 6, 1, 5)
+    const r = DiceRoller.rollAny('4d6+0', 0, 0, true)
+    expect(r.rawDieRolls).toEqual([2, 6, 1, 5])
+    expect(r.rollClassifications).toEqual(['low', 'high', 'low', 'low'])
+    expect(r.total).toBe(6)
+  })
+
+  it('does not add extra dice on a critical', () => {
+    rollsOf(3, 9, 14, 20, 2, 7)
+    const r = DiceRoller.rollAny('6d20+0', 0, 0, true)
+    expect(r.rawDieRolls).toHaveLength(6)
+    expect(r.total).toBe(20)
+  })
+
+  it('adds the static modifier once on a critical', () => {
+    rollsOf(4, 2)
+    expect(DiceRoller.rollAny('2d6+3', 0, 0, true).total).toBe(7)
+  })
+
+  it('keeps every die when not critical', () => {
+    rollsOf(2, 6)
+    const r = DiceRoller.rollAny('2d6+1', 0, 0, false)
+    expect(r.rollClassifications).toEqual(['high', 'high'])
+    expect(r.total).toBe(9)
+  })
+
+  it('rerolls overkill 1s before keeping the highest', () => {
+    rollsOf(1, 3, 6, 2)
+    const r = DiceRoller.rollAny('3d6+0', 0, 0, true, true)
+    expect(r.rawDieRolls).toEqual([3, 6, 2])
+    expect(r.total).toBe(6)
+  })
+})
+
 describe('DiceRoller.classifyDamageRolls', () => {
   it('is empty for an empty roll', () => {
     expect(DiceRoller.classifyDamageRolls(new DieSet(0, 6), [])).toEqual([])

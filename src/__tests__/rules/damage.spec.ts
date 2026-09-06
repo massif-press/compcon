@@ -354,7 +354,6 @@ describe('damage defects', () => {
         attacker: cc(),
         weapon,
         targets: [],
-        eligible: false,
         applied: false,
       } as any)
 

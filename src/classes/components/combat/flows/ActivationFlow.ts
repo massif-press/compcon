@@ -1,9 +1,11 @@
-import { Flow } from './Flow'
+import { Flow, step } from './Flow'
 import type { IFlowStep } from './Flow'
 import type { CombatController } from '../CombatController'
 import type { Frequency } from '@/classes/Frequency'
+import type { BlockedReason } from '../log/events'
+import { combatLogHooks } from './logHooks'
 
-interface IActivationState {
+export interface IActivationState {
   cc: CombatController
   activation: string
   actionId?: string
@@ -12,138 +14,137 @@ interface IActivationState {
   heat?: number
   reaction?: string
   weapon?: any
+  force?: boolean
   legal: boolean
-  blockedBy?: string
+  blockedBy?: BlockedReason
 }
 
 const FREE = ['free', 'none']
 
-const normalization: IFlowStep<IActivationState> = {
-  Name: 'activation-normalization',
-  Run: s => {
-    s.activation = (s.activation || 'free').toLowerCase().replace(' ', '')
-    return 'continue'
-  },
-}
+const normalization = step<IActivationState>('activation-normalization', s => {
+  s.activation = (s.activation || 'free').toLowerCase().replace(' ', '')
+})
 
 const legality: IFlowStep<IActivationState> = {
   Name: 'legality',
   Run: s => {
-    if (!s.cc.CanActivate(s.reaction ?? s.activation, s.actionId)) {
+    const blocked = activationBlock(s)
+    if (!blocked) {
+      s.legal = true
+      return 'continue'
+    }
+    s.blockedBy = blocked
+    if (!s.force) {
       s.legal = false
-      s.blockedBy = 'activation'
       return 'halt'
     }
-    if (s.actionId && !s.cc.CanTakeAction(s.actionId, s.activation, s.useId)) {
-      s.legal = false
-      s.blockedBy = 'uses'
-      return 'halt'
-    }
+    s.cc.Record('blocked', {
+      action: s.actionId
+        ? { id: s.actionId, name: s.cc.FindAction(s.actionId)?.Name ?? s.actionId }
+        : undefined,
+      reason: blocked,
+      overridden: true,
+    })
     s.legal = true
     return 'continue'
   },
+  ReportHalt: true,
 }
 
-const consumeUses: IFlowStep<IActivationState> = {
-  Name: 'consume-uses',
-  Run: s => {
+export function activationBlock(s: IActivationState): BlockedReason | undefined {
+  if (!s.cc.CanActivate(s.reaction ?? s.activation, s.actionId)) return 'insufficient'
+  if (s.actionId && !s.cc.CanTakeAction(s.actionId, s.activation, s.useId)) return 'no_uses'
+  return undefined
+}
+
+const consumeUses = step<IActivationState>(
+  'consume-uses',
+  s => {
     if (s.actionId) s.cc.MarkActionUsed(s.actionId, s.frequency)
     if (s.useId && s.useId !== s.actionId) s.cc.MarkActionUsed(s.useId, s.frequency)
-    return 'continue'
   },
-  Undo: s => {
-    if (s.actionId) s.cc.RestoreUse(s.actionId)
-    if (s.useId && s.useId !== s.actionId) s.cc.RestoreUse(s.useId)
-  },
-}
+  {
+    Undo: s => {
+      if (s.actionId) s.cc.RestoreUse(s.actionId)
+      if (s.useId && s.useId !== s.actionId) s.cc.RestoreUse(s.useId)
+    },
+  }
+)
 
-const heatApplication: IFlowStep<IActivationState> = {
-  Name: 'heat-application',
-  Run: s => {
+const heatApplication = step<IActivationState>(
+  'heat-application',
+  s => {
     if (s.heat) s.cc.ApplyHeat(s.heat)
-    return 'continue'
   },
-  Undo: s => {
-    if (s.heat) s.cc.RemoveHeat(s.heat)
-  },
-}
+  {
+    Undo: s => {
+      if (s.heat) s.cc.RemoveHeat(s.heat)
+    },
+  }
+)
 
-const consume: IFlowStep<IActivationState> = {
-  Name: 'consume',
-  Run: s => {
+const consume = step<IActivationState>(
+  'consume',
+  s => {
     if (s.reaction) s.cc.UseReaction(s.reaction)
     else if (!FREE.includes(s.activation)) s.cc.SetCombatAction(s.activation, false)
-    return 'continue'
   },
-  Undo: s => {
-    if (s.reaction) s.cc.RestoreReaction(s.reaction)
-    else if (!FREE.includes(s.activation)) s.cc.ResetActivation(s.activation)
-  },
-}
+  {
+    Undo: s => {
+      if (s.reaction) s.cc.RestoreReaction(s.reaction)
+      else if (!FREE.includes(s.activation)) s.cc.ResetActivation(s.activation)
+    },
+  }
+)
 
 const REVEALING = ['boost', 'act_boost']
 
-const reveal: IFlowStep<IActivationState> = {
-  Name: 'reveal',
-  Run: s => {
+const reveal = step<IActivationState>(
+  'reveal',
+  s => {
     if (REVEALING.includes(s.activation) || REVEALING.includes((s.actionId || '').toLowerCase()))
       s.cc.DropHostileActionStatuses()
-    return 'continue'
   },
-  Undo: 'irreversible',
-}
+  {
+    Undo: 'irreversible',
+  }
+)
 
-const makeActivationFlow = (): Flow<IActivationState> =>
-  new Flow<IActivationState>('ActivationFlow', [
-    normalization,
-    legality,
-    consumeUses,
-    heatApplication,
-    consume,
-    reveal,
-  ])
+export const ActivationFlow = new Flow<IActivationState>(
+  'ActivationFlow',
+  [normalization, legality, consumeUses, heatApplication, consume, reveal],
+  combatLogHooks
+)
 
-const ActivationFlow = makeActivationFlow()
-
-const braceEffects: IFlowStep<IActivationState> = {
-  Name: 'brace-effects',
-  Run: s => {
-    s.cc.ApplyBraceEffects()
-    return 'continue'
-  },
-}
+const braceEffects = step<IActivationState>('brace-effects', s => {
+  s.cc.ApplyBraceEffects()
+})
 
 const overwatchEligibility: IFlowStep<IActivationState> = {
   Name: 'weapon-eligibility',
   Run: s => {
-    if (!s.cc.CanOverwatch(s.weapon)) {
+    if (!s.force && !s.cc.CanOverwatch(s.weapon)) {
       s.legal = false
-      s.blockedBy = 'weapon'
+      s.blockedBy = 'unavailable'
       return 'halt'
     }
     return 'continue'
   },
+  ReportHalt: true,
 }
 
-const overwatchEffects: IFlowStep<IActivationState> = {
-  Name: 'overwatch-effects',
-  Run: s => {
-    s.cc.Overwatch = true
-    s.cc.log('Overwatch: skirmishing as a reaction')
-    return 'continue'
-  },
-}
+const overwatchEffects = step<IActivationState>('overwatch-effects', s => {
+  s.cc.Overwatch = true
+})
 
-const BraceFlow = new Flow<IActivationState>('BraceFlow', [
-  ActivationFlow.AsStep('activation'),
-  braceEffects,
-])
+export const BraceFlow = new Flow<IActivationState>(
+  'BraceFlow',
+  [ActivationFlow.AsStep('activation'), braceEffects],
+  combatLogHooks
+)
 
-const OverwatchFlow = new Flow<IActivationState>('OverwatchFlow', [
-  overwatchEligibility,
-  makeActivationFlow().AsStep('activation'),
-  overwatchEffects,
-])
-
-export { ActivationFlow, BraceFlow, OverwatchFlow, makeActivationFlow }
-export type { IActivationState }
+export const OverwatchFlow = new Flow<IActivationState>(
+  'OverwatchFlow',
+  [overwatchEligibility, ActivationFlow.AsStep('activation'), overwatchEffects],
+  combatLogHooks
+)

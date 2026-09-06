@@ -248,11 +248,7 @@
           {{ $t('common.result') }}:
           <span>
             {{ controller.CombatName }}
-            {{
-              outcome === 'win'
-                ? $t('active.skillCheck.wins')
-                : $t('active.skillCheck.loses')
-            }}
+            {{ outcome === 'win' ? $t('active.skillCheck.wins') : $t('active.skillCheck.loses') }}
           </span>
         </div>
       </cc-alert>
@@ -272,7 +268,6 @@
 
 <script setup lang="ts">
   import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-  import { combatantLabel } from '@/util/combatantLabel'
   import { useEncounterContext } from '../../../encounterContext'
   import type { CombatantData } from '@/classes/encounter/Encounter'
   import type { Action } from '@/classes/Action'
@@ -281,19 +276,22 @@
   import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue'
   import SkillCheckBase from './_skillCheckBase.vue'
   import { SkillCheckFlow, skillCheckState } from '@/classes/components/combat/flows/SkillCheckFlow'
-  import type { ISkillCheckState, CheckTier } from '@/classes/components/combat/flows/SkillCheckFlow'
+  import type {
+    ISkillCheckState,
+    CheckTier,
+  } from '@/classes/components/combat/flows/SkillCheckFlow'
   import type { IFlowResult } from '@/classes/components/combat/flows/Flow'
   import { useI18n } from 'vue-i18n'
   const { t } = useI18n()
 
-  const { owner, encounterInstance } = useEncounterContext()
+  const { owner, encounterInstance, ownerController: controller } = useEncounterContext()
 
   function targetLabel(actor: any) {
     const combatant = encounterInstance.value.Combatants.find(
       c => c.actor.CombatController.ActiveActor.ID === actor.ID
     )
     return combatant
-      ? combatantLabel(combatant)
+      ? combatant.Label
       : actor.CombatController.RootActor.CombatController.CombatName
   }
 
@@ -322,9 +320,6 @@
     { title: t('common.none'), value: '' },
   ])
 
-  const controller = computed(() => {
-    return owner.value.actor.CombatController
-  })
   const targets = computed(() => {
     const thisCombatant = encounterInstance.value.Combatants.find(
       c => c.actor.ID === controller.value.RootActor.ID
@@ -354,7 +349,6 @@
 
   const outcome = computed(() => state.value.outcome)
 
-  // the rolls live on the state, so a re-roll after the check resolved is read, not discarded
   function run() {
     result.value = SkillCheckFlow.Begin(state.value)
   }

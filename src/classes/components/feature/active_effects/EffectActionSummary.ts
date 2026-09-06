@@ -1,5 +1,4 @@
 import { ActiveEffectEvent } from './ActiveEffectEvent'
-import { combatantLabel } from '@/util/combatantLabel'
 
 type ActionSummaryData = {
   initiatorName: string
@@ -128,7 +127,7 @@ class ActionSummary {
   public static fromActiveEffectEvent(event: ActiveEffectEvent): ActionSummaryData {
     const initiator = event.Initiator.actor.CombatController.RootActor
     return {
-      initiatorName: combatantLabel(event.Initiator),
+      initiatorName: event.Initiator.Label,
       initiatorType: initiator.ItemType,
       initiatorID: initiator.ID,
       effectName: event.Effect.Name,

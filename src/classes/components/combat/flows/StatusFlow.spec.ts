@@ -33,7 +33,7 @@ describe('AddStatusFlow', () => {
 
     expect(r.outcome).toBe('halted')
     expect(r.pending).toBe('status-lookup')
-    expect(r.state.blockedBy).toBe('unknown')
+    expect(r.state.blockedBy).toBe('unknown_status')
   })
 
   it('halts before applying a status the actor is immune to', () => {

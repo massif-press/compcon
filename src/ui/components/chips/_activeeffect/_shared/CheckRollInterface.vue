@@ -50,7 +50,7 @@
 
           <v-checkbox
             v-if="canConsumeLockOn"
-            v-model="consumeLockOn"
+            v-model="rollData.ConsumingLockOn"
             density="compact"
             hide-details
             :label="$t('ui.combat.consumeLockOn')"
@@ -133,7 +133,6 @@
   const statusAccuracy = computed(() => props.rollData.StatusAccuracy)
 
   const canConsumeLockOn = computed(() => attacker.value.CanConsumeLockOn(targetController.value))
-  const consumeLockOn = ref(false)
 
   function reset() {
     props.rollData.AttackBonus = props.rollData.Event.AttackBonus || 0
@@ -143,10 +142,7 @@
   }
 
   function rollAttack() {
-    const lockOn = consumeLockOn.value
-      ? attacker.value.ConsumeLockOnAgainst(targetController.value)
-      : 0
-    consumeLockOn.value = false
+    const lockOn = props.rollData.ConsumingLockOn ? 1 : 0
 
     const rollResult = DiceRoller.rollSkillCheck(
       Number(props.rollData.AttackBonus),

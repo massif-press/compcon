@@ -103,6 +103,19 @@ describe('NPCs', () => {
     expect(Rules.BaseGrapple).toBe(0)
     expect(Rules.BaseRam).toBe(0)
   })
+
+  it('T-NPC-grappleram-01: the roll takes the tiered bonus from an NPC and GRIT from a PC', () => {
+    const unit = npc()
+    const uc = unit.CombatController
+    uc.StatController.setCurrentStat(StatKey.GRAPPLE, 2)
+    uc.StatController.setCurrentStat(StatKey.RAM, 3)
+
+    expect(uc.MeleeActionBonus('act_grapple_npc')).toBe(2)
+    expect(uc.MeleeActionBonus('act_ram_npc')).toBe(3)
+
+    expect(cc().MeleeActionBonus('act_grapple')).toBe(cc().AttackBonus)
+    expect(cc().MeleeActionBonus('act_ram')).toBe(cc().AttackBonus)
+  })
 })
 
 describe('actor defects', () => {

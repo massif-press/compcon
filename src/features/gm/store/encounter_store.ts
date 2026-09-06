@@ -11,6 +11,7 @@ import logger from '@/user/logger'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { EncounterArchive } from '@/classes/encounter/EncounterArchive'
 import { clearUndoStack } from '@/classes/encounter/EncounterUndoStack'
+import { PilotStore } from '@/features/pilot_management/store'
 
 export const EncounterStore = defineStore('encounter', {
   state: () => ({
@@ -158,10 +159,28 @@ export const EncounterStore = defineStore('encounter', {
     ): Promise<void> {
       const archive = EncounterArchive.FromInstance(payload, report, result)
       await this.AddEncounterArchive(archive)
+      await this.RouteArchiveToLogbooks(archive)
       await this.RemoveEncounterInstance(payload)
       if (this.CurrentActiveID === payload.ID) {
         this.CurrentActiveID = ''
         await SetValue('current_active_encounter_id', '')
+      }
+    },
+
+    // the common case is a GM running local-roster pilots, which needs no share code and no import
+    // screen: the archive goes straight to each participant's logbook
+    async RouteArchiveToLogbooks(archive: EncounterArchive): Promise<void> {
+      const pilots = PilotStore()
+      const logbooks = PilotStore()
+      for (const participant of archive.History.participants) {
+        if (participant.type !== 'pilot') continue
+        const pilot = pilots.getPilotByID(participant.originId || participant.id)
+        if (!pilot) continue
+        try {
+          await logbooks.RecordStream(archive.StreamFor(participant.id), pilot.ID, participant.id)
+        } catch (err) {
+          logger.error(`Failed to record encounter log for pilot ${pilot.ID}`, this, err)
+        }
       }
     },
 
@@ -221,7 +240,12 @@ export const EncounterStore = defineStore('encounter', {
     },
 
     async SaveActiveEncounterData(): Promise<void> {
-      await saveAll('active_encounters', this.ActiveEncounters, y => toRaw(y).Serialize(), 'Active Encounter data')
+      await saveAll(
+        'active_encounters',
+        this.ActiveEncounters,
+        y => toRaw(y).Serialize(),
+        'Active Encounter data'
+      )
     },
   },
 })

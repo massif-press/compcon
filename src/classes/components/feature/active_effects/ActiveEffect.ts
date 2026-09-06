@@ -154,6 +154,20 @@ class ActiveEffect {
     this.Applied = data.applied || false
   }
 
+  get IsAutoSelfResist(): boolean {
+    return (
+      !!this.AddResist.length &&
+      this.AddResist.every(r => r.Target === 'self') &&
+      !this.Damage.length &&
+      !this.AddStatus.length &&
+      !this.AddOther.length &&
+      !this.AddSpecial.length &&
+      !this.Attack &&
+      !this.Save &&
+      !(this as any).Activation
+    )
+  }
+
   get IsPassive(): boolean {
     return (
       !this.AddOther?.length &&

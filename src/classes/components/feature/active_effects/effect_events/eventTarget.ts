@@ -9,44 +9,51 @@ import { SpecialEvent } from './specialEvent'
 import { ResistEvent } from './resistEvent'
 import { EffectSpecial } from '../effect_subtype/EffectSpecial'
 import { CoverType } from '@/classes/components/combat/CombatController'
-import { ActionSummaryData } from '../EffectActionSummary'
-import { combatantLabel } from '@/util/combatantLabel'
-import { hitResultFor, canCrit, heatExempt, applyAttackDamage, attackModifiers } from '@/classes/components/combat/flows/WeaponAttackFlow'
-import { TargetRollFlow, resolveTargetDefense } from '@/classes/components/combat/flows/TargetResolutionFlow'
+import {
+  hitResultFor,
+  canCrit,
+  heatExempt,
+  applyAttackDamage,
+  attackModifiers,
+} from '@/classes/components/combat/flows/WeaponAttackFlow'
+import {
+  resolveTargetRoll,
+  resolveTargetDefense,
+} from '@/classes/components/combat/flows/TargetResolutionFlow'
 export { canCrit }
 
 class ActiveEventTarget {
   public Event: ActiveEffectEvent
   private _combatant!: CombatantData | null
 
-  // attack roll
-  public TargetDefense?: string // eg. evasion, agility, etc
+  public TargetDefense?: string
   public TargetDefenseValue?: number
-  public AttackRollString?: string // dice string
-  public AttackRollResult?: D20RollResult // after roll
-  private _attackRolledValue?: number // save roll
-  public AttackAccuracy: number = 0 // accuracy bonus
+  public AttackRollString?: string
+  public AttackRollResult?: D20RollResult
+  private _attackRolledValue?: number
+  public AttackAccuracy: number = 0
   public AttackBonus: number = 0
   public AttackType?: 'melee' | 'ranged' | 'tech'
 
-  // damage info
   public FinalDamageValue: number = 0
   public TotalArmorReduction: number = 0
   public TookDamage: boolean = false
   public MissedFromInvisibility: boolean = false
   public HitResultOverride?: 'hit' | 'miss'
 
-  // save roll
+  public ConsumingLockOn: boolean = false
+
   public SaveTarget: number = 10
   public SaveBonus: number = 0
-  public SaveRollString?: string // dice string
-  public SaveRollResult?: D20RollResult // after roll
-  private _saveRolledValue?: number // save roll
-  public SaveType?: string // hase
+  public SaveRollString?: string
+  public SaveRollResult?: D20RollResult
+  private _saveRolledValue?: number
+  public SaveType?: string
 
-  // etc
   public Grit: number = 0
-  public SavedHalf: boolean = false // did they save half damage
+  public SavedHalf: boolean = false
+
+  public ConfirmedKill: boolean = false
 
   constructor(event: ActiveEffectEvent, combatant: CombatantData | null, effect: ActiveEffect) {
     this.Event = event
@@ -78,7 +85,7 @@ class ActiveEventTarget {
 
   public set AttackRolledValue(value: number | undefined) {
     this._attackRolledValue = value
-    TargetRollFlow.Begin({ target: this, event: this.Event, kind: 'attack' })
+    resolveTargetRoll({ target: this, event: this.Event, kind: 'attack' })
   }
 
   public get StatusAccuracy(): number {
@@ -107,7 +114,7 @@ class ActiveEventTarget {
 
   public set SaveRolledValue(value: number | undefined) {
     this._saveRolledValue = value
-    TargetRollFlow.Begin({ target: this, event: this.Event, kind: 'save' })
+    resolveTargetRoll({ target: this, event: this.Event, kind: 'save' })
   }
 
   public get SaveResult(): string {
@@ -157,8 +164,7 @@ class ActiveEventTarget {
     if (!this.Combatant) return
     const initiator = this.Event.Initiator?.actor?.CombatController
     const selfInflicted =
-      !!initiator &&
-      initiator.RootActor?.ID === this.Combatant.actor.CombatController.RootActor?.ID
+      !!initiator && initiator.RootActor?.ID === this.Combatant.actor.CombatController.RootActor?.ID
     this.Combatant.actor.CombatController.AddStatus(statusEvent.Status.ID, statusEvent.Duration, {
       selfInflicted,
     })
@@ -202,30 +208,9 @@ class ActiveEventTarget {
     this.Combatant.actor.CombatController.RemoveCustomStatus(special)
   }
 
-  public static IncomingActionSummary(event: ActionSummaryData): string {
-    let str = ''
-    str += `Incoming from ${event.initiatorName}: ${event.effectName} // `
-    event.damageEvents.flat().forEach(de => {
-      str += `${de.finalDamageValue} ${de.damageType} Damage`
-    })
-    event.statusEvents.flat().forEach(se => {
-      str += `Apply Status ${se.statusName} for ${se.duration}`
-    })
-    event.otherEvents.flat().forEach(oe => {
-      str += `Apply Effect ${oe.type} ${oe.value}`
-    })
-    event.specialEvents.flat().forEach(spe => {
-      str += `Apply Special Status ${spe.attribute} for ${spe.duration}`
-    })
-    event.resistEvents.flat().forEach(re => {
-      str += `Set ${re.resistType} to ${re.resist}`
-    })
-    return str.trim()
-  }
-
   public ToJSON() {
     return {
-      CombatantName: combatantLabel(this.Combatant) || 'Unknown Target',
+      CombatantName: this.Combatant?.Label || 'Unknown Target',
       CombatantType: this.Combatant?.actor.ItemType || 'Unknown Target',
       CombatantId: this.Combatant?.actor.ID || 'Unknown Target',
       TargetDefense: this.TargetDefense,

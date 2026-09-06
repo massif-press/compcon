@@ -105,7 +105,7 @@
             <v-select
               v-model="selectedTarget"
               :items="alliedTargets"
-              :item-title="combatantLabel"
+              item-title="Label"
               return-object
               flat
               tile
@@ -150,14 +150,13 @@
   import type { CombatantData } from '@/classes/encounter/Encounter'
   import type { Action } from '@/classes/Action'
   import { computed, ref } from 'vue'
-  import { combatantLabel } from '@/util/combatantLabel'
   import CombatActionButton from './CombatActionButton.vue'
   import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue'
   import type { Status } from '@/classes/Status'
 
   type ClearableCondition = { status: Status; expires: any }
 
-  const { owner, encounterInstance } = useEncounterContext()
+  const { owner, encounterInstance, ownerController: controller } = useEncounterContext()
 
   const props = defineProps<{
     action: Action
@@ -169,9 +168,6 @@
   const clearAlliedCondition = ref<ClearableCondition | null>(null)
   const selectedTarget = ref<CombatantData | null>(null)
 
-  const controller = computed(() => {
-    return owner.value.actor.CombatController
-  })
   const alliedTargets = computed(() => {
     const thisCombatant = encounterInstance.value.Combatants.find(
       c => c.actor.ID === controller.value.RootActor.ID
@@ -187,7 +183,7 @@
     return target.CombatController.ClearableConditions()
   }
   function apply() {
-    const performed = controller.value.PerformAction(props.action.ID, {
+    const performed = controller.value.RunAction(props.action.ID, {
       options: [firstChoice.value, secondChoice.value],
     })
     if (!performed) return

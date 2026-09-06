@@ -8,7 +8,6 @@ import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon'
 import { ActiveEffectEvent } from './ActiveEffectEvent'
 import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon'
 import { ActiveEventTarget } from './effect_events/eventTarget'
-import { combatantLabel } from '@/util/combatantLabel'
 import { routesTo, attackCountFor, WeaponAttackFlow } from '@/classes/components/combat/flows/WeaponAttackFlow'
 import type { IWeaponAttackState } from '@/classes/components/combat/flows/WeaponAttackFlow'
 
@@ -18,11 +17,13 @@ class WeaponAttackEvent {
   public ID: string
   public AttackActionString: string
   public Weapon: WeaponProfile | NpcWeapon | PilotWeapon
-  public BaseEvent: ActiveEffectEvent // the weapon attack itself
+  public BaseEvent: ActiveEffectEvent
   public SubEvents: ActiveEffectEvent[] = []
   public ModEvents: ActiveEffectEvent[] = []
 
   private _applied = false
+
+  public Force = false
 
   public OnMissEvent?: ActiveEffectEvent
   public OnAttackEvent?: ActiveEffectEvent
@@ -42,7 +43,7 @@ class WeaponAttackEvent {
     if (weapon instanceof WeaponProfile) {
       effectData = weapon.toActiveEffectData(owner.actor as Mech)
     } else if (weapon instanceof NpcWeapon) {
-      effectData = weapon.toActiveEffectData(owner.actor as any) // this will always be Unit or Eidolon
+      effectData = weapon.toActiveEffectData(owner.actor as any)
     } else {
       effectData = weapon.toActiveEffectData(owner.actor as Pilot)
     }
@@ -123,13 +124,13 @@ class WeaponAttackEvent {
   public get Summary(): string {
     let str = ''
     const isAdditional = this.AttackActionString.toLowerCase().includes('additional')
-    if (!isAdditional) str = `${combatantLabel(this.BaseEvent.Initiator)}: `
+    if (!isAdditional) str = `${this.BaseEvent.Initiator.Label}: `
     else str = ' ⤷ '
     str += `${this.AttackActionString} with ${this.Weapon.Name}:\n`
     this.BaseEvent.Targets.forEach((t, idx) => {
       this.BaseEvent.DamageEvents.forEach(de => {
         const { finalDamage } = de.CalcFinalDamageValues(this.BaseEvent, t)
-        str += `   - [${combatantLabel(t.Combatant) || `Target ${idx + 1}`}]`
+        str += `   - [${t.Combatant?.Label || `Target ${idx + 1}`}]`
         switch (this.BaseEvent.Attack && t.HitResult) {
           case 'crit':
             str += ` ⟪Critical Hit!⟫ `
@@ -143,8 +144,6 @@ class WeaponAttackEvent {
           default:
             break
         }
-        // calc for attack, not save
-        // (attacker rolls vs target defense)
         if (t.AttackRolledValue) {
           str += `(${t.AttackRolledValue || t.SaveRolledValue} vs ${t.TargetDefenseValue} ${t.TargetDefense})`
           if (t.HitResult !== 'miss') {
@@ -158,7 +157,7 @@ class WeaponAttackEvent {
             (this.Weapon as WeaponProfile).HeatCost + (de.Overkill ? de.OverkillHeat : 0)
 
           if (totalHeat > 0) {
-            str += `\n     ${combatantLabel(this.BaseEvent.Initiator)} takes ${totalHeat} Heat (`
+            str += `\n     ${this.BaseEvent.Initiator.Label} takes ${totalHeat} Heat (`
             const heatSources: string[] = []
             if ((this.Weapon as WeaponProfile).HeatCost) heatSources.push('Self')
             if (de.Overkill) heatSources.push('Overkill')
@@ -166,7 +165,7 @@ class WeaponAttackEvent {
             str += `)`
           }
 
-          if (t.HitResult === 'miss' && this.OnMissEvent) {
+          if (routesTo(t.HitResult).onMiss && this.OnMissEvent) {
             str += `\n       ❯ On Miss Effect\n`
             str += `          ${this.OnMissEvent.ShortSummary}`
           }
@@ -176,12 +175,12 @@ class WeaponAttackEvent {
             str += `          ${this.OnAttackEvent.ShortSummary}`
           }
 
-          if ((t.HitResult === 'hit' || t.HitResult === 'crit') && this.OnHitEvent) {
+          if (routesTo(t.HitResult).onHit && this.OnHitEvent) {
             str += `\n       ❯ On Hit Effect\n`
             str += `          ${this.OnHitEvent.ShortSummary}`
           }
 
-          if (t.HitResult === 'crit' && this.OnCritEvent) {
+          if (routesTo(t.HitResult).onCrit && this.OnCritEvent) {
             str += `\n       ❯ On Crit Effect\n`
             str += `          ${this.OnCritEvent.ShortSummary}`
           }
@@ -218,8 +217,8 @@ class WeaponAttackEvent {
         targets: () => this.buildEventTargets(config.event!, config.filter) as any,
       })).filter(r => !!r.event),
       followUps: [...this.SubEvents, ...this.ModEvents],
-      eligible: false,
       applied: false,
+      force: this.Force,
     }
   }
 

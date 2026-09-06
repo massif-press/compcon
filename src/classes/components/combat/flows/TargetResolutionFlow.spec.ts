@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { TargetRollFlow, resolveTargetDefense } from './TargetResolutionFlow'
+import { resolveTargetRoll, resolveTargetDefense } from './TargetResolutionFlow'
 
 const combatant = (stats: Record<string, number>) => ({
   actor: {
@@ -10,10 +10,6 @@ const combatant = (stats: Record<string, number>) => ({
 })
 
 describe('the target resolution flows', () => {
-  it('runs its steps in order', () => {
-    expect(TargetRollFlow.Steps).toEqual(['saved-half', 'crit-trigger'])
-  })
-
   it('reads evasion for a weapon attack and e-defense for a tech attack', () => {
     const stats = { evasion: 8, edef: 12 }
 
@@ -36,21 +32,21 @@ describe('the target resolution flows', () => {
 
   it('marks a half damage save from the hit result on an attack and from the save on a save', () => {
     const attack: any = { AttackType: 'ranged', HitResult: 'hit', SavedHalf: false }
-    TargetRollFlow.Begin({ target: attack, event: { SaveHalf: true }, kind: 'attack' })
+    resolveTargetRoll({ target: attack, event: { SaveHalf: true }, kind: 'attack' })
     expect(attack.SavedHalf).toBe(true)
 
     const missed: any = { AttackType: 'ranged', HitResult: 'miss', SavedHalf: false }
-    TargetRollFlow.Begin({ target: missed, event: { SaveHalf: true }, kind: 'attack' })
+    resolveTargetRoll({ target: missed, event: { SaveHalf: true }, kind: 'attack' })
     expect(missed.SavedHalf).toBe(false)
 
     const save: any = { SaveResult: 'success', SavedHalf: false }
-    TargetRollFlow.Begin({ target: save, event: { SaveHalf: true }, kind: 'save' })
+    resolveTargetRoll({ target: save, event: { SaveHalf: true }, kind: 'save' })
     expect(save.SavedHalf).toBe(true)
   })
 
   it('leaves the half damage mark alone when the effect does not offer one', () => {
     const target: any = { AttackType: 'ranged', HitResult: 'hit', SavedHalf: false }
-    TargetRollFlow.Begin({ target, event: { SaveHalf: false }, kind: 'attack' })
+    resolveTargetRoll({ target, event: { SaveHalf: false }, kind: 'attack' })
     expect(target.SavedHalf).toBe(false)
   })
 
@@ -66,26 +62,26 @@ describe('the target resolution flows', () => {
     })
 
     const weapon: any = { AttackType: 'ranged', AttackRolledValue: 20 }
-    TargetRollFlow.Begin({ target: weapon, event: event(true), kind: 'attack' })
+    resolveTargetRoll({ target: weapon, event: event(true), kind: 'attack' })
     expect(crits).toBe(1)
 
     const tech: any = { AttackType: 'tech', AttackRolledValue: 20 }
-    TargetRollFlow.Begin({ target: tech, event: event(true), kind: 'attack' })
+    resolveTargetRoll({ target: tech, event: event(true), kind: 'attack' })
     expect(crits).toBe(1)
 
     const save: any = { AttackType: 'ranged', AttackRolledValue: 20 }
-    TargetRollFlow.Begin({ target: save, event: event(true), kind: 'save' })
+    resolveTargetRoll({ target: save, event: event(true), kind: 'save' })
     expect(crits).toBe(1)
 
     const noCrit: any = { AttackType: 'ranged', AttackRolledValue: 20 }
-    TargetRollFlow.Begin({ target: noCrit, event: event(false), kind: 'attack' })
+    resolveTargetRoll({ target: noCrit, event: event(false), kind: 'attack' })
     expect(crits).toBe(1)
   })
 
   it('does not crit for an attacker that cannot crit', () => {
     let crits = 0
     const target: any = { AttackType: 'melee', AttackRolledValue: 20 }
-    TargetRollFlow.Begin({
+    resolveTargetRoll({
       target,
       event: {
         SaveHalf: false,

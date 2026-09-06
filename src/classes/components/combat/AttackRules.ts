@@ -47,11 +47,25 @@ function isSuperheavy(weapon: any): boolean {
   return !!weapon?.IsSuperheavy || String(weapon?.Size ?? '').toLowerCase() === 'superheavy'
 }
 
+function hasUsesRemaining(item: any): boolean {
+  if (!item?.IsLimited) return true
+  if (item.CanSetUses) return true
+  return (item.Uses ?? 0) < (item.MaxUses ?? 0)
+}
+
+function isSelectableWeapon(w: any): boolean {
+  if (!w) return false
+  if (w.Destroyed) return false
+  if (w.Used) return false
+  return hasUsesRemaining(w)
+}
+
 function weaponPool(cc: any, mode: WeaponUseMode): any[] {
-  if (mode === 'fight') return cc?.RootActor?.Loadout?.Weapons ?? []
+  const present = (list: any[]) => (list ?? []).filter(Boolean)
+  if (mode === 'fight') return present(cc?.RootActor?.Loadout?.Weapons)
   const npc = cc?.ActiveActor?.NpcFeatureController
-  if (npc) return (mode === 'barrage' ? npc.BarrageWeapons : npc.SkirmishWeapons) ?? []
-  const all = cc?.ActiveActor?.MechLoadoutController?.ActiveLoadout?.Weapons ?? []
+  if (npc) return present(mode === 'barrage' ? npc.BarrageWeapons : npc.SkirmishWeapons)
+  const all = present(cc?.ActiveActor?.MechLoadoutController?.ActiveLoadout?.Weapons)
   return all.filter((w: any) => (mode === 'barrage' ? w.Barrage : w.Skirmish))
 }
 
@@ -72,6 +86,8 @@ function suppressBonusDamage(event: any): any {
 }
 
 export {
+  hasUsesRemaining,
+  isSelectableWeapon,
   weaponPool,
   mountWeapons,
   isSuperheavy,

@@ -11,7 +11,7 @@ const fake = (bonuses: any[], stats: Record<string, number> = {}) => ({
     FeatureController: { Bonuses: bonuses },
     CombatController: { StatController: { getMax: (k: string) => stats[k] } },
   },
-  log: () => undefined,
+  Record: () => undefined,
 })
 
 beforeEach(() => {
@@ -62,7 +62,7 @@ describe('SkillCheckFlow', () => {
     const r = SkillCheckFlow.Begin(s)
     expect(r.outcome).toBe('halted')
     expect(r.pending).toBe('contest-target')
-    expect(r.state.blockedBy).toBe('no-target')
+    expect(r.state.blockedBy).toBe('no_target')
   })
 
   it('asks for both rolls in a contested check and names the winner, ties going to the actor', () => {
@@ -88,7 +88,7 @@ describe('SkillCheckFlow', () => {
   it('records the tier the GM chose without setting a target value from it', () => {
     const logs: string[] = []
     const s = skillCheckState({
-      cc: { ...fake([], {}), log: (str: string) => logs.push(str) },
+      cc: { ...fake([], {}), Record: (_k: string, p: any) => logs.push(p) },
       stat: 'systems',
       tier: 'heroic',
       roll: 18,
@@ -97,6 +97,16 @@ describe('SkillCheckFlow', () => {
     SkillCheckFlow.Begin(s)
 
     expect(s.targetValue).toBe(10)
-    expect(logs).toEqual(['Skill check: systems check (heroic) 18 vs 10 - success'])
+    expect(logs).toEqual([
+      {
+        stat: 'systems',
+        target: 10,
+        tier: 'heroic',
+        contested: false,
+        opposedId: undefined,
+        rolled: 18,
+        result: 'success',
+      },
+    ])
   })
 })

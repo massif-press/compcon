@@ -34,6 +34,7 @@ export const SyncStore = defineStore('sync', {
         ...EncounterStore().ActiveEncounters,
         ...EncounterStore().ArchivedEncounters,
         ...PilotSheetStore().PilotSheets,
+        ...PilotStore().PilotLogbooks,
       ] as SyncableItem[]
     },
     AllLocalItems(): SyncableItem[] {

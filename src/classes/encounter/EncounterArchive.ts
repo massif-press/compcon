@@ -8,9 +8,10 @@ import {
   SaveController,
 } from '../components'
 import { Encounter, IEncounterData } from './Encounter'
-import { CombatLogEntry } from '../components/combat/CombatLog'
+import type { ILogEvent, IActorRef, ILogStream } from '../components/combat/log/events'
+import { combatantRef } from '../components/combat/log/refs'
+import { buildStream, extractActorStream } from '../components/combat/log/stream'
 import { EncounterInstance } from './EncounterInstance'
-import { combatantLabel } from '@/util/combatantLabel'
 
 interface IEncounterArchiveData {
   itemType: 'EncounterArchive'
@@ -28,10 +29,9 @@ interface IEncounterArchiveData {
 }
 
 type ArchivedCombatLogs = {
-  combatantName: string
-  log: CombatLogEntry[]
-  telemetry: any
-}[]
+  participants: IActorRef[]
+  events: ILogEvent[]
+}
 
 class EncounterArchive implements ISaveable, ICloudSyncable {
   public readonly ID: string
@@ -44,7 +44,7 @@ class EncounterArchive implements ISaveable, ICloudSyncable {
   public readonly Round: number = 0
   public readonly Result: string = ''
   public readonly EncounterData: IEncounterData = {} as IEncounterData
-  public readonly History: ArchivedCombatLogs = []
+  public readonly History: ArchivedCombatLogs = { participants: [], events: [] }
   public readonly AfterActionReport: string = ''
 
   public SaveController: SaveController
@@ -73,7 +73,7 @@ class EncounterArchive implements ISaveable, ICloudSyncable {
     instance.Encounter.Combatants = instance.Combatants
     const data = {
       itemType: 'EncounterArchive',
-      id: crypto.randomUUID(),
+      id: instance.ID,
       name: instance.Encounter.Name,
       start: instance.Created,
       end: Date.now(),
@@ -85,11 +85,13 @@ class EncounterArchive implements ISaveable, ICloudSyncable {
         deleteTime: 0,
       },
       encounter: Encounter.Serialize(instance.Encounter),
-      history: instance.Combatants.map(c => ({
-        combatantName: combatantLabel(c),
-        log: c.actor.CombatController.CombatLog.History,
-        telemetry: c.actor.CombatController.CombatLog.Telemetry,
-      })),
+      history: {
+        participants: instance.Combatants.map(combatantRef),
+        events: instance.Combatants.flatMap(c => [
+          ...c.actor.CombatController.CombatLog.Events,
+          ...(c.actor.ActiveMech?.CombatController.CombatLog.Events ?? []),
+        ]).sort((a, b) => a.ts - b.ts || a.seq - b.seq),
+      },
       report,
     }
 
@@ -116,6 +118,28 @@ class EncounterArchive implements ISaveable, ICloudSyncable {
     CloudController.Serialize(instance, data)
 
     return data as IEncounterArchiveData
+  }
+
+  public get Stream(): ILogStream {
+    const tagged = this.History.events.find(e => e.campaignId || e.missionId)
+    return buildStream(
+      {
+        encounterId: this.ID,
+        encounterName: this.Name,
+        campaignId: tagged?.campaignId,
+        missionId: tagged?.missionId,
+        start: this.Start,
+        end: this.End,
+        rounds: this.Round,
+        result: this.Result,
+      },
+      this.History.participants,
+      this.History.events
+    )
+  }
+
+  public StreamFor(actorId: string): ILogStream {
+    return extractActorStream(this.Stream, actorId)
   }
 
   public Clone(): EncounterArchive {

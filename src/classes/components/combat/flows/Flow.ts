@@ -3,7 +3,7 @@ type FlowOutcome = 'complete' | 'halted' | 'awaiting'
 
 type RequestKind = 'roll' | 'stage' | 'check' | 'select'
 
-interface IFlowRequest {
+export interface IFlowRequest {
   kind: RequestKind
   label: string
   targets?: number[]
@@ -15,14 +15,21 @@ interface IFlowRequest {
 type StepUndo<S> = ((state: S) => void) | 'irreversible'
 type UndoCoverage = 'none' | 'undo' | 'irreversible'
 
-interface IFlowStep<S> {
+export interface IFlowStep<S> {
   Name: string
   Run: (state: S, input?: unknown) => StepOutcome
   Request?: (state: S) => IFlowRequest | undefined
   Undo?: StepUndo<S>
+  ReportHalt?: boolean
 }
 
-interface IFlowResult<S> {
+export interface IFlowHooks<S> {
+  Scope?: <T>(state: S, run: () => T) => T
+  OnHalt?: (state: S, step: string) => void
+  OnResume?: (state: S, request: IFlowRequest, input: unknown) => void
+}
+
+export interface IFlowResult<S> {
   state: S
   outcome: FlowOutcome
   completed: string[]
@@ -30,22 +37,43 @@ interface IFlowResult<S> {
   request?: IFlowRequest
 }
 
-class Flow<S> {
+export function step<S>(
+  Name: string,
+  run: (state: S) => void,
+  extra: { Undo?: StepUndo<S> } = {}
+): IFlowStep<S> {
+  return {
+    Name,
+    Run: state => {
+      run(state)
+      return 'continue'
+    },
+    ...extra,
+  }
+}
+
+export class Flow<S> {
   public readonly Name: string
   private _steps: IFlowStep<S>[]
+  private _hooks: IFlowHooks<S>
 
-  public constructor(name: string, steps: IFlowStep<S>[] = []) {
+  public constructor(name: string, steps: IFlowStep<S>[] = [], hooks: IFlowHooks<S> = {}) {
     this.Name = name
-    this._steps = []
-    steps.forEach(s => this._add(s, this._steps.length))
+    this._steps = steps
+    this._hooks = hooks
+    const seen = new Set<string>()
+    for (const s of steps) {
+      if (seen.has(s.Name)) throw new Error(`${name}: duplicate step "${s.Name}"`)
+      seen.add(s.Name)
+    }
+  }
+
+  private _scope<T>(state: S, run: () => T): T {
+    return this._hooks.Scope ? this._hooks.Scope(state, run) : run()
   }
 
   public get Steps(): string[] {
     return this._steps.map(s => s.Name)
-  }
-
-  public HasStep(name: string): boolean {
-    return this._steps.some(s => s.Name === name)
   }
 
   public get UndoCoverage(): Record<string, UndoCoverage> {
@@ -57,16 +85,17 @@ class Flow<S> {
     )
   }
 
-  // walks inverses backwards. only steps that actually ran are undone
   public UndoAll(state: S, completed?: string[]): string[] {
     const ran = completed ? new Set(completed) : undefined
     const irreversible: string[] = []
-    for (let i = this._steps.length - 1; i >= 0; i--) {
-      const { Name, Undo } = this._steps[i]
-      if (ran && !ran.has(Name)) continue
-      if (Undo === 'irreversible') irreversible.push(Name)
-      else Undo?.(state)
-    }
+    this._scope(state, () => {
+      for (let i = this._steps.length - 1; i >= 0; i--) {
+        const { Name, Undo } = this._steps[i]
+        if (ran && !ran.has(Name)) continue
+        if (Undo === 'irreversible') irreversible.push(Name)
+        else Undo?.(state)
+      }
+    })
     return irreversible
   }
 
@@ -76,16 +105,12 @@ class Flow<S> {
 
   public Resume(result: IFlowResult<S>, input?: unknown): IFlowResult<S> {
     if (result.outcome !== 'awaiting') return result
-    return this._run(
-      result.state,
-      this._indexOf(result.pending as string),
-      [...result.completed],
-      input
-    )
+    const from = this._steps.findIndex(s => s.Name === result.pending)
+    if (from === -1) throw new Error(`${this.Name}: no step named "${result.pending}"`)
+    return this._run(result.state, from, [...result.completed], input)
   }
 
   public AsStep(name: string = this.Name): IFlowStep<S> {
-    // keyed by the outer state so two runs of the same composition cannot see each other
     const inner = new WeakMap<object, IFlowResult<S>>()
     return {
       Name: name,
@@ -100,44 +125,27 @@ class Flow<S> {
     }
   }
 
-  private _add(step: IFlowStep<S>, at: number): this {
-    if (this.HasStep(step.Name)) throw new Error(`${this.Name}: duplicate step "${step.Name}"`)
-    this._steps.splice(at, 0, step)
-    return this
-  }
-
-  private _indexOf(name: string): number {
-    const i = this._steps.findIndex(s => s.Name === name)
-    if (i === -1) throw new Error(`${this.Name}: no step named "${name}"`)
-    return i
-  }
-
   private _run(state: S, from: number, completed: string[], input?: unknown): IFlowResult<S> {
-    for (let i = from; i < this._steps.length; i++) {
-      const { Name, Run, Request } = this._steps[i]
-      const outcome = Run(state, i === from ? input : undefined)
-      if (outcome !== 'continue')
+    return this._scope(state, () => {
+      for (let i = from; i < this._steps.length; i++) {
+        const { Name, Run, Request, ReportHalt } = this._steps[i]
+        const request = i === from && input !== undefined ? Request?.(state) : undefined
+        const outcome = Run(state, i === from ? input : undefined)
+        if (request && outcome !== 'await') this._hooks.OnResume?.(state, request, input)
+        if (outcome === 'continue') {
+          completed.push(Name)
+          continue
+        }
+        if (outcome === 'halt' && ReportHalt) this._hooks.OnHalt?.(state, Name)
         return {
           state,
-          outcome: outcome === 'await' ? 'awaiting' : 'halted',
+          outcome: outcome === 'await' ? ('awaiting' as const) : ('halted' as const),
           completed,
           pending: Name,
           request: outcome === 'await' ? Request?.(state) : undefined,
         }
-      completed.push(Name)
-    }
-    return { state, outcome: 'complete', completed }
+      }
+      return { state, outcome: 'complete' as const, completed }
+    })
   }
-}
-
-export { Flow }
-export type {
-  IFlowStep,
-  IFlowResult,
-  IFlowRequest,
-  RequestKind,
-  StepOutcome,
-  FlowOutcome,
-  StepUndo,
-  UndoCoverage,
 }

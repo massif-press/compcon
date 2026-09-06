@@ -109,7 +109,7 @@
   import CombatActionButton from './CombatActionButton.vue'
   import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue'
 
-  const { owner, encounterInstance } = useEncounterContext()
+  const { owner, encounterInstance, activeController: controller } = useEncounterContext()
 
   const props = defineProps<{
     action: Action
@@ -117,9 +117,6 @@
 
   const heatCost = ref<number | null>(null)
 
-  const controller = computed(() => {
-    return owner.value.actor.CombatController.ActiveActor.CombatController
-  })
   const currentOvercharge = computed(() => {
     return controller.value.OverchargeLevel
   })
@@ -128,7 +125,7 @@
     heatCost.value = DiceRoller.roll(controller.value.OverchargeCost)
   }
   function apply() {
-    controller.value.PerformAction(props.action.ID, {
+    controller.value.RunAction(props.action.ID, {
       value: heatCost.value === null ? undefined : Number(heatCost.value),
     })
     heatCost.value = null

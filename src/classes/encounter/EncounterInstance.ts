@@ -9,8 +9,9 @@ import {
   ISaveable,
   SaveController,
 } from '../components'
-import { CombatantData, Encounter, IEncounterData } from './Encounter'
+import { CombatantData, Encounter, IEncounterData, makeCombatant } from './Encounter'
 import { Deployable } from '../components/feature/deployable/Deployable'
+import type { ICombatant } from '../components/combat/ICombatant'
 import { ItemType } from '../enums'
 import { Pilot, PilotData } from '../pilot/Pilot'
 import { Placeholder } from './Placeholder'
@@ -100,33 +101,36 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
           pData.mechs = [pData.mechs[0]]
           const actor = Pilot.Deserialize(pData)
 
-          return {
+          return makeCombatant(actor, 'pilot', {
             id: p.ID,
             index: -1,
             number: -1,
             side: 'ally',
-            type: 'pilot',
-            actor,
-            deployables: [],
-          } as unknown as CombatantData
+            status: undefined,
+            pilotStatus: undefined,
+            mechStatus: undefined,
+          })
         }),
-        ...placeholders.map(ph => {
-          return {
+        ...placeholders.map(ph =>
+          makeCombatant(ph, 'placeholder', {
             id: ph.ID,
             index: -1,
             number: -1,
-            type: 'placeholder',
             side: ph.Side,
-            actor: ph,
-            deployables: [],
-          } as unknown as CombatantData
-        }),
+            status: undefined,
+            pilotStatus: undefined,
+            mechStatus: undefined,
+          })
+        ),
       ]
 
       this.Combatants.sort((a, b) => a.index - b.index)
 
       const playerCount = pilots.length + placeholders.length
       this.Combatants = this.Combatants.filter(c => !c.playerCount || c.playerCount <= playerCount)
+
+      this.StampLogContext()
+      this.ApplyPassiveResistances()
 
       this.Combatants.forEach((combatant, index) => {
         combatant.index = index
@@ -210,6 +214,31 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     combatant.actor.CombatController.toggleCombatAction(deployable.DeployAction.Activation)
   }
 
+  public ApplyPassiveResistances(): void {
+    for (const c of this.Combatants) {
+      for (const cc of [c.actor?.CombatController, c.actor?.ActiveMech?.CombatController]) {
+        if (!cc) continue
+        for (const effect of cc.ActiveEffects ?? []) {
+          if (!effect.IsAutoSelfResist) continue
+          effect.AddResist.forEach((r: any) => cc.SetResistance(r.ResistType, r.Resist))
+        }
+      }
+    }
+  }
+
+  public StampLogContext(source: 'gm' | 'self' = 'gm'): void {
+    for (const c of this.Combatants) {
+      const recorders = [c.actor?.CombatController, c.actor?.ActiveMech?.CombatController]
+      for (const cc of recorders) {
+        if (!cc?.CombatLog) continue
+        cc.CombatLog.EncounterId = this.ID
+        cc.CombatLog.Source = source
+        cc.CombatLog.CampaignId = (this as any).Campaign || undefined
+        cc.CombatLog.Side = c.side
+      }
+    }
+  }
+
   public EndEncounter(): void {
     for (const c of this.Combatants) {
       c.actor.CombatController.EndEncounter()
@@ -289,15 +318,17 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
       allTargets.push(combatant)
 
       combatant.deployables.forEach(deployable => {
-        allTargets.push({
-          id: deployable.ID,
-          index: -1,
-          number: -1,
-          type: 'placeholder',
-          side: combatant.side, // Inherit parent's side
-          deployables: [],
-          actor: deployable,
-        } as CombatantData)
+        allTargets.push(
+          makeCombatant(deployable as unknown as ICombatant, 'placeholder', {
+            id: deployable.ID,
+            index: -1,
+            number: -1,
+            side: combatant.side, // Inherit parent's side
+            status: undefined,
+            pilotStatus: undefined,
+            mechStatus: undefined,
+          })
+        )
       })
     })
 

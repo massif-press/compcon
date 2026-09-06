@@ -81,7 +81,7 @@
   import CombatActionButton from './CombatActionButton.vue'
   import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue'
 
-  const { owner, encounterInstance } = useEncounterContext()
+  const { owner, encounterInstance, ownerController: controller } = useEncounterContext()
 
   const props = defineProps<{
     action: Action
@@ -93,9 +93,6 @@
 
   const tab = ref('jockey')
 
-  const controller = computed(() => {
-    return owner.value.actor.CombatController
-  })
   const jockeyActions = computed(() => controller.value.JockeyOptions())
 
   function selectedAction(id: string) {
@@ -103,7 +100,7 @@
   }
   function apply() {
     if (tab.value === 'jockey') {
-      controller.value.PerformAction('act_jockey')
+      controller.value.RunAction('act_jockey')
       return
     }
     emit('activate', props.action.ID)

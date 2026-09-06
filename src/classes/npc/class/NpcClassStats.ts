@@ -86,10 +86,4 @@ export class NpcClassStats {
     }
     return this._stats[key].reduce((a, b) => a + b, 0) / this._stats[key].length
   }
-
-  // public Sizes(tier: number): number[] {
-  //   if (!this._stats.size) return [1];
-  //   if (!Array.isArray(this._stats.size)) return [this._stats.size];
-  //   return this._stats.size[tier - 1];
-  // }
 }

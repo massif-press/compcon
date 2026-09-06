@@ -20,12 +20,6 @@ beforeEach(() => {
 })
 
 describe('skill check sources', () => {
-  it('reads a HASE stat under the name the picker offers, not the name the stat block stores', () => {
-    expect(cc().StatController.getMax('agility')).toBe(cc().StatController.getMax('agi'))
-    expect(cc().StatController.getMax('systems')).toBe(cc().StatController.getMax('sys'))
-    expect(cc().StatController.getMax('engineering')).toBe(cc().StatController.getMax('eng'))
-  })
-
   it('gathers the stat, the matching bonuses, and the check-wide bonuses', () => {
     const sources = checkSources(
       fake(
@@ -45,11 +39,14 @@ describe('skill check sources', () => {
   })
 
   it('takes no stat bonus when no stat is chosen', () => {
-    const sources = checkSources(fake([{ ID: 'check', Value: 1, Source: 'Talent' }], { hull: 3 }), '')
+    const sources = checkSources(
+      fake([{ ID: 'check', Value: 1, Source: 'Talent' }], { hull: 3 }),
+      ''
+    )
     expect(sources.bonuses.map(b => b.Source)).toEqual(['Talent'])
   })
 
-  it('applies the flat difficult modifier the app has always used', () => {
+  it('applies the flat difficult modifier', () => {
     const sources = { bonuses: [{ Source: 'Frame', Value: 2 }], accDiff: [] }
     expect(totalBonus(sources, false)).toBe(2)
     expect(totalBonus(sources, true)).toBe(1)

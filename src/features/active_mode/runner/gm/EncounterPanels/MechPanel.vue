@@ -276,13 +276,17 @@
         key: 'braced',
         label: t('active.actions.braced'),
         active: cc.Braced,
+        reason: cc.BlockedReasonFor('brace'),
         toggle: () => cc.SetBraced(!cc.Braced),
+        forceToggle: () => cc.SetBraced(!cc.Braced, true),
       },
       {
         key: 'overwatch',
         label: t('active.actions.overwatch'),
         active: cc.Overwatch,
+        reason: cc.BlockedReasonFor('overwatch'),
         toggle: () => cc.SetOverwatch(!cc.Overwatch),
+        forceToggle: () => cc.SetOverwatch(!cc.Overwatch, true),
       },
       {
         key: 'prepared',

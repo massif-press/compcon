@@ -19,6 +19,11 @@ const storeRegistry = {
     storeName: 'pilot_sheets',
     description: 'Stores Active Mode Pilot Sheet data',
   }),
+  pilot_logbooks: localforage.createInstance({
+    name: dbName,
+    storeName: 'pilot_logbooks',
+    description: 'Stores Pilot lifetime combat logbook data',
+  }),
   content: localforage.createInstance({
     name: dbName,
     storeName: 'content',

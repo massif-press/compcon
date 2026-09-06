@@ -52,6 +52,10 @@ class DeployableInstance implements ICombatant {
     return (this.name || this.ItemData.name || `Deployable`) + ` #${this._number}`
   }
 
+  public get Icon(): string {
+    return this.Base.Icon
+  }
+
   public get StatController() {
     return this.CombatController.StatController
   }

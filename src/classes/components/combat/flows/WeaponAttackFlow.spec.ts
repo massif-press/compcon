@@ -25,7 +25,6 @@ const state = (over = {}) =>
   ({
     attacker: { CanFireWeapon: () => true, DropAttackRevealedStatuses: () => undefined },
     targets: [],
-    eligible: false,
     ...over,
   }) as any
 
@@ -61,11 +60,11 @@ describe('WeaponAttackFlow', () => {
     const first = WeaponAttackFlow.Begin(state({ attacker, targets }))
     expect(first.outcome).toBe('awaiting')
     expect(first.pending).toBe('damage-roll')
-    expect(first.request).toEqual({ kind: 'roll', label: 'attack roll', targets: [0, 1] })
+    expect(first.request).toEqual({ kind: 'roll', label: 'attackRoll', targets: [0, 1] })
 
     const second = WeaponAttackFlow.Resume(first, { 0: 18 })
     expect(second.outcome).toBe('awaiting')
-    expect(second.request).toEqual({ kind: 'roll', label: 'attack roll', targets: [1] })
+    expect(second.request).toEqual({ kind: 'roll', label: 'attackRoll', targets: [1] })
     expect(second.state.targets[0].AttackRolledValue).toBe(18)
 
     const third = WeaponAttackFlow.Resume(second, { 1: 7 })
@@ -94,7 +93,7 @@ describe('WeaponAttackFlow', () => {
 
     const third = WeaponAttackFlow.Resume(first)
     expect(third.outcome).toBe('halted')
-    expect(third.state.blockedBy).toBe('applied')
+    expect(third.state.blockedBy).toBe('already_applied')
     expect(heat).toBe(2)
   })
 

@@ -59,6 +59,8 @@ class D20RollResult implements Id20RollResult {
   private _accuracyDiceCount: number
   private _rawAccuracyRolls: number[]
   private _accuracyResult: number
+  private _rawDieRolls: number[]
+  private _rollClassifications: string[]
 
   public constructor(
     total: number,
@@ -66,7 +68,9 @@ class D20RollResult implements Id20RollResult {
     staticBonus?: number,
     accuracyDiceCount?: number,
     rawAccuracyRolls?: number[],
-    accuracyResult?: number
+    accuracyResult?: number,
+    rawDieRolls?: number[],
+    rollClassifications?: string[]
   ) {
     this._total = total || 0
     this._rawDieRoll = rawDieRoll || 0
@@ -74,6 +78,8 @@ class D20RollResult implements Id20RollResult {
     this._accuracyDiceCount = accuracyDiceCount || 0
     this._rawAccuracyRolls = rawAccuracyRolls || []
     this._accuracyResult = accuracyResult || 0
+    this._rawDieRolls = rawDieRolls || []
+    this._rollClassifications = rollClassifications || []
   }
 
   public get total(): number {
@@ -96,6 +102,14 @@ class D20RollResult implements Id20RollResult {
     return this._rawAccuracyRolls
   }
 
+  public get rawDieRolls(): number[] {
+    return this._rawDieRolls
+  }
+
+  public get rollClassifications(): string[] {
+    return this._rollClassifications
+  }
+
   public get overkillRerolls(): number {
     return 0
   }
@@ -106,6 +120,24 @@ class D20RollResult implements Id20RollResult {
 
   public toString(): string {
     let out = `Roll: ${this.rawDieRoll} `
+
+    if (this._rawDieRolls.length > 1) {
+      let dicestr = ''
+      let kept = 0
+      for (let i = 0; i < this._rawDieRolls.length; i++) {
+        if (i > 0) dicestr += ', '
+        const rc = this._rollClassifications[i]
+        if (rc === 'low')
+          dicestr += `<i class="text-disabled">${this._rawDieRolls[i]}</i><sub>d</sub>`
+        else {
+          dicestr += `<b>${this._rawDieRolls[i]}</b><sub>k</sub>`
+          kept += this._rawDieRolls[i]
+        }
+      }
+      const dieMod = this.rawDieRoll - kept
+      out = `Roll: [${dicestr}] `
+      if (dieMod !== 0) out += dieMod > 0 ? `+ ${dieMod} ` : `- ${Math.abs(dieMod)} `
+    }
 
     if (this.staticBonus !== 0) {
       out += this.staticBonus > 0 ? ` + ${this.staticBonus}` : ` - ${Math.abs(this.staticBonus)}`
@@ -140,6 +172,8 @@ class D20RollResult implements Id20RollResult {
       accuracyDiceCount: this.accuracyDiceCount,
       rawAccuracyRolls: this.rawAccuracyRolls,
       accuracyResult: this.accuracyResult,
+      rawDieRolls: this.rawDieRolls,
+      rollClassifications: this.rollClassifications,
     }
   }
 }
@@ -246,9 +280,17 @@ class DiceRoller {
     }
 
     let rawDieTotal = parsedRoll.modifier
+    const rawRolls: number[] = []
+    const rollClass: string[] = []
     parsedRoll.dice.forEach(dieSet => {
-      const rollResult = DiceRoller.rollDieSet(dieSet, overkill, critical)
-      rawDieTotal += rollResult.result
+      const rollResult = DiceRoller.rollDieSet(dieSet, overkill)
+      const keptSet = critical ? new DieSet(1, dieSet.type) : dieSet
+      const cls = DiceRoller.classifyDamageRolls(keptSet, rollResult.rolls, overkill)
+      rawRolls.push(...rollResult.rolls)
+      rollClass.push(...cls)
+      rollResult.rolls.forEach((r, i) => {
+        if (cls[i] !== 'low') rawDieTotal += r
+      })
     })
 
     if (reliable && rawDieTotal < reliable) {
@@ -264,7 +306,9 @@ class DiceRoller {
       bonus,
       accuracy,
       accuracyResults.rolls,
-      accuracyResults.result
+      accuracyResults.result,
+      rawRolls,
+      rollClass
     )
   }
 
@@ -335,21 +379,21 @@ class DiceRoller {
         rollClass.push(...this.classifyDamageRolls(dieSet, x.rolls, overkill))
         okRerolls += x.rerolls
         total += x.result
-
-        if (critical) {
-          let dropped = 0
-          for (let i = 0; i < rollClass.length; i++) {
-            if (rollClass[i] === 'low') {
-              dropped += rawRolls[i]
-            }
-          }
-          total -= dropped
-        }
-
-        if (reliable && total < reliable) {
-          total = reliable
-        }
       })
+
+      if (critical) {
+        let dropped = 0
+        for (let i = 0; i < rollClass.length; i++) {
+          if (rollClass[i] === 'low') {
+            dropped += rawRolls[i]
+          }
+        }
+        total -= dropped
+      }
+
+      if (reliable && total < reliable) {
+        total = reliable
+      }
 
       return new DamageRollResult(
         diceString,
@@ -512,12 +556,4 @@ function resetRng(): void {
   rng = () => Math.random()
 }
 
-export {
-  DiceRoller,
-  D20RollResult,
-  DamageRollResult,
-  ParsedDieString,
-  DieSet,
-  seedRng,
-  resetRng,
-}
+export { DiceRoller, D20RollResult, DamageRollResult, ParsedDieString, DieSet, seedRng, resetRng }

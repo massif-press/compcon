@@ -20,6 +20,10 @@
           class="text-cc-overline text-disabled pl-3 py-2"
         >
           {{ $t('active.barrage.selectWeapon') }}
+          <unavailable-toggle
+            v-model="useState.showUnavailable"
+            :count="hiddenWeapons"
+          />
         </div>
         <v-row
           dense
@@ -233,16 +237,15 @@
   import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
   import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon'
   import MechWeaponAttack from './_mechWeaponAttack.vue'
-  import { WeaponUseFlow, weaponUseState, activeEvents } from '@/classes/components/combat/flows/WeaponUseFlow'
-  import type { IWeaponUseState } from '@/classes/components/combat/flows/WeaponUseFlow'
-  import type { IFlowResult } from '@/classes/components/combat/flows/Flow'
+  import { useWeaponUse } from './useWeaponUse'
+  import UnavailableToggle from './_unavailableToggle.vue'
   import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue'
   import StagedPanel from './_stagedPanel.vue'
   import CombatActionButton from './CombatActionButton.vue'
 
   defineOptions({ name: 'MechBarrageButton' })
 
-  const { owner, encounterInstance } = useEncounterContext()
+  const { owner, encounterInstance, ownerController } = useEncounterContext()
 
   const props = defineProps<{
     action: Action
@@ -251,78 +254,40 @@
 
   const { mdAndDown: mobile } = useDisplay()
 
-  const controller = computed(
-    () => (owner.value as any).actor.CombatController.ActiveActor.CombatController
-  )
-
-  function newState(): IWeaponUseState {
-    const self = (encounterInstance.value as any).Combatants.find(
-      (c: CombatantData) =>
-        c.actor.CombatController.RootActor.ID ===
-        (owner.value as any).actor.CombatController.RootActor.ID
-    )
-    if (!self) throw new Error('Owner combatant not found in encounterInstance')
-    return weaponUseState({
-      cc: controller.value,
-      actionId: props.action.ID,
-      mode: 'barrage',
-      makeEvent: (weapon: any, label: string) =>
-        new WeaponAttackEvent(
-          weapon.SelectedProfile as WeaponProfile,
-          self,
-          encounterInstance.value,
-          label
-        ),
-    })
-  }
-
-  const useState = ref<IWeaponUseState>(newState())
-  const result = shallowRef<IFlowResult<IWeaponUseState> | null>(null)
-
-  function run() {
-    result.value =
-      result.value?.outcome === 'awaiting'
-        ? WeaponUseFlow.Resume(result.value as IFlowResult<IWeaponUseState>)
-        : WeaponUseFlow.Begin(useState.value)
-  }
-
-  function reset(clearAction = false) {
-    if (clearAction) controller.value.ClearActionUsed((props.action as any).ID)
-    useState.value = newState()
-    if (props.presetWeapon) useState.value.selected = [props.presetWeapon]
-    result.value = null
-    run()
-  }
-
-  function apply() {
-    run()
-    reset()
-  }
-
-  function setSelected(index: number, weapon: MechWeapon) {
-    if (!weapon) return
-    const chosen = useState.value.selected.filter(Boolean)
-    chosen[index] = weapon
-    useState.value.selected = chosen
-    result.value = null
-    run()
-  }
+  const {
+    controller,
+    useState,
+    result,
+    reset,
+    apply,
+    setSelected,
+    selectedWeapons,
+    weapons: barrageWeapons,
+    hiddenWeapons,
+    eventArray,
+    allEventsStaged,
+  } = useWeaponUse({
+    mode: 'barrage',
+    actionId: () => props.action.ID,
+    presetWeapon: () => props.presetWeapon,
+    makeEvent: (self, weapon, label) =>
+      new WeaponAttackEvent(
+        weapon.SelectedProfile as WeaponProfile,
+        self,
+        encounterInstance.value,
+        label
+      ),
+  })
 
   function selectedMount(selectedWeapon: any) {
     if (!selectedWeapon) return null
-    const aa = (owner.value as any).actor.CombatController.RootActor
+    const aa = ownerController.value.RootActor
     if (!aa.ActiveMech) return null
     return aa.ActiveMech.MechLoadoutController.ActiveLoadout.Mounts.find((m: any) =>
       m.Weapons.some((w: any) => w.InstanceID === selectedWeapon.InstanceID)
     )
   }
 
-  const selectedWeapons = computed(() => {
-    const chosen = useState.value.selected.filter(Boolean) as MechWeapon[]
-    if (chosen.length >= useState.value.capacity) return chosen
-    return [...chosen, undefined as unknown as MechWeapon]
-  })
-  const barrageWeapons = computed(() => useState.value.options as MechWeapon[])
   const events = computed(() =>
     useState.value.entries.map(e => ({
       weaponEvent: e.event as WeaponAttackEvent,
@@ -331,10 +296,4 @@
       include: e.include,
     }))
   )
-  const eventArray = computed(() => activeEvents(useState.value))
-  const allEventsStaged = computed(
-    () => !!eventArray.value.length && eventArray.value.every((e: any) => e.BaseEvent.Staged)
-  )
-
-  reset()
 </script>

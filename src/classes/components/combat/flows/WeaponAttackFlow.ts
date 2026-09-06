@@ -1,40 +1,28 @@
-import { Flow } from './Flow'
+import { Flow, step } from './Flow'
 import type { IFlowStep } from './Flow'
 import { DiceRoller } from '@/classes/dice/DiceRoller'
+import type { BlockedReason } from '../log/events'
+import { combatLogHooks } from './logHooks'
 
-type HitResult = '' | 'miss' | 'hit' | 'crit'
-type TargetDefense = 'edef' | 'evasion'
+export type HitResult = '' | 'miss' | 'hit' | 'crit'
+export type TargetDefense = 'edef' | 'evasion'
 
 interface IAttackActor {
   CanFireWeapon(weapon: unknown): boolean
-  ApplyHeat(value: number, opts?: { external?: boolean }): void
   DropAttackRevealedStatuses(): void
   Tier?: number
 }
 
-interface IAttackWeapon {
-  Accuracy?: unknown
-  HeatCost?: number
-  IsLoading?: boolean
-  Used?: boolean
-  getAttacks?: (tier: number) => number
-}
-
 interface IAttackDamageEvent {
-  DamageType: string
-  OverkillHeat: number
   CalcFinalDamage(event: unknown, target: unknown): void
 }
 
 interface IAttackTarget {
   Combatant: { actor: { CombatController: any } } | null
   AttackRolledValue?: number
-  HitResult?: string
   MissedFromInvisibility?: boolean
   HeatExemptFor?: boolean
-  AttackAccuracy?: number
   DamageEvents?: IAttackDamageEvent[]
-  FinalDamageValue?: number
 }
 
 interface IAttackEvent {
@@ -50,38 +38,38 @@ interface IEffectRoute {
   targets(): IAttackTarget[]
 }
 
-interface IWeaponAttackState {
+export interface IWeaponAttackState {
   attacker: IAttackActor
-  weapon?: IAttackWeapon
+  weapon?: any
   event?: IAttackEvent
   targets: IAttackTarget[]
   routes?: IEffectRoute[]
   followUps?: { ApplyAll(): void }[]
-  eligible: boolean
   applied: boolean
+  force?: boolean
   attackType?: string
   accuracy?: number
   attackCount?: number
   selfHeat?: number
-  blockedBy?: string
+  blockedBy?: BlockedReason
 }
 
-function targetDefenseFor(attackType?: string, declared?: TargetDefense): TargetDefense {
+export function targetDefenseFor(attackType?: string, declared?: TargetDefense): TargetDefense {
   return declared || (attackType === 'tech' ? 'edef' : 'evasion')
 }
 
-function hitResultFor(rolled?: number, targetDefenseValue?: number): HitResult {
+export function hitResultFor(rolled?: number, targetDefenseValue?: number): HitResult {
   if (rolled === undefined || !targetDefenseValue) return ''
   if (rolled >= 20) return 'crit'
   return rolled >= targetDefenseValue ? 'hit' : 'miss'
 }
 
-function canCrit(attack: string | undefined, effectCanCrit: boolean): boolean {
+export function canCrit(attack: string | undefined, effectCanCrit: boolean): boolean {
   if (!effectCanCrit) return false
   return attack === 'melee' || attack === 'ranged'
 }
 
-function critTriggers(
+export function critTriggers(
   rolled: number | undefined,
   attackType: string | undefined,
   effectCanCrit: boolean,
@@ -90,11 +78,11 @@ function critTriggers(
   return !!rolled && rolled >= 20 && attackerCanCrit && canCrit(attackType, effectCanCrit)
 }
 
-function reliableIncoming(hitResult: string, rolled: number, reliable: number): number {
+export function reliableIncoming(hitResult: string, rolled: number, reliable: number): number {
   return hitResult === 'miss' ? reliable || 0 : rolled
 }
 
-function incomingDamage(opts: {
+export function incomingDamage(opts: {
   hitResult: string
   rolled: number
   bonus: number
@@ -111,11 +99,11 @@ function incomingDamage(opts: {
   return incoming
 }
 
-function overkillHeatFor(overkill: boolean, rerolls: number): number {
+export function overkillHeatFor(overkill: boolean, rerolls: number): number {
   return overkill ? rerolls || 0 : 0
 }
 
-function routesTo(hitResult: string): {
+export function routesTo(hitResult: string): {
   onAttack: boolean
   onHit: boolean
   onCrit: boolean
@@ -130,7 +118,11 @@ function routesTo(hitResult: string): {
   }
 }
 
-function attackModifiers(attacker?: any, target?: any, attackType: string = 'ranged'): number {
+export function attackModifiers(
+  attacker?: any,
+  target?: any,
+  attackType: string = 'ranged'
+): number {
   return (
     (target?.AccuracyAgainst?.() ?? 0) -
     (attacker?.DifficultyFor?.(attackType) ?? 0) -
@@ -138,7 +130,7 @@ function attackModifiers(attacker?: any, target?: any, attackType: string = 'ran
   )
 }
 
-function missesFromInvisibility(target?: { InvisibilityMissChance?: number }): boolean {
+export function missesFromInvisibility(target?: { InvisibilityMissChance?: number }): boolean {
   const chance = target?.InvisibilityMissChance ?? 0
   if (chance <= 0) return false
   return DiceRoller.rollDie(100) <= Math.round(chance * 100)
@@ -151,37 +143,33 @@ function controllerOf(target?: IAttackTarget): any {
 const eligibility: IFlowStep<IWeaponAttackState> = {
   Name: 'weapon-eligibility',
   Run: s => {
-    if (!s.attacker.CanFireWeapon(s.weapon)) {
-      s.eligible = false
-      s.blockedBy = 'ordnance'
-      return 'halt'
-    }
-    s.eligible = true
-    return 'continue'
+    if (s.force || s.attacker.CanFireWeapon(s.weapon)) return 'continue'
+    s.blockedBy = 'ordnance'
+    return 'halt'
   },
 }
 
-function isFriendly(a: any, b: any): boolean {
+export function isFriendly(a: any, b: any): boolean {
   if (!a || !b) return false
   if (a === b || (a.id && a.id === b.id)) return false
   if (a.side && b.side) return a.side === b.side
   return false
 }
 
-function heatExempt(attackType: string | undefined, initiator: any, target: any): boolean {
+export function heatExempt(attackType: string | undefined, initiator: any, target: any): boolean {
   return attackType === 'tech' && isFriendly(initiator, target)
 }
 
-function accuracyFor(weapon: any, effectAccuracy = 0): number {
+export function accuracyFor(weapon: any, effectAccuracy = 0): number {
   return effectAccuracy + (Number(weapon?.Accuracy) || 0)
 }
 
-function consumeWeaponUses(weapon: any): void {
+export function consumeWeaponUses(weapon: any): void {
   if (weapon?.IsLoading) weapon.Used = true
 }
 
-function applyAttackDamage(target: any, damageEvent: any, event: any): void {
-  if (!target?.Combatant) return
+export function applyAttackDamage(target: any, damageEvent: any, event: any): void {
+  if (!target) return
   if (
     damageEvent.DamageType.toLowerCase() === 'heat' &&
     heatExempt(event.Attack, event.Initiator, target.Combatant)
@@ -191,22 +179,31 @@ function applyAttackDamage(target: any, damageEvent: any, event: any): void {
   damageEvent.CalcFinalDamage(event, target)
 
   const attacker = event.Initiator.actor.CombatController
-  const defender = target.Combatant.actor.CombatController
-  if (target.TookDamage) defender.ApplyDamage(damageEvent.DamageType, target.FinalDamageValue)
-  attacker.RootActor.CombatController.CombatLog.DealDamage(
-    target.FinalDamageValue,
-    damageEvent.DamageType
-  )
+  const defender = target.Combatant?.actor.CombatController
+  const wasDestroyed = !!defender?.IsDestroyed
+
+  attacker.Record('damage', {
+    targetId: defender?.RootActor?.ID,
+    damageType: damageEvent.DamageType,
+    incoming: target.FinalDamageValue,
+    armorReduced: target.TotalArmorReduction ?? 0,
+    resisted: [],
+    conditions: [],
+    final: target.FinalDamageValue,
+    overkillHeat: damageEvent.OverkillHeat || undefined,
+    taken: !!target.TookDamage,
+  })
+
+  if (target.TookDamage) defender?.ApplyDamage(damageEvent.DamageType, target.FinalDamageValue)
   if (damageEvent.OverkillHeat) attacker.ApplyHeat(damageEvent.OverkillHeat)
+
+  if (defender && !wasDestroyed && defender.IsDestroyed)
+    attacker.Record('actor.destroy', { targetId: defender.RootActor?.ID })
 }
 
-const attackType: IFlowStep<IWeaponAttackState> = {
-  Name: 'attack-type',
-  Run: s => {
-    s.attackType = s.event?.Attack ?? (s.weapon as any)?.Attack
-    return 'continue'
-  },
-}
+const attackType = step<IWeaponAttackState>('attack-type', s => {
+  s.attackType = s.event?.Attack ?? (s.weapon as any)?.Attack
+})
 
 const targetEligibility: IFlowStep<IWeaponAttackState> = {
   Name: 'target-eligibility',
@@ -218,30 +215,22 @@ const targetEligibility: IFlowStep<IWeaponAttackState> = {
     s.targets = legal
     if (legal.length) return 'continue'
 
-    s.eligible = false
     s.blockedBy = 'untargetable'
     return 'halt'
   },
+  ReportHalt: true,
 }
 
-const invisibility: IFlowStep<IWeaponAttackState> = {
-  Name: 'invisibility',
-  Run: s => {
-    s.targets.forEach(t => {
-      if (t.AttackRolledValue !== undefined || t.MissedFromInvisibility) return
-      if (missesFromInvisibility(controllerOf(t))) t.MissedFromInvisibility = true
-    })
-    return 'continue'
-  },
-}
+const invisibility = step<IWeaponAttackState>('invisibility', s => {
+  s.targets.forEach(t => {
+    if (t.AttackRolledValue !== undefined || t.MissedFromInvisibility) return
+    if (missesFromInvisibility(controllerOf(t))) t.MissedFromInvisibility = true
+  })
+})
 
-const accuracy: IFlowStep<IWeaponAttackState> = {
-  Name: 'accuracy',
-  Run: s => {
-    s.accuracy = accuracyFor(s.weapon, s.event?.Accuracy ?? 0)
-    return 'continue'
-  },
-}
+const accuracy = step<IWeaponAttackState>('accuracy', s => {
+  s.accuracy = accuracyFor(s.weapon, s.event?.Accuracy ?? 0)
+})
 
 function awaitingRolls(s: IWeaponAttackState): number[] {
   return s.targets
@@ -258,157 +247,101 @@ const damageRoll: IFlowStep<IWeaponAttackState> = {
     })
     return awaitingRolls(s).length ? 'await' : 'continue'
   },
-  Request: s => ({ kind: 'roll', label: 'attack roll', targets: awaitingRolls(s) }),
+  Request: s => ({ kind: 'roll', label: 'attackRoll', targets: awaitingRolls(s) }),
 }
 
-const damageTypeResolution: IFlowStep<IWeaponAttackState> = {
-  Name: 'damage-type-resolution',
-  Run: s => {
-    s.targets.forEach(t => {
-      t.HeatExemptFor = heatExempt(s.attackType, s.event?.Initiator, t.Combatant)
-    })
-    return 'continue'
-  },
-}
+const damageTypeResolution = step<IWeaponAttackState>('damage-type-resolution', s => {
+  s.targets.forEach(t => {
+    t.HeatExemptFor = heatExempt(s.attackType, s.event?.Initiator, t.Combatant)
+  })
+})
 
-const damageCalculation: IFlowStep<IWeaponAttackState> = {
-  Name: 'damage-calculation',
-  Run: s => {
-    s.targets.forEach(t => (t.DamageEvents || []).forEach(de => de.CalcFinalDamage(s.event, t)))
-    return 'continue'
-  },
-}
+const damageCalculation = step<IWeaponAttackState>('damage-calculation', s => {
+  s.targets.forEach(t => (t.DamageEvents || []).forEach(de => de.CalcFinalDamage(s.event, t)))
+})
 
-const applicationGuard: IFlowStep<IWeaponAttackState> = {
-  Name: 'application-guard',
-  Run: s => {
-    if (s.applied) {
-      s.blockedBy = 'applied'
-      return 'halt'
-    }
-    s.applied = true
-    return 'continue'
-  },
-}
-
-const damageApplication: IFlowStep<IWeaponAttackState> = {
-  Name: 'damage-application',
-  Run: s => {
-    if (s.event?.ApplyAll) {
-      s.event.ApplyAll()
+export function applicationGuard<
+  S extends { applied: boolean; blockedBy?: BlockedReason },
+>(): IFlowStep<S> {
+  return {
+    Name: 'application-guard',
+    Run: s => {
+      if (s.applied) {
+        s.blockedBy = 'already_applied'
+        return 'halt'
+      }
+      s.applied = true
       return 'continue'
-    }
-    s.targets.forEach(t => (t.DamageEvents || []).forEach(de => applyAttackDamage(t, de, s.event)))
-    return 'continue'
-  },
+    },
+  }
 }
 
-function attackCountFor(weapon: any, tier: number): number {
+const damageApplication = step<IWeaponAttackState>('damage-application', s => {
+  if (s.event?.ApplyAll) {
+    s.event.ApplyAll()
+    return
+  }
+  s.targets.forEach(t => (t.DamageEvents || []).forEach(de => applyAttackDamage(t, de, s.event)))
+})
+
+export function attackCountFor(weapon: any, tier: number): number {
   return typeof weapon?.getAttacks === 'function' ? weapon.getAttacks(tier) : 1
 }
 
-const additionalAttacks: IFlowStep<IWeaponAttackState> = {
-  Name: 'additional-attacks',
-  Run: s => {
-    s.attackCount = attackCountFor(s.weapon, s.attacker?.Tier ?? 1)
-    return 'continue'
-  },
-}
+const additionalAttacks = step<IWeaponAttackState>('additional-attacks', s => {
+  s.attackCount = attackCountFor(s.weapon, s.attacker?.Tier ?? 1)
+})
 
-const consumeUses: IFlowStep<IWeaponAttackState> = {
-  Name: 'consume-uses',
-  Run: s => {
-    consumeWeaponUses(s.weapon)
-    return 'continue'
-  },
-}
+const consumeUses = step<IWeaponAttackState>('consume-uses', s => {
+  consumeWeaponUses(s.weapon)
+})
 
-function selfHeatFor(weapon: any): number {
+export function selfHeatFor(weapon: any): number {
   return Number(weapon?.HeatCost) || 0
 }
 
-function applySelfHeat(attacker: any, weapon: any): number {
+export function applySelfHeat(attacker: any, weapon: any): number {
   const heat = selfHeatFor(weapon)
   if (heat) attacker.ApplyHeat(heat)
   return heat
 }
 
-const heatApplication: IFlowStep<IWeaponAttackState> = {
-  Name: 'heat-application',
-  Run: s => {
-    s.selfHeat = applySelfHeat(s.attacker, s.weapon)
-    return 'continue'
-  },
-}
+const heatApplication = step<IWeaponAttackState>('heat-application', s => {
+  s.selfHeat = applySelfHeat(s.attacker, s.weapon)
+})
 
-const effectRouting: IFlowStep<IWeaponAttackState> = {
-  Name: 'effect-routing',
-  Run: s => {
-    ;(s.routes || []).forEach(route => {
-      if (!route.event) return
-      route.targets().forEach(t => {
-        if (t) route.event!.Apply(t)
-      })
+const effectRouting = step<IWeaponAttackState>('effect-routing', s => {
+  ;(s.routes || []).forEach(route => {
+    if (!route.event) return
+    route.targets().forEach(t => {
+      if (t) route.event!.Apply(t)
     })
-    ;(s.followUps || []).forEach(f => f.ApplyAll())
-    return 'continue'
-  },
-}
+  })
+  ;(s.followUps || []).forEach(f => f.ApplyAll())
+})
 
-const postAttack: IFlowStep<IWeaponAttackState> = {
-  Name: 'post-attack',
-  Run: s => {
-    s.attacker.DropAttackRevealedStatuses()
-    return 'continue'
-  },
-}
+const postAttack = step<IWeaponAttackState>('post-attack', s => {
+  s.attacker.DropAttackRevealedStatuses()
+})
 
-const WeaponAttackFlow = new Flow<IWeaponAttackState>('WeaponAttackFlow', [
-  eligibility,
-  attackType,
-  targetEligibility,
-  invisibility,
-  accuracy,
-  damageRoll,
-  damageTypeResolution,
-  damageCalculation,
-  applicationGuard,
-  damageApplication,
-  additionalAttacks,
-  consumeUses,
-  heatApplication,
-  effectRouting,
-  postAttack,
-])
-
-export {
-  WeaponAttackFlow,
-  targetDefenseFor,
-  hitResultFor,
-  canCrit,
-  critTriggers,
-  reliableIncoming,
-  incomingDamage,
-  overkillHeatFor,
-  routesTo,
-  attackCountFor,
-  heatExempt,
-  isFriendly,
-  accuracyFor,
-  attackModifiers,
-  missesFromInvisibility,
-  consumeWeaponUses,
-  applyAttackDamage,
-  selfHeatFor,
-  applySelfHeat,
-}
-export type {
-  IWeaponAttackState,
-  IAttackActor,
-  IAttackWeapon,
-  IAttackTarget,
-  IAttackEvent,
-  IEffectRoute,
-  HitResult,
-  TargetDefense,
-}
+export const WeaponAttackFlow = new Flow<IWeaponAttackState>(
+  'WeaponAttackFlow',
+  [
+    eligibility,
+    attackType,
+    targetEligibility,
+    invisibility,
+    accuracy,
+    damageRoll,
+    damageTypeResolution,
+    damageCalculation,
+    applicationGuard<IWeaponAttackState>(),
+    damageApplication,
+    additionalAttacks,
+    consumeUses,
+    heatApplication,
+    effectRouting,
+    postAttack,
+  ],
+  combatLogHooks
+)

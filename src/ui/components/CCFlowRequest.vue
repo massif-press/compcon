@@ -1,6 +1,6 @@
 <template>
   <div v-if="request">
-    <div class="text-cc-overline text-disabled">{{ request.label }}</div>
+    <div class="text-cc-overline text-disabled">{{ $t(`ui.flow.request.${request.label}`) }}</div>
 
     <div v-if="request.kind === 'check' && request.pending?.length"
       class="body-text">

@@ -69,6 +69,24 @@
                 </v-col>
                 <v-col><v-divider /></v-col>
               </v-row>
+              <v-list
+                density="compact"
+                bg-color="panel"
+                tile
+              >
+                <v-list-item
+                  v-for="item in invadeActions"
+                  :key="`list-${item.ID}`"
+                  class="bg-action--invade mb-1"
+                  :title="item.Name"
+                  :subtitle="item.Terse"
+                  @click="tab = item.ID"
+                >
+                  <template #prepend>
+                    <v-icon :icon="item.Icon" />
+                  </template>
+                </v-list-item>
+              </v-list>
             </div>
             <div v-else>
               <cc-synergy-display
@@ -105,7 +123,7 @@
 
   const _display = useDisplay()
 
-  const { owner, encounterInstance } = useEncounterContext()
+  const { owner, encounterInstance, activeController: controller } = useEncounterContext()
 
   const props = defineProps<{
     action: Action
@@ -120,9 +138,6 @@
   const mobile = computed(() => {
     return _display.mdAndDown.value
   })
-  const controller = computed(() => {
-    return owner.value.actor.CombatController.ActiveActor.CombatController
-  })
   const invadeActions = computed(() => controller.value.InvadeOptions())
 
   function getSelectedAction(id) {
@@ -130,7 +145,7 @@
   }
   function apply() {
     if (tab.value === 'invade') {
-      controller.value.PerformAction('act_invade')
+      controller.value.RunAction('act_invade')
       return
     }
     emit('activate', tab.value)

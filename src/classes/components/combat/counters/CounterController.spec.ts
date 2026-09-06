@@ -30,9 +30,7 @@ describe('CounterController persistence', () => {
 
   it('round-trips values for counters that come from a feature', () => {
     const npc = makeNpc('Pursuer')
-    npc.NpcFeatureController.AddFeature(
-      NpcFeatureFactory.Build<NpcFeature>(counterFeatureData)
-    )
+    npc.NpcFeatureController.AddFeature(NpcFeatureFactory.Build<NpcFeature>(counterFeatureData))
     const counters = npc.CombatController.CounterController
     expect(counters.CounterData.map(c => c.id)).toContain('ctr_charges')
     counters.saveCounter({ id: 'ctr_charges', val: 2 })

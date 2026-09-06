@@ -1,12 +1,14 @@
-import { Flow } from './Flow'
+import { Flow, step } from './Flow'
 import type { IFlowStep } from './Flow'
 import { checkSources, totalBonus, totalAccDiff } from '../SkillCheckRules'
 import type { ICheckSources } from '../SkillCheckRules'
+import type { BlockedReason } from '../log/events'
+import { combatLogHooks } from './logHooks'
 
-type CheckTier = '' | 'risky' | 'heroic'
+export type CheckTier = '' | 'risky' | 'heroic'
 type CheckOutcome = 'success' | 'failure' | 'win' | 'lose'
 
-interface ISkillCheckState {
+export interface ISkillCheckState {
   cc: any
   stat: string
   tier: CheckTier
@@ -20,18 +22,14 @@ interface ISkillCheckState {
   roll?: number
   contestRoll?: number
   outcome?: CheckOutcome
-  blockedBy?: string
+  blockedBy?: BlockedReason
 }
 
-const checkStat: IFlowStep<ISkillCheckState> = {
-  Name: 'check-sources',
-  Run: s => {
-    s.sources = checkSources(s.cc, s.stat)
-    if (s.bonus === undefined) s.bonus = totalBonus(s.sources, s.difficult)
-    if (s.accDiff === undefined) s.accDiff = totalAccDiff(s.sources)
-    return 'continue'
-  },
-}
+const checkStat = step<ISkillCheckState>('check-sources', s => {
+  s.sources = checkSources(s.cc, s.stat)
+  if (s.bonus === undefined) s.bonus = totalBonus(s.sources, s.difficult)
+  if (s.accDiff === undefined) s.accDiff = totalAccDiff(s.sources)
+})
 
 const checkRoll: IFlowStep<ISkillCheckState> = {
   Name: 'check-roll',
@@ -46,9 +44,10 @@ const contestTarget: IFlowStep<ISkillCheckState> = {
   Name: 'contest-target',
   Run: s => {
     if (!s.contested || s.target) return 'continue'
-    s.blockedBy = 'no-target'
+    s.blockedBy = 'no_target'
     return 'halt'
   },
+  ReportHalt: true,
 }
 
 const contestRoll: IFlowStep<ISkillCheckState> = {
@@ -61,38 +60,30 @@ const contestRoll: IFlowStep<ISkillCheckState> = {
   },
 }
 
-const outcome: IFlowStep<ISkillCheckState> = {
-  Name: 'outcome',
-  Run: s => {
-    if (s.contested) s.outcome = (s.roll as number) >= (s.contestRoll as number) ? 'win' : 'lose'
-    else s.outcome = (s.roll as number) >= s.targetValue ? 'success' : 'failure'
-    return 'continue'
-  },
-}
+const outcome = step<ISkillCheckState>('outcome', s => {
+  if (s.contested) s.outcome = (s.roll as number) >= (s.contestRoll as number) ? 'win' : 'lose'
+  else s.outcome = (s.roll as number) >= s.targetValue ? 'success' : 'failure'
+})
 
-const record: IFlowStep<ISkillCheckState> = {
-  Name: 'record',
-  Run: s => {
-    const label = s.stat ? `${s.stat} check` : 'check'
-    const tier = s.tier ? ` (${s.tier})` : ''
-    const against = s.contested
-      ? `contested ${s.roll} vs ${s.contestRoll}`
-      : `${s.roll} vs ${s.targetValue}`
-    s.cc.log(`Skill check: ${label}${tier} ${against} - ${s.outcome}`)
-    return 'continue'
-  },
-}
+const record = step<ISkillCheckState>('record', s => {
+  s.cc.Record('check', {
+    stat: s.stat,
+    target: s.targetValue,
+    tier: s.tier || undefined,
+    contested: s.contested,
+    opposedId: s.target?.Parent?.ID,
+    rolled: s.roll,
+    result: s.outcome as string,
+  })
+})
 
-const SkillCheckFlow = new Flow<ISkillCheckState>('SkillCheckFlow', [
-  checkStat,
-  checkRoll,
-  contestTarget,
-  contestRoll,
-  outcome,
-  record,
-])
+export const SkillCheckFlow = new Flow<ISkillCheckState>(
+  'SkillCheckFlow',
+  [checkStat, checkRoll, contestTarget, contestRoll, outcome, record],
+  combatLogHooks
+)
 
-function skillCheckState(
+export function skillCheckState(
   over: Partial<ISkillCheckState> & Pick<ISkillCheckState, 'cc'>
 ): ISkillCheckState {
   return {
@@ -104,6 +95,3 @@ function skillCheckState(
     ...over,
   }
 }
-
-export { SkillCheckFlow, skillCheckState }
-export type { ISkillCheckState, CheckTier }

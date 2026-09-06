@@ -8,16 +8,13 @@ import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { TimedEffect } from '@/classes/components/feature/active_effects/TimedEffect'
 import { additionalAuxAttacks, suppressBonusDamage } from '@/classes/components/combat/AttackRules'
 import { DamageType } from '@/classes/enums'
-import { Frequency } from '@/classes/Frequency'
+import { ActivePeriod, Frequency } from '@/classes/Frequency'
 import { Action } from '@/classes/Action'
 import { ActiveEffect } from '@/classes/components/feature/active_effects/ActiveEffect'
 import { DiceRoller } from '@/classes/dice/DiceRoller'
 import { mech, npc, cur, max, set, setMax, rolls, rollSeq, StatKey } from './_helpers'
 import type { Pilot } from '@/classes/pilot/Pilot'
 
-declare function auxAttackFor(mech: any): any
-declare function npcSkirmishOptions(unit: any): any[]
-declare function barrageAuxOptions(mech: any, alreadyFired: string[]): any[]
 import type { Mech } from '@/classes/mech/Mech'
 
 let m: Mech
@@ -755,6 +752,27 @@ describe('action gaps', () => {
     expect(cc().CanActivate('boost')).toBe(false)
   })
 
+  it('T-ACTION-boost-01: boost extends the move track by the speed value for the turn', () => {
+    const speed = cc().StatController.getMax(StatKey.SPEED)
+    expect(cc().BoostBonus).toBe(0)
+    expect(cc().BoostedSpeed).toBe(speed)
+
+    expect(cc().PerformAction('act_boost')).toBe(true)
+    expect(cc().CombatActions.Quick1).toBe(false)
+
+    expect(cc().BoostBonus).toBe(speed)
+    expect(cc().BoostedSpeed).toBe(speed * 2)
+    expect(cc().StatController.getCurrent(StatKey.SPEED)).toBe(speed * 2)
+
+    cc().SpendMovement(speed + 1, 'boost')
+    expect(cc().StatController.getCurrent(StatKey.SPEED)).toBe(speed - 1)
+    expect(cc().BoostBonus).toBe(speed)
+
+    cc().Reset(ActivePeriod.Turn)
+    expect(cc().BoostBonus).toBe(0)
+    expect(cc().BoostedSpeed).toBe(speed)
+  })
+
   it('T-ACTION-disengage-01: disengaging costs a full action and clears engaged', () => {
     expect(cc().CanActivate('disengage')).toBe(true)
 
@@ -878,6 +896,37 @@ describe('action gaps', () => {
     expect(target.HasStatus('immobilized')).toBe(true)
 
     expect(target.CanActivate('boost')).toBe(false)
+  })
+
+  it('T-ACTION-ram-01: ram lands on a melee hit and knocks the target prone', () => {
+    const target = mech().CombatController
+
+    expect(cc().IsMeleeResolved('act_ram')).toBe(true)
+    expect(cc().IsContested('act_ram')).toBe(false)
+    expect(cc().NeedsTarget('act_ram')).toBe(true)
+
+    expect(cc().PerformAction('act_ram', { target, success: false })).toBe(false)
+    expect(target.HasStatus('prone')).toBe(false)
+    expect(cc().CombatActions.Quick1).toBe(false)
+
+    cc().Reset()
+    expect(cc().PerformAction('act_ram', { target, success: true })).toBe(true)
+    expect(target.HasStatus('prone')).toBe(true)
+  })
+
+  it('T-ACTION-grapple-01: grapple lands on a melee hit rather than a contested check', () => {
+    const target = mech().CombatController
+
+    expect(cc().IsMeleeResolved('act_grapple')).toBe(true)
+    expect(cc().IsContested('act_grapple')).toBe(false)
+
+    expect(cc().PerformAction('act_grapple', { target, success: false })).toBe(false)
+    expect(target.HasStatus('engaged')).toBe(false)
+
+    cc().Reset()
+    expect(cc().PerformAction('act_grapple', { target, success: true })).toBe(true)
+    expect(cc().HasStatus('engaged')).toBe(true)
+    expect(target.HasStatus('engaged')).toBe(true)
   })
 
   it('T-ACTION-hide-02: attacking clears hidden after the attack resolves', () => {

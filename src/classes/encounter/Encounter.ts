@@ -55,6 +55,7 @@ export type CombatantData = {
   type: CombatantType
   actor: ICombatant
   number: number
+  readonly Label: string
   side: CombatantSide
   deployables: DeployableInstance[]
   playerCount?: number
@@ -96,6 +97,12 @@ function makeCombatant(
   over: Partial<CombatantData> = {}
 ): CombatantData {
   return {
+    get Label(): string {
+      const name = this.actor?.CombatController?.CombatName || ''
+      if (!name) return ''
+      if (this.type === 'pilot' || this.type === 'placeholder') return name
+      return this.number > 0 ? `${name} #${this.number}` : name
+    },
     id: actor.ID,
     index: 0,
     type,
@@ -388,5 +395,5 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   }
 }
 
-export { Encounter }
+export { Encounter, makeCombatant }
 export type { IEncounterData, CombatantSaveData, CombatantSide }

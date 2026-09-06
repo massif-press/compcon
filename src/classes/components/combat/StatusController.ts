@@ -1,6 +1,7 @@
 import { markRaw } from 'vue'
 import { Status } from '@/classes/Status'
 import { ruleFor } from './StatusRules'
+import { statusRef } from './log/refs'
 import { AddStatusFlow } from './flows/StatusFlow'
 import { expiration } from './Expiration'
 import { EffectSpecial } from '../feature/active_effects/effect_subtype/EffectSpecial'
@@ -41,8 +42,12 @@ class StatusController {
     return this._active.StatusController
   }
 
-  public LogStatusGained(status: Status): void {
-    this._parent.log(`Gained ${status.Name}`)
+  public LogStatusGained(status: Status, duration?: string, selfInflicted?: boolean): void {
+    this._parent.Record('status.gain', {
+      status: statusRef(status),
+      duration,
+      selfInflicted,
+    })
   }
 
   public HasStatus(statusID: string): boolean {
@@ -52,6 +57,7 @@ class StatusController {
   public AddStatus(statusID: string, expires?: any, opts: { selfInflicted?: boolean } = {}): void {
     AddStatusFlow.Begin({
       sc: this,
+      cc: this._parent,
       statusID,
       expires,
       selfInflicted: !!opts.selfInflicted,
@@ -59,14 +65,16 @@ class StatusController {
     })
   }
 
-  public RemoveStatus(statusID: string): void {
+  public RemoveStatus(
+    statusID: string,
+    reason: 'expired' | 'removed' | 'cleared' | 'replaced' | 'consumed' = 'removed'
+  ): void {
     const target = this._active.StatusController
     const existingIndex = target.Statuses.findIndex(s => s.status.ID === statusID)
-    if (existingIndex !== -1) {
-      target.Statuses.splice(existingIndex, 1)
-      ruleFor(statusID)?.implies?.forEach(id => this.RemoveStatus(id))
-      this._parent.CombatLogVersion++
-    }
+    if (existingIndex === -1) return
+    const [lost] = target.Statuses.splice(existingIndex, 1)
+    this._parent.Record('status.lose', { status: statusRef(lost.status), reason })
+    ruleFor(statusID)?.implies?.forEach(id => this.RemoveStatus(id, reason))
   }
 
   public ToggleStatus(status: Status, expires?: any, thisController = false): void {
@@ -76,10 +84,10 @@ class StatusController {
     const existingIndex = target.Statuses.findIndex(s => s.status.ID === status.ID)
     if (existingIndex === -1) {
       target.Statuses.push({ status, expires: resolvedExpires })
-      this._parent.log(`Gained ${status.Name}`)
+      this._parent.Record('status.gain', { status: statusRef(status) })
     } else {
       target.Statuses.splice(existingIndex, 1)
-      this._parent.log(`Lost ${status.Name}`)
+      this._parent.Record('status.lose', { status: statusRef(status), reason: 'removed' })
     }
   }
 
@@ -91,12 +99,12 @@ class StatusController {
     )
     if (existingIndex === -1) {
       this.CustomStatuses.push({ status: special, expires: resolvedExpires })
-      this._parent.log(`Gained special status: ${special.Attribute}`)
+      this._parent.Record('status.gain', { status: statusRef(special) })
     } else if (expires) {
       this.CustomStatuses[existingIndex].expires = resolvedExpires
     } else {
       this.CustomStatuses.splice(existingIndex, 1)
-      this._parent.log(`Lost special status: ${special.Attribute}`)
+      this._parent.Record('status.lose', { status: statusRef(special), reason: 'removed' })
     }
   }
 
@@ -157,12 +165,13 @@ class StatusController {
     const existingIndex = target.Resistances.findIndex(s => s.type === type)
     if (existingIndex === -1) {
       target.Resistances.push({ type, condition })
-      this._parent.log(`Gained ${type} ${condition}`)
+      this._parent.Record('resist.change', { damageType: type, condition })
     } else if (condition && condition !== 'off') {
       target.Resistances[existingIndex].condition = condition
+      this._parent.Record('resist.change', { damageType: type, condition })
     } else {
       target.Resistances.splice(existingIndex, 1)
-      this._parent.log(`Lost ${type} ${condition}`)
+      this._parent.Record('resist.change', { damageType: type, condition, removed: true })
     }
   }
 

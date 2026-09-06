@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { Encounter } from './Encounter'
+import { Encounter, makeCombatant } from './Encounter'
 import { makeNpc } from '@/__tests__/factories'
 
 let encounter: Encounter
@@ -67,7 +67,7 @@ describe('Encounter.AddCombatant', () => {
     actor.CombatController.MarkActionUsed('act_x')
     actor.CombatController.AddPendingCheck('structure')
     actor.CombatController.SetCombatAction('Full', !fullBefore)
-    actor.CombatController.CombatLog.History.push({ timestamp: 1 } as never)
+    actor.CombatController.Record('note', { text: 'x' })
     actor.UIState['expanded'] = false
     counters.deleteCustomCounter(counters.CustomCounterData[0].id)
 
@@ -75,7 +75,7 @@ describe('Encounter.AddCombatant', () => {
     expect(npc.CombatController.IsActionUsed('act_x')).toBe(false)
     expect(npc.CombatController.PendingChecks).toHaveLength(0)
     expect(npc.CombatController.CombatActions.Full).toBe(fullBefore)
-    expect(npc.CombatController.CombatLog.History).toHaveLength(0)
+    expect(npc.CombatController.CombatLog.Events).toHaveLength(0)
     expect(npc.UIState['expanded']).toBe(true)
     expect(npc.CombatController.CounterController.CustomCounterData).toHaveLength(1)
   })
@@ -173,5 +173,42 @@ describe('Encounter.Clone', () => {
     expect(clone.ID).not.toBe(encounter.ID)
     expect(clone.Name).toBe(encounter.Name)
     expect(clone.Combatants).toHaveLength(1)
+  })
+})
+
+describe('CombatantData.Label', () => {
+  const combatant = (type: string, number: number, name = 'ASSAULT') =>
+    makeCombatant({ ID: 'x', CombatController: { CombatName: name } } as never, type as never, {
+      number,
+    })
+
+  it.each(['unit', 'doodad', 'eidolon'])('numbers a %s, so two of them can be told apart', type => {
+    expect(combatant(type, 2).Label).toBe('ASSAULT #2')
+  })
+
+  it.each(['pilot', 'placeholder'])('leaves a %s unnumbered', type => {
+    expect(combatant(type, 2, 'TEST').Label).toBe('TEST')
+  })
+
+  it('omits a number that was never assigned', () => {
+    expect(combatant('unit', -1).Label).toBe('ASSAULT')
+  })
+
+  it('has nothing to say about an actor with no combat name', () => {
+    expect(makeCombatant({ ID: 'x' } as never, 'unit').Label).toBe('')
+  })
+
+  it('follows the number it is renumbered to', () => {
+    const c = combatant('unit', 1)
+    c.number = 4
+    expect(c.Label).toBe('ASSAULT #4')
+  })
+
+  it('survives a serialize and deserialize round trip', () => {
+    encounter.AddCombatant(makeNpc('Pursuer') as never)
+    const restored = Encounter.DeserializeCombatant(
+      Encounter.SerializeCombatant(encounter.Combatants[0])
+    )
+    expect(restored.Label).toBe(encounter.Combatants[0].Label)
   })
 })

@@ -27,7 +27,7 @@ describe('ActivationFlow', () => {
     ])
   })
 
-  it('declares an inverse for every step that mutates, and names the one that has none', () => {
+  it('declares an inverse for every step that mutates', () => {
     expect(ActivationFlow.UndoCoverage).toEqual({
       'activation-normalization': 'none',
       legality: 'none',
@@ -38,7 +38,7 @@ describe('ActivationFlow', () => {
     })
   })
 
-  it('walks its own steps backwards to undo an activation, reporting what it cannot take back', () => {
+  it('walks its own steps backwards to undo an activation and reports a step that cant be undone', () => {
     const s = state('quick', { actionId: 'act_hide', heat: 3 })
     ActivationFlow.Begin(s)
 
@@ -53,7 +53,7 @@ describe('ActivationFlow', () => {
     expect(cc().StatController.getCurrent(StatKey.HEATCAP)).toBe(0)
   })
 
-  it('normalizes the activation before anything reads it', () => {
+  it('normalizes activation before anything reads it', () => {
     const s = state('Full Tech')
     ActivationFlow.Begin(s)
     expect(s.activation).toBe('fulltech')
@@ -65,7 +65,7 @@ describe('ActivationFlow', () => {
 
     expect(r.outcome).toBe('halted')
     expect(r.pending).toBe('legality')
-    expect(r.state.blockedBy).toBe('activation')
+    expect(r.state.blockedBy).toBe('insufficient')
     expect(r.completed).toEqual(['activation-normalization'])
   })
 
@@ -74,7 +74,7 @@ describe('ActivationFlow', () => {
     const r = ActivationFlow.Begin(state('quick', { actionId: 'act_x' }))
 
     expect(r.outcome).toBe('halted')
-    expect(r.state.blockedBy).toBe('uses')
+    expect(r.state.blockedBy).toBe('no_uses')
   })
 
   it('consumes the action and its uses when legal', () => {

@@ -11,6 +11,10 @@
         class="text-cc-overline text-disabled pl-3 py-2"
       >
         {{ $t('active.fight.selectWeapon') }}
+        <unavailable-toggle
+          v-model="useState.showUnavailable"
+          :count="hiddenWeapons"
+        />
       </div>
       <v-row
         dense
@@ -108,18 +112,16 @@
   import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
   import { useEncounterContext } from '../../../encounterContext'
   import type { Action } from '@/classes/Action'
-  import { computed, ref, shallowRef } from 'vue'
+  import { computed } from 'vue'
   import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent'
   import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
-  import { CombatantData } from '@/classes/encounter/Encounter'
   import { PilotWeapon } from '@/classes/pilot/components/Loadout/equipment/PilotWeapon'
   import CombatActionButton from './CombatActionButton.vue'
   import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue'
   import StagedPanel from './_stagedPanel.vue'
   import PilotWeaponAttack from './_pilotWeaponAttack.vue'
-  import { WeaponUseFlow, weaponUseState, activeEvents } from '@/classes/components/combat/flows/WeaponUseFlow'
-  import type { IWeaponUseState } from '@/classes/components/combat/flows/WeaponUseFlow'
-  import type { IFlowResult } from '@/classes/components/combat/flows/Flow'
+  import { useWeaponUse } from './useWeaponUse'
+  import UnavailableToggle from './_unavailableToggle.vue'
 
   const { owner, encounterInstance } = useEncounterContext()
 
@@ -128,61 +130,29 @@
     presetWeapon?: PilotWeapon
   }>()
 
-  const controller = computed(() => {
-    return owner.value.actor.CombatController.ActiveActor.CombatController
+  const {
+    useState,
+    result,
+    reset,
+    apply,
+    selected: selectedWeapon,
+    weapons: fightWeapons,
+    hiddenWeapons,
+    eventArray,
+  } = useWeaponUse({
+    mode: 'fight',
+    carry: true,
+    actionId: () => props.action.ID,
+    presetWeapon: () => props.presetWeapon,
+    makeEvent: (self, weapon, label) =>
+      new WeaponAttackEvent(weapon as PilotWeapon, self, encounterInstance.value, label),
   })
-
-  function newState(): IWeaponUseState {
-    const self = encounterInstance.value.Combatants.find(
-      (c: CombatantData) =>
-        c.actor.CombatController.RootActor.ID === owner.value.actor.CombatController.RootActor.ID
-    )
-    if (!self) throw new Error('Owner combatant not found in encounterInstance')
-    return weaponUseState({
-      cc: controller.value,
-      actionId: props.action.ID,
-      mode: 'fight',
-      presetWeapon: props.presetWeapon,
-      makeEvent: (weapon: any, label: string) =>
-        new WeaponAttackEvent(weapon as PilotWeapon, self, encounterInstance.value, label),
-    })
-  }
-
-  const useState = ref<IWeaponUseState>(newState())
-  const result = shallowRef<IFlowResult<IWeaponUseState> | null>(null)
-
-  function run() {
-    result.value =
-      result.value?.outcome === 'awaiting'
-        ? WeaponUseFlow.Resume(result.value as IFlowResult<IWeaponUseState>)
-        : WeaponUseFlow.Begin(useState.value)
-  }
-
-  function reset(clearAction = false) {
-    if (clearAction) controller.value.ClearActionUsed(props.action.ID)
-    const carried = useState.value.selected[0] ?? props.presetWeapon ?? null
-    useState.value = newState()
-    if (carried) useState.value.selected = [carried]
-    result.value = null
-    run()
-  }
-
-  function apply() {
-    run()
-    reset()
-  }
 
   function onWeaponChanged(weapon: PilotWeapon) {
     selectedWeapon.value = weapon
     reset()
   }
 
-  const selectedWeapon = computed<PilotWeapon | null>({
-    get: () => (useState.value.selected[0] as PilotWeapon) ?? null,
-    set: (weapon: PilotWeapon | null) => {
-      useState.value.selected = weapon ? [weapon] : []
-    },
-  })
   const fightWeapon = computed(() => props.presetWeapon || selectedWeapon.value)
   const fightActivation = computed(() => fightWeapon.value?.FightActivation || 'full')
   const fightIcon = computed(() =>
@@ -191,9 +161,5 @@
   const fightColor = computed(() =>
     fightActivation.value === 'quick' ? 'action--quick' : 'action--full'
   )
-  const fightWeapons = computed(() => useState.value.options as PilotWeapon[])
   const event = computed(() => (useState.value.entries[0]?.event as WeaponAttackEvent) ?? null)
-  const eventArray = computed(() => activeEvents(useState.value))
-
-  reset()
 </script>

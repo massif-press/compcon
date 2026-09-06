@@ -38,7 +38,7 @@
   import CombatActionButton from './CombatActionButton.vue'
   import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue'
 
-  const { owner, encounterInstance } = useEncounterContext()
+  const { owner, encounterInstance, ownerController: controller } = useEncounterContext()
 
   const props = defineProps<{
     action: Action
@@ -46,13 +46,10 @@
 
   const selection = ref(null as PilotWeapon | null)
 
-  const controller = computed(() => {
-    return owner.value.actor.CombatController
-  })
   const reloadOptions = computed(() => controller.value.ReloadOptions())
 
   function apply() {
-    controller.value.PerformAction(props.action.ID, { target: selection.value })
+    controller.value.RunAction(props.action.ID, { target: selection.value })
   }
   function reset() {
     controller.value.UndoActivation(props.action.Activation, { actionId: props.action.ID })

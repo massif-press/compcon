@@ -73,7 +73,7 @@ describe('EndTurnFlow', () => {
     expect(first.pending).toBe('pending-checks')
     expect(first.request).toEqual({
       kind: 'check',
-      label: 'structure or stress check',
+      label: 'structureOrStressCheck',
       pending: ['structure'],
     })
     expect(cur(StatKey.ACTIVATIONS)).toBe(before)

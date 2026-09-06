@@ -1,8 +1,14 @@
 import { DamageType } from '../../enums'
 import { StatKey } from './stats/Stats'
-import { DamageCalculationFlow, DamageApplicationFlow, HeatFlow, armorReduction } from './flows/DamageFlow'
+import {
+  DamageCalculationFlow,
+  DamageApplicationFlow,
+  HeatFlow,
+  armorReduction,
+} from './flows/DamageFlow'
 import type { IDamageCalcState, IDamageResult } from './flows/DamageFlow'
 import type { CombatController } from './CombatController'
+import { withLogGroup } from './log/CombatLogRecorder'
 
 class DamageController {
   private _parent: CombatController
@@ -40,12 +46,21 @@ class DamageController {
       cc: this._parent,
       target: this.resolveTarget(direct),
       type,
-      value,
       ap,
       irreducible,
       armorReduction: 0,
       out: { total: value, resist: [], condition: [], tookDamage: true },
     }
+  }
+
+  private _calculate(
+    type: DamageType,
+    value: number,
+    ap: boolean,
+    irreducible: boolean,
+    direct: boolean
+  ): IDamageCalcState {
+    return DamageCalculationFlow.Begin(this._calcState(type, value, ap, irreducible, direct)).state
   }
 
   public CalculateDamage(
@@ -55,8 +70,7 @@ class DamageController {
     irreducible = false,
     direct = false
   ): IDamageResult {
-    return DamageCalculationFlow.Begin(this._calcState(type, value, ap, irreducible, direct)).state
-      .out
+    return this._calculate(type, value, ap, irreducible, direct).out
   }
 
   public TakeDamage(
@@ -65,6 +79,16 @@ class DamageController {
     ap: boolean = false,
     irreducible = false,
     direct = false
+  ): void {
+    withLogGroup(() => this._takeDamage(type, value, ap, irreducible, direct))
+  }
+
+  private _takeDamage(
+    type: DamageType,
+    value: number,
+    ap: boolean,
+    irreducible: boolean,
+    direct: boolean
   ): void {
     if (this._parent.SaveLock) return
 
@@ -77,15 +101,27 @@ class DamageController {
       type = DamageType.Energy
     }
 
-    const damage = this.CalculateDamage(type, value, ap, irreducible, direct)
+    const calc = this._calculate(type, value, ap, irreducible, direct)
+    const damage = calc.out
+    const wasDestroyed = this._parent.IsDestroyed
+
+    this._parent.Record('damage', {
+      targetId: target.RootActor?.ID ?? target.Parent.ID,
+      damageType: type,
+      incoming: value,
+      armorReduced: calc.armorReduction,
+      resisted: damage.resist,
+      conditions: damage.condition,
+      final: damage.total,
+      ap,
+      irreducible,
+      taken: damage.tookDamage,
+    })
 
     this.ApplyDamage(type, damage.total, direct)
 
-    this._parent.CombatLog.TakeDamage(value, type)
-    this._parent.CombatLog.ArmorReduced(
-      this.CalculateArmorReduction(type, value, ap, irreducible, direct)
-    )
-    if (this._parent.IsDestroyed) this._parent.CombatLog.LoseMech()
+    if (!wasDestroyed && this._parent.IsDestroyed)
+      this._parent.Record('mech.status', { to: 'destroyed' })
   }
 
   public ApplyDamage(type: DamageType, value: number, direct = false): void {

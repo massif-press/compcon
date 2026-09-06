@@ -28,7 +28,10 @@ const CATEGORIES = [
 ]
 
 const ENGINE = [
-  ['CombatController.ts', 'the actor-facing surface; most rules are a function here'],
+  [
+    'CombatController.ts',
+    'the actor-bound combat engine. Most rules are represented by a function here',
+  ],
   ['ActionPoolController.ts', 'the action pool, activations, reactions, uses, overcharge'],
   ['DamageController.ts', 'damage calculation and application'],
   ['StatusRules.ts', 'statuses and conditions'],
@@ -135,7 +138,7 @@ function render(source, { files, counts }) {
     '# Lancer Rules Implemented in Active Mode',
     '',
     '**Generated from `lancer-rules.json` by `scripts/gen-rules-table.mjs`. Do not edit.**',
-    'Run `yarn rules:table` after adding or changing a rule; CI fails if this file is out of date.',
+    'Run `yarn rules:table` after adding or changing a rule. CI fails if this file is out of date.',
     '',
     `${source.rules.length} rules and ${source.interactions.length} interaction rules, ` +
       `covered by ${total} tests in \`src/__tests__/rules/\`.`,
@@ -155,10 +158,10 @@ function render(source, { files, counts }) {
       .sort((a, b) => a.id.localeCompare(b.id))
     if (!rules.length) continue
     out.push(`## ${title} (${rules.length})`, '')
-    out.push('| Rule | Statement | Class | Spec |', '|---|---|---|---|')
+    out.push('| Rule | Title | Statement | Class | Spec |', '|---|---|---|---|---|')
     for (const rule of rules)
       out.push(
-        `| \`${rule.id}\` | ${rule.title} | ${rule.classification} | ${spec(rule.id)} (${counts.get(rule.id)}) |`
+        `| \`${rule.id}\` | ${rule.title} | ${rule.statement} | ${rule.classification} | ${spec(rule.id)} (${counts.get(rule.id)}) |`
       )
     out.push('')
   }

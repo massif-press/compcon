@@ -11,6 +11,7 @@ export const SyncableItemType = {
   EncounterInstance: 'encounterinstance',
   EncounterArchive: 'encounterarchive',
   PilotSheet: 'pilotsheet',
+  PilotLogbook: 'pilotlogbook',
   Campaign: 'campaign',
   Npc: 'npc',
   CollectionItem: 'collectionitem',
@@ -32,6 +33,7 @@ export const allSyncableTypes: readonly string[] = [
   SyncableItemType.EncounterInstance,
   SyncableItemType.EncounterArchive,
   SyncableItemType.PilotSheet,
+  SyncableItemType.PilotLogbook,
   SyncableItemType.Campaign,
   SyncableItemType.Npc,
   SyncableItemType.CollectionItem,
@@ -42,7 +44,7 @@ export const FilterGroupExpansion: Record<string, readonly string[]> = {
   npc: [SyncableItemType.Unit, SyncableItemType.Doodad, SyncableItemType.Eidolon],
   collectionitem: [SyncableItemType.Character, SyncableItemType.Faction, SyncableItemType.Location],
   encounter: [SyncableItemType.EncounterInstance, SyncableItemType.EncounterArchive],
-  pilot: [SyncableItemType.PilotGroup, SyncableItemType.PilotSheet],
+  pilot: [SyncableItemType.PilotGroup, SyncableItemType.PilotSheet, SyncableItemType.PilotLogbook],
 } as const
 
 export function expandFilterTypes(filters: string[]): string[] {

@@ -1,4 +1,3 @@
-
 import { ActiveEffect } from './ActiveEffect'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { CombatantData } from '@/classes/encounter/Encounter'
@@ -11,7 +10,17 @@ import { StatusEvent } from './effect_events/statusEvent'
 import { OtherEvent } from './effect_events/otherEvent'
 import { SpecialEvent } from './effect_events/specialEvent'
 import { ActionSummary } from './EffectActionSummary'
+import { withLogGroup } from '@/classes/components/combat/log/CombatLogRecorder'
+import { itemRef } from '@/classes/components/combat/log/refs'
 import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon'
+
+function isTargetable(combatant: CombatantData): boolean {
+  if (!combatant?.actor) return false
+  if (combatant.actor.CombatController?.IsDestroyed) return false
+  if (combatant.reinforcement) return false
+  const status = String(combatant.status ?? '').toUpperCase()
+  return status !== 'DESTROYED' && status !== 'ROUTED' && status !== 'DISENGAGED'
+}
 
 class ActiveEffectEvent {
   public ID: string
@@ -35,7 +44,6 @@ class ActiveEffectEvent {
   public Accuracy: number = 0
   public AttackBonus: number = 0
 
-  // pc-side local only, so no target data will be available
   public IsPcLocal: boolean = false
 
   constructor(initiator: CombatantData, effect: ActiveEffect, instance: EncounterInstance) {
@@ -50,14 +58,13 @@ class ActiveEffectEvent {
       this._targets = [new ActiveEventTarget(this, this.Initiator, effect)]
     else if (this.IsPcLocal)
       this._targets = [new ActiveEventTarget(this, null as unknown as CombatantData, effect)]
-    else this._targets = [null as unknown as ActiveEventTarget] // placeholder for single target
+    else this._targets = [null as unknown as ActiveEventTarget]
     this._aoe = effect.IsAoE
 
     this.Accuracy = effect.Accuracy || 0
     this.AttackBonus = effect.AttackBonus || 0
 
     if (this.Attack === 'ranged' || this.Attack === 'melee') {
-      // this contains grit for pcs already
       this.AttackBonus +=
         initiator.actor.CombatController?.ActiveActor.CombatController?.AttackBonus || 0
     } else if (this.Attack === 'tech') {
@@ -120,6 +127,12 @@ class ActiveEffectEvent {
       this.ResistEvents = effect.AddResist.map(r => new ResistEvent(r))
       this.Save = effect.AddResist[0].Save?.Stat
     }
+
+    if (effect.IsAutoSelfResist) this.SetTarget(initiator, 0)
+  }
+
+  public get IsSelfOnly(): boolean {
+    return this.Effect.IsAutoSelfResist
   }
 
   private get _allEvents(): (
@@ -146,7 +159,6 @@ class ActiveEffectEvent {
     if (this.AoE) return
     if (this.DamageEvents.length) {
       this.DamageEvents[0].IsCrit = true
-      // clear damage if rollable damage rolled without crit
       if (this.DamageEvents[0].DamageRollString.includes('d'))
         this.DamageEvents[0].DamageRolledValue = undefined
     }
@@ -189,9 +201,7 @@ class ActiveEffectEvent {
     )
   }
 
-  // add a new target slot
   public AddTarget() {
-    console.log('Adding target slot')
     if (this.IsPcLocal)
       this._targets.push(new ActiveEventTarget(this, null as unknown as CombatantData, this.Effect))
     else this._targets.push(null as unknown as ActiveEventTarget)
@@ -212,8 +222,14 @@ class ActiveEffectEvent {
       this.Initiator.id
     )
 
-    return availableTargets.filter(x => !x.actor.CombatController.IsDestroyed && !x.reinforcement)
-    // .filter(x => !this._targets.some(y => y && y.Combatant && y.Combatant.id === x.id))
+    if (this.IsSelfOnly) return [this.Initiator]
+
+    const targetable = availableTargets.filter(isTargetable)
+
+    if (this.TargetType === 'self' && !targetable.some(t => t.id === this.Initiator.id)) {
+      return [this.Initiator, ...targetable]
+    }
+    return targetable
   }
 
   public get AttackStat() {
@@ -275,7 +291,7 @@ class ActiveEffectEvent {
     if (this.Save || this.Attack)
       ready =
         this._targets.every(t => (t.AttackRolledValue || t.SaveRolledValue) !== undefined) && ready
-    ready = this.DamageEvents.every(d => !!d.DamageRolledValue) && ready
+    ready = this.DamageEvents.every(d => d.DamageRolledValue !== undefined) && ready
 
     return ready
   }
@@ -293,6 +309,11 @@ class ActiveEffectEvent {
   }
 
   public Apply(target: ActiveEventTarget) {
+    withLogGroup(() => this._apply(target))
+  }
+
+  private _apply(target: ActiveEventTarget) {
+    this.RecordAction([target])
     this.DamageEvents.forEach(de => {
       target.ApplyDamage(de)
     })
@@ -311,12 +332,41 @@ class ActiveEffectEvent {
     this.RemoveSpecialStatus?.forEach(status => {
       target.RemoveSpecialStatus(status)
     })
-    this.Initiator.actor.CombatController.CombatLog.LogAction(
-      ActionSummary.fromActiveEffectEvent(this)
-    )
+    this.ConsumeLockOn(target)
+  }
+
+  public RecordAction(targets: ActiveEventTarget[]) {
+    const cc = this.Initiator.actor.CombatController
+    const action = { id: this.Effect.ID, name: this.Effect.Name }
+    cc.Record('action', {
+      action,
+      activation: String((this.Effect as any).Activation ?? ''),
+    })
+    if (!this.Attack) return
+    const weapon = (this as any).Weapon ? itemRef((this as any).Weapon) : undefined
+    targets.forEach(t => {
+      if (!t || t.AttackRolledValue === undefined) return
+      cc.Record('attack', {
+        action,
+        weapon,
+        attackType: this.Attack as string,
+        targetId: t.Combatant?.actor?.CombatController?.RootActor?.ID,
+        rolled: t.AttackRolledValue,
+        defense: t.TargetDefense ?? '',
+        defenseValue: t.TargetDefenseValue ?? 0,
+        result: (t.HitResult || 'miss') as 'hit' | 'miss' | 'crit',
+        overridden: !!t.HitResultOverride,
+        missedFromInvisibility: t.MissedFromInvisibility,
+      })
+    })
   }
 
   public ApplyAll() {
+    withLogGroup(() => this._applyAll())
+  }
+
+  private _applyAll() {
+    this.RecordAction(this.Targets)
     this.Targets.forEach(t => {
       if (!t || !t.Combatant) return
       this.DamageEvents.forEach(de => {
@@ -337,19 +387,17 @@ class ActiveEffectEvent {
       this.RemoveSpecialStatus?.forEach(status => {
         t.RemoveSpecialStatus(status)
       })
-      if (
-        t.Combatant?.actor.CombatController.RootActor.ID !==
-        this.Initiator.actor.CombatController.RootActor.ID
-      )
-        t.Combatant?.actor.CombatController.CombatLog.LogAction(
-          ActionSummary.fromActiveEffectEvent(this)
-        )
+      this.ConsumeLockOn(t)
     })
+  }
 
-    this.Initiator.actor.CombatController.CombatLog.LogAction(
-      ActionSummary.fromActiveEffectEvent(this)
+  public ConsumeLockOn(target: ActiveEventTarget): void {
+    if (!this.Attack || !target.ConsumingLockOn) return
+    if (target.AttackRolledValue === undefined && !target.MissedFromInvisibility) return
+    target.ConsumingLockOn = false
+    this.Initiator.actor.CombatController.ConsumeLockOnAgainst?.(
+      target.Combatant?.actor?.CombatController
     )
-    // this.EncounterInstance.AddLogEvent(ActionSummary.fromActiveEffectEvent(this))
   }
 }
 

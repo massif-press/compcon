@@ -103,7 +103,7 @@
               "
               style="width: calc(100% - 6px)"
               class="tick"
-              :class="`${isHovered(i) && 'hovered'} ${isMouseovered(i) || (isActive(i) && 'highlighted')} ${isHovered(i) || isActive(i) ? `bg-${color}` : `bg-${bgColor}`} ${reverse ? 'reverse ml-1' : 'angled'}  px-0 `"
+              :class="`${isHovered(i) && 'hovered'} ${isMouseovered(i) || (isActive(i) && 'highlighted')} ${isHovered(i) || isActive(i) ? `bg-${tickColor(i)}` : `bg-${bgColor}`} ${reverse ? 'reverse ml-1' : 'angled'}  px-0 `"
               @mouseover="hover = i"
               @mouseleave="hover = null"
               @click="setVal(i)"
@@ -150,6 +150,8 @@
       loading?: boolean
       icon?: string
       ticks?: number
+      bonusTicks?: number
+      bonusColor?: string
       controls?: boolean
       clearable?: boolean
       display?: boolean
@@ -167,6 +169,8 @@
       color: 'primary',
       bgColor: 'panel',
       ticks: 6,
+      bonusTicks: 0,
+      bonusColor: 'exotic',
       display: true,
       valueTooltips: false,
       reverse: false,
@@ -189,8 +193,13 @@
   })
   const pctBackground = computed(() => {
     const pct = Math.round((props.modelValue / props.ticks) * 100)
+    if (!props.bonusTicks)
+      return `background: linear-gradient(to right, rgb(var(--v-theme-${props.color})) ${pct}%, rgb(var(--v-theme-${props.bgColor})) ${pct}%)`
 
-    return `background: linear-gradient(to right, rgb(var(--v-theme-${props.color})) ${pct}%, rgb(var(--v-theme-${props.bgColor})) ${pct}%)`
+    const base = Math.round(((props.ticks - props.bonusTicks) / props.ticks) * 100)
+    const filled = Math.min(pct, base)
+    const granted = Math.max(pct, base)
+    return `background: linear-gradient(to right, rgb(var(--v-theme-${props.color})) ${filled}%, rgb(var(--v-theme-${props.bonusColor})) ${filled}%, rgb(var(--v-theme-${props.bonusColor})) ${granted}%, rgb(var(--v-theme-${props.bgColor})) ${granted}%)`
   })
 
   function isHovered(i: number) {
@@ -201,6 +210,12 @@
   }
   function isActive(i: number) {
     return props.modelValue && props.modelValue >= i
+  }
+  function isBonus(i: number) {
+    return props.bonusTicks > 0 && i > props.ticks - props.bonusTicks
+  }
+  function tickColor(i: number) {
+    return isBonus(i) ? props.bonusColor : props.color
   }
   function setVal(val: number) {
     if (props.stopAdd && val > props.modelValue) return
