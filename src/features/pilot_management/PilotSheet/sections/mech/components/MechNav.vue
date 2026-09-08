@@ -2,83 +2,113 @@
   <div class="nav-body elevation-10">
     <div id="cap" />
     <div class="d-inline">
-      <v-tooltip :text="$t('pm.tooltips.returnToPilotSheet')"
-        location="top">
+      <v-tooltip
+        :text="$t('pm.tooltips.returnToPilotSheet')"
+        location="top"
+      >
         <template #activator="{ props }">
-          <v-btn v-bind="props"
+          <v-btn
+            v-bind="props"
             size="small"
             icon
             variant="plain"
             class="unskew mt-n2"
-            @click="toTacticalProfile()">
-            <v-icon size="25"
-              icon="cc:pilot" />
+            @click="toTacticalProfile()"
+          >
+            <v-icon
+              size="25"
+              icon="cc:pilot"
+            />
           </v-btn>
         </template>
       </v-tooltip>
     </div>
 
-    <v-menu offset-y
-      top>
+    <v-menu
+      offset-y
+      top
+    >
       <template #activator="{ props }">
-        <v-btn class="unskew mt-n1"
+        <v-btn
+          class="unskew mt-n1"
           icon
           variant="plain"
           size="small"
-          v-bind="props">
-          <v-tooltip :text="$t('pm.sheet.mechOptions')"
-            location="top">
+          v-bind="props"
+        >
+          <v-tooltip
+            :text="$t('pm.sheet.mechOptions')"
+            location="top"
+          >
             <template #activator="{ props }">
-              <v-icon v-bind="props"
+              <v-icon
+                v-bind="props"
                 size="24"
                 class="mt-n1 mx-4"
-                icon="mdi-cog" />
+                icon="mdi-cog"
+              />
             </template>
           </v-tooltip>
         </v-btn>
       </template>
       <div class="heading h2 bg-primary py-0 px-2">{{ $t('pm.sheet.mechOptions') }}</div>
-      <v-list lines="two"
+      <v-list
+        lines="two"
         density="compact"
-        slim>
-        <v-list-item prepend-icon="mdi-printer"
+        slim
+      >
+        <v-list-item
+          prepend-icon="mdi-printer"
           :title="$t('common.print')"
           :subtitle="$t('pm.subtitles.printATabletopreadyMechSheet')"
-          @click="$router.push(`/print/${pilot.ID}/${mech.ID}`)" />
+          @click="$router.push(`/print/${pilot.ID}/${mech.ID}`)"
+        />
 
-        <v-list-item prepend-icon="mdi-file-document-outline"
+        <v-list-item
+          prepend-icon="mdi-file-document-outline"
           :title="$t('pm.sheet.generateStatblock')"
           :subtitle="$t('pm.subtitles.getAPlaintextRepresentationOfThisMechConfiguration')"
-          @click="statblockDialog = true" />
+          @click="statblockDialog = true"
+        />
 
         <v-divider v-if="!pilot.IsRemote" />
 
-        <v-list-item v-if="!pilot.IsRemote"
+        <v-list-item
+          v-if="!pilot.IsRemote"
           class="text-error"
           prepend-icon="mdi-delete"
           :title="$t('pm.titles.deleteMech')"
           :subtitle="$t('pm.subtitles.removeMechFromTheHangar')"
-          @click="$emit('delete')" />
+          @click="$emit('delete')"
+        />
       </v-list>
     </v-menu>
 
-    <div v-if="!pilot.IsRemote"
-      class="d-inline">
-      <cc-dialog :title="$t('pm.titles.sharePilotData')"
+    <div
+      v-if="!pilot.IsRemote"
+      class="d-inline"
+    >
+      <cc-dialog
+        :title="$t('pm.titles.sharePilotData')"
         icon="cc:pilot"
-        :close-on-click="false">
+        :close-on-click="false"
+      >
         <template #activator="{ open }">
-          <v-tooltip open-delay="300"
+          <v-tooltip
+            open-delay="300"
             location="top"
-            :text="isAuthed ? $t('pm.titles.sharePilotData') : $t('pm.sheet.requiresCloudAccount')">
+            :text="isAuthed ? $t('pm.titles.sharePilotData') : $t('pm.sheet.requiresCloudAccount')"
+          >
             <template #activator="{ props }">
               <span v-bind="props">
-                <v-btn icon
+                <v-btn
+                  icon
                   size="small"
                   variant="plain"
                   class="unskew mt-n2"
                   :disabled="!isAuthed"
-                  @click="open">
+                  @click="open"
+                >
                   <v-icon color="white">mdi-broadcast</v-icon>
                 </v-btn>
               </span>
@@ -90,17 +120,31 @@
     </div>
 
     <div class="d-inline">
-      <v-tooltip :text="pilot.FavoriteMech?.ID === mech.ID ? $t('pm.sheet.unfavoriteMech') : $t('pm.sheet.favoriteMech')"
-        location="top">
+      <v-tooltip
+        :text="
+          pilot.FavoriteMech?.ID === mech.ID
+            ? $t('pm.sheet.unfavoriteMech')
+            : $t('pm.sheet.favoriteMech')
+        "
+        location="top"
+      >
         <template #activator="{ props }">
-          <v-btn v-bind="props"
+          <v-btn
+            v-bind="props"
             size="small"
             icon
             variant="plain"
             class="unskew mt-n2"
-            @click.stop="mech.Parent.FavoriteMech?.ID === mech.ID ? mech.Parent.FavoriteMech = null : mech.Parent.FavoriteMech = mech">
-            <v-icon size="25"
-              :icon="mech.Parent.FavoriteMech?.ID === mech.ID ? 'mdi-star' : 'mdi-star-outline'" />
+            @click.stop="
+              mech.Parent.FavoriteMech?.ID === mech.ID
+                ? (mech.Parent.FavoriteMech = null)
+                : (mech.Parent.FavoriteMech = mech)
+            "
+          >
+            <v-icon
+              size="25"
+              :icon="mech.Parent.FavoriteMech?.ID === mech.ID ? 'mdi-star' : 'mdi-star-outline'"
+            />
           </v-btn>
         </template>
       </v-tooltip>
@@ -108,76 +152,84 @@
 
     <div id="end-cap" />
   </div>
-  <cc-dialog v-model="statblockDialog"
+  <cc-dialog
+    v-model="statblockDialog"
     :title="$t('pm.sheet.generateStatblock')"
-    icon="mdi-code-block-tags" :close-on-click="false" major full-height max-width="90vw">
-    <statblock-dialog :pilot="<Pilot>pilot"
-      :mech-i-d="mech.ID" />
+    icon="mdi-code-block-tags"
+    :close-on-click="false"
+    major
+    full-height
+    max-width="90vw"
+  >
+    <statblock-dialog
+      :pilot="<Pilot>pilot"
+      :mech-i-d="mech.ID"
+    />
   </cc-dialog>
 </template>
 
 <script setup lang="ts">
-import type { Mech } from '@/classes/mech/Mech'
-import { computed, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { UserStore } from '@/user/store';
-import StatblockDialog from '../../../components/StatblockDialog.vue';
-import { Pilot } from '@/classes/pilot/Pilot'
-import ShareDialog from '@/shared/ShareDialog.vue';
-const router = useRouter()
+  import type { Mech } from '@/classes/mech/Mech'
+  import { computed, ref } from 'vue'
+  import { useRouter } from 'vue-router'
+  import { UserStore } from '@/user/store'
+  import StatblockDialog from '../../../components/StatblockDialog.vue'
+  import { Pilot } from '@/classes/pilot/Pilot'
+  import ShareDialog from '@/shared/ShareDialog.vue'
+  const router = useRouter()
 
-const props = defineProps<{
-  pilot: Pilot
-  selected: number
-  mech: Mech
-}>()
+  const props = defineProps<{
+    pilot: Pilot
+    selected: number
+    mech: Mech
+  }>()
 
-const emit = defineEmits<{
-  'delete': []
-}>()
+  const emit = defineEmits<{
+    delete: []
+  }>()
 
-const statblockDialog = ref(false)
+  const statblockDialog = ref(false)
 
-const isAuthed = computed(() => {
-      return UserStore().IsLoggedIn
+  const isAuthed = computed(() => {
+    return UserStore().IsLoggedIn
+  })
+
+  function toTacticalProfile() {
+    router.push({
+      name: 'pilot_sheet_redirect',
+      params: { pilotID: props.pilot.ID },
     })
-
-function toTacticalProfile() {
-      router.push({
-        name: 'pilot_sheet_redirect',
-        params: { pilotID: props.pilot.ID },
-      });
-    }
+  }
 </script>
 
 <style scoped>
-.nav-body {
-  position: fixed;
-  bottom: 20px;
-  right: -40px;
-  height: 30px;
-  padding: 0px 70px 0px 20px;
-  transform: skew(-0.65rad);
-  background-color: rgb(var(--v-theme-primary));
-  z-index: 10;
-}
+  .nav-body {
+    position: fixed;
+    bottom: 20px;
+    right: -40px;
+    height: 30px;
+    padding: 0px 70px 0px 20px;
+    transform: skew(-0.65rad);
+    background-color: rgb(var(--v-theme-primary));
+    z-index: 10;
+  }
 
-.unskew {
-  transform: skew(0.65rad);
-}
+  .unskew {
+    transform: skew(0.65rad);
+  }
 
-#end-cap {
-  background-color: rgb(var(--v-theme-primary));
-  position: absolute;
-  width: 5px;
-  height: 30px;
-  right: 260px;
-  top: 0;
-  z-index: 9;
-  transition: filter 0.2s ease-in-out;
-}
+  #end-cap {
+    background-color: rgb(var(--v-theme-primary));
+    position: absolute;
+    width: 5px;
+    height: 30px;
+    right: 260px;
+    top: 0;
+    z-index: 9;
+    transition: filter 0.2s ease-in-out;
+  }
 
-.nav-body:hover #end-cap {
-  filter: brightness(2) saturate(200%) hue-rotate(20deg);
-}
+  .nav-body:hover #end-cap {
+    filter: brightness(2) saturate(200%) hue-rotate(20deg);
+  }
 </style>

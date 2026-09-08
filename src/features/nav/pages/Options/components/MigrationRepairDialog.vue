@@ -1,65 +1,91 @@
 <template>
-  <cc-dialog :title="$t('nav.migrationRepair.dialogTitle')"
+  <cc-dialog
+    :title="$t('nav.migrationRepair.dialogTitle')"
     icon="mdi-wrench"
     :close-on-click="false"
     min-width="60vw"
     max-width="80vw"
-    @close="reset">
+    @close="reset"
+  >
     <template #activator="{ open }">
-      <cc-button block
+      <cc-button
+        block
         size="small"
         color="primary"
         prepend-icon="mdi-wrench"
         :tooltip="$t('nav.migrationRepair.buttonTooltip')"
-        @click="startScan(open)">
+        @click="startScan(open)"
+      >
         {{ $t('nav.migrationRepair.buttonLabel') }}
       </cc-button>
     </template>
     <template #default="{ close }">
       <v-card-text class="pa-4">
-        <div v-if="scanning || applying"
-          class="d-flex flex-column align-center pa-8">
-          <v-progress-circular v-if="scanning || !progressTotal"
+        <div
+          v-if="scanning || applying"
+          class="d-flex flex-column align-center pa-8"
+        >
+          <v-progress-circular
+            v-if="scanning || !progressTotal"
             indeterminate
             color="warning"
             size="48"
-            class="mb-4" />
-          <v-progress-linear v-else
+            class="mb-4"
+          />
+          <v-progress-linear
+            v-else
             :model-value="progressTotal ? (progress / progressTotal) * 100 : 0"
             color="success"
             height="12"
             rounded
             class="mb-4"
-            style="width: 300px" />
+            style="width: 300px"
+          />
           <div class="text-cc-overline text-disabled">
-            {{ scanning ? $t('nav.migrationRepair.scanning') : `Applying fixes (${progress} / ${progressTotal})...`
+            {{
+              scanning
+                ? $t('nav.migrationRepair.scanning')
+                : `Applying fixes (${progress} / ${progressTotal})...`
             }}
           </div>
         </div>
 
         <template v-else-if="!applying">
-          <div v-if="!findings.length"
-            class="text-center pa-6">
-            <v-icon icon="mdi-check-circle"
+          <div
+            v-if="!findings.length"
+            class="text-center pa-6"
+          >
+            <v-icon
+              icon="mdi-check-circle"
               color="success"
               size="48"
-              class="mb-2" />
+              class="mb-2"
+            />
             <div class="text-cc-overline">{{ $t('nav.migrationRepair.noIssues') }}</div>
           </div>
 
           <template v-else>
-
             <cc-panel class="mb-4">
               {{ $t('nav.migrationRepair.foundFixable', { count: fixableCount }, fixableCount) }}
-              <span v-if="reportOnlyCount">{{ $t('nav.migrationRepair.andRequiringManual', {
-                count:
-                  reportOnlyCount
-              }, reportOnlyCount) }}</span>.
+              <span v-if="reportOnlyCount">
+                {{
+                  $t(
+                    'nav.migrationRepair.andRequiringManual',
+                    {
+                      count: reportOnlyCount,
+                    },
+                    reportOnlyCount
+                  )
+                }}
+              </span>
+              .
             </cc-panel>
 
-            <v-table density="compact"
+            <v-table
+              density="compact"
               class="text-left"
-              style="max-height: 60vh;">
+              style="max-height: 60vh"
+            >
               <thead>
                 <tr class="heading">
                   <th>{{ $t('nav.migrationRepair.colCategory') }}</th>
@@ -69,30 +95,40 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(finding, idx) in findings"
-                  :key="idx">
+                <tr
+                  v-for="(finding, idx) in findings"
+                  :key="idx"
+                >
                   <td>
-                    <v-chip size="x-small"
+                    <v-chip
+                      size="x-small"
                       :color="categoryColor(finding.category)"
                       :text="categoryLabel(finding.category)"
                       variant="elevated"
                       flat
-                      tile />
+                      tile
+                    />
                   </td>
                   <td class="text-caption">{{ finding.itemName }}</td>
                   <td class="text-caption">{{ finding.description }}</td>
                   <td class="text-center">
-                    <v-icon v-if="finding.canFix"
+                    <v-icon
+                      v-if="finding.canFix"
                       icon="mdi-check"
                       color="success"
-                      size="small" />
-                    <v-tooltip v-else
-                      location="top">
+                      size="small"
+                    />
+                    <v-tooltip
+                      v-else
+                      location="top"
+                    >
                       <template #activator="{ props }">
-                        <v-icon v-bind="props"
+                        <v-icon
+                          v-bind="props"
                           icon="mdi-alert"
                           color="warning"
-                          size="small" />
+                          size="small"
+                        />
                       </template>
                       {{ $t('nav.migrationRepair.manualActionRequired') }}
                     </v-tooltip>
@@ -106,15 +142,19 @@
 
       <v-divider />
       <v-card-actions class="pa-4">
-        <cc-button variant="text"
-          @click="close">
+        <cc-button
+          variant="text"
+          @click="close"
+        >
           {{ $t('common.cancel') }}
         </cc-button>
         <v-spacer />
-        <cc-button v-if="fixableCount > 0 && !applying"
+        <cc-button
+          v-if="fixableCount > 0 && !applying"
           color="success"
           prepend-icon="mdi-wrench-check"
-          @click="applyFixes(close)">
+          @click="applyFixes(close)"
+        >
           {{ $t('nav.migrationRepair.applyFixesButton', { count: fixableCount }, fixableCount) }}
         </cc-button>
       </v-card-actions>
@@ -123,71 +163,79 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { runMigrationScan, applyAllFixes, MigrationFinding } from '@/io/MigrationRepair'
+  import { ref, computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
+  import { runMigrationScan, applyAllFixes, MigrationFinding } from '@/io/MigrationRepair'
 
-const { t } = useI18n()
+  const { t } = useI18n()
 
-const scanning = ref(false)
-const applying = ref(false)
-const progress = ref(0)
-const progressTotal = ref(0)
-const findings = ref<MigrationFinding[]>([])
+  const scanning = ref(false)
+  const applying = ref(false)
+  const progress = ref(0)
+  const progressTotal = ref(0)
+  const findings = ref<MigrationFinding[]>([])
 
-const fixableCount = computed(() => findings.value.filter(f => f.canFix).length)
-const reportOnlyCount = computed(() => findings.value.filter(f => !f.canFix).length)
+  const fixableCount = computed(() => findings.value.filter(f => f.canFix).length)
+  const reportOnlyCount = computed(() => findings.value.filter(f => !f.canFix).length)
 
-async function startScan(open: () => void) {
-  findings.value = []
-  scanning.value = true
-  open()
-  try {
-    findings.value = await runMigrationScan()
-  } finally {
+  async function startScan(open: () => void) {
+    findings.value = []
+    scanning.value = true
+    open()
+    try {
+      findings.value = await runMigrationScan()
+    } finally {
+      scanning.value = false
+    }
+  }
+
+  async function applyFixes(close: () => void) {
+    applying.value = true
+    progress.value = 0
+    progressTotal.value = 0
+    await new Promise<void>(resolve => setTimeout(resolve, 0))
+    try {
+      await applyAllFixes(findings.value, (done, total) => {
+        progress.value = done
+        progressTotal.value = total
+      })
+      close()
+    } finally {
+      applying.value = false
+    }
+  }
+
+  function reset() {
+    findings.value = []
     scanning.value = false
-  }
-}
-
-async function applyFixes(close: () => void) {
-  applying.value = true
-  progress.value = 0
-  progressTotal.value = 0
-  await new Promise<void>(resolve => setTimeout(resolve, 0))
-  try {
-    await applyAllFixes(findings.value, (done, total) => {
-      progress.value = done
-      progressTotal.value = total
-    })
-    close()
-  } finally {
     applying.value = false
+    progress.value = 0
+    progressTotal.value = 0
   }
-}
 
-function reset() {
-  findings.value = []
-  scanning.value = false
-  applying.value = false
-  progress.value = 0
-  progressTotal.value = 0
-}
-
-function categoryLabel(cat: string): string {
-  switch (cat) {
-    case 'flavor_description': return t('nav.migrationRepair.catFlavorText')
-    case 'lcp_origin': return t('nav.migrationRepair.catLcpOrigin')
-    case 'npc_stats': return t('nav.migrationRepair.catNpcStats')
-    default: return cat
+  function categoryLabel(cat: string): string {
+    switch (cat) {
+      case 'flavor_description':
+        return t('nav.migrationRepair.catFlavorText')
+      case 'lcp_origin':
+        return t('nav.migrationRepair.catLcpOrigin')
+      case 'npc_stats':
+        return t('nav.migrationRepair.catNpcStats')
+      default:
+        return cat
+    }
   }
-}
 
-function categoryColor(cat: string): string {
-  switch (cat) {
-    case 'flavor_description': return 'primary'
-    case 'lcp_origin': return 'warning'
-    case 'npc_stats': return 'info'
-    default: return 'subtle'
+  function categoryColor(cat: string): string {
+    switch (cat) {
+      case 'flavor_description':
+        return 'primary'
+      case 'lcp_origin':
+        return 'warning'
+      case 'npc_stats':
+        return 'info'
+      default:
+        return 'subtle'
+    }
   }
-}
 </script>

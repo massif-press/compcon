@@ -1,7 +1,16 @@
 <template>
-  <v-menu open-on-hover open-delay="800">
+  <v-menu
+    open-on-hover
+    open-delay="800"
+  >
     <template #activator="{ props }">
-      <v-chip v-bind="props" :size="size" class="mx-1">{{ sitrep.Name }}</v-chip>
+      <v-chip
+        v-bind="props"
+        :size="size"
+        class="mx-1"
+      >
+        {{ sitrep.Name }}
+      </v-chip>
     </template>
     <v-card>
       <v-card-text>
@@ -12,14 +21,17 @@
 </template>
 
 <script setup lang="ts">
-import type { Sitrep } from '@/classes/encounter/Sitrep'
-import CCSitrepDisplay from '@/ui/components/CCSitrepDisplay.vue'
-defineOptions({ name: 'sitrep-chip' })
+  import type { Sitrep } from '@/classes/encounter/Sitrep'
+  import CCSitrepDisplay from '@/ui/components/CCSitrepDisplay.vue'
+  defineOptions({ name: 'sitrep-chip' })
 
-const props = withDefaults(defineProps<{
-  sitrep: Sitrep
-  size?: string
-}>(), {
-  size: 'x-small'
-})
+  const props = withDefaults(
+    defineProps<{
+      sitrep: Sitrep
+      size?: string
+    }>(),
+    {
+      size: 'x-small',
+    }
+  )
 </script>

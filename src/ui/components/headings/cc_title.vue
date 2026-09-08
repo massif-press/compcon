@@ -1,23 +1,38 @@
 <template>
-  <div v-if="small" class="text-cc-overline font-weight-bold">
+  <div
+    v-if="small"
+    class="text-cc-overline font-weight-bold"
+  >
     {{ text }}
-    <cc-tooltip v-if="tooltip.length > 0" :text="tooltip" small />
+    <cc-tooltip
+      v-if="tooltip.length > 0"
+      :text="tooltip"
+      small
+    />
   </div>
-  <component :is="mobile ? 'h4' : 'h3'" v-else :class="`heading text-${textColor}`">
+  <component
+    :is="mobile ? 'h4' : 'h3'"
+    v-else
+    :class="`heading text-${textColor}`"
+  >
     {{ text }}
-    <cc-tooltip v-if="tooltip.length > 0" :text="tooltip" small />
+    <cc-tooltip
+      v-if="tooltip.length > 0"
+      :text="tooltip"
+      small
+    />
   </component>
 </template>
 
 <script setup lang="ts">
-import { useDisplay } from 'vuetify'
+  import { useDisplay } from 'vuetify'
 
-const props = defineProps({
+  const props = defineProps({
     textColor: { type: String, default: 'accent' },
     text: { type: String, default: '' },
     small: { type: Boolean, default: false },
     tooltip: { type: String, default: '' },
   })
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+  const { smAndDown: mobile, xs: portrait } = useDisplay()
 </script>

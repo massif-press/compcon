@@ -1,29 +1,45 @@
 <template>
-  <v-menu open-on-hover
+  <v-menu
+    open-on-hover
     bottom
     max-width="800"
-    offset-y>
+    offset-y
+  >
     <template #activator="{ props }">
-      <cc-chip :bg-color="item.Color"
+      <cc-chip
+        :bg-color="item.Color"
         v-bind="props"
-        variant="flat">
+        variant="flat"
+      >
         <span class="text-white">
-          <v-icon start
-            dark>{{ item.Icon }}</v-icon>
+          <v-icon
+            start
+            dark
+          >
+            {{ item.Icon }}
+          </v-icon>
           {{ item.Name }}
         </span>
       </cc-chip>
     </template>
-    <v-card flat
-      tile>
-      <v-toolbar density="compact"
+    <v-card
+      flat
+      tile
+    >
+      <v-toolbar
+        density="compact"
         flat
         :color="item.Color"
-        class="text-white">
+        class="text-white"
+      >
         <v-toolbar-title>
-          <v-icon start
+          <v-icon
+            start
             large
-            dark>{{ item.Icon }}</v-icon>
+            dark
+          >
+            {{ item.Icon }}
+          </v-icon>
           <span class="heading h3">{{ item.Name }}</span>
         </v-toolbar-title>
       </v-toolbar>
@@ -35,10 +51,10 @@
 </template>
 
 <script setup lang="ts">
-import IntegratedInfoBase from './_integratedInfoBase.vue'
-import { MechEquipment } from '@/classes/mech/components/equipment/MechEquipment';
+  import IntegratedInfoBase from './_integratedInfoBase.vue'
+  import { MechEquipment } from '@/classes/mech/components/equipment/MechEquipment'
 
-const props = defineProps<{
-  item: MechEquipment
-}>()
+  const props = defineProps<{
+    item: MechEquipment
+  }>()
 </script>

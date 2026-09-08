@@ -1,80 +1,106 @@
 <template>
-  <v-col cols="12"
+  <v-col
+    cols="12"
     sm="6"
-    class="top-element">
+    class="top-element"
+  >
     <v-hover>
       <template #default="{ isHovering, props }">
         <div style="position: relative">
-          <div :style="`background-color: ${mech.Frame.ManufacturerColor}`"
-            :class="`pip bg-${isHovering ? 'success' : ''}`" />
-          <div style="clip-path: polygon(24px 0, 100% 0, 100% 100%, 0 100%, 0 24px)"
-            :style="`border: 2px solid ${mech.Frame.ManufacturerColor}; border-radius: 2px`">
-            <v-card height="40vh"
+          <div
+            :style="`background-color: ${mech.Frame.ManufacturerColor}`"
+            :class="`pip bg-${isHovering ? 'success' : ''}`"
+          />
+          <div
+            style="clip-path: polygon(24px 0, 100% 0, 100% 100%, 0 100%, 0 24px)"
+            :style="`border: 2px solid ${mech.Frame.ManufacturerColor}; border-radius: 2px`"
+          >
+            <v-card
+              height="40vh"
               tile
               flat
               v-bind="props"
               style="clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%, 0 20px)"
-              @click="$emit('go', mech)">
-              <v-toolbar density="compact"
+              @click="$emit('go', mech)"
+            >
+              <v-toolbar
+                density="compact"
                 height="50"
                 :color="mech.Frame.ManufacturerColor"
                 class="pl-6 pr-2 heading"
-                :class="mobile ? 'mb-n3' : 'mb-n8 h3'">
+                :class="mobile ? 'mb-n3' : 'mb-n8 h3'"
+              >
                 <span style="letter-spacing: 3px; line-height: 23px">
                   {{ mech.Name }}
                 </span>
                 <v-spacer />
-                <v-icon :icon="mech.Frame.Manufacturer?.Icon || 'cc:manufacturer'"
-                  color="white" />
+                <v-icon
+                  :icon="mech.Frame.Manufacturer?.Icon || 'cc:manufacturer'"
+                  color="white"
+                />
               </v-toolbar>
 
-              <cc-img :src="mech.Portrait"
+              <cc-img
+                :src="mech.Portrait"
                 position="top center"
-                height="100%">
+                height="100%"
+              >
                 <v-expand-transition>
-                  <v-card v-if="isHovering"
+                  <v-card
+                    v-if="isHovering"
                     class="flavor-text"
-                    style="height: calc(100% - 32px); top: 32px; max-width: 100%; opacity: 0.9">
+                    style="height: calc(100% - 32px); top: 32px; max-width: 100%; opacity: 0.9"
+                  >
                     <v-card-text>
                       <b>{{ mech.Name }}</b>
                       //
                       <b>{{ mech.Frame.Source }} {{ mech.Frame.Name }}</b>
                       <br />
-                      <mech-card-loadout-field :mech="(mech as any)" />
-                      <v-row no-gutters
-                        justify="space-between">
+                      <mech-card-loadout-field :mech="mech as any" />
+                      <v-row
+                        no-gutters
+                        justify="space-between"
+                      >
                         <v-col cols="auto">
                           <span class="text-overline">
                             {{ $t('pm.sheet.str') }}
                             <b>{{ mech.MaxStructure }}</b>
                           </span>
                         </v-col>
-                        <v-divider vertical
-                          class="mx-2" />
+                        <v-divider
+                          vertical
+                          class="mx-2"
+                        />
                         <v-col cols="auto">
                           <span class="text-overline">
                             {{ $t('stats.hp') }}
                             <b>{{ mech.MaxHP }}</b>
                           </span>
                         </v-col>
-                        <v-divider vertical
-                          class="mx-2" />
+                        <v-divider
+                          vertical
+                          class="mx-2"
+                        />
                         <v-col cols="auto">
                           <span class="text-overline">
                             {{ $t('stats.stress') }}
                             <b>{{ mech.MaxStress }}</b>
                           </span>
                         </v-col>
-                        <v-divider vertical
-                          class="mx-2" />
+                        <v-divider
+                          vertical
+                          class="mx-2"
+                        />
                         <v-col cols="auto">
                           <span class="text-overline">
                             {{ $t('pm.sheet.heat') }}
                             <b>{{ mech.HeatCapacity }}</b>
                           </span>
                         </v-col>
-                        <v-divider vertical
-                          class="mx-2" />
+                        <v-divider
+                          vertical
+                          class="mx-2"
+                        />
                         <v-col cols="auto">
                           <span class="text-overline">
                             {{ $t('pm.sheet.repcap') }}
@@ -86,54 +112,84 @@
                     <v-divider />
                     <v-card-actions v-if="!mech.Pilot.IsRemote">
                       <v-spacer />
-                      <v-tooltip location="top"
-                        :text="$t('pm.titles.deleteMech')">
+                      <v-tooltip
+                        location="top"
+                        :text="$t('pm.titles.deleteMech')"
+                      >
                         <template #activator="{ props }">
-                          <v-btn v-bind="props"
+                          <v-btn
+                            v-bind="props"
                             size="small"
                             icon
                             variant="plain"
                             color="error"
-                            @click.stop="($refs as any).delete.open()">
+                            @click.stop="($refs as any).delete.open()"
+                          >
                             <v-icon icon="mdi-delete" />
                           </v-btn>
                         </template>
                       </v-tooltip>
-                      <v-tooltip location="top"
-                        :text="$t('pm.titles.duplicateMech')">
+                      <v-tooltip
+                        location="top"
+                        :text="$t('pm.titles.duplicateMech')"
+                      >
                         <template #activator="{ props }">
-                          <v-btn v-bind="props"
+                          <v-btn
+                            v-bind="props"
                             size="small"
                             icon
                             variant="plain"
-                            @click.stop="($refs as any).copy.open()">
+                            @click.stop="($refs as any).copy.open()"
+                          >
                             <v-icon icon="mdi-content-copy" />
                           </v-btn>
                         </template>
                       </v-tooltip>
-                      <v-tooltip location="top"
-                        :text="$t('pm.tooltips.printMechSheet')">
+                      <v-tooltip
+                        location="top"
+                        :text="$t('pm.tooltips.printMechSheet')"
+                      >
                         <template #activator="{ props }">
-                          <v-btn v-bind="props"
+                          <v-btn
+                            v-bind="props"
                             size="small"
                             icon
                             variant="plain"
-                            @click.stop="$router.push(`/print/${mech.Pilot.ID}/${mech.ID}`)">
+                            @click.stop="$router.push(`/print/${mech.Pilot.ID}/${mech.ID}`)"
+                          >
                             <v-icon icon="mdi-printer" />
                           </v-btn>
                         </template>
                       </v-tooltip>
-                      <v-tooltip location="top"
-                        :text="mech.Parent.FavoriteMech?.ID === mech.ID ? $t('pm.sheet.unfavoriteMech') : $t('pm.sheet.favoriteMech')">
+                      <v-tooltip
+                        location="top"
+                        :text="
+                          mech.Parent.FavoriteMech?.ID === mech.ID
+                            ? $t('pm.sheet.unfavoriteMech')
+                            : $t('pm.sheet.favoriteMech')
+                        "
+                      >
                         <template #activator="{ props }">
-                          <v-btn v-bind="props"
+                          <v-btn
+                            v-bind="props"
                             size="x-small"
                             icon
                             :color="mech.Parent.FavoriteMech?.ID === mech.ID ? 'amber' : ''"
                             variant="plain"
-                            @click.stop="mech.Parent.FavoriteMech?.ID === mech.ID ? mech.Parent.FavoriteMech = null : mech.Parent.FavoriteMech = mech">
-                            <v-icon size="22"
-                              :icon="mech.Parent.FavoriteMech?.ID === mech.ID ? 'mdi-star' : 'mdi-star-outline'" />
+                            @click.stop="
+                              mech.Parent.FavoriteMech?.ID === mech.ID
+                                ? (mech.Parent.FavoriteMech = null)
+                                : (mech.Parent.FavoriteMech = mech)
+                            "
+                          >
+                            <v-icon
+                              size="22"
+                              :icon="
+                                mech.Parent.FavoriteMech?.ID === mech.ID
+                                  ? 'mdi-star'
+                                  : 'mdi-star-outline'
+                              "
+                            />
                           </v-btn>
                         </template>
                       </v-tooltip>
@@ -147,83 +203,91 @@
       </template>
     </v-hover>
 
-    <cc-dialog ref="delete"
+    <cc-dialog
+      ref="delete"
       :close-on-click="false"
       :title="$t('pm.titles.deleteMech')"
       color="error"
-      icon="mdi-delete">
-      <cc-confirmation full-width
+      icon="mdi-delete"
+    >
+      <cc-confirmation
+        full-width
         :content="`Lancer, please confirm deletion of Mech Configuration:
           <span class='text-accent'>
             ${mech.Name} (${mech.Frame.Source}, ${mech.Frame.Name})
           </span>`"
-        @confirm="$emit('delete', mech)" />
+        @confirm="$emit('delete', mech)"
+      />
     </cc-dialog>
 
-    <cc-dialog ref="copy"
+    <cc-dialog
+      ref="copy"
       :close-on-click="false"
       :title="$t('pm.titles.duplicateMech')"
-      icon="mdi-content-copy">
-      <cc-confirmation full-width
+      icon="mdi-content-copy"
+    >
+      <cc-confirmation
+        full-width
         :content="`Lancer, please confirm intention to create a duplicate of Mech Configuration:
           <span class='text-accent'>
             ${mech.Name} (${mech.Frame.Source}, ${mech.Frame.Name})
           </span>`"
-        @confirm="copyAndClose()" />
+        @confirm="copyAndClose()"
+      />
     </cc-dialog>
   </v-col>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useDisplay } from 'vuetify'
-import MechCardLoadoutField from './MechCardLoadoutField.vue';
-const router = useRouter()
+  import { ref } from 'vue'
+  import { useRouter } from 'vue-router'
+  import { useDisplay } from 'vuetify'
+  import MechCardLoadoutField from './MechCardLoadoutField.vue'
+  const router = useRouter()
 
-const props = defineProps({
+  const props = defineProps({
     mech: {
       type: Object,
       required: true,
     },
   })
 
-const emit = defineEmits(['go', 'delete', 'copy'])
+  const emit = defineEmits(['go', 'delete', 'copy'])
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+  const { smAndDown: mobile, xs: portrait } = useDisplay()
 
-const copy = ref<any>(null)
+  const copy = ref<any>(null)
 
-function copyAndClose() {
-  emit('copy', props.mech)
-  copy.value?.close()
-}
+  function copyAndClose() {
+    emit('copy', props.mech)
+    copy.value?.close()
+  }
 </script>
 
 <style scoped>
-.card-outline {
-  border: 1px solid;
-}
+  .card-outline {
+    border: 1px solid;
+  }
 
-.v-card {
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
+  .v-card {
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
 
-.v-card:hover {
-  filter: brightness(1.1) saturate(110%);
-}
+  .v-card:hover {
+    filter: brightness(1.1) saturate(110%);
+  }
 
-.pip {
-  width: 17px;
-  height: 17px;
-  position: absolute;
-  opacity: 1;
-  clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
-  transition: filter 0.2s ease-in-out;
-}
+  .pip {
+    width: 17px;
+    height: 17px;
+    position: absolute;
+    opacity: 1;
+    clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
+    transition: filter 0.2s ease-in-out;
+  }
 
-.top-element:hover .pip {
-  filter: brightness(1.2) saturate(150%) hue-rotate(20deg);
-}
+  .top-element:hover .pip {
+    filter: brightness(1.2) saturate(150%) hue-rotate(20deg);
+  }
 </style>

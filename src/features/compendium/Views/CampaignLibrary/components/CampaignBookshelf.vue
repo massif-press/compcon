@@ -157,7 +157,11 @@
     <cc-dialog
       v-model="importDialog"
       :title="$t('compendium.titles.importLancerCampaignData')"
-      max-width="50vw" :close-on-click="false" major full-height>
+      max-width="50vw"
+      :close-on-click="false"
+      major
+      full-height
+    >
       <template #activator="{ open }">
         <cc-button
           color="primary"
@@ -219,7 +223,12 @@
                 >
                   {{ $t('compendium.campaign.existingNewer') }}
                 </div>
-                {{ $t('common.importOverwriteWarning', { title: importSameId.title, date: new Date(importSameId.save.lastModified).toLocaleString() }) }}
+                {{
+                  $t('common.importOverwriteWarning', {
+                    title: importSameId.title,
+                    date: new Date(importSameId.save.lastModified).toLocaleString(),
+                  })
+                }}
               </v-alert>
 
               <div class="text-caption text-right">
@@ -246,102 +255,105 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
-import { CampaignStore, UserStore } from '@/stores'
-import DenseShelf from './denseShelf.vue'
-import CompendiumShelf from './compendiumShelf.vue'
-import JSZip from 'jszip'
-import CampaignShareCodeDialog from './campaignShareCodeDialog.vue'
-import { GetFromCode } from '@/io/apis/account'
-import logger from '@/user/logger'
-import { useDisplay } from 'vuetify';
+  import { computed, ref, onMounted } from 'vue'
+  import { CampaignStore, UserStore } from '@/stores'
+  import DenseShelf from './denseShelf.vue'
+  import CompendiumShelf from './compendiumShelf.vue'
+  import JSZip from 'jszip'
+  import CampaignShareCodeDialog from './campaignShareCodeDialog.vue'
+  import { GetFromCode } from '@/io/apis/account'
+  import logger from '@/user/logger'
+  import { useDisplay } from 'vuetify'
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+  const { smAndDown: mobile, xs: portrait } = useDisplay()
 
-const props = withDefaults(defineProps<{
-  density?: string
-  search?: string
-}>(), {
-  density: 'default',
-  search: ''
-})
+  const props = withDefaults(
+    defineProps<{
+      density?: string
+      search?: string
+    }>(),
+    {
+      density: 'default',
+      search: '',
+    }
+  )
 
-const importDialog = ref(false)
-const deleteText = ref('')
-const fileValue = ref(null as any)
-const stagedData = ref(null as any)
-const errorMessage = ref('')
-const sort = ref('title')
-const asc = ref(true)
-const importType = ref('file')
+  const importDialog = ref(false)
+  const deleteText = ref('')
+  const fileValue = ref(null as any)
+  const stagedData = ref(null as any)
+  const errorMessage = ref('')
+  const sort = ref('title')
+  const asc = ref(true)
+  const importType = ref('file')
 
-const campaigns = computed(() => {
-        if (!props.search) return CampaignStore().CampaignCollection
-        return CampaignStore().CampaignCollection.filter(c =>
-          c.title.toLowerCase().includes(props.search.toLowerCase())
-        )
-      })
-const importSameId = computed(() => {
-        if (!stagedData.value) return null
-        return CampaignStore().CampaignCollection.find(c => c.id === stagedData.value.id)
-      })
-const importIsOlder = computed(() => {
-        if (!stagedData.value) return false
-        const existing = CampaignStore().CampaignCollection.find(c => c.id === stagedData.value.id)
-        if (!existing) return false
-        return existing.save.lastModified > stagedData.value.save.lastModified
-      })
+  const campaigns = computed(() => {
+    if (!props.search) return CampaignStore().CampaignCollection
+    return CampaignStore().CampaignCollection.filter(c =>
+      c.title.toLowerCase().includes(props.search.toLowerCase())
+    )
+  })
+  const importSameId = computed(() => {
+    if (!stagedData.value) return null
+    return CampaignStore().CampaignCollection.find(c => c.id === stagedData.value.id)
+  })
+  const importIsOlder = computed(() => {
+    if (!stagedData.value) return false
+    const existing = CampaignStore().CampaignCollection.find(c => c.id === stagedData.value.id)
+    if (!existing) return false
+    return existing.save.lastModified > stagedData.value.save.lastModified
+  })
 
-function reset() {
-        fileValue.value = null
-        stagedData.value = null
-        errorMessage.value = ''
+  function reset() {
+    fileValue.value = null
+    stagedData.value = null
+    errorMessage.value = ''
+  }
+  function setSort(newSort: string) {
+    if (sort.value === newSort) {
+      asc.value = !asc.value
+    } else {
+      sort.value = newSort
+      asc.value = true
+    }
+  }
+  async function stageImport(file: any) {
+    if (!file) return
+    const unzipped = await JSZip.loadAsync(file.target.files[0])
+    const json = await unzipped.file('campaign_data.json')?.async('text')
+
+    if (!json) {
+      errorMessage.value = 'No campaign data file found in the selected .lcd file.'
+      return
+    }
+
+    const data = JSON.parse(json)
+
+    try {
+      stagedData.value = data
+    } catch (e) {
+      logger.error(`Error parsing campaign data: ${e}`)
+      stagedData.value = null
+      errorMessage.value = JSON.stringify(e)
+    }
+  }
+  function importCampaign() {
+    if (!stagedData.value) return
+    CampaignStore().AddCollectionCampaign(stagedData.value)
+    reset()
+    importDialog.value = false
+  }
+  async function checkForUpdates() {
+    if (!UserStore().IsLoggedIn) return
+    for (const campaign of CampaignStore().CampaignCollection) {
+      if (campaign.publish_info?.code) {
+        const metadata = await GetFromCode(campaign.publish_info.code)
+        if (metadata.item_modified !== campaign.save.lastModified) campaign.hasUpdate = true
       }
-function setSort(newSort: string) {
-        if (sort.value === newSort) {
-          asc.value = !asc.value
-        } else {
-          sort.value = newSort
-          asc.value = true
-        }
-      }
-async function stageImport(file: any) {
-        if (!file) return
-        const unzipped = await JSZip.loadAsync(file.target.files[0])
-        const json = await unzipped.file('campaign_data.json')?.async('text')
+    }
+  }
 
-        if (!json) {
-          errorMessage.value = 'No campaign data file found in the selected .lcd file.'
-          return
-        }
-
-        const data = JSON.parse(json)
-
-        try {
-          stagedData.value = data
-        } catch (e) {
-          logger.error(`Error parsing campaign data: ${e}`)
-          stagedData.value = null
-          errorMessage.value = JSON.stringify(e)
-        }
-      }
-function importCampaign() {
-        if (!stagedData.value) return
-        CampaignStore().AddCollectionCampaign(stagedData.value)
-        reset()
-        importDialog.value = false
-      }
-async function checkForUpdates() {
-        if (!UserStore().IsLoggedIn) return
-        for (const campaign of CampaignStore().CampaignCollection) {
-          if (campaign.publish_info?.code) {
-            const metadata = await GetFromCode(campaign.publish_info.code)
-            if (metadata.item_modified !== campaign.save.lastModified) campaign.hasUpdate = true
-          }
-        }
-      }
-
-onMounted(() => {
-// checkForUpdates();
-})
+  onMounted(() => {
+    // checkForUpdates();
+  })
 </script>

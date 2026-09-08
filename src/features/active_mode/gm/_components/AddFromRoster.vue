@@ -1,19 +1,28 @@
 <template>
-  <cc-dialog :title="$t('active.titles.addPilotFromRoster')"
-    icon="mdi-account-plus" :close-on-click="false" major full-height max-width="90vw">
+  <cc-dialog
+    :title="$t('active.titles.addPilotFromRoster')"
+    icon="mdi-account-plus"
+    :close-on-click="false"
+    major
+    full-height
+    max-width="90vw"
+  >
     <template #activator="{ open }">
-      <cc-button size="small"
+      <cc-button
+        size="small"
         block
         color="primary"
         :tooltip="$t('active.tooltips.addAPilotFromYourLocalPilotRoster')"
         prepend-icon="mdi-account-plus"
-        @click="open">
+        @click="open"
+      >
         {{ $t('active.roster.addFromRoster') }}
       </cc-button>
     </template>
     <CCSidebarLayout ref="sidebar">
       <template #sidebar>
-        <v-text-field v-model="search"
+        <v-text-field
+          v-model="search"
           density="compact"
           hide-details
           clearable
@@ -21,62 +30,88 @@
           tile
           :placeholder="$t('common.search')"
           class="my-1"
-          prepend-inner-icon="mdi-magnify" />
+          prepend-inner-icon="mdi-magnify"
+        />
 
-        <v-list class="mb-n3"
-          style="height: 100%; min-height: calc(100vh - 86px); overflow-y: scroll">
-          <v-list-item v-for="group in Object.keys(pilotsByGroup)"
-            :key="group">
-            <div class="d-flex align-center"
+        <v-list
+          class="mb-n3"
+          style="height: 100%; min-height: calc(100vh - 86px); overflow-y: scroll"
+        >
+          <v-list-item
+            v-for="group in Object.keys(pilotsByGroup)"
+            :key="group"
+          >
+            <div
+              class="d-flex align-center"
               style="cursor: pointer"
               role="button"
               tabindex="0"
               @click="toggleGroup(group)"
               @keydown.enter="toggleGroup(group)"
-              @keydown.space="toggleGroup(group)">
-              <v-icon icon="mdi-folder"
+              @keydown.space="toggleGroup(group)"
+            >
+              <v-icon
+                icon="mdi-folder"
                 start
                 size="small"
-                class="mt-n1" />
-              <span class="text-cc-overline text-disabled flex-grow-1">{{ group || 'No Group'
-              }}</span>
-              <v-icon :icon="collapsedGroups[group] ? 'mdi-chevron-right' : 'mdi-chevron-down'"
-                size="small" />
+                class="mt-n1"
+              />
+              <span class="text-cc-overline text-disabled flex-grow-1">
+                {{ group || 'No Group' }}
+              </span>
+              <v-icon
+                :icon="collapsedGroups[group] ? 'mdi-chevron-right' : 'mdi-chevron-down'"
+                size="small"
+              />
             </div>
             <v-divider />
             <template v-if="!collapsedGroups[group]">
-              <v-list-item v-for="p in pilotsByGroup[group]"
+              <v-list-item
+                v-for="p in pilotsByGroup[group]"
                 :key="p.ID"
-                @click="selected = p">
+                @click="selected = p"
+              >
                 <div class="heading h3">{{ p.Callsign }}</div>
                 <v-divider class="mb-1 mr-4" />
                 <div class="text-cc-overline text-disabled">{{ p.Name }}</div>
-                <div class="text-cc-overline text-disabled">{{ $t('active.roster.ll', {
-                  n: p.Level
-                }) }}</div>
+                <div class="text-cc-overline text-disabled">
+                  {{
+                    $t('active.roster.ll', {
+                      n: p.Level,
+                    })
+                  }}
+                </div>
                 <template #prepend>
-                  <v-avatar size="64"
+                  <v-avatar
+                    size="64"
                     flat
                     tile
-                    class="clipped">
-                    <cc-avatar v-if="p.PortraitController.Avatar"
+                    class="clipped"
+                  >
+                    <cc-avatar
+                      v-if="p.PortraitController.Avatar"
                       :avatar="p.PortraitController.Avatar"
-                      size="64" />
-                    <cc-img v-else-if="p.Portrait"
+                      size="64"
+                    />
+                    <cc-img
+                      v-else-if="p.Portrait"
                       :src="p.Portrait"
                       height="64"
-                      width="64" />
+                      width="64"
+                    />
                   </v-avatar>
                 </template>
                 <template #append>
                   <v-tooltip>
                     <template #activator="{ props: activatorProps }">
-                      <cc-button v-bind="activatorProps"
+                      <cc-button
+                        v-bind="activatorProps"
                         variant="outlined"
                         :icon="!isInEncounter(p) ? 'mdi-plus' : 'mdi-check-bold'"
                         size="small"
                         :color="!isInEncounter(p) ? 'secondary' : 'success'"
-                        @click.stop="addPilot(p)"></cc-button>
+                        @click.stop="addPilot(p)"
+                      ></cc-button>
                     </template>
                     <span>{{ $t('active.roster.addToEncounter') }}</span>
                   </v-tooltip>
@@ -87,18 +122,26 @@
         </v-list>
       </template>
 
-      <div v-if="selected"
+      <div
+        v-if="selected"
         class="pl-12 pr-3 mb-12 pb-2"
-        style="position: relative">
-        <v-row dense
-          class="mb-2">
-          <v-col cols="auto"
+        style="position: relative"
+      >
+        <v-row
+          dense
+          class="mb-2"
+        >
+          <v-col
+            cols="auto"
             style="width: 10vw"
-            class="mt-2">
-            <cc-img v-if="selected.Portrait"
+            class="mt-2"
+          >
+            <cc-img
+              v-if="selected.Portrait"
               :src="selected.Portrait"
               height="100%"
-              cover />
+              cover
+            />
           </v-col>
           <v-col>
             <v-row>
@@ -115,11 +158,17 @@
                   <span class="text-accent">{{ selected.PlayerName || 'Unknown' }}</span>
                 </div>
               </v-col>
-              <v-col cols="auto"
-                class="text-center">
+              <v-col
+                cols="auto"
+                class="text-center"
+              >
                 <div class="text-cc-overline text-disabled">{{ $t('ui.fields.licenseLevel') }}</div>
-                <div class="heading h1"
-                  style="line-height: 44px">{{ selected.Level }}</div>
+                <div
+                  class="heading h1"
+                  style="line-height: 44px"
+                >
+                  {{ selected.Level }}
+                </div>
               </v-col>
             </v-row>
 
@@ -127,76 +176,102 @@
               <cc-slashes />
               {{ $t('active.roster.pilotCombatStats') }}
             </div>
-            <v-row dense
+            <v-row
+              dense
               class="mt-1 px-3 py-1 bg-background text-center"
-              justify="space-around">
+              justify="space-around"
+            >
               <v-col cols="auto">
                 <div class="pb-1 text-cc-overline">{{ $t('pm.print.grit') }}</div>
-                <v-icon class="ml-1 mt-n1"
-                  icon="mdi-star-four-points-outline" />
+                <v-icon
+                  class="ml-1 mt-n1"
+                  icon="mdi-star-four-points-outline"
+                />
                 {{ selected.Grit }}
               </v-col>
 
               <v-col cols="auto">
                 <div class="pb-1 text-cc-overline">{{ $t('stats.armor') }}</div>
-                <v-icon class="ml-1 mt-n1"
-                  icon="mdi-shield-outline" />
+                <v-icon
+                  class="ml-1 mt-n1"
+                  icon="mdi-shield-outline"
+                />
                 {{ selected.Armor }}
               </v-col>
 
               <v-col cols="auto">
                 <div class="pb-1 text-cc-overline">{{ $t('active.stats.hitPoints') }}</div>
-                <v-icon class="ml-1 mt-n1"
-                  icon="mdi-heart" />
+                <v-icon
+                  class="ml-1 mt-n1"
+                  icon="mdi-heart"
+                />
                 {{ selected.MaxHP }}
               </v-col>
 
               <v-col cols="auto">
                 <div class="pb-1 text-cc-overline">{{ $t('stats.edefense') }}</div>
-                <v-icon class="ml-1 mt-n1"
-                  icon="cc:edef" />
+                <v-icon
+                  class="ml-1 mt-n1"
+                  icon="cc:edef"
+                />
                 {{ selected.EDefense }}
               </v-col>
 
               <v-col cols="auto">
                 <div class="pb-1 text-cc-overline">{{ $t('stats.evasion') }}</div>
-                <v-icon class="ml-1 mt-n1"
-                  icon="cc:evasion" />
+                <v-icon
+                  class="ml-1 mt-n1"
+                  icon="cc:evasion"
+                />
                 {{ selected.Evasion }}
               </v-col>
 
               <v-col cols="auto">
                 <div class="pb-1 text-cc-overline">{{ $t('stats.speed') }}</div>
-                <v-icon class="ml-1 mt-n1"
-                  icon="mdi-arrow-right-bold-hexagon-outline" />
+                <v-icon
+                  class="ml-1 mt-n1"
+                  icon="mdi-arrow-right-bold-hexagon-outline"
+                />
                 {{ selected.Speed }}
               </v-col>
             </v-row>
-            <v-row dense
+            <v-row
+              dense
               class="px-3 pb-1 pt-3 bg-background text-center"
-              justify="space-around">
+              justify="space-around"
+            >
               <v-col cols="auto">
-                <div class="pb-1 text-cc-overline"><span class="text-uppercase">{{ $t('pm.link.hull') }}</span></div>
-                <v-icon class="ml-1 mt-n1"
-                  icon="mdi-alpha-h-box-outline" />
+                <div class="pb-1 text-cc-overline">
+                  <span class="text-uppercase">{{ $t('pm.link.hull') }}</span>
+                </div>
+                <v-icon
+                  class="ml-1 mt-n1"
+                  icon="mdi-alpha-h-box-outline"
+                />
                 {{ selected.MechSkillsController.MechSkills.Hull }}
               </v-col>
               <v-col cols="auto">
                 <div class="pb-1 text-cc-overline">{{ $t('stats.agility') }}</div>
-                <v-icon class="ml-1 mt-n1"
-                  icon="mdi-alpha-a-box-outline" />
+                <v-icon
+                  class="ml-1 mt-n1"
+                  icon="mdi-alpha-a-box-outline"
+                />
                 {{ selected.MechSkillsController.MechSkills.Agi }}
               </v-col>
               <v-col cols="auto">
                 <div class="pb-1 text-cc-overline">{{ $t('stats.systems') }}</div>
-                <v-icon class="ml-1 mt-n1"
-                  icon="mdi-alpha-s-box-outline" />
+                <v-icon
+                  class="ml-1 mt-n1"
+                  icon="mdi-alpha-s-box-outline"
+                />
                 {{ selected.MechSkillsController.MechSkills.Sys }}
               </v-col>
               <v-col cols="auto">
                 <div class="pb-1 text-cc-overline">{{ $t('stats.engineering') }}</div>
-                <v-icon class="ml-1 mt-n1"
-                  icon="mdi-alpha-e-box-outline" />
+                <v-icon
+                  class="ml-1 mt-n1"
+                  icon="mdi-alpha-e-box-outline"
+                />
                 {{ selected.MechSkillsController.MechSkills.Eng }}
               </v-col>
             </v-row>
@@ -210,26 +285,33 @@
                 v-for="item in selected.PilotLoadoutController.ActiveLoadout.Items.filter(x => x)"
                 :key="item.ID"
                 :item="item"
-                class="" />
+                class=""
+              />
             </div>
 
             <div class="text-cc-overline text-disabled mt-4">
               <cc-slashes />
               {{ $t('common.pilotTalents') }}
             </div>
-            <v-row dense
+            <v-row
+              dense
               class="bg-background pa-1"
-              justify="space-around">
-              <v-col v-for="(talent, i) in selected.TalentsController.Talents"
+              justify="space-around"
+            >
+              <v-col
+                v-for="(talent, i) in selected.TalentsController.Talents"
                 :key="i"
                 cols="auto"
-                class="px-2">
-                <cc-talent :talent="talent.Talent"
+                class="px-2"
+              >
+                <cc-talent
+                  :talent="talent.Talent"
                   :rank="talent.Rank"
                   micro
                   hide-locked
                   :dark="!$vuetify.theme.current.dark"
-                  hide-change />
+                  hide-change
+                />
               </v-col>
             </v-row>
           </v-col>
@@ -241,13 +323,17 @@
           <cc-tooltip>
             {{ $t('active.roster.activeMechTooltip') }}
           </cc-tooltip>
-          <v-menu v-if="sortedMechs(selected).length"
+          <v-menu
+            v-if="sortedMechs(selected).length"
             :close-on-content-click="true"
-            transition="slide-y-transition">
+            transition="slide-y-transition"
+          >
             <template #activator="{ props: activatorProps, isActive }">
-              <v-list-item v-bind="activatorProps"
+              <v-list-item
+                v-bind="activatorProps"
                 class="border-sm"
-                @click="activatorProps.onClick($event)">
+                @click="activatorProps.onClick($event)"
+              >
                 <div class="heading h2 text-accent">{{ selected.ActiveMech.Name }}</div>
                 <div class="text-cc-overline text-disabled">
                   {{ selected.ActiveMech.Callsign }}
@@ -255,22 +341,30 @@
                   {{ selected.ActiveMech.Frame.Name }}
                 </div>
                 <template #append>
-                  <v-icon size="35"
-                    :icon="isActive ? 'mdi-chevron-double-up' : 'mdi-chevron-double-down'" />
+                  <v-icon
+                    size="35"
+                    :icon="isActive ? 'mdi-chevron-double-up' : 'mdi-chevron-double-down'"
+                  />
                 </template>
               </v-list-item>
             </template>
-            <v-card flat
-              tile>
-              <v-list density="compact"
+            <v-card
+              flat
+              tile
+            >
+              <v-list
+                density="compact"
                 flat
                 tile
-                class="pa-0">
-                <v-list-item v-for="mech in selected.Mechs"
+                class="pa-0"
+              >
+                <v-list-item
+                  v-for="mech in selected.Mechs"
                   :key="mech.ID"
                   class="border-sm"
                   :disabled="mech.ID === selected.ActiveMech.ID"
-                  @click="selected.ActiveMech = mech">
+                  @click="selected.ActiveMech = mech"
+                >
                   <div class="heading h2 text-accent">{{ mech.Name }}</div>
                   <div class="text-cc-overline text-disabled">
                     {{ mech.Callsign }}
@@ -281,35 +375,47 @@
               </v-list>
             </v-card>
           </v-menu>
-          <cc-alert v-if="!selected.Mechs.length"
+          <cc-alert
+            v-if="!selected.Mechs.length"
             class="mt-2"
             :title="$t('active.titles.noMechDataFound')"
-            icon="mdi-alert">
+            icon="mdi-alert"
+          >
             <i>{{ $t('active.roster.pilotNoMech') }}</i>
           </cc-alert>
         </div>
-        <div v-if="selected && selected.Mechs.length"
+        <div
+          v-if="selected && selected.Mechs.length"
           :key="selected.ActiveMech?.ID"
-          class="border-s-sm border-e-sm border-b-sm pa-2">
+          class="border-s-sm border-e-sm border-b-sm pa-2"
+        >
           <v-row dense>
-            <v-col cols="auto"
-              style="width: 10vw">
-              <cc-img v-if="selected.ActiveMech.Portrait"
+            <v-col
+              cols="auto"
+              style="width: 10vw"
+            >
+              <cc-img
+                v-if="selected.ActiveMech.Portrait"
                 :src="selected.ActiveMech.Portrait"
                 height="100%"
-                cover />
+                cover
+              />
             </v-col>
             <v-col>
-              <p v-if="selected.ActiveMech.Notes"
+              <p
+                v-if="selected.ActiveMech.Notes"
                 v-html-safe="selected.ActiveMech.Notes"
-                class="ma-1 pa-1 border-sm" />
+                class="ma-1 pa-1 border-sm"
+              />
 
               <div class="text-cc-overline text-disabled">
                 <cc-slashes />
                 {{ $t('active.roster.mechStats') }}
               </div>
-              <mech-statblock :mech="selected.ActiveMech"
-                :pilot="selected" />
+              <mech-statblock
+                :mech="selected.ActiveMech"
+                :pilot="selected"
+              />
 
               <div>
                 <div class="text-cc-overline text-disabled mt-3">
@@ -318,8 +424,10 @@
                 </div>
                 <cc-masonry-grid :items="selected.ActiveMech.Frame.Traits">
                   <template #default="{ item }">
-                    <cc-trait-item :trait="item"
-                      class="mb-2" />
+                    <cc-trait-item
+                      :trait="item"
+                      class="mb-2"
+                    />
                   </template>
                 </cc-masonry-grid>
 
@@ -328,14 +436,18 @@
                     <cc-slashes />
                     {{ $t('pm.level.coreBonuses') }}
                   </div>
-                  <cc-masonry-grid :items="selected.CoreBonusController.CoreBonuses"
+                  <cc-masonry-grid
+                    :items="selected.CoreBonusController.CoreBonuses"
                     :gap="16"
                     :min-columns="1"
-                    :max-columns="2">
+                    :max-columns="2"
+                  >
                     <template #default="{ item }">
-                      <cc-core-bonus-item :key="item.ID"
+                      <cc-core-bonus-item
+                        :key="item.ID"
                         terse
-                        :bonus="item" />
+                        :bonus="item"
+                      />
                     </template>
                   </cc-masonry-grid>
                 </div>
@@ -344,8 +456,10 @@
                   <cc-slashes />
                   {{ $t('active.roster.coreSystem') }}
                 </div>
-                <cc-core-system-panel :frame="selected.ActiveMech.Frame"
-                  small />
+                <cc-core-system-panel
+                  :frame="selected.ActiveMech.Frame"
+                  small
+                />
 
                 <div class="text-cc-overline text-disabled mt-3">
                   <cc-slashes />
@@ -353,42 +467,48 @@
                   {{ selected.ActiveMech.MechLoadoutController.ActiveLoadout.Name }}
                 </div>
                 <div class="bg-background pa-2">
-                  <cc-item-chip v-for="item in selected.ActiveMech.MechLoadoutController.ActiveLoadout
-                    .Equipment"
+                  <cc-item-chip
+                    v-for="item in selected.ActiveMech.MechLoadoutController.ActiveLoadout
+                      .Equipment"
                     :key="item.ID"
-                    :item="item" />
+                    :item="item"
+                  />
                 </div>
               </div>
             </v-col>
           </v-row>
           <div style="height: 10px" />
         </div>
-        <div v-if="selected"
-          style="
-            position: fixed;
-            bottom: 8px;
-            right: 18px;
-            left: 18px;
-            padding: 12px;
-          "
-          :style="`left: ${($refs.sidebar as any)?.showNav ? 380 : 20}px`">
-          <cc-button :color="isInEncounter(selected) ? 'error' : 'success'"
+        <div
+          v-if="selected"
+          style="position: fixed; bottom: 8px; right: 18px; left: 18px; padding: 12px"
+          :style="`left: ${($refs.sidebar as any)?.showNav ? 380 : 20}px`"
+        >
+          <cc-button
+            :color="isInEncounter(selected) ? 'error' : 'success'"
             size="small"
             class="border-lg"
             block
             :prepend-icon="isInEncounter(selected) ? 'mdi-minus' : 'mdi-plus'"
-            @click="addPilot(selected)">
-            {{ isInEncounter(selected) ? $t('active.roster.removeFromEncounter') :
-              $t('active.roster.addToEncounter') }}
+            @click="addPilot(selected)"
+          >
+            {{
+              isInEncounter(selected)
+                ? $t('active.roster.removeFromEncounter')
+                : $t('active.roster.addToEncounter')
+            }}
           </cc-button>
         </div>
       </div>
       <div v-else>
-        <v-row justify="center"
+        <v-row
+          justify="center"
           align="center"
-          style="height: calc(100vh - 60px)">
-          <v-col cols="auto"><i class="text-disabled">{{ $t('active.roster.selectPilot')
-          }}</i></v-col>
+          style="height: calc(100vh - 60px)"
+        >
+          <v-col cols="auto">
+            <i class="text-disabled">{{ $t('active.roster.selectPilot') }}</i>
+          </v-col>
         </v-row>
       </div>
     </CCSidebarLayout>
@@ -396,76 +516,83 @@
 </template>
 
 <script setup lang="ts">
-import type { Pilot } from '@/classes/pilot/Pilot'
-import type { Encounter } from '@/classes/encounter/Encounter'
-import { computed, ref } from 'vue'
-import { notify } from '@/util/notify'
-import CCSidebarLayout from '@/ui/components/layouts/CCSidebarLayout.vue'
-import MechStatblock from '@/features/pilot_management/PilotSheet/sections/mech/sections/attributes/MechStatblock.vue';
-import { PilotGroupStore, PilotStore } from '@/stores';
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
+  import type { Pilot } from '@/classes/pilot/Pilot'
+  import type { Encounter } from '@/classes/encounter/Encounter'
+  import { computed, ref } from 'vue'
+  import { notify } from '@/util/notify'
+  import CCSidebarLayout from '@/ui/components/layouts/CCSidebarLayout.vue'
+  import MechStatblock from '@/features/pilot_management/PilotSheet/sections/mech/sections/attributes/MechStatblock.vue'
+  import { PilotGroupStore, PilotStore } from '@/stores'
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
 
-const props = withDefaults(defineProps<{
-  encounter: Encounter
-  pilots?: Pilot[]
-}>(), {
-  pilots: () => []
-})
-
-const sidebar = ref<any>(null)
-
-const selected = ref(null as any)
-const search = ref('')
-const collapsedGroups = ref({} as Record<string, boolean>)
-
-const addedPilots = computed(() => {
-  return props.pilots.map((p) => p.ID);
-})
-const pilotsByGroup = computed(() => {
-  const searchLower = search.value ? search.value.toLowerCase() : '';
-  const result = {};
-  for (const group of PilotGroupStore().PilotGroups) {
-    let pilots = PilotStore().getPilots(group.ID);
-    if (searchLower) {
-      pilots = pilots.filter(
-        (p) =>
-          p.Callsign.toLowerCase().includes(searchLower) ||
-          p.Name.toLowerCase().includes(searchLower)
-      );
+  const props = withDefaults(
+    defineProps<{
+      encounter: Encounter
+      pilots?: Pilot[]
+    }>(),
+    {
+      pilots: () => [],
     }
-    if (pilots.length) result[group.Name] = pilots;
-  }
-  return result;
-})
+  )
 
-function addPilot(pilot) {
-  if (addedPilots.value.includes(pilot.ID)) {
-    props.pilots.splice(
-      props.pilots.findIndex((p) => p.ID === pilot.ID),
-      1
-    );
-    notify({
-      title: t('active.roster.removedTitle', { callsign: pilot.Callsign }),
-      text: t('active.roster.removalSuccess'),
-      icon: 'mdi-delete', color: 'info',
-    });
-  } else {
-    props.pilots.push(pilot);
-    notify({
-      title: t('active.roster.addedTitle', { callsign: pilot.Callsign }),
-      text: t('notify.common.success'),
-      icon: 'mdi-check', color: 'success',
-    });
+  const sidebar = ref<any>(null)
+
+  const selected = ref(null as any)
+  const search = ref('')
+  const collapsedGroups = ref({} as Record<string, boolean>)
+
+  const addedPilots = computed(() => {
+    return props.pilots.map(p => p.ID)
+  })
+  const pilotsByGroup = computed(() => {
+    const searchLower = search.value ? search.value.toLowerCase() : ''
+    const result = {}
+    for (const group of PilotGroupStore().PilotGroups) {
+      let pilots = PilotStore().getPilots(group.ID)
+      if (searchLower) {
+        pilots = pilots.filter(
+          p =>
+            p.Callsign.toLowerCase().includes(searchLower) ||
+            p.Name.toLowerCase().includes(searchLower)
+        )
+      }
+      if (pilots.length) result[group.Name] = pilots
+    }
+    return result
+  })
+
+  function addPilot(pilot) {
+    if (addedPilots.value.includes(pilot.ID)) {
+      props.pilots.splice(
+        props.pilots.findIndex(p => p.ID === pilot.ID),
+        1
+      )
+      notify({
+        title: t('active.roster.removedTitle', { callsign: pilot.Callsign }),
+        text: t('active.roster.removalSuccess'),
+        icon: 'mdi-delete',
+        color: 'info',
+      })
+    } else {
+      props.pilots.push(pilot)
+      notify({
+        title: t('active.roster.addedTitle', { callsign: pilot.Callsign }),
+        text: t('notify.common.success'),
+        icon: 'mdi-check',
+        color: 'success',
+      })
+    }
   }
-}
-function isInEncounter(pilot) {
-  return addedPilots.value.includes(pilot.ID);
-}
-function toggleGroup(group: string) {
-  collapsedGroups.value[group] = !collapsedGroups.value[group];
-}
-function sortedMechs(pilot) {
-  return pilot.Mechs.slice().sort((a, b) => pilot.FavoriteMech?.ID === a.ID ? -1 : pilot.FavoriteMech?.ID === b.ID ? 1 : 0)
-}
+  function isInEncounter(pilot) {
+    return addedPilots.value.includes(pilot.ID)
+  }
+  function toggleGroup(group: string) {
+    collapsedGroups.value[group] = !collapsedGroups.value[group]
+  }
+  function sortedMechs(pilot) {
+    return pilot.Mechs.slice().sort((a, b) =>
+      pilot.FavoriteMech?.ID === a.ID ? -1 : pilot.FavoriteMech?.ID === b.ID ? 1 : 0
+    )
+  }
 </script>

@@ -1,36 +1,49 @@
 <template>
-  <v-card flat
+  <v-card
+    flat
     border
-    tile>
-    <v-toolbar density="compact"
-      color="panel">
+    tile
+  >
+    <v-toolbar
+      density="compact"
+      color="panel"
+    >
       <v-toolbar-title>
-        <cc-heading is-title
+        <cc-heading
+          is-title
           :text="$t('mainMenu.actions.dataViewer')"
-          :tooltip="$t('mainMenu.tooltips.thisIsAViewOf')" />
+          :tooltip="$t('mainMenu.tooltips.thisIsAViewOf')"
+        />
       </v-toolbar-title>
       <v-spacer />
-      <v-tooltip max-width="300px"
-        location="top">
+      <v-tooltip
+        max-width="300px"
+        location="top"
+      >
         <template #activator="{ props }">
-          <div v-bind="props"
-            class="mx-2">
-            <cc-button v-bind="props"
+          <div
+            v-bind="props"
+            class="mx-2"
+          >
+            <cc-button
+              v-bind="props"
               variant="tonal"
               :size="mobile ? 'small' : ''"
               :loading="loading"
               icon="mdi-refresh"
-              @click="refresh()" />
+              @click="refresh()"
+            />
           </div>
         </template>
         <div class="text-center">
-          {{ $t("mainMenu.cloudData.reloadData") }}
+          {{ $t('mainMenu.cloudData.reloadData') }}
           <br />
-          {{ $t("mainMenu.ui.doesNotSync") }}
+          {{ $t('mainMenu.ui.doesNotSync') }}
         </div>
       </v-tooltip>
       <template #extension>
-        <cc-text-field v-if="!mobile"
+        <cc-text-field
+          v-if="!mobile"
           v-model="search"
           variant="outlined"
           color="primary"
@@ -38,8 +51,10 @@
           bg-color="background"
           :placeholder="$t('common.search')"
           width="250px"
-          clearable />
-        <cc-select v-if="!mobile && tab === 0"
+          clearable
+        />
+        <cc-select
+          v-if="!mobile && tab === 0"
           v-model="itemTypeFilter"
           :items="syncableItemTypes"
           multiple
@@ -53,122 +68,151 @@
           icon="mdi-filter-variant"
           all-text="All Item Types"
           none-text="No Item Types"
-          class="mx-2 mb-1" />
+          class="mx-2 mb-1"
+        />
         <v-spacer />
         <v-tabs v-model="tab">
           <v-tab>
-            <v-tooltip max-width="300px"
-              location="top">
+            <v-tooltip
+              max-width="300px"
+              location="top"
+            >
               <template #activator="{ props }">
-                <span v-bind="props">{{ $t("mainMenu.cloudData.dataTab") }}</span>
+                <span v-bind="props">{{ $t('mainMenu.cloudData.dataTab') }}</span>
               </template>
-              <div class="text-center">{{ $t("mainMenu.cloudData.dataTabDesc") }}</div>
+              <div class="text-center">{{ $t('mainMenu.cloudData.dataTabDesc') }}</div>
             </v-tooltip>
           </v-tab>
           <v-divider vertical />
           <v-tab>
-            <v-tooltip max-width="300px"
-              location="top">
+            <v-tooltip
+              max-width="300px"
+              location="top"
+            >
               <template #activator="{ props }">
-                <span v-bind="props">{{ $t("mainMenu.cloudData.imagesTab") }}</span>
+                <span v-bind="props">{{ $t('mainMenu.cloudData.imagesTab') }}</span>
               </template>
               <div class="text-center">
-                {{ $t("mainMenu.cloudData.imagesTabDesc") }}
+                {{ $t('mainMenu.cloudData.imagesTabDesc') }}
               </div>
             </v-tooltip>
           </v-tab>
         </v-tabs>
       </template>
     </v-toolbar>
-    <v-row v-if="mobile"
+    <v-row
+      v-if="mobile"
       no-gutters
-      class="mx-1 mt-1">
+      class="mx-1 mt-1"
+    >
       <v-col>
-        <v-text-field v-model="search"
+        <v-text-field
+          v-model="search"
           variant="outlined"
           prepend-inner-icon="mdi-magnify"
           :label="$t('common.search')"
           single-line
           density="compact"
           clearable
-          hide-details />
+          hide-details
+        />
       </v-col>
-      <v-col v-if="tab === 0"
+      <v-col
+        v-if="tab === 0"
         cols="5"
-        class="ml-1">
-        <v-select v-model="itemTypeFilter"
+        class="ml-1"
+      >
+        <v-select
+          v-model="itemTypeFilter"
           :items="syncableItemTypes"
           multiple
           density="compact"
           variant="outlined"
           hide-details
-          :placeholder="$t('mainMenu.fields.filter')" />
+          :placeholder="$t('mainMenu.fields.filter')"
+        />
       </v-col>
     </v-row>
     <v-window v-model="tab">
       <v-window-item :value="0">
-        <item-data-tab :search="search"
+        <item-data-tab
+          :search="search"
           :item-type-filter="itemTypeFilter"
           :loading="loading"
-          @refresh="refresh" />
+          @refresh="refresh"
+        />
       </v-window-item>
       <v-window-item :value="1">
-        <image-data-tab :search="search"
+        <image-data-tab
+          :search="search"
           :loading="loading"
-          @refresh="refresh" />
+          @refresh="refresh"
+        />
       </v-window-item>
     </v-window>
   </v-card>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted, computed } from 'vue'
-import { useDisplay } from 'vuetify'
-import { UserStore } from '@/stores'
-import ItemDataTab from './data_viewer/ItemDataTab.vue'
-import ImageDataTab from './data_viewer/ImageDataTab.vue'
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
+  import { ref, watch, onMounted, computed } from 'vue'
+  import { useDisplay } from 'vuetify'
+  import { UserStore } from '@/stores'
+  import ItemDataTab from './data_viewer/ItemDataTab.vue'
+  import ImageDataTab from './data_viewer/ImageDataTab.vue'
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
 
-const display = useDisplay()
-const mobile = computed(() => display.mdAndDown.value)
+  const display = useDisplay()
+  const mobile = computed(() => display.mdAndDown.value)
 
-const tab = ref(0)
-const search = ref('')
-const loading = ref(false)
-const itemTypeFilter = ref<string[]>(['pilot', 'pilotgroup', 'npc', 'collectionItem', 'encounter', 'campaign'])
-
-const syncableItemTypes = [
-  { title: t('mainMenu.titles.pilot'), value: 'pilot' },
-  { title: t('mainMenu.titles.pilotGroups'), value: 'pilotgroup' },
-  { title: t('mainMenu.titles.npc'), value: 'npc' },
-  { title: t('mainMenu.titles.narrativeElement'), value: 'collectionItem' },
-  { title: t('mainMenu.titles.encounter'), value: 'encounter' },
-  // { title: t('mainMenu.titles.campaign'), value: 'campaign' },
-]
-
-watch(itemTypeFilter, (val) => {
-  if (val) UserStore().User.SetView('cloudItemFilters', val)
-})
-
-async function refresh() {
-  loading.value = true
-  await UserStore().refreshDbData()
-  loading.value = false
-}
-
-onMounted(async () => {
-  itemTypeFilter.value = UserStore().User.View('cloudItemFilters', [
-    'pilot', 'pilotgroup', 'npc', 'collectionItem', 'encounter', 'campaign',
+  const tab = ref(0)
+  const search = ref('')
+  const loading = ref(false)
+  const itemTypeFilter = ref<string[]>([
+    'pilot',
+    'pilotgroup',
+    'npc',
+    'collectionItem',
+    'encounter',
+    'campaign',
   ])
-  if (UserStore().IsLoggedIn) {
-    await refresh()
+
+  const syncableItemTypes = [
+    { title: t('mainMenu.titles.pilot'), value: 'pilot' },
+    { title: t('mainMenu.titles.pilotGroups'), value: 'pilotgroup' },
+    { title: t('mainMenu.titles.npc'), value: 'npc' },
+    { title: t('mainMenu.titles.narrativeElement'), value: 'collectionItem' },
+    { title: t('mainMenu.titles.encounter'), value: 'encounter' },
+    // { title: t('mainMenu.titles.campaign'), value: 'campaign' },
+  ]
+
+  watch(itemTypeFilter, val => {
+    if (val) UserStore().User.SetView('cloudItemFilters', val)
+  })
+
+  async function refresh() {
+    loading.value = true
+    await UserStore().refreshDbData()
+    loading.value = false
   }
-})
+
+  onMounted(async () => {
+    itemTypeFilter.value = UserStore().User.View('cloudItemFilters', [
+      'pilot',
+      'pilotgroup',
+      'npc',
+      'collectionItem',
+      'encounter',
+      'campaign',
+    ])
+    if (UserStore().IsLoggedIn) {
+      await refresh()
+    }
+  })
 </script>
 
 <style>
-.v-data-table-header__content {
-  font-weight: bold !important;
-}
+  .v-data-table-header__content {
+    font-weight: bold !important;
+  }
 </style>

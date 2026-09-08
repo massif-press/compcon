@@ -1,7 +1,14 @@
 <template>
   <div v-show="AiSystems.length">
-    <cc-synergy-display location="cascade" :mech="mech" />
-    <v-card tile elevation="0" outlined>
+    <cc-synergy-display
+      location="cascade"
+      :mech="mech"
+    />
+    <v-card
+      tile
+      elevation="0"
+      outlined
+    >
       <v-toolbar
         density="compact"
         elevation="0"
@@ -19,19 +26,38 @@
           <v-icon icon="mdi-information-outline" />
         </cc-tooltip>
       </v-toolbar>
-      <v-row v-for="(a, i) in AiSystems" :key="`ai-${i}`" class="heading h3 py-2" align="center">
+      <v-row
+        v-for="(a, i) in AiSystems"
+        :key="`ai-${i}`"
+        class="heading h3 py-2"
+        align="center"
+      >
         <v-col>
           {{ a.Name }}
         </v-col>
         <v-col>
           {{ $t('common.status') }}:
-          <span v-if="!checked.includes(i)" style="opacity: 0.4">{{ $t('ui.cascade.pending') }}</span>
-          <span v-else :class="a.IsCascading ? 'text-red' : 'text-success'">
+          <span
+            v-if="!checked.includes(i)"
+            style="opacity: 0.4"
+          >
+            {{ $t('ui.cascade.pending') }}
+          </span>
+          <span
+            v-else
+            :class="a.IsCascading ? 'text-red' : 'text-success'"
+          >
             {{ a.IsCascading ? $t('ui.cascade.inCascade') : $t('active.common.nominal') }}
           </span>
         </v-col>
-        <v-col cols="auto" class="mr-3">
-          <cc-dice-menu preset="1d20" @commit="checkCascade($event.total, i)" />
+        <v-col
+          cols="auto"
+          class="mr-3"
+        >
+          <cc-dice-menu
+            preset="1d20"
+            @commit="checkCascade($event.total, i)"
+          />
         </v-col>
       </v-row>
     </v-card>
@@ -39,26 +65,26 @@
 </template>
 
 <script setup lang="ts">
-import type { Mech } from '@/classes/mech/Mech'
-import { computed, ref } from 'vue'
+  import type { Mech } from '@/classes/mech/Mech'
+  import { computed, ref } from 'vue'
 
-defineOptions({ name: 'cascade-check' })
+  defineOptions({ name: 'cascade-check' })
 
-const props = defineProps<{
-  mech: Mech
-}>()
+  const props = defineProps<{
+    mech: Mech
+  }>()
 
-const checked = ref<number[]>([])
+  const checked = ref<number[]>([])
 
-const AiSystems = computed(() => {
-      return props.mech.MechLoadoutController.ActiveLoadout.Equipment.filter(
-        (x) => x.IsAI && !x.NoCascade && !x.Destroyed
-      );
-    })
+  const AiSystems = computed(() => {
+    return props.mech.MechLoadoutController.ActiveLoadout.Equipment.filter(
+      x => x.IsAI && !x.NoCascade && !x.Destroyed
+    )
+  })
 
-function checkCascade(roll: number, index: number) {
-      checked.value.push(index);
-      if (roll === 1) AiSystems.value[index].IsCascading = true;
-      else AiSystems.value[index].IsCascading = false;
-    }
+  function checkCascade(roll: number, index: number) {
+    checked.value.push(index)
+    if (roll === 1) AiSystems.value[index].IsCascading = true
+    else AiSystems.value[index].IsCascading = false
+  }
 </script>

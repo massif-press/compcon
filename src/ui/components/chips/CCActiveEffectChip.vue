@@ -1,14 +1,21 @@
 <template>
-  <cc-dialog :close-on-click="false"
+  <cc-dialog
+    :close-on-click="false"
     :title="activeEffect.Name"
     icon="mdi-rhombus-outline"
-    min-width="75vw">
+    min-width="75vw"
+  >
     <template #activator="{ open }">
-      <div class="top-element mr-6 mb-1"
-        style="position: relative; display: inline-flex; vertical-align: top">
-        <div v-if="!activeEffect.IsPassive"
-          :class="`light bg-${isGreyed ? 'panel-border' : lightColor}`" />
-        <v-chip :color="isGreyed ? 'panel-border' : 'primary'"
+      <div
+        class="top-element mr-6 mb-1"
+        style="position: relative; display: inline-flex; vertical-align: top"
+      >
+        <div
+          v-if="!activeEffect.IsPassive"
+          :class="`light bg-${isGreyed ? 'panel-border' : lightColor}`"
+        />
+        <v-chip
+          :color="isGreyed ? 'panel-border' : 'primary'"
           variant="elevated"
           :ripple="false"
           size="small"
@@ -22,103 +29,142 @@
           :style="`
             border-top-left-radius: ${activeEffect.IsPassive ? '3' : '12'}px;
           `"
-          @click="open">
+          @click="open"
+        >
           <template #prepend>
-            <v-icon v-if="isDestroyed"
+            <v-icon
+              v-if="isDestroyed"
               icon="mdi-cancel"
               size="18"
-              class="mr-1" />
+              class="mr-1"
+            />
             <template v-else>
-              <v-avatar v-if="activeEffect.Frequency"
+              <v-avatar
+                v-if="activeEffect.Frequency"
                 color="background"
-                class="mr-1">
+                class="mr-1"
+              >
                 <v-tooltip location="top">
                   <template #activator="{ props }">
-                    <v-icon v-bind="props"
+                    <v-icon
+                      v-bind="props"
                       :icon="frequencyIcon(activeEffect.Frequency)"
-                      size="18" />
+                      size="18"
+                    />
                   </template>
                   {{ activeEffect.Frequency.ToString() }}
                 </v-tooltip>
               </v-avatar>
-              <v-tooltip v-if="activeEffect.IsPassive"
-                location="top">
+              <v-tooltip
+                v-if="activeEffect.IsPassive"
+                location="top"
+              >
                 <template #activator="{ props }">
-                  <v-icon v-bind="props"
+                  <v-icon
+                    v-bind="props"
                     icon="cc:trait"
                     size="18"
-                    class="mr-1" />
+                    class="mr-1"
+                  />
                 </template>
                 {{ $t('ui.combat.passiveEffect') }}
               </v-tooltip>
-              <v-tooltip v-if="activeEffect.Damage.length"
-                location="top">
+              <v-tooltip
+                v-if="activeEffect.Damage.length"
+                location="top"
+              >
                 <template #activator="{ props }">
-                  <v-icon v-bind="props"
+                  <v-icon
+                    v-bind="props"
                     icon="cc:eclipse"
                     size="18"
-                    class="mr-1" />
+                    class="mr-1"
+                  />
                 </template>
                 {{ $t('ui.combat.damageAssignment') }}
               </v-tooltip>
-              <v-tooltip v-if="activeEffect.AddStatus.length"
-                location="top">
+              <v-tooltip
+                v-if="activeEffect.AddStatus.length"
+                location="top"
+              >
                 <template #activator="{ props }">
-                  <v-icon v-bind="props"
+                  <v-icon
+                    v-bind="props"
                     icon="cc:status_exposed"
                     size="18"
-                    class="mr-1" />
+                    class="mr-1"
+                  />
                 </template>
                 {{ $t('ui.combat.statusEffect') }}
               </v-tooltip>
-              <v-tooltip v-if="activeEffect.Save"
-                location="top">
+              <v-tooltip
+                v-if="activeEffect.Save"
+                location="top"
+              >
                 <template #activator="{ props }">
-                  <v-icon v-bind="props"
+                  <v-icon
+                    v-bind="props"
                     icon="mdi-dice-d20"
                     size="18"
-                    class="mr-1" />
+                    class="mr-1"
+                  />
                 </template>
                 {{ $t('ui.combat.saveAvailable') }}
               </v-tooltip>
-              <v-tooltip v-if="activeEffect.AddResist.length"
-                location="top">
+              <v-tooltip
+                v-if="activeEffect.AddResist.length"
+                location="top"
+              >
                 <template #activator="{ props }">
-                  <v-icon v-bind="props"
+                  <v-icon
+                    v-bind="props"
                     icon="mdi-shield-half-full"
                     size="18"
-                    class="mr-1" />
+                    class="mr-1"
+                  />
                 </template>
                 {{ $t('ui.combat.resistanceImmunity') }}
               </v-tooltip>
-              <v-tooltip v-if="activeEffect.AddOther.length"
-                location="top">
+              <v-tooltip
+                v-if="activeEffect.AddOther.length"
+                location="top"
+              >
                 <template #activator="{ props }">
-                  <v-icon v-bind="props"
+                  <v-icon
+                    v-bind="props"
                     icon="mdi-hexagon-multiple"
                     size="18"
-                    class="mr-1" />
+                    class="mr-1"
+                  />
                 </template>
                 {{ $t('ui.combat.otherEffect') }}
               </v-tooltip>
-              <v-tooltip v-if="activeEffect.AddSpecial.length"
-                location="top">
+              <v-tooltip
+                v-if="activeEffect.AddSpecial.length"
+                location="top"
+              >
                 <template #activator="{ props }">
-                  <v-icon v-bind="props"
+                  <v-icon
+                    v-bind="props"
                     icon="mdi-star-four-points-circle"
                     size="18"
-                    class="mr-1" />
+                    class="mr-1"
+                  />
                 </template>
                 {{ $t('ui.combat.specialEffect') }}
               </v-tooltip>
             </template>
           </template>
-          <v-tooltip location="top"
-            max-width="600px">
+          <v-tooltip
+            location="top"
+            max-width="600px"
+          >
             <template #activator="{ props }">
-              <div v-bind="props"
+              <div
+                v-bind="props"
                 class="font-weight-bold pl-2"
-                :style="isDestroyed ? 'text-decoration: line-through' : ''">
+                :style="isDestroyed ? 'text-decoration: line-through' : ''"
+              >
                 {{ activeEffect.Name }}
               </div>
             </template>
@@ -133,181 +179,216 @@
                 </i>
               </div>
               <v-divider class="my-1" />
-              <cc-alert v-if="isDestroyed"
+              <cc-alert
+                v-if="isDestroyed"
                 variant="tonal"
-                color="error">
-                {{ $t('ui.combat.originDestroyed', {
-                  type: activeEffect.Origin.Type || 'equipment'
-                }) }}
+                color="error"
+              >
+                {{
+                  $t('ui.combat.originDestroyed', {
+                    type: activeEffect.Origin.Type || 'equipment',
+                  })
+                }}
               </cc-alert>
 
-              <cc-alert v-else-if="isUsed"
-                color="panel-border">
+              <cc-alert
+                v-else-if="isUsed"
+                color="panel-border"
+              >
                 {{ $t('ui.combat.originUsed', { type: activeEffect.Origin.Type || 'equipment' }) }}
               </cc-alert>
 
-
-              <cc-alert v-if="activeEffect.Condition"
-                color="primary">
+              <cc-alert
+                v-if="activeEffect.Condition"
+                color="primary"
+              >
                 <b class="text-accent">{{ $t('ui.combat.ifLabel') }}:&nbsp;</b>
                 <b>{{ activeEffect.Condition }}</b>
               </cc-alert>
 
-              <div v-html-safe="byTier(activeEffect.Detail)"
-                class="text-text pa-1" />
+              <div
+                v-html-safe="byTier(activeEffect.Detail)"
+                class="text-text pa-1"
+              />
 
-              <div v-if="activeEffect.Frequency"
-                class="text-cc-overline text-center">
-                <v-chip :color="isApplied ? 'success' : 'text'"
+              <div
+                v-if="activeEffect.Frequency"
+                class="text-cc-overline text-center"
+              >
+                <v-chip
+                  :color="isApplied ? 'success' : 'text'"
                   size="small"
-                  :prepend-icon="isApplied ? 'mdi-check' : frequencyIcon(activeEffect.Frequency)
-                    ">
+                  :prepend-icon="isApplied ? 'mdi-check' : frequencyIcon(activeEffect.Frequency)"
+                >
                   {{ activeEffect.Frequency.ToString() }}
                 </v-chip>
               </div>
-              <div v-if="activeEffect.Duration"
-                class="text-cc-overline text-center">
-                <v-chip :color="isApplied ? 'success' : 'text'"
+              <div
+                v-if="activeEffect.Duration"
+                class="text-cc-overline text-center"
+              >
+                <v-chip
+                  :color="isApplied ? 'success' : 'text'"
                   size="small"
-                  :prepend-icon="isApplied ? 'mdi-check' : ''">
+                  :prepend-icon="isApplied ? 'mdi-check' : ''"
+                >
                   {{ activeEffect.Duration }}
                 </v-chip>
               </div>
             </div>
           </v-tooltip>
           <template #append>
-            <v-icon v-if="activeEffect.Dismissible"
+            <v-icon
+              v-if="activeEffect.Dismissible"
               size="18"
-              icon="mdi-close" />
+              icon="mdi-close"
+            />
           </template>
         </v-chip>
-        <div class="end"
-          :class="`bg-${isGreyed ? 'panel-border' : 'primary'}`" />
-        <div class="end-light"
-          :class="`bg-${isGreyed ? 'panel-border' : lightColor}`" />
+        <div
+          class="end"
+          :class="`bg-${isGreyed ? 'panel-border' : 'primary'}`"
+        />
+        <div
+          class="end-light"
+          :class="`bg-${isGreyed ? 'panel-border' : lightColor}`"
+        />
       </div>
     </template>
     <template #default="{ close }">
-      <cc-alert v-if="isDestroyed"
+      <cc-alert
+        v-if="isDestroyed"
         variant="tonal"
-        color="error">
+        color="error"
+      >
         {{ $t('ui.combat.originDestroyed', { type: activeEffect.Origin.Type || 'equipment' }) }}
       </cc-alert>
 
-      <cc-alert v-else-if="isUsed"
-        color="panel-border">
+      <cc-alert
+        v-else-if="isUsed"
+        color="panel-border"
+      >
         {{ $t('ui.combat.originUsed', { type: activeEffect.Origin.Type || 'equipment' }) }}
       </cc-alert>
-      <menu-input v-if="getCombatant"
+      <menu-input
+        v-if="getCombatant"
         :key="owner.ID"
         :active-effect="activeEffect"
         :encounter-instance="encounterInstance"
         :owner="getCombatant"
-        :close="close" />
+        :close="close"
+      />
     </template>
   </cc-dialog>
 </template>
 
 <script setup lang="ts">
-import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-import { computed } from 'vue';
-import { ActiveEffect } from '@/classes/components/feature/active_effects/ActiveEffect';
-import { CombatantData } from '@/classes/encounter/Encounter';
-import type { ICombatant } from '@/classes/components/combat/ICombatant';
-import { ByTier } from '@/util/tierFormat';
-import MenuInput from './_activeeffect/_ae_menu_input.vue';
-import { ActivePeriod, type Frequency } from '@/classes/Frequency';
+  import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+  import { computed } from 'vue'
+  import { ActiveEffect } from '@/classes/components/feature/active_effects/ActiveEffect'
+  import { CombatantData } from '@/classes/encounter/Encounter'
+  import type { ICombatant } from '@/classes/components/combat/ICombatant'
+  import { ByTier } from '@/util/tierFormat'
+  import MenuInput from './_activeeffect/_ae_menu_input.vue'
+  import { ActivePeriod, type Frequency } from '@/classes/Frequency'
 
-const props = withDefaults(defineProps<{
-  activeEffect: ActiveEffect
-  tier?: number
-  encounterInstance: EncounterInstance
-  owner: ICombatant
-}>(), {
-  tier: 1,
-})
-
-const getCombatant = computed((): CombatantData | undefined =>
-  props.encounterInstance.Combatants.find(
-    (c: CombatantData) => c.actor.ID === props.owner.ID || c.actor.CombatController.ActiveActor.ID === props.owner.ID || c.actor.CombatController.RootActor.ID === props.owner.ID
+  const props = withDefaults(
+    defineProps<{
+      activeEffect: ActiveEffect
+      tier?: number
+      encounterInstance: EncounterInstance
+      owner: ICombatant
+    }>(),
+    {
+      tier: 1,
+    }
   )
-)
 
-const isUsed = computed(() => !!props.activeEffect.Origin?.Used)
-
-const isDestroyed = computed(() => !!props.activeEffect.Origin?.Destroyed)
-
-const isApplied = computed(() =>
-  !!getCombatant.value?.actor.CombatController.ActiveActor.CombatController.IsActionUsed(
-    props.activeEffect.ID
+  const getCombatant = computed((): CombatantData | undefined =>
+    props.encounterInstance.Combatants.find(
+      (c: CombatantData) =>
+        c.actor.ID === props.owner.ID ||
+        c.actor.CombatController.ActiveActor.ID === props.owner.ID ||
+        c.actor.CombatController.RootActor.ID === props.owner.ID
+    )
   )
-)
 
-const isGreyed = computed(() => isApplied.value || isUsed.value || isDestroyed.value)
+  const isUsed = computed(() => !!props.activeEffect.Origin?.Used)
 
-const lightColor = computed(() => props.activeEffect.Origin.Color || 'orange')
+  const isDestroyed = computed(() => !!props.activeEffect.Origin?.Destroyed)
 
-const icon = computed(() => props.activeEffect.Origin.Icon || 'mdi-rhombus-outline')
+  const isApplied = computed(
+    () =>
+      !!getCombatant.value?.actor.CombatController.ActiveActor.CombatController.IsActionUsed(
+        props.activeEffect.ID
+      )
+  )
 
-function byTier(detail: string) {
-  return ByTier(detail, props.tier);
-}
+  const isGreyed = computed(() => isApplied.value || isUsed.value || isDestroyed.value)
 
-function frequencyIcon(frequency: Frequency): string {
-  switch (frequency.Duration) {
-    case ActivePeriod.Round:
-      return 'mdi-alpha-r-circle';
-    case ActivePeriod.Turn:
-      return 'mdi-alpha-t-circle';
-    case ActivePeriod.Scene:
-      return 'mdi-alpha-e-circle';
-    case ActivePeriod.Mission:
-      return 'mdi-alpha-m-circle';
-    default:
-      return 'mdi-timer-sand';
+  const lightColor = computed(() => props.activeEffect.Origin.Color || 'orange')
+
+  const icon = computed(() => props.activeEffect.Origin.Icon || 'mdi-rhombus-outline')
+
+  function byTier(detail: string) {
+    return ByTier(detail, props.tier)
   }
-}
+
+  function frequencyIcon(frequency: Frequency): string {
+    switch (frequency.Duration) {
+      case ActivePeriod.Round:
+        return 'mdi-alpha-r-circle'
+      case ActivePeriod.Turn:
+        return 'mdi-alpha-t-circle'
+      case ActivePeriod.Scene:
+        return 'mdi-alpha-e-circle'
+      case ActivePeriod.Mission:
+        return 'mdi-alpha-m-circle'
+      default:
+        return 'mdi-timer-sand'
+    }
+  }
 </script>
 
 <style scoped>
-.light {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 9px;
-  height: 9px;
-  clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
-  transition: filter 0.3s ease-in-out;
-}
+  .light {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 9px;
+    height: 9px;
+    clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
+    transition: filter 0.3s ease-in-out;
+  }
 
-.top-element:hover .light {
-  filter: brightness(2) saturate(200%) hue-rotate(40deg);
-}
+  .top-element:hover .light {
+    filter: brightness(2) saturate(200%) hue-rotate(40deg);
+  }
 
-.end {
-  position: absolute;
-  right: -14px;
-  top: 0px;
-  bottom: 0;
-  width: 15px;
-  display: inline-block;
-  clip-path: polygon(0 0, 0% 100%, 100% 0);
-}
+  .end {
+    position: absolute;
+    right: -14px;
+    top: 0px;
+    bottom: 0;
+    width: 15px;
+    display: inline-block;
+    clip-path: polygon(0 0, 0% 100%, 100% 0);
+  }
 
-.end-light {
-  position: absolute;
-  right: -14px;
-  top: 0px;
-  bottom: 0;
-  width: 15px;
-  display: inline-block;
-  clip-path: polygon(80% 0, 100% 0, 20% 100%, 0% 100%);
+  .end-light {
+    position: absolute;
+    right: -14px;
+    top: 0px;
+    bottom: 0;
+    width: 15px;
+    display: inline-block;
+    clip-path: polygon(80% 0, 100% 0, 20% 100%, 0% 100%);
 
-  transition: filter 0.3s ease-in-out;
-  z-index: 2;
-}
+    transition: filter 0.3s ease-in-out;
+    z-index: 2;
+  }
 
-.top-element:hover .end-light {
-  filter: brightness(2) saturate(200%) hue-rotate(40deg);
-}
+  .top-element:hover .end-light {
+    filter: brightness(2) saturate(200%) hue-rotate(40deg);
+  }
 </style>

@@ -28,14 +28,14 @@
 </template>
 
 <script setup lang="ts">
-import type { ICombatant } from '@/classes/components/combat/ICombatant'
-import { computed } from 'vue'
+  import type { ICombatant } from '@/classes/components/combat/ICombatant'
+  import { computed } from 'vue'
 
-const props = defineProps<{
-  actor: ICombatant
-}>()
+  const props = defineProps<{
+    actor: ICombatant
+  }>()
 
-const mobile = computed(() => {
-        return 'ontouchstart' in window || navigator.maxTouchPoints > 0
-      })
+  const mobile = computed(() => {
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0
+  })
 </script>

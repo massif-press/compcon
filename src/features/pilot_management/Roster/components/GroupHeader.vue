@@ -261,7 +261,9 @@
           cols="12"
           sm="auto"
         >
-          <v-tooltip :text="edit ? $t('pm.roster.finishEditing') : $t('pm.roster.editGroupInformation')">
+          <v-tooltip
+            :text="edit ? $t('pm.roster.finishEditing') : $t('pm.roster.editGroupInformation')"
+          >
             <template #activator="{ props }">
               <cc-button
                 v-if="!mobile"

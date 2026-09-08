@@ -1,172 +1,204 @@
 <template>
   <v-row dense>
-
     <v-col>
       <div class="text-cc-overline text-disabled">{{ $t('common.bonus') }}</div>
-      <v-text-field v-model="bonus"
+      <v-text-field
+        v-model="bonus"
         density="compact"
         variant="outlined"
         type="number"
         hide-spin-buttons
         flat
         hide-details
-        tile>
+        tile
+      >
         <template #prepend-inner>
-          <v-icon size="25"
-            :icon="bonus < 0 ? 'mdi-minus' : 'mdi-plus'" />
+          <v-icon
+            size="25"
+            :icon="bonus < 0 ? 'mdi-minus' : 'mdi-plus'"
+          />
         </template>
       </v-text-field>
-      <v-card v-for="(a, index) in applicableBonuses.bonuses"
+      <v-card
+        v-for="(a, index) in applicableBonuses.bonuses"
         :key="`bonus-${index}`"
         flat
         tile
         class="pa-1 text-cc-overline"
-        color="light-panel">
-        <span v-if="a.Value > 0">+</span>{{ a.Value }} ({{ a.Source }})
+        color="light-panel"
+      >
+        <span v-if="a.Value > 0">+</span>
+        {{ a.Value }} ({{ a.Source }})
       </v-card>
     </v-col>
     <v-col>
       <div class="text-cc-overline text-disabled">
         {{ accDiff < 0 ? $t('common.difficulty') : $t('common.accuracy') }}
-          </div>
-          <v-text-field v-model="accDiff"
-            density="compact"
-            variant="outlined"
-            type="number"
-            flat
-            hide-details
-            tile>
-            <template #prepend-inner>
-              <v-tooltip location="top">
-                <template #activator="{ props: innerProps }">
-                  <v-icon v-bind="innerProps"
-                    size="x-large"
-                    :icon="accDiff > 0 ? 'cc:accuracy' : 'cc:difficulty'" />
-                </template>
-              </v-tooltip>
+      </div>
+      <v-text-field
+        v-model="accDiff"
+        density="compact"
+        variant="outlined"
+        type="number"
+        flat
+        hide-details
+        tile
+      >
+        <template #prepend-inner>
+          <v-tooltip location="top">
+            <template #activator="{ props: innerProps }">
+              <v-icon
+                v-bind="innerProps"
+                size="x-large"
+                :icon="accDiff > 0 ? 'cc:accuracy' : 'cc:difficulty'"
+              />
             </template>
-          </v-text-field>
-          <v-card v-if="difficult"
-            flat
-            tile
-            class="pa-1 text-cc-overline"
-            color="light-panel">
-            {{ $t('active.skillCheck.difficultMod') }}
-          </v-card>
-          <v-card v-for="(a, index) in applicableBonuses.accDiff"
-            :key="`accdiff-${index}`"
-            flat
-            tile
-            class="pa-1 text-cc-overline"
-            color="light-panel">
-            <span v-if="a.Accuracy > 0">+</span>{{ a.Accuracy }} ({{ a.Source }})
-          </v-card>
+          </v-tooltip>
+        </template>
+      </v-text-field>
+      <v-card
+        v-if="difficult"
+        flat
+        tile
+        class="pa-1 text-cc-overline"
+        color="light-panel"
+      >
+        {{ $t('active.skillCheck.difficultMod') }}
+      </v-card>
+      <v-card
+        v-for="(a, index) in applicableBonuses.accDiff"
+        :key="`accdiff-${index}`"
+        flat
+        tile
+        class="pa-1 text-cc-overline"
+        color="light-panel"
+      >
+        <span v-if="a.Accuracy > 0">+</span>
+        {{ a.Accuracy }} ({{ a.Source }})
+      </v-card>
     </v-col>
     <v-col>
       <div class="text-cc-overline text-disabled">{{ $t('active.skillCheck.skillCheckRoll') }}</div>
-      <v-text-field v-model="roll"
+      <v-text-field
+        v-model="roll"
         density="compact"
         variant="outlined"
         type="number"
         hide-spin-buttons
         flat
         hide-details
-        tile>
+        tile
+      >
         <template #prepend-inner>
-          <v-icon size="25"
-            icon="mdi-dice-d20" />
+          <v-icon
+            size="25"
+            icon="mdi-dice-d20"
+          />
         </template>
       </v-text-field>
     </v-col>
     <slot />
   </v-row>
 
-  <v-btn flat
+  <v-btn
+    flat
     tile
     class="mt-2"
     color="primary"
     size="small"
     block
-    @click="rollCheck()">{{ $t('common.roll_verb') }}</v-btn>
+    @click="rollCheck()"
+  >
+    {{ $t('common.roll_verb') }}
+  </v-btn>
 
-  <div v-if="rollResults.length"
-    class="pa-2 border-s mt-2 text-left">
+  <div
+    v-if="rollResults.length"
+    class="pa-2 border-s mt-2 text-left"
+  >
     <div class="text-cc-overline text-disabled">{{ $t('active.skillCheck.rollResults') }}</div>
-    <div v-html-safe="rollResults"
-      class="text-caption text-accent" />
+    <div
+      v-html-safe="rollResults"
+      class="text-caption text-accent"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { CombatController } from '@/classes/components/combat/CombatController';
-import { computed, ref } from 'vue'
+  import { CombatController } from '@/classes/components/combat/CombatController'
+  import { computed, ref } from 'vue'
 
-const props = withDefaults(defineProps<{
-  controller: CombatController
-  difficult?: boolean
-  selectedHase?: string
-}>(), {
-  difficult: false,
-  selectedHase: ''
-})
-
-const roll = ref(null as number | null)
-const rollResults = ref('')
-
-const applicableBonuses = computed(() => {
-  const bonuses = props.controller.ActiveActor.FeatureController?.Bonuses?.filter(
-    (b) => b.ID === props.selectedHase || b.ID === 'check'
-  );
-  const result = {
-    bonuses: bonuses.filter((b) => !!b.Value) || [],
-    accDiff: bonuses.filter((b) => !!b.Accuracy) || [],
-  };
-  if (props.selectedHase) {
-    const statBonus = props.controller.ActiveActor.CombatController.StatController.getMax(
-      props.selectedHase
-    );
-    if (statBonus) {
-      result.bonuses.push({
-        Source: `${props.selectedHase.charAt(0).toUpperCase() + props.selectedHase.slice(1)} Stat`,
-        Value: statBonus,
-      });
+  const props = withDefaults(
+    defineProps<{
+      controller: CombatController
+      difficult?: boolean
+      selectedHase?: string
+    }>(),
+    {
+      difficult: false,
+      selectedHase: '',
     }
+  )
+
+  const roll = ref(null as number | null)
+  const rollResults = ref('')
+
+  const applicableBonuses = computed(() => {
+    const bonuses = props.controller.ActiveActor.FeatureController?.Bonuses?.filter(
+      b => b.ID === props.selectedHase || b.ID === 'check'
+    )
+    const result = {
+      bonuses: bonuses.filter(b => !!b.Value) || [],
+      accDiff: bonuses.filter(b => !!b.Accuracy) || [],
+    }
+    if (props.selectedHase) {
+      const statBonus = props.controller.ActiveActor.CombatController.StatController.getMax(
+        props.selectedHase
+      )
+      if (statBonus) {
+        result.bonuses.push({
+          Source: `${props.selectedHase.charAt(0).toUpperCase() + props.selectedHase.slice(1)} Stat`,
+          Value: statBonus,
+        })
+      }
+    }
+
+    return result
+  })
+
+  const bonus = ref(
+    (applicableBonuses.value.bonuses.reduce((acc, b) => acc + b.Value, 0) || 0) +
+      (props.difficult ? -1 : 0)
+  )
+
+  const accDiff = ref(applicableBonuses.value.accDiff.reduce((acc, b) => acc + b.Accuracy, 0) || 0)
+
+  function rollCheck() {
+    const baseRoll = Math.floor(Math.random() * 20) + 1
+
+    const count = Math.abs(accDiff.value)
+    const accResults = [] as number[]
+
+    for (let i = 1; i <= count; i++) {
+      accResults.push((Math.floor(Math.random() * 6) + 1) * Math.sign(accDiff.value))
+    }
+
+    if (accDiff.value < 0) {
+      accResults.sort((a, b) => a - b)
+    } else {
+      accResults.sort((a, b) => b - a)
+    }
+
+    const finalAccDiff = accResults.length ? accResults[0] : 0
+
+    roll.value = baseRoll + Number(bonus.value) + finalAccDiff
+
+    rollResults.value = `Base Roll: ${baseRoll}${bonus.value ? ` ${bonus.value > 0 ? '+' : '-'} ${Math.abs(bonus.value)}` : ''}${finalAccDiff ? `, ${finalAccDiff > 0 ? 'Accuracy: +' : 'Difficulty: -'} ${Math.abs(finalAccDiff)}` : ''} = <strong>${roll.value}</strong>`
   }
 
-  return result;
-})
-
-const bonus = ref((applicableBonuses.value.bonuses.reduce((acc, b) => acc + b.Value, 0) || 0) + (props.difficult ? -1 : 0))
-
-const accDiff = ref(applicableBonuses.value.accDiff.reduce((acc, b) => acc + b.Accuracy, 0) || 0)
-
-function rollCheck() {
-  const baseRoll = Math.floor(Math.random() * 20) + 1;
-
-  const count = Math.abs(accDiff.value);
-  const accResults = [] as number[];
-
-  for (let i = 1; i <= count; i++) {
-    accResults.push((Math.floor(Math.random() * 6) + 1) * Math.sign(accDiff.value));
+  function overrideRoll(target: number) {
+    roll.value = (roll.value ?? 0) < target ? 20 : 1
   }
 
-  if (accDiff.value < 0) {
-    accResults.sort((a, b) => a - b);
-  } else {
-    accResults.sort((a, b) => b - a);
-  }
-
-  const finalAccDiff = accResults.length ? accResults[0] : 0;
-
-  roll.value = baseRoll + Number(bonus.value) + finalAccDiff;
-
-  rollResults.value = `Base Roll: ${baseRoll}${bonus.value ? ` ${bonus.value > 0 ? '+' : '-'} ${Math.abs(bonus.value)}` : ''}${finalAccDiff ? `, ${finalAccDiff > 0 ? 'Accuracy: +' : 'Difficulty: -'} ${Math.abs(finalAccDiff)}` : ''} = <strong>${roll.value}</strong>`;
-
-}
-
-function overrideRoll(target: number) {
-  roll.value = (roll.value ?? 0) < target ? 20 : 1;
-}
-
-defineExpose({ roll, rollCheck, overrideRoll })
+  defineExpose({ roll, rollCheck, overrideRoll })
 </script>

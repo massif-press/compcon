@@ -1,11 +1,15 @@
 <template>
-  <v-card tile
+  <v-card
+    tile
     flat
     class="top-element pb-1"
     color="transparent"
-    style="text-transform: uppercase">
-    <v-row dense
-      no-gutters>
+    style="text-transform: uppercase"
+  >
+    <v-row
+      dense
+      no-gutters
+    >
       <v-col>
         <span :class="`light ${disabled && 'disabled'} ${size} ${bgColor}`" />
         <v-card
@@ -19,59 +23,82 @@
           :to="to"
           :href="href"
           :target="target"
-          @click.stop="!disabled && !loading && $emit('click', $event)">
-          <v-row dense
+          @click.stop="!disabled && !loading && $emit('click', $event)"
+        >
+          <v-row
+            dense
             align="center"
             :class="mobile && 'py-2'"
-            justify="space-around">
+            justify="space-around"
+          >
             <v-col cols="auto">
-              <v-icon v-if="prependIcon"
+              <v-icon
+                v-if="prependIcon"
                 :size="iconSize"
                 :icon="prependIcon"
-                start />
+                start
+              />
               <span v-else-if="size !== 'small' && size !== 'x-small'">&nbsp;</span>
             </v-col>
             <v-col :style="`font-size: ${size}`">
               <slot />
-              <div v-if="$slots.subtitle"
-                class="mt-n1">
+              <div
+                v-if="$slots.subtitle"
+                class="mt-n1"
+              >
                 <slot name="subtitle" />
               </div>
             </v-col>
-            <v-col v-if="hasInfoContent"
-              cols="auto">
+            <v-col
+              v-if="hasInfoContent"
+              cols="auto"
+            >
               <div>
                 <slot name="info" />
               </div>
             </v-col>
-            <v-col v-if="appendIcon"
-              cols="auto">
-              <v-icon :size="iconSize"
+            <v-col
+              v-if="appendIcon"
+              cols="auto"
+            >
+              <v-icon
+                :size="iconSize"
                 :icon="appendIcon"
-                start />
+                start
+              />
             </v-col>
-            <v-col v-if="tooltip"
-              cols="auto">
-              <cc-tooltip :icon="tooltipIcon"
-                :text="tooltip" />
+            <v-col
+              v-if="tooltip"
+              cols="auto"
+            >
+              <cc-tooltip
+                :icon="tooltipIcon"
+                :text="tooltip"
+              />
             </v-col>
           </v-row>
         </v-card>
       </v-col>
 
-      <v-col v-if="$slots.options"
+      <v-col
+        v-if="$slots.options"
         cols="auto"
-        class="pa-0">
-        <v-menu :close-on-content-click="false"
-          offset-y>
+        class="pa-0"
+      >
+        <v-menu
+          :close-on-content-click="false"
+          offset-y
+        >
           <template #activator="{ props }">
-            <v-btn style="margin-left: -1px; height: 100%; "
+            <v-btn
+              style="margin-left: -1px; height: 100%"
               :variant="outlined ? 'outlined' : 'elevated'"
               :color="color"
               icon
               flat
               tile
-              v-bind="props">
+              v-bind="props"
+            >
               <v-divider vertical />
               &nbsp;
               <v-icon :icon="optionsIcon || 'mdi-dots-vertical'" />
@@ -85,10 +112,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, useSlots } from 'vue'
-import { useDisplay } from 'vuetify'
+  import { computed, useSlots } from 'vue'
+  import { useDisplay } from 'vuetify'
 
-const props = defineProps({
+  const props = defineProps({
     color: { type: String },
     disabled: { type: Boolean },
     block: { type: Boolean },
@@ -105,122 +132,123 @@ const props = defineProps({
     target: { type: String },
   })
 
-const emit = defineEmits(['click'])
+  const emit = defineEmits(['click'])
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
-const slots = useSlots()
+  const { smAndDown: mobile, xs: portrait } = useDisplay()
+  const slots = useSlots()
 
-function _hasContent(prop: string) {
-  const slot = slots[prop]
-  if (slot && slot()[0] && slot()[0].children) {
-    return (slot()[0].children as any).length > 0
+  function _hasContent(prop: string) {
+    const slot = slots[prop]
+    if (slot && slot()[0] && slot()[0].children) {
+      return (slot()[0].children as any).length > 0
+    }
+    return false
   }
-  return false
-}
 
-const sizeStyle = computed(() => props.size ? `size-${props.size}` : 'size-default')
-const iconSize = computed(() => {
-  if (props.size === 'xx-large') return '42'
-  return typeof props.size === 'string' ? props.size : undefined
-})
-const bgColor = computed(() => `bg-${props.color}`)
-const outlined = computed(() => props.variant === 'outlined')
-const colorClass = computed(() => outlined.value ? 'bg-transparent' : bgColor.value)
-const borderColor = computed(() => {
-  if (!props.color) return ''
-  if (props.color[0] === '#') return props.color
-  return `var(--v-${props.color}-base)`
-})
-const alignment = computed(() => {
-  if (props.size === 'x-small' || props.size === 'small') return slots.subtitle ? 'center' : 'start'
-  return 'center'
-})
-const hasInfoContent = computed(() => _hasContent('info'))
-const hasTooltipContent = computed(() => _hasContent('tooltip'))
+  const sizeStyle = computed(() => (props.size ? `size-${props.size}` : 'size-default'))
+  const iconSize = computed(() => {
+    if (props.size === 'xx-large') return '42'
+    return typeof props.size === 'string' ? props.size : undefined
+  })
+  const bgColor = computed(() => `bg-${props.color}`)
+  const outlined = computed(() => props.variant === 'outlined')
+  const colorClass = computed(() => (outlined.value ? 'bg-transparent' : bgColor.value))
+  const borderColor = computed(() => {
+    if (!props.color) return ''
+    if (props.color[0] === '#') return props.color
+    return `var(--v-${props.color}-base)`
+  })
+  const alignment = computed(() => {
+    if (props.size === 'x-small' || props.size === 'small')
+      return slots.subtitle ? 'center' : 'start'
+    return 'center'
+  })
+  const hasInfoContent = computed(() => _hasContent('info'))
+  const hasTooltipContent = computed(() => _hasContent('tooltip'))
 </script>
 
 <style scoped>
-@import './cc_btn_base.css';
+  @import './cc_btn_base.css';
 
-.disabled {
-  filter: grayscale(100%);
-  opacity: 0.5;
-}
+  .disabled {
+    filter: grayscale(100%);
+    opacity: 0.5;
+  }
 
-.top-element {
-  position: relative;
-}
+  .top-element {
+    position: relative;
+  }
 
-.light {
-  top: 0px;
-  width: 13.5px;
-  height: 13.5px;
-  position: absolute;
-  display: block;
-  clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
-  border-top-left-radius: 1px;
-  transition: filter 0.2s ease-in-out;
-}
+  .light {
+    top: 0px;
+    width: 13.5px;
+    height: 13.5px;
+    position: absolute;
+    display: block;
+    clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
+    border-top-left-radius: 1px;
+    transition: filter 0.2s ease-in-out;
+  }
 
-.light.x-small {
-  width: 8px;
-  height: 8px;
-}
+  .light.x-small {
+    width: 8px;
+    height: 8px;
+  }
 
-.light.small {
-  width: 9.5px;
-  height: 9.5px;
-}
+  .light.small {
+    width: 9.5px;
+    height: 9.5px;
+  }
 
-.light.large {
-  width: 17px;
-  height: 17px;
-}
+  .light.large {
+    width: 17px;
+    height: 17px;
+  }
 
-.light.x-large {
-  width: 21px;
-  height: 21px;
-}
+  .light.x-large {
+    width: 21px;
+    height: 21px;
+  }
 
-.light.xx-large {
-  width: 32px;
-  height: 32px;
-}
+  .light.xx-large {
+    width: 32px;
+    height: 32px;
+  }
 
-.size-x-small {
-  clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
-  letter-spacing: 3px;
-  height: 25px;
-  line-height: 10px !important;
-}
+  .size-x-small {
+    clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
+    letter-spacing: 3px;
+    height: 25px;
+    line-height: 10px !important;
+  }
 
-.size-small {
-  clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
-  letter-spacing: 4px;
-  min-height: 34px;
-}
+  .size-small {
+    clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
+    letter-spacing: 4px;
+    min-height: 34px;
+  }
 
-.size-default {
-  clip-path: polygon(16px 0, 100% 0, 100% 100%, 0 100%, 0 16px);
-  letter-spacing: 2px;
-  min-height: 48px;
-}
+  .size-default {
+    clip-path: polygon(16px 0, 100% 0, 100% 100%, 0 100%, 0 16px);
+    letter-spacing: 2px;
+    min-height: 48px;
+  }
 
-.size-large {
-  clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%, 0 20px);
-  letter-spacing: 3px;
-  min-height: 64px;
-}
+  .size-large {
+    clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%, 0 20px);
+    letter-spacing: 3px;
+    min-height: 64px;
+  }
 
-.size-x-large {
-  clip-path: polygon(24px 0, 100% 0, 100% 100%, 0 100%, 0 24px);
-  letter-spacing: 4px;
-  min-height: 72px;
-}
+  .size-x-large {
+    clip-path: polygon(24px 0, 100% 0, 100% 100%, 0 100%, 0 24px);
+    letter-spacing: 4px;
+    min-height: 72px;
+  }
 
-.size-xx-large {
-  clip-path: polygon(36px 0, 100% 0, 100% 100%, 0 100%, 0 36px);
-  letter-spacing: 4px;
-  min-height: 84px;
-}
+  .size-xx-large {
+    clip-path: polygon(36px 0, 100% 0, 100% 100%, 0 100%, 0 36px);
+    letter-spacing: 4px;
+    min-height: 84px;
+  }
 </style>

@@ -1,16 +1,24 @@
 <template>
-  <v-col v-if="event.SpecialEvents?.length"
-    :cols="cols">
-    <div v-for="(s, index) in event.SpecialEvents"
-      :key="`special-${index}`">
-      <v-tooltip location="top"
-        max-width="400px">
+  <v-col
+    v-if="event.SpecialEvents?.length"
+    :cols="cols"
+  >
+    <div
+      v-for="(s, index) in event.SpecialEvents"
+      :key="`special-${index}`"
+    >
+      <v-tooltip
+        location="top"
+        max-width="400px"
+      >
         <template #activator="{ props }">
-          <v-card v-bind="props"
+          <v-card
+            v-bind="props"
             flat
             border="sm"
             color="exotic"
-            class="text-center heading h3 rounded-lg mt-1 py-1 px-2">
+            class="text-center heading h3 rounded-lg mt-1 py-1 px-2"
+          >
             {{ s.Attribute }}
           </v-card>
         </template>
@@ -18,22 +26,25 @@
           {{ s.Detail }}
         </div>
       </v-tooltip>
-      <BaseDurationDisplay v-if="s.Duration"
-        :duration="s.Duration" />
+      <BaseDurationDisplay
+        v-if="s.Duration"
+        :duration="s.Duration"
+      />
     </div>
   </v-col>
 </template>
 
-
-
 <script setup lang="ts">
-import type { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
-import BaseDurationDisplay from './BaseDurationDisplay.vue';
+  import type { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
+  import BaseDurationDisplay from './BaseDurationDisplay.vue'
 
-const props = withDefaults(defineProps<{
-  event: ActiveEffectEvent
-  cols?: number | string
-}>(), {
-  cols: 'auto',
-})
+  const props = withDefaults(
+    defineProps<{
+      event: ActiveEffectEvent
+      cols?: number | string
+    }>(),
+    {
+      cols: 'auto',
+    }
+  )
 </script>

@@ -1,21 +1,29 @@
 <template>
-  <v-row no-gutters
-    justify="center">
+  <v-row
+    no-gutters
+    justify="center"
+  >
     <v-col>
-      <v-tooltip location="top"
+      <v-tooltip
+        location="top"
         open-delay="500"
-        max-width="300">
+        max-width="300"
+      >
         <template #activator="{ props }">
-          <v-btn icon
+          <v-btn
+            icon
             v-bind="props"
             variant="text"
             flat
             tile
             size="x-small"
             :color="damageEffect.IsCrit ? 'error' : 'rgba(125,125,125,0.5)'"
-            @click.stop="damageEffect.IsCrit = !damageEffect.IsCrit">
-            <v-icon size="25"
-              icon="cc:eclipse" />
+            @click.stop="damageEffect.IsCrit = !damageEffect.IsCrit"
+          >
+            <v-icon
+              size="25"
+              icon="cc:eclipse"
+            />
           </v-btn>
         </template>
         <div class="text-center">
@@ -28,21 +36,27 @@
       </v-tooltip>
     </v-col>
     <v-col>
-      <v-tooltip v-if="!['heat', 'burn'].includes(damageEffect.DamageType)"
+      <v-tooltip
+        v-if="!['heat', 'burn'].includes(damageEffect.DamageType)"
         location="top"
         open-delay="500"
-        max-width="300">
+        max-width="300"
+      >
         <template #activator="{ props }">
-          <v-btn icon
+          <v-btn
+            icon
             v-bind="props"
             variant="text"
             flat
             tile
             size="x-small"
             :color="damageEffect.AP ? 'accent' : 'rgba(125,125,125,0.5)'"
-            @click="damageEffect.AP = !damageEffect.AP">
-            <v-icon size="25"
-              icon="mdi-shield-off-outline" />
+            @click="damageEffect.AP = !damageEffect.AP"
+          >
+            <v-icon
+              size="25"
+              icon="mdi-shield-off-outline"
+            />
           </v-btn>
         </template>
         <div class="text-center">
@@ -55,20 +69,26 @@
       </v-tooltip>
     </v-col>
     <v-col>
-      <v-tooltip location="top"
+      <v-tooltip
+        location="top"
         open-delay="500"
-        max-width="300">
+        max-width="300"
+      >
         <template #activator="{ props }">
-          <v-btn icon
+          <v-btn
+            icon
             v-bind="props"
             variant="text"
             flat
             tile
             size="x-small"
             :color="damageEffect.Irreducible ? 'core' : 'rgba(125,125,125,0.5)'"
-            @click="damageEffect.Irreducible = !damageEffect.Irreducible">
-            <v-icon size="25"
-              icon="cc:large_beam" />
+            @click="damageEffect.Irreducible = !damageEffect.Irreducible"
+          >
+            <v-icon
+              size="25"
+              icon="cc:large_beam"
+            />
           </v-btn>
         </template>
         <div class="text-center">
@@ -84,20 +104,26 @@
       </v-tooltip>
     </v-col>
     <v-col>
-      <v-tooltip location="top"
+      <v-tooltip
+        location="top"
         open-delay="500"
-        max-width="300">
+        max-width="300"
+      >
         <template #activator="{ props }">
-          <v-btn icon
+          <v-btn
+            icon
             v-bind="props"
             variant="text"
             flat
             tile
             size="x-small"
             :color="damageEffect.Overkill ? 'red' : 'rgba(125,125,125,0.5)'"
-            @click.stop="damageEffect.Overkill = !damageEffect.Overkill">
-            <v-icon size="25"
-              icon="cc:burning" />
+            @click.stop="damageEffect.Overkill = !damageEffect.Overkill"
+          >
+            <v-icon
+              size="25"
+              icon="cc:burning"
+            />
           </v-btn>
         </template>
         <div class="text-center">
@@ -110,28 +136,36 @@
       </v-tooltip>
     </v-col>
     <v-col>
-      <v-menu location="top"
+      <v-menu
+        location="top"
         open-on-hover
         :close-on-content-click="false"
         open-delay="500"
-        max-width="200">
+        max-width="200"
+      >
         <template #activator="{ props }">
-
-          <v-icon v-bind="props"
+          <v-icon
+            v-bind="props"
             class="d-inline-block"
             style="margin: 0 2px"
             size="25"
             :color="damageEffect.Reliable ? 'core' : 'rgba(125,125,125,0.5)'"
-            icon="mdi-alpha-r-circle-outline" />
+            icon="mdi-alpha-r-circle-outline"
+          />
         </template>
-        <v-card class="pa-2"
+        <v-card
+          class="pa-2"
           flat
-          tile>
+          tile
+        >
           <div class="text-cc-overline text-disabled">{{ $t('ui.combat.reliableDamage') }}:</div>
-          <v-row align="center"
-            no-gutters>
+          <v-row
+            align="center"
+            no-gutters
+          >
             <v-col cols="auto">
-              <v-text-field v-model="damageEffect.Reliable"
+              <v-text-field
+                v-model="damageEffect.Reliable"
                 density="compact"
                 variant="outlined"
                 class="my-2"
@@ -140,58 +174,75 @@
                 flat
                 hide-details
                 tile
-                @update:model-value="damageEffect.Reliable = Number($event)">
+                @update:model-value="damageEffect.Reliable = Number($event)"
+              >
                 <template #prepend-inner>
-                  <v-btn flat
+                  <v-btn
+                    flat
                     tile
                     icon
                     size="x-small"
                     class="ml-n2"
-                    @click="damageEffect.Reliable--">
-                    <v-icon size="20"
-                      icon="mdi-minus" />
+                    @click="damageEffect.Reliable--"
+                  >
+                    <v-icon
+                      size="20"
+                      icon="mdi-minus"
+                    />
                   </v-btn>
                 </template>
                 <template #append-inner>
-                  <v-btn flat
+                  <v-btn
+                    flat
                     tile
                     icon
                     size="x-small"
                     class="mr-n2"
-                    @click="damageEffect.Reliable++">
-                    <v-icon size="20"
-                      icon="mdi-plus" />
+                    @click="damageEffect.Reliable++"
+                  >
+                    <v-icon
+                      size="20"
+                      icon="mdi-plus"
+                    />
                   </v-btn>
                 </template>
               </v-text-field>
             </v-col>
           </v-row>
-          <v-btn size="x-small"
+          <v-btn
+            size="x-small"
             flat
             tile
             block
             variant="tonal"
-            @click.stop="damageEffect.Reliable = 0">
+            @click.stop="damageEffect.Reliable = 0"
+          >
             {{ $t('ui.combat.clearReliableDamage') }}
           </v-btn>
         </v-card>
       </v-menu>
     </v-col>
     <v-col>
-      <v-tooltip location="top"
+      <v-tooltip
+        location="top"
         open-delay="500"
-        max-width="300">
+        max-width="300"
+      >
         <template #activator="{ props }">
-          <v-btn icon
+          <v-btn
+            icon
             v-bind="props"
             variant="text"
             flat
             tile
             size="x-small"
             :color="damageEffect.Bonus ? 'primary' : 'rgba(125,125,125,0.5)'"
-            @click.stop="damageEffect.Bonus = !damageEffect.Bonus">
-            <v-icon size="25"
-              icon="mdi-plus-box" />
+            @click.stop="damageEffect.Bonus = !damageEffect.Bonus"
+          >
+            <v-icon
+              size="25"
+              icon="mdi-plus-box"
+            />
           </v-btn>
         </template>
         <div class="text-center">
@@ -204,8 +255,8 @@
 </template>
 
 <script setup lang="ts">
-import type { DamageEvent } from '@/classes/components/feature/active_effects/effect_events/damageEvent'
-const props = defineProps<{
-  damageEffect: DamageEvent
-}>()
+  import type { DamageEvent } from '@/classes/components/feature/active_effects/effect_events/damageEvent'
+  const props = defineProps<{
+    damageEffect: DamageEvent
+  }>()
 </script>
