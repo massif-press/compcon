@@ -74,6 +74,7 @@
                 size="14"
                 icon="mdi-close-thick"
               />
+              </v-btn>
             </template>
           </cc-tooltip>
         </v-col>
