@@ -14,7 +14,7 @@
         @reset="handleRefund($event)"
       >
         <template #icon>
-          <v-tooltip
+          <cc-tooltip
             location="top"
             :text="$t('active.tooltips.equipmentAction')"
           >
@@ -24,7 +24,7 @@
                 :icon="actionIcon"
               />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
         </template>
       </cc-combat-action-chip>
     </div>

@@ -185,7 +185,7 @@
                     @update:model-value="accuracy = Number($event)"
                   >
                     <template #prepend>
-                      <v-tooltip location="top">
+                      <cc-tooltip location="top">
                         <template #activator="{ props }">
                           <v-icon
                             class="mr-n3"
@@ -195,7 +195,7 @@
                             :icon="accuracy > 0 ? 'cc:accuracy' : 'cc:difficulty'"
                           />
                         </template>
-                      </v-tooltip>
+                      </cc-tooltip>
                     </template>
                     <template #prepend-inner>
                       <v-btn

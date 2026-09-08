@@ -1,76 +1,107 @@
 <template>
   <v-hover>
     <template #default="{ isHovering, props }">
-      <v-row v-bind="props"
+      <v-row
+        v-bind="props"
         dense
         class="mb-2"
         style="transition: border 0.2s ease"
         :style="`position: relative; cursor: pointer; border-radius: 2px; border:
-        ${isSelected
+        ${
+          isSelected
             ? '1px solid rgb(var(--v-theme-success))'
             : isHovering
               ? '1px solid rgb(var(--v-theme-accent))'
               : '1px solid transparent'
-          }; background-color: ${odd ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05'}`"
-        @click="$emit('open', item)">
-        <v-col cols="auto"
-          class="d-flex align-center px-1">
-          <v-icon class="folder-drag-handle"
+        }; background-color: ${odd ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05'}`"
+        @click="$emit('open', item)"
+      >
+        <v-col
+          cols="auto"
+          class="d-flex align-center px-1"
+        >
+          <v-icon
+            class="folder-drag-handle"
             icon="mdi-drag"
             size="18"
             style="cursor: move; opacity: 0.4"
-            @click.stop />
+            @click.stop
+          />
         </v-col>
         <v-col cols="auto">
-          <v-card variant="tonal"
-            class="rounded-0">
-            <cc-img :aspect-ratio="1"
+          <v-card
+            variant="tonal"
+            class="rounded-0"
+          >
+            <cc-img
+              :aspect-ratio="1"
               :src="item.PortraitController.Image"
-              width="95" />
+              width="95"
+            />
           </v-card>
         </v-col>
         <v-col>
-          <v-row dense
+          <v-row
+            dense
             class="pl-1 pr-3"
-            align="center">
-            <v-col cols="auto"
-              :class="`heading h3 ${isHovering ? 'text-accent' : ''}`">
+            align="center"
+          >
+            <v-col
+              cols="auto"
+              :class="`heading h3 ${isHovering ? 'text-accent' : ''}`"
+            >
               <div>
-                <cc-remote-hover :item="item"
-                  color="accent" />
+                <cc-remote-hover
+                  :item="item"
+                  color="accent"
+                />
                 <cc-missing-content-hover :item="item" />
                 {{ item.Name }}
                 <sitrep-chip :sitrep="item.Sitrep" />
                 <environment-chip :environment="item.Environment" />
               </div>
             </v-col>
-            <v-col cols="auto"
-              class="ml-auto">
-              <cc-split-chip v-for="(label, index) in item.NarrativeController.Labels"
+            <v-col
+              cols="auto"
+              class="ml-auto"
+            >
+              <cc-split-chip
+                v-for="(label, index) in item.NarrativeController.Labels"
                 :key="`label-${index}`"
                 :label="label"
-                class="mx-1" />
+                class="mx-1"
+              />
             </v-col>
           </v-row>
           <div class="mt-1">
-            <combatant-chip v-for="c in item.Combatants.filter((x) => !x.reinforcement)"
+            <combatant-chip
+              v-for="c in item.Combatants.filter(x => !x.reinforcement)"
               :key="c.id"
-              :item="c" />
-            <v-tooltip v-if="item.Combatants.filter((x) => x.reinforcement).length"
-              location="top">
+              :item="c"
+            />
+            <cc-tooltip
+              v-if="item.Combatants.filter(x => x.reinforcement).length"
+              location="top"
+            >
               <template #activator="{ props }">
                 <span v-bind="props">
-                  <v-icon icon="mdi-alpha-r-circle-outline"
-                    class="ml-4" />
-                  <v-icon icon="mdi-menu-right-outline"
-                    class="ml-n2" />
+                  <v-icon
+                    icon="mdi-alpha-r-circle-outline"
+                    class="ml-4"
+                  />
+                  <v-icon
+                    icon="mdi-menu-right-outline"
+                    class="ml-n2"
+                  />
                 </span>
               </template>
               {{ $t('active.encInfo.reinforcements') }}
-            </v-tooltip>
-            <combatant-chip v-for="c in item.Combatants.filter((x) => x.reinforcement)"
+            </cc-tooltip>
+            <combatant-chip
+              v-for="c in item.Combatants.filter(x => x.reinforcement)"
               :key="c.id"
-              :item="c" />
+              :item="c"
+            />
           </div>
         </v-col>
         <sort-chips :sorting="sorting" />
@@ -80,28 +111,31 @@
 </template>
 
 <script setup lang="ts">
-import type { GMItem } from '../../../gmItem'
-import SortChips from './_subcomponents/sortChips.vue';
-import SitrepChip from './_subcomponents/sitrepChip.vue';
-import EnvironmentChip from './_subcomponents/envChip.vue';
-import CombatantChip from './_subcomponents/combatantChip.vue';
+  import type { GMItem } from '../../../gmItem'
+  import SortChips from './_subcomponents/sortChips.vue'
+  import SitrepChip from './_subcomponents/sitrepChip.vue'
+  import EnvironmentChip from './_subcomponents/envChip.vue'
+  import CombatantChip from './_subcomponents/combatantChip.vue'
 
-defineOptions({ name: 'GmLocationListItem' })
+  defineOptions({ name: 'GmLocationListItem' })
 
-const props = withDefaults(defineProps<{
-  item: GMItem
-  big?: boolean
-  odd?: boolean
-  grouping?: any
-  sorting?: any
-  isSelected?: boolean
-}>(), {
-  grouping: '',
-  sorting: '',
-  isSelected: false
-})
+  const props = withDefaults(
+    defineProps<{
+      item: GMItem
+      big?: boolean
+      odd?: boolean
+      grouping?: any
+      sorting?: any
+      isSelected?: boolean
+    }>(),
+    {
+      grouping: '',
+      sorting: '',
+      isSelected: false,
+    }
+  )
 
-const emit = defineEmits<{
-  'open': [payload: any]
-}>()
+  const emit = defineEmits<{
+    open: [payload: any]
+  }>()
 </script>

@@ -13,7 +13,7 @@
     >
       <v-col :class="mobile ? 'text-cc-overline line-short' : 'heading h3 text-uppercase'">
         <div>
-          <v-tooltip
+          <cc-tooltip
             v-if="item.ActiveEffects.length > 0"
             location="top"
             :text="$t('active.actions.activeEffect')"
@@ -27,8 +27,8 @@
                 class="mt-n1"
               />
             </template>
-          </v-tooltip>
-          <v-tooltip
+          </cc-tooltip>
+          <cc-tooltip
             v-if="item.Bonuses.length > 0"
             location="top"
             :text="$t('active.actions.passiveBonus')"
@@ -42,7 +42,7 @@
                 class="mt-n1"
               />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
           {{ item.Name }}
           <span
             v-if="(item as NpcWeapon).WeaponType"

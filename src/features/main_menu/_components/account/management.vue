@@ -2,20 +2,27 @@
   <v-container :class="!mobile && 'px-12'">
     <v2-cloud-migration-panel />
 
-    <v-expansion-panels class="mb-4"
+    <v-expansion-panels
+      class="mb-4"
       flat
       color="panel"
-      tile>
+      tile
+    >
       <v-expansion-panel>
         <template #title>
           <v-row dense>
             <v-col>
-              <div class="text-caption font-weight-bold my-1">{{
-                $t("mainMenu.management.notifications") }}</div>
+              <div class="text-caption font-weight-bold my-1">
+                {{ $t('mainMenu.management.notifications') }}
+              </div>
             </v-col>
             <v-col cols="auto">
-              <v-chip size="small"
-                color="accent">{{ notifications.length }}</v-chip>
+              <v-chip
+                size="small"
+                color="accent"
+              >
+                {{ notifications.length }}
+              </v-chip>
             </v-col>
           </v-row>
         </template>
@@ -26,30 +33,42 @@
     </v-expansion-panels>
 
     <v-row>
-      <v-col cols="12"
-        md="4">
-        <cc-heading is-title
+      <v-col
+        cols="12"
+        md="4"
+      >
+        <cc-heading
+          is-title
           text="CC-ID"
-          :tooltip="$t('mainMenu.tooltips.yourUniqueAccountIdThis')" />
+          :tooltip="$t('mainMenu.tooltips.yourUniqueAccountIdThis')"
+        />
         {{ cognito.userId }}
       </v-col>
-      <v-col cols="12"
-        md="4">
-        <cc-heading is-title
+      <v-col
+        cols="12"
+        md="4"
+      >
+        <cc-heading
+          is-title
           :text="$t('mainMenu.actions.accountEmail')"
           tooltip="This is the e-mail address associated with your account. You can use this to log in to
             COMP/CON, Nautilus, and other Massif apps. This address is only visible to you and and
             <b>will not</b>
-            be shown to other users in active mode or in shared data." />
+            be shown to other users in active mode or in shared data."
+        />
 
         {{ cognito.signInDetails?.loginId }}
       </v-col>
-      <v-col cols="12"
-        md="4">
-        <cc-heading is-title
-          :text="$t('mainMenu.actions.accountDetails')" />
+      <v-col
+        cols="12"
+        md="4"
+      >
+        <cc-heading
+          is-title
+          :text="$t('mainMenu.actions.accountDetails')"
+        />
         <div class="text-caption">
-          <b>{{ $t("mainMenu.management.accountCreatedV3") }}:</b>
+          <b>{{ $t('mainMenu.management.accountCreatedV3') }}:</b>
           <i class="text-accent ml-1">{{ new Date(Number(meta.CreatedAt)).toLocaleString() }}</i>
         </div>
         <div class="text-caption">
@@ -57,213 +76,298 @@
           <i class="text-accent ml-1">{{ new Date(Number(meta.UpdatedAt)).toLocaleString() }}</i>
         </div>
       </v-col>
-      <v-col cols="12"
-        md="4">
-        <cc-heading is-title
+      <v-col
+        cols="12"
+        md="4"
+      >
+        <cc-heading
+          is-title
           text="CC-username"
-          :tooltip="$t('mainMenu.tooltips.usernameOptional')" />
+          :tooltip="$t('mainMenu.tooltips.usernameOptional')"
+        />
 
-        <v-row dense
-          align="center">
+        <v-row
+          dense
+          align="center"
+        >
           <v-col>
             <form autocomplete="off">
-              <cc-text-field v-model="meta.Username"
+              <cc-text-field
+                v-model="meta.Username"
                 :loading="nameLoading"
                 color="primary"
                 autocomplete="one-time-code"
-                @update:model-value="nameDirty = true" />
+                @update:model-value="nameDirty = true"
+              />
             </form>
           </v-col>
           <v-col cols="auto">
-            <cc-button size="small"
+            <cc-button
+              size="small"
               class="ml-2"
               color="secondary"
               icon="mdi-content-save"
               variant="outlined"
               :loading="nameLoading"
               :disabled="!nameDirty"
-              @click="userUpdate('Username')" />
+              @click="userUpdate('Username')"
+            />
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="12"
-        md="8">
-        <cc-heading is-title
+      <v-col
+        cols="12"
+        md="8"
+      >
+        <cc-heading
+          is-title
           :text="$t('mainMenu.codeEntry.title')"
-          :tooltip="$t('mainMenu.codeEntry.tooltip')" />
+          :tooltip="$t('mainMenu.codeEntry.tooltip')"
+        />
 
-        <v-row dense
-          align="center">
+        <v-row
+          dense
+          align="center"
+        >
           <v-col>
             <form autocomplete="off">
-              <cc-text-field v-model="unlockCode"
+              <cc-text-field
+                v-model="unlockCode"
                 :loading="codeLoading"
-                color="primary" />
+                color="primary"
+              />
             </form>
           </v-col>
           <v-col cols="auto">
-            <cc-button size="small"
+            <cc-button
+              size="small"
               class="ml-2"
               color="secondary"
               icon="mdi-arrow-right-bold-outline"
               variant="outlined"
               :loading="codeLoading"
               :disabled="!unlockCode"
-              @click="acctUnlock" />
+              @click="acctUnlock"
+            />
           </v-col>
 
           <v-col>
             <div class="text-right">
-              <v-tooltip location="top"
+              <cc-tooltip
+                location="top"
                 max-width="350"
-                :text="!hasNpcs ? $t('mainMenu.codeEntry.npcSubTooltipOff') : hasNpcs === 'itch' ? $t('mainMenu.codeEntry.npcsAddedViaItch') : $t('mainMenu.codeEntry.npcsAddedViaCode')">
+                :text="
+                  !hasNpcs
+                    ? $t('mainMenu.codeEntry.npcSubTooltipOff')
+                    : hasNpcs === 'itch'
+                      ? $t('mainMenu.codeEntry.npcsAddedViaItch')
+                      : $t('mainMenu.codeEntry.npcsAddedViaCode')
+                "
+              >
                 <template #activator="{ props }">
-                  <cc-chip :bg-color="hasNpcs ? 'success' : 'panel'"
+                  <cc-chip
+                    :bg-color="hasNpcs ? 'success' : 'panel'"
                     size="small"
                     variant="elevated"
                     flat
                     v-bind="props"
-                    start> <v-icon :icon="hasNpcs ? 'mdi-check-circle' : 'mdi-cancel'"
-                      class="mr-1" />
+                    start
+                  >
+                    <v-icon
+                      :icon="hasNpcs ? 'mdi-check-circle' : 'mdi-cancel'"
+                      class="mr-1"
+                    />
                     {{ $t('mainMenu.codeEntry.npcSubTitle') }}
                   </cc-chip>
                 </template>
-              </v-tooltip>
+              </cc-tooltip>
             </div>
           </v-col>
         </v-row>
       </v-col>
-
-
     </v-row>
 
     <div class="flavor-text">
       <v-row class="text-center py-4">
-        <v-col cols="12"
-          md="6">
+        <v-col
+          cols="12"
+          md="6"
+        >
           <itch-card />
         </v-col>
-        <v-col cols="12"
-          md="6">
+        <v-col
+          cols="12"
+          md="6"
+        >
           <patreon-card />
         </v-col>
       </v-row>
     </div>
 
-    <cc-heading small
-      line>{{ $t("mainMenu.management.changePassword") }}</cc-heading>
-    <v-row dense
-      align="center">
-      <v-col cols="12"
-        md="">
-        <cc-text-field v-model="oldPass"
+    <cc-heading
+      small
+      line
+    >
+      {{ $t('mainMenu.management.changePassword') }}
+    </cc-heading>
+    <v-row
+      dense
+      align="center"
+    >
+      <v-col
+        cols="12"
+        md=""
+      >
+        <cc-text-field
+          v-model="oldPass"
           :label="$t('mainMenu.fields.oldPassword')"
           color="primary"
           variant="outlined"
           :type="showOld ? 'text' : 'password'"
           :append-inner-icon="showOld ? 'mdi-eye' : 'mdi-eye-off'"
-          @click-append-inner="showOld = !showOld" />
+          @click-append-inner="showOld = !showOld"
+        />
       </v-col>
-      <v-col cols="12"
-        md="">
-        <cc-text-field v-model="newPass"
+      <v-col
+        cols="12"
+        md=""
+      >
+        <cc-text-field
+          v-model="newPass"
           :label="$t('mainMenu.fields.newPassword')"
           color="primary"
           variant="outlined"
           :type="showNew ? 'text' : 'password'"
           :append-inner-icon="showNew ? 'mdi-eye' : 'mdi-eye-off'"
-          @click-append-inner="showNew = !showNew" />
+          @click-append-inner="showNew = !showNew"
+        />
       </v-col>
-      <v-col cols="12"
-        md="auto">
+      <v-col
+        cols="12"
+        md="auto"
+      >
         <div class="text-right">
-          <cc-button color="accent"
+          <cc-button
+            color="accent"
             :disabled="!oldPass || !newPass || oldPass === newPass"
             :loading="loading"
-            @click="changePass">
-            {{ $t("common.submit") }}
+            @click="changePass"
+          >
+            {{ $t('common.submit') }}
           </cc-button>
         </div>
       </v-col>
     </v-row>
 
-    <cc-heading small
-      line>{{ $t("mainMenu.management.changeEmail") }}</cc-heading>
-    <v-row dense
-      align="center">
-      <v-col cols="12"
-        md="">
-        <cc-text-field v-model="newEmail"
+    <cc-heading
+      small
+      line
+    >
+      {{ $t('mainMenu.management.changeEmail') }}
+    </cc-heading>
+    <v-row
+      dense
+      align="center"
+    >
+      <v-col
+        cols="12"
+        md=""
+      >
+        <cc-text-field
+          v-model="newEmail"
           :label="$t('mainMenu.fields.newEmail')"
           color="primary"
-          variant="outlined" />
+          variant="outlined"
+        />
       </v-col>
-      <v-col cols="12"
-        md="">
-        <cc-text-field v-model="newEmailConfirm"
+      <v-col
+        cols="12"
+        md=""
+      >
+        <cc-text-field
+          v-model="newEmailConfirm"
           :label="$t('mainMenu.fields.confirmNewEmail')"
           color="primary"
-          variant="outlined" />
+          variant="outlined"
+        />
       </v-col>
       <v-col cols="auto">
         <div class="text-right">
-          <cc-dialog :title="$t('mainMenu.management.changeEmail')"
-            max-width="50vw" :close-on-click="false" major>
+          <cc-dialog
+            :title="$t('mainMenu.management.changeEmail')"
+            max-width="50vw"
+            :close-on-click="false"
+            major
+          >
             <template #activator="{ open }">
-              <cc-button color="accent"
+              <cc-button
+                color="accent"
                 :disabled="!newEmail || newEmail !== newEmailConfirm"
                 :loading="loading"
-                @click="sendVerify(open)">
-                {{ $t("common.submit") }}
+                @click="sendVerify(open)"
+              >
+                {{ $t('common.submit') }}
               </cc-button>
             </template>
             <template #default="{ close }">
-              <div v-if="sendingVerify"
-                class="text-center py-4">
-                <v-progress-circular indeterminate
+              <div
+                v-if="sendingVerify"
+                class="text-center py-4"
+              >
+                <v-progress-circular
+                  indeterminate
                   size="80"
-                  class="my-2" />
-                <div class="text-cc-overline">{{ $t("mainMenu.management.working") }}</div>
+                  class="my-2"
+                />
+                <div class="text-cc-overline">{{ $t('mainMenu.management.working') }}</div>
               </div>
               <div v-else>
                 <p class="mb-3">
-                  {{ $t("mainMenu.management.verifyEmailSent", { email: newEmail }) }}
+                  {{ $t('mainMenu.management.verifyEmailSent', { email: newEmail }) }}
                 </p>
-                <cc-text-field v-model="verifyCode"
+                <cc-text-field
+                  v-model="verifyCode"
                   :label="$t('mainMenu.fields.verificationCode')"
                   color="primary"
                   variant="outlined"
-                  autocomplete="one-time-code" />
+                  autocomplete="one-time-code"
+                />
               </div>
               <v-row class="my-3">
                 <v-col>
-                  <cc-button color="primary"
+                  <cc-button
+                    color="primary"
                     block
                     size="small"
                     :disabled="!verifyCode"
                     :loading="loading"
-                    @click="close">
-                    {{ $t("common.cancel") }}
+                    @click="close"
+                  >
+                    {{ $t('common.cancel') }}
                   </cc-button>
                 </v-col>
                 <v-col>
-                  <cc-button color="primary"
+                  <cc-button
+                    color="primary"
                     block
                     size="small"
                     :disabled="!verifyCode"
                     :loading="loading"
-                    @click="resetEmail(close)">
-                    {{ $t("common.reset") }}
+                    @click="resetEmail(close)"
+                  >
+                    {{ $t('common.reset') }}
                   </cc-button>
                 </v-col>
                 <v-col>
-                  <cc-button color="success"
+                  <cc-button
+                    color="success"
                     block
                     size="small"
                     :disabled="!verifyCode"
                     :loading="loading"
-                    @click="completeVerify">
-                    {{ $t("common.confirm") }}
+                    @click="completeVerify"
+                  >
+                    {{ $t('common.confirm') }}
                   </cc-button>
                 </v-col>
               </v-row>
@@ -273,26 +377,34 @@
       </v-col>
     </v-row>
 
-    <cc-button block
+    <cc-button
+      block
       color="secondary"
       :loading="loading"
       class="my-12"
-      @click="ccSignOut">
-      {{ $t("mainMenu.management.signOut") }}
+      @click="ccSignOut"
+    >
+      {{ $t('mainMenu.management.signOut') }}
       <template #info>
         <v-icon icon="mdi-logout" />
       </template>
     </cc-button>
 
     <div class="text-right">
-      <cc-dialog :title="$t('mainMenu.titles.accountDeletion')"
-        max-width="50vw" :close-on-click="false" major>
+      <cc-dialog
+        :title="$t('mainMenu.titles.accountDeletion')"
+        max-width="50vw"
+        :close-on-click="false"
+        major
+      >
         <template #activator="{ open }">
-          <cc-button variant="tonal"
+          <cc-button
+            variant="tonal"
             color="error"
             prepend-icon="mdi-skull"
-            @click="open">
-            {{ $t("mainMenu.management.deleteCloudAccount") }}
+            @click="open"
+          >
+            {{ $t('mainMenu.management.deleteCloudAccount') }}
           </cc-button>
         </template>
         <template #default="{ close }">
@@ -304,168 +416,234 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
-import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
-import { useDisplay } from 'vuetify'
-import { notify } from '@kyvg/vue3-notification'
-import { UserStore } from '@/stores';
-import { updateUser, redeemKeycode, BadRequestError } from '@/io/apis/account';
-import {
-  signOut,
-  updatePassword,
-  confirmUserAttribute,
-  updateUserAttributes,
-  fetchAuthSession,
-} from 'aws-amplify/auth';
-import DeleteAccount from './_components/deleteAccount.vue';
-import PatreonCard from './_components/patreonCard.vue';
-import ItchCard from './_components/itchCard.vue';
-import CloudNotificationList from '@/features/nav/_components/CloudNotificationList.vue';
-import logger from '@/user/logger';
-import V2CloudMigrationPanel from './_components/v2CloudMigrationPanel.vue';
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
+  import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
+  import { useDisplay } from 'vuetify'
+  import { notify } from '@kyvg/vue3-notification'
+  import { UserStore } from '@/stores'
+  import { updateUser, redeemKeycode, BadRequestError } from '@/io/apis/account'
+  import {
+    signOut,
+    updatePassword,
+    confirmUserAttribute,
+    updateUserAttributes,
+    fetchAuthSession,
+  } from 'aws-amplify/auth'
+  import DeleteAccount from './_components/deleteAccount.vue'
+  import PatreonCard from './_components/patreonCard.vue'
+  import ItchCard from './_components/itchCard.vue'
+  import CloudNotificationList from '@/features/nav/_components/CloudNotificationList.vue'
+  import logger from '@/user/logger'
+  import V2CloudMigrationPanel from './_components/v2CloudMigrationPanel.vue'
 
-defineOptions({ name: 'AccountManagement' })
+  defineOptions({ name: 'AccountManagement' })
 
-const { mdAndDown: mobile } = useDisplay()
+  const { mdAndDown: mobile } = useDisplay()
 
-const emit = defineEmits<{
-  'set-state': [state: string]
-}>()
+  const emit = defineEmits<{
+    'set-state': [state: string]
+  }>()
 
-const loading = ref(false)
-const nameLoading = ref(false)
-const nameDirty = ref(false)
-const oldPass = ref('')
-const showOld = ref(false)
-const newPass = ref('')
-const showNew = ref(false)
-const newEmail = ref('')
-const newEmailConfirm = ref('')
-const sendingVerify = ref(false)
-const verifyCode = ref('')
-const codeLoading = ref(false)
-const unlockCode = ref('')
+  const loading = ref(false)
+  const nameLoading = ref(false)
+  const nameDirty = ref(false)
+  const oldPass = ref('')
+  const showOld = ref(false)
+  const newPass = ref('')
+  const showNew = ref(false)
+  const newEmail = ref('')
+  const newEmailConfirm = ref('')
+  const sendingVerify = ref(false)
+  const verifyCode = ref('')
+  const codeLoading = ref(false)
+  const unlockCode = ref('')
 
-const cognito = computed(() => UserStore().Cognito)
-const meta = computed(() => UserStore().UserMetadata)
-const notifications = computed(() => UserStore().CloudNotifications)
+  const cognito = computed(() => UserStore().Cognito)
+  const meta = computed(() => UserStore().UserMetadata)
+  const notifications = computed(() => UserStore().CloudNotifications)
 
-const hasNpcs = computed(() => {
-  const itchData = meta.value.ItchData
-  if (itchData?.hasItch && itchData.gamedata?.some((g: any) => g.title === 'Lancer Core Book: First Edition PDF')) {
-    return 'itch'
+  const hasNpcs = computed(() => {
+    const itchData = meta.value.ItchData
+    if (
+      itchData?.hasItch &&
+      itchData.gamedata?.some((g: any) => g.title === 'Lancer Core Book: First Edition PDF')
+    ) {
+      return 'itch'
+    }
+    if (meta.value.HasCoreBook) return 'code'
+    return false
+  })
+
+  async function _onJwtShortcut(e: KeyboardEvent) {
+    if (e.ctrlKey && e.altKey && e.key === 'j') {
+      try {
+        const session = await fetchAuthSession()
+        const token = session.tokens?.idToken?.toString()
+        if (!token) throw new Error('No token available')
+        await navigator.clipboard.writeText(token)
+        notify({
+          title: t('mainMenu.account.jwtCopiedTitle'),
+          text: t('mainMenu.account.jwtCopiedText'),
+          data: { icon: 'mdi-key', color: 'success-darken-2' },
+        } as any)
+      } catch (err) {
+        notify({
+          title: t('mainMenu.account.jwtCopyFailedTitle'),
+          text: String(err),
+          data: { icon: 'mdi-alert', color: 'error' },
+        } as any)
+      }
+    }
   }
-  if (meta.value.HasCoreBook) return 'code'
-  return false
-})
 
-async function _onJwtShortcut(e: KeyboardEvent) {
-  if (e.ctrlKey && e.altKey && e.key === 'j') {
+  onMounted(() => window.addEventListener('keydown', _onJwtShortcut))
+  onBeforeUnmount(() => window.removeEventListener('keydown', _onJwtShortcut))
+
+  async function changePass() {
+    loading.value = true
     try {
-      const session = await fetchAuthSession()
-      const token = session.tokens?.idToken?.toString()
-      if (!token) throw new Error('No token available')
-      await navigator.clipboard.writeText(token)
-      notify({ title: t('mainMenu.account.jwtCopiedTitle'), text: t('mainMenu.account.jwtCopiedText'), data: { icon: 'mdi-key', color: 'success-darken-2' } } as any)
+      await updatePassword({ oldPassword: oldPass.value, newPassword: newPass.value })
+      notify({
+        title: t('notify.account.updateCompleteTitle'),
+        text: t('notify.account.passwordChangedText'),
+        data: { color: 'success' },
+      } as any)
     } catch (err) {
-      notify({ title: t('mainMenu.account.jwtCopyFailedTitle'), text: String(err), data: { icon: 'mdi-alert', color: 'error' } } as any)
+      logger.error(`Failed to change password: ${err}`, null, err)
+      notify({
+        title: t('notify.account.passwordFailedTitle'),
+        text: t('notify.account.serverError'),
+        data: { color: 'error' },
+      } as any)
     }
+    loading.value = false
   }
-}
-
-onMounted(() => window.addEventListener('keydown', _onJwtShortcut))
-onBeforeUnmount(() => window.removeEventListener('keydown', _onJwtShortcut))
-
-async function changePass() {
-  loading.value = true;
-  try {
-    await updatePassword({ oldPassword: oldPass.value, newPassword: newPass.value });
-    notify({ title: t('notify.account.updateCompleteTitle'), text: t('notify.account.passwordChangedText'), data: { color: 'success' } } as any)
-  } catch (err) {
-    logger.error(`Failed to change password: ${err}`, null, err);
-    notify({ title: t('notify.account.passwordFailedTitle'), text: t('notify.account.serverError'), data: { color: 'error' } } as any)
+  async function sendVerify(open: () => void) {
+    sendingVerify.value = true
+    try {
+      await updateUserAttributes({ userAttributes: { email: newEmail.value } })
+      notify({
+        title: t('notify.account.verificationSentTitle'),
+        text: t('notify.account.verificationSentText'),
+        data: { color: 'success' },
+      } as any)
+      open()
+    } catch (err) {
+      logger.error(`Failed to initiate email change: ${err}`, null, err)
+      notify({
+        title: t('notify.account.emailChangeInitFailedTitle'),
+        text: t('notify.account.serverError'),
+        data: { color: 'error' },
+      } as any)
+    }
+    sendingVerify.value = false
   }
-  loading.value = false;
-}
-async function sendVerify(open: () => void) {
-  sendingVerify.value = true;
-  try {
-    await updateUserAttributes({ userAttributes: { email: newEmail.value } });
-    notify({ title: t('notify.account.verificationSentTitle'), text: t('notify.account.verificationSentText'), data: { color: 'success' } } as any)
-    open();
-  } catch (err) {
-    logger.error(`Failed to initiate email change: ${err}`, null, err);
-    notify({ title: t('notify.account.emailChangeInitFailedTitle'), text: t('notify.account.serverError'), data: { color: 'error' } } as any)
+  function ccSignOut() {
+    signOut()
+      .then(() => {
+        notify({
+          title: t('notify.account.signOutTitle'),
+          text: t('notify.account.signOutText'),
+          data: { color: 'success' },
+        } as any)
+        UserStore().signOut()
+        window.location.reload()
+        emit('set-state', 'sign-in')
+      })
+      .catch(err => {
+        logger.error(`Error signing out: ${err}`, null, err)
+      })
   }
-  sendingVerify.value = false;
-}
-function ccSignOut() {
-  signOut()
-    .then(() => {
-      notify({ title: t('notify.account.signOutTitle'), text: t('notify.account.signOutText'), data: { color: 'success' } } as any)
-      UserStore().signOut();
-      window.location.reload();
-      emit('set-state', 'sign-in');
+  async function userUpdate(key: string) {
+    if (key === 'Username') nameLoading.value = true
+    const backendKeys: Record<string, string> = { Username: 'username' }
+    const res = await updateUser(cognito.value.userId ?? '', {
+      [backendKeys[key] || key]: meta.value[key],
     })
-    .catch((err) => { logger.error(`Error signing out: ${err}`, null, err); });
-}
-async function userUpdate(key: string) {
-  if (key === 'Username') nameLoading.value = true;
-  const backendKeys: Record<string, string> = { Username: 'username' };
-  const res = await updateUser(cognito.value.userId ?? '', { [backendKeys[key] || key]: meta.value[key] });
-  if (res && res.status === 200) {
-    notify({ title: t('notify.account.updateCompleteTitle'), text: t('notify.account.dataUpdatedText'), data: { color: 'success' } } as any)
-  } else {
-    notify({ title: t('notify.account.updateFailedTitle'), text: t('notify.account.serverError'), data: { color: 'error' } } as any)
-  }
-  nameLoading.value = false;
-  nameDirty.value = false;
-}
-async function completeVerify() {
-  loading.value = true;
-  try {
-    await confirmUserAttribute({ userAttributeKey: 'email', confirmationCode: verifyCode.value });
-    notify({ title: t('notify.account.emailChangeCompleteTitle'), text: t('notify.account.emailChangeCompleteText'), data: { color: 'success' } } as any)
-  } catch (err) {
-    logger.error(`Failed to initiate email change: ${err}`, null, err);
-    notify({ title: t('notify.account.emailChangeFailedTitle'), text: t('notify.account.serverError'), data: { color: 'error' } } as any)
-  } finally {
-    loading.value = false;
-  }
-}
-async function acctUnlock() {
-  codeLoading.value = true
-  try {
-    const res = await redeemKeycode(cognito.value.userId ?? '', unlockCode.value)
-    if (res.granted?.includes('hasCoreBook')) {
-      meta.value.HasCoreBook = true
+    if (res && res.status === 200) {
+      notify({
+        title: t('notify.account.updateCompleteTitle'),
+        text: t('notify.account.dataUpdatedText'),
+        data: { color: 'success' },
+      } as any)
+    } else {
+      notify({
+        title: t('notify.account.updateFailedTitle'),
+        text: t('notify.account.serverError'),
+        data: { color: 'error' },
+      } as any)
     }
-    unlockCode.value = ''
-    notify({ title: t('notify.account.updateCompleteTitle'), text: t('mainMenu.codeEntry.success'), data: { color: 'success' } } as any)
-  } catch (err) {
-    const msg = err instanceof BadRequestError ? t('mainMenu.codeEntry.invalidCode') : t('notify.account.serverError')
-    notify({ title: t('notify.account.updateFailedTitle'), text: msg, data: { color: 'error' } } as any)
-  } finally {
-    codeLoading.value = false
+    nameLoading.value = false
+    nameDirty.value = false
   }
-}
-function resetEmail(close: () => void) {
-  close();
-  sendingVerify.value = false;
-  verifyCode.value = '';
-  newEmail.value = '';
-  newEmailConfirm.value = '';
-  notify({ title: t('notify.account.emailChangeCancelledTitle'), text: t('notify.account.emailChangeCancelledText'), data: { color: 'info' } } as any)
-}
+  async function completeVerify() {
+    loading.value = true
+    try {
+      await confirmUserAttribute({ userAttributeKey: 'email', confirmationCode: verifyCode.value })
+      notify({
+        title: t('notify.account.emailChangeCompleteTitle'),
+        text: t('notify.account.emailChangeCompleteText'),
+        data: { color: 'success' },
+      } as any)
+    } catch (err) {
+      logger.error(`Failed to initiate email change: ${err}`, null, err)
+      notify({
+        title: t('notify.account.emailChangeFailedTitle'),
+        text: t('notify.account.serverError'),
+        data: { color: 'error' },
+      } as any)
+    } finally {
+      loading.value = false
+    }
+  }
+  async function acctUnlock() {
+    codeLoading.value = true
+    try {
+      const res = await redeemKeycode(cognito.value.userId ?? '', unlockCode.value)
+      if (res.granted?.includes('hasCoreBook')) {
+        meta.value.HasCoreBook = true
+      }
+      unlockCode.value = ''
+      notify({
+        title: t('notify.account.updateCompleteTitle'),
+        text: t('mainMenu.codeEntry.success'),
+        data: { color: 'success' },
+      } as any)
+    } catch (err) {
+      const msg =
+        err instanceof BadRequestError
+          ? t('mainMenu.codeEntry.invalidCode')
+          : t('notify.account.serverError')
+      notify({
+        title: t('notify.account.updateFailedTitle'),
+        text: msg,
+        data: { color: 'error' },
+      } as any)
+    } finally {
+      codeLoading.value = false
+    }
+  }
+  function resetEmail(close: () => void) {
+    close()
+    sendingVerify.value = false
+    verifyCode.value = ''
+    newEmail.value = ''
+    newEmailConfirm.value = ''
+    notify({
+      title: t('notify.account.emailChangeCancelledTitle'),
+      text: t('notify.account.emailChangeCancelledText'),
+      data: { color: 'info' },
+    } as any)
+  }
 </script>
 
 <style scoped>
-.v-input--selection-controls {
-  margin: 0;
-}
+  .v-input--selection-controls {
+    margin: 0;
+  }
 
-label {
-  font-size: 10px;
-}
+  label {
+    font-size: 10px;
+  }
 </style>

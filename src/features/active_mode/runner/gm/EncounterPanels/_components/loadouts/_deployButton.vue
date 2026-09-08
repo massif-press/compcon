@@ -1,28 +1,40 @@
 <template>
-  <v-row dense
-    align="center">
-    <v-col v-if="!actionOnly"
-      cols="auto">
-      <v-tooltip location="top"
-        :text="$t('active.actions.equipmentDeployableInstance')">
+  <v-row
+    dense
+    align="center"
+  >
+    <v-col
+      v-if="!actionOnly"
+      cols="auto"
+    >
+      <cc-tooltip
+        location="top"
+        :text="$t('active.actions.equipmentDeployableInstance')"
+      >
         <template #activator="{ props }">
-          <v-icon v-bind="props"
-            icon="cc:drone" />
+          <v-icon
+            v-bind="props"
+            icon="cc:drone"
+          />
         </template>
-      </v-tooltip>
+      </cc-tooltip>
 
-      <combat-action-indicator :icon="deployable.DeployAction.Icon"
+      <combat-action-indicator
+        :icon="deployable.DeployAction.Icon"
         :activation="deployable.DeployAction.Activation"
         :can-activate="canActivate"
         :custom-disabled-text="customDisabledText"
-        span-class="ml-1 mr-n1">
+        span-class="ml-1 mr-n1"
+      >
         <template #reason>
           <div>
             {{ $t('active.combatAction.insufficient') }}
-            <v-chip :color="deployable.DeployAction.Color"
+            <v-chip
+              :color="deployable.DeployAction.Color"
               size="small"
               variant="elevated"
-              :prepend-icon="deployable.DeployAction.Icon || ''">
+              :prepend-icon="deployable.DeployAction.Icon || ''"
+            >
               {{ $enum('activationType', deployable.DeployAction.Activation) }}
             </v-chip>
             {{ $t('active.combatAction.actionsRemaining') }}
@@ -31,19 +43,26 @@
       </combat-action-indicator>
     </v-col>
     <v-col>
-      <v-row no-gutters
-        align="center">
-        <v-col v-if=!actionOnly
+      <v-row
+        no-gutters
+        align="center"
+      >
+        <v-col
+          v-if="!actionOnly"
           cols="auto"
-          style="margin-right: 2px">
+          style="margin-right: 2px"
+        >
           <cc-deployable-info :deployable="deployable" />
         </v-col>
         <v-col :cols="actionOnly ? '' : 'auto'">
-          <v-menu v-model="menu"
+          <v-menu
+            v-model="menu"
             :close-on-content-click="false"
-            offset-y>
+            offset-y
+          >
             <template #activator="{ props }">
-              <v-btn v-bind="props"
+              <v-btn
+                v-bind="props"
                 flat
                 tile
                 block
@@ -51,44 +70,77 @@
                 :color="canActivate ? deployable.DeployAction.Color : 'panel'"
                 height="26px"
                 class="ml-n1"
-                :prepend-icon="deployable.DeployAction.Icon">
-                {{ actionOnly ? $t('active.deploy.deployNamed', { name: deployable.Name }) : $t('ui.widget.deploy') }}
+                :prepend-icon="deployable.DeployAction.Icon"
+              >
+                {{
+                  actionOnly
+                    ? $t('active.deploy.deployNamed', { name: deployable.Name })
+                    : $t('ui.widget.deploy')
+                }}
               </v-btn>
             </template>
             <v-card border>
-              <v-toolbar class="heading h3 px-3"
+              <v-toolbar
+                class="heading h3 px-3"
                 dense
                 height="40px"
                 flat
-                :color="deployable.DeployAction.Color">
-                <v-icon :icon="deployable.DeployAction.Icon"
-                  start />
+                :color="deployable.DeployAction.Color"
+              >
+                <v-icon
+                  :icon="deployable.DeployAction.Icon"
+                  start
+                />
                 {{ $t('active.deploy.deployNamed', { name: deployable.Name }) }}
               </v-toolbar>
               <v-divider />
               <v-card-text class="pa-3">
                 <div class="mb-2">
-<i18n-t keypath="active.deploy.generateInstance" tag="span" scope="global">
-                    <template #name><strong>{{ deployable.Name }}</strong></template>
-                    <template #actor><strong>{{ actor.CombatController.CombatName }}</strong></template>
-                    <template #action><v-chip :color="deployable.DeployAction.Color"
-                    :prepend-icon="deployable.DeployAction.Icon"
-                    size="small"
-                    variant="elevated"
-                    flat>{{ $t('active.combatAction.activationAction', { n: deployable.DeployAction.Activation }) }}</v-chip></template>
+                  <i18n-t
+                    keypath="active.deploy.generateInstance"
+                    tag="span"
+                    scope="global"
+                  >
+                    <template #name>
+                      <strong>{{ deployable.Name }}</strong>
+                    </template>
+                    <template #actor>
+                      <strong>{{ actor.CombatController.CombatName }}</strong>
+                    </template>
+                    <template #action>
+                      <v-chip
+                        :color="deployable.DeployAction.Color"
+                        :prepend-icon="deployable.DeployAction.Icon"
+                        size="small"
+                        variant="elevated"
+                        flat
+                      >
+                        {{
+                          $t('active.combatAction.activationAction', {
+                            n: deployable.DeployAction.Activation,
+                          })
+                        }}
+                      </v-chip>
+                    </template>
                   </i18n-t>
                 </div>
                 <v-row class="mt-2">
-                  <v-btn size="small"
+                  <v-btn
+                    size="small"
                     text
-                    @click="menu = false">{{ $t('common.cancel') }}</v-btn>
+                    @click="menu = false"
+                  >
+                    {{ $t('common.cancel') }}
+                  </v-btn>
                   <v-spacer />
-                  <v-btn size="small"
+                  <v-btn
+                    size="small"
                     flat
                     tile
                     variant="elevated"
                     color="primary"
-                    @click="deploy">
+                    @click="deploy"
+                  >
                     {{ $t('ui.widget.deploy') }}
                   </v-btn>
                 </v-row>
@@ -102,34 +154,38 @@
 </template>
 
 <script setup lang="ts">
-import type { ICombatant } from '@/classes/components/combat/ICombatant'
-import type { Deployable } from '@/classes/components/feature/deployable/Deployable'
-import { ref, computed } from 'vue';
-import CombatActionIndicator from '@/ui/components/chips/_CombatActionIndicator.vue';
+  import type { ICombatant } from '@/classes/components/combat/ICombatant'
+  import type { Deployable } from '@/classes/components/feature/deployable/Deployable'
+  import { ref, computed } from 'vue'
+  import CombatActionIndicator from '@/ui/components/chips/_CombatActionIndicator.vue'
 
-const props = withDefaults(defineProps<{
-  deployable: Deployable;
-  actor: ICombatant;
-  disabled?: boolean;
-  customDisabledText?: string;
-  actionOnly?: boolean;
-}>(), {
-  disabled: false,
-  customDisabledText: '',
-  actionOnly: false,
-});
+  const props = withDefaults(
+    defineProps<{
+      deployable: Deployable
+      actor: ICombatant
+      disabled?: boolean
+      customDisabledText?: string
+      actionOnly?: boolean
+    }>(),
+    {
+      disabled: false,
+      customDisabledText: '',
+      actionOnly: false,
+    }
+  )
 
-const emit = defineEmits<{ deploy: [deployable: Deployable] }>();
+  const emit = defineEmits<{ deploy: [deployable: Deployable] }>()
 
-const menu = ref(false);
+  const menu = ref(false)
 
-const canActivate = computed(() =>
-  !props.disabled &&
-  props.actor.CombatController.CanActivate(props.deployable.DeployAction.Activation)
-);
+  const canActivate = computed(
+    () =>
+      !props.disabled &&
+      props.actor.CombatController.CanActivate(props.deployable.DeployAction.Activation)
+  )
 
-function deploy() {
-  emit('deploy', props.deployable);
-  menu.value = false;
-}
+  function deploy() {
+    emit('deploy', props.deployable)
+    menu.value = false
+  }
 </script>

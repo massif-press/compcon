@@ -2,77 +2,143 @@
   <v-container>
     <div class="heading h1">{{ $t('common.tables') }}</div>
     <div>
-      <v-tooltip location="top" open-delay="300">
+      <cc-tooltip location="top">
         <template #activator="{ props }">
-          <v-btn v-bind="props" color="panel" flat tile size="small" @click="setSort('Name')">
-            <v-icon icon="mdi-check-network" size="large" color="accent" />
+          <v-btn
+            v-bind="props"
+            color="panel"
+            flat
+            tile
+            size="small"
+            @click="setSort('Name')"
+          >
+            <v-icon
+              icon="mdi-check-network"
+              size="large"
+              color="accent"
+            />
             <v-icon
               v-if="sort === 'Name'"
               :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
               size="large"
-              color="accent" />
+              color="accent"
+            />
           </v-btn>
         </template>
         <span>{{ $t('active.joinTable.sortOnline') }}</span>
-      </v-tooltip>
+      </cc-tooltip>
 
-      <v-tooltip location="top" open-delay="300">
+      <cc-tooltip location="top">
         <template #activator="{ props }">
-          <v-btn v-bind="props" color="panel" flat tile size="small" @click="setSort('Name')">
-            <v-icon icon="mdi-format-text-variant" size="large" color="accent" />
+          <v-btn
+            v-bind="props"
+            color="panel"
+            flat
+            tile
+            size="small"
+            @click="setSort('Name')"
+          >
+            <v-icon
+              icon="mdi-format-text-variant"
+              size="large"
+              color="accent"
+            />
             <v-icon
               v-if="sort === 'Name'"
               :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
               size="large"
-              color="accent" />
+              color="accent"
+            />
           </v-btn>
         </template>
         <span>{{ $t('pm.sheet.sortByName') }}</span>
-      </v-tooltip>
+      </cc-tooltip>
 
-      <v-tooltip location="top" open-delay="300">
+      <cc-tooltip location="top">
         <template #activator="{ props }">
-          <v-btn v-bind="props" color="panel" flat tile size="small" @click="setSort('Updated')">
-            <v-icon icon="mdi-crown-circle-outline" size="large" color="accent" />
+          <v-btn
+            v-bind="props"
+            color="panel"
+            flat
+            tile
+            size="small"
+            @click="setSort('Updated')"
+          >
+            <v-icon
+              icon="mdi-crown-circle-outline"
+              size="large"
+              color="accent"
+            />
             <v-icon
               v-if="sort === 'Source'"
               color="accent"
               :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
-              size="large" />
+              size="large"
+            />
           </v-btn>
         </template>
         <span>{{ $t('active.joinTable.sortGm') }}</span>
-      </v-tooltip>
+      </cc-tooltip>
 
-      <v-tooltip location="top" open-delay="300">
+      <cc-tooltip location="top">
         <template #activator="{ props }">
-          <v-btn v-bind="props" color="panel" flat tile size="small" @click="setSort('Created')">
-            <v-icon icon="mdi-clock" size="large" color="accent" />
+          <v-btn
+            v-bind="props"
+            color="panel"
+            flat
+            tile
+            size="small"
+            @click="setSort('Created')"
+          >
+            <v-icon
+              icon="mdi-clock"
+              size="large"
+              color="accent"
+            />
             <v-icon
               v-if="sort === 'Created'"
               color="accent"
               :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
-              size="large" />
+              size="large"
+            />
           </v-btn>
         </template>
         <span>{{ $t('active.joinTable.sortLastOnline') }}</span>
-      </v-tooltip>
+      </cc-tooltip>
 
-      <v-tooltip location="top" open-delay="300">
+      <cc-tooltip location="top">
         <template #activator="{ props }">
-          <v-btn v-bind="props" color="panel" flat tile size="small" @click="setSort('Created')">
-            <v-icon icon="mdi-calendar" size="large" color="accent" />
+          <v-btn
+            v-bind="props"
+            color="panel"
+            flat
+            tile
+            size="small"
+            @click="setSort('Created')"
+          >
+            <v-icon
+              icon="mdi-calendar"
+              size="large"
+              color="accent"
+            />
             <v-icon
               v-if="sort === 'Created'"
               color="accent"
               :icon="`mdi-chevron-${asc ? 'up' : 'down'}`"
-              size="large" />
+              size="large"
+            />
           </v-btn>
         </template>
         <span>{{ $t('active.joinTable.sortNextSession') }}</span>
-      </v-tooltip>
+      </cc-tooltip>
     </div>
-    <cc-panel v-for="table in tables" :key="table.name" class="my-4" tile flat>
+    <cc-panel
+      v-for="table in tables"
+      :key="table.name"
+      class="my-4"
+      tile
+      flat
+    >
       <div>
         <span class="heading h2 text-accent">
           {{ table.name }}
@@ -82,7 +148,8 @@
           variant="elevated"
           color="success"
           size="x-small"
-          class="mt-n2 ml-2 text-cc-overline success-pulse">
+          class="mt-n2 ml-2 text-cc-overline success-pulse"
+        >
           {{ $t('active.joinTable.online') }}
         </v-chip>
       </div>
@@ -95,40 +162,52 @@
               {{ $t('active.joinTable.gm') }}
               <cc-slashes />
             </span>
-            <v-tooltip location="top">
+            <cc-tooltip location="top">
               <template #activator="{ props }">
                 <v-icon
                   v-bind="props"
                   :icon="table.gm.online ? 'mdi-check-network' : 'mdi-network-off'"
                   :color="table.gm.online ? 'success' : 'grey'"
-                  size="small" />
+                  size="small"
+                />
               </template>
               <b>{{ table.gm.name }}</b>
               <v-divider class="my-1" />
-              <div class="text-cc-overline" :class="table.gm.online ? 'text-success' : 'text-grey'">
+              <div
+                class="text-cc-overline"
+                :class="table.gm.online ? 'text-success' : 'text-grey'"
+              >
                 {{ table.gm.online ? $t('active.joinTable.online') : $t('common.offline') }}
               </div>
-            </v-tooltip>
+            </cc-tooltip>
           </div>
           <p>
             <span class="text-cc-overline mr-1">
               {{ $t('active.joinTable.players') }}
               <cc-slashes />
             </span>
-            <v-tooltip v-for="p in table.players" :key="p.name" location="top">
+            <cc-tooltip
+              v-for="p in table.players"
+              :key="p.name"
+              location="top"
+            >
               <template #activator="{ props }">
                 <v-icon
                   v-bind="props"
                   :icon="p.online ? 'mdi-check-network' : 'mdi-network-off'"
                   :color="p.online ? 'success' : 'grey'"
-                  size="small" />
+                  size="small"
+                />
               </template>
               <b>{{ p.name }} ({{ p.callsign }})</b>
               <v-divider class="my-1" />
-              <div class="text-cc-overline" :class="p.online ? 'text-success' : 'text-grey'">
+              <div
+                class="text-cc-overline"
+                :class="p.online ? 'text-success' : 'text-grey'"
+              >
                 {{ p.online ? $t('active.joinTable.online') : $t('common.offline') }}
               </div>
-            </v-tooltip>
+            </cc-tooltip>
           </p>
 
           <div v-if="!table.online">
@@ -163,17 +242,31 @@
               {{ $t('active.joinTable.currentlyRunning') }}
               <cc-slashes />
             </div>
-            <v-card class="pa-2 text-center" variant="flat" tile color="panel">
+            <v-card
+              class="pa-2 text-center"
+              variant="flat"
+              tile
+              color="panel"
+            >
               <v-row dense>
-                <v-col v-if="table.campaign.image" cols="3">
-                  <v-img :src="table.campaign.image" cover />
+                <v-col
+                  v-if="table.campaign.image"
+                  cols="3"
+                >
+                  <v-img
+                    :src="table.campaign.image"
+                    cover
+                  />
                 </v-col>
                 <v-col>
                   <div class="heading h3">
                     {{ table.campaign.name }}
                   </div>
                   <div class="d-flex justify-center align-center">
-                    <v-divider class="justify-self-center ma-1" style="max-width: 400px" />
+                    <v-divider
+                      class="justify-self-center ma-1"
+                      style="max-width: 400px"
+                    />
                   </div>
                   <span v-html-safe="table.campaign.current" />
                 </v-col>
@@ -181,15 +274,25 @@
             </v-card>
           </div>
         </v-col>
-        <v-col cols="auto" class="mt-2">
-          <v-card style="position: relative" variant="outlined" flat tile color="primary">
+        <v-col
+          cols="auto"
+          class="mt-2"
+        >
+          <v-card
+            style="position: relative"
+            variant="outlined"
+            flat
+            tile
+            color="primary"
+          >
             <cc-img
               v-if="table.Portrait"
               :src="table.Portrait"
               aspect-ratio="1"
               position="top center"
               :height="mobile ? '75px' : '150px'"
-              :width="mobile ? '75px' : '150px'" />
+              :width="mobile ? '75px' : '150px'"
+            />
             <div
               v-if="table.MechPortrait"
               class="bg-panel"
@@ -200,10 +303,12 @@
                 width: 75%;
                 height: 75%;
                 clip-path: polygon(100% 0, 0% 100%, 100% 100%);
-              ">
+              "
+            >
               <div
                 style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"
-                :style="`background: linear-gradient(135deg,${table.SourceColor} 52%, rgb(var(--v-theme-panel)) 51%, rgb(var(--v-theme-panel))  100%);`" />
+                :style="`background: linear-gradient(135deg,${table.SourceColor} 52%, rgb(var(--v-theme-panel)) 51%, rgb(var(--v-theme-panel))  100%);`"
+              />
 
               <img
                 style="
@@ -215,7 +320,8 @@
                   width: auto;
                   height: auto;
                 "
-                :src="table.MechPortrait" />
+                :src="table.MechPortrait"
+              />
             </div>
           </v-card>
           <div class="text-cc-overline text-center mt-1">
@@ -232,7 +338,8 @@
         color="success"
         prepend-icon="mdi-lan"
         class="mb-1"
-        to="/active-mode/pilot-runner">
+        to="/active-mode/pilot-runner"
+      >
         {{ $t('active.joinTable.connect') }}
       </cc-button>
       <cc-button
@@ -242,7 +349,8 @@
         color="panel"
         disabled
         prepend-icon="mdi-network-off"
-        class="mb-1">
+        class="mb-1"
+      >
         {{ $t('active.joinTable.gmOffline') }}
       </cc-button>
     </cc-panel>
@@ -252,18 +360,30 @@
           :label="$t('active.fields.addTable')"
           :placeholder="$t('active.fields.tableConnectCode')"
           color="primary"
-          variant="outlined" />
+          variant="outlined"
+        />
       </v-col>
       <v-col cols="auto">
-        <cc-button color="primary" class="mb-1">{{ $t('common.search') }}</cc-button>
+        <cc-button
+          color="primary"
+          class="mb-1"
+        >
+          {{ $t('common.search') }}
+        </cc-button>
       </v-col>
     </v-row>
 
     <v-divider class="my-4" />
 
     <v-expansion-panels>
-      <v-expansion-panel class="my-6" tile elevation="0">
-        <v-expansion-panel-title class="text-cc-overline">{{ $t('active.joinTable.archivedTables') }}</v-expansion-panel-title>
+      <v-expansion-panel
+        class="my-6"
+        tile
+        elevation="0"
+      >
+        <v-expansion-panel-title class="text-cc-overline">
+          {{ $t('active.joinTable.archivedTables') }}
+        </v-expansion-panel-title>
         <v-expansion-panel-text>
           <!-- TODO: completed/closed tables with history, after action reports, etc. -->
           <!-- TODO: these should be printable/exportable and converted into narrative elements or similar. -->
@@ -274,83 +394,82 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-defineOptions({ name: 'Beef' })
+  defineOptions({ name: 'Beef' })
 
-const mobile = ref(false)
-const sort = ref('Updated')
-const asc = ref(true)
-const tables = ref<any[]>([
-      {
-        id: 'table-1',
-        name: "Beef's Table",
-        gm: {
-          name: 'Beef',
-          online: true,
-        },
-        players: [
-          { name: 'Alice', callsign: 'Maverick', online: true },
-          { name: 'Bob', callsign: 'Iceman', online: true },
-          { name: 'Carla', callsign: 'Viper', online: true },
-          { name: 'David', callsign: 'Ghost', online: false },
-          { name: 'Edward', callsign: 'Phoenix', online: false },
-        ],
-        campaign: {
-          image: 'https://img.itch.zone/aW1nLzUzOTk0MzIuanBn/315x250%23cb/YuE1nt.jpg',
-          name: 'No Room for a Wallflower',
-          current: 'Early Summer &mdash; Sepulcher',
-        },
-        status: 'active',
+  const mobile = ref(false)
+  const sort = ref('Updated')
+  const asc = ref(true)
+  const tables = ref<any[]>([
+    {
+      id: 'table-1',
+      name: "Beef's Table",
+      gm: {
+        name: 'Beef',
         online: true,
-        Portrait: 'https://placebear.com/256/256',
-        MechPortrait: 'https://d2c79xe1p61csc.cloudfront.net/frames/mf_zheng.png',
       },
-      {
-        id: 'table-2',
-        name: 'Another Game',
-        campaign: {
-          name: 'Custom Campaign',
-          current: 'Downtime',
-        },
-        gm: {
-          name: 'Beef',
-          online: false,
-        },
-        players: [
-          { name: 'Alice', callsign: 'Maverick', online: false },
-          { name: 'Bob', callsign: 'Iceman', online: false },
-          { name: 'Carla', callsign: 'Viper', online: false },
-        ],
-        status: 'active',
+      players: [
+        { name: 'Alice', callsign: 'Maverick', online: true },
+        { name: 'Bob', callsign: 'Iceman', online: true },
+        { name: 'Carla', callsign: 'Viper', online: true },
+        { name: 'David', callsign: 'Ghost', online: false },
+        { name: 'Edward', callsign: 'Phoenix', online: false },
+      ],
+      campaign: {
+        image: 'https://img.itch.zone/aW1nLzUzOTk0MzIuanBn/315x250%23cb/YuE1nt.jpg',
+        name: 'No Room for a Wallflower',
+        current: 'Early Summer &mdash; Sepulcher',
+      },
+      status: 'active',
+      online: true,
+      Portrait: 'https://placebear.com/256/256',
+      MechPortrait: 'https://d2c79xe1p61csc.cloudfront.net/frames/mf_zheng.png',
+    },
+    {
+      id: 'table-2',
+      name: 'Another Game',
+      campaign: {
+        name: 'Custom Campaign',
+        current: 'Downtime',
+      },
+      gm: {
+        name: 'Beef',
         online: false,
-        lastOnline: new Date().getTime() - 400 * 1000 * 1000,
-        nextSession: new Date().getTime() + 400 * 1000 * 1000,
-        Portrait: 'https://placebear.com/250/250',
-        MechPortrait: 'https://d2c79xe1p61csc.cloudfront.net/frames/mf_goblin.png',
       },
-    ])
+      players: [
+        { name: 'Alice', callsign: 'Maverick', online: false },
+        { name: 'Bob', callsign: 'Iceman', online: false },
+        { name: 'Carla', callsign: 'Viper', online: false },
+      ],
+      status: 'active',
+      online: false,
+      lastOnline: new Date().getTime() - 400 * 1000 * 1000,
+      nextSession: new Date().getTime() + 400 * 1000 * 1000,
+      Portrait: 'https://placebear.com/250/250',
+      MechPortrait: 'https://d2c79xe1p61csc.cloudfront.net/frames/mf_goblin.png',
+    },
+  ])
 
-function setSort(key: string) {
-  if (sort.value === key) asc.value = !asc.value
-  else sort.value = key
-}
-
+  function setSort(key: string) {
+    if (sort.value === key) asc.value = !asc.value
+    else sort.value = key
+  }
 </script>
 
 <style scoped>
-.success-pulse {
-  animation: success-pulse 1.8s infinite;
-}
+  .success-pulse {
+    animation: success-pulse 1.8s infinite;
+  }
 
-@keyframes success-pulse {
-  0% {
-    box-shadow: 0 0 0 0px rgb(var(--v-theme-success));
-    border-radius: 0px;
+  @keyframes success-pulse {
+    0% {
+      box-shadow: 0 0 0 0px rgb(var(--v-theme-success));
+      border-radius: 0px;
+    }
+    100% {
+      box-shadow: 0 0 0 8px rgba(0, 0, 0, 0);
+      border-radius: 1px;
+    }
   }
-  100% {
-    box-shadow: 0 0 0 8px rgba(0, 0, 0, 0);
-    border-radius: 1px;
-  }
-}
 </style>

@@ -79,7 +79,7 @@
       v-for="(m, index) in item.Mounts"
       :key="`mount-${index}`"
     >
-      <v-tooltip
+      <cc-tooltip
         location="bottom"
         max-width="300"
       >
@@ -95,7 +95,7 @@
           </v-card>
         </template>
         <p v-html-safe="get_mount_tooltip(m)" />
-      </v-tooltip>
+      </cc-tooltip>
     </v-col>
   </v-row>
 

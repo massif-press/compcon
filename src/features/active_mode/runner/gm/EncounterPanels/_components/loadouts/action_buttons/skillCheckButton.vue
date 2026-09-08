@@ -155,7 +155,7 @@
                   hide-details
                 >
                   <template #append>
-                    <v-tooltip
+                    <cc-tooltip
                       v-if="check"
                       location="top"
                     >
@@ -201,7 +201,7 @@
                           </i>
                         </div>
                       </div>
-                    </v-tooltip>
+                    </cc-tooltip>
                   </template>
                 </v-text-field>
               </v-col>

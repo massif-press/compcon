@@ -93,9 +93,8 @@
           </div>
           <slot />
         </v-col>
-        <v-tooltip
+        <cc-tooltip
           v-if="!readonly"
-          :open-delay="500"
           max-width="300px"
         >
           <template #activator="{ props }">
@@ -118,7 +117,7 @@
             </template>
           </i18n-t>
           <span v-else>{{ $t('gm.combatant.notLinkedSourceDot') }}</span>
-        </v-tooltip>
+        </cc-tooltip>
       </v-row>
     </template>
   </v-hover>

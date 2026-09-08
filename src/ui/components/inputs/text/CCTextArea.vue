@@ -1,9 +1,12 @@
 <template>
   <div>
     <v-hover v-slot="{ isHovering, props }">
-      <div class="top-element"
-        v-bind="props">
-        <v-textarea :model-value="modelValue"
+      <div
+        class="top-element"
+        v-bind="props"
+      >
+        <v-textarea
+          :model-value="modelValue"
           :color="color"
           :base-color="color"
           :variant="<any>variant"
@@ -23,10 +26,12 @@
           rounded="0"
           :bg-color="isFocused ? 'surface-variant' : 'panel'"
           style="position: relative"
-          @update:model-value="$emit('update:model-value', $event)">
+          @update:model-value="$emit('update:model-value', $event)"
+        >
           <template #prepend>
             <div v-if="label">
-              <div class="text-cc-overline"
+              <div
+                class="text-cc-overline"
                 style="
                   position: absolute;
                   top: 2px;
@@ -34,24 +39,32 @@
                   font-size: 0.7rem !important;
                   opacity: 0.5;
                 "
-                :style="`left: ${icon ? '38px' : '22px'}`">
+                :style="`left: ${icon ? '38px' : '22px'}`"
+              >
                 {{ label }}
                 <cc-slashes />
               </div>
             </div>
 
-            <div :class="`prepend bg-${color} ${isFocused && 'color-rotate'}  pt-1`"
-              :style="`min-width: ${icon ? '30' : '16'}px`">
-              <v-icon v-if="icon"
-                :icon="icon" />
+            <div
+              :class="`prepend bg-${color} ${isFocused && 'color-rotate'}  pt-1`"
+              :style="`min-width: ${icon ? '30' : '16'}px`"
+            >
+              <v-icon
+                v-if="icon"
+                :icon="icon"
+              />
             </div>
           </template>
-          <template v-if="prependInnerIcon"
-            #prepend-inner>
+          <template
+            v-if="prependInnerIcon"
+            #prepend-inner
+          >
             <v-icon :icon="prependInnerIcon" />
           </template>
           <template #append>
-            <div :class="`bg-${color} ${(isHovering || isFocused) && 'color-rotate'}`"
+            <div
+              :class="`bg-${color} ${(isHovering || isFocused) && 'color-rotate'}`"
               style="
                 transition: filter 0.2s ease-in-out;
                 width: 3px;
@@ -59,48 +72,65 @@
                 margin-top: -8px;
                 margin-left: 4px;
                 z-index: 1;
-              " />
-            <v-tooltip v-if="tooltip"
+              "
+            />
+            <cc-tooltip
+              v-if="tooltip"
               location="top"
-              max-width="300px">
+              max-width="300px"
+            >
               <template #activator="{ props }">
-                <v-icon v-bind="props"
+                <v-icon
+                  v-bind="props"
                   class="fade-select mx-1"
-                  :icon="tooltipIcon || 'mdi-information-slab-box-outline'" />
+                  :icon="tooltipIcon || 'mdi-information-slab-box-outline'"
+                />
               </template>
               {{ tooltip }}
-            </v-tooltip>
+            </cc-tooltip>
           </template>
-          <template v-if="appendInnerIcon"
-            #append-inner>
+          <template
+            v-if="appendInnerIcon"
+            #append-inner
+          >
             <v-icon :icon="appendInnerIcon" />
           </template>
         </v-textarea>
-        <v-menu v-if="$slots.options"
-          offset-y>
+        <v-menu
+          v-if="$slots.options"
+          offset-y
+        >
           <template #activator="{ props }">
-            <div :class="`bg-${color}`"
-              style="width: 25px; height: 100%" />
-            <v-btn block
-              :variant="(variant as any)"
+            <div
+              :class="`bg-${color}`"
+              style="width: 25px; height: 100%"
+            />
+            <v-btn
+              block
+              :variant="variant as any"
               class="fade-select mt-1"
               style="container-type: inline-size; text-transform: uppercase"
               tile
               size="x-small"
               flat
-              v-bind="props">
+              v-bind="props"
+            >
               <span style="font-size: 2cqw; padding-top: 2px">
                 {{ optionsText || 'Options' }}
-                <v-icon v-if="optionsIcon"
-                  :icon="optionsIcon" />
+                <v-icon
+                  v-if="optionsIcon"
+                  :icon="optionsIcon"
+                />
               </span>
             </v-btn>
           </template>
           <slot name="options" />
         </v-menu>
         <v-slide-y-transition>
-          <div v-if="details"
-            class="text-right text-caption">
+          <div
+            v-if="details"
+            class="text-right text-caption"
+          >
             {{ details }}
           </div>
         </v-slide-y-transition>
@@ -110,71 +140,74 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const props = withDefaults(defineProps<{
-  modelValue?: string | number
-  color?: string
-  size?: string
-  variant?: string
-  prependInnerIcon?: string
-  appendInnerIcon?: string
-  block?: boolean
-  loading?: boolean
-  disabled?: boolean
-  placeholder?: string
-  label?: string
-  icon?: string
-  clearable?: boolean
-  tooltip?: string
-  tooltipIcon?: string
-  details?: string
-  readonly?: boolean
-  optionsIcon?: string
-  optionsText?: string
-}>(), {
-  color: 'panel',
-  variant: 'solo'
-})
+  const props = withDefaults(
+    defineProps<{
+      modelValue?: string | number
+      color?: string
+      size?: string
+      variant?: string
+      prependInnerIcon?: string
+      appendInnerIcon?: string
+      block?: boolean
+      loading?: boolean
+      disabled?: boolean
+      placeholder?: string
+      label?: string
+      icon?: string
+      clearable?: boolean
+      tooltip?: string
+      tooltipIcon?: string
+      details?: string
+      readonly?: boolean
+      optionsIcon?: string
+      optionsText?: string
+    }>(),
+    {
+      color: 'panel',
+      variant: 'solo',
+    }
+  )
 
-const emit = defineEmits<{
-  'update:model-value': [payload: any]
-}>()
+  const emit = defineEmits<{
+    'update:model-value': [payload: any]
+  }>()
 
-const isFocused = ref(false)
+  const isFocused = ref(false)
 </script>
 
 <style scoped>
-.top-element :deep(.v-input--horizontal .v-input__prepend) {
-  margin-inline-end: 0px !important;
-}
+  .top-element :deep(.v-input--horizontal .v-input__prepend) {
+    margin-inline-end: 0px !important;
+  }
 
-.top-element :deep(.v-input--horizontal .v-input__append) {
-  margin-inline-start: 0px !important;
-}
+  .top-element :deep(.v-input--horizontal .v-input__append) {
+    margin-inline-start: 0px !important;
+  }
 
-.top-element :deep(.v-field) {
-  transition: all 0.1s ease-in-out;
-}
+  .top-element :deep(.v-field) {
+    transition: all 0.1s ease-in-out;
+  }
 
-.top-element :deep(.v-field__input) {
-  padding-top: 14px !important;
-}
+  .top-element :deep(.v-field__input) {
+    padding-top: 14px !important;
+  }
 
-.color-rotate {
-  filter: brightness(3) saturate(200%) hue-rotate(40deg);
-}
+  .color-rotate {
+    filter: brightness(3) saturate(200%) hue-rotate(40deg);
+  }
 
-.prepend {
-  height: calc(100% + 8px);
-  margin-top: -8px;
-  margin-right: -1px;
-  clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
-  z-index: 1;
-  transition: all 0.1s ease-in-out;
-}
+  .prepend {
+    height: calc(100% + 8px);
+    margin-top: -8px;
+    margin-right: -1px;
+    clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
+    z-index: 1;
+    transition: all 0.1s ease-in-out;
+  }
 
-.offset {
-  margin-top: -5px;
-}
+  .offset {
+    margin-top: -5px;
+  }
 </style>

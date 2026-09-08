@@ -1,19 +1,29 @@
 <template>
-  <v-menu location="top"
+  <v-menu
+    open-delay="200"
+    close-delay="500"
+    location="top"
     open-on-hover
-    max-width="500">
+    max-width="500"
+  >
     <template #activator="{ props }">
-      <v-icon v-bind="props"
+      <v-icon
+        v-bind="props"
         color="exotic"
-        :icon="bonuses[0].Icon" />
+        :icon="bonuses[0].Icon"
+      />
     </template>
-    <cc-panel tile
+    <cc-panel
+      tile
       color="surface"
-      density="no-gutters">
+      density="no-gutters"
+    >
       <template #toolbar>
-        <v-toolbar density="compact"
+        <v-toolbar
+          density="compact"
           color="exotic"
-          height="54">
+          height="54"
+        >
           <div class="px-3 pt-1">
             <div class="text-cc-overline text-disabled">
               <span class="text-lowercase">{{ $t('common.bonus') }}</span>
@@ -31,11 +41,11 @@
 </template>
 
 <script setup lang="ts">
-import BonusBase from './_bonusBase.vue'
-import type { Bonus } from '@/classes/components/feature/bonus/Bonus'
+  import BonusBase from './_bonusBase.vue'
+  import type { Bonus } from '@/classes/components/feature/bonus/Bonus'
 
-defineProps<{
-  bonuses: Bonus[]
-  tier?: number
-}>()
+  defineProps<{
+    bonuses: Bonus[]
+    tier?: number
+  }>()
 </script>

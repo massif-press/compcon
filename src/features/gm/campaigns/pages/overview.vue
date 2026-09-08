@@ -386,10 +386,7 @@
         icon
         @click="$emit('preview', 'credits')"
       >
-        <v-tooltip
-          location="bottom"
-          open-delay="300"
-        >
+        <cc-tooltip location="bottom">
           <template #activator="{ props }">
             <v-icon
               v-bind="props"
@@ -398,7 +395,7 @@
             />
           </template>
           <span>{{ $t('common.preview') }}</span>
-        </v-tooltip>
+        </cc-tooltip>
       </v-btn>
       <v-spacer />
     </v-footer>

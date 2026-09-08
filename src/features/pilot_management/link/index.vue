@@ -1,23 +1,34 @@
 <template>
   <v-container>
-    <v-progress-linear v-if="loading"
-      indeterminate />
-    <cc-alert v-else-if="rateLimitError"
+    <v-progress-linear
+      v-if="loading"
+      indeterminate
+    />
+    <cc-alert
+      v-else-if="rateLimitError"
       icon="mdi-speedometer"
       :title="$t('pm.titles.serverErrorTooManyRequests')"
       color="error"
-      variant="outlined">
-      <p v-if="rateLimitError.isDaily"
-        class="text-center">
+      variant="outlined"
+    >
+      <p
+        v-if="rateLimitError.isDaily"
+        class="text-center"
+      >
         {{ $t('pm.link.theDailyRequestLimitHasBeen') }}
       </p>
-      <p v-else-if="rateLimitError.retryAfter"
-        class="text-center">
+      <p
+        v-else-if="rateLimitError.retryAfter"
+        class="text-center"
+      >
         {{ $t('pm.link.tooManyRequestsPleaseTryAgain') }}
-        <span class="text-accent">{{ rateLimitRetryLabel }}</span>.
+        <span class="text-accent">{{ rateLimitRetryLabel }}</span>
+        .
       </p>
-      <p v-else
-        class="text-center">
+      <p
+        v-else
+        class="text-center"
+      >
         {{ $t('pm.link.tooManyRequestsPleaseTryAgain2') }}
       </p>
     </cc-alert>
@@ -52,177 +63,200 @@
       </v-row>
     </div>
     <div v-else-if="pilot">
-      <full-link-sheet v-if="style === 'full'"
+      <full-link-sheet
+        v-if="style === 'full'"
         :pilot="pilot"
-        :mech="mech" />
-      <build-link-sheet v-else
+        :mech="mech"
+      />
+      <build-link-sheet
+        v-else
         :pilot="pilot"
-        :mech="mech" />
+        :mech="mech"
+      />
     </div>
     <div style="height: 80px" />
   </v-container>
-  <v-tabs v-if="style === 'full' && pilot"
+  <v-tabs
+    v-if="style === 'full' && pilot"
     style="position: fixed; bottom: 26px; left: 0; right: 0; z-index: 2"
     color="primary"
     fixed
     height="22"
     align-tabs="center"
-    bg-color="primary">
-    <v-tab v-for="l in links"
+    bg-color="primary"
+  >
+    <v-tab
+      v-for="l in links"
       :key="l.target"
       color="accent"
       style="margin-top: -2px"
-      @click="scrollTo(l.target)">
+      @click="scrollTo(l.target)"
+    >
       {{ l.title }}
     </v-tab>
   </v-tabs>
-  <v-footer app
+  <v-footer
+    app
     density="compact"
     color="primary"
     height="30"
-    border="t">
-    <cc-button prepend-icon="mdi-arrow-left"
+    border="t"
+  >
+    <cc-button
+      prepend-icon="mdi-arrow-left"
       size="small"
       class="mr-2"
-      @click="$router.go(-1)">
+      @click="$router.go(-1)"
+    >
       {{ $t('common.back') }}
     </cc-button>
-    <cc-button prepend-icon="mdi-home"
+    <cc-button
+      prepend-icon="mdi-home"
       size="small"
-      to="/">{{ $t('common.mainMenu') }}</cc-button>
+      to="/"
+    >
+      {{ $t('common.mainMenu') }}
+    </cc-button>
 
     <v-spacer />
-    <v-tooltip location="top"
-      open-delay="300">
+    <cc-tooltip location="top">
       <template #activator="{ props }">
-        <v-icon v-bind="props"
+        <v-icon
+          v-bind="props"
           size="small"
           icon="mdi-share-variant"
-          @click="copyToClipboard" />
+          @click="copyToClipboard"
+        />
       </template>
       <span>{{ $t('common.copyLink') }}</span>
-    </v-tooltip>
+    </cc-tooltip>
   </v-footer>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, type Ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { Pilot } from '@/classes/pilot/Pilot'
-import { unCamelCase } from '@/classes/utility/accent_fold';
-import { downloadFromS3, GetFromCode, RateLimitError } from '@/io/apis/account';
-import { CompendiumStore } from '@/stores';
-import logger from '@/user/logger';
-import FullLinkSheet from './_views/FullLinkSheet.vue';
-import BuildLinkSheet from './_views/BuildLinkSheet.vue';
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
-const router = useRouter()
+  import { computed, ref, onMounted, type Ref } from 'vue'
+  import { useRouter } from 'vue-router'
+  import { Pilot } from '@/classes/pilot/Pilot'
+  import { unCamelCase } from '@/classes/utility/accent_fold'
+  import { downloadFromS3, GetFromCode, RateLimitError } from '@/io/apis/account'
+  import { CompendiumStore } from '@/stores'
+  import logger from '@/user/logger'
+  import FullLinkSheet from './_views/FullLinkSheet.vue'
+  import BuildLinkSheet from './_views/BuildLinkSheet.vue'
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
+  const router = useRouter()
 
-defineOptions({ name: 'PilotLink' })
+  defineOptions({ name: 'PilotLink' })
 
-const props = withDefaults(defineProps<{
-  sharecode: string
-  style?: string
-  mechId?: string
-}>(), {
-  style: 'full'
-})
-
-const loading = ref(true)
-const itemData = ref(null as any)
-const pilot = ref(null as Pilot | null) as Ref<Pilot | null>
-const rateLimitError = ref(null as { retryAfter: number | null; isDaily: boolean } | null)
-
-const compendiumLoaded = computed(() => {
-      return CompendiumStore().loaded;
-    })
-const incompatible = computed(() => {
-      if (itemData.value) {
-        return !itemData.value.originId;
-      } return false;
-    })
-const mech = computed(() => {
-      if (props.mechId) {
-        return pilot.value?.Mechs.find((m) => m.ID === props.mechId) || undefined;
-      }
-      return undefined;
-    })
-const rateLimitRetryLabel = computed(() => {
-      const secs = rateLimitError.value?.retryAfter;
-      if (!secs) return '';
-      return secs >= 60 ? `${Math.ceil(secs / 60)} minute${Math.ceil(secs / 60) !== 1 ? 's' : ''}` : `${secs} second${secs !== 1 ? 's' : ''}`;
-    })
-const links = computed(() => {
-      if (!pilot.value) return [];
-      const links = [{ title: t('pm.titles.biography'), target: 'biography' }];
-      if (pilot.value.BondController.Bond) links.push({ title: t('pm.titles.bond'), target: 'bond' });
-      if (pilot.value.SkillsController.Skills.length > 0)
-        links.push({ title: t('pm.titles.skills'), target: 'skills' });
-      if (pilot.value.ReservesController.Reserves.length > 0)
-        links.push({ title: t('common.reserves'), target: 'reserves' });
-      links.push({ title: t('common.loadout'), target: 'loadout' });
-      if (pilot.value.LicenseController.Licenses.length > 0)
-        links.push({ title: t('common.licenses'), target: 'licenses' });
-      if (pilot.value.CoreBonusController.CoreBonuses.length > 0)
-        links.push({ title: t('pm.titles.coreBonuses'), target: 'core-bonuses' });
-      if (pilot.value.TalentsController.Talents.length > 0)
-        links.push({ title: t('common.talents'), target: 'talents' });
-
-      if (mech.value) {
-        links.push({ title: t('common.mech'), target: 'mech' });
-      }
-
-      return links;
-    })
-
-function copyToClipboard() {
-      navigator.clipboard.writeText(window.location.href);
+  const props = withDefaults(
+    defineProps<{
+      sharecode: string
+      style?: string
+      mechId?: string
+    }>(),
+    {
+      style: 'full',
     }
-function scrollTo(id) {
-      const el = document.getElementById(id);
-      const offset = 50;
-      if (!el) {
-        logger.error(`Element with ID ${id} not found for scrolling`);
-        return;
-      }
-      const elementPosition = el.getBoundingClientRect().top + window.pageYOffset;
-      const offsetPosition = elementPosition - offset;
+  )
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
+  const loading = ref(true)
+  const itemData = ref(null as any)
+  const pilot = ref(null as Pilot | null) as Ref<Pilot | null>
+  const rateLimitError = ref(null as { retryAfter: number | null; isDaily: boolean } | null)
+
+  const compendiumLoaded = computed(() => {
+    return CompendiumStore().loaded
+  })
+  const incompatible = computed(() => {
+    if (itemData.value) {
+      return !itemData.value.originId
     }
-async function getFromCode() {
-      loading.value = true;
-      rateLimitError.value = null;
-      let row;
-      try {
-        row = await GetFromCode(props.sharecode);
-      } catch (err) {
-        if (err instanceof RateLimitError) {
-          rateLimitError.value = { retryAfter: err.retryAfter, isDaily: err.isDaily };
-          loading.value = false;
-          return;
-        }
-        logger.error(`Unable to find pilot at share code ${props.sharecode}`, undefined, err);
-      }
+    return false
+  })
+  const mech = computed(() => {
+    if (props.mechId) {
+      return pilot.value?.Mechs.find(m => m.ID === props.mechId) || undefined
+    }
+    return undefined
+  })
+  const rateLimitRetryLabel = computed(() => {
+    const secs = rateLimitError.value?.retryAfter
+    if (!secs) return ''
+    return secs >= 60
+      ? `${Math.ceil(secs / 60)} minute${Math.ceil(secs / 60) !== 1 ? 's' : ''}`
+      : `${secs} second${secs !== 1 ? 's' : ''}`
+  })
+  const links = computed(() => {
+    if (!pilot.value) return []
+    const links = [{ title: t('pm.titles.biography'), target: 'biography' }]
+    if (pilot.value.BondController.Bond) links.push({ title: t('pm.titles.bond'), target: 'bond' })
+    if (pilot.value.SkillsController.Skills.length > 0)
+      links.push({ title: t('pm.titles.skills'), target: 'skills' })
+    if (pilot.value.ReservesController.Reserves.length > 0)
+      links.push({ title: t('common.reserves'), target: 'reserves' })
+    links.push({ title: t('common.loadout'), target: 'loadout' })
+    if (pilot.value.LicenseController.Licenses.length > 0)
+      links.push({ title: t('common.licenses'), target: 'licenses' })
+    if (pilot.value.CoreBonusController.CoreBonuses.length > 0)
+      links.push({ title: t('pm.titles.coreBonuses'), target: 'core-bonuses' })
+    if (pilot.value.TalentsController.Talents.length > 0)
+      links.push({ title: t('common.talents'), target: 'talents' })
 
-      try {
-        const data = await downloadFromS3(row.uri);
-        itemData.value = data;
-        pilot.value = new Pilot(data);
-      } catch (err) {
-        logger.error(`Error downloading pilot data: ${err}`, undefined, err);
-      }
-
-      loading.value = false;
+    if (mech.value) {
+      links.push({ title: t('common.mech'), target: 'mech' })
     }
 
-onMounted(async () => {
-  await getFromCode();
-  if (pilot.value) document.title = `${pilot.value.Callsign} // ${pilot.value.Name}`;
-  else document.title = 'Pilot Link';
-})
+    return links
+  })
+
+  function copyToClipboard() {
+    navigator.clipboard.writeText(window.location.href)
+  }
+  function scrollTo(id) {
+    const el = document.getElementById(id)
+    const offset = 50
+    if (!el) {
+      logger.error(`Element with ID ${id} not found for scrolling`)
+      return
+    }
+    const elementPosition = el.getBoundingClientRect().top + window.pageYOffset
+    const offsetPosition = elementPosition - offset
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth',
+    })
+  }
+  async function getFromCode() {
+    loading.value = true
+    rateLimitError.value = null
+    let row
+    try {
+      row = await GetFromCode(props.sharecode)
+    } catch (err) {
+      if (err instanceof RateLimitError) {
+        rateLimitError.value = { retryAfter: err.retryAfter, isDaily: err.isDaily }
+        loading.value = false
+        return
+      }
+      logger.error(`Unable to find pilot at share code ${props.sharecode}`, undefined, err)
+    }
+
+    try {
+      const data = await downloadFromS3(row.uri)
+      itemData.value = data
+      pilot.value = new Pilot(data)
+    } catch (err) {
+      logger.error(`Error downloading pilot data: ${err}`, undefined, err)
+    }
+
+    loading.value = false
+  }
+
+  onMounted(async () => {
+    await getFromCode()
+    if (pilot.value) document.title = `${pilot.value.Callsign} // ${pilot.value.Name}`
+    else document.title = 'Pilot Link'
+  })
 </script>

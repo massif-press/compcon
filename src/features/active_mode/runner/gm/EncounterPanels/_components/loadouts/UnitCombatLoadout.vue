@@ -10,9 +10,13 @@
       </div>
     </v-col>
     <v-col cols="auto">
-      <v-tooltip
+      <cc-tooltip
         location="top"
-        :text="hidePassives ? $t('active.unitLoadout.hidingPassiveFeatures') : $t('active.unitLoadout.showingPassiveFeatures')"
+        :text="
+          hidePassives
+            ? $t('active.unitLoadout.hidingPassiveFeatures')
+            : $t('active.unitLoadout.showingPassiveFeatures')
+        "
       >
         <template #activator="{ props }">
           <v-btn
@@ -38,7 +42,7 @@
             {{ hiddenFeatureCount }} {{ $t('active.unitLoadout.hiddenFeatures') }}
           </v-chip>
         </template>
-      </v-tooltip>
+      </cc-tooltip>
     </v-col>
     <v-spacer />
     <v-col cols="auto">
@@ -157,7 +161,7 @@
   import UnitFeatureCard from './_unitFeatureCard.vue'
   import * as _ from 'lodash-es'
   import { UserStore } from '@/stores'
-import { useLayoutOptions } from '@/features/active_mode/layoutOptions'
+  import { useLayoutOptions } from '@/features/active_mode/layoutOptions'
 
   defineOptions({ name: 'MechCombatLoadout' })
 

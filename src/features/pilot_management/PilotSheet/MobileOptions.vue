@@ -81,8 +81,7 @@
       :close-on-click="false"
     >
       <template #activator="{ open }">
-        <v-tooltip
-          open-delay="300"
+        <cc-tooltip
           location="top"
           :text="isAuthed ? $t('pm.titles.sharePilotData') : $t('pm.sheet.requiresCloudAccount')"
         >
@@ -101,7 +100,7 @@
               </template>
             </cc-button>
           </template>
-        </v-tooltip>
+        </cc-tooltip>
       </template>
       <share-dialog :item="pilot" />
     </cc-dialog>

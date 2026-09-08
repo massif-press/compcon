@@ -1,6 +1,8 @@
 <template>
-  <div class="top-element"
-    style="display: flex; position: relative">
+  <div
+    class="top-element"
+    style="display: flex; position: relative"
+  >
     <div :class="`${disabled && 'disabled'} light ${size} ${lightColor}`" />
     <v-btn
       :class="`${colorClass} ${sizeStyle} px-0  ${outlined && `border-sm text-${color}`} ${disabled && 'disabled'}`"
@@ -13,32 +15,43 @@
       :to="to"
       :href="href"
       :target="target"
-      @click.stop="!disabled && !loading && $emit('click', $event)">
-      <v-icon v-if="prependIcon"
+      @click.stop="!disabled && !loading && $emit('click', $event)"
+    >
+      <v-icon
+        v-if="prependIcon"
         start
         :icon="prependIcon"
-        :size="iconSize(prependIcon)" />
+        :size="iconSize(prependIcon)"
+      />
       <slot />
-      <v-icon v-if="appendIcon"
+      <v-icon
+        v-if="appendIcon"
         class="mx-1"
         :icon="appendIcon"
-        :size="iconSize(appendIcon)" />
-      <cc-tooltip v-if="tooltip"
+        :size="iconSize(appendIcon)"
+      />
+      <cc-tooltip
+        v-if="tooltip"
         :icon="tooltipIcon"
         :text="tooltip"
-        end />
+        end
+      />
     </v-btn>
 
-    <v-menu v-if="$slots.options"
-      offset-y>
+    <v-menu
+      v-if="$slots.options"
+      offset-y
+    >
       <template #activator="{ props }">
-        <v-btn icon
+        <v-btn
+          icon
           variant="tonal"
           :class="`${optionsSize}`"
           style="opacity: 0.5"
           tile
           flat
-          v-bind="props">
+          v-bind="props"
+        >
           <v-icon :icon="optionsIcon || 'mdi-chevron-down'" />
         </v-btn>
       </template>
@@ -48,161 +61,164 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { calcIconSize } from './_btnSubMixin'
+  import { computed } from 'vue'
+  import { calcIconSize } from './_btnSubMixin'
 
-const props = withDefaults(defineProps<{
-  color?: string
-  disabled?: boolean
-  block?: boolean
-  loading?: boolean
-  size?: string
-  variant?: string
-  prependIcon?: string
-  appendIcon?: string
-  optionsIcon?: string
-  tooltip?: string
-  tooltipIcon?: string
-  href?: string
-  to?: string | object
-  target?: string
-  pipColor?: string
-}>(), {
-  color: 'panel',
-})
+  const props = withDefaults(
+    defineProps<{
+      color?: string
+      disabled?: boolean
+      block?: boolean
+      loading?: boolean
+      size?: string
+      variant?: string
+      prependIcon?: string
+      appendIcon?: string
+      optionsIcon?: string
+      tooltip?: string
+      tooltipIcon?: string
+      href?: string
+      to?: string | object
+      target?: string
+      pipColor?: string
+    }>(),
+    {
+      color: 'panel',
+    }
+  )
 
-defineEmits<{ click: [payload: any] }>()
+  defineEmits<{ click: [payload: any] }>()
 
-const sizeStyle = computed(() => props.size ? `size-${props.size}` : 'size-default')
-const optionsSize = computed(() => props.size ? `options-${props.size}` : 'options-default')
-const bgColor = computed(() => `bg-${props.color}`)
-const outlined = computed(() => props.variant === 'outlined')
-const borderColor = computed(() => {
-  if (!props.color) return ''
-  if (props.color[0] === '#') return props.color
-  return `rgb(var(--v-theme-${props.color})`
-})
-const colorClass = computed(() => outlined.value ? '' : bgColor.value)
-const lightColor = computed(() => props.pipColor ? `bg-${props.pipColor}` : `bg-${props.color}`)
+  const sizeStyle = computed(() => (props.size ? `size-${props.size}` : 'size-default'))
+  const optionsSize = computed(() => (props.size ? `options-${props.size}` : 'options-default'))
+  const bgColor = computed(() => `bg-${props.color}`)
+  const outlined = computed(() => props.variant === 'outlined')
+  const borderColor = computed(() => {
+    if (!props.color) return ''
+    if (props.color[0] === '#') return props.color
+    return `rgb(var(--v-theme-${props.color})`
+  })
+  const colorClass = computed(() => (outlined.value ? '' : bgColor.value))
+  const lightColor = computed(() => (props.pipColor ? `bg-${props.pipColor}` : `bg-${props.color}`))
 
-function iconSize(icon: string) {
-  return calcIconSize(props.size, icon, 4)
-}
+  function iconSize(icon: string) {
+    return calcIconSize(props.size, icon, 4)
+  }
 </script>
 
 <style scoped>
-@import './cc_btn_base.css';
+  @import './cc_btn_base.css';
 
-.offset {
-  margin-top: -5px;
-}
+  .offset {
+    margin-top: -5px;
+  }
 
-.disabled {
-  filter: grayscale(100%);
-  opacity: 0.4 !important;
-}
+  .disabled {
+    filter: grayscale(100%);
+    opacity: 0.4 !important;
+  }
 
-.light {
-  position: absolute;
-  width: 13.5px;
-  height: 13.5px;
-  clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
-  transition: filter 0.2s ease-in-out;
-}
+  .light {
+    position: absolute;
+    width: 13.5px;
+    height: 13.5px;
+    clip-path: polygon(0 50%, 50% 0, 100% 0, 0% 100%);
+    transition: filter 0.2s ease-in-out;
+  }
 
-.light.x-small {
-  width: 8px;
-  height: 8px;
-  top: 0px;
-}
+  .light.x-small {
+    width: 8px;
+    height: 8px;
+    top: 0px;
+  }
 
-.light.small {
-  width: 9.5px;
-  height: 9.5px;
-}
+  .light.small {
+    width: 9.5px;
+    height: 9.5px;
+  }
 
-.light.default {
-  width: 13.5px;
-  height: 13.5px;
-}
+  .light.default {
+    width: 13.5px;
+    height: 13.5px;
+  }
 
-.light.large {
-  width: 17px;
-  height: 17px;
-}
+  .light.large {
+    width: 17px;
+    height: 17px;
+  }
 
-.light.x-large {
-  width: 21px;
-  height: 21px;
-}
+  .light.x-large {
+    width: 21px;
+    height: 21px;
+  }
 
-.light.xx-large {
-  width: 27px;
-  height: 27px;
-}
+  .light.xx-large {
+    width: 27px;
+    height: 27px;
+  }
 
-.size-x-small {
-  corner-shape: bevel;
-  border-radius: 10px 0 0 0 !important;
+  .size-x-small {
+    corner-shape: bevel;
+    border-radius: 10px 0 0 0 !important;
 
-  font-size: 0.6rem;
-  letter-spacing: 3px;
-  height: 20px !important;
-  padding-left: 10px !important;
-  padding-right: 4px !important;
-}
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    height: 20px !important;
+    padding-left: 10px !important;
+    padding-right: 4px !important;
+  }
 
-.size-small {
-  corner-shape: bevel;
-  border-radius: 12px 0 0 0 !important;
-  font-size: 9.5pt !important;
-  letter-spacing: 2px;
-  height: 26px !important;
-  padding-left: 14px !important;
-  padding-right: 12px !important;
-  padding-top: 2px !important;
-}
+  .size-small {
+    corner-shape: bevel;
+    border-radius: 12px 0 0 0 !important;
+    font-size: 9.5pt !important;
+    letter-spacing: 2px;
+    height: 26px !important;
+    padding-left: 14px !important;
+    padding-right: 12px !important;
+    padding-top: 2px !important;
+  }
 
-.size-default {
-  corner-shape: bevel;
-  border-radius: 16px 0 0 0 !important;
-  font-size: 0.85rem;
-  letter-spacing: 3px;
-  height: 32px !important;
-  padding-left: 16px !important;
-  padding-right: 12px !important;
-}
+  .size-default {
+    corner-shape: bevel;
+    border-radius: 16px 0 0 0 !important;
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    height: 32px !important;
+    padding-left: 16px !important;
+    padding-right: 12px !important;
+  }
 
-.size-large {
-  corner-shape: bevel;
-  border-radius: 20px 0 0 0 !important;
-  font-size: 1rem;
-  letter-spacing: 4px;
-  font-weight: 500;
-  height: 36px !important;
-  padding-left: 16px !important;
-  padding-right: 8px !important;
-}
+  .size-large {
+    corner-shape: bevel;
+    border-radius: 20px 0 0 0 !important;
+    font-size: 1rem;
+    letter-spacing: 4px;
+    font-weight: 500;
+    height: 36px !important;
+    padding-left: 16px !important;
+    padding-right: 8px !important;
+  }
 
-.size-x-large {
-  corner-shape: bevel;
-  border-radius: 24px 0 0 0 !important;
-  font-size: 1.3rem;
-  letter-spacing: 6px;
-  font-weight: 600;
-  height: 40px !important;
-  padding-left: 23px !important;
-  padding-right: 10px !important;
-}
+  .size-x-large {
+    corner-shape: bevel;
+    border-radius: 24px 0 0 0 !important;
+    font-size: 1.3rem;
+    letter-spacing: 6px;
+    font-weight: 600;
+    height: 40px !important;
+    padding-left: 23px !important;
+    padding-right: 10px !important;
+  }
 
-.size-xx-large {
-  corner-shape: bevel;
-  border-radius: 32px 0 0 0 !important;
-  font-size: 1.8rem;
-  letter-spacing: 10px;
-  font-weight: 600;
-  height: 56px !important;
-  padding-left: 26px !important;
-  padding-right: 10px !important;
-}
+  .size-xx-large {
+    corner-shape: bevel;
+    border-radius: 32px 0 0 0 !important;
+    font-size: 1.8rem;
+    letter-spacing: 10px;
+    font-weight: 600;
+    height: 56px !important;
+    padding-left: 26px !important;
+    padding-right: 10px !important;
+  }
 </style>

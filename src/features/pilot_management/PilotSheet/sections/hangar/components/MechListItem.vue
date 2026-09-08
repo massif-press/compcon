@@ -124,10 +124,12 @@
                 cols="auto"
                 class="pr-4"
               >
-                <v-tooltip
+                <cc-tooltip
                   location="top"
                   :text="
-                    mech.Parent.FavoriteMech?.ID === mech.ID ? $t('pm.sheet.unfavoriteMech') : $t('pm.sheet.favoriteMech')
+                    mech.Parent.FavoriteMech?.ID === mech.ID
+                      ? $t('pm.sheet.unfavoriteMech')
+                      : $t('pm.sheet.favoriteMech')
                   "
                 >
                   <template #activator="{ props }">
@@ -151,7 +153,7 @@
                       />
                     </v-btn>
                   </template>
-                </v-tooltip>
+                </cc-tooltip>
                 <cc-dialog
                   :close-on-click="false"
                   :title="$t('pm.titles.deleteMech')"
@@ -159,7 +161,7 @@
                   icon="mdi-delete"
                 >
                   <template #activator="{ open }">
-                    <v-tooltip :text="$t('pm.titles.deleteMech')">
+                    <cc-tooltip :text="$t('pm.titles.deleteMech')">
                       <template #activator="{ props }">
                         <v-btn
                           size="x-small"
@@ -174,7 +176,7 @@
                           <v-icon size="22">mdi-delete</v-icon>
                         </v-btn>
                       </template>
-                    </v-tooltip>
+                    </cc-tooltip>
                   </template>
                   <cc-confirmation
                     full-width
@@ -191,7 +193,7 @@
                   icon="mdi-content-copy"
                 >
                   <template #activator="{ open }">
-                    <v-tooltip :text="$t('pm.titles.duplicateMech')">
+                    <cc-tooltip :text="$t('pm.titles.duplicateMech')">
                       <template #activator="{ props }">
                         <v-btn
                           size="x-small"
@@ -205,7 +207,7 @@
                           <v-icon size="22">mdi-content-copy</v-icon>
                         </v-btn>
                       </template>
-                    </v-tooltip>
+                    </cc-tooltip>
                   </template>
                   <cc-confirmation
                     :content="`Lancer, please confirm intention to create a duplicate of Mech Configuration:
@@ -215,7 +217,7 @@
                     @confirm="$emit('copy', mech)"
                   />
                 </cc-dialog>
-                <v-tooltip :text="$t('pm.tooltips.printMechSheet')">
+                <cc-tooltip :text="$t('pm.tooltips.printMechSheet')">
                   <template #activator="{ props }">
                     <v-btn
                       size="x-small"
@@ -229,7 +231,7 @@
                       <v-icon size="22">mdi-printer</v-icon>
                     </v-btn>
                   </template>
-                </v-tooltip>
+                </cc-tooltip>
               </v-col>
             </v-row>
           </div>

@@ -1,8 +1,6 @@
 <template>
-  <v-tooltip
+  <cc-tooltip
     v-if="actor.LcpConfig"
-    :open-on-hover="!mobile"
-    :open-on-click="mobile"
     max-width="350px"
     location="top"
   >
@@ -24,18 +22,18 @@
         {{ actor.LcpConfig.packList.map(x => x.packName).join(' // ') }}
       </div>
     </template>
-  </v-tooltip>
+  </cc-tooltip>
 </template>
 
 <script setup lang="ts">
-import type { ICombatant } from '@/classes/components/combat/ICombatant'
-import { computed } from 'vue'
+  import type { ICombatant } from '@/classes/components/combat/ICombatant'
+  import { computed } from 'vue'
 
-const props = defineProps<{
-  actor: ICombatant
-}>()
+  const props = defineProps<{
+    actor: ICombatant
+  }>()
 
-const mobile = computed(() => {
-        return 'ontouchstart' in window || navigator.maxTouchPoints > 0
-      })
+  const mobile = computed(() => {
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0
+  })
 </script>

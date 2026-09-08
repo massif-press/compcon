@@ -89,16 +89,17 @@
             {{ title }}
             <cc-tooltip
               v-if="extended"
-              simple
-              inline
-              :content="$t('pm.tooltips.extendedHarness')"
+              :text="$t('pm.tooltips.extendedHarness')"
             >
-              <v-icon
-                dark
-                right
-              >
-                mdi-alpha-e-box-outline
-              </v-icon>
+              <template #activator="{ props }">
+                <v-icon
+                  v-bind="props"
+                  dark
+                  right
+                >
+                  mdi-alpha-e-box-outline
+                </v-icon>
+              </template>
             </cc-tooltip>
           </v-col>
           <v-spacer />
@@ -161,16 +162,17 @@
               {{ item.Name }}
               <cc-tooltip
                 v-if="item.Note"
-                simple
-                inline
-                :content="item.Note"
+                :text="item.Note"
               >
-                <v-icon
-                  size="x-small"
-                  color="active"
-                >
-                  mdi-note
-                </v-icon>
+                <template #activator="{ props }">
+                  <v-icon
+                    v-bind="props"
+                    size="x-small"
+                    color="active"
+                  >
+                    mdi-note
+                  </v-icon>
+                </template>
               </cc-tooltip>
             </v-col>
             <v-col cols="auto">

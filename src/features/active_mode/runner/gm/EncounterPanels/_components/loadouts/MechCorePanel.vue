@@ -54,9 +54,13 @@
             @reset="mech.CombatController.CoreActive = false"
           >
             <template #icon>
-              <v-tooltip
+              <cc-tooltip
                 location="top"
-                :text="mech.CombatController.CorePower ? $t('ui.corePanel.corePowerAvailable') : $t('ui.corePanel.corePowerDepleted')"
+                :text="
+                  mech.CombatController.CorePower
+                    ? $t('ui.corePanel.corePowerAvailable')
+                    : $t('ui.corePanel.corePowerDepleted')
+                "
               >
                 <template #activator="{ props }">
                   <v-icon
@@ -69,7 +73,7 @@
                     class="mr-1"
                   />
                 </template>
-              </v-tooltip>
+              </cc-tooltip>
             </template>
           </cc-combat-action-chip>
         </v-col>

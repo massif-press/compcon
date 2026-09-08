@@ -1,45 +1,84 @@
 <template>
-  <c-card-base :item="item" :small="small" :highlighted="highlighted" :hover="hover">
+  <c-card-base
+    :item="item"
+    :small="small"
+    :highlighted="highlighted"
+    :hover="hover"
+  >
     <template #top>
-      <v-row justify="space-around" align="center" class="text-text py-5">
-        <v-col v-if="item.ArmorString" cols="auto">
-          <v-tooltip :text="$t('common.armorBonus')">
+      <v-row
+        justify="space-around"
+        align="center"
+        class="text-text py-5"
+      >
+        <v-col
+          v-if="item.ArmorString"
+          cols="auto"
+        >
+          <cc-tooltip :text="$t('common.armorBonus')">
             <template #activator="{ props }">
-              <v-icon v-bind="props" icon="mdi-shield-outline" />
+              <v-icon
+                v-bind="props"
+                icon="mdi-shield-outline"
+              />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
           <span class="stat-text">{{ item.ArmorString }}</span>
         </v-col>
-        <v-col v-if="item.HpString" cols="auto">
-          <v-tooltip :text="$t('common.hpBonus')">
+        <v-col
+          v-if="item.HpString"
+          cols="auto"
+        >
+          <cc-tooltip :text="$t('common.hpBonus')">
             <template #activator="{ props }">
-              <v-icon v-bind="props" icon="mdi-heart" />
+              <v-icon
+                v-bind="props"
+                icon="mdi-heart"
+              />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
           <span class="stat-text">+{{ item.HpString }}</span>
         </v-col>
-        <v-col v-if="item.EdefString" cols="auto">
-          <v-tooltip :text="$t('common.electronicDefense')">
+        <v-col
+          v-if="item.EdefString"
+          cols="auto"
+        >
+          <cc-tooltip :text="$t('common.electronicDefense')">
             <template #activator="{ props }">
-              <v-icon v-bind="props" icon="cc:edef" />
+              <v-icon
+                v-bind="props"
+                icon="cc:edef"
+              />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
           <span class="stat-text">{{ item.EdefString }}</span>
         </v-col>
-        <v-col v-if="item.EvasionString" cols="auto">
-          <v-tooltip :text="$t('stats.evasion')">
+        <v-col
+          v-if="item.EvasionString"
+          cols="auto"
+        >
+          <cc-tooltip :text="$t('stats.evasion')">
             <template #activator="{ props }">
-              <v-icon v-bind="props" icon="cc:evasion" />
+              <v-icon
+                v-bind="props"
+                icon="cc:evasion"
+              />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
           <span class="stat-text">{{ item.EvasionString }}</span>
         </v-col>
-        <v-col v-if="item.SpeedString" cols="auto">
-          <v-tooltip :text="$t('stats.speed')">
+        <v-col
+          v-if="item.SpeedString"
+          cols="auto"
+        >
+          <cc-tooltip :text="$t('stats.speed')">
             <template #activator="{ props }">
-              <v-icon v-bind="props" icon="mdi-arrow-right-bold-hexagon-outline" />
+              <v-icon
+                v-bind="props"
+                icon="mdi-arrow-right-bold-hexagon-outline"
+              />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
           <span class="stat-text">{{ item.SpeedString }}</span>
         </v-col>
       </v-row>
@@ -47,38 +86,40 @@
         v-if="item.Description"
         v-html-safe="item.Description"
         class="card-effect pa-2 mb-1 text-text"
-        style="font-size: 15px" />
+        style="font-size: 15px"
+      />
       <p
         v-if="item.Effect"
         v-html-safe="item.Effect"
         class="card-effect pa-2 mb-1 text-text"
-        style="font-size: 15px" />
+        style="font-size: 15px"
+      />
       <div></div>
     </template>
   </c-card-base>
 </template>
 
 <script setup lang="ts">
-import type { PilotArmor } from '@/classes/pilot/components/Loadout/equipment/PilotArmor'
-import CCardBase from './_cCardBase.vue';
+  import type { PilotArmor } from '@/classes/pilot/components/Loadout/equipment/PilotArmor'
+  import CCardBase from './_cCardBase.vue'
 
-defineOptions({ name: 'gear-card-content' })
+  defineOptions({ name: 'gear-card-content' })
 
-const props = defineProps<{
-  item: PilotArmor
-  small?: boolean
-  hover?: boolean
-  highlighted?: boolean
-}>()
+  const props = defineProps<{
+    item: PilotArmor
+    small?: boolean
+    hover?: boolean
+    highlighted?: boolean
+  }>()
 </script>
 
 <style scoped>
-.card-effect {
-  height: 75px;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
+  .card-effect {
+    height: 75px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
 
-  -webkit-line-clamp: 3;
-}
+    -webkit-line-clamp: 3;
+  }
 </style>

@@ -14,7 +14,7 @@
             v-if="!expanded"
             cols="auto"
           >
-            <v-tooltip
+            <cc-tooltip
               location="top"
               :text="bonus.Name"
             >
@@ -27,7 +27,7 @@
                   icon="cc:weapon_profile"
                 />
               </template>
-            </v-tooltip>
+            </cc-tooltip>
           </v-col>
           <v-col>
             <span
@@ -47,7 +47,7 @@
             class="mt-1"
           >
             <template #icon>
-              <v-tooltip
+              <cc-tooltip
                 location="top"
                 :text="$t('active.tooltips.equipmentAction')"
               >
@@ -57,7 +57,7 @@
                     icon="cc:system"
                   />
                 </template>
-              </v-tooltip>
+              </cc-tooltip>
             </template>
           </cc-combat-action-chip>
 
@@ -75,7 +75,7 @@
       style="position: absolute; right: -5px; bottom: -4px"
       class="fade-select"
     >
-      <v-tooltip
+      <cc-tooltip
         max-width="300"
         location="top"
       >
@@ -98,7 +98,7 @@
             </strong>
           </template>
         </i18n-t>
-      </v-tooltip>
+      </cc-tooltip>
     </div>
   </div>
 </template>

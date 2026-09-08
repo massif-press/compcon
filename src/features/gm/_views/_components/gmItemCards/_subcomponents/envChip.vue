@@ -1,7 +1,16 @@
 <template>
-  <v-menu open-on-hover open-delay="800">
+  <v-menu
+    open-delay="200"
+    close-delay="500"
+    open-on-hover
+  >
     <template #activator="{ props }">
-      <v-chip v-bind="props" :size="size" class="mx-1" color="warning">
+      <v-chip
+        v-bind="props"
+        :size="size"
+        class="mx-1"
+        color="warning"
+      >
         {{ environment.Name }}
       </v-chip>
     </template>
@@ -14,14 +23,17 @@
 </template>
 
 <script setup lang="ts">
-import type { Environment } from '@/classes/Environment'
-import CCEnvironmentDisplay from '@/ui/components/CCEnvironmentDisplay.vue'
-defineOptions({ name: 'environment-chip' })
+  import type { Environment } from '@/classes/Environment'
+  import CCEnvironmentDisplay from '@/ui/components/CCEnvironmentDisplay.vue'
+  defineOptions({ name: 'environment-chip' })
 
-const props = withDefaults(defineProps<{
-  environment: Environment
-  size?: string
-}>(), {
-  size: 'x-small'
-})
+  const props = withDefaults(
+    defineProps<{
+      environment: Environment
+      size?: string
+    }>(),
+    {
+      size: 'x-small',
+    }
+  )
 </script>

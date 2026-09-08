@@ -1,5 +1,7 @@
 <template>
   <v-menu
+    open-delay="200"
+    close-delay="500"
     offset-y
     open-on-hover
     max-width="600px"

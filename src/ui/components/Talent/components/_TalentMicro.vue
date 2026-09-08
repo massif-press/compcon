@@ -1,67 +1,69 @@
 <template>
-  <v-col cols="auto"
+  <v-col
+    cols="auto"
     class="pa-0"
-    @click="$emit('clicked')">
-    <v-menu open-on-hover
-      bottom
-      offset-y
-      open-delay="100">
+    @click="$emit('clicked')"
+  >
+    <cc-tooltip max-width="400px">
       <template #activator="{ props }">
-        <div style="position: relative"
+        <div
+          style="position: relative"
           class="pa-1 mx-n2"
-          v-bind="props">
-          <talent-emblem :talent="talent"
+          v-bind="props"
+        >
+          <talent-emblem
+            :talent="talent"
             size="small"
-            :dark="dark" />
-          <div v-if="rank"
+            :dark="dark"
+          />
+          <div
+            v-if="rank"
             class="bg-primary flavor-text text-center"
-            style="font-size: 12px; position: absolute; bottom: 0; right: 0; padding: 0px 3px">
+            style="font-size: 12px; position: absolute; bottom: 0; right: 0; padding: 0px 3px"
+          >
             {{ 'I'.repeat(Number(rank)) }}
           </div>
         </div>
       </template>
-      <v-card flat
-        tile
-        max-width="400px">
-        <v-toolbar flat
-          density="compact"
-          tile
-          color="primary"
-          height="20px">
-          <div class="heading h3 px-4">
-            {{ talent.Name }}
-          </div>
-        </v-toolbar>
-        <v-card-text v-if="rank"
-          class="pa-2">
-          <div v-for="n in rank"
-            :key="`rank-${n}`">
+      <div>
+        <div class="heading h3">{{ talent.Name }}</div>
+        <v-divider class="my-1" />
+        <div v-if="rank">
+          <div
+            v-for="n in rank"
+            :key="`rank-${n}`"
+          >
             <b>{{ talent.Rank(Number(n)).Name }}</b>
             <cc-slashes class="px-2" />
-            <span class="text-cc-overline text-disabled">{{ $t('common.rank') }} {{ 'I'.repeat(Number(n)) }}</span>
+            <span class="text-cc-overline text-disabled">
+              {{ $t('common.rank') }} {{ 'I'.repeat(Number(n)) }}
+            </span>
             <talent-rank-contents :talent-rank="talent.Rank(Number(n))" />
           </div>
-        </v-card-text>
-      </v-card>
-    </v-menu>
+        </div>
+      </div>
+    </cc-tooltip>
   </v-col>
 </template>
 
 <script setup lang="ts">
-import type { Talent } from '@/classes/pilot/components/talent/Talent'
-import TalentEmblem from './_TalentEmblem.vue';
-import TalentRankContents from './_TalentRankContents.vue';
+  import type { Talent } from '@/classes/pilot/components/talent/Talent'
+  import TalentEmblem from './_TalentEmblem.vue'
+  import TalentRankContents from './_TalentRankContents.vue'
 
-const props = withDefaults(defineProps<{
-  talent: Talent
-  rank?: number | string
-  dark?: boolean
-}>(), {
-  rank: undefined,
-  dark: false
-})
+  const props = withDefaults(
+    defineProps<{
+      talent: Talent
+      rank?: number | string
+      dark?: boolean
+    }>(),
+    {
+      rank: undefined,
+      dark: false,
+    }
+  )
 
-const emit = defineEmits<{
-  'clicked': []
-}>()
+  const emit = defineEmits<{
+    clicked: []
+  }>()
 </script>

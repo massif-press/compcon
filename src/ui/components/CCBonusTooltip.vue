@@ -5,7 +5,11 @@
       :key="`bonus-${bi}`"
       class="text-right"
     >
-      <v-menu open-on-hover>
+      <v-menu
+        open-delay="200"
+        close-delay="500"
+        open-on-hover
+      >
         <template #activator="{ props }">
           <v-icon
             v-bind="props"

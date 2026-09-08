@@ -93,7 +93,7 @@
               z-index: 1;
             "
           />
-          <v-tooltip
+          <cc-tooltip
             v-if="tooltip"
             location="top"
             max-width="300px"
@@ -106,7 +106,7 @@
               />
             </template>
             {{ tooltip }}
-          </v-tooltip>
+          </cc-tooltip>
         </template>
         <template
           v-if="controls"

@@ -11,7 +11,7 @@
     style="width: 100%; height: 30px"
     class="mb-2"
   >
-    <v-tooltip
+    <cc-tooltip
       v-for="v in options.views"
       :key="`view-${v}`"
       :text="viewTooltip(v)"
@@ -32,7 +32,7 @@
           />
         </v-btn>
       </template>
-    </v-tooltip>
+    </cc-tooltip>
   </v-btn-toggle>
 </template>
 

@@ -1,10 +1,12 @@
 <template>
-  <div class="d-inline-block" style="position: relative">
-    <v-tooltip
-      :open-on-hover="!mobile"
-      :open-on-click="mobile"
+  <div
+    class="d-inline-block"
+    style="position: relative"
+  >
+    <cc-tooltip
       :disabled="!hasTooltipContent"
-      max-width="350">
+      max-width="350"
+    >
       <template #activator="{ props }">
         <v-chip
           v-bind="props"
@@ -14,75 +16,80 @@
           class="pa-0"
           :class="hasTooltipContent ? 'chip-interactive' : 'chip-readonly'"
           tile
-          @click.stop="$emit('click', $event)">
+          @click.stop="$emit('click', $event)"
+        >
           <slot name="content" />
         </v-chip>
       </template>
       <slot name="tooltip" />
-    </v-tooltip>
+    </cc-tooltip>
     <div
       v-if="variant === 'outlined'"
       :style="`background-color: ${hexColor(bgColor)}`"
-      class="clip-fix" />
+      class="clip-fix"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, useSlots } from 'vue';
-import { useDisplay, useTheme } from 'vuetify';
+  import { computed, useSlots } from 'vue'
+  import { useDisplay, useTheme } from 'vuetify'
 
-const { smAndDown: mobile } = useDisplay()
-const theme = useTheme()
-const slots = useSlots()
+  const { smAndDown: mobile } = useDisplay()
+  const theme = useTheme()
+  const slots = useSlots()
 
-const props = withDefaults(defineProps<{
-  color?: string
-  bgColor?: string
-  size?: string
-  variant?: string
-  icon?: string
-}>(), {
-  size: 'small',
-})
+  const props = withDefaults(
+    defineProps<{
+      color?: string
+      bgColor?: string
+      size?: string
+      variant?: string
+      icon?: string
+    }>(),
+    {
+      size: 'small',
+    }
+  )
 
-const emit = defineEmits<{
-  click: [...args: any[]]
-}>()
+  const emit = defineEmits<{
+    click: [...args: any[]]
+  }>()
 
-const hasTooltipContent = computed(() => {
-  const slot = slots['tooltip'];
-  if (slot && slot()[0] && slot()[0].children) {
-    return (slot()[0].children as any).length > 0;
+  const hasTooltipContent = computed(() => {
+    const slot = slots['tooltip']
+    if (slot && slot()[0] && slot()[0].children) {
+      return (slot()[0].children as any).length > 0
+    }
+    return false
+  })
+
+  function hexColor(color) {
+    if (!color) return ''
+    if (color[0] === '#') return color
+    return theme.current.value.colors[color]
   }
-  return false;
-})
-
-function hexColor(color) {
-  if (!color) return '';
-  if (color[0] === '#') return color;
-  return theme.current.value.colors[color];
-}
 </script>
 
 <style scoped>
-.chip-interactive {
-  clip-path: polygon(8px 0, 100% 0, 100% 100%, 0 100%, 0 8px);
-  cursor: pointer;
-}
+  .chip-interactive {
+    clip-path: polygon(8px 0, 100% 0, 100% 100%, 0 100%, 0 8px);
+    cursor: pointer;
+  }
 
-.chip-readonly {
-  clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0% 100%);
+  .chip-readonly {
+    clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0% 100%);
 
-  cursor: default;
-}
+    cursor: default;
+  }
 
-.clip-fix {
-  position: absolute;
-  width: 9px;
-  height: 1px;
-  background-color: rgba(126, 126, 126, 0.3);
-  bottom: 3px;
-  right: 0px;
-  transform: rotate(-45deg);
-}
+  .clip-fix {
+    position: absolute;
+    width: 9px;
+    height: 1px;
+    background-color: rgba(126, 126, 126, 0.3);
+    bottom: 3px;
+    right: 0px;
+    transform: rotate(-45deg);
+  }
 </style>

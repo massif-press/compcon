@@ -1,16 +1,20 @@
 <template>
   <v-card-text>
-    <v-row align="center"
-      justify="center">
+    <v-row
+      align="center"
+      justify="center"
+    >
       <v-col cols="6">
-        <v-file-input v-model="fileValue"
+        <v-file-input
+          v-model="fileValue"
           accept="text/json"
           variant="outlined"
           :label="$t('gm.fields.selectDataFile')"
           prepend-icon="mdi-paperclip"
           density="compact"
           @change="stageImport"
-          @click:clear="reset" />
+          @click:clear="reset"
+        />
       </v-col>
     </v-row>
     <v-container>
@@ -19,24 +23,26 @@
         <thead class="heading">
           <tr>
             <th width="1px">
-              <v-btn icon
+              <v-btn
+                icon
                 flat
                 size="small"
                 :value="selected.length === stagedItems.length"
                 hide-details
                 @click="
-                  selected.length
-                    ? (selected = [])
-                    : (selected = stagedItems
-                      .map((x: any) => x.id))
-                  ">
-                <v-icon size="x-large"
-                  :icon="selected.length === stagedItems.length
-                    ? 'mdi-checkbox-outline'
-                    : selected.length > 0
-                      ? 'mdi-minus-box-outline'
-                      : 'mdi-checkbox-blank-outline'
-                    " />
+                  selected.length ? (selected = []) : (selected = stagedItems.map((x: any) => x.id))
+                "
+              >
+                <v-icon
+                  size="x-large"
+                  :icon="
+                    selected.length === stagedItems.length
+                      ? 'mdi-checkbox-outline'
+                      : selected.length > 0
+                        ? 'mdi-minus-box-outline'
+                        : 'mdi-checkbox-blank-outline'
+                  "
+                />
               </v-btn>
             </th>
             <th>{{ $t('common.item') }}</th>
@@ -46,14 +52,18 @@
             <th class="text-center">{{ $t('common.status') }}</th>
           </tr>
         </thead>
-        <tbody v-for="item in stagedItems"
-          :key="item.id">
+        <tbody
+          v-for="item in stagedItems"
+          :key="item.id"
+        >
           <tr>
             <td>
-              <v-checkbox v-model="selected"
+              <v-checkbox
+                v-model="selected"
                 :value="item.id"
                 multiple
-                hide-details />
+                hide-details
+              />
             </td>
             <td>
               {{ item.name }}
@@ -66,50 +76,58 @@
             </td>
             <td>{{ item.content_packs }}</td>
             <td class="text-center">
-              <v-tooltip location="top"
-                max-width="300px">
+              <cc-tooltip
+                location="top"
+                max-width="300px"
+              >
                 <template #activator="{ props }">
-                  <v-icon v-bind="props"
+                  <v-icon
+                    v-bind="props"
                     :icon="item.status === 'ok' ? 'mdi-check' : 'mdi-alert'"
-                    :color="item.status === 'ok' ? 'success' : 'warning'" />
+                    :color="item.status === 'ok' ? 'success' : 'warning'"
+                  />
                 </template>
                 <span v-if="item.status === 'ok'">{{ $t('gm.import.readyForImport') }}</span>
                 <span v-else-if="item.status === 'missing_content'">
                   {{ $t('gm.import.missingPacks') }}
                 </span>
-              </v-tooltip>
+              </cc-tooltip>
             </td>
           </tr>
         </tbody>
       </v-table>
 
-      <cc-alert v-if="missingContent.length"
+      <cc-alert
+        v-if="missingContent.length"
         class="mx-12 mt-4"
         icon="mdi-alert"
-        :title="$t('gm.import.missingContentPacks')">
+        :title="$t('gm.import.missingContentPacks')"
+      >
         <p>
           {{ $t('gm.import.oldVersionWarning') }}
         </p>
         <v-card-text>
-          <p class="heading h4 text-accent">
-            {{ $t('gm.import.missingContentPacks') }}:
-          </p>
-          <p v-html-safe="missingContent"
-            class="effect-text text-center bg-background pa-1 ma-1" />
-          <p>
-
-          </p>
+          <p class="heading h4 text-accent">{{ $t('gm.import.missingContentPacks') }}:</p>
+          <p
+            v-html-safe="missingContent"
+            class="effect-text text-center bg-background pa-1 ma-1"
+          />
+          <p></p>
         </v-card-text>
       </cc-alert>
     </v-container>
 
-    <v-row justify="end"
-      class="mt-2 mr-4">
+    <v-row
+      justify="end"
+      class="mt-2 mr-4"
+    >
       <v-col cols="auto">
-        <v-btn variant="tonal"
+        <v-btn
+          variant="tonal"
           color="accent"
           prepend-icon="mdi-plus"
-          @click="importFile()">
+          @click="importFile()"
+        >
           {{ $t('gm.import.completeImport', { n: selected.length }) }}
         </v-btn>
       </v-col>
@@ -118,187 +136,183 @@
 </template>
 
 <script setup lang="ts">
-import * as _ from 'lodash-es'
-import { i18n } from '@/i18n'
-const t = i18n.global.t
-import { computed, ref } from 'vue'
-import logger from '@/user/logger'
-import { notify } from '@/util/notify'
-import { ImportData } from '@/io/Data';
-import {
-NpcStore,
-NarrativeStore,
-EncounterStore,
-} from '@/stores';
-import { Unit } from '@/classes/npc/unit/Unit';
-import { Doodad } from '@/classes/npc/doodad/Doodad';
-import { Eidolon } from '@/classes/npc/eidolon/Eidolon';
-import { Character } from '@/classes/narrative/Character';
-import { Location } from '@/classes/narrative/Location';
-import { Faction } from '@/classes/narrative/Faction';
-import { Encounter } from '@/classes/encounter/Encounter';
-import {
-isV2Npc,
-isV2Encounter,
-getV2NpcMissingLcps,
-getV2EncounterMissingNpcs,
-preprocessNpcImport,
-preprocessEncounterImport,
-} from '@/io/V2Importer';
-import { ImportNpcData, ImportEncounter } from '@/io/Importer';
+  import * as _ from 'lodash-es'
+  import { i18n } from '@/i18n'
+  const t = i18n.global.t
+  import { computed, ref } from 'vue'
+  import logger from '@/user/logger'
+  import { notify } from '@/util/notify'
+  import { ImportData } from '@/io/Data'
+  import { NpcStore, NarrativeStore, EncounterStore } from '@/stores'
+  import { Unit } from '@/classes/npc/unit/Unit'
+  import { Doodad } from '@/classes/npc/doodad/Doodad'
+  import { Eidolon } from '@/classes/npc/eidolon/Eidolon'
+  import { Character } from '@/classes/narrative/Character'
+  import { Location } from '@/classes/narrative/Location'
+  import { Faction } from '@/classes/narrative/Faction'
+  import { Encounter } from '@/classes/encounter/Encounter'
+  import {
+    isV2Npc,
+    isV2Encounter,
+    getV2NpcMissingLcps,
+    getV2EncounterMissingNpcs,
+    preprocessNpcImport,
+    preprocessEncounterImport,
+  } from '@/io/V2Importer'
+  import { ImportNpcData, ImportEncounter } from '@/io/Importer'
 
-defineOptions({ name: 'FileImport' })
+  defineOptions({ name: 'FileImport' })
 
-const emit = defineEmits<{
-  'complete': []
-}>()
+  const emit = defineEmits<{
+    complete: []
+  }>()
 
-const selected = ref([] as any[])
-const fileValue = ref(null)
-const oldBrewsWarning = ref(false)
-const stagedData = ref([] as any[])
-const stagedItems = ref([] as any[])
-const alreadyPresent = ref('')
+  const selected = ref([] as any[])
+  const fileValue = ref(null)
+  const oldBrewsWarning = ref(false)
+  const stagedData = ref([] as any[])
+  const stagedItems = ref([] as any[])
+  const alreadyPresent = ref('')
 
-const missingContent = computed(() => {
-      const missing = new Set<string>();
-      stagedItems.value.forEach((item) => {
-        if (item.status === 'missing_content') {
-          (item.missingInfo as string[]).forEach((m) => missing.add(m));
-        }
-      });
-      return Array.from(missing).join('<br>');
+  const missingContent = computed(() => {
+    const missing = new Set<string>()
+    stagedItems.value.forEach(item => {
+      if (item.status === 'missing_content') {
+        ;(item.missingInfo as string[]).forEach(m => missing.add(m))
+      }
+    })
+    return Array.from(missing).join('<br>')
+  })
+
+  function reset() {
+    fileValue.value = null
+    oldBrewsWarning.value = false
+    stagedData.value = []
+    stagedItems.value = []
+    selected.value = []
+    alreadyPresent.value = ''
+  }
+  async function stageImport(file) {
+    if (!file) return
+    let content = [] as any[]
+    const data = await ImportData<any>(file.target.files[0])
+    if (data.type && data.type.includes('collection')) content = data.data
+    else content.push(data)
+
+    stagedData.value = content
+    stagedItems.value = [...content]
+
+    stagedItems.value.forEach(item => {
+      if (isV2Npc(item)) {
+        const { missingIds, missingNames } = getV2NpcMissingLcps(item)
+        item.collection = 'v2 NPC'
+        item.type = 'NPC'
+        item.content_packs = item.brews
+          ? item.brews.map(x => `${x.LcpName} @ ${x.LcpVersion}`).join(', ')
+          : 'N/A'
+        item.status = missingIds.length === 0 ? 'ok' : 'missing_content'
+        item.missingInfo = missingNames
+      } else if (isV2Encounter(item)) {
+        const missing = getV2EncounterMissingNpcs(item)
+        item.collection = 'v2 Encounter'
+        item.type = 'Encounter'
+        item.content_packs = 'N/A'
+        item.status = missing.length === 0 ? 'ok' : 'missing_content'
+        item.missingInfo = missing.map(id => `NPC: ${id}`)
+      } else if (item.npcType) {
+        item.collection = 'NPC'
+        item.type = _.upperFirst(item.npcType)
+        item.content_packs = item.brews
+          ? item.brews.map(x => `${x.LcpName} @ ${x.LcpVersion}`).join(', ')
+          : 'N/A'
+        item.status = 'ok'
+        item.missingInfo = []
+      } else if (item.collectionItemType) {
+        item.collection = 'Narrative Item'
+        item.type = _.upperFirst(item.collectionItemType)
+        item.content_packs = 'N/A'
+        item.status = 'ok'
+        item.missingInfo = []
+      } else if (item.itemType === 'Encounter' || item.itemType === 'encounter') {
+        item.collection = 'Encounter'
+        item.type = 'Encounter'
+        item.content_packs = 'N/A'
+        item.status = 'ok'
+        item.missingInfo = []
+      }
     })
 
-function reset() {
-      fileValue.value = null;
-      oldBrewsWarning.value = false;
-      stagedData.value = [];
-      stagedItems.value = [];
-      selected.value = [];
-      alreadyPresent.value = '';
-    }
-async function stageImport(file) {
-      if (!file) return;
-      let content = [] as any[];
-      const data = await ImportData<any>(file.target.files[0]);
-      if (data.type && data.type.includes('collection')) content = data.data;
-      else content.push(data);
+    selected.value = stagedItems.value.map(x => x.id)
+  }
+  async function importFile() {
+    const staged = stagedData.value.filter(x => selected.value.includes(x.id))
 
-      stagedData.value = content;
-      stagedItems.value = [...content];
+    let backedUp = 0
 
-      stagedItems.value.forEach((item) => {
+    for (const item of staged) {
+      try {
         if (isV2Npc(item)) {
-          const { missingIds, missingNames } = getV2NpcMissingLcps(item);
-          item.collection = 'v2 NPC';
-          item.type = 'NPC';
-          item.content_packs = item.brews
-            ? item.brews.map((x) => `${x.LcpName} @ ${x.LcpVersion}`).join(', ')
-            : 'N/A';
-          item.status = missingIds.length === 0 ? 'ok' : 'missing_content';
-          item.missingInfo = missingNames;
-        } else if (isV2Encounter(item)) {
-          const missing = getV2EncounterMissingNpcs(item);
-          item.collection = 'v2 Encounter';
-          item.type = 'Encounter';
-          item.content_packs = 'N/A';
-          item.status = missing.length === 0 ? 'ok' : 'missing_content';
-          item.missingInfo = missing.map((id) => `NPC: ${id}`);
-        } else if (item.npcType) {
-          item.collection = 'NPC';
-          item.type = _.upperFirst(item.npcType);
-          item.content_packs = item.brews
-            ? item.brews.map((x) => `${x.LcpName} @ ${x.LcpVersion}`).join(', ')
-            : 'N/A';
-          item.status = 'ok';
-          item.missingInfo = [];
-        } else if (item.collectionItemType) {
-          item.collection = 'Narrative Item';
-          item.type = _.upperFirst(item.collectionItemType);
-          item.content_packs = 'N/A';
-          item.status = 'ok';
-          item.missingInfo = [];
-        } else if (item.itemType === 'Encounter' || item.itemType === 'encounter') {
-          item.collection = 'Encounter';
-          item.type = 'Encounter';
-          item.content_packs = 'N/A';
-          item.status = 'ok';
-          item.missingInfo = [];
-        }
-      });
-
-      selected.value = stagedItems.value.map((x) => x.id);
-    }
-async function importFile() {
-      const staged = stagedData.value.filter((x) =>
-        selected.value.includes(x.id)
-      );
-
-      let backedUp = 0;
-
-      for (const item of staged) {
-        try {
-          if (isV2Npc(item)) {
-            const result = await preprocessNpcImport(item);
-            if (result.action === 'import' && result.transformed) {
-              await ImportNpcData(result.transformed);
-            } else if (result.action === 'backup') {
-              backedUp++;
-            }
-          } else if (isV2Encounter(item)) {
-            const result = await preprocessEncounterImport(item);
-            if (result.action === 'import' && result.transformed) {
-              const encs = Array.isArray(result.transformed)
-                ? result.transformed
-                : [result.transformed];
-              for (const enc of encs) await ImportEncounter(enc);
-            } else if (result.action === 'backup') {
-              backedUp++;
-            }
-          } else {
-            item.id = crypto.randomUUID();
-            if (item.npcType) {
-              if (item.npcType === 'unit') {
-                await NpcStore().AddNpc(Unit.Deserialize(item));
-              } else if (item.npcType === 'doodad') {
-                await NpcStore().AddNpc(Doodad.Deserialize(item));
-              } else if (item.npcType === 'eidolon') {
-                await NpcStore().AddNpc(Eidolon.Deserialize(item));
-              }
-            } else if (item.collectionItemType) {
-              if (item.collectionItemType === 'character')
-                await NarrativeStore().AddItem(Character.Deserialize(item));
-              else if (item.collectionItemType === 'location')
-                await NarrativeStore().AddItem(Location.Deserialize(item));
-              else if (item.collectionItemType === 'faction')
-                await NarrativeStore().AddItem(Faction.Deserialize(item));
-            } else if (item.itemType === 'Encounter' || item.itemType === 'encounter') {
-              await EncounterStore().AddEncounter(Encounter.Deserialize(item));
-            }
+          const result = await preprocessNpcImport(item)
+          if (result.action === 'import' && result.transformed) {
+            await ImportNpcData(result.transformed)
+          } else if (result.action === 'backup') {
+            backedUp++
           }
-        } catch (error) {
-          logger.error('Failed to import NPC', null, error);
-          notify({
-            title: t('notify.gm.importErrorTitle'),
-            text: t('notify.gm.npcImportErrorText', { error }),
-            icon: 'cc:compendium', color: 'error',
-          });
+        } else if (isV2Encounter(item)) {
+          const result = await preprocessEncounterImport(item)
+          if (result.action === 'import' && result.transformed) {
+            const encs = Array.isArray(result.transformed)
+              ? result.transformed
+              : [result.transformed]
+            for (const enc of encs) await ImportEncounter(enc)
+          } else if (result.action === 'backup') {
+            backedUp++
+          }
+        } else {
+          item.id = crypto.randomUUID()
+          if (item.npcType) {
+            if (item.npcType === 'unit') {
+              await NpcStore().AddNpc(Unit.Deserialize(item))
+            } else if (item.npcType === 'doodad') {
+              await NpcStore().AddNpc(Doodad.Deserialize(item))
+            } else if (item.npcType === 'eidolon') {
+              await NpcStore().AddNpc(Eidolon.Deserialize(item))
+            }
+          } else if (item.collectionItemType) {
+            if (item.collectionItemType === 'character')
+              await NarrativeStore().AddItem(Character.Deserialize(item))
+            else if (item.collectionItemType === 'location')
+              await NarrativeStore().AddItem(Location.Deserialize(item))
+            else if (item.collectionItemType === 'faction')
+              await NarrativeStore().AddItem(Faction.Deserialize(item))
+          } else if (item.itemType === 'Encounter' || item.itemType === 'encounter') {
+            await EncounterStore().AddEncounter(Encounter.Deserialize(item))
+          }
         }
-      }
-
-      if (backedUp > 0) {
+      } catch (error) {
+        logger.error('Failed to import NPC', null, error)
         notify({
-          title: t('notify.gm.v2BackupTitle'),
-          text: t('notify.gm.v2BackupText', { count: backedUp }, backedUp),
-          icon: 'mdi-information-box-outline', color: 'info',
-        });
+          title: t('notify.gm.importErrorTitle'),
+          text: t('notify.gm.npcImportErrorText', { error }),
+          icon: 'cc:compendium',
+          color: 'error',
+        })
       }
+    }
 
-      reset();
-      emit('complete');
+    if (backedUp > 0) {
+      notify({
+        title: t('notify.gm.v2BackupTitle'),
+        text: t('notify.gm.v2BackupText', { count: backedUp }, backedUp),
+        icon: 'mdi-information-box-outline',
+        color: 'info',
+      })
     }
-function cancelImport() {
-      reset();
-    }
+
+    reset()
+    emit('complete')
+  }
+  function cancelImport() {
+    reset()
+  }
 </script>
