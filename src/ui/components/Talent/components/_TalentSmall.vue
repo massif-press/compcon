@@ -1,5 +1,7 @@
 <template>
   <v-menu
+    open-delay="200"
+    close-delay="500"
     open-on-hover
     :close-on-content-click="false"
     top

@@ -1,5 +1,7 @@
 <template>
   <v-menu
+    open-delay="200"
+    close-delay="500"
     v-if="force || item.FromInstance"
     open-on-hover
     max-width="450px"

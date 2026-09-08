@@ -1,5 +1,7 @@
 <template>
   <v-menu
+    open-delay="200"
+    close-delay="500"
     :open-on-hover="!mobile"
     max-width="400"
     :close-on-content-click="false"

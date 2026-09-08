@@ -30,6 +30,8 @@
     <span class="pl-1">{{ item.name }}</span>
 
     <v-menu
+      open-delay="200"
+      close-delay="500"
       open-on-hover
       activator="parent"
     >

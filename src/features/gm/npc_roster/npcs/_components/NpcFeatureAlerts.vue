@@ -37,6 +37,8 @@
       </cc-alert>
     </div>
     <v-menu
+      open-delay="200"
+      close-delay="500"
       v-for="item in templateController.FeatureRequirements"
       v-else
       :key="`menu-${item.source_id}`"

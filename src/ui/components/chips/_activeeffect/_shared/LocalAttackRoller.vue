@@ -77,7 +77,11 @@
       </v-col>
 
       <v-col cols="auto">
-        <v-menu open-on-hover>
+        <v-menu
+          open-delay="200"
+          close-delay="500"
+          open-on-hover
+        >
           <template #activator="{ props }">
             <v-btn
               stacked

@@ -1,5 +1,9 @@
 <template>
-  <v-menu open-on-hover>
+  <v-menu
+    open-delay="200"
+    close-delay="500"
+    open-on-hover
+  >
     <template #activator="{ props }">
       <v-avatar
         v-if="icon"

@@ -90,6 +90,8 @@
             :key="`rank-${n}`"
           >
             <v-menu
+              open-delay="200"
+              close-delay="500"
               open-on-hover
               top
               offset-y
