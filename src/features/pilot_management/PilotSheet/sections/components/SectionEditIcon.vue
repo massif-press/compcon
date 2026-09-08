@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip
+  <cc-tooltip
     :text="label"
     location="top"
   >
@@ -18,7 +18,7 @@
         />
       </v-btn>
     </template>
-  </v-tooltip>
+  </cc-tooltip>
 </template>
 
 <script setup lang="ts">

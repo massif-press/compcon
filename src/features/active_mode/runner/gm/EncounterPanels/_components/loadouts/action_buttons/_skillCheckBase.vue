@@ -45,7 +45,7 @@
         tile
       >
         <template #prepend-inner>
-          <v-tooltip location="top">
+          <cc-tooltip location="top">
             <template #activator="{ props: innerProps }">
               <v-icon
                 v-bind="innerProps"
@@ -53,7 +53,7 @@
                 :icon="accDiff > 0 ? 'cc:accuracy' : 'cc:difficulty'"
               />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
         </template>
       </v-text-field>
       <v-card

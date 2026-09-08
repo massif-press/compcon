@@ -93,7 +93,6 @@
               open-on-hover
               top
               offset-y
-              open-delay="100"
             >
               <template #activator="{ props }">
                 <v-btn
@@ -197,15 +196,18 @@
       style="position: relative"
     >
       <div style="position: absolute; bottom: -4px; right: -4px">
-        <cc-tooltip :content="showAll ? $t('ui.talent.hideAll') : $t('ui.talent.showAll')">
-          <v-btn
-            size="small"
-            icon
-            variant="plain"
-            @click="showAll = !showAll"
-          >
-            <v-icon>mdi-eye</v-icon>
-          </v-btn>
+        <cc-tooltip :text="showAll ? $t('ui.talent.hideAll') : $t('ui.talent.showAll')">
+          <template #activator="{ props }">
+            <v-btn
+              v-bind="props"
+              size="small"
+              icon
+              variant="plain"
+              @click="showAll = !showAll"
+            >
+              <v-icon>mdi-eye</v-icon>
+            </v-btn>
+          </template>
         </cc-tooltip>
       </div>
     </v-col>

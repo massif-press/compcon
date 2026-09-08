@@ -118,7 +118,7 @@
                       color="success"
                       size="small"
                     />
-                    <v-tooltip
+                    <cc-tooltip
                       v-else
                       location="top"
                     >
@@ -131,7 +131,7 @@
                         />
                       </template>
                       {{ $t('nav.migrationRepair.manualActionRequired') }}
-                    </v-tooltip>
+                    </cc-tooltip>
                   </td>
                 </tr>
               </tbody>

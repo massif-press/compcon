@@ -1,6 +1,6 @@
 <template>
   <div :class="mobile && 'd-inline-block mr-11'">
-    <v-tooltip :text="`${label.toUpperCase()}: ${val}`">
+    <cc-tooltip :text="`${label.toUpperCase()}: ${val}`">
       <template #activator="{ props }">
         <span
           class="text-overline no-height ml-n1"
@@ -9,7 +9,7 @@
           {{ label }}
         </span>
       </template>
-    </v-tooltip>
+    </cc-tooltip>
     <cc-synergy-display
       :location="attr"
       :mech="mech"

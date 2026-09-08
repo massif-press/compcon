@@ -8,9 +8,8 @@
       <v-row dense>
         <v-col style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
           <div class="heading h3 mt-n2">
-            <v-tooltip
+            <cc-tooltip
               v-if="pilot.IsRemote"
-              :open-on-click="true"
               location="bottom"
               :text="$t('pm.actions.thisPilotIsARemote')"
             >
@@ -24,7 +23,7 @@
                   mdi-broadcast
                 </v-icon>
               </template>
-            </v-tooltip>
+            </cc-tooltip>
             <span style="letter-spacing: 4px">{{ pilot.Callsign }}</span>
           </div>
 
@@ -172,7 +171,7 @@
                   v-if="pilot.IsRemote"
                   cols="auto"
                 >
-                  <v-tooltip
+                  <cc-tooltip
                     :text="$t('pm.actions.thisPilotIsARemote')"
                     max-width="400"
                   >
@@ -187,7 +186,7 @@
                         />
                       </v-avatar>
                     </template>
-                  </v-tooltip>
+                  </cc-tooltip>
                 </v-col>
                 <v-col cols="auto">
                   <div
@@ -377,7 +376,7 @@
                   {{ pilot.Level }}
                 </v-col>
                 <v-col cols="auto">
-                  <v-tooltip
+                  <cc-tooltip
                     v-if="!pilot.IsRemote && !isLevelingUp"
                     :text="$t('pm.actions.editLicenseLevel')"
                   >
@@ -391,7 +390,7 @@
                         mdi-circle-edit-outline
                       </v-icon>
                     </template>
-                  </v-tooltip>
+                  </cc-tooltip>
                 </v-col>
               </v-row>
               <cc-button

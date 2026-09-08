@@ -32,7 +32,7 @@
           style="display: inline-block; position: relative"
           class="mr-1"
         >
-          <v-tooltip location="bottom">
+          <cc-tooltip location="bottom">
             <template #activator="{ props }">
               <cc-button
                 v-bind="props"
@@ -48,7 +48,7 @@
               </cc-button>
             </template>
             <span>{{ $t('mainMenu.ui.viewChangelog') }}</span>
-          </v-tooltip>
+          </cc-tooltip>
         </div>
       </div>
     </div>

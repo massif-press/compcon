@@ -23,7 +23,7 @@
             :color="available ? '' : 'error'"
             start
           />
-          <v-tooltip
+          <cc-tooltip
             v-if="!available"
             location="top"
           >
@@ -55,9 +55,9 @@
               </div>
             </div>
             <div v-else-if="!canUse">{{ unavailableText }}</div>
-          </v-tooltip>
+          </cc-tooltip>
         </span>
-        <v-tooltip
+        <cc-tooltip
           location="top"
           width="300"
         >
@@ -93,8 +93,8 @@
           </div>
           <v-divider class="my-1" />
           {{ action.Terse }}
-        </v-tooltip>
-        <v-tooltip
+        </cc-tooltip>
+        <cc-tooltip
           v-if="isLimited"
           location="top"
           :text="$t('active.combatAction.restoreUse')"
@@ -113,7 +113,7 @@
               />
             </span>
           </template>
-        </v-tooltip>
+        </cc-tooltip>
       </v-btn>
     </template>
     <template #default="{ close }">

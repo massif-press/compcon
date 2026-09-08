@@ -1,9 +1,6 @@
 <template>
   <div style="position: absolute; bottom: 10px; right: 11px">
-    <v-tooltip
-      location="top"
-      open-delay="300"
-    >
+    <cc-tooltip location="top">
       <template #activator="{ props }">
         <v-btn
           v-bind="props"
@@ -19,7 +16,7 @@
         </v-btn>
       </template>
       <span>{{ $t('common.copyLink') }}</span>
-    </v-tooltip>
+    </cc-tooltip>
   </div>
 </template>
 

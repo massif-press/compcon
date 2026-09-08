@@ -1,8 +1,6 @@
 <template>
-  <v-tooltip
+  <cc-tooltip
     v-if="actor.LcpConfig"
-    :open-on-hover="!mobile"
-    :open-on-click="mobile"
     max-width="350px"
     location="top"
   >
@@ -24,7 +22,7 @@
         {{ actor.LcpConfig.packList.map(x => x.packName).join(' // ') }}
       </div>
     </template>
-  </v-tooltip>
+  </cc-tooltip>
 </template>
 
 <script setup lang="ts">

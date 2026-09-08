@@ -180,7 +180,7 @@
                       hide-default-footer
                     >
                       <template #item.update="{ item }">
-                        <v-tooltip
+                        <cc-tooltip
                           v-if="newLocalData(item)"
                           max-width="300px"
                           location="top"
@@ -194,8 +194,8 @@
                             </v-icon>
                           </template>
                           {{ $t('mainMenu.publishing.itemModified') }}
-                        </v-tooltip>
-                        <v-tooltip
+                        </cc-tooltip>
+                        <cc-tooltip
                           v-else-if="hasLocalData(item)"
                           max-width="300px"
                           location="top"
@@ -209,9 +209,9 @@
                             </v-icon>
                           </template>
                           {{ $t('mainMenu.publishing.itemUpToDate') }}
-                        </v-tooltip>
+                        </cc-tooltip>
                         {{ new Date((item as any).last_updated).toLocaleString() }}
-                        <v-tooltip
+                        <cc-tooltip
                           v-if="!hasLocalData(item)"
                           max-width="300px"
                           location="top"
@@ -225,10 +225,10 @@
                             </v-icon>
                           </template>
                           {{ $t('mainMenu.publishing.itemNotFound') }}
-                        </v-tooltip>
+                        </cc-tooltip>
                       </template>
                       <template #item.actions="{ item }">
-                        <v-tooltip
+                        <cc-tooltip
                           max-width="300px"
                           location="top"
                         >
@@ -247,7 +247,7 @@
                           <div class="text-center">
                             {{ $t('mainMenu.publishing.removeItemTooltip') }}
                           </div>
-                        </v-tooltip>
+                        </cc-tooltip>
                       </template>
                     </v-data-table>
                     <collection-item-selector
@@ -261,7 +261,7 @@
                     >
                       <v-col class="heading text-accent">{{ $t('common.changelog') }}</v-col>
                       <v-col cols="auto">
-                        <v-tooltip
+                        <cc-tooltip
                           max-width="300px"
                           location="top"
                         >
@@ -282,7 +282,7 @@
                           <div class="text-center">
                             {{ $t('mainMenu.publishing.autoGenChangelog') }}
                           </div>
-                        </v-tooltip>
+                        </cc-tooltip>
                       </v-col>
                     </v-row>
                     <v-textarea
@@ -440,7 +440,7 @@
                       >
                         <span class="heading h2 text-text">{{ n }}</span>
                       </v-chip>
-                      <v-tooltip
+                      <cc-tooltip
                         max-width="300px"
                         location="top"
                       >
@@ -456,7 +456,7 @@
                           />
                         </template>
                         <div class="text-center">{{ $t('common.copyShareCode') }}</div>
-                      </v-tooltip>
+                      </cc-tooltip>
                       <div class="text-left text-caption text-disabled">
                         {{
                           $t('mainMenu.publishing.lastUpdateOn', {

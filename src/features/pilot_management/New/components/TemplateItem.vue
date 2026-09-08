@@ -84,10 +84,9 @@
                   v-for="s in template.build.skills"
                   :key="s"
                 >
-                  <v-tooltip
+                  <cc-tooltip
                     location="top"
                     max-width="600px"
-                    :open-on-click="mobile"
                   >
                     <template #activator="{ props }">
                       <cc-chip
@@ -100,7 +99,7 @@
                     <div class="heading h3">{{ item('Skills', s).Name }}</div>
                     <v-divider />
                     <div v-html-safe="item('Skills', s).Detail" />
-                  </v-tooltip>
+                  </cc-tooltip>
                 </v-col>
               </v-row>
             </v-col>
@@ -122,10 +121,9 @@
                   md="auto"
                   class="mx-1"
                 >
-                  <v-tooltip
+                  <cc-tooltip
                     location="top"
                     max-width="600px"
-                    :open-on-click="mobile"
                   >
                     <template #activator="{ props }">
                       <cc-chip
@@ -142,7 +140,7 @@
                     </div>
                     <v-divider />
                     <div v-html-safe="item('Talents', t).Rank(1).Description" />
-                  </v-tooltip>
+                  </cc-tooltip>
                 </v-col>
               </v-row>
             </v-col>

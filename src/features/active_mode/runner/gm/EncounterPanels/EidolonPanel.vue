@@ -16,7 +16,7 @@
       align-self="center"
       class="text-center"
     >
-      <v-tooltip location="top">
+      <cc-tooltip location="top">
         <template #activator="{ props }">
           <v-btn
             v-bind="props"
@@ -38,7 +38,7 @@
         <span v-if="n - 1 === combatant.actor.ActiveLayerIndex">
           &nbsp;{{ $t('active.eidolon.active') }}
         </span>
-      </v-tooltip>
+      </cc-tooltip>
     </v-col>
   </v-row>
   <panel-base

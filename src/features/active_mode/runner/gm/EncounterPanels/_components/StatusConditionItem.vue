@@ -1,6 +1,5 @@
 <template>
-  <v-tooltip
-    :open-delay="400"
+  <cc-tooltip
     location="top"
     max-width="300"
   >
@@ -38,7 +37,7 @@
       {{ appliedDetail }}
     </v-card>
     {{ status.Terse || status.Effects }}
-  </v-tooltip>
+  </cc-tooltip>
 </template>
 
 <script setup lang="ts">

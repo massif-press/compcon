@@ -7,7 +7,7 @@
     height="25"
     @click="$emit('action')"
   >
-    <v-tooltip
+    <cc-tooltip
       v-if="!controller.CanActivate('protocol')"
       location="top"
     >
@@ -37,8 +37,8 @@
         </v-chip>
         {{ $t('active.combatAction.actionsRemaining') }}
       </div>
-    </v-tooltip>
-    <v-tooltip
+    </cc-tooltip>
+    <cc-tooltip
       location="top"
       max-width="300"
       :text="tooltipText"
@@ -53,7 +53,7 @@
           {{ label }}
         </span>
       </template>
-    </v-tooltip>
+    </cc-tooltip>
   </v-btn>
 </template>
 

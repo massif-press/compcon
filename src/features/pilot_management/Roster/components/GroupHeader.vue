@@ -261,7 +261,7 @@
           cols="12"
           sm="auto"
         >
-          <v-tooltip
+          <cc-tooltip
             :text="edit ? $t('pm.roster.finishEditing') : $t('pm.roster.editGroupInformation')"
           >
             <template #activator="{ props }">
@@ -275,7 +275,7 @@
                 @click="edit = !edit"
               />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
         </v-col>
 
         <v-col

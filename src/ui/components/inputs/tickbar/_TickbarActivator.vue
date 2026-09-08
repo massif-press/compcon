@@ -1,8 +1,7 @@
 <template>
-  <v-tooltip
+  <cc-tooltip
     location="top"
     :text="label"
-    :open-delay="400"
   >
     <template #activator="{ props }">
       <div v-bind="props">
@@ -74,7 +73,7 @@
         </v-menu>
       </div>
     </template>
-  </v-tooltip>
+  </cc-tooltip>
 </template>
 
 <script setup lang="ts">

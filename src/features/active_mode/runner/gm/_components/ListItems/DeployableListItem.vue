@@ -78,10 +78,9 @@
                     :key="stat.key"
                     cols="auto"
                   >
-                    <v-tooltip
+                    <cc-tooltip
                       :text="stat.title"
                       location="top"
-                      open-delay="400"
                     >
                       <template #activator="{ props }">
                         <v-icon
@@ -97,7 +96,7 @@
                           /{{ deployable.StatController.MaxStats[stat.key] }}
                         </span>
                       </template>
-                    </v-tooltip>
+                    </cc-tooltip>
                   </v-col>
                 </v-row>
                 <v-divider class="my-1" />
@@ -117,10 +116,9 @@
                     :key="stat.key"
                     cols="auto"
                   >
-                    <v-tooltip
+                    <cc-tooltip
                       :text="stat.title"
                       location="top"
-                      open-delay="400"
                     >
                       <template #activator="{ props }">
                         <v-icon
@@ -133,7 +131,7 @@
                           {{ deployable.StatController.CurrentStats[stat.key] }}
                         </b>
                       </template>
-                    </v-tooltip>
+                    </cc-tooltip>
                   </v-col>
                 </v-row>
               </div>
@@ -145,7 +143,7 @@
                 justify="center"
                 class="text-center my-1"
               >
-                <v-tooltip
+                <cc-tooltip
                   v-for="damage in deployable.CombatController.Resistances"
                   :key="`${damage.type}-${damage.condition}`"
                   location="top"
@@ -167,7 +165,7 @@
                       })
                     }}
                   </span>
-                </v-tooltip>
+                </cc-tooltip>
               </v-row>
 
               <v-card

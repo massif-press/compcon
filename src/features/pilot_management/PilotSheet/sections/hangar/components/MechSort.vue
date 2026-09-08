@@ -1,9 +1,6 @@
 <template>
   <div class="mt-n4">
-    <v-tooltip
-      location="top"
-      open-delay="300"
-    >
+    <cc-tooltip location="top">
       <template #activator="{ props }">
         <v-btn
           v-bind="props"
@@ -27,12 +24,9 @@
         </v-btn>
       </template>
       <span>{{ $t('pm.sheet.sortByName') }}</span>
-    </v-tooltip>
+    </cc-tooltip>
 
-    <v-tooltip
-      location="top"
-      open-delay="300"
-    >
+    <cc-tooltip location="top">
       <template #activator="{ props }">
         <v-btn
           v-bind="props"
@@ -56,12 +50,9 @@
         </v-btn>
       </template>
       <span>{{ $t('pm.sheet.sortByManufacturer') }}</span>
-    </v-tooltip>
+    </cc-tooltip>
 
-    <v-tooltip
-      location="top"
-      open-delay="300"
-    >
+    <cc-tooltip location="top">
       <template #activator="{ props }">
         <v-btn
           v-bind="props"
@@ -85,7 +76,7 @@
         </v-btn>
       </template>
       <span>{{ $t('active.sortBar.sortByCreated') }}</span>
-    </v-tooltip>
+    </cc-tooltip>
   </div>
 </template>
 

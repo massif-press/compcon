@@ -153,7 +153,7 @@
         "
       />
 
-      <v-tooltip
+      <cc-tooltip
         v-if="tooltip"
         location="top"
         max-width="300px"
@@ -166,7 +166,7 @@
           />
         </template>
         {{ tooltip }}
-      </v-tooltip>
+      </cc-tooltip>
       <slot name="append" />
     </div>
   </v-hover>

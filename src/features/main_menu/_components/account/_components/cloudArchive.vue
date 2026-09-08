@@ -17,7 +17,7 @@
         />
       </v-toolbar-title>
       <v-spacer />
-      <v-tooltip
+      <cc-tooltip
         v-if="hasArchiveAccess"
         max-width="300px"
         location="top"
@@ -37,7 +37,7 @@
           <br />
           {{ $t('mainMenu.ui.doesNotSync') }}
         </div>
-      </v-tooltip>
+      </cc-tooltip>
     </v-toolbar>
     <v-card-text v-if="!hasArchiveAccess">
       <cc-alert
@@ -82,7 +82,7 @@
         </template>
 
         <template #item.preserve="{ item }">
-          <v-tooltip
+          <cc-tooltip
             max-width="300px"
             location="top"
           >
@@ -103,7 +103,7 @@
                   : $t('mainMenu.archive.removeProtection')
               "
             />
-          </v-tooltip>
+          </cc-tooltip>
         </template>
 
         <template #item.actions="{ item }">
@@ -116,7 +116,7 @@
                 variant="text"
                 v-bind="props"
               >
-                <v-tooltip
+                <cc-tooltip
                   max-width="300px"
                   location="top"
                 >
@@ -129,7 +129,7 @@
                     </v-icon>
                   </template>
                   <div class="text-center">{{ $t('mainMenu.archive.revertTooltip') }}</div>
-                </v-tooltip>
+                </cc-tooltip>
               </v-btn>
             </template>
             <template #default="{ isActive }">
@@ -177,7 +177,7 @@
             </template>
           </v-dialog>
 
-          <v-tooltip
+          <cc-tooltip
             max-width="300px"
             location="top"
           >
@@ -196,7 +196,7 @@
               </v-btn>
             </template>
             <div class="text-center">{{ $t('mainMenu.ui.downloadCopy') }}</div>
-          </v-tooltip>
+          </cc-tooltip>
 
           <v-dialog max-width="600px">
             <template #activator="{ props }">
@@ -207,7 +207,7 @@
                 variant="text"
                 v-bind="props"
               >
-                <v-tooltip
+                <cc-tooltip
                   max-width="300px"
                   location="top"
                 >
@@ -220,7 +220,7 @@
                     </v-icon>
                   </template>
                   <div class="text-center">{{ $t('mainMenu.archive.deleteArchive') }}</div>
-                </v-tooltip>
+                </cc-tooltip>
               </v-btn>
             </template>
             <template #default="{ isActive }">

@@ -19,7 +19,7 @@
       v-if="!readonly"
       cols="auto"
     >
-      <v-tooltip location="top">
+      <cc-tooltip location="top">
         <template #activator="{ props }">
           <v-btn
             icon
@@ -37,7 +37,7 @@
           </v-btn>
         </template>
         <span>{{ $t('gm.eidolon.addRandomLayer') }}</span>
-      </v-tooltip>
+      </cc-tooltip>
     </v-col>
   </v-row>
   <v-card
@@ -68,7 +68,7 @@
         v-for="(layer, idx) in item.Layers"
         :key="layer.ID"
       >
-        <v-tooltip
+        <cc-tooltip
           v-if="idx > 1"
           location="top"
         >
@@ -82,13 +82,13 @@
             />
           </template>
           <span>{{ $t('gm.eidolon.orderLower') }}</span>
-        </v-tooltip>
+        </cc-tooltip>
         <span
           v-else
           class="mx-3"
         />
         {{ layer.Layer?.Name }}
-        <v-tooltip
+        <cc-tooltip
           v-if="idx && idx < item.Layers.length - 1"
           location="top"
         >
@@ -102,7 +102,7 @@
             />
           </template>
           <span>{{ $t('gm.eidolon.orderHigher') }}</span>
-        </v-tooltip>
+        </cc-tooltip>
         <span
           v-else
           class="mx-3"

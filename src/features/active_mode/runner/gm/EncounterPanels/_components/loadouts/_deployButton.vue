@@ -7,7 +7,7 @@
       v-if="!actionOnly"
       cols="auto"
     >
-      <v-tooltip
+      <cc-tooltip
         location="top"
         :text="$t('active.actions.equipmentDeployableInstance')"
       >
@@ -17,7 +17,7 @@
             icon="cc:drone"
           />
         </template>
-      </v-tooltip>
+      </cc-tooltip>
 
       <combat-action-indicator
         :icon="deployable.DeployAction.Icon"

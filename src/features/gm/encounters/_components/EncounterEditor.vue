@@ -288,7 +288,7 @@
         />
       </v-menu>
 
-      <v-tooltip v-if="isRemote">
+      <cc-tooltip v-if="isRemote">
         <template #activator="{ props }">
           <cc-button
             size="small"
@@ -307,7 +307,7 @@
               : $t('gm.editorFooter.downloadRemote')
             : $t('gm.editorFooter.mustLogin')
         }}
-      </v-tooltip>
+      </cc-tooltip>
 
       <v-menu
         v-if="!isRemote"

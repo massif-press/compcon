@@ -96,7 +96,7 @@
         </cc-tooltip>
       </template>
       <template #item.v3="{ item }">
-        <v-tooltip
+        <cc-tooltip
           v-if="item.v3"
           max-width="300px"
         >
@@ -109,8 +109,8 @@
             </v-icon>
           </template>
           {{ $t('nav.communityTable.v3Compatible') }}
-        </v-tooltip>
-        <v-tooltip
+        </cc-tooltip>
+        <cc-tooltip
           v-else
           max-width="300px"
         >
@@ -123,7 +123,7 @@
             </v-icon>
           </template>
           {{ $t('nav.communityTable.v3Incompatible') }}
-        </v-tooltip>
+        </cc-tooltip>
       </template>
       <template #item.deleteAction="{ item }">
         <v-menu width="400px">

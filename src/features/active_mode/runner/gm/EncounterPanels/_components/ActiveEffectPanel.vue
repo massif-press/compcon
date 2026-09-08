@@ -11,7 +11,7 @@
         density="compact"
         style="max-height: 24px !important"
       >
-        <v-tooltip
+        <cc-tooltip
           location="top"
           :text="
             hideUsed
@@ -33,7 +33,7 @@
               />
             </v-btn>
           </template>
-        </v-tooltip>
+        </cc-tooltip>
       </v-btn-group>
     </v-col>
   </v-row>

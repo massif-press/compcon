@@ -53,20 +53,21 @@
             >
               {{ $t('pm.selectors.efficiency') }}
               <cc-tooltip
-                simple
-                inline
-                content="How directly effective your organization is at what it does (a military
+                text="How directly effective your organization is at what it does (a military
                 organization with high efficiency would be good at combat, for example).
                 <br />Efficiency can be used to perform activities related to your organization’s
                 purpose (science, military, etc). You can use these advantages as
                 <strong>reserves.</strong>"
               >
-                <v-icon
-                  size="small"
-                  end
-                >
-                  mdi-help-circle-outline
-                </v-icon>
+                <template #activator="{ props }">
+                  <v-icon
+                    v-bind="props"
+                    size="small"
+                    end
+                  >
+                    mdi-help-circle-outline
+                  </v-icon>
+                </template>
               </cc-tooltip>
             </v-btn>
             <div v-else>
@@ -93,17 +94,16 @@
               @click="orgStart = 'influence'"
             >
               {{ $t('pm.selectors.influence') }}
-              <cc-tooltip
-                simple
-                inline
-                :content="$t('pm.tooltips.influenceIsYourOrganizationsSizeReach')"
-              >
-                <v-icon
-                  size="small"
-                  end
-                >
-                  mdi-help-circle-outline
-                </v-icon>
+              <cc-tooltip :text="$t('pm.tooltips.influenceIsYourOrganizationsSizeReach')">
+                <template #activator="{ props }">
+                  <v-icon
+                    v-bind="props"
+                    size="small"
+                    end
+                  >
+                    mdi-help-circle-outline
+                  </v-icon>
+                </template>
               </cc-tooltip>
             </v-btn>
             <div v-else>

@@ -79,7 +79,7 @@
               :key="c.id"
               :item="c"
             />
-            <v-tooltip
+            <cc-tooltip
               v-if="item.Combatants.filter(x => x.reinforcement).length"
               location="top"
             >
@@ -96,7 +96,7 @@
                 </span>
               </template>
               {{ $t('active.encInfo.reinforcements') }}
-            </v-tooltip>
+            </cc-tooltip>
             <combatant-chip
               v-for="c in item.Combatants.filter(x => x.reinforcement)"
               :key="c.id"

@@ -1,10 +1,9 @@
 <template>
   <div>
-    <v-tooltip
+    <cc-tooltip
       v-for="s in sortedStats"
       :key="s.key"
       location="top"
-      open-delay="300"
     >
       <template #activator="{ props }">
         <v-chip
@@ -26,7 +25,7 @@
         &nbsp;
         <b>{{ totalWithBonus(s.key) }}</b>
       </span>
-    </v-tooltip>
+    </cc-tooltip>
   </div>
 </template>
 

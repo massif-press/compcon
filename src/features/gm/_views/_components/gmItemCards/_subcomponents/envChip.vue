@@ -1,8 +1,5 @@
 <template>
-  <v-menu
-    open-on-hover
-    open-delay="800"
-  >
+  <v-menu open-on-hover>
     <template #activator="{ props }">
       <v-chip
         v-bind="props"

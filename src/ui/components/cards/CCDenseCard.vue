@@ -16,11 +16,7 @@
         {{ item.WeaponType ? item.WeaponType : item.FeatureType }}
       </span>
       <span class="text-cc-overline text-right">
-        <v-tooltip
-          :open-on-hover="!mobile"
-          :open-on-click="mobile"
-          max-width="350px"
-        >
+        <cc-tooltip max-width="350px">
           <template #activator="{ props }">
             <v-icon
               icon="cc:content_manager"
@@ -29,7 +25,7 @@
             />
           </template>
           {{ item.LcpName }}
-        </v-tooltip>
+        </cc-tooltip>
       </span>
     </template>
     <v-card-text

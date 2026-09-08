@@ -97,7 +97,7 @@
           </v-alert>
         </v-col>
         <v-col cols="auto">
-          <v-tooltip :text="$t('pm.tooltips.removeCloneQuirk')">
+          <cc-tooltip :text="$t('pm.tooltips.removeCloneQuirk')">
             <template #activator="{ props }">
               <v-btn
                 icon
@@ -110,7 +110,7 @@
                 <v-icon size="large">mdi-delete</v-icon>
               </v-btn>
             </template>
-          </v-tooltip>
+          </cc-tooltip>
         </v-col>
       </v-row>
     </div>

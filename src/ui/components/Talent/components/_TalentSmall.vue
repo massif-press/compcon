@@ -5,8 +5,6 @@
     top
     nudge-top="10px"
     offset-y
-    open-delay="100"
-    close-delay="50"
     width="70vw"
     min-width="300px"
   >
@@ -59,16 +57,19 @@
         </span>
         <cc-tooltip
           v-if="hideLocked"
-          :content="showAll ? $t('ui.talent.hideAll') : $t('ui.talent.showAll')"
+          :text="showAll ? $t('ui.talent.hideAll') : $t('ui.talent.showAll')"
         >
-          <v-btn
-            small
-            icon
-            variant="plain"
-            @click="showAll = !showAll"
-          >
-            <v-icon small>mdi-eye</v-icon>
-          </v-btn>
+          <template #activator="{ props }">
+            <v-btn
+              v-bind="props"
+              small
+              icon
+              variant="plain"
+              @click="showAll = !showAll"
+            >
+              <v-icon small>mdi-eye</v-icon>
+            </v-btn>
+          </template>
         </cc-tooltip>
       </v-toolbar>
       <v-row

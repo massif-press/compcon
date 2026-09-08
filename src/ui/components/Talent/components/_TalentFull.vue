@@ -43,7 +43,7 @@
             align-self="start"
             class="mr-2"
           >
-            <v-tooltip
+            <cc-tooltip
               v-if="talent.InLcp"
               bottom
             >
@@ -55,7 +55,7 @@
                 />
               </template>
               <span>{{ talent.LcpName }}</span>
-            </v-tooltip>
+            </cc-tooltip>
           </v-col>
 
           <v-col
@@ -173,7 +173,7 @@
         v-if="hideLocked"
         style="position: absolute; top: 0; right: -14px"
       >
-        <v-tooltip :text="showAll ? $t('ui.talent.hideAll') : $t('ui.talent.showAll')">
+        <cc-tooltip :text="showAll ? $t('ui.talent.hideAll') : $t('ui.talent.showAll')">
           <template #activator="{ props }">
             <cc-button
               size="x-small"
@@ -183,7 +183,7 @@
               @click="showAll = !showAll"
             ></cc-button>
           </template>
-        </v-tooltip>
+        </cc-tooltip>
       </div>
     </div>
   </cc-panel>

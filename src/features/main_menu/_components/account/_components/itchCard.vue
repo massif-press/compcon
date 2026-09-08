@@ -26,7 +26,7 @@
       {{ $t('mainMenu.ui.unlinked') }}
     </div>
     {{ $t('mainMenu.itch.linkItch') }}
-    <v-tooltip max-width="400px">
+    <cc-tooltip max-width="400px">
       <template #activator="{ props }">
         <v-icon
           v-bind="props"
@@ -38,7 +38,7 @@
       {{ $t('mainMenu.itch.linkInfo1') }}
       <br />
       {{ $t('mainMenu.itch.linkInfo2') }}
-    </v-tooltip>
+    </cc-tooltip>
   </v-card>
 
   <cc-dialog

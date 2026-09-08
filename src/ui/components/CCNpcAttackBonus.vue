@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip location="top">
+  <cc-tooltip location="top">
     <template #activator="{ props }">
       <v-icon
         v-bind="props"
@@ -10,7 +10,7 @@
       <b class="px-1 heading">{{ attackBonus }}</b>
     </template>
     <span>{{ $t('common.attackBonus') }}</span>
-  </v-tooltip>
+  </cc-tooltip>
 </template>
 
 <script setup lang="ts">

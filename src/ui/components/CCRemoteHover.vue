@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip
+  <cc-tooltip
     v-if="remoteResource"
     location="top"
     max-width="300px"
@@ -35,7 +35,7 @@
         {{ $t('ui.remote.remoteHelp', { type: itemType }) }}
       </i>
     </div>
-  </v-tooltip>
+  </cc-tooltip>
 </template>
 
 <script setup lang="ts">

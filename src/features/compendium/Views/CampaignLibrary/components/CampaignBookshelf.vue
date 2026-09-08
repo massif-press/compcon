@@ -11,10 +11,7 @@
         xs="12"
         :class="!mobile && 'px-1'"
       >
-        <v-tooltip
-          location="top"
-          open-delay="300"
-        >
+        <cc-tooltip location="top">
           <template #activator="{ props }">
             <v-btn
               v-bind="props"
@@ -34,12 +31,9 @@
             </v-btn>
           </template>
           <span>{{ $t('compendium.campaign.sortByTitle') }}</span>
-        </v-tooltip>
+        </cc-tooltip>
 
-        <v-tooltip
-          location="top"
-          open-delay="300"
-        >
+        <cc-tooltip location="top">
           <template #activator="{ props }">
             <v-btn
               v-bind="props"
@@ -59,12 +53,9 @@
             </v-btn>
           </template>
           <span>{{ $t('compendium.campaign.sortByAuthor') }}</span>
-        </v-tooltip>
+        </cc-tooltip>
 
-        <v-tooltip
-          location="top"
-          open-delay="300"
-        >
+        <cc-tooltip location="top">
           <template #activator="{ props }">
             <v-btn
               v-bind="props"
@@ -87,12 +78,9 @@
             </v-btn>
           </template>
           <span>{{ $t('compendium.campaign.sortBySuggestedPlayers') }}</span>
-        </v-tooltip>
+        </cc-tooltip>
 
-        <v-tooltip
-          location="top"
-          open-delay="300"
-        >
+        <cc-tooltip location="top">
           <template #activator="{ props }">
             <v-btn
               v-bind="props"
@@ -114,7 +102,7 @@
             </v-btn>
           </template>
           <span>{{ $t('compendium.campaign.sortByLicenseLevel') }}</span>
-        </v-tooltip>
+        </cc-tooltip>
       </v-col>
     </v-row>
 

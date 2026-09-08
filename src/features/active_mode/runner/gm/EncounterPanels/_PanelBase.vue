@@ -112,7 +112,7 @@
                 "
                 cols="auto"
               >
-                <v-tooltip
+                <cc-tooltip
                   location="top"
                   :text="$t('active.tooltips.pilotGrit')"
                 >
@@ -141,7 +141,7 @@
                       </span>
                     </span>
                   </template>
-                </v-tooltip>
+                </cc-tooltip>
               </v-col>
               <template
                 v-for="stat in <any[]>statColumns"
@@ -155,10 +155,9 @@
                   v-else
                   cols="auto"
                 >
-                  <v-tooltip
+                  <cc-tooltip
                     :text="stat.title"
                     location="top"
-                    open-delay="400"
                   >
                     <template #activator="{ props }">
                       <span
@@ -185,17 +184,16 @@
                         </span>
                       </span>
                     </template>
-                  </v-tooltip>
+                  </cc-tooltip>
                   <cc-bonus :bonuses="getBonuses(stat.key)" />
                 </v-col>
               </template>
 
               <v-col cols="auto">
-                <v-tooltip
+                <cc-tooltip
                   v-if="item.ItemType === 'mech' || item.ItemType === 'pilot'"
                   :text="$t('common.attackBonus')"
                   location="top"
-                  open-delay="400"
                 >
                   <template #activator="{ props }">
                     <span
@@ -222,7 +220,7 @@
                       </span>
                     </span>
                   </template>
-                </v-tooltip>
+                </cc-tooltip>
                 <cc-bonus :bonuses="getBonuses('attackBonus')" />
               </v-col>
 

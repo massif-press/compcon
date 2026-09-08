@@ -12,7 +12,7 @@
   >
     <template #tooltip>
       <div class="text-center mt-n1 mb-1">
-        <v-tooltip
+        <cc-tooltip
           :text="$t('gm.actions.noncharacterObjectsSuchAsTerrain')"
           location="bottom"
           max-width="400"
@@ -27,7 +27,7 @@
               {{ $t('gm.doodad.whatIs') }}
             </v-chip>
           </template>
-        </v-tooltip>
+        </cc-tooltip>
       </div>
     </template>
 

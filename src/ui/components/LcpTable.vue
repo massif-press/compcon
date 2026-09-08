@@ -17,7 +17,7 @@
       {{ item.version || 'Unknown' }}
     </template>
     <template #item.v3="{ item }">
-      <v-tooltip
+      <cc-tooltip
         v-if="item.v3"
         max-width="300px"
       >
@@ -30,8 +30,8 @@
           </v-icon>
         </template>
         {{ strings.v3Compatible }}
-      </v-tooltip>
-      <v-tooltip
+      </cc-tooltip>
+      <cc-tooltip
         v-else
         max-width="300px"
       >
@@ -44,7 +44,7 @@
           </v-icon>
         </template>
         {{ strings.v3Incompatible }}
-      </v-tooltip>
+      </cc-tooltip>
     </template>
     <template #item.local_version="{ item }">
       <span v-if="getInstalledPack(item)">
@@ -74,7 +74,7 @@
         no-gutters
         :justify="mobile ? 'end' : 'center'"
       >
-        <v-tooltip
+        <cc-tooltip
           max-width="300px"
           location="top"
         >
@@ -112,7 +112,7 @@
           >
             {{ strings.subscribeTooltip }}
           </div>
-        </v-tooltip>
+        </cc-tooltip>
       </v-row>
     </template>
     <template #item.actions="{ item }">
@@ -124,7 +124,7 @@
         :downloading="downloadingPacks.includes(item.sortkey)"
         :install-latest="() => installLatest(item)"
       />
-      <v-tooltip
+      <cc-tooltip
         max-width="300px"
         location="top"
       >
@@ -145,7 +145,7 @@
           </v-btn>
         </template>
         <div class="text-center">{{ strings.openWebsite }}</div>
-      </v-tooltip>
+      </cc-tooltip>
     </template>
     <template #expanded-row="{ columns, item }">
       <td

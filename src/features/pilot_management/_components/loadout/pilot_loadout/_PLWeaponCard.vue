@@ -38,17 +38,16 @@
       </v-row>
       <v-row v-if="item.Note">
         <v-col>
-          <cc-tooltip
-            simple
-            inline
-            :content="item.Note"
-          >
-            <v-icon
-              size="small"
-              color="active"
-            >
-              mdi-note
-            </v-icon>
+          <cc-tooltip :text="item.Note">
+            <template #activator="{ props }">
+              <v-icon
+                v-bind="props"
+                size="small"
+                color="active"
+              >
+                mdi-note
+              </v-icon>
+            </template>
           </cc-tooltip>
         </v-col>
       </v-row>

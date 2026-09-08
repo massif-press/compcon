@@ -10,7 +10,7 @@
       </div>
     </v-col>
     <v-col cols="auto">
-      <v-tooltip
+      <cc-tooltip
         location="top"
         :text="
           hidePassives
@@ -42,7 +42,7 @@
             {{ hiddenFeatureCount }} {{ $t('active.unitLoadout.hiddenFeatures') }}
           </v-chip>
         </template>
-      </v-tooltip>
+      </cc-tooltip>
     </v-col>
     <v-spacer />
     <v-col cols="auto">

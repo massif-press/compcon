@@ -34,7 +34,7 @@
         >
           <template #label>
             {{ $t('ui.fields.gmOnly') }}
-            <v-tooltip location="top">
+            <cc-tooltip location="top">
               <template #activator="{ props }">
                 <v-icon
                   class="fade-select"
@@ -45,7 +45,7 @@
                 />
               </template>
               <div>{{ $t('ui.rollTable.gmOnlyTooltip') }}</div>
-            </v-tooltip>
+            </cc-tooltip>
           </template>
         </v-checkbox-btn>
       </div>

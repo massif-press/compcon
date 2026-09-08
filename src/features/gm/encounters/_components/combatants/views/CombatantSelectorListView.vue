@@ -90,7 +90,7 @@
           >
             {{ n.Name }}
             <template #append>
-              <v-tooltip>
+              <cc-tooltip>
                 <template #activator="{ props }">
                   <v-badge
                     :color="itemCount(n) ? 'primary' : 'transparent'"
@@ -107,7 +107,7 @@
                   </v-badge>
                 </template>
                 <span>{{ $t('active.roster.addToEncounter') }}</span>
-              </v-tooltip>
+              </cc-tooltip>
             </template>
           </v-list-item>
         </v-list-item>

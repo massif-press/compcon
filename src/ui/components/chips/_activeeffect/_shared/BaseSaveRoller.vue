@@ -78,7 +78,7 @@
             @update:model-value="s.SaveRolledValue = Number($event)"
           >
             <template #append>
-              <v-tooltip location="top">
+              <cc-tooltip location="top">
                 <template #activator="{ props }">
                   <v-btn
                     icon
@@ -117,7 +117,7 @@
                     <i class="text-caption text-disabled">{{ $t('ui.combat.clickToOverride') }}</i>
                   </div>
                 </div>
-              </v-tooltip>
+              </cc-tooltip>
             </template>
           </v-text-field>
         </v-col>

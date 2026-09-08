@@ -14,7 +14,7 @@
           :item="bonus"
           end
         />
-        <v-tooltip
+        <cc-tooltip
           v-if="bonus.FromInstance"
           location="top"
           max-width="300"
@@ -48,7 +48,7 @@
               </template>
             </i18n-t>
           </div>
-        </v-tooltip>
+        </cc-tooltip>
       </span>
     </template>
     <div

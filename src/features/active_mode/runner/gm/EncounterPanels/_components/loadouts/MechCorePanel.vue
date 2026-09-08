@@ -54,7 +54,7 @@
             @reset="mech.CombatController.CoreActive = false"
           >
             <template #icon>
-              <v-tooltip
+              <cc-tooltip
                 location="top"
                 :text="
                   mech.CombatController.CorePower
@@ -73,7 +73,7 @@
                     class="mr-1"
                   />
                 </template>
-              </v-tooltip>
+              </cc-tooltip>
             </template>
           </cc-combat-action-chip>
         </v-col>

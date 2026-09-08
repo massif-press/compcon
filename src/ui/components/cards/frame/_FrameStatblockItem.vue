@@ -14,7 +14,7 @@
     >
       <v-row dense>
         <v-col cols="auto">
-          <v-tooltip max-width="400">
+          <cc-tooltip max-width="400">
             <template #activator="{ props }">
               <v-icon
                 :icon="icon"
@@ -26,7 +26,7 @@
             <div class="heading h3">{{ displayName }}</div>
             <v-divider class="my-2" />
             <div v-html-safe="glossary" />
-          </v-tooltip>
+          </cc-tooltip>
         </v-col>
         <v-col class="heading h3">
           <span>{{ displayName }}</span>

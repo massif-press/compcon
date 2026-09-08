@@ -2,7 +2,7 @@
   <div>
     <v-hover>
       <template #default="{ props, isHovering }">
-        <v-tooltip location="right">
+        <cc-tooltip location="right">
           <template #activator="{ props: tooltipProps }">
             <v-card
               v-bind="props"
@@ -92,10 +92,7 @@
                         :key="stat.key"
                         cols="auto"
                       >
-                        <v-tooltip
-                          location="top"
-                          open-delay="400"
-                        >
+                        <cc-tooltip location="top">
                           <template #activator="{ props }">
                             <span
                               v-bind="props"
@@ -127,7 +124,7 @@
                               / {{ actor.StatController.MaxStats[stat.key] }}
                             </span>
                           </div>
-                        </v-tooltip>
+                        </cc-tooltip>
                       </v-col>
                     </v-row>
                     <v-divider :class="`my-${layout.padY}`" />
@@ -142,10 +139,9 @@
                         :key="stat.key"
                         cols="auto"
                       >
-                        <v-tooltip
+                        <cc-tooltip
                           :text="stat.title"
                           location="top"
-                          open-delay="400"
                         >
                           <template #activator="{ props }">
                             <span
@@ -169,7 +165,7 @@
                               </b>
                             </span>
                           </template>
-                        </v-tooltip>
+                        </cc-tooltip>
                       </v-col>
                     </v-row>
                   </div>
@@ -229,7 +225,7 @@
                     justify="center"
                     class="text-center my-1"
                   >
-                    <v-tooltip
+                    <cc-tooltip
                       v-for="damage in actor.CombatController.Resistances"
                       :key="`${actor.CombatController.Resistances.length}_${damage.type}-${damage.condition}`"
                       location="top"
@@ -267,7 +263,7 @@
                           })
                         }}
                       </span>
-                    </v-tooltip>
+                    </cc-tooltip>
                   </v-row>
 
                   <v-card
@@ -338,7 +334,7 @@
                     class="text-center"
                   >
                     <v-col v-if="actor.CombatController.Braced">
-                      <v-tooltip
+                      <cc-tooltip
                         location="top"
                         max-width="400px"
                       >
@@ -356,7 +352,7 @@
                         <div class="heading h4">{{ $t('active.actions.braced') }}</div>
                         <v-divider class="my-1" />
                         {{ $t('active.runnerItem.bracedDesc') }}
-                      </v-tooltip>
+                      </cc-tooltip>
                     </v-col>
 
                     <v-col v-if="actor.CombatController.Overwatch">
@@ -413,7 +409,7 @@
                     :key="`custom-${index}`"
                     class="d-flex"
                   >
-                    <v-tooltip
+                    <cc-tooltip
                       location="top"
                       max-width="400px"
                     >
@@ -439,7 +435,7 @@
                         {{ cs.status.Attribute }}
                       </div>
                       {{ cs.status.Detail }}
-                    </v-tooltip>
+                    </cc-tooltip>
 
                     <div
                       style="cursor: pointer"
@@ -494,10 +490,7 @@
                   cols="auto"
                 >
                   <div>
-                    <v-tooltip
-                      location="bottom"
-                      open-delay="400"
-                    >
+                    <cc-tooltip location="bottom">
                       <template #activator="{ props }">
                         <v-icon
                           v-if="destroyed"
@@ -522,7 +515,7 @@
                       <span class="text-cc-overline">
                         {{ $t('active.runnerItem.activationsRemaining', { n: activations }) }}
                       </span>
-                    </v-tooltip>
+                    </cc-tooltip>
                   </div>
                 </v-col>
               </v-row>
@@ -543,7 +536,7 @@
             </v-card>
           </template>
           {{ actor.Name }}
-        </v-tooltip>
+        </cc-tooltip>
       </template>
     </v-hover>
   </div>

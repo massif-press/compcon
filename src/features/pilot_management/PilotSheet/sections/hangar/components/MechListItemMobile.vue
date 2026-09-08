@@ -98,7 +98,7 @@
                 icon="mdi-delete"
               >
                 <template #activator="{ open }">
-                  <v-tooltip :text="$t('pm.titles.deleteMech')">
+                  <cc-tooltip :text="$t('pm.titles.deleteMech')">
                     <template #activator="{ props }">
                       <v-btn
                         size="x-small"
@@ -110,7 +110,7 @@
                         @click.stop="open"
                       />
                     </template>
-                  </v-tooltip>
+                  </cc-tooltip>
                 </template>
                 <cc-confirmation
                   :content="`Lancer, please confirm deletion of Mech Configuration:
@@ -129,7 +129,7 @@
                 icon="mdi-content-copy"
               >
                 <template #activator="{ open }">
-                  <v-tooltip :text="$t('pm.titles.duplicateMech')">
+                  <cc-tooltip :text="$t('pm.titles.duplicateMech')">
                     <template #activator="{ props }">
                       <v-btn
                         size="x-small"
@@ -140,7 +140,7 @@
                         @click.stop="open"
                       />
                     </template>
-                  </v-tooltip>
+                  </cc-tooltip>
                 </template>
                 <cc-confirmation
                   :content="`Lancer, please confirm intention to create a duplicate of Mech Configuration:
@@ -153,7 +153,7 @@
             </v-col>
 
             <v-col cols="auto">
-              <v-tooltip :text="$t('pm.tooltips.printMechSheet')">
+              <cc-tooltip :text="$t('pm.tooltips.printMechSheet')">
                 <template #activator="{ props }">
                   <v-btn
                     size="x-small"
@@ -164,7 +164,7 @@
                     @click.stop="$router.push(`/print/${mech.Pilot.ID}/${mech.ID}`)"
                   />
                 </template>
-              </v-tooltip>
+              </cc-tooltip>
             </v-col>
           </v-row>
         </div>

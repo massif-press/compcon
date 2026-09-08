@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip
+  <cc-tooltip
     location="top"
     :text="activation"
   >
@@ -13,7 +13,7 @@
           :icon="icon"
           :color="canActivate ? 'success' : 'error'"
         />
-        <v-tooltip
+        <cc-tooltip
           v-if="!canActivate"
           location="top"
         >
@@ -38,10 +38,10 @@
           >
             <div class="text-center">{{ $t('ui.combat.cannotActivate') }}</div>
           </slot>
-        </v-tooltip>
+        </cc-tooltip>
       </span>
     </template>
-  </v-tooltip>
+  </cc-tooltip>
 </template>
 
 <script setup lang="ts">

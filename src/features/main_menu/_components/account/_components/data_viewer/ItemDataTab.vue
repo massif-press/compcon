@@ -44,7 +44,7 @@
       return-object
     >
       <template #item.ID="{ item }">
-        <v-tooltip
+        <cc-tooltip
           v-if="item._isRemote"
           location="top"
           max-width="300"
@@ -65,8 +65,8 @@
               {{ $t('mainMenu.dataItem.remoteItemDesc') }}
             </i>
           </div>
-        </v-tooltip>
-        <v-tooltip
+        </cc-tooltip>
+        <cc-tooltip
           v-if="item._isBrokenRemote"
           location="top"
           max-width="300"
@@ -87,7 +87,7 @@
               {{ $t('mainMenu.dataItem.remoteInaccessibleDesc') }}
             </i>
           </div>
-        </v-tooltip>
+        </cc-tooltip>
 
         <span v-if="item._isChild">↳</span>
       </template>
@@ -149,7 +149,7 @@
         </i>
       </template>
       <template #item.syncStatus="{ item }">
-        <v-tooltip
+        <cc-tooltip
           v-if="item._isBrokenRemote"
           max-width="300px"
           location="top"
@@ -164,8 +164,8 @@
           <div class="text-center">
             {{ $t('mainMenu.dataItem.remoteLinkBroken') }}
           </div>
-        </v-tooltip>
-        <v-tooltip
+        </cc-tooltip>
+        <cc-tooltip
           v-else-if="item.SaveController?.IsDeleted || item.CloudController.Metadata.Deleted"
           max-width="300px"
           location="top"
@@ -184,8 +184,8 @@
                 : $t('mainMenu.dataItem.markedDeletedCloud')
             }}
           </div>
-        </v-tooltip>
-        <v-tooltip
+        </cc-tooltip>
+        <cc-tooltip
           v-else-if="isItemSynced(item)"
           max-width="300px"
           location="top"
@@ -198,8 +198,8 @@
             />
           </template>
           <div class="text-center">{{ $t('mainMenu.subscriptions.upToDate') }}</div>
-        </v-tooltip>
-        <v-tooltip
+        </cc-tooltip>
+        <cc-tooltip
           v-else
           max-width="300px"
           location="top"
@@ -220,11 +220,11 @@
                   : $t('mainMenu.dataItem.pendingSync')
             }}
           </div>
-        </v-tooltip>
+        </cc-tooltip>
       </template>
       <template #item.code="{ item }">
         <span v-if="item.ItemType === 'Campaign'">
-          <v-tooltip
+          <cc-tooltip
             max-width="400px"
             location="top"
           >
@@ -238,7 +238,7 @@
             <div class="text-center">
               {{ $t('mainMenu.dataItem.editableCampaignDesc') }}
             </div>
-          </v-tooltip>
+          </cc-tooltip>
         </span>
         <span v-else-if="item._isRemote && item.SaveController?.RemoteCode?.length > 0">
           {{
@@ -247,7 +247,7 @@
               8
             )}-${item.SaveController.RemoteCode.slice(8, 12)}`
           }}
-          <v-tooltip
+          <cc-tooltip
             max-width="300px"
             location="top"
           >
@@ -262,7 +262,7 @@
               />
             </template>
             <div class="text-center">{{ $t('common.copyShareCode') }}</div>
-          </v-tooltip>
+          </cc-tooltip>
         </span>
         <span v-else-if="item.CloudController?.Metadata?.Code?.length > 0">
           {{
@@ -274,7 +274,7 @@
               8
             )}-${item.CloudController.Metadata.Code.slice(8, 12)}`
           }}
-          <v-tooltip
+          <cc-tooltip
             max-width="300px"
             location="top"
           >
@@ -289,12 +289,12 @@
               />
             </template>
             <div class="text-center">{{ $t('common.copyShareCode') }}</div>
-          </v-tooltip>
+          </cc-tooltip>
         </span>
       </template>
       <template #item.actions="{ item }">
         <div v-if="item._isBrokenRemote">
-          <v-tooltip
+          <cc-tooltip
             max-width="300px"
             location="top"
           >
@@ -312,8 +312,8 @@
               </v-btn>
             </template>
             <div class="text-center">{{ $t('mainMenu.dataItem.retryConnection') }}</div>
-          </v-tooltip>
-          <v-tooltip
+          </cc-tooltip>
+          <cc-tooltip
             max-width="300px"
             location="top"
           >
@@ -334,10 +334,10 @@
               <br />
               <i class="text-caption">{{ $t('mainMenu.dataItem.convertToLocalDesc') }}</i>
             </div>
-          </v-tooltip>
+          </cc-tooltip>
         </div>
         <div v-else-if="item.SaveController?.IsDeleted">
-          <v-tooltip
+          <cc-tooltip
             max-width="300px"
             location="top"
           >
@@ -358,7 +358,7 @@
               <br />
               <i class="text-caption">{{ $t('mainMenu.dataItem.restoreLocalDesc') }}</i>
             </div>
-          </v-tooltip>
+          </cc-tooltip>
           <v-menu offset-y>
             <template #activator="{ props }">
               <v-btn
@@ -369,7 +369,7 @@
                 :disabled="cloudStorageFull"
                 v-bind="props"
               >
-                <v-tooltip
+                <cc-tooltip
                   max-width="300px"
                   location="top"
                 >
@@ -382,7 +382,7 @@
                     </v-icon>
                   </template>
                   <div class="text-center">{{ $t('mainMenu.dataItem.manualControls') }}</div>
-                </v-tooltip>
+                </cc-tooltip>
               </v-btn>
             </template>
             <v-list>
@@ -418,7 +418,7 @@
                 v-bind="skipDeleteWarningLocal ? '' : props"
                 @click="skipDeleteWarningLocal ? deleteLocalItemPermanent(item) : ''"
               >
-                <v-tooltip
+                <cc-tooltip
                   max-width="300px"
                   location="top"
                 >
@@ -431,7 +431,7 @@
                     </v-icon>
                   </template>
                   <div class="text-center">{{ $t('common.deletePermanently') }}</div>
-                </v-tooltip>
+                </cc-tooltip>
               </v-btn>
             </template>
             <template #default="{ isActive }">
@@ -482,7 +482,7 @@
           </v-dialog>
         </div>
         <div v-else-if="item.CloudController.Metadata.Deleted">
-          <v-tooltip
+          <cc-tooltip
             max-width="300px"
             location="top"
           >
@@ -503,7 +503,7 @@
               <br />
               <i class="text-caption">{{ $t('mainMenu.dataItem.restoreItemDesc') }}</i>
             </div>
-          </v-tooltip>
+          </cc-tooltip>
           <v-dialog max-width="600px">
             <template #activator="{ props }">
               <v-btn
@@ -515,7 +515,7 @@
                 v-bind="skipDeleteWarningPerm ? '' : props"
                 @click="skipDeleteWarningPerm ? deleteItemPermanent(item) : ''"
               >
-                <v-tooltip
+                <cc-tooltip
                   max-width="300px"
                   location="top"
                 >
@@ -528,7 +528,7 @@
                     </v-icon>
                   </template>
                   <div class="text-center">{{ $t('mainMenu.dataItem.deleteImmediately') }}</div>
-                </v-tooltip>
+                </cc-tooltip>
               </v-btn>
             </template>
             <template #default="{ isActive }">
@@ -589,7 +589,7 @@
                 :disabled="cloudStorageFull"
                 v-bind="props"
               >
-                <v-tooltip
+                <cc-tooltip
                   max-width="300px"
                   location="top"
                 >
@@ -602,7 +602,7 @@
                     </v-icon>
                   </template>
                   <div class="text-center">{{ $t('mainMenu.dataItem.manualControls') }}</div>
-                </v-tooltip>
+                </cc-tooltip>
               </v-btn>
             </template>
             <v-list>
@@ -636,7 +636,7 @@
 
           <v-dialog max-width="600px">
             <template #activator="{ props }">
-              <v-tooltip
+              <cc-tooltip
                 v-if="
                   !item.IsCloudOnly &&
                   (!item.CloudController.Metadata?.ItemModified || item._isRemote)
@@ -662,7 +662,7 @@
                     {{ $t('mainMenu.dataItem.deleteLocalDataDesc') }}
                   </i>
                 </div>
-              </v-tooltip>
+              </cc-tooltip>
               <v-btn
                 v-else
                 size="small"
@@ -672,7 +672,7 @@
                 v-bind="skipDeleteWarning ? '' : props"
                 @click="skipDeleteWarning ? deleteItem(item) : ''"
               >
-                <v-tooltip
+                <cc-tooltip
                   max-width="300px"
                   location="top"
                 >
@@ -686,7 +686,7 @@
                   </template>
 
                   <div class="text-center">{{ $t('mainMenu.dataItem.deleteCloudData') }}</div>
-                </v-tooltip>
+                </cc-tooltip>
               </v-btn>
             </template>
             <template #default="{ isActive }">

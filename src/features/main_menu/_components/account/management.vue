@@ -153,7 +153,7 @@
 
           <v-col>
             <div class="text-right">
-              <v-tooltip
+              <cc-tooltip
                 location="top"
                 max-width="350"
                 :text="
@@ -180,7 +180,7 @@
                     {{ $t('mainMenu.codeEntry.npcSubTitle') }}
                   </cc-chip>
                 </template>
-              </v-tooltip>
+              </cc-tooltip>
             </div>
           </v-col>
         </v-row>

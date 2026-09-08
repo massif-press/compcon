@@ -200,7 +200,7 @@
             }}
           </v-col>
           <v-col cols="auto">
-            <v-tooltip
+            <cc-tooltip
               location="top"
               max-width="400px"
             >
@@ -215,7 +215,7 @@
               <strong class="text-accent">
                 {{ $t('nav.settingsPage.errorReportingPiiNote') }}
               </strong>
-            </v-tooltip>
+            </cc-tooltip>
           </v-col>
         </v-row>
         <v-slide-y-reverse-transition>
@@ -239,7 +239,7 @@
               }}
             </v-col>
             <v-col cols="auto">
-              <v-tooltip
+              <cc-tooltip
                 location="top"
                 max-width="400px"
               >
@@ -267,7 +267,7 @@
                     </strong>
                   </template>
                 </i18n-t>
-              </v-tooltip>
+              </cc-tooltip>
             </v-col>
           </v-row>
         </v-slide-y-reverse-transition>

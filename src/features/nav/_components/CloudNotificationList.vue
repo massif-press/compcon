@@ -16,7 +16,7 @@
         :color="notification.type === 'error' ? 'error' : ''"
       >
         <template #append>
-          <v-tooltip location="top">
+          <cc-tooltip location="top">
             <template #activator="{ props }">
               <cc-button
                 v-bind="props"
@@ -28,7 +28,7 @@
               />
             </template>
             <span>{{ $t('common.dismiss') }}</span>
-          </v-tooltip>
+          </cc-tooltip>
         </template>
       </v-list-item>
       <v-btn

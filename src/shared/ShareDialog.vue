@@ -87,7 +87,7 @@
         <v-col cols="auto">
           <div class="text-cc-overline mt-4">
             {{ item.ItemType.toUpperCase() }} {{ $t('common.shareCode') }}
-            <v-tooltip>
+            <cc-tooltip>
               <template #activator="{ props }">
                 <v-icon
                   v-bind="props"
@@ -98,14 +98,14 @@
               <div>
                 {{ $t('share.shareCodeTooltip') }}
               </div>
-            </v-tooltip>
+            </cc-tooltip>
           </div>
           <b
             class="text-accent"
             style="font-size: calc(30px + 2vw)"
             v-text="`${shareCode.slice(0, 4)}-${shareCode.slice(4, 8)}-${shareCode.slice(8, 12)}`"
           />
-          <v-tooltip :text="$t('share.tooltips.copyShareCodeToClipboard')">
+          <cc-tooltip :text="$t('share.tooltips.copyShareCodeToClipboard')">
             <template #activator="{ props }">
               <v-icon
                 v-bind="props"
@@ -114,7 +114,7 @@
                 mdi-clipboard-text-outline
               </v-icon>
             </template>
-          </v-tooltip>
+          </cc-tooltip>
 
           <fieldset
             v-if="isPilot"
@@ -150,7 +150,7 @@
                   @click="copyShareLink()"
                 >
                   <template #append-inner>
-                    <v-tooltip :text="$t('share.tooltips.copyShareLinkToClipboard')">
+                    <cc-tooltip :text="$t('share.tooltips.copyShareLinkToClipboard')">
                       <template #activator="{ props }">
                         <v-icon
                           v-bind="props"
@@ -159,7 +159,7 @@
                           mdi-clipboard-text-outline
                         </v-icon>
                       </template>
-                    </v-tooltip>
+                    </cc-tooltip>
                   </template>
                 </v-text-field>
               </v-col>

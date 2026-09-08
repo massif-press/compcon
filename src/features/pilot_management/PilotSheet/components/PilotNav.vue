@@ -82,66 +82,61 @@
         :selected="selected === 1"
         @click="$emit('to', 1)"
       >
-        <v-tooltip
-          open-delay="300"
+        <cc-tooltip
           location="top"
           :text="$t('pm.actions.pilotSkillTriggersReservesAnd')"
         >
           <template #activator="{ props }">
             <span v-bind="props">{{ $t('pm.sheet.narrativePROFILE') }}</span>
           </template>
-        </v-tooltip>
+        </cc-tooltip>
       </nav-item>
       <nav-item
         v-if="hasBonds"
         :selected="selected === 2"
         @click="$emit('to', 2)"
       >
-        <v-tooltip
-          open-delay="300"
+        <cc-tooltip
           location="top"
           :text="$t('common.pilotBonds')"
         >
           <template #activator="{ props }">
             <span v-bind="props">{{ $t('pm.sheet.bonds') }}</span>
           </template>
-        </v-tooltip>
+        </cc-tooltip>
       </nav-item>
       <nav-item
         :selected="selected === 3"
         @click="$emit('to', 3)"
       >
-        <v-tooltip
-          open-delay="300"
+        <cc-tooltip
           location="top"
           :text="$t('pm.actions.pilotLicensesMechSkillsCore')"
         >
           <template #activator="{ props }">
             <span v-bind="props">{{ $t('pm.sheet.tacticalPROFILE') }}</span>
           </template>
-        </v-tooltip>
+        </cc-tooltip>
       </nav-item>
       <nav-item
         :selected="selected === 4"
         @click="$emit('to', 4)"
       >
-        <v-tooltip
-          open-delay="300"
+        <cc-tooltip
           location="top"
           :text="$t('pm.actions.createAndModifyMechsAndTheirLoadouts')"
         >
           <template #activator="{ props }">
             <span v-bind="props">{{ $t('pm.sheet.mechHangar') }}</span>
           </template>
-        </v-tooltip>
+        </cc-tooltip>
       </nav-item>
     </div>
 
     <div id="divider" />
 
-    <v-tooltip
+    <cc-tooltip
       v-if="pilot.IsRemote"
-      open-delay="300"
       location="top"
       :text="
         isAuthed
@@ -167,7 +162,7 @@
           />
         </v-btn>
       </template>
-    </v-tooltip>
+    </cc-tooltip>
 
     <cc-dialog
       v-else
@@ -176,8 +171,7 @@
       :close-on-click="false"
     >
       <template #activator="{ open }">
-        <v-tooltip
-          open-delay="300"
+        <cc-tooltip
           location="top"
           :text="isAuthed ? $t('pm.titles.sharePilotData') : $t('pm.sheet.requiresCloudAccount')"
         >
@@ -195,13 +189,12 @@
               </v-btn>
             </span>
           </template>
-        </v-tooltip>
+        </cc-tooltip>
       </template>
       <share-dialog :item="pilot" />
     </cc-dialog>
 
-    <v-tooltip
-      open-delay="300"
+    <cc-tooltip
       location="top"
       :text="$t('pm.sheet.pilotOptions')"
     >
@@ -214,7 +207,7 @@
           style="display: inline-block"
         />
       </template>
-    </v-tooltip>
+    </cc-tooltip>
 
     <div
       id="end-cap"

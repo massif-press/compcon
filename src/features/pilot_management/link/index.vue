@@ -119,10 +119,7 @@
     </cc-button>
 
     <v-spacer />
-    <v-tooltip
-      location="top"
-      open-delay="300"
-    >
+    <cc-tooltip location="top">
       <template #activator="{ props }">
         <v-icon
           v-bind="props"
@@ -132,7 +129,7 @@
         />
       </template>
       <span>{{ $t('common.copyLink') }}</span>
-    </v-tooltip>
+    </cc-tooltip>
   </v-footer>
 </template>
 

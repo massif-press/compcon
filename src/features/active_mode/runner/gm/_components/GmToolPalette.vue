@@ -1,7 +1,7 @@
 <template>
   <v-list>
     <div v-if="pc">
-      <v-tooltip :text="$t('common.pilotSheet')">
+      <cc-tooltip :text="$t('common.pilotSheet')">
         <template #activator="{ props: activatorProps }">
           <v-list-item
             v-bind="!expanded && activatorProps"
@@ -14,8 +14,8 @@
             {{ $t('common.pilotSheet') }}
           </v-list-item>
         </template>
-      </v-tooltip>
-      <v-tooltip
+      </cc-tooltip>
+      <cc-tooltip
         v-if="pc && combatant"
         :text="$t('common.deployables')"
       >
@@ -44,10 +44,10 @@
             </span>
           </v-list-item>
         </template>
-      </v-tooltip>
+      </cc-tooltip>
       <v-divider class="my-2" />
     </div>
-    <v-tooltip :text="$t('active.diceRoller.title')">
+    <cc-tooltip :text="$t('active.diceRoller.title')">
       <template #activator="{ props: activatorProps }">
         <v-list-item
           v-bind="!expanded && activatorProps"
@@ -59,8 +59,8 @@
           {{ $t('active.diceRoller.title') }}
         </v-list-item>
       </template>
-    </v-tooltip>
-    <v-tooltip :text="$t('active.tooltips.rollableTables')">
+    </cc-tooltip>
+    <cc-tooltip :text="$t('active.tooltips.rollableTables')">
       <template #activator="{ props: activatorProps }">
         <v-list-item
           v-bind="!expanded && activatorProps"
@@ -72,9 +72,9 @@
           {{ $t('active.tooltips.rollableTables') }}
         </v-list-item>
       </template>
-    </v-tooltip>
+    </cc-tooltip>
     <v-divider class="my-2" />
-    <v-tooltip
+    <cc-tooltip
       v-if="!pc"
       :text="$t('active.tooltips.encounterInfo')"
     >
@@ -90,8 +90,8 @@
           {{ $t('active.tooltips.encounterInfo') }}
         </v-list-item>
       </template>
-    </v-tooltip>
-    <v-tooltip :text="$t('common.notes')">
+    </cc-tooltip>
+    <cc-tooltip :text="$t('common.notes')">
       <template #activator="{ props: activatorProps }">
         <v-list-item
           v-bind="!expanded && activatorProps"
@@ -104,9 +104,9 @@
           {{ $t('common.notes') }}
         </v-list-item>
       </template>
-    </v-tooltip>
+    </cc-tooltip>
     <v-divider class="my-2" />
-    <v-tooltip
+    <cc-tooltip
       max-width="300"
       :text="$t('active.tooltips.listTagsPresentOnCharactersOrEquipmentInThisEncounter')"
     >
@@ -122,8 +122,8 @@
           {{ $t('active.toolPalette.tagReference') }}
         </v-list-item>
       </template>
-    </v-tooltip>
-    <v-tooltip :text="$t('active.toolPalette.combatQuickRef')">
+    </cc-tooltip>
+    <cc-tooltip :text="$t('active.toolPalette.combatQuickRef')">
       <template #activator="{ props: activatorProps }">
         <v-list-item
           v-bind="!expanded && activatorProps"
@@ -136,8 +136,8 @@
           {{ $t('active.toolPalette.combatQuickRef') }}
         </v-list-item>
       </template>
-    </v-tooltip>
-    <v-tooltip :text="$t('active.toolPalette.npcRef')">
+    </cc-tooltip>
+    <cc-tooltip :text="$t('active.toolPalette.npcRef')">
       <template #activator="{ props: activatorProps }">
         <v-list-item
           v-bind="!expanded && activatorProps"
@@ -150,9 +150,9 @@
           {{ $t('active.toolPalette.npcRef') }}
         </v-list-item>
       </template>
-    </v-tooltip>
+    </cc-tooltip>
     <v-divider class="my-2" />
-    <v-tooltip :text="$t('common.settings')">
+    <cc-tooltip :text="$t('common.settings')">
       <template #activator="{ props: activatorProps }">
         <v-list-item
           v-bind="!expanded && activatorProps"
@@ -165,7 +165,7 @@
           {{ $t('common.settings') }}
         </v-list-item>
       </template>
-    </v-tooltip>
+    </cc-tooltip>
   </v-list>
   <div style="height: 50px" />
 </template>

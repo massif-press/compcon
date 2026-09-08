@@ -112,7 +112,7 @@
                     <v-divider />
                     <v-card-actions v-if="!mech.Pilot.IsRemote">
                       <v-spacer />
-                      <v-tooltip
+                      <cc-tooltip
                         location="top"
                         :text="$t('pm.titles.deleteMech')"
                       >
@@ -128,8 +128,8 @@
                             <v-icon icon="mdi-delete" />
                           </v-btn>
                         </template>
-                      </v-tooltip>
-                      <v-tooltip
+                      </cc-tooltip>
+                      <cc-tooltip
                         location="top"
                         :text="$t('pm.titles.duplicateMech')"
                       >
@@ -144,8 +144,8 @@
                             <v-icon icon="mdi-content-copy" />
                           </v-btn>
                         </template>
-                      </v-tooltip>
-                      <v-tooltip
+                      </cc-tooltip>
+                      <cc-tooltip
                         location="top"
                         :text="$t('pm.tooltips.printMechSheet')"
                       >
@@ -160,8 +160,8 @@
                             <v-icon icon="mdi-printer" />
                           </v-btn>
                         </template>
-                      </v-tooltip>
-                      <v-tooltip
+                      </cc-tooltip>
+                      <cc-tooltip
                         location="top"
                         :text="
                           mech.Parent.FavoriteMech?.ID === mech.ID
@@ -192,7 +192,7 @@
                             />
                           </v-btn>
                         </template>
-                      </v-tooltip>
+                      </cc-tooltip>
                     </v-card-actions>
                   </v-card>
                 </v-expand-transition>

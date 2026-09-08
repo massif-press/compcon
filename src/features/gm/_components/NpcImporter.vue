@@ -76,7 +76,7 @@
             </td>
             <td>{{ item.content_packs }}</td>
             <td class="text-center">
-              <v-tooltip
+              <cc-tooltip
                 location="top"
                 max-width="300px"
               >
@@ -91,7 +91,7 @@
                 <span v-else-if="item.status === 'missing_content'">
                   {{ $t('gm.import.missingPacks') }}
                 </span>
-              </v-tooltip>
+              </cc-tooltip>
             </td>
           </tr>
         </tbody>

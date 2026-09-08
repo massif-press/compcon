@@ -139,9 +139,8 @@
             </span>
 
             <span v-if="!readonly">
-              <v-tooltip
+              <cc-tooltip
                 location="bottom"
-                open-delay="200"
                 max-width="300px"
               >
                 <template #activator="{ props }">
@@ -154,7 +153,7 @@
                   />
                 </template>
                 <span>{{ $t('gm.combatant.uniqueInstanceHelp') }}</span>
-              </v-tooltip>
+              </cc-tooltip>
             </span>
           </div>
         </div>
@@ -164,10 +163,9 @@
           :item="selected"
         />
         <v-spacer />
-        <v-tooltip
+        <cc-tooltip
           v-if="!readonly"
           location="bottom"
-          open-delay="200"
           max-width="300px"
         >
           <template #activator="{ props }">
@@ -189,7 +187,7 @@
             </template>
           </i18n-t>
           <span v-else>{{ $t('gm.combatant.notLinkedSourceDot') }}</span>
-        </v-tooltip>
+        </cc-tooltip>
 
         <b
           v-if="!readonly"
@@ -248,9 +246,8 @@
                     </v-col>
                     <v-col>{{ itemDiff[key].source }}</v-col>
                     <v-col cols="auto">
-                      <v-tooltip
+                      <cc-tooltip
                         location="bottom"
-                        open-delay="200"
                         max-width="300px"
                       >
                         <template #activator="{ props }">
@@ -270,15 +267,14 @@
                           </v-btn>
                         </template>
                         <span>{{ $t('gm.combatant.updateInstanceTooltip') }}</span>
-                      </v-tooltip>
+                      </cc-tooltip>
                     </v-col>
                   </v-row>
                   <v-divider class="my-2" />
                   <v-row dense>
                     <v-col offset="10">
-                      <v-tooltip
+                      <cc-tooltip
                         location="bottom"
-                        open-delay="200"
                         max-width="300px"
                       >
                         <template #activator="{ props }">
@@ -293,7 +289,7 @@
                           </v-btn>
                         </template>
                         <span>{{ $t('gm.combatant.updateAllTooltip') }}</span>
-                      </v-tooltip>
+                      </cc-tooltip>
                     </v-col>
                   </v-row>
                 </div>

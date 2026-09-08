@@ -60,7 +60,7 @@
       variant="solo-filled"
       class="flavor-text"
     />
-    <v-tooltip :text="$t('pm.tooltips.copyStatBlockToClipboard')">
+    <cc-tooltip :text="$t('pm.tooltips.copyStatBlockToClipboard')">
       <template #activator="{ props }">
         <cc-button
           v-bind="props"
@@ -72,7 +72,7 @@
           {{ $t('common.copyToClipboard') }}
         </cc-button>
       </template>
-    </v-tooltip>
+    </cc-tooltip>
   </v-card-text>
 </template>
 

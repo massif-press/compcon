@@ -3,9 +3,7 @@
     class="d-inline-block"
     style="position: relative"
   >
-    <v-tooltip
-      :open-on-hover="!mobile"
-      :open-on-click="mobile"
+    <cc-tooltip
       :disabled="!hasTooltipContent"
       max-width="350"
     >
@@ -24,7 +22,7 @@
         </v-chip>
       </template>
       <slot name="tooltip" />
-    </v-tooltip>
+    </cc-tooltip>
     <div
       v-if="variant === 'outlined'"
       :style="`background-color: ${hexColor(bgColor)}`"

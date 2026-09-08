@@ -26,7 +26,7 @@
               @close="panel = false"
             >
               <template #toolbar-items>
-                <v-tooltip
+                <cc-tooltip
                   max-width="300"
                   location="top"
                 >
@@ -41,7 +41,7 @@
                     </span>
                   </template>
                   <span>{{ $t('mainMenu.menu.markAllRead') }}</span>
-                </v-tooltip>
+                </cc-tooltip>
               </template>
             </cc-toolbar>
             <div style="width: 100%">

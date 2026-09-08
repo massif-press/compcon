@@ -14,7 +14,7 @@
         cols="auto"
         class="heading"
       >
-        <v-tooltip :text="title?.toUpperCase()">
+        <cc-tooltip :text="title?.toUpperCase()">
           <template #activator="{ props }">
             <v-icon
               v-if="icon"
@@ -24,7 +24,7 @@
               v-bind="props"
             />
           </template>
-        </v-tooltip>
+        </cc-tooltip>
         <span
           v-if="!portrait"
           style="font-size: 15px"

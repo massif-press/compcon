@@ -15,9 +15,8 @@
       class="ml-1"
     >
       <v-col cols="auto">
-        <v-tooltip
+        <cc-tooltip
           location="top"
-          open-delay="300"
           max-width="300"
         >
           <template #activator="{ props }">
@@ -75,7 +74,7 @@
             </template>
           </i18n-t>
           <span v-else>{{ $t('ui.missing.packActive', { pack: b.LcpName }) }}</span>
-        </v-tooltip>
+        </cc-tooltip>
       </v-col>
       <v-col cols="auto">
         {{ b.LcpName }}

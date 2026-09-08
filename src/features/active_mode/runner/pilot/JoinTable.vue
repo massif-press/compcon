@@ -2,10 +2,7 @@
   <v-container>
     <div class="heading h1">{{ $t('common.tables') }}</div>
     <div>
-      <v-tooltip
-        location="top"
-        open-delay="300"
-      >
+      <cc-tooltip location="top">
         <template #activator="{ props }">
           <v-btn
             v-bind="props"
@@ -29,12 +26,9 @@
           </v-btn>
         </template>
         <span>{{ $t('active.joinTable.sortOnline') }}</span>
-      </v-tooltip>
+      </cc-tooltip>
 
-      <v-tooltip
-        location="top"
-        open-delay="300"
-      >
+      <cc-tooltip location="top">
         <template #activator="{ props }">
           <v-btn
             v-bind="props"
@@ -58,12 +52,9 @@
           </v-btn>
         </template>
         <span>{{ $t('pm.sheet.sortByName') }}</span>
-      </v-tooltip>
+      </cc-tooltip>
 
-      <v-tooltip
-        location="top"
-        open-delay="300"
-      >
+      <cc-tooltip location="top">
         <template #activator="{ props }">
           <v-btn
             v-bind="props"
@@ -87,12 +78,9 @@
           </v-btn>
         </template>
         <span>{{ $t('active.joinTable.sortGm') }}</span>
-      </v-tooltip>
+      </cc-tooltip>
 
-      <v-tooltip
-        location="top"
-        open-delay="300"
-      >
+      <cc-tooltip location="top">
         <template #activator="{ props }">
           <v-btn
             v-bind="props"
@@ -116,12 +104,9 @@
           </v-btn>
         </template>
         <span>{{ $t('active.joinTable.sortLastOnline') }}</span>
-      </v-tooltip>
+      </cc-tooltip>
 
-      <v-tooltip
-        location="top"
-        open-delay="300"
-      >
+      <cc-tooltip location="top">
         <template #activator="{ props }">
           <v-btn
             v-bind="props"
@@ -145,7 +130,7 @@
           </v-btn>
         </template>
         <span>{{ $t('active.joinTable.sortNextSession') }}</span>
-      </v-tooltip>
+      </cc-tooltip>
     </div>
     <cc-panel
       v-for="table in tables"
@@ -177,7 +162,7 @@
               {{ $t('active.joinTable.gm') }}
               <cc-slashes />
             </span>
-            <v-tooltip location="top">
+            <cc-tooltip location="top">
               <template #activator="{ props }">
                 <v-icon
                   v-bind="props"
@@ -194,14 +179,14 @@
               >
                 {{ table.gm.online ? $t('active.joinTable.online') : $t('common.offline') }}
               </div>
-            </v-tooltip>
+            </cc-tooltip>
           </div>
           <p>
             <span class="text-cc-overline mr-1">
               {{ $t('active.joinTable.players') }}
               <cc-slashes />
             </span>
-            <v-tooltip
+            <cc-tooltip
               v-for="p in table.players"
               :key="p.name"
               location="top"
@@ -222,7 +207,7 @@
               >
                 {{ p.online ? $t('active.joinTable.online') : $t('common.offline') }}
               </div>
-            </v-tooltip>
+            </cc-tooltip>
           </p>
 
           <div v-if="!table.online">

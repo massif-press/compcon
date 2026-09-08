@@ -14,7 +14,7 @@
           class="d-inline"
           style="position: relative"
         >
-          <v-tooltip location="top">
+          <cc-tooltip location="top">
             <template #activator="{ props }">
               <cc-button
                 size="small"
@@ -45,7 +45,7 @@
                 <i class="text-caption text-disabled">{{ $t('ui.combat.clickToOverride') }}</i>
               </div>
             </div>
-          </v-tooltip>
+          </cc-tooltip>
         </div>
         <div
           v-else

@@ -31,7 +31,7 @@
           class="mr-2"
         />
         {{ item.Tag ? item.Tag : $t('gm.npcTag.setTag') }}
-        <v-tooltip location="top">
+        <cc-tooltip location="top">
           <template #activator="{ props }">
             <v-icon
               v-if="locked"
@@ -42,7 +42,7 @@
             </v-icon>
           </template>
           <span v-if="locked">{{ $t('gm.npcTag.lockedBy', { name: locked }) }}</span>
-        </v-tooltip>
+        </cc-tooltip>
       </v-btn>
     </template>
     <v-card

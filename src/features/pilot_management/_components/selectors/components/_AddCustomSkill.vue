@@ -31,7 +31,7 @@
       class="text-center"
     >
       <div class="mt-2 ml-auto mr-auto">
-        <v-tooltip :text="$t('pm.tooltips.addSkill')">
+        <cc-tooltip :text="$t('pm.tooltips.addSkill')">
           <template #activator="{ props: activatorProps }">
             <cc-button
               v-bind="activatorProps"
@@ -43,7 +43,7 @@
               @click="addSkill"
             />
           </template>
-        </v-tooltip>
+        </cc-tooltip>
       </div>
     </v-col>
   </v-row>

@@ -114,7 +114,7 @@
               align-self="center"
               class="mr-4"
             >
-              <v-tooltip location="bottom">
+              <cc-tooltip location="bottom">
                 <template #activator="{ props }">
                   <cc-button
                     variant="outlined"
@@ -127,7 +127,7 @@
                   {{ labelExpand ? $t('common.hide') : $t('common.show') }}
                   {{ $t('gm.labels.labelPalette') }}
                 </div>
-              </v-tooltip>
+              </cc-tooltip>
             </v-col>
             <v-col
               v-if="labelExpand"
@@ -143,7 +143,7 @@
                   <div class="text-caption text-text flex-grow-1">
                     {{ $t('gm.labels.labelPalette') }}
                   </div>
-                  <v-tooltip location="bottom">
+                  <cc-tooltip location="bottom">
                     <template #activator="{ props }">
                       <v-btn
                         icon
@@ -156,8 +156,8 @@
                       </v-btn>
                     </template>
                     <div>{{ $t('gm.labels.sortAlphabetically') }}</div>
-                  </v-tooltip>
-                  <v-tooltip location="bottom">
+                  </cc-tooltip>
+                  <cc-tooltip location="bottom">
                     <template #activator="{ props }">
                       <v-btn
                         icon
@@ -170,7 +170,7 @@
                       </v-btn>
                     </template>
                     <div>{{ $t('gm.labels.sortByUsage') }}</div>
-                  </v-tooltip>
+                  </cc-tooltip>
                 </div>
                 <v-divider class="text-text" />
                 <div style="position: absolute; top: 32px; bottom: 0">

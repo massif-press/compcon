@@ -6,11 +6,10 @@
   <div v-if="item.SuggestedSkills.length">
     <v-divider class="my-1" />
     <div class="text-cc-overline text-accent">{{ $t('ui.card.suggestedSkills') }}</div>
-    <v-tooltip
+    <cc-tooltip
       v-for="s in item.SuggestedSkills"
       :key="s.ID"
       location="top"
-      :open-on-click="mobile"
       max-width="400px"
     >
       <template #activator="{ props }">
@@ -24,7 +23,7 @@
         />
       </template>
       <div class="body-text">{{ s.Description }}</div>
-    </v-tooltip>
+    </cc-tooltip>
   </div>
 </template>
 

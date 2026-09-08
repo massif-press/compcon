@@ -47,7 +47,7 @@
           tile
         >
           <template #prepend>
-            <v-tooltip
+            <cc-tooltip
               :text="$t('pm.tooltips.generateRandomName')"
               location="top"
             >
@@ -60,7 +60,7 @@
                   @click="randomName()"
                 ></cc-button>
               </template>
-            </v-tooltip>
+            </cc-tooltip>
           </template>
           <template #append>
             <v-icon

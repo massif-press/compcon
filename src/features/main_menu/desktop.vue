@@ -53,7 +53,7 @@
           @clicked="extraContentModal = true"
         >
           {{ $t('common.contentManager') }}
-          <v-tooltip
+          <cc-tooltip
             v-if="hasV2Backups"
             :text="$t('mainMenu.actions.v2ImportsAwaitingResolution')"
           >
@@ -66,7 +66,7 @@
                 class="ml-1 mt-n2"
               />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
 
           <extra-content v-model="extraContentModal" />
         </main-btn>

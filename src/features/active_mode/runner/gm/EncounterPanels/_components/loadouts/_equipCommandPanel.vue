@@ -64,7 +64,7 @@
         @action="disableAI"
       />
 
-      <v-tooltip
+      <cc-tooltip
         location="top"
         max-width="300"
         :text="$t('active.tooltips.markYourMechAsInCascade')"
@@ -88,16 +88,16 @@
             />
           </v-btn>
         </template>
-      </v-tooltip>
+      </cc-tooltip>
     </v-col>
 
     <v-col
       cols="auto"
       class="ml-auto"
     >
-      <v-menu
-        open-on-hover
-        :close-on-content-click="false"
+      <cc-tooltip
+        location="top"
+        max-width="300"
       >
         <template #activator="{ props }">
           <v-btn
@@ -122,11 +122,7 @@
             />
           </v-btn>
         </template>
-        <v-card
-          class="text-center text-text text-cc-overline pa-2"
-          width="300"
-          border
-        >
+        <div class="text-center text-cc-overline">
           <div v-if="isLoading">
             <i18n-t
               v-if="!item.Used"
@@ -152,8 +148,8 @@
           <div v-else>
             {{ item.Used ? $t('active.equipCmd.clickUnused') : $t('active.equipCmd.clickUsed') }}
           </div>
-        </v-card>
-      </v-menu>
+        </div>
+      </cc-tooltip>
     </v-col>
 
     <v-col
@@ -176,7 +172,7 @@
       cols="auto"
       class="ml-1"
     >
-      <v-tooltip
+      <cc-tooltip
         location="top"
         :text="$t('active.tooltips.resetUses')"
       >
@@ -194,7 +190,7 @@
             <v-icon icon="mdi-reload" />
           </v-btn>
         </template>
-      </v-tooltip>
+      </cc-tooltip>
     </v-col>
 
     <v-col
@@ -203,7 +199,7 @@
       class="ml-1"
       style="z-index: 4"
     >
-      <v-tooltip
+      <cc-tooltip
         location="top"
         :text="$t('active.tooltips.toggleDestroyed')"
       >
@@ -224,7 +220,7 @@
             />
           </v-btn>
         </template>
-      </v-tooltip>
+      </cc-tooltip>
     </v-col>
 
     <v-col
@@ -232,7 +228,7 @@
       cols="auto"
       class="ml-1"
     >
-      <v-tooltip
+      <cc-tooltip
         location="top"
         :text="`Force Recharge (Recharges on: ${recharge}+)`"
       >
@@ -251,7 +247,7 @@
             <v-icon icon="mdi-reload" />
           </v-btn>
         </template>
-      </v-tooltip>
+      </cc-tooltip>
     </v-col>
   </v-row>
 </template>

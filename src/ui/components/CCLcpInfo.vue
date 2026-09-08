@@ -1,9 +1,8 @@
 <template>
   <span>
-    <v-tooltip
+    <cc-tooltip
       v-if="item.LcpName"
       location="top"
-      :close-delay="300"
       :max-width="350"
     >
       <template #activator="{ props }">
@@ -22,7 +21,7 @@
         start
       />
       <b>{{ item.LcpName }}</b>
-    </v-tooltip>
+    </cc-tooltip>
   </span>
 </template>
 

@@ -6,7 +6,7 @@
     :can-download-override="coreBookOverride"
   >
     <template #prepend-actions="{ canDownload, isLatest, downloading, installLatest }">
-      <v-tooltip
+      <cc-tooltip
         max-width="300px"
         location="top"
       >
@@ -52,7 +52,7 @@
         >
           {{ $t('mainMenu.ui.requiresItchPurchase') }}
         </div>
-      </v-tooltip>
+      </cc-tooltip>
     </template>
   </lcp-table>
 </template>

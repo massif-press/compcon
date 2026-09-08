@@ -133,7 +133,7 @@
             class="my-1 d-inline"
           >
             <template #extra>
-              <v-tooltip :text="$t('pm.tooltips.selectPredefinedBackground')">
+              <cc-tooltip :text="$t('pm.tooltips.selectPredefinedBackground')">
                 <template #activator="{ props }">
                   <span v-bind="props">
                     <background-selector
@@ -141,7 +141,7 @@
                     />
                   </span>
                 </template>
-              </v-tooltip>
+              </cc-tooltip>
             </template>
           </cc-text-field>
         </div>

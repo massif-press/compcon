@@ -26,7 +26,7 @@
         class="mb-1"
       >
         <v-col class="my-auto">
-          <v-tooltip :text="$t('common.armorBonus')">
+          <cc-tooltip :text="$t('common.armorBonus')">
             <template #activator="{ props }">
               <v-icon
                 v-bind="props"
@@ -34,11 +34,11 @@
                 icon="mdi-shield-outline"
               />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
           <span class="stat-text">{{ item.Armor(pilot) }}</span>
         </v-col>
         <v-col class="my-auto">
-          <v-tooltip :text="$t('common.hpBonus')">
+          <cc-tooltip :text="$t('common.hpBonus')">
             <template #activator="{ props }">
               <v-icon
                 v-bind="props"
@@ -46,11 +46,11 @@
                 icon="mdi-heart"
               />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
           <span class="stat-text">+{{ item.HPBonus(pilot) }}</span>
         </v-col>
         <v-col class="my-auto">
-          <v-tooltip :text="$t('common.electronicDefense')">
+          <cc-tooltip :text="$t('common.electronicDefense')">
             <template #activator="{ props }">
               <v-icon
                 v-bind="props"
@@ -58,11 +58,11 @@
                 icon="cc:edef"
               />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
           <span class="stat-text">{{ item.EDefense(pilot) }}</span>
         </v-col>
         <v-col class="my-auto">
-          <v-tooltip :text="$t('stats.evasion')">
+          <cc-tooltip :text="$t('stats.evasion')">
             <template #activator="{ props }">
               <v-icon
                 v-bind="props"
@@ -70,11 +70,11 @@
                 icon="cc:evasion"
               />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
           <span class="stat-text">{{ item.Evasion(pilot) }}</span>
         </v-col>
         <v-col class="my-auto">
-          <v-tooltip :text="$t('stats.speed')">
+          <cc-tooltip :text="$t('stats.speed')">
             <template #activator="{ props }">
               <v-icon
                 v-bind="props"
@@ -82,7 +82,7 @@
                 icon="mdi-arrow-right-bold-hexagon-outline"
               />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
           <span class="stat-text">{{ item.Speed(pilot) }}</span>
         </v-col>
       </v-row>

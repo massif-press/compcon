@@ -199,10 +199,7 @@
                   :key="`pilot-stat-${stat.key}`"
                   cols="auto"
                 >
-                  <v-tooltip
-                    location="top"
-                    open-delay="400"
-                  >
+                  <cc-tooltip location="top">
                     <template #activator="{ props: activatorProps }">
                       <v-icon
                         v-bind="activatorProps"
@@ -220,7 +217,7 @@
                         / {{ pilot.StatController.MaxStats[stat.key] }}
                       </span>
                     </div>
-                  </v-tooltip>
+                  </cc-tooltip>
                 </v-col>
                 <v-col
                   v-for="stat in pilot.StatController.GetStatCollection([
@@ -232,10 +229,9 @@
                   :key="`pilot-def-${stat.key}`"
                   cols="auto"
                 >
-                  <v-tooltip
+                  <cc-tooltip
                     :text="stat.title"
                     location="top"
-                    open-delay="400"
                   >
                     <template #activator="{ props: activatorProps }">
                       <v-icon
@@ -247,7 +243,7 @@
                         {{ pilot.StatController.CurrentStats[stat.key] }}
                       </b>
                     </template>
-                  </v-tooltip>
+                  </cc-tooltip>
                 </v-col>
               </v-row>
 
@@ -274,10 +270,7 @@
                     :key="`mech-stat-${stat.key}`"
                     cols="auto"
                   >
-                    <v-tooltip
-                      location="top"
-                      open-delay="400"
-                    >
+                    <cc-tooltip location="top">
                       <template #activator="{ props: activatorProps }">
                         <v-icon
                           v-bind="activatorProps"
@@ -295,7 +288,7 @@
                           / {{ mech.StatController.MaxStats[stat.key] }}
                         </span>
                       </div>
-                    </v-tooltip>
+                    </cc-tooltip>
                   </v-col>
                   <v-col
                     v-for="stat in mech.StatController.GetStatCollection([
@@ -307,10 +300,9 @@
                     :key="`mech-def-${stat.key}`"
                     cols="auto"
                   >
-                    <v-tooltip
+                    <cc-tooltip
                       :text="stat.title"
                       location="top"
-                      open-delay="400"
                     >
                       <template #activator="{ props: activatorProps }">
                         <v-icon
@@ -322,7 +314,7 @@
                           {{ mech.StatController.CurrentStats[stat.key] }}
                         </b>
                       </template>
-                    </v-tooltip>
+                    </cc-tooltip>
                   </v-col>
                 </v-row>
               </div>

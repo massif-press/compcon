@@ -14,7 +14,7 @@
       class="py-2"
     >
       <span class="px-2">
-        <v-tooltip
+        <cc-tooltip
           location="top"
           :text="$t('pm.tooltips.increaseSkillBonus')"
         >
@@ -29,14 +29,14 @@
               @click="$emit('add')"
             />
           </template>
-        </v-tooltip>
+        </cc-tooltip>
       </span>
       <div
         v-if="mobile"
         class="my-2"
       />
       <span class="px-2">
-        <v-tooltip
+        <cc-tooltip
           location="top"
           :text="$t('pm.tooltips.decreaseSkillBonus')"
         >
@@ -51,7 +51,7 @@
               @click="$emit('remove')"
             />
           </template>
-        </v-tooltip>
+        </cc-tooltip>
       </span>
     </v-col>
   </v-row>

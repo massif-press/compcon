@@ -116,10 +116,7 @@
 
     &nbsp;
 
-    <v-tooltip
-      location="bottom"
-      open-delay="500ms"
-    >
+    <cc-tooltip location="bottom">
       <template #activator="{ props }">
         <span v-bind="props">
           <cc-button
@@ -130,7 +127,7 @@
         </span>
       </template>
       <span>{{ $t('nav.nav.quickReference') }}</span>
-    </v-tooltip>
+    </cc-tooltip>
 
     &nbsp;
 
@@ -153,7 +150,7 @@
 
     <v-toolbar-title v-if="!mobile">
       <span v-if="StorageWarning">
-        <v-tooltip
+        <cc-tooltip
           location="bottom"
           max-width="300px"
         >
@@ -175,10 +172,10 @@
             </v-chip>
             {{ $t('nav.nav.storageWarningTooltip') }}
           </span>
-        </v-tooltip>
+        </cc-tooltip>
       </span>
       <span v-else-if="StorageMax">
-        <v-tooltip
+        <cc-tooltip
           location="bottom"
           max-width="300px"
         >
@@ -205,7 +202,7 @@
             </v-alert>
             {{ $t('nav.nav.storageDetails') }}
           </span>
-        </v-tooltip>
+        </cc-tooltip>
         <v-dialog
           v-model="storageFullDialog"
           width="780px"
@@ -279,7 +276,7 @@
       class="mx-1"
     />
 
-    <v-tooltip location="bottom">
+    <cc-tooltip location="bottom">
       <template #activator="{ props }">
         <cc-dialog
           :title="$t('nav.nav.cloudAccount')"
@@ -308,7 +305,7 @@
         </cc-dialog>
       </template>
       {{ $t('nav.nav.cloudAccount') }}
-    </v-tooltip>
+    </cc-tooltip>
 
     <v-divider
       v-if="!mobile"
@@ -316,7 +313,7 @@
       class="mx-1"
     />
 
-    <v-tooltip location="bottom">
+    <cc-tooltip location="bottom">
       <template #activator="{ props }">
         <cc-dialog
           :title="$t('nav.nav.achievements')"
@@ -342,7 +339,7 @@
         </cc-dialog>
       </template>
       {{ $t('nav.nav.achievements') }}
-    </v-tooltip>
+    </cc-tooltip>
 
     <v-divider
       v-if="!mobile"

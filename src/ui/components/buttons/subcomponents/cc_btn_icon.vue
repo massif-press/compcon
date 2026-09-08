@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip
+  <cc-tooltip
     :disabled="!tooltip"
     :text="tooltip"
     :location="getTooltipLocation"
@@ -41,7 +41,7 @@
         </v-btn>
       </div>
     </template>
-  </v-tooltip>
+  </cc-tooltip>
 </template>
 
 <script setup lang="ts">

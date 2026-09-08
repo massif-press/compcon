@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip
+  <cc-tooltip
     v-if="missingContent && simple"
     location="top"
     max-width="300px"
@@ -23,10 +23,9 @@
       <v-divider />
       <i class="text-caption">{{ $t('ui.missing.hoverHelp', { type: itemType }) }}</i>
     </div>
-  </v-tooltip>
-  <v-menu
+  </cc-tooltip>
+  <cc-tooltip
     v-else-if="missingContent"
-    open-on-hover
     max-width="450px"
   >
     <template #activator="{ props }">
@@ -85,7 +84,7 @@
         </i18n-t>
       </v-card-text>
     </v-card>
-  </v-menu>
+  </cc-tooltip>
 </template>
 
 <script setup lang="ts">

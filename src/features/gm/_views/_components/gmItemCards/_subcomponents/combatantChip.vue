@@ -1,7 +1,6 @@
 <template>
   <v-menu
     open-on-hover
-    open-delay="400"
     max-width="500px"
   >
     <template #activator="{ props }">

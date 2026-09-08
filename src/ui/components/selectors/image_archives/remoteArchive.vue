@@ -84,11 +84,15 @@
     <v-card-text>
       <div class="heading h3">
         {{ $t('ui.image.addRemote') }}
-        <cc-tooltip
-          inline
-          :content="$t('ui.tooltips.linkARemotelyHostedImageTo')"
-        >
-          <v-icon left>mdi-information-outline</v-icon>
+        <cc-tooltip :text="$t('ui.tooltips.linkARemotelyHostedImageTo')">
+          <template #activator="{ props }">
+            <v-icon
+              v-bind="props"
+              left
+            >
+              mdi-information-outline
+            </v-icon>
+          </template>
         </cc-tooltip>
       </div>
       <v-row align="center">

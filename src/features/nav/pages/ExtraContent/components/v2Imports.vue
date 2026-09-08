@@ -55,43 +55,46 @@
         {{ formatDate(item.timestamp) }}
       </template>
       <template #item.actions="{ item }">
-        <v-btn
-          icon
-          size="small"
-          flat
-          tile
-          color="accent"
-          variant="plain"
-          :loading="loading"
-          @click="reprocessSingle(item)"
+        <cc-tooltip
+          location="top"
+          :text="$t('nav.v2Import.attemptReimport')"
         >
-          <v-icon icon="mdi-import" />
-          <v-tooltip
-            location="top"
-            activator="parent"
-          >
-            {{ $t('nav.v2Import.attemptReimport') }}
-          </v-tooltip>
-        </v-btn>
-        <v-menu width="400px">
           <template #activator="{ props }">
             <v-btn
+              v-bind="props"
               icon
               size="small"
               flat
               tile
-              color="warning"
+              color="accent"
               variant="plain"
-              v-bind="props"
+              :loading="loading"
+              @click="reprocessSingle(item)"
             >
-              <v-icon icon="mdi-alert-circle" />
-              <v-tooltip
-                location="top"
-                activator="parent"
-              >
-                {{ $t('nav.v2Import.forceImport') }}
-              </v-tooltip>
+              <v-icon icon="mdi-import" />
             </v-btn>
+          </template>
+        </cc-tooltip>
+        <v-menu width="400px">
+          <template #activator="{ props }">
+            <cc-tooltip
+              location="top"
+              :text="$t('nav.v2Import.forceImport')"
+            >
+              <template #activator="{ props: tipProps }">
+                <v-btn
+                  v-bind="{ ...props, ...tipProps }"
+                  icon
+                  size="small"
+                  flat
+                  tile
+                  color="warning"
+                  variant="plain"
+                >
+                  <v-icon icon="mdi-alert-circle" />
+                </v-btn>
+              </template>
+            </cc-tooltip>
           </template>
           <cc-panel :title="$t('nav.v2Import.forceImportPanelTitle')">
             <v-card-text class="pa-1">

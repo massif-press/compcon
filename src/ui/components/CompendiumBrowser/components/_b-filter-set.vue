@@ -18,7 +18,7 @@
           size="small"
           :style="lcpConfigs.length ? 'flex: 1; border-right: none !important' : 'flex: 1'"
         >
-          <v-tooltip
+          <cc-tooltip
             :text="$t('common.contentPacks')"
             location="top"
           >
@@ -34,7 +34,7 @@
                 </v-chip>
               </span>
             </template>
-          </v-tooltip>
+          </cc-tooltip>
         </v-btn>
       </template>
       <v-card>
@@ -84,7 +84,7 @@
           icon
           style="border-left: none !important"
         >
-          <v-tooltip
+          <cc-tooltip
             :text="$t('ui.filter.savedConfigs')"
             location="top"
           >
@@ -95,7 +95,7 @@
                 size="small"
               />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
         </v-btn>
       </template>
       <v-card min-width="200px">
@@ -132,7 +132,7 @@
           size="small"
           style="flex: 1"
         >
-          <v-tooltip
+          <cc-tooltip
             :text="$t('ui.tooltips.itemFilters')"
             location="top"
           >
@@ -148,7 +148,7 @@
                 </v-chip>
               </span>
             </template>
-          </v-tooltip>
+          </cc-tooltip>
         </v-btn>
       </template>
       <v-card>

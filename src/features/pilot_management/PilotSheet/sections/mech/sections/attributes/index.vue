@@ -35,7 +35,7 @@
       <div>
         <v-divider class="mt-2" />
         <span class="text-overline no-height">{{ $t('common.systemPoints') }}</span>
-        <v-tooltip>
+        <cc-tooltip>
           <template #activator="{ props }">
             <span
               v-bind="props"
@@ -53,7 +53,7 @@
             v-html-safe="mech.SPContributors.join('<br />')"
             class="py-2"
           />
-        </v-tooltip>
+        </cc-tooltip>
       </div>
     </template>
   </mech-statblock>

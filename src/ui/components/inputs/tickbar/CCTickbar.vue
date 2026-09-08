@@ -140,7 +140,7 @@
         cols="auto"
         align-self="center"
       >
-        <v-tooltip
+        <cc-tooltip
           location="top"
           max-width="300px"
         >
@@ -152,7 +152,7 @@
             />
           </template>
           {{ tooltip }}
-        </v-tooltip>
+        </cc-tooltip>
       </v-col>
     </v-row>
     <div

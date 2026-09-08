@@ -1,9 +1,7 @@
 <template>
-  <v-tooltip
+  <cc-tooltip
     max-width="350px"
     location="top"
-    :open-on-click="mobile"
-    :open-on-hover="!mobile"
   >
     <template #activator="{ props }">
       <v-chip
@@ -31,7 +29,7 @@
     <div class="heading h3">{{ tag.GetName(bonus, tier) }}</div>
     <v-divider class="my-2" />
     <div v-html-safe="tag.GetDescription(bonus, tier)" />
-  </v-tooltip>
+  </cc-tooltip>
 </template>
 
 <script setup lang="ts">

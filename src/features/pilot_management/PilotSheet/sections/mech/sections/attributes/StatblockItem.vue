@@ -13,10 +13,7 @@
       class="clipped"
       color="panel"
     >
-      <v-tooltip
-        location="top"
-        :open-on-click="mobile"
-      >
+      <cc-tooltip location="top">
         <template #activator="{ props }">
           <v-toolbar
             v-bind="props"
@@ -42,7 +39,7 @@
           v-html-safe="content"
           class="py-2"
         />
-      </v-tooltip>
+      </cc-tooltip>
 
       <v-card-text class="pa-0">
         <span

@@ -20,7 +20,7 @@
     <v-divider />
     <v-card-actions>
       <v-spacer />
-      <v-tooltip
+      <cc-tooltip
         location="top"
         max-width="300px"
       >
@@ -37,10 +37,10 @@
           </v-btn>
         </template>
         <span>{{ $t('gm.campaign.exportLcdHelp') }}</span>
-      </v-tooltip>
+      </cc-tooltip>
 
       <v-spacer />
-      <v-tooltip
+      <cc-tooltip
         location="top"
         max-width="300px"
       >
@@ -57,10 +57,10 @@
           </v-btn>
         </template>
         <span>{{ $t('gm.campaign.saveLocalHelp') }}</span>
-      </v-tooltip>
+      </cc-tooltip>
       <v-spacer />
       <div v-if="shareCode">
-        <v-tooltip
+        <cc-tooltip
           max-width="300px"
           location="top"
         >
@@ -83,9 +83,9 @@
             <v-divider />
             <span class="text-caption">{{ $t('gm.campaign.copyShareCodeHelp') }}</span>
           </div>
-        </v-tooltip>
+        </cc-tooltip>
       </div>
-      <v-tooltip
+      <cc-tooltip
         v-else-if="isLoggedIn"
         location="top"
         max-width="300px"
@@ -104,7 +104,7 @@
           </v-btn>
         </template>
         <span>{{ $t('gm.campaign.generateShareCodeHelp') }}</span>
-      </v-tooltip>
+      </cc-tooltip>
       <v-spacer v-if="isLoggedIn" />
     </v-card-actions>
   </v-card>

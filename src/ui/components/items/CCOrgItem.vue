@@ -88,15 +88,20 @@
             <span>
               {{ $t('ui.org.efficiency') }}
               <cc-tooltip
-                simple
-                inline
-                content="How directly effective your organization is at what it does (a military
+                text="How directly effective your organization is at what it does (a military
                 organization with high efficiency would be good at combat, for example).
                 <br />Efficiency can be used to perform activities related to your organization's
                 purpose (science, military, etc). You can use these advantages as
                 <strong>reserves.</strong>"
               >
-                <v-icon size="small">mdi-help-circle-outline</v-icon>
+                <template #activator="{ props }">
+                  <v-icon
+                    v-bind="props"
+                    size="small"
+                  >
+                    mdi-help-circle-outline
+                  </v-icon>
+                </template>
               </cc-tooltip>
             </span>
           </div>
@@ -139,12 +144,15 @@
             <br />
             <span>
               {{ $t('ui.org.influence') }}
-              <cc-tooltip
-                simple
-                inline
-                :content="$t('ui.tooltips.influenceIsYourOrganizationsSizeReach')"
-              >
-                <v-icon size="small">mdi-help-circle-outline</v-icon>
+              <cc-tooltip :text="$t('ui.tooltips.influenceIsYourOrganizationsSizeReach')">
+                <template #activator="{ props }">
+                  <v-icon
+                    v-bind="props"
+                    size="small"
+                  >
+                    mdi-help-circle-outline
+                  </v-icon>
+                </template>
               </cc-tooltip>
             </span>
           </div>

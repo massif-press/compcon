@@ -44,7 +44,7 @@
                 color="background"
                 class="mr-1"
               >
-                <v-tooltip location="top">
+                <cc-tooltip location="top">
                   <template #activator="{ props }">
                     <v-icon
                       v-bind="props"
@@ -53,9 +53,9 @@
                     />
                   </template>
                   {{ activeEffect.Frequency.ToString() }}
-                </v-tooltip>
+                </cc-tooltip>
               </v-avatar>
-              <v-tooltip
+              <cc-tooltip
                 v-if="activeEffect.IsPassive"
                 location="top"
               >
@@ -68,8 +68,8 @@
                   />
                 </template>
                 {{ $t('ui.combat.passiveEffect') }}
-              </v-tooltip>
-              <v-tooltip
+              </cc-tooltip>
+              <cc-tooltip
                 v-if="activeEffect.Damage.length"
                 location="top"
               >
@@ -82,8 +82,8 @@
                   />
                 </template>
                 {{ $t('ui.combat.damageAssignment') }}
-              </v-tooltip>
-              <v-tooltip
+              </cc-tooltip>
+              <cc-tooltip
                 v-if="activeEffect.AddStatus.length"
                 location="top"
               >
@@ -96,8 +96,8 @@
                   />
                 </template>
                 {{ $t('ui.combat.statusEffect') }}
-              </v-tooltip>
-              <v-tooltip
+              </cc-tooltip>
+              <cc-tooltip
                 v-if="activeEffect.Save"
                 location="top"
               >
@@ -110,8 +110,8 @@
                   />
                 </template>
                 {{ $t('ui.combat.saveAvailable') }}
-              </v-tooltip>
-              <v-tooltip
+              </cc-tooltip>
+              <cc-tooltip
                 v-if="activeEffect.AddResist.length"
                 location="top"
               >
@@ -124,8 +124,8 @@
                   />
                 </template>
                 {{ $t('ui.combat.resistanceImmunity') }}
-              </v-tooltip>
-              <v-tooltip
+              </cc-tooltip>
+              <cc-tooltip
                 v-if="activeEffect.AddOther.length"
                 location="top"
               >
@@ -138,8 +138,8 @@
                   />
                 </template>
                 {{ $t('ui.combat.otherEffect') }}
-              </v-tooltip>
-              <v-tooltip
+              </cc-tooltip>
+              <cc-tooltip
                 v-if="activeEffect.AddSpecial.length"
                 location="top"
               >
@@ -152,10 +152,10 @@
                   />
                 </template>
                 {{ $t('ui.combat.specialEffect') }}
-              </v-tooltip>
+              </cc-tooltip>
             </template>
           </template>
-          <v-tooltip
+          <cc-tooltip
             location="top"
             max-width="600px"
           >
@@ -236,7 +236,7 @@
                 </v-chip>
               </div>
             </div>
-          </v-tooltip>
+          </cc-tooltip>
           <template #append>
             <v-icon
               v-if="activeEffect.Dismissible"

@@ -108,8 +108,7 @@
                   :key="dmg.ID"
                   cols="4"
                 >
-                  <v-tooltip
-                    :open-delay="400"
+                  <cc-tooltip
                     location="top"
                     max-width="300"
                   >
@@ -129,7 +128,7 @@
                       </v-card>
                     </template>
                     <div class="heading h3">{{ $enum('damageType', dmg.Type) }}</div>
-                  </v-tooltip>
+                  </cc-tooltip>
                 </v-col>
               </v-row>
             </v-col>

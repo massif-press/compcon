@@ -28,21 +28,24 @@
           md="4"
           lg=""
         >
-          <v-btn
-            :color="action.available ? action.color : 'grey'"
-            flat
-            tile
-            block
-            :class="[
-              `combat-action-tile px-${layout.padX}`,
-              { 'combat-action-tile--spent': !action.available },
-            ]"
-            :height="layout.tileHeight"
-            :aria-pressed="action.readonly ? undefined : String(action.available)"
-            :aria-label="action.label"
-            :readonly="action.readonly"
-            @click="action.readonly ? undefined : action.toggle?.()"
-          >
+          <cc-tooltip :text="layout.showLabel ? undefined : action.label" location="top">
+            <template #activator="{ props }">
+              <v-btn
+                v-bind="props"
+                :color="action.available ? action.color : 'grey'"
+                flat
+                tile
+                block
+                :class="[
+                  `combat-action-tile px-${layout.padX}`,
+                  { 'combat-action-tile--spent': !action.available },
+                ]"
+                :height="layout.tileHeight"
+                :aria-pressed="action.readonly ? undefined : String(action.available)"
+                :aria-label="action.label"
+                :readonly="action.readonly"
+                @click="action.readonly ? undefined : action.toggle?.()"
+              >
             <div
               class="d-flex flex-column align-center justify-center"
               style="line-height: 1.1"
@@ -65,19 +68,14 @@
                 {{ $t('active.combatAction.spent') }}
               </span>
             </div>
-            <v-icon
-              v-if="!action.available && !action.readonly && !layout.showLabel"
-              class="combat-action-spent-mark"
-              size="14"
-              icon="mdi-close-thick"
-            />
-            <v-tooltip
-              v-if="!layout.showLabel"
-              activator="parent"
-              location="top"
-              :text="action.label"
-            />
-          </v-btn>
+              <v-icon
+                v-if="!action.available && !action.readonly && !layout.showLabel"
+                class="combat-action-spent-mark"
+                size="14"
+                icon="mdi-close-thick"
+              />
+            </template>
+          </cc-tooltip>
         </v-col>
         <v-responsive
           v-if="action.breakAfter && layout.showLabel"

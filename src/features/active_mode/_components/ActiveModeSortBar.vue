@@ -2,10 +2,7 @@
   <v-row dense>
     <v-col>
       <div class="my-1 d-flex align-center">
-        <v-tooltip
-          location="top"
-          open-delay="300"
-        >
+        <cc-tooltip location="top">
           <template #activator="{ props: activatorProps }">
             <v-btn
               v-bind="activatorProps"
@@ -29,12 +26,9 @@
             </v-btn>
           </template>
           <span>{{ $t('active.sortBar.sortByRecent') }}</span>
-        </v-tooltip>
+        </cc-tooltip>
 
-        <v-tooltip
-          location="top"
-          open-delay="300"
-        >
+        <cc-tooltip location="top">
           <template #activator="{ props: activatorProps }">
             <v-btn
               v-bind="activatorProps"
@@ -58,12 +52,9 @@
             </v-btn>
           </template>
           <span>{{ $t('pm.sheet.sortByName') }}</span>
-        </v-tooltip>
+        </cc-tooltip>
 
-        <v-tooltip
-          location="top"
-          open-delay="300"
-        >
+        <cc-tooltip location="top">
           <template #activator="{ props: activatorProps }">
             <v-btn
               v-bind="activatorProps"
@@ -87,7 +78,7 @@
             </v-btn>
           </template>
           <span>{{ $t('active.sortBar.sortByCreated') }}</span>
-        </v-tooltip>
+        </cc-tooltip>
       </div>
     </v-col>
     <v-col cols="auto">

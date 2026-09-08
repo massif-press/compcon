@@ -17,7 +17,7 @@
         />
       </v-toolbar-title>
       <v-spacer />
-      <v-tooltip
+      <cc-tooltip
         max-width="300px"
         location="top"
       >
@@ -41,8 +41,8 @@
           <br />
           {{ $t('mainMenu.ui.doesNotSync') }}
         </div>
-      </v-tooltip>
-      <v-tooltip
+      </cc-tooltip>
+      <cc-tooltip
         max-width="300px"
         location="top"
       >
@@ -62,7 +62,7 @@
           </span>
         </template>
         <div class="text-center">{{ $t('common.updateAll') }}</div>
-      </v-tooltip>
+      </cc-tooltip>
     </v-toolbar>
 
     <v-divider />

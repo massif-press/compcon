@@ -4,9 +4,8 @@
     justify="center"
   >
     <v-col>
-      <v-tooltip
+      <cc-tooltip
         location="top"
-        open-delay="500"
         max-width="300"
       >
         <template #activator="{ props }">
@@ -33,13 +32,12 @@
             <i class="text-caption text-disabled">{{ $t('ui.combat.clickToOverride') }}</i>
           </div>
         </div>
-      </v-tooltip>
+      </cc-tooltip>
     </v-col>
     <v-col>
-      <v-tooltip
+      <cc-tooltip
         v-if="!['heat', 'burn'].includes(damageEffect.DamageType)"
         location="top"
-        open-delay="500"
         max-width="300"
       >
         <template #activator="{ props }">
@@ -66,12 +64,11 @@
             <i class="text-caption text-disabled">{{ $t('ui.combat.clickToOverride') }}</i>
           </div>
         </div>
-      </v-tooltip>
+      </cc-tooltip>
     </v-col>
     <v-col>
-      <v-tooltip
+      <cc-tooltip
         location="top"
-        open-delay="500"
         max-width="300"
       >
         <template #activator="{ props }">
@@ -101,12 +98,11 @@
             <i class="text-caption text-disabled">{{ $t('ui.combat.clickToOverride') }}</i>
           </div>
         </div>
-      </v-tooltip>
+      </cc-tooltip>
     </v-col>
     <v-col>
-      <v-tooltip
+      <cc-tooltip
         location="top"
-        open-delay="500"
         max-width="300"
       >
         <template #activator="{ props }">
@@ -133,14 +129,13 @@
             <i class="text-caption text-disabled">{{ $t('ui.combat.clickToOverride') }}</i>
           </div>
         </div>
-      </v-tooltip>
+      </cc-tooltip>
     </v-col>
     <v-col>
       <v-menu
         location="top"
         open-on-hover
         :close-on-content-click="false"
-        open-delay="500"
         max-width="200"
       >
         <template #activator="{ props }">
@@ -223,9 +218,8 @@
       </v-menu>
     </v-col>
     <v-col>
-      <v-tooltip
+      <cc-tooltip
         location="top"
-        open-delay="500"
         max-width="300"
       >
         <template #activator="{ props }">
@@ -249,7 +243,7 @@
           <span v-if="damageEffect.Bonus">{{ $t('ui.combat.clickClearBonus') }}</span>
           <span v-else>{{ $t('ui.combat.clickAddBonus') }}</span>
         </div>
-      </v-tooltip>
+      </cc-tooltip>
     </v-col>
   </v-row>
 </template>

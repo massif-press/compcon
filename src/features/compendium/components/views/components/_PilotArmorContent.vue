@@ -15,70 +15,70 @@
           v-if="item.ArmorString"
           cols="auto"
         >
-          <v-tooltip :text="$t('common.armorBonus')">
+          <cc-tooltip :text="$t('common.armorBonus')">
             <template #activator="{ props }">
               <v-icon
                 v-bind="props"
                 icon="mdi-shield-outline"
               />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
           <span class="stat-text">{{ item.ArmorString }}</span>
         </v-col>
         <v-col
           v-if="item.HpString"
           cols="auto"
         >
-          <v-tooltip :text="$t('common.hpBonus')">
+          <cc-tooltip :text="$t('common.hpBonus')">
             <template #activator="{ props }">
               <v-icon
                 v-bind="props"
                 icon="mdi-heart"
               />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
           <span class="stat-text">+{{ item.HpString }}</span>
         </v-col>
         <v-col
           v-if="item.EdefString"
           cols="auto"
         >
-          <v-tooltip :text="$t('common.electronicDefense')">
+          <cc-tooltip :text="$t('common.electronicDefense')">
             <template #activator="{ props }">
               <v-icon
                 v-bind="props"
                 icon="cc:edef"
               />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
           <span class="stat-text">{{ item.EdefString }}</span>
         </v-col>
         <v-col
           v-if="item.EvasionString"
           cols="auto"
         >
-          <v-tooltip :text="$t('stats.evasion')">
+          <cc-tooltip :text="$t('stats.evasion')">
             <template #activator="{ props }">
               <v-icon
                 v-bind="props"
                 icon="cc:evasion"
               />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
           <span class="stat-text">{{ item.EvasionString }}</span>
         </v-col>
         <v-col
           v-if="item.SpeedString"
           cols="auto"
         >
-          <v-tooltip :text="$t('stats.speed')">
+          <cc-tooltip :text="$t('stats.speed')">
             <template #activator="{ props }">
               <v-icon
                 v-bind="props"
                 icon="mdi-arrow-right-bold-hexagon-outline"
               />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
           <span class="stat-text">{{ item.SpeedString }}</span>
         </v-col>
       </v-row>

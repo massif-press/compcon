@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip :text="label">
+  <cc-tooltip :text="label">
     <template #activator="{ props }">
       <v-chip
         v-bind="props"
@@ -15,7 +15,7 @@
         <v-icon icon="mdi-circle-edit-outline" />
       </v-chip>
     </template>
-  </v-tooltip>
+  </cc-tooltip>
 </template>
 
 <script setup lang="ts">

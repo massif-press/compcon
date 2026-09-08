@@ -102,7 +102,7 @@
                   </v-avatar>
                 </template>
                 <template #append>
-                  <v-tooltip>
+                  <cc-tooltip>
                     <template #activator="{ props: activatorProps }">
                       <cc-button
                         v-bind="activatorProps"
@@ -114,7 +114,7 @@
                       ></cc-button>
                     </template>
                     <span>{{ $t('active.roster.addToEncounter') }}</span>
-                  </v-tooltip>
+                  </cc-tooltip>
                 </template>
               </v-list-item>
             </template>

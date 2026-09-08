@@ -22,7 +22,7 @@
         size="large"
         class="mr-4"
       >
-        <v-tooltip
+        <cc-tooltip
           :text="t.Description || t.Tactics"
           max-width="350px"
         >
@@ -38,7 +38,7 @@
               {{ t.Name }}
             </span>
           </template>
-        </v-tooltip>
+        </cc-tooltip>
       </cc-chip>
     </v-col>
     <v-col
@@ -102,7 +102,7 @@
             <span class="heading">{{ t.Name }}</span>
           </template>
           <template #append>
-            <v-tooltip
+            <cc-tooltip
               v-if="isAssigned(t)"
               location="top"
               :text="$t('gm.npcTemplate.removeTemplate')"
@@ -117,14 +117,14 @@
                   @click.stop="removeTemplate(t)"
                 />
               </template>
-            </v-tooltip>
+            </cc-tooltip>
             <v-icon
               v-else-if="templateConflict(t).length"
               icon="mdi-cancel"
               size="large"
               disabled
             />
-            <v-tooltip
+            <cc-tooltip
               v-else
               location="top"
               :text="$t('gm.npcTemplate.assignTemplate')"
@@ -139,7 +139,7 @@
                   @click.stop="addTemplate(t)"
                 />
               </template>
-            </v-tooltip>
+            </cc-tooltip>
           </template>
         </v-list-item>
       </template>

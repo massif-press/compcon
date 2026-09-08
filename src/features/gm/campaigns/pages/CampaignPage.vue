@@ -45,10 +45,7 @@
         icon
         @click="$emit('preview', 'page')"
       >
-        <v-tooltip
-          location="bottom"
-          open-delay="300"
-        >
+        <cc-tooltip location="bottom">
           <template #activator="{ props }">
             <v-icon
               v-bind="props"
@@ -57,7 +54,7 @@
             />
           </template>
           <span>{{ $t('common.preview') }}</span>
-        </v-tooltip>
+        </cc-tooltip>
       </v-btn>
       <v-spacer />
 
@@ -76,10 +73,7 @@
             class="mr-2"
             icon
           >
-            <v-tooltip
-              location="bottom"
-              open-delay="300"
-            >
+            <cc-tooltip location="bottom">
               <template #activator="{ props }">
                 <v-icon
                   v-bind="props"
@@ -88,7 +82,7 @@
                 />
               </template>
               <span>{{ $t('gm.campaign.changeSectionType') }}</span>
-            </v-tooltip>
+            </cc-tooltip>
           </v-btn>
         </template>
         <v-card>
@@ -125,10 +119,7 @@
             class="mr-2"
             icon
           >
-            <v-tooltip
-              location="bottom"
-              open-delay="300"
-            >
+            <cc-tooltip location="bottom">
               <template #activator="{ props }">
                 <v-icon
                   v-bind="props"
@@ -137,7 +128,7 @@
                 />
               </template>
               <span>{{ $t('gm.campaign.movePage') }}</span>
-            </v-tooltip>
+            </cc-tooltip>
           </v-btn>
         </template>
         <v-card>
@@ -224,10 +215,7 @@
         icon
         @click="item.Duplicate()"
       >
-        <v-tooltip
-          location="bottom"
-          open-delay="300"
-        >
+        <cc-tooltip location="bottom">
           <template #activator="{ props }">
             <v-icon
               v-bind="props"
@@ -236,7 +224,7 @@
             />
           </template>
           <span>{{ $t('common.duplicate') }}</span>
-        </v-tooltip>
+        </cc-tooltip>
       </v-btn>
 
       <v-menu
@@ -251,10 +239,7 @@
             color="error"
             icon
           >
-            <v-tooltip
-              location="bottom"
-              open-delay="300"
-            >
+            <cc-tooltip location="bottom">
               <template #activator="{ props }">
                 <v-icon
                   v-bind="props"
@@ -263,7 +248,7 @@
                 />
               </template>
               <span>{{ $t('common.delete') }}</span>
-            </v-tooltip>
+            </cc-tooltip>
           </v-btn>
         </template>
         <v-card>

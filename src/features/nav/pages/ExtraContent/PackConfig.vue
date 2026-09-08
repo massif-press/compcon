@@ -51,7 +51,7 @@
             />
           </v-col>
           <v-col cols="auto">
-            <v-tooltip
+            <cc-tooltip
               location="top"
               :text="$t('nav.packConfig.deleteConfig')"
             >
@@ -68,7 +68,7 @@
                   <v-icon icon="mdi-delete" />
                 </v-btn>
               </template>
-            </v-tooltip>
+            </cc-tooltip>
           </v-col>
         </v-row>
 
@@ -116,7 +116,7 @@
               </span>
             </v-col>
             <v-col cols="auto">
-              <v-tooltip
+              <cc-tooltip
                 location="top"
                 :text="$t('nav.packConfig.removeFromConfig')"
               >
@@ -133,7 +133,7 @@
                     <v-icon icon="mdi-close" />
                   </v-btn>
                 </template>
-              </v-tooltip>
+              </cc-tooltip>
             </v-col>
           </v-row>
         </div>
@@ -200,7 +200,7 @@
           cols="auto"
           class="ml-auto"
         >
-          <v-tooltip
+          <cc-tooltip
             location="top"
             :text="$t('nav.packConfig.editConfig')"
           >
@@ -217,7 +217,7 @@
                 <v-icon icon="mdi-pencil" />
               </v-btn>
             </template>
-          </v-tooltip>
+          </cc-tooltip>
         </v-col>
       </v-row>
     </v-card>

@@ -4,12 +4,7 @@
     class="pa-0"
     @click="$emit('clicked')"
   >
-    <v-menu
-      open-on-hover
-      bottom
-      offset-y
-      open-delay="100"
-    >
+    <cc-tooltip max-width="400px">
       <template #activator="{ props }">
         <div
           style="position: relative"
@@ -30,26 +25,10 @@
           </div>
         </div>
       </template>
-      <v-card
-        flat
-        tile
-        max-width="400px"
-      >
-        <v-toolbar
-          flat
-          density="compact"
-          tile
-          color="primary"
-          height="20px"
-        >
-          <div class="heading h3 px-4">
-            {{ talent.Name }}
-          </div>
-        </v-toolbar>
-        <v-card-text
-          v-if="rank"
-          class="pa-2"
-        >
+      <div>
+        <div class="heading h3">{{ talent.Name }}</div>
+        <v-divider class="my-1" />
+        <div v-if="rank">
           <div
             v-for="n in rank"
             :key="`rank-${n}`"
@@ -61,9 +40,9 @@
             </span>
             <talent-rank-contents :talent-rank="talent.Rank(Number(n))" />
           </div>
-        </v-card-text>
-      </v-card>
-    </v-menu>
+        </div>
+      </div>
+    </cc-tooltip>
   </v-col>
 </template>
 

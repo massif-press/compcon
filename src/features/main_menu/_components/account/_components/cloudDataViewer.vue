@@ -16,7 +16,7 @@
         />
       </v-toolbar-title>
       <v-spacer />
-      <v-tooltip
+      <cc-tooltip
         max-width="300px"
         location="top"
       >
@@ -40,7 +40,7 @@
           <br />
           {{ $t('mainMenu.ui.doesNotSync') }}
         </div>
-      </v-tooltip>
+      </cc-tooltip>
       <template #extension>
         <cc-text-field
           v-if="!mobile"
@@ -73,7 +73,7 @@
         <v-spacer />
         <v-tabs v-model="tab">
           <v-tab>
-            <v-tooltip
+            <cc-tooltip
               max-width="300px"
               location="top"
             >
@@ -81,11 +81,11 @@
                 <span v-bind="props">{{ $t('mainMenu.cloudData.dataTab') }}</span>
               </template>
               <div class="text-center">{{ $t('mainMenu.cloudData.dataTabDesc') }}</div>
-            </v-tooltip>
+            </cc-tooltip>
           </v-tab>
           <v-divider vertical />
           <v-tab>
-            <v-tooltip
+            <cc-tooltip
               max-width="300px"
               location="top"
             >
@@ -95,7 +95,7 @@
               <div class="text-center">
                 {{ $t('mainMenu.cloudData.imagesTabDesc') }}
               </div>
-            </v-tooltip>
+            </cc-tooltip>
           </v-tab>
         </v-tabs>
       </template>

@@ -11,10 +11,9 @@
         {{ counter.Name }}
       </div>
       <v-spacer />
-      <v-tooltip
+      <cc-tooltip
         :text="$t('ui.tooltips.resetCounter')"
         location="top"
-        open-delay="400"
       >
         <template #activator="{ props }">
           <v-btn
@@ -28,9 +27,9 @@
             <v-icon size="22">mdi-reload</v-icon>
           </v-btn>
         </template>
-      </v-tooltip>
+      </cc-tooltip>
 
-      <v-tooltip
+      <cc-tooltip
         v-if="counterData.custom"
         :text="$t('ui.tooltips.deleteCounter')"
       >
@@ -45,7 +44,7 @@
             <v-icon size="22">mdi-delete</v-icon>
           </v-btn>
         </template>
-      </v-tooltip>
+      </cc-tooltip>
     </div>
     <v-card-text class="py-1 px-0">
       <v-row

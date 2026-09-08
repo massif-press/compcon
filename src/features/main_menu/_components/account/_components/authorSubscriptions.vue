@@ -29,7 +29,7 @@
               </strong>"
         />
       </v-toolbar-title>
-      <v-tooltip
+      <cc-tooltip
         max-width="300px"
         location="top"
       >
@@ -47,8 +47,8 @@
           <br />
           {{ $t('mainMenu.ui.doesNotSync') }}
         </div>
-      </v-tooltip>
-      <v-tooltip
+      </cc-tooltip>
+      <cc-tooltip
         max-width="300px"
         location="top"
       >
@@ -62,7 +62,7 @@
           />
         </template>
         <div class="text-center">{{ $t('common.updateAll') }}</div>
-      </v-tooltip>
+      </cc-tooltip>
     </v-toolbar>
     <v-divider />
     <cc-select
@@ -91,7 +91,7 @@
         <span v-if="!getLocalUserSetting(item)">-</span>
         <span v-else>
           {{ getLocalUserSetting(item)!.metadata.version }}
-          <v-tooltip
+          <cc-tooltip
             max-width="300px"
             location="top"
           >
@@ -116,11 +116,11 @@
                 }}
               </div>
             </span>
-          </v-tooltip>
+          </cc-tooltip>
         </span>
       </template>
       <template #item.actions="{ item }">
-        <v-tooltip
+        <cc-tooltip
           max-width="300px"
           location="top"
         >
@@ -142,8 +142,8 @@
             </v-btn>
           </template>
           {{ $t('mainMenu.subscriptions.updateToLatest') }}
-        </v-tooltip>
-        <v-tooltip
+        </cc-tooltip>
+        <cc-tooltip
           max-width="300px"
           location="top"
         >
@@ -170,7 +170,7 @@
               {{ $t('mainMenu.subscriptions.unsubscribeInfo') }}
             </i>
           </div>
-        </v-tooltip>
+        </cc-tooltip>
       </template>
       <template #expanded-row="{ columns, item }">
         <td

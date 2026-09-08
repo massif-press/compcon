@@ -2,7 +2,7 @@
   <div class="nav-body elevation-10">
     <div id="cap" />
     <div class="d-inline">
-      <v-tooltip
+      <cc-tooltip
         :text="$t('pm.tooltips.returnToPilotSheet')"
         location="top"
       >
@@ -21,7 +21,7 @@
             />
           </v-btn>
         </template>
-      </v-tooltip>
+      </cc-tooltip>
     </div>
 
     <v-menu
@@ -36,7 +36,7 @@
           size="small"
           v-bind="props"
         >
-          <v-tooltip
+          <cc-tooltip
             :text="$t('pm.sheet.mechOptions')"
             location="top"
           >
@@ -48,7 +48,7 @@
                 icon="mdi-cog"
               />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
         </v-btn>
       </template>
       <div class="heading h2 bg-primary py-0 px-2">{{ $t('pm.sheet.mechOptions') }}</div>
@@ -94,8 +94,7 @@
         :close-on-click="false"
       >
         <template #activator="{ open }">
-          <v-tooltip
-            open-delay="300"
+          <cc-tooltip
             location="top"
             :text="isAuthed ? $t('pm.titles.sharePilotData') : $t('pm.sheet.requiresCloudAccount')"
           >
@@ -113,14 +112,14 @@
                 </v-btn>
               </span>
             </template>
-          </v-tooltip>
+          </cc-tooltip>
         </template>
         <share-dialog :item="pilot" />
       </cc-dialog>
     </div>
 
     <div class="d-inline">
-      <v-tooltip
+      <cc-tooltip
         :text="
           pilot.FavoriteMech?.ID === mech.ID
             ? $t('pm.sheet.unfavoriteMech')
@@ -147,7 +146,7 @@
             />
           </v-btn>
         </template>
-      </v-tooltip>
+      </cc-tooltip>
     </div>
 
     <div id="end-cap" />

@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip location="top">
+  <cc-tooltip location="top">
     <template #activator="{ props }">
       <v-icon
         v-bind="props"
@@ -10,7 +10,7 @@
       <b class="px-1 heading">{{ accuracy }}</b>
     </template>
     <span>{{ accuracy < 0 ? $t('common.difficulty') : $t('common.accuracy') }}</span>
-  </v-tooltip>
+  </cc-tooltip>
 </template>
 
 <script setup lang="ts">

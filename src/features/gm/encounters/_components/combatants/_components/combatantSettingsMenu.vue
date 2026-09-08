@@ -12,7 +12,7 @@
         :color="sideColor"
         v-bind="props"
       >
-        <v-tooltip location="top">
+        <cc-tooltip location="top">
           <template #activator="{ props }">
             <div v-bind="props">
               <span class="text-capitalize">
@@ -26,7 +26,7 @@
             </div>
           </template>
           {{ $t('gm.combatant.clickToEdit') }}
-        </v-tooltip>
+        </cc-tooltip>
       </v-chip>
     </template>
     <v-card>
@@ -47,7 +47,7 @@
         <v-divider class="my-2" />
         <div class="text-caption">
           {{ $t('gm.combatant.atPcCount') }}
-          <v-tooltip max-width="300px">
+          <cc-tooltip max-width="300px">
             <template #activator="{ props }">
               <v-icon
                 v-bind="props"
@@ -56,7 +56,7 @@
               />
             </template>
             <span>{{ $t('gm.combatant.atPcCountHelp') }}</span>
-          </v-tooltip>
+          </cc-tooltip>
         </div>
         <v-text-field
           v-model="item.playerCount"
@@ -79,7 +79,7 @@
         <div v-if="item.reinforcement">
           <div class="text-caption">
             {{ $t('gm.combatant.onTurn') }}
-            <v-tooltip max-width="300px">
+            <cc-tooltip max-width="300px">
               <template #activator="{ props }">
                 <v-icon
                   v-bind="props"
@@ -88,7 +88,7 @@
                 />
               </template>
               <span>{{ $t('gm.combatant.onTurnHelp') }}</span>
-            </v-tooltip>
+            </cc-tooltip>
           </div>
           <v-text-field
             v-model.number="item.reinforcementTurn"

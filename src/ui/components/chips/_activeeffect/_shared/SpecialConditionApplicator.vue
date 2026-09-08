@@ -7,7 +7,7 @@
       v-for="(s, index) in event.SpecialEvents"
       :key="`special-${index}`"
     >
-      <v-tooltip
+      <cc-tooltip
         location="top"
         max-width="400px"
       >
@@ -25,7 +25,7 @@
         <div class="text-center pa-1">
           {{ s.Detail }}
         </div>
-      </v-tooltip>
+      </cc-tooltip>
       <BaseDurationDisplay
         v-if="s.Duration"
         :duration="s.Duration"
