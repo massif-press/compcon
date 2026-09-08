@@ -89,7 +89,6 @@ import CCCombatActionChip from './components/chips/CCCombatActionChip.vue'
 
 import CCTierSelector from './components/inputs/TierSelector.vue'
 import CCDivider from './components/CCDivider.vue'
-import CCTooltipWrapper from './components/CCTooltipWrapper.vue'
 import CCExpansionPanel from './components/CCExpansionPanel.vue'
 import CCBtnToggle from './components/CCBtnToggle.vue'
 import CCStatusChip from './components/CCStatusChip.vue'
@@ -181,7 +180,6 @@ export {
   CCMasonryGrid,
   CCOrganizer,
   CCDivider,
-  CCTooltipWrapper,
   CCExpansionPanel,
   CCBtnToggle,
   CCStatusChip,
