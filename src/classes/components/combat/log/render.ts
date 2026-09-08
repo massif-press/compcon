@@ -40,12 +40,19 @@ function actorTag(actor: IActorRef, t: Translate): string {
   return parts.length ? `[${parts.join(' ')}] ` : ''
 }
 
-export function renderEvent(event: ILogEvent, stream: StreamContext, t: Translate): string {
+export function renderEvent(
+  event: ILogEvent,
+  stream: StreamContext,
+  t: Translate,
+  viewerId?: string
+): string {
   const body = renderBody(event, stream, t)
   if (!body || UNTAGGED.has(event.kind)) return body
   const targetId = (event.payload as any).targetId
   if (targetId && targetId === event.actorId) return `[${t('active.log.self')}] ${body}`
-  return actorTag(resolveActor(stream, event.actorId), t) + body
+  const actor = resolveActor(stream, event.actorId)
+  if (viewerId && (actor.id === viewerId || actor.originId === viewerId)) return body
+  return actorTag(actor, t) + body
 }
 
 function renderBody(event: ILogEvent, stream: StreamContext, t: Translate): string {
@@ -301,7 +308,12 @@ function isHitDamage(event: ILogEvent, previous?: ILogEvent): boolean {
   return !!p.taken && p.targetId === (previous.payload as any).targetId
 }
 
-function renderEntry(events: ILogEvent[], stream: StreamContext, t: Translate): string {
+function renderEntry(
+  events: ILogEvent[],
+  stream: StreamContext,
+  t: Translate,
+  viewerId?: string
+): string {
   const arranged = arrange(events)
   const parts: string[] = []
 
@@ -312,7 +324,8 @@ function renderEntry(events: ILogEvent[], stream: StreamContext, t: Translate): 
       parts[parts.length - 1] += ` ${withDamageNotes(clause, p, t)}`
       return
     }
-    const line = index === 0 ? renderEvent(event, stream, t) : renderBody(event, stream, t)
+    const line =
+      index === 0 ? renderEvent(event, stream, t, viewerId) : renderBody(event, stream, t)
     if (line) parts.push(line)
   })
 
@@ -322,7 +335,8 @@ function renderEntry(events: ILogEvent[], stream: StreamContext, t: Translate): 
 export function renderStream(
   events: ILogEvent[],
   stream: StreamContext,
-  t: Translate
+  t: Translate,
+  viewerId?: string
 ): ILogEntry[] {
   return foldEvents(events)
     .map(group => ({
@@ -332,7 +346,7 @@ export function renderStream(
       turn: group[0].turn,
       ts: group[0].ts,
       kinds: [...new Set(group.map(e => e.kind))],
-      text: renderEntry(group, stream, t),
+      text: renderEntry(group, stream, t, viewerId),
     }))
     .filter(entry => !!entry.text)
 }

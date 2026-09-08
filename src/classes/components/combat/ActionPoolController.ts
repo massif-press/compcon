@@ -436,6 +436,32 @@ class ActionPoolController {
     this.IsDead = true
     this._parent.Record('pilot.status', { to: 'kia' })
   }
+
+  public Serialize(target: any): void {
+    target.isInSelfDestruct = this.IsInSelfDestruct
+    target.reactorDestroyed = this.ReactorDestroyed
+    target.isDead = this.IsDead
+    target.reactionsUsed = [...this.ReactionsUsed]
+    target.combatActions = { ...this.CombatActions }
+    target.actionUses = { ...this.ActionUses }
+    target.usedActions = Object.keys(this.ActionUses)
+  }
+
+  public Deserialize(data: any): void {
+    this.IsInSelfDestruct = data?.isInSelfDestruct || false
+    this.ReactorDestroyed = data?.reactorDestroyed || false
+    this.IsDead = data?.isDead || false
+    this.ReactionsUsed = data?.reactionsUsed ? [...data.reactionsUsed] : []
+    if (data?.combatActions) this.CombatActions = data.combatActions
+    this.ActionUses =
+      data?.actionUses ??
+      Object.fromEntries(
+        (data?.usedActions || []).map((id: string) => [
+          id,
+          { used: 1, max: 1, period: ActivePeriod.Round } as IActionUseRecord,
+        ])
+      )
+  }
 }
 
 export { ActionPoolController }

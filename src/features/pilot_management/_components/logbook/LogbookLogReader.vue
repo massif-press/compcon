@@ -162,7 +162,7 @@
   const entries = computed(() => {
     const s = stream.value
     if (!s) return []
-    return renderStream(s.events, s, t).map((entry, index) => ({
+    return renderStream(s.events, s, t, props.logbook?.PilotID).map((entry, index) => ({
       ...entry,
       id: entry.id || `${index}`,
       title: `${new Date(entry.ts).toLocaleString()} - ${t('active.actorLogs.round', { n: entry.round })}, ${index + 1}`,
