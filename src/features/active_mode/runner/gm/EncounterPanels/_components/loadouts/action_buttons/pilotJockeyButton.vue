@@ -81,7 +81,7 @@
   import CombatActionButton from './CombatActionButton.vue'
   import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue'
 
-  const { owner, encounterInstance } = useEncounterContext()
+  const { owner, encounterInstance, ownerController: controller } = useEncounterContext()
 
   const props = defineProps<{
     action: Action
@@ -93,22 +93,19 @@
 
   const tab = ref('jockey')
 
-  const controller = computed(() => {
-    return owner.value.actor.CombatController
-  })
-  const jockeyActions = computed(() => {
-    return CompendiumStore()
-      .Actions.filter(a => a.Activation === 'Jockey')
-      .sort((a, b) => a.Name.localeCompare(b.Name))
-  })
+  const jockeyActions = computed(() => controller.value.JockeyOptions())
 
   function selectedAction(id: string) {
     return CompendiumStore().Actions.find(a => a.ID === id)!
   }
   function apply() {
+    if (tab.value === 'jockey') {
+      controller.value.RunAction('act_jockey')
+      return
+    }
     emit('activate', props.action.ID)
   }
   function reset() {
-    controller.value.ResetActivation(props.action.Activation)
+    controller.value.UndoActivation(props.action.Activation, { actionId: props.action.ID })
   }
 </script>

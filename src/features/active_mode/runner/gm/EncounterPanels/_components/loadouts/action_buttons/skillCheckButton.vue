@@ -166,9 +166,7 @@
                           variant="text"
                           flat
                           tile
-                          :color="
-                            !check?.roll ? '' : check?.roll >= targetVal ? 'success' : 'error'
-                          "
+                          :color="!outcome ? '' : outcome === 'success' ? 'success' : 'error'"
                           class="ml-n2"
                           v-bind="props"
                           @click="check?.overrideRoll(targetVal)"
@@ -176,9 +174,9 @@
                           <v-icon
                             size="25"
                             :icon="
-                              !check?.roll
+                              !outcome
                                 ? 'mdi-circle-outline'
-                                : check?.roll >= targetVal
+                                : outcome === 'success'
                                   ? 'mdi-check-circle'
                                   : 'mdi-cancel'
                             "
@@ -188,9 +186,9 @@
 
                       <div class="text-center">
                         {{
-                          !check?.roll
+                          !outcome
                             ? $t('active.skillCheck.noCheckRolled')
-                            : check?.roll >= targetVal
+                            : outcome === 'success'
                               ? $t('active.skillCheck.checkSuccess')
                               : $t('active.skillCheck.checkFail')
                         }}
@@ -241,20 +239,16 @@
         </v-row>
       </v-card>
       <cc-alert
-        v-if="checkType === 'contested' && selectedTarget && check?.roll && contest?.roll"
+        v-if="outcome === 'win' || outcome === 'lose'"
         class="mt-4"
-        :color="check?.roll >= contest?.roll ? 'success' : 'error'"
+        :color="outcome === 'win' ? 'success' : 'error'"
         outlined
       >
         <div class="text-center heading">
           {{ $t('common.result') }}:
           <span>
             {{ controller.CombatName }}
-            {{
-              check?.roll >= contest?.roll
-                ? $t('active.skillCheck.wins')
-                : $t('active.skillCheck.loses')
-            }}
+            {{ outcome === 'win' ? $t('active.skillCheck.wins') : $t('active.skillCheck.loses') }}
           </span>
         </div>
       </cc-alert>
@@ -274,25 +268,30 @@
 
 <script setup lang="ts">
   import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-  import { combatantLabel } from '@/util/combatantLabel'
   import { useEncounterContext } from '../../../encounterContext'
   import type { CombatantData } from '@/classes/encounter/Encounter'
   import type { Action } from '@/classes/Action'
-  import { computed, ref, watch } from 'vue'
+  import { computed, ref, shallowRef, watch } from 'vue'
   import CombatActionButton from './CombatActionButton.vue'
   import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue'
   import SkillCheckBase from './_skillCheckBase.vue'
+  import { SkillCheckFlow, skillCheckState } from '@/classes/components/combat/flows/SkillCheckFlow'
+  import type {
+    ISkillCheckState,
+    CheckTier,
+  } from '@/classes/components/combat/flows/SkillCheckFlow'
+  import type { IFlowResult } from '@/classes/components/combat/flows/Flow'
   import { useI18n } from 'vue-i18n'
   const { t } = useI18n()
 
-  const { owner, encounterInstance } = useEncounterContext()
+  const { owner, encounterInstance, activeController: controller } = useEncounterContext()
 
   function targetLabel(actor: any) {
     const combatant = encounterInstance.value.Combatants.find(
       c => c.actor.CombatController.ActiveActor.ID === actor.ID
     )
     return combatant
-      ? combatantLabel(combatant)
+      ? combatant.Label
       : actor.CombatController.RootActor.CombatController.CombatName
   }
 
@@ -321,9 +320,6 @@
     { title: t('common.none'), value: '' },
   ])
 
-  const controller = computed(() => {
-    return owner.value.actor.CombatController
-  })
   const targets = computed(() => {
     const thisCombatant = encounterInstance.value.Combatants.find(
       c => c.actor.ID === controller.value.RootActor.ID
@@ -335,10 +331,58 @@
         c.actor.ID !== controller.value.RootActor.ID
     ).map(x => x.actor.CombatController.ActiveActor)
   })
+
+  function newState(): ISkillCheckState {
+    return skillCheckState({
+      cc: controller.value,
+      stat: selectedHase.value,
+      tier: modifier.value as CheckTier,
+      difficult: difficult.value,
+      contested: checkType.value === 'contested',
+      target: selectedTarget.value?.CombatController,
+      targetValue: Number(targetVal.value),
+    })
+  }
+
+  const state = ref<ISkillCheckState>(newState())
+  const result = shallowRef<IFlowResult<ISkillCheckState> | null>(null)
+
+  const outcome = computed(() => state.value.outcome)
+
+  function run() {
+    result.value = SkillCheckFlow.Begin(state.value)
+  }
+
+  function reseed() {
+    state.value = newState()
+    result.value = null
+  }
+
+  watch([selectedHase, checkType, difficult, modifier, selectedTarget, targetVal], reseed)
+
+  watch(
+    () => check.value?.roll,
+    value => {
+      if (typeof value !== 'number') return
+      state.value.roll = value
+      run()
+    }
+  )
+
+  watch(
+    () => contest.value?.roll,
+    value => {
+      if (typeof value !== 'number') return
+      state.value.contestRoll = value
+      run()
+    }
+  )
+
   function apply() {
     emit('activate', props.action.ID)
   }
   function reset() {
-    controller.value.ResetActivation(props.action.Activation)
+    reseed()
+    controller.value.UndoActivation(props.action.Activation, { actionId: props.action.ID })
   }
 </script>

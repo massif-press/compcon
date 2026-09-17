@@ -119,6 +119,7 @@
   import { computed, ref } from 'vue'
   import { Placeholder } from '@/classes/encounter/Placeholder'
   import type { CombatantSide } from '@/classes/encounter/Encounter'
+  import { makeCombatant } from '@/classes/encounter/Encounter'
   import * as _ from 'lodash-es'
 
   const props = defineProps<{
@@ -157,14 +158,16 @@
       notes: newPlaceholder.value.notes,
     })
 
-    props.encounterInstance.Combatants.push({
-      id: ph.ID,
-      index: -1,
-      number: -1,
-      type: 'placeholder',
-      side: ph.Side,
-      actor: ph,
-      deployables: [],
-    })
+    props.encounterInstance.Combatants.push(
+      makeCombatant(ph, 'placeholder', {
+        id: ph.ID,
+        index: -1,
+        number: -1,
+        side: ph.Side,
+        status: undefined,
+        pilotStatus: undefined,
+        mechStatus: undefined,
+      })
+    )
   }
 </script>

@@ -83,6 +83,41 @@
         </v-card>
       </v-col>
     </v-row>
+
+    <v-scroll-y-reverse-transition>
+      <div v-if="specialResists.length"
+        class="my-1">
+        <v-card v-for="r in specialResists"
+          :key="r.type"
+          flat
+          tile
+          border
+          style="border-color: rgb(var(--v-theme-exotic))">
+          <v-row no-gutters
+            align="center"
+            class="heading h3 bg-exotic px-2 py-1">
+            <v-col>
+              <v-icon icon="mdi-shield-outline" />
+              {{
+                $t('active.runnerItem.resistanceLineOther', {
+                  condition: r.condition,
+                  type: r.type,
+                })
+              }}
+            </v-col>
+            <v-col cols="auto">
+              <v-btn flat
+                tile
+                size="x-small"
+                @click="controller.RemoveResist(r.type)">
+                <v-icon icon="mdi-close"
+                  size="22" />
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-card>
+      </div>
+    </v-scroll-y-reverse-transition>
   </div>
 </template>
 
@@ -98,7 +133,13 @@ const props = defineProps<{
 }>()
 
 const { layout } = useLayoutOptions()
-const { t } = useI18n()
+const { t, te } = useI18n()
+
+const specialResists = computed(() =>
+  (props.controller.Resistances ?? []).filter(
+    (r: any) => !te(`enums.damageType.${String(r.type).toLowerCase()}`)
+  )
+)
 
 const damageTypes = ref([
   {

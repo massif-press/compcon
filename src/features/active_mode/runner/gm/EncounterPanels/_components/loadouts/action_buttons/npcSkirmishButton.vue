@@ -12,12 +12,14 @@
       <div v-if="!presetWeapon"
         class="text-cc-overline text-disabled pl-3 py-2">
         {{ $t('active.skirmish.selectWeapon') }}
+        <unavailable-toggle v-model="useState.showUnavailable"
+          :count="hiddenWeapons" />
       </div>
       <v-row dense
         align="center"
         class="bg-panel heading h3 pb-1 px-3">
         <v-divider v-if="presetWeapon"
-          class="my-1 " />
+          class="my-1" />
         <v-col v-if="!presetWeapon">
           <cc-select v-model="selectedWeapon"
             :items="skirmishWeapons"
@@ -26,7 +28,6 @@
             return-object
             item-title="Name"
             @update:model-value="reset()" />
-
         </v-col>
         <v-col v-else-if="selectedWeapon">
           <v-icon icon="cc:weapon"
@@ -69,7 +70,6 @@
       </v-row>
 
       <div class="px-6">
-
         <cc-synergy-display v-if="selectedWeapon"
           :item="selectedWeapon"
           location="weapon"
@@ -79,17 +79,18 @@
         <npc-weapon-attack v-if="selectedWeapon && event"
           :event="<WeaponAttackEvent>event"
           :weapon="<NpcWeapon>event.Weapon" />
-
       </div>
+      <cc-flow-request :request="result?.request"
+        class="px-4 pb-2" />
       <v-slide-y-transition>
         <staged-panel v-if="event && event.BaseEvent.Staged"
-          :events=eventArray />
-
+          :events="eventArray" />
       </v-slide-y-transition>
 
+      <confirm-kill-bar v-if="event"
+        :event="<ActiveEffectEvent>event.BaseEvent" />
       <v-divider />
-      <div class="pa-4">
-
+      <div class="pb-4 px-4">
         <apply-button v-if="event"
           :owner="owner"
           :encounter-instance="encounterInstance"
@@ -102,7 +103,6 @@
           @reset="reset($event)"
           @apply="apply" />
       </div>
-
     </template>
   </combat-action-button>
 </template>
@@ -110,74 +110,44 @@
 <script setup lang="ts">
 import { useEncounterContext } from '../../../encounterContext'
 import type { Action } from '@/classes/Action'
-import { computed, ref } from 'vue'
-import { CombatantData } from '@/classes/encounter/Encounter';
-import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
-import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue';
-import StagedPanel from './_stagedPanel.vue';
-import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon';
-import NpcWeaponAttack from './_npcWeaponAttack.vue';
-import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
-import CombatActionButton from './CombatActionButton.vue';
-
-const { owner, encounterInstance } = useEncounterContext()
+import { computed } from 'vue'
+import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent'
+import ApplyButton from '@/ui/components/chips/_activeeffect/ApplyButton.vue'
+import ConfirmKillBar from '@/ui/components/chips/_activeeffect/_shared/ConfirmKillBar.vue'
+import StagedPanel from './_stagedPanel.vue'
+import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon'
+import NpcWeaponAttack from './_npcWeaponAttack.vue'
+import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
+import CombatActionButton from './CombatActionButton.vue'
+import { useWeaponUse } from './useWeaponUse'
+import UnavailableToggle from './_unavailableToggle.vue'
 
 const props = defineProps<{
   action: Action
   presetWeapon?: NpcWeapon
 }>()
 
-const event = ref(null as WeaponAttackEvent | null)
-const selectedWeapon = ref(null as NpcWeapon | null)
+const { owner, encounterInstance } = useEncounterContext()
 
-reset();
-
-const controller = computed(() => {
-  return owner.value.actor.CombatController.ActiveActor.CombatController;
+const {
+  controller,
+  useState,
+  result,
+  reset,
+  apply,
+  selected: selectedWeapon,
+  weapons: skirmishWeapons,
+  hiddenWeapons,
+  eventArray,
+} = useWeaponUse({
+  mode: 'skirmish',
+  carry: true,
+  actionId: () => props.action.ID,
+  presetWeapon: () => props.presetWeapon,
+  makeEvent: (self, weapon, label) =>
+    new WeaponAttackEvent(weapon as NpcWeapon, self, encounterInstance.value, label),
 })
 
-const skirmishWeapons = computed(() => {
-  const npc = controller.value.ActiveActor;
-
-  let arr = (npc.NpcFeatureController?.Features || []).filter(
-    (x) => !x.IsSuperheavy
-  );
-
-  if (props.presetWeapon) {
-    arr = arr.filter(w => w.InstanceID === props.presetWeapon!.InstanceID);
-  }
-
-  return arr;
-})
-const eventArray = computed(() => {
-  return event.value ? [event.value] : []
-})
-const tier = computed(() => {
-  return controller.value.ActiveActor.Tier;
-})
-
-function reset(clearAction = false) {
-  if (clearAction) owner.value.actor.CombatController.ActiveActor.CombatController.ClearActionUsed(props.action.ID);
-  const self = encounterInstance.value.Combatants.find(
-    (c: CombatantData) => c.actor.CombatController.RootActor.ID === owner.value.actor.CombatController.RootActor.ID
-  );
-  if (!self) {
-    throw new Error('Owner combatant not found in encounterInstance');
-  }
-  if (!selectedWeapon.value && props.presetWeapon) {
-    selectedWeapon.value = props.presetWeapon;
-  }
-
-  if (!selectedWeapon.value)
-    return;
-
-  if (selectedWeapon.value)
-    event.value = new WeaponAttackEvent(selectedWeapon.value as NpcWeapon, self, encounterInstance.value, 'Skirmish');
-}
-function apply() {
-  const actor = owner.value.actor.CombatController.ActiveActor.CombatController;
-  actor.UseAttackAction(props.action.ID, selectedWeapon.value!.InstanceID);
-  if (selectedWeapon.value!.IsLoading) selectedWeapon.value!.Used = true;
-  reset();
-}
+const event = computed(() => (useState.value.entries[0]?.event as WeaponAttackEvent) ?? null)
+const tier = computed(() => controller.value.ActiveActor.Tier)
 </script>

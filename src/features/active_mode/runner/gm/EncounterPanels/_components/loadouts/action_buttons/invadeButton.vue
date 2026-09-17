@@ -69,6 +69,24 @@
                 </v-col>
                 <v-col><v-divider /></v-col>
               </v-row>
+              <v-list
+                density="compact"
+                bg-color="panel"
+                tile
+              >
+                <v-list-item
+                  v-for="item in invadeActions"
+                  :key="`list-${item.ID}`"
+                  class="bg-action--invade mb-1"
+                  :title="item.Name"
+                  :subtitle="item.Terse"
+                  @click="tab = item.ID"
+                >
+                  <template #prepend>
+                    <v-icon :icon="item.Icon" />
+                  </template>
+                </v-list-item>
+              </v-list>
             </div>
             <div v-else>
               <cc-synergy-display
@@ -105,7 +123,7 @@
 
   const _display = useDisplay()
 
-  const { owner, encounterInstance } = useEncounterContext()
+  const { owner, encounterInstance, activeController: controller } = useEncounterContext()
 
   const props = defineProps<{
     action: Action
@@ -120,23 +138,20 @@
   const mobile = computed(() => {
     return _display.mdAndDown.value
   })
-  const controller = computed(() => {
-    return owner.value.actor.CombatController.ActiveActor.CombatController
-  })
-  const invadeActions = computed(() => {
-    return [
-      ...CompendiumStore().Actions.filter(a => a.Activation === 'Invade'),
-      ...controller.value.AllActions('Invade'),
-    ].sort((a, b) => a.Name.localeCompare(b.Name))
-  })
+  const invadeActions = computed(() => controller.value.InvadeOptions())
 
   function getSelectedAction(id) {
     return invadeActions.value.find(a => a.ID === id)
   }
   function apply() {
+    if (tab.value === 'invade') {
+      controller.value.RunAction('act_invade')
+      return
+    }
     emit('activate', tab.value)
   }
+
   function reset() {
-    controller.value.ResetActivation(props.action.Activation)
+    controller.value.UndoActivation(props.action.Activation, { actionId: props.action.ID })
   }
 </script>

@@ -9,38 +9,51 @@ import { SpecialEvent } from './specialEvent'
 import { ResistEvent } from './resistEvent'
 import { EffectSpecial } from '../effect_subtype/EffectSpecial'
 import { CoverType } from '@/classes/components/combat/CombatController'
-import { ActionSummaryData } from '../EffectActionSummary'
-import { combatantLabel } from '@/util/combatantLabel'
+import {
+  hitResultFor,
+  canCrit,
+  heatExempt,
+  applyAttackDamage,
+  attackModifiers,
+} from '@/classes/components/combat/flows/WeaponAttackFlow'
+import {
+  resolveTargetRoll,
+  resolveTargetDefense,
+} from '@/classes/components/combat/flows/TargetResolutionFlow'
+export { canCrit }
 
 class ActiveEventTarget {
   public Event: ActiveEffectEvent
   private _combatant!: CombatantData | null
 
-  // attack roll
-  public TargetDefense?: string // eg. evasion, agility, etc
+  public TargetDefense?: string
   public TargetDefenseValue?: number
-  public AttackRollString?: string // dice string
-  public AttackRollResult?: D20RollResult // after roll
-  private _attackRolledValue?: number // save roll
-  public AttackAccuracy: number = 0 // accuracy bonus
+  public AttackRollString?: string
+  public AttackRollResult?: D20RollResult
+  private _attackRolledValue?: number
+  public AttackAccuracy: number = 0
   public AttackBonus: number = 0
   public AttackType?: 'melee' | 'ranged' | 'tech'
 
-  // damage info
   public FinalDamageValue: number = 0
   public TotalArmorReduction: number = 0
+  public TookDamage: boolean = false
+  public MissedFromInvisibility: boolean = false
+  public HitResultOverride?: 'hit' | 'miss'
 
-  // save roll
+  public ConsumingLockOn: boolean = false
+
   public SaveTarget: number = 10
   public SaveBonus: number = 0
-  public SaveRollString?: string // dice string
-  public SaveRollResult?: D20RollResult // after roll
-  private _saveRolledValue?: number // save roll
-  public SaveType?: string // hase
+  public SaveRollString?: string
+  public SaveRollResult?: D20RollResult
+  private _saveRolledValue?: number
+  public SaveType?: string
 
-  // etc
   public Grit: number = 0
-  public SavedHalf: boolean = false // did they save half damage
+  public SavedHalf: boolean = false
+
+  public ConfirmedKill: boolean = false
 
   constructor(event: ActiveEffectEvent, combatant: CombatantData | null, effect: ActiveEffect) {
     this.Event = event
@@ -63,20 +76,7 @@ class ActiveEventTarget {
 
   public set Combatant(value: CombatantData | null) {
     this._combatant = value
-
-    // if this is attack roll:
-    switch (this.AttackType) {
-      case 'tech':
-        this.TargetDefense = 'E-Defense'
-        this.TargetDefenseValue =
-          this._combatant?.actor.CombatController.ActiveActor.StatController.getMax('edef') || 10
-        break
-      default:
-        this.TargetDefense = 'Evasion'
-        this.TargetDefenseValue =
-          this._combatant?.actor.CombatController.ActiveActor.StatController.getMax('evasion') || 10
-        break
-    }
+    resolveTargetDefense(this, this.Event)
   }
 
   public get AttackRolledValue(): number | undefined {
@@ -85,20 +85,27 @@ class ActiveEventTarget {
 
   public set AttackRolledValue(value: number | undefined) {
     this._attackRolledValue = value
-    if (this.Event.SaveHalf) this.SavedHalf = this.HitResult !== 'miss'
-    if (value && value >= 20 && this.Event.Effect.CanCrit) this.Event.SetCrit()
+    resolveTargetRoll({ target: this, event: this.Event, kind: 'attack' })
+  }
+
+  public get StatusAccuracy(): number {
+    return attackModifiers(
+      this.Event.Initiator?.actor?.CombatController,
+      this.Combatant?.actor?.CombatController,
+      this.AttackType
+    )
   }
 
   public get HitResult(): string {
-    if (this.AttackRolledValue === undefined || !this.TargetDefenseValue) return ''
-    if (this.AttackRolledValue >= 20) return 'crit'
-    if (this.AttackRolledValue >= this.TargetDefenseValue) return 'hit'
-    return 'miss'
+    if (this.MissedFromInvisibility) return 'miss'
+    if (this.HitResultOverride === 'miss') return 'miss'
+    if (this.HitResultOverride === 'hit')
+      return (this.AttackRolledValue ?? 0) >= 20 ? 'crit' : 'hit'
+    return hitResultFor(this.AttackRolledValue, this.TargetDefenseValue)
   }
 
-  public set HitResult(value: string) {
-    if (value === 'miss') this.TargetDefenseValue = 999
-    else this.TargetDefenseValue = 1
+  public OverrideHitResult(value: 'hit' | 'miss' | undefined): void {
+    this.HitResultOverride = value
   }
 
   public get SaveRolledValue(): number | undefined {
@@ -107,7 +114,7 @@ class ActiveEventTarget {
 
   public set SaveRolledValue(value: number | undefined) {
     this._saveRolledValue = value
-    if (this.Event.SaveHalf) this.SavedHalf = this.SaveResult === 'success'
+    resolveTargetRoll({ target: this, event: this.Event, kind: 'save' })
   }
 
   public get SaveResult(): string {
@@ -146,32 +153,21 @@ class ActiveEventTarget {
   }
 
   public get HeatExempt(): boolean {
-    const isFriendly = (c: CombatantData | null) => !!c && (c.type === 'pilot' || c.side === 'ally')
-    return (
-      this.Event.Attack === 'tech' && isFriendly(this.Event.Initiator) && isFriendly(this.Combatant)
-    )
+    return heatExempt(this.Event.Attack, this.Event.Initiator, this.Combatant)
   }
 
   public ApplyDamage(damageEvent: DamageEvent) {
-    if (!this.Combatant) return
-    if (damageEvent.DamageType.toLowerCase() === 'heat' && this.HeatExempt) return
-    damageEvent.CalcFinalDamage(this.Event, this)
-    if (this.FinalDamageValue > 0)
-      this.Combatant.actor.CombatController.ApplyDamage(
-        damageEvent.DamageType,
-        this.FinalDamageValue
-      )
-    this.Event.Initiator.actor.CombatController.RootActor.CombatController.CombatLog.DealDamage(
-      this.FinalDamageValue,
-      damageEvent.DamageType
-    )
-    if (damageEvent.OverkillHeat)
-      this.Event.Initiator.actor.CombatController.ApplyHeat(damageEvent.OverkillHeat || 0)
+    applyAttackDamage(this, damageEvent, this.Event)
   }
 
   public ApplyStatus(statusEvent: StatusEvent) {
     if (!this.Combatant) return
-    this.Combatant.actor.CombatController.AddStatus(statusEvent.Status.ID, statusEvent.Duration)
+    const initiator = this.Event.Initiator?.actor?.CombatController
+    const selfInflicted =
+      !!initiator && initiator.RootActor?.ID === this.Combatant.actor.CombatController.RootActor?.ID
+    this.Combatant.actor.CombatController.AddStatus(statusEvent.Status.ID, statusEvent.Duration, {
+      selfInflicted,
+    })
   }
 
   public ApplyOther(otherEvent: OtherEvent) {
@@ -212,30 +208,9 @@ class ActiveEventTarget {
     this.Combatant.actor.CombatController.RemoveCustomStatus(special)
   }
 
-  public static IncomingActionSummary(event: ActionSummaryData): string {
-    let str = ''
-    str += `Incoming from ${event.initiatorName}: ${event.effectName} // `
-    event.damageEvents.flat().forEach(de => {
-      str += `${de.finalDamageValue} ${de.damageType} Damage`
-    })
-    event.statusEvents.flat().forEach(se => {
-      str += `Apply Status ${se.statusName} for ${se.duration}`
-    })
-    event.otherEvents.flat().forEach(oe => {
-      str += `Apply Effect ${oe.type} ${oe.value}`
-    })
-    event.specialEvents.flat().forEach(spe => {
-      str += `Apply Special Status ${spe.attribute} for ${spe.duration}`
-    })
-    event.resistEvents.flat().forEach(re => {
-      str += `Set ${re.resistType} to ${re.resist}`
-    })
-    return str.trim()
-  }
-
   public ToJSON() {
     return {
-      CombatantName: combatantLabel(this.Combatant) || 'Unknown Target',
+      CombatantName: this.Combatant?.Label || 'Unknown Target',
       CombatantType: this.Combatant?.actor.ItemType || 'Unknown Target',
       CombatantId: this.Combatant?.actor.ID || 'Unknown Target',
       TargetDefense: this.TargetDefense,
@@ -245,6 +220,7 @@ class ActiveEventTarget {
       AttackRollResult: this.AttackRollResult?.toJSON(),
       AttackRolledValue: this.AttackRolledValue,
       HitResult: this.HitResult,
+      HitResultOverride: this.HitResultOverride,
       FinalDamageValue: this.FinalDamageValue,
       TotalArmorReduction: this.TotalArmorReduction,
       SaveResult: this.SaveResult,

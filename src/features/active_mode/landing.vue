@@ -186,6 +186,12 @@
         to: '',
       },
       {
+        title: t('pm.logbook.title'),
+        subtitle: t('pm.logbook.subtitle'),
+        icon: 'mdi-notebook',
+        to: '/active-mode/logbooks',
+      },
+      {
         title: t('active.titles.joinAnOnlineTable'),
         subtitle: t('active.subtitles.featureInDevelopmentV32'),
         disabled: true,
@@ -206,6 +212,12 @@
         subtitle: t('active.subtitles.resumeLast'),
         icon: 'mdi-restart',
         to: '',
+      },
+      {
+        title: t('active.gmTelemetry.title'),
+        subtitle: t('active.gmTelemetry.subtitle'),
+        icon: 'mdi-chart-box',
+        to: '/active-mode/encounter-telemetry',
       },
       {
         title: t('active.titles.localCampaigns'),

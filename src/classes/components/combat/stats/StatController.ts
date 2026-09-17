@@ -69,6 +69,11 @@ const TrackableStatKeys = new Set<string>([
   StatKey.SPEED,
 ])
 
+interface IStatWriteOpts {
+  silent?: boolean
+  heatReason?: string
+}
+
 class StatController {
   public readonly IsEncounterInstance: boolean
   public Parent: IStatContainer
@@ -95,9 +100,6 @@ class StatController {
     StatController._customStatRegistry.clear()
   }
 
-  // resolves a tiered default to a number given a tier index (0-based).
-  // accepts a number (used as-is), a string 'x/y/z' (picks by tier), or undefined (returns 0).
-  // non-NPC parents always receive tier index 0.
   public static resolveDefault(def: number | string | undefined, tierIndex: number): number {
     if (def === undefined) return 0
     if (typeof def === 'number') return def
@@ -255,7 +257,13 @@ class StatController {
   }
 
   public get CurrentStats(): any {
-    return this._currentStats
+    return new Proxy(this._currentStats, {
+      set: (_t, key, value) => {
+        if (typeof key !== 'string') return false
+        this.setCurrentStat(key, Number(value))
+        return true
+      },
+    })
   }
 
   public set CurrentStats(val: any) {
@@ -270,13 +278,11 @@ class StatController {
     return this._maxStats[Stats.cleanKey(stat)]
   }
 
-  // read-only counterpart to BonusController.applyToStats: layers feature bonuses over the
-  // stored max without mutating it, for surfaces that display an un-instanced actor
   public getMaxWithBonuses(stat: string): any {
     const base = this.getMax(stat)
-    // encounter instances already have bonuses baked in by BonusController.applyToStats
+    const cap = (this.Parent as any)?.StatCap?.(stat)
+    if (typeof cap === 'number') return Math.min(Number(base) || 0, cap)
     if (this.IsEncounterInstance) return base
-    // Parent is a CombatController for most actors, the entity itself for eidolon shards
     const p = this.Parent as any
     const bc =
       p?.FeatureController?.BonusController ?? p?.Parent?.FeatureController?.BonusController
@@ -288,14 +294,18 @@ class StatController {
     return this._currentStats[Stats.cleanKey(stat)]
   }
 
-  public setCurrentStat(stat: string, val: number): void {
+  public setCurrentStat(stat: string, val: number, opts: IStatWriteOpts = {}): void {
     const k = Stats.cleanKey(stat)
     const prev = this._currentStats[k]
     const next = Math.max(val, this._statFloors[k] ?? -Infinity)
     this._currentStats[k] = next
-    if (next < prev) (this.Parent as any).onStatDecrease?.(k, prev, next)
+    if (next < prev) (this.Parent as any).onStatDecrease?.(k, prev, next, opts)
     const parent = this.Parent as any
     if (typeof parent.CombatLogVersion === 'number') parent.CombatLogVersion++
+  }
+
+  public bumpCurrentStat(stat: string, by: number, opts: IStatWriteOpts = {}): void {
+    this.setCurrentStat(stat, this.getCurrent(stat) + by, opts)
   }
 
   public setFloor(key: string, val: number): void {
@@ -332,7 +342,6 @@ class StatController {
   public static Deserialize(parent: IStatContainer, data: IStatData) {
     assertController(parent.StatController, 'StatController')
 
-    // Recompute max from SetStats() and reset rather than trusting the saved max.
     if (!data.stat_version) {
       parent.Parent?.SetStats?.()
       parent.StatController.resetCurrentStats()
@@ -357,4 +366,4 @@ class StatController {
 
 StatController satisfies IControllerStatic<IStatContainer, IStatData>
 export { StatController, MandatoryStats }
-export type { IStatData, ICustomStatData, DisplayStat }
+export type { IStatData, ICustomStatData, DisplayStat, IStatWriteOpts }

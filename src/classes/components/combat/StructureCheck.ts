@@ -1,7 +1,16 @@
 import { CompendiumStore } from '@/features/compendium/store'
+import { DiceRoller } from '@/classes/dice/DiceRoller'
 import type { RollableTable, ITableRoll } from '@/classes/narrative/elements/RollableTable'
+import { DamageType } from '../../enums'
 import { StatKey } from './stats/Stats'
+import { hasUsesRemaining } from './AttackRules'
+import { itemRef } from './log/refs'
 import type { CombatController } from './CombatController'
+import type { IFlowRequest } from './flows/Flow'
+import { i18n } from '@/i18n'
+
+const t = (key: string, params?: Record<string, unknown>): string =>
+  i18n.global.t(key, params || {})
 
 type CheckKind = 'structure' | 'stress'
 
@@ -37,20 +46,26 @@ interface SubRollCase {
   effects: Effect[]
 }
 type Effect =
-  | { type: 'status'; id: string; note?: string }
+  | { type: 'status'; id: string; duration?: string; note?: string }
   | { type: 'destroy'; note?: string }
-  | { type: 'reactor_meltdown'; note?: string }
+  | { type: 'reactor_meltdown'; delay?: number; delay_roll?: string; note?: string }
   | { type: 'damage'; roll: string; damage_type?: string; note?: string }
   | { type: 'branch'; on: CheckKind; cases: BranchCase[] }
-  | { type: 'save'; check: 'hull' | 'agi' | 'sys' | 'eng'; on_success: Effect[]; on_fail: Effect[] }
+  | {
+      type: 'save' | 'check'
+      check: 'hull' | 'agi' | 'sys' | 'eng'
+      on_success: Effect[]
+      on_fail: Effect[]
+    }
   | { type: 'sub_roll'; die: number; cases: SubRollCase[] }
   | { type: 'destroy_equipment'; target: 'mount' | 'system'; note?: string }
 
 type TerminalAction =
-  | { kind: 'status'; id: string }
+  | { kind: 'status'; id: string; duration?: string }
   | { kind: 'destroy' }
-  | { kind: 'reactor_meltdown' }
+  | { kind: 'reactor_meltdown'; delayTurns: number }
   | { kind: 'destroy_equipment'; items: any[] }
+  | { kind: 'damage'; damageType: DamageType; value: number }
 
 interface ResolveContext {
   currentStructure: number
@@ -64,10 +79,11 @@ interface ResolveStep {
   path: string
   kind: 'apply' | 'branch' | 'save' | 'subroll' | 'equip' | 'damage' | 'note'
   label: string
-  check?: string
+  check?: 'hull' | 'agi' | 'sys' | 'eng'
   target?: 'mount' | 'system'
   options?: { id: string; label: string; items?: any[] }[]
   rolled?: number
+  mode?: 'save' | 'check'
 }
 
 interface ResolveResult {
@@ -76,15 +92,31 @@ interface ResolveResult {
   complete: boolean
 }
 
+const DIRECT_HIT_KEY = 'core-structure-damage::Direct Hit'
+const END_OF_NEXT_TURN = 'end_turn_self'
+const REST_OF_SCENE = 'scene'
+
 const EFFECT_MAP: Record<string, Effect[]> = {
-  'core-structure-damage::Glancing Blow': [{ type: 'status', id: 'impaired' }],
+  'core-structure-damage::Glancing Blow': [
+    { type: 'status', id: 'impaired', duration: END_OF_NEXT_TURN },
+  ],
   'core-structure-damage::System Trauma': [
     {
       type: 'sub_roll',
       die: 6,
       cases: [
-        { min: 1, max: 3, label: 'All weapons on one mount are destroyed', effects: [{ type: 'destroy_equipment', target: 'mount' }] },
-        { min: 4, max: 6, label: 'One system is destroyed', effects: [{ type: 'destroy_equipment', target: 'system' }] },
+        {
+          min: 1,
+          max: 3,
+          label: 'active.structureCheck.allWeaponsOnMountDestroyed',
+          effects: [{ type: 'destroy_equipment', target: 'mount' }],
+        },
+        {
+          min: 4,
+          max: 6,
+          label: 'active.structureCheck.oneSystemDestroyed',
+          effects: [{ type: 'destroy_equipment', target: 'system' }],
+        },
       ],
     },
   ],
@@ -93,31 +125,79 @@ const EFFECT_MAP: Record<string, Effect[]> = {
       type: 'branch',
       on: 'structure',
       cases: [
-        { at_least: 3, label: '3+ Structure', effects: [{ type: 'status', id: 'stunned', note: 'until the end of your next turn' }] },
-        { equals: 2, label: '2 Structure', effects: [{ type: 'save', check: 'hull', on_success: [{ type: 'status', id: 'stunned' }], on_fail: [{ type: 'destroy' }] }] },
-        { at_most: 1, label: '1 Structure', effects: [{ type: 'destroy' }] },
+        {
+          at_least: 3,
+          label: 'active.structureCheck.structure3Plus',
+          effects: [{ type: 'status', id: 'stunned', duration: END_OF_NEXT_TURN }],
+        },
+        {
+          equals: 2,
+          label: 'active.structureCheck.structure2',
+          effects: [
+            {
+              type: 'check',
+              check: 'hull',
+              on_success: [{ type: 'status', id: 'stunned' }],
+              on_fail: [{ type: 'destroy' }],
+            },
+          ],
+        },
+        { at_most: 1, label: 'active.structureCheck.structure1', effects: [{ type: 'destroy' }] },
       ],
     },
   ],
   'core-structure-damage::Crushing Hit': [{ type: 'destroy' }],
-  'core-overheating::Emergency Shunt': [{ type: 'status', id: 'impaired' }],
+  'core-overheating::Emergency Shunt': [
+    { type: 'status', id: 'impaired', duration: END_OF_NEXT_TURN },
+  ],
   'core-overheating::Destabilized Power Plant': [{ type: 'status', id: 'exposed' }],
   'core-overheating::Meltdown': [
     {
       type: 'branch',
       on: 'stress',
       cases: [
-        { at_least: 3, label: '3+ Stress', effects: [{ type: 'status', id: 'exposed' }] },
-        { equals: 2, label: '2 Stress', effects: [{ type: 'save', check: 'eng', on_success: [{ type: 'status', id: 'exposed' }], on_fail: [{ type: 'reactor_meltdown', note: 'after 1d6 turns' }] }] },
-        { at_most: 1, label: '1 Stress', effects: [{ type: 'reactor_meltdown', note: 'at the end of your next turn' }] },
+        {
+          at_least: 3,
+          label: 'active.structureCheck.stress3Plus',
+          effects: [{ type: 'status', id: 'exposed' }],
+        },
+        {
+          equals: 2,
+          label: 'active.structureCheck.stress2',
+          effects: [
+            {
+              type: 'check',
+              check: 'eng',
+              on_success: [{ type: 'status', id: 'exposed' }],
+              on_fail: [
+                {
+                  type: 'reactor_meltdown',
+                  delay_roll: '1d6',
+                  note: 'active.structureCheck.noteAfterDieTurns',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          at_most: 1,
+          label: 'active.structureCheck.stress1',
+          effects: [
+            { type: 'reactor_meltdown', delay: 1, note: 'active.structureCheck.noteEndOfNextTurn' },
+          ],
+        },
       ],
     },
   ],
-  'core-overheating::Irreversible Meltdown': [{ type: 'reactor_meltdown' }],
-  'core-monstrosity-structure-damage::Glancing Hit': [{ type: 'status', id: 'impaired' }],
+  'core-overheating::Irreversible Meltdown': [
+    { type: 'reactor_meltdown', delay: 1, note: 'active.structureCheck.noteEndOfNextTurn' },
+  ],
+  'core-monstrosity-structure-damage::Glancing Hit': [
+    { type: 'status', id: 'impaired', duration: END_OF_NEXT_TURN },
+  ],
   'core-monstrosity-structure-damage::Powerful Hit': [{ type: 'status', id: 'prone' }],
   'core-monstrosity-structure-damage::Dismemberment': [
-    { type: 'status', id: 'slow' },
+    { type: 'status', id: 'slow', duration: REST_OF_SCENE },
     { type: 'damage', roll: '1d6', damage_type: 'kinetic' },
   ],
   'core-monstrosity-structure-damage::Direct Hit': [
@@ -125,9 +205,19 @@ const EFFECT_MAP: Record<string, Effect[]> = {
       type: 'branch',
       on: 'structure',
       cases: [
-        { at_least: 3, label: '3+ Structure', effects: [{ type: 'status', id: 'stunned', note: 'until the end of its next turn' }] },
-        { equals: 2, label: '2 Structure', effects: [{ type: 'save', check: 'hull', on_success: [], on_fail: [{ type: 'destroy' }] }] },
-        { at_most: 1, label: '1 Structure', effects: [{ type: 'destroy' }] },
+        {
+          at_least: 3,
+          label: 'active.structureCheck.structure3Plus',
+          effects: [{ type: 'status', id: 'stunned', duration: END_OF_NEXT_TURN }],
+        },
+        {
+          equals: 2,
+          label: 'active.structureCheck.structure2',
+          effects: [
+            { type: 'save', check: 'hull', on_success: [], on_fail: [{ type: 'destroy' }] },
+          ],
+        },
+        { at_most: 1, label: 'active.structureCheck.structure1', effects: [{ type: 'destroy' }] },
       ],
     },
   ],
@@ -146,21 +236,27 @@ function rollExpr(expr: string): number {
   if (!m) return Number(expr) || 0
   const [n, die] = [Number(m[1]), Number(m[2])]
   let total = 0
-  for (let i = 0; i < n; i++) total += Math.floor(Math.random() * die) + 1
+  for (let i = 0; i < n; i++) total += DiceRoller.rollDie(die)
   return total
 }
 
-function prerollEffects(effects: Effect[], path = '', out: Record<string, number> = {}): Record<string, number> {
+function prerollEffects(
+  effects: Effect[],
+  path = '',
+  out: Record<string, number> = {}
+): Record<string, number> {
   effects.forEach((e, i) => {
     const p = path ? `${path}.${i}` : String(i)
     if (e.type === 'sub_roll') {
-      out[p] = Math.floor(Math.random() * e.die) + 1
+      out[p] = DiceRoller.rollDie(e.die)
       e.cases.forEach((c, ci) => prerollEffects(c.effects, `${p}.c${ci}`, out))
     } else if (e.type === 'damage') {
       out[p] = rollExpr(e.roll)
+    } else if (e.type === 'reactor_meltdown') {
+      if (e.delay_roll) out[p] = rollExpr(e.delay_roll)
     } else if (e.type === 'branch') {
       e.cases.forEach((c, ci) => prerollEffects(c.effects, `${p}.c${ci}`, out))
-    } else if (e.type === 'save') {
+    } else if (e.type === 'save' || e.type === 'check') {
       prerollEffects(e.on_success, `${p}.s`, out)
       prerollEffects(e.on_fail, `${p}.f`, out)
     }
@@ -168,13 +264,54 @@ function prerollEffects(effects: Effect[], path = '', out: Record<string, number
   return out
 }
 
-function equipmentOptions(cc: CombatController, target: 'mount' | 'system'): { id: string; label: string; items: any[] }[] {
+function toDamageType(raw?: string): DamageType {
+  const key = (raw || '').toLowerCase()
+  return (
+    (Object.values(DamageType).find(d => d.toLowerCase() === key) as DamageType) ??
+    DamageType.Kinetic
+  )
+}
+
+const DURATION_LABEL: Record<string, string> = {
+  [END_OF_NEXT_TURN]: 'active.structureCheck.durationEndOfNextTurn',
+  [REST_OF_SCENE]: 'active.structureCheck.durationRestOfScene',
+}
+
+function isDestroyable(item: any): boolean {
+  if (item.Destroyed || item.IsIndestructible) return false
+  if (item.IsMod) return false
+  return hasUsesRemaining(item)
+}
+
+function structureDamageTargets(cc: CombatController): any[] {
+  const features = (cc.Parent as any)?.NpcFeatureController?.Features
+  if (features) return features.filter((f: any) => f.IsSystem && isDestroyable(f))
+
+  const loadout = (cc.Parent as any)?.MechLoadoutController?.ActiveLoadout
+  if (!loadout) return []
+  const weapons = loadout.AllMounts(true, true, true).flatMap((m: any) => m.Weapons || [])
+  return [...weapons, ...(loadout.Systems || [])].filter(isDestroyable)
+}
+
+function systemTraumaFallback(available: {
+  mounts: unknown[]
+  systems: unknown[]
+}): 'mount' | 'system' | 'direct_hit' {
+  if (available.mounts.length) return 'mount'
+  if (available.systems.length) return 'system'
+  return 'direct_hit'
+}
+
+function equipmentOptions(
+  cc: CombatController,
+  target: 'mount' | 'system'
+): { id: string; label: string; items: any[] }[] {
   const loadout = (cc.Parent as any)?.MechLoadoutController?.ActiveLoadout
   if (!loadout) return []
   if (target === 'mount') {
     return loadout
       .AllMounts(true, true, true)
-      .map((m: any, i: number) => ({ i, mount: m, live: (m.Weapons || []).filter((w: any) => !w.Destroyed && !w.IsIndestructible) }))
+      .map((m: any, i: number) => ({ i, mount: m, live: (m.Weapons || []).filter(isDestroyable) }))
       .filter((x: any) => x.live.length)
       .map((x: any) => ({
         id: String(x.i),
@@ -183,11 +320,26 @@ function equipmentOptions(cc: CombatController, target: 'mount' | 'system'): { i
       }))
   }
   return (loadout.Systems || [])
-    .filter((s: any) => !s.Destroyed && !s.IsIndestructible)
+    .filter(isDestroyable)
     .map((s: any, i: number) => ({ id: String(i), label: s.Name, items: [s] }))
 }
 
-function resolveEffects(effects: Effect[], ctx: ResolveContext, cc: CombatController, path = ''): ResolveResult {
+function pickTraumaTarget(
+  cc: CombatController,
+  rolled: 'mount' | 'system'
+): 'mount' | 'system' | 'direct_hit' {
+  const mounts = equipmentOptions(cc, 'mount')
+  const systems = equipmentOptions(cc, 'system')
+  if (rolled === 'system' && systems.length) return 'system'
+  return systemTraumaFallback({ mounts, systems })
+}
+
+function resolveEffects(
+  effects: Effect[],
+  ctx: ResolveContext,
+  cc: CombatController,
+  path = ''
+): ResolveResult {
   const steps: ResolveStep[] = []
   const actions: TerminalAction[] = []
   let complete = true
@@ -195,31 +347,77 @@ function resolveEffects(effects: Effect[], ctx: ResolveContext, cc: CombatContro
   effects.forEach((e, i) => {
     const p = path ? `${path}.${i}` : String(i)
     switch (e.type) {
-      case 'status':
-        steps.push({ path: p, kind: 'apply', label: `${e.id}${e.note ? ` (${e.note})` : ''}` })
-        actions.push({ kind: 'status', id: e.id })
+      case 'status': {
+        const qualifierKey = e.note || (e.duration ? DURATION_LABEL[e.duration] : '')
+        steps.push({
+          path: p,
+          kind: 'apply',
+          label: qualifierKey
+            ? t('active.structureCheck.withNote', { label: e.id, note: t(qualifierKey) })
+            : e.id,
+        })
+        actions.push({ kind: 'status', id: e.id, duration: e.duration })
         break
+      }
       case 'destroy':
-        steps.push({ path: p, kind: 'apply', label: `Destroyed${e.note ? ` (${e.note})` : ''}` })
+        steps.push({
+          path: p,
+          kind: 'apply',
+          label: e.note
+            ? t('active.structureCheck.withNote', {
+                label: t('active.structureCheck.destroyed'),
+                note: t(e.note),
+              })
+            : t('active.structureCheck.destroyed'),
+        })
         actions.push({ kind: 'destroy' })
         break
-      case 'reactor_meltdown':
-        steps.push({ path: p, kind: 'apply', label: `Reactor meltdown${e.note ? ` (${e.note})` : ''}` })
-        actions.push({ kind: 'reactor_meltdown' })
+      case 'reactor_meltdown': {
+        const turns = e.delay_roll ? ctx.rolls[p] : (e.delay ?? 0)
+        steps.push({
+          path: p,
+          kind: 'apply',
+          label: e.note
+            ? t('active.structureCheck.withNote', {
+                label: t('active.structureCheck.reactorMeltdown'),
+                note: t(e.note),
+              })
+            : t('active.structureCheck.reactorMeltdown'),
+          rolled: e.delay_roll ? turns : undefined,
+        })
+        if (typeof turns !== 'number') complete = false
+        else actions.push({ kind: 'reactor_meltdown', delayTurns: turns })
         break
-      case 'damage':
-        steps.push({ path: p, kind: 'damage', label: `${e.roll} ${e.damage_type || ''} damage`.trim(), rolled: ctx.rolls[p] })
+      }
+      case 'damage': {
+        const rolled = ctx.rolls[p]
+        steps.push({
+          path: p,
+          kind: 'damage',
+          label: t('active.structureCheck.damage', {
+            roll: e.roll,
+            type: e.damage_type || '',
+          })
+            .replace(/\s+/g, ' ')
+            .trim(),
+          rolled,
+        })
+        if (typeof rolled !== 'number') complete = false
+        else
+          actions.push({ kind: 'damage', damageType: toDamageType(e.damage_type), value: rolled })
         break
+      }
       case 'branch': {
         const val = e.on === 'stress' ? ctx.currentStress : ctx.currentStructure
-        const hit = e.cases.find(c =>
-          (c.at_least === undefined || val >= c.at_least) &&
-          (c.at_most === undefined || val <= c.at_most) &&
-          (c.equals === undefined || val === c.equals)
+        const hit = e.cases.find(
+          c =>
+            (c.at_least === undefined || val >= c.at_least) &&
+            (c.at_most === undefined || val <= c.at_most) &&
+            (c.equals === undefined || val === c.equals)
         )
         if (hit) {
           const ci = e.cases.indexOf(hit)
-          steps.push({ path: p, kind: 'branch', label: hit.label })
+          steps.push({ path: p, kind: 'branch', label: t(hit.label) })
           const sub = resolveEffects(hit.effects, ctx, cc, `${p}.c${ci}`)
           steps.push(...sub.steps)
           actions.push(...sub.actions)
@@ -227,9 +425,16 @@ function resolveEffects(effects: Effect[], ctx: ResolveContext, cc: CombatContro
         }
         break
       }
+      case 'check':
       case 'save': {
         const choice = ctx.saveChoices[p]
-        steps.push({ path: p, kind: 'save', label: e.check.toUpperCase(), check: e.check })
+        steps.push({
+          path: p,
+          kind: 'save',
+          label: e.check.toUpperCase(),
+          check: e.check,
+          mode: e.type,
+        })
         if (!choice) {
           complete = false
         } else {
@@ -244,7 +449,7 @@ function resolveEffects(effects: Effect[], ctx: ResolveContext, cc: CombatContro
       case 'sub_roll': {
         const rolled = ctx.rolls[p]
         const hit = e.cases.find(c => rolled >= c.min && rolled <= c.max)
-        steps.push({ path: p, kind: 'subroll', label: hit ? hit.label : '', rolled })
+        steps.push({ path: p, kind: 'subroll', label: hit ? t(hit.label) : '', rolled })
         if (hit) {
           const ci = e.cases.indexOf(hit)
           const sub = resolveEffects(hit.effects, ctx, cc, `${p}.c${ci}`)
@@ -255,13 +460,31 @@ function resolveEffects(effects: Effect[], ctx: ResolveContext, cc: CombatContro
         break
       }
       case 'destroy_equipment': {
-        const options = equipmentOptions(cc, e.target)
-        if (!options.length) {
-          steps.push({ path: p, kind: 'note', label: 'No valid target remaining — resolve manually.' })
+        const target = pickTraumaTarget(cc, e.target)
+        if (target === 'direct_hit') {
+          steps.push({
+            path: p,
+            kind: 'branch',
+            label: t('active.structureCheck.nothingDestroyable'),
+          })
+          const sub = resolveEffects(EFFECT_MAP[DIRECT_HIT_KEY], ctx, cc, `${p}.dh`)
+          steps.push(...sub.steps)
+          actions.push(...sub.actions)
+          if (!sub.complete) complete = false
           break
         }
+        const options = equipmentOptions(cc, target)
         const chosen = ctx.equipChoices[p]
-        steps.push({ path: p, kind: 'equip', label: e.target === 'mount' ? 'Mount to destroy' : 'System to destroy', target: e.target, options })
+        steps.push({
+          path: p,
+          kind: 'equip',
+          label:
+            target === 'mount'
+              ? t('active.structureCheck.mountToDestroy')
+              : t('active.structureCheck.systemToDestroy'),
+          target,
+          options,
+        })
         if (!chosen) {
           complete = false
         } else {
@@ -276,27 +499,64 @@ function resolveEffects(effects: Effect[], ctx: ResolveContext, cc: CombatContro
   return { steps, actions, complete }
 }
 
+function recordCheckRoll(
+  cc: CombatController,
+  kind: CheckKind,
+  roll: ICheckRollResult,
+  marked: number,
+  actions: TerminalAction[]
+): void {
+  cc.Record(kind === 'stress' ? 'stress.check' : 'structure.check', {
+    marked,
+    dice: roll.dice,
+    lowest: roll.lowest,
+    multipleOnes: roll.multipleOnes,
+    table: roll.table.ID,
+    row: roll.row?.title,
+    resolved: actions.map(a => ({
+      kind: a.kind,
+      id: a.kind === 'status' ? a.id : undefined,
+      value: a.kind === 'damage' ? a.value : undefined,
+      damageType: a.kind === 'damage' ? a.damageType : undefined,
+      delayTurns: a.kind === 'reactor_meltdown' ? a.delayTurns : undefined,
+      items: a.kind === 'destroy_equipment' ? a.items.map(itemRef) : undefined,
+    })),
+  })
+}
+
 function applyCheckEffects(cc: CombatController, actions: TerminalAction[]): void {
-  cc.SuppressChecks = true
-  try {
-    for (const a of actions) {
-      if (a.kind === 'status') cc.AddStatus(a.id)
-      else if (a.kind === 'destroy') {
-        cc.SetDestroyed(true)
-        cc.log('Destroyed by structure/stress check')
-      } else if (a.kind === 'reactor_meltdown') {
+  for (const a of actions) {
+    if (a.kind === 'status') cc.AddStatus(a.id, a.duration)
+    else if (a.kind === 'destroy') {
+      cc.SetDestroyed(true)
+      cc.Record('mech.status', { to: 'destroyed' })
+    } else if (a.kind === 'reactor_meltdown') {
+      if (a.delayTurns > 0) cc.ScheduleReactorMeltdown(a.delayTurns)
+      else {
         cc.ReactorDestroyed = true
-        cc.log('Reactor meltdown from stress check')
-      } else if (a.kind === 'destroy_equipment') {
-        a.items.forEach(it => {
-          it.Destroyed = true
-        })
-        cc.log('Equipment destroyed by structure check')
+        cc.Record('mech.status', { to: 'reactor_destroyed' })
       }
+    } else if (a.kind === 'destroy_equipment') {
+      a.items.forEach(it => {
+        it.Destroyed = true
+        cc.Record('equipment', { item: itemRef(it), state: 'destroyed' })
+      })
+    } else if (a.kind === 'damage') {
+      cc.TakeDamage(a.damageType, a.value)
     }
-  } finally {
-    cc.SuppressChecks = false
   }
+}
+
+function requestFor(step: ResolveStep): IFlowRequest | undefined {
+  if (step.kind === 'save') return { kind: 'check', label: step.label }
+  if (step.kind === 'equip')
+    return {
+      kind: 'select',
+      label: step.label,
+      options: (step.options ?? []).map(o => ({ id: o.id, label: o.label })),
+    }
+  if (step.kind === 'subroll') return { kind: 'roll', label: step.label }
+  return undefined
 }
 
 function isMonstrosity(cc: CombatController): boolean {
@@ -321,7 +581,7 @@ function markedPoints(cc: CombatController, kind: CheckKind): number {
 function rollCheck(table: RollableTable, marked: number): ICheckRollResult {
   const n = Math.max(1, marked)
   const dice: number[] = []
-  for (let i = 0; i < n; i++) dice.push(Math.floor(Math.random() * table.Die) + 1)
+  for (let i = 0; i < n; i++) dice.push(DiceRoller.rollDie(table.Die))
   const lowest = Math.min(...dice)
   const multipleOnes = dice.filter(d => d === 1).length >= 2
 
@@ -334,13 +594,27 @@ function rollCheck(table: RollableTable, marked: number): ICheckRollResult {
 }
 
 export {
+  recordCheckRoll,
+  equipmentOptions,
+  structureDamageTargets,
+  isDestroyable,
+  systemTraumaFallback,
   getCheckTable,
   markedPoints,
   rollCheck,
   isMonstrosity,
   effectsFor,
+  requestFor,
   applyCheckEffects,
   prerollEffects,
   resolveEffects,
 }
-export type { CheckKind, ICheckRollResult, IPendingCheck, Effect, ResolveContext, ResolveStep, TerminalAction }
+export type {
+  CheckKind,
+  ICheckRollResult,
+  IPendingCheck,
+  Effect,
+  ResolveContext,
+  ResolveStep,
+  TerminalAction,
+}

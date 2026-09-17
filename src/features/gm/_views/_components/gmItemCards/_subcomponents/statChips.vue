@@ -33,19 +33,12 @@
 <script setup lang="ts">
   import type { StatController } from '@/classes/components/combat/stats/StatController'
   import { computed } from 'vue'
-  import { Bonus } from '@/classes/components/feature/bonus/Bonus'
 
   defineOptions({ name: 'gm-stat-chip-display' })
 
-  const props = withDefaults(
-    defineProps<{
-      statController: StatController
-      bonuses?: Bonus[]
-    }>(),
-    {
-      bonuses: () => [],
-    }
-  )
+  const props = defineProps<{
+    statController: StatController
+  }>()
 
   const sortedStats = computed(() => {
     if (!props.statController || !props.statController.DisplayKeys.length) return []
@@ -55,12 +48,6 @@
   })
 
   function totalWithBonus(key) {
-    const bonuses = getBonuses(key)
-    const value = props.statController.MaxStats[key] as number
-    return value + bonuses.reduce((acc, x) => acc + Number(x.Value), 0)
-  }
-  function getBonuses(key: string) {
-    if (!props.bonuses) return []
-    return (props.bonuses as Bonus[]).filter(x => x.ID === key)
+    return props.statController.getMaxWithBonuses(key)
   }
 </script>

@@ -3,7 +3,6 @@ import { DamageType } from '@/classes/enums'
 import { StatKey } from './stats/Stats'
 import { makePilot, makeMech } from '@/__tests__/factories'
 import type { Mech } from '@/classes/mech/Mech'
-import { CombatLog } from './CombatLog'
 
 let mech: Mech
 
@@ -47,9 +46,9 @@ describe('CombatController.CalculateDamage', () => {
     expect(cc().CalculateDamage(DamageType.Kinetic, 5, false, true).total).toBe(5)
   })
 
-  it('raises the total to the reliable floor', () => {
+  it('does not floor a hit at the reliable value', () => {
     setStat(StatKey.ARMOR, 4)
-    expect(cc().CalculateDamage(DamageType.Kinetic, 5, false, false, 3).total).toBe(3)
+    expect(cc().CalculateDamage(DamageType.Kinetic, 5).total).toBe(1)
   })
 
   it('doubles non-heat damage while exposed', () => {
@@ -328,27 +327,31 @@ describe('CombatController combat actions', () => {
   })
 })
 
-describe('CombatLog history cap', () => {
-  it('keeps the most recent entries and drops the oldest', () => {
+describe('the combat log recorder', () => {
+  it('keeps every event, because a long fight must not be silently truncated', () => {
     const log = cc().CombatLog
-    for (let i = 0; i < 600; i++) log.LogSimpleEvent(`event ${i}`)
+    for (let i = 0; i < 600; i++) cc().Record('note', { text: `event ${i}` })
 
-    expect(log.History.length).toBe(500)
-    expect(log.History[0].event).toBe('event 100')
-    expect(log.History[499].event).toBe('event 599')
+    expect(log.Events.length).toBe(600)
+    expect((log.Events[0].payload as any).text).toBe('event 0')
+    expect((log.Events[599].payload as any).text).toBe('event 599')
   })
 
-  it('trims an oversized history loaded from save data', () => {
-    const oversized = Array.from({ length: 900 }, (_, i) => ({
-      timestamp: 0,
-      round: 1,
-      dir: 'incoming' as const,
-      event: `old ${i}`,
-    }))
+  it('numbers events in order so a shared timestamp cannot scramble them', () => {
+    for (let i = 0; i < 3; i++) cc().Record('note', { text: `n${i}` })
 
-    cc().CombatLog.History = CombatLog.trim(oversized)
+    expect(cc().CombatLog.Events.map(e => e.seq)).toEqual([0, 1, 2])
+  })
 
-    expect(cc().CombatLog.History.length).toBe(500)
-    expect(cc().CombatLog.History[0].event).toBe('old 400')
+  it('round-trips through save data and keeps counting from where it left off', () => {
+    cc().Record('note', { text: 'first' })
+    const saved = JSON.parse(JSON.stringify(cc().CombatLog.Save()))
+
+    const fresh = makeMech(makePilot({ level: 3 })).CombatController
+    fresh.CombatLog.Load(saved)
+    fresh.Record('note', { text: 'second' })
+
+    expect(fresh.CombatLog.Events.map(e => e.seq)).toEqual([0, 1])
+    expect((fresh.CombatLog.Events[1].payload as any).text).toBe('second')
   })
 })

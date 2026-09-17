@@ -2,7 +2,8 @@
   <v-container>
     <div class="heading h2">{{ $t('active.encMgr.localActiveEncounters') }}</div>
 
-    <active-mode-sort-bar v-model:sort="sort"
+    <active-mode-sort-bar
+      v-model:sort="sort"
       v-model:asc="asc"
       :items="encounters"
       :archived-items="archived"
@@ -11,11 +12,11 @@
       :title="$t('common.encounters')"
       @archive="organizeArchive"
       @restore="organizeRestore"
-      @delete="organizeDelete" />
+      @delete="organizeDelete"
+    />
 
-
-
-    <div v-for="e in encounters"
+    <div
+      v-for="e in encounters"
       :key="e.ID"
       style="position: relative"
       class="li-top-element my-2"
@@ -23,53 +24,74 @@
       tabindex="0"
       @click="launch(e)"
       @keydown.enter="launch(e)"
-      @keydown.space="launch(e)">
-      <div class="light"
-        style="position: absolute; top: 0; left: -15px; bottom: 0; width: 10px" />
-      <v-row no-gutters
+      @keydown.space="launch(e)"
+    >
+      <div
+        class="light"
+        style="position: absolute; top: 0; left: -15px; bottom: 0; width: 10px"
+      />
+      <v-row
+        no-gutters
         class="lighten-select"
-        :class="mobile ? 'mb-2' : 'mb-4'">
-        <v-col cols="auto"
-          style="border: rgb(var(--v-theme-primary)) 3px double">
-          <!-- <v-img v-if="e.Encounter.Map" :src="e.Encounter.Map" cover min-height="100%" /> -->
-          <v-img v-if="e.Encounter.Portrait"
+        :class="mobile ? 'mb-2' : 'mb-4'"
+      >
+        <v-col
+          cols="auto"
+          style="border: rgb(var(--v-theme-primary)) 3px double"
+        >
+          <v-img
+            v-if="e.Encounter.Portrait"
             :src="e.Encounter.Portrait"
             height="100%"
             width="120px"
-            cover />
+            cover
+          />
         </v-col>
         <v-col style="position: relative">
-          <v-toolbar density="compact"
+          <v-toolbar
+            density="compact"
             class="cToolbar"
-            :height="mobile ? '40' : '46'">
-            <v-row no-gutters
+            :height="mobile ? '40' : '46'"
+          >
+            <v-row
+              no-gutters
               align="center"
-              class="px-2">
-              <v-col cols="auto"
-                class="heading text-white">
+              class="px-2"
+            >
+              <v-col
+                cols="auto"
+                class="heading text-white"
+              >
                 {{ e.Encounter.Name }}
                 <cc-slashes class="mx-3" />
                 <span class="text-disabled mr-1">{{ $t('active.labels.round') }}</span>
                 <b>{{ e.Round }}</b>
               </v-col>
-              <v-col cols="auto"
-                class="mr-n2 ml-auto">
+              <v-col
+                cols="auto"
+                class="mr-n2 ml-auto"
+              >
                 <v-menu>
                   <template #activator="{ props }">
-                    <v-btn v-bind="props"
+                    <v-btn
+                      v-bind="props"
                       icon="mdi-cog"
                       size="small"
                       variant="text"
                       class="fade-select"
-                      @click.stop />
+                      @click.stop
+                    />
                   </template>
                   <v-card>
                     <v-list>
-                      <v-list-item prepend-icon="mdi-delete"
+                      <v-list-item
+                        prepend-icon="mdi-delete"
                         color="error"
-                        @click="RemoveEncounter(e)">
-                        <v-list-item-title>{{ $t('active.encMgr.deleteEncounter')
-                        }}</v-list-item-title>
+                        @click="RemoveEncounter(e)"
+                      >
+                        <v-list-item-title>
+                          {{ $t('active.encMgr.deleteEncounter') }}
+                        </v-list-item-title>
                       </v-list-item>
                     </v-list>
                   </v-card>
@@ -79,10 +101,14 @@
           </v-toolbar>
 
           <div class="text-cc-overline">
-            <v-row class="detail-row px-2"
-              no-gutters>
-              <v-col cols="auto"
-                class="pb-0 my-1">
+            <v-row
+              class="detail-row px-2"
+              no-gutters
+            >
+              <v-col
+                cols="auto"
+                class="pb-0 my-1"
+              >
                 <div>
                   <span class="text-disabled mr-1">
                     {{ $t('common.created') }}
@@ -116,23 +142,35 @@
                 </div>
               </v-col>
 
-              <v-col cols="12"
-                class="mt-1 py-0">
-                <div v-for="side in ['ally', 'enemy', 'neutral']"
+              <v-col
+                cols="12"
+                class="mt-1 py-0"
+              >
+                <div
+                  v-for="side in ['ally', 'enemy', 'neutral']"
                   :key="side"
-                  class="mb-2">
-                  <v-chip v-for="item in e.Combatants.filter(c => c.side === side)"
+                  class="mb-2"
+                >
+                  <v-chip
+                    v-for="item in e.Combatants.filter(c => c.side === side)"
                     :key="item.actor.ID"
-                    :prepend-icon="side === 'ally' ? 'cc:pilot' : side === 'enemy' ? 'cc:mech' : 'mdi-cube-outline'"
+                    :prepend-icon="
+                      side === 'ally'
+                        ? 'cc:pilot'
+                        : side === 'enemy'
+                          ? 'cc:mech'
+                          : 'mdi-cube-outline'
+                    "
                     :color="side === 'ally' ? 'info' : side === 'enemy' ? 'error' : 'background'"
                     tile
                     variant="elevated"
                     size="x-small"
-                    class="mr-1 mb-1 elevation-0">
+                    class="mr-1 mb-1 elevation-0"
+                  >
                     {{ item.actor.CombatController.CombatName }}
-                    <span v-if="(item.actor as any).PlayerName">&nbsp;({{ (item.actor as
-                      any).PlayerName
-                      }})</span>
+                    <span v-if="(item.actor as any).PlayerName">
+                      &nbsp;({{ (item.actor as any).PlayerName }})
+                    </span>
                   </v-chip>
                 </div>
                 <br />
@@ -142,10 +180,12 @@
         </v-col>
       </v-row>
     </div>
-    <cc-button block
+    <cc-button
+      block
       prepend-icon="mdi-plus"
       color="primary"
-      :to="'new-encounter'">
+      :to="'new-encounter'"
+    >
       {{ $t('active.encMgr.createNewEncounter') }}
     </cc-button>
     <br />
@@ -156,32 +196,45 @@
           {{ $t('active.encMgr.archivedEncounters', { n: archived.length }) }}
         </v-expansion-panel-title>
         <v-expansion-panel-text>
-          <div class="mb-4"
-            style="max-width: 400px;">
-            <cc-text-field v-model="search"
+          <div
+            class="mb-4"
+            style="max-width: 400px"
+          >
+            <cc-text-field
+              v-model="search"
               icon="mdi-magnify"
               variant="outlined"
               density="comfortable"
               clearable
-              class="mb-4" />
+              class="mb-4"
+            />
           </div>
-          <div v-if="archived.length === 0"
-            class="text-center text-cc-overline text-disabled">
-            <i>{{ search ? $t('active.encMgr.noArchivedFoundFiltered', { search }) :
-              $t('active.encMgr.noArchivedFound') }}.</i>
+          <div
+            v-if="archived.length === 0"
+            class="text-center text-cc-overline text-disabled"
+          >
+            <i>
+              {{
+                search
+                  ? $t('active.encMgr.noArchivedFoundFiltered', { search })
+                  : $t('active.encMgr.noArchivedFound')
+              }}.
+            </i>
           </div>
-          <v-row v-for="e in archived"
+          <v-row
+            v-for="e in archived"
             :key="e.ID"
             class="text-cc-overline bg-background my-1"
-            align="center">
-            <v-col cols="auto"
-              style="height: 100%">
+            align="center"
+          >
+            <v-col
+              cols="auto"
+              style="height: 100%"
+            >
               {{ e.Name }}
-              <br>
+              <br />
               <v-card class="px-1 bg-primary text-center">
-                {{
-                  e.Result
-                }}
+                {{ e.Result }}
               </v-card>
             </v-col>
             <v-col cols="auto">
@@ -196,37 +249,55 @@
               </div>
             </v-col>
             <v-col cols="auto">
-              <cc-dialog :close-on-click="false"
-                :title="`${e.Name} - After Action Report`">
+              <cc-dialog
+                :close-on-click="false"
+                :title="`${e.Name} - After Action Report`"
+              >
                 <template #activator="{ open }">
-                  <cc-button size="small"
+                  <cc-button
+                    size="small"
                     color="primary"
-                    @click="open()">{{ $t('active.encMgr.afterActionReport') }}</cc-button>
+                    @click="open()"
+                  >
+                    {{ $t('active.encMgr.afterActionReport') }}
+                  </cc-button>
                 </template>
-                <v-card flat
-                  tile>
+                <v-card
+                  flat
+                  tile
+                >
                   <v-card-text>
-                    <v-alert density="compact"
+                    <v-alert
+                      density="compact"
                       class="text-caption mt-2 mb-4"
                       flat
                       tile
                       color="panel"
-                      border=start
-                      border-color="red">{{ $t('active.encMgr.devNoteReport') }}</v-alert>
+                      border="start"
+                      border-color="red"
+                    >
+                      {{ $t('active.encMgr.devNoteReport') }}
+                    </v-alert>
                     <div class="pa-2 bg-background">
-                      <code class="text-left"
-                        style="white-space: pre-wrap; word-break: break-word;">
-                    {{ reportText(e) }}
-                  </code>
+                      <code
+                        class="text-left"
+                        style="white-space: pre-wrap; word-break: break-word"
+                      >
+                        {{ reportText(e) }}
+                      </code>
                     </div>
                   </v-card-text>
                   <v-card-actions>
-                    <cc-button color="primary"
-                      @click="copyText(reportText(e))">
+                    <cc-button
+                      color="primary"
+                      @click="copyText(reportText(e))"
+                    >
                       {{ $t('active.encMgr.copyReport') }}
                     </cc-button>
-                    <cc-button color="primary"
-                      @click="exportJson(e, 'report')">
+                    <cc-button
+                      color="primary"
+                      @click="exportJson(e, 'report')"
+                    >
                       {{ $t('active.common.exportAsJson') }}
                     </cc-button>
                   </v-card-actions>
@@ -234,57 +305,91 @@
               </cc-dialog>
             </v-col>
             <v-col cols="auto">
-              <cc-dialog :close-on-click="false"
-                :title="`${e.Name} - LOGS AND TELEMETRY`">
+              <cc-dialog
+                :close-on-click="false"
+                :title="`${e.Name} - LOGS AND TELEMETRY`"
+              >
                 <template #activator="{ open }">
-                  <cc-button size="small"
+                  <cc-button
+                    size="small"
                     color="primary"
-                    @click="open()">{{ $t('active.encMgr.logsTelemetry') }}</cc-button>
+                    @click="open()"
+                  >
+                    {{ $t('active.encMgr.logsTelemetry') }}
+                  </cc-button>
                 </template>
-                <v-card flat
-                  tile>
+                <v-card
+                  flat
+                  tile
+                >
                   <v-card-text>
-                    <v-alert density="compact"
+                    <v-alert
+                      density="compact"
                       class="text-caption mt-2 mb-4"
                       flat
                       tile
                       color="panel"
-                      border=start
-                      border-color="red">{{ $t('active.encMgr.devNoteLogs') }}</v-alert>
+                      border="start"
+                      border-color="red"
+                    >
+                      {{ $t('active.encMgr.devNoteLogs') }}
+                    </v-alert>
                     <v-expansion-panels>
-                      <v-expansion-panel v-for="(a, index) in e.History"
-                        :key="`log-${index}`">
+                      <v-expansion-panel
+                        v-for="(a, index) in e.History.participants"
+                        :key="`log-${index}`"
+                      >
                         <v-expansion-panel-title class="heading">
-                          {{ a.combatantName }}
+                          {{ a.name }}
+                          <v-spacer />
+                          <cc-button
+                            size="x-small"
+                            color="primary"
+                            prepend-icon="mdi-export"
+                            :tooltip="$t('active.encMgr.exportActorLogTooltip')"
+                            class="mr-2"
+                            @click.stop="exportActorStream(e, a)"
+                          >
+                            {{ $t('active.encMgr.exportActorLog') }}
+                          </cc-button>
                         </v-expansion-panel-title>
                         <v-expansion-panel-text class="bg-background">
-                          <code class="text-left "
-                            style="white-space: pre-wrap; word-break: break-word;">
-                        <v-row dense>
-                          <v-col>
-                            <div class="text-disabled mb-1">{{
-                              $t('active.encMgr.battlefieldTelemetry') }}</div>
-                            <div class="text-disabled mb-1">---------------------</div>
-                            {{ formatTelemetry(a.telemetry) }}
-                          </v-col>
-                          <v-col style="max-height: 800px; overflow-y: scroll;">
-                            <div class="text-disabled mb-1">{{ $t('active.encMgr.combatLogs') }}
-                            </div>
-                            <div class="text-disabled mb-1">---------------------</div>
-                            <div v-for="(log, logIndex) in a.log" :key="`log-entry-${logIndex}`"
-                              class="mb-2">
-                              {{ formatLogEntry(log) }}
-                            </div>
-                          </v-col>
-                        </v-row>
-                      </code>
+                          <code
+                            class="text-left"
+                            style="white-space: pre-wrap; word-break: break-word"
+                          >
+                            <v-row dense>
+                              <v-col>
+                                <div class="text-disabled mb-1">
+                                  {{ $t('active.encMgr.battlefieldTelemetry') }}
+                                </div>
+                                <div class="text-disabled mb-1">---------------------</div>
+                                {{ formatTelemetry(e.History, a.id) }}
+                              </v-col>
+                              <v-col style="max-height: 800px; overflow-y: scroll">
+                                <div class="text-disabled mb-1">
+                                  {{ $t('active.encMgr.combatLogs') }}
+                                </div>
+                                <div class="text-disabled mb-1">---------------------</div>
+                                <div
+                                  v-for="(log, logIndex) in actorEntries(e.History, a.id)"
+                                  :key="`log-entry-${logIndex}`"
+                                  class="mb-2"
+                                >
+                                  {{ formatLogEntry(log) }}
+                                </div>
+                              </v-col>
+                            </v-row>
+                          </code>
                         </v-expansion-panel-text>
                       </v-expansion-panel>
                     </v-expansion-panels>
                   </v-card-text>
                   <v-card-actions>
-                    <cc-button color="primary"
-                      @click="exportJson(e, 'logs')">
+                    <cc-button
+                      color="primary"
+                      @click="exportJson(e, 'logs')"
+                    >
                       {{ $t('active.common.exportAsJson') }}
                     </cc-button>
                   </v-card-actions>
@@ -292,30 +397,35 @@
               </cc-dialog>
             </v-col>
 
-            <v-col cols="auto"
-              class="ml-auto">
+            <v-col
+              cols="auto"
+              class="ml-auto"
+            >
               <v-menu max-width="350">
                 <template #activator="{ props }">
-
-                  <v-btn icon
+                  <v-btn
+                    icon
                     flat
                     tile
                     v-bind="props"
-                    variant="text">
+                    variant="text"
+                  >
                     <v-icon icon="mdi-delete" />
                   </v-btn>
                 </template>
                 <v-card>
                   <v-card-text>
                     <b>{{ $t('active.encMgr.deleteArchivePrompt') }}</b>
-                    <br>
+                    <br />
                     <p class="text-caption text--text mb-2">
                       {{ $t('active.encMgr.deleteArchiveDetail') }}
                     </p>
-                    <cc-button size="small"
+                    <cc-button
+                      size="small"
                       block
                       color="primary"
-                      @click="deleteEncounter(e)">
+                      @click="deleteEncounter(e)"
+                    >
                       {{ $t('common.delete') }}
                     </cc-button>
                   </v-card-text>
@@ -330,196 +440,231 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { useDisplay } from 'vuetify';
-import { useRouter } from 'vue-router';
-import ActiveModeSortBar from '@/features/active_mode/_components/ActiveModeSortBar.vue';
-import { CombatLog } from '@/classes/components/combat/CombatLog';
-import { ActionSummary } from '@/classes/components/feature/active_effects/EffectActionSummary';
-import { EncounterStore } from '@/stores';
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
-import { EncounterArchive } from '@/classes/encounter/EncounterArchive';
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
+  import { ref, computed } from 'vue'
+  import { useDisplay } from 'vuetify'
+  import { useRouter } from 'vue-router'
+  import ActiveModeSortBar from '@/features/active_mode/_components/ActiveModeSortBar.vue'
+  import { reduceEvents, formatRollup } from '@/classes/components/combat/log/telemetry'
+  import { renderStream } from '@/classes/components/combat/log/render'
+  import { concernsActor } from '@/classes/components/combat/log/stream'
+  import { EncounterStore } from '@/stores'
+  import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+  import { EncounterArchive } from '@/classes/encounter/EncounterArchive'
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
 
-const { smAndDown: mobile } = useDisplay();
-const router = useRouter();
+  const { smAndDown: mobile } = useDisplay()
+  const router = useRouter()
 
-const search = ref('');
-const sort = ref('');
-const asc = ref(true);
+  const search = ref('')
+  const sort = ref('')
+  const asc = ref(true)
 
-const encounterOrganizerColumns = [
-  { key: 'Name', title: 'Name', sortable: true, value: (e: EncounterInstance) => e.Name },
-  { key: 'Environment', title: t('common.environment'), value: (e: EncounterInstance) => e.Encounter?.Environment?.Name || '' },
-  { key: 'Sitrep', title: t('active.titles.sitrep'), value: (e: EncounterInstance) => e.Encounter?.Sitrep?.Name || '' },
-  { key: 'Round', title: t('active.titles.round'), sortable: true, value: (e: EncounterInstance) => e.Round },
-  { key: 'Created', title: 'Created', sortable: true, value: (e: EncounterInstance) => new Date(e.SaveController.Created).toLocaleDateString() },
-];
+  const encounterOrganizerColumns = [
+    { key: 'Name', title: 'Name', sortable: true, value: (e: EncounterInstance) => e.Name },
+    {
+      key: 'Environment',
+      title: t('common.environment'),
+      value: (e: EncounterInstance) => e.Encounter?.Environment?.Name || '',
+    },
+    {
+      key: 'Sitrep',
+      title: t('active.titles.sitrep'),
+      value: (e: EncounterInstance) => e.Encounter?.Sitrep?.Name || '',
+    },
+    {
+      key: 'Round',
+      title: t('active.titles.round'),
+      sortable: true,
+      value: (e: EncounterInstance) => e.Round,
+    },
+    {
+      key: 'Created',
+      title: 'Created',
+      sortable: true,
+      value: (e: EncounterInstance) => new Date(e.SaveController.Created).toLocaleDateString(),
+    },
+  ]
 
-const encounters = computed<EncounterInstance[]>(() => {
-  if (sort.value) {
-    const sorted = [...(EncounterStore().ActiveEncounters as EncounterInstance[])].filter(
-      (e) => !e.SaveController.IsDeleted
-    );
-    sorted.sort((a, b) => {
-      let aValue: string | number, bValue: string | number;
-      switch (sort.value) {
-        case 'Name':
-          aValue = a.Name.toLowerCase();
-          bValue = b.Name.toLowerCase();
-          break;
-        case 'Created':
-          aValue = new Date(a.SaveController.Created).getTime();
-          bValue = new Date(b.SaveController.Created).getTime();
-          break;
-        case 'Updated':
-          aValue = new Date(a.SaveController.LastModified || a.SaveController.Created).getTime();
-          bValue = new Date(b.SaveController.LastModified || b.SaveController.Created).getTime();
-          break;
-        default:
-          return 0;
-      }
-      if (aValue < bValue) return asc.value ? -1 : 1;
-      if (aValue > bValue) return asc.value ? 1 : -1;
-      return 0;
-    });
-    return sorted;
+  const encounters = computed<EncounterInstance[]>(() => {
+    if (sort.value) {
+      const sorted = [...(EncounterStore().ActiveEncounters as EncounterInstance[])].filter(
+        e => !e.SaveController.IsDeleted
+      )
+      sorted.sort((a, b) => {
+        let aValue: string | number, bValue: string | number
+        switch (sort.value) {
+          case 'Name':
+            aValue = a.Name.toLowerCase()
+            bValue = b.Name.toLowerCase()
+            break
+          case 'Created':
+            aValue = new Date(a.SaveController.Created).getTime()
+            bValue = new Date(b.SaveController.Created).getTime()
+            break
+          case 'Updated':
+            aValue = new Date(a.SaveController.LastModified || a.SaveController.Created).getTime()
+            bValue = new Date(b.SaveController.LastModified || b.SaveController.Created).getTime()
+            break
+          default:
+            return 0
+        }
+        if (aValue < bValue) return asc.value ? -1 : 1
+        if (aValue > bValue) return asc.value ? 1 : -1
+        return 0
+      })
+      return sorted
+    }
+    return (EncounterStore().ActiveEncounters as EncounterInstance[]).filter(
+      e => !e.SaveController.IsDeleted
+    )
+  })
+
+  const archived = computed<EncounterArchive[]>(() => {
+    let arr = EncounterStore().ArchivedEncounters as EncounterArchive[]
+    if (search.value && search.value.trim() !== '') {
+      arr = arr.filter(e => e.Name.toLowerCase().includes(search.value.toLowerCase()))
+    }
+    return arr
+  })
+
+  const deleted = computed(() =>
+    (EncounterStore().ActiveEncounters as EncounterInstance[]).filter(
+      e => e.SaveController.IsDeleted
+    )
+  )
+
+  async function launch(encounter: EncounterInstance) {
+    await EncounterStore().AssignActiveEncounter(encounter)
+    router.push(`gm-encounter-runner/${encounter.ID}`)
   }
-  return (EncounterStore().ActiveEncounters as EncounterInstance[]).filter(
-    (e) => !e.SaveController.IsDeleted
-  );
-})
 
-const archived = computed<EncounterArchive[]>(() => {
-  let arr = EncounterStore().ArchivedEncounters as EncounterArchive[];
-  if (search.value && search.value.trim() !== '') {
-    arr = arr.filter((e) =>
-      e.Name.toLowerCase().includes(search.value.toLowerCase())
-    );
+  async function deleteEncounter(encounter: EncounterArchive) {
+    await EncounterStore().RemoveEncounterArchive(encounter)
   }
-  return arr;
-});
 
-const deleted = computed(() =>
-  (EncounterStore().ActiveEncounters as EncounterInstance[]).filter((e) => e.SaveController.IsDeleted)
-);
-
-async function launch(encounter: EncounterInstance) {
-  await EncounterStore().AssignActiveEncounter(encounter);
-  router.push(`gm-encounter-runner/${encounter.ID}`);
-}
-
-async function deleteEncounter(encounter: EncounterArchive) {
-  await EncounterStore().RemoveEncounterArchive(encounter);
-}
-
-async function RemoveEncounter(encounter: EncounterInstance) {
-  await EncounterStore().RemoveEncounterInstance(encounter);
-}
-
-async function organizeArchive(ids: string[]) {
-  const targets = encounters.value.filter(e => ids.includes(e.ID)) as EncounterInstance[];
-  for (const e of targets) {
-    await EncounterStore().ArchiveEncounterInstance(e, '', 'Archived');
+  async function RemoveEncounter(encounter: EncounterInstance) {
+    await EncounterStore().RemoveEncounterInstance(encounter)
   }
-}
 
-async function organizeDelete(ids: string[]) {
-  const targets = encounters.value.filter(e => ids.includes(e.ID)) as EncounterInstance[];
-  for (const e of targets) {
-    await EncounterStore().RemoveEncounterInstance(e);
+  async function organizeArchive(ids: string[]) {
+    const targets = encounters.value.filter(e => ids.includes(e.ID)) as EncounterInstance[]
+    for (const e of targets) {
+      await EncounterStore().ArchiveEncounterInstance(e, '', 'Archived')
+    }
   }
-  const archives = archived.value.filter(e => ids.includes(e.ID)) as EncounterArchive[];
-  for (const a of archives) {
-    await EncounterStore().RemoveEncounterArchive(a);
+
+  async function organizeDelete(ids: string[]) {
+    const targets = encounters.value.filter(e => ids.includes(e.ID)) as EncounterInstance[]
+    for (const e of targets) {
+      await EncounterStore().RemoveEncounterInstance(e)
+    }
+    const archives = archived.value.filter(e => ids.includes(e.ID)) as EncounterArchive[]
+    for (const a of archives) {
+      await EncounterStore().RemoveEncounterArchive(a)
+    }
   }
-}
 
-function organizeRestore(ids: string[]) {
-  const targets = deleted.value.filter(e => ids.includes(e.ID));
-  for (const e of targets) e.SaveController.Restore();
-}
+  function organizeRestore(ids: string[]) {
+    const targets = deleted.value.filter(e => ids.includes(e.ID))
+    for (const e of targets) e.SaveController.Restore()
+  }
 
-function reportText(archive: EncounterArchive) {
-  let str = `      ${archive.Name}: ${archive.Result}\n`;
-  str += `------------------------------------------------\n`;
-  const report = JSON.parse(archive.AfterActionReport);
-  report.forEach((e: any) => {
-    str += `${e.name}: ${e.pilotStatus || ''}${e.mechStatus ? ` // ${e.mechStatus}` : ''}${e.status || ''}\n`;
-  });
-  return str;
-}
+  function reportText(archive: EncounterArchive) {
+    let str = `      ${archive.Name}: ${archive.Result}\n`
+    str += `------------------------------------------------\n`
+    const report = JSON.parse(archive.AfterActionReport)
+    report.forEach((e: any) => {
+      str += `${e.name}: ${e.pilotStatus || ''}${e.mechStatus ? ` // ${e.mechStatus}` : ''}${e.status || ''}\n`
+    })
+    return str
+  }
 
-function copyText(text: string) {
-  navigator.clipboard.writeText(text);
-}
+  function copyText(text: string) {
+    navigator.clipboard.writeText(text)
+  }
 
-function exportJson(archive: EncounterArchive, type: 'logs' | 'report') {
-  const data = {
-    name: archive.Name,
-    result: archive.Result,
-    details: type === 'report' ? JSON.parse(archive.AfterActionReport) : archive.History,
-  };
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `${archive.Name}_${type === 'report' ? 'report' : 'logs'}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
-}
+  function exportJson(archive: EncounterArchive, type: 'logs' | 'report') {
+    const data = {
+      name: archive.Name,
+      result: archive.Result,
+      details: type === 'report' ? JSON.parse(archive.AfterActionReport) : archive.History,
+    }
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${archive.Name}_${type === 'report' ? 'report' : 'logs'}.json`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
 
-function formatTelemetry(t: any) {
-  return CombatLog.FormatTelemetry(t, true, 40);
-}
+  function exportActorStream(archive: EncounterArchive, participant: { id: string; name: string }) {
+    const stream = archive.StreamFor(participant.id)
+    const blob = new Blob([JSON.stringify(stream, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${participant.name}_${archive.Name}_log.json`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
 
-function formatLogEntry(log: any) {
-  let out = `Round ${log.round} (${new Date(log.timestamp).toLocaleTimeString()})\n`;
-  if (log.action)
-    out += new ActionSummary(log.action).Summarize(log.action.initiatorID || '');
-  else if (log.event)
-    out += log.event;
-  return out;
-}
+  function actorEntries(history: any, actorId: string) {
+    const events = (history?.events ?? []).filter((e: any) => concernsActor(e, actorId))
+    return renderStream(events, history ?? { participants: [] }, t)
+  }
+
+  function formatTelemetry(history: any, actorId: string) {
+    return formatRollup(reduceEvents(history?.events ?? [], actorId), t, 40)
+  }
+
+  function formatLogEntry(entry: any) {
+    return `${t('active.telemetry.rollup.logEntryHeader', {
+      n: entry.round,
+      time: new Date(entry.ts).toLocaleTimeString(),
+    })}\n${entry.text}`
+  }
 </script>
 
 <style scoped>
-.detail-row {
-  background-color: rgb(var(--v-theme-light-panel));
-  border-bottom: 1px rgb(var(--v-theme-primary)) solid;
-  border-right: 1px rgb(var(--v-theme-primary)) solid;
-  border-left: 1px rgb(var(--v-theme-primary)) solid;
-  min-height: 108px;
-}
+  .detail-row {
+    background-color: rgb(var(--v-theme-light-panel));
+    border-bottom: 1px rgb(var(--v-theme-primary)) solid;
+    border-right: 1px rgb(var(--v-theme-primary)) solid;
+    border-left: 1px rgb(var(--v-theme-primary)) solid;
+    min-height: 108px;
+  }
 
-.detail-row-mobile {
-  background-color: rgb(var(--v-theme-light-panel));
-  border-bottom: 1px rgb(var(--v-theme-primary)) solid;
-  border-right: 1px rgb(var(--v-theme-primary)) solid;
-  border-left: 1px rgb(var(--v-theme-primary)) solid;
-  margin-left: -1px;
-  min-height: 57px;
-}
+  .detail-row-mobile {
+    background-color: rgb(var(--v-theme-light-panel));
+    border-bottom: 1px rgb(var(--v-theme-primary)) solid;
+    border-right: 1px rgb(var(--v-theme-primary)) solid;
+    border-left: 1px rgb(var(--v-theme-primary)) solid;
+    margin-left: -1px;
+    min-height: 57px;
+  }
 
-.cToolbar {
-  background-color: rgb(var(--v-theme-primary));
-}
+  .cToolbar {
+    background-color: rgb(var(--v-theme-primary));
+  }
 
-.cToolbar-missing {
-  background: repeating-linear-gradient(45deg,
+  .cToolbar-missing {
+    background: repeating-linear-gradient(
+      45deg,
       rgb(var(--v-theme-error-darken-2)),
       rgb(var(--v-theme-error-darken-2)) 10px,
       rgb(var(--v-theme-error-darken-3)) 10px,
-      rgb(var(--v-theme-error-darken-3)) 20px);
-}
+      rgb(var(--v-theme-error-darken-3)) 20px
+    );
+  }
 
-.light {
-  transition: background-color 0.2s ease-in-out;
-  background-color: rgb(var(--v-theme-primary));
-}
+  .light {
+    transition: background-color 0.2s ease-in-out;
+    background-color: rgb(var(--v-theme-primary));
+  }
 
-.li-top-element:hover .light {
-  background-color: rgb(var(--v-theme-success));
-}
+  .li-top-element:hover .light {
+    background-color: rgb(var(--v-theme-success));
+  }
 </style>

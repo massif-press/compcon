@@ -55,6 +55,7 @@ export type CombatantData = {
   type: CombatantType
   actor: ICombatant
   number: number
+  readonly Label: string
   side: CombatantSide
   deployables: DeployableInstance[]
   playerCount?: number
@@ -96,6 +97,12 @@ function makeCombatant(
   over: Partial<CombatantData> = {}
 ): CombatantData {
   return {
+    get Label(): string {
+      const name = this.actor?.CombatController?.CombatName || ''
+      if (!name) return ''
+      if (this.type === 'pilot' || this.type === 'placeholder') return name
+      return this.number > 0 ? `${name} #${this.number}` : name
+    },
     id: actor.ID,
     index: 0,
     type,
@@ -388,5 +395,29 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   }
 }
 
-export { Encounter }
+const ACTIVE_STATUSES = new Set<string>([
+  NpcStatus.Operational,
+  PilotStatus.Active,
+  PilotStatus.Injured,
+  MechStatus.Operational,
+  MechStatus.Cascade,
+])
+
+// null == still in combat; otherwise the out-of-combat group key (a status label).
+// A destroyed or reactor-melted actor (both zero structure => IsDestroyed) groups as Destroyed.
+function statusGroupKey(c: CombatantData): string | null {
+  const cc = c.actor.CombatController
+  const isPilot = c.actor.ItemType === 'Pilot'
+  if (isPilot && cc.IsDead) return PilotStatus.KIA
+  if (cc.IsDestroyed) return NpcStatus.Destroyed
+  const label = isPilot ? c.pilotStatus : c.status
+  if (!label || ACTIVE_STATUSES.has(label)) return null
+  return label
+}
+
+function isOutOfCombat(c: CombatantData): boolean {
+  return statusGroupKey(c) !== null
+}
+
+export { Encounter, makeCombatant, statusGroupKey, isOutOfCombat }
 export type { IEncounterData, CombatantSaveData, CombatantSide }

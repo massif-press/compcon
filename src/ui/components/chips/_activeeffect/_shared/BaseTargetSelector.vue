@@ -1,20 +1,20 @@
 <template>
-  <v-col v-if="event.Targets">
+  <v-col v-if="event.Targets && !event.IsSelfOnly">
     <div class="text-cc-overline text-disabled">
       <span>{{ `Target${event.AoE ? 's' : ''}` }}</span>
     </div>
     <v-select
       v-for="idx in event.Targets.length"
       :key="event.Targets?.[idx - 1]?.Combatant?.id || `empty-selector-${idx}`"
-      :value="combatantLabel(event.Targets?.[idx - 1]?.Combatant)"
+      :value="event.Targets?.[idx - 1]?.Combatant?.Label"
       :placeholder="$t('ui.fields.selectTarget')"
       density="compact"
       variant="outlined"
       return-object
       class="mb-1"
-      :item-title="combatantLabel"
-      :item-value="t => t.id"
-      :items="event.AvailableTargets"
+      item-title="Label"
+      :item-value="c => c.id"
+      :items="targets"
       flat
       :error="!event.Targets?.[idx - 1]?.Combatant?.id"
       hide-details
@@ -24,7 +24,7 @@
       <template #prepend>
         <div v-if="idx === 1">
           <v-tooltip location="top">
-            <template #activator="{ props }">
+            <template #activator="{ props: tooltipProps }">
               <v-btn
                 icon
                 size="x-small"
@@ -32,7 +32,7 @@
                 flat
                 tile
                 class="mr-n2"
-                v-bind="props"
+                v-bind="tooltipProps"
                 @click="event.AoE = !event.AoE"
               >
                 <v-icon
@@ -70,6 +70,17 @@
           style="width: 24px"
         ></div>
       </template>
+      <template #item="{ props: itemProps, item }">
+        <v-divider
+          v-if="dividerBefore.has(item.raw.id)"
+          class="my-1"
+        />
+        <v-list-item
+          v-bind="itemProps"
+          :prepend-icon="targetIcon(item.raw)"
+          :subtitle="sideLabel(item.raw.side)"
+        />
+      </template>
       <template #append>
         <v-btn
           icon
@@ -106,9 +117,33 @@
 
 <script setup lang="ts">
   import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
-  import { combatantLabel } from '@/util/combatantLabel'
+  import type { CombatantData } from '@/classes/encounter/Encounter'
+  import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
 
-  defineProps<{
+  const props = defineProps<{
     event: ActiveEffectEvent
   }>()
+
+  const { t } = useI18n()
+
+  const targets = computed<CombatantData[]>(() => props.event.AvailableTargets || [])
+
+  const dividerBefore = computed(() => {
+    const ids = new Set<string>()
+    targets.value.forEach((c, idx) => {
+      if (idx > 0 && c.side !== targets.value[idx - 1].side) ids.add(c.id)
+    })
+    return ids
+  })
+
+  function sideLabel(side: string): string {
+    if (side === 'ally') return t('ui.combat.sideAlly')
+    if (side === 'enemy') return t('ui.combat.sideEnemy')
+    return t('ui.combat.sideNeutral')
+  }
+
+  function targetIcon(combatant: CombatantData): string {
+    return combatant.actor?.Icon || (combatant.type === 'pilot' ? 'cc:pilot' : 'cc:encounter')
+  }
 </script>

@@ -32,14 +32,23 @@ class CounterController {
 
   public saveCounter(inputData: ICounterSaveData): void {
     const index = this._counterSaveData.findIndex(datum => datum.id === inputData.id)
+    const from = index < 0 ? 0 : this._counterSaveData[index].val
     if (index < 0) {
       this._counterSaveData = [...this._counterSaveData, inputData]
     } else {
       this._counterSaveData[index] = inputData
       this._counterSaveData = [...this._counterSaveData]
     }
-    this.Parent.CombatLogVersion++
-    // this.Parent.SaveController.save();
+    if (from !== inputData.val) {
+      const counter = this.CounterData.find(c => c.id === inputData.id)
+      this.Parent.Record('counter', {
+        counter: { id: inputData.id, name: counter?.name ?? inputData.id },
+        from,
+        to: inputData.val,
+      })
+    } else {
+      this.Parent.CombatLogVersion++
+    }
   }
 
   public get CustomCounterData(): ICounterData[] {
@@ -80,6 +89,11 @@ class CounterController {
       map.set(key, c)
     }
     return Array.from(map.values())
+  }
+
+  public ResetForEncounter(): void {
+    this._counterSaveData = []
+    this.Parent.CombatLogVersion++
   }
 
   public static Serialize(parent: ICounterContainer, target: any) {

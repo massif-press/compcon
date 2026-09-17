@@ -1,5 +1,6 @@
 <template>
   <cc-dialog :color="available ? displayColor : 'panel'"
+    no-gutters
     :icon="displayIcon"
     :title="action.Name"
     :close-on-click="false"
@@ -25,7 +26,9 @@
                 color="error"
                 class="ml-n2" />
             </template>
-            <div class="text-center text-cc-overline">{{ $t('ui.combat.cannotActivateShort') }}</div>
+            <div class="text-center text-cc-overline">
+              {{ $t('ui.combat.cannotActivateShort') }}
+            </div>
             <v-divider class="my-1" />
             <div v-if="!canActivate">
               <div v-if="!canUse">{{ unavailableText }}</div>
@@ -52,7 +55,13 @@
           </template>
           <div v-if="isLimited"
             class="text-cc-overline">
-            {{ $t('active.combatAction.usesRemaining', { n: remainingUses, max: action.Frequency.Uses, period: periodLabel }) }}
+            {{
+              $t('active.combatAction.usesRemaining', {
+                n: remainingUses,
+                max: action.Frequency.Uses,
+                period: periodLabel,
+              })
+            }}
           </div>
           <div class="d-flex">
             <div class="heading h4 d-flex">{{ action.Name }}</div>
@@ -66,7 +75,9 @@
             </v-chip>
           </div>
           <v-divider class="my-1" />
-          {{ action.Terse }}
+          <div class="px-2">
+            {{ action.Terse }}
+          </div>
         </v-tooltip>
         <v-tooltip v-if="isLimited"
           location="top"
@@ -102,67 +113,73 @@
 </template>
 
 <script setup lang="ts">
-import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { useEncounterContext } from '../../../encounterContext'
-import type { CombatantData } from '@/classes/encounter/Encounter'
 import type { Action } from '@/classes/Action'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ActivePeriod } from '@/classes/Frequency'
 
-const { owner, encounterInstance } = useEncounterContext()
+const { activeController: controller } = useEncounterContext()
 const { t } = useI18n()
 
-const props = withDefaults(defineProps<{
-  action: Action
-  presetWeapon?: { InstanceID: string }
-  mobile?: boolean
-  actionColor?: string
-  actionIcon?: string
-  minWidth?: string
-}>(), {
-  presetWeapon: undefined,
-  mobile: false,
-  actionColor: undefined,
-  actionIcon: undefined,
-  minWidth: '70vw'
-})
+const props = withDefaults(
+  defineProps<{
+    action: Action
+    presetWeapon?: { InstanceID: string }
+    mobile?: boolean
+    actionColor?: string
+    actionIcon?: string
+    minWidth?: string
+  }>(),
+  {
+    presetWeapon: undefined,
+    mobile: false,
+    actionColor: undefined,
+    actionIcon: undefined,
+    minWidth: '70vw',
+  }
+)
 
 const displayColor = computed(() => {
-      if (overchargeUse.value) return 'action--overcharge';
-      return props.actionColor ?? props.action.Color;
-    })
+  if (overchargeUse.value) return 'action--overcharge'
+  return props.actionColor ?? props.action.Color
+})
 const displayIcon = computed(() => {
-      if (overchargeUse.value) return 'cc:overcharge';
-      return props.actionIcon ?? props.action.Icon;
-    })
-const controller = computed(() => {
-      return owner.value.actor.CombatController.ActiveActor.CombatController;
-    })
+  if (overchargeUse.value) return 'cc:overcharge'
+  return props.actionIcon ?? props.action.Icon
+})
 const canActivate = computed(() => {
-      return controller.value.CanActivate(props.action.Activation);
-    })
+  return controller.value.CanActivate(props.action.Activation)
+})
 const useId = computed(() => props.presetWeapon?.InstanceID ?? props.action.ID)
 const overchargeUse = computed(() =>
-      controller.value.CanRepeatAsOvercharge(props.action.ID, props.action.Activation))
-const canUse = computed(() =>
-      controller.value.CanTakeAction(props.action.ID, props.action.Activation, useId.value))
+  controller.value.CanRepeatAsOvercharge(props.action.ID, props.action.Activation)
+)
+const canUse = computed(
+  () =>
+    controller.value.CanFireWeapon(props.presetWeapon) &&
+    controller.value.CanTakeAction(props.action.ID, props.action.Activation, useId.value)
+)
 const usedCount = computed(() => controller.value.UsedCount(useId.value))
 const remainingUses = computed(() => props.action.Frequency.Uses - usedCount.value)
-const isLimited = computed(() =>
-      !props.presetWeapon && !props.action.Frequency.Unlimited && props.action.Frequency.Uses > 1)
+const isLimited = computed(
+  () =>
+    !props.presetWeapon && !props.action.Frequency.Unlimited && props.action.Frequency.Uses > 1
+)
 const periodLabel = computed(() => {
-      const duration = props.action.Frequency.Duration
-      const key = duration === ActivePeriod.Scene ? 'encounter' : duration.toLowerCase()
-      return t(`enums.duration.${key}`)
-    })
-const actionLocked = computed(() =>
-      controller.value.IsActionUsed(props.action.ID) && !isLimited.value)
+  const duration = props.action.Frequency.Duration
+  const key = duration === ActivePeriod.Scene ? 'encounter' : duration.toLowerCase()
+  return t(`enums.duration.${key}`)
+})
+const actionLocked = computed(
+  () => controller.value.IsActionUsed(props.action.ID) && !isLimited.value
+)
 const unavailableText = computed(() =>
-      isLimited.value
-        ? t('active.combatAction.usesExhausted', { period: periodLabel.value })
-        : t('active.combatAction.alreadyUsed'))
+  isLimited.value
+    ? t('active.combatAction.usesExhausted', { period: periodLabel.value })
+    : t('active.combatAction.alreadyUsed')
+)
 const available = computed(() => {
-      return canActivate.value && canUse.value;
-    })
+  return canActivate.value && canUse.value
+})
 </script>

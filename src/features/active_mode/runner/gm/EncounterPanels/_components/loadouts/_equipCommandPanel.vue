@@ -110,7 +110,7 @@
       <v-icon v-for="n in totalUses"
         :key="n"
         :icon="n > item.Uses ? 'mdi-hexagon-outline' : 'mdi-hexagon'"
-        :disabled="item.Destroyed"
+        :disabled="item.Destroyed || !canUseItem"
         class="mr-1"
         @click="setUses(n)" />
     </v-col>
@@ -127,7 +127,7 @@
             tile
             height="26"
             variant="text"
-            :disabled="item.Destroyed"
+            :disabled="item.Destroyed || !canUseItem"
             @click="resetUses">
             <v-icon icon="mdi-reload" />
           </v-btn>
@@ -183,9 +183,9 @@
 <script setup lang="ts">
 import type { CombatantData } from '@/classes/encounter/Encounter'
 import { useEncounterContext } from '../../encounterContext'
+import { itemRef } from '@/classes/components/combat/log/refs'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
-import { EffectSpecial } from '@/classes/components/feature/active_effects/effect_subtype/EffectSpecial'
 import MechSkirmishButton from './action_buttons/mechSkirmishButton.vue'
 import { CompendiumStore } from '@/stores'
 import MechBarrageButton from './action_buttons/mechBarrageButton.vue'
@@ -232,6 +232,8 @@ const isAI = computed(() => 'IsAI' in props.item && props.item.IsAI)
 const isLoading = computed(() => 'IsLoading' in props.item && props.item.IsLoading)
 const recharge = computed(() => (props.item instanceof NpcFeature ? props.item.Recharge : 0))
 
+const canUseItem = computed(() => props.controller.CanUseEquipment(props.item))
+
 const isDestroyable = computed(() => {
   if ('IsIndestructible' in props.item && props.item.IsIndestructible) return false
   if (props.item.Tags?.some(x => x.IsIndestructible)) return false
@@ -269,38 +271,31 @@ function resetUses() {
   snapshotItemEdit()
   props.item.Uses = 0
 }
+function recordEquipment(state: 'used' | 'unused' | 'destroyed' | 'repaired') {
+  props.controller.Record('equipment', { item: itemRef(props.item), state })
+}
 function toggleDestroyed() {
   snapshotItemEdit()
   props.item.Destroyed = !props.item.Destroyed
+  recordEquipment(props.item.Destroyed ? 'destroyed' : 'repaired')
 }
 function toggleUsed() {
   snapshotItemEdit()
   props.item.Used = !props.item.Used
+  recordEquipment(props.item.Used ? 'used' : 'unused')
 }
 function enableAI() {
-  props.controller.CombatActions.Protocol = false
-  props.controller.AIControl = true
+  props.controller.SetAIControl(true)
 }
 function disableAI() {
-  props.controller.CombatActions.Protocol = false
-  props.controller.AIControl = false
+  props.controller.SetAIControl(false)
 }
 function cascade() {
-  props.controller.AIControl = true
-  props.controller.ApplyCustomStatus(
-    new EffectSpecial({
-      attribute: 'In Cascade',
-      detail:
-        'An installed NHP has entered CASCADE and has taken full control of the mech. The mech is in control of the GM until the Pilot reclaims control by choosing to Shut Down the mech.',
-    }),
-    '',
-    props.controller,
-    props.controller,
-    encounterInstance.value
-  )
+  props.controller.BeginCascade(encounterInstance.value)
 }
 function onUseToggle() {
   snapshotItemEdit()
   props.item.Use()
+  recordEquipment(props.item.Used ? 'used' : 'unused')
 }
 </script>

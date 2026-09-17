@@ -137,9 +137,9 @@ const reliableDamageEvents = computed(() =>
   (props.event.DamageEvents || []).filter((de: any) => de.Reliable > 0)
 )
 
-function setHitResult(s, val: string) {
-  s.HitResult = val;
-  if (val === 'crit' && props.event.Effect?.CanCrit) props.event.SetCrit();
+function setHitResult(s, val: 'hit' | 'miss') {
+  s.OverrideHitResult(s.HitResultOverride === val ? undefined : val);
+  if (s.HitResult === 'crit' && props.event.Effect?.CanCrit) props.event.SetCrit();
   else props.event.UnsetCrit();
 }
 

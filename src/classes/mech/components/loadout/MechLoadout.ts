@@ -10,6 +10,7 @@ import Mount, { IMountData } from '../mount/Mount'
 import { Mech } from '../../Mech'
 import { LicensedItem } from '../../../pilot/components/license/LicensedItem'
 import Tag from '../../../Tag'
+import { CompendiumItem } from '@/classes/CompendiumItem'
 import { ILicenseRequirement } from '@/classes/pilot/components/license/LicensedItem'
 import { AchievementEventSystem } from '@/user/achievements/AchievementEvent'
 
@@ -250,14 +251,14 @@ class MechLoadout {
   }
 
   public AddSystem(system: MechSystem): void {
-    const sys = _.clone(system) as MechSystem
+    const sys = CompendiumItem.Instance(system) as MechSystem
     this._systems.push(sys)
     if (this.FullyEquipped) AchievementEventSystem.emit('full_equip')
     this.saveMechLoadout()
   }
 
   public ChangeSystem(index: number, system: MechSystem): void {
-    this._systems.splice(index, 1, _.clone(system) as MechSystem)
+    this._systems.splice(index, 1, CompendiumItem.Instance(system) as MechSystem)
     this.saveMechLoadout()
   }
 
@@ -383,6 +384,17 @@ class MechLoadout {
       ? new EquippableMount(MountType.Aux, ml)
       : EquippableMount.Deserialize(loadoutData.integratedWeapon, ml)
     ml.SetAllIntegrated()
+    const seen = new Set<string>()
+    const equipped: { InstanceID: string }[] = [
+      ...ml.AllMounts(true, true, true).flatMap(x => x.Weapons),
+      ...ml._systems,
+    ]
+    equipped
+      .filter(x => x != null)
+      .forEach((item, i) => {
+        if (seen.has(item.InstanceID)) item.InstanceID = `${item.InstanceID}_${i}`
+        else seen.add(item.InstanceID)
+      })
     return ml
   }
 }

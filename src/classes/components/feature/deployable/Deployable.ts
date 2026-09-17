@@ -162,7 +162,6 @@ class Deployable {
     return ByTier(this._lkey ? localize(this._lkey, 'detail', this._detail) : this._detail, tier)
   }
 
-  // property to read, and the bonus id suffix the owner may modify it through
   private static readonly StatMap: Record<string, { prop: string; bonus: string }> = {
     size: { prop: 'Size', bonus: 'size' },
     armor: { prop: 'Armor', bonus: 'armor' },

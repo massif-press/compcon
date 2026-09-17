@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach, vi } from 'vitest'
-import { DiceRoller, DieSet } from './DiceRoller'
+import { DiceRoller, DieSet, seedRng, resetRng } from './DiceRoller'
 
 const rollsOf = (...values: number[]) => {
   let i = 0
@@ -155,6 +155,42 @@ describe('DiceRoller.rollDamage', () => {
   })
 })
 
+describe('DiceRoller.rollAny', () => {
+  it('rolls every die and keeps only the highest on a critical', () => {
+    rollsOf(2, 6, 1, 5)
+    const r = DiceRoller.rollAny('4d6+0', 0, 0, true)
+    expect(r.rawDieRolls).toEqual([2, 6, 1, 5])
+    expect(r.rollClassifications).toEqual(['low', 'high', 'low', 'low'])
+    expect(r.total).toBe(6)
+  })
+
+  it('does not add extra dice on a critical', () => {
+    rollsOf(3, 9, 14, 20, 2, 7)
+    const r = DiceRoller.rollAny('6d20+0', 0, 0, true)
+    expect(r.rawDieRolls).toHaveLength(6)
+    expect(r.total).toBe(20)
+  })
+
+  it('adds the static modifier once on a critical', () => {
+    rollsOf(4, 2)
+    expect(DiceRoller.rollAny('2d6+3', 0, 0, true).total).toBe(7)
+  })
+
+  it('keeps every die when not critical', () => {
+    rollsOf(2, 6)
+    const r = DiceRoller.rollAny('2d6+1', 0, 0, false)
+    expect(r.rollClassifications).toEqual(['high', 'high'])
+    expect(r.total).toBe(9)
+  })
+
+  it('rerolls overkill 1s before keeping the highest', () => {
+    rollsOf(1, 3, 6, 2)
+    const r = DiceRoller.rollAny('3d6+0', 0, 0, true, true)
+    expect(r.rawDieRolls).toEqual([3, 6, 2])
+    expect(r.total).toBe(6)
+  })
+})
+
 describe('DiceRoller.classifyDamageRolls', () => {
   it('is empty for an empty roll', () => {
     expect(DiceRoller.classifyDamageRolls(new DieSet(0, 6), [])).toEqual([])
@@ -193,5 +229,46 @@ describe('DiceRoller.rollSkillCheck', () => {
   it('nets accuracy against difficulty', () => {
     rollsOf(10, 3, 3)
     expect(DiceRoller.rollSkillCheck(0, 2, 2).accuracyDiceCount).toBe(0)
+  })
+})
+
+describe('seedRng', () => {
+  afterEach(() => {
+    resetRng()
+  })
+
+  it('produces an identical sequence for the same seed', () => {
+    seedRng(1234)
+    const a = Array.from({ length: 20 }, () => DiceRoller.rollDie(20))
+    seedRng(1234)
+    const b = Array.from({ length: 20 }, () => DiceRoller.rollDie(20))
+
+    expect(a).toEqual(b)
+  })
+
+  it('produces a different sequence for a different seed', () => {
+    seedRng(1)
+    const a = Array.from({ length: 20 }, () => DiceRoller.rollDie(20))
+    seedRng(2)
+    const b = Array.from({ length: 20 }, () => DiceRoller.rollDie(20))
+
+    expect(a).not.toEqual(b)
+  })
+
+  it('stays within die bounds', () => {
+    seedRng(99)
+    const rolls = Array.from({ length: 500 }, () => DiceRoller.rollDie(6))
+
+    expect(Math.min(...rolls)).toBeGreaterThanOrEqual(1)
+    expect(Math.max(...rolls)).toBeLessThanOrEqual(6)
+    expect(new Set(rolls).size).toBe(6)
+  })
+
+  it('restores Math.random as the source on reset', () => {
+    seedRng(7)
+    resetRng()
+    vi.spyOn(Math, 'random').mockReturnValue(0)
+
+    expect(DiceRoller.rollDie(20)).toBe(1)
   })
 })

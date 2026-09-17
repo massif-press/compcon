@@ -98,21 +98,26 @@ const emit = defineEmits<{
 
 const isDeployable = computed((): boolean => !!props.action.Deployable)
 
-const controller = computed(() => props.owner.actor.CombatController)
+const controller = computed(() => props.owner.actor.CombatController.ActiveActor.CombatController)
 
 const canActivate = computed((): boolean =>
   !props.disabled && controller.value.CanActivate(props.action.Activation) && !controller.value.IsActionUsed(props.action.ID)
 )
 
 function apply() {
-  controller.value.MarkActionUsed(props.action.ID);
-  controller.value.ApplyHeat(props.action.HeatCost || 0);
+  controller.value.Activate(props.action.Activation, {
+    actionId: props.action.ID,
+    frequency: props.action.Frequency,
+    heat: props.action.HeatCost || 0,
+  });
   emit('activate', props.action.Cost);
 }
 
 function reset() {
-  controller.value.ResetActivation(props.action.Activation);
-  controller.value.ApplyHeat(-props.action.HeatCost || 0);
+  controller.value.UndoActivation(props.action.Activation, {
+    actionId: props.action.ID,
+    heat: props.action.HeatCost || 0,
+  });
   emit('reset', props.action.Cost);
 }
 </script>

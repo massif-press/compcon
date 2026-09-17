@@ -30,13 +30,13 @@
       <div class="text-cc-overline"
         style="opacity: 0.4">{{ $t('common.effect') }}</div>
       <div v-html-safe="action.getDetail(tier)"
-        class="ml-2" />
+        class="ml-2 px-2" />
     </div>
     <div v-if="action.Description">
       <div class="text-cc-overline"
         style="opacity: 0.4">{{ $t('ui.action.compendiumEntry') }}</div>
       <div v-html-safe="action.Description"
-        class="ml-2" />
+        class="ml-2 px-2" />
     </div>
   </div>
 </template>

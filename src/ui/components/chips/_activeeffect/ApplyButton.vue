@@ -1,175 +1,190 @@
 <template>
-
   <template v-if="activeEffect">
-  <cc-button v-if="activeEffect.IsPassive && !embedded"
-    block
-    size="x-small"
-    color="panel"
-    prepend-icon="mdi-close"
-    @click="close()">
-    {{ $t('common.dismiss') }}
-  </cc-button>
+    <cc-button v-if="activeEffect.IsPassive && !embedded"
+      block
+      size="x-small"
+      color="panel"
+      prepend-icon="mdi-close"
+      @click="close()">
+      {{ $t('common.dismiss') }}
+    </cc-button>
 
-  <div v-else-if="!embedded"
-    class="d-flex justify-end mt-2 mr-4">
-    <cc-button size="small"
-      stacked
-      @click="close">{{ $t('common.cancel') }}</cc-button>
-    <v-spacer />
-    <div>
-      <cc-button v-if="!ready"
-        size="small"
+    <div v-else-if="!embedded"
+      class="d-flex justify-end mt-2 mr-4">
+      <cc-button size="small"
         stacked
-        :color="color"
-        :disabled="!isFree && !overchargeUse && (isApplied || mandatoryRemaining)"
-        @click="stage(false)">
-        <div class="px-4">
-          <v-icon v-if="icon"
-            :icon="icon"
-            class="mt-n1"
-            start />
-          <span v-if="activation">{{ $t('ui.combat.activate') }}</span>
-          <span v-else>{{ canOverride ? $t('ui.combat.applyAll') : $t('common.confirm') }}</span>
-          <div class="text-disabled">
-            <span v-if="activation && (activeEffect as any).Activation !== 'None'"
-              style="letter-spacing: 1px">
-              {{ isFree
-                ? $t('ui.combat.free')
-                : overchargeUse
-                  ? $t('active.combatAction.asOvercharge')
-                  : $enum('activationType', (activeEffect as any).Activation) }}
-
-            </span>
-            <span v-if="
-              (activeEffect as any).Activation &&
-              activeEffect.Frequency &&
-              !activeEffect.Frequency.Unlimited
-            ">
-              •
-            </span>
-            <span v-if="activeEffect.Frequency"
-              style="letter-spacing: 1px">
-              {{ frequencyText }}
-            </span>
-          </div>
-        </div>
-        <template #options>
-          <v-list density="compact"
-            class="pa-0"
-            bg-color=panel
-            border
-            tile>
-
-            <v-list-item class="bg-action--free"
-              :disabled="mandatoryRemaining"
-              :title="$t('ui.titles.activateFreeAction')"
-              @click="stage(true)">
-              <template v-if="mandatoryRemaining"
-                #subtitle>
-                <v-list-item-subtitle>{{ $t('ui.combat.mandatoryFields') }}</v-list-item-subtitle>
-              </template>
-              <template #prepend>
-                <v-icon icon="cc:free"
-                  class="mr-n5" />
-              </template>
-            </v-list-item>
-            <v-divider class="my-2" />
-            <v-list-item :title="$t('ui.titles.resetAllInputs')"
-              @click="$emit('reset', false)">
-              <template #prepend>
-                <v-icon icon="mdi-reload"
-                  class="mr-n5" />
-              </template>
-            </v-list-item>
-          </v-list>
-        </template>
+        @click="cancel(close)">
+        {{ $t('common.cancel') }}
       </cc-button>
-
-      <cc-button v-else
-        size="small"
-        stacked
-        :color="color"
-        :disabled="!isFree && !overchargeUse && isApplied"
-        @click="apply(close)">
-        <div class="px-4">
-          <v-icon v-if="icon"
-            :icon="icon"
-            class="mt-n1"
-            start />
-          {{ $t('common.confirm') }}
-          <div class="text-disabled">
-            <span v-if="activation"
-              style="letter-spacing: 1px">
-              {{ isFree
-                ? $t('ui.combat.free')
-                : overchargeUse
-                  ? $t('active.combatAction.asOvercharge')
-                  : $enum('activationType', (activeEffect as any).Activation) }}
-            </span>
-            <span v-if="
-              (activeEffect as any).Activation &&
-              activeEffect.Frequency &&
-              !activeEffect.Frequency.Unlimited
-            ">
-              •
-            </span>
-            <span v-if="activeEffect.Frequency"
-              style="letter-spacing: 1px">
-              {{ frequencyText }}
-            </span>
+      <v-spacer />
+      <div>
+        <cc-button v-if="!ready"
+          size="small"
+          stacked
+          :color="color"
+          :disabled="mandatoryRemaining"
+          @click="stage(false)">
+          <div class="px-4">
+            <v-icon v-if="icon"
+              :icon="icon"
+              class="mt-n1"
+              start />
+            <span v-if="activation">{{ $t('ui.combat.activate') }}</span>
+            <span v-else>{{ canOverride ? $t('ui.combat.applyAll') : $t('common.confirm') }}</span>
+            <div class="text-disabled">
+              <span v-if="activation && (activeEffect as any).Activation !== 'None'"
+                style="letter-spacing: 1px">
+                {{
+                  isFree
+                    ? $t('ui.combat.free')
+                    : overchargeUse
+                      ? $t('active.combatAction.asOvercharge')
+                      : $enum('activationType', (activeEffect as any).Activation)
+                }}
+              </span>
+              <span v-if="
+                (activeEffect as any).Activation &&
+                activeEffect.Frequency
+              ">
+                •
+              </span>
+              <span v-if="activeEffect.Frequency"
+                style="letter-spacing: 1px">
+                {{ frequencyText }}
+              </span>
+            </div>
           </div>
-        </div>
-        <template #options>
-          <v-list density="compact"
-            bg-color=panel
-            border
-            tile>
+          <template #options>
+            <v-list density="compact"
+              class="pa-0"
+              bg-color="panel"
+              border
+              tile>
+              <v-list-item class="bg-action--free"
+                :disabled="mandatoryRemaining"
+                :title="$t('ui.titles.activateFreeAction')"
+                @click="stage(true)">
+                <template v-if="mandatoryRemaining"
+                  #subtitle>
+                  <v-list-item-subtitle>{{ $t('ui.combat.mandatoryFields') }}</v-list-item-subtitle>
+                </template>
+                <template #prepend>
+                  <v-icon icon="cc:free"
+                    class="mr-n5" />
+                </template>
+              </v-list-item>
+              <v-divider class="my-2" />
+              <v-list-item :title="$t('ui.titles.resetAllInputs')"
+                @click="$emit('reset', false)">
+                <template #prepend>
+                  <v-icon icon="mdi-reload"
+                    class="mr-n5" />
+                </template>
+              </v-list-item>
+            </v-list>
+          </template>
+        </cc-button>
 
-            <v-list-item :title="$t('ui.titles.resetAllInputs')"
-              @click="$emit('reset', false)">
-              <template #prepend>
-                <v-icon icon="mdi-reload"
-                  class="mr-n5" />
-              </template>
-            </v-list-item>
-          </v-list>
-        </template>
-      </cc-button>
-      <div class="text-center text-cc-overline text-disabled">
-        <div v-if="isApplied">{{ $t('ui.combat.alreadyActivated') }}</div>
-        <div v-if="noAction">{{ $t('ui.combat.insufficientActionsShort') }}</div>
+        <cc-button v-else
+          size="small"
+          stacked
+          :color="color"
+          :disabled="disabled"
+          @click="apply(close)">
+          <div class="px-4">
+            <v-icon v-if="icon"
+              :icon="icon"
+              class="mt-n1"
+              start />
+            {{ $t('common.confirm') }}
+            <div class="text-disabled">
+              <span v-if="activation"
+                style="letter-spacing: 1px">
+                {{
+                  isFree
+                    ? $t('ui.combat.free')
+                    : overchargeUse
+                      ? $t('active.combatAction.asOvercharge')
+                      : $enum('activationType', (activeEffect as any).Activation)
+                }}
+              </span>
+              <span v-if="
+                (activeEffect as any).Activation &&
+                activeEffect.Frequency &&
+                !activeEffect.Frequency.Unlimited
+              ">
+                •
+              </span>
+              <span v-if="activeEffect.Frequency"
+                style="letter-spacing: 1px">
+                {{ frequencyText }}
+              </span>
+            </div>
+          </div>
+          <template #options>
+            <v-list density="compact"
+              bg-color="panel"
+              border
+              tile>
+              <v-list-item :title="$t('ui.titles.resetAllInputs')"
+                @click="$emit('reset', false)">
+                <template #prepend>
+                  <v-icon icon="mdi-reload"
+                    class="mr-n5" />
+                </template>
+              </v-list-item>
+            </v-list>
+          </template>
+        </cc-button>
+        <cc-force-override v-model="overridePrompt"
+          :reason="blockReason"
+          :action="activeEffect.Name"
+          @confirm="apply(close, true)" />
+        <div class="text-center text-cc-overline text-disabled">
+          <div v-if="confirmedKills"
+            style="max-width: 220px;">
+            {{ $t('ui.combat.confirmKillHint', { n: confirmedKills }) }}
+          </div>
+          <div v-if="isApplied">{{ $t('ui.combat.alreadyActivated') }}</div>
+          <div v-if="noAction">{{ $t('ui.combat.insufficientActionsShort') }}</div>
+        </div>
       </div>
     </div>
-  </div>
-
   </template>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
-import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent';
-import { Action } from '@/classes/Action';
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
-import { CombatantData } from '@/classes/encounter/Encounter';
+import { ref, computed } from 'vue'
+import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
+import { WeaponAttackEvent } from '@/classes/components/feature/active_effects/WeaponAttackEvent'
+import { Action } from '@/classes/Action'
+import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { CombatantData } from '@/classes/encounter/Encounter'
+import CcForceOverride from '@/ui/components/modals/CCForceOverride.vue'
+import { killTargets } from './_shared/killTargets'
 
-const props = withDefaults(defineProps<{
-  event: ActiveEffectEvent | ActiveEffectEvent[]
-  weaponEvent?: WeaponAttackEvent | WeaponAttackEvent[]
-  action?: Action
-  actionId?: string | string[]
-  activationOverride?: string
-  encounterInstance: EncounterInstance
-  owner: CombatantData
-  close: () => void
-  embedded?: boolean
-}>(), {
-  weaponEvent: undefined,
-  action: undefined,
-  actionId: undefined,
-  activationOverride: undefined,
-  embedded: false,
-})
+const props = withDefaults(
+  defineProps<{
+    event: ActiveEffectEvent | ActiveEffectEvent[]
+    weaponEvent?: WeaponAttackEvent | WeaponAttackEvent[]
+    action?: Action
+    actionId?: string | string[]
+    activationOverride?: string
+    encounterInstance: EncounterInstance
+    owner: CombatantData
+    close: () => void
+    embedded?: boolean
+    disabled?: boolean
+  }>(),
+  {
+    weaponEvent: undefined,
+    action: undefined,
+    actionId: undefined,
+    activationOverride: undefined,
+    embedded: false,
+    disabled: false,
+  }
+)
 
 const emit = defineEmits<{
   stage: []
@@ -179,15 +194,16 @@ const emit = defineEmits<{
 
 const ready = ref(false)
 const isFree = ref(false)
+const overridePrompt = ref(false)
 
 const events = computed((): ActiveEffectEvent[] =>
-  Array.isArray(props.event) ? props.event as ActiveEffectEvent[] : [props.event]
+  Array.isArray(props.event) ? (props.event as ActiveEffectEvent[]) : [props.event]
 )
 
 const weaponAttackEvents = computed((): WeaponAttackEvent[] =>
   props.weaponEvent
     ? Array.isArray(props.weaponEvent)
-      ? props.weaponEvent as WeaponAttackEvent[]
+      ? (props.weaponEvent as WeaponAttackEvent[])
       : [props.weaponEvent]
     : []
 )
@@ -195,85 +211,168 @@ const weaponAttackEvents = computed((): WeaponAttackEvent[] =>
 const actionIds = computed((): string[] =>
   props.actionId
     ? Array.isArray(props.actionId)
-      ? props.actionId as string[]
+      ? (props.actionId as string[])
       : [props.actionId]
     : []
 )
 
 const activeEffect = computed(() => events.value[0]?.Effect)
 
-const icon = computed(() =>
-  props.action?.Icon || (activeEffect.value as any).Icon || activeEffect.value.Origin.Icon || ''
+const icon = computed(
+  () =>
+    props.action?.Icon || (activeEffect.value as any).Icon || activeEffect.value.Origin.Icon || ''
 )
 
 const color = computed(() => {
-  if (isFree.value) return 'action--free';
-  if (overchargeUse.value) return 'action--overcharge';
-  return props.action?.Color || (activeEffect.value as any).Color || activeEffect.value.Origin.Color || 'primary';
+  if (isFree.value) return 'action--free'
+  if (overchargeUse.value) return 'action--overcharge'
+  return (
+    props.action?.Color ||
+    (activeEffect.value as any).Color ||
+    activeEffect.value.Origin.Color ||
+    'primary'
+  )
 })
 
 const isApplied = computed((): boolean => {
   if (actionIds.value.length) {
     return actionIds.value.every(id =>
-      props.owner.actor.CombatController.ActiveActor.CombatController.IsActionUsed(id));
+      props.owner.actor.CombatController.ActiveActor.CombatController.IsActionUsed(id)
+    )
   }
-  return props.owner.actor.CombatController.ActiveActor.CombatController.IsActionUsed(activeEffect.value.ID);
+  return props.owner.actor.CombatController.ActiveActor.CombatController.IsActionUsed(
+    activeEffect.value.ID
+  )
 })
 
 const overchargeUse = computed((): boolean =>
   props.owner.actor.CombatController.ActiveActor.CombatController.CanRepeatAsOvercharge(
     props.action?.ID ?? activeEffect.value.ID,
-    props.activationOverride || props.action?.Activation || (activeEffect.value as any).Activation || 'free')
+    props.activationOverride ||
+    props.action?.Activation ||
+    (activeEffect.value as any).Activation ||
+    'free'
+  )
 )
 
-const noAction = computed((): boolean =>
-  !props.owner.actor.CombatController.ActiveActor.CombatController.CanActivate(props.activationOverride || props.action?.Activation || (activeEffect.value as any).Activation || 'free')
+const ordnanceBlocked = computed((): boolean => {
+  const cc = props.owner.actor.CombatController.ActiveActor.CombatController
+  const events = Array.isArray(props.weaponEvent)
+    ? props.weaponEvent
+    : props.weaponEvent
+      ? [props.weaponEvent]
+      : []
+  return events.some(e => e?.Weapon && !cc.CanFireWeapon(e.Weapon))
+})
+
+const activationName = computed(
+  (): string =>
+    props.activationOverride ||
+    props.action?.Activation ||
+    (activeEffect.value as any).Activation ||
+    'free'
 )
 
-const canOverride = computed(() =>
-  activeEffect.value.AddOther?.length ||
-  activeEffect.value.AddResist?.length ||
-  activeEffect.value.AddStatus?.length ||
-  activeEffect.value.AddSpecial?.length ||
-  activeEffect.value.Damage.length > 0
+const noAction = computed((): boolean => {
+  const cc = props.owner.actor.CombatController.ActiveActor.CombatController
+  if (ordnanceBlocked.value) return true
+  if (!cc.CanActivate(activationName.value)) return true
+  return !cc.CanTakeAction(
+    activeEffect.value.ID,
+    activationName.value,
+    actionIds.value.length === 1 ? actionIds.value[0] : undefined
+  )
+})
+
+const blockReason = computed((): string => {
+  if (ordnanceBlocked.value) return 'ordnance'
+  const cc = props.owner.actor.CombatController.ActiveActor.CombatController
+  if (!cc.CanActivate(activationName.value)) return 'insufficient'
+  const frequency = activeEffect.value.Frequency
+  return !frequency || frequency.Unlimited ? 'duplicate' : 'no_uses'
+})
+
+const canOverride = computed(
+  () =>
+    activeEffect.value.AddOther?.length ||
+    activeEffect.value.AddResist?.length ||
+    activeEffect.value.AddStatus?.length ||
+    activeEffect.value.AddSpecial?.length ||
+    activeEffect.value.Damage.length > 0
 )
 
-const hasAction = computed(() =>
-  activeEffect.value.AddOther ||
-  activeEffect.value.AddResist ||
-  activeEffect.value.AddStatus ||
-  activeEffect.value.AddSpecial ||
-  activeEffect.value.Damage.length ||
-  activeEffect.value.Save
+const hasAction = computed(
+  () =>
+    activeEffect.value.AddOther ||
+    activeEffect.value.AddResist ||
+    activeEffect.value.AddStatus ||
+    activeEffect.value.AddSpecial ||
+    activeEffect.value.Damage.length ||
+    activeEffect.value.Save
 )
 
 const activation = computed((): boolean => (activeEffect.value as any).Activation != null)
 
+const isPcLocal = computed((): boolean => props.encounterInstance?.ItemType === 'PilotSheet')
+
+const confirmedTargets = computed((): any[] =>
+  isPcLocal.value ? killTargets(events.value).filter(t => t.ConfirmedKill) : []
+)
+
+const confirmedKills = computed((): number => confirmedTargets.value.length)
+
 const frequencyText = computed((): string => activeEffect.value.Frequency?.ToString() || '')
 
-const mandatoryRemaining = computed((): boolean => !events.value.every(x => x.Ready))
+const mandatoryRemaining = computed(
+  (): boolean => props.disabled || !events.value.every(x => x.Ready)
+)
 
 function stage(asFree) {
-  events.value.forEach(e => e.Staged = true)
-  isFree.value = asFree || false;
-  if (!isFree.value && !overchargeUse.value && isApplied.value) return;
-  ready.value = true;
-  emit('stage');
+  events.value.forEach(e => (e.Staged = true))
+  isFree.value = asFree || false
+  ready.value = true
+  emit('stage')
 }
 
-function apply(close: () => void) {
-  if (!isFree.value && !overchargeUse.value && (isApplied.value || !ready.value)) return;
+function cancel(close: () => void) {
+  confirmedTargets.value.forEach((t: any) => (t.ConfirmedKill = false))
+  close()
+}
+
+function apply(close: () => void, force = false) {
+  if (!ready.value) return
+  if (!force && !isFree.value && noAction.value) {
+    overridePrompt.value = true
+    return
+  }
   if (!isFree.value) {
-    props.owner.actor.CombatController.ActiveActor.CombatController.MarkActionUsed(activeEffect.value.ID, activeEffect.value.Frequency);
-    const action = props.activationOverride || props.action?.Activation || (activeEffect.value as any).Activation || 'free';
-    if (action !== 'Reaction') props.owner.actor.CombatController.SetCombatAction(action, false);
+    const cc = props.owner.actor.CombatController.ActiveActor.CombatController
+    const spent = cc.Activate(activationName.value, {
+      actionId: activeEffect.value.ID,
+      useId: actionIds.value.length === 1 ? actionIds.value[0] : undefined,
+      frequency: activeEffect.value.Frequency,
+      heat: weaponAttackEvents.value.length ? 0 : props.action?.HeatCost || 0,
+      force,
+      recorded: true,
+    })
+    if (!spent) {
+      overridePrompt.value = true
+      return
+    }
   }
   if (weaponAttackEvents.value.length)
-    weaponAttackEvents.value.forEach(we => we.ApplyAll());
-  else
-    events.value.forEach(e => e.ApplyAll());
-  isFree.value = false;
-  emit('apply');
-  close();
+    weaponAttackEvents.value.forEach(we => {
+      we.Force = force || isFree.value
+      we.ApplyAll()
+    })
+  else events.value.forEach(e => e.ApplyAll())
+  const killRecorder = props.owner.actor.CombatController.ActiveActor.CombatController
+  confirmedTargets.value.forEach((t: any) => {
+    killRecorder.Record('actor.destroy', { selfReported: true })
+    t.ConfirmedKill = false
+  })
+  isFree.value = false
+  emit('apply')
+  close()
 }
 </script>

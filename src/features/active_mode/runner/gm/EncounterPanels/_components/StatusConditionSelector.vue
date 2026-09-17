@@ -41,18 +41,14 @@
           border
           style="border-color: rgb(var(--v-theme-exotic))"
         >
-          <div class="heading h3 bg-exotic px-2 py-1">
-            <v-icon icon="mdi-star-four-points-circle-outline" />
-            {{ cs.status.Attribute }}
-          </div>
           <v-row
             no-gutters
             align="center"
+            class="heading h3 bg-exotic px-2 py-1"
           >
             <v-col>
-              <div class="text-cc-overline pl-4 py-1">
-                {{ cs.status.Detail }}
-              </div>
+              <v-icon icon="mdi-star-four-points-circle-outline" />
+              {{ cs.status.Attribute }}
             </v-col>
             <v-col cols="auto">
               <v-btn
@@ -68,6 +64,12 @@
               </v-btn>
             </v-col>
           </v-row>
+          <div
+            v-if="cs.status.Detail"
+            class="text-cc-overline pl-4 py-1"
+          >
+            {{ cs.status.Detail }}
+          </div>
         </v-card>
       </div>
     </v-scroll-y-reverse-transition>

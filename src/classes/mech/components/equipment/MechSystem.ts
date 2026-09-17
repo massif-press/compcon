@@ -2,6 +2,7 @@ import { CompendiumStore } from '@/features/compendium/store'
 import { ContentPack } from '../../../ContentPack'
 import { SystemType, ItemType, ActivationType } from '../../../enums'
 import { IEquipmentData, IMechEquipmentData, MechEquipment } from './MechEquipment'
+import { TAG, hasTag } from '@/classes/TagRules'
 
 interface IMechSystemData extends IMechEquipmentData {
   type: SystemType
@@ -19,9 +20,9 @@ class MechSystem extends MechEquipment {
   public get Type(): SystemType {
     if (this.Tags.length) {
       let mType
-      if (this.Tags.some(x => x.ID === 'tg_grenade')) mType = SystemType.Grenade
-      else if (this.Tags.some(x => x.ID === 'tg_mine')) mType = SystemType.Mine
-      else if (this.Tags.some(x => x.ID === 'tg_shield')) mType = SystemType.Shield
+      if (hasTag(this.Tags, TAG.Grenade)) mType = SystemType.Grenade
+      else if (hasTag(this.Tags, TAG.Mine)) mType = SystemType.Mine
+      else if (hasTag(this.Tags, TAG.Shield)) mType = SystemType.Shield
 
       if (mType) return mType as SystemType
     }

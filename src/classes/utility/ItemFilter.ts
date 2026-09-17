@@ -10,9 +10,10 @@ import { NpcFeature } from '../npc/feature/NpcFeature'
 class ItemFilter {
   public static Filter(items: any[], filter: any): CompendiumItem[] {
     Object.keys(filter).forEach(p => {
+      if (Array.isArray(filter[p]) && !filter[p].length) return
       if (p === 'LcpName') {
         items = items.filter(i => filter[p][0].includes(i.LcpName))
-      } else if (p === 'Source' && filter[p].length) {
+      } else if (p === 'Source') {
         items = (items as LicensedItem[]).filter(i => filter[p].includes(i.Source))
       } else if (p === 'Tags') {
         items = (items as MechEquipment[]).filter((e: MechEquipment) => {

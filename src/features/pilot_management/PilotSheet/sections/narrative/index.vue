@@ -22,6 +22,9 @@
         <cc-rich-text-area v-model="pilot.Notes"
           :readonly="pilot.IsRemote"
           class="pt-2 mb-3" />
+
+        <section-header :title="$t('pm.print.pilotCombatHistory')" />
+        <combat-history-block :pilot="pilot" />
       </v-col>
       <v-col cols="12"
         sm="4"
@@ -41,24 +44,23 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
-import SectionHeader from '../components/SectionHeader.vue';
-import SkillBlock from './components/SkillBlock.vue';
-import DtResourcesBlock from './components/DtResourcesBlock.vue';
-import PilotLoadoutBlock from './components/PilotLoadoutBlock.vue';
-import IdentBlock from './components/IdentBlock.vue';
-import CloneBlock from './components/CloneBlock.vue';
-import ImageBlock from './components/ImageBlock.vue';
+import SectionHeader from '../components/SectionHeader.vue'
+import SkillBlock from './components/SkillBlock.vue'
+import DtResourcesBlock from './components/DtResourcesBlock.vue'
+import PilotLoadoutBlock from './components/PilotLoadoutBlock.vue'
+import IdentBlock from './components/IdentBlock.vue'
+import CloneBlock from './components/CloneBlock.vue'
+import ImageBlock from './components/ImageBlock.vue'
+import CombatHistoryBlock from './components/CombatHistoryBlock.vue'
 import { Pilot } from '@/classes/pilot/Pilot'
 
 const _display = useDisplay()
 
-defineOptions({ name: 'narrative-view' })
-
-const props = defineProps<{
+defineProps<{
   pilot: Pilot
 }>()
 
 const mobile = computed(() => {
-      return _display.mdAndDown.value;
-    })
+  return _display.mdAndDown.value
+})
 </script>

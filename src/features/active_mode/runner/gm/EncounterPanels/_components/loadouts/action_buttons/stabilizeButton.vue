@@ -105,7 +105,7 @@
             <v-select
               v-model="selectedTarget"
               :items="alliedTargets"
-              :item-title="combatantLabel"
+              item-title="Label"
               return-object
               flat
               tile
@@ -150,21 +150,16 @@
   import type { CombatantData } from '@/classes/encounter/Encounter'
   import type { Action } from '@/classes/Action'
   import { computed, ref } from 'vue'
-  import { combatantLabel } from '@/util/combatantLabel'
   import CombatActionButton from './CombatActionButton.vue'
   import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue'
   import type { Status } from '@/classes/Status'
 
   type ClearableCondition = { status: Status; expires: any }
 
-  const { owner, encounterInstance } = useEncounterContext()
+  const { owner, encounterInstance, activeController: controller } = useEncounterContext()
 
   const props = defineProps<{
     action: Action
-  }>()
-
-  const emit = defineEmits<{
-    activate: [payload: string]
   }>()
 
   const firstChoice = ref('cool')
@@ -173,9 +168,6 @@
   const clearAlliedCondition = ref<ClearableCondition | null>(null)
   const selectedTarget = ref<CombatantData | null>(null)
 
-  const controller = computed(() => {
-    return owner.value.actor.CombatController
-  })
   const alliedTargets = computed(() => {
     const thisCombatant = encounterInstance.value.Combatants.find(
       c => c.actor.ID === controller.value.RootActor.ID
@@ -188,36 +180,27 @@
 
   function clearableConditions(target: any): ClearableCondition[] {
     if (!target) return []
-    return target.CombatController.Statuses.filter(
-      s => s.status.StatusType.toLowerCase() === 'condition'
-    )
+    return target.CombatController.ClearableConditions()
   }
   function apply() {
-    if (firstChoice.value === 'cool') {
-      controller.value.Stabilize('cool')
-    } else if (firstChoice.value === 'repair') {
-      controller.value.Stabilize('repair')
-    }
+    const performed = controller.value.RunAction(props.action.ID, {
+      options: [firstChoice.value, secondChoice.value],
+    })
+    if (!performed) return
 
-    if (secondChoice.value === 'reload') {
-      controller.value.Stabilize('reload')
-    } else if (secondChoice.value === 'clear_burn') {
-      controller.value.Stabilize('clear_burn')
-    } else if (secondChoice.value === 'clear_self') {
-      controller.value.Stabilize('clear_self')
-      if (clearSelfCondition.value)
-        controller.value.RemoveStatus(clearSelfCondition.value.status.ID)
-    } else if (secondChoice.value === 'clear_ally') {
-      controller.value.Stabilize('clear_ally')
-      if (selectedTarget.value && clearAlliedCondition.value)
-        selectedTarget.value.actor.CombatController.RemoveStatus(
-          clearAlliedCondition.value.status.ID
-        )
-    }
-
-    emit('activate', props.action.ID)
+    if (secondChoice.value === 'clear_self' && clearSelfCondition.value)
+      controller.value.ClearCondition(clearSelfCondition.value.status.ID)
+    else if (
+      secondChoice.value === 'clear_ally' &&
+      selectedTarget.value &&
+      clearAlliedCondition.value
+    )
+      controller.value.ClearCondition(
+        clearAlliedCondition.value.status.ID,
+        selectedTarget.value.actor.CombatController
+      )
   }
   function reset() {
-    controller.value.ResetActivation(props.action.Activation)
+    controller.value.UndoActivation(props.action.Activation, { actionId: props.action.ID })
   }
 </script>

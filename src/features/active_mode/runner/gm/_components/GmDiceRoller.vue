@@ -7,7 +7,9 @@
       color="primary"
       height="46"
     >
-      <v-toolbar-title class="heading h3">{{ $t('active.diceRoller.title') }}</v-toolbar-title>
+      <v-toolbar-title class="heading h3 text-uppercase">
+        {{ $t('active.diceRoller.title') }}
+      </v-toolbar-title>
       <v-spacer />
       <v-btn
         icon
@@ -314,7 +316,6 @@
 <script setup lang="ts">
   import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
   import { computed, ref } from 'vue'
-  import { combatantLabel } from '@/util/combatantLabel'
   import { DiceRoller } from '@/classes/dice/DiceRoller'
 
   const props = withDefaults(
@@ -352,22 +353,6 @@
     Overkill.value = false
   }
 
-  function rollResultFormat(roll: any[], selected: any) {
-    if (roll.length > 1) {
-      let str = ''
-      roll.forEach((r, idx) => {
-        if (r === selected) {
-          str += `<b class='text-accent'>${r}</b>`
-        } else {
-          str += `<span class='text-disabled'>${r}</span>`
-        }
-        if (idx < roll.length - 1) str += ', '
-      })
-      return str
-    }
-    return `<b class='text-accent'>${roll[0]}</b>`
-  }
-
   function setCheck(type: string) {
     count.value = 1
     die.value = 20
@@ -383,7 +368,7 @@
     const mod = Number(plus.value) || 0
     const diceValue =
       count.value && die.value ? `${count.value}d${die.value}${mod < 0 ? '' : '+'}${mod}` : '0'
-    const isAcc = accuracy.value > -1
+    const isAcc = accuracy.value > 0
 
     rollResult.value = DiceRoller.rollAny(
       diceValue,
@@ -397,12 +382,11 @@
     lastRollString.value = `${rollType.value ? ` [${rollType.value}] ` : ''}${rollResult.value.toString()}`
     lastRoll.value = rollResult.value.total
 
-    const rollerName =
-      combatantLabel(props.selected as any) || actor.value?.CombatController.CombatName
+    const rollerName = (props.selected as any)?.Label || actor.value?.CombatController.CombatName
     let str = actor.value ? `<b>${rollerName}</b> rolled: ` : 'GM Rolled: '
     str += `(${diceValue}) `
     if (accuracy.value) {
-      str += ` [${isAcc ? '+' : '-'}${accuracy.value} ${isAcc ? 'ACC' : 'DIFF'}]`
+      str += ` [${isAcc ? '+' : '-'}${Math.abs(accuracy.value)} ${isAcc ? 'ACC' : 'DIFF'}]`
     }
     if (isCrit.value) str += ' [CRIT]'
     if (Overkill.value) str += ' [OVERKILL]'

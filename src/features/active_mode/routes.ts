@@ -8,7 +8,10 @@ const Home = () => import('./landing.vue')
 
 const CreateSheet = () => import('./pc/NewSheet.vue')
 const SheetManager = () => import('./pc/SheetManager.vue')
+const EncounterTelemetry = () => import('./gm/EncounterTelemetry.vue')
 const GMEncounterRunner = () => import('./runner/gm/GMEncounterRunner.vue')
+const PilotLogbooks = () =>
+  import('@/features/pilot_management/_components/logbook/PilotLogbookView.vue')
 const JoinTable = () => import('./runner/pilot/JoinTable.vue')
 const PilotRunner = () => import('./runner/pilot/PilotRunner.vue')
 
@@ -62,6 +65,19 @@ const routes = [
         path: 'manage-tables',
         name: 'active-manage-tables',
         component: TableManager,
+      },
+      {
+        path: 'logbooks/:presetPilot?',
+        name: 'active-pilot-logbooks',
+        component: PilotLogbooks,
+        props: true,
+        meta: { title: 'pm.logbook.title' },
+      },
+      {
+        path: 'encounter-telemetry',
+        name: 'active-encounter-telemetry',
+        component: EncounterTelemetry,
+        meta: { title: 'active.gmTelemetry.title' },
       },
       {
         path: 'gm-encounter-runner/:id?',

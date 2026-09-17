@@ -3,7 +3,8 @@
 
   <v-row>
     <v-col v-if="item.StatController.MaxStats['hp']">
-      <cc-tickbar v-model="item.StatController.CurrentStats['hp']"
+      <cc-tickbar
+        v-model="item.StatController.CurrentStats['hp']"
         v-model:secondary="item.StatController.CurrentStats['structure']"
         v-model:tertiary="item.StatController.CurrentStats['overshield']"
         primary-label="Hit Points"
@@ -17,34 +18,42 @@
         tertiary-icon="mdi-hexagon-multiple-outline"
         :ticks="item.StatController.MaxStats['hp']"
         :secondary-ticks="item.StatController.MaxStats['structure']"
-        editable />
-      <cc-structure-check-alert v-if="item.StatController.MaxStats['structure']"
+        editable
+      />
+      <cc-structure-check-alert
+        v-if="item.CombatController.PendingCheckController.RollsStructureChart"
         :cc="item.CombatController"
-        kind="structure" />
+        kind="structure"
+      />
     </v-col>
     <v-col v-else>
-      <cc-tickbar v-model="item.StatController.CurrentStats['overshield']"
+      <cc-tickbar
+        v-model="item.StatController.CurrentStats['overshield']"
         primary-label="Overshield"
         color="overshield"
         icon="mdi-hexagon-multiple-outline"
         :ticks="100"
-        editable />
+        editable
+      />
     </v-col>
-    <v-col cols="12"
-      md="auto">
-      <stat-mini-panel v-model.number="item.StatController.CurrentStats['armor']"
+    <v-col
+      cols="12"
+      md="auto"
+    >
+      <stat-mini-panel
+        v-model.number="item.StatController.CurrentStats['armor']"
         title="armor"
         icon="mdi-shield-outline"
         color="armor"
-        :base-value="item.StatController.MaxStats['armor']" />
+        :base-value="item.StatController.MaxStats['armor']"
+      />
     </v-col>
   </v-row>
 
-
-
   <v-row v-if="item.StatController.MaxStats['heatcap']">
     <v-col>
-      <cc-tickbar v-model="item.StatController.CurrentStats['heatcap']"
+      <cc-tickbar
+        v-model="item.StatController.CurrentStats['heatcap']"
         v-model:secondary="item.StatController.CurrentStats['stress']"
         v-model:tertiary="item.StatController.CurrentStats['overcharge']"
         :value-atlas="overchargeTrack"
@@ -58,73 +67,101 @@
         tertiary-icon="mdi-decagram-outline"
         :ticks="item.StatController.MaxStats['heatcap']"
         :secondary-ticks="item.StatController.MaxStats['stress']"
-        :tertiary-ticks="3" />
-      <cc-structure-check-alert v-if="item.StatController.MaxStats['stress']"
+        :tertiary-ticks="3"
+      />
+      <cc-structure-check-alert
+        v-if="item.CombatController.PendingCheckController.RollsStressChart"
         :cc="item.CombatController"
-        kind="stress" />
+        kind="stress"
+      />
     </v-col>
-    <v-col cols="12"
-      md="auto">
-      <stat-mini-panel v-model.number="item.StatController.CurrentStats['burn']"
+    <v-col
+      cols="12"
+      md="auto"
+    >
+      <stat-mini-panel
+        v-model.number="item.StatController.CurrentStats['burn']"
         title="burn"
         icon="cc:burn"
-        color="damage--burn" />
+        color="damage--burn"
+      />
     </v-col>
   </v-row>
   <v-row class="mb-3">
     <v-col>
-      <cc-tickbar v-if="item.StatController.MaxStats['speed']"
+      <cc-tickbar
+        v-if="item.StatController.MaxStats['speed']"
         v-model="item.StatController.CurrentStats['speed']"
         color="primary"
         min-width="150px"
         space
         icon="mdi-arrow-right-bold-hexagon-outline"
         class="mb-1"
-        :ticks="item.StatController.MaxStats['speed']" />
-      <cc-tickbar v-if="item.StatController.MaxStats['repairCapacity']"
+        bonus-color="exotic"
+        :bonus-ticks="item.CombatController.BoostBonus"
+        :ticks="item.CombatController.BoostedSpeed"
+      />
+      <cc-tickbar
+        v-if="item.StatController.MaxStats['repairCapacity']"
         v-model="item.StatController.CurrentStats['repairCapacity']"
         color="success"
         icon="cc:repair"
         min-width="150px"
         space
         reverse
-        :ticks="item.StatController.MaxStats['repairCapacity']" />
+        :ticks="item.StatController.MaxStats['repairCapacity']"
+      />
     </v-col>
-    <v-col v-if="!item.StatController.MaxStats['heatcap']"
-      cols="auto">
-      <stat-mini-panel v-model.number="item.StatController.CurrentStats['burn']"
+    <v-col
+      v-if="!item.StatController.MaxStats['heatcap']"
+      cols="auto"
+    >
+      <stat-mini-panel
+        v-model.number="item.StatController.CurrentStats['burn']"
         title="burn"
         icon="cc:burn"
-        color="damage--burn" />
+        color="damage--burn"
+      />
     </v-col>
-    <v-col v-if="item.ItemType === 'mech'"
+    <v-col
+      v-if="item.ItemType === 'mech'"
       cols="12"
-      md="auto">
+      md="auto"
+    >
       <v-menu>
         <template #activator="{ props }">
-          <stat-mini-panel v-model="item.CombatController.CorePower"
+          <stat-mini-panel
+            v-model="item.CombatController.CorePower"
             title="core"
             :icon="currentIcon"
             :color="item.CombatController.CorePower ? 'core' : 'grey'"
             boolean
-            @click.stop="props.onClick($event)" />
+            @click.stop="props.onClick($event)"
+          />
         </template>
-        <v-card flat
+        <v-card
+          flat
           tile
           class="pt-4 text-cc-overline text-center"
-          border="sm">
+          border="sm"
+        >
           <div v-if="item.CombatController.CorePower">
             {{ $t('active.trackable.clearCorePowerQ') }}
           </div>
           <div v-else>{{ $t('active.trackable.restoreCorePowerQ') }}</div>
           <template #actions>
-            <cc-button block
+            <cc-button
+              block
               :color="item.CombatController.CorePower ? 'error' : 'core'"
               size="x-small"
               :prepend-icon="currentIcon"
-              @click="drainBattery">
-              {{ item.CombatController.CorePower ? $t('active.trackable.confirmClearCore') :
-                $t('active.trackable.confirmRestoreCore') }}
+              @click="drainBattery"
+            >
+              {{
+                item.CombatController.CorePower
+                  ? $t('active.trackable.confirmClearCore')
+                  : $t('active.trackable.confirmRestoreCore')
+              }}
             </cc-button>
           </template>
         </v-card>
@@ -134,14 +171,18 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import StatMiniPanel from './StatMiniPanel.vue'
-import { useTrackableStats } from './useTrackableStats'
-import { ICombatant } from '@/classes/components/combat/ICombatant.js';
+  import { computed } from 'vue'
+  import StatMiniPanel from './StatMiniPanel.vue'
+  import { useTrackableStats } from './useTrackableStats'
+  import { ICombatant } from '@/classes/components/combat/ICombatant.js'
 
-const props = defineProps<{ item: ICombatant }>()
+  const props = defineProps<{ item: ICombatant }>()
 
-const { batteryIcons, batteryIndex, overchargeTrack, drainBattery } = useTrackableStats(props)
+  const { batteryIcons, batteryIndex, overchargeTrack, drainBattery } = useTrackableStats(props)
 
-const currentIcon = computed(() => !props.item.CombatController.CorePower ? 'mdi-battery-outline' : batteryIcons.value[batteryIndex.value])
+  const currentIcon = computed(() =>
+    !props.item.CombatController.CorePower
+      ? 'mdi-battery-outline'
+      : batteryIcons.value[batteryIndex.value]
+  )
 </script>

@@ -1,0 +1,1077 @@
+{
+  "rules": [
+    {
+      "id": "T-TURN-order-01",
+      "title": "players act first, sides alternate",
+      "category": "TURN",
+      "classification": "ASSIST",
+      "statement": "Turn order alternates sides, and a player (or allied NPC) always takes the first turn of a combat.",
+      "split": "**App:** enforce the alternation and flag a turn taken out of order. **User:** nominates who acts next within a side."
+    },
+    {
+      "id": "T-TURN-order-02",
+      "title": "turn order carries across the round boundary",
+      "category": "TURN",
+      "classification": "ASSIST",
+      "statement": "Turn order carries across the round boundary.",
+      "split": "**App:** determine and suggest who starts the new round. **User:** may override."
+    },
+    {
+      "id": "T-TURN-activations-01",
+      "title": "one turn per activation per round",
+      "category": "TURN",
+      "classification": "AUTO",
+      "statement": "Each character takes at least one turn per round, and must take as many turns as it has activations per round. A round ends when all characters have taken one turn per available activation."
+    },
+    {
+      "id": "T-ACTION-pool-01",
+      "title": "one standard move plus two quick actions or one full action",
+      "category": "ACTION",
+      "classification": "AUTO",
+      "statement": "On its turn a character may make one standard move and take either two quick actions or one full action."
+    },
+    {
+      "id": "T-ACTION-noduplicate-01",
+      "title": "the same action cannot be taken twice per turn",
+      "category": "ACTION",
+      "classification": "AUTO",
+      "statement": "The same action may not be taken more than once per turn, except as a free action or a reaction."
+    },
+    {
+      "id": "T-ACTION-freeaction-01",
+      "title": "free actions are unlimited, own-turn only, and permit duplicates",
+      "category": "ACTION",
+      "classification": "AUTO",
+      "statement": "Free actions are unlimited in number, may be taken only on the character's own turn, do not consume quick or full actions, and may duplicate an action already taken."
+    },
+    {
+      "id": "T-ACTION-protocol-01",
+      "title": "a protocol is a free action usable only at the start of a turn, once each",
+      "category": "ACTION",
+      "classification": "AUTO",
+      "statement": "A protocol is a free action available only at the start of a turn, once each per turn. Every path that spends an action must close the protocol window."
+    },
+    {
+      "id": "T-ACTION-reaction-01",
+      "title": "one reaction per turn, each reaction once per round, unlimited per round overall",
+      "category": "ACTION",
+      "classification": "AUTO",
+      "statement": "one reaction per turn, each specific reaction once per round, and uses refresh at the start of the character's own turn rather than at the round boundary."
+    },
+    {
+      "id": "T-ACTION-defaultreactions-01",
+      "title": "every mech has BRACE and OVERWATCH",
+      "category": "ACTION",
+      "classification": "AUTO",
+      "statement": "Every mech has BRACE and OVERWATCH available as reactions, each once per round."
+    },
+    {
+      "id": "T-TURN-endofturn-01",
+      "title": "end-of-turn effects resolve after all actions, in the player's chosen order",
+      "category": "TURN",
+      "classification": "ASSIST",
+      "statement": "End-of-turn effects resolve after all moves and actions, including free actions and overcharge, and before the next character's turn.",
+      "split": "**App:** collect the pending end-of-turn effects and hold them for resolution. **User:** chooses the order when there is more than one."
+    },
+    {
+      "id": "T-TURN-endofnextturn-01",
+      "title": "\"end of next turn\" means the next turn in the order, not the current one",
+      "category": "TURN",
+      "classification": "AUTO",
+      "statement": "An effect lasting until the end of a character's next turn persists to the *next* turn that character has in the order,never the turn on which it was received."
+    },
+    {
+      "id": "T-TURN-resolution-01",
+      "title": "other characters' effects resolve first",
+      "category": "TURN",
+      "classification": "ASSIST",
+      "statement": "Effects caused by other characters resolve first on a character's turn; the character chooses the order of their own.",
+      "split": "**App:** split pending effects into other-caused and self-caused, resolving the first group first. **User:** orders the second group."
+    },
+    {
+      "id": "T-ACTION-boost-01",
+      "title": "BOOST",
+      "category": "ACTION",
+      "classification": "ASSIST",
+      "statement": "BOOST is a quick action granting a second standard move. A SLOWED or IMMOBILIZED character cannot take it.",
+      "split": "**App:** charge the quick action and refuse it while SLOWED or IMMOBILIZED. **User:** moves the character."
+    },
+    {
+      "id": "T-ACTION-skirmish-01",
+      "title": "SKIRMISH attacks with one weapon",
+      "category": "ACTION",
+      "classification": "ASSIST",
+      "statement": "SKIRMISH attacks with a single weapon.",
+      "split": "**App:** offer eligible weapons, build the attack, spend the action and the weapon use. **User:** picks the weapon and target."
+    },
+    {
+      "id": "T-ACTION-skirmish-02",
+      "title": "a skirmish grants a bonus auxiliary attack on the same mount",
+      "category": "ACTION",
+      "classification": "ASSIST",
+      "statement": "A skirmish grants an additional attack with a *different* auxiliary weapon on the same mount. That attack deals no bonus damage, regardless of the order the two are resolved in.",
+      "split": "**App:** build the bonus attack and suppress bonus damage on it. **User:** chooses the order and may target separately."
+    },
+    {
+      "id": "T-ACTION-skirmish-03",
+      "title": "superheavy weapons cannot skirmish",
+      "category": "ACTION",
+      "classification": "AUTO",
+      "statement": "Superheavy weapons cannot skirmish. For NPCs, the skirmish list is weapons only — not systems, traits, or reactions."
+    },
+    {
+      "id": "T-ACTION-barrage-01",
+      "title": "BARRAGE attacks with two weapons or one superheavy",
+      "category": "ACTION",
+      "classification": "AUTO",
+      "statement": "BARRAGE attacks with two different weapons, or one superheavy. The same weapon may not be chosen twice; two copies of the same weapon in different mounts may both be used."
+    },
+    {
+      "id": "T-ACTION-barrage-02",
+      "title": "a barrage grants a bonus auxiliary attack per mount fired",
+      "category": "ACTION",
+      "classification": "ASSIST",
+      "statement": "A barrage grants an additional auxiliary attack on each mount fired, provided that auxiliary has not already fired this action. Those attacks deal no bonus damage.",
+      "split": "**App:** build the bonus attacks, exclude already-fired auxiliaries, suppress bonus damage. **User:** targets them."
+    },
+    {
+      "id": "T-ACTION-grapple-01",
+      "title": "GRAPPLE",
+      "category": "ACTION",
+      "classification": "ASSIST",
+      "statement": "On a successful GRAPPLE both characters become ENGAGED, neither may BOOST or take reactions for its duration, and the smaller becomes IMMOBILIZED. At equal size the initiator has control until a contested HULL check at the start of the target's turn says otherwise. The grapple ends on broken adjacency, on the attacker's free action, or on the defender's successful contested HULL check as a quick action.",
+      "split": "**App:** hold the grapple state, apply the statuses, and lock out BOOST and reactions. **User:** confirms adjacency and moves the grapple."
+    },
+    {
+      "id": "T-ACTION-hide-01",
+      "title": "HIDE",
+      "category": "ACTION",
+      "classification": "ASSIST",
+      "statement": "HIDE is a quick action taken with cover, concealment, or outside an enemy's line of sight. A HIDDEN character cannot be directly targeted, and stops being HIDDEN once it attacks.",
+      "split": "**App:** apply HIDDEN, refuse direct targeting, and drop it after the attack resolves. **User:** judges cover and line of sight."
+    },
+    {
+      "id": "T-ACTION-hide-02",
+      "title": "losing HIDDEN",
+      "category": "ACTION",
+      "classification": "ASSIST",
+      "statement": "A HIDDEN character loses HIDDEN on making any attack, on taking any hostile action including LOCK ON, on using BOOST, on taking a reaction, on losing its cover or line-of-sight protection, and on ceasing to be INVISIBLE while uncovered.",
+      "split": "**App:** clear HIDDEN on the attack, hostile-action, BOOST, and reaction triggers. **User:** declares the spatial ones."
+    },
+    {
+      "id": "T-ACTION-quicktech-01",
+      "title": "QUICK TECH may repeat with a different option",
+      "category": "ACTION",
+      "classification": "AUTO",
+      "statement": "QUICK TECH may be taken more than once per turn, but a different option must be chosen each time unless granted as a free action."
+    },
+    {
+      "id": "T-ACTION-quicktech-02",
+      "title": "the base QUICK TECH options",
+      "category": "ACTION",
+      "classification": "ASSIST",
+      "statement": "The base QUICK TECH options are BOLSTER, SCAN, LOCK ON, and INVADE. BOLSTER grants +2 accuracy on the target's next check or save until the end of their next turn and does not stack. INVADE deals 2 heat on a hit and applies one invasion option; FRAGMENT SIGNAL applies IMPAIRED and SLOWED until the end of the target's next turn.",
+      "split": "**App:** offer the options, enforce the no-repeat rule, apply the mechanical effects. **User:** picks the option and target, and answers SCAN."
+    },
+    {
+      "id": "T-ACTION-invade-01",
+      "title": "invading a willing ally always succeeds and costs no heat",
+      "category": "ACTION",
+      "classification": "AUTO",
+      "statement": "Invading a willing allied character always succeeds, does not count as an attack, and deals the target no heat."
+    },
+    {
+      "id": "T-ACTION-fulltech-01",
+      "title": "FULL TECH is two quick tech options, and PCs may repeat one",
+      "category": "ACTION",
+      "classification": "AUTO",
+      "statement": "FULL TECH takes either one full tech option or two quick tech options. A PC may choose the same quick tech option twice; an NPC must choose two different ones."
+    },
+    {
+      "id": "T-ACTION-ram-01",
+      "title": "RAM",
+      "category": "ACTION",
+      "classification": "ASSIST",
+      "statement": "RAM is a melee attack against an adjacent character of equal or smaller size. On a hit the target is knocked PRONE, and the attacker may also knock it back one space.",
+      "split": "**App:** apply PRONE on a hit. **User:** confirms adjacency and size, and chooses whether to knock back."
+    },
+    {
+      "id": "T-ACTION-search-01",
+      "title": "SEARCH",
+      "category": "ACTION",
+      "classification": "ASSIST",
+      "statement": "SEARCH makes a contested SYSTEMS check against a suspected HIDDEN character's AGILITY within SENSORS; on foot it is a contested skill check within RANGE 5. A found character immediately loses HIDDEN.",
+      "split": "**App:** roll the contest and clear HIDDEN on success. **User:** names the suspected target."
+    },
+    {
+      "id": "T-ACTION-disengage-01",
+      "title": "DISENGAGE",
+      "category": "ACTION",
+      "classification": "ASSIST",
+      "statement": "DISENGAGE is a full action: the character's movement ignores engagement and reactions for the rest of the turn, and they cease to be ENGAGED.",
+      "split": "**App:** charge the full action and clear ENGAGED. **User:** moves the character."
+    },
+    {
+      "id": "T-ACTION-improvised-01",
+      "title": "IMPROVISED ATTACK",
+      "category": "ACTION",
+      "classification": "ASSIST",
+      "statement": "An IMPROVISED ATTACK is a melee attack against an adjacent target dealing 1d6 kinetic on a hit.",
+      "split": "**App:** build and resolve the attack. **User:** confirms adjacency."
+    },
+    {
+      "id": "T-ACTION-stabilize-01",
+      "title": "STABILIZE: first choice",
+      "category": "ACTION",
+      "classification": "AUTO",
+      "statement": "STABILIZE's first choice is either cooling — clearing all heat and EXPOSED — or marking 1 REPAIR to restore all HP."
+    },
+    {
+      "id": "T-ACTION-stabilize-02",
+      "title": "STABILIZE: second choice",
+      "category": "ACTION",
+      "classification": "ASSIST",
+      "statement": "STABILIZE's second choice is one of: reload all LOADING weapons; clear marked burn; clear one condition on self; or clear one condition on an adjacent ally. A condition caused by the character's own systems or talents may not be cleared this way.",
+      "split": "**App:** offer only conditions, perform the clear, apply the mechanical effect. **User:** confirms adjacency and whether the condition was self-inflicted."
+    },
+    {
+      "id": "T-ACTION-activate-01",
+      "title": "ACTIVATE",
+      "category": "ACTION",
+      "classification": "AUTO",
+      "statement": "ACTIVATE may be taken any number of times per turn, but the same system may not be activated twice unless as a free action."
+    },
+    {
+      "id": "T-ACTION-mount-01",
+      "title": "MOUNT, DISMOUNT, EJECT",
+      "category": "ACTION",
+      "classification": "ASSIST",
+      "statement": "MOUNT and DISMOUNT are full actions requiring adjacency; a dismount with no free adjacent space is impossible. EJECT is a quick action, single-use, that leaves the mech IMPAIRED until its next FULL REPAIR.",
+      "split": "**App:** charge the action, apply and persist EJECT's IMPAIRED. **User:** confirms adjacency and placement."
+    },
+    {
+      "id": "T-ACTION-prepare-01",
+      "title": "PREPARE",
+      "category": "ACTION",
+      "classification": "ASSIST",
+      "statement": "PREPARE is a quick action that readies another quick action against a stated trigger, usable as a reaction until the start of the character's next turn. Preparing counts as taking the action and inherits all its restrictions. While holding a prepared action the character may not move or take any other action or reaction; the prepared action may be dropped, and is lost if its trigger never fires.",
+      "split": "**App:** enforce the lockout, the inherited restrictions, and the expiry. **User:** states the trigger and declares when it fires."
+    },
+    {
+      "id": "T-ACTION-shutdown-01",
+      "title": "SHUT DOWN",
+      "category": "ACTION",
+      "classification": "AUTO",
+      "statement": "SHUT DOWN is a quick action applying the SHUT DOWN status."
+    },
+    {
+      "id": "T-ACTION-bootup-01",
+      "title": "BOOT UP",
+      "category": "ACTION",
+      "classification": "AUTO",
+      "statement": "BOOT UP is a full action that clears SHUT DOWN."
+    },
+    {
+      "id": "T-ACTION-selfdestruct-01",
+      "title": "SELF-DESTRUCT",
+      "category": "ACTION",
+      "classification": "ASSIST",
+      "statement": "SELF-DESTRUCT is a quick action initiating a reactor meltdown. It detonates at the end of the character's next turn, or at the end of any of its turns within the following two rounds — the pilot's choice.",
+      "split": "**App:** schedule the window and offer each valid detonation point. **User:** chooses when."
+    },
+    {
+      "id": "T-ACTION-skillcheck-01",
+      "title": "SKILL CHECK is a full action",
+      "category": "ACTION",
+      "classification": "ASSIST",
+      "statement": "A SKILL CHECK is a full action. Its parameters and outcome are the GM's to set.",
+      "split": "**App:** roll, apply bonuses and accuracy, and offer a forced pass or fail. **User:** sets the target and adjudicates."
+    },
+    {
+      "id": "T-ACTION-overwatch-01",
+      "title": "OVERWATCH",
+      "category": "ACTION",
+      "classification": "ASSIST",
+      "statement": "OVERWATCH is a 1/round reaction: the character immediately skirmishes with the triggering weapon against a hostile that starts a movement inside that weapon's THREAT, resolving before the movement. Ordnance weapons may never be used for it.",
+      "split": "**App:** resolve the skirmish, spend the reaction, enforce 1/round and the ordnance exclusion. **User:** declares the trigger."
+    },
+    {
+      "id": "T-ACTION-brace-01",
+      "title": "BRACE",
+      "category": "ACTION",
+      "classification": "AUTO",
+      "statement": "BRACE is a 1/round reaction triggered by being hit after damage is rolled. The bracing character counts as having RESISTANCE to all damage from the triggering attack, and until the end of its next turn every other attack against it is made at +1 difficulty. In exchange it may take no reactions until the end of its next turn, and on that turn may take only one quick action — no overcharge, no normal movement, no full actions, no free actions."
+    },
+    {
+      "id": "T-ACTION-overcharge-01",
+      "title": "OVERCHARGE grants one quick action as a free action, once per turn",
+      "category": "ACTION",
+      "classification": "AUTO",
+      "statement": "OVERCHARGE may be taken once per turn and lets the character take any quick action as a free action, including one already taken. Taking the heat and performing that quick action are a single step — the granted action cannot be deferred."
+    },
+    {
+      "id": "T-ACTION-overcharge-02",
+      "title": "the overcharge heat track",
+      "category": "ACTION",
+      "classification": "AUTO",
+      "statement": "The overcharge heat cost escalates 1, 1d3, 1d6, then 1d6+4 for every subsequent use. The counter resets only on a FULL REPAIR."
+    },
+    {
+      "id": "T-DMG-order-01",
+      "title": "the damage calculation order",
+      "category": "DMG",
+      "classification": "AUTO",
+      "statement": "Damage resolves in four steps: roll and apply increases such as EXPOSED doubling; subtract ARMOR; apply RESISTANCE and other defender reductions; subtract from HP."
+    },
+    {
+      "id": "T-DMG-armor-01",
+      "title": "armor reduces all damage from a single source, and is ignored by AP and burn",
+      "category": "DMG",
+      "classification": "AUTO",
+      "statement": "ARMOR reduces incoming damage from a single source by its rating. AP, burn, and heat ignore ARMOR entirely."
+    },
+    {
+      "id": "T-DMG-resist-01",
+      "title": "resistance halves and does not stack",
+      "category": "DMG",
+      "classification": "AUTO",
+      "statement": "RESISTANCE halves incoming damage of its type, rounding up, and does not stack — a character has it once per damage type or not at all."
+    },
+    {
+      "id": "T-DMG-immunity-01",
+      "title": "immunity is total, not a reduction",
+      "category": "DMG",
+      "classification": "AUTO",
+      "statement": "IMMUNITY is total negation, not a reduction. An immune character never takes the damage or effect at all, and never counts as having taken it — not even as 0."
+    },
+    {
+      "id": "T-DMG-zero-01",
+      "title": "damage reduced to zero still counts as taking damage",
+      "category": "DMG",
+      "classification": "AUTO",
+      "statement": "Damage reduced to 0 by armor or any other reduction still counts as damage taken. Only IMMUNITY prevents that."
+    },
+    {
+      "id": "T-DMG-crit-01",
+      "title": "a critical hit rolls all damage dice twice and takes the highest half",
+      "category": "DMG",
+      "classification": "AUTO",
+      "statement": "A natural 20 or better on a melee or ranged attack is a critical hit: roll every damage die twice, including bonus damage, and keep the highest half **of each source of damage separately**. A hit dealing 2d6 kinetic plus 1d6 bonus rolls 4d6 keeping two, and 2d6 keeping one. Tech attacks cannot crit."
+    },
+    {
+      "id": "T-DMG-burn-01",
+      "title": "burn deals damage immediately, then marks",
+      "category": "DMG",
+      "classification": "AUTO",
+      "statement": "Burn deals its damage immediately, ignoring ARMOR, and is then marked. At the end of the character's turn, marked burn triggers an ENGINEERING check: success clears all marked burn, failure deals damage equal to the marked total. RESISTANCE applies to the initial damage only, never to the end-of-turn tick."
+    },
+    {
+      "id": "T-DMG-heat-01",
+      "title": "heat is not damage and converts for characters without a heat cap",
+      "category": "DMG",
+      "classification": "AUTO",
+      "statement": "Heat is not damage. It ignores ARMOR but is subject to RESISTANCE. A character with no HEAT CAP takes an equivalent amount of energy damage instead."
+    },
+    {
+      "id": "T-ACTION-corepower-01",
+      "title": "CORE POWER is one use between full repairs",
+      "category": "ACTION",
+      "classification": "AUTO",
+      "statement": "CORE POWER is a single use that cannot be saved up and replenishes on a FULL REPAIR. Only activating a core system spends it."
+    },
+    {
+      "id": "T-DMG-reliable-01",
+      "title": "reliable damage applies on a miss",
+      "category": "DMG",
+      "classification": "AUTO",
+      "statement": "A weapon with RELIABLE deals its reliable value as damage when the attack misses."
+    },
+    {
+      "id": "T-DMG-bonus-01",
+      "title": "bonus damage",
+      "category": "DMG",
+      "classification": "ASSIST",
+      "statement": "Bonus damage applies only to melee and ranged attacks, is only kinetic, explosive, or energy, defaults to kinetic when unspecified, and is halved when the attack targets more than one character.",
+      "split": "**App:** apply the type restriction and the halving. **User:** chooses the type where the weapon allows it."
+    },
+    {
+      "id": "T-DMG-aoe-01",
+      "title": "area attacks roll separately, damage once",
+      "category": "DMG",
+      "classification": "ASSIST",
+      "statement": "An area or multi-target attack rolls damage once and applies it to every target after all attack rolls are made.",
+      "split": "**App:** enforce the roll-then-apply order and the single damage roll. **User:** names the targets."
+    },
+    {
+      "id": "T-DMG-objects-01",
+      "title": "default object statistics",
+      "category": "DMG",
+      "classification": "ASSIST",
+      "statement": "Objects default to 5 EVASION and 10 HP per point of SIZE. A multi-section object has independently destroyable SIZE 1 sections of 10 HP each.",
+      "split": "**App:** supply the defaults when an object is created. **User:** overrides for unusual terrain."
+    },
+    {
+      "id": "T-DMG-structure-01",
+      "title": "structure damage procedure",
+      "category": "DMG",
+      "classification": "AUTO",
+      "statement": "A character with STRUCTURE reduced to 0 HP takes 1 structure damage, makes a structure damage check, resets HP to full, and then takes any excess damage — repeating for as many structure points as the excess consumes."
+    },
+    {
+      "id": "T-STRUCT-roll-01",
+      "title": "the structure damage check",
+      "category": "STRUCT",
+      "classification": "AUTO",
+      "statement": "A structure damage check rolls 1d6 per marked structure point, including the point just taken, and uses the lowest result. Two or more 1s select the catastrophic row."
+    },
+    {
+      "id": "T-DMG-destroyed-01",
+      "title": "0 structure destroys",
+      "category": "DMG",
+      "classification": "AUTO",
+      "statement": "A mech reduced to 0 STRUCTURE is destroyed. Player mechs have 4 STRUCTURE by default."
+    },
+    {
+      "id": "T-HEAT-overheat-01",
+      "title": "the overheating procedure",
+      "category": "HEAT",
+      "classification": "AUTO",
+      "statement": "Heat *exceeding* the HEAT CAP causes overheating: take 1 STRESS, make an overheating check, clear heat, then carry the excess forward, repeating as needed. Heat exactly equal to the HEAT CAP is safe."
+    },
+    {
+      "id": "T-STRESS-roll-01",
+      "title": "the overheating check",
+      "category": "STRESS",
+      "classification": "AUTO",
+      "statement": "An overheating check rolls 1d6 per marked stress point, including the point just taken, and uses the lowest result. Two or more 1s select the catastrophic row. Stress uses the overheating table; structure uses the structure table, or the monstrosity table for that class."
+    },
+    {
+      "id": "T-HEAT-reactor-01",
+      "title": "0 stress means a meltdown at the end of the next turn",
+      "category": "HEAT",
+      "classification": "AUTO",
+      "statement": "A mech reduced to 0 STRESS suffers a reactor meltdown at the end of its *next* turn — not immediately."
+    },
+    {
+      "id": "T-DMG-meltdown-01",
+      "title": "reactor meltdown",
+      "category": "DMG",
+      "classification": "ASSIST",
+      "statement": "A reactor meltdown kills any pilot inside, annihilates the mech, and deals 4d6 explosive in a BURST 2; an AGILITY save halves it. A meltdown on a countdown updates that countdown at the start of the character's turn.",
+      "split": "**App:** schedule and tick the countdown, build the damage. **User:** declares who is in the area and the save results."
+    },
+    {
+      "id": "T-HEAT-dangerzone-01",
+      "title": "the danger zone begins at half heat cap",
+      "category": "HEAT",
+      "classification": "AUTO",
+      "statement": "A mech at or above half its HEAT CAP is in the DANGER ZONE. Equipment restricted to the danger zone may only be used in that state."
+    },
+    {
+      "id": "T-HEAT-cooling-01",
+      "title": "heat clears on stabilize, rest, or full repair",
+      "category": "HEAT",
+      "classification": "AUTO",
+      "statement": "Heat clears on STABILIZE, on rest, and on a FULL REPAIR."
+    },
+    {
+      "id": "T-REPAIR-cap-01",
+      "title": "repair cap is the pool of repairs available before a full repair",
+      "category": "REPAIR",
+      "classification": "AUTO",
+      "statement": "REPAIR CAP is the pool of repairs available before a FULL REPAIR, derived from the frame with a bonus from HULL."
+    },
+    {
+      "id": "T-REPAIR-combat-01",
+      "title": "in-combat repair restores all HP for 1 repair",
+      "category": "REPAIR",
+      "classification": "AUTO",
+      "statement": "Repairing in combat via STABILIZE restores all HP at the cost of 1 REPAIR."
+    },
+    {
+      "id": "T-REPAIR-costs-01",
+      "title": "repair costs",
+      "category": "REPAIR",
+      "classification": "ASSIST",
+      "statement": "1 REPAIR restores full HP or repairs one destroyed weapon or system; 2 REPAIRS restore 1 STRUCTURE or 1 STRESS; 4 REPAIRS repair a destroyed mech, returning it to 1 STRUCTURE, 1 STRESS, and full HP.",
+      "split": "**App:** track the pool and apply the costs. **User:** decides what to spend on."
+    },
+    {
+      "id": "T-REPAIR-rest-01",
+      "title": "resting and full repair",
+      "category": "REPAIR",
+      "classification": "AUTO",
+      "statement": "Resting clears all heat, clears every status and condition on the mech, and restores half the pilot's HP. A FULL REPAIR restores everything, including all REPAIRS, all LIMITED uses, CORE POWER, and the overcharge counter."
+    },
+    {
+      "id": "T-TAG-ordnance-01",
+      "title": "ordnance may only be fired before any movement or other action on a turn",
+      "category": "TAG",
+      "classification": "AUTO",
+      "statement": "An ORDNANCE weapon may only be fired before its user moves or takes any other action on a turn — a hard restriction, not a warning. It may be fired on another character's turn via a reaction, but never via OVERWATCH. Overcharging to skirmish with an ordnance weapon is permitted, because overcharge makes the quick action itself free rather than adding one."
+    },
+    {
+      "id": "T-TAG-loading-01",
+      "title": "a loading weapon must be reloaded before reuse",
+      "category": "TAG",
+      "classification": "AUTO",
+      "statement": "A LOADING weapon is expended when fired and unusable until reloaded. A loading weapon that has not been fired cannot be reloaded."
+    },
+    {
+      "id": "T-TAG-heatself-01",
+      "title": "a heat self weapon charges its user heat on use",
+      "category": "TAG",
+      "classification": "AUTO",
+      "statement": "A weapon tagged HEAT SELF deals its rated heat to the attacker each time the weapon is used, whether the attack hits or misses. That heat is applied, not merely displayed, and it stacks with any OVERKILL heat from the same attack."
+    },
+    {
+      "id": "T-TAG-overkill-01",
+      "title": "overkill rerolls ones and deals 1 heat each",
+      "category": "TAG",
+      "classification": "AUTO",
+      "statement": "A damage die that comes up 1 *in its resulting value* deals the attacker 1 heat and is rerolled, repeating. A d6 standing in for a d3 therefore triggers on both 1 and 2."
+    },
+    {
+      "id": "T-TAG-smart-01",
+      "title": "smart changes only the targeted stat",
+      "category": "TAG",
+      "classification": "AUTO",
+      "statement": "A SMART weapon targets E-DEFENSE instead of EVASION. It changes nothing else — the attack still rolls with GRIT, not the tech attack bonus."
+    },
+    {
+      "id": "T-TAG-ai-01",
+      "title": "AI mechs act autonomously as a protocol",
+      "category": "TAG",
+      "classification": "AUTO",
+      "statement": "A pilot may hand control of an AI-tagged mech to the AI as a protocol, and take it back as a protocol while physically inside. The AI mech receives its own complete set of actions and reactions, and gains no benefit from pilot talents."
+    },
+    {
+      "id": "T-TAG-mod-01",
+      "title": "a weapon mod is not a valid system trauma target",
+      "category": "TAG",
+      "classification": "AUTO",
+      "statement": "A weapon mod is destroyed with its weapon and repaired with it for free, and is never a valid choice for System Trauma."
+    },
+    {
+      "id": "T-TAG-recharge-01",
+      "title": "recharge is a d6 at the start of the NPC's turn",
+      "category": "TAG",
+      "classification": "AUTO",
+      "statement": "At the start of an NPC's turn, roll one d6 if it has any recharge equipment. Every recharge item whose target number the roll meets or exceeds becomes usable again. One roll serves the whole NPC."
+    },
+    {
+      "id": "T-TAG-npctags-01",
+      "title": "the NPC-only tags",
+      "category": "TAG",
+      "classification": "AUTO",
+      "statement": "BIOLOGICAL NPCs have no HEAT CAP, are immune to every tech action except SCAN and LOCK ON including beneficial ones, and cannot take tech actions unless specified. Mech, Vehicle, Ship, and Squad are descriptive."
+    },
+    {
+      "id": "T-TAG-trait-01",
+      "title": "traits cannot be destroyed",
+      "category": "TAG",
+      "classification": "AUTO",
+      "statement": "A trait is not a system and can never be disabled or destroyed by damage."
+    },
+    {
+      "id": "T-TAG-system-01",
+      "title": "only System-tagged NPC features are destroyable by structure damage",
+      "category": "TAG",
+      "classification": "AUTO",
+      "statement": "Only NPC features carrying the System tag may be destroyed by structure damage."
+    },
+    {
+      "id": "T-DMG-attack-01",
+      "title": "the three attack types",
+      "category": "DMG",
+      "classification": "ASSIST",
+      "statement": "A melee or ranged attack rolls 1d20 + GRIT + accuracy/difficulty against EVASION. A tech attack rolls 1d20 + TECH ATTACK + accuracy/difficulty against E-DEFENSE. Melee and tech ignore cover; ranged takes +1 difficulty from soft cover, +2 from hard, and +1 more while engaged.",
+      "split": "**App:** roll, apply every declared bonus including cover difficulty. **User:** declares cover, range, line of sight, and engagement."
+    },
+    {
+      "id": "T-ATTACK-accuracy-01",
+      "title": "accuracy and difficulty",
+      "category": "ATTACK",
+      "classification": "AUTO",
+      "statement": "Accuracy and difficulty cancel one another pairwise. Each remaining point is one d6; a single d6 is rolled per point and the highest result is added to an accuracy roll or subtracted from a difficulty roll."
+    },
+    {
+      "id": "T-RANGE-patterns-01",
+      "title": "LINE, CONE, BLAST, BURST",
+      "category": "RANGE",
+      "classification": "ASSIST",
+      "statement": "An area attack makes a separate attack roll per target, rolls damage once, and halves bonus damage when more than one character is affected. All attack rolls are made before any damage is applied.",
+      "split": "**App:** resolve the rolls and the damage arithmetic in that order. **User:** places the area and names the targets."
+    },
+    {
+      "id": "T-STATUS-exposed-02",
+      "title": "EXPOSED is cleared by cooling, stabilizing, and shutting down",
+      "category": "STATUS",
+      "classification": "AUTO",
+      "statement": "EXPOSED is cleared by cooling on STABILIZE, by NPC STABILIZE, and by SHUT DOWN."
+    },
+    {
+      "id": "T-STATUS-shutdown-01",
+      "title": "SHUT DOWN",
+      "category": "STATUS",
+      "classification": "AUTO",
+      "statement": "A SHUT DOWN mech clears all heat and EXPOSED, returns cascading NHPs to normal, immediately ends every status and condition caused by a tech action, gains IMMUNITY to all tech actions and attacks including allied ones, and is STUNNED indefinitely. Nothing prevents the STUNNED. Only BOOT UP removes it."
+    },
+    {
+      "id": "T-STAT-pilot-01",
+      "title": "pilot statistics in mech combat",
+      "category": "STAT",
+      "classification": "AUTO",
+      "statement": "A pilot in mech combat has HP 6 + GRIT, EVASION 10, E-DEFENSE 10, SIZE 1/2, SPEED 4, and ARMOR 0."
+    },
+    {
+      "id": "T-STAT-pilotattack-01",
+      "title": "unmounted characters use GRIT instead of triggers",
+      "category": "STAT",
+      "classification": "AUTO",
+      "statement": "An unmounted character adds GRIT to attacks and saves in place of triggers. GRIT is never added to a tech attack roll."
+    },
+    {
+      "id": "T-STAT-grit-01",
+      "title": "what GRIT applies to",
+      "category": "STAT",
+      "classification": "AUTO",
+      "statement": "GRIT applies to ranged and melee attack rolls, pilot HP, mech HP, save target, system points, unmounted pilot attacks and saves, and the JOCKEY check when no trigger applies. It is never added to tech attack rolls."
+    },
+    {
+      "id": "T-ACTOR-unmounted-01",
+      "title": "unmounted characters are BIOLOGICAL and tech-immune",
+      "category": "ACTOR",
+      "classification": "AUTO",
+      "statement": "An unmounted character is BIOLOGICAL: immune to every tech action except LOCK ON and SCAN even beneficial ones, taking heat as energy damage, unable to aid mechs or benefit from mech-scale bonuses, and neither causing engagement nor obstructing."
+    },
+    {
+      "id": "T-ACTOR-cockpit-01",
+      "title": "a pilot inside an intact mech cannot be targeted",
+      "category": "ACTOR",
+      "classification": "AUTO",
+      "statement": "A pilot inside an intact mech cannot be targeted, damaged, or affected from outside it, and has no line of sight out. Destroying the mech ends that protection."
+    },
+    {
+      "id": "T-ACTOR-unlicensed-01",
+      "title": "piloting an unlicensed mech makes it IMPAIRED and SLOWED",
+      "category": "ACTOR",
+      "classification": "ASSIST",
+      "statement": "A mech piloted without its license is IMPAIRED and SLOWED.",
+      "split": "**App:** apply and hold both statuses. **User:** declares that the mech is unlicensed."
+    },
+    {
+      "id": "T-ACTION-pilotpool-01",
+      "title": "pilot and mech share one action pool",
+      "category": "ACTION",
+      "classification": "AUTO",
+      "statement": "A pilot and their mech draw from one action pool, and the player may split actions between them freely."
+    },
+    {
+      "id": "T-ACTION-pilotactions-01",
+      "title": "the pilot action list",
+      "category": "ACTION",
+      "classification": "AUTO",
+      "statement": "Pilots take BOOST, HIDE, SEARCH, ACTIVATE, SKILL CHECK, DISENGAGE, PREPARE, and MOUNT by the mech rules; may OVERWATCH using FIGHT; and additionally take FIGHT, JOCKEY, and RELOAD."
+    },
+    {
+      "id": "T-ACTION-fight-01",
+      "title": "FIGHT is a full action",
+      "category": "ACTION",
+      "classification": "ASSIST",
+      "statement": "FIGHT is a full action attacking with one pilot weapon within RANGE or THREAT and line of sight. Ranged attacks are affected by cover and take +1 difficulty while engaged.",
+      "split": "**App:** charge a full action, offer eligible weapons, resolve the attack. **User:** confirms range, line of sight, cover, and engagement."
+    },
+    {
+      "id": "T-ACTION-jockey-01",
+      "title": "JOCKEY is a full action with three options",
+      "category": "ACTION",
+      "classification": "ASSIST",
+      "statement": "JOCKEY is a full action: a contested skill check using GRIT against the mech's HULL. On success the pilot rides the mech and chooses DISTRACT (IMPAIRED and SLOWED until the end of the mech's next turn), SHRED (2 heat), or DAMAGE (4 kinetic), repeatable as a full action on later turns. The mech may shake the pilot off with another contested check as a full action.",
+      "split": "**App:** roll the contest, apply the chosen outcome, hold the riding state. **User:** confirms adjacency and chooses the option."
+    },
+    {
+      "id": "T-ACTION-pilotreload-01",
+      "title": "pilot RELOAD is a quick action for one weapon",
+      "category": "ACTION",
+      "classification": "AUTO",
+      "statement": "Pilot RELOAD is a quick action reloading one LOADING pilot weapon."
+    },
+    {
+      "id": "T-NPC-actions-01",
+      "title": "NPCs take one turn per round with the standard pool",
+      "category": "NPC",
+      "classification": "AUTO",
+      "statement": "NPCs take one turn per round with the same pool as PCs: one move and two quick actions or one full action."
+    },
+    {
+      "id": "T-NPC-actions-02",
+      "title": "NPCs cannot overcharge or brace",
+      "category": "NPC",
+      "classification": "AUTO",
+      "statement": "NPCs cannot OVERCHARGE or BRACE by default, and their STABILIZE neither heals nor clears conditions."
+    },
+    {
+      "id": "T-NPC-actions-03",
+      "title": "the NPC action list",
+      "category": "NPC",
+      "classification": "AUTO",
+      "statement": "The NPC quick actions are Boost, Grapple, Hide, Prepare, Skirmish, Ram, Quick Tech, and Search; the full actions are Barrage, Disengage, Full Tech, Improvised Attack, and Stabilize. NPC Skirmish attacks with one Auxiliary, Main, or Heavy weapon; Barrage with up to two, or one Superheavy."
+    },
+    {
+      "id": "T-NPC-invade-01",
+      "title": "the NPC invade differs from the PC one",
+      "category": "NPC",
+      "classification": "ASSIST",
+      "statement": "The NPC INVADE is a SYSTEMS versus E-DEFENSE tech attack dealing 2 heat and IMPAIRED until the end of the target's next turn — not the PC FRAGMENT SIGNAL, which also applies SLOWED.",
+      "split": "**App:** resolve the attack and apply the effect. **User:** picks the target."
+    },
+    {
+      "id": "T-NPC-fulltech-01",
+      "title": "NPC full tech allows two *different* quick tech options",
+      "category": "NPC",
+      "classification": "AUTO",
+      "statement": "An NPC FULL TECH takes one full tech option or two *different* quick tech options."
+    },
+    {
+      "id": "T-NPC-stabilize-01",
+      "title": "NPC stabilize is one combined effect",
+      "category": "NPC",
+      "classification": "AUTO",
+      "statement": "NPC STABILIZE reloads all LOADING weapons, clears all heat, and ends EXPOSED — one combined effect, not two choices."
+    },
+    {
+      "id": "T-NPC-overwatch-01",
+      "title": "an NPC may overwatch once between turns",
+      "category": "NPC",
+      "classification": "ASSIST",
+      "statement": "An NPC takes OVERWATCH on the same terms a player character does: a 1/round reaction skirmish with the triggering weapon, never with an ordnance weapon.",
+      "split": "**App:** spend the reaction, enforce 1/round and the ordnance exclusion. **User:** declares the trigger."
+    },
+    {
+      "id": "T-NPC-structure-01",
+      "title": "NPCs have 1 structure and are destroyed at 0 HP without a check",
+      "category": "NPC",
+      "classification": "AUTO",
+      "statement": "An NPC with 1 STRUCTURE is destroyed at 0 HP with no structure damage check. An NPC with more than 1 STRUCTURE follows the standard rules."
+    },
+    {
+      "id": "T-NPC-stress-01",
+      "title": "NPCs have 1 stress and become EXPOSED instead of checking",
+      "category": "NPC",
+      "classification": "AUTO",
+      "statement": "An NPC with 1 STRESS that exceeds its HEAT CAP becomes EXPOSED and remains at 1 STRESS, making no overheating check, until it stabilizes. An NPC with more than 1 STRESS follows the standard rules."
+    },
+    {
+      "id": "T-NPC-grunt-01",
+      "title": "a Grunt is destroyed by any external heat",
+      "category": "NPC",
+      "classification": "AUTO",
+      "statement": "An NPC with the Grunt template is destroyed outright by heat from any external source, without a meltdown. Self-inflicted heat behaves normally."
+    },
+    {
+      "id": "T-NPC-damage-01",
+      "title": "NPCs deal fixed damage and cannot crit",
+      "category": "NPC",
+      "classification": "AUTO",
+      "statement": "NPCs deal fixed damage rather than rolling, and cannot land critical hits unless a template grants it."
+    },
+    {
+      "id": "T-STAT-npctier-01",
+      "title": "tier scaling",
+      "category": "STAT",
+      "classification": "AUTO",
+      "statement": "NPC bonuses, accuracy, damage, and effects scale by tier, written +x/y/z or x/y/z for tiers 1 through 3."
+    },
+    {
+      "id": "T-NPC-grappleram-01",
+      "title": "NPC grapple and ram use a tiered bonus",
+      "category": "NPC",
+      "classification": "AUTO",
+      "statement": "NPC GRAPPLE, RAM, and IMPROVISED ATTACK use a tiered attack bonus of +1/2/3; improvised attacks deal 3/4/6 by tier."
+    },
+    {
+      "id": "T-MOVE-cover-01",
+      "title": "cover",
+      "category": "MOVE",
+      "classification": "ASSIST",
+      "statement": "Once cover is declared, soft cover imposes +1 difficulty and hard cover +2 on ranged attacks. Melee and tech attacks ignore cover.",
+      "split": "**App:** apply the declared cover's difficulty to the roll. **User:** declares soft, hard, or none from the map."
+    },
+    {
+      "id": "T-STRUCT-glancing-01",
+      "title": "Glancing Blow (5-6)",
+      "category": "STRUCT",
+      "classification": "AUTO",
+      "statement": "Glancing Blow (5-6) applies IMPAIRED until the end of the character's next turn."
+    },
+    {
+      "id": "T-STRUCT-trauma-01",
+      "title": "System Trauma (2-4)",
+      "category": "STRUCT",
+      "classification": "ASSIST",
+      "statement": "System Trauma (2-4) rolls 1d6: on 1-3 every weapon on one chosen mount is destroyed, on 4-6 one chosen system is destroyed. LIMITED items out of charges are not valid choices. With no valid choice the result becomes the other branch; with nothing destroyable at all it becomes a DIRECT HIT.",
+      "split": "**App:** roll, enumerate only valid targets, and apply the fallbacks. **User:** chooses which mount or system."
+    },
+    {
+      "id": "T-STRUCT-directhit-01",
+      "title": "Direct Hit (1)",
+      "category": "STRUCT",
+      "classification": "ASSIST",
+      "statement": "Direct Hit (1) branches on remaining STRUCTURE: at 3 or more, STUNNED until the end of the next turn; at exactly 2, a HULL **check** — success is STUNNED until the end of the next turn, failure is destruction; at 1, destroyed.",
+      "split": "**App:** select the branch and apply the outcome with its duration. **User:** declares the check result."
+    },
+    {
+      "id": "T-STRUCT-crushing-01",
+      "title": "Crushing Hit (two or more 1s)",
+      "category": "STRUCT",
+      "classification": "AUTO",
+      "statement": "Crushing Hit (two or more 1s) destroys the mech beyond repair. The pilot may still exit normally."
+    },
+    {
+      "id": "T-STRESS-shunt-01",
+      "title": "Emergency Shunt (5-6)",
+      "category": "STRESS",
+      "classification": "AUTO",
+      "statement": "Emergency Shunt (5-6) applies IMPAIRED until the end of the character's next turn."
+    },
+    {
+      "id": "T-STRESS-destab-01",
+      "title": "Destabilized Power Plant (2-4)",
+      "category": "STRESS",
+      "classification": "AUTO",
+      "statement": "Destabilized Power Plant (2-4) applies EXPOSED, which persists until cleared."
+    },
+    {
+      "id": "T-STRESS-meltdown-01",
+      "title": "Meltdown (1)",
+      "category": "STRESS",
+      "classification": "ASSIST",
+      "statement": "Meltdown (1) branches on remaining STRESS: at 3 or more, EXPOSED; at exactly 2, an ENGINEERING check — success is EXPOSED, failure is a reactor meltdown after 1d6 of the character's turns, a countdown the GM rolls and which a retried ENGINEERING check can still prevent; at 1, a reactor meltdown at the end of the next turn.",
+      "split": "**App:** select the branch, roll and tick the countdown, and offer the retry. **User:** declares the check results."
+    },
+    {
+      "id": "T-STRESS-irreversible-01",
+      "title": "Irreversible Meltdown (two or more 1s)",
+      "category": "STRESS",
+      "classification": "AUTO",
+      "statement": "Irreversible Meltdown (two or more 1s) causes a reactor meltdown at the end of the character's next turn — not immediately."
+    },
+    {
+      "id": "T-STRUCT-monstrosity-01",
+      "title": "the monstrosity structure chart",
+      "category": "STRUCT",
+      "classification": "ASSIST",
+      "statement": "The monstrosity structure chart: Glancing Hit (5-6) IMPAIRED until the end of its next turn; Powerful Hit (3-4) PRONE; Dismemberment (2) 1d6 kinetic damage and SLOWED for the rest of the scene; Direct Hit (1) branching on structure — 3 or more STUNNED until the end of its next turn, exactly 2 a HULL **save** or destruction, 1 destroyed; Fatal (two or more 1s) destroyed.",
+      "split": "**App:** select rows and branches, apply statuses with their durations, and apply the Dismemberment damage. **User:** declares the save result."
+    },
+    {
+      "id": "T-STATUS-shredded-01",
+      "title": "SHREDDED",
+      "category": "STATUS",
+      "classification": "AUTO",
+      "statement": "A SHREDDED character does not benefit from ARMOR, RESISTANCE, or IMMUNITY. Vulnerability is not a benefit and still applies."
+    },
+    {
+      "id": "T-STATUS-stunned-01",
+      "title": "STUNNED",
+      "category": "STATUS",
+      "classification": "AUTO",
+      "statement": "A STUNNED mech cannot OVERCHARGE, move, or take any action — free actions and reactions included. Its EVASION is capped at 5, and it automatically fails every HULL and AGILITY check and save. Its pilot may still MOUNT, DISMOUNT, or EJECT, and acts normally."
+    },
+    {
+      "id": "T-STATUS-impaired-01",
+      "title": "IMPAIRED",
+      "category": "STATUS",
+      "classification": "AUTO",
+      "statement": "An IMPAIRED character receives +1 difficulty on all attacks, saves, and skill checks — including the end-of-turn burn ENGINEERING check."
+    },
+    {
+      "id": "T-STATUS-slowed-01",
+      "title": "SLOWED",
+      "category": "STATUS",
+      "classification": "AUTO",
+      "statement": "A SLOWED character's only movement is its standard move on its own turn. It cannot BOOST, and cannot use any special move granted by a talent, system, or weapon."
+    },
+    {
+      "id": "T-STATUS-immobilized-01",
+      "title": "IMMOBILIZED",
+      "category": "STATUS",
+      "classification": "ASSIST",
+      "statement": "An IMMOBILIZED character cannot make any voluntary movement. Involuntary movement is unaffected.",
+      "split": "**App:** hold, display, and expire the status, and refuse voluntary movement actions. **User:** applies involuntary movement."
+    },
+    {
+      "id": "T-STATUS-prone-01",
+      "title": "PRONE",
+      "category": "STATUS",
+      "classification": "ASSIST",
+      "statement": "Attacks against a PRONE character receive +1 accuracy. A PRONE character is also SLOWED and counts as moving through difficult terrain, and may stand up in place of its standard move unless IMMOBILIZED. Standing up is not movement and triggers nothing. Flying characters have IMMUNITY to PRONE.",
+      "split": "**App:** apply the +1 accuracy, imply SLOWED, offer standing up in place of the standard move, refuse PRONE on a flier. **User:** applies the difficult-terrain effect."
+    },
+    {
+      "id": "T-STATUS-lockon-01",
+      "title": "LOCK ON",
+      "category": "STATUS",
+      "classification": "AUTO",
+      "statement": "Any attacker may consume a target's LOCK ON for +1 accuracy on that attack; the condition clears once the attack resolves. Applying LOCK ON is a hostile action and breaks HIDDEN. Some talents and systems require it."
+    },
+    {
+      "id": "T-STATUS-jammed-01",
+      "title": "JAMMED",
+      "category": "STATUS",
+      "classification": "AUTO",
+      "statement": "A JAMMED character cannot use comms, cannot take reactions, cannot take or benefit from tech actions, and cannot make any attack other than IMPROVISED ATTACK, GRAPPLE, or RAM."
+    },
+    {
+      "id": "T-STATUS-hidden-01",
+      "title": "HIDDEN",
+      "category": "STATUS",
+      "classification": "ASSIST",
+      "statement": "A HIDDEN character cannot be targeted by hostile attacks or actions, does not cause engagement, and is known only by approximate location. Attacking, forcing a save, taking a reaction, using BOOST, and losing cover each remove HIDDEN **after** they resolve. SEARCH finds a HIDDEN character.",
+      "split": "**App:** block direct targeting, suppress engagement, and clear HIDDEN after the triggering action resolves. **User:** adjudicates area effects, cover, and line of sight."
+    },
+    {
+      "id": "T-STATUS-invisible-01",
+      "title": "INVISIBLE",
+      "category": "STATUS",
+      "classification": "AUTO",
+      "statement": "Every attack against an INVISIBLE character, of any type, has a flat 50% chance to miss outright before the attack roll is made; such a miss triggers everything a miss triggers, including reliable damage. An INVISIBLE character may always HIDE, even without cover."
+    },
+    {
+      "id": "T-STATUS-engaged-01",
+      "title": "ENGAGED",
+      "category": "STATUS",
+      "classification": "ASSIST",
+      "statement": "Adjacent hostile characters are both ENGAGED for as long as they remain adjacent. A ranged attack made while ENGAGED takes +1 difficulty. A character that becomes ENGAGED by an equal or larger target mid-movement stops immediately and loses its remaining movement.",
+      "split": "**App:** apply the +1 difficulty once engagement is declared. **User:** declares adjacency and resolves the movement stop."
+    },
+    {
+      "id": "T-STATUS-downandout-01",
+      "title": "DOWN AND OUT",
+      "category": "STATUS",
+      "classification": "AUTO",
+      "statement": "A pilot reduced to 0 HP is DOWN AND OUT: unconscious and STUNNED, not dead. Any further damage kills them. They regain consciousness and half their HP on a rest."
+    },
+    {
+      "id": "T-STATUS-dangerzone-01",
+      "title": "DANGER ZONE",
+      "category": "STATUS",
+      "classification": "AUTO",
+      "statement": "A character with half or more of its heat filled is in the DANGER ZONE."
+    },
+    {
+      "id": "T-STATUS-exposed-01",
+      "title": "EXPOSED",
+      "category": "STATUS",
+      "classification": "AUTO",
+      "statement": "All kinetic, explosive, and energy damage taken by an EXPOSED character is doubled, before any reduction is applied. STABILIZE clears it."
+    },
+    {
+      "id": "T-DMG-irreducible-01",
+      "title": "IRREDUCIBLE",
+      "category": "DMG",
+      "classification": "AUTO",
+      "statement": "Irreducible damage bypasses ARMOR and RESISTANCE entirely."
+    },
+    {
+      "id": "T-DMG-overshield-01",
+      "title": "OVERSHIELD",
+      "category": "DMG",
+      "classification": "AUTO",
+      "statement": "OVERSHIELD absorbs incoming damage before HP. Damage at or below the overshield is absorbed entirely; damage above it zeroes the overshield and carries the remainder through to HP."
+    },
+    {
+      "id": "T-TAG-sidearm-01",
+      "title": "SIDEARM",
+      "category": "TAG",
+      "classification": "AUTO",
+      "statement": "A SIDEARM makes the pilot FIGHT action a quick action instead of a full action. The action pool must charge accordingly."
+    },
+    {
+      "id": "T-STATUS-cascade-01",
+      "title": "CASCADE",
+      "category": "STATUS",
+      "classification": "ASSIST",
+      "statement": "A cascading NHP takes the mech out of its pilot's control and puts it under the GM's. SHUT DOWN stabilises a cascading NHP.",
+      "split": "**App:** hold the cascade state, enumerate AI equipment eligible for it, and transfer control. **User:** declares that a cascade has begun."
+    }
+  ],
+  "interactions": [
+    {
+      "id": "T-INT-duration-01",
+      "statement": "A status applied by a chart row with an until-end-of-next-turn duration survives the turn it was applied on and expires on the next.",
+      "composes": ["T-STRUCT-glancing-01", "T-TURN-endofnextturn-01"]
+    },
+    {
+      "id": "T-INT-duration-02",
+      "statement": "A scene-duration status from a chart row survives every round boundary until the encounter ends.",
+      "composes": ["T-STRUCT-monstrosity-01", "T-TURN-endofnextturn-01"]
+    },
+    {
+      "id": "T-INT-heat-01",
+      "statement": "Overcharge heat passes through the full damage pipeline: it can push the mech over its heat cap and trigger an overheating check in the same step.",
+      "composes": ["T-ACTION-overcharge-02", "T-HEAT-overheat-01"]
+    },
+    {
+      "id": "T-INT-heat-02",
+      "statement": "Overcharge heat against an actor with no heat cap converts to energy damage rather than accumulating.",
+      "composes": ["T-ACTION-overcharge-02", "T-DMG-heat-01"]
+    },
+    {
+      "id": "T-INT-reaction-01",
+      "statement": "Bracing consumes the reaction for the turn and locks out reactions until the end of the next turn, so a second reaction cannot be taken in between.",
+      "composes": ["T-ACTION-reaction-01", "T-ACTION-brace-01"]
+    },
+    {
+      "id": "T-INT-reaction-02",
+      "statement": "A reaction spent before a character's first turn stays spent for that round and refreshes at the start of its turn in the next.",
+      "composes": ["T-ACTION-reaction-01", "T-TURN-activations-01"]
+    },
+    {
+      "id": "T-INT-struct-01",
+      "statement": "System Trauma never offers a weapon mod as a destruction target, and destroying a modded weapon destroys its mod with it.",
+      "composes": ["T-STRUCT-trauma-01", "T-TAG-mod-01"]
+    },
+    {
+      "id": "T-INT-struct-02",
+      "statement": "A single hit crossing several structure points queues one check per point, each rolling against the running marked total.",
+      "composes": ["T-DMG-structure-01", "T-STRUCT-roll-01"]
+    },
+    {
+      "id": "T-INT-struct-03",
+      "statement": "A one-structure NPC is destroyed at 0 HP without rolling, so no chart row is ever selected for it.",
+      "composes": ["T-STRUCT-crushing-01", "T-NPC-structure-01"]
+    },
+    {
+      "id": "T-INT-status-01",
+      "statement": "A STUNNED mech cannot overcharge, and an overcharge already granted is lost rather than held.",
+      "composes": ["T-STATUS-stunned-01", "T-ACTION-overcharge-01"]
+    },
+    {
+      "id": "T-INT-status-02",
+      "statement": "PRONE implies SLOWED, so a prone character is denied BOOST for as long as it is prone.",
+      "composes": ["T-STATUS-prone-01", "T-STATUS-slowed-01"]
+    },
+    {
+      "id": "T-INT-status-03",
+      "statement": "SHREDDED removes armor and resistance from the damage order while leaving exposed doubling and vulnerability intact.",
+      "composes": ["T-STATUS-shredded-01", "T-DMG-order-01"]
+    },
+    {
+      "id": "T-INT-undo-01",
+      "statement": "Every state a rule mutates is captured by the encounter snapshot, so undoing a structure check restores structure, HP, statuses, and pending checks together.",
+      "composes": ["T-DMG-structure-01", "T-STRUCT-roll-01"]
+    },
+    {
+      "id": "T-INT-actor-01",
+      "statement": "Damage to a mounted pilot lands on the mech, so the pilot cannot be brought DOWN AND OUT while their mech is intact.",
+      "composes": ["T-ACTOR-cockpit-01", "T-STATUS-downandout-01"]
+    },
+    {
+      "id": "T-INT-actor-02",
+      "statement": "An AI-controlled mech and its pilot draw from separate pools, so spending the mech's full action leaves the pilot's intact.",
+      "composes": ["T-TAG-ai-01", "T-ACTION-pilotpool-01"]
+    }
+  ]
+}

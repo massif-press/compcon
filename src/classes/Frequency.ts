@@ -40,11 +40,15 @@ class Frequency {
     const uses = parseInt(usesText)
     const period = periodAliases[(periodText || '').trim().toLowerCase()]
 
-    if (!period || !Number.isInteger(uses) || uses < 1) {
+    if (!periodText) {
       this.Uses = 1
       this.Duration = ActivePeriod.Unlimited
       this.Unlimited = true
       return
+    }
+
+    if (!period || !Number.isInteger(uses) || uses < 1) {
+      throw new Error(`Unparseable frequency: "${this.FreqText}"`)
     }
 
     this.Uses = uses

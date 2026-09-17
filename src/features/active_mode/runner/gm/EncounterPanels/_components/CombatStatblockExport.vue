@@ -7,18 +7,23 @@
     max-width="900"
   >
     <template #activator="{ open }">
-      <v-btn
-        size="x-small"
-        flat
-        tile
-        @click="open"
+      <slot
+        name="activator"
+        :open="open"
       >
-        <v-icon
-          icon="mdi-export-variant"
-          start
-        />
-        {{ $t('active.statblockExport.title') }}
-      </v-btn>
+        <v-btn
+          size="x-small"
+          flat
+          tile
+          @click="open"
+        >
+          <v-icon
+            icon="mdi-export-variant"
+            start
+          />
+          {{ $t('active.statblockExport.title') }}
+        </v-btn>
+      </slot>
     </template>
     <template #default>
       <div class="text-cc-overline text-disabled mt-2">// {{ $t('common.options') }}</div>
@@ -123,10 +128,12 @@
   const rootActor = computed(() => (props.actor as any).CombatController.RootActor)
   const isPilot = computed(() => rootActor.value.ItemType === 'Pilot')
   const mech = computed(() => rootActor.value.ActiveMech)
+  const pilotController = computed(() => (props.actor as any).CombatController)
+  const mechController = computed(() => mech.value?.CombatController ?? null)
   const controller = computed(() => {
-    if (isPilot.value && (props.actor as any).CombatController.Mounted)
-      return (props.actor as any).ActiveMech.CombatController
-    return (props.actor as any).CombatController
+    if (isPilot.value && pilotController.value.Mounted && mechController.value)
+      return mechController.value
+    return pilotController.value
   })
   const cover = computed(() => {
     if (controller.value.Cover === 'none') return 'Not in cover'
@@ -134,10 +141,10 @@
     if (controller.value.Cover === 'hard') return 'In hard cover'
     return ''
   })
-  const corepower = computed(() => {
-    if (!controller.value.CorePower) return ''
-    return `Core Power: ${controller.value.CoreActive ? 'CORE ACTIVE' : !!controller.value.CorePower}`
-  })
+  function corepowerFor(c: any) {
+    if (!c.CorePower) return ''
+    return `Core Power: ${c.CoreActive ? 'CORE ACTIVE' : !!c.CorePower}`
+  }
   const combatSpecials = computed(() => {
     const out = [] as string[]
     if (controller.value.AIControl) out.push('⟦ AI CONTROLLED ⟧')
@@ -165,107 +172,137 @@
     })
     return actions.join(' ') + '\n'
   })
-  const statuses = computed(() => {
+  function statusesFor(c: any) {
     let out = ''
-    out += `${controller.value.Statuses.map((s: any) => `// ${s.status.Name.toUpperCase()} //`).join('  ')}`
-    if (controller.value.CustomStatuses.length > 0) {
-      out += `${controller.value.CustomStatuses.map((s: any) => ` // ${s.status.Attribute.toUpperCase()} //`).join(' ')}`
+    out += `${c.Statuses.map((s: any) => `// ${s.status.Name.toUpperCase()} //`).join('  ')}`
+    if (c.CustomStatuses.length > 0) {
+      out += `${c.CustomStatuses.map((s: any) => ` // ${s.status.Attribute.toUpperCase()} //`).join(' ')}`
     }
-    if (controller.value.Resistances.length) {
-      out += `\n${controller.value.Resistances.map((r: any) => `${r.type} ${r.condition}`.toUpperCase()).join(', ')}`
+    if (c.Resistances.length) {
+      out += `\n${c.Resistances.map((r: any) => `${r.type} ${r.condition}`.toUpperCase()).join(', ')}`
     }
     if (out.length === 0) return ''
     return `\n${out}\n`
-  })
-  const counters = computed(() => {
-    const cc = controller.value.CounterController
+  }
+  function countersFor(c: any) {
+    const cc = c.CounterController
     if (cc.CounterData.length === 0) return ''
     const assembledCounters = cc.CounterData.map((c: any) => {
       const saveData = cc.CounterSaveData.find((sd: any) => sd.id === c.id)
-      if (!saveData) return
-      return { name: c.name, val: saveData.val, max: c.max }
+      return { name: c.name, val: saveData ? saveData.val : (c.default_value ?? 0), max: c.max }
     })
     if (assembledCounters.length === 0) return ''
-    return '\n' + assembledCounters.map((c: any) => `${c.name}: ${c.val}/${c.max}`).join('  ')
-  })
-  const untrackedStats = computed(() => {
+    return (
+      '\n' +
+      assembledCounters.map((x: any) => `${x.name}: ${x.val}${x.max ? `/${x.max}` : ''}`).join('  ')
+    )
+  }
+  function untrackedStatsFor(c: any, kind: 'pilot' | 'mech' | 'npc') {
     if (!showUntracked.value) return ''
     let out = ''
-    let firstLine = [] as string[]
-    if (isPilot.value) firstLine.push(`GRIT: ${controller.value.Grit}`)
-    firstLine = firstLine.concat([
-      getMaxStat('hull', 'H'),
-      getMaxStat('agi', 'A'),
-      getMaxStat('sys', 'S'),
-      getMaxStat('eng', 'E'),
-    ])
-    out += justify(firstLine) + '\n'
-    const secondLine = [
-      getMaxStat('evasion', 'Evasion'),
-      getMaxStat('edef', 'E-Def'),
-      getMaxStat('sensorRange', 'Sensors'),
-      getMaxStat('saveTarget', 'Save'),
-    ]
-    if (isPilot.value) secondLine.push(getMaxStat('techAttack', 'Tech Atk.'))
-    out += justify(secondLine) + '\n'
-    return out
-  })
-  const trackedStats = computed(() => {
-    let out = ''
-    const firstLine = [
-      getStat('hp', 'HP'),
-      getStat('structure', 'Structure'),
-      getCurrentStat('armor', 'Armor'),
-      getCurrentStat('overshield', 'Overshield', 0),
-    ]
-    out += justify(firstLine) + '\n'
-    const secondLine = [
-      getStat('heatcap', 'Heat'),
-      getStat('stress', 'Stress'),
-      '',
-      getCurrentStat('overcharge', 'Overcharge', 0),
-    ]
-    out += justify(secondLine) + '\n'
-    const thirdLine = [
-      getStat('speed', 'Movement'),
-      getStat('repairCapacity', 'Repairs'),
-      '',
-      corepower.value,
-    ]
-    out += justify(thirdLine)
-    return out
-  })
-  const pilotLoadout = computed(() => {
-    let out = ''
-    if (controller.value.Mounted) {
-      const weapons = mech.value.MechLoadoutController.ActiveLoadout.Weapons
-      const systems = mech.value.MechLoadoutController.ActiveLoadout.Systems
-      weapons.forEach((w: any) => {
-        if (w.Destroyed) out += `${justify([w.Name, '', '', '', '✖ DESTROYED'])}\n`
-        else {
-          const arr = [
-            w.Name,
-            w.Range.map((r: any) => r.Text).join(', '),
-            w.Damage.map((d: any) => d.Text).join(', '),
-          ]
-          if (w.MaxUses) arr.push(`${w.Uses} / ${w.MaxUses} Uses`)
-          else arr.push('')
-          arr.push(w.Used ? (w.IsLoading ? '[ reload ]' : '[   used ]') : '[  READY ]')
-          out += justify(arr) + '\n'
-        }
-      })
-      systems.forEach((s: any) => {
-        if (s.Destroyed) out += `${s.Name} // DESTROYED // \n`
-        else {
-          const arr = [s.Name, '', '']
-          if (s.MaxUses) arr.push(`${s.Uses} / ${s.MaxUses} Uses`)
-          else arr.push('')
-          arr.push(s.Used ? (s.IsLoading ? '[ reload ]' : '[   used ]') : '[  READY ]')
-          out += justify(arr) + '\n'
-        }
-      })
+    if (kind === 'pilot') {
+      out +=
+        justify([
+          `GRIT: ${c.Grit}`,
+          getMaxStat(c, 'evasion', 'Evasion'),
+          getMaxStat(c, 'edef', 'E-Def'),
+          getMaxStat(c, 'speed', 'Speed'),
+        ]) + '\n'
+      return out
     }
+    out +=
+      justify([
+        getMaxStat(c, 'hull', 'H'),
+        getMaxStat(c, 'agi', 'A'),
+        getMaxStat(c, 'sys', 'S'),
+        getMaxStat(c, 'eng', 'E'),
+      ]) + '\n'
+    const secondLine = [
+      getMaxStat(c, 'evasion', 'Evasion'),
+      getMaxStat(c, 'edef', 'E-Def'),
+      getMaxStat(c, ['sensorRange', 'sensors'], 'Sensors'),
+      getMaxStat(c, 'saveTarget', 'Save'),
+    ]
+    if (kind === 'mech') secondLine.push(getMaxStat(c, 'techAttack', 'Tech Atk.'))
+    out += justify(secondLine) + '\n'
     return out
+  }
+  function trackedStatsFor(c: any, kind: 'pilot' | 'mech' | 'npc') {
+    let out = ''
+    if (kind === 'pilot') {
+      out += justify([
+        getStat(c, 'hp', 'HP'),
+        getCurrentStat(c, 'armor', 'Armor'),
+        getCurrentStat(c, 'overshield', 'Overshield', 0),
+        getStat(c, 'speed', 'Movement'),
+      ])
+      return out
+    }
+    out +=
+      justify([
+        getStat(c, 'hp', 'HP'),
+        getStat(c, 'structure', 'Structure'),
+        getCurrentStat(c, 'armor', 'Armor'),
+        getCurrentStat(c, 'overshield', 'Overshield', 0),
+      ]) + '\n'
+    out +=
+      justify([
+        getStat(c, 'heatcap', 'Heat'),
+        getStat(c, 'stress', 'Stress'),
+        '',
+        getCurrentStat(c, 'overcharge', 'Overcharge', 0),
+      ]) + '\n'
+    out += justify([
+      getStat(c, 'speed', 'Movement'),
+      getStat(c, ['repairCapacity', 'repcap'], 'Repairs'),
+      '',
+      corepowerFor(c),
+    ])
+    return out
+  }
+  function equipmentRow(item: any, range = '', damage = '') {
+    if (item.Destroyed) return `${justify([item.Name, '', '', '', '✖ DESTROYED'])}\n`
+    const arr = [item.Name, range, damage]
+    if (item.MaxUses) arr.push(`${item.Uses} / ${item.MaxUses} Uses`)
+    else arr.push('')
+    arr.push(item.Used ? (item.IsLoading ? '[ reload ]' : '[   used ]') : '[ READY ]')
+    return justify(arr) + '\n'
+  }
+  const mechLoadout = computed(() => {
+    if (!mech.value) return ''
+    const loadout = mech.value.MechLoadoutController?.ActiveLoadout
+    if (!loadout) return ''
+    let out = ''
+    loadout.Weapons.forEach((w: any) => {
+      out += equipmentRow(
+        w,
+        w.Range.map((r: any) => r.Text).join(', '),
+        w.Damage.map((d: any) => d.Text).join(', ')
+      )
+    })
+    loadout.Systems.forEach((sys: any) => {
+      out += equipmentRow(sys)
+    })
+    return out || 'None\n'
+  })
+  const pilotGearLoadout = computed(() => {
+    const loadout = rootActor.value.PilotLoadoutController?.ActiveLoadout
+    if (!loadout) return ''
+    let out = ''
+    loadout.Armor.filter(Boolean).forEach((a: any) => {
+      out += equipmentRow(a)
+    })
+    loadout.Weapons.filter(Boolean).forEach((w: any) => {
+      out += equipmentRow(
+        w,
+        (w.Range || []).map((r: any) => r.Text).join(', '),
+        (w.Damage || []).map((d: any) => d.Text).join(', ')
+      )
+    })
+    loadout.Gear.filter(Boolean).forEach((g: any) => {
+      out += equipmentRow(g)
+    })
+    return out || 'None\n'
   })
   const npcLoadout = computed(() => {
     if (!showLoadout.value) return ''
@@ -300,7 +337,7 @@
           ? feature.Recharge
             ? `[recharge ${feature.Recharge}+]`
             : '[   used ]'
-          : '[  READY ]'
+          : '[ READY ]'
       )
       out += justify(arr) + '\n'
     })
@@ -308,9 +345,7 @@
   })
   const features = computed(() => {
     if (!showLoadout.value) return ''
-    const out = '\n// LOADOUT\n'
-    if (isPilot.value) return out + pilotLoadout.value
-    else return out + npcLoadout.value
+    return '\n// LOADOUT\n' + npcLoadout.value
   })
   const reserves = computed(() => {
     if (!showReserves.value) return ''
@@ -327,16 +362,46 @@
     )
     return out
   })
+  function flagsFor(c: any) {
+    return `${c.Braced ? `[ BRACED ] ` : ''}${c.Overwatch ? `[ OVERWATCH ] ` : ''}${c.Prepared ? `[ PREPARED ] ` : ''}`
+  }
+  function blockFor(c: any, kind: 'pilot' | 'mech' | 'npc') {
+    return `${untrackedStatsFor(c, kind)}${statusesFor(c)}
+${trackedStatsFor(c, kind)}
+${countersFor(c)}`
+  }
+  const pilotBlock = computed(() => {
+    const c = pilotController.value
+    return `
+// PILOT ${'-'.repeat(60)}
+${rootActor.value.CombatController.CombatName}${rootActor.value.Level ? ` - LL ${rootActor.value.Level}` : ''} ${c.Mounted && mechController.value ? '[ MOUNTED ]' : '[ UNMOUNTED ]'}
+${flagsFor(c)}${blockFor(c, 'pilot')}${showLoadout.value ? `\n// PILOT LOADOUT\n${pilotGearLoadout.value}` : ''}`
+  })
+  const mechBlock = computed(() => {
+    if (!mech.value || !mechController.value) return `\n// MECH ${'-'.repeat(61)}\nNo active mech\n`
+    const c = mechController.value
+    return `
+// MECH ${'-'.repeat(61)}
+${mech.value.Name} - ${mech.value.Frame.Source} ${mech.value.Frame.Name}
+${flagsFor(c)}${blockFor(c, 'mech')}${showLoadout.value ? `\n// MECH LOADOUT\n${mechLoadout.value}` : ''}`
+  })
   const statblockPreview = computed(() => {
     const enc = props.encounterInstance as any
-    return `${enc.Name} - Round ${enc.Round} (${new Date().toLocaleString()})
-${'-'.repeat(75)}
-${rootActor.value.ItemType} ${rootActor.value.CombatController.CombatName} ${rootActor.value.Level ? `- LL ${rootActor.value.Level} ` : controller.value.Tier ? ` - Tier ${controller.value.Tier}` : ''}${showActions.value ? ` |  ${getStat('activations', 'Activations')}` : ''}
-${mech.value ? `${mech.value.Name} - ${mech.value.Frame.Source} ${mech.value.Frame.Name}` : ''} ${!isPilot.value ? '' : controller.value.Mounted ? `[ MOUNTED ]` : '[ UNMOUNTED ]'}
-${controller.value.Braced ? `[ BRACED ] ` : ''}${controller.value.Overwatch ? `[ OVERWATCH ] ` : ''}${controller.value.Prepared ? `[ PREPARED ] ` : ''}⟦ ${cover.value} ⟧  ${combatSpecials.value}
-${untrackedStats.value}${availableActions.value}${statuses.value}
-${trackedStats.value}
-${counters.value}
+    const header = `${enc.Name} - Round ${enc.Round} (${new Date().toLocaleString()})
+${'-'.repeat(75)}`
+    if (isPilot.value) {
+      return `${header}
+⟦ ${cover.value} ⟧  ${combatSpecials.value}${showActions.value ? `\n${getStat(controller.value, 'activations', 'Activations')}\n${availableActions.value}` : ''}
+${pilotBlock.value}
+${mechBlock.value}
+${reserves.value}`
+    }
+    return `${header}
+${rootActor.value.ItemType} ${rootActor.value.CombatController.CombatName} ${controller.value.Tier ? ` - Tier ${controller.value.Tier}` : ''}${showActions.value ? ` |  ${getStat(controller.value, 'activations', 'Activations')}` : ''}
+${flagsFor(controller.value)}⟦ ${cover.value} ⟧  ${combatSpecials.value}
+${untrackedStatsFor(controller.value, 'npc')}${availableActions.value}${statusesFor(controller.value)}
+${trackedStatsFor(controller.value, 'npc')}
+${countersFor(controller.value)}
 ${features.value}
 ${reserves.value}`
   })
@@ -362,24 +427,31 @@ ${reserves.value}`
     }
     return line.join('')
   }
-  function getMaxStat(stat: string, shortHand: string, separator = '') {
-    const c =
-      isPilot.value && controller.value.Mounted ? mech.value.CombatController : controller.value
-    const max = c.StatController.MaxStats[stat]
+  function statKey(c: any, keys: string[], store: 'MaxStats' | 'CurrentStats') {
+    for (const key of keys) {
+      const val = c.StatController[store][key]
+      if (val !== undefined && val !== null) return val
+    }
+    return undefined
+  }
+  function getMaxStat(c: any, stat: string | string[], shortHand: string, separator = '') {
+    const keys = Array.isArray(stat) ? stat : [stat]
+    const max = statKey(c, keys, 'MaxStats')
+    if (max === undefined) return ''
     return `${shortHand}: ${max}${separator}`
   }
-  function getCurrentStat(stat: string, shortHand: string, fallback?: number) {
-    const c =
-      isPilot.value && controller.value.Mounted ? mech.value.CombatController : controller.value
-    let current = c.StatController.CurrentStats[stat]
+  function getCurrentStat(c: any, stat: string | string[], shortHand: string, fallback?: number) {
+    const keys = Array.isArray(stat) ? stat : [stat]
+    let current = statKey(c, keys, 'CurrentStats')
     if (!current && fallback !== undefined) current = fallback
+    if (current === undefined) return ''
     return `${shortHand}: ${current}`
   }
-  function getStat(stat: string, shortHand: string) {
-    const c =
-      isPilot.value && controller.value.Mounted ? mech.value.CombatController : controller.value
-    const current = c.StatController.CurrentStats[stat]
-    const max = c.StatController.MaxStats[stat]
+  function getStat(c: any, stat: string | string[], shortHand: string) {
+    const keys = Array.isArray(stat) ? stat : [stat]
+    const current = statKey(c, keys, 'CurrentStats')
+    const max = statKey(c, keys, 'MaxStats')
+    if (current === undefined && max === undefined) return ''
     return `${shortHand}: ${current}/${max}`
   }
   function copyContent() {

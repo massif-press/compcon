@@ -9,7 +9,10 @@ import { ICloudSyncable } from '@/classes/components/cloud/ICloudSyncable'
 import { ISaveable } from '@/classes/components/save/ISaveable'
 import { ISaveData, SaveController } from '@/classes/components/save/SaveController'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-import { DeployableInstance } from '@/classes/components/feature/deployable/DeployableInstance'
+import { deployToCombatant } from '@/classes/components/feature/deployable/DeployableInstance'
+import { buildStream } from '@/classes/components/combat/log/stream'
+import { actorRef } from '@/classes/components/combat/log/refs'
+import type { ILogStream } from '@/classes/components/combat/log/events'
 
 type PilotSheetData = {
   id: string
@@ -69,6 +72,8 @@ class PilotSheet implements ISaveable, ICloudSyncable {
     SaveController.Deserialize(this, data.save)
     this.CloudController = new CloudController(this)
     CloudController.Deserialize(this, data.cloud)
+
+    this.StampLogContext()
   }
 
   public get PilotID(): string {
@@ -81,7 +86,8 @@ class PilotSheet implements ISaveable, ICloudSyncable {
     combatPilot.FeatureController.BonusController.applyToStats(
       combatPilot.CombatController.StatController
     )
-    combatPilot.CombatController.StatController.resetCurrentStats()
+    combatPilot.CombatController.ResetForEncounter()
+    combatPilot.CombatController.Record('encounter.start', { name: combatPilot.Callsign })
     const data = {
       id: crypto.randomUUID(),
       combatant: {
@@ -146,15 +152,12 @@ class PilotSheet implements ISaveable, ICloudSyncable {
   }
 
   public Deploy(deployable: Deployable, combatant: CombatantData): void {
-    const deployableInstance = new DeployableInstance(deployable.ItemData, combatant)
-    deployableInstance.SetStats()
-    combatant.deployables.push(deployableInstance)
-    combatant.actor.CombatController.toggleCombatAction(deployable.DeployAction.Activation)
+    deployToCombatant(deployable, combatant)
   }
 
   public async EndRound(): Promise<void> {
     await this.Combatant.actor.CombatController.EndRound(this)
-    await this.Pilot.ActiveMech!.CombatController.EndRound(this)
+    await this.Pilot.ActiveMech!.CombatController.EndRound(this, true)
 
     if (this.Autosave) {
       this.Save()
@@ -165,7 +168,42 @@ class PilotSheet implements ISaveable, ICloudSyncable {
     return [this.Combatant]
   }
 
-  // this mocks the encounter instance for the pilot sheet, so that we can use the same components for both
+  public StampLogContext(): void {
+    const recorders = [
+      this.Combatant?.actor?.CombatController,
+      this.Combatant?.actor?.ActiveMech?.CombatController,
+    ]
+    for (const cc of recorders) {
+      if (!cc?.CombatLog) continue
+      cc.CombatLog.EncounterId = this.ID
+      cc.CombatLog.Source = 'self'
+      cc.CombatLog.CampaignId = this.Campaign || undefined
+      cc.CombatLog.Side = this.Combatant?.side ?? 'ally'
+    }
+  }
+
+  public get Stream(): ILogStream {
+    const recorders = [
+      this.Combatant?.actor?.CombatController,
+      this.Combatant?.actor?.ActiveMech?.CombatController,
+    ].filter(Boolean)
+
+    return buildStream(
+      {
+        encounterId: this.ID,
+        encounterName: this.Name,
+        campaignId: this.Campaign || undefined,
+        start: this.Created,
+        end: this.Updated,
+        rounds: this.Round,
+      },
+      [actorRef(this.Combatant?.actor?.CombatController, this.Combatant?.side)],
+      recorders.flatMap(cc => cc?.CombatLog?.Events ?? []),
+      'self'
+    )
+  }
+
+  // this mocks the encounter instance for the pilot sheet so that we can use the same components for both
   public get EncounterInstance(): EncounterInstance {
     return this as any as EncounterInstance
   }

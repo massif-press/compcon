@@ -148,7 +148,9 @@
   }
   function emitFilters() {
     const fObj: any = {}
-    if (spType.value && !Number.isNaN(sp.value)) fObj[`SP_${spType.value}`] = sp.value
+    const spNum = Number(sp.value)
+    if (spType.value && sp.value !== '' && sp.value !== null && !Number.isNaN(spNum))
+      fObj[`SP_${spType.value}`] = spNum
     if (llFilter.value && llFilter.value.length)
       fObj.LicenseLevel = llFilter.value.map(x => Number(x))
     emit('sp-ll-change', fObj)

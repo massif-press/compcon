@@ -5,11 +5,11 @@ import CCTail from './CCTail.vue'
 import CCEndAccent from './CCEndAccent.vue'
 
 describe('CCLight', () => {
-  it('defaults to the primary colour', () => {
+  it('defaults to the primary color', () => {
     expect(mount(CCLight).classes()).toContain('bg-primary')
   })
 
-  it('takes a colour', () => {
+  it('takes a color', () => {
     expect(mount(CCLight, { props: { color: 'success' } }).classes()).toContain('bg-success')
   })
 
@@ -19,11 +19,11 @@ describe('CCLight', () => {
 })
 
 describe('CCTail', () => {
-  it('defaults to the primary colour', () => {
+  it('defaults to the primary color', () => {
     expect(mount(CCTail).classes()).toContain('bg-primary')
   })
 
-  it('takes a colour', () => {
+  it('takes a color', () => {
     expect(mount(CCTail, { props: { color: 'error' } }).classes()).toContain('bg-error')
   })
 
@@ -49,7 +49,7 @@ describe('CCEndAccent', () => {
     expect(style).toContain('width: 24px')
   })
 
-  it('takes a colour and stays click-through', () => {
+  it('takes a color and stays click-through', () => {
     const w = mount(CCEndAccent, { props: { color: 'secondary' } })
 
     expect(w.classes()).toContain('bg-secondary')

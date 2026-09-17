@@ -69,7 +69,7 @@ describe('btnSubMixin', () => {
     expect(out.optionsSize).toBe('options-large')
   })
 
-  it('maps colour onto a background class', () => {
+  it('maps color onto a background class', () => {
     expect(withProps({ color: 'error' }).bgColor).toBe('bg-error')
   })
 

@@ -56,4 +56,16 @@ function useRunnerOptions() {
   return { fileValue, importObj, importOk, importError, saveUpdate, reset, exportStateFile, stageImportFile }
 }
 
-export { useRunnerOptions }
+let leaveGuardBypassed = false
+
+function bypassLeaveGuard(): void {
+  leaveGuardBypassed = true
+}
+
+function consumeLeaveGuardBypass(): boolean {
+  const bypassed = leaveGuardBypassed
+  leaveGuardBypassed = false
+  return bypassed
+}
+
+export { useRunnerOptions, bypassLeaveGuard, consumeLeaveGuardBypass }

@@ -40,13 +40,21 @@
           </div>
 
           <div class="text-center">
-            <div v-if="isRanged && engagedDifficulty">
+            <div v-if="engagedDifficulty">
               - {{ engagedDifficulty }} {{ $t('ui.combat.currentlyEngaged') }}
             </div>
-            <div v-if="isRanged && targetCoverDifficulty">
+            <div v-if="targetCoverDifficulty">
               - {{ targetCoverDifficulty }} {{ $t('ui.combat.targetInCover') }}
             </div>
           </div>
+
+          <v-checkbox
+            v-if="canConsumeLockOn"
+            v-model="rollData.ConsumingLockOn"
+            density="compact"
+            hide-details
+            :label="$t('ui.combat.consumeLockOn')"
+          />
 
           <accuracy-difficulty-row
             v-model="rollData.AttackAccuracy"
@@ -93,7 +101,7 @@
 
 <script setup lang="ts">
   import type { ActiveEventTarget } from '@/classes/components/feature/active_effects/effect_events/eventTarget'
-  import { computed } from 'vue'
+  import { computed, ref } from 'vue'
   import { useDisplay } from 'vuetify'
   import { DiceRoller } from '@/classes/dice/DiceRoller'
   import AccuracyDifficultyRow from './AccuracyDifficultyRow.vue'
@@ -110,18 +118,21 @@
 
   const dice = [2, 3, 4, 6, 8, 10, 12, 20, 100]
 
-  const isRanged = computed(() => props.rollData.AttackType === 'ranged')
 
-  const targetCoverDifficulty = computed(() => {
-    const target = props.rollData.Combatant?.actor?.CombatController
-    if (!target) return 0
+  const targetController = computed(() => props.rollData.Combatant?.actor?.CombatController)
+  const attacker = computed(() => props.rollData.Event.Initiator.actor.CombatController)
 
-    return target.Cover === 'none' ? 0 : target.Cover === 'soft' ? 1 : 2
-  })
+  const attackType = computed(() => props.rollData.AttackType ?? 'ranged')
 
-  const engagedDifficulty = computed(() =>
-    props.rollData.Event.Initiator.actor.CombatController.HasStatus('engaged') ? 1 : 0
+  const targetCoverDifficulty = computed(
+    () => targetController.value?.DifficultyAgainst(attackType.value) ?? 0
   )
+
+  const engagedDifficulty = computed(() => attacker.value.DifficultyFor(attackType.value))
+
+  const statusAccuracy = computed(() => props.rollData.StatusAccuracy)
+
+  const canConsumeLockOn = computed(() => attacker.value.CanConsumeLockOn(targetController.value))
 
   function reset() {
     props.rollData.AttackBonus = props.rollData.Event.AttackBonus || 0
@@ -131,9 +142,11 @@
   }
 
   function rollAttack() {
+    const lockOn = props.rollData.ConsumingLockOn ? 1 : 0
+
     const rollResult = DiceRoller.rollSkillCheck(
       Number(props.rollData.AttackBonus),
-      props.rollData.AttackAccuracy
+      props.rollData.AttackAccuracy + statusAccuracy.value + lockOn
     )
     props.rollData.AttackRollResult = rollResult
     props.rollData.AttackRolledValue = rollResult.total

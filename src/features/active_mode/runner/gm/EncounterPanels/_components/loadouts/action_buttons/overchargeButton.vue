@@ -88,6 +88,7 @@
         :key="controller.RootActor.ID"
         :owner="owner"
         :encounter-instance="encounterInstance"
+        :disabled="heatMissing"
         hide-input
         :active-effect="action"
         :close="close"
@@ -109,21 +110,19 @@
   import CombatActionButton from './CombatActionButton.vue'
   import MenuInput from '@/ui/components/chips/_activeeffect/_ae_menu_input.vue'
 
-  const { owner, encounterInstance } = useEncounterContext()
+  const { owner, encounterInstance, activeController: controller } = useEncounterContext()
 
   const props = defineProps<{
     action: Action
   }>()
 
-  const emit = defineEmits<{
-    activate: [payload: string]
-  }>()
+  const heatCost = ref<number | null>(null)
 
-  const heatCost = ref(1)
-
-  const controller = computed(() => {
-    return owner.value.actor.CombatController.ActiveActor.CombatController
+  const heatMissing = computed(() => {
+    const v = heatCost.value
+    return v === null || String(v).trim() === '' || !Number.isFinite(Number(v))
   })
+
   const currentOvercharge = computed(() => {
     return controller.value.OverchargeLevel
   })
@@ -132,12 +131,12 @@
     heatCost.value = DiceRoller.roll(controller.value.OverchargeCost)
   }
   function apply() {
-    controller.value.StartOvercharge()
-    controller.value.TakeDamage(DamageType.Heat, Number(heatCost.value))
-    controller.value.IncreaseOverchargeLevel()
-    emit('activate', props.action.ID)
+    controller.value.RunAction(props.action.ID, {
+      value: heatCost.value === null ? undefined : Number(heatCost.value),
+    })
+    heatCost.value = null
   }
   function reset() {
-    controller.value.ResetActivation(props.action.Activation)
+    controller.value.UndoActivation(props.action.Activation, { actionId: props.action.ID })
   }
 </script>

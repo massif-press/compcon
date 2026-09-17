@@ -1,4 +1,4 @@
-import { inject, type InjectionKey, type Ref } from 'vue'
+import { computed, inject, type ComputedRef, type InjectionKey, type Ref } from 'vue'
 import type { CombatantData } from '@/classes/encounter/Encounter'
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 
@@ -7,14 +7,21 @@ export interface EncounterRunnerContext {
   encounterInstance: Ref<EncounterInstance>
 }
 
-export const EncounterContextKey: InjectionKey<EncounterRunnerContext> = Symbol('EncounterRunnerContext')
+export const EncounterContextKey: InjectionKey<EncounterRunnerContext> =
+  Symbol('EncounterRunnerContext')
 
-export function useEncounterContext(): EncounterRunnerContext {
+export function useEncounterContext(): EncounterRunnerContext & {
+  ownerController: ComputedRef<any>
+  activeController: ComputedRef<any>
+} {
   const ctx = inject(EncounterContextKey)
   if (!ctx) {
-    throw new Error(
-      'useEncounterContext() called outside an encounter panel — no EncounterRunnerContext was provided.'
-    )
+    throw new Error('useEncounterContext() called outside an encounter panel.')
   }
-  return ctx
+  const ownerController = computed(() => (ctx.owner.value as any).actor.CombatController)
+  return {
+    ...ctx,
+    ownerController,
+    activeController: computed(() => ownerController.value.ActiveActor.CombatController),
+  }
 }

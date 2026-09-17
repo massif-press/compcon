@@ -32,6 +32,9 @@ jobs:
       - name: Locales check
         run: yarn locales check
 
+      - name: Rules table up to date
+        run: yarn rules:check
+
       - name: Type-check (informational)
         continue-on-error: true
         run: |

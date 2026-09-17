@@ -26,6 +26,8 @@ interface IWeaponModData extends IMechEquipmentData {
 }
 
 class WeaponMod extends MechEquipment {
+  public readonly IsMod = true
+
   public readonly SystemType = SystemType.Mod
   public readonly AllowedTypes: WeaponType[]
   public readonly AllowedSizes: WeaponSize[]

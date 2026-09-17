@@ -146,9 +146,12 @@
           >
             <div class="body-text mb-1">
               {{
-                $t('active.structureCheck.saveCheck', {
-                  check: step.label,
-                })
+                $t(
+                  step.mode === 'save'
+                    ? 'active.structureCheck.saveSave'
+                    : 'active.structureCheck.saveCheck',
+                  { check: step.label }
+                )
               }}
             </div>
             <accuracy-difficulty-row
@@ -197,19 +200,11 @@
             </div>
           </div>
 
-          <div v-else-if="step.kind === 'equip'">
-            <div class="body-text mb-1">{{ step.label }}:</div>
-            <v-select
-              v-model="equipChoices[step.path]"
-              :items="step.options"
-              item-title="label"
-              item-value="id"
-              :placeholder="$t('active.structureCheck.chooseOne')"
-              density="compact"
-              variant="outlined"
-              hide-details
-            />
-          </div>
+          <cc-flow-request
+            v-else-if="step.kind === 'equip'"
+            v-model="equipChoices[step.path]"
+            :request="requestFor(step)"
+          />
         </div>
       </div>
     </div>
@@ -253,7 +248,10 @@
     prerollEffects,
     resolveEffects,
     applyCheckEffects,
+    recordCheckRoll,
+    requestFor,
   } from '@/classes/components/combat/StructureCheck'
+  import { withLogGroup } from '@/classes/components/combat/log/CombatLogRecorder'
 
   const props = defineProps<{
     modelValue: boolean
@@ -351,7 +349,17 @@
 
   function apply() {
     if (!resolution.value.complete) return
-    applyCheckEffects(props.cc, resolution.value.actions)
+    withLogGroup(() => {
+      if (result.value)
+        recordCheckRoll(
+          props.cc,
+          props.pending.kind,
+          result.value,
+          marked.value,
+          resolution.value.actions
+        )
+      applyCheckEffects(props.cc, resolution.value.actions)
+    })
     props.cc.RemovePendingCheck(props.pending.id)
     open.value = false
   }

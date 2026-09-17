@@ -19,9 +19,53 @@
       </v-btn>
     </template>
     <template #default>
+      <v-row
+        v-if="entries.length"
+        dense
+        class="mb-1"
+        align="center"
+      >
+        <v-col
+          cols="12"
+          sm="7"
+        >
+          <v-select
+            v-model="kindFilter"
+            :items="kindItems"
+            :label="$t('active.actorLogs.filterKind')"
+            density="compact"
+            variant="outlined"
+            hide-details
+            multiple
+            chips
+            closable-chips
+          />
+        </v-col>
+        <v-col
+          cols="8"
+          sm="3"
+        >
+          <v-select
+            v-model="roundFilter"
+            :items="roundItems"
+            :label="$t('active.actorLogs.filterRound')"
+            density="compact"
+            variant="outlined"
+            hide-details
+          />
+        </v-col>
+        <v-col
+          cols="4"
+          sm="2"
+          class="text-caption text-disabled text-right"
+        >
+          {{ $t('active.actorLogs.showing', { shown: summary.length, total: entries.length }) }}
+        </v-col>
+      </v-row>
+
       <cc-panel
-        v-for="(log, index) in summary"
-        :key="index"
+        v-for="log in summary"
+        :key="log.id"
         color="background"
         class="mb-2"
         style="position: relative"
@@ -42,12 +86,18 @@
       </cc-panel>
 
       <div
-        v-if="summary.length === 0"
+        v-if="!entries.length"
         class="text-center text-disabled text-cc-overline pa-4"
       >
         {{ $t('active.actorLogs.noEntries') }}
       </div>
-      <div v-else>
+      <div
+        v-else-if="!summary.length"
+        class="text-center text-disabled text-cc-overline pa-4"
+      >
+        {{ $t('active.actorLogs.noMatches') }}
+      </div>
+      <div v-if="entries.length">
         <v-divider class="my-2" />
         <v-row dense>
           <v-col>
@@ -81,55 +131,91 @@
 </template>
 
 <script setup lang="ts">
+  import { titleCase as kindLabel } from '@/classes/components/combat/log/charts'
   import type { ICombatant } from '@/classes/components/combat/ICombatant'
   import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-  import { computed } from 'vue'
-  import { ActionSummary } from '@/classes/components/feature/active_effects/EffectActionSummary'
+  import { computed, ref } from 'vue'
+  import { useI18n } from 'vue-i18n'
+  import { renderStream } from '@/classes/components/combat/log/render'
+  import { combatantRef } from '@/classes/components/combat/log/refs'
+  import { eventsFor } from '@/classes/components/combat/log/CombatLogRecorder'
+  import { buildStream } from '@/classes/components/combat/log/stream'
 
   const props = defineProps<{
     actor: ICombatant
     encounterInstance: EncounterInstance
   }>()
 
-  const summary = computed(() => {
+  const { t } = useI18n()
+
+  const kindFilter = ref<string[]>([])
+  const roundFilter = ref<number>(-1)
+
+  const stream = computed(() => {
     void props.actor.CombatController.CombatLogVersion
-    const out = [] as { title: string; text: string }[]
-    props.actor.CombatController.CombatLog.History.forEach((log, index) => {
-      const stringSummary = log.action
-        ? new ActionSummary(log.action).Summarize(props.actor.ID)
-        : log.event || 'No summary available.'
-      out.push({
-        title: `${new Date(log.timestamp).toLocaleString()} — Round ${log.round}, Action ${index + 1}`,
-        text: stringSummary,
-      })
-    })
-    return out
+    void (props.actor as any).ActiveMech?.CombatController.CombatLogVersion
+    const recorder = props.actor.CombatController.CombatLog
+    return buildStream(
+      {
+        encounterId: recorder.EncounterId,
+        campaignId: recorder.CampaignId,
+        missionId: recorder.MissionId,
+        participants: props.encounterInstance.Combatants.map(combatantRef),
+      },
+      props.encounterInstance.Combatants.map(combatantRef),
+      eventsFor(props.actor),
+      recorder.Source
+    )
   })
+
+  const entries = computed(() =>
+    renderStream(stream.value.events, stream.value, t).map((entry, index) => ({
+      ...entry,
+      id: entry.id || `${index}`,
+      title: `${new Date(entry.ts).toLocaleString()} - ${t('active.actorLogs.round', { n: entry.round })}, ${index + 1}`,
+    }))
+  )
+
+  const kindItems = computed(() =>
+    [...new Set(entries.value.flatMap(e => e.kinds))]
+      .sort()
+      .map(kind => ({ title: kindLabel(kind), value: kind }))
+  )
+
+  const roundItems = computed(() => [
+    { title: t('active.actorLogs.allRounds'), value: -1 },
+    ...[...new Set(entries.value.map(e => e.round))]
+      .sort((a, b) => a - b)
+      .map(n => ({ title: t('active.actorLogs.round', { n }), value: n })),
+  ])
+
+  const summary = computed(() =>
+    entries.value.filter(
+      e =>
+        (!kindFilter.value.length || e.kinds.some(k => kindFilter.value.includes(k))) &&
+        (roundFilter.value === -1 || e.round === roundFilter.value)
+    )
+  )
 
   function copyContent(entry) {
     if (!entry) return
     navigator.clipboard.writeText(`${entry.title}\n${entry.text}`)
   }
+
   function exportLog(type: 'text' | 'json' = 'text') {
-    let out
-    if (type === 'text')
-      out = summary.value.map(entry => `${entry.title}\n${entry.text}`).join('\n')
-    else
-      out = JSON.stringify(
-        {
-          actor: props.actor.Name,
-          actor_id: props.actor.ID,
-          log: props.actor.CombatController.CombatLog.History.map(log => ({
-            timestamp: log.timestamp,
-            round: log.round,
-            summary: log.event,
-            action: log.action || '',
-            event: log.event || '',
-          })),
-        },
-        null,
-        2
-      )
+    const shown = new Set(summary.value.map(e => e.id))
+    const out =
+      type === 'text'
+        ? summary.value.map(entry => `${entry.title}\n${entry.text}`).join('\n')
+        : JSON.stringify(
+            {
+              ...stream.value,
+              events: stream.value.events.filter(e => shown.has(e.id)),
+              encounterName: props.encounterInstance.Name,
+            },
+            null,
+            2
+          )
 
     const blob = new Blob([out], { type: type === 'text' ? 'text/plain' : 'application/json' })
     const url = URL.createObjectURL(blob)

@@ -1,10 +1,6 @@
 import { defineStore } from 'pinia'
 import { toRaw } from 'vue'
-import {
-  GetFromCode,
-  DownloadViaCode,
-  NotFoundError,
-} from '@/io/apis/account'
+import { GetFromCode, DownloadViaCode, NotFoundError } from '@/io/apis/account'
 import { CloudController } from '@/classes/components/cloud/CloudController'
 import { AuthStore } from './AuthStore'
 import { UserMetadataStore } from './UserMetadataStore'
@@ -62,6 +58,7 @@ export const RemoteItemStore = defineStore('remoteItems', {
         ...EncounterStore().ActiveEncounters,
         ...EncounterStore().ArchivedEncounters,
         ...PilotSheetStore().PilotSheets,
+        ...PilotStore().PilotLogbooks,
         ...CampaignStore().Campaigns,
       ]
       const localItem = allLocalItems.find(x => x.SaveController?.RemoteCode === code)
@@ -74,7 +71,6 @@ export const RemoteItemStore = defineStore('remoteItems', {
     async setMetadataForRemotes(): Promise<void> {
       const umStore = UserMetadataStore()
       const cloudDataStore = CloudDataStore()
-      const notifStore = NotificationStore()
       const remotes = umStore.UserMetadata.RemoteItems
       if (!remotes || remotes.length === 0) return
 

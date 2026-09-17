@@ -5,7 +5,7 @@ import { Pilot } from '@/classes/pilot/Pilot'
 import { Unit } from '@/classes/npc/unit/Unit'
 
 export interface MigrationFinding {
-  category: 'flavor_description' | 'lcp_origin' | 'npc_stats'
+  category: 'flavor_description' | 'lcp_origin' | 'lcp_flavor_state' | 'npc_stats'
   itemType: string
   itemId: string
   itemName: string
@@ -67,7 +67,9 @@ async function scanFlavorDescriptions(): Promise<MigrationFinding[]> {
             itemName: `${mech.Name} / ${w.Name}`,
             description: 'Flavor description matches item description text',
             canFix: true,
-            mutate: () => { w.FlavorDescription = '' },
+            mutate: () => {
+              w.FlavorDescription = ''
+            },
             saveKey: pilot.ID,
           })
         }
@@ -84,7 +86,9 @@ async function scanFlavorDescriptions(): Promise<MigrationFinding[]> {
             itemName: `${mech.Name} / ${s.Name}`,
             description: 'Flavor description matches item description text',
             canFix: true,
-            mutate: () => { s.FlavorDescription = '' },
+            mutate: () => {
+              s.FlavorDescription = ''
+            },
             saveKey: pilot.ID,
           })
         }
@@ -119,7 +123,9 @@ async function scanLcpOrigins(): Promise<MigrationFinding[]> {
           itemName: `${pack.Name} / ${feature.name || feature.id}`,
           description: 'Feature has unresolved object-form origin; can be resolved now',
           canFix: true,
-          mutate: () => { f.origin = r },
+          mutate: () => {
+            f.origin = r
+          },
           saveKey: pack.ID,
         })
       } else {
@@ -172,6 +178,34 @@ async function scanLcpOrigins(): Promise<MigrationFinding[]> {
   return findings
 }
 
+const PER_NPC_FEATURE_KEYS = ['isUsed', 'flavorName', 'flavorDescription'] as const
+
+async function scanLcpFlavorState(): Promise<MigrationFinding[]> {
+  const findings: MigrationFinding[] = []
+
+  for (const pack of CompendiumStore().ContentPacks.filter(p => p.Active)) {
+    for (const feature of pack.Data.npcFeatures || []) {
+      const stale = PER_NPC_FEATURE_KEYS.filter(k => (feature as any)[k] !== undefined)
+      if (!stale.length) continue
+      const f = toRaw(feature) as any
+      findings.push({
+        category: 'lcp_flavor_state',
+        itemType: 'NpcFeature',
+        itemId: feature.id,
+        itemName: `${pack.Name} / ${(feature as any).name || feature.id}`,
+        description: `Feature carries per-NPC state (${stale.join(', ')}) baked into LCP data`,
+        canFix: true,
+        mutate: () => {
+          PER_NPC_FEATURE_KEYS.forEach(k => delete f[k])
+        },
+        saveKey: pack.ID,
+      })
+    }
+  }
+
+  return findings
+}
+
 async function scanNpcStats(): Promise<MigrationFinding[]> {
   const findings: MigrationFinding[] = []
   const rawNpcs = await GetAll('npcs')
@@ -199,13 +233,14 @@ async function scanNpcStats(): Promise<MigrationFinding[]> {
 }
 
 export async function runMigrationScan(): Promise<MigrationFinding[]> {
-  const [flavorFindings, originFindings, statsFindings] = await Promise.all([
+  const [flavorFindings, originFindings, lcpFlavorFindings, statsFindings] = await Promise.all([
     scanFlavorDescriptions(),
     scanLcpOrigins(),
+    scanLcpFlavorState(),
     scanNpcStats(),
   ])
 
-  return [...flavorFindings, ...originFindings, ...statsFindings]
+  return [...flavorFindings, ...originFindings, ...lcpFlavorFindings, ...statsFindings]
 }
 
 const MUTATION_CHUNK = 50
@@ -239,7 +274,11 @@ export async function applyAllFixes(
   const packById = new Map(CompendiumStore().ContentPacks.map(p => [p.ID, p]))
   const packIds = [
     ...new Set(
-      fixable.filter(f => f.category === 'lcp_origin' && f.saveKey).map(f => f.saveKey as string)
+      fixable
+        .filter(
+          f => (f.category === 'lcp_origin' || f.category === 'lcp_flavor_state') && f.saveKey
+        )
+        .map(f => f.saveKey as string)
     ),
   ]
   const packs = packIds.map(id => packById.get(id)).filter(Boolean)

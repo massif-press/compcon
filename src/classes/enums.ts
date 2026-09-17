@@ -80,6 +80,7 @@ enum ItemType {
   PilotWeapon = 'PilotWeapon',
   PilotGear = 'PilotGear',
   PilotSheet = 'PilotSheet',
+  PilotLogbook = 'PilotLogbook',
   Skill = 'Skill',
   Sitrep = 'Sitrep',
   Status = 'Status',

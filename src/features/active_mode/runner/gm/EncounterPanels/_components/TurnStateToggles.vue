@@ -25,23 +25,32 @@
           :color="state.active ? 'primary' : 'panel'"
           :aria-pressed="String(state.active)"
           :text="state.label"
-          @click="state.toggle()"
+          @click="attempt(state)"
         />
       </v-col>
     </template>
+    <cc-force-override
+      v-model="prompt"
+      :reason="blocked?.reason || 'unavailable'"
+      :action="blocked?.label"
+      @confirm="force()"
+    />
   </v-row>
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
+  import { computed, ref } from 'vue'
   import { useLayoutOptions } from '@/features/active_mode/layoutOptions'
+  import CcForceOverride from '@/ui/components/modals/CCForceOverride.vue'
 
   export type TurnState = {
     key: string
     label: string
     active: boolean
     show?: boolean
-    toggle: () => void
+    reason?: string
+    toggle: () => boolean | void
+    forceToggle?: () => void
   }
 
   defineOptions({ name: 'TurnStateToggles' })
@@ -50,6 +59,20 @@
   const { layout } = useLayoutOptions()
 
   const visible = computed(() => props.states.filter(s => s.show !== false))
+
+  const prompt = ref(false)
+  const blocked = ref<TurnState | null>(null)
+
+  function attempt(state: TurnState) {
+    if (state.toggle() !== false || !state.forceToggle) return
+    blocked.value = state
+    prompt.value = true
+  }
+
+  function force() {
+    blocked.value?.forceToggle?.()
+    blocked.value = null
+  }
 </script>
 
 <style scoped>

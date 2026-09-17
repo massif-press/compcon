@@ -7,6 +7,7 @@ import { Bonus, BonusId } from './components/feature/bonus/Bonus'
 import { EffectSave } from './components/feature/active_effects/effect_subtype/EffectSave'
 import { FeatureController } from './components/feature/FeatureController'
 import { resolveTier } from '@/util/tierFormat'
+import { TAG, hasTag, tagValue } from '@/classes/TagRules'
 
 interface IDamageData {
   type: DamageType
@@ -85,13 +86,13 @@ class Damage {
         this.AoE = (obj.RangeData as Range[]).some(r => nonAoeTypes.includes(r.Type)) ? false : true
       else this.AoE = (obj.Range as Range[]).some(r => nonAoeTypes.includes(r.Type)) ? false : true
     }
-    if (!this.AP && obj.Tags) this.AP = (obj.Tags as Tag[]).some(t => t.ID === 'tg_ap')
+    if (!this.AP && obj.Tags) this.AP = hasTag(obj.Tags as Tag[], TAG.AP)
     if (!this.Overkill && obj.Tags)
-      this.Overkill = (obj.Tags as Tag[]).some(t => t.ID === 'tg_overkill')
+      this.Overkill = hasTag(obj.Tags as Tag[], TAG.Overkill)
     if (!this.Irreducible && obj.Tags)
-      this.Irreducible = (obj.Tags as Tag[]).some(t => t.ID === 'tg_irreducible')
+      this.Irreducible = hasTag(obj.Tags as Tag[], TAG.Irreducible)
     if (!this.Reliable && obj.Tags) {
-      const reliableRaw = String((obj.Tags as Tag[]).find(t => t.ID === 'tg_reliable')?.Value || 0)
+      const reliableRaw = String(tagValue(obj.Tags as Tag[], TAG.Reliable) || 0)
       this.Reliable = Number(resolveTier(reliableRaw, tier ?? 1)) || 0
     }
   }

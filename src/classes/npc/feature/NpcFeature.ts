@@ -169,6 +169,10 @@ abstract class NpcFeature extends CompendiumItem {
     return this.BuildFeature || this.Deprecated || !!this.Mod || this.HideActive
   }
 
+  public get IsSystem(): boolean {
+    return this.FeatureType === NpcFeatureType.System
+  }
+
   public get IsCombatPassive(): boolean {
     return (
       (this.FeatureType === NpcFeatureType.Trait || this.FeatureType === NpcFeatureType.Reaction) &&

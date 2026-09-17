@@ -8,6 +8,7 @@ import { Damage, IDamageData } from '../../../Damage'
 import { DamageType, ItemType, RangeType, WeaponSize, WeaponType } from '../../../enums'
 import { IEquipmentData, IMechEquipmentData, MechEquipment } from './MechEquipment'
 import { WeaponMod } from './WeaponMod'
+import { resolveTier } from '@/util/tierFormat'
 import { Mech } from '../../Mech'
 import { IRangeData, Range } from '../../../Range'
 import Tag, { ITagCompendiumData } from '../../../Tag'
@@ -21,6 +22,7 @@ import {
 } from '@/classes/components/feature/active_effects/ActiveEffect'
 import { ICounterData } from '@/classes/components'
 import { ISynergyData } from '@/classes/components/feature/synergy/Synergy'
+import { TAG, hasTag, findTag, tagValue } from '@/classes/TagRules'
 
 interface IMechWeaponData extends IMechEquipmentData {
   mount: WeaponSize
@@ -110,7 +112,7 @@ class WeaponProfile extends CompendiumItem {
     this.Barrage = pData.barrage != undefined ? pData.barrage : container.Barrage
     this.Skirmish = pData.skirmish != undefined ? pData.skirmish : container.Skirmish
     if (pData.range) this.Range = pData.range.map(x => new Range(x))
-    const thrownTag = container.Tags.find(t => t.ID === 'tg_thrown')
+    const thrownTag = findTag(container.Tags, TAG.Thrown)
     if (thrownTag && thrownTag.Value) {
       this.Range?.push(new Range({ type: RangeType.Thrown, val: thrownTag.Value }))
     }
@@ -141,14 +143,13 @@ class WeaponProfile extends CompendiumItem {
   }
 
   public RangeSum(type?: RangeType) {
-    if (type === RangeType.Thrown) return this.Tags.find(t => t.ID === 'tg_thrown')?.Value || 0
+    if (type === RangeType.Thrown) return (tagValue(this.Tags, TAG.Thrown) as number) || 0
     if (!this.Range) return 0
     if (!type) return Math.max(...this.Range.map(r => r.Max))
     return this.Range.find(x => x.Type === type)?.Max || 0
   }
 
   public get Attack(): 'ranged' | 'melee' | 'tech' {
-    if (this.Parent.IsSmart) return 'tech'
     if (this.Range && this.Range[0]) {
       if (this.Range[0].Type === RangeType.Threat) return 'melee'
       return 'ranged'
@@ -158,8 +159,8 @@ class WeaponProfile extends CompendiumItem {
   }
 
   public get Accuracy(): number {
-    if (this.Tags.some(t => t.ID === 'tg_accurate')) return 1
-    if (this.Tags.some(t => t.ID === 'tg_inaccurate')) return -1
+    if (hasTag(this.Tags, TAG.Accurate)) return 1
+    if (hasTag(this.Tags, TAG.Inaccurate)) return -1
     return 0
   }
 
@@ -175,6 +176,7 @@ class WeaponProfile extends CompendiumItem {
       damage: this.Damage?.map(d => Damage.Serialize(d)) || [],
       range: this.Range?.map(r => Range.Serialize(r)) || [],
       attack: this.Attack,
+      target_defense: this.Parent.IsSmart ? 'edef' : undefined,
       can_crit: true,
       accuracy: this.Accuracy,
     }
@@ -215,7 +217,7 @@ class MechWeapon extends MechEquipment {
 
     this.Skirmish =
       data.skirmish != undefined ? data.skirmish : data.mount !== WeaponSize.Superheavy
-    this.Barrage = data.barrage != undefined ? (data.skirmish ?? false) : true
+    this.Barrage = data.barrage != undefined ? data.barrage : true
     this.NoAttack = data.no_attack || false
     this.NoCoreBonus = data.no_core_bonus || false
     if (data.profiles && data.profiles.length) {
@@ -248,20 +250,20 @@ class MechWeapon extends MechEquipment {
   }
 
   public get Reliable(): number {
-    const tag = this.ActiveTags.find(t => t.ID === 'tg_reliable')
-    if (tag && tag.Value) return Number(tag.Value)
-    return 0
+    const tag = findTag(this.ActiveTags, TAG.Reliable)
+    if (!tag || !tag.Value) return 0
+    return Number(resolveTier(String(tag.Value), 1)) || 0
   }
 
   public get Overkill(): boolean {
-    return this.ActiveTags.some(t => t.ID === 'tg_overkill')
+    return hasTag(this.ActiveTags, TAG.Overkill)
   }
 
   public get Accuracy(): number {
     let val = 0
-    const acc = this.ActiveTags.find(t => t.ID === 'tg_accurate')
+    const acc = findTag(this.ActiveTags, TAG.Accurate)
     if (acc && acc.Value) val += Number(acc.Value)
-    const diff = this.ActiveTags.find(t => t.ID === 'tg_inaccurate')
+    const diff = findTag(this.ActiveTags, TAG.Inaccurate)
     if (diff && diff.Value) val -= Number(diff.Value)
 
     return val
@@ -356,8 +358,8 @@ class MechWeapon extends MechEquipment {
 
   public get IsSmart(): boolean {
     return (
-      this.SelectedProfile.Tags.some(t => t.ID === 'tg_smart') ||
-      (this.Mod && this.Mod.AddedTags.some(t => t.ID === 'tg_smart')) ||
+      hasTag(this.SelectedProfile.Tags, TAG.Smart) ||
+      (this.Mod && hasTag(this.Mod.AddedTags, TAG.Smart)) ||
       false
     )
   }

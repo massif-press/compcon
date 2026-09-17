@@ -212,8 +212,6 @@
     } else {
       rollResult = { total: Number(plus.value), toString: () => plus.value.toString() }
     }
-    props.rollData.DamageRollResult = rollResult
-    props.rollData.DamageRolledValue = rollResult.total
-    props.rollData.OverkillHeat = rollResult._overkillRerolls
+    props.rollData.ApplyRoll(rollResult)
   }
 </script>

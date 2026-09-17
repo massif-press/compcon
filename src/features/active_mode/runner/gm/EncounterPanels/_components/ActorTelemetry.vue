@@ -1,156 +1,171 @@
 <template>
-  <cc-dialog icon="mdi-clipboard-text"
+  <cc-dialog
+    icon="mdi-clipboard-text"
     :title="`${actor.Name} Combat Telemetry`"
-    :close-on-click="false">
+    :close-on-click="false"
+  >
     <template #activator="{ open }">
-      <v-btn size="x-small"
+      <v-btn
+        size="x-small"
         flat
         tile
-        @click="open">
-        <v-icon icon="mdi-chart-donut-variant"
-          start />
+        @click="open"
+      >
+        <v-icon
+          icon="mdi-chart-donut-variant"
+          start
+        />
         {{ $t('active.telemetry.telemetry') }}
       </v-btn>
     </template>
     <template #default>
-      <v-alert density="compact"
-        class="text-caption mt-2 mb-4"
-        flat
-        tile
-        color="panel"
-        border=start
-        border-color="red">
-        <i18n-t keypath="active.telemetry.devNote"
-          tag="span"
-          scope="global">
-          <template #emphasis><b class="text-accent">{{ $t('active.telemetry.collectedNote') }}</b></template>
-        </i18n-t>
-      </v-alert>
-      <statblock-justify-options v-model:enable-justify="enableJustify"
-        v-model:line-width="lineWidth" />
-      <v-row dense>
+      <v-row
+        dense
+        class="mb-1"
+      >
         <v-col>
-          <v-btn flat
+          <v-btn
+            flat
             block
             :color="tab === 'encounterInstance' ? 'primary' : 'panel'"
             tile
             size="small"
-            @click="tab = 'encounterInstance'">{{ $t('active.telemetry.encounterInstance') }}</v-btn>
+            @click="tab = 'encounterInstance'"
+          >
+            {{ $t('active.telemetry.encounterInstance') }}
+          </v-btn>
         </v-col>
         <v-col>
-          <v-btn flat
+          <v-btn
+            flat
             block
-            disabled
             :color="tab === 'lifetime' ? 'primary' : 'panel'"
             tile
             size="small"
-            @click="tab = 'lifetime'">{{ $t('active.telemetry.lifetime') }}</v-btn>
+            @click="tab = 'lifetime'"
+          >
+            {{ $t('active.telemetry.lifetime') }}
+          </v-btn>
         </v-col>
       </v-row>
 
-      <cc-panel color="background"
-        class="my-2"
-        style="position: relative;">
-        <div style="font-family: 'Consolas'; font-size: 14px; white-space: pre-wrap;">
-          {{ summary }}
-        </div>
-        <v-btn icon="mdi-content-copy"
-          size="x-small"
-          flat
-          tile
-          class="fade-select"
-          style="position: absolute; bottom: 0; right: 0;"
-          @click.stop="copyContent('encounterInstance')" />
-      </cc-panel>
-
-      <div>
-        <v-divider class="my-2" />
-        <v-row dense>
-          <v-col>
-            <cc-button size="small"
-              block
-              color="primary"
-              prepend-icon="mdi-export"
-              :tooltip="`Exports a plain text version of the ${tab} combat telemetry.`"
-              @click.stop="exportLog('text')">
-              {{ $t('active.telemetry.exportText') }}
-            </cc-button>
-          </v-col>
-          <v-col>
-            <cc-button size="small"
-              block
-              color="info"
-              prepend-icon="mdi-export"
-              :tooltip="`Exports a structured JSON version of the ${tab} combat telemetry for use in other
-                    applications.`"
-              @click.stop="exportLog('json')">
-              {{ $t('active.common.exportAsJson') }}
-            </cc-button>
-          </v-col>
-        </v-row>
+      <div
+        v-if="tab === 'lifetime' && !logbook"
+        class="text-center text-disabled text-cc-overline pa-4"
+      >
+        {{ $t('active.telemetry.noLifetimeData') }}
       </div>
+      <div v-else>
+        <div
+          v-if="tab === 'lifetime'"
+          class="text-caption text-disabled mb-1"
+        >
+          {{ $t('active.telemetry.encountersLogged') }}
+          <b class="text-accent">{{ logbook?.Encounters ?? 0 }}</b>
+        </div>
+        <rollup-display :rollup="rollup" />
+      </div>
+
+      <v-divider class="my-2" />
+      <v-row dense>
+        <v-col>
+          <cc-button
+            size="small"
+            block
+            color="primary"
+            prepend-icon="mdi-export"
+            :tooltip="$t('active.tooltips.exportsAPlainTextVersion')"
+            @click.stop="exportLog('text')"
+          >
+            {{ $t('active.telemetry.exportText') }}
+          </cc-button>
+        </v-col>
+        <v-col>
+          <cc-button
+            size="small"
+            block
+            color="info"
+            prepend-icon="mdi-export"
+            :tooltip="$t('active.tooltips.exportsAStructuredJsonVersion')"
+            @click.stop="exportLog('json')"
+          >
+            {{ $t('active.common.exportAsJson') }}
+          </cc-button>
+        </v-col>
+      </v-row>
     </template>
   </cc-dialog>
-
 </template>
 
 <script setup lang="ts">
-import type { ICombatant } from '@/classes/components/combat/ICombatant'
-import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-import { computed, ref, onMounted } from 'vue'
-import { useDisplay } from 'vuetify'
-import { CombatLog } from '@/classes/components/combat/CombatLog';
-import StatblockJustifyOptions from './_StatblockJustifyOptions.vue';
+  import type { ICombatant } from '@/classes/components/combat/ICombatant'
+  import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+  import { computed, ref } from 'vue'
+  import { useI18n } from 'vue-i18n'
+  import {
+    reduceEvents,
+    formatRollup,
+    blankRollup,
+  } from '@/classes/components/combat/log/telemetry'
+  import { eventsFor } from '@/classes/components/combat/log/CombatLogRecorder'
+  import { PilotStore } from '@/features/pilot_management/store'
+  import RollupDisplay from './_RollupDisplay.vue'
 
-const _display = useDisplay()
+  defineOptions({ name: 'ActorTelemetry' })
 
-defineOptions({ name: 'ActorLogs' })
+  const props = defineProps<{
+    actor: ICombatant
+    encounterInstance: EncounterInstance
+  }>()
 
-const props = defineProps<{
-  actor: ICombatant
-  encounterInstance: EncounterInstance
-}>()
+  const { t } = useI18n()
 
-const tab = ref('encounterInstance')
-const enableJustify = ref(true)
-const lineWidth = ref(60)
+  const tab = ref('encounterInstance')
 
-const summary = computed(() => {
-      void props.actor.CombatController.CombatLogVersion
-      const t = props.actor.CombatController.CombatLog.Telemetry;
-      let out = `${props.actor.CombatController.CombatName} - Round ${props.encounterInstance.Round - 1}
+  const logbook = computed(() => {
+    const parent = props.actor as any
+    return PilotStore().getLogbookByPilotID(parent.OriginId || props.actor.ID)
+  })
 
-`;
-      out += CombatLog.FormatTelemetry(t, enableJustify.value, lineWidth.value);
+  const encounterRollup = computed(() => {
+    void props.actor.CombatController.CombatLogVersion
+    void (props.actor as any).ActiveMech?.CombatController.CombatLogVersion
+    return reduceEvents(eventsFor(props.actor), props.actor.ID)
+  })
 
-      return out
-    })
+  const rollup = computed(() =>
+    tab.value === 'lifetime' ? (logbook.value?.Lifetime ?? blankRollup()) : encounterRollup.value
+  )
 
-function copyContent(entry) {
-      if (!entry) return;
-      navigator.clipboard.writeText(summary.value);
-    }
-function exportLog(type: 'text' | 'json' = 'text') {
-      let out;
-      if (type === 'text') out = summary.value;
-      else out = JSON.stringify({
-        actor: props.actor.Name,
-        actor_id: props.actor.ID,
-        data: props.actor.CombatController.CombatLog.Telemetry,
-      }, null, 2);
+  const summary = computed(
+    () =>
+      `${t('active.telemetry.rollup.summaryHeader', {
+        name: props.actor.CombatController.CombatName,
+        n: props.encounterInstance.Round - 1,
+      })}\n\n` + formatRollup(rollup.value, t, 40)
+  )
 
-      const blob = new Blob([out], { type: type === 'text' ? 'text/plain' : 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${props.actor.Name} ${props.encounterInstance.Name} round ${props.encounterInstance.Round} telemetry.${type === 'text' ? 'txt' : 'json'}`;
-      a.click();
-      URL.revokeObjectURL(url);
-    }
+  function exportLog(type: 'text' | 'json' = 'text') {
+    const out =
+      type === 'text'
+        ? summary.value
+        : JSON.stringify(
+            {
+              actor: props.actor.Name,
+              actor_id: props.actor.ID,
+              scope: tab.value,
+              data: rollup.value,
+            },
+            null,
+            2
+          )
 
-onMounted(() => {
-if (_display.smAndDown.value) {
-      enableJustify.value = false;
-    }
-})
+    const blob = new Blob([out], { type: type === 'text' ? 'text/plain' : 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${props.actor.Name} ${props.encounterInstance.Name} ${tab.value} telemetry.${type === 'text' ? 'txt' : 'json'}`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
 </script>

@@ -1,78 +1,103 @@
 <template>
   <v-dialog max-width="90vw">
     <template #activator="{ props: activatorProps }">
-      <v-btn flat
+      <v-btn
+        flat
         block
         variant="text"
         color="accent"
         :prepend-icon="itemType === 'npc' ? 'cc:frame' : 'cc:pilot'"
-        @click="activatorProps.onClick($event)">
+        @click="activatorProps.onClick($event)"
+      >
         {{ itemType === 'npc' ? $t('gm.combatant.addNpc') : $t('active.addRoster.addPc') }}
       </v-btn>
     </template>
     <template #default="{ isActive }">
       <v-card>
-        <v-toolbar flat
+        <v-toolbar
+          flat
           color="primary"
-          height="40">
+          height="40"
+        >
           <div class="heading h3 px-4">
-            {{ itemType === 'npc' ? $t('active.addRoster.addNpcFull') :
-              $t('active.addRoster.addPcFull') }}
+            {{
+              itemType === 'npc'
+                ? $t('active.addRoster.addNpcFull')
+                : $t('active.addRoster.addPcFull')
+            }}
           </div>
           <v-spacer />
-          <v-btn flat
+          <v-btn
+            flat
             tile
             icon
-            @click="isActive.value = false">
-            <v-icon icon="mdi-close"
-              class="white--text" />
+            @click="isActive.value = false"
+          >
+            <v-icon
+              icon="mdi-close"
+              class="white--text"
+            />
           </v-btn>
         </v-toolbar>
         <v-card-text>
           <v-row class="mb-1">
             <v-col cols="6">
-              <cc-text-field v-model="search"
+              <cc-text-field
+                v-model="search"
                 color="primary"
                 icon="mdi-magnify"
                 class="mb-4"
-                clearable />
+                clearable
+              />
             </v-col>
-            <v-col cols="auto"
-              align-self="center">
-              <v-icon icon="mdi-folder"
-                class="ml-2 mr-n4" />
+            <v-col
+              cols="auto"
+              align-self="center"
+            >
+              <v-icon
+                icon="mdi-folder"
+                class="ml-2 mr-n4"
+              />
             </v-col>
             <v-col>
-              <cc-select v-if="itemType === 'npc'"
+              <cc-select
+                v-if="itemType === 'npc'"
                 v-model="folder"
                 :items="folders"
                 clearable
                 return-object
                 item-text="Name"
                 chip-variant="text"
-                item-title="Name" />
-              <cc-select v-else
+                item-title="Name"
+              />
+              <cc-select
+                v-else
                 v-model="group"
                 :items="groups"
                 clearable
                 return-object
                 item-text="Name"
                 chip-variant="text"
-                item-title="Name" />
+                item-title="Name"
+              />
             </v-col>
           </v-row>
 
           <template v-if="itemType === 'npc'">
-            <v-card v-for="npc in npcs"
+            <v-card
+              v-for="npc in npcs"
               :key="npc.ID"
               flat
               tile
               class="border-sm mb-1"
-              @click="addNpc(npc)">
+              @click="addNpc(npc)"
+            >
               <v-row>
                 <v-col cols="auto">
-                  <cc-img :src="npc.Portrait"
-                    width="80" />
+                  <cc-img
+                    :src="npc.Portrait"
+                    width="80"
+                  />
                 </v-col>
                 <v-col>
                   <div class="heading h3">{{ npc.Name }}</div>
@@ -87,15 +112,19 @@
           </template>
 
           <template v-else>
-            <v-card v-for="pc in pilots"
+            <v-card
+              v-for="pc in pilots"
               :key="pc.ID"
               flat
               tile
-              class="border-sm mb-1">
+              class="border-sm mb-1"
+            >
               <v-row>
                 <v-col cols="auto">
-                  <cc-img :src="pc.Portrait"
-                    width="80" />
+                  <cc-img
+                    :src="pc.Portrait"
+                    width="80"
+                  />
                 </v-col>
                 <v-col>
                   <div class="heading h3">{{ pc.Callsign }}</div>
@@ -103,19 +132,25 @@
                     {{ pc.Name }}
                     <cc-slashes />
                     {{ $t('active.addRoster.licenseLevelN', { n: pc.Level }) }}
-                    <v-row dense
-                      align="center">
+                    <v-row
+                      dense
+                      align="center"
+                    >
                       <v-col>
-                        <cc-select v-model="pc.ActiveMech"
+                        <cc-select
+                          v-model="pc.ActiveMech"
                           :items="sortedMechs(pc as Pilot)"
-                          :item-title="(x) => `${x.Name} (${x.Frame.Source} ${x.Frame.Name})`"
+                          :item-title="x => `${x.Name} (${x.Frame.Source} ${x.Frame.Name})`"
                           return-object
                           icon="cc:frame"
-                          clearable />
+                          clearable
+                        />
                       </v-col>
-                      <cc-button color="primary"
+                      <cc-button
+                        color="primary"
                         :disabled="!pc.ActiveMech"
-                        @click="addPc(pc)">
+                        @click="addPc(pc)"
+                      >
                         {{ $t('common.add') }}
                       </cc-button>
                     </v-row>
@@ -131,106 +166,112 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { notify } from '@/util/notify'
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
-import { NpcStore, PilotStore, PilotGroupStore } from '@/stores'
-import { Pilot } from '@/classes/pilot/Pilot'
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-import * as _ from 'lodash-es'
+  import { computed, ref } from 'vue'
+  import { notify } from '@/util/notify'
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
+  import { NpcStore, PilotStore, PilotGroupStore } from '@/stores'
+  import { Pilot } from '@/classes/pilot/Pilot'
+  import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+  import { makeCombatant } from '@/classes/encounter/Encounter'
+  import * as _ from 'lodash-es'
 
-defineOptions({ name: 'GmAddFromRosterMenu' })
+  defineOptions({ name: 'GmAddFromRosterMenu' })
 
-const props = defineProps<{
-  encounterInstance: EncounterInstance
-  itemType: 'npc' | 'pc'
-}>()
+  const props = defineProps<{
+    encounterInstance: EncounterInstance
+    itemType: 'npc' | 'pc'
+  }>()
 
-const search = ref('')
-const folder = ref(null as any)
-const group = ref(null as any)
+  const search = ref('')
+  const folder = ref(null as any)
+  const group = ref(null as any)
 
-const npcs = computed(() =>
-  NpcStore()
-    .getUnits.filter(
-      (npc) => search.value === '' || npc.Name.toLowerCase().includes(search.value.toLowerCase())
-    )
-    .filter((npc) => (folder.value ? npc.FolderController.Folder === folder.value : true))
-)
-
-const folders = computed(() =>
-  _.uniq(npcs.value.map((npc) => npc.FolderController.Folder)).filter((f) => !!f)
-)
-
-const pilots = computed(() =>
-  PilotStore()
-    .Pilots.filter(
-      (p) =>
-        !p.SaveController.IsDeleted &&
-        p.Mechs.length > 0 &&
-        !props.encounterInstance.Combatants.filter((x) => x.type === 'pilot').some(
-          (c) => c.actor.Name === p.Name
-        ) &&
-        (!search.value ||
-          p.Callsign.toLowerCase().includes(search.value.toLowerCase()) ||
-          p.Name.toLowerCase().includes(search.value.toLowerCase()))
-    )
-    .filter((p) =>
-      group.value && group.value.ID !== 'no_group'
-        ? group.value.Pilots.some((x) => x.id === p.ID)
-        : true
-    )
-    .sort((a, b) => a.Callsign.localeCompare(b.Callsign))
-)
-
-const groups = computed(() => PilotGroupStore().getPilotGroups())
-
-function sortedMechs(pc: any) {
-  return _.orderBy(pc.Mechs, (m) => (m.ID === pc.FavoriteMech?.ID ? 0 : 1))
-}
-
-function addNpc(rosterItem: any) {
-  const npc = rosterItem.Clone(false)
-  const number =
-    props.encounterInstance.Combatants.filter((c) => c.actor.Name === npc.Name).length + 1
-  npc.CombatController.StatController.applyRegisteredCustomStats()
-  npc.FeatureController.BonusController.applyToStats(
-    npc.CombatController.StatController,
-    props.encounterInstance
+  const npcs = computed(() =>
+    NpcStore()
+      .getUnits.filter(
+        npc => search.value === '' || npc.Name.toLowerCase().includes(search.value.toLowerCase())
+      )
+      .filter(npc => (folder.value ? npc.FolderController.Folder === folder.value : true))
   )
-  npc.CombatController.StatController.resetCurrentStats()
-  npc.CombatController.Reset()
-  props.encounterInstance.Combatants.push({
-    id: crypto.randomUUID(),
-    index: props.encounterInstance.Combatants.length,
-    number,
-    side: 'enemy',
-    type: 'unit',
-    actor: npc,
-    deployables: [],
-  })
-  notify({ type: 'success', title: t('common.npcAdded'), text: t('active.addCombatant.addedText', { name: npc.Name }) })
-}
 
-function addPc(rosterItem: any) {
-  if (props.encounterInstance.Combatants.some((p) => p.actor.ID === rosterItem.ID)) return
-  const pc = Pilot.Deserialize(JSON.parse(JSON.stringify(Pilot.Serialize(rosterItem))))
-  pc.SetStats()
-  pc.FeatureController.BonusController.applyToStats(
-    pc.CombatController.StatController,
-    props.encounterInstance
+  const folders = computed(() =>
+    _.uniq(npcs.value.map(npc => npc.FolderController.Folder)).filter(f => !!f)
   )
-  pc.CombatController.StatController.resetCurrentStats()
-  pc.CombatController.Reset()
-  props.encounterInstance.Combatants.push({
-    id: pc.ID,
-    index: -1,
-    number: -1,
-    side: 'ally',
-    type: 'pilot',
-    actor: pc,
-    deployables: [],
-  })
-}
+
+  const pilots = computed(() =>
+    PilotStore()
+      .Pilots.filter(
+        p =>
+          !p.SaveController.IsDeleted &&
+          p.Mechs.length > 0 &&
+          !props.encounterInstance.Combatants.filter(x => x.type === 'pilot').some(
+            c => c.actor.Name === p.Name
+          ) &&
+          (!search.value ||
+            p.Callsign.toLowerCase().includes(search.value.toLowerCase()) ||
+            p.Name.toLowerCase().includes(search.value.toLowerCase()))
+      )
+      .filter(p =>
+        group.value && group.value.ID !== 'no_group'
+          ? group.value.Pilots.some(x => x.id === p.ID)
+          : true
+      )
+      .sort((a, b) => a.Callsign.localeCompare(b.Callsign))
+  )
+
+  const groups = computed(() => PilotGroupStore().getPilotGroups())
+
+  function sortedMechs(pc: any) {
+    return _.orderBy(pc.Mechs, m => (m.ID === pc.FavoriteMech?.ID ? 0 : 1))
+  }
+
+  function addNpc(rosterItem: any) {
+    const npc = rosterItem.Clone(false)
+    const number =
+      props.encounterInstance.Combatants.filter(c => c.actor.Name === npc.Name).length + 1
+    npc.CombatController.StatController.applyRegisteredCustomStats()
+    npc.FeatureController.BonusController.applyToStats(
+      npc.CombatController.StatController,
+      props.encounterInstance
+    )
+    npc.CombatController.ResetForEncounter()
+    npc.CombatController.StatController.resetCurrentStats()
+    props.encounterInstance.Combatants.push(
+      makeCombatant(npc, 'unit', {
+        id: crypto.randomUUID(),
+        index: props.encounterInstance.Combatants.length,
+        number,
+        side: 'enemy',
+      })
+    )
+    notify({
+      type: 'success',
+      title: t('common.npcAdded'),
+      text: t('active.addCombatant.addedText', { name: npc.Name }),
+    })
+  }
+
+  function addPc(rosterItem: any) {
+    if (props.encounterInstance.Combatants.some(p => p.actor.ID === rosterItem.ID)) return
+    const pc = Pilot.Deserialize(JSON.parse(JSON.stringify(Pilot.Serialize(rosterItem))))
+    pc.SetStats()
+    pc.FeatureController.BonusController.applyToStats(
+      pc.CombatController.StatController,
+      props.encounterInstance
+    )
+    pc.CombatController.ResetForEncounter()
+    pc.CombatController.StatController.resetCurrentStats()
+    props.encounterInstance.Combatants.push(
+      makeCombatant(pc, 'pilot', {
+        id: pc.ID,
+        index: -1,
+        number: -1,
+        side: 'ally',
+        status: undefined,
+        pilotStatus: undefined,
+        mechStatus: undefined,
+      })
+    )
+  }
 </script>

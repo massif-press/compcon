@@ -120,12 +120,12 @@
                   <template #activator="{ props }">
                     <v-icon v-bind="props"
                       class="mr-4"
-                      :icon="`cc:${damage.type.toLowerCase()}`"
+                      :icon="isDamageType(damage.type) ? `cc:${damage.type.toLowerCase()}` : 'mdi-shield-outline'"
                       style="border-bottom-right-radius: 5px"
                       :class="damageClass(damage)" />
                   </template>
                   <span class="text-cc-overline">
-                    {{ $t('active.runnerItem.resistanceLine', { condition: damage.condition, type: damage.type }) }}
+                    {{ $t(resistanceKey(damage.type), { condition: damage.condition, type: damage.type }) }}
                   </span>
                 </v-tooltip>
               </v-row>
@@ -211,6 +211,7 @@
 import type { Status } from '@/classes/Status'
 import type { DeployableInstance } from '@/classes/components/feature/deployable/DeployableInstance'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const props = withDefaults(defineProps<{
   selected?: boolean
@@ -227,6 +228,8 @@ const emit = defineEmits<{
   'click': [payload: any]
 }>()
 
+const { te } = useI18n()
+
 const activations = computed(() => {
       return props.deployable.StatController.CurrentStats['activations'] || 0;
     })
@@ -239,6 +242,16 @@ const customStatuses = computed(() => {
 const icon = computed(() => {
       return props.deployable.Base.Icon;
     })
+
+function isDamageType(type: string) {
+  return te(`enums.damageType.${String(type).toLowerCase()}`)
+}
+
+function resistanceKey(type: string) {
+  return isDamageType(type)
+    ? 'active.runnerItem.resistanceLine'
+    : 'active.runnerItem.resistanceLineOther'
+}
 
 function damageClass(damage: any) {
       if (damage.condition === 'immune') {

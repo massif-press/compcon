@@ -8,6 +8,7 @@ import {
   ActiveEffect,
   IActiveEffectData,
 } from '@/classes/components/feature/active_effects/ActiveEffect'
+import { TAG, hasTag } from '@/classes/TagRules'
 
 interface IPilotWeaponData extends IPilotEquipmentData {
   range: IRangeData[]
@@ -38,7 +39,11 @@ class PilotWeapon extends PilotEquipment {
   }
 
   public get IsSidearm(): boolean {
-    return this.Tags.some(x => x.ID === 'tg_sidearm')
+    return hasTag(this.Tags, TAG.Sidearm)
+  }
+
+  public get FightActivation(): 'quick' | 'full' {
+    return this.IsSidearm ? 'quick' : 'full'
   }
 
   public get DamageTypeOverride(): string {
@@ -95,8 +100,11 @@ class PilotWeapon extends PilotEquipment {
     }
   }
 
+  public get IsSmart(): boolean {
+    return this.Tags.some(x => x.IsSmart)
+  }
+
   public GetAttack(): 'ranged' | 'melee' | 'tech' {
-    if (this.Tags.some(x => x.IsSmart)) return 'tech'
     if (this.Range[0]) {
       if (this.Range[0].Type === RangeType.Threat) return 'melee'
       return 'ranged'
@@ -112,6 +120,7 @@ class PilotWeapon extends PilotEquipment {
       damage: this.Damage.map(d => Damage.Serialize(d)),
       range: this.Range.map(r => Range.Serialize(r)),
       attack: this.GetAttack(),
+      target_defense: this.IsSmart ? 'edef' : undefined,
       can_crit: true,
     }
   }

@@ -176,34 +176,11 @@ import GmAddStubMenu from './ListItems/AddItems/GmAddStubMenu.vue';
 import PlaceholderRunnerListItem from './ListItems/PlaceholderRunnerListItem.vue';
 import ReinforcementListItem from './ListItems/ReinforcementListItem.vue';
 import DestroyedListItem from './ListItems/DestroyedListItem.vue';
-import { CombatantData } from '@/classes/encounter/Encounter';
-import { NpcStatus, PilotStatus, MechStatus } from '@/classes/enums';
+import { CombatantData, isOutOfCombat, statusGroupKey } from '@/classes/encounter/Encounter';
+import { NpcStatus } from '@/classes/enums';
 
 defineOptions({ name: 'GmEncounterRunnerInitiativePanel' })
 
-const ACTIVE_STATUSES = new Set<string>([
-  NpcStatus.Operational,
-  PilotStatus.Active,
-  PilotStatus.Injured,
-  MechStatus.Operational,
-  MechStatus.Cascade,
-])
-
-// null == still in combat; otherwise the out-of-combat group key (a status label).
-// A destroyed or reactor-melted actor (both zero structure => IsDestroyed) groups as Destroyed.
-function statusGroupKey(c: CombatantData): string | null {
-  const cc = c.actor.CombatController
-  const isPilot = c.actor.ItemType === 'Pilot'
-  if (isPilot && cc.IsDead) return PilotStatus.KIA
-  if (cc.IsDestroyed) return NpcStatus.Destroyed
-  const label = isPilot ? c.pilotStatus : c.status
-  if (!label || ACTIVE_STATUSES.has(label)) return null
-  return label
-}
-
-function isOutOfCombat(c: CombatantData): boolean {
-  return statusGroupKey(c) !== null
-}
 
 const props = withDefaults(defineProps<{
   encounterInstance: EncounterInstance
