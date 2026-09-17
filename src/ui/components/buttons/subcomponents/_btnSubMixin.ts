@@ -40,11 +40,21 @@ export const btnSubMixin = {
 export function calcIconSize(size: string | undefined, icon: string, ccOffset: number): string {
   let s = 24
   switch (size) {
-    case 'x-small': s = 11; break
-    case 'small': s = 16; break
-    case 'large': s = 20; break
-    case 'x-large': s = 32; break
-    case 'xx-large': s = 40; break
+    case 'x-small':
+      s = 11
+      break
+    case 'small':
+      s = 16
+      break
+    case 'large':
+      s = 20
+      break
+    case 'x-large':
+      s = 32
+      break
+    case 'xx-large':
+      s = 40
+      break
   }
   if (icon.includes('cc:')) s += ccOffset
   return `${s}px`

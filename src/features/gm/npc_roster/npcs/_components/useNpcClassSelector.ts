@@ -5,9 +5,18 @@ import * as _ from 'lodash-es'
 import { i18n } from '@/i18n'
 
 export const keymap: Record<string, string> = {
-  hull: 'Hull', agi: 'Agi', sys: 'Sys', eng: 'Eng', armor: 'Armor',
-  hp: 'HP', heat: 'HeatCap', evasion: 'Evade', edef: 'E-Def', speed: 'Speed',
-  sensorRange: 'Sensor', saveTarget: 'Save',
+  hull: 'Hull',
+  agi: 'Agi',
+  sys: 'Sys',
+  eng: 'Eng',
+  armor: 'Armor',
+  hp: 'HP',
+  heat: 'HeatCap',
+  evasion: 'Evade',
+  edef: 'E-Def',
+  speed: 'Speed',
+  sensorRange: 'Sensor',
+  saveTarget: 'Save',
 }
 
 function useNpcClassSelector() {
@@ -32,7 +41,8 @@ function useNpcClassSelector() {
     ] as any[]
     for (const key in keymap) {
       h.push({
-        title: keymap[key], key,
+        title: keymap[key],
+        key,
         tier: selectedTier.value,
         sortRaw: (a: NpcClass, b: NpcClass) =>
           Number(a.Stats.Stat(key, selectedTier.value)) -

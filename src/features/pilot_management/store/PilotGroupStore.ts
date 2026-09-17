@@ -171,24 +171,25 @@ export const PilotGroupStore = defineStore('pilot_group', {
       moveItemInArray(this.PilotGroups, from, to)
     },
     ReorderGroup(group: PilotGroup, dir: 'top' | 'up' | 'down' | 'bottom'): void {
-      const visual = this.PilotGroups
-        .filter(g => g.ID !== 'no_group' && !g.SaveController.IsDeleted)
-        .sort((a, b) => a.SortIndex - b.SortIndex)
+      const visual = this.PilotGroups.filter(
+        g => g.ID !== 'no_group' && !g.SaveController.IsDeleted
+      ).sort((a, b) => a.SortIndex - b.SortIndex)
       const rest = this.PilotGroups.filter(g => g.ID === 'no_group' || g.SaveController.IsDeleted)
       const index = visual.findIndex(x => x.ID === group.ID)
       if (index === -1) return
       if (dir === 'top') moveItemInArray(visual, index, 0)
       else if (dir === 'up' && index > 0) moveItemInArray(visual, index, index - 1)
-      else if (dir === 'down' && index < visual.length - 1) moveItemInArray(visual, index, index + 1)
+      else if (dir === 'down' && index < visual.length - 1)
+        moveItemInArray(visual, index, index + 1)
       else if (dir === 'bottom') moveItemInArray(visual, index, visual.length - 1)
       else return
       this.PilotGroups = [...visual, ...rest]
       this.SaveGroupData()
     },
     ReorderGroupByIndex(group: PilotGroup, toIndex: number): void {
-      const visual = this.PilotGroups
-        .filter(g => g.ID !== 'no_group' && !g.SaveController.IsDeleted)
-        .sort((a, b) => a.SortIndex - b.SortIndex)
+      const visual = this.PilotGroups.filter(
+        g => g.ID !== 'no_group' && !g.SaveController.IsDeleted
+      ).sort((a, b) => a.SortIndex - b.SortIndex)
       const rest = this.PilotGroups.filter(g => g.ID === 'no_group' || g.SaveController.IsDeleted)
       const fromIndex = visual.findIndex(x => x.ID === group.ID)
       if (fromIndex === -1) return

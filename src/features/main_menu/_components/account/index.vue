@@ -1,7 +1,9 @@
 <template>
-  <cc-tabs ref="tabs"
+  <cc-tabs
+    ref="tabs"
     modal
-    fixed>
+    fixed
+  >
     <template #tabs>
       <v-tab>{{ $t('mainMenu.ui.accountManagement') }}</v-tab>
       <v-tab>{{ $t('mainMenu.ui.cloudData') }}</v-tab>
@@ -24,22 +26,22 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useDisplay } from 'vuetify'
-import DataTab from './data.vue';
-import Management from './management.vue';
-import Publishing from './publishing.vue';
-import Subscriptions from './subscriptions.vue';
+  import { computed } from 'vue'
+  import { useDisplay } from 'vuetify'
+  import DataTab from './data.vue'
+  import Management from './management.vue'
+  import Publishing from './publishing.vue'
+  import Subscriptions from './subscriptions.vue'
 
-const _display = useDisplay()
+  const _display = useDisplay()
 
-defineOptions({ name: 'CloudAccount' })
+  defineOptions({ name: 'CloudAccount' })
 
-const emit = defineEmits<{
-  'set-state': [payload: any]
-}>()
+  const emit = defineEmits<{
+    'set-state': [payload: any]
+  }>()
 
-const mobile = computed(() => {
-      return _display.mdAndDown.value;
-    })
+  const mobile = computed(() => {
+    return _display.mdAndDown.value
+  })
 </script>

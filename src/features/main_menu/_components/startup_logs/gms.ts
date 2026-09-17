@@ -1,6 +1,6 @@
-import { encryption } from '@/io/Generators';
+import { encryption } from '@/io/Generators'
 
-const plog = (typer) => {
+const plog = typer => {
   typer
     .type('<br>')
     .type('<br>')
@@ -101,7 +101,7 @@ const plog = (typer) => {
     .type(
       '>//[<span class="text-accent">COMP/CON</span>: <span class="stark-text-text">Welcome, Lancer. Input Command.</span>]'
     )
-    .go();
-};
+    .go()
+}
 
-export default plog;
+export default plog

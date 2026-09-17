@@ -9,10 +9,10 @@
 </template>
 
 <script setup lang="ts">
-import LandingPageMobile from './mobile.vue';
-import LandingPageDesktop from './desktop.vue';
-import WelcomeMessage from './welcome.vue';
-import StorageWarning from './_components/StorageWarning.vue';
+  import LandingPageMobile from './mobile.vue'
+  import LandingPageDesktop from './desktop.vue'
+  import WelcomeMessage from './welcome.vue'
+  import StorageWarning from './_components/StorageWarning.vue'
 
-defineOptions({ name: 'LandingPage' })
+  defineOptions({ name: 'LandingPage' })
 </script>

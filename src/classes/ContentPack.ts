@@ -1,4 +1,3 @@
-
 import { Sitrep } from './encounter/Sitrep'
 import { ItemType } from './enums'
 import { Environment } from './Environment'

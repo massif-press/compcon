@@ -1,43 +1,63 @@
 <template>
-  <div style="position: relative"
-    class="li-top-element">
-    <div class="light"
-      style="position: absolute; top: 0; left: -15px; bottom: 0; width: 10px" />
-    <v-row no-gutters
+  <div
+    style="position: relative"
+    class="li-top-element"
+  >
+    <div
+      class="light"
+      style="position: absolute; top: 0; left: -15px; bottom: 0; width: 10px"
+    />
+    <v-row
+      no-gutters
       class="lighten-select"
       :class="mobile ? 'mb-2' : 'mb-4'"
-      @click="toPilotSheet()">
-      <v-col cols="auto"
-        style="height: 100%; border: rgb(var(--v-theme-primary)) 3px double">
+      @click="toPilotSheet()"
+    >
+      <v-col
+        cols="auto"
+        style="height: 100%; border: rgb(var(--v-theme-primary)) 3px double"
+      >
         <v-card>
-          <cc-avatar v-if="pilot.PortraitController.Avatar"
+          <cc-avatar
+            v-if="pilot.PortraitController.Avatar"
             :avatar="pilot.PortraitController.Avatar"
-            :size="mobile ? 75 : 150" />
-          <cc-img v-else-if="pilot.PortraitController.Portrait"
+            :size="mobile ? 75 : 150"
+          />
+          <cc-img
+            v-else-if="pilot.PortraitController.Portrait"
             :src="pilot.PortraitController.Portrait"
             cover
             position="top center"
             :min-width="mobile ? '75px' : '150px'"
-            :height="mobile ? '75px' : '150px'" />
+            :height="mobile ? '75px' : '150px'"
+          />
         </v-card>
       </v-col>
-      <v-col style="position: relative; ">
-        <v-toolbar density="compact"
+      <v-col style="position: relative">
+        <v-toolbar
+          density="compact"
           class="cToolbar"
-          :height="mobile ? '40' : '46'">
-          <v-row no-gutters
+          :height="mobile ? '40' : '46'"
+        >
+          <v-row
+            no-gutters
             align="center"
-            class="px-2">
-            <v-col v-if="!mobile"
+            class="px-2"
+          >
+            <v-col
+              v-if="!mobile"
               cols="auto"
-              class="d-flex align-center pr-1">
-              <v-icon icon="mdi-drag"
+              class="d-flex align-center pr-1"
+            >
+              <v-icon
+                icon="mdi-drag"
                 size="23.5"
                 class="drag-handle"
                 :aria-label="$t('pm.a11y.dragToReorder')"
                 tabindex="0"
                 style="cursor: move; opacity: 0.4; transition: opacity 0.2s"
-                @click.stop />
+                @click.stop
+              />
             </v-col>
             <v-col class="heading text-white">
               <cc-remote-hover :item="pilot" />
@@ -47,16 +67,22 @@
               <cc-config-tip :actor="pilot" />
             </v-col>
 
-            <v-col cols="auto"
-              class="mr-n2">
-              <edit-menu density="compact"
-                :pilot="pilot" />
+            <v-col
+              cols="auto"
+              class="mr-n2"
+            >
+              <edit-menu
+                density="compact"
+                :pilot="pilot"
+              />
             </v-col>
           </v-row>
         </v-toolbar>
 
-        <div v-if="mobile"
-          class="detail-row-mobile pa-2">
+        <div
+          v-if="mobile"
+          class="detail-row-mobile pa-2"
+        >
           <b class="text-stark">{{ pilot.Name }}</b>
           <div class="text-cc-overline">
             <span class="text-disabled">{{ $t('ui.fields.licenseLevel') }}</span>
@@ -64,8 +90,10 @@
           </div>
         </div>
 
-        <div v-else
-          class="px-3">
+        <div
+          v-else
+          class="px-3"
+        >
           <v-row class="detail-row">
             <v-col class="flavor-text">
               <div class="mt-1 ml-n2">
@@ -75,8 +103,7 @@
                 <span class="text-disabled">&nbsp;{{ $t('common.status') }} [</span>
                 <span :class="`text-${statusColor(pilot.Status)}`">{{ pilot.Status }}</span>
                 <span class="text-disabled">] -&nbsp;</span>
-                <b class="text-success">&nbsp;{{ $t('pm.sheet.ll') }}: {{ pilot.Level
-                  }}&nbsp;</b>
+                <b class="text-success">&nbsp;{{ $t('pm.sheet.ll') }}: {{ pilot.Level }}&nbsp;</b>
                 <cc-slashes />
                 <span class="text-text">
                   [
@@ -121,44 +148,44 @@
 </template>
 
 <script setup lang="ts">
-import { useDisplay } from 'vuetify'
-import { Pilot } from '@/classes/pilot/Pilot'
-import EditMenu from '../../PilotSheet/components/PilotEditMenu.vue'
-import { PilotStore } from '@/stores'
-import PilotListItemDetails from './_pilotListItemDetails.vue'
+  import { useDisplay } from 'vuetify'
+  import { Pilot } from '@/classes/pilot/Pilot'
+  import EditMenu from '../../PilotSheet/components/PilotEditMenu.vue'
+  import { PilotStore } from '@/stores'
+  import PilotListItemDetails from './_pilotListItemDetails.vue'
 
-const props = defineProps<{ pilot: Pilot; selectable?: boolean }>()
+  const props = defineProps<{ pilot: Pilot; selectable?: boolean }>()
 
-const emit = defineEmits<{ goTo: [id: string] }>()
+  const emit = defineEmits<{ goTo: [id: string] }>()
 
-const { smAndDown: mobile } = useDisplay()
+  const { smAndDown: mobile } = useDisplay()
 
-function toPilotSheet() {
-  emit('goTo', props.pilot.ID)
-}
-
-function statusColor(status: string): string {
-  switch (status.toLowerCase()) {
-    case 'active':
-      return 'success'
-    case 'mia':
-    case 'kia':
-    case 'err':
-      return 'error'
-    default:
-      return 'text'
+  function toPilotSheet() {
+    emit('goTo', props.pilot.ID)
   }
-}
 
-function move(direction: 'top' | 'up' | 'down' | 'bottom') {
-  PilotStore().ReorderPilot(props.pilot as Pilot, direction)
-}
+  function statusColor(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'active':
+        return 'success'
+      case 'mia':
+      case 'kia':
+      case 'err':
+        return 'error'
+      default:
+        return 'text'
+    }
+  }
+
+  function move(direction: 'top' | 'up' | 'down' | 'bottom') {
+    PilotStore().ReorderPilot(props.pilot as Pilot, direction)
+  }
 </script>
 
 <style scoped>
-@import '@/ui/style/pilot-list-item.css';
+  @import '@/ui/style/pilot-list-item.css';
 
-.li-top-element:hover .drag-handle {
-  opacity: 0.8 !important;
-}
+  .li-top-element:hover .drag-handle {
+    opacity: 0.8 !important;
+  }
 </style>

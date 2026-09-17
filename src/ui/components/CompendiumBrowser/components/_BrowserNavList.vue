@@ -1,13 +1,17 @@
 <template>
   <div v-if="group === 'lcp'">
-    <v-list-group v-for="lcp in facets.filteredLcps.value"
+    <v-list-group
+      v-for="lcp in facets.filteredLcps.value"
       :key="`lcp-${lcp}`"
       :value="lcp"
       color="accent"
-      class="pt-0">
+      class="pt-0"
+    >
       <template #activator="{ props: act }">
-        <v-list-item v-bind="act"
-          tile>
+        <v-list-item
+          v-bind="act"
+          tile
+        >
           <template #title>
             <span class="text-button">
               <b>{{ lcp }}</b>
@@ -17,34 +21,42 @@
       </template>
 
       <template v-if="open.includes(lcp)">
-        <browser-item-list v-if="bprops.options.noSource"
-          :items="facets.filteredItemsByLcp.value[lcp]" />
+        <browser-item-list
+          v-if="bprops.options.noSource"
+          :items="facets.filteredItemsByLcp.value[lcp]"
+        />
 
         <template v-else-if="bprops.itemType === 'NpcClass'">
-          <b-list-group v-for="role in facets.groupsByLcp.value[lcp]"
+          <b-list-group
+            v-for="role in facets.groupsByLcp.value[lcp]"
             :key="`role-${lcp}-${role}`"
             :parent="lcp"
             :collection="role"
-            :role="role">
+            :role="role"
+          >
             <browser-item-list :items="facets.itemsByLcpGrouped.value[lcp]?.[role] ?? []" />
           </b-list-group>
         </template>
 
         <template v-else-if="bprops.itemType === 'NpcFeature'">
-          <b-list-group v-for="origin in facets.groupsByLcp.value[lcp]"
+          <b-list-group
+            v-for="origin in facets.groupsByLcp.value[lcp]"
             :key="`origin-${lcp}-${origin}`"
             :parent="lcp"
-            :collection="origin">
+            :collection="origin"
+          >
             <browser-item-list :items="facets.itemsByLcpGrouped.value[lcp]?.[origin] ?? []" />
           </b-list-group>
         </template>
 
         <template v-else>
-          <b-list-group v-for="manufacturer in facets.groupsByLcp.value[lcp]"
+          <b-list-group
+            v-for="manufacturer in facets.groupsByLcp.value[lcp]"
             :key="`mf-${lcp}-${manufacturer}`"
             :parent="lcp"
             :collection="manufacturer"
-            :manufacturer="isFallbackGroup(manufacturer) ? undefined : (mf(manufacturer) as any)">
+            :manufacturer="isFallbackGroup(manufacturer) ? undefined : (mf(manufacturer) as any)"
+          >
             <browser-item-list :items="facets.itemsByLcpGrouped.value[lcp]?.[manufacturer] ?? []" />
           </b-list-group>
         </template>
@@ -53,18 +65,24 @@
   </div>
 
   <div v-else-if="group === 'source'">
-    <v-list-group v-for="manufacturer in facets.manufacturerSources.value"
+    <v-list-group
+      v-for="manufacturer in facets.manufacturerSources.value"
       :key="`mf-${manufacturer}`"
       :value="manufacturer"
       color="accent"
-      class="pt-0">
+      class="pt-0"
+    >
       <template #activator="{ props: act }">
-        <v-list-item tile
+        <v-list-item
+          tile
           v-bind="act"
-          slim>
+          slim
+        >
           <template #prepend>
-            <cc-logo v-if="!isFallbackGroup(manufacturer)"
-              :source="mf(manufacturer)" />
+            <cc-logo
+              v-if="!isFallbackGroup(manufacturer)"
+              :source="mf(manufacturer)"
+            />
             &nbsp;
           </template>
           <template #title>
@@ -80,41 +98,51 @@
   </div>
 
   <div v-else-if="group === 'role'">
-    <b-list-group v-for="role in facets.roles.value"
+    <b-list-group
+      v-for="role in facets.roles.value"
       :key="`role-${role}`"
       no-indent
       :collection="role"
-      :role="role">
+      :role="role"
+    >
       <browser-item-list :items="facets.itemsByRoleGroup.value[role]" />
     </b-list-group>
   </div>
 
   <div v-else-if="group === 'featureType'">
-    <b-list-group v-for="featureType in facets.featureTypes.value"
+    <b-list-group
+      v-for="featureType in facets.featureTypes.value"
       :key="`feat-${featureType}`"
       :collection="featureType"
-      :feature="featureType">
+      :feature="featureType"
+    >
       <browser-item-list :items="facets.itemsByFeatureTypeGroup.value[featureType]" />
     </b-list-group>
   </div>
 
   <div v-else-if="group === 'origin'">
-    <b-list-group v-for="origin in facets.origins.value"
+    <b-list-group
+      v-for="origin in facets.origins.value"
       :key="`origin-${origin}`"
-      :collection="origin">
+      :collection="origin"
+    >
       <browser-item-list :items="facets.itemsByOriginGroup.value[origin]" />
     </b-list-group>
   </div>
 
   <div v-else-if="group === 'license'">
-    <v-list-group v-for="license in facets.licenses.value"
+    <v-list-group
+      v-for="license in facets.licenses.value"
       :key="`lic-${license}`"
       :value="license"
       color="accent"
-      class="pt-0">
+      class="pt-0"
+    >
       <template #activator="{ props: act }">
-        <v-list-item tile
-          v-bind="act">
+        <v-list-item
+          tile
+          v-bind="act"
+        >
           <template #title>
             <span class="text-button">
               <b>{{ groupLabel(license) }}</b>
@@ -127,14 +155,18 @@
   </div>
 
   <div v-else-if="group === 'type'">
-    <v-list-group v-for="subtype in facets.subtypes.value"
+    <v-list-group
+      v-for="subtype in facets.subtypes.value"
       :key="`subtype-${subtype}`"
       :value="subtype"
       color="accent"
-      class="pt-0">
+      class="pt-0"
+    >
       <template #activator="{ props: act }">
-        <v-list-item tile
-          v-bind="act">
+        <v-list-item
+          tile
+          v-bind="act"
+        >
           <template #title>
             <span class="text-button">
               <b>{{ subtype }}</b>
@@ -152,15 +184,15 @@
 </template>
 
 <script setup lang="ts">
-import { inject } from 'vue'
-import bListGroup from './_b-list-group.vue'
-import BrowserItemList from './_BrowserItemList.vue'
-import { CompendiumBrowserKey } from '../browserContext'
-import { isFallbackGroup, groupLabel } from '../useCompendiumFacets'
+  import { inject } from 'vue'
+  import bListGroup from './_b-list-group.vue'
+  import BrowserItemList from './_BrowserItemList.vue'
+  import { CompendiumBrowserKey } from '../browserContext'
+  import { isFallbackGroup, groupLabel } from '../useCompendiumFacets'
 
-defineOptions({ name: 'BrowserNavList' })
+  defineOptions({ name: 'BrowserNavList' })
 
-const ctx = inject(CompendiumBrowserKey)!
-const { facets, group, open, mf } = ctx
-const bprops = ctx.props
+  const ctx = inject(CompendiumBrowserKey)!
+  const { facets, group, open, mf } = ctx
+  const bprops = ctx.props
 </script>

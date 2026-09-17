@@ -174,9 +174,11 @@ export const NavStore = defineStore('nav', {
       if (npc.npcType === 'unit' || npc.DataType === 'unit') {
         this._npcIndex.push({
           id: npc.ID,
-          title: `${npc.Name}${npc.NpcClassController?.HasClass
-            ? ` (T${npc.NpcClassController.Tier} ${npc.NpcClassController.Class?.Name || ''})`
-            : ''}`,
+          title: `${npc.Name}${
+            npc.NpcClassController?.HasClass
+              ? ` (T${npc.NpcClassController.Tier} ${npc.NpcClassController.Class?.Name || ''})`
+              : ''
+          }`,
           type: 'Unit',
           pack: brews,
           path: `/gm/npcs/unit/${npc.ID}`,

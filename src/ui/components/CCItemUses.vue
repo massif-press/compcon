@@ -20,34 +20,37 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+  import { computed } from 'vue'
 
-const props = withDefaults(defineProps<{
-  small?: boolean
-  large?: boolean
-  emptyIcon?: string
-  fullIcon?: string
-  color?: string
-  item: { Uses: number; getTotalUses(bonus?: number): number }
-  bonus?: number
-}>(), {
-  small: false,
-  large: false,
-  emptyIcon: 'mdi-hexagon-outline',
-  fullIcon: 'mdi-hexagon-slice-6',
-  color: 'primary',
-  bonus: 0
-})
-
-const max = computed(() => {
-      return props.item.getTotalUses(props.bonus);
-    })
-const current = computed(() => {
-      return props.item.Uses;
-    })
-
-function set(val: number) {
-      if (val > current.value) props.item.Uses = props.item.Uses + 1;
-      else props.item.Uses = props.item.Uses - 1;
+  const props = withDefaults(
+    defineProps<{
+      small?: boolean
+      large?: boolean
+      emptyIcon?: string
+      fullIcon?: string
+      color?: string
+      item: { Uses: number; getTotalUses(bonus?: number): number }
+      bonus?: number
+    }>(),
+    {
+      small: false,
+      large: false,
+      emptyIcon: 'mdi-hexagon-outline',
+      fullIcon: 'mdi-hexagon-slice-6',
+      color: 'primary',
+      bonus: 0,
     }
+  )
+
+  const max = computed(() => {
+    return props.item.getTotalUses(props.bonus)
+  })
+  const current = computed(() => {
+    return props.item.Uses
+  })
+
+  function set(val: number) {
+    if (val > current.value) props.item.Uses = props.item.Uses + 1
+    else props.item.Uses = props.item.Uses - 1
+  }
 </script>

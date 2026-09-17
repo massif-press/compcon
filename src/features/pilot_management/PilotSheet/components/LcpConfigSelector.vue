@@ -69,35 +69,40 @@
     v-model="managerDialog"
     icon="mdi-list-status"
     :title="$t('pm.titles.lcpConfigurationManager')"
-    fullscreen :close-on-click="false" major full-height max-width="90vw">
+    fullscreen
+    :close-on-click="false"
+    major
+    full-height
+    max-width="90vw"
+  >
     <pack-config />
   </cc-dialog>
 </template>
 
 <script setup lang="ts">
-import type { ICombatant } from '@/classes/components/combat/ICombatant'
-import { computed, ref } from 'vue'
-import PackConfig from '@/features/nav/pages/ExtraContent/PackConfig.vue'
-import { UserStore } from '@/stores'
-import { LcpConfig } from '@/user'
+  import type { ICombatant } from '@/classes/components/combat/ICombatant'
+  import { computed, ref } from 'vue'
+  import PackConfig from '@/features/nav/pages/ExtraContent/PackConfig.vue'
+  import { UserStore } from '@/stores'
+  import { LcpConfig } from '@/user'
 
-const props = defineProps<{
-  actor: ICombatant
-}>()
+  const props = defineProps<{
+    actor: ICombatant
+  }>()
 
-const managerDialog = ref(false)
+  const managerDialog = ref(false)
 
-const configs = computed(() => {
-        return UserStore().User.LcpConfigs
-      })
+  const configs = computed(() => {
+    return UserStore().User.LcpConfigs
+  })
 
-function isSelected(config: LcpConfig) {
-        return props.actor.LcpConfig?.id === config.id
-      }
-function setConfig(config: LcpConfig) {
-        props.actor.LcpConfig = config
-      }
-function clearConfig() {
-        props.actor.LcpConfig = {} as LcpConfig
-      }
+  function isSelected(config: LcpConfig) {
+    return props.actor.LcpConfig?.id === config.id
+  }
+  function setConfig(config: LcpConfig) {
+    props.actor.LcpConfig = config
+  }
+  function clearConfig() {
+    props.actor.LcpConfig = {} as LcpConfig
+  }
 </script>

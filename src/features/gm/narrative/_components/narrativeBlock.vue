@@ -2,7 +2,10 @@
   <div v-if="!readonly || (readonly && item.NarrativeController.TextItems.length)">
     <v-divider class="my-4" />
     <div class="text-cc-overline mb-2">{{ $t('gm.narrative.additionalDetail') }}</div>
-    <section-editor :item="item" :readonly="readonly" />
+    <section-editor
+      :item="item"
+      :readonly="readonly"
+    />
   </div>
 
   <div v-if="!readonly || (readonly && item.NarrativeController.Clocks.length)">
@@ -14,14 +17,16 @@
       :clock="c"
       class="mx-1 my-4"
       :readonly="readonly"
-      @delete="item.NarrativeController.DeleteClock(c)" />
+      @delete="item.NarrativeController.DeleteClock(c)"
+    />
     <cc-button
       v-if="!readonly"
       color="primary"
       block
       prepend-icon="mdi-plus"
       size="x-small"
-      @click="item.NarrativeController.AddClock()">
+      @click="item.NarrativeController.AddClock()"
+    >
       {{ $t('pm.sheet.addNewClock') }}
     </cc-button>
   </div>
@@ -30,7 +35,8 @@
     <v-divider class="my-4" />
     <div
       v-if="!readonly || (readonly && item.NarrativeController.Tables.length)"
-      class="text-cc-overline mb-2">
+      class="text-cc-overline mb-2"
+    >
       {{ $t('common.tables') }}
     </div>
     <cc-rollable-table
@@ -39,28 +45,33 @@
       :table="t"
       class="mx-1 my-4"
       :readonly="readonly"
-      @delete="item.NarrativeController.DeleteTable(t)" />
+      @delete="item.NarrativeController.DeleteTable(t)"
+    />
     <cc-button
       color="primary"
       block
       prepend-icon="mdi-plus"
       size="x-small"
-      @click="item.NarrativeController.AddTable()">
+      @click="item.NarrativeController.AddTable()"
+    >
       {{ $t('active.fields.addTable') }}
     </cc-button>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { INarrativeEntity } from '@/classes/narrative/INarrativeEntity'
-import SectionEditor from '../../_components/SectionEditor.vue';
+  import type { INarrativeEntity } from '@/classes/narrative/INarrativeEntity'
+  import SectionEditor from '../../_components/SectionEditor.vue'
 
-defineOptions({ name: 'gm-narrative-block' })
+  defineOptions({ name: 'gm-narrative-block' })
 
-const props = withDefaults(defineProps<{
-  item: INarrativeEntity
-  readonly?: boolean
-}>(), {
-  readonly: false
-})
+  const props = withDefaults(
+    defineProps<{
+      item: INarrativeEntity
+      readonly?: boolean
+    }>(),
+    {
+      readonly: false,
+    }
+  )
 </script>

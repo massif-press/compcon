@@ -6,63 +6,107 @@
         <legend class="text-cc-overline text-accent px-2 font-weight-bold">Per Turn</legend>
 
         <v-row dense>
-          <v-col cols="12"
-            md="">
-            <v-card color="action--protocol"
-              class="text-center py-1">
-              <v-icon size="large"
-                icon="cc:protocol" />
+          <v-col
+            cols="12"
+            md=""
+          >
+            <v-card
+              color="action--protocol"
+              class="text-center py-1"
+            >
+              <v-icon
+                size="large"
+                icon="cc:protocol"
+              />
               <div class="heading caption">protocols</div>
             </v-card>
           </v-col>
-          <v-col cols=12
-            md="4">
-            <v-card color="action--full"
-              class="text-center py-1">
-              <v-icon size="large"
-                icon="mdi-hexagon-slice-6" />
-              <v-icon size="large"
-                class="text-disabled">mdi-swap-horizontal</v-icon>
-              <v-icon size="large"
-                icon="mdi-hexagon-slice-3" />
-              <v-icon size="large"
-                icon="mdi-hexagon-slice-3" />
+          <v-col
+            cols="12"
+            md="4"
+          >
+            <v-card
+              color="action--full"
+              class="text-center py-1"
+            >
+              <v-icon
+                size="large"
+                icon="mdi-hexagon-slice-6"
+              />
+              <v-icon
+                size="large"
+                class="text-disabled"
+              >
+                mdi-swap-horizontal
+              </v-icon>
+              <v-icon
+                size="large"
+                icon="mdi-hexagon-slice-3"
+              />
+              <v-icon
+                size="large"
+                icon="mdi-hexagon-slice-3"
+              />
               <div class="heading caption">full action or 2 quick actions</div>
             </v-card>
           </v-col>
-          <v-col cols="12"
-            md="">
-            <v-card color="action--move"
-              class="text-center py-1">
-              <v-icon size="large"
-                icon="mdi-arrow-right-bold-hexagon-outline" />
+          <v-col
+            cols="12"
+            md=""
+          >
+            <v-card
+              color="action--move"
+              class="text-center py-1"
+            >
+              <v-icon
+                size="large"
+                icon="mdi-arrow-right-bold-hexagon-outline"
+              />
               <div class="heading caption">movement</div>
             </v-card>
           </v-col>
-          <v-col cols="12"
-            md="">
-            <v-card color="overcharge"
-              class="text-center py-1">
-              <v-icon size="large"
-                icon="cc:overcharge" />
+          <v-col
+            cols="12"
+            md=""
+          >
+            <v-card
+              color="overcharge"
+              class="text-center py-1"
+            >
+              <v-icon
+                size="large"
+                icon="cc:overcharge"
+              />
               <div class="heading caption">overcharge</div>
             </v-card>
           </v-col>
-          <v-col cols="12"
-            md="">
-            <v-card color="action--free"
-              class="text-center py-1">
-              <v-icon size="large"
-                icon="cc:free_action" />
+          <v-col
+            cols="12"
+            md=""
+          >
+            <v-card
+              color="action--free"
+              class="text-center py-1"
+            >
+              <v-icon
+                size="large"
+                icon="cc:free_action"
+              />
               <div class="heading caption">free actions</div>
             </v-card>
           </v-col>
-          <v-col cols="12"
-            md="">
-            <v-card color="action--reaction"
-              class="text-center py-1">
-              <v-icon size="large"
-                icon="cc:reaction" />
+          <v-col
+            cols="12"
+            md=""
+          >
+            <v-card
+              color="action--reaction"
+              class="text-center py-1"
+            >
+              <v-icon
+                size="large"
+                icon="cc:reaction"
+              />
               <div class="heading caption">reactions</div>
             </v-card>
           </v-col>
@@ -73,12 +117,18 @@
         </div>
       </fieldset>
 
-      <v-row class="mb-2"
-        dense>
-        <v-col cols="12"
-          md="">
-          <fieldset class="px-3 pt-1 pb-2"
-            style="height: 100%">
+      <v-row
+        class="mb-2"
+        dense
+      >
+        <v-col
+          cols="12"
+          md=""
+        >
+          <fieldset
+            class="px-3 pt-1 pb-2"
+            style="height: 100%"
+          >
             <legend class="text-cc-overline text-accent px-2 font-weight-bold">Engagement</legend>
             <p class="mb-1">
               If a character moves adjacent to a hostile character, they both gain
@@ -86,9 +136,11 @@
               for as long as they remain adjacent. Ranged attacks made while
               <b>ENGAGED</b>
               receive
-              <v-icon icon="cc:difficulty"
+              <v-icon
+                icon="cc:difficulty"
                 class="mt-n1"
-                size="small" />
+                size="small"
+              />
               .
             </p>
             <p>
@@ -100,10 +152,14 @@
             </p>
           </fieldset>
         </v-col>
-        <v-col cols="12"
-          md="">
-          <fieldset class="px-3 pt-1 pb-2"
-            style="height: 100%">
+        <v-col
+          cols="12"
+          md=""
+        >
+          <fieldset
+            class="px-3 pt-1 pb-2"
+            style="height: 100%"
+          >
             <legend class="text-cc-overline text-accent px-2 font-weight-bold">Terrain</legend>
             <div class="mb-1">
               All movement through
@@ -124,67 +180,91 @@
       </v-row>
 
       <v-row dense>
-        <v-col cols="12"
-          md="">
-          <fieldset class="px-3 pt-1 pb-2"
-            style="height: 100%">
+        <v-col
+          cols="12"
+          md=""
+        >
+          <fieldset
+            class="px-3 pt-1 pb-2"
+            style="height: 100%"
+          >
             <legend class="text-cc-overline text-accent px-2 font-weight-bold">
               Roll Modifiers
             </legend>
             <p class="mb-1">
               Each point of
-              <v-icon icon="cc:accuracy"
+              <v-icon
+                icon="cc:accuracy"
                 class="mt-n1"
-                size="small" />
+                size="small"
+              />
               adds 1d6 to a roll.
             </p>
             <p class="mb-1">
               Each point of
-              <v-icon icon="cc:difficulty"
+              <v-icon
+                icon="cc:difficulty"
                 class="mt-n1"
-                size="small" />
+                size="small"
+              />
               subtracts 1d6 from a roll.
             </p>
             <p>
-              <v-icon icon="cc:accuracy"
+              <v-icon
+                icon="cc:accuracy"
                 class="mt-n1"
-                size="small" />
+                size="small"
+              />
               and
-              <v-icon icon="cc:difficulty"
+              <v-icon
+                icon="cc:difficulty"
                 class="mt-n1"
-                size="small" />
+                size="small"
+              />
               cancel each other out on a 1:1 basis. No roll can ever receive more than -6 or +6 from
-              <v-icon icon="cc:accuracy"
+              <v-icon
+                icon="cc:accuracy"
                 class="mt-n1"
-                size="small" />
+                size="small"
+              />
               or
-              <v-icon icon="cc:difficulty"
+              <v-icon
+                icon="cc:difficulty"
                 class="mt-n1"
-                size="small" />
+                size="small"
+              />
               .
             </p>
           </fieldset>
         </v-col>
-        <v-col cols="12"
-          md="">
-          <fieldset class="px-3 pt-1 pb-2"
-            style="height: 100%">
+        <v-col
+          cols="12"
+          md=""
+        >
+          <fieldset
+            class="px-3 pt-1 pb-2"
+            style="height: 100%"
+          >
             <legend class="text-cc-overline text-accent px-2 font-weight-bold">Cover</legend>
             <p class="mb-1">
               <b>Soft cover</b>
               adds +1
-              <v-icon icon="cc:difficulty"
+              <v-icon
+                icon="cc:difficulty"
                 class="mt-n1"
-                size="small" />
+                size="small"
+              />
               to any ranged attacks.
             </p>
 
             <p class="mb-1">
               <b>Hard cover</b>
               adds +2
-              <v-icon icon="cc:difficulty"
+              <v-icon
+                icon="cc:difficulty"
                 class="mt-n1"
-                size="small" />
+                size="small"
+              />
               to any ranged attacks. Characters only benefit from hard cover if they are adjacent to
               whatever they’re using for cover and are the same
               <b>SIZE</b>
@@ -195,15 +275,19 @@
           </fieldset>
         </v-col>
       </v-row>
-      <cc-icon-divider icon="cc:weapon"
-        class="mt-1" />
+      <cc-icon-divider
+        icon="cc:weapon"
+        class="mt-1"
+      />
       <v-row dense>
         <v-col style="min-width: 300px">
           <fieldset class="px-3 pt-1 pb-2">
             <legend class="text-cc-overline text-accent px-2 font-weight-bold">
               SKIRMISH
-              <v-icon icon="mdi-hexagon-slice-3"
-                color="action--quick" />
+              <v-icon
+                icon="mdi-hexagon-slice-3"
+                color="action--quick"
+              />
             </legend>
             <div>
               Attack with a
@@ -215,8 +299,10 @@
           <fieldset class="px-3 pt-1 pb-2">
             <legend class="text-cc-overline text-accent px-2 font-weight-bold">
               BARRAGE
-              <v-icon icon="mdi-hexagon-slice-6"
-                color="action--full" />
+              <v-icon
+                icon="mdi-hexagon-slice-6"
+                color="action--full"
+              />
             </legend>
             <div>
               Attack with
@@ -231,14 +317,18 @@
           <fieldset class="px-3 pt-1 pb-2">
             <legend class="text-cc-overline text-accent px-2 font-weight-bold">
               IMPROVISED ATTACK
-              <v-icon icon="mdi-hexagon-slice-6"
-                color="action--full" />
+              <v-icon
+                icon="mdi-hexagon-slice-6"
+                color="action--full"
+              />
             </legend>
             <div>
               Deal 1d6
-              <v-icon icon="cc:kinetic"
+              <v-icon
+                icon="cc:kinetic"
                 color="damage--kinetic"
-                class="mt-n1 mx-n1" />
+                class="mt-n1 mx-n1"
+              />
             </div>
           </fieldset>
         </v-col>
@@ -246,8 +336,10 @@
           <fieldset class="px-3 pt-1 pb-2">
             <legend class="text-cc-overline text-accent px-2 font-weight-bold">
               RAM
-              <v-icon icon="mdi-hexagon-slice-3"
-                color="action--quick" />
+              <v-icon
+                icon="mdi-hexagon-slice-3"
+                color="action--quick"
+              />
             </legend>
             <div>
               Target takes
@@ -262,115 +354,149 @@
           <fieldset class="px-3 pt-1 pb-2">
             <legend class="text-cc-overline text-accent px-2 font-weight-bold">
               GRAPPLE
-              <v-icon icon="mdi-hexagon-slice-3"
-                color="action--quick" />
+              <v-icon
+                icon="mdi-hexagon-slice-3"
+                color="action--quick"
+              />
             </legend>
             <div>
-              <v-row dense><v-col>
+              <v-row dense>
+                <v-col>
                   Melee attack vs adjacent target. On hit:
                   <ul>
-                    <li>Both characters become <b>ENGAGED</b></li>
-                    <li>Neither character can <b>BOOST</b> or take reactions for
-                      the duration of the grapple</li>
-                    <li>The smaller character becomes <b>IMMOBILIZED</b> but
-                      moves when the larger party moves, mirroring
-                      their movement</li>
+                    <li>
+                      Both characters become
+                      <b>ENGAGED</b>
+                    </li>
+                    <li>
+                      Neither character can
+                      <b>BOOST</b>
+                      or take reactions for the duration of the grapple
+                    </li>
+                    <li>
+                      The smaller character becomes
+                      <b>IMMOBILIZED</b>
+                      but moves when the larger party moves, mirroring their movement
+                    </li>
                   </ul>
-                </v-col> <v-col>
-                  A GRAPPLE ends when:<br>
+                </v-col>
+                <v-col>
+                  A GRAPPLE ends when:
+                  <br />
                   <ul>
+                    <li>Either character breaks adjacency</li>
+                    <li>The attacker chooses to end the grapple as a free action</li>
                     <li>
-                      Either character breaks adjacency </li>
-                    <li>
-                      The attacker chooses to end the grapple as a free
-                      action </li>
-                    <li>
-                      The defender breaks free by succeeding on a
-                      contested <b>HULL</b> check as a quick action
+                      The defender breaks free by succeeding on a contested
+                      <b>HULL</b>
+                      check as a quick action
                     </li>
                   </ul>
                 </v-col>
               </v-row>
-
             </div>
           </fieldset>
         </v-col>
       </v-row>
 
       <v-row dense>
-        <v-col cols="12"
-          md="">
+        <v-col
+          cols="12"
+          md=""
+        >
           <fieldset class="px-3 pt-1 pb-2">
             <legend class="text-cc-overline text-accent px-2 font-weight-bold">
               melee attacks
             </legend>
             <div class="text-center">
-              <v-chip size="small"
+              <v-chip
+                size="small"
                 variant="elevated"
                 class="mb-1"
-                color="action--full">
-                <v-icon icon="mdi-dice-d20"
+                color="action--full"
+              >
+                <v-icon
+                  icon="mdi-dice-d20"
                   start
-                  size="x-large" />
+                  size="x-large"
+                />
                 + GRIT vs EVASION
               </v-chip>
             </div>
             <div class="caption text-center">
               Target within
-              <v-icon icon="cc:threat"
-                class="mt-n1 ml-n1" />
+              <v-icon
+                icon="cc:threat"
+                class="mt-n1 ml-n1"
+              />
               <b>THREAT</b>
               and
               <b>LOS</b>
             </div>
           </fieldset>
         </v-col>
-        <v-col cols="12"
-          md="">
+        <v-col
+          cols="12"
+          md=""
+        >
           <fieldset class="px-3 pt-1 pb-2">
             <legend class="text-cc-overline text-accent px-2 font-weight-bold">
               ranged attacks
             </legend>
             <div class="text-center">
-              <v-chip size="small"
+              <v-chip
+                size="small"
                 variant="elevated"
                 class="mb-1"
-                color="action--full">
-                <v-icon icon="mdi-dice-d20"
+                color="action--full"
+              >
+                <v-icon
+                  icon="mdi-dice-d20"
                   start
-                  size="x-large" />
+                  size="x-large"
+                />
                 + GRIT vs EVASION
               </v-chip>
             </div>
             <div class="caption text-center">
               Target within
-              <v-icon icon="cc:range"
-                class="mt-n1 ml-n1" />
+              <v-icon
+                icon="cc:range"
+                class="mt-n1 ml-n1"
+              />
               <b>RANGE</b>
               and
               <b>LOS</b>
             </div>
           </fieldset>
         </v-col>
-        <v-col cols="12"
-          md="">
+        <v-col
+          cols="12"
+          md=""
+        >
           <fieldset class="px-3 pt-1 pb-2">
             <legend class="text-cc-overline text-accent px-2 font-weight-bold">tech attacks</legend>
             <div class="text-center">
-              <v-chip size="small"
+              <v-chip
+                size="small"
                 variant="elevated"
                 class="mb-1"
-                color="action--tech">
-                <v-icon icon="mdi-dice-d20"
+                color="action--tech"
+              >
+                <v-icon
+                  icon="mdi-dice-d20"
                   start
-                  size="x-large" />
+                  size="x-large"
+                />
                 + TECH ATK. vs E-DEF
               </v-chip>
             </div>
             <div class="caption text-center">
               Target within
-              <v-icon icon="cc:sensor"
-                class="mt-n1" />
+              <v-icon
+                icon="cc:sensor"
+                class="mt-n1"
+              />
               <b>SENSORS</b>
               and
               <b>LOS</b>
@@ -384,22 +510,30 @@
           Area of Effect Patterns
         </legend>
         <v-row>
-          <v-col cols="12"
-            md="">
+          <v-col
+            cols="12"
+            md=""
+          >
             <div class="font-weight-bold text-accent">
-              <v-icon icon="cc:line"
+              <v-icon
+                icon="cc:line"
                 size="small"
-                class="mt-n1" />
+                class="mt-n1"
+              />
               LINE X
             </div>
             <div>Affects a straight line, X spaces long.</div>
           </v-col>
-          <v-col cols="12"
-            md="">
+          <v-col
+            cols="12"
+            md=""
+          >
             <div class="font-weight-bold text-accent">
-              <v-icon icon="cc:cone"
+              <v-icon
+                icon="cc:cone"
                 size="small"
-                class="mt-n1" />
+                class="mt-n1"
+              />
               CONE X
             </div>
             <div>
@@ -407,27 +541,37 @@
               space wide.
             </div>
           </v-col>
-          <v-col cols="12"
-            md="">
+          <v-col
+            cols="12"
+            md=""
+          >
             <div class="font-weight-bold text-accent">
-              <v-icon icon="cc:blast"
+              <v-icon
+                icon="cc:blast"
                 size="small"
-                class="mt-n1" />
+                class="mt-n1"
+              />
               BLAST X
             </div>
             <div>
               Affects a radius of X spaces, drawn from a point within
-              <v-icon icon="cc:range"
-                class="mt-n1" />
+              <v-icon
+                icon="cc:range"
+                class="mt-n1"
+              />
               and LOS.
             </div>
           </v-col>
-          <v-col cols="12"
-            md="">
+          <v-col
+            cols="12"
+            md=""
+          >
             <div class="font-weight-bold text-accent">
-              <v-icon icon="cc:burst"
+              <v-icon
+                icon="cc:burst"
                 size="small"
-                class="mt-n1" />
+                class="mt-n1"
+              />
               BURST X
             </div>
             <div>Affects a radius of X spaces, centered on the user (or target).</div>
@@ -440,52 +584,70 @@
         </div>
       </fieldset>
 
-      <v-row dense
-        class="mt-3">
-        <v-col cols="12"
-          md="">
+      <v-row
+        dense
+        class="mt-3"
+      >
+        <v-col
+          cols="12"
+          md=""
+        >
           <fieldset class="px-3 pt-1 pb-2">
             <legend class="text-cc-overline text-accent px-2 font-weight-bold">damage types</legend>
             <div>
               <v-row dense>
-                <v-col cols="12"
-                  md="">
+                <v-col
+                  cols="12"
+                  md=""
+                >
                   <div>
-                    <v-icon icon="cc:kinetic"
+                    <v-icon
+                      icon="cc:kinetic"
                       size="small"
                       class="mt-n1"
-                      color="damage--kinetic" />
+                      color="damage--kinetic"
+                    />
                     <b>KINETIC</b>
                   </div>
                   <div>
-                    <v-icon icon="cc:energy"
+                    <v-icon
+                      icon="cc:energy"
                       size="small"
                       class="mt-n1"
-                      color="damage--energy" />
+                      color="damage--energy"
+                    />
                     <b>ENERGY</b>
                   </div>
                   <div>
-                    <v-icon icon="cc:explosive"
+                    <v-icon
+                      icon="cc:explosive"
                       size="small"
                       class="mt-n1"
-                      color="damage--explosive" />
+                      color="damage--explosive"
+                    />
                     <b>EXPLOSIVE</b>
                   </div>
                   <div>
-                    <v-icon icon="cc:heat"
+                    <v-icon
+                      icon="cc:heat"
                       size="small"
                       class="mt-n1"
-                      color="damage--heat" />
+                      color="damage--heat"
+                    />
                     <b>HEAT</b>
                   </div>
                 </v-col>
-                <v-col cols="12"
-                  md="">
+                <v-col
+                  cols="12"
+                  md=""
+                >
                   <div>
-                    <v-icon icon="cc:burn"
+                    <v-icon
+                      icon="cc:burn"
                       size="small"
                       class="mt-n1"
-                      color="damage--burn" />
+                      color="damage--burn"
+                    />
                     <b>
                       BURN
                       <i>(AP)</i>
@@ -499,10 +661,14 @@
             </div>
           </fieldset>
         </v-col>
-        <v-col cols="12"
-          md="">
-          <fieldset class="px-3 pt-1 pb-2"
-            style="height: 100%">
+        <v-col
+          cols="12"
+          md=""
+        >
+          <fieldset
+            class="px-3 pt-1 pb-2"
+            style="height: 100%"
+          >
             <legend class="text-cc-overline text-accent px-2 font-weight-bold">bonus damage</legend>
             <div>
               For AoE attacks, bonus damage is halved.
@@ -512,10 +678,14 @@
             </div>
           </fieldset>
         </v-col>
-        <v-col cols="12"
-          md="">
-          <fieldset class="px-3 pt-1 pb-2"
-            style="height: 100%">
+        <v-col
+          cols="12"
+          md=""
+        >
+          <fieldset
+            class="px-3 pt-1 pb-2"
+            style="height: 100%"
+          >
             <legend class="text-cc-overline text-accent px-2 font-weight-bold">
               critical hits
             </legend>
@@ -530,26 +700,34 @@
       <fieldset class="px-3 pt-1 pb-2 mt-3">
         <legend class="text-cc-overline text-accent px-2 font-weight-bold">Statuses</legend>
         <v-row dense>
-          <v-col v-for="s in statuses.filter((x) => x.StatusType === 'Status')"
+          <v-col
+            v-for="s in statuses.filter(x => x.StatusType === 'Status')"
             :key="s.ID"
             cols="12"
             md=""
-            style="min-width: 14vw">
-            <v-card class="bg-panel pa-2"
+            style="min-width: 14vw"
+          >
+            <v-card
+              class="bg-panel pa-2"
               flat
-              height="100%">
+              height="100%"
+            >
               <div class="text-accent font-weight-bold">
-                <div v-if="s.Svg"
+                <div
+                  v-if="s.Svg"
                   v-html-safe="cleanSvg(s.Svg)"
                   class="d-inline-block"
                   :style="{
                     width: s.IconSize(),
                     height: s.IconSize(),
                     filter: `invert(${$vuetify.theme.current.dark ? 1 : 0})`,
-                  }" />
-                <v-icon v-else
+                  }"
+                />
+                <v-icon
+                  v-else
                   :icon="s.Icon"
-                  class="mt-n1" />
+                  class="mt-n1"
+                />
                 {{ s.Name.toUpperCase() }}
               </div>
               <v-divider class="my-1" />
@@ -562,17 +740,23 @@
       <fieldset class="px-3 pt-1 pb-2 mt-3">
         <legend class="text-cc-overline text-accent px-2 font-weight-bold">CONDITIONS</legend>
         <v-row dense>
-          <v-col v-for="s in statuses.filter((x) => x.StatusType === 'Condition')"
+          <v-col
+            v-for="s in statuses.filter(x => x.StatusType === 'Condition')"
             :key="s.ID"
             cols="12"
             md=""
-            style="min-width: 14vw">
-            <v-card class="bg-panel pa-2"
+            style="min-width: 14vw"
+          >
+            <v-card
+              class="bg-panel pa-2"
               flat
-              height="100%">
+              height="100%"
+            >
               <div class="text-accent font-weight-bold">
-                <v-icon :icon="s.Icon"
-                  class="mt-n1" />
+                <v-icon
+                  :icon="s.Icon"
+                  class="mt-n1"
+                />
                 {{ s.Name.toUpperCase() }}
               </div>
               <v-divider class="my-1" />
@@ -586,15 +770,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { CompendiumStore } from '@/stores';
-import DOMPurify from 'dompurify';
+  import { computed } from 'vue'
+  import { CompendiumStore } from '@/stores'
+  import DOMPurify from 'dompurify'
 
-function cleanSvg(svg: string) {
-  return DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true, svgFilters: true } });
-}
+  function cleanSvg(svg: string) {
+    return DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true, svgFilters: true } })
+  }
 
-const statuses = computed(() => {
-  return CompendiumStore().Statuses;
-})
+  const statuses = computed(() => {
+    return CompendiumStore().Statuses
+  })
 </script>

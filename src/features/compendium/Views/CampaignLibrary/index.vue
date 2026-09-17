@@ -1,23 +1,32 @@
 <template>
-  <cc-alert prominent
+  <cc-alert
+    prominent
     icon="mdi-alert"
     :title="$t('compendium.titles.developmentPreview')"
     class="ma-4"
-    color="warning">
+    color="warning"
+  >
     {{ $t('compendium.campaign.developmentPreview') }}
   </cc-alert>
   <v-container fluid>
-    <div v-if="!mobile"
+    <div
+      v-if="!mobile"
       class="font-weight-light text-center my-n4"
-      style="letter-spacing: 2vw !important; font-size: 3.6vw !important">
+      style="letter-spacing: 2vw !important; font-size: 3.6vw !important"
+    >
       {{ $t('common.campaignLibrary') }}
     </div>
-    <v-row density="compact"
-      justify="center">
-      <v-col lg="8"
-        xs="12">
+    <v-row
+      density="compact"
+      justify="center"
+    >
+      <v-col
+        lg="8"
+        xs="12"
+      >
         <div class="top-element">
-          <v-text-field ref="input"
+          <v-text-field
+            ref="input"
             v-model="search"
             class="search-field"
             tile
@@ -26,25 +35,32 @@
             variant="solo"
             density="compact"
             :placeholder="$t('compendium.fields.searchTheCampaignLibrary')"
-            @update:focused="isFocused = $event">
+            @update:focused="isFocused = $event"
+          >
             <template #prepend>
-              <div class="prepend bg-panel"
+              <div
+                class="prepend bg-panel"
                 :class="isFocused && 'color-rotate'"
-                style="min-width: 42px">
-                <v-icon icon="mdi-magnify"
+                style="min-width: 42px"
+              >
+                <v-icon
+                  icon="mdi-magnify"
                   size="34"
-                  class="mt-1 ml-3 mr-2" />
+                  class="mt-1 ml-3 mr-2"
+                />
               </div>
             </template>
             <template #append>
-              <div :class="`bg-panel ${isFocused && 'color-rotate'}`"
+              <div
+                :class="`bg-panel ${isFocused && 'color-rotate'}`"
                 style="
                   transition: filter 0.2s ease-in-out;
                   width: 3px;
                   height: 100%;
                   margin-left: 4px;
                   z-index: 1;
-                " />
+                "
+              />
             </template>
           </v-text-field>
         </div>
@@ -56,21 +72,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import SearchBar from '../../SearchBar.vue';
-import CampaignBookshelf from './components/CampaignBookshelf.vue';
-import { useDisplay } from 'vuetify';
+  import { ref } from 'vue'
+  import SearchBar from '../../SearchBar.vue'
+  import CampaignBookshelf from './components/CampaignBookshelf.vue'
+  import { useDisplay } from 'vuetify'
 
-defineOptions({ name: 'compendium-home' })
+  defineOptions({ name: 'compendium-home' })
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+  const { smAndDown: mobile, xs: portrait } = useDisplay()
 
-const input = ref<any>(null)
+  const input = ref<any>(null)
 
-const search = ref('')
-const isFocused = ref(false)
+  const search = ref('')
+  const isFocused = ref(false)
 </script>
 
 <style scoped>
-@import '../../search-bar.css';
+  @import '../../search-bar.css';
 </style>

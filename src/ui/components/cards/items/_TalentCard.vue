@@ -1,12 +1,14 @@
 <template>
-  <cc-talent :talent="item"
+  <cc-talent
+    :talent="item"
     hide-change
-    hide-title />
+    hide-title
+  />
 </template>
 
 <script setup lang="ts">
-import type { Talent } from '@/classes/pilot/components/talent/Talent'
-defineProps<{
-  item: Talent
-}>()
+  import type { Talent } from '@/classes/pilot/components/talent/Talent'
+  defineProps<{
+    item: Talent
+  }>()
 </script>

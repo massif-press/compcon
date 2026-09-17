@@ -10,18 +10,22 @@
     </v-card-text>
     <v-card-text>
       <div class="text-cc-overline text-disabled">{{ $t('active.gmNotes.encounterClocks') }}</div>
-      <cc-clock v-for="(clock, index) in encounter.NarrativeController.Clocks"
+      <cc-clock
+        v-for="(clock, index) in encounter.NarrativeController.Clocks"
         :key="`clock-${index}`"
         :clock="clock"
         density="compact"
-        class="my-1" />
+        class="my-1"
+      />
       <div class="text-right">
-        <v-btn size="x-small"
+        <v-btn
+          size="x-small"
           color="primary"
           flat
           tile
           prepend-icon="mdi-plus"
-          @click="encounter.NarrativeController.AddClock()">
+          @click="encounter.NarrativeController.AddClock()"
+        >
           {{ $t('active.gmNotes.addClock') }}
         </v-btn>
       </div>
@@ -30,8 +34,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Encounter } from '@/classes/encounter/Encounter'
-const props = defineProps<{
-  encounter: Encounter
-}>()
+  import type { Encounter } from '@/classes/encounter/Encounter'
+  const props = defineProps<{
+    encounter: Encounter
+  }>()
 </script>

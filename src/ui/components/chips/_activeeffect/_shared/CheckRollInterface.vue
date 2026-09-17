@@ -118,7 +118,6 @@
 
   const dice = [2, 3, 4, 6, 8, 10, 12, 20, 100]
 
-
   const targetController = computed(() => props.rollData.Combatant?.actor?.CombatController)
   const attacker = computed(() => props.rollData.Event.Initiator.actor.CombatController)
 

@@ -7,33 +7,37 @@
     :color="color"
     :bg-color="bgColor"
     :variant="variant"
-    :focusable="focusable">
+    :focusable="focusable"
+  >
     <slot />
   </v-expansion-panels>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const props = withDefaults(defineProps<{
-  modelValue?: any
-  multiple?: boolean
-  flat?: boolean
-  tile?: boolean
-  color?: string
-  bgColor?: string
-  variant?: 'default' | 'inset' | 'accordion' | 'popout'
-  focusable?: boolean
-}>(), {
-  flat: true,
-  tile: true,
-  bgColor: 'panel',
-  variant: 'accordion',
-})
+  const props = withDefaults(
+    defineProps<{
+      modelValue?: any
+      multiple?: boolean
+      flat?: boolean
+      tile?: boolean
+      color?: string
+      bgColor?: string
+      variant?: 'default' | 'inset' | 'accordion' | 'popout'
+      focusable?: boolean
+    }>(),
+    {
+      flat: true,
+      tile: true,
+      bgColor: 'panel',
+      variant: 'accordion',
+    }
+  )
 
-const emit = defineEmits<{
-  'update:modelValue': [val: any]
-}>()
+  const emit = defineEmits<{
+    'update:modelValue': [val: any]
+  }>()
 
-const model = ref(props.modelValue)
+  const model = ref(props.modelValue)
 </script>

@@ -66,7 +66,11 @@ export function useItemTransfer(opts: { refresh: () => void }) {
       logger.error(`Error force-downloading: ${err}`, {}, err)
       vueNotify({
         title: t('notify.transfer.downloadFailedTitle'),
-        text: t('notify.transfer.itemDownloadFailed', { type: item.ItemType, name: item.Name, err }),
+        text: t('notify.transfer.itemDownloadFailed', {
+          type: item.ItemType,
+          name: item.Name,
+          err,
+        }),
         data: { icon: 'mdi-alert', color: 'error' },
       })
     }

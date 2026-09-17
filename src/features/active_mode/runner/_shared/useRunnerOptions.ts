@@ -53,7 +53,16 @@ function useRunnerOptions() {
     reader.readAsText(fileValue.value)
   }
 
-  return { fileValue, importObj, importOk, importError, saveUpdate, reset, exportStateFile, stageImportFile }
+  return {
+    fileValue,
+    importObj,
+    importOk,
+    importError,
+    saveUpdate,
+    reset,
+    exportStateFile,
+    stageImportFile,
+  }
 }
 
 let leaveGuardBypassed = false

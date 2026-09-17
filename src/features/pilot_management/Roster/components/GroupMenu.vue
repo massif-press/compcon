@@ -1,14 +1,18 @@
 <template>
   <v-card-text class="pt-2">
-    <div class="heading"
-      :class="mobile ? 'h4' : 'h3'">
+    <div
+      class="heading"
+      :class="mobile ? 'h4' : 'h3'"
+    >
       {{ $t('pm.roster.uadCAVCOMOfficeOfRecords') }}
       <cc-slashes />
       <br v-if="mobile" />
       &nbsp;{{ $t('pm.roster.i7aSelfServiceUnitRegistration') }}
     </div>
-    <v-container class="flavor-text"
-      style="font-size: 13px">
+    <v-container
+      class="flavor-text"
+      style="font-size: 13px"
+    >
       <div class="mt-n2">
         {{ $t('pm.roster.identCR7aCAVALRYUNITREGISTRATION') }}
         <br />
@@ -23,64 +27,88 @@
             <i class="text-disabled">{{ $t('pm.roster.optional') }}</i>
           </div>
           <div class="px-10 pt-1">
-            <group-file-import @toggle-import="importHide = $event"
-              @done="$emit('close')" />
+            <group-file-import
+              @toggle-import="importHide = $event"
+              @done="$emit('close')"
+            />
           </div>
         </div>
       </v-col>
     </v-row>
-    <v-divider v-if="!importHide"
-      class="mt-4 mb-5" />
+    <v-divider
+      v-if="!importHide"
+      class="mt-4 mb-5"
+    />
     <v-expand-transition>
       <div v-if="!importHide">
         <v-row align="start">
-          <v-col cols="12"
+          <v-col
+            cols="12"
             md="5"
-            class="mr-auto">
+            class="mr-auto"
+          >
             <div class="my-2">
               <div class="text-caption">{{ $t('pm.roster.cr701UNITDESIGNATION') }}</div>
-              <cc-text-field v-model="group.Name"
+              <cc-text-field
+                v-model="group.Name"
                 variant="outlined"
                 :placeholder="$t('common.name')"
                 :icon="group.Name ? 'mdi-check-circle-outline' : 'mdi-alert'"
                 :color="group.Name ? 'success' : 'error'"
-                class="my-1 d-inline">
+                class="my-1 d-inline"
+              >
                 <template #extra>
-                  <cc-button icon="mdi-dice-multiple"
+                  <cc-button
+                    icon="mdi-dice-multiple"
                     variant="outlined"
                     size="small"
                     :tooltip="$t('pm.tooltips.generateRandomName')"
-                    @click="randomName()" />
+                    @click="randomName()"
+                  />
                 </template>
               </cc-text-field>
             </div>
 
             <div class="my-4">
               <div class="text-caption">{{ $t('pm.roster.cr702aATTACHEDNDAPCOMP') }}</div>
-              <v-row align="center"
-                dense>
+              <v-row
+                align="center"
+                dense
+              >
                 <v-col>
-                  <cc-dialog :title="$t('pm.titles.groupDescription')"
+                  <cc-dialog
+                    :title="$t('pm.titles.groupDescription')"
                     icon="mdi-account-group"
-                    max-width="75vw" :close-on-click="false" major>
+                    max-width="75vw"
+                    :close-on-click="false"
+                    major
+                  >
                     <template #activator="{ open }">
-                      <cc-button block
+                      <cc-button
+                        block
                         size="small"
                         prepend-icon="mdi-pencil"
                         :color="group.Description ? 'success' : 'panel'"
-                        @click="open">
-                        <div v-if="!group.Description">{{ $t('pm.roster.addGroupDescription') }}</div>
+                        @click="open"
+                      >
+                        <div v-if="!group.Description">
+                          {{ $t('pm.roster.addGroupDescription') }}
+                        </div>
                         <div v-else>{{ $t('pm.roster.editGroupDescription') }}</div>
                       </cc-button>
                     </template>
                     <template #default="{ close }">
                       <v-card-text>
-                        <cc-text-editor-inline :original="group.Description"
-                          @save="group.Description = $event" />
+                        <cc-text-editor-inline
+                          :original="group.Description"
+                          @save="group.Description = $event"
+                        />
                         <div class="text-right mt-3">
-                          <cc-button color="primary"
+                          <cc-button
+                            color="primary"
                             size="small"
-                            @click="close">
+                            @click="close"
+                          >
                             {{ $t('common.saveAndClose') }}
                           </cc-button>
                         </div>
@@ -89,14 +117,20 @@
                   </cc-dialog>
                 </v-col>
                 <v-col cols="auto">
-                  <v-icon v-if="!group.Description"
+                  <v-icon
+                    v-if="!group.Description"
                     size="large"
-                    color="grey">
+                    color="grey"
+                  >
                     mdi-circle-outline
                   </v-icon>
-                  <v-icon v-else
+                  <v-icon
+                    v-else
                     size="large"
-                    color="success">mdi-check-circle-outline</v-icon>
+                    color="success"
+                  >
+                    mdi-check-circle-outline
+                  </v-icon>
                 </v-col>
               </v-row>
             </div>
@@ -105,30 +139,42 @@
               <div class="text-caption">
                 {{ $t('pm.roster.cr702bATTACHEDTACANALYSISRECORDS') }}
               </div>
-              <v-row align="center"
-                dense>
+              <v-row
+                align="center"
+                dense
+              >
                 <v-col>
-                  <cc-dialog :title="$t('pm.titles.groupDescription')"
+                  <cc-dialog
+                    :title="$t('pm.titles.groupDescription')"
                     icon="mdi-account-group"
-                    max-width="75vw" :close-on-click="false" major>
+                    max-width="75vw"
+                    :close-on-click="false"
+                    major
+                  >
                     <template #activator="{ open }">
-                      <cc-button block
+                      <cc-button
+                        block
                         size="small"
                         prepend-icon="mdi-pencil"
                         :color="group.History ? 'success' : 'panel'"
-                        @click="open">
+                        @click="open"
+                      >
                         <div v-if="!group.Description">{{ $t('pm.roster.addGroupHistory') }}</div>
                         <div v-else>{{ $t('pm.roster.editGroupHistory') }}</div>
                       </cc-button>
                     </template>
                     <template #default="{ close }">
                       <v-card-text>
-                        <cc-text-editor-inline :original="group.History"
-                          @save="group.History = $event" />
+                        <cc-text-editor-inline
+                          :original="group.History"
+                          @save="group.History = $event"
+                        />
                         <div class="text-right mt-3">
-                          <cc-button color="primary"
+                          <cc-button
+                            color="primary"
                             size="small"
-                            @click="close">
+                            @click="close"
+                          >
                             {{ $t('common.saveAndClose') }}
                           </cc-button>
                         </div>
@@ -137,27 +183,39 @@
                   </cc-dialog>
                 </v-col>
                 <v-col cols="auto">
-                  <v-icon v-if="!group.History"
+                  <v-icon
+                    v-if="!group.History"
                     size="large"
-                    color="grey">
+                    color="grey"
+                  >
                     mdi-circle-outline
                   </v-icon>
-                  <v-icon v-else
+                  <v-icon
+                    v-else
                     size="large"
-                    color="success">mdi-check-circle-outline</v-icon>
+                    color="success"
+                  >
+                    mdi-check-circle-outline
+                  </v-icon>
                 </v-col>
               </v-row>
             </div>
           </v-col>
-          <v-col cols="12"
+          <v-col
+            cols="12"
             md="5"
-            class="ml-auto">
+            class="ml-auto"
+          >
             <div class="text-caption">{{ $t('pm.roster.cr703UNITLIVERY') }}</div>
-            <div class="border mr-8 ml-auto mr-auto"
-              style="width: 300px; height: 300px">
-              <cc-img v-if="group.Portrait"
+            <div
+              class="border mr-8 ml-auto mr-auto"
+              style="width: 300px; height: 300px"
+            >
+              <cc-img
+                v-if="group.Portrait"
                 :src="group.Portrait"
-                aspect-ratio="1" />
+                aspect-ratio="1"
+              />
               <div class="mt-3 text-center">
                 <group-emblem-modal :group="group" />
               </div>
@@ -168,36 +226,40 @@
     </v-expand-transition>
   </v-card-text>
   <div style="position: fixed; bottom: 0; right: 0; left: 0">
-    <cc-button block
+    <cc-button
+      block
       color="primary"
       :disabled="!group.Name"
-      @click="submit()">{{ $t('common.submit') }}</cc-button>
+      @click="submit()"
+    >
+      {{ $t('common.submit') }}
+    </cc-button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useDisplay } from 'vuetify'
-import { PilotGroupStore } from '../../store';
-import { PilotGroup } from '../../store/PilotGroup';
-import { teamName } from '@/io/Generators';
-import GroupFileImport from './add_panels/GroupFileImport.vue';
-import GroupEmblemModal from './_GroupEmblemModal.vue';
+  import { ref } from 'vue'
+  import { useDisplay } from 'vuetify'
+  import { PilotGroupStore } from '../../store'
+  import { PilotGroup } from '../../store/PilotGroup'
+  import { teamName } from '@/io/Generators'
+  import GroupFileImport from './add_panels/GroupFileImport.vue'
+  import GroupEmblemModal from './_GroupEmblemModal.vue'
 
-const emit = defineEmits<{ close: [] }>()
+  const emit = defineEmits<{ close: [] }>()
 
-const { smAndDown: mobile } = useDisplay()
+  const { smAndDown: mobile } = useDisplay()
 
-const group = ref(new PilotGroup())
-const fileValue = ref(null)
-const importHide = ref(false)
+  const group = ref(new PilotGroup())
+  const fileValue = ref(null)
+  const importHide = ref(false)
 
-async function randomName() {
-  group.value.Name = await teamName()
-}
+  async function randomName() {
+    group.value.Name = await teamName()
+  }
 
-function submit() {
-  PilotGroupStore().AddGroup(group.value as PilotGroup)
-  emit('close')
-}
+  function submit() {
+    PilotGroupStore().AddGroup(group.value as PilotGroup)
+    emit('close')
+  }
 </script>

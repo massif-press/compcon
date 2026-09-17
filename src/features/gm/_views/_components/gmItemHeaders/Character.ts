@@ -31,4 +31,4 @@ export default [
     value: 'Pronouns',
     groupable: true,
   },
-];
+]

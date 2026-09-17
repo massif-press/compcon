@@ -13,7 +13,11 @@
       >
         <v-tooltip
           location="top"
-          :text="hideUsed ? $t('active.activeEffect.hidingUsedEffects') : $t('active.activeEffect.showingUsedEffects')"
+          :text="
+            hideUsed
+              ? $t('active.activeEffect.hidingUsedEffects')
+              : $t('active.activeEffect.showingUsedEffects')
+          "
         >
           <template #activator="{ props }">
             <v-btn

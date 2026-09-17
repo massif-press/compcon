@@ -1,93 +1,144 @@
 <template>
-  <div class="pa-1 px-2"
-    style="height: calc(100vh - 40px)">
+  <div
+    class="pa-1 px-2"
+    style="height: calc(100vh - 40px)"
+  >
     <div class="text-center">
       <v2-auto block />
     </div>
     <div style="position: absolute; top: 0; left: 0; right: 0; container-type: inline-size">
       <div class="bg-primary text-center">
-        <span class="heading text-white"
-          style="letter-spacing: 3cqw; line-height: 38pt; font-size: 33pt">
+        <span
+          class="heading text-white"
+          style="letter-spacing: 3cqw; line-height: 38pt; font-size: 33pt"
+        >
           COMP/CON
         </span>
-        <div class="text-cc-overline"
-          style="position: absolute; right: 2px; opacity: 0.8">
+        <div
+          class="text-cc-overline"
+          style="position: absolute; right: 2px; opacity: 0.8"
+        >
           v.{{ appVersion }}
         </div>
       </div>
     </div>
 
-    <div class="d-flex justify-center align-center py-3 mt-4"
-      style="height: calc(100% - 28px)">
-      <v-row dense
+    <div
+      class="d-flex justify-center align-center py-3 mt-4"
+      style="height: calc(100% - 28px)"
+    >
+      <v-row
+        dense
         justify="space-around"
-        style="height: 100%">
-        <mobile-btn icon="cc:compendium"
+        style="height: 100%"
+      >
+        <mobile-btn
+          icon="cc:compendium"
           :title="$t('common.compendium')"
-          :to="'/srd'" />
-        <mobile-btn icon="cc:pilot"
+          :to="'/srd'"
+        />
+        <mobile-btn
+          icon="cc:pilot"
           :title="$t('mainMenu.titles.roster')"
           :text="$t('mainMenu.actions.managePilots')"
-          :to="'/pilot_management'" />
-        <mobile-btn v-if="landscape"
+          :to="'/pilot_management'"
+        />
+        <mobile-btn
+          v-if="landscape"
           icon="cc:encounter"
           :title="$t('gm.landing.toolkit')"
           :text="$t('mainMenu.actions.managePilots')"
-          :to="'/gm'" />
-        <mobile-btn icon="cc:content_manager"
+          :to="'/gm'"
+        />
+        <mobile-btn
+          icon="cc:content_manager"
           :title="$t('common.contentLabel')"
-          @clicked="extraContentModal = true" />
+          @clicked="extraContentModal = true"
+        />
         <extra-content v-model="extraContentModal" />
-        <mobile-btn icon="cc:campaign"
+        <mobile-btn
+          icon="cc:campaign"
           :title="$t('common.activeMode')"
-          :to="'/active-mode'" />
+          :to="'/active-mode'"
+        />
       </v-row>
     </div>
 
-    <v-bottom-navigation density="compact"
+    <v-bottom-navigation
+      density="compact"
       class="bg-primary"
-      style="border-radius: 12px; left: 12px; right: 12px; width: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 8px); box-shadow: 0 4px 16px rgba(0,0,0,0.4);">
-      <v-row no-gutters
+      style="
+        border-radius: 12px;
+        left: 12px;
+        right: 12px;
+        width: auto;
+        bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      "
+    >
+      <v-row
+        no-gutters
         align="center"
-        justify="space-around">
+        justify="space-around"
+      >
         <v-col cols="auto">
-          <cc-dialog :title="$t('common.cloudAccount')"
-            icon="mdi-cloud-sync" :close-on-click="false" major full-height max-width="90vw">
+          <cc-dialog
+            :title="$t('common.cloudAccount')"
+            icon="mdi-cloud-sync"
+            :close-on-click="false"
+            major
+            full-height
+            max-width="90vw"
+          >
             <template #activator="{ open }">
-              <cc-button v-if="landscape"
+              <cc-button
+                v-if="landscape"
                 :loading="startingUp"
                 size="small"
                 class="mx-2"
                 :variant="isLoggedIn ? '' : 'outlined'"
                 :color="isLoggedIn ? 'success' : ''"
-                @click="open">
+                @click="open"
+              >
                 {{ isLoggedIn ? $t('mainMenu.menu.connected') : $t('mainMenu.auth.signIn') }}
               </cc-button>
 
-              <cc-button v-else
+              <cc-button
+                v-else
                 :loading="startingUp"
                 size="small"
                 class="mx-2"
                 :variant="isLoggedIn ? '' : 'outlined'"
                 :color="isLoggedIn ? 'success' : ''"
                 :icon="isLoggedIn ? 'mdi-cloud-sync' : 'mdi-cloud-off-outline'"
-                @click="open" />
+                @click="open"
+              />
             </template>
             <sign-in />
           </cc-dialog>
         </v-col>
 
-        <v-divider vertical
-          class="mr-2" />
+        <v-divider
+          vertical
+          class="mr-2"
+        />
 
         <v-col cols="auto">
-          <cc-dialog :title="$t('common.options')"
-            icon="mdi-cog" :close-on-click="false" major full-height max-width="90vw">
+          <cc-dialog
+            :title="$t('common.options')"
+            icon="mdi-cog"
+            :close-on-click="false"
+            major
+            full-height
+            max-width="90vw"
+          >
             <template #activator="{ open }">
-              <cc-button class="text-uppercase pa-0"
+              <cc-button
+                class="text-uppercase pa-0"
                 size="small"
                 variant="text"
-                @click="open">
+                @click="open"
+              >
                 {{ $t('common.options') }}
               </cc-button>
             </template>
@@ -96,13 +147,21 @@
         </v-col>
 
         <v-col cols="auto">
-          <cc-dialog :title="$t('common.about')"
-            icon="mdi-information" :close-on-click="false" major full-height max-width="90vw">
+          <cc-dialog
+            :title="$t('common.about')"
+            icon="mdi-information"
+            :close-on-click="false"
+            major
+            full-height
+            max-width="90vw"
+          >
             <template #activator="{ open }">
-              <cc-button class="text-uppercase pa-0"
+              <cc-button
+                class="text-uppercase pa-0"
                 size="small"
                 variant="text"
-                @click="open">
+                @click="open"
+              >
                 {{ $t('common.about') }}
               </cc-button>
             </template>
@@ -111,13 +170,21 @@
         </v-col>
 
         <v-col cols="auto">
-          <cc-dialog :title="$t('common.credits')"
-            icon="cc:gms" :close-on-click="false" major full-height max-width="90vw">
+          <cc-dialog
+            :title="$t('common.credits')"
+            icon="cc:gms"
+            :close-on-click="false"
+            major
+            full-height
+            max-width="90vw"
+          >
             <template #activator="{ open }">
-              <cc-button class="text-uppercase pa-0"
+              <cc-button
+                class="text-uppercase pa-0"
                 size="small"
                 variant="text"
-                @click="open">
+                @click="open"
+              >
                 {{ $t('common.credits') }}
               </cc-button>
             </template>
@@ -126,13 +193,21 @@
         </v-col>
 
         <v-col cols="auto">
-          <cc-dialog :title="$t('common.help')"
-            icon="mdi-help-circle" :close-on-click="false" major full-height max-width="90vw">
+          <cc-dialog
+            :title="$t('common.help')"
+            icon="mdi-help-circle"
+            :close-on-click="false"
+            major
+            full-height
+            max-width="90vw"
+          >
             <template #activator="{ open }">
-              <cc-button class="text-uppercase pa-0"
+              <cc-button
+                class="text-uppercase pa-0"
                 size="small"
                 variant="text"
-                @click="open">
+                @click="open"
+              >
                 {{ $t('common.help') }}
               </cc-button>
             </template>
@@ -145,37 +220,37 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { useDisplay } from 'vuetify'
-import MobileBtn from './_components/MobileBtn.vue'
-import ExtraContent from '../nav/pages/ExtraContent/index.vue'
-import CreditsPage from '../nav/pages/Credits.vue'
-import AboutPage from '../nav/pages/About.vue'
-import HelpPage from '../nav/pages/Help.vue'
-import OptionsPage from '../nav/pages/Options/index.vue'
-import { UserStore } from '@/stores'
-import SignIn from './_components/login/index.vue'
-import V2Auto from '../nav/pages/ExtraContent/components/v2Auto.vue'
+  import { computed, ref } from 'vue'
+  import { useDisplay } from 'vuetify'
+  import MobileBtn from './_components/MobileBtn.vue'
+  import ExtraContent from '../nav/pages/ExtraContent/index.vue'
+  import CreditsPage from '../nav/pages/Credits.vue'
+  import AboutPage from '../nav/pages/About.vue'
+  import HelpPage from '../nav/pages/Help.vue'
+  import OptionsPage from '../nav/pages/Options/index.vue'
+  import { UserStore } from '@/stores'
+  import SignIn from './_components/login/index.vue'
+  import V2Auto from '../nav/pages/ExtraContent/components/v2Auto.vue'
 
-const _display = useDisplay()
+  const _display = useDisplay()
 
-defineOptions({ name: 'LandingPageMobile' })
+  defineOptions({ name: 'LandingPageMobile' })
 
-const extraContentModal = ref(false)
+  const extraContentModal = ref(false)
 
-const userstore = computed(() => {
-      return UserStore()
-    })
-const isLoggedIn = computed(() => {
-      return UserStore().IsLoggedIn
-    })
-const startingUp = computed(() => {
-      return UserStore().IsLoading
-    })
-const appVersion = computed(() => {
-      return APP_VERSION || 'dev'
-    })
-const landscape = computed(() => {
-      return _display.smAndUp.value
-    })
+  const userstore = computed(() => {
+    return UserStore()
+  })
+  const isLoggedIn = computed(() => {
+    return UserStore().IsLoggedIn
+  })
+  const startingUp = computed(() => {
+    return UserStore().IsLoading
+  })
+  const appVersion = computed(() => {
+    return APP_VERSION || 'dev'
+  })
+  const landscape = computed(() => {
+    return _display.smAndUp.value
+  })
 </script>

@@ -55,11 +55,15 @@ export function useGroupSortable(
 
   function onDropOnTitle() {
     if (!dropActive.value) return
-    const dragEl = document.querySelector('[data-pilot-id].sortable-chosen') ||
+    const dragEl =
+      document.querySelector('[data-pilot-id].sortable-chosen') ||
       document.querySelector('[data-pilot-id].sortable-ghost')
     const pilotId = (dragEl as HTMLElement)?.dataset?.pilotId
     if (!pilotId) return
-    if (group.Pilots.some((p: any) => p.id === pilotId)) { dropActive.value = false; return }
+    if (group.Pilots.some((p: any) => p.id === pilotId)) {
+      dropActive.value = false
+      return
+    }
     const pilot = PilotStore().getPilotByID(pilotId) as any
     if (!pilot) return
     PilotGroupStore().TransferPilot(pilot, group.ID)

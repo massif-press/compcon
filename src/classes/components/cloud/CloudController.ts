@@ -17,17 +17,33 @@ class CloudController {
 
   private _metadata!: DbItemMetadata
 
-  public get _lastContentHash(): string | null { return this.TransferController._lastContentHash }
-  public set _lastContentHash(v: string | null) { this.TransferController._lastContentHash = v }
+  public get _lastContentHash(): string | null {
+    return this.TransferController._lastContentHash
+  }
+  public set _lastContentHash(v: string | null) {
+    this.TransferController._lastContentHash = v
+  }
 
-  public get _lastFieldHashes(): FieldHashMap | null { return this.TransferController._lastFieldHashes }
-  public set _lastFieldHashes(v: FieldHashMap | null) { this.TransferController._lastFieldHashes = v }
+  public get _lastFieldHashes(): FieldHashMap | null {
+    return this.TransferController._lastFieldHashes
+  }
+  public set _lastFieldHashes(v: FieldHashMap | null) {
+    this.TransferController._lastFieldHashes = v
+  }
 
-  public get _fieldTs(): FieldTimestamps { return this.TransferController._fieldTs }
-  public set _fieldTs(v: FieldTimestamps) { this.TransferController._fieldTs = v }
+  public get _fieldTs(): FieldTimestamps {
+    return this.TransferController._fieldTs
+  }
+  public set _fieldTs(v: FieldTimestamps) {
+    this.TransferController._fieldTs = v
+  }
 
-  public get _lastSyncedUpdated(): number { return this.TransferController._lastSyncedUpdated }
-  public set _lastSyncedUpdated(v: number) { this.TransferController._lastSyncedUpdated = v }
+  public get _lastSyncedUpdated(): number {
+    return this.TransferController._lastSyncedUpdated
+  }
+  public set _lastSyncedUpdated(v: number) {
+    this.TransferController._lastSyncedUpdated = v
+  }
 
   public get _lastUploadedItemModified(): number {
     return this.MetadataController._lastUploadedItemModified

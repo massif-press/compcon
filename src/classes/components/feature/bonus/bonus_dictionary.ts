@@ -564,7 +564,11 @@ const _coreEntries: IBonusMeta[] = [
   { id: 'save', title: 'Saves', detail: '{INC_DEC} all Save rolls by {VAL}' },
   { id: 'threat', title: 'Threat', detail: '{INC_DEC} weapon Threat by {VAL}' },
   { id: 'set_weapon_type', title: 'Set Weapon Type', detail: 'Treat weapon as a {VAL} weapon' },
-  { id: 'add_weapon_type', title: 'Add Weapon Type', detail: 'Treats affected weapons as also being {VAL} weapons' },
+  {
+    id: 'add_weapon_type',
+    title: 'Add Weapon Type',
+    detail: 'Treats affected weapons as also being {VAL} weapons',
+  },
   { id: 'grapple', title: 'Threat', detail: '{INC_DEC} Grapple by {VAL}' },
   { id: 'ram', title: 'Ram', detail: '{INC_DEC} Ram by {VAL}' },
   { id: 'sizes', title: 'Size Options', detail: 'Extend NPC size creation options ({VAL})' },

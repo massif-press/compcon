@@ -87,10 +87,8 @@ class Damage {
       else this.AoE = (obj.Range as Range[]).some(r => nonAoeTypes.includes(r.Type)) ? false : true
     }
     if (!this.AP && obj.Tags) this.AP = hasTag(obj.Tags as Tag[], TAG.AP)
-    if (!this.Overkill && obj.Tags)
-      this.Overkill = hasTag(obj.Tags as Tag[], TAG.Overkill)
-    if (!this.Irreducible && obj.Tags)
-      this.Irreducible = hasTag(obj.Tags as Tag[], TAG.Irreducible)
+    if (!this.Overkill && obj.Tags) this.Overkill = hasTag(obj.Tags as Tag[], TAG.Overkill)
+    if (!this.Irreducible && obj.Tags) this.Irreducible = hasTag(obj.Tags as Tag[], TAG.Irreducible)
     if (!this.Reliable && obj.Tags) {
       const reliableRaw = String(tagValue(obj.Tags as Tag[], TAG.Reliable) || 0)
       this.Reliable = Number(resolveTier(reliableRaw, tier ?? 1)) || 0

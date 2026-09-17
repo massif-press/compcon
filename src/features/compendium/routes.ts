@@ -370,7 +370,7 @@ const routes = [
   },
   {
     path: 'reference/search',
-    redirect: (to) => ({ path: '/srd/compendium/search', query: to.query }),
+    redirect: to => ({ path: '/srd/compendium/search', query: to.query }),
   },
   {
     path: 'campaign/:id',

@@ -3,7 +3,11 @@ import { DamageRollResult } from '../../../../dice/DiceRoller'
 import { DamageType } from '../../../../enums'
 import { ActiveEffectEvent } from '../ActiveEffectEvent'
 import { ActiveEventTarget } from './eventTarget'
-import { incomingDamage, overkillHeatFor, reliableIncoming } from '@/classes/components/combat/flows/WeaponAttackFlow'
+import {
+  incomingDamage,
+  overkillHeatFor,
+  reliableIncoming,
+} from '@/classes/components/combat/flows/WeaponAttackFlow'
 export { reliableIncoming }
 
 class DamageEvent {

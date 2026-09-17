@@ -1,84 +1,137 @@
 <template>
   <slot />
 
-  <cc-icon-divider v-if="item.LicenseString"
-    :icon="item.Icon" />
+  <cc-icon-divider
+    v-if="item.LicenseString"
+    :icon="item.Icon"
+  />
 
   <slot name="statblock" />
 
   <div v-if="item.Effect">
-    <div v-show="!dense"
-      class="text-cc-overline text-disabled">//{{ $t('common.effect') }}</div>
+    <div
+      v-show="!dense"
+      class="text-cc-overline text-disabled"
+    >
+      //{{ $t('common.effect') }}
+    </div>
     <p v-html-safe="item.Effect" />
   </div>
 
   <div v-if="item.Actions && item.Actions.length">
-    <div v-show="!dense"
-      class="text-cc-overline text-disabled">//{{ $t('common.actions') }}</div>
-    <v-row no-gutters
-      justify="center">
-      <v-col v-for="(a, index) in item.Actions"
+    <div
+      v-show="!dense"
+      class="text-cc-overline text-disabled"
+    >
+      //{{ $t('common.actions') }}
+    </div>
+    <v-row
+      no-gutters
+      justify="center"
+    >
+      <v-col
+        v-for="(a, index) in item.Actions"
         :key="`action-${index}`"
-        cols="auto">
-        <cc-action :action="a"
+        cols="auto"
+      >
+        <cc-action
+          :action="a"
           :panel="$vuetify.display.lgAndUp"
-          class="ma-2" />
+          class="ma-2"
+        />
       </v-col>
     </v-row>
   </div>
 
   <div v-if="item.Deployables && item.Deployables.length">
-    <div v-show="!dense"
-      class="text-cc-overline text-disabled">//{{ $t('common.deployables') }}</div>
-    <v-row no-gutters
-      justify="center">
-      <v-col v-for="(d, index) in item.Deployables"
+    <div
+      v-show="!dense"
+      class="text-cc-overline text-disabled"
+    >
+      //{{ $t('common.deployables') }}
+    </div>
+    <v-row
+      no-gutters
+      justify="center"
+    >
+      <v-col
+        v-for="(d, index) in item.Deployables"
         :key="`deployable-${index}`"
-        cols="auto">
-        <cc-deployable-info :deployable="d"
+        cols="auto"
+      >
+        <cc-deployable-info
+          :deployable="d"
           :panel="$vuetify.display.lgAndUp"
           :name-override="item.Name"
-          class="ma-2" />
+          class="ma-2"
+        />
       </v-col>
     </v-row>
   </div>
 
   <div v-if="item.IntegratedEquipment && item.IntegratedEquipment.length">
-    <div v-show="!dense"
-      class="text-cc-overline text-disabled">//{{ $t('ui.card.integrations') }}</div>
-    <v-row no-gutters
-      justify="center">
-      <v-col v-for="(x, index) in item.IntegratedEquipment"
+    <div
+      v-show="!dense"
+      class="text-cc-overline text-disabled"
+    >
+      //{{ $t('ui.card.integrations') }}
+    </div>
+    <v-row
+      no-gutters
+      justify="center"
+    >
+      <v-col
+        v-for="(x, index) in item.IntegratedEquipment"
         :key="`integrated-${index}`"
-        cols="auto">
-        <cc-integrated-info :item="x"
-          :panel="$vuetify.display.lgAndUp" />
+        cols="auto"
+      >
+        <cc-integrated-info
+          :item="x"
+          :panel="$vuetify.display.lgAndUp"
+        />
       </v-col>
     </v-row>
   </div>
 
   <slot name="profile" />
 
-  <div v-if="item.Tags && item.Tags.filter(x => !x.IsHidden).length && !hideTags"
-    class="mt-2">
-    <div v-show="!dense"
-      class="text-cc-overline text-disabled">//{{ $t('ui.fields.tags') }}</div>
-    <cc-tags :tags="item.Tags"
-      :extended="!smallTags" />
+  <div
+    v-if="item.Tags && item.Tags.filter(x => !x.IsHidden).length && !hideTags"
+    class="mt-2"
+  >
+    <div
+      v-show="!dense"
+      class="text-cc-overline text-disabled"
+    >
+      //{{ $t('ui.fields.tags') }}
+    </div>
+    <cc-tags
+      :tags="item.Tags"
+      :extended="!smallTags"
+    />
   </div>
 
   <slot name="charts" />
 
-  <div v-if="item.Description"
-    class="my-2">
-    <div v-show="!dense"
-      class="text-cc-overline text-disabled">//{{ $t('ui.card.compendiumData') }}</div>
-    <div v-html-safe="item.Description"
-      class="flavor-text" />
+  <div
+    v-if="item.Description"
+    class="my-2"
+  >
+    <div
+      v-show="!dense"
+      class="text-cc-overline text-disabled"
+    >
+      //{{ $t('ui.card.compendiumData') }}
+    </div>
+    <div
+      v-html-safe="item.Description"
+      class="flavor-text"
+    />
   </div>
 
   <div v-if="notes">
-    <v-textarea v-model="item.Note"
+    <v-textarea
+      v-model="item.Note"
       variant="outlined"
       auto-grow
       rows="2"
@@ -87,35 +140,36 @@
       hide-details
       prepend-icon="mdi-note"
       :label="$t('ui.fields.equipmentNotes')"
-      class="mt-2" />
+      class="mt-2"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Action } from '@/classes/Action'
-import type Tag from '@/classes/Tag'
-import type { Deployable } from '@/classes/components/feature/deployable/Deployable'
-import type { MechEquipment } from '@/classes/mech/components/equipment/MechEquipment'
+  import type { Action } from '@/classes/Action'
+  import type Tag from '@/classes/Tag'
+  import type { Deployable } from '@/classes/components/feature/deployable/Deployable'
+  import type { MechEquipment } from '@/classes/mech/components/equipment/MechEquipment'
 
-interface IInfoCardItem {
-  Name: string
-  Icon: string
-  Note?: string
-  Description?: string
-  Effect?: string
-  LicenseString?: string
-  Tags?: Tag[]
-  Actions?: Action[]
-  Deployables?: Deployable[]
-  IntegratedEquipment?: MechEquipment[]
-}
+  interface IInfoCardItem {
+    Name: string
+    Icon: string
+    Note?: string
+    Description?: string
+    Effect?: string
+    LicenseString?: string
+    Tags?: Tag[]
+    Actions?: Action[]
+    Deployables?: Deployable[]
+    IntegratedEquipment?: MechEquipment[]
+  }
 
-defineProps<{
-  item: IInfoCardItem
-  notes?: boolean
-  smallTags?: boolean
-  dense?: boolean
-  hideTags?: boolean
-  charts?: boolean
-}>()
+  defineProps<{
+    item: IInfoCardItem
+    notes?: boolean
+    smallTags?: boolean
+    dense?: boolean
+    hideTags?: boolean
+    charts?: boolean
+  }>()
 </script>

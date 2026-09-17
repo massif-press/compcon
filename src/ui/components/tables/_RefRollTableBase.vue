@@ -1,11 +1,17 @@
 <template>
-  <v-dialog v-model="dialog"
-    width="75vw">
-    <v-card flat
-      tile>
-      <v-toolbar color="title-bg clipped-large"
+  <v-dialog
+    v-model="dialog"
+    width="75vw"
+  >
+    <v-card
+      flat
+      tile
+    >
+      <v-toolbar
+        color="title-bg clipped-large"
         dark
-        flat>
+        flat
+      >
         <v-toolbar-title class="heading h1">{{ title }}</v-toolbar-title>
       </v-toolbar>
       <v-row justify="center">
@@ -30,46 +36,52 @@
       </v-row>
       <v-divider />
       <v-card-actions>
-        <v-btn text
-          @click="dialog = false">{{ $t('common.dismiss') }}</v-btn>
+        <v-btn
+          text
+          @click="dialog = false"
+        >
+          {{ $t('common.dismiss') }}
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const props = defineProps<{
-  title: string
-}>()
+  const props = defineProps<{
+    title: string
+  }>()
 
-const dialog = ref(false)
+  const dialog = ref(false)
 
-function show() {
-  dialog.value = true;
-}
-function close() {
-  dialog.value = false;
-}
+  function show() {
+    dialog.value = true
+  }
+  function close() {
+    dialog.value = false
+  }
 </script>
 
 <style scoped>
-.title-bg {
-  background: repeating-linear-gradient(45deg,
+  .title-bg {
+    background: repeating-linear-gradient(
+      45deg,
       rgb(124, 0, 0),
       rgba(124, 0, 0) 20px,
       rgba(30, 30, 30) 20px,
-      rgba(30, 30, 30) 40px);
-}
+      rgba(30, 30, 30) 40px
+    );
+  }
 
-.die-hover {
-  opacity: 0.75;
-  transform: all 0.3s;
-}
+  .die-hover {
+    opacity: 0.75;
+    transform: all 0.3s;
+  }
 
-.die-hover:hover {
-  opacity: 1;
-  background-color: #e3f2fd;
-}
+  .die-hover:hover {
+    opacity: 1;
+    background-color: #e3f2fd;
+  }
 </style>

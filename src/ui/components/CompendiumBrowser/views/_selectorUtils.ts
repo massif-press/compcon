@@ -1,8 +1,11 @@
-import type { Manufacturer } from '@/classes/Manufacturer';
+import type { Manufacturer } from '@/classes/Manufacturer'
 import { i18n } from '@/i18n'
 
-export function getChartAxes(itemType: string, opts: { includeSize?: boolean; heatCapKey?: string } = {}) {
-  const { includeSize = false, heatCapKey = 'heatcap' } = opts;
+export function getChartAxes(
+  itemType: string,
+  opts: { includeSize?: boolean; heatCapKey?: string } = {}
+) {
+  const { includeSize = false, heatCapKey = 'heatcap' } = opts
   switch (itemType) {
     case 'Frame': {
       const axes = [
@@ -17,9 +20,9 @@ export function getChartAxes(itemType: string, opts: { includeSize?: boolean; he
         { title: i18n.global.t('common.save'), value: 'save' },
         { title: i18n.global.t('stats.speed'), value: 'speed' },
         { title: i18n.global.t('common.systemPoints'), value: 'sp' },
-      ];
-      if (includeSize) axes.push({ title: i18n.global.t('ui.titles.size'), value: 'size' });
-      return axes;
+      ]
+      if (includeSize) axes.push({ title: i18n.global.t('ui.titles.size'), value: 'size' })
+      return axes
     }
     case 'PilotArmor':
       return [
@@ -28,12 +31,12 @@ export function getChartAxes(itemType: string, opts: { includeSize?: boolean; he
         { title: i18n.global.t('ui.titles.eDefense'), value: 'edef' },
         { title: i18n.global.t('stats.evasion'), value: 'evasion' },
         { title: i18n.global.t('stats.speed'), value: 'speed' },
-      ];
+      ]
     case 'PilotWeapon':
       return [
         { title: i18n.global.t('ui.titles.range'), value: 'range' },
         { title: i18n.global.t('ui.titles.totalDamage'), value: 'damage' },
-      ];
+      ]
     case 'NpcClass':
       return [
         { title: i18n.global.t('ui.titles.hull'), value: 'hull' },
@@ -48,7 +51,7 @@ export function getChartAxes(itemType: string, opts: { includeSize?: boolean; he
         { title: i18n.global.t('stats.speed'), value: 'speed' },
         { title: i18n.global.t('common.sensorRange'), value: 'sensorRange' },
         { title: i18n.global.t('ui.titles.saveTarget'), value: 'saveTarget' },
-      ];
+      ]
     default:
       return [
         { title: i18n.global.t('ui.titles.range'), value: 'range' },
@@ -64,17 +67,17 @@ export function getChartAxes(itemType: string, opts: { includeSize?: boolean; he
         { title: i18n.global.t('ui.titles.heatDamage'), value: 'heatDamage' },
         { title: i18n.global.t('ui.titles.explosiveDamage'), value: 'explosiveDamage' },
         { title: i18n.global.t('ui.titles.variableDamage'), value: 'variableDamage' },
-      ];
+      ]
   }
 }
 
 export function findManufacturer(manufacturers: Manufacturer[], id: string) {
   return (
-    manufacturers.find((x) => x.ID === id) || {
+    manufacturers.find(x => x.ID === id) || {
       GetColor: () => 'black',
       Name: 'err',
       LogoIsExternal: false,
       Icon: 'gms',
     }
-  );
+  )
 }

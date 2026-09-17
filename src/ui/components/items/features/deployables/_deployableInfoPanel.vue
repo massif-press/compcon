@@ -1,26 +1,31 @@
 <template>
-  <cc-alert :title="deployable.Name"
-    :icon="deployable.Icon">
+  <cc-alert
+    :title="deployable.Name"
+    :icon="deployable.Icon"
+  >
     <div class="text-text">
-      <deployable-info-base :deployable="deployable"
+      <deployable-info-base
+        :deployable="deployable"
         :tier="tier"
-        :owner="owner" />
+        :owner="owner"
+      />
     </div>
   </cc-alert>
 </template>
 
 <script setup lang="ts">
-import { Deployable } from '@/classes/components/feature/deployable/Deployable';
-import type { DeployableOwner } from '@/classes/components/feature/IFeatureController';
-import DeployableInfoBase from './_deployableInfoBase.vue'
+  import { Deployable } from '@/classes/components/feature/deployable/Deployable'
+  import type { DeployableOwner } from '@/classes/components/feature/IFeatureController'
+  import DeployableInfoBase from './_deployableInfoBase.vue'
 
-const props = withDefaults(defineProps<{
-  deployable: Deployable
-  tier?: number
-  owner?: DeployableOwner | null
-}>(), {
-  owner: null,
-})
-
-
+  const props = withDefaults(
+    defineProps<{
+      deployable: Deployable
+      tier?: number
+      owner?: DeployableOwner | null
+    }>(),
+    {
+      owner: null,
+    }
+  )
 </script>

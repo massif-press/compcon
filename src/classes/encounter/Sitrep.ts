@@ -46,12 +46,24 @@ class Sitrep implements ILcpTracked {
     this._extraction = data.extraction || ''
   }
 
-  public get Name(): string { return localize(this.ID, 'name', this._name) }
-  public get Description(): string { return localize(this.ID, 'description', this._description) }
-  public get Deployment(): string { return localize(this.ID, 'deployment', this._deployment) }
-  public get Objective(): string { return localize(this.ID, 'objective', this._objective) }
-  public get ControlZone(): string { return localize(this.ID, 'controlZone', this._controlZone) }
-  public get Extraction(): string { return localize(this.ID, 'extraction', this._extraction) }
+  public get Name(): string {
+    return localize(this.ID, 'name', this._name)
+  }
+  public get Description(): string {
+    return localize(this.ID, 'description', this._description)
+  }
+  public get Deployment(): string {
+    return localize(this.ID, 'deployment', this._deployment)
+  }
+  public get Objective(): string {
+    return localize(this.ID, 'objective', this._objective)
+  }
+  public get ControlZone(): string {
+    return localize(this.ID, 'controlZone', this._controlZone)
+  }
+  public get Extraction(): string {
+    return localize(this.ID, 'extraction', this._extraction)
+  }
 }
 
 class SitrepInstance {
@@ -78,8 +90,7 @@ class SitrepInstance {
       this.Sitrep = new Sitrep({
         name: 'BASIC COMBAT',
         modified: false,
-        description:
-          i18n.global.t('classes.subtitles.aSimpleAffairWithTwoSides'),
+        description: i18n.global.t('classes.subtitles.aSimpleAffairWithTwoSides'),
       })
     }
 

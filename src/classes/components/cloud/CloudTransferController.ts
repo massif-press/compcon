@@ -135,7 +135,8 @@ class CloudTransferController {
     this.cc.Metadata.ItemModified = rawParent.SaveController.LastModified
     this.cc.Metadata.Name = rawParent.Name
     this.cc.Metadata.Size = CloudTransferController.stringifySafe(savedata).length
-    if (rawParent.SaveController?.IsDeleted) this.cc.Metadata.Deleted = rawParent.SaveController.DeleteTime
+    if (rawParent.SaveController?.IsDeleted)
+      this.cc.Metadata.Deleted = rawParent.SaveController.DeleteTime
 
     const previousMetadata = this.cc.Metadata.raw ? { ...this.cc.Metadata.raw } : null
     const uri = this.cc.Metadata.Uri
@@ -189,14 +190,19 @@ class CloudTransferController {
     }
 
     if (CloudTransferController.ITEM_LEVEL_SYNC_TYPES.has(itemType)) {
-      const localModified = this.cc.Parent.SaveController.LastModified || this.cc.Parent.SaveController.Created
+      const localModified =
+        this.cc.Parent.SaveController.LastModified || this.cc.Parent.SaveController.Created
       const remoteModified = remoteData.item_modified ?? 0
 
       if (remoteModified > localModified) {
         const newItem = CloudSyncOrchestrator.NewByType(itemType, remoteData)
         toRaw(newItem).SaveController.LastModified = remoteModified
-        newItem.CloudController.Metadata = { ...this.cc.Metadata.raw, item_modified: remoteModified }
-        newItem.CloudController.TransferController._lastContentHash = CloudTransferController.computeContentHash(remoteData)
+        newItem.CloudController.Metadata = {
+          ...this.cc.Metadata.raw,
+          item_modified: remoteModified,
+        }
+        newItem.CloudController.TransferController._lastContentHash =
+          CloudTransferController.computeContentHash(remoteData)
         newItem.CloudController._lastUploadedItemModified = remoteModified
         newItem.CloudController._lastSyncedUpdated = this.cc.Metadata.Updated ?? 0
         await CloudSyncOrchestrator.AddByType(itemType, newItem)

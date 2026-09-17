@@ -1,10 +1,12 @@
 <template>
-  <cc-compendium-browser :items="systems"
+  <cc-compendium-browser
+    :items="systems"
     item-type="MechSystem"
     :table-headers="headers"
     :options="options"
     :manufacturers="manufacturers"
-    view-key="cb-systems">
+    view-key="cb-systems"
+  >
     <template #header>
       <div class="heading h3 text-center text-accent">{{ $t('pm.loadout.mechSYSTEMS') }}</div>
     </template>
@@ -12,38 +14,35 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
-import { orderBy } from 'lodash-es';
-import { CompendiumStore, UserStore } from '@/stores';
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
+  import { computed, onMounted, ref } from 'vue'
+  import { orderBy } from 'lodash-es'
+  import { CompendiumStore, UserStore } from '@/stores'
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
 
-const options = ref({
-  views: ['single', 'table'],
-  initialView: 'single',
-  groups: ['source', 'lcp', 'license', 'none'],
-  initialGroup: 'license',
-  showExotics: UserStore().User.Option('showExotics') as boolean,
-})
-const headers = ref([
-  { title: '', align: 'left', key: 'Source' },
-  { title: t('compendium.titles.system'), align: 'left', key: 'Name' },
-  { title: 'License', key: 'License' },
-  { title: t('compendium.titles.licenseLevel'), align: 'center', key: 'LicenseLevel' },
-  { title: t('compendium.titles.tags'), align: 'center', key: 'Tags' },
-  { title: t('compendium.titles.spCost'), align: 'center', key: 'SP' },
-])
+  const options = ref({
+    views: ['single', 'table'],
+    initialView: 'single',
+    groups: ['source', 'lcp', 'license', 'none'],
+    initialGroup: 'license',
+    showExotics: UserStore().User.Option('showExotics') as boolean,
+  })
+  const headers = ref([
+    { title: '', align: 'left', key: 'Source' },
+    { title: t('compendium.titles.system'), align: 'left', key: 'Name' },
+    { title: 'License', key: 'License' },
+    { title: t('compendium.titles.licenseLevel'), align: 'center', key: 'LicenseLevel' },
+    { title: t('compendium.titles.tags'), align: 'center', key: 'Tags' },
+    { title: t('compendium.titles.spCost'), align: 'center', key: 'SP' },
+  ])
 
-const manufacturers = computed(() => {
-  return CompendiumStore().Manufacturers;
-})
-const systems = computed(() => {
-  return orderBy(
-    [...CompendiumStore().MechSystems, ...CompendiumStore().WeaponMods].filter(
-      (x) => !x.IsHidden
-    ),
-    'Name'
-  );
-})
-
+  const manufacturers = computed(() => {
+    return CompendiumStore().Manufacturers
+  })
+  const systems = computed(() => {
+    return orderBy(
+      [...CompendiumStore().MechSystems, ...CompendiumStore().WeaponMods].filter(x => !x.IsHidden),
+      'Name'
+    )
+  })
 </script>

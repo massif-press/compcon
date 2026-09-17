@@ -1,23 +1,34 @@
 <template>
-  <div style="position: relative"
-    class="li-top-element">
-    <div class="light"
-      style="position: absolute; top: 0; left: -15px; bottom: 0; width: 10px" />
-    <v-row no-gutters
+  <div
+    style="position: relative"
+    class="li-top-element"
+  >
+    <div
+      class="light"
+      style="position: absolute; top: 0; left: -15px; bottom: 0; width: 10px"
+    />
+    <v-row
+      no-gutters
       class="lighten-select"
       :class="mobile ? 'mb-2' : 'mb-4'"
-      @click="$emit('launch')">
-      <v-col cols="auto"
-        style="height: 100%; border: rgb(var(--v-theme-primary)) 3px double">
+      @click="$emit('launch')"
+    >
+      <v-col
+        cols="auto"
+        style="height: 100%; border: rgb(var(--v-theme-primary)) 3px double"
+      >
         <v-card style="position: relative">
           <!-- <cc-avatar v-if="sheet.Avatar" :avatar="sheet.Avatar" :size="mobile ? 75 : 150" /> -->
-          <cc-img v-if="pilot.Portrait"
+          <cc-img
+            v-if="pilot.Portrait"
             :src="pilot.Portrait"
             aspect-ratio="1"
             position="top center"
             :height="mobile ? '75px' : '150px'"
-            :width="mobile ? '75px' : '150px'" />
-          <div v-if="mech?.Portrait"
+            :width="mobile ? '75px' : '150px'"
+          />
+          <div
+            v-if="mech?.Portrait"
             class="bg-panel"
             style="
               position: absolute;
@@ -26,11 +37,15 @@
               width: 75%;
               height: 75%;
               clip-path: polygon(100% 0, 0% 100%, 100% 100%);
-            ">
-            <div style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"
-              :style="`background: linear-gradient(135deg,${mech?.Frame.ManufacturerColor} 52%, rgb(var(--v-theme-panel)) 51%, rgb(var(--v-theme-panel))  100%);`" />
+            "
+          >
+            <div
+              style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"
+              :style="`background: linear-gradient(135deg,${mech?.Frame.ManufacturerColor} 52%, rgb(var(--v-theme-panel)) 51%, rgb(var(--v-theme-panel))  100%);`"
+            />
 
-            <img style="
+            <img
+              style="
                 position: absolute;
                 top: 20%;
                 left: 10%;
@@ -40,59 +55,82 @@
                 height: auto;
               "
               :src="mech?.Portrait"
-              alt="" />
+              alt=""
+            />
           </div>
         </v-card>
       </v-col>
       <v-col style="position: relative">
-        <v-toolbar density="compact"
+        <v-toolbar
+          density="compact"
           class="cToolbar"
-          :height="mobile ? '40' : '46'">
-          <v-row no-gutters
+          :height="mobile ? '40' : '46'"
+        >
+          <v-row
+            no-gutters
             align="center"
-            class="px-2">
-            <v-col cols="auto"
-              class="heading text-white">
+            class="px-2"
+          >
+            <v-col
+              cols="auto"
+              class="heading text-white"
+            >
               {{ pilot.Callsign }}
             </v-col>
-            <v-col cols="auto"
+            <v-col
+              cols="auto"
               class="mx-3"
-              style="margin-top: -3px">
-              <cc-chip size="x-small"
+              style="margin-top: -3px"
+            >
+              <cc-chip
+                size="x-small"
                 variant="elevated"
                 :title="'local'"
                 :label="sheet.Campaign || $t('active.sheetItem.noCampaignInformation')"
                 :color="'panel'"
-                :bg-color="sheet.Campaign ? 'exotic' : ''">
-                <v-icon v-if="sheet.Campaign"
+                :bg-color="sheet.Campaign ? 'exotic' : ''"
+              >
+                <v-icon
+                  v-if="sheet.Campaign"
                   icon="cc:campaign"
-                  class="mr-1" />
+                  class="mr-1"
+                />
               </cc-chip>
             </v-col>
-            <v-col cols="auto"
-              class="mr-n2 ml-auto">
+            <v-col
+              cols="auto"
+              class="mr-n2 ml-auto"
+            >
               <v-menu>
                 <template #activator="{ props: activatorProps }">
-                  <v-icon v-bind="activatorProps"
+                  <v-icon
+                    v-bind="activatorProps"
                     start
                     color="white"
                     icon="mdi-cog"
                     size="small"
                     class="fade-select"
-                    @click.stop />
+                    @click.stop
+                  />
                 </template>
                 <div class="bg-panel pa-1">
-                  <v-list-item prepend-icon="mdi-archive"
-                    @click="$emit('archive')">
+                  <v-list-item
+                    prepend-icon="mdi-archive"
+                    @click="$emit('archive')"
+                  >
                     <v-list-item-title>{{ $t('active.sheetItem.archiveSheet') }}</v-list-item-title>
                   </v-list-item>
-                  <v-list-item prepend-icon="mdi-file-export"
-                    @click="$emit('export')">
+                  <v-list-item
+                    prepend-icon="mdi-file-export"
+                    @click="$emit('export')"
+                  >
                     <v-list-item-title>{{ $t('active.sheetItem.exportSheet') }}</v-list-item-title>
                   </v-list-item>
                   <v-divider class="my-1" />
-                  <v-list-item prepend-icon="mdi-delete"
-                    @click="$emit('delete')">
+                  <v-list-item
+                    prepend-icon="mdi-delete"
+                    @click="$emit('delete')"
+                  >
                     <v-list-item-title>{{ $t('active.sheetItem.deleteSheet') }}</v-list-item-title>
                   </v-list-item>
                 </div>
@@ -101,14 +139,14 @@
           </v-row>
         </v-toolbar>
 
-        <div v-if="mobile"
-          class="detail-row-mobile px-2 pt-1 text-cc-overline">
+        <div
+          v-if="mobile"
+          class="detail-row-mobile px-2 pt-1 text-cc-overline"
+        >
           <div v-if="pilot.CombatController.Mounted && mech">
-            <b class="text-stark">{{ $t('active.actions.mounted') }}</b> &mdash; <i>{{ mech.Name
-            }} ({{
-                mech.Frame.Source }} {{
-                mech.Frame.Name
-              }})</i>
+            <b class="text-stark">{{ $t('active.actions.mounted') }}</b>
+            &mdash;
+            <i>{{ mech.Name }} ({{ mech.Frame.Source }} {{ mech.Frame.Name }})</i>
           </div>
           <div v-else>
             <b class="text-stark">{{ $t('active.sheetItem.unmounted') }}</b>
@@ -118,8 +156,10 @@
           </div>
         </div>
 
-        <div v-else
-          class="px-3">
+        <div
+          v-else
+          class="px-3"
+        >
           <v-row class="detail-row">
             <v-col class="text-cc-overline pt-4">
               <div>
@@ -127,36 +167,48 @@
                   {{ pilot.Callsign }}
                 </b>
                 ({{ pilot.Name }})
-                <b v-if="pilot.CombatController.Mounted"
-                  class="text-stark">
+                <b
+                  v-if="pilot.CombatController.Mounted"
+                  class="text-stark"
+                >
                   {{ $t('active.actions.mounted') }}
                 </b>
-                <b v-else
-                  class="text-stark">
+                <b
+                  v-else
+                  class="text-stark"
+                >
                   {{ $t('active.sheetItem.unmounted') }}
                 </b>
               </div>
 
-              <v-row dense
+              <v-row
+                dense
                 justify="space-around"
                 class="pt-1"
-                align="center">
-                <v-col v-for="stat in pilot.StatController.GetStatCollection([
-                  'hp',
-                  'overshield',
-                  'stress',
-                  'heatcap',
-                  'structure',
-                  'repairCapacity',
-                ])"
+                align="center"
+              >
+                <v-col
+                  v-for="stat in pilot.StatController.GetStatCollection([
+                    'hp',
+                    'overshield',
+                    'stress',
+                    'heatcap',
+                    'structure',
+                    'repairCapacity',
+                  ])"
                   :key="`pilot-stat-${stat.key}`"
-                  cols="auto">
-                  <v-tooltip location="top"
-                    open-delay="400">
+                  cols="auto"
+                >
+                  <v-tooltip
+                    location="top"
+                    open-delay="400"
+                  >
                     <template #activator="{ props: activatorProps }">
-                      <v-icon v-bind="activatorProps"
+                      <v-icon
+                        v-bind="activatorProps"
                         class="mx-1 mt-n1"
-                        :icon="getStatIcon(stat.key)" />
+                        :icon="getStatIcon(stat.key)"
+                      />
                       <b class="text-accent">{{ pilot.StatController.CurrentStats[stat.key] }}</b>
                     </template>
                     <div class="text-cc-overline text-center">
@@ -170,21 +222,27 @@
                     </div>
                   </v-tooltip>
                 </v-col>
-                <v-col v-for="stat in pilot.StatController.GetStatCollection([
-                  'armor',
-                  'evasion',
-                  'edef',
-                  'saveTarget',
-                ])"
+                <v-col
+                  v-for="stat in pilot.StatController.GetStatCollection([
+                    'armor',
+                    'evasion',
+                    'edef',
+                    'saveTarget',
+                  ])"
                   :key="`pilot-def-${stat.key}`"
-                  cols="auto">
-                  <v-tooltip :text="stat.title"
+                  cols="auto"
+                >
+                  <v-tooltip
+                    :text="stat.title"
                     location="top"
-                    open-delay="400">
+                    open-delay="400"
+                  >
                     <template #activator="{ props: activatorProps }">
-                      <v-icon v-bind="activatorProps"
+                      <v-icon
+                        v-bind="activatorProps"
                         class="mx-1 mt-n1"
-                        :icon="getStatIcon(stat.key)" />
+                        :icon="getStatIcon(stat.key)"
+                      />
                       <b class="text-secondary">
                         {{ pilot.StatController.CurrentStats[stat.key] }}
                       </b>
@@ -195,27 +253,37 @@
 
               <div v-if="mech">
                 <v-divider class="my-1" />
-                <div><b>{{ mech.Name }}</b> ({{ mech.Frame.Source }} {{ mech.Frame.Name
-                }}) </div>
-                <v-row dense
+                <div>
+                  <b>{{ mech.Name }}</b>
+                  ({{ mech.Frame.Source }} {{ mech.Frame.Name }})
+                </div>
+                <v-row
+                  dense
                   justify="space-around"
-                  align="center">
-                  <v-col v-for="stat in pilot.StatController.GetStatCollection([
-                    'hp',
-                    'overshield',
-                    'stress',
-                    'heatcap',
-                    'structure',
-                    'repairCapacity',
-                  ])"
+                  align="center"
+                >
+                  <v-col
+                    v-for="stat in pilot.StatController.GetStatCollection([
+                      'hp',
+                      'overshield',
+                      'stress',
+                      'heatcap',
+                      'structure',
+                      'repairCapacity',
+                    ])"
                     :key="`mech-stat-${stat.key}`"
-                    cols="auto">
-                    <v-tooltip location="top"
-                      open-delay="400">
+                    cols="auto"
+                  >
+                    <v-tooltip
+                      location="top"
+                      open-delay="400"
+                    >
                       <template #activator="{ props: activatorProps }">
-                        <v-icon v-bind="activatorProps"
+                        <v-icon
+                          v-bind="activatorProps"
                           class="mx-1 mt-n1"
-                          :icon="getStatIcon(stat.key)" />
+                          :icon="getStatIcon(stat.key)"
+                        />
                         <b class="text-accent">{{ mech.StatController.CurrentStats[stat.key] }}</b>
                       </template>
                       <div class="text-cc-overline text-center">
@@ -229,21 +297,27 @@
                       </div>
                     </v-tooltip>
                   </v-col>
-                  <v-col v-for="stat in mech.StatController.GetStatCollection([
-                    'armor',
-                    'evasion',
-                    'edef',
-                    'saveTarget',
-                  ])"
+                  <v-col
+                    v-for="stat in mech.StatController.GetStatCollection([
+                      'armor',
+                      'evasion',
+                      'edef',
+                      'saveTarget',
+                    ])"
                     :key="`mech-def-${stat.key}`"
-                    cols="auto">
-                    <v-tooltip :text="stat.title"
+                    cols="auto"
+                  >
+                    <v-tooltip
+                      :text="stat.title"
                       location="top"
-                      open-delay="400">
+                      open-delay="400"
+                    >
                       <template #activator="{ props: activatorProps }">
-                        <v-icon v-bind="activatorProps"
+                        <v-icon
+                          v-bind="activatorProps"
                           class="mx-1 mt-n1"
-                          :icon="getStatIcon(stat.key)" />
+                          :icon="getStatIcon(stat.key)"
+                        />
                         <b class="text-secondary">
                           {{ mech.StatController.CurrentStats[stat.key] }}
                         </b>
@@ -255,11 +329,16 @@
 
               ``
               <v-divider class="my-1" />
-              {{ $t('active.sheetItem.started') }} <b>{{ new
-                Date(sheet.Created).toLocaleDateString() }}</b>
+              {{ $t('active.sheetItem.started') }}
+              <b>{{ new Date(sheet.Created).toLocaleDateString() }}</b>
               &mdash; {{ $t('active.sheetItem.lastTurn') }}
-              <b>{{ sheet.Updated ? new
-                Date(sheet.Updated).toLocaleDateString() : $t('active.sheetItem.na') }}</b>
+              <b>
+                {{
+                  sheet.Updated
+                    ? new Date(sheet.Updated).toLocaleDateString()
+                    : $t('active.sheetItem.na')
+                }}
+              </b>
               <br />
               <div>
                 {{ $t('active.sheetItem.roundN', { n: pilot.CombatController.Round }) }}
@@ -269,56 +348,55 @@
         </div>
       </v-col>
     </v-row>
-
   </div>
 </template>
 
 <script setup lang="ts">
-import { Stats } from '@/classes/components/combat/stats/Stats';
-import PilotSheet from '@/features/pilot_management/store/PilotSheet';
-import { computed } from 'vue'
-import { useDisplay } from 'vuetify';
+  import { Stats } from '@/classes/components/combat/stats/Stats'
+  import PilotSheet from '@/features/pilot_management/store/PilotSheet'
+  import { computed } from 'vue'
+  import { useDisplay } from 'vuetify'
 
-const { smAndDown: mobile } = useDisplay()
+  const { smAndDown: mobile } = useDisplay()
 
-const props = defineProps<{
-  sheet: PilotSheet
-}>()
+  const props = defineProps<{
+    sheet: PilotSheet
+  }>()
 
-defineEmits<{
-  'archive': []
-  'delete': []
-  'launch': []
-  'export': []
-}>()
+  defineEmits<{
+    archive: []
+    delete: []
+    launch: []
+    export: []
+  }>()
 
-const pilot = computed(() => {
-  return props.sheet.Combatant.actor;
-})
-const mech = computed(() => {
-  return props.sheet.Combatant.actor.ActiveMech;
-})
-function getStatIcon(statKey: string) {
-  return Stats.IconMap[statKey as keyof typeof Stats.IconMap] || 'mdi-rhombus';
-}
+  const pilot = computed(() => {
+    return props.sheet.Combatant.actor
+  })
+  const mech = computed(() => {
+    return props.sheet.Combatant.actor.ActiveMech
+  })
+  function getStatIcon(statKey: string) {
+    return Stats.IconMap[statKey as keyof typeof Stats.IconMap] || 'mdi-rhombus'
+  }
 </script>
 
 <style scoped>
-@import '@/ui/style/pilot-list-item.css';
+  @import '@/ui/style/pilot-list-item.css';
 
-.success-pulse {
-  animation: success-pulse 1.8s infinite;
-}
-
-@keyframes success-pulse {
-  0% {
-    box-shadow: 0 0 0 0px rgb(var(--v-theme-success));
-    border-radius: 0px;
+  .success-pulse {
+    animation: success-pulse 1.8s infinite;
   }
 
-  100% {
-    box-shadow: 0 0 0 8px rgba(0, 0, 0, 0);
-    border-radius: 1px;
+  @keyframes success-pulse {
+    0% {
+      box-shadow: 0 0 0 0px rgb(var(--v-theme-success));
+      border-radius: 0px;
+    }
+
+    100% {
+      box-shadow: 0 0 0 8px rgba(0, 0, 0, 0);
+      border-radius: 1px;
+    }
   }
-}
 </style>

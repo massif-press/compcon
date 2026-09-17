@@ -1,21 +1,51 @@
 <template>
-  <slot-card-base ref="base" :item="item" :mech="mech" :readonly="readonly" title-color="mod">
+  <slot-card-base
+    ref="base"
+    :item="item"
+    :mech="mech"
+    :readonly="readonly"
+    title-color="mod"
+  >
     <template #header>
-      <div v-if="item" class="pt-1">
+      <div
+        v-if="item"
+        class="pt-1"
+      >
         <v-icon icon="cc:weaponmod" />
-        <cc-broken-reference v-if="item" :item="item" />
+        <cc-broken-reference
+          v-if="item"
+          :item="item"
+        />
         {{ item.Name }}
       </div>
-      <div v-else class="text-disabled">&nbsp;{{ $t('pm.loadout.emptySYSTEMSLOT') }}</div>
+      <div
+        v-else
+        class="text-disabled"
+      >
+        &nbsp;{{ $t('pm.loadout.emptySYSTEMSLOT') }}
+      </div>
     </template>
 
-    <template v-if="item" #header-items>
-      <div v-if="!mobile" style="margin-top: -2px">
+    <template
+      v-if="item"
+      #header-items
+    >
+      <div
+        v-if="!mobile"
+        style="margin-top: -2px"
+      >
         {{ item.SP }}
         <span style="font-size: 13px; margin-left: 2px">{{ $t('stats.sp') }}</span>
       </div>
-      <v-divider v-if="!readonly && !mobile" vertical class="ml-3" />
-      <div v-if="!readonly" :class="!mobile && 'mt-n1'">
+      <v-divider
+        v-if="!readonly && !mobile"
+        vertical
+        class="ml-3"
+      />
+      <div
+        v-if="!readonly"
+        :class="!mobile && 'mt-n1'"
+      >
         <v-btn
           v-if="item"
           size="x-small"
@@ -24,7 +54,8 @@
           variant="plain"
           color="error"
           class="d-inline"
-          @click.stop="$emit('remove')">
+          @click.stop="$emit('remove')"
+        >
           <v-icon icon="mdi-delete" />
         </v-btn>
       </div>
@@ -40,38 +71,41 @@
 </template>
 
 <script setup lang="ts">
-import type { WeaponMod } from '@/classes/mech/components/equipment/WeaponMod'
-import type { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
-import type { Mech } from '@/classes/mech/Mech'
-import { ref } from 'vue'
-import SlotCardBase from '../_SlotCardBase.vue';
-import EquipmentOptions from '../_EquipmentOptions.vue';
-import { useDisplay } from 'vuetify';
+  import type { WeaponMod } from '@/classes/mech/components/equipment/WeaponMod'
+  import type { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
+  import type { Mech } from '@/classes/mech/Mech'
+  import { ref } from 'vue'
+  import SlotCardBase from '../_SlotCardBase.vue'
+  import EquipmentOptions from '../_EquipmentOptions.vue'
+  import { useDisplay } from 'vuetify'
 
-defineOptions({ name: 'mod-equipped-card' })
+  defineOptions({ name: 'mod-equipped-card' })
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+  const { smAndDown: mobile, xs: portrait } = useDisplay()
 
-const props = withDefaults(defineProps<{
-  mech: Mech
-  weapon?: MechWeapon
-  item?: WeaponMod
-  color?: string
-  readonly?: boolean
-  integrated?: boolean
-}>(), {
-  weapon: undefined,
-  item: undefined,
-  color: 'primary',
-  integrated: false
-})
+  const props = withDefaults(
+    defineProps<{
+      mech: Mech
+      weapon?: MechWeapon
+      item?: WeaponMod
+      color?: string
+      readonly?: boolean
+      integrated?: boolean
+    }>(),
+    {
+      weapon: undefined,
+      item: undefined,
+      color: 'primary',
+      integrated: false,
+    }
+  )
 
-const emit = defineEmits<{
-  'remove': []
-  'switch': []
-}>()
+  const emit = defineEmits<{
+    remove: []
+    switch: []
+  }>()
 
-const base = ref<any>(null)
+  const base = ref<any>(null)
 
-const hide = ref(false)
+  const hide = ref(false)
 </script>

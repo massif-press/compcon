@@ -7,32 +7,41 @@
     :multiple="multiple"
     :mandatory="mandatory"
     rounded="0"
-    class="flex-wrap">
+    class="flex-wrap"
+  >
     <slot />
   </v-btn-toggle>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+  import { ref, watch } from 'vue'
 
-const props = withDefaults(defineProps<{
-  modelValue?: any
-  color?: string
-  variant?: 'flat' | 'text' | 'outlined' | 'tonal' | 'plain' | 'elevated'
-  density?: 'default' | 'comfortable' | 'compact'
-  multiple?: boolean
-  mandatory?: boolean
-}>(), {
-  color: 'primary',
-  variant: 'outlined',
-  density: 'compact',
-})
+  const props = withDefaults(
+    defineProps<{
+      modelValue?: any
+      color?: string
+      variant?: 'flat' | 'text' | 'outlined' | 'tonal' | 'plain' | 'elevated'
+      density?: 'default' | 'comfortable' | 'compact'
+      multiple?: boolean
+      mandatory?: boolean
+    }>(),
+    {
+      color: 'primary',
+      variant: 'outlined',
+      density: 'compact',
+    }
+  )
 
-const emit = defineEmits<{
-  'update:modelValue': [val: any]
-}>()
+  const emit = defineEmits<{
+    'update:modelValue': [val: any]
+  }>()
 
-const model = ref(props.modelValue)
-watch(model, val => emit('update:modelValue', val))
-watch(() => props.modelValue, val => { model.value = val })
+  const model = ref(props.modelValue)
+  watch(model, val => emit('update:modelValue', val))
+  watch(
+    () => props.modelValue,
+    val => {
+      model.value = val
+    }
+  )
 </script>

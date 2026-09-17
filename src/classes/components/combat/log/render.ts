@@ -25,9 +25,7 @@ function withDamageNotes(base: string, p: any, t: Translate): string {
 
 const compact = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '')
 
-const ACTIVATION_TYPES = new Map(
-  Object.values(ActivationType).map(v => [compact(v), v as string])
-)
+const ACTIVATION_TYPES = new Map(Object.values(ActivationType).map(v => [compact(v), v as string]))
 
 function activationLabel(activation: string | undefined, t: Translate): string {
   if (!activation) return ''

@@ -5,9 +5,7 @@ import { UserMetadataStore } from './UserMetadataStore'
 import { NotificationStore } from './NotificationStore'
 import type { BackupStore as BackupStoreType } from './BackupStore'
 
-export async function pruneBackups(
-  backupStore: ReturnType<typeof BackupStoreType>
-): Promise<void> {
+export async function pruneBackups(backupStore: ReturnType<typeof BackupStoreType>): Promise<void> {
   const toDelete = backupStore.PrunableBackups
   if (!toDelete.length) return
 

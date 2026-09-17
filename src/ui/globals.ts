@@ -23,7 +23,6 @@ import CCTabs from './components/CCTabs.vue'
 
 import CCChip from './components/chips/CCChip.vue'
 
-
 import CCText from './components/CCText.vue'
 
 import CCConfigTip from './components/CCConfigTip.vue'
@@ -35,8 +34,6 @@ import CCConfirmation from './components/CCConfirmation.vue'
 import CCDamageElement from './components/CCDamageElement.vue'
 import CCNpcAccuracyElement from './components/CCNpcAccuracyElement.vue'
 import CCNpcAttackBonus from './components/CCNpcAttackBonus.vue'
-
-
 
 import CCLcpInfo from './components/CCLcpInfo.vue'
 // import CCDialog from './components/CCDialog.vue';

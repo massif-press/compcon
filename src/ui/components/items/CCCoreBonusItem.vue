@@ -1,99 +1,145 @@
 <template>
-  <cc-panel :title="bonus.Name"
+  <cc-panel
+    :title="bonus.Name"
     :icon="bonus.Icon"
     :title-color="bonus.Color"
-    style="position: relative">
+    style="position: relative"
+  >
     <template #toolbar-items>
-      <span v-if="!readonly"
-        class="pr-1">
-        <cc-broken-reference :item="bonus"
-          end />
-        <v-tooltip v-if="bonus.FromInstance"
+      <span
+        v-if="!readonly"
+        class="pr-1"
+      >
+        <cc-broken-reference
+          :item="bonus"
+          end
+        />
+        <v-tooltip
+          v-if="bonus.FromInstance"
           location="top"
-          max-width="300">
+          max-width="300"
+        >
           <template #activator="{ props }">
-            <v-btn icon
+            <v-btn
+              icon
               size="x-small"
               class="fade-select"
               v-bind="props"
-              @click="$emit('remove', bonus)">
-              <v-icon icon="mdi-delete"
+              @click="$emit('remove', bonus)"
+            >
+              <v-icon
+                icon="mdi-delete"
                 size="20"
-                style="margin-top: -2px; margin-right: -4px" />
+                style="margin-top: -2px; margin-right: -4px"
+              />
             </v-btn>
           </template>
           <div class="text-center">
             <div>{{ $t('ui.coreBonus.remove') }}</div>
             <v-divider class="my-1" />
-            <i18n-t keypath="ui.coreBonus.instancedWarning"
+            <i18n-t
+              keypath="ui.coreBonus.instancedWarning"
               tag="div"
               scope="global"
-              class="text-caption">
-              <template #warning><b class="text-error">{{ $t('common.warning') }}</b></template>
+              class="text-caption"
+            >
+              <template #warning>
+                <b class="text-error">{{ $t('common.warning') }}</b>
+              </template>
             </i18n-t>
           </div>
         </v-tooltip>
       </span>
     </template>
-    <div v-if="bonus.InLcp"
-      style="position: absolute; top: 27px; right: 4px; z-index: 1">
-      <cc-lcp-info v-if="bonus.InLcp"
-        :item="bonus" />
+    <div
+      v-if="bonus.InLcp"
+      style="position: absolute; top: 27px; right: 4px; z-index: 1"
+    >
+      <cc-lcp-info
+        v-if="bonus.InLcp"
+        :item="bonus"
+      />
     </div>
-    <p v-html-safe="bonus.Effect"
-      class="pb-1" />
+    <p
+      v-html-safe="bonus.Effect"
+      class="pb-1"
+    />
 
     <div v-if="!combat && bonus.Actions.length">
       <div class="text-cc-overline text-disabled">{{ $t('ui.coreBonus.actions') }}</div>
-      <v-row no-gutters
-        justify="center">
-        <v-col v-for="(a, i) in bonus.Actions"
+      <v-row
+        no-gutters
+        justify="center"
+      >
+        <v-col
+          v-for="(a, i) in bonus.Actions"
           :key="`action_${bonus.Name}_${i}`"
-          cols="auto">
-          <cc-action :action="a"
+          cols="auto"
+        >
+          <cc-action
+            :action="a"
             :panel="!terse"
-            class="ma-2" />
+            class="ma-2"
+          />
         </v-col>
       </v-row>
     </div>
 
     <div v-if="!combat && bonus.Deployables.length">
       <div class="text-cc-overline text-disabled">{{ $t('ui.coreBonus.deployables') }}</div>
-      <v-row no-gutters
-        justify="center">
-        <v-col v-for="(d, i) in bonus.Deployables"
+      <v-row
+        no-gutters
+        justify="center"
+      >
+        <v-col
+          v-for="(d, i) in bonus.Deployables"
           :key="`deployable_${bonus.Name}_${i}`"
-          cols="auto">
-          <cc-deployable-info :deployable="d"
+          cols="auto"
+        >
+          <cc-deployable-info
+            :deployable="d"
             :panel="!terse"
             :name-override="bonus.Name"
-            class="ma-2" />
+            class="ma-2"
+          />
         </v-col>
       </v-row>
     </div>
 
     <div v-if="!combat && bonus.IntegratedEquipment.length">
       <div class="text-cc-overline text-disabled">{{ $t('ui.coreBonus.integrated') }}</div>
-      <v-row no-gutters
-        justify="center">
-        <v-col v-for="(x, i) in bonus.IntegratedEquipment"
+      <v-row
+        no-gutters
+        justify="center"
+      >
+        <v-col
+          v-for="(x, i) in bonus.IntegratedEquipment"
           :key="`int_${bonus.Name}_${i}`"
-          cols="auto">
-          <cc-integrated-info :item="x"
-            :panel="!terse" />
+          cols="auto"
+        >
+          <cc-integrated-info
+            :item="x"
+            :panel="!terse"
+          />
         </v-col>
       </v-row>
     </div>
 
     <div v-if="!combat && bonus.SpecialEquipment.length">
       <div class="text-cc-overline text-disabled">{{ $t('ui.coreBonus.additional') }}</div>
-      <v-row no-gutters
-        justify="center">
-        <v-col v-for="(x, i) in bonus.SpecialEquipment"
+      <v-row
+        no-gutters
+        justify="center"
+      >
+        <v-col
+          v-for="(x, i) in bonus.SpecialEquipment"
           :key="`special_${bonus.Name}_${i}`"
-          cols="auto">
-          <cc-integrated-info :item="x"
-            :panel="!terse" />
+          cols="auto"
+        >
+          <cc-integrated-info
+            :item="x"
+            :panel="!terse"
+          />
         </v-col>
       </v-row>
     </div>
@@ -103,15 +149,18 @@
 </template>
 
 <script setup lang="ts">
-import type { CoreBonus } from '@/classes/pilot/components/corebonus/CoreBonus'
+  import type { CoreBonus } from '@/classes/pilot/components/corebonus/CoreBonus'
 
-withDefaults(defineProps<{
-  bonus: CoreBonus
-  terse?: boolean
-  readonly?: boolean
-  combat?: boolean
-}>(), {
-  terse: false,
-  readonly: false,
-})
+  withDefaults(
+    defineProps<{
+      bonus: CoreBonus
+      terse?: boolean
+      readonly?: boolean
+      combat?: boolean
+    }>(),
+    {
+      terse: false,
+      readonly: false,
+    }
+  )
 </script>

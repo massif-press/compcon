@@ -1,3 +1,3 @@
-import GMEncounterListItem from './GMEncounterListItem.vue';
+import GMEncounterListItem from './GMEncounterListItem.vue'
 
-export { GMEncounterListItem };
+export { GMEncounterListItem }

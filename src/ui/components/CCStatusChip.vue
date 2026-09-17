@@ -9,26 +9,30 @@
     tile
     rounded="0"
     class="text-cc-overline px-2"
-    @click:close="emit('click:close')">
+    @click:close="emit('click:close')"
+  >
     <slot />
   </v-chip>
 </template>
 
 <script setup lang="ts">
-withDefaults(defineProps<{
-  color?: string
-  size?: string
-  variant?: 'flat' | 'text' | 'outlined' | 'tonal' | 'plain' | 'elevated'
-  icon?: string
-  closable?: boolean
-}>(), {
-  color: 'primary',
-  size: 'small',
-  variant: 'tonal',
-  closable: false,
-})
+  withDefaults(
+    defineProps<{
+      color?: string
+      size?: string
+      variant?: 'flat' | 'text' | 'outlined' | 'tonal' | 'plain' | 'elevated'
+      icon?: string
+      closable?: boolean
+    }>(),
+    {
+      color: 'primary',
+      size: 'small',
+      variant: 'tonal',
+      closable: false,
+    }
+  )
 
-const emit = defineEmits<{
-  'click:close': []
-}>()
+  const emit = defineEmits<{
+    'click:close': []
+  }>()
 </script>

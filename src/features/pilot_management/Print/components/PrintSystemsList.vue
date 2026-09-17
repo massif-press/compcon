@@ -1,56 +1,76 @@
 <template>
   <fieldset>
     <legend class="heading h3 ml-1 px-2">{{ $t('stats.systems') }}</legend>
-    <v-card v-for="s in mech.MechLoadoutController.ActiveLoadout.AllActiveSystems.filter(Boolean)"
+    <v-card
+      v-for="s in mech.MechLoadoutController.ActiveLoadout.AllActiveSystems.filter(Boolean)"
       :key="s.ID"
       variant="outlined"
       class="pa-1 my-1 no-print-break"
-      style="position: relative; border-color: rgba(0, 0, 0, 0.2)">
+      style="position: relative; border-color: rgba(0, 0, 0, 0.2)"
+    >
       <v-row>
         <v-col cols="auto">
-          <v-icon icon="cc:system"
+          <v-icon
+            icon="cc:system"
             class="mt-n1"
-            start />
-          <b class="heading h4"
-            style="line-height: 0">{{ s.Name }}</b>
+            start
+          />
+          <b
+            class="heading h4"
+            style="line-height: 0"
+          >
+            {{ s.Name }}
+          </b>
         </v-col>
         <v-col cols="auto">
-          <span class="text-overline"
-            style="line-height: 0">{{ s.Source }} {{ $enum('systemType', s.Type) }}</span>
+          <span
+            class="text-overline"
+            style="line-height: 0"
+          >
+            {{ s.Source }} {{ $enum('systemType', s.Type) }}
+          </span>
         </v-col>
-        <v-col v-if="s.Uses"
+        <v-col
+          v-if="s.Uses"
           cols="auto"
-          class="ml-auto">
-          <v-icon v-for="n in s.getTotalUses(mech.LimitedBonus)"
+          class="ml-auto"
+        >
+          <v-icon
+            v-for="n in s.getTotalUses(mech.LimitedBonus)"
             :key="`use-${n}`"
             size="small"
-            color="primary">
+            color="primary"
+          >
             mdi-hexagon-outline
           </v-icon>
         </v-col>
       </v-row>
       <div class="pl-7">
-        <p v-if="s.Effect"
+        <p
+          v-if="s.Effect"
           v-html-safe="s.Effect"
-          class="caption mb-n1" />
+          class="caption mb-n1"
+        />
         <print-action :actions="s.Actions" />
         <print-deployable :deployables="s.Deployables" />
-        <tag-block :tags="s.Tags"
+        <tag-block
+          :tags="s.Tags"
           :options="options"
-          mech />
+          mech
+        />
       </div>
     </v-card>
   </fieldset>
 </template>
 
 <script setup lang="ts">
-import type { Mech } from '@/classes/mech/Mech'
-import PrintAction from './PrintAction.vue';
-import PrintDeployable from './PrintDeployable.vue';
-import TagBlock from './TagBlock.vue';
+  import type { Mech } from '@/classes/mech/Mech'
+  import PrintAction from './PrintAction.vue'
+  import PrintDeployable from './PrintDeployable.vue'
+  import TagBlock from './TagBlock.vue'
 
-defineProps<{
-  mech: Mech
-  options: any
-}>()
+  defineProps<{
+    mech: Mech
+    options: any
+  }>()
 </script>

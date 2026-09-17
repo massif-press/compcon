@@ -1,6 +1,8 @@
 <template>
-  <v-card-text class="pt-0"
-    :class="{ 'px-0': mobile }">
+  <v-card-text
+    class="pt-0"
+    :class="{ 'px-0': mobile }"
+  >
     <v-row>
       <v-col>
         <div class="heading h3 mb-2">
@@ -8,51 +10,76 @@
         </div>
 
         <div>
-          <cc-panel v-if="item.Flavor"
+          <cc-panel
+            v-if="item.Flavor"
             :title="$t('common.description')"
             :title-color="item.Color"
-            class="mb-2">
+            class="mb-2"
+          >
             <p v-html-safe="item.Flavor" />
           </cc-panel>
-          <cc-panel v-if="item.Tactics"
+          <cc-panel
+            v-if="item.Tactics"
             :title="$t('ui.titles.tactics')"
             :title-color="item.Color"
-            class="mb-2">
+            class="mb-2"
+          >
             <p v-html-safe="item.Tactics" />
           </cc-panel>
-          <cc-panel v-if="item.ClassFeatureSelectionInfo"
+          <cc-panel
+            v-if="item.ClassFeatureSelectionInfo"
             :title="$t('ui.titles.featureSelection')"
             :title-color="item.Color"
-            class="mb-2">
+            class="mb-2"
+          >
             <p v-html-safe="item.ClassFeatureSelectionInfo" />
           </cc-panel>
         </div>
       </v-col>
-      <v-col v-if="!mobile"
-        cols="4">
-        <class-combat-chart :npc-class="item" :npc-classes="npcClasses" />
+      <v-col
+        v-if="!mobile"
+        cols="4"
+      >
+        <class-combat-chart
+          :npc-class="item"
+          :npc-classes="npcClasses"
+        />
       </v-col>
     </v-row>
 
-    <cc-heading small
+    <cc-heading
+      small
       line
-      dense>{{ $t('ui.card.classStats') }}</cc-heading>
+      dense
+    >
+      {{ $t('ui.card.classStats') }}
+    </cc-heading>
     <div class="text-cc-overline text-center mt-n3">
-      <v-chip size="x-small"
-        tile>{{ $t('ui.card.tierColumns') }}</v-chip>
+      <v-chip
+        size="x-small"
+        tile
+      >
+        {{ $t('ui.card.tierColumns') }}
+      </v-chip>
     </div>
 
-    <v-row dense
-      justify="space-around">
-      <CCTieredAttribute v-for="i in statArr"
+    <v-row
+      dense
+      justify="space-around"
+    >
+      <CCTieredAttribute
+        v-for="i in statArr"
         :key="i"
         :title="i"
-        :arr="item.Stats.StatArr(i)" />
+        :arr="item.Stats.StatArr(i)"
+      />
     </v-row>
 
-    <cc-heading small
+    <cc-heading
+      small
       line
-      dense>
+      dense
+    >
       {{ $t('ui.card.classBaseFeatures') }}
       <span class="text-caption text-disabled">({{ item.BaseFeatures.length }})</span>
     </cc-heading>
@@ -63,59 +90,63 @@
       </template>
     </cc-masonry-grid>
 
-    <cc-heading small
+    <cc-heading
+      small
       line
-      dense>
+      dense
+    >
       {{ $t('ui.card.classOptionalFeatures') }}
       <span class="text-caption text-disabled">({{ item.OptionalFeatures.length }})</span>
     </cc-heading>
 
     <cc-masonry-grid :items="item.OptionalFeatures">
       <template #default="{ item }">
-        <cc-dense-card :item="item"
+        <cc-dense-card
+          :item="item"
           class="my-1"
-          full-height />
+          full-height
+        />
       </template>
     </cc-masonry-grid>
   </v-card-text>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useDisplay } from 'vuetify'
-import { useCompendiumData } from '@/ui/providers'
-import CCTieredAttribute from '../../CCTieredAttribute.vue'
-import ClassCombatChart from './_components/_NpcClassCombatChart.vue'
-import type { NpcClass } from '@/classes/npc/class/NpcClass'
+  import { ref, computed } from 'vue'
+  import { useDisplay } from 'vuetify'
+  import { useCompendiumData } from '@/ui/providers'
+  import CCTieredAttribute from '../../CCTieredAttribute.vue'
+  import ClassCombatChart from './_components/_NpcClassCombatChart.vue'
+  import type { NpcClass } from '@/classes/npc/class/NpcClass'
 
-const compendium = useCompendiumData()
-const npcClasses = computed(() => compendium.NpcClasses)
+  const compendium = useCompendiumData()
+  const npcClasses = computed(() => compendium.NpcClasses)
 
-const { smAndDown: mobile } = useDisplay()
+  const { smAndDown: mobile } = useDisplay()
 
-defineProps<{
-  item: NpcClass
-  notes?: boolean
-  smallTags?: boolean
-  dense?: boolean
-  charts?: boolean
-  collapseActions?: boolean
-  tier?: number
-}>()
+  defineProps<{
+    item: NpcClass
+    notes?: boolean
+    smallTags?: boolean
+    dense?: boolean
+    charts?: boolean
+    collapseActions?: boolean
+    tier?: number
+  }>()
 
-const statArr = ref([
-  'Hull',
-  'Agility',
-  'Systems',
-  'Engineering',
-  'Size',
-  'Armor',
-  'HP',
-  'Heat',
-  'Evasion',
-  'Edef',
-  'Speed',
-  'Sensor',
-  'Save',
-])
+  const statArr = ref([
+    'Hull',
+    'Agility',
+    'Systems',
+    'Engineering',
+    'Size',
+    'Armor',
+    'HP',
+    'Heat',
+    'Evasion',
+    'Edef',
+    'Speed',
+    'Sensor',
+    'Save',
+  ])
 </script>

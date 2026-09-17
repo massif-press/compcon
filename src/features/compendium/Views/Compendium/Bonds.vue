@@ -1,9 +1,13 @@
 <template>
-  <v-container v-if="!bonds.length"
-    class="px-12">
-    <v-alert icon="mdi-vector-link"
+  <v-container
+    v-if="!bonds.length"
+    class="px-12"
+  >
+    <v-alert
+      icon="mdi-vector-link"
       :title="$t('compendium.titles.noBondData')"
-      variant="tonal">
+      variant="tonal"
+    >
       <!-- eslint-disable @intlify/vue-i18n/no-raw-text -->
       <!-- Theme L §4: core-book rules flavor, localized via the content pipeline (L3), not a UI key. -->
       <p>
@@ -28,19 +32,27 @@
       <!-- eslint-enable @intlify/vue-i18n/no-raw-text -->
     </v-alert>
     <br />
-    <v-row align="center"
-      justify="center">
+    <v-row
+      align="center"
+      justify="center"
+    >
       <v-col cols="auto">
-        <cc-button color="accent"
-          to="/srd">{{ $t('compendium.returnToCompendium') }}</cc-button>
+        <cc-button
+          color="accent"
+          to="/srd"
+        >
+          {{ $t('compendium.returnToCompendium') }}
+        </cc-button>
       </v-col>
     </v-row>
   </v-container>
-  <cc-compendium-browser v-else
+  <cc-compendium-browser
+    v-else
     :items="bonds"
     item-type="Bond"
     :options="options"
-    view-key="cb-bonds">
+    view-key="cb-bonds"
+  >
     <template #header>
       <div class="heading h3 text-center text-accent">{{ $t('common.pilotBonds') }}</div>
     </template>
@@ -48,21 +60,21 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { orderBy } from 'lodash-es';
-import { CompendiumStore } from '@/stores';
-import { Bond } from '@/classes/pilot/components/bond/Bond'
+  import { computed, ref } from 'vue'
+  import { orderBy } from 'lodash-es'
+  import { CompendiumStore } from '@/stores'
+  import { Bond } from '@/classes/pilot/components/bond/Bond'
 
-const options = ref({
-      views: ['single', 'table'],
-      initialView: 'single',
-      groups: ['lcp', 'none'],
-      initialGroup: 'lcp',
-      noSource: true,
-      hideTitle: true,
-    })
+  const options = ref({
+    views: ['single', 'table'],
+    initialView: 'single',
+    groups: ['lcp', 'none'],
+    initialGroup: 'lcp',
+    noSource: true,
+    hideTitle: true,
+  })
 
-const bonds = computed(() => {
-      return orderBy(CompendiumStore().Bonds, 'Name');
-    })
+  const bonds = computed(() => {
+    return orderBy(CompendiumStore().Bonds, 'Name')
+  })
 </script>

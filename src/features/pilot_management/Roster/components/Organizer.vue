@@ -55,7 +55,11 @@
       />
       <v-list-item
         :title="selected.length < 2 ? $t('common.delete') : $t('ui.organizer.deleteMultiple')"
-        :subtitle="selected.length < 2 ? $t('ui.organizer.markDeleted') : $t('ui.organizer.markDeletedMultiple')"
+        :subtitle="
+          selected.length < 2
+            ? $t('ui.organizer.markDeleted')
+            : $t('ui.organizer.markDeletedMultiple')
+        "
         prepend-icon="mdi-delete"
         :disabled="!selected.length"
         @click="deleteItems(selected, items, false, clearSelected)"

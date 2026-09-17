@@ -1,21 +1,27 @@
 <template>
   <v-container>
-    <div class="pa-2 text-white"
-      :style="`background-color: rgb(var(--v-theme-primary))`">
+    <div
+      class="pa-2 text-white"
+      :style="`background-color: rgb(var(--v-theme-primary))`"
+    >
       <span class="heading h2">
         {{ table.name }}
       </span>
     </div>
     <v-row>
       <v-col>
-        <cc-text-field v-model="table.name"
+        <cc-text-field
+          v-model="table.name"
           color="primary"
-          :label="$t('active.fields.tableName')" />
+          :label="$t('active.fields.tableName')"
+        />
       </v-col>
       <v-col>
-        <cc-text-field v-model="table.gm"
+        <cc-text-field
+          v-model="table.gm"
           color="primary"
-          :label="$t('active.fields.gameMaster')" />
+          :label="$t('active.fields.gameMaster')"
+        />
       </v-col>
     </v-row>
     <!-- TODO: name, description, owner info (prepopulate with user info) -->
@@ -26,10 +32,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const table = ref({
-  name: 'New Table',
-  gm: '',
-})
+  const table = ref({
+    name: 'New Table',
+    gm: '',
+  })
 </script>

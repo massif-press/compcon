@@ -9,11 +9,11 @@
 </template>
 
 <script setup lang="ts">
-import type { Pilot } from '@/classes/pilot/Pilot'
-import CCPilotLoadout from '@/features/pilot_management/_components/loadout/pilot_loadout/CCPilotLoadout.vue'
-import SectionHeader from '../../components/SectionHeader.vue'
+  import type { Pilot } from '@/classes/pilot/Pilot'
+  import CCPilotLoadout from '@/features/pilot_management/_components/loadout/pilot_loadout/CCPilotLoadout.vue'
+  import SectionHeader from '../../components/SectionHeader.vue'
 
-const props = defineProps<{
-  pilot: Pilot
-}>()
+  const props = defineProps<{
+    pilot: Pilot
+  }>()
 </script>

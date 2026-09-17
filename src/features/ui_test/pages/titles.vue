@@ -2,9 +2,17 @@
   <v-window-item>
     <cc-heading size="large">Titles</cc-heading>
 
-    <cc-heading small line>heading</cc-heading>
+    <cc-heading
+      small
+      line
+    >
+      heading
+    </cc-heading>
 
-    <v-card flat border>
+    <v-card
+      flat
+      border
+    >
       <v-row justify="center">
         <v-col align-self="center">
           <v-card-text>
@@ -14,14 +22,18 @@
               :icon="icon"
               :density="density"
               :line="line"
-              :filled="filled">
+              :filled="filled"
+            >
               <span class="heading h3">heading component</span>
               subtitle
             </cc-heading>
           </v-card-text>
         </v-col>
         <v-divider vertical />
-        <v-col cols="3" style="min-width: 400px">
+        <v-col
+          cols="3"
+          style="min-width: 400px"
+        >
           <v-card flat>
             <v-card-text>
               <v-select
@@ -31,7 +43,8 @@
                 hide-details
                 density="compact"
                 clearable
-                @click:clear="color = ''" />
+                @click:clear="color = ''"
+              />
               <v-select
                 v-model="density"
                 :items="densities"
@@ -39,24 +52,46 @@
                 hide-details
                 density="compact"
                 clearable
-                @click:clear="density = ''" />
-              <v-checkbox v-model="line" label="line" hide-details density="compact" />
-              <v-checkbox v-model="filled" label="filled" hide-details density="compact" />
+                @click:clear="density = ''"
+              />
+              <v-checkbox
+                v-model="line"
+                label="line"
+                hide-details
+                density="compact"
+              />
+              <v-checkbox
+                v-model="filled"
+                label="filled"
+                hide-details
+                density="compact"
+              />
             </v-card-text>
           </v-card>
         </v-col>
       </v-row>
     </v-card>
 
-    <cc-heading small line>banner</cc-heading>
+    <cc-heading
+      small
+      line
+    >
+      banner
+    </cc-heading>
 
-    <v-card flat border>
+    <v-card
+      flat
+      border
+    >
       <v-row justify="center">
         <v-col align-self="center">
           <v-card-text>banner component</v-card-text>
         </v-col>
         <v-divider vertical />
-        <v-col cols="3" style="min-width: 400px">
+        <v-col
+          cols="3"
+          style="min-width: 400px"
+        >
           <v-card flat>
             <v-card-text></v-card-text>
           </v-card>
@@ -67,27 +102,35 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-defineOptions({ name: 'ui-test-titles' })
+  defineOptions({ name: 'ui-test-titles' })
 
-const headingType = ref('minor')
-const color = ref('')
-const size = ref('')
-const density = ref('')
-const line = ref(false)
-const filled = ref(false)
-const icon = ref('cc:campaign')
-const icons = ref([
-      'cc:campaign',
-      'mdi-alert',
-      'cc:pilot',
-      'mdi-cog',
-      'cc:kinetic',
-      'mdi-content-save',
-      'cc:encounter',
-      'mdi-help',
-    ])
-const colors = ref(['primary', 'secondary', 'accent', 'damage--heat', 'damage--energy', 'exotic', 'cyan'])
-const densities = ref(['default', 'compact', 'comfortable'])
+  const headingType = ref('minor')
+  const color = ref('')
+  const size = ref('')
+  const density = ref('')
+  const line = ref(false)
+  const filled = ref(false)
+  const icon = ref('cc:campaign')
+  const icons = ref([
+    'cc:campaign',
+    'mdi-alert',
+    'cc:pilot',
+    'mdi-cog',
+    'cc:kinetic',
+    'mdi-content-save',
+    'cc:encounter',
+    'mdi-help',
+  ])
+  const colors = ref([
+    'primary',
+    'secondary',
+    'accent',
+    'damage--heat',
+    'damage--energy',
+    'exotic',
+    'cyan',
+  ])
+  const densities = ref(['default', 'compact', 'comfortable'])
 </script>

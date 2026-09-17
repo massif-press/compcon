@@ -1,4 +1,4 @@
-import { flavorID } from '@/io/Generators';
+import { flavorID } from '@/io/Generators'
 
 const getLogo = (): string => {
   return `
@@ -17,9 +17,9 @@ const getLogo = (): string => {
         @@@@@@     @@@@@@@@@@@@@&    @@@@@@       
        @@@@@@@@@@@     @@@@@     &@@@@@@@@@@@     
      @@@@@@@@@@@@@@@@@.      @@@@@@@@@@@@@@@@@@    
-                                                  `;
-};
-const plog = (typer) => {
+                                                  `
+}
+const plog = typer => {
   typer
     .type('<br>')
     .type('<br>')
@@ -89,7 +89,7 @@ const plog = (typer) => {
     .type(
       '>//[<span class="accent--text">HARRISON ARMORY</span>: <span class="stark-text--text">Welcome, Citizen. Input Command.</span>]'
     )
-    .go();
-};
+    .go()
+}
 
-export default plog;
+export default plog

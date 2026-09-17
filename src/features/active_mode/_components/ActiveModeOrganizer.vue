@@ -1,71 +1,106 @@
 <template>
-  <cc-dialog :title="`Organize ${title}`"
-    icon="mdi-queue-first-in-last-out" :close-on-click="false" major full-height max-width="90vw">
+  <cc-dialog
+    :title="`Organize ${title}`"
+    icon="mdi-queue-first-in-last-out"
+    :close-on-click="false"
+    major
+    full-height
+    max-width="90vw"
+  >
     <template #activator="{ open }">
-      <cc-button color="primary"
+      <cc-button
+        color="primary"
         size="small"
         prepend-icon="mdi-queue-first-in-last-out"
-        @click="open">
+        @click="open"
+      >
         {{ $t('common.organize') }}
       </cc-button>
     </template>
     <v-card-text>
       <v-row>
         <v-col>
-          <v-data-table :headers="allHeaders"
+          <v-data-table
+            :headers="allHeaders"
             :items="displayItems"
             item-value="ID"
             :sort-by="[{ key: columns[0]?.key ?? 'Name', order: 'asc' }]"
             :items-per-page="-1"
             :row-props="getRowProps"
-            density="compact">
+            density="compact"
+          >
             <template #header.select>
-              <v-btn icon
+              <v-btn
+                icon
                 flat
                 size="small"
-                @click="toggleAll">
-                <v-icon size="x-large"
-                  :icon="selectAllIcon" />
+                @click="toggleAll"
+              >
+                <v-icon
+                  size="x-large"
+                  :icon="selectAllIcon"
+                />
               </v-btn>
             </template>
             <template #item.select="{ item }">
-              <v-checkbox v-model="selected"
+              <v-checkbox
+                v-model="selected"
                 multiple
                 :value="(item as any).ID"
-                hide-details />
+                hide-details
+              />
             </template>
             <template #bottom>
-              <v-row dense
-                justify="end">
+              <v-row
+                dense
+                justify="end"
+              >
                 <v-col cols="auto">
-                  <v-checkbox v-model="showArchived"
+                  <v-checkbox
+                    v-model="showArchived"
                     density="compact"
-                    :label="$t('active.fields.showArchived')" />
+                    :label="$t('active.fields.showArchived')"
+                  />
                 </v-col>
               </v-row>
             </template>
           </v-data-table>
         </v-col>
-        <v-col cols="auto"
-          style="width: 320px">
+        <v-col
+          cols="auto"
+          style="width: 320px"
+        >
           <div>
-            <b class="text-accent">{{ selected.length }}</b> {{ $t('active.organizer.selected') }}
+            <b class="text-accent">{{ selected.length }}</b>
+            {{ $t('active.organizer.selected') }}
           </div>
           <v-list>
-            <v-list-item :title="selected.length < 2 ? $t('ui.organizer.archive') : $t('ui.organizer.archiveMultiple')"
-              :subtitle="selected.length < 2
-                ? `Move ${noun} to archive`
-                : `Move selected ${noun}s to archive`"
+            <v-list-item
+              :title="
+                selected.length < 2
+                  ? $t('ui.organizer.archive')
+                  : $t('ui.organizer.archiveMultiple')
+              "
+              :subtitle="
+                selected.length < 2
+                  ? `Move ${noun} to archive`
+                  : `Move selected ${noun}s to archive`
+              "
               prepend-icon="mdi-archive-arrow-down-outline"
               :disabled="!selected.length"
-              @click="emitArchive" />
-            <v-list-item :title="selected.length < 2 ? $t('common.delete') : $t('ui.organizer.deleteMultiple')"
-              :subtitle="selected.length < 2
-                ? `Permanently remove ${noun}`
-                : `Permanently remove selected ${noun}s`"
+              @click="emitArchive"
+            />
+            <v-list-item
+              :title="selected.length < 2 ? $t('common.delete') : $t('ui.organizer.deleteMultiple')"
+              :subtitle="
+                selected.length < 2
+                  ? `Permanently remove ${noun}`
+                  : `Permanently remove selected ${noun}s`
+              "
               prepend-icon="mdi-delete"
               :disabled="!selected.length"
-              @click="emitDelete" />
+              @click="emitDelete"
+            />
           </v-list>
         </v-col>
       </v-row>
@@ -74,82 +109,84 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
+  import { ref, computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
 
-interface OrganizerColumn {
-  key: string;
-  title: string;
-  sortable?: boolean;
-  value: (item: any) => string | number;
-}
-
-const props = withDefaults(defineProps<{
-  items: any[];
-  archivedItems?: any[];
-  columns: OrganizerColumn[];
-  noun?: string;
-  title?: string;
-}>(), {
-  noun: 'item',
-  title: 'Items',
-  archivedItems: () => [],
-});
-
-const emit = defineEmits<{
-  archive: [ids: string[]];
-  delete: [ids: string[]];
-}>();
-
-const selected = ref<string[]>([]);
-const showArchived = ref(false);
-
-const archivedIds = computed(() => new Set(props.archivedItems.map((i: any) => i.ID)));
-
-const displayItems = computed(() =>
-  showArchived.value ? [...props.items, ...props.archivedItems] : props.items
-);
-
-const allHeaders = computed(() => [
-  { key: 'select', sortable: false, width: '40px' },
-  ...props.columns.map(col => ({
-    key: col.key,
-    title: col.title,
-    sortable: col.sortable ?? false,
-    value: col.value,
-  })),
-]);
-
-const selectAllIcon = computed(() => {
-  if (selected.value.length === displayItems.value.length && displayItems.value.length > 0)
-    return 'mdi-checkbox-outline';
-  if (selected.value.length > 0)
-    return 'mdi-minus-box-outline';
-  return 'mdi-checkbox-blank-outline';
-});
-
-function getRowProps({ item }: { item: any }) {
-  return archivedIds.value.has(item.ID)
-    ? { class: 'text-disabled text-decoration-line-through' }
-    : {};
-}
-
-function toggleAll() {
-  if (selected.value.length) {
-    selected.value = [];
-  } else {
-    selected.value = displayItems.value.map((e: any) => e.ID);
+  interface OrganizerColumn {
+    key: string
+    title: string
+    sortable?: boolean
+    value: (item: any) => string | number
   }
-}
 
-function emitArchive() {
-  emit('archive', [...selected.value]);
-  selected.value = [];
-}
+  const props = withDefaults(
+    defineProps<{
+      items: any[]
+      archivedItems?: any[]
+      columns: OrganizerColumn[]
+      noun?: string
+      title?: string
+    }>(),
+    {
+      noun: 'item',
+      title: 'Items',
+      archivedItems: () => [],
+    }
+  )
 
-function emitDelete() {
-  emit('delete', [...selected.value]);
-  selected.value = [];
-}
+  const emit = defineEmits<{
+    archive: [ids: string[]]
+    delete: [ids: string[]]
+  }>()
+
+  const selected = ref<string[]>([])
+  const showArchived = ref(false)
+
+  const archivedIds = computed(() => new Set(props.archivedItems.map((i: any) => i.ID)))
+
+  const displayItems = computed(() =>
+    showArchived.value ? [...props.items, ...props.archivedItems] : props.items
+  )
+
+  const allHeaders = computed(() => [
+    { key: 'select', sortable: false, width: '40px' },
+    ...props.columns.map(col => ({
+      key: col.key,
+      title: col.title,
+      sortable: col.sortable ?? false,
+      value: col.value,
+    })),
+  ])
+
+  const selectAllIcon = computed(() => {
+    if (selected.value.length === displayItems.value.length && displayItems.value.length > 0)
+      return 'mdi-checkbox-outline'
+    if (selected.value.length > 0) return 'mdi-minus-box-outline'
+    return 'mdi-checkbox-blank-outline'
+  })
+
+  function getRowProps({ item }: { item: any }) {
+    return archivedIds.value.has(item.ID)
+      ? { class: 'text-disabled text-decoration-line-through' }
+      : {}
+  }
+
+  function toggleAll() {
+    if (selected.value.length) {
+      selected.value = []
+    } else {
+      selected.value = displayItems.value.map((e: any) => e.ID)
+    }
+  }
+
+  function emitArchive() {
+    emit('archive', [...selected.value])
+    selected.value = []
+  }
+
+  function emitDelete() {
+    emit('delete', [...selected.value])
+    selected.value = []
+  }
 </script>

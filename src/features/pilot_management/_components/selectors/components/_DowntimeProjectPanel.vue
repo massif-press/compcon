@@ -1,55 +1,76 @@
 <template>
-  <v-row justify="center"
-    align="center">
+  <v-row
+    justify="center"
+    align="center"
+  >
     <v-col>
-      <cc-titled-panel :title="$t('pm.titles.newProject')"
+      <cc-titled-panel
+        :title="$t('pm.titles.newProject')"
         icon="mdi-atom-variant"
-        color="reserve">
+        color="reserve"
+      >
         <v-row density="compact">
-          <v-col cols="12"
-            md="">
-            <v-text-field v-model="projectName"
+          <v-col
+            cols="12"
+            md=""
+          >
+            <v-text-field
+              v-model="projectName"
               color="accent"
               :label="$t('pm.fields.projectName')"
               variant="outlined"
-              hide-details />
+              hide-details
+            />
           </v-col>
-          <v-col cols="12"
-            md="auto">
+          <v-col
+            cols="12"
+            md="auto"
+          >
             <v-row class="stat-text text-text">
-              <v-col cols="auto"
-                class="text-center">
-                <cc-switch v-model="complicated"
+              <v-col
+                cols="auto"
+                class="text-center"
+              >
+                <cc-switch
+                  v-model="complicated"
                   density="compact"
                   inset
                   hide-details
                   color="secondary"
                   :tooltip="$t('pm.tooltips.thisProjectIsComplexResourceintensive')"
                   top-label="Complicated"
-                  class="mr-3" />
+                  class="mr-3"
+                />
               </v-col>
-              <v-col cols="auto"
-                class="text-center">
-                <cc-switch v-model="finished"
+              <v-col
+                cols="auto"
+                class="text-center"
+              >
+                <cc-switch
+                  v-model="finished"
                   density="compact"
                   inset
                   hide-details
                   top-label="Finished"
                   :tooltip="$t('pm.tooltips.thisProjectIsCompleteAndAvailableToUseAsAReserve')"
-                  color="secondary" />
+                  color="secondary"
+                />
               </v-col>
             </v-row>
           </v-col>
         </v-row>
-        <v-textarea v-model="details"
+        <v-textarea
+          v-model="details"
           auto-grow
           rows="2"
           :label="$t('common.details')"
           filled
           hide-details
           color="accent"
-          class="my-3" />
-        <v-combobox v-model="costs"
+          class="my-3"
+        />
+        <v-combobox
+          v-model="costs"
           :label="$t('pm.fields.requirements')"
           :items="projectCosts"
           chips
@@ -58,14 +79,17 @@
           color="accent"
           density="compact"
           class="mr-5 ml-5 mt-5"
-          :disabled="finished"></v-combobox>
-        <v-btn block
+          :disabled="finished"
+        ></v-combobox>
+        <v-btn
+          block
           tile
           large
           class="mb-2 mt-n2"
           color="primary"
           :disabled="!projectName"
-          @click="add()">
+          @click="add()"
+        >
           <v-icon start>mdi-plus</v-icon>
           {{ $t('pm.titles.addProject') }}
         </v-btn>
@@ -75,57 +99,57 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import Project from '@/classes/pilot/components/reserves/Project';
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
+  import { ref } from 'vue'
+  import Project from '@/classes/pilot/components/reserves/Project'
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
 
-defineOptions({ name: 'CustomReservePanel' })
+  defineOptions({ name: 'CustomReservePanel' })
 
-const emit = defineEmits<{
-  'add': [payload: any]
-}>()
+  const emit = defineEmits<{
+    add: [payload: any]
+  }>()
 
-const projectName = ref('')
-const details = ref('')
-const complicated = ref(false)
-const finished = ref(false)
-const costs = ref([])
-const projectCosts = ref([
-      'Quality materials',
-      'Specific knowledge or techniques',
-      'Specialized tools',
-      'A good workspace',
-    ])
+  const projectName = ref('')
+  const details = ref('')
+  const complicated = ref(false)
+  const finished = ref(false)
+  const costs = ref([])
+  const projectCosts = ref([
+    'Quality materials',
+    'Specific knowledge or techniques',
+    'Specialized tools',
+    'A good workspace',
+  ])
 
-function add() {
-      const p = new Project({
-        id: 'reserve_project',
-        type: 'Project',
-        name: `${projectName.value} ${finished.value ? '' : ' (In Progress)'}`,
-        label: t('pm.fields.project'),
-        description: '',
-        complicated: complicated.value,
-        can_finish: false,
-        finished: false,
-        progress: 0,
-        requirements: [],
-        resource_name: projectName.value,
-        resource_note: details.value,
-        resource_cost: '',
-        used: false,
-        consumable: false,
-      });
-      if (costs.value && !finished.value) p.ResourceCost = `Requires: ${costs.value.join(', ')}`;
-      p.IsFinished = finished.value;
-      clear();
-      emit('add', p);
-    }
-function clear() {
-      projectName.value = '';
-      details.value = '';
-      complicated.value = false;
-      finished.value = false;
-      costs.value = [];
-    }
+  function add() {
+    const p = new Project({
+      id: 'reserve_project',
+      type: 'Project',
+      name: `${projectName.value} ${finished.value ? '' : ' (In Progress)'}`,
+      label: t('pm.fields.project'),
+      description: '',
+      complicated: complicated.value,
+      can_finish: false,
+      finished: false,
+      progress: 0,
+      requirements: [],
+      resource_name: projectName.value,
+      resource_note: details.value,
+      resource_cost: '',
+      used: false,
+      consumable: false,
+    })
+    if (costs.value && !finished.value) p.ResourceCost = `Requires: ${costs.value.join(', ')}`
+    p.IsFinished = finished.value
+    clear()
+    emit('add', p)
+  }
+  function clear() {
+    projectName.value = ''
+    details.value = ''
+    complicated.value = false
+    finished.value = false
+    costs.value = []
+  }
 </script>

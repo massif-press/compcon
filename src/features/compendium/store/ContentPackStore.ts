@@ -129,9 +129,7 @@ export const ContentPackStore = defineStore('content_packs', {
       let candidate
 
       if (searchOnName)
-        candidate = this.ContentPacks.find(
-          pack => pack.Name.toLowerCase() === packId.toLowerCase()
-        )
+        candidate = this.ContentPacks.find(pack => pack.Name.toLowerCase() === packId.toLowerCase())
       else candidate = this.ContentPacks.find(pack => pack.ID === packId)
 
       if (!candidate) return false

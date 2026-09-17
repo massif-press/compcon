@@ -1,46 +1,65 @@
 <template>
-  <stepper-content :complete="canContinue"
+  <stepper-content
+    :complete="canContinue"
     :mandatory="context === 'new'"
     :exit="context === 'new' ? '../pilot_management' : `/pilot/${pilot.ID}`"
     back
     @back="$emit('back')"
-    @complete="$emit('next')">
-    <cc-title offset>{{ context === 'new' ? $t('common.pilotTalents') :
-      $t('pm.shared.unlockLicense') }}&emsp;</cc-title>
+    @complete="$emit('next')"
+  >
+    <cc-title offset>
+      {{ context === 'new' ? $t('common.pilotTalents') : $t('pm.shared.unlockLicense') }}&emsp;
+    </cc-title>
 
-    <div v-if="!smAndDown"
-      class="px-4">
-
-      <div v-if="context === 'new'"
-        class="heading h2">
-        {{ $t('pm.new.uadIDENTService') }} <cc-slashes /> &nbsp;{{
-          $t('pm.shared.rm4cS1LicensingAuthorization') }}
+    <div
+      v-if="!smAndDown"
+      class="px-4"
+    >
+      <div
+        v-if="context === 'new'"
+        class="heading h2"
+      >
+        {{ $t('pm.new.uadIDENTService') }}
+        <cc-slashes />
+        &nbsp;{{ $t('pm.shared.rm4cS1LicensingAuthorization') }}
       </div>
-      <div v-else
-        class="heading h2">
-        {{ $t('pm.level.mv2LicenseAcquisitionRequest') }} <cc-slashes /> &nbsp;{{
-          $t('pm.shared.mv2DLicensorLicenseeTransmit') }}
+      <div
+        v-else
+        class="heading h2"
+      >
+        {{ $t('pm.level.mv2LicenseAcquisitionRequest') }}
+        <cc-slashes />
+        &nbsp;{{ $t('pm.shared.mv2DLicensorLicenseeTransmit') }}
       </div>
 
-      <p v-if="context === 'new'"
+      <p
+        v-if="context === 'new'"
         class="flavor-text px-6"
-        style="font-size: 14px">
+        style="font-size: 14px"
+      >
         {{ $t('pm.shared.theRM4SupplementalILicensing') }}
       </p>
-      <p v-else
+      <p
+        v-else
         class="flavor-text px-6"
-        style="font-size: 14px">
+        style="font-size: 14px"
+      >
         {{ $t('pm.shared.theMV2LicensorLicenseeTransmit') }}
       </p>
 
-      <v-alert color="accent"
+      <v-alert
+        color="accent"
         variant="outlined"
         density="compact"
         class="mt-2"
-        tile>
+        tile
+      >
         <div class="heading">
-          {{ context === 'new' ? $t('pm.shared.selectLicenseRanks', { word, count }, count) :
-            $t('pm.shared.unlockALicense') }}
+          {{
+            context === 'new'
+              ? $t('pm.shared.selectLicenseRanks', { word, count }, count)
+              : $t('pm.shared.unlockALicense')
+          }}
         </div>
         <p class="text-cc-overline">
           {{ $t('pm.shared.unionAndItsRepresentativesAreNot') }}
@@ -48,47 +67,66 @@
       </v-alert>
     </div>
 
-    <div v-if="context === 'level'"
-      style="height: calc(100vh - 80px)">
-
+    <div
+      v-if="context === 'level'"
+      style="height: calc(100vh - 80px)"
+    >
       <div v-fill-height>
-
         <license-selector :pilot="<Pilot>pilot" />
       </div>
     </div>
-    <div v-else
-      v-fill-height>
+    <div
+      v-else
+      v-fill-height
+    >
       <license-selector :pilot="<Pilot>pilot" />
     </div>
-
   </stepper-content>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import StepperContent from '../../_components/StepperContent.vue'
-import LicenseSelector from '../../_components/selectors/LicenseSelector.vue'
-import vFillHeight from '../vFillHeight'
-import { Pilot } from '@/classes/pilot/Pilot'
-import { useDisplay } from 'vuetify'
+  import { computed } from 'vue'
+  import StepperContent from '../../_components/StepperContent.vue'
+  import LicenseSelector from '../../_components/selectors/LicenseSelector.vue'
+  import vFillHeight from '../vFillHeight'
+  import { Pilot } from '@/classes/pilot/Pilot'
+  import { useDisplay } from 'vuetify'
 
-const { smAndDown } = useDisplay()
+  const { smAndDown } = useDisplay()
 
-const props = defineProps<{
-  pilot: Pilot
-  context: 'new' | 'level'
-}>()
+  const props = defineProps<{
+    pilot: Pilot
+    context: 'new' | 'level'
+  }>()
 
-const emit = defineEmits<{ back: []; next: [] }>()
+  const emit = defineEmits<{ back: []; next: [] }>()
 
-const canContinue = computed(() =>
-  props.context === 'new'
-    ? (props.pilot as any).LicenseController.HasLicenses
-    : !(props.pilot as any).LicenseController.IsMissingLicenses
-)
-const count = computed(() => (props.pilot as any).LicenseController.MaxLicensePoints)
-const word = computed(() => {
-  const words = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen']
-  return words[count.value] ?? count.value
-})
+  const canContinue = computed(() =>
+    props.context === 'new'
+      ? (props.pilot as any).LicenseController.HasLicenses
+      : !(props.pilot as any).LicenseController.IsMissingLicenses
+  )
+  const count = computed(() => (props.pilot as any).LicenseController.MaxLicensePoints)
+  const word = computed(() => {
+    const words = [
+      'zero',
+      'one',
+      'two',
+      'three',
+      'four',
+      'five',
+      'six',
+      'seven',
+      'eight',
+      'nine',
+      'ten',
+      'eleven',
+      'twelve',
+      'thirteen',
+      'fourteen',
+      'fifteen',
+      'sixteen',
+    ]
+    return words[count.value] ?? count.value
+  })
 </script>

@@ -1,9 +1,11 @@
 <template>
-  <cc-compendium-browser :items="talents"
+  <cc-compendium-browser
+    :items="talents"
     item-type="Skill"
     :table-headers="headers"
     :options="options"
-    view-key="cb-talents">
+    view-key="cb-talents"
+  >
     <template #header>
       <div class="heading h3 text-center text-accent">{{ $t('common.pilotTalents') }}</div>
     </template>
@@ -11,31 +13,31 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { orderBy } from 'lodash-es';
-import { CompendiumStore } from '@/stores';
-import { Talent } from '@/classes/pilot/components/talent/Talent'
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
+  import { computed, ref } from 'vue'
+  import { orderBy } from 'lodash-es'
+  import { CompendiumStore } from '@/stores'
+  import { Talent } from '@/classes/pilot/components/talent/Talent'
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
 
-const headers = ref([
-      { title: t('compendium.titles.contentPack'), key: 'LcpName' },
-      { title: 'Name', key: 'Name' },
-      { title: t('common.overview'), key: 'Terse' },
-    ])
-const options = ref({
-      views: ['list', 'table'],
-      initialView: 'list',
-      groups: ['lcp', 'none'],
-      initialGroup: 'lcp',
-      noSource: true,
-      hideTitle: true,
-    })
+  const headers = ref([
+    { title: t('compendium.titles.contentPack'), key: 'LcpName' },
+    { title: 'Name', key: 'Name' },
+    { title: t('common.overview'), key: 'Terse' },
+  ])
+  const options = ref({
+    views: ['list', 'table'],
+    initialView: 'list',
+    groups: ['lcp', 'none'],
+    initialGroup: 'lcp',
+    noSource: true,
+    hideTitle: true,
+  })
 
-const talents = computed(() => {
-      return orderBy(
-        CompendiumStore().Talents.filter((x) => !x.IsHidden),
-        'Name'
-      );
-    })
+  const talents = computed(() => {
+    return orderBy(
+      CompendiumStore().Talents.filter(x => !x.IsHidden),
+      'Name'
+    )
+  })
 </script>

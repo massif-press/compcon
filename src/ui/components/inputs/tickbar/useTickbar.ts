@@ -14,11 +14,14 @@ function useTickbar(props: TickbarProps, emit: (event: 'update:modelValue', val:
   const hover = ref<number | null>(null)
   const internalValue = ref(props.modelValue)
 
-  watch(() => props.modelValue, (val) => {
-    internalValue.value = val
-  })
+  watch(
+    () => props.modelValue,
+    val => {
+      internalValue.value = val
+    }
+  )
 
-  watch(internalValue, (val) => {
+  watch(internalValue, val => {
     emit('update:modelValue', val)
   })
 
@@ -54,7 +57,16 @@ function useTickbar(props: TickbarProps, emit: (event: 'update:modelValue', val:
     emit('update:modelValue', val)
   }
 
-  return { hover, internalValue, tickThreshold, pctBackground, isHovered, isMouseovered, isActive, setVal }
+  return {
+    hover,
+    internalValue,
+    tickThreshold,
+    pctBackground,
+    isHovered,
+    isMouseovered,
+    isActive,
+    setVal,
+  }
 }
 
 export { useTickbar }

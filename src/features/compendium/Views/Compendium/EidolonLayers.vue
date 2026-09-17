@@ -1,9 +1,13 @@
 <template>
-  <v-container v-if="!layers.length"
-    class="px-12">
-    <v-alert icon="cc:monist"
+  <v-container
+    v-if="!layers.length"
+    class="px-12"
+  >
+    <v-alert
+      icon="cc:monist"
       :title="$t('compendium.titles.noEidolonData')"
-      variant="tonal">
+      variant="tonal"
+    >
       <!-- eslint-disable @intlify/vue-i18n/no-raw-text -->
       <!-- Theme L §4: core-book rules flavor, localized via the content pipeline (L3), not a UI key. -->
       <p>
@@ -25,50 +29,58 @@
       <!-- eslint-enable @intlify/vue-i18n/no-raw-text -->
     </v-alert>
     <br />
-    <v-row align="center"
-      justify="center">
+    <v-row
+      align="center"
+      justify="center"
+    >
       <v-col cols="auto">
-        <cc-button color="accent"
-          to="/srd">{{ $t('compendium.returnToCompendium') }}</cc-button>
+        <cc-button
+          color="accent"
+          to="/srd"
+        >
+          {{ $t('compendium.returnToCompendium') }}
+        </cc-button>
       </v-col>
     </v-row>
   </v-container>
-  <cc-compendium-browser v-else
+  <cc-compendium-browser
+    v-else
     ref="browser"
     :items="layers"
     item-type="EidolonLayer"
     :table-headers="headers"
     :options="options"
-    view-key="cb-eidolon-layers" />
+    view-key="cb-eidolon-layers"
+  />
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { CompendiumStore } from '@/stores';
-import { EidolonLayer } from '@/classes/npc/eidolon/EidolonLayer';
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
+  import { computed, ref } from 'vue'
+  import { CompendiumStore } from '@/stores'
+  import { EidolonLayer } from '@/classes/npc/eidolon/EidolonLayer'
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
 
-const browser = ref<any>(null)
+  const browser = ref<any>(null)
 
-const selectedTier = ref(1)
-const tieredView = ref(false)
-const options = ref({
-      views: ['single', 'table', 'cards'],
-      initialView: 'single',
-      groups: ['lcp', 'none'],
-      initialGroup: 'none',
-    })
-const headers = ref([
-      { title: t('compendium.titles.contentPack'), key: 'LcpName' },
-      { title: 'Name', key: 'Name' },
-      {
-        title: t('compendium.titles.shards'),
-        key: 'ShardCount',
-      },
-    ])
+  const selectedTier = ref(1)
+  const tieredView = ref(false)
+  const options = ref({
+    views: ['single', 'table', 'cards'],
+    initialView: 'single',
+    groups: ['lcp', 'none'],
+    initialGroup: 'none',
+  })
+  const headers = ref([
+    { title: t('compendium.titles.contentPack'), key: 'LcpName' },
+    { title: 'Name', key: 'Name' },
+    {
+      title: t('compendium.titles.shards'),
+      key: 'ShardCount',
+    },
+  ])
 
-const layers = computed(() => {
-      return CompendiumStore().EidolonLayers;
-    })
+  const layers = computed(() => {
+    return CompendiumStore().EidolonLayers
+  })
 </script>

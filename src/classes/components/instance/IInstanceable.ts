@@ -1,18 +1,17 @@
-
 interface IInstanceableData {
-  instanceId: string | undefined;
+  instanceId: string | undefined
 }
 
 interface IInstanceable {
-  ID: string;
-  IsInstance: boolean;
-  InstanceID?: string;
+  ID: string
+  IsInstance: boolean
+  InstanceID?: string
 
-  IsLinked: boolean;
+  IsLinked: boolean
 
-  CreateInstance<T>(): T;
-  Serialize(asInstance: boolean): any;
-  GetLinkedItem<T>(): T;
+  CreateInstance<T>(): T
+  Serialize(asInstance: boolean): any
+  GetLinkedItem<T>(): T
 }
 
 export type { IInstanceableData, IInstanceable }

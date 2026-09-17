@@ -31,4 +31,4 @@ export default [
     value: 'NpcTemplateController.Templates',
     groupable: true,
   },
-];
+]

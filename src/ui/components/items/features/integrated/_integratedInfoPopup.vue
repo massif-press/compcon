@@ -1,12 +1,16 @@
 <template>
-  <cc-dialog :color="item.Color"
+  <cc-dialog
+    :color="item.Color"
     :icon="item.Icon"
     :title="item.Name"
-    max-width="800">
+    max-width="800"
+  >
     <template #activator="{ open }">
-      <cc-button :color="item.Color"
+      <cc-button
+        :color="item.Color"
         :prepend-icon="item.Icon"
-        @click="open()">
+        @click="open()"
+      >
         {{ item.Name }}
       </cc-button>
     </template>
@@ -15,10 +19,10 @@
 </template>
 
 <script setup lang="ts">
-import IntegratedInfoBase from './_integratedInfoBase.vue'
-import { MechEquipment } from '@/classes/mech/components/equipment/MechEquipment';
+  import IntegratedInfoBase from './_integratedInfoBase.vue'
+  import { MechEquipment } from '@/classes/mech/components/equipment/MechEquipment'
 
-const props = defineProps<{
-  item: MechEquipment
-}>()
+  const props = defineProps<{
+    item: MechEquipment
+  }>()
 </script>

@@ -1,9 +1,13 @@
 <template>
-  <v-row dense
-    align="center">
-    <v-col v-if="item.IsLimited"
+  <v-row
+    dense
+    align="center"
+  >
+    <v-col
+      v-if="item.IsLimited"
       cols="auto"
-      class="mx-2">
+      class="mx-2"
+    >
       <!-- <CCItemUses :item="item" :bonus="useBonus" :color="color" class="d-inline" /> -->
       <!-- <span class="text-overline">({{ item.Uses }}/{{ item.getTotalUses(useBonus) }}) USES</span> -->
     </v-col>
@@ -18,17 +22,20 @@
 </template>
 
 <script setup lang="ts">
-import type { MechEquipment } from '@/classes/mech/components/equipment/MechEquipment'
-import CCItemUses from '@/ui/components/CCItemUses.vue'
-const props = withDefaults(defineProps<{
-  item: MechEquipment
-  color?: string
-  useBonus?: number
-  interior?: boolean
-  dark?: boolean
-  mod?: boolean
-}>(), {
-  color: undefined,
-  useBonus: 0
-})
+  import type { MechEquipment } from '@/classes/mech/components/equipment/MechEquipment'
+  import CCItemUses from '@/ui/components/CCItemUses.vue'
+  const props = withDefaults(
+    defineProps<{
+      item: MechEquipment
+      color?: string
+      useBonus?: number
+      interior?: boolean
+      dark?: boolean
+      mod?: boolean
+    }>(),
+    {
+      color: undefined,
+      useBonus: 0,
+    }
+  )
 </script>

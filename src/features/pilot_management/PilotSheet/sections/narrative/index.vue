@@ -5,31 +5,41 @@
     </div>
     <v-row>
       <v-col>
-        <clone-block :pilot="pilot"
-          :readonly="pilot.IsRemote" />
+        <clone-block
+          :pilot="pilot"
+          :readonly="pilot.IsRemote"
+        />
 
         <section-header :title="$t('pm.link.pilotBiography')" />
-        <cc-rich-text-area v-model="pilot.History"
+        <cc-rich-text-area
+          v-model="pilot.History"
           :readonly="pilot.IsRemote"
-          class="pt-2 mb-3" />
+          class="pt-2 mb-3"
+        />
 
         <section-header :title="$t('pm.link.pilotAppearance')" />
-        <cc-rich-text-area v-model="pilot.TextAppearance"
+        <cc-rich-text-area
+          v-model="pilot.TextAppearance"
           :readonly="pilot.IsRemote"
-          class="pt-2 mb-2" />
+          class="pt-2 mb-2"
+        />
 
         <section-header :title="$t('pm.print.pilotNotes')" />
-        <cc-rich-text-area v-model="pilot.Notes"
+        <cc-rich-text-area
+          v-model="pilot.Notes"
           :readonly="pilot.IsRemote"
-          class="pt-2 mb-3" />
+          class="pt-2 mb-3"
+        />
 
         <section-header :title="$t('pm.print.pilotCombatHistory')" />
         <combat-history-block :pilot="pilot" />
       </v-col>
-      <v-col cols="12"
+      <v-col
+        cols="12"
         sm="4"
         :order="mobile ? '-1' : undefined"
-        :class="!mobile && 'pt-6'">
+        :class="!mobile && 'pt-6'"
+      >
         <image-block :pilot="pilot" />
       </v-col>
     </v-row>
@@ -42,25 +52,25 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useDisplay } from 'vuetify'
-import SectionHeader from '../components/SectionHeader.vue'
-import SkillBlock from './components/SkillBlock.vue'
-import DtResourcesBlock from './components/DtResourcesBlock.vue'
-import PilotLoadoutBlock from './components/PilotLoadoutBlock.vue'
-import IdentBlock from './components/IdentBlock.vue'
-import CloneBlock from './components/CloneBlock.vue'
-import ImageBlock from './components/ImageBlock.vue'
-import CombatHistoryBlock from './components/CombatHistoryBlock.vue'
-import { Pilot } from '@/classes/pilot/Pilot'
+  import { computed } from 'vue'
+  import { useDisplay } from 'vuetify'
+  import SectionHeader from '../components/SectionHeader.vue'
+  import SkillBlock from './components/SkillBlock.vue'
+  import DtResourcesBlock from './components/DtResourcesBlock.vue'
+  import PilotLoadoutBlock from './components/PilotLoadoutBlock.vue'
+  import IdentBlock from './components/IdentBlock.vue'
+  import CloneBlock from './components/CloneBlock.vue'
+  import ImageBlock from './components/ImageBlock.vue'
+  import CombatHistoryBlock from './components/CombatHistoryBlock.vue'
+  import { Pilot } from '@/classes/pilot/Pilot'
 
-const _display = useDisplay()
+  const _display = useDisplay()
 
-defineProps<{
-  pilot: Pilot
-}>()
+  defineProps<{
+    pilot: Pilot
+  }>()
 
-const mobile = computed(() => {
-  return _display.mdAndDown.value
-})
+  const mobile = computed(() => {
+    return _display.mdAndDown.value
+  })
 </script>

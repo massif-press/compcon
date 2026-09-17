@@ -1,76 +1,110 @@
 <template>
   <div>
-    <section-header :title="$t('pm.titles.specialEquipment')"
-      class="mb-4" />
+    <section-header
+      :title="$t('pm.titles.specialEquipment')"
+      class="mb-4"
+    />
     <no-data-block v-if="!pilot.SpecialEquipment.length" />
-    <v-card v-else
+    <v-card
+      v-else
       flat
       tile
-      border>
-      <v-row density="compact"
-        justify="space-around">
-        <v-col v-for="i in pilot.SpecialEquipment"
+      border
+    >
+      <v-row
+        density="compact"
+        justify="space-around"
+      >
+        <v-col
+          v-for="i in pilot.SpecialEquipment"
           :key="i.ID"
           cols="12"
           md="6"
           lg="4"
-          class="text-center">
-          <v-chip tile
-            class="ma-2">
+          class="text-center"
+        >
+          <v-chip
+            tile
+            class="ma-2"
+          >
             <cc-item-modal :item="i" />
-            <cc-button v-if="!pilot.IsRemote"
+            <cc-button
+              v-if="!pilot.IsRemote"
               icon="mdi-delete"
               size="small"
               color="error"
               variant="text"
               style="display: inline-block"
-              @click="removeItem(i)"></cc-button>
+              @click="removeItem(i)"
+            ></cc-button>
           </v-chip>
         </v-col>
       </v-row>
     </v-card>
 
-    <v-row v-if="!pilot.IsRemote"
-      class="mt-1 mb-5">
+    <v-row
+      v-if="!pilot.IsRemote"
+      class="mt-1 mb-5"
+    >
       <v-col>
-        <cc-dialog :title="$t('pm.titles.addStandardEquipment')"
+        <cc-dialog
+          :title="$t('pm.titles.addStandardEquipment')"
           icon="mdi-star-circle-outline"
           fullscreen
-          clip :close-on-click="false" major full-height max-width="90vw">
+          clip
+          :close-on-click="false"
+          major
+          full-height
+          max-width="90vw"
+        >
           <template #activator="{ open }">
-            <cc-button v-if="!pilot.IsRemote"
+            <cc-button
+              v-if="!pilot.IsRemote"
               size="x-small"
               color="primary"
               block
               prepend-icon="mdi-plus"
-              @click="open">
+              @click="open"
+            >
               {{ $t('pm.sheet.addEquipment') }}
             </cc-button>
           </template>
           <template #default="{ close }">
-            <equipment-selector :pilot="pilot"
-              @equip="addItem($event, close)" />
+            <equipment-selector
+              :pilot="pilot"
+              @equip="addItem($event, close)"
+            />
           </template>
         </cc-dialog>
       </v-col>
       <v-col>
-        <cc-dialog :title="$t('pm.sheet.addExoticEquipment')"
+        <cc-dialog
+          :title="$t('pm.sheet.addExoticEquipment')"
           icon="mdi-star-circle-outline"
           fullscreen
-          clip :close-on-click="false" major full-height max-width="90vw">
+          clip
+          :close-on-click="false"
+          major
+          full-height
+          max-width="90vw"
+        >
           <template #activator="{ open }">
-            <cc-button size="x-small"
+            <cc-button
+              size="x-small"
               color="exotic"
               block
               prepend-icon="mdi-plus"
-              @click="open">
+              @click="open"
+            >
               {{ $t('pm.sheet.addExoticEquipment') }}
             </cc-button>
           </template>
           <template #default="{ close }">
-            <equipment-selector :pilot="pilot"
+            <equipment-selector
+              :pilot="pilot"
               exotic
-              @equip="addItem($event, close)" />
+              @equip="addItem($event, close)"
+            />
           </template>
         </cc-dialog>
       </v-col>
@@ -79,20 +113,20 @@
 </template>
 
 <script setup lang="ts">
-import type { Pilot } from '@/classes/pilot/Pilot'
-import SectionHeader from '../../components/SectionHeader.vue';
-import NoDataBlock from '../../components/NoDataBlock.vue';
-import EquipmentSelector from '../../../../_components/selectors/EquipmentSelector.vue';
+  import type { Pilot } from '@/classes/pilot/Pilot'
+  import SectionHeader from '../../components/SectionHeader.vue'
+  import NoDataBlock from '../../components/NoDataBlock.vue'
+  import EquipmentSelector from '../../../../_components/selectors/EquipmentSelector.vue'
 
-const props = defineProps<{
-  pilot: Pilot
-}>()
+  const props = defineProps<{
+    pilot: Pilot
+  }>()
 
-function addItem(item, close) {
-  props.pilot.AddSpecialEquipment(item);
-  close();
-}
-function removeItem(item) {
-  props.pilot.RemoveSpecialEquipment(item);
-}
+  function addItem(item, close) {
+    props.pilot.AddSpecialEquipment(item)
+    close()
+  }
+  function removeItem(item) {
+    props.pilot.RemoveSpecialEquipment(item)
+  }
 </script>

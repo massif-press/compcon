@@ -76,55 +76,55 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useDisplay } from 'vuetify'
-import { useToggleIndicator } from '@/composables/useToggleIndicator'
+  import { computed } from 'vue'
+  import { useDisplay } from 'vuetify'
+  import { useToggleIndicator } from '@/composables/useToggleIndicator'
 
-const { smAndDown: mobile } = useDisplay()
+  const { smAndDown: mobile } = useDisplay()
 
-interface Props {
-  modelValue: boolean
-  size?: string
-  bgColor?: string
-  color?: string
-  activeColor?: string
-  prependIcon?: string
-  onIcon?: string
-  offIcon?: string
-  tooltip?: string
-  tooltipIcon?: string
-  label?: string
-  disabled?: boolean
-}
+  interface Props {
+    modelValue: boolean
+    size?: string
+    bgColor?: string
+    color?: string
+    activeColor?: string
+    prependIcon?: string
+    onIcon?: string
+    offIcon?: string
+    tooltip?: string
+    tooltipIcon?: string
+    label?: string
+    disabled?: boolean
+  }
 
-const props = withDefaults(defineProps<Props>(), {
-  size: 'default',
-  bgColor: 'panel',
-  color: 'primary',
-  activeColor: 'success',
-  onIcon: 'mdi-check-bold',
-  disabled: false,
-})
+  const props = withDefaults(defineProps<Props>(), {
+    size: 'default',
+    bgColor: 'panel',
+    color: 'primary',
+    activeColor: 'success',
+    onIcon: 'mdi-check-bold',
+    disabled: false,
+  })
 
-const emit = defineEmits<{ 'update:modelValue': [value: boolean] }>()
+  const emit = defineEmits<{ 'update:modelValue': [value: boolean] }>()
 
-const isOn = computed(() => props.modelValue)
+  const isOn = computed(() => props.modelValue)
 
-const ariaLabel = computed(() => props.label || props.tooltip || undefined)
+  const ariaLabel = computed(() => props.label || props.tooltip || undefined)
 
-function toggle() {
-  if (props.disabled) return
-  emit('update:modelValue', !isOn.value)
-}
+  function toggle() {
+    if (props.disabled) return
+    emit('update:modelValue', !isOn.value)
+  }
 
-const { iconSize, getLightColor } = useToggleIndicator(
-  () => props.size,
-  () => props.color,
-  () => props.activeColor,
-  isOn
-)
+  const { iconSize, getLightColor } = useToggleIndicator(
+    () => props.size,
+    () => props.color,
+    () => props.activeColor,
+    isOn
+  )
 </script>
 
 <style scoped>
-@import '@/ui/style/toggle-indicator.css';
+  @import '@/ui/style/toggle-indicator.css';
 </style>

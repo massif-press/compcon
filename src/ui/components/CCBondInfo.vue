@@ -1,13 +1,19 @@
 <template>
-  <cc-panel density="compact"
-    color="surface">
+  <cc-panel
+    density="compact"
+    color="surface"
+  >
     <template #toolbar>
-      <cc-toolbar v-if="!hideTitle"
+      <cc-toolbar
+        v-if="!hideTitle"
         :title="bond.Name"
-        hide-close>
+        hide-close
+      >
         <template #toolbar-items>
-          <cc-lcp-info :item="bond"
-            color="stark" />
+          <cc-lcp-info
+            :item="bond"
+            color="stark"
+          />
         </template>
       </cc-toolbar>
     </template>
@@ -15,39 +21,53 @@
     <div class="px-4">
       <v-row>
         <v-col cols="auto">
-          <v-img :src="bond.Image"
+          <v-img
+            :src="bond.Image"
             :width="imageError ? 0 : '376px'"
             :height="imageError ? 0 : '600px'"
             class="rounded-lg"
             @error="imageError = true"
-            @load="imageError = false" />
+            @load="imageError = false"
+          />
         </v-col>
         <v-col class="text-text">
           <div class="heading h4 font-weight-bold">{{ $t('pm.sheet.majorIdeals') }}</div>
           <ul class="ml-6 mb-3">
-            <li v-for="(s, index) in bond.MajorIdeals"
+            <li
+              v-for="(s, index) in bond.MajorIdeals"
               :key="`major-${index}`"
-              v-text="s" />
+              v-text="s"
+            />
           </ul>
           <div class="heading h4 font-weight-bold">{{ $t('ui.bond.minorIdeals') }}</div>
           <ul class="ml-6 mb-3">
-            <li v-for="(s, index) in bond.MinorIdeals"
+            <li
+              v-for="(s, index) in bond.MinorIdeals"
               :key="`minor-${index}`"
-              v-text="s" />
+              v-text="s"
+            />
           </ul>
-          <div v-for="(q, index) in bond.Questions"
-            :key="`question-${index}`">
-            <div class="heading h4 font-weight-bold"
-              v-text="q.question" />
+          <div
+            v-for="(q, index) in bond.Questions"
+            :key="`question-${index}`"
+          >
+            <div
+              class="heading h4 font-weight-bold"
+              v-text="q.question"
+            />
             <ul class="ml-6 mb-3">
-              <li v-for="(o, index) in q.options"
+              <li
+                v-for="(o, index) in q.options"
                 :key="`option-${index}`"
-                v-text="o" />
+                v-text="o"
+              />
             </ul>
           </div>
         </v-col>
       </v-row>
-      <cc-heading line><span class="heading h3">{{ $t('ui.bond.bondPowers') }}</span></cc-heading>
+      <cc-heading line>
+        <span class="heading h3">{{ $t('ui.bond.bondPowers') }}</span>
+      </cc-heading>
       <cc-masonry-grid :items="bond.Powers">
         <template #default="{ item }">
           <cc-bond-power-card :power="item" />
@@ -58,13 +78,13 @@
 </template>
 
 <script setup lang="ts">
-import type { Bond } from '@/classes/pilot/components/bond/Bond'
-import { ref } from 'vue'
+  import type { Bond } from '@/classes/pilot/components/bond/Bond'
+  import { ref } from 'vue'
 
-const props = defineProps<{
-  bond: Bond
-  hideTitle?: boolean
-}>()
+  const props = defineProps<{
+    bond: Bond
+    hideTitle?: boolean
+  }>()
 
-const imageError = ref(false)
+  const imageError = ref(false)
 </script>

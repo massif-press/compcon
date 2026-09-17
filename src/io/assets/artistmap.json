@@ -1,8 +1,10 @@
-[{
+[
+  {
     "artist": "Tom Parkinson-Morgan",
     "website": "http://www.massifpress.com",
     "twitter": "Orbitaldropkick",
-    "images": [{
+    "images": [
+      {
         "name": "SSC ATLAS",
         "img": "mf_atlas.png",
         "tag": "frame"
@@ -179,7 +181,8 @@
     "logo": "retrograde_logo.png",
     "website": "https://www.retrogrademinis.com",
     "twitter": "MinisRetrograde",
-    "images": [{
+    "images": [
+      {
         "name": "GMS EVEREST (Assault Pattern)",
         "img": "pre_assault_pixel.png",
         "tag": "frame"
@@ -209,7 +212,8 @@
   {
     "artist": "Tan Juan Gee",
     "twitter": "juangeedraws",
-    "images": [{
+    "images": [
+      {
         "name": "H0rTUGA",
         "img": "alt_hortuga.png",
         "tag": "mech"
@@ -230,7 +234,8 @@
     "artist": "WampyreKeli",
     "twitter": "WampyreKeli",
     "website": "https://www.wampyrekeli.com/",
-    "images": [{
+    "images": [
+      {
         "name": "Thunderhead",
         "img": "thunderhead.png",
         "tag": "mech"

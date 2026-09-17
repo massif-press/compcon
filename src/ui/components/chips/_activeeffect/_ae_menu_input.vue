@@ -1,6 +1,8 @@
 <template>
-  <div v-if="!embedded"
-    class="text-right text-caption text-disabled mb-1">
+  <div
+    v-if="!embedded"
+    class="text-right text-caption text-disabled mb-1"
+  >
     <i v-if="activeEffect.Origin.Name">
       {{ $t('ui.combat.fromOrigin', { name: activeEffect.Origin.Name }) }}
       <span v-if="activeEffect.Origin.Source">
@@ -14,69 +16,87 @@
     </i>
   </div>
 
-  <v-row v-if="event.AttackBonus || event.Accuracy"
+  <v-row
+    v-if="event.AttackBonus || event.Accuracy"
     dense
     align="center"
     justify="end"
-    class="bg-panel heading h3 pb-1 mb-1 px-3">
-    <v-col v-if="event.AttackBonus"
-      cols="auto">
+    class="bg-panel heading h3 pb-1 mb-1 px-3"
+  >
+    <v-col
+      v-if="event.AttackBonus"
+      cols="auto"
+    >
       <cc-npc-attack-bonus :attack-bonus="event.AttackBonus" />
     </v-col>
-    <v-col v-if="event.Accuracy"
-      cols="auto">
+    <v-col
+      v-if="event.Accuracy"
+      cols="auto"
+    >
       <cc-npc-accuracy-element :accuracy="event.Accuracy" />
     </v-col>
   </v-row>
 
   <div v-if="!hideInput">
-    <cc-alert v-if="activeEffect.getCondition(owner.actor.CombatController.Tier)"
-      color="primary">
+    <cc-alert
+      v-if="activeEffect.getCondition(owner.actor.CombatController.Tier)"
+      color="primary"
+    >
       <b class="text-accent">{{ $t('ui.combat.ifLabel') }}:&nbsp;</b>
       <b v-html-safe="activeEffect.getCondition(owner.actor.CombatController.Tier)" />
     </cc-alert>
-    <cc-alert v-if="(activeEffect as any).Trigger"
-      color="primary">
+    <cc-alert
+      v-if="(activeEffect as any).Trigger"
+      color="primary"
+    >
       <b class="text-accent">{{ $t('common.trigger') }}:&nbsp;</b>
       <b v-html-safe="activeEffect.getTrigger(owner.actor.CombatController.Tier)" />
     </cc-alert>
 
-    <div v-html-safe="activeEffect.getDetail(owner.actor.CombatController.Tier)"
-      class="text-text py-1 px-3 mb-1" />
+    <div
+      v-html-safe="activeEffect.getDetail(owner.actor.CombatController.Tier)"
+      class="text-text py-1 px-3 mb-1"
+    />
 
-    <v-card flat
+    <v-card
+      flat
       tile
       :color="color"
-      class="mb-1 px-1">
-
-      <effect-applicator v-if="!event.IsPassive"
+      class="mb-1 px-1"
+    >
+      <effect-applicator
+        v-if="!event.IsPassive"
         :pc="isPilotSheet"
-        :event="<ActiveEffectEvent>event" />
-
+        :event="<ActiveEffectEvent>event"
+      />
     </v-card>
-
   </div>
 
-
   <v-slide-y-transition>
-    <div v-if="event && event.Staged"
-      class="pa-4">
+    <div
+      v-if="event && event.Staged"
+      class="pa-4"
+    >
       <div class="text-cc-overline text-disabled">{{ $t('ui.combat.staged') }}:</div>
       <v-row dense>
         <v-col>
-          <code style="white-space: pre-wrap; font-size: 12px;">
-          {{ event.Summary }}
-        </code>
+          <code style="white-space: pre-wrap; font-size: 12px">
+            {{ event.Summary }}
+          </code>
         </v-col>
-        <v-col cols="auto"
-          align-self="end">
-          <v-btn size=small
+        <v-col
+          cols="auto"
+          align-self="end"
+        >
+          <v-btn
+            size="small"
             icon
             flat
             tile
             variant="text"
             class="fade-select"
-            @click="copyText(event.Summary)">
+            @click="copyText(event.Summary)"
+          >
             <v-icon icon="mdi-content-copy" />
           </v-btn>
         </v-col>
@@ -84,79 +104,93 @@
     </div>
   </v-slide-y-transition>
 
-  <confirm-kill-bar v-if="!embedded"
-    :event="<ActiveEffectEvent>event" />
+  <confirm-kill-bar
+    v-if="!embedded"
+    :event="<ActiveEffectEvent>event"
+  />
 
-  <apply-button :event="<ActiveEffectEvent>event"
+  <apply-button
+    :event="<ActiveEffectEvent>event"
     :encounter-instance="encounterInstance"
     :owner="owner"
     :action="action"
     :disabled="disabled"
     :close="close"
     @reset="reset($event)"
-    @apply="$emit('apply')" />
-
+    @apply="$emit('apply')"
+  />
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { CombatantData } from '@/classes/encounter/Encounter';
+  import { ref, computed } from 'vue'
+  import { CombatantData } from '@/classes/encounter/Encounter'
 
-import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
-import EffectApplicator from './EffectApplicator.vue';
-import ApplyButton from './ApplyButton.vue'
-import ConfirmKillBar from './_shared/ConfirmKillBar.vue'
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
-import { Action } from '@/classes/Action';
-import { ActiveEffect, ActiveEffectLike } from '@/classes/components/feature/active_effects/ActiveEffect';
+  import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
+  import EffectApplicator from './EffectApplicator.vue'
+  import ApplyButton from './ApplyButton.vue'
+  import ConfirmKillBar from './_shared/ConfirmKillBar.vue'
+  import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+  import { Action } from '@/classes/Action'
+  import {
+    ActiveEffect,
+    ActiveEffectLike,
+  } from '@/classes/components/feature/active_effects/ActiveEffect'
 
-const props = withDefaults(defineProps<{
-  activeEffect: ActiveEffectLike
-  encounterInstance: EncounterInstance
-  owner: CombatantData
-  close: () => void
-  hideInput?: boolean
-  embedded?: boolean
-  color?: string
-  overrideMissingInputs?: boolean
-  initialTargets?: any[]
-  action?: Action
-  disabled?: boolean
-}>(), {
-  hideInput: false,
-  embedded: false,
-  disabled: false,
-  color: 'panel',
-  overrideMissingInputs: false,
-  initialTargets: () => [],
-})
+  const props = withDefaults(
+    defineProps<{
+      activeEffect: ActiveEffectLike
+      encounterInstance: EncounterInstance
+      owner: CombatantData
+      close: () => void
+      hideInput?: boolean
+      embedded?: boolean
+      color?: string
+      overrideMissingInputs?: boolean
+      initialTargets?: any[]
+      action?: Action
+      disabled?: boolean
+    }>(),
+    {
+      hideInput: false,
+      embedded: false,
+      disabled: false,
+      color: 'panel',
+      overrideMissingInputs: false,
+      initialTargets: () => [],
+    }
+  )
 
-const emit = defineEmits<{
-  apply: []
-  reset: [...args: any[]]
-}>()
+  const emit = defineEmits<{
+    apply: []
+    reset: [...args: any[]]
+  }>()
 
-const event = ref({} as ActiveEffectEvent)
+  const event = ref({} as ActiveEffectEvent)
 
+  const isPilotSheet = computed(() => props.encounterInstance.ItemType === 'PilotSheet')
 
-const isPilotSheet = computed(() => props.encounterInstance.ItemType === 'PilotSheet')
-
-
-
-function reset(clearAction = false) {
-  if (clearAction) props.owner.actor.CombatController.ActiveActor.CombatController.ClearActionUsed(props.activeEffect.ID);
-  const self = props.encounterInstance.Combatants.find(
-    (c: CombatantData) => c.actor.CombatController.RootActor.ID === props.owner.actor.CombatController.RootActor.ID
-  );
-  if (!self) {
-    throw new Error('Owner combatant not found in encounterInstance');
+  function reset(clearAction = false) {
+    if (clearAction)
+      props.owner.actor.CombatController.ActiveActor.CombatController.ClearActionUsed(
+        props.activeEffect.ID
+      )
+    const self = props.encounterInstance.Combatants.find(
+      (c: CombatantData) =>
+        c.actor.CombatController.RootActor.ID === props.owner.actor.CombatController.RootActor.ID
+    )
+    if (!self) {
+      throw new Error('Owner combatant not found in encounterInstance')
+    }
+    event.value = new ActiveEffectEvent(
+      self,
+      props.activeEffect as ActiveEffect,
+      props.encounterInstance
+    )
   }
-  event.value = new ActiveEffectEvent(self, props.activeEffect as ActiveEffect, props.encounterInstance);
-}
 
-function copyText(text: string) {
-  navigator.clipboard.writeText(text);
-}
+  function copyText(text: string) {
+    navigator.clipboard.writeText(text)
+  }
 
-reset()
+  reset()
 </script>

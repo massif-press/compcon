@@ -1,17 +1,25 @@
 <template>
   <div class="mb-4">
     <section-header :title="$t('common.talents')">
-      <cc-dialog v-if="!pilot.IsRemote"
+      <cc-dialog
+        v-if="!pilot.IsRemote"
         :title="$t('pm.titles.setPilotTalents')"
         fullscreen
-        icon="cc:trait" :close-on-click="false" major full-height max-width="90vw">
+        icon="cc:trait"
+        :close-on-click="false"
+        major
+        full-height
+        max-width="90vw"
+      >
         <template #activator="{ open }">
-          <section-edit-chip v-if="!pilot.IsRemote"
+          <section-edit-chip
+            v-if="!pilot.IsRemote"
             :highlight="!pilot.TalentsController.HasFullTalents"
             :current="pilot.TalentsController.CurrentTalentPoints"
             :max="pilot.TalentsController.MaxTalentPoints"
             :label="`Edit Pilot Talents (${pilot.TalentsController.CurrentTalentPoints}/${pilot.TalentsController.MaxTalentPoints})`"
-            @open-selector="open" />
+            @open-selector="open"
+          />
         </template>
         <talent-selector :pilot="pilot" />
       </cc-dialog>
@@ -19,7 +27,8 @@
 
     <v-container class="px-0">
       <no-data-block v-if="!pilot.TalentsController.Talents.length" />
-      <cc-talent v-for="t in pilot.TalentsController.Talents"
+      <cc-talent
+        v-for="t in pilot.TalentsController.Talents"
         :key="t.Talent.ID"
         hide-locked
         :talent="t.Talent"
@@ -27,22 +36,23 @@
         :terse="view === 'terse'"
         :small="view === 'small'"
         in-column
-        hide-change />
+        hide-change
+      />
     </v-container>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import SectionHeader from '../../components/SectionHeader.vue';
-import SectionEditChip from '../../components/SectionEditChip.vue';
-import NoDataBlock from '../../components/NoDataBlock.vue';
-import TalentSelector from '@/features/pilot_management/_components/selectors/TalentSelector.vue';
-import { Pilot } from '@/classes/pilot/Pilot'
+  import { ref } from 'vue'
+  import SectionHeader from '../../components/SectionHeader.vue'
+  import SectionEditChip from '../../components/SectionEditChip.vue'
+  import NoDataBlock from '../../components/NoDataBlock.vue'
+  import TalentSelector from '@/features/pilot_management/_components/selectors/TalentSelector.vue'
+  import { Pilot } from '@/classes/pilot/Pilot'
 
-const props = defineProps<{
-  pilot: Pilot
-}>()
+  const props = defineProps<{
+    pilot: Pilot
+  }>()
 
-const view = ref('full')
+  const view = ref('full')
 </script>

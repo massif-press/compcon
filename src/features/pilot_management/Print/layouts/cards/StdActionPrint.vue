@@ -1,17 +1,19 @@
 <template>
-  <action-card v-for="(a, index) in actions"
+  <action-card
+    v-for="(a, index) in actions"
     :key="`action-${index}`"
-    :action="a" />
+    :action="a"
+  />
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { CompendiumStore } from '@/stores';
-import ActionCard from './components/ActionCard.vue';
+  import { computed } from 'vue'
+  import { CompendiumStore } from '@/stores'
+  import ActionCard from './components/ActionCard.vue'
 
-const actions = computed(() => {
-  return CompendiumStore()
-    .Actions.filter((a) => a && !a.IsDowntimeAction)
-    .sort((a, b) => (a.Name > b.Name ? 1 : -1));
-})
+  const actions = computed(() => {
+    return CompendiumStore()
+      .Actions.filter(a => a && !a.IsDowntimeAction)
+      .sort((a, b) => (a.Name > b.Name ? 1 : -1))
+  })
 </script>

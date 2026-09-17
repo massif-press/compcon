@@ -1,14 +1,20 @@
 <template>
   <v-container :fluid="$vuetify.display.mdAndDown">
     <div class="heading h2">{{ $t('active.newEnc.title') }}</div>
-    <v-row dense
+    <v-row
+      dense
       class="mt-4"
-      align="center">
-      <v-col cols="1"
-        class="text-center">
-        <v-icon icon="cc:encounter"
+      align="center"
+    >
+      <v-col
+        cols="1"
+        class="text-center"
+      >
+        <v-icon
+          icon="cc:encounter"
           :color="encounter ? 'success' : 'panel'"
-          size="50" />
+          size="50"
+        />
       </v-col>
       <v-col cols="11">
         <div class="text-cc-overline mb-1">
@@ -18,68 +24,92 @@
         <cc-panel>
           <v-slide-x-transition leave-absolute>
             <div v-if="!emptyEncounter">
-              <cc-titled-divider v-if="!encounter"
+              <cc-titled-divider
+                v-if="!encounter"
                 :title="$t('gm.campaign.selectEncounter').toLowerCase()"
                 color="accent"
-                class="mb-1" />
-              <v-row v-if="!encounter"
+                class="mb-1"
+              />
+              <v-row
+                v-if="!encounter"
                 dense
-                align="center">
+                align="center"
+              >
                 <v-col cols="4">
-                  <cc-text-field v-model="search"
+                  <cc-text-field
+                    v-model="search"
                     color="primary"
                     density="compact"
                     hide-details
                     icon="mdi-magnify"
-                    clearable />
+                    clearable
+                  />
                 </v-col>
                 <v-col cols="auto">
-                  <v-icon icon="mdi-folder"
-                    class="d-inline" />
+                  <v-icon
+                    icon="mdi-folder"
+                    class="d-inline"
+                  />
                 </v-col>
                 <v-col cols="4">
-                  <cc-select v-model="folder"
+                  <cc-select
+                    v-model="folder"
                     :items="folders"
                     color="primary"
                     density="compact"
                     chip-variant="text"
-                    hide-details />
+                    hide-details
+                  />
                 </v-col>
               </v-row>
 
-              <div class="pa-1"
-                style="max-height: 60vh; overflow-y: scroll; overflow-x: hidden">
-                <v-row v-for="(enc, i) in encounters"
+              <div
+                class="pa-1"
+                style="max-height: 60vh; overflow-y: scroll; overflow-x: hidden"
+              >
+                <v-row
+                  v-for="(enc, i) in encounters"
                   v-show="!selectedEncounter || selectedEncounter.ID === enc.ID"
                   :key="enc.ID"
                   no-gutters
                   style="position: relative"
                   class="mb-1 pa-1"
-                  @click="selectedEncounter = enc">
+                  @click="selectedEncounter = enc"
+                >
                   <v-slide-x-transition leave-absolute>
-                    <v-col v-if="selectedEncounter && selectedEncounter.ID === enc.ID"
-                      cols="auto">
-                      <div class="mr-1 bg-success"
-                        style="width: 10px; height: 100%" />
+                    <v-col
+                      v-if="selectedEncounter && selectedEncounter.ID === enc.ID"
+                      cols="auto"
+                    >
+                      <div
+                        class="mr-1 bg-success"
+                        style="width: 10px; height: 100%"
+                      />
                     </v-col>
                   </v-slide-x-transition>
                   <v-col class="py-1 mr-2">
-                    <gm-encounter-list-item :odd="i % 2 === 0"
+                    <gm-encounter-list-item
+                      :odd="i % 2 === 0"
                       :item="enc"
-                      :is-selected="selectedEncounter?.ID === enc.ID" />
+                      :is-selected="selectedEncounter?.ID === enc.ID"
+                    />
                   </v-col>
                   <v-slide-x-reverse-transition leave-absolute>
-                    <v-col v-if="selectedEncounter"
+                    <v-col
+                      v-if="selectedEncounter"
                       cols="auto"
-                      class="ml-n1">
-                      <v-btn color="primary"
+                      class="ml-n1"
+                    >
+                      <v-btn
+                        color="primary"
                         flat
                         tile
                         stacked
                         height="100%"
                         icon="mdi-close"
                         size="large"
-                        @click.stop="selectedEncounter = null" />
+                        @click.stop="selectedEncounter = null"
+                      />
                     </v-col>
                   </v-slide-x-reverse-transition>
                 </v-row>
@@ -89,8 +119,10 @@
 
           <v-slide-x-transition leave-absolute>
             <cc-panel v-if="emptyEncounter">
-              <cc-titled-divider :title="$t('classes.newEncounter')"
-                color="accent" />
+              <cc-titled-divider
+                :title="$t('classes.newEncounter')"
+                color="accent"
+              />
               <sitrep-editor :item="emptyEncounter" />
               <environment-editor :item="emptyEncounter" />
             </cc-panel>
@@ -98,33 +130,43 @@
 
           <div v-if="encounter">
             <cc-alert class="my-1">
-              <v-icon icon="mdi-information-outline"
-                class="mr-2" />
+              <v-icon
+                icon="mdi-information-outline"
+                class="mr-2"
+              />
               {{ $t('active.newEnc.additionalNpcs') }}
             </cc-alert>
           </div>
 
-          <v-row dense
+          <v-row
+            dense
             justify="space-between"
-            class="mt-2">
+            class="mt-2"
+          >
             <v-col cols="auto">
               <v-slide-x-transition>
-                <cc-button v-if="!!emptyEncounter"
+                <cc-button
+                  v-if="!!emptyEncounter"
                   size="small"
                   color="error"
                   prepend-icon="mdi-close"
-                  @click="clearEmptyEncounter()">
+                  @click="clearEmptyEncounter()"
+                >
                   {{ $t('common.cancel') }}
                 </cc-button>
               </v-slide-x-transition>
             </v-col>
             <v-slide-x-reverse-transition>
-              <v-col v-if="!selectedEncounter && !emptyEncounter"
-                cols="auto">
-                <cc-button size="small"
+              <v-col
+                v-if="!selectedEncounter && !emptyEncounter"
+                cols="auto"
+              >
+                <cc-button
+                  size="small"
                   color="primary"
                   prepend-icon="mdi-card-plus-outline"
-                  @click="useEmptyEncounter()">
+                  @click="useEmptyEncounter()"
+                >
                   {{ $t('classes.newEncounter') }}
                 </cc-button>
               </v-col>
@@ -135,98 +177,118 @@
     </v-row>
 
     <v-slide-y-transition>
-      <encounter-pilots-panel v-if="encounter"
+      <encounter-pilots-panel
+        v-if="encounter"
         :encounter="encounter"
         :pilots="pilots"
         :placeholders="placeholders"
         @remove-pilot="removePilot"
         @remove-placeholder="placeholders.splice($event, 1)"
         @add-pilot="pilots.push($event)"
-        @add-placeholder="addPlaceholder()" />
+        @add-placeholder="addPlaceholder()"
+      />
     </v-slide-y-transition>
 
     <v-slide-y-transition>
-      <encounter-summary v-if="encounter"
+      <encounter-summary
+        v-if="encounter"
         :encounter="encounter"
         :pilots="pilots"
         :placeholders="placeholders"
         @create="createEncounter"
-        @cancel="reset()" />
+        @cancel="reset()"
+      />
     </v-slide-y-transition>
   </v-container>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, type Ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { EncounterStore } from '@/stores';
-import GmEncounterListItem from '@/features/gm/_views/_components/gmItemCards/GMEncounterListItem.vue';
-import { Encounter } from '@/classes/encounter/Encounter';
-import SitrepEditor from '@/features/gm/encounters/_components/SitrepEditor.vue';
-import EnvironmentEditor from '@/features/gm/encounters/_components/EnvironmentEditor.vue';
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
-import { Placeholder } from '@/classes/encounter/Placeholder';
-import EncounterPilotsPanel from './_components/EncounterPilotsPanel.vue';
-import EncounterSummary from './_components/EncounterSummary.vue';
-import { Pilot } from '@/classes/pilot/Pilot.js';
+  import { computed, ref, type Ref } from 'vue'
+  import { useRouter } from 'vue-router'
+  import { EncounterStore } from '@/stores'
+  import GmEncounterListItem from '@/features/gm/_views/_components/gmItemCards/GMEncounterListItem.vue'
+  import { Encounter } from '@/classes/encounter/Encounter'
+  import SitrepEditor from '@/features/gm/encounters/_components/SitrepEditor.vue'
+  import EnvironmentEditor from '@/features/gm/encounters/_components/EnvironmentEditor.vue'
+  import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+  import { Placeholder } from '@/classes/encounter/Placeholder'
+  import EncounterPilotsPanel from './_components/EncounterPilotsPanel.vue'
+  import EncounterSummary from './_components/EncounterSummary.vue'
+  import { Pilot } from '@/classes/pilot/Pilot.js'
 
-const router = useRouter()
+  const router = useRouter()
 
-defineEmits<{
-  'select': []
-  'close': []
-}>()
+  defineEmits<{
+    select: []
+    close: []
+  }>()
 
-const search = ref('')
-const folder = ref('All')
-const emptyEncounter = ref<Encounter | null>(null) as Ref<Encounter | null>
-const selectedEncounter = ref<Encounter | null>(null) as Ref<Encounter | null>
-const pilots = ref<Pilot[]>([]) as Ref<Pilot[]>
-const placeholders = ref<Placeholder[]>([]) as Ref<Placeholder[]>
+  const search = ref('')
+  const folder = ref('All')
+  const emptyEncounter = ref<Encounter | null>(null) as Ref<Encounter | null>
+  const selectedEncounter = ref<Encounter | null>(null) as Ref<Encounter | null>
+  const pilots = ref<Pilot[]>([]) as Ref<Pilot[]>
+  const placeholders = ref<Placeholder[]>([]) as Ref<Placeholder[]>
 
-const encounter = computed<Encounter | null>(() => selectedEncounter.value || emptyEncounter.value)
-const folders = computed(() => EncounterStore().Folders)
-const encounters = computed<Encounter[]>(() => {
-  let enc = EncounterStore().Encounters as Encounter[];
-  if (folder.value && folder.value !== 'All') enc = enc.filter((x) => x.FolderController.Folder === folder.value);
-  if (!search.value) return enc.filter((x) => !x.SaveController.IsDeleted);
-  return enc.filter((x) => !x.SaveController.IsDeleted)
-    .filter((x) => x.Name.toLowerCase().includes(search.value.toLowerCase()));
-})
+  const encounter = computed<Encounter | null>(
+    () => selectedEncounter.value || emptyEncounter.value
+  )
+  const folders = computed(() => EncounterStore().Folders)
+  const encounters = computed<Encounter[]>(() => {
+    let enc = EncounterStore().Encounters as Encounter[]
+    if (folder.value && folder.value !== 'All')
+      enc = enc.filter(x => x.FolderController.Folder === folder.value)
+    if (!search.value) return enc.filter(x => !x.SaveController.IsDeleted)
+    return enc
+      .filter(x => !x.SaveController.IsDeleted)
+      .filter(x => x.Name.toLowerCase().includes(search.value.toLowerCase()))
+  })
 
-function addPlaceholder() {
-  placeholders.value.push(new Placeholder({
-    id: `placeholder-${placeholders.value.length + 1}`,
-    name: '', Mechname: '', type: 'pilot', side: 'ally',
-  }));
-}
-function useEmptyEncounter() { emptyEncounter.value = new Encounter(); }
-function clearEmptyEncounter() {
-  if (emptyEncounter.value) EncounterStore().DeleteEncounterPermanent(emptyEncounter.value);
-  emptyEncounter.value = null;
-}
-function removePilot(pilot: Pilot) {
-  pilots.value = pilots.value.filter((p) => p.ID !== pilot.ID);
-  placeholders.value = placeholders.value.filter((p) => p.ID !== pilot.ID);
-}
-async function createEncounter(launch: boolean) {
-  if (!encounter.value) return;
-  const instance = new EncounterInstance(undefined, encounter.value, pilots.value, placeholders.value);
-  instance.Combatants.forEach(c => {
-    c.actor.CombatController.ResetForEncounter()
-    c.actor.CombatController.StartEncounter()
-  });
-  instance.RecordEncounterStart();
-  await EncounterStore().AddEncounterInstance(instance);
-  await EncounterStore().SetActiveEncounter(instance.ID);
-  if (launch) router.push('gm-encounter-runner');
-  else router.push('manage-encounters');
-}
-function reset() {
-  selectedEncounter.value = null;
-  emptyEncounter.value = null;
-  pilots.value = [];
-  placeholders.value = [];
-  router.push('manage-encounters');
-}
+  function addPlaceholder() {
+    placeholders.value.push(
+      new Placeholder({
+        id: `placeholder-${placeholders.value.length + 1}`,
+        name: '',
+        Mechname: '',
+        type: 'pilot',
+        side: 'ally',
+      })
+    )
+  }
+  function useEmptyEncounter() {
+    emptyEncounter.value = new Encounter()
+  }
+  function clearEmptyEncounter() {
+    if (emptyEncounter.value) EncounterStore().DeleteEncounterPermanent(emptyEncounter.value)
+    emptyEncounter.value = null
+  }
+  function removePilot(pilot: Pilot) {
+    pilots.value = pilots.value.filter(p => p.ID !== pilot.ID)
+    placeholders.value = placeholders.value.filter(p => p.ID !== pilot.ID)
+  }
+  async function createEncounter(launch: boolean) {
+    if (!encounter.value) return
+    const instance = new EncounterInstance(
+      undefined,
+      encounter.value,
+      pilots.value,
+      placeholders.value
+    )
+    instance.Combatants.forEach(c => {
+      c.actor.CombatController.ResetForEncounter()
+      c.actor.CombatController.StartEncounter()
+    })
+    instance.RecordEncounterStart()
+    await EncounterStore().AddEncounterInstance(instance)
+    await EncounterStore().SetActiveEncounter(instance.ID)
+    if (launch) router.push('gm-encounter-runner')
+    else router.push('manage-encounters')
+  }
+  function reset() {
+    selectedEncounter.value = null
+    emptyEncounter.value = null
+    pilots.value = []
+    placeholders.value = []
+    router.push('manage-encounters')
+  }
 </script>

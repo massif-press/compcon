@@ -3,11 +3,13 @@
     <cc-heading size="large">chips</cc-heading>
 
     <div>
-      <cc-chip size="x-large"
+      <cc-chip
+        size="x-large"
         title="Title"
         label="value"
         color="primary"
-        class="ma-2" />
+        class="ma-2"
+      />
       <cc-chip>
         test
         <template #tooltip>
@@ -15,14 +17,20 @@
         </template>
       </cc-chip>
 
-      <cc-chip icon="cc:pilot"
+      <cc-chip
+        icon="cc:pilot"
         color="secondary"
-        class="ma-2">test 2</cc-chip>
-      <cc-chip icon="mdi-alert"
+        class="ma-2"
+      >
+        test 2
+      </cc-chip>
+      <cc-chip
+        icon="mdi-alert"
         color="success"
         variant="outlined"
         bg-color="exotic"
-        class="ma-2">
+        class="ma-2"
+      >
         hello
       </cc-chip>
     </div>
@@ -30,9 +38,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-defineOptions({ name: 'UiTestPanels' })
+  defineOptions({ name: 'UiTestPanels' })
 
-const bool = ref(true)
+  const bool = ref(true)
 </script>

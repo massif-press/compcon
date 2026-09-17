@@ -11,4 +11,4 @@ export default [
   //   value: 'Labels',
   //   groupable: false,
   // },
-];
+]

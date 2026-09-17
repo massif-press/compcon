@@ -142,8 +142,9 @@ class NpcClass implements ILcpTracked {
 
   public get Features(): NpcFeature[] {
     if (!this._featuresCache) {
-      this._featuresCache = (CompendiumStore().getItemCollection('NpcFeatures') as NpcFeature[])
-        .filter(x => x.Origin.ID === this.ID && !x.Deprecated)
+      this._featuresCache = (
+        CompendiumStore().getItemCollection('NpcFeatures') as NpcFeature[]
+      ).filter(x => x.Origin.ID === this.ID && !x.Deprecated)
     }
     return this._featuresCache || []
   }
@@ -153,8 +154,9 @@ class NpcClass implements ILcpTracked {
       const extra = CompendiumStore().ExtraNpcFeatureMap[this.ID]
       const ownBase = this.Features.filter(x => x.Base || this._baseFeatureList.includes(x.ID))
       if (extra?.base.length) {
-        const injected = (CompendiumStore().getItemCollection('NpcFeatures') as NpcFeature[])
-          .filter(x => extra.base.includes(x.ID) && x.Origin.ID !== this.ID && !x.Deprecated)
+        const injected = (
+          CompendiumStore().getItemCollection('NpcFeatures') as NpcFeature[]
+        ).filter(x => extra.base.includes(x.ID) && x.Origin.ID !== this.ID && !x.Deprecated)
         this._baseFeaturesCache = [...ownBase, ...injected]
       } else {
         this._baseFeaturesCache = ownBase
@@ -170,8 +172,9 @@ class NpcClass implements ILcpTracked {
         x => !x.Base || this._optionalFeatureList.includes(x.ID)
       )
       if (extra?.optional.length) {
-        const injected = (CompendiumStore().getItemCollection('NpcFeatures') as NpcFeature[])
-          .filter(x => extra.optional.includes(x.ID) && x.Origin.ID !== this.ID && !x.Deprecated)
+        const injected = (
+          CompendiumStore().getItemCollection('NpcFeatures') as NpcFeature[]
+        ).filter(x => extra.optional.includes(x.ID) && x.Origin.ID !== this.ID && !x.Deprecated)
         this._optionalFeaturesCache = [...ownOptional, ...injected]
       } else {
         this._optionalFeaturesCache = ownOptional

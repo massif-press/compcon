@@ -1,14 +1,14 @@
-import { encryption } from '@/io/Generators';
+import { encryption } from '@/io/Generators'
 
 const getLogo = (): string => {
   return `   ..|'''.|      |     '||'       .|'''.|  '||' '||    ||' 
   .|'     '     |||     ||        ||..  '   ||   |||  |||  
   ||    ....   |  ||    ||         ''|||.   ||   |'|..'||  
   '|.    ||   .''''|.   ||       .     '||  ||   | '|' ||  
-   ''|...'|  .|.  .||. .||.....| |'....|'  .||. .|. | .||. `;
-};
+   ''|...'|  .|.  .||. .||.....| |'....|'  .||. .|. | .||. `
+}
 
-const plog = (typer) => {
+const plog = typer => {
   typer
     .type('<br>')
     .type('<br>')
@@ -107,7 +107,7 @@ const plog = (typer) => {
     .type(
       '>//[<span class="accent--text">COMP/CON</span>: <span class="stark-text--text">Simulation ready for interpretation.</span>]'
     )
-    .go();
-};
+    .go()
+}
 
-export default plog;
+export default plog

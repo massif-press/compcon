@@ -30,8 +30,12 @@ class Environment implements ILcpTracked {
     applyLcpTracking(this, pack)
   }
 
-  public get Name(): string { return localize(this.ID, 'name', this._name) }
-  public get Description(): string { return localize(this.ID, 'description', this._description) }
+  public get Name(): string {
+    return localize(this.ID, 'name', this._name)
+  }
+  public get Description(): string {
+    return localize(this.ID, 'description', this._description)
+  }
 }
 
 class EnvironmentInstance {

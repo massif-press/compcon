@@ -4,7 +4,8 @@
     :width="mobile ? '100vw' : '30vw'"
     min-width="400px"
     pause-on-hover
-    :duration="3000">
+    :duration="3000"
+  >
     <template #body="props">
       <cc-alert
         :color="color(props.item)"
@@ -14,7 +15,8 @@
         style="position: relative"
         tile
         :title="props.item.title"
-        @click.stop="closePopup(props.close)">
+        @click.stop="closePopup(props.close)"
+      >
         <div v-html-safe="props.item.text" />
         <div
           class="text-center text-cc-overline"
@@ -25,7 +27,8 @@
             right: 0;
             font-size: 7pt !important;
             opacity: 0.6;
-          ">
+          "
+        >
           {{ mobile ? $t('ui.widget.tap') : $t('ui.widget.click') }} {{ $t('ui.widget.toClose') }}
         </div>
       </cc-alert>
@@ -34,34 +37,34 @@
 </template>
 
 <script setup lang="ts">
-import { useDisplay } from 'vuetify'
+  import { useDisplay } from 'vuetify'
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+  const { smAndDown: mobile, xs: portrait } = useDisplay()
 
-function color(item) {
-  if (item.type) {
-    return item.type
+  function color(item) {
+    if (item.type) {
+      return item.type
+    }
+    return item.data?.color || 'info'
   }
-  return item.data?.color || 'info'
-}
 
-function closePopup(close: () => void) {
-  close()
-}
+  function closePopup(close: () => void) {
+    close()
+  }
 </script>
 
 <style scoped>
-.achievement-pulse {
-  animation: talent-pulse 1.7s infinite;
-  z-index: 2;
-}
+  .achievement-pulse {
+    animation: talent-pulse 1.7s infinite;
+    z-index: 2;
+  }
 
-@keyframes achievement-pulse {
-  0% {
-    box-shadow: 0 0 0 0px #d4af37;
+  @keyframes achievement-pulse {
+    0% {
+      box-shadow: 0 0 0 0px #d4af37;
+    }
+    100% {
+      box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+    }
   }
-  100% {
-    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
-  }
-}
 </style>

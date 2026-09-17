@@ -3,7 +3,10 @@ import { Rules } from '@/classes/utility/Rules'
 
 function useTrackableStats(props: { item: any }) {
   const batteryIcons = ref([
-    'mdi-battery-outline', 'mdi-battery-low', 'mdi-battery-medium', 'mdi-battery-high',
+    'mdi-battery-outline',
+    'mdi-battery-low',
+    'mdi-battery-medium',
+    'mdi-battery-high',
   ])
   const batteryIndex = ref(3)
 
@@ -13,8 +16,13 @@ function useTrackableStats(props: { item: any }) {
 
   function getIcon(stat: string) {
     const icons: Record<string, string> = {
-      structure: 'cc:structure', armor: 'mdi-shield-outline', hp: 'mdi-heart-outline',
-      reactor: 'cc:reactor', heat: 'cc:heat', repair: 'cc:repair', techAttack: 'cc:quick_tech',
+      structure: 'cc:structure',
+      armor: 'mdi-shield-outline',
+      hp: 'mdi-heart-outline',
+      reactor: 'cc:reactor',
+      heat: 'cc:heat',
+      repair: 'cc:repair',
+      techAttack: 'cc:quick_tech',
     }
     return icons[stat]
   }

@@ -1,9 +1,9 @@
-import { SaveController } from '../save/SaveController';
-import { FolderController } from './FolderController';
+import { SaveController } from '../save/SaveController'
+import { FolderController } from './FolderController'
 
 interface IFolderPlaceable {
-  FolderController: FolderController;
-  SaveController: SaveController;
+  FolderController: FolderController
+  SaveController: SaveController
 }
 
-export type { IFolderPlaceable };
+export type { IFolderPlaceable }

@@ -7,7 +7,8 @@ const cleanPatreonData = (data: any) => {
   const tiers = data?.included?.filter((i: any) => i.type === 'tier') ?? []
   const entitledTierId = membership?.relationships?.currently_entitled_tiers?.data?.[0]?.id
   const currently_entitled_tier = tiers.find((t: any) => t.id === entitledTierId)
-  const { patron_status, currently_entitled_amount_cents, is_follower } = membership?.attributes ?? {}
+  const { patron_status, currently_entitled_amount_cents, is_follower } =
+    membership?.attributes ?? {}
   const tierData = currently_entitled_tier?.attributes
 
   return {
@@ -30,7 +31,8 @@ const authPatreon = async (code: string) => {
     }),
   })
 
-  if (!response.ok) throw new Error(`Patreon callback failed: ${response.status} ${await response.text()}`)
+  if (!response.ok)
+    throw new Error(`Patreon callback failed: ${response.status} ${await response.text()}`)
   const data = await response.json()
   return data
 }
@@ -44,7 +46,8 @@ const authItch = async (access_token: string) => {
     }),
   })
 
-  if (!response.ok) throw new Error(`Itch callback failed: ${response.status} ${await response.text()}`)
+  if (!response.ok)
+    throw new Error(`Itch callback failed: ${response.status} ${await response.text()}`)
   const data = await response.json()
   return data
 }
@@ -57,7 +60,8 @@ const getPatronProfile = async (access_token: string) => {
     headers: { ...headers, 'X-Patreon-Token': access_token },
   })
 
-  if (!response.ok) throw new Error(`Patreon profile fetch failed: ${response.status} ${await response.text()}`)
+  if (!response.ok)
+    throw new Error(`Patreon profile fetch failed: ${response.status} ${await response.text()}`)
   const json = await response.json()
 
   if (json.errors) {
@@ -75,7 +79,8 @@ async function getPatreonSubscribers() {
     headers,
   })
 
-  if (!response.ok) throw new Error(`Patreon subscribers fetch failed: ${response.status} ${await response.text()}`)
+  if (!response.ok)
+    throw new Error(`Patreon subscribers fetch failed: ${response.status} ${await response.text()}`)
   const json = await response.json()
 
   if (json.errors) {

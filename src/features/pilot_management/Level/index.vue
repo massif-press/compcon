@@ -1,50 +1,64 @@
 <template>
-  <cc-tabs ref="tabs"
-    fixed>
+  <cc-tabs
+    ref="tabs"
+    fixed
+  >
     <template #tabs>
       <v-tab>
-        <v-icon v-if="step > 1"
+        <v-icon
+          v-if="step > 1"
           start
-          icon="mdi-check" />
+          icon="mdi-check"
+        />
         {{ $t('common.overview') }}
       </v-tab>
       <v-divider />
       <v-tab>
-        <v-icon v-if="pilot.SkillsController.HasFullSkills"
+        <v-icon
+          v-if="pilot.SkillsController.HasFullSkills"
           start
-          icon="mdi-check" />
+          icon="mdi-check"
+        />
         {{ $t('pm.new.skills') }}
       </v-tab>
       <v-divider />
       <v-tab>
-        <v-icon v-if="pilot.TalentsController.HasFullTalents"
+        <v-icon
+          v-if="pilot.TalentsController.HasFullTalents"
           start
-          icon="mdi-check" />
+          icon="mdi-check"
+        />
         {{ $t('common.talents') }}
       </v-tab>
       <v-divider />
       <v-tab>
-        <v-icon v-if="pilot.MechSkillsController.HasFullHASE"
+        <v-icon
+          v-if="pilot.MechSkillsController.HasFullHASE"
           start
-          icon="mdi-check" />
+          icon="mdi-check"
+        />
         {{ $t('pm.level.mechSkills') }}
       </v-tab>
       <v-divider />
 
       <v-divider />
       <v-tab>
-        <v-icon v-if="pilot.LicenseController.HasLicenses"
+        <v-icon
+          v-if="pilot.LicenseController.HasLicenses"
           start
-          icon="mdi-check" />
+          icon="mdi-check"
+        />
         {{ $t('common.licenses') }}
       </v-tab>
       <v-divider />
 
       <v-divider />
       <v-tab>
-        <v-icon v-if="pilot.CoreBonusController.HasCBs"
+        <v-icon
+          v-if="pilot.CoreBonusController.HasCBs"
           start
-          icon="mdi-check" />
+          icon="mdi-check"
+        />
         {{ $t('pm.level.coreBonuses') }}
       </v-tab>
       <v-divider />
@@ -53,45 +67,59 @@
     <v-container fluid>
       <template #default>
         <v-window-item>
-          <overview-page :pilot="pilot"
+          <overview-page
+            :pilot="pilot"
             :cb-eligible="cbEligible"
-            @next="setStep(1)" />
+            @next="setStep(1)"
+          />
         </v-window-item>
         <v-window-item>
-          <skills-page :pilot="pilot"
+          <skills-page
+            :pilot="pilot"
             context="level"
             @next="setStep(2)"
-            @back="setStep(0)" />
+            @back="setStep(0)"
+          />
         </v-window-item>
         <v-window-item>
-          <talents-page :pilot="pilot"
+          <talents-page
+            :pilot="pilot"
             context="level"
             @next="setStep(3)"
-            @back="setStep(1)" />
+            @back="setStep(1)"
+          />
         </v-window-item>
         <v-window-item>
-          <mech-skills-page :pilot="pilot"
+          <mech-skills-page
+            :pilot="pilot"
             context="level"
             @next="setStep(4)"
-            @back="setStep(2)" />
+            @back="setStep(2)"
+          />
         </v-window-item>
         <v-window-item>
-          <license-page :pilot="pilot"
+          <license-page
+            :pilot="pilot"
             context="level"
             @next="setStep(5)"
-            @back="setStep(3)" />
+            @back="setStep(3)"
+          />
         </v-window-item>
         <v-window-item>
-          <core-bonus-page :pilot="pilot"
+          <core-bonus-page
+            :pilot="pilot"
             context="level"
             :cb-eligible="cbEligible"
             @next="setStep(6)"
-            @back="setStep(4)" />
+            @back="setStep(4)"
+          />
         </v-window-item>
         <v-window-item>
-          <confirm-page :pilot="pilot"
+          <confirm-page
+            :pilot="pilot"
             context="level"
-            @back="setStep(5)" />
+            @back="setStep(5)"
+          />
         </v-window-item>
       </template>
     </v-container>
@@ -99,37 +127,37 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, type Ref } from 'vue'
-import OverviewPage from './pages/OverviewPage.vue';
-import SkillsPage from '../_shared/pages/SkillsPage.vue';
-import TalentsPage from '../_shared/pages/TalentsPage.vue';
-import MechSkillsPage from '../_shared/pages/MechSkillsPage.vue';
-import LicensePage from '../_shared/pages/LicensePage.vue';
-import CoreBonusPage from '../_shared/pages/CoreBonusPage.vue';
-import ConfirmPage from '../_shared/pages/ConfirmPage.vue';
-import { PilotStore } from '@/stores';
-import { Pilot } from '@/classes/pilot/Pilot'
+  import { computed, ref, type Ref } from 'vue'
+  import OverviewPage from './pages/OverviewPage.vue'
+  import SkillsPage from '../_shared/pages/SkillsPage.vue'
+  import TalentsPage from '../_shared/pages/TalentsPage.vue'
+  import MechSkillsPage from '../_shared/pages/MechSkillsPage.vue'
+  import LicensePage from '../_shared/pages/LicensePage.vue'
+  import CoreBonusPage from '../_shared/pages/CoreBonusPage.vue'
+  import ConfirmPage from '../_shared/pages/ConfirmPage.vue'
+  import { PilotStore } from '@/stores'
+  import { Pilot } from '@/classes/pilot/Pilot'
 
-const props = defineProps<{
-  pilotID: string
-}>()
+  const props = defineProps<{
+    pilotID: string
+  }>()
 
-const tabs = ref<any>(null)
+  const tabs = ref<any>(null)
 
-const step = ref(1)
-const pilot = ref({} as Pilot) as Ref<Pilot>
-const cbEligible = ref(false)
+  const step = ref(1)
+  const pilot = ref({} as Pilot) as Ref<Pilot>
+  const cbEligible = ref(false)
 
-const currentPilot = computed(() => {
-  return PilotStore().Pilots.find((p) => p.ID === props.pilotID) as Pilot;
-})
+  const currentPilot = computed(() => {
+    return PilotStore().Pilots.find(p => p.ID === props.pilotID) as Pilot
+  })
 
-pilot.value = Pilot.Deserialize(Pilot.Serialize(currentPilot.value));
-pilot.value.Level++;
-cbEligible.value = pilot.value.CoreBonusController.IsMissingCBs;
+  pilot.value = Pilot.Deserialize(Pilot.Serialize(currentPilot.value))
+  pilot.value.Level++
+  cbEligible.value = pilot.value.CoreBonusController.IsMissingCBs
 
-function setStep(n: number) {
-  step.value = n;
-  tabs.value.setTab(n);
-}
+  function setStep(n: number) {
+    step.value = n
+    tabs.value.setTab(n)
+  }
 </script>

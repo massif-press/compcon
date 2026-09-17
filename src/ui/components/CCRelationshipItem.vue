@@ -1,56 +1,92 @@
 <template>
-  <v-chip label
+  <v-chip
+    label
     variant="elevated"
     color="panel"
     class="ma-1"
-    @click="dialog = true">
-    <v-icon v-if="editable"
+    @click="dialog = true"
+  >
+    <v-icon
+      v-if="editable"
       icon="mdi-pencil-outline"
       start
-      color="accent" />
-    <span v-if="originItem"
-      class="pr-1">{{ originItem.Name }}</span>
+      color="accent"
+    />
+    <span
+      v-if="originItem"
+      class="pr-1"
+    >
+      {{ originItem.Name }}
+    </span>
     <v-icon icon="mdi-minus" />
-    <v-chip size="x-small"
+    <v-chip
+      size="x-small"
       class="mx-n1"
-      variant="outlined">{{ item.relationship }}</v-chip>
+      variant="outlined"
+    >
+      {{ item.relationship }}
+    </v-chip>
     <v-icon icon="mdi-arrow-right" />
     <span class="pl-1">{{ item.name }}</span>
 
-    <v-menu open-on-hover
-      activator="parent">
-      <v-card style="width: 50vw"
-        variant="elevated">
-        <v-toolbar density="compact"
+    <v-menu
+      open-on-hover
+      activator="parent"
+    >
+      <v-card
+        style="width: 50vw"
+        variant="elevated"
+      >
+        <v-toolbar
+          density="compact"
           class="pl-4 pr-2"
-          :color="color">
-          <span v-if="originItem"
-            class="pr-1">{{ originItem.Name }}</span>
+          :color="color"
+        >
+          <span
+            v-if="originItem"
+            class="pr-1"
+          >
+            {{ originItem.Name }}
+          </span>
           <v-icon icon="mdi-minus" />
-          <v-chip size="x-small"
+          <v-chip
+            size="x-small"
             class="mx-n1"
-            variant="outlined">{{ item.relationship }}</v-chip>
+            variant="outlined"
+          >
+            {{ item.relationship }}
+          </v-chip>
           <v-icon icon="mdi-arrow-right" />
           <span class="pl-1">{{ item.name }}</span>
         </v-toolbar>
         <v-divider />
         <v-card-text>
           <v-row dense>
-            <v-col v-if="linkedItem"
-              cols="auto">
-              <v-avatar size="64"
-                class="mr-2">
+            <v-col
+              v-if="linkedItem"
+              cols="auto"
+            >
+              <v-avatar
+                size="64"
+                class="mr-2"
+              >
                 <v-img :src="linkedItem.Portrait" />
               </v-avatar>
             </v-col>
             <v-col>
-              <p v-if="item.notes"
-                v-html-safe="item.notes" />
-              <v-row v-else
+              <p
+                v-if="item.notes"
+                v-html-safe="item.notes"
+              />
+              <v-row
+                v-else
                 align="center"
-                justify="center">
-                <v-col cols="auto"
-                  class="mt-5">
+                justify="center"
+              >
+                <v-col
+                  cols="auto"
+                  class="mt-5"
+                >
                   <i class="text-caption text-disabled">{{ $t('common.noData') }}</i>
                 </v-col>
               </v-row>
@@ -60,15 +96,22 @@
       </v-card>
     </v-menu>
 
-    <v-dialog v-model="dialog"
-      :max-width="editable ? '1200px' : ''">
-      <v-card v-if="editable"
-        tile>
-        <v-toolbar class="px-3"
-          tile>
+    <v-dialog
+      v-model="dialog"
+      :max-width="editable ? '1200px' : ''"
+    >
+      <v-card
+        v-if="editable"
+        tile
+      >
+        <v-toolbar
+          class="px-3"
+          tile
+        >
           <v-row dense>
             <v-col cols="5">
-              <v-autocomplete v-model="item.id"
+              <v-autocomplete
+                v-model="item.id"
                 density="compact"
                 variant="solo"
                 hide-details
@@ -77,45 +120,58 @@
                 :items="allCollectionItems"
                 item-title="Name"
                 item-value="ID"
-                @update:model-value="setName(item)" />
+                @update:model-value="setName(item)"
+              />
             </v-col>
             <v-col cols="4">
-              <v-text-field v-model="item.relationship"
+              <v-text-field
+                v-model="item.relationship"
                 density="compact"
                 hide-details
                 variant="solo"
-                :label="$t('ui.fields.relationship')" />
+                :label="$t('ui.fields.relationship')"
+              />
             </v-col>
             <v-col align-self="center">
-              <v-menu v-if="item.id.length && linkedItem"
-                location="right">
+              <v-menu
+                v-if="item.id.length && linkedItem"
+                location="right"
+              >
                 <template #activator="{ props }">
-                  <cc-button icon="mdi-lightbulb"
+                  <cc-button
+                    icon="mdi-lightbulb"
                     color="primary"
-                    v-bind="props" />
+                    v-bind="props"
+                  />
                 </template>
                 <v-card>
                   <v-list>
-                    <v-list-item v-for="(s, index) in (linkedItem as any).GetRelationshipSuggestions(
-                      originItem.ItemType
-                    )"
+                    <v-list-item
+                      v-for="(s, index) in (linkedItem as any).GetRelationshipSuggestions(
+                        originItem.ItemType
+                      )"
                       :key="`suggestion-${index}`"
                       :title="s"
-                      @click="item.relationship = s" />
+                      @click="item.relationship = s"
+                    />
                   </v-list>
                 </v-card>
               </v-menu>
             </v-col>
             <v-spacer />
             <v-col cols="auto">
-              <v-menu offset-x
-                left>
+              <v-menu
+                offset-x
+                left
+              >
                 <template #activator="{ props }">
-                  <v-btn size="small"
+                  <v-btn
+                    size="small"
                     icon
                     color="error"
                     variant="plain"
-                    v-bind="props">
+                    v-bind="props"
+                  >
                     <v-icon icon="mdi-delete" />
                   </v-btn>
                 </template>
@@ -126,9 +182,11 @@
                   <v-divider />
                   <v-card-actions>
                     <v-spacer />
-                    <v-btn size="small"
+                    <v-btn
+                      size="small"
                       color="error"
-                      @click="$emit('delete', item.id)">
+                      @click="$emit('delete', item.id)"
+                    >
                       {{ $t('common.confirmDeletion') }}
                     </v-btn>
                   </v-card-actions>
@@ -144,23 +202,31 @@
         <v-divider />
         <v-card-actions>
           <v-spacer />
-          <v-btn variant="text"
+          <v-btn
+            variant="text"
             size="small"
             color="accent"
-            @click="dialog = false">
+            @click="dialog = false"
+          >
             {{ $t('common.saveAndClose') }}
           </v-btn>
         </v-card-actions>
       </v-card>
       <v-card v-else>
-        <CCNarrativeItemContent :item="item"
+        <CCNarrativeItemContent
+          :item="item"
           :origin-item="originItem"
-          :linked-item="linkedItem" />
+          :linked-item="linkedItem"
+        />
         <v-card-actions>
           <v-spacer />
-          <v-btn color="blue darken-1"
+          <v-btn
+            color="blue darken-1"
             variant="text"
-            @click="dialog = false">{{ $t('common.close') }}</v-btn>
+            @click="dialog = false"
+          >
+            {{ $t('common.close') }}
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -168,40 +234,44 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import CCNarrativeItemContent from './CCNarrativeItemContent.vue'
-import { CollectionItem } from '@/classes/narrative/CollectionItem'
+  import { ref, computed } from 'vue'
+  import CCNarrativeItemContent from './CCNarrativeItemContent.vue'
+  import { CollectionItem } from '@/classes/narrative/CollectionItem'
 
-const props = withDefaults(defineProps<{
-  item: Record<string, any>
-  collectionItems?: any[]
-  color?: string
-  editable?: boolean
-  originItem: Record<string, any>
-}>(), { collectionItems: () => [], color: 'primary', editable: false })
-
-defineEmits<{ delete: [id: string] }>()
-
-const dialog = ref(false)
-
-const allCollectionItems = computed(() =>
-  props.collectionItems.filter(
-    (i: any) => !i.SaveController.IsDeleted && i.ID !== props.item.ID && i.ID !== props.originItem.ID
+  const props = withDefaults(
+    defineProps<{
+      item: Record<string, any>
+      collectionItems?: any[]
+      color?: string
+      editable?: boolean
+      originItem: Record<string, any>
+    }>(),
+    { collectionItems: () => [], color: 'primary', editable: false }
   )
-)
 
-const linkedItem = computed<CollectionItem | null>(() =>
-  props.collectionItems.find((i: any) => i.ID === props.item.id) ?? null
-)
+  defineEmits<{ delete: [id: string] }>()
 
-function setName(r: any) {
-  const item = allCollectionItems.value.find((i: any) => i.ID === r.id)
-  if (item) r.name = item.Name
-}
+  const dialog = ref(false)
 
-function openDialog() {
-  dialog.value = true
-}
+  const allCollectionItems = computed(() =>
+    props.collectionItems.filter(
+      (i: any) =>
+        !i.SaveController.IsDeleted && i.ID !== props.item.ID && i.ID !== props.originItem.ID
+    )
+  )
 
-defineExpose({ openDialog })
+  const linkedItem = computed<CollectionItem | null>(
+    () => props.collectionItems.find((i: any) => i.ID === props.item.id) ?? null
+  )
+
+  function setName(r: any) {
+    const item = allCollectionItems.value.find((i: any) => i.ID === r.id)
+    if (item) r.name = item.Name
+  }
+
+  function openDialog() {
+    dialog.value = true
+  }
+
+  defineExpose({ openDialog })
 </script>

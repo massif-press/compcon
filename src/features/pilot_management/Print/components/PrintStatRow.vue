@@ -1,71 +1,103 @@
 <template>
-  <v-row justify="space-around"
+  <v-row
+    justify="space-around"
     align="center"
-    class="mt-n6 mb-1 text-uppercase">
-    <v-col cols="auto"
-      class="text-center">
+    class="mt-n6 mb-1 text-uppercase"
+  >
+    <v-col
+      cols="auto"
+      class="text-center"
+    >
       <div class="font-weight-bold overline text-primary">
         <span class="text-uppercase">{{ $t('pm.link.hull') }}</span>
       </div>
-      <blank-line v-if="blank"
+      <blank-line
+        v-if="blank"
         :width="120"
         :height="35"
-        class="mt-n1" />
-      <div v-else
+        class="mt-n1"
+      />
+      <div
+        v-else
         class="heading ph2"
         style="line-height: 14px"
-        v-text="mech.Hull" />
+        v-text="mech.Hull"
+      />
     </v-col>
-    <v-col cols="auto"
-      class="text-center">
+    <v-col
+      cols="auto"
+      class="text-center"
+    >
       <div class="font-weight-bold overline text-primary">{{ $t('stats.agility') }}</div>
-      <blank-line v-if="blank"
+      <blank-line
+        v-if="blank"
         :width="120"
         :height="35"
-        class="mt-n1" />
-      <div v-else
+        class="mt-n1"
+      />
+      <div
+        v-else
         class="heading ph2"
         style="line-height: 14px"
-        v-text="mech.Agi" />
+        v-text="mech.Agi"
+      />
     </v-col>
-    <v-col cols="auto"
-      class="text-center">
+    <v-col
+      cols="auto"
+      class="text-center"
+    >
       <div class="font-weight-bold overline text-primary">{{ $t('stats.systems') }}</div>
-      <blank-line v-if="blank"
+      <blank-line
+        v-if="blank"
         :width="120"
         :height="35"
-        class="mt-n1" />
-      <div v-else
+        class="mt-n1"
+      />
+      <div
+        v-else
         class="heading ph2"
         style="line-height: 14px"
-        v-text="mech.Sys" />
+        v-text="mech.Sys"
+      />
     </v-col>
-    <v-col cols="auto"
-      class="text-center">
+    <v-col
+      cols="auto"
+      class="text-center"
+    >
       <div class="font-weight-bold overline text-primary">{{ $t('stats.engineering') }}</div>
-      <blank-line v-if="blank"
+      <blank-line
+        v-if="blank"
         :width="120"
         :height="35"
-        class="mt-n1" />
-      <div v-else
+        class="mt-n1"
+      />
+      <div
+        v-else
         class="heading ph2"
         style="line-height: 14px"
-        v-text="mech.Eng" />
+        v-text="mech.Eng"
+      />
     </v-col>
-    <v-col cols="auto"
-      class="text-center">
+    <v-col
+      cols="auto"
+      class="text-center"
+    >
       <div v-if="blank">
         <div class="font-weight-bold overline text-primary">
           <span class="text-uppercase">{{ $t('ui.fields.size') }}</span>
         </div>
-        <blank-line v-if="blank"
+        <blank-line
+          v-if="blank"
           :width="120"
           :height="35"
-          class="mt-n1" />
+          class="mt-n1"
+        />
       </div>
-      <v-icon v-else
+      <v-icon
+        v-else
         color="primary"
-        size="40">
+        size="40"
+      >
         {{ mech.SizeIcon }}
       </v-icon>
     </v-col>
@@ -73,29 +105,29 @@
 </template>
 
 <script setup lang="ts">
-import type { Mech } from '@/classes/mech/Mech'
-import { h } from 'vue'
+  import type { Mech } from '@/classes/mech/Mech'
+  import { h } from 'vue'
 
-const BlankLine = {
-  props: { width: Number, height: Number },
-  render(this: any) {
-    return h('div', {
-      style: {
-        width: this.width + 'px',
-        height: this.height + 'px',
-        borderBottom: '2px solid currentColor',
-      },
-    })
-  },
-}
-
-withDefaults(
-  defineProps<{
-    mech: Mech
-    blank?: boolean
-  }>(),
-  {
-    blank: false,
+  const BlankLine = {
+    props: { width: Number, height: Number },
+    render(this: any) {
+      return h('div', {
+        style: {
+          width: this.width + 'px',
+          height: this.height + 'px',
+          borderBottom: '2px solid currentColor',
+        },
+      })
+    },
   }
-)
+
+  withDefaults(
+    defineProps<{
+      mech: Mech
+      blank?: boolean
+    }>(),
+    {
+      blank: false,
+    }
+  )
 </script>

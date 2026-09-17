@@ -1,7 +1,11 @@
 <template>
   <v-container>
-    <div class="heading mech"
-      style="line-height: 30px">{{ $t('nav.about.title') }}</div>
+    <div
+      class="heading mech"
+      style="line-height: 30px"
+    >
+      {{ $t('nav.about.title') }}
+    </div>
     <div class="text-caption ml-1 my-2">
       {{ $t('nav.about.ccVersion') }}
       <b class="text-accent">{{ $appVersion }}</b>
@@ -9,50 +13,62 @@
       {{ $t('nav.about.lancerCoreVersion') }}
       <b class="text-accent">{{ $lancerVersion }}</b>
     </div>
-    <v-row dense
+    <v-row
+      dense
       align="center"
       justify="center"
-      class="my-2">
+      class="my-2"
+    >
       <v-col cols="auto">
         <a href="https://app.netlify.com/sites/compcon/deploys">
-          <img :alt="$t('nav.alt.netlifyStatus')"
-            src="https://api.netlify.com/api/v1/badges/8c8ba126-8074-4a99-98f9-9b0529107214/deploy-status" />
+          <img
+            :alt="$t('nav.alt.netlifyStatus')"
+            src="https://api.netlify.com/api/v1/badges/8c8ba126-8074-4a99-98f9-9b0529107214/deploy-status"
+          />
         </a>
       </v-col>
       <v-col cols="auto">
         <a href="https://discord.gg/rwcpzsU">
           <img
             src="https://img.shields.io/badge/discord-%23compcon-7289DA?logo=discord&logoColor=white"
-            :alt="$t('nav.alt.joinTheLancerDiscord')" />
+            :alt="$t('nav.alt.joinTheLancerDiscord')"
+          />
         </a>
       </v-col>
     </v-row>
-    <v-row no-gutters
+    <v-row
+      no-gutters
       align="center"
-      justify="center">
+      justify="center"
+    >
       <v-col cols="auto">
         <a href="https://patreon.com/compcon">
           <img
             src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-patreon.vercel.app%2Fapi%3Fusername%3Dcompcon%26type%3Dpatrons&style=for-the-badge"
-            :alt="$t('nav.alt.supportCompconOnPatreon')" />
+            :alt="$t('nav.alt.supportCompconOnPatreon')"
+          />
         </a>
       </v-col>
     </v-row>
 
-    <div class="d-flex justify-center align-center my-6"
-      style="width: 100%">
+    <div
+      class="d-flex justify-center align-center my-6"
+      style="width: 100%"
+    >
       <p style="max-width: 80vw; text-align: center">
         {{ $t('nav.about.description') }}
         <br />
         <br />
         {{ $t('nav.about.coreBookInfo') }}
-        <a target="_blank"
-          href="http://www.massifpress.com">massifpress.com</a>
+        <a
+          target="_blank"
+          href="http://www.massifpress.com"
+        >
+          massifpress.com
+        </a>
       </p>
     </div>
   </v-container>
 </template>
 
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>

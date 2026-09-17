@@ -3,8 +3,8 @@
 </template>
 
 <script setup lang="ts">
-import type Tag from '@/classes/Tag'
-defineProps<{
-  item: Tag
-}>()
+  import type Tag from '@/classes/Tag'
+  defineProps<{
+    item: Tag
+  }>()
 </script>

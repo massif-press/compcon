@@ -3,8 +3,8 @@
 </template>
 
 <script setup lang="ts">
-import CloudManagement from '../account/index.vue';
-import * as _ from 'lodash-es';
+  import CloudManagement from '../account/index.vue'
+  import * as _ from 'lodash-es'
 
-defineOptions({ name: 'auth-signed-in' })
+  defineOptions({ name: 'auth-signed-in' })
 </script>

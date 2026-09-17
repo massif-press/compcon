@@ -1,16 +1,24 @@
 <template>
   <div>
     <section-header :title="$t('pm.level.coreBonuses')">
-      <cc-dialog :title="$t('pm.titles.setPilotCoreBonuses')"
+      <cc-dialog
+        :title="$t('pm.titles.setPilotCoreBonuses')"
         icon="cc:corebonus"
-        fullscreen :close-on-click="false" major full-height max-width="90vw">
+        fullscreen
+        :close-on-click="false"
+        major
+        full-height
+        max-width="90vw"
+      >
         <template #activator="{ open }">
-          <section-edit-chip v-if="!pilot.IsRemote"
+          <section-edit-chip
+            v-if="!pilot.IsRemote"
             :highlight="!pilot.CoreBonusController.HasCBs"
             :current="pilot.CoreBonusController.CurrentCBPoints"
             :max="pilot.CoreBonusController.MaxCBPoints"
             :label="`Edit Pilot CORE Bonuses (${pilot.CoreBonusController.CurrentCBPoints}/${pilot.CoreBonusController.MaxCBPoints})`"
-            @open-selector="open" />
+            @open-selector="open"
+          />
         </template>
         <core-bonus-selector :pilot="pilot" />
       </cc-dialog>
@@ -19,30 +27,32 @@
     <v-container class="px-0">
       <no-data-block v-if="!pilot.CoreBonusController.CoreBonuses.length" />
 
-      <cc-core-bonus-item v-for="item in pilot.CoreBonusController.CoreBonuses"
+      <cc-core-bonus-item
+        v-for="item in pilot.CoreBonusController.CoreBonuses"
         :key="item.ID"
         :bonus="item"
-        terse />
+        terse
+      />
     </v-container>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Pilot } from '@/classes/pilot/Pilot'
-import { computed } from 'vue'
-import { useDisplay } from 'vuetify'
-import SectionHeader from '../../components/SectionHeader.vue';
-import SectionEditChip from '../../components/SectionEditChip.vue';
-import NoDataBlock from '../../components/NoDataBlock.vue';
-import CoreBonusSelector from '@/features/pilot_management/_components/selectors/CoreBonusSelector.vue';
+  import type { Pilot } from '@/classes/pilot/Pilot'
+  import { computed } from 'vue'
+  import { useDisplay } from 'vuetify'
+  import SectionHeader from '../../components/SectionHeader.vue'
+  import SectionEditChip from '../../components/SectionEditChip.vue'
+  import NoDataBlock from '../../components/NoDataBlock.vue'
+  import CoreBonusSelector from '@/features/pilot_management/_components/selectors/CoreBonusSelector.vue'
 
-const _display = useDisplay()
+  const _display = useDisplay()
 
-defineProps<{
-  pilot: Pilot
-}>()
+  defineProps<{
+    pilot: Pilot
+  }>()
 
-computed(() => {
-  return _display.lgAndUp.value;
-})
+  computed(() => {
+    return _display.lgAndUp.value
+  })
 </script>

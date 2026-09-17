@@ -2,7 +2,8 @@
   <v-container>
     <div
       v-if="item.SectionType.toLowerCase() !== 'section' && item.ItemNumber > 0"
-      class="text-overline mt-n2 mb-n3">
+      class="text-overline mt-n2 mb-n3"
+    >
       <b>{{ item.SectionType }} {{ item.ItemNumber }}:</b>
     </div>
     <div class="heading h1 text-accent">
@@ -14,17 +15,18 @@
       :key="`content-${i}`"
       :item="e"
       class="mb-4"
-      @delete-item="item.RemoveContentItem(i)" />
+      @delete-item="item.RemoveContentItem(i)"
+    />
   </v-container>
 </template>
 
 <script setup lang="ts">
-import PageContentContainer from './containers/campaignContentContainer.vue';
-import type { CampaignSection } from '@/classes/campaign/CampaignSection';
+  import PageContentContainer from './containers/campaignContentContainer.vue'
+  import type { CampaignSection } from '@/classes/campaign/CampaignSection'
 
-defineOptions({ name: 'campaign-content-page' })
+  defineOptions({ name: 'campaign-content-page' })
 
-const props = defineProps<{
-  item: CampaignSection
-}>()
+  const props = defineProps<{
+    item: CampaignSection
+  }>()
 </script>

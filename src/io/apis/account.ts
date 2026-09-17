@@ -463,7 +463,10 @@ export async function GetFromCode(codes: string | string[]) {
   return data
 }
 
-export async function redeemKeycode(userId: string, keycode: string): Promise<{ granted: string[] }> {
+export async function redeemKeycode(
+  userId: string,
+  keycode: string
+): Promise<{ granted: string[] }> {
   const url = new URL(`${invoke}/keycode`)
   url.searchParams.append('user_id', userId)
 

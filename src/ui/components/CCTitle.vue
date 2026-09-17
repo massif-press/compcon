@@ -2,7 +2,8 @@
   <div
     :class="[block ? '' : 'clip', offset && 'offset', `bg-${color}`]"
     style="height: fit-content"
-    :style="`width: ${block ? '100%' : 'max-content'};`">
+    :style="`width: ${block ? '100%' : 'max-content'};`"
+  >
     <div class="pl-2 pr-8 heading">
       <slot />
     </div>
@@ -10,27 +11,27 @@
 </template>
 
 <script setup lang="ts">
-interface Props {
-  block?: boolean
-  size?: string
-  color?: string
-  offset?: boolean
-}
+  interface Props {
+    block?: boolean
+    size?: string
+    color?: string
+    offset?: boolean
+  }
 
-withDefaults(defineProps<Props>(), {
-  size: '',
-  color: 'primary',
-  offset: false,
-})
+  withDefaults(defineProps<Props>(), {
+    size: '',
+    color: 'primary',
+    offset: false,
+  })
 </script>
 
 <style scoped>
-.clip {
-  clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0% 100%);
-}
+  .clip {
+    clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0% 100%);
+  }
 
-.offset {
-  padding-left: 600px !important;
-  margin-left: -600px !important;
-}
+  .offset {
+    padding-left: 600px !important;
+    margin-left: -600px !important;
+  }
 </style>

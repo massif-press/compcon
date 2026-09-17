@@ -65,10 +65,9 @@ export const CollectionStore = defineStore('collections', {
     updateAllRemoteCollections(): void {
       const umStore = UserMetadataStore()
       for (const item of umStore.UserMetadata.CollectionSubscriptionSettings.items) {
-        const localSubscription =
-          umStore.UserMetadata.CollectionSubscriptionSettings.items.find(
-            (x: any) => x.metadata.id === item.metadata.id
-          )
+        const localSubscription = umStore.UserMetadata.CollectionSubscriptionSettings.items.find(
+          (x: any) => x.metadata.id === item.metadata.id
+        )
         if (localSubscription && localSubscription.metadata.version === item.metadata.version) {
           logger.info('Collection is up to date:', item)
         } else {

@@ -31,7 +31,8 @@
         class="text-cc-overline"
       >
         <cc-slashes class="pl-2" />
-        {{ $t('gm.itemCard.tierShort', { tier: item.NpcClassController.Tier }) }} {{ item.NpcClassController.Class.Name }}
+        {{ $t('gm.itemCard.tierShort', { tier: item.NpcClassController.Tier }) }}
+        {{ item.NpcClassController.Class.Name }}
       </span>
     </template>
     <template #subtitle>
@@ -65,73 +66,76 @@
 </template>
 
 <script setup lang="ts">
-import type { GMItem } from '../../gmItem'
-import { computed } from 'vue'
-import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer'
+  import type { GMItem } from '../../gmItem'
+  import { computed } from 'vue'
+  import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer'
 
-const props = withDefaults(defineProps<{
-  item: GMItem
-  grouping?: string
-  sorting?: string
-  selectedId?: string
-  disabled?: boolean
-}>(), {
-  grouping: 'None',
-  sorting: 'Name',
-  disabled: false
-})
+  const props = withDefaults(
+    defineProps<{
+      item: GMItem
+      grouping?: string
+      sorting?: string
+      selectedId?: string
+      disabled?: boolean
+    }>(),
+    {
+      grouping: 'None',
+      sorting: 'Name',
+      disabled: false,
+    }
+  )
 
-const emit = defineEmits<{
-  'open': []
-}>()
+  const emit = defineEmits<{
+    open: []
+  }>()
 
-const type = computed(() => {
-        return props.item.ItemType.charAt(0).toUpperCase() + props.item.ItemType.slice(1)
-      })
-const missingContent = computed(() => {
-        return props.item.BrewController?.IsUnableToLoad
-      })
-const groupValues = computed(() => {
-        if (props.grouping === 'None') return ''
+  const type = computed(() => {
+    return props.item.ItemType.charAt(0).toUpperCase() + props.item.ItemType.slice(1)
+  })
+  const missingContent = computed(() => {
+    return props.item.BrewController?.IsUnableToLoad
+  })
+  const groupValues = computed(() => {
+    if (props.grouping === 'None') return ''
 
-        //check stats
-        if ((props.item as IStatContainer).StatController) {
-          const stat = (props.item as IStatContainer).StatController.DisplayKeys.find(
-            x => x.key === props.grouping || x.title === props.grouping
-          )
-          if (stat)
-            return {
-              title: stat.title,
-              value: (props.item as IStatContainer).StatController.MaxStats[stat.key],
-            }
+    //check stats
+    if ((props.item as IStatContainer).StatController) {
+      const stat = (props.item as IStatContainer).StatController.DisplayKeys.find(
+        x => x.key === props.grouping || x.title === props.grouping
+      )
+      if (stat)
+        return {
+          title: stat.title,
+          value: (props.item as IStatContainer).StatController.MaxStats[stat.key],
         }
+    }
 
-        // check labels
-        if ((props.item as any).NarrativeController) {
-          const label = (props.item as any).NarrativeController.Labels.find(
-            x => x.title === props.grouping
-          )
-          if (label) return { title: label.title, value: label.value }
-        }
+    // check labels
+    if ((props.item as any).NarrativeController) {
+      const label = (props.item as any).NarrativeController.Labels.find(
+        x => x.title === props.grouping
+      )
+      if (label) return { title: label.title, value: label.value }
+    }
 
-        if (props.item[props.grouping])
-          return { title: props.grouping, value: props.item[props.grouping] }
+    if (props.item[props.grouping])
+      return { title: props.grouping, value: props.item[props.grouping] }
 
-        return ''
-      })
-const sortValues = computed(() => {
-        if (props.sorting === 'Name') return ''
-        let out = '' as any
-        if (props.item[props.sorting]) out = { title: props.sorting, value: props.item[props.sorting] }
-        if (props.item.StatController)
-          out = { title: props.sorting, value: props.item.StatController.getMax(props.sorting) }
-        if (props.item.NarrativeController)
-          out = {
-            title: props.sorting,
-            value: props.item.NarrativeController.LabelDictionary[props.sorting],
-          }
-        return out
-      })
+    return ''
+  })
+  const sortValues = computed(() => {
+    if (props.sorting === 'Name') return ''
+    let out = '' as any
+    if (props.item[props.sorting]) out = { title: props.sorting, value: props.item[props.sorting] }
+    if (props.item.StatController)
+      out = { title: props.sorting, value: props.item.StatController.getMax(props.sorting) }
+    if (props.item.NarrativeController)
+      out = {
+        title: props.sorting,
+        value: props.item.NarrativeController.LabelDictionary[props.sorting],
+      }
+    return out
+  })
 </script>
 
 <style scoped>

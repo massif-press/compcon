@@ -1,61 +1,80 @@
 <template>
-  <cc-panel v-if="counter"
+  <cc-panel
+    v-if="counter"
     color="primary"
     min-width="200px"
     class="text-center"
-    density="compact">
+    density="compact"
+  >
     <div class="d-flex align-center justify-space-between mt-n2">
       <div class="heading h3">
         {{ counter.Name }}
       </div>
       <v-spacer />
-      <v-tooltip :text="$t('ui.tooltips.resetCounter')"
+      <v-tooltip
+        :text="$t('ui.tooltips.resetCounter')"
         location="top"
-        open-delay="400">
+        open-delay="400"
+      >
         <template #activator="{ props }">
-          <v-btn v-bind="props"
+          <v-btn
+            v-bind="props"
             variant="text"
             icon
             size="x-small"
             class="ml-2 mr-n2 fade-select"
-            @click="counter.Reset()">
+            @click="counter.Reset()"
+          >
             <v-icon size="22">mdi-reload</v-icon>
           </v-btn>
         </template>
       </v-tooltip>
 
-      <v-tooltip v-if="counterData.custom"
-        :text="$t('ui.tooltips.deleteCounter')">
+      <v-tooltip
+        v-if="counterData.custom"
+        :text="$t('ui.tooltips.deleteCounter')"
+      >
         <template #activator="{ props }">
-          <v-btn v-bind="props"
+          <v-btn
+            v-bind="props"
             variant="text"
             icon
             size="x-small"
-            @click="$emit('delete')">
+            @click="$emit('delete')"
+          >
             <v-icon size="22">mdi-delete</v-icon>
           </v-btn>
         </template>
       </v-tooltip>
     </div>
     <v-card-text class="py-1 px-0">
-      <v-row justify="center"
+      <v-row
+        justify="center"
         align="center"
         class="counterContent"
-        no-gutters>
-        <v-col cols="auto"
-          class="mr-2">
-          <v-btn icon
+        no-gutters
+      >
+        <v-col
+          cols="auto"
+          class="mr-2"
+        >
+          <v-btn
+            icon
             variant="text"
             size="x-small"
             :disabled="counter.Value <= counter.Min"
-            @click="counter.Decrement()">
-            <v-icon size="30"
-              icon="mdi-minus" />
+            @click="counter.Decrement()"
+          >
+            <v-icon
+              size="30"
+              icon="mdi-minus"
+            />
           </v-btn>
         </v-col>
 
         <v-col cols="auto">
-          <v-text-field type="number"
+          <v-text-field
+            type="number"
             variant="outlined"
             density="compact"
             hide-details
@@ -67,18 +86,25 @@
             max-width="90px"
             @blur="onInputEnterOrLeave($event)"
             @keypress.enter="onInputEnterOrLeave($event)"
-            @input="onInput" />
+            @input="onInput"
+          />
         </v-col>
 
-        <v-col cols="auto"
-          class="ml-2">
-          <v-btn icon
+        <v-col
+          cols="auto"
+          class="ml-2"
+        >
+          <v-btn
+            icon
             variant="text"
             size="x-small"
             :disabled="counter.Value >= counter.Max"
-            @click="counter.Increment()">
-            <v-icon size="30"
-              icon="mdi-plus" />
+            @click="counter.Increment()"
+          >
+            <v-icon
+              size="30"
+              icon="mdi-plus"
+            />
           </v-btn>
         </v-col>
       </v-row>
@@ -87,68 +113,72 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-import { Counter, ICounterData } from '@/classes/components/combat/counters/Counter'
+  import { ref, watch } from 'vue'
+  import { Counter, ICounterData } from '@/classes/components/combat/counters/Counter'
 
-const props = defineProps<{
-  counterData: ICounterData
-  saveData: any[]
-}>()
+  const props = defineProps<{
+    counterData: ICounterData
+    saveData: any[]
+  }>()
 
-const emit = defineEmits<{ update: [val: Counter]; delete: [] }>()
+  const emit = defineEmits<{ update: [val: Counter]; delete: [] }>()
 
-const counter = ref<any>(null)
-const dirty = ref(false)
+  const counter = ref<any>(null)
+  const dirty = ref(false)
 
-counter.value = new Counter(props.counterData as ICounterData);
-const data = props.saveData.find((data: any) => data.id === counter.value.ID);
-if (data) counter.value.LoadData(data);
+  counter.value = new Counter(props.counterData as ICounterData)
+  const data = props.saveData.find((data: any) => data.id === counter.value.ID)
+  if (data) counter.value.LoadData(data)
 
-watch(counter, (val: Counter) => {
-  emit('update', val);
-}, { deep: true })
+  watch(
+    counter,
+    (val: Counter) => {
+      emit('update', val)
+    },
+    { deep: true }
+  )
 
-function onInput(): void {
-  dirty.value = true;
-}
+  function onInput(): void {
+    dirty.value = true
+  }
 
-function onInputEnterOrLeave(e: FocusEvent | InputEvent): void {
-  const element = e.target as HTMLInputElement;
+  function onInputEnterOrLeave(e: FocusEvent | InputEvent): void {
+    const element = e.target as HTMLInputElement
 
-  const val = parseInt(element.value);
-  counter.value.Set(val);
-  element.value = counter.value.Value.toString();
-  dirty.value = false;
-}
+    const val = parseInt(element.value)
+    counter.value.Set(val)
+    element.value = counter.value.Value.toString()
+    dirty.value = false
+  }
 </script>
 
 <style scoped>
-.counterValue.dirty :deep(input) {
-  color: rgb(var(--v-theme-primary)) !important;
-  transition: color 300ms ease-in-out !important;
-}
+  .counterValue.dirty :deep(input) {
+    color: rgb(var(--v-theme-primary)) !important;
+    transition: color 300ms ease-in-out !important;
+  }
 
-.counterValue :deep(input) {
-  font-size: 1.2em;
-  text-align: center;
-}
+  .counterValue :deep(input) {
+    font-size: 1.2em;
+    text-align: center;
+  }
 
-.counterValue :deep(input::-webkit-outer-spin-button),
-.counterValue :deep(input::-webkit-inner-spin-button) {
-  -webkit-appearance: none;
-}
+  .counterValue :deep(input::-webkit-outer-spin-button),
+  .counterValue :deep(input::-webkit-inner-spin-button) {
+    -webkit-appearance: none;
+  }
 
-.counterValue :deep(.v-input__slot) {
-  margin-bottom: 0 !important;
-}
+  .counterValue :deep(.v-input__slot) {
+    margin-bottom: 0 !important;
+  }
 
-.counterValue :deep(.v-text-field__details) {
-  display: none !important;
-}
+  .counterValue :deep(.v-text-field__details) {
+    display: none !important;
+  }
 
-.counterContent {
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
+  .counterContent {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
 </style>

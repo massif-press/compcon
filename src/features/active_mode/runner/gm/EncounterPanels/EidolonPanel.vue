@@ -1,38 +1,50 @@
 <template>
-  <v-row class="mb-1"
-    dense>
+  <v-row
+    class="mb-1"
+    dense
+  >
     <v-col>
       <div class="heading h2">{{ combatant.actor.Name }}</div>
-      <div class="text-cc-overline">{{ $t('active.eidolon.tierEidolon', { n: combatant.actor.Tier })
-      }}</div>
+      <div class="text-cc-overline">
+        {{ $t('active.eidolon.tierEidolon', { n: combatant.actor.Tier }) }}
+      </div>
     </v-col>
-    <v-col v-for="n in combatant.actor.Layers.length"
+    <v-col
+      v-for="n in combatant.actor.Layers.length"
       :key="`layer-${n}`"
       cols="auto"
       align-self="center"
-      class="text-center">
+      class="text-center"
+    >
       <v-tooltip location="top">
         <template #activator="{ props }">
-          <v-btn v-bind="props"
+          <v-btn
+            v-bind="props"
             flat
             tile
             stacked
             :variant="n - 1 === combatant.actor.ActiveLayerIndex ? 'elevated' : 'tonal'"
             :color="n - 1 === combatant.actor.ActiveLayerIndex ? 'exotic' : 'primary'"
-            @click="combatant.actor.ActiveLayerIndex = n - 1">
-            <v-icon icon="mdi-layers"
-              :size="n - 1 === combatant.actor.ActiveLayerIndex ? 50 : 40" />
+            @click="combatant.actor.ActiveLayerIndex = n - 1"
+          >
+            <v-icon
+              icon="mdi-layers"
+              :size="n - 1 === combatant.actor.ActiveLayerIndex ? 50 : 40"
+            />
             <div class="text-cc-overline">{{ combatant.actor.Layers[n - 1].Name }}</div>
           </v-btn>
         </template>
         {{ $t('active.eidolon.nameLayer', { name: combatant.actor.Layers[n - 1].Name }) }}
-        <span v-if="n - 1 === combatant.actor.ActiveLayerIndex">&nbsp;{{ $t('active.eidolon.active')
-        }}</span>
+        <span v-if="n - 1 === combatant.actor.ActiveLayerIndex">
+          &nbsp;{{ $t('active.eidolon.active') }}
+        </span>
       </v-tooltip>
     </v-col>
   </v-row>
-  <panel-base :item="layer"
-    hide-palette>
+  <panel-base
+    :item="layer"
+    hide-palette
+  >
     <template #name-block>
       <div class="mr-12">
         <div class="text-cc-overline">{{ $t('active.eidolon.activeLayer') }}</div>
@@ -40,11 +52,13 @@
           {{ layer.Name }}
         </div>
         <v-divider class="my-1" />
-        <cc-button block
+        <cc-button
+          block
           size="small"
           color="primary"
           :disabled="!layer.Layer.Shards?.Count"
-          @click="genShards()">
+          @click="genShards()"
+        >
           <span v-if="layer.Layer.Shards?.Count">
             {{ $t('active.eidolon.generateN', { n: shardCount }) }}
             <span>{{ shardCount > 1 ? $t('ui.titles.shards') : $t('active.eidolon.shard') }}</span>
@@ -55,60 +69,84 @@
     </template>
 
     <template #subtitle>
-      <div v-if="layer.Description"
-        class="text-cc-overline mt-2">{{ $t('gm.eidolon.layerDescription') }}</div>
-      <p v-if="layer.Description"
+      <div
+        v-if="layer.Description"
+        class="text-cc-overline mt-2"
+      >
+        {{ $t('gm.eidolon.layerDescription') }}
+      </div>
+      <p
+        v-if="layer.Description"
         v-html-safe="layer.Description"
-        class="px-4 py-2 border" />
-      <div v-if="layer.Layer.Appearance"
-        class="my-2">
+        class="px-4 py-2 border"
+      />
+      <div
+        v-if="layer.Layer.Appearance"
+        class="my-2"
+      >
         <cc-panel :title="$t('ui.titles.reportedAppearances')">
           <p v-html-safe="layer.Layer.Appearance" />
         </cc-panel>
       </div>
-      <div v-if="layer.Layer.Hints"
-        class="my-2">
+      <div
+        v-if="layer.Layer.Hints"
+        class="my-2"
+      >
         <cc-panel :title="$t('ui.titles.hints')">
           <p v-html-safe="layer.Layer.Hints" />
-          <div class="text-right"
-            style="position: absolute; bottom: 0; right: 22px">
-            <v-btn variant="text"
+          <div
+            class="text-right"
+            style="position: absolute; bottom: 0; right: 22px"
+          >
+            <v-btn
+              variant="text"
               size="x-small"
               class="fade-select"
-              @click="clip(layer.Layer.Hints)">
-              <v-icon start
-                icon="mdi-content-copy" />
+              @click="clip(layer.Layer.Hints)"
+            >
+              <v-icon
+                start
+                icon="mdi-content-copy"
+              />
               {{ $t('active.scan.scan') }}
             </v-btn>
           </div>
         </cc-panel>
       </div>
-      <div v-if="layer.Layer.Rules"
-        class="my-2">
+      <div
+        v-if="layer.Layer.Rules"
+        class="my-2"
+      >
         <cc-panel :title="$t('ui.titles.rules')">
           <p v-html-safe="layer.Layer.RulesByTier(combatant.actor.Tier)" />
         </cc-panel>
       </div>
     </template>
 
-    <v-expansion-panels class="mt-2"
+    <v-expansion-panels
+      class="mt-2"
       multiple
       flat
       tile
       bg-color="background"
-      variant="accordion">
+      variant="accordion"
+    >
       <v-expansion-panel class="py-0">
         <v-expansion-panel-title class="text-cc-overline py-0">
           <div class="text-cc-overline">
-            <v-icon icon="cc:trait"
+            <v-icon
+              icon="cc:trait"
               class="mt-n1"
-              start />
+              start
+            />
             {{ $t('active.eidolon.persistentTraits', { n: traits.length }) }}
           </div>
         </v-expansion-panel-title>
         <v-expansion-panel-text>
-          <cc-masonry-grid :items="traits"
-            :xl-columns="xlColumns">
+          <cc-masonry-grid
+            :items="traits"
+            :xl-columns="xlColumns"
+          >
             <template #default="{ item }">
               <div class="heading h4 text-accent">{{ item.name }}</div>
               <p v-html-safe="item.detail" />
@@ -118,15 +156,21 @@
       </v-expansion-panel>
     </v-expansion-panels>
 
-    <cc-masonry-grid :items="features"
-      :xl-columns="xlColumns">
+    <cc-masonry-grid
+      :items="features"
+      :xl-columns="xlColumns"
+    >
       <template #default="{ item }">
-        <fieldset class="px-2 pb-2"
-          style="border-color: rgba(155, 155, 155, 0.6)">
-          <unit-feature-card :key="item.ID"
+        <fieldset
+          class="px-2 pb-2"
+          style="border-color: rgba(155, 155, 155, 0.6)"
+        >
+          <unit-feature-card
+            :key="item.ID"
             :item="item"
             :unit="layer"
-            @deploy="deploy($event)" />
+            @deploy="deploy($event)"
+          />
         </fieldset>
       </template>
     </cc-masonry-grid>
@@ -134,65 +178,69 @@
 </template>
 
 <script setup lang="ts">
-import { computed, provide } from 'vue'
-import { useDisplay } from 'vuetify'
-import { EncounterContextKey } from './encounterContext';
-import type { CombatantData } from '@/classes/encounter/Encounter';
-import UnitFeatureCard from './_components/loadouts/_unitFeatureCard.vue';
-import PanelBase from './_PanelBase.vue';
-import PersistentTraits from '@/classes/npc/eidolon/persistent_traits.json';
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
-import { useLayoutOptions } from '@/features/active_mode/layoutOptions'
+  import { computed, provide } from 'vue'
+  import { useDisplay } from 'vuetify'
+  import { EncounterContextKey } from './encounterContext'
+  import type { CombatantData } from '@/classes/encounter/Encounter'
+  import UnitFeatureCard from './_components/loadouts/_unitFeatureCard.vue'
+  import PanelBase from './_PanelBase.vue'
+  import PersistentTraits from '@/classes/npc/eidolon/persistent_traits.json'
+  import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+  import { useLayoutOptions } from '@/features/active_mode/layoutOptions'
 
-const props = defineProps({
-  combatant: {
-    type: Object,
-    required: true,
-  },
-  encounterInstance: {
-    type: EncounterInstance,
-    required: true,
-  },
-})
+  const props = defineProps({
+    combatant: {
+      type: Object,
+      required: true,
+    },
+    encounterInstance: {
+      type: EncounterInstance,
+      required: true,
+    },
+  })
 
-provide(EncounterContextKey, {
-  owner: computed(() => props.combatant as CombatantData),
-  encounterInstance: computed(() => props.encounterInstance),
-})
+  provide(EncounterContextKey, {
+    owner: computed(() => props.combatant as CombatantData),
+    encounterInstance: computed(() => props.encounterInstance),
+  })
 
-const emit = defineEmits(['deselect'])
+  const emit = defineEmits(['deselect'])
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+  const { smAndDown: mobile, xs: portrait } = useDisplay()
 
-const { layout } = useLayoutOptions()
-const xlColumns = computed(() => layout.value.maxColumns)
-const traits = computed(() => PersistentTraits)
-const layer = computed(() => (props.combatant as any).actor.ActiveLayer)
-const features = computed(() => layer.value?.Layer?.Features || [])
-const shardCount = computed(() => {
-  const shardCount = layer.value.Layer.Shards?.Count || 0;
-  if (!shardCount) return 0;
-  if (typeof layer.value.Layer.Shards?.Count === 'string') {
-    const str = (layer.value.Layer.Shards.Count as string).toLowerCase().trim();
-    if (str === 'hostile_characters') {
-      return props.encounterInstance.Combatants.filter((c) => c.side === 'ally').length;
-    } else if (str === 'characters') {
-      return props.encounterInstance.Combatants.length;
-    } else {
-      return isNaN(Number(str)) ? 0 : Number(str);
+  const { layout } = useLayoutOptions()
+  const xlColumns = computed(() => layout.value.maxColumns)
+  const traits = computed(() => PersistentTraits)
+  const layer = computed(() => (props.combatant as any).actor.ActiveLayer)
+  const features = computed(() => layer.value?.Layer?.Features || [])
+  const shardCount = computed(() => {
+    const shardCount = layer.value.Layer.Shards?.Count || 0
+    if (!shardCount) return 0
+    if (typeof layer.value.Layer.Shards?.Count === 'string') {
+      const str = (layer.value.Layer.Shards.Count as string).toLowerCase().trim()
+      if (str === 'hostile_characters') {
+        return props.encounterInstance.Combatants.filter(c => c.side === 'ally').length
+      } else if (str === 'characters') {
+        return props.encounterInstance.Combatants.length
+      } else {
+        return isNaN(Number(str)) ? 0 : Number(str)
+      }
+    }
+    return shardCount
+  })
+
+  function deploy(deployable) {
+    ;(props.encounterInstance as any).Deploy(deployable, props.combatant)
+  }
+  function clip(text) {
+    navigator.clipboard.writeText(text)
+  }
+  function genShards() {
+    if (!shardCount.value) return
+    for (let i = 0; i < shardCount.value; i += 1) {
+      ;(props.combatant as any).deployables.push(
+        layer.value.Layer.Shards.Create(props.combatant, layer.value.Name)
+      )
     }
   }
-  return shardCount;
-})
-
-function deploy(deployable) { (props.encounterInstance as any).Deploy(deployable, props.combatant) }
-function clip(text) { navigator.clipboard.writeText(text) }
-function genShards() {
-  if (!shardCount.value) return
-  for (let i = 0; i < shardCount.value; i += 1) {
-    (props.combatant as any).deployables.push(
-      layer.value.Layer.Shards.Create(props.combatant, layer.value.Name)
-    )
-  }
-}
 </script>

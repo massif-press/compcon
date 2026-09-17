@@ -1,44 +1,60 @@
 <template>
-  <v-card flat
+  <v-card
+    flat
     tile
     class="mb-1 bg-panel"
-    style="border: 1px solid; border-color: rgb(var(--v-theme-mod))">
-    <v-toolbar height="20"
+    style="border: 1px solid; border-color: rgb(var(--v-theme-mod))"
+  >
+    <v-toolbar
+      height="20"
       flat
-      color="mod">
+      color="mod"
+    >
       <div class="text-caption text-uppercase">
-        <v-icon style="padding-bottom: 1px"
+        <v-icon
+          style="padding-bottom: 1px"
           class="mx-1"
-          icon="cc:weaponmod"></v-icon>
+          icon="cc:weaponmod"
+        ></v-icon>
         <b>{{ mod.Name }}</b>
       </div>
     </v-toolbar>
     <div class="pa-0">
-      <p v-if="mod.Effect"
+      <p
+        v-if="mod.Effect"
         v-html-safe="mod.EffectByTier(tier)"
-        class="py-1 px-2" />
+        class="py-1 px-2"
+      />
       <cc-bonus :bonuses="mod.Bonuses" />
-      <cc-tags v-if="mod.Tags?.length"
-        :tags="mod.Tags" />
-      <cc-deployable-info v-for="deployable in mod.Deployables"
+      <cc-tags
+        v-if="mod.Tags?.length"
+        :tags="mod.Tags"
+      />
+      <cc-deployable-info
+        v-for="deployable in mod.Deployables"
         :key="deployable.Name + 'mod_inset'"
-        :deployable="deployable" />
-      <cc-action v-for="action in mod.Actions"
+        :deployable="deployable"
+      />
+      <cc-action
+        v-for="action in mod.Actions"
         :key="action.ID"
         :action="action"
-        panel />
+        panel
+      />
     </div>
   </v-card>
 </template>
 
 <script setup lang="ts">
-import { NpcFeature } from '@/classes/npc/feature/NpcFeature';
+  import { NpcFeature } from '@/classes/npc/feature/NpcFeature'
 
-
-withDefaults(defineProps<{
-  mod: NpcFeature
-  tier?: number
-}>(), {
-  tier: 1
-})
+  withDefaults(
+    defineProps<{
+      mod: NpcFeature
+      tier?: number
+    }>(),
+    {
+      tier: 1,
+    }
+  )
 </script>

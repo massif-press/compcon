@@ -1,19 +1,19 @@
 class AchievementEventSystem {
-  private static observers: { [event: string]: ((event: any) => void)[] } = {};
+  private static observers: { [event: string]: ((event: any) => void)[] } = {}
 
   static subscribe(eventType: string, callback: (event: any) => void) {
-    if (!eventType) return;
+    if (!eventType) return
     if (!this.observers[eventType]) {
-      this.observers[eventType] = [];
+      this.observers[eventType] = []
     }
-    this.observers[eventType].push(callback);
+    this.observers[eventType].push(callback)
   }
 
   static emit(eventType: string, event?: any) {
     if (this.observers[eventType]) {
-      this.observers[eventType].forEach((callback) => callback(event));
+      this.observers[eventType].forEach(callback => callback(event))
     }
   }
 }
 
-export { AchievementEventSystem };
+export { AchievementEventSystem }

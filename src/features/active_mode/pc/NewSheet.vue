@@ -1,82 +1,120 @@
 <template>
   <v-container :fluid="$vuetify.display.mdAndDown">
     <div class="heading h2">{{ $t('active.sheet.newCharacterSheet') }}</div>
-    <v-row dense
-      class="mt-2">
-      <v-col v-if="!mobile"
+    <v-row
+      dense
+      class="mt-2"
+    >
+      <v-col
+        v-if="!mobile"
         cols="1"
-        class="text-center">
-        <v-icon icon="cc:pilot"
+        class="text-center"
+      >
+        <v-icon
+          icon="cc:pilot"
           :color="selectedPilot ? 'success' : 'panel'"
-          size="50" />
+          size="50"
+        />
       </v-col>
       <v-col>
         <cc-panel>
-          <cc-titled-divider :title="$t('active.titles.selectPilot')"
-            color="accent">
-            <template v-if="mobile"
-              #prepend>
-              <v-icon icon="cc:pilot"
-                :color="selectedPilot ? 'success' : 'panel'" />
+          <cc-titled-divider
+            :title="$t('active.titles.selectPilot')"
+            color="accent"
+          >
+            <template
+              v-if="mobile"
+              #prepend
+            >
+              <v-icon
+                icon="cc:pilot"
+                :color="selectedPilot ? 'success' : 'panel'"
+              />
             </template>
           </cc-titled-divider>
 
-          <v-row dense
+          <v-row
+            dense
             align="center"
-            justify="space-between">
-            <v-col cols="12"
-              md="">
-              <cc-text-field v-model="search"
+            justify="space-between"
+          >
+            <v-col
+              cols="12"
+              md=""
+            >
+              <cc-text-field
+                v-model="search"
                 color="primary"
-                icon="mdi-magnify" />
+                icon="mdi-magnify"
+              />
             </v-col>
-            <v-col> <cc-select v-model="group"
+            <v-col>
+              <cc-select
+                v-model="group"
                 :items="groups"
                 color="primary"
                 bg-color="panel"
                 prepend-inner-icon="mdi-folder"
-                prepend-icon="mdi-folder" /></v-col>
+                prepend-icon="mdi-folder"
+              />
+            </v-col>
           </v-row>
-          <div style="max-height: 60vh; overflow-y: scroll; overflow-x: hidden"
-            class="mt-2">
-            <v-hover v-for="pilot in pilots"
-              :key="pilot.ID">
+          <div
+            style="max-height: 60vh; overflow-y: scroll; overflow-x: hidden"
+            class="mt-2"
+          >
+            <v-hover
+              v-for="pilot in pilots"
+              :key="pilot.ID"
+            >
               <template #default="{ isHovering, props }">
                 <v-slide-y-transition>
-                  <v-row v-if="!selectedPilot || selectedPilot.ID === pilot.ID"
+                  <v-row
+                    v-if="!selectedPilot || selectedPilot.ID === pilot.ID"
                     v-bind="props"
                     :key="pilot.ID"
                     class="mb-2 border-sm"
-                    :class="isHovering && !selectedPilot
-                      ? 'bg-panel cursor'
-                      : selectedPilot && selectedPilot.ID === pilot.ID
-                        ? 'bg-primary clipped'
-                        : ''
-                      "
+                    :class="
+                      isHovering && !selectedPilot
+                        ? 'bg-panel cursor'
+                        : selectedPilot && selectedPilot.ID === pilot.ID
+                          ? 'bg-primary clipped'
+                          : ''
+                    "
                     no-gutters
-                    @click="setPilot(pilot)">
+                    @click="setPilot(pilot)"
+                  >
                     <v-col cols="auto">
-                      <cc-avatar v-if="!mobile && pilot.PortraitController.Avatar"
+                      <cc-avatar
+                        v-if="!mobile && pilot.PortraitController.Avatar"
                         :avatar="pilot.PortraitController.Avatar"
-                        size="100" />
-                      <cc-img v-else-if="pilot.PortraitController.Portrait"
+                        size="100"
+                      />
+                      <cc-img
+                        v-else-if="pilot.PortraitController.Portrait"
                         :src="pilot.PortraitController.Portrait"
                         :width="mobile ? '45px' : '100px'"
                         height="100%"
                         color="panel"
-                        cover />
+                        cover
+                      />
                     </v-col>
 
                     <v-col class="ml-2">
                       <div class="heading">
                         <v-row no-gutters>
                           <v-col>
-                            {{ pilot.Callsign }}</v-col><v-col cols="auto"> <v-chip flat
+                            {{ pilot.Callsign }}
+                          </v-col>
+                          <v-col cols="auto">
+                            <v-chip
+                              flat
                               size="x-small"
                               tile
                               :color="statusColor(pilot.Status)"
                               class="text-center text-cc-overline"
-                              style="letter-spacing: 10px;">
+                              style="letter-spacing: 10px"
+                            >
                               {{ pilot.Status }}
                             </v-chip>
                           </v-col>
@@ -87,31 +125,37 @@
                         <cc-slashes />
                         {{ $t('active.newSheet.llLevel', { n: pilot.Level }) }}
                       </div>
-                      <div v-if="!mobile"
-                        class="mt-1">
+                      <div
+                        v-if="!mobile"
+                        class="mt-1"
+                      >
                         <pilot-list-item-details :pilot="<Pilot>pilot" />
                       </div>
-
-
                     </v-col>
                     <v-col cols="auto">
-                      <v-icon v-if="selectedPilot"
+                      <v-icon
+                        v-if="selectedPilot"
                         color="error"
                         icon="mdi-close"
-                        @click.stop="setPilot(null)" />
+                        @click.stop="setPilot(null)"
+                      />
                     </v-col>
                   </v-row>
                 </v-slide-y-transition>
               </template>
             </v-hover>
           </div>
-          <div v-if="!selectedPilot"
-            class="d-flex justify-end mt-2">
-            <cc-button size="small"
+          <div
+            v-if="!selectedPilot"
+            class="d-flex justify-end mt-2"
+          >
+            <cc-button
+              size="small"
               variant="outlined"
               color="accent"
               prepend-icon="mdi-plus-box"
-              @click="$router.push({ name: 'new', params: { groupID: 'no_group' } })">
+              @click="$router.push({ name: 'new', params: { groupID: 'no_group' } })"
+            >
               {{ $t('pm.roster.createNewPilot') }}
             </cc-button>
           </div>
@@ -120,63 +164,85 @@
     </v-row>
     <v-slide-y-transition>
       <v-row v-if="selectedPilot">
-        <v-col v-if="!mobile"
+        <v-col
+          v-if="!mobile"
           cols="1"
-          class="text-center">
-          <v-icon icon="cc:mech"
+          class="text-center"
+        >
+          <v-icon
+            icon="cc:mech"
             :color="selectedMech ? 'success' : 'panel'"
-            size="50" />
+            size="50"
+          />
         </v-col>
         <v-col>
           <cc-panel>
-            <cc-titled-divider :title="$t('active.titles.selectActiveMech')"
+            <cc-titled-divider
+              :title="$t('active.titles.selectActiveMech')"
               color="accent"
-              class="mb-1">
-              <template v-if="mobile"
-                #prepend>
-                <v-icon icon="cc:mech"
-                  :color="selectedMech ? 'success' : 'panel'" />
+              class="mb-1"
+            >
+              <template
+                v-if="mobile"
+                #prepend
+              >
+                <v-icon
+                  icon="cc:mech"
+                  :color="selectedMech ? 'success' : 'panel'"
+                />
               </template>
             </cc-titled-divider>
 
             <div style="max-height: 60vh; overflow-y: scroll; overflow-x: hidden">
-              <v-hover v-for="mech in sortedMechs"
-                :key="mech.ID + '_hover'">
+              <v-hover
+                v-for="mech in sortedMechs"
+                :key="mech.ID + '_hover'"
+              >
                 <template #default="{ isHovering, props }">
                   <v-slide-y-transition>
-                    <v-row v-if="!selectedMech || mech.ID === selectedMech.ID"
+                    <v-row
+                      v-if="!selectedMech || mech.ID === selectedMech.ID"
                       :key="mech.ID"
                       v-bind="props"
                       class="mb-1 pa-1"
                       no-gutters
-                      :class="isHovering && !selectedMech
-                        ? 'bg-panel cursor'
-                        : selectedMech && selectedMech.ID === mech.ID
-                          ? 'bg-primary clipped'
-                          : ''
-                        "
+                      :class="
+                        isHovering && !selectedMech
+                          ? 'bg-panel cursor'
+                          : selectedMech && selectedMech.ID === mech.ID
+                            ? 'bg-primary clipped'
+                            : ''
+                      "
                       dense
-                      @click="setMech(mech)">
+                      @click="setMech(mech)"
+                    >
                       <v-col cols="auto">
-                        <cc-img v-if="mech.PortraitController.Portrait"
+                        <cc-img
+                          v-if="mech.PortraitController.Portrait"
                           :src="mech.PortraitController.Portrait"
                           :width="mobile ? '45px' : '100px'"
                           height="100%"
-                          cover />
+                          cover
+                        />
                       </v-col>
                       <v-col :class="!mobile ? 'ml-5' : ''">
                         <div class="heading">
-                          <v-icon v-if="selectedPilot.FavoriteMech?.ID === mech.ID"
-                            icon=mdi-star
-                            start />{{ mech.Name }}
+                          <v-icon
+                            v-if="selectedPilot.FavoriteMech?.ID === mech.ID"
+                            icon="mdi-star"
+                            start
+                          />
+                          {{ mech.Name }}
                         </div>
                         <div class="text-cc-overline">
                           {{ mech.Frame.Source }} {{ mech.Frame.Name }}
                         </div>
 
-                        <v-row dense
+                        <v-row
+                          dense
                           class="text-cc-overline bg-panel my-1"
-                          justify="space-around">
+                          justify="space-around"
+                        >
                           <v-col cols="auto">
                             <span>
                               {{ $t('pm.sheet.str') }}
@@ -214,13 +280,14 @@
                         </v-row>
 
                         <mech-card-loadout-field :mech="<Mech>mech" />
-
                       </v-col>
                       <v-col cols="auto">
-                        <v-icon v-if="selectedMech"
+                        <v-icon
+                          v-if="selectedMech"
                           color="error"
                           icon="mdi-close"
-                          @click.stop="setMech(null)" />
+                          @click.stop="setMech(null)"
+                        />
                       </v-col>
                     </v-row>
                   </v-slide-y-transition>
@@ -232,60 +299,83 @@
       </v-row>
     </v-slide-y-transition>
     <v-slide-y-transition>
-      <v-row v-if="selectedPilot && (selectedMech)">
-        <v-col v-if="!mobile"
+      <v-row v-if="selectedPilot && selectedMech">
+        <v-col
+          v-if="!mobile"
           cols="1"
-          class="text-center">
-          <v-icon icon="mdi-checkbox-marked-circle-auto-outline"
+          class="text-center"
+        >
+          <v-icon
+            icon="mdi-checkbox-marked-circle-auto-outline"
             color="success"
-            size="50" />
+            size="50"
+          />
         </v-col>
         <v-col>
           <cc-panel>
-            <cc-titled-divider :title="$t('common.confirm')"
-              color="accent">
-              <template v-if="mobile"
-                #prepend>
-                <v-icon icon="mdi-checkbox-marked-circle-auto-outline"
-                  color="success" />
+            <cc-titled-divider
+              :title="$t('common.confirm')"
+              color="accent"
+            >
+              <template
+                v-if="mobile"
+                #prepend
+              >
+                <v-icon
+                  icon="mdi-checkbox-marked-circle-auto-outline"
+                  color="success"
+                />
               </template>
             </cc-titled-divider>
 
             <div class="my-3">
-              <div class="text-cc-overline text-disabled">{{ $t('active.newSheet.campaignName') }}
+              <div class="text-cc-overline text-disabled">
+                {{ $t('active.newSheet.campaignName') }}
               </div>
-              <cc-text-field v-model="campaign"
+              <cc-text-field
+                v-model="campaign"
                 max-width="600px"
                 :tooltip="$t('active.tooltips.optionalForOrganizationalPurposes')"
-                color="primary" />
+                color="primary"
+              />
             </div>
 
-            <cc-button block
+            <cc-button
+              block
               color="success"
               prepend-icon="mdi-arrow-right-bold-hexagon-outline"
-              @click="createSheet(true)">
+              @click="createSheet(true)"
+            >
               <span>{{ $t('active.newSheet.createAndLaunch') }}</span>
             </cc-button>
-            <v-row dense
-              class="mt-1">
+            <v-row
+              dense
+              class="mt-1"
+            >
               <v-col cols="3">
-                <cc-button block
+                <cc-button
+                  block
                   size="small"
                   color="error"
                   :prepend-icon="mobile ? '' : 'mdi-close'"
-                  @click="reset()">
+                  @click="reset()"
+                >
                   <span v-if="!mobile">{{ $t('common.cancel') }}</span>
-                  <v-icon v-else
+                  <v-icon
+                    v-else
                     size="47"
-                    icon=mdi-close />
+                    icon="mdi-close"
+                  />
                 </cc-button>
               </v-col>
               <v-col>
-                <cc-button block
+                <cc-button
+                  block
                   size="small"
                   color="primary"
                   prepend-icon="mdi-content-save"
-                  @click="createSheet(false)">
+                  @click="createSheet(false)"
+                >
                   {{ $t('active.encSummary.createReturnLibrary') }}
                 </cc-button>
               </v-col>
@@ -294,94 +384,103 @@
         </v-col>
       </v-row>
     </v-slide-y-transition>
-
   </v-container>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { Mech } from '@/classes/mech/Mech'
-import { Pilot } from '@/classes/pilot/Pilot'
-import { PilotGroup } from '@/features/pilot_management/store/PilotGroup'
-import MechCardLoadoutField from '@/features/pilot_management/PilotSheet/sections/hangar/components/MechCardLoadoutField.vue';
-import PilotListItemDetails from '@/features/pilot_management/Roster/components/_pilotListItemDetails.vue';
-import { PilotStore, PilotGroupStore, PilotSheetStore } from '@/stores';
-import { useDisplay } from 'vuetify';
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
-const router = useRouter()
+  import { computed, ref } from 'vue'
+  import { useRouter } from 'vue-router'
+  import { Mech } from '@/classes/mech/Mech'
+  import { Pilot } from '@/classes/pilot/Pilot'
+  import { PilotGroup } from '@/features/pilot_management/store/PilotGroup'
+  import MechCardLoadoutField from '@/features/pilot_management/PilotSheet/sections/hangar/components/MechCardLoadoutField.vue'
+  import PilotListItemDetails from '@/features/pilot_management/Roster/components/_pilotListItemDetails.vue'
+  import { PilotStore, PilotGroupStore, PilotSheetStore } from '@/stores'
+  import { useDisplay } from 'vuetify'
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
+  const router = useRouter()
 
-const { smAndDown: mobile } = useDisplay()
+  const { smAndDown: mobile } = useDisplay()
 
-const selectedPilot = ref(null as Pilot | null)
-const selectedMech = ref(null as Mech | null)
-const search = ref('')
-const group = ref(undefined)
-const campaign = ref('')
+  const selectedPilot = ref(null as Pilot | null)
+  const selectedMech = ref(null as Mech | null)
+  const search = ref('')
+  const group = ref(undefined)
+  const campaign = ref('')
 
-const groups = computed(() => {
-  const groups = [{ title: t('active.titles.allPilots'), value: null }];
-  return [...groups,
-  ...(PilotGroupStore().PilotGroups as PilotGroup[]).map((g: PilotGroup) => ({ title: g.Name, value: g.ID }))
-  ];
-})
-const pilots = computed(() => {
-  let pilots = PilotStore().Pilots.filter((p) => !p.SaveController.IsDeleted);
-  if (group.value) {
-    pilots = pilots.filter((p) => PilotGroupStore().PilotGroups.find((g) => g.ID === group.value)?.Pilots.some((gp) => gp.id === p.ID));
+  const groups = computed(() => {
+    const groups = [{ title: t('active.titles.allPilots'), value: null }]
+    return [
+      ...groups,
+      ...(PilotGroupStore().PilotGroups as PilotGroup[]).map((g: PilotGroup) => ({
+        title: g.Name,
+        value: g.ID,
+      })),
+    ]
+  })
+  const pilots = computed(() => {
+    let pilots = PilotStore().Pilots.filter(p => !p.SaveController.IsDeleted)
+    if (group.value) {
+      pilots = pilots.filter(p =>
+        PilotGroupStore()
+          .PilotGroups.find(g => g.ID === group.value)
+          ?.Pilots.some(gp => gp.id === p.ID)
+      )
+    }
+    if (search.value) {
+      pilots = pilots.filter(
+        p =>
+          p.Callsign.toLowerCase().includes(search.value.toLowerCase()) ||
+          p.Name.toLowerCase().includes(search.value.toLowerCase())
+      )
+    }
+    return pilots
+  })
+
+  const sortedMechs = computed(() => {
+    if (!selectedPilot.value) return []
+    return selectedPilot.value.Mechs.filter(m => !m.SaveController.IsDeleted).sort(
+      (a, b) =>
+        (a.ID === selectedPilot.value?.FavoriteMech?.ID ? -1 : 0) +
+        (b.ID === selectedPilot.value?.FavoriteMech?.ID ? 1 : 0)
+    )
+  })
+
+  function setPilot(pilot) {
+    selectedPilot.value = pilot
   }
-  if (search.value) {
-    pilots = pilots.filter(
-      (p) =>
-        p.Callsign.toLowerCase().includes(search.value.toLowerCase()) ||
-        p.Name.toLowerCase().includes(search.value.toLowerCase())
-    );
+  function setMech(mech) {
+    selectedMech.value = mech
   }
-  return pilots;
-})
-
-const sortedMechs = computed(() => {
-  if (!selectedPilot.value) return [];
-  return selectedPilot.value.Mechs
-    .filter((m) => !m.SaveController.IsDeleted)
-    .sort((a, b) => (a.ID === selectedPilot.value?.FavoriteMech?.ID ? -1 : 0) + (b.ID === selectedPilot.value?.FavoriteMech?.ID ? 1 : 0));
-})
-
-function setPilot(pilot) {
-  selectedPilot.value = pilot;
-}
-function setMech(mech) {
-  selectedMech.value = mech;
-}
-function statusColor(status) {
-  switch (status.toLowerCase()) {
-    case 'active':
-      return 'success';
-    case 'mia':
-    case 'kia':
-    case 'err':
-      return 'error';
-    default:
-      return 'text';
+  function statusColor(status) {
+    switch (status.toLowerCase()) {
+      case 'active':
+        return 'success'
+      case 'mia':
+      case 'kia':
+      case 'err':
+        return 'error'
+      default:
+        return 'text'
+    }
   }
-}
-async function createSheet(launch) {
-  if (!selectedPilot.value || !selectedMech.value) return;
-  selectedPilot.value.ActiveMech = selectedMech.value;
+  async function createSheet(launch) {
+    if (!selectedPilot.value || !selectedMech.value) return
+    selectedPilot.value.ActiveMech = selectedMech.value
 
-  await PilotSheetStore().AddPilotSheet(selectedPilot.value as Pilot, campaign.value);
-  if (launch) router.push(`pilot-runner/${PilotSheetStore().CurrentActiveID}`);
-  else router.push('sheet-manager');
-}
-function reset() {
-  selectedPilot.value = null;
-  selectedMech.value = null;
-}
+    await PilotSheetStore().AddPilotSheet(selectedPilot.value as Pilot, campaign.value)
+    if (launch) router.push(`pilot-runner/${PilotSheetStore().CurrentActiveID}`)
+    else router.push('sheet-manager')
+  }
+  function reset() {
+    selectedPilot.value = null
+    selectedMech.value = null
+  }
 </script>
 
 <style scoped>
-.cursor {
-  cursor: pointer;
-}
+  .cursor {
+    cursor: pointer;
+  }
 </style>

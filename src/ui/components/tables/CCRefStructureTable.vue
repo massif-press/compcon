@@ -1,5 +1,8 @@
 <template>
-  <ref-roll-table-base ref="base" :title="$t('ui.titles.structureDamage')">
+  <ref-roll-table-base
+    ref="base"
+    :title="$t('ui.titles.structureDamage')"
+  >
     <v-divider class="ma-2" />
     <v-row>
       <v-col cols="2">
@@ -12,8 +15,7 @@
       </v-col>
       <v-col cols="7">
         <span class="body-text text-text">
-          Emergency systems kick in and stabilize your mech. However,
-          your mech is
+          Emergency systems kick in and stabilize your mech. However, your mech is
           <b>impaired</b>
           until the end of your next turn.
         </span>
@@ -31,12 +33,10 @@
       </v-col>
       <v-col cols="7">
         <span class="body-text text-text">
-          Parts of your mech are torn off by the damage. Roll a d6. On
-          a 1-3, all the weapons on one mount are destroyed. On a 4-6,
-          a system is destroyed. You choose what's destroyed, but
-          systems or weapons with the limited tag and no charges left
-          are not valid. If there's nothing left of one result, it
-          becomes the other. If there's absolutely nothing left to
+          Parts of your mech are torn off by the damage. Roll a d6. On a 1-3, all the weapons on one
+          mount are destroyed. On a 4-6, a system is destroyed. You choose what's destroyed, but
+          systems or weapons with the limited tag and no charges left are not valid. If there's
+          nothing left of one result, it becomes the other. If there's absolutely nothing left to
           destroy, this result becomes DIRECT HIT instead.
         </span>
       </v-col>
@@ -51,8 +51,8 @@
       </v-col>
       <v-col cols="7">
         <span class="body-text text-text">
-          This result has different outcomes depending on how much
-          structure your mech has remaining.
+          This result has different outcomes depending on how much structure your mech has
+          remaining.
           <br />
           3+ - Your mech is
           <b>stunned</b>
@@ -93,17 +93,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import RefRollTableBase from './_RefRollTableBase.vue';
+  import { ref } from 'vue'
+  import RefRollTableBase from './_RefRollTableBase.vue'
 
-defineOptions({ name: 'ref-structure-table' })
+  defineOptions({ name: 'ref-structure-table' })
 
-const base = ref<any>(null)
+  const base = ref<any>(null)
 
-function show() {
-      (base.value as any).show();
-    }
-function close() {
-      (base.value as any).close();
-    }
+  function show() {
+    ;(base.value as any).show()
+  }
+  function close() {
+    ;(base.value as any).close()
+  }
 </script>

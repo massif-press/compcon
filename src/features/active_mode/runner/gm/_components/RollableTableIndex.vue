@@ -1,16 +1,22 @@
 <template>
-  <v-card min-height="90vh"
+  <v-card
+    min-height="90vh"
     flat
-    tile>
-    <v-toolbar flat
+    tile
+  >
+    <v-toolbar
+      flat
       tile
       density="compact"
       color="primary"
-      height="46">
+      height="46"
+    >
       <v-toolbar-title class="heading h3">{{ $t('active.tableIndex.title') }}</v-toolbar-title>
       <v-spacer />
-      <v-btn icon
-        @click="$emit('close')">
+      <v-btn
+        icon
+        @click="$emit('close')"
+      >
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-toolbar>
@@ -20,73 +26,101 @@
         <strong v-if="selected">
           {{ actor?.Name }}
         </strong>
-        <span v-else
-          class="text-disabled">{{ $t('common.none') }}</span>
+        <span
+          v-else
+          class="text-disabled"
+        >
+          {{ $t('common.none') }}
+        </span>
       </div>
     </div>
     <v-card-text class="pb-0">
       <v-row>
-        <v-col :cols="portrait ? '12' : 'auto'"
-          style="min-width: 300px;">
-          <v-list v-model="selectedTable"
+        <v-col
+          :cols="portrait ? '12' : 'auto'"
+          style="min-width: 300px"
+        >
+          <v-list
+            v-model="selectedTable"
             density="compact"
-            slim>
+            slim
+          >
             <div class="text-cc-overline">{{ $t('active.tableIndex.encounterTables') }}</div>
-            <v-list-item v-for="t in tables"
+            <v-list-item
+              v-for="t in tables"
               :key="t.ID"
               :class="selectedTable?.ID === t.ID && 'bg-primary border-sm'"
               :title="t.Title"
               :subtitle="t.LcpName"
               :append-icon="t.InLcp ? 'cc:compendium' : ''"
-              @click="selectedTable = t" />
+              @click="selectedTable = t"
+            />
             <div v-if="otherTables.length">
               <v-divider class="my-2" />
               <div class="text-cc-overline">{{ $t('active.tableIndex.otherTables') }}</div>
-              <v-list-item v-for="t in otherTables"
+              <v-list-item
+                v-for="t in otherTables"
                 :key="t.ID"
                 :class="selectedTable?.ID === t.ID && 'bg-primary border-sm'"
                 :title="t.Title"
-                @click="selectedTable = t" />
+                @click="selectedTable = t"
+              />
             </div>
           </v-list>
         </v-col>
         <v-divider vertical />
         <v-col>
-          <v-card flat
-            tile>
-            <cc-alert v-if="!isCoreTable"
+          <v-card
+            flat
+            tile
+          >
+            <cc-alert
+              v-if="!isCoreTable"
               color="background"
               class="mb-2 border-s-xl border-accent"
-              icon="mdi-warning">
+              icon="mdi-warning"
+            >
               <div class="text-caption">
                 {{ $t('active.tableIndex.coreOnly') }}
               </div>
             </cc-alert>
 
             <div v-if="selectedTable">
-              <cc-rollable-table :table="selectedTable"
+              <cc-rollable-table
+                :table="selectedTable"
                 show-description
-                readonly />
-              <cc-button size="small"
+                readonly
+              />
+              <cc-button
+                size="small"
                 block
                 color="primary"
                 prepend-icon="mdi-dice-d20"
                 class="my-2"
-                @click="roll(selectedTable)">
+                @click="roll(selectedTable)"
+              >
                 {{ $t('common.roll_verb') }} {{ `${selectedTable.Mult}d${selectedTable.Die}` }}
               </cc-button>
             </div>
-            <div v-else
-              class="text-disabled text-cc-overline text-center py-4">
+            <div
+              v-else
+              class="text-disabled text-cc-overline text-center py-4"
+            >
               {{ $t('active.tableIndex.selectTable') }}
             </div>
             <v-scroll-y-reverse-transition>
-              <cc-panel v-if="selectedTable && results[selectedTable.ID].roll"
-                :title="$t('common.result')">
-                <v-row align="center"
-                  class="mb-1">
-                  <v-col cols="auto"
-                    class="text-center">
+              <cc-panel
+                v-if="selectedTable && results[selectedTable.ID].roll"
+                :title="$t('common.result')"
+              >
+                <v-row
+                  align="center"
+                  class="mb-1"
+                >
+                  <v-col
+                    cols="auto"
+                    class="text-center"
+                  >
                     <div class="heading h1">{{ results[selectedTable.ID].roll }}</div>
                   </v-col>
                   <v-col>
@@ -103,51 +137,51 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { useDisplay } from 'vuetify'
-import { RollableTable } from '@/classes/narrative/elements/RollableTable';
-import type { EncounterInstance } from '@/classes/encounter/EncounterInstance';
-import type { CombatantData } from '@/classes/encounter/Encounter';
-import { CompendiumStore } from '@/stores';
+  import { computed, ref } from 'vue'
+  import { useDisplay } from 'vuetify'
+  import { RollableTable } from '@/classes/narrative/elements/RollableTable'
+  import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+  import type { CombatantData } from '@/classes/encounter/Encounter'
+  import { CompendiumStore } from '@/stores'
 
-const _display = useDisplay()
+  const _display = useDisplay()
 
-const props = defineProps<{
-  selected?: CombatantData
-  instance: EncounterInstance
-}>()
+  const props = defineProps<{
+    selected?: CombatantData
+    instance: EncounterInstance
+  }>()
 
-const selectedTable = ref<any>(null)
-const results = ref<any>([])
+  const selectedTable = ref<any>(null)
+  const results = ref<any>([])
 
-const portrait = computed(() => {
-      return !_display.mdAndUp.value
-    })
-const isCoreTable = computed(() => {
-      const core = ['core-structure-damage', 'core-overheating'];
-      return selectedTable.value && selectedTable.value.ID;
-    })
-const tables = computed(() => {
-      return CompendiumStore().Tables;
-    })
-const otherTables = computed(() => {
-      return props.instance.Encounter.NarrativeController.Tables;
-    })
-const allTables = computed(() => {
-      return [...tables.value, ...otherTables.value];
-    })
+  const portrait = computed(() => {
+    return !_display.mdAndUp.value
+  })
+  const isCoreTable = computed(() => {
+    const core = ['core-structure-damage', 'core-overheating']
+    return selectedTable.value && selectedTable.value.ID
+  })
+  const tables = computed(() => {
+    return CompendiumStore().Tables
+  })
+  const otherTables = computed(() => {
+    return props.instance.Encounter.NarrativeController.Tables
+  })
+  const allTables = computed(() => {
+    return [...tables.value, ...otherTables.value]
+  })
 
-selectedTable.value = tables.value[0] || otherTables.value[0] || null;
-results.value = allTables.value.reduce((acc, t) => {
-  acc[t.ID] = { roll: null, result: null };
-  return acc;
-}, {});
+  selectedTable.value = tables.value[0] || otherTables.value[0] || null
+  results.value = allTables.value.reduce((acc, t) => {
+    acc[t.ID] = { roll: null, result: null }
+    return acc
+  }, {})
 
-const actor = computed(() => {
-      return props.selected ? props.selected.actor : null;
-    })
+  const actor = computed(() => {
+    return props.selected ? props.selected.actor : null
+  })
 
-function roll(t) {
-      results.value[t.ID] = t.Roll();
-    }
+  function roll(t) {
+    results.value[t.ID] = t.Roll()
+  }
 </script>

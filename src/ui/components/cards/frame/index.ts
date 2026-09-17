@@ -1,4 +1,4 @@
-import FrameStatblock from './_FrameStatblock.vue';
-import FrameCombatChart from './_FrameCombatChart.vue';
+import FrameStatblock from './_FrameStatblock.vue'
+import FrameCombatChart from './_FrameCombatChart.vue'
 
-export { FrameStatblock, FrameCombatChart };
+export { FrameStatblock, FrameCombatChart }

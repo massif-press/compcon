@@ -1,15 +1,20 @@
 <template>
-  <combatant-selector-list-view v-if="mode === 'list'"
+  <combatant-selector-list-view
+    v-if="mode === 'list'"
     :encounter="encounter"
-    @select="$emit('select', $event)" />
+    @select="$emit('select', $event)"
+  />
 </template>
 
 <script setup lang="ts">
-import CombatantSelectorListView from './views/CombatantSelectorListView.vue'
+  import CombatantSelectorListView from './views/CombatantSelectorListView.vue'
 
-withDefaults(defineProps<{
-  mode?: string
-  encounter: Record<string, any>
-}>(), { mode: 'list' })
-defineEmits<{ select: [value: any] }>()
+  withDefaults(
+    defineProps<{
+      mode?: string
+      encounter: Record<string, any>
+    }>(),
+    { mode: 'list' }
+  )
+  defineEmits<{ select: [value: any] }>()
 </script>

@@ -8,7 +8,11 @@ import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon'
 import { ActiveEffectEvent } from './ActiveEffectEvent'
 import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon'
 import { ActiveEventTarget } from './effect_events/eventTarget'
-import { routesTo, attackCountFor, WeaponAttackFlow } from '@/classes/components/combat/flows/WeaponAttackFlow'
+import {
+  routesTo,
+  attackCountFor,
+  WeaponAttackFlow,
+} from '@/classes/components/combat/flows/WeaponAttackFlow'
 import type { IWeaponAttackState } from '@/classes/components/combat/flows/WeaponAttackFlow'
 
 const onEventTargetCaches = new WeakMap<WeaponAttackEvent, Record<string, ActiveEventTarget[]>>()
@@ -81,7 +85,10 @@ class WeaponAttackEvent {
     filter: (t: ActiveEventTarget) => boolean
   }[] {
     return [
-      { event: this.OnAttackEvent, filter: (t: ActiveEventTarget) => routesTo(t.HitResult).onAttack },
+      {
+        event: this.OnAttackEvent,
+        filter: (t: ActiveEventTarget) => routesTo(t.HitResult).onAttack,
+      },
       { event: this.OnHitEvent, filter: (t: ActiveEventTarget) => routesTo(t.HitResult).onHit },
       { event: this.OnCritEvent, filter: (t: ActiveEventTarget) => routesTo(t.HitResult).onCrit },
       { event: this.OnMissEvent, filter: (t: ActiveEventTarget) => routesTo(t.HitResult).onMiss },

@@ -2,30 +2,35 @@
   <end-encounter-panel
     :action-report="props.encounterInstance.Combatants"
     confirm-message="Ending this encounter will close the active instance and send a copy to the archive. Archived encounters can not be resumed (but may be restarted). Are you sure you want to continue?"
-    @end="end" />
+    @end="end"
+  />
 </template>
 
 <script setup lang="ts">
-import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-import { EncounterStore } from '@/stores';
-import EndEncounterPanel from '@/features/active_mode/_components/EndEncounterPanel.vue';
-import { bypassLeaveGuard } from '../../../_shared/useRunnerOptions';
+  import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+  import { EncounterStore } from '@/stores'
+  import EndEncounterPanel from '@/features/active_mode/_components/EndEncounterPanel.vue'
+  import { bypassLeaveGuard } from '../../../_shared/useRunnerOptions'
 
-defineOptions({ name: 'GmEndEncounterPanel' })
+  defineOptions({ name: 'GmEndEncounterPanel' })
 
-const props = defineProps<{
-  encounterInstance: EncounterInstance
-}>()
+  const props = defineProps<{
+    encounterInstance: EncounterInstance
+  }>()
 
-async function end(result: string) {
-      props.encounterInstance.EndEncounter(result);
-      const report = props.encounterInstance.Combatants.map(c => ({
-        name: c.actor.CombatController.CombatName,
-        status: c.status,
-        pilotStatus: c.pilotStatus,
-        mechStatus: c.mechStatus,
-      }));
-      bypassLeaveGuard();
-      await EncounterStore().ArchiveEncounterInstance(props.encounterInstance, JSON.stringify(report, null, 2), result);
-    }
+  async function end(result: string) {
+    props.encounterInstance.EndEncounter(result)
+    const report = props.encounterInstance.Combatants.map(c => ({
+      name: c.actor.CombatController.CombatName,
+      status: c.status,
+      pilotStatus: c.pilotStatus,
+      mechStatus: c.mechStatus,
+    }))
+    bypassLeaveGuard()
+    await EncounterStore().ArchiveEncounterInstance(
+      props.encounterInstance,
+      JSON.stringify(report, null, 2),
+      result
+    )
+  }
 </script>

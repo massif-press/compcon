@@ -1,46 +1,67 @@
 <template>
-  <stepper-content :complete="canContinue"
+  <stepper-content
+    :complete="canContinue"
     :mandatory="context === 'new'"
     :exit="context === 'new' ? '../pilot_management' : `/pilot/${pilot.ID}`"
     back
     @back="$emit('back')"
-    @complete="$emit('next')">
-    <cc-title offset>{{ context === 'new' ? $t('pm.shared.pilotMechSkills') :
-      $t('pm.shared.improveMechSkills') }}&emsp;</cc-title>
+    @complete="$emit('next')"
+  >
+    <cc-title offset>
+      {{
+        context === 'new' ? $t('pm.shared.pilotMechSkills') : $t('pm.shared.improveMechSkills')
+      }}&emsp;
+    </cc-title>
 
-    <div v-if="!smAndDown"
-      class="px-4">
-
-      <div v-if="context === 'new'"
-        class="heading h2">
-        {{ $t('pm.new.uadIDENTService') }} <cc-slashes /> &nbsp;{{
-          $t('pm.shared.rm4dPilotSelfAssessment3') }}
+    <div
+      v-if="!smAndDown"
+      class="px-4"
+    >
+      <div
+        v-if="context === 'new'"
+        class="heading h2"
+      >
+        {{ $t('pm.new.uadIDENTService') }}
+        <cc-slashes />
+        &nbsp;{{ $t('pm.shared.rm4dPilotSelfAssessment3') }}
       </div>
-      <div v-else
-        class="heading h2">
-        {{ $t('pm.level.mv2LicenseAcquisitionRequest') }} <cc-slashes /> &nbsp;{{
-          $t('pm.shared.mv2CFrameConfigurationUpdate') }}
+      <div
+        v-else
+        class="heading h2"
+      >
+        {{ $t('pm.level.mv2LicenseAcquisitionRequest') }}
+        <cc-slashes />
+        &nbsp;{{ $t('pm.shared.mv2CFrameConfigurationUpdate') }}
       </div>
 
-      <p v-if="context === 'new'"
+      <p
+        v-if="context === 'new'"
         class="flavor-text px-6"
-        style="font-size: 14px">
+        style="font-size: 14px"
+      >
         {{ $t('pm.shared.theRM4bPILOTSELFASSESSMENT') }}
       </p>
-      <p v-else
+      <p
+        v-else
         class="flavor-text px-6"
-        style="font-size: 14px">
+        style="font-size: 14px"
+      >
         {{ $t('pm.shared.onAcceptanceFrameConfig', { id: pilot.ID }) }}
       </p>
 
-      <v-alert color="accent"
+      <v-alert
+        color="accent"
         variant="outlined"
         density="compact"
         class="mt-2"
-        tile>
+        tile
+      >
         <div class="heading">
-          {{ context === 'new' ? $t('pm.shared.addMechSkillPoints', { word, count }) :
-            $t('pm.shared.improveMechSkill') }}
+          {{
+            context === 'new'
+              ? $t('pm.shared.addMechSkillPoints', { word, count })
+              : $t('pm.shared.improveMechSkill')
+          }}
         </div>
         <p class="text-cc-overline">
           {{ $t('pm.shared.bySubmittingThisFormYouAttest') }}
@@ -53,25 +74,43 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import StepperContent from '../../_components/StepperContent.vue'
-import MechSkillsSelector from '../../_components/selectors/MechSkillsSelector.vue'
-import { Pilot } from '@/classes/pilot/Pilot'
-import { useDisplay } from 'vuetify'
+  import { computed } from 'vue'
+  import StepperContent from '../../_components/StepperContent.vue'
+  import MechSkillsSelector from '../../_components/selectors/MechSkillsSelector.vue'
+  import { Pilot } from '@/classes/pilot/Pilot'
+  import { useDisplay } from 'vuetify'
 
-const { smAndDown } = useDisplay()
+  const { smAndDown } = useDisplay()
 
-const props = defineProps<{
-  pilot: Pilot
-  context: 'new' | 'level'
-}>()
+  const props = defineProps<{
+    pilot: Pilot
+    context: 'new' | 'level'
+  }>()
 
-const emit = defineEmits<{ back: []; next: [] }>()
+  const emit = defineEmits<{ back: []; next: [] }>()
 
-const canContinue = computed(() => !(props.pilot as any).MechSkillsController.IsMissingHASE)
-const count = computed(() => (props.pilot as any).MechSkillsController.MaxHASEPoints)
-const word = computed(() => {
-  const words = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen']
-  return words[count.value] ?? count.value
-})
+  const canContinue = computed(() => !(props.pilot as any).MechSkillsController.IsMissingHASE)
+  const count = computed(() => (props.pilot as any).MechSkillsController.MaxHASEPoints)
+  const word = computed(() => {
+    const words = [
+      'zero',
+      'one',
+      'two',
+      'three',
+      'four',
+      'five',
+      'six',
+      'seven',
+      'eight',
+      'nine',
+      'ten',
+      'eleven',
+      'twelve',
+      'thirteen',
+      'fourteen',
+      'fifteen',
+      'sixteen',
+    ]
+    return words[count.value] ?? count.value
+  })
 </script>

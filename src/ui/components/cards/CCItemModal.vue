@@ -1,39 +1,54 @@
 <template>
-  <cc-dialog ref="dialog"
+  <cc-dialog
+    ref="dialog"
     :color="item.Color ? item.Color : 'primary'"
     :title="`${item.Name}`"
-    :icon="item.Icon" :close-on-click="false" major max-width="90vw">
+    :icon="item.Icon"
+    :close-on-click="false"
+    major
+    max-width="90vw"
+  >
     <template #activator="{ open }">
-      <cc-button :color="item.Color ? item.Color : 'primary'"
+      <cc-button
+        :color="item.Color ? item.Color : 'primary'"
         :class="density === 'compact' ? '' : 'ma-1'"
         style="margin: 1px"
         :block="block"
         :prepend-icon="itemIcon"
         :size="size"
-        @click="open">
+        @click="open"
+      >
         {{ truncate(item.Name) }}
         <span v-if="!hideType && item.ItemType === 'Frame'">&nbsp;{{ $t('common.frame') }}</span>
-        <cc-broken-reference v-if="!hideLink"
+        <cc-broken-reference
+          v-if="!hideLink"
           :item="item"
-          end />
+          end
+        />
       </cc-button>
     </template>
 
-    <div style="position: absolute; top: 43px; right: 5px;">
+    <div style="position: absolute; top: 43px; right: 5px">
       <cc-lcp-info :item="item" />
     </div>
 
-    <template v-if="!mobile"
-      #toolbar-items>
-      <cc-chip v-if="item.Source"
+    <template
+      v-if="!mobile"
+      #toolbar-items
+    >
+      <cc-chip
+        v-if="item.Source"
         :icon="item.Manufacturer?.Icon || item.Icon || ''"
         :title="item.Source || ''"
         :label="startCase(item.ItemType)"
-        :color="item.Manufacturer?.Color || item.Color || ''" />
+        :color="item.Manufacturer?.Color || item.Color || ''"
+      />
     </template>
 
-    <v-card-text class="pt-2"
-      :class="wide && 'px-12'">
+    <v-card-text
+      class="pt-2"
+      :class="wide && 'px-12'"
+    >
       <cc-item-card :item="item" />
     </v-card-text>
 
@@ -44,35 +59,38 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useDisplay } from 'vuetify'
-import { startCase } from 'lodash-es'
-import ItemCardLink from './items/_components/ItemCardLink.vue'
+  import { computed } from 'vue'
+  import { useDisplay } from 'vuetify'
+  import { startCase } from 'lodash-es'
+  import ItemCardLink from './items/_components/ItemCardLink.vue'
 
-const { smAndDown: mobile, lgAndUp: wide } = useDisplay()
+  const { smAndDown: mobile, lgAndUp: wide } = useDisplay()
 
-const props = withDefaults(defineProps<{
-  item: Record<string, any>
-  hideType?: boolean
-  hideLink?: boolean
-  block?: boolean
-  size?: string
-  density?: string
-  smallBtn?: boolean
-}>(), {
-  size: 'small',
-  density: '',
-})
+  const props = withDefaults(
+    defineProps<{
+      item: Record<string, any>
+      hideType?: boolean
+      hideLink?: boolean
+      block?: boolean
+      size?: string
+      density?: string
+      smallBtn?: boolean
+    }>(),
+    {
+      size: 'small',
+      density: '',
+    }
+  )
 
-const itemIcon = computed(() => {
-  if (props.item.IsExotic) return 'mdi-star'
-  if (props.hideType) return undefined
-  return props.item.Icon
-})
+  const itemIcon = computed(() => {
+    if (props.item.IsExotic) return 'mdi-star'
+    if (props.hideType) return undefined
+    return props.item.Icon
+  })
 
-function truncate(str: string): string {
-  if (props.block) return str
-  if (str.length > 26) return str.substring(0, 24) + '…'
-  return str
-}
+  function truncate(str: string): string {
+    if (props.block) return str
+    if (str.length > 26) return str.substring(0, 24) + '…'
+    return str
+  }
 </script>

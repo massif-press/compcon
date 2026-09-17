@@ -49,9 +49,15 @@ class Manufacturer implements ILcpTracked {
     applyLcpTracking(this, lcp)
   }
 
-  public get Name(): string { return localize(this.ID, 'name', this._name) }
-  public get Description(): string { return localize(this.ID, 'description', this._description) }
-  public get Quote(): string { return localize(this.ID, 'quote', this._quote) }
+  public get Name(): string {
+    return localize(this.ID, 'name', this._name)
+  }
+  public get Description(): string {
+    return localize(this.ID, 'description', this._description)
+  }
+  public get Quote(): string {
+    return localize(this.ID, 'quote', this._quote)
+  }
 
   public get Color(): string {
     return this.Light ? this.Light : 'grey'

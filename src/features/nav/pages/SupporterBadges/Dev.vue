@@ -1,60 +1,90 @@
 <template>
-  <v-col cols="12"
-    md="">
-    <v-card variant="tonal"
-      class="rounded-ts-xl rounded-be-xl">
+  <v-col
+    cols="12"
+    md=""
+  >
+    <v-card
+      variant="tonal"
+      class="rounded-ts-xl rounded-be-xl"
+    >
       <v-card-text class="pa-1">
         <v-row align="center">
           <v-col cols="auto">
             <v-avatar size="60px">
-              <v-img v-if="info.image"
-                :src="info.image" />
-              <span v-else
+              <v-img
+                v-if="info.image"
+                :src="info.image"
+              />
+              <span
+                v-else
                 class="text-white heading"
-                :style="`font-size: ${mobile ? '12vw' : '3.5vw'}`">
+                :style="`font-size: ${mobile ? '12vw' : '3.5vw'}`"
+              >
                 {{ info.name.split(' ')[0].substring(0, 1)
                 }}{{ info.name.split(' ')[1].substring(0, 1) }}
               </span>
             </v-avatar>
           </v-col>
           <v-col>
-            <div class="heading h2 mb-1"
-              :style="`font-size: ${mobile ? '20px' : '22px'}`">
+            <div
+              class="heading h2 mb-1"
+              :style="`font-size: ${mobile ? '20px' : '22px'}`"
+            >
               {{ info.name }}
             </div>
-            <a v-if="info.website"
+            <a
+              v-if="info.website"
               target="_blank"
-              :href="`${info.website}`">
-              <v-icon class="mr-1"
+              :href="`${info.website}`"
+            >
+              <v-icon
+                class="mr-1"
                 color="primary"
-                icon="mdi-web" />
+                icon="mdi-web"
+              />
               <span>{{ $t('common.website') }}</span>
             </a>
-            <span v-if="info.twitter && info.website"
-              class="mx-3">|</span>
-            <a v-if="info.twitter"
+            <span
+              v-if="info.twitter && info.website"
+              class="mx-3"
+            >
+              |
+            </span>
+            <a
+              v-if="info.twitter"
               target="_blank"
-              :href="`https://twitter.com/${info.twitter}`">
-              <v-icon class="ml-4 mr-1"
+              :href="`https://twitter.com/${info.twitter}`"
+            >
+              <v-icon
+                class="ml-4 mr-1"
                 color="primary"
-                icon="mdi-twitter" />
+                icon="mdi-twitter"
+              />
               <span>@{{ info.twitter }}</span>
             </a>
-            <a v-if="info.bsky"
+            <a
+              v-if="info.bsky"
               target="_blank"
-              :href="`https://bsky.app/profile/${info.bsky}`">
-              <v-icon class="ml-4 mr-1"
+              :href="`https://bsky.app/profile/${info.bsky}`"
+            >
+              <v-icon
+                class="ml-4 mr-1"
                 color="primary"
-                icon="mdi-butterfly" />
+                icon="mdi-butterfly"
+              />
               <span>@{{ info.bsky }}</span>
             </a>
 
-            <a v-if="info.github"
+            <a
+              v-if="info.github"
               target="_blank"
-              :href="`https://github.com/${info.github}`">
-              <v-icon class="ml-4 mr-1"
+              :href="`https://github.com/${info.github}`"
+            >
+              <v-icon
+                class="ml-4 mr-1"
                 color="primary"
-                icon="mdi-github" />
+                icon="mdi-github"
+              />
               <span>GitHub</span>
             </a>
           </v-col>
@@ -65,15 +95,15 @@
 </template>
 
 <script setup lang="ts">
-import { useDisplay } from 'vuetify'
+  import { useDisplay } from 'vuetify'
 
-defineProps<{ info: Record<string, any>; cols?: number }>()
+  defineProps<{ info: Record<string, any>; cols?: number }>()
 
-const { smAndDown: mobile } = useDisplay()
+  const { smAndDown: mobile } = useDisplay()
 </script>
 
 <style scoped>
-a {
-  text-decoration: none !important;
-}
+  a {
+    text-decoration: none !important;
+  }
 </style>

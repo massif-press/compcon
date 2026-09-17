@@ -1,90 +1,116 @@
 <template>
-  <v-card flat
-    tile>
-    <div v-if="selected"
-      class="mb-6">
-      <cc-title offset>{{ pc ? $t('active.refTag.yourTags', { name: selected.Name || selected.actor.Name }) : $t('active.refTag.relevantTags', { name: selected.Name || selected.actor.Name }) }}</cc-title>
-      <cc-tags v-if="actorTags.length"
+  <v-card
+    flat
+    tile
+  >
+    <div
+      v-if="selected"
+      class="mb-6"
+    >
+      <cc-title offset>
+        {{
+          pc
+            ? $t('active.refTag.yourTags', { name: selected.Name || selected.actor.Name })
+            : $t('active.refTag.relevantTags', { name: selected.Name || selected.actor.Name })
+        }}
+      </cc-title>
+      <cc-tags
+        v-if="actorTags.length"
         :tags="actorTags"
         extended
-        force-extended />
-      <div v-else
-        class="text-disabled text-cc-overline ma-1">{{ $t('active.refTag.noTagsFound') }}</div>
+        force-extended
+      />
+      <div
+        v-else
+        class="text-disabled text-cc-overline ma-1"
+      >
+        {{ $t('active.refTag.noTagsFound') }}
+      </div>
     </div>
 
-    <div v-if="!pc"
-      class="mb-6">
+    <div
+      v-if="!pc"
+      class="mb-6"
+    >
       <cc-title offset>{{ $t('active.refTag.relevantTagsEncounter') }}</cc-title>
-      <cc-tags v-if="relevantTags.length"
+      <cc-tags
+        v-if="relevantTags.length"
         :tags="relevantTags"
         extended
-        force-extended />
-      <div v-else
-        class="text-disabled text-cc-overline ma-1">{{ $t('active.refTag.noTagsFound') }}</div>
+        force-extended
+      />
+      <div
+        v-else
+        class="text-disabled text-cc-overline ma-1"
+      >
+        {{ $t('active.refTag.noTagsFound') }}
+      </div>
     </div>
 
     <cc-title offset>{{ $t('active.refTag.allTags') }}</cc-title>
-    <cc-tags :tags="allTags"
+    <cc-tags
+      :tags="allTags"
       extended
-      force-extended />
+      force-extended
+    />
   </v-card>
 </template>
 
 <script setup lang="ts">
-import type Tag from '@/classes/Tag';
-import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-import { computed, ref, onMounted } from 'vue'
-import * as _ from 'lodash-es';
-import { CompendiumStore } from '@/stores';
+  import type Tag from '@/classes/Tag'
+  import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+  import { computed, ref, onMounted } from 'vue'
+  import * as _ from 'lodash-es'
+  import { CompendiumStore } from '@/stores'
 
-defineOptions({ name: 'ReferenceTagPage' })
+  defineOptions({ name: 'ReferenceTagPage' })
 
-const props = defineProps<{
-  selected?: { Name?: string; actor?: any }
-  encounterInstance: EncounterInstance
-  pc?: boolean
-}>()
+  const props = defineProps<{
+    selected?: { Name?: string; actor?: any }
+    encounterInstance: EncounterInstance
+    pc?: boolean
+  }>()
 
-const allTags = ref<Tag[]>([])
+  const allTags = ref<Tag[]>([])
 
-const actorTags = computed(() => {
-      if (props.pc) return getActorTags(props.selected);
-      if (props.selected && props.selected.actor) return getActorTags(props.selected.actor);
-      return [];
-    })
-const relevantTags = computed(() => {
-      const tags: Tag[] = [];
-      props.encounterInstance.Combatants.forEach((c) => {
-        if (c.actor) {
-          if (c.actor.PilotLoadoutController) {
-            tags.push(...c.actor.PilotLoadoutController.ActiveLoadout.AllTags);
-          }
-          if (c.actor.MechLoadoutController) {
-            tags.push(...c.actor.MechLoadoutController.ActiveLoadout.AllTags);
-          }
-          if (c.actor.NpcFeatureController) {
-            tags.push(...c.actor.NpcFeatureController.AllTags);
-          }
+  const actorTags = computed(() => {
+    if (props.pc) return getActorTags(props.selected)
+    if (props.selected && props.selected.actor) return getActorTags(props.selected.actor)
+    return []
+  })
+  const relevantTags = computed(() => {
+    const tags: Tag[] = []
+    props.encounterInstance.Combatants.forEach(c => {
+      if (c.actor) {
+        if (c.actor.PilotLoadoutController) {
+          tags.push(...c.actor.PilotLoadoutController.ActiveLoadout.AllTags)
         }
-      });
-      return _.uniqBy(tags, 'ID');
+        if (c.actor.MechLoadoutController) {
+          tags.push(...c.actor.MechLoadoutController.ActiveLoadout.AllTags)
+        }
+        if (c.actor.NpcFeatureController) {
+          tags.push(...c.actor.NpcFeatureController.AllTags)
+        }
+      }
     })
+    return _.uniqBy(tags, 'ID')
+  })
 
-function getActorTags(actor) {
-      if (actor.ActiveMech && actor.ActiveMech.MechLoadoutController) {
-        return _.uniqBy(actor.ActiveMech.MechLoadoutController.ActiveLoadout.AllTags, 'ID');
-      }
-      if (actor.PilotLoadoutController) {
-        return _.uniqBy(actor.PilotLoadoutController.ActiveLoadout.AllTags, 'ID');
-      }
-
-      if (actor.NpcFeatureController) {
-        return _.uniqBy(actor.NpcFeatureController.AllTags, 'ID');
-      }
-      return [];
+  function getActorTags(actor) {
+    if (actor.ActiveMech && actor.ActiveMech.MechLoadoutController) {
+      return _.uniqBy(actor.ActiveMech.MechLoadoutController.ActiveLoadout.AllTags, 'ID')
+    }
+    if (actor.PilotLoadoutController) {
+      return _.uniqBy(actor.PilotLoadoutController.ActiveLoadout.AllTags, 'ID')
     }
 
-onMounted(() => {
-allTags.value = CompendiumStore().Tags
-})
+    if (actor.NpcFeatureController) {
+      return _.uniqBy(actor.NpcFeatureController.AllTags, 'ID')
+    }
+    return []
+  }
+
+  onMounted(() => {
+    allTags.value = CompendiumStore().Tags
+  })
 </script>

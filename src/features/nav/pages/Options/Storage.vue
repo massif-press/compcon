@@ -1,25 +1,33 @@
 <template>
   <v-container :class="!mobile && 'px-12'">
-    <v-card-text v-if="size.usage && size.quota"
-      class="flavor-text">
-      <v-progress-linear :model-value="((size.usage / size.quota) * 100).toFixed(3)"
+    <v-card-text
+      v-if="size.usage && size.quota"
+      class="flavor-text"
+    >
+      <v-progress-linear
+        :model-value="((size.usage / size.quota) * 100).toFixed(3)"
         height="20"
         class="mb-5"
         tile
-        color="primary">
-        <v-chip small
+        color="primary"
+      >
+        <v-chip
+          small
           tile
           variant="elevated"
           color="primary-lighten-5"
-          style="opacity: 0.5">
+          style="opacity: 0.5"
+        >
           {{ ((size.usage / size.quota) * 100).toFixed(3) }}%
         </v-chip>
       </v-progress-linear>
 
       <p class="px-2">
-        <i18n-t keypath="nav.storage.storageUsageFull"
+        <i18n-t
+          keypath="nav.storage.storageUsageFull"
           tag="span"
-          scope="global">
+          scope="global"
+        >
           <template #used>{{ bytesToSize(size.usage) }}</template>
           <template #total>{{ bytesToSize(size.quota) }}</template>
           <template #percent>
@@ -29,12 +37,17 @@
       </p>
 
       <div class="mb-4">
-        <cc-heading is-title
-          :text="$t('nav.storage.storageSettings')" />
-        <cc-heading is-title
+        <cc-heading
+          is-title
+          :text="$t('nav.storage.storageSettings')"
+        />
+        <cc-heading
+          is-title
           small
-          :text="$t('nav.storage.storageThresholds')" />
-        <v-range-slider v-model="storageRange"
+          :text="$t('nav.storage.storageThresholds')"
+        />
+        <v-range-slider
+          v-model="storageRange"
           thumb-label
           hide-details
           strict
@@ -42,30 +55,44 @@
           type="number"
           track-fill-color="secondary"
           color="primary"
-          @end="updateUserStorage" />
-        <v-row dense
-          class="mt-2">
+          @end="updateUserStorage"
+        />
+        <v-row
+          dense
+          class="mt-2"
+        >
           <v-col cols="auto">
-            <v-btn-toggle v-model="thresholdType"
+            <v-btn-toggle
+              v-model="thresholdType"
               flat
               tile
-              density="compact">
-              <v-btn value="pct"
+              density="compact"
+            >
+              <v-btn
+                value="pct"
                 :color="thresholdType === 'pct' ? 'primary' : 'panel'"
-                size="x-small">
-                <v-icon size="large"
-                  icon="mdi-percent" />
+                size="x-small"
+              >
+                <v-icon
+                  size="large"
+                  icon="mdi-percent"
+                />
               </v-btn>
-              <v-btn value="abs"
+              <v-btn
+                value="abs"
                 :color="thresholdType === 'abs' ? 'primary' : 'panel'"
-                size="x-small">
-                <v-icon size="large"
-                  icon="mdi-database" />
+                size="x-small"
+              >
+                <v-icon
+                  size="large"
+                  icon="mdi-database"
+                />
               </v-btn>
             </v-btn-toggle>
           </v-col>
           <v-col v-if="thresholdType === 'pct'">
-            <v-text-field v-model.number="storageRange[0]"
+            <v-text-field
+              v-model.number="storageRange[0]"
               :label="$t('nav.storage.warningThresholdPct')"
               type="number"
               min="0"
@@ -74,10 +101,12 @@
               tile
               hide-details
               density="compact"
-              @change="updateUserStorage" />
+              @change="updateUserStorage"
+            />
           </v-col>
           <v-col v-else>
-            <v-text-field v-model.number="warnMb"
+            <v-text-field
+              v-model.number="warnMb"
               :label="$t('nav.storage.warningThresholdMb')"
               type="number"
               min="0"
@@ -85,10 +114,12 @@
               variant="outlined"
               tile
               hide-details
-              density="compact" />
+              density="compact"
+            />
           </v-col>
           <v-col v-if="thresholdType === 'pct'">
-            <v-text-field v-model.number="storageRange[1]"
+            <v-text-field
+              v-model.number="storageRange[1]"
               :label="$t('nav.storage.maxThresholdPct')"
               type="number"
               :min="storageRange[0]"
@@ -97,58 +128,70 @@
               tile
               hide-details
               density="compact"
-              @change="updateUserStorage" />
+              @change="updateUserStorage"
+            />
           </v-col>
           <v-col v-else>
-            <v-text-field v-model.number="maxMb"
+            <v-text-field
+              v-model.number="maxMb"
               :label="$t('nav.storage.maxThresholdMb')"
               type="number"
               :min="warnMb"
               variant="outlined"
               tile
               hide-details
-              density="compact" />
+              density="compact"
+            />
           </v-col>
         </v-row>
         <div class="text-caption text-right text-stark">
-          {{ $t('nav.storage.warningDescription') }} {{ storageRange[0].toFixed(2) }}{{
-            $t('nav.storage.ofAvailableStorage') }}
+          {{ $t('nav.storage.warningDescription') }} {{ storageRange[0].toFixed(2)
+          }}{{ $t('nav.storage.ofAvailableStorage') }}
           <b class="text-accent">{{ bytesToSize((storageRange[0] / 100) * size.quota) }}</b>
           {{ $t('nav.storage.hasBeenUsed') }}
         </div>
         <div class="text-caption text-right text-stark">
-          {{ $t('nav.storage.maxDescription') }} {{ storageRange[1].toFixed(2) }}{{
-            $t('nav.storage.ofAvailableStorage') }}
+          {{ $t('nav.storage.maxDescription') }} {{ storageRange[1].toFixed(2)
+          }}{{ $t('nav.storage.ofAvailableStorage') }}
           <b class="text-accent">{{ bytesToSize((storageRange[1] / 100) * size.quota) }}</b>
           {{ $t('nav.storage.hasBeenUsed') }}
         </div>
       </div>
 
       <div class="mb-8">
-        <cc-heading is-title
+        <cc-heading
+          is-title
           small
-          :text="$t('nav.storage.autoDelete')" />
+          :text="$t('nav.storage.autoDelete')"
+        />
 
-        <cc-select v-model="deleteDays"
+        <cc-select
+          v-model="deleteDays"
           :items="deleteDaySelections"
           hide-details
           density="compact"
-          @update:model-value="updateDeleteDays()" />
+          @update:model-value="updateDeleteDays()"
+        />
         <div class="text-caption text-right text-stark">
           <span v-if="!deleteDays">
-            <i18n-t keypath="nav.storage.neverAutoDeleteFull"
+            <i18n-t
+              keypath="nav.storage.neverAutoDeleteFull"
               tag="span"
-              scope="global">
+              scope="global"
+            >
               <template #never>
-                <b class="text-accent"><span class="text-lowercase">{{
-                  $t('active.runnerHeader.never') }}</span></b>
+                <b class="text-accent">
+                  <span class="text-lowercase">{{ $t('active.runnerHeader.never') }}</span>
+                </b>
               </template>
             </i18n-t>
           </span>
           <span v-else>
-            <i18n-t keypath="nav.storage.autoDeleteFull"
+            <i18n-t
+              keypath="nav.storage.autoDeleteFull"
               tag="span"
-              scope="global">
+              scope="global"
+            >
               <template #days>
                 <b class="text-accent">{{ $t('nav.storage.daysCount', { count: deleteDays }) }}</b>
               </template>
@@ -157,63 +200,81 @@
         </div>
       </div>
     </v-card-text>
-    <v-card-text v-else
-      class="flavor-text">
+    <v-card-text
+      v-else
+      class="flavor-text"
+    >
       {{ $t('nav.storage.noStorageAccess') }}
     </v-card-text>
 
     <v-divider class="my-4" />
 
-    <cc-heading is-title
-      :text="$t('nav.storage.deletedItems')" />
+    <cc-heading
+      is-title
+      :text="$t('nav.storage.deletedItems')"
+    />
     <v-card-text>
       <deleted-items />
     </v-card-text>
 
     <v-divider class="my-4" />
 
-    <cc-heading is-title
-      :text="$t('nav.storage.userData')" />
+    <cc-heading
+      is-title
+      :text="$t('nav.storage.userData')"
+    />
     <user-data-viewer />
 
-    <v-dialog v-model="deleteDialog"
-      width="80%">
+    <v-dialog
+      v-model="deleteDialog"
+      width="80%"
+    >
       <template #activator="{ props }">
         <div class="text-center">
-          <cc-button size="large"
+          <cc-button
+            size="large"
             variant="outlined"
             color="error"
             class="my-6"
             append-icon="mdi-alert-outline"
             prepend-icon="mdi-alert-outline"
-            v-bind="props">
+            v-bind="props"
+          >
             {{ $t('nav.storage.clearAllData') }}
           </cc-button>
         </div>
       </template>
-      <v-card flat
-        tile>
+      <v-card
+        flat
+        tile
+      >
         <v-card-text>
-          <v-alert prominent
+          <v-alert
+            prominent
             dark
             color="error"
             icon="mdi-alert-circle"
             border="bottom"
-            class="my-3">
+            class="my-3"
+          >
             <span class="heading h2">{{ $t('nav.storage.deleteWarningBanner') }}</span>
           </v-alert>
           <p class="text-center heading h2 text-text">
-            <i18n-t keypath="nav.storage.deleteConfirmIntro"
+            <i18n-t
+              keypath="nav.storage.deleteConfirmIntro"
               tag="span"
-              scope="global">
+              scope="global"
+            >
               <template #confirm>
                 <b class="text-accent">{{ $t('nav.storage.deleteAllConfirm') }}</b>
               </template>
             </i18n-t>
             <br />
-            <i18n-t keypath="nav.storage.deleteConfirmUndone"
+            <i18n-t
+              keypath="nav.storage.deleteConfirmUndone"
               tag="span"
-              scope="global">
+              scope="global"
+            >
               <template #undone>
                 <b class="text-accent">{{ $t('nav.storage.cannotBeUndone') }}</b>
               </template>
@@ -225,23 +286,31 @@
         </v-card-text>
         <v-divider />
         <v-card-actions>
-          <v-btn color="secondary"
+          <v-btn
+            color="secondary"
             variant="text"
             large
-            @click="deleteDialog = false">
+            @click="deleteDialog = false"
+          >
             {{ $t('common.dismiss') }}
           </v-btn>
           <v-spacer />
-          <v-btn color="error"
+          <v-btn
+            color="error"
             variant="text"
-            @click="deleteAll">
-            <v-icon start
+            @click="deleteAll"
+          >
+            <v-icon
+              start
               size="x-large"
-              icon="mdi-alert-outline" />
+              icon="mdi-alert-outline"
+            />
             {{ $t('nav.storage.deleteAllUserData') }}
-            <v-icon end
+            <v-icon
+              end
               size="x-large"
-              icon="mdi-alert-outline" />
+              icon="mdi-alert-outline"
+            />
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -250,118 +319,121 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue'
-import { useDisplay } from 'vuetify'
-import DeletedItems from './components/DeletedItems.vue'
-import UserDataViewer from './components/UserDataViewer.vue'
-import { ClearAllData, GetTotalStorageSize } from '@/io/Storage'
-import logger from '@/user/logger'
-import { UserStore } from '@/stores'
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
+  import { ref, computed, watch, onMounted } from 'vue'
+  import { useDisplay } from 'vuetify'
+  import DeletedItems from './components/DeletedItems.vue'
+  import UserDataViewer from './components/UserDataViewer.vue'
+  import { ClearAllData, GetTotalStorageSize } from '@/io/Storage'
+  import logger from '@/user/logger'
+  import { UserStore } from '@/stores'
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
 
-const { mdAndDown: mobile } = useDisplay()
+  const { mdAndDown: mobile } = useDisplay()
 
-const user = computed(() => UserStore().User)
+  const user = computed(() => UserStore().User)
 
-const deleteDaySelections = [
-  { title: t('nav.titles.never'), value: 0 },
-  { title: t('nav.titles.x1Week'), value: 7 },
-  { title: t('nav.titles.x2Weeks'), value: 14 },
-  { title: t('nav.titles.x1Month'), value: 30 },
-  { title: t('nav.titles.x3Months'), value: 90 },
-  { title: t('nav.titles.x6Months'), value: 180 },
-  { title: t('nav.titles.x1Year'), value: 365 },
-]
+  const deleteDaySelections = [
+    { title: t('nav.titles.never'), value: 0 },
+    { title: t('nav.titles.x1Week'), value: 7 },
+    { title: t('nav.titles.x2Weeks'), value: 14 },
+    { title: t('nav.titles.x1Month'), value: 30 },
+    { title: t('nav.titles.x3Months'), value: 90 },
+    { title: t('nav.titles.x6Months'), value: 180 },
+    { title: t('nav.titles.x1Year'), value: 365 },
+  ]
 
-const deleteDialog = ref(false)
-const storageRange = ref([0, 0])
-const deleteDays = ref(0)
-const size = ref<StorageEstimate>({})
-const thresholdType = ref('pct')
+  const deleteDialog = ref(false)
+  const storageRange = ref([0, 0])
+  const deleteDays = ref(0)
+  const size = ref<StorageEstimate>({})
+  const thresholdType = ref('pct')
 
-const warnMb = computed({
-  get: () => {
-    if (!size.value.quota) return 0
-    return Number(((storageRange.value[0] / 100) * size.value.quota / (1024 * 1024)).toFixed(1))
-  },
-  set: (val: number) => {
-    if (!size.value.quota) return
-    const pct = (Number(val) * 1024 * 1024 / size.value.quota) * 100
-    storageRange.value[0] = Math.max(0, Math.min(pct, storageRange.value[1]))
-    updateUserStorage()
-  },
-})
+  const warnMb = computed({
+    get: () => {
+      if (!size.value.quota) return 0
+      return Number((((storageRange.value[0] / 100) * size.value.quota) / (1024 * 1024)).toFixed(1))
+    },
+    set: (val: number) => {
+      if (!size.value.quota) return
+      const pct = ((Number(val) * 1024 * 1024) / size.value.quota) * 100
+      storageRange.value[0] = Math.max(0, Math.min(pct, storageRange.value[1]))
+      updateUserStorage()
+    },
+  })
 
-const maxMb = computed({
-  get: () => {
-    if (!size.value.quota) return 0
-    return Number(((storageRange.value[1] / 100) * size.value.quota / (1024 * 1024)).toFixed(1))
-  },
-  set: (val: number) => {
-    if (!size.value.quota) return
-    const pct = (Number(val) * 1024 * 1024 / size.value.quota) * 100
-    storageRange.value[1] = Math.max(storageRange.value[0], Math.min(pct, 100))
-    updateUserStorage()
-  },
-})
+  const maxMb = computed({
+    get: () => {
+      if (!size.value.quota) return 0
+      return Number((((storageRange.value[1] / 100) * size.value.quota) / (1024 * 1024)).toFixed(1))
+    },
+    set: (val: number) => {
+      if (!size.value.quota) return
+      const pct = ((Number(val) * 1024 * 1024) / size.value.quota) * 100
+      storageRange.value[1] = Math.max(storageRange.value[0], Math.min(pct, 100))
+      updateUserStorage()
+    },
+  })
 
-watch(thresholdType, (val) => {
-  if (val === 'pct') {
-    storageRange.value[0] = Math.round(storageRange.value[0] * 100) / 100
-    storageRange.value[1] = Math.round(storageRange.value[1] * 100) / 100
-  }
-})
+  watch(thresholdType, val => {
+    if (val === 'pct') {
+      storageRange.value[0] = Math.round(storageRange.value[0] * 100) / 100
+      storageRange.value[1] = Math.round(storageRange.value[1] * 100) / 100
+    }
+  })
 
-onMounted(async () => {
-  storageRange.value[0] = user.value.StorageWarning
-  storageRange.value[1] = user.value.StorageMax
-  deleteDays.value = user.value.AutoDeleteDays
+  onMounted(async () => {
+    storageRange.value[0] = user.value.StorageWarning
+    storageRange.value[1] = user.value.StorageMax
+    deleteDays.value = user.value.AutoDeleteDays
 
-  const est = await navigator.storage.estimate()
-  const actualUsage = await GetTotalStorageSize()
-  size.value = { usage: actualUsage, quota: est.quota }
+    const est = await navigator.storage.estimate()
+    const actualUsage = await GetTotalStorageSize()
+    size.value = { usage: actualUsage, quota: est.quota }
 
-  if (!est.usage || !est.quota) {
-    logger.info(`navigator storage estimate: ${est.usage} / ${est.quota}`, null)
-  } else {
-    logger.info(`navigator storage estimate: ${bytesToSize(est.usage)} / ${bytesToSize(est.quota)}`, null)
-  }
-})
+    if (!est.usage || !est.quota) {
+      logger.info(`navigator storage estimate: ${est.usage} / ${est.quota}`, null)
+    } else {
+      logger.info(
+        `navigator storage estimate: ${bytesToSize(est.usage)} / ${bytesToSize(est.quota)}`,
+        null
+      )
+    }
+  })
 
-function bytesToSize(bytes: number) {
-  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
-  if (bytes === 0) return '0 Bytes'
-  const i = Math.floor(Math.log(bytes) / Math.log(1024))
-  if (i === 0) return `${bytes} ${sizes[i]})`
-  return `${(bytes / 1024 ** i).toFixed(1)} ${sizes[i]}`
-}
-
-async function deleteAll() {
-  await ClearAllData()
-  deleteDialog.value = false
-  window.location.reload()
-}
-
-function updateUserStorage() {
-  const warn = Number(storageRange.value[0])
-  if (isNaN(warn)) return
-  const max = Number(storageRange.value[1])
-  if (isNaN(max)) return
-  if (!warn || warn < 0) storageRange.value[0] = 1
-  if (max > 100) storageRange.value[1] = 100
-  if (warn > max) storageRange.value[0] = max
-
-  if (thresholdType.value === 'pct') {
-    storageRange.value[0] = Math.round(storageRange.value[0] * 100) / 100
-    storageRange.value[1] = Math.round(storageRange.value[1] * 100) / 100
+  function bytesToSize(bytes: number) {
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
+    if (bytes === 0) return '0 Bytes'
+    const i = Math.floor(Math.log(bytes) / Math.log(1024))
+    if (i === 0) return `${bytes} ${sizes[i]})`
+    return `${(bytes / 1024 ** i).toFixed(1)} ${sizes[i]}`
   }
 
-  user.value.StorageWarning = storageRange.value[0]
-  user.value.StorageMax = storageRange.value[1]
-}
+  async function deleteAll() {
+    await ClearAllData()
+    deleteDialog.value = false
+    window.location.reload()
+  }
 
-function updateDeleteDays() {
-  user.value.AutoDeleteDays = deleteDays.value
-}
+  function updateUserStorage() {
+    const warn = Number(storageRange.value[0])
+    if (isNaN(warn)) return
+    const max = Number(storageRange.value[1])
+    if (isNaN(max)) return
+    if (!warn || warn < 0) storageRange.value[0] = 1
+    if (max > 100) storageRange.value[1] = 100
+    if (warn > max) storageRange.value[0] = max
+
+    if (thresholdType.value === 'pct') {
+      storageRange.value[0] = Math.round(storageRange.value[0] * 100) / 100
+      storageRange.value[1] = Math.round(storageRange.value[1] * 100) / 100
+    }
+
+    user.value.StorageWarning = storageRange.value[0]
+    user.value.StorageMax = storageRange.value[1]
+  }
+
+  function updateDeleteDays() {
+    user.value.AutoDeleteDays = deleteDays.value
+  }
 </script>

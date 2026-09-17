@@ -10,11 +10,26 @@ export function useToggleIndicator(
     let sz = 24
     if (icon === 'btn') sz += 8
     switch (toValue(size)) {
-      case 'x-small': sz = 10; if (icon === 'btn') sz += 6; break
-      case 'small': sz = 16; if (icon === 'btn') sz += 6; break
-      case 'large': sz = 28; if (icon === 'btn') sz += 8; break
-      case 'x-large': sz = 32; if (icon === 'btn') sz += 12; break
-      case 'xx-large': sz = 40; if (icon === 'btn') sz += 16; break
+      case 'x-small':
+        sz = 10
+        if (icon === 'btn') sz += 6
+        break
+      case 'small':
+        sz = 16
+        if (icon === 'btn') sz += 6
+        break
+      case 'large':
+        sz = 28
+        if (icon === 'btn') sz += 8
+        break
+      case 'x-large':
+        sz = 32
+        if (icon === 'btn') sz += 12
+        break
+      case 'xx-large':
+        sz = 40
+        if (icon === 'btn') sz += 16
+        break
     }
     if (icon.includes('cc:')) sz += 4
     return `${sz}px`

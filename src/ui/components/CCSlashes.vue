@@ -3,9 +3,12 @@
 </template>
 
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
-  size?: string | number
-}>(), {
-  size: ''
-})
+  const props = withDefaults(
+    defineProps<{
+      size?: string | number
+    }>(),
+    {
+      size: '',
+    }
+  )
 </script>

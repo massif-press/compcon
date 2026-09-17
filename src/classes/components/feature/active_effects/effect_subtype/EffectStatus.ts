@@ -1,42 +1,42 @@
-import { Status } from '@/classes/Status';
+import { Status } from '@/classes/Status'
 import { i18n } from '@/i18n'
-import { CompendiumStore } from '@/features/compendium/store';
-import logger from '@/user/logger';
-import { EffectSave } from './EffectSave';
+import { CompendiumStore } from '@/features/compendium/store'
+import logger from '@/user/logger'
+import { EffectSave } from './EffectSave'
 
 interface IEffectStatusData {
-  id: string;
-  save?: string | { stat: string; aoe?: boolean };
-  aoe?: boolean;
-  duration?: string;
-  target?: 'self' | 'ally' | 'enemy' | 'any';
-  attack?: 'melee' | 'ranged' | 'tech';
+  id: string
+  save?: string | { stat: string; aoe?: boolean }
+  aoe?: boolean
+  duration?: string
+  target?: 'self' | 'ally' | 'enemy' | 'any'
+  attack?: 'melee' | 'ranged' | 'tech'
 }
 
 class EffectStatus {
-  private _statusId: string;
-  public readonly AoE: boolean;
-  public readonly Duration: string;
-  public readonly Target: 'self' | 'ally' | 'enemy' | 'any';
-  public readonly Save?: EffectSave;
-  public readonly Attack?: 'melee' | 'ranged' | 'tech';
+  private _statusId: string
+  public readonly AoE: boolean
+  public readonly Duration: string
+  public readonly Target: 'self' | 'ally' | 'enemy' | 'any'
+  public readonly Save?: EffectSave
+  public readonly Attack?: 'melee' | 'ranged' | 'tech'
 
   public constructor(data: IEffectStatusData | string) {
     if (typeof data === 'string') {
-      data = { id: data };
+      data = { id: data }
     }
-    this._statusId = data.id.toLowerCase();
-    this.AoE = data.aoe || false;
-    this.Duration = data.duration || 'End of Encounter';
-    this.Target = data.target || 'any';
-    if (data.save) this.Save = new EffectSave(data.save);
-    if (data.attack) this.Attack = data.attack;
+    this._statusId = data.id.toLowerCase()
+    this.AoE = data.aoe || false
+    this.Duration = data.duration || 'End of Encounter'
+    this.Target = data.target || 'any'
+    if (data.save) this.Save = new EffectSave(data.save)
+    if (data.attack) this.Attack = data.attack
   }
 
   public get Status(): Status {
-    const status = CompendiumStore().Statuses.find((s) => s.ID === this._statusId);
+    const status = CompendiumStore().Statuses.find(s => s.ID === this._statusId)
     if (!status) {
-      logger.error(`Status with ID '${this._statusId}' not found in compendium.`);
+      logger.error(`Status with ID '${this._statusId}' not found in compendium.`)
       return new Status({
         id: 'unknown',
         name: i18n.global.t('classes.unknownStatus'),
@@ -44,11 +44,11 @@ class EffectStatus {
         icon: '',
         effects: ['Status data not found!'],
         terse: 'Status data not found!',
-      });
+      })
     }
-    return status;
+    return status
   }
 }
 
-export { EffectStatus };
-export type { IEffectStatusData };
+export { EffectStatus }
+export type { IEffectStatusData }

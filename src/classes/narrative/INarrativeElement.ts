@@ -1,9 +1,9 @@
-import { SaveController } from '../components/save/SaveController';
-import { NarrativeController } from './NarrativeController';
+import { SaveController } from '../components/save/SaveController'
+import { NarrativeController } from './NarrativeController'
 
 interface INarrativeElement {
-  SaveController: SaveController;
-  NarrativeController: NarrativeController;
+  SaveController: SaveController
+  NarrativeController: NarrativeController
 }
 
-export type { INarrativeElement };
+export type { INarrativeElement }

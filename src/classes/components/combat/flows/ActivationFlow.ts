@@ -42,9 +42,7 @@ const legality: IFlowStep<IActivationState> = {
       return 'halt'
     }
     s.cc.Record('blocked', {
-      action: s.actionId
-        ? actionRef(s.actionId, s.cc.FindAction(s.actionId)?.Name)
-        : undefined,
+      action: s.actionId ? actionRef(s.actionId, s.cc.FindAction(s.actionId)?.Name) : undefined,
       reason: blocked,
       overridden: true,
     })

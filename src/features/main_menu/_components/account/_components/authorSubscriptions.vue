@@ -12,7 +12,11 @@
       <v-toolbar-title>
         <cc-heading
           is-title
-          :text="mobile ? $t('mainMenu.subscriptions.authorContentShort') : $t('mainMenu.subscriptions.authorContentHeader')"
+          :text="
+            mobile
+              ? $t('mainMenu.subscriptions.authorContentShort')
+              : $t('mainMenu.subscriptions.authorContentHeader')
+          "
           tooltip=" You can subscribe to COMP/CON data content authors to receive updates when they
               publish new content. This can include pilots, GM data like NPCs and Narrative
               Elements, and limited or reserved collection content, such as table-specific homebrew.

@@ -91,7 +91,6 @@ abstract class MechEquipment extends LicensedItem {
     }))
   }
 
-
   public getTotalUses(bonus?: number): number {
     const b = bonus ? bonus : 0
     return this.MaxUses + b

@@ -1,52 +1,69 @@
 <template>
-  <v-footer app
+  <v-footer
+    app
     color="surface"
     class="px-3"
     :class="mobile && 'mb-1'"
-    :height="mobile ? 28 : 'auto'">
-    <v-menu v-model="deleteMenu"
-      max-width="500px">
+    :height="mobile ? 28 : 'auto'"
+  >
+    <v-menu
+      v-model="deleteMenu"
+      max-width="500px"
+    >
       <template #activator="{ props }">
-        <cc-button prepend-icon="mdi-delete"
+        <cc-button
+          prepend-icon="mdi-delete"
           :size="mobile ? 'x-small' : 'small'"
           color="error"
-          v-bind="props">
+          v-bind="props"
+        >
           {{ $t('common.delete') }}
         </cc-button>
       </template>
       <v-card-text>
         <cc-confirmation
           :content="$t('gm.tooltips.thisWillDeleteThisNpcFrom')"
-          @confirm="deleteItem()" />
+          @confirm="deleteItem()"
+        />
       </v-card-text>
     </v-menu>
 
     <v-spacer />
 
-    <cc-button prepend-icon="mdi-printer"
+    <cc-button
+      prepend-icon="mdi-printer"
       :size="mobile ? 'x-small' : 'small'"
-      @click="$emit('print', item.ID)">
+      @click="$emit('print', item.ID)"
+    >
       {{ $t('common.print') }}
     </cc-button>
-    <cc-button prepend-icon="mdi-upload"
+    <cc-button
+      prepend-icon="mdi-upload"
       :size="mobile ? 'x-small' : 'small'"
       class="ml-2"
-      @click="$emit('export', item)">
+      @click="$emit('export', item)"
+    >
       {{ $t('common.export') }}
     </cc-button>
     <slot name="footer" />
 
-    <cc-dialog v-if="!isRemote && isAuthed"
+    <cc-dialog
+      v-if="!isRemote && isAuthed"
       :title="$t('common.shareCode')"
       icon="mdi-broadcast"
-      :close-on-click="false">
+      :close-on-click="false"
+    >
       <template #activator="{ open }">
-        <cc-button color="panel"
+        <cc-button
+          color="panel"
           class="mx-2"
           :size="mobile ? 'x-small' : 'small'"
-          @click="open">
-          <v-icon start
-            icon="mdi-broadcast" />
+          @click="open"
+        >
+          <v-icon
+            start
+            icon="mdi-broadcast"
+          />
           {{ $t('common.shareCode') }}
         </cc-button>
       </template>
@@ -54,31 +71,41 @@
     </cc-dialog>
     <v-spacer v-if="!isRemote && isAuthed" />
 
-    <v-menu v-if="isRemote"
+    <v-menu
+      v-if="isRemote"
       v-model="convertMenu"
       offset-y
       offset-x
       top
-      left>
+      left
+    >
       <template #activator="{ props }">
-        <cc-button :size="mobile ? 'x-small' : 'small'"
+        <cc-button
+          :size="mobile ? 'x-small' : 'small'"
           class="mx-3"
-          v-bind="props">
-          <v-icon start
-            icon="mdi-content-copy" />
+          v-bind="props"
+        >
+          <v-icon
+            start
+            icon="mdi-content-copy"
+          />
           {{ $t('common.convert') }}
         </cc-button>
       </template>
-      <cc-confirmation :content="$t('gm.tooltips.convertingThisItemToLocalData')"
-        @confirm="$emit('convert')" />
+      <cc-confirmation
+        :content="$t('gm.tooltips.convertingThisItemToLocalData')"
+        @confirm="$emit('convert')"
+      />
     </v-menu>
 
     <v-tooltip v-if="isRemote">
       <template #activator="{ props }">
-        <cc-button :size="mobile ? 'x-small' : 'small'"
+        <cc-button
+          :size="mobile ? 'x-small' : 'small'"
           :disabled="item.CloudController.isSynced"
           class="mx-3"
-          v-bind="props">
+          v-bind="props"
+        >
           <v-icon start>mdi-cloud-sync</v-icon>
           {{ $t('common.update') }}
         </cc-button>
@@ -92,87 +119,102 @@
       }}
     </v-tooltip>
 
-    <v-menu v-if="!isRemote"
+    <v-menu
+      v-if="!isRemote"
       v-model="dupeMenu"
       offset-y
       offset-x
       top
-      left>
+      left
+    >
       <template #activator="{ props }">
-        <cc-button :size="mobile ? 'x-small' : 'small'"
+        <cc-button
+          :size="mobile ? 'x-small' : 'small'"
           class="ml-3"
-          v-bind="props">
-          <v-icon start
-            icon="mdi-content-copy" />
+          v-bind="props"
+        >
+          <v-icon
+            start
+            icon="mdi-content-copy"
+          />
           {{ $t('common.duplicate') }}
         </cc-button>
       </template>
-      <cc-confirmation :content="$t('gm.tooltips.confirmDuplicationOfThisNpc')"
-        @confirm="dupe()" />
+      <cc-confirmation
+        :content="$t('gm.tooltips.confirmDuplicationOfThisNpc')"
+        @confirm="dupe()"
+      />
     </v-menu>
 
-    <cc-button v-if="isRemote"
+    <cc-button
+      v-if="isRemote"
       variant="tonal"
       :size="mobile ? 'x-small' : 'small'"
       color="secondary"
       class="mx-3"
-      @click="$emit('exit')">
-      <v-icon start
-        icon="mdi-arrow-left" />
+      @click="$emit('exit')"
+    >
+      <v-icon
+        start
+        icon="mdi-arrow-left"
+      />
       {{ $t('common.exit') }}
     </cc-button>
   </v-footer>
 </template>
 
 <script setup lang="ts">
-import type { GMItem } from '../../gmItem'
-import { computed, ref } from 'vue'
-import { NpcStore, UserStore } from '@/stores';
-import { useDisplay } from 'vuetify';
-import ShareDialog from '@/shared/ShareDialog.vue';
+  import type { GMItem } from '../../gmItem'
+  import { computed, ref } from 'vue'
+  import { NpcStore, UserStore } from '@/stores'
+  import { useDisplay } from 'vuetify'
+  import ShareDialog from '@/shared/ShareDialog.vue'
 
-defineOptions({ name: 'GmEditorFooter' })
+  defineOptions({ name: 'GmEditorFooter' })
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+  const { smAndDown: mobile, xs: portrait } = useDisplay()
 
-const props = withDefaults(defineProps<{
-  item: GMItem
-  readonly?: boolean
-  hideToolbar?: boolean
-}>(), {
-  readonly: false,
-  hideToolbar: false
-})
-
-const emit = defineEmits<{
-  'exit': []
-  'export': [payload: any]
-  'convert': []
-  'print': [payload: string]
-}>()
-
-const deleteMenu = ref(false)
-const dupeMenu = ref(false)
-const convertMenu = ref(false)
-
-const isRemote = computed(() => {
-      return props.item.SaveController.IsRemote;
-    })
-const isAuthed = computed(() => {
-      return UserStore().IsLoggedIn;
-    })
-
-async function save() {
-      await props.item.SaveController.Save();
+  const props = withDefaults(
+    defineProps<{
+      item: GMItem
+      readonly?: boolean
+      hideToolbar?: boolean
+    }>(),
+    {
+      readonly: false,
+      hideToolbar: false,
     }
-function deleteItem() {
-      props.item.SaveController.Delete();
-      deleteMenu.value = false;
-      emit('exit');
-    }
-function dupe() {
-      const dupe = props.item.Clone();
-      NpcStore().AddNpc(dupe);
-      dupeMenu.value = false;
-    }
+  )
+
+  const emit = defineEmits<{
+    exit: []
+    export: [payload: any]
+    convert: []
+    print: [payload: string]
+  }>()
+
+  const deleteMenu = ref(false)
+  const dupeMenu = ref(false)
+  const convertMenu = ref(false)
+
+  const isRemote = computed(() => {
+    return props.item.SaveController.IsRemote
+  })
+  const isAuthed = computed(() => {
+    return UserStore().IsLoggedIn
+  })
+
+  async function save() {
+    await props.item.SaveController.Save()
+  }
+  function deleteItem() {
+    props.item.SaveController.Delete()
+    deleteMenu.value = false
+    emit('exit')
+  }
+  function dupe() {
+    const dupe = props.item.Clone()
+    NpcStore().AddNpc(dupe)
+    dupeMenu.value = false
+  }
 </script>

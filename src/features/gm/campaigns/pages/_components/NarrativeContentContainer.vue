@@ -1,19 +1,37 @@
 <template>
-  <v-card v-if="!item.Data" variant="outlined" color="panel" class="pa-6 ma-2">
-    <div class="text-center text-caption text-disabled"><i>{{ $t('gm.narrativeLink.noElementSelected') }}</i></div>
+  <v-card
+    v-if="!item.Data"
+    variant="outlined"
+    color="panel"
+    class="pa-6 ma-2"
+  >
+    <div class="text-center text-caption text-disabled">
+      <i>{{ $t('gm.narrativeLink.noElementSelected') }}</i>
+    </div>
   </v-card>
-  <v-card v-else class="pa-2 ma-2" variant="outlined" color="panel">
+  <v-card
+    v-else
+    class="pa-2 ma-2"
+    variant="outlined"
+    color="panel"
+  >
     <narrative-content :data="item.Data" />
   </v-card>
 
   <v-footer height="35">
     <v-menu width="40vw">
       <template #activator="{ props }">
-        <v-btn v-bind="props" size="x-small" icon class="mt-n1 ml-n3 elevation-0">
+        <v-btn
+          v-bind="props"
+          size="x-small"
+          icon
+          class="mt-n1 ml-n3 elevation-0"
+        >
           <v-icon
             size="x-large"
             icon="mdi-link-variant"
-            :color="isItemLinked ? 'success' : 'rgba(155,155,155,0.5)'" />
+            :color="isItemLinked ? 'success' : 'rgba(155,155,155,0.5)'"
+          />
         </v-btn>
       </template>
       <v-card>
@@ -25,7 +43,8 @@
             color="error"
             variant="tonal"
             prepend-icon="mdi-link-off"
-            @click="item.Unlink()">
+            @click="item.Unlink()"
+          >
             {{ $t('gm.narrativeLink.unlinkElement') }}
           </v-btn>
         </v-card-text>
@@ -37,9 +56,18 @@
     </v-menu>
 
     <v-spacer />
-    <v-menu v-model="menu" width="40vw" :close-on-content-click="false">
+    <v-menu
+      v-model="menu"
+      width="40vw"
+      :close-on-content-click="false"
+    >
       <template #activator="{ props }">
-        <v-btn v-bind="props" color="accent" size="x-small" variant="tonal">
+        <v-btn
+          v-bind="props"
+          color="accent"
+          size="x-small"
+          variant="tonal"
+        >
           {{ $t('gm.narrativeLink.setNarrativeElement') }}
         </v-btn>
       </template>
@@ -51,22 +79,33 @@
             density="compact"
             hide-details
             prepend-inner-icon="mdi-magnify"
-            clearable />
+            clearable
+          />
           <v-tabs v-model="tab">
-            <v-tab v-for="t in ['Characters', 'Locations', 'Factions']" :key="t">
+            <v-tab
+              v-for="t in ['Characters', 'Locations', 'Factions']"
+              :key="t"
+            >
               {{ t }}
             </v-tab>
           </v-tabs>
           <v-window v-model="tab">
-            <v-window-item v-for="(t, index) in [characters, locations, factions]" :key="`tab-${index}`">
-              <v-list density="compact" lines="three">
+            <v-window-item
+              v-for="(t, index) in [characters, locations, factions]"
+              :key="`tab-${index}`"
+            >
+              <v-list
+                density="compact"
+                lines="three"
+              >
                 <v-list-item
                   v-for="(e, i) in t"
                   :key="e.ID"
                   :style="i % 2 ? 'background-color: rgba(155,155,155,0.1)' : ''"
                   :title="e.Name"
                   :prepend-avatar="e.Portrait"
-                  @click="select(e)">
+                  @click="select(e)"
+                >
                   <template #subtitle>
                     <span v-html-safe="getSubtitle(e)" />
                   </template>
@@ -81,74 +120,72 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { NarrativeStore } from '@/stores';
-import NarrativeContent from './NarrativeContent.vue';
-import type { NarrativeDataContainer } from '@/classes/campaign/NarrativeDataContainer';
-import type { INarrativeEntity } from '@/classes/narrative/INarrativeEntity';
+  import { computed, ref } from 'vue'
+  import { NarrativeStore } from '@/stores'
+  import NarrativeContent from './NarrativeContent.vue'
+  import type { NarrativeDataContainer } from '@/classes/campaign/NarrativeDataContainer'
+  import type { INarrativeEntity } from '@/classes/narrative/INarrativeEntity'
 
-defineOptions({ name: 'narrative-content-container' })
+  defineOptions({ name: 'narrative-content-container' })
 
-const props = defineProps<{
-  item: NarrativeDataContainer
-}>()
+  const props = defineProps<{
+    item: NarrativeDataContainer
+  }>()
 
-const menu = ref(false)
-const tab = ref(0)
-const search = ref('')
+  const menu = ref(false)
+  const tab = ref(0)
+  const search = ref('')
 
-const characters = computed(() => {
-      const arr = NarrativeStore().getCharacters.filter((x) => !x.SaveController.IsDeleted);
-      if (search.value)
-        return arr.filter((x) => x.Name.toLowerCase().includes(search.value.toLowerCase()));
-      return arr;
-    })
-const locations = computed(() => {
-      const arr = NarrativeStore().getLocations.filter((x) => !x.SaveController.IsDeleted);
-      if (search.value)
-        return arr.filter((x) => x.Name.toLowerCase().includes(search.value.toLowerCase()));
-      return arr;
-    })
-const factions = computed(() => {
-      const arr = NarrativeStore().getFactions.filter((x) => !x.SaveController.IsDeleted);
-      if (search.value)
-        return arr.filter((x) => x.Name.toLowerCase().includes(search.value.toLowerCase()));
-      return arr;
-    })
-const isItemLinked = computed(() => {
-      const data = props.item.Data;
-      if (!data?.ID) return false;
-      return NarrativeStore()
-        .CollectionItems.filter((x) => !x.SaveController.IsDeleted)
-        .some((x) => x.ID === data.ID);
-    })
+  const characters = computed(() => {
+    const arr = NarrativeStore().getCharacters.filter(x => !x.SaveController.IsDeleted)
+    if (search.value)
+      return arr.filter(x => x.Name.toLowerCase().includes(search.value.toLowerCase()))
+    return arr
+  })
+  const locations = computed(() => {
+    const arr = NarrativeStore().getLocations.filter(x => !x.SaveController.IsDeleted)
+    if (search.value)
+      return arr.filter(x => x.Name.toLowerCase().includes(search.value.toLowerCase()))
+    return arr
+  })
+  const factions = computed(() => {
+    const arr = NarrativeStore().getFactions.filter(x => !x.SaveController.IsDeleted)
+    if (search.value)
+      return arr.filter(x => x.Name.toLowerCase().includes(search.value.toLowerCase()))
+    return arr
+  })
+  const isItemLinked = computed(() => {
+    const data = props.item.Data
+    if (!data?.ID) return false
+    return NarrativeStore()
+      .CollectionItems.filter(x => !x.SaveController.IsDeleted)
+      .some(x => x.ID === data.ID)
+  })
 
-function select(e: INarrativeEntity) {
-      props.item.Data = e;
-      menu.value = false;
+  function select(e: INarrativeEntity) {
+    props.item.Data = e
+    menu.value = false
+  }
+  function getIcon(e) {
+    switch (e.ItemType) {
+      case 'Character':
+        return 'mdi-account'
+      case 'Location':
+        return 'mdi-map-marker'
+      case 'Faction':
+        return 'mdi-account-group'
+      default:
+        return ''
     }
-function getIcon(e) {
-      switch (e.ItemType) {
-        case 'Character':
-          return 'mdi-account';
-        case 'Location':
-          return 'mdi-map-marker';
-        case 'Faction':
-          return 'mdi-account-group';
-        default:
-          return '';
-      }
+  }
+  function getSubtitle(e) {
+    switch (e.ItemType) {
+      case 'Character':
+        return `${e.Title}${e.Alias ? `  //  ${e.Alias}` : ''} (${e.Pronouns})<br>${e.Description}`
+      case 'Faction':
+        return `${e.FactionType}<br> ${e.Description}`
+      default:
+        return e.Description
     }
-function getSubtitle(e) {
-      switch (e.ItemType) {
-        case 'Character':
-          return `${e.Title}${e.Alias ? `  //  ${e.Alias}` : ''} (${e.Pronouns})<br>${
-            e.Description
-          }`;
-        case 'Faction':
-          return `${e.FactionType}<br> ${e.Description}`;
-        default:
-          return e.Description;
-      }
-    }
+  }
 </script>

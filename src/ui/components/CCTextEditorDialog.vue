@@ -1,20 +1,32 @@
 <template>
-  <cc-dialog v-model="dialogValue"
+  <cc-dialog
+    v-model="dialogValue"
     :title="title"
     icon="mdi-circle-edit-outline"
-    :max-width="width" :close-on-click="false" major>
+    :max-width="width"
+    :close-on-click="false"
+    major
+  >
     <v-card-text class="px-0 pb-0">
-      <quill-editor v-model:content="text"
+      <quill-editor
+        v-model:content="text"
         :options="options"
         theme="snow"
-        content-type="html" />
+        content-type="html"
+      />
     </v-card-text>
-    <v-row dense
-      class="mt-3">
-      <v-col cols="auto"
-        class="ml-auto">
-        <cc-button color="primary"
-          @click="dialogValue = false">
+    <v-row
+      dense
+      class="mt-3"
+    >
+      <v-col
+        cols="auto"
+        class="ml-auto"
+      >
+        <cc-button
+          color="primary"
+          @click="dialogValue = false"
+        >
           {{ $t('common.saveAndClose') }}
         </cc-button>
       </v-col>
@@ -23,42 +35,47 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue';
-import { options } from '@/ui/style/quillSetup';
-import { debounce } from 'lodash-es';
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
+  import { ref, computed, watch, onMounted } from 'vue'
+  import { options } from '@/ui/style/quillSetup'
+  import { debounce } from 'lodash-es'
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
 
-const props = withDefaults(defineProps<{
-  modelValue: boolean;
-  original?: string;
-  title?: string;
-  width?: string;
-}>(), {
-  original: '',
-  title: 'Edit Text',
-  width: '70vw',
-});
+  const props = withDefaults(
+    defineProps<{
+      modelValue: boolean
+      original?: string
+      title?: string
+      width?: string
+    }>(),
+    {
+      original: '',
+      title: 'Edit Text',
+      width: '70vw',
+    }
+  )
 
-const emit = defineEmits<{
-  save: [value: string];
-  'update:modelValue': [value: boolean];
-}>();
+  const emit = defineEmits<{
+    save: [value: string]
+    'update:modelValue': [value: boolean]
+  }>()
 
-const text = ref(props.original);
+  const text = ref(props.original)
 
-const dialogValue = computed({
-  get: () => props.modelValue,
-  set: (value: boolean) => emit('update:modelValue', value),
-});
+  const dialogValue = computed({
+    get: () => props.modelValue,
+    set: (value: boolean) => emit('update:modelValue', value),
+  })
 
-const emitSave = debounce((value: string) => emit('save', value), 300);
+  const emitSave = debounce((value: string) => emit('save', value), 300)
 
-watch(text, value => { emitSave(value); });
+  watch(text, value => {
+    emitSave(value)
+  })
 </script>
 
 <style scoped>
-:deep(.ql-editor) {
-  min-height: 150px;
-}
+  :deep(.ql-editor) {
+    min-height: 150px;
+  }
 </style>

@@ -6,16 +6,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useDisplay } from 'vuetify'
-import AuthorSubscriptions from './_components/authorSubscriptions.vue';
-import LcpSubscriptions from './_components/lcpSubscriptions.vue';
+  import { computed } from 'vue'
+  import { useDisplay } from 'vuetify'
+  import AuthorSubscriptions from './_components/authorSubscriptions.vue'
+  import LcpSubscriptions from './_components/lcpSubscriptions.vue'
 
-const _display = useDisplay()
+  const _display = useDisplay()
 
-defineOptions({ name: 'cloud-subscriptions' })
+  defineOptions({ name: 'cloud-subscriptions' })
 
-const mobile = computed(() => {
-      return _display.mdAndDown.value;
-    })
+  const mobile = computed(() => {
+    return _display.mdAndDown.value
+  })
 </script>

@@ -1,22 +1,30 @@
 <template>
-  <v-list-group :value="groupValue"
+  <v-list-group
+    :value="groupValue"
     color="accent"
     class="pt-0"
-    style="--indent-padding: 6px;">
+    style="--indent-padding: 6px"
+  >
     <template #activator="{ props }">
-      <v-list-item tile
-        v-bind="props">
+      <v-list-item
+        tile
+        v-bind="props"
+      >
         <template #title>
           <div v-if="manufacturer">
-            <cc-logo v-if="manufacturer.LogoIsExternal"
+            <cc-logo
+              v-if="manufacturer.LogoIsExternal"
               :source="manufacturer"
               size="small"
-              class="pt-3 mb-n1 mr-2" />
-            <v-icon v-else
+              class="pt-3 mb-n1 mr-2"
+            />
+            <v-icon
+              v-else
               size="30"
               :icon="manufacturer.Icon"
               :color="manufacturer?.GetColor($vuetify.theme.current.dark) || 'panel'"
-              start />
+              start
+            />
             <span class="text-button">
               <b>
                 {{ mName }}
@@ -24,19 +32,23 @@
             </span>
           </div>
           <div v-else-if="role">
-            <v-icon size="30"
+            <v-icon
+              size="30"
               :icon="roleIcon()"
               start
-              class="mt-n1" />
+              class="mt-n1"
+            />
             <span class="text-button">
               <b>{{ role }}</b>
             </span>
           </div>
           <div v-else-if="feature">
-            <v-icon size="30"
+            <v-icon
+              size="30"
               :icon="featureIcon()"
               start
-              class="mt-n1" />
+              class="mt-n1"
+            />
             <span class="text-button">
               <b>{{ feature }}</b>
             </span>
@@ -54,38 +66,38 @@
 </template>
 
 <script setup lang="ts">
-import type { Manufacturer } from '@/classes/Manufacturer'
-import { computed } from 'vue'
-import { groupLabel } from '../useCompendiumFacets'
+  import type { Manufacturer } from '@/classes/Manufacturer'
+  import { computed } from 'vue'
+  import { groupLabel } from '../useCompendiumFacets'
 
-defineOptions({ name: 'BrowserListGroup' })
+  defineOptions({ name: 'BrowserListGroup' })
 
-const props = defineProps<{
-  parent?: string
-  collection: string | object
-  manufacturer?: Manufacturer
-  role?: string
-  feature?: string
-}>()
+  const props = defineProps<{
+    parent?: string
+    collection: string | object
+    manufacturer?: Manufacturer
+    role?: string
+    feature?: string
+  }>()
 
-const groupValue = computed(() => {
-      if (props.parent) return `${props.parent}_${props.collection}`;
-      return props.collection.toString();
-    })
-const mName = computed(() => {
-      const name = props.manufacturer?.Name || 'Other';
-      if (name === 'err') return 'Other';
-      return name;
-    })
+  const groupValue = computed(() => {
+    if (props.parent) return `${props.parent}_${props.collection}`
+    return props.collection.toString()
+  })
+  const mName = computed(() => {
+    const name = props.manufacturer?.Name || 'Other'
+    if (name === 'err') return 'Other'
+    return name
+  })
 
-function roleIcon() {
-      if (!props.role) return '';
-      if (props.role.toLowerCase() === 'biological') return 'mdi-heart-pulse';
-      return `cc:role_${props.role.toLowerCase()}`;
-    }
-function featureIcon() {
-      if (!props.feature) return '';
-      if (props.feature.toLowerCase() === 'tech') return 'mdi-chart-donut-variant';
-      return `cc:${props.feature.toLowerCase()}`;
-    }
+  function roleIcon() {
+    if (!props.role) return ''
+    if (props.role.toLowerCase() === 'biological') return 'mdi-heart-pulse'
+    return `cc:role_${props.role.toLowerCase()}`
+  }
+  function featureIcon() {
+    if (!props.feature) return ''
+    if (props.feature.toLowerCase() === 'tech') return 'mdi-chart-donut-variant'
+    return `cc:${props.feature.toLowerCase()}`
+  }
 </script>

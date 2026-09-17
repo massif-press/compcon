@@ -1,8 +1,10 @@
 <template>
   <div v-if="show">
     <div v-if="action.Damage.length || action.Range.length">
-      <v-row dense
-        align="center">
+      <v-row
+        dense
+        align="center"
+      >
         <v-col cols="auto">
           <cc-range-element :range="action.Range" />
         </v-col>
@@ -12,53 +14,79 @@
       </v-row>
       <v-divider class="my-1" />
     </div>
-    <div v-if="action.Init"
-      v-html-safe="action.Init" />
+    <div
+      v-if="action.Init"
+      v-html-safe="action.Init"
+    />
     <div v-if="!action.Frequency.Unlimited">
-      <div class="text-cc-overline"
-        style="opacity: 0.4">{{ $t('ui.action.frequency_action') }}</div>
-      <div v-html-safe="action.Frequency.ToString()"
-        class="ml-2" />
+      <div
+        class="text-cc-overline"
+        style="opacity: 0.4"
+      >
+        {{ $t('ui.action.frequency_action') }}
+      </div>
+      <div
+        v-html-safe="action.Frequency.ToString()"
+        class="ml-2"
+      />
     </div>
     <div v-if="action.Trigger">
-      <div class="text-cc-overline"
-        style="opacity: 0.4">{{ $t('common.trigger') }}</div>
-      <div v-html-safe="action.Trigger"
-        class="ml-2" />
+      <div
+        class="text-cc-overline"
+        style="opacity: 0.4"
+      >
+        {{ $t('common.trigger') }}
+      </div>
+      <div
+        v-html-safe="action.Trigger"
+        class="ml-2"
+      />
     </div>
     <div v-if="action.Detail">
-      <div class="text-cc-overline"
-        style="opacity: 0.4">{{ $t('common.effect') }}</div>
-      <div v-html-safe="action.getDetail(tier)"
-        class="ml-2 px-2" />
+      <div
+        class="text-cc-overline"
+        style="opacity: 0.4"
+      >
+        {{ $t('common.effect') }}
+      </div>
+      <div
+        v-html-safe="action.getDetail(tier)"
+        class="ml-2 px-2"
+      />
     </div>
     <div v-if="action.Description">
-      <div class="text-cc-overline"
-        style="opacity: 0.4">{{ $t('ui.action.compendiumEntry') }}</div>
-      <div v-html-safe="action.Description"
-        class="ml-2 px-2" />
+      <div
+        class="text-cc-overline"
+        style="opacity: 0.4"
+      >
+        {{ $t('ui.action.compendiumEntry') }}
+      </div>
+      <div
+        v-html-safe="action.Description"
+        class="ml-2 px-2"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import type { Action } from '@/classes/Action'
+  import { computed } from 'vue'
+  import type { Action } from '@/classes/Action'
 
-const props = defineProps<{
-  action: Action
-  tier?: number
-}>()
+  const props = defineProps<{
+    action: Action
+    tier?: number
+  }>()
 
-const emit = defineEmits<{ close: [] }>()
+  const emit = defineEmits<{ close: [] }>()
 
-const show = computed(() => {
-  return (
-    props.action.Damage?.length ||
-    props.action.Range?.length ||
-    !props.action.Frequency.Unlimited ||
-    props.action.Trigger ||
-    props.action.Detail
-  );
-})
+  const show = computed(() => {
+    return (
+      props.action.Damage?.length ||
+      props.action.Range?.length ||
+      !props.action.Frequency.Unlimited ||
+      props.action.Trigger ||
+      props.action.Detail
+    )
+  })
 </script>

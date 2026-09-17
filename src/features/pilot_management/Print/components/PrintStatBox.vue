@@ -1,10 +1,14 @@
 <template>
-  <v-col cols="auto"
-    :style="`min-height: ${blank ? '60' : '50'}px; min-width: ${minWidth}`">
+  <v-col
+    cols="auto"
+    :style="`min-height: ${blank ? '60' : '50'}px; min-width: ${minWidth}`"
+  >
     <fieldset>
       <legend class="caption font-weight-bold text-primary px-1 text-uppercase">{{ label }}</legend>
-      <div v-if="!blank && value !== null"
-        class="heading ph2 text-center">
+      <div
+        v-if="!blank && value !== null"
+        class="heading ph2 text-center"
+      >
         {{ value }}
       </div>
     </fieldset>
@@ -12,17 +16,17 @@
 </template>
 
 <script setup lang="ts">
-withDefaults(
-  defineProps<{
-    label: string
-    value?: string | number | null
-    blank?: boolean
-    minWidth?: string
-  }>(),
-  {
-    value: null,
-    blank: false,
-    minWidth: '8vw',
-  }
-)
+  withDefaults(
+    defineProps<{
+      label: string
+      value?: string | number | null
+      blank?: boolean
+      minWidth?: string
+    }>(),
+    {
+      value: null,
+      blank: false,
+      minWidth: '8vw',
+    }
+  )
 </script>

@@ -1,48 +1,64 @@
 <template>
-  <v-container fluid
-    :style="`overflow: hidden; height: calc(100vh - ${mobile ? '20px' : '50px'})`">
-    <v-row dense
+  <v-container
+    fluid
+    :style="`overflow: hidden; height: calc(100vh - ${mobile ? '20px' : '50px'})`"
+  >
+    <v-row
+      dense
       justify="space-around"
       align="center"
-      class="mt-n1">
+      class="mt-n1"
+    >
       <v-col><v-divider /></v-col>
       <v-col cols="auto">
-        <div class="font-weight-light text-center my-n2"
-          style="letter-spacing: 2vw !important; font-size: 2vw !important">
+        <div
+          class="font-weight-light text-center my-n2"
+          style="letter-spacing: 2vw !important; font-size: 2vw !important"
+        >
           {{ $t('gm.landing.toolkit') }}
         </div>
       </v-col>
       <v-col><v-divider /></v-col>
     </v-row>
-    <v-row class="mt-1"
-      align="start">
-      <landing-card cols="4"
+    <v-row
+      class="mt-1"
+      align="start"
+    >
+      <landing-card
+        cols="4"
         to="gm/campaigns"
         name="Campaign Manager"
         :disabled="!isDevsite"
         :description="$t('gm.subtitles.createModifyAndBrowseLancerCampaigns')"
         img="campaign"
-        :max-height="mobile ? 'calc((100vh - 20px) * 0.95)' : 'calc((100vh - 50px) * 0.95)'" />
+        :max-height="mobile ? 'calc((100vh - 20px) * 0.95)' : 'calc((100vh - 50px) * 0.95)'"
+      />
 
       <v-col>
         <v-row>
-          <landing-card to="gm/npcs"
+          <landing-card
+            to="gm/npcs"
             name="NPCS"
             :description="$t('gm.subtitles.manageNonPlayerCombatUnits')"
             img="npcs"
-            :max-height="mobile ? 'calc((100vh - 20px) * 0.46)' : 'calc((100vh - 50px) * 0.46)'" />
-          <landing-card to="gm/narrative"
+            :max-height="mobile ? 'calc((100vh - 20px) * 0.46)' : 'calc((100vh - 50px) * 0.46)'"
+          />
+          <landing-card
+            to="gm/narrative"
             name="Narrative Elements"
             :description="$t('gm.subtitles.manageCharactersLocationsAndFactions')"
             img="location"
-            :max-height="mobile ? 'calc((100vh - 20px) * 0.46)' : 'calc((100vh - 50px) * 0.46)'" />
+            :max-height="mobile ? 'calc((100vh - 20px) * 0.46)' : 'calc((100vh - 50px) * 0.46)'"
+          />
         </v-row>
         <v-row>
-          <landing-card to="gm/encounters"
+          <landing-card
+            to="gm/encounters"
             name="Encounters"
             :description="$t('gm.subtitles.createCombatEncounters')"
             img="encounters"
-            :max-height="mobile ? 'calc((100vh - 20px) * 0.46)' : 'calc((100vh - 50px) * 0.46)'" />
+            :max-height="mobile ? 'calc((100vh - 20px) * 0.46)' : 'calc((100vh - 50px) * 0.46)'"
+          />
         </v-row>
       </v-col>
     </v-row>
@@ -50,13 +66,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useDisplay } from 'vuetify'
-import LandingCard from './_components/LandingCard.vue'
+  import { computed } from 'vue'
+  import { useDisplay } from 'vuetify'
+  import LandingCard from './_components/LandingCard.vue'
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+  const { smAndDown: mobile, xs: portrait } = useDisplay()
 
-const isDevsite = computed(() => {return (
-        window.location.hostname === 'dev.compcon.app' || window.location.hostname === 'localhost'
-      )})
+  const isDevsite = computed(() => {
+    return (
+      window.location.hostname === 'dev.compcon.app' || window.location.hostname === 'localhost'
+    )
+  })
 </script>

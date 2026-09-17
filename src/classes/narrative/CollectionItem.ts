@@ -113,15 +113,16 @@ abstract class CollectionItem
       // update any relationships in other NarrativeControllers that reference this item
       const pinia = getActivePinia()
       const narrativeStore = pinia ? (pinia as any)._s.get('narrative') : null
-      if (narrativeStore) narrativeStore.CollectionItems.forEach((item: any) => {
-        if (item.ID === this.ID) return
-        item.NarrativeController.Relationships.forEach((rel: any) => {
-          if (rel.id === this.ID) {
-            rel.name = val
-            item.SaveController.save()
-          }
+      if (narrativeStore)
+        narrativeStore.CollectionItems.forEach((item: any) => {
+          if (item.ID === this.ID) return
+          item.NarrativeController.Relationships.forEach((rel: any) => {
+            if (rel.id === this.ID) {
+              rel.name = val
+              item.SaveController.save()
+            }
+          })
         })
-      })
     }
     this.SaveController.save()
   }

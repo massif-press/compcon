@@ -50,7 +50,8 @@ class MechSkillsController {
     if (value < 0 || value > 6) return
     if (value > this._mechSkills[field]) {
       if (this.HASERemaining <= 0) return
-      if (this.HASERemaining < value - this._mechSkills[field]) value = this._mechSkills[field] + this.HASERemaining
+      if (this.HASERemaining < value - this._mechSkills[field])
+        value = this._mechSkills[field] + this.HASERemaining
     }
     this._mechSkills[field] = value
     this.Parent.SaveController.save()
@@ -85,7 +86,11 @@ class MechSkillsController {
   }
 
   public get MaxHASEPoints(): number {
-    return Bonus.Int(Rules.MinimumMechSkills + this.Parent.Level, BonusId.MECH_SKILL_POINT, this.Parent)
+    return Bonus.Int(
+      Rules.MinimumMechSkills + this.Parent.Level,
+      BonusId.MECH_SKILL_POINT,
+      this.Parent
+    )
   }
 
   public get HASERemaining(): number {

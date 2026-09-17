@@ -355,7 +355,9 @@ export function transformV2Encounter(
       })
     }
 
-    const textItems = enc.narrativeNotes ? [{ header: i18n.global.t('common.notes'), body: enc.narrativeNotes }] : []
+    const textItems = enc.narrativeNotes
+      ? [{ header: i18n.global.t('common.notes'), body: enc.narrativeNotes }]
+      : []
 
     return {
       itemType: 'Encounter',
@@ -561,9 +563,7 @@ export async function reprocessV2Backups(): Promise<{
 // top level preprocessing (called by Importer.ts)
 // ---------------------------------------------------------------------------
 
-export async function preprocessPilotImport(
-  data: unknown
-): Promise<{
+export async function preprocessPilotImport(data: unknown): Promise<{
   action: 'import' | 'backup'
   transformed?: Record<string, unknown>
   missingLcps?: string[]
@@ -580,9 +580,7 @@ export async function preprocessPilotImport(
   return { action: 'backup', missingLcps: missingIds }
 }
 
-export async function preprocessNpcImport(
-  data: unknown
-): Promise<{
+export async function preprocessNpcImport(data: unknown): Promise<{
   action: 'import' | 'backup'
   transformed?: Record<string, unknown>
   missingLcps?: string[]
@@ -599,9 +597,7 @@ export async function preprocessNpcImport(
   return { action: 'backup', missingLcps: missingIds }
 }
 
-export async function preprocessEncounterImport(
-  data: unknown
-): Promise<{
+export async function preprocessEncounterImport(data: unknown): Promise<{
   action: 'import' | 'backup'
   transformed?: Record<string, unknown>[]
   missingNpcs?: string[]

@@ -17,9 +17,7 @@
     :label="mobile && $t('pm.loadout.showExceedsSp')"
     color="error"
     :tooltip="
-      !mobile && overSp
-        ? $t('pm.loadout.exceedsSpShown')
-        : $t('pm.loadout.exceedsSpHidden')
+      !mobile && overSp ? $t('pm.loadout.exceedsSpShown') : $t('pm.loadout.exceedsSpHidden')
     "
     :prepend-icon="mobile ? undefined : 'cc:system_point'"
     on-icon="mdi-lock-open"

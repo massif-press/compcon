@@ -1,5 +1,6 @@
 <template>
-  <runner-list-item-base :actor="combatant.actor"
+  <runner-list-item-base
+    :actor="combatant.actor"
     :collapsed="collapsed"
     :selected="selected"
     :side="combatant.side"
@@ -8,7 +9,8 @@
     :reinforcement-turn="combatant.reinforcementTurn"
     :round="round"
     @activate="$emit('activate', combatant)"
-    @click="$emit('select', combatant)">
+    @click="$emit('select', combatant)"
+  >
     <div>
       <span class="heading h4">
         {{ combatant.actor.Name }}
@@ -18,21 +20,24 @@
 </template>
 
 <script setup lang="ts">
-import type { CombatantData } from '@/classes/encounter/Encounter'
-import RunnerListItemBase from './RunnerListItemBase.vue';
+  import type { CombatantData } from '@/classes/encounter/Encounter'
+  import RunnerListItemBase from './RunnerListItemBase.vue'
 
-const props = withDefaults(defineProps<{
-  combatant: CombatantData
-  collapsed?: boolean
-  selected?: boolean
-  round?: number
-}>(), {
-  collapsed: false,
-  round: 1
-})
+  const props = withDefaults(
+    defineProps<{
+      combatant: CombatantData
+      collapsed?: boolean
+      selected?: boolean
+      round?: number
+    }>(),
+    {
+      collapsed: false,
+      round: 1,
+    }
+  )
 
-const emit = defineEmits<{
-  'select': [payload: CombatantData]
-  'activate': [payload: CombatantData]
-}>()
+  const emit = defineEmits<{
+    select: [payload: CombatantData]
+    activate: [payload: CombatantData]
+  }>()
 </script>

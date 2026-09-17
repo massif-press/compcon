@@ -2,8 +2,8 @@ type LcpConfig = { packList: { packID?: string; packName?: string }[] } | null |
 
 export function filterByLcpConfig<T>(items: T[], config: LcpConfig): T[] {
   if (!config) return [...items]
-  const packIDs = new Set(config.packList.map((y) => y.packID))
-  const packNames = new Set(config.packList.map((y) => y.packName))
+  const packIDs = new Set(config.packList.map(y => y.packID))
+  const packNames = new Set(config.packList.map(y => y.packName))
   return items.filter((x: any) => {
     if (!x.InLcp) return true
     const brew = x.Brew ?? x

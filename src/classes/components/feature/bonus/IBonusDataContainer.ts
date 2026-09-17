@@ -1,7 +1,7 @@
-import { IBonusData } from './Bonus';
+import { IBonusData } from './Bonus'
 
 interface IBonusDataContainer {
-  bonuses: IBonusData[];
+  bonuses: IBonusData[]
 }
 
-export type { IBonusDataContainer };
+export type { IBonusDataContainer }

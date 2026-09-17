@@ -3,11 +3,15 @@
     <div
       v-if="!mobile"
       class="font-weight-light text-center my-n4"
-      style="letter-spacing: 2vw !important; font-size: 3.6vw !important">
+      style="letter-spacing: 2vw !important; font-size: 3.6vw !important"
+    >
       {{ $t('common.compendium') }}
     </div>
     <v-row justify="center">
-      <v-col lg="8" xs="12">
+      <v-col
+        lg="8"
+        xs="12"
+      >
         <search-bar />
       </v-col>
     </v-row>
@@ -16,91 +20,110 @@
     <v-row
       :dense="mobile"
       :justify="$vuetify.display.smAndDown ? 'space-between' : 'space-around'"
-      align="center">
+      align="center"
+    >
       <compendium-page-button
         icon="cc:manufacturer"
         :name="$t('compendium.categories.manufacturers')"
-        to="/srd/compendium/manufacturers" />
+        to="/srd/compendium/manufacturers"
+      />
       <compendium-page-button
         color="primary"
         icon="cc:license"
         :name="$t('common.licenses')"
-        to="/srd/compendium/licenses" />
+        to="/srd/compendium/licenses"
+      />
       <compendium-page-button
         icon="cc:corebonus"
         :name="$t('compendium.titles.coreBonuses')"
-        to="/srd/compendium/corebonuses" />
+        to="/srd/compendium/corebonuses"
+      />
       <compendium-page-button
         color="frame"
         icon="cc:frame"
         :name="$t('compendium.titles.frames')"
-        to="/srd/compendium/frames" />
+        to="/srd/compendium/frames"
+      />
       <compendium-page-button
         color="weapon"
         icon="cc:melee"
         :name="$t('compendium.titles.mechWeapons')"
-        to="/srd/compendium/weapons" />
+        to="/srd/compendium/weapons"
+      />
       <compendium-page-button
         color="system"
         icon="mdi-chip"
         :name="$t('compendium.titles.mechSystems')"
-        to="/srd/compendium/systems" />
+        to="/srd/compendium/systems"
+      />
       <compendium-page-button
         color="secondary"
         icon="cc:pilot"
         :name="$t('common.pilotGear')"
-        to="/srd/compendium/pilot_gear" />
+        to="/srd/compendium/pilot_gear"
+      />
       <compendium-page-button
         color="secondary"
         icon="cc:orbit"
         :name="$t('compendium.titles.pilotBackgrounds')"
-        to="/srd/compendium/backgrounds" />
+        to="/srd/compendium/backgrounds"
+      />
       <compendium-page-button
         color="secondary"
         icon="cc:accuracy"
         :name="$t('compendium.titles.skillTriggers')"
-        to="/srd/compendium/skills" />
+        to="/srd/compendium/skills"
+      />
       <compendium-page-button
         color="secondary"
         icon="cc:rank_3"
         :name="$t('common.talents')"
-        to="/srd/compendium/talents" />
+        to="/srd/compendium/talents"
+      />
       <compendium-page-button
         color="secondary"
         icon="mdi-vector-link"
         :name="$t('compendium.titles.bonds')"
-        to="/srd/compendium/bonds" />
+        to="/srd/compendium/bonds"
+      />
     </v-row>
-    <cc-icon-divider icon="cc:campaign" class="mb-n4" />
+    <cc-icon-divider
+      icon="cc:campaign"
+      class="mb-n4"
+    />
     <v-row :dense="mobile">
       <compendium-page-button
         color="error"
         icon="cc:npc_class"
         :name="$t('compendium.titles.npcClasses')"
-        to="/srd/compendium/npc_classes" />
+        to="/srd/compendium/npc_classes"
+      />
       <compendium-page-button
         color="error"
         icon="cc:npc_feature"
         :name="$t('compendium.titles.npcFeatures')"
-        to="/srd/compendium/npc_features" />
+        to="/srd/compendium/npc_features"
+      />
       <compendium-page-button
         color="error"
         icon="cc:npc_template"
         :name="$t('compendium.titles.npcTemplates')"
-        to="/srd/compendium/npc_templates" />
+        to="/srd/compendium/npc_templates"
+      />
       <compendium-page-button
         color="exotic"
         icon="cc:monist"
         :name="$t('compendium.titles.eidolonLayers')"
-        to="/srd/compendium/eidolon_layers" />
+        to="/srd/compendium/eidolon_layers"
+      />
     </v-row>
   </v-container>
 </template>
 
 <script setup lang="ts">
-import { useDisplay } from 'vuetify'
-import SearchBar from '../../SearchBar.vue';
-import CompendiumPageButton from '../../components/CompendiumPageButton.vue';
+  import { useDisplay } from 'vuetify'
+  import SearchBar from '../../SearchBar.vue'
+  import CompendiumPageButton from '../../components/CompendiumPageButton.vue'
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+  const { smAndDown: mobile, xs: portrait } = useDisplay()
 </script>

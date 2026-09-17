@@ -14,11 +14,14 @@
 </template>
 
 <script setup lang="ts">
-defineOptions({ name: 'EquipmentDestroyedOverlay' })
+  defineOptions({ name: 'EquipmentDestroyedOverlay' })
 
-const props = withDefaults(defineProps<{
-  destroyed?: boolean
-}>(), {
-  destroyed: false
-})
+  const props = withDefaults(
+    defineProps<{
+      destroyed?: boolean
+    }>(),
+    {
+      destroyed: false,
+    }
+  )
 </script>

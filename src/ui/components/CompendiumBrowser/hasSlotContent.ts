@@ -3,7 +3,8 @@ import { Comment, Fragment, Text, type Slot, type VNode } from 'vue'
 function vnodeHasContent(v: VNode): boolean {
   if (v.type === Comment) return false
   if (v.type === Text) return String(v.children).trim() !== ''
-  if (v.type === Fragment) return Array.isArray(v.children) && v.children.some((c) => vnodeHasContent(c as VNode))
+  if (v.type === Fragment)
+    return Array.isArray(v.children) && v.children.some(c => vnodeHasContent(c as VNode))
   return true
 }
 

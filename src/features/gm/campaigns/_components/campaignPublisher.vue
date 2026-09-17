@@ -1,11 +1,13 @@
 <template>
   <v-dialog max-width="85vw">
     <template #activator="{ props }">
-      <v-btn v-bind="props"
+      <v-btn
+        v-bind="props"
         block
         size="small"
         variant="tonal"
-        class="my-2 pa-2">
+        class="my-2 pa-2"
+      >
         {{ $t('gm.campaign.publishCampaign') }}
       </v-btn>
     </template>
@@ -14,15 +16,21 @@
         <v-card-title>{{ $t('gm.campaign.publishCampaign') }}</v-card-title>
         <v-divider />
         <v-card-text>
-          <div class="mx-auto"
-            style="width: 80%">
-            <current-version-export v-if="campaign.Latest"
-              :campaign="campaign" />
-            <v-alert v-else
+          <div
+            class="mx-auto"
+            style="width: 80%"
+          >
+            <current-version-export
+              v-if="campaign.Latest"
+              :campaign="campaign"
+            />
+            <v-alert
+              v-else
               color="accent"
               variant="tonal"
               border
-              icon="mdi-information">
+              icon="mdi-information"
+            >
               <div class="text-caption">{{ $t('gm.campaign.notPublishedHelp') }}</div>
             </v-alert>
           </div>
@@ -32,66 +40,86 @@
               {{ new Date().toLocaleDateString(undefined, dOptions as any) }}
             </div>
             <div class="text-caption">{{ $t('common.version') }}</div>
-            <v-row style="width: 400px"
-              class="mx-auto">
+            <v-row
+              style="width: 400px"
+              class="mx-auto"
+            >
               <v-col>
                 <div class="text-caption text-disabled">{{ $t('gm.campaign.major') }}</div>
-                <v-text-field v-model="major"
+                <v-text-field
+                  v-model="major"
                   type="number"
                   variant="outlined"
                   density="compact"
-                  hide-details />
+                  hide-details
+                />
               </v-col>
               <v-col>
                 <div class="text-caption text-disabled">{{ $t('gm.campaign.minor') }}</div>
-                <v-text-field v-model="minor"
+                <v-text-field
+                  v-model="minor"
                   type="number"
                   variant="outlined"
                   density="compact"
-                  hide-details />
+                  hide-details
+                />
               </v-col>
               <v-col>
                 <div class="text-caption text-disabled">{{ $t('gm.campaign.patch') }}</div>
-                <v-text-field v-model="patch"
+                <v-text-field
+                  v-model="patch"
                   type="number"
                   variant="outlined"
                   density="compact"
-                  hide-details />
+                  hide-details
+                />
               </v-col>
             </v-row>
             <v-expand-transition>
-              <div v-if="!verifyVersion"
-                class="text-caption text-error ma-1">
+              <div
+                v-if="!verifyVersion"
+                class="text-caption text-error ma-1"
+              >
                 <b>{{ $t('gm.campaign.versionExists', { version: version }) }}</b>
               </div>
             </v-expand-transition>
           </div>
 
-          <div class="text-left mx-auto text-caption"
-            style="width: 80%">
+          <div
+            class="text-left mx-auto text-caption"
+            style="width: 80%"
+          >
             {{ $t('gm.campaign.releaseNotes') }}:
-            <v-textarea v-model="changes"
+            <v-textarea
+              v-model="changes"
               outlined
               dense
               rows="3"
-              auto-grow />
+              auto-grow
+            />
           </div>
           <div class="text-center">
-            <v-btn size="large"
+            <v-btn
+              size="large"
               variant="tonal"
               color="accent"
               prepend-icon="mdi-upload"
               class="my-2"
               :disabled="!verifyVersion"
-              @click="publishCampaign()">
+              @click="publishCampaign()"
+            >
               {{ $t('gm.campaign.publishNewVersion') }}
             </v-btn>
           </div>
         </v-card-text>
         <v-divider />
         <v-card-actions>
-          <v-btn variant="text"
-            @click="isActive.value = false">{{ $t('common.cancel') }}</v-btn>
+          <v-btn
+            variant="text"
+            @click="isActive.value = false"
+          >
+            {{ $t('common.cancel') }}
+          </v-btn>
         </v-card-actions>
       </v-card>
     </template>
@@ -99,93 +127,96 @@
 </template>
 
 <script setup lang="ts">
-import { i18n } from '@/i18n'
-const t = i18n.global.t
-import { computed, ref } from 'vue'
-import { notify } from '@/util/notify'
-import { Campaign } from '@/classes/campaign/Campaign';
-import CurrentVersionExport from './currentVersionExport.vue';
-import JSZip from 'jszip';
+  import { i18n } from '@/i18n'
+  const t = i18n.global.t
+  import { computed, ref } from 'vue'
+  import { notify } from '@/util/notify'
+  import { Campaign } from '@/classes/campaign/Campaign'
+  import CurrentVersionExport from './currentVersionExport.vue'
+  import JSZip from 'jszip'
 
-defineOptions({ name: 'campaign-publisher' })
+  defineOptions({ name: 'campaign-publisher' })
 
-const props = defineProps<{
-  campaign: Campaign
-}>()
+  const props = defineProps<{
+    campaign: Campaign
+  }>()
 
-const emit = defineEmits<{
-  'published': []
-}>()
+  const emit = defineEmits<{
+    published: []
+  }>()
 
-const major = ref(0)
-const minor = ref(0)
-const patch = ref(0)
-const changes = ref('')
-const dOptions = ref({ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+  const major = ref(0)
+  const minor = ref(0)
+  const patch = ref(0)
+  const changes = ref('')
+  const dOptions = ref({ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
 
-const versionHistory = computed(() => {
-      return props.campaign.VersionHistory || [];
+  const versionHistory = computed(() => {
+    return props.campaign.VersionHistory || []
+  })
+
+  if (!versionHistory.value.length) {
+    major.value = 1
+    minor.value = 0
+    patch.value = 0
+  } else {
+    const latest = versionHistory.value[versionHistory.value.length - 1].ver
+      .split('.')
+      .map(n => parseInt(n))
+    major.value = latest[0]
+    minor.value = latest[1] + 1
+    patch.value = latest[2]
+  }
+  const version = computed(() => {
+    return `${major.value}.${minor.value}.${patch.value}`
+  })
+  const latest = computed(() => {
+    return versionHistory.value.length
+      ? versionHistory.value[versionHistory.value.length - 1]
+      : null
+  })
+  const verifyVersion = computed(() => {
+    if (Number(major.value) + Number(minor.value) + Number(patch.value) < 1) return false
+    let res = true
+    versionHistory.value.forEach(hist => {
+      if (hist.ver === version.value) res = false
     })
+    return res
+  })
 
-if (!versionHistory.value.length) {
-      major.value = 1;
-      minor.value = 0;
-      patch.value = 0;
-    } else {
-      const latest = versionHistory.value[versionHistory.value.length - 1].ver
-        .split('.')
-        .map((n) => parseInt(n));
-      major.value = latest[0];
-      minor.value = latest[1] + 1;
-      patch.value = latest[2];
+  async function publishCampaign() {
+    ;(props.campaign as Campaign).Publish(version.value, changes.value)
+    if (props.campaign.CloudController.ShareCode) {
+      await props.campaign.CloudController.UpdateCloud('campaign')
     }
-const version = computed(() => {
-      return `${major.value}.${minor.value}.${patch.value}`;
+    emit('published')
+    notify({
+      title: t('notify.gm.campaignPublishedTitle'),
+      text: t('notify.gm.campaignPublishedText', {
+        version: version.value,
+        name: props.campaign.Name,
+      }),
+      color: 'success',
     })
-const latest = computed(() => {
-      return versionHistory.value.length
-        ? versionHistory.value[versionHistory.value.length - 1]
-        : null;
-    })
-const verifyVersion = computed(() => {
-      if (Number(major.value) + Number(minor.value) + Number(patch.value) < 1) return false;
-      let res = true;
-      versionHistory.value.forEach((hist) => {
-        if (hist.ver === version.value) res = false;
-      });
-      return res;
-    })
+  }
+  async function exportLcd() {
+    const filename = `${props.campaign.Name} - ${version.value}.lcd`
+    const zip = new JSZip()
 
-async function publishCampaign() {
-      (props.campaign as Campaign).Publish(version.value, changes.value);
-      if (props.campaign.CloudController.ShareCode) {
-        await props.campaign.CloudController.UpdateCloud('campaign');
-      }
-      emit('published');
-      notify({
-        title: t('notify.gm.campaignPublishedTitle'),
-        text: t('notify.gm.campaignPublishedText', { version: version.value, name: props.campaign.Name }),
-        color: 'success',
-      });
-    }
-async function exportLcd() {
-      const filename = `${props.campaign.Name} - ${version.value}.lcd`;
-      const zip = new JSZip();
+    zip.file('campaign_data.json', JSON.stringify(Campaign.Serialize(props.campaign as Campaign)))
 
-      zip.file('campaign_data.json', JSON.stringify(Campaign.Serialize(props.campaign as Campaign)));
+    const content = await zip.generateAsync({ type: 'blob' })
 
-      const content = await zip.generateAsync({ type: 'blob' });
+    const link = document.createElement('a')
+    link.href = window.URL.createObjectURL(content)
+    link.download = filename
 
-      const link = document.createElement('a');
-      link.href = window.URL.createObjectURL(content);
-      link.download = filename;
-
-      // Add the link to the DOM and trigger the download
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-function savePublished() {
-      (props.campaign as Campaign).Publish(version.value, changes.value);
-    }
+    // Add the link to the DOM and trigger the download
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+  function savePublished() {
+    ;(props.campaign as Campaign).Publish(version.value, changes.value)
+  }
 </script>

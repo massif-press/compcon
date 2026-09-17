@@ -126,7 +126,9 @@ class Range {
 
     if (item.NoCoreBonus) return output
 
-    const itemTypes = (item as any).getWeaponTypes ? (item as any).getWeaponTypes(mech) : item.WeaponTypes
+    const itemTypes = (item as any).getWeaponTypes
+      ? (item as any).getWeaponTypes(mech)
+      : item.WeaponTypes
 
     const bonuses = mech.FeatureController.Bonuses.filter(
       x => x.ID === 'range' || x.ID === BonusId.RANGE

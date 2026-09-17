@@ -1,16 +1,21 @@
 <template>
-  <srd-view :title="$t('compendium.titles.narrativePlay')" :content="narrative" :pre-scroll="preScroll" />
+  <srd-view
+    :title="$t('compendium.titles.narrativePlay')"
+    :content="narrative"
+    :pre-scroll="preScroll"
+  />
 </template>
 
 <script setup lang="ts">
-import narrative from '@/assets/srd/lib/narrative_play.json';
-import SrdView from './_components/SrdView.vue';
+  import narrative from '@/assets/srd/lib/narrative_play.json'
+  import SrdView from './_components/SrdView.vue'
 
-const props = withDefaults(defineProps<{
-  preScroll?: string
-}>(), {
-  preScroll: ''
-})
-
-
+  const props = withDefaults(
+    defineProps<{
+      preScroll?: string
+    }>(),
+    {
+      preScroll: '',
+    }
+  )
 </script>

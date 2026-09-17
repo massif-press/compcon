@@ -1,38 +1,44 @@
 <template>
-  <c-card-base :item="item" :small="small" :highlighted="highlighted" :hover="hover">
+  <c-card-base
+    :item="item"
+    :small="small"
+    :highlighted="highlighted"
+    :hover="hover"
+  >
     <template #top>
       <div class="pt-8">
         <p
           v-if="item.Description"
           v-html-safe="item.Description"
           class="card-effect pa-2 mb-1 text-text"
-          style="font-size: 15px" />
+          style="font-size: 15px"
+        />
       </div>
     </template>
   </c-card-base>
 </template>
 
 <script setup lang="ts">
-import type { Reserve } from '@/classes/pilot/components/reserves/Reserve'
-import CCardBase from './_cCardBase.vue';
+  import type { Reserve } from '@/classes/pilot/components/reserves/Reserve'
+  import CCardBase from './_cCardBase.vue'
 
-defineOptions({ name: 'gear-card-content' })
+  defineOptions({ name: 'gear-card-content' })
 
-const props = defineProps<{
-  item: Reserve
-  small?: boolean
-  hover?: boolean
-  highlighted?: boolean
-}>()
+  const props = defineProps<{
+    item: Reserve
+    small?: boolean
+    hover?: boolean
+    highlighted?: boolean
+  }>()
 </script>
 
 <style scoped>
-.card-effect {
-  height: 75px;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
+  .card-effect {
+    height: 75px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
 
-  -webkit-line-clamp: 3;
-}
+    -webkit-line-clamp: 3;
+  }
 </style>

@@ -1,48 +1,70 @@
 <template>
-  <v-row align="center"
+  <v-row
+    align="center"
     no-gutters
     justify="end"
     :style="mobile && 'margin-top: -12px'"
-    class="pr-1">
+    class="pr-1"
+  >
     <v-col cols="auto">
-      <cc-range-element v-if="item.Range"
+      <cc-range-element
+        v-if="item.Range"
         small
-        :range="range" />
-      <cc-slashes v-if="item.Range && item.Damage"
-        class="pr-1" />
-      <cc-damage-element v-if="item.Damage"
+        :range="range"
+      />
+      <cc-slashes
+        v-if="item.Range && item.Damage"
+        class="pr-1"
+      />
+      <cc-damage-element
+        v-if="item.Damage"
         small
         :damage="damage"
-        :type-override="item.DamageTypeOverride" />
+        :type-override="item.DamageTypeOverride"
+      />
     </v-col>
-    <v-col v-if="item && item.SP"
+    <v-col
+      v-if="item && item.SP"
       cols="auto"
-      class="pl-3">
+      class="pl-3"
+    >
       <cc-slashes />
       {{ item.SP }}
       <span style="font-size: 13px; margin-left: -4px">{{ $t('stats.sp') }}</span>
     </v-col>
-    <v-col v-if="!readonly"
-      cols="auto">
-      <div class="ml-2"
-        style="border-left: 1px solid rgba(155, 155, 155, 0.3)">
-        <v-btn v-if="item"
+    <v-col
+      v-if="!readonly"
+      cols="auto"
+    >
+      <div
+        class="ml-2"
+        style="border-left: 1px solid rgba(155, 155, 155, 0.3)"
+      >
+        <v-btn
+          v-if="item"
           size="x-small"
           icon
           tile
           variant="plain"
           color="error"
-          @click.stop="$emit('remove')">
-          <v-icon size="20"
-            icon="mdi-delete" />
+          @click.stop="$emit('remove')"
+        >
+          <v-icon
+            size="20"
+            icon="mdi-delete"
+          />
         </v-btn>
-        <v-btn size="x-small"
+        <v-btn
+          size="x-small"
           icon
           tile
           variant="plain"
-          @click.stop="$emit('swap')">
-          <v-icon size="20"
-            :icon="item ? 'mdi-swap-vertical-variant' : 'mdi-add'" />
+          @click.stop="$emit('swap')"
+        >
+          <v-icon
+            size="20"
+            :icon="item ? 'mdi-swap-vertical-variant' : 'mdi-add'"
+          />
         </v-btn>
       </div>
     </v-col>
@@ -50,33 +72,33 @@
 </template>
 
 <script setup lang="ts">
-import { type PropType } from 'vue'
-import { useDisplay } from 'vuetify'
-import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
-import { Range } from '@/classes/Range'
-import { Damage } from '@/classes/Damage'
+  import { type PropType } from 'vue'
+  import { useDisplay } from 'vuetify'
+  import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
+  import { Range } from '@/classes/Range'
+  import { Damage } from '@/classes/Damage'
 
-defineProps({
-  item: {
-    type: Object as PropType<MechWeapon>,
-    required: true,
-  },
-  range: {
-    type: Array as PropType<Range[]>,
-    required: false,
-    default: () => [],
-  },
-  damage: {
-    type: Array as PropType<Damage[]>,
-    required: false,
-    default: () => [],
-  },
-  readonly: {
-    type: Boolean,
-  },
-})
+  defineProps({
+    item: {
+      type: Object as PropType<MechWeapon>,
+      required: true,
+    },
+    range: {
+      type: Array as PropType<Range[]>,
+      required: false,
+      default: () => [],
+    },
+    damage: {
+      type: Array as PropType<Damage[]>,
+      required: false,
+      default: () => [],
+    },
+    readonly: {
+      type: Boolean,
+    },
+  })
 
-defineEmits(['remove', 'swap'])
+  defineEmits(['remove', 'swap'])
 
-const { smAndDown: mobile } = useDisplay()
+  const { smAndDown: mobile } = useDisplay()
 </script>

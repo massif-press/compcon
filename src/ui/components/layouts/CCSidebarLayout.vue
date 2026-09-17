@@ -27,20 +27,23 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { useDisplay } from 'vuetify'
+  import { computed, ref } from 'vue'
+  import { useDisplay } from 'vuetify'
 
-const _display = useDisplay()
+  const _display = useDisplay()
 
-const props = withDefaults(defineProps<{
-  initialShowNav?: boolean
-}>(), {
-  initialShowNav: true
-})
+  const props = withDefaults(
+    defineProps<{
+      initialShowNav?: boolean
+    }>(),
+    {
+      initialShowNav: true,
+    }
+  )
 
-const showNav = ref(props.initialShowNav)
+  const showNav = ref(props.initialShowNav)
 
-const mobile = computed(() => {
-        return _display.mdAndDown.value
-      })
+  const mobile = computed(() => {
+    return _display.mdAndDown.value
+  })
 </script>

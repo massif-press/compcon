@@ -26,8 +26,11 @@ export const groupLabel = (key: string): string =>
   fallbackGroups[key] ? i18n.global.t(fallbackGroups[key]) : key
 
 const withFallbackTail = (keys: string[], sort: (a: string, b: string) => number): string[] => {
-  const tail = Object.keys(fallbackGroups).filter((k) => keys.includes(k))
-  return keys.filter((k) => !isFallbackGroup(k)).sort(sort).concat(tail)
+  const tail = Object.keys(fallbackGroups).filter(k => keys.includes(k))
+  return keys
+    .filter(k => !isFallbackGroup(k))
+    .sort(sort)
+    .concat(tail)
 }
 
 const ManufacturerSort = (mArr: any[]) =>
@@ -75,7 +78,8 @@ export function useCompendiumFacets(input: CompendiumFacetsInput) {
   const shownItems = computed(() => {
     let shown = items() as CompendiumItem[]
     shown = shown.filter((i: any) => lcpFilter.value.includes(i.LcpName))
-    if (search.value) shown = shown.filter((i: any) => i.Name.toLowerCase().includes(search.value.toLowerCase()))
+    if (search.value)
+      shown = shown.filter((i: any) => i.Name.toLowerCase().includes(search.value.toLowerCase()))
     if (Object.keys(otherFilter.value).length) shown = ItemFilter.Filter(shown, otherFilter.value)
     if (!showExotics()) shown = shown.filter((i: CompendiumItem) => !i.IsExotic)
     if (shown.some((x: any) => x.Source)) shown = ManufacturerSort(shown)
@@ -86,18 +90,24 @@ export function useCompendiumFacets(input: CompendiumFacetsInput) {
   const itemsBySourceGroup = computed(() => _.groupBy(shownItems.value, sourceGroup))
   const itemsByLicenseGroup = computed(() => _.groupBy(shownItems.value, licenseGroup))
   const itemsByRoleGroup = computed(() => _.groupBy(shownItems.value, (x: any) => x.Role))
-  const itemsByFeatureTypeGroup = computed(() => _.groupBy(shownItems.value, (x: any) => x.FeatureType))
+  const itemsByFeatureTypeGroup = computed(() =>
+    _.groupBy(shownItems.value, (x: any) => x.FeatureType)
+  )
   const itemsByOriginGroup = computed(() => _.groupBy(shownItems.value, (x: any) => x.Origin?.Name))
 
   function _groupLcpItems(lcpItems: any[]): Record<string, any[]> {
-    if (itemType() === 'NpcClass') return _.groupBy(lcpItems.filter((x: any) => x.Role), (x: any) => x.Role)
+    if (itemType() === 'NpcClass')
+      return _.groupBy(
+        lcpItems.filter((x: any) => x.Role),
+        (x: any) => x.Role
+      )
     if (itemType() === 'NpcFeature') return _.groupBy(lcpItems, (x: any) => x.Origin?.Name)
     return _.groupBy(lcpItems, sourceGroup)
   }
 
   const _lcpGroupCache = ref(new Map<string, Record<string, any[]>>())
 
-  watch(filteredItemsByLcp, (newFiltered) => {
+  watch(filteredItemsByLcp, newFiltered => {
     const cache = new Map<string, Record<string, any[]>>()
     for (const lcp of open.value) {
       if (newFiltered[lcp]) cache.set(lcp, _groupLcpItems(newFiltered[lcp]))
@@ -107,11 +117,11 @@ export function useCompendiumFacets(input: CompendiumFacetsInput) {
 
   watch(
     open,
-    (newOpen) => {
+    newOpen => {
       const cachedLcps = new Set(_lcpGroupCache.value.keys())
       const openSet = new Set(newOpen)
-      const added = newOpen.filter((lcp) => !cachedLcps.has(lcp) && !!filteredItemsByLcp.value[lcp])
-      const removed = [...cachedLcps].filter((lcp) => !openSet.has(lcp))
+      const added = newOpen.filter(lcp => !cachedLcps.has(lcp) && !!filteredItemsByLcp.value[lcp])
+      const removed = [...cachedLcps].filter(lcp => !openSet.has(lcp))
       if (!added.length && !removed.length) return
       const cache = new Map(_lcpGroupCache.value)
       for (const lcp of removed) cache.delete(lcp)
@@ -134,11 +144,17 @@ export function useCompendiumFacets(input: CompendiumFacetsInput) {
     withFallbackTail(_.uniq(shownItems.value.map(sourceGroup)), manufacturerSortFn)
   )
   const roles = computed(() => _.uniq(shownItems.value.map((x: any) => x.Role)).sort(sortFn))
-  const featureTypes = computed(() => _.uniq(shownItems.value.map((x: any) => x.FeatureType)).sort(sortFn))
-  const origins = computed(() => _.uniq(shownItems.value.map((x: any) => x.Origin?.Name).filter(Boolean)).sort(sortFn))
+  const featureTypes = computed(() =>
+    _.uniq(shownItems.value.map((x: any) => x.FeatureType)).sort(sortFn)
+  )
+  const origins = computed(() =>
+    _.uniq(shownItems.value.map((x: any) => x.Origin?.Name).filter(Boolean)).sort(sortFn)
+  )
   const lcps = computed(() => Object.keys(itemsByLcp.value).sort(sortFn))
   const filteredLcps = computed(() => Object.keys(filteredItemsByLcp.value).sort(sortFn))
-  const licenses = computed(() => withFallbackTail(_.uniq(shownItems.value.map(licenseGroup)), sortFn))
+  const licenses = computed(() =>
+    withFallbackTail(_.uniq(shownItems.value.map(licenseGroup)), sortFn)
+  )
   const subtypes = computed(() => _.uniq(shownItems.value.map((x: any) => x.Type)).sort(sortFn))
   const navOrderedItems = computed((): any[] => {
     switch (group.value) {

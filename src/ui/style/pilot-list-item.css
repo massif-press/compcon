@@ -21,11 +21,13 @@
 }
 
 .cToolbar-missing {
-  background: repeating-linear-gradient(45deg,
-      rgb(var(--v-theme-error-darken-2)),
-      rgb(var(--v-theme-error-darken-2)) 10px,
-      rgb(var(--v-theme-error-darken-3)) 10px,
-      rgb(var(--v-theme-error-darken-3)) 20px);
+  background: repeating-linear-gradient(
+    45deg,
+    rgb(var(--v-theme-error-darken-2)),
+    rgb(var(--v-theme-error-darken-2)) 10px,
+    rgb(var(--v-theme-error-darken-3)) 10px,
+    rgb(var(--v-theme-error-darken-3)) 20px
+  );
 }
 
 .light {

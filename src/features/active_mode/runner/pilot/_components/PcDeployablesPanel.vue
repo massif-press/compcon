@@ -1,77 +1,93 @@
 <template>
   <div>
-  <div class="heading"> {{ combatant.actor.CombatController.CombatName }}{{ possessive }}
-    {{ $t('active.pcDeploy.deployedEquipment') }}: </div>
-  <v-card class="pb-2 px-2">
-    <v-row v-if="combatant.deployables.length"
-      dense>
-      <v-col v-for="d in combatant.deployables"
-        :key="d.id"
-        cols="12"
-        md="6"
-        lg="4"
-        xl="2">
-        <deployable-list-item :key="d.id"
-          :selected="!!selected && selected.ID === d.ID"
-          :deployable="d"
-          :encounter-instance="encounterInstance"
-          @click="select(d)"
-          @activate="$emit('activate', $event)" />
-      </v-col>
-    </v-row>
-    <div v-else
-      class="text-disabled pa-4 text-center">
-      <i>{{ $t('active.pcDeploy.noActive') }}</i>
+    <div class="heading">
+      {{ combatant.actor.CombatController.CombatName }}{{ possessive }}
+      {{ $t('active.pcDeploy.deployedEquipment') }}:
     </div>
-  </v-card>
-  <v-scroll-x-reverse-transition>
-    <v-card v-if="selected"
-      :key="`${selected.ID}-panel`"
-      class="mt-4 pa-2"
-      flat
-      tile>
-      <div class="heading h2">{{ selected.Name }}</div>
-      <v-divider class="mt-2 mb-4" />
-      <deployable-panel :combatant="selected"
-        :encounter-instance="encounterInstance"
-        @deselect="selected = null" />
+    <v-card class="pb-2 px-2">
+      <v-row
+        v-if="combatant.deployables.length"
+        dense
+      >
+        <v-col
+          v-for="d in combatant.deployables"
+          :key="d.id"
+          cols="12"
+          md="6"
+          lg="4"
+          xl="2"
+        >
+          <deployable-list-item
+            :key="d.id"
+            :selected="!!selected && selected.ID === d.ID"
+            :deployable="d"
+            :encounter-instance="encounterInstance"
+            @click="select(d)"
+            @activate="$emit('activate', $event)"
+          />
+        </v-col>
+      </v-row>
+      <div
+        v-else
+        class="text-disabled pa-4 text-center"
+      >
+        <i>{{ $t('active.pcDeploy.noActive') }}</i>
+      </div>
     </v-card>
-    <v-card v-else
-      class="mt-4"
-      flat
-      tile>
-      <v-card-text class="text-disabled text-center">
-        <i>{{ $t('active.pcDeploy.noSelected') }}</i>
-      </v-card-text>
-    </v-card>
-  </v-scroll-x-reverse-transition>
+    <v-scroll-x-reverse-transition>
+      <v-card
+        v-if="selected"
+        :key="`${selected.ID}-panel`"
+        class="mt-4 pa-2"
+        flat
+        tile
+      >
+        <div class="heading h2">{{ selected.Name }}</div>
+        <v-divider class="mt-2 mb-4" />
+        <deployable-panel
+          :combatant="selected"
+          :encounter-instance="encounterInstance"
+          @deselect="selected = null"
+        />
+      </v-card>
+      <v-card
+        v-else
+        class="mt-4"
+        flat
+        tile
+      >
+        <v-card-text class="text-disabled text-center">
+          <i>{{ $t('active.pcDeploy.noSelected') }}</i>
+        </v-card-text>
+      </v-card>
+    </v-scroll-x-reverse-transition>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-import type { CombatantData } from '@/classes/encounter/Encounter'
-import type { DeployableInstance } from '@/classes/components/feature/deployable/DeployableInstance'
-import { computed, shallowRef } from 'vue'
-import DeployableListItem from '../../gm/_components/ListItems/DeployableListItem.vue';
-import DeployablePanel from '../../gm/EncounterPanels/DeployablePanel.vue';
+  import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+  import type { CombatantData } from '@/classes/encounter/Encounter'
+  import type { DeployableInstance } from '@/classes/components/feature/deployable/DeployableInstance'
+  import { computed, shallowRef } from 'vue'
+  import DeployableListItem from '../../gm/_components/ListItems/DeployableListItem.vue'
+  import DeployablePanel from '../../gm/EncounterPanels/DeployablePanel.vue'
 
-const props = defineProps<{
-  combatant: CombatantData
-  encounterInstance: EncounterInstance
-}>()
+  const props = defineProps<{
+    combatant: CombatantData
+    encounterInstance: EncounterInstance
+  }>()
 
-const emit = defineEmits<{
-  'activate': [payload: any]
-}>()
+  const emit = defineEmits<{
+    activate: [payload: any]
+  }>()
 
-const selected = shallowRef<DeployableInstance | null>(null)
+  const selected = shallowRef<DeployableInstance | null>(null)
 
-const possessive = computed(() => {
-      return props.combatant.actor.Name.endsWith('s') ? `'` : `'s`;
-    })
+  const possessive = computed(() => {
+    return props.combatant.actor.Name.endsWith('s') ? `'` : `'s`
+  })
 
-function select(deployable: DeployableInstance) {
-      selected.value = deployable;
-    }
+  function select(deployable: DeployableInstance) {
+    selected.value = deployable
+  }
 </script>

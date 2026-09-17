@@ -1,10 +1,14 @@
 <template>
   <v-card-text class="text-text pt-1 mb-2">
-    <p v-html-safe="item.Description"
-      class="flavor-text pb-2 mb-4" />
+    <p
+      v-html-safe="item.Description"
+      class="flavor-text pb-2 mb-4"
+    />
     <v-row>
-      <v-col v-for="(c, index) in item.Conditions"
-        :key="`condition-${index}`">
+      <v-col
+        v-for="(c, index) in item.Conditions"
+        :key="`condition-${index}`"
+      >
         <div class="heading h2 text-primary mb-2">{{ c.title }}</div>
         <p v-html-safe="c.condition" />
       </v-col>
@@ -33,8 +37,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Sitrep } from '@/classes/encounter/Sitrep'
-defineProps<{
-  item: Sitrep
-}>()
+  import type { Sitrep } from '@/classes/encounter/Sitrep'
+  defineProps<{
+    item: Sitrep
+  }>()
 </script>

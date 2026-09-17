@@ -1,5 +1,8 @@
 <template>
-  <cc-tabs fixed modal>
+  <cc-tabs
+    fixed
+    modal
+  >
     <template #tabs>
       <v-tab>{{ $t('common.settings') }}</v-tab>
       <v-tab>{{ $t('nav.optionsPage.tabStorage') }}</v-tab>
@@ -22,9 +25,8 @@
 </template>
 
 <script setup lang="ts">
-import Settings from './Settings.vue'
-import Storage from './Storage.vue'
-import Log from './Log.vue'
-import ActiveMode from './ActiveMode.vue'
-
+  import Settings from './Settings.vue'
+  import Storage from './Storage.vue'
+  import Log from './Log.vue'
+  import ActiveMode from './ActiveMode.vue'
 </script>

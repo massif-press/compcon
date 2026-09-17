@@ -1,11 +1,13 @@
 <template>
   <cc-core-bonus-item :bonus="bonus" />
-  <cc-button size="small"
+  <cc-button
+    size="small"
     block
     class="mb-n1"
     :color="isSelected ? 'error' : 'success'"
     :disabled="!isSelectable && !isSelected"
-    @click="isSelected ? $emit('remove', bonus) : $emit('add', bonus)">
+    @click="isSelected ? $emit('remove', bonus) : $emit('add', bonus)"
+  >
     <span>
       <span v-if="isSelected">
         <v-icon start>cc:difficulty</v-icon>
@@ -24,16 +26,16 @@
 </template>
 
 <script setup lang="ts">
-import type { CoreBonus } from '@/classes/pilot/components/corebonus/CoreBonus'
+  import type { CoreBonus } from '@/classes/pilot/components/corebonus/CoreBonus'
 
-defineProps<{
-  bonus: CoreBonus
-  isSelected: boolean
-  isSelectable: boolean
-}>()
+  defineProps<{
+    bonus: CoreBonus
+    isSelected: boolean
+    isSelectable: boolean
+  }>()
 
-defineEmits<{
-  'add': [payload: CoreBonus]
-  'remove': [payload: CoreBonus]
-}>()
+  defineEmits<{
+    add: [payload: CoreBonus]
+    remove: [payload: CoreBonus]
+  }>()
 </script>

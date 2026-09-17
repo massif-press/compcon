@@ -16,11 +16,11 @@
 </template>
 
 <script setup lang="ts">
-import type { Encounter } from '@/classes/encounter/Encounter'
-import { Clock } from '@/classes/narrative/elements/Clock';
+  import type { Encounter } from '@/classes/encounter/Encounter'
+  import { Clock } from '@/classes/narrative/elements/Clock'
 
-const props = defineProps<{
-  selected: { Name: string; Notes: string }
-  encounter: Encounter
-}>()
+  const props = defineProps<{
+    selected: { Name: string; Notes: string }
+    encounter: Encounter
+  }>()
 </script>

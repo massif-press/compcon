@@ -28,4 +28,4 @@ export default [
     groupable: false,
     sortable: false,
   },
-];
+]

@@ -28,7 +28,8 @@ export function npc(): Unit {
 
 export const cur = (c: CombatController, k: string) => c.StatController.getCurrent(k)
 export const max = (c: CombatController, k: string) => c.StatController.getMax(k)
-export const set = (c: CombatController, k: string, v: number) => c.StatController.setCurrentStat(k, v)
+export const set = (c: CombatController, k: string, v: number) =>
+  c.StatController.setCurrentStat(k, v)
 export const setMax = (c: CombatController, k: string, v: number) => c.StatController.setMax(k, v)
 
 export const rolls = (face: number) => vi.spyOn(DiceRoller, 'rollDie').mockReturnValue(face)

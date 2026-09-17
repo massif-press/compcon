@@ -1,10 +1,13 @@
 <template>
   <div class="text-overline mt-1">{{ $t('gm.combatant.combatants') }}</div>
 
-  <v-card flat
-    tile>
+  <v-card
+    flat
+    tile
+  >
     <v-card-text class="py-2 px-4">
-      <combatant-group type="enemy"
+      <combatant-group
+        type="enemy"
         :list="enemyCombatants"
         :label="$t('gm.fields.enemyForces')"
         :transfer-key="transferKey"
@@ -14,9 +17,11 @@
         @reorder="onCombatantReorder"
         @add="onCombatantAdded"
         @open="editUnit"
-        @remove="removeCombatantById" />
+        @remove="removeCombatantById"
+      />
 
-      <combatant-group type="ally"
+      <combatant-group
+        type="ally"
         :list="allyCombatants"
         :label="$t('gm.fields.alliedForces')"
         :transfer-key="transferKey"
@@ -25,9 +30,11 @@
         @reorder="onCombatantReorder"
         @add="onCombatantAdded"
         @open="editUnit"
-        @remove="removeCombatantById" />
+        @remove="removeCombatantById"
+      />
 
-      <combatant-group type="neutral"
+      <combatant-group
+        type="neutral"
         :list="neutralCombatants"
         :label="$t('gm.fields.neutral')"
         :transfer-key="transferKey"
@@ -36,84 +43,115 @@
         @reorder="onCombatantReorder"
         @add="onCombatantAdded"
         @open="editUnit"
-        @remove="removeCombatantById" />
+        @remove="removeCombatantById"
+      />
     </v-card-text>
-    <v-toolbar density="compact"
-      color="panel">
+    <v-toolbar
+      density="compact"
+      color="panel"
+    >
       <v-toolbar-title class="text-caption">
-        <v-icon icon="cc:mech"
+        <v-icon
+          icon="cc:mech"
           class="mt-n1"
-          color="error" />
+          color="error"
+        />
         {{ enemyCombatants.length }}
         <cc-slashes class="mx-2" />
-        <v-icon icon="cc:mech"
+        <v-icon
+          icon="cc:mech"
           class="mt-n1"
-          color="success" />
+          color="success"
+        />
         {{ allyCombatants.length }}
         <cc-slashes class="mx-2" />
-        <v-icon icon="cc:mech"
-          class="mt-n1" />
+        <v-icon
+          icon="cc:mech"
+          class="mt-n1"
+        />
         {{ neutralCombatants.length }}
       </v-toolbar-title>
       <v-spacer />
-      <cc-button v-if="!readonly"
+      <cc-button
+        v-if="!readonly"
         color="accent"
         prepend-icon="mdi-plus"
         class="mr-2"
-        @click="addDialog = true">
+        @click="addDialog = true"
+      >
         {{ $t('gm.combatant.addNpc') }}
       </cc-button>
     </v-toolbar>
   </v-card>
 
-  <v-dialog v-if="!readonly"
+  <v-dialog
+    v-if="!readonly"
     v-model="addDialog"
-    fullscreen>
+    fullscreen
+  >
     <v-card>
       <v-toolbar density="compact">
         <v-toolbar-title class="heading h3">
           <span>{{ $t('gm.combatant.selectNpc') }}</span>
         </v-toolbar-title>
         <v-spacer />
-        <v-btn icon
-          @click="addDialog = false">
+        <v-btn
+          icon
+          @click="addDialog = false"
+        >
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
-      <combatant-selector :encounter="encounter"
+      <combatant-selector
+        :encounter="encounter"
         :mode="selectorView"
-        @select="addUnit" />
+        @select="addUnit"
+      />
     </v-card>
   </v-dialog>
 
-  <v-dialog v-model="editDialog"
-    fullscreen>
+  <v-dialog
+    v-model="editDialog"
+    fullscreen
+  >
     <v-card>
-      <v-toolbar class="pl-4 border-b"
-        density="compact">
+      <v-toolbar
+        class="pl-4 border-b"
+        density="compact"
+      >
         <div>
-          <div v-if="!readonly"
-            class="text-caption text-disabled mb-n1">{{ $t('gm.combatant.currentlyEditing') }}</div>
+          <div
+            v-if="!readonly"
+            class="text-caption text-disabled mb-n1"
+          >
+            {{ $t('gm.combatant.currentlyEditing') }}
+          </div>
           <div>
-            <v-icon :icon="selected?.actor.Icon"
+            <v-icon
+              :icon="selected?.actor.Icon"
               size="x-small"
               class="mt-n1"
-              start />
+              start
+            />
             <span class="heading">{{ selected?.actor.Name }}</span>
             <span class="text-caption text-disabled">
               &emsp;{{ $t('gm.combatant.encounterInstance', { n: selected.index }) }}
             </span>
 
             <span v-if="!readonly">
-              <v-tooltip location="bottom"
+              <v-tooltip
+                location="bottom"
                 open-delay="200"
-                max-width="300px">
+                max-width="300px"
+              >
                 <template #activator="{ props }">
-                  <v-icon v-bind="props"
+                  <v-icon
+                    v-bind="props"
                     end
                     class="fade-select"
                     size="x-small"
-                    icon="mdi-help-circle" />
+                    icon="mdi-help-circle"
+                  />
                 </template>
                 <span>{{ $t('gm.combatant.uniqueInstanceHelp') }}</span>
               </v-tooltip>
@@ -121,82 +159,114 @@
           </div>
         </div>
         <v-spacer />
-        <combatant-settings-menu :readonly="readonly"
-          :item="selected" />
+        <combatant-settings-menu
+          :readonly="readonly"
+          :item="selected"
+        />
         <v-spacer />
-        <v-tooltip v-if="!readonly"
+        <v-tooltip
+          v-if="!readonly"
           location="bottom"
           open-delay="200"
-          max-width="300px">
+          max-width="300px"
+        >
           <template #activator="{ props }">
-            <v-icon v-bind="props"
+            <v-icon
+              v-bind="props"
               :color="selected.actor.IsLinked ? 'success' : ''"
               :icon="selected.actor.IsLinked ? 'mdi-link-variant' : 'mdi-link-variant-off'"
-              start />
+              start
+            />
           </template>
-          <i18n-t v-if="selected.actor.IsLinked"
+          <i18n-t
+            v-if="selected.actor.IsLinked"
             keypath="gm.combatant.linkedSource"
             tag="span"
-            scope="global">
-            <template #name><b class="text-primary">{{ selected.actor.GetLinkedItem().Name
-            }}</b></template>
+            scope="global"
+          >
+            <template #name>
+              <b class="text-primary">{{ selected.actor.GetLinkedItem().Name }}</b>
+            </template>
           </i18n-t>
           <span v-else>{{ $t('gm.combatant.notLinkedSourceDot') }}</span>
         </v-tooltip>
 
-        <b v-if="!readonly"
-          :class="selected.actor.IsLinked ? 'text-accent' : 'text-disabled'">
-          <v-menu :close-on-content-click="false"
-            width="50vw">
+        <b
+          v-if="!readonly"
+          :class="selected.actor.IsLinked ? 'text-accent' : 'text-disabled'"
+        >
+          <v-menu
+            :close-on-content-click="false"
+            width="50vw"
+          >
             <template #activator="{ props }">
-              <v-btn v-bind="props"
+              <v-btn
+                v-bind="props"
                 size="x-small"
                 variant="outlined"
-                :disabled="!selected.actor.IsLinked">
-                {{ selected.actor.IsLinked ? $t('gm.combatant.sourceLinked') :
-                  $t('gm.combatant.sourceUnavailable') }}
+                :disabled="!selected.actor.IsLinked"
+              >
+                {{
+                  selected.actor.IsLinked
+                    ? $t('gm.combatant.sourceLinked')
+                    : $t('gm.combatant.sourceUnavailable')
+                }}
               </v-btn>
             </template>
             <v-card variant="outlined">
               <v-card-text>
-                <div class="text-caption text-disabled">{{ $t('gm.combatant.instanceSource') }}
+                <div class="text-caption text-disabled">
+                  {{ $t('gm.combatant.instanceSource') }}
                 </div>
                 <div class="heading">{{ selected.actor.GetLinkedItem().Name }}</div>
                 <v-divider class="my-2" />
                 <div class="text-caption text-disabled"></div>
                 <div v-if="itemDiff && Object.keys(itemDiff).length">
-                  <v-row dense
-                    class="text-caption text-disabled">
+                  <v-row
+                    dense
+                    class="text-caption text-disabled"
+                  >
                     <v-col>{{ $t('gm.combatant.change') }}</v-col>
                     <v-col>{{ $t('gm.combatant.thisInstance') }}</v-col>
                     <v-col>{{ $t('gm.combatant.source') }}</v-col>
                     <v-col cols="auto">{{ $t('common.update') }}</v-col>
                   </v-row>
-                  <v-row v-for="key in Object.keys(itemDiff)"
+                  <v-row
+                    v-for="key in Object.keys(itemDiff)"
                     :key="key"
-                    dense>
+                    dense
+                  >
                     <v-col>{{ key }}</v-col>
-                    <v-col :class="itemDiff[key].instance.length > itemDiff[key].source.length
-                      ? 'text-success'
-                      : 'text-error'
-                      ">
+                    <v-col
+                      :class="
+                        itemDiff[key].instance.length > itemDiff[key].source.length
+                          ? 'text-success'
+                          : 'text-error'
+                      "
+                    >
                       {{ itemDiff[key].instance }}
                     </v-col>
                     <v-col>{{ itemDiff[key].source }}</v-col>
                     <v-col cols="auto">
-                      <v-tooltip location="bottom"
+                      <v-tooltip
+                        location="bottom"
                         open-delay="200"
-                        max-width="300px">
+                        max-width="300px"
+                      >
                         <template #activator="{ props }">
-                          <v-btn icon
+                          <v-btn
+                            icon
                             color="accent"
                             variant="text"
                             size="x-small"
                             class="mt-n1"
-                            @click="diffUpdate(key)">
-                            <v-icon v-bind="props"
+                            @click="diffUpdate(key)"
+                          >
+                            <v-icon
+                              v-bind="props"
                               size="large"
-                              icon="mdi-update" />
+                              icon="mdi-update"
+                            />
                           </v-btn>
                         </template>
                         <span>{{ $t('gm.combatant.updateInstanceTooltip') }}</span>
@@ -206,15 +276,19 @@
                   <v-divider class="my-2" />
                   <v-row dense>
                     <v-col offset="10">
-                      <v-tooltip location="bottom"
+                      <v-tooltip
+                        location="bottom"
                         open-delay="200"
-                        max-width="300px">
+                        max-width="300px"
+                      >
                         <template #activator="{ props }">
-                          <v-btn v-bind="props"
+                          <v-btn
+                            v-bind="props"
                             size="small"
                             variant="tonal"
                             color="accent"
-                            @click="diffUpdateAll(itemDiff)">
+                            @click="diffUpdateAll(itemDiff)"
+                          >
                             {{ $t('common.updateAll') }}
                           </v-btn>
                         </template>
@@ -223,8 +297,12 @@
                     </v-col>
                   </v-row>
                 </div>
-                <div v-else
-                  class="pl-2 font-italic">{{ $t('gm.combatant.noChanges') }}</div>
+                <div
+                  v-else
+                  class="pl-2 font-italic"
+                >
+                  {{ $t('gm.combatant.noChanges') }}
+                </div>
               </v-card-text>
             </v-card>
           </v-menu>
@@ -232,141 +310,180 @@
 
         <v-spacer v-if="!readonly" />
 
-        <cc-button v-if="!selected.actor.IsLinked"
+        <cc-button
+          v-if="!selected.actor.IsLinked"
           prepend-icon="mdi-download"
           size="small"
           color="accent"
           :tooltip="$t('gm.combatant.addToRosterTooltip')"
-          @click="addNpcToRoster()">
+          @click="addNpcToRoster()"
+        >
           {{ $t('gm.combatant.addToRoster') }}
         </cc-button>
 
         <v-spacer v-if="!readonly" />
-        <v-btn icon
-          @click="editDialog = false">
+        <v-btn
+          icon
+          @click="editDialog = false"
+        >
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
       <div style="height: calc(100vh - 64px); overflow-y: auto; overflow-x: hidden; padding: 0 8px">
-        <component :is="editorComponent"
+        <component
+          :is="editorComponent"
           v-if="editorReady && selected"
           :item="selected.actor"
           :readonly="readonly"
           hide-toolbar
-          hide-footer />
+          hide-footer
+        />
       </div>
     </v-card>
   </v-dialog>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
-import { Npc } from '@/classes/npc/Npc'
-import CombatantSelector from './CombatantSelector.vue'
-import { NpcStore, UserStore } from '@/stores'
-import { notify } from '@/util/notify'
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
-import CombatantGroup from './CombatantGroup.vue'
-import UnitEditor from '../../../npc_roster/npcs/editor.vue'
-import DoodadEditor from '../../../npc_roster/doodads/editor.vue'
-import EidolonEditor from '../../../npc_roster/eidolons/editor.vue'
-import CombatantSettingsMenu from './_components/combatantSettingsMenu.vue'
-import { GenerateItemDiff, SetDiff } from '@/classes/npc/NpcDiff'
-import { startDragScroll, stopDragScroll } from '@/composables/useScrollOnDrag'
+  import { ref, computed, watch } from 'vue'
+  import { Npc } from '@/classes/npc/Npc'
+  import CombatantSelector from './CombatantSelector.vue'
+  import { NpcStore, UserStore } from '@/stores'
+  import { notify } from '@/util/notify'
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
+  import CombatantGroup from './CombatantGroup.vue'
+  import UnitEditor from '../../../npc_roster/npcs/editor.vue'
+  import DoodadEditor from '../../../npc_roster/doodads/editor.vue'
+  import EidolonEditor from '../../../npc_roster/eidolons/editor.vue'
+  import CombatantSettingsMenu from './_components/combatantSettingsMenu.vue'
+  import { GenerateItemDiff, SetDiff } from '@/classes/npc/NpcDiff'
+  import { startDragScroll, stopDragScroll } from '@/composables/useScrollOnDrag'
 
-const props = withDefaults(defineProps<{
-  encounter: Record<string, any>
-  readonly?: boolean
-}>(), { readonly: false })
+  const props = withDefaults(
+    defineProps<{
+      encounter: Record<string, any>
+      readonly?: boolean
+    }>(),
+    { readonly: false }
+  )
 
-const selected = ref<any>(null)
-const addDialog = ref(false)
-const editDialog = ref(false)
-const editorReady = ref(false)
-const lastEditorType = ref<string | null>(null)
-const selectorView = ref('list')
-const transferKey = ref(0)
+  const selected = ref<any>(null)
+  const addDialog = ref(false)
+  const editDialog = ref(false)
+  const editorReady = ref(false)
+  const lastEditorType = ref<string | null>(null)
+  const selectorView = ref('list')
+  const transferKey = ref(0)
 
-const enemyCombatants = computed(() => (props.encounter.Combatants as any[]).filter((x) => x.side === 'enemy'))
-const allyCombatants = computed(() => (props.encounter.Combatants as any[]).filter((x) => x.side === 'ally'))
-const neutralCombatants = computed(() => (props.encounter.Combatants as any[]).filter((x) => x.side === 'neutral'))
+  const enemyCombatants = computed(() =>
+    (props.encounter.Combatants as any[]).filter(x => x.side === 'enemy')
+  )
+  const allyCombatants = computed(() =>
+    (props.encounter.Combatants as any[]).filter(x => x.side === 'ally')
+  )
+  const neutralCombatants = computed(() =>
+    (props.encounter.Combatants as any[]).filter(x => x.side === 'neutral')
+  )
 
-const editorComponent = computed(() => {
-  if (!selected.value) return null
-  switch (selected.value.actor.ItemType.toLowerCase()) {
-    case 'eidolon': return EidolonEditor
-    case 'doodad': return DoodadEditor
-    case 'unit': return UnitEditor
-    default: return null
+  const editorComponent = computed(() => {
+    if (!selected.value) return null
+    switch (selected.value.actor.ItemType.toLowerCase()) {
+      case 'eidolon':
+        return EidolonEditor
+      case 'doodad':
+        return DoodadEditor
+      case 'unit':
+        return UnitEditor
+      default:
+        return null
+    }
+  })
+
+  const itemDiff = computed(() => {
+    if (selected.value && selected.value.actor.IsLinked)
+      return GenerateItemDiff(selected.value.actor, selected.value.actor.GetLinkedItem())
+    return null
+  })
+
+  watch(selectorView, val => {
+    if (!val) return
+    UserStore().User.SetView('combatantSelectorView', val)
+  })
+  watch(editDialog, val => {
+    if (!val && selected.value) props.encounter.save()
+  })
+
+  const user = UserStore().User
+  if (user?.View) {
+    selectorView.value = user.View('combatantSelectorView', 'list')
   }
-})
 
-const itemDiff = computed(() => {
-  if (selected.value && selected.value.actor.IsLinked)
-    return GenerateItemDiff(selected.value.actor, selected.value.actor.GetLinkedItem())
-  return null
-})
-
-watch(selectorView, (val) => { if (!val) return; UserStore().User.SetView('combatantSelectorView', val) })
-watch(editDialog, (val) => { if (!val && selected.value) props.encounter.save() })
-
-const user = UserStore().User
-if (user?.View) {
-  selectorView.value = user.View('combatantSelectorView', 'list')
-}
-
-function addUnit(item: Npc) {
-  props.encounter.AddCombatant(item)
-  notify({ title: t('gm.encounter.combatantAddedTitle', { name: item.Name }), text: t('gm.encounter.combatantAddedText', { name: item.Name, encounterName: props.encounter.Name }), icon: 'cc:encounter' })
-}
-function editUnit(item: any) {
-  const newType = item.actor.ItemType
-  selected.value = item
-  editDialog.value = true
-  if (newType !== lastEditorType.value) {
-    editorReady.value = false
-    lastEditorType.value = newType
-    setTimeout(() => { editorReady.value = true }, 0)
+  function addUnit(item: Npc) {
+    props.encounter.AddCombatant(item)
+    notify({
+      title: t('gm.encounter.combatantAddedTitle', { name: item.Name }),
+      text: t('gm.encounter.combatantAddedText', {
+        name: item.Name,
+        encounterName: props.encounter.Name,
+      }),
+      icon: 'cc:encounter',
+    })
   }
-}
-function onCombatantReorder(side: string, event: any) {
-  stopDragScroll()
-  if (event.from !== event.to) return
-  if (event.oldIndex === event.newIndex) return
-  const all = [...(props.encounter.Combatants as any[])]
-  const sideItems = all.filter((c) => c.side === side)
-  const [movedItem] = sideItems.splice(event.oldIndex, 1)
-  sideItems.splice(event.newIndex, 0, movedItem)
-  let sideIdx = 0
-  props.encounter.Combatants = all.map((c) => (c.side === side ? sideItems[sideIdx++] : c))
-  props.encounter.save()
-  transferKey.value++
-}
-function onCombatantAdded(side: string, event: any) {
-  const itemId = event.item.dataset.combatantId
-  const item = (props.encounter.Combatants as any[]).find((x) => x.id === itemId)
-  if (!item) return
-  item.side = side
-  props.encounter.save()
-  transferKey.value++
-}
-function removeCombatantById(id: string) {
-  const idx = (props.encounter.Combatants as any[]).findIndex((c) => c.id === id)
-  if (idx !== -1) props.encounter.RemoveCombatant(idx)
-}
-function diffUpdate(key: string) {
-  SetDiff(selected.value.actor, key)
-}
-function diffUpdateAll(allDiffs: Record<string, any>) {
-  Object.keys(allDiffs).forEach((key) => { SetDiff(selected.value.actor, key) })
-}
+  function editUnit(item: any) {
+    const newType = item.actor.ItemType
+    selected.value = item
+    editDialog.value = true
+    if (newType !== lastEditorType.value) {
+      editorReady.value = false
+      lastEditorType.value = newType
+      setTimeout(() => {
+        editorReady.value = true
+      }, 0)
+    }
+  }
+  function onCombatantReorder(side: string, event: any) {
+    stopDragScroll()
+    if (event.from !== event.to) return
+    if (event.oldIndex === event.newIndex) return
+    const all = [...(props.encounter.Combatants as any[])]
+    const sideItems = all.filter(c => c.side === side)
+    const [movedItem] = sideItems.splice(event.oldIndex, 1)
+    sideItems.splice(event.newIndex, 0, movedItem)
+    let sideIdx = 0
+    props.encounter.Combatants = all.map(c => (c.side === side ? sideItems[sideIdx++] : c))
+    props.encounter.save()
+    transferKey.value++
+  }
+  function onCombatantAdded(side: string, event: any) {
+    const itemId = event.item.dataset.combatantId
+    const item = (props.encounter.Combatants as any[]).find(x => x.id === itemId)
+    if (!item) return
+    item.side = side
+    props.encounter.save()
+    transferKey.value++
+  }
+  function removeCombatantById(id: string) {
+    const idx = (props.encounter.Combatants as any[]).findIndex(c => c.id === id)
+    if (idx !== -1) props.encounter.RemoveCombatant(idx)
+  }
+  function diffUpdate(key: string) {
+    SetDiff(selected.value.actor, key)
+  }
+  function diffUpdateAll(allDiffs: Record<string, any>) {
+    Object.keys(allDiffs).forEach(key => {
+      SetDiff(selected.value.actor, key)
+    })
+  }
 
-async function addNpcToRoster() {
-  const npc = selected.value.actor.GetLinkedItem()
-  if (npc || !selected.value) return
-  await NpcStore().AddNpc(selected.value.actor)
+  async function addNpcToRoster() {
+    const npc = selected.value.actor.GetLinkedItem()
+    if (npc || !selected.value) return
+    await NpcStore().AddNpc(selected.value.actor)
 
-  notify({ title: t('common.npcAdded', { name: selected.value.actor.Name }), text: t('common.npcAddedToRoster', { name: selected.value.actor.Name }), icon: 'cc:npc' })
-}
+    notify({
+      title: t('common.npcAdded', { name: selected.value.actor.Name }),
+      text: t('common.npcAddedToRoster', { name: selected.value.actor.Name }),
+      icon: 'cc:npc',
+    })
+  }
 </script>

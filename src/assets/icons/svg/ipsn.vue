@@ -1,5 +1,4 @@
 <template>
-
   <svg viewBox="0 0 1080 1080">
     <switch>
       <g i:extraneous="self">
@@ -28,6 +27,4 @@
       </g>
     </switch>
   </svg>
-
-
 </template>

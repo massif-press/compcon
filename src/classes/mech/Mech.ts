@@ -187,32 +187,84 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
     return Rules.SizeIcon(this.Size)
   }
 
-  public get Size(): number { return this.StatProvider.Size }
-  public get SizeContributors(): string[] { return this.StatProvider.SizeContributors }
-  public get Armor(): number { return this.StatProvider.Armor }
-  public get ArmorContributors(): string[] { return this.StatProvider.ArmorContributors }
-  public get SaveTarget(): number { return this.StatProvider.SaveTarget }
-  public get SaveTargetContributors(): string[] { return this.StatProvider.SaveTargetContributors }
-  public get Evasion(): number { return this.StatProvider.Evasion }
-  public get EvasionContributors(): string[] { return this.StatProvider.EvasionContributors }
-  public get Speed(): number { return this.StatProvider.Speed }
-  public get SpeedContributors(): string[] { return this.StatProvider.SpeedContributors }
-  public get SensorRange(): number { return this.StatProvider.SensorRange }
-  public get SensorRangeContributors(): string[] { return this.StatProvider.SensorRangeContributors }
-  public get EDefense(): number { return this.StatProvider.EDefense }
-  public get EDefenseContributors(): string[] { return this.StatProvider.EDefenseContributors }
-  public get LimitedBonus(): number { return this.StatProvider.LimitedBonus }
-  public get LimitedContributors(): string[] { return this.StatProvider.LimitedContributors }
-  public get AttackBonus(): number { return this.StatProvider.AttackBonus }
-  public get AttackBonusContributors(): string[] { return this.StatProvider.AttackBonusContributors }
-  public get TechAttack(): number { return this.StatProvider.TechAttack }
-  public get TechAttackContributors(): string[] { return this.StatProvider.TechAttackContributors }
-  public get Grapple(): number { return this.StatProvider.Grapple }
-  public get GrappleContributors(): string[] { return this.StatProvider.GrappleContributors }
-  public get Ram(): number { return this.StatProvider.Ram }
-  public get RamContributors(): string[] { return this.StatProvider.RamContributors }
-  public get SaveBonus(): number { return this.StatProvider.SaveBonus }
-  public get SaveBonusContributors(): string[] { return this.StatProvider.SaveBonusContributors }
+  public get Size(): number {
+    return this.StatProvider.Size
+  }
+  public get SizeContributors(): string[] {
+    return this.StatProvider.SizeContributors
+  }
+  public get Armor(): number {
+    return this.StatProvider.Armor
+  }
+  public get ArmorContributors(): string[] {
+    return this.StatProvider.ArmorContributors
+  }
+  public get SaveTarget(): number {
+    return this.StatProvider.SaveTarget
+  }
+  public get SaveTargetContributors(): string[] {
+    return this.StatProvider.SaveTargetContributors
+  }
+  public get Evasion(): number {
+    return this.StatProvider.Evasion
+  }
+  public get EvasionContributors(): string[] {
+    return this.StatProvider.EvasionContributors
+  }
+  public get Speed(): number {
+    return this.StatProvider.Speed
+  }
+  public get SpeedContributors(): string[] {
+    return this.StatProvider.SpeedContributors
+  }
+  public get SensorRange(): number {
+    return this.StatProvider.SensorRange
+  }
+  public get SensorRangeContributors(): string[] {
+    return this.StatProvider.SensorRangeContributors
+  }
+  public get EDefense(): number {
+    return this.StatProvider.EDefense
+  }
+  public get EDefenseContributors(): string[] {
+    return this.StatProvider.EDefenseContributors
+  }
+  public get LimitedBonus(): number {
+    return this.StatProvider.LimitedBonus
+  }
+  public get LimitedContributors(): string[] {
+    return this.StatProvider.LimitedContributors
+  }
+  public get AttackBonus(): number {
+    return this.StatProvider.AttackBonus
+  }
+  public get AttackBonusContributors(): string[] {
+    return this.StatProvider.AttackBonusContributors
+  }
+  public get TechAttack(): number {
+    return this.StatProvider.TechAttack
+  }
+  public get TechAttackContributors(): string[] {
+    return this.StatProvider.TechAttackContributors
+  }
+  public get Grapple(): number {
+    return this.StatProvider.Grapple
+  }
+  public get GrappleContributors(): string[] {
+    return this.StatProvider.GrappleContributors
+  }
+  public get Ram(): number {
+    return this.StatProvider.Ram
+  }
+  public get RamContributors(): string[] {
+    return this.StatProvider.RamContributors
+  }
+  public get SaveBonus(): number {
+    return this.StatProvider.SaveBonus
+  }
+  public get SaveBonusContributors(): string[] {
+    return this.StatProvider.SaveBonusContributors
+  }
 
   // -- HASE passthroughs -------------------------------------------------------------------------
   public get Hull(): number {
@@ -232,26 +284,54 @@ class Mech implements IPortraitContainer, IFeatureController, ICombatant {
   }
 
   // -- Stats -------------------------------------------------------------------------------------
-  public get MaxStructure(): number { return this.StatProvider.MaxStructure }
-  public get StructureContributors(): string[] { return this.StatProvider.StructureContributors }
-  public get MaxHP(): number { return this.StatProvider.MaxHP }
-  public get HPContributors(): string[] { return this.StatProvider.HPContributors }
+  public get MaxStructure(): number {
+    return this.StatProvider.MaxStructure
+  }
+  public get StructureContributors(): string[] {
+    return this.StatProvider.StructureContributors
+  }
+  public get MaxHP(): number {
+    return this.StatProvider.MaxHP
+  }
+  public get HPContributors(): string[] {
+    return this.StatProvider.HPContributors
+  }
 
   public get CurrentSP(): number {
     if (!this.MechLoadoutController.ActiveLoadout) return this.MaxSP
     return this.MechLoadoutController.ActiveLoadout.TotalSP
   }
 
-  public get MaxSP(): number { return this.StatProvider.MaxSP }
-  public get FreeSP(): number { return this.MaxSP - this.CurrentSP }
-  public get SPContributors(): string[] { return this.StatProvider.SPContributors }
-  public get HeatCapacity(): number { return this.StatProvider.HeatCapacity }
-  public get HeatCapContributors(): string[] { return this.StatProvider.HeatCapContributors }
-  public get MaxStress(): number { return this.StatProvider.MaxStress }
-  public get StressContributors(): string[] { return this.StatProvider.StressContributors }
-  public get RepairCapacity(): number { return this.StatProvider.RepairCapacity }
-  public get RepCapContributors(): string[] { return this.StatProvider.RepCapContributors }
-  public get OverchargeTrack(): string[] { return this.StatProvider.OverchargeTrack }
+  public get MaxSP(): number {
+    return this.StatProvider.MaxSP
+  }
+  public get FreeSP(): number {
+    return this.MaxSP - this.CurrentSP
+  }
+  public get SPContributors(): string[] {
+    return this.StatProvider.SPContributors
+  }
+  public get HeatCapacity(): number {
+    return this.StatProvider.HeatCapacity
+  }
+  public get HeatCapContributors(): string[] {
+    return this.StatProvider.HeatCapContributors
+  }
+  public get MaxStress(): number {
+    return this.StatProvider.MaxStress
+  }
+  public get StressContributors(): string[] {
+    return this.StatProvider.StressContributors
+  }
+  public get RepairCapacity(): number {
+    return this.StatProvider.RepairCapacity
+  }
+  public get RepCapContributors(): string[] {
+    return this.StatProvider.RepCapContributors
+  }
+  public get OverchargeTrack(): string[] {
+    return this.StatProvider.OverchargeTrack
+  }
 
   public getExpressionContext(): ExpressionContext {
     return this.StatProvider.getExpressionContext()

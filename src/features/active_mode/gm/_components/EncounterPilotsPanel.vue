@@ -1,10 +1,14 @@
 <template>
   <v-row>
-    <v-col cols="1"
-      class="text-center">
-      <v-icon icon="cc:pilot"
+    <v-col
+      cols="1"
+      class="text-center"
+    >
+      <v-icon
+        icon="cc:pilot"
         :color="pilots.length ? 'success' : 'panel'"
-        size="50" />
+        size="50"
+      />
     </v-col>
     <v-col>
       <div class="text-cc-overline mb-1">
@@ -12,28 +16,40 @@
         <span class="text-disabled">{{ $t('pm.roster.pilots') }}</span>
       </div>
       <cc-panel>
-        <cc-titled-divider v-if="!pilots.length"
+        <cc-titled-divider
+          v-if="!pilots.length"
           :title="$t('active.titles.addPilots')"
-          color="accent" />
+          color="accent"
+        />
         <div>
-          <v-row v-for="p in pilots"
+          <v-row
+            v-for="p in pilots"
             :key="p.ID"
             no-gutters
             class="mb-2 bg-background"
-            style="border: 2px solid; border-color: rgb(var(--v-theme-primary))">
-            <v-col cols="auto"
+            style="border: 2px solid; border-color: rgb(var(--v-theme-primary))"
+          >
+            <v-col
+              cols="auto"
               class="bg-primary pr-1"
-              style="padding: 2px">
-              <v-avatar flat
+              style="padding: 2px"
+            >
+              <v-avatar
+                flat
                 tile
-                size="64">
-                <cc-avatar v-if="p.PortraitController.Avatar"
+                size="64"
+              >
+                <cc-avatar
+                  v-if="p.PortraitController.Avatar"
                   :avatar="p.PortraitController.Avatar"
-                  size="64" />
-                <cc-img v-else-if="p.Portrait"
+                  size="64"
+                />
+                <cc-img
+                  v-else-if="p.Portrait"
                   :src="p.Portrait"
                   height="64"
-                  width="64" />
+                  width="64"
+                />
               </v-avatar>
             </v-col>
             <v-col class="ml-n1">
@@ -48,17 +64,23 @@
                   </span>
                 </span>
               </cc-title>
-              <v-row dense
-                class="mx-4 pt-1">
-                <v-col cols="auto"
-                  class="text-center">
+              <v-row
+                dense
+                class="mx-4 pt-1"
+              >
+                <v-col
+                  cols="auto"
+                  class="text-center"
+                >
                   <div class="text-cc-overline">{{ $t('pm.sheet.ll') }}</div>
                   <v-divider />
                   <div class="heading">{{ p.Level }}</div>
                 </v-col>
-                <v-col v-if="p.ActiveMech"
+                <v-col
+                  v-if="p.ActiveMech"
                   cols="auto"
-                  class="mx-4">
+                  class="mx-4"
+                >
                   <div class="text-cc-overline">{{ $t('active.roster.activeMech') }}</div>
                   <v-divider />
                   <div class="heading">
@@ -73,100 +95,133 @@
               </v-row>
             </v-col>
             <v-col cols="auto">
-              <v-btn flat
+              <v-btn
+                flat
                 tile
                 stacked
                 height="100%"
                 color="primary"
                 prepend-icon="mdi-close"
-                @click="emit('remove-pilot', p)" />
+                @click="emit('remove-pilot', p)"
+              />
             </v-col>
           </v-row>
 
-          <v-row v-for="(p, i) in placeholders"
+          <v-row
+            v-for="(p, i) in placeholders"
             :key="p.ID"
             no-gutters
             class="mb-2 bg-background"
-            style="border: 2px solid; border-color: rgb(var(--v-theme-primary))">
-            <v-col cols="auto"
+            style="border: 2px solid; border-color: rgb(var(--v-theme-primary))"
+          >
+            <v-col
+              cols="auto"
               class="bg-primary pr-1"
-              style="padding: 2px">
-              <v-avatar flat
+              style="padding: 2px"
+            >
+              <v-avatar
+                flat
                 tile
-                size="64">
-                <v-icon icon="cc:pilot"
-                  size="64" />
+                size="64"
+              >
+                <v-icon
+                  icon="cc:pilot"
+                  size="64"
+                />
               </v-avatar>
             </v-col>
             <v-col class="ml-n1">
               <cc-title>
                 &nbsp;
-                <span class="heading h3">{{ $t('active.pilotsPanel.placeholderN', { n: i + 1 })
-                  }}</span>
+                <span class="heading h3">
+                  {{ $t('active.pilotsPanel.placeholderN', { n: i + 1 }) }}
+                </span>
               </cc-title>
-              <v-row dense
-                class="pa-1 px-2">
+              <v-row
+                dense
+                class="pa-1 px-2"
+              >
                 <v-col>
-                  <cc-text-field v-model="p.Name"
+                  <cc-text-field
+                    v-model="p.Name"
                     color="panel"
                     :placeholder="$t('active.fields.pilotNameOrCallsign')"
-                    prepend-icon="cc:pilot" />
+                    prepend-icon="cc:pilot"
+                  />
                 </v-col>
                 <v-col>
-                  <cc-text-field v-model="p.Mechname"
+                  <cc-text-field
+                    v-model="p.Mechname"
                     color="panel"
                     :placeholder="$t('active.fields.frameOrMechName')"
-                    prepend-icon="cc:frame" />
+                    prepend-icon="cc:frame"
+                  />
                 </v-col>
               </v-row>
             </v-col>
             <v-col cols="auto">
-              <v-btn flat
+              <v-btn
+                flat
                 tile
                 stacked
                 height="100%"
                 color="primary"
                 prepend-icon="mdi-close"
-                @click="emit('remove-placeholder', i)" />
+                @click="emit('remove-placeholder', i)"
+              />
             </v-col>
           </v-row>
         </div>
         <v-divider class="my-4" />
         <v-row dense>
           <v-col>
-            <add-from-roster :encounter="encounter"
-              :pilots="pilots" />
+            <add-from-roster
+              :encounter="encounter"
+              :pilots="pilots"
+            />
           </v-col>
           <v-col>
             <add-from-share :pilots="pilots" />
           </v-col>
           <v-col>
-            <cc-dialog :title="$t('common.import')"
-              icon="mdi-import" :close-on-click="false" major full-height max-width="90vw">
+            <cc-dialog
+              :title="$t('common.import')"
+              icon="mdi-import"
+              :close-on-click="false"
+              major
+              full-height
+              max-width="90vw"
+            >
               <template #activator="{ open }">
-                <cc-button color="primary"
+                <cc-button
+                  color="primary"
                   size="small"
                   block
                   :tooltip="$t('active.tooltips.importAPilotFromJsonData')"
                   prepend-icon="mdi-file-import-outline"
-                  @click="open">
+                  @click="open"
+                >
                   {{ $t('active.pilotsPanel.addFromFile') }}
                 </cc-button>
               </template>
               <template #default="{ close }">
-                <file-import skip-roster-save
+                <file-import
+                  skip-roster-save
                   @import-complete="emit('add-pilot', $event)"
-                  @done="close" />
+                  @done="close"
+                />
               </template>
             </cc-dialog>
           </v-col>
           <v-col>
-            <cc-button size="small"
+            <cc-button
+              size="small"
               block
               color="primary"
               :tooltip="$t('active.tooltips.addsAPilottypeCombatantPlaceholder')"
               prepend-icon="mdi-account-outline"
-              @click="emit('add-placeholder')">
+              @click="emit('add-placeholder')"
+            >
               {{ $t('active.pilotsPanel.addPlaceholder') }}
             </cc-button>
           </v-col>
@@ -177,23 +232,23 @@
 </template>
 
 <script setup lang="ts">
-import type { Placeholder } from '@/classes/encounter/Placeholder'
-import type { Pilot } from '@/classes/pilot/Pilot'
-import type { Encounter } from '@/classes/encounter/Encounter'
-import AddFromRoster from './AddFromRoster.vue';
-import AddFromShare from './AddFromShare.vue';
-import FileImport from '@/features/pilot_management/Roster/components/add_panels/FileImport.vue';
+  import type { Placeholder } from '@/classes/encounter/Placeholder'
+  import type { Pilot } from '@/classes/pilot/Pilot'
+  import type { Encounter } from '@/classes/encounter/Encounter'
+  import AddFromRoster from './AddFromRoster.vue'
+  import AddFromShare from './AddFromShare.vue'
+  import FileImport from '@/features/pilot_management/Roster/components/add_panels/FileImport.vue'
 
-defineProps<{
-  encounter: Encounter
-  pilots: Pilot[]
-  placeholders: Placeholder[]
-}>()
+  defineProps<{
+    encounter: Encounter
+    pilots: Pilot[]
+    placeholders: Placeholder[]
+  }>()
 
-const emit = defineEmits<{
-  'remove-pilot': [pilot: Pilot]
-  'remove-placeholder': [index: number]
-  'add-pilot': [pilot: Pilot]
-  'add-placeholder': []
-}>()
+  const emit = defineEmits<{
+    'remove-pilot': [pilot: Pilot]
+    'remove-placeholder': [index: number]
+    'add-pilot': [pilot: Pilot]
+    'add-placeholder': []
+  }>()
 </script>

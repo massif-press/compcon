@@ -1,37 +1,47 @@
 <template>
   <v-dialog max-width="900px">
     <template #activator="{ props }">
-      <v-btn flat
+      <v-btn
+        flat
         block
         variant="text"
         color="accent"
         prepend-icon="mdi-clock-end"
-        @click="props.onClick($event)">
+        @click="props.onClick($event)"
+      >
         {{ $t('active.endRound.endRound') }}
       </v-btn>
     </template>
     <template #default="{ isActive }">
       <v-card>
-        <v-toolbar height="40"
+        <v-toolbar
+          height="40"
           color="primary"
-          class="text-center">
+          class="text-center"
+        >
           <div class="heading h3 mt-1">
-            <v-icon icon="mdi-clock-end"
+            <v-icon
+              icon="mdi-clock-end"
               class="mt-n1 ml-2"
-              start />
+              start
+            />
             {{ $t('active.endRound.confirmEndRound') }}
           </div>
           <v-spacer />
-          <v-btn icon
+          <v-btn
+            icon
             :disabled="loading"
-            @click="isActive.value = false">
+            @click="isActive.value = false"
+          >
             <v-icon icon="mdi-close" />
           </v-btn>
         </v-toolbar>
-        <v-progress-linear v-if="loading"
+        <v-progress-linear
+          v-if="loading"
           indeterminate
           color="accent"
-          height="4" />
+          height="4"
+        />
         <slot :is-active="isActive" />
       </v-card>
     </template>
@@ -39,5 +49,5 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{ loading?: boolean }>()
+  defineProps<{ loading?: boolean }>()
 </script>

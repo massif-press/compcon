@@ -2,36 +2,52 @@
   <v-card>
     <div v-show="item">
       <v-card class="rounded-0 pb-12 elevation-0">
-        <v-toolbar density="compact"
+        <v-toolbar
+          density="compact"
           class="rounded-0 pl-2"
-          color="primary">
+          color="primary"
+        >
           <div class="heading h3 pa-1 text-white">
-            <v-icon start
+            <v-icon
+              start
               size="large"
-              icon="cc:encounter" />
+              icon="cc:encounter"
+            />
             {{ $t('gm.encounterEditor.editorHeading') }}
           </div>
           <v-spacer />
-          <v-btn icon
-            @click="$emit('exit')">
-            <v-icon large
-              color="white">mdi-close</v-icon>
+          <v-btn
+            icon
+            @click="$emit('exit')"
+          >
+            <v-icon
+              large
+              color="white"
+            >
+              mdi-close
+            </v-icon>
           </v-btn>
         </v-toolbar>
         <v-container>
           <v-row density="compact">
             <v-col cols="9">
-              <v-row class="heading h1"
-                dense>
-                <cc-remote-hover :item="item"
-                  color="accent" />
+              <v-row
+                class="heading h1"
+                dense
+              >
+                <cc-remote-hover
+                  :item="item"
+                  color="accent"
+                />
                 <v-col>
                   <div class="mt-n3">
-                    <cc-short-string-editor large
+                    <cc-short-string-editor
+                      large
                       :readonly="isRemote"
                       justify="start"
                       :placeholder="item.Name"
-                      @set="item.Name = $event">
+                      @set="item.Name = $event"
+                    >
                       <div class="heading-block">
                         {{ item.Name }}
                       </div>
@@ -41,46 +57,76 @@
               </v-row>
 
               <div class="text-overline">{{ $t('gm.encounterEditor.details') }}</div>
-              <cc-rich-text-area v-model="item.Description"
-                :readonly="isRemote" />
+              <cc-rich-text-area
+                v-model="item.Description"
+                :readonly="isRemote"
+              />
 
-              <sitrep-editor :readonly="isRemote"
-                :item="item" />
+              <sitrep-editor
+                :readonly="isRemote"
+                :item="item"
+              />
 
-              <environment-editor :readonly="isRemote"
-                :item="item" />
+              <environment-editor
+                :readonly="isRemote"
+                :item="item"
+              />
             </v-col>
-            <v-col cols="3"
-              class="text-center ml-auto">
-              <gm-folder-editor :readonly="isRemote"
+            <v-col
+              cols="3"
+              class="text-center ml-auto"
+            >
+              <gm-folder-editor
+                :readonly="isRemote"
                 :item="item"
-                class="mb-1" />
-              <gm-label-editor :readonly="isRemote"
+                class="mb-1"
+              />
+              <gm-label-editor
+                :readonly="isRemote"
                 :item="item"
-                class="mb-4" />
-              <v-card flat
+                class="mb-4"
+              />
+              <v-card
+                flat
                 tile
-                border>
+                border
+              >
                 <v-window>
                   <v-window-item>
-                    <div v-if="!item.PortraitController.HasImage"
+                    <div
+                      v-if="!item.PortraitController.HasImage"
                       class="text-cc-overline text-disabled"
-                      style="padding-top:125px; padding-bottom: 125px;">{{ $t('gm.encounterEditor.noMapData') }}</div>
-                    <cc-img v-else
-                      :src="item.PortraitController.Image" />
-                    <cc-dialog :title="$t('gm.titles.setMapImage')" :close-on-click="false" major full-height max-width="90vw">
+                      style="padding-top: 125px; padding-bottom: 125px"
+                    >
+                      {{ $t('gm.encounterEditor.noMapData') }}
+                    </div>
+                    <cc-img
+                      v-else
+                      :src="item.PortraitController.Image"
+                    />
+                    <cc-dialog
+                      :title="$t('gm.titles.setMapImage')"
+                      :close-on-click="false"
+                      major
+                      full-height
+                      max-width="90vw"
+                    >
                       <template #activator="{ open }">
-                        <cc-button v-if="!isRemote"
+                        <cc-button
+                          v-if="!isRemote"
                           size="x-small"
                           block
                           color="primary"
-                          @click="open">
+                          @click="open"
+                        >
                           {{ $t('common.changeImage') }}
                         </cc-button>
                       </template>
-                      <cc-image-selector ref="imageSelector"
+                      <cc-image-selector
+                        ref="imageSelector"
                         :item="item"
-                        type="doodad" />
+                        type="doodad"
+                      />
                     </cc-dialog>
                   </v-window-item>
                 </v-window>
@@ -88,28 +134,40 @@
             </v-col>
           </v-row>
 
-          <combatant-editor :encounter="item"
-            :readonly="isRemote" />
+          <combatant-editor
+            :encounter="item"
+            :readonly="isRemote"
+          />
 
-          <cc-icon-divider icon="mdi-robot-industrial"
-            class="mt-2" />
+          <cc-icon-divider
+            icon="mdi-robot-industrial"
+            class="mt-2"
+          />
           <div class="text-caption">{{ $t('gm.narrative.additionalDetail') }}</div>
-          <section-editor :readonly="isRemote"
-            :item="item" />
+          <section-editor
+            :readonly="isRemote"
+            :item="item"
+          />
           <v-divider class="my-2" />
           <div class="text-caption">{{ $t('gm.narrative.clocks') }}</div>
-          <cc-clock v-for="(c, ci) in item.NarrativeController.Clocks"
+          <cc-clock
+            v-for="(c, ci) in item.NarrativeController.Clocks"
             :key="`clock-${ci}`"
             :readonly="isRemote"
             :clock="c"
             class="mx-1 my-2"
-            @delete="item.NarrativeController.DeleteClock(c)" />
-          <v-row v-if="!isRemote"
-            justify="end">
+            @delete="item.NarrativeController.DeleteClock(c)"
+          />
+          <v-row
+            v-if="!isRemote"
+            justify="end"
+          >
             <v-col cols="auto">
-              <cc-button color="primary"
+              <cc-button
+                color="primary"
                 size="small"
-                @click="item.NarrativeController.AddClock()">
+                @click="item.NarrativeController.AddClock()"
+              >
                 <v-icon start>mdi-plus</v-icon>
                 {{ $t('pm.sheet.addNewClock') }}
               </cc-button>
@@ -117,18 +175,24 @@
           </v-row>
           <v-divider class="my-2" />
           <div class="text-caption">{{ $t('common.tables') }}</div>
-          <cc-rollable-table v-for="(t, ti) in item.NarrativeController.Tables"
+          <cc-rollable-table
+            v-for="(t, ti) in item.NarrativeController.Tables"
             :key="`table-${ti}`"
             :readonly="isRemote"
             :table="t"
             class="mx-1 my-2"
-            @delete="item.NarrativeController.DeleteTable(t)" />
-          <v-row v-if="!isRemote"
-            justify="end">
+            @delete="item.NarrativeController.DeleteTable(t)"
+          />
+          <v-row
+            v-if="!isRemote"
+            justify="end"
+          >
             <v-col cols="auto">
-              <cc-button color="primary"
+              <cc-button
+                color="primary"
                 size="small"
-                @click="item.NarrativeController.AddTable()">
+                @click="item.NarrativeController.AddTable()"
+              >
                 <v-icon start>mdi-plus</v-icon>
                 {{ $t('active.fields.addTable') }}
               </cc-button>
@@ -136,42 +200,60 @@
           </v-row>
           <v-divider class="my-2" />
           <div class="text-caption mb-2">{{ $t('gm.encounterEditor.additionalNotes') }}</div>
-          <cc-rich-text-area v-model="item.Note"
-            :readonly="isRemote" />
+          <cc-rich-text-area
+            v-model="item.Note"
+            :readonly="isRemote"
+          />
         </v-container>
       </v-card>
     </div>
-    <v-footer app
+    <v-footer
+      app
       color="panel"
       height="28"
-      class="border-t-sm">
-      <cc-button size="small"
+      class="border-t-sm"
+    >
+      <cc-button
+        size="small"
         color="primary"
-        :to="`/gm/print/${typeText.toLowerCase()}/${item.ID}`">
-        <v-icon start
-          icon="mdi-printer" />
+        :to="`/gm/print/${typeText.toLowerCase()}/${item.ID}`"
+      >
+        <v-icon
+          start
+          icon="mdi-printer"
+        />
         {{ $t('common.print') }}
       </cc-button>
-      <cc-button size="small"
+      <cc-button
+        size="small"
         color="primary"
         class="ml-2"
-        @click="exportItem(item)">
-        <v-icon start
-          icon="mdi-upload" />
+        @click="exportItem(item)"
+      >
+        <v-icon
+          start
+          icon="mdi-upload"
+        />
         {{ $t('common.export') }}
       </cc-button>
       <v-spacer />
-      <cc-dialog v-if="!isRemote && isAuthed"
+      <cc-dialog
+        v-if="!isRemote && isAuthed"
         :title="$t('common.shareCode')"
         icon="mdi-broadcast"
-        :close-on-click="false">
+        :close-on-click="false"
+      >
         <template #activator="{ open }">
-          <cc-button color="panel"
+          <cc-button
+            color="panel"
             class="mx-2"
             size="small"
-            @click="open">
-            <v-icon start
-              icon="mdi-broadcast" />
+            @click="open"
+          >
+            <v-icon
+              start
+              icon="mdi-broadcast"
+            />
             {{ $t('common.shareCode') }}
           </cc-button>
         </template>
@@ -179,31 +261,41 @@
       </cc-dialog>
       <v-spacer v-if="!isRemote && isAuthed" />
 
-      <v-menu v-if="isRemote"
+      <v-menu
+        v-if="isRemote"
         v-model="convertMenu"
         offset-y
         offset-x
         top
-        left>
+        left
+      >
         <template #activator="{ props }">
-          <cc-button size="small"
+          <cc-button
+            size="small"
             class="mx-3"
-            v-bind="props">
-            <v-icon start
-              icon="mdi-content-copy" />
+            v-bind="props"
+          >
+            <v-icon
+              start
+              icon="mdi-content-copy"
+            />
             {{ $t('common.convert') }}
           </cc-button>
         </template>
-        <cc-confirmation :content="$t('gm.tooltips.convertingThisItemToLocalData')"
-          @confirm="convert()" />
+        <cc-confirmation
+          :content="$t('gm.tooltips.convertingThisItemToLocalData')"
+          @confirm="convert()"
+        />
       </v-menu>
 
       <v-tooltip v-if="isRemote">
         <template #activator="{ props }">
-          <cc-button size="small"
+          <cc-button
+            size="small"
             :disabled="item.CloudController.isSynced"
             class="mx-3"
-            v-bind="props">
+            v-bind="props"
+          >
             <v-icon start>mdi-cloud-sync</v-icon>
             {{ $t('common.update') }}
           </cc-button>
@@ -217,51 +309,71 @@
         }}
       </v-tooltip>
 
-      <v-menu v-if="!isRemote"
+      <v-menu
+        v-if="!isRemote"
         v-model="dupeMenu"
         offset-y
         offset-x
         top
-        left>
+        left
+      >
         <template #activator="{ props }">
-          <cc-button size="small"
+          <cc-button
+            size="small"
             color="primary"
             class="mx-3"
-            v-bind="props">
-            <v-icon start
-              icon="mdi-content-copy" />
+            v-bind="props"
+          >
+            <v-icon
+              start
+              icon="mdi-content-copy"
+            />
             {{ $t('common.duplicate') }}
           </cc-button>
         </template>
-        <cc-confirmation :content="$t('gm.tooltips.confirmDuplicationOfThisNpc')"
-          @confirm="dupe()" />
+        <cc-confirmation
+          :content="$t('gm.tooltips.confirmDuplicationOfThisNpc')"
+          @confirm="dupe()"
+        />
       </v-menu>
 
-      <v-menu v-if="!isRemote"
+      <v-menu
+        v-if="!isRemote"
         v-model="deleteMenu"
         offset-y
         offset-x
         top
-        left>
+        left
+      >
         <template #activator="{ props }">
-          <cc-button size="small"
+          <cc-button
+            size="small"
             color="error"
             class="mx-3"
-            v-bind="props">
-            <v-icon start
-              icon="mdi-delete" />
+            v-bind="props"
+          >
+            <v-icon
+              start
+              icon="mdi-delete"
+            />
             {{ $t('common.delete') }}
           </cc-button>
         </template>
-        <cc-confirmation :content="$t('gm.tooltips.thisWillDeleteThisEncounterFrom')"
-          @confirm="deleteItem()" />
+        <cc-confirmation
+          :content="$t('gm.tooltips.thisWillDeleteThisEncounterFrom')"
+          @confirm="deleteItem()"
+        />
       </v-menu>
-      <cc-button size="small"
+      <cc-button
+        size="small"
         color="secondary"
         class="mx-3"
-        @click="save()">
-        <v-icon start
-          icon="mdi-content-save" />
+        @click="save()"
+      >
+        <v-icon
+          start
+          icon="mdi-content-save"
+        />
         {{ $t('common.saveAndExit') }}
       </cc-button>
     </v-footer>
@@ -269,78 +381,98 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { EncounterStore, UserStore } from '@/stores'
-import { notify } from '@/util/notify'
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
-import SectionEditor from '../../_components/SectionEditor.vue'
-import GmLabelEditor from '../../_components/_subcomponents/GMLabelEditor.vue'
-import GmFolderEditor from '../../_components/_subcomponents/GMFolderEditor.vue'
-import ShareDialog from '@/shared/ShareDialog.vue'
-import SitrepEditor from './SitrepEditor.vue'
-import EnvironmentEditor from './EnvironmentEditor.vue'
-import MapEditor from './map/MapEditor.vue'
-import MapPreview from './map/MapPreview.vue'
-import { Encounter } from '@/classes/encounter/Encounter'
-import exportAsJson from '@/util/jsonExport'
-import CombatantEditor from './combatants/CombatantEditor.vue'
-import { CloudController } from '@/classes/components/cloud/CloudController'
+  import { ref, computed } from 'vue'
+  import { EncounterStore, UserStore } from '@/stores'
+  import { notify } from '@/util/notify'
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
+  import SectionEditor from '../../_components/SectionEditor.vue'
+  import GmLabelEditor from '../../_components/_subcomponents/GMLabelEditor.vue'
+  import GmFolderEditor from '../../_components/_subcomponents/GMFolderEditor.vue'
+  import ShareDialog from '@/shared/ShareDialog.vue'
+  import SitrepEditor from './SitrepEditor.vue'
+  import EnvironmentEditor from './EnvironmentEditor.vue'
+  import MapEditor from './map/MapEditor.vue'
+  import MapPreview from './map/MapPreview.vue'
+  import { Encounter } from '@/classes/encounter/Encounter'
+  import exportAsJson from '@/util/jsonExport'
+  import CombatantEditor from './combatants/CombatantEditor.vue'
+  import { CloudController } from '@/classes/components/cloud/CloudController'
 
-const props = withDefaults(defineProps<{
-  isNew?: boolean
-  showDescription?: boolean
-  item: Encounter
-}>(), {})
+  const props = withDefaults(
+    defineProps<{
+      isNew?: boolean
+      showDescription?: boolean
+      item: Encounter
+    }>(),
+    {}
+  )
 
-const emit = defineEmits<{ exit: [] }>()
+  const emit = defineEmits<{ exit: [] }>()
 
-const dupeMenu = ref(false)
-const deleteMenu = ref(false)
-const convertMenu = ref(false)
-const loading = ref(false)
+  const dupeMenu = ref(false)
+  const deleteMenu = ref(false)
+  const convertMenu = ref(false)
+  const loading = ref(false)
 
-const typeText = computed(() => props.item ? props.item.ItemType.toUpperCase() : 'ERR')
-const isRemote = computed(() => props.item.SaveController.IsRemote)
-const isAuthed = computed(() => UserStore().IsLoggedIn)
+  const typeText = computed(() => (props.item ? props.item.ItemType.toUpperCase() : 'ERR'))
+  const isRemote = computed(() => props.item.SaveController.IsRemote)
+  const isAuthed = computed(() => UserStore().IsLoggedIn)
 
-function exit() {
-  emit('exit')
-}
-function saveAsNew() {
-  EncounterStore().AddEncounter(props.item as Encounter)
-  exit()
-}
-function save() {
-  EncounterStore().SaveEncounterData()
-  emit('exit')
-}
-function deleteItem() {
-  (props.item as Encounter).SaveController.Delete()
-  emit('exit')
-}
-function dupe() {
-  EncounterStore().CloneEncounter(props.item as Encounter)
-  emit('exit')
-}
-function exportItem(item: any) {
-  exportAsJson(Encounter.Serialize(item), `${item.Name}.json`)
-}
-async function remoteUpdate() {
-  try {
-    await CloudController.UpdateRemote(props.item)
-    await UserStore().refreshDbData()
-    notify({ title: t('notify.share.syncCompleteTitle'), text: t('gm.sync.syncCompleteText', { itemType: props.item.ItemType, name: props.item.Name }), icon: 'mdi-cloud-check-variant', color: 'success-darken-2' })
-  } catch (err) {
-    notify({ title: t('notify.share.syncFailedTitle'), text: t('gm.sync.syncFailedText', { itemType: props.item.ItemType, name: props.item.Name, err: String(err) }), icon: 'mdi-alert', color: 'error' })
+  function exit() {
+    emit('exit')
   }
-}
-async function convert() {
-  loading.value = true
-  UserStore().deleteRemoteItem(props.item.SaveController.RemoteCode)
-  props.item.CloudController.GenerateMetadata()
-  props.item.SaveController.ClearRemote()
-  await UserStore().refreshDbData()
-  loading.value = false
-}
+  function saveAsNew() {
+    EncounterStore().AddEncounter(props.item as Encounter)
+    exit()
+  }
+  function save() {
+    EncounterStore().SaveEncounterData()
+    emit('exit')
+  }
+  function deleteItem() {
+    ;(props.item as Encounter).SaveController.Delete()
+    emit('exit')
+  }
+  function dupe() {
+    EncounterStore().CloneEncounter(props.item as Encounter)
+    emit('exit')
+  }
+  function exportItem(item: any) {
+    exportAsJson(Encounter.Serialize(item), `${item.Name}.json`)
+  }
+  async function remoteUpdate() {
+    try {
+      await CloudController.UpdateRemote(props.item)
+      await UserStore().refreshDbData()
+      notify({
+        title: t('notify.share.syncCompleteTitle'),
+        text: t('gm.sync.syncCompleteText', {
+          itemType: props.item.ItemType,
+          name: props.item.Name,
+        }),
+        icon: 'mdi-cloud-check-variant',
+        color: 'success-darken-2',
+      })
+    } catch (err) {
+      notify({
+        title: t('notify.share.syncFailedTitle'),
+        text: t('gm.sync.syncFailedText', {
+          itemType: props.item.ItemType,
+          name: props.item.Name,
+          err: String(err),
+        }),
+        icon: 'mdi-alert',
+        color: 'error',
+      })
+    }
+  }
+  async function convert() {
+    loading.value = true
+    UserStore().deleteRemoteItem(props.item.SaveController.RemoteCode)
+    props.item.CloudController.GenerateMetadata()
+    props.item.SaveController.ClearRemote()
+    await UserStore().refreshDbData()
+    loading.value = false
+  }
 </script>
