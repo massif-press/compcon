@@ -94,7 +94,7 @@
       v-else
       cols="auto"
     >
-      <v-tooltip
+      <cc-tooltip
         location="top"
         :text="$t('active.tooltips.apply')"
       >
@@ -113,9 +113,9 @@
             />
           </v-btn>
         </template>
-      </v-tooltip>
+      </cc-tooltip>
 
-      <v-tooltip
+      <cc-tooltip
         location="top"
         :text="$t('active.tooltips.dismissWithoutApplying')"
       >
@@ -133,7 +133,7 @@
             />
           </v-btn>
         </template>
-      </v-tooltip>
+      </cc-tooltip>
     </v-col>
   </v-row>
 </template>

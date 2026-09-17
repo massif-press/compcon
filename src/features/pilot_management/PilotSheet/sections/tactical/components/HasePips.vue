@@ -1,7 +1,7 @@
 <template>
   <span class="text-uppercase stat-text">{{ title }}</span>
   <span class="flavor-text text--disabled pl-2">({{ skillPoints || 0 }})</span>
-  <v-tooltip :text="tooltip()">
+  <cc-tooltip :text="tooltip()">
     <template #activator="{ props }">
       <span v-bind="props">
         <v-icon
@@ -22,7 +22,7 @@
         />
       </span>
     </template>
-  </v-tooltip>
+  </cc-tooltip>
 </template>
 
 <script setup lang="ts">

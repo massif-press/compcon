@@ -31,10 +31,9 @@
           style="height: 20px; width: 100%; margin-bottom: 4px"
         />
 
-        <v-tooltip
+        <cc-tooltip
           v-else-if="!ticks && modelValue"
           location="top"
-          :open-delay="400"
         >
           <template #activator="{ props }">
             <div
@@ -72,7 +71,7 @@
               {{ hover }}
             </span>
           </div>
-        </v-tooltip>
+        </cc-tooltip>
 
         <div
           v-else-if="ticks && ticks > tickThreshold"
@@ -87,10 +86,7 @@
             class="d-inline-block pl-1"
             :style="`width: ${100 / ticks}%;`"
           >
-            <v-tooltip
-              location="top"
-              :open-delay="400"
-            >
+            <cc-tooltip location="top">
               <template #activator="{ props }">
                 <v-btn
                   v-bind="props"
@@ -115,7 +111,7 @@
                   {{ i }}
                 </span>
               </div>
-            </v-tooltip>
+            </cc-tooltip>
           </div>
         </div>
       </v-col>

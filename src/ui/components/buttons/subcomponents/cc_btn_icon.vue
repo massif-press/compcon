@@ -1,14 +1,21 @@
 <template>
-  <v-tooltip :disabled="!tooltip"
+  <cc-tooltip
+    :disabled="!tooltip"
     :text="tooltip"
     :location="getTooltipLocation"
-    style="position: relative">
+    style="position: relative"
+  >
     <template #activator="{ props }">
-      <div class="top-element"
-        v-bind="props">
-        <span v-if="!hideLight"
-          :class="`light ${size} bg-${color} ${tonal && 'tonal-light'}`" />
-        <v-btn :class="`hex ${size} ${colorClass}`"
+      <div
+        class="top-element"
+        v-bind="props"
+      >
+        <span
+          v-if="!hideLight"
+          :class="`light ${size} bg-${color} ${tonal && 'tonal-light'}`"
+        />
+        <v-btn
+          :class="`hex ${size} ${colorClass}`"
           style="container-type: inline-size"
           :variant="variant ? 'tonal' : undefined"
           :color="getColor"
@@ -24,148 +31,157 @@
           :href="href"
           :to="to"
           :target="target"
-          @click.stop="!disabled && !loading && $emit('click', $event)">
-          <v-icon style="font-size: 75cqw; margin-left: -2px"
+          @click.stop="!disabled && !loading && $emit('click', $event)"
+        >
+          <v-icon
+            style="font-size: 75cqw; margin-left: -2px"
             :color="tonal ? color : ''"
-            :icon="icon" />
+            :icon="icon"
+          />
         </v-btn>
       </div>
     </template>
-  </v-tooltip>
+  </cc-tooltip>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useDisplay } from 'vuetify'
-import { Anchor } from 'vuetify';
+  import { computed } from 'vue'
+  import { useDisplay } from 'vuetify'
+  import { Anchor } from 'vuetify'
 
-const props = defineProps({
-  color: { type: String },
-  disabled: { type: Boolean },
-  loading: { type: Boolean },
-  block: { type: Boolean },
-  size: { type: String },
-  variant: { type: String },
-  prependIcon: { type: String },
-  appendIcon: { type: String },
-  icon: { type: String, required: true, default: 'mdi-help' },
-  href: { type: String },
-  to: { type: [String, Object] },
-  target: { type: String },
-  tooltip: { type: String },
-  tooltipLocation: { type: String },
-  hideLight: { type: Boolean },
-})
+  const props = defineProps({
+    color: { type: String },
+    disabled: { type: Boolean },
+    loading: { type: Boolean },
+    block: { type: Boolean },
+    size: { type: String },
+    variant: { type: String },
+    prependIcon: { type: String },
+    appendIcon: { type: String },
+    icon: { type: String, required: true, default: 'mdi-help' },
+    href: { type: String },
+    to: { type: [String, Object] },
+    target: { type: String },
+    tooltip: { type: String },
+    tooltipLocation: { type: String },
+    hideLight: { type: Boolean },
+  })
 
-const emit = defineEmits(['click'])
+  const emit = defineEmits(['click'])
 
-const { smAndDown: mobile, xs: portrait } = useDisplay()
+  const { smAndDown: mobile, xs: portrait } = useDisplay()
 
-const tonal = computed(() => props.variant === 'tonal')
-const getColor = computed(() => {
-  if (!props.color) return ''
-  return tonal.value ? props.color : 'transparent'
-})
-const colorClass = computed(() => {
-  if (tonal.value || !props.color) return ''
-  return `bg-${props.color}`
-})
-const buttonSize = computed(() => {
-  switch (props.size) {
-    case 'x-small': return '22px'
-    case 'small': return '27px'
-    case 'large': return '38px'
-    case 'x-large': return '48px'
-    case 'xx-large': return '60px'
-    default: return '36px'
-  }
-})
-const getTooltipLocation = computed(() => {
-  if (!mobile.value && props.tooltipLocation) return props.tooltipLocation as Anchor
-  return 'top' as Anchor
-})
+  const tonal = computed(() => props.variant === 'tonal')
+  const getColor = computed(() => {
+    if (!props.color) return ''
+    return tonal.value ? props.color : 'transparent'
+  })
+  const colorClass = computed(() => {
+    if (tonal.value || !props.color) return ''
+    return `bg-${props.color}`
+  })
+  const buttonSize = computed(() => {
+    switch (props.size) {
+      case 'x-small':
+        return '22px'
+      case 'small':
+        return '27px'
+      case 'large':
+        return '38px'
+      case 'x-large':
+        return '48px'
+      case 'xx-large':
+        return '60px'
+      default:
+        return '36px'
+    }
+  })
+  const getTooltipLocation = computed(() => {
+    if (!mobile.value && props.tooltipLocation) return props.tooltipLocation as Anchor
+    return 'top' as Anchor
+  })
 </script>
 
 <style scoped>
-@import './cc_btn_base.css';
+  @import './cc_btn_base.css';
 
-.hex {
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-  outline: 4px solid #2c3e50;
-  /* width = height × (sqrt3/2) for a regular hexagon */
-  width: 31.18px !important;
-  min-width: 0 !important;
-}
+  .hex {
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    outline: 4px solid #2c3e50;
+    /* width = height × (sqrt3/2) for a regular hexagon */
+    width: 31.18px !important;
+    min-width: 0 !important;
+  }
 
-/* x-small: 22px height */
-.hex.x-small {
-  width: 19.05px !important;
-}
+  /* x-small: 22px height */
+  .hex.x-small {
+    width: 19.05px !important;
+  }
 
-/* small: 27px height */
-.hex.small {
-  width: 25.38px !important;
-}
+  /* small: 27px height */
+  .hex.small {
+    width: 25.38px !important;
+  }
 
-/* large: 38px height */
-.hex.large {
-  width: 32.91px !important;
-}
+  /* large: 38px height */
+  .hex.large {
+    width: 32.91px !important;
+  }
 
-/* x-large: 48px height */
-.hex.x-large {
-  width: 41.57px !important;
-}
+  /* x-large: 48px height */
+  .hex.x-large {
+    width: 41.57px !important;
+  }
 
-/* xx-large: 60px height */
-.hex.xx-large {
-  width: 51.96px !important;
-}
+  /* xx-large: 60px height */
+  .hex.xx-large {
+    width: 51.96px !important;
+  }
 
-.v-btn {
-  position: relative;
-}
+  .v-btn {
+    position: relative;
+  }
 
-.light {
-  width: 13px;
-  height: 6.5px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  clip-path: polygon(0 25%, 0 0, 100% 0, 0% 100%);
-  transition: filter 0.2s ease-in-out;
-}
+  .light {
+    width: 13px;
+    height: 6.5px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    clip-path: polygon(0 25%, 0 0, 100% 0, 0% 100%);
+    transition: filter 0.2s ease-in-out;
+  }
 
-.tonal-light {
-  opacity: 0.35;
-}
+  .tonal-light {
+    opacity: 0.35;
+  }
 
-.top-element {
-  position: relative;
-}
+  .top-element {
+    position: relative;
+  }
 
-.light.x-small {
-  width: 6px;
-  height: 4px;
-}
+  .light.x-small {
+    width: 6px;
+    height: 4px;
+  }
 
-.light.small {
-  width: 8px;
-  height: 5px;
-}
+  .light.small {
+    width: 8px;
+    height: 5px;
+  }
 
-.light.large {
-  width: 10px;
-  height: 6px;
-}
+  .light.large {
+    width: 10px;
+    height: 6px;
+  }
 
-.light.x-large {
-  width: 14px;
-  height: 8px;
-}
+  .light.x-large {
+    width: 14px;
+    height: 8px;
+  }
 
-.light.xx-large {
-  width: 19px;
-  height: 10px;
-}
+  .light.xx-large {
+    width: 19px;
+    height: 10px;
+  }
 </style>

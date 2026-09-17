@@ -1,10 +1,12 @@
 <template>
   <v-card-text :style="mobile ? 'margin-top: 14px' : 'margin-top: 16px'">
     <div class="heading h2">{{ $t('nav.packConfig.title') }}</div>
-    <cc-alert class="mt-4 bg-panel pr-12 mb-4"
+    <cc-alert
+      class="mt-4 bg-panel pr-12 mb-4"
       color="info"
       prominent
-      variant="text">
+      variant="text"
+    >
       <p class="text-text">
         {{ $t('nav.packConfig.description') }}
       </p>
@@ -14,57 +16,71 @@
       </p>
     </cc-alert>
 
-    <div v-if="!user.LcpConfigs.length"
-      class="text-disabled text-center">
+    <div
+      v-if="!user.LcpConfigs.length"
+      class="text-disabled text-center"
+    >
       <i>{{ $t('nav.packConfig.noConfigs') }}</i>
     </div>
-    <v-card v-for="(config, index) in user.LcpConfigs"
+    <v-card
+      v-for="(config, index) in user.LcpConfigs"
       v-else
       :key="config.id"
       flat
       tile
       border
       max-width="800px"
-      class="mb-2 mx-auto">
+      class="mb-2 mx-auto"
+    >
       <v-card-text v-if="editingIndex === index">
         <v-row dense>
           <v-col cols="auto">
-            <v-icon icon="mdi-list-status"
-              size="40" />
+            <v-icon
+              icon="mdi-list-status"
+              size="40"
+            />
           </v-col>
           <v-col>
-            <v-text-field v-model="config.name"
+            <v-text-field
+              v-model="config.name"
               color="primary"
               density="compact"
               hide-details
               class="mb-4"
-              @change="debouncedSave(config)" />
+              @change="debouncedSave(config)"
+            />
           </v-col>
           <v-col cols="auto">
-            <v-tooltip location="top"
-              :text="$t('nav.packConfig.deleteConfig')">
+            <cc-tooltip
+              location="top"
+              :text="$t('nav.packConfig.deleteConfig')"
+            >
               <template #activator="{ props }">
-                <v-btn color="error"
+                <v-btn
+                  color="error"
                   size="40"
                   icon
                   flat
                   tile
                   v-bind="props"
-                  @click="removeConfig(config.id)">
+                  @click="removeConfig(config.id)"
+                >
                   <v-icon icon="mdi-delete" />
                 </v-btn>
               </template>
-            </v-tooltip>
+            </cc-tooltip>
           </v-col>
         </v-row>
 
         <div class="text-text text-cc-overline">{{ $t('nav.packConfig.lcpsInConfig') }}</div>
 
-        <v-card v-if="!config.packList.length"
+        <v-card
+          v-if="!config.packList.length"
           flat
           tile
           color="background"
-          class="text-center pa-4">
+          class="text-center pa-4"
+        >
           <i>
             {{ $t('nav.packConfig.noLcpsPrefix') }}
             <b class="text-accent">{{ $t('nav.packConfig.lancerCoreBook') }}</b>
@@ -72,39 +88,52 @@
           </i>
         </v-card>
 
-        <div v-else
-          class="mx-4 mt-4 mb-8">
-          <v-row v-for="lcp in config.packList"
+        <div
+          v-else
+          class="mx-4 mt-4 mb-8"
+        >
+          <v-row
+            v-for="lcp in config.packList"
             :key="lcp.packID"
-            class="bg-panel">
+            class="bg-panel"
+          >
             <v-col cols="auto">
-              <v-avatar color="primary"
-                size="30">
+              <v-avatar
+                color="primary"
+                size="30"
+              >
                 <v-icon icon="cc:campaign" />
               </v-avatar>
             </v-col>
             <v-col>
               <span class="heading">{{ lcp.packName }}</span>
-              <span class="text-disabled"> {{ $t('nav.packConfig.byAuthor', {
-                author: lcp.packAuthor
-              })
-              }}</span>
+              <span class="text-disabled">
+                {{
+                  $t('nav.packConfig.byAuthor', {
+                    author: lcp.packAuthor,
+                  })
+                }}
+              </span>
             </v-col>
             <v-col cols="auto">
-              <v-tooltip location="top"
-                :text="$t('nav.packConfig.removeFromConfig')">
+              <cc-tooltip
+                location="top"
+                :text="$t('nav.packConfig.removeFromConfig')"
+              >
                 <template #activator="{ props }">
-                  <v-btn color="error"
+                  <v-btn
+                    color="error"
                     size="30"
                     icon
                     flat
                     tile
                     v-bind="props"
-                    @click="removePack(config, lcp)">
+                    @click="removePack(config, lcp)"
+                  >
                     <v-icon icon="mdi-close" />
                   </v-btn>
                 </template>
-              </v-tooltip>
+              </cc-tooltip>
             </v-col>
           </v-row>
         </div>
@@ -113,7 +142,8 @@
 
         <v-row align="center">
           <v-col cols="auto">
-            <v-select v-model="selection"
+            <v-select
+              v-model="selection"
               color="primary"
               density="compact"
               hide-details
@@ -123,63 +153,82 @@
               min-width="300px"
               max-width="400px"
               :label="$t('nav.packConfig.addLcp')"
-              @update:model-value="AddPack(config)" />
+              @update:model-value="AddPack(config)"
+            />
           </v-col>
-          <v-col cols="auto"
-            class="ml-auto">
-            <v-btn color="success"
+          <v-col
+            cols="auto"
+            class="ml-auto"
+          >
+            <v-btn
+              color="success"
               flat
               tile
               icon
-              @click="editingIndex = null">
+              @click="editingIndex = null"
+            >
               <v-icon icon="mdi-content-save" />
             </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
-      <v-row v-else
+      <v-row
+        v-else
         dense
-        class="pa-1">
+        class="pa-1"
+      >
         <v-col cols="auto">
-          <v-icon icon="mdi-list-status"
-            size="40" />
+          <v-icon
+            icon="mdi-list-status"
+            size="40"
+          />
         </v-col>
         <v-col>
           <div class="heading h3">{{ config.name }}</div>
           <div class="text-disabled text-caption">
             <span v-if="config.packList.length">
-              {{$t('nav.packConfig.lcpsSuffix', {
-                list: config.packList.map(x => x.packName).join(' // ')
-              })}}
+              {{
+                $t('nav.packConfig.lcpsSuffix', {
+                  list: config.packList.map(x => x.packName).join(' // '),
+                })
+              }}
             </span>
             <span v-else>{{ $t('nav.packConfig.coreBookOnly') }}</span>
           </div>
         </v-col>
-        <v-col cols="auto"
-          class="ml-auto">
-          <v-tooltip location="top"
-            :text="$t('nav.packConfig.editConfig')">
+        <v-col
+          cols="auto"
+          class="ml-auto"
+        >
+          <cc-tooltip
+            location="top"
+            :text="$t('nav.packConfig.editConfig')"
+          >
             <template #activator="{ props }">
-              <v-btn color="primary"
+              <v-btn
+                color="primary"
                 size="40"
                 icon
                 flat
                 tile
                 v-bind="props"
-                @click="editingIndex = index">
+                @click="editingIndex = index"
+              >
                 <v-icon icon="mdi-pencil" />
               </v-btn>
             </template>
-          </v-tooltip>
+          </cc-tooltip>
         </v-col>
       </v-row>
     </v-card>
 
-    <cc-button color="primary"
+    <cc-button
+      color="primary"
       size="small"
       class="ma-0"
       block
-      @click="user.AddConfig()">
+      @click="user.AddConfig()"
+    >
       <v-icon left>mdi-plus</v-icon>
       {{ $t('nav.packConfig.createConfig') }}
     </cc-button>
@@ -187,51 +236,49 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useDisplay } from 'vuetify'
-import { CompendiumStore, UserStore } from '@/stores'
-import { LcpConfig, LcpConfigData } from '@/user'
-import { debounce } from 'lodash-es'
+  import { ref, computed } from 'vue'
+  import { useDisplay } from 'vuetify'
+  import { CompendiumStore, UserStore } from '@/stores'
+  import { LcpConfig, LcpConfigData } from '@/user'
+  import { debounce } from 'lodash-es'
 
-const { smAndDown: mobile } = useDisplay()
+  const { smAndDown: mobile } = useDisplay()
 
-const selection = ref<any>(null)
-const editingIndex = ref<number | null>(null)
+  const selection = ref<any>(null)
+  const editingIndex = ref<number | null>(null)
 
-const user = computed(() => UserStore().User)
+  const user = computed(() => UserStore().User)
 
-function getEligiblePacks(config: LcpConfig) {
-  return CompendiumStore().ContentPacks.filter(
-    p => !config.packList.some(x => x.packID === p.ID)
-  )
-}
+  function getEligiblePacks(config: LcpConfig) {
+    return CompendiumStore().ContentPacks.filter(p => !config.packList.some(x => x.packID === p.ID))
+  }
 
-function AddPack(config: LcpConfig) {
-  if (!selection.value) return
-  if (!config) return
-  config.packList.push({
-    packID: selection.value.ID,
-    packName: selection.value.Manifest.name,
-    packAuthor: selection.value.Manifest.author,
-    packVersion: selection.value.Manifest.version,
-    allowed: true,
-  } as LcpConfigData)
-  user.value.updateConfig(config.id, config)
-  selection.value = null
-}
+  function AddPack(config: LcpConfig) {
+    if (!selection.value) return
+    if (!config) return
+    config.packList.push({
+      packID: selection.value.ID,
+      packName: selection.value.Manifest.name,
+      packAuthor: selection.value.Manifest.author,
+      packVersion: selection.value.Manifest.version,
+      allowed: true,
+    } as LcpConfigData)
+    user.value.updateConfig(config.id, config)
+    selection.value = null
+  }
 
-function removePack(config: LcpConfig, pack: LcpConfigData) {
-  const index = config.packList.findIndex(p => p.packID === pack.packID)
-  if (index === -1) return
-  config.packList.splice(index, 1)
-  user.value.updateConfig(config.id, config)
-}
+  function removePack(config: LcpConfig, pack: LcpConfigData) {
+    const index = config.packList.findIndex(p => p.packID === pack.packID)
+    if (index === -1) return
+    config.packList.splice(index, 1)
+    user.value.updateConfig(config.id, config)
+  }
 
-function removeConfig(id: string) {
-  user.value.RemoveConfig(id)
-}
+  function removeConfig(id: string) {
+    user.value.RemoveConfig(id)
+  }
 
-const debouncedSave = debounce((config: LcpConfig) => {
-  UserStore().User.updateConfig(config.id, config)
-}, 500)
+  const debouncedSave = debounce((config: LcpConfig) => {
+    UserStore().User.updateConfig(config.id, config)
+  }, 500)
 </script>

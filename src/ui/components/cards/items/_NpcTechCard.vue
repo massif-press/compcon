@@ -20,7 +20,7 @@
           class="heading"
           :style="dense ? '' : 'font-size: 24pt'"
         >
-          <v-tooltip location="top">
+          <cc-tooltip location="top">
             <template #activator="{ props }">
               <v-icon
                 :size="dense ? '20' : '35'"
@@ -32,7 +32,7 @@
               </v-icon>
             </template>
             <span>{{ $t('common.attackBonus') }}</span>
-          </v-tooltip>
+          </cc-tooltip>
           <span v-if="tier">
             +
             <b>{{ item.AttackBonus(tier) }}</b>
@@ -63,7 +63,7 @@
           class="heading"
           :style="dense ? '' : 'font-size: 24pt'"
         >
-          <v-tooltip location="top">
+          <cc-tooltip location="top">
             <template #activator="{ props }">
               <v-icon
                 :size="dense ? '20' : '45'"
@@ -76,7 +76,7 @@
             <span>
               {{ item.Accuracy(1) < 0 ? $t('common.difficulty') : $t('common.accuracy') }}
             </span>
-          </v-tooltip>
+          </cc-tooltip>
           <span v-if="tier">
             +
             <b>{{ item.Accuracy(tier) }}</b>

@@ -68,6 +68,8 @@
             cols="auto"
           >
             <v-menu
+              open-delay="200"
+              close-delay="500"
               open-on-hover
               max-width="600px"
             >

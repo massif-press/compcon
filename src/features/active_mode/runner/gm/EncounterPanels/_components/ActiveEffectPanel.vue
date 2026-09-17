@@ -11,9 +11,13 @@
         density="compact"
         style="max-height: 24px !important"
       >
-        <v-tooltip
+        <cc-tooltip
           location="top"
-          :text="hideUsed ? $t('active.activeEffect.hidingUsedEffects') : $t('active.activeEffect.showingUsedEffects')"
+          :text="
+            hideUsed
+              ? $t('active.activeEffect.hidingUsedEffects')
+              : $t('active.activeEffect.showingUsedEffects')
+          "
         >
           <template #activator="{ props }">
             <v-btn
@@ -29,7 +33,7 @@
               />
             </v-btn>
           </template>
-        </v-tooltip>
+        </cc-tooltip>
       </v-btn-group>
     </v-col>
   </v-row>

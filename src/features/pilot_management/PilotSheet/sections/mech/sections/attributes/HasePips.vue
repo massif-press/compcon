@@ -1,58 +1,69 @@
 <template>
   <div :class="mobile && 'd-inline-block mr-11'">
-    <v-tooltip :text="`${label.toUpperCase()}: ${val}`">
+    <cc-tooltip :text="`${label.toUpperCase()}: ${val}`">
       <template #activator="{ props }">
-        <span class="text-overline no-height ml-n1"
-          v-bind="props">
+        <span
+          class="text-overline no-height ml-n1"
+          v-bind="props"
+        >
           {{ label }}
         </span>
       </template>
-    </v-tooltip>
-    <cc-synergy-display :location="attr"
+    </cc-tooltip>
+    <cc-synergy-display
+      :location="attr"
       :mech="mech"
-      class="d-inline" />
+      class="d-inline"
+    />
     <div class="mt-n2 ml-1">
       <span class="no-height">
-        <v-icon v-for="n in val"
+        <v-icon
+          v-for="n in val"
           :key="`filled-${n}`"
           size="small"
           :color="color"
-          icon="mdi-hexagon" />
+          icon="mdi-hexagon"
+        />
       </span>
       <span class="no-height">
-        <v-icon v-for="n in 6 - val"
+        <v-icon
+          v-for="n in 6 - val"
           :key="`empty-${n}`"
           size="small"
           color="grey"
-          icon="mdi-hexagon-outline" />
+          icon="mdi-hexagon-outline"
+        />
       </span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Mech } from '@/classes/mech/Mech'
-import { computed } from 'vue'
-import { useDisplay } from 'vuetify';
+  import type { Mech } from '@/classes/mech/Mech'
+  import { computed } from 'vue'
+  import { useDisplay } from 'vuetify'
 
-const { smAndDown: mobile } = useDisplay()
+  const { smAndDown: mobile } = useDisplay()
 
-const props = withDefaults(defineProps<{
-  mech: Mech
-  attr: string
-  val: number
-  color?: string
-  label?: string
-}>(), {
-  color: 'primary',
-  label: '',
-})
+  const props = withDefaults(
+    defineProps<{
+      mech: Mech
+      attr: string
+      val: number
+      color?: string
+      label?: string
+    }>(),
+    {
+      color: 'primary',
+      label: '',
+    }
+  )
 
-const label = computed(() => props.label ?? props.attr)
+  const label = computed(() => props.label ?? props.attr)
 </script>
 
 <style scoped>
-.no-height {
-  line-height: 0;
-}
+  .no-height {
+    line-height: 0;
+  }
 </style>

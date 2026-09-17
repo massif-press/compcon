@@ -1,25 +1,40 @@
 <template>
-  <v-col v-if="event.Attack"
+  <v-col
+    v-if="event.Attack"
     cols="auto"
-    class="mt-1">
-    <div v-if="!mobile"
-      class="text-cc-overline text-disabled">{{ $t('ui.combat.vsStat', { stat: event.AttackStat }) }}</div>
-    <div v-for="(s, idx) in event.Targets"
-      :key="`target-${idx}`">
-      <v-row v-if="!s"
+    class="mt-1"
+  >
+    <div
+      v-if="!mobile"
+      class="text-cc-overline text-disabled"
+    >
+      {{ $t('ui.combat.vsStat', { stat: event.AttackStat }) }}
+    </div>
+    <div
+      v-for="(s, idx) in event.Targets"
+      :key="`target-${idx}`"
+    >
+      <v-row
+        v-if="!s"
         no-gutters
         align="center"
-        justify="center">
-        <v-col cols="auto"
+        justify="center"
+      >
+        <v-col
+          cols="auto"
           align-self="center"
-          class="mt-1">
+          class="mt-1"
+        >
           <i class="text-caption text-disabled">{{ $t('ui.combat.noTarget') }}</i>
         </v-col>
       </v-row>
-      <v-row v-else
-        no-gutters>
+      <v-row
+        v-else
+        no-gutters
+      >
         <v-col>
-          <v-text-field :model-value="s.AttackRolledValue"
+          <v-text-field
+            :model-value="s.AttackRolledValue"
             density="compact"
             variant="outlined"
             :class="mobile ? 'short' : 'mb-1'"
@@ -30,19 +45,25 @@
             :error="!s.AttackRolledValue"
             hide-details
             tile
-            @update:model-value="handleAttackRoll(s, $event)">
+            @update:model-value="handleAttackRoll(s, $event)"
+          >
             <template #prepend>
-              <check-roll-interface :roll-data="s"
-                @rolled="onAttackRolled($event)" />
+              <check-roll-interface
+                :roll-data="s"
+                @rolled="onAttackRolled($event)"
+              />
             </template>
           </v-text-field>
         </v-col>
-        <v-col cols="auto"
-          align-self="center">
+        <v-col
+          cols="auto"
+          align-self="center"
+        >
           <div class="text-center text-cc-overline px-2">{{ $t('ui.combat.vs') }}</div>
         </v-col>
         <v-col align-self="center">
-          <v-text-field :key="s.Combatant?.id || `defense_${idx}`"
+          <v-text-field
+            :key="s.Combatant?.id || `defense_${idx}`"
             v-model="s.TargetDefenseValue"
             density="compact"
             :class="mobile ? 'short' : 'mb-1'"
@@ -54,35 +75,42 @@
             flat
             tile
             hide-details
-            @update:model-value="s.TargetDefenseValue = Number($event)">
+            @update:model-value="s.TargetDefenseValue = Number($event)"
+          >
             <template #append>
-              <v-tooltip location="top">
+              <cc-tooltip location="top">
                 <template #activator="{ props }">
-                  <v-btn icon
+                  <v-btn
+                    icon
                     size="x-small"
                     flat
                     tile
                     class="ml-n1"
                     color="transparent"
                     v-bind="props"
-                    @click="overrideSave(s)">
-                    <v-icon size="25"
-                      :color="!s.HitResult
-                        ? ''
-                        : s.HitResult === 'crit'
-                          ? 'exotic'
-                          : s.HitResult === 'hit'
-                            ? 'success'
-                            : 'error'
-                        "
-                      :icon="!s.HitResult
-                        ? 'mdi-circle-outline'
-                        : s.HitResult === 'crit'
-                          ? 'mdi-check-decagram'
-                          : s.HitResult === 'hit'
-                            ? 'mdi-check-circle'
-                            : 'mdi-cancel'
-                        " />
+                    @click="overrideSave(s)"
+                  >
+                    <v-icon
+                      size="25"
+                      :color="
+                        !s.HitResult
+                          ? ''
+                          : s.HitResult === 'crit'
+                            ? 'exotic'
+                            : s.HitResult === 'hit'
+                              ? 'success'
+                              : 'error'
+                      "
+                      :icon="
+                        !s.HitResult
+                          ? 'mdi-circle-outline'
+                          : s.HitResult === 'crit'
+                            ? 'mdi-check-decagram'
+                            : s.HitResult === 'hit'
+                              ? 'mdi-check-circle'
+                              : 'mdi-cancel'
+                      "
+                    />
                   </v-btn>
                 </template>
 
@@ -101,18 +129,22 @@
                     <i class="text-caption text-disabled">{{ $t('ui.combat.clickToOverride') }}</i>
                   </div>
                 </div>
-              </v-tooltip>
+              </cc-tooltip>
             </template>
           </v-text-field>
         </v-col>
       </v-row>
-      <div v-if="s && s.HitResult === 'miss' && reliableDamageEvents.length"
-        class="text-center">
-        <v-chip v-for="de in reliableDamageEvents"
+      <div
+        v-if="s && s.HitResult === 'miss' && reliableDamageEvents.length"
+        class="text-center"
+      >
+        <v-chip
+          v-for="de in reliableDamageEvents"
           :key="de.DamageType"
           size="x-small"
           color="core"
-          class="mr-1">
+          class="mr-1"
+        >
           {{ $t('ui.combat.reliableOnMiss', { n: de.Reliable, type: de.DamageType }) }}
         </v-chip>
       </div>
@@ -121,58 +153,60 @@
 </template>
 
 <script setup lang="ts">
-import type { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
-import { computed } from 'vue';
-import { useDisplay } from 'vuetify';
-import CheckRollInterface from './CheckRollInterface.vue';
+  import type { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
+  import { computed } from 'vue'
+  import { useDisplay } from 'vuetify'
+  import CheckRollInterface from './CheckRollInterface.vue'
 
-const { mdAndDown: mobile } = useDisplay()
+  const { mdAndDown: mobile } = useDisplay()
 
-const props = withDefaults(defineProps<{
-  event: ActiveEffectEvent
-  crits?: boolean
-}>(), {
-  crits: false,
-})
+  const props = withDefaults(
+    defineProps<{
+      event: ActiveEffectEvent
+      crits?: boolean
+    }>(),
+    {
+      crits: false,
+    }
+  )
 
-const reliableDamageEvents = computed(() =>
-  (props.event.DamageEvents || []).filter((de: any) => de.Reliable > 0)
-)
+  const reliableDamageEvents = computed(() =>
+    (props.event.DamageEvents || []).filter((de: any) => de.Reliable > 0)
+  )
 
-
-function overrideSave(s) {
-  if (!s.HitResult) return;
-  if (s.HitResult === 'crit') {
-    s.AttackRolledValue = 1;
-    props.event.UnsetCrit();
-  } else if (s.HitResult === 'miss') {
-    s.AttackRolledValue = s.TargetDefenseValue;
-  } else {
-    s.AttackRolledValue = 20;
-    if (props.event.Effect?.CanCrit) props.event.SetCrit();
+  function overrideSave(s) {
+    if (!s.HitResult) return
+    if (s.HitResult === 'crit') {
+      s.AttackRolledValue = 1
+      props.event.UnsetCrit()
+    } else if (s.HitResult === 'miss') {
+      s.AttackRolledValue = s.TargetDefenseValue
+    } else {
+      s.AttackRolledValue = 20
+      if (props.event.Effect?.CanCrit) props.event.SetCrit()
+    }
   }
-}
 
-function handleAttackRoll(s, val) {
-  s.AttackRolledValue = Number(val);
-  if (Number(val) >= 20 && props.event.Effect?.CanCrit) props.event.SetCrit();
-  else props.event.UnsetCrit();
-}
+  function handleAttackRoll(s, val) {
+    s.AttackRolledValue = Number(val)
+    if (Number(val) >= 20 && props.event.Effect?.CanCrit) props.event.SetCrit()
+    else props.event.UnsetCrit()
+  }
 
-function onAttackRolled(val) {
-  if (Number(val) >= 20 && props.event.Effect?.CanCrit) props.event.SetCrit();
-  else props.event.UnsetCrit();
-}
+  function onAttackRolled(val) {
+    if (Number(val) >= 20 && props.event.Effect?.CanCrit) props.event.SetCrit()
+    else props.event.UnsetCrit()
+  }
 </script>
 
 <style scoped>
-::v-deep(.short .v-field__input) {
-  min-height: 28px !important;
-  padding: 4px !important;
-  padding-left: 8px !important;
-}
+  ::v-deep(.short .v-field__input) {
+    min-height: 28px !important;
+    padding: 4px !important;
+    padding-left: 8px !important;
+  }
 
-::v-deep(.short .v-field) {
-  height: 28px !important;
-}
+  ::v-deep(.short .v-field) {
+    height: 28px !important;
+  }
 </style>

@@ -27,7 +27,7 @@
       {{ $t('mainMenu.ui.unlinked') }}
     </div>
     {{ $t('mainMenu.patreon.linkPatreon') }}
-    <v-tooltip max-width="400px">
+    <cc-tooltip max-width="400px">
       <template #activator="{ props }">
         <v-icon
           v-bind="props"
@@ -37,7 +37,7 @@
         </v-icon>
       </template>
       {{ $t('mainMenu.patreon.linkInfo') }}
-    </v-tooltip>
+    </cc-tooltip>
   </v-card>
   <cc-dialog
     v-else

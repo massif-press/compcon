@@ -1,8 +1,11 @@
 <template>
-  <div class="top-element mx-1"
+  <div
+    class="top-element mx-1"
     style="display: block; position: relative"
-    v-bind="$attrs">
-    <v-text-field :model-value="modelValue"
+    v-bind="$attrs"
+  >
+    <v-text-field
+      :model-value="modelValue"
       :color="color"
       :base-color="color"
       :variant="<any>variant"
@@ -31,80 +34,107 @@
       :max-width="maxWidth"
       :bg-color="isFocused ? 'surface-variant' : bgColor"
       @update:focused="isFocused = $event"
-      @update:model-value="$emit('update:model-value', $event)">
+      @update:model-value="$emit('update:model-value', $event)"
+    >
       <template #prepend>
-        <div :class="`prepend bg-${color} ${isFocused && 'color-rotate'} `"
-          :style="`min-width: ${icon ? '30' : '16'}px`">
-          <v-icon v-if="icon"
+        <div
+          :class="`prepend bg-${color} ${isFocused && 'color-rotate'} `"
+          :style="`min-width: ${icon ? '30' : '16'}px`"
+        >
+          <v-icon
+            v-if="icon"
             :icon="icon"
-            class="mt-1 ml-3 mr-2" />
-          <div v-if="label"
+            class="mt-1 ml-3 mr-2"
+          />
+          <div
+            v-if="label"
             class="d-inline-block text-cc-overline ml-3"
-            style="line-height: 0; margin-top: 16px">
+            style="line-height: 0; margin-top: 16px"
+          >
             {{ label }}
             <cc-slashes class="ml-1 mr-2" />
           </div>
         </div>
       </template>
-      <template v-if="prependInnerIcon"
-        #prepend-inner>
+      <template
+        v-if="prependInnerIcon"
+        #prepend-inner
+      >
         <v-icon :icon="prependInnerIcon" />
       </template>
       <template #append>
-        <v-menu v-if="$slots.options"
-          offset-y>
+        <v-menu
+          v-if="$slots.options"
+          offset-y
+        >
           <template #activator="{ props }">
-            <v-btn size="32"
+            <v-btn
+              size="32"
               :color="color"
               icon
               :variant="<any>variant"
               tile
               flat
               v-bind="props"
-              style="margin-left: -1px">
+              style="margin-left: -1px"
+            >
               <v-icon :icon="optionsIcon || 'mdi-dots-vertical'" />
             </v-btn>
           </template>
           <slot name="options" />
         </v-menu>
 
-        <div :class="`right-divider bg-${color} ${isFocused && 'color-rotate'}`"
+        <div
+          :class="`right-divider bg-${color} ${isFocused && 'color-rotate'}`"
           style="
-              transition: filter 0.2s ease-in-out;
-              width: 3px;
-              height: 100%;
-              margin-left: 4px;
-              z-index: 1;
-            " />
-        <span v-if="$slots.extra"
-          class="pl-4">
+            transition: filter 0.2s ease-in-out;
+            width: 3px;
+            height: 100%;
+            margin-left: 4px;
+            z-index: 1;
+          "
+        />
+        <span
+          v-if="$slots.extra"
+          class="pl-4"
+        >
           <slot name="extra" />
         </span>
 
-        <v-tooltip v-if="tooltip"
+        <cc-tooltip
+          v-if="tooltip"
           location="top"
-          max-width="300px">
+          max-width="300px"
+        >
           <template #activator="{ props }">
-            <v-icon v-bind="props"
+            <v-icon
+              v-bind="props"
               class="fade-select mx-1"
-              :icon="tooltipIcon || 'mdi-information-slab-box-outline'" />
+              :icon="tooltipIcon || 'mdi-information-slab-box-outline'"
+            />
           </template>
           {{ tooltip }}
-        </v-tooltip>
+        </cc-tooltip>
       </template>
-      <template v-if="appendInnerIcon"
-        #append-inner>
-        <v-btn :icon="appendInnerIcon"
+      <template
+        v-if="appendInnerIcon"
+        #append-inner
+      >
+        <v-btn
+          :icon="appendInnerIcon"
           variant="text"
           size="small"
           density="comfortable"
           :aria-label="appendInnerAriaLabel"
-          @click.stop="$emit('click-append-inner')" />
+          @click.stop="$emit('click-append-inner')"
+        />
       </template>
     </v-text-field>
     <v-slide-y-transition>
-      <div v-if="details"
-        class="text-right text-caption">
+      <div
+        v-if="details"
+        class="text-right text-caption"
+      >
         {{ details }}
       </div>
     </v-slide-y-transition>
@@ -112,77 +142,80 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const props = withDefaults(defineProps<{
-  modelValue?: string | number
-  color?: string
-  size?: string
-  variant?: string
-  prependInnerIcon?: string
-  appendInnerIcon?: string
-  block?: boolean
-  loading?: boolean
-  disabled?: boolean
-  placeholder?: string
-  label?: string
-  icon?: string
-  clearable?: boolean
-  tooltip?: string
-  tooltipIcon?: string
-  details?: string
-  readonly?: boolean
-  optionsIcon?: string
-  type?: string
-  autocomplete?: string
-  ariaLabel?: string
-  appendInnerAriaLabel?: string
-  width?: string
-  height?: string
-  itemTitle?: string
-  itemValue?: string
-  maxWidth?: string
-  items?: any[]
-  max?: number | string
-  density?: string
-  dense?: boolean
-  hideDetails?: boolean | string
-  modelModifiers?: any
-  bgColor?: string
-  rules?: any[]
-  prefix?: string
-  suffix?: string
-  counter?: boolean | number
-  hint?: string
-}>(), {
-  color: 'panel',
-  variant: 'solo',
-  width: '100%',
-  items: () => [],
-  modelModifiers: () => ({}),
-  bgColor: 'panel'
-})
+  const props = withDefaults(
+    defineProps<{
+      modelValue?: string | number
+      color?: string
+      size?: string
+      variant?: string
+      prependInnerIcon?: string
+      appendInnerIcon?: string
+      block?: boolean
+      loading?: boolean
+      disabled?: boolean
+      placeholder?: string
+      label?: string
+      icon?: string
+      clearable?: boolean
+      tooltip?: string
+      tooltipIcon?: string
+      details?: string
+      readonly?: boolean
+      optionsIcon?: string
+      type?: string
+      autocomplete?: string
+      ariaLabel?: string
+      appendInnerAriaLabel?: string
+      width?: string
+      height?: string
+      itemTitle?: string
+      itemValue?: string
+      maxWidth?: string
+      items?: any[]
+      max?: number | string
+      density?: string
+      dense?: boolean
+      hideDetails?: boolean | string
+      modelModifiers?: any
+      bgColor?: string
+      rules?: any[]
+      prefix?: string
+      suffix?: string
+      counter?: boolean | number
+      hint?: string
+    }>(),
+    {
+      color: 'panel',
+      variant: 'solo',
+      width: '100%',
+      items: () => [],
+      modelModifiers: () => ({}),
+      bgColor: 'panel',
+    }
+  )
 
-const emit = defineEmits<{
-  'update:model-value': [payload: any]
-  'click-append-inner': []
-}>()
+  const emit = defineEmits<{
+    'update:model-value': [payload: any]
+    'click-append-inner': []
+  }>()
 
-const isFocused = ref(false)
+  const isFocused = ref(false)
 </script>
 
 <style scoped>
-@import '@/ui/style/cc-input-field.css';
+  @import '@/ui/style/cc-input-field.css';
 
-.color-rotate {
-  filter: brightness(1.5) saturate(200%) hue-rotate(40deg);
-}
+  .color-rotate {
+    filter: brightness(1.5) saturate(200%) hue-rotate(40deg);
+  }
 
-.top-element:hover .right-divider {
-  filter: brightness(1.5) saturate(200%) hue-rotate(40deg);
-}
+  .top-element:hover .right-divider {
+    filter: brightness(1.5) saturate(200%) hue-rotate(40deg);
+  }
 
-.prepend {
-  min-width: 16px;
-}
+  .prepend {
+    min-width: 16px;
+  }
 </style>

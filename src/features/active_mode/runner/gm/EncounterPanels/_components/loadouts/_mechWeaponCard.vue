@@ -1,72 +1,106 @@
 <template>
-  <v-card flat
-    tile>
+  <v-card
+    flat
+    tile
+  >
     <equipment-destroyed-overlay :destroyed="item.Destroyed" />
-    <v-row align="center"
+    <v-row
+      align="center"
       no-gutters
       justify="end"
       class="pr-1"
-      :style="item.Used ? 'opacity: 0.4' : ''">
+      :style="item.Used ? 'opacity: 0.4' : ''"
+    >
       <v-col :class="mobile ? 'text-cc-overline ' : 'heading h3 text-uppercase'">
         <div class="pl-1">
           {{ item.Name }}
           <span class="text-cc-overline text-disabled">
             <cc-slashes class="mx-1" />
-            {{item.getWeaponTypes(mech).map(t => $enum('weaponType', t)).join('/')}} -
+            {{
+              item
+                .getWeaponTypes(mech)
+                .map(t => $enum('weaponType', t))
+                .join('/')
+            }}
+            -
             {{ $enum('weaponSize', item.Size) }}
           </span>
         </div>
       </v-col>
 
       <v-col cols="auto">
-        <cc-range-element v-if="item.Range"
+        <cc-range-element
+          v-if="item.Range"
           small
-          :range="getRange" />
-        <cc-slashes v-if="item.Range && item.Damage"
-          class="pr-1" />
-        <cc-damage-element v-if="item.Damage"
+          :range="getRange"
+        />
+        <cc-slashes
+          v-if="item.Range && item.Damage"
+          class="pr-1"
+        />
+        <cc-damage-element
+          v-if="item.Damage"
           small
           :damage="getDamage"
-          :type-override="item.DamageTypeOverride" />
+          :type-override="item.DamageTypeOverride"
+        />
       </v-col>
     </v-row>
 
-    <div class="pa-0"
+    <div
+      class="pa-0"
       style="position: relative"
-      :style="item.Used ? 'opacity: 0.4' : ''">
+      :style="item.Used ? 'opacity: 0.4' : ''"
+    >
       <v-card-text class="pa-0">
         <equipment-flavor-description :description="item.FlavorDescription" />
 
-        <div v-if="item"
-          class="pt-1">
+        <div
+          v-if="item"
+          class="pt-1"
+        >
           <div>
-            <div v-if="isEngineerWeapon"
-              class="mb-1">
-              <eng-weapon-settings :item="item"
+            <div
+              v-if="isEngineerWeapon"
+              class="mb-1"
+            >
+              <eng-weapon-settings
+                :item="item"
                 :mech="mech"
-                :readonly="readonly" />
+                :readonly="readonly"
+              />
             </div>
 
             <div v-if="item.Profiles && item.Profiles.length > 1">
-              <v-chip-group v-model="item.ProfileIndex"
+              <v-chip-group
+                v-model="item.ProfileIndex"
                 mandatory
-                column>
-                <v-chip v-for="(p, i) in item.Profiles"
+                column
+              >
+                <v-chip
+                  v-for="(p, i) in item.Profiles"
                   :key="p.ID"
                   :value="i"
                   size="small"
-                  filter>
+                  filter
+                >
                   {{ p.Name }}
                 </v-chip>
               </v-chip-group>
               <div>
-                <div v-if="item.Profiles[item.ProfileIndex].Effect"
-                  class="panel clipped pa-2">
-                  <v-row dense
-                    align="end">
+                <div
+                  v-if="item.Profiles[item.ProfileIndex].Effect"
+                  class="panel clipped pa-2"
+                >
+                  <v-row
+                    dense
+                    align="end"
+                  >
                     <v-col cols="auto">
-                      <v-icon size="large"
-                        icon="cc:weapon" />
+                      <v-icon
+                        size="large"
+                        icon="cc:weapon"
+                      />
                     </v-col>
                     <v-col>
                       <div class="heading">
@@ -74,26 +108,34 @@
                       </div>
                     </v-col>
                   </v-row>
-                  <p v-html-safe="item.Profiles[item.ProfileIndex].Effect"
-                    class="px-2" />
+                  <p
+                    v-html-safe="item.Profiles[item.ProfileIndex].Effect"
+                    class="px-2"
+                  />
                 </div>
               </div>
 
-              <cc-combat-action-chip v-for="a in item.Profiles[item.ProfileIndex].Actions"
+              <cc-combat-action-chip
+                v-for="a in item.Profiles[item.ProfileIndex].Actions"
                 :key="a.ID"
                 :owner="owner"
                 :encounter-instance="encounterInstance"
                 :action="a"
                 @activate="handleActivation($event)"
-                @reset="handleRefund($event)">
+                @reset="handleRefund($event)"
+              >
                 <template #icon>
-                  <v-tooltip location="top"
-                    :text="$t('active.tooltips.equipmentAction')">
+                  <cc-tooltip
+                    location="top"
+                    :text="$t('active.tooltips.equipmentAction')"
+                  >
                     <template #activator="{ props }">
-                      <v-icon v-bind="props"
-                        icon="cc:system" />
+                      <v-icon
+                        v-bind="props"
+                        icon="cc:system"
+                      />
                     </template>
-                  </v-tooltip>
+                  </cc-tooltip>
                 </template>
               </cc-combat-action-chip>
 
@@ -101,14 +143,20 @@
                 <div class="text-cc-overline text-disabled">
                   //{{ $t('ui.card.profileDeployables') }}
                 </div>
-                <v-row no-gutters
-                  justify="center">
-                  <v-col v-for="(d, i) in item.Profiles[item.ProfileIndex].Deployables"
+                <v-row
+                  no-gutters
+                  justify="center"
+                >
+                  <v-col
+                    v-for="(d, i) in item.Profiles[item.ProfileIndex].Deployables"
                     :key="'profie_' + i"
-                    cols="auto">
-                    <cc-deployable-info :deployable="d"
+                    cols="auto"
+                  >
+                    <cc-deployable-info
+                      :deployable="d"
                       :name-override="item.Name"
-                      class="ma-2" />
+                      class="ma-2"
+                    />
                   </v-col>
                 </v-row>
               </div>
@@ -116,169 +164,201 @@
                 <div class="text-cc-overline mb-n1 text-disabled">
                   //{{ $t('ui.card.profileTags') }}
                 </div>
-                <cc-tags :tags="item.Profiles[item.ProfileIndex].Tags"
+                <cc-tags
+                  :tags="item.Profiles[item.ProfileIndex].Tags"
                   extended
-                  :bonus="mech.LimitedBonus" />
+                  :bonus="mech.LimitedBonus"
+                />
               </div>
-              <on-element v-for="action in ['attack', 'hit', 'crit', 'miss']"
+              <on-element
+                v-for="action in ['attack', 'hit', 'crit', 'miss']"
                 :key="action"
                 :profile="item.Profiles[item.ProfileIndex]"
-                :action="action" />
+                :action="action"
+              />
             </div>
             <div v-else>
-              <on-element v-for="action in ['attack', 'hit', 'crit', 'miss']"
+              <on-element
+                v-for="action in ['attack', 'hit', 'crit', 'miss']"
                 :key="action"
                 :profile="item.Profiles[0]"
-                :action="action" />
+                :action="action"
+              />
             </div>
           </div>
 
           <div v-if="mod">
-            <mech-mod-card :mod="mod"
+            <mech-mod-card
+              :mod="mod"
               :mech="mech"
-              @deploy="$emit('deploy', $event)" />
+              @deploy="$emit('deploy', $event)"
+            />
           </div>
         </div>
 
         <div v-if="item">
           <div v-if="item.Effect">
-            <p v-html-safe="item.Effect"
-              class="mb-1 px-2" />
+            <p
+              v-html-safe="item.Effect"
+              class="mb-1 px-2"
+            />
           </div>
 
-          <ActionsDeployables :item="item"
+          <ActionsDeployables
+            :item="item"
             :actor="mech"
             action-icon="cc:weapon"
-            @deploy="$emit('deploy', $event)" />
+            @deploy="$emit('deploy', $event)"
+          />
 
-          <v-row dense
-            align="center">
+          <v-row
+            dense
+            align="center"
+          >
             <v-col cols="auto">
-              <cc-tags v-if="item.Tags"
+              <cc-tags
+                v-if="item.Tags"
                 :tags="item.Tags"
                 color="pilot"
-                :bonus="mech.LimitedBonus" />
+                :bonus="mech.LimitedBonus"
+              />
             </v-col>
 
-            <v-col v-for="p in item.Profiles"
+            <v-col
+              v-for="p in item.Profiles"
               v-show="item.Profiles.length > 1"
               :key="p.ID"
               class="mr-4"
-              cols="auto">
+              cols="auto"
+            >
               <div v-if="p.Tags.length">
-                <div class="text-cc-overline"
-                  v-text="p.Name" />
-                <cc-tags v-if="p.Tags"
+                <div
+                  class="text-cc-overline"
+                  v-text="p.Name"
+                />
+                <cc-tags
+                  v-if="p.Tags"
                   :tags="p.Tags"
                   color="pilot"
                   :bonus="mech.LimitedBonus"
-                  combat />
+                  combat
+                />
               </div>
             </v-col>
 
             <v-col cols="auto">
-              <cc-tags v-if="item.Mod"
+              <cc-tags
+                v-if="item.Mod"
                 :tags="item.Mod.AddedTags"
                 color="mod"
                 :bonus="mech.LimitedBonus"
-                combat />
+                combat
+              />
             </v-col>
-            <v-col cols="auto"
-              class="ml-auto mr-4">
-              <cc-bonus :bonuses="item.Bonuses"
-                chip />
+            <v-col
+              cols="auto"
+              class="ml-auto mr-4"
+            >
+              <cc-bonus
+                :bonuses="item.Bonuses"
+                chip
+              />
               <cc-bonus :bonuses="externalItemBonuses(mech, item)" />
-              <cc-synergy-display :item="item"
+              <cc-synergy-display
+                :item="item"
                 :location="synergyLocation"
                 :mech="mech"
-                large />
+                large
+              />
             </v-col>
           </v-row>
         </div>
       </v-card-text>
     </div>
-    <equip-command-panel :controller="mech.CombatController"
-      :item="item" />
+    <equip-command-panel
+      :controller="mech.CombatController"
+      :item="item"
+    />
   </v-card>
 </template>
 
 <script setup lang="ts">
-import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-import { useEncounterContext } from '../../encounterContext'
-import type { CombatantData } from '@/classes/encounter/Encounter'
-import { computed } from 'vue'
-import { useDisplay } from 'vuetify'
-import { Damage } from '@/classes/Damage'
-import { ItemType } from '@/classes/enums'
-import { Mech } from '@/classes/mech/Mech'
-import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
-import DestroyedOverlay from './_DestroyedOverlay.vue'
-import FlavorDescription from './_FlavorDescription.vue'
-import EquipCommandPanel from './_equipCommandPanel.vue'
-import OnElement from '@/ui/components/cards/items/_components/OnElement.vue'
-import EngWeaponSettings from '@/features/pilot_management/_components/loadout/mech_loadout/components/mount/weapon/_EngWeaponSettings.vue'
-import MechModCard from './_mechModCard.vue'
-import ActionsDeployables from './_ActionsDeployables.vue'
-import { externalItemBonuses } from '@/composables/useExternalItemBonuses'
-import { Range } from '@/classes/Range'
+  import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+  import { useEncounterContext } from '../../encounterContext'
+  import type { CombatantData } from '@/classes/encounter/Encounter'
+  import { computed } from 'vue'
+  import { useDisplay } from 'vuetify'
+  import { Damage } from '@/classes/Damage'
+  import { ItemType } from '@/classes/enums'
+  import { Mech } from '@/classes/mech/Mech'
+  import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
+  import DestroyedOverlay from './_DestroyedOverlay.vue'
+  import FlavorDescription from './_FlavorDescription.vue'
+  import EquipCommandPanel from './_equipCommandPanel.vue'
+  import OnElement from '@/ui/components/cards/items/_components/OnElement.vue'
+  import EngWeaponSettings from '@/features/pilot_management/_components/loadout/mech_loadout/components/mount/weapon/_EngWeaponSettings.vue'
+  import MechModCard from './_mechModCard.vue'
+  import ActionsDeployables from './_ActionsDeployables.vue'
+  import { externalItemBonuses } from '@/composables/useExternalItemBonuses'
+  import { Range } from '@/classes/Range'
 
-defineOptions({ name: 'MechWeaponCombatCard' })
+  defineOptions({ name: 'MechWeaponCombatCard' })
 
-const { owner, encounterInstance } = useEncounterContext()
+  const { owner, encounterInstance } = useEncounterContext()
 
-const props = withDefaults(
-  defineProps<{
-    item: MechWeapon
-    mech: Mech
-    readonly?: boolean
-  }>(),
-  {
-    readonly: false,
+  const props = withDefaults(
+    defineProps<{
+      item: MechWeapon
+      mech: Mech
+      readonly?: boolean
+    }>(),
+    {
+      readonly: false,
+    }
+  )
+
+  defineEmits<{
+    deploy: [value: any]
+  }>()
+
+  const { smAndDown: mobile } = useDisplay()
+
+  const EquipmentDestroyedOverlay = DestroyedOverlay
+  const EquipmentFlavorDescription = FlavorDescription
+
+  const synergyLocation = computed(() => {
+    if (!props.item) return 'none'
+    if (props.item.IsIntegrated) return 'integrated'
+    return props.item.ItemType === ItemType.MechWeapon ? 'weapon' : 'system'
+  })
+  const isEngineerWeapon = computed(() => {
+    return props.item && props.item.ID.includes('mw_prototype_')
+  })
+  const mod = computed(() => {
+    return props.item.Mod
+  })
+  const getRange = computed(() => {
+    return Range.CalculateRange(props.item as MechWeapon, props.mech as Mech)
+  })
+  const getDamage = computed(() => {
+    return Damage.CalculateDamage(props.item as MechWeapon, props.mech as Mech)
+  })
+
+  function handleActivation(cost: number) {
+    if (cost && props.item.MaxUses) {
+      props.item.Uses = (props.item.Uses || 0) + cost
+    }
   }
-)
-
-defineEmits<{
-  deploy: [value: any]
-}>()
-
-const { smAndDown: mobile } = useDisplay()
-
-const EquipmentDestroyedOverlay = DestroyedOverlay
-const EquipmentFlavorDescription = FlavorDescription
-
-const synergyLocation = computed(() => {
-  if (!props.item) return 'none'
-  if (props.item.IsIntegrated) return 'integrated'
-  return props.item.ItemType === ItemType.MechWeapon ? 'weapon' : 'system'
-})
-const isEngineerWeapon = computed(() => {
-  return props.item && props.item.ID.includes('mw_prototype_')
-})
-const mod = computed(() => {
-  return props.item.Mod
-})
-const getRange = computed(() => {
-  return Range.CalculateRange(props.item as MechWeapon, props.mech as Mech)
-})
-const getDamage = computed(() => {
-  return Damage.CalculateDamage(props.item as MechWeapon, props.mech as Mech)
-})
-
-function handleActivation(cost: number) {
-  if (cost && props.item.MaxUses) {
-    props.item.Uses = (props.item.Uses || 0) + cost
+  function handleRefund(cost: number) {
+    if (cost && props.item.MaxUses) {
+      props.item.Uses = (props.item.Uses || 0) - cost
+    }
+    if (props.item.Uses < 0) props.item.Uses = 0
   }
-}
-function handleRefund(cost: number) {
-  if (cost && props.item.MaxUses) {
-    props.item.Uses = (props.item.Uses || 0) - cost
-  }
-  if (props.item.Uses < 0) props.item.Uses = 0
-}
 </script>
 
 <style scoped>
-.line-short {
-  line-height: 0;
-}
+  .line-short {
+    line-height: 0;
+  }
 </style>

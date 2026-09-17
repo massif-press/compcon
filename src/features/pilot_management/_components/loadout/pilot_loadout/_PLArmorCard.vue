@@ -1,86 +1,107 @@
 <template>
-  <pl-card-base ref="base"
+  <pl-card-base
+    ref="base"
     :title="$t('common.pilotArmor')"
     :extended="extended"
     :item="item"
     :readonly="readonly"
     @remove="$emit('remove', item)"
-    @save="$emit('save')">
-    <div v-if="item"
+    @save="$emit('save')"
+  >
+    <div
+      v-if="item"
       style="cursor: pointer !important"
-      @click="($refs as any).base.openDetail()">
-
-      <v-card-text v-if="item.Effect"
-        class="mt-1">
+      @click="($refs as any).base.openDetail()"
+    >
+      <v-card-text
+        v-if="item.Effect"
+        class="mt-1"
+      >
         <div v-html-safe="item.Effect" />
       </v-card-text>
 
-      <v-row align="center"
+      <v-row
+        align="center"
         justify="space-around"
-        class="mb-1">
+        class="mb-1"
+      >
         <v-col class="my-auto">
-          <v-tooltip :text="$t('common.armorBonus')">
+          <cc-tooltip :text="$t('common.armorBonus')">
             <template #activator="{ props }">
-              <v-icon v-bind="props"
+              <v-icon
+                v-bind="props"
                 size="large"
-                icon="mdi-shield-outline" />
+                icon="mdi-shield-outline"
+              />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
           <span class="stat-text">{{ item.Armor(pilot) }}</span>
         </v-col>
         <v-col class="my-auto">
-          <v-tooltip :text="$t('common.hpBonus')">
+          <cc-tooltip :text="$t('common.hpBonus')">
             <template #activator="{ props }">
-              <v-icon v-bind="props"
+              <v-icon
+                v-bind="props"
                 size="large"
-                icon="mdi-heart" />
+                icon="mdi-heart"
+              />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
           <span class="stat-text">+{{ item.HPBonus(pilot) }}</span>
         </v-col>
         <v-col class="my-auto">
-          <v-tooltip :text="$t('common.electronicDefense')">
+          <cc-tooltip :text="$t('common.electronicDefense')">
             <template #activator="{ props }">
-              <v-icon v-bind="props"
+              <v-icon
+                v-bind="props"
                 size="large"
-                icon="cc:edef" />
+                icon="cc:edef"
+              />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
           <span class="stat-text">{{ item.EDefense(pilot) }}</span>
         </v-col>
         <v-col class="my-auto">
-          <v-tooltip :text="$t('stats.evasion')">
+          <cc-tooltip :text="$t('stats.evasion')">
             <template #activator="{ props }">
-              <v-icon v-bind="props"
+              <v-icon
+                v-bind="props"
                 size="large"
-                icon="cc:evasion" />
+                icon="cc:evasion"
+              />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
           <span class="stat-text">{{ item.Evasion(pilot) }}</span>
         </v-col>
         <v-col class="my-auto">
-          <v-tooltip :text="$t('stats.speed')">
+          <cc-tooltip :text="$t('stats.speed')">
             <template #activator="{ props }">
-              <v-icon v-bind="props"
+              <v-icon
+                v-bind="props"
                 size="large"
-                icon="mdi-arrow-right-bold-hexagon-outline" />
+                icon="mdi-arrow-right-bold-hexagon-outline"
+              />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
           <span class="stat-text">{{ item.Speed(pilot) }}</span>
         </v-col>
       </v-row>
     </div>
 
     <template #selector>
-      <cc-compendium-browser :items="armor"
+      <cc-compendium-browser
+        :items="armor"
         item-type="PilotArmor"
         :options="options"
         view-key="sel-pl-armor"
         equippable
         :table-headers="headers"
-        @equip="equip($event)">
+        @equip="equip($event)"
+      >
         <template #header>
-          <div class="heading h4 text-center text-accent">{{ $t('pm.loadout.selectPilotArmor') }}</div>
+          <div class="heading h4 text-center text-accent">
+            {{ $t('pm.loadout.selectPilotArmor') }}
+          </div>
         </template>
 
         <template #top>
@@ -96,8 +117,10 @@
               <cc-slashes />
               {{ item.Name }}
             </div>
-            <div class="flavor-text overline"
-              style="display: block">
+            <div
+              class="flavor-text overline"
+              style="display: block"
+            >
               {{ $t('pm.loadout.currentlyEQUIPPED') }}
             </div>
           </div>
@@ -106,12 +129,16 @@
               {{ $t('pm.loadout.gmsARMORYEQUIPMENTAUTHORIZATIONPILOTPERSONAL') }}
             </span>
             <br />
-            <span class="heading h1 text-disabled text--lighten-1"
-              style="line-height: 35px">
+            <span
+              class="heading h1 text-disabled text--lighten-1"
+              style="line-height: 35px"
+            >
               {{ $t('ui.widget.noSelection') }}
             </span>
-            <span class="flavor-text text-cc-overline text-error"
-              style="display: block">
+            <span
+              class="flavor-text text-cc-overline text-error"
+              style="display: block"
+            >
               {{ $t('pm.loadout.materielIDINVALIDORMISSING') }}
             </span>
           </div>
@@ -122,74 +149,81 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
-import type { Pilot } from '@/classes/pilot/Pilot'
-import { computed, ref } from 'vue'
-import PlCardBase from './_PLCardBase.vue'
-import { PilotArmor } from '@/classes/pilot/components/Loadout/equipment/PilotArmor'
-import { CompendiumItem } from '@/classes/CompendiumItem'
-import { ItemType } from '@/classes/enums'
-import { PilotEquipment } from '@/classes/pilot/components/Loadout/equipment/PilotEquipment'
-import { usePLCard } from './usePLCard'
-import { notify } from '@kyvg/vue3-notification'
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
+  import type { Pilot } from '@/classes/pilot/Pilot'
+  import { computed, ref } from 'vue'
+  import PlCardBase from './_PLCardBase.vue'
+  import { PilotArmor } from '@/classes/pilot/components/Loadout/equipment/PilotArmor'
+  import { CompendiumItem } from '@/classes/CompendiumItem'
+  import { ItemType } from '@/classes/enums'
+  import { PilotEquipment } from '@/classes/pilot/components/Loadout/equipment/PilotEquipment'
+  import { usePLCard } from './usePLCard'
+  import { notify } from '@kyvg/vue3-notification'
 
-const props = withDefaults(defineProps<{
-  item?: PilotArmor | null
-  extended?: boolean
-  readonly?: boolean
-  pilot: Pilot
-}>(), {
-  item: null,
-})
+  const props = withDefaults(
+    defineProps<{
+      item?: PilotArmor | null
+      extended?: boolean
+      readonly?: boolean
+      pilot: Pilot
+    }>(),
+    {
+      item: null,
+    }
+  )
 
-const emit = defineEmits<{ equip: [item: any]; remove: [item: any]; save: [] }>()
+  const emit = defineEmits<{ equip: [item: any]; remove: [item: any]; save: [] }>()
 
-const { allGear, fID } = usePLCard(props)
+  const { allGear, fID } = usePLCard(props)
 
-const base = ref<InstanceType<typeof PlCardBase> | null>(null)
+  const base = ref<InstanceType<typeof PlCardBase> | null>(null)
 
-const headers = ref([
-  { title: t('pm.titles.contentPack'), key: 'LcpName' },
-  { title: t('common.type'), key: 'Type' },
-  { title: t('common.item'), key: 'Name' },
-  { title: t('stats.armor'), key: 'ArmorString' },
-  { title: t('common.hpBonus'), key: 'HpString' },
-  { title: t('pm.titles.eDefense'), key: 'EdefString' },
-  { title: t('stats.evasion'), key: 'EvasionString' },
-  { title: t('stats.speed'), key: 'SpeedString' },
-  { title: t('pm.titles.tags'), align: 'center', key: 'Tags' },
-])
+  const headers = ref([
+    { title: t('pm.titles.contentPack'), key: 'LcpName' },
+    { title: t('common.type'), key: 'Type' },
+    { title: t('common.item'), key: 'Name' },
+    { title: t('stats.armor'), key: 'ArmorString' },
+    { title: t('common.hpBonus'), key: 'HpString' },
+    { title: t('pm.titles.eDefense'), key: 'EdefString' },
+    { title: t('stats.evasion'), key: 'EvasionString' },
+    { title: t('stats.speed'), key: 'SpeedString' },
+    { title: t('pm.titles.tags'), align: 'center', key: 'Tags' },
+  ])
 
-const options = ref({
-  views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
-  initialView: 'single',
-  groups: ['lcp', 'type', 'none'],
-  initialGroup: 'type',
-  noSource: true,
-  showExotics: true,
-})
-
-const exotics = computed((): PilotArmor[] =>
-  (props.pilot as any).SpecialEquipment.filter((x: any) => x.ItemType === 'PilotArmor')
-)
-
-const armor = computed((): PilotArmor[] => {
-  let result = allGear.value.filter(
-    (x: PilotEquipment) => x.ItemType === ItemType.PilotArmor && !x.IsHidden && !(x as any).IsExotic
-  ) as PilotArmor[]
-  if (exotics.value.length) result = result.concat(exotics.value)
-  return result
-})
-
-function equip(item: PilotArmor) {
-  emit('equip', CompendiumItem.Clone(item))
-  emit('save')
-  ;(base.value as any)?.closeSelector()
-  notify({
-    title: t('pm.loadout.armorEquippedTitle'),
-    text: t('pm.loadout.equippedText', { itemName: item.Name, pilotName: (props.pilot as any).Name }),
-    data: { icon: 'cc:pilot' },
+  const options = ref({
+    views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
+    initialView: 'single',
+    groups: ['lcp', 'type', 'none'],
+    initialGroup: 'type',
+    noSource: true,
+    showExotics: true,
   })
-}
+
+  const exotics = computed((): PilotArmor[] =>
+    (props.pilot as any).SpecialEquipment.filter((x: any) => x.ItemType === 'PilotArmor')
+  )
+
+  const armor = computed((): PilotArmor[] => {
+    let result = allGear.value.filter(
+      (x: PilotEquipment) =>
+        x.ItemType === ItemType.PilotArmor && !x.IsHidden && !(x as any).IsExotic
+    ) as PilotArmor[]
+    if (exotics.value.length) result = result.concat(exotics.value)
+    return result
+  })
+
+  function equip(item: PilotArmor) {
+    emit('equip', CompendiumItem.Clone(item))
+    emit('save')
+    ;(base.value as any)?.closeSelector()
+    notify({
+      title: t('pm.loadout.armorEquippedTitle'),
+      text: t('pm.loadout.equippedText', {
+        itemName: item.Name,
+        pilotName: (props.pilot as any).Name,
+      }),
+      data: { icon: 'cc:pilot' },
+    })
+  }
 </script>

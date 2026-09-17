@@ -4,7 +4,7 @@
     :key="r.Type"
     class="text-center d-inline-block mr-4"
   >
-    <v-tooltip max-width="600">
+    <cc-tooltip max-width="600">
       <template #activator="{ props }">
         <span
           v-if="small"
@@ -47,7 +47,7 @@
         <br />
         <div>{{ glossDescription(r) }}</div>
       </div>
-    </v-tooltip>
+    </cc-tooltip>
     <div
       v-if="!small"
       class="text-cc-overline mt-n1"

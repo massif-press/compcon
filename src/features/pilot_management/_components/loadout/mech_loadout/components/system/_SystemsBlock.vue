@@ -15,7 +15,7 @@
         class="heading h3 d-flex align-center"
       >
         {{ $t('stats.systems') }}
-        <v-tooltip
+        <cc-tooltip
           v-if="!readonly && activeSystems.length > 1"
           location="top"
         >
@@ -41,7 +41,7 @@
           <span>
             {{ reorderMode ? $t('gm.npcFeatures.saveConfig') : $t('pm.loadout.reorderSystems') }}
           </span>
-        </v-tooltip>
+        </cc-tooltip>
       </legend>
       <div style="position: relative">
         <div class="side-legend">

@@ -81,7 +81,7 @@
             variant="text"
             v-bind="props"
           >
-            <v-tooltip
+            <cc-tooltip
               max-width="300px"
               location="top"
             >
@@ -94,7 +94,7 @@
                 </v-icon>
               </template>
               <div class="text-center">{{ $t('mainMenu.ui.viewImage') }}</div>
-            </v-tooltip>
+            </cc-tooltip>
           </v-btn>
         </template>
         <template #default="{ isActive }">
@@ -112,7 +112,7 @@
         </template>
       </v-dialog>
 
-      <v-tooltip
+      <cc-tooltip
         max-width="300px"
         location="top"
       >
@@ -129,9 +129,9 @@
           </v-btn>
         </template>
         <div class="text-center">{{ $t('mainMenu.ui.downloadCopy') }}</div>
-      </v-tooltip>
+      </cc-tooltip>
 
-      <v-tooltip
+      <cc-tooltip
         max-width="300px"
         location="top"
       >
@@ -154,7 +154,7 @@
             {{ $t('mainMenu.ui.imageDeleteWarning') }}
           </i>
         </div>
-      </v-tooltip>
+      </cc-tooltip>
     </template>
   </v-data-table>
 </template>

@@ -70,7 +70,7 @@
               <dice-roll-interface :roll-data="d.BonusDamageEvent!" />
             </template>
             <template #append>
-              <v-tooltip
+              <cc-tooltip
                 v-if="aoe"
                 location="top"
                 max-width="250"
@@ -84,7 +84,7 @@
                   />
                 </template>
                 <div class="text-center">{{ $t('ui.combat.bonusDamageHalved') }}</div>
-              </v-tooltip>
+              </cc-tooltip>
             </template>
           </v-text-field>
         </div>

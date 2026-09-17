@@ -6,7 +6,7 @@
     <v-col>
       <div class="d-flex align-center">
         {{ $t('common.features') }}
-        <v-tooltip
+        <cc-tooltip
           v-if="!readonly && npc.NpcClassController?.HasClass && allFeatures.length > 1"
           location="top"
         >
@@ -32,7 +32,7 @@
           <span>
             {{ reorderMode ? $t('gm.npcFeatures.saveConfig') : $t('gm.npcFeatures.reorder') }}
           </span>
-        </v-tooltip>
+        </cc-tooltip>
       </div>
     </v-col>
     <v-col

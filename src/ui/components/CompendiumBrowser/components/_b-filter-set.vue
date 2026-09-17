@@ -1,52 +1,70 @@
 <template>
-  <v-btn-toggle divided
+  <v-btn-toggle
+    divided
     variant="plain"
     border
     density="compact"
     tile
-    style="width: 100%; height: 30px">
-    <v-menu offset-y
+    style="width: 100%; height: 30px"
+  >
+    <v-menu
+      offset-y
       :close-on-content-click="false"
-      max-width="500px">
+      max-width="500px"
+    >
       <template #activator="{ props }">
-        <v-btn v-bind="props"
+        <v-btn
+          v-bind="props"
           size="small"
-          :style="lcpConfigs.length ? 'flex: 1; border-right: none !important' : 'flex: 1'">
-          <v-tooltip :text="$t('common.contentPacks')"
-            location="top">
+          :style="lcpConfigs.length ? 'flex: 1; border-right: none !important' : 'flex: 1'"
+        >
+          <cc-tooltip
+            :text="$t('common.contentPacks')"
+            location="top"
+          >
             <template #activator="{ props }">
               <span v-bind="props">
-                <v-icon size="x-large"
+                <v-icon
+                  size="x-large"
                   icon="cc:content_manager"
-                  start />
+                  start
+                />
                 <v-chip size="x-small">
                   <b>{{ lcpFilter.length }}</b>
                 </v-chip>
               </span>
             </template>
-          </v-tooltip>
+          </cc-tooltip>
         </v-btn>
       </template>
       <v-card>
         <v-card-text>
           <v-list>
-            <v-list-item tile
-              :title="$t('common.selectAll')">
+            <v-list-item
+              tile
+              :title="$t('common.selectAll')"
+            >
               <template #prepend>
-                <v-checkbox-btn :model-value="lcpFilter.length === lcps.length"
+                <v-checkbox-btn
+                  :model-value="lcpFilter.length === lcps.length"
                   :indeterminate="lcpFilter.length > 0 && lcpFilter.length < lcps.length"
-                  @click="$emit('set-all')" />
+                  @click="$emit('set-all')"
+                />
               </template>
             </v-list-item>
             <v-divider />
-            <v-list-item v-for="lcp in lcps"
+            <v-list-item
+              v-for="lcp in lcps"
               :key="`lcp-${lcp}`"
               tile
-              :title="<any>lcp">
+              :title="<any>lcp"
+            >
               <template #prepend>
-                <v-checkbox-btn :value="lcp"
+                <v-checkbox-btn
+                  :value="lcp"
                   :model-value="modelValue"
-                  @update:model-value="$emit('update:modelValue', $event)" />
+                  @update:model-value="$emit('update:modelValue', $event)"
+                />
               </template>
             </v-list-item>
           </v-list>
@@ -54,35 +72,47 @@
       </v-card>
     </v-menu>
 
-    <v-menu v-if="lcpConfigs.length"
+    <v-menu
+      v-if="lcpConfigs.length"
       :close-on-content-click="true"
-      location="bottom end">
+      location="bottom end"
+    >
       <template #activator="{ props }">
-        <v-btn v-bind="props"
+        <v-btn
+          v-bind="props"
           size="small"
           icon
-          style="border-left: none !important">
-          <v-tooltip :text="$t('ui.filter.savedConfigs')"
-            location="top">
+          style="border-left: none !important"
+        >
+          <cc-tooltip
+            :text="$t('ui.filter.savedConfigs')"
+            location="top"
+          >
             <template #activator="{ props }">
-              <v-icon v-bind="props"
+              <v-icon
+                v-bind="props"
                 icon="mdi-list-status"
-                size="small" />
+                size="small"
+              />
             </template>
-          </v-tooltip>
+          </cc-tooltip>
         </v-btn>
       </template>
       <v-card min-width="200px">
         <v-list density="compact">
           <v-list-subheader>{{ $t('ui.filter.savedConfigs') }}</v-list-subheader>
           <v-divider />
-          <v-list-item v-for="config in lcpConfigs"
+          <v-list-item
+            v-for="config in lcpConfigs"
             :key="config.id"
             :title="config.name"
-            @click="applyLcpConfig(config)">
+            @click="applyLcpConfig(config)"
+          >
             <template #append>
-              <v-chip size="x-small"
-                class="ml-2">
+              <v-chip
+                size="x-small"
+                class="ml-2"
+              >
                 {{ configMatchCount(config) }}
               </v-chip>
             </template>
@@ -91,34 +121,44 @@
       </v-card>
     </v-menu>
 
-    <v-menu offset-y
+    <v-menu
+      offset-y
       :close-on-content-click="false"
-      width="500px">
+      width="500px"
+    >
       <template #activator="{ props }">
-        <v-btn v-bind="props"
+        <v-btn
+          v-bind="props"
           size="small"
-          style="flex: 1">
-          <v-tooltip :text="$t('ui.tooltips.itemFilters')"
-            location="top">
+          style="flex: 1"
+        >
+          <cc-tooltip
+            :text="$t('ui.tooltips.itemFilters')"
+            location="top"
+          >
             <template #activator="{ props }">
               <span v-bind="props">
-                <v-icon size="large"
+                <v-icon
+                  size="large"
                   icon="mdi-filter"
-                  start />
+                  start
+                />
                 <v-chip size="x-small">
                   <b>{{ otherFilterCount }}</b>
                 </v-chip>
               </span>
             </template>
-          </v-tooltip>
+          </cc-tooltip>
         </v-btn>
       </template>
       <v-card>
         <v-card-text>
-          <CCItemFilter ref="itemFilter"
+          <CCItemFilter
+            ref="itemFilter"
             :item-type="itemType"
             :active-filters="otherFilter"
-            @set-filters="setFilters($event)" />
+            @set-filters="setFilters($event)"
+          />
         </v-card-text>
         <v-divider />
         <v-card-actions>
@@ -131,57 +171,63 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import CCItemFilter from '../../panels/filters/CCItemFilter.vue'
-import { DEFAULT_LCP_NAME } from '@/classes/LcpItemMixin'
+  import { computed, ref } from 'vue'
+  import CCItemFilter from '../../panels/filters/CCItemFilter.vue'
+  import { DEFAULT_LCP_NAME } from '@/classes/LcpItemMixin'
 
-defineOptions({ name: 'BrowserViewToggle' })
+  defineOptions({ name: 'BrowserViewToggle' })
 
-const props = withDefaults(defineProps<{
-  modelValue: any[]
-  lcps: any[]
-  itemType: string
-  lcpFilter: any[]
-  otherFilter: Record<string, any>
-  lcpConfigs?: any[]
-}>(), {
-  lcpConfigs: () => []
-})
-
-const emit = defineEmits<{
-  'update:modelValue': [payload: any]
-  'set-all': []
-  'set-filters': [payload: any]
-}>()
-
-const itemFilter = ref<any>(null)
-
-const otherFilterCount = computed(() => {
-      let count = 0;
-      for (const filter of Object.keys(props.otherFilter)) {
-        count += Object.keys(props.otherFilter[filter]).length;
-      }
-      return count;
-    })
-
-function applyLcpConfig(config: any) {
-      const allowed = new Set(
-        config.packList.filter((p: any) => p.allowed).map((p: any) => p.packName)
-      );
-      allowed.add(DEFAULT_LCP_NAME);
-      emit('update:modelValue', (props.lcps as string[]).filter(lcp => allowed.has(lcp)));
+  const props = withDefaults(
+    defineProps<{
+      modelValue: any[]
+      lcps: any[]
+      itemType: string
+      lcpFilter: any[]
+      otherFilter: Record<string, any>
+      lcpConfigs?: any[]
+    }>(),
+    {
+      lcpConfigs: () => [],
     }
-function configMatchCount(config: any) {
-      const allowed = new Set(
-        config.packList.filter((p: any) => p.allowed).map((p: any) => p.packName)
-      );
-      return (props.lcps as string[]).filter(lcp => allowed.has(lcp)).length;
+  )
+
+  const emit = defineEmits<{
+    'update:modelValue': [payload: any]
+    'set-all': []
+    'set-filters': [payload: any]
+  }>()
+
+  const itemFilter = ref<any>(null)
+
+  const otherFilterCount = computed(() => {
+    let count = 0
+    for (const filter of Object.keys(props.otherFilter)) {
+      count += Object.keys(props.otherFilter[filter]).length
     }
-function setFilters(filters: any) {
-      emit('set-filters', filters);
-    }
-function clearFilters() {
-      (itemFilter.value as any).clear();
-      emit('set-filters', {});
-    }
+    return count
+  })
+
+  function applyLcpConfig(config: any) {
+    const allowed = new Set(
+      config.packList.filter((p: any) => p.allowed).map((p: any) => p.packName)
+    )
+    allowed.add(DEFAULT_LCP_NAME)
+    emit(
+      'update:modelValue',
+      (props.lcps as string[]).filter(lcp => allowed.has(lcp))
+    )
+  }
+  function configMatchCount(config: any) {
+    const allowed = new Set(
+      config.packList.filter((p: any) => p.allowed).map((p: any) => p.packName)
+    )
+    return (props.lcps as string[]).filter(lcp => allowed.has(lcp)).length
+  }
+  function setFilters(filters: any) {
+    emit('set-filters', filters)
+  }
+  function clearFilters() {
+    ;(itemFilter.value as any).clear()
+    emit('set-filters', {})
+  }
 </script>

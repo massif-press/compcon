@@ -85,10 +85,7 @@
           }}
         </div>
         <div class="text-center my-1">
-          <v-tooltip
-            location="top"
-            open-delay="300"
-          >
+          <cc-tooltip location="top">
             <template #activator="{ props }">
               <v-icon
                 v-bind="props"
@@ -98,13 +95,10 @@
               />
             </template>
             <span>{{ $t('compendium.campaign.recommendedPlayers') }}</span>
-          </v-tooltip>
+          </cc-tooltip>
           {{ campaigns[slide].players[0] }} - {{ campaigns[slide].players[1] }}
           <cc-slashes class="mx-4" />
-          <v-tooltip
-            location="top"
-            open-delay="300"
-          >
+          <cc-tooltip location="top">
             <template #activator="{ props }">
               <v-icon
                 v-bind="props"
@@ -114,7 +108,7 @@
               />
             </template>
             <span>{{ $t('compendium.campaign.recommendedLicenseLevel') }}</span>
-          </v-tooltip>
+          </cc-tooltip>
           {{ campaigns[slide].ll[0] }} - {{ campaigns[slide].ll[1] }}
         </div>
         <v-row align="center">
@@ -131,10 +125,7 @@
             </v-card>
           </v-col>
           <v-col cols="auto">
-            <v-tooltip
-              location="top"
-              open-delay="300"
-            >
+            <cc-tooltip location="top">
               <template #activator="{ props }">
                 <v-btn
                   v-bind="props"
@@ -149,7 +140,7 @@
               <span>
                 {{ $t('compendium.campaign.campaignWebsite', { url: campaigns[slide].website }) }}
               </span>
-            </v-tooltip>
+            </cc-tooltip>
           </v-col>
         </v-row>
         <div class="text-right mt-2">

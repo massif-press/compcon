@@ -1,6 +1,8 @@
 <template>
-  <v-card v-if="latest"
-    variant="tonal">
+  <v-card
+    v-if="latest"
+    variant="tonal"
+  >
     <div class="text-overline ml-2">{{ $t('gm.campaign.latestVersion') }}</div>
     <v-toolbar density="compact">
       <v-toolbar-title>
@@ -18,47 +20,59 @@
     <v-divider />
     <v-card-actions>
       <v-spacer />
-      <v-tooltip location="top"
-        max-width="300px">
+      <cc-tooltip
+        location="top"
+        max-width="300px"
+      >
         <template #activator="{ props }">
-          <v-btn v-bind="props"
+          <v-btn
+            v-bind="props"
             color="primary"
             size="small"
             variant="elevated"
             prepend-icon="mdi-upload"
-            @click="exportLcd()">
+            @click="exportLcd()"
+          >
             {{ $t('gm.campaign.exportLcd') }}
           </v-btn>
         </template>
         <span>{{ $t('gm.campaign.exportLcdHelp') }}</span>
-      </v-tooltip>
+      </cc-tooltip>
 
       <v-spacer />
-      <v-tooltip location="top"
-        max-width="300px">
+      <cc-tooltip
+        location="top"
+        max-width="300px"
+      >
         <template #activator="{ props }">
-          <v-btn v-bind="props"
+          <v-btn
+            v-bind="props"
             size="small"
             color="primary"
             variant="elevated"
             prepend-icon="mdi-content-save"
-            @click="saveLocalCollection()">
+            @click="saveLocalCollection()"
+          >
             {{ $t('gm.campaign.saveLocal') }}
           </v-btn>
         </template>
         <span>{{ $t('gm.campaign.saveLocalHelp') }}</span>
-      </v-tooltip>
+      </cc-tooltip>
       <v-spacer />
       <div v-if="shareCode">
-        <v-tooltip max-width="300px"
-          location="top">
+        <cc-tooltip
+          max-width="300px"
+          location="top"
+        >
           <template #activator="{ props }">
-            <v-btn v-bind="props"
+            <v-btn
+              v-bind="props"
               size="small"
               color="primary"
               variant="elevated"
               prepend-icon="mdi-code-block-brackets"
-              @click="copyShareCode">
+              @click="copyShareCode"
+            >
               {{ $t('common.copyShareCode') }}
             </v-btn>
           </template>
@@ -69,127 +83,137 @@
             <v-divider />
             <span class="text-caption">{{ $t('gm.campaign.copyShareCodeHelp') }}</span>
           </div>
-        </v-tooltip>
+        </cc-tooltip>
       </div>
-      <v-tooltip v-else-if="isLoggedIn"
+      <cc-tooltip
+        v-else-if="isLoggedIn"
         location="top"
-        max-width="300px">
+        max-width="300px"
+      >
         <template #activator="{ props }">
-          <v-btn v-bind="props"
+          <v-btn
+            v-bind="props"
             size="small"
             color="primary"
             variant="elevated"
             prepend-icon="mdi-code-block-brackets"
             :loading="uploading"
-            @click="upload">
+            @click="upload"
+          >
             {{ $t('gm.campaign.generateShareCode') }}
           </v-btn>
         </template>
         <span>{{ $t('gm.campaign.generateShareCodeHelp') }}</span>
-      </v-tooltip>
+      </cc-tooltip>
       <v-spacer v-if="isLoggedIn" />
     </v-card-actions>
   </v-card>
 </template>
 
 <script setup lang="ts">
-import { i18n } from '@/i18n'
-const t = i18n.global.t
-import { computed, ref } from 'vue'
-import { notify } from '@/util/notify'
-import { Campaign } from '@/classes/campaign/Campaign';
-import JSZip from 'jszip';
-import { CampaignStore } from '../../store/campaign_store';
-import { UserStore } from '@/stores';
+  import { i18n } from '@/i18n'
+  const t = i18n.global.t
+  import { computed, ref } from 'vue'
+  import { notify } from '@/util/notify'
+  import { Campaign } from '@/classes/campaign/Campaign'
+  import JSZip from 'jszip'
+  import { CampaignStore } from '../../store/campaign_store'
+  import { UserStore } from '@/stores'
 
-defineOptions({ name: 'campaign-current-version-export' })
+  defineOptions({ name: 'campaign-current-version-export' })
 
-const props = defineProps<{
-  campaign: Campaign
-}>()
+  const props = defineProps<{
+    campaign: Campaign
+  }>()
 
-const dOptions = ref({ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
-const uploading = ref(false)
+  const dOptions = ref({ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+  const uploading = ref(false)
 
-const latest = computed(() => {
-      return props.campaign.VersionHistory.length
-        ? props.campaign.VersionHistory[props.campaign.VersionHistory.length - 1]
-        : null;
-    })
-const isLoggedIn = computed(() => {
-      return UserStore().IsLoggedIn;
-    })
-const shareCode = computed(() => {
-      return props.campaign.CloudController.ShareCode;
-    })
+  const latest = computed(() => {
+    return props.campaign.VersionHistory.length
+      ? props.campaign.VersionHistory[props.campaign.VersionHistory.length - 1]
+      : null
+  })
+  const isLoggedIn = computed(() => {
+    return UserStore().IsLoggedIn
+  })
+  const shareCode = computed(() => {
+    return props.campaign.CloudController.ShareCode
+  })
 
-async function exportLcd() {
-      if (!latest.value) return;
-      const filename = `${props.campaign.Name} - ${latest.value.ver}.lcd`;
-      const zip = new JSZip();
+  async function exportLcd() {
+    if (!latest.value) return
+    const filename = `${props.campaign.Name} - ${latest.value.ver}.lcd`
+    const zip = new JSZip()
 
-      zip.file('campaign_data.json', JSON.stringify(Campaign.Serialize(props.campaign as Campaign)));
+    zip.file('campaign_data.json', JSON.stringify(Campaign.Serialize(props.campaign as Campaign)))
 
-      const content = await zip.generateAsync({ type: 'blob' });
+    const content = await zip.generateAsync({ type: 'blob' })
 
-      const link = document.createElement('a');
-      link.href = window.URL.createObjectURL(content);
-      link.download = filename;
+    const link = document.createElement('a')
+    link.href = window.URL.createObjectURL(content)
+    link.download = filename
 
-      // Add the link to the DOM and trigger the download
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-async function saveLocalCollection() {
-      try {
-        await CampaignStore().AddCollectionCampaign(Campaign.Serialize(props.campaign as Campaign));
-        notify({
-          title: t('notify.gm.importCompleteTitle'),
-          text: t('notify.gm.importCompleteText'),
-          icon: 'cc:campaign', color: 'success',
-        });
-      } catch (error) {
-        notify({
-          title: t('notify.gm.importErrorTitle'),
-          text: t('notify.gm.campaignTransferErrorText', { error }),
-          icon: 'cc:campaign', color: 'error',
-        });
-      }
-    }
-async function upload() {
-      if (!isLoggedIn.value) {
-        notify({
-          title: t('notify.gm.loginRequiredTitle'),
-          text: t('notify.gm.loginRequiredText'),
-          icon: 'cc:campaign', color: 'error',
-        });
-        return;
-      }
-      try {
-        uploading.value = true;
-        await props.campaign.CloudController.UpdateCloud('campaign');
-        notify({
-          title: t('notify.gm.uploadSuccessTitle'),
-          text: t('notify.gm.uploadSuccessText'),
-          icon: 'cc:campaign', color: 'success',
-        });
-      } catch (error) {
-        notify({
-          title: t('notify.gm.uploadErrorTitle'),
-          text: t('notify.gm.uploadErrorText', { error }),
-          icon: 'cc:campaign', color: 'error',
-        });
-      } finally {
-        uploading.value = false;
-      }
-    }
-function copyShareCode() {
-      navigator.clipboard.writeText(shareCode.value);
+    // Add the link to the DOM and trigger the download
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+  async function saveLocalCollection() {
+    try {
+      await CampaignStore().AddCollectionCampaign(Campaign.Serialize(props.campaign as Campaign))
       notify({
-        title: t('notify.common.copied'),
-        text: t('notify.shareCode.copiedText'),
-        icon: 'cc:campaign', color: 'success',
-      });
+        title: t('notify.gm.importCompleteTitle'),
+        text: t('notify.gm.importCompleteText'),
+        icon: 'cc:campaign',
+        color: 'success',
+      })
+    } catch (error) {
+      notify({
+        title: t('notify.gm.importErrorTitle'),
+        text: t('notify.gm.campaignTransferErrorText', { error }),
+        icon: 'cc:campaign',
+        color: 'error',
+      })
     }
+  }
+  async function upload() {
+    if (!isLoggedIn.value) {
+      notify({
+        title: t('notify.gm.loginRequiredTitle'),
+        text: t('notify.gm.loginRequiredText'),
+        icon: 'cc:campaign',
+        color: 'error',
+      })
+      return
+    }
+    try {
+      uploading.value = true
+      await props.campaign.CloudController.UpdateCloud('campaign')
+      notify({
+        title: t('notify.gm.uploadSuccessTitle'),
+        text: t('notify.gm.uploadSuccessText'),
+        icon: 'cc:campaign',
+        color: 'success',
+      })
+    } catch (error) {
+      notify({
+        title: t('notify.gm.uploadErrorTitle'),
+        text: t('notify.gm.uploadErrorText', { error }),
+        icon: 'cc:campaign',
+        color: 'error',
+      })
+    } finally {
+      uploading.value = false
+    }
+  }
+  function copyShareCode() {
+    navigator.clipboard.writeText(shareCode.value)
+    notify({
+      title: t('notify.common.copied'),
+      text: t('notify.shareCode.copiedText'),
+      icon: 'cc:campaign',
+      color: 'success',
+    })
+  }
 </script>

@@ -86,10 +86,7 @@
         class="d-inline-block"
         :style="`width: ${100 / ticks}%;`"
       >
-        <v-tooltip
-          location="top"
-          :open-delay="400"
-        >
+        <cc-tooltip location="top">
           <template #activator="{ props }">
             <v-btn
               v-bind="props"
@@ -113,7 +110,7 @@
             <div class="text-cc-overline text-disabled">{{ label }}</div>
             {{ i }}
           </div>
-        </v-tooltip>
+        </cc-tooltip>
       </div>
     </v-col>
 

@@ -4,7 +4,7 @@
     :key="`damage-${index}`"
     class="text-center d-inline-block"
   >
-    <v-tooltip max-width="600">
+    <cc-tooltip max-width="600">
       <template #activator="{ props }">
         <span
           v-if="small"
@@ -51,7 +51,7 @@
         {{ $t('ui.widget.damage') }}
       </div>
       <div v-html-safe="gloss(d)" />
-    </v-tooltip>
+    </cc-tooltip>
     <div
       v-if="!small"
       class="text-cc-overline mt-n2"
