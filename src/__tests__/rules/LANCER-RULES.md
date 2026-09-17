@@ -3,11 +3,11 @@
 **Generated from `lancer-rules.json` by `scripts/gen-rules-table.mjs`. Do not edit.**
 Run `yarn rules:table` after adding or changing a rule. CI fails if this file is out of date.
 
-136 rules and 15 interaction rules, covered by 302 tests in `src/__tests__/rules/`.
+135 rules and 15 interaction rules, covered by 301 tests in `src/__tests__/rules/`.
 
 | File | Holds |
 |---|---|
-| `CombatController.ts` | the actor-facing surface. Most rules are represented by a function here |
+| `CombatController.ts` | the actor-bound combat engine. Most rules are represented by a function here |
 | `ActionPoolController.ts` | the action pool, activations, reactions, uses, overcharge |
 | `DamageController.ts` | damage calculation and application |
 | `StatusRules.ts` | statuses and conditions |
@@ -61,11 +61,11 @@ Run `yarn rules:table` after adding or changing a rule. CI fails if this file is
 | `T-ACTION-pilotreload-01` | pilot RELOAD is a quick action for one weapon | Pilot RELOAD is a quick action reloading one LOADING pilot weapon. | AUTO | `actions` (1) |
 | `T-ACTION-pool-01` | one standard move plus two quick actions or one full action | On its turn a character may make one standard move and take either two quick actions or one full action. | AUTO | `actions` (5) |
 | `T-ACTION-prepare-01` | PREPARE | PREPARE is a quick action that readies another quick action against a stated trigger, usable as a reaction until the start of the character's next turn. Preparing counts as taking the action and inherits all its restrictions. While holding a prepared action the character may not move or take any other action or reaction; the prepared action may be dropped, and is lost if its trigger never fires. | ASSIST | `actions`, `statuses` (2) |
-| `T-ACTION-protocol-01` | a protocol is a free action usable only at the start of a turn, once each | A protocol is a free action available only at the start of a turn, once each per turn. Every path that spends an action must close the protocol window, including paths in the UI. | AUTO | `actions` (4) |
+| `T-ACTION-protocol-01` | a protocol is a free action usable only at the start of a turn, once each | A protocol is a free action available only at the start of a turn, once each per turn. Every path that spends an action must close the protocol window. | AUTO | `actions` (4) |
 | `T-ACTION-quicktech-01` | QUICK TECH may repeat with a different option | QUICK TECH may be taken more than once per turn, but a different option must be chosen each time unless granted as a free action. | AUTO | `actions` (1) |
 | `T-ACTION-quicktech-02` | the base QUICK TECH options | The base QUICK TECH options are BOLSTER, SCAN, LOCK ON, and INVADE. BOLSTER grants +2 accuracy on the target's next check or save until the end of their next turn and does not stack. INVADE deals 2 heat on a hit and applies one invasion option; FRAGMENT SIGNAL applies IMPAIRED and SLOWED until the end of the target's next turn. | ASSIST | `actions` (1) |
 | `T-ACTION-ram-01` | RAM | RAM is a melee attack against an adjacent character of equal or smaller size. On a hit the target is knocked PRONE, and the attacker may also knock it back one space. | ASSIST | `actions` (2) |
-| `T-ACTION-reaction-01` | one reaction per turn, each reaction once per round, unlimited per round overall | Reactions obey three independent limits: one reaction per turn, each specific reaction once per round, and uses refresh at the start of the character's own turn rather than at the round boundary. | AUTO | `actions` (6) |
+| `T-ACTION-reaction-01` | one reaction per turn, each reaction once per round, unlimited per round overall | one reaction per turn, each specific reaction once per round, and uses refresh at the start of the character's own turn rather than at the round boundary. | AUTO | `actions` (6) |
 | `T-ACTION-search-01` | SEARCH | SEARCH makes a contested SYSTEMS check against a suspected HIDDEN character's AGILITY within SENSORS; on foot it is a contested skill check within RANGE 5. A found character immediately loses HIDDEN. | ASSIST | `actions` (2) |
 | `T-ACTION-selfdestruct-01` | SELF-DESTRUCT | SELF-DESTRUCT is a quick action initiating a reactor meltdown. It detonates at the end of the character's next turn, or at the end of any of its turns within the following two rounds — the pilot's choice. | ASSIST | `actions`, `actors` (3) |
 | `T-ACTION-shutdown-01` | SHUT DOWN | SHUT DOWN is a quick action applying the SHUT DOWN status. | AUTO | `actions` (1) |
@@ -141,11 +141,10 @@ Run `yarn rules:table` after adding or changing a rule. CI fails if this file is
 | `T-STRUCT-roll-01` | the structure damage check | A structure damage check rolls 1d6 per marked structure point, including the point just taken, and uses the lowest result. Two or more 1s select the catastrophic row. | AUTO | `structure` (3) |
 | `T-STRUCT-trauma-01` | System Trauma (2-4) | System Trauma (2-4) rolls 1d6: on 1-3 every weapon on one chosen mount is destroyed, on 4-6 one chosen system is destroyed. LIMITED items out of charges are not valid choices. With no valid choice the result becomes the other branch; with nothing destroyable at all it becomes a DIRECT HIT. | ASSIST | `structure` (3) |
 
-## Repair and rest (4)
+## Repair and rest (3)
 
 | Rule | Title | Statement | Class | Spec |
 |---|---|---|---|---|
-| `T-REPAIR-cap-01` | repair cap is the pool of repairs available before a full repair | REPAIR CAP is the pool of repairs available before a FULL REPAIR, derived from the frame with a bonus from HULL. | AUTO | `actions` (1) |
 | `T-REPAIR-combat-01` | in-combat repair restores all HP for 1 repair | Repairing in combat via STABILIZE restores all HP at the cost of 1 REPAIR. | AUTO | `actions` (1) |
 | `T-REPAIR-costs-01` | repair costs | 1 REPAIR restores full HP or repairs one destroyed weapon or system; 2 REPAIRS restore 1 STRUCTURE or 1 STRESS; 4 REPAIRS repair a destroyed mech, returning it to 1 STRUCTURE, 1 STRESS, and full HP. | ASSIST | `actors` (2) |
 | `T-REPAIR-rest-01` | resting and full repair | Resting clears all heat, clears every status and condition on the mech, and restores half the pilot's HP. A FULL REPAIR restores everything, including all REPAIRS, all LIMITED uses, CORE POWER, and the overcharge counter. | AUTO | `actors` (3) |

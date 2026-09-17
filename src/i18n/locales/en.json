@@ -2258,7 +2258,8 @@
       "manageData": "Manage Telemetry Data",
       "deleteTitle": "Delete Telemetry Data",
       "deleteSelected": "Delete Selected ({count})",
-      "deleteConfirm": "This will permanently delete {count} archived encounter records, including all telemetry data. This cannot be undone."
+      "deleteConfirm": "This will permanently delete {count} archived encounter records, including all telemetry data. This cannot be undone.",
+      "omitted": "{count} archived encounters contain no telemetry data and were omitted."
     },
     "charts": {
       "noData": "Data collection incomplete. Archive additional encounters.",

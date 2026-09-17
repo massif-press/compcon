@@ -59,7 +59,10 @@ class EncounterArchive implements ISaveable, ICloudSyncable {
     this.Result = data.result
     this.AfterActionReport = data.report
     this.EncounterData = data.encounter
-    this.History = data.history
+    this.History = {
+      participants: data.history?.participants ?? [],
+      events: data.history?.events ?? [],
+    }
 
     this.SaveController = new SaveController(this)
     this.CloudController = new CloudController(this)

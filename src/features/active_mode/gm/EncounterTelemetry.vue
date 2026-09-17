@@ -217,6 +217,18 @@
                 </v-expansion-panel-text>
               </v-expansion-panel>
             </v-expansion-panels>
+
+            <div
+              v-if="omitted"
+              class="text-caption text-disabled text-center mt-6"
+            >
+              <v-icon
+                size="small"
+                icon="mdi-alert-outline"
+                class="mr-1"
+              />
+              {{ $t('active.gmTelemetry.omitted', { count: omitted }) }}
+            </div>
           </v-container>
         </v-main>
       </v-layout>
@@ -286,8 +298,11 @@
     })),
   ])
 
+  const usable = computed(() => archives.value.filter(a => a.History.events.length))
+  const omitted = computed(() => archives.value.length - usable.value.length)
+
   // Stream is a builder: it re-sorts every event on each access, so map once and feed both readers
-  const streams = computed(() => archives.value.map(a => ({ archive: a, stream: a.Stream })))
+  const streams = computed(() => usable.value.map(a => ({ archive: a, stream: a.Stream })))
 
   const campaignItems = computed(() => [
     { value: '', title: t('active.gmTelemetry.allCampaigns') },

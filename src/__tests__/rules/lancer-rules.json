@@ -475,13 +475,6 @@
       "statement": "Heat clears on STABILIZE, on rest, and on a FULL REPAIR."
     },
     {
-      "id": "T-REPAIR-cap-01",
-      "title": "repair cap is the pool of repairs available before a full repair",
-      "category": "REPAIR",
-      "classification": "AUTO",
-      "statement": "REPAIR CAP is the pool of repairs available before a FULL REPAIR, derived from the frame with a bonus from HULL."
-    },
-    {
       "id": "T-REPAIR-combat-01",
       "title": "in-combat repair restores all HP for 1 repair",
       "category": "REPAIR",
