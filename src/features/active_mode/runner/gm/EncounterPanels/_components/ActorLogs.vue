@@ -138,6 +138,8 @@
   import { useI18n } from 'vue-i18n'
   import { renderStream } from '@/classes/components/combat/log/render'
   import { combatantRef } from '@/classes/components/combat/log/refs'
+  import { eventsFor } from '@/classes/components/combat/log/CombatLogRecorder'
+  import { buildStream } from '@/classes/components/combat/log/stream'
 
   const props = defineProps<{
     actor: ICombatant
@@ -151,9 +153,19 @@
 
   const stream = computed(() => {
     void props.actor.CombatController.CombatLogVersion
-    return props.actor.CombatController.CombatLog.ToStream({
-      participants: props.encounterInstance.Combatants.map(combatantRef),
-    })
+    void (props.actor as any).ActiveMech?.CombatController.CombatLogVersion
+    const recorder = props.actor.CombatController.CombatLog
+    return buildStream(
+      {
+        encounterId: recorder.EncounterId,
+        campaignId: recorder.CampaignId,
+        missionId: recorder.MissionId,
+        participants: props.encounterInstance.Combatants.map(combatantRef),
+      },
+      props.encounterInstance.Combatants.map(combatantRef),
+      eventsFor(props.actor),
+      recorder.Source
+    )
   })
 
   const entries = computed(() =>

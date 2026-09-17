@@ -3,6 +3,7 @@ import type { IFlowStep } from './Flow'
 import type { CombatController } from '../CombatController'
 import type { Frequency } from '@/classes/Frequency'
 import type { BlockedReason } from '../log/events'
+import { actionRef } from '../log/refs'
 import { combatLogHooks } from './logHooks'
 
 export interface IActivationState {
@@ -13,8 +14,10 @@ export interface IActivationState {
   frequency?: Frequency
   heat?: number
   reaction?: string
+  logActivation?: string
   weapon?: any
   force?: boolean
+  recorded?: boolean
   legal: boolean
   blockedBy?: BlockedReason
 }
@@ -40,7 +43,7 @@ const legality: IFlowStep<IActivationState> = {
     }
     s.cc.Record('blocked', {
       action: s.actionId
-        ? { id: s.actionId, name: s.cc.FindAction(s.actionId)?.Name ?? s.actionId }
+        ? actionRef(s.actionId, s.cc.FindAction(s.actionId)?.Name)
         : undefined,
       reason: blocked,
       overridden: true,
@@ -53,7 +56,8 @@ const legality: IFlowStep<IActivationState> = {
 
 export function activationBlock(s: IActivationState): BlockedReason | undefined {
   if (!s.cc.CanActivate(s.reaction ?? s.activation, s.actionId)) return 'insufficient'
-  if (s.actionId && !s.cc.CanTakeAction(s.actionId, s.activation, s.useId)) return 'no_uses'
+  if (s.actionId && !s.cc.CanTakeAction(s.actionId, s.activation, s.useId))
+    return !s.frequency || s.frequency.Unlimited ? 'duplicate' : 'no_uses'
   return undefined
 }
 
@@ -110,9 +114,23 @@ const reveal = step<IActivationState>(
   }
 )
 
+const record = step<IActivationState>('record-action', s => {
+  if (s.recorded) return
+  const id = s.actionId ?? s.reaction ?? s.activation
+  const action = actionRef(id, s.cc.FindAction(id)?.Name)
+  s.cc.Record('action', {
+    action,
+    activation: s.reaction ? 'reaction' : (s.logActivation ?? s.activation),
+    free: !s.reaction && FREE.includes(s.activation),
+    heat: s.heat || undefined,
+    overcharged: s.cc.ActionPoolController.OverchargeApplies || undefined,
+    usesRemaining: s.actionId ? s.cc.RemainingUses(s.actionId) : undefined,
+  })
+})
+
 export const ActivationFlow = new Flow<IActivationState>(
   'ActivationFlow',
-  [normalization, legality, consumeUses, heatApplication, consume, reveal],
+  [normalization, legality, consumeUses, record, heatApplication, consume, reveal],
   combatLogHooks
 )
 

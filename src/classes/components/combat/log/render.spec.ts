@@ -80,6 +80,8 @@ describe('rendering a log event', () => {
     'status.gain': { status: { id: 'impaired', name: 'IMPAIRED' } },
     'status.lose': { status: { id: 'impaired', name: 'IMPAIRED' }, reason: 'expired' },
     'resist.change': { damageType: 'kinetic', condition: 'resistance' },
+    equipment: { item: { id: 'sys', name: 'Pattern-A Smoke Charges' }, state: 'used' },
+    counter: { counter: { id: 'c', name: 'Charges' }, from: 2, to: 3 },
     move: { spent: 3, mode: 'move' },
     overcharge: { level: 1, cost: '1d6', heat: 4 },
     'deployable.launch': { deployable: { id: 'd', name: 'Drone' } },
@@ -111,6 +113,19 @@ describe('rendering a log event', () => {
     expect(unrendered).toEqual([])
   })
 
+  it('renders an activation with a real activation type, not a double space', () => {
+    const e = event('action', { action: { id: 'act_x', name: 'Initiative' }, activation: 'Quick' })
+    expect(renderEvent(e, stream, t)).toBe('[ALLY PILOT] Ghost used Initiative as a Quick action')
+  })
+
+  it('folds a confirmed kill into the attack entry rather than adding a line', () => {
+    const attack = { ...event('attack', FIXTURES.attack), group: 'g1' }
+    const kill = { ...event('actor.destroy', { targetId: 'b' }), group: 'g1' }
+    const [entry] = renderStream([attack, kill], stream, t)
+    expect(entry.text).toContain('TARGET DESTROYED')
+    expect(entry.text.split('; ')).toHaveLength(1)
+  })
+
   it('renders both sides of every branching kind', () => {
     const branches: [string, any][] = [
       ['save', { ...FIXTURES.save, result: 'failure' }],
@@ -123,6 +138,10 @@ describe('rendering a log event', () => {
       ['damage', { ...FIXTURES.damage, targetId: undefined, taken: false }],
       ['status.gain', { ...FIXTURES['status.gain'], duration: 'end of turn' }],
       ['resist.change', { ...FIXTURES['resist.change'], removed: true }],
+      ['equipment', { ...FIXTURES.equipment, state: 'destroyed' }],
+      ['equipment', { ...FIXTURES.equipment, state: 'repaired' }],
+      ['equipment', { ...FIXTURES.equipment, state: 'unused' }],
+      ['counter', { ...FIXTURES.counter, from: 3, to: 1 }],
       ['action', { ...FIXTURES.action, free: true }],
       ['attack', { ...FIXTURES.attack, targetId: undefined }],
       ['actor.destroy', { selfReported: true }],

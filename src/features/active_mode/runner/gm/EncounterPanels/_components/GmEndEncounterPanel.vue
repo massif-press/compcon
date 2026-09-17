@@ -9,21 +9,23 @@
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { EncounterStore } from '@/stores';
 import EndEncounterPanel from '@/features/active_mode/_components/EndEncounterPanel.vue';
+import { bypassLeaveGuard } from '../../../_shared/useRunnerOptions';
 
-defineOptions({ name: 'DamageMenu' })
+defineOptions({ name: 'GmEndEncounterPanel' })
 
 const props = defineProps<{
   encounterInstance: EncounterInstance
 }>()
 
 async function end(result: string) {
-      props.encounterInstance.EndEncounter();
+      props.encounterInstance.EndEncounter(result);
       const report = props.encounterInstance.Combatants.map(c => ({
         name: c.actor.CombatController.CombatName,
         status: c.status,
         pilotStatus: c.pilotStatus,
         mechStatus: c.mechStatus,
       }));
+      bypassLeaveGuard();
       await EncounterStore().ArchiveEncounterInstance(props.encounterInstance, JSON.stringify(report, null, 2), result);
     }
 </script>

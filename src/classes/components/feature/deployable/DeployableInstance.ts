@@ -216,5 +216,15 @@ class DeployableInstance implements ICombatant {
   }
 }
 
-export { DeployableInstance }
+function deployToCombatant(deployable: any, combatant: CombatantData): DeployableInstance {
+  const instance = new DeployableInstance(deployable.ItemData, combatant)
+  instance.SetStats()
+  combatant.deployables.push(instance)
+  const cc = combatant.actor.CombatController.ActiveActor.CombatController
+  cc.SetCombatAction(deployable.DeployAction.Activation, false)
+  cc.Record('deployable.launch', { deployable: { id: instance.ID, name: instance.Name } })
+  return instance
+}
+
+export { DeployableInstance, deployToCombatant }
 export type { IDeployableData, IDeployableInstanceData }

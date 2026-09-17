@@ -39,7 +39,7 @@
     </v-col>
   </v-row>
   <cc-structure-check-alert
-    v-if="item.StatController.MaxStats['structure']"
+    v-if="item.CombatController.PendingCheckController.RollsStructureChart"
     :cc="item.CombatController"
     kind="structure"
   />
@@ -73,7 +73,7 @@
     </v-col>
   </v-row>
   <cc-structure-check-alert
-    v-if="item.StatController.MaxStats['stress']"
+    v-if="item.CombatController.PendingCheckController.RollsStressChart"
     :cc="item.CombatController"
     kind="stress"
   />

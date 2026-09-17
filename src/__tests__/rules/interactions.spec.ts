@@ -66,7 +66,7 @@ describe('rule interactions', () => {
     expect(cc().CanActivate('reaction')).toBe(false)
   })
 
-  it('T-INT-reaction-02: a reaction spent before the first turn stays spent until StartTurn, the engine\'s only turn-start hook', () => {
+  it("T-INT-reaction-02: a reaction spent before the first turn stays spent until StartTurn, the engine's only turn-start hook", () => {
     cc().SetCombatAction('reaction', false)
     expect(cc().CanActivate('reaction')).toBe(false)
 
@@ -113,7 +113,7 @@ describe('rule interactions', () => {
     expect(cc().InOvercharge).toBe(false)
   })
 
-  it('T-INT-status-02: prone implies slowed, denying boost for as long as it holds', () => {
+  it('T-INT-status-02: prone implies slowed', () => {
     cc().AddStatus('prone')
     expect(cc().CanActivate('boost')).toBe(false)
 
@@ -130,7 +130,7 @@ describe('rule interactions', () => {
     expect(cc().CalculateDamage(DamageType.Kinetic, 5).total).toBe(10)
   })
 
-  it('T-INT-undo-01: a structure check snapshot restores stats, statuses, and pending checks together', () => {
+  it('T-INT-undo-01: a structure check snapshot restores stats, statuses, and pending checks', () => {
     const snapshot: any = {}
     CombatController.Serialize(cc(), snapshot)
 

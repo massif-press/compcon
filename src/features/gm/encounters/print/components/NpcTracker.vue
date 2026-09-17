@@ -112,7 +112,6 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { Bonus } from '@/classes/components/feature/bonus/Bonus'
   import BlankLine from '@/ui/components/print/BlankLine.vue'
   import { CompendiumStore } from '@/stores'
 
@@ -129,17 +128,6 @@
   )
 
   function getBonusVal(key: string) {
-    const baseVal = npc.value.StatController.getMax(key)
-    const bonuses = (npc.value.FeatureController.Bonuses as Bonus[]).filter(x => x.ID === key)
-    if (bonuses.some(b => b.Overwrite)) return bonuses.find(b => b.Overwrite)!.Value
-    let bonusVal = 0
-    bonuses.forEach(b => {
-      if (Array.isArray(b.Value)) {
-        bonusVal += Number(b.Value[npc.value.tier])
-      } else {
-        bonusVal += Number(b.Value)
-      }
-    })
-    return (baseVal || 0) + bonusVal
+    return npc.value.StatController.getMaxWithBonuses(key)
   }
 </script>

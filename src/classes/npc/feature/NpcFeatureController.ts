@@ -8,6 +8,14 @@ import { NpcFeatureFactory } from './NpcFeatureFactory'
 import type { IControllerStatic } from '@/classes/ISerializable'
 import Tag from '../../Tag'
 import { assertController } from '../../utility/assertController'
+const PER_NPC_FEATURE_KEYS = ['isUsed', 'flavorName', 'flavorDescription'] as const
+
+function sourceFeatureData(data: INpcFeatureData): INpcFeatureData {
+  const out = { ...(data as any) }
+  PER_NPC_FEATURE_KEYS.forEach(k => delete out[k])
+  return out as INpcFeatureData
+}
+
 interface INpcFeatureSaveData {
   is_instance?: boolean
   instance?: boolean
@@ -87,7 +95,9 @@ class NpcFeatureController implements IFeatureContainer {
   }
 
   public AddFeature(feat: NpcFeature): void {
-    this._selectedFeatures.push(NpcFeatureFactory.Build(feat.ItemData as INpcFeatureData))
+    this._selectedFeatures.push(
+      NpcFeatureFactory.Build(sourceFeatureData(feat.ItemData as INpcFeatureData))
+    )
     this.Parent.SaveController.save()
   }
 
@@ -127,12 +137,16 @@ class NpcFeatureController implements IFeatureContainer {
 
     if (this.Parent.NpcClassController.HasClass)
       (this.Parent.NpcClassController.Class as NpcClass).BaseFeatures.forEach(f => {
-        this._selectedFeatures.push(NpcFeatureFactory.Build(f.ItemData as INpcFeatureData))
+        this._selectedFeatures.push(
+          NpcFeatureFactory.Build(sourceFeatureData(f.ItemData as INpcFeatureData))
+        )
       })
 
     this.Parent.NpcTemplateController.Templates.forEach(t => {
       ;(t as NpcTemplate).BaseFeatures.forEach(f => {
-        this._selectedFeatures.push(NpcFeatureFactory.Build(f.ItemData as INpcFeatureData))
+        this._selectedFeatures.push(
+          NpcFeatureFactory.Build(sourceFeatureData(f.ItemData as INpcFeatureData))
+        )
       })
     })
     this.Parent.SaveController.save()
@@ -165,7 +179,9 @@ class NpcFeatureController implements IFeatureContainer {
       const id = typeof x === 'string' ? x : x.id
       if (CompendiumStore().has('NpcFeatures', id)) {
         const ref = CompendiumStore().referenceByID('NpcFeatures', id) as NpcFeature
-        const clone = NpcFeatureFactory.Build<NpcFeature>(ref.ItemData as INpcFeatureData)
+        const clone = NpcFeatureFactory.Build<NpcFeature>(
+          sourceFeatureData(ref.ItemData as INpcFeatureData)
+        )
         if (x.instanceId) clone.InstanceID = x.instanceId
         clone.Used = x.data?.isUsed || false
         if ((x.data as any)?.flavorName) clone.Name = (x.data as any).flavorName

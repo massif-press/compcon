@@ -5,6 +5,7 @@
     :selected="selected"
     :side="combatant.side"
     :icon="icon"
+    out-of-combat
     @click="$emit('select', combatant)"
   >
     <div>

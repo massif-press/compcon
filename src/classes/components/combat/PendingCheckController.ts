@@ -70,6 +70,11 @@ class PendingCheckController {
     cc.AddStatus('downandout')
   }
 
+  public ResetForEncounter(): void {
+    this.PendingChecks = []
+    this.SuppressChecks = false
+  }
+
   public Serialize(target: any): void {
     target.pending_checks = this.PendingChecks.map(p => ({ ...p }))
   }

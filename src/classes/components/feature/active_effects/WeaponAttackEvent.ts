@@ -55,6 +55,7 @@ class WeaponAttackEvent {
       new ActiveEffect(effectData, owner.actor),
       instance
     )
+    this.BaseEvent.Weapon = weapon
 
     if (weapon.ActiveEffects)
       this.SubEvents = weapon.ActiveEffects.map(ae => new ActiveEffectEvent(owner, ae, instance))

@@ -1,5 +1,6 @@
 import { DamageType } from '../../../enums'
 import { markRaw } from 'vue'
+import { i18n } from '@/i18n'
 
 interface ITimedEffectAction {
   status?: string[]
@@ -12,9 +13,12 @@ interface ITimedEffectAction {
 interface ITimedEffectData {
   round: number
   id?: string
-  name: string
+  name?: string
+  nameKey?: string
   origin?: string
-  detail: string
+  detail?: string
+  detailKey?: string
+  detailParams?: Record<string, unknown>
   duration?: string
   apply?: ITimedEffectAction
   remove?: ITimedEffectAction
@@ -30,13 +34,15 @@ class TimedEffect {
   }
 
   public get Name(): string {
-    return this._data.name
+    return this._data.nameKey ? i18n.global.t(this._data.nameKey) : this._data.name || ''
   }
   public get Origin(): string {
     return this._data.origin || ''
   }
   public get Detail(): string {
-    return this._data.detail
+    return this._data.detailKey
+      ? i18n.global.t(this._data.detailKey, this._data.detailParams || {})
+      : this._data.detail || ''
   }
   public get Duration(): string {
     return this._data.duration || ''

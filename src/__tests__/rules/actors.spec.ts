@@ -69,7 +69,7 @@ describe('NPCs', () => {
     expect(u.CombatController.CanActivate('quick')).toBe(false)
   })
 
-  it('T-NPC-stabilize-01: is one combined effect — reload, clear heat, end exposed', () => {
+  it('T-NPC-stabilize-01: is one combined effect: reload, clear heat, end exposed', () => {
     const u = npc()
     const c = u.CombatController
     set(c, StatKey.HEATCAP, 4)
@@ -99,7 +99,7 @@ describe('NPCs', () => {
     expect(Stats.TieredDefaults.ram).toBe('1/2/3')
   })
 
-  it('T-NPC-grappleram-01: a PC has no separate grapple or ram bonus — both roll with GRIT', () => {
+  it('T-NPC-grappleram-01: a PC has no separate grapple or ram bonus', () => {
     expect(Rules.BaseGrapple).toBe(0)
     expect(Rules.BaseRam).toBe(0)
   })
@@ -175,7 +175,7 @@ describe('actor defects', () => {
     expect(c.PendingChecks.some(x => x.kind === 'structure')).toBe(true)
   })
 
-  it('T-NPC-stress-01: an NPC with one stress becomes exposed and stays at one stress', () => {
+  it('T-NPC-stress-01: an NPC with one stress becomes exposed and stays at one stress if heatcap is met or exceeded', () => {
     const u = npc()
     const c = u.CombatController
     setMax(c, StatKey.STRESS, 1)
@@ -206,7 +206,7 @@ describe('actor defects', () => {
     expect(c.PendingChecks.some(x => x.kind === 'stress')).toBe(true)
   })
 
-  it('T-NPC-actions-03: NPC skirmish offers weapons only, not systems or traits', () => {
+  it('T-NPC-actions-03: NPC skirmish offers weapons only', () => {
     const u = npc()
     const fc = u.NpcFeatureController
     vi.spyOn(fc, 'Features', 'get').mockReturnValue([
@@ -302,12 +302,12 @@ describe('actor and NPC gaps', () => {
     expect(c.CanOverwatch(rifle)).toBe(false)
   })
 
-  it('T-NPC-actions-02: bracing is denied to an NPC as a stated rule, brace being available to a mech', () => {
+  it('T-NPC-actions-02: bracing is denied to an NPC as a rule, brace being available to a mech', () => {
     expect(mech().CombatController.CanActivate('brace')).toBe(true)
     expect(npc().CombatController.CanActivate('brace')).toBe(false)
   })
 
-  it('T-NPC-actions-02: overcharging is denied to an NPC as a stated rule', () => {
+  it('T-NPC-actions-02: overcharging is denied to an NPC as a rule', () => {
     expect(npc().CombatController.CanActivate('overcharge')).toBe(false)
   })
 
@@ -441,7 +441,7 @@ describe('actor and NPC gaps', () => {
     expect(cc().OverchargeLevel).toBe(0)
   })
 
-  it("T-DMG-meltdown-01: a meltdown countdown ticks at the round boundary, where the character's next turn begins", () => {
+  it("T-DMG-meltdown-01: a meltdown countdown ticks at the round boundary, when the character's next turn begins", () => {
     cc().StartSelfDestruct(cc().SelfDestructWindow[2])
     const before = cc().MeltdownCountdown
     expect(before).toBe(3)
@@ -450,7 +450,7 @@ describe('actor and NPC gaps', () => {
     expect(cc().MeltdownCountdown).toBe(before - 1)
   })
 
-  it('T-ACTION-selfdestruct-01: detonation defaults to the end of the next turn, the rest of the window being a choice', () => {
+  it('T-ACTION-selfdestruct-01: detonation defaults to the end of the next turn, the rest being a choice', () => {
     cc().StartSelfDestruct()
 
     expect(cc().MeltdownCountdown).toBe(1)
@@ -518,15 +518,15 @@ describe('actor and NPC gaps', () => {
   })
 })
 
-describe('reaction offers and NPC grants', () => {
-  it('T-NPC-actions-02: brace is not offered to an NPC, not merely refused when taken', () => {
+describe('reaction and NPC offered actions', () => {
+  it('T-NPC-actions-02: brace is not offered to an NPC', () => {
     const u = npc()
     expect(u.CombatController.CanActivate('brace')).toBe(false)
     expect(u.CombatController.AvailableReactions).not.toContain('brace')
     expect(u.CombatController.AvailableReactions).toContain('overwatch')
   })
 
-  it('T-ACTION-defaultreactions-01: a mech is offered both defaults, and loses one once spent', () => {
+  it('T-ACTION-defaultreactions-01: a mech is offered both defaults', () => {
     expect(cc().AvailableReactions).toEqual(['brace', 'overwatch'])
 
     cc().UseReaction('brace')
@@ -586,7 +586,7 @@ describe('NPC template exceptions', () => {
   })
 })
 
-describe('rules the canonical set had not reached', () => {
+describe('C/C specific cases', () => {
   it('T-REPAIR-rest-01: repairing a destroyed mech returns it at one structure and one stress', () => {
     const c = mech().CombatController
     set(c, StatKey.STRUCTURE, 0)
@@ -600,7 +600,7 @@ describe('rules the canonical set had not reached', () => {
     expect(cur(c, StatKey.HP)).toBe(max(c, StatKey.HP))
   })
 
-  it('T-REPAIR-rest-01: it costs four repairs, and a vaporised wreck cannot be repaired at all', () => {
+  it('T-REPAIR-rest-01: it costs four repairs, and a reactor destroyed mech cannot be repaired at all', () => {
     const c = mech().CombatController
     set(c, StatKey.STRUCTURE, 0)
     expect(c.RepairDestroyed(3)).toBe(false)
@@ -631,7 +631,7 @@ describe('rules the canonical set had not reached', () => {
     expect(spender.CanActivate('quick')).toBe(true)
   })
 
-  it('T-STATUS-slowed-01: dragging slows, lifting immobilizes, and neither permits reactions', () => {
+  it('T-STATUS-slowed-01: dragging slows, lifting immobilizes, and neither permit reactions', () => {
     const c = mech().CombatController
 
     c.Carry('drag')

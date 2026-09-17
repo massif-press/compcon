@@ -61,10 +61,23 @@ function itemRef(item: any): IRef {
   return { id: item.InstanceID ?? item.ID ?? '', name: item.Name ?? 'Unknown' }
 }
 
+function actionRef(id: string, name?: string): IRef {
+  if (name) return { id, name }
+  return {
+    id,
+    name: id
+      .replace(/^act_/, '')
+      .split(/[_\s]+/)
+      .filter(Boolean)
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' '),
+  }
+}
+
 function statusRef(status: any): IRef {
   if (!status) return { id: '', name: 'Unknown' }
   if (typeof status === 'string') return { id: status, name: status }
   return { id: status.ID ?? status.Attribute ?? '', name: status.Name ?? status.Attribute ?? '' }
 }
 
-export { actorRef, combatantRef, itemRef, statusRef }
+export { actorRef, combatantRef, itemRef, actionRef, statusRef }

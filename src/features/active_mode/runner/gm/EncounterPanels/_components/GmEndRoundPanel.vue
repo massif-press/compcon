@@ -212,6 +212,7 @@
 
 <script setup lang="ts">
   import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+  import { isOutOfCombat } from '@/classes/encounter/Encounter'
   import { computed, ref, shallowRef, nextTick } from 'vue'
   import EndRoundDialog from '../../../_shared/_EndRoundDialog.vue'
   import EndRoundActionChips from '../../../_components/EndRoundActionChips.vue'
@@ -261,7 +262,7 @@
   })
   const activeActors = computed(() => {
     return props.encounterInstance.Combatants.filter(
-      x => x.type !== 'doodad' && !x.actor.CombatController.IsDestroyed && !x.reinforcement
+      x => x.type !== 'doodad' && !isOutOfCombat(x) && !x.reinforcement
     ).map(x => x.actor.CombatController.ActiveActor.CombatController)
   })
   const hasRemainingActions = computed(() => {

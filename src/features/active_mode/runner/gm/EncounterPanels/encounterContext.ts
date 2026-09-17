@@ -16,9 +16,7 @@ export function useEncounterContext(): EncounterRunnerContext & {
 } {
   const ctx = inject(EncounterContextKey)
   if (!ctx) {
-    throw new Error(
-      'useEncounterContext() called outside an encounter panel — no EncounterRunnerContext was provided.'
-    )
+    throw new Error('useEncounterContext() called outside an encounter panel.')
   }
   const ownerController = computed(() => (ctx.owner.value as any).actor.CombatController)
   return {

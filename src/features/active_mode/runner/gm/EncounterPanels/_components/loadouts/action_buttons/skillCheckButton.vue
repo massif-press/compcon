@@ -284,7 +284,7 @@
   import { useI18n } from 'vue-i18n'
   const { t } = useI18n()
 
-  const { owner, encounterInstance, ownerController: controller } = useEncounterContext()
+  const { owner, encounterInstance, activeController: controller } = useEncounterContext()
 
   function targetLabel(actor: any) {
     const combatant = encounterInstance.value.Combatants.find(

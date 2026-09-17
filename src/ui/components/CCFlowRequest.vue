@@ -1,15 +1,10 @@
 <template>
-  <div v-if="request">
+  <div v-if="request && request.kind !== 'stage'">
     <div class="text-cc-overline text-disabled">{{ $t(`ui.flow.request.${request.label}`) }}</div>
 
     <div v-if="request.kind === 'check' && request.pending?.length"
       class="body-text">
       {{ $t('ui.flow.unresolved', { list: request.pending.join(', ') }) }}
-    </div>
-
-    <div v-else-if="request.kind === 'stage'"
-      class="body-text text-disabled">
-      {{ $t('ui.flow.awaiting', { n: request.events?.length ?? 0 }) }}
     </div>
 
     <v-select v-else-if="request.kind === 'select'"

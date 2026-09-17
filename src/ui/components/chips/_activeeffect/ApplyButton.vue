@@ -44,8 +44,7 @@
               </span>
               <span v-if="
                 (activeEffect as any).Activation &&
-                activeEffect.Frequency &&
-                !activeEffect.Frequency.Unlimited
+                activeEffect.Frequency
               ">
                 •
               </span>
@@ -90,6 +89,7 @@
           size="small"
           stacked
           :color="color"
+          :disabled="disabled"
           @click="apply(close)">
           <div class="px-4">
             <v-icon v-if="icon"
@@ -141,7 +141,8 @@
           :action="activeEffect.Name"
           @confirm="apply(close, true)" />
         <div class="text-center text-cc-overline text-disabled">
-          <div v-if="confirmedKills">
+          <div v-if="confirmedKills"
+            style="max-width: 220px;">
             {{ $t('ui.combat.confirmKillHint', { n: confirmedKills }) }}
           </div>
           <div v-if="isApplied">{{ $t('ui.combat.alreadyActivated') }}</div>
@@ -160,6 +161,7 @@ import { Action } from '@/classes/Action'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { CombatantData } from '@/classes/encounter/Encounter'
 import CcForceOverride from '@/ui/components/modals/CCForceOverride.vue'
+import { killTargets } from './_shared/killTargets'
 
 const props = withDefaults(
   defineProps<{
@@ -172,6 +174,7 @@ const props = withDefaults(
     owner: CombatantData
     close: () => void
     embedded?: boolean
+    disabled?: boolean
   }>(),
   {
     weaponEvent: undefined,
@@ -179,6 +182,7 @@ const props = withDefaults(
     actionId: undefined,
     activationOverride: undefined,
     embedded: false,
+    disabled: false,
   }
 )
 
@@ -284,7 +288,8 @@ const blockReason = computed((): string => {
   if (ordnanceBlocked.value) return 'ordnance'
   const cc = props.owner.actor.CombatController.ActiveActor.CombatController
   if (!cc.CanActivate(activationName.value)) return 'insufficient'
-  return 'no_uses'
+  const frequency = activeEffect.value.Frequency
+  return !frequency || frequency.Unlimited ? 'duplicate' : 'no_uses'
 })
 
 const canOverride = computed(
@@ -310,26 +315,17 @@ const activation = computed((): boolean => (activeEffect.value as any).Activatio
 
 const isPcLocal = computed((): boolean => props.encounterInstance?.ItemType === 'PilotSheet')
 
-const confirmedTargets = computed((): any[] => {
-  if (!isPcLocal.value) return []
-  const sources = [
-    ...events.value,
-    ...weaponAttackEvents.value.flatMap(we => we.TargetEvents ?? []),
-  ]
-  const seen = new Set<any>()
-  for (const e of sources) {
-    for (const target of ((e as any).Targets ?? []) as any[]) {
-      if (target?.ConfirmedKill) seen.add(target)
-    }
-  }
-  return [...seen]
-})
+const confirmedTargets = computed((): any[] =>
+  isPcLocal.value ? killTargets(events.value).filter(t => t.ConfirmedKill) : []
+)
 
 const confirmedKills = computed((): number => confirmedTargets.value.length)
 
 const frequencyText = computed((): string => activeEffect.value.Frequency?.ToString() || '')
 
-const mandatoryRemaining = computed((): boolean => !events.value.every(x => x.Ready))
+const mandatoryRemaining = computed(
+  (): boolean => props.disabled || !events.value.every(x => x.Ready)
+)
 
 function stage(asFree) {
   events.value.forEach(e => (e.Staged = true))
@@ -357,6 +353,7 @@ function apply(close: () => void, force = false) {
       frequency: activeEffect.value.Frequency,
       heat: weaponAttackEvents.value.length ? 0 : props.action?.HeatCost || 0,
       force,
+      recorded: true,
     })
     if (!spent) {
       overridePrompt.value = true

@@ -169,7 +169,7 @@
     updateFilters()
   }
   function clear() {
-    sourceFilter.value = (props.manufacturers as any[]).map(x => x.value)
+    sourceFilter.value = []
     tagFilter.value = []
     weaponTypeFilter.value = undefined
     weaponSizeFilter.value = undefined

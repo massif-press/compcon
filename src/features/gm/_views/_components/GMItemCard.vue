@@ -112,10 +112,7 @@
     </template>
     <template v-else-if="type === 'Unit'">
       <div class="text-caption pt-1">
-        <stat-chips
-          :stat-controller="item.StatController"
-          :bonuses="item.FeatureController.Bonuses"
-        />
+        <stat-chips :stat-controller="item.StatController" />
       </div>
     </template>
   </gm-list-item-base>

@@ -1,5 +1,3 @@
-/* CC Quark utilities — small, composable CSS primitives */
-
 /* ── clip-path cuts (top-left corner) ─────────────────────────── */
 .cc-cut-xs {
   clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%, 0 6px);
@@ -30,10 +28,24 @@
 
 /* ── clip-path cuts (both corners: top-left + bottom-right) ────── */
 .cc-cut-both-sm {
-  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  clip-path: polygon(
+    10px 0,
+    100% 0,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    0 100%,
+    0 10px
+  );
 }
 .cc-cut-both-md {
-  clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px);
+  clip-path: polygon(
+    16px 0,
+    100% 0,
+    100% calc(100% - 16px),
+    calc(100% - 16px) 100%,
+    0 100%,
+    0 16px
+  );
 }
 
 /* ── corner accent (the triangular pip) ─────────────────────────── */

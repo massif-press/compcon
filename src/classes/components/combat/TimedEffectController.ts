@@ -5,6 +5,7 @@ import { ActiveEffect } from '../feature/active_effects/ActiveEffect'
 import { ITimedEffectAction, TimedEffect } from '../feature/active_effects/TimedEffect'
 import type { CombatController } from './CombatController'
 import { isDue, roundsRemaining } from './Duration'
+import { i18n } from '@/i18n'
 
 class TimedEffectController {
   private _parent: CombatController
@@ -68,8 +69,8 @@ class TimedEffectController {
     if (!pending) return false
     this.TimedEffects = this.TimedEffects.filter(t => t !== pending)
     this.Push({
-      name: pending.Name,
-      detail: pending.Detail,
+      ...TimedEffect.Serialize(pending),
+      id: undefined,
       round,
       apply: { other: 'self_destruct' },
     })
@@ -84,8 +85,8 @@ class TimedEffectController {
       this.TimedEffects.splice(this.TimedEffects.indexOf(pending), 1)
     }
     this.Push({
-      name: 'Reactor Meltdown',
-      detail: `This mech's reactor will melt down, annihilating it and killing everyone inside, dealing 4d6 explosive damage to all targets in a burst 2 area around it.`,
+      nameKey: 'active.timedEffect.reactorMeltdownName',
+      detailKey: 'active.timedEffect.reactorMeltdownDetail',
       round: this._parent.Round + turns,
       apply: { other: 'reactor_meltdown' },
     })
@@ -105,10 +106,9 @@ class TimedEffectController {
   public get MeltdownAction(): Action {
     return new Action({
       id: 'self_destruct_internal',
-      name: 'Deal Meltdown Damage',
+      name: i18n.global.t('active.timedEffect.meltdownDamageName'),
       activation: ActivationType.None,
-      detail:
-        'The reactor explosion deals 4d6 explosive damage to all targets in a burst 2 area around this mech.',
+      detail: i18n.global.t('active.timedEffect.meltdownDamageDetail'),
       damage: [
         {
           type: DamageType.Explosive,
@@ -119,6 +119,10 @@ class TimedEffectController {
         },
       ],
     })
+  }
+
+  public ResetForEncounter(): void {
+    this.TimedEffects = []
   }
 
   public Serialize(target: any): void {

@@ -160,6 +160,26 @@
     </cc-panel>
 
     <cc-panel
+      color="background"
+      class="mb-2"
+      :title="$t('active.telemetry.unmounted')"
+    >
+      <v-row dense>
+        <v-col
+          v-for="stat in unmounted"
+          :key="stat.label"
+          cols="6"
+          sm="3"
+        >
+          <div class="text-center">
+            <div class="heading h2">{{ stat.value }}</div>
+            <div class="text-caption text-disabled">{{ stat.label }}</div>
+          </div>
+        </v-col>
+      </v-row>
+    </cc-panel>
+
+    <cc-panel
       v-if="statuses.length"
       color="background"
       class="mb-2"
@@ -203,6 +223,8 @@
   import type { IEncounterRollup } from '@/classes/components/combat/log/telemetry'
 
   const props = defineProps<{ rollup: IEncounterRollup }>()
+
+  const labelFor = (key: string) => props.rollup.labels?.[key] ?? titleCase(key)
 
   const { t } = useI18n()
 
@@ -266,27 +288,41 @@
   ])
 
   const systems = computed(() => [
-    { label: t('active.telemetry.heatGained'), value: props.rollup.heatGained },
-    { label: t('active.telemetry.heatCleared'), value: props.rollup.heatCleared },
     {
       label: t('active.telemetry.overcharges'),
       value: `${props.rollup.overcharges} (${props.rollup.overchargeHeat})`,
     },
     { label: t('active.telemetry.deployablesLaunched'), value: props.rollup.deployablesLaunched },
     { label: t('active.telemetry.deployablesDestroyed'), value: props.rollup.deployablesDestroyed },
+    { label: t('active.telemetry.equipmentDestroyed'), value: props.rollup.equipmentDestroyed },
+    { label: t('active.telemetry.coreEnergySpent'), value: props.rollup.coreEnergySpent },
+  ])
+
+  const unmounted = computed(() => [
+    { label: t('active.telemetry.roundsUnmounted'), value: props.rollup.roundsUnmounted ?? 0 },
+    { label: t('active.telemetry.actionsUnmounted'), value: props.rollup.actionsUnmounted ?? 0 },
+    {
+      label: t('active.telemetry.damageDealtUnmounted'),
+      value: props.rollup.damageDealtUnmounted ?? 0,
+    },
+    {
+      label: t('active.telemetry.damageTakenUnmounted'),
+      value: props.rollup.damageTakenUnmounted ?? 0,
+    },
+    { label: t('active.telemetry.movementUnmounted'), value: props.rollup.movementUnmounted ?? 0 },
   ])
 
   const statuses = computed(() =>
     Object.entries(props.rollup.statusesGained)
       .filter(([k]) => !!k)
       .sort((a, b) => b[1] - a[1])
-      .map(([key, count]) => ({ key, label: titleCase(key), count }))
+      .map(([key, count]) => ({ key, label: labelFor(key), count }))
   )
 
   const actions = computed(() =>
     Object.entries(props.rollup.actionsTaken)
       .filter(([k]) => !!k)
       .sort((a, b) => b[1] - a[1])
-      .map(([key, count]) => ({ key, label: titleCase(key), count }))
+      .map(([key, count]) => ({ key, label: labelFor(key), count }))
   )
 </script>

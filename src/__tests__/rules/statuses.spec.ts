@@ -35,7 +35,7 @@ describe('expiration', () => {
     ]).toEqual([false, true])
   })
 
-  it('T-TURN-endofnextturn-01: start-of-turn and end-of-turn expirations differ, observable only mid-turn', () => {
+  it('T-TURN-endofnextturn-01: start-of-turn and end-of-turn expirations differ, observable at mid-turn', () => {
     const startExp = new expiration('start_turn_self', cc(), cc())
     const endExp = new expiration('end_turn_self', cc(), cc())
     const next = cc().Turn + 1
@@ -244,7 +244,7 @@ describe('statuses with no enforcement', () => {
   })
 })
 
-describe('rules carried by the printed book that the extraction missed', () => {
+describe('additional core book rules', () => {
   it('T-STATUS-prone-01: standing up costs the standard move, and is refused while immobilized', () => {
     cc().AddStatus('prone')
     expect(cc().HasStatus('prone')).toBe(true)
@@ -441,7 +441,7 @@ describe('status rules reaching the attack path', () => {
   })
 })
 
-describe('lock on across a real attack', () => {
+describe('lock on across an attack', () => {
   const attackOn = (attack?: string) => {
     const attacker = makePilot({ level: 3 })
     makeMech(attacker)

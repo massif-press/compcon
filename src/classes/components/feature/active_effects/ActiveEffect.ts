@@ -154,6 +154,10 @@ class ActiveEffect {
     this.Applied = data.applied || false
   }
 
+  get Activation(): string | undefined {
+    return this.Origin?.Activation
+  }
+
   get IsAutoSelfResist(): boolean {
     return (
       !!this.AddResist.length &&
@@ -164,7 +168,7 @@ class ActiveEffect {
       !this.AddSpecial.length &&
       !this.Attack &&
       !this.Save &&
-      !(this as any).Activation
+      !this.Activation
     )
   }
 

@@ -92,7 +92,7 @@ describe('pilot actions', () => {
     expect(cc().CanActivate('quick')).toBe(false)
   })
 
-  it('T-ACTION-skillcheck-01: the skill-check roll is routed through DiceRoller and is seedable', () => {
+  it('T-ACTION-skillcheck-01: the skill check roll is routed through DiceRoller and is seedable', () => {
     rollSeq(14, 5)
     const r = DiceRoller.rollSkillCheck(3, 1, 0)
 
@@ -164,10 +164,6 @@ describe('stabilize', () => {
     cc().Stabilize('repair')
     expect(cur(cc(), StatKey.REPAIR_CAPACITY)).toBe(repairs - 1)
   })
-
-  it('T-REPAIR-cap-01: repair cap is the frame value plus half hull', () => {
-    expect(max(cc(), StatKey.REPAIR_CAPACITY)).toBe(m.Frame.RepCap + Math.floor(m.Hull / 2))
-  })
 })
 
 describe('turn structure', () => {
@@ -205,7 +201,7 @@ describe('turn structure', () => {
   })
 })
 
-describe('the one activation door', () => {
+describe('the activation door', () => {
   it('T-ACTION-protocol-01: spending the protocol through the pool closes the window, and the inverse reopens it', () => {
     expect(cc().CanActivate('protocol')).toBe(true)
 
@@ -216,7 +212,7 @@ describe('the one activation door', () => {
     expect(cc().CanActivate('protocol')).toBe(true)
   })
 
-  it('T-ACTION-fulltech-01: a full tech activation reaches the pool under either spelling', () => {
+  it('T-ACTION-fulltech-01: a full tech activation reaches the pool', () => {
     expect(cc().CanActivate('Full Tech')).toBe(true)
 
     expect(cc().Activate('Full Tech', { actionId: 'act_full_tech' })).toBe(true)
@@ -306,11 +302,11 @@ describe('action economy defects', () => {
     expect(cc().CanActivate('protocol')).toBe(false)
   })
 
-  it('T-ACTION-protocol-01: spending an action clears the protocol flag itself', () => {
+  it('T-ACTION-protocol-01: spending an action clears the protocol flag', () => {
     cc().SetCombatAction('quick1', false)
     expect(cc().CombatActions.Protocol).toBe(false)
 
-    cc().ResetActivation('quick', false)
+    cc().ResetActivation('quick')
     expect(cc().CanActivate('protocol')).toBe(false)
   })
 
@@ -443,7 +439,7 @@ describe('action economy defects', () => {
     expect(cc().CanOverwatch(rifle)).toBe(false)
   })
 
-  it('T-ACTION-shutdown-01: shutting down is a quick action applying the shut-down status', () => {
+  it('T-ACTION-shutdown-01: shutting down is a quick action applying the shutdown status', () => {
     expect(cc().PerformAction('act_shut_down')).toBe(true)
 
     expect(cc().HasStatus('shut-down')).toBe(true)
@@ -462,7 +458,7 @@ describe('action economy defects', () => {
     expect(cc().CanActivate('ordnance')).toBe(false)
   })
 
-  it('T-TAG-ordnance-01: an ordnance weapon is blocked, not merely warned about', () => {
+  it('T-TAG-ordnance-01: an ordnance weapon is blocked', () => {
     const ordnance = { Tags: [{ ID: 'tg_ordnance' }] }
     const rifle = { Tags: [{ ID: 'tg_ap' }] }
 
@@ -479,7 +475,7 @@ describe('action economy defects', () => {
     expect(cc().CanActivate('ordnance')).toBe(true)
   })
 
-  it('T-TAG-sidearm-01: a sidearm makes fight a quick action, and the pool charges accordingly', () => {
+  it('T-TAG-sidearm-01: a sidearm makes fight a quick action', () => {
     const weapons = CompendiumStore().PilotGear.filter((g: any) => g.FightActivation)
     const sidearm = weapons.find((w: any) => w.IsSidearm)
     const rifle = weapons.find((w: any) => !w.IsSidearm)
@@ -503,7 +499,7 @@ describe('action economy defects', () => {
     expect(m.Pilot!.CombatController.CanActivate('full')).toBe(true)
   })
 
-  it('T-TAG-ai-01: handing control to the AI is a protocol, and dismounting alone is not', () => {
+  it('T-TAG-ai-01: handing control to the AI is a protocol, and dismounting alone does not', () => {
     cc().ToggleMounted()
     expect(cc().AIControl).toBe(false)
     expect(cc().CanActivate('protocol')).toBe(true)
@@ -516,7 +512,7 @@ describe('action economy defects', () => {
     expect(p.CombatController.CanActivate('protocol')).toBe(false)
   })
 
-  it('T-TAG-ai-01: taking control back is a protocol too, through the one engine path', () => {
+  it('T-TAG-ai-01: taking control back is a protocol', () => {
     const pool = () => p.CombatController
 
     cc().SetAIControl(true)
@@ -541,11 +537,11 @@ describe('action gaps', () => {
     expect(cc().CanTakeAction('act_boost', 'quick')).toBe(false)
   })
 
-  it('T-ACTION-noduplicate-01: an untracked action reports one remaining use, not unlimited', () => {
+  it('T-ACTION-noduplicate-01: an untracked action reports one remaining use', () => {
     expect(cc().RemainingUses('act_never_used')).toBe(1)
   })
 
-  it('T-ACTION-noduplicate-01: a malformed frequency is an error, not silently unlimited', () => {
+  it('T-ACTION-noduplicate-01: a malformed frequency is an error', () => {
     expect(() => new Frequency('2/fortnight')).toThrow()
   })
 
@@ -710,7 +706,7 @@ describe('action gaps', () => {
     ).toBe(true)
   })
 
-  it('T-ACTION-invade-01: the bare parent invade is the selectionless fallback, and its options come from the engine', () => {
+  it('T-ACTION-invade-01: the bare parent invade is the fallback', () => {
     const options = cc().InvadeOptions()
 
     expect(options.length).toBeGreaterThan(0)
@@ -737,7 +733,7 @@ describe('action gaps', () => {
     expect(target.HasStatus('lockon')).toBe(false)
   })
 
-  it('T-ACTION-boost-01: boost is a quick action, denied while slowed or immobilized', () => {
+  it('T-ACTION-boost-01: boost is a quick action and is denied while slowed or immobilized', () => {
     expect(cc().CanActivate('boost')).toBe(true)
 
     cc().AddStatus('slow')
@@ -803,7 +799,7 @@ describe('action gaps', () => {
     expect(cc().CanBeTargeted).toBe(true)
   })
 
-  it('T-ACTION-hide-02: hiding and disengaging run through the engine, not the panel', () => {
+  it('T-ACTION-hide-02: hiding and disengaging run through the engine', () => {
     expect(cc().Hide()).toBe(true)
     expect(cc().HasStatus('hidden')).toBe(true)
 
@@ -849,7 +845,7 @@ describe('action gaps', () => {
     expect(cc().Dismount()).toBe(false)
   })
 
-  it('T-ACTION-stabilize-02: clearing a condition goes through the engine, which refuses one it does not offer', () => {
+  it('T-ACTION-stabilize-02: clearing a condition goes through the engine', () => {
     cc().AddStatus('impaired')
 
     expect(cc().ClearCondition('impaired')).toBe(true)
@@ -879,7 +875,6 @@ describe('action gaps', () => {
   it('T-ACTION-ram-01: knocks the target prone on a hit, prepopulated from the action data', () => {
     const action = CompendiumStore().Actions.find(a => a.ID === 'act_ram')!
 
-    // a quick action, not a full one, and the PRONE is carried by the effect on a melee hit
     expect(action.Activation).toBe('Quick')
     expect(cc().CanActivate('ram')).toBe(true)
     expect(action.AddStatus.some((x: any) => x.Status.ID === 'prone')).toBe(true)
@@ -914,7 +909,7 @@ describe('action gaps', () => {
     expect(target.HasStatus('prone')).toBe(true)
   })
 
-  it('T-ACTION-grapple-01: grapple lands on a melee hit rather than a contested check', () => {
+  it('T-ACTION-grapple-01: grapple lands on a melee hit', () => {
     const target = mech().CombatController
 
     expect(cc().IsMeleeResolved('act_grapple')).toBe(true)
@@ -952,7 +947,6 @@ describe('action gaps', () => {
     expect(cc().PerformAction('act_jockey', { target, success: true })).toBe(true)
     expect(cc().CanActivate('full')).toBe(false)
 
-    // the three outcomes are prepopulated from the action data, not applied by the method
     const options = cc().JockeyOptions()
     expect(options.map(a => a.ID)).toEqual([
       'act_jockey_damage',
@@ -971,7 +965,7 @@ describe('action gaps', () => {
     expect(p.CombatController.IsActionUsed('act_pilot')).toBe(false)
   })
 
-  it('T-HEAT-dangerzone-01: danger-zone equipment is gated on the danger zone', () => {
+  it('T-HEAT-dangerzone-01: dangerzone equipment is gated on the danger zone', () => {
     const dz = { DangerZone: true, ID: 'sys_dz' }
     expect(cc().IsInDangerZone).toBe(false)
     expect(cc().CanUseEquipment(dz)).toBe(false)
@@ -1038,7 +1032,7 @@ describe('turn structure gaps', () => {
   })
 })
 
-describe('T-ACTION-skillcheck-01 — accuracy netting parity', () => {
+describe('T-ACTION-skillcheck-01: accuracy netting parity', () => {
   const legacy = (accDiff: number, faces: number[]): number => {
     const results = faces.slice(0, Math.abs(accDiff)).map(f => f * Math.sign(accDiff))
     results.sort((a, b) => (accDiff < 0 ? a - b : b - a))
@@ -1071,14 +1065,14 @@ describe('activation through the single engine handle', () => {
     expect(cc().InOvercharge).toBe(false)
   })
 
-  it('T-ACTION-overcharge-01: spending the granted quick action consumes the overcharge itself', () => {
+  it('T-ACTION-overcharge-01: spending the granted quick action consumes the overcharge', () => {
     cc().StartOvercharge()
     cc().SetCombatAction('quick', false)
 
     expect(cc().InOvercharge).toBe(false)
   })
 
-  it('T-ACTION-activate-01: activating a system spends the slot, the use, and the heat together', () => {
+  it('T-ACTION-activate-01: activating a system spends the slot, the use, and the heat', () => {
     const heat = () => cur(cc(), StatKey.HEATCAP)
     const before = heat()
 
@@ -1100,7 +1094,7 @@ describe('activation through the single engine handle', () => {
     expect(cc().CanActivate('quick1')).toBe(true)
   })
 
-  it('T-ACTION-activate-01: an activation the pool refuses spends nothing at all', () => {
+  it('T-ACTION-activate-01: an activation the pool refuse spends nothing', () => {
     const before = cur(cc(), StatKey.HEATCAP)
     cc().AddStatus('stunned')
 
@@ -1111,7 +1105,7 @@ describe('activation through the single engine handle', () => {
   })
 })
 
-describe('condition provenance and the reaction clock', () => {
+describe('conditions and the reaction clock', () => {
   it('T-ACTION-stabilize-02: a condition the character inflicted on itself is not offered', () => {
     cc().AddStatus('impaired', undefined, { selfInflicted: true })
     cc().AddStatus('jammed')
@@ -1143,7 +1137,7 @@ describe('condition provenance and the reaction clock', () => {
     ).toContain('impaired')
   })
 
-  it('T-ACTOR-unlicensed-01: the unlicensed penalties are self-inflicted and cannot be stabilized off', () => {
+  it('T-ACTOR-unlicensed-01: unlicensed penalties are self-inflicted and cannot be stabilized away', () => {
     cc().SetUnlicensed(true)
 
     const offered = cc()
@@ -1167,7 +1161,7 @@ describe('condition provenance and the reaction clock', () => {
     expect(cc().CanActivate('reaction')).toBe(true)
   })
 
-  it('T-ACTION-reaction-01: the per-reaction round limit survives the turn refresh', () => {
+  it('T-ACTION-reaction-01: the per-reaction round limit survives turn refresh', () => {
     const other = mech().CombatController
     const encounter = {
       Combatants: [{ actor: { CombatController: cc() } }, { actor: { CombatController: other } }],

@@ -101,11 +101,13 @@
   import type { ICombatant } from '@/classes/components/combat/ICombatant'
   import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
   import { computed, ref } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import {
     reduceEvents,
     formatRollup,
     blankRollup,
   } from '@/classes/components/combat/log/telemetry'
+  import { eventsFor } from '@/classes/components/combat/log/CombatLogRecorder'
   import { PilotStore } from '@/features/pilot_management/store'
   import RollupDisplay from './_RollupDisplay.vue'
 
@@ -116,6 +118,8 @@
     encounterInstance: EncounterInstance
   }>()
 
+  const { t } = useI18n()
+
   const tab = ref('encounterInstance')
 
   const logbook = computed(() => {
@@ -125,7 +129,8 @@
 
   const encounterRollup = computed(() => {
     void props.actor.CombatController.CombatLogVersion
-    return reduceEvents(props.actor.CombatController.CombatLog.Events, props.actor.ID)
+    void (props.actor as any).ActiveMech?.CombatController.CombatLogVersion
+    return reduceEvents(eventsFor(props.actor), props.actor.ID)
   })
 
   const rollup = computed(() =>
@@ -134,8 +139,10 @@
 
   const summary = computed(
     () =>
-      `${props.actor.CombatController.CombatName} - Round ${props.encounterInstance.Round - 1}\n\n` +
-      formatRollup(rollup.value, 40)
+      `${t('active.telemetry.rollup.summaryHeader', {
+        name: props.actor.CombatController.CombatName,
+        n: props.encounterInstance.Round - 1,
+      })}\n\n` + formatRollup(rollup.value, t, 40)
   )
 
   function exportLog(type: 'text' | 'json' = 'text') {

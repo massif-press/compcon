@@ -88,7 +88,7 @@ describe('structure and stress checks', () => {
 })
 
 describe('chart defects', () => {
-  it('T-STRESS-meltdown-01: the 1d6-turn countdown is scheduled, not merely described', () => {
+  it('T-STRESS-meltdown-01: the 1d6-turn countdown is scheduled', () => {
     rolls(3)
     setMax(cc(), StatKey.STRESS, 4)
     set(cc(), StatKey.STRESS, 2)

@@ -197,10 +197,10 @@ describe('damage defects', () => {
     // equal numbers cancel to nothing, so no die is rolled at all
     expect(DiceRoller.rollSkillCheck(0, 2, 2).total).toBe(4)
 
-    // more difficulty than accuracy subtracts instead
+    // more difficulty than accuracy subtracts
     expect(DiceRoller.rollSkillCheck(0, 1, 3).total).toBe(4 - 4)
 
-    // and a negative accuracy is difficulty by another name
+    // and a negative accuracy is difficulty
     expect(DiceRoller.rollSkillCheck(0, -2, 0).total).toBe(DiceRoller.rollSkillCheck(0, 0, 2).total)
   })
 

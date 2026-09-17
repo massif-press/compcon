@@ -71,6 +71,7 @@ class CombatLogRecorder {
       turn: cc?.Turn ?? 0,
       actorId: this.ActorId,
       group: openGroup,
+      mounted: cc?.Mounted,
     })
     this.Events.push(event)
     return event
@@ -124,5 +125,17 @@ class CombatLogRecorder {
   }
 }
 
-export { CombatLogRecorder, withLogGroup }
+function recordersFor(actor: any): CombatLogRecorder[] {
+  return [actor?.CombatController, actor?.ActiveMech?.CombatController]
+    .map(cc => cc?.CombatLog)
+    .filter(Boolean) as CombatLogRecorder[]
+}
+
+function eventsFor(actor: any): ILogEvent[] {
+  return recordersFor(actor)
+    .flatMap(r => r.Events)
+    .sort((a, b) => a.ts - b.ts || a.seq - b.seq)
+}
+
+export { CombatLogRecorder, withLogGroup, recordersFor, eventsFor }
 export type { IRecorderData }

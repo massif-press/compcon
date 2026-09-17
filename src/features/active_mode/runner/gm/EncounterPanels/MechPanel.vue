@@ -292,7 +292,7 @@
         key: 'prepared',
         label: t('active.common.prepared'),
         active: cc.Prepared,
-        toggle: () => (cc.Prepared = !cc.Prepared),
+        toggle: () => (cc.Prepared ? cc.ReleasePrepared() : cc.Prepare()),
       },
       {
         key: 'aiControl',

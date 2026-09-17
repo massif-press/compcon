@@ -120,8 +120,18 @@ class DamageController {
 
     this.ApplyDamage(type, damage.total, direct)
 
-    if (!wasDestroyed && this._parent.IsDestroyed)
+    if (wasDestroyed || !this._parent.IsDestroyed) return
+
+    const deployable: any =
+      (target.Parent as any)?.ItemType === 'Deployable' ? target.Parent : undefined
+    if (!deployable) {
       this._parent.Record('mech.status', { to: 'destroyed' })
+      return
+    }
+    const owner = (deployable as any).Owner?.actor?.CombatController
+    const payload = { deployable: { id: deployable.ID, name: deployable.Name } }
+    if (owner) owner.Record('deployable.destroy', payload)
+    else this._parent.Record('deployable.destroy', payload)
   }
 
   public ApplyDamage(type: DamageType, value: number, direct = false): void {

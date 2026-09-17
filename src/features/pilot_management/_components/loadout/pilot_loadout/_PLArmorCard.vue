@@ -183,7 +183,7 @@ const armor = computed((): PilotArmor[] => {
 })
 
 function equip(item: PilotArmor) {
-  emit('equip', CompendiumItem.Clone(item))
+  emit('equip', CompendiumItem.Instance(item))
   emit('save')
   ;(base.value as any)?.closeSelector()
   notify({

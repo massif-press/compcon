@@ -607,6 +607,7 @@
       "cancel": "@:{'common.cancel'}",
       "catFlavorText": "Flavor Text",
       "catLcpOrigin": "LCP Origin",
+      "catLcpFlavorState": "LCP Custom Text",
       "catNpcStats": "NPC Stats",
       "foundFixable": "Found {count} fixable issue | Found {count} fixable issues",
       "andRequiringManual": " and {count} issue requiring manual action | and {count} issues requiring manual action",
@@ -1304,7 +1305,15 @@
       "kia": "KIA",
       "savePilotHistory": "Save Pilot History",
       "featureInDev": "Feature in development (v3.1)",
-      "encounterHash": "encounter #"
+      "encounterHash": "encounter #",
+      "saveToLogbook": "Save to Pilot Logbook",
+      "saveToLogbookTooltip": "Writes this sheet’s encounter record to the pilot’s logbook. Re-saving replaces the record already held for this encounter.",
+      "historySaved": "Encounter record written to {name}’s logbook.",
+      "historySaveFailed": "Could not write this encounter to the pilot’s logbook.",
+      "noEvents": "This sheet holds no recorded combat events.",
+      "viewSheet": "View Sheet",
+      "viewSheetTooltip": "Review this pilot’s stats, statuses, and equipment as they stood when the sheet was archived.",
+      "viewSheetUnavailable": "This sheet has no active mech to report on."
     },
     "newSheet": {
       "llLevel": "LL{n}",
@@ -1371,7 +1380,9 @@
       "atThe": "at the",
       "endsOnTurn": "{when} of your turn",
       "braceExit": "You exit {braced} and enter {cooldown} state.",
-      "braceCooldown": "Brace cooldown"
+      "braceCooldown": "Brace cooldown",
+      "movementRemainingTitle": "You have movement remaining",
+      "movementRemaining": "{n} spaces of movement will be forfeited."
     },
     "joinTable": {
       "sortOnline": "Sort by Online Status",
@@ -1497,7 +1508,8 @@
       "coverLabel": "{cover} cover",
       "activationsRemaining": "{n} Activations remaining this round",
       "aiControl": "Mech under AI Control",
-      "selfDestructInitiated": "Self destruct initiated"
+      "selfDestructInitiated": "Self destruct initiated",
+      "resistanceLineOther": "{condition} to {type}"
     },
     "addRoster": {
       "addPc": "Add PC",
@@ -1572,6 +1584,12 @@
       "exportText": "Export as Text",
       "rounds": "Rounds",
       "turns": "Turns",
+      "unmounted": "Unmounted",
+      "roundsUnmounted": "Rounds Unmounted",
+      "actionsUnmounted": "Actions Unmounted",
+      "damageDealtUnmounted": "Damage Dealt Unmounted",
+      "damageTakenUnmounted": "Damage Taken Unmounted",
+      "movementUnmounted": "Spaces Moved Unmounted",
       "movementSpent": "Movement Spent",
       "offense": "Offense",
       "defense": "Defense",
@@ -1599,7 +1617,40 @@
       "none": "None recorded",
       "noLifetimeData": "No lifetime records for this pilot yet. Logbook entries are written when an encounter is archived.",
       "encountersLogged": "Encounters Logged",
-      "heatCleared": "Heat Cleared"
+      "heatCleared": "Heat Cleared",
+      "equipmentDestroyed": "Equipment destroyed",
+      "coreEnergySpent": "Core energy spent",
+      "rollup": {
+        "rounds": "Rounds",
+        "turns": "Turns",
+        "movementSpent": "Movement spent",
+        "attacks": "Attacks",
+        "crits": "Crits",
+        "saves": "Saves",
+        "savesValue": "{passed} passed, {failed} failed",
+        "kills": "Kills",
+        "killsValue": "{confirmed} (+{reported} reported)",
+        "damageDealt": "Damage dealt",
+        "damageTaken": "Damage taken",
+        "reducedByArmor": "Reduced by armor",
+        "heatGained": "Heat gained",
+        "heatCleared": "Heat cleared",
+        "overcharges": "Overcharges",
+        "overchargesValue": "{n} ({heat} heat)",
+        "structureChecks": "Structure checks",
+        "stressChecks": "Stress checks",
+        "deployables": "Deployables",
+        "deployablesValue": "{n} launched",
+        "equipmentDestroyed": "Equipment destroyed",
+        "coreEnergySpent": "Core energy spent",
+        "roundsUnmounted": "Rounds unmounted",
+        "actionsUnmounted": "Actions unmounted",
+        "damageDealtUnmounted": "Damage dealt unmounted",
+        "damageTakenUnmounted": "Damage taken unmounted",
+        "movementUnmounted": "Spaces moved unmounted",
+        "summaryHeader": "{name} - Round {n}",
+        "logEntryHeader": "Round {n} ({time})"
+      }
     },
     "actorLogs": {
       "log": "Log",
@@ -1627,7 +1678,17 @@
     "timedEffect": {
       "retryMeltdown": "Retry the ENGINEERING check (full action) to avert the meltdown",
       "roundsRemaining": "{n} Rounds remaining",
-      "override": "// Override"
+      "override": "// Override",
+      "selfDestructName": "Self Destruct",
+      "selfDestructDetail": "This mech will explode as though it suffered a reactor meltdown. The explosion will annihilate this mech, killing everyone inside and dealing 4d6 explosive damage to all targets in a burst 2 area around it.",
+      "reactorMeltdownName": "Reactor Meltdown",
+      "reactorMeltdownDetail": "This mech's reactor will melt down, annihilating it and killing everyone inside, dealing 4d6 explosive damage to all targets in a burst 2 area around it.",
+      "meltdownDamageName": "Deal Meltdown Damage",
+      "meltdownDamageDetail": "The reactor explosion deals 4d6 explosive damage to all targets in a burst 2 area around this mech.",
+      "statusExpiredName": "Status/Condition Expired",
+      "statusExpiredDetail": "{name} status has expired.",
+      "specialExpiredName": "Special Status Expired",
+      "specialExpiredDetail": "{attribute} special status has expired."
     },
     "statblockExport": {
       "title": "Combat Statblock",
@@ -1636,7 +1697,9 @@
     },
     "statusCond": {
       "title": "Statuses / Conditions",
-      "addCustom": "Add Custom Status"
+      "addCustom": "Add Custom Status",
+      "braceCooldownDetail": "Due to the stress of bracing, until the end of this turn you can only take one quick action. You cannot take reactions, overcharge, move normally, take full actions, or take free actions.",
+      "cascadeDetail": "An installed NHP has entered CASCADE and has taken full control of the mech. The mech is in control of the GM until the Pilot reclaims control by choosing to Shut Down the mech."
     },
     "scan": {
       "scan": "Scan"
@@ -1953,7 +2016,26 @@
       "reroll": "Re-roll",
       "rollCheck": "Roll {check}",
       "rollPrompt": "Roll {n}d{die} and choose the lowest",
-      "blocksTurn": "Resolve the pending structure or stress check before ending this turn"
+      "blocksTurn": "Resolve the pending structure or stress check before ending this turn",
+      "allWeaponsOnMountDestroyed": "All weapons on one mount are destroyed",
+      "oneSystemDestroyed": "One system is destroyed",
+      "structure3Plus": "3+ Structure",
+      "structure2": "2 Structure",
+      "structure1": "1 Structure",
+      "stress3Plus": "3+ Stress",
+      "stress2": "2 Stress",
+      "stress1": "1 Stress",
+      "durationEndOfNextTurn": "until the end of its next turn",
+      "durationRestOfScene": "for the rest of the scene",
+      "noteAfterDieTurns": "after 1d6 of your turns",
+      "noteEndOfNextTurn": "at the end of your next turn",
+      "withNote": "{label} ({note})",
+      "destroyed": "Destroyed",
+      "reactorMeltdown": "Reactor meltdown",
+      "damage": "{roll} {type} damage",
+      "nothingDestroyable": "Nothing destroyable, Direct Hit",
+      "mountToDestroy": "Mount to destroy",
+      "systemToDestroy": "System to destroy"
     },
     "burnCheck": {
       "title": "Burn Check",
@@ -2015,6 +2097,7 @@
       "turnEnd": "{who} ended a turn ({n} activation(s) remaining)",
       "action": "{who} used {action} as a {activation} action",
       "actionFree": "{who} used {action} as a free action",
+      "actionPlain": "{who} used {action}",
       "attack": "{who} attacked {target} with {weapon}: {roll} vs {defenseValue} {defense} - {result}",
       "attackUntargeted": "{who} attacked with {weapon}: {roll} vs {defenseValue} {defense} - {result}",
       "damage": "{who} dealt {amount} {type} damage to {target}",
@@ -2109,6 +2192,7 @@
         "shut_down": "already shut down",
         "unavailable": "unavailable",
         "no_uses": "no uses remaining",
+        "duplicate": "already taken this turn",
         "insufficient": "not enough actions remaining",
         "no_target": "no target selected",
         "no_weapon": "no weapon selected",
@@ -2136,12 +2220,19 @@
       "damageUntargetedNone": "{who} dealt no damage from {incoming} {type}",
       "self": "SELF",
       "clause": {
-        "damage": "for {amount} {type} damage"
+        "damage": "for {amount} {type} damage",
+        "kill": "- TARGET DESTROYED"
       },
       "promptSkipped": "{who} skipped the {label}",
       "blockedNoAction": "{who} was blocked: {reason}",
       "attackOverridden": "result set by the GM",
-      "attackInvisible": "missed from invisibility"
+      "attackInvisible": "missed from invisibility",
+      "equipmentUsed": "{who} marked {item} as used",
+      "equipmentUnused": "{who} cleared the used mark on {item}",
+      "equipmentDestroyed": "{who}'s {item} was destroyed",
+      "equipmentRepaired": "{who}'s {item} was repaired",
+      "counterUp": "{who} raised {counter} by {n} to {to}",
+      "counterDown": "{who} lowered {counter} by {n} to {to}"
     },
     "pcEndEncounter": {
       "confirm": "Ending this encounter will close the active sheet instance, send a copy to the archive, and record it to this pilot’s logbook. Are you sure you want to continue?"
@@ -2239,13 +2330,19 @@
       "promptNamed": "{action} cannot be completed: {reason}. Resolve it anyway?"
     },
     "targetedAction": {
-      "meleeResolution": "Resolved by a melee attack: no damage is dealt, and the action lands on a hit.",
       "rollFirst": "Roll the melee attack to resolve this action."
     },
     "weaponSelect": {
       "hidingUnavailable": "Hiding weapons that cannot be fired. Click to show them.",
       "showingUnavailable": "Showing weapons that cannot be fired. Click to hide them.",
       "unavailableCount": "unavailable"
+    },
+    "expiration": {
+      "start": "start",
+      "end": "end",
+      "endsOnSelfTurn": "Ends at the {when} of your ({name}) turn",
+      "endsOnOtherTurn": "Ends at the {when} of {name}'s turn",
+      "endsOnRound": "Ends at the {when} of round {round}"
     }
   },
   "mainMenu": {
@@ -3676,8 +3773,8 @@
       "resistanceType": "resistance type",
       "saveHalf": "Save Half",
       "removeSpecialCondition": "remove special condition",
-      "confirmKill": "Confirm Kill",
-      "confirmKillHint": "{n} kill(s) will be recorded as self-reported",
+      "confirmKill": "Target Destroyed",
+      "confirmKillHint": "{n} kill(s) will be recorded",
       "sideAlly": "Ally",
       "sideEnemy": "Enemy",
       "sideNeutral": "Neutral"
@@ -4111,6 +4208,7 @@
       "jockey": "Jockey",
       "full_tech": "Full Tech",
       "quick_tech": "Quick Tech",
+      "overcharge": "Overcharge",
       "reaction": "Reaction",
       "move": "Move",
       "other": "Other"

@@ -173,7 +173,12 @@ describe('what a flow records', () => {
       {
         Initiator: { actor: { CombatController: attacker } },
         Attack: 'ranged',
-        Effect: { ID: 'e', Name: 'Shot', Activation: 'Quick' },
+        Effect: {
+          ID: 'e',
+          Name: 'Shot',
+          Origin: { ID: 'sys1', Name: 'Missile Rack', Activation: 'Quick' },
+        },
+        Weapon: { ID: 'w1', InstanceID: 'w1i', Name: 'Missile Rack' },
         DamageEvents: [{}],
         StatusEvents: [],
         OtherEvents: [],
@@ -199,6 +204,38 @@ describe('what a flow records', () => {
     const all = [...attacker.CombatLog.Events, ...defender.CombatLog.Events]
     expect(all.map((e: any) => e.kind)).toEqual(['action', 'attack', 'damage'])
     expect(new Set(all.map((e: any) => e.group)).size).toBe(1)
+
+    const action = all.find((e: any) => e.kind === 'action') as any
+    expect(action.payload.action).toEqual({ id: 'sys1', name: 'Missile Rack' })
+    expect(action.payload.activation).toBe('Quick')
+    expect(action.payload.free).toBe(false)
+
+    const attack = all.find((e: any) => e.kind === 'attack') as any
+    expect(attack.payload.weapon).toEqual({ id: 'w1i', name: 'Missile Rack' })
+  })
+
+  it('never names the acting actor as the action when the effect origin is that actor', () => {
+    const attacker = recorder('att')
+    Object.assign(attacker, { IsDestroyed: false })
+
+    const event: any = Object.setPrototypeOf(
+      {
+        Initiator: { actor: { CombatController: attacker } },
+        Effect: {
+          ID: 'e',
+          Name: 'Assault Rifle (Skirmish)',
+          Origin: { ID: 'mech1', Name: 'Everest', CombatController: attacker },
+        },
+      },
+      ActiveEffectEvent.prototype
+    )
+
+    event.RecordAction([])
+
+    const recorded = attacker.CombatLog.Events[0] as any
+    expect(recorded.payload.action).toEqual({ id: 'e', name: 'Assault Rifle (Skirmish)' })
+    expect(recorded.payload.activation).toBe('')
+    expect(recorded.payload.free).toBe(false)
   })
   it('stays silent when a guard step halts, so a re-run does not write to the log', () => {
     const cc = recorder()

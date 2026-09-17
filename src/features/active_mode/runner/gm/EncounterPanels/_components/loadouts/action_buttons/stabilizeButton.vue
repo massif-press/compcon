@@ -156,7 +156,7 @@
 
   type ClearableCondition = { status: Status; expires: any }
 
-  const { owner, encounterInstance, ownerController: controller } = useEncounterContext()
+  const { owner, encounterInstance, activeController: controller } = useEncounterContext()
 
   const props = defineProps<{
     action: Action

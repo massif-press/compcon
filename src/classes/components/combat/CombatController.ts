@@ -172,17 +172,51 @@ class CombatController implements ICounterContainer, IStatContainer {
   public set CustomStatuses(val: { status: EffectSpecial; expires: expiration }[]) {
     this.StatusController.CustomStatuses = val
   }
-  public Cover: CoverType = CoverType.None
+  private _cover: CoverType = CoverType.None
+
+  public get Cover(): CoverType {
+    return this._cover
+  }
+
+  public set Cover(value: CoverType) {
+    const next = value || CoverType.None
+    if (next === this._cover) return
+    this._cover = next
+    this.Record('cover', { cover: String(next) })
+  }
   public CorePower = true
 
-  public Mounted = true
+  private _mounted = true
+
+  public get Mounted(): boolean {
+    const mech = (this.Parent as any).ActiveMech
+    return mech ? mech.CombatController._mounted : this._mounted
+  }
+
+  public set Mounted(value: boolean) {
+    const mech = (this.Parent as any).ActiveMech
+    if (mech) mech.CombatController._mounted = value
+    else this._mounted = value
+  }
+
   public Overwatch = false
   public Braced = false
   public BraceGranted: string[] = []
   public Prepared = false
   public Disengaged = false
   public Carrying: 'drag' | 'lift' | 'none' = 'none'
-  public CoreActive = false
+  private _coreActive = false
+
+  public get CoreActive(): boolean {
+    return this._coreActive
+  }
+
+  public set CoreActive(value: boolean) {
+    if (value === this._coreActive) return
+    this._coreActive = value
+    this.Record('core.power', { active: value })
+  }
+
   public AIControl = false
 
   public ActionPoolController: ActionPoolController
@@ -524,6 +558,7 @@ class CombatController implements ICounterContainer, IStatContainer {
       frequency?: Frequency
       heat?: number
       force?: boolean
+      recorded?: boolean
     } = {}
   ): boolean {
     const state = this._activationState(activation, opts)
@@ -581,7 +616,9 @@ class CombatController implements ICounterContainer, IStatContainer {
     activation: string,
     opts: Partial<IActivationState> = {}
   ): IActivationState {
-    return { cc: this, activation, legal: false, ...opts }
+    const state: IActivationState = { cc: this, activation, legal: false, ...opts }
+    state.logActivation ??= state.actionId ? this.FindAction(state.actionId)?.Activation : undefined
+    return state
   }
 
   public get TimedEffects(): TimedEffect[] {
@@ -684,8 +721,8 @@ class CombatController implements ICounterContainer, IStatContainer {
     this.ActionPoolController.SetCombatAction(action, value)
   }
 
-  public ResetActivation(action: string, propagate = true): void {
-    this.ActionPoolController.ResetActivation(action, propagate)
+  public ResetActivation(action: string): void {
+    this.ActionPoolController.ResetActivation(action)
   }
 
   public UseAttackAction(actionId: string, weaponInstanceId?: string): void {
@@ -712,13 +749,6 @@ class CombatController implements ICounterContainer, IStatContainer {
     const action = this.FindAction(actionId)
     const freq = frequency ?? action?.Frequency
     this.ActionPoolController.MarkActionUsed(actionId, freq)
-    if (freq && !freq.Unlimited && freq.Uses > 1)
-      this.Record('action', {
-        action: { id: actionId, name: action?.Name ?? actionId },
-        activation: String(action?.Activation ?? ''),
-        usesSpent: this.UsedCount(actionId),
-        usesRemaining: this.RemainingUses(actionId),
-      })
   }
 
   public IsActionUsed(actionId: string): boolean {
@@ -1050,7 +1080,8 @@ class CombatController implements ICounterContainer, IStatContainer {
     this.ApplyCustomStatus(
       new EffectSpecial({
         attribute: StatusController.CASCADE_ATTRIBUTE,
-        detail: StatusController.CASCADE_DETAIL,
+        detail: '',
+        detailKey: StatusController.CASCADE_DETAIL_KEY,
       }),
       '',
       this,
@@ -1202,9 +1233,8 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public SetCore(active: boolean): void {
-    this.CoreActive = active
     if (active) this.CorePower = false
-    this.Record('core.power', { active })
+    this.CoreActive = active
   }
 
   public Overcharge(heat?: number): number {
@@ -1246,7 +1276,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     this.Statuses = []
     this.CustomStatuses = []
     this.CorePower = true
-    this.CoreActive = false
+    this._coreActive = false
     this.ReactorDestroyed = false
     this.SetDestroyed(false)
     this.IsDead = false
@@ -1293,8 +1323,8 @@ class CombatController implements ICounterContainer, IStatContainer {
     this.TimedEffectController.ApplyInitialSelfEffects(d => d === 'turn' || d === 'End of Turn')
   }
 
-  public EndRound(encounter?: any): void {
-    EndRoundFlow.Begin({ cc: this, encounter })
+  public EndRound(encounter?: any, silent = false): void {
+    EndRoundFlow.Begin({ cc: this, encounter, silent })
   }
 
   public Reset(scope: ActivePeriod = ActivePeriod.Mission): void {
@@ -1307,6 +1337,37 @@ class CombatController implements ICounterContainer, IStatContainer {
     this.StatController.setCurrentStat(StatKey.SPEED, this.StatController.getMax(StatKey.SPEED))
     this.ClearUses(scope)
     if (this.IsPilot) this.Counterpart?.Reset(scope)
+  }
+
+  public ResetForEncounter(): void {
+    this.StatusController.ResetForEncounter()
+    this.ActionPoolController.ResetForEncounter()
+    this.PendingCheckController.ResetForEncounter()
+    this.TimedEffectController.ResetForEncounter()
+    this.CounterController.ResetForEncounter()
+
+    this._cover = CoverType.None
+    this.CorePower = true
+    this._coreActive = false
+    this.Mounted = true
+    this.Overwatch = false
+    this.Braced = false
+    this.BraceGranted = []
+    this.Prepared = false
+    this.Disengaged = false
+    this.Carrying = 'none'
+    this.BoostBonus = 0
+    this.AIControl = false
+    this.RechargeRolledRound = -1
+
+    this.CombatLog.Clear()
+    this.Round = 1
+    this.Turn = 1
+    this.CombatLogVersion++
+
+    this.StatController.resetCurrentStats()
+
+    if (this.IsPilot) this.Counterpart?.ResetForEncounter()
   }
 
   public EndEncounter(): void {
@@ -1384,7 +1445,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     controller.StatusController.Deserialize(data)
     controller.ActionPoolController.Deserialize(data)
 
-    controller.Cover = data?.cover || CoverType.None
+    controller._cover = data?.cover || CoverType.None
     controller.Mounted = data?.mounted ?? true
     controller.Overwatch = data?.overwatch || false
     controller.Braced = data?.braced || false
@@ -1394,7 +1455,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     controller.BoostBonus = data?.boostBonus || 0
     controller.Carrying = data?.carrying || 'none'
     controller.CorePower = data?.corePower ?? true
-    controller.CoreActive = data?.coreActive || false
+    controller._coreActive = data?.coreActive || false
     controller.AIControl = data?.aiControl || false
     controller.RechargeRolledRound = data?.rechargeRolledRound ?? -1
 
@@ -1412,5 +1473,5 @@ class CombatController implements ICounterContainer, IStatContainer {
 }
 
 CombatController satisfies IControllerStatic<CombatController, CombatData>
-export { CombatController }
-export type { CombatData, CoverType }
+export { CombatController, CoverType }
+export type { CombatData }

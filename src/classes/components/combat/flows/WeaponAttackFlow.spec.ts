@@ -57,7 +57,7 @@ describe('WeaponAttackFlow', () => {
     }
     const targets = [{ AttackRolledValue: undefined }, { AttackRolledValue: undefined }]
 
-    const first = WeaponAttackFlow.Begin(state({ attacker, targets }))
+    const first = WeaponAttackFlow.Begin(state({ attacker, targets, weapon: { Attack: 'ranged' } }))
     expect(first.outcome).toBe('awaiting')
     expect(first.pending).toBe('damage-roll')
     expect(first.request).toEqual({ kind: 'roll', label: 'attackRoll', targets: [0, 1] })
@@ -74,7 +74,7 @@ describe('WeaponAttackFlow', () => {
 
   it('applies its mutation exactly once, however many times it is resumed', () => {
     let heat = 0
-    const weapon = { HeatCost: 2 }
+    const weapon = { HeatCost: 2, Attack: 'ranged' }
     const attacker = {
       CanFireWeapon: () => true,
       ApplyHeat: (n: number) => (heat += n),
@@ -160,7 +160,9 @@ describe('WeaponAttackFlow', () => {
   })
 
   it('awaits at the damage roll while any target has no attack result yet', () => {
-    const r = WeaponAttackFlow.Begin(state({ targets: [{ AttackRolledValue: undefined }] }))
+    const r = WeaponAttackFlow.Begin(
+      state({ weapon: { Attack: 'ranged' }, targets: [{ AttackRolledValue: undefined }] })
+    )
 
     expect(r.outcome).toBe('awaiting')
     expect(r.pending).toBe('damage-roll')

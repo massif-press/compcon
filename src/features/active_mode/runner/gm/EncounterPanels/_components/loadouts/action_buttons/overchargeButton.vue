@@ -88,6 +88,7 @@
         :key="controller.RootActor.ID"
         :owner="owner"
         :encounter-instance="encounterInstance"
+        :disabled="heatMissing"
         hide-input
         :active-effect="action"
         :close="close"
@@ -116,6 +117,11 @@
   }>()
 
   const heatCost = ref<number | null>(null)
+
+  const heatMissing = computed(() => {
+    const v = heatCost.value
+    return v === null || String(v).trim() === '' || !Number.isFinite(Number(v))
+  })
 
   const currentOvercharge = computed(() => {
     return controller.value.OverchargeLevel

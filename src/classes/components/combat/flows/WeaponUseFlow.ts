@@ -39,25 +39,25 @@ export interface IWeaponUseState {
 
 const AUX_LABEL = 'Additional Aux Attack'
 
-function offered(state: IWeaponUseState): any[] {
+function offered(state: IWeaponUseState, slot = 0): any[] {
   const taken = state.selected.filter(Boolean).map((w: any) => w.InstanceID)
   const eligible = weaponPool(state.cc, state.mode).filter(
     (w: any) => !taken.includes(w.InstanceID)
   )
-  if (!state.presetWeapon) return eligible
+  if (!state.presetWeapon || slot > 0) return eligible
   return eligible.filter((w: any) => w.InstanceID === state.presetWeapon.InstanceID)
 }
 
-export function usableWeapons(state: IWeaponUseState): any[] {
-  const all = offered(state)
+export function usableWeapons(state: IWeaponUseState, slot = 0): any[] {
+  const all = offered(state, slot)
   if (!state.showUnavailable) return all.filter(isSelectableWeapon)
   return [...all].sort(
     (a: any, b: any) => Number(isSelectableWeapon(b)) - Number(isSelectableWeapon(a))
   )
 }
 
-export function unavailableWeapons(state: IWeaponUseState): any[] {
-  return offered(state).filter((w: any) => !isSelectableWeapon(w))
+export function unavailableWeapons(state: IWeaponUseState, slot = 0): any[] {
+  return offered(state, slot).filter((w: any) => !isSelectableWeapon(w))
 }
 
 const weaponSelected: IFlowStep<IWeaponUseState> = {

@@ -1,5 +1,6 @@
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { CombatController } from './CombatController'
+import { i18n } from '@/i18n'
 
 class expiration {
   public Period: 'round' | 'turn' | 'encounter' = 'encounter'
@@ -33,17 +34,26 @@ class expiration {
       if (str.includes('target')) {
         this.ExpirationActorID = target.Parent.ID
         this.ExpirationActorTurn = target.Turn
-        text = `Ends at the ${this.EndsOn} of your (${target.CombatName}) turn`
+        text = i18n.global.t('active.expiration.endsOnSelfTurn', {
+          when: i18n.global.t(`active.expiration.${this.EndsOn}`),
+          name: target.CombatName,
+        })
       } else if (source) {
         this.ExpirationActorID = source.Parent.ID
         this.ExpirationActorTurn = source.Turn
-        text = `Ends at the ${this.EndsOn} of ${source.CombatName}'s turn`
+        text = i18n.global.t('active.expiration.endsOnOtherTurn', {
+          when: i18n.global.t(`active.expiration.${this.EndsOn}`),
+          name: source.CombatName,
+        })
       }
     } else if (encounter && this.Period === 'round') {
       const currentRound = encounter.Round
       const roundOffset = Number(str.split('_').pop() || '1')
       this.RoundEndNumber = currentRound + roundOffset
-      text = `Ends at the ${this.EndsOn} of round ${this.RoundEndNumber}`
+      text = i18n.global.t('active.expiration.endsOnRound', {
+        when: i18n.global.t(`active.expiration.${this.EndsOn}`),
+        round: this.RoundEndNumber,
+      })
     }
 
     this.Text = text

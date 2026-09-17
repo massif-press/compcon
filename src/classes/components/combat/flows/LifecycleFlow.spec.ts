@@ -87,6 +87,7 @@ describe('EndTurnFlow', () => {
 describe('EndRoundFlow', () => {
   it('runs its steps in the documented order', () => {
     expect(EndRoundFlow.Steps).toEqual([
+      'spend-remaining-activation',
       'brace-teardown',
       'refill-activations',
       'expire-statuses',

@@ -18,7 +18,7 @@ describe('telemetry as a fold', () => {
   it('attributes damage to the dealer and the taker from one event', () => {
     const events = [
       ev('damage', { targetId: 'them', damageType: 'Kinetic', final: 8, armorReduced: 2 }, 'me'),
-      ev('damage', { targetId: 'me', damageType: 'Energy', final: 5, armorReduced: 0 }, 'them'),
+      ev('damage', { targetId: 'me', damageType: 'Energy', final: 5, armorReduced: 3 }, 'them'),
     ]
 
     const mine = reduceEvents(events, 'me')
@@ -26,11 +26,32 @@ describe('telemetry as a fold', () => {
     expect(mine.totalTaken).toBe(5)
     expect(mine.damageDealt).toEqual({ kinetic: 8 })
     expect(mine.damageTaken).toEqual({ energy: 5 })
-    expect(mine.damageArmorReduced).toBe(2)
+    expect(mine.damageArmorReduced).toBe(3)
 
     const theirs = reduceEvents(events, 'them')
     expect(theirs.totalDealt).toBe(5)
     expect(theirs.totalTaken).toBe(8)
+    expect(theirs.damageArmorReduced).toBe(2)
+  })
+
+  it('counts equipment destroyed, core energy spent, and per-actor rounds', () => {
+    const events = [
+      ev('equipment', { item: { id: 's1', name: 'Sys' }, state: 'destroyed' }, 'me'),
+      ev('equipment', { item: { id: 's2', name: 'Sys2' }, state: 'used' }, 'me'),
+      ev('equipment', { item: { id: 's3', name: 'Sys3' }, state: 'destroyed' }, 'them'),
+      ev('core.power', { active: true }, 'me'),
+      ev('core.power', { active: false }, 'me'),
+      ev('round.end', { round: 1 }, 'me'),
+      ev('round.end', { round: 1 }, 'them'),
+    ]
+
+    const mine = reduceEvents(events, 'me')
+    expect(mine.equipmentDestroyed).toBe(1)
+    expect(mine.coreEnergySpent).toBe(1)
+    expect(mine.rounds).toBe(1)
+
+    // one round.end per actor must not inflate the whole-encounter rollup
+    expect(reduceEvents(events).rounds).toBe(1)
   })
 
   it('rolls up the whole encounter when given no perspective', () => {

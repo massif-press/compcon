@@ -42,7 +42,7 @@
     </cc-alert>
 
     <div v-html-safe="activeEffect.getDetail(owner.actor.CombatController.Tier)"
-      class="text-text pa-1 mb-3" />
+      class="text-text py-1 px-3 mb-1" />
 
     <v-card flat
       tile
@@ -84,9 +84,14 @@
     </div>
   </v-slide-y-transition>
 
+  <confirm-kill-bar v-if="!embedded"
+    :event="<ActiveEffectEvent>event" />
+
   <apply-button :event="<ActiveEffectEvent>event"
     :encounter-instance="encounterInstance"
     :owner="owner"
+    :action="action"
+    :disabled="disabled"
     :close="close"
     @reset="reset($event)"
     @apply="$emit('apply')" />
@@ -100,6 +105,7 @@ import { CombatantData } from '@/classes/encounter/Encounter';
 import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent';
 import EffectApplicator from './EffectApplicator.vue';
 import ApplyButton from './ApplyButton.vue'
+import ConfirmKillBar from './_shared/ConfirmKillBar.vue'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance';
 import { Action } from '@/classes/Action';
 import { ActiveEffect, ActiveEffectLike } from '@/classes/components/feature/active_effects/ActiveEffect';
@@ -115,9 +121,11 @@ const props = withDefaults(defineProps<{
   overrideMissingInputs?: boolean
   initialTargets?: any[]
   action?: Action
+  disabled?: boolean
 }>(), {
   hideInput: false,
   embedded: false,
+  disabled: false,
   color: 'panel',
   overrideMissingInputs: false,
   initialTargets: () => [],

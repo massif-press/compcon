@@ -145,6 +145,7 @@
   import { useDisplay } from 'vuetify'
   import { CompendiumStore } from '@/stores'
   import { Rules } from '@/classes/utility/Rules'
+  import { CompendiumItem } from '@/classes/CompendiumItem'
   import { MechWeapon } from '@/classes/mech/components/equipment/MechWeapon'
   import { Mech } from '@/classes/mech/Mech'
   import { Range } from '@/classes/Range'
@@ -226,7 +227,7 @@
   })
 
   function handleEquip(event: any) {
-    emit('equip', event)
+    emit('equip', CompendiumItem.Instance(event) as MechWeapon)
   }
 
   function stageSelect(event: any) {

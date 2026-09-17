@@ -20,6 +20,7 @@ interface IAttackDamageEvent {
 interface IAttackTarget {
   Combatant: { actor: { CombatController: any } } | null
   AttackRolledValue?: number
+  HitResultOverride?: 'hit' | 'miss'
   MissedFromInvisibility?: boolean
   HeatExemptFor?: boolean
   DamageEvents?: IAttackDamageEvent[]
@@ -192,6 +193,7 @@ export function applyAttackDamage(target: any, damageEvent: any, event: any): vo
     final: target.FinalDamageValue,
     overkillHeat: damageEvent.OverkillHeat || undefined,
     taken: !!target.TookDamage,
+    targetMounted: defender?.Mounted,
   })
 
   if (target.TookDamage) defender?.ApplyDamage(damageEvent.DamageType, target.FinalDamageValue)
@@ -233,8 +235,15 @@ const accuracy = step<IWeaponAttackState>('accuracy', s => {
 })
 
 function awaitingRolls(s: IWeaponAttackState): number[] {
+  if (!s.attackType) return []
   return s.targets
-    .map((t, i) => (t.AttackRolledValue === undefined && !t.MissedFromInvisibility ? i : -1))
+    .map((t, i) =>
+      t.AttackRolledValue === undefined &&
+      t.HitResultOverride === undefined &&
+      !t.MissedFromInvisibility
+        ? i
+        : -1
+    )
     .filter(i => i !== -1)
 }
 

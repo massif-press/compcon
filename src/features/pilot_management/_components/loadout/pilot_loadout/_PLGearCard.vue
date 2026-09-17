@@ -136,7 +136,7 @@ const gear = computed((): PilotGear[] => {
 })
 
 function equip(item: PilotGear) {
-  emit('equip', CompendiumItem.Clone(item))
+  emit('equip', CompendiumItem.Instance(item))
   emit('save')
   ;(base.value as any)?.closeSelector()
   notify({

@@ -21,10 +21,10 @@ export interface IEndTurnState {
 interface IEndRoundState {
   cc: CombatController
   encounter?: any
+  silent?: boolean
 }
 
-const BRACE_COOLDOWN_DETAIL =
-  'Due to the stress of bracing, until the end of this turn you can only take one quick action. You cannot take reactions, overcharge, move normally, take full actions, or take free actions.'
+const BRACE_COOLDOWN_DETAIL_KEY = 'active.statusCond.braceCooldownDetail'
 
 const burnCheck: IFlowStep<IEndTurnState> = {
   Name: 'burn-check',
@@ -114,7 +114,8 @@ const braceTeardown = step<IEndRoundState>('brace-teardown', s => {
   s.cc.CustomStatuses.push({
     status: new EffectSpecial({
       attribute: 'Brace Cooldown',
-      detail: BRACE_COOLDOWN_DETAIL,
+      detail: '',
+      detailKey: BRACE_COOLDOWN_DETAIL_KEY,
     }),
     expires: markRaw(
       new expiration('end_turn_self', s.cc.Parent.CombatController, s.cc, s.encounter)
@@ -131,6 +132,15 @@ const braceTeardown = step<IEndRoundState>('brace-teardown', s => {
   }
 })
 
+const spendRemainingActivation = step<IEndRoundState>('spend-remaining-activation', s => {
+  if (s.cc.StatController.getCurrent(StatKey.ACTIVATIONS) < 1) return
+  s.cc.StatController.bumpCurrentStat(StatKey.ACTIVATIONS, -1)
+  if (s.silent) return
+  s.cc.Record('turn.end', {
+    activationsRemaining: s.cc.StatController.getCurrent(StatKey.ACTIVATIONS),
+  })
+})
+
 const refillActivations = step<IEndRoundState>('refill-activations', s => {
   s.cc.ActionPoolController.ClearReactionUses()
   s.cc.StatController.setCurrentStat(
@@ -138,7 +148,16 @@ const refillActivations = step<IEndRoundState>('refill-activations', s => {
     s.cc.StatController.getMax(StatKey.ACTIVATIONS)
   )
   s.cc.ClearUses(ActivePeriod.Round)
+  s.cc.Counterpart?.ClearUses(ActivePeriod.Round)
+  clearEquipmentUses(s.cc)
 })
+
+function clearEquipmentUses(cc: CombatController): void {
+  for (const item of cc.AllEquipment) {
+    const limited = item?.IsLimited ?? item?.Tags?.some((t: any) => t.IsLimited)
+    if (item?.Used && !item.IsLoading && !item.Recharge && !limited) item.Used = false
+  }
+}
 
 const expireStatuses = step<IEndRoundState>('expire-statuses', s => {
   const newEffects: TimedEffect[] = []
@@ -147,8 +166,9 @@ const expireStatuses = step<IEndRoundState>('expire-statuses', s => {
     s.cc.Record('status.lose', { status: statusRef(x.status), reason: 'expired' })
     newEffects.push(
       new TimedEffect({
-        name: `Status/Condition Expired`,
-        detail: `${x.status.Name} status has expired.`,
+        nameKey: 'active.timedEffect.statusExpiredName',
+        detailKey: 'active.timedEffect.statusExpiredDetail',
+        detailParams: { name: x.status.Name },
         round: s.cc.Round,
         remove: { status: [x.status.ID] },
       })
@@ -159,8 +179,9 @@ const expireStatuses = step<IEndRoundState>('expire-statuses', s => {
     s.cc.Record('status.lose', { status: statusRef(x.status), reason: 'expired' })
     newEffects.push(
       new TimedEffect({
-        name: `Special Status Expired`,
-        detail: `${x.status.Attribute} special status has expired.`,
+        nameKey: 'active.timedEffect.specialExpiredName',
+        detailKey: 'active.timedEffect.specialExpiredDetail',
+        detailParams: { attribute: x.status.Attribute },
         round: s.cc.Round,
         remove: { special: [{ attribute: x.status.Attribute, detail: x.status.Detail }] },
       })
@@ -171,15 +192,14 @@ const expireStatuses = step<IEndRoundState>('expire-statuses', s => {
 })
 
 const advanceRound = step<IEndRoundState>('advance-round', s => {
-  s.cc.Record('round.end', { round: s.cc.Round })
-  if (s.cc.Cover) s.cc.Record('cover', { cover: String(s.cc.Cover) })
+  if (!s.silent) s.cc.Record('round.end', { round: s.cc.Round })
   s.cc.Round++
   s.cc.StartRound()
-  s.cc.Record('round.start', { round: s.cc.Round })
+  if (!s.silent) s.cc.Record('round.start', { round: s.cc.Round })
 })
 
 export const EndRoundFlow = new Flow<IEndRoundState>(
   'EndRoundFlow',
-  [braceTeardown, refillActivations, expireStatuses, advanceRound],
+  [spendRemainingActivation, braceTeardown, refillActivations, expireStatuses, advanceRound],
   combatLogHooks
 )

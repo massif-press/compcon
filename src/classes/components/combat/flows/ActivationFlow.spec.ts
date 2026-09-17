@@ -3,6 +3,7 @@ import { ActivationFlow, BraceFlow, OverwatchFlow } from './ActivationFlow'
 import { makeMech, makePilot } from '@/__tests__/factories'
 import { StatKey } from '../stats/Stats'
 import type { Mech } from '@/classes/mech/Mech'
+import { Frequency } from '@/classes/Frequency'
 
 let m: Mech
 const cc = () => m.CombatController
@@ -21,6 +22,7 @@ describe('ActivationFlow', () => {
       'activation-normalization',
       'legality',
       'consume-uses',
+      'record-action',
       'heat-application',
       'consume',
       'reveal',
@@ -32,6 +34,7 @@ describe('ActivationFlow', () => {
       'activation-normalization': 'none',
       legality: 'none',
       'consume-uses': 'undo',
+      'record-action': 'none',
       'heat-application': 'undo',
       consume: 'undo',
       reveal: 'irreversible',
@@ -69,9 +72,19 @@ describe('ActivationFlow', () => {
     expect(r.completed).toEqual(['activation-normalization'])
   })
 
-  it('halts at legality when the action has no uses left', () => {
+  it('halts at legality as a duplicate when the action has no real use limit', () => {
     cc().MarkActionUsed('act_x')
     const r = ActivationFlow.Begin(state('quick', { actionId: 'act_x' }))
+
+    expect(r.outcome).toBe('halted')
+    expect(r.state.blockedBy).toBe('duplicate')
+  })
+
+  it('halts at legality with no uses left when a real frequency is exhausted', () => {
+    const frequency = new Frequency('2/round')
+    cc().MarkActionUsed('act_y', frequency)
+    cc().MarkActionUsed('act_y', frequency)
+    const r = ActivationFlow.Begin(state('quick', { actionId: 'act_y', frequency }))
 
     expect(r.outcome).toBe('halted')
     expect(r.state.blockedBy).toBe('no_uses')

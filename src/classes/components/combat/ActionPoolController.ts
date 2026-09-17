@@ -47,16 +47,11 @@ class ActionPoolController {
   }
 
   public get CombatActions(): any {
-    if (this._parent.IsMech && this._parent.IsAIControlled) return this._combatActions
-    return this._parent.RootActor.CombatController.ActionPoolController._combatActions
+    return this._combatActions
   }
 
   public set CombatActions(value: any) {
-    if (this._parent.IsMech && this._parent.IsAIControlled) {
-      this._combatActions = value
-      return
-    }
-    this._parent.RootActor.CombatController.ActionPoolController._combatActions = value
+    this._combatActions = value
   }
 
   public ReactionsUsed: string[] = []
@@ -101,7 +96,9 @@ class ActionPoolController {
   }
 
   public get OverchargeApplies(): boolean {
-    return this.InOvercharge && this._parent.ActiveActor?.CombatController?.IsMech
+    const active = this._parent.ActiveActor?.CombatController
+    if (!active?.IsMech) return false
+    return !!active.ActionPoolController.InOvercharge
   }
 
   public set InOvercharge(value: boolean) {
@@ -259,7 +256,7 @@ class ActionPoolController {
     }
   }
 
-  public ResetActivation(action: string, propagate = true): void {
+  public ResetActivation(action: string): void {
     const str = normalizeActivation(action)
     switch (str) {
       case 'protocol':
@@ -289,9 +286,6 @@ class ActionPoolController {
         break
       default:
         break
-    }
-    if (propagate) {
-      this._parent.Counterpart?.ResetActivation(action, false)
     }
   }
 
@@ -364,7 +358,6 @@ class ActionPoolController {
     if (!this.OverchargeApplies) return false
     if (!isQuickActivation(activation)) return false
     const action = this._parent.FindAction(actionId)
-    if (action?.IsPilotAction) return false
     const freq = action?.Frequency
     if (freq && !freq.Unlimited) return this.RemainingUses(actionId) > 0
     const record = this._actionUses[actionId]
@@ -402,8 +395,8 @@ class ActionPoolController {
     this._parent.TimedEffects.push(
       markRaw(
         new TimedEffect({
-          name: 'Self Destruct',
-          detail: `This mech will explode as though it suffered a reactor meltdown. The explosion will annihilate this mech, killing everyone inside and dealing 4d6 explosive damage to all targets in a burst 2 area around it.`,
+          nameKey: 'active.timedEffect.selfDestructName',
+          detailKey: 'active.timedEffect.selfDestructDetail',
           round: fireOnRound ?? this._parent.SelfDestructWindow[0],
           apply: { other: 'self_destruct' },
         })
@@ -435,6 +428,15 @@ class ActionPoolController {
     this._parent.StatController.setCurrentStat(StatKey.HP, 0)
     this.IsDead = true
     this._parent.Record('pilot.status', { to: 'kia' })
+  }
+
+  public ResetForEncounter(): void {
+    this._combatActions = { ...DEFAULT_COMBAT_ACTIONS }
+    this._actionUses = {}
+    this.ReactionsUsed = []
+    this.IsInSelfDestruct = false
+    this.ReactorDestroyed = false
+    this.IsDead = false
   }
 
   public Serialize(target: any): void {

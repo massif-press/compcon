@@ -153,6 +153,11 @@ class PilotLoadout {
     loadout._armor = loadoutData.armor.map(x => DeserializePilotEquipment(x) as PilotArmor)
     loadout._weapons = loadoutData.weapons.map(x => DeserializePilotEquipment(x) as PilotWeapon)
     loadout._gear = loadoutData.gear.map(x => DeserializePilotEquipment(x) as PilotGear)
+    const seen = new Set<string>()
+    loadout.Items.filter(x => x != null).forEach((item, i) => {
+      if (seen.has(item.InstanceID)) item.InstanceID = `${item.InstanceID}_${i}`
+      else seen.add(item.InstanceID)
+    })
     return loadout
   }
 }

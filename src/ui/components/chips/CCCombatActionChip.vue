@@ -98,7 +98,7 @@ const emit = defineEmits<{
 
 const isDeployable = computed((): boolean => !!props.action.Deployable)
 
-const controller = computed(() => props.owner.actor.CombatController)
+const controller = computed(() => props.owner.actor.CombatController.ActiveActor.CombatController)
 
 const canActivate = computed((): boolean =>
   !props.disabled && controller.value.CanActivate(props.action.Activation) && !controller.value.IsActionUsed(props.action.ID)

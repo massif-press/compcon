@@ -125,7 +125,9 @@ const menu = ref(false);
 
 const canActivate = computed(() =>
   !props.disabled &&
-  props.actor.CombatController.CanActivate(props.deployable.DeployAction.Activation)
+  props.actor.CombatController.ActiveActor.CombatController.CanActivate(
+    props.deployable.DeployAction.Activation
+  )
 );
 
 function deploy() {

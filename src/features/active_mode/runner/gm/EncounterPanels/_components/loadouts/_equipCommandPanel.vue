@@ -183,6 +183,7 @@
 <script setup lang="ts">
 import type { CombatantData } from '@/classes/encounter/Encounter'
 import { useEncounterContext } from '../../encounterContext'
+import { itemRef } from '@/classes/components/combat/log/refs'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import MechSkirmishButton from './action_buttons/mechSkirmishButton.vue'
@@ -270,13 +271,18 @@ function resetUses() {
   snapshotItemEdit()
   props.item.Uses = 0
 }
+function recordEquipment(state: 'used' | 'unused' | 'destroyed' | 'repaired') {
+  props.controller.Record('equipment', { item: itemRef(props.item), state })
+}
 function toggleDestroyed() {
   snapshotItemEdit()
   props.item.Destroyed = !props.item.Destroyed
+  recordEquipment(props.item.Destroyed ? 'destroyed' : 'repaired')
 }
 function toggleUsed() {
   snapshotItemEdit()
   props.item.Used = !props.item.Used
+  recordEquipment(props.item.Used ? 'used' : 'unused')
 }
 function enableAI() {
   props.controller.SetAIControl(true)
@@ -290,5 +296,6 @@ function cascade() {
 function onUseToggle() {
   snapshotItemEdit()
   props.item.Use()
+  recordEquipment(props.item.Used ? 'used' : 'unused')
 }
 </script>

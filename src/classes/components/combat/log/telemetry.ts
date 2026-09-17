@@ -36,10 +36,18 @@ interface IEncounterRollup {
   killsSelfReported: number
   deployablesLaunched: number
   deployablesDestroyed: number
+  equipmentDestroyed: number
+  coreEnergySpent: number
 
   statusesGained: Record<string, number>
   actionsTaken: Record<string, number>
   labels: Record<string, string>
+
+  roundsUnmounted: number
+  actionsUnmounted: number
+  damageDealtUnmounted: number
+  damageTakenUnmounted: number
+  movementUnmounted: number
 
   mechsLost: number
   destroyed: boolean
@@ -70,9 +78,16 @@ function blankRollup(): IEncounterRollup {
     killsSelfReported: 0,
     deployablesLaunched: 0,
     deployablesDestroyed: 0,
+    equipmentDestroyed: 0,
+    coreEnergySpent: 0,
     statusesGained: {},
     actionsTaken: {},
     labels: {},
+    roundsUnmounted: 0,
+    actionsUnmounted: 0,
+    damageDealtUnmounted: 0,
+    damageTakenUnmounted: 0,
+    movementUnmounted: 0,
     mechsLost: 0,
     destroyed: false,
   }
@@ -92,6 +107,7 @@ function reduceEvents(events: ILogEvent[], perspectiveId?: string): IEncounterRo
   const out = blankRollup()
   const mine = (id?: string) => perspectiveId === undefined || id === perspectiveId
   const roundsSeen = new Set<number>()
+  const roundsUnmounted = new Set<number>()
 
   for (const e of events) {
     const p = e.payload as any
@@ -99,14 +115,20 @@ function reduceEvents(events: ILogEvent[], perspectiveId?: string): IEncounterRo
 
     switch (e.kind) {
       case 'round.end':
-        if (perspectiveId === undefined || byMe) roundsSeen.add(p.round ?? e.round)
+        if (byMe) {
+          roundsSeen.add(p.round ?? e.round)
+          if (e.mounted === false) roundsUnmounted.add(p.round ?? e.round)
+        }
         break
       case 'turn.end':
         if (byMe) out.turns += 1
         break
 
       case 'move':
-        if (byMe) out.movementSpent += p.spent ?? 0
+        if (byMe) {
+          out.movementSpent += p.spent ?? 0
+          if (e.mounted === false) out.movementUnmounted += p.spent ?? 0
+        }
         break
 
       case 'damage': {
@@ -116,11 +138,14 @@ function reduceEvents(events: ILogEvent[], perspectiveId?: string): IEncounterRo
         if (byMe && dealt) {
           bump(out.damageDealt, type, amount)
           out.totalDealt += amount
-          out.damageArmorReduced += p.armorReduced ?? 0
+          if (e.mounted === false) out.damageDealtUnmounted += amount
         }
         if (mine(p.targetId)) {
           bump(out.damageTaken, type, amount)
           out.totalTaken += amount
+          out.damageArmorReduced += p.armorReduced ?? 0
+          if ((p.targetMounted ?? (dealt ? undefined : e.mounted)) === false)
+            out.damageTakenUnmounted += amount
         }
         break
       }
@@ -184,6 +209,14 @@ function reduceEvents(events: ILogEvent[], perspectiveId?: string): IEncounterRo
         if (byMe) out.deployablesDestroyed += 1
         break
 
+      case 'equipment':
+        if (byMe && p.state === 'destroyed') out.equipmentDestroyed += 1
+        break
+
+      case 'core.power':
+        if (byMe && p.active) out.coreEnergySpent += 1
+        break
+
       case 'status.gain':
         if (byMe) {
           bump(out.statusesGained, p.status?.id ?? '')
@@ -195,6 +228,7 @@ function reduceEvents(events: ILogEvent[], perspectiveId?: string): IEncounterRo
         if (byMe) {
           bump(out.actionsTaken, p.action?.id ?? '')
           label(out, p.action)
+          if (e.mounted === false) out.actionsUnmounted += 1
         }
         break
 
@@ -208,6 +242,7 @@ function reduceEvents(events: ILogEvent[], perspectiveId?: string): IEncounterRo
   }
 
   out.rounds = roundsSeen.size
+  out.roundsUnmounted = roundsUnmounted.size
   return out
 }
 
@@ -230,36 +265,56 @@ function pad(label: string, value: string, width: number): string {
   return `${label}${' '.repeat(gap)}${value}`
 }
 
-function formatRollup(r: IEncounterRollup, width = 40): string {
+type Translate = (key: string, params?: Record<string, unknown>) => string
+
+function formatRollup(r: IEncounterRollup, t: Translate, width = 40): string {
+  const k = (name: string, params?: Record<string, unknown>) =>
+    t(`active.telemetry.rollup.${name}`, params)
   const lines: string[] = [
-    pad('Rounds', String(r.rounds), width),
-    pad('Turns', String(r.turns), width),
-    pad('Movement spent', String(r.movementSpent), width),
+    pad(k('rounds'), String(r.rounds), width),
+    pad(k('turns'), String(r.turns), width),
+    pad(k('movementSpent'), String(r.movementSpent), width),
     '',
-    pad('Attacks', `${r.attacks.hit}/${r.attacks.made}`, width),
-    pad('Crits', String(r.attacks.crit), width),
-    pad('Saves', `${r.savesPassed} passed, ${r.savesFailed} failed`, width),
-    pad('Kills', `${r.killsConfirmed} (+${r.killsSelfReported} reported)`, width),
+    pad(k('attacks'), `${r.attacks.hit}/${r.attacks.made}`, width),
+    pad(k('crits'), String(r.attacks.crit), width),
+    pad(k('saves'), k('savesValue', { passed: r.savesPassed, failed: r.savesFailed }), width),
+    pad(
+      k('kills'),
+      k('killsValue', { confirmed: r.killsConfirmed, reported: r.killsSelfReported }),
+      width
+    ),
     '',
-    pad('Damage dealt', String(r.totalDealt), width),
+    pad(k('damageDealt'), String(r.totalDealt), width),
   ]
   for (const [type, n] of Object.entries(r.damageDealt))
     lines.push(pad(`  ${type}`, String(n), width))
-  lines.push(pad('Damage taken', String(r.totalTaken), width))
+  lines.push(pad(k('damageTaken'), String(r.totalTaken), width))
   for (const [type, n] of Object.entries(r.damageTaken))
     lines.push(pad(`  ${type}`, String(n), width))
   lines.push(
-    pad('Reduced by armor', String(r.damageArmorReduced), width),
+    pad(k('reducedByArmor'), String(r.damageArmorReduced), width),
     '',
-    pad('Heat gained', String(r.heatGained), width),
-    pad('Heat cleared', String(r.heatCleared), width),
-    pad('Overcharges', `${r.overcharges} (${r.overchargeHeat} heat)`, width),
-    pad('Structure checks', String(r.structureChecks), width),
-    pad('Stress checks', String(r.stressChecks), width),
-    pad('Deployables', `${r.deployablesLaunched} launched`, width)
+    pad(k('heatGained'), String(r.heatGained), width),
+    pad(k('heatCleared'), String(r.heatCleared), width),
+    pad(
+      k('overcharges'),
+      k('overchargesValue', { n: r.overcharges, heat: r.overchargeHeat }),
+      width
+    ),
+    pad(k('structureChecks'), String(r.structureChecks), width),
+    pad(k('stressChecks'), String(r.stressChecks), width),
+    pad(k('deployables'), k('deployablesValue', { n: r.deployablesLaunched }), width),
+    pad(k('equipmentDestroyed'), String(r.equipmentDestroyed), width),
+    pad(k('coreEnergySpent'), String(r.coreEnergySpent), width),
+    '',
+    pad(k('roundsUnmounted'), String(r.roundsUnmounted ?? 0), width),
+    pad(k('actionsUnmounted'), String(r.actionsUnmounted ?? 0), width),
+    pad(k('damageDealtUnmounted'), String(r.damageDealtUnmounted ?? 0), width),
+    pad(k('damageTakenUnmounted'), String(r.damageTakenUnmounted ?? 0), width),
+    pad(k('movementUnmounted'), String(r.movementUnmounted ?? 0), width)
   )
   return lines.join('\n')
 }
 
 export { reduceEvents, mergeRollups, blankRollup, formatRollup }
-export type { IEncounterRollup }
+export type { IEncounterRollup, Translate }

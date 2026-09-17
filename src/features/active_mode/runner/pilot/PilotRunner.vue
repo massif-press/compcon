@@ -141,6 +141,7 @@ import DeployablesPanel from './_components/PcDeployablesPanel.vue';
 import PcEndRound from './_components/PcEndRound.vue';
 import PcEndEncounter from './_components/PcEndEncounter.vue';
 import RunnerLeaveDialog from '../_shared/_RunnerLeaveDialog.vue';
+import { consumeLeaveGuardBypass } from '../_shared/useRunnerOptions';
 import CcPanelToggle from '@/ui/components/buttons/CCPanelToggle.vue';
 
 const panelMap: Record<string, any> = {
@@ -190,6 +191,7 @@ function handleLeave(choice: 'save' | 'exit' | 'cancel') {
 }
 
 onBeforeRouteLeave(async () => {
+  if (consumeLeaveGuardBypass()) return true;
   const choice = await openLeaveDialog();
   if (choice === 'save') {
     sheet.value?.Save();

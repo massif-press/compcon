@@ -7,8 +7,6 @@ import { weaponPool } from '@/classes/components/combat/AttackRules'
 import { usableWeapons, weaponUseState } from '@/classes/components/combat/flows/WeaponUseFlow'
 import { DamageType } from '@/classes/enums'
 
-declare function overkillTriggers(o: { die: number; represents: number; rolled: number }): boolean
-declare function structureDamageTargets(mech: any): any[]
 import type { Mech } from '@/classes/mech/Mech'
 
 let m: Mech
@@ -48,7 +46,7 @@ describe('loading', () => {
     expect(spent.Used).toBe(true)
   })
 
-  it('T-TAG-loading-01: reload leaves non-loading equipment alone, and reports when there is nothing to reload', () => {
+  it('T-TAG-loading-01: reload leaves non-loading equipment alone', () => {
     const eq = { IsLoading: false, Used: true, Name: 'other' }
     vi.spyOn(cc(), 'AllEquipment', 'get').mockReturnValue([eq] as any)
 
@@ -94,7 +92,13 @@ describe('barrage weapon selection and burn resistance', () => {
     }
     const offered = (selected: any[]) =>
       usableWeapons(
-        weaponUseState({ cc, actionId: 'act_barrage', mode: 'barrage', makeEvent: () => ({}), selected })
+        weaponUseState({
+          cc,
+          actionId: 'act_barrage',
+          mode: 'barrage',
+          makeEvent: () => ({}),
+          selected,
+        })
       ).map(w => w.InstanceID)
 
     expect(weaponPool(cc, 'barrage').map(w => w.InstanceID)).toEqual(['a', 'b'])

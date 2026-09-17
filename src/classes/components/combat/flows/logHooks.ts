@@ -1,6 +1,7 @@
 import { withLogGroup } from '../log/CombatLogRecorder'
 import type { IFlowHooks, IFlowRequest } from './Flow'
 import type { BlockedReason, IRef } from '../log/events'
+import { actionRef } from '../log/refs'
 
 interface ICombatFlowState {
   cc?: { Record: (kind: any, payload: any) => void; FindAction?: (id: string) => any }
@@ -22,8 +23,7 @@ export function groupOf(state: object): string {
 
 function blockedAction(s: ICombatFlowState): IRef | undefined {
   if (s.weapon?.Name) return { id: s.weapon.ID ?? '', name: s.weapon.Name }
-  if (s.actionId)
-    return { id: s.actionId, name: s.cc?.FindAction?.(s.actionId)?.Name ?? s.actionId }
+  if (s.actionId) return actionRef(s.actionId, s.cc?.FindAction?.(s.actionId)?.Name)
   return undefined
 }
 

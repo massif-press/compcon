@@ -248,8 +248,10 @@
     prerollEffects,
     resolveEffects,
     applyCheckEffects,
+    recordCheckRoll,
     requestFor,
   } from '@/classes/components/combat/StructureCheck'
+  import { withLogGroup } from '@/classes/components/combat/log/CombatLogRecorder'
 
   const props = defineProps<{
     modelValue: boolean
@@ -347,7 +349,17 @@
 
   function apply() {
     if (!resolution.value.complete) return
-    applyCheckEffects(props.cc, resolution.value.actions)
+    withLogGroup(() => {
+      if (result.value)
+        recordCheckRoll(
+          props.cc,
+          props.pending.kind,
+          result.value,
+          marked.value,
+          resolution.value.actions
+        )
+      applyCheckEffects(props.cc, resolution.value.actions)
+    })
     props.cc.RemovePendingCheck(props.pending.id)
     open.value = false
   }

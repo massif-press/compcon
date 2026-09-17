@@ -60,7 +60,7 @@ import * as _ from 'lodash-es';
 import Statblock from '@/classes/Statblock'
 import { Unit } from '@/classes/npc/unit/Unit';
 
-defineOptions({ name: 'DamageMenu' })
+defineOptions({ name: 'ScanMenu' })
 
 const props = defineProps<{
   item: object

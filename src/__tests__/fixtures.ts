@@ -41,5 +41,4 @@ export function fixtures(kind: FixtureKind, version?: FixtureVersion): Fixture[]
   return all.filter(f => f.kind === kind && (!version || f.version === version))
 }
 
-export const missingFixtures = (kind: string) =>
-  `no ${kind} fixtures in src/__tests__/fixtures/ — drop real exports there (see its README)`
+export const missingFixtures = (kind: string) => `no ${kind} fixtures in src/__tests__/fixtures/`

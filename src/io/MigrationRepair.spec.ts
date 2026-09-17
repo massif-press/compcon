@@ -143,6 +143,33 @@ describe('applyAllFixes', () => {
     expect(SetItem).toHaveBeenCalledWith('content', { id: 'pack1' })
   })
 
+  it('strips per-npc state baked into lcp feature data and saves the pack', async () => {
+    ContentPackStore().ContentPacks = [
+      featurePack([
+        {
+          id: 'npcf_assault_main',
+          name: 'Main Gun',
+          origin: 'npcc_assault',
+          isUsed: true,
+          flavorName: 'softer grunt',
+          flavorDescription: 'lower damage',
+        },
+      ]),
+    ]
+    vi.spyOn(CompendiumStore(), 'refreshExtraContent').mockResolvedValue()
+
+    const findings = await runMigrationScan()
+    expect(findings.map(f => f.category)).toEqual(['lcp_flavor_state'])
+
+    await applyAllFixes(findings)
+
+    const feature = ContentPackStore().ContentPacks[0].Data.npcFeatures[0]
+    expect(feature.isUsed).toBeUndefined()
+    expect(feature.flavorName).toBeUndefined()
+    expect(feature.flavorDescription).toBeUndefined()
+    expect(SetItem).toHaveBeenCalledWith('content', { id: 'pack1' })
+  })
+
   it('reports progress against the number of save tasks', async () => {
     ContentPackStore().ContentPacks = [
       featurePack(

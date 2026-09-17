@@ -235,8 +235,8 @@
       npc.CombatController.StatController,
       props.encounterInstance
     )
+    npc.CombatController.ResetForEncounter()
     npc.CombatController.StatController.resetCurrentStats()
-    npc.CombatController.Reset()
     props.encounterInstance.Combatants.push(
       makeCombatant(npc, 'unit', {
         id: crypto.randomUUID(),
@@ -260,8 +260,8 @@
       pc.CombatController.StatController,
       props.encounterInstance
     )
+    pc.CombatController.ResetForEncounter()
     pc.CombatController.StatController.resetCurrentStats()
-    pc.CombatController.Reset()
     props.encounterInstance.Combatants.push(
       makeCombatant(pc, 'pilot', {
         id: pc.ID,

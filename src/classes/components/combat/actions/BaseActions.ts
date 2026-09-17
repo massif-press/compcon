@@ -67,7 +67,7 @@ function bootUp(cc: CombatController): boolean {
 
 function ram(cc: CombatController, target: any, outcome: { hit: boolean }): boolean {
   if (!outcome.hit) return false
-  target.AddStatus('prone')
+  target?.AddStatus('prone')
   return true
 }
 
@@ -78,8 +78,8 @@ function grapple(
 ): boolean {
   if (!outcome.hit) return false
   cc.AddStatus('engaged')
-  target.AddStatus('engaged')
-  ;(outcome.smaller ?? target).AddStatus('immobilized')
+  target?.AddStatus('engaged')
+  ;(outcome.smaller ?? target)?.AddStatus('immobilized')
   return true
 }
 
@@ -115,10 +115,8 @@ function dismount(cc: CombatController): boolean {
 function prepare(cc: CombatController): void {
   if (cc.Prepared) return
   cc.Prepared = true
-  cc.CombatActions.Quick1 = false
-  cc.CombatActions.Quick2 = false
-  cc.CombatActions.Full = false
-  cc.CombatActions.Reaction = false
+  cc.SetCombatAction('full', false)
+  cc.SetCombatAction('reaction', false)
   cc.StatController.setCurrentStat(StatKey.SPEED, 0, { silent: true })
   cc.Record('prepare', { prepared: true })
 }
@@ -126,23 +124,22 @@ function prepare(cc: CombatController): void {
 function releasePrepared(cc: CombatController): void {
   if (!cc.Prepared) return
   cc.Prepared = false
-  cc.CombatActions.Reaction = true
+  cc.SetCombatAction('reaction', true)
   cc.Record('prepare', { prepared: false })
 }
 
 function search(cc: CombatController, target: any, outcome: { success: boolean }): boolean {
   if (!outcome.success) return false
-  target.RemoveStatus('hidden')
+  target?.RemoveStatus('hidden')
   return true
 }
 
 function lockOn(cc: CombatController, target: any): boolean {
-  if (!target) return false
-  if (target.ImmuneTo?.('tech', 'lockon')) {
+  if (target?.ImmuneTo?.('tech', 'lockon')) {
     cc.Record('blocked', { action: { id: 'act_lockon', name: 'LOCK ON' }, reason: 'immune' })
     return false
   }
-  target.AddStatus('lockon')
+  target?.AddStatus('lockon')
   cc.DropHostileActionStatuses()
   return true
 }
@@ -385,7 +382,7 @@ const BASE_ACTIONS: Record<string, IBaseActionRule> = {
     activation: 'quicktech',
     needsTarget: true,
     run: (cc, o) => {
-      o.target.Bolster()
+      o.target?.Bolster()
       return true
     },
   },
@@ -442,12 +439,18 @@ const BASE_ACTIONS: Record<string, IBaseActionRule> = {
   },
 }
 
-BASE_ACTIONS.act_lock_on = BASE_ACTIONS.act_lockon
-BASE_ACTIONS.act_grapple_npc = BASE_ACTIONS.act_grapple
-BASE_ACTIONS.act_ram_npc = BASE_ACTIONS.act_ram
+const ACTION_ID_ALIASES: Record<string, string> = {
+  act_lock_on: 'act_lockon',
+  act_grapple_npc: 'act_grapple',
+  act_ram_npc: 'act_ram',
+}
+
+for (const [alias, canonical] of Object.entries(ACTION_ID_ALIASES))
+  BASE_ACTIONS[alias] = BASE_ACTIONS[canonical]
 
 export {
   BASE_ACTIONS,
+  ACTION_ID_ALIASES,
   boost,
   shutDown,
   bootUp,

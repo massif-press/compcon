@@ -80,8 +80,6 @@ class StatController {
 
   private _maxStats: Record<string, any> = {}
   private _currentStats: Record<string, any> = {}
-  private _currentProxy: Record<string, any> | null = null
-  private _currentProxyFor: Record<string, any> | null = null
   private _statFloors: Record<string, number> = markRaw({})
   private _customTrackable = new Set<string>()
   private _userAddedKeys = new Set<string>()
@@ -259,17 +257,13 @@ class StatController {
   }
 
   public get CurrentStats(): any {
-    if (!this._currentProxy || this._currentProxyFor !== this._currentStats) {
-      this._currentProxyFor = this._currentStats
-      this._currentProxy = new Proxy(this._currentStats, {
-        set: (_t, key, value) => {
-          if (typeof key !== 'string') return false
-          this.setCurrentStat(key, Number(value))
-          return true
-        },
-      })
-    }
-    return this._currentProxy
+    return new Proxy(this._currentStats, {
+      set: (_t, key, value) => {
+        if (typeof key !== 'string') return false
+        this.setCurrentStat(key, Number(value))
+        return true
+      },
+    })
   }
 
   public set CurrentStats(val: any) {

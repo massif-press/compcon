@@ -616,11 +616,14 @@
   }
 
   function formatTelemetry(history: any, actorId: string) {
-    return formatRollup(reduceEvents(history?.events ?? [], actorId), 40)
+    return formatRollup(reduceEvents(history?.events ?? [], actorId), t, 40)
   }
 
   function formatLogEntry(entry: any) {
-    return `Round ${entry.round} (${new Date(entry.ts).toLocaleTimeString()})\n${entry.text}`
+    return `${t('active.telemetry.rollup.logEntryHeader', {
+      n: entry.round,
+      time: new Date(entry.ts).toLocaleTimeString(),
+    })}\n${entry.text}`
   }
 </script>
 

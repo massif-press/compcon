@@ -1,3 +1,5 @@
+import { ActivationType } from '@/classes/enums'
+import { slug } from '@/i18n/contentKeys.mjs'
 import { LOG_EVENT_KEYS, resolveActor } from './events'
 import type { IActorRef, ILogEvent, ILogStream, LogEventKind } from './events'
 
@@ -19,6 +21,20 @@ function withDamageNotes(base: string, p: any, t: Translate): string {
   p.conditions?.forEach((c: string) => notes.push(t(`active.log.condition.${c}`)))
   if (p.overkillHeat) notes.push(t('active.log.overkill', { n: p.overkillHeat }))
   return annotate(base, notes)
+}
+
+const compact = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '')
+
+const ACTIVATION_TYPES = new Map(
+  Object.values(ActivationType).map(v => [compact(v), v as string])
+)
+
+function activationLabel(activation: string | undefined, t: Translate): string {
+  if (!activation) return ''
+  const canonical = ACTIVATION_TYPES.get(compact(activation)) ?? activation
+  const key = `enums.activationType.${slug(canonical)}`
+  const label = t(key)
+  return label === key ? activation : label
 }
 
 const UNTAGGED = new Set<LogEventKind>([
@@ -74,10 +90,10 @@ function renderBody(event: ILogEvent, stream: StreamContext, t: Translate): stri
       return t(key(event.kind), { who, n: p.activationsRemaining })
 
     case 'action':
-      return t(key(event.kind, p.free ? 'Free' : ''), {
+      return t(key(event.kind, p.free ? 'Free' : p.activation ? '' : 'Plain'), {
         who,
         action: p.action?.name,
-        activation: p.activation,
+        activation: activationLabel(p.activation, t),
       })
 
     case 'attack': {
@@ -162,6 +178,24 @@ function renderBody(event: ILogEvent, stream: StreamContext, t: Translate): stri
         condition: p.condition,
       })
 
+    case 'equipment': {
+      const state = String(p.state ?? 'used')
+      return t(key(event.kind, state.charAt(0).toUpperCase() + state.slice(1)), {
+        who,
+        item: p.item?.name,
+      })
+    }
+
+    case 'counter': {
+      const delta = (p.to ?? 0) - (p.from ?? 0)
+      return t(key(event.kind, delta < 0 ? 'Down' : 'Up'), {
+        who,
+        counter: p.counter?.name,
+        n: Math.abs(delta),
+        to: p.to,
+      })
+    }
+
     case 'move':
       if (p.granted) return t(key(event.kind, 'Boosted'), { who, n: p.granted })
       if (p.mode === 'boost') return t(key(event.kind, 'Boost'), { who, n: p.spent })
@@ -224,7 +258,7 @@ function renderBody(event: ILogEvent, stream: StreamContext, t: Translate): stri
   }
 }
 
-interface ILogEntry {
+export interface ILogEntry {
   id: string
   events: ILogEvent[]
   round: number
@@ -280,21 +314,25 @@ function arrangeByAttack(events: ILogEvent[]): ILogEvent[] {
   if (!attacks.length) return events
 
   const damage = events.filter(e => e.kind === 'damage')
+  const kills = events.filter(e => e.kind === 'actor.destroy')
   const claimed = new Set<ILogEvent>()
   const out = events.filter(e => e.kind === 'action')
+  const claim = (pool: ILogEvent[], targetId: string) =>
+    pool.forEach(e => {
+      if (claimed.has(e) || (e.payload as any).targetId !== targetId) return
+      claimed.add(e)
+      out.push(e)
+    })
 
   for (const attack of attacks) {
     out.push(attack)
-    for (const hit of damage) {
-      if (claimed.has(hit)) continue
-      if ((hit.payload as any).targetId !== (attack.payload as any).targetId) continue
-      claimed.add(hit)
-      out.push(hit)
-    }
+    const targetId = (attack.payload as any).targetId
+    claim(damage, targetId)
+    if (targetId) claim(kills, targetId)
   }
 
   out.push(...damage.filter(hit => !claimed.has(hit)))
-  out.push(...events.filter(e => !ATTACK_KINDS.includes(e.kind)))
+  out.push(...events.filter(e => !ATTACK_KINDS.includes(e.kind) && !claimed.has(e)))
   return out
 }
 
@@ -308,13 +346,89 @@ function isHitDamage(event: ILogEvent, previous?: ILogEvent): boolean {
   return !!p.taken && p.targetId === (previous.payload as any).targetId
 }
 
+function isFollowUpKill(event: ILogEvent, previous?: ILogEvent): boolean {
+  if (event.kind !== 'actor.destroy') return false
+  if (previous?.kind !== 'damage' && previous?.kind !== 'attack') return false
+  const targetId = (event.payload as any).targetId
+  return !targetId || targetId === (previous.payload as any).targetId
+}
+
+const FOLLOW_ON_KINDS: ReadonlySet<LogEventKind> = new Set<LogEventKind>([
+  'status.gain',
+  'status.lose',
+  'resist.change',
+  'damage',
+  'heat',
+  'actor.destroy',
+  'repair',
+  'reload',
+  'stabilize',
+  'recharge',
+  'counter',
+  'equipment',
+  'core.power',
+  'deployable.launch',
+  'deployable.destroy',
+  'overcharge',
+  'meltdown',
+  'prepare',
+  'cover',
+  'carry',
+])
+
+function sameTurn(a: ILogEvent, b: ILogEvent): boolean {
+  return a.actorId === b.actorId && a.round === b.round && a.turn === b.turn
+}
+
+function movePayload(event: ILogEvent): any | undefined {
+  const p = event.payload as any
+  return event.kind === 'move' && !p.granted ? p : undefined
+}
+
+function isMoveRun(group: ILogEvent[]): boolean {
+  return group.every(e => !!movePayload(e))
+}
+
+function mergeable(prev: ILogEvent[], next: ILogEvent[]): boolean {
+  if (!sameTurn(prev[0], next[0])) return false
+  if (isMoveRun(prev) && isMoveRun(next))
+    return movePayload(prev[0])!.mode === movePayload(next[0])!.mode
+  if (!prev.some(e => e.kind === 'action')) return false
+  return next.every(e => FOLLOW_ON_KINDS.has(e.kind))
+}
+
+function collapse(groups: ILogEvent[][]): ILogEvent[][] {
+  const out: ILogEvent[][] = []
+  for (const group of groups) {
+    const prev = out[out.length - 1]
+    if (prev && mergeable(prev, group)) prev.push(...group)
+    else out.push([...group])
+  }
+  return out
+}
+
+function sumMoves(events: ILogEvent[]): ILogEvent[] {
+  const out: ILogEvent[] = []
+  for (const event of events) {
+    const prev = out[out.length - 1]
+    const p = movePayload(event)
+    const held = prev ? movePayload(prev) : undefined
+    if (p && held && held.mode === p.mode) {
+      out[out.length - 1] = { ...prev!, payload: { ...held, spent: held.spent + p.spent } }
+      continue
+    }
+    out.push(event)
+  }
+  return out
+}
+
 function renderEntry(
   events: ILogEvent[],
   stream: StreamContext,
   t: Translate,
   viewerId?: string
 ): string {
-  const arranged = arrange(events)
+  const arranged = sumMoves(arrange(events))
   const parts: string[] = []
 
   arranged.forEach((event, index) => {
@@ -322,6 +436,10 @@ function renderEntry(
     if (parts.length && isHitDamage(event, arranged[index - 1])) {
       const clause = t('active.log.clause.damage', { amount: p.final, type: p.damageType })
       parts[parts.length - 1] += ` ${withDamageNotes(clause, p, t)}`
+      return
+    }
+    if (parts.length && isFollowUpKill(event, arranged[index - 1])) {
+      parts[parts.length - 1] += ` ${t('active.log.clause.kill')}`
       return
     }
     const line =
@@ -338,7 +456,7 @@ export function renderStream(
   t: Translate,
   viewerId?: string
 ): ILogEntry[] {
-  return foldEvents(events)
+  return collapse(foldEvents(events))
     .map(group => ({
       id: group[0].id,
       events: group,

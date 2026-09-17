@@ -45,6 +45,7 @@ class ActiveEffectEvent {
   public AttackBonus: number = 0
 
   public IsPcLocal: boolean = false
+  public Weapon?: any
 
   constructor(initiator: CombatantData, effect: ActiveEffect, instance: EncounterInstance) {
     this.ID = crypto.randomUUID()
@@ -337,15 +338,29 @@ class ActiveEffectEvent {
 
   public RecordAction(targets: ActiveEventTarget[]) {
     const cc = this.Initiator.actor.CombatController
-    const action = { id: this.Effect.ID, name: this.Effect.Name }
+    const raw = (this.Effect as any).Origin
+    const origin = raw?.CombatController ? undefined : raw
+    const action = {
+      id: origin?.ID ?? this.Effect.ID,
+      name: origin?.Name ?? this.Effect.Name,
+    }
+    const activation = String(origin?.Activation ?? '')
     cc.Record('action', {
       action,
-      activation: String((this.Effect as any).Activation ?? ''),
+      activation,
+      free: ['free', 'none'].includes(activation.toLowerCase()),
+      heat: Number(origin?.HeatCost) || undefined,
     })
     if (!this.Attack) return
-    const weapon = (this as any).Weapon ? itemRef((this as any).Weapon) : undefined
+    const weapon = this.Weapon ? itemRef(this.Weapon) : undefined
     targets.forEach(t => {
-      if (!t || t.AttackRolledValue === undefined) return
+      if (!t) return
+      if (
+        t.AttackRolledValue === undefined &&
+        t.HitResultOverride === undefined &&
+        !t.MissedFromInvisibility
+      )
+        return
       cc.Record('attack', {
         action,
         weapon,

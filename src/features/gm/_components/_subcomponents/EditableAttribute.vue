@@ -158,16 +158,18 @@
 
   model.value = props.val as number
 
+  const sumVals = (arr: ResolvedBonus[]) => arr.reduce((acc, x) => acc + (Number(x.Value) || 0), 0)
+
   const overwriteVal = computed(() => {
-    const overwrite = props.bonuses.find(x => x.Overwrite)
+    const overwrite = props.bonuses.find(x => x.Overwrite && !x.Replace)
     if (overwrite) return overwrite.Value
     return ''
   })
   const totalWithBonus = computed(() => {
-    return (
-      props.val +
-      props.bonuses.filter(x => !x.PerPc).reduce((acc, x) => acc + (x.Value as number) || 0, 0)
-    )
+    const active = props.bonuses.filter(x => !x.PerPc)
+    const replaces = active.filter(x => x.Replace)
+    const base = replaces.length ? sumVals(replaces) : props.val
+    return base + sumVals(active.filter(x => !x.Replace))
   })
 </script>
 

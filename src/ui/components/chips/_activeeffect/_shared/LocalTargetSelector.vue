@@ -4,7 +4,7 @@
     :class="mobile ? 'px-2 pt-1' : 'py-5 pr-3'"
   >
     <v-row
-      v-for="(t, idx) in event.Targets"
+      v-for="(_t, idx) in event.Targets"
       :key="`target-${idx}`"
       no-gutters
     >
@@ -122,15 +122,6 @@
         >
           {{ $t('ui.combat.addTarget') }}
         </v-btn>
-        <cc-switch
-          v-if="t && dealsDamage"
-          v-model="t.ConfirmedKill"
-          density="compact"
-          hide-details
-          color="error"
-          class="mt-1"
-          :label="$t('ui.combat.confirmKill')"
-        />
       </v-col>
     </v-row>
   </div>
@@ -138,16 +129,13 @@
 
 <script setup lang="ts">
   import type { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
-  import { computed } from 'vue'
   import { useDisplay } from 'vuetify'
 
   const { smAndDown: mobile } = useDisplay()
 
-  const props = defineProps<{
+  defineProps<{
     event: ActiveEffectEvent
   }>()
-
-  const dealsDamage = computed(() => !!props.event.Effect?.Damage?.length)
 
   function getOrdinal(n) {
     const s = ['th', 'st', 'nd', 'rd'],

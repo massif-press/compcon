@@ -213,9 +213,10 @@ async function createEncounter(launch: boolean) {
   if (!encounter.value) return;
   const instance = new EncounterInstance(undefined, encounter.value, pilots.value, placeholders.value);
   instance.Combatants.forEach(c => {
-    c.actor.CombatController.Reset()
+    c.actor.CombatController.ResetForEncounter()
     c.actor.CombatController.StartEncounter()
   });
+  instance.RecordEncounterStart();
   await EncounterStore().AddEncounterInstance(instance);
   await EncounterStore().SetActiveEncounter(instance.ID);
   if (launch) router.push('gm-encounter-runner');

@@ -191,9 +191,22 @@ export function heatCurve(stream: ILogStream, actorId: string): IChartData & { c
   return { labels: rounds.map(String), series: [series('heat', data)], cap }
 }
 
+const TIMELINE_EXCLUDED: ReadonlySet<string> = new Set([
+  'encounter.start',
+  'encounter.end',
+  'round.start',
+  'round.end',
+  'turn.start',
+  'turn.end',
+  'note',
+  'prompt',
+  'blocked',
+])
+
 export function eventTimeline(stream: ILogStream, actorId?: string, top = 6): IChartData {
-  const events = actorId ? stream.events.filter(e => e.actorId === actorId) : stream.events
-  const rounds = roundsIn(events)
+  const scoped = actorId ? stream.events.filter(e => e.actorId === actorId) : stream.events
+  const events = scoped.filter(e => !TIMELINE_EXCLUDED.has(e.kind))
+  const rounds = roundsIn(scoped)
 
   const totals = new Map<string, number>()
   for (const e of events) totals.set(e.kind, (totals.get(e.kind) ?? 0) + 1)

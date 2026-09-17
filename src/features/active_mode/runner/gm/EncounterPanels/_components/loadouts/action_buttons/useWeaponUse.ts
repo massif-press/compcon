@@ -8,6 +8,7 @@ import {
   activeEvents,
 } from '@/classes/components/combat/flows/WeaponUseFlow'
 import type { IWeaponUseState } from '@/classes/components/combat/flows/WeaponUseFlow'
+import { isSuperheavy } from '@/classes/components/combat/AttackRules'
 import type { WeaponUseMode } from '@/classes/components/combat/AttackRules'
 import type { IFlowResult } from '@/classes/components/combat/flows/Flow'
 import { useEncounterContext } from '../../../encounterContext'
@@ -80,10 +81,13 @@ export function useWeaponUse(opts: {
   const selectedWeapons = computed<any[]>(() => {
     const chosen = useState.value.selected.filter(Boolean)
     if (chosen.length >= useState.value.capacity) return chosen
+    if (chosen.some(isSuperheavy)) return chosen
+    if (chosen.length && !usableWeapons(useState.value, chosen.length).length) return chosen
     return [...chosen, undefined]
   })
 
   const weapons = computed<any[]>(() => usableWeapons(useState.value))
+  const weaponsForSlot = (slot: number) => usableWeapons(useState.value, slot)
   const hiddenWeapons = computed(() => unavailableWeapons(useState.value).length)
   const eventArray = computed(() => activeEvents(useState.value))
   const allEventsStaged = computed(
@@ -103,6 +107,7 @@ export function useWeaponUse(opts: {
     selected,
     selectedWeapons,
     weapons,
+    weaponsForSlot,
     hiddenWeapons,
     eventArray,
     allEventsStaged,

@@ -256,11 +256,12 @@ describe('skirmish under overcharge', () => {
 
 describe('pilots cannot overcharge', () => {
   it('never unlocks a second fight', () => {
-    cc().UseAttackAction('act_fight', 'sidearm_a')
+    pilot.CombatController.Mounted = false
+    pilot.CombatController.UseAttackAction('act_fight', 'sidearm_a')
     cc().StartOvercharge()
 
-    expect(cc().CanRepeatAsOvercharge('act_fight', 'Quick')).toBe(false)
-    expect(cc().CanTakeAction('act_fight', 'Quick', 'sidearm_b')).toBe(false)
+    expect(pilot.CombatController.CanRepeatAsOvercharge('act_fight', 'Quick')).toBe(false)
+    expect(pilot.CombatController.CanTakeAction('act_fight', 'Quick', 'sidearm_b')).toBe(false)
   })
 
   it('does not give a dismounted pilot a quick action from the mech overcharge', () => {

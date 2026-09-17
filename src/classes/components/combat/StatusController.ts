@@ -127,6 +127,10 @@ class StatusController {
     )
     if (existingIndex === -1) {
       activeTarget.CustomStatuses.push({ status: customStatus, expires: expirationObj })
+      this._parent.Record('status.gain', {
+        status: statusRef(customStatus),
+        duration: expires || undefined,
+      })
     } else {
       activeTarget.CustomStatuses[existingIndex].expires.Raw = expires
     }
@@ -145,8 +149,7 @@ class StatusController {
   }
 
   public static readonly CASCADE_ATTRIBUTE = 'In Cascade'
-  public static readonly CASCADE_DETAIL =
-    'An installed NHP has entered CASCADE and has taken full control of the mech. The mech is in control of the GM until the Pilot reclaims control by choosing to Shut Down the mech.'
+  public static readonly CASCADE_DETAIL_KEY = 'active.statusCond.cascadeDetail'
 
   public get InCascade(): boolean {
     return this.HasCustomStatus(StatusController.CASCADE_ATTRIBUTE)
@@ -156,8 +159,8 @@ class StatusController {
     const target = this._active.StatusController
     const existingIndex = target.CustomStatuses.findIndex(s => s.status.Attribute === attribute)
     if (existingIndex !== -1) {
-      target.CustomStatuses.splice(existingIndex, 1)
-      this._parent.CombatLogVersion++
+      const [removed] = target.CustomStatuses.splice(existingIndex, 1)
+      this._parent.Record('status.lose', { status: statusRef(removed.status), reason: 'removed' })
     }
   }
 
@@ -187,8 +190,12 @@ class StatusController {
     const target = this._active.StatusController
     const existingIndex = target.Resistances.findIndex(s => s.type === type)
     if (existingIndex > -1) {
-      target.Resistances.splice(existingIndex, 1)
-      this._parent.CombatLogVersion++
+      const [removed] = target.Resistances.splice(existingIndex, 1)
+      this._parent.Record('resist.change', {
+        damageType: type,
+        condition: removed.condition,
+        removed: true,
+      })
     }
   }
 
@@ -295,6 +302,12 @@ class StatusController {
     this.Statuses.filter(s => ruleFor(s.status.ID)?.[flag]).forEach(s =>
       this.RemoveStatus(s.status.ID)
     )
+  }
+
+  public ResetForEncounter(): void {
+    this.Statuses = []
+    this.CustomStatuses = []
+    this.Resistances = []
   }
 
   public Serialize(target: any): void {

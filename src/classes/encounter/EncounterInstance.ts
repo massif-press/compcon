@@ -9,13 +9,13 @@ import {
   ISaveable,
   SaveController,
 } from '../components'
-import { CombatantData, Encounter, IEncounterData, makeCombatant } from './Encounter'
+import { CombatantData, Encounter, IEncounterData, isOutOfCombat, makeCombatant } from './Encounter'
 import { Deployable } from '../components/feature/deployable/Deployable'
 import type { ICombatant } from '../components/combat/ICombatant'
 import { ItemType } from '../enums'
 import { Pilot, PilotData } from '../pilot/Pilot'
 import { Placeholder } from './Placeholder'
-import { DeployableInstance } from '../components/feature/deployable/DeployableInstance'
+import { deployToCombatant } from '../components/feature/deployable/DeployableInstance'
 import { Eidolon } from '../npc/eidolon/Eidolon'
 
 interface IEncounterInstanceData {
@@ -32,6 +32,12 @@ interface IEncounterInstanceData {
   force_complex_tickbars?: boolean
   layout_columns?: boolean
   max_masonry_columns?: number
+}
+
+function hasPendingMeltdown(c: CombatantData): boolean {
+  return [c.actor?.CombatController, c.actor?.ActiveMech?.CombatController].some(
+    cc => !!cc?.TimedEffectController.Pending('self_destruct', 'reactor_meltdown')
+  )
 }
 
 class EncounterInstance implements ISaveable, ICloudSyncable {
@@ -208,10 +214,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
   }
 
   public Deploy(deployable: Deployable, combatant: CombatantData): void {
-    const deployableInstance = new DeployableInstance(deployable.ItemData, combatant)
-    deployableInstance.SetStats()
-    combatant.deployables.push(deployableInstance)
-    combatant.actor.CombatController.toggleCombatAction(deployable.DeployAction.Activation)
+    deployToCombatant(deployable, combatant)
   }
 
   public ApplyPassiveResistances(): void {
@@ -239,10 +242,17 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     }
   }
 
-  public EndEncounter(): void {
+  public RecordEncounterStart(): void {
+    for (const c of this.Combatants) {
+      c.actor.CombatController.Record('encounter.start', { name: this.Name })
+    }
+  }
+
+  public EndEncounter(result = ''): void {
     for (const c of this.Combatants) {
       c.actor.CombatController.EndEncounter()
       if (c.actor.ActiveMech) c.actor.ActiveMech.CombatController.EndEncounter()
+      c.actor.CombatController.Record('encounter.end', { result, rounds: this.Round })
     }
   }
 
@@ -264,10 +274,10 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
   private _lastSide?: string
 
   public async EndRound(): Promise<void> {
-    await new Promise<void>(r => setTimeout(r, 100))
     for (const c of this.Combatants) {
+      if (isOutOfCombat(c) && !hasPendingMeltdown(c)) continue
       c.actor.CombatController.EndRound(this)
-      if (c.actor.ActiveMech) c.actor.ActiveMech.CombatController.EndRound(this)
+      if (c.actor.ActiveMech) c.actor.ActiveMech.CombatController.EndRound(this, true)
     }
     this._lastSide = EncounterInstance.AlternateSides(this.Combatants, this._lastSide).at(-1)?.side
     this._round += 1

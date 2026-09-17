@@ -45,3 +45,7 @@ html {
     display: none;
   }
 }
+
+.v-overlay.v-overlay {
+  --v-overlay-opacity: 0.75;
+}

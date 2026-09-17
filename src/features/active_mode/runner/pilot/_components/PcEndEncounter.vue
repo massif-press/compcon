@@ -13,6 +13,7 @@
   import { PilotSheetStore, PilotStore } from '@/stores'
   import EndEncounterPanel from '@/features/active_mode/_components/EndEncounterPanel.vue'
   import logger from '@/user/logger'
+  import { bypassLeaveGuard } from '../../_shared/useRunnerOptions'
 
   const router = useRouter()
 
@@ -24,8 +25,12 @@
 
   const actionReport = ref([] as any[])
 
-  async function end() {
+  async function end(result: string) {
     props.sheet.Pilot.CombatController.EndEncounter()
+    props.sheet.Pilot.CombatController.Record('encounter.end', {
+      result,
+      rounds: props.sheet.Round,
+    })
     // the player's own record of their own fight, marked `source: 'self'`. A GM log for the same
     // encounter, imported later, replaces it wholesale (D3)
     try {
@@ -35,6 +40,7 @@
     }
     props.sheet.Archive()
     PilotSheetStore().SetActiveSheet('')
+    bypassLeaveGuard()
     router.replace('/active-mode/sheet-manager')
   }
 

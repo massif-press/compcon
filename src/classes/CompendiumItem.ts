@@ -178,6 +178,12 @@ abstract class CompendiumItem {
     return cloneDeep(item)
   }
 
+  public static Instance(item: CompendiumItem): CompendiumItem {
+    const instance = cloneDeep(item)
+    instance.InstanceID = crypto.randomUUID()
+    return instance
+  }
+
   public Use(): void {
     if (!this.Used && this.Uses < this.MaxUses) {
       this.Uses++

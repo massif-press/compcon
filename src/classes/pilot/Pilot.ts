@@ -265,7 +265,7 @@ class Pilot
     )
 
     if (data) {
-      CombatController.Deserialize(this.CombatController, data.combat_data)
+      CombatController.Deserialize(this.CombatController, (data.combat_data ?? data) as any)
     }
 
     try {

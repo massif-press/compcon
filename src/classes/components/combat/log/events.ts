@@ -51,6 +51,7 @@ export type BlockedReason =
   | 'shut_down'
   | 'unavailable'
   | 'no_uses'
+  | 'duplicate'
   | 'insufficient'
   | 'no_target'
   | 'no_weapon'
@@ -106,6 +107,7 @@ export interface ILogPayloads {
     ap?: boolean
     irreducible?: boolean
     overkillHeat?: number
+    targetMounted?: boolean
     taken: boolean
   }
   heat: {
@@ -151,6 +153,8 @@ export interface ILogPayloads {
     reason: 'expired' | 'removed' | 'cleared' | 'replaced' | 'consumed'
   }
   'resist.change': { damageType: string; condition: string; removed?: boolean }
+  equipment: { item: IRef; state: 'used' | 'unused' | 'destroyed' | 'repaired' }
+  counter: { counter: IRef; from: number; to: number }
 
   move: { spent: number; mode: 'move' | 'boost' | 'other'; granted?: number }
   overcharge: { level: number; cost: string | number; heat: number }
@@ -225,6 +229,8 @@ export const LOG_EVENT_KEYS: Record<LogEventKind, string> = {
   'status.gain': 'statusGain',
   'status.lose': 'statusLose',
   'resist.change': 'resistChange',
+  equipment: 'equipment',
+  counter: 'counter',
   move: 'move',
   overcharge: 'overcharge',
   'deployable.launch': 'deployableLaunch',
@@ -262,6 +268,7 @@ export interface ILogEnvelope {
   campaignId?: string
   missionId?: string
   group?: string
+  mounted?: boolean
   ts?: number
 }
 
@@ -306,6 +313,7 @@ export function makeEvent<K extends LogEventKind>(
     turn: envelope.turn,
     actorId: envelope.actorId,
     group: envelope.group,
+    mounted: envelope.mounted,
     kind,
     payload,
   }
@@ -331,6 +339,7 @@ export function readEvent(raw: unknown): ILogEvent | null {
     turn: typeof e.turn === 'number' ? e.turn : 0,
     actorId: typeof e.actorId === 'string' ? e.actorId : '',
     group: typeof e.group === 'string' ? e.group : undefined,
+    mounted: typeof e.mounted === 'boolean' ? e.mounted : undefined,
     kind: e.kind,
     payload: (e.payload ?? {}) as ILogPayloads[LogEventKind],
   }

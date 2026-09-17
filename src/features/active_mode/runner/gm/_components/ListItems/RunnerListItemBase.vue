@@ -57,7 +57,7 @@
                   :class="`mx-${layout.padY}`">
                   <slot />
 
-                  <div v-if="!destroyed && !reinforcementTurn && !isReinforcement"
+                  <div v-if="!infoless"
                     :style="`font-size: ${size.font}px`">
                     <v-row dense
                       justify="space-between"
@@ -123,7 +123,7 @@
                     </v-row>
                   </div>
 
-                  <div v-else-if="!destroyed && (reinforcementTurn || isReinforcement)">
+                  <div v-else-if="!destroyed && !outOfCombat && (reinforcementTurn || isReinforcement)">
                     <v-card flat
                       tile
                       class="text-center text-cc-overline mt-1">
@@ -161,7 +161,7 @@
                     </div>
                   </div>
 
-                  <v-row v-if="actor.CombatController.Resistances.length > 0"
+                  <v-row v-if="!infoless && actor.CombatController.Resistances.length > 0"
                     :style="layout.showLabel ? '' : 'line-height: 0'"
                     no-gutters
                     justify="center"
@@ -176,7 +176,7 @@
                             ? 'd-flex resist-block my-1'
                             : 'd-inline-flex flex-column justify-center mr-4'">
                           <v-icon v-if="layout.showIcon"
-                            :icon="`cc:${damage.type.toLowerCase()}`"
+                            :icon="isDamageType(damage.type) ? `cc:${damage.type.toLowerCase()}` : 'mdi-shield-outline'"
                             :class="[damageClass(damage), { 'mr-2': layout.showLabel }]"
                             style="border-bottom-right-radius: 5px" />
                           <span v-if="layout.showLabel"
@@ -187,9 +187,9 @@
                         </div>
                       </template>
                       <span class="text-cc-overline">
-                        {{ $t('active.runnerItem.resistanceLine', {
+                        {{ $t(resistanceKey(damage.type), {
                           condition: damage.condition,
-                        type: damage.type })
+                        type: typeLabel(damage.type) })
                         }}
                       </span>
                     </v-tooltip>
@@ -279,7 +279,7 @@
                     </v-col>
                   </v-row>
 
-                  <v-card v-if="actor.CombatController.Cover !== 'none'"
+                  <v-card v-if="!infoless && actor.CombatController.Cover !== 'none'"
                     flat
                     tile
                     class="px-2 ma-1"
@@ -298,6 +298,7 @@
                     </span>
                   </v-card>
 
+                  <template v-if="!infoless">
                   <div v-for="(cs, index) in customStatuses"
                     :key="`custom-${index}`"
                     class="d-flex">
@@ -348,6 +349,7 @@
                       </v-chip>
                     </v-progress-linear>
                   </div>
+                  </template>
                 </v-col>
 
                 <v-col v-if="!collapsed && !reinforcementTurn"
@@ -421,6 +423,7 @@ const props = withDefaults(defineProps<{
   reinforcementTurn?: number
   round?: number
   noDrag?: boolean
+  outOfCombat?: boolean
 }>(), {
   selected: false,
   collapsed: false,
@@ -481,6 +484,9 @@ const destroyed = computed(() => {
 const customStatuses = computed(() => {
   return props.actor.CombatController.CustomStatuses || [];
 })
+const infoless = computed(() => {
+  return destroyed.value || props.outOfCombat || !!props.reinforcementTurn || props.isReinforcement;
+})
 const timeToDeploy = computed(() => {
   return props.reinforcementTurn - props.round;
 })
@@ -489,9 +495,19 @@ function onDeployableClick(e, d) {
   if (e?.stopPropagation) e.stopPropagation()
   emit('deployable-click', d)
 }
+function isDamageType(type: string) {
+  return te(`enums.damageType.${String(type).toLowerCase()}`)
+}
+
 function typeLabel(type: string) {
   const key = `enums.damageType.${type.toLowerCase()}`
   return te(key) ? t(key) : type
+}
+
+function resistanceKey(type: string) {
+  return isDamageType(type)
+    ? 'active.runnerItem.resistanceLine'
+    : 'active.runnerItem.resistanceLineOther'
 }
 
 function conditionLabel(condition: string) {

@@ -23,15 +23,16 @@
         </template>
         <v-card>
           <div class="heading h3 ma-1 pl-3">
-            {{ action.Name.toUpperCase() }} &mdash; {{ $enum('activationType', action.Activation).toUpperCase() }} {{ $t('common.action') }}
+            {{ action.Name.toUpperCase() }} &mdash; {{ $enum('activationType',
+              action.Activation).toUpperCase() }} {{ $t('common.action') }}
           </div>
           <v-divider v-if="action.Detail || displayFreq" />
           <v-card-text v-if="displayFreq"
             v-html-safe="action.Frequency.ToString()"
-            class="body-text text-text mt-0 pt-1" />
+            class="body-text text-text mt-0 pt-1 px-2" />
           <v-card-text v-if="action.Detail"
             v-html-safe="byTier(action.Detail)"
-            class="body-text text-text mt-0 pt-1" />
+            class="body-text text-text mt-0 pt-1 px-2" />
         </v-card>
       </v-menu>
     </v-btn>

@@ -2,6 +2,7 @@ import { Flow, step } from './Flow'
 import type { IActivationState } from './ActivationFlow'
 import { combatLogHooks } from './logHooks'
 import { BASE_ACTIONS } from '../actions/BaseActions'
+import { actionRef } from '../log/refs'
 import type { IBaseActionRule, IPerformOpts } from '../actions/BaseActions'
 import type { CombatController } from '../CombatController'
 
@@ -12,8 +13,8 @@ export interface IBaseActionState extends IActivationState {
   ok: boolean
 }
 
-function actionRef(s: IBaseActionState) {
-  return { id: s.id, name: s.cc.FindAction(s.id)?.Name ?? s.id }
+function stateActionRef(s: IBaseActionState) {
+  return actionRef(s.id, s.cc.FindAction(s.id)?.Name)
 }
 
 function actionFlow(id: string, rule: IBaseActionRule): Flow<IBaseActionState> {
@@ -21,21 +22,16 @@ function actionFlow(id: string, rule: IBaseActionRule): Flow<IBaseActionState> {
     id,
     [
       {
-        Name: 'target',
-        Run: s => {
-          if (!rule.needsTarget || s.opts.target) return 'continue'
-          s.blockedBy = 'no_target'
-          return 'halt'
-        },
-        ReportHalt: true,
-      },
-      {
         Name: 'legality',
         Run: s => {
           if (!rule.can || rule.can(s.cc, s.opts)) return 'continue'
           s.blockedBy = rule.reason ?? 'unavailable'
           if (!s.opts.force) return 'halt'
-          s.cc.Record('blocked', { action: actionRef(s), reason: s.blockedBy, overridden: true })
+          s.cc.Record('blocked', {
+            action: stateActionRef(s),
+            reason: s.blockedBy,
+            overridden: true,
+          })
           return 'continue'
         },
         ReportHalt: true,

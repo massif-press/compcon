@@ -143,11 +143,6 @@ Use prefixes that match the change type:
 
 ### Pre-Commit Hooks
 
-Husky runs automatically on every commit:
-
-1. **lint-staged** — ESLint autofix and Prettier are applied
-2. **Commit signature check** — rejects the commit if signing is not configured
-
 Do not bypass hooks with `--no-verify` except in emergencies (e.g., fixup commits in an active rebase). If a hook blocks you unexpectedly, diagnose and fix the underlying issue.
 
 ### Testing Your Changes
