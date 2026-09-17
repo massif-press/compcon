@@ -32,13 +32,13 @@
     "unlock": "Débloquer",
     "back": "Retour",
     "print": "Imprimer",
-    "shareCode": "code de partage",
+    "shareCode": "Code de partage",
     "warning": "Avertissement",
     "preview": "Aperçu",
     "result": "Résultat",
     "accuracy": "Atout",
     "mainMenu": "Menu principal",
-    "compendium": "Collection",
+    "compendium": "Compendium",
     "versionHistory": "Historique des versions",
     "copyToClipboard": "Copier dans le presse-papier",
     "copyShareCode": "Copier le code de partage",
@@ -50,7 +50,7 @@
     "loadout": "Équipement",
     "weapon": "Arme",
     "frame": "Châssis",
-    "trigger": "Spécialité",
+    "trigger": "Condition",
     "effect": "Effet",
     "tierN": "Échelon {n}",
     "tierShort": "É{n}",
@@ -75,7 +75,7 @@
     "repairs": "Réparations",
     "remove": "Retirer",
     "manageContent": "Gérer le contenu",
-    "fileImport": "Importer le fichier",
+    "fileImport": "Importer un fichier",
     "saveAndExit": "Sauvegarder et quitter",
     "saveAndClose": "Sauvegarder et fermer",
     "importCampaign": "Importer une campagne",
@@ -107,14 +107,14 @@
     "systemPoints": "Points de Système",
     "update": "Mettre à jour",
     "pilotRoster": "Tableau de service",
-    "pilotLoadout": "Équipement de Pilote",
-    "noData": "Données Manquantes",
+    "pilotLoadout": "Attirail",
+    "noData": "Données manquantes",
     "organize": "Organiser",
     "environment": "Environnement",
     "item": "Élément",
     "detail": "Détail",
     "byAuthor": "par {author}",
-    "contentManager": "Gestionnaire de contenu",
+    "contentManager": "Gestion du contenu",
     "cloudAccount": "Profil en ligne",
     "customItemDescription": "Description d'objet personnalisé",
     "customItemName": "Nom d'objet personnalisé",
@@ -124,19 +124,39 @@
     "overview": "Vue d'ensemble",
     "side": "Faction",
     "syncNow": "Synchroniser maintenant",
-    "importOverwriteWarning": "Ces données importées vont écraser une campagne existante au nom de {title}. La campagne existante a été dernièrement mise à jour le {date}.",
+    "importOverwriteWarning": "Ces données importées écraseront une campagne existante avec la même ID ({title}). Celle-ci a été dernièrement mise à jour le {date}.",
     "pilotArmor": "Armure de pilote",
     "pilotWeapon": "Arme de pilote",
     "player": "Joueur",
     "hidden": "Masqué | Masqués",
     "changelog": "Nouveautés",
     "alert": "Alerte",
-    "ok": "OK",
+    "ok": "Ok",
     "skipToMainContent": "Sauter jusqu'au contenu principal",
     "pilotGroup": "Groupe de pilotes",
     "statsLabel": "Caractéristiques",
     "appShortName": "C/C",
-    "loading": "Chargement…"
+    "loading": "Chargement…",
+    "mount": "Affût",
+    "done": "Terminé",
+    "features": "Fonctionnalités",
+    "roll_noun": "Jet",
+    "background": "Historique",
+    "mech": "Mécha",
+    "talents": "Talents",
+    "type": "Type",
+    "credits": "Attributions",
+    "bonus": "Bonus",
+    "created": "Créé le",
+    "logLevel": "Filtre de journal",
+    "pilotTalents": "Talents de pilote",
+    "techAttack": "Technoattaque",
+    "sensorRange": "Portée de capteurs",
+    "pilotSkillTriggers": "Spécialités de pilote",
+    "pilotTalent": "Talent de pilote",
+    "deployables": "Installation",
+    "all": "Tout",
+    "pilotGear": "Équipement de pilote"
   },
   "gm": {
     "fields": {
@@ -298,7 +318,8 @@
     "narrative": {
       "additionalDetail": "Détail additionnel",
       "viewCollections": "Afficher les collections",
-      "itemTypePlural": "{type}"
+      "itemTypePlural": "{type}",
+      "clocks": "Compteurs"
     },
     "print": {
       "othersCount": "(+{n} autres)"
@@ -415,14 +436,15 @@
       "cannotAssign": "Ne peut pas être assigné (En conflit avec {conflict})"
     },
     "tier": {
-      "changeTo": "Modifier en Tier {n}",
+      "changeTo": "Modifier vers l'Échelon {n}",
       "detectedEdits": "@:{'common.appName'} a détecté des valeurs de statistiques modifiées. Comment voulez vous procéder?"
     },
     "eidolon": {
-      "layers": "Couches",
-      "addLayer": "Ajouter une couche",
-      "addRandomLayer": "Ajouter une couche aléatoirement",
-      "noLayers": "pas de couches"
+      "layers": "Strates",
+      "addLayer": "Ajouter une strate",
+      "addRandomLayer": "Créer une strate aléatoire",
+      "noLayers": "pas de strates",
+      "layerDescription": "Description de la strate"
     },
     "layerSelector": {
       "noData": "Aucune donnée d'Eidolon trouvé!",
@@ -445,7 +467,8 @@
       "saveConfig": "Sauvegarder la configuration"
     },
     "eidolonPrint": {
-      "classLabel": "Classe {class}"
+      "classLabel": "Classe {class}",
+      "layer": "Strate"
     },
     "npcEditor": {
       "v2Export": "Exportation V2"
@@ -480,17 +503,23 @@
       "campaignEditor": "Éditeur de campagne",
       "gmToolkit": "Boîte à outil du Maître de Jeu",
       "folder": "Dossier",
-      "role": "Rôle"
+      "role": "Rôle",
+      "doodads": "Bidules",
+      "addDowntime": "Ajouter un temps libre",
+      "clock": "Compteur",
+      "layers": "Strates",
+      "selectLayer": "Choisissez une couche"
     },
     "subtitles": {
       "addSetOrDeleteA": "Ajouter, définir ou supprimer une étiquette de MJ",
       "addANewEmptyFreeform": "Ajouter une nouvelle section libre sous cette page. Une section est un conteneur pour d'autres éléments de contenu et peuvent être utilisé pour organiser votre campagne de la manière qui vous convient.",
-      "addANewEmptyMission": "Ajouter une nouvelle Mission sous cette page. Une mission contient des buts et objectifs qui peuvent être complétés en un temps donné, et contient typiquement des combats.",
+      "addANewEmptyMission": "Ajouter une nouvelle mission sous cette page. Une mission contient des buts et objectifs qui peuvent être complétés en un temps donné, et contient typiquement des combats.",
       "addANewEmptyCombat": "Ajouter un nouveau combat sous cette page. Un combat contient des rencontres, ainsi que des directives de MJ, des détails narratifs concernant la bataille, et les résultats possibles.",
       "createCombatEncounters": "Créer un affrontement",
       "manageCharactersLocationsAndFactions": "Gérer les personnages, lieux et factions",
       "manageNonPlayerCombatUnits": "Gérer les unités de combat non joueur",
-      "createModifyAndBrowseLancerCampaigns": "Créer, modifier et consulter les campagnes LANCER (v3.1)"
+      "createModifyAndBrowseLancerCampaigns": "Créer, modifier et consulter les campagnes LANCER (v3.1)",
+      "addANewEmptyDowntime": "Ajouter un nouveau Temps Libre sur cette page. Le Temps Libre est l'espace narratif entre les missions, où les actions précises importent peu et le jeu de rôle bien davantage."
     },
     "tooltips": {
       "changeTierAndAdjustEdited": "Modifier le tier et ajuster les statistiques modifiés par la même quantité que les modifications de statistiques par défaut.",
@@ -501,6 +530,12 @@
     },
     "a11y": {
       "dragToReorder": "Glisser pour réorganiser"
+    },
+    "doodad": {
+      "whatIs": "Qu'est-ce qu'un bidule ?"
+    },
+    "featurePrint": {
+      "weaponAttacks": "Cette arme peut faire {count} attaques à la fois."
     }
   },
   "language": {
@@ -534,7 +569,12 @@
     "subtitles": {
       "aSimpleAffairWithTwoSides": "Une simple affaire, avec deux camps l'un contre l'autre jusqu'à ce que l'un d'entre eux soit vaincu ou détruit.",
       "aStandardEnvironmentWithNoSpecial": "Un environnement standard avec aucune particularité spéciale de combat"
-    }
+    },
+    "newClock": "Nouveau compteur",
+    "newEnvironment": "Nouvel environnement",
+    "newEnvironmentDescription": "Un nouvel environnement",
+    "unknownLicense": "Licence inconnue",
+    "newDoodad": "Nouveau bidule"
   },
   "nav": {
     "contentManager": {
@@ -686,7 +726,7 @@
       "title": "@:{'common.appName'}",
       "ccVersion": "Version de C/C",
       "lancerCoreVersion": "Version Core de @:{'common.gameName'}",
-      "description": "@:{'common.appName'} est un assistant de jeu, libre et gratuit, pour préparer et jouer au jeu de rôle @:{'common.gameName'}.",
+      "description": "@:{'common.appName'} est un assistant de jeu, libre et gratuit, pour préparer et jouer à des parties du jeu de rôle @:{'common.gameName'}.",
       "coreBookInfo": "Le livre de règles de @:{'common.gameName'}, @:{'common.appName'}, et les contenus associés peuvent être trouvés sur"
     },
     "help": {
@@ -721,11 +761,11 @@
       "with": "Avec",
       "graphicDesignBy": "Design graphique par",
       "additionalArtBy": "Illustrations supplémentaires par",
-      "patronThanks": "Le développement continu de @:{'common.appName'} ne serait pas possible sans les généreux",
+      "patronThanks": "Le développement continu de @:{'common.appName'} ne serait pas possible sans les généreuses",
       "supportOf": "de",
       "tier": "@:{'common.tier'}",
       "anonymousPatron": "Donateurs anonymes",
-      "support": "support"
+      "support": "contributions"
     },
     "achievements": {
       "hidden": "@:{'common.hidden'}",
@@ -749,14 +789,18 @@
       "createBackup": "Créer une sauvegarde des succès",
       "loadBackup": "Charger une sauvegarde des succès",
       "overwriteAllWarning": "Tout écraser",
-      "eraseAllWarning": "Tout effacer",
+      "eraseAllWarning": "effacera",
       "selectExportFile": "Sélectionner le fichier d'exportation des succès @:{'common.appName'}",
       "resetAchievements": "Réinitialiser les succès",
       "cannotAddTitle": "Ne peut pas ajouter de succès",
       "cannotAddText": "Code invalide ou déjà débloqué",
       "progress": "{count} sur {total} débloqué",
       "othersCount": "(+{count} autres)",
-      "hiddenCount": "{count} succès masqué | {count}succès masqués"
+      "hiddenCount": "{count} succès masqué | {count}succès masqués",
+      "cannot": "ne peut pas",
+      "display": "Aperçu",
+      "warningDataFull": "Cela {emphasis} les données de succès de l'utilisateur.",
+      "cannotBeUndoneFull": "Cela {emphasis} être annulé. Il est fortement recommandé de créer une sauvegarde au préalable."
     },
     "settingsPage": {
       "showUpdateMessages": "Montrer les notes de mise à jour",
@@ -785,7 +829,7 @@
       "createBackupTooltip": "@:{'common.appName'} repose sur le stockage sécurisé de votre navigateur pour sauvegarder et charger ses données. Généralement, ces données sont à l'abri d'une suppression, mais certains paramètres de navigateurs peuvent parfois les effacer, résultant en la perte des vos données @:{'common.appName'}. Il est de bon usage de sauvegarder régulièrement vos données de temps en temps.",
       "downloadV2Backup": "Télécharger la sauvegarde des données V2",
       "downloadV2Tooltip": "@:{'common.appName'} a créé une sauvegarde complète de vos données @:{'common.appName'} V2. Ils peuvent être importé dans la version V2 sur old.compcon.app.",
-      "loadBackup": "Charger la sauvegarde des données",
+      "loadBackup": "Charger une sauvegarde des données",
       "loadBackupTooltip": "Les fichiers .compcon sont des fichiers d'exportations de @:{'common.appName'} contenant l'intégralité de vos données locales en un seul fichier. Vous pouvez créer un fichier de sauvegarde .compcon en utilisant le bouton \"Créer une sauvegarde des données\". Utilisez cette option pour charger un fichier de sauvegarde .compcon que vous avez créé ou obtenu d'une autre source. Il est recommandé de créer une sauvegarde avant de charger un fichier .compcon, surtout si le fichier d'une autre source.",
       "mergeStrategy": "Fusionner avec les données existantes",
       "overwriteStrategy": "Écraser toutes les données existantes",
@@ -799,24 +843,27 @@
     "storage": {
       "storageUsageFull": "@:{'common.appName'} utilise actuellement {used} sur {total}, ou {percent} de votre stockage disponible. Cela inclut l'espace réservé par @:{'common.appName'} pour la gestion de l'aplication.",
       "neverAutoDeleteFull": "@:{'common.appName'} ne supprimera {never} automatiquement les données marqué pour suppression.",
-      "autoDeleteFull": "@:{'common.appName'} supprimera définitivement les données après avoir été marqué comme supprimé pour au moins {days}. Cela n'affectera pas les éléments non marqués pour suppression.",
+      "autoDeleteFull": "@:{'common.appName'} supprimera définitivement les données marquées comme supprimées depuis au moins {days}. Cela n'affectera pas les éléments non marqués pour suppression.",
       "daysCount": "{count} jours.",
       "deleteAllConfirm": "TOUT",
       "storageSettings": "Paramètres de stockage",
       "storageThresholds": "Limites de stockage",
       "maxThresholdPct": "Limite maximale (%)",
       "warningDescription": "@:{'common.appName'} affichera un message d'avertissement quand",
-      "maxDescription": "@:{'common.appName'} empêchera la création de nouvelles données après",
+      "maxDescription": "@:{'common.appName'} empêchera la création de nouvelles données après que",
       "ofAvailableStorage": "% du stockage disponible (",
       "hasBeenUsed": ") aura été utilisé",
-      "autoDelete": "Supprime automatiquement",
+      "autoDelete": "Suppression automatique",
       "neverAutoDelete": "efface automatiquement les données marquées pour suppression.",
       "deletedItems": "Éléments supprimés (données locales uniquement)",
       "userData": "Données d'utilisateur",
       "clearAllData": "@:{'common.clearAllData'}",
       "deleteWarningBanner": "Alerte // alerte // alerte",
-      "areYouSure": "Êtes vous certain de vouloir continuer?",
-      "deleteAllUserData": "Supprimer toutes les données d'utilisateur"
+      "areYouSure": "Êtes vous certain de vouloir continuer ?",
+      "deleteAllUserData": "Supprimer toutes les données d'utilisateur",
+      "warningThresholdPct": "Seuil d'avertissement (%)",
+      "warningThresholdMb": "Seuil d'avertissement (MB)",
+      "maxThresholdMb": "Limite maximale (MB)"
     },
     "log": {
       "logLevel": "@:{'common.logLevel'}",
@@ -824,7 +871,12 @@
       "exportLog": "Journal d'export",
       "copiedToClipboard": "Entrée de journal copiée dans le presse-papier",
       "session": "Session",
-      "error": "Erreur"
+      "error": "Erreur",
+      "trace": "Trace",
+      "caller": "Origine",
+      "exportThisSession": "Exporter le journal de cette session",
+      "exportAllSessions": "Exporter les journaux de toutes les sessions",
+      "clearLog": "Effacer le journal"
     },
     "deletedItems": {
       "noItemsFound": "Aucun élément trouvé",
@@ -856,17 +908,17 @@
       "willDowngradeTo": "Il va être mis à jour à la v.{version}"
     },
     "packsDirectory": {
-      "officialContent": "Officiel",
-      "content": "Contenu",
+      "officialContent": "Contenu officiel",
+      "content": " ",
       "massifPress": "MASSIF PRESS",
       "communityContent": "Contenu communautaire de @:{'common.gameName'}",
-      "communityContribute": "Si vous êtes intéressé par la création de votre propre contenu @:{'common.gameName'} maison, ou la présentation de votre contenu dans ce répertoire, merci",
-      "clickHere": "de cliquer ici.",
+      "communityContribute": "Si vous êtes intéressé par la création de votre propre contenu @:{'common.gameName'} maison, ou la présentation de votre contenu dans ce répertoire, merci de",
+      "clickHere": "cliquer ici.",
       "developmentBlog": "blog de développement"
     },
     "cloudNotifications": {
       "dismissAll": "Masquer toutes les notifications",
-      "noRecentUpdates": "Aucune mise à jour récente"
+      "noRecentUpdates": "Pas de nouvelle notification"
     },
     "achievementItem": {
       "dataRedacted": "Données expurgées",
@@ -933,7 +985,8 @@
     },
     "addCombatant": {
       "eidolonAddedTitle": "Eidolon ajouté",
-      "addedText": "{name} a été ajouté à la rencontre."
+      "addedText": "{name} a été ajouté à la rencontre.",
+      "doodadAddedTitle": "Bidule ajouté"
     },
     "mechActions": {
       "preparedTitle": "Mécha préparé"
@@ -952,7 +1005,7 @@
       "nominal": "Nominal"
     },
     "roster": {
-      "addFromRoster": "Ajouté depuis le roster",
+      "addFromRoster": "Ajouter depuis le tableau de service",
       "addToEncounter": "Ajouter à la rencontre",
       "removeFromEncounter": "Retirer de la rencontre",
       "playedBy": "Joué par",
@@ -992,7 +1045,7 @@
     },
     "pilotsPanel": {
       "placeholderN": "Substitut de pilote #{n}",
-      "addFromFile": "Ajouté depuis le fichier",
+      "addFromFile": "Ajouter depuis un fichier",
       "addPlaceholder": "ajouter un substitut de pilote"
     },
     "newEnc": {
@@ -1011,25 +1064,28 @@
       "noArchivedFoundFiltered": "Aucune fiche archivée trouvée incluant \"{search}\"",
       "savePilotHistory": "Sauvegarder l'histoire du pilote",
       "featureInDev": "Fonctionnalité en développement (v3.1)",
-      "encounterHash": "rencontre #"
+      "encounterHash": "rencontre #",
+      "kia": "MAC"
     },
     "newSheet": {
       "campaignName": "Nom de la campagne",
       "createAndLaunch": "Créer et lancer le mode actif"
     },
     "sheetItem": {
-      "archiveSheet": "Fiche d'archive",
+      "archiveSheet": "Archiver la fiche",
       "exportSheet": "Exporter la fiche",
       "deleteSheet": "Supprimer la fiche",
       "started": "démarré",
-      "na": "N/A"
+      "na": "N/A",
+      "lastTurn": "dernier tour",
+      "roundN": "Round {n}"
     },
     "endEnc": {
       "endEncounter": "Terminer la rencontre",
       "confirmEndEncounter": "Confirmer la fin de la rencontre"
     },
     "sortBar": {
-      "sortByRecent": "Trier par récence",
+      "sortByRecent": "Trier par date",
       "sortByCreated": "Trier par date de création"
     },
     "organizer": {
@@ -1120,11 +1176,12 @@
     },
     "addRoster": {
       "addPc": "Ajouter PJ",
-      "addNpcFull": "Ajouter Personnage Non Joueur",
+      "addNpcFull": "Ajouter un Personnage Non Joueur",
       "addPcFull": "Ajouter Personnage Joueur"
     },
     "addOther": {
-      "addOther": "Ajouter autre"
+      "addOther": "Ajouter autre",
+      "doodad": "Bidule"
     },
     "addStub": {
       "addPlaceholder": "Ajouter substitut",
@@ -1166,15 +1223,32 @@
     },
     "actions": {
       "selectIcon": "Sélectionner une icône",
-      "activeEffect": "Effet actif"
+      "activeEffect": "Effet actif",
+      "mounted": "Monté",
+      "braced": "Enduré",
+      "overwatch": "Executer une attaque sentinelle",
+      "passiveBonus": "Bonus passif"
     },
     "combatAction": {
-      "insufficient": "Insuffisant"
+      "insufficient": "Insuffisant",
+      "alreadyUsed": "Cette action a déjà été utilisée ce tour-ci.",
+      "actionsRemaining": "Actions restantes ce tour-ci.",
+      "activationAction": "{n} Action"
     },
     "skillCheck": {
       "standard": "Standard",
       "loses": "Perds",
-      "rollResults": "Résultat de jet"
+      "rollResults": "Résultat du jet",
+      "difficultMod": "-1 (Difficulté)",
+      "modifiers": "Modificteurs",
+      "heroic": "Heroïque",
+      "risky": "Risqué",
+      "checkType": "Type de jet",
+      "contested": "Opposé",
+      "difficult": "Difficile",
+      "targetValue": "Seuil à atteindre",
+      "checkSuccess": "Jet réussi",
+      "checkFail": "Jet échoué"
     },
     "stabilize": {
       "chooseOne": "choisissez en un"
@@ -1187,7 +1261,9 @@
     "eidolon": {
       "tierEidolon": "Eidolon Tier {n}",
       "active": "(Actif)",
-      "generateN": "Générer {n}"
+      "generateN": "Générer {n}",
+      "activeLayer": "Strate active",
+      "nameLayer": "Strate {name}"
     },
     "pilotPanel": {
       "killed": "Ce pilote a été tué au combat."
@@ -1206,9 +1282,10 @@
       "cedeControl": "Céder le contrôle",
       "reclaimControl": "Reprendre le contrôle",
       "selectEncounterExportFile": "Sélectionner un fichier d'export de rencontre",
-      "mechName": "Nom de mécha",
+      "mechName": "Nom du mécha",
       "addTable": "Ajouter une table",
-      "selectCharacterSheetExportFile": "Sélectionner un fichier d'export de fiche de personnage"
+      "selectCharacterSheetExportFile": "Sélectionner un fichier d'export de fiche de personnage",
+      "overkill": "Carnage"
     },
     "titles": {
       "addPilotFromRoster": "Ajouter un pilote depuis le tableau de service",
@@ -1254,6 +1331,74 @@
       "createManageAndRunLocalEncounters": "Créer, gérer et jouer des rencontres pour vos parties de Lancer",
       "featureInDevelopmentV32": "Fonctionnalité en développement (v3.2)",
       "inDevelopmentReleaseV32": "En développement (sortie en v3.2)"
+    },
+    "unitLoadout": {
+      "reroll": "relancer",
+      "hiddenFeatures": "Fonctionnalités cachées",
+      "rechargeResult": "Résultat de la recharge (d6)",
+      "rechargesOn": "(Se recharge sur {n}+)"
+    },
+    "skirmish": {
+      "selectWeapon": "sélectionnez une arme pour escarmoucher"
+    },
+    "endRound": {
+      "endRound": "Fin du round",
+      "confirmEndRound": "Confirmer la fin du round"
+    },
+    "deploy": {
+      "deployNamed": "Déployer {name}",
+      "generateInstance": "Ceci générera et déploiera une nouvelle instance de {name} pour {actor} en tant qu'{action}"
+    },
+    "equipCmd": {
+      "reload": "recharger",
+      "reloadHint": "Cliquez pour {reload} cette arme.",
+      "clickUnused": "Cliquez pour indiquer comme Inutilée",
+      "clickUsed": "Cliquez pour maruqer comme utilisée"
+    },
+    "overcharge": {
+      "cost": "Coût de Surmenage du réacteur"
+    },
+    "invade": {
+      "invade": "Invasion",
+      "available": "Options d'invasion disponibles",
+      "select": "Sélectionnez une option d'Invasion"
+    },
+    "barrage": {
+      "selectWeapon": "Sélectionner une arme pour Bombarder"
+    },
+    "fight": {
+      "selectWeapon": "Sélectionnez une arme"
+    },
+    "reload": {
+      "selectWeapon": "Sélecionnez une arme à recharger"
+    },
+    "burnCheck": {
+      "ignore": "Ignorer",
+      "resolveEndTurn": "Résoudre et terminer le tour"
+    },
+    "structureCheck": {
+      "rollPrompt": "Jeter {n}d{die} et choisir le plus bas",
+      "reroll": "Relancer",
+      "chooseOne": "Choisir",
+      "applyManual": "appliquer manuellement",
+      "saveCheck": "jet de {check}",
+      "fail": "Échec",
+      "success": "Succès",
+      "resolution": "Résolution",
+      "diceCount": "{n} point(s) marqué(s)",
+      "manualNote": "Ce résultat doit être résolu manuellement",
+      "markResolved": "Marqué comme résolu",
+      "applyResolve": "Appliquer et résoudre",
+      "lowest": "Le plus bas",
+      "rolled": "Lancé",
+      "rollLabel": "Lancer {n}d{die}",
+      "pending": "{type} marqué"
+    },
+    "gmNotes": {
+      "addClock": "Ajouter un compteur"
+    },
+    "mechPanel": {
+      "coreBonuses": "Bonus d'architecture ({n})"
     }
   },
   "mainMenu": {
@@ -1278,7 +1423,7 @@
       "syncPartialTitle": "{synced}/{total} éléments synchronisés",
       "syncCompleteTitle": "{total}/{total} éléments synchronisés",
       "syncCompleteText": "Tous les éléments ont été synchronisé avec succès.",
-      "deletionCompleteTitle": "{count} élémént supprimé définitivement | {count} éléments supprimés définitivement",
+      "deletionCompleteTitle": "{count} élément supprimé définitivement | {count} éléments supprimés définitivement",
       "noFlaggedText": "Aucun élément n'a été marqué pour suppression.",
       "deletionFailedBulkText": "Une erreur s'est produite pendant la suppression des éléments marqués.",
       "collectionErrorTitle": "Erreur en mettant à jour la collection",
@@ -1298,12 +1443,12 @@
       "passwordChangeErrorText": "Impossible de modifier le mot de passe: {msg}",
       "abort": "Annulation",
       "retry": "Réessayer",
-      "email": "Courriel",
+      "email": "Adresse électronique",
       "password": "Mot de passe",
-      "signIn": "Inscription",
+      "signIn": "Connexion",
       "createAccount": "Créer un compte",
-      "verifyEmail": "Vérifiez vos courriels",
-      "passwordRecovery": "Récupération de mot de passe",
+      "verifyEmail": "Vérifier votre adresse",
+      "passwordRecovery": "Récupérer un mot de passe",
       "verifyEmailTitle": "Vérifiez votre adresse électronique",
       "codeSentToLabel": "Un code de vérification a été envoyé à",
       "sendCodeToLabel": "Envoyer un code de vérification à",
@@ -1313,7 +1458,7 @@
       "inputCodeToFinish": "Entrer le code de vérification pour finir la création de votre compte",
       "confirmVerificationCode": "Confirmer le code de vérification",
       "signupEmailInfo": "L'adresse électronique que vous saisissez sera utilisé pour envoyer un code de confirmation pour finaliser la création de votre compte. Après cela, votre adresse ne sera utilisé que pour vous connecter à votre compte @:{'common.appName'}.",
-      "signupPrivacyInfo": "Nous nous engageons à garder votre adresse électronique confidentielle. Nous ne vendons, louons ou cédons aucun données à des tiers, et nous ne communiquerons jamais vos données personnelles à un individu tiers, des agences gouvernementales ou des entreprises, à aucun moment ni pour aucune raison.",
+      "signupPrivacyInfo": "Nous nous engageons à garder votre adresse électronique confidentielle. Nous ne vendons, louons ou cédons aucune donnée à des tiers, et nous ne communiquerons jamais vos données personnelles à un individu tiers, des agences gouvernementales ou des entreprises, à aucun moment ni pour aucune raison.",
       "resetPassword": "Réinitialiser le mot de passe",
       "sendPasswordResetEmail": "Envoyer un courriel de réinitialisation de mot de passe",
       "resetCodeSentTo": "Code de réinitialisation du mot de passe envoyé à {email}",
@@ -1350,7 +1495,7 @@
     },
     "dataUsage": {
       "title": "Utilisation des données",
-      "ofMaxMb": "de {max} MB",
+      "ofMaxMb": "sur {max} MB",
       "resetMigrationTool": "Réinitialiser les outils de migration de compte"
     },
     "patreon": {
@@ -1379,7 +1524,7 @@
       "ensureRights": "Merci de vous assurez que vous avez les droits de distribuer tous les contenus que vous téléversez en ligne. En cas de doute, contactez l'auteur du contenu."
     },
     "cloudData": {
-      "reloadData": "Recharger les données",
+      "reloadData": "Rafraîchir les données",
       "dataTab": "Données",
       "dataTabDesc": "Les données de PJ et de MJ stockés dans votre compte @:{'common.appName'}.",
       "imagesTab": "Images",
@@ -1401,16 +1546,16 @@
       "incCloudData": "Les données en ligne, incluant les pilotes, méchas, PNJs et autres données de MJ",
       "incImages": "Les images téléversées dans vos archives en ligne personnelles",
       "incArchives": "Les comptes et archives LCP stockées en ligne",
-      "additionally": "Additionnellement",
+      "additionally": "De plus,",
       "addNoSync": "Vos données de sauvegarde ne se synchroniseront plus sur vos différents navigateurs et appareils",
-      "addShareExpire": "Tous les éléments partagés ne se mettront plus à jour, et tous les codes de partage expireront",
+      "addShareExpire": "Tous les éléments partagés ne seront plus mis à jour, et tous les codes de partage expireront",
       "addSyncTerminated": "Toutes les synchronisations actives seront interrompues",
       "addRemovedTables": "Vous serez expulsé de toutes les tables actives",
       "addGmTables": "Si vous êtes un MJ, toutes vos tables seront archivés et prévues pour suppression",
-      "addSubFeed": "Si vous publiez un flux d'abonnement, vos abonnés ne pourront plus recevoir de mises à jour",
-      "thisWillNot": "Ceci ne",
-      "notLocalData": "Supprimera aucune données locales sur vos appareils",
-      "notPurchases": "Révoquera aucun achat réalisé sur itch.io ni n'annulera vos contributions Patreon",
+      "addSubFeed": "Si vous publiez un flux d'abonnement, vos abonnés ne recevront plus de mises à jour",
+      "thisWillNot": "Ceci",
+      "notLocalData": "Ne supprimera aucune donnée locale sur vos appareils",
+      "notPurchases": "Ne révoquera aucun achat réalisé sur itch.io ni n'annulera vos contributions Patreon",
       "irreversible": "Cette action est irréversible. Vos données seront définitivement et irrévocablement supprimées.",
       "ensureBackup": "Merci de vous assurer d'avoir une sauvegarde locale de toutes les données que vous souhaiteriez garder.",
       "enterTextToConfirm": "Entrez le texte suivant {phrase} pour confirmer la suppression du compte.",
@@ -1479,8 +1624,8 @@
       "migrateNow": "Migrer maintenant"
     },
     "archive": {
-      "patreonOnly": "A causes des coûts liés associés à la création et au stockage des sauvegardes de données, cette fonctionnalité n'est disponible que pour les contributeurs Patreon. Si vous voulez avoir accès aux sauvegardes en ligne automatique, considérez {link} pour soutenir le développement de @:{'common.appName'} et gagner l'accès à des fonctionnalités supplémentaires.",
-      "subscribing": "prendre un abonnement",
+      "patreonOnly": "A causes des coûts liés associés à la création et au stockage des sauvegardes de données, cette fonctionnalité n'est disponible que pour les contributeurs Patreon. Si vous voulez avoir accès aux sauvegardes en ligne automatiques, considérez {link} pour soutenir le développement de @:{'common.appName'} et gagner l'accès à des fonctionnalités supplémentaires.",
+      "subscribing": "la prise d'un abonnement",
       "preventPrune": "Empêcher cet élément d'être automatiquement supprimé. Les archives préservées compteront toujours dans les limites de taille de stockage.",
       "removeProtection": "Retirer les protections de suppression automatique sur cet élément",
       "revertTooltip": "Restaurer @:{'common.appName'} vers cette sauvegarde",
@@ -1546,13 +1691,17 @@
       "deleteLocalDataDesc": "Cela marquera cet élément comme supprimé localement, et sera retiré de cette table et ne synchronisera plus. Les options de restauration des éléments supprimés peuvent être trouvés dans les paramètres utilisateurs.",
       "deleteCloudData": "Supprimer les données en ligne",
       "deleteCloudItem": "Supprimer un élément en ligne",
-      "deleteCloudItemDesc": "Supprimer cet élément le marquera comme supprimé en ligne. Cela ne supprimera pas cet élément localment, mais l'empêchera de se synchroniser en lignes ou sur d'autres appareils.",
+      "deleteCloudItemDesc": "Supprimer cet élément le marquera comme supprimé en ligne. Cela ne supprimera pas cet élément localement, mais l'empêchera de se synchroniser en lignes ou sur d'autres appareils.",
       "deleteNItems": "Supprimer {count} élément | Supprimer {count} éléments",
-      "chooseDeleteMethod": "Choisissez comment supprimer les éléments sélectionnés"
+      "chooseDeleteMethod": "Choisissez comment supprimer les éléments sélectionnés",
+      "remoteItem": "Élément externe",
+      "remoteItemInaccessible": "Élément externe inaccessible",
+      "bulkDelete": "Sélectionner",
+      "cancelBulkSelection": "Ne pas sélectionner"
     },
     "fields": {
       "updates": "Mises à jour",
-      "doNotShowThisWarningAgain": "Ne montrez plus cet avertissement à nouveau",
+      "doNotShowThisWarningAgain": "Ne plus montrer cet avertissement à nouveau",
       "autoBackupFrequency": "Fréquence de sauvegarde automatique",
       "itemLimit": "Limite d'élément",
       "filter": "Filtre",
@@ -1569,12 +1718,13 @@
       "emailAddress": "Adresse électronique"
     },
     "actions": {
-      "dataViewer": "Visualisation des données",
+      "dataViewer": "Aperçu des données",
       "syncSettings": "Paramètres de synchronisation",
       "accountEmail": "Adresse électronique du compte",
       "accountDetails": "Détails du compte",
       "managePilots": "Gérer les pilotes",
-      "v2ImportsAwaitingResolution": "Importation v2 en attente de résolution"
+      "v2ImportsAwaitingResolution": "Importation v2 en attente de résolution",
+      "remoteBackups": "Sauvegardes en ligne"
     },
     "titles": {
       "forceUpload": "Forcer le téléversement",
@@ -1589,7 +1739,7 @@
       "roster": "Roster",
       "installCompconForReliableStorage": "Installer @:{'common.appName'} pour un stockage fiable",
       "storagePermissionRequired": "Permissions de stockage requis!",
-      "youDoNotHaveAccess": "Vous n'avez pas accès aux sauvegarde à distance.",
+      "youDoNotHaveAccess": "Vous n'avez pas accès aux sauvegarde en ligne.",
       "youDoNotHaveAccess2": "Vous n'avez pas accès à l'outil de publication des collections.",
       "compconCloudAccount": "Compte en ligne @:{'common.appName'}",
       "filename": "Nom du fichier",
@@ -1681,7 +1831,8 @@
       "pilotMATERIELREGISTRATIONVERIFIED": "[ Enregistrement du matériel de pilote vérifié ]",
       "materielIDINVALIDORMISSING": "[ ID du matériel invalide ou manquant ]",
       "empty": "Vide",
-      "toAddSlashes": "À ajouter //"
+      "toAddSlashes": "À ajouter //",
+      "coreBonusAvailable": "Bonus d'architecture disponible"
     },
     "import": {
       "importSuccessTitle": "Importé avec succès",
@@ -1699,7 +1850,9 @@
       "exportSuccessText": "Données de pilotes enregistré en tant que \"{callsign}.json\""
     },
     "level": {
-      "unOmni18364AndesCerroboneteNode": "un_omni-18364.andes.cerrobonete.node:9"
+      "unOmni18364AndesCerroboneteNode": "un_omni-18364.andes.cerrobonete.node:9",
+      "coreBonuses": "Bonus d'architecture",
+      "ineligibleFORCOREBONUS": "Inéligible au bonus d'architecture"
     },
     "new": {
       "pilot": "Pilote",
@@ -1714,11 +1867,11 @@
       "pilotNAME": "Nom de pilote",
       "rm402APPROVEDCALLSIGNOR": "RM-4-02 // nom de code approuvé (ou dénomination de cadet, si applicable)",
       "rm403PRIOROCCUPATIONOR": "RM-4-03 // OCCUPATION PRÉCÉDENTE (RÉPONDRE AU 17b SUR RM-2-C)",
-      "rm404ATTACHEDBIOGRAPHICALDOSSIER": "RM-4-04 // DOSSIER BIOGRAPHIQUE CI-JOINT (ANNEXE RM-4b)",
+      "rm404ATTACHEDBIOGRAPHICALDOSSIER": "RM-4-04 // DOSSIER BIOGRAPHIQUE JOINT (ANNEXE RM-4b)",
       "biography": "Biographie",
       "addPilotBiography": "Ajouter biographie de pilote",
       "editPilotBiography": "Modifier biographie de pilote",
-      "rm405ATTACHEDOHMHEALTH": "RM-4-05 // Résultats d'examen de santé OHM ci-joints",
+      "rm405ATTACHEDOHMHEALTH": "RM-4-05 // Résultats d'examen de santé OHM joints",
       "appearance": "Apparence",
       "addPilotDescription": "Ajouter description de pilote",
       "mustINCLUDERETINALDATA": "(Doit inclure données visuelles)",
@@ -1785,7 +1938,7 @@
       "selectNewFrame": "Sélectionner un nouveau châssis",
       "xk401REGISTERMECHNAME": "XK-4-01 // Enregistrer nom de mécha",
       "registerNewMech": "Enregistrer un nouveau mécha",
-      "mechHangar": "Hangar de mécha",
+      "mechHangar": "Hangar",
       "addNewMech": "Ajouter un nouveau mécha",
       "requiredFor": "Requis pour",
       "setMechImage": "Choisir une image de mécha",
@@ -1793,7 +1946,8 @@
       "revert": "Annuler",
       "setPilotPortrait": "Choisir portrait de pilote",
       "biometricRecordValid": "Données biométriques valides [[",
-      "pbOhmC": "PB]] :: OHM c//"
+      "pbOhmC": "PB]] :: OHM c//",
+      "addNewClock": "Ajouter un nouveau compteur"
     },
     "print": {
       "pilotSheetOptions": "Options de la fiche de pilote",
@@ -1802,7 +1956,7 @@
       "1d6": "+1d6",
       "1d64": "+1d6+4",
       "xp": "XP",
-      "pilotNotes": "Notes de pilote",
+      "pilotNotes": "Notes du pilote",
       "missionLog": "Journal de mission",
       "session": "Session",
       "1d32": "[+1d3",
@@ -1825,10 +1979,10 @@
       "cr700ENCODEDDATAREMIT": "CR-7-00 // transmission des données encodées",
       "optional": "(Optionnel)",
       "cr701UNITDESIGNATION": "CR-7-01 // dénomination de l'unité",
-      "cr702aATTACHEDNDAPCOMP": "CR-7-02a // ANALYSE DES RESULTATS NDAP COMP/DISP CI-JOINTS",
+      "cr702aATTACHEDNDAPCOMP": "CR-7-02a // RESULTATS D'ANALYSE NDAP COMP/DISP JOINTS",
       "addGroupDescription": "Ajouter la description du groupe",
       "editGroupDescription": "Modifier la description du groupe",
-      "cr702bATTACHEDTACANALYSISRECORDS": "CR-7-02b // REGISTRE DES ANALYSES CI-JOINTS (COMPLEMENTAIRE)",
+      "cr702bATTACHEDTACANALYSISRECORDS": "CR-7-02b // DOSSIERS D'ANALYSE TACTIQUE JOINTS (COMPLEMENTAIRE)",
       "addGroupHistory": "Ajouter l'historique du groupe",
       "editGroupHistory": "Modifier l'historique du groupe",
       "cr703UNITLIVERY": "CR-7-03 // livrée de l'unitée",
@@ -1853,7 +2007,11 @@
       "startWith": "Commencer avec",
       "efficiency": "Efficacité",
       "influence": "Influence",
-      "notInCompendium": "Le {type} suivant n'est pas présent dans le compendium"
+      "notInCompendium": "Le {type} suivant n'est pas présent dans le compendium",
+      "licenseSelectionComplete": "Sélecion de la licence terminée",
+      "addDowntimeProject": "Ajouter un projet de Temps Libre",
+      "coreBonusSelectionComplete": "Sélection du bonus d'architecture complété",
+      "coreBonusAvailable": "{count} {mf} bonus d'architecture disponible | {count} {mf} bonus d'architecture disponibles"
     },
     "shared": {
       "critical": "Critique",
@@ -1867,11 +2025,18 @@
       "rm4bPilotSelfAssessment1": "RM-4b Auto évaluation du pilote (1/3)",
       "nb": "N.B.",
       "rm4cPilotSelfAssessment2": "RM-4c Auto évaluation de pilote (2/3)",
-      "warningSubmission": "AVERTISSEMENT : Le formulaire d'enregistrement IDENT {id} présente le(s) problème(s) suivant(s)"
+      "warningSubmission": "AVERTISSEMENT : Le formulaire d'enregistrement IDENT {id} présente le(s) problème(s) suivant(s)",
+      "improveMechSkill": "Améliorer une compétence de mécha.",
+      "addCOREBonus": "Ajouter un bonus d'architecture",
+      "nextCoreBonusIn": "Prochain bonus d'architecture dans",
+      "pilotCOREBONUSDATAMissingOr": "DONNÉES DES BONUS D'ARCHITECTURE DU PILOTE manquants ou incomplets",
+      "pilotCOREBONUSESIncompleteOrInvalid": "BONUS D'ARCHITECTURE DU PILOTE incomplets ou invalides",
+      "pilotINELIGIBLEFORCOREBONUS": "Pilote inéligible pour le bonus d'architecture",
+      "selectACoreBonus": "Sélectionner un bonus d'architecture"
     },
     "link": {
       "pilotBiography": "Biographie du pilote",
-      "pilotAppearance": "Apparence de pilote",
+      "pilotAppearance": "Apparence du pilote",
       "theDailyRequestLimitHasBeen": "La limite de requêtes quotidiennes a été atteinte. Merci de réessayer demain.",
       "tooManyRequestsPleaseTryAgain": "Trop de requêtes reçues. Merci de réessayer dans",
       "tooManyRequestsPleaseTryAgain2": "Trop de requêtes reçues. Merci de réessayer dans quelques minutes.",
@@ -1918,7 +2083,12 @@
       "mechOnly": "Mécha uniquement",
       "pilotOnly": "Pilote uniquement",
       "exportError": "Erreur d'exportation",
-      "exportSuccess": "Exporté avec succès"
+      "exportSuccess": "Exporté avec succès",
+      "killedInAction": "Morte Au Combat",
+      "otherClocks": "Autres compteurs",
+      "coreBonuses": "Bonus d'architecture",
+      "pilotCoreBonuses": "Bonus d'architecture du pilote",
+      "setPilotCoreBonuses": "Définir les bonus d'architecture du pilote"
     },
     "fields": {
       "generate": "Générer",
@@ -1956,14 +2126,15 @@
     }
   },
   "compendium": {
-    "returnToCompendium": "Retourner au Compendium",
+    "returnToCompendium": "Retourner au catalogue",
     "selectItem": "Sélectionner {name}",
     "categories": {
       "frames": "Châssis",
       "environments": "Environnements",
       "npcTemplates": "Modèle de PNJ",
       "manufacturers": "Manufactureurs",
-      "npcClasses": "Classes de PNJ"
+      "npcClasses": "Classes de PNJ",
+      "downtimeActions": "Actions de Temps Libre"
     },
     "titles": {
       "reference": "Référence",
@@ -1979,7 +2150,10 @@
       "npcTemplates": "Modèles de PNJ",
       "icon": "Icône",
       "origin": "Origine",
-      "role": "Rôle"
+      "role": "Rôle",
+      "eidolonLayers": "Strates de l'Eidolon",
+      "downtimeActions": "Actions de Temps Libre",
+      "coreBonuses": "Bonus d'architecture"
     },
     "reference": {
       "or": "ou",
@@ -1989,13 +2163,16 @@
       "faqErrataNotice": "Cette FAQ et Erratas sont un projet porté par la communauté et n'est pas une publication officielle de Massif Press pour @:{'common.gameName'}. Cette page est approvisionné depuis le {repoLink} sur GitHub, maintenu actuellement par lenaleciel. Ce document est aussi disponible sur {siteLink}.",
       "lancerFaqRepo": "lancer-faq repository",
       "lancerFaqSite": "lancer-faq.netlify.app/",
-      "bookPage": "{book}, p. {page}"
+      "bookPage": "{book}, p. {page}",
+      "damageTables": "Tableaux des dégâts",
+      "iconGuide": "Guide Visuel"
     },
     "search": {
       "resultCount": "{count} résultat | {count} résultats"
     },
     "content": {
-      "frameSuffix": "Châssis {type}"
+      "frameSuffix": "Châssis {type}",
+      "eidolonLayer": "Strate de l'Eidolon"
     },
     "campaign": {
       "errNoCampaign": "Err: aucune campagne chargée",
@@ -2090,7 +2267,8 @@
       "commitResult": "Appliquer résultat"
     },
     "remote": {
-      "collectionHelp": "Ce {type} est lié à une collection de contenu. Il est en lecture seul et recevra une mise à jour quand une nouvelle version de la collection sera publié par l'auteur de la collection."
+      "collectionHelp": "Ce {type} est lié à une collection de contenu. Il est en lecture seul et recevra une mise à jour quand une nouvelle version de la collection sera publié par l'auteur de la collection.",
+      "remoteHelp": "Ce {type} est un élément externe lié au profil d'un autre utilisateur. Il est en lecture seule et recevra les mises jour du profil lié."
     },
     "missing": {
       "missingContent": "Contenu manquant",
@@ -2176,7 +2354,8 @@
       "load": "Charger",
       "patreonNote": "Dans une version à venir, vous pourrez associer votre compte Patreon, et les contributeurs de @:{'common.appName'} n'auront plus aucune limite de stockage.",
       "artworkBy": "Illustration par {artist}",
-      "remoteGalleryNote": "Les images dans cette galerie sont des liens vers des ressources distantes et ne sont pas gérées par @:{'common.appName'}. Si vous ne contrôlez pas leur hébergement, ces éléments pourraient être retirées ou changées à n'importe quel moment."
+      "remoteGalleryNote": "Les images de cette galerie proviennent de liens externes et ne sont pas gérées par @:{'common.appName'}. Si vous ne contrôlez pas leur hébergement, elles pourraient être retirées ou modifiées à tout instant.",
+      "remoteImages": "Images externes"
     },
     "fields": {
       "title": "Titre",
@@ -2193,7 +2372,7 @@
       "organizationName": "Nom d'organisation",
       "organizationType": "Type d'organisation",
       "used": "Utilisé",
-      "fromManufacturer": "Du manufactureur",
+      "fromManufacturer": "Manufactureur",
       "role": "Rôle",
       "origin": "Origine",
       "addNewImage": "Ajouter une nouvelle image",
@@ -2208,7 +2387,8 @@
       "tactics": "Tactiques",
       "resetAllInputs": "Réinitialiser toutes les entrées",
       "printOptions": "Options d'impression",
-      "externalDataWarning": "Avertissement de données externes"
+      "externalDataWarning": "Avertissement de données externes",
+      "clockEditor": "Éditeur de compteur"
     },
     "tooltips": {
       "markingAFieldOrItem": "Marquer un champ ou un élément comme \"MJ uniquement\" le masquera des exportations à destination des joueurs et des impressions",
@@ -2217,6 +2397,14 @@
     },
     "subtitles": {
       "selectResult": "Sélectionner le résultat"
+    },
+    "clock": {
+      "deleteConfirm": "Voulez vous supprimer ce compteur? Cette action ne peut pas être annulée."
+    },
+    "coreBonus": {
+      "actions": "Action d'architecture",
+      "ignoreRequirements": "Ignorer les prérequis d'architecture",
+      "remove": "Retirer ce bonus d'architecture"
     }
   },
   "notify": {

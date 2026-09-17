@@ -178,8 +178,12 @@
     "alert": "Alerta",
     "ok": "OK",
     "a11y": {
-      "mainNavigation": "Menu Principal"
-    }
+      "mainNavigation": "Menu Principal",
+      "toggleNavigation": "Alternar painel de navegação"
+    },
+    "shiftEnterNewline": "Shift + Enter para nova linha",
+    "unknown": "Desconhecido",
+    "deselectAll": "Desselecionar tudo"
   },
   "print": {
     "generalOptions": "Opções Gerais de Impressão"
@@ -221,7 +225,7 @@
       "aStandardEnvironmentWithNoSpecial": "Um ambiente padrão, sem condições especiais de combate"
     },
     "titles": {
-      "titlePage": "Capa",
+      "titlePage": "Página de título",
       "contributors": "Colaboradores"
     }
   },
@@ -415,7 +419,7 @@
       "lancerBy": "@:{'common.gameName'} by",
       "with": "Com",
       "graphicDesignBy": "Design Gráfico por",
-      "tier": "Ranque",
+      "tier": "{patreonTierName} Patamar",
       "patronThanks": "O desenvolvimento contínuo do @:{'common.appName'} não seria possível sem o generoso",
       "supportOf": "de",
       "compconBy": "@:{'common.appName'} Por",
@@ -530,8 +534,8 @@
       "exportThisSession": "Exportar este Registro de Sessão",
       "exportAllSessions": "Exportar todos Registros de Sessão",
       "clearLog": "Limpar Registros",
-      "clearAllLogs": "Limpar Todos os Registros",
-      "clearAllLogsConfirm": "Isso apagará permanentemente todas as entradas de registro de todas as sessões, incluindo sessões salvas de visitas anteriores.",
+      "clearAllLogs": "Limpar todos os logs",
+      "clearAllLogsConfirm": "Isso vai deletar permanentemente todos os logs de todas as sessões, incluindo sessões salvas de visitas anteriores.",
       "error": "Erro",
       "session": "Sessão"
     },
@@ -622,7 +626,8 @@
     "optionsPage": {
       "tabLog": "Log",
       "tabStorage": "Armazenamento",
-      "tabSettings": "@:{'common.settings'}"
+      "tabSettings": "@:{'common.settings'}",
+      "tabActiveMode": "Modo Ativo"
     },
     "packsList": {
       "toggleSuccessText": "Pacote {action} com sucesso.",
@@ -730,19 +735,19 @@
       "tierIi": "Grau II",
       "tierIii": "Grau III",
       "licenseLevel": "Nível de Licença",
-      "spCost": "Custo de SP",
+      "spCost": "Custo de PS",
       "manufacturer": "Fabricante",
       "shards": "Fragmentos",
       "size": "Tamanho",
-      "mounts": "Suportes",
+      "mounts": "Encaixes",
       "edef": "E.Def",
-      "heatcap": "CapCalor",
-      "repcap": "CapRep",
+      "heatcap": "Cap. Calor",
+      "repcap": "Cap. Rep.",
       "techatk": "AtaqTec",
       "role": "Função",
       "origin": "Origem",
       "tags": "Tags",
-      "eDefense": "E-Defesa",
+      "eDefense": "Defesa-E",
       "range": "Alcance",
       "damage": "Dano",
       "uses": "Usos",
@@ -750,17 +755,17 @@
       "system": "Sistema",
       "mechWeapons": "Armas de Mecha",
       "mechSystems": "Sistemas de Mecha",
-      "skillTriggers": "Gatilhos de Perícia",
+      "skillTriggers": "Gatilhos",
       "eidolonLayers": "Camadas de Eidolon",
-      "statusesConditions": "Status e Condições",
+      "statusesConditions": "Estados e Condições",
       "equipmentTags": "Tags de Equipamento",
       "coreBonuses": "Bônus de Núcleo",
       "pilotBackgrounds": "Antecedentes de Piloto",
-      "downtimeActions": "Ações de Tempo de Inatividade",
+      "downtimeActions": "Ações de Tempo de Recesso",
       "referenceBasics": "Referência: Noções Básicas",
       "referenceCompCon": "Referência: COMP/CON",
       "referencePilots": "Referência: Pilotos",
-      "referenceMechs": "Referência: Mechs",
+      "referenceMechs": "Referência: Mechas",
       "referenceCombat": "Referência: Combate",
       "referenceNarrativePlay": "Referência: Jogo Narrativo",
       "referenceErrata": "Referência: Errata",
@@ -773,7 +778,7 @@
       "sitreps": "SITREPs",
       "lists": "Listas",
       "npcClasses": "Classes PNJ",
-      "npcFeatures": "Características PNJ",
+      "npcFeatures": "Sistemas de PNJ",
       "npcTemplates": "Modelo PNJ",
       "downtimeactions": "AçõesDeTempoDeInatividade"
     },
@@ -796,14 +801,15 @@
       "faqErrataNotice": "Este FAQ e Errata é um projeto conduzido pela comunidade e não faz parte de um lançamento oficial da Massif Press para o @:{'common.gameName'}. Esta página é fornecida pelos dados do FAQ de {repoLink} no GitHub, atualmente mantido por lenaleciel. Este documento também está disponível em {siteLink}.",
       "lancerFaqRepo": "repositório lancer-faq",
       "lancerFaqSite": "lancer-faq.netlify.app/",
-      "bookPage": "{book}, p. {page}"
+      "bookPage": "{book}, p. {page}",
+      "conditions": "Condições"
     },
     "search": {
       "resultCount": "{count} resultado | {count} resultados"
     },
     "content": {
       "eidolonLayer": "Camada do Eidolon",
-      "frameSuffix": "Estrutura de {type}"
+      "frameSuffix": "Chassi {type}"
     },
     "campaign": {
       "errNoCampaign": "Erro: nenhuma campanha carregada",
@@ -841,7 +847,7 @@
       "selectLcdFile": "Selecionar Arquivo .lcd"
     },
     "tooltips": {
-      "userSelectedDamageTypeOrDamage": "Tipo de dano selecionado pelo usuário ou tipo de dano não especificado",
+      "userSelectedDamageTypeOrDamage": "Tipo de Dano selecionado pelo usuário ou tipo de Dano não especificado",
       "weaponThreatRange": "Alcance de Ameaça da Arma",
       "burstAreaOfEffect": "Área de Efeito \"Emanação\"",
       "blastAreaOfEffect": "Área de Efeito \"Explosão\"",
@@ -934,26 +940,27 @@
       "singleTarget": "Alvo Único",
       "addTarget": "Adicionar Alvo",
       "target": "Alvo",
-      "damageValue": "valor de dano",
+      "damageValue": "valor de Dano",
       "bonusDamage": "Dano Bônus",
       "bonusDamageHalved": "Dano Bônus será reduzido à metade (Área de Efeito)",
       "overkillHeat": "+{n} Calor (Próprio) [Excesso de Dano]",
-      "critDamageYes": "Este dano é rolado como dano crítico (role duas vezes, pegue o maior)",
-      "critDamageNo": "Este dano não é rolado como dano crítico",
-      "apYes": "Este dano ignora armadura",
-      "apNo": "Este dano não ignora armadura",
-      "irreducibleYes": "Este dano não pode ser reduzido de nenhuma forma",
-      "irreducibleNo": "Este dano pode ser reduzido pelas defesas do alvo",
+      "critDamageYes": "Este Dano é rolado como Dano crítico (role duas vezes, pegue o maior)",
+      "critDamageNo": "Este Dano não é rolado como Dano crítico",
+      "apYes": "Este Dano ignora armadura",
+      "apNo": "Este Dano não ignora armadura",
+      "irreducibleYes": "Este Dano não pode ser reduzido de nenhuma forma",
+      "irreducibleNo": "Este Dano pode ser reduzido pelas defesas do alvo",
       "exceptArmor": ", exceto por armadura",
-      "overkillYes": "Este dano está sujeito às regras de Exagerado (role novamente os 1s, adicione calor (próprio))",
-      "overkillNo": "Este dano não está sujeito às regras de Exagerado",
+      "overkillYes": "Este Dano está sujeito às regras de Exagerado (role novamente os 1s, adicione Calor (próprio))",
+      "overkillNo": "Este Dano não está sujeito às regras de Exagerado",
       "reliableDamage": "Dano Confiável",
       "clearReliableDamage": "Limpar Dano Confiável",
       "clickClearBonus": "Clique para limpar Dano Bônus",
       "clickAddBonus": "Clique para adicionar Dano Bônus",
       "resistanceType": "tipo de resistência",
       "saveHalf": "Salvamento para Metade",
-      "removeSpecialCondition": "remover condição especial"
+      "removeSpecialCondition": "remover condição especial",
+      "self": "Próprio"
     },
     "cascade": {
       "alert": "Alerta de Cascata",
@@ -982,7 +989,27 @@
       "deploy": "Implantar",
       "integratedMechWeapon": "Arma de mecha integrada",
       "passive": "Passivo",
-      "active": "Ativo"
+      "active": "Ativo",
+      "glossary": {
+        "rangeText": "{type}{value}",
+        "rangeTextBonus": "{type}{value} (+{bonus})",
+        "rangeDesc": {
+          "maxRange": "O alcance máximo no qual {what}, medido a partir do personagem atacante.",
+          "equipmentAffects": "Equipamento com um padrão de ataque {pattern} afeta {area}.",
+          "whatRange": "uma arma pode ser usada para ataques à distância",
+          "whatThreat": "Ataques corpo a corpo e Retaliar podem ser feitos com certas armas",
+          "whatThrown": "uma arma Arremessável poe ser usada",
+          "areaLine": "todos os alvos em uma linha reta de X espaços de comprimento. Uma jogada de ataque separada é feita contra cada alvo na linha.",
+          "areaCone": "personagens dentro de um cone de X espaços de comprimento e X espaços de largura em seu ponto mais distante",
+          "areaBlast": "Personagens dentro de um raio de X espaços, traçado a partir de um ponto dentro do ALCANCE e com o centro da explosão sobre o atacante ou adjacente ao mesmo",
+          "areaBurst": "personagens dentro de um raio de X espaços, centrado em, e incluindo, o espaço ocupado pelo atacante"
+        },
+        "intro": "Esses equipamentos causa <b>{value}</b>{type} de Dano",
+        "heatLabel": "Calor:",
+        "heatDescription": "O Calor é um tipo especial de efeito prejudicial que não conta como dano e ignora ARMADURA, embora possa ser afetado por RESISTÊNCIA. Ele representa danos aos sistemas internos e ao reator de um mecha. É mais frequentemente infligido por guerra eletrônica, mas muitas vezes é gerado pelos próprios sistemas. Quando um mecha atinge sua Cap. de Calor, qualquer Calor adicional faz com que ele superaqueça. Personagem sem Cap. de Calor (como personagens BIOLÓGICOS e alguns DRONES) sofrem Dano de Energia equivalente ao Calor recebido.",
+        "burnLabel": "Queimadura:",
+        "burnDescription": "Algumas armas causam Queimadura (dano ao longo do tempo). Queimadura pode representar chamas, plasma escaldante, ácido ou algo mais insidioso, como um enxame de nanites greywash. Quando os personagens recebem Queimadura, isso tem dois efeitos: primeiro, eles sofrem dano de Queimadura imediatamente, ignorando ARMADURA, e então registram a Queimadura que acabaram de receber. No final de seu turno, personagens com Queimadura marcada devem rolar um teste de ENGENHARIA. Em um sucesso, eles removem toda a Queimadura atualmente marcada; caso contrário, sofrem dano de Queimadura igual à quantidade de Queimadura atualmente marcada. Queimadura de fontes adicionais se soma ao total de Queimadura marcada."
+      }
     },
     "lcp": {
       "content": "Conteúdo LCP",
@@ -1020,7 +1047,9 @@
     "remote": {
       "collectionResource": "Recurso de Coleção",
       "collectionHelp": "Este {type} está vinculado a uma coleção de conteúdo. É somente leitura e receberá atualizações quando uma nova versão da coleção for publicada pelo autor da coleção.",
-      "remoteHelp": "Este {type} é um recurso remoto vinculado à conta de outro usuário. É somente leitura e receberá atualizações da conta vinculada."
+      "remoteHelp": "Este {type} é um recurso remoto vinculado à conta de outro usuário. É somente leitura e receberá atualizações da conta vinculada.",
+      "addRemoteResourceInfo": "Adicionar este item como um recurso remoto criará uma versão somente leitura deste item, vinculada aos dados originais do autor. Quando o autor salvar uma atualização deste item em sua conta na nuvem do @:{'common.appName'}, sua versão local poderá receber essas alterações.",
+      "mustBeLoggedInToAdd": "Voce precisa estar logado para adicionar itens como recursos remotos."
     },
     "missing": {
       "missingContent": "Conteúdo ausente",
@@ -1079,7 +1108,7 @@
       "setItemFilters": "Definir Filtros de Item",
       "noFilters": "Nenhum filtro disponível",
       "spCost": "Custo de PS",
-      "lessThan": "Menos Que",
+      "lessThan": "Menor Que",
       "equalTo": "Igual A",
       "greaterThan": "Maior Que"
     },
@@ -1095,7 +1124,9 @@
     },
     "talent": {
       "rankLocked": "Ranque de talento bloqueado",
-      "unlocked": "Desbloqueado"
+      "unlocked": "Desbloqueado",
+      "hideAll": "Ocultar Todos",
+      "showAll": "Exibir tudo"
     },
     "coreBonus": {
       "remove": "Remover este Bônus de Núcleo",
@@ -1103,7 +1134,8 @@
       "deployables": "Implantáveis de bônus de núcleo",
       "integrated": "Equipamento integrado de bônus de núcleo",
       "additional": "Equipamento adicional de bônus de núcleo",
-      "instancedWarning": "{warning} Este é um item instanciado. Se removido, este Bônus de núcleo não estará disponível até que o LCP associado seja instalado."
+      "instancedWarning": "{warning} Este é um item instanciado. Se removido, este Bônus de núcleo não estará disponível até que o LCP associado seja instalado.",
+      "ignoreRequirements": "Ignorar requisitos de Bônus de Núcleo"
     },
     "org": {
       "efficiency": "Eficiência da Organização",
@@ -1118,7 +1150,9 @@
     },
     "corePanel": {
       "integrated": "Equipamento integrado de núcleo",
-      "special": "Equipamento especial de núcleo"
+      "special": "Equipamento especial de núcleo",
+      "corePowerAvailable": "Poder de Núcleo Disponível",
+      "corePowerDepleted": "Poder de Núcleo Gasto"
     },
     "image": {
       "remoteImages": "Imagens Remotas",
@@ -1169,7 +1203,7 @@
       "hasMount": "Possui Encaixe",
       "size": "Tamanho",
       "license": "Licença",
-      "tags": "Etiquetas",
+      "tags": "Tags",
       "systemType": "Tipo de Sistema",
       "weaponType": "Tipo de Arma",
       "requiredMount": "Encaixe Necessário",
@@ -1204,7 +1238,7 @@
       "heatCapacity": "Capacidade de Calor",
       "repairCapacity": "Capacidade de Reparos",
       "totalDamage": "Dano Total",
-      "saveTarget": "Alvo de Salvamento",
+      "saveTarget": "Valor de Salvamento",
       "kineticDamage": "Dano Cinético",
       "energyDamage": "Dano de Energia",
       "heatDamage": "Dano de Calor",
@@ -1218,7 +1252,7 @@
       "size": "Tamanho",
       "range": "Alcance",
       "hull": "Casco",
-      "heatcap": "Cap.Calor",
+      "heatcap": "Cap. Calor",
       "evade": "Evasão",
       "threat": "Ameaça",
       "thrown": "Arremesso",
@@ -1260,6 +1294,20 @@
     },
     "subtitles": {
       "selectResult": "Selecionar resultado"
+    },
+    "organizer": {
+      "archiveMultiple": "Arquivar Múltiplos",
+      "deleteMultiple": "Deletar Múltiplos",
+      "printMultiple": "Imprimir Múltiplos",
+      "exportCollection": "Exportar Coleção",
+      "exportItemJson": "Exportar JSON do item",
+      "exportPackage": "Gerar um pacote de exportação com vários itens",
+      "markDeleted": "Marcar item como Deletado",
+      "markDeletedMultiple": "Marcar múltiplos itens como Deletados",
+      "restoreMultiple": "Restaura Múltiplos",
+      "unmarkDeleted": "Remover status Deletado do Item",
+      "unmarkDeletedMultiple": "Remover status Deletado dos Itens",
+      "archive": "Arquivo"
     }
   },
   "stats": {
@@ -1398,7 +1446,8 @@
     "folder": {
       "collectionFolder": "Pasta da coleção",
       "setFolder": "Definir Pasta",
-      "noFolder": "Nenhuma Pasta"
+      "noFolder": "Nenhuma Pasta",
+      "deleteFolderWarning": "Isso vai deletar a pasta {folder}. Todos os itens dela serão enviados para o grupo {noFolder}"
     },
     "organizer": {
       "itemCount": "{n} itens"
@@ -1560,7 +1609,7 @@
       "otherNpcClasses": "Outras Classes de PNJ",
       "otherNpcTemplates": "Outros Modelos de PNJ",
       "otherFeatures": "Outros Sistemas",
-      "featureType": "{type} Característica",
+      "featureType": "Característica {type}",
       "base": "Base",
       "noSelectionsRemaining": "Não há mais seleções de Sistemas de PNJ",
       "ignoreLimitHint": "Sistemas adicionais além das diretrizes recomendadas podem ser adicionadas ativando a opção \"Ignorar Limite\" acima",
@@ -1728,7 +1777,8 @@
       "allowDuplicates": "Permitir Duplicatas",
       "npc": "PNJ",
       "authors": "Autor(es)",
-      "mustBeAnItchioUrl": "Deve ser um URL do itch.io para habilitar o gerenciamento automático no @:{'common.appName'}"
+      "mustBeAnItchioUrl": "Deve ser um URL do itch.io para habilitar o gerenciamento automático no @:{'common.appName'}",
+      "condition": "Condição"
     },
     "subtitles": {
       "setItemFolder": "Definir pasta do item",
@@ -2074,7 +2124,8 @@
       "roundN": "Rodada {n}",
       "started": "iniciado",
       "lastTurn": "último turno",
-      "na": "N/D"
+      "na": "N/D",
+      "noCampaignInformation": "Sem Informações de Campanha"
     },
     "campaignDialog": {
       "setCampaign": "Definir Campanha"
@@ -2098,7 +2149,9 @@
       "never": "Nunca",
       "manualSave": "Salvar Manualmente",
       "autosave": "Salvamento Automático",
-      "layoutOptions": "Opções de Layout"
+      "layoutOptions": "Opções de Layout",
+      "autosaveOnRoundEnd": "No Fnal da Rodada",
+      "autosaveOff": "Off ( Apenas Salvamento Manual)"
     },
     "leaveDialog": {
       "prompt": "Deseja salvar este encontro antes de sair?",
@@ -2119,7 +2172,11 @@
       "atThe": "no",
       "endsOnTurn": "{when} do seu turno",
       "braceExit": "Você sai do estado {braced} e entra no estado {cooldown}.",
-      "braceCooldown": "Espera do Suportar"
+      "braceCooldown": "Espera do Suportar",
+      "burnTitle": "Queimadura",
+      "resolveBurn": "Resolver Queimadura",
+      "burnResolved": "Queimadura resolvida",
+      "burnRequired": "Resolver ou ignorar sua Queimadura no fim da rodada."
     },
     "joinTable": {
       "sortOnline": "Ordenar por Status Online",
@@ -2172,7 +2229,9 @@
       "removeFromEncounter": "Remover {name} do Encontro",
       "noStatController": "Nenhum Controlador de Atributos Encontrado",
       "editReinforcements": "Editar Reforços",
-      "noReinforcementSchedule": "Sem Cronograma de Reforços"
+      "noReinforcementSchedule": "Sem Cronograma de Reforços",
+      "undoRemoveCombatant": "Remover {name} do Encontro",
+      "undoEditOverrides": "Desfazer alterações de {name}"
     },
     "encInfo": {
       "reinforcements": "Reforços",
@@ -2193,7 +2252,13 @@
     },
     "gmRunner": {
       "loading": "Carregando instância do encontro…",
-      "roundN": "Rodada {n}"
+      "roundN": "Rodada {n}",
+      "undo": "Desfazer",
+      "redo": "Refazer",
+      "undoTooltip": "Desfazer: {label}",
+      "redoTooltip": "Refazer: {label}",
+      "undoRoundChange": "Trocar Rodada",
+      "undoAction": "Ação de combate"
     },
     "diceRoller": {
       "title": "Rolador de dados",
@@ -2231,9 +2296,9 @@
       "deploysNextRound": "Implementa na Próxima Rodada",
       "readyToDeploy": "Pronto para Implementar",
       "forceDeploy": "Forçar Implementação",
-      "resistanceLine": "{condition} a dano {type}",
+      "resistanceLine": "{condition} a Dano {type}",
       "reactorDestroyed": "Reator destruído",
-      "bracedDesc": "Você é considerado com RESISTÊNCIA a todo dano, calor e queimadura do ataque que desencadeou este Suportar, e até o final de seu próximo turno, todos os outros ataques contra você são feitos com +1 de Dificuldade.",
+      "bracedDesc": "Você é considerado com RESISTÊNCIA a todo Dano, Calor e Queimadura do ataque que desencadeou este Suportar, e até o final de seu próximo turno, todos os outros ataques contra você são feitos com +1 de Dificuldade.",
       "coverLabel": "{cover} cobertura",
       "activationsRemaining": "{n} Ativações restantes nesta rodada",
       "aiControl": "Mecha sob Controle de IA",
@@ -2259,7 +2324,9 @@
       "endsOnTargetTurn": "{when} do turno do {target}",
       "braceExit": "sai de {braced} e entra no estado {cooldown}.",
       "reinforcementsReady": "reforços prontos na próxima rodada",
-      "willBeReady": "estarão prontos para implantar."
+      "willBeReady": "estarão prontos para implantar.",
+      "turnsNotEnded": "Turnos não finalizados",
+      "endTurnBtn": "Finalizar Turno"
     },
     "panelBase": {
       "itemDestroyed": "{type} destruído",
@@ -2274,7 +2341,8 @@
       "hardCover": "Cobertura Pesada",
       "resistances": "Resistências",
       "statusesConditions": "Status/Condições",
-      "counters": "Contadores"
+      "counters": "Contadores",
+      "endActivation": "Terminar Ativação"
     },
     "damageMenu": {
       "takeDamage": "Sofrer Dano",
@@ -2291,13 +2359,20 @@
       "ready": "Pronto",
       "clearMechCore": "Limpar deste mecha a",
       "restoreMechCore": "Restaurar deste mecha a",
-      "corePowerQ": "Poder de Núcleo?"
+      "corePowerQ": "Poder de Núcleo?",
+      "corePowerReady": "Poder de Núcleo Pronto",
+      "corePowerUnavailable": "Poder de Núcleo Indisponível",
+      "clearCorePowerQ": "Limpar o Poder de Núcleo desse mecha ?",
+      "restoreCorePowerQ": "Restaurar o Poder de Núcleo desse mecha ?",
+      "confirmClearCore": "Confirmar limpar Núcleo",
+      "confirmRestoreCore": "Confirmar Restaurar Núcleo"
     },
     "customStat": {
       "editStats": "Editar Atributos",
       "trackable": "Rastreável",
       "static": "Estático",
-      "removeStat": "Remover Atributo"
+      "removeStat": "Remover Atributo",
+      "undoEditStat": "Editar {name} {stat}"
     },
     "telemetry": {
       "telemetry": "Telemetria",
@@ -2318,10 +2393,11 @@
       "immunity": "Imunidade",
       "vulnerability": "Vulnerabilidade",
       "resistance": "Resistência",
-      "noDamage": "Sem dano",
+      "noDamage": "Sem Dano",
       "doubleDamage": "Dano duplo",
       "fullDamage": "Dano total",
-      "fromAttacks": "de ataques do tipo {type}."
+      "fromAttacks": "de ataques do tipo {type}.",
+      "normal": "Normal"
     },
     "timedEffect": {
       "roundsRemaining": "{n} Rodadas restantes",
@@ -2344,7 +2420,9 @@
     },
     "activeEffect": {
       "title": "Efeitos ativos",
-      "hiddenEffects": "Efeitos Ocultos"
+      "hiddenEffects": "Efeitos Ocultos",
+      "hidingUsedEffects": "Esconder efeitos usados/expirados",
+      "showingUsedEffects": "Exibir efeitos usados/expirados"
     },
     "actions": {
       "allActions": "Todas as Ações",
@@ -2361,7 +2439,19 @@
       "alreadyUsed": "Esta ação já foi usada neste turno.",
       "insufficient": "Insuficiente",
       "actionsRemaining": "ações restantes neste turno.",
-      "activationAction": "Ação {n}"
+      "activationAction": "Ação {n}",
+      "protocol": "Protocolo",
+      "full": "Completa",
+      "quick": "Rápida",
+      "move": "Mover",
+      "overcharge": "Sobrecarregar",
+      "reaction": "Reação",
+      "spent": "Gasto",
+      "usesRemaining": "{n}de {max} usos restantes nesse {period}",
+      "usesExhausted": "sem usos restantes nesse {period}",
+      "restoreUse": "Click para restaurar um uso",
+      "quickN": "Rápida {n}",
+      "orTwoQuick": "Uma Ação completa pode ser gasta como duas Ações Rápidas"
     },
     "deploy": {
       "deployNamed": "Implantar {name}",
@@ -2372,7 +2462,8 @@
       "markUsedHint": "Clique para marcar como {used}. Armas com a tag Recarga devem ser recarregadas antes que possam ser carregadas novamente",
       "reloadHint": "Clique para {reload} esta arma.",
       "clickUnused": "Clique para marcar como Não Utilizada",
-      "clickUsed": "Clique para marcar como Utilizada"
+      "clickUsed": "Clique para marcar como Utilizada",
+      "undoEditItem": "Editar {name}"
     },
     "mountBonus": {
       "warning": "Os efeitos de bônus de montagem em ataques com armas {not} são aplicados automaticamente pelo @:{'common.appName'}. Certifique-se de aplicar manualmente quaisquer efeitos relevantes durante o jogo."
@@ -2388,7 +2479,9 @@
       "rechargesFeatures": "Recarrega os seguintes sistemas",
       "rechargesOn": "(Recarrega em {n}+)",
       "clickToRoll": "Clique para rolar. Os sitemas do PNJ recarregarão em resultados iguais ou superiores ao seu valor de rolagem.",
-      "reroll": "rolar novamente"
+      "reroll": "rolar novamente",
+      "hidingPassiveFeatures": "Esconder traços passivos",
+      "showingPassiveFeatures": "Exibir traços passivos"
     },
     "skillCheck": {
       "checkStat": "Atributo do Teste",
@@ -2481,12 +2574,13 @@
     },
     "pilotPanel": {
       "killed": "Este piloto foi morto em ação.",
-      "unconscious": "O piloto está inconsciente e qualquer dano adicional os matará."
+      "unconscious": "O piloto está inconsciente e qualquer Dano adicional os matará."
     },
     "pcPanel": {
       "pilotMounted": "Piloto Montado",
       "pilotUnmounted": "Piloto desmontado",
-      "noReserves": "Sem reservas disponíveis"
+      "noReserves": "Sem reservas disponíveis",
+      "unusedOnly": "Apenas Não utilizados"
     },
     "pilotActions": {
       "preparedTitle": "Piloto Preparado",
@@ -2518,11 +2612,11 @@
       "tableConnectCode": "Código de Conexão da Tabela",
       "selectCharacterSheetExportFile": "Selecionar Arquivo de Exportação de Ficha de Personagem",
       "maxLoadoutFeatureSetColumns": "Colunas Máx de Equipamento / Conjunto de Sistemas",
-      "coolYourMechClearingAll": "Resfrie seu mecha, limpando todo o calor e EXPOSTO.",
+      "coolYourMechClearingAll": "Resfrie seu mecha, limpando todo o Calor e EXPOSTO.",
       "mark1RepairToRestore": "Marque 1 REPARO para restaurar todos os PV.",
       "reloadAllLoadedWeapons": "Recarregue todas as armas de Recarga.",
-      "clearAnyBurnCurrentlyAffecting": "Limpe qualquer queimadura que esteja afetando seu mecha atualmente.",
-      "clearAConditionThatWasnt": "Limpe uma condição que não foi causada por um de seus próprios sistemas, talentos, etc",
+      "clearAnyBurnCurrentlyAffecting": "Limpe qualquer Queimadura que esteja afetando seu mecha atualmente.",
+      "clearAConditionThatWasnt": "Limpe uma condição que não foi causada por um de seus próprios sistemas, talentos, etc.",
       "clearAnAdjacentAlliedCharacters": "Limpe a condição de um personagem aliado adjacente que não foi causada por um de seus próprios sistemas, talentos, etc."
     },
     "titles": {
@@ -2555,7 +2649,7 @@
       "allPilots": "Todos os Pilotos",
       "heatCapacity": "Capacidade de Calor",
       "repairCapacity": "Capacidade de Reparos",
-      "saveTarget": "Alvo de Salvamento",
+      "saveTarget": "Valor de Salvamento",
       "items": "Itens",
       "sitrep": "SITREP",
       "round": "Rodada",
@@ -2565,11 +2659,11 @@
       "activations": "Ativações",
       "hull": "Casco",
       "size": "Tamanho",
-      "eDefense": "E-Defesa",
+      "eDefense": "Defesa-E",
       "grapple": "Agarrar",
       "ram": "Investida",
       "exposed": "Exposto",
-      "shredded": "Despedaçado"
+      "shredded": "Dilacerado"
     },
     "tooltips": {
       "addAPilotFromYourLocalPilotRoster": "Adicione um piloto da sua Lista de Pilotos local",
@@ -2606,8 +2700,80 @@
       "featureInDevelopmentV32": "Recurso em desenvolvimento (v3.2)",
       "createManageAndRunLocalEncounters": "Criar, gerenciar e executar Encontros locais para seus jogos de Lancer",
       "featureInDevelopmentV31": "Recurso em desenvolvimento (v3.1)",
-      "kineticExplosiveAndHeatDamageDoubled": "Dano cinético, explosivo e de calor dobrado.",
-      "damageIgnoresArmorAndResistance": "O dano ignora armadura e resistência."
+      "kineticExplosiveAndHeatDamageDoubled": "Dano Cinético, Explosivo e de Calor dobrado.",
+      "damageIgnoresArmorAndResistance": "O Dano ignora armadura e resistência."
+    },
+    "structureCheck": {
+      "structure": "Dano de Estrutura",
+      "stress": "Estresse do Reator",
+      "pending": "Marcado {type}",
+      "rollLabel": "Role {n}d{die}",
+      "rolled": "Rolagem",
+      "lowest": "Menor",
+      "applyResolve": "Aplicar e Resolver",
+      "markResolved": "Resolvido",
+      "manualNote": "Esse resultado deve ser resolvido manualmente",
+      "diceCount": "{n} ponto(s) marcados",
+      "resolution": "Resolução",
+      "success": "Sucesso",
+      "fail": "Falha",
+      "saveCheck": "Salvamento de {check}",
+      "applyManual": "Aplicar manualmente",
+      "chooseOne": "Escolha um",
+      "reroll": "Re-role",
+      "rollCheck": "Rolar {check}",
+      "rollPrompt": "Role {n}d{die} e escolha o menor"
+    },
+    "burnCheck": {
+      "title": "Salvamento de Queimadura",
+      "prompt": "Essa unidade tem <b>{n}</b> de Queimadura. Faça um salvamento de ENGENHARIA.",
+      "onSuccess": "Em um sucesso: limpe sua Queimadura",
+      "onFail": "Em uma falha: sofra {n} dano de Queimadura ( Queimadura persiste)",
+      "resolveEndTurn": "Resolver e Terminar Turno",
+      "ignore": "Ignorar"
+    },
+    "layout": {
+      "preset": "Predefinição",
+      "presets": {
+        "default": "Padrão",
+        "dense": "Denso",
+        "custom": "Personalizado",
+        "textFirst": "Texto Primeiro",
+        "phone": "Telefone"
+      },
+      "labels": "Rótulos",
+      "labelModes": {
+        "icon": "Somente ícone",
+        "text": "Somente texto",
+        "iconText": "Ícones com texto"
+      },
+      "density": "Densidade",
+      "densities": {
+        "compact": "Compacto",
+        "default": "Padrão",
+        "comfortable": "Confortável"
+      },
+      "statSets": {
+        "all": "Todos os Status",
+        "core": "Apenas estatísticas principais (estatísticas personalizadas sempre mostradas)"
+      },
+      "content": "Conteúdo",
+      "showPortraits": "Mostrar Retratos",
+      "resetToDefault": "Redefinir Padrões",
+      "title": "Layout do Modo Ativo",
+      "description": "Controla como os painéis dos combatentes, estatísticas e controles de ação são exibidos durante um encontro. Essas configurações são só suas e não afetam os outros jogadores na mesa.",
+      "tickbars": "Rastreadores de Status",
+      "tickbarModes": {
+        "auto": "Automático (simples em telas pequenas)",
+        "simple": "Sempre simples",
+        "standard": "Sempre padrão"
+      },
+      "statSet": "Display de Status",
+      "structure": "Painel de Estrutura",
+      "columnsLabel": "Dividir painéis em colunas",
+      "showPortraitsTooltip": "Ocultar imagens dos retratos dos combatentes para caber mais informações na tela.",
+      "showFlavor": "Mostar texto flavor",
+      "showFlavorTooltip": "Mostre texto descritivo e de história em cartas de equipamentos e recursos. Desative para ver apenas as regras."
     }
   },
   "mainMenu": {
@@ -2644,7 +2810,7 @@
       "itemAddedTitle": "Item Adicionado",
       "itemAddedText": "Item {name} adicionado à coleção",
       "jwtCopiedTitle": "JWT Copiado",
-      "jwtCopiedText": "Token de ID copiado para a área de transferência",
+      "jwtCopiedText": "ID do Token copiado para a área de transferência",
       "jwtCopyFailedTitle": "Falha ao Copiar JWT"
     },
     "auth": {
@@ -2806,7 +2972,10 @@
       "unsubscribeInfo": "Cancelar a assinatura desta coleção irá removê-la da sua lista de coleções. Você não receberá mais atualizações deste autor. Os dados locais desta coleção não serão removidos.",
       "newVersionAvailable": "Há uma nova versão desta coleção disponível.",
       "deletedCollection": "Coleção Excluída",
-      "deletedCollectionInfo": "A coleção \"{name}\" foi excluída pelo autor. Embora seus dados locais não tenham sido removidos, você não receberá mais atualizações desta coleção."
+      "deletedCollectionInfo": "A coleção \"{name}\" foi excluída pelo autor. Embora seus dados locais não tenham sido removidos, você não receberá mais atualizações desta coleção.",
+      "authorContentShort": "Conteúdo do Autor",
+      "authorContentHeader": "ASSINATURAS DE CONTEÚDO DO AUTOR",
+      "lcpHeader": "LCP de assinaturas"
     },
     "storage": {
       "iosWarning": "Navegadores iOS limitam o armazenamento para sites e podem {emphasis} após 7 dias de inatividade. Para evitar a perda de dados, instale o @:{'common.appName'} na sua tela inicial",
@@ -2895,7 +3064,11 @@
       "deleteCollectionWarning": "A exclusão desta coleção a removerá de seus dados locais e em nuvem, e excluirá o arquivo da coleção do armazenamento em nuvem. Os usuários não poderão assinar este conteúdo e os assinantes atuais não poderão mais atualizar os dados da coleção. Ele {willNot} excluirá nenhum conteúdo da coleção, seja localmente ou na nuvem para você ou para os assinantes da coleção.",
       "willNotLabel": "não",
       "actionUndone": "Essa ação não pode ser desfeita.",
-      "confirmDelete": "Tem certeza de que deseja excluir esta coleção?"
+      "confirmDelete": "Tem certeza de que deseja excluir esta coleção?",
+      "headerShort": "COLEÇÃO DE CONTEÚDO",
+      "header": "PUBLICAÇÃO DE COLEÇÃO DE CONTEÚDO",
+      "nameRequired": "Nome (obrigatório)",
+      "authorRequired": "Autor (obrigatório)"
     },
     "dataItem": {
       "cancelBulkSelection": "Cancelar Seleção em Lote",
@@ -3113,7 +3286,18 @@
       "gmsARMORYEQUIPMENTAUTHORIZATIONPILOTPERSONAL2": "Autorização de equipamento do arsenal da GMS: piloto/armamento pessoal::S0 - S3(LTD)",
       "toAddSlashes": "Para adicionar //",
       "unionArmoryPrintid": "ID de impressão do arsenal da União",
-      "gmsArmoryPrintid": "ID de impressão do arsenal da GMS"
+      "gmsArmoryPrintid": "ID de impressão do arsenal da GMS",
+      "showUnlicensed": "Exibir Sem Licença",
+      "unlicensedShown": "Equipamento sem licença: EXIBINDO",
+      "unlicensedHidden": "Equipamento sem licença: ESCONDIDO",
+      "showExceedsSp": "Exibir SP excedente",
+      "exceedsSpShown": "Sistemas que excedem a capacidade de SP: EXIBINDO",
+      "exceedsSpHidden": "Sistemas que excedem a capacidade de SP: ESCODIDO",
+      "incompatibleModsShown": "Mods Incompatíveis: EXIBINDO",
+      "incompatibleModsHidden": "Mods Incompatíveis: ESCONDIDO",
+      "modifyModification": "Modificar {name}",
+      "installModification": "Instalar modificiação {name}",
+      "showIncompatibleMods": "Exibir Incompatíveis"
     },
     "import": {
       "importSuccessTitle": "Importação Bem-sucedida",
@@ -3288,7 +3472,7 @@
       "removeBond": "Remover Vínculo",
       "str": "ESTRUTURA",
       "heat": "Calor",
-      "repcap": "CapRep",
+      "repcap": "Cap. Rep",
       "err": "ERRO",
       "sortByName": "Ordenar por Nome",
       "sortByManufacturer": "Ordenar por Fabricante",
@@ -3310,7 +3494,10 @@
       "unionAdministrativeIdentRecord": "Registro do Protocolo de Identificação de Piloto (IDENT) RM-4 Administrativo da União",
       "biometricRecordValid": "Registro biométrico válido [[",
       "pbOhmC": "PB]] :: OHM c//",
-      "identRecordNotice": "O uso indevido deste registro IDENT e/ou de seus dados constituintes pelo detentor do registro ou por quaisquer outras pessoas é punível de acordo com o DoJ/HR A-645-c. Este registro é propriedade do Escritório Administrativo da União e as informações contidas nele devem ser transmitidas mediante solicitação sob os protocolos de criptografia NDL-C-DISCORDANT-BREATH. Este registro RM-4 deve ser atualizado a cada cinco (5) Anos Padrão do Berço de tempo objetivo para reter os direitos de licenciamento da GMS. Operativos de campo distante que preveem implantações durando mais de cinco Anos Padrão do Berço e que não receberam um Gancho Omninet portátil devem solicitar a Extensão Suplementar (b) RM-11-B IDENT. Contate seu Oficial Administrativo da União local para quaisquer outros assuntos referentes a este registro. V-CDL//M-265-114-831 (A)"
+      "identRecordNotice": "O uso indevido deste registro IDENT e/ou de seus dados constituintes pelo detentor do registro ou por quaisquer outras pessoas é punível de acordo com o DoJ/HR A-645-c. Este registro é propriedade do Escritório Administrativo da União e as informações contidas nele devem ser transmitidas mediante solicitação sob os protocolos de criptografia NDL-C-DISCORDANT-BREATH. Este registro RM-4 deve ser atualizado a cada cinco (5) Anos Padrão do Berço de tempo objetivo para reter os direitos de licenciamento da GMS. Operativos de campo distante que preveem implantações durando mais de cinco Anos Padrão do Berço e que não receberam um Gancho Omninet portátil devem solicitar a Extensão Suplementar (b) RM-11-B IDENT. Contate seu Oficial Administrativo da União local para quaisquer outros assuntos referentes a este registro. V-CDL//M-265-114-831 (A)",
+      "requiresCloudAccount": "Requer Conta da Nuvem",
+      "favoriteMech": "Mecha Favorito",
+      "unfavoriteMech": "Desfavoritar Mecha"
     },
     "print": {
       "pilotSheetOptions": "Opções da Ficha de Piloto",
@@ -3358,7 +3545,7 @@
       "atk": "ATK",
       "ltdSYS": "LTD sis",
       "repairCAPACITY": "Capacidade de reparo",
-      "repCAP": "Cap rep",
+      "repCAP": "Cap. rep.",
       "atkBONUS": "Bônus atk",
       "ltdBONUS": "Bônus LTD",
       "corePassive": "Passiva Principal",
@@ -3404,7 +3591,8 @@
       "doneReordering": "Reordenação Concluída",
       "addGroup": "Adicionar Grupo",
       "pilots": "Pilotos",
-      "addANewPilotToName": "Adicionar um novo piloto a {name}"
+      "addANewPilotToName": "Adicionar um novo piloto a {name}",
+      "editGroupInformation": "Editar Informações de Grupo"
     },
     "misc": {
       "skipSTEP": "Pular etapa"
@@ -3427,7 +3615,8 @@
       "efficiency": "Eficiência",
       "influence": "Influência",
       "collapse": "recolher",
-      "notInCompendium": "Os seguintes {type} não estão presentes no compêndio"
+      "notInCompendium": "Os seguintes {type} não estão presentes no compêndio",
+      "coreBonusAvailable": "{count} {mf} Bônus de Núcleo disponível | {count} {mf} Bônus de Núcleo disponíveis"
     },
     "shared": {
       "critical": "Crítico",
@@ -3578,7 +3767,7 @@
       "mechOnly": "Apenas Mecha",
       "systemCapacityExceeded": "CAPACIDADE DO SISTEMA EXCEDIDA",
       "systemCapacityRemaining": "CAPACIDADE DO SISTEMA RESTANTE",
-      "emptyMountsDetected": "SUPORTES VAZIOS DETECTADOS",
+      "emptyMountsDetected": "ENCAIXES VAZIOS DETECTADOS",
       "unlicensedEquipmentDetected": "EQUIPAMENTO NÃO LICENCIADO DETECTADO",
       "incompatibleWeaponMod": "MODIFICAÇÃO DE ARMA INCOMPATÍVEL",
       "missingInAction": "Desaparecido Em Combate",
@@ -3595,7 +3784,7 @@
       "size": "Tamanho",
       "edef": "E.Def",
       "heatcap": "Cap.Calor",
-      "repcap": "Cap.Rep",
+      "repcap": "Cap. Rep.",
       "techatk": "Ataq.Tec",
       "active": "Ativo",
       "inactive": "Inativo",
@@ -3617,7 +3806,7 @@
       "tags": "Tags",
       "range": "Alcance",
       "damage": "Dano",
-      "eDefense": "E-Defesa",
+      "eDefense": "Defesa-E",
       "uses": "Usos",
       "biography": "Biografia",
       "bond": "Vínculo",
@@ -3666,9 +3855,9 @@
       "convertingThisPilotToLocalData": "A conversão deste piloto em dados locais permitirá a edição local, mas removerá seu\n                    vínculo remoto com a conta na nuvem do autor e impedirá que quaisquer atualizações futuras sejam\n                    recebidas. Para reativar a sincronização remota, você terá que importar este\n                    piloto novamente através de seu código de compartilhamento.",
       "thisWillResetYourStressTo": "Isso redefinirá seu Estresse para zero e adicionará um novo Fardo. Continuar?",
       "thisWillRemoveThisBondFrom": "Isso removerá este vínculo do piloto e redefinirá todas as seleções relacionadas. Isso não pode ser desfeito. Continuar?",
-      "thisWillCloneTheSelectedPilot": "Isso clonará o piloto selecionado. Personagens clonados não podem participar de uma missão em andamento e recebem uma peculiaridade aleatória. A clonagem adicional e a impressão de subjetividade adicionam mais peculiaridades.",
+      "thisWillCloneTheSelectedPilot": "Isso clonará o piloto selecionado. Personagens clonados não podem participar de uma missão em andamento, e recebem uma peculiaridade aleatória. Clonagem adicional e impressão de subjetividade adicionam outras peculiaridades.",
       "thisWillRestoreTheSelectedPilot": "Isso restaurará o piloto selecionado e limpará o status KIA.",
-      "extendedHarness": "Arreios Estendidos",
+      "extendedHarness": "Coldre Estendido",
       "influenceIsYourOrganizationsSizeReach": "A influência é o tamanho, o alcance, a riqueza e a reputação de sua organização.\n                A influência pode ser usada para adquirir ativos, criar oportunidades ou influenciar a opinião\n                pública.",
       "compConWasUnableToExport": "COMP/CON não conseguiu exportar os dados do piloto",
       "loadoutConfigurationExceedsAvailableFrameSyste": "A configuração do equipamento excede a Capacidade do Sistema do Chassi disponível",
@@ -3816,7 +4005,8 @@
       "scene": "Cena",
       "free": "Livre",
       "encounter": "Encontro",
-      "mission": "Missão"
+      "mission": "Missão",
+      "unlimited": "Ilimitado"
     },
     "attackType": {
       "melee": "Corpo a Corpo",

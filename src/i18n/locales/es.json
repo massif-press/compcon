@@ -12,7 +12,7 @@
     "back": "Regresar",
     "tier": "Grado",
     "shareCode": "Compartir con Código",
-    "mount": "Montura",
+    "mount": "Afuste",
     "rank": "Rango",
     "mainMenu": "Menú Principal",
     "pilotRoster": "Lista de Pilotos",
@@ -22,7 +22,7 @@
     "versionHistory": "Historial de Versiones",
     "pilotLoadout": "Equipamiento del Piloto",
     "copyToClipboard": "Copiar al Portapapeles",
-    "copyShareCode": "Copiar Código para Compartir",
+    "copyShareCode": "Copiar Código de Compartir",
     "closePreview": "Cerrar Vista Previa",
     "fileImport": "Importar Archivo",
     "saveAndExit": "Guardar y Salir",
@@ -85,7 +85,7 @@
     "actions": "Acciones",
     "weapon": "Arma",
     "effect": "Efecto",
-    "core": "Núcleo",
+    "core": "Base",
     "remoteResource": "Recurso remoto",
     "tierN": "Grado {n}",
     "tierShort": "G{n}",
@@ -127,7 +127,7 @@
     "tables": "Tablas",
     "actionCannotBeUndone": "Esta acción no puede deshacerse",
     "importOverwriteWarning": "Estos datos importados sobre-escribirán una campaña existente con el mismo ID ({title}). La campaña existente fue actualizada por última vez en {date}.",
-    "sensorRange": "Rango del Sensor",
+    "sensorRange": "Alcance del Sensor",
     "limitedBonus": "Bono Limitado",
     "removeName": "Quitar {name}",
     "pilotGear": "Equipo del Piloto",
@@ -144,12 +144,12 @@
     "loadout": "Equipamiento",
     "electronicDefense": "Defensa Electrónica",
     "pilotSheet": "Hoja del Piloto",
-    "side": "Lado",
+    "side": "Bando",
     "systemPoints": "Puntos de Sistema",
     "remove": "Quitar",
     "hidden": "Oculto",
     "roll_noun": "Tira",
-    "hpBonus": "Bono de PV",
+    "hpBonus": "Bono de PG",
     "setCustomDescription": "Asignar Descripción Personalizada",
     "pilotGroup": "Grupo de Pilotos",
     "background": "Trasfondo",
@@ -157,7 +157,7 @@
     "deployables": "Desplegables",
     "talents": "Talentos",
     "hase_h": "C",
-    "trigger": "Desencadenante",
+    "trigger": "Detonante",
     "alert": "Alerta",
     "ok": "Aceptar",
     "includeFeatureDetails": "incluir Detalles de la Característica",
@@ -174,8 +174,19 @@
     "setCustomName": "Elegir Nombre Personalizado",
     "roll_verb": "Tirar",
     "changelog": "Bitácora de cambios",
-    "mech": "Mecha",
-    "pilotSkillTriggers": "Skill Triggers de Piloto"
+    "mech": "Meca",
+    "pilotSkillTriggers": "Detonantes de Piloto",
+    "a11y": {
+      "mainNavigation": "Navegación principal",
+      "toggleNavigation": "Alternar el panel de navegación"
+    },
+    "callsign": "Apodo",
+    "overshield": "Escudo Temporal",
+    "overview": "Descripción General",
+    "techAttack": "Tecno Ataque",
+    "sitrep": "REPSI",
+    "eidolon": "Eidolón",
+    "shiftEnterNewline": "Shift + Enter para nueva línea de texto"
   },
   "language": {
     "selectLanguage": "Idioma",
@@ -184,7 +195,7 @@
     "components": {
       "ui": "Interfaz",
       "lancer-data": "Compendio",
-      "lancer-srd": "Referencia de reglas"
+      "lancer-srd": "Referencia de Reglas"
     }
   },
   "classes": {
@@ -203,12 +214,20 @@
     "newEncounter": "Nuevo Encuentro",
     "unknownStatus": "Estado Desconocido",
     "unknownLicense": "Licencia Desconocida",
-    "newCampaign": "Nueva campaña",
+    "newCampaign": "Nueva Campaña",
     "newFaction": "Nueva Facción",
     "newEidolon": "Nuevo Eidolon",
     "newDoodad": "Nuevo Doodad",
     "newSitrep": "Nuevo Sitrep",
-    "newSkillTrigger": "Nuevo Skill Trigger"
+    "newSkillTrigger": "Nuevo Detonante",
+    "titles": {
+      "titlePage": "Página Titular",
+      "contributors": "Contribuidores"
+    },
+    "subtitles": {
+      "aStandardEnvironmentWithNoSpecial": "Un entorno estándar sin condiciones especiales de combate",
+      "aSimpleAffairWithTwoSides": "Un duelo simple, con dos bandos enfrentados entre si hasta que uno de ellos es quebrado o destruido."
+    }
   },
   "nav": {
     "contentManager": {
@@ -221,14 +240,18 @@
       "noPacksInstalled": "No hay paquetes de contenido instalados.",
       "addContent": "@:{'common.addContent'}",
       "removeContent": "@:{'common.remove'}",
-      "contentConfig": "Config. de Contenido"
+      "contentConfig": "Config. de Contenido",
+      "title": "@:{'common.contentManager'}",
+      "contentPacks": "@:{'common.contentPacks'}",
+      "lcpDirectory": "@:{'common.lcpDirectory'}",
+      "updateAll": "@:{'common.updateAll'}"
     },
     "settings": {
       "reset": "Restablecer valores predeterminados",
       "importData": "Importar Datos",
       "exportData": "Exportar todos los datos",
       "title": "@:{'common.settings'}",
-      "clearData": ""
+      "clearData": "@:{'common.clearAllData'}"
     },
     "v2Import": {
       "deleteTitle": "Eliminar Respaldo",
@@ -244,8 +267,8 @@
       "panelTitle": "Importaciones V2 pendientes",
       "importAll": "Importar todo",
       "moreCount": "+{count} más",
-      "forceImportPanelTitle": "",
-      "confirmForceImport": ""
+      "forceImportPanelTitle": "@:{'common.forceImport'}",
+      "confirmForceImport": "@:{'common.forceImport'}"
     },
     "nav": {
       "navigateForward": "Navegar hacia adelante",
@@ -265,10 +288,16 @@
       "supportCompcon": "Soporte @:{'common.appName'}",
       "encounters": "Encuentros",
       "mainMenu": "@:{'common.mainMenu'}",
-      "navigateBack": "Navegar de Vuelta"
+      "navigateBack": "Navegar de Vuelta",
+      "compendium": "@:{'common.compendium'}",
+      "activeMode": "@:{'common.activeMode'}",
+      "cloudAccount": "@:{'common.cloudAccount'}",
+      "manageContent": "",
+      "options": "@:{'common.options'}",
+      "credits": "@:{'common.credits'}"
     },
     "help": {
-      "faq": "Preguntas más frecuentes",
+      "faq": "Preguntas Más Frecuentes",
       "discussionForum": "Foro de Discusión",
       "reportBug": "Reportar un Fallo",
       "suggestFeature": "Sugerir una Característica",
@@ -277,7 +306,7 @@
       "whereAreNpcs": "¿Dónde están los PNJ?",
       "howToAddContent": "¿Cómo agrego contenido de las expansiones de Lancer a @:{'common.appName'}?",
       "cloudAccountFaq": "¿Necesito pagar para hacer una cuenta en la nube de @:{'common.appName'}?",
-      "whereAreNpcsBody": "Si compraste el Lancer Core Book, en la página itch.io encontrarás un paquete de datos descargable que contiene todos los datos de los PNJ en el Lancer Core Book, los cuales puede acceder a través del Gestor de Contenidos. Puede utilizar la pestaña {installLcp} del Gestor de Contenidos para importar el paquete y comenzar a construir y llevar encuentros.",
+      "whereAreNpcsBody": "Si compraste el Lancer Core Book, en la página itch.io encontrarás un paquete de datos descargable que contiene todos los datos de los PNJ en el Lancer Core Book, los cuales puedes acceder a través del Gestor de Contenidos. Puedes utilizar la pestaña {installLcp} del Gestor de Contenidos para importar el paquete y comenzar a construir y llevar encuentros.",
       "installLcpTab": "Instalar LCP",
       "howToAddContentBody": "Contenido oficial @:{'common.gameName'} puede encontrarse en {itchLink} Contenido LCP dirigido a jugadores para @:{'common.appName'} puede hallarse en la sección {downloadDemo} para cualquier publicación de Massif Press ; Contenido orientado a los DJ (p.ej. PNJs) pueden comprarse junto al contenido PDF. Enlaces a este contenido (y contenido de la comunidad presentado) pueden también hallarse en el {lcpDirectory} del Gestor de Contenido.",
       "itchPageText": "Página itch.io de Massif Press.",
@@ -291,7 +320,7 @@
       "additionalHelp": "Ayuda adicional",
       "downloadDemo": "Descargar demo",
       "showExoticsToggleLabel": "\"Mostrar elementos exóticos en el Compendio\"",
-      "lcpDirectory": "",
+      "lcpDirectory": "@:{'common.lcpDirectory'}",
       "optionsLabel": "@:{'common.options'}"
     },
     "credits": {
@@ -303,7 +332,8 @@
       "anonymousPatron": "Mecenas Anónimo",
       "graphicDesignBy": "Diseño gráfico por",
       "additionalArtBy": "Arte adicional por",
-      "tier": "@:{'common.tier'}"
+      "tier": "{patreonTierName} Rango",
+      "support": "apoya"
     },
     "achievements": {
       "unlocked": "Desbloqueado",
@@ -336,8 +366,9 @@
       "cannotBeUndoneFull": "Este {emphasis} será deshecho. Es muy recomendable crear una copia de seguridad primero.",
       "hidden": "@:{'common.hidden'}",
       "sort": "Ordenar",
-      "selectAll": "",
-      "none": "@:{'common.none'}"
+      "selectAll": "@:{'common.selectAll'}",
+      "none": "@:{'common.none'}",
+      "name": ""
     },
     "settingsPage": {
       "errorReporting": "Error al Reportar",
@@ -352,7 +383,7 @@
       "enhancedReportingStatus": "Reporte de errores mejorado {status}",
       "importStrategy": "//Importar Estrategia",
       "createBackup": "Crear Respaldo de Datos",
-      "createBackupTooltip": "@:{'common.appName'} depende del almacenamiento seguro de su navegador para guardar y cargar sus datos. Generalmente, estos datos están a salvo de la eliminación, pero ciertas configuraciones y utilidades del navegador pueden a veces limpiar estos datos, lo que resulta en la pérdida de sus datos de @:{'common.appName'}. Es una buena práctica respaldar tus datos de vez en cuando.",
+      "createBackupTooltip": "@:{'common.appName'} depende del almacenamiento seguro de tu navegador para guardar y cargar tus datos. Generalmente, estos datos están a salvo de la eliminación, pero ciertas configuraciones y utilidades del navegador pueden a veces limpiar estos datos, lo que resulta en la pérdida de tus datos de @:{'common.appName'}. Es una buena práctica respaldar tus datos de vez en cuando.",
       "downloadV2Backup": "Descargar Respaldo v2 Almacenado",
       "downloadV2Tooltip": "@:{'common.appName'} ha guardado una copia de seguridad completa de sus datos @:{'common.appName'} V2. Este se puede importar en la aplicación v2 en old.compcon.app.",
       "loadBackup": "Cargar Datos de Respaldo",
@@ -377,7 +408,9 @@
       "showDesktopTablesTooltip": "Por defecto, @:{'common.appName'} muestra una vista simplificada de las tablas de Compendio en dispósitivos móviles para mejorar la legibilidad y desempeño. Activar esta opción mostrará la versión completa de escritorio de las tablas en todos los dispositivos. Esto puede hacer que algunas tablas sean difíciles de leer o causar problemas de desempeño en algunos dispositivos móviles.",
       "showDesktopTablesLabel": "Forzar Tablas completas del Compendio",
       "errorReportingPrefix": "Error al reportar",
-      "logLevel": "Nivel de Bitácora"
+      "logLevel": "@:{'common.logLevel'}",
+      "logLevelLabel": "@:{'common.logLevel'}",
+      "confirmImport": ""
     },
     "storage": {
       "userData": "Datos del usuario",
@@ -407,7 +440,7 @@
       "deleteAllUserData": "Eliminar todos los datos de usuario",
       "clearAllData": "@:{'common.clearAllData'}",
       "neverLabel": "nunca",
-      "deleteAllConfirm": "TODO"
+      "deleteAllConfirm": "TODOS"
     },
     "deletedItems": {
       "deletedOn": "Eliminado en",
@@ -423,7 +456,8 @@
       "value": "Valor",
       "description": "Estos son los datos de usuario almacenados localmente. Estos artículos generalmente no deben ser reiniciados, pero pueden ser útiles para depurar o aclarar un problema de carga persistente.",
       "achievementNote": "Reiniciar Datos de Usuario no restablecerá los logros desbloqueados (eso puede hacerse en el Explorador de Logros).",
-      "resetUserData": "Restablecer datos de usuario"
+      "resetUserData": "Restablecer datos de usuario",
+      "item": "@:{'common.item'}"
     },
     "packInstall": {
       "install": "Instalar",
@@ -444,7 +478,8 @@
       "successText": "Paquetes de contenido instalados con éxito",
       "upgradeFromTo": "Actualización de {from} a {to}",
       "noChange": "No hay cambio ({from} a {to})",
-      "willUpgradeTo": "Se actualizará a v.{version}"
+      "willUpgradeTo": "Se actualizará a v.{version}",
+      "patchStringCount": "{count} cadenas"
     },
     "packsDirectory": {
       "officialContent": "Oficial",
@@ -455,7 +490,8 @@
       "clickHere": "presione aquí.",
       "communityNotice": "La descarga dentro de aplicaciones y la suscripción automática a las actualizaciones de LCP de la comunidad aún no son soportadas . Una vez disponibles las herramientas de soporte del autor, los LCP comunitarios serán migrados a v3 y podrán aprovechar los mismos mecanismos de actualización y suscripción que los paquetes oficiales de contenido de Massif Press. Siga el {blog} para mantenerse al día en el progreso.",
       "content": "Contenido",
-      "developmentBlog": "bitácora de desarrollo"
+      "developmentBlog": "bitácora de desarrollo",
+      "massifPress": "Massif Press"
     },
     "packInfo": {
       "v2ContentTitle": "Contenido v2",
@@ -467,7 +503,14 @@
       "contentHeading": "Contenido",
       "changelog": "@:{'common.changelog'}",
       "noDescription": "@:{'ui.widget.noDescription'}",
-      "none": "@:{'common.none'}"
+      "none": "@:{'common.none'}",
+      "patchByAuthor": "por {translator}",
+      "removePatch": "Quitar parche",
+      "languagePatches": "Parches de Idioma",
+      "languagePatchesTooltip": "Traducciones comunitarias instaladas para este paquete de contenido. Aplicadas cuando su idioma es seleccionado.",
+      "patchUnknownAuthor": "Traductor desconocido",
+      "patchOutdated": "Esta traducción fue escrita para la versión {version} del paquete y puede ser obsoleta.",
+      "version": "@:{'common.version'}"
     },
     "communityTable": {
       "noData": "No hay paquetes de contenido disponibles.",
@@ -480,13 +523,15 @@
       "payWhatYouWant": "Pague lo que quiera",
       "itchStorePage": "Página de la Tienda itch.io",
       "free": "Libre",
-      "currentVersion": "Versión actual"
+      "currentVersion": "Versión actual",
+      "authorsWebsite": "@:{'nav.packInfo.authorsWebsite'}"
     },
     "roster": {
       "newPilot": "Nuevo Piloto",
       "importPilot": "Importar Piloto",
       "clonePilot": "Clonar Piloto",
-      "deletePilot": ""
+      "deletePilot": "@:{'common.deletePilot'}",
+      "title": "@:{'common.pilotRoster'}"
     },
     "about": {
       "lancerCoreVersion": "Versión de @:{'common.gameName'} CORE",
@@ -498,9 +543,15 @@
     "log": {
       "trace": "Rastro",
       "exportLog": "Bitácora de Exportación",
-      "copiedToClipboard": "Registro copiado al portapapeles",
+      "copiedToClipboard": "Entrada de labitácora copiada al portapapeles",
       "noData": "@:{'common.noData'}",
-      "caller": "Llamado por"
+      "caller": "Llamado por",
+      "clearLog": "Limpiar Bitácora",
+      "session": "Sesión",
+      "exportThisSession": "Exportar Bitácora de Esta Sesión",
+      "exportAllSessions": "Exportar Bitácora de Todas las Sesiones",
+      "logLevel": "@:{'common.logLevel'}",
+      "error": "Error"
     },
     "packConfig": {
       "title": "Configuraciones de Contenido",
@@ -517,7 +568,7 @@
       "deleteConfig": "Eliminar esta configuración",
       "editConfig": "Editar esta configuración",
       "lcpsSuffix": "{list} LCPs",
-      "lancerCoreBook": "",
+      "lancerCoreBook": "@:{'ui.missing.lancerCoreBook'}",
       "byAuthor": "@:{'common.byAuthor'}"
     },
     "v2Auto": {
@@ -555,11 +606,14 @@
       "catNpcStats": "Estadísticas PNJ",
       "foundFixable": "Hallado {count} problema reparable | Hallados {count} problemas reparables",
       "andRequiringManual": " y {count} problema que requiere medidas manuales | y {count} problemas que requieren medidas manuales",
-      "applyFixesButton": "Aplicar {count} Reparación | Aplicar {count} Reparaciones"
+      "applyFixesButton": "Aplicar {count} Reparación | Aplicar {count} Reparaciones",
+      "colItem": "@:{'common.item'}",
+      "cancel": ""
     },
     "search": {
       "searchResults": "resultados de la búsqueda",
-      "recentSearches": "búsquedas recientes"
+      "recentSearches": "búsquedas recientes",
+      "search": "@:{'common.search'}"
     },
     "achievementItem": {
       "hiddenNote": "Este logro está oculto y será revelado una vez desbloqueado",
@@ -570,7 +624,7 @@
     },
     "v2ImportNotify": {
       "importedSuccessfully": "Importado correctamente.",
-      "importFailedText": "Importación incorrecta: {error}",
+      "importFailedText": "Importación fallida: {error}",
       "reimportSuccessText": "{count} artículo importado con éxito. | {count} artículos importados con éxito.",
       "reimportPendingText": "{count} artículo aún pendiente contenido faltante. | {count} artículos aún pendientes contenido faltante.",
       "noItemsToReimport": "No hay artículos para reimportar.",
@@ -598,10 +652,31 @@
     },
     "titles": {
       "selectAll": "Seleccionar Todo",
-      "version": "VERSIÓN",
+      "version": "Versión",
       "warning": "Advertencia",
       "v2DataMigration": "Migración de Datos V2",
-      "resetAchievements": "restablecer logros"
+      "resetAchievements": "restablecer logros",
+      "latestVersion": "Versión Más Reciente",
+      "installedVersion": "Versión Instalada",
+      "backedUp": "Respaldado",
+      "x1Week": "1 Semana",
+      "x2Weeks": "2 Semanas",
+      "x1Month": "1 Mes",
+      "x3Months": "3 Meses",
+      "x6Months": "6 Meses",
+      "x1Year": "1 Año",
+      "active": "Activo",
+      "author": "Autor",
+      "type": "Tipo",
+      "missing": "Faltante",
+      "never": "Nunca",
+      "lcp": "LCP"
+    },
+    "fields": {
+      "interV3Default": "Inter (por defecto en v3)",
+      "notoSansV3Alt": "Noto Sans (alternativa en v3 )",
+      "helveticaV2Default": "Helvetica (por defecto en v2 )",
+      "opendyslexicExperimental": "OpenDyslexic (experimental)"
     }
   },
   "gm": {
@@ -638,7 +713,7 @@
       "permanentDeletion": "Eliminación Permanente",
       "deleteWarn2": "escriba el título de la campaña en el campo de entrada de texto a continuación y presione {confirm}.",
       "importJsonTitle": "Importar Datos JSON de Campaña",
-      "importHelp": "Esta herramienta importará una campaña editable e inédita {jsonFile} desde su dispositivo.{br}Para importar un archivo de campaña publicado con la extensión {lcd} a su colección, utilice la herramienta de importación de archivos en el menú {campaignCollection}, o la herramienta Importar Campaña en el cuadro de diálogo {manageContent} bajo el menú principal.",
+      "importHelp": "Esta herramienta importará una campaña editable e inédita {jsonFile} desde su dispositivo.{br}Para importar un archivo de campaña publicado con la extensión {lcd} a su colección, utilice la herramienta de importación de archivos en el menú {campaignCollection}, o la herramienta Importar Campaña en el cuadro de diálogo {manageContent} bajo el menú principal .",
       "campaignCollection": "Colección de Campañas",
       "campaignInfo": "Información de campaña",
       "saveCampaign": "Guardar Campaña",
@@ -679,7 +754,7 @@
       "valueOptional": "Valor (opcional)",
       "labels": "Etiquetas",
       "label": "Etiqueta",
-      "addLabel": "Añadir etiqueta",
+      "addLabel": "Añadir Etiqueta",
       "sortAlphabetically": "Ordenar alfabéticamente",
       "heading": "Etiquetas DJ",
       "labelPalette": "Etiqueta de Paleta",
@@ -691,7 +766,7 @@
     "stats": {
       "noStats": "No hay estadísticas para mostrar",
       "custom": "Personalizado",
-      "resetConfirm": "Esto restablecerá todas las estadísticas a los valores predeterminados para T{tier} {name}. ¿Está seguro?",
+      "resetConfirm": "Esto restablecerá todas las estadísticas a los valores predeterminados para G{tier} {name}. ¿Está seguro?",
       "confirmResetStats": "Confirme Reinicio de las Estadísticas",
       "addStat": "Añadir Estadística",
       "statCountSuffix": "{n} Estadística | {n} Estadísticas"
@@ -721,7 +796,7 @@
       "itemsHidden": "{n} artículos ocultos por filtrado"
     },
     "itemCard": {
-      "tierShort": "T{tier}",
+      "tierShort": "G{tier}",
       "classLabel": "Clase {class}"
     },
     "noItem": {
@@ -745,7 +820,7 @@
       "setBannerImage": "Seleccionar Imagen de Pancarta",
       "imagesMustLink": "Las imágenes de la campaña deben estar vinculadas, y no pueden provenir de datos locales de @:{'common.appName'} .",
       "fromLicenseLevels": "De los Niveles de Licencia",
-      "authorContact": "Información de contacto del Autor (Opcional)",
+      "authorContact": "Información de Contacto del Autor (Opcional)",
       "addContact": "Agregar Nuevo Contacto",
       "coverImage": "Imagen de Portada de Campaña",
       "setCoverImage": "Configurar Imagen de Portada",
@@ -844,18 +919,19 @@
     "layerSelector": {
       "noData": "¡No se han encontrado datos de Eidolon!",
       "help1": "Los datos de Eidolon se incluyen con el Libro de Campaña No Room for a Wallflower y por lo tanto no se incluyen con @:{'common.appName'} por defecto. Puede encontrar datos de Eidolon como contenido descargable adicional en la {link} página del Libro de Campaña.",
-      "help2": "Si ya ha descargado los datos de Eidolon, puede importarlo a @:{'common.appName'} a través del Gestor de Contenidos disponible en el Menú Principal o en el menú Opciones en el lado derecho de la barra de navegación."
+      "help2": "Si ya ha descargado los datos de Eidolon, puede importarlo a @:{'common.appName'} a través del Gestor de Contenidos disponible en el Menú Principal o en el menú Opciones en el lado derecho de la barra de navegación.",
+      "linkText": "No Room for a Wallflower"
     },
     "eidolonData": {
       "noData": "¡No se han encontrado datos del editor de Eidolon!",
-      "help1": "Los datos de Eidolon se incluyen con la versión pagada de No Room para un Wallflower: Act 1, y se puede encontrar en la sección de contenido descargable en {link}",
+      "help1": "Los datos de Eidolon se incluyen con la versión pagada de No Room for a Wallflower: Act 1, y se puede encontrar en la sección de contenido descargable en {link}",
       "linkText": "Página itch.io de No Room for a Wallflower: Act 1.",
       "help2": "Si ya ha descargado el LCP de DJ para Wallflower, puede importarlo a @:{'common.appName'} a través del Gestor de Contenidos disponible en el Menú Principal o en el menú Opciones en el lado derecho de la barra de navegación."
     },
     "npcBuilder": {
-      "noClass": "Sin Clase de NPC",
+      "noClass": "Sin Clase de PNJ",
       "setClass": "Seleccionar Clase de PNJ",
-      "npcTag": "Chapa PNJ",
+      "npcTag": "Descriptor PNJ",
       "templates": "Plantillas",
       "npcClass": "Clase de PNJ"
     },
@@ -972,7 +1048,7 @@
       "setEncounter": "Seleccionar Encuentro"
     },
     "landing": {
-      "toolkit": "Herramientas de DJ"
+      "toolkit": "Herramientas DJ"
     },
     "combatant": {
       "combatants": "Combatientes",
@@ -1025,10 +1101,10 @@
       "resetStats": "Cambiar Grado y Restablecer Estadísticas"
     },
     "npcTag": {
-      "setTag": "Seleccionar Chapa de PNJ",
+      "setTag": "Seleccionar Descriptor de PNJ",
       "lockedBy": "Bloqueado por selección de plantillas ({name})",
-      "limitedBy": "Selección de Chapa limitada por plantilla ({name})",
-      "selectTag": "Seleccionar Chapa de PNJ"
+      "limitedBy": "Selección de Descriptor limitada por plantilla ({name})",
+      "selectTag": "Seleccionar Descriptor de PNJ"
     },
     "titles": {
       "setGmLabel": "Seleccionar Etiqueta de DJ",
@@ -1042,7 +1118,7 @@
       "combatEncounter": "Encuentro de Combate",
       "setMapImage": "Seleccionar Imagen de Mapa",
       "missingNpcs": "PNJs Faltantes",
-      "doodads": "Doodads",
+      "doodads": "Artilugios",
       "selectLayer": "Seleccionar Capa",
       "setNpcFeatures": "Seleccionar Caraterísticas de PNJ",
       "confirmTierChange": "Confirmar Cambio de Grado",
@@ -1054,23 +1130,44 @@
       "organizeEncounters": "ordenar encuentros",
       "selectTemplate": "seleccionar plantilla",
       "selectNpcClass": "seleccionar clase de PNJ",
-      "addDowntime": "Añadir Tiempo Apeado",
+      "addDowntime": "Añadir Interludio",
       "missingContentPacks": "Paquetes de Contenido Faltantes",
       "setFolder": "Seleccionar Directorio",
       "importData": "importar datos",
       "eidolons": "Eidolones",
       "clock": "Reloj",
-      "addBeat": "Añadir Beat"
+      "addBeat": "Añadir Punto Narrativo",
+      "contentPack": "Paquete de Contenido",
+      "gmLabels": "Etiquetas DJ",
+      "role": "Rol",
+      "folder": "Carpeta",
+      "shards": "Fragmentos",
+      "npcRoster": "Listado de PNJ",
+      "encounterEditor": "Editor de Encuentro",
+      "title": "Título",
+      "pronouns": "Pronombres",
+      "class": "Clase",
+      "layers": "Capas",
+      "tag": "Descriptor",
+      "templates": "Plantillas",
+      "gmToolkit": "Herramientas DJ",
+      "campaignEditor": "Editor de Campaña",
+      "narrativeItemManager": "Gestor de Artículo Narrativo",
+      "alias": "Alias"
     },
     "subtitles": {
       "setItemFolder": "Seleccionar directorio del artículo",
       "generateItemPrintables": "Generar imprimibles del artículo",
       "addSetOrDeleteA": "Añadir, seleccionar o eliminar una Etiqueta de DJ",
       "addANewEmptyFreeform": "Añadir una nueva sección de forma libre vacía bajo esta página. Una sección es un contenedor para otros artículos de contenido, y puede usarse para organizar su campaña en la manera que encuentre apropiada.",
-      "addANewEmptyBeat": "Añade un nuevo Pulso bajo esta sección. Un Pulso es una sección para un evento o momento importante en la historia.",
+      "addANewEmptyBeat": "Añade un nuevo Punto Narrativo bajo esta sección. Un Punto Narrativo es una sección para un evento o momento importante en la historia.",
       "addANewEmptyMission": "Añade una nueva Misión vacía bajo esta página. Una Misión contiene objetivos y metas específicas que pueden ser completadas dentro de un periodo de tiempo discreto, y típicamente contiene Combates.",
       "addANewEmptyCombat": "Añade un Combate nuevo vacío bajo esta página. Un Combate contiene Encuentros, así como también directrices para DJ, detalles narrativos pertinentes a la batalla, y resultados potenciales.",
-      "addANewEmptyDowntime": "Añade un nuevo Downtime vacío bajo esta página. Downtime es el espacio narrativo entre misiones, donde la acción momento a momento no importa tanto y el juego de roles importa mucho más."
+      "addANewEmptyDowntime": "Añade un nuevo Interludio vacío bajo esta página. Interludio es el espacio narrativo entre misiones, donde la acción momento a momento no importa tanto y el juego de roles importa mucho más.",
+      "createModifyAndBrowseLancerCampaigns": "Crear, modificar, y navegar campañas LANCER (v3.1)",
+      "manageNonPlayerCombatUnits": "Gestionar unidades de combate no-jugadoras",
+      "manageCharactersLocationsAndFactions": "Gestionar personajes, locaciones y facciones",
+      "createCombatEncounters": "Crear encuentros de combate"
     },
     "actions": {
       "noncharacterObjectsSuchAsTerrain": "Objetos no-personaje (tales como artículos del terreno) que pueden ser monitoreados en encuentros de combate."
@@ -1078,10 +1175,17 @@
     "tooltips": {
       "changeTierAndAdjustEdited": "Cambiar grado y ajustar estadísticas editadas por el mismo monto al de los cambios de estadísticas por defecto.",
       "changeTierAndKeepEdited": "Cambiar grado y mantener los valores de estadísticas editados, incluso si estas caen por debajo de los valores por defecto del nuevo grado.",
-      "changeTierAndDiscardAll": "Cambiar grado y descartar todos los valores editados de estadísticas."
+      "changeTierAndDiscardAll": "Cambiar grado y descartar todos los valores editados de estadísticas.",
+      "thisWillDeleteThisNpcFrom": "Esto eliminará este PNJ de su lista de PNJ. PNJs de este tipo agregados a Encuentros no serán afectados. ¿Está seguro?",
+      "convertingThisItemToLocalData": "Convertir este artículo a datos locales permitirá edición local pero quitará su enlace remoto a la\n      cuenta de nube del autor, y prevendrá recepción de cualquier actualización futura. Para re-habilitar\n      sincronización remota, tendrá que re-importar este artículo vía código de compartir.",
+      "confirmDuplicationOfThisNpc": "Confirmar duplicación de este PNJ",
+      "thisWillDeleteThisEncounterFrom": "Esto eliminará este Encuentro de su biblioteca. ¿Está seguro?"
     },
     "reinforcements": "Refuerzos",
-    "resolution": "Resolución"
+    "resolution": "Resolución",
+    "a11y": {
+      "dragToReorder": "Arrastre para reordenar"
+    }
   },
   "active": {
     "encounter": {
@@ -1095,27 +1199,27 @@
       "addedText": "{name} se ha añadido al encuentro."
     },
     "mechActions": {
-      "preparedTitle": "Mecha Preparado",
+      "preparedTitle": "Meca Preparado",
       "ejectFailedTitle": "Eyección Fallida",
       "ejectFailedText": "{name} no está montada.",
       "pilotEjectedTitle": "Piloto Eyectado",
-      "pilotEjectedText": "{name} ha sido eyectado del mecha y ahora esta IMPEDIDO.",
+      "pilotEjectedText": "{name} ha sido eyectado del meca y ahora esta IMPEDIDO.",
       "dismountFailedText": "{name} no está montada.",
       "pilotDismountedTitle": "Piloto Desmontado",
-      "pilotDismountedText": "{name} ha desmontado del mecha.",
-      "mechHiddenTitle": "Mecha Oculto",
-      "mechDisengagedTitle": "Mecha Desenganchado",
+      "pilotDismountedText": "{name} ha desmontado del meca.",
+      "mechHiddenTitle": "Meca Oculto",
+      "mechDisengagedTitle": "Meca Desenganchado",
       "bootUpFailedTitle": "Fallo Iniciar Sistema",
       "bootUpFailedText": "{name} no está APAGADO.",
-      "mechBootedUpTitle": "Sistema del Mecha Iniciado",
+      "mechBootedUpTitle": "Sistema del Meca Iniciado",
       "mechBootedUpText": "{name} ha INICIADO SISTEMA.",
       "selfDestructFailedTitle": "Autodestrucción Falló",
       "selfDestructFailedText": "{name} se ha AUTO DESTRUIDO.",
-      "selfDestructInitiatedTitle": "Auto-Destrucción del Mecha Iniciada",
+      "selfDestructInitiatedTitle": "Auto-Destrucción del Meca Iniciada",
       "selfDestructInitiatedText": "{name} está a punto de AUTO DESTRUIRSE.",
-      "mechBracedTitle": "Mecha Fortalecido",
+      "mechBracedTitle": "Meca Fortalecido",
       "mechBracedText": "{name} ahora está FORTALECIDO.",
-      "overwatchTitle": "Mecha Vigilante",
+      "overwatchTitle": "Meca Vigilante",
       "overwatchText": "{name} está ahora en VIGILANCIA.",
       "dismountFailedTitle": "Fallo al Desmontar"
     },
@@ -1127,8 +1231,8 @@
       "npcDisengagedTitle": "PNJ Desenganchado"
     },
     "pcSheet": {
-      "activeMechChangedTitle": "Mecha Activo Cambiado",
-      "activeMechChangedText": "Mecha activo cambiado a {mechName}. El estado en la hoja de Personaje ha sido reajustado.",
+      "activeMechChangedTitle": "Meca Activo Cambiado",
+      "activeMechChangedText": "Meca activo cambiado a {mechName}. El estado en la hoja de Personaje ha sido reajustado.",
       "saveSuccessfulText": "Hoja de Personaje Guardada : {callsign} en la Ronda {round}",
       "saveFailedText": "Fallo al guardar Hoja de Personaje: {callsign}"
     },
@@ -1165,10 +1269,10 @@
       "removeFromEncounter": "Eliminar del Encuentro",
       "playedBy": "Jugado Por",
       "pilotCombatStats": "Estadistícas de Combate del Piloto",
-      "activeMech": "Mecha activo",
-      "activeMechTooltip": "El mecha activo será instanciado para su uso en este encuentro. Una vez iniciado el encuentro, el mecha activo no se puede cambiar sin restablecer las estadísticas del mecha",
-      "pilotNoMech": "Piloto será instanciado sin un mecha",
-      "mechStats": "Estadísticas de Mecha",
+      "activeMech": "Meca activo",
+      "activeMechTooltip": "El meca activo será instanciado para su uso en este encuentro. Una vez iniciado el encuentro, el meca activo no se puede cambiar sin restablecer las estadísticas del meca",
+      "pilotNoMech": "Piloto será instanciado sin un meca",
+      "mechStats": "Estadísticas de Meca",
       "frameTraits": "Rasgos del Chasis",
       "coreSystem": "Sistema Base",
       "activeLoadout": "Carga Activa",
@@ -1176,7 +1280,7 @@
       "removedTitle": "Quitado {callsign} del encuentro",
       "removalSuccess": "Quitado Exitosamente",
       "addedTitle": "Añadido {callsign} al encuentro",
-      "ll": "LL {n}"
+      "ll": "NL {n}"
     },
     "labels": {
       "round": "Ronda",
@@ -1219,12 +1323,12 @@
     "newEnc": {
       "title": "Nuevo Encuentro Local Activo",
       "encounterData": "Datos de encuentro",
-      "additionalNpcs": "Los PNJ adicionales pueden ser añadidos en el Corredor de Encuentros después de la creación."
+      "additionalNpcs": "Los PNJs adicionales pueden ser añadidos en el Corredor de Encuentros después de la creación."
     },
     "tableManager": {
-      "published": "lista de mesas publicadas",
-      "offline": "lista de mesas fuera de línea",
-      "addNew": "añadir nueva mesa"
+      "published": "lista de tablas publicadas",
+      "offline": "lista de tablas fuera de línea",
+      "addNew": "añadir nueva tabla"
     },
     "sheet": {
       "newCharacterSheet": "Nueva Hoja de Personaje"
@@ -1233,7 +1337,7 @@
       "archivedSheets": "Hojas Archivadas ({n})",
       "noArchivedFound": "No se hallaron hojas archivadas",
       "noArchivedFoundFiltered": "No se hallaron hojas archivadas incluyendo \"{search}\"",
-      "kia": "KIA",
+      "kia": "MEA",
       "savePilotHistory": "Guardar Historia de Piloto",
       "featureInDev": "Característica en desarrollo (v3.1)",
       "encounterHash": "encuentro #",
@@ -1241,7 +1345,7 @@
       "active": "Activo"
     },
     "newSheet": {
-      "llLevel": "LL{n}",
+      "llLevel": "NL{n}",
       "campaignName": "Nombre de la Campaña",
       "createAndLaunch": "Crear y Lanzar Modo Activo",
       "str": "STR",
@@ -1305,7 +1409,11 @@
       "endsOnTurn": "{when} de tu turno",
       "braceExit": "Usted sale del estado {braced} y entra en {cooldown}.",
       "braceCooldown": "Enfriamiento de Fortalecer",
-      "braced": "Fortalecido"
+      "braced": "Fortalecido",
+      "burnTitle": "Incendio",
+      "resolveBurn": "Resolver Incendio",
+      "burnResolved": "Incendio resuelto",
+      "burnRequired": "Resuelva o ignore su Incendio para terminar la ronda."
     },
     "joinTable": {
       "sortOnline": "Ordenar por Estado en línea",
@@ -1331,7 +1439,7 @@
       "stagedImport": "Importación por Etapas",
       "atRound": "en la Ronda",
       "warningReplace": "Advertencia: El estado importado de la Hoja de Personaje sustituirá el estado actual de la Hoja de Personaje.",
-      "changeActiveMech": "Cambiar Mecha Activo",
+      "changeActiveMech": "Cambiar Meca Activo",
       "applySave": "Aplicar & Guardar"
     },
     "pcNotes": {
@@ -1358,7 +1466,9 @@
       "noStatController": "No se halló Controlador de Estadística",
       "editReinforcements": "Editar Refuerzos",
       "noReinforcementSchedule": "No hay Agenda de Refuerzos",
-      "max": "Máximo"
+      "max": "Máximo",
+      "undoRemoveCombatant": "Eliminar {name} del encuentro",
+      "undoEditOverrides": "Editar anulaciones de {name}"
     },
     "encInfo": {
       "reinforcements": "Refuerzos",
@@ -1367,16 +1477,16 @@
       "freeDeployment": "Libre Despliegue"
     },
     "gmNotes": {
-      "encounterClocks": "Cronómetros del Encuentro",
+      "encounterClocks": "Relojes del Encuentro",
       "addClock": "Agregar Reloj",
       "gmNotes": "Notas del DJ"
     },
     "refTag": {
-      "yourTags": "Sus Chapas ({name})",
-      "relevantTags": "Chapas Relevantes ({name})",
-      "noTagsFound": "No se Hallaron Chapas",
-      "relevantTagsEncounter": "Chapas Relevantes (Encuentro)",
-      "allTags": "Todas las Chapas"
+      "yourTags": "Sus Descriptores ({name})",
+      "relevantTags": "Descriptores Relevantes ({name})",
+      "noTagsFound": "No se Hallaron Descriptores",
+      "relevantTagsEncounter": "Descriptores Relevantes (Encuentro)",
+      "allTags": "Todos los Descriptores"
     },
     "diceRoller": {
       "count": "Conteo",
@@ -1393,7 +1503,7 @@
       "engineeringCheck": "Prueba de Ingeniería"
     },
     "toolPalette": {
-      "tagReference": "Referencia de la Chapa",
+      "tagReference": "Referencia del Descriptor",
       "combatQuickRef": "Referencia Rápida de Combate",
       "npcRef": "Referencia de Combate PNJ",
       "rollableTables": "Tablas de Tiradas",
@@ -1410,7 +1520,8 @@
     },
     "initiative": {
       "reinforcementsN": "refuerzos ({n})",
-      "destroyedN": "Destruido ({n})"
+      "destroyedN": "Destruido ({n})",
+      "statusGroupN": "{status} ({n})"
     },
     "runnerItem": {
       "deploysOnRound": "Despliegue en Ronda {n}",
@@ -1422,7 +1533,7 @@
       "bracedDesc": "Usted cuenta como si tuviera RESISTENCIA a todo daño, calor y quemadura del ataque que provocó este Fortalecimiento, y hasta el final de su próximo turno, todos los otros ataques contra usted se hacen con +1 Dificultad.",
       "coverLabel": "{cover} cobertura",
       "activationsRemaining": "{n} Activaciones restantes en esta ronda",
-      "aiControl": "Mecha Controlado por IA",
+      "aiControl": "Meca Controlado por IA",
       "selfDestructInitiated": "Auto destrucción iniciada",
       "bracedHeading": "Fortalecido",
       "prepared": "Preparado"
@@ -1435,7 +1546,7 @@
     },
     "addOther": {
       "addOther": "Añadir Otro",
-      "doodad": "Doodad"
+      "doodad": "Artilugio"
     },
     "addStub": {
       "addPlaceholder": "Añadir Marcador de Posicion",
@@ -1447,7 +1558,9 @@
       "braceExit": "sale del estado {braced} y entra en {cooldown}.",
       "reinforcementsReady": "refuerzos listos la siguiente ronda",
       "willBeReady": "estará listo para desplegarse.",
-      "unusedActions": "acciones sin usar"
+      "unusedActions": "acciones sin usar",
+      "turnsNotEnded": "turnos sin terminar",
+      "endTurnBtn": "Fin de Turno"
     },
     "panelBase": {
       "itemDestroyed": "{type} destruido",
@@ -1456,13 +1569,14 @@
       "endTurn": "Esto finalizará el turno de {name}.",
       "cover": "Cobertura",
       "noCover": "Sin Cobertura",
-      "soft": "Suave",
-      "softCover": "Cobertura Blanda",
-      "hard": "Dura",
-      "hardCover": "Cobertura Dura",
+      "soft": "Ligera",
+      "softCover": "Cobertura Ligera",
+      "hard": "Pesada",
+      "hardCover": "Cobertura Pesada",
       "resistances": "Resistencias",
       "statusesConditions": "Estados/Condiciones",
-      "counters": "Contadores"
+      "counters": "Contadores",
+      "endActivation": "Terminar Activación"
     },
     "damageMenu": {
       "takeDamage": "Recibe Daño",
@@ -1476,7 +1590,7 @@
       "takeDamageLower": "Recibe daño"
     },
     "trackable": {
-      "corePower": "Poder del Núcleo",
+      "corePower": "Poder Base",
       "unavailable": "No Disponible",
       "ready": "Listo",
       "clearMechCore": "Limpiar los de este mecha",
@@ -1487,7 +1601,8 @@
       "editStats": "Editar Estadísticas",
       "removeStat": "Quitar Estadística",
       "trackable": "Rastreable",
-      "static": "Estática"
+      "static": "Estática",
+      "undoEditStat": "Editar {name} {stat}"
     },
     "telemetry": {
       "devNote": "Esta característica sigue en desarrollo. Se publicarán datos adicionales de telemetría.{emphasis}",
@@ -1541,7 +1656,7 @@
     "actions": {
       "allActions": "Todas las Acciones",
       "selectIcon": "Elegir Icono",
-      "mounted": "Montada",
+      "mounted": "Montado",
       "braced": "Fortalecido",
       "overwatch": "Vigilancia",
       "aiControl": "Control IA",
@@ -1561,18 +1676,19 @@
       "generateInstance": "Esto generará y desplegará una nueva instancia de {name} para {actor} como un {action}"
     },
     "equipCmd": {
-      "markUsedHint": "Haga clic para marcar como {used} . Las armas con la etiqueta LOADING deben ser recargadas antes de que puedan ser cargadas de nuevo",
+      "markUsedHint": "Haga clic para marcar como {used} . Las armas con la etiqueta RECARGA deben ser recargadas antes de que puedan ser cargadas de nuevo",
       "reloadHint": "Haga clic para {reload} esta arma.",
       "clickUnused": "Haga clic para marcar Sin uso",
       "clickUsed": "Haga clic para marcar Usado",
-      "reload": "recargar"
+      "reload": "recargar",
+      "undoEditItem": "Editar {name}"
     },
     "mountBonus": {
       "warning": "Los efectos de bonificación de Montura en los ataques de armas son {not} automáticamente aplicados por @:{'common.appName'}. Por favor, asegúrese de aplicar manualmente cualquier efecto relevante durante el juego.",
       "not": "NO"
     },
     "overcharge": {
-      "cost": "OVERCHARGE Costo",
+      "cost": "Costo SOBRECARGA",
       "willIncur": "Sobrecargar incurrirá"
     },
     "unitLoadout": {
@@ -1587,7 +1703,13 @@
     },
     "gmRunner": {
       "loading": "Cargando instancia de encuentro…",
-      "roundN": "Ronda {n}"
+      "roundN": "Ronda {n}",
+      "undoRoundChange": "Cambio de ronda",
+      "undoAction": "Acción de combate",
+      "undo": "Deshacer",
+      "redo": "Rehacer",
+      "undoTooltip": "Deshacer: {label}",
+      "redoTooltip": "Rehacer: {label}"
     },
     "skillCheck": {
       "checkType": "Tipo de Prueba",
@@ -1615,16 +1737,17 @@
       "chooseOne": "elija uno"
     },
     "invade": {
-      "invade": "Invade",
-      "available": "Acciones Disponibles de Invasión",
-      "select": "Seleccione una Acción de Invasión"
+      "invade": "Invadir",
+      "available": "Acciones Disponibles al Invadir",
+      "select": "Seleccione una Acción de Invadir"
     },
     "jockey": {
-      "available": "Acciones Disponibles de Jockey",
-      "select": "Seleccione una Acción de Jockey"
+      "available": "Acciones Disponibles al Cabalgar",
+      "select": "Seleccione una Acción de Cabalgar",
+      "jockey": "Cabalgar"
     },
     "barrage": {
-      "selectWeapon": "seleccionar arma de barrage",
+      "selectWeapon": "seleccionar arma de bombardeo",
       "additionalAux": "armas aux adicionales {name}"
     },
     "skirmish": {
@@ -1674,9 +1797,9 @@
       "noShards": "Capa no tiene Fragmentos"
     },
     "mechPanel": {
-      "meltdown": "Este mecha ha sufrido una fusión del reactor. Está permanentemente destruido y no se puede reparar.",
+      "meltdown": "Este meca ha sufrido una fusión del reactor. Está permanentemente destruido y no se puede reparar.",
       "frameTraits": "Rasgos de Chasis ({n})",
-      "coreBonuses": "Bonos de Núcleo ({n})",
+      "coreBonuses": "Bonos Base ({n})",
       "pilotTalents": "Talentos de Piloto ({n})",
       "pilotSkills": "Habilidades de Piloto {n}"
     },
@@ -1693,7 +1816,7 @@
       "preparedTitle": "Piloto Preparado",
       "mountFailedTitle": "Fallo al Montar",
       "mountFailedText": "{name} ya está montado.",
-      "mountedText": "{name} ha montado su Mecha.",
+      "mountedText": "{name} ha montado su Meca.",
       "hiddenTitle": "Piloto Oculto",
       "disengagedTitle": "Piloto Desenganchado",
       "mountedTitle": "Piloto Montado"
@@ -1713,15 +1836,15 @@
       "cedeControl": "Ceder Control",
       "reclaimControl": "Reclamar Control",
       "selectEncounterExportFile": "Seleccionar Archivo de Exportación de Encuentro",
-      "mechName": "Nombre Mecha",
-      "addTable": "Agregar Mesa",
-      "tableConnectCode": "Código de Conexión de Mesa",
+      "mechName": "Nombre Meca",
+      "addTable": "Agregar Tabla",
+      "tableConnectCode": "Código de Conexión de Tabla",
       "selectCharacterSheetExportFile": "Seleccionar Archivo de Exportación de Hoja de Personaje",
-      "coolYourMechClearingAll": "Refresque su mecha, disipando todo el calor y EXPOSED.",
-      "mark1RepairToRestore": "Marcar 1 REPAIR para restaurar todos los HP.",
-      "reloadAllLoadedWeapons": "Recargar todas las armas LOADED.",
-      "clearAnyBurnCurrentlyAffecting": "Despejar cualquier quemadura afectando actualmente su mecha.",
-      "clearAConditionThatWasnt": "Limpiar una condición que no fue causada por uno de sus propios sistemas, talentos, etc",
+      "coolYourMechClearingAll": "Refresque su meca, disipando todo el calor y EXPUESTO.",
+      "mark1RepairToRestore": "Marcar 1 REPARAR para restaurar todos los PG.",
+      "reloadAllLoadedWeapons": "Recargar todas las armas CARGADA.",
+      "clearAnyBurnCurrentlyAffecting": "Despejar cualquier quemadura afectando actualmente su meca.",
+      "clearAConditionThatWasnt": "Limpiar una condición que no fue causada por uno de sus propios sistemas, talentos, etc.",
       "clearAnAdjacentAlliedCharacters": "Limpiar una condición de un personaje aliado adyacente que no fue causada por uno de sus propios sistemas, talentos, etc.",
       "round": "Ronda",
       "critical": "Crítico",
@@ -1729,20 +1852,20 @@
       "name": "Nombre",
       "overkill": "Saña",
       "maxLoadoutFeatureSetColumns": "Max Equipamiento Piloto/Juego de Columnas Presentadas",
-      "pilotNameOrCallsign": "Nombre del Piloto o Callsign"
+      "pilotNameOrCallsign": "Nombre o Apodo del Piloto"
     },
     "titles": {
       "addPilotFromRoster": "Agregar Piloto de la Lista",
-      "noMechDataFound": "No se Hallaron Datos de Mecha",
+      "noMechDataFound": "No se Hallaron Datos de Meca",
       "addFromShareCode": "Agregar con Código de Compartir",
       "addPilots": "Agregar Pilotos",
       "characterSheets": "Hojas de Personaje",
-      "recalledToMech": "Retirado al Mecha",
+      "recalledToMech": "Retirado al Meca",
       "underAiControl": "Bajo Control IA",
       "pilotKia": "Piloto MEA",
       "movement": "Movimiento",
       "selectPilot": "seleccionar piloto",
-      "selectActiveMech": "seleccionar mecha activo",
+      "selectActiveMech": "seleccionar meca activo",
       "exitActiveMode": "¿Salir del Modo Activo?",
       "mechDestroyedReactorMeltdown": "Mecha Destruido — Fusión del Reactor",
       "whatIsAPlaceholder": "¿Qué es un Marcador de Posición?",
@@ -1755,9 +1878,35 @@
       "importCharacterSheetState": "Importar Estado de Hoja de Personaje",
       "selectEncounter": "seleccionar encuentro",
       "activateFreeAction": "Activar (Acción Libre)",
-      "burn": "Abrasar",
+      "burn": "Incendio",
       "downAndOut": "Caído y Fuera",
-      "repairCap": "Lim. Reparaciones"
+      "repairCap": "Lim. Reparaciones",
+      "repairCapacity": "Capacidad de Reparación",
+      "items": "Artículos",
+      "round": "Ronda",
+      "observer": "OBSERVADOR",
+      "pilot": "Piloto",
+      "reactor": "Reactor",
+      "activations": "Activaciones",
+      "exposed": "Expuesto",
+      "shredded": "Desgarrado",
+      "gameMaster": "DIRECTOR DEL JUEGO",
+      "activeCharacterSheets": "Hojas de Personaje Activas",
+      "joinAnOnlineTable": "Unirse a Mesa En Línea",
+      "localEncounters": "Encuentros Locales",
+      "localCampaigns": "Campañas Locales",
+      "hostAnOnlineTable": "Alojar una Mesa En Línea",
+      "spectatorMode": "Modo Espectador",
+      "campaignDisplay": "Mostrar Campaña",
+      "allPilots": "Todos los Pilotos",
+      "heatCapacity": "Capacidad de Calor",
+      "saveTarget": "Dificultad Salvación",
+      "hull": "Casco",
+      "size": "Tamaño",
+      "eDefense": "Defensa-E",
+      "grapple": "Presa",
+      "ram": "Embestir",
+      "sitrep": "Informe de situación"
     },
     "tooltips": {
       "addAPilotFromYourLocalPilotRoster": "Agregar un piloto desde su Lista de Pilotos local",
@@ -1765,17 +1914,17 @@
       "apply": "Aplicar",
       "dismissWithoutApplying": "Descargar sin aplicar",
       "equipmentAction": "Acción de Equipamiento",
-      "markYourMechAsInCascade": "Marca su mecha como IN CASCADE",
+      "markYourMechAsInCascade": "Marca su meca como EN CASCADA",
       "resetUses": "Restablecer Usos",
       "toggleDestroyed": "Alternar Destruido",
       "rollableTables": "Tablas de Tiradas",
       "encounterInfo": "Info de Encuentro",
-      "listTagsPresentOnCharactersOrEquipmentInThisEncounter": "Lista chapas presentes en personajes o equipamiento en este encuentro",
+      "listTagsPresentOnCharactersOrEquipmentInThisEncounter": "Lista descriptores presentes en personajes o equipamiento en este encuentro",
       "thisWillAddACopy": "Esto agregará una copia de este piloto a su encuentro. Si el autor actualiza sus datos originales, usted no recibirá esos cambios.",
       "addsAPilottypeCombatantPlaceholder": "Añade un marcador de posición de tipo piloto sin datos de piloto.",
       "optionalForOrganizationalPurposes": "Opcional, para propósitos de organización.",
       "reviewTheCombatLogAnd": "Revisar la bitácora de combate y telemetría del campo de batalla desde esta cuartilla y opcionalmente guardarla en la historia de su piloto.",
-      "replaceTheThematicStatTrackers": "Reemplazar los medidores de estadísticas temáticos para HP, Heat, etc. con ingreso numérico directo.",
+      "replaceTheThematicStatTrackers": "Reemplazar los barras temáticas de estadísticas para PG, Calor, etc. con ingreso numérico directo.",
       "thisControlsIfColumnsWill": "Esto controla si las columnas serán usadas cuando se presente la información del combatiente en el panel encuentro. Esto solo funcionará en pantalla en resoluciones anchas.",
       "simpleTickbarsAreShownOn": "Barras simples son mostradas en resoluciones móviles (tableta y menor). Habilitar esto forzará a mostrar las barras estándar sin importar el tamaño de la pantalla. Esto puede causar problemas de diseño en pantallas pequeñas.",
       "thisControlsHowManyColumns": "Esto controla cuantas columnas serán usadas cuando se presente el equipo o juego de características de un combatiente en el panel encuentro. Valores altos pueden causar problemas de diseño en pantallas pequeñas.",
@@ -1787,13 +1936,53 @@
       "combatQuickReference": "Referencia Rápida de Combate",
       "deployables": "Desplegables",
       "diceRoller": "Lanzador de Dados",
-      "pilotGrit": "Grit del Piloto"
+      "pilotGrit": "Temple de Piloto",
+      "failedToImportSheetPleaseEnsure": "Fallo al importar hoja. Por favor asegúrese de que el archivo sea un JSON de hoja de personaje válido."
     },
     "mechCore": {
       "passive": "Pasiva"
     },
     "addShare": {
       "addToEncounter": "añadir al encuentro"
+    },
+    "subtitles": {
+      "featureInDevelopmentV32": "Característica en desarrollo (v3.2)",
+      "featureInDevelopmentV31": "Característica en desarrollo (v3.1)",
+      "inDevelopmentReleaseV32": "En Desarrollo (lanzamiento v3.2)",
+      "createManageAndRunActivePlayer": "Crear, gestionar, y ejecutar hojas de Personaje Jugador activas",
+      "resumeLast": "reanudar última",
+      "createManageAndRunLocalEncounters": "Crear, gestionar, y correr Encuentros locales para sus juegos Lancer",
+      "kineticExplosiveAndHeatDamageDoubled": "Daños cinético, explosivo, y calor doblados.",
+      "damageIgnoresArmorAndResistance": "Daño ignora armadura y resistencia."
+    },
+    "structureCheck": {
+      "rolled": "Tirada",
+      "markResolved": "Marcar Resuelto",
+      "resolution": "Resolución",
+      "success": "Éxito",
+      "fail": "Fallo",
+      "applyManual": "aplicar manualmente",
+      "chooseOne": "Elija uno",
+      "structure": "Daño Estructura",
+      "stress": "Estrés Reactor",
+      "pending": "{type} marcado",
+      "rollLabel": "Tirar {n}d{die}",
+      "lowest": "Más Bajo",
+      "applyResolve": "Aplicar & Resolver",
+      "manualNote": "Este resultado debe resolverse manualmente",
+      "diceCount": "{n} punto(s) marcado(s)",
+      "saveCheck": "{check} prueba",
+      "reroll": "Re-lanzar",
+      "rollCheck": "Tirar {check}",
+      "rollPrompt": "Tirar {n}d{die} y elegir el más bajo"
+    },
+    "burnCheck": {
+      "ignore": "Ignorar",
+      "title": "Prueba Incendio",
+      "prompt": "Esta unidad tiene <b>{n}</b> Incendio. Haz una prueba de INGENIERÍA.",
+      "onSuccess": "En éxito: despeja todo el Incendio",
+      "onFail": "Al fallar: recibe {n} daño Incendiario (permanece Incendiado)",
+      "resolveEndTurn": "Resolver & Terminar Turno"
     }
   },
   "mainMenu": {
@@ -2164,7 +2353,57 @@
       "compconCloudAccount": "Cuenta de Nube @:{'common.appName'}",
       "credits": "Créditos",
       "gmToolkit": "Caja de Herramientas DJ",
-      "changeAccountEmail": "Cambiar Correo-E de Cuenta"
+      "changeAccountEmail": "Cambiar Correo-E de Cuenta",
+      "latestVersion": "Versión Más Reciente",
+      "installedVersion": "Versión Instalada",
+      "autoUpdate": "Actualización Automática",
+      "contentCollection": "Colección de Contenido",
+      "onStartup": "Al Inicio",
+      "manualOnly": "Sólo Manualmente",
+      "last10": "Últimos 10",
+      "last5": "Últimos 5",
+      "pilotGroups": "Grupos de Piloto",
+      "narrativeElement": "Elemento Narrativo",
+      "narrativeElements": "Elementos Narrativos",
+      "licenseLevel": "Nivel de Licencia",
+      "lastUpdate": "Última Actualización",
+      "addItem": "Añadir Artículo",
+      "uploadDate": "Fecha de Carga",
+      "lastSync": "Última Sincronía",
+      "lastModified": "Última Modificación",
+      "encounterData": "Datos de Encuentro",
+      "lastUpdated": "Última Actualización",
+      "collection": "Colección",
+      "author": "Autor",
+      "source": "Origen",
+      "size": "Tamaño",
+      "preserve": "Conservar",
+      "off": "Apagado",
+      "daily": "Diaria",
+      "weekly": "Semanal",
+      "monthly": "Mensual",
+      "pilot": "Piloto",
+      "npc": "PNJ",
+      "encounter": "Encuentro",
+      "campaign": "Campaña",
+      "pilots": "Pilotos",
+      "campaigns": "Campañas",
+      "role": "Rol",
+      "filename": "Nombre de Archivo",
+      "free": "Libre",
+      "keepAll": "Conservar Todo",
+      "last30": "Últimos 30",
+      "mostRecentOnly": "Únicamente Más Recientes",
+      "onAppStart": "Al Iniciar Ap",
+      "lancerAndAbove": "Lancer (y superior)",
+      "onOpenClose": "Al Abrir & Cerrar",
+      "every30Minutes": "Cada 30 Minutos",
+      "every60Minutes": "Cada 60 Minutos",
+      "pilotData": "Datos del Piloto",
+      "npcData": "Datos PNJ",
+      "narrativeData": "Datos Narrativos",
+      "lcp": "LCP",
+      "lcps": "LCPs"
     },
     "tooltips": {
       "thisToolWillCaptureA": "Esta herramienta capturará una instantánea de sus datos locales de @:{'common.appName'} y los almacenará en un archivo en la nube. Puede usar este para restaurar sus datos @:{'common.appName'} a un estado previo. Esta característica esta disponible únicamente para mecenas de Patreon.",
@@ -2174,7 +2413,8 @@
       "controlsHowOftenYourData": "Controla que tan seguido sus datos son sincronizados con la nube. Debido a costos de servidor, ciertas opciones están solo disponibles para suscriptores de Patreon.",
       "controlsWhichDataTypesAre": "Controla cuales tipos de datos son sincronizados con la nube.",
       "yourUniqueAccountIdThis": "Su ID de cuenta único. Este es usado par identificar su cuenta en la nube y puede ser solicitado para propósitos de resolución de errores.",
-      "usernameOptional": "Este es un campo <b>opcional</b> que puede usar para dar un nombre personalizado para su cuenta. Este nombre de usuario <b>va a</b> ser visible a otros usuarios en modo activo y cuando compartan datos."
+      "usernameOptional": "Este es un campo <b>opcional</b> que puede usar para dar un nombre personalizado para su cuenta. Este nombre de usuario <b>va a</b> ser visible a otros usuarios en modo activo y cuando compartan datos.",
+      "signInFailed": "Ingreso fallido"
     },
     "subtitles": {
       "mergeAndSyncThisItem": "Combinar y sincronizar este artículo inmediatamente.",
@@ -2183,7 +2423,16 @@
       "removeTheRemoteLinkAnd": "Quitar el enlace remoto y mantener los datos localmente.",
       "pushesAllLocalDataTo": "Forzar todos los datos locales a la nube incondicionalmente, restableciendo campos de marca de tiempo al de ahora. Usar tras una restauración o importación.",
       "pullsAllCloudDataAnd": "Obtiene todos los datos de la nube y los combina con los datos locales. Los campos locales con marcas de tiempo más recientes son preservados.",
-      "permanentlyRemovesItemsFlaggedFor": "Borra permanentemente artículos marcados para eliminación."
+      "permanentlyRemovesItemsFlaggedFor": "Borra permanentemente artículos marcados para eliminación.",
+      "doNotAutomaticallyDeleteAnyArchives": "No eliminar automáticamente ningún archivo.",
+      "keepThe30NewestArchives": "Mantener los 30 archivos más nuevos.",
+      "keepThe10NewestArchives": "Mantener los 10 archivos más nuevos.",
+      "keepThe5NewestArchives": "Mantener los 5 archivos más nuevos.",
+      "keepOnlyTheMostRecentArchive": "Mantener únicamente el archivo más reciente.",
+      "dataIsOnlySyncedWhenYou": "Los datos se sincronizan únicamente cuando pulsa Sincronizar.",
+      "syncsWhenYouOpenAndClose": "Sincroniza cuando abres y cierras la app. La sincronización de cierre puede no ser soportada por todos los navegadores.",
+      "syncsAutomaticallyEvery30MinutesRequires": "Sincroniza automáticamente cada 30 minutos. Requiere soporte en Patreon.",
+      "syncsAutomaticallyEvery60MinutesRequires": "Sincroniza automáticamente cada 60 minutos. Requiere soporte en Patreon."
     },
     "codeEntry": {
       "title": "Ingrese Código de Desbloqueo",
@@ -2194,6 +2443,15 @@
       "npcSubTooltipOff": "Habilita descarga y acceso automático de actualización a los datos de PNJ del Libro Base bien sea enlazando su cuenta itch.io con una compra del Lancer Core Book, o bien ingresando la URL del código QR en la tapa de su copia del Lancer Core Book .",
       "npcsAddedViaItch": "Su cuente tiene acceso a los datos de NPC del Lancer Core Book. Este contenido fue añadido a su cuenta a través de una compra itch.io enlazada.",
       "npcsAddedViaCode": "Su cuenta tiene acceso a los datos de PNJ del Lancer Core Book . Este contenido fue añadido a su cuenta a través del enlace del código QR."
+    },
+    "a11y": {
+      "cancelAndClose": "Cancelar y cerrar",
+      "signIn": "Ingresar",
+      "eMail": "Correo-E",
+      "password": "Contraseña",
+      "signInProgressLog": "Ingresar bitácora de progreso",
+      "abortSignIn": "Abortar ingreso",
+      "retrySignIn": "Reintentar ingreso"
     }
   },
   "pm": {
@@ -2239,10 +2497,13 @@
       "gmsARMORYEQUIPMENTAUTHORIZATIONPILOTPERSONAL2": "Autorización de equipo de GMS armory: piloto/armamento personal::S0-S3(LTD)",
       "toAddSlashes": "Para añadir //",
       "gmsArmoryPrintid": "id impresión armería GMS",
-      "mountCOREBonus": "Bono CORE de Montura",
+      "mountCOREBonus": "Bono BASE de Afuste",
       "setUSES": "Establecer usos",
       "unionARMORYEQUIPMENTAUTHORIZATIONFRAMEEQUIPMENT": "Autorización de equipo de la armería de la Unión: chasis equipamiento//sistema de combate",
-      "frameEQUIPMENTREGISTRATIONVERIFIED": "[ Registro del equipo del chasis verificado ]"
+      "frameEQUIPMENTREGISTRATIONVERIFIED": "[ Registro del equipo del chasis verificado ]",
+      "walkingARMORY": "Armería con patas// {selected}",
+      "costAMMOCASE": "Coste::Caja de munición",
+      "unionArmoryPrintid": "id impresión armería Unión"
     },
     "import": {
       "importSuccessTitle": "Importado Exitósamente",
@@ -2260,7 +2521,7 @@
       "exportErrorTitle": "Error de Exportación"
     },
     "level": {
-      "theUADIDENTMV2License": "La Solicitud de Adquisición de Licencia UAD IDENT MV-2 ha sido diseñada para permitir al personal activo de la Unión registrar actualizaciones de licencia mientras están desplegados en campo y recibir información inmediata y recursos de apoyo sobre el terreno de UN y GMS. El personal de la Unión debe confirmar la corrección del formulario presentado con su oficial local de la Unión, o, en caso de que un oficial no esté disponible, solicite una revisión dirigida por NHP en la dirección segura Onminet {node}",
+      "theUADIDENTMV2License": "La Solicitud de Adquisición de Licencia UAD IDENT MV-2 ha sido diseñada para permitir al personal activo de la Unión registrar actualizaciones de licencia mientras están desplegados en campo y recibir información inmediata y recursos de apoyo sobre el terreno de UN y GMS. El personal de la Unión debe confirmar la exactitud del formulario presentado con su oficial local de la Unión, o, en caso de que un oficial no esté disponible, solicite una revisión dirigida por PNH en la dirección segura Onminet {node}",
       "submittingUnauthorizedLicensingUpdatesAndOr": "Presentar actualizaciones de licencias no autorizadas y/o presentar de solicitudes no autorizadas de licencia o de derechos de licencia previamente retenidos sin previa autorización MV-8a/j por un Administrador de la Unión resultará en el rechazo automático de la solicitud de licencia y podrá resultar en una auditoría de licencia bajo DoJ/HR AR 716-J",
       "isEligibleForTheFollowingLicense": "es elegible para la siguiente actualización de licencia",
       "newLICENSEUNLOCK": "Desbloquear nueva licencia",
@@ -2270,11 +2531,12 @@
       "levelUpOverview": "Subir de Nivel (Vista General)",
       "coreBONUSINSTALLATION": "Instalación de bono Base",
       "ineligibleFORCOREBONUS": "No elegible para bonos base",
-      "coreBonuses": "Bonos CORE",
-      "pilotSKILLTRIGGERIMPROVEMENT": "Mejora de skill trigger de Piloto",
+      "coreBonuses": "Bonos BASE",
+      "pilotSKILLTRIGGERIMPROVEMENT": "Mejora detonante de Piloto",
       "pilotTALENTUPGRADE": "Mejora talento de Piloto",
       "mechSKILLUPGRADE": "Mejora habilidad Mecha",
-      "gritIMPROVEMENT": "Mejora de Grit"
+      "gritIMPROVEMENT": "Mejora de Temple",
+      "unOmni18364AndesCerroboneteNode": "un_omni-18364.andes.cerrobonete.node:9"
     },
     "new": {
       "pilot": "Piloto",
@@ -2303,10 +2565,10 @@
       "addPilotDescription": "Añadir Descripción de Piloto",
       "rm4EXTERNALLICENSEDATATRANSFER": "RM-4-δ // TRANSFERFERENCIA DE DATOS LICENCIA EXTERNA (SI APLICA)",
       "rm406ATTACHEDOHMIMAGING": "RM-4-06 // escaneo de imagenología OHM adjunta",
-      "rm402APPROVEDCALLSIGNOR": "RM-4-02 // callsign aprobado (o designación del cadete, si aplica)",
+      "rm402APPROVEDCALLSIGNOR": "RM-4-02 // apodo aprobado (o designación del cadete, si aplica)",
       "rm403PRIOROCCUPATIONOR": "RM-4-03 // OCUPACIÓN PREVIA O POSICIÓN (RESPUESTA 17b EN RM-2-C)",
       "rm405ATTACHEDOHMHEALTH": "RM-4-05 // resultados de examen de salud OHM adjunto",
-      "startingLL": "LL Inicial",
+      "startingLL": "NL Inicial",
       "selectTemplate": "Seleccionar plantilla {name}",
       "templateSelected": "plantilla {name} seleccionada",
       "glyphMustBePopulated": "glifo debe ser poblado.",
@@ -2316,7 +2578,9 @@
       "rm401FULLNAMEOR": "RM-4-01 // nombre completo o alias primario",
       "rm404ATTACHEDBIOGRAPHICALDOSSIER": "RM-4-04 // ARCHIVO BIOGRÁFICO ADJUNTO (SUPLEMENTO RM-4b)",
       "prmALTQUICKACCESSSELECTION": "Prm-alt selección de acceso rápido",
-      "mechARTCOURTESYOF": "Arte de Mecha cortesía de"
+      "mechARTCOURTESYOF": "Arte de Mecha cortesía de",
+      "gmsEVEREST": "GMS everest",
+      "i": "I"
     },
     "sheet": {
       "exportThisPilotAsAV2": "Exportar este piloto como un archivo v2 JSON compatible con sistemas VTT y aplicaciones v2",
@@ -2334,7 +2598,7 @@
       "clearConfiguration": "Limpiar Configuración",
       "editingThisPilotSLevelMay": "Editar el nivel de este Piloto puede evitar que ciertos logros se desbloqueen con este Piloto. Si desea utilizar este Piloto para desbloquear logros relacionados al Piloto, utilice el asistente de Subida de Nivel en su lugar.",
       "thisPilotSLevelHasBeen": "El nivel de este piloto ha sido editado. Esto impedirá que se desbloqueen ciertos logros con este Piloto.",
-      "thisToolSkipsTheLevelUp": "Esta herramienta salta el asistente de subida de nivel. Atributos de piloto adquiridos mediante subidas del nivel, como skill triggers, licencias, talentos, habilidades mecha y bonos CORE tendrán que ser actualizados manualmente",
+      "thisToolSkipsTheLevelUp": "Esta herramienta salta el asistente de subida de nivel. Atributos de piloto adquiridos mediante subidas del nivel, como detonantes, licencias, talentos, habilidades meca y bonos BASE tendrán que ser actualizados manualmente",
       "newLEVEL": "Nuevo nivel",
       "setPilotLevel": "Establecer Nivel de Piloto",
       "clone": "Clonar",
@@ -2420,12 +2684,23 @@
       "narrative": "Narrativo",
       "bonds": "Lazos",
       "tactical": "Táctico",
-      "pilotSKILLTRIGGERAUDIT": "Auditoría de skill trigger de Piloto",
+      "pilotSKILLTRIGGERAUDIT": "Auditoría detonantes de Piloto",
       "errSKILLAUDITINCOMPLETE": "Err auditoría de habilidad incompleta",
       "pilotTALENTAUDIT": "Auditoría de talento de Piloto",
       "broken": "Roto",
       "repcap": "RepLim",
-      "xk401REGISTERMECHNAME": "XK-4-01 // registrar nombre mecha"
+      "xk401REGISTERMECHNAME": "XK-4-01 // registrar nombre mecha",
+      "heat": "Calor",
+      "ll": "NL",
+      "str": "FUE",
+      "callsignAVAILABLE": "Apodo disponible",
+      "gmsSTANDARDPILOTSLICENSE": "licencia de piloto GMS estándar",
+      "cfg": "./cfg",
+      "hangar": "Hangar",
+      "ndlC": "//NDL-C-",
+      "err": "ERR",
+      "pbOhmC": "PB]] :: OHM c//",
+      "rm4IDENT": "rm-4://IDENTIDAD"
     },
     "print": {
       "pilotSheetOptions": "Opciones Hoja de Piloto",
@@ -2443,7 +2718,7 @@
       "capacityParen": "({n} capacidad)",
       "xp": "EXP",
       "majorIDEAL": "Ideal Principal",
-      "downtimeREFERENCE": "Referencia downtime",
+      "downtimeREFERENCE": "Referencia interludio",
       "missionLog": "Bitácora de Misión",
       "session": "Sesión",
       "repCAP": "Rep lím",
@@ -2455,18 +2730,32 @@
       "pilotNotes": "Notas del Piloto",
       "gain": "Ganancia",
       "veteranPOWER2": "(Poder veterano)",
-      "skillTRIGGERDETAIL": "Detalle Skill trigger",
+      "skillTRIGGERDETAIL": "Detalle Detonante",
       "onHIT": "Al golpear",
       "onCRIT": "En crít",
       "mechSYSTEM": "Mecha sistema",
       "pilotHP": "HP Piloto",
-      "maxHP": "HP Máx",
+      "maxHP": "Máx PG",
       "deployable": "Desplegable",
-      "heatCap": "Heat Lím.",
+      "heatCap": "Calor Máx.",
       "mountLOCKED": "Montura asegurada",
       "appliedMOD": "//Mod aplicado",
       "ltdSYS": "LTD sis",
-      "repairCAPACITY": "Capacidad de reparación"
+      "repairCAPACITY": "Capacidad de reparación",
+      "burdens": "Lastre",
+      "grit": "TEMPLE",
+      "gear": "//EQUIPO",
+      "atk": "ATQ",
+      "slashesLl": "// NL",
+      "techAtk": "Tecno Atq",
+      "maxParen": "({n} máx)",
+      "1d3": "+1d3",
+      "1d6": "+1d6",
+      "1d64": "+1d6+4",
+      "cont": "(CONT.)",
+      "1d32": "[+1d3",
+      "1d62": "[+1d6",
+      "1d642": "[+1d6+4"
     },
     "titles": {
       "sharePilotData": "Compartir Datos de Piloto",
@@ -2478,7 +2767,102 @@
       "reservesAndBonuses": "Reservas y Bonos",
       "setPilotLicenses": "Establecer Licencias de Piloto",
       "paper": "Papel",
-      "orientation": "Orientación"
+      "orientation": "Orientación",
+      "equipmentLoadout": "Carga de Equipamiento",
+      "removeItem": "Quitar Artículo",
+      "selectDamage": "Seleccionar Daño",
+      "pilotLicenses": "Licencias de Piloto",
+      "addCustomReserve": "Añadir Reserva Personalizada",
+      "addProject": "Añadir Proyecto",
+      "addOrganization": "Añadir Organización",
+      "newProject": "Nuevo Proyecto",
+      "missingLicenseData": "Datos de Licencia Faltantes",
+      "newOrganization": "Nueva Organización",
+      "editPilotDescription": "Editar Descripción de Piloto",
+      "confirmPilotDeletion": "confirmar eliminación de piloto",
+      "exportV2Json": "Exportar v2 JSON",
+      "exportSuccess": "Exportación Exitosa",
+      "exportError": "Error de Exportación",
+      "pilotOnly": "Solo Piloto",
+      "missingInAction": "Desaparecido En Acción",
+      "killedInAction": "Muerto En Acción",
+      "licenseLevel": "Nivel de Licencia",
+      "spCost": "Costo PS",
+      "contentPack": "Paquete de Contenido",
+      "statblockGenerator": "Generador de Bloques de Estadística",
+      "lcpConfigurationManager": "Gestor de Configuración LCP",
+      "selectBondPowers": "Seleccionar poderes de Lazo",
+      "otherClocks": "Otros Relojes",
+      "selectPilotBond": "Seleccionar Lazo de Piloto",
+      "cloneQuirks": "Clonar Peculiaridades",
+      "gearLoadout": "Equipamiento Preparado",
+      "skillTriggers": "Detonantes",
+      "setPilotSkillTriggers": "Establecer Detonantes",
+      "setPilotCoreBonuses": "Establecer Bonos BASE de Piloto",
+      "setPilotMechSkills": "Establecer Habilidades Meca de Piloto",
+      "specialEquipment": "Equipo Especial",
+      "addStandardEquipment": "Añadir Equipo Estándar",
+      "setPilotTalents": "Establecer Talentos de Piloto",
+      "layout": "Distribución",
+      "cardOptions": "Opciones Tarjeta",
+      "groupDescription": "Descripción Grupo",
+      "setGroupEmblem": "Elegir Emblema de Grupo",
+      "groupAlreadyExists": "Grupo Ya Existente",
+      "createPilotGroup": "Crear Grupo de Pilotos",
+      "full": "Completo",
+      "manufacturer": "Fabricante",
+      "size": "Tamaño",
+      "heatcap": "Cap.Calor",
+      "repcap": "Cap.Rep",
+      "active": "Activo",
+      "inactive": "Inactivo/a",
+      "retired": "Retirado",
+      "unknown": "Desconocido",
+      "pilot": "Piloto",
+      "ll": "NL",
+      "group": "Grupo",
+      "rifle": "Fusil",
+      "cannon": "Cañón",
+      "launcher": "Lanzador",
+      "cqb": "CCD",
+      "nexus": "Nexo",
+      "melee": "Cuerpo a cuerpo",
+      "kinetic": "Cinético",
+      "energy": "Energético",
+      "explosive": "Explosivo",
+      "system": "Sistema",
+      "tags": "Descriptores",
+      "range": "Alcance",
+      "damage": "Daño",
+      "eDefense": "Defensa-E",
+      "uses": "Usos",
+      "biography": "Biografía",
+      "bond": "Lazo",
+      "skills": "Habilidades",
+      "levelUp": "Subir Nivel",
+      "addNewLoadout": "Añadir Nuevo Equipamiento",
+      "changeItem": "Cambiar Artículo",
+      "setMaxUses": "Elegir Máximo de Usos",
+      "selectBracingMount": "Seleccionar Afuste de Agarre",
+      "selectEquipment": "SELECCIONAR EQUIPO",
+      "selectPilotBackground": "Seleccionar Trasfondo de Piloto",
+      "pilotCoreBonuses": "Bonos Base de Piloto",
+      "skillSuggestionsAvailable": "Sugerencias de Habilidad Disponibles",
+      "convertRemotePilot": "convertir piloto remoto",
+      "serverErrorTooManyRequests": "Error de Servidor ‐ Demasiadas Peticiones",
+      "mechOnly": "Solo Meca",
+      "systemCapacityExceeded": "CAPACIDAD DEL SISTEMA EXCEDIDA",
+      "systemCapacityRemaining": "CAPACIDAD DEL SISTEMA RESTANTE",
+      "emptyMountsDetected": "AFUSTES VACIOS DETECTADOS",
+      "unlicensedEquipmentDetected": "EQUIPO NO LICENCIADO DETECTADO",
+      "incompatibleWeaponMod": "MOD DE ARMA INCOMPATIBLE",
+      "coreBonuses": "Bonos Base",
+      "techatk": "TecnoAtq",
+      "newPilotWizard": "Asistente Nuevo Piloto",
+      "tweakedOptics": "Óptica Modificada",
+      "tweakedComputer": "Ordenador Modificado",
+      "strippedReactorShielding": "Reducción En Escudo Del Reactor",
+      "edef": "DefE"
     },
     "roster": {
       "history": "Historial",
@@ -2514,7 +2898,10 @@
       "addANewPilotToThe": "Añadir un nuevo piloto a la lista",
       "uadCAVCOMOfficeOfRecords": "Oficina de Registros UAD/CAVCOM",
       "i7aSelfServiceUnitRegistration": "I-7a Registro de Unidad de Auto-Servicio",
-      "identCR7aCAVALRYUNITREGISTRATION": "IDENT-CR-7a (CAVALRY UNIT REGISTRATION) es un formulario de registro autodirigido para el propósito de registrar una nueva designación de unidad para uno o más pilotos registrados en IDENT. Esta formulario es para ser utilizado por pilotos que no están asignados actualmente a una unidad o que están registrando una nueva designación de unidad por primera vez. Si desea registrar una nueva designación para una unidad existente, por favor envíe el formulario CR-7b (CAVALRY UNIT DOCUMENTATION UPDATE) en su lugar."
+      "identCR7aCAVALRYUNITREGISTRATION": "IDENT-CR-7a (CAVALRY UNIT REGISTRATION) es un formulario de registro autodirigido para el propósito de registrar una nueva designación de unidad para uno o más pilotos registrados en IDENT. Esta formulario es para ser utilizado por pilotos que no están asignados actualmente a una unidad o que están registrando una nueva designación de unidad por primera vez. Si desea registrar una nueva designación para una unidad existente, por favor envíe el formulario CR-7b (CAVALRY UNIT DOCUMENTATION UPDATE) en su lugar.",
+      "unitRegistrationSubmissionWillBeReviewed": "La Oficina de Registros de la UAD/CAVCOM examinará la presentación del registro en el orden que se recibe.",
+      "cr700ENCODEDDATAREMIT": "CR-7-00 // datos remitidos codificados",
+      "optional": "(Opcional)"
     },
     "selectors": {
       "exotic": "Exótico",
@@ -2522,7 +2909,7 @@
       "mechSkillsSelected": "Habilidades Mecha seleccionadas",
       "resetMechSkills": "Reiniciar las Habilidades de Mecha",
       "coreBonusSelectionComplete": "Selección de Bonos Base Completada",
-      "addDowntimeProject": "Añadir Proyecto Downtime",
+      "addDowntimeProject": "Añadir Proyecto Interludio",
       "equipment": "Equipo",
       "skillSelectionComplete": "Selección de Habilidad Completa",
       "yourAbilityTo": "Su Habilidad Para",
@@ -2531,7 +2918,11 @@
       "addReserve": "Agregar Reserva",
       "download": "Descargar",
       "startWith": "Comienza con",
-      "efficiency": "Eficiencia"
+      "efficiency": "Eficiencia",
+      "collapse": "colapsar",
+      "influence": "Influencia",
+      "notInCompendium": "Los siguientes {type} no están presentes en el compendio",
+      "coreBonusAvailable": "{count} {mf} Bono Base disponible | {count} {mf} Bonos Base disponibles"
     },
     "misc": {
       "skipSTEP": "Saltar paso"
@@ -2552,7 +2943,56 @@
       "mv2BCOAResourceRequisition": "MV-2//b COA Requisición de Recurso",
       "theRM4bPILOTSELFASSESSMENT3": "La RM-4b AUTO-EVALUACIÓN DE PILOTO (Talentos) cataloga las aptitudes de operación en combate auto-reportadas de un piloto individual y otorga privilegios de requisición para el tiempo de simulación, materiales de entrenamiento de senso-cortical y holofield , datos de telemetría del campo de batalla en clasificaciones inferiores GREY SIERRA SHARP, y (en casos específicos) GMS MM-pattern licencias de material bélico.",
       "theCombatOperationAbilityRequisitionOn": "La Requisición Habilidad Operativa de Combate, con la aprobación del sistema de aprobación automatizado de solicitudes guiado por NHP, confiere privilegios de simulador UNI, holofield y materiales de entrenamiento senso-cortical, datos de telemetría del campo de batalla en clasificaciones debajo de GREY SIERRA SHARP, y (en casos específicos) GMS MM-pattern licencias de material bélico.",
-      "warningSubmission": "ADVERTENCIA: La presentación para el registro IDENT {id} tiene los siguientes inconvenientes"
+      "warningSubmission": "ADVERTENCIA: La presentación para el registro IDENT {id} tiene los siguientes inconvenientes",
+      "critical": "Crítico",
+      "pilotCALLSIGNBlankOrInvalid": "APODO PILOTO blanco o inválido",
+      "pilotNAMEBlankOrInvalid": "NOMBRE PILOTO blanco o inválido",
+      "pilotSKILLTRIGGERSMissingOrIncomplete": "DETONANTE PILOTO faltante o incompleto",
+      "pilotTALENTSMissingOrIncomplete": "TALENTOS PILOTO faltantes o incompletos",
+      "pilotMECHSKILLSMissingOrIncomplete": "HABILIDADES MECA PILOTO faltantes o incompletas",
+      "pilotLICENSEDATAMissingOrIncomplete": "DATOS LICENCIA PILOTO faltantes o incompletos",
+      "pilotCOREBONUSDATAMissingOr": "DATOS DE BONOS BASE DE PILOTO faltantes o incompletos",
+      "pilotSKILLTRIGGERSIncompleteOrInvalid": "DETONANTES DE PILOTO incompletos o inválidos",
+      "pilotTALENTSIncompleteOrInvalid": "TALENTOS DE PILOTO incompletos o inválidos",
+      "pilotMECHSKILLSIncompleteOrInvalid": "HABILIDADES MECA DE PILOTO incompletas o inválidas",
+      "pilotLICENSESIncompleteOrInvalid": "LICENCIAS DE PILOTO incompletas o inválidas",
+      "pilotCOREBONUSESIncompleteOrInvalid": "BONOS BASE DE PILOTO incompletos o inválidos",
+      "registerNewPilot": "Registrar Nuevo Piloto // {callsign} ({name})",
+      "updatePilotRecord": "Actualizar Registro de Piloto // {callsign} ({name})",
+      "registrationOverride": "Anulación de Registro",
+      "addCOREBonus": "Añadir Bono BASE",
+      "rm4cS2CoreModification": "RM-4c (S-2) Modificación Suplementaria Base",
+      "mv2ACORESupplemental": "MV-2(a) Suplemento BASE",
+      "theRM4SupplementalIICore": "La RM-4β Suplemento II (Modificación BASE) registra el Archivo Datos Modificación Base (CMD) de un piloto individual dejandole disponible para servicios de impresión y equipamiento.",
+      "theMV2ASupplementalAmendment": "La Enmienda Suplementaria MV-2(a) registra una modificación BASE importante, actualización, reacondicionamiento, o mejora. La Junta de Inteligencia Naval de la Unión sólo reconoce el aumento BASE de un Licenciante aprobado y registrado por la Unión.",
+      "theUnionLicensingAuthorityAndThe": "La Autoridad de Licenciamiento de la Unión y el Departamento Administrativo de la Unión por la presente desconoce cualquier y toda responsabilidad por Modificaciones Base.",
+      "unlockLicense": "Desbloquear Licencia",
+      "rm4cS1LicensingAuthorization": "RM-4c (S-1) Suplemento Autorización de Licencias",
+      "mv2DLicensorLicenseeTransmit": "MV-2//d Registro de Transmisión Licenciante/Concesionario",
+      "theRM4SupplementalILicensing": "La RM-4α suplementaria I (Autorización de Licencias) registra las licencias de Impresión de Chasis y Operación (FP/O) para un piloto individual bajo la Autoridad de Concesión de Licencias de la Unión.",
+      "theMV2LicensorLicenseeTransmit": "El Registro MV-2 Licenciante/Concesionario Registro de Transmisión registra la transmisión y recepción de una Licencia de CHASIS reconocido por UN consistente, pero no limitada a, Plantillas de Impresión de Equipo sin exceder 1.5EB, Plantillas Impresión de CHASIS sin exceder 3.75EB, y protocolos de acceso a software de sistema compatible con CHASIS.",
+      "unlockALicense": "Desbloquea una Licencia.",
+      "unionAndItsRepresentativesAreNot": "Unión y sus representantes no son responsables de los problemas derivados de la impresión, instalación y/o uso de materiales de Licencia no reconocidos o prohibidos.",
+      "pilotMechSkills": "Habilidades Meca Piloto",
+      "improveMechSkills": "Mejorar Habilidades Meca",
+      "rm4dPilotSelfAssessment3": "RM-4d Auto-Evaluación de Piloto (3/3)",
+      "mv2CFrameConfigurationUpdate": "MV-2//c Actualización de Configuración del Chasis",
+      "improveSkillTriggers": "Mejorar Detonantes",
+      "addOrImproveSkill": "Añadir o Mejorar un Detonante.",
+      "improveMechSkill": "Mejorar una Habilidad Meca.",
+      "addOrUpgradeTalent": "Añadir o Mejorar un Talento.",
+      "selectACoreBonus": "Seleccione un bono BASE",
+      "nextCoreBonusIn": "Siguiente bono base en",
+      "licenseLevels": "Niveles de licencia",
+      "onAcceptanceFrameConfig": "En la aceptación de la MV-2//c Actualizar Configuración de Chasis el subsistema Unión IDENT//eng actualizará automáticamente los protocolos de configuración de chasis almacenados en la dirección Omninet Vault registrada en su perfil IDENT (V.node::/{id}).",
+      "selectSkillTriggers": "Seleccione {word} ({count}) Detonantes.",
+      "addMechSkillPoints": "Añada {word} ({count}) Puntos de Habilidad Meca.",
+      "selectPilotTalents": "Seleccione {word} ({count}) Talentos de Piloto.",
+      "selectLicenseRanks": "Seleccione {word} ({count}) Rango de Licencia. | Seleccione {word} ({count}) Rangos de Licencia.",
+      "selectCoreBonusesN": "Seleccione {word} ({count}) Base {item}.",
+      "bonusesWord": "Bonos",
+      "pilotINELIGIBLEFORCOREBONUS": "Piloto no eligible para bono base",
+      "nb": "Tomar Nota"
     },
     "link": {
       "bond": "Lazo",
@@ -2564,7 +3004,100 @@
       "couldNotBeFound": "no se pudo encontrar.",
       "pilotRequiresReSync": "Piloto requiere re-sinc",
       "withShareCode": "con código para compartir",
-      "mustBeReSyncedToThe": "debe re-sincronizarse con la cuenta del autor antes de que pueda verse."
+      "mustBeReSyncedToThe": "debe re-sincronizarse con la cuenta del autor antes de que pueda verse.",
+      "hull": "Casco",
+      "sys": "Sis",
+      "eng": "Ing",
+      "pilotBiography": "Biografía Piloto",
+      "pilotAppearance": "Apariencia Piloto",
+      "agi": "Agi"
+    },
+    "common": {
+      "commaLl": ", NL",
+      "installName": "Instalar {name}"
+    },
+    "fields": {
+      "generate": "Generar",
+      "maximumStress": "Estrés Máximo",
+      "showAllFrames": "Ver Todos los Chasis",
+      "groupName": "Nombre de Grupo",
+      "deletePilots": "Eliminar Pilotos",
+      "selectPilotDataFile": "Seleccionar Archivo de Datos de Piloto",
+      "setMaximumUses": "Elegir Máximo de Usos",
+      "resourceName": "Nombre del Recurso",
+      "projectName": "Nombre del Proyecto",
+      "requirements": "Requerimientos",
+      "jumpTo": "saltar a",
+      "project": "Proyecto",
+      "startingLicenseLevel": "Nivel de Licencia Inicial",
+      "selectMech": "Seleccionar Meca",
+      "editPilotBonds": "Editar Lazos de Piloto",
+      "pilotXp": "exp piloto",
+      "pilotStress": "estrés piloto",
+      "nameOrCallsign": "Nombre o apodo…"
+    },
+    "tooltips": {
+      "copyStatBlockToClipboard": "Copiar bloque de estadísticas al portapapeles",
+      "increaseSkillBonus": "Aumentar Bono de Habilidad",
+      "convertingThisPilotToLocalData": "Convertir este piloto a datos locales permitirá edición local pero quitará su\n       enlace remoto a la cuenta de nube del autor, y prevendrá\n       la recepción de cualquier actualización futura. Para re-habilitar\n      sincronización remota, tendrá que re-importar este artículo vía código de compartir.",
+      "influenceIsYourOrganizationsSizeReach": "Influencia es el tamaño, alcance, riqueza y reputación de su organización.\n                Influencia es usada para adquirir activos, crear oportunidades, o influir en la opinión\n                publica.",
+      "hull": "Casco",
+      "speed": "VELOCIDAD",
+      "selectPredefinedBackground": "Seleccionar Trasfondo Predefinido",
+      "generateRandomName": "Generar nombre al azar",
+      "generateRandomCallsign": "Generar apodo al azar",
+      "printMechSheet": "Imprimir Hoja de Meca",
+      "returnToPilotSheet": "Regresar a la Hoja de Piloto",
+      "removeCloneQuirk": "Quitar Peculiaridad del Clon",
+      "addSkill": "Añadir Habilidad",
+      "thisProjectIsCompleteAndAvailableToUseAsAReserve": "Este proyecto está completo y disponible para usarse como reserva",
+      "decreaseSkillBonus": "Reducir Bono de Habilidad",
+      "forcePilotRegistration": "Forzar registro de piloto",
+      "startThisPilotAtA": "Iniciar este Piloto a un nivel de licencia específico. Recomendado para usuarios avanzados.",
+      "thisWillCreateACopy": "Esto creará una copia de los datos de este piloto, registrada en su lista de pilotos.",
+      "thisWillCloneTheSelected": "Esto clonará el piloto seleccionado. Personajes clonados no pueden unirse a una misión en progreso, y personajes clonados reciben una peculiaridad al azar. Clonamiento adicional e impresión de subjetividad añadirán aún mas peculiaridades.",
+      "addingThisItemAsA": "Añadir este artículo como recurso remoto creara una versión de solo lectura de este artículo vinculada a los datos originales del autor. Cuando el autor guarda una actualización a este artículo a su cuenta en la nube @:{'common.appName'}, su versión local puede recibir esos cambios.",
+      "thisProjectIsComplexResourceintensive": "Este proyecto es complejo, intenso en recursos, o generalmente difícil de completar",
+      "thisWillResetYourStressTo": "Esto reiniciará su Estrés a cero y añadirá una nueva Carga. ¿Continuar?",
+      "thisWillRemoveThisBondFrom": "Esto quitará este lazo del piloto y reiniciará todas las selecciones relacionadas. Esto no puede deshacerse. ¿Continuar?",
+      "thisWillCloneTheSelectedPilot": "Esto clonará el piloto seleccionado. Personajes clonados no pueden unirse a una misión en progreso, y personajes clonados reciban una peculiaridad al azar. Clonamiento adicional e impresiones de subjetividad añadirán aún más peculiaridades.",
+      "thisWillRestoreTheSelectedPilot": "Esto restaurará el piloto seleccionado y limpiará el estado MEA.",
+      "extendedHarness": "Arnés Extendido",
+      "compConWasUnableToExport": "COMP/CON no pudo exportar los datos de piloto",
+      "loadoutConfigurationExceedsAvailableFrameSyste": "La configuración de equipamiento excede la disponibilidad en Capacidad del Sistema de Chasis",
+      "operationalCapacitySignificantlyImpaired": "Capacidad operativa significativamente incapacitada",
+      "pilotIsMissingOneOrMore": "Piloto le faltan una o más licencias requeridas legalmente para imprimir u operar esta configuración",
+      "oneOrMoreWeaponModsAre": "Uno o más mods de arma están instalados en armas incompatibles",
+      "mechHp": "PG MECA",
+      "repairCapacity": "CAPACIDAD REPARACIÓN",
+      "electronicDefense": "DEFENSA ELECTRÓNICA",
+      "techAttack": "TECNO ATAQUE",
+      "heatCapacity": "CAPACIDAD CALOR",
+      "limitedSystemsBonus": "BONO SISTEMAS LIMITADOS",
+      "evasion": "EVASIÓN"
+    },
+    "subtitles": {
+      "convertThisPilotToAn": "Convertir este Piloto a una instancia de datos local editable.",
+      "getAPlaintextRepresentationOfThisMechConfiguration": "Obtener una representación en texto plano de la configuración de este meca",
+      "removeMechFromTheHangar": "Quitar meca del Hangar",
+      "setPilotGroup": "Elegir grupo de piloto",
+      "exportALegacyFormatFor": "Exporta formato anterior para sistemas VTT y aplicativos v2",
+      "printATabletopreadyMechSheet": "Imprime una hoja de meca lista para jugar en mesa",
+      "yourHullSkillDescribesYourAbility": "Tu habilidad CASCO describe tu habilidad para construir y pilotar, mecas pesados y duraderos que puedan recibir puñetazos y seguir avante",
+      "yourAgilitySkillDescribesYourAbility": "Tu habilidad AGILIDAD describe tu habilidad para construir y pilotar mecas rápidos, evasivos",
+      "yourSystemsSkillDescribesYourAbility": "Tu habilidad SISTEMAS describe tu habilidad para construir y pilotar mecas técnicos con poderosas herramientas de guerra electrónica",
+      "yourEngineeringSkillDescribesYourAbility": "Tu habilidad INGENIERÍA describe tu habilidad para construir y pilotar mecas con poderosos reactores, sistemas de apoyo y provisiones"
+    },
+    "actions": {
+      "thisPilotIsARemote": "Este piloto es un recurso remoto vinculado a la cuenta de otro usuario. Es de sólo lectura y recibirá actualizaciones desde la cuenta vinculada.",
+      "editLicenseLevel": "Editar Nivel de Licencia",
+      "createAndModifyMechsAndTheirLoadouts": "Crear y Modificar Mecas y sus Equipamientos",
+      "pilotSkillTriggersReservesAnd": "Detonantes de Piloto, Reservas, y Carga de Equipamiento de Piloto",
+      "pilotLicensesMechSkillsCore": "Licencias de Piloto, Habilidades Meca, Bonos BASE, y Talentos"
+    },
+    "a11y": {
+      "dragToReorderGroup": "Arrastrar para reordenar grupo",
+      "dragToReorder": "Arrastrar para reordenar"
     }
   },
   "share": {
@@ -2718,7 +3251,8 @@
       "syncCompleteTitle": "Sincronización Completada",
       "syncCompleteText": "{name} sincronizado con la nube.",
       "syncInProgressText": "Por favor, espere que la sincronización actual se complete.",
-      "syncInProgressTitle": "Sincronización en Progreso"
+      "syncInProgressTitle": "Sincronización en Progreso",
+      "syncFailedText": "{err}"
     },
     "common": {
       "copied": "Copiado",
@@ -2758,7 +3292,7 @@
     "edef": "DEF-E",
     "evasion": "Evasión",
     "armor": "Armadura",
-    "hp": "PV",
+    "hp": "PG",
     "agi": "AGI",
     "engineering": "Ingeniería",
     "systems": "Sistemas",
@@ -2786,7 +3320,8 @@
       "archive": "@:{'common.appName'} Archivo de imágenes",
       "remoteImages": "Imágenes Remotas",
       "load": "Cargar",
-      "upload": "Cargar"
+      "upload": "Cargar",
+      "mb": "MB"
     },
     "corePanel": {
       "special": "Equipo especial Base",
@@ -2796,7 +3331,8 @@
       "addCustom": "Añadir Conteo Personalizado"
     },
     "action": {
-      "compendiumEntry": "Entrada Compendio"
+      "compendiumEntry": "Entrada Compendio",
+      "frequency_action": "Frecuencia"
     },
     "org": {
       "influence": "Influencia de la Organización",
@@ -2808,7 +3344,8 @@
       "integrated": "Bono Base equipo integrado",
       "deployables": "Bono Base desplegables",
       "actions": "Bono Base acciones",
-      "remove": "Quitar este bono BASE"
+      "remove": "Quitar este bono BASE",
+      "ignoreRequirements": "Ignorar requerimientos de los bonificadores fundamentales"
     },
     "talent": {
       "unlocked": "Desbloqueado",
@@ -2825,7 +3362,45 @@
       "prereqCumulative": "Esta Licencia requiere al menos {rank} Rangos acumulados de licencias {source}"
     },
     "fields": {
-      "metric": "Métrico"
+      "metric": "Métrico",
+      "title": "Título",
+      "segments": "Segmentos",
+      "linear": "Lineal",
+      "gmOnly": "Solo DJ",
+      "resolution": "Resolución",
+      "showDeleted": "Mostrar Eliminado",
+      "relationship": "Relación",
+      "xAxis": "Eje X",
+      "yAxis": "Eje Y",
+      "compareTo": "Comparar con",
+      "equipmentNotes": "Notas de Equipo",
+      "selectTarget": "Seleccionar Blanco",
+      "organizationName": "Nombre de Organización",
+      "organizationType": "Tipo de Organización",
+      "used": "Usado",
+      "counterName": "Nombre contador",
+      "licenseLevel": "Nivel de Licencia",
+      "fromManufacturer": "Del Fabricante",
+      "role": "Rol",
+      "size": "Tamaño",
+      "license": "Licencia",
+      "tags": "Descriptores",
+      "systemType": "Tipo de Sistema",
+      "damageType": "Tipo de Daño",
+      "itemType": "Tipo de Artículo",
+      "origin": "Origen",
+      "addNewImage": "Añadir Nueva Imagen",
+      "imageType": "Tipo de Imagen",
+      "linkImage": "Enlace de Imagen",
+      "allItems": "Todos los Artículos",
+      "entity": "Entidad",
+      "fromContentPack": "Del Paquete de Contenido",
+      "hasMount": "Tiene Afuste",
+      "weaponType": "Tipo de Arma",
+      "requiredMount": "Afuste Requerido",
+      "attackType": "Tipo de Ataque",
+      "purposeGoalAndOrganizationDetails": "Propósito, objetivo, y detalles de la organización",
+      "costcomplications": "Costo/Complicaciones"
     },
     "filter": {
       "greaterThan": "Mayor Que",
@@ -2884,7 +3459,8 @@
       "detected": "Falta de Contenido Detectada",
       "hoverHelp": "Este {type} no tiene los datos LCP necesarios. @:{'common.appName'} no podrá cargar este {type} hasta que se añada el contenido faltante.",
       "missingContent": "Contenido faltante",
-      "activated": "activado"
+      "activated": "activado",
+      "wallflowerPack": "No Room for a Wallflower Acto 1"
     },
     "remote": {
       "remoteHelp": "Este {type} es un recurso remoto vinculado a la cuenta de otro usuario. Es sólo lectura y recibirá actualizaciones desde la cuenta vinculada.",
@@ -2938,7 +3514,28 @@
       "missingData": "Datos faltantes",
       "selectedCount": "{n} seleccionado(s)",
       "selectDamageType": "Seleccione el Tipo de Daño",
-      "damage": "Daño"
+      "damage": "Daño",
+      "glossary": {
+        "rangeDesc": {
+          "maxRange": "El alcance máximo de {what}, medido desde el personaje atacante.",
+          "whatRange": "un arma puede ser usada por ataques a distancia",
+          "whatThreat": "ataques cuerpo a cuerpo y de fuego de supresión pueden ser hechos por ciertas armas",
+          "whatThrown": "un arma arrojadiza puede ser usada",
+          "areaCone": "personajes en un cono de X espacios de largo y x de ancho desde su punto mas alejado",
+          "areaBlast": "personajes dentro de un radio de X espacios, trazados desde un punto dentro de RANGO y con el centro de la explosión sobre o adyacente al atacante",
+          "areaBurst": "personajes dentro de un radio de X espacios, centrado en el espacio ocupado por el atacante e incluyéndolo",
+          "equipmentAffects": "Los equipos con un patrón de ataque de {pattern} afectan a {area}.",
+          "areaLine": "todos los objetivos en una linea recta, de X casillas de largo. Una tirada de ataque separada es realizada contra cada objetivo en la linea."
+        },
+        "intro": "Este equipo provoca <b>{value}</b> {type}",
+        "heatLabel": "Calor:",
+        "heatDescription": "El calor es un tipo especial de daño que no cuenta como daño e ignora el BLINDAJE, aunque puede verse afectado por la RESISTENCIA. Representa daño a los sistemas internos y el reactor de un meca. La mayoría de las veces se produce como consecuencia de ataques de guerra electrónica, pero a menudo lo generan los propios sistemas de un meca. Un meca que sufre calor lo marca en su ficha. Cuando acumule una cantidad igual a su CAPACIDAD CALORÍFICA, cualquier cantidad de calor adicional hará que se sobrecaliente. El sobrecalentamiento se describe de forma más detallada en la página 78. Si un personaje sin CAPACIDAD CALORÍFICA (como por ejemplo los personajes BIOLÓGICOS y los DRONES) sufre calor, en lugar de ello sufrirá la misma cantidad en daño energético .",
+        "burnLabel": "Daño Incendiario:",
+        "burnDescription": "Algunas armas provocan daño incendiario (que provoca daño adicional con el paso del tiempo). El daño incendiario puede representar llamas, plasma abrasador, ácido o algo más insidioso, como un enjambre de nanobots desensambladores.<br>Cuando un personaje sufre , este tiene dos efectos: primero recibe daño inmediatamente ignorando el BLINDAJE, y luego marca en su hoja el daño incendiario que acaba de recibir. Al final de su turno, un personaje con daño incendiario debe superar una tirada de INGENIERÍA. Si la supera, elimina de la hoja todo el daño incendiario que tenga marcado; de lo contrario sufrirá una cantidad de daño igual a la cantidad de daño incendiario marcado en ese momento. El daño incendiario de otras fuentes se añade al total actual de puntos de Daño Incendiario.",
+        "rangeText": "{type} {value}",
+        "rangeTextBonus": "{type} {value} (+{bonus})"
+      },
+      "versionLabel": "v{version}"
     },
     "ref": {
       "equipmentTagDetail": "Detalle chapa de Equipo",
@@ -2946,7 +3543,8 @@
     },
     "cascade": {
       "inCascade": "En cascada",
-      "pending": "Pendiente"
+      "pending": "Pendiente",
+      "alert": "Alerta cascada"
     },
     "table": {
       "previous": "anterior"
@@ -2991,7 +3589,20 @@
       "heatCapacity": "Capacidad Calor",
       "clockEditor": "editor de reloj",
       "cascade": "CASCADA",
-      "activateFreeAction": "Activar (Acción Libre)"
+      "activateFreeAction": "Activar (Acción Libre)",
+      "reportedAppearances": "Apariciones Reportadas",
+      "hints": "Pistas",
+      "rules": "Reglas",
+      "shards": "Fragmentos",
+      "tactics": "Tácticas",
+      "successfulHit": "Golpe Exitoso",
+      "printOptions": "Opciones de Impresión",
+      "shardFeatures": "Características de Fragmento",
+      "featureSelection": "Selección de Característica",
+      "resetAllInputs": "Reiniciar Todas las Entradas",
+      "externalDataWarning": "Advertencia Datos Externos",
+      "overheating": "SOBRECALENTAMIENTO",
+      "structureDamage": "DAÑO ESTRUCTURA"
     },
     "subtitles": {
       "selectResult": "Seleccionar resultado"
@@ -3009,10 +3620,115 @@
       "addD4Roll": "Añadir tirada d4",
       "addCoinFlipD2": "Añadir tirada de moneda (d2)",
       "markThisResourceAsUsed": "Marca este recurso como usado o no disponible (pero no consumido, destruido o perdido)",
-      "markingAFieldOrItem": "Marcar un campo o artículo 'Solo DJ' lo ocultará de para los jugadores en exportaciones y salida de impresión",
+      "markingAFieldOrItem": "Marcar un campo o artículo 'Solo DJ' lo ocultará para los jugadores en exportaciones y salida de impresión",
       "deleteCounter": "Borrar Contador",
       "resetCounter": "Reiniciar Contador",
-      "itemFilters": "Filtros de Artículo"
+      "itemFilters": "Filtros de Artículo",
+      "linkARemotelyHostedImageTo": "Enlaza una imagen alojada remotamente a este activo. Estas imágenes no son almacenadas o gestionadas por COMP/CON y son sujetos de cambio o remoción en base a su alojamiento."
+    },
+    "card": {
+      "suggestedSkills": "Habilidades Sugeridas",
+      "deprecated": "Este artículo está obsoleto y se puede eliminar.",
+      "modifies": "Modifica",
+      "equipmentActions": "Acciones de Equipo",
+      "equipmentDeployables": "Equipo desplegables",
+      "compendiumData": "Datos compendio",
+      "variantFrame": "Chasis Variante",
+      "combatProfile": "Perfil combate",
+      "availableMounts": "Afustes de armas disponibles",
+      "onboardCore": "Sistema base abordo",
+      "integrations": "Integraciones",
+      "profileActions": "Acciones de perfil",
+      "profileDeployables": "Perfil desplegables",
+      "profileTags": "Perfil descriptores",
+      "classStats": "Estadísticas de Clase",
+      "tierColumns": "G1 / G2 / G3",
+      "classBaseFeatures": "Características Base de Clase",
+      "classOptionalFeatures": "Características Opcionales de Clase",
+      "templateBaseFeatures": "Características Base de Plantilla",
+      "templateOptionalFeatures": "Características Opcionales de Plantilla",
+      "controlZone": "Zona de Control",
+      "modification": "Modificación",
+      "canBeAppliedTo": "Puede ser aplicado a",
+      "weaponAttacks": "Esta arma puede hacer {count} ataques a la vez. Se pueden realizar múltiples ataques contra el mismo o diferentes objetivos.",
+      "systemPoints": "Punto de sistema | Puntos de sistema",
+      "kit": "Kit"
+    },
+    "combat": {
+      "passiveEffect": "Efecto Pasivo",
+      "damageAssignment": "Asignación de Daño Disponible",
+      "statusEffect": "Efecto del Estado Disponible",
+      "saveAvailable": "Salvación Disponible",
+      "resistanceImmunity": "Resistencia/Inmunidad Disponible",
+      "otherEffect": "Otro Efecto Disponible",
+      "specialEffect": "Efecto Especial Disponible",
+      "fromOrigin": "De {name}",
+      "originDestroyed": "El origen {type} ha sido destruido",
+      "originUsed": "Origen {type} se ha utilizado",
+      "ifLabel": "SI",
+      "staged": "Preparado",
+      "actionUsed": "Acción ya usada.",
+      "insufficientActions": "Insuficientes acciones {activation} restantes este turno.",
+      "cannotActivate": "No se puede activar.",
+      "cannotActivateShort": "No se puede activar",
+      "heatSelf": "+{n} Calor (Sí Mismo)",
+      "applyAll": "Aplicar Todo",
+      "free": "Gratis*",
+      "mandatoryFields": "Campos Obligatorios Restantes",
+      "alreadyActivated": "Ya Activado",
+      "insufficientActionsShort": "Acciones Insuficientes",
+      "noTarget": "Sin Blanco Seleccionado",
+      "clickToOverride": "Clic para Anular",
+      "reliableOnMiss": "FIABLE {n} {type} se aplica al fallar",
+      "reliableN": "Fiable {n}",
+      "noAttackRolled": "Sin Tirada de Ataque",
+      "criticalHit": "Golpe Crítico",
+      "successfulAttack": "Ataque Exitoso",
+      "failedAttack": "Ataque Fallido",
+      "activate": "Activar",
+      "until": "Hasta",
+      "crit": "Crít",
+      "hit": "Golpe",
+      "miss": "Fallo",
+      "saveSuffix": "{stat} Salva",
+      "noSaveRolled": "Sin Tirada de Salvación",
+      "successfulSave": "Salvación Exitosa",
+      "failedSave": "Salvación Fallida",
+      "vsTarget": "vs del Blanco",
+      "currentlyEngaged": "(Actualmente EN INTERACCION)",
+      "targetInCover": "(Blanco está en COBERTURA)",
+      "saveBonusVs": "(Bono de Salvación) vs",
+      "areaOfEffect": "Area de Efecto",
+      "singleTarget": "Un Blanco",
+      "half": "Medio",
+      "addTarget": "Añadir Blanco",
+      "target": "Blanco",
+      "damageValue": "valor del daño",
+      "bonusDamage": "Daños por Bono",
+      "bonusDamageHalved": "El Daño por Bono se reducirá a la mitad (Área de efecto)",
+      "overkillHeat": "+{n} Calor (Sí Mismo) [Daño Excesivo]",
+      "critDamageYes": "Este daño se tira como daño crítico (tirar dos veces, tomar el más alto)",
+      "critDamageNo": "Este daño no se tira como daño crítico",
+      "apYes": "Este daño ignora la armadura",
+      "apNo": "Este daño no ignora la armadura",
+      "irreducibleYes": "Este daño no puede reducirse de ninguna manera",
+      "irreducibleNo": "Este daño puede ser reducido por las defensas del blanco",
+      "exceptArmor": ", excepto la armadura",
+      "overkillYes": "Este daño está sujeto a reglas DAÑO EXCESIVO (relanzar 1s, añadir calor (si mismo))",
+      "overkillNo": "Este daño no está sujeto a reglas de DAÑO EXCESIVO",
+      "reliableDamage": "Daño Fiable",
+      "clearReliableDamage": "Limpiar Daño Fiable",
+      "clickClearBonus": "Haga clic para limpiar Daño de Bono",
+      "clickAddBonus": "Haga clic para agregar Bonificación de Daño",
+      "resistanceType": "tipo de resistencia",
+      "saveHalf": "Salva la Mitad",
+      "removeSpecialCondition": "quitar condición especial",
+      "d20": "1d20",
+      "d20Plus": "1d20 +",
+      "vsStat": "vs {stat}",
+      "vs": "VS",
+      "diceD": "d",
+      "self": "Propio"
     }
   },
   "enums": {
@@ -3029,16 +3745,18 @@
       "round": "Ronda",
       "next_turn": "Turno Siguiente",
       "turn": "Turno",
-      "free": "Libre"
+      "free": "Libre",
+      "unlimited": "Ilimitado"
     },
     "orgType": {
       "political": "Política",
       "entertainment": "Entretenimiento",
-      "industrial": "",
+      "industrial": "Industrial",
       "humanitarian": "Humanitaria",
       "academic": "Académica",
       "scientific": "Cientifica",
-      "military": "Militar"
+      "military": "Militar",
+      "criminal": "Criminal"
     },
     "reserveType": {
       "bonus": "Bono",
@@ -3067,7 +3785,8 @@
       "deployable": "Desplegable",
       "shield": "Escudo",
       "ai": "IA",
-      "system": "Sistema"
+      "system": "Sistema",
+      "mod": "Modificación"
     },
     "activationType": {
       "other": "Otro",
@@ -3079,7 +3798,9 @@
       "quick": "Rápida",
       "protocol": "Protocolo",
       "free": "Libre",
-      "none": "Ninguno"
+      "none": "Ninguno",
+      "full_tech": "Tec Completa",
+      "quick_tech": "Tec Rápida"
     },
     "rangeType": {
       "burst": "Explosión",
@@ -3095,7 +3816,10 @@
       "heavy": "Pesada",
       "main": "Principal",
       "superheavy": "Superpesada",
-      "main_aux": "Principal/Aux"
+      "main_aux": "Principal/Aux",
+      "aux_aux": "Aux/Aux",
+      "aux": "Aux",
+      "flex": "Flex"
     },
     "weaponSize": {
       "heavy": "Pesada",
@@ -3118,7 +3842,161 @@
       "energy": "Energético",
       "kinetic": "Cinético",
       "aoe": "AdE",
-      "burn": "Incendiario"
+      "burn": "Incendiario",
+      "applied_burn": "Incendio Infligido",
+      "variable": "Variable"
+    }
+  },
+  "compendium": {
+    "returnToCompendium": "Volver al Compendio",
+    "categories": {
+      "frames": "Chasis",
+      "mechWeapons": "Armas Meca",
+      "equipmentTags": "Descriptores Equipo",
+      "pilotBackground": "Trasfondo Piloto",
+      "downtimeActions": "Acciones Interludio",
+      "npcFeatures": "Características PNJ",
+      "npcTemplates": "Plantillas PNJ",
+      "statusesConditions": "Estados & Condiciones",
+      "manufacturers": "Fabricantes",
+      "npcClasses": "Clases PNJ",
+      "environments": "Entornos",
+      "sitreps": "Informes de situación"
+    },
+    "selectItem": "Seleccione {name}",
+    "titles": {
+      "reference": "Referencia",
+      "notYetImplemented": "No implementado aún",
+      "contentPack": "Paquete de Contenido",
+      "licenseLevel": "Nivel de Licencia",
+      "spCost": "Costo PS",
+      "manufacturer": "Fabricante",
+      "shards": "Fragmentos",
+      "size": "Tamaño",
+      "mounts": "Afustes",
+      "heatcap": "CapCalor",
+      "repcap": "CapRep",
+      "role": "Rol",
+      "origin": "Origen",
+      "tags": "Descriptores",
+      "eDefense": "Defensa-E",
+      "range": "Alcance",
+      "damage": "Daño",
+      "uses": "Usos",
+      "icon": "Icono",
+      "system": "Sistema",
+      "mechSystems": "Meca Sistemas",
+      "npcClasses": "Clases PNJ",
+      "npcFeatures": "Características PNJ",
+      "npcTemplates": "Plantillas PNJ",
+      "statusesConditions": "Estados & Condiciones",
+      "equipmentTags": "Descriptores Equipamiento",
+      "referenceMechs": "Referencia: Mecas",
+      "manufacturers": "Fabricantes",
+      "frames": "Chasis",
+      "glossary": "Glosario",
+      "bonds": "Lazos",
+      "environments": "Entornos",
+      "lists": "Listas",
+      "usingCompcon": "usando @:{'common.appName'}",
+      "importLancerCampaignData": "Importar Datos Campaña Lancer",
+      "developmentPreview": "Previsualización de Desarrollo",
+      "noBondData": "Sin Datos de Lazo",
+      "noEidolonData": "Sin Datos de Eidolon",
+      "lancerBasics": "Lancer Básico",
+      "narrativePlay": "juego narrativo",
+      "tierI": "Grado I",
+      "tierIi": "Grado II",
+      "tierIii": "Grado III",
+      "techatk": "TecnoAtq",
+      "mechWeapons": "Armas Meca",
+      "skillTriggers": "Detonantes",
+      "eidolonLayers": "Capas Eidolon",
+      "coreBonuses": "Bonos Base",
+      "pilotBackgrounds": "Trasfondos de Piloto",
+      "downtimeActions": "Acciones Interludio",
+      "referenceBasics": "Referencia: Básica",
+      "referenceCompCon": "Referencia:COMP/CON",
+      "referencePilots": "Referencia: Pilotos",
+      "referenceCombat": "Referencia: Combate",
+      "referenceNarrativePlay": "Referencia: Juego Narrativo",
+      "referenceErrata": "Referencia: Erratas",
+      "referenceGlossary": "Referencia: Glosario",
+      "edef": "DefE",
+      "sitreps": "INFORMES DE SITUACIÓN"
+    },
+    "nav": {
+      "systemReference": "Referencia del Sistema"
+    },
+    "reference": {
+      "iconGuide": "Guía de Iconos",
+      "damageTables": "Tablas de Daño",
+      "mechActions": "Meca Acciones",
+      "pilotActions": "Piloto Acciones",
+      "perTurn": "Por Turno",
+      "fullAction": "Acción Completa",
+      "or": "o",
+      "twoQuickActions": "2 Acciones Rápidas",
+      "faqErrata": "PF & erratas",
+      "statuses": "Estados",
+      "glossary": "Glosario",
+      "pleaseNote": "Por favor tenga en cuenta",
+      "faqErrataNotice": "Este PF y Erratas es un proyecto impulsado por la comunidad y no forma parte de un lanzamiento oficial de Massif Press @:{'common.gameName'}. Esta página está alimentada por datos de preguntas frecuentes del {repoLink} en GitHub, actualmente mantenido por lenaleciel. Este documento también está disponible en {siteLink}.",
+      "lancerFaqRepo": "repositorio de lancer-faq",
+      "lancerFaqSite": "lancer-faq.netlify.app/",
+      "bookPage": "{book}, p. {page}"
+    },
+    "search": {
+      "resultCount": "{count} resultado | {count} resultados"
+    },
+    "content": {
+      "eidolonLayer": "Capa Eidolon",
+      "frameSuffix": "{type}Chasis"
+    },
+    "campaign": {
+      "errNoCampaign": "Err: no hay campaña cargada",
+      "developmentPreview": "Las campañas están en desarrollo activo y no se desplegarán hasta v3.1. Esta vista previa debe ser ignorada para la prueba, pero siéntase en libertad de explorar la funcionalidad existente.",
+      "noCampaignsFound": "No se Hallaron Campañas",
+      "importHint": "Las campañas pueden ser importadas a través de Importación de Archivo o el Directorio de Campañas de Lancer",
+      "newVersionAvailable": "Hay una nueva versión de esta campaña disponible. Pulse abajo actualizar para descargar e instalar la última versión de esta campaña.",
+      "updateCampaign": "Actualizar Campaña",
+      "removeFromCollection": "Quitar de la Colección",
+      "removeConfirm": "Esto quitará la campaña de su colección. ¿Está seguro?",
+      "openCampaign": "Abrir Campaña",
+      "recommendedPlayers": "Jugadores Recomendados",
+      "recommendedLicenseLevel": "Nivel de Licencia Recomendado",
+      "campaignWebsite": "Sitio Red de la Campaña ({url})",
+      "openInReader": "Abrir en Lector",
+      "sortByAuthor": "Ordenar por Autor",
+      "sortBySuggestedPlayers": "Ordenar por Jugadores Sugeridos",
+      "sortByLicenseLevel": "Ordenar por Nivel de Licencia",
+      "lancerCampaignDirectory": "Directorio de Campaña @:{'common.gameName'}",
+      "directoryComingSoon": "Después de la versión v3 este será un directorio de Massif y campañas de creación comunitaria. Si está conectado y has enlazado una cuenta itch.io, podrá importar campañas directamente desde el directorio. Si no, te dirigirán a la página itch.io para comprar y descargar la campaña.",
+      "stagedCampaignData": "Datos de la Campaña Preparada",
+      "existingNewer": "La campaña existente es más nueva que los datos importados.",
+      "recommendedForLine": "Recomendado para {players} jugadores conNivel de Licencia {levels}",
+      "sortByTitle": "Ordenar por Título",
+      "index": "Índice",
+      "returnToLibrary": "Volver a la Biblioteca",
+      "byAuthor": "Por {author}",
+      "campaignForLine": "Una campaña {lancer} para pilotos {players} que comienzan en el Nivel de Licencia {levels}.",
+      "addCampaign": "Agregar Campaña",
+      "tableOfContents": "Tabla de Contenidos"
+    },
+    "fields": {
+      "selectLcdFile": "Seleccionar Archivo .lcd",
+      "searchTheCampaignLibrary": "Buscar la Biblioteca de Campaña",
+      "showFull": "Mostrar Completo"
+    },
+    "tooltips": {
+      "hitPoints": "Puntos de Golpe",
+      "userSelectedDamageTypeOrDamage": "Tipo de daño seleccionado por el usuario o tipo de daño no especificado",
+      "weaponThreatRange": "Alcance de Amenaza del Arma",
+      "burstAreaOfEffect": "Área de Efecto \"Explosión\"",
+      "blastAreaOfEffect": "Área de Efecto \"Estallido\"",
+      "lineAreaOfEffect": "Área de Efecto \"Línea\"",
+      "coneAreaOfEffect": "Área de Efecto \"Cono\"",
+      "denotesContentAddedByALancer": "Denota contenido añadido por un archivo (.lcp) Lancer Content Pack"
     }
   }
 }
