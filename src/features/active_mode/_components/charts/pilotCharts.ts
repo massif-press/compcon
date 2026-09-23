@@ -71,8 +71,8 @@ function pilotCharts(
   const byType = damageByType(rollup, 'dealt', DAMAGE_ORDER)
   out.push({
     id: 'P1',
-    title: t('active.charts.p1'),
-    subtitle: t('active.charts.p1Sub'),
+    title: t('active.charts.damageDealtByType'),
+    subtitle: t('active.charts.damageDealtByTypeSub'),
     type: 'doughnut',
     data: {
       labels: byType.map(s => s.label),
@@ -95,7 +95,7 @@ function pilotCharts(
   const dvt = dealtVsTaken(records, unnamed)
   out.push({
     id: 'P2',
-    title: t('active.charts.p2'),
+    title: t('active.charts.dealtAndTakenPerEncounter'),
     type: 'bar',
     data: {
       labels: dvt.labels,
@@ -123,7 +123,7 @@ function pilotCharts(
   const cumulative = cumulativeDamage(records, unnamed)
   out.push({
     id: 'P3',
-    title: t('active.charts.p3'),
+    title: t('active.charts.careerDamage'),
     type: 'line',
     data: {
       labels: cumulative.labels,
@@ -148,8 +148,8 @@ function pilotCharts(
   const acc = accuracyOverTime(records, unnamed)
   out.push({
     id: 'P4',
-    title: t('active.charts.p4'),
-    subtitle: t('active.charts.p4Sub', { n: Math.round(acc.average) }),
+    title: t('active.charts.accuracyOverTime'),
+    subtitle: t('active.charts.accuracyOverTimeSub', { n: Math.round(acc.average) }),
     type: 'line',
     data: {
       labels: acc.labels,
@@ -201,7 +201,7 @@ function pilotCharts(
   const checks = checkOutcomes(rollup)
   out.push({
     id: 'P5',
-    title: t('active.charts.p5'),
+    title: t('active.charts.savesAndChecks'),
     type: 'bar',
     data: {
       labels: [t('active.charts.saves'), t('active.charts.checks')],
@@ -243,8 +243,8 @@ function pilotCharts(
   const heat = heatSources(records, unnamed)
   out.push({
     id: 'P6',
-    title: t('active.charts.p6'),
-    subtitle: t('active.charts.p6Sub'),
+    title: t('active.charts.heatPerEncounter'),
+    subtitle: t('active.charts.heatPerEncounterSub'),
     type: 'bar',
     data: {
       labels: heat.labels,
@@ -275,8 +275,8 @@ function pilotCharts(
   })
 
   for (const [id, which, title] of [
-    ['P7', 'actions', t('active.charts.p7')],
-    ['P8', 'statuses', t('active.charts.p8')],
+    ['P7', 'actions', t('active.charts.mostUsedActions')],
+    ['P8', 'statuses', t('active.charts.statusesSuffered')],
   ] as const) {
     const ranked = rankedBag(rollup, which)
     out.push({
@@ -314,7 +314,7 @@ function pilotCharts(
   const perRound = damagePerRound(stream, actorId)
   out.push({
     id: 'P9',
-    title: t('active.charts.p9'),
+    title: t('active.charts.damagePerRound'),
     type: 'line',
     data: {
       labels: perRound.labels,
@@ -339,8 +339,8 @@ function pilotCharts(
   const dangerFrom = curve.cap ? curve.cap / 2 : 0
   out.push({
     id: 'P10',
-    title: t('active.charts.p10'),
-    subtitle: curve.cap ? t('active.charts.p10Sub', { n: curve.cap }) : undefined,
+    title: t('active.charts.heatCurve'),
+    subtitle: curve.cap ? t('active.charts.heatCurveSub', { n: curve.cap }) : undefined,
     type: 'line',
     data: {
       labels: curve.labels,
@@ -392,8 +392,8 @@ function pilotCharts(
   const timeline = eventTimeline(stream, actorId)
   out.push({
     id: 'P11',
-    title: t('active.charts.p11'),
-    subtitle: t('active.charts.p11Sub'),
+    title: t('active.charts.encounterTimeline'),
+    subtitle: t('active.charts.encounterTimelineSub'),
     type: 'bar',
     data: {
       labels: timeline.labels,

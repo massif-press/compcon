@@ -1044,7 +1044,8 @@
     },
     "npcEditor": {
       "v2Export": "v2 Export",
-      "statblock": "Statblock"
+      "statblock": "Statblock",
+      "noTelemetry": "No telemetry for this NPC yet. Telemetry is recorded when an encounter it appears in is archived."
     },
     "titles": {
       "setGmLabel": "Set GM Label",
@@ -1267,7 +1268,6 @@
       "battlefieldTelemetry": "Battlefield telemetry",
       "combatLogs": "Combat logs",
       "deleteArchivePrompt": "Delete this archive?",
-      "devNoteReport": "This feature is still in development. After-action reports will be expanded in future builds.",
       "devNoteLogs": "This feature is still in development. Additional data and export options will be available in future builds.",
       "deleteArchiveDetail": "This will flag the archive for deletion. It will no longer appear in this list, but will be permanently deleted based on your retention options in the Options Menu.",
       "noArchivedFoundFiltered": "No archived encounters found including \"{search}\"",
@@ -1339,7 +1339,13 @@
     },
     "endEnc": {
       "endEncounter": "End Encounter",
-      "confirmEndEncounter": "Confirm End Encounter"
+      "confirmEndEncounter": "Confirm End Encounter",
+      "gmConfirm": "Ending this encounter will close the active instance and send a copy to the archive. Archived encounters can not be resumed (but may be restarted). Are you sure you want to continue?",
+      "results": {
+        "pc_victory": "PC VICTORY",
+        "enemy_victory": "ENEMY VICTORY",
+        "stalemate": "STALEMATE"
+      }
     },
     "sortBar": {
       "sortByRecent": "Sort by Recent",
@@ -2232,7 +2238,9 @@
       "equipmentDestroyed": "{who}'s {item} was destroyed",
       "equipmentRepaired": "{who}'s {item} was repaired",
       "counterUp": "{who} raised {counter} by {n} to {to}",
-      "counterDown": "{who} lowered {counter} by {n} to {to}"
+      "counterDown": "{who} lowered {counter} by {n} to {to}",
+      "npcStatus": "{who} is now {status}",
+      "statusManual": "set in after action report"
     },
     "pcEndEncounter": {
       "confirm": "Ending this encounter will close the active sheet instance, send a copy to the archive, and record it to this pilot’s logbook. Are you sure you want to continue?"
@@ -2290,33 +2298,33 @@
       "colEncounter": "Encounter",
       "colKind": "Kind",
       "colGroup": "Group",
-      "p1": "Damage Dealt by Type",
-      "p1Sub": "Lifetime totals across every recorded encounter",
-      "p2": "Damage Dealt and Taken per Encounter",
-      "p3": "Career Damage",
-      "p4": "Accuracy over Time",
-      "p4Sub": "Career average {n}%",
-      "p5": "Saves and Checks",
-      "p6": "Heat per Encounter",
-      "p6Sub": "How much heat this pilot brought on themselves",
-      "p7": "Most Used Actions",
-      "p8": "Statuses Suffered",
-      "p9": "Damage per Round",
-      "p10": "Heat Curve",
-      "p10Sub": "Heat capacity {n}",
-      "p11": "Encounter Timeline",
-      "p11Sub": "What this pilot did, round by round",
-      "g1": "Damage Dealt by Group",
-      "g2": "Threat against Durability",
-      "g2Sub": "Damage dealt vs. damage absorbed. Bubble size reflects appearance rate.",
-      "g3": "Lethality per Appearance",
-      "g3Sub": "Total kills divided by appearances",
-      "g4": "Class against Template",
-      "g4Sub": "Damage per appearance.",
-      "g5": "Encounter Length",
-      "g6": "Party Damage Share",
-      "g7": "Attack Outcomes",
-      "g8": "Encounter Balance",
+      "damageDealtByType": "Damage Dealt by Type",
+      "damageDealtByTypeSub": "Lifetime totals across every recorded encounter",
+      "dealtAndTakenPerEncounter": "Damage Dealt and Taken per Encounter",
+      "careerDamage": "Career Damage",
+      "accuracyOverTime": "Accuracy over Time",
+      "accuracyOverTimeSub": "Career average {n}%",
+      "savesAndChecks": "Saves and Checks",
+      "heatPerEncounter": "Heat per Encounter",
+      "heatPerEncounterSub": "How much heat this pilot brought on themselves",
+      "mostUsedActions": "Most Used Actions",
+      "statusesSuffered": "Statuses Suffered",
+      "damagePerRound": "Damage per Round",
+      "heatCurve": "Heat Curve",
+      "heatCurveSub": "Heat capacity {n}",
+      "encounterTimeline": "Encounter Timeline",
+      "encounterTimelineSub": "What this pilot did, round by round",
+      "damageByGroup": "Damage Dealt by Group",
+      "threatVsDurability": "Threat against Durability",
+      "threatVsDurabilitySub": "Damage dealt vs. damage absorbed. Bubble size reflects appearance rate.",
+      "lethalityPerAppearance": "Lethality per Appearance",
+      "lethalityPerAppearanceSub": "Total kills divided by appearances",
+      "classVsTemplate": "Class against Template",
+      "classVsTemplateSub": "Damage per appearance.",
+      "encounterLength": "Encounter Length",
+      "partyDamageShare": "Party Damage Share",
+      "attackOutcomes": "Attack Outcomes",
+      "damageBySide": "Damage by Side",
       "dataSet": "Data Set",
       "selectEncounter": "Encounter",
       "noStream": "The full log for this encounter is no longer held, so per-round charts are unavailable.",
@@ -2344,6 +2352,29 @@
       "endsOnSelfTurn": "Ends at the {when} of your ({name}) turn",
       "endsOnOtherTurn": "Ends at the {when} of {name}'s turn",
       "endsOnRound": "Ends at the {when} of round {round}"
+    },
+    "aar": {
+      "roundsValue": "{n} rounds",
+      "roundTag": "R{n}:",
+      "rowSummary": "{dealt} dealt / {taken} taken / {kills} kills",
+      "highlightsTitle": "HIGHLIGHTS",
+      "casualtiesTitle": "CASUALTIES AND KILLS",
+      "highlights": {
+        "topDealt": "Most damage dealt",
+        "topTaken": "Most damage taken",
+        "topKills": "Most kills",
+        "biggestHit": "Biggest single hit",
+        "topCrits": "Most critical hits",
+        "topOvercharges": "Most overcharges",
+        "topHeatCleared": "Most heat cleared"
+      },
+      "chartsTitle": "CHARTS",
+      "step": "Step {n} of {total}",
+      "outcomeTitle": "POST-ENCOUNTER STATUS",
+      "pilotStatus": "Pilot Status",
+      "mechStatus": "Mech Status",
+      "next": "Next",
+      "recordedStatuses": "RECORDED STATUSES"
     }
   },
   "mainMenu": {
@@ -4269,6 +4300,25 @@
       "melee": "Melee",
       "ranged": "Ranged",
       "tech": "Tech"
+    },
+    "pilotStatus": {
+      "active": "ACTIVE",
+      "injured": "INJURED",
+      "kia": "KIA",
+      "mia": "MIA",
+      "disengaged": "DISENGAGED"
+    },
+    "mechStatus": {
+      "operational": "OPERATIONAL",
+      "in_cascade": "IN CASCADE",
+      "destroyed": "DESTROYED",
+      "reactor_meltdown": "REACTOR MELTDOWN"
+    },
+    "npcStatus": {
+      "operational": "OPERATIONAL",
+      "destroyed": "DESTROYED",
+      "routed": "ROUTED",
+      "disengaged": "DISENGAGED"
     }
   },
   "notify": {

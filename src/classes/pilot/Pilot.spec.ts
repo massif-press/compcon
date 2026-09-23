@@ -88,12 +88,12 @@ describe('Pilot.Serialize/Pilot.Deserialize', () => {
   })
 
   it('keeps identity fields across the round-trip', () => {
-    const p = makePilot({ name: 'Nelson', callsign: 'HAMMER', level: 6 })
+    const p = makePilot({ name: 'Test Pilot 1', callsign: 'TEST1', level: 6 })
     const back = Pilot.Deserialize(Pilot.Serialize(p))
 
     expect(back.ID).toBe(p.ID)
-    expect(back.Name).toBe('Nelson')
-    expect(back.Callsign).toBe('HAMMER')
+    expect(back.Name).toBe('Test Pilot 1')
+    expect(back.Callsign).toBe('TEST1')
     expect(back.Level).toBe(6)
     expect(back.Grit).toBe(3)
   })

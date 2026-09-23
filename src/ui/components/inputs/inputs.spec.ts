@@ -7,8 +7,8 @@ import CCSelect from './selector/CCSelect.vue'
 
 describe('CCTextField', () => {
   it('renders an input carrying the model value', () => {
-    const w = mount(CCTextField, { props: { modelValue: 'HAMMER' } })
-    expect(w.get('input').element.value).toBe('HAMMER')
+    const w = mount(CCTextField, { props: { modelValue: 'TEST1' } })
+    expect(w.get('input').element.value).toBe('TEST1')
   })
 
   it('emits on input', async () => {

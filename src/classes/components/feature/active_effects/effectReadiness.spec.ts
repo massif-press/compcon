@@ -15,7 +15,7 @@ beforeEach(() => {
   makeMech(pilot)
   const encounter = new Encounter()
   encounter.Name = 'T'
-  encounter.AddCombatant(makeNpc('ASSAULT'))
+  encounter.AddCombatant(makeNpc('Test NPC 1'))
   instance = new EncounterInstance(undefined, encounter, [pilot])
   initiator = instance.Combatants.find(c => c.type === 'pilot')!
   victim = instance.Combatants.find(c => c.type !== 'pilot')!

@@ -447,7 +447,7 @@ describe('lock on across an attack', () => {
     makeMech(attacker)
     const encounter = new Encounter()
     encounter.Name = 'T'
-    encounter.AddCombatant(makeNpc('ASSAULT'))
+    encounter.AddCombatant(makeNpc('Test NPC 1'))
     const instance = new EncounterInstance(undefined, encounter, [attacker])
     const initiator = instance.Combatants.find(c => c.type === 'pilot')!
     const defender = instance.Combatants.find(c => c.type !== 'pilot')!

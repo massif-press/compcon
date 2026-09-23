@@ -165,8 +165,8 @@ describe('applyAllFixes', () => {
 
     const feature = ContentPackStore().ContentPacks[0].Data.npcFeatures[0]
     expect(feature.isUsed).toBeUndefined()
-    expect(feature.flavorName).toBeUndefined()
-    expect(feature.flavorDescription).toBeUndefined()
+    expect((feature as any).flavorName).toBeUndefined()
+    expect((feature as any).flavorDescription).toBeUndefined()
     expect(SetItem).toHaveBeenCalledWith('content', { id: 'pack1' })
   })
 

@@ -11,7 +11,6 @@ interface IPortraitData {
 }
 
 interface IImageContainer {
-  SetLocalImage(): any
   SetCloudImage(): any
   Image: string
 }
@@ -37,17 +36,8 @@ class PortraitController {
     }
   }
 
-  public SetLocalImage(src: string): void {
-    this._portrait = src
-    this.Parent.SaveController.save()
-  }
-
   public get HasImage(): boolean {
     return this._portrait !== '' || this._cloud_portrait !== ''
-  }
-
-  public get LocalImage(): string {
-    return this._portrait
   }
 
   public get Image(): string {
@@ -70,13 +60,6 @@ class PortraitController {
     else if (this.Parent.ImageTag === ImageTag.Mech) {
       return (this.Parent as Mech).Frame.DefaultImage
     } else return '/img/pilot/nodata.webp'
-  }
-
-  // Returns the local image key as a fallback when a cloud portrait is set but unavailable.
-  // Use this as a secondary src when rendering with CCImg.
-  public get FallbackPortrait(): string {
-    if (this._cloud_portrait && this._portrait) return this._portrait
-    return ''
   }
 
   public get CloudImage(): string {

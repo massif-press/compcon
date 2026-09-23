@@ -188,7 +188,7 @@
                   v-for="stat in headline"
                   :key="stat.label"
                   cols="6"
-                  md="3"
+                  md=""
                 >
                   <cc-panel color="background">
                     <div class="text-center py-1">
@@ -241,6 +241,15 @@
                 >
                   <template #[`item.actions`]="{ item }">
                     <v-btn
+                      icon="mdi-file-document-outline"
+                      size="x-small"
+                      flat
+                      tile
+                      :disabled="!item.hasStream"
+                      :title="$t('active.encMgr.afterActionReport')"
+                      @click="openReport(item.pilotId, item.encounterId)"
+                    />
+                    <v-btn
                       icon="mdi-download"
                       size="x-small"
                       flat
@@ -257,6 +266,31 @@
               </cc-panel>
             </div>
           </v-container>
+          <v-dialog
+            v-model="reportOpen"
+            max-width="1200px"
+            scrollable
+          >
+            <v-card v-if="report">
+              <v-toolbar
+                height="40"
+                color="primary"
+              >
+                <div class="heading h3 ml-3">{{ $t('active.encMgr.afterActionReport') }}</div>
+                <v-spacer />
+                <v-btn
+                  icon="mdi-close"
+                  @click="reportOpen = false"
+                />
+              </v-toolbar>
+              <v-card-text>
+                <after-action-report
+                  :stream="report.stream"
+                  :focus-actor-id="report.actorId"
+                />
+              </v-card-text>
+            </v-card>
+          </v-dialog>
         </v-main>
       </v-layout>
     </div>
@@ -271,12 +305,18 @@
   import { STREAM_RETENTION } from '@/classes/pilot/PilotLogbook'
   import type { PilotLogbook } from '@/classes/pilot/PilotLogbook'
   import { mergeRollups, blankRollup } from '@/classes/components/combat/log/telemetry'
+  import type { IEncounterRollup } from '@/classes/components/combat/log/telemetry'
+  import { statusLabel } from '@/classes/components/combat/log/render'
   import RollupDisplay from '@/features/active_mode/runner/gm/EncounterPanels/_components/_RollupDisplay.vue'
   import LogbookImport from './LogbookImport.vue'
   import CcChart from '@/features/active_mode/_components/charts/CcChart.vue'
   import CcPanelToggle from '@/ui/components/buttons/CCPanelToggle.vue'
   import { useChartTheme } from '@/features/active_mode/_components/charts/chartBase'
   import { pilotCharts } from '@/features/active_mode/_components/charts/pilotCharts'
+  import { outcomeText, participantIdFor } from '@/classes/components/combat/log/aar'
+  import AfterActionReport from '@/features/active_mode/_components/aar/AfterActionReport.vue'
+  import { resultLabel } from '@/features/active_mode/_components/aar/results'
+  import type { ILogStream } from '@/classes/components/combat/log/events'
 
   const props = defineProps<{ presetPilot?: string; embedded?: boolean }>()
 
@@ -382,8 +422,20 @@
     records.value.length ? mergeRollups(records.value.map(r => r.rollup)) : blankRollup()
   )
 
+  const LOST_STATUSES = new Set(['kia', 'mia'])
+
+  function pilotLost(r: IEncounterRollup): boolean {
+    if (r.outcome) return LOST_STATUSES.has(r.outcome.pilot ?? '')
+    return r.destroyed
+  }
+
+  function statusCell(r: IEncounterRollup): string {
+    if (r.outcome) return outcomeText(r, t) || statusLabel('pilot.status', 'active', t)
+    return r.destroyed ? t('pm.logbook.destroyed') : '-'
+  }
+
   const headline = computed(() => {
-    const lost = records.value.filter(r => r.rollup.destroyed).length
+    const lost = records.value.filter(r => pilotLost(r.rollup)).length
     return [
       { label: t('common.encounters'), value: records.value.length },
       {
@@ -395,6 +447,7 @@
         label: t('pm.logbook.totalKills'),
         value: rollup.value.killsConfirmed + rollup.value.killsSelfReported,
       },
+      { label: t('active.telemetry.mechsLost'), value: rollup.value.mechsLost },
     ]
   })
 
@@ -406,6 +459,7 @@
     { title: t('pm.logbook.colDealt'), key: 'dealt' },
     { title: t('pm.logbook.colTaken'), key: 'taken' },
     { title: t('pm.logbook.colKills'), key: 'kills' },
+    { title: t('common.status'), key: 'status' },
     { title: t('common.result'), key: 'result' },
     { title: '', key: 'actions', sortable: false },
   ])
@@ -423,7 +477,8 @@
         dealt: r.rollup.totalDealt,
         taken: r.rollup.totalTaken,
         kills: r.rollup.killsConfirmed + r.rollup.killsSelfReported,
-        result: r.rollup.destroyed ? t('pm.logbook.destroyed') : r.result || '-',
+        status: statusCell(r.rollup),
+        result: r.result ? resultLabel(r.result) : '-',
         hasStream: !!logbook.StreamFor(r.encounterId),
       }))
   )
@@ -455,7 +510,9 @@
       rollup.value,
       records.value,
       focusStream.value,
-      focusEntry.value?.logbook.PilotID
+      focusStream.value && focusEntry.value
+        ? participantIdFor(focusStream.value, focusEntry.value.logbook.PilotID)
+        : undefined
     )
   )
 
@@ -496,6 +553,16 @@
     }
     deleteKeys.value = []
     close()
+  }
+
+  const reportOpen = ref(false)
+  const report = ref<{ stream: ILogStream; actorId: string } | null>(null)
+
+  function openReport(pilotId: string, encounterId: string) {
+    const stream = logbooks.value.find(l => l.PilotID === pilotId)?.StreamFor(encounterId)
+    if (!stream) return
+    report.value = { stream, actorId: participantIdFor(stream, pilotId) }
+    reportOpen.value = true
   }
 
   function exportStream(pilotId: string, encounterId: string) {

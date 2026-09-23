@@ -32,7 +32,7 @@ const stream = (
       start: over.start ?? 1000,
       ...over,
     },
-    over.participants ?? [{ id: 'me', name: 'Ghost', type: 'pilot' }],
+    over.participants ?? [{ id: 'me', name: 'test pilot', type: 'pilot' }],
     events,
     (over.source ?? 'gm') as LogSource
   )

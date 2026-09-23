@@ -34,10 +34,9 @@ function gmCharts(
   const out: IChartSpec[] = []
   const top = groups.slice(0, SERIES_CAP)
 
-  // G1 - damage dealt by group
   out.push({
     id: 'G1',
-    title: t('active.charts.g1'),
+    title: t('active.charts.damageByGroup'),
     type: 'bar',
     data: {
       labels: top.map(g => g.label),
@@ -61,14 +60,12 @@ function gmCharts(
     })),
   })
 
-  // G2 - threat against durability. Scatter puts every pair on screen at once, so the method's
-  // all-pairs cap applies: three hues, and identity comes from the tooltip and the table.
   const points = threatScatter(top)
   const maxSize = Math.max(1, ...points.map(pt => pt.size ?? 1))
   out.push({
     id: 'G2',
-    title: t('active.charts.g2'),
-    subtitle: t('active.charts.g2Sub'),
+    title: t('active.charts.threatVsDurability'),
+    subtitle: t('active.charts.threatVsDurabilitySub'),
     type: 'bubble',
     data: {
       datasets: [
@@ -119,12 +116,11 @@ function gmCharts(
     })),
   })
 
-  // G3 - kills per appearance
   const lethality = lethalityPerAppearance(top)
   out.push({
     id: 'G3',
-    title: t('active.charts.g3'),
-    subtitle: t('active.charts.g3Sub'),
+    title: t('active.charts.lethalityPerAppearance'),
+    subtitle: t('active.charts.lethalityPerAppearanceSub'),
     type: 'bar',
     data: {
       labels: lethality.map(s => s.label),
@@ -148,15 +144,13 @@ function gmCharts(
     })),
   })
 
-  // G4 - what a template is worth. Groups already carry both identities, so the comparison is a
-  // filter rather than a second fold.
   const classes = allGroups.filter(g => g.by === 'class').slice(0, SERIES_CAP)
   const templates = allGroups.filter(g => g.by === 'template').slice(0, SERIES_CAP)
   const g4 = [...classes, ...templates]
   out.push({
     id: 'G4',
-    title: t('active.charts.g4'),
-    subtitle: t('active.charts.g4Sub'),
+    title: t('active.charts.classVsTemplate'),
+    subtitle: t('active.charts.classVsTemplateSub'),
     type: 'bar',
     data: {
       labels: g4.map(g => g.label),
@@ -187,11 +181,10 @@ function gmCharts(
     })),
   })
 
-  // G5 - encounter length distribution
   const hist = roundHistogram(streams.map(s => ({ rounds: s.rounds })))
   out.push({
     id: 'G5',
-    title: t('active.charts.g5'),
+    title: t('active.charts.encounterLength'),
     type: 'bar',
     data: {
       labels: hist.map(h => h.label),
@@ -216,11 +209,10 @@ function gmCharts(
     })),
   })
 
-  // G7 - attack outcome mix
   const mix = attackMix(top)
   out.push({
     id: 'G7',
-    title: t('active.charts.g7'),
+    title: t('active.charts.attackOutcomes'),
     type: 'bar',
     data: {
       labels: mix.labels,
@@ -258,60 +250,64 @@ function gmCharts(
     })),
   })
 
-  for (const focus of focusStreams) {
-    // G6 - who did the damage in the selected encounter
-    const share = damageShare(focus)
-    out.push({
-      id: `G6:${focus.encounterId}`,
-      title: t('active.charts.g6'),
-      subtitle: focus.encounterName,
-      type: 'doughnut',
-      data: {
-        labels: share.map(s => s.label),
-        datasets: [
-          {
-            data: share.map(s => s.value),
-            backgroundColor: share.map((_, i) => p.series(i)),
-            borderColor: theme.surface,
-            borderWidth: MARKS.segmentGap,
-          },
-        ],
-      },
-      options: baseOptions(theme, { cutout: '58%' }),
-      table: share.map(s => ({
-        [t('common.name')]: s.label,
-        [t('active.charts.dealt')]: s.value,
-      })),
-    })
-
-    // G8 - where the encounter turned
-    const sides = damageBySide(focus)
-    out.push({
-      id: `G8:${focus.encounterId}`,
-      title: t('active.charts.g8'),
-      subtitle: focus.encounterName,
-      type: 'line',
-      data: {
-        labels: sides.labels,
-        datasets: sides.series.map((s, i) => ({
-          label: sideLabel(t, s.label),
-          data: s.data,
-          ...line(p.series(i)),
-        })),
-      },
-      options: baseOptions(theme, {
-        scales: cartesianScales(theme, {
-          x: { title: { display: true, text: t('active.charts.round'), color: theme.muted } },
-        }),
-      }),
-      table: sides.labels.map((label, i) => ({
-        [t('active.charts.round')]: label,
-        ...Object.fromEntries(sides.series.map(s => [sideLabel(t, s.label), s.data[i]])),
-      })),
-    })
-  }
+  for (const focus of focusStreams) out.push(...encounterCharts(theme, t, focus))
 
   return out
 }
 
-export { gmCharts }
+function encounterCharts(theme: IChartTheme, t: T, focus: ILogStream): IChartSpec[] {
+  const p = theme.palette
+  const out: IChartSpec[] = []
+  const share = damageShare(focus)
+  out.push({
+    id: `G6:${focus.encounterId}`,
+    title: t('active.charts.partyDamageShare'),
+    subtitle: focus.encounterName,
+    type: 'doughnut',
+    data: {
+      labels: share.map(s => s.label),
+      datasets: [
+        {
+          data: share.map(s => s.value),
+          backgroundColor: share.map((_, i) => p.series(i)),
+          borderColor: theme.surface,
+          borderWidth: MARKS.segmentGap,
+        },
+      ],
+    },
+    options: baseOptions(theme, { cutout: '58%' }),
+    table: share.map(s => ({
+      [t('common.name')]: s.label,
+      [t('active.charts.dealt')]: s.value,
+    })),
+  })
+
+  const sides = damageBySide(focus)
+  out.push({
+    id: `G8:${focus.encounterId}`,
+    title: t('active.charts.damageBySide'),
+    subtitle: focus.encounterName,
+    type: 'line',
+    data: {
+      labels: sides.labels,
+      datasets: sides.series.map(s => ({
+        label: sideLabel(t, s.label),
+        data: s.data,
+        ...line(p.side(s.label)),
+      })),
+    },
+    options: baseOptions(theme, {
+      scales: cartesianScales(theme, {
+        x: { title: { display: true, text: t('active.charts.round'), color: theme.muted } },
+      }),
+    }),
+    table: sides.labels.map((label, i) => ({
+      [t('active.charts.round')]: label,
+      ...Object.fromEntries(sides.series.map(s => [sideLabel(t, s.label), s.data[i]])),
+    })),
+  })
+
+  return out
+}
+
+export { gmCharts, encounterCharts }

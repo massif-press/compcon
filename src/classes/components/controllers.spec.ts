@@ -53,39 +53,25 @@ describe('PortraitController', () => {
     expect(pilot.PortraitController.HasImage).toBe(false)
   })
 
-  it('takes a local image', () => {
-    pilot.PortraitController.SetLocalImage('portrait.png')
-
-    expect(pilot.PortraitController.HasImage).toBe(true)
-    expect(pilot.PortraitController.LocalImage).toBe('portrait.png')
-  })
-
-  it('prefers a cloud image when both are set', () => {
-    pilot.PortraitController.SetLocalImage('local.png')
+  it('takes a cloud image', () => {
     pilot.PortraitController.SetCloudImage('https://cloud/img.png')
 
-    expect(pilot.PortraitController.CloudImage).toBe('https://cloud/img.png')
+    expect(pilot.PortraitController.HasImage).toBe(true)
     expect(pilot.PortraitController.Image).toBe('https://cloud/img.png')
   })
 
   it('clears back to no image', () => {
-    pilot.PortraitController.SetLocalImage('local.png')
+    pilot.PortraitController.SetCloudImage('https://cloud/img.png')
     pilot.PortraitController.Clear()
 
     expect(pilot.PortraitController.HasImage).toBe(false)
   })
 
-  it('offers the local portrait as a fallback only when a cloud image is also set', () => {
-    pilot.PortraitController.SetLocalImage('local.png')
-    expect(pilot.PortraitController.FallbackPortrait).toBe('')
-
-    pilot.PortraitController.SetCloudImage('https://cloud/img.png')
-    expect(pilot.PortraitController.FallbackPortrait).toBe('local.png')
-  })
-
   it('round-trips the image block', () => {
-    pilot.PortraitController.SetLocalImage('local.png')
-    pilot.PortraitController.SetCloudImage('https://cloud/img.png')
+    PortraitController.Deserialize(pilot, {
+      portrait: 'local.png',
+      cloud_portrait: 'https://cloud/img.png',
+    })
 
     const target: any = {}
     PortraitController.Serialize(pilot, target)
@@ -93,7 +79,7 @@ describe('PortraitController', () => {
     const other = makePilot()
     PortraitController.Deserialize(other, target.img)
 
-    expect(other.PortraitController.LocalImage).toBe('local.png')
+    expect(target.img.portrait).toBe('local.png')
     expect(other.PortraitController.CloudImage).toBe('https://cloud/img.png')
   })
 

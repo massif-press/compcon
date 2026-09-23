@@ -32,18 +32,18 @@ describe('EncounterInstance construction', () => {
   })
 
   it('starts on round 1', () => {
-    const instance = new EncounterInstance(undefined, makeEncounter('Ambush'), [pilot])
+    const instance = new EncounterInstance(undefined, makeEncounter('Test Encounter'), [pilot])
     expect(instance.Round).toBe(1)
   })
 
   it('only picks up the encounter name once it has been saved and reloaded', () => {
-    const instance = new EncounterInstance(undefined, makeEncounter('Ambush'), [pilot])
+    const instance = new EncounterInstance(undefined, makeEncounter('Test Encounter'), [pilot])
     expect(instance.Name).toBe('New Encounter')
 
     const reloaded = EncounterInstance.Deserialize(
       JSON.parse(JSON.stringify(EncounterInstance.Serialize(instance)))
     )
-    expect(reloaded.Name).toBe('Ambush')
+    expect(reloaded.Name).toBe('Test Encounter')
   })
 
   it('adds each pilot as an ally combatant', () => {
@@ -79,7 +79,7 @@ describe('EncounterInstance construction', () => {
       undefined,
       makeEncounter(),
       [pilot],
-      [placeholder('enemy', 'Unknown Contact')]
+      [placeholder('enemy', 'Test Placeholder 1')]
     )
 
     const ph = instance.Combatants.find(c => c.type === 'placeholder')
@@ -91,7 +91,7 @@ describe('EncounterInstance construction', () => {
       undefined,
       makeEncounter(),
       [pilot, withPilot('Bravo')],
-      [placeholder('ally', 'Drone')]
+      [placeholder('ally', 'Test Placeholder 3')]
     )
 
     expect(instance.Combatants.map(c => c.index)).toEqual([0, 1, 2])
@@ -111,7 +111,7 @@ describe('EncounterInstance.getTargetsSorted', () => {
       undefined,
       makeEncounter(),
       [pilot, withPilot('Bravo')],
-      [placeholder('enemy', 'Hostile'), placeholder('ally', 'Drone')]
+      [placeholder('enemy', 'Test Placeholder 2'), placeholder('ally', 'Test Placeholder 3')]
     )
 
   it('puts the requested side first', () => {
@@ -171,7 +171,7 @@ describe('EncounterInstance.EndRound', () => {
 
 describe('EncounterInstance.Serialize/Deserialize', () => {
   it('round-trips an instance', () => {
-    const instance = new EncounterInstance(undefined, makeEncounter('Ambush'), [pilot])
+    const instance = new EncounterInstance(undefined, makeEncounter('Test Encounter'), [pilot])
     instance.Round = 4
 
     const back = EncounterInstance.Deserialize(
@@ -226,7 +226,7 @@ describe('EncounterInstance.Serialize/Deserialize', () => {
   })
 
   it('clones with a fresh id and identical contents', () => {
-    const instance = new EncounterInstance(undefined, makeEncounter('Ambush'), [pilot])
+    const instance = new EncounterInstance(undefined, makeEncounter('Test Encounter'), [pilot])
     const clone = instance.Clone()
 
     expect(clone.ID).not.toBe(instance.ID)

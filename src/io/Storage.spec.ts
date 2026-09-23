@@ -40,8 +40,6 @@ import {
   ClearAll,
   SetValue,
   GetValue,
-  AddBlob,
-  GetBlob,
   ClearAllData,
   GetTotalStorageSize,
   saveAll,
@@ -146,18 +144,10 @@ describe('SetValue/GetValue', () => {
   })
 })
 
-describe('blobs', () => {
-  it('stores a blob unserialized', async () => {
-    const blob = new Blob(['abc'])
-    await AddBlob('remote_images', 'k', blob)
-    expect(await GetBlob('remote_images', 'k')).toBe(blob)
-  })
-})
-
 describe('GetTotalStorageSize', () => {
-  it('sums blob bytes and string lengths across every store', async () => {
+  it('sums string lengths across every store', async () => {
     await SetValue('a', 1)
-    await AddBlob('remote_images', 'k', new Blob(['12345']))
+    await SetItem('remote_images', '12345')
     const size = await GetTotalStorageSize()
     expect(size).toBe('1'.length + 5)
   })

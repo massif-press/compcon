@@ -6,7 +6,7 @@ import { Unit } from '@/classes/npc/unit/Unit'
 import { makePilot, makeMech, makeNpc } from '@/__tests__/factories'
 
 const v3Pilot = () => {
-  const p = makePilot({ name: 'Nelson', callsign: 'HAMMER', level: 6 })
+  const p = makePilot({ name: 'Test Pilot 1', callsign: 'TEST1', level: 6 })
   makeMech(p)
   return Pilot.Serialize(p) as any
 }
@@ -16,8 +16,8 @@ describe('convertTov2Pilot', () => {
     const v2 = convertTov2Pilot(v3Pilot())
 
     expect(isV2Pilot(v2)).toBe(true)
-    expect(v2.callsign).toBe('HAMMER')
-    expect(v2.name).toBe('Nelson')
+    expect(v2.callsign).toBe('TEST1')
+    expect(v2.name).toBe('Test Pilot 1')
     expect(v2.level).toBe(6)
   })
 
@@ -81,14 +81,14 @@ describe('convertTov2Pilot', () => {
     expect(back.itemType).toBe('pilot')
 
     const reloaded = Pilot.Deserialize(back)
-    expect(reloaded.Callsign).toBe('HAMMER')
+    expect(reloaded.Callsign).toBe('TEST1')
     expect(reloaded.Level).toBe(6)
   })
 })
 
 describe('convertTov2Npc', () => {
   const v3Npc = () => {
-    const u = makeNpc('Pursuer Alpha')
+    const u = makeNpc('Test NPC 1')
     return Unit.Serialize(u, false) as any
   }
 
@@ -96,7 +96,7 @@ describe('convertTov2Npc', () => {
     const v2 = convertTov2Npc(v3Npc())
 
     expect(isV2Npc(v2)).toBe(true)
-    expect(v2.name).toBe('Pursuer Alpha')
+    expect(v2.name).toBe('Test NPC 1')
     expect(v2.side).toBe('Enemy')
   })
 

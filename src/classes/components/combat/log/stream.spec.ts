@@ -28,8 +28,14 @@ const ev = <K extends LogEventKind>(
   }) as ILogEvent
 
 const participants: IActorRef[] = [
-  { id: 'ghost', name: 'Ghost', type: 'pilot', originId: 'pilot-7' },
-  { id: 'bob', name: 'BOB', type: 'npc', npcClassId: 'npcc_bombard', npcClassName: 'Bombard' },
+  { id: 'test pilot', name: 'test pilot', type: 'pilot', originId: 'pilot-7' },
+  {
+    id: 'test npc',
+    name: 'test npc',
+    type: 'npc',
+    npcClassId: 'npcc_bombard',
+    npcClassName: 'Bombard',
+  },
   { id: 'other', name: 'Someone Else', type: 'pilot' },
 ]
 
@@ -38,11 +44,11 @@ const gmStream = (): ILogStream =>
     { encounterId: 'enc-1', encounterName: 'Test Encounter', result: 'victory' },
     participants,
     [
-      ev('damage', { targetId: 'bob', damageType: 'Kinetic', final: 8 }, 'ghost'),
-      ev('damage', { targetId: 'ghost', damageType: 'Energy', final: 4 }, 'bob'),
+      ev('damage', { targetId: 'test npc', damageType: 'Kinetic', final: 8 }, 'test pilot'),
+      ev('damage', { targetId: 'test pilot', damageType: 'Energy', final: 4 }, 'test npc'),
       ev('move', { spent: 3, mode: 'move' }, 'other'),
-      ev('damage', { targetId: 'other', damageType: 'Kinetic', final: 2 }, 'bob'),
-      ev('actor.destroy', { targetId: 'bob' }, 'ghost'),
+      ev('damage', { targetId: 'other', damageType: 'Kinetic', final: 2 }, 'test npc'),
+      ev('actor.destroy', { targetId: 'test npc' }, 'test pilot'),
     ]
   )
 
@@ -55,30 +61,34 @@ describe('the transfer stream', () => {
   })
 
   it('counts an actor as concerned whether it acted or was acted upon', () => {
-    const dealt = ev('damage', { targetId: 'bob', damageType: 'Kinetic', final: 8 }, 'ghost')
+    const dealt = ev(
+      'damage',
+      { targetId: 'test npc', damageType: 'Kinetic', final: 8 },
+      'test pilot'
+    )
 
-    expect(concernsActor(dealt, 'ghost')).toBe(true)
-    expect(concernsActor(dealt, 'bob')).toBe(true)
+    expect(concernsActor(dealt, 'test pilot')).toBe(true)
+    expect(concernsActor(dealt, 'test npc')).toBe(true)
     expect(concernsActor(dealt, 'other')).toBe(false)
   })
 
   it("hands a player only their own fight, not everyone else's", () => {
-    const mine = extractActorStream(gmStream(), 'ghost')
+    const mine = extractActorStream(gmStream(), 'test pilot')
 
     expect(mine.events).toHaveLength(3)
-    expect(mine.events.every(e => concernsActor(e, 'ghost'))).toBe(true)
+    expect(mine.events.every(e => concernsActor(e, 'test pilot'))).toBe(true)
     expect(mine.events.some(e => e.actorId === 'other')).toBe(false)
   })
 
   it('carries the refs its events mention and drops the ones they do not', () => {
-    const mine = extractActorStream(gmStream(), 'ghost')
+    const mine = extractActorStream(gmStream(), 'test pilot')
 
-    expect(mine.participants.map(p => p.id).sort()).toEqual(['bob', 'ghost'])
-    expect(mine.participants.find(p => p.id === 'bob')!.npcClassName).toBe('Bombard')
+    expect(mine.participants.map(p => p.id).sort()).toEqual(['test npc', 'test pilot'])
+    expect(mine.participants.find(p => p.id === 'test npc')!.npcClassName).toBe('Bombard')
   })
 
   it('keeps the encounter identity so an import can reconcile against it', () => {
-    const mine = extractActorStream(gmStream(), 'ghost')
+    const mine = extractActorStream(gmStream(), 'test pilot')
 
     expect(mine.encounterId).toBe('enc-1')
     expect(mine.encounterName).toBe('Test Encounter')
@@ -86,7 +96,7 @@ describe('the transfer stream', () => {
   })
 
   it('survives a round trip through JSON, which is how it travels', () => {
-    const mine = extractActorStream(gmStream(), 'ghost')
+    const mine = extractActorStream(gmStream(), 'test pilot')
     const back = readStream(JSON.parse(JSON.stringify(mine)))!
 
     expect(back.events).toHaveLength(mine.events.length)

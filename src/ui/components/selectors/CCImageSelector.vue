@@ -166,7 +166,6 @@
         Avatar: any
         CloudImage: string
         Clear(): void
-        SetLocalImage(src: string): void
       }
     }
     type: string
@@ -218,8 +217,37 @@
     else if (selectedImage.value.url) img = selectedImage.value.url
     else img = `${distributor}/${selectedImage.value.uri}`
 
+    const changed = props.item.PortraitController.CloudImage !== img
     props.item.PortraitController.CloudImage = img
     if (!props.avatar) close()
+    else if (changed) {
+      props.item.PortraitController.Avatar = undefined
+      autoSetAvatar(img)
+    }
+  }
+  function autoSetAvatar(src: string) {
+    const img = new Image()
+    img.onload = () => {
+      if (props.item.PortraitController.CloudImage !== src) return
+      const { naturalWidth: width, naturalHeight: height } = img
+      const size = Math.min(width, height)
+      if (!size || Math.max(width, height) / size > 1.1) return
+      props.item.PortraitController.Avatar = {
+        image: {
+          src,
+          width,
+          height,
+          transforms: { rotate: 0, flip: { horizontal: false, vertical: false } },
+        },
+        coordinates: {
+          left: Math.round((width - size) / 2),
+          top: Math.round((height - size) / 2),
+          width: size,
+          height: size,
+        },
+      }
+    }
+    img.src = src
   }
   function open() {}
   function close() {
@@ -231,11 +259,6 @@
   function setAvatar(avatar, closeFn: () => void) {
     props.item.PortraitController.Avatar = avatar
     closeFn()
-  }
-  function setLocalImage(img: any) {
-    selectedImage.value = img
-    selectedImageKey.value = img.key
-    props.item.PortraitController.SetLocalImage(img.key)
   }
   function setLibImage(img: any) {
     selectedImageKey.value = ''

@@ -9,7 +9,6 @@ import {
 } from '../components'
 import { Encounter, IEncounterData } from './Encounter'
 import type { ILogEvent, IActorRef, ILogStream } from '../components/combat/log/events'
-import { combatantRef } from '../components/combat/log/refs'
 import { buildStream, extractActorStream } from '../components/combat/log/stream'
 import { EncounterInstance } from './EncounterInstance'
 
@@ -74,6 +73,7 @@ class EncounterArchive implements ISaveable, ICloudSyncable {
     result: string
   ): EncounterArchive {
     instance.Encounter.Combatants = instance.Combatants
+    const stream = instance.Stream
     const data = {
       itemType: 'EncounterArchive',
       id: instance.ID,
@@ -89,11 +89,8 @@ class EncounterArchive implements ISaveable, ICloudSyncable {
       },
       encounter: Encounter.Serialize(instance.Encounter),
       history: {
-        participants: instance.Combatants.map(combatantRef),
-        events: instance.Combatants.flatMap(c => [
-          ...c.actor.CombatController.CombatLog.Events,
-          ...(c.actor.ActiveMech?.CombatController.CombatLog.Events ?? []),
-        ]).sort((a, b) => a.ts - b.ts || a.seq - b.seq),
+        participants: stream.participants,
+        events: stream.events,
       },
       report,
     }

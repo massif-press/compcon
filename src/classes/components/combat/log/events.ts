@@ -163,8 +163,9 @@ export interface ILogPayloads {
   'deployable.destroy': { deployable: IRef }
 
   'actor.destroy': { targetId?: string; selfReported?: boolean; cause?: string }
-  'pilot.status': { from?: string; to: string }
-  'mech.status': { from?: string; to: string }
+  'pilot.status': { from?: string; to: string; manual?: boolean }
+  'mech.status': { from?: string; to: string; manual?: boolean }
+  'npc.status': { from?: string; to: string; manual?: boolean }
 
   repair: { kind: string; cost?: number; restored?: Record<string, number> }
   stabilize: { choices: string[] }
@@ -238,6 +239,7 @@ export const LOG_EVENT_KEYS: Record<LogEventKind, string> = {
   'actor.destroy': 'actorDestroy',
   'pilot.status': 'pilotStatus',
   'mech.status': 'mechStatus',
+  'npc.status': 'npcStatus',
   repair: 'repair',
   stabilize: 'stabilize',
   reload: 'reload',

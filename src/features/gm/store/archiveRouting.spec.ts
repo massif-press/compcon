@@ -30,7 +30,7 @@ function streamFor(actorId: string): ILogStream {
     rounds: 3,
     result: 'victory',
     source: 'gm',
-    participants: [{ id: actorId, name: 'RAT', type: 'pilot' }],
+    participants: [{ id: actorId, name: 'Test Pilot 1', type: 'pilot' }],
     events: [
       {
         id: 'e1',
@@ -65,7 +65,7 @@ describe('EncounterStore.RouteArchiveToLogbooks', () => {
 
   it('creates a logbook and records the encounter for a local pilot', async () => {
     await EncounterStore().RouteArchiveToLogbooks(
-      archive([{ id: 'pilot-a', name: 'RAT', type: 'pilot' }])
+      archive([{ id: 'pilot-a', name: 'Test Pilot 1', type: 'pilot' }])
     )
 
     const logbook = PilotStore().getLogbookByPilotID('pilot-a')
@@ -77,7 +77,7 @@ describe('EncounterStore.RouteArchiveToLogbooks', () => {
 
   it('resolves an instance participant through its originId', async () => {
     await EncounterStore().RouteArchiveToLogbooks(
-      archive([{ id: 'instance-1', originId: 'pilot-a', name: 'RAT', type: 'pilot' }])
+      archive([{ id: 'instance-1', originId: 'pilot-a', name: 'Test Pilot 1', type: 'pilot' }])
     )
 
     expect(PilotStore().getLogbookByPilotID('pilot-a')).toBeDefined()
@@ -86,8 +86,8 @@ describe('EncounterStore.RouteArchiveToLogbooks', () => {
   it('ignores non-pilot participants and pilots not in the local roster', async () => {
     await EncounterStore().RouteArchiveToLogbooks(
       archive([
-        { id: 'npc-1', name: 'ASSAULT', type: 'npc' },
-        { id: 'pilot-b', name: 'GHOST', type: 'pilot' },
+        { id: 'npc-1', name: 'Test NPC 1', type: 'npc' },
+        { id: 'pilot-b', name: 'test pilot', type: 'pilot' },
       ])
     )
 
@@ -95,7 +95,7 @@ describe('EncounterStore.RouteArchiveToLogbooks', () => {
   })
 
   it('replaces rather than duplicates when the same encounter is archived twice', async () => {
-    const a = archive([{ id: 'pilot-a', name: 'RAT', type: 'pilot' }])
+    const a = archive([{ id: 'pilot-a', name: 'Test Pilot 1', type: 'pilot' }])
     await EncounterStore().RouteArchiveToLogbooks(a)
     await EncounterStore().RouteArchiveToLogbooks(a)
 

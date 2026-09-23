@@ -101,7 +101,7 @@ describe('PilotSheet', () => {
   let pilot: ReturnType<typeof makePilot>
 
   beforeEach(() => {
-    pilot = makePilot({ name: 'Nelson', callsign: 'HAMMER' })
+    pilot = makePilot({ name: 'Test Pilot 1', callsign: 'TEST1' })
     makeMech(pilot)
   })
 
@@ -112,7 +112,7 @@ describe('PilotSheet', () => {
 
     expect(back.ID).toBe(sheet.ID)
     expect(back.Name).toBe(sheet.Name)
-    expect(back.Combatant.actor.Callsign).toBe('HAMMER')
+    expect(back.Combatant.actor.Callsign).toBe('TEST1')
   })
 
   it('copies the pilot rather than holding the roster object', () => {

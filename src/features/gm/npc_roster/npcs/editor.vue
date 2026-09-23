@@ -62,6 +62,37 @@
           />
         </template>
       </cc-dialog>
+      <cc-dialog
+        :title="`${item.Name} ${$t('active.telemetry.telemetry')}`"
+        icon="mdi-chart-donut-variant"
+        :close-on-click="false"
+      >
+        <template #activator="{ open }">
+          <cc-button
+            prepend-icon="mdi-chart-donut-variant"
+            size="small"
+            class="ml-2"
+            @click="open"
+          >
+            {{ $t('active.telemetry.telemetry') }}
+          </cc-button>
+        </template>
+        <template #default>
+          <div
+            v-if="!telemetry.encounters"
+            class="text-center text-disabled text-cc-overline pa-4"
+          >
+            {{ $t('gm.npcEditor.noTelemetry') }}
+          </div>
+          <div v-else>
+            <div class="text-caption text-disabled mb-1">
+              {{ $t('active.telemetry.encountersLogged') }}
+              <b class="text-accent">{{ telemetry.encounters }}</b>
+            </div>
+            <rollup-display :rollup="telemetry.rollup" />
+          </div>
+        </template>
+      </cc-dialog>
     </template>
     <div v-if="item.NpcClassController?.HasClass">
       <features
@@ -77,7 +108,11 @@
   import StatEditor from '../../_components/StatEditor.vue'
   import NpcTierSelector from './_components/NpcTierSelector.vue'
   import NpcStatblock from './_components/NpcStatblock.vue'
+  import { computed } from 'vue'
   import { NpcStore } from '@/stores'
+  import { EncounterStore } from '@/features/gm/store/encounter_store'
+  import { reduceEvents, mergeRollups } from '@/classes/components/combat/log/telemetry'
+  import RollupDisplay from '@/features/active_mode/runner/gm/EncounterPanels/_components/_RollupDisplay.vue'
   import Features from './features.vue'
   import Builder from './builder.vue'
   import { Unit } from '@/classes/npc/unit/Unit'
@@ -103,6 +138,19 @@
   const emit = defineEmits<{
     exit: []
   }>()
+
+  const telemetry = computed(() => {
+    let encounters = 0
+    const rollups = EncounterStore()
+      .ArchivedEncounters.filter(a => !a.SaveController.IsDeleted && a.History.events.length)
+      .flatMap(a => {
+        const stream = a.Stream
+        const hits = stream.participants.filter(p => p.originId === props.item.ID)
+        if (hits.length) encounters++
+        return hits.map(p => reduceEvents(stream.events, p.id))
+      })
+    return { encounters, rollup: mergeRollups(rollups) }
+  })
 
   function exit() {
     emit('exit')

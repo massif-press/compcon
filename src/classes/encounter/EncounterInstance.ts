@@ -17,6 +17,12 @@ import { Pilot, PilotData } from '../pilot/Pilot'
 import { Placeholder } from './Placeholder'
 import { deployToCombatant } from '../components/feature/deployable/DeployableInstance'
 import { Eidolon } from '../npc/eidolon/Eidolon'
+import { combatantRef } from '../components/combat/log/refs'
+import { buildStream } from '../components/combat/log/stream'
+import { eventsFor } from '../components/combat/log/CombatLogRecorder'
+import { commitOutcome } from '../components/combat/log/outcome'
+import type { IOutcome } from '../components/combat/log/outcome'
+import type { ILogStream } from '../components/combat/log/events'
 
 interface IEncounterInstanceData {
   itemType: 'EncounterInstance'
@@ -248,7 +254,25 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     }
   }
 
-  public EndEncounter(result = ''): void {
+  public get Stream(): ILogStream {
+    const events = this.Combatants.flatMap(c => eventsFor(c.actor))
+    const tagged = events.find(e => e.campaignId || e.missionId)
+    return buildStream(
+      {
+        encounterId: this.ID,
+        encounterName: this.Encounter.Name,
+        campaignId: tagged?.campaignId,
+        missionId: tagged?.missionId,
+        start: this.Created,
+        rounds: this.Round,
+      },
+      this.Combatants.map(combatantRef),
+      events
+    )
+  }
+
+  public EndEncounter(result = '', outcomes: Record<string, IOutcome> = {}): void {
+    for (const c of this.Combatants) if (outcomes[c.id]) commitOutcome(c, outcomes[c.id])
     for (const c of this.Combatants) {
       c.actor.CombatController.EndEncounter()
       if (c.actor.ActiveMech) c.actor.ActiveMech.CombatController.EndEncounter()

@@ -69,13 +69,21 @@
     },
     {
       "name": "juan gee",
-      "image": "https://images.squarespace-cdn.com/content/v1/6054461d8d144513dc0780ed/1616135835236-5QRZTGS2ZIDG1DWZ1VBP/jg+signature.png?format=1500w",
-      "website": "http://juangeedraws-portfolio.squarespace.com/"
+      "image": "https://cdn.bsky.app/img/avatar/plain/did:plc:lcwgym4rejxo3pvwltamedvy/bafkreibwcxxnkebkoiotkltce5rsddet5odo63e7spar3dcul2htmwkxei",
+      "website": "http://juangeedraws-portfolio.squarespace.com/",
+      "bsky": "juangeedraws.bsky.social"
     },
     {
       "name": "WampyreKeli",
-      "image": "https://pbs.twimg.com/profile_images/1505243993097084928/5YkoPhmP_400x400.jpg",
-      "website": "https://www.wampyrekeli.com/"
+      "image": "https://cdn.bsky.app/img/avatar/plain/did:plc:ota2ss5fz26mgkfnwayjbobf/bafkreibrjfasp3ksaudmp25vgqblwzzxjpizscqsnxp4lptigttjozhvuy",
+      "website": "https://www.wampyrekeli.com/",
+      "bsky": "wampyrekeli.bsky.social"
+    },
+    {
+      "name": "Ein",
+      "image": "https://img.itch.zone/aW1nLzI4MDQ4NDI1LmpwZw==/80x80%23/Y1emIJ.jpg",
+      "website": "https://einflys.itch.io/",
+      "bsky": "einflys.bsky.social"
     }
   ]
 }

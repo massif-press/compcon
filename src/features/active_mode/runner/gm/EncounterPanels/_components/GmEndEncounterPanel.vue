@@ -1,13 +1,15 @@
 <template>
   <end-encounter-panel
-    :action-report="props.encounterInstance.Combatants"
-    confirm-message="Ending this encounter will close the active instance and send a copy to the archive. Archived encounters can not be resumed (but may be restarted). Are you sure you want to continue?"
+    :combatants="props.encounterInstance.Combatants"
+    :build-stream="() => props.encounterInstance.Stream"
+    :confirm-message="$t('active.endEnc.gmConfirm')"
     @end="end"
   />
 </template>
 
 <script setup lang="ts">
   import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+  import type { IOutcome } from '@/classes/components/combat/log/outcome'
   import { EncounterStore } from '@/stores'
   import EndEncounterPanel from '@/features/active_mode/_components/EndEncounterPanel.vue'
   import { bypassLeaveGuard } from '../../../_shared/useRunnerOptions'
@@ -18,19 +20,9 @@
     encounterInstance: EncounterInstance
   }>()
 
-  async function end(result: string) {
-    props.encounterInstance.EndEncounter(result)
-    const report = props.encounterInstance.Combatants.map(c => ({
-      name: c.actor.CombatController.CombatName,
-      status: c.status,
-      pilotStatus: c.pilotStatus,
-      mechStatus: c.mechStatus,
-    }))
+  async function end(result: string, outcomes: Record<string, IOutcome>) {
+    props.encounterInstance.EndEncounter(result, outcomes)
     bypassLeaveGuard()
-    await EncounterStore().ArchiveEncounterInstance(
-      props.encounterInstance,
-      JSON.stringify(report, null, 2),
-      result
-    )
+    await EncounterStore().ArchiveEncounterInstance(props.encounterInstance, '', result)
   }
 </script>

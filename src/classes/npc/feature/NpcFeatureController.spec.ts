@@ -36,9 +36,9 @@ describe('NpcFeatureController', () => {
     const source = packFeature()
     expect(source.ItemData).toBe(featureData)
 
-    const a = makeNpc('A')
+    const a = makeNpc('Test NPC A')
     a.NpcFeatureController.AddFeature(source)
-    const b = makeNpc('B')
+    const b = makeNpc('Test NPC B')
     b.NpcFeatureController.AddFeature(source)
 
     const featA = a.NpcFeatureController.Features[0]
@@ -62,7 +62,7 @@ describe('NpcFeatureController', () => {
       flavorDescription: 'stale description',
     } as unknown as INpcFeatureData)
 
-    const npc = makeNpc('Assault')
+    const npc = makeNpc('Test NPC 1')
     npc.NpcFeatureController.AddFeature(poisoned)
     const feat = npc.NpcFeatureController.Features[0]
 
@@ -72,7 +72,7 @@ describe('NpcFeatureController', () => {
   })
 
   it('round-trips used state for features not in the compendium', () => {
-    const npc = npcWithFeature('Pursuer')
+    const npc = npcWithFeature('Test NPC 1')
     npc.NpcFeatureController.Features[0].Used = true
 
     const loaded = Unit.Deserialize(JSON.parse(JSON.stringify(npc.Serialize())))
@@ -81,7 +81,7 @@ describe('NpcFeatureController', () => {
   })
 
   it('leaves unused features unused across a round trip', () => {
-    const npc = npcWithFeature('Pursuer')
+    const npc = npcWithFeature('Test NPC 1')
 
     const loaded = Unit.Deserialize(JSON.parse(JSON.stringify(npc.Serialize())))
 

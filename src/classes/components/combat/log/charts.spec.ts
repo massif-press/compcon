@@ -30,7 +30,7 @@ function rollup(over: Partial<IEncounterRollup> = {}): IEncounterRollup {
 function record(over: Partial<IChartRecord> = {}): IChartRecord {
   return {
     encounterId: crypto.randomUUID(),
-    encounterName: 'Fight',
+    encounterName: 'Test Encounter',
     start: 0,
     rounds: 1,
     rollup: rollup(),
@@ -58,7 +58,7 @@ function stream(participants: any[], events: ILogEvent[]): ILogStream {
   return {
     v: 1,
     encounterId: 'e1',
-    encounterName: 'Fight',
+    encounterName: 'Test Encounter',
     start: 0,
     rounds: 3,
     source: 'gm',
@@ -185,7 +185,7 @@ describe('within-encounter series (P9, P10, P11)', () => {
 
   it('buckets damage taken and dealt by round', () => {
     const s = stream(
-      [{ id: me, name: 'Me', type: 'pilot' }],
+      [{ id: me, name: 'Test Pilot 1', type: 'pilot' }],
       [dmg(1, them, me, 5), dmg(3, me, them, 7)]
     )
     const out = damagePerRound(s, me)
@@ -196,7 +196,7 @@ describe('within-encounter series (P9, P10, P11)', () => {
 
   it('holds the last heat value through rounds with no heat event', () => {
     const s = stream(
-      [{ id: me, name: 'Me', type: 'pilot' }],
+      [{ id: me, name: 'Test Pilot 1', type: 'pilot' }],
       [
         event('heat', 1, me, { amount: 3, current: 3, cap: 6, dangerZone: false }),
         event('heat', 3, me, { amount: 2, current: 5, cap: 6, dangerZone: true }),
@@ -209,7 +209,7 @@ describe('within-encounter series (P9, P10, P11)', () => {
 
   it('comes back down when heat is cleared, not just up when it is gained', () => {
     const s = stream(
-      [{ id: me, name: 'Me', type: 'pilot' }],
+      [{ id: me, name: 'Test Pilot 1', type: 'pilot' }],
       [
         event('heat', 1, me, { amount: 5, current: 5, cap: 6, dangerZone: true }),
         event('heat', 3, me, {
@@ -319,24 +319,24 @@ describe('group charts (G2, G3, G5, G6, G7)', () => {
   it('shares damage between pilots and drops anyone who dealt none', () => {
     const s = stream(
       [
-        { id: 'p1', name: 'RAT', type: 'pilot' },
-        { id: 'p2', name: 'GHOST', type: 'pilot' },
-        { id: 'n1', name: 'ASSAULT', type: 'npc' },
+        { id: 'p1', name: 'Test Pilot 1', type: 'pilot' },
+        { id: 'p2', name: 'Test Pilot 2', type: 'pilot' },
+        { id: 'n1', name: 'Test NPC 1', type: 'npc' },
       ],
       [dmg(1, 'p1', 'n1', 12), dmg(1, 'n1', 'p1', 30)]
     )
-    expect(damageShare(s)).toEqual([{ key: 'p1', label: 'RAT', value: 12 }])
+    expect(damageShare(s)).toEqual([{ key: 'p1', label: 'Test Pilot 1', value: 12 }])
   })
 
   it('keeps participant order so a rank change cannot repaint a pilot', () => {
     const s = stream(
       [
-        { id: 'p1', name: 'RAT', type: 'pilot' },
-        { id: 'p2', name: 'GHOST', type: 'pilot' },
+        { id: 'p1', name: 'Test Pilot 1', type: 'pilot' },
+        { id: 'p2', name: 'Test Pilot 2', type: 'pilot' },
       ],
       [dmg(1, 'p1', 'n1', 3), dmg(1, 'p2', 'n1', 99)]
     )
-    expect(damageShare(s).map(x => x.label)).toEqual(['RAT', 'GHOST'])
+    expect(damageShare(s).map(x => x.label)).toEqual(['Test Pilot 1', 'Test Pilot 2'])
   })
 })
 
@@ -344,8 +344,8 @@ describe('damageBySide (G8)', () => {
   it('resolves side through the participants and accumulates per round', () => {
     const s = stream(
       [
-        { id: 'p1', name: 'RAT', type: 'pilot', side: 'ally' },
-        { id: 'n1', name: 'ASSAULT', type: 'npc', side: 'enemy' },
+        { id: 'p1', name: 'Test Pilot 1', type: 'pilot', side: 'ally' },
+        { id: 'n1', name: 'Test NPC 1', type: 'npc', side: 'enemy' },
       ],
       [dmg(1, 'p1', 'n1', 5), dmg(2, 'n1', 'p1', 3), dmg(2, 'p1', 'n1', 5)]
     )
@@ -357,8 +357,8 @@ describe('damageBySide (G8)', () => {
 
   it('files an actor the header never mentioned under unknown rather than dropping it', () => {
     const s = stream(
-      [{ id: 'p1', name: 'RAT', type: 'pilot', side: 'ally' }],
-      [dmg(1, 'ghost', 'p1', 4)]
+      [{ id: 'p1', name: 'Test Pilot 1', type: 'pilot', side: 'ally' }],
+      [dmg(1, 'Test Pilot 2', 'p1', 4)]
     )
     expect(damageBySide(s).series.map(x => x.label)).toEqual(['ally'])
     expect(damageBySide(s).series[0].data).toEqual([0])

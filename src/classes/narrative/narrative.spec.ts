@@ -116,34 +116,34 @@ describe('narrative collection items', () => {
     ['Location', Location],
   ])('%s round-trips its identity', (_name, Cls: any) => {
     const item = new Cls()
-    item.Name = 'Subject Alpha'
+    item.Name = 'Test Character'
 
     const back = Cls.Deserialize(JSON.parse(JSON.stringify(Cls.Serialize(item))))
 
     expect(back.ID).toBe(item.ID)
-    expect(back.Name).toBe('Subject Alpha')
+    expect(back.Name).toBe('Test Character')
     expect(back.ItemType).toBe(item.ItemType)
   })
 
   it('clones a character under a new id', () => {
     const c = new Character()
-    c.Name = 'Subject Alpha'
+    c.Name = 'Test Character'
 
     const clone = c.Clone() as Character
 
     expect(clone.ID).not.toBe(c.ID)
-    expect(clone.Name).toContain('Subject Alpha')
+    expect(clone.Name).toContain('Test Character')
   })
 
   it('carries alias, title, and pronouns through a round-trip', () => {
     const c = new Character()
-    c.Alias = 'Ghost'
+    c.Alias = 'test pilot'
     c.Title = 'Captain'
     c.Pronouns = 'they/them'
 
     const back = Character.Deserialize(Character.Serialize(c))
 
-    expect(back.Alias).toBe('Ghost')
+    expect(back.Alias).toBe('test pilot')
     expect(back.Title).toBe('Captain')
     expect(back.Pronouns).toBe('they/them')
   })

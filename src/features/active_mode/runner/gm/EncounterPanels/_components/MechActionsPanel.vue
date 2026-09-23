@@ -344,7 +344,7 @@
   }
 </script>
 <style scoped>
-  .v-expansion-panel-text >>> .v-expansion-panel-text__wrapper {
+  .v-expansion-panel-text :deep(.v-expansion-panel-text__wrapper) {
     padding: 8px;
   }
 </style>

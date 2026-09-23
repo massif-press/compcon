@@ -49,7 +49,7 @@ describe('identitiesOf', () => {
   it('emits one key per identity the ref carries', () => {
     const keys = identitiesOf({
       id: 'a',
-      name: 'ASSAULT',
+      name: 'Test NPC 1',
       type: 'npc',
       originId: 'roster-1',
       npcClassId: 'assault',
@@ -83,14 +83,14 @@ describe('groupStreams', () => {
   it('sums a class across encounters and counts each appearance', () => {
     const a: IActorRef = {
       id: 'a1',
-      name: 'A',
+      name: 'Test NPC A',
       type: 'npc',
       npcClassId: 'assault',
       npcClassName: 'Assault',
     }
     const b: IActorRef = {
       id: 'b1',
-      name: 'B',
+      name: 'Test NPC B',
       type: 'npc',
       npcClassId: 'assault',
       npcClassName: 'Assault',
@@ -109,7 +109,7 @@ describe('groupStreams', () => {
   })
 
   it('attributes damage taken to the target, not the dealer', () => {
-    const attacker: IActorRef = { id: 'a1', name: 'A', type: 'npc' }
+    const attacker: IActorRef = { id: 'a1', name: 'Test NPC A', type: 'npc' }
     const victim: IActorRef = { id: 'v1', name: 'V', type: 'pilot' }
 
     const groups = groupStreams([stream([attacker, victim], [damage('a1', 'v1', 7)])])
@@ -120,7 +120,7 @@ describe('groupStreams', () => {
   })
 
   it('scopes by campaign and by actor type', () => {
-    const npc: IActorRef = { id: 'a1', name: 'A', type: 'npc' }
+    const npc: IActorRef = { id: 'a1', name: 'Test NPC A', type: 'npc' }
     const pilot: IActorRef = { id: 'p1', name: 'P', type: 'pilot' }
     const streams = [
       stream([npc, pilot], [damage('a1', 'p1', 3)], { campaignId: 'c1' }),
@@ -145,8 +145,8 @@ describe('participant ids match the ids on recorded events', () => {
     const pilot = makePilot()
     makeMech(pilot)
     const encounter = new Encounter()
-    encounter.Name = 'Ambush'
-    encounter.AddCombatant(makeNpc('ASSAULT'))
+    encounter.Name = 'Test Encounter'
+    encounter.AddCombatant(makeNpc('Test NPC 1'))
     instance = new EncounterInstance(undefined, encounter, [pilot])
   })
 

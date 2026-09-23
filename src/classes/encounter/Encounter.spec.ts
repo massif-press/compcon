@@ -6,7 +6,7 @@ let encounter: Encounter
 
 beforeEach(() => {
   encounter = new Encounter()
-  encounter.Name = 'Ambush'
+  encounter.Name = 'Test Encounter'
 })
 
 describe('Encounter defaults', () => {
@@ -24,22 +24,22 @@ describe('Encounter defaults', () => {
 
 describe('Encounter.AddCombatant', () => {
   it('adds an npc as a combatant instance', () => {
-    encounter.AddCombatant(makeNpc('Pursuer') as never)
+    encounter.AddCombatant(makeNpc('Test NPC 1') as never)
 
     expect(encounter.Combatants).toHaveLength(1)
     expect(encounter.Combatants[0].type).toBe('unit')
-    expect(encounter.Combatants[0].actor.Name).toBe('Pursuer')
+    expect(encounter.Combatants[0].actor.Name).toBe('Test NPC 1')
   })
 
   it('copies the npc rather than holding the roster object', () => {
-    const npc = makeNpc('Pursuer')
+    const npc = makeNpc('Test NPC 1')
     encounter.AddCombatant(npc as never)
 
     expect(encounter.Combatants[0].actor).not.toBe(npc)
   })
 
   it('does not share max stats with the roster npc, even through a round trip', () => {
-    const npc = makeNpc('Pursuer')
+    const npc = makeNpc('Test NPC 1')
     npc.CombatController.StatController.setMax('hp', 10)
     encounter.AddCombatant(npc as never)
 
@@ -55,7 +55,7 @@ describe('Encounter.AddCombatant', () => {
   })
 
   it('does not share mutable per-actor state with the roster npc', () => {
-    const npc = makeNpc('Pursuer')
+    const npc = makeNpc('Test NPC 1')
     npc.UIState['expanded'] = true
     npc.CombatController.CounterController.createCustomCounter('ammo')
     encounter.AddCombatant(npc as never)
@@ -81,9 +81,9 @@ describe('Encounter.AddCombatant', () => {
   })
 
   it('numbers duplicates of the same name', () => {
-    encounter.AddCombatant(makeNpc('Pursuer') as never)
-    encounter.AddCombatant(makeNpc('Pursuer') as never)
-    encounter.AddCombatant(makeNpc('Witch') as never)
+    encounter.AddCombatant(makeNpc('Test NPC 1') as never)
+    encounter.AddCombatant(makeNpc('Test NPC 1') as never)
+    encounter.AddCombatant(makeNpc('Test NPC 2') as never)
 
     expect(encounter.Combatants.map(c => c.number)).toEqual([1, 2, 1])
   })
@@ -97,26 +97,30 @@ describe('Encounter.AddCombatant', () => {
 
 describe('Encounter.RemoveCombatant', () => {
   it('removes by index and records a tombstone', () => {
-    encounter.AddCombatant(makeNpc('A') as never)
-    encounter.AddCombatant(makeNpc('B') as never)
+    encounter.AddCombatant(makeNpc('Test NPC A') as never)
+    encounter.AddCombatant(makeNpc('Test NPC B') as never)
     const removedId = encounter.Combatants[0].id
 
     encounter.RemoveCombatant(0)
 
-    expect(encounter.Combatants.map(c => c.actor.Name)).toEqual(['B'])
+    expect(encounter.Combatants.map(c => c.actor.Name)).toEqual(['Test NPC B'])
     expect(encounter.CloudController._fieldTs[`combatants.${removedId}`]).toBeGreaterThan(0)
   })
 })
 
 describe('Encounter.ReorderCombatant', () => {
   it('moves a combatant to a new position', () => {
-    encounter.AddCombatant(makeNpc('A') as never)
-    encounter.AddCombatant(makeNpc('B') as never)
-    encounter.AddCombatant(makeNpc('C') as never)
+    encounter.AddCombatant(makeNpc('Test NPC A') as never)
+    encounter.AddCombatant(makeNpc('Test NPC B') as never)
+    encounter.AddCombatant(makeNpc('Test NPC C') as never)
 
     encounter.ReorderCombatant(0, 2)
 
-    expect(encounter.Combatants.map(c => c.actor.Name)).toEqual(['B', 'C', 'A'])
+    expect(encounter.Combatants.map(c => c.actor.Name)).toEqual([
+      'Test NPC B',
+      'Test NPC C',
+      'Test NPC A',
+    ])
   })
 })
 
@@ -124,12 +128,12 @@ describe('Encounter.Serialize/Deserialize', () => {
   it('round-trips an encounter with combatants', () => {
     encounter.Note = 'gm only'
     encounter.Description = 'briefing'
-    encounter.AddCombatant(makeNpc('Pursuer') as never)
+    encounter.AddCombatant(makeNpc('Test NPC 1') as never)
 
     const back = Encounter.Deserialize(JSON.parse(JSON.stringify(Encounter.Serialize(encounter))))
 
     expect(back.ID).toBe(encounter.ID)
-    expect(back.Name).toBe('Ambush')
+    expect(back.Name).toBe('Test Encounter')
     expect(back.Note).toBe('gm only')
     expect(back.Description).toBe('briefing')
     expect(back.Combatants).toHaveLength(1)
@@ -151,7 +155,7 @@ describe('Encounter.Serialize/Deserialize', () => {
   })
 
   it('defaults combatant side to enemy and number to 1', () => {
-    encounter.AddCombatant(makeNpc('Pursuer') as never)
+    encounter.AddCombatant(makeNpc('Test NPC 1') as never)
     const saved = Encounter.SerializeCombatant(encounter.Combatants[0]) as any
     delete saved.side
     delete saved.number
@@ -167,7 +171,7 @@ describe('Encounter.Serialize/Deserialize', () => {
 
 describe('Encounter.Clone', () => {
   it('copies the encounter under a new id', () => {
-    encounter.AddCombatant(makeNpc('Pursuer') as never)
+    encounter.AddCombatant(makeNpc('Test NPC 1') as never)
     const clone = encounter.Clone()
 
     expect(clone.ID).not.toBe(encounter.ID)
@@ -177,13 +181,13 @@ describe('Encounter.Clone', () => {
 })
 
 describe('CombatantData.Label', () => {
-  const combatant = (type: string, number: number, name = 'ASSAULT') =>
+  const combatant = (type: string, number: number, name = 'Test NPC') =>
     makeCombatant({ ID: 'x', CombatController: { CombatName: name } } as never, type as never, {
       number,
     })
 
   it.each(['unit', 'doodad', 'eidolon'])('numbers a %s, so two of them can be told apart', type => {
-    expect(combatant(type, 2).Label).toBe('ASSAULT #2')
+    expect(combatant(type, 2).Label).toBe('Test NPC #2')
   })
 
   it.each(['pilot', 'placeholder'])('leaves a %s unnumbered', type => {
@@ -191,7 +195,7 @@ describe('CombatantData.Label', () => {
   })
 
   it('omits a number that was never assigned', () => {
-    expect(combatant('unit', -1).Label).toBe('ASSAULT')
+    expect(combatant('unit', -1).Label).toBe('Test NPC')
   })
 
   it('has nothing to say about an actor with no combat name', () => {
@@ -201,11 +205,11 @@ describe('CombatantData.Label', () => {
   it('follows the number it is renumbered to', () => {
     const c = combatant('unit', 1)
     c.number = 4
-    expect(c.Label).toBe('ASSAULT #4')
+    expect(c.Label).toBe('Test NPC #4')
   })
 
   it('survives a serialize and deserialize round trip', () => {
-    encounter.AddCombatant(makeNpc('Pursuer') as never)
+    encounter.AddCombatant(makeNpc('Test NPC 1') as never)
     const restored = Encounter.DeserializeCombatant(
       Encounter.SerializeCombatant(encounter.Combatants[0])
     )

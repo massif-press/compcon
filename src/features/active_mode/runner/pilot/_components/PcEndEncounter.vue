@@ -1,18 +1,21 @@
 <template>
   <end-encounter-panel
-    :action-report="actionReport"
+    :combatants="[sheet.Combatant]"
+    :build-stream="() => sheet.Stream"
+    :focus-actor-id="sheet.PilotID"
     :confirm-message="$t('active.pcEndEncounter.confirm')"
     @end="end"
   />
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted } from 'vue'
   import { useRouter } from 'vue-router'
   import PilotSheet from '@/features/pilot_management/store/PilotSheet'
   import { PilotSheetStore, PilotStore } from '@/stores'
   import EndEncounterPanel from '@/features/active_mode/_components/EndEncounterPanel.vue'
   import logger from '@/user/logger'
+  import { commitOutcome } from '@/classes/components/combat/log/outcome'
+  import type { IOutcome } from '@/classes/components/combat/log/outcome'
   import { bypassLeaveGuard } from '../../_shared/useRunnerOptions'
 
   const router = useRouter()
@@ -23,9 +26,9 @@
     sheet: PilotSheet
   }>()
 
-  const actionReport = ref([] as any[])
-
-  async function end(result: string) {
+  async function end(result: string, outcomes: Record<string, IOutcome>) {
+    const outcome = outcomes[props.sheet.Combatant.id]
+    if (outcome) commitOutcome(props.sheet.Combatant, outcome)
     props.sheet.Pilot.CombatController.EndEncounter()
     props.sheet.Pilot.CombatController.Record('encounter.end', {
       result,
@@ -43,9 +46,4 @@
     bypassLeaveGuard()
     router.replace('/active-mode/sheet-manager')
   }
-
-  onMounted(() => {
-    const actor = props.sheet.Pilot.CombatController.RootActor
-    actionReport.value = [{ id: actor.ID, actor }]
-  })
 </script>

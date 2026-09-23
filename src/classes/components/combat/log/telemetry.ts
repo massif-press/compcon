@@ -1,4 +1,5 @@
 import type { ILogEvent } from './events'
+import { isDown } from './outcome'
 
 interface IAttackTally {
   made: number
@@ -51,6 +52,7 @@ interface IEncounterRollup {
 
   mechsLost: number
   destroyed: boolean
+  outcome?: { pilot?: string; mech?: string; npc?: string }
 }
 
 function blankRollup(): IEncounterRollup {
@@ -90,6 +92,7 @@ function blankRollup(): IEncounterRollup {
     movementUnmounted: 0,
     mechsLost: 0,
     destroyed: false,
+    outcome: {},
   }
 }
 
@@ -233,7 +236,21 @@ function reduceEvents(events: ILogEvent[], perspectiveId?: string): IEncounterRo
         break
 
       case 'mech.status':
-        if (byMe && (p.to === 'destroyed' || p.to === 'reactor_destroyed')) out.mechsLost += 1
+        if (!byMe) break
+        if (isDown(p.to)) out.mechsLost += 1
+        else if (p.manual && isDown(p.from)) out.mechsLost = Math.max(0, out.mechsLost - 1)
+        out.outcome!.mech = p.to
+        break
+
+      case 'pilot.status':
+        if (byMe) out.outcome!.pilot = p.to
+        break
+
+      case 'npc.status':
+        if (!byMe) break
+        out.outcome!.npc = p.to
+        if (p.to === 'destroyed') out.destroyed = true
+        else if (p.manual && p.from === 'destroyed') out.destroyed = false
         break
 
       default:

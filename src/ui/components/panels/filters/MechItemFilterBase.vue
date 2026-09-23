@@ -122,16 +122,16 @@
   }>()
 
   const llFilter = ref([] as number[])
-  const sp = ref(0)
+  const sp = ref<number | string>(0)
   const spType = ref('')
 
   function decrementSp() {
-    if (sp.value > 0) sp.value--
+    sp.value = Math.max(0, Number(sp.value) - 1)
     emitFilters()
   }
 
   function incrementSp() {
-    sp.value++
+    sp.value = Number(sp.value) + 1
     emitFilters()
   }
 

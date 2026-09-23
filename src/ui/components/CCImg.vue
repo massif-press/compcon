@@ -19,8 +19,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed, watch, onBeforeUnmount } from 'vue'
-  import { GetBlob } from '@/io/Storage'
+  import { ref, computed, watch } from 'vue'
 
   interface Props {
     src: string
@@ -48,26 +47,12 @@
   watch(
     () => props.src,
     newVal => {
-      if (imageUrl.value?.startsWith('blob:')) URL.revokeObjectURL(imageUrl.value)
       imageUrl.value = newVal
       loadFailed.value = false
     }
   )
 
-  onBeforeUnmount(() => {
-    if (imageUrl.value?.startsWith('blob:')) URL.revokeObjectURL(imageUrl.value)
-  })
-
-  async function handleImageError() {
-    const isRemoteUrl =
-      props.src.startsWith('http') || props.src.startsWith('/') || props.src.startsWith('blob:')
-    if (!isRemoteUrl) {
-      const blob = await GetBlob('images', props.src)
-      if (blob) {
-        imageUrl.value = URL.createObjectURL(blob)
-        return
-      }
-    }
+  function handleImageError() {
     if (props.fallbackSrc && imageUrl.value !== props.fallbackSrc) {
       imageUrl.value = props.fallbackSrc
       return

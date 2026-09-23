@@ -21,7 +21,7 @@ const newInstance = () => {
   const pilot = makePilot()
   makeMech(pilot)
   const encounter = new Encounter()
-  encounter.Name = 'Ambush'
+  encounter.Name = 'Test Encounter'
   const inst = new EncounterInstance(undefined, encounter, [pilot])
   usedIds.push(inst.ID)
   return inst

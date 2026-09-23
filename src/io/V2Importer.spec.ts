@@ -47,8 +47,8 @@ import { ContentPackStore } from '@/features/compendium/store'
 
 const v2Pilot = (overrides: Record<string, unknown> = {}) => ({
   id: 'v2-pilot-1',
-  callsign: 'HAMMER',
-  name: 'Nelson',
+  callsign: 'TEST1',
+  name: 'Test Pilot 1',
   level: 3,
   mechs: [],
   ...overrides,
@@ -56,7 +56,7 @@ const v2Pilot = (overrides: Record<string, unknown> = {}) => ({
 
 const v2Npc = (overrides: Record<string, unknown> = {}) => ({
   id: 'v2-npc-1',
-  name: 'Pursuer',
+  name: 'Test NPC 1',
   cc_ver: '2.4.0',
   class: 'npcc_pursuer',
   tier: 1,
@@ -66,7 +66,7 @@ const v2Npc = (overrides: Record<string, unknown> = {}) => ({
 
 const v2Encounter = (overrides: Record<string, unknown> = {}) => ({
   id: 'v2-enc-1',
-  name: 'Ambush',
+  name: 'Test Encounter',
   npcs: [],
   ...overrides,
 })
@@ -84,11 +84,11 @@ describe('isV2Pilot', () => {
   })
 
   it('rejects a v3 pilot', () => {
-    expect(isV2Pilot({ itemType: 'pilot', callsign: 'HAMMER' })).toBe(false)
+    expect(isV2Pilot({ itemType: 'pilot', callsign: 'TEST1' })).toBe(false)
   })
 
   it('rejects anything without a callsign', () => {
-    expect(isV2Pilot({ name: 'Nelson' })).toBe(false)
+    expect(isV2Pilot({ name: 'Test Pilot 1' })).toBe(false)
     expect(isV2Pilot(null)).toBe(false)
     expect(isV2Pilot([v2Pilot()])).toBe(false)
     expect(isV2Pilot('a string')).toBe(false)
@@ -332,7 +332,7 @@ describe('transformV2Encounter', () => {
     ) as any[]
 
     expect(out.itemType).toBe('Encounter')
-    expect(out.name).toBe('Ambush')
+    expect(out.name).toBe('Test Encounter')
     expect(out.note).toBe('gm only')
     expect(out.folder).toEqual({ folder: 'Op Solstice' })
     expect(out.environment).toEqual({
@@ -357,7 +357,7 @@ describe('transformV2Encounter', () => {
   })
 
   it('mints an id for an encounter that has none', () => {
-    const [out] = transformV2Encounter({ name: 'Nameless', npcs: [] } as never) as any[]
+    const [out] = transformV2Encounter({ name: 'Test Encounter', npcs: [] } as never) as any[]
     expect(out.id).toBeTruthy()
   })
 })
@@ -378,7 +378,7 @@ describe('the v2 backup store', () => {
 
 describe('preprocessPilotImport', () => {
   it('passes a v3 pilot straight through', async () => {
-    const data = { itemType: 'pilot', callsign: 'HAMMER' }
+    const data = { itemType: 'pilot', callsign: 'TEST1' }
     expect(await preprocessPilotImport(data)).toEqual({ action: 'import', transformed: data })
   })
 

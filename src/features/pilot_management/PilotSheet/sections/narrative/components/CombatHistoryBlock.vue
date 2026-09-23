@@ -56,7 +56,7 @@
         </v-window-item>
         <v-window-item>
           <div class="pa-4">
-            <logbook-log-reader :logbook="<PilotLogbook>PilotLogbookView" />
+            <logbook-log-reader :logbook="logbook" />
           </div>
         </v-window-item>
       </cc-tabs>
@@ -68,7 +68,6 @@
   import { computed } from 'vue'
   import { Pilot } from '@/classes/pilot/Pilot'
   import { PilotStore } from '@/features/pilot_management/store'
-  import type { PilotLogbook } from '@/classes/pilot/PilotLogbook'
   import LogbookLogReader from '@/features/pilot_management/_components/logbook/LogbookLogReader.vue'
   import PilotLogbookView from '@/features/pilot_management/_components/logbook/PilotLogbookView.vue'
 

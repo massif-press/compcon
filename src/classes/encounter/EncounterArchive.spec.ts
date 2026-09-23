@@ -10,7 +10,7 @@ beforeEach(() => {
   const pilot = makePilot()
   makeMech(pilot)
   const encounter = new Encounter()
-  encounter.Name = 'Ambush'
+  encounter.Name = 'Test Encounter'
   instance = new EncounterInstance(undefined, encounter, [pilot])
   instance.Round = 3
 })
@@ -81,7 +81,7 @@ describe('the archived event stream', () => {
 
     const forMe = archive.StreamFor(cc.RootActor.ID)
     expect(forMe.encounterId).toBe(archive.ID)
-    expect(forMe.encounterName).toBe('Ambush')
+    expect(forMe.encounterName).toBe('Test Encounter')
     expect(forMe.result).toBe('victory')
   })
 })
@@ -104,5 +104,27 @@ describe('EncounterArchive.Serialize/Deserialize', () => {
     const back = EncounterArchive.Deserialize(EncounterArchive.Serialize(archive))
 
     expect(back.AfterActionReport).toBe('msg')
+  })
+})
+
+describe('ending with an after action report', () => {
+  it('archives statuses before encounter end', () => {
+    const c = instance.Combatants[0]
+    instance.EndEncounter('PC VICTORY', { [c.id]: { pilotStatus: 'KIA' } })
+
+    const archive = EncounterArchive.FromInstance(instance, '', 'PC VICTORY')
+    const kinds = archive.History.events.map(e => e.kind)
+
+    expect(kinds.indexOf('pilot.status')).toBeGreaterThanOrEqual(0)
+    expect(kinds.indexOf('pilot.status')).toBeLessThan(kinds.indexOf('encounter.end'))
+    expect(c.pilotStatus).toBe('KIA')
+  })
+
+  it('previews the same stream it archives', () => {
+    instance.Combatants[0].actor.CombatController.Record('note', { text: 'a' })
+    const preview = instance.Stream
+    const archive = EncounterArchive.FromInstance(instance, '', '')
+    expect(archive.History.events).toEqual(preview.events)
+    expect(archive.History.participants).toEqual(preview.participants)
   })
 })

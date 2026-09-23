@@ -135,10 +135,6 @@ export const PilotStore = defineStore('pilot', {
       const logbook = this.PilotLogbooks.find(l => l.PilotID === id)
       if (logbook) await this.RemovePilotLogbook(logbook as PilotLogbook)
 
-      if (pilot.PortraitController.LocalImage) {
-        await RemoveItem('images', pilot.PortraitController.LocalImage)
-      }
-
       await RemoveItem('pilots', id)
 
       if (pilot.CloudController.ShareCode) {

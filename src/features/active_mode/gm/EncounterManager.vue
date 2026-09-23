@@ -251,7 +251,7 @@
             <v-col cols="auto">
               <cc-dialog
                 :close-on-click="false"
-                :title="`${e.Name} - After Action Report`"
+                :title="$t('active.encMgr.afterActionReport')"
               >
                 <template #activator="{ open }">
                   <cc-button
@@ -267,18 +267,25 @@
                   tile
                 >
                   <v-card-text>
-                    <v-alert
-                      density="compact"
-                      class="text-caption mt-2 mb-4"
-                      flat
-                      tile
-                      color="panel"
-                      border="start"
-                      border-color="red"
+                    <template v-if="e.History.events.length">
+                      <after-action-report :stream="e.Stream" />
+                      <template v-if="legacyLines(e).length">
+                        <div class="text-cc-overline">
+                          // {{ $t('active.aar.recordedStatuses') }}
+                        </div>
+                        <div
+                          v-for="(line, i) in legacyLines(e)"
+                          :key="i"
+                          class="text-body-2"
+                        >
+                          {{ line }}
+                        </div>
+                      </template>
+                    </template>
+                    <div
+                      v-else
+                      class="pa-2 bg-background"
                     >
-                      {{ $t('active.encMgr.devNoteReport') }}
-                    </v-alert>
-                    <div class="pa-2 bg-background">
                       <code
                         class="text-left"
                         style="white-space: pre-wrap; word-break: break-word"
@@ -446,6 +453,8 @@
   import ActiveModeSortBar from '@/features/active_mode/_components/ActiveModeSortBar.vue'
   import { reduceEvents, formatRollup } from '@/classes/components/combat/log/telemetry'
   import { renderStream } from '@/classes/components/combat/log/render'
+  import { formatReport } from '@/classes/components/combat/log/aar'
+  import AfterActionReport from '@/features/active_mode/_components/aar/AfterActionReport.vue'
   import { concernsActor } from '@/classes/components/combat/log/stream'
   import { EncounterStore } from '@/stores'
   import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
@@ -570,14 +579,32 @@
     for (const e of targets) e.SaveController.Restore()
   }
 
+  function legacyReport(archive: EncounterArchive): any[] {
+    try {
+      const report = JSON.parse(archive.AfterActionReport || '[]')
+      return Array.isArray(report) ? report : []
+    } catch {
+      return []
+    }
+  }
+
+  function legacyLines(archive: EncounterArchive): string[] {
+    return legacyReport(archive).map(
+      (e: any) =>
+        `${e.name}: ${e.pilotStatus || ''}${e.mechStatus ? ` // ${e.mechStatus}` : ''}${e.status || ''}`
+    )
+  }
+
   function reportText(archive: EncounterArchive) {
+    const legacy = legacyLines(archive)
+    if (archive.History.events.length) {
+      const text = formatReport(archive.Stream, t)
+      if (!legacy.length) return text
+      return `${text}\n\n// ${t('active.aar.recordedStatuses')}\n${legacy.join('\n')}`
+    }
     let str = `      ${archive.Name}: ${archive.Result}\n`
     str += `------------------------------------------------\n`
-    const report = JSON.parse(archive.AfterActionReport)
-    report.forEach((e: any) => {
-      str += `${e.name}: ${e.pilotStatus || ''}${e.mechStatus ? ` // ${e.mechStatus}` : ''}${e.status || ''}\n`
-    })
-    return str
+    return str + legacy.map(l => `${l}\n`).join('')
   }
 
   function copyText(text: string) {
@@ -588,7 +615,10 @@
     const data = {
       name: archive.Name,
       result: archive.Result,
-      details: type === 'report' ? JSON.parse(archive.AfterActionReport) : archive.History,
+      details:
+        type === 'logs'
+          ? archive.History
+          : { history: archive.History, statuses: legacyReport(archive) },
     }
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
     const url = URL.createObjectURL(blob)

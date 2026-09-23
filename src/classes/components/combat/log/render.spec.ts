@@ -8,8 +8,8 @@ import { resolve } from 'node:path'
 const en = JSON.parse(readFileSync(resolve(process.cwd(), 'src/i18n/locales/en.json'), 'utf8'))
 
 const participants: IActorRef[] = [
-  { id: 'a', name: 'Ghost', type: 'pilot', side: 'ally' },
-  { id: 'b', name: 'BOB', type: 'npc', side: 'enemy', tier: 1 },
+  { id: 'a', name: 'test pilot', type: 'pilot', side: 'ally' },
+  { id: 'b', name: 'test npc', type: 'npc', side: 'enemy', tier: 1 },
 ]
 const stream = { participants }
 
@@ -89,6 +89,7 @@ describe('rendering a log event', () => {
     'actor.destroy': { targetId: 'b' },
     'pilot.status': { to: 'KIA' },
     'mech.status': { to: 'destroyed' },
+    'npc.status': { to: 'routed' },
     repair: { kind: 'full' },
     stabilize: { choices: ['cool'] },
     reload: { items: [{ id: 'w', name: 'Rifle' }] },
@@ -115,7 +116,9 @@ describe('rendering a log event', () => {
 
   it('renders an activation with a real activation type, not a double space', () => {
     const e = event('action', { action: { id: 'act_x', name: 'Initiative' }, activation: 'Quick' })
-    expect(renderEvent(e, stream, t)).toBe('[ALLY PILOT] Ghost used Initiative as a Quick action')
+    expect(renderEvent(e, stream, t)).toBe(
+      '[ALLY PILOT] test pilot used Initiative as a Quick action'
+    )
   })
 
   it('folds a confirmed kill into the attack entry rather than adding a line', () => {
@@ -138,6 +141,8 @@ describe('rendering a log event', () => {
       ['damage', { ...FIXTURES.damage, targetId: undefined, taken: false }],
       ['status.gain', { ...FIXTURES['status.gain'], duration: 'end of turn' }],
       ['resist.change', { ...FIXTURES['resist.change'], removed: true }],
+      ['pilot.status', { from: 'active', to: 'kia', manual: true }],
+      ['mech.status', { from: 'destroyed', to: 'operational', manual: true }],
       ['equipment', { ...FIXTURES.equipment, state: 'destroyed' }],
       ['equipment', { ...FIXTURES.equipment, state: 'repaired' }],
       ['equipment', { ...FIXTURES.equipment, state: 'unused' }],
@@ -167,13 +172,13 @@ describe('rendering a log event', () => {
 
   it('names the actor from the stream, not from a compendium lookup', () => {
     expect(renderEvent(event('move', { spent: 3, mode: 'move' }), stream, t)).toBe(
-      '[ALLY PILOT] Ghost spent 3 movement'
+      '[ALLY PILOT] test pilot spent 3 movement'
     )
   })
 
   it('tags the acting side and type, and carries an NPC tier into the name', () => {
     expect(renderEvent(event('move', { spent: 2, mode: 'move' }, 'b'), stream, t)).toBe(
-      '[ENEMY NPC] T1 BOB spent 2 movement'
+      '[ENEMY NPC] T1 test npc spent 2 movement'
     )
   })
 
@@ -197,7 +202,7 @@ describe('rendering a log event', () => {
       weapon: { id: 'w', name: 'Assault Rifle' },
     })
     expect(renderEvent(e, stream, t)).toBe(
-      '[ALLY PILOT] Ghost attacked T1 BOB with Assault Rifle: 18 vs 10 Evasion - HIT'
+      '[ALLY PILOT] test pilot attacked T1 test npc with Assault Rifle: 18 vs 10 Evasion - HIT'
     )
   })
 
@@ -227,7 +232,7 @@ describe('rendering a log event', () => {
       overkillHeat: 1,
     })
     expect(renderEvent(e, stream, t)).toBe(
-      '[ALLY PILOT] Ghost dealt 5 Kinetic damage to T1 BOB (-2 armor, resistant, exposed, +1 overkill heat)'
+      '[ALLY PILOT] test pilot dealt 5 Kinetic damage to T1 test npc (-2 armor, resistant, exposed, +1 overkill heat)'
     )
   })
 
@@ -241,7 +246,7 @@ describe('rendering a log event', () => {
       final: 4,
       taken: true,
     })
-    expect(renderEvent(e, stream, t)).toBe('[ALLY PILOT] Ghost dealt 4 Kinetic damage')
+    expect(renderEvent(e, stream, t)).toBe('[ALLY PILOT] test pilot dealt 4 Kinetic damage')
   })
 
   it('tags an entry the actor targeted at itself as SELF rather than by side', () => {
@@ -255,9 +260,9 @@ describe('rendering a log event', () => {
       final: 3,
       taken: true,
     })
-    expect(renderEvent(e, stream, t)).toBe('[SELF] Ghost took 3 Heat damage')
+    expect(renderEvent(e, stream, t)).toBe('[SELF] test pilot took 3 Heat damage')
     expect(renderEvent(event('heat', { amount: 2, dangerZone: false }), stream, t)).toBe(
-      '[ALLY PILOT] Ghost gained 2 heat'
+      '[ALLY PILOT] test pilot gained 2 heat'
     )
   })
 
@@ -273,10 +278,10 @@ describe('rendering a log event', () => {
     }
 
     expect(renderEvent(event('damage', { ...payload, targetId: 'a' }), stream, t)).toBe(
-      '[SELF] Ghost took 4 Kinetic damage'
+      '[SELF] test pilot took 4 Kinetic damage'
     )
     expect(renderEvent(event('damage', { ...payload, targetId: 'b' }), stream, t)).toBe(
-      '[ALLY PILOT] Ghost dealt 4 Kinetic damage to T1 BOB'
+      '[ALLY PILOT] test pilot dealt 4 Kinetic damage to T1 test npc'
     )
   })
 
@@ -284,8 +289,8 @@ describe('rendering a log event', () => {
     const known = event('actor.destroy', { targetId: 'b' })
     const unknown = event('actor.destroy', { selfReported: true })
 
-    expect(renderEvent(known, stream, t)).toBe('[ALLY PILOT] Ghost destroyed T1 BOB')
-    expect(renderEvent(unknown, stream, t)).toBe('[ALLY PILOT] Ghost destroyed an opponent')
+    expect(renderEvent(known, stream, t)).toBe('[ALLY PILOT] test pilot destroyed T1 test npc')
+    expect(renderEvent(unknown, stream, t)).toBe('[ALLY PILOT] test pilot destroyed an opponent')
   })
 
   it('renders a free action differently from a costed one', () => {
@@ -296,8 +301,12 @@ describe('rendering a log event', () => {
       free: true,
     })
 
-    expect(renderEvent(costed, stream, t)).toBe('[ALLY PILOT] Ghost used Barrage as a Full action')
-    expect(renderEvent(free, stream, t)).toBe('[ALLY PILOT] Ghost used Barrage as a free action')
+    expect(renderEvent(costed, stream, t)).toBe(
+      '[ALLY PILOT] test pilot used Barrage as a Full action'
+    )
+    expect(renderEvent(free, stream, t)).toBe(
+      '[ALLY PILOT] test pilot used Barrage as a free action'
+    )
   })
 
   it('folds one resolution into a single line, with damage read onto its attack', () => {
@@ -321,7 +330,7 @@ describe('rendering a log event', () => {
         defense: 'E-Defense',
         defenseValue: 8,
         result: 'hit',
-        weapon: { id: 'w', name: 'Mega-gun' },
+        weapon: { id: 'w', name: 'weapon' },
       }),
     ].map(e => ({ ...e, group }))
     const slowed = {
@@ -333,7 +342,7 @@ describe('rendering a log event', () => {
 
     expect(entries).toHaveLength(1)
     expect(entries[0].text).toBe(
-      '[ALLY PILOT] Ghost used Invade as a Quick action; Ghost attacked T1 BOB with Mega-gun: 15 vs 8 E-Defense - HIT for 4 Heat damage; T1 BOB gained SLOWED'
+      '[ALLY PILOT] test pilot used Invade as a Quick action; test pilot attacked T1 test npc with weapon: 15 vs 8 E-Defense - HIT for 4 Heat damage; T1 test npc gained SLOWED'
     )
     expect(entries[0].kinds).toEqual(['damage', 'action', 'attack', 'status.gain'])
   })
@@ -345,8 +354,8 @@ describe('rendering a log event', () => {
       t
     )
     expect(entries.map(e => e.text)).toEqual([
-      '[ALLY PILOT] Ghost spent 3 movement',
-      '[ALLY PILOT] Ghost gained 2 heat',
+      '[ALLY PILOT] test pilot spent 3 movement',
+      '[ALLY PILOT] test pilot gained 2 heat',
     ])
   })
 

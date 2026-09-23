@@ -2,124 +2,90 @@
   <v-container>
     <div class="heading h2 mb-1">{{ $t('nav.credits.lancerBy') }}</div>
     <v-row>
-      <dev-badge
-        v-for="(c, cIdx) in credits.writers"
+      <dev-badge v-for="(c, cIdx) in credits.writers"
         :key="`writer-${cIdx}`"
-        :info="c"
-      />
+        :info="c" />
     </v-row>
     <div class="heading h2 mt-4 mb-1">{{ $t('nav.credits.compconBy') }}</div>
     <v-row>
-      <dev-badge
-        v-for="(c, cIdx) in credits.lead_devs"
+      <dev-badge v-for="(c, cIdx) in credits.lead_devs"
         :key="`lead-${cIdx}`"
-        :info="c"
-      />
+        :info="c" />
     </v-row>
     <div class="heading h3 mt-4 mb-1">{{ $t('nav.credits.with') }}</div>
     <v-row dense>
-      <dev-badge
-        v-for="(c, cIdx) in credits.devs1"
+      <dev-badge v-for="(c, cIdx) in credits.devs1"
         :key="`dev1-${cIdx}`"
-        :info="c"
-      />
+        :info="c" />
     </v-row>
     <v-row dense>
-      <dev-badge
-        v-for="(c, cIdx) in credits.devs2"
+      <dev-badge v-for="(c, cIdx) in credits.devs2"
         :key="`dev2-${cIdx}`"
-        :info="c"
-      />
+        :info="c" />
     </v-row>
     <div class="heading h2 mt-4 mb-1">{{ $t('nav.credits.graphicDesignBy') }}</div>
     <v-row dense>
-      <dev-badge
-        v-for="(c, cIdx) in credits.graphics"
+      <dev-badge v-for="(c, cIdx) in credits.graphics"
         :key="`graphic-${cIdx}`"
-        :info="c"
-      />
+        :info="c" />
     </v-row>
     <div class="heading h2 mt-4 mb-1">{{ $t('nav.credits.additionalArtBy') }}</div>
     <v-row dense>
-      <dev-badge
-        v-for="(c, cIdx) in credits.art"
+      <dev-badge v-for="(c, cIdx) in credits.art"
         :key="`art-${cIdx}`"
-        :info="c"
-      />
+        :info="c" />
     </v-row>
     <div class="text-center mt-8">
       <span class="heading h3">
         {{ $t('nav.credits.patronThanks') }}
-        <a
-          v-html-safe="'support'"
+        <a v-html-safe="'support'"
           target="_blank"
           rel="noopener noreferrer"
-          href="https://www.patreon.com/compcon"
-        >
+          href="https://www.patreon.com/compcon">
           {{ $t('nav.credits.support') }}
         </a>
         {{ $t('nav.credits.supportOf') }}
       </span>
     </div>
 
-    <div
-      v-if="loading"
-      class="text-center"
-    >
-      <v-progress-circular
-        :size="80"
+    <div v-if="loading"
+      class="text-center">
+      <v-progress-circular :size="80"
         :width="5"
         color="primary"
-        indeterminate
-      />
+        indeterminate />
     </div>
     <div v-else>
-      <div
-        v-for="tier in tiers"
+      <div v-for="tier in tiers"
         :key="tier"
-        class="mb-6"
-      >
-        <cc-title
-          small
-          class="my-2"
-        >
+        class="mb-6">
+        <cc-title small
+          class="my-2">
           {{ $t('nav.credits.tier', { patreonTierName: tier.toUpperCase() }) }}
         </cc-title>
-        <v-row
-          align="center"
+        <v-row align="center"
           justify="space-around"
-          dense
-        >
-          <v-col
-            v-for="(p, pIdx) in patrons
-              .filter(x => x.tier.toLowerCase().includes(tier.toLowerCase()))
-              .sort((a, b) => getSortOrder(a, b))"
+          dense>
+          <v-col v-for="(p, pIdx) in patrons
+            .filter(x => x.tier.toLowerCase().includes(tier.toLowerCase()))
+            .sort((a, b) => getSortOrder(a, b))"
             :key="`patron-${pIdx}`"
-            :cols="getCols(tier)"
-          >
-            <component
-              :is="getComponent(p)"
+            :cols="getCols(tier)">
+            <component :is="getComponent(p)"
               v-if="isCutout(tier, p)"
-              :info="p"
-            />
-            <v-chip
-              v-else
+              :info="p" />
+            <v-chip v-else
               border
               class="heading h3 rounded-e-0 cc-panel-clip"
               :class="tier.toLowerCase()"
               :size="!mobile ? 'x-large' : 'default'"
               color="background"
               variant="elevated"
-              style="width: 100%"
-            >
-              <v-avatar
-                :color="getColor(tier)"
-                start
-              >
-                <v-icon
-                  :icon="`cc:${tier.toLowerCase()}`"
-                  :size="mobile ? 32 : 40"
-                />
+              style="width: 100%">
+              <v-avatar :color="getColor(tier)"
+                start>
+                <v-icon :icon="`cc:${tier.toLowerCase()}`"
+                  :size="mobile ? 32 : 40" />
               </v-avatar>
               {{ cleanName(p) }}
             </v-chip>
@@ -131,141 +97,131 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted } from 'vue'
-  import { useI18n } from 'vue-i18n'
-  import { useDisplay } from 'vuetify'
-  import creditsData from './credits.json'
-  import DevBadge from './SupporterBadges/Dev.vue'
-  import KanakovtBadge from './SupporterBadges/kanakovt.vue'
-  import VenabapBadge from './SupporterBadges/venabap.vue'
-  import { getPatreonSubscribers } from '@/user/oauth'
+import { ref, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useDisplay } from 'vuetify'
+import creditsData from './credits.json'
+import DevBadge from './SupporterBadges/Dev.vue'
+import KanakovtBadge from './SupporterBadges/kanakovt.vue'
+import VenabapBadge from './SupporterBadges/venabap.vue'
+import { getPatreonSubscribers } from '@/user/oauth'
 
-  const { smAndDown: mobile } = useDisplay()
-  const { t } = useI18n()
+const { smAndDown: mobile } = useDisplay()
+const { t } = useI18n()
 
-  const credits = creditsData
-  const patrons = ref<any[]>([])
-  const tiers = ['MONIST', 'NHP', 'Lancer', 'Cosmopolitan', 'Diasporan']
-  const loading = ref(true)
+const credits = creditsData
+const patrons = ref<any[]>([])
+const tiers = ['MONIST', 'NHP', 'Lancer', 'Cosmopolitan', 'Diasporan']
+const loading = ref(true)
 
-  onMounted(async () => {
-    try {
-      patrons.value = await getPatreonSubscribers()
-    } catch {
-      // subscriber list unavailable (e.g. not logged in)
-    }
-    loading.value = false
-  })
-
-  const cutoutNames = ['kanakovt', 'venabap']
-
-  function isCutout(tier: string, patron: any) {
-    if (tier.toLowerCase() !== 'monist') return false
-    return cutoutNames.includes(cleanName(patron).toLowerCase())
+onMounted(async () => {
+  try {
+    patrons.value = await getPatreonSubscribers()
+  } catch {
+    // subscriber list unavailable (e.g. not logged in)
   }
+  loading.value = false
+})
 
-  function getComponent(patron: any) {
-    // monist cutouts
-    if (cleanName(patron).toLowerCase() === 'kanakovt') return KanakovtBadge
-    if (cleanName(patron).toLowerCase() === 'venabap') return VenabapBadge
-    return 'v-col'
+const cutoutNames = ['kanakovt', 'venabap']
+
+function isCutout(tier: string, patron: any) {
+  if (tier.toLowerCase() !== 'monist') return false
+  return cutoutNames.includes(cleanName(patron).toLowerCase())
+}
+
+function getComponent(patron: any) {
+  // monist cutouts
+  if (cleanName(patron).toLowerCase() === 'kanakovt') return KanakovtBadge
+  if (cleanName(patron).toLowerCase() === 'venabap') return VenabapBadge
+  return 'v-col'
+}
+
+function getSortOrder(a: any, b: any) {
+  const aName = cleanName(a).toLowerCase()
+  const bName = cleanName(b).toLowerCase()
+  const rank = (n: string) => (n === 'kanakovt' ? 0 : n === 'venabap' ? 1 : 2)
+  const ra = rank(aName)
+  const rb = rank(bName)
+  if (ra !== rb) return ra - rb
+  return aName.localeCompare(bName)
+}
+
+function cleanName(patron: any) {
+  if (patron.display_name && patron.display_name !== 'N/A') return patron.display_name.trim()
+  if (!patron.name) return t('nav.credits.anonymousPatron')
+  const name = patron.name.trim()
+  if (name === 'John Barker') return 'The Upgrade Factory'
+
+  if (name.includes(' ')) {
+    const arr = name.split(' ')
+    return arr
+      .map((x: string, i: number) => (i === arr.length - 1 ? x.substring(0, 1) + '.' : x))
+      .join(' ')
   }
+  return name
+}
 
-  function getSortOrder(a: any, b: any) {
-    const aName = cleanName(a).toLowerCase()
-    const bName = cleanName(b).toLowerCase()
-    const rank = (n: string) => (n === 'kanakovt' ? 0 : n === 'venabap' ? 1 : 2)
-    const ra = rank(aName)
-    const rb = rank(bName)
-    if (ra !== rb) return ra - rb
-    return aName.localeCompare(bName)
+function getColor(tier: string) {
+  switch (tier) {
+    case 'MONIST':
+      return 'exotic'
+    case 'NHP':
+      return 'secondary'
+    case 'Lancer':
+      return 'primary'
+    case 'Cosmopolitan':
+      return 'info'
+    case 'Diasporan':
+      return 'success'
+    default:
+      return 'grey'
   }
+}
 
-  function cleanName(patron: any) {
-    if (patron.display_name && patron.display_name !== 'N/A') return patron.display_name.trim()
-    if (!patron.name) return t('nav.credits.anonymousPatron')
-    const name = patron.name.trim()
-    if (name === 'John Barker') return 'The Upgrade Factory'
-
-    if (name.includes(' ')) {
-      const arr = name.split(' ')
-      return arr
-        .map((x: string, i: number) => (i === arr.length - 1 ? x.substring(0, 1) + '.' : x))
-        .join(' ')
-    }
-    return name
+function getCols(tier: string) {
+  switch (tier) {
+    case 'MONIST':
+      return 12
+    case 'NHP':
+    case 'Lancer':
+      return 6
+    case 'Cosmopolitan':
+      return 4
+    default:
+      return 4
   }
-
-  function getColor(tier: string) {
-    switch (tier) {
-      case 'MONIST':
-        return 'exotic'
-      case 'NHP':
-        return 'secondary'
-      case 'Lancer':
-        return 'primary'
-      case 'Cosmopolitan':
-        return 'info'
-      case 'Diasporan':
-        return 'success'
-      default:
-        return 'grey'
-    }
-  }
-
-  function getCols(tier: string) {
-    switch (tier) {
-      case 'MONIST':
-        return 12
-      case 'NHP':
-      case 'Lancer':
-        return 6
-      case 'Cosmopolitan':
-        return 4
-      default:
-        return 4
-    }
-  }
+}
 </script>
 
 <style scoped>
-  .monist {
-    background: linear-gradient(
-      to right,
+.monist {
+  background: linear-gradient(to right,
       rgb(var(--v-theme-exotic)) 0%,
-      rgb(var(--v-theme-surface)) 99%
-    );
-  }
+      rgb(var(--v-theme-surface)) 99%);
+}
 
-  .nhp {
-    background: linear-gradient(
-      to right,
+.nhp {
+  background: linear-gradient(to right,
       rgb(var(--v-theme-secondary)) 0%,
-      rgb(var(--v-theme-surface)) 99%
-    );
-  }
+      rgb(var(--v-theme-surface)) 99%);
+}
 
-  .lancer {
-    background: linear-gradient(
-      to right,
+.lancer {
+  background: linear-gradient(to right,
       rgb(var(--v-theme-primary)) 0%,
-      rgb(var(--v-theme-surface)) 99%
-    );
-  }
+      rgb(var(--v-theme-surface)) 99%);
+}
 
-  .cosmopolitan {
-    background: linear-gradient(
-      to right,
+.cosmopolitan {
+  background: linear-gradient(to right,
       rgb(var(--v-theme-info)) 0%,
-      rgb(var(--v-theme-surface)) 99%
-    );
-  }
+      rgb(var(--v-theme-surface)) 99%);
+}
 
-  .diasporan {
-    background: linear-gradient(
-      to right,
+.diasporan {
+  background: linear-gradient(to right,
       rgb(var(--v-theme-success)) 0%,
-      rgb(var(--v-theme-surface)) 99%
-    );
-  }
+      rgb(var(--v-theme-surface)) 99%);
+}
 </style>

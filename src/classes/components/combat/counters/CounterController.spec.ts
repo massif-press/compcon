@@ -15,7 +15,7 @@ const counterFeatureData = {
 
 describe('CounterController persistence', () => {
   it('round-trips counter values', () => {
-    const npc = makeNpc('Pursuer')
+    const npc = makeNpc('Test NPC 1')
     const counters = npc.CombatController.CounterController
     counters.createCustomCounter('ammo')
     const id = counters.CustomCounterData[0].id
@@ -29,7 +29,7 @@ describe('CounterController persistence', () => {
   })
 
   it('round-trips values for counters that come from a feature', () => {
-    const npc = makeNpc('Pursuer')
+    const npc = makeNpc('Test NPC 1')
     npc.NpcFeatureController.AddFeature(NpcFeatureFactory.Build<NpcFeature>(counterFeatureData))
     const counters = npc.CombatController.CounterController
     expect(counters.CounterData.map(c => c.id)).toContain('ctr_charges')
@@ -43,7 +43,7 @@ describe('CounterController persistence', () => {
   })
 
   it('ignores legacy counter_data that holds definitions rather than values', () => {
-    const npc = makeNpc('Pursuer')
+    const npc = makeNpc('Test NPC 1')
     const data = JSON.parse(JSON.stringify(npc.Serialize()))
     data.combat_data.counters.counter_data = [{ id: 'ctr_legacy', name: 'Legacy' }]
 

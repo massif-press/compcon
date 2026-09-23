@@ -168,9 +168,6 @@ export const NpcStore = defineStore('npc', {
       logger.info(`Deleting NPC ${id} (${payload.Name})`, this)
       if (idx >= -1) this.Npcs.splice(idx, 1)
       NavStore().removeNpcEntry(id)
-      if (payload.PortraitController.LocalImage) {
-        await RemoveItem('images', payload.PortraitController.LocalImage)
-      }
       await RemoveItem('npcs', id)
       await this.SaveNpcData()
       if (payload.CloudController.ShareCode) {

@@ -1,6 +1,8 @@
 import { ActivationType } from '@/classes/enums'
 import { slug } from '@/i18n/contentKeys.mjs'
 import { LOG_EVENT_KEYS, resolveActor } from './events'
+import { fromEventStatus } from './outcome'
+import type { OutcomeKind } from './outcome'
 import type { IActorRef, ILogEvent, ILogStream, LogEventKind } from './events'
 
 type Translate = (key: string, params?: Record<string, unknown>) => string
@@ -42,6 +44,12 @@ const UNTAGGED = new Set<LogEventKind>([
   'round.end',
   'note',
 ])
+
+export function statusLabel(kind: OutcomeKind, value: string, t: Translate): string {
+  const labelKey = `enums.${LOG_EVENT_KEYS[kind]}.${slug(fromEventStatus(kind, value ?? ''))}`
+  const label = t(labelKey)
+  return label === labelKey ? value : label
+}
 
 function actorName(actor: IActorRef): string {
   return actor.tier ? `T${actor.tier} ${actor.name}` : actor.name
@@ -209,7 +217,10 @@ function renderBody(event: ILogEvent, stream: StreamContext, t: Translate): stri
       return t(key(event.kind, p.targetId ? '' : 'Unknown'), { who, target: target() })
     case 'pilot.status':
     case 'mech.status':
-      return t(key(event.kind), { who, status: p.to })
+    case 'npc.status': {
+      const base = t(key(event.kind), { who, status: statusLabel(event.kind, p.to, t) })
+      return p.manual ? annotate(base, [t('active.log.statusManual')]) : base
+    }
 
     case 'repair':
       return t(key(event.kind), { who, kind: p.kind })

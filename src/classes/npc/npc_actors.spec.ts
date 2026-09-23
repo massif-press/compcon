@@ -36,12 +36,12 @@ describe('Doodad', () => {
 
   it('clones under a new id', () => {
     const d = new Doodad()
-    d.Name = 'Clone Doodad'
+    d.Name = 'Test Doodad'
 
     const clone = d.Clone() as unknown as Doodad
 
     expect(clone.ID).not.toBe(d.ID)
-    expect(clone.Name).toContain('Clone Doodad')
+    expect(clone.Name).toContain('Test Doodad')
   })
 })
 

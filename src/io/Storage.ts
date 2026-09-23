@@ -187,23 +187,11 @@ const GetKeys = async function (collection: string) {
   return []
 }
 
-const AddBlob = async function (collection: string, key: string, blob: Blob) {
-  const db = await storeRegistry[collection.toLowerCase()]
-  return await db.setItem(key, blob)
-}
-
-const GetBlob = async function (collection: string, key: string) {
-  const db = await storeRegistry[collection.toLowerCase()]
-  return await db.getItem(key)
-}
-
 const GetTotalStorageSize = async function (): Promise<number> {
   let total = 0
   for (const store of Object.values(storeRegistry)) {
     await store.iterate((value: any) => {
-      if (value instanceof Blob) {
-        total += value.size
-      } else if (typeof value === 'string') {
+      if (typeof value === 'string') {
         total += value.length
       } else {
         total += JSON.stringify(value).length
@@ -242,8 +230,6 @@ export {
   SetAll,
   GetLength,
   GetKeys,
-  AddBlob,
-  GetBlob,
   ClearAll,
   SetValue,
   GetValue,

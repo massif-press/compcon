@@ -49,7 +49,7 @@ describe('mergeTs', () => {
 
 describe('buildFieldHashMap', () => {
   it('hashes each field path', () => {
-    const map = buildFieldHashMap({ name: 'Nelson', nested: { level: 3 } })
+    const map = buildFieldHashMap({ name: 'Test Pilot 1', nested: { level: 3 } })
 
     expect(Object.keys(map).length).toBeGreaterThan(0)
     expect(map).toHaveProperty('name')

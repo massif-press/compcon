@@ -1,211 +1,208 @@
 <template>
-  <v-dialog max-width="900px">
+  <v-dialog v-model="open"
+    max-width="1200px"
+    scrollable>
     <template #activator="{ props: activatorProps }">
-      <v-btn
+      <v-btn v-bind="activatorProps"
         flat
         block
         variant="text"
         color="accent"
-        prepend-icon="mdi-progress-check"
-        @click="onEndEncounterClick($event, activatorProps)"
-      >
+        prepend-icon="mdi-progress-check">
         {{ $t('active.endEnc.endEncounter') }}
       </v-btn>
     </template>
-    <template #default="{ isActive }">
-      <v-card>
-        <v-toolbar
-          height="40"
-          color="primary"
-          class="text-center"
-        >
-          <div class="heading h3 mt-1">
-            <v-icon
-              icon="mdi-clock-end"
-              class="mt-n1 ml-2"
-              start
-            />
-            {{ $t('active.endEnc.confirmEndEncounter') }}
-          </div>
-          <v-spacer />
-          <v-btn
-            icon
-            @click="isActive.value = false"
-          >
-            <v-icon icon="mdi-close" />
-          </v-btn>
-        </v-toolbar>
-        <v-card-text>
-          <div class="text-cc-overline">// {{ $t('active.encMgr.afterActionReport') }}</div>
-          <v-card
-            color="background"
-            class="mt-1 mb-4"
-          >
-            <v-card-text class="pa-2">
-              <v-row
-                v-for="c in actionReport"
+    <v-card>
+      <v-toolbar height="40"
+        color="primary"
+        class="text-center">
+        <div class="heading h3 mt-1">
+          <v-icon icon="mdi-clock-end"
+            class="mt-n1 ml-2"
+            start />
+          {{ $t('active.encMgr.afterActionReport') }}
+          <span class="text-caption ml-2">
+            {{ $t('active.aar.step', { n: step + 1, total: 2 }) }}
+          </span>
+        </div>
+        <v-spacer />
+        <v-btn icon
+          @click="open = false">
+          <v-icon icon="mdi-close" />
+        </v-btn>
+      </v-toolbar>
+      <v-card-text>
+        <v-window v-model="step">
+          <v-window-item :value="0">
+            <after-action-report v-if="stream"
+              :stream="stream"
+              :focus-actor-id="focusActorId"
+              :outcomes="outcomes"
+              :result="result" />
+          </v-window-item>
+          <v-window-item :value="1">
+            <div class="text-cc-overline text-disabled"><cc-slashes /> {{
+              $t('active.aar.outcomeTitle')
+              }}</div>
+            <cc-panel color="background"
+              class="mt-1 mb-4">
+              <v-row v-for="c in combatants"
                 :key="c.id"
                 dense
-                align="center"
-              >
-                <v-col>
-                  <cc-chip
-                    :bg-color="c.pilotStatus ? 'info' : 'primary'"
-                    size="large"
-                    flat
-                    tile
-                  >
-                    <span class="heading h3 text-text pr-3">
-                      {{ c.name ?? c.actor?.CombatController?.CombatName }}
-                    </span>
-                  </cc-chip>
+                align="center">
+                <v-col cols="12"
+                  md="4">
+                  <div class="heading h4">{{ c.Label || c.actor.CombatController.CombatName }}</div>
+                  <div class="text-caption text-disabled">{{ summaries[c.id] }}</div>
                 </v-col>
-                <v-col
-                  v-if="c.status"
-                  cols="auto"
-                >
-                  <v-combobox
-                    v-model="c.status"
-                    flat
-                    tile
-                    hide-details
-                    density="compact"
-                    min-width="250"
-                    :items="npcStatusTypes"
-                  />
-                </v-col>
-                <v-col
-                  v-if="c.pilotStatus"
-                  cols="auto"
-                >
-                  <v-combobox
-                    v-model="c.pilotStatus"
-                    flat
-                    tile
-                    hide-details
-                    density="compact"
-                    min-width="250"
-                    :items="pilotStatusTypes"
-                  />
-                </v-col>
-                <v-col
-                  v-if="c.mechStatus"
-                  cols="auto"
-                >
-                  <v-combobox
-                    v-model="c.mechStatus"
-                    flat
-                    tile
-                    hide-details
-                    density="compact"
-                    min-width="250"
-                    :items="mechStatusTypes"
-                  />
-                </v-col>
+                <template v-if="outcomes[c.id]?.status !== undefined">
+                  <v-col cols="12"
+                    md="4">
+                    <v-combobox v-model="outcomes[c.id].status"
+                      @update:model-value="edited.add(c.id)"
+                      :items="npcStatusTypes"
+                      :item-title="(v: string) => enumLabel('npcStatus', v)"
+                      :label="$t('common.status')"
+                      hide-details
+                      density="compact" />
+                  </v-col>
+                </template>
+                <template v-else>
+                  <v-col cols="12"
+                    md="4">
+                    <v-combobox v-model="outcomes[c.id].pilotStatus"
+                      @update:model-value="edited.add(c.id)"
+                      :items="pilotStatusTypes"
+                      :item-title="(v: string) => enumLabel('pilotStatus', v)"
+                      :label="$t('active.aar.pilotStatus')"
+                      hide-details
+                      density="compact" />
+                  </v-col>
+                  <v-col v-if="outcomes[c.id]?.mechStatus !== undefined"
+                    cols="12"
+                    md="4">
+                    <v-combobox v-model="outcomes[c.id].mechStatus"
+                      @update:model-value="edited.add(c.id)"
+                      :items="mechStatusTypes"
+                      :item-title="(v: string) => enumLabel('mechStatus', v)"
+                      :label="$t('active.aar.mechStatus')"
+                      hide-details
+                      density="compact" />
+                  </v-col>
+                </template>
               </v-row>
-            </v-card-text>
-          </v-card>
+            </cc-panel>
 
-          <div class="text-cc-overline">// {{ $t('common.result') }}</div>
-          <v-row>
-            <v-col>
-              <v-combobox
-                v-model="result"
-                :items="['PC VICTORY', 'ENEMY VICTORY', 'STALEMATE']"
-                variant="outlined"
-                density="compact"
-              />
-            </v-col>
-          </v-row>
-
-          <v-divider class="my-4" />
-          <v-slide-y-reverse-transition>
-            <cc-alert
-              v-if="confirm"
-              color="warning"
+            <div class="text-cc-overline text-disabled"><cc-slashes /> {{ $t('common.result') }}
+            </div>
+            <v-combobox v-model="result"
+              :items="ENCOUNTER_RESULTS"
+              :item-title="(v: string) => resultLabel(v)"
               variant="outlined"
-              :title="$t('active.endEnc.confirmEndEncounter')"
-              icon="mdi-alert-outline"
-              class="mb-4"
-            >
-              <p class="text-text">{{ confirmMessage }}</p>
-            </cc-alert>
-          </v-slide-y-reverse-transition>
-          <v-row>
-            <v-col>
-              <cc-button
-                v-if="!confirm"
-                block
-                size="small"
-                color="primary"
-                @click="confirm = true"
-              >
-                {{ $t('active.endEnc.endEncounter') }}
-              </cc-button>
-              <cc-button
-                v-else
-                block
-                size="small"
+              density="compact" />
+
+            <v-slide-y-reverse-transition>
+              <cc-alert v-if="confirm"
                 color="warning"
-                @click="$emit('end', result)"
-              >
-                {{ $t('active.endEnc.confirmEndEncounter') }}
-              </cc-button>
-            </v-col>
-          </v-row>
-        </v-card-text>
-      </v-card>
-    </template>
+                variant="outlined"
+                :title="$t('active.endEnc.confirmEndEncounter')"
+                icon="mdi-alert-outline"
+                class="mb-4">
+                <p class="text-text">{{ confirmMessage }}</p>
+              </cc-alert>
+            </v-slide-y-reverse-transition>
+          </v-window-item>
+        </v-window>
+      </v-card-text>
+      <v-divider />
+      <v-card-actions>
+        <cc-button v-if="step === 1"
+          size="small"
+          variant="text"
+          @click="back">
+          {{ $t('common.back') }}
+        </cc-button>
+        <v-spacer />
+        <cc-button v-if="step === 0"
+          size="small"
+          color="primary"
+          append-icon="mdi-chevron-right"
+          @click="step = 1">
+          {{ $t('active.aar.next') }}
+        </cc-button>
+        <cc-button v-else-if="!confirm"
+          size="small"
+          color="primary"
+          @click="confirm = true">
+          {{ $t('active.endEnc.endEncounter') }}
+        </cc-button>
+        <cc-button v-else
+          size="small"
+          color="warning"
+          @click="$emit('end', result, outcomes)">
+          {{ $t('active.endEnc.confirmEndEncounter') }}
+        </cc-button>
+      </v-card-actions>
+    </v-card>
   </v-dialog>
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
-  import { PilotStatus, NpcStatus, MechStatus } from '@/classes/enums'
+import { computed, reactive, ref, shallowRef, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { PilotStatus, NpcStatus, MechStatus } from '@/classes/enums'
+import { enumLabel } from '@/i18n/enumLabel'
+import { seedOutcomes } from '@/classes/components/combat/log/outcome'
+import { reduceEvents } from '@/classes/components/combat/log/telemetry'
+import { rowSummaryText } from '@/classes/components/combat/log/aar'
+import type { IOutcome } from '@/classes/components/combat/log/outcome'
+import type { ILogStream } from '@/classes/components/combat/log/events'
+import type { CombatantData } from '@/classes/encounter/Encounter'
+import AfterActionReport from './aar/AfterActionReport.vue'
+import { ENCOUNTER_RESULTS, resultLabel } from './aar/results'
 
-  const props = defineProps<{
-    actionReport: any[]
-    confirmMessage: string
-  }>()
+const props = defineProps<{
+  combatants: CombatantData[]
+  buildStream: () => ILogStream
+  confirmMessage: string
+  focusActorId?: string
+}>()
 
-  defineEmits<{
-    end: [result: string]
-  }>()
+defineEmits<{
+  end: [result: string, outcomes: Record<string, IOutcome>]
+}>()
 
-  const confirm = ref(false)
-  const result = ref('PC VICTORY')
-  const pilotStatusTypes = Object.values(PilotStatus)
-  const npcStatusTypes = Object.values(NpcStatus)
-  const mechStatusTypes = Object.values(MechStatus)
+const { t } = useI18n()
 
-  function onEndEncounterClick(e: Event, activatorProps: Record<string, any>) {
-    getStatuses()
-    activatorProps.onClick(e)
-  }
+const open = ref(false)
+const step = ref(0)
+const confirm = ref(false)
+const result = ref(ENCOUNTER_RESULTS[0])
+const stream = shallowRef<ILogStream | null>(null)
+const outcomes = reactive<Record<string, IOutcome>>({})
+const edited = new Set<string>()
+const pilotStatusTypes = Object.values(PilotStatus)
+const npcStatusTypes = Object.values(NpcStatus)
+const mechStatusTypes = Object.values(MechStatus)
 
-  function getStatuses() {
-    for (const row of props.actionReport) {
-      const actor = row.actor?.CombatController?.RootActor
-      if (!actor) continue
-      if (actor.ItemType !== 'Pilot') {
-        row.status = actor.CombatController.IsDestroyed
-          ? NpcStatus.Destroyed
-          : NpcStatus.Operational
-      } else {
-        row.pilotStatus = PilotStatus.Active
-        if (actor.IsDead) row.pilotStatus = PilotStatus.KIA
-        if (
-          actor.CombatController.StatController.CurrentStats['hp'] !==
-          actor.CombatController.StatController.MaxStats['hp']
-        )
-          row.pilotStatus = PilotStatus.Injured
-        const mech = actor.ActiveMech
-        row.mechStatus = MechStatus.Operational
-        if (mech.CombatController.AIControl && mech.CombatController.InCascade)
-          row.mechStatus = MechStatus.Cascade
-        if (mech.CombatController.IsDestroyed) row.mechStatus = MechStatus.Destroyed
-        if (mech.CombatController.ReactorDestroyed) row.mechStatus = MechStatus.ReactorMeltdown
-      }
-    }
-  }
+watch(open, isOpen => {
+  if (!isOpen) return
+  step.value = 0
+  confirm.value = false
+  stream.value = props.buildStream()
+  seedOutcomes(props.combatants, outcomes, edited)
+})
+
+function back() {
+  confirm.value = false
+  step.value = 0
+}
+
+const summaries = computed(() => {
+  const s = stream.value
+  if (!s) return {} as Record<string, string>
+  return Object.fromEntries(
+    props.combatants.map(c => [c.id, rowSummaryText(reduceEvents(s.events, c.id), t)])
+  )
+})
 </script>

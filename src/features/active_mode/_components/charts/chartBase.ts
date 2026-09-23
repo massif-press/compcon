@@ -45,11 +45,12 @@ interface IChartPalette {
   negative: string
   damage: (type: string) => string
   series: (index: number) => string
+  side: (side: string) => string
 }
 
 function chartPalette(colors: Record<string, string>): IChartPalette {
   const damage = (type: string) => {
-    const key = type.toLowerCase()
+    const key = `damage--${type.toLowerCase().replace(/[\s_]+/g, '-')}`
     return colors[key] ?? colors['damage--variable']
   }
   const categorical = SERIES_ORDER.map(damage)
@@ -59,6 +60,7 @@ function chartPalette(colors: Record<string, string>): IChartPalette {
     negative: colors.error,
     damage,
     series: (index: number) => categorical[index % categorical.length],
+    side: (side: string) => colors[side] ?? colors.neutral,
   }
 }
 
@@ -160,5 +162,13 @@ function cartesianScales(t: IChartTheme, over: Record<string, any> = {}): Record
   }
 }
 
-export { useChartTheme, baseOptions, cartesianScales, countTicks, MARKS, DAMAGE_ORDER }
+export {
+  useChartTheme,
+  chartPalette,
+  baseOptions,
+  cartesianScales,
+  countTicks,
+  MARKS,
+  DAMAGE_ORDER,
+}
 export type { IChartTheme, IChartPalette }
