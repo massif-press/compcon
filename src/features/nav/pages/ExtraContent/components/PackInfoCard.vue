@@ -7,7 +7,7 @@
             v-if="manifest.description"
             v-html-safe="manifest.description"
           />
-          <span v-else>{{ $t('nav.packInfo.noDescription') }}</span>
+          <span v-else>{{ $t('ui.widget.noDescription') }}</span>
         </p>
         <div>
           <cc-heading line>{{ $t('nav.packInfo.contentHeading') }}</cc-heading>
@@ -38,7 +38,7 @@
             v-if="packDependencies.length === 0"
             class="pl-2"
           >
-            {{ $t('nav.packInfo.none') }}
+            {{ $t('common.none') }}
           </i>
           <div v-else>
             <v-card
@@ -88,13 +88,13 @@
         </div>
         <div class="pt-2">
           <cc-heading line>
-            {{ $t('nav.packInfo.changelog') }}
+            {{ $t('common.changelog') }}
           </cc-heading>
           <i
             v-if="!manifest.version_history || manifest.version_history.length === 0"
             class="pl-2"
           >
-            {{ $t('nav.packInfo.none') }}
+            {{ $t('common.none') }}
           </i>
           <div v-else>
             <v-card
@@ -126,7 +126,7 @@
             v-if="languagePatches.length === 0"
             class="pl-2"
           >
-            {{ $t('nav.packInfo.none') }}
+            {{ $t('common.none') }}
           </i>
           <div v-else>
             <v-chip

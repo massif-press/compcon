@@ -93,7 +93,7 @@
               </v-tooltip>
             </v-btn>
           </template>
-          <cc-panel :title="$t('nav.v2Import.forceImportPanelTitle')">
+          <cc-panel :title="$t('common.forceImport')">
             <v-card-text class="pa-1">
               {{ $t('nav.v2Import.forceImportNotice', { type: item.type }) }}:
               <div class="mt-2">
@@ -118,7 +118,7 @@
                 :loading="loading"
                 @click="doForceImport(item)"
               >
-                {{ $t('nav.v2Import.confirmForceImport') }}
+                {{ $t('common.forceImport') }}
               </cc-button>
             </v-card-actions>
           </cc-panel>

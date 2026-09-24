@@ -92,8 +92,8 @@
     'E-Defense': 'stats.edefense',
     'Tech Attack': 'common.techAttack',
     Sensors: 'stats.sensors',
-    'Repair Capacity': 'ui.titles.repairCapacity',
-    'Save Target': 'ui.titles.saveTarget',
+    'Repair Capacity': 'active.titles.repairCapacity',
+    'Save Target': 'active.titles.saveTarget',
     'System Points': 'common.systemPoints',
   }
 

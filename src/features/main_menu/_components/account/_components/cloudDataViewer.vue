@@ -181,7 +181,7 @@
     { title: t('mainMenu.titles.pilot'), value: 'pilot' },
     { title: t('mainMenu.titles.pilotGroups'), value: 'pilotgroup' },
     { title: t('mainMenu.titles.npc'), value: 'npc' },
-    { title: t('mainMenu.titles.narrativeElement'), value: 'collectionItem' },
+    { title: t('gm.titles.narrativeElement'), value: 'collectionItem' },
     { title: t('mainMenu.titles.encounter'), value: 'encounter' },
     // { title: t('mainMenu.titles.campaign'), value: 'campaign' },
   ]

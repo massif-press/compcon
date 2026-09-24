@@ -95,7 +95,7 @@
       />
       <compendium-page-button
         icon="cc:status_exposed"
-        :name="$t('compendium.titles.statusesConditions')"
+        :name="$t('compendium.categories.statusesConditions')"
         to="/srd/compendium/statuses"
       />
       <compendium-page-button

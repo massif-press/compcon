@@ -87,10 +87,10 @@ const routes = [
     path: 'compendium/weapons',
     component: Weapons,
     searchData: {
-      title: 'compendium.titles.mechWeapons',
+      title: 'compendium.categories.mechWeapons',
       icon: 'mdi-book-variant',
     },
-    meta: { title: 'compendium.titles.mechWeapons' },
+    meta: { title: 'compendium.categories.mechWeapons' },
   },
   {
     path: 'compendium/systems',
@@ -114,10 +114,10 @@ const routes = [
     path: 'compendium/skills',
     component: Skills,
     searchData: {
-      title: 'compendium.titles.skillTriggers',
+      title: 'pm.titles.skillTriggers',
       icon: 'mdi-book-variant',
     },
-    meta: { title: 'compendium.titles.skillTriggers' },
+    meta: { title: 'pm.titles.skillTriggers' },
   },
   {
     path: 'compendium/npc_classes',
@@ -132,10 +132,10 @@ const routes = [
     path: 'compendium/npc_features',
     component: NpcFeatures,
     searchData: {
-      title: 'compendium.titles.npcFeatures',
+      title: 'compendium.categories.npcFeatures',
       icon: 'mdi-book-variant',
     },
-    meta: { title: 'compendium.titles.npcFeatures' },
+    meta: { title: 'compendium.categories.npcFeatures' },
   },
   {
     path: 'compendium/npc_templates',
@@ -159,10 +159,10 @@ const routes = [
     path: 'compendium/statuses',
     component: Statuses,
     searchData: {
-      title: 'compendium.titles.statusesConditions',
+      title: 'compendium.categories.statusesConditions',
       icon: 'mdi-book-variant',
     },
-    meta: { title: 'compendium.titles.statusesConditions' },
+    meta: { title: 'compendium.categories.statusesConditions' },
   },
   {
     path: 'compendium/tags',
@@ -182,10 +182,10 @@ const routes = [
     path: 'compendium/corebonuses',
     component: CoreBonuses,
     searchData: {
-      title: 'compendium.titles.coreBonuses',
+      title: 'pm.titles.coreBonuses',
       icon: 'mdi-book-variant',
     },
-    meta: { title: 'compendium.titles.coreBonuses' },
+    meta: { title: 'pm.titles.coreBonuses' },
   },
   {
     path: 'compendium/talents',

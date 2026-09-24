@@ -83,7 +83,7 @@
         >
           <i>
             {{ $t('nav.packConfig.noLcpsPrefix') }}
-            <b class="text-accent">{{ $t('nav.packConfig.lancerCoreBook') }}</b>
+            <b class="text-accent">{{ $t('ui.missing.lancerCoreBook') }}</b>
             {{ $t('nav.packConfig.willBeAvailable') }}
           </i>
         </v-card>
@@ -109,7 +109,7 @@
               <span class="heading">{{ lcp.packName }}</span>
               <span class="text-disabled">
                 {{
-                  $t('nav.packConfig.byAuthor', {
+                  $t('common.byAuthor', {
                     author: lcp.packAuthor,
                   })
                 }}

@@ -32,7 +32,7 @@
     <cc-button
       :size="mobile ? 'large' : 'x-large'"
       icon="mdi-home"
-      :tooltip="$t('nav.nav.mainMenu')"
+      :tooltip="$t('common.mainMenu')"
       tooltip-location="bottom"
       @click="$router.push({ name: 'main-menu' })"
     />
@@ -42,7 +42,7 @@
     <cc-button
       :size="mobile ? 'large' : 'x-large'"
       icon="mdi-book"
-      :tooltip="$t('nav.nav.compendium')"
+      :tooltip="$t('common.compendium')"
       tooltip-location="bottom"
       @click="$router.push({ path: '/srd' })"
     />
@@ -80,7 +80,7 @@
           slim
           @click="$router.push({ path: '/gm/npcs' })"
         >
-          {{ $t('nav.nav.npcRoster') }}
+          {{ $t('gm.titles.npcRoster') }}
         </v-list-item>
         <v-list-item
           slim
@@ -109,7 +109,7 @@
     <cc-button
       :size="mobile ? 'large' : 'x-large'"
       icon="cc:campaign"
-      :tooltip="$t('nav.nav.activeMode')"
+      :tooltip="$t('common.activeMode')"
       tooltip-location="bottom"
       @click="$router.push({ path: '/active-mode' })"
     />
@@ -282,7 +282,7 @@
     <v-tooltip location="bottom">
       <template #activator="{ props }">
         <cc-dialog
-          :title="$t('nav.nav.cloudAccount')"
+          :title="$t('common.cloudAccount')"
           icon="mdi-cloud-sync-outline"
           :close-on-click="false"
           major
@@ -307,7 +307,7 @@
           <cloud-page />
         </cc-dialog>
       </template>
-      {{ $t('nav.nav.cloudAccount') }}
+      {{ $t('common.cloudAccount') }}
     </v-tooltip>
 
     <v-divider
@@ -362,7 +362,7 @@
 
       <v-list density="compact">
         <v-list-item @click.stop="contentModal = true">
-          {{ $t('nav.nav.manageContent') }}
+          {{ $t('common.manageContent') }}
         </v-list-item>
         <content-page v-model="contentModal" />
         <cc-dialog
@@ -374,7 +374,7 @@
           max-width="90vw"
         >
           <template #activator="{ open }">
-            <v-list-item @click.stop="open">{{ $t('nav.nav.options') }}</v-list-item>
+            <v-list-item @click.stop="open">{{ $t('common.options') }}</v-list-item>
           </template>
           <options-page />
         </cc-dialog>
@@ -400,7 +400,7 @@
           max-width="90vw"
         >
           <template #activator="{ open }">
-            <v-list-item @click.stop="open">{{ $t('nav.nav.credits') }}</v-list-item>
+            <v-list-item @click.stop="open">{{ $t('common.credits') }}</v-list-item>
           </template>
           <credits-page />
         </cc-dialog>

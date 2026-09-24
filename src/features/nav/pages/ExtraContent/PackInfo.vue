@@ -42,7 +42,7 @@
         </template>
         <template #subtitle>
           <div class="pl-2 mb-n2">
-            {{ $t('nav.packConfig.byAuthor', { author: pack.manifest.author }) }}
+            {{ $t('common.byAuthor', { author: pack.manifest.author }) }}
           </div>
         </template>
       </cc-toolbar>

@@ -240,7 +240,7 @@
             prepend-icon="mdi-alert-outline"
             v-bind="props"
           >
-            {{ $t('nav.storage.clearAllData') }}
+            {{ $t('common.clearAllData') }}
           </cc-button>
         </div>
       </template>

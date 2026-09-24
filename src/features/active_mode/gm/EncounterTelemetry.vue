@@ -20,7 +20,7 @@
             <v-select
               v-model="groupBy"
               :items="groupByItems"
-              :label="$t('active.gmTelemetry.groupBy')"
+              :label="$t('gm.fields.groupBy')"
               density="compact"
               variant="outlined"
               class="mb-2"

@@ -40,7 +40,7 @@
               size="small"
               @click="item.SaveController.Restore()"
             >
-              {{ $t('nav.deletedItems.restore') }}
+              {{ $t('common.restore') }}
             </v-btn>
           </td>
           <td class="text-right">

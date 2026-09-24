@@ -14,7 +14,7 @@
         chips
         clearable
         variant="outlined"
-        :label="$t('ui.fields.itemType')"
+        :label="$t('nav.deletedItems.itemType')"
         :items="types"
         multiple
         @update:model-value="updateFilters()"

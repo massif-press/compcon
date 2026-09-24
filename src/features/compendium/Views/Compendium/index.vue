@@ -35,7 +35,7 @@
       />
       <compendium-page-button
         icon="cc:corebonus"
-        :name="$t('compendium.titles.coreBonuses')"
+        :name="$t('pm.titles.coreBonuses')"
         to="/srd/compendium/corebonuses"
       />
       <compendium-page-button
@@ -47,7 +47,7 @@
       <compendium-page-button
         color="weapon"
         icon="cc:melee"
-        :name="$t('compendium.titles.mechWeapons')"
+        :name="$t('compendium.categories.mechWeapons')"
         to="/srd/compendium/weapons"
       />
       <compendium-page-button
@@ -71,7 +71,7 @@
       <compendium-page-button
         color="secondary"
         icon="cc:accuracy"
-        :name="$t('compendium.titles.skillTriggers')"
+        :name="$t('pm.titles.skillTriggers')"
         to="/srd/compendium/skills"
       />
       <compendium-page-button
@@ -101,7 +101,7 @@
       <compendium-page-button
         color="error"
         icon="cc:npc_feature"
-        :name="$t('compendium.titles.npcFeatures')"
+        :name="$t('compendium.categories.npcFeatures')"
         to="/srd/compendium/npc_features"
       />
       <compendium-page-button

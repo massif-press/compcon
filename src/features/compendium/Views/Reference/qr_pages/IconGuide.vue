@@ -182,7 +182,7 @@
         {
           name: 'HP',
           icon: 'mdi-heart',
-          text: t('compendium.tooltips.hitPoints'),
+          text: t('active.stats.hitPoints'),
           color: 'hp',
         },
         {

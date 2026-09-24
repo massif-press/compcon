@@ -128,7 +128,7 @@
     { title: t('mainMenu.titles.pilots'), value: 'pilots' },
     { title: t('common.npcs'), value: 'npcs' },
     { title: t('common.encounters'), value: 'encounters' },
-    { title: t('mainMenu.titles.narrativeElements'), value: 'narrative' },
+    { title: t('nav.nav.narrativeElements'), value: 'narrative' },
     // { title: t('mainMenu.titles.campaigns'), value: 'campaigns' },
     // { title: t('mainMenu.titles.lcps'), value: 'lcps' },
   ])
@@ -180,7 +180,7 @@
           ...base,
           { title: t('common.player'), value: 'Player' },
           { title: t('common.callsign'), value: 'Callsign' },
-          { title: t('mainMenu.titles.licenseLevel'), value: 'Level', align: 'center' },
+          { title: t('ui.fields.licenseLevel'), value: 'Level', align: 'center' },
           { title: t('common.status'), value: 'Status' },
           { title: t('mainMenu.titles.lastUpdate'), key: 'updated' },
         ]
@@ -209,7 +209,7 @@
         ]
         break
     }
-    base.push({ title: t('mainMenu.titles.addItem'), value: 'actions', align: 'center' })
+    base.push({ title: t('mainMenu.collection.addItem'), value: 'actions', align: 'center' })
     return base
   })
 

@@ -131,7 +131,7 @@
             class="text-caption"
           >
             <b>{{ pack.manifest.name }}</b>
-            {{ $t('nav.packConfig.byAuthor', { author: pack.manifest.author }) }}
+            {{ $t('common.byAuthor', { author: pack.manifest.author }) }}
           </div>
         </cc-alert>
 

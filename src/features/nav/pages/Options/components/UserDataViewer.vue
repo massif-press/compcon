@@ -12,7 +12,7 @@
     >
       <thead>
         <tr>
-          <th>{{ $t('nav.userDataViewer.item') }}</th>
+          <th>{{ $t('common.item') }}</th>
           <th>{{ $t('nav.userDataViewer.value') }}</th>
         </tr>
       </thead>

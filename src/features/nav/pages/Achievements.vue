@@ -171,7 +171,7 @@
               density="compact"
               class="py-1"
             >
-              <v-btn size="small">{{ $t('nav.achievements.hidden') }}</v-btn>
+              <v-btn size="small">{{ $t('common.hidden') }}</v-btn>
             </v-btn-toggle>
           </v-col>
         </v-row>
@@ -232,7 +232,7 @@
           tile
           @click="sort = 'none'"
         >
-          {{ $t('nav.achievements.none') }}
+          {{ $t('common.none') }}
         </v-btn>
         <v-btn
           color="primary"
@@ -241,7 +241,7 @@
           tile
           @click="sort = sort === 'name_asc' ? 'name_desc' : 'name_asc'"
         >
-          {{ $t('nav.achievements.name') }}
+          {{ $t('common.name') }}
         </v-btn>
         <v-btn
           color="primary"

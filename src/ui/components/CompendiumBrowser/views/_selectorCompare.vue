@@ -147,7 +147,7 @@
           { title: t('stats.armor'), value: 'armor' },
           { title: t('ui.titles.eDefense'), value: 'edef' },
           { title: t('ui.titles.heatCapacity'), value: 'heatcap' },
-          { title: t('ui.titles.repairCapacity'), value: 'repcap' },
+          { title: t('active.titles.repairCapacity'), value: 'repcap' },
           { title: t('stats.sensors'), value: 'sensor_range' },
           { title: t('common.techAttack'), value: 'tech_attack' },
           { title: t('common.save'), value: 'save' },
@@ -165,7 +165,7 @@
       case 'PilotWeapon':
         return [
           { title: t('ui.titles.range'), value: 'range' },
-          { title: t('ui.titles.totalDamage'), value: 'damage' },
+          { title: t('active.damageMenu.totalDamage'), value: 'damage' },
         ]
       case 'NpcClass':
         return [
@@ -180,7 +180,7 @@
           { title: t('ui.titles.eDefense'), value: 'edef' },
           { title: t('stats.speed'), value: 'speed' },
           { title: t('common.sensorRange'), value: 'sensorRange' },
-          { title: t('ui.titles.saveTarget'), value: 'saveTarget' },
+          { title: t('active.titles.saveTarget'), value: 'saveTarget' },
         ]
       default:
         return [
@@ -189,7 +189,7 @@
           { title: t('ui.titles.blast'), value: 'blast' },
           { title: t('ui.titles.burst'), value: 'burst' },
           { title: t('ui.titles.cone'), value: 'cone' },
-          { title: t('ui.titles.totalDamage'), value: 'damage', bold: true },
+          { title: t('active.damageMenu.totalDamage'), value: 'damage', bold: true },
           { title: t('ui.titles.kineticDamage'), value: 'kineticDamage' },
           { title: t('ui.titles.energyDamage'), value: 'energyDamage' },
           { title: t('ui.titles.heatDamage'), value: 'heatDamage' },

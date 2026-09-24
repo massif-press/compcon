@@ -18,7 +18,7 @@
             start
             icon="mdi-list-box"
           />
-          {{ $t('nav.contentManager.contentPacks') }}
+          {{ $t('common.contentPacks') }}
         </v-tab>
         <v-tab>
           <v-icon
@@ -32,7 +32,7 @@
             start
             icon="mdi-format-list-text"
           />
-          {{ $t('nav.contentManager.lcpDirectory') }}
+          {{ $t('common.lcpDirectory') }}
         </v-tab>
         <v-tab>
           <v-icon

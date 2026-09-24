@@ -88,7 +88,7 @@
               cols="4"
               sm="4"
               md="4"
-              :attr="mobile ? $t('compendium.titles.repcap') : $t('ui.titles.repairCapacity')"
+              :attr="mobile ? $t('compendium.titles.repcap') : $t('active.titles.repairCapacity')"
               icon="cc:repair"
               :val="mech.RepairCapacity"
               :contributors="mech.RepCapContributors"

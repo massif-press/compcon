@@ -374,14 +374,14 @@
   })
 
   const heading = computed(() => {
-    if (!logbooks.value.length) return t('pm.logbook.allPilots')
+    if (!logbooks.value.length) return t('active.titles.allPilots')
     if (logbooks.value.length === 1) return callsign(logbooks.value[0].PilotID)
-    if (!pilotIds.value.length) return t('pm.logbook.allPilots')
+    if (!pilotIds.value.length) return t('active.titles.allPilots')
     return t('pm.logbook.nPilots', { n: logbooks.value.length })
   })
 
   const campaignItems = computed(() => [
-    { value: '', title: t('pm.logbook.allCampaigns') },
+    { value: '', title: t('active.gmTelemetry.allCampaigns') },
     ...[
       ...new Set(logbooks.value.flatMap(l => l.Records.map(r => r.campaignId)).filter(Boolean)),
     ].map(c => ({ value: c as string, title: c as string })),

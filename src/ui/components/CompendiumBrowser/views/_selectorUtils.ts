@@ -14,7 +14,7 @@ export function getChartAxes(
         { title: i18n.global.t('stats.armor'), value: 'armor' },
         { title: i18n.global.t('ui.titles.eDefense'), value: 'edef' },
         { title: i18n.global.t('ui.titles.heatCapacity'), value: 'heatcap' },
-        { title: i18n.global.t('ui.titles.repairCapacity'), value: 'repcap' },
+        { title: i18n.global.t('active.titles.repairCapacity'), value: 'repcap' },
         { title: i18n.global.t('stats.sensors'), value: 'sensor_range' },
         { title: i18n.global.t('common.techAttack'), value: 'tech_attack' },
         { title: i18n.global.t('common.save'), value: 'save' },
@@ -35,7 +35,7 @@ export function getChartAxes(
     case 'PilotWeapon':
       return [
         { title: i18n.global.t('ui.titles.range'), value: 'range' },
-        { title: i18n.global.t('ui.titles.totalDamage'), value: 'damage' },
+        { title: i18n.global.t('active.damageMenu.totalDamage'), value: 'damage' },
       ]
     case 'NpcClass':
       return [
@@ -50,12 +50,12 @@ export function getChartAxes(
         { title: i18n.global.t('ui.titles.eDefense'), value: 'edef' },
         { title: i18n.global.t('stats.speed'), value: 'speed' },
         { title: i18n.global.t('common.sensorRange'), value: 'sensorRange' },
-        { title: i18n.global.t('ui.titles.saveTarget'), value: 'saveTarget' },
+        { title: i18n.global.t('active.titles.saveTarget'), value: 'saveTarget' },
       ]
     default:
       return [
         { title: i18n.global.t('ui.titles.range'), value: 'range' },
-        { title: i18n.global.t('ui.titles.totalDamage'), value: 'damage' },
+        { title: i18n.global.t('active.damageMenu.totalDamage'), value: 'damage' },
         { title: i18n.global.t('ui.titles.threat'), value: 'threat' },
         { title: i18n.global.t('ui.titles.thrown'), value: 'thrown' },
         { title: i18n.global.t('ui.titles.line'), value: 'line' },

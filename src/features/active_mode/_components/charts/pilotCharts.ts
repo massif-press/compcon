@@ -87,7 +87,7 @@ function pilotCharts(
     },
     options: baseOptions(theme, { cutout: '58%' }),
     table: byType.map(s => ({
-      [t('active.charts.colType')]: s.label,
+      [t('ui.fields.damageType')]: s.label,
       [t('active.charts.colDamage')]: s.value,
     })),
   })

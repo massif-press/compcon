@@ -88,7 +88,7 @@
       sortable: false,
     },
     {
-      title: t('mainMenu.titles.installedVersion'),
+      title: t('nav.titles.installedVersion'),
       key: 'local_version',
       align: 'center',
       sortable: false,

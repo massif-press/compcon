@@ -4,7 +4,7 @@
       class="heading mech"
       style="line-height: 30px"
     >
-      {{ $t('nav.about.title') }}
+      {{ $t('common.appName') }}
     </div>
     <div class="text-caption ml-1 my-2">
       {{ $t('nav.about.ccVersion') }}

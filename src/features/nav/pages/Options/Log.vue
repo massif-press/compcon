@@ -7,7 +7,7 @@
       >
         <cc-heading
           is-title
-          :text="$t('nav.settingsPage.logLevel')"
+          :text="$t('common.logLevel')"
         />
         <div>
           <v-menu>
@@ -154,7 +154,7 @@
                 v-else
                 class="text-center text-disabled"
               >
-                <i>{{ $t('nav.log.noData') }}</i>
+                <i>{{ $t('common.noData') }}</i>
               </div>
             </v-col>
           </v-row>

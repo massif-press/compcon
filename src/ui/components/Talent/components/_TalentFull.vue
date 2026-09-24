@@ -173,7 +173,7 @@
         v-if="hideLocked"
         style="position: absolute; top: 0; right: -14px"
       >
-        <v-tooltip :text="showAll ? $t('ui.talent.hideAll') : $t('ui.talent.showAll')">
+        <v-tooltip :text="showAll ? $t('gm.filter.hideAll') : $t('ui.talent.showAll')">
           <template #activator="{ props }">
             <cc-button
               size="x-small"

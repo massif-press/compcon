@@ -407,9 +407,7 @@
                     @click="doImport(close)"
                   >
                     {{
-                      isV2File
-                        ? $t('nav.settingsPage.importV2Backup')
-                        : $t('nav.settingsPage.confirmImport')
+                      isV2File ? $t('nav.settingsPage.importV2Backup') : $t('common.confirmImport')
                     }}
                   </cc-button>
                 </v-col>

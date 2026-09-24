@@ -115,7 +115,7 @@
     { title: t('pm.titles.manufacturer'), align: 'left', key: 'Source' },
     { title: t('pm.titles.system'), align: 'left', key: 'Name' },
     { title: 'License', align: 'left', key: 'License' },
-    { title: t('pm.titles.licenseLevel'), align: 'left', key: 'LicenseLevel' },
+    { title: t('ui.fields.licenseLevel'), align: 'left', key: 'LicenseLevel' },
     { title: t('pm.titles.spCost'), align: 'left', key: 'SP' },
   ]
 

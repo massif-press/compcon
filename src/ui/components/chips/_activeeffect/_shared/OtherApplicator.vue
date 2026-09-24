@@ -50,8 +50,8 @@
   )
 
   const cover = [
-    { title: t('ui.titles.softCover'), value: 'soft' },
-    { title: t('ui.titles.hardCover'), value: 'hard' },
-    { title: t('ui.titles.noCover'), value: 'none' },
+    { title: t('active.panelBase.softCover'), value: 'soft' },
+    { title: t('active.panelBase.hardCover'), value: 'hard' },
+    { title: t('active.panelBase.noCover'), value: 'none' },
   ]
 </script>

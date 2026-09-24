@@ -31,9 +31,9 @@
     { title: '', align: 'left', key: 'Source' },
     { title: t('compendium.titles.system'), align: 'left', key: 'Name' },
     { title: 'License', key: 'License' },
-    { title: t('compendium.titles.licenseLevel'), align: 'center', key: 'LicenseLevel' },
+    { title: t('ui.fields.licenseLevel'), align: 'center', key: 'LicenseLevel' },
     { title: t('compendium.titles.tags'), align: 'center', key: 'Tags' },
-    { title: t('compendium.titles.spCost'), align: 'center', key: 'SP' },
+    { title: t('ui.filter.spCost'), align: 'center', key: 'SP' },
   ])
 
   const manufacturers = computed(() => {

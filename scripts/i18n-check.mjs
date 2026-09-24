@@ -176,6 +176,44 @@ if (redeclared.length) {
   console.log('repoint call sites to the canonical unless this is variable context.')
 }
 
+const byValue = new Map()
+for (const [k, v] of Object.entries(flat)) {
+  const top = k.split('.')[0]
+  if (SHARED_NAMESPACES.includes(top) || DYNAMIC_NAMESPACES.some(ns => `${top}.`.startsWith(ns)))
+    continue
+  if (v.startsWith('@:') || v.includes('{') || !/\s/.test(v.trim())) continue
+  if (!byValue.has(v)) byValue.set(v, [])
+  byValue.get(v).push(k)
+}
+const featureDupes = [...byValue].filter(([, ks]) => new Set(ks.map(k => k.split('.')[0])).size > 1)
+if (featureDupes.length) {
+  console.warn(
+    `\ni18n: ${featureDupes.length} multi-word value(s) declared in more than one feature:`
+  )
+  for (const [v, ks] of featureDupes) console.warn(`  - ${JSON.stringify(v)}  ${ks.join(', ')}`)
+}
+
+const DIEGETIC_VALUE =
+  /^[A-Za-z]{1,4}-[\dA-Za-z]+(?:-[\dA-Za-zδ]+)*(?:\/\/| \/\/ )|:\/\/|^MV-2\/\/|\{callsign\} \/\/ \{name\}|\{name\} \/\/ \{callsign\}|^\/\/ Process interrupt|^Warning \/\/ /
+const FRAMED_VALUE = /^\s*\/\/|\/\/\s*$|^\s*\[.*\]\s*$|^".*"$|^[,-]\s/
+const framed = Object.entries(flat).filter(
+  ([, v]) => FRAMED_VALUE.test(v.replace(/https?:\/\//g, '')) && !DIEGETIC_VALUE.test(v)
+)
+if (framed.length) {
+  console.warn(
+    `\ni18n: ${framed.length} value(s) carry presentation framing (move it to the template):`
+  )
+  for (const [k, v] of framed) console.warn(`  - ${k}  (${JSON.stringify(v)})`)
+}
+
+const badKeys = Object.keys(flat).filter(
+  k => /[A-Z]{3,}/.test(k.split('.').pop()) || (/\D\d$/.test(k) && k.slice(0, -1) in flat)
+)
+if (badKeys.length) {
+  console.warn(`\ni18n: ${badKeys.length} key(s) with an ALLCAPS run or a collision digit suffix:`)
+  for (const k of badKeys) console.warn(`  - ${k}`)
+}
+
 if (unused.length) {
   console.log(`i18n: ${unused.length} unused keys in en.json:`)
   for (const k of unused) console.log(`  - ${k.path}`)

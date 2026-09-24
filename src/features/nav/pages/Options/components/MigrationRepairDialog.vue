@@ -89,7 +89,7 @@
               <thead>
                 <tr class="heading">
                   <th>{{ $t('nav.migrationRepair.colCategory') }}</th>
-                  <th>{{ $t('nav.migrationRepair.colItem') }}</th>
+                  <th>{{ $t('common.item') }}</th>
                   <th>{{ $t('nav.migrationRepair.colIssue') }}</th>
                   <th class="text-center">{{ $t('nav.migrationRepair.colFixable') }}</th>
                 </tr>

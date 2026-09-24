@@ -6,7 +6,7 @@
     <template #tabs>
       <v-tab>{{ $t('common.settings') }}</v-tab>
       <v-tab>{{ $t('nav.optionsPage.tabStorage') }}</v-tab>
-      <v-tab>{{ $t('nav.optionsPage.tabActiveMode') }}</v-tab>
+      <v-tab>{{ $t('common.activeMode') }}</v-tab>
       <v-tab>{{ $t('nav.optionsPage.tabLog') }}</v-tab>
     </template>
     <v-window-item>
