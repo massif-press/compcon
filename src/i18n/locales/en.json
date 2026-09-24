@@ -1213,6 +1213,7 @@
       "hitPoints": "Hit Points"
     },
     "common": {
+      "invalidJsonFile": "Invalid JSON file.",
       "exportAsJson": "Export as JSON",
       "currentlySelected": "Currently Selected",
       "destroyed": "Destroyed",
@@ -1259,6 +1260,7 @@
       "localActiveEncounters": "Local Active Encounters",
       "deleteEncounter": "Delete Encounter",
       "createNewEncounter": "Create New Encounter",
+      "loadFromJson": "Load Encounter from JSON",
       "archivedEncounters": "Archived Encounters ({n})",
       "noArchivedFound": "No archived encounters found",
       "roundsCount": "{n} Rounds",
@@ -1414,6 +1416,7 @@
       "stagedImport": "Staged Import",
       "atRound": "at Round",
       "warningReplace": "Warning: The imported Character Sheet state will replace the current Character Sheet state.",
+      "invalidSheetFile": "Invalid Character Sheet Instance file.",
       "changeActiveMech": "Change Active Mech",
       "applySave": "Apply & Save"
     },
@@ -1434,6 +1437,8 @@
       "importState": "Import Encounter State",
       "importFileLabel": "Encounter Instance Import File (.json)",
       "warningReplace": "Warning: The imported encounter state will replace the current encounter state.",
+      "invalidEncounterFile": "Invalid Encounter Instance file.",
+      "importFailed": "Could not import this encounter file.",
       "setRound": "Set Round",
       "overrides": "Overrides",
       "current": "Current",

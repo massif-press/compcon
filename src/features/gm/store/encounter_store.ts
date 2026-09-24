@@ -131,7 +131,7 @@ export const EncounterStore = defineStore('encounter', {
       } else {
         this.ActiveEncounters.push(payload)
       }
-      this.SaveActiveEncounterData()
+      await SetItem('active_encounters', toRaw(payload).Serialize())
     },
 
     ReplaceActiveEncounter(payload: EncounterInstance): void {
@@ -144,7 +144,7 @@ export const EncounterStore = defineStore('encounter', {
       this.ActiveEncounters.forEach(x => (x.IsActive = false))
       const id = payload.ID || (payload as any)._id
       const idx = this.ActiveEncounters.findIndex(x => x.ID === id)
-      if (idx >= -1) {
+      if (idx !== -1) {
         this.ActiveEncounters.splice(idx, 1)
         await RemoveItem('active_encounters', id)
         this.SaveActiveEncounterData()
@@ -201,7 +201,7 @@ export const EncounterStore = defineStore('encounter', {
     async RemoveEncounterArchive(payload: EncounterArchive): Promise<void> {
       const id = payload.ID || (payload as any)._id
       const idx = this.ArchivedEncounters.findIndex(x => x.ID === id)
-      if (idx >= -1) {
+      if (idx !== -1) {
         this.ArchivedEncounters.splice(idx, 1)
         await RemoveItem('encounter_archives', id)
       }
@@ -226,7 +226,7 @@ export const EncounterStore = defineStore('encounter', {
     async DeleteEncounterPermanent(payload: Encounter): Promise<void> {
       const id = payload.ID || (payload as any)._id
       const idx = this.Encounters.findIndex(x => x.ID === id)
-      if (idx >= -1) this.Encounters.splice(idx, 1)
+      if (idx !== -1) this.Encounters.splice(idx, 1)
       NavStore().removeEncounterEntry(id)
       await RemoveItem('Encounters', id)
       this.SaveEncounterData()

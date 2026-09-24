@@ -265,6 +265,6 @@
   }
 
   function stageImport() {
-    stageImportFile('sheet', 'Invalid Character Sheet Instance file.')
+    stageImportFile('sheet', t('active.pcOptions.invalidSheetFile'))
   }
 </script>

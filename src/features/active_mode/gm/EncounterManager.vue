@@ -188,6 +188,24 @@
     >
       {{ $t('active.encMgr.createNewEncounter') }}
     </cc-button>
+    <div class="text-right mt-1">
+      <encounter-import-dialog
+        :title="$t('active.encMgr.loadFromJson')"
+        @imported="launch"
+      >
+        <template #activator="{ open }">
+          <v-btn
+            variant="text"
+            size="small"
+            color="accent"
+            prepend-icon="mdi-import"
+            @click="open"
+          >
+            {{ $t('active.encMgr.loadFromJson') }}
+          </v-btn>
+        </template>
+      </encounter-import-dialog>
+    </div>
     <br />
 
     <v-expansion-panels>
@@ -460,6 +478,7 @@
   import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
   import { EncounterArchive } from '@/classes/encounter/EncounterArchive'
   import { useI18n } from 'vue-i18n'
+  import EncounterImportDialog from '@/features/active_mode/runner/_shared/_EncounterImportDialog.vue'
   const { t } = useI18n()
 
   const { smAndDown: mobile } = useDisplay()

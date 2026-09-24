@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import logger from '@/user/logger'
+import { i18n } from '@/i18n'
 
 function useRunnerOptions() {
   const fileValue = ref<File | null>(null)
@@ -31,6 +32,7 @@ function useRunnerOptions() {
     }
     const reader = new FileReader()
     reader.onload = (e: any) => {
+      importError.value = ''
       try {
         const result = e.target.result
         importObj.value = JSON.parse(result)
@@ -46,7 +48,7 @@ function useRunnerOptions() {
         importOk.value = true
       } catch (error) {
         logger.error('Failed to parse import file', null, error)
-        importError.value = 'Invalid JSON file.'
+        importError.value = i18n.global.t('active.common.invalidJsonFile')
         importOk.value = false
       }
     }

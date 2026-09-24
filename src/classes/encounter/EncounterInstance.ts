@@ -235,6 +235,15 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     }
   }
 
+  public RenewID(): void {
+    this._id = crypto.randomUUID()
+    this.CloudController.ResetIdentity()
+    this.SaveController.RemoteCode = ''
+    this.SaveController.RemoteAuthor = ''
+    this.SaveController.RemoteCollection = ''
+    this.StampLogContext()
+  }
+
   public StampLogContext(source: 'gm' | 'self' = 'gm'): void {
     for (const c of this.Combatants) {
       const recorders = [c.actor?.CombatController, c.actor?.ActiveMech?.CombatController]
