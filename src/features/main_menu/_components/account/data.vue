@@ -1,18 +1,14 @@
 <template>
   <v-container :class="!mobile && 'px-12'">
-    <v-progress-linear
-      :model-value="(cloudUseMb / cloudMaxMb) * 100"
+    <v-progress-linear :model-value="(cloudUseMb / cloudMaxMb) * 100"
       color="secondary"
       bg-color="primary"
       tile
-      height="35"
-    >
-      <v-chip
-        size="small"
+      height="35">
+      <v-chip size="small"
         tile
         variant="elevated"
-        elevation="0"
-      >
+        elevation="0">
         {{ ((cloudUseMb / cloudMaxMb) * 100).toFixed(3) }}%
       </v-chip>
     </v-progress-linear>
@@ -22,15 +18,15 @@
       {{ (cloudUseMb >= 1 ? cloudUseMb : cloudUseKb).toFixed(2) }}
       {{ cloudUseMb >= 1 ? $t('ui.image.mb') : $t('mainMenu.unit.kb') }}
       {{ $t('mainMenu.dataUsage.ofMaxMb', { max: cloudMaxMb.toFixed(2) }) }}
-      <cc-button
-        size="small"
+      <v-btn color="exotic"
+        size="x-small"
+        tile
         variant="tonal"
-        color="info"
         prepend-icon="mdi-star"
-        class="my-1"
-      >
+        href="https://www.patreon.com/compcon/join"
+        target="_blank">
         {{ $t('mainMenu.ui.upgrade') }}
-      </cc-button>
+      </v-btn>
     </div>
     <br />
     <sync-settings />
@@ -40,11 +36,9 @@
     <cloud-archive />
 
     <div class="my-8 text-right">
-      <cc-button
-        color="primary"
+      <cc-button color="primary"
         :loading="resetting"
-        @click="resetMigration()"
-      >
+        @click="resetMigration()">
         {{ $t('mainMenu.dataUsage.resetMigrationTool') }}
       </cc-button>
     </div>
@@ -52,41 +46,41 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref } from 'vue'
-  import { useDisplay } from 'vuetify'
-  import { UserStore } from '@/stores'
-  import CloudArchive from './_components/cloudArchive.vue'
-  import CloudDataViewer from './_components/cloudDataViewer.vue'
-  import SyncSettings from './_components/syncSettings.vue'
+import { computed, ref } from 'vue'
+import { useDisplay } from 'vuetify'
+import { UserStore } from '@/stores'
+import CloudArchive from './_components/cloudArchive.vue'
+import CloudDataViewer from './_components/cloudDataViewer.vue'
+import SyncSettings from './_components/syncSettings.vue'
 
-  const _display = useDisplay()
+const _display = useDisplay()
 
-  defineOptions({ name: 'CloudAccountData' })
+defineOptions({ name: 'CloudAccountData' })
 
-  const emit = defineEmits<{
-    reset: []
-  }>()
+const emit = defineEmits<{
+  reset: []
+}>()
 
-  const resetting = ref(false)
+const resetting = ref(false)
 
-  const cloudUseKb = computed(() => {
-    return UserStore().CloudStorageUsed / 1024
-  })
-  const cloudUseMb = computed(() => {
-    return UserStore().CloudStorageUsed / 1024 / 1024
-  })
-  const cloudMaxMb = computed(() => {
-    return UserStore().MaxCloudStorage / 1024 / 1024
-  })
-  const mobile = computed(() => {
-    return _display.mdAndDown.value
-  })
+const cloudUseKb = computed(() => {
+  return UserStore().CloudStorageUsed / 1024
+})
+const cloudUseMb = computed(() => {
+  return UserStore().CloudStorageUsed / 1024 / 1024
+})
+const cloudMaxMb = computed(() => {
+  return UserStore().MaxCloudStorage / 1024 / 1024
+})
+const mobile = computed(() => {
+  return _display.mdAndDown.value
+})
 
-  async function resetMigration() {
-    resetting.value = true
-    await UserStore().resetV2CloudMigration()
-    await UserStore().checkV2CloudMigration()
-    resetting.value = false
-    emit('reset')
-  }
+async function resetMigration() {
+  resetting.value = true
+  await UserStore().resetV2CloudMigration()
+  await UserStore().checkV2CloudMigration()
+  resetting.value = false
+  emit('reset')
+}
 </script>
