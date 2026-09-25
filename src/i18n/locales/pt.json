@@ -614,7 +614,8 @@
       "catNpcStats": "Estatísticas de PNJs",
       "foundFixable": "Encontrado {count} problema corrigível | Encontrados {count} problemas corrigíveis",
       "andRequiringManual": " e {count} problema que requer ação manual | e {count} problemas que requerem ação manual",
-      "applyFixesButton": "Aplicar {count} correção | Aplicar {count} correções"
+      "applyFixesButton": "Aplicar {count} correção | Aplicar {count} correções",
+      "catLcpFlavorState": "Texto Personalizado de LCP"
     },
     "achievementItem": {
       "dataRedacted": "Dados ocultados",
@@ -1999,7 +2000,9 @@
       "mechBracedTitle": "Mecha ativou Suportar",
       "mechBracedText": "{name} agora está Suportando.",
       "overwatchTitle": "Mecha ativou Retaliar",
-      "overwatchText": "{name} vai Retaliar."
+      "overwatchText": "{name} vai Retaliar.",
+      "shutDownTitle": "Desligar Mecha",
+      "shutDownText": "“{name} foi desligado. O Calor e EXPOSTO são limpos. O mecha de está ATORDOADO e tem Imunidade a ataques tecs até ser Ligado."
     },
     "npcActions": {
       "npcPreparedTitle": "PNJ Preparado",
@@ -2076,7 +2079,8 @@
       "devNoteReport": "Este recurso ainda está em desenvolvimento. Relatórios pós-ação serão expandidos em builds futuros.",
       "devNoteLogs": "Este recurso ainda está em desenvolvimento. Dados adicionais e opções de exportação estarão disponíveis em builds futuros.",
       "deleteArchiveDetail": "Isso marcará o arquivo para exclusão. Ele não aparecerá mais nesta lista, mas será excluído permanentemente com base nas suas opções de retenção no Menu de Opções.",
-      "noArchivedFoundFiltered": "Nenhum encontro arquivado encontrado contendo \"{search}\""
+      "noArchivedFoundFiltered": "Nenhum encontro arquivado encontrado contendo \"{search}\"",
+      "exportActorLog": "Exportar Log"
     },
     "encSummary": {
       "turnN": "(Turno {n})",
