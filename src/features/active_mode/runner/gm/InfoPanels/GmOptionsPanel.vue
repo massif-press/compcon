@@ -27,10 +27,10 @@
           </v-btn>
         </v-col>
         <v-col>
-          <cc-dialog
-            :close-on-click="false"
-            icon="mdi-import"
+          <encounter-import-dialog
             :title="$t('active.gmOptions.importState')"
+            :replace-id="encounterInstance.ID"
+            @imported="router.go(0)"
           >
             <template #activator="{ open }">
               <v-btn
@@ -45,87 +45,20 @@
                 {{ $t('active.gmOptions.importState') }}
               </v-btn>
             </template>
-            <template #default="{ close }">
-              <div class="text-cc-overline text-disabled">
-                {{ $t('active.gmOptions.importFileLabel') }}
-              </div>
-              <v-file-input
-                v-model="fileValue"
-                accept=".json"
-                variant="outlined"
-                density="compact"
-                hide-details
-                :placeholder="$t('active.fields.selectEncounterExportFile')"
-                prepend-icon="mdi-paperclip"
-                @change="stageImport"
-              />
-              <v-scroll-y-reverse-transition>
-                <div v-if="importOk && importObj">
-                  <v-card
-                    class="mt-2 pa-2"
-                    flat
-                    tile
-                    color="panel"
-                  >
-                    <div class="text-cc-overline text-disabled">
-                      {{ $t('active.pcOptions.stagedImport') }}:
-                    </div>
-                    <div class="ml-3">
-                      <b class="text-accent">
-                        {{ (importObj as any).encounter.name || 'Unnamed Encounter' }}
-                      </b>
-                      {{ $t('active.pcOptions.atRound') }}
-                      {{ (importObj as any).round }}
-                      <i class="text-caption text-disabled">
-                        {{ new Date((importObj as any).save.lastModified).toLocaleString() }}
-                      </i>
-                    </div>
-                  </v-card>
-                  <cc-alert
-                    color="warning"
-                    prominent
-                    class="mt-2"
-                  >
-                    <v-icon
-                      icon="mdi-alert"
-                      start
-                    />
-                    {{ $t('active.gmOptions.warningReplace') }}
-                  </cc-alert>
-                </div>
-                <cc-alert
-                  v-if="importError"
-                  color="error"
-                  prominent
-                  class="mt-2"
-                >
-                  <v-icon
-                    icon="mdi-alert"
-                    start
-                  />
-                  {{ importError }}
-                </cc-alert>
-              </v-scroll-y-reverse-transition>
-              <v-card-actions>
-                <v-btn
-                  text
-                  color="accent"
-                  @click="resetAndClose(close)"
-                >
-                  {{ $t('common.cancel') }}
-                </v-btn>
-                <v-spacer />
-                <cc-button
-                  text
-                  color="primary"
-                  :disabled="!importOk"
-                  @click="importState(close)"
-                >
-                  {{ $t('common.confirmImport') }}
-                </cc-button>
-              </v-card-actions>
+            <template #warning>
+              <cc-alert
+                color="warning"
+                prominent
+                class="mt-2"
+              >
+                <v-icon
+                  icon="mdi-alert"
+                  start
+                />
+                {{ $t('active.gmOptions.warningReplace') }}
+              </cc-alert>
             </template>
-          </cc-dialog>
+          </encounter-import-dialog>
         </v-col>
       </v-row>
     </v-card-text>
@@ -278,13 +211,13 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, onMounted, ref, watch } from 'vue'
+  import { computed, ref, watch } from 'vue'
   import logger from '@/user/logger'
   import { useRouter } from 'vue-router'
   import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-  import { EncounterStore } from '@/stores'
   import { snapshot } from '@/classes/encounter/EncounterUndoStack'
   import RunnerOptionsHeader from '../../_shared/_RunnerOptionsHeader.vue'
+  import EncounterImportDialog from '../../_shared/_EncounterImportDialog.vue'
   import { useRunnerOptions } from '../../_shared/useRunnerOptions'
   import { notify } from '@kyvg/vue3-notification'
   import { useI18n } from 'vue-i18n'
@@ -297,25 +230,7 @@
   }>()
 
   const router = useRouter()
-  const {
-    fileValue,
-    importObj,
-    importOk,
-    importError,
-    saveUpdate,
-    reset,
-    exportStateFile,
-    stageImportFile,
-  } = useRunnerOptions()
-
-  function resetAndClose(close: () => void) {
-    reset()
-    close()
-  }
-
-  onMounted(() => {
-    reset()
-  })
+  const { saveUpdate, exportStateFile } = useRunnerOptions()
 
   const reinforcements = computed(() =>
     (props.encounterInstance as any).Combatants.filter((c: any) => c.reinforcement)
@@ -378,18 +293,5 @@
       (props.encounterInstance as any).Serialize(),
       `encounter_${(props.encounterInstance as any).Encounter.Name || 'unknown'}_${Date.now()}.json`
     )
-  }
-
-  async function importState(close: () => void) {
-    if (!importOk.value || !importObj.value) return
-    await EncounterStore().AddEncounterInstance(EncounterInstance.Deserialize(importObj.value))
-    await EncounterStore().SaveActiveEncounterData()
-    reset()
-    close()
-    router.go(0)
-  }
-
-  function stageImport() {
-    stageImportFile('EncounterInstance', 'Invalid Encounter Instance file.')
   }
 </script>
