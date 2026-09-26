@@ -9,6 +9,7 @@ import { ICloudSyncable } from '@/classes/components/cloud/ICloudSyncable'
 import { ISaveable } from '@/classes/components/save/ISaveable'
 import { ISaveData, SaveController } from '@/classes/components/save/SaveController'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import type { PlayMode } from '@/classes/encounter/EncounterInstance'
 import { deployToCombatant } from '@/classes/components/feature/deployable/DeployableInstance'
 import { buildStream } from '@/classes/components/combat/log/stream'
 import { actorRef } from '@/classes/components/combat/log/refs'
@@ -28,6 +29,7 @@ type PilotSheetData = {
   layout_columns?: boolean
   max_masonry_columns?: number
   autosave?: boolean
+  play_mode?: PlayMode
 }
 
 class PilotSheet implements ISaveable, ICloudSyncable {
@@ -47,6 +49,7 @@ class PilotSheet implements ISaveable, ICloudSyncable {
   public LayoutColumns: boolean = true
   public MaxMasonryColumns: number = 1
   public Autosave: boolean = true
+  public PlayMode: PlayMode = 'full'
 
   public SaveController: SaveController
   public CloudController: CloudController
@@ -74,13 +77,25 @@ class PilotSheet implements ISaveable, ICloudSyncable {
     CloudController.Deserialize(this, data.cloud)
 
     this.StampLogContext()
+    this.SetPlayMode(data.play_mode ?? 'full')
+  }
+
+  public SetPlayMode(mode: PlayMode): void {
+    this.PlayMode = mode
+    this.Combatant.actor.CombatController.ManualPlay = mode === 'simple'
+    if (mode !== 'simple') return
+    for (const cc of [
+      this.Combatant.actor.CombatController,
+      this.Combatant.actor.ActiveMech?.CombatController,
+    ])
+      if (cc) cc.PendingChecks = []
   }
 
   public get PilotID(): string {
     return this.Combatant.actor.ID
   }
 
-  public static FromPilot(pilot: Pilot, campaign?: string) {
+  public static FromPilot(pilot: Pilot, campaign?: string, playMode: PlayMode = 'full') {
     const combatPilot = Pilot.Deserialize(JSON.parse(JSON.stringify(Pilot.Serialize(pilot))))
     combatPilot.SetStats()
     combatPilot.FeatureController.BonusController.applyToStats(
@@ -100,6 +115,7 @@ class PilotSheet implements ISaveable, ICloudSyncable {
         deployables: [],
       },
       campaign: campaign,
+      play_mode: playMode,
       encounter: 1,
       round: 1,
       archived: false,
@@ -216,6 +232,7 @@ class PilotSheet implements ISaveable, ICloudSyncable {
       archived: pilotSheet.Archived,
       simple_tickbars: pilotSheet.SimpleTickbars,
       autosave: pilotSheet.Autosave,
+      play_mode: pilotSheet.PlayMode,
       round: pilotSheet.Round,
       force_complex_tickbars: pilotSheet.ForceComplexTickbars,
       layout_columns: pilotSheet.LayoutColumns,

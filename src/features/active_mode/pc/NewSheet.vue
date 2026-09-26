@@ -340,6 +340,11 @@
               />
             </div>
 
+            <play-mode-select
+              v-model="playMode"
+              class="mb-3"
+            />
+
             <cc-button
               block
               color="success"
@@ -398,6 +403,9 @@
   import { PilotStore, PilotGroupStore, PilotSheetStore } from '@/stores'
   import { useDisplay } from 'vuetify'
   import { useI18n } from 'vue-i18n'
+  import type { PlayMode } from '@/classes/encounter/EncounterInstance'
+  import PlayModeSelect from '../_components/PlayModeSelect.vue'
+  import { defaultPlayMode } from '../playMode'
   const { t } = useI18n()
   const router = useRouter()
 
@@ -408,6 +416,7 @@
   const search = ref('')
   const group = ref(undefined)
   const campaign = ref('')
+  const playMode = ref<PlayMode>(defaultPlayMode())
 
   const groups = computed(() => {
     const groups = [{ title: t('active.titles.allPilots'), value: null }]
@@ -469,7 +478,11 @@
     if (!selectedPilot.value || !selectedMech.value) return
     selectedPilot.value.ActiveMech = selectedMech.value
 
-    await PilotSheetStore().AddPilotSheet(selectedPilot.value as Pilot, campaign.value)
+    await PilotSheetStore().AddPilotSheet(
+      selectedPilot.value as Pilot,
+      campaign.value,
+      playMode.value
+    )
     if (launch) router.push(`pilot-runner/${PilotSheetStore().CurrentActiveID}`)
     else router.push('sheet-manager')
   }

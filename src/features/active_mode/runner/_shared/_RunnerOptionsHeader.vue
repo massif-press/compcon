@@ -57,6 +57,11 @@
           "
           :tooltip="autosaveTooltip"
         />
+        <play-mode-select
+          :model-value="context.PlayMode"
+          class="mt-4"
+          @update:model-value="context.SetPlayMode($event)"
+        />
       </v-col>
       <v-col>
         <div class="text-cc-overline mt-1 text-disabled">
@@ -72,6 +77,7 @@
   import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
   import PilotSheet from '@/features/pilot_management/store/PilotSheet'
   import LayoutOptionsControls from '@/features/active_mode/_components/LayoutOptionsControls.vue'
+  import PlayModeSelect from '@/features/active_mode/_components/PlayModeSelect.vue'
 
   defineProps<{
     context: EncounterInstance | PilotSheet

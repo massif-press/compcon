@@ -43,13 +43,19 @@
                 dense
                 justify="end"
               >
-                <v-col cols="auto">
+                <v-col
+                  v-if="sheet.PlayMode !== 'simple'"
+                  cols="auto"
+                >
                   <actor-telemetry
                     :actor="pilot"
                     :encounter-instance="encounterInstance"
                   />
                 </v-col>
-                <v-col cols="auto">
+                <v-col
+                  v-if="sheet.PlayMode !== 'simple'"
+                  cols="auto"
+                >
                   <actor-logs
                     :actor="pilot"
                     :encounter-instance="encounterInstance"

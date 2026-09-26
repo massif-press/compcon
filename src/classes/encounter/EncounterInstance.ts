@@ -24,6 +24,8 @@ import { commitOutcome } from '../components/combat/log/outcome'
 import type { IOutcome } from '../components/combat/log/outcome'
 import type { ILogStream } from '../components/combat/log/events'
 
+type PlayMode = 'full' | 'simple'
+
 interface IEncounterInstanceData {
   itemType: 'EncounterInstance'
   id: string
@@ -34,6 +36,7 @@ interface IEncounterInstanceData {
   encounter: IEncounterData
   isActive?: boolean
   autosave?: boolean
+  play_mode?: PlayMode
   simple_tickbars?: boolean
   force_complex_tickbars?: boolean
   layout_columns?: boolean
@@ -55,6 +58,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
   public Combatants: CombatantData[] = []
   public Encounter!: Encounter
   public Autosave: boolean = true
+  public PlayMode: PlayMode = 'full'
   public SimpleTickbars: boolean = false
   public ForceComplexTickbars: boolean = false
   public LayoutColumns: boolean = true
@@ -191,6 +195,17 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
 
     this.SaveController = new SaveController(this)
     this.CloudController = new CloudController(this)
+    this.SetPlayMode(data?.play_mode ?? 'full')
+  }
+
+  public SetPlayMode(mode: PlayMode): void {
+    this.PlayMode = mode
+    for (const c of this.Combatants) {
+      if (c.actor?.CombatController) c.actor.CombatController.ManualPlay = mode === 'simple'
+      if (mode !== 'simple') continue
+      for (const cc of [c.actor?.CombatController, c.actor?.ActiveMech?.CombatController])
+        if (cc) cc.PendingChecks = []
+    }
   }
 
   private _markStaticControllers(actor: any): void {
@@ -401,6 +416,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
       encounter: instance._cachedEncounterData ?? Encounter.Serialize(instance.Encounter),
       isActive: instance.IsActive,
       autosave: instance.Autosave,
+      play_mode: instance.PlayMode,
       simple_tickbars: instance.SimpleTickbars,
       force_complex_tickbars: instance.ForceComplexTickbars,
       layout_columns: instance.LayoutColumns,
@@ -435,4 +451,4 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
 }
 
 export { EncounterInstance }
-export type { IEncounterInstanceData }
+export type { IEncounterInstanceData, PlayMode }

@@ -233,3 +233,34 @@ describe('EncounterInstance.Serialize/Deserialize', () => {
     expect(clone.Combatants).toHaveLength(instance.Combatants.length)
   })
 })
+
+describe('EncounterInstance play mode', () => {
+  const reload = (i: EncounterInstance) =>
+    EncounterInstance.Deserialize(JSON.parse(JSON.stringify(EncounterInstance.Serialize(i))))
+
+  it('defaults to full', () => {
+    const instance = new EncounterInstance(undefined, makeEncounter(), [pilot])
+    expect(instance.PlayMode).toBe('full')
+    expect(instance.Combatants[0].actor.CombatController.Automated).toBe(true)
+  })
+
+  it('keeps simple mode across a reload', () => {
+    const instance = new EncounterInstance(undefined, makeEncounter(), [pilot])
+    instance.SetPlayMode('simple')
+    const reloaded = reload(instance)
+
+    expect(reloaded.PlayMode).toBe('simple')
+    const actor = reloaded.Combatants[0].actor
+    expect(actor.CombatController.Automated).toBe(false)
+    expect(actor.ActiveMech!.CombatController.Automated).toBe(false)
+  })
+
+  it('clears pending checks when switched to simple', () => {
+    const instance = new EncounterInstance(undefined, makeEncounter(), [pilot])
+    const mech = instance.Combatants[0].actor.ActiveMech!
+    mech.CombatController.AddPendingCheck('structure')
+
+    instance.SetPlayMode('simple')
+    expect(mech.CombatController.PendingChecks).toEqual([])
+  })
+})

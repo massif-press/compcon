@@ -13,6 +13,7 @@ export const EncounterContextKey: InjectionKey<EncounterRunnerContext> =
 export function useEncounterContext(): EncounterRunnerContext & {
   ownerController: ComputedRef<any>
   activeController: ComputedRef<any>
+  simple: ComputedRef<boolean>
 } {
   const ctx = inject(EncounterContextKey)
   if (!ctx) {
@@ -23,5 +24,6 @@ export function useEncounterContext(): EncounterRunnerContext & {
     ...ctx,
     ownerController,
     activeController: computed(() => ownerController.value.ActiveActor.CombatController),
+    simple: computed(() => ctx.encounterInstance.value?.PlayMode === 'simple'),
   }
 }

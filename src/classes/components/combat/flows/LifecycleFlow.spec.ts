@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { EndTurnFlow, EndRoundFlow } from './LifecycleFlow'
 import { makeMech, makePilot } from '@/__tests__/factories'
 import { StatKey } from '../stats/Stats'
@@ -81,6 +81,49 @@ describe('EndTurnFlow', () => {
     cc().RemovePendingCheck(cc().PendingChecks[0].id)
     expect(cc().ResumeEndTurn(first).outcome).toBe('complete')
     expect(cur(StatKey.ACTIVATIONS)).toBe(before - 1)
+  })
+})
+
+describe('simple play mode', () => {
+  beforeEach(() => {
+    m.Parent.CombatController.ManualPlay = true
+  })
+
+  it('follows the pilot', () => {
+    expect(cc().Automated).toBe(false)
+  })
+
+  it('skips the burn check', () => {
+    set(StatKey.BURN, 4)
+    expect(cc().EndTurn().outcome).toBe('complete')
+    expect(cur(StatKey.BURN)).toBe(4)
+  })
+
+  it('queues no check on a structure loss', () => {
+    set(StatKey.STRUCTURE, cur(StatKey.STRUCTURE) - 1)
+    expect(cc().PendingChecks).toEqual([])
+    expect(cc().EndTurn().outcome).toBe('complete')
+  })
+
+  it('ignores leftover pending checks', () => {
+    m.Parent.CombatController.ManualPlay = false
+    cc().AddPendingCheck('structure')
+    m.Parent.CombatController.ManualPlay = true
+    expect(cc().EndTurn().outcome).toBe('complete')
+  })
+
+  it('does not roll recharge at turn start', () => {
+    const feature = { Recharge: 2, Used: true }
+    vi.spyOn(cc(), 'AllEquipment', 'get').mockReturnValue([feature] as any)
+    cc().StartTurn()
+    expect(feature.Used).toBe(true)
+    expect(cc().CanRollRecharge).toBe(true)
+  })
+
+  it('does not down a pilot at zero HP', () => {
+    const p = m.Parent.CombatController
+    p.StatController.setCurrentStat(StatKey.HP, 0)
+    expect(p.HasStatus('downandout')).toBe(false)
   })
 })
 

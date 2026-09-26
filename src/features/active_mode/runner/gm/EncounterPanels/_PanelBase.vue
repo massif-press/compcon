@@ -236,7 +236,7 @@
             </v-row>
 
             <active-effect-panel
-              v-if="item.CombatController.ActiveEffects.length"
+              v-if="!simple && item.CombatController.ActiveEffects.length"
               :item="item"
             />
 
@@ -252,6 +252,7 @@
               </v-col>
 
               <v-col
+                v-if="!simple"
                 cols="auto"
                 :class="mobile ? '' : 'ml-auto'"
                 align-self="center"
@@ -302,7 +303,7 @@
               >
                 <template #dmg>
                   <damage-menu
-                    v-if="item.CombatController.StatController.MaxStats['hp']"
+                    v-if="!simple && item.CombatController.StatController.MaxStats['hp']"
                     :encounter="encounterInstance.Encounter"
                     :controller="item.CombatController"
                   />
@@ -413,7 +414,7 @@
 
   defineOptions({ name: 'EncounterPanelBase' })
 
-  const { encounterInstance, owner } = useEncounterContext()
+  const { encounterInstance, owner, simple } = useEncounterContext()
   const { layout } = useLayoutOptions()
 
   const itemType = computed(() => props.item.ItemType.toLowerCase())

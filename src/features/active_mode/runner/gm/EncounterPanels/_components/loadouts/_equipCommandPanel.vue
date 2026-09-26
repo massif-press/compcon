@@ -4,26 +4,26 @@
     class="bg-panel"
     align="center"
   >
-    <v-col v-if="canDealDamage && item.ItemType === 'PilotWeapon'">
+    <v-col v-if="canAttack && item.ItemType === 'PilotWeapon'">
       <pilot-fight-button
         :action="fightAction"
         :preset-weapon="asPilotWeapon"
       />
     </v-col>
-    <v-col v-if="canDealDamage && isFeature && !isSuperheavy">
+    <v-col v-if="canAttack && isFeature && !isSuperheavy">
       <npc-skirmish-button
         :action="skirmishAction"
         :preset-weapon="asNpcWeapon"
       />
     </v-col>
-    <v-col v-if="canDealDamage && isFeature">
+    <v-col v-if="canAttack && isFeature">
       <npc-barrage-button
         :action="barrageAction"
         :preset-weapon="asNpcWeapon"
       />
     </v-col>
     <v-col
-      v-if="!isFeature && canDealDamage && canSkirmish"
+      v-if="!isFeature && canAttack && canSkirmish"
       cols="auto"
     >
       <mech-skirmish-button
@@ -33,7 +33,7 @@
       />
     </v-col>
     <v-col
-      v-if="!isFeature && canDealDamage && canBarrage"
+      v-if="!isFeature && canAttack && canBarrage"
       cols="auto"
       class="ml-1"
     >
@@ -44,7 +44,7 @@
       />
     </v-col>
     <v-col
-      v-if="isAI"
+      v-if="isAI && !simple"
       cols="auto"
     >
       <ai-control-button
@@ -283,7 +283,7 @@
 
   const _display = useDisplay()
 
-  const { owner, encounterInstance } = useEncounterContext()
+  const { owner, encounterInstance, simple } = useEncounterContext()
 
   const props = defineProps<{
     item: MechWeapon | MechSystem | PilotWeapon | NpcFeature
@@ -316,9 +316,7 @@
     if (props.item.ItemType === 'NpcFeature') return false
     return true
   })
-  const canDealDamage = computed(() => {
-    return 'Damage' in props.item && !!props.item.Damage
-  })
+  const canAttack = computed(() => !simple.value && 'Damage' in props.item && !!props.item.Damage)
   const skirmishAction = computed(() => {
     return CompendiumStore().Actions.find(x => x.ID === 'act_skirmish')!
   })

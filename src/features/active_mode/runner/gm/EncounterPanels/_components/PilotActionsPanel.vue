@@ -1,5 +1,13 @@
 <template>
+  <simple-action-list
+    v-if="simple"
+    :controller="controller"
+    :quick-actions="quickPilotActions"
+    :full-actions="['act_fight', ...fullPilotActions]"
+    @deploy="$emit('deploy', $event)"
+  />
   <base-actions-panel
+    v-else
     :quick-actions="quickPilotActions"
     :full-actions="fullPilotActions"
     @deploy="$emit('deploy', $event)"
@@ -66,6 +74,7 @@
   import { useI18n } from 'vue-i18n'
   const { t } = useI18n()
   import BaseActionsPanel from './BaseActionsPanel.vue'
+  import SimpleActionList from './SimpleActionList.vue'
   import BasicActionButton from './loadouts/action_buttons/basicActionButton.vue'
   import SkillCheckButton from './loadouts/action_buttons/skillCheckButton.vue'
   import PilotReloadButton from './loadouts/action_buttons/pilotReloadButton.vue'
@@ -74,7 +83,7 @@
   import InvadeButton from './loadouts/action_buttons/invadeButton.vue'
   import TargetedActionButton from './loadouts/action_buttons/targetedActionButton.vue'
 
-  const { owner, encounterInstance } = useEncounterContext()
+  const { owner, encounterInstance, simple } = useEncounterContext()
 
   defineEmits<{ deploy: [event: any] }>()
 

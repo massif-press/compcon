@@ -2051,6 +2051,19 @@
       "resolveEndTurn": "Resolve & End Turn",
       "ignore": "Ignore"
     },
+    "playMode": {
+      "label": "Play Mode",
+      "full": "Full",
+      "simple": "Simple",
+      "fullDescription": "Rules automation, attack and check dialogs, dice rollers, logs, and telemetry.",
+      "simpleDescription": "Stats, trackers, statuses, and equipment. Actions are only marked as used. Best for virtual tabletops and physical tables.",
+      "defaultTitle": "Default Play Mode",
+      "defaultDescription": "The play mode new encounters and pilot sheets start in. It can be changed in each encounter's options.",
+      "undoChange": "Change play mode",
+      "markUnused": "Mark as unused",
+      "hidingUnavailableActions": "Hiding actions that cannot be taken. Click to show them.",
+      "showingUnavailableActions": "Showing actions that cannot be taken. Click to hide them."
+    },
     "layout": {
       "title": "Active Mode Layout",
       "description": "Controls how combatant panels, stats and action controls are drawn during an encounter. These settings are yours alone and do not affect other players at the table.",

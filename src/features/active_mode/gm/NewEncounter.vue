@@ -190,6 +190,15 @@
     </v-slide-y-transition>
 
     <v-slide-y-transition>
+      <cc-panel
+        v-if="encounter"
+        class="my-2"
+      >
+        <play-mode-select v-model="playMode" />
+      </cc-panel>
+    </v-slide-y-transition>
+
+    <v-slide-y-transition>
       <encounter-summary
         v-if="encounter"
         :encounter="encounter"
@@ -215,6 +224,9 @@
   import EncounterPilotsPanel from './_components/EncounterPilotsPanel.vue'
   import EncounterSummary from './_components/EncounterSummary.vue'
   import { Pilot } from '@/classes/pilot/Pilot.js'
+  import type { PlayMode } from '@/classes/encounter/EncounterInstance'
+  import PlayModeSelect from '../_components/PlayModeSelect.vue'
+  import { defaultPlayMode } from '../playMode'
 
   const router = useRouter()
 
@@ -229,6 +241,7 @@
   const selectedEncounter = ref<Encounter | null>(null) as Ref<Encounter | null>
   const pilots = ref<Pilot[]>([]) as Ref<Pilot[]>
   const placeholders = ref<Placeholder[]>([]) as Ref<Placeholder[]>
+  const playMode = ref<PlayMode>(defaultPlayMode())
 
   const encounter = computed<Encounter | null>(
     () => selectedEncounter.value || emptyEncounter.value
@@ -274,10 +287,9 @@
       pilots.value,
       placeholders.value
     )
-    instance.Combatants.forEach(c => {
-      c.actor.CombatController.ResetForEncounter()
-      c.actor.CombatController.StartEncounter()
-    })
+    instance.Combatants.forEach(c => c.actor.CombatController.ResetForEncounter())
+    instance.SetPlayMode(playMode.value)
+    instance.Combatants.forEach(c => c.actor.CombatController.StartEncounter())
     instance.RecordEncounterStart()
     await EncounterStore().AddEncounterInstance(instance)
     await EncounterStore().SetActiveEncounter(instance.ID)
