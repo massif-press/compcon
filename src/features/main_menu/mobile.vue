@@ -39,15 +39,15 @@
         />
         <mobile-btn
           icon="cc:pilot"
-          :title="$t('mainMenu.titles.roster')"
-          :text="$t('mainMenu.actions.managePilots')"
+          :title="$t('mainMenu.mobile.roster')"
+          :text="$t('mainMenu.mobile.managePilots')"
           :to="'/pilot_management'"
         />
         <mobile-btn
           v-if="landscape"
           icon="cc:encounter"
-          :title="$t('gm.landing.toolkit')"
-          :text="$t('mainMenu.actions.managePilots')"
+          :title="$t('common.gmToolkit')"
+          :text="$t('mainMenu.mobile.managePilots')"
           :to="'/gm'"
         />
         <mobile-btn

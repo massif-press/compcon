@@ -61,7 +61,7 @@
           size="large"
           color="primary"
           :label="$t('active.layout.columnsLabel')"
-          :tooltip="$t('active.tooltips.thisControlsIfColumnsWill')"
+          :tooltip="$t('active.layoutOptionsControls.panelColumnsHint')"
         />
         <cc-number-field
           v-model="maxColumns"
@@ -69,8 +69,8 @@
           color="primary"
           min="1"
           max="4"
-          :label="$t('active.fields.maxLoadoutFeatureSetColumns')"
-          :tooltip="$t('active.tooltips.thisControlsHowManyColumns')"
+          :label="$t('active.layoutOptionsControls.maxLoadoutFeatureSetColumns')"
+          :tooltip="$t('active.layoutOptionsControls.loadoutColumnsHint')"
         />
 
         <div class="text-cc-overline text-disabled mt-2">{{ $t('active.layout.content') }}</div>

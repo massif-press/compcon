@@ -47,7 +47,7 @@
           :prepend-icon="editing ? 'mdi-check' : 'mdi-pencil'"
           @click="toggleEditing()"
         >
-          {{ editing ? $t('common.done') : $t('common.edit') }}
+          {{ editing ? $t('common.done') : $t('common.editAction') }}
         </cc-button>
       </v-col>
 
@@ -67,7 +67,7 @@
               color="error"
               prepend-icon="mdi-undo-variant"
             >
-              {{ $t('common.reset') }}
+              {{ $t('common.resetAction') }}
             </cc-button>
           </template>
           <v-card max-width="300px">
@@ -117,7 +117,7 @@
               bg-color="primary"
               density="compact"
             >
-              <v-tab>{{ $t('common.core') }}</v-tab>
+              <v-tab>{{ $t('common.coreSystem') }}</v-tab>
               <v-tab>{{ $t('gm.stats.custom') }}</v-tab>
             </v-tabs>
 
@@ -146,7 +146,7 @@
                     <span v-if="statsToAdd.length">
                       {{
                         $t(
-                          'gm.stats.statCountSuffix',
+                          'gm.stats.statCount',
                           {
                             n: statsToAdd.length,
                           },
@@ -161,7 +161,7 @@
                     v-model="customTitle"
                     clearable
                     density="compact"
-                    :label="$t('gm.fields.statName')"
+                    :label="$t('gm.statEditor.statName')"
                     hide-details
                   />
                   <cc-button

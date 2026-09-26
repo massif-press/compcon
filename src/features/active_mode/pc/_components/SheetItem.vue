@@ -144,7 +144,7 @@
           class="detail-row-mobile px-2 pt-1 text-cc-overline"
         >
           <div v-if="pilot.CombatController.Mounted && mech">
-            <b class="text-stark">{{ $t('active.actions.mounted') }}</b>
+            <b class="text-stark">{{ $t('active.shared.mounted') }}</b>
             &mdash;
             <i>{{ mech.Name }} ({{ mech.Frame.Source }} {{ mech.Frame.Name }})</i>
           </div>
@@ -152,7 +152,7 @@
             <b class="text-stark">{{ $t('active.sheetItem.unmounted') }}</b>
           </div>
           <div class="text-disabled mt-1">
-            {{ $t('active.sheetItem.roundN', { n: pilot.CombatController.Round }) }}
+            {{ $t('active.actorLogs.round', { n: pilot.CombatController.Round }) }}
           </div>
         </div>
 
@@ -171,7 +171,7 @@
                   v-if="pilot.CombatController.Mounted"
                   class="text-stark"
                 >
-                  {{ $t('active.actions.mounted') }}
+                  {{ $t('active.shared.mounted') }}
                 </b>
                 <b
                   v-else
@@ -341,7 +341,7 @@
               </b>
               <br />
               <div>
-                {{ $t('active.sheetItem.roundN', { n: pilot.CombatController.Round }) }}
+                {{ $t('active.actorLogs.round', { n: pilot.CombatController.Round }) }}
               </div>
             </v-col>
           </v-row>

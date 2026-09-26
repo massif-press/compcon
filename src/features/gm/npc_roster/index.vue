@@ -16,10 +16,10 @@
       <b>{{ $t('common.npcs') }}</b>
     </v-tab>
     <v-tab selected-class="bg-accent">
-      <b>{{ $t('gm.titles.doodads') }}</b>
+      <b>{{ $t('gm.shared.doodads') }}</b>
     </v-tab>
     <v-tab selected-class="bg-accent">
-      <b>{{ $t('gm.titles.eidolons') }}</b>
+      <b>{{ $t('gm.shared.eidolons') }}</b>
     </v-tab>
   </v-tabs>
 
@@ -53,7 +53,7 @@
   <cc-dialog
     v-model="importModal"
     icon="mdi-download-multiple"
-    :title="$t('common.import')"
+    :title="$t('common.importAction')"
     :close-on-click="false"
     major
     max-width="90vw"

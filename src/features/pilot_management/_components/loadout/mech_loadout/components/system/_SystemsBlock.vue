@@ -129,7 +129,7 @@
                 <v-icon
                   class="system-drag-handle"
                   icon="mdi-drag"
-                  :aria-label="$t('pm.a11y.dragToReorder')"
+                  :aria-label="$t('gm.a11y.dragToReorder')"
                   tabindex="0"
                   color="stark"
                   style="cursor: move; opacity: 0.5"
@@ -187,7 +187,7 @@
       <cc-dialog
         v-model="selector"
         icon="cc:system"
-        :title="$t('pm.titles.selectEquipment')"
+        :title="$t('pm.loadout.selectEquipment')"
         clip
         :close-on-click="false"
         major

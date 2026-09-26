@@ -17,7 +17,7 @@
       </v-tooltip>
       <v-tooltip
         v-if="pc && combatant"
-        :text="$t('common.deployables')"
+        :text="$t('active.telemetry.rollup.deployables')"
       >
         <template #activator="{ props: activatorProps }">
           <v-list-item
@@ -40,7 +40,7 @@
               />
             </template>
             <span v-if="expanded">
-              {{ $t('common.deployables') }}
+              {{ $t('active.telemetry.rollup.deployables') }}
             </span>
           </v-list-item>
         </template>
@@ -60,7 +60,7 @@
         </v-list-item>
       </template>
     </v-tooltip>
-    <v-tooltip :text="$t('active.tooltips.rollableTables')">
+    <v-tooltip :text="$t('active.gmToolPalette.rollableTables')">
       <template #activator="{ props: activatorProps }">
         <v-list-item
           v-bind="!expanded && activatorProps"
@@ -69,14 +69,14 @@
           <template #prepend>
             <v-icon icon="mdi-table-multiple" />
           </template>
-          {{ $t('active.tooltips.rollableTables') }}
+          {{ $t('active.gmToolPalette.rollableTables') }}
         </v-list-item>
       </template>
     </v-tooltip>
     <v-divider class="my-2" />
     <v-tooltip
       v-if="!pc"
-      :text="$t('active.tooltips.encounterInfo')"
+      :text="$t('active.gmToolPalette.encounterInfo')"
     >
       <template #activator="{ props: activatorProps }">
         <v-list-item
@@ -87,7 +87,7 @@
           <template #prepend>
             <v-icon icon="cc:encounter" />
           </template>
-          {{ $t('active.tooltips.encounterInfo') }}
+          {{ $t('active.gmToolPalette.encounterInfo') }}
         </v-list-item>
       </template>
     </v-tooltip>
@@ -108,7 +108,7 @@
     <v-divider class="my-2" />
     <v-tooltip
       max-width="300"
-      :text="$t('active.tooltips.listTagsPresentOnCharactersOrEquipmentInThisEncounter')"
+      :text="$t('active.gmToolPalette.listTagsPresentOnCharactersOrEquipmentInThisEncounter')"
     >
       <template #activator="{ props: activatorProps }">
         <v-list-item

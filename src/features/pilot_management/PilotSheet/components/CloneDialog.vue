@@ -4,7 +4,7 @@
       class="text-center body-text light-panel mb-4"
       style="border-radius: 3px"
     >
-      {{ $t('pm.sheet.duplicatingOrCloningAPilotWill') }}
+      {{ $t('pm.sheet.duplicateUnlinksVaultNotice') }}
     </div>
 
     <v-row justify="space-around">
@@ -17,7 +17,7 @@
           details="test"
           block
           color="primary"
-          :tooltip="$t('pm.tooltips.thisWillCreateACopy')"
+          :tooltip="$t('pm.pilotSheet.duplicatePilotHint')"
           @click="copyPilot"
         >
           {{ $t('pm.sheet.duplicatePilot') }}
@@ -32,7 +32,7 @@
           large
           block
           color="primary"
-          :tooltip="$t('pm.tooltips.thisWillCloneTheSelected')"
+          :tooltip="$t('pm.pilotSheet.clonePilotHint')"
           :disabled="!!quirk"
           @click="rollQuirk"
         >
@@ -65,27 +65,27 @@
             class="text-cc-overline"
             :class="!mobile && 'px-2'"
           >
-            {{ $t('pm.sheet.anyOrganizationsIndividualsOrTechnologiesEngaging') }}:
+            {{ $t('pm.sheet.cloningLawFacsimile') }}:
             <ul class="pb-1">
               <li>
-                {{ $t('pm.sheet.reproductionOfTheSubjectivePersonageOf') }}
+                {{ $t('pm.sheet.cloningLawReproduction') }}
               </li>
               <li>
-                {{ $t('pm.sheet.transferOrTheSubjectivePersonageOf') }}
+                {{ $t('pm.sheet.cloningLawTransfer') }}
               </li>
               <li>
                 {{ $t('pm.sheet.emulationOfASentientIndividualS') }}
               </li>
               <li>
-                {{ $t('pm.sheet.intentionalDecorporealizationOfASentientBeing') }}
+                {{ $t('pm.sheet.cloningLawDecorporealization') }}
               </li>
               <li>
-                {{ $t('pm.sheet.engagingInAnyActivityThatCould') }}
+                {{ $t('pm.sheet.cloningLawEndangerment') }}
               </li>
             </ul>
             <v-divider class="pb-1" />
             <div class="text-center">
-              {{ $t('pm.sheet.allFormsOfWholeSubjectivityRapid') }}
+              {{ $t('pm.sheet.cloningLawRapidProcess') }}
             </div>
           </div>
         </cc-alert>
@@ -98,7 +98,7 @@
             cols="12"
             md="8"
           >
-            <div class="text-overline">{{ $t('pm.sheet.cloneQUIRK') }}</div>
+            <div class="text-overline">{{ $t('pm.sheet.cloneQuirk') }}</div>
             <cc-alert
               density="compact"
               color="primary"

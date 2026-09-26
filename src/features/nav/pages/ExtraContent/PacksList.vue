@@ -203,10 +203,10 @@
 
   const initHeaders = [
     { title: '', key: 'data-table-expand' },
-    { title: t('nav.titles.active'), value: 'toggleActive', sortable: false },
+    { title: t('nav.packsList.packActive'), value: 'toggleActive', sortable: false },
     { title: 'Name', value: 'Name' },
-    { title: t('nav.titles.author'), value: 'Author' },
-    { title: t('nav.titles.version'), value: 'Version' },
+    { title: t('common.author'), value: 'Author' },
+    { title: t('common.version'), value: 'Version' },
     { title: 'v3', value: 'v3' },
     { title: '', value: 'deleteAction', sortable: false },
   ]
@@ -226,7 +226,7 @@
       notify({
         color: 'success',
         text: t('nav.packsList.toggleSuccessText', {
-          action: !state ? t('nav.packsList.activated') : t('nav.packsList.deactivated'),
+          action: !state ? t('common.activated') : t('nav.packsList.deactivated'),
         }),
       })
     } catch (e) {

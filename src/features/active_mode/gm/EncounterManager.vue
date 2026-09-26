@@ -64,7 +64,7 @@
               >
                 {{ e.Encounter.Name }}
                 <cc-slashes class="mx-3" />
-                <span class="text-disabled mr-1">{{ $t('active.labels.round') }}</span>
+                <span class="text-disabled mr-1">{{ $t('active.charts.round') }}</span>
                 <b>{{ e.Round }}</b>
               </v-col>
               <v-col
@@ -118,7 +118,7 @@
                 </div>
                 <div v-if="e.SaveController.LastModified">
                   <span class="text-disabled mr-1">
-                    {{ $t('active.labels.lastUpdate') }}
+                    {{ $t('common.lastUpdate') }}
                     <cc-slashes />
                   </span>
                   <b>{{ new Date(e.SaveController.LastModified).toLocaleDateString() }}</b>
@@ -256,13 +256,13 @@
               </v-card>
             </v-col>
             <v-col cols="auto">
-              {{ $t('active.encMgr.roundsCount', { n: e.Round }) }}
+              {{ $t('active.encMgr.roundsCount', { n: e.Round }, e.Round) }}
               <div>
                 <span class="text-disabled mr-1">{{ $t('common.created') }}</span>
                 <b>{{ new Date(e.Start).toLocaleDateString() }}</b>
               </div>
               <div>
-                <span class="text-disabled mr-1">{{ $t('active.labels.archived') }}</span>
+                <span class="text-disabled mr-1">{{ $t('active.shared.archived') }}</span>
                 <b>{{ new Date(e.End).toLocaleDateString() }}</b>
               </div>
             </v-col>
@@ -497,12 +497,12 @@
     },
     {
       key: 'Sitrep',
-      title: t('active.titles.sitrep'),
+      title: t('common.sitrep'),
       value: (e: EncounterInstance) => e.Encounter?.Sitrep?.Name || '',
     },
     {
       key: 'Round',
-      title: t('active.titles.round'),
+      title: t('active.charts.round'),
       sortable: true,
       value: (e: EncounterInstance) => e.Round,
     },

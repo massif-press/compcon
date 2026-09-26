@@ -6,7 +6,7 @@
     class="px-2 mb-2"
     prepend-icon="mdi-factory"
     variant="outlined"
-    :label="$t('ui.fields.fromManufacturer')"
+    :label="$t('ui.filters.fromManufacturer')"
     :items="manufacturers"
     chips
     clearable
@@ -21,7 +21,7 @@
     chips
     clearable
     variant="outlined"
-    :label="$t('ui.fields.fromContentPack')"
+    :label="$t('ui.filters.fromContentPack')"
     :items="lcpNames"
     multiple
     @update:model-value="updateFilters()"

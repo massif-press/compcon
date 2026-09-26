@@ -17,17 +17,17 @@ export default [
     groupable: false,
   },
   {
-    title: 'gm.titles.alias',
+    title: 'gm.shared.alias',
     value: 'Alias',
     groupable: false,
   },
   {
-    title: 'gm.titles.title',
+    title: 'common.title',
     value: 'Title',
     groupable: false,
   },
   {
-    title: 'gm.titles.pronouns',
+    title: 'gm.shared.pronouns',
     value: 'Pronouns',
     groupable: true,
   },

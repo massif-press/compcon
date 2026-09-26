@@ -58,7 +58,7 @@
       dense
       class="mb-4"
     >
-      <div class="text-overline mt-n2 mb-n2 text-primary">{{ $t('pm.print.majorIDEAL') }}</div>
+      <div class="text-overline mt-n2 mb-n2 text-primary">{{ $t('pm.print.majorIdeal') }}</div>
       <blank-line :height="24" />
       <div class="text-cc-overline text-primary">{{ $t('ui.bond.minorIdeals') }}</div>
       <blank-line
@@ -173,7 +173,7 @@
       class="text-overline text-primary mt-4"
       style="line-height: 0"
     >
-      {{ $t('pm.titles.otherClocks') }}
+      {{ $t('pm.shared.otherClocks') }}
     </div>
     <div v-if="!blank">
       <v-row
@@ -276,7 +276,7 @@
         <fieldset>
           <legend class="heading ml-1 px-2">
             {{ p.name }}
-            {{ p.veteran ? $t('pm.print.veteranPOWER2') : p.master ? '(MASTER POWER)' : '' }}
+            {{ p.veteran ? $t('pm.print.veteranPowerNote') : p.master ? '(MASTER POWER)' : '' }}
           </legend>
           <div
             v-html-safe="p.description"

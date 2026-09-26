@@ -11,8 +11,8 @@
       <v-toolbar-title>
         <cc-heading
           is-title
-          :text="$t('mainMenu.actions.dataViewer')"
-          :tooltip="$t('mainMenu.tooltips.thisIsAViewOf')"
+          :text="$t('mainMenu.cloudDataViewer.dataViewer')"
+          :tooltip="$t('mainMenu.cloudDataViewer.thisIsAViewOf')"
         />
       </v-toolbar-title>
       <v-spacer />
@@ -129,7 +129,7 @@
           density="compact"
           variant="outlined"
           hide-details
-          :placeholder="$t('mainMenu.fields.filter')"
+          :placeholder="$t('mainMenu.cloudDataViewer.filter')"
         />
       </v-col>
     </v-row>
@@ -178,12 +178,12 @@
   ])
 
   const syncableItemTypes = [
-    { title: t('mainMenu.titles.pilot'), value: 'pilot' },
-    { title: t('mainMenu.titles.pilotGroups'), value: 'pilotgroup' },
-    { title: t('mainMenu.titles.npc'), value: 'npc' },
-    { title: t('gm.titles.narrativeElement'), value: 'collectionItem' },
-    { title: t('mainMenu.titles.encounter'), value: 'encounter' },
-    // { title: t('mainMenu.titles.campaign'), value: 'campaign' },
+    { title: t('common.pilot'), value: 'pilot' },
+    { title: t('mainMenu.account.pilotGroups'), value: 'pilotgroup' },
+    { title: t('common.npc'), value: 'npc' },
+    { title: t('common.narrativeElement'), value: 'collectionItem' },
+    { title: t('common.encounter'), value: 'encounter' },
+    // { title: t('common.campaign'), value: 'campaign' },
   ]
 
   watch(itemTypeFilter, val => {

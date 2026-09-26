@@ -25,7 +25,7 @@
               v-if="!embedded"
               v-model="pilotIds"
               :items="pilotItems"
-              :label="$t('pm.logbook.pilot')"
+              :label="$t('common.pilot')"
               density="compact"
               variant="outlined"
               class="mb-2"
@@ -38,7 +38,7 @@
             <v-select
               v-model="campaign"
               :items="campaignItems"
-              :label="$t('pm.logbook.campaign')"
+              :label="$t('common.campaign')"
               density="compact"
               variant="outlined"
               hide-details
@@ -53,7 +53,7 @@
             <v-select
               v-model="encounterIds"
               :items="encounterItems"
-              :label="$t('active.charts.selectEncounter')"
+              :label="$t('common.encounter')"
               density="compact"
               variant="outlined"
               multiple
@@ -127,7 +127,7 @@
                         :disabled="!deleteKeys.length"
                         v-bind="menu"
                       >
-                        {{ $t('pm.logbook.deleteSelected', { count: deleteKeys.length }) }}
+                        {{ $t('mainMenu.dataItem.deleteSelected', { count: deleteKeys.length }) }}
                       </v-btn>
                     </template>
                     <cc-confirmation
@@ -156,7 +156,7 @@
                 prepend-icon="mdi-arrow-left"
                 to="/active-mode"
               >
-                {{ $t('common.back') }}
+                {{ $t('common.backAction') }}
               </v-btn>
             </div>
           </template>
@@ -370,14 +370,14 @@
       const one = encounterItems.value.find(i => i.value === encounterIds.value[0])
       if (one) return one.title
     }
-    return t('pm.logbook.acrossN', { n: encounterIds.value.length })
+    return t('pm.logbook.acrossN', { n: encounterIds.value.length }, encounterIds.value.length)
   })
 
   const heading = computed(() => {
-    if (!logbooks.value.length) return t('active.titles.allPilots')
+    if (!logbooks.value.length) return t('common.allPilots')
     if (logbooks.value.length === 1) return callsign(logbooks.value[0].PilotID)
-    if (!pilotIds.value.length) return t('active.titles.allPilots')
-    return t('pm.logbook.nPilots', { n: logbooks.value.length })
+    if (!pilotIds.value.length) return t('common.allPilots')
+    return t('pm.roster.pilotCount', { n: logbooks.value.length }, logbooks.value.length)
   })
 
   const campaignItems = computed(() => [
@@ -431,7 +431,7 @@
 
   function statusCell(r: IEncounterRollup): string {
     if (r.outcome) return outcomeText(r, t) || statusLabel('pilot.status', 'active', t)
-    return r.destroyed ? t('pm.logbook.destroyed') : '-'
+    return r.destroyed ? t('common.destroyed') : '-'
   }
 
   const headline = computed(() => {
@@ -452,13 +452,13 @@
   })
 
   const tableHeaders = computed(() => [
-    ...(logbooks.value.length > 1 ? [{ title: t('pm.logbook.pilot'), key: 'pilot' }] : []),
-    { title: t('pm.logbook.colEncounter'), key: 'name' },
+    ...(logbooks.value.length > 1 ? [{ title: t('common.pilot'), key: 'pilot' }] : []),
+    { title: t('common.encounter'), key: 'name' },
     { title: t('pm.logbook.colDate'), key: 'date' },
-    { title: t('pm.logbook.colRounds'), key: 'rounds' },
-    { title: t('pm.logbook.colDealt'), key: 'dealt' },
-    { title: t('pm.logbook.colTaken'), key: 'taken' },
-    { title: t('pm.logbook.colKills'), key: 'kills' },
+    { title: t('active.telemetry.rollup.rounds'), key: 'rounds' },
+    { title: t('common.damageDealt'), key: 'dealt' },
+    { title: t('common.damageTaken'), key: 'taken' },
+    { title: t('active.telemetry.rollup.kills'), key: 'kills' },
     { title: t('common.status'), key: 'status' },
     { title: t('common.result'), key: 'result' },
     { title: '', key: 'actions', sortable: false },

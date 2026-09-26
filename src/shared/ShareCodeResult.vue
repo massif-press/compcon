@@ -29,7 +29,7 @@
         cols="auto"
         class="heading h4 text-accent mr-2"
       >
-        {{ $t('share.resultAuthor') }}
+        {{ $t('common.author') }}
       </v-col>
       <v-col cols="9">{{ queryResult.author }}</v-col>
     </v-row>

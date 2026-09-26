@@ -1,6 +1,6 @@
 <template>
   <cc-dialog
-    :title="$t('active.titles.addPilotFromRoster')"
+    :title="$t('active.addFromRoster.addPilotFromRoster')"
     icon="mdi-account-plus"
     :close-on-click="false"
     major
@@ -12,7 +12,7 @@
         size="small"
         block
         color="primary"
-        :tooltip="$t('active.tooltips.addAPilotFromYourLocalPilotRoster')"
+        :tooltip="$t('active.addFromRoster.addAPilotFromYourLocalPilotRoster')"
         prepend-icon="mdi-account-plus"
         @click="open"
       >
@@ -162,7 +162,7 @@
                 cols="auto"
                 class="text-center"
               >
-                <div class="text-cc-overline text-disabled">{{ $t('ui.fields.licenseLevel') }}</div>
+                <div class="text-cc-overline text-disabled">{{ $t('common.licenseLevel') }}</div>
                 <div
                   class="heading h1"
                   style="line-height: 44px"
@@ -242,7 +242,7 @@
             >
               <v-col cols="auto">
                 <div class="pb-1 text-cc-overline">
-                  <span class="text-uppercase">{{ $t('pm.link.hull') }}</span>
+                  <span class="text-uppercase">{{ $t('stats.hull') }}</span>
                 </div>
                 <v-icon
                   class="ml-1 mt-n1"
@@ -378,7 +378,7 @@
           <cc-alert
             v-if="!selected.Mechs.length"
             class="mt-2"
-            :title="$t('active.titles.noMechDataFound')"
+            :title="$t('active.addFromRoster.noMechDataFound')"
             icon="mdi-alert"
           >
             <i>{{ $t('active.roster.pilotNoMech') }}</i>
@@ -434,7 +434,7 @@
                 <div v-if="selected.CoreBonusController.CoreBonuses.length">
                   <div class="text-cc-overline text-disabled mt-3">
                     <cc-slashes />
-                    {{ $t('pm.level.coreBonuses') }}
+                    {{ $t('common.coreBonuses') }}
                   </div>
                   <cc-masonry-grid
                     :items="selected.CoreBonusController.CoreBonuses"
@@ -578,7 +578,7 @@
       props.pilots.push(pilot)
       notify({
         title: t('active.roster.addedTitle', { callsign: pilot.Callsign }),
-        text: t('notify.common.success'),
+        text: t('common.success'),
         icon: 'mdi-check',
         color: 'success',
       })

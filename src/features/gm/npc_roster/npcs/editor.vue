@@ -39,7 +39,7 @@
         {{ $t('gm.npcEditor.v2Export') }}
       </cc-button>
       <cc-dialog
-        :title="$t('gm.titles.npcStatblock')"
+        :title="$t('gm.npcRoster.npcStatblock')"
         icon="mdi-text-account"
         max-width="1200px"
         :close-on-click="false"

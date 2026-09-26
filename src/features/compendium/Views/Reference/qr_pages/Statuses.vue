@@ -16,7 +16,7 @@
       id="conditions"
       class="heading"
     >
-      {{ $t('compendium.reference.conditions') }}
+      {{ $t('compendium.reference.statusConditions') }}
     </h1>
     <cc-masonry-grid :items="conditions">
       <template #default="{ item }">

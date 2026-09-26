@@ -30,7 +30,7 @@
     noSource: true,
   })
   const headers = ref([
-    { title: t('compendium.titles.contentPack'), key: 'LcpName' },
+    { title: t('common.contentPack'), key: 'LcpName' },
     { title: 'Name', key: 'Name' },
     { title: '', key: 'Terse' },
   ])

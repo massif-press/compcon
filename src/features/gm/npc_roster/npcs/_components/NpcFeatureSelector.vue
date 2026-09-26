@@ -6,7 +6,7 @@
       class="mt-2"
       @click="dialog = true"
     >
-      {{ $t('gm.titles.setNpcFeatures') }}
+      {{ $t('gm.npcRoster.setNpcFeatures') }}
     </cc-button>
     <v-row
       no-gutters
@@ -25,7 +25,7 @@
     </v-row>
     <cc-dialog
       v-model="dialog"
-      :title="$t('gm.titles.setNpcFeatures')"
+      :title="$t('gm.npcRoster.setNpcFeatures')"
       icon="cc:npc_feature"
       :close-on-click="false"
       major
@@ -190,7 +190,7 @@
               <cc-switch
                 v-if="featureSet === 'assigned'"
                 v-model="allowDupes"
-                :label="$t('gm.fields.allowDuplicates')"
+                :label="$t('gm.npcRoster.allowDuplicates')"
               />
               <cc-switch
                 v-else
@@ -270,7 +270,7 @@
               <div class="text-disabled text-cc-overline mt-n1">
                 {{
                   $t('gm.npcFeature.featureType', {
-                    type: item.Base ? $t('gm.npcFeature.base') : $t('gm.fields.optional'),
+                    type: item.Base ? $t('gm.npcFeature.base') : $t('gm.shared.optional'),
                   })
                 }}
               </div>

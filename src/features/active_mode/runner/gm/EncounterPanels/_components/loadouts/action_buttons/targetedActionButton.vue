@@ -33,8 +33,8 @@
           density="compact"
           class="my-2"
         >
-          <v-btn :value="true">{{ $t('active.structureCheck.success') }}</v-btn>
-          <v-btn :value="false">{{ $t('active.structureCheck.fail') }}</v-btn>
+          <v-btn :value="true">{{ $t('common.success') }}</v-btn>
+          <v-btn :value="false">{{ $t('combat.structureCheck.fail') }}</v-btn>
         </v-btn-toggle>
 
         <cc-force-override
@@ -57,7 +57,7 @@
           :disabled="!pc && (!chosen.length || awaitingRoll)"
           @click="apply(close)"
         >
-          {{ $t('active.tooltips.apply') }}
+          {{ $t('active.runner.apply') }}
         </cc-button>
       </div>
     </template>

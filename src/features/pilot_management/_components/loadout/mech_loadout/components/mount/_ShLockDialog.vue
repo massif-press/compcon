@@ -3,7 +3,7 @@
     v-model="dialog"
     width="50vw"
     icon="cc:role_striker"
-    :title="$t('pm.titles.selectBracingMount')"
+    :title="$t('pm.loadout.selectBracingMount')"
     :close-on-click="false"
     major
     max-width="90vw"
@@ -22,7 +22,7 @@
               <span class="text-accent">{{ $t('pm.loadout.bracingMount') }}</span>
             </template>
           </i18n-t>
-          {{ $t('pm.loadout.thisBracingMountWillBeNot') }}
+          {{ $t('pm.loadout.bracingMountUnavailable') }}
         </span>
       </div>
       <div class="heading">
@@ -40,7 +40,7 @@
         </cc-button>
       </div>
       <div v-if="superheavySelect">
-        <i>{{ $t('pm.loadout.theSUPERHEAVYMOUNTINGCoreBonusRequires') }}</i>
+        <i>{{ $t('pm.loadout.superheavyMountingRequiresBracing') }}</i>
       </div>
     </v-card-text>
   </cc-dialog>

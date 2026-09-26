@@ -74,7 +74,7 @@
             block
             color="primary"
             prepend-icon="mdi-export"
-            :tooltip="$t('active.tooltips.exportsAPlainTextVersion')"
+            :tooltip="$t('ui.shared.exportsAPlainTextVersion')"
             @click.stop="exportLog('text')"
           >
             {{ $t('active.telemetry.exportText') }}
@@ -86,7 +86,7 @@
             block
             color="info"
             prepend-icon="mdi-export"
-            :tooltip="$t('active.tooltips.exportsAStructuredJsonVersion')"
+            :tooltip="$t('ui.shared.exportsAStructuredJsonVersion')"
             @click.stop="exportLog('json')"
           >
             {{ $t('active.common.exportAsJson') }}

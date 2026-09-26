@@ -34,7 +34,7 @@
           color="primary"
           @click="reset()"
         >
-          {{ $t('common.reset') }}
+          {{ $t('common.resetAction') }}
         </v-btn>
         <v-btn
           size="small"
@@ -42,7 +42,7 @@
           color="success darken-1"
           @click="confirm()"
         >
-          {{ $t('common.save') }}
+          {{ $t('common.saveAction') }}
         </v-btn>
       </v-card-actions>
     </v-card>

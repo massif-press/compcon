@@ -84,7 +84,7 @@
       class="mr-2"
       @click="$router.go(-1)"
     >
-      {{ $t('common.back') }}
+      {{ $t('common.backAction') }}
     </cc-button>
     <cc-button
       prepend-icon="mdi-home"

@@ -51,7 +51,7 @@
         v-if="!controller.AIControl"
         :controller="controller"
         :size="mobile ? 'x-small' : 'small'"
-        :label="$t('active.fields.cedeControl')"
+        :label="$t('active.equipCommandPanel.cedeControl')"
         tooltip-text="Cede control of your mech to the NHP as a Protocol Action."
         @action="enableAI"
       />
@@ -59,7 +59,7 @@
       <ai-control-button
         v-if="controller.AIControl"
         :controller="controller"
-        :label="$t('active.fields.reclaimControl')"
+        :label="$t('active.equipCommandPanel.reclaimControl')"
         tooltip-text="Reclaim control of your mech from the NHP as a Protocol Action."
         @action="disableAI"
       />
@@ -67,7 +67,7 @@
       <v-tooltip
         location="top"
         max-width="300"
-        :text="$t('active.tooltips.markYourMechAsInCascade')"
+        :text="$t('active.equipCommandPanel.markYourMechAsInCascade')"
       >
         <template #activator="{ props }">
           <v-btn
@@ -135,7 +135,7 @@
               scope="global"
             >
               <template #used>
-                <b>{{ $t('ui.fields.used') }}</b>
+                <b>{{ $t('common.used') }}</b>
               </template>
             </i18n-t>
             <i18n-t
@@ -178,7 +178,7 @@
     >
       <v-tooltip
         location="top"
-        :text="$t('active.tooltips.resetUses')"
+        :text="$t('active.equipCommandPanel.resetUses')"
       >
         <template #activator="{ props }">
           <v-btn
@@ -205,7 +205,7 @@
     >
       <v-tooltip
         location="top"
-        :text="$t('active.tooltips.toggleDestroyed')"
+        :text="$t('active.equipCommandPanel.toggleDestroyed')"
       >
         <template #activator="{ props }">
           <v-btn

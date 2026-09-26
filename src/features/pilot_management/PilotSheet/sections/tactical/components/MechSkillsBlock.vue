@@ -2,7 +2,7 @@
   <div>
     <section-header :title="$t('pm.level.mechSkills')">
       <cc-dialog
-        :title="$t('pm.titles.setPilotMechSkills')"
+        :title="$t('pm.pilotSheet.setPilotMechSkills')"
         icon="cc:frame"
         fullscreen
         :close-on-click="false"

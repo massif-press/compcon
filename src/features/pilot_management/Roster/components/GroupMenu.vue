@@ -4,7 +4,7 @@
       class="heading"
       :class="mobile ? 'h4' : 'h3'"
     >
-      {{ $t('pm.roster.uadCAVCOMOfficeOfRecords') }}
+      {{ $t('pm.roster.cavcomOfficeOfRecords') }}
       <cc-slashes />
       <br v-if="mobile" />
       &nbsp;{{ $t('pm.roster.i7aSelfServiceUnitRegistration') }}
@@ -14,16 +14,16 @@
       style="font-size: 13px"
     >
       <div class="mt-n2">
-        {{ $t('pm.roster.identCR7aCAVALRYUNITREGISTRATION') }}
+        {{ $t('pm.roster.unitRegistrationIntro') }}
         <br />
-        {{ $t('pm.roster.unitRegistrationSubmissionWillBeReviewed') }}
+        {{ $t('pm.roster.unitRegistrationReviewNotice') }}
       </div>
     </v-container>
     <v-row align="center">
       <v-col>
         <div class="my-2">
           <div class="text-caption">
-            {{ $t('pm.roster.cr700ENCODEDDATAREMIT') }}
+            {{ $t('pm.roster.formFieldEncodedData') }}
             <i class="text-disabled">{{ $t('pm.roster.optional') }}</i>
           </div>
           <div class="px-10 pt-1">
@@ -48,7 +48,7 @@
             class="mr-auto"
           >
             <div class="my-2">
-              <div class="text-caption">{{ $t('pm.roster.cr701UNITDESIGNATION') }}</div>
+              <div class="text-caption">{{ $t('pm.roster.formFieldUnitDesignation') }}</div>
               <cc-text-field
                 v-model="group.Name"
                 variant="outlined"
@@ -62,7 +62,7 @@
                     icon="mdi-dice-multiple"
                     variant="outlined"
                     size="small"
-                    :tooltip="$t('pm.tooltips.generateRandomName')"
+                    :tooltip="$t('pm.shared.generateRandomName')"
                     @click="randomName()"
                   />
                 </template>
@@ -70,14 +70,14 @@
             </div>
 
             <div class="my-4">
-              <div class="text-caption">{{ $t('pm.roster.cr702aATTACHEDNDAPCOMP') }}</div>
+              <div class="text-caption">{{ $t('pm.roster.formFieldAnalysisResults') }}</div>
               <v-row
                 align="center"
                 dense
               >
                 <v-col>
                   <cc-dialog
-                    :title="$t('pm.titles.groupDescription')"
+                    :title="$t('pm.roster.groupDescription')"
                     icon="mdi-account-group"
                     max-width="75vw"
                     :close-on-click="false"
@@ -137,7 +137,7 @@
 
             <div class="my-4">
               <div class="text-caption">
-                {{ $t('pm.roster.cr702bATTACHEDTACANALYSISRECORDS') }}
+                {{ $t('pm.roster.formFieldTacanalysisRecords') }}
               </div>
               <v-row
                 align="center"
@@ -145,7 +145,7 @@
               >
                 <v-col>
                   <cc-dialog
-                    :title="$t('pm.titles.groupDescription')"
+                    :title="$t('pm.roster.groupDescription')"
                     icon="mdi-account-group"
                     max-width="75vw"
                     :close-on-click="false"
@@ -206,7 +206,7 @@
             md="5"
             class="ml-auto"
           >
-            <div class="text-caption">{{ $t('pm.roster.cr703UNITLIVERY') }}</div>
+            <div class="text-caption">{{ $t('pm.roster.formFieldUnitLivery') }}</div>
             <div
               class="border mr-8 ml-auto mr-auto"
               style="width: 300px; height: 300px"

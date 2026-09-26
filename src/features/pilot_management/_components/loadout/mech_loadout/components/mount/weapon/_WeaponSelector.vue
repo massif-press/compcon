@@ -42,7 +42,7 @@
               v-if="!selected"
               class="flavor-text text-cc-overline"
             >
-              {{ $t('pm.loadout.currentlyEQUIPPED') }}
+              {{ $t('pm.loadout.currentlyEquipped') }}
             </div>
             <div
               v-else
@@ -114,11 +114,11 @@
           </div>
           <div v-else-if="!mobile">
             <div class="text-cc-overline">
-              {{ $t('pm.loadout.unionARMORYEQUIPMENTAUTHORIZATIONFRAMEEQUIPMENT') }}
+              {{ $t('pm.loadout.frameEquipmentAuthorizationHeading') }}
             </div>
             <div class="heading h2 text-disabled">{{ $t('ui.widget.noSelection') }}</div>
             <div class="flavor-text overline text-error">
-              {{ $t('pm.loadout.equipmentIDINVALIDORMISSING') }}
+              [ {{ $t('pm.loadout.frameEquipmentInvalid') }} ]
             </div>
           </div>
         </v-col>
@@ -179,10 +179,10 @@
   })
 
   const headers = [
-    { title: t('pm.titles.manufacturer'), align: 'left', key: 'Source' },
+    { title: t('common.manufacturer'), align: 'left', key: 'Source' },
     { title: t('common.weapon'), align: 'left', key: 'Name' },
     { title: 'License', align: 'left', key: 'LicenseString' },
-    { title: t('pm.titles.size'), align: 'left', key: 'Size' },
+    { title: t('stats.size'), align: 'left', key: 'Size' },
     {
       title: t('common.type'),
       align: 'left',
@@ -190,9 +190,9 @@
       // resolved against this mech so add_weapon_type bonuses show, without touching the weapon
       value: (w: MechWeapon) => w.getWeaponTypes(props.mech).join('/'),
     },
-    { title: t('pm.titles.tags'), align: 'center', key: 'Tags' },
-    { title: t('pm.titles.range'), align: 'left', key: 'Range' },
-    { title: t('pm.titles.damage'), align: 'left', key: 'Damage' },
+    { title: t('common.tags'), align: 'center', key: 'Tags' },
+    { title: t('stats.range'), align: 'left', key: 'Range' },
+    { title: t('common.damage'), align: 'left', key: 'Damage' },
   ]
 
   const selected = ref<MechWeapon | null>(null)

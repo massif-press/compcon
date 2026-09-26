@@ -35,8 +35,8 @@ function useNpcClassSelector() {
 
   const headers = computed(() => {
     const h = [
-      { title: i18n.global.t('gm.titles.contentPack'), key: 'LcpName' },
-      { title: i18n.global.t('gm.titles.role'), key: 'Icon' },
+      { title: i18n.global.t('common.contentPack'), key: 'LcpName' },
+      { title: i18n.global.t('common.role'), key: 'Icon' },
       { title: 'Name', key: 'Name' },
     ] as any[]
     for (const key in keymap) {

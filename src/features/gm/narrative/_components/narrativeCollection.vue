@@ -1,6 +1,6 @@
 <template>
   <gm-split-view
-    :title="itemType + 's'"
+    :title="$t(`gm.narrative.collectionTitle.${itemType.toLowerCase()}`)"
     :item-type="itemType"
     :items="items"
     :groupings="groupings"

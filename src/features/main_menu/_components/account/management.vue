@@ -40,7 +40,7 @@
         <cc-heading
           is-title
           text="CC-ID"
-          :tooltip="$t('mainMenu.tooltips.yourUniqueAccountIdThis')"
+          :tooltip="$t('mainMenu.management.accountIdHelp')"
         />
         {{ cognito.userId }}
       </v-col>
@@ -50,7 +50,7 @@
       >
         <cc-heading
           is-title
-          :text="$t('mainMenu.actions.accountEmail')"
+          :text="$t('mainMenu.management.accountEmail')"
           tooltip="This is the e-mail address associated with your account. You can use this to log in to
             COMP/CON, Nautilus, and other Massif apps. This address is only visible to you and and
             <b>will not</b>
@@ -65,7 +65,7 @@
       >
         <cc-heading
           is-title
-          :text="$t('mainMenu.actions.accountDetails')"
+          :text="$t('mainMenu.management.accountDetails')"
         />
         <div class="text-caption">
           <b>{{ $t('mainMenu.management.accountCreatedV3') }}:</b>
@@ -83,7 +83,7 @@
         <cc-heading
           is-title
           text="CC-username"
-          :tooltip="$t('mainMenu.tooltips.usernameOptional')"
+          :tooltip="$t('mainMenu.management.usernameOptional')"
         />
 
         <v-row
@@ -220,7 +220,7 @@
       >
         <cc-text-field
           v-model="oldPass"
-          :label="$t('mainMenu.fields.oldPassword')"
+          :label="$t('mainMenu.management.oldPassword')"
           color="primary"
           variant="outlined"
           :type="showOld ? 'text' : 'password'"
@@ -234,7 +234,7 @@
       >
         <cc-text-field
           v-model="newPass"
-          :label="$t('mainMenu.fields.newPassword')"
+          :label="$t('mainMenu.shared.newPassword')"
           color="primary"
           variant="outlined"
           :type="showNew ? 'text' : 'password'"
@@ -275,7 +275,7 @@
       >
         <cc-text-field
           v-model="newEmail"
-          :label="$t('mainMenu.fields.newEmail')"
+          :label="$t('mainMenu.management.newEmail')"
           color="primary"
           variant="outlined"
         />
@@ -286,7 +286,7 @@
       >
         <cc-text-field
           v-model="newEmailConfirm"
-          :label="$t('mainMenu.fields.confirmNewEmail')"
+          :label="$t('mainMenu.management.confirmNewEmail')"
           color="primary"
           variant="outlined"
         />
@@ -327,7 +327,7 @@
                 </p>
                 <cc-text-field
                   v-model="verifyCode"
-                  :label="$t('mainMenu.fields.verificationCode')"
+                  :label="$t('mainMenu.shared.verificationCode')"
                   color="primary"
                   variant="outlined"
                   autocomplete="one-time-code"
@@ -355,7 +355,7 @@
                     :loading="loading"
                     @click="resetEmail(close)"
                   >
-                    {{ $t('common.reset') }}
+                    {{ $t('common.resetAction') }}
                   </cc-button>
                 </v-col>
                 <v-col>
@@ -392,7 +392,7 @@
 
     <div class="text-right">
       <cc-dialog
-        :title="$t('mainMenu.titles.accountDeletion')"
+        :title="$t('mainMenu.management.accountDeletion')"
         max-width="50vw"
         :close-on-click="false"
         major

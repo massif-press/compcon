@@ -30,7 +30,7 @@
         chips
         clearable
         variant="outlined"
-        :label="$t('ui.fields.origin')"
+        :label="$t('common.origin')"
         :items="origins"
         multiple
         @update:model-value="updateFilters()"

@@ -310,7 +310,7 @@
                           icon="cc:destroyed"
                           class="mt-n1"
                         />
-                        {{ $t('active.common.destroyed') }}
+                        {{ $t('common.destroyed') }}
                       </div>
                     </v-chip>
                   </v-card>
@@ -356,10 +356,10 @@
                             class="px-2 ma-1"
                             color="surface-variant"
                           >
-                            <span class="text-cc-overline">{{ $t('active.actions.braced') }}</span>
+                            <span class="text-cc-overline">{{ $t('active.runner.braced') }}</span>
                           </v-card>
                         </template>
-                        <div class="heading h4">{{ $t('active.actions.braced') }}</div>
+                        <div class="heading h4">{{ $t('active.runner.braced') }}</div>
                         <v-divider class="my-1" />
                         {{ $t('active.runnerItem.bracedDesc') }}
                       </v-tooltip>
@@ -372,7 +372,7 @@
                         class="px-2 ma-1"
                         color="surface-variant"
                       >
-                        <span class="text-cc-overline">{{ $t('active.actions.overwatch') }}</span>
+                        <span class="text-cc-overline">{{ $t('active.runner.overwatch') }}</span>
                       </v-card>
                     </v-col>
 
@@ -528,7 +528,13 @@
                         />
                       </template>
                       <span class="text-cc-overline">
-                        {{ $t('active.runnerItem.activationsRemaining', { n: activations }) }}
+                        {{
+                          $t(
+                            'active.runnerItem.activationsRemaining',
+                            { n: activations },
+                            activations
+                          )
+                        }}
                       </span>
                     </v-tooltip>
                   </div>

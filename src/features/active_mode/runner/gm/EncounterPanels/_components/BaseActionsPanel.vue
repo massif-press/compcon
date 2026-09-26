@@ -8,7 +8,7 @@
   >
     <v-expansion-panel>
       <v-expansion-panel-title class="heading h4 py-0">
-        {{ $t('active.actions.allActions') }}
+        {{ $t('active.runner.allActions') }}
       </v-expansion-panel-title>
       <v-expansion-panel-text style="border: 2px solid rgb(var(--v-theme-panel))">
         <v-row dense>

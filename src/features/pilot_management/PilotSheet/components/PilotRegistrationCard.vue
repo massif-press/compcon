@@ -28,13 +28,13 @@
           v-if="!pilot.Name"
           class="flavor-text"
         >
-          {{ $t('pm.sheet.errNAMENOTFOUNDUNABLETO') }}
+          {{ $t('pm.sheet.uuidNameMissingError') }}
         </span>
         <span
           v-else
           class="flavor-text"
         >
-          {{ flipName(pilot.Name) }}:{{ pilot.ID }}{{ $t('pm.sheet.ndlC') }}{{ missionName() }}
+          {{ `${flipName(pilot.Name)}:${pilot.ID}//NDL-C-${missionName()}` }}
         </span>
       </div>
       <v-row dense>
@@ -65,22 +65,22 @@
             </v-col>
             <v-col v-if="!$vuetify.display.mdAndDown">
               <span class="flavor-text text-disabled">
-                {{ pilot.Callsign ? $t('pm.sheet.callsignAVAILABLE') : '--' }}
+                {{ pilot.Callsign ? $t('pm.sheet.callsignAvailable') : '--' }}
                 <br />
-                {{ pilot.Name ? $t('pm.sheet.identityVERIFIED') : '--' }}
+                {{ pilot.Name ? $t('pm.sheet.identityVerified') : '--' }}
                 <br />
-                {{ pilot.Background ? $t('pm.sheet.phHRDATAREGISTERED') : '--' }}
+                {{ pilot.Background ? $t('pm.sheet.phHrDataRegistered') : '--' }}
               </span>
             </v-col>
           </v-row>
           <i18n-t
-            keypath="pm.sheet.frameCONFIGURATIONOPTIONS"
+            keypath="pm.sheet.frameConfigurationOptions"
             tag="div"
             scope="global"
             class="flavor-text mt-2"
           >
             <template #remit>
-              <span class="text-disabled">{{ $t('pm.sheet.hASEOMNINETVAULT') }}</span>
+              <span class="text-disabled">{{ $t('pm.sheet.haseVaultRemit') }}</span>
             </template>
           </i18n-t>
           <div class="my-1">
@@ -89,7 +89,7 @@
               style="font-size: 22px; line-height: 15px"
             >
               [
-              <span class="text-uppercase">{{ $t('pm.link.hull') }}</span>
+              <span class="text-uppercase">{{ $t('stats.hull') }}</span>
               :
               <span
                 class="stat-text text-accent"
@@ -128,13 +128,13 @@
               cols="12"
               md="6"
             >
-              <span class="flavor-text">{{ $t('pm.sheet.pilotSKILLTRIGGERAUDIT') }}</span>
+              <span class="flavor-text">{{ $t('pm.sheet.skillTriggerAudit') }}</span>
               <br />
               <span
                 v-if="!pilot.SkillsController.Skills.length"
                 class="stat-text text-accent"
               >
-                &nbsp;{{ $t('pm.sheet.errSKILLAUDITINCOMPLETE') }}
+                &nbsp;{{ $t('pm.sheet.skillAuditIncomplete') }}
               </span>
               <v-chip
                 v-for="s in pilot.SkillsController.Skills"
@@ -154,13 +154,13 @@
               cols="12"
               md="6"
             >
-              <span class="flavor-text">{{ $t('pm.sheet.pilotTALENTAUDIT') }}</span>
+              <span class="flavor-text">{{ $t('pm.sheet.talentAudit') }}</span>
               <br />
               <span
                 v-if="!pilot.TalentsController.Talents.length"
                 class="stat-text text-accent"
               >
-                &nbsp;{{ $t('pm.sheet.errTALENTAUDITINCOMPLETE') }}
+                &nbsp;{{ $t('pm.sheet.talentAuditIncomplete') }}
               </span>
               <v-chip
                 v-for="t in pilot.TalentsController.Talents"
@@ -188,8 +188,9 @@
               >
                 mdi-fingerprint
               </v-icon>
-              {{ $t('pm.sheet.biometricRecordValid') }}{{ randomNumber(13, 22)
-              }}{{ $t('pm.sheet.pbOhmC') }}{{ futureDate() }}
+              {{
+                $t('pm.sheet.biometricRecordValid', { n: randomNumber(13, 22), date: futureDate() })
+              }}
             </span>
           </v-row>
         </v-col>

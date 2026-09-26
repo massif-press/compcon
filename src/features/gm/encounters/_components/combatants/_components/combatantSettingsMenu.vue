@@ -64,7 +64,7 @@
           clearable
           persistent-hint
           density="compact"
-          :hint="$t('gm.fields.optional')"
+          :hint="$t('gm.shared.optional')"
         />
 
         <v-divider class="my-2" />
@@ -96,7 +96,7 @@
             clearable
             persistent-hint
             density="compact"
-            :hint="$t('gm.fields.optional')"
+            :hint="$t('gm.shared.optional')"
           />
         </div>
       </v-card-text>

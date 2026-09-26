@@ -1,7 +1,7 @@
 <template>
   <cc-dialog
     ref="modal"
-    :title="$t('active.titles.addFromShareCode').toLowerCase()"
+    :title="$t('ui.shared.addFromShareCode').toLowerCase()"
     icon="mdi-code-block-brackets"
     :close-on-click="false"
     major
@@ -124,7 +124,7 @@
         <div v-if="queryResult">
           <v-divider class="my-4" />
           <span class="flavor-text">
-            {{ $t('ui.shareImport.dataFound', { type: importType.toUpperCase() }) }}
+            // {{ $t('ui.shareImport.dataFound', { type: importType.toUpperCase() }) }}
           </span>
           <slot name="result" />
           <cc-alert

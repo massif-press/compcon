@@ -13,7 +13,7 @@
 
     <cc-panel
       v-if="item.Tactics"
-      :title="$t('ui.titles.tactics')"
+      :title="$t('common.tactics')"
       class="mb-2"
     >
       <p v-html-safe="item.Tactics" />
@@ -21,7 +21,7 @@
 
     <cc-panel
       v-if="item.ClassFeatureSelectionInfo || item.FeatureSelectionInfo"
-      :title="$t('ui.titles.featureSelection')"
+      :title="$t('ui.cards.featureSelection')"
       class="mb-2"
     >
       <p v-html-safe="item.ClassFeatureSelectionInfo" />

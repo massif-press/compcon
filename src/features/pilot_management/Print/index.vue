@@ -42,7 +42,7 @@
         density="compact"
         hide-details
         variant="outlined"
-        :label="$t('pm.new.pilot')"
+        :label="$t('common.pilot')"
         class="mx-3"
         clearable
         style="width: 10vw"

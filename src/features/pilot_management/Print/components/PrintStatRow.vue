@@ -9,7 +9,7 @@
       class="text-center"
     >
       <div class="font-weight-bold overline text-primary">
-        <span class="text-uppercase">{{ $t('pm.link.hull') }}</span>
+        <span class="text-uppercase">{{ $t('stats.hull') }}</span>
       </div>
       <blank-line
         v-if="blank"
@@ -84,7 +84,7 @@
     >
       <div v-if="blank">
         <div class="font-weight-bold overline text-primary">
-          <span class="text-uppercase">{{ $t('ui.fields.size') }}</span>
+          <span class="text-uppercase">{{ $t('stats.size') }}</span>
         </div>
         <blank-line
           v-if="blank"

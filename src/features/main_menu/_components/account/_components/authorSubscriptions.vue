@@ -67,7 +67,7 @@
     <v-divider />
     <cc-select
       v-model="cloudUser.CollectionSubscriptionSettings.updateOn"
-      :label="$t('mainMenu.fields.updates')"
+      :label="$t('mainMenu.authorSubscriptions.updates')"
       color="primary"
       :items="update_on"
       :loading="loading"
@@ -244,18 +244,18 @@
   const expanded = ref([])
   const collectionHeaders = ref([
     { title: '', key: 'data-table-expand', width: '0' },
-    { title: t('mainMenu.titles.contentCollection'), key: 'name' },
-    { title: t('mainMenu.titles.author'), key: 'author' },
+    { title: t('mainMenu.authorSubscriptions.contentCollection'), key: 'name' },
+    { title: t('common.author'), key: 'author' },
     { title: t('common.version'), key: 'vers', align: 'center' },
     { title: '', key: 'actions' },
   ])
   const update_on = ref([
     {
-      title: t('mainMenu.titles.onStartup'),
+      title: t('mainMenu.authorSubscriptions.onStartup'),
       value: 'startup',
     },
     {
-      title: t('mainMenu.titles.manualOnly'),
+      title: t('mainMenu.account.manualOnly'),
       value: 'manual',
     },
   ])

@@ -15,7 +15,7 @@
           <div class="text-caption">
             {{ $t('common.tierN', { n: npc.Tier }) }}
             <cc-slashes />
-            {{ $t('gm.eidolonPrint.classLabel', { class: npc.Class }) }}
+            {{ $t('gm.itemCard.classLabel', { class: npc.Class }) }}
           </div>
         </div>
       </v-col>
@@ -129,7 +129,15 @@
         size="small"
         class="mt-1"
       >
-        <b>{{ $t('gm.eidolonPrint.newShards', { n: l.Layer.Shards?.Count }) }}</b>
+        <b>
+          {{
+            $t(
+              'gm.eidolonPrint.newShards',
+              { n: l.Layer.Shards?.Count },
+              typeof l.Layer.Shards?.Count === 'number' ? l.Layer.Shards.Count : 2
+            )
+          }}
+        </b>
       </v-chip>
       <div
         v-html-safe="ByTier(l.Layer.Shards?.Detail || '', npc.Tier)"

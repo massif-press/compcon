@@ -175,7 +175,7 @@
 
   <cc-dialog
     v-model="layerSelector"
-    :title="$t('gm.titles.selectLayer')"
+    :title="$t('gm.npcRoster.selectLayer')"
     icon="mdi-layers-triple"
     :close-on-click="false"
     major

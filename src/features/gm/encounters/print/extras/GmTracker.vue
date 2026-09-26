@@ -11,7 +11,7 @@
 
   <v-row dense>
     <v-col>
-      <div class="text-caption">{{ $t('gm.encPrint.enemies') }}</div>
+      <div class="text-caption">{{ $t('common.sideEnemies') }}</div>
       <npc-tracker
         v-for="c in Enemies"
         :key="c.id"
@@ -28,7 +28,7 @@
     </v-col>
   </v-row>
   <div v-if="Neutral.length > 0">
-    <div class="text-caption mt-1">{{ $t('gm.fields.neutral') }}</div>
+    <div class="text-caption mt-1">{{ $t('common.sideNeutral') }}</div>
     <v-row dense>
       <v-col
         v-for="c in Neutral"

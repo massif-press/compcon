@@ -55,7 +55,7 @@
                 variant="outlined"
                 density="compact"
                 hide-details
-                :placeholder="$t('active.fields.selectCharacterSheetExportFile')"
+                :placeholder="$t('active.runner.selectCharacterSheetExportFile')"
                 prepend-icon="mdi-paperclip"
                 @change="stageImport"
               />

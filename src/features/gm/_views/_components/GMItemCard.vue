@@ -38,7 +38,7 @@
           :item="item"
           color="accent"
         />
-        {{ item.Name }}&mdash; {{ $t('gm.itemCard.tierShort', { tier: item.Tier }) }}
+        {{ item.Name }}&mdash; {{ $t('common.tierShort', { n: item.Tier }) }}
         <cc-slashes />
         {{ $t('gm.itemCard.classLabel', { class: item.Class }) }}
       </template>
@@ -70,7 +70,7 @@
         />
         {{ item.Name }}
         <span v-if="item.NpcClassController.Class">
-          &mdash; {{ $t('gm.itemCard.tierShort', { tier: item.NpcClassController.Tier }) }}
+          &mdash; {{ $t('common.tierShort', { n: item.NpcClassController.Tier }) }}
           {{ item.NpcClassController.Class.Name }}
         </span>
         <span class="px-4">
@@ -133,7 +133,7 @@
     </template>
     <template v-else-if="type === 'Eidolon'">
       <div>
-        {{ $t('gm.itemCard.tierShort', { tier: item.Tier }) }}
+        {{ $t('common.tierShort', { n: item.Tier }) }}
         <cc-slashes />
         {{ $t('gm.itemCard.classLabel', { class: item.Class }) }}
       </div>
@@ -156,7 +156,7 @@
         v-if="item.NpcClassController.Class"
         class="my-1"
       >
-        {{ $t('gm.itemCard.tierShort', { tier: item.NpcClassController.Tier }) }}
+        {{ $t('common.tierShort', { n: item.NpcClassController.Tier }) }}
         {{ item.NpcClassController.Class.Name }}
       </div>
       <div class="my-1">

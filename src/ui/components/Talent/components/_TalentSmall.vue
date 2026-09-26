@@ -59,7 +59,7 @@
         </span>
         <cc-tooltip
           v-if="hideLocked"
-          :content="showAll ? $t('gm.filter.hideAll') : $t('ui.talent.showAll')"
+          :content="showAll ? $t('gm.filter.hideAll') : $t('gm.filter.showAll')"
         >
           <v-btn
             small
@@ -155,7 +155,7 @@
                 class="text-center"
               >
                 <v-icon start>cc:rank_{{ n }}</v-icon>
-                {{ $t('ui.talent.unlocked') }}
+                {{ $t('common.unlocked') }}
               </div>
             </v-card-actions>
           </v-card>

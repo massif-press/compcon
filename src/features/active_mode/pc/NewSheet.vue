@@ -19,7 +19,7 @@
       <v-col>
         <cc-panel>
           <cc-titled-divider
-            :title="$t('active.titles.selectPilot')"
+            :title="$t('active.newSheet.selectPilot')"
             color="accent"
           >
             <template
@@ -178,7 +178,7 @@
         <v-col>
           <cc-panel>
             <cc-titled-divider
-              :title="$t('active.titles.selectActiveMech')"
+              :title="$t('active.newSheet.selectActiveMech')"
               color="accent"
               class="mb-1"
             >
@@ -266,14 +266,14 @@
 
                           <v-col cols="auto">
                             <span>
-                              {{ $t('pm.sheet.heat') }}
+                              {{ $t('enums.damageType.heat') }}
                               <b>{{ mech.HeatCapacity }}</b>
                             </span>
                           </v-col>
 
                           <v-col cols="auto">
                             <span>
-                              {{ $t('pm.sheet.repcap') }}
+                              {{ $t('stats.repCap') }}
                               <b>{{ mech.RepairCapacity }}</b>
                             </span>
                           </v-col>
@@ -335,7 +335,7 @@
               <cc-text-field
                 v-model="campaign"
                 max-width="600px"
-                :tooltip="$t('active.tooltips.optionalForOrganizationalPurposes')"
+                :tooltip="$t('active.newSheet.optionalForOrganizationalPurposes')"
                 color="primary"
               />
             </div>
@@ -410,7 +410,7 @@
   const campaign = ref('')
 
   const groups = computed(() => {
-    const groups = [{ title: t('active.titles.allPilots'), value: null }]
+    const groups = [{ title: t('common.allPilots'), value: null }]
     return [
       ...groups,
       ...(PilotGroupStore().PilotGroups as PilotGroup[]).map((g: PilotGroup) => ({

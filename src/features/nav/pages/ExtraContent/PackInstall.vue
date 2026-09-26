@@ -239,7 +239,11 @@
             </div>
             <div>
               {{
-                $t('nav.packInstall.patchStringCount', { count: Object.keys(patch.data).length })
+                $t(
+                  'nav.packInstall.patchStringCount',
+                  { count: Object.keys(patch.data).length },
+                  Object.keys(patch.data).length
+                )
               }}
             </div>
           </v-card-text>
@@ -414,7 +418,7 @@
       stagePatch(JSON.parse(await file.text()))
     } catch (err) {
       logger.error(`Error reading language patch: ${err}`, null, err)
-      notify({ title: t('notify.common.error'), text: String(err), color: 'error' })
+      notify({ title: t('common.error'), text: String(err), color: 'error' })
     }
   }
 
@@ -509,7 +513,7 @@
     value.value = null
 
     notify({
-      title: t('nav.packInstall.success'),
+      title: t('common.success'),
       text: t('nav.packInstall.successText'),
       color: 'success',
     })
@@ -608,7 +612,7 @@
         e
       )
       notify({
-        title: t('notify.common.error'),
+        title: t('common.error'),
         text: t('notify.lcp.removedInvalidVersionText', {
           name: pack.manifest.name || (pack.manifest as any).title || 'unknown LCP',
         }),

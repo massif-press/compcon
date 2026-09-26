@@ -131,7 +131,7 @@
               prepend-icon="mdi-cancel"
               @click="setVal(0)"
             >
-              <v-list-item-title>{{ $t('common.clear') }}</v-list-item-title>
+              <v-list-item-title>{{ $t('common.clearAction') }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>

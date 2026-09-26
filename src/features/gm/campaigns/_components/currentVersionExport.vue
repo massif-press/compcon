@@ -3,7 +3,7 @@
     v-if="latest"
     variant="tonal"
   >
-    <div class="text-overline ml-2">{{ $t('gm.campaign.latestVersion') }}</div>
+    <div class="text-overline ml-2">{{ $t('common.latestVersion') }}</div>
     <v-toolbar density="compact">
       <v-toolbar-title>
         {{ latest.ver }}

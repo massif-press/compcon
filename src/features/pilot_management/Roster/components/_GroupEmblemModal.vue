@@ -1,6 +1,6 @@
 <template>
   <cc-dialog
-    :title="$t('pm.titles.setGroupEmblem')"
+    :title="$t('pm.roster.setGroupEmblem')"
     icon="mdi-image"
     :close-on-click="false"
     major

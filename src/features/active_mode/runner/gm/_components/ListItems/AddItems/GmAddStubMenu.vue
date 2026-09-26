@@ -37,7 +37,7 @@
           type="info"
           class="ma-4"
           icon="mdi-information-outline"
-          :title="$t('active.titles.whatIsAPlaceholder')"
+          :title="$t('active.runner.whatIsAPlaceholder')"
         >
           <i18n-t
             keypath="active.addStub.description"
@@ -84,7 +84,7 @@
             <cc-text-field
               v-if="newPlaceholder.type === 'pilot'"
               v-model="newPlaceholder.Mechname"
-              :label="$t('active.fields.mechName')"
+              :label="$t('common.mechName')"
             />
           </v-fade-transition>
 

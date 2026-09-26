@@ -166,7 +166,7 @@
         <v-select
           v-model="xAxis"
           :items="axes"
-          :label="$t('ui.fields.metric')"
+          :label="$t('ui.compendiumBrowser.metric')"
           variant="outlined"
           return-object
           density="compact"

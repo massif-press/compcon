@@ -162,26 +162,26 @@
     },
     {
       icon: 'cc:nhp',
-      title: t('active.titles.gameMaster'),
+      title: t('active.shared.gameMaster'),
     },
     {
       icon: 'cc:diasporan',
-      title: t('active.titles.observer'),
-      subtitle: t('active.subtitles.inDevelopmentReleaseV32'),
+      title: t('active.landing.observer'),
+      subtitle: t('active.landing.inDevelopmentReleaseV32'),
     },
   ])
   const lists = ref([
     [
       {
-        title: t('active.titles.activeCharacterSheets'),
-        subtitle: t('active.subtitles.createManageAndRunActivePlayer'),
+        title: t('active.landing.activeCharacterSheets'),
+        subtitle: t('active.landing.createManageAndRunActivePlayer'),
         icon: 'cc:pilot',
         to: '/active-mode/sheet-manager',
       },
       {
         id: 'last-sheet',
         small: true,
-        subtitle: t('active.subtitles.resumeLast'),
+        subtitle: t('active.landing.resumeLast'),
         icon: 'mdi-restart',
         to: '',
       },
@@ -192,8 +192,8 @@
         to: '/active-mode/logbooks',
       },
       {
-        title: t('active.titles.joinAnOnlineTable'),
-        subtitle: t('active.subtitles.featureInDevelopmentV32'),
+        title: t('active.landing.joinAnOnlineTable'),
+        subtitle: t('active.landing.featureInDevelopmentV32'),
         disabled: true,
         icon: 'cc:squad',
         to: '',
@@ -201,15 +201,15 @@
     ],
     [
       {
-        title: t('active.titles.localEncounters'),
-        subtitle: t('active.subtitles.createManageAndRunLocalEncounters'),
+        title: t('active.landing.localEncounters'),
+        subtitle: t('active.landing.localEncountersDescription'),
         icon: 'cc:encounter',
         to: '/active-mode/manage-encounters',
       },
       {
         id: 'last-local',
         small: true,
-        subtitle: t('active.subtitles.resumeLast'),
+        subtitle: t('active.landing.resumeLast'),
         icon: 'mdi-restart',
         to: '',
       },
@@ -220,15 +220,15 @@
         to: '/active-mode/encounter-telemetry',
       },
       {
-        title: t('active.titles.localCampaigns'),
-        subtitle: t('active.subtitles.featureInDevelopmentV31'),
+        title: t('active.landing.localCampaigns'),
+        subtitle: t('active.landing.featureInDevelopmentV31'),
         disabled: true,
         icon: 'cc:campaign',
         to: '',
       },
       {
-        title: t('active.titles.hostAnOnlineTable'),
-        subtitle: t('active.subtitles.featureInDevelopmentV32'),
+        title: t('active.landing.hostAnOnlineTable'),
+        subtitle: t('active.landing.featureInDevelopmentV32'),
         disabled: true,
         icon: 'mdi-lan',
         to: '',
@@ -236,21 +236,21 @@
     ],
     [
       {
-        title: t('active.titles.spectatorMode'),
-        subtitle: t('active.subtitles.featureInDevelopmentV32'),
+        title: t('active.landing.spectatorMode'),
+        subtitle: t('active.landing.featureInDevelopmentV32'),
         disabled: true,
         icon: 'mdi-monitor-share',
         to: '',
       },
       {
         small: true,
-        subtitle: t('active.subtitles.resumeLast'),
+        subtitle: t('active.landing.resumeLast'),
         icon: 'mdi-restart',
         to: '',
       },
       {
-        title: t('active.titles.campaignDisplay'),
-        subtitle: t('active.subtitles.featureInDevelopmentV32'),
+        title: t('active.landing.campaignDisplay'),
+        subtitle: t('active.landing.featureInDevelopmentV32'),
         disabled: true,
         icon: 'mdi-monitor-dashboard',
         to: '',

@@ -20,7 +20,7 @@
             cols="auto"
             class="text-primary"
           >
-            {{ $t('common.mount') }}
+            {{ $t('common.weaponMount') }}
           </v-col>
         </v-row>
       </legend>
@@ -40,11 +40,11 @@
             <blank-line :height="lineHeight" />
           </v-col>
           <v-col cols="1">
-            <div class="caption text-grey">{{ $t('pm.print.range') }}</div>
+            <div class="caption text-grey">{{ $t('stats.range') }}</div>
             <blank-line :height="lineHeight" />
           </v-col>
           <v-col cols="1">
-            <div class="caption text-grey">{{ $t('ui.widget.damage') }}</div>
+            <div class="caption text-grey">{{ $t('common.damage') }}</div>
             <blank-line :height="lineHeight" />
           </v-col>
         </v-row>

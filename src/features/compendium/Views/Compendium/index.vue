@@ -35,13 +35,13 @@
       />
       <compendium-page-button
         icon="cc:corebonus"
-        :name="$t('pm.titles.coreBonuses')"
+        :name="$t('common.coreBonuses')"
         to="/srd/compendium/corebonuses"
       />
       <compendium-page-button
         color="frame"
         icon="cc:frame"
-        :name="$t('compendium.titles.frames')"
+        :name="$t('compendium.categories.frames')"
         to="/srd/compendium/frames"
       />
       <compendium-page-button
@@ -53,7 +53,7 @@
       <compendium-page-button
         color="system"
         icon="mdi-chip"
-        :name="$t('compendium.titles.mechSystems')"
+        :name="$t('common.mechSystems')"
         to="/srd/compendium/systems"
       />
       <compendium-page-button
@@ -65,13 +65,13 @@
       <compendium-page-button
         color="secondary"
         icon="cc:orbit"
-        :name="$t('compendium.titles.pilotBackgrounds')"
+        :name="$t('compendium.shared.pilotBackgrounds')"
         to="/srd/compendium/backgrounds"
       />
       <compendium-page-button
         color="secondary"
         icon="cc:accuracy"
-        :name="$t('pm.titles.skillTriggers')"
+        :name="$t('common.skillTriggers')"
         to="/srd/compendium/skills"
       />
       <compendium-page-button
@@ -83,7 +83,7 @@
       <compendium-page-button
         color="secondary"
         icon="mdi-vector-link"
-        :name="$t('compendium.titles.bonds')"
+        :name="$t('common.bonds')"
         to="/srd/compendium/bonds"
       />
     </v-row>
@@ -95,7 +95,7 @@
       <compendium-page-button
         color="error"
         icon="cc:npc_class"
-        :name="$t('compendium.titles.npcClasses')"
+        :name="$t('compendium.categories.npcClasses')"
         to="/srd/compendium/npc_classes"
       />
       <compendium-page-button
@@ -107,13 +107,13 @@
       <compendium-page-button
         color="error"
         icon="cc:npc_template"
-        :name="$t('compendium.titles.npcTemplates')"
+        :name="$t('compendium.categories.npcTemplates')"
         to="/srd/compendium/npc_templates"
       />
       <compendium-page-button
         color="exotic"
         icon="cc:monist"
-        :name="$t('compendium.titles.eidolonLayers')"
+        :name="$t('compendium.shared.eidolonLayers')"
         to="/srd/compendium/eidolon_layers"
       />
     </v-row>

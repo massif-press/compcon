@@ -36,7 +36,7 @@
           help="Manage Campaigns, Encounters, and NPCs"
           @hover="ccLog('gm')"
         >
-          {{ $t('gm.landing.toolkit') }}
+          {{ $t('common.gmToolkit') }}
         </main-btn>
         <main-btn
           icon="cc:campaign"
@@ -55,7 +55,7 @@
           {{ $t('common.contentManager') }}
           <v-tooltip
             v-if="hasV2Backups"
-            :text="$t('mainMenu.actions.v2ImportsAwaitingResolution')"
+            :text="$t('mainMenu.desktop.v2ImportsAwaitingResolution')"
           >
             <template #activator="{ props }">
               <v-icon

@@ -1,7 +1,7 @@
 <template>
   <cc-alert
     v-if="mech.CombatController.ReactorDestroyed"
-    :title="$t('active.titles.mechDestroyedReactorMeltdown')"
+    :title="$t('active.mechPanel.mechDestroyedReactorMeltdown')"
     icon="mdi-radioactive-circle"
     color="error"
     variant="outlined"
@@ -39,7 +39,7 @@
 
       <cc-alert
         v-if="mech.CombatController.AIControl"
-        :title="$t('active.titles.underAiControl')"
+        :title="$t('active.mechPanel.underAiControl')"
         icon="cc:nhp"
         color="primary"
         class="mr-6"
@@ -211,7 +211,7 @@
       </v-expansion-panel>
     </v-expansion-panels>
 
-    <div class="text-cc-overline mt-4 text-disabled">{{ $t('common.core') }}</div>
+    <div class="text-cc-overline mt-4 text-disabled">{{ $t('common.coreSystem') }}</div>
     <mech-core-panel
       :mech="mech"
       @deploy="deploy($event)"
@@ -268,13 +268,13 @@
     return [
       {
         key: 'mounted',
-        label: t('active.actions.mounted'),
+        label: t('active.shared.mounted'),
         active: cc.Mounted,
         toggle: setMounted,
       },
       {
         key: 'braced',
-        label: t('active.actions.braced'),
+        label: t('active.runner.braced'),
         active: cc.Braced,
         reason: cc.BlockedReasonFor('brace'),
         toggle: () => cc.SetBraced(!cc.Braced),
@@ -282,7 +282,7 @@
       },
       {
         key: 'overwatch',
-        label: t('active.actions.overwatch'),
+        label: t('active.runner.overwatch'),
         active: cc.Overwatch,
         reason: cc.BlockedReasonFor('overwatch'),
         toggle: () => cc.SetOverwatch(!cc.Overwatch),
@@ -296,7 +296,7 @@
       },
       {
         key: 'aiControl',
-        label: t('active.actions.aiControl'),
+        label: t('active.mechPanel.aiControl'),
         active: cc.AIControl,
         show: !!mech.value.MechLoadoutController.ActiveLoadout.AICount,
         toggle: () => cc.SetAIControl(!cc.AIControl),

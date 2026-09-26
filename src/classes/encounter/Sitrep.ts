@@ -90,7 +90,7 @@ class SitrepInstance {
       this.Sitrep = new Sitrep({
         name: 'BASIC COMBAT',
         modified: false,
-        description: i18n.global.t('classes.subtitles.aSimpleAffairWithTwoSides'),
+        description: i18n.global.t('classes.standardEncounterDescription'),
       })
     }
 

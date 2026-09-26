@@ -95,7 +95,7 @@ describe('what the engine actually records', () => {
     cc().Stabilize('cool')
 
     const cleared = lastClear()!
-    expect(renderEvent(cleared, cc().CombatLog.ToStream(), t)).not.toContain('active.log')
+    expect(renderEvent(cleared, cc().CombatLog.ToStream(), t)).not.toContain('combat.log')
     expect(cleared.payload.reason).toBe('stabilize')
     expect(cleared.payload.amount).toBe(4)
     expect(cleared.payload.current).toBe(0)
@@ -248,7 +248,7 @@ describe('what the engine actually records', () => {
     const lines = stream.events.map(e => renderEvent(e, stream, t))
 
     expect(lines.length).toBeGreaterThan(4)
-    expect(lines.filter(l => !l || l.includes('active.log.'))).toEqual([])
+    expect(lines.filter(l => !l || l.includes('combat.log.'))).toEqual([])
   })
 
   it('emits only kinds the schema declares', () => {

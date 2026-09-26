@@ -15,7 +15,7 @@
           icon="mdi-clipboard-text"
           start
         />
-        {{ $t('active.actorLogs.log') }}
+        {{ $t('common.log') }}
       </v-btn>
     </template>
     <template #default>
@@ -48,7 +48,7 @@
           <v-select
             v-model="roundFilter"
             :items="roundItems"
-            :label="$t('active.actorLogs.filterRound')"
+            :label="$t('active.charts.round')"
             density="compact"
             variant="outlined"
             hide-details
@@ -106,7 +106,7 @@
               block
               color="primary"
               prepend-icon="mdi-export"
-              :tooltip="$t('active.tooltips.exportsAPlainTextVersion')"
+              :tooltip="$t('ui.shared.exportsAPlainTextVersion')"
               @click.stop="exportLog('text')"
             >
               {{ $t('active.actorLogs.exportText') }}
@@ -118,7 +118,7 @@
               block
               color="info"
               prepend-icon="mdi-export"
-              :tooltip="$t('active.tooltips.exportsAStructuredJsonVersion')"
+              :tooltip="$t('ui.shared.exportsAStructuredJsonVersion')"
               @click.stop="exportLog('json')"
             >
               {{ $t('active.actorLogs.exportJson') }}

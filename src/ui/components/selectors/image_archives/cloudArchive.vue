@@ -67,7 +67,7 @@
                   </v-btn>
                 </template>
                 <cc-confirmation
-                  :content="$t('ui.tooltips.thisWillPermanentlyDeleteThisImage')"
+                  :content="$t('ui.selectors.deleteCloudImageConfirm')"
                   @confirm="deleteCloudImage(image)"
                 />
               </v-menu>
@@ -92,7 +92,7 @@
               hide-details
               flat
               tile
-              :label="$t('ui.fields.addNewImage')"
+              :label="$t('ui.selectors.addNewImage')"
               accept="image/*"
               class="mt-1 mb-2"
               :disabled="loading || store.CloudStorageFull || !store.IsLoggedIn"
@@ -240,7 +240,7 @@
       notify({
         type: 'success',
         title: t('notify.image.deletedTitle'),
-        text: t('notify.image.deletedText', { type: item.ItemType, name: item.Name }),
+        text: t('notify.dataItem.removedText', { type: item.ItemType, name: item.Name }),
       })
       loading.value = false
       return true
@@ -249,7 +249,7 @@
       notify({
         type: 'error',
         title: t('notify.image.deleteFailedTitle'),
-        text: t('notify.image.deleteFailedText', { err }),
+        text: t('notify.dataItem.serverError', { err }),
       })
     }
     loading.value = false

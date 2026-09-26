@@ -1,7 +1,7 @@
 <template>
   <cc-dialog
     v-model="dialog"
-    :title="$t('pm.titles.selectBondPowers')"
+    :title="$t('pm.pilotSheet.selectBondPowers')"
     :close-on-click="false"
     major
     full-height

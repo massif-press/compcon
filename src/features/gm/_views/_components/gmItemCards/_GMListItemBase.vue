@@ -35,7 +35,7 @@
             <slot name="title">
               {{ item.Name }}
               <span v-if="item.NpcClassController?.Class">
-                &mdash; {{ $t('gm.itemCard.tierShort', { tier: item.NpcClassController.Tier }) }}
+                &mdash; {{ $t('common.tierShort', { n: item.NpcClassController.Tier }) }}
                 {{ item.NpcClassController.Class.Name }}
               </span>
               <span class="px-4">

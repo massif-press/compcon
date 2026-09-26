@@ -31,7 +31,7 @@
         class="text-cc-overline"
       >
         <cc-slashes class="pl-2" />
-        {{ $t('gm.itemCard.tierShort', { tier: item.NpcClassController.Tier }) }}
+        {{ $t('common.tierShort', { n: item.NpcClassController.Tier }) }}
         {{ item.NpcClassController.Class.Name }}
       </span>
     </template>

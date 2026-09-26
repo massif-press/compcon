@@ -28,7 +28,9 @@
           </div>
         </v-col>
         <v-col><v-divider /></v-col>
-        <v-col cols="auto">{{ $t('gm.organizer.itemCount', { n: items.length }) }}</v-col>
+        <v-col cols="auto">
+          {{ $t('enums.syncItemCount.item', { n: items.length }, items.length) }}
+        </v-col>
       </v-row>
     </template>
 
@@ -68,27 +70,29 @@
     >
       <v-list-item
         :title="$t('gm.folder.setFolder')"
-        :subtitle="$t('gm.subtitles.setItemFolder')"
+        :subtitle="$t('gm.organizer.setItemFolder')"
         prepend-icon="mdi-folder"
         :disabled="!selected.length"
         @click="openFolderDialog(selected, clearSelected)"
       />
       <v-list-item
-        :title="$t('gm.titles.setGmLabel')"
-        :subtitle="$t('gm.subtitles.addSetOrDeleteA')"
+        :title="$t('gm.shared.setGmLabel')"
+        :subtitle="$t('gm.organizer.addSetOrDeleteA')"
         prepend-icon="mdi-label"
         :disabled="!selected.length"
         @click="openLabelDialog(selected, clearSelected)"
       />
       <v-list-item
-        :title="selected.length < 2 ? $t('common.print') : $t('ui.organizer.printMultiple')"
-        :subtitle="$t('gm.subtitles.generateItemPrintables')"
+        :title="selected.length < 2 ? $t('common.printAction') : $t('ui.organizer.printMultiple')"
+        :subtitle="$t('gm.organizer.generateItemPrintables')"
         prepend-icon="mdi-printer"
         :disabled="!selected.length"
         @click="routePrint(selected)"
       />
       <v-list-item
-        :title="selected.length < 2 ? $t('common.export') : $t('ui.organizer.exportCollection')"
+        :title="
+          selected.length < 2 ? $t('common.exportAction') : $t('ui.organizer.exportCollection')
+        "
         :subtitle="
           selected.length < 2 ? $t('ui.organizer.exportItemJson') : $t('ui.organizer.exportPackage')
         "
@@ -109,7 +113,9 @@
       />
       <v-list-item
         v-if="showDeleted"
-        :title="selected.length < 2 ? $t('common.restore') : $t('ui.organizer.restoreMultiple')"
+        :title="
+          selected.length < 2 ? $t('common.restoreAction') : $t('ui.organizer.restoreMultiple')
+        "
         :subtitle="
           selected.length < 2
             ? $t('ui.organizer.unmarkDeleted')
@@ -215,13 +221,13 @@
   const headers = ref([
     { title: 'Name', key: 'Name', sortable: true },
     {
-      title: t('gm.titles.folder'),
+      title: t('common.folder'),
       key: 'folder',
       sortable: true,
       value: (item: any) => item.FolderController?.Folder || '',
     },
     {
-      title: t('gm.titles.gmLabels'),
+      title: t('gm.shared.gmLabels'),
       key: 'labels',
       sortable: true,
       value: (item: any) =>

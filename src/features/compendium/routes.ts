@@ -69,19 +69,19 @@ const routes = [
     path: 'compendium/manufacturers',
     component: Manufacturers,
     searchData: {
-      title: 'compendium.titles.manufacturers',
+      title: 'compendium.categories.manufacturers',
       icon: 'mdi-book-variant',
     },
-    meta: { title: 'compendium.titles.manufacturers' },
+    meta: { title: 'compendium.categories.manufacturers' },
   },
   {
     path: 'compendium/frames',
     component: Frames,
     searchData: {
-      title: 'compendium.titles.frames',
+      title: 'compendium.categories.frames',
       icon: 'mdi-book-variant',
     },
-    meta: { title: 'compendium.titles.frames' },
+    meta: { title: 'compendium.categories.frames' },
   },
   {
     path: 'compendium/weapons',
@@ -96,10 +96,10 @@ const routes = [
     path: 'compendium/systems',
     component: Systems,
     searchData: {
-      title: 'compendium.titles.mechSystems',
+      title: 'common.mechSystems',
       icon: 'mdi-book-variant',
     },
-    meta: { title: 'compendium.titles.mechSystems' },
+    meta: { title: 'common.mechSystems' },
   },
   {
     path: 'compendium/pilot_gear',
@@ -114,19 +114,19 @@ const routes = [
     path: 'compendium/skills',
     component: Skills,
     searchData: {
-      title: 'pm.titles.skillTriggers',
+      title: 'common.skillTriggers',
       icon: 'mdi-book-variant',
     },
-    meta: { title: 'pm.titles.skillTriggers' },
+    meta: { title: 'common.skillTriggers' },
   },
   {
     path: 'compendium/npc_classes',
     component: NpcClasses,
     searchData: {
-      title: 'compendium.titles.npcClasses',
+      title: 'compendium.categories.npcClasses',
       icon: 'mdi-book-variant',
     },
-    meta: { title: 'compendium.titles.npcClasses' },
+    meta: { title: 'compendium.categories.npcClasses' },
   },
   {
     path: 'compendium/npc_features',
@@ -141,19 +141,19 @@ const routes = [
     path: 'compendium/npc_templates',
     component: NpcTemplates,
     searchData: {
-      title: 'compendium.titles.npcTemplates',
+      title: 'compendium.categories.npcTemplates',
       icon: 'mdi-book-variant',
     },
-    meta: { title: 'compendium.titles.npcTemplates' },
+    meta: { title: 'compendium.categories.npcTemplates' },
   },
   {
     path: 'compendium/eidolon_layers',
     component: EidolonLayers,
     searchData: {
-      title: 'compendium.titles.eidolonLayers',
+      title: 'compendium.shared.eidolonLayers',
       icon: 'mdi-book-variant',
     },
-    meta: { title: 'compendium.titles.eidolonLayers' },
+    meta: { title: 'compendium.shared.eidolonLayers' },
   },
   {
     path: 'compendium/statuses',
@@ -168,24 +168,24 @@ const routes = [
     path: 'compendium/tags',
     component: Tags,
     searchData: {
-      title: 'compendium.titles.equipmentTags',
+      title: 'compendium.categories.equipmentTags',
       icon: 'mdi-book-variant',
     },
-    meta: { title: 'compendium.titles.equipmentTags' },
+    meta: { title: 'compendium.categories.equipmentTags' },
   },
   {
     path: 'compendium/reference',
     component: Reference,
-    meta: { title: 'compendium.titles.reference' },
+    meta: { title: 'compendium.shared.reference' },
   },
   {
     path: 'compendium/corebonuses',
     component: CoreBonuses,
     searchData: {
-      title: 'pm.titles.coreBonuses',
+      title: 'common.coreBonuses',
       icon: 'mdi-book-variant',
     },
-    meta: { title: 'pm.titles.coreBonuses' },
+    meta: { title: 'common.coreBonuses' },
   },
   {
     path: 'compendium/talents',
@@ -200,19 +200,19 @@ const routes = [
     path: 'compendium/backgrounds',
     component: Backgrounds,
     searchData: {
-      title: 'compendium.titles.pilotBackgrounds',
+      title: 'compendium.shared.pilotBackgrounds',
       icon: 'mdi-book-variant',
     },
-    meta: { title: 'compendium.titles.pilotBackgrounds' },
+    meta: { title: 'compendium.shared.pilotBackgrounds' },
   },
   {
     path: 'compendium/glossary',
     component: Glossary,
     searchData: {
-      title: 'compendium.titles.glossary',
+      title: 'compendium.reference.glossary',
       icon: 'mdi-book-variant',
     },
-    meta: { title: 'compendium.titles.glossary' },
+    meta: { title: 'compendium.reference.glossary' },
   },
   {
     path: 'compendium/reserves',
@@ -227,37 +227,37 @@ const routes = [
     path: 'compendium/downtime',
     component: DowntimeActions,
     searchData: {
-      title: 'compendium.titles.downtimeActions',
+      title: 'compendium.categories.downtimeActions',
       icon: 'mdi-book-variant',
     },
-    meta: { title: 'compendium.titles.downtimeActions' },
+    meta: { title: 'compendium.categories.downtimeActions' },
   },
   {
     path: 'compendium/bonds',
     component: Bonds,
     searchData: {
-      title: 'compendium.titles.bonds',
+      title: 'common.bonds',
       icon: 'mdi-book-variant',
     },
-    meta: { title: 'compendium.titles.bonds' },
+    meta: { title: 'common.bonds' },
   },
   {
     path: 'compendium/environments',
     component: Environments,
     searchData: {
-      title: 'compendium.titles.environments',
+      title: 'compendium.categories.environments',
       icon: 'mdi-book-variant',
     },
-    meta: { title: 'compendium.titles.environments' },
+    meta: { title: 'compendium.categories.environments' },
   },
   {
     path: 'compendium/sitreps',
     component: Sitreps,
     searchData: {
-      title: 'compendium.titles.sitreps',
+      title: 'compendium.categories.sitreps',
       icon: 'mdi-book-variant',
     },
-    meta: { title: 'compendium.titles.sitreps' },
+    meta: { title: 'compendium.categories.sitreps' },
   },
   {
     path: 'compendium/tables',
@@ -267,7 +267,7 @@ const routes = [
   {
     path: 'compendium/lists',
     component: Lists,
-    meta: { title: 'compendium.titles.lists' },
+    meta: { title: 'compendium.shared.lists' },
   },
   {
     path: 'reference',
@@ -280,10 +280,10 @@ const routes = [
     component: Basics,
     props: route => ({ preScroll: route.query.preScroll }),
     searchData: {
-      title: 'compendium.titles.referenceBasics',
+      title: 'compendium.routes.referenceBasics',
       icon: 'mdi-book-open-variant-outline',
     },
-    meta: { title: 'compendium.titles.referenceBasics' },
+    meta: { title: 'compendium.routes.referenceBasics' },
   },
   {
     path: 'reference/compcon',
@@ -291,10 +291,10 @@ const routes = [
     component: Compcon,
     props: route => ({ preScroll: route.query.preScroll }),
     searchData: {
-      title: 'compendium.titles.referenceCompCon',
+      title: 'compendium.routes.referenceCompCon',
       icon: 'mdi-book-open-variant-outline',
     },
-    meta: { title: 'compendium.titles.referenceCompCon' },
+    meta: { title: 'compendium.routes.referenceCompCon' },
   },
   {
     path: 'reference/pilots',
@@ -302,10 +302,10 @@ const routes = [
     component: Pilots,
     props: route => ({ preScroll: route.query.preScroll }),
     searchData: {
-      title: 'compendium.titles.referencePilots',
+      title: 'compendium.shared.referencePilots',
       icon: 'mdi-book-open-variant-outline',
     },
-    meta: { title: 'compendium.titles.referencePilots' },
+    meta: { title: 'compendium.shared.referencePilots' },
   },
   {
     path: 'reference/mechs',
@@ -313,10 +313,10 @@ const routes = [
     component: Mechs,
     props: route => ({ preScroll: route.query.preScroll }),
     searchData: {
-      title: 'compendium.titles.referenceMechs',
+      title: 'compendium.shared.referenceMechs',
       icon: 'mdi-book-open-variant-outline',
     },
-    meta: { title: 'compendium.titles.referenceMechs' },
+    meta: { title: 'compendium.shared.referenceMechs' },
   },
   {
     path: 'reference/combat',
@@ -324,10 +324,10 @@ const routes = [
     component: Combat,
     props: route => ({ preScroll: route.query.preScroll }),
     searchData: {
-      title: 'compendium.titles.referenceCombat',
+      title: 'compendium.shared.referenceCombat',
       icon: 'mdi-book-open-variant-outline',
     },
-    meta: { title: 'compendium.titles.referenceCombat' },
+    meta: { title: 'compendium.shared.referenceCombat' },
   },
   {
     path: 'reference/narrative',
@@ -335,10 +335,10 @@ const routes = [
     component: Narrative,
     props: route => ({ preScroll: route.query.preScroll }),
     searchData: {
-      title: 'compendium.titles.referenceNarrativePlay',
+      title: 'compendium.shared.referenceNarrativePlay',
       icon: 'mdi-book-open-variant-outline',
     },
-    meta: { title: 'compendium.titles.referenceNarrativePlay' },
+    meta: { title: 'compendium.shared.referenceNarrativePlay' },
   },
   {
     path: 'reference/errata',
@@ -346,10 +346,10 @@ const routes = [
     component: Errata,
     props: route => ({ preScroll: route.query.preScroll }),
     searchData: {
-      title: 'compendium.titles.referenceErrata',
+      title: 'compendium.shared.referenceErrata',
       icon: 'mdi-book-open-variant-outline',
     },
-    meta: { title: 'compendium.titles.referenceErrata' },
+    meta: { title: 'compendium.shared.referenceErrata' },
   },
   {
     path: 'reference/glossary',
@@ -357,10 +357,10 @@ const routes = [
     component: Glossary,
     props: route => ({ preScroll: route.query.preScroll }),
     searchData: {
-      title: 'compendium.titles.referenceGlossary',
+      title: 'compendium.shared.referenceGlossary',
       icon: 'mdi-book-open-variant-outline',
     },
-    meta: { title: 'compendium.titles.referenceGlossary' },
+    meta: { title: 'compendium.shared.referenceGlossary' },
   },
   {
     path: 'reference/reference',

@@ -42,7 +42,7 @@
                 h3
               >
                 <cc-slashes />
-                <span class="text-lowercase">{{ $t('pm.roster.pilots') }}</span>
+                <span class="text-lowercase">{{ $t('common.pilots') }}</span>
               </div>
               <v-divider class="mb-2" />
               <v-row

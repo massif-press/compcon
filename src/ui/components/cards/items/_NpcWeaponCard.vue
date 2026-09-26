@@ -208,7 +208,7 @@
       />
       <p
         v-if="item.OnAttack"
-        v-html-safe="`<b>${$t('pm.print.onATTACK')}:&nbsp;</b>${item.OnAttack.getDetail(tier)}`"
+        v-html-safe="`<b>${$t('pm.print.onAttack')}:&nbsp;</b>${item.OnAttack.getDetail(tier)}`"
         class="panel text-text py-1"
       />
       <p

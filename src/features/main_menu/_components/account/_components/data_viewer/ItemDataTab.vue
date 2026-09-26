@@ -25,7 +25,7 @@
       <v-spacer />
       <cc-switch
         v-model="showLocalDeleted"
-        :label="$t('mainMenu.fields.showLocallyDeleted')"
+        :label="$t('mainMenu.itemDataTab.showLocallyDeleted')"
         hide-details
         class="ml-auto"
       />
@@ -105,7 +105,7 @@
         </div>
       </template>
       <template #item.ItemType="{ item }">
-        <span v-if="item.ItemType === 'Encounter'">{{ $t('active.newEnc.encounterData') }}</span>
+        <span v-if="item.ItemType === 'Encounter'">{{ $t('common.encounterData') }}</span>
         <span v-else-if="item.ItemType === 'Campaign'">
           {{ $t('mainMenu.dataItem.typeCampaignData') }}
         </span>
@@ -354,7 +354,7 @@
               </v-btn>
             </template>
             <div class="text-center">
-              {{ $t('common.restore') }}
+              {{ $t('common.restoreAction') }}
               <br />
               <i class="text-caption">{{ $t('mainMenu.dataItem.restoreLocalDesc') }}</i>
             </div>
@@ -388,20 +388,20 @@
             <v-list>
               <v-list-item
                 :title="$t('common.syncNow')"
-                :subtitle="$t('mainMenu.subtitles.mergeAndSyncThisItem')"
+                :subtitle="$t('mainMenu.itemDataTab.mergeAndSyncThisItem')"
                 @click="sync(item)"
               />
               <v-list-item
                 v-if="!item._isRemote"
-                :title="$t('mainMenu.titles.forceUpload')"
-                :subtitle="$t('mainMenu.subtitles.pushLocalDataToCloud')"
+                :title="$t('mainMenu.account.forceUpload')"
+                :subtitle="$t('mainMenu.itemDataTab.itemForcePushDescription')"
                 :disabled="!item.SaveController"
                 @click="forceSyncLocal(item)"
               />
               <v-list-item
                 v-if="!item._isRemote"
-                :title="$t('mainMenu.titles.forceDownload')"
-                :subtitle="$t('mainMenu.subtitles.mergeLatestCloudDataInto')"
+                :title="$t('mainMenu.account.forceDownload')"
+                :subtitle="$t('mainMenu.itemDataTab.itemMergeDescription')"
                 :disabled="!item.CloudController?.Metadata?.Updated"
                 @click="forceSyncCloud(item)"
               />
@@ -455,7 +455,7 @@
                   {{ $t('mainMenu.dataItem.deletePermanentlyDesc') }}
                   <v-checkbox
                     v-model="skipDeleteWarningLocal"
-                    :label="$t('mainMenu.fields.doNotShowThisWarningAgain')"
+                    :label="$t('mainMenu.account.doNotShowThisWarningAgain')"
                     hide-details
                   />
                 </v-card-text>
@@ -499,7 +499,7 @@
               </v-btn>
             </template>
             <div class="text-center">
-              {{ $t('common.restore') }}
+              {{ $t('common.restoreAction') }}
               <br />
               <i class="text-caption">{{ $t('mainMenu.dataItem.restoreItemDesc') }}</i>
             </div>
@@ -552,7 +552,7 @@
                   {{ $t('mainMenu.dataItem.deleteImmediatelyDesc') }}
                   <v-checkbox
                     v-model="skipDeleteWarningPerm"
-                    :label="$t('mainMenu.fields.doNotShowThisWarningAgain')"
+                    :label="$t('mainMenu.account.doNotShowThisWarningAgain')"
                     hide-details
                   />
                 </v-card-text>
@@ -608,27 +608,27 @@
             <v-list>
               <v-list-item
                 :title="$t('common.syncNow')"
-                :subtitle="$t('mainMenu.subtitles.mergeAndSyncThisItem')"
+                :subtitle="$t('mainMenu.itemDataTab.mergeAndSyncThisItem')"
                 @click="sync(item)"
               />
               <v-list-item
                 v-if="!item._isRemote"
-                :title="$t('mainMenu.titles.forceUpload')"
-                :subtitle="$t('mainMenu.subtitles.pushLocalDataToCloud')"
+                :title="$t('mainMenu.account.forceUpload')"
+                :subtitle="$t('mainMenu.itemDataTab.itemForcePushDescription')"
                 :disabled="!item.SaveController"
                 @click="forceSyncLocal(item)"
               />
               <v-list-item
                 v-if="!item._isRemote"
-                :title="$t('mainMenu.titles.forceDownload')"
-                :subtitle="$t('mainMenu.subtitles.mergeLatestCloudDataInto')"
+                :title="$t('mainMenu.account.forceDownload')"
+                :subtitle="$t('mainMenu.itemDataTab.itemMergeDescription')"
                 :disabled="!item.CloudController?.Metadata?.Updated"
                 @click="forceSyncCloud(item)"
               />
               <v-list-item
                 v-if="item._isRemote"
-                :title="$t('mainMenu.titles.convertToLocalData')"
-                :subtitle="$t('mainMenu.subtitles.removeTheRemoteLinkAnd')"
+                :title="$t('mainMenu.itemDataTab.convertToLocalData')"
+                :subtitle="$t('mainMenu.itemDataTab.itemUnlinkDescription')"
                 @click="convertToLocal(item)"
               />
             </v-list>
@@ -710,7 +710,7 @@
                   {{ $t('mainMenu.dataItem.deleteCloudItemDesc') }}
                   <v-checkbox
                     v-model="skipDeleteWarning"
-                    :label="$t('mainMenu.fields.doNotShowThisWarningAgain')"
+                    :label="$t('mainMenu.account.doNotShowThisWarningAgain')"
                     hide-details
                   />
                 </v-card-text>
@@ -741,7 +741,7 @@
 
     <cc-dialog
       v-model="bulkDeleteDialog"
-      :title="$t('mainMenu.titles.confirmDelete')"
+      :title="$t('mainMenu.itemDataTab.confirmDelete')"
       :close-on-click="false"
     >
       <cc-alert color="error">
@@ -766,11 +766,11 @@
       >
         <v-radio
           value="cloud"
-          :label="$t('mainMenu.fields.deleteCloudDataOnlyKeep')"
+          :label="$t('mainMenu.itemDataTab.deleteCloudDataOnlyKeep')"
         />
         <v-radio
           value="both"
-          :label="$t('mainMenu.fields.deleteCloudAndMarkLocalAsDeleted')"
+          :label="$t('mainMenu.itemDataTab.deleteCloudAndMarkLocalAsDeleted')"
         />
       </v-radio-group>
       <v-divider />
@@ -881,14 +881,14 @@
     { title: 'Name', key: 'Name' },
     { title: t('common.type'), key: 'ItemType' },
     {
-      title: t('mainMenu.titles.lastSync'),
+      title: t('mainMenu.itemDataTab.lastSync'),
       key: 'lastSync',
       align: 'center' as const,
       sortRaw: (a: any, b: any) =>
         a.CloudController.Metadata?.Updated - b.CloudController.Metadata?.Updated,
     },
     {
-      title: t('mainMenu.titles.lastModified'),
+      title: t('pm.roster.lastModified'),
       key: 'localLastModified',
       value: 'SaveController.LastModified',
       align: 'center' as const,

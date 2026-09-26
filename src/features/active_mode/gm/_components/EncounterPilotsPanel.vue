@@ -13,12 +13,12 @@
     <v-col>
       <div class="text-cc-overline mb-1">
         <cc-slashes class="pr-1" />
-        <span class="text-disabled">{{ $t('pm.roster.pilots') }}</span>
+        <span class="text-disabled">{{ $t('common.pilots') }}</span>
       </div>
       <cc-panel>
         <cc-titled-divider
           v-if="!pilots.length"
-          :title="$t('active.titles.addPilots')"
+          :title="$t('active.encounterPilotsPanel.addPilots')"
           color="accent"
         />
         <div>
@@ -145,7 +145,7 @@
                   <cc-text-field
                     v-model="p.Name"
                     color="panel"
-                    :placeholder="$t('active.fields.pilotNameOrCallsign')"
+                    :placeholder="$t('active.encounterPilotsPanel.pilotNameOrCallsign')"
                     prepend-icon="cc:pilot"
                   />
                 </v-col>
@@ -153,7 +153,7 @@
                   <cc-text-field
                     v-model="p.Mechname"
                     color="panel"
-                    :placeholder="$t('active.fields.frameOrMechName')"
+                    :placeholder="$t('active.encounterPilotsPanel.frameOrMechName')"
                     prepend-icon="cc:frame"
                   />
                 </v-col>
@@ -185,7 +185,7 @@
           </v-col>
           <v-col>
             <cc-dialog
-              :title="$t('common.import')"
+              :title="$t('common.importAction')"
               icon="mdi-import"
               :close-on-click="false"
               major
@@ -197,7 +197,7 @@
                   color="primary"
                   size="small"
                   block
-                  :tooltip="$t('active.tooltips.importAPilotFromJsonData')"
+                  :tooltip="$t('active.encounterPilotsPanel.importAPilotFromJsonData')"
                   prepend-icon="mdi-file-import-outline"
                   @click="open"
                 >
@@ -218,7 +218,7 @@
               size="small"
               block
               color="primary"
-              :tooltip="$t('active.tooltips.addsAPilottypeCombatantPlaceholder')"
+              :tooltip="$t('active.encounterPilotsPanel.addsAPilottypeCombatantPlaceholder')"
               prepend-icon="mdi-account-outline"
               @click="emit('add-placeholder')"
             >

@@ -13,14 +13,14 @@
         <cc-text-field
           v-model="table.name"
           color="primary"
-          :label="$t('active.fields.tableName')"
+          :label="$t('active.gm.tableName')"
         />
       </v-col>
       <v-col>
         <cc-text-field
           v-model="table.gm"
           color="primary"
-          :label="$t('active.fields.gameMaster')"
+          :label="$t('active.shared.gameMaster')"
         />
       </v-col>
     </v-row>

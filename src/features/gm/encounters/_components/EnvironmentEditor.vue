@@ -88,7 +88,7 @@
 
     <cc-dialog
       v-model="confirmDialog"
-      :title="$t('gm.titles.environmentDataModified')"
+      :title="$t('gm.encounters.environmentDataModified')"
       icon="mdi-undo-variant"
       :close-on-click="false"
       color="error"
@@ -115,7 +115,7 @@
 
     <cc-dialog
       v-model="deleteConfirmDialog"
-      :title="$t('gm.titles.deletePreset')"
+      :title="$t('gm.encounters.deletePreset')"
       icon="mdi-delete"
       :close-on-click="false"
       color="error"

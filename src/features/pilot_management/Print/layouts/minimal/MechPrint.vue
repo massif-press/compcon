@@ -42,7 +42,7 @@
           ]
         </span>
         <span class="px-1">
-          {{ $t('pm.print.1d32') }}
+          [{{ $t('pm.print.1d3') }}
           <v-icon
             size="small"
             color="red"
@@ -51,7 +51,7 @@
           ]
         </span>
         <span class="px-1">
-          {{ $t('pm.print.1d62') }}
+          [{{ $t('pm.print.1d6') }}
           <v-icon
             size="small"
             color="red"
@@ -60,7 +60,7 @@
           ]
         </span>
         <span class="px-1">
-          {{ $t('pm.print.1d642') }}
+          [{{ $t('pm.print.1d64') }}
           <v-icon
             size="small"
             color="red"
@@ -79,7 +79,7 @@
     >
       <v-col cols="auto">
         <b>
-          <span class="text-uppercase">{{ $t('pm.link.hull') }}</span>
+          <span class="text-uppercase">{{ $t('stats.hull') }}</span>
           :
         </b>
         <blank-line
@@ -128,7 +128,7 @@
       </v-col>
       <v-col cols="auto">
         <b>
-          <span class="text-uppercase">{{ $t('ui.fields.size') }}</span>
+          <span class="text-uppercase">{{ $t('stats.size') }}</span>
           :
         </b>
         <blank-line
@@ -365,7 +365,7 @@
           style="line-height: 0"
           class="text-overline text-primary mb-2"
         >
-          <span class="text-uppercase">{{ $t('pm.sheet.heat') }}</span>
+          <span class="text-uppercase">{{ $t('enums.damageType.heat') }}</span>
         </div>
         <div>
           <div class="d-inline-block">
@@ -448,7 +448,7 @@
               class="text-primary"
               style="font-size: 15px"
             >
-              <span class="text-uppercase">{{ $t('common.save') }}</span>
+              <span class="text-uppercase">{{ $t('common.saveAction') }}</span>
             </span>
             <blank-line
               v-if="blank"
@@ -548,7 +548,7 @@
               class="text-primary"
               style="font-size: 15px"
             >
-              {{ $t('pm.print.ltdSYS') }}
+              {{ $t('pm.print.limitedSystemShort') }}
             </span>
             <blank-line
               v-if="blank"
@@ -750,7 +750,7 @@
               cols="auto"
               class="text-primary"
             >
-              {{ $t('common.mount') }}
+              {{ $t('common.weaponMount') }}
             </v-col>
           </v-row>
         </legend>
@@ -771,11 +771,11 @@
                 <blank-line :height="20" />
               </v-col>
               <v-col cols="2">
-                <div class="caption text-grey">{{ $t('pm.print.range') }}</div>
+                <div class="caption text-grey">{{ $t('stats.range') }}</div>
                 <blank-line :height="20" />
               </v-col>
               <v-col cols="2">
-                <div class="caption text-grey">{{ $t('ui.widget.damage') }}</div>
+                <div class="caption text-grey">{{ $t('common.damage') }}</div>
                 <blank-line :height="20" />
               </v-col>
             </v-row>
@@ -805,9 +805,9 @@
             v-if="m.IsLocked"
             class="text-center flavor-text"
           >
-            {{ $t('pm.print.mountLOCKED') }}
+            {{ $t('pm.print.mountLocked') }}
             <br />
-            <span class="text-overline">// {{ $t('pm.loadout.superheavyWEAPONBRACING') }} //</span>
+            <span class="text-overline">// {{ $t('pm.loadout.superheavyWeaponBracing') }} //</span>
           </div>
           <v-row
             v-else
@@ -902,28 +902,28 @@
                     v-if="p.OnMiss"
                     class="caption"
                   >
-                    <b>{{ $t('pm.print.onMISS') }}:</b>
+                    <b>{{ $t('pm.print.onMiss') }}:</b>
                     {{ p.OnMiss.Detail }}
                   </div>
                   <div
                     v-if="p.OnAttack"
                     class="caption"
                   >
-                    <b>{{ $t('pm.print.onATTACK') }}:</b>
+                    <b>{{ $t('pm.print.onAttack') }}:</b>
                     {{ p.OnAttack.Detail }}
                   </div>
                   <div
                     v-if="p.OnHit"
                     class="caption"
                   >
-                    <b>{{ $t('pm.print.onHIT') }}:</b>
+                    <b>{{ $t('pm.print.onHit') }}:</b>
                     {{ p.OnHit.Detail }}
                   </div>
                   <div
                     v-if="p.OnCrit"
                     class="caption"
                   >
-                    <b>{{ $t('pm.print.onCRIT') }}:</b>
+                    <b>{{ $t('pm.print.onCrit') }}:</b>
                     {{ p.OnCrit.Detail }}
                   </div>
                   <print-action
@@ -960,7 +960,7 @@
                 <span class="heading">
                   {{ w.Mod.Name }}
                 </span>
-                <span class="text-overline">&nbsp;{{ $t('pm.print.appliedMOD') }}</span>
+                <span class="text-overline">&nbsp;//{{ $t('pm.print.appliedMod') }}</span>
                 <br />
                 <p
                   v-if="w.Mod.Effect"
@@ -996,11 +996,11 @@
         >
           <v-row dense>
             <v-col>
-              <div class="caption text-grey">{{ $t('pm.print.system') }}</div>
+              <div class="caption text-grey">{{ $t('enums.systemType.system') }}</div>
               <blank-line :height="20" />
             </v-col>
             <v-col cols="2">
-              <div class="caption text-grey">{{ $t('pm.print.uses') }}</div>
+              <div class="caption text-grey">{{ $t('common.uses') }}</div>
               <blank-line :height="20" />
             </v-col>
             <v-col cols="2">

@@ -27,32 +27,32 @@
           <v-list two-lines>
             <v-list-item
               prepend-icon="mdi-text-long"
-              :title="$t('gm.titles.textSection')"
+              :title="$t('gm.pageContentContainer.textSection')"
               @click="setContentType('text')"
             />
             <v-list-item
               prepend-icon="mdi-image"
-              :title="$t('gm.titles.image')"
+              :title="$t('gm.campaigns.image')"
               @click="setContentType('image')"
             />
             <v-list-item
               prepend-icon="mdi-table"
-              :title="$t('gm.titles.rollableTable')"
+              :title="$t('gm.pageContentContainer.rollableTable')"
               @click="setContentType('table')"
             />
             <v-list-item
               prepend-icon="mdi-clock"
-              :title="$t('gm.titles.clock')"
+              :title="$t('gm.pageContentContainer.clock')"
               @click="setContentType('clock')"
             />
             <v-list-item
               prepend-icon="mdi-puzzle"
-              :title="$t('gm.titles.narrativeElement')"
+              :title="$t('common.narrativeElement')"
               @click="setContentType('narrative')"
             />
             <v-list-item
               prepend-icon="cc:encounter"
-              :title="$t('gm.titles.combatEncounter')"
+              :title="$t('gm.pageContentContainer.combatEncounter')"
               @click="setContentType('encounter')"
             />
           </v-list>
@@ -78,7 +78,7 @@
               variant="elevated"
               @click="item.HeaderType = 'header-1'"
             >
-              <span class="heading h1">{{ $t('gm.pageContent.h1') }}</span>
+              <span class="heading h1">H1</span>
             </v-card>
             <v-card
               class="pa-1 pr-4 my-1 rounded-0 clipped"
@@ -86,14 +86,14 @@
               variant="elevated"
               @click="item.HeaderType = 'header-2'"
             >
-              <span class="heading h3">{{ $t('gm.pageContent.h2') }}</span>
+              <span class="heading h3">H2</span>
             </v-card>
             <v-card
               class="pa-1 pr-4 my-1"
               variant="plain"
               @click="item.HeaderType = 'header-3'"
             >
-              <span class="heading h3">{{ $t('gm.pageContent.h3') }}</span>
+              <span class="heading h3">H3</span>
             </v-card>
             <v-card
               class="pa-1 pr-4 my-1"
@@ -104,7 +104,7 @@
                 class="heading"
                 :class="`text-${item.Color}`"
               >
-                {{ $t('gm.pageContent.h4') }}
+                H4
               </span>
             </v-card>
             <v-card
@@ -333,14 +333,14 @@
           </v-card>
           <v-text-field
             v-model="item.AsImage.ImageUrl"
-            :label="$t('gm.fields.imageUrl')"
+            :label="$t('gm.pageContentContainer.imageUrl')"
             hide-details
             class="my-2 mx-2"
             density="compact"
           />
           <v-text-field
             v-model="item.AsImage.Caption"
-            :label="$t('gm.fields.caption')"
+            :label="$t('gm.pageContentContainer.caption')"
             hide-details
             class="my-2 mx-2"
             density="compact"

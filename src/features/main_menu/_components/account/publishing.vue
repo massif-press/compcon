@@ -33,7 +33,7 @@
           color="text"
           icon="mdi-information-outline"
           variant="outlined"
-          :title="$t('mainMenu.titles.youDoNotHaveAccess2')"
+          :title="$t('mainMenu.publishing.noPublishingAccess')"
         >
           <i18n-t
             keypath="mainMenu.publishing.accessInfo"
@@ -132,7 +132,7 @@
                           :label="
                             !collection.Author
                               ? $t('mainMenu.publishing.authorRequired')
-                              : $t('share.resultAuthor')
+                              : $t('common.author')
                           "
                         />
                       </v-col>
@@ -504,7 +504,7 @@
                               </i18n-t>
                             </p>
                             <span class="text-caption">
-                              {{ $t('mainMenu.publishing.actionUndone') }}
+                              {{ $t('common.actionCannotBeUndone') }}
                             </span>
                           </div>
                         </v-card-text>
@@ -512,7 +512,7 @@
                           <div>
                             <p>{{ $t('mainMenu.publishing.confirmDelete') }}</p>
                             <span class="text-caption">
-                              {{ $t('mainMenu.publishing.actionUndone') }}
+                              {{ $t('common.actionCannotBeUndone') }}
                             </span>
                           </div>
                         </v-card-text>
@@ -567,7 +567,7 @@
   const dataHeaders = ref([
     { title: 'Name', key: 'name' },
     { title: t('common.type'), key: 'item_type' },
-    { title: t('mainMenu.titles.lastUpdated'), key: 'update' },
+    { title: t('share.resultLastUpdated'), key: 'update' },
     { title: '', key: 'actions', width: '115px' },
   ])
 
@@ -617,7 +617,7 @@
     } catch (e) {
       logger.error(`Failed to publish collection ${collection.Name}: ${e}`, undefined, e)
       notify({
-        title: t('notify.common.error'),
+        title: t('common.error'),
         text: t('notify.account.collectionPublishFailedText', { name: collection.Name }),
         color: 'error',
         icon: 'mdi-alert',

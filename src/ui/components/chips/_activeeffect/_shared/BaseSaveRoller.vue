@@ -7,7 +7,7 @@
       no-gutters
       class="text-cc-overline text-disabled"
     >
-      <v-col>{{ $t('ui.combat.saveSuffix', { stat: event.Save }) }}</v-col>
+      <v-col>{{ $t('ui.combat.statSave', { stat: event.Save }) }}</v-col>
       <v-col
         v-if="event.SaveHalf && !!event.Targets[0]"
         cols="auto"

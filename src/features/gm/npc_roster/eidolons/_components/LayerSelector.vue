@@ -17,7 +17,7 @@
         >
           <template #link>
             <a href="https://massif-press.itch.io/no-room-for-a-wallflower-act-1">
-              {{ $t('gm.layerSelector.linkText') }}
+              No Room for a Wallflower
             </a>
           </template>
         </i18n-t>
@@ -46,7 +46,7 @@
     <template #top>
       <cc-switch
         v-model="allowDupes"
-        :label="$t('gm.fields.allowDuplicates')"
+        :label="$t('gm.npcRoster.allowDuplicates')"
         color="error"
         on-icon="mdi-lock-open"
         off-icon="mdi-lock"
@@ -88,10 +88,10 @@
     initialGroup: 'none',
   })
   const headers = ref([
-    { title: t('gm.titles.contentPack'), key: 'LcpName' },
+    { title: t('common.contentPack'), key: 'LcpName' },
     { title: 'Name', key: 'Name' },
     {
-      title: t('gm.titles.shards'),
+      title: t('common.shards'),
       key: 'ShardCount',
     },
   ])

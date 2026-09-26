@@ -31,7 +31,9 @@
         v-model:enable-justify="enableJustify"
         v-model:line-width="lineWidth"
       />
-      <div class="text-cc-overline text-disabled">{{ $t('active.statblockExport.include') }}</div>
+      <div class="text-cc-overline text-disabled">
+        // {{ $t('active.statblockExport.include') }}
+      </div>
       <v-row
         dense
         justify="space-around"
@@ -90,7 +92,7 @@
               block
               color="primary"
               prepend-icon="mdi-export"
-              :tooltip="$t('active.tooltips.exportsAPlainTextVersion2')"
+              :tooltip="$t('active.runner.exportCombatantStatsHint')"
               @click.stop="exportBlock()"
             >
               {{ $t('active.statblockExport.exportText') }}

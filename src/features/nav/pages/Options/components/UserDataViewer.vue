@@ -13,7 +13,7 @@
       <thead>
         <tr>
           <th>{{ $t('common.item') }}</th>
-          <th>{{ $t('nav.userDataViewer.value') }}</th>
+          <th>{{ $t('common.value') }}</th>
         </tr>
       </thead>
       <tbody>

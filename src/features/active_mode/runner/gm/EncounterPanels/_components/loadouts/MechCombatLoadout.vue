@@ -1,5 +1,5 @@
 <template>
-  <div class="text-cc-overline">{{ $t('active.mechLoadout.weapons') }}</div>
+  <div class="text-cc-overline">// {{ $t('active.mechLoadout.weapons') }}</div>
   <cc-masonry-grid
     :items="mounts"
     :xl-columns="xlColumns"
@@ -15,13 +15,13 @@
             v-if="item.isImpArm"
             class="text-cc-overline"
           >
-            {{ $t('pm.loadout.improvedARMAMENT') }}
+            {{ $t('pm.loadout.improvedArmamentNote') }}
           </span>
           <span
             v-if="item.isSuperheavy"
             class="text-cc-overline"
           >
-            {{ $t('pm.loadout.superheavyMOUNTING') }}
+            {{ $t('pm.loadout.superheavyMountingNote') }}
           </span>
         </legend>
 

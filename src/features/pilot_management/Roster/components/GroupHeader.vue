@@ -43,7 +43,7 @@
       @click.stop="setEdit()"
     />
     <span class="pl-4 text-caption">
-      ({{ pilotCount }} {{ pilotCount === 1 ? $t('pm.new.pilot') : $t('pm.roster.pilots') }})
+      ({{ $t('pm.roster.pilotCount', { n: pilotCount }, pilotCount) }})
     </span>
     <v-spacer />
     <v-divider
@@ -70,7 +70,7 @@
             <cc-text-field
               v-if="edit"
               v-model="group.Name"
-              :label="$t('pm.fields.groupName')"
+              :label="$t('pm.roster.groupName')"
               variant="outlined"
               color="primary"
               density="compact"
@@ -197,10 +197,10 @@
                   class="pa-1"
                 >
                   <span v-if="deletePilotsToggle">
-                    {{ $t('pm.roster.allPilotsAssignedToThisGroup') }}
+                    {{ $t('pm.roster.deleteGroupWithPilotsWarning') }}
                   </span>
                   <span v-else>
-                    {{ $t('pm.roster.allPilotsAssignedToThisGroup2') }}
+                    {{ $t('pm.roster.deleteGroupKeepPilotsNotice') }}
                   </span>
                 </div>
               </cc-alert>
@@ -213,7 +213,7 @@
                     v-model="deletePilotsToggle"
                     inset
                     color="error"
-                    :label="$t('pm.fields.deletePilots')"
+                    :label="$t('pm.roster.deletePilots')"
                     density="compact"
                     hide-details
                   />
@@ -367,7 +367,7 @@
                 prepend-icon="mdi-dots-vertical"
                 @click="props.onClick($event)"
               >
-                {{ $t('common.import') }}
+                {{ $t('common.importAction') }}
               </cc-button>
             </template>
             <v-card
@@ -376,7 +376,7 @@
             >
               <v-card-text>
                 <cc-dialog
-                  :title="$t('common.import')"
+                  :title="$t('common.importAction')"
                   icon="mdi-import"
                   max-width="900"
                   :close-on-click="false"
@@ -417,7 +417,7 @@
           prepend-icon="mdi-export"
           @click="emit('export')"
         >
-          {{ $t('common.export') }}
+          {{ $t('common.exportAction') }}
         </cc-button>
       </v-row>
     </div>

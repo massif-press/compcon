@@ -38,7 +38,7 @@ jobs:
         run: |
           gh auth setup-git
           gh repo clone massif-press/compcon-locales locales-repo
-          cp src/i18n/locales/en.json locales-repo/ui/en.json
+          node scripts/locale-plurals.mjs split src/i18n/locales/en.json locales-repo/ui/en.json
           mkdir -p locales-repo/content/lancer-data locales-repo/content/lancer-srd
           cp content/en/lancer-data.json locales-repo/content/lancer-data/en.json
           cp content/en/lancer-srd.json locales-repo/content/lancer-srd/en.json

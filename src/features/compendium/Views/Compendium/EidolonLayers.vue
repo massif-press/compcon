@@ -5,7 +5,7 @@
   >
     <v-alert
       icon="cc:monist"
-      :title="$t('compendium.titles.noEidolonData')"
+      :title="$t('compendium.categoryView.noEidolonData')"
       variant="tonal"
     >
       <!-- eslint-disable @intlify/vue-i18n/no-raw-text -->
@@ -72,10 +72,10 @@
     initialGroup: 'none',
   })
   const headers = ref([
-    { title: t('compendium.titles.contentPack'), key: 'LcpName' },
+    { title: t('common.contentPack'), key: 'LcpName' },
     { title: 'Name', key: 'Name' },
     {
-      title: t('compendium.titles.shards'),
+      title: t('common.shards'),
       key: 'ShardCount',
     },
   ])

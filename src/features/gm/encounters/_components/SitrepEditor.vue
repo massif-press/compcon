@@ -152,7 +152,7 @@
       v-if="shownKeys.includes('Extraction')"
       v-model="item.Sitrep.Extraction"
       :readonly="readonly"
-      :label="$t('gm.fields.extraction')"
+      :label="$t('common.extraction')"
       density="compact"
       rows="1"
       variant="outlined"
@@ -178,7 +178,7 @@
       <v-text-field
         v-model="c.title"
         :readonly="readonly"
-        :label="$t('ui.fields.title')"
+        :label="$t('common.title')"
         density="compact"
         hide-details
         class="mb-2"
@@ -196,7 +196,7 @@
       <v-textarea
         v-model="c.condition"
         :readonly="readonly"
-        :label="$t('gm.fields.conditions')"
+        :label="$t('gm.sitrep.victoryConditions')"
         density="compact"
         rows="1"
         variant="outlined"
@@ -232,7 +232,7 @@
           prepend-icon="mdi-plus"
           @click="addCondition()"
         >
-          {{ $t('gm.fields.condition') }}
+          {{ $t('gm.sitrep.victoryCondition') }}
         </cc-button>
       </v-col>
       <v-col
@@ -254,7 +254,7 @@
 
     <cc-dialog
       v-model="confirmDialog"
-      :title="$t('gm.titles.sitrepModified')"
+      :title="$t('gm.encounters.sitrepModified')"
       icon="mdi-undo-variant"
       :close-on-click="false"
       color="error"
@@ -281,7 +281,7 @@
 
     <cc-dialog
       v-model="deleteConfirmDialog"
-      :title="$t('gm.titles.deletePreset')"
+      :title="$t('gm.encounters.deletePreset')"
       icon="mdi-delete"
       :close-on-click="false"
       color="error"

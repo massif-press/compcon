@@ -31,7 +31,7 @@
 
     <cc-dialog
       v-model="showConfirmation"
-      :title="$t('gm.titles.confirmTierChange')"
+      :title="$t('gm.npcTierSelector.confirmTierChange')"
       icon="mdi-alert"
       min-width="600px"
       :close-on-click="false"
@@ -44,7 +44,7 @@
           size="small"
           prepend-icon="mdi-delta"
           color="accent"
-          :tooltip="$t('gm.tooltips.changeTierAndAdjustEdited')"
+          :tooltip="$t('gm.npcTierSelector.tierChangeAdjustEdited')"
           @click="projectAndChange()"
         >
           {{ $t('gm.tier.projectEdits') }}
@@ -54,7 +54,7 @@
           size="small"
           prepend-icon="mdi-pin"
           color="primary"
-          :tooltip="$t('gm.tooltips.changeTierAndKeepEdited')"
+          :tooltip="$t('gm.npcTierSelector.tierChangeKeepEdited')"
           @click="preserveAndChange()"
         >
           {{ $t('gm.tier.preserveEdits') }}
@@ -63,7 +63,7 @@
           block
           size="small"
           prepend-icon="mdi-refresh"
-          :tooltip="$t('gm.tooltips.changeTierAndDiscardAll')"
+          :tooltip="$t('gm.npcTierSelector.tierChangeDiscardEdited')"
           color="warning"
           @click="resetAndChange()"
         >

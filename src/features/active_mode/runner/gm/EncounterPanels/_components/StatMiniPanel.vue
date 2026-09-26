@@ -120,7 +120,7 @@
                 color="primary"
                 @click="setVal(baseValue)"
               >
-                {{ $t('common.reset') }}
+                {{ $t('common.resetAction') }}
               </v-btn>
             </v-col>
             <v-col>
@@ -132,7 +132,7 @@
                 color="primary"
                 @click="setVal(0)"
               >
-                {{ $t('common.clear') }}
+                {{ $t('common.clearAction') }}
               </v-btn>
             </v-col>
           </v-row>

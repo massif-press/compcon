@@ -12,8 +12,8 @@
       <v-toolbar-title>
         <cc-heading
           is-title
-          :text="$t('mainMenu.actions.remoteBackups')"
-          :tooltip="$t('mainMenu.tooltips.thisToolWillCaptureA')"
+          :text="$t('mainMenu.cloudArchive.remoteBackups')"
+          :tooltip="$t('mainMenu.cloudArchive.cloudArchiveHelp')"
         />
       </v-toolbar-title>
       <v-spacer />
@@ -44,7 +44,7 @@
         color="text"
         icon="mdi-information-outline"
         variant="outlined"
-        :title="$t('mainMenu.titles.youDoNotHaveAccess')"
+        :title="$t('mainMenu.cloudArchive.noRemoteBackupAccess')"
       >
         <i18n-t
           keypath="mainMenu.archive.patreonOnly"
@@ -244,7 +244,7 @@
                   {{ $t('mainMenu.archive.deleteConfirm') }}
                   <v-checkbox
                     v-model="skipDeleteWarning"
-                    :label="$t('mainMenu.fields.doNotShowThisWarningAgain')"
+                    :label="$t('mainMenu.account.doNotShowThisWarningAgain')"
                     hide-details
                   />
                 </v-card-text>
@@ -307,7 +307,7 @@
 
               <cc-select
                 v-model="settings.autoBackupFrequency"
-                :label="$t('mainMenu.fields.autoBackupFrequency')"
+                :label="$t('mainMenu.cloudArchive.autoBackupFrequency')"
                 :items="backupFrequency"
                 :loading="updateLoading"
               />
@@ -321,7 +321,7 @@
               <div></div>
               <cc-select
                 v-model="settings.autoBackupLimit"
-                :label="$t('mainMenu.fields.itemLimit')"
+                :label="$t('mainMenu.cloudArchive.itemLimit')"
                 :loading="updateLoading"
                 :items="pruneOptions"
                 :details="pruneOptions.find(o => o.value === pruneSetting)?.subtitle"
@@ -389,45 +389,45 @@
   const working = ref(false)
   const headers = ref([
     { title: 'Created', key: 'created' },
-    { title: t('mainMenu.titles.source'), key: 'source' },
-    { title: t('mainMenu.titles.size'), key: 'size' },
-    { title: t('mainMenu.titles.preserve'), key: 'preserve' },
+    { title: t('common.source'), key: 'source' },
+    { title: t('mainMenu.archive.fileSize'), key: 'size' },
+    { title: t('mainMenu.cloudArchive.preserve'), key: 'preserve' },
     { title: '', key: 'actions', sortable: false, width: '155px' },
   ])
   const pruneSetting = ref(30)
   const pruneOptions = ref([
     {
-      title: t('mainMenu.titles.keepAll'),
-      subtitle: t('mainMenu.subtitles.doNotAutomaticallyDeleteAnyArchives'),
+      title: t('mainMenu.cloudArchive.keepAll'),
+      subtitle: t('mainMenu.cloudArchive.doNotAutomaticallyDeleteAnyArchives'),
       value: -1,
     },
     {
-      title: t('mainMenu.titles.last30'),
-      subtitle: t('mainMenu.subtitles.keepThe30NewestArchives'),
+      title: t('mainMenu.cloudArchive.last30'),
+      subtitle: t('mainMenu.cloudArchive.keepThe30NewestArchives'),
       value: 30,
     },
     {
-      title: t('mainMenu.titles.last10'),
-      subtitle: t('mainMenu.subtitles.keepThe10NewestArchives'),
+      title: t('mainMenu.cloudArchive.last10'),
+      subtitle: t('mainMenu.cloudArchive.keepThe10NewestArchives'),
       value: 10,
     },
     {
-      title: t('mainMenu.titles.last5'),
-      subtitle: t('mainMenu.subtitles.keepThe5NewestArchives'),
+      title: t('mainMenu.cloudArchive.last5'),
+      subtitle: t('mainMenu.cloudArchive.keepThe5NewestArchives'),
       value: 5,
     },
     {
-      title: t('mainMenu.titles.mostRecentOnly'),
-      subtitle: t('mainMenu.subtitles.keepOnlyTheMostRecentArchive'),
+      title: t('mainMenu.cloudArchive.mostRecentOnly'),
+      subtitle: t('mainMenu.cloudArchive.keepOnlyTheMostRecentArchive'),
       value: 1,
     },
   ])
   const backupFrequency = ref([
-    { title: t('mainMenu.titles.off'), value: 'none' },
-    { title: t('mainMenu.titles.onAppStart'), value: 'appstart' },
-    { title: t('mainMenu.titles.daily'), value: 'daily' },
-    { title: t('mainMenu.titles.weekly'), value: 'weekly' },
-    { title: t('mainMenu.titles.monthly'), value: 'monthly' },
+    { title: t('mainMenu.cloudArchive.off'), value: 'none' },
+    { title: t('mainMenu.cloudArchive.onAppStart'), value: 'appstart' },
+    { title: t('mainMenu.cloudArchive.daily'), value: 'daily' },
+    { title: t('mainMenu.cloudArchive.weekly'), value: 'weekly' },
+    { title: t('mainMenu.cloudArchive.monthly'), value: 'monthly' },
   ])
   const prunePct = ref(50)
 

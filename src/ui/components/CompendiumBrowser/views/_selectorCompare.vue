@@ -14,7 +14,7 @@
               class="text-left side-border"
               width="160px"
             >
-              {{ $t('ui.fields.metric') }}
+              {{ $t('ui.compendiumBrowser.metric') }}
             </th>
             <th class="text-center font-weight-bold text-primary side-border">
               <cc-item-modal
@@ -145,12 +145,12 @@
           { title: 'HP', value: 'hp' },
           { title: t('stats.evasion'), value: 'evasion' },
           { title: t('stats.armor'), value: 'armor' },
-          { title: t('ui.titles.eDefense'), value: 'edef' },
-          { title: t('ui.titles.heatCapacity'), value: 'heatcap' },
-          { title: t('active.titles.repairCapacity'), value: 'repcap' },
+          { title: t('stats.edefense'), value: 'edef' },
+          { title: t('common.heatCapacity'), value: 'heatcap' },
+          { title: t('common.repairCapacity'), value: 'repcap' },
           { title: t('stats.sensors'), value: 'sensor_range' },
-          { title: t('common.techAttack'), value: 'tech_attack' },
-          { title: t('common.save'), value: 'save' },
+          { title: t('stats.techAttack'), value: 'tech_attack' },
+          { title: t('common.saveAction'), value: 'save' },
           { title: t('stats.speed'), value: 'speed' },
           { title: t('common.systemPoints'), value: 'sp' },
         ]
@@ -158,43 +158,43 @@
         return [
           { title: t('stats.armor'), value: 'armor' },
           { title: t('common.hpBonus'), value: 'hp' },
-          { title: t('ui.titles.eDefense'), value: 'edef' },
+          { title: t('stats.edefense'), value: 'edef' },
           { title: t('stats.evasion'), value: 'evasion' },
           { title: t('stats.speed'), value: 'speed' },
         ]
       case 'PilotWeapon':
         return [
-          { title: t('ui.titles.range'), value: 'range' },
+          { title: t('stats.range'), value: 'range' },
           { title: t('active.damageMenu.totalDamage'), value: 'damage' },
         ]
       case 'NpcClass':
         return [
-          { title: t('ui.titles.hull'), value: 'hull' },
+          { title: t('stats.hull'), value: 'hull' },
           { title: t('stats.agility'), value: 'agi' },
           { title: t('stats.systems'), value: 'sys' },
           { title: t('stats.engineering'), value: 'eng' },
           { title: t('stats.armor'), value: 'armor' },
           { title: 'HP', value: 'hp' },
-          { title: t('ui.titles.heatcap'), value: 'heatcap' },
-          { title: t('ui.titles.evade'), value: 'evasion' },
-          { title: t('ui.titles.eDefense'), value: 'edef' },
+          { title: t('stats.heatCap'), value: 'heatcap' },
+          { title: t('ui.compendiumBrowser.evade'), value: 'evasion' },
+          { title: t('stats.edefense'), value: 'edef' },
           { title: t('stats.speed'), value: 'speed' },
           { title: t('common.sensorRange'), value: 'sensorRange' },
-          { title: t('active.titles.saveTarget'), value: 'saveTarget' },
+          { title: t('common.saveTarget'), value: 'saveTarget' },
         ]
       default:
         return [
-          { title: t('ui.titles.range'), value: 'range', bold: true },
-          { title: t('ui.titles.line'), value: 'line' },
-          { title: t('ui.titles.blast'), value: 'blast' },
-          { title: t('ui.titles.burst'), value: 'burst' },
-          { title: t('ui.titles.cone'), value: 'cone' },
+          { title: t('stats.range'), value: 'range', bold: true },
+          { title: t('enums.rangeType.line'), value: 'line' },
+          { title: t('enums.rangeType.blast'), value: 'blast' },
+          { title: t('enums.rangeType.burst'), value: 'burst' },
+          { title: t('enums.rangeType.cone'), value: 'cone' },
           { title: t('active.damageMenu.totalDamage'), value: 'damage', bold: true },
-          { title: t('ui.titles.kineticDamage'), value: 'kineticDamage' },
-          { title: t('ui.titles.energyDamage'), value: 'energyDamage' },
-          { title: t('ui.titles.heatDamage'), value: 'heatDamage' },
-          { title: t('ui.titles.explosiveDamage'), value: 'explosiveDamage' },
-          { title: t('ui.titles.variableDamage'), value: 'variableDamage' },
+          { title: t('ui.compendiumBrowser.kineticDamage'), value: 'kineticDamage' },
+          { title: t('ui.compendiumBrowser.energyDamage'), value: 'energyDamage' },
+          { title: t('ui.compendiumBrowser.heatDamage'), value: 'heatDamage' },
+          { title: t('ui.compendiumBrowser.explosiveDamage'), value: 'explosiveDamage' },
+          { title: t('ui.compendiumBrowser.variableDamage'), value: 'variableDamage' },
         ]
     }
   })

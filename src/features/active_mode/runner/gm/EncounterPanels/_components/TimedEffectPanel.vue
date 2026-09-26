@@ -54,11 +54,17 @@
           border
         >
           <div class="text-center pa-2">
-            {{ $t('active.timedEffect.roundsRemaining', { n: getRoundsRemaining(t) }) }}
+            {{
+              $t(
+                'combat.timedEffect.roundsRemaining',
+                { n: getRoundsRemaining(t) },
+                getRoundsRemaining(t)
+              )
+            }}
             <br />
           </div>
           <div class="text-cc-overline text-disabled pb-1">
-            {{ $t('active.timedEffect.override') }}
+            // {{ $t('combat.timedEffect.override') }}
           </div>
           <v-row dense>
             <v-col>
@@ -70,7 +76,7 @@
                 tile
                 @click="apply(t, Number(idx))"
               >
-                {{ $t('active.tooltips.apply') }}
+                {{ $t('active.runner.apply') }}
               </v-btn>
             </v-col>
             <v-col>
@@ -82,7 +88,7 @@
                 tile
                 @click="dismiss(idx)"
               >
-                {{ $t('common.clear') }}
+                {{ $t('common.clearAction') }}
               </v-btn>
             </v-col>
           </v-row>
@@ -109,7 +115,7 @@
       <v-tooltip
         v-if="isMeltdown(t)"
         location="top"
-        :text="$t('active.timedEffect.retryMeltdown')"
+        :text="$t('combat.timedEffect.retryMeltdown')"
       >
         <template #activator="{ props }">
           <v-btn
@@ -130,7 +136,7 @@
 
       <v-tooltip
         location="top"
-        :text="$t('active.tooltips.apply')"
+        :text="$t('active.runner.apply')"
       >
         <template #activator="{ props }">
           <v-btn
@@ -151,7 +157,7 @@
 
       <v-tooltip
         location="top"
-        :text="$t('active.tooltips.dismissWithoutApplying')"
+        :text="$t('active.runner.dismissWithoutApplying')"
       >
         <template #activator="{ props }">
           <v-btn

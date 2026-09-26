@@ -35,7 +35,7 @@
                   {{ campaign.Subtitle }}
                 </div>
                 <v-divider />
-                <div>{{ $t('compendium.campaign.byAuthor', { author: campaign.Author }) }}</div>
+                <div>{{ $t('mainMenu.collection.byAuthor', { author: campaign.Author }) }}</div>
                 <div class="text-center text-caption">
                   <i18n-t
                     keypath="compendium.campaign.campaignForLine"

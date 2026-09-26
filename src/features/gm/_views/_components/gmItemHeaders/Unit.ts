@@ -7,7 +7,7 @@ export default [
     groupable: false,
   },
   {
-    title: 'gm.titles.class',
+    title: 'gm.gmItemHeaders.class',
     align: 'start',
     value: 'NpcClassController.Class.Name',
     groupable: true,
@@ -19,13 +19,13 @@ export default [
     groupable: true,
   },
   {
-    title: 'gm.titles.tag',
+    title: 'gm.gmItemHeaders.tag',
     align: 'start',
     value: 'Tag',
     groupable: true,
   },
   {
-    title: 'gm.titles.templates',
+    title: 'gm.npcBuilder.templates',
     key: 'Templates',
     align: 'start',
     value: 'NpcTemplateController.Templates',

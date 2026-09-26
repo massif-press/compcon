@@ -116,7 +116,7 @@
                 variant="solo"
                 hide-details
                 auto-select-first="exact"
-                :label="$t('ui.fields.entity')"
+                :label="$t('ui.relationshipItem.entity')"
                 :items="allCollectionItems"
                 item-title="Name"
                 item-value="ID"
@@ -129,7 +129,7 @@
                 density="compact"
                 hide-details
                 variant="solo"
-                :label="$t('ui.fields.relationship')"
+                :label="$t('ui.relationshipItem.relationship')"
               />
             </v-col>
             <v-col align-self="center">
@@ -225,7 +225,7 @@
             variant="text"
             @click="dialog = false"
           >
-            {{ $t('common.close') }}
+            {{ $t('common.closeAction') }}
           </v-btn>
         </v-card-actions>
       </v-card>

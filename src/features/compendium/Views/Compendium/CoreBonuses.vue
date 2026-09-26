@@ -8,7 +8,7 @@
     view-key="cb-core-bonuses"
   >
     <template #header>
-      <div class="heading h3 text-center text-accent">{{ $t('pm.level.coreBonuses') }}</div>
+      <div class="heading h3 text-center text-accent">{{ $t('common.coreBonuses') }}</div>
     </template>
   </cc-compendium-browser>
 </template>
@@ -22,8 +22,8 @@
   const { t } = useI18n()
 
   const headers = ref([
-    { title: t('compendium.titles.contentPack'), key: 'LcpName' },
-    { title: t('compendium.titles.manufacturer'), key: 'Source' },
+    { title: t('common.contentPack'), key: 'LcpName' },
+    { title: t('common.manufacturer'), key: 'Source' },
     { title: 'Name', key: 'Name' },
     { title: t('common.effect'), key: 'Effect' },
   ])

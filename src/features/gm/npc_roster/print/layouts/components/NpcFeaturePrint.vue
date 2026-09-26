@@ -141,19 +141,19 @@
   </div>
 
   <div v-if="(feature as NpcWeapon).OnMiss">
-    <b>{{ $t('pm.print.onMISS') }}:</b>
+    <b>{{ $t('pm.print.onMiss') }}:</b>
     <span v-html-safe="(feature as NpcWeapon).OnMiss?.getDetail(tier)" />
   </div>
   <div v-if="(feature as NpcWeapon).OnAttack">
-    <b>{{ $t('pm.print.onATTACK') }}:</b>
+    <b>{{ $t('pm.print.onAttack') }}:</b>
     <span v-html-safe="(feature as NpcWeapon).OnAttack?.getDetail(tier)" />
   </div>
   <div v-if="(feature as NpcWeapon).OnHit">
-    <b>{{ $t('pm.print.onHIT') }}:</b>
+    <b>{{ $t('pm.print.onHit') }}:</b>
     <span v-html-safe="(feature as NpcWeapon).OnHit?.getDetail(tier)" />
   </div>
   <div v-if="(feature as NpcWeapon).OnCrit">
-    <b>{{ $t('pm.print.onCRIT') }}:</b>
+    <b>{{ $t('pm.print.onCrit') }}:</b>
     <span v-html-safe="(feature as NpcWeapon).OnCrit?.getDetail(tier)" />
   </div>
 

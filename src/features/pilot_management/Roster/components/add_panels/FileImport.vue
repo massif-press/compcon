@@ -9,7 +9,7 @@
           v-model="fileValue"
           accept=".json, text/json"
           variant="outlined"
-          :label="$t('pm.fields.selectPilotDataFile')"
+          :label="$t('pm.roster.selectPilotDataFile')"
           prepend-icon="mdi-paperclip"
           density="compact"
           @change="stageImport"
@@ -35,7 +35,7 @@
           :title="$t('nav.v2Auto.v2Data')"
         >
           <p class="text-text">
-            {{ $t('pm.roster.thisAppearsToBePilotData') }}
+            {{ $t('pm.roster.legacyPilotDataNotice') }}
           </p>
         </cc-alert>
         <v-card-text>
@@ -45,7 +45,7 @@
             <span class="text-accent pl-2">{{ stagedData.callsign }}</span>
           </div>
           <div class="text-cc-overline mb-2">
-            {{ $t('ui.fields.licenseLevel') }}
+            {{ $t('common.licenseLevel') }}
             <span class="heading h3">{{ stagedData.level }}</span>
           </div>
           <div v-if="stagedData.mechs.length">
@@ -64,7 +64,7 @@
             v-if="stagedData.brews.length"
             class="text-cc-overline my-1"
           >
-            {{ $t('pm.roster.includesDATAFROMTHEFOLLOWINGCONTENT') }}
+            {{ $t('pm.roster.includesContentPacks') }}
             <div>
               <cc-chip
                 v-for="brew in stagedData.brews"
@@ -95,9 +95,7 @@
         border
       >
         <v-card-text class="text-center">
-          <p class="heading h4 text-accent">
-            {{ $t('pm.roster.thisPilotContainsContentFromThe') }}:
-          </p>
+          <p class="heading h4 text-accent">{{ $t('pm.roster.missingContentPacksNotice') }}:</p>
           <p
             v-html-safe="missingContent"
             class="effect-text text-center"
@@ -106,13 +104,13 @@
             v-if="isV2"
             class="text-text"
           >
-            {{ $t('pm.roster.thisPilotWillBeSavedTo') }}
+            {{ $t('pm.roster.savedToV2ImportsNotice') }}
           </p>
           <p
             v-else
             class="text-text"
           >
-            {{ $t('pm.roster.thisPilotMayBeImportedBut') }}
+            {{ $t('pm.roster.importWithMissingContentNotice') }}
           </p>
         </v-card-text>
       </v-card>
@@ -132,7 +130,7 @@
           prepend-icon="mdi-plus"
           @click="importFile()"
         >
-          {{ $t('common.import') }} {{ (stagedData as any).callsign }} ({{
+          {{ $t('common.importAction') }} {{ (stagedData as any).callsign }} ({{
             (stagedData as any).name
           }})
         </cc-button>

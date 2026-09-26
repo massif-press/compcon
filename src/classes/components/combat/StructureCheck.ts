@@ -108,13 +108,13 @@ const EFFECT_MAP: Record<string, Effect[]> = {
         {
           min: 1,
           max: 3,
-          label: 'active.structureCheck.allWeaponsOnMountDestroyed',
+          label: 'combat.structureCheck.allWeaponsOnMountDestroyed',
           effects: [{ type: 'destroy_equipment', target: 'mount' }],
         },
         {
           min: 4,
           max: 6,
-          label: 'active.structureCheck.oneSystemDestroyed',
+          label: 'combat.structureCheck.oneSystemDestroyed',
           effects: [{ type: 'destroy_equipment', target: 'system' }],
         },
       ],
@@ -127,12 +127,12 @@ const EFFECT_MAP: Record<string, Effect[]> = {
       cases: [
         {
           at_least: 3,
-          label: 'active.structureCheck.structure3Plus',
+          label: 'combat.structureCheck.structure3Plus',
           effects: [{ type: 'status', id: 'stunned', duration: END_OF_NEXT_TURN }],
         },
         {
           equals: 2,
-          label: 'active.structureCheck.structure2',
+          label: 'combat.structureCheck.structureRemainingTwo',
           effects: [
             {
               type: 'check',
@@ -142,7 +142,11 @@ const EFFECT_MAP: Record<string, Effect[]> = {
             },
           ],
         },
-        { at_most: 1, label: 'active.structureCheck.structure1', effects: [{ type: 'destroy' }] },
+        {
+          at_most: 1,
+          label: 'combat.structureCheck.structureRemainingOne',
+          effects: [{ type: 'destroy' }],
+        },
       ],
     },
   ],
@@ -158,12 +162,12 @@ const EFFECT_MAP: Record<string, Effect[]> = {
       cases: [
         {
           at_least: 3,
-          label: 'active.structureCheck.stress3Plus',
+          label: 'combat.structureCheck.stress3Plus',
           effects: [{ type: 'status', id: 'exposed' }],
         },
         {
           equals: 2,
-          label: 'active.structureCheck.stress2',
+          label: 'combat.structureCheck.stressRemainingTwo',
           effects: [
             {
               type: 'check',
@@ -173,7 +177,7 @@ const EFFECT_MAP: Record<string, Effect[]> = {
                 {
                   type: 'reactor_meltdown',
                   delay_roll: '1d6',
-                  note: 'active.structureCheck.noteAfterDieTurns',
+                  note: 'combat.structureCheck.noteAfterDieTurns',
                 },
               ],
             },
@@ -181,16 +185,16 @@ const EFFECT_MAP: Record<string, Effect[]> = {
         },
         {
           at_most: 1,
-          label: 'active.structureCheck.stress1',
+          label: 'combat.structureCheck.stressRemainingOne',
           effects: [
-            { type: 'reactor_meltdown', delay: 1, note: 'active.structureCheck.noteEndOfNextTurn' },
+            { type: 'reactor_meltdown', delay: 1, note: 'combat.structureCheck.noteEndOfNextTurn' },
           ],
         },
       ],
     },
   ],
   'core-overheating::Irreversible Meltdown': [
-    { type: 'reactor_meltdown', delay: 1, note: 'active.structureCheck.noteEndOfNextTurn' },
+    { type: 'reactor_meltdown', delay: 1, note: 'combat.structureCheck.noteEndOfNextTurn' },
   ],
   'core-monstrosity-structure-damage::Glancing Hit': [
     { type: 'status', id: 'impaired', duration: END_OF_NEXT_TURN },
@@ -207,17 +211,21 @@ const EFFECT_MAP: Record<string, Effect[]> = {
       cases: [
         {
           at_least: 3,
-          label: 'active.structureCheck.structure3Plus',
+          label: 'combat.structureCheck.structure3Plus',
           effects: [{ type: 'status', id: 'stunned', duration: END_OF_NEXT_TURN }],
         },
         {
           equals: 2,
-          label: 'active.structureCheck.structure2',
+          label: 'combat.structureCheck.structureRemainingTwo',
           effects: [
             { type: 'save', check: 'hull', on_success: [], on_fail: [{ type: 'destroy' }] },
           ],
         },
-        { at_most: 1, label: 'active.structureCheck.structure1', effects: [{ type: 'destroy' }] },
+        {
+          at_most: 1,
+          label: 'combat.structureCheck.structureRemainingOne',
+          effects: [{ type: 'destroy' }],
+        },
       ],
     },
   ],
@@ -273,8 +281,8 @@ function toDamageType(raw?: string): DamageType {
 }
 
 const DURATION_LABEL: Record<string, string> = {
-  [END_OF_NEXT_TURN]: 'active.structureCheck.durationEndOfNextTurn',
-  [REST_OF_SCENE]: 'active.structureCheck.durationRestOfScene',
+  [END_OF_NEXT_TURN]: 'combat.structureCheck.durationEndOfNextTurn',
+  [REST_OF_SCENE]: 'combat.structureCheck.durationRestOfScene',
 }
 
 function isDestroyable(item: any): boolean {
@@ -352,9 +360,7 @@ function resolveEffects(
         steps.push({
           path: p,
           kind: 'apply',
-          label: qualifierKey
-            ? t('active.structureCheck.withNote', { label: e.id, note: t(qualifierKey) })
-            : e.id,
+          label: qualifierKey ? `${e.id} (${t(qualifierKey)})` : e.id,
         })
         actions.push({ kind: 'status', id: e.id, duration: e.duration })
         break
@@ -363,12 +369,7 @@ function resolveEffects(
         steps.push({
           path: p,
           kind: 'apply',
-          label: e.note
-            ? t('active.structureCheck.withNote', {
-                label: t('active.structureCheck.destroyed'),
-                note: t(e.note),
-              })
-            : t('active.structureCheck.destroyed'),
+          label: e.note ? `${t('common.destroyed')} (${t(e.note)})` : t('common.destroyed'),
         })
         actions.push({ kind: 'destroy' })
         break
@@ -378,11 +379,8 @@ function resolveEffects(
           path: p,
           kind: 'apply',
           label: e.note
-            ? t('active.structureCheck.withNote', {
-                label: t('active.structureCheck.reactorMeltdown'),
-                note: t(e.note),
-              })
-            : t('active.structureCheck.reactorMeltdown'),
+            ? `${t('combat.timedEffect.reactorMeltdownName')} (${t(e.note)})`
+            : t('combat.timedEffect.reactorMeltdownName'),
           rolled: e.delay_roll ? turns : undefined,
         })
         if (typeof turns !== 'number') complete = false
@@ -394,7 +392,7 @@ function resolveEffects(
         steps.push({
           path: p,
           kind: 'damage',
-          label: t('active.structureCheck.damage', {
+          label: t('combat.structureCheck.damage', {
             roll: e.roll,
             type: e.damage_type || '',
           })
@@ -465,7 +463,7 @@ function resolveEffects(
           steps.push({
             path: p,
             kind: 'branch',
-            label: t('active.structureCheck.nothingDestroyable'),
+            label: t('combat.structureCheck.nothingDestroyable'),
           })
           const sub = resolveEffects(EFFECT_MAP[DIRECT_HIT_KEY], ctx, cc, `${p}.dh`)
           steps.push(...sub.steps)
@@ -480,8 +478,8 @@ function resolveEffects(
           kind: 'equip',
           label:
             target === 'mount'
-              ? t('active.structureCheck.mountToDestroy')
-              : t('active.structureCheck.systemToDestroy'),
+              ? t('combat.structureCheck.mountToDestroy')
+              : t('combat.structureCheck.systemToDestroy'),
           target,
           options,
         })

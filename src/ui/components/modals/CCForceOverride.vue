@@ -42,8 +42,8 @@
   const { t, te } = useI18n()
 
   const content = computed(() => {
-    const key = `active.log.blockedReason.${props.reason}`
-    const reason = te(key) ? t(key) : t('active.log.blockedReason.unavailable')
+    const key = `combat.log.blockedReason.${props.reason}`
+    const reason = te(key) ? t(key) : t('combat.log.blockedReason.unavailable')
     return props.action
       ? t('active.override.promptNamed', { action: props.action, reason })
       : t('active.override.prompt', { reason })

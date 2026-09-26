@@ -57,7 +57,7 @@
       class="mt-1"
     >
       <div class="text-caption">
-        <b>{{ $t('gm.fields.extraction') }}</b>
+        <b>{{ $t('common.extraction') }}</b>
       </div>
       <v-divider style="width: 150px" />
       {{ encounter.Sitrep.Extraction }}
@@ -121,7 +121,7 @@
         color="error"
       />
       {{ encounter.Combatants.filter(x => x.side === 'enemy').length }}
-      {{ $t('gm.encPrint.enemies') }}
+      {{ $t('common.sideEnemies') }}
       <cc-slashes class="mx-2" />
       <v-icon
         icon="cc:mech"
@@ -129,14 +129,14 @@
         color="success"
       />
       {{ encounter.Combatants.filter(x => x.side === 'ally').length }}
-      {{ $t('gm.encPrint.allies') }}
+      {{ $t('common.sideAllies') }}
       <cc-slashes class="mx-2" />
       <v-icon
         icon="cc:mech"
         class="mt-n1"
       />
       {{ encounter.Combatants.filter(x => x.side === 'neutral').length }}
-      {{ $t('gm.fields.neutral') }}
+      {{ $t('common.sideNeutral') }}
     </legend>
     <div
       v-for="(n, i) in SortedCombatants"
@@ -255,7 +255,7 @@
         <div
           v-if="c.Resolution"
           class="font-weight-bold text-caption"
-          v-text="$t('ui.fields.resolution')"
+          v-text="$t('common.resolutionOutcome')"
         />
         <div
           v-html-safe="c.Resolution"

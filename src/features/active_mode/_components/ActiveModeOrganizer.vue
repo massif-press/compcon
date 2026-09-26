@@ -59,7 +59,7 @@
                   <v-checkbox
                     v-model="showArchived"
                     density="compact"
-                    :label="$t('active.fields.showArchived')"
+                    :label="$t('active.activeModeOrganizer.showArchived')"
                   />
                 </v-col>
               </v-row>
@@ -81,22 +81,14 @@
                   ? $t('ui.organizer.archive')
                   : $t('ui.organizer.archiveMultiple')
               "
-              :subtitle="
-                selected.length < 2
-                  ? `Move ${noun} to archive`
-                  : `Move selected ${noun}s to archive`
-              "
+              :subtitle="$t(`active.organizer.archiveHint.${noun}`, selected.length || 1)"
               prepend-icon="mdi-archive-arrow-down-outline"
               :disabled="!selected.length"
               @click="emitArchive"
             />
             <v-list-item
               :title="selected.length < 2 ? $t('common.delete') : $t('ui.organizer.deleteMultiple')"
-              :subtitle="
-                selected.length < 2
-                  ? `Permanently remove ${noun}`
-                  : `Permanently remove selected ${noun}s`
-              "
+              :subtitle="$t(`active.organizer.removeHint.${noun}`, selected.length || 1)"
               prepend-icon="mdi-delete"
               :disabled="!selected.length"
               @click="emitDelete"

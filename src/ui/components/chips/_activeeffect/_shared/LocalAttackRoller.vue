@@ -113,8 +113,8 @@
                   s.HitResult === 'crit'
                     ? $t('ui.combat.crit')
                     : s.HitResult === 'hit'
-                      ? $t('ui.combat.hit')
-                      : $t('ui.combat.miss')
+                      ? $t('common.attackHit')
+                      : $t('common.attackMiss')
                 }}
               </template>
             </v-btn>
@@ -129,19 +129,19 @@
                     ? $t('ui.combat.criticalHit')
                     : s.HitResult === 'hit'
                       ? $t('ui.combat.successfulAttack')
-                      : $t('ui.combat.miss')
+                      : $t('common.attackMiss')
               "
-              :subtitle="$t('ui.subtitles.selectResult')"
+              :subtitle="$t('ui.chips.selectResult')"
             />
             <v-divider class="my-2" />
             <v-list-item
-              :title="$t('ui.titles.successfulHit')"
+              :title="$t('ui.chips.successfulHit')"
               prepend-icon="mdi-check-circle"
               class="bg-success"
               @click="setHitResult(s, 'hit')"
             />
             <v-list-item
-              :title="$t('ui.combat.miss')"
+              :title="$t('common.attackMiss')"
               prepend-icon="mdi-cancel"
               class="bg-error"
               @click="setHitResult(s, 'miss')"

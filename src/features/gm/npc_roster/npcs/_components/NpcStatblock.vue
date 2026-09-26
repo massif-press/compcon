@@ -59,7 +59,7 @@
       )
       .catch(() =>
         notify({
-          title: t('notify.common.error'),
+          title: t('common.error'),
           text: t('notify.statblock.errorText'),
           icon: 'mdi-clipboard-text-outline',
           color: 'error',

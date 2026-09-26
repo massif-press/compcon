@@ -63,7 +63,7 @@
                       color="accent"
                       @click="setBannerImage()"
                     >
-                      {{ $t('common.set') }}
+                      {{ $t('common.setAction') }}
                     </v-btn>
                   </v-footer>
                 </v-col>
@@ -100,14 +100,14 @@
           v-model="campaign.Subtitle"
           variant="outlined"
           density="compact"
-          :label="$t('gm.fields.subtitle')"
+          :label="$t('gm.overview.subtitle')"
         />
         <v-text-field
           v-model="campaign.Author"
           variant="outlined"
           hide-details
           density="compact"
-          :label="$t('gm.fields.authors')"
+          :label="$t('gm.overview.authors')"
         />
       </v-col>
       <v-col>
@@ -180,16 +180,16 @@
           variant="outlined"
           auto-grow
           rows="3"
-          :label="$t('gm.fields.campaignDescription')"
+          :label="$t('gm.overview.campaignDescription')"
           hide-details
           class="my-3"
         />
         <v-text-field
           v-model="campaign.Website"
           variant="outlined"
-          :label="$t('gm.fields.websiteUrl')"
+          :label="$t('gm.overview.websiteUrl')"
           persistent-hint
-          :hint="$t('gm.fields.mustBeAnItchioUrl')"
+          :hint="$t('gm.overview.itchUrlRequiredHint')"
           class="my-3"
         />
         <div class="text-caption text-disabled">{{ $t('gm.overview.authorContact') }}</div>
@@ -207,7 +207,7 @@
               variant="outlined"
               density="compact"
               hide-details
-              :label="$t('gm.fields.service')"
+              :label="$t('gm.overview.service')"
             />
           </v-col>
           <v-col>
@@ -216,7 +216,7 @@
               variant="outlined"
               density="compact"
               hide-details
-              :label="$t('gm.fields.contactInformation')"
+              :label="$t('gm.overview.contactInformation')"
             />
           </v-col>
           <v-col cols="auto">
@@ -304,7 +304,7 @@
                       color="accent"
                       @click="setCoverImage()"
                     >
-                      {{ $t('common.set') }}
+                      {{ $t('common.setAction') }}
                     </v-btn>
                   </v-footer>
                 </v-col>

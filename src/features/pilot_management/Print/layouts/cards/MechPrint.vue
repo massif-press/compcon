@@ -54,7 +54,7 @@
         align="center"
         class="my-n1"
       >
-        <v-col cols="auto">{{ $t('common.techAttack') }}</v-col>
+        <v-col cols="auto">{{ $t('stats.techAttack') }}</v-col>
         <v-col><v-divider /></v-col>
         <v-col
           cols="auto"
@@ -70,7 +70,7 @@
         class="my-n1"
       >
         <v-col cols="auto">
-          <span class="text-uppercase">{{ $t('common.save') }}</span>
+          <span class="text-uppercase">{{ $t('common.saveAction') }}</span>
         </v-col>
         <v-col><v-divider /></v-col>
         <v-col
@@ -182,7 +182,7 @@
         cols="auto"
         class="text-center"
       >
-        <span class="font-weight-bold overline text-primary">{{ $t('common.hase_h') }}</span>
+        <span class="font-weight-bold overline text-primary">{{ $t('common.haseHullShort') }}</span>
         <cc-slashes />
         <span
           class="heading"
@@ -193,7 +193,9 @@
         cols="auto"
         class="text-center"
       >
-        <span class="font-weight-bold overline text-primary">{{ $t('common.hase_a') }}</span>
+        <span class="font-weight-bold overline text-primary">
+          {{ $t('common.haseAgilityShort') }}
+        </span>
         <cc-slashes />
         <span
           class="heading"
@@ -204,7 +206,9 @@
         cols="auto"
         class="text-center"
       >
-        <span class="font-weight-bold overline text-primary">{{ $t('common.hase_s') }}</span>
+        <span class="font-weight-bold overline text-primary">
+          {{ $t('common.haseSystemsShort') }}
+        </span>
         <cc-slashes />
         <span
           class="heading"
@@ -215,7 +219,9 @@
         cols="auto"
         class="text-center"
       >
-        <span class="font-weight-bold overline text-primary">{{ $t('common.hase_e') }}</span>
+        <span class="font-weight-bold overline text-primary">
+          {{ $t('common.haseEngineeringShort') }}
+        </span>
         <cc-slashes />
         <span
           class="heading"
@@ -324,7 +330,7 @@
     <fieldset class="pb-1">
       <legend class="font-weight-bold caption text-primary px-2 text-center">
         {{ $t('stats.hp') }}
-        <span class="text-black caption">{{ $t('pm.print.maxParen', { n: mech.MaxHP }) }}</span>
+        <span class="text-black caption">{{ $t('pm.print.maxCount', { n: mech.MaxHP }) }}</span>
         <cc-slashes />
         <span class="text-primary caption pl-1">{{ mech.Armor }} {{ $t('stats.armor') }}</span>
       </legend>
@@ -354,9 +360,9 @@
 
     <fieldset class="pb-1">
       <legend class="font-weight-bold caption text-red px-2 text-center">
-        <span class="text-uppercase">{{ $t('pm.sheet.heat') }}</span>
+        <span class="text-uppercase">{{ $t('enums.damageType.heat') }}</span>
         <span class="text-black caption">
-          {{ $t('pm.print.capacityParen', { n: mech.HeatCapacity }) }}
+          {{ $t('pm.print.capacityCount', { n: mech.HeatCapacity }) }}
         </span>
       </legend>
       <div>
@@ -386,7 +392,7 @@
     <fieldset class="pb-1">
       <legend class="font-weight-bold caption px-2 text-center">
         {{ $t('common.repairs') }}
-        <span class="caption">{{ $t('pm.print.capacityParen', { n: mech.RepairCapacity }) }}</span>
+        <span class="caption">{{ $t('pm.print.capacityCount', { n: mech.RepairCapacity }) }}</span>
       </legend>
       <div class="pb-1">
         <blank-line :height="40" />
@@ -407,7 +413,7 @@
       <v-col>
         <fieldset>
           <legend class="font-weight-bold text-primary caption px-2 text-center">
-            <span class="text-uppercase">{{ $t('common.core') }}</span>
+            <span class="text-uppercase">{{ $t('common.coreSystem') }}</span>
           </legend>
           <div class="pb-1">
             <blank-line :height="40" />
@@ -483,7 +489,7 @@
       class="caption text-center mt-n1"
       style="letter-spacing: 6px; font-size: 10px"
     >
-      {{ $t('pm.print.mechWEAPONMOUNT') }}
+      {{ $t('pm.print.mechWeaponMount') }}
     </div>
     <v-row
       dense
@@ -613,28 +619,28 @@
               v-if="p.OnMiss"
               class="caption"
             >
-              <b>{{ $t('pm.print.onMISS') }}:</b>
+              <b>{{ $t('pm.print.onMiss') }}:</b>
               {{ p.OnMiss.Detail }}
             </div>
             <div
               v-if="p.OnAttack"
               class="caption"
             >
-              <b>{{ $t('pm.print.onATTACK') }}:</b>
+              <b>{{ $t('pm.print.onAttack') }}:</b>
               {{ p.OnAttack.Detail }}
             </div>
             <div
               v-if="p.OnHit"
               class="caption"
             >
-              <b>{{ $t('pm.print.onHIT') }}:</b>
+              <b>{{ $t('pm.print.onHit') }}:</b>
               {{ p.OnHit.Detail }}
             </div>
             <div
               v-if="p.OnCrit"
               class="caption"
             >
-              <b>{{ $t('pm.print.onCRIT') }}:</b>
+              <b>{{ $t('pm.print.onCrit') }}:</b>
               {{ p.OnCrit.Detail }}
             </div>
           </div>
@@ -678,7 +684,7 @@
       class="caption text-center mt-n1"
       style="letter-spacing: 11px; font-size: 10px"
     >
-      {{ $t('pm.print.mechSYSTEM') }}
+      {{ $t('pm.print.mechSystem') }}
     </div>
     <v-row
       dense

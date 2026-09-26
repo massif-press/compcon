@@ -116,7 +116,7 @@
                 <v-col class="heading">{{ stat.title }}</v-col>
                 <v-col class="mx-6">
                   <div class="text-cc-overline ml-4 text-disabled">
-                    {{ $t('active.gmOptions.current') }}
+                    {{ $t('active.gmOptions.currentValue') }}
                   </div>
                   <cc-number-field
                     v-model="combatant.actor.StatController.CurrentStats[stat.key]"
@@ -179,7 +179,7 @@
           <cc-number-field
             v-model="combatant.reinforcementTurn"
             color="primary"
-            :label="$t('active.labels.round')"
+            :label="$t('active.charts.round')"
             min="1"
           />
         </v-col>
@@ -258,7 +258,7 @@
     if (idx !== -1) {
       snapshot(
         props.encounterInstance,
-        t('active.gmOptions.undoRemoveCombatant', { name: actor.Name })
+        t('active.gmOptions.removeFromEncounter', { name: actor.Name })
       )
       ;(props.encounterInstance as any).Combatants.splice(idx, 1)
     }

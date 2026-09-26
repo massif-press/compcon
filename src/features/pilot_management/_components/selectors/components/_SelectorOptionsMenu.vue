@@ -14,7 +14,7 @@
     >
       <v-list density="compact">
         <v-list-item
-          :title="label || $t('common.reset')"
+          :title="label || $t('common.resetAction')"
           prepend-icon="mdi-refresh"
           base-color="error"
           :disabled="disabled"

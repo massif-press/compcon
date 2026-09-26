@@ -2,7 +2,7 @@
   <cc-alert
     prominent
     icon="mdi-alert"
-    :title="$t('compendium.titles.developmentPreview')"
+    :title="$t('compendium.campaignLibrary.developmentPreview')"
     class="ma-4"
     color="warning"
   >
@@ -34,7 +34,7 @@
             hide-details
             variant="solo"
             density="compact"
-            :placeholder="$t('compendium.fields.searchTheCampaignLibrary')"
+            :placeholder="$t('compendium.campaignLibrary.searchTheCampaignLibrary')"
             @update:focused="isFocused = $event"
           >
             <template #prepend>

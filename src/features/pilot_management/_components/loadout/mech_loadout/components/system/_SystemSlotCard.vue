@@ -37,7 +37,7 @@
         v-else
         class="text-disabled"
       >
-        &nbsp;{{ $t('pm.loadout.emptySYSTEMSLOT') }}
+        &nbsp;{{ $t('pm.loadout.emptySystemSlot') }}
       </div>
     </template>
 

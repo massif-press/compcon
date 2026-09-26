@@ -48,7 +48,7 @@
       v-show="!dense"
       class="text-cc-overline text-disabled"
     >
-      //{{ $t('common.deployables') }}
+      //{{ $t('active.telemetry.rollup.deployables') }}
     </div>
     <v-row
       no-gutters
@@ -103,7 +103,7 @@
       v-show="!dense"
       class="text-cc-overline text-disabled"
     >
-      //{{ $t('ui.fields.tags') }}
+      //{{ $t('common.tags') }}
     </div>
     <cc-tags
       :tags="item.Tags"
@@ -139,7 +139,7 @@
       density="compact"
       hide-details
       prepend-icon="mdi-note"
-      :label="$t('ui.fields.equipmentNotes')"
+      :label="$t('common.equipmentNotes')"
       class="mt-2"
     />
   </div>

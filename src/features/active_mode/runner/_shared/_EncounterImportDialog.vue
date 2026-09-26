@@ -21,7 +21,7 @@
         variant="outlined"
         density="compact"
         hide-details
-        :placeholder="$t('active.fields.selectEncounterExportFile')"
+        :placeholder="$t('active.runner.selectEncounterExportFile')"
         prepend-icon="mdi-paperclip"
         @change="stageImportFile('EncounterInstance', $t('active.gmOptions.invalidEncounterFile'))"
       />

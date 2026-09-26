@@ -130,7 +130,7 @@
       {
         key: 'protocol',
         icon: 'cc:protocol',
-        label: t('active.combatAction.protocol'),
+        label: t('enums.activationType.protocol'),
         color: 'action--protocol',
         available: c.CanActivate('protocol'),
         toggle: () => c.toggleCombatAction('protocol'),
@@ -138,7 +138,7 @@
       {
         key: 'full',
         icon: 'mdi-hexagon-slice-6',
-        label: t('active.combatAction.full'),
+        label: t('enums.activationType.full'),
         color: 'action--full',
         available: c.CanActivate('full'),
         toggle: () => c.toggleCombatAction('full'),
@@ -164,7 +164,7 @@
       {
         key: 'move',
         icon: 'mdi-arrow-right-bold-hexagon-outline',
-        label: t('active.combatAction.move'),
+        label: t('enums.activationType.move'),
         color: 'action--move',
         available: c.CanActivate('move'),
         readonly: true,
@@ -186,7 +186,7 @@
     tiles.push({
       key: 'reaction',
       icon: 'cc:reaction',
-      label: t('active.combatAction.reaction'),
+      label: t('enums.activationType.reaction'),
       color: 'action--reaction',
       available: c.CanActivate('reaction'),
       toggle: () => c.toggleCombatAction('reaction'),

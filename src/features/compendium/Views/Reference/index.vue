@@ -5,7 +5,7 @@
       class="font-weight-light text-center my-n4"
       style="letter-spacing: 2vw !important; font-size: 3.6vw !important"
     >
-      {{ $t('compendium.titles.reference') }}
+      {{ $t('compendium.shared.reference') }}
     </div>
     <v-row
       density="compact"
@@ -35,49 +35,49 @@
       <compendium-page-button
         color="exotic"
         icon="cc:save"
-        :name="$t('compendium.titles.lancerBasics')"
+        :name="$t('compendium.reference.lancerBasics')"
         to="srd/reference/basics"
       />
       <compendium-page-button
         color="exotic"
         icon="cc:pilot"
-        :name="$t('compendium.titles.referencePilots')"
+        :name="$t('compendium.shared.referencePilots')"
         to="srd/reference/pilots"
       />
       <compendium-page-button
         color="exotic"
         icon="cc:frame"
-        :name="$t('compendium.titles.referenceMechs')"
+        :name="$t('compendium.shared.referenceMechs')"
         to="srd/reference/mechs"
       />
       <compendium-page-button
         color="exotic"
         icon="cc:ammo"
-        :name="$t('compendium.titles.referenceCombat')"
+        :name="$t('compendium.shared.referenceCombat')"
         to="srd/reference/combat"
       />
       <compendium-page-button
         color="exotic"
         icon="cc:downtime"
-        :name="$t('compendium.titles.referenceNarrativePlay')"
+        :name="$t('compendium.shared.referenceNarrativePlay')"
         to="srd/reference/narrative"
       />
       <compendium-page-button
         color="exotic"
         icon="cc:repair"
-        :name="$t('compendium.titles.referenceErrata')"
+        :name="$t('compendium.shared.referenceErrata')"
         to="srd/reference/errata"
       />
       <compendium-page-button
         color="exotic"
         icon="cc:compendium"
-        :name="$t('compendium.titles.referenceGlossary')"
+        :name="$t('compendium.shared.referenceGlossary')"
         to="srd/reference/glossary"
       />
       <compendium-page-button
         color="exotic"
         icon="cc:system_point"
-        :name="$t('compendium.titles.usingCompcon')"
+        :name="$t('compendium.reference.usingCompcon')"
         to="srd/reference/compcon"
         disabled
       />
@@ -100,25 +100,25 @@
       />
       <compendium-page-button
         icon="mdi-tag"
-        :name="$t('compendium.titles.equipmentTags')"
+        :name="$t('compendium.categories.equipmentTags')"
         to="/srd/compendium/tags"
       />
       <compendium-page-button
         color="primary"
         icon="mdi-map"
-        :name="$t('compendium.titles.environments')"
+        :name="$t('compendium.categories.environments')"
         to="/srd/compendium/environments"
       />
       <compendium-page-button
         color="primary"
         icon="mdi-timeline-text-outline"
-        :name="$t('compendium.titles.sitreps')"
+        :name="$t('compendium.categories.sitreps')"
         to="/srd/compendium/sitreps"
       />
       <compendium-page-button
         color="primary"
         icon="cc:downtime"
-        :name="$t('compendium.titles.downtimeActions')"
+        :name="$t('compendium.categories.downtimeActions')"
         to="/srd/compendium/downtime"
       />
       <compendium-page-button
@@ -130,7 +130,7 @@
       <compendium-page-button
         color="primary"
         icon="mdi-list-box-outline"
-        :name="$t('compendium.titles.lists')"
+        :name="$t('compendium.shared.lists')"
         to="/srd/compendium/lists"
       />
     </v-row>

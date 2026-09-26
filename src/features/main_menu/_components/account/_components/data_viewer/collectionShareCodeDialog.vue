@@ -2,7 +2,7 @@
   <cc-share-code-importer
     ref="importer"
     import-type="collection"
-    :title="$t('mainMenu.titles.addNewSubscription')"
+    :title="$t('mainMenu.account.addNewSubscription')"
     :user-id="userId"
     :remote-items="remoteItems"
     @set-query-result="queryResult = $event"

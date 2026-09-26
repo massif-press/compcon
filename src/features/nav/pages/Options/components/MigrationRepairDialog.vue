@@ -70,7 +70,7 @@
               <span v-if="reportOnlyCount">
                 {{
                   $t(
-                    'nav.migrationRepair.andRequiringManual',
+                    'nav.migrationRepair.requiresManual',
                     {
                       count: reportOnlyCount,
                     },
@@ -78,7 +78,6 @@
                   )
                 }}
               </span>
-              .
             </cc-panel>
 
             <v-table

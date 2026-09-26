@@ -52,7 +52,7 @@
           value="doodad"
           color="primary"
         >
-          {{ $t('gm.titles.doodads') }}
+          {{ $t('gm.shared.doodads') }}
         </v-btn>
         <v-btn
           flat
@@ -61,7 +61,7 @@
           value="eidolon"
           color="primary"
         >
-          {{ $t('gm.titles.eidolons') }}
+          {{ $t('gm.shared.eidolons') }}
         </v-btn>
       </v-btn-toggle>
       <v-list

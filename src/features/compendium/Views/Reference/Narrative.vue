@@ -1,6 +1,6 @@
 <template>
   <srd-view
-    :title="$t('compendium.titles.narrativePlay')"
+    :title="$t('compendium.reference.narrativePlay')"
     :content="narrative"
     :pre-scroll="preScroll"
   />

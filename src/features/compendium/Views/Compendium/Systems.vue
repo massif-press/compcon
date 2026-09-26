@@ -8,7 +8,9 @@
     view-key="cb-systems"
   >
     <template #header>
-      <div class="heading h3 text-center text-accent">{{ $t('pm.loadout.mechSYSTEMS') }}</div>
+      <div class="heading h3 text-center text-accent">
+        {{ $t('common.mechSystems') }}
+      </div>
     </template>
   </cc-compendium-browser>
 </template>
@@ -29,10 +31,10 @@
   })
   const headers = ref([
     { title: '', align: 'left', key: 'Source' },
-    { title: t('compendium.titles.system'), align: 'left', key: 'Name' },
+    { title: t('enums.systemType.system'), align: 'left', key: 'Name' },
     { title: 'License', key: 'License' },
-    { title: t('ui.fields.licenseLevel'), align: 'center', key: 'LicenseLevel' },
-    { title: t('compendium.titles.tags'), align: 'center', key: 'Tags' },
+    { title: t('common.licenseLevel'), align: 'center', key: 'LicenseLevel' },
+    { title: t('common.tags'), align: 'center', key: 'Tags' },
     { title: t('ui.filter.spCost'), align: 'center', key: 'SP' },
   ])
 

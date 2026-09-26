@@ -19,7 +19,7 @@
       <v-col cols="11">
         <div class="text-cc-overline mb-1">
           <cc-slashes class="pr-1" />
-          <span class="text-disabled">{{ $t('active.newEnc.encounterData') }}</span>
+          <span class="text-disabled">{{ $t('common.encounterData') }}</span>
         </div>
         <cc-panel>
           <v-slide-x-transition leave-absolute>

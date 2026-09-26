@@ -13,7 +13,7 @@
       variant="text"
       :to="exit"
     >
-      {{ $t('common.exit') }}
+      {{ $t('common.exitAction') }}
     </cc-button>
     <v-spacer />
     <cc-button
@@ -23,7 +23,7 @@
       class="ml-auto mr-2"
       @click="$emit('back')"
     >
-      {{ $t('common.back') }}
+      {{ $t('common.backAction') }}
     </cc-button>
     <v-spacer />
     <slot name="other" />
@@ -36,7 +36,7 @@
       :class="complete && 'pulse'"
       @click="$emit('complete')"
     >
-      {{ complete || mandatory ? $t('common.continue') : $t('pm.misc.skipSTEP') }}
+      {{ complete || mandatory ? $t('common.continue') : $t('pm.misc.skipStep') }}
     </cc-button>
   </v-footer>
 </template>

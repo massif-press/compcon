@@ -42,7 +42,7 @@
       >
         <cc-heading
           is-title
-          :text="$t('nav.log.session')"
+          :text="$t('common.session')"
         />
         <div>
           <v-menu>
@@ -115,7 +115,7 @@
                 v-if="item.errorName"
                 class="mb-2"
               >
-                <div class="heading h3">{{ $t('nav.log.error') }}</div>
+                <div class="heading h3">{{ $t('common.error') }}</div>
                 <v-divider />
                 <div class="text-error font-weight-bold">{{ item.errorName }}</div>
                 <div class="text-caption">{{ item.errorMessage }}</div>

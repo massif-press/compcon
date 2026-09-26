@@ -133,7 +133,7 @@
           style="flex: 1"
         >
           <v-tooltip
-            :text="$t('ui.tooltips.itemFilters')"
+            :text="$t('ui.compendiumBrowser.itemFilters')"
             location="top"
           >
             <template #activator="{ props }">

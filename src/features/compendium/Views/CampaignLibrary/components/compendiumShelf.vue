@@ -219,14 +219,14 @@
       CampaignStore().AddCollectionCampaign(campaign)
       selected.value = campaign
       notify({
-        title: t('notify.common.success'),
+        title: t('common.success'),
         text: t('notify.compendium.campaignUpdatedText'),
         color: 'success',
       })
     } catch (err) {
       logger.error(`Error updating campaign: ${err}`)
       notify({
-        title: t('notify.common.error'),
+        title: t('common.error'),
         text: t('notify.compendium.campaignUpdateFailedText'),
         color: 'error',
       })

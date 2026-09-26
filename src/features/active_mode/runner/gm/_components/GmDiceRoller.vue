@@ -113,7 +113,7 @@
                   md=""
                 >
                   <div class="text-cc-overline text-disabled">
-                    {{ $t('active.diceRoller.count') }}
+                    {{ $t('active.charts.count') }}
                   </div>
                   <v-text-field
                     v-model="count"
@@ -236,15 +236,15 @@
               <div class="mt-2 mb-4">
                 <cc-switch
                   v-model="isCrit"
-                  :label="$t('pm.shared.critical')"
+                  :label="$t('pm.shared.criticalWarning')"
                   class="mt-2"
-                  :tooltip="$t('active.tooltips.rollAllDiceTakingThe')"
+                  :tooltip="$t('active.runner.rollAllDiceTakingThe')"
                 />
                 <cc-switch
                   v-model="Overkill"
-                  :label="$t('active.fields.overkill')"
+                  :label="$t('common.overkill')"
                   class="mt-2"
-                  :tooltip="$t('active.tooltips.reroll1s')"
+                  :tooltip="$t('active.runner.reroll1s')"
                 />
               </div>
 
@@ -257,7 +257,7 @@
                 class="mt-1"
                 @click="reset()"
               >
-                {{ $t('common.reset') }}
+                {{ $t('common.resetAction') }}
               </v-btn>
             </v-card-text>
           </v-card>

@@ -54,7 +54,7 @@
             v-show="pilot.CoreBonusController.HasCBs"
             icon="mdi-check"
           />
-          {{ $t('pm.level.coreBonuses') }}
+          {{ $t('common.coreBonuses') }}
         </v-tab>
       </v-slide-x-transition>
       <v-tab value="confirm">{{ $t('common.confirm') }}</v-tab>

@@ -1,6 +1,6 @@
 <template>
   <srd-view
-    :title="$t('compendium.titles.usingCompcon')"
+    :title="$t('compendium.reference.usingCompcon')"
     :content="using_compcon"
     :pre-scroll="preScroll"
   />

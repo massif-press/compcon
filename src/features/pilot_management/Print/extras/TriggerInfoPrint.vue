@@ -4,7 +4,7 @@
       class="text-overline text-primary"
       style="line-height: 15px"
     >
-      {{ $t('pm.print.skillTRIGGERDETAIL') }}
+      {{ $t('pm.print.skillTriggerDetail') }}
     </div>
     <v-row dense>
       <v-col

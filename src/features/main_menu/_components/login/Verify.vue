@@ -75,7 +75,7 @@
           >
             <v-text-field
               v-model="verify"
-              :label="$t('mainMenu.fields.verificationCode')"
+              :label="$t('mainMenu.shared.verificationCode')"
               density="compact"
               variant="outlined"
               class="my-1"

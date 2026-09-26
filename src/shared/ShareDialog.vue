@@ -3,7 +3,7 @@
     <cc-alert
       density="compact"
       class="text-text"
-      :title="$t('share.titles.pleaseUseResponsibly')"
+      :title="$t('ui.shareDialog.pleaseUseResponsibly')"
       icon="mdi-alert"
     >
       {{ $t('share.shareCodesNote') }}
@@ -105,7 +105,7 @@
             style="font-size: calc(30px + 2vw)"
             v-text="`${shareCode.slice(0, 4)}-${shareCode.slice(4, 8)}-${shareCode.slice(8, 12)}`"
           />
-          <v-tooltip :text="$t('share.tooltips.copyShareCodeToClipboard')">
+          <v-tooltip :text="$t('ui.shareDialog.copyShareCodeToClipboard')">
             <template #activator="{ props }">
               <v-icon
                 v-bind="props"
@@ -150,7 +150,7 @@
                   @click="copyShareLink()"
                 >
                   <template #append-inner>
-                    <v-tooltip :text="$t('share.tooltips.copyShareLinkToClipboard')">
+                    <v-tooltip :text="$t('ui.shareDialog.copyShareLinkToClipboard')">
                       <template #activator="{ props }">
                         <v-icon
                           v-bind="props"
@@ -323,7 +323,7 @@
       logger.error(`ShareDialog: sync failed for ${name}`, err)
       notify({
         title: t('notify.share.syncFailedTitle'),
-        text: t('notify.share.syncFailedText', { err: String(err) }),
+        text: String(err),
         data: { icon: 'mdi-alert', color: 'error' },
       })
     } finally {

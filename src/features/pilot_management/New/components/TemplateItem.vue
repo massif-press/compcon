@@ -63,7 +63,7 @@
       >
         <div class="panel clipped px-2">
           <div class="caption text-accent mt-1">
-            <b>{{ $t('ui.titles.tactics') }}</b>
+            <b>{{ $t('common.tactics') }}</b>
           </div>
           <p v-html-safe="template.tactics" />
         </div>
@@ -71,7 +71,7 @@
           <v-row>
             <v-col>
               <div class="caption text-accent">
-                {{ $t('pm.new.pilot') }}
+                {{ $t('common.pilot') }}
                 <cc-slashes class="pr-1" />
                 <b>{{ $t('pm.new.skills') }}</b>
               </div>
@@ -106,7 +106,7 @@
             </v-col>
             <v-col>
               <div class="caption text-accent">
-                {{ $t('pm.new.pilot') }}
+                {{ $t('common.pilot') }}
                 <cc-slashes class="pr-1" />
                 <b>{{ $t('common.talents') }}</b>
               </div>
@@ -137,7 +137,7 @@
                       </cc-chip>
                     </template>
                     <div class="heading h3">
-                      {{ item('Talents', t).Name }} {{ $t('pm.new.i') }}:
+                      {{ item('Talents', t).Name }} I:
                       {{ item('Talents', t).Rank(1).Name }}
                     </div>
                     <v-divider />
@@ -150,7 +150,7 @@
         </div>
         <div class="panel clipped py-1 px-2 my-2">
           <div class="caption text-accent mt-1">
-            {{ $t('pm.new.gmsEVEREST') }}
+            {{ $t('pm.new.gmsEverest') }}
             <cc-slashes class="pr-1" />
             <b>{{ $t('common.loadout') }}</b>
           </div>
@@ -235,7 +235,7 @@
 
   function mountLabel(m: string) {
     const key = `enums.mountType.${slug(m)}`
-    return `${te(key) ? t(key) : m} ${t('common.mount')}`
+    return `${te(key) ? t(key) : m} ${t('common.weaponMount')}`
   }
 
   const props = defineProps<{

@@ -11,7 +11,7 @@
         cols="auto"
         style="min-width: 55px"
       >
-        <div class="text-cc-overline text-disabled">{{ $t('ui.fields.weaponType') }}</div>
+        <div class="text-cc-overline text-disabled">{{ $t('common.weaponType') }}</div>
         <v-menu>
           <template #activator="{ props }">
             <cc-button
@@ -21,7 +21,7 @@
               :color="weaponType ? 'primary' : 'panel'"
               @click="props.onClick($event)"
             >
-              {{ weaponType || $t('pm.loadout.notSET') }}
+              {{ weaponType || $t('pm.loadout.notSet') }}
             </cc-button>
           </template>
           <v-list
@@ -50,7 +50,7 @@
         </v-menu>
       </v-col>
       <v-col cols="auto">
-        <div class="text-cc-overline text-disabled">{{ $t('ui.fields.damageType') }}</div>
+        <div class="text-cc-overline text-disabled">{{ $t('common.damageType') }}</div>
         <v-menu>
           <template #activator="{ props }">
             <cc-button
@@ -60,7 +60,7 @@
               :color="damageType ? `damage--${damageType}` : 'panel'"
               @click="props.onClick($event)"
             >
-              {{ damageType || $t('pm.loadout.notSET') }}
+              {{ damageType || $t('pm.loadout.notSet') }}
             </cc-button>
           </template>
           <v-list
@@ -89,7 +89,7 @@
         </v-menu>
       </v-col>
       <v-col style="min-width: 55px">
-        <div class="text-cc-overline text-disabled">{{ $t('pm.print.uses') }}</div>
+        <div class="text-cc-overline text-disabled">{{ $t('common.uses') }}</div>
         <v-menu :close-on-content-click="false">
           <template #activator="{ props }">
             <cc-button
@@ -99,7 +99,7 @@
               :color="uses ? 'primary' : 'panel'"
               @click="props.onClick($event)"
             >
-              {{ uses ? uses : $t('pm.loadout.notSET') }}
+              {{ uses ? uses : $t('pm.loadout.notSet') }}
             </cc-button>
           </template>
           <v-card
@@ -109,7 +109,7 @@
           >
             <v-card-text class="pt-1">
               <div class="text-cc-overline text-disabled mb-2">
-                {{ $t('pm.loadout.setUSES') }}
+                {{ $t('pm.loadout.setUses') }}
                 <cc-slashes />
                 {{
                   level < 3
@@ -166,7 +166,7 @@
               :color="selectedRevisions[0] ? `primary` : 'panel'"
               @click="props.onClick($event)"
             >
-              <span v-if="!selectedRevisions.length">{{ $t('pm.loadout.notSET') }}</span>
+              <span v-if="!selectedRevisions.length">{{ $t('pm.loadout.notSet') }}</span>
               <span v-else>
                 {{ selectedRevisionTitles }}
               </span>
@@ -240,35 +240,35 @@
 
   const weaponType = ref(null)
   const weaponTypes = ref([
-    { title: t('pm.titles.rifle'), value: 'rifle', icon: 'cc:range' },
-    { title: t('pm.titles.cannon'), value: 'cannon', icon: 'cc:range' },
-    { title: t('pm.titles.launcher'), value: 'launcher', icon: 'cc:range' },
-    { title: t('pm.titles.cqb'), value: 'cqb', icon: 'cc:range' },
-    { title: t('pm.titles.nexus'), value: 'nexus', icon: 'cc:range' },
-    { title: t('pm.titles.melee'), value: 'melee', icon: 'cc:threat' },
+    { title: t('enums.weaponType.rifle'), value: 'rifle', icon: 'cc:range' },
+    { title: t('enums.weaponType.cannon'), value: 'cannon', icon: 'cc:range' },
+    { title: t('enums.weaponType.launcher'), value: 'launcher', icon: 'cc:range' },
+    { title: t('enums.weaponType.cqb'), value: 'cqb', icon: 'cc:range' },
+    { title: t('enums.weaponType.nexus'), value: 'nexus', icon: 'cc:range' },
+    { title: t('enums.weaponType.melee'), value: 'melee', icon: 'cc:threat' },
   ])
   const damageType = ref(null)
   const damageTypes = ref([
-    { title: t('pm.titles.kinetic'), value: 'kinetic' },
-    { title: t('pm.titles.energy'), value: 'energy' },
-    { title: t('pm.titles.explosive'), value: 'explosive' },
+    { title: t('enums.damageType.kinetic'), value: 'kinetic' },
+    { title: t('enums.damageType.energy'), value: 'energy' },
+    { title: t('enums.damageType.explosive'), value: 'explosive' },
   ])
   const uses = ref(0)
   const revisions = ref([
     {
-      title: t('pm.titles.tweakedOptics'),
+      title: t('pm.engWeaponSettings.tweakedOptics'),
       value: 'tweaked_optics',
       icon: 'cc:talent',
       detail: 'Your prototype weapon always gains +1 Accuracy on attacks',
     },
     {
-      title: t('pm.titles.tweakedComputer'),
+      title: t('pm.engWeaponSettings.tweakedComputer'),
       value: 'tweaked_computer',
       icon: 'cc:talent',
       detail: 'Your prototype weapon is Smart',
     },
     {
-      title: t('pm.titles.strippedReactorShielding'),
+      title: t('pm.engWeaponSettings.strippedReactorShielding'),
       value: 'stripped_reactor',
       icon: 'cc:talent',
       detail:

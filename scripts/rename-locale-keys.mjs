@@ -19,7 +19,9 @@ if (!Object.keys(map).length) {
   process.exit(1)
 }
 
-const renameIn = (tree, from, to) => {
+const PLURAL_CATEGORIES = ['zero', 'one', 'two', 'few', 'many', 'other']
+
+const renameIn = (tree, from, to, suffixed = false) => {
   const fromParts = from.split('.')
   const toParts = to.split('.')
   const parentOf = (parts, create) => {
@@ -35,10 +37,16 @@ const renameIn = (tree, from, to) => {
   }
   const src = parentOf(fromParts, false)
   const leaf = fromParts.at(-1)
-  if (!src || !(leaf in src)) return false
+  if (!src) return false
+  if (!(leaf in src))
+    return (
+      !suffixed &&
+      PLURAL_CATEGORIES.map(c => renameIn(tree, `${from}_${c}`, `${to}_${c}`, true)).some(Boolean)
+    )
   const value = src[leaf]
   const dest = parentOf(toParts, false)
   if (dest && toParts.at(-1) in dest) {
+    if (dest[toParts.at(-1)] === '') dest[toParts.at(-1)] = value
     delete src[leaf]
     return true
   }
@@ -70,6 +78,14 @@ const relink = tree => {
   return n
 }
 
+const prune = o => {
+  for (const [k, v] of Object.entries(o))
+    if (v && typeof v === 'object') {
+      prune(v)
+      if (!Object.keys(v).length) delete o[k]
+    }
+}
+
 const catalogs = readdirSync('src/i18n/locales')
   .filter(f => f.endsWith('.json'))
   .map(f => join('src/i18n/locales', f))
@@ -87,6 +103,7 @@ for (const file of catalogs) {
   let moved = 0
   for (const [from, to] of Object.entries(map)) if (renameIn(tree, from, to)) moved++
   const links = relink(tree)
+  prune(tree)
   if (write && (moved || links)) writeFileSync(file, JSON.stringify(tree, null, indent) + '\n')
   console.log(`${file}: ${moved} key(s) renamed, ${links} link(s) updated`)
 }

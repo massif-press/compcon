@@ -32,7 +32,7 @@
           <v-list-item
             v-if="!readonly"
             prepend-icon="mdi-plus"
-            :title="$t('pm.titles.addNewLoadout')"
+            :title="$t('pm.loadout.addNewLoadout')"
             @click="$emit('add-loadout')"
           />
         </v-list>

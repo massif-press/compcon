@@ -22,7 +22,7 @@
       </template>
       <v-card-text>
         <cc-confirmation
-          :content="$t('gm.tooltips.thisWillDeleteThisNpcFrom')"
+          :content="$t('gm.editorFooter.deleteNpcConfirm')"
           @confirm="deleteItem()"
         />
       </v-card-text>
@@ -35,7 +35,7 @@
       :size="mobile ? 'x-small' : 'small'"
       @click="$emit('print', item.ID)"
     >
-      {{ $t('common.print') }}
+      {{ $t('common.printAction') }}
     </cc-button>
     <cc-button
       prepend-icon="mdi-upload"
@@ -43,7 +43,7 @@
       class="ml-2"
       @click="$emit('export', item)"
     >
-      {{ $t('common.export') }}
+      {{ $t('common.exportAction') }}
     </cc-button>
     <slot name="footer" />
 
@@ -93,7 +93,7 @@
         </cc-button>
       </template>
       <cc-confirmation
-        :content="$t('gm.tooltips.convertingThisItemToLocalData')"
+        :content="$t('gm.shared.convertToLocalWarning')"
         @confirm="$emit('convert')"
       />
     </v-menu>
@@ -107,7 +107,7 @@
           v-bind="props"
         >
           <v-icon start>mdi-cloud-sync</v-icon>
-          {{ $t('common.update') }}
+          {{ $t('common.updateAction') }}
         </cc-button>
       </template>
       {{
@@ -137,11 +137,11 @@
             start
             icon="mdi-content-copy"
           />
-          {{ $t('common.duplicate') }}
+          {{ $t('common.duplicateAction') }}
         </cc-button>
       </template>
       <cc-confirmation
-        :content="$t('gm.tooltips.confirmDuplicationOfThisNpc')"
+        :content="$t('gm.shared.confirmDuplicationOfThisNpc')"
         @confirm="dupe()"
       />
     </v-menu>
@@ -158,7 +158,7 @@
         start
         icon="mdi-arrow-left"
       />
-      {{ $t('common.exit') }}
+      {{ $t('common.exitAction') }}
     </cc-button>
   </v-footer>
 </template>

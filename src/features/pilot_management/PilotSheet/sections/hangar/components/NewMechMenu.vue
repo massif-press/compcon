@@ -17,7 +17,7 @@
         <v-col cols="auto">
           <cc-switch
             v-model="showAll"
-            :label="$t('pm.fields.showAllFrames')"
+            :label="$t('pm.pilotSheet.showAllFrames')"
             color="error"
           />
         </v-col>
@@ -38,7 +38,7 @@
         cols="11"
         md="8"
       >
-        <span class="text-overline">{{ $t('pm.sheet.xk401REGISTERMECHNAME') }}</span>
+        <span class="text-overline">{{ $t('pm.sheet.formFieldMechName') }}</span>
         <v-text-field
           v-model="mechName"
           variant="outlined"
@@ -48,7 +48,7 @@
         >
           <template #prepend>
             <v-tooltip
-              :text="$t('pm.tooltips.generateRandomName')"
+              :text="$t('pm.shared.generateRandomName')"
               location="top"
             >
               <template #activator="{ props }">
@@ -128,18 +128,18 @@
     initialGroup: 'source',
   })
   const headers = ref([
-    { title: t('pm.titles.manufacturer'), key: 'Source' },
+    { title: t('common.manufacturer'), key: 'Source' },
     { title: 'Name', key: 'Name' },
-    { title: t('pm.titles.size'), key: 'Size' },
+    { title: t('stats.size'), key: 'Size' },
     { title: t('stats.armor'), key: 'Armor' },
     { title: 'HP', key: 'HP' },
     { title: t('stats.evasion'), key: 'Evasion' },
-    { title: t('pm.titles.edef'), key: 'EDefense' },
-    { title: t('pm.titles.heatcap'), key: 'HeatCap' },
-    { title: t('pm.titles.repcap'), key: 'RepCap' },
+    { title: t('stats.edef'), key: 'EDefense' },
+    { title: t('stats.heatCap'), key: 'HeatCap' },
+    { title: t('stats.repCap'), key: 'RepCap' },
     { title: t('stats.sensors'), key: 'SensorRange' },
-    { title: t('pm.titles.techatk'), key: 'TechAttack' },
-    { title: t('common.save'), key: 'SaveTarget' },
+    { title: t('stats.techAtk'), key: 'TechAttack' },
+    { title: t('common.saveAction'), key: 'SaveTarget' },
     { title: t('stats.speed'), key: 'Speed' },
     { title: t('stats.sp'), key: 'SP' },
   ])

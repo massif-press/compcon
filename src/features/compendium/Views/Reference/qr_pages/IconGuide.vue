@@ -136,7 +136,7 @@
           name: 'Variable/Other',
           icon: 'cc:variable',
           color: 'damage--variable',
-          text: t('compendium.tooltips.userSelectedDamageTypeOrDamage'),
+          text: t('compendium.iconGuide.variableDamageTypeHint'),
         },
       ],
       'Range / Attack Types': [
@@ -155,27 +155,27 @@
         {
           name: 'Threat',
           icon: 'cc:threat',
-          text: t('compendium.tooltips.weaponThreatRange'),
+          text: t('compendium.iconGuide.weaponThreatRange'),
         },
         {
           name: 'Burst',
           icon: 'cc:burst',
-          text: t('compendium.tooltips.burstAreaOfEffect'),
+          text: t('compendium.iconGuide.burstAreaOfEffect'),
         },
         {
           name: 'Blast',
           icon: 'cc:blast',
-          text: t('compendium.tooltips.blastAreaOfEffect'),
+          text: t('compendium.iconGuide.blastAreaOfEffect'),
         },
         {
           name: 'Line',
           icon: 'cc:line',
-          text: t('compendium.tooltips.lineAreaOfEffect'),
+          text: t('compendium.iconGuide.lineAreaOfEffect'),
         },
         {
           name: 'Cone',
           icon: 'cc:cone',
-          text: t('compendium.tooltips.coneAreaOfEffect'),
+          text: t('compendium.iconGuide.coneAreaOfEffect'),
         },
       ],
       'Tracked Stats': [
@@ -412,7 +412,7 @@
         {
           name: 'Content Pack',
           icon: 'cc:compendium',
-          text: t('compendium.tooltips.denotesContentAddedByALancer'),
+          text: t('compendium.iconGuide.lcpContentHint'),
         },
       ],
     }

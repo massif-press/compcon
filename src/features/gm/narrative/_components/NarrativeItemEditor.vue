@@ -42,7 +42,7 @@
             :items="['He/Him', 'She/Her', 'They/Them']"
             variant="outlined"
             hide-details
-            :label="$t('gm.fields.pronouns')"
+            :label="$t('gm.shared.pronouns')"
             style="width: 200px"
           />
         </v-col>
@@ -57,7 +57,7 @@
             :items="item.TypeSuggestions"
             variant="outlined"
             hide-details
-            :label="$t('ui.fields.organizationType')"
+            :label="$t('common.organizationType')"
             style="width: 335px"
           />
         </v-col>
@@ -73,7 +73,7 @@
             :readonly="isRemote"
             color="primary"
             variant="outlined"
-            :label="$t('ui.fields.title')"
+            :label="$t('common.title')"
           />
         </v-col>
         <v-col>
@@ -82,7 +82,7 @@
             :readonly="isRemote"
             color="primary"
             variant="outlined"
-            :label="$t('gm.fields.alias')"
+            :label="$t('gm.shared.alias')"
           />
         </v-col>
       </v-row>

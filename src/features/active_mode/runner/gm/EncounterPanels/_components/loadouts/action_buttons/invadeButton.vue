@@ -15,7 +15,7 @@
               height="30"
               value="invade"
             >
-              {{ $t('active.invade.invade') }}
+              {{ $t('enums.activationType.invade') }}
             </v-tab>
             <v-divider v-if="!mobile" />
             <div class="pa-2 text-cc-overline text-disabled">

@@ -194,9 +194,12 @@
             cols="auto"
             :class="`text-${user.ErrorReporting ? 'success' : 'disabled'}`"
           >
-            {{ $t('nav.settingsPage.errorReportingPrefix') }}
             {{
-              user.ErrorReporting ? $t('nav.settingsPage.enabled') : $t('nav.settingsPage.disabled')
+              $t('nav.settingsPage.errorReportingStatus', {
+                status: user.ErrorReporting
+                  ? $t('nav.settingsPage.enabled')
+                  : $t('nav.settingsPage.disabled'),
+              })
             }}
           </v-col>
           <v-col cols="auto">
@@ -483,10 +486,10 @@
   const user = computed(() => UserStore().User)
 
   const fonts = [
-    { label: t('nav.fields.interV3Default'), value: 'inter' },
-    { label: t('nav.fields.notoSansV3Alt'), value: 'noto' },
-    { label: t('nav.fields.helveticaV2Default'), value: 'helvetica' },
-    { label: t('nav.fields.opendyslexicExperimental'), value: 'opendyslexic' },
+    { label: t('nav.settings.interV3Default'), value: 'inter' },
+    { label: t('nav.settings.notoSansV3Alt'), value: 'noto' },
+    { label: t('nav.settings.helveticaV2Default'), value: 'helvetica' },
+    { label: t('nav.settings.opendyslexicExperimental'), value: 'opendyslexic' },
   ]
 
   const themes = Object.keys(allThemes)
@@ -604,7 +607,7 @@
       isV2File.value = false
       notify({
         title: t('notify.settings.unableToReadFileTitle'),
-        text: t('notify.settings.errorPrefix', { err }),
+        text: t('notify.settings.errorWithDetail', { err }),
         color: 'error',
         icon: 'mdi-database-off-outline',
       })
@@ -649,7 +652,7 @@
     } catch (err) {
       notify({
         title: t('notify.settings.unableToImportTitle'),
-        text: t('notify.settings.errorPrefix', { err }),
+        text: t('notify.settings.errorWithDetail', { err }),
         color: 'error',
         icon: 'mdi-database-off-outline',
       })

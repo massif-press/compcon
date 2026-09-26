@@ -36,7 +36,7 @@
     <template #top>
       <missing-item-alert
         v-if="pilot.CoreBonusController.MissingCoreBonuses.length"
-        :type="$t('pm.titles.coreBonuses')"
+        :type="$t('common.coreBonuses')"
         :items="pilot.CoreBonusController.MissingCoreBonuses"
         @remove="pilot.CoreBonusController.RemoveCoreBonus($event)"
       />

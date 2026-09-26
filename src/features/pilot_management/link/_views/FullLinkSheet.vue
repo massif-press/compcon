@@ -14,7 +14,7 @@
           cols="auto"
           class="py-1"
         >
-          <div class="text-cc-overline text-accent">{{ $t('ui.fields.licenseLevel') }}</div>
+          <div class="text-cc-overline text-accent">{{ $t('common.licenseLevel') }}</div>
           <div class="heading h2 mt-n1">
             {{ pilot.Level }}
           </div>
@@ -36,7 +36,7 @@
           cols="auto"
           class="py-1"
         >
-          <div class="text-cc-overline text-accent">{{ $t('pm.link.hull') }}</div>
+          <div class="text-cc-overline text-accent">{{ $t('stats.hull') }}</div>
           <div class="heading h3 mt-n1">
             {{ pilot.MechSkillsController.MechSkills.Hull }}
           </div>
@@ -234,7 +234,7 @@
     v-if="pilot.CoreBonusController.CoreBonuses.length"
     id="core-bonuses"
   >
-    <cc-title class="mt-4 mb-2">{{ $t('pm.level.coreBonuses') }}</cc-title>
+    <cc-title class="mt-4 mb-2">{{ $t('common.coreBonuses') }}</cc-title>
     <cc-core-bonus-item
       v-for="b in pilot.CoreBonusController.CoreBonuses"
       :key="b.ID"

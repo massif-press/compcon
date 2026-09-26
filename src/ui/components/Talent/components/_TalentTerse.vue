@@ -182,7 +182,7 @@
                     class="text-center"
                   >
                     <v-icon start>cc:rank_{{ n }}</v-icon>
-                    {{ $t('ui.talent.unlocked') }}
+                    {{ $t('common.unlocked') }}
                   </div>
                 </v-card-actions>
               </v-card>
@@ -197,7 +197,7 @@
       style="position: relative"
     >
       <div style="position: absolute; bottom: -4px; right: -4px">
-        <cc-tooltip :content="showAll ? $t('gm.filter.hideAll') : $t('ui.talent.showAll')">
+        <cc-tooltip :content="showAll ? $t('gm.filter.hideAll') : $t('gm.filter.showAll')">
           <v-btn
             size="small"
             icon

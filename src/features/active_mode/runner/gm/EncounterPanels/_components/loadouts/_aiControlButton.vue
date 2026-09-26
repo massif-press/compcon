@@ -23,7 +23,7 @@
           />
         </v-avatar>
       </template>
-      <div class="text-center text-cc-overline">{{ $t('ui.combat.cannotActivateShort') }}</div>
+      <div class="text-center text-cc-overline">{{ $t('ui.combat.cannotActivate') }}</div>
       <v-divider class="my-1" />
       <div>
         {{ $t('active.combatAction.insufficient') }}
@@ -33,7 +33,7 @@
           variant="elevated"
           prepend-icon="cc:protocol"
         >
-          {{ $t('active.actionChips.protocol') }}
+          {{ $t('enums.activationType.protocol') }}
         </v-chip>
         {{ $t('active.combatAction.actionsRemaining') }}
       </div>

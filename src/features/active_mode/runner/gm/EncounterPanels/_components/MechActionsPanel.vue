@@ -8,7 +8,7 @@
   >
     <v-expansion-panel>
       <v-expansion-panel-title class="heading h4 py-0">
-        {{ $t('active.actions.allActions') }}
+        {{ $t('active.runner.allActions') }}
       </v-expansion-panel-title>
       <v-expansion-panel-text style="border: 2px solid rgb(var(--v-theme-panel))">
         <v-row dense>
@@ -299,7 +299,7 @@
     },
     act_dismount: {
       ok: ['active.mechActions.pilotDismountedTitle', 'active.mechActions.pilotDismountedText'],
-      fail: ['active.mechActions.dismountFailedTitle', 'active.mechActions.dismountFailedText'],
+      fail: ['active.mechActions.dismountFailedTitle', 'active.mechActions.ejectFailedText'],
     },
     act_hide: { ok: ['active.mechActions.mechHiddenTitle', 'active.common.hiddenText'] },
     act_disengage: {

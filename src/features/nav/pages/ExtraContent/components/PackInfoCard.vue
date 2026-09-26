@@ -10,7 +10,7 @@
           <span v-else>{{ $t('ui.widget.noDescription') }}</span>
         </p>
         <div>
-          <cc-heading line>{{ $t('nav.packInfo.contentHeading') }}</cc-heading>
+          <cc-heading line>{{ $t('common.contentLabel') }}</cc-heading>
           <div>
             <v-chip
               v-for="(item, itemIdx) in packContents"

@@ -1,7 +1,7 @@
 <template>
   <div class="my-3">
     <cc-dialog
-      :title="$t('pm.titles.addReservesAndBonuses')"
+      :title="$t('pm.pilotSheet.addReservesAndBonuses')"
       icon="cc:barrage"
       fullscreen
       clip
@@ -12,8 +12,8 @@
     >
       <template #activator="{ open }">
         <section-header
-          :title="$t('pm.titles.reservesAndBonuses')"
-          :label="$t('pm.titles.addReservesAndBonuses')"
+          :title="$t('pm.pilotSheet.reservesAndBonuses')"
+          :label="$t('pm.pilotSheet.addReservesAndBonuses')"
           :editable="!pilot.IsRemote"
           @edit="open"
         />

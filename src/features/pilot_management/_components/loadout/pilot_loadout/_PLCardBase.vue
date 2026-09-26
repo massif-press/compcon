@@ -48,14 +48,14 @@
               >
                 <v-list-item
                   prepend-icon="mdi-swap-vertical-variant"
-                  :title="$t('pm.titles.changeItem')"
+                  :title="$t('pm.loadout.changeItem')"
                   @click.stop="selectorDialog = true"
                 />
                 <v-divider />
                 <v-list-item
                   v-if="item.CanSetDamage"
                   prepend-icon="cc:variable"
-                  :title="$t('pm.titles.selectDamage')"
+                  :title="$t('pm.loadout.selectDamage')"
                   @click.stop="($refs as any).damageTypeDialog.show()"
                 >
                   {{ $t('common.type') }}
@@ -74,7 +74,7 @@
                 <v-list-item
                   prepend-icon="mdi-delete"
                   color="error"
-                  :title="$t('pm.titles.removeItem')"
+                  :title="$t('pm.loadout.removeItem')"
                   @click.stop="$emit('remove', item)"
                 />
               </v-list>
@@ -91,7 +91,7 @@
               v-if="extended"
               simple
               inline
-              :content="$t('pm.tooltips.extendedHarness')"
+              :content="$t('pm.loadout.extendedHarness')"
             >
               <v-icon
                 dark
@@ -326,7 +326,7 @@
             density="compact"
             hide-details
             prepend-icon="mdi-note"
-            :label="$t('ui.fields.equipmentNotes')"
+            :label="$t('common.equipmentNotes')"
             class="mt-2"
           />
         </div>

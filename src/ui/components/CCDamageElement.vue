@@ -48,7 +48,7 @@
       </template>
       <div class="heading h3">
         {{ displayValue(d.Value) }} {{ $enum('damageType', typeOverride || d.Type) }}
-        {{ $t('ui.widget.damage') }}
+        {{ $t('common.damage') }}
       </div>
       <div v-html-safe="gloss(d)" />
     </v-tooltip>
@@ -95,9 +95,9 @@
     const intro = t('ui.widget.glossary.intro', { value: d.Value, type: typeLabel })
     switch (d.Type.toLowerCase()) {
       case 'heat':
-        return `${intro}<br><div class="text-overline text-disabled mb-n2">${t('ui.widget.glossary.heatLabel')}</div>${t('ui.widget.glossary.heatDescription')}`
+        return `${intro}<br><div class="text-overline text-disabled mb-n2">${t('enums.damageType.heat')}:</div>${t('ui.widget.glossary.heatDescription')}`
       case 'burn':
-        return `${intro}<br><div class="text-overline text-disabled mb-n2">${t('ui.widget.glossary.burnLabel')}</div>${t('ui.widget.glossary.burnDescription')}`
+        return `${intro}<br><div class="text-overline text-disabled mb-n2">${t('common.burnStatus')}:</div>${t('ui.widget.glossary.burnDescription')}`
       default:
         return intro
     }

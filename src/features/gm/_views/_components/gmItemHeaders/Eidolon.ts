@@ -15,14 +15,14 @@ export default [
     sortable: true,
   },
   {
-    title: 'gm.titles.class',
+    title: 'gm.gmItemHeaders.class',
     align: 'start',
     value: 'Class',
     groupable: true,
     sortable: true,
   },
   {
-    title: 'gm.titles.layers',
+    title: 'gm.eidolon.layers',
     key: 'Layers',
     align: 'start',
     groupable: false,

@@ -1,0 +1,35 @@
+{
+  "dynamicPrefixes": [
+    "enums.",
+    "combat.log.",
+    "combat.expiration.",
+    "active.layout.",
+    "active.telemetry.rollup.",
+    "active.aar.",
+    "active.dmgCond.",
+    "active.endEnc.results.",
+    "active.organizer.",
+    "nav.communityTable.",
+    "language.components.",
+    "gm.narrative.collectionTitle.",
+    "gm.npcSelection.",
+    "ui.flow.request.",
+    "pm.print.on"
+  ],
+  "homographs": {
+    "Roll": "noun (a roll) vs verb (to roll)",
+    "Condition": "sitrep victory condition vs harmful status",
+    "Critical": "important vs critical hit",
+    "Overcharge": "noun (the stat/print heading) vs action button (verb in pt)",
+    "Active": "enabled toggle vs pilot status vs core system state; adjective agreement differs",
+    "All": "select all vs the ALL a user types to confirm deletion (nav.storage.deleteAllConfirm)",
+    "choose one": "lowercase inline fragment vs capitalized heading; case differs per context",
+    "override": "lowercase verb inside a sentence vs capitalized label",
+    "unavailable": "lowercase inline count suffix vs capitalized label",
+    "icon": "lowercase inline hint vs capitalized column header",
+    "by {author}": "inline byline vs capitalized heading",
+    "d": "dice letter inside notation (1d6) vs table column header (D); both localized (de w/W, ru к/К)",
+    "Size": "mech size stat vs file size column in the cloud archive (mainMenu.titles.size)",
+    "Conditions": "sitrep victory conditions (gm.sitrep.victoryConditions) vs harmful statuses (compendium.reference.statusConditions)"
+  }
+}

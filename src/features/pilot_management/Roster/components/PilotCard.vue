@@ -21,7 +21,7 @@
             icon="mdi-drag"
             size="18"
             class="drag-handle"
-            :aria-label="$t('pm.a11y.dragToReorder')"
+            :aria-label="$t('gm.a11y.dragToReorder')"
             tabindex="0"
             :style="`position: absolute; top: 36px; left: 4px; cursor: move; z-index: 3; opacity: ${isHovering ? 0.8 : 0.3}; transition: opacity 0.2s;`"
             @click.stop
@@ -108,7 +108,7 @@
                   <cc-slashes />
                   <b>{{ pilot.Status }}</b>
                   <v-divider />
-                  <span class="text-uppercase">{{ $t('pm.link.hull') }}</span>
+                  <span class="text-uppercase">{{ $t('stats.hull') }}</span>
                   {{ pilot.MechSkillsController.MechSkills.Hull }} {{ $t('stats.agi') }}
                   {{ pilot.MechSkillsController.MechSkills.Agi }}
                   <span class="text-uppercase">{{ $t('pm.link.sys') }}</span>

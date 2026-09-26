@@ -61,7 +61,7 @@
               @click="doUndo"
             />
             <div class="text-center heading h3 mx-3">
-              {{ instance.Name }} &mdash; {{ $t('active.gmRunner.roundN', { n: instance.Round }) }}
+              {{ instance.Name }} &mdash; {{ $t('active.actorLogs.round', { n: instance.Round }) }}
             </div>
             <cc-button
               icon="mdi-redo"

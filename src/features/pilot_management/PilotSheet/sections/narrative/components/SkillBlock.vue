@@ -1,8 +1,8 @@
 <template>
   <div>
-    <section-header :title="$t('pm.titles.skillTriggers')">
+    <section-header :title="$t('common.skillTriggers')">
       <cc-dialog
-        :title="$t('pm.titles.setPilotSkillTriggers')"
+        :title="$t('pm.pilotSheet.setPilotSkillTriggers')"
         fullscreen
         icon="cc:skill"
         :close-on-click="false"

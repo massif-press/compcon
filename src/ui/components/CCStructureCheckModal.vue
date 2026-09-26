@@ -14,7 +14,7 @@
     <div v-if="!result">
       <div class="text-cc-overline mb-2">
         {{
-          $t('active.structureCheck.rollPrompt', {
+          $t('combat.structureCheck.rollPrompt', {
             n: marked,
             die: table?.Die,
           })
@@ -26,7 +26,7 @@
         prepend-icon="mdi-dice-d6"
         @click="roll"
       >
-        {{ $t('active.structureCheck.rollLabel', { n: marked, die: table?.Die }) }}
+        {{ $t('combat.structureCheck.rollLabel', { n: marked, die: table?.Die }) }}
       </cc-button>
     </div>
 
@@ -35,7 +35,7 @@
         class="d-flex flex-wrap align-center my-1"
         style="gap: 6px"
       >
-        <span class="text-cc-overline mr-1">{{ $t('active.structureCheck.rolled') }}:</span>
+        <span class="text-cc-overline mr-1">{{ $t('combat.structureCheck.rolled') }}:</span>
         <v-chip
           v-for="(d, i) in result.dice"
           :key="i"
@@ -60,7 +60,7 @@
           prepend-icon="mdi-dice-multiple"
           @click="roll"
         >
-          {{ $t('active.structureCheck.reroll') }}
+          {{ $t('combat.structureCheck.reroll') }}
         </cc-button>
       </div>
 
@@ -73,7 +73,7 @@
 
       <div v-if="resolution.steps.length">
         <v-divider class="my-2" />
-        <div class="text-cc-overline mb-1">{{ $t('active.structureCheck.resolution') }}</div>
+        <div class="text-cc-overline mb-1">{{ $t('common.resolutionOutcome') }}</div>
 
         <div
           v-for="step in resolution.steps"
@@ -127,7 +127,7 @@
               {{ step.rolled }}
             </v-chip>
             <span class="body-text">
-              {{ step.label }} ({{ $t('active.structureCheck.applyManual') }})
+              {{ step.label }} ({{ $t('combat.structureCheck.applyManual') }})
             </span>
           </div>
 
@@ -148,8 +148,8 @@
               {{
                 $t(
                   step.mode === 'save'
-                    ? 'active.structureCheck.saveSave'
-                    : 'active.structureCheck.saveCheck',
+                    ? 'combat.structureCheck.saveSave'
+                    : 'combat.structureCheck.saveCheck',
                   { check: step.label }
                 )
               }}
@@ -167,7 +167,7 @@
                 prepend-icon="mdi-dice-d20"
                 @click="rollSave(step.path)"
               >
-                {{ $t('active.structureCheck.rollCheck', { check: step.label }) }}
+                {{ $t('combat.structureCheck.rollCheck', { check: step.label }) }}
               </cc-button>
               <span
                 v-if="saveRolls[step.path]"
@@ -187,14 +187,14 @@
                   size="small"
                   color="success"
                 >
-                  {{ $t('active.structureCheck.success') }}
+                  {{ $t('common.success') }}
                 </v-btn>
                 <v-btn
                   value="fail"
                   size="small"
                   color="error"
                 >
-                  {{ $t('active.structureCheck.fail') }}
+                  {{ $t('combat.structureCheck.fail') }}
                 </v-btn>
               </v-btn-toggle>
             </div>
@@ -221,8 +221,8 @@
         >
           {{
             hasActions
-              ? $t('active.structureCheck.applyResolve')
-              : $t('active.structureCheck.markResolved')
+              ? $t('combat.structureCheck.applyResolve')
+              : $t('combat.structureCheck.markResolved')
           }}
         </cc-button>
       </v-card-actions>

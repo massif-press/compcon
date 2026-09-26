@@ -395,8 +395,8 @@ class ActionPoolController {
     this._parent.TimedEffects.push(
       markRaw(
         new TimedEffect({
-          nameKey: 'active.timedEffect.selfDestructName',
-          detailKey: 'active.timedEffect.selfDestructDetail',
+          nameKey: 'combat.timedEffect.selfDestructName',
+          detailKey: 'combat.timedEffect.selfDestructDetail',
           round: fireOnRound ?? this._parent.SelfDestructWindow[0],
           apply: { other: 'self_destruct' },
         })

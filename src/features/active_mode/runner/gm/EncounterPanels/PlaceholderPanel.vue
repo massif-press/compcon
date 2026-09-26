@@ -69,14 +69,14 @@
     return [
       {
         key: 'mounted',
-        label: t('active.actions.mounted'),
+        label: t('active.shared.mounted'),
         active: cc.Mounted,
         show: props.combatant.actor.PlaceholderType?.toLowerCase() === 'pilot',
         toggle: () => (cc.Mounted = !cc.Mounted),
       },
       {
         key: 'braced',
-        label: t('active.actions.braced'),
+        label: t('active.runner.braced'),
         active: cc.Braced,
         reason: cc.BlockedReasonFor('brace'),
         toggle: () => cc.SetBraced(!cc.Braced),
@@ -84,7 +84,7 @@
       },
       {
         key: 'overwatch',
-        label: t('active.actions.overwatch'),
+        label: t('active.runner.overwatch'),
         active: cc.Overwatch,
         reason: cc.BlockedReasonFor('overwatch'),
         toggle: () => cc.SetOverwatch(!cc.Overwatch),

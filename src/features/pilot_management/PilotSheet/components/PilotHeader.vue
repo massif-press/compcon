@@ -12,7 +12,7 @@
               v-if="pilot.IsRemote"
               :open-on-click="true"
               location="bottom"
-              :text="$t('pm.actions.thisPilotIsARemote')"
+              :text="$t('pm.pilotSheet.remotePilotNotice')"
             >
               <template #activator="{ props }">
                 <v-icon
@@ -173,7 +173,7 @@
                   cols="auto"
                 >
                   <v-tooltip
-                    :text="$t('pm.actions.thisPilotIsARemote')"
+                    :text="$t('pm.pilotSheet.remotePilotNotice')"
                     max-width="400"
                   >
                     <template #activator="{ props }">
@@ -251,7 +251,7 @@
                     class="text-overline mb-n3"
                     style="opacity: 0.4"
                   >
-                    {{ $t('pm.sheet.rm4IDENT') }}
+                    {{ $t('pm.sheet.identFormCode') }}
                   </div>
                   <div class="stat-text mt-n2 mb-n1">
                     <v-dialog max-width="1200px">
@@ -281,7 +281,7 @@
                     class="text-overline mb-n3"
                     style="opacity: 0.4"
                   >
-                    {{ $t('pm.sheet.rm6DATA') }}
+                    {{ $t('pm.sheet.dataFormCode') }}
                   </div>
                   <cc-brew-info :controller="pilot.BrewController" />
                 </v-col>
@@ -290,7 +290,7 @@
                     class="text-overline mb-n3"
                     style="opacity: 0.4"
                   >
-                    {{ $t('pm.sheet.ndapSR01STATUSREPORT') }}
+                    {{ $t('pm.sheet.statusReportFormCode') }}
                   </div>
                   <div
                     class="heading"
@@ -343,7 +343,7 @@
                     class="text-overline mb-n3"
                     style="opacity: 0.4"
                   >
-                    {{ $t('pm.sheet.cfg') }}
+                    ./cfg
                   </div>
                   <div
                     class="heading"
@@ -368,7 +368,7 @@
                   cols="auto"
                   class="heading h4 mt-1"
                 >
-                  {{ $t('ui.fields.licenseLevel') }}
+                  {{ $t('common.licenseLevel') }}
                 </v-col>
                 <v-col
                   cols="auto"
@@ -379,7 +379,7 @@
                 <v-col cols="auto">
                   <v-tooltip
                     v-if="!pilot.IsRemote && !isLevelingUp"
-                    :text="$t('pm.actions.editLicenseLevel')"
+                    :text="$t('pm.pilotSheet.editLicenseLevel')"
                   >
                     <template #activator="{ props }">
                       <v-icon
@@ -433,7 +433,7 @@
 
   <cc-dialog
     v-model="levelEdit"
-    :title="$t('pm.actions.editLicenseLevel')"
+    :title="$t('pm.pilotSheet.editLicenseLevel')"
     icon="cc:pilot"
     width="600px"
     :close-on-click="false"

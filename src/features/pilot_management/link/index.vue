@@ -7,7 +7,7 @@
     <cc-alert
       v-else-if="rateLimitError"
       icon="mdi-speedometer"
-      :title="$t('pm.titles.serverErrorTooManyRequests')"
+      :title="$t('pm.link.serverErrorTooManyRequests')"
       color="error"
       variant="outlined"
     >
@@ -15,7 +15,7 @@
         v-if="rateLimitError.isDaily"
         class="text-center"
       >
-        {{ $t('pm.link.theDailyRequestLimitHasBeen') }}
+        {{ $t('pm.link.dailyLimitReached') }}
       </p>
       <p
         v-else-if="rateLimitError.retryAfter"
@@ -29,7 +29,7 @@
         v-else
         class="text-center"
       >
-        {{ $t('pm.link.tooManyRequestsPleaseTryAgain2') }}
+        {{ $t('pm.link.rateLimited') }}
       </p>
     </cc-alert>
     <div v-else-if="!pilot">
@@ -49,7 +49,7 @@
         <v-col>
           <div class="heading h2">{{ $t('pm.link.pilotRequiresReSync') }}</div>
           <p class="text-center">
-            {{ $t('pm.new.pilot') }}
+            {{ $t('common.pilot') }}
             <b class="text-accent">
               {{ itemData.callsign }}
             </b>
@@ -108,7 +108,7 @@
       class="mr-2"
       @click="$router.go(-1)"
     >
-      {{ $t('common.back') }}
+      {{ $t('common.backAction') }}
     </cc-button>
     <cc-button
       prepend-icon="mdi-home"
@@ -187,22 +187,22 @@
     const secs = rateLimitError.value?.retryAfter
     if (!secs) return ''
     return secs >= 60
-      ? `${Math.ceil(secs / 60)} minute${Math.ceil(secs / 60) !== 1 ? 's' : ''}`
-      : `${secs} second${secs !== 1 ? 's' : ''}`
+      ? t('pm.link.retryMinutes', { n: Math.ceil(secs / 60) }, Math.ceil(secs / 60))
+      : t('pm.link.retrySeconds', { n: secs }, secs)
   })
   const links = computed(() => {
     if (!pilot.value) return []
-    const links = [{ title: t('pm.titles.biography'), target: 'biography' }]
-    if (pilot.value.BondController.Bond) links.push({ title: t('pm.titles.bond'), target: 'bond' })
+    const links = [{ title: t('pm.new.biography'), target: 'biography' }]
+    if (pilot.value.BondController.Bond) links.push({ title: t('pm.link.bond'), target: 'bond' })
     if (pilot.value.SkillsController.Skills.length > 0)
-      links.push({ title: t('pm.titles.skills'), target: 'skills' })
+      links.push({ title: t('pm.new.skills'), target: 'skills' })
     if (pilot.value.ReservesController.Reserves.length > 0)
       links.push({ title: t('common.reserves'), target: 'reserves' })
     links.push({ title: t('common.loadout'), target: 'loadout' })
     if (pilot.value.LicenseController.Licenses.length > 0)
       links.push({ title: t('common.licenses'), target: 'licenses' })
     if (pilot.value.CoreBonusController.CoreBonuses.length > 0)
-      links.push({ title: t('pm.titles.coreBonuses'), target: 'core-bonuses' })
+      links.push({ title: t('common.coreBonuses'), target: 'core-bonuses' })
     if (pilot.value.TalentsController.Talents.length > 0)
       links.push({ title: t('common.talents'), target: 'talents' })
 

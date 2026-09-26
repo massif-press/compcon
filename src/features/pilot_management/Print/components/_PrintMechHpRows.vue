@@ -64,7 +64,7 @@
 
   <v-row dense>
     <print-hp-block
-      :title="$t('pm.sheet.heat').toUpperCase()"
+      :title="$t('enums.damageType.heat').toUpperCase()"
       :value="mech.HeatCapacity"
       max-label="HEAT CAPACITY"
       :blank="blank"

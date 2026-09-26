@@ -21,7 +21,7 @@
     </v-col>
     <v-col cols="auto">
       <span class="text-disabled pr-6">
-        {{ $t('gm.itemCard.tierShort', { tier: item.NpcClassController?.Tier || '' }) }}
+        {{ $t('common.tierShort', { n: item.NpcClassController?.Tier || '' }) }}
       </span>
     </v-col>
   </v-row>
@@ -51,7 +51,7 @@
       </div>
       <div v-else>
         <cc-dialog
-          :title="$t('gm.titles.selectNpcClass')"
+          :title="$t('gm.npcRoster.selectNpcClass')"
           fullscreen
           icon="cc:encounter"
           :close-on-click="false"

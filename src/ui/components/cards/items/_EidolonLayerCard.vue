@@ -1,17 +1,17 @@
 <template>
   <v-card-text class="pt-0 mt-0">
     <div v-if="item.Appearance">
-      <cc-panel :title="$t('ui.titles.reportedAppearances')">
+      <cc-panel :title="$t('common.reportedAppearances')">
         <p v-html-safe="item.Appearance" />
       </cc-panel>
     </div>
     <div v-if="item.Hints">
-      <cc-panel :title="$t('ui.titles.hints')">
+      <cc-panel :title="$t('common.hints')">
         <p v-html-safe="item.Hints" />
       </cc-panel>
     </div>
     <div v-if="item.Rules">
-      <cc-panel :title="$t('ui.titles.rules')">
+      <cc-panel :title="$t('common.rules')">
         <p v-html-safe="item.Rules" />
       </cc-panel>
     </div>
@@ -39,17 +39,17 @@
       class="mt-2"
     >
       <cc-titled-divider
-        :title="$t('ui.titles.shards')"
+        :title="$t('common.shards')"
         color="accent"
         :subtitle="`&emsp; New Shards: ${item.Shards.CountString}`"
       />
-      <cc-panel :title="$t('ui.titles.reportedAppearances')">
+      <cc-panel :title="$t('common.reportedAppearances')">
         <p v-html-safe="item.Shards.Detail" />
       </cc-panel>
       <div v-if="item.Shards.Features.length > 0">
         <cc-titled-divider
           variant="tonal"
-          :title="$t('ui.titles.shardFeatures')"
+          :title="$t('ui.cards.shardFeatures')"
           :subtitle="`(${item.Shards.Features.length})`"
           class="mt-2"
         />

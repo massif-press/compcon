@@ -78,22 +78,27 @@
 
   const lcpHeaders = [
     { title: '', key: 'data-table-expand', width: '0' },
-    { title: t('mainMenu.titles.lcp'), key: 'title' },
-    { title: t('mainMenu.titles.collection'), key: 'collection' },
+    { title: t('common.lcp'), key: 'title' },
+    { title: t('common.collection'), key: 'collection' },
     { title: 'v3', value: 'v3' },
     {
-      title: t('mainMenu.titles.latestVersion'),
+      title: t('common.latestVersion'),
       key: 'remote_version',
       align: 'center',
       sortable: false,
     },
     {
-      title: t('nav.titles.installedVersion'),
+      title: t('common.installedVersion'),
       key: 'local_version',
       align: 'center',
       sortable: false,
     },
-    { title: t('mainMenu.titles.autoUpdate'), key: 'auto', align: 'center', sortable: false },
+    {
+      title: t('mainMenu.massifLcpTable.autoUpdate'),
+      key: 'auto',
+      align: 'center',
+      sortable: false,
+    },
     { title: '', key: 'actions', align: 'end', sortable: false, width: '120px' },
   ]
 </script>

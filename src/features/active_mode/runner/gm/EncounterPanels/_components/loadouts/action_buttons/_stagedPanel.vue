@@ -1,7 +1,7 @@
 <template>
   <div class="py-3 px-6">
     <div class="text-cc-overline bg-panel">
-      <span class="text-disabled">&nbsp;{{ $t('active.cards.staged') }}</span>
+      <span class="text-disabled">&nbsp;// {{ $t('ui.combat.staged') }}</span>
     </div>
     <div
       class="bg-background pb-1"

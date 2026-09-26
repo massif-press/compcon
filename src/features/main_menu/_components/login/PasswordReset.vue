@@ -14,7 +14,7 @@
       >
         <cc-text-field
           v-model="email"
-          :label="$t('mainMenu.fields.emailAddress')"
+          :label="$t('mainMenu.login.emailAddress')"
           color="primary"
         />
       </v-col>
@@ -51,7 +51,7 @@
             <cc-text-field
               v-model="code"
               color="primary"
-              :label="$t('mainMenu.fields.passwordResetCode')"
+              :label="$t('mainMenu.login.passwordResetCode')"
             />
           </v-col>
           <v-col
@@ -61,7 +61,7 @@
             <cc-text-field
               v-model="newPass"
               color="primary"
-              :label="$t('mainMenu.fields.newPassword')"
+              :label="$t('mainMenu.shared.newPassword')"
               :append-inner-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
               :type="show ? 'text' : 'password'"
               :rules="[rules.passLength]"
@@ -189,7 +189,7 @@
         notify({
           icon: 'mdi-check',
           color: 'success',
-          title: t('notify.common.success'),
+          title: t('common.success'),
           text: t('mainMenu.auth.passwordChangedText'),
         })
         emit('set-state', 'sign-in')

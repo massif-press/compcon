@@ -1,13 +1,13 @@
 <template>
   <v-col v-if="event.Targets && !event.IsSelfOnly">
     <div class="text-cc-overline text-disabled">
-      <span>{{ `Target${event.AoE ? 's' : ''}` }}</span>
+      <span>{{ event.AoE ? $t('ui.combat.targets') : $t('ui.combat.target') }}</span>
     </div>
     <v-select
       v-for="idx in event.Targets.length"
       :key="event.Targets?.[idx - 1]?.Combatant?.id || `empty-selector-${idx}`"
       :value="event.Targets?.[idx - 1]?.Combatant?.Label"
-      :placeholder="$t('ui.fields.selectTarget')"
+      :placeholder="$t('common.selectTarget')"
       density="compact"
       variant="outlined"
       return-object
@@ -140,7 +140,7 @@
   function sideLabel(side: string): string {
     if (side === 'ally') return t('ui.combat.sideAlly')
     if (side === 'enemy') return t('ui.combat.sideEnemy')
-    return t('ui.combat.sideNeutral')
+    return t('common.sideNeutral')
   }
 
   function targetIcon(combatant: CombatantData): string {

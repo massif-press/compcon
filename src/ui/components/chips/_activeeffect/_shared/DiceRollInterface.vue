@@ -101,7 +101,7 @@
             class="mt-1"
             @click="reset()"
           >
-            {{ $t('common.reset') }}
+            {{ $t('common.resetAction') }}
           </v-btn>
 
           <v-btn
@@ -113,7 +113,7 @@
             block
             @click="rollDamage()"
           >
-            {{ $t('common.roll_verb') }}
+            {{ $t('common.rollVerb') }}
           </v-btn>
           <div class="pa-2 text-left text-cc-overline text-accent">
             <span class="text-lowercase">{{ $t('active.skillCheck.rollResults') }}</span>

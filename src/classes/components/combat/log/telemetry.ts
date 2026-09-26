@@ -282,7 +282,7 @@ function pad(label: string, value: string, width: number): string {
   return `${label}${' '.repeat(gap)}${value}`
 }
 
-type Translate = (key: string, params?: Record<string, unknown>) => string
+type Translate = (key: string, params?: Record<string, unknown>, plural?: number) => string
 
 function formatRollup(r: IEncounterRollup, t: Translate, width = 40): string {
   const k = (name: string, params?: Record<string, unknown>) =>

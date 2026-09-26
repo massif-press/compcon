@@ -20,7 +20,7 @@
             <v-select
               v-model="groupBy"
               :items="groupByItems"
-              :label="$t('gm.fields.groupBy')"
+              :label="$t('common.groupBy')"
               density="compact"
               variant="outlined"
               class="mb-2"
@@ -29,7 +29,7 @@
             <v-select
               v-model="folder"
               :items="folderItems"
-              :label="$t('active.gmTelemetry.folder')"
+              :label="$t('common.folder')"
               density="compact"
               variant="outlined"
               class="mb-2"
@@ -38,7 +38,7 @@
             <v-select
               v-model="label"
               :items="labelItems"
-              :label="$t('active.gmTelemetry.label')"
+              :label="$t('common.label')"
               density="compact"
               variant="outlined"
               class="mb-2"
@@ -47,7 +47,7 @@
             <v-select
               v-model="campaign"
               :items="campaignItems"
-              :label="$t('active.gmTelemetry.campaign')"
+              :label="$t('common.campaign')"
               density="compact"
               variant="outlined"
               class="mb-2"
@@ -60,7 +60,7 @@
             <v-select
               v-model="focusIds"
               :items="focusItems"
-              :label="$t('active.charts.selectEncounter')"
+              :label="$t('common.encounter')"
               density="compact"
               variant="outlined"
               multiple
@@ -115,7 +115,7 @@
                         :disabled="!deleteIds.length"
                         v-bind="props"
                       >
-                        {{ $t('active.gmTelemetry.deleteSelected', { count: deleteIds.length }) }}
+                        {{ $t('mainMenu.dataItem.deleteSelected', { count: deleteIds.length }) }}
                       </v-btn>
                     </template>
                     <cc-confirmation
@@ -150,7 +150,7 @@
                 prepend-icon="mdi-arrow-left"
                 to="/active-mode"
               >
-                {{ $t('common.back') }}
+                {{ $t('common.backAction') }}
               </v-btn>
             </div>
           </template>
@@ -267,7 +267,7 @@
   )
 
   const groupByItems = [
-    { value: 'class', title: t('active.gmTelemetry.byClass') },
+    { value: 'class', title: t('gm.npcBuilder.npcClass') },
     { value: 'template', title: t('active.gmTelemetry.byTemplate') },
     { value: 'origin', title: t('active.gmTelemetry.byRosterEntry') },
     { value: 'actor', title: t('active.gmTelemetry.byCombatant') },

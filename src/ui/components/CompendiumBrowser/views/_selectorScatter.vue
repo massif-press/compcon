@@ -35,7 +35,7 @@
         <v-select
           v-model="xAxis"
           :items="axes"
-          :label="$t('ui.fields.xAxis')"
+          :label="$t('ui.selectorScatter.xAxis')"
           variant="outlined"
           return-object
           density="compact"
@@ -49,7 +49,7 @@
         <v-select
           v-model="yAxis"
           :items="axes"
-          :label="$t('ui.fields.yAxis')"
+          :label="$t('ui.selectorScatter.yAxis')"
           variant="outlined"
           return-object
           density="compact"
@@ -149,7 +149,7 @@
       {
         data: collateData(itemMap.value),
         backgroundColor: '#991E2A',
-        label: t('ui.fields.allItems'),
+        label: t('ui.selectorScatter.allItems'),
       },
     ] as any[]
 

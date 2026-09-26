@@ -27,11 +27,11 @@
               row
             >
               <v-radio
-                :label="$t('active.fields.coolYourMechClearingAll')"
+                :label="$t('active.stabilizeButton.stabilizeCoolMechOption')"
                 value="cool"
               />
               <v-radio
-                :label="$t('active.fields.mark1RepairToRestore')"
+                :label="$t('active.stabilizeButton.mark1RepairToRestore')"
                 value="repair"
               />
             </v-radio-group>
@@ -47,22 +47,22 @@
             >
               <v-radio
                 class="mt-1"
-                :label="$t('active.fields.reloadAllLoadedWeapons')"
+                :label="$t('active.stabilizeButton.reloadAllLoadedWeapons')"
                 value="reload"
               />
               <v-radio
                 class="mt-1"
-                :label="$t('active.fields.clearAnyBurnCurrentlyAffecting')"
+                :label="$t('active.stabilizeButton.clearAnyBurnCurrentlyAffecting')"
                 value="clear_burn"
               />
               <v-radio
                 class="mt-1"
-                :label="$t('active.fields.clearAConditionThatWasnt')"
+                :label="$t('active.stabilizeButton.clearAConditionThatWasnt')"
                 value="clear_self"
               />
               <v-radio
                 class="mt-1"
-                :label="$t('active.fields.clearAnAdjacentAlliedCharacters')"
+                :label="$t('active.stabilizeButton.stabilizeClearAllyConditionOption')"
                 value="clear_ally"
               />
             </v-radio-group>
@@ -85,7 +85,7 @@
           </v-col>
           <v-col>
             <div class="text-cc-overline text-disabled">
-              {{ $t('active.common.condition_status') }}
+              {{ $t('active.common.conditionStatus') }}
             </div>
             <v-select
               v-model="clearSelfCondition"
@@ -115,7 +115,7 @@
           </v-col>
           <v-col>
             <div class="text-cc-overline text-disabled">
-              {{ $t('active.common.condition_status') }}
+              {{ $t('active.common.conditionStatus') }}
             </div>
             <v-select
               v-model="clearAlliedCondition"

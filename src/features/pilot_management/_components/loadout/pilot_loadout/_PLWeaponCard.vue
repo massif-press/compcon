@@ -75,7 +75,7 @@
             <span class="text-cc-overline">
               {{ $t('pm.loadout.gmsArmoryPrintid') }}: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
               <span class="text-success text--darken-1">
-                {{ $t('pm.loadout.pilotMATERIELREGISTRATIONVERIFIED') }}
+                [ {{ $t('pm.loadout.pilotMaterielVerified') }} ]
               </span>
             </span>
             <br />
@@ -87,12 +87,12 @@
               class="flavor-text text-cc-overline mt-n1"
               style="display: block"
             >
-              {{ $t('pm.loadout.currentlyEQUIPPED') }}
+              {{ $t('pm.loadout.currentlyEquipped') }}
             </div>
           </div>
           <div v-else>
             <span class="text-text-cc-overline">
-              {{ $t('pm.loadout.gmsARMORYEQUIPMENTAUTHORIZATIONPILOTPERSONAL2') }}
+              {{ $t('pm.loadout.pilotWeaponAuthorizationHeading') }}
             </span>
             <br />
             <span
@@ -105,7 +105,7 @@
               class="flavor-text text-cc-overline mt-n1 text-error"
               style="display: block"
             >
-              {{ $t('pm.loadout.materielIDINVALIDORMISSING') }}
+              [ {{ $t('pm.loadout.pilotMaterielInvalid') }} ]
             </span>
           </div>
         </template>
@@ -145,12 +145,12 @@
   const base = ref<InstanceType<typeof PlCardBase> | null>(null)
 
   const headers = ref([
-    { title: t('pm.titles.contentPack'), key: 'LcpName' },
+    { title: t('common.contentPack'), key: 'LcpName' },
     { title: t('common.type'), key: 'Type' },
     { title: t('common.item'), key: 'Name' },
-    { title: t('pm.titles.range'), key: 'Range' },
-    { title: t('pm.titles.damage'), key: 'Damage' },
-    { title: t('pm.titles.tags'), align: 'center', key: 'Tags' },
+    { title: t('stats.range'), key: 'Range' },
+    { title: t('common.damage'), key: 'Damage' },
+    { title: t('common.tags'), align: 'center', key: 'Tags' },
   ])
 
   const options = ref({

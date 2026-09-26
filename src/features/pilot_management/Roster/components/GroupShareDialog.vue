@@ -17,7 +17,7 @@
         class="my-1"
         :loading="dlLoading"
         :disabled="isUserOwned"
-        :tooltip="$t('pm.tooltips.addingThisItemAsA')"
+        :tooltip="$t('ui.remote.addRemoteResourceInfo')"
         @click="downloadAsRemote()"
       >
         {{ $t('share.addAsRemote') }}

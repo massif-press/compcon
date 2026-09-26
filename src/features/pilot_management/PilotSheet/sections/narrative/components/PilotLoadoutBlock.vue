@@ -1,6 +1,6 @@
 <template>
   <div class="pb-3">
-    <section-header :title="$t('pm.titles.gearLoadout')" />
+    <section-header :title="$t('pm.pilotSheet.gearLoadout')" />
     <CCPilotLoadout
       :pilot="pilot"
       :readonly="pilot.IsRemote"

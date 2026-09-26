@@ -5,7 +5,7 @@
   >
     <v-col>
       <cc-titled-panel
-        :title="$t('pm.titles.newProject')"
+        :title="$t('pm.downtimeProjectPanel.newProject')"
         icon="mdi-atom-variant"
         color="reserve"
       >
@@ -17,7 +17,7 @@
             <v-text-field
               v-model="projectName"
               color="accent"
-              :label="$t('pm.fields.projectName')"
+              :label="$t('pm.downtimeProjectPanel.projectName')"
               variant="outlined"
               hide-details
             />
@@ -37,7 +37,7 @@
                   inset
                   hide-details
                   color="secondary"
-                  :tooltip="$t('pm.tooltips.thisProjectIsComplexResourceintensive')"
+                  :tooltip="$t('pm.downtimeProjectPanel.complexProjectHint')"
                   top-label="Complicated"
                   class="mr-3"
                 />
@@ -52,7 +52,9 @@
                   inset
                   hide-details
                   top-label="Finished"
-                  :tooltip="$t('pm.tooltips.thisProjectIsCompleteAndAvailableToUseAsAReserve')"
+                  :tooltip="
+                    $t('pm.downtimeProjectPanel.thisProjectIsCompleteAndAvailableToUseAsAReserve')
+                  "
                   color="secondary"
                 />
               </v-col>
@@ -71,7 +73,7 @@
         />
         <v-combobox
           v-model="costs"
-          :label="$t('pm.fields.requirements')"
+          :label="$t('pm.downtimeProjectPanel.requirements')"
           :items="projectCosts"
           chips
           multiple
@@ -91,7 +93,7 @@
           @click="add()"
         >
           <v-icon start>mdi-plus</v-icon>
-          {{ $t('pm.titles.addProject') }}
+          {{ $t('pm.selectors.addProject') }}
         </v-btn>
       </cc-titled-panel>
     </v-col>
@@ -127,7 +129,7 @@
       id: 'reserve_project',
       type: 'Project',
       name: `${projectName.value} ${finished.value ? '' : ' (In Progress)'}`,
-      label: t('pm.fields.project'),
+      label: t('pm.downtimeProjectPanel.project'),
       description: '',
       complicated: complicated.value,
       can_finish: false,

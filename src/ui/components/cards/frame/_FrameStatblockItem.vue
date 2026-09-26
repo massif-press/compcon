@@ -86,14 +86,14 @@
     HP: 'stats.hp',
     Armor: 'stats.armor',
     Stress: 'stats.stress',
-    'Heat Capacity': 'ui.titles.heatCapacity',
+    'Heat Capacity': 'common.heatCapacity',
     Evasion: 'stats.evasion',
     Speed: 'stats.speed',
     'E-Defense': 'stats.edefense',
-    'Tech Attack': 'common.techAttack',
+    'Tech Attack': 'stats.techAttack',
     Sensors: 'stats.sensors',
-    'Repair Capacity': 'active.titles.repairCapacity',
-    'Save Target': 'active.titles.saveTarget',
+    'Repair Capacity': 'common.repairCapacity',
+    'Save Target': 'common.saveTarget',
     'System Points': 'common.systemPoints',
   }
 

@@ -11,7 +11,7 @@
       :large="context === 'level'"
       offset
     >
-      {{ context === 'new' ? $t('common.pilotTalents') : $t('pm.shared.addCOREBonus') }}&emsp;
+      {{ context === 'new' ? $t('common.pilotTalents') : $t('pm.shared.addCoreBonus') }}&emsp;
     </cc-title>
 
     <div
@@ -22,7 +22,7 @@
         v-if="context === 'new'"
         class="heading h2"
       >
-        {{ $t('pm.new.uadIDENTService') }}
+        {{ $t('pm.new.identServiceName') }}
         <cc-slashes />
         &nbsp;{{ $t('pm.shared.rm4cS2CoreModification') }}
       </div>
@@ -32,7 +32,7 @@
       >
         {{ $t('pm.level.mv2LicenseAcquisitionRequest') }}
         <cc-slashes />
-        &nbsp;{{ $t('pm.shared.mv2ACORESupplemental') }}
+        &nbsp;{{ $t('pm.shared.coreSupplementalFormTitle') }}
       </div>
 
       <p
@@ -40,7 +40,7 @@
         class="flavor-text px-6"
         style="font-size: 14px"
       >
-        {{ $t('pm.shared.theRM4SupplementalIICore') }}
+        {{ $t('pm.shared.coreSupplementalIntro') }}
       </p>
       <p
         v-else
@@ -60,16 +60,12 @@
         <div class="heading">
           {{
             context === 'new'
-              ? $t('pm.shared.selectCoreBonusesN', {
-                  word,
-                  count,
-                  item: count > 1 ? $t('pm.shared.bonusesWord') : $t('common.bonus'),
-                })
+              ? $t('pm.shared.selectCoreBonusesN', { word, count }, count)
               : $t('pm.shared.selectACoreBonus')
           }}
         </div>
         <p class="text-cc-overline">
-          {{ $t('pm.shared.theUnionLicensingAuthorityAndThe') }}
+          {{ $t('pm.shared.licensingDisclaimer') }}
         </p>
       </v-alert>
     </div>
@@ -92,7 +88,7 @@
         >
           <v-card-text class="flavor-text text-center py-5 px-3">
             <span class="heading h2 text-disabled">
-              {{ $t('pm.shared.pilotINELIGIBLEFORCOREBONUS') }}
+              {{ $t('pm.shared.coreBonusIneligible') }}
             </span>
             <br />
             <span class="text-disabled">

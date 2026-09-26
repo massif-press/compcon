@@ -61,7 +61,7 @@
               v-model="grouping"
               :items="groupings"
               small
-              :label="$t('gm.fields.group')"
+              :label="$t('common.group')"
               class="mr-1"
             />
           </v-col>
@@ -70,7 +70,7 @@
               v-model="sorting"
               :items="sortings"
               small
-              :label="$t('gm.fields.sort')"
+              :label="$t('common.sortOrder')"
               class="ml-1"
             />
           </v-col>
@@ -108,7 +108,7 @@
           v-if="hidden"
           class="text-right pa-2 text-disabled"
         >
-          <i>{{ $t('gm.split.itemsHidden', { n: hidden }) }}</i>
+          <i>{{ $t('gm.split.itemsHidden', { n: hidden }, hidden) }}</i>
         </div>
 
         <div class="my-12" />

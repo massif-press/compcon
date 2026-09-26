@@ -68,7 +68,7 @@
   <cc-dialog
     v-model="managerDialog"
     icon="mdi-list-status"
-    :title="$t('pm.titles.lcpConfigurationManager')"
+    :title="$t('pm.pilotSheet.lcpConfigurationManager')"
     fullscreen
     :close-on-click="false"
     major

@@ -26,7 +26,7 @@
           v-else
           class="text-disabled ml-1"
         >
-          {{ $t('active.runnerHeader.never') }}
+          {{ $t('common.never') }}
         </i>
       </v-col>
       <v-col cols="auto">

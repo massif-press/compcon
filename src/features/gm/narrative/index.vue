@@ -17,7 +17,7 @@
       :key="itemType"
       selected-class="bg-accent"
     >
-      <b>{{ $t('gm.narrative.itemTypePlural', { type: itemType }) }}</b>
+      <b>{{ $t(`gm.narrative.collectionTitle.${itemType.toLowerCase()}`) }}</b>
     </v-tab>
   </v-tabs>
 
@@ -41,7 +41,7 @@
   <cc-dialog
     v-model="importModal"
     icon="mdi-download-multiple"
-    :title="$t('common.import')"
+    :title="$t('common.importAction')"
     :close-on-click="false"
     major
     max-width="90vw"

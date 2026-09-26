@@ -39,10 +39,10 @@
   })
   const headers = computed(() => {
     const h = [
-      { title: t('compendium.titles.contentPack'), key: 'LcpName' },
-      { title: t('compendium.titles.origin'), key: 'Origin' },
+      { title: t('common.contentPack'), key: 'LcpName' },
+      { title: t('common.origin'), key: 'Origin' },
       { title: 'Name', key: 'Name' },
-      { title: t('compendium.titles.tags'), key: 'Tags' },
+      { title: t('common.tags'), key: 'Tags' },
     ] as any[]
     return h
   })

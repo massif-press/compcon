@@ -18,8 +18,8 @@
       <v-toolbar-title>
         <cc-heading
           is-title
-          :text="$t('mainMenu.actions.syncSettings')"
-          :tooltip="$t('mainMenu.tooltips.theseOptionsControlHowAnd')"
+          :text="$t('mainMenu.syncSettings.syncSettings')"
+          :tooltip="$t('mainMenu.syncSettings.syncSettingsHelp')"
         />
       </v-toolbar-title>
     </v-toolbar>
@@ -34,13 +34,11 @@
           cols="12"
           md="6"
         >
-          <div class="text-cc-overline text-disabled">
-            // {{ $t('ui.action.frequency_action') }}
-          </div>
+          <div class="text-cc-overline text-disabled">// {{ $t('ui.action.frequency') }}</div>
           <cc-select
             v-model="settings.frequency"
             :items="syncOptions"
-            :tooltip="$t('mainMenu.tooltips.controlsHowOftenYourData')"
+            :tooltip="$t('mainMenu.syncSettings.syncFrequencyHelp')"
           />
         </v-col>
         <v-col
@@ -86,12 +84,12 @@
             multiple
             clearable
             chip-variant="tonal"
-            :label="$t('mainMenu.fields.itemTypes')"
+            :label="$t('mainMenu.syncSettings.itemTypes')"
             all-text="All Item Types"
             none-text="None"
             select-all
             :max="$vuetify.display.lgAndUp ? 3 : 2"
-            :tooltip="$t('mainMenu.tooltips.controlsWhichDataTypesAre')"
+            :tooltip="$t('mainMenu.syncSettings.syncDataTypesHelp')"
             :items="syncItems"
           />
         </v-col>
@@ -153,19 +151,19 @@
           </div>
           <v-divider />
           <v-list-item
-            :title="$t('mainMenu.titles.forceUpload')"
-            :subtitle="$t('mainMenu.subtitles.pushesAllLocalDataTo')"
+            :title="$t('mainMenu.account.forceUpload')"
+            :subtitle="$t('mainMenu.syncSettings.forcePushAllDescription')"
             @click="runSync('upload')"
           />
           <v-list-item
-            :title="$t('mainMenu.titles.forceDownload')"
-            :subtitle="$t('mainMenu.subtitles.pullsAllCloudDataAnd')"
+            :title="$t('mainMenu.account.forceDownload')"
+            :subtitle="$t('mainMenu.syncSettings.pullAllDescription')"
             @click="runSync('download')"
           />
           <v-divider />
           <v-list-item
-            :title="$t('mainMenu.titles.removeDeletedItems')"
-            :subtitle="$t('mainMenu.subtitles.permanentlyRemovesItemsFlaggedFor')"
+            :title="$t('mainMenu.syncSettings.removeDeletedItems')"
+            :subtitle="$t('mainMenu.syncSettings.permanentlyRemovesItemsFlaggedFor')"
             @click="permDeleteSync()"
           />
         </v-list>
@@ -183,7 +181,7 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  const { t } = useI18n()
+  const { t, te } = useI18n()
   import { computed, ref, watch } from 'vue'
   import { notify } from '@/util/notify'
   import { UserStore } from '@/stores'
@@ -205,13 +203,21 @@
   })
   const syncCountLabel = computed(() => {
     const items = UserStore().AllItemsToSync
-    if (!items.length) return '0 items'
+    if (!items.length) return t('enums.syncItemCount.item', { n: 0 }, 0)
     const counts: Record<string, number> = {}
     for (const item of items) {
-      const t = item.ItemType?.toLowerCase() ?? 'item'
-      counts[t] = (counts[t] ?? 0) + 1
+      const type = item.ItemType?.toLowerCase() ?? 'item'
+      counts[type] = (counts[type] ?? 0) + 1
     }
-    const parts = Object.entries(counts).map(([t, n]) => `${n} ${t}${n > 1 ? 's' : ''}`)
+    const parts = Object.entries(counts).map(([type, n]) =>
+      t(
+        te(`enums.syncItemCount.${type}`)
+          ? `enums.syncItemCount.${type}`
+          : 'enums.syncItemCount.item',
+        { n },
+        n
+      )
+    )
     return parts.join(' · ')
   })
   const lastSyncTime = computed(() => {
@@ -234,36 +240,36 @@
   const syncOptions = computed(() => {
     return [
       {
-        title: t('mainMenu.titles.manualOnly'),
+        title: t('mainMenu.account.manualOnly'),
         value: 'manual',
-        subtitle: t('mainMenu.subtitles.dataIsOnlySyncedWhenYou'),
+        subtitle: t('mainMenu.syncSettings.dataIsOnlySyncedWhenYou'),
       },
       {
-        title: t('mainMenu.titles.onOpenClose'),
+        title: t('mainMenu.syncSettings.onOpenClose'),
         value: 'startAndClose',
-        subtitle: t('mainMenu.subtitles.syncsWhenYouOpenAndClose'),
+        subtitle: t('mainMenu.syncSettings.syncOnOpenCloseDescription'),
       },
       {
-        title: t('mainMenu.titles.every30Minutes'),
+        title: t('mainMenu.syncSettings.every30Minutes'),
         value: 'minutes_30',
-        subtitle: t('mainMenu.subtitles.syncsAutomaticallyEvery30MinutesRequires'),
+        subtitle: t('mainMenu.syncSettings.syncsAutomaticallyEvery30MinutesRequires'),
         disabled: patreonTier.value < 1,
       },
       {
-        title: t('mainMenu.titles.every60Minutes'),
+        title: t('mainMenu.syncSettings.every60Minutes'),
         value: 'minutes_60',
-        subtitle: t('mainMenu.subtitles.syncsAutomaticallyEvery60MinutesRequires'),
+        subtitle: t('mainMenu.syncSettings.syncsAutomaticallyEvery60MinutesRequires'),
         disabled: patreonTier.value < 1,
       },
     ]
   })
   const syncItems = computed(() => {
     return [
-      { title: t('mainMenu.titles.pilotData'), value: 'pilot' },
-      { title: t('mainMenu.titles.pilotGroups'), value: 'pilotgroup' },
-      { title: t('mainMenu.titles.npcData'), value: 'npc' },
-      { title: t('mainMenu.titles.encounterData'), value: 'encounter' },
-      { title: t('mainMenu.titles.narrativeData'), value: 'collectionitem' },
+      { title: t('mainMenu.syncSettings.pilotData'), value: 'pilot' },
+      { title: t('mainMenu.account.pilotGroups'), value: 'pilotgroup' },
+      { title: t('mainMenu.syncSettings.npcData'), value: 'npc' },
+      { title: t('common.encounterData'), value: 'encounter' },
+      { title: t('mainMenu.syncSettings.narrativeData'), value: 'collectionitem' },
     ]
   })
   const itemTypePreset = computed(() => {

@@ -39,13 +39,15 @@
     >
       <v-list-item
         :title="$t('pm.roster.setGroup')"
-        :subtitle="$t('pm.subtitles.setPilotGroup')"
+        :subtitle="$t('pm.roster.setPilotGroup')"
         prepend-icon="mdi-account-group"
         :disabled="!selected.length"
         @click="openSetGroup(selected)"
       />
       <v-list-item
-        :title="selected.length < 2 ? $t('common.export') : $t('ui.organizer.exportCollection')"
+        :title="
+          selected.length < 2 ? $t('common.exportAction') : $t('ui.organizer.exportCollection')
+        "
         :subtitle="
           selected.length < 2 ? $t('ui.organizer.exportItemJson') : $t('ui.organizer.exportPackage')
         "
@@ -66,7 +68,9 @@
       />
       <v-list-item
         v-if="showDeleted"
-        :title="selected.length < 2 ? $t('common.restore') : $t('ui.organizer.restoreMultiple')"
+        :title="
+          selected.length < 2 ? $t('common.restoreAction') : $t('ui.organizer.restoreMultiple')
+        "
         :subtitle="
           selected.length < 2
             ? $t('ui.organizer.unmarkDeleted')
@@ -149,7 +153,7 @@
               color="accent"
               @click="setGroup()"
             >
-              {{ $t('common.set') }}
+              {{ $t('common.setAction') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -181,10 +185,10 @@
   const headers = computed(() => [
     { title: 'Name', key: 'Name', sortable: true },
     { title: t('common.callsign'), key: 'Callsign', sortable: true },
-    { title: t('pm.titles.ll'), key: 'Level', sortable: true },
+    { title: t('pm.sheet.ll'), key: 'Level', sortable: true },
     { title: t('common.mech'), key: 'Mech', sortable: true },
     {
-      title: t('pm.titles.group'),
+      title: t('common.group'),
       key: 'group',
       sortable: true,
       value: (item: any) => getPilotGroup(item),

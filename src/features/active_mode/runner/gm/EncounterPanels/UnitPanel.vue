@@ -81,7 +81,7 @@
     return [
       {
         key: 'overwatch',
-        label: t('active.actions.overwatch'),
+        label: t('active.runner.overwatch'),
         active: cc.Overwatch,
         reason: cc.BlockedReasonFor('overwatch'),
         toggle: () => cc.SetOverwatch(!cc.Overwatch),

@@ -77,7 +77,7 @@
                 <v-checkbox
                   v-model="showDeleted"
                   density="compact"
-                  :label="$t('ui.fields.showDeleted')"
+                  :label="$t('ui.organizer.showDeleted')"
                   @update:model-value="$emit('update:showDeleted', $event)"
                 />
               </v-col>

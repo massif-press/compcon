@@ -5,11 +5,11 @@ import { fromEventStatus } from './outcome'
 import type { OutcomeKind } from './outcome'
 import type { IActorRef, ILogEvent, ILogStream, LogEventKind } from './events'
 
-type Translate = (key: string, params?: Record<string, unknown>) => string
+type Translate = (key: string, params?: Record<string, unknown>, plural?: number) => string
 type StreamContext = Pick<ILogStream, 'participants'>
 
 function key(kind: LogEventKind, suffix = ''): string {
-  return `active.log.${LOG_EVENT_KEYS[kind]}${suffix}`
+  return `combat.log.${LOG_EVENT_KEYS[kind]}${suffix}`
 }
 
 function annotate(base: string, notes: string[]): string {
@@ -18,10 +18,10 @@ function annotate(base: string, notes: string[]): string {
 
 function withDamageNotes(base: string, p: any, t: Translate): string {
   const notes: string[] = []
-  if (p.armorReduced) notes.push(t('active.log.armorReduced', { n: p.armorReduced }))
-  p.resisted?.forEach((r: string) => notes.push(t(`active.log.resist.${r}`)))
-  p.conditions?.forEach((c: string) => notes.push(t(`active.log.condition.${c}`)))
-  if (p.overkillHeat) notes.push(t('active.log.overkill', { n: p.overkillHeat }))
+  if (p.armorReduced) notes.push(t('combat.log.armorReduced', { n: p.armorReduced }))
+  p.resisted?.forEach((r: string) => notes.push(t(`combat.log.resist.${r}`)))
+  p.conditions?.forEach((c: string) => notes.push(t(`combat.log.condition.${c}`)))
+  if (p.overkillHeat) notes.push(t('combat.log.overkill', { n: p.overkillHeat }))
   return annotate(base, notes)
 }
 
@@ -57,8 +57,8 @@ function actorName(actor: IActorRef): string {
 
 function actorTag(actor: IActorRef, t: Translate): string {
   const parts: string[] = []
-  if (actor.side) parts.push(t(`active.log.side.${actor.side}`))
-  if (actor.type && actor.type !== 'unknown') parts.push(t(`active.log.type.${actor.type}`))
+  if (actor.side) parts.push(t(`combat.log.side.${actor.side}`))
+  if (actor.type && actor.type !== 'unknown') parts.push(t(`combat.log.type.${actor.type}`))
   return parts.length ? `[${parts.join(' ')}] ` : ''
 }
 
@@ -71,7 +71,7 @@ export function renderEvent(
   const body = renderBody(event, stream, t)
   if (!body || UNTAGGED.has(event.kind)) return body
   const targetId = (event.payload as any).targetId
-  if (targetId && targetId === event.actorId) return `[${t('active.log.self')}] ${body}`
+  if (targetId && targetId === event.actorId) return `[${t('combat.log.self')}] ${body}`
   const actor = resolveActor(stream, event.actorId)
   if (viewerId && (actor.id === viewerId || actor.originId === viewerId)) return body
   return actorTag(actor, t) + body
@@ -87,13 +87,13 @@ function renderBody(event: ILogEvent, stream: StreamContext, t: Translate): stri
     case 'encounter.start':
       return t(key(event.kind), { name: p.name })
     case 'encounter.end':
-      return t(key(event.kind), { result: p.result, rounds: p.rounds })
+      return t(key(event.kind), { result: p.result, rounds: p.rounds }, p.rounds)
     case 'round.start':
     case 'round.end':
       return t(key(event.kind), { round: p.round })
     case 'turn.start':
     case 'turn.end':
-      return t(key(event.kind), { who, n: p.activationsRemaining })
+      return t(key(event.kind), { who, n: p.activationsRemaining }, p.activationsRemaining)
 
     case 'action':
       return t(key(event.kind, p.free ? 'Free' : p.activation ? '' : 'Plain'), {
@@ -110,11 +110,11 @@ function renderBody(event: ILogEvent, stream: StreamContext, t: Translate): stri
         roll: p.rolled ?? p.roll?.total ?? 0,
         defense: p.defense,
         defenseValue: p.defenseValue,
-        result: t(`active.log.hit.${p.result}`),
+        result: p.result ? t(`combat.log.hit.${p.result}`) : '',
       })
       const notes: string[] = []
-      if (p.overridden) notes.push(t('active.log.attackOverridden'))
-      if (p.missedFromInvisibility) notes.push(t('active.log.attackInvisible'))
+      if (p.overridden) notes.push(t('combat.log.attackOverridden'))
+      if (p.missedFromInvisibility) notes.push(t('combat.log.attackInvisible'))
       return annotate(base, notes)
     }
 
@@ -135,7 +135,7 @@ function renderBody(event: ILogEvent, stream: StreamContext, t: Translate): stri
         return t(key(event.kind, 'Cleared'), {
           who,
           n: p.amount,
-          reason: t(`active.log.heatReason.${p.reason ?? 'manual'}`),
+          reason: t(`combat.log.heatReason.${p.reason ?? 'manual'}`),
         })
       return t(key(event.kind, p.dangerZone ? 'DangerZone' : ''), { who, n: p.amount })
 
@@ -219,7 +219,7 @@ function renderBody(event: ILogEvent, stream: StreamContext, t: Translate): stri
     case 'mech.status':
     case 'npc.status': {
       const base = t(key(event.kind), { who, status: statusLabel(event.kind, p.to, t) })
-      return p.manual ? annotate(base, [t('active.log.statusManual')]) : base
+      return p.manual ? annotate(base, [t('combat.log.statusManual')]) : base
     }
 
     case 'repair':
@@ -236,7 +236,11 @@ function renderBody(event: ILogEvent, stream: StreamContext, t: Translate): stri
         roll: p.roll,
       })
     case 'meltdown':
-      return t(`active.log.meltdown.${p.state}`, { who, turns: p.turns, round: p.round })
+      return t(
+        `combat.log.meltdown.${p.state}`,
+        { who, turns: p.turns, round: p.round },
+        p.turns ?? 1
+      )
     case 'core.power':
     case 'ai.control':
       return t(key(event.kind, p.active ? '' : 'Off'), { who })
@@ -245,14 +249,14 @@ function renderBody(event: ILogEvent, stream: StreamContext, t: Translate): stri
     case 'cover':
       return t(key(event.kind), { who, cover: p.cover })
     case 'carry':
-      return t(`active.log.carry.${p.mode}`, { who })
+      return t(`combat.log.carry.${p.mode}`, { who })
     case 'prepare':
       return t(key(event.kind, p.prepared ? '' : 'Release'), { who })
     case 'blocked':
       return t(key(event.kind, p.overridden ? 'Overridden' : p.action?.name ? '' : 'NoAction'), {
         who,
         action: p.action?.name ?? '',
-        reason: t(`active.log.blockedReason.${p.reason}`),
+        reason: t(`combat.log.blockedReason.${p.reason}`),
       })
 
     case 'prompt':
@@ -443,12 +447,12 @@ function renderEntry(
   arranged.forEach((event, index) => {
     const p = event.payload as any
     if (parts.length && isHitDamage(event, arranged[index - 1])) {
-      const clause = t('active.log.clause.damage', { amount: p.final, type: p.damageType })
+      const clause = t('combat.log.clause.damage', { amount: p.final, type: p.damageType })
       parts[parts.length - 1] += ` ${withDamageNotes(clause, p, t)}`
       return
     }
     if (parts.length && isFollowUpKill(event, arranged[index - 1])) {
-      parts[parts.length - 1] += ` ${t('active.log.clause.kill')}`
+      parts[parts.length - 1] += ` - ${t('combat.log.clause.kill')}`
       return
     }
     const line =

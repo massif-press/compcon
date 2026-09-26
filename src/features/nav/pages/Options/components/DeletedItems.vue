@@ -40,7 +40,7 @@
               size="small"
               @click="item.SaveController.Restore()"
             >
-              {{ $t('common.restore') }}
+              {{ $t('common.restoreAction') }}
             </v-btn>
           </td>
           <td class="text-right">

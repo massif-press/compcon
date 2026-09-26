@@ -7,7 +7,7 @@
           color="error"
           icon="mdi-alert"
           variant="outlined"
-          :title="$t('active.titles.youHaveRemainingActions')"
+          :title="$t('active.pcEndRound.youHaveRemainingActions')"
         >
           <v-row
             class="my-1 mx-4 px-2 text-text bg-panel"
@@ -31,14 +31,16 @@
           :title="$t('active.pcEndRound.movementRemainingTitle')"
         >
           <div class="heading text-center">
-            {{ $t('active.pcEndRound.movementRemaining', { n: remainingMovement }) }}
+            {{
+              $t('active.pcEndRound.movementRemaining', { n: remainingMovement }, remainingMovement)
+            }}
           </div>
         </cc-alert>
 
         <div v-if="nextRoundAlerts">
           <v-divider class="my-4" />
 
-          <div class="text-cc-overline mt-2">{{ $t('active.pcEndRound.nextRound') }}:</div>
+          <div class="text-cc-overline mt-2">{{ $t('enums.duration.next_round') }}:</div>
           <div class="my-1">
             <div class="mx-4 px-2 text-text bg-panel">
               <b class="text-secondary">{{ controller.CombatName }}</b>
@@ -107,7 +109,7 @@
               scope="global"
             >
               <template #braced>
-                <b class="text-accent">{{ $t('active.actions.braced') }}</b>
+                <b class="text-accent">{{ $t('active.runner.braced') }}</b>
               </template>
               <template #cooldown>
                 <b class="text-warning">{{ $t('active.pcEndRound.braceCooldown') }}</b>
@@ -122,7 +124,7 @@
             color="burn"
             icon="cc:burn"
             variant="outlined"
-            :title="$t('active.pcEndRound.burnTitle')"
+            :title="$t('common.burnStatus')"
           >
             <div
               v-html-safe="$t('active.burnCheck.prompt', { n: currentBurn })"

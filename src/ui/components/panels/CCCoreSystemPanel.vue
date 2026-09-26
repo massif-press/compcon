@@ -170,7 +170,7 @@
               variant="elevated"
               class="mr-1"
             >
-              {{ $t('ui.widget.active') }}
+              {{ $t('ui.coreSystem.activeLabel') }}
             </v-chip>
             {{ cs.ActiveName || '' }}
           </span>

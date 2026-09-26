@@ -16,7 +16,7 @@
       />
     </template>
     <template #overline>
-      {{ $t('compendium.content.frameSuffix', { type: item.MechTypeString }) }}
+      {{ $t('compendium.content.frameTypeLabel', { type: item.MechTypeString }) }}
     </template>
   </c-card-base>
 </template>

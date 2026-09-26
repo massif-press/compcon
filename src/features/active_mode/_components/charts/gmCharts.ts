@@ -17,9 +17,9 @@ const SERIES_CAP = 8
 
 const sideLabel = (t: T, side: string) =>
   ({
-    ally: t('active.charts.sideAlly'),
-    enemy: t('active.charts.sideEnemy'),
-    neutral: t('active.charts.sideNeutral'),
+    ally: t('common.sideAllies'),
+    enemy: t('common.sideEnemies'),
+    neutral: t('common.sideNeutral'),
   })[side] ?? t('common.unknown')
 
 function gmCharts(
@@ -42,7 +42,7 @@ function gmCharts(
       labels: top.map(g => g.label),
       datasets: [
         {
-          label: t('active.charts.dealt'),
+          label: t('common.damageDealt'),
           data: top.map(g => g.rollup.totalDealt),
           ...bar(p.series(0), theme.surface),
         },
@@ -55,8 +55,8 @@ function gmCharts(
     }),
     height: Math.max(200, top.length * 30 + 40),
     table: top.map(g => ({
-      [t('active.charts.colGroup')]: g.label,
-      [t('active.charts.dealt')]: g.rollup.totalDealt,
+      [t('common.group')]: g.label,
+      [t('common.damageDealt')]: g.rollup.totalDealt,
     })),
   })
 
@@ -70,7 +70,7 @@ function gmCharts(
     data: {
       datasets: [
         {
-          label: t('active.charts.colGroup'),
+          label: t('common.group'),
           data: points.map(pt => ({
             x: pt.x,
             y: pt.y,
@@ -91,7 +91,7 @@ function gmCharts(
         tooltip: {
           callbacks: {
             label: (ctx: any) =>
-              `${ctx.raw.label}: ${ctx.raw.x} ${t('active.charts.dealt')}, ${ctx.raw.y} ${t('active.charts.taken')}`,
+              `${ctx.raw.label}: ${ctx.raw.x} ${t('common.damageDealt')}, ${ctx.raw.y} ${t('common.damageTaken')}`,
           },
         },
       },
@@ -102,16 +102,16 @@ function gmCharts(
           grid: { color: theme.grid, drawTicks: false },
           border: { display: false },
           ticks: { color: theme.muted, font: { size: 11 } },
-          title: { display: true, text: t('active.charts.dealt'), color: theme.muted },
+          title: { display: true, text: t('common.damageDealt'), color: theme.muted },
         },
-        y: { title: { display: true, text: t('active.charts.taken'), color: theme.muted } },
+        y: { title: { display: true, text: t('common.damageTaken'), color: theme.muted } },
       }),
     }),
     height: 300,
     table: points.map(pt => ({
-      [t('active.charts.colGroup')]: pt.label,
-      [t('active.charts.dealt')]: pt.x,
-      [t('active.charts.taken')]: pt.y,
+      [t('common.group')]: pt.label,
+      [t('common.damageDealt')]: pt.x,
+      [t('common.damageTaken')]: pt.y,
       [t('active.charts.appearances')]: pt.size ?? 0,
     })),
   })
@@ -139,7 +139,7 @@ function gmCharts(
     }),
     height: Math.max(200, lethality.length * 30 + 40),
     table: lethality.map(s => ({
-      [t('active.charts.colGroup')]: s.label,
+      [t('common.group')]: s.label,
       [t('active.charts.killsPer')]: s.value.toFixed(2),
     })),
   })
@@ -150,7 +150,7 @@ function gmCharts(
   out.push({
     id: 'G4',
     title: t('active.charts.classVsTemplate'),
-    subtitle: t('active.charts.classVsTemplateSub'),
+    subtitle: t('active.charts.dealtPer'),
     type: 'bar',
     data: {
       labels: g4.map(g => g.label),
@@ -172,9 +172,9 @@ function gmCharts(
     }),
     height: Math.max(200, g4.length * 30 + 40),
     table: g4.map(g => ({
-      [t('active.charts.colGroup')]: g.label,
+      [t('common.group')]: g.label,
       [t('active.charts.colKind')]:
-        g.by === 'class' ? t('active.gmTelemetry.byClass') : t('active.gmTelemetry.byTemplate'),
+        g.by === 'class' ? t('gm.npcBuilder.npcClass') : t('active.gmTelemetry.byTemplate'),
       [t('active.charts.dealtPer')]: g.encounters
         ? (g.rollup.totalDealt / g.encounters).toFixed(1)
         : 0,
@@ -223,12 +223,12 @@ function gmCharts(
           ...stacked(p.series(4), theme.surface, true),
         },
         {
-          label: t('active.charts.hit'),
+          label: t('common.attackHit'),
           data: mix.series[1].data,
           ...stacked(p.positive, theme.surface, true),
         },
         {
-          label: t('active.charts.miss'),
+          label: t('common.attackMiss'),
           data: mix.series[2].data,
           ...stacked(p.negative, theme.surface, true),
         },
@@ -243,10 +243,10 @@ function gmCharts(
     }),
     height: Math.max(200, mix.labels.length * 34 + 60),
     table: mix.labels.map((label, i) => ({
-      [t('active.charts.colGroup')]: label,
+      [t('common.group')]: label,
       [t('active.charts.crit')]: mix.series[0].data[i],
-      [t('active.charts.hit')]: mix.series[1].data[i],
-      [t('active.charts.miss')]: mix.series[2].data[i],
+      [t('common.attackHit')]: mix.series[1].data[i],
+      [t('common.attackMiss')]: mix.series[2].data[i],
     })),
   })
 
@@ -278,7 +278,7 @@ function encounterCharts(theme: IChartTheme, t: T, focus: ILogStream): IChartSpe
     options: baseOptions(theme, { cutout: '58%' }),
     table: share.map(s => ({
       [t('common.name')]: s.label,
-      [t('active.charts.dealt')]: s.value,
+      [t('common.damageDealt')]: s.value,
     })),
   })
 

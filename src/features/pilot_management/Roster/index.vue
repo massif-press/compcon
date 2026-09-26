@@ -33,11 +33,7 @@
               class="text-caption text-italic text-disabled"
             >
               <br v-if="mobile" />
-              {{ hiddenPilotCount }}
-              <span class="text-lowercase">
-                {{ hiddenPilotCount === 1 ? $t('pm.new.pilot') : $t('pm.roster.pilots') }}
-              </span>
-              {{ $t('common.hidden') }}
+              {{ $t('pm.roster.hiddenPilots', { n: hiddenPilotCount }, hiddenPilotCount) }}
             </span>
           </div>
         </div>
@@ -163,7 +159,7 @@
               hide-details
               clearable
               prepend-inner-icon="mdi-magnify"
-              :placeholder="$t('pm.fields.nameOrCallsign')"
+              :placeholder="$t('pm.roster.nameOrCallsign')"
             />
           </v-card-text>
         </v-card>
@@ -187,7 +183,7 @@
         >
           <v-card-text>
             <cc-dialog
-              :title="$t('pm.titles.createPilotGroup')"
+              :title="$t('pm.roster.createPilotGroup')"
               icon="mdi-account-group"
               :close-on-click="false"
               major
@@ -210,7 +206,7 @@
               </template>
             </cc-dialog>
             <cc-dialog
-              :title="$t('common.import')"
+              :title="$t('common.importAction')"
               icon="mdi-import"
               max-width="900"
               :close-on-click="false"

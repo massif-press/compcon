@@ -181,7 +181,7 @@
             >
               <template #never>
                 <b class="text-accent">
-                  <span class="text-lowercase">{{ $t('active.runnerHeader.never') }}</span>
+                  <span class="text-lowercase">{{ $t('common.never') }}</span>
                 </b>
               </template>
             </i18n-t>
@@ -193,7 +193,9 @@
               scope="global"
             >
               <template #days>
-                <b class="text-accent">{{ $t('nav.storage.daysCount', { count: deleteDays }) }}</b>
+                <b class="text-accent">
+                  {{ $t('nav.storage.daysCount', { count: deleteDays }, deleteDays) }}
+                </b>
               </template>
             </i18n-t>
           </span>
@@ -334,13 +336,13 @@
   const user = computed(() => UserStore().User)
 
   const deleteDaySelections = [
-    { title: t('nav.titles.never'), value: 0 },
-    { title: t('nav.titles.x1Week'), value: 7 },
-    { title: t('nav.titles.x2Weeks'), value: 14 },
-    { title: t('nav.titles.x1Month'), value: 30 },
-    { title: t('nav.titles.x3Months'), value: 90 },
-    { title: t('nav.titles.x6Months'), value: 180 },
-    { title: t('nav.titles.x1Year'), value: 365 },
+    { title: t('common.never'), value: 0 },
+    { title: t('nav.storage.x1Week'), value: 7 },
+    { title: t('nav.storage.x2Weeks'), value: 14 },
+    { title: t('nav.storage.x1Month'), value: 30 },
+    { title: t('nav.storage.x3Months'), value: 90 },
+    { title: t('nav.storage.x6Months'), value: 180 },
+    { title: t('nav.storage.x1Year'), value: 365 },
   ]
 
   const deleteDialog = ref(false)

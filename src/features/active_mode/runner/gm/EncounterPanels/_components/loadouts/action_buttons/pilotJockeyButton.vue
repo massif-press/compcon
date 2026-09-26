@@ -8,7 +8,7 @@
             direction="vertical"
             density="compact"
           >
-            <v-tab value="jockey">{{ $t('active.jockey.jockey') }}</v-tab>
+            <v-tab value="jockey">{{ $t('enums.activationType.jockey') }}</v-tab>
             <v-divider />
             <div class="pa-2 text-cc-overline text-disabled">
               {{ $t('active.jockey.available') }}

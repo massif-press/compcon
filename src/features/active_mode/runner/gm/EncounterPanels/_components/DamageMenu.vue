@@ -96,7 +96,7 @@
                 {{ $t('active.damageMenu.irreducible') }}
               </v-btn>
               <div class="text-cc-overline text-disabled mt-3">
-                {{ $t('ui.fields.damageType') }}
+                {{ $t('common.damageType') }}
               </div>
               <v-divider />
               <v-row
@@ -320,14 +320,14 @@
       {
         id: 'exposed',
         icon: 'cc:status_exposed',
-        title: t('active.titles.exposed'),
-        description: t('active.subtitles.kineticExplosiveAndHeatDamageDoubled'),
+        title: t('active.damageMenu.exposed'),
+        description: t('active.damageMenu.kineticExplosiveAndHeatDamageDoubled'),
       },
       {
         id: 'shredded',
         icon: 'cc:condition_shredded',
-        title: t('active.titles.shredded'),
-        description: t('active.subtitles.damageIgnoresArmorAndResistance'),
+        title: t('active.damageMenu.shredded'),
+        description: t('active.damageMenu.damageIgnoresArmorAndResistance'),
       },
     ]
 

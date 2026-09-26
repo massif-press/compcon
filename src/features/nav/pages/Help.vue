@@ -144,7 +144,9 @@
               <b>{{ $t('common.options') }}</b>
             </template>
             <template #showExoticsToggle>
-              <b>{{ $t('nav.help.showExoticsToggleLabel') }}</b>
+              <b>
+                <q>{{ $t('nav.settingsPage.showExoticsLabel') }}</q>
+              </b>
             </template>
           </i18n-t>
         </cc-panel>

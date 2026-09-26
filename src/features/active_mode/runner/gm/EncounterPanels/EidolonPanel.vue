@@ -60,8 +60,7 @@
           @click="genShards()"
         >
           <span v-if="layer.Layer.Shards?.Count">
-            {{ $t('active.eidolon.generateN', { n: shardCount }) }}
-            <span>{{ shardCount > 1 ? $t('ui.titles.shards') : $t('active.eidolon.shard') }}</span>
+            {{ $t('active.eidolon.generateShards', { n: shardCount }, shardCount) }}
           </span>
           <span v-else>{{ $t('active.eidolon.noShards') }}</span>
         </cc-button>
@@ -84,7 +83,7 @@
         v-if="layer.Layer.Appearance"
         class="my-2"
       >
-        <cc-panel :title="$t('ui.titles.reportedAppearances')">
+        <cc-panel :title="$t('common.reportedAppearances')">
           <p v-html-safe="layer.Layer.Appearance" />
         </cc-panel>
       </div>
@@ -92,7 +91,7 @@
         v-if="layer.Layer.Hints"
         class="my-2"
       >
-        <cc-panel :title="$t('ui.titles.hints')">
+        <cc-panel :title="$t('common.hints')">
           <p v-html-safe="layer.Layer.Hints" />
           <div
             class="text-right"
@@ -117,7 +116,7 @@
         v-if="layer.Layer.Rules"
         class="my-2"
       >
-        <cc-panel :title="$t('ui.titles.rules')">
+        <cc-panel :title="$t('common.rules')">
           <p v-html-safe="layer.Layer.RulesByTier(combatant.actor.Tier)" />
         </cc-panel>
       </div>

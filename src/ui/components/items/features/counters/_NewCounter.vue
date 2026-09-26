@@ -15,7 +15,7 @@
         <v-text-field
           ref="nameField"
           v-model="name"
-          :placeholder="$t('ui.fields.counterName')"
+          :placeholder="$t('ui.items.counterName')"
           density="compact"
           hide-details
           variant="solo"

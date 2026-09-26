@@ -91,12 +91,12 @@ class Campaign implements ISaveable, ICloudSyncable {
       this.TitlePageContent = new CampaignSection(null, this, data.title_page_content)
     else
       this.TitlePageContent = new CampaignSection(null, this, {
-        title: i18n.global.t('classes.titles.titlePage'),
+        title: i18n.global.t('classes.titlePage'),
         sectionType: 'section',
         children: [],
         content: [
           {
-            title: i18n.global.t('classes.titles.contributors'),
+            title: i18n.global.t('classes.contributors'),
             headerType: 'header-4',
             variant: '',
             color: 'text',

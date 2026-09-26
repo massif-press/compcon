@@ -74,7 +74,7 @@
       density="compact"
       class="my-2 text-caption"
       icon="mdi-alert"
-      :title="$t('ui.titles.externalDataWarning')"
+      :title="$t('ui.remoteArchive.externalDataWarning')"
     >
       <i>
         {{ $t('ui.image.remoteGalleryNote') }}
@@ -86,7 +86,7 @@
         {{ $t('ui.image.addRemote') }}
         <cc-tooltip
           inline
-          :content="$t('ui.tooltips.linkARemotelyHostedImageTo')"
+          :content="$t('ui.remoteArchive.linkARemotelyHostedImageTo')"
         >
           <v-icon left>mdi-information-outline</v-icon>
         </cc-tooltip>
@@ -99,7 +99,7 @@
             dense
             outlined
             hide-details
-            :placeholder="$t('ui.fields.linkImage')"
+            :placeholder="$t('ui.remoteArchive.linkImage')"
             prepend-icon="mdi-image-sync"
             :disabled="loading"
           />

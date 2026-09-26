@@ -114,7 +114,7 @@
               >
                 <v-tooltip
                   location="top"
-                  :text="$t('active.tooltips.pilotGrit')"
+                  :text="$t('active.panelBase.pilotGrit')"
                 >
                   <template #activator="{ props }">
                     <span
@@ -131,7 +131,7 @@
                         v-if="layout.showLabel"
                         class="text-caption text-disabled mr-1"
                       >
-                        {{ $t('active.tooltips.pilotGrit') }}
+                        {{ $t('active.panelBase.pilotGrit') }}
                       </span>
                       <span
                         :class="mobile || layout.showLabel ? '' : 'h2'"

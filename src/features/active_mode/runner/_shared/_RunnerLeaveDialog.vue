@@ -2,7 +2,7 @@
   <cc-dialog
     :model-value="modelValue"
     :close-on-click="false"
-    :title="$t('active.titles.exitActiveMode')"
+    :title="$t('active.runner.exitActiveMode')"
     :z-index="9999"
     @update:model-value="$emit('update:modelValue', $event)"
   >

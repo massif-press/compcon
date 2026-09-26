@@ -24,7 +24,7 @@
               :items="getComparableFrames"
               item-title="Name"
               return-object
-              :label="$t('ui.fields.compareTo')"
+              :label="$t('ui.cards.compareTo')"
               density="compact"
               hide-details
               clearable

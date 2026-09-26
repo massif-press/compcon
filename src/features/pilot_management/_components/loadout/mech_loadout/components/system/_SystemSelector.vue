@@ -11,7 +11,9 @@
     @equip="handleEquip($event)"
   >
     <template #header>
-      <div class="heading h3 text-center text-accent">{{ $t('pm.loadout.mechSYSTEMS') }}</div>
+      <div class="heading h3 text-center text-accent">
+        {{ $t('common.mechSystems') }}
+      </div>
     </template>
     <template #top>
       <v-row dense>
@@ -22,9 +24,7 @@
               class="text-cc-overline"
             >
               {{ $t('pm.loadout.unionArmoryPrintid') }}: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
-              <span class="text-success">
-                {{ $t('pm.loadout.frameEQUIPMENTREGISTRATIONVERIFIED') }}
-              </span>
+              <span class="text-success">[ {{ $t('pm.loadout.frameEquipmentVerified') }} ]</span>
             </div>
             <div class="heading h2 text-accent">
               {{ equipped?.Name || swapSystem?.Name || $t('ui.widget.noSelection') }}
@@ -33,19 +33,19 @@
               class="flavor-text overline"
               style="display: block"
             >
-              {{ $t('pm.loadout.currentlyEQUIPPED') }}
+              {{ $t('pm.loadout.currentlyEquipped') }}
             </div>
           </div>
           <div v-else-if="!mobile">
             <div class="text-cc-overline">
-              {{ $t('pm.loadout.unionARMORYEQUIPMENTAUTHORIZATIONFRAMEEQUIPMENT') }}
+              {{ $t('pm.loadout.frameEquipmentAuthorizationHeading') }}
             </div>
             <div class="heading h2 text-disabled">{{ $t('ui.widget.noSelection') }}</div>
             <div
               class="flavor-text overline text-error"
               style="display: block"
             >
-              {{ $t('pm.loadout.equipmentIDINVALIDORMISSING') }}
+              [ {{ $t('pm.loadout.frameEquipmentInvalid') }} ]
             </div>
           </div>
         </v-col>
@@ -103,12 +103,12 @@
   })
 
   const headers = [
-    { title: t('pm.titles.manufacturer'), align: 'left', key: 'Source' },
-    { title: t('pm.titles.system'), align: 'left', key: 'Name' },
+    { title: t('common.manufacturer'), align: 'left', key: 'Source' },
+    { title: t('enums.systemType.system'), align: 'left', key: 'Name' },
     { title: 'License', align: 'left', key: 'License' },
-    { title: t('pm.titles.tags'), align: 'center', key: 'Tags' },
-    { title: t('ui.fields.licenseLevel'), align: 'left', key: 'LicenseLevel' },
-    { title: t('pm.titles.spCost'), align: 'left', key: 'SP' },
+    { title: t('common.tags'), align: 'center', key: 'Tags' },
+    { title: t('common.licenseLevel'), align: 'left', key: 'LicenseLevel' },
+    { title: t('ui.filter.spCost'), align: 'left', key: 'SP' },
   ]
 
   const manufacturers = computed(() => CompendiumStore().Manufacturers)

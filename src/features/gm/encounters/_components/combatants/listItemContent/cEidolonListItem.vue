@@ -9,7 +9,7 @@
         :icon="item.actor.Icon"
         class="mt-n1"
       />
-      {{ item.actor.Name }} &mdash; {{ $t('gm.itemCard.tierShort', { tier: item.actor.Tier }) }}
+      {{ item.actor.Name }} &mdash; {{ $t('common.tierShort', { n: item.actor.Tier }) }}
       <cc-slashes />
       {{ $t('gm.itemCard.classLabel', { class: item.actor.Class }) }}
     </template>

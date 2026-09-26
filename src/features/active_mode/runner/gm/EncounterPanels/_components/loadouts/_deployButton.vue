@@ -9,7 +9,7 @@
     >
       <v-tooltip
         location="top"
-        :text="$t('active.actions.equipmentDeployableInstance')"
+        :text="$t('active.runner.equipmentDeployableInstance')"
       >
         <template #activator="{ props }">
           <v-icon

@@ -162,7 +162,7 @@
     <cc-panel
       color="background"
       class="mb-2"
-      :title="$t('active.telemetry.unmounted')"
+      :title="$t('active.sheetItem.unmounted')"
     >
       <v-row dense>
         <v-col
@@ -253,8 +253,8 @@
   const takenBars = computed(() => bars(props.rollup.damageTaken))
 
   const headline = computed(() => [
-    { label: t('active.telemetry.rounds'), value: props.rollup.rounds },
-    { label: t('active.telemetry.turns'), value: props.rollup.turns },
+    { label: t('active.telemetry.rollup.rounds'), value: props.rollup.rounds },
+    { label: t('active.telemetry.rollup.turns'), value: props.rollup.turns },
     { label: t('active.telemetry.rollup.movementSpent'), value: props.rollup.movementSpent },
   ])
 
@@ -266,7 +266,7 @@
     { label: t('active.telemetry.crits'), value: props.rollup.attacks.crit },
     { label: t('active.telemetry.misses'), value: props.rollup.attacks.missed },
     {
-      label: t('active.telemetry.kills'),
+      label: t('active.telemetry.rollup.kills'),
       value: props.rollup.killsSelfReported
         ? `${props.rollup.killsConfirmed} (+${props.rollup.killsSelfReported})`
         : props.rollup.killsConfirmed,

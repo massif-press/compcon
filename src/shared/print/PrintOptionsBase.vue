@@ -10,7 +10,7 @@
           v-if="layoutOptions"
           v-model="options.layout"
           mandatory
-          :title="$t('pm.titles.layout')"
+          :title="$t('ui.printOptionsBase.layout')"
           :items="layoutOptions"
         />
         <v-row>
@@ -18,7 +18,7 @@
             <print-option-select
               v-model="options.paper"
               mandatory
-              :title="$t('pm.titles.paper')"
+              :title="$t('ui.printOptionsBase.paper')"
               :items="paperOptions"
             />
           </v-col>
@@ -34,7 +34,7 @@
             <print-option-select
               v-model="options.orientation"
               mandatory
-              :title="$t('pm.titles.orientation')"
+              :title="$t('ui.printOptionsBase.orientation')"
               :items="orientationOptions"
             />
           </v-col>
@@ -42,7 +42,7 @@
             <print-option-select
               v-model="options.bonds"
               mandatory
-              :title="$t('pm.sheet.bonds')"
+              :title="$t('common.bonds')"
               :items="bondsOptions"
             />
           </v-col>
@@ -51,7 +51,7 @@
           v-if="cardOptions && isCards"
           v-model="options.card"
           multiple
-          :title="$t('pm.titles.cardOptions')"
+          :title="$t('ui.printOptionsBase.cardOptions')"
           :items="cardOptions"
         />
       </fieldset>

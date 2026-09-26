@@ -81,11 +81,15 @@
           color="background"
           class="text-center pa-4"
         >
-          <i>
-            {{ $t('nav.packConfig.noLcpsPrefix') }}
-            <b class="text-accent">{{ $t('ui.missing.lancerCoreBook') }}</b>
-            {{ $t('nav.packConfig.willBeAvailable') }}
-          </i>
+          <i18n-t
+            keypath="nav.packConfig.noLcpsNotice"
+            tag="i"
+            scope="global"
+          >
+            <template #book>
+              <b class="text-accent">{{ $t('ui.missing.lancerCoreBook') }}</b>
+            </template>
+          </i18n-t>
         </v-card>
 
         <div
@@ -188,7 +192,7 @@
           <div class="text-disabled text-caption">
             <span v-if="config.packList.length">
               {{
-                $t('nav.packConfig.lcpsSuffix', {
+                $t('nav.packConfig.lcpsList', {
                   list: config.packList.map(x => x.packName).join(' // '),
                 })
               }}

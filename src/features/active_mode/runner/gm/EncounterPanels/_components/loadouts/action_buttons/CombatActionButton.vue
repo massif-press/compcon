@@ -37,7 +37,7 @@
               />
             </template>
             <div class="text-center text-cc-overline">
-              {{ $t('ui.combat.cannotActivateShort') }}
+              {{ $t('ui.combat.cannotActivate') }}
             </div>
             <v-divider class="my-1" />
             <div v-if="!canActivate">

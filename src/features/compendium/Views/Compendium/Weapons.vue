@@ -34,7 +34,7 @@
     { title: '', align: 'left', key: 'Source' },
     { title: t('common.weapon'), align: 'left', key: 'Name' },
     { title: 'License', align: 'left', key: 'LicenseString' },
-    { title: t('compendium.titles.size'), align: 'left', key: 'Size' },
+    { title: t('stats.size'), align: 'left', key: 'Size' },
     {
       title: t('common.type'),
       align: 'left',
@@ -47,9 +47,9 @@
         return 0
       },
     },
-    { title: t('compendium.titles.tags'), align: 'center', key: 'Tags' },
+    { title: t('common.tags'), align: 'center', key: 'Tags' },
     {
-      title: t('compendium.titles.range'),
+      title: t('stats.range'),
       align: 'left',
       key: 'Range',
       sortRaw(a, b) {
@@ -57,7 +57,7 @@
       },
     },
     {
-      title: t('compendium.titles.damage'),
+      title: t('common.damage'),
       align: 'left',
       key: 'Damage',
       sortRaw(a, b) {

@@ -28,13 +28,13 @@
             size="small"
             class="mx-n1"
           />
-          {{ $t('pm.shared.critical') }}
+          {{ $t('pm.shared.criticalWarning') }}
           <v-icon
             icon="mdi-alert"
             size="small"
             class="mx-n1"
           />
-          &nbsp;{{ $t('pm.shared.pilotCALLSIGNBlankOrInvalid') }}
+          &nbsp;{{ $t('pm.shared.issueCallsignInvalid') }}
         </li>
         <li v-if="!pilot.Name">
           <v-icon
@@ -42,28 +42,28 @@
             size="small"
             class="mx-n1"
           />
-          {{ $t('pm.shared.critical') }}
+          {{ $t('pm.shared.criticalWarning') }}
           <v-icon
             icon="mdi-alert"
             size="small"
             class="mx-n1"
           />
-          &nbsp;{{ $t('pm.shared.pilotNAMEBlankOrInvalid') }}
+          &nbsp;{{ $t('pm.shared.issueNameInvalid') }}
         </li>
         <li v-if="!pilot.SkillsController.HasFullSkills">
-          {{ $t('pm.shared.pilotSKILLTRIGGERSMissingOrIncomplete') }}
+          {{ $t('pm.shared.issueSkillTriggersMissing') }}
         </li>
         <li v-if="!pilot.TalentsController.HasFullTalents">
-          {{ $t('pm.shared.pilotTALENTSMissingOrIncomplete') }}
+          {{ $t('pm.shared.issueTalentsMissing') }}
         </li>
         <li v-if="!pilot.MechSkillsController.HasFullHASE">
-          {{ $t('pm.shared.pilotMECHSKILLSMissingOrIncomplete') }}
+          {{ $t('pm.shared.issueMechSkillsMissing') }}
         </li>
         <li v-if="!pilot.LicenseController.HasLicenses">
-          {{ $t('pm.shared.pilotLICENSEDATAMissingOrIncomplete') }}
+          {{ $t('pm.shared.issueLicensesMissing') }}
         </li>
         <li v-if="!pilot.CoreBonusController.HasCBs">
-          {{ $t('pm.shared.pilotCOREBONUSDATAMissingOr') }}
+          {{ $t('pm.shared.issueCoreBonusesMissing') }}
         </li>
       </ul>
     </v-alert>
@@ -73,22 +73,22 @@
     >
       <div class="stat-text">{{ $t('pm.shared.warningSubmission', { id: pilot.ID }) }}:</div>
       <ul class="flavor-text text-stark">
-        <li v-if="!pilot.Callsign">{{ $t('pm.shared.pilotCALLSIGNBlankOrInvalid') }}</li>
-        <li v-if="!pilot.Name">{{ $t('pm.shared.pilotNAMEBlankOrInvalid') }}</li>
+        <li v-if="!pilot.Callsign">{{ $t('pm.shared.issueCallsignInvalid') }}</li>
+        <li v-if="!pilot.Name">{{ $t('pm.shared.issueNameInvalid') }}</li>
         <li v-if="!pilot.SkillsController.HasFullSkills">
-          {{ $t('pm.shared.pilotSKILLTRIGGERSIncompleteOrInvalid') }}
+          {{ $t('pm.shared.issueSkillTriggersInvalid') }}
         </li>
         <li v-if="!pilot.TalentsController.HasFullTalents">
-          {{ $t('pm.shared.pilotTALENTSIncompleteOrInvalid') }}
+          {{ $t('pm.shared.issueTalentsInvalid') }}
         </li>
         <li v-if="!pilot.MechSkillsController.HasFullHASE">
-          {{ $t('pm.shared.pilotMECHSKILLSIncompleteOrInvalid') }}
+          {{ $t('pm.shared.issueMechSkillsInvalid') }}
         </li>
         <li v-if="!pilot.LicenseController.HasLicenses">
-          {{ $t('pm.shared.pilotLICENSESIncompleteOrInvalid') }}
+          {{ $t('pm.shared.issueLicensesInvalid') }}
         </li>
         <li v-if="!pilot.CoreBonusController.HasCBs">
-          {{ $t('pm.shared.pilotCOREBONUSESIncompleteOrInvalid') }}
+          {{ $t('pm.shared.issueCoreBonusesInvalid') }}
         </li>
       </ul>
     </cc-alert>
@@ -122,7 +122,7 @@
         <cc-button
           size="small"
           color="primary"
-          :tooltip="$t('pm.tooltips.forcePilotRegistration')"
+          :tooltip="$t('pm.confirmPage.forcePilotRegistration')"
           :disabled="missingBasicInfo"
           @click="savePilot()"
         >

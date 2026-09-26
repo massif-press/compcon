@@ -24,7 +24,7 @@
               color="error"
             />
           </template>
-          <div class="text-center text-cc-overline">{{ $t('ui.combat.cannotActivateShort') }}</div>
+          <div class="text-center text-cc-overline">{{ $t('ui.combat.cannotActivate') }}</div>
           <v-divider class="my-1" />
           <div
             v-if="customDisabledText"

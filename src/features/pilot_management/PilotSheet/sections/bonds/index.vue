@@ -126,7 +126,7 @@
               :size="mobile ? 'small' : 'default'"
               class="mt-4"
               color="secondary"
-              :label="$t('pm.fields.pilotXp')"
+              :label="$t('pm.bonds.pilotXp')"
             />
             <v-menu
               v-model="resetXpMenu"
@@ -189,7 +189,7 @@
                   variant="plain"
                   @click="pilot.BondController.PowerSelections = 0"
                 >
-                  {{ $t('common.reset') }}
+                  {{ $t('common.resetAction') }}
                 </v-btn>
               </div>
             </fieldset>
@@ -207,7 +207,7 @@
               :size="mobile ? 'small' : 'default'"
               class="mt-4"
               color="overcharge"
-              :label="$t('pm.fields.pilotStress')"
+              :label="$t('pm.bonds.pilotStress')"
             />
             <v-menu
               offset-y
@@ -233,7 +233,7 @@
               >
                 <v-card-text class="text-center">
                   <i>
-                    {{ $t('pm.sheet.setMaximumPilotStressStressGains') }}
+                    {{ $t('pm.sheet.maxStressHint') }}
                   </i>
                   <v-text-field
                     v-model.number="pilot.BondController.MaxStress"
@@ -243,7 +243,7 @@
                     type="number"
                     color="accent"
                     variant="outlined"
-                    :label="$t('pm.fields.maximumStress')"
+                    :label="$t('pm.bonds.maximumStress')"
                     class="my-3"
                   />
                   <v-btn
@@ -251,7 +251,7 @@
                     small
                     @click="pilot.BondController.MaxStress = 8"
                   >
-                    {{ $t('common.reset') }}
+                    {{ $t('common.resetAction') }}
                   </v-btn>
                 </v-card-text>
               </v-card>
@@ -322,7 +322,7 @@
                 >
                   <v-card-text>
                     <cc-confirmation
-                      :content="$t('pm.tooltips.thisWillResetYourStressTo')"
+                      :content="$t('pm.bonds.resetStressConfirm')"
                       @confirm="confirmBurden()"
                     />
                   </v-card-text>
@@ -339,7 +339,7 @@
             :highlight="pilot.BondController.PowerSelectionsRemaining >= 0"
             :current="pilot.BondController.BondPowers.length"
             :max="pilot.BondController.MaxPowerSelections"
-            :label="$t('pm.fields.editPilotBonds')"
+            :label="$t('pm.bonds.editPilotBonds')"
             @open-selector="($refs.powerSelector as any).show()"
           />
         </section-header>
@@ -385,7 +385,7 @@
           </v-row>
         </div>
 
-        <section-header :title="$t('pm.titles.otherClocks')" />
+        <section-header :title="$t('pm.shared.otherClocks')" />
 
         <div>
           <div
@@ -422,7 +422,7 @@
 
       <cc-dialog
         v-model="bondModal"
-        :title="$t('pm.titles.selectPilotBond')"
+        :title="$t('pm.bonds.selectPilotBond')"
         clip
         :close-on-click="false"
         major
@@ -456,7 +456,7 @@
           </template>
           <v-card-text>
             <cc-confirmation
-              :content="$t('pm.tooltips.thisWillRemoveThisBondFrom')"
+              :content="$t('pm.bonds.removeBondConfirm')"
               @confirm="removeBond()"
             />
           </v-card-text>

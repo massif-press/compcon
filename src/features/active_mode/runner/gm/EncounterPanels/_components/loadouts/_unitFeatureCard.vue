@@ -16,7 +16,7 @@
           <v-tooltip
             v-if="item.ActiveEffects.length > 0"
             location="top"
-            :text="$t('active.actions.activeEffect')"
+            :text="$t('active.runner.activeEffect')"
           >
             <template #activator="{ props }">
               <v-icon
@@ -31,7 +31,7 @@
           <v-tooltip
             v-if="item.Bonuses.length > 0"
             location="top"
-            :text="$t('active.actions.passiveBonus')"
+            :text="$t('active.runner.passiveBonus')"
           >
             <template #activator="{ props }">
               <v-icon

@@ -87,8 +87,8 @@ function pilotCharts(
     },
     options: baseOptions(theme, { cutout: '58%' }),
     table: byType.map(s => ({
-      [t('ui.fields.damageType')]: s.label,
-      [t('active.charts.colDamage')]: s.value,
+      [t('common.damageType')]: s.label,
+      [t('common.damage')]: s.value,
     })),
   })
 
@@ -101,12 +101,12 @@ function pilotCharts(
       labels: dvt.labels,
       datasets: [
         {
-          label: t('active.charts.dealt'),
+          label: t('common.damageDealt'),
           data: dvt.series[0].data,
           ...bar(p.positive, theme.surface),
         },
         {
-          label: t('active.charts.taken'),
+          label: t('common.damageTaken'),
           data: dvt.series[1].data,
           ...bar(p.negative, theme.surface),
         },
@@ -114,9 +114,9 @@ function pilotCharts(
     },
     options: baseOptions(theme, { scales: cartesianScales(theme) }),
     table: dvt.labels.map((label, i) => ({
-      [t('active.charts.colEncounter')]: label,
-      [t('active.charts.dealt')]: dvt.series[0].data[i],
-      [t('active.charts.taken')]: dvt.series[1].data[i],
+      [t('common.encounter')]: label,
+      [t('common.damageDealt')]: dvt.series[0].data[i],
+      [t('common.damageTaken')]: dvt.series[1].data[i],
     })),
   })
 
@@ -140,7 +140,7 @@ function pilotCharts(
       plugins: { legend: { display: false } },
     }),
     table: cumulative.labels.map((label, i) => ({
-      [t('active.charts.colEncounter')]: label,
+      [t('common.encounter')]: label,
       [t('active.charts.cumulative')]: cumulative.series[0].data[i],
     })),
   })
@@ -191,7 +191,7 @@ function pilotCharts(
       },
     }),
     table: acc.labels.map((label, i) => ({
-      [t('active.charts.colEncounter')]: label,
+      [t('common.encounter')]: label,
       [t('common.accuracy')]: Number.isNaN(acc.series[0].data[i])
         ? '-'
         : `${Math.round(acc.series[0].data[i])}%`,
@@ -204,7 +204,7 @@ function pilotCharts(
     title: t('active.charts.savesAndChecks'),
     type: 'bar',
     data: {
-      labels: [t('active.charts.saves'), t('active.charts.checks')],
+      labels: [t('active.telemetry.rollup.saves'), t('active.charts.checks')],
       datasets: [
         {
           label: t('active.charts.passed'),
@@ -228,7 +228,7 @@ function pilotCharts(
     height: 180,
     table: [
       {
-        [t('active.charts.colKind')]: t('active.charts.saves'),
+        [t('active.charts.colKind')]: t('active.telemetry.rollup.saves'),
         [t('active.charts.passed')]: checks.series[0].data[0],
         [t('active.charts.failed')]: checks.series[1].data[0],
       },
@@ -268,7 +268,7 @@ function pilotCharts(
       },
     }),
     table: heat.labels.map((label, i) => ({
-      [t('active.charts.colEncounter')]: label,
+      [t('common.encounter')]: label,
       [t('active.charts.overchargeHeat')]: heat.series[0].data[i],
       [t('active.charts.otherHeat')]: heat.series[1].data[i],
     })),
@@ -319,8 +319,8 @@ function pilotCharts(
     data: {
       labels: perRound.labels,
       datasets: [
-        { label: t('active.charts.taken'), data: perRound.series[0].data, ...line(p.negative) },
-        { label: t('active.charts.dealt'), data: perRound.series[1].data, ...line(p.positive) },
+        { label: t('common.damageTaken'), data: perRound.series[0].data, ...line(p.negative) },
+        { label: t('common.damageDealt'), data: perRound.series[1].data, ...line(p.positive) },
       ],
     },
     options: baseOptions(theme, {
@@ -330,8 +330,8 @@ function pilotCharts(
     }),
     table: perRound.labels.map((label, i) => ({
       [t('active.charts.round')]: label,
-      [t('active.charts.taken')]: perRound.series[0].data[i],
-      [t('active.charts.dealt')]: perRound.series[1].data[i],
+      [t('common.damageTaken')]: perRound.series[0].data[i],
+      [t('common.damageDealt')]: perRound.series[1].data[i],
     })),
   })
 
@@ -346,7 +346,7 @@ function pilotCharts(
       labels: curve.labels,
       datasets: [
         {
-          label: t('active.charts.heat'),
+          label: t('enums.damageType.heat'),
           data: curve.series[0].data,
           stepped: true,
           ...line(p.damage('heat'), { tension: 0 }),
@@ -371,7 +371,7 @@ function pilotCharts(
                   borderWidth: 0,
                   label: {
                     display: true,
-                    content: t('active.charts.dangerZone'),
+                    content: t('active.common.dangerZone'),
                     position: { x: 'start', y: 'start' },
                     color: theme.muted,
                     backgroundColor: 'transparent',
@@ -385,7 +385,7 @@ function pilotCharts(
     }),
     table: curve.labels.map((label, i) => ({
       [t('active.charts.round')]: label,
-      [t('active.charts.heat')]: curve.series[0].data[i],
+      [t('enums.damageType.heat')]: curve.series[0].data[i],
     })),
   })
 

@@ -21,7 +21,7 @@
         density="compact"
         hide-details
         variant="outlined"
-        :label="$t('gm.fields.npc')"
+        :label="$t('common.npc')"
         class="mx-3"
         clearable
       >

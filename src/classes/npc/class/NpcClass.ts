@@ -4,6 +4,7 @@ import { INpcClassStats, NpcClassStats } from './NpcClassStats'
 import * as _ from 'lodash-es'
 import { ContentPack } from '../../ContentPack'
 import { ItemType } from '../../enums'
+import { i18n } from '@/i18n'
 import { applyLcpTracking, type ILcpTracked } from '@/classes/LcpItemMixin'
 
 interface INpcClassData {
@@ -189,13 +190,13 @@ class NpcClass implements ILcpTracked {
 
   public get ClassFeatureSelectionInfo(): string {
     if (!this.OptionalClassMin) return ''
-    let out = `The ${this.Name} chooses `
-    if (this.OptionalClassMin === this.OptionalClassMax) out += `${this.OptionalClassMin} `
-    else out += `between ${this.OptionalClassMin} and ${this.OptionalClassMax} `
-    out += `additional optional feature${this.OptionalClassMax > 1 ? 's' : ''} from the ${
-      this.Name
-    } Class Optional Features list ${this.OptionalClassPerTier ? 'per NPC Tier' : ''}`
-    return out
+    const exact = this.OptionalClassMin === this.OptionalClassMax
+    const key = `gm.npcSelection.class${exact ? 'Exact' : 'Range'}${this.OptionalClassPerTier ? 'PerTier' : ''}`
+    return i18n.global.t(
+      key,
+      { name: this.Name, min: this.OptionalClassMin, max: this.OptionalClassMax },
+      this.OptionalClassMax
+    )
   }
 
   public NormalizedStats() {

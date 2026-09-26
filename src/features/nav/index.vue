@@ -80,13 +80,13 @@
           slim
           @click="$router.push({ path: '/gm/npcs' })"
         >
-          {{ $t('gm.titles.npcRoster') }}
+          {{ $t('common.npcRoster') }}
         </v-list-item>
         <v-list-item
           slim
           @click="$router.push({ path: '/gm/encounters' })"
         >
-          {{ $t('nav.nav.encounters') }}
+          {{ $t('common.encounters') }}
         </v-list-item>
         <v-list-item
           slim
@@ -201,7 +201,7 @@
             {{ $t('nav.nav.storageAlertTooltip') }}
 
             <v-alert color="error">
-              <b>{{ $t('nav.nav.noNewItemsSaved') }}</b>
+              <b>{{ $t('nav.nav.storageLimitReachedNotice') }}</b>
             </v-alert>
             {{ $t('nav.nav.storageDetails') }}
           </span>
@@ -236,7 +236,7 @@
                 <br />
                 <br />
                 <b class="text-accent">
-                  {{ $t('nav.nav.noNewItemsSaved') }}
+                  {{ $t('nav.nav.storageLimitReachedNotice') }}
                 </b>
                 <br />
                 <br />
@@ -387,7 +387,7 @@
           max-width="90vw"
         >
           <template #activator="{ open }">
-            <v-list-item @click.stop="open">{{ $t('nav.nav.about') }}</v-list-item>
+            <v-list-item @click.stop="open">{{ $t('common.about') }}</v-list-item>
           </template>
           <about-page />
         </cc-dialog>
@@ -413,7 +413,7 @@
           max-width="90vw"
         >
           <template #activator="{ open }">
-            <v-list-item @click.stop="open">{{ $t('nav.nav.help') }}</v-list-item>
+            <v-list-item @click.stop="open">{{ $t('common.help') }}</v-list-item>
           </template>
           <help-page />
         </cc-dialog>

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <section-header :title="$t('pm.level.coreBonuses')">
+    <section-header :title="$t('common.coreBonuses')">
       <cc-dialog
-        :title="$t('pm.titles.setPilotCoreBonuses')"
+        :title="$t('pm.pilotSheet.setPilotCoreBonuses')"
         icon="cc:corebonus"
         fullscreen
         :close-on-click="false"

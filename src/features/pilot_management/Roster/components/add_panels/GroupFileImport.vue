@@ -9,7 +9,7 @@
           v-model="fileValue"
           accept=".json, text/json"
           variant="outlined"
-          :label="$t('pm.fields.selectPilotDataFile')"
+          :label="$t('pm.roster.selectPilotDataFile')"
           prepend-icon="mdi-paperclip"
           density="compact"
           @change="stageImport"
@@ -56,7 +56,12 @@
               {{ p.callsign }}
             </div>
             <div class="text-caption">
-              {{ p.background || 'Unknown Background' }}{{ $t('pm.common.commaLl') }} {{ p.level }}
+              {{
+                $t('pm.common.nameWithLicenseLevel', {
+                  name: p.background || $t('pm.common.unknownBackground'),
+                  level: p.level,
+                })
+              }}
               <span v-if="p.player_name">({{ p.player_name }})</span>
             </div>
             <cc-panel
@@ -88,7 +93,7 @@
           v-if="alreadyPresent"
           color="warning"
           icon="mdi-alert"
-          :title="$t('pm.titles.groupAlreadyExists')"
+          :title="$t('pm.roster.groupAlreadyExists')"
           class="my-2"
         >
           <p
@@ -109,10 +114,11 @@
                 prepend-icon="mdi-plus"
                 @click="importFile()"
               >
-                {{ $t('common.import') }} {{ (stagedData as any).name }}
+                {{ $t('common.importAction') }} {{ (stagedData as any).name }}
                 <span v-if="stagedPilots.length && importPilots">
-                  &nbsp;{{ $t('pm.roster.and') }} {{ stagedPilots.length }}
-                  {{ stagedPilots.length > 1 ? $t('pm.roster.pilots') : $t('pm.new.pilot') }}
+                  &nbsp;{{
+                    $t('pm.roster.andPilots', { n: stagedPilots.length }, stagedPilots.length)
+                  }}
                 </span>
               </cc-button>
             </v-col>

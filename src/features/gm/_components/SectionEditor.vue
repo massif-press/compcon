@@ -27,7 +27,7 @@
             @update:model-value="debouncedSave"
           >
             <template #label>
-              {{ $t('ui.fields.gmOnly') }}
+              {{ $t('common.gmOnly') }}
               <v-tooltip location="top">
                 <template #activator="{ props }">
                   <v-icon
@@ -110,13 +110,13 @@
           <v-combobox
             v-if="item.SectionSuggestions"
             v-model="newTextItemHeader"
-            :label="$t('ui.fields.title')"
+            :label="$t('common.title')"
             :items="item.SectionSuggestions"
           />
           <v-text-field
             v-else
             v-model="newTextItemHeader"
-            :label="$t('gm.fields.newTitle')"
+            :label="$t('gm.sectionEditor.newTitle')"
             density="compact"
             hide-details
             variant="outlined"

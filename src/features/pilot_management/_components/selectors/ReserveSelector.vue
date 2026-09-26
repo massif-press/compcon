@@ -16,7 +16,7 @@
         block
         @click="CustomDialog = true"
       >
-        {{ $t('pm.titles.addCustomReserve') }}
+        {{ $t('pm.selectors.addCustomReserve') }}
       </cc-button>
       <cc-button
         size="x-small"
@@ -34,7 +34,7 @@
         block
         @click="OrgDialog = true"
       >
-        {{ $t('pm.titles.addOrganization') }}
+        {{ $t('pm.selectors.addOrganization') }}
       </cc-button>
     </template>
   </cc-compendium-browser>
@@ -42,7 +42,7 @@
   <cc-dialog
     v-model="CustomDialog"
     max-width="60vw"
-    :title="$t('pm.titles.addCustomReserve')"
+    :title="$t('pm.selectors.addCustomReserve')"
     icon="cc:orbital"
     :close-on-click="false"
     major
@@ -52,7 +52,7 @@
   <cc-dialog
     v-model="ProjectDialog"
     max-width="60vw"
-    :title="$t('pm.titles.addProject')"
+    :title="$t('pm.selectors.addProject')"
     icon="cc:orbital"
     :close-on-click="false"
     major
@@ -62,7 +62,7 @@
   <cc-dialog
     v-model="OrgDialog"
     max-width="60vw"
-    :title="$t('pm.titles.addOrganization')"
+    :title="$t('pm.selectors.addOrganization')"
     icon="cc:orbital"
     :close-on-click="false"
     major
@@ -94,7 +94,7 @@
   const OrgDialog = ref(false)
 
   const headers = [
-    { title: t('pm.titles.contentPack'), key: 'LcpName' },
+    { title: t('common.contentPack'), key: 'LcpName' },
     { title: 'Name', key: 'Name' },
     { title: t('common.type'), key: 'Type' },
   ]

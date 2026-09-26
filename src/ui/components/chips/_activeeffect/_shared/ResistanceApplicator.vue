@@ -9,7 +9,7 @@
       no-gutters
     >
       <v-col>
-        <div class="text-cc-overline text-disabled">{{ $t('ui.fields.damageType') }}</div>
+        <div class="text-cc-overline text-disabled">{{ $t('common.damageType') }}</div>
         <v-select
           :model-value="r.Resist"
           :items="resistanceOptions"
@@ -54,18 +54,18 @@
   )
 
   const resistanceOptions = [
-    { title: t('ui.titles.kinetic'), value: 'kinetic' },
-    { title: t('ui.titles.energy'), value: 'energy' },
-    { title: t('ui.titles.explosive'), value: 'explosive' },
-    { title: t('ui.titles.heat'), value: 'heat' },
-    { title: t('ui.titles.burn'), value: 'burn' },
-    { title: t('ui.titles.areaOfEffect'), value: 'aoe' },
+    { title: t('enums.damageType.kinetic'), value: 'kinetic' },
+    { title: t('enums.damageType.energy'), value: 'energy' },
+    { title: t('enums.damageType.explosive'), value: 'explosive' },
+    { title: t('enums.damageType.heat'), value: 'heat' },
+    { title: t('common.burnStatus'), value: 'burn' },
+    { title: t('ui.combat.areaOfEffect'), value: 'aoe' },
     { title: t('common.all'), value: 'all' },
   ]
 
   const resistTypes = [
-    { title: t('ui.titles.resistance'), value: 'Resistance' },
-    { title: t('ui.titles.immunity'), value: 'Immunity' },
-    { title: t('ui.titles.vulnerability'), value: 'Vulnerability' },
+    { title: t('active.dmgCond.resistance'), value: 'Resistance' },
+    { title: t('active.dmgCond.immunity'), value: 'Immunity' },
+    { title: t('active.dmgCond.vulnerability'), value: 'Vulnerability' },
   ]
 </script>

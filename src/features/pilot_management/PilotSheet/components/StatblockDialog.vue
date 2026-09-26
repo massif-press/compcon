@@ -12,7 +12,7 @@
         <cc-select
           v-model="genRadios"
           :items="genItems"
-          :label="$t('pm.fields.generate')"
+          :label="$t('pm.statblockDialog.generate')"
         />
       </v-col>
       <v-col cols="auto">
@@ -24,7 +24,7 @@
       </v-col>
       <v-col cols="auto">
         <div>
-          {{ $t('pm.sheet.includePilotNETDiscordEmoji') }}
+          {{ $t('pm.sheet.includeDiscordEmoji') }}
           <div
             class="text-caption"
             style="line-height: 8px"
@@ -44,7 +44,7 @@
         density="compact"
         item-title="Name"
         item-value="ID"
-        :label="$t('pm.fields.selectMech')"
+        :label="$t('pm.statblockDialog.selectMech')"
         variant="outlined"
         class="mb-4"
         hide-details
@@ -60,7 +60,7 @@
       variant="solo-filled"
       class="flavor-text"
     />
-    <v-tooltip :text="$t('pm.tooltips.copyStatBlockToClipboard')">
+    <v-tooltip :text="$t('pm.statblockDialog.copyStatBlockToClipboard')">
       <template #activator="{ props }">
         <cc-button
           v-bind="props"
@@ -99,9 +99,9 @@
   const discordEmoji = ref(false)
   const genRadios = ref('full')
   const genItems = ref([
-    { title: t('pm.titles.full'), value: 'full' },
-    { title: t('pm.titles.pilotOnly'), value: 'pilotBuild' },
-    { title: t('pm.titles.mechOnly'), value: 'mechBuild' },
+    { title: t('pm.statblockDialog.fullBuild'), value: 'full' },
+    { title: t('pm.statblockDialog.pilotOnly'), value: 'pilotBuild' },
+    { title: t('pm.statblockDialog.mechOnly'), value: 'mechBuild' },
   ])
 
   const defaultMechID = computed(() => {
@@ -146,7 +146,7 @@
       )
       .catch(() =>
         notify({
-          title: t('notify.common.error'),
+          title: t('common.error'),
           text: t('notify.statblock.errorText'),
           icon: 'mdi-clipboard-text-outline',
           color: 'error',

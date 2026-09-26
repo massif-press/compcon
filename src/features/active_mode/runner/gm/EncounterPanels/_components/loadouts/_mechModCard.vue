@@ -27,7 +27,7 @@
         <template #icon>
           <v-tooltip
             location="top"
-            :text="$t('active.tooltips.equipmentAction')"
+            :text="$t('active.runner.equipmentAction')"
           >
             <template #activator="{ props }">
               <v-icon

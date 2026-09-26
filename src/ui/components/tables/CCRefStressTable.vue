@@ -1,7 +1,7 @@
 <template>
   <ref-roll-table-base
     ref="base"
-    :title="$t('ui.titles.overheating')"
+    :title="$t('ui.tables.overheating')"
   >
     <v-divider class="ma-2" />
     <v-row>

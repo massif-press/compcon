@@ -4,7 +4,7 @@
     density="compact"
     icon="cc:weapon"
     class="my-1"
-    :title="$t(`pm.print.on${action === 'crit' ? 'CRIT' : action.toUpperCase()}`)"
+    :title="$t(`pm.print.on${capitalizeAction}`)"
   >
     <div v-html-safe="profile[`On${capitalizeAction}`].Detail" />
   </cc-panel>

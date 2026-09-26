@@ -30,7 +30,7 @@
         chips
         clearable
         variant="outlined"
-        :label="$t('ui.fields.tags')"
+        :label="$t('common.tags')"
         :items="gearTags"
         item-value="ID"
         multiple
@@ -70,7 +70,7 @@
   const types = computed(() => {
     return [
       { title: t('stats.armor'), value: 'PilotArmor' },
-      { title: t('ui.titles.gear'), value: 'PilotGear' },
+      { title: t('common.gear'), value: 'PilotGear' },
       { title: t('common.weapon'), value: 'PilotWeapon' },
     ]
   })

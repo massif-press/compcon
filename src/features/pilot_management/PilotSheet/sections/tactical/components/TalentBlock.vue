@@ -3,7 +3,7 @@
     <section-header :title="$t('common.talents')">
       <cc-dialog
         v-if="!pilot.IsRemote"
-        :title="$t('pm.titles.setPilotTalents')"
+        :title="$t('pm.pilotSheet.setPilotTalents')"
         fullscreen
         icon="cc:trait"
         :close-on-click="false"

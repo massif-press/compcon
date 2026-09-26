@@ -38,7 +38,7 @@
           </v-avatar>
         </div>
         <div class="heading caption text-center">
-          {{ pilot.Name }} {{ $t('pm.print.slashesLl') }} {{ pilot.Level }}
+          {{ pilot.Name }} // {{ $t('pm.sheet.ll') }} {{ pilot.Level }}
         </div>
 
         <v-divider class="my-1" />
@@ -112,7 +112,7 @@
         >
           <v-col>
             <div class="font-weight-bold caption text-primary">
-              <span class="text-uppercase">{{ $t('pm.link.hull') }}</span>
+              <span class="text-uppercase">{{ $t('stats.hull') }}</span>
             </div>
 
             <div
@@ -256,7 +256,7 @@
           class="caption text-center mt-n1"
           style="letter-spacing: 10px; font-size: 10px"
         >
-          {{ $t('pm.level.coreBonuses') }}
+          {{ $t('common.coreBonuses') }}
         </div>
         <v-divider />
         <div

@@ -109,7 +109,7 @@
 
     <v-divider />
 
-    <div class="text-caption text-primary">{{ $t('pm.titles.skillTriggers') }}</div>
+    <div class="text-caption text-primary">{{ $t('common.skillTriggers') }}</div>
 
     <v-row
       dense
@@ -152,7 +152,7 @@
         class="px-1"
       >
         <div>
-          <span class="text-uppercase">{{ $t('pm.link.hull') }}</span>
+          <span class="text-uppercase">{{ $t('stats.hull') }}</span>
           :
           <blank-line
             v-if="blank"
@@ -253,7 +253,7 @@
           v-if="pilot.CoreBonusController.CoreBonuses.length"
           class="text-caption mb-n1 text-primary"
         >
-          {{ $t('pm.level.coreBonuses') }}
+          {{ $t('common.coreBonuses') }}
         </div>
 
         <v-row
@@ -461,7 +461,7 @@
           <legend class="heading ml-1 px-1">
             <span v-if="!blank">
               {{ g.Name }}
-              <span class="text-caption flavor-text">{{ $t('pm.print.gear') }}</span>
+              <span class="text-caption flavor-text text-uppercase">//{{ $t('common.gear') }}</span>
             </span>
             <span
               v-else

@@ -69,7 +69,7 @@
       max-width="480"
     >
       <v-card class="pa-4">
-        <div class="heading h3 mb-2">{{ $t('active.structureCheck.blocksTurn') }}</div>
+        <div class="heading h3 mb-2">{{ $t('combat.structureCheck.blocksTurn') }}</div>
         <cc-flow-request :request="pendingTurn?.request" />
         <v-card-actions>
           <v-spacer />
@@ -77,7 +77,7 @@
             variant="text"
             @click="holdDialog = false"
           >
-            {{ $t('common.close') }}
+            {{ $t('common.closeAction') }}
           </cc-button>
         </v-card-actions>
       </v-card>

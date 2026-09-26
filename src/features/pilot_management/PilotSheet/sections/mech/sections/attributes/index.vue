@@ -7,7 +7,7 @@
       <hase-pips
         :mech="mech"
         attr="hull"
-        :label="$t('ui.titles.hull')"
+        :label="$t('stats.hull')"
         :val="pilot.MechSkillsController.MechSkills.Hull"
         :color="color"
       />

@@ -21,7 +21,7 @@
       class="ma-2"
       prominent
       icon="cc:drone"
-      :title="$t('active.titles.recalledToMech')"
+      :title="$t('active.runner.recalledToMech')"
       outlined
     >
       <i18n-t
@@ -62,7 +62,7 @@
           >
             <v-list-item
               class="bg-action--free"
-              :title="$t('ui.titles.activateFreeAction')"
+              :title="$t('common.activateFreeAction')"
               @click="handleRedeploy(true)"
             >
               <template #prepend>
@@ -82,7 +82,7 @@
         color="primary"
         @click="hide = !hide"
       >
-        {{ hide ? $t('common.show') : $t('common.hide') }} {{ $t('common.details') }}
+        {{ hide ? $t('common.showAction') : $t('common.hideAction') }} {{ $t('common.details') }}
       </cc-button>
     </cc-alert>
 
@@ -179,7 +179,7 @@
             >
               <v-list-item
                 class="bg-action--free"
-                :title="$t('ui.titles.activateFreeAction')"
+                :title="$t('common.activateFreeAction')"
                 @click="handleRecall(true)"
               >
                 <template #prepend>

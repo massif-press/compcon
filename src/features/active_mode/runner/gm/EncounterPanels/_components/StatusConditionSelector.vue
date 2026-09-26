@@ -103,7 +103,7 @@
               <v-card-text>
                 <v-text-field
                   v-model="customStatus"
-                  :label="$t('active.fields.customStatusName')"
+                  :label="$t('active.runner.customStatusName')"
                   variant="outlined"
                   dense
                   hide-details

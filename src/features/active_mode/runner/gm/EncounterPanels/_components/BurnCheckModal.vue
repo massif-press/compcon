@@ -1,7 +1,7 @@
 <template>
   <cc-dialog
     v-model="open"
-    :title="$t('active.burnCheck.title')"
+    :title="$t('ui.flow.request.burn')"
     :close-on-click="false"
     @update:model-value="onToggle"
   >
@@ -12,7 +12,7 @@
 
     <div class="pa-2 border-s-xl border-accent">
       <div class="body-text mb-1">
-        {{ $t('active.structureCheck.saveCheck', { check: 'ENGINEERING' }) }}
+        {{ $t('combat.structureCheck.saveCheck', { check: 'ENGINEERING' }) }}
       </div>
       <accuracy-difficulty-row
         v-model="acc"
@@ -27,7 +27,7 @@
           prepend-icon="mdi-dice-d20"
           @click="roll"
         >
-          {{ $t('active.structureCheck.rollCheck', { check: 'ENGINEERING' }) }}
+          {{ $t('combat.structureCheck.rollCheck', { check: 'ENGINEERING' }) }}
         </cc-button>
         <span
           v-if="detail"
@@ -47,14 +47,14 @@
             size="small"
             color="success"
           >
-            {{ $t('active.structureCheck.success') }}
+            {{ $t('common.success') }}
           </v-btn>
           <v-btn
             value="fail"
             size="small"
             color="error"
           >
-            {{ $t('active.structureCheck.fail') }}
+            {{ $t('combat.structureCheck.fail') }}
           </v-btn>
         </v-btn-toggle>
       </div>

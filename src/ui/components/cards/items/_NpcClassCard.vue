@@ -20,7 +20,7 @@
           </cc-panel>
           <cc-panel
             v-if="item.Tactics"
-            :title="$t('ui.titles.tactics')"
+            :title="$t('common.tactics')"
             :title-color="item.Color"
             class="mb-2"
           >
@@ -28,7 +28,7 @@
           </cc-panel>
           <cc-panel
             v-if="item.ClassFeatureSelectionInfo"
-            :title="$t('ui.titles.featureSelection')"
+            :title="$t('ui.cards.featureSelection')"
             :title-color="item.Color"
             class="mb-2"
           >

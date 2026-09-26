@@ -52,7 +52,7 @@
       >
         <div class="text-caption">
           <span v-if="item.Secret">{{ $t('nav.achievementItem.secretLabel') }}</span>
-          {{ $t('nav.achievementItem.unlockedLabel') }}
+          {{ $t('common.unlocked') }}
         </div>
         <div :class="mobile ? 'text-cc-overline' : 'heading'">
           {{ formatDate }}

@@ -15,7 +15,7 @@
       :items="request.options ?? []"
       item-title="label"
       item-value="id"
-      :placeholder="$t('active.structureCheck.chooseOne')"
+      :placeholder="$t('combat.structureCheck.chooseOne')"
       density="compact"
       variant="outlined"
       hide-details

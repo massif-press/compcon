@@ -32,7 +32,7 @@
             cols="auto"
             class="ml-auto mt-n2"
           >
-            <div class="text-caption text-primary h0 mt-n1">{{ $t('ui.fields.licenseLevel') }}</div>
+            <div class="text-caption text-primary h0 mt-n1">{{ $t('common.licenseLevel') }}</div>
             <blank-line
               v-if="blank"
               :height="38"
@@ -76,7 +76,7 @@
       class="print-section"
     >
       <v-col>
-        <div class="text-caption text-primary h0">{{ $t('pm.new.pilot') }}</div>
+        <div class="text-caption text-primary h0">{{ $t('common.pilot') }}</div>
         <blank-line
           v-if="blank"
           :height="38"
@@ -210,7 +210,7 @@
             class="text-overline text-primary"
             style="line-height: 0"
           >
-            {{ $t('pm.print.session') }}
+            {{ $t('common.session') }}
           </div>
           <blank-line
             :height="450"
@@ -250,7 +250,7 @@
             class="text-overline text-primary"
             style="line-height: 0"
           >
-            {{ $t('pm.print.session') }}
+            {{ $t('common.session') }}
           </div>
           <blank-line
             :height="1000"
@@ -273,7 +273,7 @@
       </v-row>
     </fieldset>
 
-    <div class="text-caption text-primary mb-n2 mt-2">{{ $t('pm.titles.skillTriggers') }}</div>
+    <div class="text-caption text-primary mb-n2 mt-2">{{ $t('common.skillTriggers') }}</div>
     <div class="text-left">
       <v-row
         v-if="blank"
@@ -415,7 +415,7 @@
       v-if="pilot.CoreBonusController.CoreBonuses.length || blank"
       class="text-caption mb-n2 mt-2 text-primary"
     >
-      {{ $t('pm.level.coreBonuses') }}
+      {{ $t('common.coreBonuses') }}
     </div>
     <v-row
       v-if="blank"
@@ -582,7 +582,7 @@
         >
           <v-col>
             <div class="font-weight-bold caption text-primary mb-n2">
-              <span class="text-uppercase">{{ $t('pm.link.hull') }}</span>
+              <span class="text-uppercase">{{ $t('stats.hull') }}</span>
             </div>
             <blank-line
               v-if="blank"
@@ -800,7 +800,7 @@
           <legend class="heading h3 ml-1 px-1">
             <span v-if="!blank">
               {{ g.Name }}
-              <span class="text-caption flavor-text">{{ $t('pm.print.gear') }}</span>
+              <span class="text-caption flavor-text text-uppercase">//{{ $t('common.gear') }}</span>
             </span>
             <span
               v-else

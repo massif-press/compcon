@@ -154,43 +154,36 @@ const unused = (report.unusedKeys ?? []).filter(
   k => !DYNAMIC_NAMESPACES.some(ns => k.path.startsWith(ns)) && !linkTargets.has(k.path)
 )
 
-const SHARED_NAMESPACES = ['common', 'stats', 'notify', 'classes']
-
-const canonByValue = new Map()
-for (const [k, v] of Object.entries(flat)) {
-  if (SHARED_NAMESPACES.includes(k.split('.')[0])) canonByValue.set(v, k)
-}
-const redeclared = []
-for (const [k, v] of Object.entries(flat)) {
-  const top = k.split('.')[0]
-  if (SHARED_NAMESPACES.includes(top) || DYNAMIC_NAMESPACES.some(ns => `${top}.`.startsWith(ns)))
-    continue
-  if (canonByValue.has(v)) redeclared.push({ path: k, canonical: canonByValue.get(v), value: v })
-}
-if (redeclared.length) {
-  console.log(
-    `\ni18n: ${redeclared.length} keys redeclare a value that already has a shared canonical:`
-  )
-  for (const r of redeclared)
-    console.log(`  - ${r.path}  ->  ${r.canonical}  (${JSON.stringify(r.value)})`)
-  console.log('repoint call sites to the canonical unless this is variable context.')
-}
-
+const homographCfg = JSON.parse(readFileSync('./scripts/i18n-homographs.json', 'utf8'))
+const runtimeKey = k => homographCfg.dynamicPrefixes.some(p => k.startsWith(p))
+const homographs = new Set(Object.keys(homographCfg.homographs).map(v => v.toLowerCase()))
 const byValue = new Map()
 for (const [k, v] of Object.entries(flat)) {
-  const top = k.split('.')[0]
-  if (SHARED_NAMESPACES.includes(top) || DYNAMIC_NAMESPACES.some(ns => `${top}.`.startsWith(ns)))
-    continue
-  if (v.startsWith('@:') || v.includes('{') || !/\s/.test(v.trim())) continue
-  if (!byValue.has(v)) byValue.set(v, [])
-  byValue.get(v).push(k)
+  const norm = v.trim().toLowerCase()
+  if (!norm || runtimeKey(k) || homographs.has(norm)) continue
+  if (!byValue.has(norm)) byValue.set(norm, [])
+  byValue.get(norm).push(k)
 }
-const featureDupes = [...byValue].filter(([, ks]) => new Set(ks.map(k => k.split('.')[0])).size > 1)
-if (featureDupes.length) {
-  console.warn(
-    `\ni18n: ${featureDupes.length} multi-word value(s) declared in more than one feature:`
+const dupes = [...byValue].filter(([, ks]) => ks.length > 1)
+if (dupes.length) {
+  console.error(`\ni18n: ${dupes.length} value(s) declared by more than one key:`)
+  for (const [, ks] of dupes)
+    console.error(`  - ${ks.map(k => `${k} (${JSON.stringify(flat[k])})`).join(', ')}`)
+  console.error(
+    'Merge them (scripts/rename-locale-keys.mjs), or list a true homograph in scripts/i18n-homographs.json.'
   )
-  for (const [v, ks] of featureDupes) console.warn(`  - ${JSON.stringify(v)}  ${ks.join(', ')}`)
+  process.exit(1)
+}
+
+const roleKeys = Object.keys(flat).filter(k =>
+  /^[^.]+\.(titles|fields|tooltips|labels|subtitles|actions)\./.test(k)
+)
+if (roleKeys.length) {
+  console.error(
+    `\ni18n: ${roleKeys.length} key(s) in a role bucket (name them <feature>.<surface>.<purpose>):`
+  )
+  for (const k of roleKeys) console.error(`  - ${k}`)
+  process.exit(1)
 }
 
 const DIEGETIC_VALUE =
@@ -200,18 +193,20 @@ const framed = Object.entries(flat).filter(
   ([, v]) => FRAMED_VALUE.test(v.replace(/https?:\/\//g, '')) && !DIEGETIC_VALUE.test(v)
 )
 if (framed.length) {
-  console.warn(
+  console.error(
     `\ni18n: ${framed.length} value(s) carry presentation framing (move it to the template):`
   )
-  for (const [k, v] of framed) console.warn(`  - ${k}  (${JSON.stringify(v)})`)
+  for (const [k, v] of framed) console.error(`  - ${k}  (${JSON.stringify(v)})`)
+  process.exit(1)
 }
 
 const badKeys = Object.keys(flat).filter(
   k => /[A-Z]{3,}/.test(k.split('.').pop()) || (/\D\d$/.test(k) && k.slice(0, -1) in flat)
 )
 if (badKeys.length) {
-  console.warn(`\ni18n: ${badKeys.length} key(s) with an ALLCAPS run or a collision digit suffix:`)
-  for (const k of badKeys) console.warn(`  - ${k}`)
+  console.error(`\ni18n: ${badKeys.length} key(s) with an ALLCAPS run or a collision digit suffix:`)
+  for (const k of badKeys) console.error(`  - ${k}`)
+  process.exit(1)
 }
 
 if (unused.length) {

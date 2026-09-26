@@ -4,7 +4,7 @@
       <v-col class="heading h2">{{ $t('common.encounters') }}</v-col>
       <v-col cols="auto">
         <cc-dialog
-          :title="$t('gm.titles.organizeEncounters')"
+          :title="$t('gm.encounters.organizeEncounters')"
           icon="mdi-queue-first-in-last-out"
           :close-on-click="false"
           major
@@ -61,7 +61,7 @@
             <v-select
               v-model="grouping"
               :items="groupings"
-              :label="$t('gm.fields.groupBy')"
+              :label="$t('common.groupBy')"
               hide-details
               tile
               variant="outlined"
@@ -72,7 +72,7 @@
             <v-select
               v-model="sorting"
               :items="sortings"
-              :label="$t('gm.fields.sortBy')"
+              :label="$t('gm.encounters.sortBy')"
               hide-details
               tile
               variant="outlined"
@@ -178,7 +178,7 @@
         v-if="hidden"
         class="text-right pa-2 text-disabled"
       >
-        <i>{{ $t('gm.split.itemsHidden', { n: hidden }) }}</i>
+        <i>{{ $t('gm.split.itemsHidden', { n: hidden }, hidden) }}</i>
       </div>
     </v-card>
 
@@ -219,7 +219,7 @@
             class="mx-4"
             @click="open"
           >
-            {{ $t('common.import') }}
+            {{ $t('common.importAction') }}
           </cc-button>
         </template>
         <template #default="{ close }">

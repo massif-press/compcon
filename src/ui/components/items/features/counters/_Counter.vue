@@ -12,7 +12,7 @@
       </div>
       <v-spacer />
       <v-tooltip
-        :text="$t('ui.tooltips.resetCounter')"
+        :text="$t('ui.counter.resetCounter')"
         location="top"
         open-delay="400"
       >
@@ -32,7 +32,7 @@
 
       <v-tooltip
         v-if="counterData.custom"
-        :text="$t('ui.tooltips.deleteCounter')"
+        :text="$t('ui.counter.deleteCounter')"
       >
         <template #activator="{ props }">
           <v-btn

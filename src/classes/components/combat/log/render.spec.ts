@@ -109,7 +109,7 @@ describe('rendering a log event', () => {
   it('renders every kind it can record to prose, never to a raw key', () => {
     const unrendered = LOG_EVENT_KINDS.filter(k => {
       const out = renderEvent(event(k, FIXTURES[k]), stream, t)
-      return !out || out.includes('active.log.')
+      return !out || out.includes('combat.log.')
     })
     expect(unrendered).toEqual([])
   })
@@ -165,7 +165,7 @@ describe('rendering a log event', () => {
       ['attack', { ...FIXTURES.attack, overridden: true, missedFromInvisibility: true }],
     ]
     const unrendered = branches.filter(([k, payload]) =>
-      renderEvent(event(k as any, payload), stream, t).includes('active.log.')
+      renderEvent(event(k as any, payload), stream, t).includes('combat.log.')
     )
     expect(unrendered.map(b => b[0])).toEqual([])
   })

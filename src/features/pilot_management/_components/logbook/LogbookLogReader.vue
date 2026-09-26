@@ -12,7 +12,7 @@
         <v-select
           v-model="encounterId"
           :items="encounterItems"
-          :label="$t('active.charts.selectEncounter')"
+          :label="$t('common.encounter')"
           density="compact"
           variant="outlined"
           hide-details
@@ -41,7 +41,7 @@
         <v-select
           v-model="roundFilter"
           :items="roundItems"
-          :label="$t('active.actorLogs.filterRound')"
+          :label="$t('active.charts.round')"
           density="compact"
           variant="outlined"
           hide-details
@@ -105,7 +105,7 @@
               block
               color="primary"
               prepend-icon="mdi-export"
-              :tooltip="$t('active.tooltips.exportsAPlainTextVersion')"
+              :tooltip="$t('ui.shared.exportsAPlainTextVersion')"
               @click.stop="exportLog('text')"
             >
               {{ $t('active.actorLogs.exportText') }}
@@ -117,7 +117,7 @@
               block
               color="info"
               prepend-icon="mdi-export"
-              :tooltip="$t('active.tooltips.exportsAStructuredJsonVersion')"
+              :tooltip="$t('ui.shared.exportsAStructuredJsonVersion')"
               @click.stop="exportLog('json')"
             >
               {{ $t('active.actorLogs.exportJson') }}

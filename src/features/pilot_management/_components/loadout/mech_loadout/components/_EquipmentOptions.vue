@@ -21,7 +21,7 @@
         <v-list-item
           v-if="!item.IsIntegrated"
           prepend-icon="mdi-swap-vertical-variant"
-          :title="$t('pm.titles.changeItem')"
+          :title="$t('pm.loadout.changeItem')"
           @click="$emit('swap')"
         />
         <v-divider />
@@ -33,7 +33,7 @@
         ></v-list-item>
         <v-list-item
           v-if="item.CanSetUses"
-          :title="$t('pm.titles.setMaxUses')"
+          :title="$t('pm.loadout.setMaxUses')"
           prepend-icon="mdi-dice-6"
           @click="($refs as any).maxUseDialog.show()"
         ></v-list-item>
@@ -51,7 +51,7 @@
         <div v-if="!item.IsIntegrated">
           <v-divider />
           <v-list-item
-            :title="$t('pm.titles.removeItem')"
+            :title="$t('pm.loadout.removeItem')"
             prepend-icon="mdi-delete"
             @click="$emit('remove')"
           ></v-list-item>
@@ -83,7 +83,7 @@
       ref="maxUseDialog"
       number
       :placeholder="(asWeapon.max_use_override || item.MaxUses).toString()"
-      :label="$t('pm.fields.setMaximumUses')"
+      :label="$t('pm.loadout.setMaximumUses')"
       @save="asWeapon.max_use_override = Number($event)"
     />
   </span>

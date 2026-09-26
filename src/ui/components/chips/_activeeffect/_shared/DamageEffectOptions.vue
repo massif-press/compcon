@@ -93,10 +93,8 @@
         </template>
         <div class="text-center">
           <span v-if="damageEffect.Irreducible">{{ $t('ui.combat.irreducibleYes') }}</span>
-          <span v-else>
-            {{ $t('ui.combat.irreducibleNo') }}
-            <span v-if="damageEffect.AP">{{ $t('ui.combat.exceptArmor') }}</span>
-          </span>
+          <span v-else-if="damageEffect.AP">{{ $t('ui.combat.irreducibleNoExceptArmor') }}</span>
+          <span v-else>{{ $t('ui.combat.irreducibleNo') }}</span>
           <div>
             <i class="text-caption text-disabled">{{ $t('ui.combat.clickToOverride') }}</i>
           </div>

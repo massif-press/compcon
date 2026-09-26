@@ -99,7 +99,7 @@
                 class="my-2"
                 @click="roll(selectedTable)"
               >
-                {{ $t('common.roll_verb') }} {{ `${selectedTable.Mult}d${selectedTable.Die}` }}
+                {{ $t('common.rollVerb') }} {{ `${selectedTable.Mult}d${selectedTable.Die}` }}
               </cc-button>
             </div>
             <div

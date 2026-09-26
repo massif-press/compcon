@@ -10,7 +10,7 @@
       >
         <cc-switch
           v-model="expanded"
-          :label="$t('compendium.fields.showFull')"
+          :label="$t('common.showFull')"
         />
       </v-col>
     </v-row>

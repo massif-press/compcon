@@ -44,7 +44,7 @@
                 value="standard"
                 size="small"
               >
-                {{ $t('active.skillCheck.standard') }}
+                {{ $t('active.skillCheck.standardCheck') }}
               </v-btn>
               <v-btn
                 value="contested"
@@ -99,7 +99,7 @@
             </div>
           </v-col>
           <v-col v-else>
-            <div class="text-cc-overline text-disabled">{{ $t('ui.fields.selectTarget') }}</div>
+            <div class="text-cc-overline text-disabled">{{ $t('common.selectTarget') }}</div>
 
             <v-select
               v-model="selectedTarget"
@@ -313,7 +313,7 @@
   const modifier = ref('')
   const selectedTarget = ref<any>(null)
   const hase = ref([
-    { title: t('active.titles.hull'), value: 'hull' },
+    { title: t('stats.hull'), value: 'hull' },
     { title: t('stats.agility'), value: 'agility' },
     { title: t('stats.systems'), value: 'systems' },
     { title: t('stats.engineering'), value: 'engineering' },

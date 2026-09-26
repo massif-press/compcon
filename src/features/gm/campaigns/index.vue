@@ -77,7 +77,7 @@
                 prepend-icon="mdi-pencil"
                 @click="openEditCampaign(<Campaign>c)"
               >
-                {{ $t('common.edit') }}
+                {{ $t('common.editAction') }}
               </cc-button>
             </v-col>
             <v-col cols="auto">
@@ -105,20 +105,16 @@
                     </v-toolbar>
                     <v-card-text>
                       <i18n-t
-                        keypath="gm.campaign.deleteWarn1"
-                        tag="span"
+                        keypath="gm.campaign.deleteWarning"
+                        tag="div"
                         scope="global"
                       >
                         <template #strong>
                           <b class="text-error">{{ $t('gm.campaign.permanentlyDeleted') }}</b>
                         </template>
-                      </i18n-t>
-                      <div class="text-h6 text-center py-2">{{ c.Title }}</div>
-                      <i18n-t
-                        keypath="gm.campaign.deleteWarn2"
-                        tag="span"
-                        scope="global"
-                      >
+                        <template #title>
+                          <div class="text-h6 text-center py-2">{{ c.Title }}</div>
+                        </template>
                         <template #confirm>
                           <b>{{ $t('common.confirmDeletion') }}</b>
                         </template>
@@ -177,7 +173,7 @@
                 start
                 icon="mdi-import"
               />
-              {{ $t('common.import') }}
+              {{ $t('common.importAction') }}
             </cc-button>
           </template>
           <v-card>
@@ -196,7 +192,7 @@
                     </template>
                     <template #br><br /></template>
                     <template #lcd>
-                      <b class="text-secondary">{{ $t('gm.campaign.lcdExt') }}</b>
+                      <b class="text-secondary">.lcd</b>
                     </template>
                     <template #campaignCollection>
                       <b>{{ $t('gm.campaign.campaignCollection') }}</b>
@@ -217,7 +213,7 @@
                     v-model="fileValue"
                     accept="text/json"
                     variant="outlined"
-                    :label="$t('gm.fields.selectDataFile')"
+                    :label="$t('gm.shared.selectDataFile')"
                     prepend-icon="mdi-paperclip"
                     @change="stageImport"
                     @click:clear="reset"

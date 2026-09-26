@@ -27,7 +27,7 @@
           tile
           @click="$emit('reset')"
         >
-          {{ $t('common.reset') }}
+          {{ $t('common.resetAction') }}
         </v-btn>
       </v-col>
       <v-col>
@@ -39,7 +39,7 @@
           tile
           @click="$emit('set', 0)"
         >
-          {{ $t('common.clear') }}
+          {{ $t('common.clearAction') }}
         </v-btn>
       </v-col>
     </v-row>

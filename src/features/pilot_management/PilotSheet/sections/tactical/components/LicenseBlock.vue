@@ -3,7 +3,7 @@
     <section-header :title="$t('common.licenses')">
       <cc-dialog
         ref="licenseSelector"
-        :title="$t('pm.titles.setPilotLicenses')"
+        :title="$t('pm.pilotSheet.setPilotLicenses')"
         icon="cc:frame"
         fullscreen
         :close-on-click="false"

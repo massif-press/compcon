@@ -166,8 +166,8 @@ const expireStatuses = step<IEndRoundState>('expire-statuses', s => {
     s.cc.Record('status.lose', { status: statusRef(x.status), reason: 'expired' })
     newEffects.push(
       new TimedEffect({
-        nameKey: 'active.timedEffect.statusExpiredName',
-        detailKey: 'active.timedEffect.statusExpiredDetail',
+        nameKey: 'combat.timedEffect.statusExpiredName',
+        detailKey: 'combat.timedEffect.statusExpiredDetail',
         detailParams: { name: x.status.Name },
         round: s.cc.Round,
         remove: { status: [x.status.ID] },
@@ -179,8 +179,8 @@ const expireStatuses = step<IEndRoundState>('expire-statuses', s => {
     s.cc.Record('status.lose', { status: statusRef(x.status), reason: 'expired' })
     newEffects.push(
       new TimedEffect({
-        nameKey: 'active.timedEffect.specialExpiredName',
-        detailKey: 'active.timedEffect.specialExpiredDetail',
+        nameKey: 'combat.timedEffect.specialExpiredName',
+        detailKey: 'combat.timedEffect.specialExpiredDetail',
         detailParams: { attribute: x.status.Attribute },
         round: s.cc.Round,
         remove: { special: [{ attribute: x.status.Attribute, detail: x.status.Detail }] },

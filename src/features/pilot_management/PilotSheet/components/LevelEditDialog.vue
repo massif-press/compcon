@@ -23,7 +23,7 @@
       flat
       tile
     >
-      {{ $t('pm.sheet.thisToolSkipsTheLevelUp') }}
+      {{ $t('pm.sheet.levelEditWarning') }}
     </v-card>
 
     <v-row
@@ -33,7 +33,7 @@
       class="text-center mt-2"
     >
       <v-col cols="auto">
-        <div class="text-cc-overline">{{ $t('pm.sheet.currentLEVEL') }}:</div>
+        <div class="text-cc-overline">{{ $t('pm.sheet.currentLevel') }}:</div>
         <div
           class="heading h1"
           style="line-height: 42px"
@@ -47,7 +47,7 @@
       </v-col>
 
       <v-col cols="auto">
-        <div class="text-cc-overline mb-2">{{ $t('pm.sheet.newLEVEL') }}:</div>
+        <div class="text-cc-overline mb-2">{{ $t('pm.sheet.newLevel') }}:</div>
         <cc-select
           v-model.number="newLevel"
           :items="levels"

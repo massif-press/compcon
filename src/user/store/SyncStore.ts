@@ -15,6 +15,7 @@ import { EncounterStore } from '@/features/gm/store/encounter_store'
 import { CampaignStore } from '@/features/gm/store/campaign_store'
 import type { SyncableItem } from './CloudDataStore'
 import logger from '../logger'
+import { i18n } from '@/i18n'
 
 export type { SyncableItem }
 
@@ -246,11 +247,15 @@ export const SyncStore = defineStore('sync', {
       if (items.length > 0) {
         if (failures.length === 0) {
           notifStore.addCloudNotification(
-            `Synced ${items.length} item${items.length !== 1 ? 's' : ''} successfully.`
+            i18n.global.t('notify.account.syncedItems', { n: items.length }, items.length)
           )
         } else if (succeeded > 0) {
           notifStore.addCloudNotification(
-            `Synced ${succeeded} of ${items.length} item${items.length !== 1 ? 's' : ''}. ${failures.length} failed.`,
+            i18n.global.t(
+              'notify.account.syncedPartial',
+              { succeeded, n: items.length, failed: failures.length },
+              items.length
+            ),
             'warning'
           )
         }

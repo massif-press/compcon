@@ -196,7 +196,7 @@
                   :items="moveItems"
                   :item-title="item => item.Title"
                   return-object
-                  :label="$t('gm.fields.moveIntoSection')"
+                  :label="$t('gm.campaigns.moveIntoSection')"
                   hide-details
                   density="compact"
                 />
@@ -235,7 +235,7 @@
               icon="mdi-content-copy"
             />
           </template>
-          <span>{{ $t('common.duplicate') }}</span>
+          <span>{{ $t('common.duplicateAction') }}</span>
         </v-tooltip>
       </v-btn>
 

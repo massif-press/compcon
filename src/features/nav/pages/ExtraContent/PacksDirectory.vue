@@ -12,7 +12,7 @@
         >
           {{ $t('nav.packsDirectory.massifPress') }}
         </a>
-        {{ $t('nav.packsDirectory.content') }}
+        {{ $t('common.contentLabel') }}
       </div>
       <massif-lcp-table
         :packs="massifPacks"

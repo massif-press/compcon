@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div class="heading h2">{{ $t('active.titles.characterSheets') }}</div>
+    <div class="heading h2">{{ $t('active.sheetManager.characterSheets') }}</div>
     <active-mode-sort-bar
       :sort="sort"
       :asc="asc"
@@ -8,7 +8,7 @@
       :archived-items="archived"
       :columns="sheetOrganizerColumns"
       noun="sheet"
-      :title="$t('active.titles.characterSheets')"
+      :title="$t('active.sheetManager.characterSheets')"
       @update:sort="sort = $event"
       @update:asc="asc = $event"
       @archive="organizeArchive"
@@ -51,7 +51,7 @@
           class="mb-2"
           @click="importSelect()"
         >
-          {{ $t('common.import') }}
+          {{ $t('common.importAction') }}
         </cc-button>
       </v-col>
     </v-row>
@@ -103,13 +103,13 @@
                 v-if="e.Combatant.actor.CombatController.IsDead"
                 class="px-1 bg-error text-center"
               >
-                {{ $t('active.sheetMgr.kia') }}
+                {{ $t('enums.pilotStatus.kia') }}
               </v-card>
               <v-card
                 v-else
                 class="px-1 bg-success text-center"
               >
-                {{ $t('ui.widget.active') }}
+                {{ $t('pm.pilotStatus.active') }}
               </v-card>
             </v-col>
             <v-col cols="auto">
@@ -118,7 +118,7 @@
                 <b>{{ new Date(e.Created).toLocaleDateString() }}</b>
               </div>
               <div>
-                <span class="text-disabled mr-1">{{ $t('active.labels.archived') }}</span>
+                <span class="text-disabled mr-1">{{ $t('active.shared.archived') }}</span>
                 <b>{{ new Date(e.Updated).toLocaleDateString() }}</b>
               </div>
             </v-col>
@@ -155,7 +155,7 @@
                     size="small"
                     color="primary"
                     block
-                    :tooltip="$t('active.tooltips.reviewTheCombatLogAnd')"
+                    :tooltip="$t('active.sheetManager.reviewCombatLogHint')"
                     @click="open()"
                   >
                     {{ $t('active.sheetMgr.savePilotHistory') }}
@@ -298,7 +298,7 @@
   const router = useRouter()
   const sheetOrganizerColumns = [
     { key: 'Name', title: 'Name', sortable: true, value: (s: PilotSheet) => s.Name },
-    { key: 'Pilot', title: t('active.titles.pilot'), value: (s: PilotSheet) => s.Pilot.Callsign },
+    { key: 'Pilot', title: t('common.pilot'), value: (s: PilotSheet) => s.Pilot.Callsign },
     {
       key: 'Created',
       title: 'Created',
@@ -463,7 +463,7 @@
           router.push(`pilot-runner/${sheet.ID}`)
         } catch (error) {
           logger.error('Failed to import sheet:', error)
-          notify({ type: 'error', text: t('active.tooltips.failedToImportSheetPleaseEnsure') })
+          notify({ type: 'error', text: t('active.sheetManager.sheetImportFailed') })
         }
       }
       reader.readAsText(file)

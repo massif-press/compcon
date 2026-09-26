@@ -1,7 +1,7 @@
 <template>
   <cc-alert
     v-if="pilot.CombatController.IsDead"
-    :title="$t('active.titles.pilotKia')"
+    :title="$t('active.pilotPanel.pilotKia')"
     icon="mdi-skull"
     color="error"
     variant="outlined"
@@ -33,7 +33,7 @@
 
       <cc-alert
         v-if="pilot.CombatController.HasStatus('downandout')"
-        :title="$t('active.titles.downAndOut')"
+        :title="$t('active.pilotPanel.downAndOut')"
         icon="mdi-medical-bag"
         color="primary"
         class="mr-6"
@@ -193,13 +193,13 @@
     return [
       {
         key: 'mounted',
-        label: t('active.actions.mounted'),
+        label: t('active.shared.mounted'),
         active: !!pilot.value.ActiveMech?.CombatController.Mounted,
         toggle: setMounted,
       },
       {
         key: 'overwatch',
-        label: t('active.actions.overwatch'),
+        label: t('active.runner.overwatch'),
         active: cc.Overwatch,
         reason: cc.BlockedReasonFor('overwatch'),
         toggle: () => cc.SetOverwatch(!cc.Overwatch),

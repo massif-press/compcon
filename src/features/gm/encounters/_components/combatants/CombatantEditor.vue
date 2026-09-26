@@ -9,7 +9,7 @@
       <combatant-group
         type="enemy"
         :list="enemyCombatants"
-        :label="$t('gm.fields.enemyForces')"
+        :label="$t('gm.encounters.enemyForces')"
         :transfer-key="transferKey"
         :readonly="readonly"
         is-first
@@ -23,7 +23,7 @@
       <combatant-group
         type="ally"
         :list="allyCombatants"
-        :label="$t('gm.fields.alliedForces')"
+        :label="$t('gm.encounters.alliedForces')"
         :transfer-key="transferKey"
         :readonly="readonly"
         @drag-start="startDragScroll"
@@ -36,7 +36,7 @@
       <combatant-group
         type="neutral"
         :list="neutralCombatants"
-        :label="$t('gm.fields.neutral')"
+        :label="$t('common.sideNeutral')"
         :transfer-key="transferKey"
         :readonly="readonly"
         @drag-start="startDragScroll"
@@ -188,7 +188,7 @@
               <b class="text-primary">{{ selected.actor.GetLinkedItem().Name }}</b>
             </template>
           </i18n-t>
-          <span v-else>{{ $t('gm.combatant.notLinkedSourceDot') }}</span>
+          <span v-else>{{ $t('gm.combatant.notLinkedToSource') }}</span>
         </v-tooltip>
 
         <b
@@ -228,8 +228,8 @@
                   >
                     <v-col>{{ $t('gm.combatant.change') }}</v-col>
                     <v-col>{{ $t('gm.combatant.thisInstance') }}</v-col>
-                    <v-col>{{ $t('gm.combatant.source') }}</v-col>
-                    <v-col cols="auto">{{ $t('common.update') }}</v-col>
+                    <v-col>{{ $t('common.source') }}</v-col>
+                    <v-col cols="auto">{{ $t('common.updateAction') }}</v-col>
                   </v-row>
                   <v-row
                     v-for="key in Object.keys(itemDiff)"
