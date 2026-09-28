@@ -99,6 +99,12 @@
             </v-col>
             <v-col
               cols="auto"
+              style="margin-top: -3px"
+            >
+              <play-mode-badge :mode="sheet.PlayMode" />
+            </v-col>
+            <v-col
+              cols="auto"
               class="mr-n2 ml-auto"
             >
               <v-menu>
@@ -356,6 +362,7 @@
   import PilotSheet from '@/features/pilot_management/store/PilotSheet'
   import { computed } from 'vue'
   import { useDisplay } from 'vuetify'
+  import PlayModeBadge from '../../_components/PlayModeBadge.vue'
 
   const { smAndDown: mobile } = useDisplay()
 

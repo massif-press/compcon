@@ -1,6 +1,13 @@
-import { computed, type WritableComputedRef } from 'vue'
+import {
+  computed,
+  inject,
+  type ComputedRef,
+  type InjectionKey,
+  type WritableComputedRef,
+} from 'vue'
 import { useDisplay } from 'vuetify'
 import { UserStore } from '@/stores'
+import type { PlayMode } from '@/classes/encounter/EncounterInstance'
 
 export type LabelMode = 'icon' | 'icon+text' | 'text'
 export type Density = 'compact' | 'default' | 'comfortable'
@@ -17,7 +24,12 @@ export type ActiveModeLayoutOptions = {
   showFlavor: boolean
 }
 
-const LAYOUT_VIEW_KEY = 'activeModeLayout'
+const LAYOUT_VIEW_KEYS: Record<PlayMode, string> = {
+  full: 'activeModeLayout',
+  simple: 'activeModeLayoutSimple',
+}
+
+export const LayoutModeKey: InjectionKey<ComputedRef<PlayMode>> = Symbol('ActiveModeLayoutMode')
 
 const CORE_STATS = [
   'hp',
@@ -41,6 +53,19 @@ export const DEFAULTS: ActiveModeLayoutOptions = {
   coreStatsOnly: false,
   showPortraits: true,
   showFlavor: true,
+}
+
+export const SIMPLE_DEFAULTS: ActiveModeLayoutOptions = {
+  ...DEFAULTS,
+  labels: 'icon+text',
+  density: 'comfortable',
+  tickbars: 'simple',
+  maxColumns: 2,
+}
+
+const MODE_DEFAULTS: Record<PlayMode, ActiveModeLayoutOptions> = {
+  full: DEFAULTS,
+  simple: SIMPLE_DEFAULTS,
 }
 
 const DENSITY: Record<
@@ -86,19 +111,25 @@ export const PRESETS: Record<string, Partial<ActiveModeLayoutOptions>> = {
 
 export const PRESET_KEYS = Object.keys(PRESETS)
 
-function readLayoutOptions(): ActiveModeLayoutOptions {
-  const { statSet, ...stored } = (UserStore().User.View(LAYOUT_VIEW_KEY, null) || {}) as any
+function readLayoutOptions(mode: PlayMode): ActiveModeLayoutOptions {
+  const { statSet, ...stored } = (UserStore().User.View(LAYOUT_VIEW_KEYS[mode], null) || {}) as any
   if (statSet !== undefined) stored.coreStatsOnly = statSet !== 'all'
-  return { ...DEFAULTS, ...stored }
+  return { ...MODE_DEFAULTS[mode], ...stored }
 }
 
-export function applyPreset(name: string): void {
-  UserStore().User.SetView(LAYOUT_VIEW_KEY, { ...DEFAULTS, ...(PRESETS[name] || {}) })
+export function applyPreset(name: string, mode: PlayMode = 'full'): void {
+  UserStore().User.SetView(LAYOUT_VIEW_KEYS[mode], {
+    ...MODE_DEFAULTS[mode],
+    ...(PRESETS[name] || {}),
+  })
 }
 
-export function matchedPreset(opts: ActiveModeLayoutOptions): string | null {
+export function matchedPreset(
+  opts: ActiveModeLayoutOptions,
+  base: ActiveModeLayoutOptions = DEFAULTS
+): string | null {
   for (const [name, partial] of Object.entries(PRESETS)) {
-    const candidate = { ...DEFAULTS, ...partial }
+    const candidate = { ...base, ...partial }
     if (JSON.stringify(candidate) === JSON.stringify(opts)) return name
   }
   return null
@@ -142,10 +173,15 @@ export function resolveLayout(opts: ActiveModeLayoutOptions, mobile: boolean): R
 
 export function useLayoutOptions() {
   const { mdAndDown } = useDisplay()
+  const mode = inject(LayoutModeKey, () => computed<PlayMode>(() => 'full'), true)
 
   const options: WritableComputedRef<ActiveModeLayoutOptions> = computed({
-    get: () => readLayoutOptions(),
-    set: v => UserStore().User.SetView(LAYOUT_VIEW_KEY, { ...DEFAULTS, ...v }),
+    get: () => readLayoutOptions(mode.value),
+    set: v =>
+      UserStore().User.SetView(LAYOUT_VIEW_KEYS[mode.value], {
+        ...MODE_DEFAULTS[mode.value],
+        ...v,
+      }),
   })
 
   const layout = computed(() => resolveLayout(options.value, mdAndDown.value))
@@ -159,7 +195,14 @@ export function useLayoutOptions() {
     })
   }
 
-  return { options, layout, field }
+  return {
+    options,
+    layout,
+    field,
+    applyPreset: (name: string) => applyPreset(name, mode.value),
+    matchedPreset: (opts: ActiveModeLayoutOptions) =>
+      matchedPreset(opts, MODE_DEFAULTS[mode.value]),
+  }
 }
 
 export function filterStats(stats: any[], coreStatsOnly: boolean): any[] {

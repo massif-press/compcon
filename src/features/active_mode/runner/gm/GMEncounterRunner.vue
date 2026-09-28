@@ -204,7 +204,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
+  import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, provide } from 'vue'
   import { useDisplay } from 'vuetify'
   import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router'
   import { useI18n } from 'vue-i18n'
@@ -242,6 +242,7 @@
   import RunnerLeaveDialog from '../_shared/_RunnerLeaveDialog.vue'
   import { consumeLeaveGuardBypass } from '../_shared/useRunnerOptions'
   import CcPanelToggle from '@/ui/components/buttons/CCPanelToggle.vue'
+  import { LayoutModeKey } from '@/features/active_mode/layoutOptions'
 
   const panelMap: Record<string, any> = {
     'encounter-info': EncounterInfoPanel,
@@ -284,6 +285,10 @@
     )
   )
   const instanceID = computed(() => instance.value?.ID ?? undefined)
+  provide(
+    LayoutModeKey,
+    computed(() => instance.value?.PlayMode ?? 'full')
+  )
   const actors = computed(() => {
     if (!instance.value) return []
     return instance.value.Combatants.map((c: any) => c.actor)

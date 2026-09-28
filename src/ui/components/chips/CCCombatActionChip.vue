@@ -82,6 +82,15 @@
             @click="reset"
           />
         </v-col>
+        <v-col
+          cols="auto"
+          class="ml-1"
+        >
+          <action-info-button
+            :action="action"
+            :tier="tier"
+          />
+        </v-col>
       </v-row>
     </v-col>
     <v-col v-else>
@@ -136,6 +145,7 @@
   import { Action } from '@/classes/Action'
   import MenuInput from './_activeeffect/_ae_menu_input.vue'
   import CombatActionIndicator from './_CombatActionIndicator.vue'
+  import ActionInfoButton from '../items/features/actions/_actionInfoButton.vue'
   import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
   import type { CombatantData } from '@/classes/encounter/Encounter'
 
@@ -195,7 +205,7 @@
   function reset() {
     controller.value.UndoActivation(props.action.Activation, {
       actionId: props.action.ID,
-      heat: props.action.HeatCost || 0,
+      heat: simple.value ? 0 : props.action.HeatCost || 0,
     })
     emit('reset', props.action.Cost)
   }

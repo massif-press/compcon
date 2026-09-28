@@ -2066,6 +2066,7 @@
     },
     "layout": {
       "title": "Active Mode Layout",
+      "layoutFor": "Layout for",
       "description": "Controls how combatant panels, stats and action controls are drawn during an encounter. These settings are yours alone and do not affect other players at the table.",
       "preset": "Preset",
       "presets": {

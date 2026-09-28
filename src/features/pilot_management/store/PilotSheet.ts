@@ -8,7 +8,7 @@ import { CloudController, ICloudData } from '@/classes/components/cloud/CloudCon
 import { ICloudSyncable } from '@/classes/components/cloud/ICloudSyncable'
 import { ISaveable } from '@/classes/components/save/ISaveable'
 import { ISaveData, SaveController } from '@/classes/components/save/SaveController'
-import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+import { EncounterInstance, applyPlayMode } from '@/classes/encounter/EncounterInstance'
 import type { PlayMode } from '@/classes/encounter/EncounterInstance'
 import { deployToCombatant } from '@/classes/components/feature/deployable/DeployableInstance'
 import { buildStream } from '@/classes/components/combat/log/stream'
@@ -82,13 +82,7 @@ class PilotSheet implements ISaveable, ICloudSyncable {
 
   public SetPlayMode(mode: PlayMode): void {
     this.PlayMode = mode
-    this.Combatant.actor.CombatController.ManualPlay = mode === 'simple'
-    if (mode !== 'simple') return
-    for (const cc of [
-      this.Combatant.actor.CombatController,
-      this.Combatant.actor.ActiveMech?.CombatController,
-    ])
-      if (cc) cc.PendingChecks = []
+    applyPlayMode(this.Combatant.actor, mode)
   }
 
   public get PilotID(): string {

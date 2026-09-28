@@ -253,6 +253,32 @@
         </template>
       </v-tooltip>
     </v-col>
+
+    <v-col
+      cols="auto"
+      class="ml-1"
+    >
+      <cc-dialog
+        :title="item.Name"
+        :close-on-click="false"
+        major
+        max-width="90vw"
+      >
+        <template #activator="{ open }">
+          <v-btn
+            icon
+            size="x-small"
+            tile
+            height="26"
+            variant="text"
+            @click="open"
+          >
+            <v-icon icon="mdi-information-outline" />
+          </v-btn>
+        </template>
+        <cc-item-card :item="item" />
+      </cc-dialog>
+    </v-col>
   </v-row>
 </template>
 

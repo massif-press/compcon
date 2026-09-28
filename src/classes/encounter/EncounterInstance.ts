@@ -43,6 +43,16 @@ interface IEncounterInstanceData {
   max_masonry_columns?: number
 }
 
+function applyPlayMode(actor: any, mode: PlayMode): void {
+  const roots = [
+    actor?.CombatController,
+    ...(actor?.Layers ?? []).map((l: any) => l.CombatController),
+  ]
+  for (const cc of roots) if (cc) cc.ManualPlay = mode === 'simple'
+  if (mode !== 'simple') return
+  for (const cc of [...roots, actor?.ActiveMech?.CombatController]) if (cc) cc.PendingChecks = []
+}
+
 function hasPendingMeltdown(c: CombatantData): boolean {
   return [c.actor?.CombatController, c.actor?.ActiveMech?.CombatController].some(
     cc => !!cc?.TimedEffectController.Pending('self_destruct', 'reactor_meltdown')
@@ -200,12 +210,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
 
   public SetPlayMode(mode: PlayMode): void {
     this.PlayMode = mode
-    for (const c of this.Combatants) {
-      if (c.actor?.CombatController) c.actor.CombatController.ManualPlay = mode === 'simple'
-      if (mode !== 'simple') continue
-      for (const cc of [c.actor?.CombatController, c.actor?.ActiveMech?.CombatController])
-        if (cc) cc.PendingChecks = []
-    }
+    for (const c of this.Combatants) applyPlayMode(c.actor, mode)
   }
 
   private _markStaticControllers(actor: any): void {
@@ -450,5 +455,5 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
   }
 }
 
-export { EncounterInstance }
+export { EncounterInstance, applyPlayMode }
 export type { IEncounterInstanceData, PlayMode }

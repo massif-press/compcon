@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { Encounter } from './Encounter'
-import { EncounterInstance } from './EncounterInstance'
+import { EncounterInstance, applyPlayMode } from './EncounterInstance'
 import { Placeholder } from './Placeholder'
 import { makePilot, makeMech } from '@/__tests__/factories'
 import type { Pilot } from '@/classes/pilot/Pilot'
@@ -253,6 +253,15 @@ describe('EncounterInstance play mode', () => {
     const actor = reloaded.Combatants[0].actor
     expect(actor.CombatController.Automated).toBe(false)
     expect(actor.ActiveMech!.CombatController.Automated).toBe(false)
+  })
+
+  it('stamps every eidolon layer', () => {
+    const layer = () => ({ CombatController: { ManualPlay: false, PendingChecks: [] } })
+    const layers = [layer(), layer()]
+    const eidolon = { CombatController: layers[0].CombatController, Layers: layers }
+
+    applyPlayMode(eidolon, 'simple')
+    expect(layers.every(l => l.CombatController.ManualPlay)).toBe(true)
   })
 
   it('clears pending checks when switched to simple', () => {

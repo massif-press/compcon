@@ -170,7 +170,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed } from 'vue'
+  import { ref, computed, provide } from 'vue'
   import { useDisplay } from 'vuetify'
   import { useRoute, onBeforeRouteLeave } from 'vue-router'
   import { PilotSheetStore } from '@/stores'
@@ -192,6 +192,7 @@
   import RunnerLeaveDialog from '../_shared/_RunnerLeaveDialog.vue'
   import { consumeLeaveGuardBypass } from '../_shared/useRunnerOptions'
   import CcPanelToggle from '@/ui/components/buttons/CCPanelToggle.vue'
+  import { LayoutModeKey } from '@/features/active_mode/layoutOptions'
 
   const panelMap: Record<string, any> = {
     pc: PcPanel,
@@ -220,6 +221,10 @@
     )
   )
   const sheetID = computed(() => (sheet.value ? sheet.value.ID : 0))
+  provide(
+    LayoutModeKey,
+    computed(() => sheet.value?.PlayMode ?? 'full')
+  )
   const combatant = computed(() => sheet.value!.Combatant)
   const pilot = computed(() => sheet.value!.Combatant.actor as Pilot)
   const encounterInstance = computed(() => sheet.value!.EncounterInstance)

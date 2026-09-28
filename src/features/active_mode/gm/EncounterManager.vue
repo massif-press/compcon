@@ -66,6 +66,10 @@
                 <cc-slashes class="mx-3" />
                 <span class="text-disabled mr-1">{{ $t('active.labels.round') }}</span>
                 <b>{{ e.Round }}</b>
+                <play-mode-badge
+                  :mode="e.PlayMode"
+                  class="ml-3"
+                />
               </v-col>
               <v-col
                 cols="auto"
@@ -460,6 +464,7 @@
   import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
   import { EncounterArchive } from '@/classes/encounter/EncounterArchive'
   import { useI18n } from 'vue-i18n'
+  import PlayModeBadge from '../_components/PlayModeBadge.vue'
   const { t } = useI18n()
 
   const { smAndDown: mobile } = useDisplay()

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-4">
     <div class="d-flex align-center">
       <div class="text-cc-overline text-disabled">{{ $t('active.actions.allActions') }}</div>
       <v-spacer />
@@ -58,6 +58,12 @@
               @click="controller.UndoActivation(a.Activation, { actionId: a.ID })"
             />
           </v-col>
+          <v-col
+            cols="auto"
+            class="ml-1"
+          >
+            <action-info-button :action="a" />
+          </v-col>
         </v-row>
       </v-col>
     </v-row>
@@ -74,6 +80,7 @@
   import { useEncounterContext } from '../encounterContext'
   import DeployButton from './loadouts/_deployButton.vue'
   import UnavailableToggle from './loadouts/action_buttons/_unavailableToggle.vue'
+  import ActionInfoButton from '@/ui/components/items/features/actions/_actionInfoButton.vue'
 
   defineOptions({ name: 'SimpleActionList' })
 

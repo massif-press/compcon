@@ -96,13 +96,13 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { useLayoutOptions, applyPreset, matchedPreset, PRESET_KEYS } from '../layoutOptions'
+  import { useLayoutOptions, PRESET_KEYS } from '../layoutOptions'
 
   defineOptions({ name: 'LayoutOptionsControls' })
   withDefaults(defineProps<{ dense?: boolean }>(), { dense: false })
 
   const { t } = useI18n()
-  const { options, field } = useLayoutOptions()
+  const { options, field, applyPreset, matchedPreset } = useLayoutOptions()
 
   const labels = field('labels')
   const density = field('density')
