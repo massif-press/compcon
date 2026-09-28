@@ -25,6 +25,7 @@ class TimedEffectController {
   }
 
   public ApplyInitialSelfEffects(matches: (duration?: string) => boolean): void {
+    if (!this._parent.Automated) return
     this._parent.ActiveEffects.filter(ae => ae.InitialSelfApplied && matches(ae.Duration)).forEach(
       ae => this._setFromActiveEffect(ae)
     )

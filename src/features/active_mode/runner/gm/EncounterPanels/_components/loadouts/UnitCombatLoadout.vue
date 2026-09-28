@@ -45,7 +45,10 @@
       </v-tooltip>
     </v-col>
     <v-spacer />
-    <v-col cols="auto">
+    <v-col
+      v-if="!simple"
+      cols="auto"
+    >
       <v-menu
         location="top"
         :close-on-content-click="false"
@@ -169,7 +172,7 @@
 
   const { smAndDown: mobile } = useDisplay()
 
-  const { encounterInstance } = useEncounterContext()
+  const { encounterInstance, simple } = useEncounterContext()
 
   const props = defineProps<{
     unit: Unit

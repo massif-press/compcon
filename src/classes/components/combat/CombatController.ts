@@ -249,6 +249,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   public CombatLog: CombatLogRecorder
   public CombatLogVersion: number = 0
   public Round: number = 1
+  public ManualPlay: boolean = false
   public Turn: number = 1
 
   public SaveLock: boolean = false
@@ -309,6 +310,10 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   public get RootActor(): any {
     return rootActor(this)
+  }
+
+  public get Automated(): boolean {
+    return !this.RootActor?.CombatController?.ManualPlay
   }
 
   public get ActiveActor(): any {
@@ -1312,7 +1317,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public StartTurn(): void {
-    this.RollRecharge(this.AllEquipment)
+    if (this.Automated) this.RollRecharge(this.AllEquipment)
     this.RefreshReactions()
     this.ReleasePrepared()
     this.Disengaged = false

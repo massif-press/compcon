@@ -3,6 +3,7 @@ import { GetAll, RemoveItem, SetItem, SetValue, GetValue } from '@/io/Storage'
 import logger from '@/user/logger'
 import PilotSheet from './PilotSheet'
 import type { Pilot } from '@/classes/pilot/Pilot'
+import type { PlayMode } from '@/classes/encounter/EncounterInstance'
 
 export const PilotSheetStore = defineStore('pilot_sheet', {
   state: () => ({
@@ -25,8 +26,8 @@ export const PilotSheetStore = defineStore('pilot_sheet', {
       )
       await this.LoadSheetId()
     },
-    async AddPilotSheet(pilot: Pilot, campaign?: string): Promise<void> {
-      const newSheet = PilotSheet.FromPilot(pilot, campaign)
+    async AddPilotSheet(pilot: Pilot, campaign?: string, playMode?: PlayMode): Promise<void> {
+      const newSheet = PilotSheet.FromPilot(pilot, campaign, playMode)
       newSheet.Combatants[0].actor.CombatController.Reset()
       this.PilotSheets.push(newSheet)
       await SetItem('pilot_sheets', PilotSheet.Serialize(newSheet))

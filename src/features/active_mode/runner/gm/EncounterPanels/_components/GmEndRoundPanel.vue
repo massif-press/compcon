@@ -25,40 +25,42 @@
           {{ $t('common.none') }}
         </i>
 
-        <div class="text-cc-overline mt-4">{{ $t('active.gmEndRound.turnsNotEnded') }}:</div>
-        <div v-if="unendedTurns.length">
-          <v-row
-            v-for="c in unendedTurns"
-            :key="c.Parent.ID"
-            dense
-            align="center"
-            class="my-1 mx-4 px-2 text-text bg-panel"
+        <template v-if="encounterInstance.PlayMode !== 'simple'">
+          <div class="text-cc-overline mt-4">{{ $t('active.gmEndRound.turnsNotEnded') }}:</div>
+          <div v-if="unendedTurns.length">
+            <v-row
+              v-for="c in unendedTurns"
+              :key="c.Parent.ID"
+              dense
+              align="center"
+              class="my-1 mx-4 px-2 text-text bg-panel"
+            >
+              <v-col>
+                <span class="heading h4">{{ c.CombatName }}</span>
+                <span class="text-cc-overline text-disabled ml-2">
+                  {{ c.StatController.CurrentStats['activations'] }}/{{
+                    c.StatController.MaxStats['activations']
+                  }}
+                </span>
+              </v-col>
+              <v-col cols="auto">
+                <cc-button
+                  size="x-small"
+                  prepend-icon="cc:activate"
+                  @click="endActorTurn(c)"
+                >
+                  {{ $t('active.gmEndRound.endTurnBtn') }}
+                </cc-button>
+              </v-col>
+            </v-row>
+          </div>
+          <i
+            v-else
+            class="text-disabled"
           >
-            <v-col>
-              <span class="heading h4">{{ c.CombatName }}</span>
-              <span class="text-cc-overline text-disabled ml-2">
-                {{ c.StatController.CurrentStats['activations'] }}/{{
-                  c.StatController.MaxStats['activations']
-                }}
-              </span>
-            </v-col>
-            <v-col cols="auto">
-              <cc-button
-                size="x-small"
-                prepend-icon="cc:activate"
-                @click="endActorTurn(c)"
-              >
-                {{ $t('active.gmEndRound.endTurnBtn') }}
-              </cc-button>
-            </v-col>
-          </v-row>
-        </div>
-        <i
-          v-else
-          class="text-disabled"
-        >
-          {{ $t('common.none') }}
-        </i>
+            {{ $t('common.none') }}
+          </i>
+        </template>
 
         <div v-if="nextRoundAlerts">
           <v-divider class="my-4" />

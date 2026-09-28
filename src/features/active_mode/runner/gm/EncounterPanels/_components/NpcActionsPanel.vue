@@ -1,5 +1,13 @@
 <template>
+  <simple-action-list
+    v-if="simple"
+    :controller="controller"
+    :quick-actions="['act_skirmish', ...quickNpcActions]"
+    :full-actions="['act_barrage', ...fullNpcActions]"
+    @deploy="$emit('deploy', $event)"
+  />
   <base-actions-panel
+    v-else
     :quick-actions="quickNpcActions"
     :full-actions="fullNpcActions"
     @deploy="$emit('deploy', $event)"
@@ -31,11 +39,12 @@
   import { useI18n } from 'vue-i18n'
   const { t } = useI18n()
   import BaseActionsPanel from './BaseActionsPanel.vue'
+  import SimpleActionList from './SimpleActionList.vue'
   import BasicActionButton from './loadouts/action_buttons/basicActionButton.vue'
   import InvadeButton from './loadouts/action_buttons/invadeButton.vue'
   import TargetedActionButton from './loadouts/action_buttons/targetedActionButton.vue'
 
-  const { owner } = useEncounterContext()
+  const { owner, simple } = useEncounterContext()
 
   defineEmits<{ deploy: [event: any] }>()
 

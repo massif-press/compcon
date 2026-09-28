@@ -37,57 +37,46 @@
         cols="auto"
         class="ml-auto"
       >
-        <v-row
-          no-gutters
-          align="center"
+        <v-text-field
+          :model-value="internalValue"
+          class="stepper-input"
+          variant="outlined"
+          type="text"
+          tile
+          hide-details
+          density="compact"
+          width="130"
+          @focus="$event.target.select()"
+          @keydown.enter="$event.target.blur()"
+          @blur="handleInput($event.target.value)"
         >
-          <v-col cols="auto">
+          <template #prepend-inner>
             <v-btn
               icon
               flat
               tile
-              size="30"
-              class="mx-2"
+              size="24"
               variant="text"
-              @click="setVal(internalValue - 1)"
+              @mousedown.stop
+              @click.stop="setVal(internalValue - 1)"
             >
-              <v-icon
-                size="x-large"
-                icon="mdi-minus"
-              />
+              <v-icon icon="mdi-minus" />
             </v-btn>
-          </v-col>
-          <v-col cols="auto">
-            <v-text-field
-              :model-value="internalValue"
-              variant="outlined"
-              type="text"
-              tile
-              hide-details
-              density="compact"
-              width="60"
-              @focus="$event.target.select()"
-              @keydown.enter="$event.target.blur()"
-              @blur="handleInput($event.target.value)"
-            />
-          </v-col>
-          <v-col cols="auto">
+          </template>
+          <template #append-inner>
             <v-btn
               icon
               flat
               tile
-              size="30"
-              class="mx-2"
+              size="24"
               variant="text"
-              @click="setVal(internalValue + 1)"
+              @mousedown.stop
+              @click.stop="setVal(internalValue + 1)"
             >
-              <v-icon
-                size="x-large"
-                icon="mdi-plus"
-              />
+              <v-icon icon="mdi-plus" />
             </v-btn>
-          </v-col>
-        </v-row>
+          </template>
+        </v-text-field>
       </v-col>
       <v-col
         cols="auto"
@@ -226,5 +215,14 @@
   .top-element :deep(.v-field__input) {
     min-height: auto !important;
     height: 32px;
+  }
+
+  .stepper-input :deep(.v-field) {
+    padding-inline: 2px;
+  }
+
+  .stepper-input :deep(.v-field__input) {
+    text-align: center;
+    padding-inline: 0;
   }
 </style>

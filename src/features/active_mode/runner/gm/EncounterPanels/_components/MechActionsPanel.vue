@@ -1,5 +1,13 @@
 <template>
+  <simple-action-list
+    v-if="simple"
+    :controller="controller"
+    :quick-actions="['act_skirmish', ...quickMechActions]"
+    :full-actions="['act_barrage', ...fullMechActions]"
+    @deploy="$emit('deploy', $event)"
+  />
   <v-expansion-panels
+    v-else
     focusable
     tile
     color="panel"
@@ -243,6 +251,7 @@
   import { useI18n } from 'vue-i18n'
   const { t } = useI18n()
   import BasicActionButton from './loadouts/action_buttons/basicActionButton.vue'
+  import SimpleActionList from './SimpleActionList.vue'
   import TargetedActionButton from './loadouts/action_buttons/targetedActionButton.vue'
   import DeployButton from './loadouts/_deployButton.vue'
   import InvadeButton from './loadouts/action_buttons/invadeButton.vue'
@@ -252,7 +261,7 @@
   import MechSkirmishButton from './loadouts/action_buttons/mechSkirmishButton.vue'
   import MechBarrageButton from './loadouts/action_buttons/mechBarrageButton.vue'
 
-  const { owner } = useEncounterContext()
+  const { owner, simple } = useEncounterContext()
 
   defineEmits<{ deploy: [event: any] }>()
 

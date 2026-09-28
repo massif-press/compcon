@@ -4,8 +4,8 @@
       location="top"
       :text="
         modelValue
-          ? $t('active.weaponSelect.showingUnavailable')
-          : $t('active.weaponSelect.hidingUnavailable')
+          ? showingText || $t('active.weaponSelect.showingUnavailable')
+          : hidingText || $t('active.weaponSelect.hidingUnavailable')
       "
     >
       <template #activator="{ props }">
@@ -39,10 +39,20 @@
 <script setup lang="ts">
   defineOptions({ name: 'UnavailableToggle' })
 
-  withDefaults(defineProps<{ modelValue?: boolean; count?: number }>(), {
-    modelValue: false,
-    count: 0,
-  })
+  withDefaults(
+    defineProps<{
+      modelValue?: boolean
+      count?: number
+      showingText?: string
+      hidingText?: string
+    }>(),
+    {
+      modelValue: false,
+      count: 0,
+      showingText: '',
+      hidingText: '',
+    }
+  )
 
   defineEmits<{ 'update:modelValue': [value: boolean] }>()
 </script>

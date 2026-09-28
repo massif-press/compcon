@@ -214,7 +214,7 @@
   const currentBurn = computed(
     () => mechController.value?.StatController.getCurrent(StatKey.BURN) ?? 0
   )
-  const hasBurn = computed(() => currentBurn.value > 0)
+  const hasBurn = computed(() => props.sheet.PlayMode !== 'simple' && currentBurn.value > 0)
 
   function markBurnHandled(answer?: { success?: boolean; skip?: boolean; rolled?: number }) {
     if (answer && !answer.skip && typeof answer.success === 'boolean') {

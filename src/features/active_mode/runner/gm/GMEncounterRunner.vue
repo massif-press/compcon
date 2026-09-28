@@ -102,6 +102,7 @@
                 <v-col cols="auto">
                   <actor-telemetry
                     v-if="
+                      instance.PlayMode !== 'simple' &&
                       selected.actor &&
                       selected.actor.CombatController.RootActor.ItemType === 'Pilot'
                     "
@@ -111,7 +112,7 @@
                 </v-col>
                 <v-col cols="auto">
                   <actor-logs
-                    v-if="selected.actor"
+                    v-if="instance.PlayMode !== 'simple' && selected.actor"
                     :actor="selected.actor.CombatController.RootActor"
                     :encounter-instance="instance"
                   />
@@ -203,7 +204,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
+  import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, provide } from 'vue'
   import { useDisplay } from 'vuetify'
   import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router'
   import { useI18n } from 'vue-i18n'
@@ -241,6 +242,7 @@
   import RunnerLeaveDialog from '../_shared/_RunnerLeaveDialog.vue'
   import { consumeLeaveGuardBypass } from '../_shared/useRunnerOptions'
   import CcPanelToggle from '@/ui/components/buttons/CCPanelToggle.vue'
+  import { LayoutModeKey } from '@/features/active_mode/layoutOptions'
 
   const panelMap: Record<string, any> = {
     'encounter-info': EncounterInfoPanel,
@@ -283,6 +285,10 @@
     )
   )
   const instanceID = computed(() => instance.value?.ID ?? undefined)
+  provide(
+    LayoutModeKey,
+    computed(() => instance.value?.PlayMode ?? 'full')
+  )
   const actors = computed(() => {
     if (!instance.value) return []
     return instance.value.Combatants.map((c: any) => c.actor)
@@ -299,6 +305,7 @@
   let cachedSnapshot: string | null = null
   let cachedVersions: number[] = []
   let cachedRound = 0
+  let cachedPlayMode = ''
 
   const versionSignal = computed(() => {
     if (!instance.value) return [] as number[]
@@ -312,10 +319,12 @@
     cachedSnapshot = captureSnapshotJson(instance.value)
     cachedVersions = versionSignal.value.slice()
     cachedRound = instance.value.Round
+    cachedPlayMode = instance.value.PlayMode
   }
 
   function labelForAutoCapture(): string {
     if (!instance.value) return ''
+    if (instance.value.PlayMode !== cachedPlayMode) return t('active.playMode.undoChange')
     if (instance.value.Round !== cachedRound) return t('active.gmRunner.undoRoundChange')
     const combatants = instance.value.Combatants
     for (let i = 0; i < combatants.length; i++) {
@@ -330,7 +339,7 @@
     return t('active.gmRunner.undoAction')
   }
 
-  watch([versionSignal, () => instance.value?.Round], () => {
+  watch([versionSignal, () => instance.value?.Round, () => instance.value?.PlayMode], () => {
     if (restoring || !instance.value || !cachedSnapshot) return
     if (versionSignal.value.length !== cachedVersions.length) {
       recacheUndoBaseline()
@@ -395,7 +404,9 @@
   )
 
   watch(actorCount, (newval, oldval) => {
-    if (instance.value && newval > 0 && newval !== oldval) setEidolonHp()
+    if (!instance.value || newval === oldval) return
+    instance.value.SetPlayMode(instance.value.PlayMode)
+    if (newval > 0) setEidolonHp()
   })
 
   watch(instance, (newVal, oldVal) => {

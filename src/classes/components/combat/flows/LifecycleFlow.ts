@@ -29,7 +29,7 @@ const BRACE_COOLDOWN_DETAIL_KEY = 'active.statusCond.braceCooldownDetail'
 const burnCheck: IFlowStep<IEndTurnState> = {
   Name: 'burn-check',
   Run: (s, input) => {
-    if (s.burnResolved) return 'continue'
+    if (s.burnResolved || !s.cc.Automated) return 'continue'
     if (!s.cc.StatController.getCurrent(StatKey.BURN)) return 'continue'
     const answer = input as { success?: boolean; skip?: boolean; rolled?: number } | undefined
     if (!answer) return 'await'
@@ -47,7 +47,7 @@ const burnCheck: IFlowStep<IEndTurnState> = {
 
 const pendingChecks: IFlowStep<IEndTurnState> = {
   Name: 'pending-checks',
-  Run: s => (s.cc.PendingChecks.length ? 'await' : 'continue'),
+  Run: s => (s.cc.Automated && s.cc.PendingChecks.length ? 'await' : 'continue'),
   Request: s => ({
     kind: 'check',
     label: 'structureOrStressCheck',

@@ -1,5 +1,8 @@
 <template>
-  <scan-menu :item="actor" />
+  <scan-menu
+    v-if="encounterInstance.PlayMode !== 'simple'"
+    :item="actor"
+  />
 
   <panel-base :item="actor">
     <template #name-block>

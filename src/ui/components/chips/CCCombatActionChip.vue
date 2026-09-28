@@ -49,7 +49,51 @@
         </template>
       </combat-action-indicator>
     </v-col>
-    <v-col>
+    <v-col v-if="simple">
+      <v-row
+        no-gutters
+        align="center"
+      >
+        <v-col>
+          <cc-button
+            size="x-small"
+            block
+            :color="canActivate ? action.Color : 'panel'"
+            :prepend-icon="action.Icon"
+            :disabled="disabled || controller.IsActionUsed(action.ID)"
+            @click="markUsed"
+          >
+            {{ action.Name }}
+            <span v-if="action.HeatCost">
+              &nbsp;({{ $t('ui.combat.heatSelf', { n: action.HeatCost }) }})
+            </span>
+          </cc-button>
+        </v-col>
+        <v-col
+          v-if="controller.UsedCount(action.ID)"
+          cols="auto"
+          class="ml-1"
+        >
+          <cc-button
+            size="x-small"
+            color="primary"
+            icon="mdi-undo"
+            :tooltip="$t('active.playMode.markUnused')"
+            @click="reset"
+          />
+        </v-col>
+        <v-col
+          cols="auto"
+          class="ml-1"
+        >
+          <action-info-button
+            :action="action"
+            :tier="tier"
+          />
+        </v-col>
+      </v-row>
+    </v-col>
+    <v-col v-else>
       <cc-dialog
         :color="canActivate ? action.Color : 'panel'"
         :icon="action.Icon"
@@ -101,6 +145,7 @@
   import { Action } from '@/classes/Action'
   import MenuInput from './_activeeffect/_ae_menu_input.vue'
   import CombatActionIndicator from './_CombatActionIndicator.vue'
+  import ActionInfoButton from '../items/features/actions/_actionInfoButton.vue'
   import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
   import type { CombatantData } from '@/classes/encounter/Encounter'
 
@@ -129,6 +174,8 @@
 
   const controller = computed(() => props.owner.actor.CombatController.ActiveActor.CombatController)
 
+  const simple = computed(() => props.encounterInstance?.PlayMode === 'simple')
+
   const canActivate = computed(
     (): boolean =>
       !props.disabled &&
@@ -145,10 +192,20 @@
     emit('activate', props.action.Cost)
   }
 
+  function markUsed() {
+    controller.value.Activate(props.action.Activation, {
+      actionId: props.action.ID,
+      frequency: props.action.Frequency,
+      heat: 0,
+      force: true,
+    })
+    emit('activate', props.action.Cost)
+  }
+
   function reset() {
     controller.value.UndoActivation(props.action.Activation, {
       actionId: props.action.ID,
-      heat: props.action.HeatCost || 0,
+      heat: simple.value ? 0 : props.action.HeatCost || 0,
     })
     emit('reset', props.action.Cost)
   }
