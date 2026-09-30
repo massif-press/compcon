@@ -10,22 +10,21 @@
     </v-card>
     <quill-editor
       v-else
-      :content="modelValue"
+      :content="content"
       :options="options"
       content-type="html"
-      @ready="quill = $event"
-      @blur="set()"
-      @update:content="set()"
+      @blur="emitUpdate.flush()"
+      @update:content="emitUpdate"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-  import { ref, onBeforeUnmount } from 'vue'
+  import { computed, onBeforeUnmount } from 'vue'
   import { options } from '@/ui/style/quillSetup'
   import { debounce } from 'lodash-es'
 
-  withDefaults(
+  const props = withDefaults(
     defineProps<{
       modelValue?: string
       readonly?: boolean
@@ -39,20 +38,21 @@
     'update:modelValue': [value: string]
   }>()
 
-  const quill = ref<{ root: { innerHTML: string } } | null>(null)
+  const content = computed(() => {
+    if (!props.modelValue?.includes('ql-cursor')) return props.modelValue
+    const template = document.createElement('template')
+    template.innerHTML = props.modelValue
+    template.content
+      .querySelectorAll('.ql-cursor')
+      .forEach(el => el.replaceWith(...Array.from(el.childNodes)))
+    return template.innerHTML.replace(/\uFEFF/g, '')
+  })
 
-  const emitUpdate = debounce(() => {
-    if (quill.value) emit('update:modelValue', quill.value.root.innerHTML)
-  }, 100)
+  const emitUpdate = debounce((value: string) => emit('update:modelValue', value), 100)
 
   onBeforeUnmount(() => {
     emitUpdate.flush()
   })
-
-  function set() {
-    if (!quill.value) return
-    emitUpdate()
-  }
 </script>
 
 <style>
