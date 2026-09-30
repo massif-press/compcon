@@ -268,7 +268,7 @@
       class="mt-n1 caption"
     >
       <v-col
-        v-for="p in bc.BondPowers"
+        v-for="p in bc.BondPowers.map(localizePower)"
         :key="p.name"
         cols="6"
         style="position: relative"
@@ -293,6 +293,7 @@
   import { computed } from 'vue'
   import blankLine from '@/ui/components/print/BlankLine.vue'
   import { BondController } from '@/classes/pilot/components/bond/BondController'
+  import { localizePower } from '@/classes/pilot/components/bond/Bond'
 
   const props = defineProps<{
     bc: BondController

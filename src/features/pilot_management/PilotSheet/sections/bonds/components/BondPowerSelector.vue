@@ -82,7 +82,7 @@
           @click="pilot.BondController.AddPower(item._p)"
         >
           <v-icon start>mdi-plus</v-icon>
-          {{ $t('common.addName', { name: item._p.name }) }}
+          {{ $t('common.addName', { name: item.Name }) }}
         </cc-button>
         <cc-button
           v-if="hasPower(item._p)"
@@ -92,7 +92,7 @@
           @click="pilot.BondController.RemovePower(item._p)"
         >
           <v-icon start>mdi-minus</v-icon>
-          {{ $t('common.removeName', { name: item._p.name }) }}
+          {{ $t('common.removeName', { name: item.Name }) }}
         </cc-button>
       </template>
     </cc-compendium-browser>
@@ -101,7 +101,7 @@
 
 <script setup lang="ts">
   import type { Pilot } from '@/classes/pilot/Pilot'
-  import type { BondPower } from '@/classes/pilot/components/bond/Bond'
+  import { type BondPower, localizePower } from '@/classes/pilot/components/bond/Bond'
   import { computed, ref } from 'vue'
   import { useI18n } from 'vue-i18n'
   import { CompendiumStore } from '@/stores'
@@ -130,7 +130,7 @@
   function shim(p: BondPower, bond: { LcpName: string }) {
     return {
       ID: `${p.origin}:${p.name}`,
-      Name: p.name,
+      Name: localizePower(p).name,
       LcpName: bond.LcpName,
       IsExotic: false,
       _p: p,

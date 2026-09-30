@@ -6,6 +6,7 @@ import { ContentPack } from '../../ContentPack'
 import { ItemType } from '../../enums'
 import { i18n } from '@/i18n'
 import { applyLcpTracking, type ILcpTracked } from '@/classes/LcpItemMixin'
+import { localize } from '@/i18n/localize'
 
 interface INpcClassData {
   id: string
@@ -111,7 +112,7 @@ class NpcClass implements ILcpTracked {
   }
 
   public get Name(): string {
-    return this._name
+    return localize(this._id, 'name', this._name)
   }
 
   public get Role(): string {
@@ -129,15 +130,15 @@ class NpcClass implements ILcpTracked {
   }
 
   public get Flavor(): string {
-    return this._info.flavor
+    return localize(this._id, 'flavor', this._info.flavor)
   }
 
   public get Tactics(): string {
-    return this._info.tactics
+    return localize(this._id, 'tactics', this._info.tactics)
   }
 
   public get Terse(): string {
-    if (this._info.terse) return this._info.terse
+    if (this._info.terse) return localize(this._id, 'terse', this._info.terse)
     return this._role || ''
   }
 

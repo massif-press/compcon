@@ -28,6 +28,47 @@ export const ALLOWLIST = {
   downtime_actions: ['name', 'terse', 'detail'],
 }
 
+export const LCP_FIELDS = {
+  npc_classes: ['name', 'flavor', 'tactics', 'terse'],
+  npc_templates: ['name', 'description', 'tactics'],
+  npc_features: ['name', 'description', 'effect', 'trigger'],
+  eidolon_layers: ['name', 'appearance', 'hints', 'rules', 'shard_detail'],
+  eidolon_traits: ['name', 'detail'],
+}
+
+export function eidolonTraitId(name) {
+  return `eidolon_trait_${slug(name)}`
+}
+
+export function bondPowerPrefix(origin, name) {
+  return `${origin}.power_${slug(name)}`
+}
+
+const BOND_POWER_FIELDS = ['name', 'description', 'frequency', 'prerequisite']
+
+export function bondPowerEntries(power, origin = power.origin) {
+  return BOND_POWER_FIELDS.filter(f => power[f] != null && String(power[f]).trim()).map(f => [
+    `${bondPowerPrefix(origin, power.name)}.${f}`,
+    String(power[f]),
+  ])
+}
+
+export function bondEntries(bond) {
+  const out = []
+  const add = (key, v) => {
+    if (v != null && String(v).trim()) out.push([key, String(v)])
+  }
+  add(`${bond.id}.name`, bond.name)
+  bond.major_ideals?.forEach((v, i) => add(`${bond.id}.major_ideal_${i}`, v))
+  bond.minor_ideals?.forEach((v, i) => add(`${bond.id}.minor_ideal_${i}`, v))
+  bond.questions?.forEach((q, i) => {
+    add(`${bond.id}.question_${i}`, q.question)
+    q.options?.forEach((v, j) => add(`${bond.id}.question_${i}_option_${j}`, v))
+  })
+  for (const p of bond.powers ?? []) out.push(...bondPowerEntries(p, bond.id))
+  return out
+}
+
 // anything not is not emitted
 const ARRAY_CONTAINERS = {
   traits: 'trait',
@@ -75,10 +116,10 @@ export function nestedEntries(_collection, item) {
   const out = []
   if (!item || item.id == null) return out
 
-  const emit = (obj, prefix) => {
+  const emit = (obj, prefix, src = obj) => {
     const fields = {}
     for (const f of EMIT_FIELDS) {
-      const t = fieldText(obj[f])
+      const t = fieldText(src[f])
       if (t != null && String(t).trim()) fields[f] = t
     }
     if (Object.keys(fields).length) out.push({ prefix, obj, fields })
@@ -110,7 +151,8 @@ export function nestedEntries(_collection, item) {
           seen.set(base, n + 1)
           p = `${prefix}.${n ? `${base}_${n + 1}` : base}`
         }
-        emit(el, p)
+        const actionEffect = key.endsWith('actions') && !el.detail && el.effect
+        emit(el, p, actionEffect ? { ...el, detail: el.effect, effect: undefined } : el)
         walk(el, p)
       })
     }
@@ -133,7 +175,8 @@ export function nestedEntries(_collection, item) {
 
 const HAS_MARKUP = /<[a-zA-Z/]/
 const BARE_AMP = /&(?!#\d+;|#x[0-9a-fA-F]+;|[a-zA-Z][a-zA-Z0-9]*;)/g
-const VOID_TAG = /<(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)\b([^<>]*?)\s*\/?>/gi
+const VOID_TAG =
+  /<(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)\b([^<>]*?)\s*\/?>/gi
 
 export function normalizeMarkup(str) {
   const s = String(str)
@@ -145,6 +188,7 @@ const VOID_NAMES = new Set(
   'area base br col embed hr img input link meta param source track wbr'.split(' ')
 )
 const TAG = /<(\/?)([a-zA-Z][\w-]*)([^<>]*?)(\/?)>/g
+const ATTRS = /^(\s+[A-Za-z_:][\w.:-]*\s*=\s*("[^"]*"|'[^']*'))*\s*$/
 
 export function markupFault(str) {
   const s = String(str)
@@ -154,13 +198,15 @@ export function markupFault(str) {
     return 'bare & (not an entity)'
   }
   if (/<[^<>]*$/.test(s)) return 'unterminated tag'
+  if (s.replace(TAG, '').includes('<')) return 'bare < (not a tag)'
   const stack = []
   let m
   TAG.lastIndex = 0
   while ((m = TAG.exec(s))) {
-    const [, close, name, , selfClose] = m
-    const tag = name.toLowerCase()
-    if (VOID_NAMES.has(tag)) {
+    const [, close, tag, attrs, selfClose] = m
+    if (!ATTRS.test(attrs) || (close && (attrs.trim() || selfClose)))
+      return `<${close}${tag}> malformed attributes`
+    if (VOID_NAMES.has(tag.toLowerCase())) {
       if (!selfClose) return `<${tag}> not self-closed`
       continue
     }
@@ -186,6 +232,7 @@ export function stampContentKeys(data) {
   for (const arr of Object.values(data)) {
     if (!Array.isArray(arr)) continue
     for (const item of arr)
-      for (const e of nestedEntries(null, item)) if (e.obj) keyPrefixes.set(e.obj, e.prefix)
+      for (const obj of [item, ...(item?.features ?? []), ...(item?.shards?.features ?? [])])
+        for (const e of nestedEntries(null, obj)) if (e.obj) keyPrefixes.set(e.obj, e.prefix)
   }
 }

@@ -28,11 +28,9 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import PersistentTraits from '@/classes/npc/eidolon/persistent_traits.json'
+  import { persistentTraits } from '@/classes/npc/eidolon/EidolonLayer'
 
   defineOptions({ name: 'eidolon-persistent-traits' })
 
-  const traits = computed(() => {
-    return PersistentTraits
-  })
+  const traits = computed(() => persistentTraits())
 </script>

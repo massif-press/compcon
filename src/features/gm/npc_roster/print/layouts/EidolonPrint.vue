@@ -196,7 +196,7 @@
   import NpcFeaturePrint from './components/NpcFeaturePrint.vue'
   import PrintNpcStats from './components/PrintNpcStats.vue'
   import NpcNarrativePrintSection from './components/NpcNarrativePrintSection.vue'
-  import persistent_traits from '@/classes/npc/eidolon/persistent_traits.json'
+  import { persistentTraits as localizedPersistentTraits } from '@/classes/npc/eidolon/EidolonLayer'
 
   defineOptions({ name: 'EidolonPrint' })
 
@@ -205,7 +205,5 @@
     options: GmPrintOptions
   }>()
 
-  const persistentTraits = computed(() => {
-    return persistent_traits
-  })
+  const persistentTraits = computed(() => localizedPersistentTraits())
 </script>

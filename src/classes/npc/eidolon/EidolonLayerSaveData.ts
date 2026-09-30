@@ -9,13 +9,14 @@ import { IFeatureContainer } from '@/classes/components/feature/IFeatureContaine
 import { NpcFeature } from '../feature/NpcFeature'
 import { CombatController } from '@/classes/components/combat/CombatController'
 import { ICombatant } from '@/classes/components/combat/ICombatant'
+import { localize } from '@/i18n/localize'
 
 class EidolonLayerSaveData implements IFeatureContainer, ICombatant {
   public readonly IsEncounterInstance: boolean = false
   public readonly ItemType: string = 'EidolonLayer'
   public readonly Parent: Eidolon
   public readonly ID: string
-  public readonly Name: string
+  private readonly _name: string
   public Layer: EidolonLayer
   public SaveController: SaveController
   public FeatureController: FeatureController
@@ -56,7 +57,7 @@ class EidolonLayerSaveData implements IFeatureContainer, ICombatant {
   ) {
     this.Parent = parent
     this.ID = data.id
-    this.Name = data.data.name || data.id
+    this._name = data.data.name || data.id
     this.UIState = data.ui_state || {}
 
     this.SaveController = parent.SaveController
@@ -79,6 +80,10 @@ class EidolonLayerSaveData implements IFeatureContainer, ICombatant {
     this.FeatureController.Register(this)
   }
 
+  public get Name(): string {
+    return localize(this.ID, 'name', this._name)
+  }
+
   public get StatController(): StatController {
     return this.CombatController.StatController
   }
@@ -99,7 +104,7 @@ class EidolonLayerSaveData implements IFeatureContainer, ICombatant {
 
   public ResetHp(playerCount: number, reset: boolean = false) {
     let maxHp = this.Layer.HpPerPlayer * playerCount
-    if (this.Layer.Name.toLowerCase() === 'core') maxHp = 1
+    if (this.Layer.ID === 'el_core') maxHp = 1
     this.StatController.setMax('hp', maxHp)
     if (reset) this.StatController.setCurrentStat(StatKey.HP, maxHp)
   }

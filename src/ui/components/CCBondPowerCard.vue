@@ -1,23 +1,23 @@
 <template>
   <cc-panel
-    v-if="power"
+    v-if="shown"
     variant="outlined"
     :disabled="disabled"
   >
     <template #toolbar>
       <cc-toolbar
-        :title="power.name"
+        :title="shown.name"
         hide-close
         minor
         :color="headerColor"
-        :extended="power.veteran || power.master"
+        :extended="shown.veteran || shown.master"
       >
         <template #toolbar-items>
           <span
-            v-if="power.frequency"
+            v-if="shown.frequency"
             class="text-caption mr-1"
           >
-            {{ power.frequency }}
+            {{ shown.frequency }}
           </span>
         </template>
         <template #extension>
@@ -25,21 +25,21 @@
             class="text-cc-overline pl-2 text-disabled mt-n1"
             style="letter-spacing: 3px !important"
           >
-            <i v-if="power.veteran">{{ $t('ui.bond.veteranPower') }}</i>
-            <i v-if="power.master">{{ $t('ui.bond.masterPower') }}</i>
+            <i v-if="shown.veteran">{{ $t('ui.bond.veteranPower') }}</i>
+            <i v-if="shown.master">{{ $t('ui.bond.masterPower') }}</i>
           </div>
         </template>
       </cc-toolbar>
     </template>
 
     <div
-      v-if="power.prerequisite"
+      v-if="shown.prerequisite"
       class="caption pa-1 pt-0 pb-2 text--disabled text-text"
     >
-      <i v-text="power.prerequisite" />
+      <i v-text="shown.prerequisite" />
     </div>
     <v-card-text
-      v-html-safe="power.description"
+      v-html-safe="shown.description"
       class="pa-1 pt-0 text-text"
     />
   </cc-panel>
@@ -47,13 +47,15 @@
 
 <script setup lang="ts">
   import { computed, PropType } from 'vue'
-  import { BondPower } from '@/classes/pilot/components/bond/Bond'
+  import { BondPower, localizePower } from '@/classes/pilot/components/bond/Bond'
 
   const props = defineProps({
     power: { type: Object as PropType<BondPower>, required: true },
     flexHeight: { type: Boolean },
     disabled: { type: Boolean },
   })
+
+  const shown = computed(() => props.power && localizePower(props.power))
 
   const headerColor = computed(() => {
     if (props.power.veteran) return 'indigo-lighten-1'

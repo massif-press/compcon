@@ -183,7 +183,7 @@
   import type { CombatantData } from '@/classes/encounter/Encounter'
   import UnitFeatureCard from './_components/loadouts/_unitFeatureCard.vue'
   import PanelBase from './_PanelBase.vue'
-  import PersistentTraits from '@/classes/npc/eidolon/persistent_traits.json'
+  import { persistentTraits } from '@/classes/npc/eidolon/EidolonLayer'
   import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
   import { useLayoutOptions } from '@/features/active_mode/layoutOptions'
 
@@ -209,7 +209,7 @@
 
   const { layout } = useLayoutOptions()
   const xlColumns = computed(() => layout.value.maxColumns)
-  const traits = computed(() => PersistentTraits)
+  const traits = computed(() => persistentTraits())
   const layer = computed(() => (props.combatant as any).actor.ActiveLayer)
   const features = computed(() => layer.value?.Layer?.Features || [])
   const shardCount = computed(() => {

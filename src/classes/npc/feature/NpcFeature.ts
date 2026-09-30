@@ -7,6 +7,7 @@ import { CompendiumStore } from '@/features/compendium/store'
 import { ITagData } from '@/classes/Tag'
 import { NpcClass } from '../class/NpcClass'
 import { ByTierLoose } from '@/util/tierFormat'
+import { localize } from '@/i18n/localize'
 
 export enum NpcFeatureType {
   Trait = 'Trait',
@@ -123,11 +124,11 @@ abstract class NpcFeature extends CompendiumItem {
   }
 
   public get Effect(): string {
-    return ByTierLoose(this._effect)
+    return ByTierLoose(localize(this.ID, 'effect', this._effect))
   }
 
   public EffectByTier(tier: number): string {
-    return ByTierLoose(this._effect, tier)
+    return ByTierLoose(localize(this.ID, 'effect', this._effect), tier)
   }
 
   // tier triples arrive as a bare number, a 3-entry array, or not at all

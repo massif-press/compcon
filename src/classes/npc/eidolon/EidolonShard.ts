@@ -7,6 +7,7 @@ import { ActivationType, ItemType } from '../../enums'
 import { applyLcpTracking, type ILcpTracked } from '@/classes/LcpItemMixin'
 import { DeployableInstance } from '@/classes/components/feature/deployable/DeployableInstance'
 import { CombatantData } from '@/classes/encounter/Encounter'
+import { localize } from '@/i18n/localize'
 
 interface IEidolonShardData {
   count: number | string | number[]
@@ -38,7 +39,8 @@ class EidolonShard implements ILcpTracked {
   public InLcp: boolean = false
 
   public readonly Count: number | number[] | string
-  public readonly Detail: string
+  private readonly _detail: string
+  private readonly _layerId: string
   public readonly Features: NpcFeature[] = []
 
   public StatController: StatController
@@ -51,12 +53,18 @@ class EidolonShard implements ILcpTracked {
 
   public IsEncounterInstance = false
 
-  public constructor(data: IEidolonShardData, pack?: ContentPack, tier?: number) {
+  public constructor(
+    data: IEidolonShardData,
+    pack?: ContentPack,
+    tier?: number,
+    layerId: string = ''
+  ) {
     applyLcpTracking(this, pack)
 
     this.Count = data.count
-    this.Detail = data.detail
-    if (data.features) this.Features = data.features.map(f => NpcFeatureFactory.Build(f))
+    this._detail = data.detail
+    this._layerId = layerId
+    if (data.features) this.Features = data.features.map(f => NpcFeatureFactory.Build(f, pack))
     this._tier = tier || 1
 
     this.StatController = new StatController(this as any)
@@ -86,6 +94,10 @@ class EidolonShard implements ILcpTracked {
 
   public get Stats(): NpcClassStats {
     return this.StatController.MaxStats
+  }
+
+  public get Detail(): string {
+    return localize(this._layerId, 'shard_detail', this._detail)
   }
 
   public get CountString(): string {

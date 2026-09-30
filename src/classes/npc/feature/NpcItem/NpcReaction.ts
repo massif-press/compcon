@@ -1,6 +1,7 @@
 import { ContentPack } from '../../../ContentPack'
 import { ItemType } from '../../../enums'
 import { INpcFeatureData, NpcFeatureType, NpcFeature } from '../NpcFeature'
+import { localize } from '@/i18n/localize'
 
 interface INpcReactionData extends INpcFeatureData {
   trigger: string
@@ -20,7 +21,7 @@ class NpcReaction extends NpcFeature {
 
   // for v2 data or v3 data that has not offloaded this into action data
   public override get Trigger(): string {
-    return this._trigger || ''
+    return localize(this.ID, 'trigger', this._trigger || '')
   }
 
   public override get Color(): string {

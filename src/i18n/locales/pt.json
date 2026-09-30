@@ -181,7 +181,7 @@
     },
     "shiftEnterNewline": "Shift + Enter para nova linha",
     "unknown": "Desconhecido",
-    "deselectAll": "Desselecionar tudo",
+    "deselectAll": "Desmarcar Tudo",
     "pilotDisplayName": "{callsign} // {name}",
     "sortOrder": "Organizar",
     "unlocked": "Desbloqueado",
@@ -217,7 +217,7 @@
     "damage": "Dano",
     "pilots": "Pilotos",
     "bonds": "Vínculos",
-    "gear": "EQUIPAMENTO",
+    "gear": "Equipamento",
     "manufacturer": "Fabricante",
     "tags": "Tags",
     "uses": "Usos",
@@ -234,7 +234,7 @@
     "overkill": "Exagero",
     "mechName": "Nome do Mecha",
     "addTable": "Adicionar Tabela",
-    "repairCap": "Capacidade de Reparo",
+    "repairCap": "Cap. de Reparo",
     "allPilots": "Todos os Pilotos",
     "heatCapacity": "Capacidade de Calor",
     "repairCapacity": "Capacidade de Reparos",
@@ -257,7 +257,9 @@
     "hints": "Dicas",
     "rules": "Regras",
     "tactics": "Táticas",
-    "activateFreeAction": "Ativar (Ação Livre)"
+    "activateFreeAction": "Ativar (Ação Livre)",
+    "damageDealt": "Causado",
+    "damageTaken": "Sofrido"
   },
   "print": {
     "generalOptions": "Opções Gerais de Impressão"
@@ -509,7 +511,7 @@
       "upgradeFromTo": "Atualizado de {from} para {to}",
       "downgradeTo": "Downgrade para {version}",
       "noChange": "Sem alterações ({from} para {to})",
-      "alreadyInstalledWarning": "O seguinte pacote de conteúdo já está instalado e será substituído: | Os seguintes pacotes de conteúdo já estão instalados e serão substituídos | Os seguintes pacotes de conteúdo já estão instalados e serão substituídos",
+      "alreadyInstalledWarning": "O seguinte pacote de conteúdo já está instalado e será substituído: | Os seguintes pacotes de conteúdo já estão instalados e serão substituídos: | Os seguintes pacotes de conteúdo já estão instalados e serão substituídos:",
       "v3Warning": "O seguinte conteúdo não foi registrado como compatível com a v3. Esses pacotes ainda funcionarão, mas não poderão aproveitar os recursos da v3, especialmente no modo ativo.",
       "dependencyError": "O seguinte pacote de conteúdo possui dependências não instaladas e ainda não pode ser instalado. Ele será ignorado | Os seguintes pacotes de conteúdo possuem dependências não instaladas e ainda não podem ser instalados. Eles serão ignorados | Os seguintes pacotes de conteúdo possuem dependências não instaladas e ainda não podem ser instalados. Eles serão ignorados",
       "alreadyInstalledNote": "Um pacote com este mesmo nome e autor já está instalado.",
@@ -519,7 +521,7 @@
       "installingPacks": "Instalando {count} pacote de conteúdo… | Instalando {count} pacotes de conteúdo… | Instalando {count} pacotes de conteúdo…",
       "willUpgradeTo": "Ele será atualizado para a v.{version}",
       "willDowngradeTo": "Ele será revertido para a versão {version}",
-      "patchStringCount": "{count} strings | {count} strings | {count} strings"
+      "patchStringCount": "{count} string | {count} strings | {count} strings"
     },
     "packsDirectory": {
       "officialContent": "Oficial",
@@ -552,7 +554,7 @@
     "storage": {
       "storageUsageFull": "O @:{'common.appName'} está usando atualmente {used} de {total}, ou {percent} do seu armazenamento disponível. Isso inclui o espaço reservado pelo @:{'common.appName'} para o gerenciamento do aplicativo.",
       "neverAutoDeleteFull": "O @:{'common.appName'} {never} excluirá automaticamente dados marcados para exclusão.",
-      "daysCount": "{count} dias. | {count} dias. | {count} dias.",
+      "daysCount": "{count} dia. | {count} dias. | {count} dias.",
       "autoDeleteFull": "O @:{'common.appName'} excluirá permanentemente os dados após terem sido marcados como excluídos por pelo menos {days}. Isso não afetará os itens que já não estejam marcados para exclusão.",
       "deleteConfirmIntro": "Isso excluirá {confirm} dados locais do @:{'common.appName'}.",
       "deleteConfirmUndone": "Isso {undone}",
@@ -668,7 +670,7 @@
       "catLcpOrigin": "LCP Origem",
       "catNpcStats": "Estatísticas de PNJs",
       "foundFixable": "Encontrado {count} problema corrigível. | Encontrados {count} problemas corrigíveis. | Encontrados {count} problemas corrigíveis.",
-      "requiresManual": "e {count} problema que requer ação manual | e {count} problemas que requerem ação manual | e {count} problemas que requerem ação manual",
+      "requiresManual": "e {count} problema que requer ação manual. | e {count} problemas que requerem ação manual. | e {count} problemas que requerem ação manual.",
       "applyFixesButton": "Aplicar {count} correção | Aplicar {count} correções | Aplicar {count} correções",
       "catLcpFlavorState": "Texto Personalizado de LCP"
     },
@@ -965,7 +967,13 @@
       "saveHalf": "Salvamento para Metade",
       "removeSpecialCondition": "remover condição especial",
       "self": "Próprio",
-      "irreducibleNoExceptArmor": "Este Dano pode ser reduzido pelas defesas do alvo, exceto por armadura"
+      "irreducibleNoExceptArmor": "Este Dano pode ser reduzido pelas defesas do alvo, exceto por armadura",
+      "consumeLockOn": "Consumir TRAVA DE MIRA para +1 de precisão",
+      "confirmKill": "Alvo Destruído",
+      "confirmKillHint": "{n} eliminação será registrada | {n} eliminações será registradas | {n} eliminações será registradas",
+      "sideAlly": "Aliado",
+      "sideEnemy": "Inimigo",
+      "targets": "Alvos"
     },
     "cascade": {
       "alert": "Alerta de Cascata",
@@ -1208,8 +1216,13 @@
     },
     "flow": {
       "request": {
-        "burn": "Salvamento de Queimadura"
-      }
+        "burn": "Salvamento de Queimadura",
+        "structureOrStressCheck": "Teste de Estrutura ou Estresse",
+        "attackInputs": "Parâmetros de Ataque",
+        "attackRoll": "Rolagem de Ataque",
+        "damage": "Rolagem de Dano"
+      },
+      "unresolved": "Não resolvidos: {list}"
     },
     "coreSystem": {
       "activeLabel": "Ativo"
@@ -1447,7 +1460,7 @@
       "clearAllFilters": "Limpar Todos os Filtros"
     },
     "split": {
-      "itemsHidden": "{n} itens ocultos pelo filtro | {n} itens ocultos pelo filtro | {n} itens ocultos pelo filtro",
+      "itemsHidden": "{n} item oculto pelo filtro | {n} itens ocultos pelo filtro | {n} itens ocultos pelo filtro",
       "addType": "Adicionar {type}",
       "createNewType": "Criar Novo(a) {type}"
     },
@@ -1461,7 +1474,12 @@
     "narrative": {
       "additionalDetail": "Detalhe adicional",
       "clocks": "Relógios",
-      "viewCollections": "Ver Coleções"
+      "viewCollections": "Ver Coleções",
+      "collectionTitle": {
+        "location": "Locais",
+        "character": "Personagens",
+        "faction": "Facções"
+      }
     },
     "print": {
       "othersCount": "(+{n} outros)"
@@ -1662,7 +1680,7 @@
     "eidolonPrint": {
       "persistentTraits": "Traços Persistentes",
       "layer": "Camada",
-      "newShards": "Novos Fragmentos: {n} | Novos Fragmentos: {n} | Novos Fragmentos: {n}"
+      "newShards": "Novo Fragmento: {n} | Novos Fragmentos: {n} | Novos Fragmentos: {n}"
     },
     "featurePrint": {
       "weaponAttacks": "Esta arma pode fazer {count} ataques por vez."
@@ -1675,7 +1693,8 @@
     },
     "npcEditor": {
       "v2Export": "Exportação v2",
-      "statblock": "Bloco de Estatísticas"
+      "statblock": "Bloco de Estatísticas",
+      "noTelemetry": "Ainda não há telemetria para este PNJ. A telemetria é registrada quando um encontro em que ele aparece é arquivado."
     },
     "a11y": {
       "dragToReorder": "Arraste para ordenar"
@@ -1774,6 +1793,22 @@
       "manageNonPlayerCombatUnits": "Gerencia PNJs de combate",
       "manageCharactersLocationsAndFactions": "Gerenciar personagens, locais e facções",
       "createCombatEncounters": "Criar encontros de combate"
+    },
+    "npcSelection": {
+      "classExact": "O {name} escolhe {min} característica opcional adicional da lista de Características Opcionais da Classe {name} | O {name} escolhe {min} características opcionais adicionais da lista de Características Opcionais da Classe {name} | O {name} escolhe {min} características opcionais adicionais da lista de Características Opcionais da Classe {name}",
+      "classExactPerTier": "O {name} escolhe {min} característica opcional adicional da lista de Características Opcionais da Classe {name} por Patamar de PNJ | O {name} escolhe {min} características opcionais adicionais da lista de Características Opcionais da Classe {name} por Patamar de PNJ | O {name} escolhe {min} características opcionais adicionais da lista de Características Opcionais da Classe {name} por Patamar de PNJ",
+      "classRange": "O {name} escolhe entre {min} e {max} características opcionais adicionais da lista de Características Opcionais da Classe {name}",
+      "classRangePerTier": "O {name} escolhe entre {min} e {max} características opcionais adicionais da lista de Características Opcionais da Classe {name} por Patamar de PNJ",
+      "templateClassExact": "O {name} escolhe {min} característica opcional adicional da sua classe | O {name} escolhe {min} características opcionais adicionais da sua classe | O {name} escolhe {min} características opcionais adicionais da sua classe",
+      "templateClassExactPerTier": "O {name} escolhe {min} característica opcional adicional da sua classe por Patamar de PNJ | O {name} escolhe {min} características opcionais adicionais da sua classe por Patamar de PNJ | O {name} escolhe {min} características opcionais adicionais da sua classe por Patamar de PNJ",
+      "templateClassRange": "O {name} escolhe entre {min} e {max} características opcionais adicionais da sua classe",
+      "templateClassRangePerTier": "O {name} escolhe entre {min} e {max} características opcionais adicionais da sua classe por Patamar de PNJ",
+      "templateAny": "Ao escolher sistemas opcionais, o {name} também pode escolher da lista de Características Opcionais do Modelo {name}.",
+      "templateExact": "O {name} escolhe {min} opção da lista de Características Opcionais do Modelo {name} | O {name} escolhe {min} opções da lista de Características Opcionais do Modelo {name} | O {name} escolhe {min} opções da lista de Características Opcionais do Modelo {name}",
+      "templateRange": "O {name} escolhe entre {min} e {max} opções da lista de Características Opcionais do Modelo {name}",
+      "templateMayExact": "O {name} pode escolher {min} opção da lista de Características Opcionais do Modelo {name} | O {name} pode escolher {min} opções da lista de Características Opcionais do Modelo {name} | O {name} pode escolher {min} opções da lista de Características Opcionais do Modelo {name}",
+      "templateMayRange": "O {name} pode escolher entre {min} e {max} opções da lista de Características Opcionais do Modelo {name}",
+      "templatePerTier": "O {name} pode escolher uma característica opcional adicional por Grau de NPC | O {name} pode escolher {n} características opcionais adicionais por Grau de NPC | O {name} pode escolher {n} características opcionais adicionais por Grau de NPC"
     }
   },
   "notify": {
@@ -1889,7 +1924,9 @@
       "collectionPublishedText": "Coleção {name} publicada como versão {version}",
       "collectionPublishFailedText": "Falha ao publicar a coleção {name}",
       "cloudArchiveTitle": "Arquivo na Nuvem",
-      "cloudArchiveCooldownText": "Você deve esperar {seconds} segundos antes de criar um novo arquivo."
+      "cloudArchiveCooldownText": "Você deve esperar {seconds} segundos antes de criar um novo arquivo.",
+      "syncedItems": "{n} item sincronizado com sucesso. | {n} itens sincronizados com sucesso. | {n} itens sincronizados com sucesso.",
+      "syncedPartial": "{succeeded} de {n} item sincronizado. {failed} com falha. | {succeeded} de {n} itens sincronizados. {failed} com falha. | {succeeded} de {n} itens sincronizados. {failed} com falha."
     },
     "settings": {
       "unableToReadFileTitle": "Não foi possível ler o arquivo",
@@ -1995,7 +2032,8 @@
       "copiedToClipboard": "Copiado para a Área de Transferência",
       "nominal": "Nominal",
       "halfDamage": "Metade do Dano",
-      "conditionStatus": "Condição"
+      "conditionStatus": "Condição",
+      "invalidJsonFile": "Arquivo JSON inválido."
     },
     "roster": {
       "addFromRoster": "adicionar da lista",
@@ -2022,7 +2060,7 @@
       "createNewEncounter": "Criar Novo Encontro",
       "archivedEncounters": "Encontros Arquivados ({n})",
       "noArchivedFound": "Nenhum encontro arquivado encontrado",
-      "roundsCount": "{n} Rodadas | {n} Rodadas | {n} Rodadas",
+      "roundsCount": "{n} Rodada | {n} Rodadas | {n} Rodadas",
       "afterActionReport": "Relatório Pós-Ação",
       "copyReport": "Copiar Relatório",
       "logsTelemetry": "Registros e Telemetria",
@@ -2033,7 +2071,9 @@
       "devNoteLogs": "Este recurso ainda está em desenvolvimento. Dados adicionais e opções de exportação estarão disponíveis em builds futuros.",
       "deleteArchiveDetail": "Isso marcará o arquivo para exclusão. Ele não aparecerá mais nesta lista, mas será excluído permanentemente com base nas suas opções de retenção no Menu de Opções.",
       "noArchivedFoundFiltered": "Nenhum encontro arquivado encontrado contendo \"{search}\"",
-      "exportActorLog": "Exportar Log"
+      "exportActorLog": "Exportar Log",
+      "loadFromJson": "Carregar JSON de Encontro",
+      "exportActorLogTooltip": "Exporta o registro deste combatente como um arquivo que você pode entregar ao jogador dele. Apenas os eventos deste ator e as referências mencionadas por eles estão incluídos."
     },
     "encSummary": {
       "turnN": "(Turno {n})",
@@ -2062,7 +2102,15 @@
       "archivedSheets": "Fichas Arquivadas ({n})",
       "noArchivedFound": "Nenhuma ficha arquivada encontrada",
       "noArchivedFoundFiltered": "Nenhuma ficha arquivada encontrada contendo \"{search}\"",
-      "savePilotHistory": "Salvar Histórico do Piloto"
+      "savePilotHistory": "Salvar Histórico do Piloto",
+      "saveToLogbook": "Salvar no Diário de Bordo do Piloto",
+      "saveToLogbookTooltip": "Grava o registro de encontro desta ficha no diário de bordo do piloto. Salvar novamente substitui o registro já existente para este encontro.",
+      "historySaved": "Registro de encontro gravado no diário de bordo de {name}.",
+      "historySaveFailed": "Não foi possível gravar este encontro no diário de bordo do piloto.",
+      "noEvents": "Esta ficha não contém eventos de combate registrados.",
+      "viewSheet": "Ver Ficha",
+      "viewSheetTooltip": "Revise os atributos, condições e equipamentos deste piloto como estavam quando a ficha foi arquivada.",
+      "viewSheetUnavailable": "Esta ficha não possui nenhum mecha ativo para relatar."
     },
     "newSheet": {
       "llLevel": "NL{n}",
@@ -2101,14 +2149,30 @@
     },
     "endEnc": {
       "endEncounter": "Encerrar Encontro",
-      "confirmEndEncounter": "Confirmar Fim do Encontro"
+      "confirmEndEncounter": "Confirmar Fim do Encontro",
+      "gmConfirm": "Encerrar este encontro fechará a instância ativa e enviará uma cópia para o arquivo. Encontros arquivados não podem ser retomados (mas podem ser reiniciados). Tem certeza de que deseja continuar?",
+      "results": {
+        "pc_victory": "VITÓRIA PJ",
+        "enemy_victory": "VITÓRIA INIMIGA",
+        "stalemate": "EMPATE"
+      }
     },
     "sortBar": {
       "sortByRecent": "Ordenar por Recentes",
       "sortByCreated": "Ordenar pela data de criação"
     },
     "organizer": {
-      "selected": "selecionado"
+      "selected": "selecionado",
+      "archiveHint": {
+        "sheet": "Mover ficha para o arquivo | Mover fichas selecionadas para o arquivo | Mover fichas selecionadas para o arquivo",
+        "encounter": "Mover Encontro selecionado para o arquivo | Mover Encontros selecionados para o arquivo | Mover Encontros selecionados para o arquivo",
+        "item": "Mover Item selecionado para o arquivo | Mover Itens selecionados para o arquivo | Mover Itens selecionados para o arquivo"
+      },
+      "removeHint": {
+        "sheet": "Remover ficha permanentemente | Remover fichas permanentemente | Remover fichas permanentemente",
+        "encounter": "Remover Encontro permanentemente | Remover Encontros Selecionados permanentemente | Remover Encontros Selecionados permanentemente",
+        "item": "Remover Item permanentemente | Remover Itens selecionados permanentemente | Remover Itens selecionados permanentemente"
+      }
     },
     "runnerHeader": {
       "lastSaved": "Último Salvamento",
@@ -2139,7 +2203,9 @@
       "resolveBurn": "Resolver Queimadura",
       "burnResolved": "Queimadura resolvida",
       "burnRequired": "Resolver ou ignorar sua Queimadura no fim da rodada.",
-      "youHaveRemainingActions": "Você tem ações restantes!"
+      "youHaveRemainingActions": "Você tem ações restantes!",
+      "movementRemainingTitle": "Você tem movimentação restante",
+      "movementRemaining": "{n} espaço de movimento será perdido. | {n} espaços de movimento serão perdidos. | {n} espaços de movimento serão perdidos."
     },
     "joinTable": {
       "sortOnline": "Ordenar por Status Online",
@@ -2167,7 +2233,8 @@
       "atRound": "na Rodada",
       "warningReplace": "Aviso: O estado da Ficha de Personagem importado substituirá o estado atual da Ficha de Personagem.",
       "changeActiveMech": "Alterar Mecha Ativo",
-      "applySave": "Aplicar & Salvar"
+      "applySave": "Aplicar & Salvar",
+      "invalidSheetFile": "Arquivo de instância de ficha de personagem inválido."
     },
     "pcNotes": {
       "playerNotes": "Notas do Jogador",
@@ -2194,7 +2261,9 @@
       "noStatController": "Nenhum Controlador de Atributos Encontrado",
       "editReinforcements": "Editar Reforços",
       "noReinforcementSchedule": "Sem Cronograma de Reforços",
-      "undoEditOverrides": "Desfazer alterações de {name}"
+      "undoEditOverrides": "Desfazer alterações de {name}",
+      "invalidEncounterFile": "Arquivo de instância de Encontro inválido.",
+      "importFailed": "Não foi possível importar este arquivo de encontro."
     },
     "encInfo": {
       "reinforcements": "Reforços",
@@ -2260,9 +2329,10 @@
       "reactorDestroyed": "Reator destruído",
       "bracedDesc": "Você é considerado com RESISTÊNCIA a todo Dano, Calor e Queimadura do ataque que desencadeou este Suportar, e até o final de seu próximo turno, todos os outros ataques contra você são feitos com +1 de Dificuldade.",
       "coverLabel": "{cover} cobertura",
-      "activationsRemaining": "{n} Ativações restantes nesta rodada | {n} Ativações restantes nesta rodada | {n} Ativações restantes nesta rodada",
+      "activationsRemaining": "{n} Ativação restante nesta rodada | {n} Ativações restantes nesta rodada | {n} Ativações restantes nesta rodada",
       "aiControl": "Mecha sob Controle de IA",
-      "selfDestructInitiated": "Autodestruição iniciada"
+      "selfDestructInitiated": "Autodestruição iniciada",
+      "resistanceLineOther": "{condition} a {type}"
     },
     "addRoster": {
       "addPc": "Adicionar PJ",
@@ -2343,19 +2413,69 @@
       "telemetry": "Telemetria",
       "devNote": "Este recurso ainda está em desenvolvimento. Dados de telemetria adicionais em breve. {emphasis}",
       "collectedNote": "Os dados de telemetria são coletados ao final de cada rodada",
-      "encounterInstance": "instânciaDoEncontro",
-      "lifetime": "tempo de vida",
+      "encounterInstance": "Esse Encontro",
+      "lifetime": "Histórico",
       "exportText": "Exportar como Texto",
       "rollup": {
         "equipmentDestroyed": "Equipamento destruído",
-        "deployables": "Implantáveis"
-      }
+        "deployables": "Implantáveis",
+        "rounds": "Rodadas",
+        "turns": "Turnos",
+        "movementSpent": "Movimento Gasto",
+        "crits": "Críticos",
+        "saves": "Salvamentos",
+        "savesValue": "{passed} bem-sucedido(s), {failed} com falha",
+        "kills": "Abates",
+        "killsValue": "{confirmed} (+{reported} relatados)",
+        "damageDealt": "Dano Causado",
+        "damageTaken": "Dano Sofrido",
+        "reducedByArmor": "Reduzido por Armadura",
+        "heatGained": "Calor ganho",
+        "heatCleared": "Calor Limpo",
+        "overcharges": "Sobrecargas",
+        "overchargesValue": "{n} ({heat} calor)",
+        "structureChecks": "Salvamentos de Estrutura",
+        "stressChecks": "Salvamento de Estresse",
+        "deployablesValue": "{n} Colocados",
+        "coreEnergySpent": "Poder de Núcleo gasto",
+        "roundsUnmounted": "Rodadas desmontado",
+        "actionsUnmounted": "Ações desmontado",
+        "damageDealtUnmounted": "Dano causado desmontado",
+        "damageTakenUnmounted": "Dano sofrido desmontado",
+        "movementUnmounted": "Espaços movidos desmontado",
+        "summaryHeader": "{name}- Rodada {n}",
+        "logEntryHeader": "Rodada {n} ({time})",
+        "attacks": "Ataques"
+      },
+      "checks": "Teste e Salvamento",
+      "statuses": "Condições Obtidas",
+      "actions": "Ações Tomadas",
+      "attacks": "Ataques Acertados",
+      "misses": "Erros",
+      "mechsLost": "Mechas Perdidos",
+      "savesPassed": "Salvamentos Passados",
+      "savesFailed": "Salvamentos Falhados",
+      "checksPassed": "Testes Passados",
+      "checksFailed": "Testes Falhados",
+      "overcharges": "Sobrecargas (Calor)",
+      "deployablesLaunched": "Implementos Posicionados",
+      "deployablesDestroyed": "Implementos Destruídos",
+      "none": "Nada Gravado",
+      "noLifetimeData": "Ainda não há registros para este piloto. As entradas no diário de bordo são gravadas quando um encontro é arquivado.",
+      "encountersLogged": "Encontros Registrados",
+      "offense": "Ofensivo",
+      "defense": "Defensivo",
+      "crits": "Acertos Críticos"
     },
     "actorLogs": {
       "noEntries": "Nenhuma entrada no registro de combate.",
       "exportText": "Exportar Registro em Texto",
       "exportJson": "Exportar Registro em JSON",
-      "round": "Rodada {n}"
+      "round": "Rodada {n}",
+      "filterKind": "Filtrar por Evento",
+      "allRounds": "Todas as Rodadas",
+      "showing": "Exibindo {shown} de {total} entradas",
+      "noMatches": "Nenhum item corresponde ao seu filtro atual."
     },
     "dmgCond": {
       "title": "Resist. / imune / vuln.",
@@ -2375,7 +2495,9 @@
     },
     "statusCond": {
       "title": "Status / Condições",
-      "addCustom": "Adicionar Status Personalizado"
+      "addCustom": "Adicionar Status Personalizado",
+      "braceCooldownDetail": "Devido ao estresse de Suportar, até o fim deste turno você só pode realizar uma ação rápida. Você não pode realizar reações, sobreaquecer, mover-se normalmente, realizar ações completas ou realizar ações livres.",
+      "cascadeDetail": "Uma PNH instalada entrou em CASCATA e assumiu o controle total do mecha. O mecha está sob controle do Mestre até que o Piloto retome o controle ao escolher Desligar o mecha."
     },
     "scan": {
       "scan": "Escanear"
@@ -2399,7 +2521,10 @@
       "usesRemaining": "{n}de {max} usos restantes nesse {period}",
       "usesExhausted": "sem usos restantes nesse {period}",
       "restoreUse": "Click para restaurar um uso",
-      "quickN": "Rápida {n}"
+      "quickN": "Rápida {n}",
+      "restoreAction": "Clique para restaurar essa ação",
+      "asOvercharge": "em Sobrecarga",
+      "overchargeReady": "Sobrecarga – qualquer ação rápida é gratuita"
     },
     "deploy": {
       "deployNamed": "Implantar {name}",
@@ -2588,7 +2713,52 @@
     },
     "charts": {
       "round": "Rodada",
-      "count": "Quantidade"
+      "count": "Quantidade",
+      "noData": "Coleta de dados incompleta. Arquive encontros adicionais.",
+      "showTable": "Mostrar como Tabela",
+      "cumulative": "Dano Cumulativo",
+      "showChart": "Exibir como gráfico",
+      "careerAverage": "Média da carreira",
+      "checks": "Testes de Perícia",
+      "passed": "Passados",
+      "failed": "Falhos",
+      "overchargeHeat": "Por Sobrecarga",
+      "otherHeat": "Outros",
+      "crit": "Crítico",
+      "killsPer": "Mortes por Participação",
+      "dealtPer": "Dano por Participação",
+      "appearances": "Participações",
+      "colKind": "Tipo",
+      "damageDealtByType": "Dano Causado pro tipo",
+      "damageDealtByTypeSub": "Totais gerais em todos os encontros gravados",
+      "dealtAndTakenPerEncounter": "Dano Causado e Sofrido por Encontro",
+      "careerDamage": "\"Dano da Carreira",
+      "accuracyOverTime": "Precisão ao Longo do Tempo",
+      "accuracyOverTimeSub": "Média da carreira: {n}%",
+      "savesAndChecks": "Salvamentos e Testes",
+      "heatPerEncounter": "Calor pro Encontro",
+      "heatPerEncounterSub": "Quanto calor este piloto gerou para si mesmo",
+      "mostUsedActions": "Ações Mais Usadas",
+      "statusesSuffered": "Condições Sofridas",
+      "damagePerRound": "Dano por Rodada",
+      "heatCurve": "Curva de Calor",
+      "heatCurveSub": "Capacidade de Calor {n}",
+      "encounterTimeline": "Linha do Tempo do Encontro",
+      "damageByGroup": "Dano Causado pro Grupo",
+      "encounterTimelineSub": "O que este piloto fez, rodada a rodada",
+      "threatVsDurability": "Ameaça contra Durabilidade",
+      "threatVsDurabilitySub": "Dano causado vs. dano absorvido. O tamanho da bolha reflete a taxa de participação.",
+      "lethalityPerAppearance": "Letalidade por Participação",
+      "lethalityPerAppearanceSub": "Total de eliminações dividido por participações",
+      "classVsTemplate": "Classe contra Modelo",
+      "encounterLength": "Duração do Encontro",
+      "partyDamageShare": "Participação no Dano do Grupo",
+      "attackOutcomes": "Resultados dos Ataques",
+      "damageBySide": "Dano por Facção",
+      "dataSet": "Conjunto de Dados",
+      "noStream": "registro completo deste encontro não está mais armazenado, portanto os gráficos por rodada estão indisponíveis.",
+      "expandChart": "Expandir Gráfico",
+      "collapseChart": "Recolher Gráfico"
     },
     "shared": {
       "archived": "Arquivado",
@@ -2674,6 +2844,62 @@
       "rollableTables": "Tabelas Roláveis",
       "encounterInfo": "Informações do Encontro",
       "listTagsPresentOnCharactersOrEquipmentInThisEncounter": "Lista de tags presentes nos personagens ou equipamentos neste encontro"
+    },
+    "pcEndEncounter": {
+      "confirm": "Encerrar este encontro fechará a instância de ficha ativa, enviará uma cópia para o arquivo e a gravará no diário de bordo deste piloto. Tem certeza de que deseja continuar?"
+    },
+    "gmTelemetry": {
+      "title": "Telemetria do Encontro",
+      "subtitle": "Estatísticas de combate de todos os encontros arquivados",
+      "allFolders": "Todas as Pastas",
+      "allLabels": "Todos os Rótulos",
+      "allCampaigns": "Todas as Campanhas",
+      "byRosterEntry": "Registro de Piloto",
+      "byCombatant": "Combatente Individual",
+      "byType": "Tipo de Ator",
+      "scopeSummary": "{archives} encontros arquivados, {groups} grupos",
+      "groupSummary": "{appearances} presenças, {dealt} causados, {taken} sofridos",
+      "empty": "Nenhum encontro arquivado corresponde a estes filtros. A telemetria é gravada quando um encontro é arquivado.",
+      "manageData": "Gerenciar Dados de Telemetria",
+      "deleteTitle": "Apagar Dados de Telemetria",
+      "deleteConfirm": "Isso excluirá permanentemente {count} registros de encontros arquivados, incluindo todos os dados de telemetria. Esta ação não pode ser desfeita.",
+      "omitted": "{count} encontros arquivados não contêm dados de telemetria e foram omitidos.",
+      "byTemplate": "Modelo PNJ"
+    },
+    "override": {
+      "prompt": "Isto não pode ser concluído: {reason}. Resolver mesmo assim?",
+      "promptNamed": "Não é possível concluir {action}: {reason}. Resolver mesmo assim?"
+    },
+    "targetedAction": {
+      "rollFirst": "Role o ataque corpo a corpo para resolver esta ação."
+    },
+    "weaponSelect": {
+      "hidingUnavailable": "Ocultando armas que não podem disparar. Clique para exibi-las.",
+      "showingUnavailable": "Exibindo armas que não podem disparar. Clique para ocultá-las.",
+      "unavailableCount": "Indisponível"
+    },
+    "aar": {
+      "roundsValue": "{n} rodada | {n} rodadas | {n} rodadas",
+      "roundTag": "R{n}:",
+      "rowSummary": "{dealt} causados / {taken} sofridos / {kills} eliminações",
+      "highlightsTitle": "DESTAQUES",
+      "casualtiesTitle": "BAIXAS E ELIMINAÇÕES",
+      "highlights": {
+        "topDealt": "Maior Dano Causado",
+        "topTaken": "Maior Dano Sofrido",
+        "topKills": "Mais Eliminações",
+        "biggestHit": "Maior Golpe Individual",
+        "topCrits": "Mais Acertos Críticos",
+        "topOvercharges": "Mais Sobrecargas",
+        "topHeatCleared": "Mais Calor Dissipado"
+      },
+      "chartsTitle": "GRÁFICOS",
+      "step": "Etapa {n} de {total}",
+      "pilotStatus": "Status do Piloto",
+      "outcomeTitle": "STATUS PÓS-ENCONTRO",
+      "mechStatus": "Status do Mecha",
+      "next": "Próximo",
+      "recordedStatuses": "STATUS REGISTRADOS"
     }
   },
   "mainMenu": {
@@ -3182,7 +3408,7 @@
       "modifyModification": "Modificar {name}",
       "installModification": "Instalar modificiação {name}",
       "showIncompatibleMods": "Exibir Incompatíveis",
-      "tapToAdd": "TOCAR Para adicionar",
+      "tapToAdd": "Toque Para adicionar",
       "clickToAdd": "Clique Para adicionar",
       "addNewLoadout": "Adicionar Novo Equipamento",
       "changeItem": "Mudar Item",
@@ -3420,7 +3646,9 @@
       "corePassive": "Passiva Principal",
       "coreActive": "Ativa Principal",
       "maxCount": "({n} máx)",
-      "capacityCount": "({n} capacidade)"
+      "capacityCount": "({n} capacidade)",
+      "pilotCombatHistory": "Histórico de Combate do Piloto",
+      "openLogbook": "Abrir Diário de Bordo do Piloto"
     },
     "roster": {
       "history": "Histórico",
@@ -3459,7 +3687,7 @@
       "addGroup": "Adicionar Grupo",
       "addANewPilotToName": "Adicionar um novo piloto a {name}",
       "editGroupInformation": "Editar Informações de Grupo",
-      "hiddenPilots": "{n} piloto Escondido | {n} pilotos Escondido | {n} pilotos Escondido",
+      "hiddenPilots": "{n} piloto Escondido | {n} pilotos Escondidos | {n} pilotos Escondidos",
       "andPilots": "e {n} Piloto | e {n} Pilotos | e {n} Pilotos",
       "pilotCount": "{n} Piloto | {n} Pilotos | {n} Pilotos",
       "groupDescription": "Descrição do Grupo",
@@ -3569,7 +3797,7 @@
       "addMechSkillPoints": "Adicione {word} ({count}) Pontos de Perícia de Mecha.",
       "selectPilotTalents": "Selecione {word} ({count}) Talentos do Piloto.",
       "selectLicenseRanks": "Selecione {word} ({count}) Ranque de Licença. | Selecione {word} ({count}) Ranques de Licença. | Selecione {word} ({count}) Ranques de Licença.",
-      "selectCoreBonusesN": "Selecione {word} ({count}) Bônus de Núcleo. | Selecione {word} ({count}) Bônus de Núcleo. | Selecione {word} ({count}) Bônus de Núcleo.",
+      "selectCoreBonusesN": "Selecione {word} ({count}) Bônus de Núcleo. | Selecione {word} ({count}) Bônus de Núcleos. | Selecione {word} ({count}) Bônus de Núcleos.",
       "otherClocks": "Outros Relógios",
       "generateRandomName": "Gerar nome aleatório"
     },
@@ -3588,11 +3816,14 @@
       "pilotRequiresReSync": "Piloto requer nova sincronização",
       "withShareCode": "com código de compartilhamento",
       "mustBeReSyncedToThe": "deve ser sincronizado novamente na conta do autor antes que possa ser visualizado.",
-      "serverErrorTooManyRequests": "Erro de Servidor - Muitas Solicitações"
+      "serverErrorTooManyRequests": "Erro de Servidor - Muitas Solicitações",
+      "retryMinutes": "{n} minuto | {n} minutos | {n} minutos",
+      "retrySeconds": "{n} segundo | {n} segundos | {n} segundos"
     },
     "common": {
       "installName": "Instalar {name}",
-      "nameWithLicenseLevel": "{name}, NL {level}"
+      "nameWithLicenseLevel": "{name}, NL {level}",
+      "unknownBackground": "Antepassado Desconhecido"
     },
     "titles": {
       "licenseLevel": "Nível de Licença"
@@ -3710,7 +3941,7 @@
     },
     "mechSkillsSelector": {
       "mechHp": "PV DO MECHA",
-      "limitedSystemsBonus": "BÔNUS DE SISTEMAS LIMITADOS",
+      "limitedSystemsBonus": "Bônus de Sistemas Limitados",
       "hullSkillDescription": "Sua perícia CASCO descreve sua capacidade de construir e pilotar mechas duráveis e pesados que podem levar pancadas e continuar seguindo",
       "agilitySkillDescription": "Sua perícia AGILIDADE descreve sua capacidade de construir e pilotar mechas rápidos e evasivos",
       "systemsSkillDescription": "Sua perícia SISTEMAS descreve sua capacidade de construir e pilotar mechas técnicos com ferramentas poderosas de guerra eletrônica",
@@ -3720,6 +3951,40 @@
       "createAndModifyMechsAndTheirLoadouts": "Criar e Modificar Mechas e seus Equipamentos",
       "pilotSectionsSummary": "Gatilhos, Reservas e Equipamento do Piloto",
       "progressionSectionsSummary": "Licenças do Piloto, Perícias de Mecha, Bônus de Núcleo e Talentos"
+    },
+    "logbook": {
+      "importTitle": "Importar Registro de Encontro",
+      "importIntro": "Escolha um arquivo de log de encontro exportado pelo seu MJ para este piloto. Você poderá visualizar o conteúdo antes de gravá-lo nos dados do seu Piloto.",
+      "chooseFile": "Escolher Arquivo",
+      "notALog": "Esse arquivo não é um log de encontro válido.",
+      "incoming": "Registro Recebido",
+      "unnamed": "Encontro Sem Nome",
+      "candidateSummary": "{rounds} rodadas, {date}, {participants} participantes, {events} eventos registrados",
+      "sourceGm": "Registrado por um Mestre de Jogo",
+      "sourceSelf": "Registro Autodeclarado",
+      "autoReplace": "Este piloto já possui um registro para este encontro ({name}). A importação irá substituí-lo.",
+      "addNew": "Add como Novo",
+      "replaceExisting": "Substituir um Registro Meu",
+      "replaceWarning": "A substituição é permanente. O registro selecionado será totalmente descartado, incluindo quaisquer eliminações autodeclaradas.",
+      "heldSummary": "{rounds} rodadas, {date}",
+      "suggested": "Correspondência Provável",
+      "imported": "Registro de encontro importado.",
+      "empty": "Nenhum registro de encontro ainda. Um diário de bordo é criado quando um encontro é arquivado ou quando o log de um MJ é importado.",
+      "survived": "Sobreviveu",
+      "totalDealt": "Dano total Causado",
+      "totalKills": "Total de Abates",
+      "encounterHistory": "Histórico do Encontro",
+      "exportStream": "Exportar log completo deste encontro",
+      "retentionNote": "Os registros completos de eventos são mantidos para os {n} encontros mais recentes. Encontros mais antigos mantêm suas estatísticas, mas não os eventos.",
+      "colDate": "Data",
+      "title": "Diários de Bordo dos Pilotos",
+      "subtitle": "Histórico de combate vitalício e telemetria dos seus pilotos",
+      "acrossN": "ao longo de {n} encontro | ao longo de {n} encontros | ao longo de {n} encontros",
+      "acrossAll": "ao longo de todos os encontros",
+      "encounterLogs": "Registros de Encontro",
+      "manageData": "Gerenciar Dados do Diário de Bordo",
+      "deleteTitle": "Excluir Dados do Diário de Bordo",
+      "deleteConfirm": "Isso excluirá permanentemente {count} registros de encontro, incluindo toda a telemetria e logs de eventos. Esta ação não pode ser desfeita."
     }
   },
   "enums": {
@@ -3779,7 +4044,8 @@
       "full_tech": "Programar Completo",
       "quick_tech": "Programar Rápido",
       "reaction": "Reação",
-      "other": "Outros"
+      "other": "Outros",
+      "overcharge": "Sobrecarga"
     },
     "systemType": {
       "ai": "AI",
@@ -3838,16 +4104,60 @@
       "tech": "Tecnológico"
     },
     "pilotStatus": {
-      "kia": "KIA"
+      "kia": "KIA",
+      "active": "ATIVO",
+      "injured": "PREJUDICADO",
+      "mia": "MIA",
+      "disengaged": "DESENGAJADO"
     },
     "syncItemCount": {
-      "item": "{n} itens | {n} itens | {n} itens"
+      "item": "{n} item | {n} itens | {n} itens",
+      "pilot": "{n} piloto | {n} pilotos | {n} pilotos",
+      "pilotgroup": "{n} grupo de pilotos | {n} grupos de pilotos | {n} grupos de pilotos",
+      "unit": "{n} unidade | {n} unidades | {n} unidades",
+      "doodad": "{n} Objeto | {n} Objetos | {n} Objetos",
+      "eidolon": "{n} eidolon | {n} eidolons | {n} eidolons",
+      "character": "{n} personagem | {n} personagens | {n} personagens",
+      "faction": "{n} facção | {n} facções | {n} facções",
+      "location": "{n} local | {n} locais | {n} locais",
+      "encounter": "{n} encontro | {n} encontros | {n} encontros",
+      "encounterinstance": "{n} encontro ativo | {n} encontros ativos | {n} encontros ativos",
+      "encounterarchive": "{n} encontro arquivado | {n} encontros arquivados | {n} encontros arquivados",
+      "pilotsheet": "{n} ficha de piloto | {n} fichas de pilotos | {n} fichas de pilotos",
+      "pilotlogbook": "{n} diário de bordo | {n} diários de bordos | {n} diários de bordos",
+      "campaign": "{n} campanha | {n} campanhas | {n} campanhas",
+      "npc": "{n} PNJ | {n} PNJs | {n} PNJs",
+      "collectionitem": "{n} item da coleção | {n} itens da coleção | {n} itens da coleção",
+      "narrative": "{n} item narrativo | {n} itens narrativo | {n} itens narrativo"
+    },
+    "mechStatus": {
+      "operational": "OPERACIONAL",
+      "in_cascade": "EM CASCATA",
+      "destroyed": "DESTRUÍDO",
+      "reactor_meltdown": "FUSÃO DE REATOR"
+    },
+    "npcStatus": {
+      "operational": "OPERACIONAL",
+      "destroyed": "DESTRUÍDO",
+      "routed": "EM FUGA",
+      "disengaged": "DESENGAJADO"
     }
   },
   "combat": {
     "timedEffect": {
-      "roundsRemaining": "{n} Rodadas restantes | {n} Rodadas restantes | {n} Rodadas restantes",
-      "override": "Sobrescrever"
+      "roundsRemaining": "{n} Rodada restante | {n} Rodadas restantes | {n} Rodadas restantes",
+      "override": "Sobrescrever",
+      "retryMeltdown": "Repetir o teste de ENGENHARIA (ação completa) para evitar a fusão",
+      "selfDestructName": "Autodestruição",
+      "selfDestructDetail": "Este mecha explodirá como se tivesse sofrido uma fusão de reator. A explosão aniquilará este mecha, matando todos em seu interior e causando 4d6 de dano explosivo a todos os alvos em uma área de explosão 2 ao seu redor.",
+      "reactorMeltdownName": "Fusão de Reator",
+      "reactorMeltdownDetail": "O reator deste mecha sofrerá uma fusão, aniquilando-o e matando todos em seu interior, causando 4d6 de dano explosivo a todos os alvos em uma área de explosão 2 ao seu redor.",
+      "meltdownDamageName": "Causar Dano de Fusão",
+      "meltdownDamageDetail": "A explosão do reator causa 4d6 de dano explosivo a todos os alvos em uma área de explosão 2 ao redor deste mecha.",
+      "statusExpiredName": "Status/Condição Expirado(a)",
+      "statusExpiredDetail": "O status {name} expirou.",
+      "specialExpiredName": "Status Especial Expirado",
+      "specialExpiredDetail": "O status especial {attribute} expirou."
     },
     "structureCheck": {
       "structure": "Dano de Estrutura",
@@ -3863,7 +4173,179 @@
       "chooseOne": "Escolha um",
       "reroll": "Re-role",
       "rollCheck": "Rolar {check}",
-      "rollPrompt": "Role {n}d{die} e escolha o menor"
+      "rollPrompt": "Role {n}d{die} e escolha o menor",
+      "saveSave": "{check} salvamento",
+      "blocksTurn": "Resolva o teste de estrutura ou estresse pendente antes de encerrar este turno",
+      "allWeaponsOnMountDestroyed": "Todas as armas em um encaixe são destruídas",
+      "oneSystemDestroyed": "Um sistema é destruído",
+      "structure3Plus": "3+ Estruturas",
+      "structureRemainingTwo": "2 Estruturas",
+      "structureRemainingOne": "1 Estrutura",
+      "stress3Plus": "3+ Estresses",
+      "stressRemainingTwo": "2 Estresses",
+      "stressRemainingOne": "1 Estresse",
+      "durationEndOfNextTurn": "até o fim do próximo turno do alvo",
+      "durationRestOfScene": "Pelo resto da cena",
+      "noteAfterDieTurns": "depois de 1d6 turnos seus",
+      "noteEndOfNextTurn": "até o final do seu próximo turno",
+      "damage": "{roll}dano{type}",
+      "nothingDestroyable": "Nada a ser destruído, Acerto Direto",
+      "mountToDestroy": "Encaixe a ser destruído",
+      "systemToDestroy": "Sistema a destruído"
+    },
+    "log": {
+      "encounterStart": "Encontro iniciado: {name}",
+      "encounterEnd": "Encontro encerrado após {rounds} rodada: {result} | Encontro encerrado após {rounds} rodadas: {result} | Encontro encerrado após {rounds} rodadas: {result}",
+      "roundStart": "Rodada {round} iniciada",
+      "roundEnd": "Rodada {round} encerrada",
+      "turnStart": "\"{who} iniciou um turno ({n} ativação restante) | {who} iniciou um turno ({n} ativações restantes) | {who} iniciou um turno ({n} ativações restantes)",
+      "turnEnd": "{who} Encerrou um turno ({n} ativação restante) | {who} Encerrou um turno ({n} ativações restantes) | {who} Encerrou um turno ({n} ativações restantes)",
+      "action": "{who} usou {action} como uma ação {activation}",
+      "actionFree": "{who} usou {action} como uma ação livre",
+      "actionPlain": "{who} usou {action}",
+      "attack": "{who} atacou {target} com {weapon}: {roll} vs {defenseValue} de {defense} — {result}",
+      "attackUntargeted": "{who} atacou com {weapon}: {roll} vs {defenseValue} de {defense} — {result}",
+      "damage": "{who} causou {amount} de dano {type} a {target}",
+      "damageNone": "{who} não causou dano a {target} a partir de {incoming} de {type}",
+      "armorReduced": "-{n} armadura",
+      "overkill": "+{n} calor de exagero",
+      "heat": "{who} ganhou {n} de calor",
+      "heatDangerZone": "{who} ganhou {n} de calor e está na zona de perigo",
+      "heatCleared": "{who} dissipou {n} de calor ({reason})",
+      "heatReason": {
+        "stabilize": "estabilizou",
+        "shutdown": "Desligado",
+        "effect": "efeito de sistema",
+        "cap": "Limite máximo atingido",
+        "cascade": "Cascata de Estresse do Reator",
+        "manual": "Ajuste manual"
+      },
+      "saveSuccess": "{who} passou em uma salvaguarda de {stat}: {roll} vs {target}",
+      "saveSuccessUnrolled": "{who} passou em uma salvaguarda de {stat}",
+      "saveFailure": "{who} falhou em uma salvaguarda de {stat}: {roll} vs {target}",
+      "saveFailureUnrolled": "{who} falhou em uma salvaguarda de {stat}",
+      "check": "{who} fez um teste de {stat}: {roll} vs {target} — {result}",
+      "checkContested": "{who} disputou {stat} contra {opponent}: {roll} — {result}",
+      "structureCheck": "{who} rolou dano de estrutura: [{dice}] menor {lowest} — {row}",
+      "stressCheck": "{who} rolou estresse do reator: [{dice}] menor {lowest} — {row}",
+      "statusGain": "{who} recebeu {status}",
+      "statusGainTimed": "{who} recebeu {status} ({duration})",
+      "statusLose": "{who} perdeu {status}",
+      "resistChange": "{who} recebeu a condição {condition} ({type})",
+      "resistChangeRemoved": "{who} perdeu a condição {condition} ({type})",
+      "moveBoost": "{who} gastou {n} de movimento do impulso",
+      "move": "{who} gastou {n} de movimento",
+      "moveBoosted": "{who} usou impulso, recebendo {n} de movimento",
+      "overcharge": "{who} usou sobrecarga para o nível {level} por {heat} de calor",
+      "deployableLaunch": "{who} posicionou {name}",
+      "deployableDestroy": "{name} de {who} foi destruído",
+      "actorDestroy": "{who} destruiu {target}",
+      "actorDestroyUnknown": "{who} destruiu um oponente",
+      "pilotStatus": "{who} agora está {status}",
+      "mechStatus": "O mech de {who} agora está {status}",
+      "repair": "{who} reparou: {kind}",
+      "hit": {
+        "hit": "ACERTO",
+        "miss": "ERRO",
+        "crit": "CRITÍCO"
+      },
+      "stabilize": "{who} estabilizou: {choices}",
+      "resist": {
+        "immunity": "imune",
+        "resistance": "resistente",
+        "vulnerable": "vulnerável"
+      },
+      "condition": {
+        "exposed": "exposto",
+        "shredded": "dispedaçado"
+      },
+      "reload": "{who} recarregou {items}",
+      "recharge": "{who} recarregou {item} em um {roll}",
+      "rechargeFailed": "{item} de {who} falhou em recarregar com um {roll}",
+      "corePower": "{who} ativou seu sistema de NÚCLEO",
+      "corePowerOff": "{who} desativou seu sistema de NÚCLEO",
+      "mount": "{who} montou",
+      "mountDismount": "{who} desmoutou",
+      "mountEject": "{who} ejetou",
+      "aiControl": "IA assumiu o controle de {who}",
+      "aiControlOff": "{who} retomou o controle da IA",
+      "cover": "{who} recebeu cobertura {cover}",
+      "prepare": "{who} preparou uma ação",
+      "prepareRelease": "{who} acionou a ação preparada",
+      "blocked": "{who} não conseguiu {action}:{reason}",
+      "blockedOverridden": "{who} ignorou um bloqueio para {action}: {reason}",
+      "meltdown": {
+        "scheduled": "O reator de {who} derreterá em {turns} turno. | O reator de {who} derreterá em {turns} turno(s). | O reator de {who} derreterá em {turns} turno(s).",
+        "averted": "{who} evitou o colapso do reator",
+        "committed": "O reator de {who} entrou em colapso",
+        "self_destruct": "{who} se autodestruiu"
+      },
+      "carry": {
+        "drag": "{who} começou a arrastar",
+        "lift": "{who} começou a levantar",
+        "none": "{who} parou de carregar"
+      },
+      "blockedReason": {
+        "immobilized": "imobilizado",
+        "engaged": "engajado",
+        "prone": "não está caído",
+        "mounted": "já está montado",
+        "unmounted": "não montado",
+        "immune": "o alvo é imune",
+        "reactor_destroyed": "os destroços foram aniquilados",
+        "shut_down": "já está desligado",
+        "unavailable": "indisponível",
+        "no_uses": "sem usos restantes",
+        "duplicate": "já fez seu turno",
+        "insufficient": "sem ações restantes",
+        "no_target": "sem alvo selecionado",
+        "no_weapon": "sem arma selecionada",
+        "ordnance": "Artilharia não pode ser disparada após se mover",
+        "untargetable": "o alvo não pode ser atacado",
+        "already_applied": "já foi resolvido",
+        "unknown_status": "status não reconhecido"
+      },
+      "damageSelf": "{who} sofreu {amount} de dano de {type}",
+      "damageSelfNone": "{who} não sofreu dano de {incoming} {type}.",
+      "side": {
+        "ally": "ALIADO",
+        "enemy": "INIMIGO",
+        "neutral": "NEUTRO"
+      },
+      "type": {
+        "pilot": "PILOTO",
+        "mech": "MECHA",
+        "npc": "PNJ",
+        "eidolon": "EIDOLON",
+        "deployable": "IMPLEMENTO",
+        "doodad": "OBJETO"
+      },
+      "damageUntargeted": "{who} causou {amount} de dano de {type}",
+      "damageUntargetedNone": "{who} não causou dano com {incoming} {type}.",
+      "self": "PRÓPRIO",
+      "clause": {
+        "damage": "por {amount} de dano de {type}",
+        "kill": "ALVO DESTRUÍDO"
+      },
+      "promptSkipped": "{who} ignorou {label}",
+      "blockedNoAction": "{who} foi bloqueado: {reason}",
+      "attackOverridden": "resultado definido pelo MJ",
+      "attackInvisible": "errou devido à invisibilidade",
+      "equipmentUsed": "{who} marcou {item} como usado",
+      "equipmentUnused": "{who} marcou {item} como usado",
+      "equipmentDestroyed": "O {item} de {who} foi destruído",
+      "equipmentRepaired": "O {item} de {who} foi reparado",
+      "counterUp": "{who} aumentou {counter} em {n}, para {to}",
+      "counterDown": "{who} reduziu {counter} em {n}, para {to}",
+      "npcStatus": "{who} agora está {status}",
+      "statusManual": "definido no relatório pós-ação"
+    },
+    "expiration": {
+      "start": "iniciar",
+      "end": "encerrar",
+      "endsOnSelfTurn": "Termina no {when} do seu turno ({name})",
+      "endsOnOtherTurn": "Termina no {when} do turno de {name}",
+      "endsOnRound": "Termina no {when} da rodada {round}"
     }
   }
 }

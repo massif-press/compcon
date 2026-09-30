@@ -7,6 +7,9 @@ import { NpcFeatureFactory } from '../feature/NpcFeatureFactory'
 import { EidolonShard, IEidolonShardData } from './EidolonShard'
 import logger from '@/user/logger'
 import { ByTier } from '@/util/tierFormat'
+import { localize } from '@/i18n/localize'
+import { eidolonTraitId } from '@/i18n/contentKeys'
+import PersistentTraitData from './persistent_traits.json'
 
 interface IEidolonLayerData {
   id: string
@@ -42,8 +45,6 @@ class EidolonLayer implements ILcpTracked {
   public InLcp: boolean = false
   public readonly HpPerPlayer: number = 5
 
-  public readonly Appearance: string
-  public readonly Hints: string
   public readonly Features: NpcFeature[]
   public readonly Shards?: EidolonShard
 
@@ -52,6 +53,8 @@ class EidolonLayer implements ILcpTracked {
   private _id: string
   private _name: string
   private _rules: string
+  private _appearance: string
+  private _hints: string
 
   private _stats: NpcClassStats
 
@@ -65,16 +68,16 @@ class EidolonLayer implements ILcpTracked {
     this._rules = data.rules
     applyLcpTracking(this, pack)
 
-    this.Appearance = data.appearance
-    this.Hints = data.hints
+    this._appearance = data.appearance
+    this._hints = data.hints
 
     if (!data.features || !Array.isArray(data.features)) {
       logger.error('EidolonLayer: Features data missing')
       data.features = []
     }
 
-    this.Features = data.features.map(f => NpcFeatureFactory.Build(f))
-    if (data.shards) this.Shards = new EidolonShard(data.shards)
+    this.Features = data.features.map(f => NpcFeatureFactory.Build(f, pack))
+    if (data.shards) this.Shards = new EidolonShard(data.shards, pack, undefined, this._id)
     this.InLcp = true
   }
 
@@ -83,7 +86,15 @@ class EidolonLayer implements ILcpTracked {
   }
 
   public get Name(): string {
-    return this._name
+    return localize(this._id, 'name', this._name)
+  }
+
+  public get Appearance(): string {
+    return localize(this._id, 'appearance', this._appearance)
+  }
+
+  public get Hints(): string {
+    return localize(this._id, 'hints', this._hints)
   }
 
   public get Stats(): NpcClassStats {
@@ -95,11 +106,11 @@ class EidolonLayer implements ILcpTracked {
   }
 
   public get Rules(): string {
-    return ByTier(this._rules)
+    return ByTier(localize(this._id, 'rules', this._rules))
   }
 
   public RulesByTier(tier: number): string {
-    return ByTier(this._rules, tier)
+    return ByTier(localize(this._id, 'rules', this._rules), tier)
   }
 
   public get ShardCount(): string {
@@ -111,5 +122,12 @@ class EidolonLayer implements ILcpTracked {
   }
 }
 
-export { EidolonLayer }
+function persistentTraits(): { name: string; detail: string }[] {
+  return PersistentTraitData.map(t => ({
+    name: localize(eidolonTraitId(t.name), 'name', t.name),
+    detail: localize(eidolonTraitId(t.name), 'detail', t.detail),
+  }))
+}
+
+export { EidolonLayer, persistentTraits }
 export type { IEidolonLayerData }

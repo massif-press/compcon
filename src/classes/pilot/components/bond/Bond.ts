@@ -3,6 +3,8 @@ import { ItemType } from '../../../enums'
 import { CompendiumStore } from '../../../../stores'
 import { BrewInfo } from '@/classes/components/brew/BrewController'
 import { applyLcpTracking, type ILcpTracked } from '@/classes/LcpItemMixin'
+import { localize } from '@/i18n/localize'
+import { bondPowerPrefix } from '@/i18n/contentKeys'
 
 type prompt = {
   question: string
@@ -32,10 +34,6 @@ interface IBondData {
 class Bond implements ILcpTracked {
   public readonly ID: string
   public readonly ItemData: IBondData
-  public readonly Name: string
-  public readonly MajorIdeals: string[]
-  public readonly MinorIdeals: string[]
-  public readonly Questions: prompt[]
   public readonly _powers: BondPower[]
   public LcpName: string = ''
   public InLcp: boolean = false
@@ -46,10 +44,6 @@ class Bond implements ILcpTracked {
   public constructor(data: IBondData, pack?: ContentPack) {
     this.ID = data.id
     this.ItemData = data
-    this.Name = data.name
-    this.MajorIdeals = data.major_ideals
-    this.MinorIdeals = data.minor_ideals
-    this.Questions = data.questions
     this._powers = data.powers
     this._powers.forEach(power => {
       power.origin = this.ID
@@ -68,6 +62,29 @@ class Bond implements ILcpTracked {
         V3: pack.v3,
       }
     } else this.Brew = {} as BrewInfo
+  }
+
+  public get Name(): string {
+    return localize(this.ID, 'name', this.ItemData.name)
+  }
+
+  public get MajorIdeals(): string[] {
+    return (this.ItemData.major_ideals ?? []).map((v, i) =>
+      localize(this.ID, `major_ideal_${i}`, v)
+    )
+  }
+
+  public get MinorIdeals(): string[] {
+    return (this.ItemData.minor_ideals ?? []).map((v, i) =>
+      localize(this.ID, `minor_ideal_${i}`, v)
+    )
+  }
+
+  public get Questions(): prompt[] {
+    return (this.ItemData.questions ?? []).map((q, i) => ({
+      question: localize(this.ID, `question_${i}`, q.question),
+      options: (q.options ?? []).map((v, j) => localize(this.ID, `question_${i}_option_${j}`, v)),
+    }))
   }
 
   public get Powers() {
@@ -98,9 +115,20 @@ class Bond implements ILcpTracked {
   }
 
   public get Image(): string {
-    return `/img/bond/${this.Name.replace(/The /g, '').toLowerCase()}.webp`
+    return `/img/bond/${this.ItemData.name.replace(/The /g, '').toLowerCase()}.webp`
   }
 }
 
-export { Bond }
+function localizePower(p: BondPower): BondPower {
+  const key = bondPowerPrefix(p.origin, p.name)
+  return {
+    ...p,
+    name: localize(key, 'name', p.name),
+    description: localize(key, 'description', p.description),
+    frequency: p.frequency && localize(key, 'frequency', p.frequency),
+    prerequisite: p.prerequisite && localize(key, 'prerequisite', p.prerequisite),
+  }
+}
+
+export { Bond, localizePower }
 export type { IBondData }
