@@ -1,259 +1,61 @@
 <template>
-  <simple-action-list
-    v-if="simple"
+  <action-palette
     :controller="controller"
-    :quick-actions="['act_skirmish', ...quickMechActions]"
-    :full-actions="['act_barrage', ...fullMechActions]"
+    :actor="activeMech"
+    :ids="ids"
     @deploy="$emit('deploy', $event)"
-  />
-  <v-expansion-panels
-    v-else
-    focusable
-    tile
-    color="panel"
-    flat
-    class="mt-1"
   >
-    <v-expansion-panel>
-      <v-expansion-panel-title class="heading h4 py-0">
-        {{ $t('active.runner.allActions') }}
-      </v-expansion-panel-title>
-      <v-expansion-panel-text style="border: 2px solid rgb(var(--v-theme-panel))">
-        <v-row dense>
-          <v-col
-            v-for="pa in controller.AllActions('Protocol')"
-            :key="pa.ID"
-          >
-            <deploy-button
-              v-if="pa.Deployable"
-              action-only
-              :deployable="toDeployable(pa)"
-              :actor="activeMech"
-              @deploy="$emit('deploy', $event)"
-            />
-            <basic-action-button
-              v-else
-              :action="pa"
-              @activate="activate($event)"
-            />
-          </v-col>
-          <v-col
-            v-for="fa in controller.AllActions('Free')"
-            :key="fa.ID"
-          >
-            <deploy-button
-              v-if="fa.Deployable"
-              action-only
-              :deployable="toDeployable(fa)"
-              :actor="activeMech"
-              @deploy="$emit('deploy', $event)"
-            />
-            <basic-action-button
-              v-else
-              :action="fa"
-              @activate="activate($event)"
-            />
-          </v-col>
-        </v-row>
-        <v-divider class="my-2" />
-        <v-row dense>
-          <v-col>
-            <mech-skirmish-button
-              :action="getBaseAction('act_skirmish')"
-              @activate="activate($event)"
-            />
-          </v-col>
-          <v-col>
-            <mech-barrage-button
-              :action="getBaseAction('act_barrage')"
-              @activate="activate($event)"
-            />
-          </v-col>
-        </v-row>
-        <v-divider class="my-2" />
-
-        <v-row
-          align="start"
-          dense
-        >
-          <v-col>
-            <v-row dense>
-              <v-col
-                v-for="(action, index) in quickMechActions"
-                :key="`quick-${index}`"
-              >
-                <invade-button
-                  v-if="action === 'act_invade'"
-                  :action="getBaseAction(action)"
-                  @activate="activate($event)"
-                />
-
-                <targeted-action-button
-                  v-else-if="controller.NeedsTarget(action)"
-                  :action="getBaseAction(action)"
-                />
-
-                <basic-action-button
-                  v-else
-                  :action="getBaseAction(action)"
-                  @activate="activate($event)"
-                />
-              </v-col>
-              <v-divider class="my-1" />
-              <v-col
-                v-for="qa in controller.AllActions('Quick')"
-                :key="qa.ID"
-              >
-                <deploy-button
-                  v-if="qa.Deployable"
-                  action-only
-                  :deployable="toDeployable(qa)"
-                  :actor="activeMech"
-                  @deploy="$emit('deploy', $event)"
-                />
-                <basic-action-button
-                  v-else
-                  :action="qa"
-                  @activate="activate($event)"
-                />
-              </v-col>
-              <v-col
-                v-for="qta in controller.AllActions('Quick Tech')"
-                :key="qta.ID"
-              >
-                <deploy-button
-                  v-if="qta.Deployable"
-                  action-only
-                  :deployable="toDeployable(qta)"
-                  :actor="activeMech"
-                  @deploy="$emit('deploy', $event)"
-                />
-                <basic-action-button
-                  v-else
-                  :action="qta"
-                  @activate="activate($event)"
-                />
-              </v-col>
-            </v-row>
-          </v-col>
-          <v-col>
-            <v-row dense>
-              <v-col
-                v-for="(action, index) in fullMechActions"
-                :key="`full-${index}`"
-              >
-                <stabilize-button
-                  v-if="action === 'act_stabilize'"
-                  :action="getBaseAction(action)"
-                />
-                <skill-check-button
-                  v-else-if="action === 'act_skill_check'"
-                  :action="getBaseAction(action)"
-                  @activate="activate($event)"
-                />
-                <basic-action-button
-                  v-else
-                  :action="getBaseAction(action)"
-                  @activate="activate($event)"
-                />
-              </v-col>
-              <v-divider class="my-1" />
-              <v-col
-                v-for="fa in controller.AllActions('Full')"
-                :key="fa.ID"
-              >
-                <deploy-button
-                  v-if="fa.Deployable"
-                  action-only
-                  :deployable="toDeployable(fa)"
-                  :actor="activeMech"
-                  @deploy="$emit('deploy', $event)"
-                />
-                <basic-action-button
-                  v-else
-                  :action="fa"
-                  @activate="activate($event)"
-                />
-              </v-col>
-              <v-col
-                v-for="fta in controller.AllActions('Full Tech')"
-                :key="fta.ID"
-              >
-                <deploy-button
-                  v-if="fta.Deployable"
-                  action-only
-                  :deployable="toDeployable(fta)"
-                  :actor="activeMech"
-                  @deploy="$emit('deploy', $event)"
-                />
-                <basic-action-button
-                  v-else
-                  :action="fta"
-                  @activate="activate($event)"
-                />
-              </v-col>
-            </v-row>
-          </v-col>
-        </v-row>
-        <v-divider class="my-2" />
-
-        <v-row dense>
-          <v-col>
-            <overcharge-button :action="getBaseAction('act_overcharge')" />
-          </v-col>
-          <v-col>
-            <basic-action-button
-              :action="getBaseAction('act_brace')"
-              @activate="activate($event)"
-            />
-          </v-col>
-          <v-col>
-            <basic-action-button
-              :action="getBaseAction('act_overwatch')"
-              @activate="activate($event)"
-            />
-          </v-col>
-          <v-col
-            v-for="ra in controller.AllActions('Reaction')"
-            :key="ra.ID"
-          >
-            <deploy-button
-              v-if="ra.Deployable"
-              action-only
-              :deployable="toDeployable(ra)"
-              :actor="activeMech"
-              @deploy="$emit('deploy', $event)"
-            />
-            <basic-action-button
-              v-else
-              :action="ra"
-              @activate="activate($event)"
-            />
-          </v-col>
-          <v-col>
-            <basic-action-button
-              :action="getBaseAction('act_self_destruct')"
-              @activate="activate($event)"
-            />
-          </v-col>
-        </v-row>
-      </v-expansion-panel-text>
-    </v-expansion-panel>
-  </v-expansion-panels>
+    <template #button="{ action, section }">
+      <mech-skirmish-button
+        v-if="action.ID === 'act_skirmish'"
+        :action="action"
+        @activate="activate($event)"
+      />
+      <mech-barrage-button
+        v-else-if="action.ID === 'act_barrage'"
+        :action="action"
+        @activate="activate($event)"
+      />
+      <invade-button
+        v-else-if="action.ID === 'act_invade'"
+        :action="action"
+        @activate="activate($event)"
+      />
+      <targeted-action-button
+        v-else-if="section === 'quick' && controller.NeedsTarget(action.ID)"
+        :action="action"
+      />
+      <stabilize-button
+        v-else-if="action.ID === 'act_stabilize'"
+        :action="action"
+      />
+      <skill-check-button
+        v-else-if="action.ID === 'act_skill_check'"
+        :action="action"
+        @activate="activate($event)"
+      />
+      <overcharge-button
+        v-else-if="action.ID === 'act_overcharge'"
+        :action="action"
+      />
+      <basic-action-button
+        v-else
+        :action="action"
+        @activate="activate($event)"
+      />
+    </template>
+  </action-palette>
 </template>
 
 <script setup lang="ts">
   import { useEncounterContext } from '../encounterContext'
   import { computed } from 'vue'
-  import { CompendiumStore } from '@/stores'
-  import { Deployable } from '@/classes/components/feature/deployable/Deployable'
   import { notify } from '@/util/notify'
   import { useI18n } from 'vue-i18n'
   const { t } = useI18n()
   import BasicActionButton from './loadouts/action_buttons/basicActionButton.vue'
-  import SimpleActionList from './SimpleActionList.vue'
+  import ActionPalette from './ActionPalette.vue'
   import TargetedActionButton from './loadouts/action_buttons/targetedActionButton.vue'
-  import DeployButton from './loadouts/_deployButton.vue'
   import InvadeButton from './loadouts/action_buttons/invadeButton.vue'
   import StabilizeButton from './loadouts/action_buttons/stabilizeButton.vue'
   import SkillCheckButton from './loadouts/action_buttons/skillCheckButton.vue'
@@ -261,7 +63,7 @@
   import MechSkirmishButton from './loadouts/action_buttons/mechSkirmishButton.vue'
   import MechBarrageButton from './loadouts/action_buttons/mechBarrageButton.vue'
 
-  const { owner, simple } = useEncounterContext()
+  const { owner } = useEncounterContext()
 
   defineEmits<{ deploy: [event: any] }>()
 
@@ -289,16 +91,17 @@
     'act_full_tech',
   ]
 
+  const ids = {
+    quickAttack: ['act_skirmish'],
+    fullAttack: ['act_barrage'],
+    quick: quickMechActions,
+    full: fullMechActions,
+    reactions: ['act_overcharge', 'act_brace', 'act_overwatch'],
+    lastReactions: ['act_self_destruct'],
+  }
+
   const activeMech = computed(() => owner.value.actor.ActiveMech!)
   const controller = computed(() => activeMech.value.CombatController)
-
-  function getBaseAction(actionId: string) {
-    return CompendiumStore().Actions.find((a: any) => a.ID === actionId)!
-  }
-
-  function toDeployable(action: any) {
-    return new Deployable(action.Deployable)
-  }
 
   const NOTICES: Record<string, { ok: [string, string]; fail?: [string, string] }> = {
     act_prepare: { ok: ['active.mechActions.preparedTitle', 'active.common.preparedText'] },
@@ -352,8 +155,3 @@
     announce(event, controller.value.RunAction(event))
   }
 </script>
-<style scoped>
-  .v-expansion-panel-text :deep(.v-expansion-panel-text__wrapper) {
-    padding: 8px;
-  }
-</style>

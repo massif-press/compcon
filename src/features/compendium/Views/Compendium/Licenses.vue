@@ -22,7 +22,7 @@
 
   const headers = ref([
     { title: t('common.manufacturer'), key: 'Source' },
-    { title: 'Name', key: 'Name' },
+    { title: t('common.name'), key: 'Name' },
     { title: t('compendium.licenses.tierI'), key: 'T1', sortable: false },
     { title: t('compendium.licenses.tierIi'), key: 'T2', sortable: false },
     { title: t('compendium.licenses.tierIii'), key: 'T3', sortable: false },

@@ -1,4 +1,6 @@
 import { Damage } from '../../../../Damage'
+import { i18n } from '@/i18n'
+import { enumLabel } from '@/i18n/enumLabel'
 import { DamageRollResult } from '../../../../dice/DiceRoller'
 import { DamageType } from '../../../../enums'
 import { ActiveEffectEvent } from '../ActiveEffectEvent'
@@ -64,37 +66,47 @@ class DamageEvent {
   }
 
   public get IncomingSummary(): string {
-    if (!this.DamageRolledValue) return 'roll pending'
+    const t = i18n.global.t
+    if (!this.DamageRolledValue) return t('combat.summary.rollPending')
 
     let str
     if (this.DamageRollString.includes('d')) {
-      str = `(${this.IsCrit ? 'CRIT ' : ''}${this.DamageRollString}) → ${this.DamageRolledValue}`
+      const crit = this.IsCrit ? `${t('ui.combat.crit').toUpperCase()} ` : ''
+      str = `(${crit}${this.DamageRollString}) → ${this.DamageRolledValue}`
     } else {
       str = `${this.DamageRolledValue}`
     }
 
-    if (this.Overkill) str += ` + ${this.OverkillHeat} Overkill`
+    if (this.Overkill) str += ` ${t('combat.summary.overkillHeat', { n: this.OverkillHeat })}`
 
     if (this.Bonus && this.BonusDamageEvent) {
-      str += ` + ${this.BonusDamageEvent.DamageRollString} Bonus`
+      str += ` ${t('combat.summary.bonusDamage', { roll: this.BonusDamageEvent.DamageRollString })}`
     }
 
-    if (this.AP) str += ' (AP)'
-    if (this.Irreducible) str += ' (Irreducible)'
+    str += this.tags
     if (this.Reliable && this.DamageRolledValue < this.Reliable)
-      str += ` (Reliable ${this.Reliable})`
+      str += ` ${t('combat.summary.reliable', { n: this.Reliable })}`
 
     return str
   }
 
-  public get Summary(): string {
-    let str = `${this.DamageRolledValue} ${this.DamageType}`
-    if (this.AP) str += ' (AP)'
-    if (this.Irreducible) str += ' (Irreducible)'
-    if ((this.Reliable && this.DamageRolledValue) || 0 < this.Reliable)
-      str += ` (Reliable ${this.Reliable})`
+  private get tags(): string {
+    let str = ''
+    if (this.AP) str += ` ${i18n.global.t('combat.summary.apTag')}`
+    if (this.Irreducible) str += ` ${i18n.global.t('combat.summary.irreducibleTag')}`
+    return str
+  }
 
-    return str + ' Damage'
+  public get Summary(): string {
+    let tags = this.tags
+    if ((this.Reliable && this.DamageRolledValue) || 0 < this.Reliable)
+      tags += ` ${i18n.global.t('combat.summary.reliable', { n: this.Reliable })}`
+
+    return i18n.global.t('combat.summary.damageTotal', {
+      value: this.DamageRolledValue,
+      type: enumLabel('damageType', this.DamageType),
+      tags,
+    })
   }
 
   public CalcFinalDamageValues(

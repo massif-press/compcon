@@ -29,7 +29,7 @@
             <cc-text-field
               v-model="search"
               type="autocomplete"
-              :placeholder="`Search ${title}`"
+              :placeholder="$t('gm.shared.searchCollection', { collection: title })"
               :items="items"
               item-title="Name"
               item-value="Name"

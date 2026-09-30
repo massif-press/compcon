@@ -114,7 +114,7 @@
         prominent
         icon="mdi-alert"
         closeable
-        title="error"
+        :title="$t('common.error')"
       >
         <div v-html-safe="error" />
       </cc-alert>

@@ -388,7 +388,7 @@
   const updateLoading = ref(false)
   const working = ref(false)
   const headers = ref([
-    { title: 'Created', key: 'created' },
+    { title: t('common.created'), key: 'created' },
     { title: t('common.source'), key: 'source' },
     { title: t('mainMenu.archive.fileSize'), key: 'size' },
     { title: t('mainMenu.cloudArchive.preserve'), key: 'preserve' },

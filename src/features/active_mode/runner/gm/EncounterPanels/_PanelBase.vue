@@ -83,7 +83,7 @@
               "
                 cols="auto">
                 <static-stat icon="mdi-star-four-points-outline"
-                  :label="$t('active.tooltips.pilotGrit')"
+                  :label="$t('active.panelBase.pilotGrit')"
                   :value="(item as any).Grit || (item as any).Parent?.Grit || 0" />
               </v-col>
               <template v-for="stat in <any[]>statColumns"

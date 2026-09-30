@@ -255,7 +255,7 @@
     () => !!postSyncTime.value || !!props.item.CloudController.Metadata?.Updated
   )
   const lastSyncLabel = computed(() =>
-    timeAgo(postSyncTime.value ?? props.item.CloudController.Metadata?.Updated, 'Never')
+    timeAgo(postSyncTime.value ?? props.item.CloudController.Metadata?.Updated, t('common.never'))
   )
   const syncedState = computed(() => !!postSyncTime.value || props.item.CloudController.isSynced)
 
@@ -275,17 +275,18 @@
     return arr
   })
 
-  function timeAgo(t: number | undefined | null, fallback: string): string {
-    if (!t) return fallback
-    const diff = Date.now() - t
-    if (diff < 60_000) return 'Just now'
-    if (diff < 3_600_000) return `${Math.floor(diff / 60_000)} min ago`
-    if (diff < 86_400_000) return `${Math.floor(diff / 3_600_000)} hr ago`
-    return new Date(t).toLocaleDateString()
+  function timeAgo(time: number | undefined | null, fallback: string): string {
+    if (!time) return fallback
+    const diff = Date.now() - time
+    if (diff < 60_000) return t('share.justNow')
+    const rtf = new Intl.RelativeTimeFormat(String(i18n.global.locale.value).replace('_', '-'))
+    if (diff < 3_600_000) return rtf.format(-Math.floor(diff / 60_000), 'minute')
+    if (diff < 86_400_000) return rtf.format(-Math.floor(diff / 3_600_000), 'hour')
+    return new Date(time).toLocaleDateString()
   }
 
   const localModifiedLabel = computed(() =>
-    timeAgo(props.item.SaveController?.LastModified, 'Unknown')
+    timeAgo(props.item.SaveController?.LastModified, t('common.unknown'))
   )
 
   function copy() {

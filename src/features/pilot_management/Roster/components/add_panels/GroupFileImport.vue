@@ -81,7 +81,7 @@
           <cc-checkbox
             v-model="importPilots"
             color="accent"
-            :label="`Import Pilots (${stagedPilots.length})`"
+            :label="$t('pm.roster.importPilotsCount', { count: stagedPilots.length })"
             density="compact"
             hide-details
           />

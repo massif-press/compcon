@@ -24,8 +24,8 @@
             <v-tab
               v-for="item in invadeActions"
               :key="item.ID"
-              height="30"
-              class="bg-action--invade"
+              :height="item.Terse ? 'auto' : 30"
+              class="bg-action--invade py-1"
               :border="mobile"
               :value="item.ID"
             >
@@ -33,7 +33,15 @@
                 :icon="item.Icon"
                 class="mr-2"
               />
-              {{ item.Name }}
+              <div class="text-left">
+                <div>{{ item.Name }}</div>
+                <div
+                  v-if="item.Terse"
+                  class="text-caption text-none invade-tab-subtitle"
+                >
+                  {{ item.Terse }}
+                </div>
+              </div>
             </v-tab>
           </v-tabs>
         </v-col>
@@ -155,3 +163,11 @@
     controller.value.UndoActivation(props.action.Activation, { actionId: props.action.ID })
   }
 </script>
+
+<style scoped>
+  .invade-tab-subtitle {
+    white-space: normal;
+    line-height: 1.2;
+    opacity: 0.7;
+  }
+</style>

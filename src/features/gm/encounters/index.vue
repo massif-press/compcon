@@ -43,7 +43,7 @@
           <v-col class="pl-4">
             <v-autocomplete
               v-model="search"
-              :placeholder="`Search Encounters`"
+              :placeholder="$t('gm.encounters.searchEncounters')"
               :items="items"
               item-title="Name"
               item-value="Name"

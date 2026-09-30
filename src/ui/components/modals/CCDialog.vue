@@ -89,7 +89,6 @@
       modelValue?: boolean
     }>(),
     {
-      title: 'Default Title',
       color: 'primary',
       closeOnClick: true,
       maxWidth: '60vw',

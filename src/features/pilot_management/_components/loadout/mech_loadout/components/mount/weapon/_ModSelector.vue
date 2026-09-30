@@ -112,7 +112,7 @@
   const headers = [
     { title: t('common.manufacturer'), align: 'left', key: 'Source' },
     { title: t('enums.systemType.system'), align: 'left', key: 'Name' },
-    { title: 'License', align: 'left', key: 'License' },
+    { title: t('ui.filters.license'), align: 'left', key: 'License' },
     { title: t('common.licenseLevel'), align: 'left', key: 'LicenseLevel' },
     { title: t('ui.filter.spCost'), align: 'left', key: 'SP' },
   ]

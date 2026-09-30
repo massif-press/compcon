@@ -17,7 +17,7 @@
         v-if="isTerse"
         icon="mdi-battery-high"
         :color="color"
-        :title="`${frame.Name} Core System`"
+        :title="$t('ui.coreSystemPanel.title', { frame: frame.Name })"
       >
         <template #activator="{ open }">
           <v-icon

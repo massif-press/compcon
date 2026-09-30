@@ -45,7 +45,7 @@
             {{
               scanning
                 ? $t('nav.migrationRepair.scanning')
-                : `Applying fixes (${progress} / ${progressTotal})...`
+                : $t('nav.migrationRepair.applyingFixes', { progress, total: progressTotal })
             }}
           </div>
         </div>

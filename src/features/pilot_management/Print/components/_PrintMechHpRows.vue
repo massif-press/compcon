@@ -4,9 +4,9 @@
     class="mt-n1"
   >
     <print-hp-block
-      title="HP"
+      :title="$t('stats.hp')"
       :value="mech.MaxHP"
-      max-label="MAX HP"
+      :max-label="$t('pm.print.maxHP')"
       :blank="blank"
       :cols="4"
     />
@@ -14,7 +14,7 @@
     <print-hp-block
       :title="$t('stats.structure')"
       :value="mech.MaxStructure"
-      max-label="MAX STRUCTURE"
+      :max-label="$t('pm.print.maxStructure')"
       :blank="blank"
       :cols="3"
       v-bind="compact ? { 'show-upper-section': false } : {}"
@@ -66,7 +66,7 @@
     <print-hp-block
       :title="$t('enums.damageType.heat').toUpperCase()"
       :value="mech.HeatCapacity"
-      max-label="HEAT CAPACITY"
+      :max-label="$t('common.heatCapacity')"
       :blank="blank"
       :cols="4"
       v-bind="compact ? { 'show-upper-section': false } : {}"
@@ -75,7 +75,7 @@
     <print-hp-block
       :title="$t('stats.stress')"
       :value="mech.MaxStress"
-      max-label="MAX STRESS"
+      :max-label="$t('pm.print.maxStress')"
       :blank="blank"
       :cols="3"
       v-bind="compact ? { 'show-upper-section': false } : {}"
@@ -84,7 +84,7 @@
     <print-hp-block
       :title="$t('common.repairs')"
       :value="mech.RepairCapacity"
-      max-label="REPAIR CAPACITY"
+      :max-label="$t('common.repairCapacity')"
       :blank="blank"
       :cols="3"
       v-bind="compact ? { 'show-upper-section': false } : {}"

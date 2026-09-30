@@ -9,7 +9,7 @@
       variant="solo"
       density="compact"
       :disabled="disabled"
-      :placeholder="`Search the ${loc}`"
+      :placeholder="loc"
       @update:focused="isFocused = $event"
       @keyup.enter="search"
     >
@@ -45,7 +45,9 @@
 <script setup lang="ts">
   import { computed, ref } from 'vue'
   import { useRouter } from 'vue-router'
+  import { useI18n } from 'vue-i18n'
   const router = useRouter()
+  const { t } = useI18n()
 
   defineOptions({ name: 'CompendiumSearchBar' })
 
@@ -66,7 +68,9 @@
   const isFocused = ref(false)
 
   const loc = computed(() => {
-    return props.reference ? 'Reference' : 'Compendium'
+    return props.reference
+      ? t('compendium.searchBar.searchTheReference')
+      : t('compendium.searchBar.searchTheCompendium')
   })
 
   function search() {

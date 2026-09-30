@@ -630,7 +630,7 @@
             <span class="heading ml-4">
               {{
                 mech.Frame.CoreSystem.PassiveName
-                  ? `${mech.Frame.CoreSystem.PassiveName} (PASSIVE)`
+                  ? $t('pm.print.corePassiveNamed', { name: mech.Frame.CoreSystem.PassiveName })
                   : $t('pm.print.corePassive')
               }}
             </span>
@@ -643,7 +643,7 @@
             <div class="heading ml-4">
               {{
                 mech.Frame.CoreSystem.ActiveName
-                  ? `${mech.Frame.CoreSystem.ActiveName} (ACTIVE)`
+                  ? $t('pm.print.coreActiveNamed', { name: mech.Frame.CoreSystem.ActiveName })
                   : $t('pm.print.coreActive')
               }}
             </div>

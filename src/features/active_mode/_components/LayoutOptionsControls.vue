@@ -40,6 +40,17 @@
           item-value="value"
           color="primary"
         />
+
+        <div class="text-cc-overline text-disabled mt-2">
+          {{ $t('active.layout.actionGrouping') }}
+        </div>
+        <cc-select
+          v-model="actionGrouping"
+          :items="actionGroupingItems"
+          item-title="title"
+          item-value="value"
+          color="primary"
+        />
       </v-col>
 
       <v-col
@@ -107,6 +118,7 @@
   const labels = field('labels')
   const density = field('density')
   const tickbars = field('tickbars')
+  const actionGrouping = field('actionGrouping')
   const columns = field('columns')
   const maxColumns = field('maxColumns')
   const showPortraits = field('showPortraits')
@@ -134,5 +146,8 @@
   )
   const densityItems = computed(() => items('densities', ['compact', 'default', 'comfortable']))
   const tickbarItems = computed(() => items('tickbarModes', ['auto', 'simple', 'standard']))
+  const actionGroupingItems = computed(() =>
+    items('actionGroupings', ['none', 'standard', 'byType'])
+  )
   const statSetItems = computed(() => items('statSets', [false, true], ['all', 'core']))
 </script>

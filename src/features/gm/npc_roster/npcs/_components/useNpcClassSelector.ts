@@ -37,7 +37,7 @@ function useNpcClassSelector() {
     const h = [
       { title: i18n.global.t('common.contentPack'), key: 'LcpName' },
       { title: i18n.global.t('common.role'), key: 'Icon' },
-      { title: 'Name', key: 'Name' },
+      { title: i18n.global.t('common.name'), key: 'Name' },
     ] as any[]
     for (const key in keymap) {
       h.push({

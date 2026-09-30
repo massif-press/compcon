@@ -1,6 +1,6 @@
 <template>
   <cc-dialog
-    :title="`Organize ${title}`"
+    :title="$t('active.organizer.organizeCollection', { collection: title ?? $t('common.items') })"
     icon="mdi-queue-first-in-last-out"
     :close-on-click="false"
     major
@@ -122,7 +122,6 @@
     }>(),
     {
       noun: 'item',
-      title: 'Items',
       archivedItems: () => [],
     }
   )

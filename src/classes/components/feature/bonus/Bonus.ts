@@ -2,11 +2,30 @@ import { DamageType, RangeType, WeaponSize, WeaponType } from '../../../enums'
 import { IFeatureController } from '../IFeatureController'
 import { getBonusDictionary } from './bonus_dictionary'
 import { IBonusDataContainer } from './IBonusDataContainer'
+import { i18n } from '@/i18n'
 
 const TIER_LIST = /^-?\d+(\.\d+)?(\/-?\d+(\.\d+)?)*$/
 
 function isTierList(value: string): boolean {
   return TIER_LIST.test(value.trim())
+}
+
+function bonusKey(id: string, field: string): string {
+  const name = id.replace(/[^A-Za-z0-9]+(.)?/g, (_, c) => (c ? c.toUpperCase() : ''))
+  return `bonuses.${name}.${field}`
+}
+
+function coreText(
+  id: string,
+  field: string,
+  params: Record<string, unknown> = {}
+): string | undefined {
+  const key = bonusKey(id, field)
+  return i18n.global.te(key, 'en') ? i18n.global.t(key, params) : undefined
+}
+
+function typeList(types: string[]): string {
+  return ` ${types.length ? types.join('/').toUpperCase() : ''}`
 }
 
 function tierValue(value: string, tier: number): string {
@@ -63,8 +82,57 @@ class Bonus {
     this.IsFlag = data.type === 'flag' || data.val === true
     this.Condition = data.condition
 
-    this.Title = entry ? entry.title : 'UNKNOWN BONUS'
-    this.Detail = entry ? this.parseDetail(entry.detail) : 'UNKNOWN BONUS'
+    const unknown = i18n.global.t('ui.bonus.unknown')
+    if (!entry) {
+      this.Title = unknown
+      this.Detail = unknown
+    } else if (entry.core) {
+      this.Title = coreText(entry.id, 'title') ?? ''
+      this.Detail = this.coreDetail(entry.id)
+    } else {
+      this.Title = entry.title
+      this.Detail = this.parseDetail(entry.detail)
+    }
+  }
+
+  private get valueText(): string | undefined {
+    if (!this.Value) return undefined
+    return Array.isArray(this.Value) ? this.Value.join(', ') : String(this.Value)
+  }
+
+  private get isDecrease(): boolean {
+    const rep = this.valueText
+    const repNum = Array.isArray(this.Value)
+      ? Number(this.Value[0])
+      : Number(tierValue(String(rep), 1))
+    return isNaN(repNum)
+      ? String(rep ?? '-')
+          .trim()
+          .startsWith('-')
+      : repNum <= -1
+  }
+
+  private coreDetail(id: string): string {
+    const t = i18n.global.t
+    const value = this.valueText ?? ''
+    const types = {
+      rangeTypes: typeList(this.RangeTypes),
+      damageTypes: typeList(this.DamageTypes),
+      weaponTypes: typeList(this.WeaponTypes),
+      weaponSizes: typeList(this.WeaponSizes),
+    }
+    const target = coreText(id, 'target', types)
+    if (target === undefined) {
+      const direction = t(this.isDecrease ? 'ui.bonus.decreases' : 'ui.bonus.increases')
+      return coreText(id, 'detail', { ...types, value, direction }) ?? ''
+    }
+    if (this.Accuracy)
+      return t(this.Accuracy > 0 ? 'ui.bonus.takeAccuracy' : 'ui.bonus.takeDifficulty', {
+        target,
+        n: Math.abs(this.Accuracy),
+      })
+    if (this.Overwrite) return t('ui.bonus.setsTo', { target, value })
+    return t(this.isDecrease ? 'ui.bonus.decreasesBy' : 'ui.bonus.increasesBy', { target, value })
   }
 
   private parseDetail(detail): string {

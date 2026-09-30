@@ -366,7 +366,7 @@
         </v-list-item>
         <content-page v-model="contentModal" />
         <cc-dialog
-          title="options"
+          :title="$t('common.options')"
           icon="mdi-cog"
           :close-on-click="false"
           major
@@ -379,7 +379,7 @@
           <options-page />
         </cc-dialog>
         <cc-dialog
-          title="about"
+          :title="$t('common.about')"
           icon="mdi-information-outline"
           :close-on-click="false"
           major
@@ -392,7 +392,7 @@
           <about-page />
         </cc-dialog>
         <cc-dialog
-          title="title"
+          :title="$t('common.credits')"
           icon="cc:gms"
           :close-on-click="false"
           major
@@ -405,7 +405,7 @@
           <credits-page />
         </cc-dialog>
         <cc-dialog
-          title="title"
+          :title="$t('common.help')"
           icon="mdi-help-circle-outline"
           :close-on-click="false"
           major

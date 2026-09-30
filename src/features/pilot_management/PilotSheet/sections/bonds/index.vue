@@ -155,7 +155,7 @@
               >
                 <v-card-text>
                   <cc-confirmation
-                    content="This will reset your XP to zero and add a new Bond Power selection. This can only be done during <b>Downtime</b>. Continue?"
+                    :content="$t('pm.bonds.resetXpConfirm')"
                     @confirm="bondConfirm()"
                   />
                 </v-card-text>

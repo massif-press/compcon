@@ -66,8 +66,8 @@
           max="4"
           select-all
           icon="mdi-filter-variant"
-          all-text="All Item Types"
-          none-text="No Item Types"
+          :all-text="$t('mainMenu.syncSettings.allItemTypes')"
+          :none-text="$t('mainMenu.syncSettings.noItemTypes')"
           class="mx-2 mb-1"
         />
         <v-spacer />

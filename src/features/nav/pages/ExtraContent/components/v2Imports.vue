@@ -243,7 +243,7 @@
 
   const headers = [
     { title: t('common.type'), key: 'type', sortable: true },
-    { title: 'Name', key: 'name', sortable: true },
+    { title: t('common.name'), key: 'name', sortable: true },
     { title: t('nav.extraContent.missing'), key: 'missing', sortable: false },
     { title: t('nav.extraContent.backedUp'), key: 'date', sortable: true },
     { title: '', key: 'actions', sortable: false },

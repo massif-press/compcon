@@ -31,7 +31,7 @@
       />
       <simple-mini-panel
         v-model.number="item.StatController.CurrentStats['armor']"
-        title="armor"
+        :title="$t('stats.armor')"
         icon="mdi-shield-outline"
         color="armor"
         :base-value="item.StatController.MaxStats['armor']"
@@ -170,7 +170,7 @@
   <simple-mini-panel
     v-if="!item.StatController.MaxStats['heatcap']"
     v-model.number="item.StatController.CurrentStats['burn']"
-    title="burn"
+    :title="$t('common.burnStatus')"
     icon="cc:burn"
     color="damage--burn"
   />

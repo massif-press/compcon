@@ -209,9 +209,10 @@
   import { useDisplay } from 'vuetify'
   import License from '@/classes/pilot/components/license/License'
   import { NpcClass } from '@/classes/npc/class/NpcClass'
-  import { UserStore } from '@/stores'
+  import { useUserData } from '@/ui/providers'
 
   const _display = useDisplay()
+  const userData = useUserData()
 
   const props = withDefaults(
     defineProps<{
@@ -232,7 +233,7 @@
   const mobile = computed(() => _display.mdAndDown.value)
 
   const visibleHeaders = computed(() => {
-    if (!mobile.value || UserStore().User.View('useDesktopTables', false)) return props.headers
+    if (!mobile.value || userData.User.View('useDesktopTables', false)) return props.headers
     return props.headers.filter(h => ['Source', 'Role', 'Name'].includes(h.key))
   })
   const customKeySort = computed(() => {

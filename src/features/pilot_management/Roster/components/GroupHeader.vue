@@ -190,7 +190,7 @@
               <cc-alert
                 color="error"
                 icon="mdi-alert"
-                :title="`Delete ${group.Name}?`"
+                :title="$t('pm.roster.deleteGroupTitle', { name: group.Name })"
               >
                 <div
                   v-if="pilotCount"

@@ -90,11 +90,7 @@
               <cc-tooltip
                 simple
                 inline
-                content="How directly effective your organization is at what it does (a military
-                organization with high efficiency would be good at combat, for example).
-                <br />Efficiency can be used to perform activities related to your organization's
-                purpose (science, military, etc). You can use these advantages as
-                <strong>reserves.</strong>"
+                :content="$t('pm.selectors.organizationEfficiencyHelp')"
               >
                 <v-icon size="small">mdi-help-circle-outline</v-icon>
               </cc-tooltip>

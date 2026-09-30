@@ -85,8 +85,8 @@
             clearable
             chip-variant="tonal"
             :label="$t('mainMenu.syncSettings.itemTypes')"
-            all-text="All Item Types"
-            none-text="None"
+            :all-text="$t('mainMenu.syncSettings.allItemTypes')"
+            :none-text="$t('common.none')"
             select-all
             :max="$vuetify.display.lgAndUp ? 3 : 2"
             :tooltip="$t('mainMenu.syncSettings.syncDataTypesHelp')"

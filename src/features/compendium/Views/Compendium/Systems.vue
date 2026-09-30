@@ -32,7 +32,7 @@
   const headers = ref([
     { title: '', align: 'left', key: 'Source' },
     { title: t('enums.systemType.system'), align: 'left', key: 'Name' },
-    { title: 'License', key: 'License' },
+    { title: t('ui.filters.license'), key: 'License' },
     { title: t('common.licenseLevel'), align: 'center', key: 'LicenseLevel' },
     { title: t('common.tags'), align: 'center', key: 'Tags' },
     { title: t('ui.filter.spCost'), align: 'center', key: 'SP' },

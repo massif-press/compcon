@@ -311,6 +311,9 @@
   import { CompendiumStore } from '@/stores'
   import NpcFeatureAlerts from './NpcFeatureAlerts.vue'
   import { NpcFeature } from '@/classes/npc/feature/NpcFeature'
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
 
   defineOptions({ name: 'NpcFeatureSelectMenu' })
 
@@ -336,11 +339,11 @@
   const currentSelection = computed(() => {
     switch (featureSet.value) {
       case 'all':
-        return 'All Available'
+        return t('gm.npcFeatureSelector.allAvailable')
       case 'assigned':
-        return 'All Assigned'
+        return t('gm.npcFeatureSelector.allAssigned')
       case 'no-origin':
-        return 'Other'
+        return t('ui.widget.other')
       default:
         const selClass = allClasses.value.find(x => x.ID === featureSet.value)
         const selTemp = allTemplates.value.find(x => x.ID === featureSet.value)

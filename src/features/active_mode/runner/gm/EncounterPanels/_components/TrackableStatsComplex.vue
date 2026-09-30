@@ -7,9 +7,11 @@
         v-model="item.StatController.CurrentStats['hp']"
         v-model:secondary="item.StatController.CurrentStats['structure']"
         v-model:tertiary="item.StatController.CurrentStats['overshield']"
-        primary-label="Hit Points"
-        :secondary-label="item.StatController.MaxStats['structure'] ? 'Structure' : undefined"
-        tertiary-label="Overshield"
+        :primary-label="$t('active.stats.hitPoints')"
+        :secondary-label="
+          item.StatController.MaxStats['structure'] ? $t('stats.structure') : undefined
+        "
+        :tertiary-label="$t('common.overshield')"
         color="hp"
         secondary-color="structure"
         tertiary-color="overshield"
@@ -29,7 +31,7 @@
     <v-col v-else>
       <cc-tickbar
         v-model="item.StatController.CurrentStats['overshield']"
-        primary-label="Overshield"
+        :primary-label="$t('common.overshield')"
         color="overshield"
         icon="mdi-hexagon-multiple-outline"
         :ticks="100"
@@ -42,7 +44,7 @@
     >
       <stat-mini-panel
         v-model.number="item.StatController.CurrentStats['armor']"
-        title="armor"
+        :title="$t('stats.armor')"
         icon="mdi-shield-outline"
         color="armor"
         :base-value="item.StatController.MaxStats['armor']"
@@ -81,7 +83,7 @@
     >
       <stat-mini-panel
         v-model.number="item.StatController.CurrentStats['burn']"
-        title="burn"
+        :title="$t('common.burnStatus')"
         icon="cc:burn"
         color="damage--burn"
       />
@@ -118,7 +120,7 @@
     >
       <stat-mini-panel
         v-model.number="item.StatController.CurrentStats['burn']"
-        title="burn"
+        :title="$t('common.burnStatus')"
         icon="cc:burn"
         color="damage--burn"
       />
@@ -132,7 +134,7 @@
         <template #activator="{ props }">
           <stat-mini-panel
             v-model="item.CombatController.CorePower"
-            title="core"
+            :title="$t('common.coreSystem')"
             :icon="currentIcon"
             :color="item.CombatController.CorePower ? 'core' : 'grey'"
             boolean

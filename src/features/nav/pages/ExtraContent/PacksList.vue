@@ -204,7 +204,7 @@
   const initHeaders = [
     { title: '', key: 'data-table-expand' },
     { title: t('nav.packsList.packActive'), value: 'toggleActive', sortable: false },
-    { title: 'Name', value: 'Name' },
+    { title: t('common.name'), value: 'Name' },
     { title: t('common.author'), value: 'Author' },
     { title: t('common.version'), value: 'Version' },
     { title: 'v3', value: 'v3' },

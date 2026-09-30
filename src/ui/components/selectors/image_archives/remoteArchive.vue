@@ -55,7 +55,7 @@
                 </v-btn>
               </template>
               <cc-confirmation
-                content="This will delete this image link from your library.</span> Do you want to continue?"
+                :content="$t('ui.remoteArchive.deleteImageConfirm')"
                 @confirm="deleteRemoteImage(image)"
               />
             </v-menu>

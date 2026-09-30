@@ -12,34 +12,43 @@ import type { MechSystem } from '../../mech/components/equipment/MechSystem'
 import type { MechWeapon } from '../../mech/components/equipment/MechWeapon'
 import { ActiveEffect } from './active_effects/ActiveEffect'
 import { Parser } from 'expr-eval'
+import { i18n } from '@/i18n'
 import { ExpressionContext } from '@/classes/utility/ExpressionContext'
 
 const strDict = [
-  { key: 'll', prop: 'Level', text: 'Pilot License Level' },
-  { key: 'tier', prop: 'Tier', text: 'NPC Tier' },
-  { key: 'grit', prop: 'Grit', text: 'Pilot Grit' },
-  { key: 'hull', prop: 'Hull', text: 'Hull' },
-  { key: 'agi', prop: 'Agi', text: 'Agility' },
-  { key: 'sys', prop: 'Sys', text: 'Systems' },
-  { key: 'eng', prop: 'Eng', text: 'Engineering' },
-  { key: 'size', prop: 'Size', text: 'Size' },
-  { key: 'structure', prop: 'Structure', text: 'Maximum Structure' },
-  { key: 'stress', prop: 'Stress', text: 'Maximum Reactor Stress' },
-  { key: 'armor', prop: 'Armor', text: 'Armor' },
-  { key: 'hp', prop: 'HP', text: 'Maximum HP' },
-  { key: 'current_structure', prop: 'CurrentStructure', text: 'Current Structure' },
-  { key: 'current_stress', prop: 'CurrentStress', text: 'Current Reactor Stress' },
-  { key: 'current_hp', prop: 'CurrentHp', text: 'Current HP' },
-  { key: 'overshield', prop: 'Overshield', text: 'Overshield' },
-  { key: 'speed', prop: 'Speed', text: 'Speed' },
-  { key: 'evasion', prop: 'Evasion', text: 'Evasion' },
-  { key: 'edef', prop: 'Edef', text: 'E-Defense' },
-  { key: 'heatcap', prop: 'Heatcap', text: 'Heat Capacity' },
-  { key: 'heat', prop: 'Heat', text: 'Current Heat' },
-  { key: 'sensors', prop: 'Sensors', text: 'Sensor Range' },
-  { key: 'repcap', prop: 'Repcap', text: 'Repair Capacity' },
-  { key: 'save', prop: 'Save', text: 'Save' },
-  { key: 'sp', prop: 'SP', text: 'System Points' },
+  { key: 'll', prop: 'Level', label: 'classes.expressionVariable.ll' },
+  { key: 'tier', prop: 'Tier', label: 'classes.expressionVariable.tier' },
+  { key: 'grit', prop: 'Grit', label: 'active.panelBase.pilotGrit' },
+  { key: 'hull', prop: 'Hull', label: 'stats.hull' },
+  { key: 'agi', prop: 'Agi', label: 'stats.agility' },
+  { key: 'sys', prop: 'Sys', label: 'stats.systems' },
+  { key: 'eng', prop: 'Eng', label: 'stats.engineering' },
+  { key: 'size', prop: 'Size', label: 'stats.size' },
+  { key: 'structure', prop: 'Structure', label: 'classes.expressionVariable.structure' },
+  { key: 'stress', prop: 'Stress', label: 'classes.expressionVariable.stress' },
+  { key: 'armor', prop: 'Armor', label: 'stats.armor' },
+  { key: 'hp', prop: 'HP', label: 'classes.expressionVariable.hp' },
+  {
+    key: 'current_structure',
+    prop: 'CurrentStructure',
+    label: 'classes.expressionVariable.currentStructure',
+  },
+  {
+    key: 'current_stress',
+    prop: 'CurrentStress',
+    label: 'classes.expressionVariable.currentStress',
+  },
+  { key: 'current_hp', prop: 'CurrentHp', label: 'classes.expressionVariable.currentHp' },
+  { key: 'overshield', prop: 'Overshield', label: 'common.overshield' },
+  { key: 'speed', prop: 'Speed', label: 'stats.speed' },
+  { key: 'evasion', prop: 'Evasion', label: 'stats.evasion' },
+  { key: 'edef', prop: 'Edef', label: 'stats.edefense' },
+  { key: 'heatcap', prop: 'Heatcap', label: 'common.heatCapacity' },
+  { key: 'heat', prop: 'Heat', label: 'classes.expressionVariable.heat' },
+  { key: 'sensors', prop: 'Sensors', label: 'common.sensorRange' },
+  { key: 'repcap', prop: 'Repcap', label: 'common.repairCapacity' },
+  { key: 'save', prop: 'Save', label: 'classes.expressionVariable.save' },
+  { key: 'sp', prop: 'SP', label: 'common.systemPoints' },
 ]
 
 class FeatureController {
@@ -85,7 +94,7 @@ class FeatureController {
         s
           .toString()
           .replace(`_`, '')
-          .replace(new RegExp(`{${p.key}}`, 'g'), p.text)
+          .replace(new RegExp(`{${p.key}}`, 'g'), i18n.global.t(p.label))
       )
     })
 

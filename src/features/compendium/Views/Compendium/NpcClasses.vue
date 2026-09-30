@@ -90,7 +90,7 @@
   const headers = computed(() => {
     const h = [
       { title: t('common.role'), key: 'Icon' },
-      { title: 'Name', key: 'Name' },
+      { title: t('common.name'), key: 'Name' },
     ] as any[]
     for (const key in keymap) {
       h.push({

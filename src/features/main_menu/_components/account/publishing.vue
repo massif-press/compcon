@@ -16,15 +16,7 @@
             :text="
               mobile ? $t('mainMenu.publishing.headerShort') : $t('mainMenu.publishing.header')
             "
-            tooltip="Through this tool you can create and publish collections of COMP/CON content to
-                other users, who can then subscribe to your content collections and automatically
-                receive updates when you publish new content. This tool is intended for GMs and
-                LANCER content creators, and is not required for general use or LANCER gameplay.
-                <br />
-                <br />
-                Please use this tool responsibly. Publishing inappropriate or harmful content, or
-                content you do not have permission to distribute, may result in your account being
-                banned from the COMP/CON cloud service."
+            :tooltip="$t('mainMenu.publishing.headerTooltip')"
           />
         </v-toolbar-title>
       </v-toolbar>
@@ -565,7 +557,7 @@
   const loading = ref(false)
   const colIdx = ref(0)
   const dataHeaders = ref([
-    { title: 'Name', key: 'name' },
+    { title: t('common.name'), key: 'name' },
     { title: t('common.type'), key: 'item_type' },
     { title: t('share.resultLastUpdated'), key: 'update' },
     { title: '', key: 'actions', width: '115px' },

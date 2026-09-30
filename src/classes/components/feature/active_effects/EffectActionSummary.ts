@@ -1,4 +1,19 @@
 import { ActiveEffectEvent } from './ActiveEffectEvent'
+import { i18n } from '@/i18n'
+import { enumLabel, defenseLabel } from '@/i18n/enumLabel'
+
+const t = (key: string, params: Record<string, unknown> = {}) => i18n.global.t(key, params)
+
+function hitResultLabel(result: string): string {
+  if (result === 'crit') return i18n.global.t('ui.combat.crit').toUpperCase()
+  if (result === 'hit') return i18n.global.t('common.attackHit').toUpperCase()
+  if (result === 'miss') return i18n.global.t('common.attackMiss').toUpperCase()
+  return result.toUpperCase()
+}
+
+function withDuration(str: string, duration?: string): string {
+  return duration ? `${str} ${t('combat.summary.forDuration', { duration })}` : str
+}
 
 type ActionSummaryData = {
   initiatorName: string
@@ -28,9 +43,14 @@ class ActionSummary {
   }
 
   private initiatorSummary(data: ActionSummaryData): string {
-    let str = data.effectName
-    if (data.activation) str += ` as a ${data.activation} Action`
-    const out = [`${str}:`]
+    const out = [
+      data.activation
+        ? t('combat.summary.effectAsActivation', {
+            effect: data.effectName,
+            activation: enumLabel('activationType', data.activation),
+          })
+        : t('combat.summary.effectHeader', { effect: data.effectName }),
+    ]
 
     // if target is self name should be 'self'
     out.push(...this.summarizeDamageEvents(data.damageEvents, 'initiator'))
@@ -43,7 +63,9 @@ class ActionSummary {
   }
 
   private targetSummary(data: ActionSummaryData): string {
-    const out = [`Targeted by ${data.initiatorName}'s ${data.effectName}:`]
+    const out = [
+      t('combat.summary.targetedBy', { initiator: data.initiatorName, effect: data.effectName }),
+    ]
 
     out.push(...this.summarizeDamageEvents(data.damageEvents, 'target'))
     out.push(...this.summarizeEvents(data.statusEvents, 'target'))
@@ -61,19 +83,26 @@ class ActionSummary {
       const hasDamage = e.HitResult !== 'miss' && e.FinalDamageValue > 0
       if (!hasAttack && !hasDamage) return []
 
+      const attack = {
+        roll: e.AttackRolledValue,
+        value: e.TargetDefenseValue,
+        defense: defenseLabel(e.TargetDefense),
+        result: hitResultLabel(e.HitResult),
+      }
       let str = ''
       if (perspective === 'initiator') {
-        if (hasAttack) {
-          str += `[${e.CombatantName}] ${e.AttackRolledValue} vs ${e.TargetDefenseValue} ${e.TargetDefense} : ${e.HitResult.toUpperCase()}`
-        }
+        if (hasAttack) str += `[${e.CombatantName}] ${t('combat.summary.attackResult', attack)}`
       } else {
-        if (hasAttack) {
-          str += `Incoming ${e.AttackRolledValue} vs ${e.TargetDefenseValue} ${e.TargetDefense} : ${e.HitResult.toUpperCase()}`
-        }
+        if (hasAttack) str += t('combat.summary.incomingAttack', attack)
       }
       if (hasDamage) {
         const prefix = str ? ' - ' : perspective === 'initiator' ? `[${e.CombatantName}] ` : ''
-        str += `${prefix}Total Damage: ${e.FinalDamageValue} ${e.DamageType}${e.AP ? ' (AP)' : ''}${e.Irreducible ? ' (Irreducible)' : ''}${e.FinalDamageValue === e.Reliable ? `( Reliable ${e.Reliable})` : ''}`
+        let tags = ''
+        if (e.AP) tags += ` ${t('combat.summary.apTag')}`
+        if (e.Irreducible) tags += ` ${t('combat.summary.irreducibleTag')}`
+        if (e.FinalDamageValue === e.Reliable)
+          tags += ` ${t('combat.summary.reliable', { n: e.Reliable })}`
+        str += `${prefix}${t('combat.summary.totalDamage', { damage: e.FinalDamageValue, type: enumLabel('damageType', e.DamageType) })}${tags}`
       }
       return [str]
     })
@@ -84,27 +113,22 @@ class ActionSummary {
     return events.map(e => {
       const eventName = e.StatusName || `${e.ResistType} ${e.Resist}`
       let str = ''
-      if (perspective === 'initiator') {
-        str = `[${e.CombatantName}] `
-        if (e.SaveRolledValue) {
-          if (e.SaveResult === 'failed') {
-            str += `Failed Save (${e.SaveRolledValue} vs ${e.SaveTarget}) → Applied ${eventName}${e.Duration ? ` for ${e.Duration}` : ''}`
-          } else {
-            str += `Successful Save (${e.SaveRolledValue} vs ${e.SaveTarget})`
-          }
+      const save = { roll: e.SaveRolledValue, target: e.SaveTarget }
+      const outcome = withDuration(
+        t(perspective === 'initiator' ? 'combat.summary.applied' : 'combat.summary.gained', {
+          name: eventName,
+        }),
+        e.Duration
+      )
+      if (perspective === 'initiator') str = `[${e.CombatantName}] `
+      if (e.SaveRolledValue) {
+        if (e.SaveResult === 'failure') {
+          str += `${t('combat.summary.failedSave', save)} → ${outcome}`
         } else {
-          str += `Applied ${eventName}${e.Duration ? ` for ${e.Duration}` : ''}`
+          str += t('combat.summary.successfulSave', save)
         }
       } else {
-        if (e.SaveRolledValue) {
-          if (e.SaveResult === 'failed') {
-            str += `Failed Save (${e.SaveRolledValue} vs ${e.SaveTarget}) → Gained ${eventName}${e.Duration ? ` for ${e.Duration}` : ''}`
-          } else {
-            str += `Successful Save (${e.SaveRolledValue} vs ${e.SaveTarget})`
-          }
-        } else {
-          str += `Gained ${eventName}${e.Duration ? ` for ${e.Duration}` : ''}`
-        }
+        str += outcome
       }
 
       return str
@@ -116,9 +140,9 @@ class ActionSummary {
     return events.map(e => {
       let str = ''
       if (perspective === 'initiator') {
-        str += `[${e.CombatantName}] Applied Effect ${e.Type} ${e.Value}`
+        str += `[${e.CombatantName}] ${t('combat.summary.appliedEffect', { type: e.Type, value: e.Value })}`
       } else {
-        str += `Gained Effect ${e.Type} ${e.Value}`
+        str += t('combat.summary.gainedEffect', { type: e.Type, value: e.Value })
       }
       return str
     })

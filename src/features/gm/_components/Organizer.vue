@@ -219,7 +219,7 @@
   const shownTypes = ref([...allTypes.value])
 
   const headers = ref([
-    { title: 'Name', key: 'Name', sortable: true },
+    { title: t('common.name'), key: 'Name', sortable: true },
     {
       title: t('common.folder'),
       key: 'folder',

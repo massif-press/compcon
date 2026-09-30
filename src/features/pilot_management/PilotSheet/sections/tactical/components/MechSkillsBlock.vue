@@ -15,7 +15,12 @@
             :highlight="!pilot.MechSkillsController.HasFullHASE"
             :current="pilot.MechSkillsController.CurrentHASEPoints"
             :max="pilot.MechSkillsController.MaxHASEPoints"
-            :label="`Edit Pilot Mech Skills (${pilot.MechSkillsController.CurrentHASEPoints}/${pilot.MechSkillsController.MaxHASEPoints})`"
+            :label="
+              $t('pm.pilotSheet.editPilotMechSkillsPoints', {
+                current: pilot.MechSkillsController.CurrentHASEPoints,
+                max: pilot.MechSkillsController.MaxHASEPoints,
+              })
+            "
             @open-selector="open"
           />
         </template>
@@ -33,7 +38,7 @@
       >
         <cc-tickbar
           v-model="pilot.MechSkillsController.Hull"
-          label="hull"
+          :label="$t('stats.hull')"
           :size="mobile ? 'small' : 'default'"
           readonly
           icon="mdi-alpha-h-box-outline"
@@ -45,7 +50,7 @@
       >
         <cc-tickbar
           v-model="pilot.MechSkillsController.Agi"
-          label="agility"
+          :label="$t('stats.agility')"
           :size="mobile ? 'small' : 'default'"
           readonly
           icon="mdi-alpha-a-box-outline"
@@ -57,7 +62,7 @@
       >
         <cc-tickbar
           v-model="pilot.MechSkillsController.Sys"
-          label="systems"
+          :label="$t('stats.systems')"
           :size="mobile ? 'small' : 'default'"
           readonly
           icon="mdi-alpha-s-box-outline"
@@ -69,7 +74,7 @@
       >
         <cc-tickbar
           v-model="pilot.MechSkillsController.Eng"
-          label="engineering"
+          :label="$t('stats.engineering')"
           :size="mobile ? 'small' : 'default'"
           readonly
           icon="mdi-alpha-e-box-outline"

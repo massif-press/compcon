@@ -878,7 +878,7 @@
 
   const dataHeaders = [
     { title: '', key: 'ID', width: '0px' },
-    { title: 'Name', key: 'Name' },
+    { title: t('common.name'), key: 'Name' },
     { title: t('common.type'), key: 'ItemType' },
     {
       title: t('mainMenu.itemDataTab.lastSync'),
@@ -1062,9 +1062,11 @@
       if (sitrep || env) return [env, sitrep].filter(Boolean).join(' // ')
       return null
     } else if (t === 'encounterinstance' || t === 'pilotsheet') {
-      return `Active Encounter // Round ${(item as any)._round || (item as any)._round || '?'}`
+      return i18n.global.t('mainMenu.dataViewer.activeEncounterRound', {
+        round: (item as any)._round || '?',
+      })
     } else if (t === 'encounterarchive' || t === 'pilotsheetarchive') {
-      return `Archive`
+      return i18n.global.t('mainMenu.dataViewer.archive')
     }
     return null
   }

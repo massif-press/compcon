@@ -17,7 +17,12 @@
             :highlight="!pilot.TalentsController.HasFullTalents"
             :current="pilot.TalentsController.CurrentTalentPoints"
             :max="pilot.TalentsController.MaxTalentPoints"
-            :label="`Edit Pilot Talents (${pilot.TalentsController.CurrentTalentPoints}/${pilot.TalentsController.MaxTalentPoints})`"
+            :label="
+              $t('pm.pilotSheet.editPilotTalentsPoints', {
+                current: pilot.TalentsController.CurrentTalentPoints,
+                max: pilot.TalentsController.MaxTalentPoints,
+              })
+            "
             @open-selector="open"
           />
         </template>

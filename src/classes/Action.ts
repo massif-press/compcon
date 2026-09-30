@@ -237,10 +237,16 @@ class Action {
   }
 
   public get Color(): string {
-    if (this.Activation === ActivationType.None) return 'primary'
     if (this.ID === 'act_overcharge') return 'action--overcharge'
     if (this.ID === 'act_self_destruct') return 'error'
-    return `action--${this.Activation.toLowerCase()}`
+    return Action.colorFor(this.Activation)
+  }
+
+  public static colorFor(activation: string): string {
+    if (activation === ActivationType.None || activation === ActivationType.Other) return 'primary'
+    if (activation === ActivationType.QuickTech || activation === ActivationType.FullTech)
+      return 'action--tech'
+    return `action--${activation.toLowerCase()}`
   }
 
   public get Icon(): string {

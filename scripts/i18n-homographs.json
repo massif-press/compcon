@@ -14,7 +14,8 @@
     "gm.narrative.collectionTitle.",
     "gm.npcSelection.",
     "ui.flow.request.",
-    "pm.print.on"
+    "pm.print.on",
+    "bonuses."
   ],
   "homographs": {
     "Roll": "noun (a roll) vs verb (to roll)",
@@ -30,6 +31,9 @@
     "by {author}": "inline byline vs capitalized heading",
     "d": "dice letter inside notation (1d6) vs table column header (D); both localized (de w/W, ru к/К)",
     "Size": "mech size stat vs file size column in the cloud archive (mainMenu.titles.size)",
-    "Conditions": "sitrep victory conditions (gm.sitrep.victoryConditions) vs harmful statuses (compendium.reference.statusConditions)"
+    "Conditions": "sitrep victory conditions (gm.sitrep.victoryConditions) vs harmful statuses (compendium.reference.statusConditions)",
+    "Archive": "verb (archive an item) vs noun (archived item state)",
+    "Save": "verb (save a file) vs noun (a save roll)",
+    "Full": "play mode (full vs simple UI) vs full build (statblock export scope)"
   }
 }

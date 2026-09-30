@@ -51,10 +51,7 @@
         <cc-heading
           is-title
           :text="$t('mainMenu.management.accountEmail')"
-          tooltip="This is the e-mail address associated with your account. You can use this to log in to
-            COMP/CON, Nautilus, and other Massif apps. This address is only visible to you and and
-            <b>will not</b>
-            be shown to other users in active mode or in shared data."
+          :tooltip="$t('mainMenu.management.accountEmailTooltip')"
         />
 
         {{ cognito.signInDetails?.loginId }}

@@ -217,9 +217,9 @@
   })
   const supportText = computed(() => {
     if (tier.value === 'Free') {
-      return 'Thank you for following the COMP/CON project!'
+      return t('mainMenu.patreon.thanksFollowing')
     } else {
-      return 'Thank you for your generous support of COMP/CON!'
+      return t('mainMenu.patreon.thanksSupport')
     }
   })
   const mobile = computed(() => {

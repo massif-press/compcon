@@ -183,7 +183,7 @@
   }
 
   const headers = computed(() => [
-    { title: 'Name', key: 'Name', sortable: true },
+    { title: t('common.name'), key: 'Name', sortable: true },
     { title: t('common.callsign'), key: 'Callsign', sortable: true },
     { title: t('pm.sheet.ll'), key: 'Level', sortable: true },
     { title: t('common.mech'), key: 'Mech', sortable: true },
@@ -193,7 +193,7 @@
       sortable: true,
       value: (item: any) => getPilotGroup(item),
     },
-    { title: 'Updated', key: 'LastUpdate', sortable: true },
+    { title: t('common.updated'), key: 'LastUpdate', sortable: true },
   ])
 
   const items = computed(() => PilotStore().Pilots)

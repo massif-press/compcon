@@ -317,6 +317,9 @@
   import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
   import { computed, ref } from 'vue'
   import { DiceRoller } from '@/classes/dice/DiceRoller'
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
 
   const props = withDefaults(
     defineProps<{
@@ -383,13 +386,15 @@
     lastRoll.value = rollResult.value.total
 
     const rollerName = (props.selected as any)?.Label || actor.value?.CombatController.CombatName
-    let str = actor.value ? `<b>${rollerName}</b> rolled: ` : 'GM Rolled: '
+    let str = actor.value
+      ? `${t('active.diceRoller.actorRolled', { name: `<b>${rollerName}</b>` })} `
+      : `${t('active.diceRoller.gmRolled')} `
     str += `(${diceValue}) `
     if (accuracy.value) {
-      str += ` [${isAcc ? '+' : '-'}${Math.abs(accuracy.value)} ${isAcc ? 'ACC' : 'DIFF'}]`
+      str += ` [${isAcc ? '+' : '-'}${Math.abs(accuracy.value)} ${t(isAcc ? 'active.diceRoller.accuracyShort' : 'active.diceRoller.difficultyShort')}]`
     }
-    if (isCrit.value) str += ' [CRIT]'
-    if (Overkill.value) str += ' [OVERKILL]'
+    if (isCrit.value) str += ` [${t('ui.combat.crit').toUpperCase()}]`
+    if (Overkill.value) str += ` [${t('common.overkill').toUpperCase()}]`
     str += ` ${lastRollString.value}`
     const history = (props.encounterInstance as any).RollHistory as string[]
     history.unshift(str)

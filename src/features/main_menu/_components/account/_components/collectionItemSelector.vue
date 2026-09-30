@@ -171,7 +171,7 @@
   })
   const headers = computed(() => {
     let base = [
-      { title: 'Name', value: 'Name' },
+      { title: t('common.name'), value: 'Name' },
       { title: t('common.type'), value: 'ItemType' },
     ] as any
     switch (selectedType.value) {

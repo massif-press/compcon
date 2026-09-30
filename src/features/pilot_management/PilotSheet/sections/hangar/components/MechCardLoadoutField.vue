@@ -38,6 +38,9 @@
 <script setup lang="ts">
   import type { Mech } from '@/classes/mech/Mech'
   import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
 
   defineOptions({ name: 'mech-card-loadout-field' })
 
@@ -54,7 +57,7 @@
     )) {
       if (!mount.IsLocked) {
         let str = `<i style="opacity:0.8">${mount.Name}</i>:`
-        if (!mount.Weapons.length) str += ' EMPTY'
+        if (!mount.Weapons.length) str += ` ${t('pm.loadout.empty').toUpperCase()}`
         else {
           mount.Weapons.forEach((w, i) => {
             str += `<span class='text-text'> ${w.Name}`

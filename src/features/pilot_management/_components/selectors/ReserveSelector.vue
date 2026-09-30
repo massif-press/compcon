@@ -95,7 +95,7 @@
 
   const headers = [
     { title: t('common.contentPack'), key: 'LcpName' },
-    { title: 'Name', key: 'Name' },
+    { title: t('common.name'), key: 'Name' },
     { title: t('common.type'), key: 'Type' },
   ]
 

@@ -291,7 +291,7 @@
 
     <cc-dialog
       v-model="selectorDialog"
-      :title="`Equip ${title}`"
+      :title="$t('pm.loadout.equipItem', { item: title })"
       clip
       :close-on-click="false"
       major

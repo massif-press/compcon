@@ -17,7 +17,7 @@
         <main-btn
           icon="cc:compendium"
           :to="'/srd'"
-          help="Equipment Database"
+          :help="$t('mainMenu.desktop.compendiumHelp')"
           @hover="ccLog('compendium')"
         >
           {{ $t('common.compendium') }}
@@ -25,7 +25,7 @@
         <main-btn
           icon="cc:pilot"
           :to="'/pilot_management'"
-          help="Manage Pilots"
+          :help="$t('mainMenu.mobile.managePilots')"
           @hover="ccLog('pilot')"
         >
           {{ $t('common.pilotRoster') }}
@@ -33,7 +33,7 @@
         <main-btn
           icon="cc:encounter"
           :to="'/gm'"
-          help="Manage Campaigns, Encounters, and NPCs"
+          :help="$t('mainMenu.desktop.gmToolkitHelp')"
           @hover="ccLog('gm')"
         >
           {{ $t('common.gmToolkit') }}
@@ -41,14 +41,14 @@
         <main-btn
           icon="cc:campaign"
           :to="'/active-mode'"
-          help="Run an Encounter or Active Character Sheet"
+          :help="$t('mainMenu.desktop.activeModeHelp')"
           @hover="ccLog('encounter')"
         >
           {{ $t('common.activeMode') }}
         </main-btn>
         <main-btn
           icon="cc:content_manager"
-          help="Import Content Packs"
+          :help="$t('mainMenu.desktop.contentManagerHelp')"
           @hover="ccLog('content')"
           @clicked="extraContentModal = true"
         >
@@ -252,6 +252,9 @@
   import { UserStore } from '@/stores'
   import CloudNotifications from '../nav/CloudNotifications.vue'
   import { getV2Backups } from '@/io/V2Importer'
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
 
   defineOptions({ name: 'LandingPageDesktop' })
 
@@ -282,49 +285,34 @@
   function ccLog(btn: string) {
     switch (btn) {
       case 'compendium':
-        log.value?.print(
-          'man compendium',
-          'Browse the database of LANCER frames, equipment, and rules'
-        )
+        log.value?.print('man compendium', t('mainMenu.desktop.log.compendium'))
         break
       case 'pilot':
-        log.value?.print(
-          'man pilot-sheet',
-          'Create and manage pilots and their mechs, print character sheets, and enable active play mode'
-        )
+        log.value?.print('man pilot-sheet', t('mainMenu.desktop.log.pilot'))
         break
       case 'gm':
-        log.value?.print(
-          'man gm-tools',
-          'Build and manage NPCs and encounters, and run missions with NPCs and pilots'
-        )
+        log.value?.print('man gm-tools', t('mainMenu.desktop.log.gm'))
         break
       case 'campaign':
-        log.value?.print('man campaigns', 'work in progress')
+        log.value?.print('man campaigns', t('mainMenu.desktop.log.campaign'))
         break
       case 'content':
-        log.value?.print('man homebrew', 'Manage and create COMP/CON expansion data')
+        log.value?.print('man homebrew', t('mainMenu.desktop.log.content'))
         break
       case 'encounter':
-        log.value?.print(
-          'man activemode',
-          'GM an Encounter, open or continue an Active Character Sheet, or create or join a cloud-based Table (coming soon!)'
-        )
+        log.value?.print('man activemode', t('mainMenu.desktop.log.encounter'))
         break
       case 'options':
-        log.value?.print('compcon -settings --verbose', 'Open the options manager')
+        log.value?.print('compcon -settings --verbose', t('mainMenu.desktop.log.options'))
         break
       case 'about':
-        log.value?.print('compcon --v', 'About COMP/CON')
+        log.value?.print('compcon --v', t('mainMenu.desktop.log.about'))
         break
       case 'help':
-        log.value?.print('compcon --h', 'Open the COMP/CON help page')
+        log.value?.print('compcon --h', t('mainMenu.desktop.log.help'))
         break
       case 'update':
-        log.value?.print(
-          'gms-upm compcon changelog -l',
-          'View COMP/CON changelog and latest updates'
-        )
+        log.value?.print('gms-upm compcon changelog -l', t('mainMenu.desktop.log.update'))
         break
       default:
         break

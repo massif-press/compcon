@@ -38,7 +38,7 @@
                   hide-details
                   color="secondary"
                   :tooltip="$t('pm.downtimeProjectPanel.complexProjectHint')"
-                  top-label="Complicated"
+                  :top-label="$t('pm.selectors.projectComplicated')"
                   class="mr-3"
                 />
               </v-col>
@@ -51,7 +51,7 @@
                   density="compact"
                   inset
                   hide-details
-                  top-label="Finished"
+                  :top-label="$t('pm.selectors.projectFinished')"
                   :tooltip="
                     $t('pm.downtimeProjectPanel.thisProjectIsCompleteAndAvailableToUseAsAReserve')
                   "

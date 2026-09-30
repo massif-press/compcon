@@ -43,77 +43,77 @@
     <v-col class="pt-3">
       <v-row dense>
         <mech-stat-item
-          attr="Structure"
+          :attr="$t('stats.structure')"
           :val="mech.MaxStructure"
           icon="cc:structure"
         />
         <mech-stat-item
-          attr="HP"
+          :attr="$t('stats.hp')"
           :val="mech.MaxHP"
           icon="mdi-heart"
         />
         <mech-stat-item
-          attr="Armor"
+          :attr="$t('stats.armor')"
           :val="mech.Armor"
           icon="mdi-shield"
         />
 
         <mech-stat-item
-          attr="Stress"
+          :attr="$t('stats.stress')"
           :val="mech.MaxStress"
           icon="cc:reactor"
         />
         <mech-stat-item
-          attr="Heat Capacity"
+          :attr="$t('common.heatCapacity')"
           :val="mech.HeatCapacity"
           icon="cc:heat"
         />
         <mech-stat-item
-          attr="Repair Capacity"
+          :attr="$t('common.repairCapacity')"
           :val="mech.RepairCapacity"
           icon="cc:repair"
         />
 
         <mech-stat-item
-          attr="Attack Bonus"
+          :attr="$t('common.attackBonus')"
           :val="mech.AttackBonus"
           icon="cc:weapon"
         />
         <mech-stat-item
-          attr="Tech Attack"
+          :attr="$t('stats.techAttack')"
           :val="mech.TechAttack"
           icon="cc:full_tech"
         />
         <mech-stat-item
-          attr="Limited Bonus"
+          :attr="$t('common.limitedBonus')"
           :val="mech.LimitedBonus"
           icon="cc:ammo"
         />
 
         <mech-stat-item
-          attr="Speed"
+          :attr="$t('stats.speed')"
           :val="mech.Speed"
           icon="mdi-arrow-right-bold-hexagon-outline"
         />
         <mech-stat-item
-          attr="Evasion"
+          :attr="$t('stats.evasion')"
           :val="mech.Evasion"
           icon="cc:evasion"
         />
         <mech-stat-item
-          attr="E-Defense"
+          :attr="$t('stats.edefense')"
           :val="mech.EDefense"
           icon="cc:edef"
         />
         <mech-stat-item
           cols="6"
-          attr="Sensor Range"
+          :attr="$t('common.sensorRange')"
           :val="mech.SensorRange"
           icon="cc:sensor"
         />
         <mech-stat-item
           cols="6"
-          attr="Save"
+          :attr="$t('common.saveTarget')"
           :val="mech.SaveTarget"
           icon="cc:save"
         />

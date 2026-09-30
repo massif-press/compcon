@@ -66,20 +66,23 @@
   import PrintAction from './PrintAction.vue'
   import type { Deployable } from '@/classes/components/feature/deployable/Deployable'
   import type { DeployableOwner } from '@/classes/components/feature/IFeatureController'
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
 
   defineOptions({ name: 'print-deployable' })
 
   const STATS: { key: string; label: string; prop: string }[] = [
-    { key: 'armor', label: 'Armor', prop: 'Armor' },
-    { key: 'hp', label: 'HP', prop: 'MaxHP' },
-    { key: 'evasion', label: 'Evasion', prop: 'Evasion' },
-    { key: 'edef', label: 'E-Defense', prop: 'EDefense' },
-    { key: 'heatcap', label: 'Heat Capacity', prop: 'Heatcap' },
-    { key: 'sensors', label: 'Sensor Range', prop: 'Sensors' },
-    { key: 'techattack', label: 'Tech Attack', prop: 'TechAttack' },
-    { key: 'repcap', label: 'Repair Capacity', prop: 'Repcap' },
-    { key: 'save', label: 'Save Target', prop: 'SaveTarget' },
-    { key: 'speed', label: 'Speed', prop: 'Speed' },
+    { key: 'armor', label: t('stats.armor'), prop: 'Armor' },
+    { key: 'hp', label: t('stats.hp'), prop: 'MaxHP' },
+    { key: 'evasion', label: t('stats.evasion'), prop: 'Evasion' },
+    { key: 'edef', label: t('stats.edefense'), prop: 'EDefense' },
+    { key: 'heatcap', label: t('common.heatCapacity'), prop: 'Heatcap' },
+    { key: 'sensors', label: t('common.sensorRange'), prop: 'Sensors' },
+    { key: 'techattack', label: t('stats.techAttack'), prop: 'TechAttack' },
+    { key: 'repcap', label: t('common.repairCapacity'), prop: 'Repcap' },
+    { key: 'save', label: t('common.saveTarget'), prop: 'SaveTarget' },
+    { key: 'speed', label: t('stats.speed'), prop: 'Speed' },
   ]
 
   const props = withDefaults(

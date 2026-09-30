@@ -1,5 +1,6 @@
 import { ActivationType } from '@/classes/enums'
 import { slug } from '@/i18n/contentKeys.mjs'
+import { defenseLabel } from '@/i18n/enumLabel'
 import { LOG_EVENT_KEYS, resolveActor } from './events'
 import { fromEventStatus } from './outcome'
 import type { OutcomeKind } from './outcome'
@@ -108,7 +109,7 @@ function renderBody(event: ILogEvent, stream: StreamContext, t: Translate): stri
         target: target(),
         weapon: p.weapon?.name ?? p.action?.name ?? '',
         roll: p.rolled ?? p.roll?.total ?? 0,
-        defense: p.defense,
+        defense: defenseLabel(p.defense),
         defenseValue: p.defenseValue,
         result: p.result ? t(`combat.log.hit.${p.result}`) : '',
       })

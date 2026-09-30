@@ -259,7 +259,8 @@
     "hints": "Hints",
     "rules": "Rules",
     "tactics": "Tactics",
-    "activateFreeAction": "Activate (Free Action)"
+    "activateFreeAction": "Activate (Free Action)",
+    "updated": "Updated"
   },
   "language": {
     "selectLanguage": "Language",
@@ -296,7 +297,19 @@
     "aStandardEnvironmentWithNoSpecial": "A standard environment with no special combat conditions",
     "standardEncounterDescription": "A simple affair, with two sides facing off against each other until one of them is broken or destroyed.",
     "titlePage": "Title Page",
-    "contributors": "Contributors"
+    "contributors": "Contributors",
+    "expressionVariable": {
+      "ll": "Pilot License Level",
+      "tier": "NPC Tier",
+      "structure": "Maximum Structure",
+      "stress": "Maximum Reactor Stress",
+      "hp": "Maximum HP",
+      "currentStructure": "Current Structure",
+      "currentStress": "Current Reactor Stress",
+      "currentHp": "Current HP",
+      "heat": "Current Heat",
+      "save": "Save"
+    }
   },
   "nav": {
     "contentManager": {
@@ -622,7 +635,16 @@
       "catNpcStats": "NPC Stats",
       "foundFixable": "Found {count} fixable issue. | Found {count} fixable issues.",
       "requiresManual": "{count} issue requires manual action. | {count} issues require manual action.",
-      "applyFixesButton": "Apply {count} Fix | Apply {count} Fixes"
+      "applyFixesButton": "Apply {count} Fix | Apply {count} Fixes",
+      "applyingFixes": "Applying fixes ({progress} / {total})...",
+      "finding": {
+        "flavorMatchesDescription": "Flavor description matches item description text",
+        "unresolvedOrigin": "Feature has unresolved object-form origin; can be resolved now",
+        "unresolvableOrigin": "Feature has unresolvable origin. Delete and reinstall LCP to recover",
+        "missingFeature": "Feature referenced by \"{owner}\" is missing. Reinstall LCP \"{pack}\" to recover",
+        "bakedNpcState": "Feature carries per-NPC state ({fields}) baked into LCP data",
+        "malformedNpcData": "NPC has malformed v2 data fields that will be cleaned up on save"
+      }
     },
     "achievementItem": {
       "dataRedacted": "Data redacted",
@@ -1047,7 +1069,8 @@
       "selectDataFile": "Select Data File",
       "optional": "Optional",
       "convertToLocalWarning": "Converting this item to local data will allow local editing but remove its remote link to the author's cloud account, and prevent any further updates from being received. To re-enable remote syncing, you will have to re-import this item via its share code.",
-      "confirmDuplicationOfThisNpc": "Confirm duplication of this NPC"
+      "confirmDuplicationOfThisNpc": "Confirm duplication of this NPC",
+      "searchCollection": "Search {collection}"
     },
     "gmLabelEditor": {
       "valueOptional": "Value (optional)",
@@ -1091,7 +1114,9 @@
       "selectEncounterFile": "Select Encounter File",
       "enemyForces": "ENEMY FORCES",
       "alliedForces": "ALLIED FORCES",
-      "sortBy": "Sort By"
+      "sortBy": "Sort By",
+      "searchEncounters": "Search Encounters",
+      "confirmRemoveCombatant": "Confirm deletion of {name} from the encounter"
     },
     "npcRoster": {
       "selectLayer": "Select Layer",
@@ -1129,6 +1154,10 @@
       "manageNonPlayerCombatUnits": "Manage non-player combat units",
       "manageCharactersLocationsAndFactions": "Manage characters, locations, and factions",
       "createCombatEncounters": "Create combat encounters"
+    },
+    "npcFeatureSelector": {
+      "allAvailable": "All Available",
+      "allAssigned": "All Assigned"
     }
   },
   "active": {
@@ -1339,7 +1368,8 @@
         "sheet": "Permanently remove sheet | Permanently remove selected sheets",
         "encounter": "Permanently remove encounter | Permanently remove selected encounters",
         "item": "Permanently remove item | Permanently remove selected items"
-      }
+      },
+      "organizeCollection": "Organize {collection}"
     },
     "runnerHeader": {
       "lastSaved": "Last Saved",
@@ -1469,7 +1499,11 @@
       "rollDice": "Roll Dice",
       "rollResult": "Roll Result",
       "noRolls": "No rolls yet.",
-      "sessionHistory": "Session History"
+      "sessionHistory": "Session History",
+      "actorRolled": "{name} rolled:",
+      "gmRolled": "GM Rolled:",
+      "accuracyShort": "ACC",
+      "difficultyShort": "DIFF"
     },
     "toolPalette": {
       "tagReference": "Tag Reference",
@@ -1636,7 +1670,10 @@
       "allRounds": "All Rounds",
       "noMatches": "No entries match the current filters.",
       "showing": "Showing {shown} of {total} entries",
-      "round": "Round {n}"
+      "round": "Round {n}",
+      "combatLogTitle": "{name} Combat Log",
+      "combatTelemetryTitle": "{name} Combat Telemetry",
+      "currentStatsTitle": "{name} Current Stats"
     },
     "dmgCond": {
       "title": "Resist / immune / vuln.",
@@ -1652,7 +1689,21 @@
     "statblockExport": {
       "title": "Combat Statblock",
       "include": "Include",
-      "exportText": "Export Text Statblock"
+      "exportText": "Export Text Statblock",
+      "notInCover": "Not in cover",
+      "inSoftCover": "In soft cover",
+      "inHardCover": "In hard cover",
+      "corePower": "Core Power: {value}",
+      "aiControlled": "AI CONTROLLED",
+      "selfDestruct": "SELF-DESTRUCT INITIATED // T-{n}",
+      "techAttackShort": "Tech Atk.",
+      "usesCount": "{uses} / {max} Uses",
+      "ready": "READY",
+      "recharge": "recharge {n}+",
+      "mechLoadoutHeader": "MECH LOADOUT",
+      "noActiveMech": "No active mech",
+      "roundHeader": "{name} - Round {round} ({date})",
+      "save": "Save"
     },
     "statusCond": {
       "title": "Statuses / Conditions",
@@ -1671,6 +1722,10 @@
       "hiddenEffects": "Hidden Effects",
       "hidingUsedEffects": "Hiding used/expired effects",
       "showingUsedEffects": "Showing used/expired effects"
+    },
+    "actionPalette": {
+      "markUsed": "Mark {type} Action Used",
+      "markUnused": "Mark {type} Action Unused"
     },
     "combatAction": {
       "alreadyUsed": "This action has already been used this turn.",
@@ -1872,6 +1927,12 @@
         "simple": "Always simple",
         "standard": "Always standard"
       },
+      "actionGrouping": "Action Palette",
+      "actionGroupings": {
+        "none": "No Grouping",
+        "standard": "Standard",
+        "byType": "By Action Type"
+      },
       "statSet": "Stat Display",
       "statSets": {
         "all": "All stats",
@@ -2046,7 +2107,10 @@
       "reclaimControl": "Reclaim Control",
       "markYourMechAsInCascade": "Mark your mech as IN CASCADE",
       "resetUses": "Reset Uses",
-      "toggleDestroyed": "Toggle Destroyed"
+      "toggleDestroyed": "Toggle Destroyed",
+      "cedeControlTooltip": "Cede control of your mech to the NHP as a Protocol Action.",
+      "reclaimControlTooltip": "Reclaim control of your mech from the NHP as a Protocol Action.",
+      "forceRecharge": "Force Recharge (Recharges on: {recharge}+)"
     },
     "layoutOptionsControls": {
       "maxLoadoutFeatureSetColumns": "Max Loadout / Feature Set Columns",
@@ -2075,7 +2139,12 @@
       "rollableTables": "Rollable Tables",
       "encounterInfo": "Encounter Info",
       "listTagsPresentOnCharactersOrEquipmentInThisEncounter": "List tags present on characters or equipment in this encounter"
-    }
+    },
+    "options": {
+      "autosaveEncounterTooltip": "Autosave encounter data on the end of every round. Defaults to ON.",
+      "autosaveSheetTooltip": "Autosave Character Sheet data on the end of every round. Defaults to ON."
+    },
+    "logsAndTelemetryTitle": "{name} - LOGS AND TELEMETRY"
   },
   "mainMenu": {
     "codeEntry": {
@@ -2204,7 +2273,9 @@
       "linkPatreon": "Link Patreon",
       "linkInfo": "If you are subscribed to the @:{'common.appName'} Patreon, linking your Patreon account will increase your maximum cloud storage space and unlock realtime table creation in GM mode.",
       "tierName": "{title} Tier",
-      "freeTier": "Free"
+      "freeTier": "Free",
+      "thanksFollowing": "Thank you for following the @:{'common.appName'} project!",
+      "thanksSupport": "Thank you for your generous support of @:{'common.appName'}!"
     },
     "syncSettings": {
       "syncItems": "Sync Items",
@@ -2233,7 +2304,9 @@
       "dataIsOnlySyncedWhenYou": "Data is only synced when you click Sync.",
       "syncOnOpenCloseDescription": "Syncs when you open and close the app. Close sync may not be supported on all browsers.",
       "syncsAutomaticallyEvery30MinutesRequires": "Syncs automatically every 30 minutes. Requires Patreon supporter.",
-      "syncsAutomaticallyEvery60MinutesRequires": "Syncs automatically every 60 minutes. Requires Patreon supporter."
+      "syncsAutomaticallyEvery60MinutesRequires": "Syncs automatically every 60 minutes. Requires Patreon supporter.",
+      "allItemTypes": "All Item Types",
+      "noItemTypes": "No Item Types"
     },
     "collection": {
       "byAuthor": "By {author}",
@@ -2268,7 +2341,8 @@
       "accountDetails": "Account Details",
       "accountDeletion": "Account Deletion",
       "accountIdHelp": "Your unique account ID. This is used to identify your account in the cloud and may be requested for troubleshooting purposes.",
-      "usernameOptional": "This is an <b>optional</b> field that you can use to set a custom name for your account. This username <b>will</b> be visible to other users in active mode and when sharing data."
+      "usernameOptional": "This is an <b>optional</b> field that you can use to set a custom name for your account. This username <b>will</b> be visible to other users in active mode and when sharing data.",
+      "accountEmailTooltip": "This is the e-mail address associated with your account. You can use this to log in to @:{'common.appName'}, Nautilus, and other Massif apps. This address is only visible to you and <b>will not</b> be shown to other users in active mode or in shared data."
     },
     "deleteAccount": {
       "intro": "This tool will delete your account and all associated data. This includes",
@@ -2319,7 +2393,8 @@
       "deletedCollectionInfo": "The collection \"{name}\" has been deleted by the author. Although your local data has not been removed, you will no longer receive updates from this collection.",
       "authorContentShort": "Author Content",
       "authorContentHeader": "AUTHOR CONTENT SUBSCRIPTIONS",
-      "lcpHeader": "LCP Subscriptions"
+      "lcpHeader": "LCP Subscriptions",
+      "authorContentTooltip": "You can subscribe to @:{'common.appName'} data content authors to receive updates when they publish new content. This can include pilots, GM data like NPCs and Narrative Elements, and limited or reserved collection content, such as table-specific homebrew. You can add new subscriptions by adding the author's Content collection ID (CSID) to the list below.<br /><br /><strong>Neither Massif Press nor the @:{'common.appName'} developer take any responsibility for any content published to any author's content collection. Subscribe to authors at your own discretion.</strong>"
     },
     "storage": {
       "iosWarning": "iOS browsers limit storage for websites and may {emphasis} after 7 days of inactivity. To prevent data loss, install @:{'common.appName'} to your home screen",
@@ -2406,7 +2481,8 @@
       "header": "CONTENT COLLECTION PUBLISHING",
       "nameRequired": "Name (required)",
       "authorRequired": "Author (required)",
-      "noPublishingAccess": "You do not have access to the collection publishing tool."
+      "noPublishingAccess": "You do not have access to the collection publishing tool.",
+      "headerTooltip": "Through this tool you can create and publish collections of @:{'common.appName'} content to other users, who can then subscribe to your content collections and automatically receive updates when you publish new content. This tool is intended for GMs and @:{'common.gameName'} content creators, and is not required for general use or @:{'common.gameName'} gameplay.<br /><br />Please use this tool responsibly. Publishing inappropriate or harmful content, or content you do not have permission to distribute, may result in your account being banned from the @:{'common.appName'} cloud service."
     },
     "dataItem": {
       "cancelBulkSelection": "Cancel Bulk Selection",
@@ -2508,7 +2584,23 @@
       "roster": "Roster"
     },
     "desktop": {
-      "v2ImportsAwaitingResolution": "v2 imports awaiting resolution"
+      "activeModeHelp": "Run an Encounter or Active Character Sheet",
+      "compendiumHelp": "Equipment Database",
+      "contentManagerHelp": "Import Content Packs",
+      "gmToolkitHelp": "Manage Campaigns, Encounters, and NPCs",
+      "v2ImportsAwaitingResolution": "v2 imports awaiting resolution",
+      "log": {
+        "compendium": "Browse the database of @:{'common.gameName'} frames, equipment, and rules",
+        "pilot": "Create and manage pilots and their mechs, print character sheets, and enable active play mode",
+        "gm": "Build and manage NPCs and encounters, and run missions with NPCs and pilots",
+        "campaign": "work in progress",
+        "content": "Manage and create @:{'common.appName'} expansion data",
+        "encounter": "GM an Encounter, open or continue an Active Character Sheet, or create or join a cloud-based Table (coming soon!)",
+        "options": "Open the options manager",
+        "about": "About @:{'common.appName'}",
+        "help": "Open the @:{'common.appName'} help page",
+        "update": "View @:{'common.appName'} changelog and latest updates"
+      }
     },
     "storageWarning": {
       "installCompconForReliableStorage": "Install @:{'common.appName'} for Reliable Storage",
@@ -2516,6 +2608,14 @@
     },
     "massifLcpTable": {
       "autoUpdate": "Auto Update"
+    },
+    "signIn": {
+      "hidePassword": "Hide password",
+      "showPassword": "Show password"
+    },
+    "dataViewer": {
+      "activeEncounterRound": "Active Encounter // Round {round}",
+      "archive": "Archive"
     }
   },
   "pm": {
@@ -2586,7 +2686,8 @@
       "selectEquipment": "SELECT EQUIPMENT",
       "selectDamage": "Select Damage",
       "setMaximumUses": "Set Maximum Uses",
-      "extendedHarness": "Extended Harness"
+      "extendedHarness": "Extended Harness",
+      "equipItem": "Equip {item}"
     },
     "import": {
       "importSuccessTitle": "Import Successful",
@@ -2770,7 +2871,9 @@
       "identRecordNotice": "Improper use of this IDENT record and/or its constituent data by the record holder or any other persons is punishable under the DoJ/HR A-645-c. This record is the property of the Union Administrative Office and the information herein must be transmitted on request under NDL-C-DISCORDANT-BREATH encryption protocols. This RM-4 record must be updated every five (5) Cradle Standard Years of objective time to retain GMS licensing rights. Far-field operatives that anticipate deployments lasting longer than five Cradle Standard Years that have not been issued a man-portable Omninet Hook should apply for the RM-11-B IDENT Supplemental (b) Extension. Contact your local Union Administrative Officer for any other matters regarding this record. V-CDL//M-265-114-831 (A)",
       "requiresCloudAccount": "Requires Cloud Account",
       "favoriteMech": "Favorite Mech",
-      "unfavoriteMech": "Unfavorite Mech"
+      "unfavoriteMech": "Unfavorite Mech",
+      "frameTraitsTitle": "{source} {frame} Frame Traits",
+      "coreSystemTitle": "{source} {frame} Core System"
     },
     "print": {
       "pilotSheetOptions": "Pilot Sheet Options",
@@ -2816,7 +2919,11 @@
       "corePassive": "Core passive",
       "coreActive": "Core active",
       "maxCount": "({n} max)",
-      "capacityCount": "({n} capacity)"
+      "capacityCount": "({n} capacity)",
+      "maxStructure": "Max Structure",
+      "maxStress": "Max Stress",
+      "corePassiveNamed": "{name} (PASSIVE)",
+      "coreActiveNamed": "{name} (ACTIVE)"
     },
     "roster": {
       "history": "History",
@@ -2866,7 +2973,9 @@
       "deletePilots": "Delete pilots",
       "selectPilotDataFile": "Select Pilot Data File",
       "nameOrCallsign": "Name or callsign…",
-      "setPilotGroup": "Set pilot group"
+      "setPilotGroup": "Set pilot group",
+      "importPilotsCount": "Import Pilots ({count})",
+      "deleteGroupTitle": "Delete {name}?"
     },
     "misc": {
       "skipStep": "Skip step"
@@ -2899,7 +3008,10 @@
       "addSkill": "Add Skill",
       "increaseSkillBonus": "Increase Skill Bonus",
       "decreaseSkillBonus": "Decrease Skill Bonus",
-      "organizationInfluenceHelp": "Influence is your organization’s size, reach, wealth, and reputation. Influence be used to acquire assets, create opportunities, or sway public opinion."
+      "organizationInfluenceHelp": "Influence is your organization’s size, reach, wealth, and reputation. Influence be used to acquire assets, create opportunities, or sway public opinion.",
+      "organizationEfficiencyHelp": "How directly effective your organization is at what it does (a military organization with high efficiency would be good at combat, for example).<br />Efficiency can be used to perform activities related to your organization's purpose (science, military, etc). You can use these advantages as <strong>reserves.</strong>",
+      "projectComplicated": "Complicated",
+      "projectFinished": "Finished"
     },
     "shared": {
       "criticalWarning": "Critical",
@@ -3068,7 +3180,12 @@
       "exportALegacyFormatFor": "Export a legacy format for VTT systems and v2 apps",
       "convertToLocalDescription": "Convert this Pilot to an editable local data instance.",
       "editLicenseLevel": "Edit License Level",
-      "remotePilotNotice": "This pilot is a remote resource linked to another user's account. It is read-only and will receive updates from the linked account."
+      "remotePilotNotice": "This pilot is a remote resource linked to another user's account. It is read-only and will receive updates from the linked account.",
+      "editPilotSkillTriggersPoints": "Edit Pilot Skill Triggers ({current}/{max})",
+      "editPilotMechSkillsPoints": "Edit Pilot Mech Skills ({current}/{max})",
+      "editPilotTalentsPoints": "Edit Pilot Talents ({current}/{max})",
+      "editPilotCoreBonusesPoints": "Edit Pilot CORE Bonuses ({current}/{max})",
+      "editPilotLicensesPoints": "Edit Pilot Licenses ({current}/{max})"
     },
     "bonds": {
       "selectPilotBond": "Select Pilot Bond",
@@ -3077,7 +3194,8 @@
       "pilotXp": "pilot xp",
       "pilotStress": "pilot stress",
       "resetStressConfirm": "This will reset your Stress to zero and add a new Burden. Continue?",
-      "removeBondConfirm": "This will remove this bond from the pilot and reset all related selections. This cannot be undone. Continue?"
+      "removeBondConfirm": "This will remove this bond from the pilot and reset all related selections. This cannot be undone. Continue?",
+      "resetXpConfirm": "This will reset your XP to zero and add a new Bond Power selection. This can only be done during <b>Downtime</b>. Continue?"
     },
     "cloneBlock": {
       "cloneQuirks": "Clone Quirks",
@@ -3191,7 +3309,9 @@
       "lancerBasics": "Lancer Basics",
       "usingCompcon": "using @:{'common.appName'}",
       "narrativePlay": "narrative play",
-      "statusConditions": "Conditions"
+      "statusConditions": "Conditions",
+      "combat": "Combat",
+      "mechs": "Mechs"
     },
     "search": {
       "resultCount": "{count} result | {count} results"
@@ -3273,6 +3393,10 @@
       "lineAreaOfEffect": "\"Line\" Area of Effect",
       "coneAreaOfEffect": "\"Cone\" Area of Effect",
       "lcpContentHint": "Denotes content added by a Lancer Content Pack (.lcp) file"
+    },
+    "searchBar": {
+      "searchTheCompendium": "Search the Compendium",
+      "searchTheReference": "Search the Reference"
     }
   },
   "ui": {
@@ -3646,7 +3770,28 @@
       "explosiveDamage": "Explosive Damage",
       "variableDamage": "Variable Damage",
       "evade": "Evade",
-      "itemFilters": "Item Filters"
+      "itemFilters": "Item Filters",
+      "selectItem": "Select {item}",
+      "view": {
+        "single": "Single View",
+        "list": "List View",
+        "table": "Table View",
+        "cards": "Card View",
+        "scatter": "Scatter View",
+        "bar": "Chart View",
+        "compare": "Comparison View"
+      },
+      "group": {
+        "source": "Group by Source",
+        "lcp": "Group by LCP",
+        "license": "Group by License",
+        "type": "Group by Item Subtype",
+        "role": "Group by NPC Role",
+        "featureType": "Group by Feature Type",
+        "origin": "Group by Origin",
+        "bond": "Group by Bond",
+        "none": "No Grouping"
+      }
     },
     "selectorScatter": {
       "xAxis": "X Axis",
@@ -3682,7 +3827,8 @@
     "remoteArchive": {
       "linkImage": "Link Image",
       "externalDataWarning": "External Data Warning",
-      "linkARemotelyHostedImageTo": "Link a remotely-hosted image to this asset. These images are not stored or managed by COMP/CON and are subject to change or removal based on their hosts."
+      "linkARemotelyHostedImageTo": "Link a remotely-hosted image to this asset. These images are not stored or managed by COMP/CON and are subject to change or removal based on their hosts.",
+      "deleteImageConfirm": "This will delete this image link from your library. Do you want to continue?"
     },
     "chips": {
       "resetAllInputs": "Reset All Inputs",
@@ -3711,6 +3857,25 @@
       "pleaseUseResponsibly": "Please use responsibly",
       "copyShareCodeToClipboard": "Copy share code to clipboard",
       "copyShareLinkToClipboard": "Copy share link to clipboard"
+    },
+    "eidolonLayer": {
+      "newShards": "New Shards: {count}"
+    },
+    "coreSystemPanel": {
+      "title": "{frame} Core System"
+    },
+    "textEditor": {
+      "editText": "Edit Text"
+    },
+    "bonus": {
+      "increasesBy": "Increases {target} by {value}",
+      "decreasesBy": "Decreases {target} by {value}",
+      "setsTo": "Sets {target} to {value}",
+      "takeAccuracy": "{target} take {n} Accuracy",
+      "takeDifficulty": "{target} take {n} Difficulty",
+      "increases": "Increases",
+      "decreases": "Decreases",
+      "unknown": "UNKNOWN BONUS"
     }
   },
   "stats": {
@@ -3890,6 +4055,17 @@
       "collectionitem": "{n} collection item | {n} collection items",
       "narrative": "{n} narrative item | {n} narrative items",
       "item": "{n} item | {n} items"
+    },
+    "effectDuration": {
+      "start_turn_self": "Start of Your Turn",
+      "start_turn_target": "Start of Target's Turn",
+      "end_turn_self": "End of Your Turn",
+      "end_turn_target": "End of Target's Turn",
+      "next_turn_end_self": "End of Your Next Turn",
+      "next_turn_end_target": "End of Target's Next Turn",
+      "next_turn_start_self": "Start of Your Next Turn",
+      "next_turn_start_target": "Start of Target's Next Turn",
+      "end_of_encounter": "the end of the Encounter"
     }
   },
   "notify": {
@@ -4059,10 +4235,30 @@
     "noShareCode": "This item does not have a share code. To share it, sync it to your @:{'common.appName'} account by clicking the \"Sync Now\" button above.",
     "resultLastUpdated": "Last Updated",
     "addAsRemote": "add as remote resource",
-    "addAsLocalCopy": "add as local copy"
+    "addAsLocalCopy": "add as local copy",
+    "justNow": "Just now"
   },
   "print": {
-    "generalOptions": "General Print Options"
+    "generalOptions": "General Print Options",
+    "statblock": {
+      "integratedMount": "Integrated Mount",
+      "noMechSelected": "No Mech Selected",
+      "repair": "Repair",
+      "speedShort": "Spd",
+      "evasionShort": "Eva",
+      "edefShort": "EDef",
+      "sensorsShort": "Sens",
+      "engi": "Engi",
+      "limited": "Limited",
+      "sense": "Sense",
+      "structShort": "Struct",
+      "act": "Act",
+      "buildHeader": "{source} {frame} {'@'} LL{n}",
+      "accuracyValue": "{n} Accuracy",
+      "attackBonusValue": "{n} Attack Bonus",
+      "attacksPerActivation": "{n} Attacks/Activation",
+      "save": "Save"
+    }
   },
   "combat": {
     "timedEffect": {
@@ -4267,6 +4463,482 @@
       "endsOnSelfTurn": "Ends at the {when} of your ({name}) turn",
       "endsOnOtherTurn": "Ends at the {when} of {name}'s turn",
       "endsOnRound": "Ends at the {when} of round {round}"
+    },
+    "summary": {
+      "attackWith": "{action} with {weapon}:",
+      "targetNumbered": "Target {n}",
+      "criticalHit": "Critical Hit!",
+      "rollVsDefense": "{roll} vs {value} {defense}",
+      "totalDamage": "Total Damage: {damage} {type}",
+      "reliable": "(Reliable {n})",
+      "takesHeat": "{actor} takes {heat} Heat ({sources})",
+      "onMissEffect": "On Miss Effect",
+      "onAttackEffect": "On Attack Effect",
+      "onHitEffect": "On Hit Effect",
+      "onCritEffect": "On Crit Effect",
+      "additionalEffects": "Additional Effects",
+      "modEffects": "Mod Effects",
+      "rollPending": "roll pending",
+      "overkillHeat": "+ {n} Overkill",
+      "bonusDamage": "+ {roll} Bonus",
+      "apTag": "(AP)",
+      "irreducibleTag": "(Irreducible)",
+      "damageTotal": "{value} {type}{tags} Damage",
+      "targetImmune": "No Damage (target Immune)",
+      "targetExposed": "x2 (target Exposed)",
+      "targetVulnerable": "x2 (target Vulnerable)",
+      "targetArmorIgnored": "0 (target Armor ignored)",
+      "targetShredded": "0 (target Shredded)",
+      "targetArmor": "{armor} (target Armor)",
+      "targetResistance": "/2 (target Resistance)",
+      "effectAsActivation": "{effect} as a {activation} Action:",
+      "effectHeader": "{effect}:",
+      "targetedBy": "Targeted by {initiator}'s {effect}:",
+      "attackResult": "{roll} vs {value} {defense} : {result}",
+      "incomingAttack": "Incoming {roll} vs {value} {defense} : {result}",
+      "failedSave": "Failed Save ({roll} vs {target})",
+      "successfulSave": "Successful Save ({roll} vs {target})",
+      "applied": "Applied {name}",
+      "gained": "Gained {name}",
+      "forDuration": "for {duration}",
+      "appliedEffect": "Applied Effect {type} {value}",
+      "gainedEffect": "Gained Effect {type} {value}"
+    },
+    "weaponUse": {
+      "barrage": "Barrage",
+      "skirmish": "Skirmish",
+      "additionalAux": "Additional Aux Attack"
+    }
+  },
+  "bonuses": {
+    "skillPoint": {
+      "title": "Pilot Skill Trigger",
+      "target": "the Pilot's total available Skill selections"
+    },
+    "mechSkillPoint": {
+      "title": "Mech Skill (HASE) Point",
+      "target": "the Pilot's total available HULL/AGI/SYS/ENG selections"
+    },
+    "talentPoint": {
+      "title": "@:{'common.pilotTalent'}",
+      "target": "the Pilot's total available Talent selections"
+    },
+    "licensePoint": {
+      "title": "Pilot License",
+      "target": "the Pilot's total available License selections"
+    },
+    "cbPoint": {
+      "title": "Pilot CORE Bonus",
+      "target": "the Pilot's total available CORE Bonus selections"
+    },
+    "pilotGear": {
+      "title": "Pilot Gear Capacity",
+      "target": "the Pilot's total available Pilot Gear capacity"
+    },
+    "range": {
+      "title": "Modified Weapon Range",
+      "detail": "{direction} weapon {rangeTypes} by {value} for{damageTypes}{weaponTypes}{weaponSizes} weapons"
+    },
+    "damage": {
+      "title": "Modified Weapon Damage",
+      "detail": "{direction}{damageTypes}weapon damage by {value} for{weaponTypes}{weaponSizes} weapons"
+    },
+    "hp": {
+      "title": "@:{'stats.hp'}",
+      "target": "total Hit Points"
+    },
+    "armor": {
+      "title": "@:{'stats.armor'}",
+      "target": "total Armor"
+    },
+    "structure": {
+      "title": "@:{'stats.structure'}",
+      "target": "total Structure"
+    },
+    "stress": {
+      "title": "@:{'combat.structureCheck.stress'}",
+      "target": "total Reactor Stress"
+    },
+    "heatcap": {
+      "title": "@:{'common.heatCapacity'}",
+      "target": "total Heat Capacity"
+    },
+    "repcap": {
+      "title": "@:{'common.repairCapacity'}",
+      "target": "total Repair Capacity"
+    },
+    "corePower": {
+      "title": "@:{'active.trackable.corePower'}",
+      "target": "total CORE Power"
+    },
+    "speed": {
+      "title": "@:{'stats.speed'}",
+      "target": "total Speed"
+    },
+    "evasion": {
+      "title": "@:{'stats.evasion'}",
+      "target": "total Evasion"
+    },
+    "edef": {
+      "title": "@:{'stats.edefense'}",
+      "target": "total E-Defense"
+    },
+    "sensor": {
+      "title": "@:{'common.sensorRange'}",
+      "target": "total Sensor Range"
+    },
+    "techAttack": {
+      "title": "@:{'stats.techAttack'}",
+      "target": "total Tech Attack"
+    },
+    "save": {
+      "title": "Save",
+      "target": "total Save"
+    },
+    "sp": {
+      "title": "@:{'stats.sp'}",
+      "target": "total System Points"
+    },
+    "size": {
+      "title": "Modified Size",
+      "target": "@:{'stats.size'}"
+    },
+    "aiCap": {
+      "title": "AI Capacity",
+      "target": "total AI Capacity"
+    },
+    "cheapStruct": {
+      "title": "Half Cost for Structure Repairs",
+      "detail": "Structure repairs cost 1 Repair instead of 2"
+    },
+    "cheapStress": {
+      "title": "Half Cost for Reactor Stress Repairs",
+      "detail": "Reactor repairs cost 1 Repair instead of 2"
+    },
+    "overcharge": {
+      "title": "Modified Overcharge Track",
+      "detail": "Modifies the Overcharge Heat Cost track"
+    },
+    "limitedBonus": {
+      "title": "Limited Equipment Uses",
+      "target": "the total uses of Equipment with the \"LIMITED X\" Tag"
+    },
+    "pilotHp": {
+      "title": "@:{'pm.print.pilotHP'}",
+      "target": "total Pilot Hit Points"
+    },
+    "pilotArmor": {
+      "title": "@:{'common.pilotArmor'}",
+      "target": "total Pilot Armor"
+    },
+    "pilotEvasion": {
+      "title": "Pilot Evasion",
+      "target": "total Pilot Evasion"
+    },
+    "pilotEdef": {
+      "title": "Pilot E-Defense",
+      "target": "total Pilot E-Defense"
+    },
+    "pilotSpeed": {
+      "title": "Add Pilot Speed",
+      "target": "total Pilot Speed"
+    },
+    "pilotGearSlots": {
+      "title": "Add Pilot Gear Slot",
+      "target": "total Pilot Gear slots"
+    },
+    "pilotWeaponSlots": {
+      "title": "Add Pilot Weapon Slot",
+      "target": "total Pilot Weapon slots"
+    },
+    "pilotArmorSlots": {
+      "title": "Add Pilot Armor Slot",
+      "target": "total Pilot Armor slots"
+    },
+    "deployableHp": {
+      "title": "HP for all Drones and Deployables",
+      "target": "the total HP of all deployed Deployables"
+    },
+    "deployableSize": {
+      "title": "Size for all Drones and Deployables",
+      "target": "the Size of all deployed Deployables"
+    },
+    "deployableCharges": {
+      "title": "Charges for all Drones and Deployables",
+      "target": "the total available Charges for Drone and Deployable Equipment"
+    },
+    "deployableArmor": {
+      "title": "Armor for all Drones and Deployables",
+      "target": "the Armor of all deployed Deployables"
+    },
+    "deployableEvasion": {
+      "title": "Evasion for all Drones and Deployables",
+      "target": "the Evasion of all deployed Deployables"
+    },
+    "deployableEdef": {
+      "title": "E-Defense for all Drones and Deployables",
+      "target": "the E-Defense of all deployed Deployables"
+    },
+    "deployableHeatcap": {
+      "title": "Heat Capacity for all Drones and Deployables",
+      "target": "the Heat Capacity of all deployed Deployables"
+    },
+    "deployableRepcap": {
+      "title": "Repair Capacity for all Drones and Deployables",
+      "target": "the Repair Capacity of all deployed Deployables"
+    },
+    "deployableSensorRange": {
+      "title": "Sensor Range for all Drones and Deployables",
+      "target": "the Sensor Range of all deployed Deployables"
+    },
+    "deployableTechAttack": {
+      "title": "Tech Attack for all Drones and Deployables",
+      "target": "the Tech Attack of all deployed Deployables"
+    },
+    "deployableSave": {
+      "title": "Save for all Drones and Deployables",
+      "target": "the Save of all deployed Deployables"
+    },
+    "deployableSpeed": {
+      "title": "Speed for all Drones and Deployables",
+      "target": "the Speed of all deployed Deployables"
+    },
+    "deployCount": {
+      "title": "Deployable Count",
+      "detail": "Deploy {value} additional Deployables per deploy action"
+    },
+    "droneHp": {
+      "title": "HP for all Drones",
+      "target": "the total HP of all deployed Drones"
+    },
+    "droneSize": {
+      "title": "Size for all Drones",
+      "target": "the Size of all deployed Drones"
+    },
+    "droneCharges": {
+      "title": "Charges for all Drones",
+      "target": "@:{'bonuses.deployableCharges.target'}"
+    },
+    "droneArmor": {
+      "title": "Armor for all Drones",
+      "target": "the Armor of all deployed Drones"
+    },
+    "droneEvasion": {
+      "title": "Evasion for all Drones",
+      "target": "the Evasion of all deployed Drones"
+    },
+    "droneEdef": {
+      "title": "E-Defense for all Drones",
+      "target": "the E-Defense of all deployed Drones"
+    },
+    "droneHeatcap": {
+      "title": "Heat Capacity for all Drones",
+      "target": "the Heat Capacity of all deployed Drones"
+    },
+    "droneRepcap": {
+      "title": "Repair Capacity for all Drones",
+      "target": "the Repair Capacity of all deployed Drones"
+    },
+    "droneSensorRange": {
+      "title": "Sensor Range for all Drones",
+      "target": "the Sensor Range of all deployed Drones"
+    },
+    "droneTechAttack": {
+      "title": "Tech Attack for all Drones",
+      "target": "the Tech Attack of all deployed Drones"
+    },
+    "droneSave": {
+      "title": "Save for all Drones",
+      "target": "the Save of all deployed Drones"
+    },
+    "droneSpeed": {
+      "title": "Speed for all Drones",
+      "target": "the Speed of all deployed Drones"
+    },
+    "activations": {
+      "title": "@:{'active.customStatEditor.activations'}",
+      "detail": "Take {value} additional turns per round"
+    },
+    "activationsPct": {
+      "title": "Activations Per Player",
+      "detail": "Take an additional turn per round if there are {value} or more PC characters in the encounter"
+    },
+    "hpPerPlayer": {
+      "title": "HP Per Player",
+      "detail": "{direction} HP by {value} per PC characters in the encounter"
+    },
+    "immunity": {
+      "title": "@:{'active.dmgCond.immunity'}",
+      "detail": "Grants immunity to {value}. This negates all damage from the specified source."
+    },
+    "resistance": {
+      "title": "@:{'active.dmgCond.resistance'}",
+      "detail": "Grants resistance to {value}. This reduces damage from the specified source by half."
+    },
+    "mountAccuracy": {
+      "title": "Mount Accuracy",
+      "detail": "Grants {value} accuracy to all attacks made by weapons on this mount"
+    },
+    "mountRange": {
+      "title": "Mount Range",
+      "detail": "Grants {value} range to all attacks made by weapons on this mount"
+    },
+    "mountDamage": {
+      "title": "Mount Damage",
+      "detail": "Adds an additional {value} damage to all attacks made by weapons on this mount"
+    },
+    "mountDamageTypeOverride": {
+      "title": "Mount Damage Type",
+      "detail": "Converts all mounted weapon damage to the {value} Damage"
+    },
+    "mountRangeTypeOverride": {
+      "title": "Mount Range Type",
+      "detail": "Converts all mounted weapon range to {value} Range"
+    },
+    "mountWeaponTypeOverride": {
+      "title": "Mount Weapon Type",
+      "detail": "Converts all mounted weapon types to {value} Weapons"
+    },
+    "addMount": {
+      "title": "Add Mount",
+      "detail": "Adds a new {value} mount to this mech, if there are less than {max} mounts"
+    },
+    "noMods": {
+      "title": "Not Modifiable",
+      "detail": "This equipment cannot be modified"
+    },
+    "armorMax": {
+      "title": "Maximum Armor",
+      "detail": "{direction} the maximum armor value of the mech to {value}"
+    },
+    "boost": {
+      "title": "Boost Speed",
+      "detail": "{direction} the Boost speed of this mech to {value}"
+    },
+    "minRange": {
+      "title": "Minimum Range",
+      "detail": "{direction} minimum weapon range to {value}"
+    },
+    "minDamage": {
+      "title": "Minimum Damage",
+      "detail": "{direction} minimum weapon damage to {value}"
+    },
+    "extraAction": {
+      "title": "Extra Action",
+      "detail": "Grants an additional {value} Action per Turn"
+    },
+    "unstableSystem": {
+      "title": "Unstable System"
+    },
+    "knockback": {
+      "title": "Knockback",
+      "target": "Knockback value"
+    },
+    "attack": {
+      "target": "@:{'ui.flow.request.attackRoll'}"
+    },
+    "noCascade": {
+      "title": "Prevent Cascade"
+    },
+    "thrown": {
+      "title": "@:{'enums.rangeType.thrown'}",
+      "detail": "Adds Thrown {value}"
+    },
+    "droneResist": {
+      "title": "Drone Resist",
+      "detail": "Adds {value} Resistance to deployed Drones"
+    },
+    "deployableResist": {
+      "title": "Deployable Resist",
+      "detail": "Adds {value} Resistance to all deployed equipment"
+    },
+    "hull": {
+      "title": "@:{'stats.hull'}",
+      "target": "Hull Check and Save rolls"
+    },
+    "hullCheck": {
+      "title": "@:{'stats.hull'}",
+      "target": "Hull Check rolls"
+    },
+    "hullSave": {
+      "title": "@:{'stats.hull'}",
+      "target": "Hull Save rolls"
+    },
+    "agility": {
+      "title": "@:{'stats.agility'}",
+      "target": "Agility Check and Save rolls"
+    },
+    "agilityCheck": {
+      "title": "@:{'stats.agility'}",
+      "target": "Agility Check rolls"
+    },
+    "agilitySave": {
+      "title": "@:{'stats.agility'}",
+      "target": "Agility Save rolls"
+    },
+    "systems": {
+      "title": "@:{'stats.systems'}",
+      "target": "Systems Check and Save rolls"
+    },
+    "systemsCheck": {
+      "title": "@:{'stats.systems'}",
+      "target": "Systems Check rolls"
+    },
+    "systemsSave": {
+      "title": "@:{'stats.systems'}",
+      "target": "Systems Save rolls"
+    },
+    "engineering": {
+      "title": "@:{'stats.engineering'}",
+      "target": "Engineering Check and Save rolls"
+    },
+    "engineeringCheck": {
+      "title": "@:{'stats.engineering'}",
+      "target": "Engineering Check rolls"
+    },
+    "engineeringSave": {
+      "title": "@:{'stats.engineering'}",
+      "target": "Engineering Save rolls"
+    },
+    "check": {
+      "title": "Checks",
+      "target": "all Check rolls"
+    },
+    "threat": {
+      "title": "@:{'enums.rangeType.threat'}",
+      "target": "weapon Threat"
+    },
+    "setWeaponType": {
+      "title": "Set Weapon Type",
+      "detail": "Treat weapon as a {value} weapon"
+    },
+    "addWeaponType": {
+      "title": "Add Weapon Type",
+      "detail": "Treats affected weapons as also being {value} weapons"
+    },
+    "grapple": {
+      "title": "@:{'enums.rangeType.threat'}",
+      "target": "@:{'active.customStatEditor.grapple'}"
+    },
+    "ram": {
+      "title": "@:{'active.customStatEditor.ram'}",
+      "target": "@:{'active.customStatEditor.ram'}"
+    },
+    "sizes": {
+      "title": "Size Options",
+      "detail": "Extend NPC size creation options ({value})"
+    },
+    "melee": {
+      "title": "@:{'enums.weaponType.melee'}",
+      "target": "Melee attacks"
+    },
+    "heatCap": {
+      "title": "Heat Cap",
+      "target": "@:{'common.heatCapacity'}"
+    },
+    "accuracy": {
+      "title": "@:{'common.accuracy'}",
+      "detail": "{direction} attacks, checks, and saves by {value} accuracy"
     }
   }
 }

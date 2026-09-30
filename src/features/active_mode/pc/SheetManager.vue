@@ -148,7 +148,7 @@
             <v-col class="text-center">
               <cc-dialog
                 :close-on-click="false"
-                :title="`${e.Name} - LOGS AND TELEMETRY`"
+                :title="$t('active.logsAndTelemetryTitle', { name: e.Name })"
               >
                 <template #activator="{ open }">
                   <cc-button
@@ -297,17 +297,17 @@
   const { t } = useI18n()
   const router = useRouter()
   const sheetOrganizerColumns = [
-    { key: 'Name', title: 'Name', sortable: true, value: (s: PilotSheet) => s.Name },
+    { key: 'Name', title: t('common.name'), sortable: true, value: (s: PilotSheet) => s.Name },
     { key: 'Pilot', title: t('common.pilot'), value: (s: PilotSheet) => s.Pilot.Callsign },
     {
       key: 'Created',
-      title: 'Created',
+      title: t('common.created'),
       sortable: true,
       value: (s: PilotSheet) => new Date(s.Created).toLocaleDateString(),
     },
     {
       key: 'Updated',
-      title: 'Updated',
+      title: t('common.updated'),
       sortable: true,
       value: (s: PilotSheet) => new Date(s.Updated).toLocaleDateString(),
     },

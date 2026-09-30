@@ -23,7 +23,7 @@
 
   const headers = ref([
     { title: t('common.contentPack'), key: 'LcpName' },
-    { title: 'Name', key: 'Name' },
+    { title: t('common.name'), key: 'Name' },
   ])
   const options = ref({
     views: ['list', 'table'],

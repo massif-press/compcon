@@ -41,7 +41,7 @@
     const h = [
       { title: t('common.contentPack'), key: 'LcpName' },
       { title: t('common.origin'), key: 'Origin' },
-      { title: 'Name', key: 'Name' },
+      { title: t('common.name'), key: 'Name' },
       { title: t('common.tags'), key: 'Tags' },
     ] as any[]
     return h

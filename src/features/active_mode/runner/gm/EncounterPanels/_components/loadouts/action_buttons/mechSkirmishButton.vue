@@ -155,7 +155,7 @@
                 <cc-switch
                   v-model="include[aidx]"
                   bg-color="background"
-                  :label="`Include`"
+                  :label="$t('active.statblockExport.include')"
                 />
               </v-col>
             </v-row>

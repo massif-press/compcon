@@ -1,6 +1,6 @@
 <template>
   <srd-view
-    title="pilots"
+    :title="$t('common.pilots')"
     :content="pilots"
     :pre-scroll="preScroll"
   />

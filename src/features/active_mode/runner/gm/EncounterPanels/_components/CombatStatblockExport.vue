@@ -1,7 +1,7 @@
 <template>
   <cc-dialog
     icon="mdi-export-variant"
-    :title="`${actor.Name} Current Stats`"
+    :title="$t('active.actorLogs.currentStatsTitle', { name: actor.Name })"
     :close-on-click="false"
     min-width="900"
     max-width="900"
@@ -110,6 +110,10 @@
   import { computed, ref, onMounted } from 'vue'
   import { useDisplay } from 'vuetify'
   import StatblockJustifyOptions from './_StatblockJustifyOptions.vue'
+  import { useI18n } from 'vue-i18n'
+  import { enumLabel } from '@/i18n/enumLabel'
+
+  const { t } = useI18n()
 
   defineOptions({ name: 'ActorLogs' })
 
@@ -138,32 +142,34 @@
     return pilotController.value
   })
   const cover = computed(() => {
-    if (controller.value.Cover === 'none') return 'Not in cover'
-    if (controller.value.Cover === 'soft') return 'In soft cover'
-    if (controller.value.Cover === 'hard') return 'In hard cover'
+    if (controller.value.Cover === 'none') return t('active.statblockExport.notInCover')
+    if (controller.value.Cover === 'soft') return t('active.statblockExport.inSoftCover')
+    if (controller.value.Cover === 'hard') return t('active.statblockExport.inHardCover')
     return ''
   })
   function corepowerFor(c: any) {
     if (!c.CorePower) return ''
-    return `Core Power: ${c.CoreActive ? 'CORE ACTIVE' : !!c.CorePower}`
+    return t('active.statblockExport.corePower', {
+      value: c.CoreActive ? t('pm.print.coreActive').toUpperCase() : String(!!c.CorePower),
+    })
   }
   const combatSpecials = computed(() => {
     const out = [] as string[]
-    if (controller.value.AIControl) out.push('⟦ AI CONTROLLED ⟧')
+    if (controller.value.AIControl) out.push(`⟦ ${t('active.statblockExport.aiControlled')} ⟧`)
     if (controller.value.IsInSelfDestruct)
       out.push(
-        `⟦ SELF-DESTRUCT INITIATED // T-${(props.encounterInstance as any).Round - controller.value.SelfDestructRound} ⟧`
+        `⟦ ${t('active.statblockExport.selfDestruct', { n: (props.encounterInstance as any).Round - controller.value.SelfDestructRound })} ⟧`
       )
     return out.length ? ' ' + out.join('  ') : ''
   })
   const availableActions = computed(() => {
     if (!showActions.value) return ''
     const actions = [] as string[]
-    if (controller.value.CanActivate('protocol')) actions.push('⦗ PROTOCOL ⦘')
-    if (controller.value.CanActivate('full')) actions.push('⦗ FULL ⦘')
-    else if (controller.value.CanActivate('quick')) actions.push('⦗ QUICK ⦘')
-    if (controller.value.CanActivate('overcharge')) actions.push('⦗ OVERCHARGE ⦘')
-    if (controller.value.CanActivate('reaction')) actions.push('⦗ REACTION ⦘')
+    if (controller.value.CanActivate('protocol')) actions.push(actionTag('protocol'))
+    if (controller.value.CanActivate('full')) actions.push(actionTag('full'))
+    else if (controller.value.CanActivate('quick')) actions.push(actionTag('quick'))
+    if (controller.value.CanActivate('overcharge')) actions.push(actionTag('overcharge'))
+    if (controller.value.CanActivate('reaction')) actions.push(actionTag('reaction'))
     const actionUses: [string, any][] = Object.entries(
       controller.value.ActionPoolController.ActionUses
     )
@@ -174,6 +180,9 @@
     })
     return actions.join(' ') + '\n'
   })
+  function actionTag(activation: string) {
+    return `⦗ ${enumLabel('activationType', activation).toUpperCase()} ⦘`
+  }
   function statusesFor(c: any) {
     let out = ''
     out += `${c.Statuses.map((s: any) => `// ${s.status.Name.toUpperCase()} //`).join('  ')}`
@@ -205,27 +214,28 @@
     if (kind === 'pilot') {
       out +=
         justify([
-          `GRIT: ${c.Grit}`,
-          getMaxStat(c, 'evasion', 'Evasion'),
-          getMaxStat(c, 'edef', 'E-Def'),
-          getMaxStat(c, 'speed', 'Speed'),
+          `${t('pm.print.grit').toUpperCase()}: ${c.Grit}`,
+          getMaxStat(c, 'evasion', t('stats.evasion')),
+          getMaxStat(c, 'edef', t('stats.edef')),
+          getMaxStat(c, 'speed', t('stats.speed')),
         ]) + '\n'
       return out
     }
     out +=
       justify([
-        getMaxStat(c, 'hull', 'H'),
-        getMaxStat(c, 'agi', 'A'),
-        getMaxStat(c, 'sys', 'S'),
-        getMaxStat(c, 'eng', 'E'),
+        getMaxStat(c, 'hull', t('common.haseHullShort')),
+        getMaxStat(c, 'agi', t('common.haseAgilityShort')),
+        getMaxStat(c, 'sys', t('common.haseSystemsShort')),
+        getMaxStat(c, 'eng', t('common.haseEngineeringShort')),
       ]) + '\n'
     const secondLine = [
-      getMaxStat(c, 'evasion', 'Evasion'),
-      getMaxStat(c, 'edef', 'E-Def'),
-      getMaxStat(c, ['sensorRange', 'sensors'], 'Sensors'),
-      getMaxStat(c, 'saveTarget', 'Save'),
+      getMaxStat(c, 'evasion', t('stats.evasion')),
+      getMaxStat(c, 'edef', t('stats.edef')),
+      getMaxStat(c, ['sensorRange', 'sensors'], t('stats.sensors')),
+      getMaxStat(c, 'saveTarget', t('active.statblockExport.save')),
     ]
-    if (kind === 'mech') secondLine.push(getMaxStat(c, 'techAttack', 'Tech Atk.'))
+    if (kind === 'mech')
+      secondLine.push(getMaxStat(c, 'techAttack', t('active.statblockExport.techAttackShort')))
     out += justify(secondLine) + '\n'
     return out
   }
@@ -233,41 +243,52 @@
     let out = ''
     if (kind === 'pilot') {
       out += justify([
-        getStat(c, 'hp', 'HP'),
-        getCurrentStat(c, 'armor', 'Armor'),
-        getCurrentStat(c, 'overshield', 'Overshield', 0),
-        getStat(c, 'speed', 'Movement'),
+        getStat(c, 'hp', t('stats.hp')),
+        getCurrentStat(c, 'armor', t('stats.armor')),
+        getCurrentStat(c, 'overshield', t('common.overshield'), 0),
+        getStat(c, 'speed', t('active.runner.movement')),
       ])
       return out
     }
     out +=
       justify([
-        getStat(c, 'hp', 'HP'),
-        getStat(c, 'structure', 'Structure'),
-        getCurrentStat(c, 'armor', 'Armor'),
-        getCurrentStat(c, 'overshield', 'Overshield', 0),
+        getStat(c, 'hp', t('stats.hp')),
+        getStat(c, 'structure', t('stats.structure')),
+        getCurrentStat(c, 'armor', t('stats.armor')),
+        getCurrentStat(c, 'overshield', t('common.overshield'), 0),
       ]) + '\n'
     out +=
       justify([
-        getStat(c, 'heatcap', 'Heat'),
-        getStat(c, 'stress', 'Stress'),
+        getStat(c, 'heatcap', t('enums.damageType.heat')),
+        getStat(c, 'stress', t('stats.stress')),
         '',
-        getCurrentStat(c, 'overcharge', 'Overcharge', 0),
+        getCurrentStat(c, 'overcharge', t('common.overcharge'), 0),
       ]) + '\n'
     out += justify([
-      getStat(c, 'speed', 'Movement'),
-      getStat(c, ['repairCapacity', 'repcap'], 'Repairs'),
+      getStat(c, 'speed', t('active.runner.movement')),
+      getStat(c, ['repairCapacity', 'repcap'], t('common.repairs')),
       '',
       corepowerFor(c),
     ])
     return out
   }
+  function reloadTag() {
+    return `[ ${t('active.equipCmd.reload').toLowerCase().padStart(6)} ]`
+  }
+  function usedTag() {
+    return `[ ${t('common.used').toLowerCase().padStart(6)} ]`
+  }
+  function readyTag() {
+    return `[ ${t('active.statblockExport.ready')} ]`
+  }
   function equipmentRow(item: any, range = '', damage = '') {
-    if (item.Destroyed) return `${justify([item.Name, '', '', '', '✖ DESTROYED'])}\n`
+    if (item.Destroyed)
+      return `${justify([item.Name, '', '', '', `✖ ${t('common.destroyed').toUpperCase()}`])}\n`
     const arr = [item.Name, range, damage]
-    if (item.MaxUses) arr.push(`${item.Uses} / ${item.MaxUses} Uses`)
+    if (item.MaxUses)
+      arr.push(t('active.statblockExport.usesCount', { uses: item.Uses, max: item.MaxUses }))
     else arr.push('')
-    arr.push(item.Used ? (item.IsLoading ? '[ reload ]' : '[   used ]') : '[ READY ]')
+    arr.push(item.Used ? (item.IsLoading ? reloadTag() : usedTag()) : readyTag())
     return justify(arr) + '\n'
   }
   const mechLoadout = computed(() => {
@@ -285,7 +306,7 @@
     loadout.Systems.forEach((sys: any) => {
       out += equipmentRow(sys)
     })
-    return out || 'None\n'
+    return out || `${t('common.none')}\n`
   })
   const pilotGearLoadout = computed(() => {
     const loadout = rootActor.value.PilotLoadoutController?.ActiveLoadout
@@ -304,7 +325,7 @@
     loadout.Gear.filter(Boolean).forEach((g: any) => {
       out += equipmentRow(g)
     })
-    return out || 'None\n'
+    return out || `${t('common.none')}\n`
   })
   const npcLoadout = computed(() => {
     if (!showLoadout.value) return ''
@@ -337,9 +358,9 @@
       arr.push(
         feature.Used
           ? feature.Recharge
-            ? `[recharge ${feature.Recharge}+]`
-            : '[   used ]'
-          : '[ READY ]'
+            ? `[${t('active.statblockExport.recharge', { n: feature.Recharge })}]`
+            : usedTag()
+          : readyTag()
       )
       out += justify(arr) + '\n'
     })
@@ -347,14 +368,14 @@
   })
   const features = computed(() => {
     if (!showLoadout.value) return ''
-    return '\n// LOADOUT\n' + npcLoadout.value
+    return `\n// ${t('common.loadout').toUpperCase()}\n` + npcLoadout.value
   })
   const reserves = computed(() => {
     if (!showReserves.value) return ''
-    let out = '// RESERVES\n'
+    let out = `// ${t('common.reserves').toUpperCase()}\n`
     const rc = (props.actor as any).CombatController.ReserveController
     if (!rc || !rc.Reserves.length) {
-      out += 'None\n'
+      out += `${t('common.none')}\n`
       return out
     }
     rc.Reserves.filter((x: any) => x.Type !== 'Organization' && x.Type !== 'Project').forEach(
@@ -365,7 +386,8 @@
     return out
   })
   function flagsFor(c: any) {
-    return `${c.Braced ? `[ BRACED ] ` : ''}${c.Overwatch ? `[ OVERWATCH ] ` : ''}${c.Prepared ? `[ PREPARED ] ` : ''}`
+    const flag = (on: boolean, key: string) => (on ? `[ ${t(key).toUpperCase()} ] ` : '')
+    return `${flag(c.Braced, 'active.runner.braced')}${flag(c.Overwatch, 'active.runner.overwatch')}${flag(c.Prepared, 'active.common.prepared')}`
   }
   function blockFor(c: any, kind: 'pilot' | 'mech' | 'npc') {
     return `${untrackedStatsFor(c, kind)}${statusesFor(c)}
@@ -375,31 +397,32 @@ ${countersFor(c)}`
   const pilotBlock = computed(() => {
     const c = pilotController.value
     return `
-// PILOT ${'-'.repeat(60)}
-${rootActor.value.CombatController.CombatName}${rootActor.value.Level ? ` - LL ${rootActor.value.Level}` : ''} ${c.Mounted && mechController.value ? '[ MOUNTED ]' : '[ UNMOUNTED ]'}
-${flagsFor(c)}${blockFor(c, 'pilot')}${showLoadout.value ? `\n// PILOT LOADOUT\n${pilotGearLoadout.value}` : ''}`
+// ${t('common.pilot').toUpperCase()} ${'-'.repeat(60)}
+${rootActor.value.CombatController.CombatName}${rootActor.value.Level ? ` - ${t('active.roster.ll', { n: rootActor.value.Level })}` : ''} [ ${(c.Mounted && mechController.value ? t('active.shared.mounted') : t('active.sheetItem.unmounted')).toUpperCase()} ]
+${flagsFor(c)}${blockFor(c, 'pilot')}${showLoadout.value ? `\n// ${t('common.pilotLoadout').toUpperCase()}\n${pilotGearLoadout.value}` : ''}`
   })
   const mechBlock = computed(() => {
-    if (!mech.value || !mechController.value) return `\n// MECH ${'-'.repeat(61)}\nNo active mech\n`
+    if (!mech.value || !mechController.value)
+      return `\n// ${t('common.mech').toUpperCase()} ${'-'.repeat(61)}\n${t('active.statblockExport.noActiveMech')}\n`
     const c = mechController.value
     return `
-// MECH ${'-'.repeat(61)}
+// ${t('common.mech').toUpperCase()} ${'-'.repeat(61)}
 ${mech.value.Name} - ${mech.value.Frame.Source} ${mech.value.Frame.Name}
-${flagsFor(c)}${blockFor(c, 'mech')}${showLoadout.value ? `\n// MECH LOADOUT\n${mechLoadout.value}` : ''}`
+${flagsFor(c)}${blockFor(c, 'mech')}${showLoadout.value ? `\n// ${t('active.statblockExport.mechLoadoutHeader')}\n${mechLoadout.value}` : ''}`
   })
   const statblockPreview = computed(() => {
     const enc = props.encounterInstance as any
-    const header = `${enc.Name} - Round ${enc.Round} (${new Date().toLocaleString()})
+    const header = `${t('active.statblockExport.roundHeader', { name: enc.Name, round: enc.Round, date: new Date().toLocaleString() })}
 ${'-'.repeat(75)}`
     if (isPilot.value) {
       return `${header}
-⟦ ${cover.value} ⟧  ${combatSpecials.value}${showActions.value ? `\n${getStat(controller.value, 'activations', 'Activations')}\n${availableActions.value}` : ''}
+⟦ ${cover.value} ⟧  ${combatSpecials.value}${showActions.value ? `\n${getStat(controller.value, 'activations', t('active.customStatEditor.activations'))}\n${availableActions.value}` : ''}
 ${pilotBlock.value}
 ${mechBlock.value}
 ${reserves.value}`
     }
     return `${header}
-${rootActor.value.ItemType} ${rootActor.value.CombatController.CombatName} ${controller.value.Tier ? ` - Tier ${controller.value.Tier}` : ''}${showActions.value ? ` |  ${getStat(controller.value, 'activations', 'Activations')}` : ''}
+${rootActor.value.ItemType} ${rootActor.value.CombatController.CombatName} ${controller.value.Tier ? ` - ${t('common.tierN', { n: controller.value.Tier })}` : ''}${showActions.value ? ` |  ${getStat(controller.value, 'activations', t('active.customStatEditor.activations'))}` : ''}
 ${flagsFor(controller.value)}⟦ ${cover.value} ⟧  ${combatSpecials.value}
 ${untrackedStatsFor(controller.value, 'npc')}${availableActions.value}${statusesFor(controller.value)}
 ${trackedStatsFor(controller.value, 'npc')}

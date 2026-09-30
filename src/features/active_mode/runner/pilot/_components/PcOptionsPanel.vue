@@ -3,7 +3,7 @@
     <runner-options-header
       :context="sheet"
       :save-key="saveUpdate"
-      autosave-tooltip="Autosave Character Sheet data on the end of every round. Defaults to ON."
+      :autosave-tooltip="$t('active.options.autosaveSheetTooltip')"
       @manual-save="manualSave()"
     />
     <v-divider class="my-2" />

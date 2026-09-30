@@ -40,7 +40,7 @@
         v-if="genRadios != 'pilotBuild'"
         v-model="selected_mech"
         :items="pilot.Mechs"
-        placeholder="N/A"
+        :placeholder="$t('active.sheetItem.na')"
         density="compact"
         item-title="Name"
         item-value="ID"

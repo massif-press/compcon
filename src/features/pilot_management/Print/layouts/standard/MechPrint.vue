@@ -42,7 +42,7 @@
             min-width="11vw"
           />
           <print-stat-box
-            label="E-DEFENSE"
+            :label="$t('stats.edefense')"
             :value="mech.EDefense"
             :blank="blank"
             min-width="12vw"
@@ -129,7 +129,7 @@
             <span class="heading ml-4">
               {{
                 mech.Frame.CoreSystem.PassiveName
-                  ? `${mech.Frame.CoreSystem.PassiveName} (PASSIVE)`
+                  ? $t('pm.print.corePassiveNamed', { name: mech.Frame.CoreSystem.PassiveName })
                   : $t('pm.print.corePassive')
               }}
             </span>
@@ -143,7 +143,7 @@
             <div class="heading ml-4">
               {{
                 mech.Frame.CoreSystem.ActiveName
-                  ? `${mech.Frame.CoreSystem.ActiveName} (ACTIVE)`
+                  ? $t('pm.print.coreActiveNamed', { name: mech.Frame.CoreSystem.ActiveName })
                   : $t('pm.print.coreActive')
               }}
             </div>

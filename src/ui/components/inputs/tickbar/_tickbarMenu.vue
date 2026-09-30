@@ -10,7 +10,7 @@
         :icon="icon"
         class="mt-n1"
       />
-      <span class="heading">{{ label }}</span>
+      <span class="heading">{{ label ?? $t('common.value') }}</span>
     </div>
 
     <slot />
@@ -58,7 +58,6 @@
     {
       modelValue: 0,
       icon: 'mdi-keyboard-variant',
-      label: 'Value',
     }
   )
 

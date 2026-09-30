@@ -1,26 +1,18 @@
 <template>
-  <simple-action-list
-    v-if="simple"
+  <action-palette
     :controller="controller"
-    :quick-actions="['act_skirmish', ...quickNpcActions]"
-    :full-actions="['act_barrage', ...fullNpcActions]"
+    :actor="owner.actor"
+    :ids="ids"
     @deploy="$emit('deploy', $event)"
-  />
-  <base-actions-panel
-    v-else
-    :quick-actions="quickNpcActions"
-    :full-actions="fullNpcActions"
-    @deploy="$emit('deploy', $event)"
-    @activate="activate($event)"
   >
-    <template #quick-action-btn="{ action }">
+    <template #button="{ action, section }">
       <invade-button
-        v-if="action?.ID === 'act_invade'"
+        v-if="action.ID === 'act_invade'"
         :action="action"
         @activate="activate($event)"
       />
       <targeted-action-button
-        v-else-if="action && controller.NeedsTarget(action.ID)"
+        v-else-if="section === 'quick' && controller.NeedsTarget(action.ID)"
         :action="action"
       />
       <basic-action-button
@@ -29,7 +21,7 @@
         @activate="activate($event)"
       />
     </template>
-  </base-actions-panel>
+  </action-palette>
 </template>
 
 <script setup lang="ts">
@@ -38,8 +30,7 @@
   import { notify } from '@/util/notify'
   import { useI18n } from 'vue-i18n'
   const { t } = useI18n()
-  import BaseActionsPanel from './BaseActionsPanel.vue'
-  import SimpleActionList from './SimpleActionList.vue'
+  import ActionPalette from './ActionPalette.vue'
   import BasicActionButton from './loadouts/action_buttons/basicActionButton.vue'
   import InvadeButton from './loadouts/action_buttons/invadeButton.vue'
   import TargetedActionButton from './loadouts/action_buttons/targetedActionButton.vue'
@@ -59,6 +50,14 @@
     'act_search',
   ]
   const fullNpcActions = ['act_disengage', 'act_improvised_attack_npc', 'act_stabilize_npc']
+
+  const ids = computed(() => ({
+    quickAttack: simple.value ? ['act_skirmish'] : [],
+    fullAttack: simple.value ? ['act_barrage'] : [],
+    quick: quickNpcActions,
+    full: fullNpcActions,
+    reactions: ['act_overwatch'],
+  }))
 
   const controller = computed(() => owner.value.actor.CombatController)
 

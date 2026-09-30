@@ -90,6 +90,7 @@
 
 <script setup lang="ts">
   import { computed, ref, watch, provide } from 'vue'
+  import { i18n } from '@/i18n'
   import { useDisplay } from 'vuetify'
   import * as _ from 'lodash-es'
 
@@ -133,8 +134,8 @@
     }>(),
     {
       tableHeaders: () => [
-        { title: 'Content Pack', key: 'LcpName' },
-        { title: 'Name', key: 'Name' },
+        { title: i18n.global.t('common.contentPack'), key: 'LcpName' },
+        { title: i18n.global.t('common.name'), key: 'Name' },
       ],
       tier: 1,
       manufacturers: () => [],

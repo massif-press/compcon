@@ -5,7 +5,7 @@ import { join } from 'node:path'
 import console from 'node:console'
 import process from 'node:process'
 
-const DYNAMIC_NAMESPACES = ['nav.', 'language.components.', 'enums.']
+const DYNAMIC_NAMESPACES = ['nav.', 'language.components.', 'enums.', 'bonuses.']
 
 const selectorCodes = [
   ...readFileSync('src/i18n/index.ts', 'utf8').matchAll(/code:\s*'([^']+)'/g),
@@ -35,7 +35,7 @@ const LITERAL_ATTRS = [
   'aria-label',
   'description',
 ]
-const LITERAL_ALLOW = new Set(['CC-ID', 'CC-username', 'N/A', 'HP', 'E-DEF', 'E-DEFENSE'])
+const LITERAL_ALLOW = new Set(['CC-ID', 'CC-username'])
 const LITERAL_SKIP_FILES = [
   'src/features/ui_test/',
   'src/ui/components/print/CombatRef.vue',

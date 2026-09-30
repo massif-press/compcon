@@ -32,6 +32,7 @@
   <panel-base
     v-else
     :item="mech"
+    :no-actions="layout.actionGrouping === 'byType'"
   >
     <template #name-block>
       <div class="heading h2">{{ mech.Name }}</div>

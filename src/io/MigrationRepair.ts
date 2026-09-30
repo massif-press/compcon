@@ -1,4 +1,5 @@
 import { toRaw } from 'vue'
+import { i18n } from '@/i18n'
 import { GetAll, SetItem } from './Storage'
 import { PilotStore, CompendiumStore, NpcStore } from '@/stores'
 import { Pilot } from '@/classes/pilot/Pilot'
@@ -65,7 +66,7 @@ async function scanFlavorDescriptions(): Promise<MigrationFinding[]> {
             itemType: 'MechWeapon',
             itemId: w.ID,
             itemName: `${mech.Name} / ${w.Name}`,
-            description: 'Flavor description matches item description text',
+            description: i18n.global.t('nav.migrationRepair.finding.flavorMatchesDescription'),
             canFix: true,
             mutate: () => {
               w.FlavorDescription = ''
@@ -84,7 +85,7 @@ async function scanFlavorDescriptions(): Promise<MigrationFinding[]> {
             itemType: 'MechSystem',
             itemId: s.ID,
             itemName: `${mech.Name} / ${s.Name}`,
-            description: 'Flavor description matches item description text',
+            description: i18n.global.t('nav.migrationRepair.finding.flavorMatchesDescription'),
             canFix: true,
             mutate: () => {
               s.FlavorDescription = ''
@@ -121,7 +122,7 @@ async function scanLcpOrigins(): Promise<MigrationFinding[]> {
           itemType: 'NpcFeature',
           itemId: feature.id,
           itemName: `${pack.Name} / ${feature.name || feature.id}`,
-          description: 'Feature has unresolved object-form origin; can be resolved now',
+          description: i18n.global.t('nav.migrationRepair.finding.unresolvedOrigin'),
           canFix: true,
           mutate: () => {
             f.origin = r
@@ -134,7 +135,7 @@ async function scanLcpOrigins(): Promise<MigrationFinding[]> {
           itemType: 'NpcFeature',
           itemId: feature.id,
           itemName: `${pack.Name} / ${feature.name || feature.id}`,
-          description: 'Feature has unresolvable origin. Delete and reinstall LCP to recover',
+          description: i18n.global.t('nav.migrationRepair.finding.unresolvableOrigin'),
           canFix: false,
           mutate: null,
           saveKey: null,
@@ -152,7 +153,10 @@ async function scanLcpOrigins(): Promise<MigrationFinding[]> {
             itemType: 'NpcFeature',
             itemId: id,
             itemName: `${pack.Name} / ${ownerName} / ${id}`,
-            description: `Feature referenced by "${ownerName}" is missing. Reinstall LCP "${pack.Name}" to recover`,
+            description: i18n.global.t('nav.migrationRepair.finding.missingFeature', {
+              owner: ownerName,
+              pack: pack.Name,
+            }),
             canFix: false,
             mutate: null,
             saveKey: null,
@@ -193,7 +197,9 @@ async function scanLcpFlavorState(): Promise<MigrationFinding[]> {
         itemType: 'NpcFeature',
         itemId: feature.id,
         itemName: `${pack.Name} / ${(feature as any).name || feature.id}`,
-        description: `Feature carries per-NPC state (${stale.join(', ')}) baked into LCP data`,
+        description: i18n.global.t('nav.migrationRepair.finding.bakedNpcState', {
+          fields: stale.join(', '),
+        }),
         canFix: true,
         mutate: () => {
           PER_NPC_FEATURE_KEYS.forEach(k => delete f[k])
@@ -222,7 +228,7 @@ async function scanNpcStats(): Promise<MigrationFinding[]> {
       itemType: 'Unit',
       itemId: raw.id,
       itemName: unit.Name,
-      description: 'NPC has malformed v2 data fields that will be cleaned up on save',
+      description: i18n.global.t('nav.migrationRepair.finding.malformedNpcData'),
       canFix: true,
       mutate: () => {},
       saveKey: raw.id,

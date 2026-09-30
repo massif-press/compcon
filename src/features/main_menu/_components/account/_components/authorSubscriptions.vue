@@ -17,16 +17,7 @@
               ? $t('mainMenu.subscriptions.authorContentShort')
               : $t('mainMenu.subscriptions.authorContentHeader')
           "
-          tooltip=" You can subscribe to COMP/CON data content authors to receive updates when they
-              publish new content. This can include pilots, GM data like NPCs and Narrative
-              Elements, and limited or reserved collection content, such as table-specific homebrew.
-              You can add new subscriptions by adding the author's Content collection ID (CSID) to
-              the list below. <br /> <br />
-              <strong>
-                Neither Massif Press nor the COMP/CON developer take any responsibility for any
-                content published to any author's content collection. Subscribe to authors at your
-                own discretion.
-              </strong>"
+          :tooltip="$t('mainMenu.subscriptions.authorContentTooltip')"
         />
       </v-toolbar-title>
       <v-tooltip

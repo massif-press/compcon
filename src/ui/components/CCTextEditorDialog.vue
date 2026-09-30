@@ -1,7 +1,7 @@
 <template>
   <cc-dialog
     v-model="dialogValue"
-    :title="title"
+    :title="title ?? $t('ui.textEditor.editText')"
     icon="mdi-circle-edit-outline"
     :max-width="width"
     :close-on-click="false"
@@ -50,7 +50,6 @@
     }>(),
     {
       original: '',
-      title: 'Edit Text',
       width: '70vw',
     }
   )

@@ -181,7 +181,7 @@
   const headers = [
     { title: t('common.manufacturer'), align: 'left', key: 'Source' },
     { title: t('common.weapon'), align: 'left', key: 'Name' },
-    { title: 'License', align: 'left', key: 'LicenseString' },
+    { title: t('ui.filters.license'), align: 'left', key: 'LicenseString' },
     { title: t('stats.size'), align: 'left', key: 'Size' },
     {
       title: t('common.type'),

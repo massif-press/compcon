@@ -129,7 +129,7 @@
   })
   const headers = ref([
     { title: t('common.manufacturer'), key: 'Source' },
-    { title: 'Name', key: 'Name' },
+    { title: t('common.name'), key: 'Name' },
     { title: t('stats.size'), key: 'Size' },
     { title: t('stats.armor'), key: 'Armor' },
     { title: 'HP', key: 'HP' },

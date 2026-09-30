@@ -1,7 +1,7 @@
 <template>
   <cc-dialog
     icon="mdi-clipboard-text"
-    :title="`${actor.Name} Combat Telemetry`"
+    :title="$t('active.actorLogs.combatTelemetryTitle', { name: actor.Name })"
     :close-on-click="false"
   >
     <template #activator="{ open }">

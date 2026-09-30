@@ -246,6 +246,9 @@
   import { computed } from 'vue'
   import { useRouter } from 'vue-router'
   import MechListItemBase from './MechListItemBase.vue'
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
   const router = useRouter()
 
   defineOptions({ name: 'mech-list-item' })
@@ -269,7 +272,7 @@
     )) {
       if (!mount.IsLocked) {
         let str = `<i style="opacity:0.5">${mount.Name}</i>:`
-        if (!mount.Weapons.length) str += ' EMPTY'
+        if (!mount.Weapons.length) str += ` ${t('pm.loadout.empty').toUpperCase()}`
         else {
           mount.Weapons.forEach((w, i) => {
             str += ` ${w.Name}`

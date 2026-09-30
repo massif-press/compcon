@@ -16,7 +16,12 @@
             :highlight="!pilot.CoreBonusController.HasCBs"
             :current="pilot.CoreBonusController.CurrentCBPoints"
             :max="pilot.CoreBonusController.MaxCBPoints"
-            :label="`Edit Pilot CORE Bonuses (${pilot.CoreBonusController.CurrentCBPoints}/${pilot.CoreBonusController.MaxCBPoints})`"
+            :label="
+              $t('pm.pilotSheet.editPilotCoreBonusesPoints', {
+                current: pilot.CoreBonusController.CurrentCBPoints,
+                max: pilot.CoreBonusController.MaxCBPoints,
+              })
+            "
             @open-selector="open"
           />
         </template>

@@ -232,7 +232,7 @@
   import logger, { LEVELS } from '@/user/logger'
 
   const { mdAndDown: mobile } = useDisplay()
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
 
   const tick = ref(0)
 
@@ -289,17 +289,12 @@
   }
 
   function timestamp(t: number) {
-    const date = new Date(t)
-    const hours = date.getHours()
-    const minutes = date.getMinutes()
-    const seconds = date.getSeconds()
-    const milliseconds = date.getMilliseconds()
-    const period = hours >= 12 ? 'PM' : 'AM'
-    const formattedHours = String(hours % 12 || 12).padStart(2, '0')
-    const formattedMinutes = String(minutes).padStart(2, '0')
-    const formattedSeconds = String(seconds).padStart(2, '0')
-    const formattedMilliseconds = String(milliseconds).padStart(3, '0')
-    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}:${formattedMilliseconds} ${period}`
+    return new Date(t).toLocaleTimeString(String(locale.value).replace('_', '-'), {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      fractionalSecondDigits: 3,
+    })
   }
 
   function formatTrace(t: string) {

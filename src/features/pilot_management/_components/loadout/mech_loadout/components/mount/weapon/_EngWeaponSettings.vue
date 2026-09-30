@@ -205,7 +205,7 @@
   </cc-panel>
   <cc-alert
     v-if="selectedRevisions.includes('stripped_reactor')"
-    :title="`Stripped Reactor Shielding`"
+    :title="$t('pm.engWeaponSettings.strippedReactorShielding')"
     icon="cc:talent"
     color="weapon"
     class="mt-2"

@@ -83,7 +83,7 @@
                   </template>
                   <cc-confirmation
                     cancellable
-                    :content="`Confirm deletion of ${item.actor.Name} from the encounter`"
+                    :content="$t('gm.encounters.confirmRemoveCombatant', { name: item.actor.Name })"
                     @confirm="removeItem"
                     @cancel="deleteMenu = false"
                   />

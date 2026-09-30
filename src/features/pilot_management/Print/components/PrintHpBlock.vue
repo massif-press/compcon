@@ -23,7 +23,7 @@
       >
         <v-col><v-divider /></v-col>
         <v-col cols="auto">
-          <span class="text-primary caption">{{ maxLabel }}</span>
+          <span class="text-primary caption text-uppercase">{{ maxLabel }}</span>
         </v-col>
         <v-col><v-divider /></v-col>
       </v-row>

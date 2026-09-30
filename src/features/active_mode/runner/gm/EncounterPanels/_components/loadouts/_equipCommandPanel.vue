@@ -52,7 +52,7 @@
         :controller="controller"
         :size="mobile ? 'x-small' : 'small'"
         :label="$t('active.equipCommandPanel.cedeControl')"
-        tooltip-text="Cede control of your mech to the NHP as a Protocol Action."
+        :tooltip-text="$t('active.equipCommandPanel.cedeControlTooltip')"
         @action="enableAI"
       />
 
@@ -60,7 +60,7 @@
         v-if="controller.AIControl"
         :controller="controller"
         :label="$t('active.equipCommandPanel.reclaimControl')"
-        tooltip-text="Reclaim control of your mech from the NHP as a Protocol Action."
+        :tooltip-text="$t('active.equipCommandPanel.reclaimControlTooltip')"
         @action="disableAI"
       />
 
@@ -234,7 +234,7 @@
     >
       <v-tooltip
         location="top"
-        :text="`Force Recharge (Recharges on: ${recharge}+)`"
+        :text="$t('active.equipCommandPanel.forceRecharge', { recharge })"
       >
         <template #activator="{ props }">
           <v-btn

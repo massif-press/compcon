@@ -6,6 +6,12 @@ import { Action } from './Action'
 import { NpcWeapon } from './npc/feature/NpcItem/NpcWeapon'
 import { Unit } from './npc/unit/Unit'
 import { ActiveEffect } from './components/feature/active_effects/ActiveEffect'
+import { i18n } from '@/i18n'
+import { enumLabel } from '@/i18n/enumLabel'
+
+const tr = (key: string, params: Record<string, unknown> = {}) => i18n.global.t(key, params)
+const TR = (key: string, params: Record<string, unknown> = {}) => tr(key, params).toUpperCase()
+const hdr = (key: string) => `[ ${TR(key)} ]`
 
 function linebreak(i: number, length: number): string {
   if (i > 0 && (i + 1) % 2 === 0 && i + 1 !== length) {
@@ -44,8 +50,8 @@ function addWeaponToOutput(output: string, discordEmoji: boolean, w: MechWeapon 
 function npcSubtitle(npc: Unit): string {
   const tier =
     typeof npc.NpcClassController.Tier === 'number'
-      ? `, Tier ${npc.NpcClassController.Tier} `
-      : ', Custom '
+      ? `, ${tr('common.tierN', { n: npc.NpcClassController.Tier })} `
+      : `, ${tr('gm.stats.custom')} `
   return `${tier}${npc.Tag}`
 }
 
@@ -66,8 +72,8 @@ class Statblock {
       if (pilot.Background) {
         output += `${pilot.Background}, `
       }
-      output += `LL${pilot.Level}\n`
-      output += `[ SKILL TRIGGERS ]\n  `
+      output += `${tr('active.newSheet.llLevel', { n: pilot.Level })}\n`
+      output += `${hdr('common.skillTriggers')}\n  `
       for (let i = 0; i < pilot.SkillsController.Skills.length; i++) {
         const s = pilot.SkillsController.Skills[i]
         output += `${s.Skill.Trigger} (+${s.Bonus})${linebreak(
@@ -78,7 +84,7 @@ class Statblock {
 
       const loadout = pilot.PilotLoadoutController.ActiveLoadout
       if (loadout) {
-        output += '[ GEAR ]\n  '
+        output += `${hdr('common.gear')}\n  `
         for (let i = 0; i < loadout.Items.length; i++) {
           const item = loadout.Items[i]
           if (!item) continue
@@ -91,10 +97,10 @@ class Statblock {
 
       const bond = pilot.BondController
       if (bond.Bond) {
-        output += '[ BOND ]\n  '
+        output += `${hdr('pm.link.bond')}\n  `
         output += `${bond.Bond.Name.toUpperCase()}\n`
         if (bond.BondPowers) {
-          output += '  Powers: '
+          output += `  ${tr('pm.sheet.powers')}: `
           for (let i = 0; i < bond.BondPowers.length; i++) {
             output += `${bond.BondPowers[i].name.toUpperCase()}${linebreak(
               i,
@@ -106,10 +112,11 @@ class Statblock {
       }
 
       if (view === 'pilotBuild') {
-        output += '[ MECH SKILLS ]\n  '
-        output += `GRIT:${pilot.Grit} // H:${pilot.MechSkillsController.MechSkills.Hull} A:${pilot.MechSkillsController.MechSkills.Agi} S:${pilot.MechSkillsController.MechSkills.Sys} E:${pilot.MechSkillsController.MechSkills.Eng}\n`
+        output += `${hdr('pm.level.mechSkills')}\n  `
+        const ms = pilot.MechSkillsController.MechSkills
+        output += `${TR('pm.print.grit')}:${pilot.Grit} // ${tr('common.haseHullShort')}:${ms.Hull} ${tr('common.haseAgilityShort')}:${ms.Agi} ${tr('common.haseSystemsShort')}:${ms.Sys} ${tr('common.haseEngineeringShort')}:${ms.Eng}\n`
       }
-      output += '[ TALENTS ]\n  '
+      output += `${hdr('common.talents')}\n  `
       for (let i = 0; i < pilot.TalentsController.Talents.length; i++) {
         const t = pilot.TalentsController.Talents[i]
         output += `${t.Talent.Name} ${t.Rank}${linebreak(
@@ -119,7 +126,7 @@ class Statblock {
       }
 
       if (pilot.LicenseController.Licenses.length) {
-        output += '[ LICENSES ]\n  '
+        output += `${hdr('common.licenses')}\n  `
         for (let i = 0; i < pilot.LicenseController.Licenses.length; i++) {
           const l = pilot.LicenseController.Licenses[i]
 
@@ -134,7 +141,7 @@ class Statblock {
       }
 
       if (pilot.CoreBonusController.CoreBonuses.length) {
-        output += '[ CORE BONUSES ]\n  '
+        output += `${hdr('common.coreBonuses')}\n  `
         for (let i = 0; i < pilot.CoreBonusController.CoreBonuses.length; i++) {
           const cb = pilot.CoreBonusController.CoreBonuses[i]
           output += `${cb.Name}${linebreak(i, pilot.CoreBonusController.CoreBonuses.length)}`
@@ -144,24 +151,24 @@ class Statblock {
 
     if (mech) {
       if (view === 'full') {
-        output += `[ MECH ]\n  « ${mech.Name.toUpperCase()} »\n  ${mech.Frame.Source} ${
+        output += `${hdr('common.mech')}\n  « ${mech.Name.toUpperCase()} »\n  ${mech.Frame.Source} ${
           mech.Frame.Name
         }\n`
-        output += `  H:${mech.Hull} A:${mech.Agi} S:${mech.Sys} E:${mech.Eng} SIZE:${mech.Size}\n`
-        output += `  STRUCTURE:${mech.MaxStructure}`
-        output += ` HP:${mech.MaxHP}`
-        output += ` ARMOR:${mech.Armor}\n`
-        output += `  STRESS:${mech.MaxStress}`
-        output += ` HEAT:${mech.HeatCapacity}`
-        output += ` REPAIR:${mech.RepairCapacity}\n`
-        output += `  ATK BONUS:${mech.AttackBonus} TECH ATK:${mech.TechAttack} LTD BONUS:${mech.LimitedBonus}\n`
-        output += `  SPD:${mech.Speed} EVA:${mech.Evasion} EDEF:${mech.EDefense} SENS:${mech.SensorRange} SAVE:${mech.SaveTarget}\n`
+        output += `  ${tr('common.haseHullShort')}:${mech.Hull} ${tr('common.haseAgilityShort')}:${mech.Agi} ${tr('common.haseSystemsShort')}:${mech.Sys} ${tr('common.haseEngineeringShort')}:${mech.Eng} ${TR('stats.size')}:${mech.Size}\n`
+        output += `  ${TR('stats.structure')}:${mech.MaxStructure}`
+        output += ` ${TR('stats.hp')}:${mech.MaxHP}`
+        output += ` ${TR('stats.armor')}:${mech.Armor}\n`
+        output += `  ${TR('stats.stress')}:${mech.MaxStress}`
+        output += ` ${TR('enums.damageType.heat')}:${mech.HeatCapacity}`
+        output += ` ${TR('print.statblock.repair')}:${mech.RepairCapacity}\n`
+        output += `  ${TR('pm.print.attackBonusShort')}:${mech.AttackBonus} ${TR('pm.print.techAtk')}:${mech.TechAttack} ${TR('pm.print.limitedBonusShort')}:${mech.LimitedBonus}\n`
+        output += `  ${TR('print.statblock.speedShort')}:${mech.Speed} ${TR('print.statblock.evasionShort')}:${mech.Evasion} ${TR('print.statblock.edefShort')}:${mech.EDefense} ${TR('print.statblock.sensorsShort')}:${mech.SensorRange} ${TR('print.statblock.save')}:${mech.SaveTarget}\n`
 
         const loadout = mech.MechLoadoutController.ActiveLoadout
-        output += '[ WEAPONS ]\n'
+        output += `${hdr('active.mechLoadout.weapons')}\n`
         for (const im of loadout.IntegratedMounts) {
           for (const mw of im.Weapons) {
-            output += '  INTEGRATED MOUNT: '
+            output += `  ${TR('print.statblock.integratedMount')}: `
             output = addWeaponToOutput(output, discordEmoji, mw)
             output += '\n'
           }
@@ -173,7 +180,7 @@ class Statblock {
         )) {
           output += `  ${mount.Name}: `
           if (mount.IsLocked) {
-            output += 'SUPERHEAVY WEAPON BRACING'
+            output += TR('pm.loadout.superheavyWeaponBracing')
           } else {
             mount.Weapons.forEach((w, idx) => {
               output = addWeaponToOutput(output, discordEmoji, w)
@@ -189,14 +196,14 @@ class Statblock {
           output += '\n'
         }
 
-        output += '[ SYSTEMS ]\n  '
+        output += `${hdr('stats.systems')}\n  `
         const allsys = loadout.IntegratedSystems.concat(loadout.Systems)
         allsys.forEach((sys, i) => {
           output += `${sys.TrueName}${linebreak(i, allsys.length)}`
         })
       }
     } else if (view === 'full') {
-      output += '\n>> NO MECH SELECTED <<'
+      output += `\n>> ${TR('print.statblock.noMechSelected')} <<`
     }
     return output
   }
@@ -204,8 +211,8 @@ class Statblock {
   public static GenerateBuildSummary(pilot: Pilot, mech: Mech, discordEmoji: boolean): string {
     if (mech) {
       const mechLoadout = mech.MechLoadoutController.ActiveLoadout
-      return `-- ${mech.Frame.Source} ${mech.Frame.Name} @ LL${pilot.Level} --
-[ LICENSES ]
+      return `-- ${tr('print.statblock.buildHeader', { source: mech.Frame.Source, frame: mech.Frame.Name, n: pilot.Level })} --
+${hdr('common.licenses')}
   ${
     pilot.LicenseController.Licenses.length
       ? `${pilot.LicenseController.Licenses.map(l => {
@@ -213,34 +220,34 @@ class Statblock {
           else if (l.Stub) return `${l.Stub.Source} ${l.Stub.Name}`
           return ''
         }).join(', ')}`
-      : 'N/A'
+      : tr('active.sheetItem.na')
   }
-[ CORE BONUSES ]
+${hdr('common.coreBonuses')}
   ${
     pilot.CoreBonusController.CoreBonuses.length
       ? `${pilot.CoreBonusController.CoreBonuses.map(cb => cb.Name).join(', ')}`
-      : 'N/A'
+      : tr('active.sheetItem.na')
   }
-[ TALENTS ]
+${hdr('common.talents')}
   ${pilot.TalentsController.Talents.map(t => `${t.Talent.Name} ${t.Rank}`).join(', ')}
-[ STATS ]
-  HULL:${pilot.MechSkillsController.MechSkills.Hull} AGI:${
+${hdr('common.statsLabel')}
+  ${TR('stats.hull')}:${pilot.MechSkillsController.MechSkills.Hull} ${TR('stats.agi')}:${
     pilot.MechSkillsController.MechSkills.Agi
-  } SYS:${pilot.MechSkillsController.MechSkills.Sys} ENGI:${
+  } ${TR('pm.link.sys')}:${pilot.MechSkillsController.MechSkills.Sys} ${TR('print.statblock.engi')}:${
     pilot.MechSkillsController.MechSkills.Eng
   }
-  STRUCTURE:${mech.MaxStructure} HP:${mech.MaxHP} ARMOR:${mech.Armor}
-  STRESS:${mech.MaxStress} HEATCAP:${mech.HeatCapacity} REPAIR:${mech.RepairCapacity}
-  TECH ATK:${mech.TechAttack > 0 ? `+${mech.TechAttack}` : mech.TechAttack} LIMITED:+${
+  ${TR('stats.structure')}:${mech.MaxStructure} ${TR('stats.hp')}:${mech.MaxHP} ${TR('stats.armor')}:${mech.Armor}
+  ${TR('stats.stress')}:${mech.MaxStress} ${TR('stats.heatCap')}:${mech.HeatCapacity} ${TR('print.statblock.repair')}:${mech.RepairCapacity}
+  ${TR('pm.print.techAtk')}:${mech.TechAttack > 0 ? `+${mech.TechAttack}` : mech.TechAttack} ${TR('print.statblock.limited')}:+${
     mech.LimitedBonus
   }
-  SPD:${mech.Speed} EVA:${mech.Evasion} EDEF:${mech.EDefense} SENSE:${mech.SensorRange} SAVE:${
+  ${TR('print.statblock.speedShort')}:${mech.Speed} ${TR('print.statblock.evasionShort')}:${mech.Evasion} ${TR('print.statblock.edefShort')}:${mech.EDefense} ${TR('print.statblock.sense')}:${mech.SensorRange} ${TR('print.statblock.save')}:${
     mech.SaveTarget
   }
-[ WEAPONS ]
+${hdr('active.mechLoadout.weapons')}
   ${mechLoadout.IntegratedMounts.map(
     mount =>
-      `Integrated: ${mount.Weapon ? mount.Weapon.TrueName : 'N/A  '}${
+      `${tr('enums.mountType.integrated')}: ${mount.Weapon ? mount.Weapon.TrueName : `${tr('active.sheetItem.na')}  `}${
         discordEmoji && mount.Weapon ? emojiWeaponStats(mount.Weapon) : ''
       }\n  `
   ).join('')}${mechLoadout
@@ -251,7 +258,7 @@ class Statblock {
     )
     .map(mount => {
       let out = `${mount.Name}: `
-      if (mount.IsLocked) out += 'SUPERHEAVY WEAPON BRACING'
+      if (mount.IsLocked) out += TR('pm.loadout.superheavyWeaponBracing')
       else
         out += mount.Weapons.filter(Boolean)
           .map(
@@ -268,13 +275,13 @@ class Statblock {
       return out
     })
     .join('\n  ')}
-[ SYSTEMS ]
+${hdr('stats.systems')}
   ${mechLoadout.Systems.map(sys => {
     let out = sys.TrueName
     if (sys.IsLimited) out += ` x${sys.getTotalUses(mech.LimitedBonus)}`
     return out
   }).join(', ')}`
-    } else return '>> NO MECH SELECTED <<'
+    } else return `>> ${TR('print.statblock.noMechSelected')} <<`
   }
 
   public static GenerateNPC(npc: Unit, includeNarrative: boolean, includeFeatures = false): string {
@@ -285,50 +292,50 @@ class Statblock {
       output += ` ${npc.NpcClassController.Class!.Name.toUpperCase()}`
     output += npcSubtitle(npc)
     output += '\n'
-    output += '[ STATS ]\n'
+    output += `${hdr('common.statsLabel')}\n`
     output += `  ${maxStats(
       npc,
       [
-        ['H', 'Hull'],
-        ['A', 'Agi'],
-        ['S', 'Sys'],
-        ['E', 'Eng'],
+        [tr('common.haseHullShort'), 'Hull'],
+        [tr('common.haseAgilityShort'), 'Agi'],
+        [tr('common.haseSystemsShort'), 'Sys'],
+        [tr('common.haseEngineeringShort'), 'Eng'],
       ],
       true
     )}\n`
     output += `  ${maxStats(
       npc,
       [
-        ['STRUCT', 'Structure'],
-        ['ARMOR', 'Armor'],
-        ['HP', 'hp'],
+        [TR('print.statblock.structShort'), 'Structure'],
+        [TR('stats.armor'), 'Armor'],
+        [TR('stats.hp'), 'hp'],
       ],
       true
     )}\n`
     output += `  ${maxStats(
       npc,
       [
-        ['STRESS', 'Stress'],
-        ['HEATCAP', 'heatcap'],
-        ['SPD', 'Speed'],
+        [TR('stats.stress'), 'Stress'],
+        [TR('stats.heatCap'), 'heatcap'],
+        [TR('print.statblock.speedShort'), 'Speed'],
       ],
       true
     )}\n`
     output += `  ${maxStats(
       npc,
       [
-        ['SAVE', 'SaveTarget'],
-        ['EVADE', 'Evasion'],
-        ['EDEF', 'EDefense'],
+        [TR('print.statblock.save'), 'SaveTarget'],
+        [TR('ui.compendiumBrowser.evade'), 'Evasion'],
+        [TR('print.statblock.edefShort'), 'EDefense'],
       ],
       true
     )}\n`
     output += `  ${maxStats(
       npc,
       [
-        ['SENS', 'SensorRange'],
-        ['SIZE', 'Size'],
-        ['ACT', 'Activations'],
+        [TR('print.statblock.sensorsShort'), 'SensorRange'],
+        [TR('stats.size'), 'Size'],
+        [TR('print.statblock.act'), 'Activations'],
       ],
       true
     )}\n`
@@ -336,7 +343,7 @@ class Statblock {
     if (customStats.length) {
       output += `  ${customStats.map(s => `${s.title.toUpperCase()}: ${npc.StatController.getMaxWithBonuses(s.key)}`).join(' | ')}\n`
     }
-    output += '[ FEATURES ]\n  '
+    output += `${hdr('common.features')}\n  `
     output += npc.NpcFeatureController.Features.map(
       (item, index) => `${item.Name}${linebreak(index, npc.NpcFeatureController.Features.length)}`
     ).join('')
@@ -355,26 +362,26 @@ class Statblock {
       output += ` ${npc.NpcTemplateController.Templates.map(t => t.Name).join(' ')}`
     output += npcSubtitle(npc)
     output += '\n\n'
-    output += `ACTIVATIONS: ${npc.StatController.getCurrent('activations')} / ${npc.StatController.getMax('activations')}\n`
+    output += `${TR('active.customStatEditor.activations')}: ${npc.StatController.getCurrent('activations')} / ${npc.StatController.getMax('activations')}\n`
 
-    output += `STRUCT: ${npc.StatController.getCurrent('structure')} / ${npc.StatController.getMax('structure')} | ARMOR: ${npc.StatController.getMax('armor')} | HP: ${npc.StatController.getCurrent('hp')} / ${npc.StatController.getMax('hp')}\n`
-    output += `STRESS: ${npc.StatController.getCurrent('stress')} / ${npc.StatController.getMax('stress')} | HEAT: ${npc.StatController.getCurrent('heatcap')} / ${npc.StatController.getMax('heatcap')} | SPD: ${npc.StatController.getCurrent('speed')} / ${npc.StatController.getMax('speed')}\n\n`
+    output += `${TR('print.statblock.structShort')}: ${npc.StatController.getCurrent('structure')} / ${npc.StatController.getMax('structure')} | ${TR('stats.armor')}: ${npc.StatController.getMax('armor')} | ${TR('stats.hp')}: ${npc.StatController.getCurrent('hp')} / ${npc.StatController.getMax('hp')}\n`
+    output += `${TR('stats.stress')}: ${npc.StatController.getCurrent('stress')} / ${npc.StatController.getMax('stress')} | ${TR('enums.damageType.heat')}: ${npc.StatController.getCurrent('heatcap')} / ${npc.StatController.getMax('heatcap')} | ${TR('print.statblock.speedShort')}: ${npc.StatController.getCurrent('speed')} / ${npc.StatController.getMax('speed')}\n\n`
 
     output += `${maxStats(npc, [
-      ['H', 'Hull'],
-      ['A', 'Agi'],
-      ['S', 'Sys'],
-      ['E', 'Eng'],
+      [tr('common.haseHullShort'), 'Hull'],
+      [tr('common.haseAgilityShort'), 'Agi'],
+      [tr('common.haseSystemsShort'), 'Sys'],
+      [tr('common.haseEngineeringShort'), 'Eng'],
     ])}\n`
     output += `${maxStats(npc, [
-      ['SAVE', 'SaveTarget'],
-      ['EVADE', 'Evasion'],
-      ['EDEF', 'EDefense'],
+      [TR('print.statblock.save'), 'SaveTarget'],
+      [TR('ui.compendiumBrowser.evade'), 'Evasion'],
+      [TR('print.statblock.edefShort'), 'EDefense'],
     ])}\n`
     output += `${maxStats(npc, [
-      ['SENS', 'SensorRange'],
-      ['TECH_ATK', 'Tech Attack'],
-      ['SIZE', 'Size'],
+      [TR('print.statblock.sensorsShort'), 'SensorRange'],
+      [TR('pm.print.techAtk'), 'Tech Attack'],
+      [TR('stats.size'), 'Size'],
     ])} \n\n`
 
     output += this.getFeatures(npc, includeFeatures)
@@ -383,7 +390,7 @@ class Statblock {
   }
 
   private static getFeatures(npc: Unit, showFeatureDetails = false): string {
-    let output = '[ FEATURES ]\n'
+    let output = `${hdr('common.features')}\n`
     if (showFeatureDetails) {
       output += npc.NpcFeatureController.Features.map(
         item =>
@@ -401,7 +408,7 @@ class Statblock {
   private static generateNarrativeBlock(npc: Unit): string {
     let output = ''
     if (npc.NarrativeController.TextItems.length > 0) {
-      output += '[ ADDITIONAL DETAIL ]\n'
+      output += `${hdr('gm.narrative.additionalDetail')}\n`
       npc.NarrativeController.TextItems.forEach(item => {
         output += `  ${item.header || (item as any).title}\n   ${item.body.replace(
           /<[^>]*>/gi,
@@ -410,7 +417,7 @@ class Statblock {
       })
     }
     if (npc.NarrativeController.Clocks.length > 0) {
-      output += '[ CLOCKS ]\n'
+      output += `${hdr('gm.narrative.clocks')}\n`
       npc.NarrativeController.Clocks.forEach(clock => {
         output += `  ${clock.Title}: ${'▣'.repeat(clock.Progress)}${'▢'.repeat(
           clock.Segments - clock.Progress
@@ -418,7 +425,7 @@ class Statblock {
       })
     }
     if (npc.NarrativeController.Tables.length > 0) {
-      output += '[ TABLES ]\n'
+      output += `${hdr('common.tables')}\n`
       npc.NarrativeController.Tables.forEach(table => {
         output += `  ${table.Title} (${table.Mult}D${table.Die})\n`
         table.Results.forEach(result => {
@@ -433,8 +440,8 @@ class Statblock {
 function mapNpcActions(actions: Action[], tier: number): string {
   let output = ''
   actions.forEach(action => {
-    output += `\n    [ ${action.Name} - ${action.Activation} ]\n`
-    if (action.Trigger) output += `    Trigger: ${action.getTrigger(tier)}\n`
+    output += `\n    [ ${action.Name} - ${enumLabel('activationType', action.Activation)} ]\n`
+    if (action.Trigger) output += `    ${tr('common.trigger')}: ${action.getTrigger(tier)}\n`
     output += `    ${action.getDetail(tier).replace(/<[^>]*>/gi, '')}\n`
   })
   return output
@@ -446,31 +453,31 @@ function mapNpcWeaponStats(feature: NpcWeapon, tier: number): string {
   let output = ''
   if (feature.DamageData) {
     feature.Damage(tier).forEach(d => {
-      output += `${d.Value} ${d.Type}, `
+      output += `${d.Value} ${enumLabel('damageType', d.Type)}, `
     })
   }
   if (feature.RangeData) {
     feature.Range(tier).forEach(r => {
-      output += `${r.Value} ${r.Type}, `
+      output += `${r.Value} ${enumLabel('rangeType', r.Type)}, `
     })
   }
   if (feature.Accuracy && feature.Accuracy(tier)) {
-    output += `${feature.Accuracy(tier)} Accuracy `
+    output += `${tr('print.statblock.accuracyValue', { n: feature.Accuracy(tier) })} `
   }
   if (feature.AttackBonus && feature.AttackBonus(tier)) {
-    output += `${feature.AttackBonus(tier)} Attack Bonus `
+    output += `${tr('print.statblock.attackBonusValue', { n: feature.AttackBonus(tier) })} `
   }
   if (feature.Attacks && feature.Attacks[tier - 1]) {
-    output += `${feature.Attacks[tier - 1]} Attacks/Activation `
+    output += `${tr('print.statblock.attacksPerActivation', { n: feature.Attacks[tier - 1] })} `
   }
 
   const tags = feature.Tags.filter(t => !t.IsHidden).map(t => t.GetName(0, tier))
   if (tags.length) output += `\n  ${tags.join(', ')}`
 
-  output += mapNpcWeaponEffect('On Attack', feature.OnAttack, tier)
-  output += mapNpcWeaponEffect('On Hit', feature.OnHit, tier)
-  output += mapNpcWeaponEffect('On Crit', feature.OnCrit, tier)
-  output += mapNpcWeaponEffect('On Miss', feature.OnMiss, tier)
+  output += mapNpcWeaponEffect(tr('pm.print.onAttack'), feature.OnAttack, tier)
+  output += mapNpcWeaponEffect(tr('pm.print.onHit'), feature.OnHit, tier)
+  output += mapNpcWeaponEffect(tr('pm.print.onCrit'), feature.OnCrit, tier)
+  output += mapNpcWeaponEffect(tr('pm.print.onMiss'), feature.OnMiss, tier)
 
   return output
 }

@@ -49,7 +49,7 @@
             :encounter-instance="encounterInstance"
             :action="cs.ActivateAction"
             :disabled="!mech.CombatController.CorePower"
-            custom-disabled-text="Core Power Depleted"
+            :custom-disabled-text="$t('ui.corePanel.corePowerDepleted')"
             @activate="mech.CombatController.SetCore(true)"
             @reset="mech.CombatController.CoreActive = false"
           >

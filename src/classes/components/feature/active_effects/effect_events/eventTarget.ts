@@ -1,4 +1,5 @@
 import { D20RollResult } from '../../../../dice/DiceRoller'
+import { i18n } from '@/i18n'
 import { CombatantData } from '@/classes/encounter/Encounter'
 import { ActiveEffect } from '../ActiveEffect'
 import { ActiveEffectEvent } from '../ActiveEffectEvent'
@@ -136,19 +137,22 @@ class ActiveEventTarget {
   }
 
   public DamageModSummary(damageType: string, isAp: boolean, isIrreducible: boolean): string {
+    const t = i18n.global.t
     let str = ''
     if (!isIrreducible && this.Resistance(damageType) === 'immunity')
-      return `No Damage (target Immune) `
-    if (this.IsExposed) str += 'x2 (target Exposed) '
-    if (this.Resistance(damageType) === 'vulnerable') str += 'x2 (target Vulnerable) '
-    if (isIrreducible) return `${str} (Irreducible)`
+      return `${t('combat.summary.targetImmune')} `
+    if (this.IsExposed) str += `${t('combat.summary.targetExposed')} `
+    if (this.Resistance(damageType) === 'vulnerable')
+      str += `${t('combat.summary.targetVulnerable')} `
+    if (isIrreducible) return `${str} ${t('combat.summary.irreducibleTag')}`
     const armor = this.Combatant?.actor.CombatController.StatController.getCurrent('armor') || 0
     if (armor && !['heat', 'burn'].includes(damageType.toLowerCase())) {
-      if (isAp) str += `- 0 (target Armor ignored) `
-      else if (this.IsShredded) str += `- 0 (target Shredded) `
-      else str += `- ${armor} (target Armor) `
+      if (isAp) str += `- ${t('combat.summary.targetArmorIgnored')} `
+      else if (this.IsShredded) str += `- ${t('combat.summary.targetShredded')} `
+      else str += `- ${t('combat.summary.targetArmor', { armor })} `
     }
-    if (this.Resistance(damageType) === 'resistance') str += '/2 (target Resistance) '
+    if (this.Resistance(damageType) === 'resistance')
+      str += `${t('combat.summary.targetResistance')} `
     return str.trim()
   }
 

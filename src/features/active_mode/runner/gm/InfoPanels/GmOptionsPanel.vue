@@ -3,7 +3,7 @@
     <runner-options-header
       :context="encounterInstance"
       :save-key="saveUpdate"
-      autosave-tooltip="Autosave encounter data on the end of every round. Defaults to ON."
+      :autosave-tooltip="$t('active.options.autosaveEncounterTooltip')"
       @manual-save="manualSave()"
     />
     <v-divider class="my-2" />

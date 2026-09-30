@@ -3,7 +3,7 @@
     <cc-alert
       v-if="!pilot.IsLevelEdit"
       icon="mdi-alert"
-      title="warning"
+      :title="$t('common.warning')"
       color="warning"
     >
       {{ $t('pm.sheet.editingThisPilotSLevelMay') }}
@@ -12,7 +12,7 @@
     <cc-alert
       v-else
       icon="mdi-alert"
-      title="alert"
+      :title="$t('common.alert')"
       color="error"
     >
       {{ $t('pm.sheet.thisPilotSLevelHasBeen') }}

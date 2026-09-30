@@ -30,7 +30,7 @@
   })
   const headers = ref([
     { title: '', key: 'Source' },
-    { title: 'Name', key: 'Name' },
+    { title: t('common.name'), key: 'Name' },
     {
       title: t('stats.size'),
       key: 'SizeIcon',

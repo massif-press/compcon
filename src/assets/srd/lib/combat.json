@@ -224,7 +224,7 @@
               "en": "Tech Attack"
             },
             "content": {
-              "en": "<p>The attacker chooses a target within their SENSORS and line of sight, then makes a tech attack roll - rolling <strong>1d20</strong>, plus <strong>TECH ATTACK</strong> and any <strong>ACCURACY</strong> or <strong>DIFFICULTY</strong>. To hit, they must match or beat the target's <strong>E-DEFENSE</strong>. Tech attacks ignore <strong>cover</strong>.</p>"
+              "en": "<p>The attacker chooses a target within their <strong>SENSORS</strong> and line of sight, then makes a tech attack roll - rolling <strong>1d20</strong>, plus <strong>TECH ATTACK</strong> and any <strong>ACCURACY</strong> or <strong>DIFFICULTY</strong>. To hit, they must match or beat the target's <strong>E-DEFENSE</strong>. Tech attacks ignore <strong>cover</strong>.</p>"
             },
             "id": "combat_2_0_2"
           }

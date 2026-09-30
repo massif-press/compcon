@@ -24,7 +24,7 @@
   const headers = ref([
     { title: t('common.contentPack'), key: 'LcpName' },
     { title: t('common.manufacturer'), key: 'Source' },
-    { title: 'Name', key: 'Name' },
+    { title: t('common.name'), key: 'Name' },
     { title: t('common.effect'), key: 'Effect' },
   ])
   const options = ref({

@@ -1,4 +1,6 @@
 import { ActiveEffect } from './ActiveEffect'
+import { i18n } from '@/i18n'
+import { enumLabel, defenseLabel } from '@/i18n/enumLabel'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { CombatantData } from '@/classes/encounter/Encounter'
 import { Mech } from '../../../mech/Mech'
@@ -20,6 +22,7 @@ const onEventTargetCaches = new WeakMap<WeaponAttackEvent, Record<string, Active
 class WeaponAttackEvent {
   public ID: string
   public AttackActionString: string
+  public IsAdditional = false
   public Weapon: WeaponProfile | NpcWeapon | PilotWeapon
   public BaseEvent: ActiveEffectEvent
   public SubEvents: ActiveEffectEvent[] = []
@@ -130,66 +133,64 @@ class WeaponAttackEvent {
   }
 
   public get Summary(): string {
+    const t = i18n.global.t
     let str = ''
-    const isAdditional = this.AttackActionString.toLowerCase().includes('additional')
-    if (!isAdditional) str = `${this.BaseEvent.Initiator.Label}: `
+    if (!this.IsAdditional) str = `${this.BaseEvent.Initiator.Label}: `
     else str = ' ⤷ '
-    str += `${this.AttackActionString} with ${this.Weapon.Name}:\n`
-    this.BaseEvent.Targets.forEach((t, idx) => {
+    str += `${t('combat.summary.attackWith', { action: this.AttackActionString, weapon: this.Weapon.Name })}\n`
+    this.BaseEvent.Targets.forEach((tg, idx) => {
       this.BaseEvent.DamageEvents.forEach(de => {
-        const { finalDamage } = de.CalcFinalDamageValues(this.BaseEvent, t)
-        str += `   - [${t.Combatant?.Label || `Target ${idx + 1}`}]`
-        switch (this.BaseEvent.Attack && t.HitResult) {
+        const { finalDamage } = de.CalcFinalDamageValues(this.BaseEvent, tg)
+        str += `   - [${tg.Combatant?.Label || t('combat.summary.targetNumbered', { n: idx + 1 })}]`
+        switch (this.BaseEvent.Attack && tg.HitResult) {
           case 'crit':
-            str += ` ⟪Critical Hit!⟫ `
+            str += ` ⟪${t('combat.summary.criticalHit')}⟫ `
             break
           case 'hit':
-            str += ` ⟪Hit⟫ `
+            str += ` ⟪${t('common.attackHit')}⟫ `
             break
           case 'miss':
-            str += ` ⟪Miss⟫ `
+            str += ` ⟪${t('common.attackMiss')}⟫ `
             break
           default:
             break
         }
-        if (t.AttackRolledValue) {
-          str += `(${t.AttackRolledValue || t.SaveRolledValue} vs ${t.TargetDefenseValue} ${t.TargetDefense})`
-          if (t.HitResult !== 'miss') {
+        if (tg.AttackRolledValue) {
+          str += `(${t('combat.summary.rollVsDefense', { roll: tg.AttackRolledValue || tg.SaveRolledValue, value: tg.TargetDefenseValue, defense: defenseLabel(tg.TargetDefense) })})`
+          if (tg.HitResult !== 'miss') {
             str += `\n     ${de.IncomingSummary} `
-            str += `${t.DamageModSummary(de.DamageType, de.AP, de.Irreducible)}`
+            str += `${tg.DamageModSummary(de.DamageType, de.AP, de.Irreducible)}`
           }
-          str += `\n     Total Damage: ${finalDamage} ${de.DamageType}`
-          if (de.Reliable && (de.DamageRolledValue! < de.Reliable || t.HitResult === 'miss'))
-            str += ` (Reliable ${de.Reliable})`
+          str += `\n     ${t('combat.summary.totalDamage', { damage: finalDamage, type: enumLabel('damageType', de.DamageType) })}`
+          if (de.Reliable && (de.DamageRolledValue! < de.Reliable || tg.HitResult === 'miss'))
+            str += ` ${t('combat.summary.reliable', { n: de.Reliable })}`
           const totalHeat =
             (this.Weapon as WeaponProfile).HeatCost + (de.Overkill ? de.OverkillHeat : 0)
 
           if (totalHeat > 0) {
-            str += `\n     ${this.BaseEvent.Initiator.Label} takes ${totalHeat} Heat (`
             const heatSources: string[] = []
-            if ((this.Weapon as WeaponProfile).HeatCost) heatSources.push('Self')
-            if (de.Overkill) heatSources.push('Overkill')
-            str += heatSources.join(' + ')
-            str += `)`
+            if ((this.Weapon as WeaponProfile).HeatCost) heatSources.push(t('ui.combat.self'))
+            if (de.Overkill) heatSources.push(t('common.overkill'))
+            str += `\n     ${t('combat.summary.takesHeat', { actor: this.BaseEvent.Initiator.Label, heat: totalHeat, sources: heatSources.join(' + ') })}`
           }
 
-          if (routesTo(t.HitResult).onMiss && this.OnMissEvent) {
-            str += `\n       ❯ On Miss Effect\n`
+          if (routesTo(tg.HitResult).onMiss && this.OnMissEvent) {
+            str += `\n       ❯ ${t('combat.summary.onMissEffect')}\n`
             str += `          ${this.OnMissEvent.ShortSummary}`
           }
 
-          if (t.HitResult !== 'miss' && this.OnAttackEvent) {
-            str += `\n       ❯ On Attack Effect\n`
+          if (tg.HitResult !== 'miss' && this.OnAttackEvent) {
+            str += `\n       ❯ ${t('combat.summary.onAttackEffect')}\n`
             str += `          ${this.OnAttackEvent.ShortSummary}`
           }
 
-          if (routesTo(t.HitResult).onHit && this.OnHitEvent) {
-            str += `\n       ❯ On Hit Effect\n`
+          if (routesTo(tg.HitResult).onHit && this.OnHitEvent) {
+            str += `\n       ❯ ${t('combat.summary.onHitEffect')}\n`
             str += `          ${this.OnHitEvent.ShortSummary}`
           }
 
-          if (routesTo(t.HitResult).onCrit && this.OnCritEvent) {
-            str += `\n       ❯ On Crit Effect\n`
+          if (routesTo(tg.HitResult).onCrit && this.OnCritEvent) {
+            str += `\n       ❯ ${t('combat.summary.onCritEffect')}\n`
             str += `          ${this.OnCritEvent.ShortSummary}`
           }
         }
@@ -197,14 +198,14 @@ class WeaponAttackEvent {
     })
 
     if (this.SubEvents.length > 0) {
-      str += `\n       ❯ Additional Effects\n`
+      str += `\n       ❯ ${t('combat.summary.additionalEffects')}\n`
       this.SubEvents.forEach(se => {
         str += `          - ${se.ShortSummary}\n`
       })
     }
 
     if (this.ModEvents.length > 0) {
-      str += `\n       ❯ Mod Effects\n`
+      str += `\n       ❯ ${t('combat.summary.modEffects')}\n`
       this.ModEvents.forEach(me => {
         str += `          - ${me.ShortSummary}\n`
       })

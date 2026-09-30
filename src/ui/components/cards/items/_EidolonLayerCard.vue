@@ -41,7 +41,7 @@
       <cc-titled-divider
         :title="$t('common.shards')"
         color="accent"
-        :subtitle="`&emsp; New Shards: ${item.Shards.CountString}`"
+        :subtitle="`&emsp; ${$t('ui.eidolonLayer.newShards', { count: item.Shards.CountString })}`"
       />
       <cc-panel :title="$t('common.reportedAppearances')">
         <p v-html-safe="item.Shards.Detail" />

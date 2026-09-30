@@ -1,57 +1,36 @@
 <template>
-  <simple-action-list
-    v-if="simple"
+  <action-palette
     :controller="controller"
-    :quick-actions="quickPilotActions"
-    :full-actions="['act_fight', ...fullPilotActions]"
+    :actor="owner.actor"
+    :ids="ids"
     @deploy="$emit('deploy', $event)"
-  />
-  <base-actions-panel
-    v-else
-    :quick-actions="quickPilotActions"
-    :full-actions="fullPilotActions"
-    @deploy="$emit('deploy', $event)"
-    @activate="activate($event)"
   >
-    <template #before-quick>
-      <v-row dense>
-        <v-col>
-          <pilot-fight-button
-            :action="getBaseAction('act_fight')"
-            @activate="activate($event)"
-          />
-        </v-col>
-      </v-row>
-      <v-divider class="my-2" />
-    </template>
-    <template #quick-action-btn="{ action }">
+    <template #button="{ action, section }">
+      <pilot-fight-button
+        v-if="action.ID === 'act_fight'"
+        :action="action"
+        @activate="activate($event)"
+      />
       <invade-button
-        v-if="action?.ID === 'act_invade'"
+        v-else-if="action.ID === 'act_invade'"
         :action="action"
         @activate="activate($event)"
       />
       <pilot-reload-button
-        v-else-if="action?.ID === 'act_reload'"
+        v-else-if="action.ID === 'act_reload'"
         :action="action"
       />
       <targeted-action-button
-        v-else-if="action && controller.NeedsTarget(action.ID)"
+        v-else-if="section === 'quick' && controller.NeedsTarget(action.ID)"
         :action="action"
       />
-      <basic-action-button
-        v-else
-        :action="action"
-        @activate="activate($event)"
-      />
-    </template>
-    <template #full-action-btn="{ action }">
       <skill-check-button
-        v-if="action?.ID === 'act_skill_check'"
+        v-else-if="action.ID === 'act_skill_check'"
         :action="action"
         @activate="activate($event)"
       />
       <pilot-jockey-button
-        v-else-if="action?.ID === 'act_jockey'"
+        v-else-if="action.ID === 'act_jockey'"
         :action="action"
         @activate="activate($event)"
       />
@@ -61,20 +40,16 @@
         @activate="activate($event)"
       />
     </template>
-  </base-actions-panel>
+  </action-palette>
 </template>
 
 <script setup lang="ts">
-  import type { CombatantData } from '@/classes/encounter/Encounter'
   import { useEncounterContext } from '../encounterContext'
-  import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
   import { computed } from 'vue'
-  import { CompendiumStore } from '@/stores'
   import { notify } from '@/util/notify'
   import { useI18n } from 'vue-i18n'
   const { t } = useI18n()
-  import BaseActionsPanel from './BaseActionsPanel.vue'
-  import SimpleActionList from './SimpleActionList.vue'
+  import ActionPalette from './ActionPalette.vue'
   import BasicActionButton from './loadouts/action_buttons/basicActionButton.vue'
   import SkillCheckButton from './loadouts/action_buttons/skillCheckButton.vue'
   import PilotReloadButton from './loadouts/action_buttons/pilotReloadButton.vue'
@@ -83,7 +58,7 @@
   import InvadeButton from './loadouts/action_buttons/invadeButton.vue'
   import TargetedActionButton from './loadouts/action_buttons/targetedActionButton.vue'
 
-  const { owner, encounterInstance, simple } = useEncounterContext()
+  const { owner } = useEncounterContext()
 
   defineEmits<{ deploy: [event: any] }>()
 
@@ -98,11 +73,14 @@
   ]
   const fullPilotActions = ['act_skill_check', 'act_mount', 'act_disengage', 'act_jockey']
 
-  const controller = computed(() => owner.value.actor.CombatController)
-
-  function getBaseAction(actionId: string) {
-    return CompendiumStore().Actions.find((a: any) => a.ID === actionId)!
+  const ids = {
+    fullAttack: ['act_fight'],
+    quick: quickPilotActions,
+    full: fullPilotActions,
+    reactions: ['act_overwatch'],
   }
+
+  const controller = computed(() => owner.value.actor.CombatController)
 
   const NOTICES: Record<string, { ok: [string, string]; fail?: [string, string] }> = {
     act_prepare: { ok: ['active.pilotActions.preparedTitle', 'active.common.preparedText'] },

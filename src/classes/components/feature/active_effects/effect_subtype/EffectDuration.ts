@@ -1,3 +1,5 @@
+import { i18n } from '@/i18n'
+
 export enum EffectDuration {
   StartTurnSelf = 'start_turn_self',
   StartTurnTarget = 'start_turn_target',
@@ -10,24 +12,6 @@ export enum EffectDuration {
 }
 
 export const EffectDurationText = function (duration: EffectDuration): string {
-  switch (duration) {
-    case EffectDuration.StartTurnSelf:
-      return 'Start of Your Turn'
-    case EffectDuration.StartTurnTarget:
-      return "Start of Target's Turn"
-    case EffectDuration.EndTurnSelf:
-      return 'End of Your Turn'
-    case EffectDuration.EndTurnTarget:
-      return "End of Target's Turn"
-    case EffectDuration.NextTurnEndSelf:
-      return 'End of Your Next Turn'
-    case EffectDuration.NextTurnEndTarget:
-      return "End of Target's Next Turn"
-    case EffectDuration.NextTurnStartSelf:
-      return 'Start of Your Next Turn'
-    case EffectDuration.NextTurnStartTarget:
-      return "Start of Target's Next Turn"
-    default:
-      return 'the end of the Encounter'
-  }
+  const key = `enums.effectDuration.${duration}`
+  return i18n.global.t(i18n.global.te(key, 'en') ? key : 'enums.effectDuration.end_of_encounter')
 }

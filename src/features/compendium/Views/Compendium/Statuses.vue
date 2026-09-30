@@ -25,7 +25,7 @@
   const headers = ref([
     { title: t('common.contentPack'), key: 'LcpName' },
     { title: t('compendium.categoryView.icon'), key: 'Icon', sortable: false },
-    { title: 'Name', key: 'Name' },
+    { title: t('common.name'), key: 'Name' },
     { title: t('common.type'), key: 'StatusType' },
     { title: '', key: 'Terse' },
   ])

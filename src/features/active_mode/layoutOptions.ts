@@ -12,11 +12,13 @@ import type { PlayMode } from '@/classes/encounter/EncounterInstance'
 export type LabelMode = 'icon' | 'icon+text' | 'text'
 export type Density = 'compact' | 'default' | 'comfortable'
 export type TickbarMode = 'auto' | 'simple' | 'standard'
+export type ActionGrouping = 'none' | 'standard' | 'byType'
 
 export type ActiveModeLayoutOptions = {
   labels: LabelMode
   density: Density
   tickbars: TickbarMode
+  actionGrouping: ActionGrouping
   columns: boolean
   maxColumns: number
   coreStatsOnly: boolean
@@ -48,6 +50,7 @@ export const DEFAULTS: ActiveModeLayoutOptions = {
   labels: 'icon',
   density: 'default',
   tickbars: 'auto',
+  actionGrouping: 'standard',
   columns: false,
   maxColumns: 1,
   coreStatsOnly: false,
@@ -60,6 +63,7 @@ export const SIMPLE_DEFAULTS: ActiveModeLayoutOptions = {
   labels: 'icon+text',
   density: 'comfortable',
   tickbars: 'simple',
+  actionGrouping: 'none',
   maxColumns: 2,
 }
 

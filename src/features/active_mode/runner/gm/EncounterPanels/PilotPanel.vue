@@ -26,6 +26,7 @@
   <panel-base
     v-else
     :item="<ICombatant>pilot"
+    :no-actions="layout.actionGrouping === 'byType'"
   >
     <template #name-block>
       <div class="heading h2">{{ pilot.Callsign }}</div>
@@ -162,8 +163,10 @@
   import { ICombatant } from '@/classes/components/combat/ICombatant'
   import { useI18n } from 'vue-i18n'
   import TurnStateToggles from './_components/TurnStateToggles.vue'
+  import { useLayoutOptions } from '@/features/active_mode/layoutOptions'
 
   const { t } = useI18n()
+  const { layout } = useLayoutOptions()
 
   const props = defineProps<{
     combatant: CombatantData

@@ -39,6 +39,9 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import type { BrowserOptions } from '../browserContext'
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
 
   defineOptions({ name: 'BrowserGroupToggle' })
 
@@ -85,23 +88,23 @@
   function groupTooltip(i: string) {
     switch (i) {
       case 'source':
-        return 'Group by Source'
+        return t('ui.compendiumBrowser.group.source')
       case 'lcp':
-        return 'Group by LCP'
+        return t('ui.compendiumBrowser.group.lcp')
       case 'license':
-        return 'Group by License'
+        return t('ui.compendiumBrowser.group.license')
       case 'type':
-        return 'Group by Item Subtype'
+        return t('ui.compendiumBrowser.group.type')
       case 'role':
-        return 'Group by NPC Role'
+        return t('ui.compendiumBrowser.group.role')
       case 'featureType':
-        return 'Group by Feature Type'
+        return t('ui.compendiumBrowser.group.featureType')
       case 'origin':
-        return 'Group by Origin'
+        return t('ui.compendiumBrowser.group.origin')
       case 'bond':
-        return 'Group by Bond'
+        return t('ui.compendiumBrowser.group.bond')
       case 'none':
-        return 'No Grouping'
+        return t('ui.compendiumBrowser.group.none')
       default:
         return ''
     }
