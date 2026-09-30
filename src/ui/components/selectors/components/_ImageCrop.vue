@@ -6,6 +6,7 @@
         image-restriction="stencil"
         :canvas="false"
         :debounce="false"
+        :default-size="verticalOnly ? defaultSize : undefined"
         :src="src"
         style="border-radius: 20px"
         @change="change"
@@ -16,7 +17,7 @@
         color="primary"
       >
         <preview
-          :width="200"
+          :width="previewWidth"
           :height="200"
           :image="result.image"
           :coordinates="result.coordinates"
@@ -32,28 +33,40 @@
   <v-divider />
   <v-card-actions>
     <v-btn @click="$emit('hide')">{{ $t('common.dismiss') }}</v-btn>
+    <slot name="actions" />
     <v-spacer />
     <v-btn
       variant="plain"
       color="success"
       @click="set()"
     >
-      {{ $t('ui.image.setAvatar') }}
+      {{ confirmLabel || $t('ui.image.setAvatar') }}
     </v-btn>
   </v-card-actions>
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { computed, ref } from 'vue'
   import { Cropper, Preview } from 'vue-advanced-cropper'
   import 'vue-advanced-cropper/dist/style.css'
 
   defineOptions({ name: 'image-crop' })
 
-  const props = defineProps<{
-    src: string
-    imgKey?: string
-  }>()
+  const props = withDefaults(
+    defineProps<{
+      src: string
+      imgKey?: string
+      aspectRatio?: number
+      verticalOnly?: boolean
+      confirmLabel?: string
+    }>(),
+    {
+      imgKey: undefined,
+      aspectRatio: 1,
+      verticalOnly: false,
+      confirmLabel: undefined,
+    }
+  )
 
   const emit = defineEmits<{
     confirm: [payload: any]
@@ -64,9 +77,22 @@
     coordinates: null as any,
     image: null as any,
   })
-  const stencilProps = ref({
-    aspectRatio: 1,
+  const stencilProps = props.verticalOnly
+    ? {
+        handlers: { north: true, south: true },
+        lines: { north: true, south: true },
+      }
+    : { aspectRatio: props.aspectRatio }
+
+  const previewWidth = computed(() => {
+    const c = result.value.coordinates
+    return Math.round(200 * (c ? c.width / c.height : props.aspectRatio))
   })
+
+  function defaultSize({ imageSize }: { imageSize: { width: number; height: number } }) {
+    const height = Math.min(imageSize.height, imageSize.width / props.aspectRatio)
+    return { width: height * props.aspectRatio, height }
+  }
 
   function change({ coordinates, image }) {
     result.value = {

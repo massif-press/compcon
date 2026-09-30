@@ -21,6 +21,7 @@ class DoodadData extends NpcData implements IInstanceableData {
 
 class Doodad extends Npc implements ICombatant, IInstanceable {
   public InstanceID?: string
+  public OriginId: string
 
   public CombatController: CombatController
   public override ItemType: ItemType = ItemType.Doodad
@@ -33,6 +34,7 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
     super(data)
 
     this.InstanceID = data?.instanceId
+    this.OriginId = data?.originId || ''
     this.UIState = data?.ui_state || {}
 
     this._name = data?.name || i18n.global.t('classes.newDoodad')
@@ -84,6 +86,7 @@ class Doodad extends Npc implements ICombatant, IInstanceable {
       id: doodad.ID,
       instance: doodad.IsInstance || !!asInstance,
       instanceId: doodad.InstanceID,
+      originId: doodad.OriginId,
       description: doodad.Description,
       gmDescription: doodad.GmDescription,
       name: doodad.Name,

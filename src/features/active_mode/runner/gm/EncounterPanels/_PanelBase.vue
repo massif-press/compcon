@@ -23,12 +23,60 @@
         :xl="xlPanels">
         <v-row class="pr-4">
           <v-col v-if="item.PortraitController?.HasImage && !mobile && layout.showPortraits"
-            cols="auto">
-            <cc-img width="155px"
-              height="100%"
-              color="panel"
-              cover
-              :src="item.Portrait || ''" />
+            cols="auto"
+            class="d-flex flex-column">
+            <cc-dialog icon="mdi-crop"
+              color="primary"
+              :title="$t('active.panelBase.setCombatImage')"
+              :close-on-click="false"
+              major
+              max-width="90vw">
+              <template #activator="{ open }">
+                <div ref="portraitBox"
+                  class="flex-grow-1"
+                  role="button"
+                  tabindex="0"
+                  :title="$t('active.panelBase.combatImage')"
+                  :aria-label="$t('active.panelBase.combatImage')"
+                  style="position: relative; width: 155px; cursor: pointer"
+                  @click="openCombatImageCrop(open)"
+                  @keydown.enter="openCombatImageCrop(open)">
+                  <svg v-if="combatImageCrop"
+                    :viewBox="`${combatImageCrop.coordinates.left} ${combatImageCrop.coordinates.top} ${combatImageCrop.coordinates.width} ${combatImageCrop.coordinates.height}`"
+                    preserveAspectRatio="xMidYMid slice"
+                    style="position: absolute; inset: 0; width: 100%; height: 100%">
+                    <image :href="combatImageCrop.image.src"
+                      :width="combatImageCrop.image.width"
+                      :height="combatImageCrop.image.height" />
+                  </svg>
+                  <cc-img v-else
+                    width="155px"
+                    height="100%"
+                    color="panel"
+                    cover
+                    style="position: absolute; inset: 0"
+                    :src="item.Portrait || ''" />
+                </div>
+              </template>
+              <template #default="{ close }">
+                <image-crop :src="item.Portrait || ''"
+                  :aspect-ratio="combatImageAspect"
+                  vertical-only
+                  :confirm-label="$t('active.panelBase.setCombatImage')"
+                  @hide="close"
+                  @confirm="setCombatImageCrop($event, close)">
+                  <template #actions>
+                    <v-btn v-if="combatImageCrop"
+                      variant="plain"
+                      color="error"
+                      prepend-icon="mdi-cancel"
+                      @click="setCombatImageCrop(undefined, close)">
+                      {{ $t('active.panelBase.clearCombatImage') }}
+                    </v-btn>
+                  </template>
+                </image-crop>
+              </template>
+            </cc-dialog>
           </v-col>
           <v-col>
             <v-row no-gutters
@@ -235,8 +283,14 @@
 
 <script setup lang="ts">
 import { useEncounterContext } from './encounterContext'
-import { computed, markRaw } from 'vue'
+import { computed, markRaw, ref } from 'vue'
 import { useDisplay } from 'vuetify'
+import ImageCrop from '@/ui/components/selectors/components/_ImageCrop.vue'
+import { PilotStore } from '@/features/pilot_management/store'
+import { NpcStore } from '@/features/gm/store/npc_store'
+import { Mech } from '@/classes/mech/Mech'
+import { Pilot } from '@/classes/pilot/Pilot'
+import { Npc } from '@/classes/npc/Npc'
 import CCCounterSet from '@/ui/components/items/features/counters/CCCounterSet.vue'
 import DamageConditionSelector from './_components/DamageConditionSelector.vue'
 import CombatActionPanel from './_components/CombatActionPanel.vue'
@@ -265,6 +319,44 @@ const multiActivation = computed(
   () => props.item.CombatController.StatController.MaxStats['activations'] > 1
 )
 const { layout } = useLayoutOptions()
+
+const portraitBox = ref<HTMLElement>()
+const combatImageAspect = ref(155 / 232)
+
+function openCombatImageCrop(open: () => void) {
+  const box = portraitBox.value
+  if (box?.clientHeight) combatImageAspect.value = box.clientWidth / box.clientHeight
+  open()
+}
+const combatImageCropTick = ref(0)
+const combatImageCrop = computed(() => {
+  if (combatImageCropTick.value < 0) return undefined
+  const crop = props.item.PortraitController?.CombatImageCrop
+  return crop?.image?.src === props.item.Portrait ? crop : undefined
+})
+
+function rosterOrigin(): Pilot | Mech | Npc | undefined {
+  const item = props.item as unknown
+  if (item instanceof Mech) {
+    const pilot = PilotStore().getPilotByID(item.Pilot.OriginId || item.Pilot.ID) as Pilot | undefined
+    return pilot?.Mechs.find(m => m.ID === item.ID)
+  }
+  if (item instanceof Pilot) return PilotStore().getPilotByID(item.OriginId || item.ID) as Pilot | undefined
+  const originId = (item as { OriginId?: string }).OriginId
+  return originId ? (NpcStore().getNpcByID(originId) as Npc | undefined) : undefined
+}
+
+function setCombatImageCrop(crop: unknown, close?: () => void) {
+  if (!props.item.PortraitController) return
+  props.item.PortraitController.CombatImageCrop = crop
+  const origin = rosterOrigin()
+  if (origin) {
+    origin.PortraitController.CombatImageCrop = crop
+    origin.SaveController.save()
+  }
+  combatImageCropTick.value++
+  close?.()
+}
 
 const itemType = computed(() => props.item.ItemType.toLowerCase())
 const statusField = computed<'status' | 'pilotStatus' | 'mechStatus'>(() => {

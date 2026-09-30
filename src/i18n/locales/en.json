@@ -1560,6 +1560,9 @@
       "willBeReady": "will be ready to deploy."
     },
     "panelBase": {
+      "combatImage": "Combat Image",
+      "setCombatImage": "Set Combat Image",
+      "clearCombatImage": "Clear Combat Image",
       "itemDestroyed": "{type} destroyed",
       "markActivation": "Mark an activation as complete?",
       "endActivation": "End Activation",
