@@ -5,6 +5,7 @@
   />
   <v-tabs
     v-model="tab"
+    class="flex-shrink-0"
     grow
     slider-color="secondary"
     :height="mobile ? '24px' : '28px'"

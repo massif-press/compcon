@@ -18,41 +18,37 @@
           icon="cc:compendium"
           :to="'/srd'"
           :help="$t('mainMenu.desktop.compendiumHelp')"
+          :title="$t('common.compendium')"
           @hover="ccLog('compendium')"
-        >
-          {{ $t('common.compendium') }}
-        </main-btn>
+        />
         <main-btn
           icon="cc:pilot"
           :to="'/pilot_management'"
           :help="$t('mainMenu.mobile.managePilots')"
+          :title="$t('common.pilotRoster')"
           @hover="ccLog('pilot')"
-        >
-          {{ $t('common.pilotRoster') }}
-        </main-btn>
+        />
         <main-btn
           icon="cc:encounter"
           :to="'/gm'"
           :help="$t('mainMenu.desktop.gmToolkitHelp')"
+          :title="$t('common.gmToolkit')"
           @hover="ccLog('gm')"
-        >
-          {{ $t('common.gmToolkit') }}
-        </main-btn>
+        />
         <main-btn
           icon="cc:campaign"
           :to="'/active-mode'"
           :help="$t('mainMenu.desktop.activeModeHelp')"
+          :title="$t('common.activeMode')"
           @hover="ccLog('encounter')"
-        >
-          {{ $t('common.activeMode') }}
-        </main-btn>
+        />
         <main-btn
           icon="cc:content_manager"
           :help="$t('mainMenu.desktop.contentManagerHelp')"
+          :title="$t('common.contentManager')"
           @hover="ccLog('content')"
           @clicked="extraContentModal = true"
         >
-          {{ $t('common.contentManager') }}
           <v-tooltip
             v-if="hasV2Backups"
             :text="$t('mainMenu.desktop.v2ImportsAwaitingResolution')"

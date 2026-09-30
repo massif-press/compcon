@@ -225,6 +225,31 @@ a {
   white-space: nowrap !important;
 }
 
+.cc-fit-text {
+  display: inline-block;
+  max-width: var(--fit-width, 100cqw);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  font-size: min(
+    var(--fit-max, 1em),
+    calc(var(--fit-width, 100cqw) / (var(--fit-chars, 10) * var(--fit-k, 0.75)))
+  );
+}
+
+.cc-fit-text.wrap {
+  white-space: normal;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+:lang(ja) .cc-fit-text,
+:lang(zh) .cc-fit-text,
+:lang(ko) .cc-fit-text {
+  --fit-k: 1;
+}
+
 /* .v-tabs :deep(.v-slide-group__prev) {
   display: none !important;
 }

@@ -80,6 +80,18 @@
         no-gutters
         align="center"
         justify="space-around"
+        class="flex-nowrap"
+        style="container-type: inline-size; --fit-width: 80cqw; --fit-k: 0.95"
+        :style="
+          fitText(
+            [
+              $t('common.options'),
+              $t('common.about'),
+              $t('common.credits'),
+              $t('common.help'),
+            ].join(' ')
+          )
+        "
       >
         <v-col cols="auto">
           <cc-dialog
@@ -139,7 +151,9 @@
                 variant="text"
                 @click="open"
               >
-                {{ $t('common.options') }}
+                <span class="cc-fit-text">
+                  {{ $t('common.options') }}
+                </span>
               </cc-button>
             </template>
             <options-page />
@@ -162,7 +176,9 @@
                 variant="text"
                 @click="open"
               >
-                {{ $t('common.about') }}
+                <span class="cc-fit-text">
+                  {{ $t('common.about') }}
+                </span>
               </cc-button>
             </template>
             <about-page />
@@ -185,7 +201,9 @@
                 variant="text"
                 @click="open"
               >
-                {{ $t('common.credits') }}
+                <span class="cc-fit-text">
+                  {{ $t('common.credits') }}
+                </span>
               </cc-button>
             </template>
             <credits-page />
@@ -208,7 +226,9 @@
                 variant="text"
                 @click="open"
               >
-                {{ $t('common.help') }}
+                <span class="cc-fit-text">
+                  {{ $t('common.help') }}
+                </span>
               </cc-button>
             </template>
             <help-page />
@@ -222,6 +242,7 @@
 <script setup lang="ts">
   import { computed, ref } from 'vue'
   import { useDisplay } from 'vuetify'
+  import { fitText } from '@/util/fitText'
   import MobileBtn from './_components/MobileBtn.vue'
   import ExtraContent from '../nav/pages/ExtraContent/index.vue'
   import CreditsPage from '../nav/pages/Credits.vue'
