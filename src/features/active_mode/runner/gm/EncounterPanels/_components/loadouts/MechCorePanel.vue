@@ -5,26 +5,33 @@
     tile
     border
   >
-    <v-toolbar
-      density="compact"
-      height="50"
+    <v-sheet
       :color="active ? 'core' : 'panel'"
+      min-height="34"
+      class="d-flex align-center py-1"
     >
-      <span class="heading h3 px-2">
-        {{ cs.Name }}
-        <v-chip
-          v-if="active"
-          color="primary"
-          flat
-          tile
-          size="small"
-          class="ml-4 mt-n1"
-          variant="flat"
+      <div
+        class="heading h3 px-2"
+        style="flex: 1 1 0; min-width: 0; container-type: inline-size; line-height: 1.1"
+      >
+        <span
+          class="cc-fit-text wrap"
+          :style="fitText(cs.Name, 2)"
         >
-          {{ $t('pm.print.coreActive') }}
-        </v-chip>
-      </span>
-      <v-spacer />
+          {{ cs.Name }}
+        </span>
+      </div>
+      <v-chip
+        v-if="active"
+        color="primary"
+        flat
+        tile
+        size="small"
+        class="mr-2 flex-shrink-0 text-uppercase"
+        variant="flat"
+      >
+        {{ $t('pm.print.coreActive') }}
+      </v-chip>
       <v-btn
         icon
         flat
@@ -40,7 +47,7 @@
           size="20"
         />
       </v-btn>
-    </v-toolbar>
+    </v-sheet>
     <div class="pa-2">
       <v-row no-gutters>
         <v-col>
@@ -167,6 +174,7 @@
   import DeployButton from './_deployButton.vue'
   import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
   import { Mech } from '@/classes/mech/Mech'
+  import { fitText } from '@/util/fitText'
 
   const { owner, encounterInstance } = useEncounterContext()
 

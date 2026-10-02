@@ -33,7 +33,7 @@ export const PilotSheetStore = defineStore('pilot_sheet', {
       await SetItem('pilot_sheets', PilotSheet.Serialize(newSheet))
       await this.SetActiveSheet(newSheet.ID)
     },
-    async ImportPilotSheet(pilotSheet: PilotSheet): Promise<void> {
+    async ImportPilotSheet(pilotSheet: PilotSheet, activate = true): Promise<void> {
       const idx = this.PilotSheets.findIndex(x => x.ID === pilotSheet.ID)
       if (idx !== -1) {
         logger.info(`Pilot sheet ${pilotSheet.Name} already exists`)
@@ -42,12 +42,12 @@ export const PilotSheetStore = defineStore('pilot_sheet', {
         this.PilotSheets.push(pilotSheet)
       }
       await SetItem('pilot_sheets', PilotSheet.Serialize(pilotSheet))
-      await this.SetActiveSheet(pilotSheet.ID)
+      if (activate) await this.SetActiveSheet(pilotSheet.ID)
     },
     async RemovePilotSheet(pilotSheet: PilotSheet): Promise<void> {
       const idx = this.PilotSheets.findIndex(ps => ps.ID === pilotSheet.ID)
       if (idx === -1) return
-      this.PilotSheets.splice(idx)
+      this.PilotSheets.splice(idx, 1)
       await RemoveItem('pilot_sheets', pilotSheet.ID)
       if (this.CurrentActiveID === pilotSheet.ID) {
         await this.SetActiveSheet('')

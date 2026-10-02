@@ -168,8 +168,9 @@ export const PilotStore = defineStore('pilot', {
       await PilotGroupStore().SaveGroupData()
     },
     movePilotIndex(group: PilotGroup, from: number, to: number): void {
-      const item = group.Pilots.splice(from, 1)[0]
-      group.Pilots.splice(to, 0, item)
+      const pilots = [...group.Pilots]
+      pilots.splice(to, 0, pilots.splice(from, 1)[0])
+      group.Pilots = pilots
     },
     ReorderPilot(pilot: Pilot, dir: 'top' | 'up' | 'down' | 'bottom'): void {
       const group = PilotGroupStore().getGroupByPilotID(pilot.ID)

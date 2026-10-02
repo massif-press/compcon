@@ -55,6 +55,7 @@ export const UserStore = defineStore('cloud', {
     AllSyncableItems: () => SyncStore().AllSyncableItems,
     CloudOnlyItems: () => SyncStore().CloudOnlyItems,
     AllItemsToSync: () => SyncStore().AllItemsToSync,
+    SyncEligibleItems: () => SyncStore().SyncEligibleItems,
     AllRemoteItemsToSync: () => SyncStore().AllRemoteItemsToSync,
     ItemsRequiringUpdate: () => SyncStore().ItemsRequiringUpdate,
     SyncItemTypes: () => SyncStore().SyncItemTypes,

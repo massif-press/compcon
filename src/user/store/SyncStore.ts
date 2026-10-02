@@ -76,7 +76,7 @@ export const SyncStore = defineStore('sync', {
     SyncItemTypes(): string[] {
       return CloudDataStore().SyncItemTypes
     },
-    AllItemsToSync(): SyncableItem[] {
+    SyncEligibleItems(): SyncableItem[] {
       const cdStore = CloudDataStore()
       const umStore = UserMetadataStore()
       return this.AllSyncableItems.filter(x => {
@@ -90,7 +90,10 @@ export const SyncStore = defineStore('sync', {
           return !!x.CloudController.Metadata?.Updated
         }
         return cdStore.SyncItemTypes.includes(t)
-      }).filter(x => !x.CloudController.isSynced)
+      })
+    },
+    AllItemsToSync(): SyncableItem[] {
+      return this.SyncEligibleItems.filter(x => !x.CloudController.isSynced)
     },
     AllRemoteItemsToSync(): SyncableItem[] {
       const cdStore = CloudDataStore()
@@ -154,7 +157,10 @@ export const SyncStore = defineStore('sync', {
         await umStore.setUserMetadata()
       }
 
-      const items = this.AllItemsToSync
+      const items =
+        overrideTo === 'upload'
+          ? this.SyncEligibleItems.filter(x => !x.IsCloudOnly)
+          : this.AllItemsToSync
       const failures: any[] = []
 
       if (overrideTo === 'download') {
@@ -171,15 +177,15 @@ export const SyncStore = defineStore('sync', {
           }
         }
       } else if (overrideTo === 'upload') {
-        const localItems = items.filter(x => !x.IsCloudOnly)
         try {
           const batchFailures = await CloudController.BatchUpdateCloud(
-            localItems as unknown as ICloudSyncable[]
+            items as unknown as ICloudSyncable[],
+            true
           )
           failures.push(...batchFailures)
         } catch (e) {
           logger.error('AutoSync force-upload batch error:', e)
-          localItems.forEach(item => failures.push({ item, error: e }))
+          items.forEach(item => failures.push({ item, error: e }))
         }
       } else {
         const cloudOnly = items.filter(x => x.IsCloudOnly)

@@ -301,7 +301,10 @@
     loadingSync.value = false
   }
   async function runSync(override?: 'upload' | 'download') {
-    const total = UserStore().AllItemsToSync.length
+    const total =
+      override === 'upload'
+        ? UserStore().SyncEligibleItems.filter(x => !x.IsCloudOnly).length
+        : UserStore().AllItemsToSync.length
     syncing.value = true
     const failures = await UserStore().AutoSync(override)
     settingsDirty.value = false

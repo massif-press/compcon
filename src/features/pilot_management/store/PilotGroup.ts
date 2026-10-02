@@ -6,6 +6,7 @@ import { ISaveData, SaveController } from '@/classes/components/save/SaveControl
 import { ImageTag } from '@/classes/enums'
 
 export type PilotGroupData = {
+  itemType?: string
   id: string
   sortIndex: number
   save: ISaveData
@@ -94,7 +95,6 @@ class PilotGroup implements ISaveable, IPortraitContainer {
   }
 
   public set Pilots(val: PilotIndexItem[]) {
-    const now = Date.now()
     const currentIds = new Set(this._pilots.map(p => p.id))
     const newIds = new Set(val.map(p => p.id))
     for (const id of currentIds) {
@@ -128,11 +128,12 @@ class PilotGroup implements ISaveable, IPortraitContainer {
 
   public set Expanded(val: boolean) {
     this._expanded = val
-    this.Save()
+    this.SaveController.saveSilent()
   }
 
   public static Serialize = (group: PilotGroup): PilotGroupData => {
     const data = {
+      itemType: 'pilotgroup',
       id: group.ID,
       name: group.Name,
       description: group.Description,

@@ -106,7 +106,7 @@ export const CloudDataStore = defineStore('cloudData', {
       )
         return undefined
       const rawType = parts[1]
-      const id = parts[2]
+      const id = parts.slice(2).join('_')
       const normalized = normalizeItemType(rawType)
 
       const reg = getItemRegistration(normalized)

@@ -898,7 +898,7 @@
               "en": "Structure Damage"
             },
             "content": {
-              "en": "<p>When a mech is reduced to 0 HP and takes structure damage, its player (or the GM) makes a <strong>structure damage check</strong>. This represents the results of unusually powerful or accurate hits, which can disable a mech rapidly if not dealt with.</p> <p>To make a <strong>structure damage check</strong>, roll <strong>1d6 per point of structure damage</strong> marked, including the <strong>structure damage</strong> that has just been taken. Choose the lowest result and check <a href=\"/src/reference/reference?preScroll=structure_damage_table\">the structure damage chart</a> to determine the outcome. Rolling multiple 1s has particularly catastrophic consequences.</p>"
+              "en": "<p>When a mech is reduced to 0 HP and takes structure damage, its player (or the GM) makes a <strong>structure damage check</strong>. This represents the results of unusually powerful or accurate hits, which can disable a mech rapidly if not dealt with.</p> <p>To make a <strong>structure damage check</strong>, roll <strong>1d6 per point of structure damage</strong> marked, including the <strong>structure damage</strong> that has just been taken. Choose the lowest result and check <a href=\"/srd/compendium/tables\">the structure damage chart</a> to determine the outcome. Rolling multiple 1s has particularly catastrophic consequences.</p>"
             },
             "id": "combat_7_0_0"
           }
@@ -918,7 +918,7 @@
               "en": "Overheating"
             },
             "content": {
-              "en": "<p>When a mech exceeds its <strong>HEAT CAP</strong> and takes <strong>stress damage</strong>, its player (or the GM) makes an overheating check.</p> <p>To make an <strong>overheating check</strong>, roll<strong> 1d6 per point of stress damage marked</strong>, including the stress damage that has just been taken. Choose the lowest result and check <a href=\"/src/reference/reference?scrollTo=overheating_chart\">the overheating chart</a> to determine the outcome. Rolling multiple 1s has particularly catastrophic consequences.</p>"
+              "en": "<p>When a mech exceeds its <strong>HEAT CAP</strong> and takes <strong>stress damage</strong>, its player (or the GM) makes an overheating check.</p> <p>To make an <strong>overheating check</strong>, roll<strong> 1d6 per point of stress damage marked</strong>, including the stress damage that has just been taken. Choose the lowest result and check <a href=\"/srd/compendium/tables\">the overheating chart</a> to determine the outcome. Rolling multiple 1s has particularly catastrophic consequences.</p>"
             },
             "id": "combat_7_1_0"
           },
@@ -1031,7 +1031,7 @@
                   "en": "Quirks"
                 },
                 "content": {
-                  "en": "<p>Quirks can be physical or mental in nature, but they're always complicating. Whatever they are, they should offer story hooks or create interesting narrative situations - they don't have significant gameplay effects.</p> <p>Optionally, quirks might also be given to characters who go <strong>DOWN AND OUT</strong> - representing the lingering trauma of such a close encounter with death - or to characters who have died and been brought back to life by the GM's discretion or a twist in the narrative.</p> <p>If you want to roll for a random quirk, you can roll <strong>1d20</strong> or choose from <a href=\"/src/reference/reference/quirks\">the Quirks chart</a>. You can use these as examples for designing quirks of your own if you want to decide on a custom quirk with your GM.</p>"
+                  "en": "<p>Quirks can be physical or mental in nature, but they're always complicating. Whatever they are, they should offer story hooks or create interesting narrative situations - they don't have significant gameplay effects.</p> <p>Optionally, quirks might also be given to characters who go <strong>DOWN AND OUT</strong> - representing the lingering trauma of such a close encounter with death - or to characters who have died and been brought back to life by the GM's discretion or a twist in the narrative.</p> <p>If you want to roll for a random quirk, you can roll <strong>1d20</strong> or choose from the Quirks chart. You can use these as examples for designing quirks of your own if you want to decide on a custom quirk with your GM.</p>"
                 },
                 "id": "combat_7_3_0_1"
               }

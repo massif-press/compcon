@@ -1,4 +1,4 @@
-import { downloadFromS3, updateItem, uploadToS3 } from '@/io/apis/account'
+import { downloadFromS3, getUploadPresigns, updateItem, uploadToS3 } from '@/io/apis/account'
 import { dbItemMeta } from './CloudController'
 import { UserStore } from '@/user/store'
 import { PilotStore } from '@/features/pilot_management/store'
@@ -34,15 +34,14 @@ const generateCloudArchive = async (
 export const PostCloudArchive = async (source: 'Automatic' | 'Manual') => {
   const { meta, archiveBody } = await generateCloudArchive(source)
 
+  const upload = (await getUploadPresigns([meta.uri]))[meta.uri]
+  if (!upload) throw new Error('No presign returned.')
+  if (!(await uploadToS3(archiveBody, upload))) throw new Error('Archive upload failed.')
+
   const res = await updateItem(meta)
-  if (res.presign?.upload) {
-    const uploadResult = await uploadToS3(archiveBody, res.presign.upload)
-    UserStore().addCloudNotification(`Archive ${new Date().toLocaleString()} uploaded to cloud.`)
-    if (res.data) UserStore().setCloudDataItem(res.data)
-    return uploadResult
-  } else {
-    throw new Error('No presign returned.')
-  }
+  UserStore().addCloudNotification(`Archive ${new Date().toLocaleString()} uploaded to cloud.`)
+  if (res.data) UserStore().setCloudDataItem(res.data)
+  return true
 }
 
 export const DownloadCloudArchive = async (uri: string) => {

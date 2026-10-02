@@ -543,7 +543,7 @@
       "willDowngradeTo": "It will be downgraded to {version}"
     },
     "packsDirectory": {
-      "officialContent": "Official",
+      "officialContentHeading": "Official {publisher} Content",
       "massifPress": "MASSIF PRESS",
       "communityContent": "@:{'common.gameName'} Community Content",
       "communityContentTitle": "@:{'common.gameName'} Community Content Packs",

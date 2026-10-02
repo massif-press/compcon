@@ -398,7 +398,7 @@ class UserProfile {
     logger.level = profile._logLevel as any
     profile._storageWarning = data.storage_warning || 40
     profile._storageMax = data.storage_max || 60
-    profile._autoDeleteDays = data.auto_delete_days || 30
+    profile._autoDeleteDays = data.auto_delete_days ?? 30
     profile.latest_change = data.latest_change || Date.now()
     profile.LcpSubscriptions = data.lcp_subscriptions || []
     profile.LcpConfigs = data.lcp_configs || []

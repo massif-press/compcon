@@ -26,11 +26,13 @@ class SaveController {
   public RemoteAuthor = ''
   public RemoteCollection = ''
 
+  private readonly write: () => void
+
   public constructor(parent: ISaveable) {
     this.Parent = parent
     this.DeleteTime = 0
 
-    this.save = _.throttle(this._save, 1500).bind(this)
+    this.write = _.throttle(this.writeNow.bind(this), 1500)
   }
 
   public static NewSaveData(): ISaveData {
@@ -53,10 +55,6 @@ class SaveController {
       )
     }
 
-    this._save(silent)
-  }
-
-  private async _save(silent = false) {
     // instance entities (encounter NPCs) live in encounter data and must never
     // write themselves to their own storage type independently.
     if ((this.Parent as any).IsInstance) return
@@ -66,6 +64,10 @@ class SaveController {
       this.LastModified = new Date().getTime()
     }
 
+    this.write()
+  }
+
+  private writeNow() {
     SetItem(this.Parent.StorageType, this.Parent.Serialize())
   }
 
@@ -124,10 +126,6 @@ class SaveController {
     this.RemoteAuthor = author
     this.RemoteCollection = collection
     this.LastModified = item_modified
-  }
-
-  public SetRemoteCollection(collection) {
-    this.RemoteCollection = collection
   }
 
   public ClearRemote() {

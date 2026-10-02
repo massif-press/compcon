@@ -17,7 +17,7 @@ import { CloudController } from './CloudController'
 import type { dbItemMeta } from './CloudTypes'
 
 class CloudSyncOrchestrator {
-  public static async BatchUpdateCloud(items: ICloudSyncable[]): Promise<any[]> {
+  public static async BatchUpdateCloud(items: ICloudSyncable[], force = false): Promise<any[]> {
     const UPLOAD_CONCURRENCY = 5
     const BATCH_SIZE = 5
 
@@ -25,7 +25,7 @@ class CloudSyncOrchestrator {
     const failures: any[] = []
 
     for (const item of items) {
-      if (item.CloudController._lastContentHash && item.CloudController.isSynced) {
+      if (!force && item.CloudController._lastContentHash && item.CloudController.isSynced) {
         logger.info(`BatchUpdateCloud: skipping synced item ${item.Name}`)
         continue
       }
@@ -50,7 +50,7 @@ class CloudSyncOrchestrator {
         continue
       }
 
-      if (!item.CloudController._lastFieldHashes) {
+      if (!force && !item.CloudController._lastFieldHashes) {
         const hasPriorSync = Object.keys(item.CloudController._fieldTs).length > 0
         const hasServerRecord = !!item.CloudController.Metadata?.Updated
         if (hasPriorSync || hasServerRecord) {
@@ -65,7 +65,7 @@ class CloudSyncOrchestrator {
         }
       }
 
-      const prepared = CloudController.prepareUpload(item)
+      const prepared = CloudController.prepareUpload(item, force, force)
       if (!prepared) {
         if (item.CloudController.serverVersionChanged && !toRaw(item).SaveController?.IsDeleted) {
           try {
@@ -295,8 +295,9 @@ class CloudSyncOrchestrator {
       newItem.CloudController.Metadata = { ...originalMeta }
       if (originalMeta.item_modified) {
         newItem.SaveController.LastModified = originalMeta.item_modified
-        newItem.CloudController._lastContentHash = CloudController.computeContentHash(data)
-        newItem.CloudController._lastFieldHashes = buildFieldHashMap(data)
+        const savedata = toRaw(newItem).Serialize(false)
+        newItem.CloudController._lastContentHash = CloudController.computeContentHash(savedata)
+        newItem.CloudController._lastFieldHashes = buildFieldHashMap(savedata)
         newItem.CloudController._fieldTs = data._ts ?? {}
         newItem.CloudController._lastUploadedItemModified = originalMeta.item_modified
         newItem.CloudController._lastSyncedUpdated = originalMeta.updated ?? 0
@@ -311,7 +312,7 @@ class CloudSyncOrchestrator {
     }
   }
 
-  public static async ForceUpload(item: ICloudSyncable): Promise<void> {
+  public static async ForceUpload(item: ICloudSyncable, authoritative = false): Promise<void> {
     if ((item.SaveController as any)?.IsRemote) return
     if (UserStore().CloudStorageFull) throw new Error('Cloud storage full! Unable to sync.')
 
@@ -320,7 +321,7 @@ class CloudSyncOrchestrator {
       return
     }
 
-    await item.CloudController.UpdateCloud()
+    await item.CloudController.UpdateCloud('item', true, authoritative)
   }
 
   public static ImageMetadata(filename: string, fileExt: string, size: number): any {

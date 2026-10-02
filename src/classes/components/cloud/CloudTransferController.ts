@@ -13,7 +13,11 @@ import { normalizeItemType } from './ItemTypeMap'
 import {
   mergeFields,
   stampChangedFields,
+  toServerTime,
   buildFieldHashMap,
+  derivedKeysFor,
+  FORCED_KEY,
+  HASH_FORMAT_KEY,
   type FieldTimestamps,
   type FieldHashMap,
 } from './fieldMerge'
@@ -43,12 +47,13 @@ class CloudTransferController {
     })
   }
 
-  private static sortKeys(obj: any): any {
-    if (Array.isArray(obj)) return obj.map(v => CloudTransferController.sortKeys(v))
+  private static sortKeys(obj: any, skip: Set<string>): any {
+    if (Array.isArray(obj)) return obj.map(v => CloudTransferController.sortKeys(v, skip))
     if (obj !== null && typeof obj === 'object') {
       const sorted: Record<string, any> = {}
       for (const key of Object.keys(obj).sort()) {
-        sorted[key] = CloudTransferController.sortKeys(obj[key])
+        if (skip.has(key)) continue
+        sorted[key] = CloudTransferController.sortKeys(obj[key], skip)
       }
       return sorted
     }
@@ -61,7 +66,9 @@ class CloudTransferController {
       const { _ts, cloud, save, ...rest } = target
       target = rest
     }
-    const str = CloudTransferController.stringifySafe(CloudTransferController.sortKeys(target))
+    const str = CloudTransferController.stringifySafe(
+      CloudTransferController.sortKeys(target, derivedKeysFor(data))
+    )
     let hash = 5381
     for (let i = 0; i < str.length; i++) {
       hash = (((hash << 5) + hash) ^ str.charCodeAt(i)) >>> 0
@@ -70,19 +77,22 @@ class CloudTransferController {
   }
 
   public static prepareUpload(
-    cc: CloudController
+    cc: CloudController,
+    force = false,
+    authoritative = false
   ): { savedata: any; newTs: FieldTimestamps; hash: string } | null {
     const rawItem = toRaw(cc.Parent)
     const savedata = rawItem.Serialize(false)
-    const newTs = stampChangedFields(
+    const stamped = stampChangedFields(
       savedata,
       cc.TransferController._lastFieldHashes,
       cc.TransferController._fieldTs,
       rawItem.SaveController.LastModified
     )
+    const newTs = authoritative ? { ...stamped, [FORCED_KEY]: toServerTime(Date.now()) } : stamped
     ;(savedata as any)._ts = newTs
     const hash = CloudTransferController.computeContentHash(savedata)
-    if (cc.TransferController._lastContentHash && cc.TransferController._lastContentHash === hash) {
+    if (!force && cc.TransferController._lastContentHash === hash) {
       return null
     }
     return { savedata, newTs, hash }
@@ -102,7 +112,6 @@ class CloudTransferController {
     cc.TransferController._lastSyncedUpdated = cc.Metadata.Updated ?? 0
     const _sc = toRaw(cc.Parent).SaveController
     cc._lastUploadedItemModified = _sc.LastModified || _sc.Created
-    CloudTransferController.pruneOldFieldTimestamps(cc)
     cc.Parent.SaveController.saveSilent()
   }
 
@@ -112,15 +121,16 @@ class CloudTransferController {
     'pilotsheet',
   ])
 
-  private static pruneOldFieldTimestamps(cc: CloudController): void {
-    const cutoff = Date.now() - 30 * 24 * 60 * 60 * 1000
-    cc.TransferController._fieldTs = Object.fromEntries(
-      Object.entries(cc.TransferController._fieldTs).filter(([, v]) => v >= cutoff)
-    )
-  }
+  public static readonly OpenItems = new Set<string>()
 
-  public async UpdateCloud(scope = 'item'): Promise<any> {
-    const prepared = CloudTransferController.prepareUpload(this.cc)
+  public async UpdateCloud(scope = 'item', force = false, authoritative = false): Promise<any> {
+    const sc = toRaw(this.cc.Parent).SaveController
+    const pendingDelete = !!sc?.IsDeleted && !this.cc.Metadata?.Deleted
+    const prepared = CloudTransferController.prepareUpload(
+      this.cc,
+      force || pendingDelete,
+      authoritative
+    )
     if (!prepared) {
       logger.info('CloudController: content unchanged (hash match), skipping upload')
       const _sc0 = toRaw(this.cc.Parent).SaveController
@@ -185,16 +195,21 @@ class CloudTransferController {
       logger.warn(
         `CloudController.syncFromCloud: no remote data for ${this.cc.Parent.Name}, uploading local`
       )
-      await this.UpdateCloud()
+      await this.UpdateCloud('item', true)
       return
     }
 
-    if (CloudTransferController.ITEM_LEVEL_SYNC_TYPES.has(itemType)) {
-      const localModified =
-        this.cc.Parent.SaveController.LastModified || this.cc.Parent.SaveController.Created
-      const remoteModified = remoteData.item_modified ?? 0
+    const sc = this.cc.Parent.SaveController
+    const remoteForced: number = remoteData._ts?.[FORCED_KEY] ?? 0
+    const replaced =
+      remoteForced > Math.max(this._fieldTs[FORCED_KEY] ?? 0, toServerTime(sc.LastModified))
 
-      if (remoteModified > localModified) {
+    if (CloudTransferController.ITEM_LEVEL_SYNC_TYPES.has(itemType)) {
+      const localModified = sc.LastModified || sc.Created
+      const remoteModified = remoteData.save?.lastModified ?? 0
+
+      if (remoteModified > localModified || replaced) {
+        if (CloudTransferController.OpenItems.has(this.cc.Parent.ID)) return
         const newItem = CloudSyncOrchestrator.NewByType(itemType, remoteData)
         toRaw(newItem).SaveController.LastModified = remoteModified
         newItem.CloudController.Metadata = {
@@ -202,21 +217,24 @@ class CloudTransferController {
           item_modified: remoteModified,
         }
         newItem.CloudController.TransferController._lastContentHash =
-          CloudTransferController.computeContentHash(remoteData)
+          CloudTransferController.computeContentHash(toRaw(newItem).Serialize(false))
         newItem.CloudController._lastUploadedItemModified = remoteModified
         newItem.CloudController._lastSyncedUpdated = this.cc.Metadata.Updated ?? 0
+        if (remoteForced) newItem.CloudController._fieldTs = { [FORCED_KEY]: remoteForced }
         await CloudSyncOrchestrator.AddByType(itemType, newItem)
         toRaw(newItem).SaveController.saveSilent()
       } else {
         const localData = toRaw(this.cc.Parent).Serialize(false)
         const localHash = CloudTransferController.computeContentHash(localData)
         const remoteHash = CloudTransferController.computeContentHash(remoteData)
-        if (localHash !== remoteHash) {
-          await this.UpdateCloud()
-        } else {
+        const sameVersion = remoteModified === localModified && localHash === this._lastContentHash
+        if (localHash === remoteHash || sameVersion) {
           this._lastContentHash = localHash
           this.cc._lastUploadedItemModified = localModified
           this._lastSyncedUpdated = this.cc.Metadata.Updated ?? 0
+          toRaw(this.cc.Parent).SaveController.saveSilent()
+        } else {
+          await this.UpdateCloud('item', true)
         }
       }
       return
@@ -224,19 +242,22 @@ class CloudTransferController {
 
     const localData = toRaw(this.cc.Parent).Serialize(false)
 
-    const localBase = this.cc.Parent.SaveController.LastModified
+    const localBase = sc.LastModified
+    const edited = !replaced && this.cc._lastUploadedItemModified < (localBase || sc.Created)
+    const hashes = replaced ? null : this._lastFieldHashes
     let localTs: FieldTimestamps
-    if (this._lastFieldHashes !== null) {
-      localTs = stampChangedFields(localData, this._lastFieldHashes, this._fieldTs, localBase)
+    if (hashes && (edited || HASH_FORMAT_KEY in hashes)) {
+      localTs = stampChangedFields(localData, hashes, this._fieldTs, localBase)
     } else {
       localTs = { ...this._fieldTs }
-      for (const key of Object.keys(localData)) {
+      for (const key of edited ? Object.keys(localData) : []) {
         if (key === '_ts' || key in localTs) continue
         localTs[key] = localBase
       }
     }
     ;(localData as any)._ts = localTs
 
+    remoteData.itemType ??= (localData as any).itemType
     const merged = mergeFields(localData, remoteData)
 
     if (merged?.save) {
@@ -246,19 +267,20 @@ class CloudTransferController {
     }
 
     const remoteHash = CloudTransferController.computeContentHash(remoteData)
+    const mergedHash = CloudTransferController.computeContentHash(merged)
 
     const newItem = CloudSyncOrchestrator.NewByType(itemType, merged)
     const originalMeta = { ...this.cc.Metadata.raw }
-    newItem.CloudController.TransferController._lastFieldHashes = buildFieldHashMap(merged)
+    const savedata = toRaw(newItem).Serialize(false)
+    newItem.CloudController.TransferController._lastFieldHashes = buildFieldHashMap(savedata)
     newItem.CloudController.TransferController._fieldTs = merged._ts ?? {}
-
-    const mergedHash = CloudTransferController.computeContentHash(toRaw(newItem).Serialize(false))
 
     if (mergedHash === remoteHash) {
       const serverItemModified = originalMeta.item_modified ?? 0
       toRaw(newItem).SaveController.LastModified = serverItemModified
       newItem.CloudController.Metadata = originalMeta
-      newItem.CloudController.TransferController._lastContentHash = remoteHash
+      newItem.CloudController.TransferController._lastContentHash =
+        CloudTransferController.computeContentHash(savedata)
       newItem.CloudController._lastUploadedItemModified = serverItemModified
       newItem.CloudController._lastSyncedUpdated = originalMeta.updated ?? 0
       await CloudSyncOrchestrator.AddByType(itemType, newItem)
@@ -269,7 +291,7 @@ class CloudTransferController {
       newItem.CloudController.Metadata = { ...originalMeta, item_modified: mergeTime }
       await CloudSyncOrchestrator.AddByType(itemType, newItem)
       toRaw(newItem).SaveController.saveSilent()
-      await newItem.CloudController.TransferController.UpdateCloud()
+      await newItem.CloudController.TransferController.UpdateCloud('item', true)
     }
   }
 

@@ -73,11 +73,9 @@ export class UserMetadata {
     this.Username = data.username
     this.CreatedAt = data.created_at
     this.UpdatedAt = data.updated_at
-    if (!data.sync_settings) this.SyncSettings = DefaultSyncSettings
-    else this.SyncSettings = data.sync_settings
-    if (!data.collection_subscription_settings)
-      this.CollectionSubscriptionSettings = DefaultCollectionSettings
-    else this.CollectionSubscriptionSettings = data.collection_subscription_settings
+    this.SyncSettings = data.sync_settings ?? structuredClone(DefaultSyncSettings)
+    this.CollectionSubscriptionSettings =
+      data.collection_subscription_settings ?? structuredClone(DefaultCollectionSettings)
     this.UserSettingData = data.user_setting_data
     this.RemoteItems = data.remote_items || []
     this.V2CloudImportStatus = data.v2_cloud_import_status || 'none'

@@ -6,6 +6,8 @@ import { Mech } from '@/classes/mech/Mech'
 import { Unit } from '@/classes/npc/unit/Unit'
 import { CompendiumStore } from '@/features/compendium/store'
 import type { Frame } from '@/classes/mech/components/frame/Frame'
+import { toRaw } from 'vue'
+import { CloudController } from '@/classes/components/cloud/CloudController'
 
 export function makeRange(overrides: Partial<IRangeData> = {}): Range {
   return Range.Deserialize({
@@ -46,4 +48,22 @@ export function makeNpc(name = 'Test NPC'): Unit {
   const u = new Unit()
   u.Name = name
   return u
+}
+
+export function markSynced<T extends { CloudController: CloudController }>(
+  item: T,
+  lastModified = 100,
+  updated = 500
+): T {
+  const raw = toRaw(item) as any
+  raw.SaveController.LastModified = lastModified
+  const savedata = raw.Serialize(false)
+  CloudController.commitUpload(
+    item.CloudController,
+    savedata,
+    {},
+    CloudController.computeContentHash(savedata),
+    { ...item.CloudController.Metadata.raw, updated, item_modified: lastModified }
+  )
+  return item
 }

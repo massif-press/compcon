@@ -170,7 +170,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed, provide } from 'vue'
+  import { ref, computed, provide, watchEffect } from 'vue'
   import { useDisplay } from 'vuetify'
   import { useRoute, onBeforeRouteLeave } from 'vue-router'
   import { PilotSheetStore } from '@/stores'
@@ -182,6 +182,7 @@
   import RollableTableIndex from '../gm/_components/RollableTableIndex.vue'
   import GmDiceRoller from '../gm/_components/GmDiceRoller.vue'
   import { Pilot } from '@/classes/pilot/Pilot'
+  import { CloudTransferController } from '@/classes/components/cloud/CloudTransferController'
   import GmToolPalette from '../gm/_components/GmToolPalette.vue'
   import PcPanel from '../gm/EncounterPanels/PcPanel.vue'
   import NotesPanel from './_components/PcNotesPanel.vue'
@@ -221,6 +222,12 @@
     )
   )
   const sheetID = computed(() => (sheet.value ? sheet.value.ID : 0))
+  watchEffect(onCleanup => {
+    const id = sheet.value?.ID
+    if (!id) return
+    CloudTransferController.OpenItems.add(id)
+    onCleanup(() => CloudTransferController.OpenItems.delete(id))
+  })
   provide(
     LayoutModeKey,
     computed(() => sheet.value?.PlayMode ?? 'full')

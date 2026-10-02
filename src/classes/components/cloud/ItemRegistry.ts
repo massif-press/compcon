@@ -134,7 +134,7 @@ const _registry = new Map<string, ItemRegistration>([
     'pilotsheet',
     {
       construct: data => PilotSheet.Deserialize(data),
-      add: item => PilotSheetStore().ImportPilotSheet(item as PilotSheet),
+      add: item => PilotSheetStore().ImportPilotSheet(item as PilotSheet, false),
       deleteLocal: item => PilotSheetStore().RemovePilotSheet(item as PilotSheet),
       getAll: () => PilotSheetStore().PilotSheets,
     },

@@ -7,10 +7,23 @@ import { SaveController } from '@/classes/components/save/SaveController'
 import { GetAll } from '@/io/Storage'
 import * as _ from 'lodash-es'
 import { ICloudData } from '@/classes/components/cloud/CloudTypes'
+import { HASH_FORMAT_KEY } from '@/classes/components/cloud/fieldMerge'
 
 function moveItemInArray<T>(array: T[], from: number, to: number): void {
   const item = array.splice(from, 1)[0]
   array.splice(to, 0, item)
+}
+
+function applyGroupOrder(visual: PilotGroup[], rest: PilotGroup[]): PilotGroup[] {
+  visual.forEach((group, idx) => {
+    if (group.SortIndex === idx) return
+    group.SortIndex = idx
+    group.SaveController.markModified()
+  })
+  rest.forEach((group, idx) => {
+    group.SortIndex = visual.length + idx
+  })
+  return [...visual, ...rest]
 }
 
 export const PilotGroupStore = defineStore('pilot_group', {
@@ -40,6 +53,10 @@ export const PilotGroupStore = defineStore('pilot_group', {
     async LoadGroups(): Promise<void> {
       const pilotGroupData = await GetAll('pilot_groups')
       this.PilotGroups = pilotGroupData.map(x => PilotGroup.Deserialize(x))
+      this.PilotGroups.forEach(group => {
+        const hashes = group.CloudController._lastFieldHashes
+        if (hashes && !(HASH_FORMAT_KEY in hashes)) group.SaveController.markModified()
+      })
 
       if (!this.PilotGroups.some(x => x.ID === 'no_group')) {
         this.PilotGroups.push(
@@ -101,6 +118,8 @@ export const PilotGroupStore = defineStore('pilot_group', {
       if (existing !== -1) {
         this.PilotGroups.splice(existing, 1, group)
       } else {
+        if (group.SortIndex < 0)
+          group.SortIndex = Math.min(0, ...this.PilotGroups.map(g => g.SortIndex)) - 1
         this.PilotGroups.unshift(group)
       }
       await this.SaveGroupData()
@@ -136,9 +155,6 @@ export const PilotGroupStore = defineStore('pilot_group', {
       await RemoveItem('pilot_groups', group.ID)
     },
     async SaveGroupData(): Promise<void> {
-      this.PilotGroups.forEach((group, idx) => {
-        group.SortIndex = idx
-      })
       await saveAll(
         'pilot_groups',
         this.PilotGroups,
@@ -157,18 +173,13 @@ export const PilotGroupStore = defineStore('pilot_group', {
         }
       }
 
-      if (
-        destinationIndex > -1 &&
-        !this.PilotGroups[destinationIndex].Pilots.some(x => x.id === p.ID)
-      ) {
-        this.PilotGroups[destinationIndex].Pilots.push({ id: p.ID, index: -1 })
+      const destination = this.PilotGroups[destinationIndex]
+      if (destination && !destination.Pilots.some(x => x.id === p.ID)) {
+        destination.Pilots = [...destination.Pilots, { id: p.ID, index: -1 }]
       }
 
       p.SaveController.save()
       await this.SaveGroupData()
-    },
-    moveGroupIndex(from: number, to: number): void {
-      moveItemInArray(this.PilotGroups, from, to)
     },
     ReorderGroup(group: PilotGroup, dir: 'top' | 'up' | 'down' | 'bottom'): void {
       const visual = this.PilotGroups.filter(
@@ -183,7 +194,7 @@ export const PilotGroupStore = defineStore('pilot_group', {
         moveItemInArray(visual, index, index + 1)
       else if (dir === 'bottom') moveItemInArray(visual, index, visual.length - 1)
       else return
-      this.PilotGroups = [...visual, ...rest]
+      this.PilotGroups = applyGroupOrder(visual as PilotGroup[], rest as PilotGroup[])
       this.SaveGroupData()
     },
     ReorderGroupByIndex(group: PilotGroup, toIndex: number): void {
@@ -194,7 +205,7 @@ export const PilotGroupStore = defineStore('pilot_group', {
       const fromIndex = visual.findIndex(x => x.ID === group.ID)
       if (fromIndex === -1) return
       moveItemInArray(visual, fromIndex, toIndex)
-      this.PilotGroups = [...visual, ...rest]
+      this.PilotGroups = applyGroupOrder(visual as PilotGroup[], rest as PilotGroup[])
       this.SaveGroupData()
     },
   },

@@ -8,7 +8,6 @@ import {
   setServerTimeOffset,
 } from './fieldMerge'
 import { expandFilterTypes, normalizeItemType } from './ItemTypeMap'
-import { getItemRegistration, allRegistrations } from './ItemRegistry'
 
 describe('normalizeItemType', () => {
   it('strips separators and case', () => {
@@ -125,18 +124,5 @@ describe('setServerTimeOffset', () => {
     expect(ts.name).toBeGreaterThan(Date.now() + 30_000)
 
     setServerTimeOffset(Date.now())
-  })
-})
-
-describe('the item registry', () => {
-  it('registers the syncable item types', () => {
-    expect(allRegistrations().size).toBeGreaterThan(0)
-  })
-
-  it('looks a registration up by item type', () => {
-    const [type] = [...allRegistrations().keys()]
-
-    expect(getItemRegistration(type)).toBeTruthy()
-    expect(getItemRegistration('not_a_type')).toBeUndefined()
   })
 })

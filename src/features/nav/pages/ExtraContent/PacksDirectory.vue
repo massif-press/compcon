@@ -4,16 +4,21 @@
       class="packsList"
       style="min-height: 300px"
     >
-      <div class="heading h2 text-stark mt-3 px-2">
-        {{ $t('nav.packsDirectory.officialContent') }}
-        <a
-          href="https://massifpress.com/shop"
-          target="_blank"
-        >
-          {{ $t('nav.packsDirectory.massifPress') }}
-        </a>
-        {{ $t('common.contentLabel') }}
-      </div>
+      <i18n-t
+        keypath="nav.packsDirectory.officialContentHeading"
+        tag="div"
+        scope="global"
+        class="heading h2 text-stark mt-3 px-2"
+      >
+        <template #publisher>
+          <a
+            href="https://massifpress.com/shop"
+            target="_blank"
+          >
+            {{ $t('nav.packsDirectory.massifPress') }}
+          </a>
+        </template>
+      </i18n-t>
       <massif-lcp-table
         :packs="massifPacks"
         :loading="loading"

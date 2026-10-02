@@ -68,6 +68,18 @@ describe('SaveController.save', () => {
     expect(SetItem).toHaveBeenCalled()
   })
 
+  it('keeps an edit stamp when a silent save follows inside the throttle window', () => {
+    save().save()
+    vi.advanceTimersByTime(100)
+    save().save()
+    const edited = Date.now()
+    vi.advanceTimersByTime(100)
+    save().saveSilent()
+    vi.advanceTimersByTime(2000)
+
+    expect(save().LastModified).toBe(edited)
+  })
+
   it('never writes an encounter instance to its own storage', () => {
     ;(pilot as any).IsInstance = true
     save().save()
@@ -112,6 +124,35 @@ describe('SaveController.SetRemote', () => {
     expect(save().RemoteAuthor).toBe('author')
     expect(save().RemoteCollection).toBe('collection')
     expect(save().LastModified).toBe(1700000000000)
+  })
+})
+
+describe('SaveController remote copies', () => {
+  it('clears the share link', () => {
+    save().SetRemote('TEST1', 'Test Author', 'Test Collection')
+    save().ClearRemote()
+
+    expect(save().IsRemote).toBe(false)
+    expect(save().RemoteAuthor).toBe('')
+    expect(SetItem).toHaveBeenCalled()
+  })
+
+  it('deletes a remote copy outright instead of flagging it', async () => {
+    const { RemoteItemStore } = await import('@/user/store/RemoteItemStore')
+    const { PilotStore } = await import('@/features/pilot_management/store')
+    const untrack = vi.spyOn(RemoteItemStore(), 'deleteRemoteItem').mockImplementation(() => {})
+    const remove = vi.spyOn(PilotStore(), 'DeletePilotPermanent').mockResolvedValue()
+    pilot.CloudController.Metadata.Code = 'TEST1'
+    save().SetRemote('TEST1')
+
+    save().Delete()
+    await vi.dynamicImportSettled()
+    await vi.waitUntil(() => remove.mock.calls.length > 0, { interval: 0 })
+
+    expect(save().DeleteTime).toBe(0)
+    expect(untrack).toHaveBeenCalledWith('TEST1')
+    expect(pilot.CloudController.Metadata.Code).toBe('')
+    expect(remove).toHaveBeenCalledWith(pilot)
   })
 })
 

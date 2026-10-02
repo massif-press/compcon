@@ -204,12 +204,22 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, provide } from 'vue'
+  import {
+    ref,
+    computed,
+    watch,
+    watchEffect,
+    onMounted,
+    onBeforeUnmount,
+    nextTick,
+    provide,
+  } from 'vue'
   import { useDisplay } from 'vuetify'
   import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router'
   import { useI18n } from 'vue-i18n'
   import { orderBy } from 'lodash-es'
   import { EncounterInstance, IEncounterInstanceData } from '@/classes/encounter/EncounterInstance'
+  import { CloudTransferController } from '@/classes/components/cloud/CloudTransferController'
   import {
     undo as undoStack,
     redo as redoStack,
@@ -285,6 +295,12 @@
     )
   )
   const instanceID = computed(() => instance.value?.ID ?? undefined)
+  watchEffect(onCleanup => {
+    const id = instanceID.value
+    if (!id) return
+    CloudTransferController.OpenItems.add(id)
+    onCleanup(() => CloudTransferController.OpenItems.delete(id))
+  })
   provide(
     LayoutModeKey,
     computed(() => instance.value?.PlayMode ?? 'full')
