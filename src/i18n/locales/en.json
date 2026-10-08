@@ -2164,7 +2164,6 @@
       "closePromptTitle": "Keep Turn Wizard actions?",
       "closePromptText": "Actions taken in the Turn Wizard since the last completed turn can be kept or undone.",
       "keepActions": "Keep",
-      "undoActions": "Undo",
       "dontAskAgain": "Don't ask again",
       "undoLabel": "Turn Wizard actions",
       "weaponAction": "{action}: {weapon}"
