@@ -5,6 +5,7 @@ import PilotSheet from './PilotSheet'
 import type { Pilot } from '@/classes/pilot/Pilot'
 import type { PlayMode } from '@/classes/encounter/EncounterInstance'
 import { clearUndoStack } from '@/classes/encounter/EncounterUndoStack'
+import { seedActiveSettings } from '@/features/active_mode/layoutOptions'
 
 export const PilotSheetStore = defineStore('pilot_sheet', {
   state: () => ({
@@ -29,6 +30,7 @@ export const PilotSheetStore = defineStore('pilot_sheet', {
     },
     async AddPilotSheet(pilot: Pilot, campaign?: string, playMode?: PlayMode): Promise<void> {
       const newSheet = PilotSheet.FromPilot(pilot, campaign, playMode)
+      seedActiveSettings(newSheet)
       newSheet.Combatants[0].actor.CombatController.Reset()
       this.PilotSheets.push(newSheet)
       await SetItem('pilot_sheets', PilotSheet.Serialize(newSheet))

@@ -11,6 +11,34 @@
         class="text-center"
       >
         <v-icon
+          icon="mdi-gamepad"
+          color="success"
+          size="50"
+        />
+      </v-col>
+      <v-col cols="11">
+        <div class="text-cc-overline mb-1">
+          <cc-slashes class="pr-1" />
+          <span class="text-disabled">{{ $t('active.playMode.label') }}</span>
+        </div>
+        <cc-panel>
+          <play-mode-select
+            v-model="playMode"
+            hide-label
+          />
+        </cc-panel>
+      </v-col>
+    </v-row>
+    <v-row
+      dense
+      class="mt-4"
+      align="center"
+    >
+      <v-col
+        cols="1"
+        class="text-center"
+      >
+        <v-icon
           icon="cc:encounter"
           :color="encounter ? 'success' : 'panel'"
           size="50"
@@ -189,14 +217,6 @@
       />
     </v-slide-y-transition>
 
-    <v-slide-y-transition>
-      <cc-panel
-        v-if="encounter"
-        class="my-2"
-      >
-        <play-mode-select v-model="playMode" />
-      </cc-panel>
-    </v-slide-y-transition>
 
     <v-slide-y-transition>
       <encounter-summary
@@ -227,6 +247,7 @@
   import type { PlayMode } from '@/classes/encounter/EncounterInstance'
   import PlayModeSelect from '../_components/PlayModeSelect.vue'
   import { defaultPlayMode } from '../playMode'
+  import { seedActiveSettings } from '../layoutOptions'
 
   const router = useRouter()
 
@@ -289,6 +310,7 @@
     )
     instance.Combatants.forEach(c => c.actor.CombatController.ResetForEncounter())
     instance.SetPlayMode(playMode.value)
+    seedActiveSettings(instance)
     instance.Combatants.forEach(c => c.actor.CombatController.StartEncounter())
     instance.RecordEncounterStart()
     await EncounterStore().AddEncounterInstance(instance)

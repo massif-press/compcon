@@ -3,11 +3,13 @@ import {
   inject,
   type ComputedRef,
   type InjectionKey,
+  type Ref,
   type WritableComputedRef,
 } from 'vue'
 import { useDisplay } from 'vuetify'
 import { UserStore } from '@/stores'
 import type { PlayMode } from '@/classes/encounter/EncounterInstance'
+import { turnWizardClosePolicy, type TurnWizardClosePolicy } from './turnWizard'
 
 export type LabelMode = 'icon' | 'icon+text' | 'text'
 export type Density = 'compact' | 'default' | 'comfortable'
@@ -32,6 +34,13 @@ const LAYOUT_VIEW_KEYS: Record<PlayMode, string> = {
 }
 
 export const LayoutModeKey: InjectionKey<ComputedRef<PlayMode>> = Symbol('ActiveModeLayoutMode')
+
+export type InstanceLayouts = Partial<Record<PlayMode, ActiveModeLayoutOptions>>
+
+type SettingsTarget = { Layout?: InstanceLayouts; TurnWizardClose?: TurnWizardClosePolicy }
+
+export const LayoutTargetKey: InjectionKey<Ref<SettingsTarget | null | undefined>> =
+  Symbol('ActiveModeLayoutTarget')
 
 const CORE_STATS = [
   'hp',
@@ -121,6 +130,11 @@ function readLayoutOptions(mode: PlayMode): ActiveModeLayoutOptions {
   return { ...MODE_DEFAULTS[mode], ...stored }
 }
 
+export function seedActiveSettings(target: SettingsTarget): void {
+  target.Layout ??= { full: readLayoutOptions('full'), simple: readLayoutOptions('simple') }
+  target.TurnWizardClose ??= turnWizardClosePolicy()
+}
+
 export function applyPreset(name: string, mode: PlayMode = 'full'): void {
   UserStore().User.SetView(LAYOUT_VIEW_KEYS[mode], {
     ...MODE_DEFAULTS[mode],
@@ -179,13 +193,18 @@ export function useLayoutOptions() {
   const { mdAndDown } = useDisplay()
   const mode = inject(LayoutModeKey, () => computed<PlayMode>(() => 'full'), true)
 
+  const target = inject(LayoutTargetKey, undefined)
+
   const options: WritableComputedRef<ActiveModeLayoutOptions> = computed({
-    get: () => readLayoutOptions(mode.value),
-    set: v =>
-      UserStore().User.SetView(LAYOUT_VIEW_KEYS[mode.value], {
-        ...MODE_DEFAULTS[mode.value],
-        ...v,
-      }),
+    get: () => {
+      const stored = target?.value?.Layout?.[mode.value]
+      return stored ? { ...MODE_DEFAULTS[mode.value], ...stored } : readLayoutOptions(mode.value)
+    },
+    set: v => {
+      const next = { ...MODE_DEFAULTS[mode.value], ...v }
+      if (target?.value) target.value.Layout = { ...target.value.Layout, [mode.value]: next }
+      else UserStore().User.SetView(LAYOUT_VIEW_KEYS[mode.value], next)
+    },
   })
 
   const layout = computed(() => resolveLayout(options.value, mdAndDown.value))
@@ -203,7 +222,9 @@ export function useLayoutOptions() {
     options,
     layout,
     field,
-    applyPreset: (name: string) => applyPreset(name, mode.value),
+    applyPreset: (name: string) => {
+      options.value = { ...MODE_DEFAULTS[mode.value], ...(PRESETS[name] || {}) }
+    },
     matchedPreset: (opts: ActiveModeLayoutOptions) =>
       matchedPreset(opts, MODE_DEFAULTS[mode.value]),
   }

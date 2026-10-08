@@ -1907,9 +1907,9 @@
       "showingUnavailableActions": "Showing actions that cannot be taken. Click to hide them."
     },
     "layout": {
-      "title": "Active Mode Layout",
+      "title": "Default Active Mode Layout",
       "layoutFor": "Layout for",
-      "description": "Controls how combatant panels, stats and action controls are drawn during an encounter. These settings are yours alone and do not affect other players at the table.",
+      "description": "Controls how combatant panels, stats and action controls are drawn during an encounter. These are the defaults new encounters and pilot sheets start with; existing ones keep their own layout, which can be changed in each encounter's options.",
       "preset": "Preset",
       "presets": {
         "default": "Default",

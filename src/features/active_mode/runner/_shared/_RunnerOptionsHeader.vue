@@ -62,6 +62,10 @@
           class="mt-4"
           @update:model-value="context.SetPlayMode($event)"
         />
+        <turn-wizard-close-select
+          v-model="context.TurnWizardClose"
+          class="mt-4"
+        />
       </v-col>
       <v-col>
         <div class="text-cc-overline mt-1 text-disabled">
@@ -78,6 +82,7 @@
   import PilotSheet from '@/features/pilot_management/store/PilotSheet'
   import LayoutOptionsControls from '@/features/active_mode/_components/LayoutOptionsControls.vue'
   import PlayModeSelect from '@/features/active_mode/_components/PlayModeSelect.vue'
+  import TurnWizardCloseSelect from '@/features/active_mode/_components/TurnWizardCloseSelect.vue'
 
   defineProps<{
     context: EncounterInstance | PilotSheet

@@ -180,10 +180,7 @@ import EndTurnControl from '../gm/EncounterPanels/_components/EndTurnControl.vue
 import CoverToggle from '../gm/EncounterPanels/_components/CoverToggle.vue'
 import UnavailableToggle from '../gm/EncounterPanels/_components/loadouts/action_buttons/_unavailableToggle.vue'
 import { injectRunnerUndo } from './useRunnerUndo'
-import {
-  setTurnWizardClosePolicy,
-  turnWizardClosePolicy,
-} from '@/features/active_mode/turnWizard'
+import { turnWizardClosePolicy } from '@/features/active_mode/turnWizard'
 
 defineOptions({ name: 'TurnWizard' })
 
@@ -279,6 +276,8 @@ function comparable(json: string | null): string {
   const state = JSON.parse(json)
   delete state.save
   delete state.cloud
+  delete state.layout
+  delete state.turn_wizard_close
   return JSON.stringify(state)
 }
 
@@ -316,7 +315,7 @@ function reopen() {
 }
 
 async function resolveClose(choice: 'keep' | 'undo') {
-  if (dontAskAgain.value) setTurnWizardClosePolicy(choice)
+  if (dontAskAgain.value) props.encounterInstance.TurnWizardClose = choice
   closePrompt.value = false
   if (choice === 'undo' && baseline)
     await undo.restoreTo(baseline, t('active.turnWizard.undoLabel'))
@@ -327,7 +326,7 @@ function onDialogModel(open: boolean) {
   if (open) return
   emit('update:modelValue', false)
   if (comparable(undo.captureBaseline()) === comparable(baseline)) return
-  const policy = turnWizardClosePolicy()
+  const policy = props.encounterInstance.TurnWizardClose ?? turnWizardClosePolicy()
   if (policy === 'ask') closePrompt.value = true
   else resolveClose(policy)
 }

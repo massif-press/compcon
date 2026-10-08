@@ -13,13 +13,8 @@
       class="mb-6"
     />
 
-    <v-select
+    <turn-wizard-close-select
       v-model="turnWizardClose"
-      :items="turnWizardCloseItems"
-      :label="$t('nav.settingsPage.turnWizardClosePolicyLabel')"
-      density="compact"
-      variant="outlined"
-      hide-details
       class="mb-6"
       style="max-width: 400px"
     />
@@ -64,18 +59,16 @@
   import type { PlayMode } from '@/classes/encounter/EncounterInstance'
   import PlayModeSelect from '@/features/active_mode/_components/PlayModeSelect.vue'
   import { defaultPlayMode, setDefaultPlayMode } from '@/features/active_mode/playMode'
+  import TurnWizardCloseSelect from '@/features/active_mode/_components/TurnWizardCloseSelect.vue'
   import {
-    TURN_WIZARD_CLOSE_POLICIES,
     setTurnWizardClosePolicy,
     turnWizardClosePolicy,
   } from '@/features/active_mode/turnWizard'
   import { computed, provide, ref } from 'vue'
-  import { useI18n } from 'vue-i18n'
 
   defineOptions({ name: 'ActiveModeOptions' })
 
   const { mobile } = useDisplay()
-  const { t } = useI18n()
 
   const playMode = computed({
     get: () => defaultPlayMode(),
@@ -86,13 +79,6 @@
     get: () => turnWizardClosePolicy(),
     set: setTurnWizardClosePolicy,
   })
-  const turnWizardCloseItems = computed(() =>
-    TURN_WIZARD_CLOSE_POLICIES.map(value => ({
-      value,
-      title: t(`nav.settingsPage.turnWizardClosePolicy.${value}`),
-    }))
-  )
-
   const layoutMode = ref<PlayMode>('full')
   provide(
     LayoutModeKey,

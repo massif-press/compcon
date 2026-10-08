@@ -23,6 +23,8 @@ import { eventsFor } from '../components/combat/log/CombatLogRecorder'
 import { commitOutcome } from '../components/combat/log/outcome'
 import type { IOutcome } from '../components/combat/log/outcome'
 import type { ILogStream } from '../components/combat/log/events'
+import type { InstanceLayouts } from '@/features/active_mode/layoutOptions'
+import type { TurnWizardClosePolicy } from '@/features/active_mode/turnWizard'
 
 type PlayMode = 'full' | 'simple'
 
@@ -37,6 +39,8 @@ interface IEncounterInstanceData {
   isActive?: boolean
   autosave?: boolean
   play_mode?: PlayMode
+  layout?: InstanceLayouts
+  turn_wizard_close?: TurnWizardClosePolicy
   simple_tickbars?: boolean
   force_complex_tickbars?: boolean
   layout_columns?: boolean
@@ -69,6 +73,8 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
   public Encounter!: Encounter
   public Autosave: boolean = true
   public PlayMode: PlayMode = 'full'
+  public Layout?: InstanceLayouts
+  public TurnWizardClose?: TurnWizardClosePolicy
   public SimpleTickbars: boolean = false
   public ForceComplexTickbars: boolean = false
   public LayoutColumns: boolean = true
@@ -96,6 +102,8 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     this._id = data?.id || crypto.randomUUID()
     this._round = data?.round || 1
     this.IsActive = data?.isActive || false
+    this.Layout = data?.layout
+    this.TurnWizardClose = data?.turn_wizard_close
     this.SimpleTickbars = data?.simple_tickbars || false
     this.ForceComplexTickbars = data?.force_complex_tickbars || false
     this.LayoutColumns = data?.layout_columns ?? true
@@ -431,6 +439,8 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
       isActive: instance.IsActive,
       autosave: instance.Autosave,
       play_mode: instance.PlayMode,
+      layout: instance.Layout && JSON.parse(JSON.stringify(instance.Layout)),
+      turn_wizard_close: instance.TurnWizardClose,
       simple_tickbars: instance.SimpleTickbars,
       force_complex_tickbars: instance.ForceComplexTickbars,
       layout_columns: instance.LayoutColumns,

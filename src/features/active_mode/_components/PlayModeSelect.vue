@@ -1,6 +1,11 @@
 <template>
   <div>
-    <div class="text-cc-overline text-disabled">{{ $t('active.playMode.label') }}</div>
+    <div
+      v-if="!hideLabel"
+      class="text-cc-overline text-disabled"
+    >
+      {{ $t('active.playMode.label') }}
+    </div>
     <cc-select
       :model-value="modelValue"
       :items="items"
@@ -20,7 +25,7 @@
 
   defineOptions({ name: 'PlayModeSelect' })
 
-  const props = defineProps<{ modelValue: PlayMode }>()
+  const props = defineProps<{ modelValue: PlayMode; hideLabel?: boolean }>()
   defineEmits<{ 'update:modelValue': [value: PlayMode] }>()
   const { t } = useI18n()
 

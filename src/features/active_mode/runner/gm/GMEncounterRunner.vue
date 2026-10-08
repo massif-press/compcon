@@ -176,7 +176,11 @@ import { useRunnerUndo } from '../_shared/useRunnerUndo'
 import RunnerUndoBar from '../_shared/_RunnerUndoBar.vue'
 import TurnWizard from '../_shared/TurnWizard.vue'
 import CcPanelToggle from '@/ui/components/buttons/CCPanelToggle.vue'
-import { LayoutModeKey } from '@/features/active_mode/layoutOptions'
+import {
+  LayoutModeKey,
+  LayoutTargetKey,
+  seedActiveSettings,
+} from '@/features/active_mode/layoutOptions'
 
 const panelMap: Record<string, any> = {
   'encounter-info': EncounterInfoPanel,
@@ -229,6 +233,7 @@ provide(
   LayoutModeKey,
   computed(() => instance.value?.PlayMode ?? 'full')
 )
+provide(LayoutTargetKey, instance)
 const actors = computed(() => {
   if (!instance.value) return []
   return instance.value.Combatants.map((c: any) => c.actor)
@@ -260,6 +265,7 @@ watch(
     if (!newval) return
     setEidolonHp()
     actors.value.forEach((a: any) => (a.CombatController.Round = instance.value!.Round))
+    seedActiveSettings(instance.value!)
     recacheUndoBaseline()
   },
   { immediate: true }

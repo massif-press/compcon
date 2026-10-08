@@ -61,7 +61,18 @@
             offset-y
           >
             <template #activator="{ props }">
+              <cc-button
+                v-if="simple"
+                v-bind="props"
+                size="x-small"
+                block
+                :color="canActivate ? deployable.DeployAction.Color : 'panel'"
+                :prepend-icon="deployable.DeployAction.Icon"
+              >
+                {{ $t('active.deploy.deployNamed', { name: deployable.Name }) }}
+              </cc-button>
               <v-btn
+                v-else
                 v-bind="props"
                 flat
                 tile
@@ -166,6 +177,7 @@
       disabled?: boolean
       customDisabledText?: string
       actionOnly?: boolean
+      simple?: boolean
     }>(),
     {
       disabled: false,

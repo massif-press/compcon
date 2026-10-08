@@ -255,6 +255,19 @@ describe('EncounterInstance play mode', () => {
     expect(actor.ActiveMech!.CombatController.Automated).toBe(false)
   })
 
+  it('keeps its own layout and wizard policy across a reload', () => {
+    const instance = new EncounterInstance(undefined, makeEncounter(), [pilot])
+    expect(reload(instance).Layout).toBeUndefined()
+
+    instance.Layout = { full: { density: 'compact' } as any }
+    instance.TurnWizardClose = 'undo'
+    const reloaded = reload(instance)
+
+    expect(reloaded.Layout).toEqual({ full: { density: 'compact' } })
+    expect(reloaded.Layout).not.toBe(instance.Layout)
+    expect(reloaded.TurnWizardClose).toBe('undo')
+  })
+
   it('stamps every eidolon layer', () => {
     const layer = () => ({ CombatController: { ManualPlay: false, PendingChecks: [] } })
     const layers = [layer(), layer()]

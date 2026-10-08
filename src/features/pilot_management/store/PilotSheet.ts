@@ -10,6 +10,8 @@ import { ISaveable } from '@/classes/components/save/ISaveable'
 import { ISaveData, SaveController } from '@/classes/components/save/SaveController'
 import { EncounterInstance, applyPlayMode } from '@/classes/encounter/EncounterInstance'
 import type { PlayMode } from '@/classes/encounter/EncounterInstance'
+import type { InstanceLayouts } from '@/features/active_mode/layoutOptions'
+import type { TurnWizardClosePolicy } from '@/features/active_mode/turnWizard'
 import { deployToCombatant } from '@/classes/components/feature/deployable/DeployableInstance'
 import { buildStream } from '@/classes/components/combat/log/stream'
 import { actorRef } from '@/classes/components/combat/log/refs'
@@ -30,6 +32,8 @@ type PilotSheetData = {
   max_masonry_columns?: number
   autosave?: boolean
   play_mode?: PlayMode
+  layout?: InstanceLayouts
+  turn_wizard_close?: TurnWizardClosePolicy
 }
 
 class PilotSheet implements ISaveable, ICloudSyncable {
@@ -50,6 +54,8 @@ class PilotSheet implements ISaveable, ICloudSyncable {
   public MaxMasonryColumns: number = 1
   public Autosave: boolean = true
   public PlayMode: PlayMode = 'full'
+  public Layout?: InstanceLayouts
+  public TurnWizardClose?: TurnWizardClosePolicy
 
   public SaveController: SaveController
   public CloudController: CloudController
@@ -68,6 +74,8 @@ class PilotSheet implements ISaveable, ICloudSyncable {
     this.LayoutColumns = data.layout_columns ?? true
     this.MaxMasonryColumns = data.max_masonry_columns || 1
     this.Autosave = data.autosave ?? true
+    this.Layout = data.layout
+    this.TurnWizardClose = data.turn_wizard_close
 
     this.Combatant = Encounter.DeserializeCombatant(data.combatant)
 
@@ -227,6 +235,8 @@ class PilotSheet implements ISaveable, ICloudSyncable {
       simple_tickbars: pilotSheet.SimpleTickbars,
       autosave: pilotSheet.Autosave,
       play_mode: pilotSheet.PlayMode,
+      layout: pilotSheet.Layout && JSON.parse(JSON.stringify(pilotSheet.Layout)),
+      turn_wizard_close: pilotSheet.TurnWizardClose,
       round: pilotSheet.Round,
       force_complex_tickbars: pilotSheet.ForceComplexTickbars,
       layout_columns: pilotSheet.LayoutColumns,

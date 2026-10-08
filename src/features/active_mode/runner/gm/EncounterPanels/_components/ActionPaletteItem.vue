@@ -1,18 +1,20 @@
 <template>
-  <deploy-button
-    v-if="action.Deployable"
-    action-only
-    :deployable="toDeployable(action)"
-    :actor="actor"
-    @deploy="$emit('deploy', $event)"
-  />
   <v-row
-    v-else-if="simple"
+    v-if="simple"
     no-gutters
     align="center"
   >
     <v-col>
+      <deploy-button
+        v-if="action.Deployable"
+        action-only
+        simple
+        :deployable="toDeployable(action)"
+        :actor="actor"
+        @deploy="$emit('deploy', $event)"
+      />
       <cc-button
+        v-else
         size="x-small"
         block
         :color="available ? action.Color : 'panel'"
@@ -46,6 +48,13 @@
       <action-info-button :action="action" />
     </v-col>
   </v-row>
+  <deploy-button
+    v-else-if="action.Deployable"
+    action-only
+    :deployable="toDeployable(action)"
+    :actor="actor"
+    @deploy="$emit('deploy', $event)"
+  />
   <slot v-else />
 </template>
 

@@ -224,7 +224,11 @@
   import TurnWizard from '../_shared/TurnWizard.vue'
   import PilotSheet from '@/features/pilot_management/store/PilotSheet'
   import CcPanelToggle from '@/ui/components/buttons/CCPanelToggle.vue'
-  import { LayoutModeKey } from '@/features/active_mode/layoutOptions'
+  import {
+    LayoutModeKey,
+    LayoutTargetKey,
+    seedActiveSettings,
+  } from '@/features/active_mode/layoutOptions'
 
   const panelMap: Record<string, any> = {
     pc: PcPanel,
@@ -265,10 +269,19 @@
     LayoutModeKey,
     computed(() => sheet.value?.PlayMode ?? 'full')
   )
+  provide(LayoutTargetKey, sheet)
   const { recacheUndoBaseline } = useRunnerUndo(sheet, data =>
     PilotSheetStore().ReplaceSheet(PilotSheet.Deserialize(data))
   )
-  watch(sheetID, id => id && recacheUndoBaseline(), { immediate: true })
+  watch(
+    sheetID,
+    id => {
+      if (!id) return
+      seedActiveSettings(sheet.value!)
+      recacheUndoBaseline()
+    },
+    { immediate: true }
+  )
   const combatant = computed(() => sheet.value!.Combatant)
   const pilot = computed(() => sheet.value!.Combatant.actor as Pilot)
   const encounterInstance = computed(() => sheet.value!.EncounterInstance)

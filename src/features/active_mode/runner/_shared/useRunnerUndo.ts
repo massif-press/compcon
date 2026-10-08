@@ -100,7 +100,12 @@ export function useRunnerUndo(
   async function applyRestore(data: any) {
     if (!data) return
     restoring = true
-    const after = restore(data)
+    const { Layout, TurnWizardClose } = instance.value
+    const after = restore({
+      ...data,
+      layout: Layout && JSON.parse(JSON.stringify(Layout)),
+      turn_wizard_close: TurnWizardClose,
+    })
     await nextTick()
     if (after) after()
     recacheUndoBaseline()

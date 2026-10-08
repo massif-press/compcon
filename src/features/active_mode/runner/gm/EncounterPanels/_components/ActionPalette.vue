@@ -3,7 +3,7 @@
     <div v-if="grouping === 'none' || hiding"
       class="d-flex align-center mb-n2">
       <div v-if="grouping === 'none'"
-        class="text-cc-overline text-disabled">
+        class="text-cc-overline text-disabled mb-2">
         {{ $t('active.runner.allActions') }}
       </div>
       <v-spacer />
