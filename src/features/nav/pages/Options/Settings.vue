@@ -37,15 +37,6 @@
           :tooltip="$t('nav.settingsPage.showDesktopTablesTooltip')"
           :label="$t('nav.settingsPage.showDesktopTablesLabel')"
         ></cc-switch>
-        <v-select
-          v-model="turnWizardClose"
-          :items="turnWizardCloseItems"
-          :label="$t('nav.settingsPage.turnWizardClosePolicyLabel')"
-          density="compact"
-          variant="outlined"
-          hide-details
-          class="mt-2"
-        />
       </v-col>
     </v-row>
 
@@ -480,12 +471,6 @@
   import { isFullBackup, processFullBackup, downloadFullBackup } from '@/io/FullImporter'
   import { GetValue, SetValue } from '@/io/Storage'
   import { notify } from '@/util/notify'
-  import {
-    TURN_WIZARD_CLOSE_POLICIES,
-    setTurnWizardClosePolicy,
-    turnWizardClosePolicy,
-    type TurnWizardClosePolicy,
-  } from '@/features/active_mode/turnWizard'
   import MigrationRepairDialog from './components/MigrationRepairDialog.vue'
 
   const { mdAndDown: mobile } = useDisplay()
@@ -533,17 +518,6 @@
     get: () => user.value.View('useDesktopTables', false),
     set: (newVal: boolean) => user.value.SetView('useDesktopTables', newVal),
   })
-
-  const turnWizardClose = computed({
-    get: () => turnWizardClosePolicy(),
-    set: (newVal: TurnWizardClosePolicy) => setTurnWizardClosePolicy(newVal),
-  })
-  const turnWizardCloseItems = computed(() =>
-    TURN_WIZARD_CLOSE_POLICIES.map(value => ({
-      value,
-      title: i18n.global.t(`nav.settingsPage.turnWizardClosePolicy.${value}`),
-    }))
-  )
 
   const font = computed({
     get: () => user.value.Font,
