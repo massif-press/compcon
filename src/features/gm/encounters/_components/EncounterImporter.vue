@@ -7,7 +7,7 @@
       <v-col cols="6">
         <v-file-input
           v-model="fileValue"
-          accept="text/json"
+          accept=".json,application/json"
           variant="outlined"
           :label="$t('gm.encounters.selectEncounterFile')"
           prepend-icon="mdi-paperclip"

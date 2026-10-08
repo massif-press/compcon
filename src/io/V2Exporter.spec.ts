@@ -2,8 +2,9 @@ import { describe, it, expect } from 'vitest'
 import { convertTov2Pilot, convertTov2Npc } from './V2Exporter'
 import { isV2Pilot, isV2Npc, transformV2Pilot } from './V2Importer'
 import { Pilot } from '@/classes/pilot/Pilot'
+import { Mech } from '@/classes/mech/Mech'
 import { Unit } from '@/classes/npc/unit/Unit'
-import { makePilot, makeMech, makeNpc } from '@/__tests__/factories'
+import { makePilot, makeMech, makeNpc, frame } from '@/__tests__/factories'
 
 const v3Pilot = () => {
   const p = makePilot({ name: 'Test Pilot 1', callsign: 'TEST1', level: 6 })
@@ -68,6 +69,26 @@ describe('convertTov2Pilot', () => {
     expect(v2.quirks).toEqual([])
     expect(v2.mechs).toEqual([])
     expect(v2.bondAnswers).toEqual(['', ''])
+  })
+
+  it('exports full mech stats for a pilot that has never been in active mode', () => {
+    const p = makePilot()
+    p.MechSkillsController.MechSkills.Hull = 2
+    const m = new Mech(frame(), p)
+    p.AddMech(m)
+    const storedMaxHp = () => (Pilot.Serialize(p) as any).mechs[0].stats.max.hp
+    expect(storedMaxHp()).toBe(0)
+
+    const v2 = convertTov2Pilot(Pilot.SerializeWithStats(p)) as any
+
+    expect(m.MaxHP).toBeGreaterThan(new Mech(frame(), makePilot()).MaxHP)
+    expect(v2.mechs[0].current_hp).toBe(m.MaxHP)
+    expect(v2.mechs[0].current_structure).toBe(m.MaxStructure)
+    expect(v2.mechs[0].current_stress).toBe(m.MaxStress)
+    expect(v2.mechs[0].current_move).toBe(m.Speed)
+    expect(v2.mechs[0].current_repairs).toBe(m.RepairCapacity)
+    expect(v2.mechs[0].current_heat).toBe(0)
+    expect(storedMaxHp()).toBe(0)
   })
 
   it('keeps identity through a v3 to v2 to v3 trip', () => {

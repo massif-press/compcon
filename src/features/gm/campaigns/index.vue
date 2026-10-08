@@ -211,7 +211,7 @@
                 <v-col cols="10">
                   <v-file-input
                     v-model="fileValue"
-                    accept="text/json"
+                    accept=".json,application/json"
                     variant="outlined"
                     :label="$t('gm.shared.selectDataFile')"
                     prepend-icon="mdi-paperclip"

@@ -13,7 +13,7 @@ function usePilotActions(props: { pilot: any }) {
     try {
       saveFile(
         props.pilot.Callsign.toUpperCase().replace(/\W/g, '') + '.json',
-        Pilot.Serialize(props.pilot as Pilot),
+        v2 ? Pilot.SerializeWithStats(props.pilot as Pilot) : Pilot.Serialize(props.pilot as Pilot),
         'Save Pilot',
         v2
       )
