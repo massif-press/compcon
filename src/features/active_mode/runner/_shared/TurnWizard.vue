@@ -155,7 +155,7 @@
         <cc-button color="warning"
           prepend-icon="mdi-undo"
           @click="resolveClose('undo')">
-          {{ $t('active.turnWizard.undoActions') }}
+          {{ $t('active.gmRunner.undo') }}
         </cc-button>
         <cc-button color="primary"
           @click="resolveClose('keep')">
