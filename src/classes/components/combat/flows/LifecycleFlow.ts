@@ -24,6 +24,7 @@ interface IEndRoundState {
   silent?: boolean
 }
 
+const BRACE_COOLDOWN = 'Brace Cooldown'
 const BRACE_COOLDOWN_DETAIL_KEY = 'active.statusCond.braceCooldownDetail'
 
 const burnCheck: IFlowStep<IEndTurnState> = {
@@ -105,6 +106,7 @@ export const EndTurnFlow = new Flow<IEndTurnState>(
 const braceTeardown = step<IEndRoundState>('brace-teardown', s => {
   s.cc.Turn = 1
   s.cc.ClearBoost()
+  s.cc.RemoveCustomStatus(BRACE_COOLDOWN)
   if (!s.cc.Braced) {
     s.cc.StatController.setCurrentStat(StatKey.SPEED, s.cc.StatController.getMax(StatKey.SPEED))
     s.cc.CombatActions = { ...DEFAULT_COMBAT_ACTIONS }
@@ -113,7 +115,7 @@ const braceTeardown = step<IEndRoundState>('brace-teardown', s => {
   s.cc.Braced = false
   s.cc.CustomStatuses.push({
     status: new EffectSpecial({
-      attribute: 'Brace Cooldown',
+      attribute: BRACE_COOLDOWN,
       detail: '',
       detailKey: BRACE_COOLDOWN_DETAIL_KEY,
     }),
@@ -122,6 +124,7 @@ const braceTeardown = step<IEndRoundState>('brace-teardown', s => {
     ),
   })
   s.cc.ClearBraceResistance()
+  s.cc.StatController.setCurrentStat(StatKey.SPEED, 0, { silent: true })
   s.cc.CombatActions = {
     ...DEFAULT_COMBAT_ACTIONS,
     Protocol: false,

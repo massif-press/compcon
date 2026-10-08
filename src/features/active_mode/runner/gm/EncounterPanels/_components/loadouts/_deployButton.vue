@@ -68,8 +68,8 @@
                 block
                 size="small"
                 :color="canActivate ? deployable.DeployAction.Color : 'panel'"
-                height="26px"
-                class="ml-n1"
+                :height="actionOnly ? 28 : 26"
+                :class="actionOnly ? '' : 'ml-n1'"
                 :prepend-icon="deployable.DeployAction.Icon"
               >
                 {{

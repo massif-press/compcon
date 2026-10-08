@@ -1,6 +1,11 @@
 import type { Action } from '@/classes/Action'
 import type { ActivationType } from '@/classes/enums'
 import type { CombatController } from '@/classes/components/combat/CombatController'
+import {
+  isSelectableWeapon,
+  weaponPool,
+  type WeaponUseMode,
+} from '@/classes/components/combat/AttackRules'
 
 export type PaletteSection =
   | 'top'
@@ -11,7 +16,10 @@ export type PaletteSection =
   | 'fullGranted'
   | 'reaction'
 
-export type PaletteEntry = { action: Action; section: PaletteSection }
+export type PaletteEntry = { action: Action; section: PaletteSection; weapon?: any }
+
+export const entryKey = (e: PaletteEntry): string =>
+  e.weapon ? `${e.action.ID}:${e.weapon.InstanceID}` : e.action.ID
 
 export type PaletteActionIds = {
   quickAttack?: string[]
@@ -22,7 +30,15 @@ export type PaletteActionIds = {
   lastReactions?: string[]
 }
 
-const TYPE_ORDER = ['Protocol', 'Free', 'Quick', 'Quick Tech', 'Full', 'Full Tech', 'Reaction']
+export const TYPE_ORDER = [
+  'Protocol',
+  'Free',
+  'Quick',
+  'Quick Tech',
+  'Full',
+  'Full Tech',
+  'Reaction',
+]
 
 export const EXHAUSTIBLE = TYPE_ORDER.filter(t => t !== 'Free')
 
@@ -32,6 +48,26 @@ export function isActionAvailable(controller: CombatController, a: Action): bool
   return (
     !!a.Deployable || !!controller.UsedCount(a.ID) || controller.CanActivate(a.Activation, a.ID)
   )
+}
+
+export function isActionLegal(controller: CombatController, a: Action, weapon?: any): boolean {
+  return (
+    controller.CanPerformAction(a.ID) &&
+    !controller.BlockedReasonFor(a.Activation, { actionId: a.ID, useId: weapon?.InstanceID }) &&
+    (!weapon || (isSelectableWeapon(weapon) && controller.CanFireWeapon(weapon)))
+  )
+}
+
+export function weaponEntries(
+  controller: CombatController,
+  actionById: Map<string, Action>
+): PaletteEntry[] {
+  const of = (id: string, mode: WeaponUseMode): PaletteEntry[] => {
+    const action = actionById.get(id)
+    if (!action) return []
+    return weaponPool(controller, mode).map(weapon => ({ action, section: 'attack', weapon }))
+  }
+  return [...of('act_skirmish', 'skirmish'), ...of('act_barrage', 'barrage')]
 }
 
 export function paletteEntries(

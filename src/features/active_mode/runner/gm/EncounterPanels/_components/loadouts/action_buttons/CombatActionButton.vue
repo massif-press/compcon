@@ -64,7 +64,7 @@
         >
           <template #activator="{ props }">
             <span v-bind="props">
-              {{ action.Name }}
+              {{ label ?? action.Name }}
             </span>
           </template>
           <div
@@ -154,6 +154,7 @@
     defineProps<{
       action: Action
       presetWeapon?: { InstanceID: string }
+      label?: string
       mobile?: boolean
       actionColor?: string
       actionIcon?: string
@@ -161,6 +162,7 @@
     }>(),
     {
       presetWeapon: undefined,
+      label: undefined,
       mobile: false,
       actionColor: undefined,
       actionIcon: undefined,

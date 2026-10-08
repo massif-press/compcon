@@ -12,6 +12,7 @@
     :max-width="mobile ? '' : maxWidth"
     :min-width="mobile ? '' : minWidth"
     :min-height="mobile ? '100vh' : fullHeight ? '95vh' : ''"
+    :height="mobile ? '' : height"
     :persistent="persistent"
     :close-on-content-click="closeOnClick"
   >
@@ -78,6 +79,7 @@
       persistent?: boolean
       maxWidth?: string | number
       minWidth?: string | number
+      height?: string | number
       noGutters?: boolean
       tabs?: boolean
       extended?: boolean

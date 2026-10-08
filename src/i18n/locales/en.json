@@ -462,7 +462,13 @@
       "importV2Backup": "Import v2 Backup",
       "resetV2Migration": "Reset V2 Migration Status",
       "resetV2Tooltip": "Resets the v2 migration status, allowing the V2 Data button to appear again if it was dismissed.",
-      "errorReportingStatus": "Error reporting {status}"
+      "errorReportingStatus": "Error reporting {status}",
+      "turnWizardClosePolicyLabel": "When closing the Turn Wizard",
+      "turnWizardClosePolicy": {
+        "ask": "Ask to keep or undo actions",
+        "keep": "Keep actions",
+        "undo": "Undo actions"
+      }
     },
     "storage": {
       "storageUsageFull": "@:{'common.appName'} is currently using {used} of {total}, or {percent} of your available storage. This includes space reserved by @:{'common.appName'} for app management.",
@@ -2147,7 +2153,22 @@
       "autosaveEncounterTooltip": "Autosave encounter data on the end of every round. Defaults to ON.",
       "autosaveSheetTooltip": "Autosave Character Sheet data on the end of every round. Defaults to ON."
     },
-    "logsAndTelemetryTitle": "{name} - LOGS AND TELEMETRY"
+    "logsAndTelemetryTitle": "{name} - LOGS AND TELEMETRY",
+    "turnWizard": {
+      "title": "Turn Wizard",
+      "moveRemaining": "({n} remaining)",
+      "moveSpaces": "Spaces to move",
+      "commitMove": "Commit Move",
+      "completeTurn": "Complete Turn",
+      "turnComplete": "Turn Complete",
+      "closePromptTitle": "Keep Turn Wizard actions?",
+      "closePromptText": "Actions taken in the Turn Wizard since the last completed turn can be kept or undone.",
+      "keepActions": "Keep",
+      "undoActions": "Undo",
+      "dontAskAgain": "Don't ask again",
+      "undoLabel": "Turn Wizard actions",
+      "weaponAction": "{action}: {weapon}"
+    }
   },
   "mainMenu": {
     "codeEntry": {

@@ -87,7 +87,24 @@ function kindsFor(kind: string): DifficultyKind[] {
 const CUSTOM_STATUS_RULES: Record<string, IStatusRule> = {
   'brace cooldown': {
     denies: ['*'],
-    permits: ['quick', 'quick1', 'quick2'],
+    permits: [
+      'quick',
+      'quick1',
+      'quick2',
+      'quicktech',
+      'invade',
+      'move',
+      'boost',
+      'grapple',
+      'ram',
+      'activate',
+      'search',
+      'prepare',
+      'hide',
+      'shutdown',
+      'shut_down',
+      'eject',
+    ],
   },
 }
 

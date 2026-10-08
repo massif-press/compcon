@@ -4,6 +4,7 @@ import logger from '@/user/logger'
 import PilotSheet from './PilotSheet'
 import type { Pilot } from '@/classes/pilot/Pilot'
 import type { PlayMode } from '@/classes/encounter/EncounterInstance'
+import { clearUndoStack } from '@/classes/encounter/EncounterUndoStack'
 
 export const PilotSheetStore = defineStore('pilot_sheet', {
   state: () => ({
@@ -44,10 +45,16 @@ export const PilotSheetStore = defineStore('pilot_sheet', {
       await SetItem('pilot_sheets', PilotSheet.Serialize(pilotSheet))
       if (activate) await this.SetActiveSheet(pilotSheet.ID)
     },
+    ReplaceSheet(pilotSheet: PilotSheet): void {
+      const idx = this.PilotSheets.findIndex(ps => ps.ID === pilotSheet.ID)
+      if (idx === -1) return
+      this.PilotSheets.splice(idx, 1, pilotSheet)
+    },
     async RemovePilotSheet(pilotSheet: PilotSheet): Promise<void> {
       const idx = this.PilotSheets.findIndex(ps => ps.ID === pilotSheet.ID)
       if (idx === -1) return
       this.PilotSheets.splice(idx, 1)
+      clearUndoStack(pilotSheet.ID)
       await RemoveItem('pilot_sheets', pilotSheet.ID)
       if (this.CurrentActiveID === pilotSheet.ID) {
         await this.SetActiveSheet('')

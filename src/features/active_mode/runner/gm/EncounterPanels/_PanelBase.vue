@@ -178,32 +178,7 @@
                 cols="auto"
                 :class="mobile ? '' : 'ml-auto'"
                 align-self="center">
-                <div v-if="mobile"
-                  class="text-cc-overline text-disabled">
-                  {{ $t('active.panelBase.cover') }}
-                </div>
-                <v-btn-toggle v-model="item.CombatController.Cover"
-                  flat
-                  tile
-                  mandatory
-                  color="primary"
-                  style="height: 30px">
-                  <v-btn size="small"
-                    height="30"
-                    value="none">
-                    {{ mobile ? $t('common.none') : $t('active.panelBase.noCover') }}
-                  </v-btn>
-                  <v-btn size="small"
-                    height="30"
-                    value="soft">
-                    {{ mobile ? $t('active.panelBase.soft') : $t('active.panelBase.softCover') }}
-                  </v-btn>
-                  <v-btn size="small"
-                    height="30"
-                    value="hard">
-                    {{ mobile ? $t('active.panelBase.hard') : $t('active.panelBase.hardCover') }}
-                  </v-btn>
-                </v-btn-toggle>
+                <cover-toggle :controller="item.CombatController" />
               </v-col>
             </v-row>
 
@@ -300,6 +275,7 @@ import CustomStatEditor from './_components/CustomStatEditor.vue'
 import ActiveEffectPanel from './_components/ActiveEffectPanel.vue'
 import TimedEffectPanel from './_components/TimedEffectPanel.vue'
 import ActivationTracker from './_components/ActivationTracker.vue'
+import CoverToggle from './_components/CoverToggle.vue'
 import StaticStat from './_components/StaticStat.vue'
 import TrackableStatsComplex from './_components/TrackableStatsComplex.vue'
 import TrackableStatsSimple from './_components/TrackableStatsSimple.vue'

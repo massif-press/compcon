@@ -6,6 +6,7 @@ import { ItemType } from '@/classes/enums'
 export interface EncounterRunnerContext {
   owner: Ref<CombatantData>
   encounterInstance: Ref<EncounterInstance>
+  wizard?: boolean
 }
 
 export const EncounterContextKey: InjectionKey<EncounterRunnerContext> =
@@ -16,6 +17,7 @@ export function useEncounterContext(): EncounterRunnerContext & {
   activeController: ComputedRef<any>
   simple: ComputedRef<boolean>
   pcSheet: ComputedRef<boolean>
+  wizard: boolean
 } {
   const ctx = inject(EncounterContextKey)
   if (!ctx) {
@@ -28,5 +30,6 @@ export function useEncounterContext(): EncounterRunnerContext & {
     activeController: computed(() => ownerController.value.ActiveActor.CombatController),
     simple: computed(() => ctx.encounterInstance.value?.PlayMode === 'simple'),
     pcSheet: computed(() => ctx.encounterInstance.value?.ItemType === ItemType.PilotSheet),
+    wizard: !!ctx.wizard,
   }
 }

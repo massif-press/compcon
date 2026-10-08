@@ -3,11 +3,24 @@
     :controller="controller"
     :actor="owner.actor"
     :ids="ids"
+    :weapon-actions="wizard && !simple"
     @deploy="$emit('deploy', $event)"
   >
-    <template #button="{ action, section }">
+    <template #button="{ action, section, weapon }">
+      <npc-skirmish-button
+        v-if="weapon && action.ID === 'act_skirmish'"
+        :action="action"
+        :preset-weapon="weapon"
+        :label="weaponLabel(action, weapon)"
+      />
+      <npc-barrage-button
+        v-else-if="weapon"
+        :action="action"
+        :preset-weapon="weapon"
+        :label="weaponLabel(action, weapon)"
+      />
       <invade-button
-        v-if="action.ID === 'act_invade'"
+        v-else-if="action.ID === 'act_invade'"
         :action="action"
         @activate="activate($event)"
       />
@@ -34,8 +47,10 @@
   import BasicActionButton from './loadouts/action_buttons/basicActionButton.vue'
   import InvadeButton from './loadouts/action_buttons/invadeButton.vue'
   import TargetedActionButton from './loadouts/action_buttons/targetedActionButton.vue'
+  import NpcSkirmishButton from './loadouts/action_buttons/npcSkirmishButton.vue'
+  import NpcBarrageButton from './loadouts/action_buttons/npcBarrageButton.vue'
 
-  const { owner, simple } = useEncounterContext()
+  const { owner, simple, wizard } = useEncounterContext()
 
   defineEmits<{ deploy: [event: any] }>()
 
@@ -60,6 +75,10 @@
   }))
 
   const controller = computed(() => owner.value.actor.CombatController)
+
+  function weaponLabel(action: { Name: string }, weapon: { Name: string }) {
+    return t('active.turnWizard.weaponAction', { action: action.Name, weapon: weapon.Name })
+  }
 
   const NOTICES: Record<string, { ok: [string, string]; fail?: [string, string] }> = {
     act_prepare: { ok: ['active.npcActions.npcPreparedTitle', 'active.common.preparedText'] },

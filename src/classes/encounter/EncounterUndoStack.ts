@@ -1,6 +1,6 @@
 import { reactive } from 'vue'
 import logger from '@/user/logger'
-import { EncounterInstance, IEncounterInstanceData } from './EncounterInstance'
+import type { EncounterInstance, IEncounterInstanceData } from './EncounterInstance'
 
 const MAX_ENTRIES_PER_STACK = 30
 const MAX_BYTES_ALL_STACKS = 8 * 1024 * 1024
@@ -89,7 +89,7 @@ function pushEntry(id: string, json: string, label: string): void {
 }
 
 function serializeJson(instance: EncounterInstance): string {
-  return JSON.stringify(EncounterInstance.Serialize(instance))
+  return JSON.stringify(instance.Serialize())
 }
 
 function trySerializeJson(instance: EncounterInstance): string | null {

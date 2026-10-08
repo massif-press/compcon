@@ -967,6 +967,11 @@ class CombatController implements ICounterContainer, IStatContainer {
     return BASE_ACTIONS[actionId]?.activation
   }
 
+  public CanPerformAction(actionId: string): boolean {
+    const rule = BASE_ACTIONS[actionId]
+    return !rule?.can || rule.can(this, {})
+  }
+
   public PerformAction(actionId: string, opts: IPerformOpts = {}): boolean {
     return this._action(actionId, opts, true)
   }

@@ -108,6 +108,25 @@ for (const file of catalogs) {
   console.log(`${file}: ${moved} key(s) renamed, ${links} link(s) updated`)
 }
 
+const explanationsPath = localesRepo && join(localesRepo, 'explanations.json')
+if (explanationsPath && existsSync(explanationsPath)) {
+  const explanations = JSON.parse(readFileSync(explanationsPath, 'utf8'))
+  const ui = explanations.ui ?? {}
+  let moved = 0
+  for (const key of Object.keys(ui)) {
+    const from = Object.keys(map).find(
+      f => key === f || key.startsWith(`${f}.`) || PLURAL_CATEGORIES.some(c => key === `${f}_${c}`)
+    )
+    if (!from) continue
+    ui[map[from] + key.slice(from.length)] ||= ui[key]
+    delete ui[key]
+    moved++
+  }
+  explanations.ui = Object.fromEntries(Object.entries(ui).sort(([a], [b]) => (a < b ? -1 : 1)))
+  if (write && moved) writeFileSync(explanationsPath, JSON.stringify(explanations, null, 4) + '\n')
+  console.log(`${explanationsPath}: ${moved} key(s) renamed`)
+}
+
 const sources = []
 ;(function collect(d) {
   for (const f of readdirSync(d)) {

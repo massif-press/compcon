@@ -3,7 +3,7 @@
 **Generated from `lancer-rules.json` by `scripts/gen-rules-table.mjs`. Do not edit.**
 Run `yarn rules:table` after adding or changing a rule. CI fails if this file is out of date.
 
-135 rules and 15 interaction rules, covered by 301 tests in `src/__tests__/rules/`.
+135 rules and 15 interaction rules, covered by 304 tests in `src/__tests__/rules/`.
 
 | File | Holds |
 |---|---|
@@ -38,7 +38,7 @@ Run `yarn rules:table` after adding or changing a rule. CI fails if this file is
 | `T-ACTION-barrage-02` | a barrage grants a bonus auxiliary attack per mount fired | A barrage grants an additional auxiliary attack on each mount fired, provided that auxiliary has not already fired this action. Those attacks deal no bonus damage. | ASSIST | `actions` (2) |
 | `T-ACTION-boost-01` | BOOST | BOOST is a quick action granting a second standard move. A SLOWED or IMMOBILIZED character cannot take it. | ASSIST | `actions` (2) |
 | `T-ACTION-bootup-01` | BOOT UP | BOOT UP is a full action that clears SHUT DOWN. | AUTO | `actions` (1) |
-| `T-ACTION-brace-01` | BRACE | BRACE is a 1/round reaction triggered by being hit after damage is rolled. The bracing character counts as having RESISTANCE to all damage from the triggering attack, and until the end of its next turn every other attack against it is made at +1 difficulty. In exchange it may take no reactions until the end of its next turn, and on that turn may take only one quick action — no overcharge, no normal movement, no full actions, no free actions. | AUTO | `actions` (4) |
+| `T-ACTION-brace-01` | BRACE | BRACE is a 1/round reaction triggered by being hit after damage is rolled. The bracing character counts as having RESISTANCE to all damage from the triggering attack, and until the end of its next turn every other attack against it is made at +1 difficulty. In exchange it may take no reactions until the end of its next turn, and on that turn may take only one quick action — no overcharge, no normal movement, no full actions, no free actions. | AUTO | `actions` (7) |
 | `T-ACTION-corepower-01` | CORE POWER is one use between full repairs | CORE POWER is a single use that cannot be saved up and replenishes on a FULL REPAIR. Only activating a core system spends it. | AUTO | `actions` (2) |
 | `T-ACTION-defaultreactions-01` | every mech has BRACE and OVERWATCH | Every mech has BRACE and OVERWATCH available as reactions, each once per round. | AUTO | `actions`, `actors` (3) |
 | `T-ACTION-disengage-01` | DISENGAGE | DISENGAGE is a full action: the character's movement ignores engagement and reactions for the rest of the turn, and they cease to be ENGAGED. | ASSIST | `actions` (2) |
