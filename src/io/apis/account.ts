@@ -5,11 +5,11 @@ import { parseApiError, NotFoundError, BadRequestError } from './apiErrors'
 
 export { NotFoundError, BadRequestError } from './apiErrors'
 
-const invoke = `${(import.meta as any).env.VITE_APP_INVOKE_URL || ''}`
+const invoke = `${import.meta.env.VITE_APP_INVOKE_URL || ''}`
 
 const baseHeaders: Record<string, string> = {
   'Content-Type': 'application/json',
-  'x-api-key': (import.meta as any).env.VITE_APP_API_KEY || '',
+  'x-api-key': import.meta.env.VITE_APP_API_KEY || '',
 }
 
 export async function getHeaders(forceRefresh = false): Promise<Record<string, string>> {
