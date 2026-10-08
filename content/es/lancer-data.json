@@ -91,7 +91,7 @@
   "act_overwatch.terse": "Atacar a un enemigo cercano intentando moverse.",
   "act_overwatch.trigger": "Un objetivo hostil comienza su movimiento(incluido IMPULSO y otras acciones) dentro del rango de AMENAZA de tu arma. Menos especificado de otra manera, todas las armas tienen uno de AMENAZA.",
   "act_prepare.name": "Preparar",
-  "act_prepare.terse": "Preparar una acción rápida por una acción determinada. Hasta el inicio del siguiente turno cuando se activa, puedes tomar la acción preparada como una reacción. Tú preparación cuenta como tomar una acción, así que sigue todas las restricciones normales de la acción o múltiples acciones.",
+  "act_prepare.terse": "Preparar una acción rápida para un disparador determinado. Hasta el inicio de tu siguiente turno, cuando se activa, puedes tomar la acción preparada como una reacción. Tú preparación cuenta como tomar la acción, así que sigue todas las restricciones normales sobre esa acción o múltiples acciones.",
   "act_quick_tech.name": "Ataque Tecnológico Rápido",
   "act_overcharge.detail": "Cuando SOBRECARGAS, llevas a tu meca durante un instante más allá de las especificaciones de fábrica para obtener una ventaja táctica. Unos momentos de acción intensa no afectarán demasiado a los sistemas de tu meca, pero una acción sostenida por encima de los límites prescritos conlleva un precio. <br/>Puedes SOBRECARGAR tu meca una vez por turno, lo que te permite efectuar una acción rápida cualquiera como acción gratuita, incluso acciones que ya hayas llevado a cabo ese turno.<br/> La primera vez que SOBRECARGUES acumulas 1 de calor .<br/>La segunda vez que SOBRECARGUES, acumulas 1d3 de calor.<br/>La tercera vez acumulas 1d6 de calor, y a partir de ese momento, cada vez que SOBRECARGUES acumulas 1d6+4 de calor .<br/>Una REPARACIÓN COMPLETA restablece este contador.",
   "act_ram.name": "Embestir",
@@ -197,5 +197,8 @@
   "act_ram_npc.detail": "",
   "act_ram.detail": "Cuando EMBISTES haces un ataque cuerpo a cuerpo con el fin de derribar a un objetivo o hacer que retroceda. <br/>Para EMBESTIR haz una tirada de ataque cuerpo a cuerpo contra un personaje adyacente de un TAMAÑO igual o inferior al tuyo. Si tienes éxito, tu objetivo queda TUMBADO y puedes elegir empujarlo 1 casilla hacia atrás alejándolo directamente de ti.",
   "act_ram.terse": "Con el fin de derribar a tu objetivo. Si tienes éxito, tu objetivo queda Tumbado y puedes elegir empujarlo 1 casilla hacia atrás alejándolo directamente de ti.",
-  "cb_armory_sculpted_chassis.effect": "Obtienes +1 en todas las tiradas y salvaciones de Ingeniería. Cuando haces Sobrecarga, obtienes cobertura ligera hasta el inicio de tu siguiente turno."
+  "cb_armory_sculpted_chassis.effect": "Obtienes +1 en todas las tiradas y salvaciones de Ingeniería. Cuando haces Sobrecarga, obtienes cobertura ligera hasta el inicio de tu siguiente turno.",
+  "act_ram_npc.name": "Embestir",
+  "act_ram_npc.terse": "El PNJ realiza un ataque cuerpo a cuerpo contra un personaje adyacente a este de su tamaño o mas pequeño, con un bonificador de +1/2/3. Con un acierto, el objetivo queda Tumbado",
+  "act_reload.detail": "Al RECARGAR, recargas un Arma de Piloto que tenga el descriptor RECARGA, permitiendo utilizarla de nuevo."
 }

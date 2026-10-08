@@ -221,7 +221,7 @@
     "damage": "Daño",
     "pilots": "Pilotos",
     "bonds": "Lazos",
-    "gear": "EQUIPO",
+    "gear": "Equipo",
     "manufacturer": "Fabricante",
     "tags": "Descriptores",
     "uses": "Usos",
@@ -238,7 +238,7 @@
     "overkill": "Saña",
     "mechName": "Nombre Meca",
     "addTable": "Agregar Tabla",
-    "repairCap": "Lim. Reparaciones",
+    "repairCap": "Cap. Reparación",
     "allPilots": "Todos los Pilotos",
     "heatCapacity": "Capacidad de Calor",
     "repairCapacity": "Capacidad de Reparación",
@@ -421,7 +421,7 @@
       "selectExportFile": "Seleccionar archivo @:{'common.appName'} de Exportación de Logro",
       "resetAchievements": "Reiniciar Logros",
       "cannotAddTitle": "No Se Puede Añadir Logro",
-      "hiddenCount": "{count} logro no mostrado | {count} logros no mostrados | {count} logros no mostrados",
+      "hiddenCount": "{count} logro no mostrado | {count} logros no mostrados | {count} logros no mostrados | {count} logros no mostrados",
       "cannot": "no puede",
       "warningDataFull": "Esto {emphasis} los datos de progreso del usuario.",
       "cannotAddText": "Código Inválido o ya desbloqueado",
@@ -490,7 +490,7 @@
       "deletedItems": "Artículos eliminados (sólo datos locales)",
       "deleteWarningBanner": "Advertencia // advertencia // advertencia",
       "areYouSure": "¿Está seguro de que desea continuar?",
-      "daysCount": "{count} días. | {count} días. | {count} días.",
+      "daysCount": "{count} día. | {count} días. | {count} días. | {count} días.",
       "deleteConfirmUndone": "Este {undone}",
       "warningThresholdPct": "Umbral de alerta (%)",
       "maxThresholdPct": "Umbral máximo (%)",
@@ -527,14 +527,14 @@
     },
     "packInstall": {
       "install": "Instalar",
-      "alreadyInstalledWarning": "El siguiente paquete de contenido ya está instalado y será reemplazado: | Los siguientes paquetes de contenido ya están instalados y serán reemplazados | Los siguientes paquetes de contenido ya están instalados y serán reemplazados",
-      "dependencyError": "El siguiente paquete de contenido tiene dependencias no instaladas y no se puede instalar todavía. Será omitido: | Los siguientes paquetes de contenido tienen dependencias no instaladas y no se pueden instalar todavía. Serán omitidos | Los siguientes paquetes de contenido tienen dependencias no instaladas y no se pueden instalar todavía. Serán omitidos",
+      "alreadyInstalledWarning": "El siguiente paquete de contenido ya está instalado y será reemplazado: | Los siguientes paquetes de contenido ya están instalados y serán reemplazados | Los siguientes paquetes de contenido ya están instalados y serán reemplazados | Los siguientes paquetes de contenido ya están instalados y serán reemplazados",
+      "dependencyError": "El siguiente paquete de contenido tiene dependencias no instaladas y no se puede instalar todavía. Será omitido: | Los siguientes paquetes de contenido tienen dependencias no instaladas y no se pueden instalar todavía. Serán omitidos | Los siguientes paquetes de contenido tienen dependencias no instaladas y no se pueden instalar todavía. Serán omitidos | Los siguientes paquetes de contenido tienen dependencias no instaladas y no se pueden instalar todavía. Serán omitidos",
       "willReplace": "Será reemplazado con esta copia.",
       "requiresContent": "Este LCP antes de añadirlo requiere que se instale el siguiente contenido",
       "byAuthorVersion": "por {author} {'@'} {version}",
       "byAuthorRequires": "por {author} requiere",
       "downgradeTo": "Degradar a {version}",
-      "installingPacks": "Instalar {count} paquete de contenido... | Instalar {count} paquetes de contenido… | Instalar {count} paquetes de contenido…",
+      "installingPacks": "Instalando {count} paquete de contenido… | Instalando {count} paquetes de contenido… | Instalando {count} paquetes de contenido… | Instalando {count} paquetes de contenido…",
       "willDowngradeTo": "Se degradará a {version}",
       "selectFile": "Seleccione un archivo .LCP",
       "v3Warning": "El siguiente contenido no ha sido registrado como compatible con v3. Estos paquetes todavía funcionarán, pero no podrán aprovechar las funciones v3, especialmente en modo activo.",
@@ -544,7 +544,7 @@
       "upgradeFromTo": "Actualización de {from} a {to}",
       "noChange": "No hay cambio ({from} a {to})",
       "willUpgradeTo": "Se actualizará a v.{version}",
-      "patchStringCount": "{count} cadenas | {count} cadenas | {count} cadenas"
+      "patchStringCount": "{count} cadena | {count} cadenas | {count} cadenas | {count} cadenas"
     },
     "packsDirectory": {
       "officialContent": "Oficial",
@@ -631,14 +631,14 @@
     "v2Auto": {
       "v2Data": "Datos V2",
       "migrationTitle": "Migración de datos V2",
-      "pilotsImported": "{count} piloto importado | {count} pilotos importados | {count} pilotos importados",
-      "pilotsPending": "{count} piloto pendiente (LCPs faltantes) | {count} pilotos pendientes (LCPs faltantes) | {count} pilotos pendientes (LCPs faltantes)",
-      "npcsImported": "{count} PNJ importado | {count} PNJs importados | {count} PNJs importados",
-      "npcsPending": "{count} PNJ pendiente (LPCs faltantes) | {count} PNJs pendientes (LPCs faltantes) | {count} PNJs pendientes (LPCs faltantes)",
-      "encountersPending": "{count} encuentro pendiente (PNJs faltantes) | {count} encuentros pendientes (PNJs faltantes) | {count} encuentros pendientes (PNJs faltantes)",
-      "lcpsImported": "{count} paquete de contenido importado | {count} paquetes de contenido importado | {count} paquetes de contenido importado",
+      "pilotsImported": "{count} piloto importado | {count} pilotos importados | {count} pilotos importados | {count} pilotos importados",
+      "pilotsPending": "{count} piloto pendiente (LCPs faltantes) | {count} pilotos pendientes (LCPs faltantes) | {count} pilotos pendientes (LCPs faltantes) | {count} pilotos pendientes (LCPs faltantes)",
+      "npcsImported": "{count} PNJ importado | {count} PNJs importados | {count} PNJs importados | {count} PNJs importados",
+      "npcsPending": "{count} PNJ pendiente (LPCs faltantes) | {count} PNJs pendientes (LPCs faltantes) | {count} PNJs pendientes (LPCs faltantes) | {count} PNJs pendientes (LPCs faltantes)",
+      "encountersPending": "{count} encuentro pendiente (PNJs faltantes) | {count} encuentros pendientes (PNJs faltantes) | {count} encuentros pendientes (PNJs faltantes) | {count} encuentros pendientes (PNJs faltantes)",
+      "lcpsImported": "{count} paquete de contenido importado | {count} paquetes de contenido importados | {count} paquetes de contenido importados | {count} paquetes de contenido importados",
       "pendingNote": "Los elementos pendientes pueden ser reimportados en el panel Paquetes de Contenido después de instalar los LCP requeridos.",
-      "errorsDuringMigration": "{count} error durante la migración | {count} errores durante la migración | {count} errores durante la migración",
+      "errorsDuringMigration": "{count} error durante la migración | {count} errores durante la migración | {count} errores durante la migración | {count} errores durante la migración",
       "downloadBackup": "Descargar Respaldo v2",
       "autoMigrated": "Tus datos v2 se migraron automáticamente a v3 en el inicio.",
       "downloadBackupTooltip": "Este archivo .compcon se puede utilizar en un entorno v2 en https://old.compcon.app. Esto se puede descargar en cualquier momento desde el menú Opciones"
@@ -660,9 +660,9 @@
       "catLcpOrigin": "LCP Origen",
       "catFlavorText": "Texto Descriptivo",
       "catNpcStats": "Estadísticas PNJ",
-      "foundFixable": "Hallado {count} problema reparable. | Hallados {count} problemas reparables. | Hallados {count} problemas reparables.",
-      "requiresManual": "y {count} problema que requiere medidas manuales | y {count} problemas que requieren medidas manuales | y {count} problemas que requieren medidas manuales",
-      "applyFixesButton": "Aplicar {count} Reparación | Aplicar {count} Reparaciones | Aplicar {count} Reparaciones",
+      "foundFixable": "Hallado {count} problema reparable. | Hallados {count} problemas reparables. | Hallados {count} problemas reparables. | Hallados {count} problemas reparables.",
+      "requiresManual": "{count} incidente requiere medidas manuales. | {count} incidentes requieren medidas manuales. | {count} incidentes requieren medidas manuales. | {count} incidentes requieren medidas manuales.",
+      "applyFixesButton": "Aplicar {count} Reparación | Aplicar {count} Reparaciones | Aplicar {count} Reparaciones | Aplicar {count} Reparaciones",
       "colItem": "@:{'common.item'}",
       "cancel": ""
     },
@@ -680,8 +680,8 @@
     "v2ImportNotify": {
       "importedSuccessfully": "Importado correctamente.",
       "importFailedText": "Importación fallida: {error}",
-      "reimportSuccessText": "{count} artículo importado con éxito. | {count} artículos importados con éxito. | {count} artículos importados con éxito.",
-      "reimportPendingText": "{count} artículo aún pendiente contenido faltante. | {count} artículos aún pendientes contenido faltante. | {count} artículos aún pendientes contenido faltante.",
+      "reimportSuccessText": "{count} artículo importado con éxito. | {count} artículos importados con éxito. | {count} artículos importados con éxito. | {count} artículos importados con éxito.",
+      "reimportPendingText": "{count} artículo aún pendiente contenido faltante. | {count} artículos aún pendientes contenido faltante. | {count} artículos aún pendientes contenido faltante. | {count} artículos aún pendientes contenido faltante.",
       "noItemsToReimport": "No hay artículos para reimportar.",
       "reimportFailedText": "Fallo en la re-importación: {error}",
       "missingDependencies": "Las dependencias faltantes no están disponibles aún.",
@@ -726,7 +726,7 @@
       "importErrorTitle": "Importación Fallida",
       "encounterImportErrorText": "Fallo al importar encuentro:{error}",
       "v2BackupTitle": "Importado a Respaldos v2",
-      "v2BackupText": "{count} encuentro guardado en Importados v2 para posterior importación. | {count} encuentros guardados en Importados v2 para posterior importación. | {count} encuentros guardados en Importados v2 para posterior importación."
+      "v2BackupText": "{count} encuentro guardado en Importados v2 para posterior importación. | {count} encuentros guardados en Importados v2 para posterior importación. | {count} encuentros guardados en Importados v2 para posterior importación. | {count} encuentros guardados en Importados v2 para posterior importación."
     },
     "campaign": {
       "versionLabel": "v{version}",
@@ -791,7 +791,7 @@
       "resetConfirm": "Esto restablecerá todas las estadísticas a los valores predeterminados para G{tier} {name}. ¿Está seguro?",
       "confirmResetStats": "Confirme Reinicio de las Estadísticas",
       "addStat": "Añadir Estadística",
-      "statCount": "{n} Estadística | {n} Estadísticas | {n} Estadísticas"
+      "statCount": "{n} Estadística | {n} Estadísticas | {n} Estadísticas | {n} Estadísticas"
     },
     "labelDialog": {
       "addOverwrite": "Esto añadirá {emphasis} el valor de la etiqueta para todos los elementos seleccionados.",
@@ -815,7 +815,7 @@
     "split": {
       "addType": "Añadir {type}",
       "createNewType": "Crear nuevo {type}",
-      "itemsHidden": "{n} artículos ocultos por filtrado | {n} artículos ocultos por filtrado | {n} artículos ocultos por filtrado"
+      "itemsHidden": "{n} artículo ocultos por filtrado | {n} artículos ocultos por filtrado | {n} artículos ocultos por filtrado | {n} artículos ocultos por filtrado"
     },
     "itemCard": {
       "classLabel": "Clase {class}"
@@ -891,7 +891,7 @@
       "readyForImport": "Encuentro listo para importar",
       "missingNpcs": "Este encuentro hace referencia a PNJs que aún no han sido importados. Se guardará en la colección Importados v2 en el Gestor de Contenidos y se podrá importar una vez que estén disponibles los PNJs requeridos.",
       "someMissingNpcs": "Algunos encuentros hacen referencia a PNJs que aún no han sido importados. Estos encuentros se guardarán en la colección Importados v2 en el Gestor de Contenidos y podrán ser importados cuando estén disponibles los PNJs requeridos.",
-      "importCount": "Importar ({n} Encuentro) | Importar ({n} Encuentros) | Importar ({n} Encuentros)",
+      "importCount": "Importar ({n} Encuentro) | Importar ({n} Encuentros) | Importar ({n} Encuentros) | Importar ({n} Encuentros)",
       "combatants": "Combatientes"
     },
     "npcFeature": {
@@ -915,8 +915,8 @@
     },
     "npcAlert": {
       "selectionsComplete": "{source} selecciones completas",
-      "selectUpTo": "Puede seleccionar hasta {n} característica adicional | Puede seleccionar hasta {n} características adicionales | Puede seleccionar hasta {n} características adicionales",
-      "selectN": "Seleccione {n} característica adicional | Seleccione {n} características adicionales | Seleccione {n} características adicionales"
+      "selectUpTo": "Puede seleccionar hasta {n} característica adicional | Puede seleccionar hasta {n} características adicionales | Puede seleccionar hasta {n} características adicionales | Puede seleccionar hasta {n} características adicionales",
+      "selectN": "Seleccione {n} característica adicional | Seleccione {n} características adicionales | Seleccione {n} características adicionales | Seleccione {n} características adicionales"
     },
     "npcTemplate": {
       "cannotAssign": "No se puede asignar (conflictos con {conflict})",
@@ -978,7 +978,7 @@
     "eidolonPrint": {
       "persistentTraits": "Rasgos Persistentes",
       "layer": "Capa",
-      "newShards": "Nuevos Fragmentos: {n} | Nuevos Fragmentos: {n} | Nuevos Fragmentos: {n}"
+      "newShards": "Nuevo Fragmento: {n} | Nuevos Fragmentos: {n} | Nuevos Fragmentos: {n} | Nuevos Fragmentos: {n}"
     },
     "featurePrint": {
       "weaponAttacks": "Esta arma puede hacer {count} ataques a la vez."
@@ -1191,6 +1191,15 @@
       "manageNonPlayerCombatUnits": "Gestionar unidades de combate no-jugadoras",
       "manageCharactersLocationsAndFactions": "Gestionar personajes, locaciones y facciones",
       "createCombatEncounters": "Crear encuentros de combate"
+    },
+    "npcSelection": {
+      "classExact": "El/La {name} elige {min} característica opcional adicional de la lista Características Opcionales de Clase {name} | El/La {name} elige {min} características opcionales adicionales de la lista Características Opcionales de Clase {name}",
+      "classExactPerTier": "El/La {name} elige {min} característica opcional adicional de la lista Características Opcionales de Clase {name} por Grado de PNJ | El/La {name} elige {min} características opcionales adicionales de la lista Características Opcionales de Clase {name} por Grado de PNJ",
+      "templateClassExact": "El/La {name} elige {min} característica opcional adicional de su clase | El/La {name} elige {min} características opcionales adicionales de su clase",
+      "templateClassExactPerTier": "El/La {name} elige {min} característica opcional adicional de su clase por Grado de PNJ | El/La {name} elige {min} características opcionales adicionales de su clase por Grado de PNJ",
+      "templateExact": "El/La {name} elige {min} opción de la lista Características Opcionales de Plantilla {name} | El/La {name} elige {min} opciones de la lista Características Opcionales de Plantilla {name}",
+      "templateMayExact": "El/La {name} puede elegir {min} opción de la lista Características Opcionales de Plantilla {name} | El/La {name} puede elegir {min} opciones de la lista Características Opcionales de Plantilla {name}",
+      "templatePerTier": "El/La {name} puede elegir una característica opcional adicional por Grado de PNJ | El/La {name} puede elegir {n} características opcionales adicionales por Grado de PNJ"
     }
   },
   "active": {
@@ -1292,7 +1301,7 @@
       "createNewEncounter": "Crear Nuevo Encuentro",
       "archivedEncounters": "Encuentros Archivados ({n})",
       "noArchivedFound": "No se hallaron encuentros archivados",
-      "roundsCount": "{n} Rondas | {n} Rondas | {n} Rondas",
+      "roundsCount": "{n} Ronda | {n} Rondas | {n} Rondas | {n} Rondas",
       "afterActionReport": "Reporte Post-Acción",
       "copyReport": "Copiar Reporte",
       "logsTelemetry": "Bitácoras & Telemetría",
@@ -1388,7 +1397,17 @@
       "sortByCreated": "Ordenar por tiempo de creación"
     },
     "organizer": {
-      "selected": "seleccionada"
+      "selected": "seleccionada",
+      "archiveHint": {
+        "sheet": "Mover hoja al archivo | Mover hojas seleccionadas al archivo",
+        "encounter": "Mover encuentro al archivo | Mover encuentros seleccionados al archivo",
+        "item": "Mover artículo al archivo | Mover artículos seleccionados al archivo"
+      },
+      "removeHint": {
+        "sheet": "Borrar hoja permanentemente | Borrar permanentemente las hojas seleccionadas",
+        "encounter": "Borrar encuentro permanentemente | Borrar permanentemente los encuentros seleccionados",
+        "item": "Borrar permanentemente artículo | Borrar permanentemente los artículos seleccionados"
+      }
     },
     "runnerHeader": {
       "lastSaved": "Guardado por Última Vez",
@@ -1418,7 +1437,8 @@
       "resolveBurn": "Resolver Incendio",
       "burnResolved": "Incendio resuelto",
       "burnRequired": "Resuelva o ignore su Incendio para terminar la ronda.",
-      "youHaveRemainingActions": "¡Tiene acciones restantes!"
+      "youHaveRemainingActions": "¡Tiene acciones restantes!",
+      "movementRemaining": "{n} casilla de movimiento se perderá. | {n} casillas de movimiento se perderán."
     },
     "joinTable": {
       "sortOnline": "Ordenar por Estado en línea",
@@ -1468,7 +1488,7 @@
       "setRound": "Seleccionar Ronda",
       "overrides": "Anula",
       "currentValue": "Actual",
-      "removeFromEncounter": "Quitar {name} Del Encuentro",
+      "removeFromEncounter": "Quitar {name} del encuentro",
       "noStatController": "No se halló Controlador de Estadística",
       "editReinforcements": "Editar Refuerzos",
       "noReinforcementSchedule": "No hay Agenda de Refuerzos",
@@ -1535,7 +1555,7 @@
       "reactorDestroyed": "Reactor destruido",
       "bracedDesc": "Usted cuenta como si tuviera RESISTENCIA a todo daño, calor y quemadura del ataque que provocó este Fortalecimiento, y hasta el final de su próximo turno, todos los otros ataques contra usted se hacen con +1 Dificultad.",
       "coverLabel": "{cover} cobertura",
-      "activationsRemaining": "{n} Activaciones restantes en esta ronda | {n} Activaciones restantes en esta ronda | {n} Activaciones restantes en esta ronda",
+      "activationsRemaining": "{n} Activación restante en esta ronda | {n} Activaciones restantes en esta ronda | {n} Activaciones restantes en esta ronda | {n} Activaciones restantes en esta ronda",
       "aiControl": "Meca Controlado por IA",
       "selfDestructInitiated": "Auto destrucción iniciada",
       "bracedHeading": "Fortalecido",
@@ -1620,7 +1640,7 @@
       "exportText": "Exportar como Texto",
       "telemetry": "Telemetría",
       "rollup": {
-        "equipmentDestroyed": "Equipamiento Destruido",
+        "equipmentDestroyed": "Equipamiento destruido",
         "deployables": "Desplegables"
       }
     },
@@ -1787,7 +1807,7 @@
       "active": "(Activo)",
       "persistentTraits": "Rasgos Persistentes ({n})",
       "noShards": "Capa no tiene Fragmentos",
-      "generateShards": "Generar {n} Fragmento | Generar {n} Fragmentos | Generar {n} Fragmentos"
+      "generateShards": "Generar {n} Fragmento | Generar {n} Fragmentos | Generar {n} Fragmentos | Generar {n} Fragmentos"
     },
     "mechPanel": {
       "meltdown": "Este meca ha sufrido una fusión del reactor. Está permanentemente destruido y no se puede reparar.",
@@ -1941,6 +1961,9 @@
       "rollableTables": "Tablas de Tiradas",
       "encounterInfo": "Info de Encuentro",
       "listTagsPresentOnCharactersOrEquipmentInThisEncounter": "Lista descriptores presentes en personajes o equipamiento en este encuentro"
+    },
+    "aar": {
+      "roundsValue": "{n} ronda | {n} rondas"
     }
   },
   "mainMenu": {
@@ -1953,7 +1976,7 @@
       "syncPartialText": "Fallo de sincronización completa de los artículos {failures}. Esto puede deberse a la falta de datos locales.",
       "syncCompleteTitle": "{total}/{total} Artículos Sincronizados",
       "syncCompleteText": "Todos los artículos fueron sincronizados con éxito.",
-      "deletionCompleteTitle": "{count} Artículo Permanentemente Eliminado | {count} Artículos Permanentemente Eliminados | {count} Artículos Permanentemente Eliminados",
+      "deletionCompleteTitle": "{count} Artículo Eliminado Permanentemente | {count} Artículos Eliminados Permanentemente | {count} Artículos Eliminados Permanentemente | {count} Artículos Eliminados Permanentemente",
       "flaggedRemovedText": "Todos los elementos marcados han sido eliminados de la nube.",
       "noFlaggedText": "No se marcaron objetos para su eliminación.",
       "deletionFailedBulkText": "Se produjo un error al eliminar los elementos marcados.",
@@ -2204,14 +2227,14 @@
       "previousError": "Un anterior intento de migración encontró un error. Puedes volver a intentar abajo.",
       "detectedText": "@:{'common.appName'} ha detectado que tiene una cuenta existente que aún no ha sido migrada al nuevo sistema de nube v3.",
       "migrationDesc": "{detected} La herramienta de migración de cuenta intentará transferir todos los datos de la nube v2 a la nueva plataforma v3. Este proceso puede tomar algún tiempo; por favor no refresque ni cierre la página durante el proceso de migración. Después de utilizar esta herramienta (o cerrarla), puede encontrarla de nuevo en la pestaña \"Datos de Nube\".",
-      "pilotsDetected": "{count} Piloto | {count} Pilotos | {count} Pilotos",
-      "npcsDetected": "{count} PNJ | {count} PNJs | {count} PNJs",
-      "encountersDetected": "{count} Encuentro | {count} Encuentros | {count} Encuentros",
+      "pilotsDetected": "{count} Piloto | {count} Pilotos | {count} Pilotos | {count} Pilotos",
+      "npcsDetected": "{count} PNJ | {count} PNJs | {count} PNJs | {count} PNJs",
+      "encountersDetected": "{count} Encuentro | {count} Encuentros | {count} Encuentros | {count} Encuentros",
       "contentPacksAvailable": "Paquetes de contenido (si están disponibles)",
       "v2NotModified": "Sus datos v2 {not} serán modificados o eliminados por este proceso.",
       "downloading": "Descargando e importando datos v2…",
       "noData": "No se encontraron datos importables en su almacenamiento en la nube v2.",
-      "encountersImported": "{count} encuentro importado | {count} encuentros importados | {count} encuentros importados",
+      "encountersImported": "{count} encuentro importado | {count} encuentros importados | {count} encuentros importados | {count} encuentros importados",
       "completedSuccess": "¡Migración completada con éxito!",
       "dismissNote": "Este panel puede ser cerrado con seguridad. Si necesita reintentar la migración puede repetir este proceso desde la pestaña \"Datos de Nube\".",
       "retryMigration": "Reintentar Migración",
@@ -2237,7 +2260,7 @@
       "settingsDesc1": "@:{'common.appName'} puede crear y guardar una copia de seguridad de sus datos en el intervalo seleccionado. Estos archivos se pueden utilizar para devolver sus datos a un estado anterior.",
       "settingsDesc2": "@:{'common.appName'} eliminará automáticamente archivos antiguos para guardar espacio. Este proceso funciona cuando se crea un nuevo archivo, o se puede activar manualmente haciendo clic en el botón Podar Artículos a continuación.",
       "storageLimit": "Límite de Almacenamiento",
-      "pruneItems": "Podado {count} Artículo | Podados {count} Artículos | Podados {count} Artículos",
+      "pruneItems": "Podar {count} Artículo | Podar {count} Artículos | Podar {count} Artículos | Podar {count} Artículos",
       "nothingToPrune": "Nada para Podar",
       "fileSize": "Tamaño"
     },
@@ -2298,7 +2321,7 @@
       "deleteCloudData": "Eliminar Datos de Nube",
       "deleteCloudItem": "Eliminar Artículo de Nube",
       "deleteCloudItemDesc": "Eliminar este artículo lo marcará como eliminado en la nube. No eliminará este artículo localmente, pero evitará que se sincronice a la nube o a otros dispositivos.",
-      "deleteNItems": "Eliminar {count} Artículo | Eliminar {count} Artículos | Eliminar {count} Artículos",
+      "deleteNItems": "Eliminar {count} Artículo | Eliminar {count} Artículos | Eliminar {count} Artículos | Eliminar {count} Artículos",
       "chooseDeleteMethod": "Elija cómo eliminar los elementos seleccionados",
       "typeEncounterData": "Datos de Encuentro"
     },
@@ -2446,7 +2469,7 @@
       "walkingArmorySelection": "Armería con patas// {selected}",
       "ammoCaseCost": "Coste::Caja de munición",
       "unionArmoryPrintid": "id impresión armería Unión",
-      "tapToAdd": "TOQUE Para añadir",
+      "tapToAdd": "Toque para añadir",
       "clickToAdd": "Clic Para añadir",
       "addNewLoadout": "Añadir Nuevo Equipamiento",
       "changeItem": "Cambiar Artículo",
@@ -2722,9 +2745,9 @@
       "unitRegistrationReviewNotice": "La Oficina de Registros de la UAD/CAVCOM examinará la presentación del registro en el orden que se recibe.",
       "formFieldEncodedData": "CR-7-00 // datos remitidos codificados",
       "optional": "(Opcional)",
-      "hiddenPilots": "{n} piloto Oculto | {n} pilotos Oculto | {n} pilotos Oculto",
-      "andPilots": "y {n} Piloto | y {n} Pilotos | y {n} Pilotos",
-      "pilotCount": "{n} Piloto | {n} Pilotos | {n} Pilotos",
+      "hiddenPilots": "{n} piloto oculto | {n} pilotos ocultos | {n} pilotos ocultos | {n} pilotos ocultos",
+      "andPilots": "y {n} Piloto | y {n} Pilotos | y {n} Pilotos | y {n} Pilotos",
+      "pilotCount": "{n} Piloto | {n} Pilotos | {n} Pilotos | {n} Pilotos",
       "groupDescription": "Descripción Grupo",
       "setGroupEmblem": "Elegir Emblema de Grupo",
       "groupAlreadyExists": "Grupo Ya Existente",
@@ -2752,7 +2775,7 @@
       "efficiency": "Eficiencia",
       "influence": "Influencia",
       "notInCompendium": "Los siguientes {type} no están presentes en el compendio",
-      "coreBonusAvailable": "{count} {mf} Bono Base disponible | {count} {mf} Bonos Base disponibles | {count} {mf} Bonos Base disponibles",
+      "coreBonusAvailable": "{count} {mf} Bono Base disponible | {count} {mf} Bonos Base disponibles | {count} {mf} Bonos Base disponibles | {count} {mf} Bonos Base disponibles",
       "selectPilotBackground": "Seleccionar Trasfondo de Piloto",
       "addCustomReserve": "Añadir Reserva Personalizada",
       "addProject": "Añadir Proyecto",
@@ -2829,8 +2852,8 @@
       "selectSkillTriggers": "Seleccione {word} ({count}) Detonantes.",
       "addMechSkillPoints": "Añada {word} ({count}) Puntos de Habilidad Meca.",
       "selectPilotTalents": "Seleccione {word} ({count}) Talentos de Piloto.",
-      "selectLicenseRanks": "Seleccione {word} ({count}) Rango de Licencia. | Seleccione {word} ({count}) Rangos de Licencia. | Seleccione {word} ({count}) Rangos de Licencia.",
-      "selectCoreBonusesN": "Seleccione {word} ({count}) Base Bono. | Seleccione {word} ({count}) Base Bonos. | Seleccione {word} ({count}) Base Bonos.",
+      "selectLicenseRanks": "Seleccione {word} ({count}) Rango de Licencia. | Seleccione {word} ({count}) Rangos de Licencia. | Seleccione {word} ({count}) Rangos de Licencia. | Seleccione {word} ({count}) Rangos de Licencia.",
+      "selectCoreBonusesN": "Seleccione {word} ({count}) Bono Base. | Seleccione {word} ({count}) Bonos Base. | Seleccione {word} ({count}) Bonos Base. | Seleccione {word} ({count}) Bonos Base.",
       "coreBonusIneligible": "Piloto no eligible para bono base",
       "nb": "Tomar Nota",
       "otherClocks": "Otros Relojes",
@@ -2851,7 +2874,9 @@
       "eng": "Ing",
       "pilotBiography": "Biografía Piloto",
       "pilotAppearance": "Apariencia Piloto",
-      "serverErrorTooManyRequests": "Error de Servidor ‐ Demasiadas Peticiones"
+      "serverErrorTooManyRequests": "Error de Servidor ‐ Demasiadas Peticiones",
+      "retryMinutes": "{n} minuto | {n} minutos",
+      "retrySeconds": "{n} segundo | {n} segundos"
     },
     "common": {
       "installName": "Instalar {name}",
@@ -2970,7 +2995,7 @@
     },
     "mechSkillsSelector": {
       "mechHp": "PG MECA",
-      "limitedSystemsBonus": "BONO SISTEMAS LIMITADOS",
+      "limitedSystemsBonus": "Bonos Limitados por Sistemas",
       "hullSkillDescription": "Tu habilidad CASCO describe tu habilidad para construir y pilotar, mecas pesados y duraderos que puedan recibir puñetazos y seguir avante",
       "agilitySkillDescription": "Tu habilidad AGILIDAD describe tu habilidad para construir y pilotar mecas rápidos, evasivos",
       "systemsSkillDescription": "Tu habilidad SISTEMAS describe tu habilidad para construir y pilotar mecas técnicos con poderosas herramientas de guerra electrónica",
@@ -2980,6 +3005,9 @@
       "createAndModifyMechsAndTheirLoadouts": "Crear y Modificar Mecas y sus Equipamientos",
       "pilotSectionsSummary": "Detonantes de Piloto, Reservas, y Carga de Equipamiento de Piloto",
       "progressionSectionsSummary": "Licencias de Piloto, Habilidades Meca, Bonos BASE, y Talentos"
+    },
+    "logbook": {
+      "acrossN": "a través de {n} encuentro | a través de {n} encuentros"
     }
   },
   "share": {
@@ -3069,7 +3097,9 @@
       "serverError": "El servidor devolvió un error",
       "passwordFailedTitle": "La actualización de contraseña falló",
       "passwordChangedText": "Contraseña de usuario cambiada",
-      "updateCompleteTitle": "Actualización completada"
+      "updateCompleteTitle": "Actualización completada",
+      "syncedItems": "Sincronizado {n} artículo exitosamente. | Sincronizados {n} artículos exitosamente.",
+      "syncedPartial": "Sincronización {succeeded} de {n} artículo. {failed} fallida. | Sincronización {succeeded} de {n} artículos. {failed} fallida."
     },
     "achievement": {
       "unlockedTitle": "¡Logro Desbloqueado!"
@@ -3087,7 +3117,7 @@
       "importCompleteTitle": "Importación Completada",
       "campaignPublishedText": "La versión {version} de {name} ha sido publicada.",
       "campaignPublishedTitle": "Campaña Publicada",
-      "v2BackupText": "{count} artículo guardado en las importaciones v2 pendientes en el Gestor de Contenidos. | {count} artículos guardados en las importaciones v2 pendientes en el Gestor de Contenidos. | {count} artículos guardados en las importaciones v2 pendientes en el Gestor de Contenidos.",
+      "v2BackupText": "{count} artículo guardado en las importaciones v2 pendientes en el Gestor de Contenidos. | {count} artículos guardados en las importaciones v2 pendientes en el Gestor de Contenidos. | {count} artículos guardados en las importaciones v2 pendientes en el Gestor de Contenidos. | {count} artículos guardados en las importaciones v2 pendientes en el Gestor de Contenidos.",
       "v2BackupTitle": "Importar Respaldo v2",
       "npcImportErrorText": "No es posible importar datos DJ: {error}"
     },
@@ -3149,7 +3179,7 @@
       "bulkPartialText": "No es posible eliminar: {items}",
       "bulkPartialTitle": "{n} Eliminado, {f} Fallido",
       "bulkDeletedText": "Se han eliminado los elementos seleccionados.",
-      "bulkDeletedTitle": "{n} Artículo Eliminado | {n} Artículos Eliminados | {n} Artículos Eliminados"
+      "bulkDeletedTitle": "{n} Artículo Eliminado | {n} Artículos Eliminados | {n} Artículos Eliminados | {n} Artículos Eliminados"
     }
   },
   "stats": {
@@ -3303,7 +3333,7 @@
       "remoteHelp": "Este {type} es un recurso remoto vinculado a la cuenta de otro usuario. Es sólo lectura y recibirá actualizaciones desde la cuenta vinculada.",
       "collectionHelp": "Este {type} está vinculado a una colección de contenidos. Es de solo lectura y recibirá actualizaciones cuando una nueva versión de la colección sea publicada por el autor de la colección.",
       "collectionResource": "Recurso de colección",
-      "addRemoteResourceInfo": "Añadir este artículo como recurso remoto creara una versión de solo lectura de este artículo vinculada a los datos originales del autor. Cuando el autor guarda una actualización a este artículo a su cuenta en la nube @:{'common.appName'}, su versión local puede recibir esos cambios."
+      "addRemoteResourceInfo": "Añadir este artículo como recurso remoto creara una versión de solo lectura de este artículo vinculada a los datos originales del autor. Cuando el autor guarde una actualización de este artículo a su cuenta en la nube @:{'common.appName'}, su versión local puede recibir esos cambios."
     },
     "dice": {
       "commitResult": "Enviar Resultado",
@@ -3494,7 +3524,8 @@
       "vs": "VS",
       "diceD": "d",
       "self": "Propio",
-      "irreducibleNoExceptArmor": "Este daño puede ser reducido por las defensas del blanco, excepto la armadura"
+      "irreducibleNoExceptArmor": "Este daño puede ser reducido por las defensas del blanco, excepto la armadura",
+      "confirmKillHint": "{n} muerte será registrada | {n} muertes serán registradas"
     },
     "flow": {
       "request": {
@@ -3717,7 +3748,24 @@
       "kia": "MEA"
     },
     "syncItemCount": {
-      "item": "{n} artículos | {n} artículos | {n} artículos"
+      "item": "{n} artículo | {n} artículos | {n} artículos | {n} artículos",
+      "pilot": "{n} piloto | {n} pilotos",
+      "pilotgroup": "{n} grupo de piloto | {n} grupos de pilotos",
+      "unit": "{n} unidad | {n} unidades",
+      "doodad": "",
+      "eidolon": "{n} eidolon | {n} eidolones",
+      "character": "{n} personaje | {n} personajes",
+      "faction": "{n} facción | {n} facciones",
+      "location": "{n} locación | {n} locaciones",
+      "encounter": "{n} encuentro | {n} encuentros",
+      "encounterinstance": "{n} encuentro activo | {n} encuentros activos",
+      "encounterarchive": "{n} encuentro archivado | {n} encuentros archivados",
+      "pilotsheet": "{n} hoja de piloto | {n} hojas de piloto",
+      "pilotlogbook": "{n} diario de navegación | {n} diarios de navegación",
+      "campaign": "{n} campaña | {n} campañas",
+      "npc": "{n} PNJ | {n} PNJs",
+      "collectionitem": "{n} artículo de colección | {n} artículos de colección",
+      "narrative": "{n} artículo narrativo | {n} artículos narrativos"
     }
   },
   "compendium": {
@@ -3770,7 +3818,7 @@
       "narrativePlay": "juego narrativo"
     },
     "search": {
-      "resultCount": "{count} resultado | {count} resultados | {count} resultados"
+      "resultCount": "{count} resultado | {count} resultados | {count} resultados | {count} resultados"
     },
     "content": {
       "eidolonLayer": "Capa Eidolon",
@@ -3856,7 +3904,7 @@
   },
   "combat": {
     "timedEffect": {
-      "roundsRemaining": "{n} Rondas restantes | {n} Rondas restantes | {n} Rondas restantes",
+      "roundsRemaining": "{n} Ronda restante | {n} Rondas restantes | {n} Rondas restantes | {n} Rondas restantes",
       "override": "Anular"
     },
     "structureCheck": {
@@ -3874,6 +3922,14 @@
       "reroll": "Re-lanzar",
       "rollCheck": "Tirar {check}",
       "rollPrompt": "Tirar {n}d{die} y elegir el más bajo"
+    },
+    "log": {
+      "encounterEnd": "Encuentro terminado tras {rounds} ronda: {result} | Encuentro terminado tras {rounds} rondas: {result}",
+      "turnStart": "{who} inició un turno ({n} activación restante) | {who} inició un turno ({n} activaciones restantes)",
+      "turnEnd": "{who} terminó un turno ({n} activación restante) | {who} terminó un turno ({n} activaciones restantes)",
+      "meltdown": {
+        "scheduled": "el reactor de {who} se fundirá en {turns} turno | el reactor de {who} se fundirá en {turns} turnos"
+      }
     }
   }
 }
