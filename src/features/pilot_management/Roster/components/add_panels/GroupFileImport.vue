@@ -137,7 +137,7 @@
   import { PilotGroup } from '@/features/pilot_management/store/PilotGroup'
   import { ImportData } from '@/io/Data'
   import { PilotStore, PilotGroupStore } from '@/stores'
-  import { logger } from '@sentry/vue'
+  import logger from '@/user/logger'
   import { notify } from '@/util/notify'
 
   const emit = defineEmits<{ 'toggle-import': [val: boolean]; done: [] }>()

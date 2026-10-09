@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/vue'
 import type { App } from 'vue'
 
 declare const APP_VERSION: string
@@ -231,16 +230,8 @@ class Logger {
     if (type === 'error' && error) console.error(error)
   }
 
-  public error = (message: string, caller?: any, err?: any) => {
+  public error = (message: string, caller?: any, err?: any) =>
     this.log(message, 'error', caller, err)
-    const error = this.extractError(caller, err)
-    if (error) {
-      Sentry.captureException(error, {
-        tags: { caller: (caller && caller.constructor?.name) || 'unknown' },
-        extra: { message },
-      })
-    }
-  }
   public warn = (message: string, caller?: any) => this.log(message, 'warn', caller)
   public info = (message: string, caller?: any) => this.log(message, 'info', caller)
   public debug = (message: string, caller?: any) => this.log(message, 'debug', caller)
@@ -298,7 +289,6 @@ class Logger {
 
   public attachGlobalHandlers(app?: App): void {
     if (app) {
-      // Sentry.init already installed an errorHandler
       const prev = app.config.errorHandler
       app.config.errorHandler = (err, instance, info) => {
         const component =

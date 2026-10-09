@@ -16,8 +16,6 @@ import { kebabCase } from 'lodash-es'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
-import * as Sentry from '@sentry/vue'
-
 import logger from '@/user/logger'
 
 import './assets/css/global.css'
@@ -67,75 +65,6 @@ Amplify.configure({
 })
 
 const compcon = createApp(App)
-
-function isErrorReportingEnabled(): boolean {
-  try {
-    const cfg = localStorage.getItem('cc_user')
-    if (cfg) {
-      const parsed = JSON.parse(cfg)
-      return parsed.error_reporting ?? true
-    }
-    const val = localStorage.getItem('cc_error_reporting')
-    if (val !== null) return JSON.parse(val)
-  } catch {
-    // fall through
-  }
-  return false
-}
-
-function isEnhancedReportingEnabled(): boolean {
-  try {
-    const cfg = localStorage.getItem('cc_user')
-    if (cfg) {
-      const parsed = JSON.parse(cfg)
-      return parsed.enhanced_reporting ?? false
-    }
-    const val = localStorage.getItem('cc_enhanced_reporting')
-    if (val !== null) return JSON.parse(val)
-  } catch {
-    // fall through
-  }
-  return false
-}
-
-if (
-  import.meta.env.VITE_APP_ENV !== 'localhost' &&
-  window.location.hostname !== 'cc-dev-preview.netlify.app'
-) {
-  Sentry.init({
-    app: compcon,
-    dsn: import.meta.env.VITE_APP_SENTRY_DSN,
-    tunnel: `${import.meta.env.VITE_APP_INVOKE_URL}/sentry-tunnel`,
-    integrations: [],
-    environment: import.meta.env.MODE,
-    release: APP_VERSION,
-    beforeSend(event, hint) {
-      if (!isErrorReportingEnabled()) return null
-      // Suppress expected Amplify auth errors (user not logged in)
-      const err = hint?.originalException
-      if (
-        err instanceof Error &&
-        (err.name === 'UserUnAuthenticatedException' ||
-          err.message?.includes('User needs to be authenticated'))
-      ) {
-        return null
-      }
-      const now = Date.now()
-      const last = Number(sessionStorage.getItem('sentry_last_sent') || 0)
-      if (now - last < 10 * 60 * 1000) return null
-      sessionStorage.setItem('sentry_last_sent', String(now))
-      if (!isEnhancedReportingEnabled()) {
-        // Strip PII when enhanced reporting is off
-        delete event.user
-        if (event.request) {
-          delete event.request.cookies
-          delete event.request.headers
-        }
-      }
-      return event
-    },
-  })
-}
 
 compcon.use(createPinia())
 compcon.use(i18n)

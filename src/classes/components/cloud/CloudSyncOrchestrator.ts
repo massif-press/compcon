@@ -205,7 +205,7 @@ class CloudSyncOrchestrator {
     try {
       data = await downloadFromS3(item.CloudController.Metadata.Uri)
     } catch (e: any) {
-      if (e?.message?.includes('404')) {
+      if (/40[34]/.test(e?.message ?? '')) {
         logger.warn(`UpdateRemote: cloud file not found for ${item.Name}, skipping`)
         return
       }

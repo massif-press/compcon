@@ -1,10 +1,8 @@
 import type { Metric } from 'web-vitals'
-import * as Sentry from '@sentry/vue'
 
 /**
  * Reports Core Web Vitals metrics.
  *
- * In production, metrics are forwarded to Sentry as custom measurements.
  * In development, metrics are logged to the console for debugging.
  *
  * Tracked metrics:
@@ -22,9 +20,6 @@ export function reportWebVitals(): void {
       if (import.meta.env.DEV) {
         console.info(`[Web Vitals] ${metric.name}: ${metric.value}`)
       }
-
-      // Forward to Sentry as a custom measurement
-      Sentry.setMeasurement(metric.name, metric.value, metric.name === 'CLS' ? '' : 'millisecond')
     }
 
     onCLS(report)

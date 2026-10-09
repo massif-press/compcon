@@ -1,4 +1,3 @@
-import { sentryVitePlugin } from '@sentry/vite-plugin'
 import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
 import vuetify from 'vite-plugin-vuetify'
@@ -110,11 +109,6 @@ export default defineConfig({
         }
       },
     },
-    !process.env.VITEST &&
-      sentryVitePlugin({
-        org: 'massif-press',
-        project: 'compcon',
-      }),
   ],
   build: {
     target: 'esnext',
@@ -126,7 +120,6 @@ export default defineConfig({
           if (id.includes('node_modules/@massif/lancer-data')) return 'lancer-data'
           if (id.includes('node_modules/aws-amplify') || id.includes('node_modules/@aws-amplify'))
             return 'aws'
-          if (id.includes('node_modules/@sentry')) return 'sentry'
           if (id.includes('node_modules/')) return 'vendor'
         },
       },

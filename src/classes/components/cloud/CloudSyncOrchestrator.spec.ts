@@ -217,8 +217,11 @@ describe('UpdateRemote', () => {
     expect(added.CloudController.isSynced).toBe(true)
   })
 
-  it('skips a remote item whose file is gone', async () => {
-    vi.mocked(downloadFromS3).mockRejectedValue(new Error('404 not found'))
+  it.each([
+    'Download failed: 404 Not Found',
+    'Download failed: 403 Forbidden',
+  ])('skips a remote item whose file is gone (%s)', async message => {
+    vi.mocked(downloadFromS3).mockRejectedValue(new Error(message))
     await expect(Orchestrator.UpdateRemote(remotePilot())).resolves.toBeUndefined()
     expect(addSpy).not.toHaveBeenCalled()
   })
