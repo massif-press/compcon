@@ -505,7 +505,13 @@
       "resetV2Tooltip": "Redefine o status de migração da v2, permitindo que o botão 'Dados da V2' apareça novamente caso tenha sido dispensado.",
       "confirmImport": "@:{'common.confirmImport'}",
       "logLevel": "@:{'common.logLevel'}",
-      "errorReportingStatus": "Reporte de Erro {status}"
+      "errorReportingStatus": "Reporte de Erro {status}",
+      "turnWizardClosePolicyLabel": "Ao fechar o Assistente de Turno",
+      "turnWizardClosePolicy": {
+        "ask": "Perguntar se deve manter ou desfazer as Ações",
+        "keep": "Manter Ações",
+        "undo": "Desfazer Ações"
+      }
     },
     "credits": {
       "additionalArtBy": "Arte Adicional por",
@@ -564,7 +570,8 @@
       "massifPress": "MASSIF PRESS",
       "communityAbout": "O @:{'common.appName'} tem orgulho de colaborar com a comunidade de @:{'common.gameName'} para disponibilizar estes pacotes de conteúdo não oficiais. Eles são oferecidos no estado em que se encontram, a critério do autor.",
       "communityContribute": "Se você tiver interesse em criar seu próprio conteúdo homebrew de @:{'common.gameName'} ou em enviar seu conteúdo para ser destacado neste diretório, por favor",
-      "communityNotice": "O download no aplicativo e a inscrição automática para atualizações de LCPs da comunidade ainda não são suportados. Assim que as ferramentas de suporte ao autor estiverem disponíveis, os LCPs da comunidade serão migrados para a v3 e poderão aproveitar os mesmos mecanismos de atualização e inscrição dos pacotes de conteúdo oficiais da Massif Press. Acompanhe o {blog} para ficar por dentro do progresso."
+      "communityNotice": "O download no aplicativo e a inscrição automática para atualizações de LCPs da comunidade ainda não são suportados. Assim que as ferramentas de suporte ao autor estiverem disponíveis, os LCPs da comunidade serão migrados para a v3 e poderão aproveitar os mesmos mecanismos de atualização e inscrição dos pacotes de conteúdo oficiais da Massif Press. Acompanhe o {blog} para ficar por dentro do progresso.",
+      "officialContentHeading": "Conteúdo Oficial da {publisher}"
     },
     "packConfig": {
       "title": "Configurações de Conteúdo",
@@ -2817,7 +2824,7 @@
       "content": "Conteúdo",
       "showPortraits": "Mostrar Retratos",
       "resetToDefault": "Redefinir Padrões",
-      "title": "Layout do Modo Ativo",
+      "title": "Layout Padrão do Modo Ativo",
       "description": "Controla como os painéis dos combatentes, estatísticas e controles de ação são exibidos durante um encontro. Essas configurações são só suas e não afetam os outros jogadores na mesa.",
       "tickbars": "Rastreadores de Status",
       "tickbarModes": {
@@ -3053,7 +3060,21 @@
       "autosaveEncounterTooltip": "Salvar dados do encontro automaticamente ao final de cada rodada. Padrão: ATIVADO.",
       "autosaveSheetTooltip": "Salvar dados da Ficha de Personagem automaticamente ao final de cada rodada. Padrão: ATIVADO."
     },
-    "logsAndTelemetryTitle": "{name} - REGISTROS E TELEMETRIA"
+    "logsAndTelemetryTitle": "{name} - REGISTROS E TELEMETRIA",
+    "turnWizard": {
+      "title": "Assistente de Turno",
+      "moveRemaining": "({n} restantes)",
+      "moveSpaces": "Espaços de movimentos",
+      "commitMove": "Confirmar Movimento",
+      "completeTurn": "Completar Turno",
+      "turnComplete": "Turno Completo",
+      "closePromptTitle": "Manter ações do Assistente de Turno?",
+      "closePromptText": "As ações realizadas no Assistente de Turno desde o último turno concluído podem ser mantidas ou desfeitas.",
+      "undoLabel": "Ações do Assistente de Turno",
+      "weaponAction": "{action}: {weapon}",
+      "keepActions": "Manter",
+      "dontAskAgain": "Não perguntar novamente"
+    }
   },
   "mainMenu": {
     "codeEntry": {

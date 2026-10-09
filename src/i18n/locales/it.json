@@ -240,10 +240,10 @@
     "overkill": "Eccessiva",
     "mechName": "Nome Mech",
     "addTable": "Aggiungi Tavolo",
-    "repairCap": "Riparazioni Massime",
+    "repairCap": "Riparazioni Max",
     "allPilots": "Tutti i piloti",
-    "heatCapacity": "Capienza Calore",
-    "repairCapacity": "Capienza Riparazioni",
+    "heatCapacity": "Calore Max",
+    "repairCapacity": "Riparazioni Max",
     "saveTarget": "Soglia di Salvezza",
     "lastUpdate": "Ultimo aggiornamento",
     "encounterData": "Dati scontro",
@@ -263,7 +263,9 @@
     "hints": "Suggerimenti",
     "rules": "Regole",
     "tactics": "Tattiche",
-    "activateFreeAction": "Attiva (Azione Gratuita)"
+    "activateFreeAction": "Attiva (Azione Gratuita)",
+    "manufacturer": "Produttore",
+    "updated": "Aggiornato"
   },
   "language": {
     "experimentalNote": "Le traduzioni non in inglese sono fornite dalla community e in continua evoluzione. Alcuni testi potrebbero non essere tradotti o risultare imperfetti.",
@@ -281,6 +283,25 @@
     "titles": {
       "orientation": "Orientamento",
       "paper": "Carta"
+    },
+    "statblock": {
+      "accuracyValue": "{n} Precisione",
+      "act": "Att",
+      "attackBonusValue": "{n} Bonus Attacco",
+      "attacksPerActivation": "{n} Attacchi/Attivazione",
+      "buildHeader": "{source} {frame} {'@'} LL{n}",
+      "edefShort": "D-Tech",
+      "engi": "Ing",
+      "evasionShort": "Elu",
+      "integratedMount": "Supporto Integrato",
+      "limited": "Limitato",
+      "noMechSelected": "Nessun Mech Selezionato",
+      "repair": "Riparazioni",
+      "save": "SdS",
+      "sense": "Sens",
+      "sensorsShort": "Sens",
+      "speedShort": "Vel",
+      "structShort": "Strutt"
     }
   },
   "stats": {
@@ -305,8 +326,10 @@
     "sys": "SIS",
     "save": "SdS",
     "techAttack": "Attacco Tech",
-    "repCap": "Rip.Max",
-    "range": "Gittata"
+    "repCap": "Riparazioni Max",
+    "range": "Gittata",
+    "heatCap": "Calore Max",
+    "techAtk": "A-Tech"
   },
   "classes": {
     "newBurden": "Nuovo Fardello",
@@ -331,7 +354,21 @@
     "unknownLicense": "Licenza Sconosciuta",
     "unknownStatus": "Status Sconosciuto",
     "titlePage": "Pagina del titolo",
-    "contributors": "Collaboratori"
+    "contributors": "Collaboratori",
+    "aStandardEnvironmentWithNoSpecial": "Un ambiente standard senza condizioni di combattimento speciali",
+    "expressionVariable": {
+      "currentHp": "PF Attuali",
+      "currentStress": "Stress del Reattore Attuale",
+      "currentStructure": "Struttura Attuale",
+      "heat": "Calore Attuale",
+      "hp": "PF Massimi",
+      "ll": "Livello Licenza del Pilota",
+      "save": "Soglia di Salvezza",
+      "stress": "Stress del Reattore Massimo",
+      "structure": "Struttura Massima",
+      "tier": "Rango PNG"
+    },
+    "standardEncounterDescription": "Uno scontro semplice, con due schieramenti che si affrontano finché uno dei due non viene sconfitto o distrutto."
   },
   "share": {
     "addAsLocalCopy": "aggiungi come copia locale",
@@ -349,7 +386,8 @@
     "shareLink": "Link di condivisione",
     "sheetStyle": "Stile scheda",
     "syncNeeded": "Sincronizzazione necessaria",
-    "upToDate": "Aggiornato"
+    "upToDate": "Aggiornato",
+    "justNow": "Proprio ora"
   },
   "compendium": {
     "campaign": {
@@ -390,7 +428,7 @@
       "mechWeapons": "Armi Mech",
       "npcClasses": "Classi PNG",
       "npcFeatures": "Caratteristiche PNG",
-      "npcTemplates": "Modelli PNG",
+      "npcTemplates": "Template PNG",
       "pilotBackground": "Background del Pilota",
       "sitreps": "SITREP",
       "statusesConditions": "Status e Condizioni",
@@ -425,7 +463,9 @@
       "lancerBasics": "Basi di Lancer",
       "usingCompcon": "usare @:{'common.appName'}",
       "narrativePlay": "gioco narrativo",
-      "statusConditions": "Condizioni"
+      "statusConditions": "Condizioni",
+      "combat": "Combattimento",
+      "mechs": "Mech"
     },
     "returnToCompendium": "Torna al Compendio",
     "search": {
@@ -438,7 +478,16 @@
       "experimentalPreview": "ANTEPRIMA SPERIMENTALE"
     },
     "shared": {
-      "reference": "Riferimento"
+      "reference": "Riferimento",
+      "eidolonLayers": "Strati Eidolon",
+      "lists": "Elenchi",
+      "pilotBackgrounds": "Background del Pilota",
+      "referenceCombat": "Riferimento: Combattimento",
+      "referenceErrata": "Riferimento: Errata",
+      "referenceGlossary": "Riferimento: Glossario",
+      "referenceMechs": "Riferimento: Mech",
+      "referenceNarrativePlay": "Riferimento: Gioco Narrativo",
+      "referencePilots": "Riferimento: Piloti"
     },
     "campaignBookshelf": {
       "notYetImplemented": "Non ancora implementato",
@@ -451,7 +500,31 @@
     },
     "categoryView": {
       "noBondData": "Nessun Dato sui Legami",
-      "noEidolonData": "Nessun Dato sugli Eidolon"
+      "noEidolonData": "Nessun Dato sugli Eidolon",
+      "icon": "Icona",
+      "mounts": "Supporti"
+    },
+    "iconGuide": {
+      "blastAreaOfEffect": "Area d'Effetto \"Esplosione\"",
+      "burstAreaOfEffect": "Area d'Effetto \"Scarica\"",
+      "coneAreaOfEffect": "Area d'Effetto \"Cono\"",
+      "lcpContentHint": "Indica contenuti aggiunti da un file Lancer Content Pack (.lcp)",
+      "lineAreaOfEffect": "Area d'Effetto \"Linea\"",
+      "variableDamageTypeHint": "Tipo di danno scelto dall'utente o non specificato",
+      "weaponThreatRange": "Minaccia dell'Arma"
+    },
+    "licenses": {
+      "tierI": "Rango I",
+      "tierIi": "Rango II",
+      "tierIii": "Rango III"
+    },
+    "routes": {
+      "referenceBasics": "Riferimento: Fondamenti",
+      "referenceCompCon": "Riferimento: COMP/CON"
+    },
+    "searchBar": {
+      "searchTheCompendium": "Cerca nel Compendio",
+      "searchTheReference": "Cerca nel Riferimento"
     }
   },
   "notify": {
@@ -490,7 +563,9 @@
       "updateCompleteTitle": "Aggiornamento completato",
       "updateFailedTitle": "Aggiornamento non riuscito",
       "verificationSentText": "Controlla la tua casella di posta per il codice di verifica",
-      "verificationSentTitle": "E-mail di verifica inviata"
+      "verificationSentTitle": "E-mail di verifica inviata",
+      "syncedItems": "{n} elemento sincronizzato con successo. | {n} elementi sincronizzati con successo.",
+      "syncedPartial": "Sincronizzati: {succeeded} su {n}. Non riusciti: {failed}. | Sincronizzati: {succeeded} su {n}. Non riusciti: {failed}."
     },
     "achievement": {
       "unlockedTitle": "Obiettivo Sbloccato!"
@@ -522,7 +597,8 @@
       "restoredText": "{type} {name} ripristinato.",
       "retryFailedText": "Impossibile trovare l'elemento remoto per {name}.",
       "retryFailedTitle": "Nuovo tentativo non riuscito",
-      "serverError": "Impossibile comunicare con il server. {err}"
+      "serverError": "Impossibile comunicare con il server. {err}",
+      "bulkDeletedTitle": "{n} Elemento Eliminato | {n} Elementi Eliminati"
     },
     "gm": {
       "campaignPublishedText": "La versione {version} di {name} è stata pubblicata.",
@@ -846,7 +922,7 @@
       "storageUsageFull": "@:{'common.appName'} sta attualmente usando {used} di {total}, ovvero il {percent} dello spazio disponibile. Questo include lo spazio riservato da @:{'common.appName'} per la gestione dell'app.",
       "neverAutoDeleteFull": "@:{'common.appName'} non eliminerà {never} automaticamente i dati contrassegnati per l'eliminazione.",
       "autoDeleteFull": "@:{'common.appName'} eliminerà definitivamente i dati dopo che sono stati contrassegnati come eliminati per almeno {days} Questo non influirà sugli elementi non già contrassegnati per l'eliminazione.",
-      "daysCount": "{count} giorni. | {count} giorni. | {count} giorni.",
+      "daysCount": "{count} giorno. | {count} giorni. | {count} giorni.",
       "deleteConfirmIntro": "Questo eliminerà {confirm} i dati locali di @:{'common.appName'}.",
       "deleteConfirmUndone": "Questa operazione {undone}",
       "storageSettings": "Impostazioni di Archiviazione",
@@ -897,7 +973,7 @@
       "willUpgradeTo": "Verrà aggiornato alla v.{version}",
       "willDowngradeTo": "Verrà retrocesso alla versione {version}",
       "byAuthor": "@:{'common.byAuthor'}",
-      "patchStringCount": "{count} stringhe | {count} stringhe | {count} stringhe"
+      "patchStringCount": "{count} stringa | {count} stringhe | {count} stringhe"
     },
     "packsDirectory": {
       "officialContent": "Ufficiali",
@@ -991,9 +1067,18 @@
       "catLcpOrigin": "Origine LCP",
       "catNpcStats": "Statistiche PNG",
       "foundFixable": "Trovato {count} problema risolvibile. | Trovati {count} problemi risolvibili. | Trovati {count} problemi risolvibili.",
-      "requiresManual": "e {count} problema che richiede intervento manuale | e {count} problemi che richiedono intervento manuale | e {count} problemi che richiedono intervento manuale",
+      "requiresManual": "{count} problema richiede un intervento manuale. | {count} problemi richiedono un intervento manuale. | {count} problemi richiedono un intervento manuale.",
       "applyFixesButton": "Applica {count} Correzione | Applica {count} Correzioni | Applica {count} Correzioni",
-      "catLcpFlavorState": "Testo personalizzato LCP"
+      "catLcpFlavorState": "Testo personalizzato LCP",
+      "applyingFixes": "Applicazione delle correzioni ({progress} / {total})...",
+      "finding": {
+        "bakedNpcState": "La caratteristica contiene uno stato specifico del PNG ({fields}) incorporato nei dati LCP",
+        "flavorMatchesDescription": "La descrizione narrativa coincide con il testo della descrizione dell'elemento",
+        "malformedNpcData": "Il PNG ha campi dati v2 malformati che verranno ripuliti al salvataggio",
+        "missingFeature": "La caratteristica a cui fa riferimento \"{owner}\" manca. Reinstalla l'LCP \"{pack}\" per recuperarla",
+        "unresolvableOrigin": "La caratteristica ha un'origine irrisolvibile. Elimina e reinstalla l'LCP per recuperarla",
+        "unresolvedOrigin": "La caratteristica ha un'origine in forma di oggetto non risolta; può essere risolta ora"
+      }
     },
     "packsList": {
       "toggleSuccessText": "Pacchetto {action} con successo.",
@@ -1057,7 +1142,14 @@
       "addNewSubscription": "Aggiungi Nuova Iscrizione",
       "linkedMassifContent": "Contenuti Massif Collegati",
       "membershipBenefits": "Vantaggi dell'Abbonamento",
-      "paidLcpItchRequirement": "I contenuti LCP a pagamento richiedono un acquisto itch.io collegato prima di poter essere aggiornati automaticamente. Al momento sono supportati solo gli LCP pubblicati da Massif."
+      "paidLcpItchRequirement": "I contenuti LCP a pagamento richiedono un acquisto itch.io collegato prima di poter essere aggiornati automaticamente. Al momento sono supportati solo gli LCP pubblicati da Massif.",
+      "campaigns": "Campagne",
+      "filename": "Nome File",
+      "lancerAndAbove": "Lancer (e superiori)",
+      "lcps": "LCP",
+      "manualOnly": "Solo Manuale",
+      "pilotGroups": "Gruppi Piloti",
+      "uploadDate": "Data di Caricamento"
     },
     "archive": {
       "archiveSettings": "Impostazioni Archivio",
@@ -1078,7 +1170,8 @@
       "settingsDesc1": "@:{'common.appName'} può creare e salvare un backup dei tuoi dati all'intervallo selezionato. Questi archivi possono essere usati per riportare i tuoi dati a uno stato precedente.",
       "settingsDesc2": "@:{'common.appName'} eliminerà automaticamente i vecchi archivi per risparmiare spazio. Questo processo viene eseguito ogni volta che viene creato un nuovo archivio, oppure può essere avviato manualmente cliccando il pulsante Elimina Elementi qui sotto.",
       "storageLimit": "Limite di Archiviazione",
-      "subscribing": "abbonarti"
+      "subscribing": "abbonarti",
+      "fileSize": "Dimensione"
     },
     "auth": {
       "abort": "Interrompi",
@@ -1229,7 +1322,8 @@
       "accountDetails": "Dettagli Account",
       "accountDeletion": "Eliminazione Account",
       "accountIdHelp": "Il tuo ID account univoco. Viene usato per identificare il tuo account nel cloud e potrebbe essere richiesto per la risoluzione dei problemi.",
-      "usernameOptional": "Questo è un campo <b>facoltativo</b> che puoi usare per impostare un nome personalizzato per il tuo account. Questo nome utente <b>sarà</b> visibile agli altri utenti in modalità attiva e quando condividi i dati."
+      "usernameOptional": "Questo è un campo <b>facoltativo</b> che puoi usare per impostare un nome personalizzato per il tuo account. Questo nome utente <b>sarà</b> visibile agli altri utenti in modalità attiva e quando condividi i dati.",
+      "accountEmailTooltip": "Questo è l'indirizzo e-mail associato al tuo account. Puoi usarlo per accedere a @:{'common.appName'}, Nautilus e alle altre app Massif. Questo indirizzo è visibile solo a te e <b>non verrà</b> mostrato agli altri utenti nella modalità attiva o nei dati condivisi."
     },
     "menu": {
       "connected": "Connesso",
@@ -1263,7 +1357,10 @@
       "accountLabel": "account Patreon",
       "linkInfo": "Se sei abbonato al Patreon di @:{'common.appName'}, collegare il tuo account Patreon aumenterà il tuo spazio di archiviazione cloud massimo e sbloccherà la creazione di tavoli in tempo reale in modalità GM.",
       "linkPatreon": "Collega Patreon",
-      "tierName": "Livello {title}"
+      "tierName": "Livello {title}",
+      "freeTier": "Gratuito",
+      "thanksFollowing": "Grazie per seguire il progetto @:{'common.appName'}!",
+      "thanksSupport": "Grazie per il tuo generoso sostegno a @:{'common.appName'}!"
     },
     "publishing": {
       "accessInfo": "A causa dei costi del server associati alla creazione e distribuzione di queste raccolte, questo strumento è disponibile solo per gli abbonati Patreon. Se desideri accedere a questo strumento e creare e distribuire raccolte dei tuoi contenuti @:{'common.appName'}, valuta di {link} per sostenere lo sviluppo di @:{'common.appName'} e ottenere funzionalità aggiuntive.",
@@ -1290,7 +1387,12 @@
       "willNotLabel": "non",
       "currentVersion": "Versione Attuale",
       "deleteCollectionBtn": "elimina raccolta",
-      "noPublishingAccess": "Non hai accesso allo strumento di pubblicazione delle raccolte."
+      "noPublishingAccess": "Non hai accesso allo strumento di pubblicazione delle raccolte.",
+      "authorRequired": "Autore (obbligatorio)",
+      "header": "PUBBLICAZIONE DI RACCOLTE DI CONTENUTI",
+      "headerShort": "PUBBLICAZIONE RACCOLTE",
+      "headerTooltip": "Con questo strumento puoi creare e pubblicare raccolte di contenuti di @:{'common.appName'} per altri utenti, che potranno iscriversi alle tue raccolte e ricevere automaticamente gli aggiornamenti quando pubblichi nuovi contenuti. Lo strumento è pensato per GM e creatori di contenuti di @:{'common.gameName'}, e non serve per l'uso normale o per giocare a @:{'common.gameName'}.<br /><br />Usa questo strumento in modo responsabile. Pubblicare contenuti inappropriati o dannosi, o contenuti che non hai il permesso di distribuire, può comportare il blocco del tuo account dal servizio cloud di @:{'common.appName'}.",
+      "nameRequired": "Nome (obbligatorio)"
     },
     "storage": {
       "activated": "Archiviazione persistente attivata! Chiusura avviso…",
@@ -1319,7 +1421,11 @@
       "unsubscribe": "Annulla iscrizione",
       "upToDate": "Aggiornato",
       "updateToLatest": "Aggiorna all'Ultima Versione",
-      "updatedOn": "Aggiornato il {date}"
+      "updatedOn": "Aggiornato il {date}",
+      "authorContentHeader": "ISCRIZIONI AI CONTENUTI DEGLI AUTORI",
+      "authorContentShort": "Contenuti degli Autori",
+      "authorContentTooltip": "Puoi iscriverti agli autori di contenuti di @:{'common.appName'} per ricevere aggiornamenti quando pubblicano nuovi contenuti. Possono includere piloti, dati per il GM come PNG ed Elementi Narrativi, e contenuti di raccolte limitate o riservate, come homebrew per un tavolo specifico. Puoi aggiungere nuove iscrizioni inserendo nella lista qui sotto l'ID della raccolta di contenuti (CSID) dell'autore.<br /><br /><strong>Né Massif Press né lo sviluppatore di @:{'common.appName'} si assumono alcuna responsabilità per i contenuti pubblicati nella raccolta di un autore. Iscriviti agli autori a tua discrezione.</strong>",
+      "lcpHeader": "Iscrizioni agli LCP"
     },
     "syncSettings": {
       "cloudFullSync": "Lo spazio cloud è pieno! Impossibile sincronizzare nuovi dati.",
@@ -1340,7 +1446,19 @@
       "syncDataTypesHelp": "Controlla quali tipi di dati vengono sincronizzati con il cloud.",
       "forcePushAllDescription": "Invia tutti i dati locali al cloud incondizionatamente, reimpostando i timestamp dei campi a ora. Usalo dopo un ripristino o un'importazione.",
       "pullAllDescription": "Scarica tutti i dati cloud e li unisce ai dati locali. I campi locali con timestamp più recenti vengono preservati.",
-      "permanentlyRemovesItemsFlaggedFor": "Rimuove definitivamente gli elementi contrassegnati per l'eliminazione."
+      "permanentlyRemovesItemsFlaggedFor": "Rimuove definitivamente gli elementi contrassegnati per l'eliminazione.",
+      "allItemTypes": "Tutti i Tipi di Elemento",
+      "dataIsOnlySyncedWhenYou": "I dati vengono sincronizzati solo quando clicchi su Sincronizza.",
+      "every30Minutes": "Ogni 30 Minuti",
+      "every60Minutes": "Ogni 60 Minuti",
+      "narrativeData": "Dati Narrativi",
+      "noItemTypes": "Nessun Tipo di Elemento",
+      "npcData": "Dati PNG",
+      "onOpenClose": "All'Apertura e alla Chiusura",
+      "pilotData": "Dati Pilota",
+      "syncOnOpenCloseDescription": "Sincronizza quando apri e chiudi l'app. La sincronizzazione alla chiusura potrebbe non essere supportata da tutti i browser.",
+      "syncsAutomaticallyEvery30MinutesRequires": "Sincronizza automaticamente ogni 30 minuti. Richiede il sostegno su Patreon.",
+      "syncsAutomaticallyEvery60MinutesRequires": "Sincronizza automaticamente ogni 60 minuti. Richiede il sostegno su Patreon."
     },
     "titles": {
       "changeAccountEmail": "Cambia E-Mail Account",
@@ -1384,14 +1502,32 @@
       "npcsAddedViaCode": "Il tuo account ha accesso ai dati PNG del Lancer Core Book. Questo contenuto è stato aggiunto al tuo account tramite collegamento con codice QR."
     },
     "authorSubscriptions": {
-      "updates": "Aggiornamenti"
+      "updates": "Aggiornamenti",
+      "contentCollection": "Raccolta di Contenuti",
+      "onStartup": "All'Avvio"
     },
     "cloudArchive": {
       "autoBackupFrequency": "Frequenza Backup Automatico",
       "itemLimit": "Limite Elementi",
       "remoteBackups": "Backup Remoti",
       "noRemoteBackupAccess": "Non hai accesso ai backup remoti.",
-      "cloudArchiveHelp": "Questo strumento catturerà un'istantanea dei tuoi dati @:{'common.appName'} locali e la archivierà in un archivio cloud. Puoi usarlo per riportare i tuoi dati @:{'common.appName'} a uno stato precedente. Questa funzionalità è disponibile solo per i sostenitori Patreon."
+      "cloudArchiveHelp": "Questo strumento catturerà un'istantanea dei tuoi dati @:{'common.appName'} locali e la archivierà in un archivio cloud. Puoi usarlo per riportare i tuoi dati @:{'common.appName'} a uno stato precedente. Questa funzionalità è disponibile solo per i sostenitori Patreon.",
+      "daily": "Giornaliero",
+      "doNotAutomaticallyDeleteAnyArchives": "Non eliminare automaticamente nessun archivio.",
+      "keepAll": "Conserva Tutti",
+      "keepOnlyTheMostRecentArchive": "Conserva solo l'archivio più recente.",
+      "keepThe10NewestArchives": "Conserva i 10 archivi più recenti.",
+      "keepThe30NewestArchives": "Conserva i 30 archivi più recenti.",
+      "keepThe5NewestArchives": "Conserva i 5 archivi più recenti.",
+      "last10": "Ultimi 10",
+      "last30": "Ultimi 30",
+      "last5": "Ultimi 5",
+      "monthly": "Mensile",
+      "mostRecentOnly": "Solo il Più Recente",
+      "off": "Disattivato",
+      "onAppStart": "All'Avvio dell'App",
+      "preserve": "Conserva",
+      "weekly": "Settimanale"
     },
     "cloudDataViewer": {
       "filter": "Filtro",
@@ -1407,7 +1543,8 @@
       "mergeAndSyncThisItem": "Unisci e sincronizza subito questo elemento.",
       "itemForcePushDescription": "Invia i dati locali al cloud incondizionatamente, sovrascrivendo quelli remoti.",
       "itemMergeDescription": "Unisci gli ultimi dati cloud in questo elemento, preservando i campi locali più recenti.",
-      "itemUnlinkDescription": "Rimuovi il collegamento remoto e mantieni i dati localmente."
+      "itemUnlinkDescription": "Rimuovi il collegamento remoto e mantieni i dati localmente.",
+      "lastSync": "Ultima Sincronizzazione"
     },
     "shared": {
       "newPassword": "Nuova Password",
@@ -1416,18 +1553,52 @@
     "login": {
       "passwordResetCode": "Codice di Reimpostazione Password",
       "emailAddress": "Indirizzo E-Mail",
-      "compconCloudAccount": "Account Cloud @:{'common.appName'}"
+      "compconCloudAccount": "Account Cloud @:{'common.appName'}",
+      "signInFailed": "Accesso non riuscito"
     },
     "mobile": {
       "managePilots": "Gestisci Piloti",
       "roster": "Lista"
     },
     "desktop": {
-      "v2ImportsAwaitingResolution": "importazioni v2 in attesa di risoluzione"
+      "v2ImportsAwaitingResolution": "importazioni v2 in attesa di risoluzione",
+      "activeModeHelp": "Gestisci uno Scontro o una Scheda Personaggio Attiva",
+      "compendiumHelp": "Database dell'Equipaggiamento",
+      "contentManagerHelp": "Importa Pacchetti di Contenuti",
+      "gmToolkitHelp": "Gestisci Campagne, Scontri e PNG",
+      "log": {
+        "about": "Informazioni su @:{'common.appName'}",
+        "campaign": "in lavorazione",
+        "compendium": "Consulta il database di telai, equipaggiamento e regole di @:{'common.gameName'}",
+        "content": "Gestisci e crea dati di espansione per @:{'common.appName'}",
+        "encounter": "Gestisci uno Scontro come GM, apri o continua una Scheda Personaggio Attiva, oppure crea o unisciti a un Tavolo nel cloud (in arrivo!)",
+        "gm": "Crea e gestisci PNG e scontri, e conduci missioni con PNG e piloti",
+        "help": "Apri la pagina di aiuto di @:{'common.appName'}",
+        "options": "Apri la gestione delle opzioni",
+        "pilot": "Crea e gestisci i piloti e i loro mech, stampa le schede personaggio e attiva la modalità di gioco attiva",
+        "update": "Visualizza il registro delle modifiche e gli ultimi aggiornamenti di @:{'common.appName'}"
+      }
     },
     "storageWarning": {
       "installCompconForReliableStorage": "Installa @:{'common.appName'} per un'Archiviazione Affidabile",
       "storagePermissionRequired": "Autorizzazione Archiviazione Richiesta!"
+    },
+    "a11y": {
+      "abortSignIn": "Interrompi accesso",
+      "cancelAndClose": "Annulla e chiudi",
+      "retrySignIn": "Riprova accesso",
+      "signInProgressLog": "Registro di avanzamento dell'accesso"
+    },
+    "dataViewer": {
+      "activeEncounterRound": "Scontro Attivo // Round {round}",
+      "archive": "Archivio"
+    },
+    "massifLcpTable": {
+      "autoUpdate": "Aggiornamento Automatico"
+    },
+    "signIn": {
+      "hidePassword": "Nascondi password",
+      "showPassword": "Mostra password"
     }
   },
   "ui": {
@@ -1471,8 +1642,8 @@
       "profileDeployables": "Dispiegabili del profilo",
       "profileTags": "Tag del profilo",
       "suggestedSkills": "Abilità Consigliate",
-      "templateBaseFeatures": "Caratteristiche Base del Modello",
-      "templateOptionalFeatures": "Caratteristiche Opzionali del Modello",
+      "templateBaseFeatures": "Caratteristiche Base del Template",
+      "templateOptionalFeatures": "Caratteristiche Opzionali del Template",
       "tierColumns": "R1 / R2 / R3",
       "variantFrame": "Telaio Variante",
       "weaponAttacks": "Quest'arma può effettuare {count} attacchi alla volta. Più attacchi possono essere effettuati contro lo stesso bersaglio o bersagli diversi.",
@@ -1480,7 +1651,8 @@
       "frameTraits": "Tratti del telaio",
       "integratedEquipment": "Equipaggiamento integrato",
       "deployables": "Dispiegabili",
-      "extraction": "Estrazione"
+      "extraction": "Estrazione",
+      "systemPoints": "Punto Sistema | Punti Sistema"
     },
     "cascade": {
       "alert": "Allarme Cascata",
@@ -1567,7 +1739,14 @@
       "vsStat": "contro {stat}",
       "vsTarget": "contro quella del Bersaglio",
       "rollResults": "risultati del tiro",
-      "irreducibleNoExceptArmor": "Questo danno può essere ridotto dalle difese del bersaglio, tranne l'armatura"
+      "irreducibleNoExceptArmor": "Questo danno può essere ridotto dalle difese del bersaglio, tranne l'armatura",
+      "confirmKillHint": "Verrà registrata {n} uccisione | Verranno registrate {n} uccisioni",
+      "confirmKill": "Bersaglio Distrutto",
+      "consumeLockOn": "Consuma AGGANCIATO per +1 Precisione",
+      "self": "Sé Stesso",
+      "sideAlly": "Alleato",
+      "sideEnemy": "Nemico",
+      "targets": "Bersagli"
     },
     "confirm": {
       "heading": "// Interruzione processo: autorizzazione richiesta //"
@@ -1578,11 +1757,14 @@
       "deployables": "Dispiegabili del bonus licenza",
       "instancedWarning": "{warning} Questo è un elemento istanziato. Se rimosso, questo bonus licenza non sarà disponibile finché non verrà installato l'LCP associato.",
       "integrated": "Equipaggiamento integrato del bonus licenza",
-      "remove": "Rimuovi questo Bonus Licenza"
+      "remove": "Rimuovi questo Bonus Licenza",
+      "ignoreRequirements": "Ignora i requisiti dei Bonus Licenza"
     },
     "corePanel": {
       "integrated": "Equipaggiamento integrato primario",
-      "special": "Equipaggiamento speciale primario"
+      "special": "Equipaggiamento speciale primario",
+      "corePowerAvailable": "Riserva Primaria Disponibile",
+      "corePowerDepleted": "Riserva Primaria Esaurita"
     },
     "counter": {
       "addCustom": "Aggiungi Contatore Personalizzato",
@@ -1660,7 +1842,7 @@
       "lancerCoreBook": "Lancer Core Book",
       "missingContent": "Contenuto mancante",
       "noNpcData": "Nessun dato dell'editor PNG trovato!",
-      "npcDataHelp": "I dati dei PNG sono inclusi nella versione a pagamento del Lancer Core Book e quindi non sono inclusi in @:{'common.appName'} per impostazione predefinita. Puoi trovare i dati di Classi, Modelli e Caratteristiche dei PNG come contenuto scaricabile aggiuntivo sulla {link}.",
+      "npcDataHelp": "I dati dei PNG sono inclusi nella versione a pagamento del Lancer Core Book e quindi non sono inclusi in @:{'common.appName'} per impostazione predefinita. Puoi trovare i dati di Classi, Template e Caratteristiche dei PNG come contenuto scaricabile aggiuntivo sulla {link}.",
       "npcHelp": "@:{'common.appName'} non può caricare i dati dei PNG senza l'installazione del Pacchetto di Contenuti PNG fornito con la versione a pagamento (GM) del {pack}",
       "otherError": "@:{'common.appName'} ha riscontrato un errore durante il caricamento di questo elemento.",
       "packActive": "Il Lancer Content Pack {pack} è installato e attivo.",
@@ -1689,7 +1871,8 @@
       "collectionHelp": "Questo {type} è collegato a una raccolta di contenuti. È in sola lettura e riceverà aggiornamenti quando l'autore della raccolta pubblicherà una nuova versione.",
       "collectionResource": "Risorsa della raccolta",
       "remoteHelp": "Questo {type} è una risorsa remota collegata all'account di un altro utente. È in sola lettura e riceverà aggiornamenti dall'account collegato.",
-      "addRemoteResourceInfo": "Aggiungere questo elemento come risorsa remota creerà una versione in sola lettura di questo elemento collegata ai dati originali dell'autore. Quando l'autore salva un aggiornamento di questo elemento sul suo account cloud @:{'common.appName'}, la tua versione locale può ricevere quelle modifiche."
+      "addRemoteResourceInfo": "Aggiungere questo elemento come risorsa remota creerà una versione in sola lettura di questo elemento collegata ai dati originali dell'autore. Quando l'autore salva un aggiornamento di questo elemento sul suo account cloud @:{'common.appName'}, la tua versione locale può ricevere quelle modifiche.",
+      "mustBeLoggedInToAdd": "Devi aver effettuato l'accesso per aggiungere elementi come risorse remote."
     },
     "rollTable": {
       "confirmRebuild": "Conferma Ricostruzione",
@@ -1699,7 +1882,8 @@
       "rebuild": "Ricostruisci",
       "rebuildConfirm": "Vuoi ricostruire questa tabella? Questo cancellerà i dati attuali. Questa azione non può essere annullata.",
       "step": "Passo",
-      "gmOnly": "Solo GM"
+      "gmOnly": "Solo GM",
+      "multipleOnes": "Più di un 1"
     },
     "selector": {
       "noManufacturer": "Nessun Produttore",
@@ -1707,7 +1891,7 @@
     },
     "shareImport": {
       "alreadyAdded": "Questo elemento è già stato aggiunto come risorsa remota.",
-      "dataFound": "dati {type} trovati",
+      "dataFound": "Dati {type} trovati",
       "findItem": "Trova Elemento",
       "itemShareCode": "Codice di Condivisione Elemento",
       "noItemFound": "Nessun elemento trovato con il codice {code}.",
@@ -1742,12 +1926,33 @@
       "tap": "TOCCA",
       "toClose": "Per chiudere",
       "bonus": "bonus",
-      "noDataUpper": "Nessun dato"
+      "noDataUpper": "Nessun dato",
+      "glossary": {
+        "heatDescription": "Il Calore è un caso speciale: non si considera danno e ignora l'ARMATURA, ma può essere ridotto da RESISTENZA. Rappresenta i danni ai sistemi interni e al reattore di un mech. Viene inflitto soprattutto da attacchi di guerra elettronica, ma spesso deriva dai sistemi del mech stesso. Quando un mech raggiunge il proprio CALORE MAX, ogni ulteriore Calore causa un surriscaldamento. Se un personaggio privo di CALORE MAX (come i personaggi BIOLOGICI e alcuni DRONI) dovrebbe subire Calore, subisce invece un pari ammontare di danno energetico.",
+        "burnDescription": "Alcune armi infliggono Fuoco (danno continuo). Il Fuoco può rappresentare fiamme, plasma rovente, acido o qualcosa di ancora più insidioso, come uno sciame di naniti greywash. Quando un personaggio subisce Fuoco, si verificano due effetti: prima subisce subito danni da Fuoco, ignorando l'ARMATURA, poi segna il Fuoco appena subito. Al termine del proprio turno, un personaggio con Fuoco segnato deve effettuare una prova di INGEGNERIA. Se la supera, rimuove tutto il Fuoco segnato; altrimenti subisce danni da Fuoco pari al Fuoco attualmente segnato. Il Fuoco proveniente da altre fonti si somma al totale segnato.",
+        "intro": "Questo equipaggiamento infligge <b>{value}</b> Danni {type}",
+        "rangeDesc": {
+          "areaBlast": "i personaggi entro un raggio di X spazi, a partire da un punto entro GITTATA, con il centro dell'esplosione sull'attaccante o adiacente a esso",
+          "areaBurst": "i personaggi entro un raggio di X spazi attorno all'attaccante, incluso lo spazio che occupa",
+          "areaCone": "i personaggi entro un cono lungo X spazi e largo X spazi nel punto più lontano",
+          "areaLine": "tutti i bersagli lungo una linea retta lunga X spazi. Si effettua un tiro d'attacco separato contro ogni bersaglio sulla linea.",
+          "equipmentAffects": "L'equipaggiamento con schema d'attacco {pattern} colpisce {area}.",
+          "maxRange": "La distanza massima a cui {what}, misurata dal personaggio che attacca.",
+          "whatRange": "un'arma può essere usata per attacchi a distanza",
+          "whatThreat": "si possono effettuare attacchi in mischia e di sorveglianza con determinate armi",
+          "whatThrown": "si può usare un'arma da lancio"
+        }
+      }
     },
     "flow": {
       "request": {
-        "burn": "Prova Fuoco"
-      }
+        "burn": "Prova Fuoco",
+        "attackRoll": "Tiro d'Attacco",
+        "attackInputs": "Dati dell'Attacco",
+        "damage": "Tiro per i Danni",
+        "structureOrStressCheck": "Prova di Struttura o di Stress"
+      },
+      "unresolved": "Non risolti: {list}"
     },
     "coreSystem": {
       "activeLabel": "Attivo"
@@ -1765,7 +1970,19 @@
       "cardOptions": "Opzioni Carta"
     },
     "organizer": {
-      "showDeleted": "Mostra Eliminati"
+      "showDeleted": "Mostra Eliminati",
+      "archive": "Archivia",
+      "archiveMultiple": "Archivia Più Elementi",
+      "deleteMultiple": "Elimina Più Elementi",
+      "exportCollection": "Esporta Raccolta",
+      "exportItemJson": "Esporta JSON dell'elemento",
+      "exportPackage": "Genera un pacchetto di esportazione con più elementi",
+      "markDeleted": "Segna l'elemento come Eliminato",
+      "markDeletedMultiple": "Segna più elementi come Eliminati",
+      "printMultiple": "Stampa Più Elementi",
+      "restoreMultiple": "Ripristina Più Elementi",
+      "unmarkDeleted": "Rimuovi lo stato Eliminato dall'elemento",
+      "unmarkDeletedMultiple": "Rimuovi lo stato Eliminato dagli elementi"
     },
     "relationshipItem": {
       "entity": "Entità",
@@ -1773,11 +1990,39 @@
     },
     "compendiumBrowser": {
       "metric": "Metrica",
-      "itemFilters": "Filtri Elementi"
+      "itemFilters": "Filtri Elementi",
+      "energyDamage": "Danno Energetico",
+      "evade": "Elusione",
+      "explosiveDamage": "Danno Esplosivo",
+      "group": {
+        "bond": "Raggruppa per Legame",
+        "featureType": "Raggruppa per Tipo di Caratteristica",
+        "lcp": "Raggruppa per LCP",
+        "license": "Raggruppa per Licenza",
+        "none": "Nessun Raggruppamento",
+        "origin": "Raggruppa per Origine",
+        "role": "Raggruppa per Ruolo PNG",
+        "source": "Raggruppa per Fonte",
+        "type": "Raggruppa per Sottotipo"
+      },
+      "heatDamage": "Danno da Calore",
+      "kineticDamage": "Danno Cinetico",
+      "selectItem": "Seleziona {item}",
+      "view": {
+        "bar": "Vista Grafico",
+        "cards": "Vista Schede",
+        "compare": "Vista Confronto",
+        "list": "Vista Elenco",
+        "scatter": "Vista Dispersione",
+        "single": "Vista Singola",
+        "table": "Vista Tabella"
+      },
+      "variableDamage": "Danno Variabile"
     },
     "selectorScatter": {
       "xAxis": "Asse X",
-      "yAxis": "Asse Y"
+      "yAxis": "Asse Y",
+      "allItems": "Tutti gli Elementi"
     },
     "cards": {
       "compareTo": "Confronta con",
@@ -1788,7 +2033,8 @@
       "organizationName": "Nome dell'Organizzazione",
       "counterName": "Nome del contatore",
       "costcomplications": "Costo/Complicazioni",
-      "markResourceUsedHint": "Contrassegna questa risorsa come usata o non disponibile (ma non consumata, distrutta o persa)"
+      "markResourceUsedHint": "Contrassegna questa risorsa come usata o non disponibile (ma non consumata, distrutta o persa)",
+      "organizationInfluenceHelp": "L'Influenza rappresenta dimensioni, portata, ricchezza e reputazione della tua organizzazione. L'Influenza può essere usata per acquisire mezzi, creare opportunità o orientare l'opinione pubblica."
     },
     "filters": {
       "fromManufacturer": "Dal Produttore",
@@ -1801,11 +2047,14 @@
     },
     "selectors": {
       "addNewImage": "Aggiungi Nuova Immagine",
-      "imageType": "Tipo di Immagine"
+      "imageType": "Tipo di Immagine",
+      "deleteCloudImageConfirm": "Questo eliminerà definitivamente l'immagine dallo spazio cloud. Vuoi continuare?"
     },
     "remoteArchive": {
       "linkImage": "Collega Immagine",
-      "externalDataWarning": "Avviso Dati Esterni"
+      "externalDataWarning": "Avviso Dati Esterni",
+      "deleteImageConfirm": "Questo eliminerà il collegamento all'immagine dalla tua libreria. Vuoi continuare?",
+      "linkARemotelyHostedImageTo": "Collega a questa risorsa un'immagine ospitata in remoto. Queste immagini non sono archiviate né gestite da COMP/CON e possono essere modificate o rimosse dai rispettivi host."
     },
     "chips": {
       "resetAllInputs": "Reimposta Tutti i Campi",
@@ -1823,6 +2072,36 @@
       "pleaseUseResponsibly": "Usa responsabilmente",
       "copyShareCodeToClipboard": "Copia il codice di condivisione negli appunti",
       "copyShareLinkToClipboard": "Copia il link di condivisione negli appunti"
+    },
+    "bonus": {
+      "increasesBy": "Aumenta {target} di {value}",
+      "decreasesBy": "Riduce {target} di {value}",
+      "setsTo": "Imposta {target} a {value}",
+      "takeAccuracy": "+{n} Precisione per {target}",
+      "takeDifficulty": "+{n} Difficoltà per {target}",
+      "increases": "Aumenta",
+      "decreases": "Riduce",
+      "unknown": "BONUS SCONOSCIUTO"
+    },
+    "coreSystemPanel": {
+      "title": "Sistema Primario {frame}"
+    },
+    "diceMenu": {
+      "addAccuracy": "Aggiungi Precisione",
+      "addCoinFlipD2": "Aggiungi lancio di moneta (d2)",
+      "addD10Roll": "Aggiungi tiro d10",
+      "addD12Roll": "Aggiungi tiro d12",
+      "addD20Roll": "Aggiungi tiro d20",
+      "addD4Roll": "Aggiungi tiro d4",
+      "addD6Roll": "Aggiungi tiro d6",
+      "addD8Roll": "Aggiungi tiro d8",
+      "addDifficulty": "Aggiungi Difficoltà"
+    },
+    "eidolonLayer": {
+      "newShards": "Nuove Schegge: {count}"
+    },
+    "textEditor": {
+      "editText": "Modifica Testo"
     }
   },
   "gm": {
@@ -1851,7 +2130,7 @@
       "permanentlyDeleted": "eliminata definitivamente",
       "deletePermanently": "Elimina campagna definitivamente",
       "importJsonTitle": "Importa Dati JSON Campagna",
-      "importHelp": "Questo strumento importerà dal tuo dispositivo un {jsonFile} di Campagna modificabile e non pubblicata.{br}Per importare nella tua raccolta un file di campagna pubblicata con estensione {lcd}, usa lo strumento di importazione file nel menu {campaignCollection}, oppure lo strumento Importa Campagna nella finestra {manageContent} sotto il menu principale.",
+      "importHelp": "Questo strumento importerà dal tuo dispositivo un {jsonFile} di Campagna modificabile e non pubblica.{br}Per importare nella tua raccolta un file di campagna pubblica con estensione {lcd}, usa lo strumento di importazione file nel menu {campaignCollection}, oppure lo strumento Importa Campagna nella finestra {manageContent} sotto il menu principale.",
       "jsonFile": "file JSON",
       "campaignCollection": "Raccolta Campagne",
       "currentlyViewing": "Stai visualizzando",
@@ -1950,7 +2229,7 @@
       "labels": "Etichette"
     },
     "split": {
-      "itemsHidden": "{n} elementi nascosti dal filtro | {n} elementi nascosti dal filtro | {n} elementi nascosti dal filtro",
+      "itemsHidden": "{n} elemento nascosto dal filtro | {n} elementi nascosti dal filtro | {n} elementi nascosti dal filtro",
       "addType": "Aggiungi {type}",
       "createNewType": "Crea Nuovo {type}"
     },
@@ -1965,7 +2244,12 @@
       "additionalDetail": "Dettagli aggiuntivi",
       "clocks": "Orologi",
       "viewCollections": "Visualizza Raccolte",
-      "addTable": "Aggiungi Nuova Tabella"
+      "addTable": "Aggiungi Nuova Tabella",
+      "collectionTitle": {
+        "character": "Personaggi",
+        "faction": "Fazioni",
+        "location": "Luoghi"
+      }
     },
     "print": {
       "othersCount": "(+{n} altri)"
@@ -2177,7 +2461,7 @@
     "eidolonPrint": {
       "persistentTraits": "Tratti Persistenti",
       "layer": "Strato",
-      "newShards": "Nuove Schegge: {n} | Nuove Schegge: {n} | Nuove Schegge: {n}"
+      "newShards": "Nuova Scheggia: {n} | Nuove Schegge: {n} | Nuove Schegge: {n}"
     },
     "featurePrint": {
       "weaponAttacks": "Quest'arma può effettuare {count} attacchi alla volta."
@@ -2190,7 +2474,8 @@
     },
     "npcEditor": {
       "v2Export": "Esportazione v2",
-      "statblock": "Blocco Statistiche"
+      "statblock": "Blocco Statistiche",
+      "noTelemetry": "Ancora nessuna telemetria per questo PNG. La telemetria viene registrata quando uno scontro in cui compare viene archiviato."
     },
     "titles": {
       "missingContentPacks": "Pacchetti di Contenuti Mancanti",
@@ -2221,7 +2506,8 @@
       "selectDataFile": "Seleziona File Dati",
       "optional": "Facoltativo",
       "convertToLocalWarning": "La conversione di questo elemento in dati locali permetterà la modifica in locale ma rimuoverà il suo collegamento remoto all'account cloud dell'autore, e impedirà la ricezione di aggiornamenti futuri. Per riattivare la sincronizzazione da remoto, dovrai importare di nuovo questo elemento tramite il suo codice di condivisione.",
-      "confirmDuplicationOfThisNpc": "Conferma la duplicazione di questo PNG"
+      "confirmDuplicationOfThisNpc": "Conferma la duplicazione di questo PNG",
+      "searchCollection": "Cerca in {collection}"
     },
     "gmLabelEditor": {
       "valueOptional": "Valore (facoltativo)",
@@ -2265,7 +2551,9 @@
       "selectEncounterFile": "Seleziona File Scontro",
       "enemyForces": "FORZE NEMICHE",
       "alliedForces": "FORZE ALLEATE",
-      "sortBy": "Ordina Per"
+      "sortBy": "Ordina Per",
+      "confirmRemoveCombatant": "Conferma la rimozione di {name} dallo scontro",
+      "searchEncounters": "Cerca Scontri"
     },
     "npcRoster": {
       "selectLayer": "Seleziona Strato",
@@ -2303,6 +2591,26 @@
       "manageNonPlayerCombatUnits": "Gestisci unità in combattimento non giocanti",
       "manageCharactersLocationsAndFactions": "Gestisci personaggi, luoghi e fazioni",
       "createCombatEncounters": "Crea scontri"
+    },
+    "npcSelection": {
+      "classExact": "{name} sceglie {min} caratteristica opzionale aggiuntiva dalla lista Caratteristiche Opzionali della Classe {name} | {name} sceglie {min} caratteristiche opzionali aggiuntive dalla lista Caratteristiche Opzionali della Classe {name}",
+      "classExactPerTier": "{name} sceglie {min} caratteristica opzionale aggiuntiva dalla lista Caratteristiche Opzionali della Classe {name} per ogni Rango PNG | {name} sceglie {min} caratteristiche opzionali aggiuntive dalla lista Caratteristiche Opzionali della Classe {name} per ogni Rango PNG",
+      "templateClassExact": "{name} sceglie {min} caratteristica opzionale aggiuntiva dalla propria classe | {name} sceglie {min} caratteristiche opzionali aggiuntive dalla propria classe",
+      "templateClassExactPerTier": "{name} sceglie {min} caratteristica opzionale aggiuntiva dalla propria classe per ogni Rango PNG | {name} sceglie {min} caratteristiche opzionali aggiuntive dalla propria classe per ogni Rango PNG",
+      "templateExact": "{name} sceglie {min} opzione dalla lista Caratteristiche Opzionali del Template {name} | {name} sceglie {min} opzioni dalla lista Caratteristiche Opzionali del Template {name}",
+      "templateMayExact": "{name} può scegliere {min} opzione dalla lista Caratteristiche Opzionali del Template {name} | {name} può scegliere {min} opzioni dalla lista Caratteristiche Opzionali del Template {name}",
+      "templatePerTier": "{name} può scegliere una caratteristica opzionale aggiuntiva per ogni Rango PNG | {name} può scegliere {n} caratteristiche opzionali aggiuntive per ogni Rango PNG",
+      "templateAny": "Quando sceglie i sistemi opzionali, {name} può scegliere anche dalla lista Caratteristiche Opzionali del Template {name}.",
+      "templateRange": "{name} sceglie tra {min} e {max} opzioni dalla lista Caratteristiche Opzionali del Template {name}",
+      "templateMayRange": "{name} può scegliere tra {min} e {max} opzioni dalla lista Caratteristiche Opzionali del Template {name}",
+      "classRange": "{name} sceglie tra {min} e {max} caratteristiche opzionali aggiuntive dalla lista Caratteristiche Opzionali della Classe {name}",
+      "classRangePerTier": "{name} sceglie tra {min} e {max} caratteristiche opzionali aggiuntive dalla lista Caratteristiche Opzionali della Classe {name} per ogni Rango PNG",
+      "templateClassRange": "{name} sceglie tra {min} e {max} caratteristiche opzionali aggiuntive dalla propria classe",
+      "templateClassRangePerTier": "{name} sceglie tra {min} e {max} caratteristiche opzionali aggiuntive dalla propria classe per ogni Rango PNG"
+    },
+    "npcFeatureSelector": {
+      "allAssigned": "Tutte Assegnate",
+      "allAvailable": "Tutte Disponibili"
     }
   },
   "active": {
@@ -2362,7 +2670,7 @@
     "common": {
       "exportAsJson": "Esporta come JSON",
       "currentlySelected": "Attualmente Selezionato",
-      "dangerZone": "Zona di Pericolo",
+      "dangerZone": "Zona Rossa",
       "override": "forza",
       "prepared": "Approntato",
       "preparedText": "{name} è stato contrassegnato come APPRONTATO.",
@@ -2380,7 +2688,8 @@
       "target": "Bersaglio",
       "noMapData": "Nessun Dato Mappa",
       "condition": "Condizione",
-      "playedBy": "Giocato da"
+      "playedBy": "Giocato da",
+      "invalidJsonFile": "File JSON non valido."
     },
     "roster": {
       "addFromRoster": "aggiungi dalla lista",
@@ -2419,7 +2728,8 @@
       "deleteArchiveDetail": "Questo contrassegnerà l'archivio per l'eliminazione. Non comparirà più in questa lista, ma verrà eliminato definitivamente in base alle tue opzioni di conservazione nel Menu Opzioni.",
       "noArchivedFoundFiltered": "Nessuno scontro archiviato trovato che includa \"{search}\"",
       "exportActorLog": "Esporta Log",
-      "exportActorLogTooltip": "Esporta il log di questo combattente come file che puoi condividere con il suo giocatore. Comprende solo i suoi eventi e i riferimenti che ha menzionato."
+      "exportActorLogTooltip": "Esporta il log di questo combattente come file che puoi condividere con il suo giocatore. Comprende solo i suoi eventi e i riferimenti che ha menzionato.",
+      "loadFromJson": "Carica Scontro da JSON"
     },
     "encSummary": {
       "turnN": "(Turno {n})",
@@ -2507,14 +2817,31 @@
       "endEncounter": "Termina Scontro",
       "confirmEndEncounter": "Conferma Fine Scontro",
       "endEncounterLower": "termina scontro",
-      "confirmEndEncounterLower": "Conferma fine scontro"
+      "confirmEndEncounterLower": "Conferma fine scontro",
+      "gmConfirm": "Terminare questo scontro chiuderà l'istanza attiva e ne invierà una copia all'archivio. Gli scontri archiviati non possono essere ripresi (ma possono essere ricominciati). Vuoi davvero continuare?",
+      "results": {
+        "enemy_victory": "VITTORIA NEMICA",
+        "pc_victory": "VITTORIA DEI PG",
+        "stalemate": "STALLO"
+      }
     },
     "sortBar": {
       "sortByRecent": "Ordina per Recenti",
       "sortByCreated": "Ordina per data di creazione"
     },
     "organizer": {
-      "selected": "selezionati"
+      "selected": "selezionati",
+      "archiveHint": {
+        "sheet": "Sposta la scheda in archivio | Sposta le schede selezionate in archivio",
+        "encounter": "Sposta lo scontro in archivio | Sposta gli scontri selezionati in archivio",
+        "item": "Sposta l'elemento in archivio | Sposta gli elementi selezionati in archivio"
+      },
+      "removeHint": {
+        "sheet": "Rimuovi definitivamente la scheda | Rimuovi definitivamente le schede selezionate",
+        "encounter": "Rimuovi definitivamente lo scontro | Rimuovi definitivamente gli scontri selezionati",
+        "item": "Rimuovi definitivamente l'elemento | Rimuovi definitivamente gli elementi selezionati"
+      },
+      "organizeCollection": "Organizza {collection}"
     },
     "runnerHeader": {
       "lastSaved": "Ultimo Salvataggio",
@@ -2547,7 +2874,7 @@
       "burnResolved": "Fuoco risolto",
       "burnRequired": "Risolvi o ignora il danno da Fuoco per concludere il round.",
       "movementRemainingTitle": "Hai ancora del movimento disponibile",
-      "movementRemaining": "{n} spazi di movimento saranno persi. | {n} spazi di movimento saranno persi. | {n} spazi di movimento saranno persi.",
+      "movementRemaining": "{n} spazio di movimento sarà perso. | {n} spazi di movimento saranno persi. | {n} spazi di movimento saranno persi.",
       "youHaveRemainingActions": "Hai ancora azioni disponibili!"
     },
     "joinTable": {
@@ -2576,7 +2903,8 @@
       "atRound": "al Round",
       "warningReplace": "Attenzione: lo stato importato della Scheda sostituirà lo stato attuale della Scheda.",
       "changeActiveMech": "Cambia Mech Attivo",
-      "applySave": "Applica e Salva"
+      "applySave": "Applica e Salva",
+      "invalidSheetFile": "File di Istanza Scheda Personaggio non valido."
     },
     "pcNotes": {
       "playerNotes": "Note del Giocatore",
@@ -2603,7 +2931,9 @@
       "noStatController": "Nessun Controller di Statistiche Trovato",
       "editReinforcements": "Modifica Rinforzi",
       "noReinforcementSchedule": "Nessuna Pianificazione Rinforzi",
-      "undoEditOverrides": "Modifica forzature di {name}"
+      "undoEditOverrides": "Modifica forzature di {name}",
+      "importFailed": "Impossibile importare questo file di scontro.",
+      "invalidEncounterFile": "File di Istanza Scontro non valido."
     },
     "encInfo": {
       "reinforcements": "Rinforzi",
@@ -2643,7 +2973,11 @@
       "rollDice": "Tira i Dadi",
       "rollResult": "Risultato del Tiro",
       "noRolls": "Nessun tiro ancora.",
-      "sessionHistory": "Cronologia Sessione"
+      "sessionHistory": "Cronologia Sessione",
+      "accuracyShort": "PREC",
+      "actorRolled": "{name} ha tirato:",
+      "difficultyShort": "DIFF",
+      "gmRolled": "Il GM ha tirato:"
     },
     "toolPalette": {
       "tagReference": "Riferimento Tag",
@@ -2674,7 +3008,7 @@
       "reactorDestroyed": "Reattore distrutto",
       "bracedDesc": "Conti come dotato di RESISTENZA a tutti i danni, calore e fuoco dell'attacco che ha innescato questo Incassare e, fino alla fine del tuo prossimo turno, tutti gli altri attacchi contro di te sono effettuati a +1 Difficoltà.",
       "coverLabel": "copertura {cover}",
-      "activationsRemaining": "{n} Attivazioni rimanenti in questo round | {n} Attivazioni rimanenti in questo round | {n} Attivazioni rimanenti in questo round",
+      "activationsRemaining": "{n} Attivazione rimanente in questo round | {n} Attivazioni rimanenti in questo round | {n} Attivazioni rimanenti in questo round",
       "aiControl": "Mech sotto Controllo IA",
       "selfDestructInitiated": "Autodistruzione avviata",
       "bracedHeading": "Incassare",
@@ -2721,7 +3055,10 @@
       "statusesConditions": "Status/Condizioni",
       "counters": "Contatori",
       "endActivation": "Termina attivazione",
-      "pilotGrit": "Grinta del Pilota"
+      "pilotGrit": "Grinta del Pilota",
+      "clearCombatImage": "Rimuovi Immagine di Combattimento",
+      "combatImage": "Immagine di Combattimento",
+      "setCombatImage": "Imposta Immagine di Combattimento"
     },
     "damageMenu": {
       "takeDamage": "Subisci Danno",
@@ -2827,7 +3164,9 @@
         "damageDealtUnmounted": "Danni inflitti da appiedato",
         "damageTakenUnmounted": "Danni subiti da appiedato",
         "movementUnmounted": "Spazi attraversati da appiedato",
-        "summaryHeader": "{name} - {n} round"
+        "summaryHeader": "{name} - {n} round",
+        "overchargesValue": "{n} ({heat} calore)",
+        "logEntryHeader": "Round {n} ({time})"
       }
     },
     "actorLogs": {
@@ -2838,7 +3177,10 @@
       "allRounds": "Tutti i round",
       "noMatches": "Nessuna voce corrisponde ai filtri attuali.",
       "showing": "Visualizzando {shown} di {total} voci totali",
-      "round": "{n} round"
+      "round": "{n} round",
+      "combatLogTitle": "Registro di Combattimento di {name}",
+      "combatTelemetryTitle": "Telemetria di Combattimento di {name}",
+      "currentStatsTitle": "Statistiche Attuali di {name}"
     },
     "dmgCond": {
       "title": "Resist. / immun. / vuln.",
@@ -2858,7 +3200,21 @@
     "statblockExport": {
       "title": "Blocco Statistiche di Combattimento",
       "include": "Includi",
-      "exportText": "Esporta Blocco Statistiche Testuale"
+      "exportText": "Esporta Blocco Statistiche Testuale",
+      "aiControlled": "CONTROLLATO DA IA",
+      "corePower": "Riserva Primaria: {value}",
+      "inHardCover": "In copertura pesante",
+      "inSoftCover": "In copertura leggera",
+      "mechLoadoutHeader": "EQUIPAGGIAMENTO DEL MECH",
+      "noActiveMech": "Nessun mech attivo",
+      "notInCover": "Senza copertura",
+      "ready": "PRONTO",
+      "recharge": "ricarica {n}+",
+      "roundHeader": "{name} - Round {round} ({date})",
+      "save": "Soglia di Salvezza",
+      "selfDestruct": "AUTODISTRUZIONE AVVIATA // T-{n}",
+      "techAttackShort": "A-Tech",
+      "usesCount": "{uses} / {max} Usi"
     },
     "statusCond": {
       "title": "Status / Condizioni",
@@ -2892,7 +3248,9 @@
       "overcharge": "Sovralimentazione",
       "spent": "Utilizzata",
       "restoreAction": "Clicca per recuperare questa azione",
-      "overchargeReady": "Sovralimentato - qualsiasi azione rapida è gratuita"
+      "overchargeReady": "Sovralimentato - qualsiasi azione rapida è gratuita",
+      "quickN": "Rapida {n}",
+      "asOvercharge": "Come Sovralimentazione"
     },
     "deploy": {
       "deployNamed": "Dispiega {name}",
@@ -2978,9 +3336,9 @@
       "alreadyActivated": "Quest'arma è già stata attivata.",
       "mustReload": "Deve essere ricaricata prima di poter essere usata di nuovo.",
       "mustRecharge": "Deve ricaricarsi prima di poter essere usata di nuovo.",
-      "ordnanceMech": "Questo mech ha effettuato azioni non-Protocollo in questo turno. Quest'arma Ordigno non può essere attivata.",
-      "ordnanceUnit": "Questa unità ha effettuato azioni non-Protocollo in questo turno. Quest'arma Ordigno non può essere attivata.",
-      "ordnancePilot": "Questo pilota ha effettuato azioni non-Protocollo in questo turno. Quest'arma Ordigno non può essere attivata.",
+      "ordnanceMech": "Questo mech ha effettuato azioni non-Protocollo in questo turno. Quest'arma di Artiglieria non può essere attivata.",
+      "ordnanceUnit": "Questa unità ha effettuato azioni non-Protocollo in questo turno. Quest'arma di Artiglieria non può essere attivata.",
+      "ordnancePilot": "Questo pilota ha effettuato azioni non-Protocollo in questo turno. Quest'arma di Artiglieria non può essere attivata.",
       "outOfUses": "Quest'arma ha esaurito gli usi e non può essere attivata in questo turno.",
       "canMake": "Quest'arma può effettuare {n} attacchi per attivazione."
     },
@@ -3114,7 +3472,14 @@
       "showPortraitsTooltip": "Nascondi immagini dei combattenti per contenere più informazioni sullo schermo.",
       "showFlavor": "Mostra testo descrittivo",
       "showFlavorTooltip": "Mostra il testo descrittivo sulle carte equipaggiamento e abilità. Disattiva per visualizzare solo le regole.",
-      "resetToDefault": "Ripristina a default"
+      "resetToDefault": "Ripristina a default",
+      "actionGrouping": "Tavolozza delle Azioni",
+      "actionGroupings": {
+        "byType": "Per Tipo di Azione",
+        "none": "Nessun Raggruppamento",
+        "standard": "Standard"
+      },
+      "layoutFor": "Layout per"
     },
     "pcEndEncounter": {
       "confirm": "Terminare questo scontro chiuderà l'istanza della scheda attiva, invierà una copia all'archivio e la trascriverà nel registro di questo pilota. Vuoi procedere?"
@@ -3133,7 +3498,10 @@
       "manageData": "Gestisci dati telemetria",
       "deleteTitle": "Elimina dati telemetria",
       "deleteConfirm": "Questa azione eliminerà definitivamente {count} scontri archiviati, inclusi tutti i dati di telemetria. L'azione non può essere annullata.",
-      "omitted": "{count} scontri archiviati non contengono dati di telemetria e sono stati omessi."
+      "omitted": "{count} scontri archiviati non contengono dati di telemetria e sono stati omessi.",
+      "groupSummary": "{appearances} comparse, {dealt} inflitti, {taken} subiti",
+      "byRosterEntry": "Voce della Lista",
+      "byType": "Tipo di Attore"
     },
     "charts": {
       "noData": "Raccolta dati incompleta. Archivia ulteriori scontri.",
@@ -3179,10 +3547,38 @@
       "noStream": "La registrazione completa di questo Scontro non è più presente, perciò i grafici per round non sono disponibili.",
       "expandChart": "Espandi il grafico",
       "collapseChart": "Riduci il grafico",
-      "count": "Quantità"
+      "count": "Quantità",
+      "heatCurveSub": "Calore Max {n}",
+      "classVsTemplate": "Classe contro Template",
+      "accuracyOverTime": "Precisione nel Tempo",
+      "accuracyOverTimeSub": "Media di carriera {n}%",
+      "attackOutcomes": "Esiti degli Attacchi",
+      "careerDamage": "Danni in Carriera",
+      "damageByGroup": "Danni Inflitti per Gruppo",
+      "damageBySide": "Danni per Schieramento",
+      "damageDealtByType": "Danni Inflitti per Tipo",
+      "damageDealtByTypeSub": "Totali complessivi di tutti gli scontri registrati",
+      "damagePerRound": "Danni per Round",
+      "dataSet": "Insieme di Dati",
+      "dealtAndTakenPerEncounter": "Danni Inflitti e Subiti per Scontro",
+      "encounterLength": "Durata dello Scontro",
+      "encounterTimeline": "Cronologia dello Scontro",
+      "encounterTimelineSub": "Cosa ha fatto questo pilota, round per round",
+      "heatCurve": "Curva del Calore",
+      "heatPerEncounter": "Calore per Scontro",
+      "heatPerEncounterSub": "Quanto calore si è inflitto da solo questo pilota",
+      "lethalityPerAppearance": "Letalità per Comparsa",
+      "lethalityPerAppearanceSub": "Uccisioni totali divise per comparse",
+      "mostUsedActions": "Azioni Più Usate",
+      "partyDamageShare": "Quota di Danni della Squadra",
+      "savesAndChecks": "Tiri Salvezza e Prove",
+      "statusesSuffered": "Status Subiti",
+      "threatVsDurability": "Pericolosità contro Resistenza",
+      "threatVsDurabilitySub": "Danni inflitti contro danni assorbiti. La dimensione della bolla indica la frequenza delle comparse."
     },
     "override": {
-      "prompt": "Non è possibile: {reason}. Risolvere comunque?"
+      "prompt": "Non è possibile: {reason}. Risolvere comunque?",
+      "promptNamed": "Impossibile completare {action}: {reason}. Risolvere comunque?"
     },
     "shared": {
       "archived": "Archiviato",
@@ -3239,7 +3635,10 @@
       "reclaimControl": "Riprendi Controllo",
       "markYourMechAsInCascade": "Contrassegna il tuo mech come IN CASCATA",
       "resetUses": "Reimposta Usi",
-      "toggleDestroyed": "Attiva/Disattiva Distrutto"
+      "toggleDestroyed": "Attiva/Disattiva Distrutto",
+      "cedeControlTooltip": "Cedi il controllo del tuo mech alla PNU come Azione di Protocollo.",
+      "forceRecharge": "Forza Ricarica (si ricarica con: {recharge}+)",
+      "reclaimControlTooltip": "Riprendi il controllo del tuo mech dalla PNU come Azione di Protocollo."
     },
     "layoutOptionsControls": {
       "maxLoadoutFeatureSetColumns": "Colonne Max Equipaggiamento / Set Caratteristiche",
@@ -3268,6 +3667,59 @@
       "rollableTables": "Tabelle Casuali",
       "encounterInfo": "Info Scontro",
       "listTagsPresentOnCharactersOrEquipmentInThisEncounter": "Elenca i tag presenti su personaggi o equipaggiamento in questo scontro"
+    },
+    "aar": {
+      "roundsValue": "{n} round | {n} round",
+      "casualtiesTitle": "PERDITE E UCCISIONI",
+      "chartsTitle": "GRAFICI",
+      "highlights": {
+        "biggestHit": "Colpo singolo più potente",
+        "topCrits": "Più colpi critici",
+        "topDealt": "Più danni inflitti",
+        "topHeatCleared": "Più calore rimosso",
+        "topKills": "Più uccisioni",
+        "topOvercharges": "Più sovralimentazioni",
+        "topTaken": "Più danni subiti"
+      },
+      "highlightsTitle": "MOMENTI SALIENTI",
+      "mechStatus": "Stato del Mech",
+      "next": "Avanti",
+      "outcomeTitle": "STATO DOPO LO SCONTRO",
+      "pilotStatus": "Stato del Pilota",
+      "recordedStatuses": "STATUS REGISTRATI",
+      "roundTag": "R{n}:",
+      "rowSummary": "{dealt} inflitti / {taken} subiti / {kills} uccisioni",
+      "step": "Passo {n} di {total}"
+    },
+    "actionPalette": {
+      "markUnused": "Segna l'Azione {type} come Non Usata",
+      "markUsed": "Segna l'Azione {type} come Usata"
+    },
+    "logsAndTelemetryTitle": "{name} - REGISTRI E TELEMETRIA",
+    "options": {
+      "autosaveEncounterTooltip": "Salva automaticamente i dati dello scontro alla fine di ogni round. Attivo per impostazione predefinita.",
+      "autosaveSheetTooltip": "Salva automaticamente i dati della Scheda Personaggio alla fine di ogni round. Attivo per impostazione predefinita."
+    },
+    "playMode": {
+      "defaultDescription": "La modalità di gioco con cui partono i nuovi scontri e le nuove schede pilota. Si può cambiare nelle opzioni di ogni scontro.",
+      "defaultTitle": "Modalità di Gioco Predefinita",
+      "full": "Completa",
+      "fullDescription": "Automazione delle regole, finestre per attacchi e prove, lanciadadi, registri e telemetria.",
+      "hidingUnavailableActions": "Le azioni non eseguibili sono nascoste. Clicca per mostrarle.",
+      "label": "Modalità di Gioco",
+      "markUnused": "Segna come non usata",
+      "showingUnavailableActions": "Le azioni non eseguibili sono visibili. Clicca per nasconderle.",
+      "simple": "Semplice",
+      "simpleDescription": "Statistiche, contatori, status ed equipaggiamento. Le azioni vengono solo segnate come usate. Ideale per tavoli virtuali e fisici.",
+      "undoChange": "Cambia modalità di gioco"
+    },
+    "targetedAction": {
+      "rollFirst": "Tira l'attacco in mischia per risolvere questa azione."
+    },
+    "weaponSelect": {
+      "hidingUnavailable": "Le armi che non possono sparare sono nascoste. Clicca per mostrarle.",
+      "showingUnavailable": "Le armi che non possono sparare sono visibili. Clicca per nasconderle.",
+      "unavailableCount": "non disponibili"
     }
   },
   "pm": {
@@ -3328,7 +3780,20 @@
       "selectBracingMount": "Seleziona Supporto di Ancoraggio",
       "selectEquipment": "SELEZIONA EQUIPAGGIAMENTO",
       "selectDamage": "Seleziona Danno",
-      "setMaximumUses": "Imposta Usi Massimi"
+      "setMaximumUses": "Imposta Usi Massimi",
+      "equipItem": "Equipaggia {item}",
+      "exceedsSpHidden": "Sistemi oltre la capacità di PS: NASCOSTI",
+      "exceedsSpShown": "Sistemi oltre la capacità di PS: VISIBILI",
+      "extendedHarness": "Imbracatura",
+      "incompatibleModsHidden": "Mod Incompatibili: NASCOSTE",
+      "incompatibleModsShown": "Mod Incompatibili: VISIBILI",
+      "installModification": "Installa la Modifica {name}",
+      "modifyModification": "Cambia la Modifica {name}",
+      "showExceedsSp": "Mostra Oltre i PS",
+      "showIncompatibleMods": "Mostra Incompatibili",
+      "showUnlicensed": "Mostra Senza Licenza",
+      "unlicensedHidden": "Equipaggiamento senza licenza: NASCOSTO",
+      "unlicensedShown": "Equipaggiamento senza licenza: VISIBILE"
     },
     "import": {
       "importSuccessTitle": "Importazione Riuscita",
@@ -3520,7 +3985,12 @@
       "background2": "Background",
       "background": "background",
       "player": "giocatore",
-      "mechHANGAR": "Hangar mech"
+      "mechHANGAR": "Hangar mech",
+      "coreSystemTitle": "Sistema Primario {source} {frame}",
+      "favoriteMech": "Mech Preferito",
+      "frameTraitsTitle": "Tratti del Telaio {source} {frame}",
+      "requiresCloudAccount": "Richiede un Account Cloud",
+      "unfavoriteMech": "Rimuovi dai Preferiti"
     },
     "print": {
       "pilotSheetOptions": "Opzioni Scheda Pilota",
@@ -3546,7 +4016,7 @@
       "pilotHP": "PF Pilota",
       "maxHP": "PF Max",
       "reserve": "Risorsa",
-      "heatCap": "Cap. Calore",
+      "heatCap": "Calore Max",
       "techAtk": "A-Tech",
       "operatorNotes": "Note operatore",
       "mountLocked": "Supporto bloccato",
@@ -3590,7 +4060,13 @@
       "minorIDEAL": "Ideale minore",
       "otherCLOCKS": "Altri orologi",
       "player": "Giocatore",
-      "skillTRIGGERS": "Impulsi"
+      "skillTRIGGERS": "Impulsi",
+      "coreActiveNamed": "{name} (ATTIVO)",
+      "corePassiveNamed": "{name} (PASSIVO)",
+      "maxStress": "Stress Max",
+      "maxStructure": "Struttura Max",
+      "openLogbook": "Apri Registro Pilota",
+      "pilotCombatHistory": "Storico di Combattimento del Pilota"
     },
     "roster": {
       "history": "Storia",
@@ -3637,7 +4113,7 @@
       "pilotsLower": "piloti",
       "llColon": "LL:",
       "hidden": "nascosti",
-      "hiddenPilots": "{n} pilota Nascosto | {n} piloti Nascosto | {n} piloti Nascosto",
+      "hiddenPilots": "{n} pilota nascosto | {n} piloti nascosti | {n} piloti nascosti",
       "andPilots": "e {n} Pilota | e {n} Piloti | e {n} Piloti",
       "pilotCount": "{n} Pilota | {n} Piloti | {n} Piloti",
       "groupDescription": "Descrizione Gruppo",
@@ -3648,7 +4124,10 @@
       "deletePilots": "Elimina piloti",
       "selectPilotDataFile": "Seleziona File Dati Pilota",
       "nameOrCallsign": "Nome o indicativo…",
-      "setPilotGroup": "Imposta gruppo pilota"
+      "setPilotGroup": "Imposta gruppo pilota",
+      "deleteGroupTitle": "Eliminare {name}?",
+      "editGroupInformation": "Modifica Informazioni del Gruppo",
+      "importPilotsCount": "Importa Piloti ({count})"
     },
     "misc": {
       "skipStep": "Salta passaggio"
@@ -3682,7 +4161,12 @@
       "resourceName": "Nome Risorsa",
       "addSkill": "Aggiungi Impulso",
       "increaseSkillBonus": "Aumenta Bonus Impulso",
-      "decreaseSkillBonus": "Diminuisci Bonus Impulso"
+      "decreaseSkillBonus": "Diminuisci Bonus Impulso",
+      "coreBonusAvailable": "{count} Bonus Licenza {mf} disponibile | {count} Bonus Licenza {mf} disponibili",
+      "organizationEfficiencyHelp": "Quanto la tua organizzazione è efficace in ciò che fa (un'organizzazione militare con un'alta Efficienza, per esempio, sarebbe brava in combattimento).<br />L'Efficienza può essere usata per svolgere attività legate allo scopo della tua organizzazione (scienza, guerra, ecc.). Puoi usare questi vantaggi come <strong>risorse.</strong>",
+      "organizationInfluenceHelp": "L'Influenza rappresenta dimensioni, portata, ricchezza e reputazione della tua organizzazione. L'Influenza può essere usata per acquisire mezzi, creare opportunità o orientare l'opinione pubblica.",
+      "projectComplicated": "Complicato",
+      "projectFinished": "Completato"
     },
     "shared": {
       "criticalWarning": "Critico",
@@ -3767,11 +4251,14 @@
       "pilotRequiresReSync": "Il pilota richiede una nuova sincronizzazione",
       "withShareCode": "con codice di condivisione",
       "mustBeReSyncedToThe": "deve essere risincronizzato con l'account dell'autore prima di poter essere visualizzato.",
-      "serverErrorTooManyRequests": "Errore Server - Troppe Richieste"
+      "serverErrorTooManyRequests": "Errore Server - Troppe Richieste",
+      "retryMinutes": "{n} minuto | {n} minuti",
+      "retrySeconds": "{n} secondo | {n} secondi"
     },
     "common": {
       "installName": "Installa {name}",
-      "nameWithLicenseLevel": "{name}, LL {level}"
+      "nameWithLicenseLevel": "{name}, LL {level}",
+      "unknownBackground": "Background Sconosciuto"
     },
     "titles": {
       "editPilotBiography": "Modifica Biografia Pilota",
@@ -3825,7 +4312,11 @@
       "getAPlaintextRepresentationOf": "Ottieni una rappresentazione in testo semplice della build di questo personaggio"
     },
     "pilotStatus": {
-      "killedInAction": "Caduto in azione"
+      "killedInAction": "Caduto in azione",
+      "active": "Attivo",
+      "inactive": "Inattivo",
+      "missingInAction": "Disperso in azione",
+      "retired": "Ritirato"
     },
     "pilotSheet": {
       "statblockGenerator": "Generatore Blocco Statistiche",
@@ -3857,25 +4348,36 @@
       "exportALegacyFormatFor": "Esporta un formato legacy per i sistemi VTT e le app v2",
       "convertToLocalDescription": "Converti questo Pilota in un'istanza di dati locale modificabile.",
       "editLicenseLevel": "Modifica Livello Licenza",
-      "remotePilotNotice": "Questo pilota è una risorsa remota collegata all'account di un altro utente. È in sola lettura e riceverà aggiornamenti dall'account collegato."
+      "remotePilotNotice": "Questo pilota è una risorsa remota collegata all'account di un altro utente. È in sola lettura e riceverà aggiornamenti dall'account collegato.",
+      "convertToLocalWarning": "Convertire questo pilota in dati locali permetterà di modificarlo in locale, ma rimuoverà il collegamento remoto all'account cloud dell'autore e impedirà di ricevere ulteriori aggiornamenti. Per riattivare la sincronizzazione remota dovrai reimportare il pilota tramite il suo codice di condivisione.",
+      "editPilotCoreBonusesPoints": "Modifica Bonus Licenza del Pilota ({current}/{max})",
+      "editPilotLicensesPoints": "Modifica Licenze del Pilota ({current}/{max})",
+      "editPilotMechSkillsPoints": "Modifica Abilità Mech del Pilota ({current}/{max})",
+      "editPilotSkillTriggersPoints": "Modifica Impulsi del Pilota ({current}/{max})",
+      "editPilotTalentsPoints": "Modifica Talenti del Pilota ({current}/{max})"
     },
     "bonds": {
       "selectPilotBond": "Seleziona Legame Pilota",
       "maximumStress": "Stress Massimo",
       "editPilotBonds": "Modifica Legami Pilota",
       "pilotXp": "xp pilota",
-      "pilotStress": "stress pilota"
+      "pilotStress": "stress pilota",
+      "removeBondConfirm": "Questo rimuoverà il legame dal pilota e reimposterà tutte le selezioni collegate. L'operazione non può essere annullata. Continuare?",
+      "resetStressConfirm": "Questo azzererà il tuo Stress e aggiungerà un nuovo Fardello. Continuare?",
+      "resetXpConfirm": "Questo azzererà i tuoi XP e aggiungerà una nuova selezione di Potere del Legame. Si può fare solo durante un <b>Interludio</b>. Continuare?"
     },
     "cloneBlock": {
       "cloneQuirks": "Peculiarità del Clone",
-      "removeCloneQuirk": "Rimuovi Peculiarità del Clone"
+      "removeCloneQuirk": "Rimuovi Peculiarità del Clone",
+      "restoreKiaPilotHint": "Questo ripristinerà il pilota selezionato e rimuoverà lo status KIA."
     },
     "downtimeProjectPanel": {
       "newProject": "Nuovo Progetto",
       "projectName": "Nome Progetto",
       "requirements": "Requisiti",
       "thisProjectIsCompleteAndAvailableToUseAsAReserve": "Questo progetto è completo e disponibile per essere usato come risorsa",
-      "complexProjectHint": "Questo progetto è complesso, dispendioso in risorse o generalmente difficile da completare"
+      "complexProjectHint": "Questo progetto è complesso, dispendioso in risorse o generalmente difficile da completare",
+      "project": "Progetto"
     },
     "skillsPage": {
       "skillSuggestionsAvailable": "Suggerimenti Impulsi Disponibili"
@@ -3890,7 +4392,10 @@
     "statblockDialog": {
       "generate": "Genera",
       "selectMech": "Seleziona Mech",
-      "copyStatBlockToClipboard": "Copia il blocco statistiche negli appunti"
+      "copyStatBlockToClipboard": "Copia il blocco statistiche negli appunti",
+      "fullBuild": "Completo",
+      "mechOnly": "Solo Mech",
+      "pilotOnly": "Solo Pilota"
     },
     "mechNav": {
       "returnToPilotSheet": "Torna alla Scheda Pilota",
@@ -3905,14 +4410,93 @@
       "createAndModifyMechsAndTheirLoadouts": "Crea e Modifica i Mech e i loro Equipaggiamenti",
       "pilotSectionsSummary": "Impulsi del Pilota, Risorse ed Equipaggiamento Attrezzatura del Pilota",
       "progressionSectionsSummary": "Licenze del Pilota, Abilità Mech, Bonus Licenza e Talenti"
+    },
+    "logbook": {
+      "acrossN": "in {n} scontro | in {n} scontri",
+      "acrossAll": "in tutti gli scontri",
+      "addNew": "Aggiungi come Nuovo",
+      "autoReplace": "Questo pilota ha già un resoconto per questo scontro ({name}). L'importazione lo sostituirà.",
+      "candidateSummary": "{rounds} round, {date}, {participants} partecipanti, {events} eventi registrati",
+      "chooseFile": "Scegli File",
+      "colDate": "Data",
+      "deleteConfirm": "Questo eliminerà definitivamente {count} resoconti di scontri, inclusi tutti i dati di telemetria e i registri degli eventi. L'operazione non può essere annullata.",
+      "deleteTitle": "Elimina Dati del Registro",
+      "empty": "Ancora nessun resoconto di scontri. Il registro viene scritto quando uno scontro viene archiviato o quando viene importato un registro del GM.",
+      "encounterHistory": "Storico degli Scontri",
+      "encounterLogs": "Registri degli Scontri",
+      "exportStream": "Esporta il registro completo di questo scontro",
+      "heldSummary": "{rounds} round, {date}",
+      "importIntro": "Scegli un file di registro dello scontro che il tuo GM ha esportato per questo pilota. Potrai vederne il contenuto prima di scriverlo nei dati del tuo Pilota.",
+      "importTitle": "Importa Registro dello Scontro",
+      "imported": "Registro dello scontro importato.",
+      "incoming": "Resoconto in Arrivo",
+      "manageData": "Gestisci Dati del Registro",
+      "notALog": "Il file non è un registro di scontro valido.",
+      "replaceExisting": "Sostituisci Uno dei Miei",
+      "replaceWarning": "La sostituzione è definitiva. Il resoconto scelto viene scartato del tutto, comprese le uccisioni che hai riportato tu.",
+      "retentionNote": "I registri completi degli eventi vengono conservati per i {n} scontri più recenti. Gli scontri più vecchi mantengono i numeri ma non gli eventi.",
+      "sourceGm": "Registrato da un Game Master",
+      "sourceSelf": "Resoconto auto-riportato",
+      "subtitle": "Storico di combattimento e telemetria complessivi dei tuoi piloti",
+      "suggested": "Possibile Corrispondenza",
+      "survived": "Sopravvissuto",
+      "title": "Registri dei Piloti",
+      "totalDealt": "Danni Inflitti Totali",
+      "totalKills": "Uccisioni Totali",
+      "unnamed": "Scontro Senza Nome"
+    },
+    "a11y": {
+      "dragToReorderGroup": "Trascina per riordinare il gruppo"
+    },
+    "engWeaponSettings": {
+      "strippedReactorShielding": "Schermatura Ridotta",
+      "tweakedComputer": "Computazione Modificata",
+      "tweakedOptics": "Ottiche Modificate"
+    },
+    "mechSkillsSelector": {
+      "agilitySkillDescription": "La tua abilità AGILITÀ descrive la tua capacità di costruire e pilotare mech veloci ed elusivi",
+      "engineeringSkillDescription": "La tua abilità INGEGNERIA descrive la tua capacità di costruire e pilotare mech con reattori potenti, scorte e sistemi di supporto",
+      "hullSkillDescription": "La tua abilità SCAFO descrive la tua capacità di costruire e pilotare mech resistenti e pesanti, capaci di incassare colpi e continuare a combattere",
+      "mechHp": "PF DEL MECH",
+      "systemsSkillDescription": "La tua abilità SISTEMI descrive la tua capacità di costruire e pilotare mech tecnici con potenti strumenti di guerra elettronica",
+      "limitedSystemsBonus": "Bonus Sistemi Limitati"
+    },
+    "routes": {
+      "newPilotWizard": "Procedura Nuovo Pilota"
+    },
+    "statusAlerts": {
+      "emptyMountsDetected": "RILEVATI SUPPORTI VUOTI",
+      "incompatibleModsWarning": "Una o più mod sono installate su armi incompatibili",
+      "incompatibleWeaponMod": "MOD ARMA INCOMPATIBILE",
+      "loadoutConfigurationExceedsAvailableFrameSyste": "La configurazione dell'equipaggiamento supera la Capacità Sistemi disponibile del Telaio",
+      "missingLicensesWarning": "Al pilota mancano una o più licenze necessarie per stampare o pilotare legalmente questa configurazione",
+      "operationalCapacitySignificantlyImpaired": "Capacità operativa gravemente compromessa",
+      "systemCapacityExceeded": "CAPACITÀ SISTEMI SUPERATA",
+      "systemCapacityRemaining": "CAPACITÀ SISTEMI RESIDUA",
+      "unlicensedEquipmentDetected": "RILEVATO EQUIPAGGIAMENTO SENZA LICENZA"
     }
   },
   "enums": {
     "duration": {
-      "next_round": "Prossimo Round"
+      "next_round": "Prossimo Round",
+      "encounter": "Scontro",
+      "free": "Libera",
+      "mission": "Missione",
+      "next_turn": "Prossimo Turno",
+      "round": "Round",
+      "scene": "Scena",
+      "turn": "Turno",
+      "unlimited": "Illimitata"
     },
     "damageType": {
-      "heat": "Calore"
+      "heat": "Calore",
+      "aoe": "Area",
+      "burn": "Fuoco",
+      "energy": "Energetico",
+      "explosive": "Esplosivo",
+      "kinetic": "Cinetico",
+      "applied_burn": "Fuoco Applicato",
+      "variable": "Variabile"
     },
     "activationType": {
       "protocol": "Protocollo",
@@ -3920,23 +4504,149 @@
       "quick": "Rapida",
       "move": "Movimento",
       "invade": "Invadere",
-      "jockey": "Abbordare"
+      "jockey": "Abbordare",
+      "free": "Gratuita",
+      "full": "Completa",
+      "full_tech": "Tech Completo",
+      "none": "Nessuna",
+      "other": "Altro",
+      "overcharge": "Sovralimentare",
+      "quick_tech": "Tech Rapido"
     },
     "systemType": {
       "system": "Sistema",
-      "deployable": "Dispiegabile"
+      "deployable": "Dispiegabile",
+      "ai": "IA",
+      "drone": "Drone",
+      "flight_system": "Sistema di Volo",
+      "grenade": "Granata",
+      "integrated": "Integrato",
+      "invade": "Invadere",
+      "mine": "Mina",
+      "mod": "Mod",
+      "shield": "Scudo",
+      "tech": "Tech"
     },
     "pilotStatus": {
-      "kia": "KIA"
+      "kia": "KIA",
+      "active": "ATTIVO",
+      "disengaged": "DISINGAGGIATO",
+      "injured": "FERITO",
+      "mia": "MIA"
     },
     "syncItemCount": {
-      "item": "{n} elementi | {n} elementi | {n} elementi"
+      "item": "{n} elemento | {n} elementi | {n} elementi",
+      "pilot": "{n} pilota | {n} piloti",
+      "pilotgroup": "{n} gruppo piloti | {n} gruppi piloti",
+      "unit": "{n} unità | {n} unità",
+      "doodad": "{n} aggeggio | {n} aggeggi",
+      "eidolon": "{n} eidolon | {n} eidolon",
+      "character": "{n} personaggio | {n} personaggi",
+      "faction": "{n} fazione | {n} fazioni",
+      "location": "{n} luogo | {n} luoghi",
+      "encounter": "{n} scontro | {n} scontri",
+      "encounterinstance": "{n} scontro attivo | {n} scontri attivi",
+      "encounterarchive": "{n} scontro archiviato | {n} scontri archiviati",
+      "pilotsheet": "{n} scheda pilota | {n} schede pilota",
+      "pilotlogbook": "{n} registro | {n} registri",
+      "campaign": "{n} campagna | {n} campagne",
+      "npc": "{n} PNG | {n} PNG",
+      "collectionitem": "{n} elemento della raccolta | {n} elementi della raccolta",
+      "narrative": "{n} elemento narrativo | {n} elementi narrativi"
+    },
+    "rangeType": {
+      "threat": "Minaccia",
+      "thrown": "Lancio",
+      "blast": "Esplosione",
+      "burst": "Scarica",
+      "cone": "Cono",
+      "line": "Linea",
+      "range": "Gittata"
+    },
+    "weaponType": {
+      "melee": "Mischia",
+      "cannon": "Cannone",
+      "cqb": "CQB",
+      "launcher": "Lanciatore",
+      "nexus": "Nexus",
+      "rifle": "Fucile",
+      "improvised": "Improvvisata"
+    },
+    "attackType": {
+      "melee": "Mischia",
+      "ranged": "A distanza",
+      "tech": "Tech"
+    },
+    "effectDuration": {
+      "end_of_encounter": "la fine dello Scontro",
+      "end_turn_self": "Fine del tuo turno",
+      "end_turn_target": "Fine del turno del bersaglio",
+      "next_turn_end_self": "Fine del tuo prossimo turno",
+      "next_turn_end_target": "Fine del prossimo turno del bersaglio",
+      "next_turn_start_self": "Inizio del tuo prossimo turno",
+      "next_turn_start_target": "Inizio del prossimo turno del bersaglio",
+      "start_turn_self": "Inizio del tuo turno",
+      "start_turn_target": "Inizio del turno del bersaglio"
+    },
+    "mechStatus": {
+      "destroyed": "DISTRUTTO",
+      "in_cascade": "IN CASCATA",
+      "operational": "OPERATIVO",
+      "reactor_meltdown": "FUSIONE DEL NOCCIOLO"
+    },
+    "mechType": {
+      "artillery": "Artiglieria",
+      "controller": "Controllo",
+      "defender": "Difesa",
+      "striker": "Assalto",
+      "support": "Supporto",
+      "balanced": "Bilanciato"
+    },
+    "mountType": {
+      "aux": "Aux",
+      "aux_aux": "Aux/Aux",
+      "flex": "Flessibile",
+      "heavy": "Pesante",
+      "integrated": "Integrato",
+      "main": "Primario",
+      "main_aux": "Primario/Aux",
+      "superheavy": "Superpesante"
+    },
+    "npcStatus": {
+      "destroyed": "DISTRUTTO",
+      "disengaged": "DISINGAGGIATO",
+      "operational": "OPERATIVO",
+      "routed": "IN ROTTA"
+    },
+    "orgType": {
+      "academic": "Accademico",
+      "criminal": "Criminale",
+      "entertainment": "Intrattenimento",
+      "humanitarian": "Umanitario",
+      "industrial": "Industriale",
+      "military": "Militare",
+      "political": "Politico",
+      "scientific": "Scientifico"
+    },
+    "reserveType": {
+      "bonus": "Bonus",
+      "mech": "Mech",
+      "organization": "Organizzazione",
+      "project": "Progetto",
+      "resources": "Risorse",
+      "tactical": "Tattico"
+    },
+    "weaponSize": {
+      "auxiliary": "Ausiliaria",
+      "heavy": "Pesante",
+      "main": "Primaria",
+      "superheavy": "Superpesante"
     }
   },
   "combat": {
     "timedEffect": {
       "retryMeltdown": "Ritenta la prova INGEGNERIA (azione completa) per evitare la fusione del nocciolo",
-      "roundsRemaining": "{n} Round rimanenti | {n} Round rimanenti | {n} Round rimanenti",
+      "roundsRemaining": "{n} Round rimanente | {n} Round rimanenti | {n} Round rimanenti",
       "override": "Forza",
       "selfDestructName": "Autodistruzione",
       "selfDestructDetail": "Questo mech esploderà come se avesse subito la fusione del nocciolo. Il mech verrà annichilito insieme a tutto ciò che contiene e infliggerà 4d6 danni esplosivi in una Scarica di area 2 intorno a sé.",
@@ -3988,8 +4698,8 @@
       "encounterEnd": "Scontro terminato dopo {rounds} round: {result} | Scontro terminato dopo {rounds} round: {result} | Scontro terminato dopo {rounds} round: {result}",
       "roundStart": "Inizio round {round}",
       "roundEnd": "Fine round {round}",
-      "turnStart": "{who} inizia il turno ({n} attivazione/i rimasta/e) | {who} inizia il turno ({n} attivazione/i rimasta/e) | {who} inizia il turno ({n} attivazione/i rimasta/e)",
-      "turnEnd": "{who} termina il turno ({n} attivazione/i rimasta/e) | {who} termina il turno ({n} attivazione/i rimasta/e) | {who} termina il turno ({n} attivazione/i rimasta/e)",
+      "turnStart": "{who} inizia il turno ({n} attivazione rimasta) | {who} inizia il turno ({n} attivazioni rimaste) | {who} inizia il turno ({n} attivazioni rimaste)",
+      "turnEnd": "{who} termina il turno ({n} attivazione rimasta) | {who} termina il turno ({n} attivazioni rimaste) | {who} termina il turno ({n} attivazioni rimaste)",
       "action": "{who} usa {action} come azione {activation}",
       "actionFree": "{who} usa {action} come azione gratuita",
       "actionPlain": "{who} usa {action}",
@@ -4005,7 +4715,8 @@
         "shutdown": "spento",
         "effect": "effetto di sistema",
         "cap": "al massimo",
-        "manual": "calibrato manualmente"
+        "manual": "calibrato manualmente",
+        "cascade": "cascata di stress del reattore"
       },
       "saveSuccess": "{who} supera un tiro salvezza di {stat}: {roll} vs {target}",
       "saveSuccessUnrolled": "{who} supera un tiro salvezza di {stat}",
@@ -4061,7 +4772,7 @@
       "prepareRelease": "{who} esegue l'azione approntata",
       "blocked": "{who} non può {action}: {reason}",
       "meltdown": {
-        "scheduled": "Il reattore di {who} raggiungerà la fusione del nocciolo in {turns} turno/i | Il reattore di {who} raggiungerà la fusione del nocciolo in {turns} turno/i | Il reattore di {who} raggiungerà la fusione del nocciolo in {turns} turno/i",
+        "scheduled": "Il reattore di {who} raggiungerà la fusione del nocciolo tra {turns} turno | Il reattore di {who} raggiungerà la fusione del nocciolo tra {turns} turni | Il reattore di {who} raggiungerà la fusione del nocciolo tra {turns} turni",
         "averted": "{who} ha evitato la fusione del nocciolo",
         "committed": "Il reattore di {who} ha raggiunto la fusione del nocciolo",
         "self_destruct": "{who} attiva l'autodistruzione"
@@ -4088,7 +4799,8 @@
         "ordnance": "l'artiglieria non può essere usata dopo un movimento",
         "untargetable": "il bersaglio non può essere attaccato",
         "already_applied": "già risolto",
-        "unknown_status": "status non riconosciuto"
+        "unknown_status": "status non riconosciuto",
+        "duplicate": "già eseguita in questo turno"
       },
       "damageSelf": "{who} subisce {amount} danni {type}",
       "damageSelfNone": "{who} non subisce danni {type} da {incoming}",
@@ -4120,7 +4832,496 @@
       "equipmentDestroyed": "{item} di {who} viene distrutto",
       "equipmentRepaired": "{item} di {who} viene riparato",
       "counterUp": "{who} incrementa {counter} di {n} fino a {to}",
-      "counterDown": "{who} diminuisce {counter} di {n} fino a {to}"
+      "counterDown": "{who} diminuisce {counter} di {n} fino a {to}",
+      "blockedOverridden": "{who} ha forzato un blocco per {action}: {reason}",
+      "heatCleared": "{who} ha dissipato {n} calore ({reason})",
+      "npcStatus": "{who} ora è {status}",
+      "overkill": "+{n} calore da Eccessiva",
+      "promptSkipped": "{who} ha saltato {label}",
+      "statusManual": "impostato nel resoconto post-scontro"
+    },
+    "expiration": {
+      "end": "alla fine",
+      "endsOnOtherTurn": "Termina {when} del turno di {name}",
+      "endsOnRound": "Termina {when} del round {round}",
+      "endsOnSelfTurn": "Termina {when} del tuo turno ({name})",
+      "start": "all'inizio"
+    },
+    "summary": {
+      "additionalEffects": "Effetti Aggiuntivi",
+      "apTag": "(PA)",
+      "applied": "Applicato {name}",
+      "appliedEffect": "Effetto Applicato {type} {value}",
+      "attackResult": "{roll} vs {value} {defense} : {result}",
+      "attackWith": "{action} con {weapon}:",
+      "bonusDamage": "+ {roll} Bonus",
+      "criticalHit": "Colpo Critico!",
+      "damageTotal": "{value} Danni {type}{tags}",
+      "effectAsActivation": "{effect} come Azione {activation}:",
+      "effectHeader": "{effect}:",
+      "failedSave": "Tiro Salvezza Fallito ({roll} vs {target})",
+      "forDuration": "per {duration}",
+      "gained": "Ottenuto {name}",
+      "gainedEffect": "Effetto Ottenuto {type} {value}",
+      "incomingAttack": "In arrivo {roll} vs {value} {defense} : {result}",
+      "irreducibleTag": "(Irriducibile)",
+      "modEffects": "Effetti delle Mod",
+      "onAttackEffect": "Effetto all'Attacco",
+      "onCritEffect": "Effetto al Critico",
+      "onHitEffect": "Effetto a Segno",
+      "onMissEffect": "Effetto a Vuoto",
+      "overkillHeat": "+ {n} Eccessiva",
+      "reliable": "(Affidabile {n})",
+      "rollPending": "tiro in sospeso",
+      "rollVsDefense": "{roll} vs {value} {defense}",
+      "successfulSave": "Tiro Salvezza Superato ({roll} vs {target})",
+      "takesHeat": "{actor} subisce {heat} Calore ({sources})",
+      "targetArmor": "{armor} (Armatura del bersaglio)",
+      "targetArmorIgnored": "0 (Armatura del bersaglio ignorata)",
+      "targetExposed": "x2 (bersaglio Vulnerabile)",
+      "targetImmune": "Nessun Danno (bersaglio Immune)",
+      "targetNumbered": "Bersaglio {n}",
+      "targetResistance": "/2 (Resistenza del bersaglio)",
+      "targetShredded": "0 (bersaglio Squarciato)",
+      "targetVulnerable": "x2 (Vulnerabilità del bersaglio)",
+      "targetedBy": "Bersaglio di {effect} di {initiator}:",
+      "totalDamage": "Danni Totali: {damage} {type}"
+    },
+    "weaponUse": {
+      "additionalAux": "Attacco Aux Aggiuntivo",
+      "barrage": "Cannoneggiare",
+      "skirmish": "Blitz"
+    }
+  },
+  "bonuses": {
+    "heatcap": {
+      "title": "@:{'common.heatCapacity'}",
+      "target": "il Calore Max totale"
+    },
+    "repcap": {
+      "title": "@:{'common.repairCapacity'}",
+      "target": "le Riparazioni Max totali"
+    },
+    "deployableHeatcap": {
+      "title": "Calore Max per tutti i Droni e i Dispiegabili",
+      "target": "il Calore Max di tutti i Dispiegabili schierati"
+    },
+    "deployableRepcap": {
+      "title": "Riparazioni Max per tutti i Droni e i Dispiegabili",
+      "target": "le Riparazioni Max di tutti i Dispiegabili schierati"
+    },
+    "droneHeatcap": {
+      "title": "Calore Max per tutti i Droni",
+      "target": "il Calore Max di tutti i Droni schierati"
+    },
+    "droneRepcap": {
+      "title": "Riparazioni Max per tutti i Droni",
+      "target": "le Riparazioni Max di tutti i Droni schierati"
+    },
+    "heatCap": {
+      "title": "Calore Max",
+      "target": "il @:{'common.heatCapacity'}"
+    },
+    "skillPoint": {
+      "title": "Impulso del Pilota",
+      "target": "il numero di Impulsi selezionabili dal Pilota"
+    },
+    "mechSkillPoint": {
+      "title": "Punto Abilità Mech (SCA/AGI/SIS/ING)",
+      "target": "il numero di punti SCA/AGI/SIS/ING assegnabili dal Pilota"
+    },
+    "talentPoint": {
+      "title": "@:{'common.pilotTalent'}",
+      "target": "il numero di Talenti selezionabili dal Pilota"
+    },
+    "licensePoint": {
+      "title": "Licenza del Pilota",
+      "target": "il numero di Licenze selezionabili dal Pilota"
+    },
+    "cbPoint": {
+      "title": "Bonus Licenza del Pilota",
+      "target": "il numero di Bonus Licenza selezionabili dal Pilota"
+    },
+    "pilotGear": {
+      "title": "Capacità Attrezzatura del Pilota",
+      "target": "la capacità totale di Attrezzatura del Pilota"
+    },
+    "range": {
+      "title": "Gittata delle Armi Modificata",
+      "detail": "{direction} di {value} la gittata{rangeTypes} delle armi{damageTypes}{weaponTypes}{weaponSizes}"
+    },
+    "damage": {
+      "title": "Danni delle Armi Modificati",
+      "detail": "{direction} di {value} i danni{damageTypes} delle armi{weaponTypes}{weaponSizes}"
+    },
+    "hp": {
+      "title": "@:{'stats.hp'}",
+      "target": "i PF totali"
+    },
+    "armor": {
+      "title": "@:{'stats.armor'}",
+      "target": "l'Armatura totale"
+    },
+    "structure": {
+      "title": "@:{'stats.structure'}",
+      "target": "la Struttura totale"
+    },
+    "stress": {
+      "title": "@:{'combat.structureCheck.stress'}",
+      "target": "lo Stress totale del reattore"
+    },
+    "corePower": {
+      "title": "@:{'active.trackable.corePower'}",
+      "target": "la Riserva Primaria totale"
+    },
+    "speed": {
+      "title": "@:{'stats.speed'}",
+      "target": "la Velocità totale"
+    },
+    "evasion": {
+      "title": "@:{'stats.evasion'}",
+      "target": "l'Elusione totale"
+    },
+    "edef": {
+      "title": "@:{'stats.edefense'}",
+      "target": "la Difesa Tech totale"
+    },
+    "sensor": {
+      "title": "@:{'common.sensorRange'}",
+      "target": "la Portata Sensori totale"
+    },
+    "techAttack": {
+      "title": "@:{'stats.techAttack'}",
+      "target": "l'Attacco Tech totale"
+    },
+    "save": {
+      "title": "Soglia di Salvezza",
+      "target": "la Soglia di Salvezza totale"
+    },
+    "sp": {
+      "title": "@:{'stats.sp'}",
+      "target": "i Punti Sistema totali"
+    },
+    "size": {
+      "title": "Taglia Modificata",
+      "target": "la @:{'stats.size'}"
+    },
+    "aiCap": {
+      "title": "Capacità IA",
+      "target": "la Capacità IA totale"
+    },
+    "cheapStruct": {
+      "title": "Riparazioni della Struttura a Metà Costo",
+      "detail": "Riparare la Struttura costa 1 Riparazione invece di 2"
+    },
+    "cheapStress": {
+      "title": "Riparazioni dello Stress a Metà Costo",
+      "detail": "Riparare il reattore costa 1 Riparazione invece di 2"
+    },
+    "overcharge": {
+      "title": "Costi di Sovralimentazione Modificati",
+      "detail": "Modifica la sequenza dei costi in Calore di Sovralimentare"
+    },
+    "limitedBonus": {
+      "title": "Usi dell'Equipaggiamento Limitato",
+      "target": "gli usi totali dell'equipaggiamento con il tag \"LIMITATO X\""
+    },
+    "pilotHp": {
+      "title": "@:{'pm.print.pilotHP'}",
+      "target": "i PF totali del Pilota"
+    },
+    "pilotArmor": {
+      "title": "@:{'common.pilotArmor'}",
+      "target": "l'Armatura totale del Pilota"
+    },
+    "pilotEvasion": {
+      "title": "Elusione del Pilota",
+      "target": "l'Elusione totale del Pilota"
+    },
+    "pilotEdef": {
+      "title": "Difesa Tech del Pilota",
+      "target": "la Difesa Tech totale del Pilota"
+    },
+    "pilotSpeed": {
+      "title": "Velocità del Pilota Aggiuntiva",
+      "target": "la Velocità totale del Pilota"
+    },
+    "pilotGearSlots": {
+      "title": "Slot Attrezzatura del Pilota Aggiuntivo",
+      "target": "gli slot Attrezzatura totali del Pilota"
+    },
+    "pilotWeaponSlots": {
+      "title": "Slot Arma del Pilota Aggiuntivo",
+      "target": "gli slot Arma totali del Pilota"
+    },
+    "pilotArmorSlots": {
+      "title": "Slot Armatura del Pilota Aggiuntivo",
+      "target": "gli slot Armatura totali del Pilota"
+    },
+    "deployableHp": {
+      "title": "PF per tutti i Droni e i Dispiegabili",
+      "target": "i PF totali di tutti i Dispiegabili schierati"
+    },
+    "deployableSize": {
+      "title": "Taglia per tutti i Droni e i Dispiegabili",
+      "target": "la Taglia di tutti i Dispiegabili schierati"
+    },
+    "deployableCharges": {
+      "title": "Cariche per tutti i Droni e i Dispiegabili",
+      "target": "le Cariche totali disponibili per l'equipaggiamento Drone e Dispiegabile"
+    },
+    "deployableArmor": {
+      "title": "Armatura per tutti i Droni e i Dispiegabili",
+      "target": "l'Armatura di tutti i Dispiegabili schierati"
+    },
+    "deployableEvasion": {
+      "title": "Elusione per tutti i Droni e i Dispiegabili",
+      "target": "l'Elusione di tutti i Dispiegabili schierati"
+    },
+    "deployableEdef": {
+      "title": "Difesa Tech per tutti i Droni e i Dispiegabili",
+      "target": "la Difesa Tech di tutti i Dispiegabili schierati"
+    },
+    "deployableSensorRange": {
+      "title": "Portata Sensori per tutti i Droni e i Dispiegabili",
+      "target": "la Portata Sensori di tutti i Dispiegabili schierati"
+    },
+    "deployableTechAttack": {
+      "title": "Attacco Tech per tutti i Droni e i Dispiegabili",
+      "target": "l'Attacco Tech di tutti i Dispiegabili schierati"
+    },
+    "deployableSave": {
+      "title": "Soglia di Salvezza per tutti i Droni e i Dispiegabili",
+      "target": "la Soglia di Salvezza di tutti i Dispiegabili schierati"
+    },
+    "deployableSpeed": {
+      "title": "Velocità per tutti i Droni e i Dispiegabili",
+      "target": "la Velocità di tutti i Dispiegabili schierati"
+    },
+    "deployCount": {
+      "title": "Numero di Dispiegabili",
+      "detail": "Schiera {value} Dispiegabili aggiuntivi per ogni azione di schieramento"
+    },
+    "droneHp": {
+      "title": "PF per tutti i Droni",
+      "target": "i PF totali di tutti i Droni schierati"
+    },
+    "droneSize": {
+      "title": "Taglia per tutti i Droni",
+      "target": "la Taglia di tutti i Droni schierati"
+    },
+    "droneCharges": {
+      "title": "Cariche per tutti i Droni",
+      "target": "@:{'bonuses.deployableCharges.target'}"
+    },
+    "droneArmor": {
+      "title": "Armatura per tutti i Droni",
+      "target": "l'Armatura di tutti i Droni schierati"
+    },
+    "droneEvasion": {
+      "title": "Elusione per tutti i Droni",
+      "target": "l'Elusione di tutti i Droni schierati"
+    },
+    "droneEdef": {
+      "title": "Difesa Tech per tutti i Droni",
+      "target": "la Difesa Tech di tutti i Droni schierati"
+    },
+    "droneSensorRange": {
+      "title": "Portata Sensori per tutti i Droni",
+      "target": "la Portata Sensori di tutti i Droni schierati"
+    },
+    "droneTechAttack": {
+      "title": "Attacco Tech per tutti i Droni",
+      "target": "l'Attacco Tech di tutti i Droni schierati"
+    },
+    "droneSave": {
+      "title": "Soglia di Salvezza per tutti i Droni",
+      "target": "la Soglia di Salvezza di tutti i Droni schierati"
+    },
+    "droneSpeed": {
+      "title": "Velocità per tutti i Droni",
+      "target": "la Velocità di tutti i Droni schierati"
+    },
+    "activations": {
+      "title": "@:{'active.customStatEditor.activations'}",
+      "detail": "Effettua {value} turni aggiuntivi per round"
+    },
+    "activationsPct": {
+      "title": "Attivazioni per Giocatore",
+      "detail": "Effettua un turno aggiuntivo per round se nello scontro ci sono almeno {value} PG"
+    },
+    "hpPerPlayer": {
+      "title": "PF per Giocatore",
+      "detail": "{direction} i PF di {value} per ogni PG nello scontro"
+    },
+    "immunity": {
+      "title": "@:{'active.dmgCond.immunity'}",
+      "detail": "Conferisce Immunità ({value}). Annulla tutti i danni dalla fonte indicata."
+    },
+    "resistance": {
+      "title": "@:{'active.dmgCond.resistance'}",
+      "detail": "Conferisce Resistenza ({value}). Dimezza i danni dalla fonte indicata."
+    },
+    "mountAccuracy": {
+      "title": "Precisione del Supporto",
+      "detail": "Conferisce {value} Precisione a tutti gli attacchi effettuati con le armi su questo supporto"
+    },
+    "mountRange": {
+      "title": "Gittata del Supporto",
+      "detail": "Conferisce {value} Gittata a tutti gli attacchi effettuati con le armi su questo supporto"
+    },
+    "mountDamage": {
+      "title": "Danni del Supporto",
+      "detail": "Aggiunge {value} danni a tutti gli attacchi effettuati con le armi su questo supporto"
+    },
+    "mountDamageTypeOverride": {
+      "title": "Tipo di Danno del Supporto",
+      "detail": "Converte tutti i danni delle armi montate in danni {value}"
+    },
+    "mountRangeTypeOverride": {
+      "title": "Tipo di Gittata del Supporto",
+      "detail": "Converte la gittata di tutte le armi montate in gittata {value}"
+    },
+    "mountWeaponTypeOverride": {
+      "title": "Tipo di Arma del Supporto",
+      "detail": "Converte il tipo di tutte le armi montate in armi {value}"
+    },
+    "addMount": {
+      "title": "Aggiungi Supporto",
+      "detail": "Aggiunge un supporto {value} a questo mech, se ha meno di {max} supporti"
+    },
+    "noMods": {
+      "title": "Non Modificabile",
+      "detail": "Questo equipaggiamento non può essere modificato"
+    },
+    "armorMax": {
+      "title": "Armatura Massima",
+      "detail": "{direction} a {value} il valore massimo di Armatura del mech"
+    },
+    "boost": {
+      "title": "Velocità con Accelerare",
+      "detail": "{direction} a {value} la Velocità con Accelerare di questo mech"
+    },
+    "minRange": {
+      "title": "Gittata Minima",
+      "detail": "{direction} a {value} la gittata minima delle armi"
+    },
+    "minDamage": {
+      "title": "Danno Minimo",
+      "detail": "{direction} a {value} il danno minimo delle armi"
+    },
+    "extraAction": {
+      "title": "Azione Extra",
+      "detail": "Conferisce un'Azione {value} aggiuntiva per turno"
+    },
+    "unstableSystem": {
+      "title": "Sistema Instabile"
+    },
+    "knockback": {
+      "title": "Urto",
+      "target": "il valore di Urto"
+    },
+    "attack": {
+      "target": "il @:{'ui.flow.request.attackRoll'}"
+    },
+    "noCascade": {
+      "title": "Impedisce la Cascata"
+    },
+    "thrown": {
+      "title": "@:{'enums.rangeType.thrown'}",
+      "detail": "Aggiunge Lancio {value}"
+    },
+    "droneResist": {
+      "title": "Resistenza dei Droni",
+      "detail": "Aggiunge Resistenza ({value}) ai Droni schierati"
+    },
+    "deployableResist": {
+      "title": "Resistenza dei Dispiegabili",
+      "detail": "Aggiunge Resistenza ({value}) a tutto l'equipaggiamento schierato"
+    },
+    "hull": {
+      "title": "@:{'stats.hull'}",
+      "target": "le prove e i tiri salvezza di Scafo"
+    },
+    "hullCheck": {
+      "title": "@:{'stats.hull'}",
+      "target": "le prove di Scafo"
+    },
+    "hullSave": {
+      "title": "@:{'stats.hull'}",
+      "target": "i tiri salvezza di Scafo"
+    },
+    "agility": {
+      "title": "@:{'stats.agility'}",
+      "target": "le prove e i tiri salvezza di Agilità"
+    },
+    "agilityCheck": {
+      "title": "@:{'stats.agility'}",
+      "target": "le prove di Agilità"
+    },
+    "agilitySave": {
+      "title": "@:{'stats.agility'}",
+      "target": "i tiri salvezza di Agilità"
+    },
+    "systems": {
+      "title": "@:{'stats.systems'}",
+      "target": "le prove e i tiri salvezza di Sistemi"
+    },
+    "systemsCheck": {
+      "title": "@:{'stats.systems'}",
+      "target": "le prove di Sistemi"
+    },
+    "systemsSave": {
+      "title": "@:{'stats.systems'}",
+      "target": "i tiri salvezza di Sistemi"
+    },
+    "engineering": {
+      "title": "@:{'stats.engineering'}",
+      "target": "le prove e i tiri salvezza di Ingegneria"
+    },
+    "engineeringCheck": {
+      "title": "@:{'stats.engineering'}",
+      "target": "le prove di Ingegneria"
+    },
+    "engineeringSave": {
+      "title": "@:{'stats.engineering'}",
+      "target": "i tiri salvezza di Ingegneria"
+    },
+    "check": {
+      "title": "Prove",
+      "target": "tutte le prove"
+    },
+    "threat": {
+      "title": "@:{'enums.rangeType.threat'}",
+      "target": "la Minaccia delle armi"
+    },
+    "setWeaponType": {
+      "title": "Imposta Tipo di Arma",
+      "detail": "Considera l'arma come un'arma {value}"
+    },
+    "addWeaponType": {
+      "title": "Aggiungi Tipo di Arma",
+      "detail": "Considera le armi interessate anche come armi {value}"
+    },
+    "grapple": {
+      "title": "@:{'enums.rangeType.threat'}",
+      "target": "i tiri di @:{'active.customStatEditor.grapple'}"
+    },
+    "ram": {
+      "title": "@:{'active.customStatEditor.ram'}",
+      "target": "i tiri di @:{'active.customStatEditor.ram'}"
+    },
+    "sizes": {
+      "title": "Opzioni di Taglia",
+      "detail": "Estende le opzioni di Taglia nella creazione dei PNG ({value})"
+    },
+    "melee": {
+      "title": "@:{'enums.weaponType.melee'}",
+      "target": "gli attacchi in mischia"
+    },
+    "accuracy": {
+      "title": "@:{'common.accuracy'}",
+      "detail": "{direction} di {value} la Precisione di attacchi, prove e tiri salvezza"
     }
   }
 }
