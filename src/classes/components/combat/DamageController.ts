@@ -1,3 +1,4 @@
+import { isOutOfAction } from './ActorIdentity'
 import { DamageType } from '../../enums'
 import { StatKey } from './stats/Stats'
 import {
@@ -103,7 +104,7 @@ class DamageController {
 
     const calc = this._calculate(type, value, ap, irreducible, direct)
     const damage = calc.out
-    const wasDestroyed = this._parent.IsDestroyed
+    const wasDestroyed = isOutOfAction(this._parent)
 
     this._parent.Record('damage', {
       targetId: target.RootActor?.ID ?? target.Parent.ID,
@@ -120,7 +121,7 @@ class DamageController {
 
     this.ApplyDamage(type, damage.total, direct)
 
-    if (wasDestroyed || !this._parent.IsDestroyed) return
+    if (wasDestroyed || !isOutOfAction(this._parent)) return
 
     const deployable: any =
       (target.Parent as any)?.ItemType === 'Deployable' ? target.Parent : undefined

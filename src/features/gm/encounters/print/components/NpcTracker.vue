@@ -117,7 +117,7 @@
 
   const props = defineProps<{ combatant: Record<string, any> }>()
 
-  const npc = computed(() => props.combatant.npc)
+  const npc = computed(() => props.combatant.actor)
   const statuses = computed(() => CompendiumStore().Statuses)
   const borderColor = computed(() =>
     props.combatant.side === 'enemy'

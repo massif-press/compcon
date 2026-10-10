@@ -246,7 +246,7 @@
     return props.unit.NpcFeatureController?.GetModifiers(props.item) || []
   })
   const tier = computed(() => {
-    return props.unit.NpcClassController?.Tier || 1
+    return props.unit.Tier || 1
   })
   const showCommandPanel = computed(() => {
     return !props.item.IsCombatPassive

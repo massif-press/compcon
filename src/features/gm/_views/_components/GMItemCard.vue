@@ -40,7 +40,7 @@
         />
         {{ item.Name }}&mdash; {{ $t('common.tierShort', { n: item.Tier }) }}
         <cc-slashes />
-        {{ $t('gm.itemCard.classLabel', { class: item.Class }) }}
+        {{ $t('gm.itemCard.classLabel', { class: item.EidolonClass }) }}
       </template>
       <template v-else-if="type === 'Faction'">
         <div>
@@ -102,7 +102,7 @@
       <v-chip
         v-for="l in item.Layers"
         v-if="!item.BrewController.IsUnableToLoad"
-        :key="l.ID"
+        :key="l.Key"
         label
         prepend-icon="mdi-layers"
         class="mx-1 my-1"
@@ -135,11 +135,11 @@
       <div>
         {{ $t('common.tierShort', { n: item.Tier }) }}
         <cc-slashes />
-        {{ $t('gm.itemCard.classLabel', { class: item.Class }) }}
+        {{ $t('gm.itemCard.classLabel', { class: item.EidolonClass }) }}
       </div>
       <v-chip
         v-for="l in item.Layers"
-        :key="l.ID"
+        :key="l.Key"
         size="x-small"
         label
         prepend-icon="mdi-layers"

@@ -126,7 +126,13 @@ class CombatLogRecorder {
 }
 
 function recordersFor(actor: any): CombatLogRecorder[] {
-  return [actor?.CombatController, actor?.ActiveMech?.CombatController]
+  return [
+    ...new Set([
+      actor?.CombatController,
+      actor?.ActiveMech?.CombatController,
+      ...(actor?.Layers ?? []).map((l: any) => l.CombatController),
+    ]),
+  ]
     .map(cc => cc?.CombatLog)
     .filter(Boolean) as CombatLogRecorder[]
 }

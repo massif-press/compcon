@@ -3,7 +3,6 @@ import { INpcClassData } from '@/classes/npc/class/NpcClass'
 import { INpcFeatureData } from '@/classes/npc/feature/NpcFeature'
 import { INpcTemplateData } from '@/classes/npc/template/NpcTemplate'
 import { IContentPack, IContentPackManifest, IExtraNpcFeatureEntry } from '@/classes/ContentPack'
-import CoreLayerData from '@/classes/npc/eidolon/core_layer.json'
 import { IEnvironmentData } from '@/classes/Environment'
 import { IDowntimeActionData } from '@/classes/DowntimeAction'
 import logger from '@/user/logger'
@@ -233,9 +232,6 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
     })
 
   const eidolonLayers = (await readZipJSON<any[]>(zip, 'eidolon_layers.json')) || []
-  if (eidolonLayers.length) {
-    eidolonLayers.push(CoreLayerData)
-  }
 
   const customStats = (await readZipJSON<any[]>(zip, 'custom_stats.json')) || []
   const bonusDictionary = (await readZipJSON<any[]>(zip, 'bonus_dictionary.json')) || []

@@ -38,11 +38,6 @@
     equippable
     @equip="AddLayer($event)"
   >
-    <template #header>
-      <div class="heading h3 text-center text-accent">
-        {{ $t('compendium.categories.mechWeapons') }}
-      </div>
-    </template>
     <template #top>
       <cc-switch
         v-model="allowDupes"
@@ -62,7 +57,7 @@
   import { useI18n } from 'vue-i18n'
   const { t } = useI18n()
 
-  defineOptions({ name: 'npc-class-selector' })
+  defineOptions({ name: 'eidolon-layer-selector' })
 
   const props = withDefaults(
     defineProps<{

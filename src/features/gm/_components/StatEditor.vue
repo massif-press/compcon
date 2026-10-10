@@ -192,7 +192,7 @@
   import { useDisplay } from 'vuetify'
   import { Doodad } from '@/classes/npc/doodad/Doodad.js'
   import { Eidolon } from '@/classes/npc/eidolon/Eidolon.js'
-  import type { EidolonLayerSaveData } from '@/classes/npc/eidolon/EidolonLayerSaveData'
+  import type { EidolonLayerInstance } from '@/classes/npc/eidolon/EidolonLayerInstance'
   import { Unit } from '@/classes/npc/unit/Unit.js'
   import { NpcClassController } from '@/classes/npc/class/NpcClassController.js'
   const npcStatOrder = [
@@ -223,7 +223,7 @@
 
   const props = withDefaults(
     defineProps<{
-      item: Unit | Eidolon | Doodad | EidolonLayerSaveData
+      item: Unit | Eidolon | Doodad | EidolonLayerInstance
       controller?: NpcClassController
       bonuses?: Bonus[]
       prefix?: string

@@ -25,10 +25,14 @@
             stacked
             :variant="n - 1 === combatant.actor.ActiveLayerIndex ? 'elevated' : 'tonal'"
             :color="n - 1 === combatant.actor.ActiveLayerIndex ? 'exotic' : 'primary'"
-            @click="combatant.actor.ActiveLayerIndex = n - 1"
+            @click="combatant.actor.SetActiveLayer(n - 1)"
           >
             <v-icon
-              icon="mdi-layers"
+              :icon="
+                combatant.actor.Layers[n - 1].CombatController.IsDestroyed
+                  ? 'mdi-layers-off'
+                  : 'mdi-layers'
+              "
               :size="n - 1 === combatant.actor.ActiveLayerIndex ? 50 : 40"
             />
             <div class="text-cc-overline">{{ combatant.actor.Layers[n - 1].Name }}</div>
@@ -41,6 +45,39 @@
       </v-tooltip>
     </v-col>
   </v-row>
+  <cc-alert
+    v-if="layer.CombatController.IsDestroyed && !combatant.actor.IsDefeated"
+    class="ma-2"
+    outlined
+  >
+    <p>{{ $t('active.eidolon.metamorphosisDetail') }}</p>
+    <cc-button
+      block
+      size="small"
+      color="exotic"
+      class="mt-2"
+      @click="combatant.actor.DestroyActiveLayer(combatant)"
+    >
+      {{ $t('active.eidolon.metamorphose') }}
+    </cc-button>
+  </cc-alert>
+  <cc-alert
+    v-else-if="combatant.actor.Manifesting"
+    class="ma-2"
+    outlined
+  >
+    <p>{{ $t('active.eidolon.manifestingDetail') }}</p>
+    <cc-button
+      block
+      size="small"
+      color="exotic"
+      class="mt-2"
+      :tooltip="$t('active.eidolon.manifestTooltip')"
+      @click="combatant.actor.Manifest(combatant, hostileCount)"
+    >
+      {{ $t('active.eidolon.manifestLayer', { name: layer.Name }) }}
+    </cc-button>
+  </cc-alert>
   <panel-base
     :item="layer"
     hide-palette
@@ -56,10 +93,10 @@
           block
           size="small"
           color="primary"
-          :disabled="!layer.Layer.Shards?.Count"
-          @click="genShards()"
+          :disabled="!shardCount"
+          @click="combatant.actor.CreateShards(combatant, hostileCount)"
         >
-          <span v-if="layer.Layer.Shards?.Count">
+          <span v-if="shardCount">
             {{ $t('active.eidolon.generateShards', { n: shardCount }, shardCount) }}
           </span>
           <span v-else>{{ $t('active.eidolon.noShards') }}</span>
@@ -101,7 +138,7 @@
               variant="text"
               size="x-small"
               class="fade-select"
-              @click="clip(layer.Layer.Hints)"
+              @click="clip(combatant.actor.Scan)"
             >
               <v-icon
                 start
@@ -173,6 +210,34 @@
         </fieldset>
       </template>
     </cc-masonry-grid>
+
+    <div v-if="shardFeatures.length">
+      <div class="text-cc-overline mt-2">
+        {{ $t('active.eidolon.shardFeatures', { n: shardFeatures.length }) }}
+      </div>
+      <p
+        v-html-safe="layer.Layer.Shards.Detail"
+        class="px-2 pb-2"
+      />
+      <cc-masonry-grid
+        :items="shardFeatures"
+        :xl-columns="xlColumns"
+      >
+        <template #default="{ item }">
+          <fieldset
+            class="px-2 pb-2"
+            style="border-color: rgba(155, 155, 155, 0.6)"
+          >
+            <unit-feature-card
+              :key="item.ID"
+              :item="item"
+              :unit="layer"
+              @deploy="deploy($event)"
+            />
+          </fieldset>
+        </template>
+      </cc-masonry-grid>
+    </div>
   </panel-base>
 </template>
 
@@ -212,34 +277,14 @@
   const traits = computed(() => persistentTraits())
   const layer = computed(() => (props.combatant as any).actor.ActiveLayer)
   const features = computed(() => layer.value?.Layer?.Features || [])
-  const shardCount = computed(() => {
-    const shardCount = layer.value.Layer.Shards?.Count || 0
-    if (!shardCount) return 0
-    if (typeof layer.value.Layer.Shards?.Count === 'string') {
-      const str = (layer.value.Layer.Shards.Count as string).toLowerCase().trim()
-      if (str === 'hostile_characters') {
-        return props.encounterInstance.Combatants.filter(c => c.side === 'ally').length
-      } else if (str === 'characters') {
-        return props.encounterInstance.Combatants.length
-      } else {
-        return isNaN(Number(str)) ? 0 : Number(str)
-      }
-    }
-    return shardCount
-  })
+  const shardFeatures = computed(() => layer.value?.Layer?.Shards?.Features || [])
+  const hostileCount = computed(() => props.encounterInstance.HostileCount)
+  const shardCount = computed(() => (props.combatant as any).actor.ShardCount(hostileCount.value))
 
   function deploy(deployable) {
     ;(props.encounterInstance as any).Deploy(deployable, props.combatant)
   }
   function clip(text) {
     navigator.clipboard.writeText(text)
-  }
-  function genShards() {
-    if (!shardCount.value) return
-    for (let i = 0; i < shardCount.value; i += 1) {
-      ;(props.combatant as any).deployables.push(
-        layer.value.Layer.Shards.Create(props.combatant, layer.value.Name)
-      )
-    }
   }
 </script>

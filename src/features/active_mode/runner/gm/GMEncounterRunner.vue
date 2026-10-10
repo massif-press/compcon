@@ -263,7 +263,7 @@ watch(
   instanceID,
   newval => {
     if (!newval) return
-    setEidolonHp()
+    instance.value!.ScaleEidolons()
     actors.value.forEach((a: any) => (a.CombatController.Round = instance.value!.Round))
     seedActiveSettings(instance.value!)
     recacheUndoBaseline()
@@ -274,7 +274,7 @@ watch(
 watch(actorCount, (newval, oldval) => {
   if (!instance.value || newval === oldval) return
   instance.value.SetPlayMode(instance.value.PlayMode)
-  if (newval > 0) setEidolonHp()
+  if (newval > 0) instance.value.ScaleEidolons()
 })
 
 watch(instance, (newVal, oldVal) => {
@@ -287,18 +287,6 @@ onMounted(() => {
     showRight.value = false
   }
 })
-
-function setEidolonHp() {
-  const playerCount = instance.value!.Combatants.filter((c: any) => c.type === 'pilot').length
-  instance
-    .value!.Combatants.filter((c: any) => c.type === 'eidolon')
-    .forEach((e: any) =>
-      e.actor.SetLayerHp(
-        playerCount,
-        e.actor.StatController.CurrentStats.hp === e.actor.StatController.MaxStats.hp
-      )
-    )
-}
 
 async function sortBy(key: string) {
   const sorted = orderBy(actors.value, key, sort.value === key ? 'desc' : 'asc')

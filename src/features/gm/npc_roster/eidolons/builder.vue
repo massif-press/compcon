@@ -32,7 +32,7 @@
       >
         {{ $t('common.tierN', { n: item.Tier }) }}
         <v-divider />
-        <span>{{ $t('gm.itemCard.classLabel', { class: item.Class }) }}</span>
+        <span>{{ $t('gm.itemCard.classLabel', { class: item.EidolonClass }) }}</span>
       </div>
     </v-col>
   </v-row>

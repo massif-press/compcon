@@ -107,14 +107,22 @@ class StatController {
     return parts[Math.min(tierIndex, parts.length - 1)] ?? 0
   }
 
-  public applyRegisteredCustomStats(): void {
-    const tier: number = (this.Parent as any).NpcClassController?.Tier ?? 1
+  public static CustomStatDefaults(tier: number): Record<string, number> {
     const tierIndex = Math.max(0, tier - 1)
+    return Object.fromEntries(
+      [...StatController._customStatRegistry].map(([key, data]) => [
+        key,
+        StatController.resolveDefault(data.default, tierIndex),
+      ])
+    )
+  }
+
+  public applyRegisteredCustomStats(): void {
+    const defaults = StatController.CustomStatDefaults((this.Parent as any).Tier ?? 1)
     for (const [key, data] of StatController._customStatRegistry) {
       if (!(key in this._maxStats)) {
-        const val = StatController.resolveDefault(data.default, tierIndex)
-        this._maxStats[key] = val
-        this._currentStats[key] = val
+        this._maxStats[key] = defaults[key]
+        this._currentStats[key] = defaults[key]
         if (data.trackable) this._customTrackable.add(key)
       }
     }

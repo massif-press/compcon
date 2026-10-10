@@ -817,7 +817,8 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public DifficultyFor(kind: string): number {
-    return this.StatusController.DifficultyFor(kind)
+    const ignoresEngagement = kind === 'ranged' && this.Parent.IgnoresEngagement
+    return this.StatusController.DifficultyFor(ignoresEngagement ? 'attack' : kind)
   }
 
   public AccuracyAgainst(): number {
@@ -1065,7 +1066,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public get RefreshesReactionsEachTurn(): boolean {
-    return this.IsNpc && this.HasTemplate('ultra')
+    return this.IsNpc && (this.HasTemplate('ultra') || !!this.Parent.RefreshesReactionsEachTurn)
   }
 
   public get IsGrunt(): boolean {

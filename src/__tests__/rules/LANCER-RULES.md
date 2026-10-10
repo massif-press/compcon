@@ -3,7 +3,7 @@
 **Generated from `lancer-rules.json` by `scripts/gen-rules-table.mjs`. Do not edit.**
 Run `yarn rules:table` after adding or changing a rule. CI fails if this file is out of date.
 
-135 rules and 15 interaction rules, covered by 304 tests in `src/__tests__/rules/`.
+149 rules and 15 interaction rules, covered by 341 tests in `src/__tests__/rules/`.
 
 | File | Holds |
 |---|---|
@@ -156,7 +156,7 @@ Run `yarn rules:table` after adding or changing a rule. CI fails if this file is
 | `T-STATUS-cascade-01` | CASCADE | A cascading NHP takes the mech out of its pilot's control and puts it under the GM's. SHUT DOWN stabilises a cascading NHP. | ASSIST | `statuses` (2) |
 | `T-STATUS-dangerzone-01` | DANGER ZONE | A character with half or more of its heat filled is in the DANGER ZONE. | AUTO | `damage` (1) |
 | `T-STATUS-downandout-01` | DOWN AND OUT | A pilot reduced to 0 HP is DOWN AND OUT: unconscious and STUNNED, not dead. Any further damage kills them. They regain consciousness and half their HP on a rest. | AUTO | `statuses` (2) |
-| `T-STATUS-engaged-01` | ENGAGED | Adjacent hostile characters are both ENGAGED for as long as they remain adjacent. A ranged attack made while ENGAGED takes +1 difficulty. A character that becomes ENGAGED by an equal or larger target mid-movement stops immediately and loses its remaining movement. | ASSIST | `statuses` (2) |
+| `T-STATUS-engaged-01` | ENGAGED | Adjacent hostile characters are both ENGAGED for as long as they remain adjacent. A ranged attack made while ENGAGED takes +1 difficulty. A character that becomes ENGAGED by an equal or larger target mid-movement stops immediately and loses its remaining movement. | ASSIST | `statuses` (5) |
 | `T-STATUS-exposed-01` | EXPOSED | All kinetic, explosive, and energy damage taken by an EXPOSED character is doubled, before any reduction is applied. STABILIZE clears it. | AUTO | `damage` (1) |
 | `T-STATUS-exposed-02` | EXPOSED is cleared by cooling, stabilizing, and shutting down | EXPOSED is cleared by cooling on STABILIZE, by NPC STABILIZE, and by SHUT DOWN. | AUTO | `actors` (2) |
 | `T-STATUS-hidden-01` | HIDDEN | A HIDDEN character cannot be targeted by hostile attacks or actions, does not cause engagement, and is known only by approximate location. Attacking, forcing a save, taking a reaction, using BOOST, and losing cover each remove HIDDEN **after** they resolve. SEARCH finds a HIDDEN character. | ASSIST | `statuses` (4) |
@@ -214,7 +214,7 @@ Run `yarn rules:table` after adding or changing a rule. CI fails if this file is
 | `T-NPC-actions-03` | the NPC action list | The NPC quick actions are Boost, Grapple, Hide, Prepare, Skirmish, Ram, Quick Tech, and Search; the full actions are Barrage, Disengage, Full Tech, Improvised Attack, and Stabilize. NPC Skirmish attacks with one Auxiliary, Main, or Heavy weapon; Barrage with up to two, or one Superheavy. | AUTO | `actors` (1) |
 | `T-NPC-damage-01` | NPCs deal fixed damage and cannot crit | NPCs deal fixed damage rather than rolling, and cannot land critical hits unless a template grants it. | AUTO | `actors` (1) |
 | `T-NPC-fulltech-01` | NPC full tech allows two *different* quick tech options | An NPC FULL TECH takes one full tech option or two *different* quick tech options. | AUTO | `actors` (1) |
-| `T-NPC-grappleram-01` | NPC grapple and ram use a tiered bonus | NPC GRAPPLE, RAM, and IMPROVISED ATTACK use a tiered attack bonus of +1/2/3; improvised attacks deal 3/4/6 by tier. | AUTO | `actors` (3) |
+| `T-NPC-grappleram-01` | NPC grapple and ram use a tiered bonus | NPC GRAPPLE, RAM, and IMPROVISED ATTACK use a tiered attack bonus of +1/2/3; improvised attacks deal 3/4/6 by tier. | AUTO | `actors`, `eidolons` (4) |
 | `T-NPC-grunt-01` | a Grunt is destroyed by any external heat | An NPC with the Grunt template is destroyed outright by heat from any external source, without a meltdown. Self-inflicted heat behaves normally. | AUTO | `actors` (2) |
 | `T-NPC-invade-01` | the NPC invade differs from the PC one | The NPC INVADE is a SYSTEMS versus E-DEFENSE tech attack dealing 2 heat and IMPAIRED until the end of the target's next turn — not the PC FRAGMENT SIGNAL, which also applies SLOWED. | ASSIST | `actors` (1) |
 | `T-NPC-overwatch-01` | an NPC may overwatch once between turns | An NPC takes OVERWATCH on the same terms a player character does: a 1/round reaction skirmish with the triggering weapon, never with an ordnance weapon. | ASSIST | `actors` (1) |
@@ -226,7 +226,26 @@ Run `yarn rules:table` after adding or changing a rule. CI fails if this file is
 
 | Rule | Title | Statement | Class | Spec |
 |---|---|---|---|---|
-| `T-MOVE-cover-01` | cover | Once cover is declared, soft cover imposes +1 difficulty and hard cover +2 on ranged attacks. Melee and tech attacks ignore cover. | ASSIST | `actions`, `statuses` (2) |
+| `T-MOVE-cover-01` | cover | Once cover is declared, soft cover imposes +1 difficulty and hard cover +2 on ranged attacks. Melee and tech attacks ignore cover. | ASSIST | `actions`, `statuses` (4) |
+
+## Eidolons (14)
+
+| Rule | Title | Statement | Class | Spec |
+|---|---|---|---|---|
+| `T-EIDOLON-activations-01` | BONUS ACTIVATIONS | Each round the Eidolon takes one turn for every two hostile characters, to a minimum of one and a maximum of four. Hostile characters are the player characters, placeholders and NPC units on the allied side. | AUTO | `eidolons` (3) |
+| `T-EIDOLON-activations-02` | reactions return on each of its turns | The Eidolon regains its spent reactions at the start of each of its turns. | AUTO | `eidolons` (1) |
+| `T-EIDOLON-class-01` | class is the layer count above the core | A class 1, 2 or 3 Eidolon has 3, 4 or 5 layers surrounding its core. The core is always the innermost layer and the last one fought. | AUTO | `eidolons` (2) |
+| `T-EIDOLON-core-01` | the core | Revealing the core destroys every shard. The Eidolon is defeated when its core is destroyed, and not before. | AUTO | `eidolons` (2) |
+| `T-EIDOLON-layerstats-01` | layer base statistics | Every layer has the tier table statistics, 1 STRUCTURE and 1 STRESS, and 10/15/20 HP plus 5 per player. Players are the pilots and the pilot placeholders on the allied side. | AUTO | `eidolons` (4) |
+| `T-EIDOLON-layerstats-02` | a layer's own stat line replaces the table | A statistic stated by a layer replaces the table value while that layer is active. A stated HP value is not scaled per player. | AUTO | `eidolons` (2) |
+| `T-EIDOLON-memetic-01` | MEMETIC weapons | Memetic weapons are ranged weapons that ignore engagement. | AUTO | `eidolons` (3) |
+| `T-EIDOLON-metamorphosis-01` | METAMORPHOSIS | A layer at 0 HP is destroyed with no structure check. The Eidolon and its shards clear all statuses, conditions and effects, and the next layer inward becomes the active layer. | ASSIST | `eidolons` (2) |
+| `T-EIDOLON-metamorphosis-02` | a new layer manifests at the start of the Eidolon's next turn | After a layer is destroyed the Eidolon is manifesting until the start of its next turn, when the new layer appears with its shards. | ASSIST | `eidolons` (2) |
+| `T-EIDOLON-order-01` | only the outermost remaining layer is active | Combat starts on the outermost layer. Only one layer is active at a time, and only the active layer takes damage. | AUTO | `eidolons` (2) |
+| `T-EIDOLON-overheat-01` | an overheating layer is EXPOSED | A layer has 1 STRESS and makes no overheating check. Overheating it makes it EXPOSED. | AUTO | `eidolons` (1) |
+| `T-EIDOLON-scan-01` | INCOMPREHENSIBLE | SCAN reveals none of the Eidolon's statistics. It yields the active layer's hints instead. | AUTO | `eidolons` (1) |
+| `T-EIDOLON-shards-01` | shards appear with their layer and carry over | A layer creates its listed number of shards, by tier or one per hostile character where the layer says so. Surviving shards carry over to the next layer unless their layer destroys them with it. | AUTO | `eidolons` (4) |
+| `T-EIDOLON-shardstats-01` | shard base statistics | Every shard has the shard tier table statistics, with any statistic stated by its layer replacing the table value. | AUTO | `eidolons` (2) |
 
 ---
 

@@ -999,7 +999,8 @@
       "noLayers": "no layers",
       "orderLower": "Order Lower",
       "orderHigher": "Order Higher",
-      "layerDescription": "Layer Description"
+      "layerDescription": "Layer Description",
+      "shardsPerHostile": "# of Hostile Characters"
     },
     "layerSelector": {
       "noData": "No Eidolon data found!",
@@ -1341,7 +1342,8 @@
       "hostAnOnlineTable": "Host an Online Table",
       "spectatorMode": "Spectator Mode",
       "campaignDisplay": "Campaign Display",
-      "observer": "OBSERVER",
+      "observer": "Observer",
+      "lancer_gameterm": "Lancer",
       "inDevelopmentReleaseV32": "In Development (release v3.2)",
       "createManageAndRunActivePlayer": "Create, manage, and run active Player Character sheets",
       "resumeLast": "resume last",
@@ -1854,7 +1856,13 @@
       "activeLayer": "Active Layer",
       "noShards": "Layer has no Shards",
       "persistentTraits": "Persistent Traits ({n})",
-      "generateShards": "Generate {n} Shard | Generate {n} Shards"
+      "generateShards": "Generate {n} Shard | Generate {n} Shards",
+      "shardFeatures": "Shard Features ({n})",
+      "metamorphose": "Metamorphose",
+      "metamorphosisDetail": "This layer is destroyed. The Eidolon and its shards clear all statuses, conditions and effects, and the next layer manifests at the start of the Eidolon's next turn.",
+      "manifestingDetail": "The Eidolon and its shards have Immunity to all damage and effects until the start of the Eidolon's next turn, when the new layer manifests.",
+      "manifestLayer": "Manifest {name}",
+      "manifestTooltip": "Press this at the start of the Eidolon's next turn. The new layer appears, its shards are created (or destroyed, for the core), and the Eidolon and its shards lose their Immunity. This step is manual because the app does not track when an NPC's turn begins."
     },
     "mechPanel": {
       "meltdown": "This mech has suffered a reactor meltdown. It is permanently destroyed and cannot be repaired.",

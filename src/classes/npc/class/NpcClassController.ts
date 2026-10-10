@@ -45,11 +45,13 @@ class NpcClassController {
       ...Stats.DefaultStats,
     })
 
+    const customDefaults = StatController.CustomStatDefaults(this.Tier)
+
     allStats.forEach(key => {
       const tieredDef = Stats.TieredDefaults[key]
       const fallback = tieredDef
         ? StatController.resolveDefault(tieredDef, this.Tier - 1)
-        : (Stats.DefaultStats[key] ?? 0)
+        : (customDefaults[key] ?? Stats.DefaultStats[key] ?? 0)
       let statVal = c?.Stats.Stat(key, this.Tier) ?? fallback
       if (key === 'size') {
         const sizeVal = c?.Stats.Stat('sizes', this.Tier) || c?.Stats.Stat('size', this.Tier) || 1

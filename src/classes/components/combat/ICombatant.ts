@@ -3,7 +3,7 @@ import { FeatureController } from '../feature/FeatureController'
 import { SaveController } from '../save/SaveController'
 import { CombatController } from './CombatController'
 import { MechLoadoutController } from '@/classes/mech/components/loadout/MechLoadoutController'
-import type { EidolonLayerSaveData } from '@/classes/npc/eidolon/EidolonLayerSaveData'
+import type { EidolonLayerInstance } from '@/classes/npc/eidolon/EidolonLayerInstance'
 import { NpcFeatureController } from '@/classes/npc/feature/NpcFeatureController'
 import { NpcTemplateController } from '@/classes/npc/template/NpcTemplateController'
 import { ReservesController } from '@/classes/pilot/components'
@@ -40,12 +40,16 @@ interface ICombatant {
   DefaultName?: string
   Tier?: number
   ActiveLayerIndex?: number
+  IgnoresEngagement?: boolean
+  RootActor?: ICombatant
+  IsDefeated?: boolean
+  RefreshesReactionsEachTurn?: boolean
   IsLinked?: boolean
   IsNameless?: boolean
   ActiveMech?: Mech | null
   Mechs?: Mech[]
-  ActiveLayer?: EidolonLayerSaveData
-  Layers?: EidolonLayerSaveData[]
+  ActiveLayer?: EidolonLayerInstance
+  Layers?: EidolonLayerInstance[]
   Loadout?: MechLoadout | PilotLoadout
   Class?: NpcClass
   LcpConfig?: LcpConfig | null
@@ -57,7 +61,6 @@ interface ICombatant {
   ReservesController?: ReservesController
   PortraitController?: PortraitController
   GetLinkedItem?: (...args: any[]) => any
-  SetLayerHp?: (...args: any[]) => any
   Serialize?: (includeInstance?: boolean) => any
 }
 

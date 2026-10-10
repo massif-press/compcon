@@ -34,6 +34,7 @@
     "Conditions": "sitrep victory conditions (gm.sitrep.victoryConditions) vs harmful statuses (compendium.reference.statusConditions)",
     "Archive": "verb (archive an item) vs noun (archived item state)",
     "Save": "verb (save a file) vs noun (a save roll)",
-    "Full": "play mode (full vs simple UI) vs full build (statblock export scope)"
+    "Full": "play mode (full vs simple UI) vs full build (statblock export scope)",
+    "LANCER": "game name (common.gameName, never translated) vs the in-world term for a pilot (translated)"
   }
 }

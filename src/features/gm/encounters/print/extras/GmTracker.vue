@@ -50,10 +50,21 @@
   const props = defineProps<{ encounter: Record<string, any> }>()
 
   const SortedCombatants = computed(() =>
-    sortBy(props.encounter.Combatants, (x: any) => x.playerCount).filter(
-      (x: any) => x.npc && x.actor.ItemType.toLowerCase() !== 'eidolon'
-    )
+    sortBy(props.encounter.Combatants, (x: any) => x.playerCount)
+      .filter((x: any) => x.actor?.StatController)
+      .flatMap((x: any) => (x.actor.Layers ? layerRows(x) : [x]))
   )
+  function layerRows(combatant: any) {
+    return [...combatant.actor.Layers].reverse().map((layer: any) => ({
+      ...combatant,
+      id: `${combatant.id}-${layer.Key}`,
+      actor: {
+        Name: `${combatant.actor.Name}: ${layer.Name}`,
+        StatController: layer.StatController,
+      },
+    }))
+  }
+
   const Enemies = computed(() => SortedCombatants.value.filter((x: any) => x.side === 'enemy'))
   const Allies = computed(() => SortedCombatants.value.filter((x: any) => x.side === 'ally'))
   const Neutral = computed(() => SortedCombatants.value.filter((x: any) => x.side === 'neutral'))

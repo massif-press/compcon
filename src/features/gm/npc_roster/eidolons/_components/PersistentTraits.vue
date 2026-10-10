@@ -1,26 +1,18 @@
 <template>
   <div class="text-overline">{{ $t('gm.eidolonPrint.persistentTraits') }}</div>
   <v-row>
-    <v-col>
+    <v-col
+      v-for="(column, i) in columns"
+      :key="`trait-column-${i}`"
+    >
       <v-expansion-panels color="primary">
         <v-expansion-panel
-          v-for="n in 4"
-          :key="`trait-a-${n}`"
+          v-for="trait in column"
+          :key="trait.name"
           tile
-          :title="traits[n - 1].name"
-          :text="traits[n - 1].detail"
+          :title="trait.name"
+          :text="trait.detail"
         />
-      </v-expansion-panels>
-    </v-col>
-    <v-col>
-      <v-expansion-panels color="primary">
-        <v-expansion-panel
-          v-for="n in 3"
-          :key="`trait-b-${n}`"
-          tile
-          :title="traits[n + 3].name"
-          :text="traits[n + 3].detail"
-        ></v-expansion-panel>
       </v-expansion-panels>
     </v-col>
   </v-row>
@@ -32,5 +24,9 @@
 
   defineOptions({ name: 'eidolon-persistent-traits' })
 
-  const traits = computed(() => persistentTraits())
+  const columns = computed(() => {
+    const traits = persistentTraits()
+    const half = Math.ceil(traits.length / 2)
+    return [traits.slice(0, half), traits.slice(half)]
+  })
 </script>

@@ -10,6 +10,9 @@ import {
   SaveController,
 } from '../components'
 import { CombatantData, Encounter, IEncounterData, isOutOfCombat, makeCombatant } from './Encounter'
+import type { CombatantSide, CombatantType } from './Encounter'
+import type { Unit } from '../npc/unit/Unit'
+import type { Doodad } from '../npc/doodad/Doodad'
 import { Deployable } from '../components/feature/deployable/Deployable'
 import type { ICombatant } from '../components/combat/ICombatant'
 import { ItemType } from '../enums'
@@ -19,7 +22,7 @@ import { deployToCombatant } from '../components/feature/deployable/DeployableIn
 import { Eidolon } from '../npc/eidolon/Eidolon'
 import { combatantRef } from '../components/combat/log/refs'
 import { buildStream } from '../components/combat/log/stream'
-import { eventsFor } from '../components/combat/log/CombatLogRecorder'
+import { eventsFor, recordersFor } from '../components/combat/log/CombatLogRecorder'
 import { commitOutcome } from '../components/combat/log/outcome'
 import type { IOutcome } from '../components/combat/log/outcome'
 import type { ILogStream } from '../components/combat/log/events'
@@ -170,20 +173,9 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
         combatant.index = index
         if (combatant.type === 'pilot') {
           combatant.actor.SetStats()
-        } else if (combatant.actor.Layers) {
-          const eidolon = combatant.actor as unknown as Eidolon
-          eidolon.CombatController.StatController.applyRegisteredCustomStats()
-          eidolon.Layers.forEach(l => {
-            l.CombatController.StatController.applyRegisteredCustomStats()
-            l.FeatureController.BonusController.applyToStats(
-              l.CombatController.StatController,
-              this
-            )
-            l.ResetHp(playerCount, true)
-            l.SetActivations(playerCount)
-            l.CombatController.StatController.resetCurrentStats()
-            l.CombatController.Reset()
-          })
+        } else if (combatant.actor instanceof Eidolon) {
+          this.PrepareEidolon(combatant)
+          return
         } else {
           combatant.actor.CombatController.StatController.applyRegisteredCustomStats()
         }
@@ -251,6 +243,52 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     deployToCombatant(deployable, combatant)
   }
 
+  public get PlayerCount(): number {
+    return this.Combatants.filter(
+      c =>
+        c.type === 'pilot' ||
+        (c.type === 'placeholder' && c.side === 'ally' && c.actor.PlaceholderType === 'pilot')
+    ).length
+  }
+
+  public get HostileCount(): number {
+    return this.Combatants.filter(
+      c => c.side === 'ally' && ['pilot', 'placeholder', 'unit'].includes(c.type)
+    ).length
+  }
+
+  public AddFromRoster(rosterItem: Unit | Doodad | Eidolon, side: CombatantSide): CombatantData {
+    const actor = rosterItem.Clone(false) as Unit | Doodad | Eidolon
+    actor.OriginId = rosterItem.ID
+
+    const combatant = makeCombatant(
+      actor as unknown as ICombatant,
+      actor.ItemType.toLowerCase() as CombatantType,
+      {
+        id: actor.ID,
+        index: this.Combatants.length,
+        number: this.Combatants.filter(c => c.actor.Name === actor.Name).length + 1,
+        side,
+      }
+    )
+    this.Combatants.push(combatant)
+    return combatant
+  }
+
+  public PrepareEidolon(combatant: CombatantData): void {
+    ;(combatant.actor as unknown as Eidolon).PrepareForEncounter(
+      this.PlayerCount,
+      this.HostileCount,
+      this
+    )
+  }
+
+  public ScaleEidolons(): void {
+    for (const c of this.Combatants) {
+      if (c.actor instanceof Eidolon) c.actor.ScaleToEncounter(this.PlayerCount, this.HostileCount)
+    }
+  }
+
   public ApplyPassiveResistances(): void {
     for (const c of this.Combatants) {
       for (const cc of [c.actor?.CombatController, c.actor?.ActiveMech?.CombatController]) {
@@ -274,13 +312,11 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
 
   public StampLogContext(source: 'gm' | 'self' = 'gm'): void {
     for (const c of this.Combatants) {
-      const recorders = [c.actor?.CombatController, c.actor?.ActiveMech?.CombatController]
-      for (const cc of recorders) {
-        if (!cc?.CombatLog) continue
-        cc.CombatLog.EncounterId = this.ID
-        cc.CombatLog.Source = source
-        cc.CombatLog.CampaignId = (this as any).Campaign || undefined
-        cc.CombatLog.Side = c.side
+      for (const log of recordersFor(c.actor)) {
+        log.EncounterId = this.ID
+        log.Source = source
+        log.CampaignId = (this as any).Campaign || undefined
+        log.Side = c.side
       }
     }
   }

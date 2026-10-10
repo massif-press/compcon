@@ -1,7 +1,7 @@
 import { ContentPack } from '../../ContentPack'
 import { ItemType } from '../../enums'
 import { applyLcpTracking, type ILcpTracked } from '@/classes/LcpItemMixin'
-import { NpcClassStats } from '../class/NpcClassStats'
+import { INpcClassStats, NpcClassStats } from '../class/NpcClassStats'
 import { INpcFeatureData, NpcFeature } from '../feature/NpcFeature'
 import { NpcFeatureFactory } from '../feature/NpcFeatureFactory'
 import { EidolonShard, IEidolonShardData } from './EidolonShard'
@@ -10,6 +10,7 @@ import { ByTier } from '@/util/tierFormat'
 import { localize } from '@/i18n/localize'
 import { eidolonTraitId } from '@/i18n/contentKeys'
 import PersistentTraitData from './persistent_traits.json'
+import CoreLayerData from './core_layer.json'
 
 interface IEidolonLayerData {
   id: string
@@ -17,9 +18,12 @@ interface IEidolonLayerData {
   appearance: string
   hints: string
   rules: string
+  stats?: Partial<INpcClassStats>
   features: INpcFeatureData[]
   shards: IEidolonShardData
 }
+
+const CORE_LAYER_ID = 'el_core'
 
 const layer_stats = {
   hull: [1, 2, 3],
@@ -44,9 +48,11 @@ class EidolonLayer implements ILcpTracked {
   public LcpName: string = ''
   public InLcp: boolean = false
   public readonly HpPerPlayer: number = 5
+  public readonly HasOwnHp: boolean
 
   public readonly Features: NpcFeature[]
   public readonly Shards?: EidolonShard
+  public readonly Stats: NpcClassStats
 
   public readonly Color: string = 'deep-purple'
 
@@ -56,15 +62,12 @@ class EidolonLayer implements ILcpTracked {
   private _appearance: string
   private _hints: string
 
-  private _stats: NpcClassStats
-
-  public static EidolonLayerBaseStats = layer_stats
-
   public constructor(data: IEidolonLayerData, pack?: ContentPack) {
     this._id = data.id
     this.Data = data
     this._name = data.name
-    this._stats = new NpcClassStats(layer_stats)
+    this.Stats = new NpcClassStats({ ...layer_stats, ...data.stats } as INpcClassStats)
+    this.HasOwnHp = data.stats?.hp !== undefined
     this._rules = data.rules
     applyLcpTracking(this, pack)
 
@@ -77,12 +80,16 @@ class EidolonLayer implements ILcpTracked {
     }
 
     this.Features = data.features.map(f => NpcFeatureFactory.Build(f, pack))
-    if (data.shards) this.Shards = new EidolonShard(data.shards, pack, undefined, this._id)
+    if (data.shards) this.Shards = new EidolonShard(data.shards, pack, this._id)
     this.InLcp = true
   }
 
   public get ID(): string {
     return this._id
+  }
+
+  public get IsCore(): boolean {
+    return this._id === CORE_LAYER_ID
   }
 
   public get Name(): string {
@@ -95,14 +102,6 @@ class EidolonLayer implements ILcpTracked {
 
   public get Hints(): string {
     return localize(this._id, 'hints', this._hints)
-  }
-
-  public get Stats(): NpcClassStats {
-    return this._stats
-  }
-
-  public set Stats(stats: NpcClassStats) {
-    this._stats = stats
   }
 
   public get Rules(): string {
@@ -122,6 +121,12 @@ class EidolonLayer implements ILcpTracked {
   }
 }
 
+let core: EidolonLayer | undefined
+function coreLayer(): EidolonLayer {
+  if (!core) core = new EidolonLayer(structuredClone(CoreLayerData) as unknown as IEidolonLayerData)
+  return core
+}
+
 function persistentTraits(): { name: string; detail: string }[] {
   return PersistentTraitData.map(t => ({
     name: localize(eidolonTraitId(t.name), 'name', t.name),
@@ -129,5 +134,5 @@ function persistentTraits(): { name: string; detail: string }[] {
   }))
 }
 
-export { EidolonLayer, persistentTraits }
+export { EidolonLayer, persistentTraits, coreLayer, CORE_LAYER_ID }
 export type { IEidolonLayerData }

@@ -30,7 +30,7 @@ import { INpcClassData, NpcClass } from './npc/class/NpcClass'
 import { INpcFeatureData, NpcFeature } from './npc/feature/NpcFeature'
 import { INpcTemplateData, NpcTemplate } from './npc/template/NpcTemplate'
 import { NpcFeatureFactory } from './npc/feature/NpcFeatureFactory'
-import { EidolonLayer, IEidolonLayerData } from './npc/eidolon/EidolonLayer'
+import { EidolonLayer, IEidolonLayerData, CORE_LAYER_ID } from './npc/eidolon/EidolonLayer'
 import { DowntimeAction, IDowntimeActionData } from './DowntimeAction'
 import type { IndexItem } from '@/stores/nav'
 import { stampContentKeys } from '@/i18n/contentKeys'
@@ -182,7 +182,10 @@ class ContentPack {
       (x: PlayerAction.IActionData) => new PlayerAction.Action(x)
     )
 
-    self._EidolonLayers = self._data.eidolonLayers?.map(x => new EidolonLayer(x, self)) || []
+    self._EidolonLayers =
+      self._data.eidolonLayers
+        ?.filter(x => x.id !== CORE_LAYER_ID)
+        .map(x => new EidolonLayer(x, self)) || []
 
     self._Environments = self._data.environments?.map(x => new Environment(x, self)) || []
 

@@ -17,7 +17,7 @@ export default [
   {
     title: 'gm.gmItemHeaders.class',
     align: 'start',
-    value: 'Class',
+    value: 'EidolonClass',
     groupable: true,
     sortable: true,
   },

@@ -101,7 +101,7 @@ export function computeItemGroupings(
         eidolonGrp[`T${tier}`].push(item)
       }
       if (grouping === 'Class') {
-        const c = `Class ${ec.Class}`
+        const c = `Class ${ec.EidolonClass}`
         if (!eidolonGrp[c]) eidolonGrp[c] = []
         eidolonGrp[c].push(item)
       }

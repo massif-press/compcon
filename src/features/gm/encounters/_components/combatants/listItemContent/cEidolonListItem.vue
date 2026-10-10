@@ -16,7 +16,7 @@
 
     <v-chip
       v-for="l in item.actor.Layers"
-      :key="l.ID"
+      :key="l.Key"
       label
       prepend-icon="mdi-layers"
       class="mx-1 my-1"

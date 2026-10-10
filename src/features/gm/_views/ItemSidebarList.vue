@@ -138,6 +138,7 @@
         if (props.sorting === 'Sitrep') return x.Sitrep.Name
         if (props.sorting === 'Environment') return x.Environment.Name
 
+        if (props.sorting === 'Class' && x.EidolonClass) return x.EidolonClass
         if (x[props.sorting]) return x[props.sorting]
 
         if (x.StatController) {

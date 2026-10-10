@@ -1,20 +1,26 @@
-import { StatController } from '@/classes/components/combat/stats/StatController'
-import { NpcClassStats } from '../class/NpcClassStats'
+import { INpcClassStats, NpcClassStats } from '../class/NpcClassStats'
 import { INpcFeatureData, NpcFeature } from '../feature/NpcFeature'
 import { NpcFeatureFactory } from '../feature/NpcFeatureFactory'
 import { ContentPack } from '../../ContentPack'
 import { ActivationType, ItemType } from '../../enums'
 import { applyLcpTracking, type ILcpTracked } from '@/classes/LcpItemMixin'
+import { StatController } from '@/classes/components/combat/stats/StatController'
+import type { IStatContainer } from '@/classes/components/combat/stats/IStatContainer'
 import { DeployableInstance } from '@/classes/components/feature/deployable/DeployableInstance'
-import { CombatantData } from '@/classes/encounter/Encounter'
+import type { CombatantData } from '@/classes/encounter/Encounter'
 import { localize } from '@/i18n/localize'
+import { i18n } from '@/i18n'
 
 interface IEidolonShardData {
   count: number | string | number[]
   detail: string
-  features: INpcFeatureData[]
-  tier?: number
+  stats?: Partial<INpcClassStats>
+  destroyed_with_layer?: boolean
+  features?: INpcFeatureData[]
 }
+
+const SHARD_TYPE = 'shard'
+const PER_HOSTILE = 'hostile_characters'
 
 const shard_stats = {
   hull: [1, 2, 3],
@@ -22,15 +28,15 @@ const shard_stats = {
   systems: [1, 2, 3],
   engineering: [1, 2, 3],
   hp: [5, 6, 8],
-  armor: [0, 0, 0],
-  size: [0.5, 0.5, 0.5],
-  heatcap: [5, 5, 5],
+  armor: 0,
+  size: 0.5,
+  heatcap: 5,
   evade: [10, 12, 14],
   edef: [10, 12, 14],
   save: [12, 14, 16],
-  speed: [5, 5, 5],
-  sensor: [20, 20, 20],
-  activations: [1, 1, 1],
+  speed: 5,
+  sensor: 20,
+  activations: 1,
 }
 
 class EidolonShard implements ILcpTracked {
@@ -39,61 +45,23 @@ class EidolonShard implements ILcpTracked {
   public InLcp: boolean = false
 
   public readonly Count: number | number[] | string
+  public readonly DestroyedWithLayer: boolean
+  public readonly Stats: NpcClassStats
+  public readonly Features: NpcFeature[] = []
   private readonly _detail: string
   private readonly _layerId: string
-  public readonly Features: NpcFeature[] = []
 
-  public StatController: StatController
-
-  public MandatoryStats: string[] = []
-
-  public _tier: number = 1
-
-  public static EidolonShardBaseStats = shard_stats
-
-  public IsEncounterInstance = false
-
-  public constructor(
-    data: IEidolonShardData,
-    pack?: ContentPack,
-    tier?: number,
-    layerId: string = ''
-  ) {
+  public constructor(data: IEidolonShardData, pack?: ContentPack, layerId: string = '') {
     applyLcpTracking(this, pack)
 
     this.Count = data.count
+    this.DestroyedWithLayer = !!data.destroyed_with_layer
+    this.Stats = new NpcClassStats({ ...shard_stats, ...data.stats } as INpcClassStats)
     this._detail = data.detail
     this._layerId = layerId
     if (data.features) this.Features = data.features.map(f => NpcFeatureFactory.Build(f, pack))
-    this._tier = tier || 1
-
-    this.StatController = new StatController(this as any)
-
-    this.setStats()
 
     this.InLcp = true
-  }
-
-  private setStats() {
-    const tierStats = {}
-    for (const key in shard_stats) {
-      tierStats[key] = shard_stats[key][this._tier! - 1]
-    }
-
-    this.StatController.setStats(tierStats)
-  }
-
-  public get Tier(): number {
-    return this._tier
-  }
-
-  public set Tier(tier: number) {
-    this._tier = tier
-    this.setStats()
-  }
-
-  public get Stats(): NpcClassStats {
-    return this.StatController.MaxStats
   }
 
   public get Detail(): string {
@@ -101,27 +69,53 @@ class EidolonShard implements ILcpTracked {
   }
 
   public get CountString(): string {
-    if (this.Count === 'hostile_characters') return '# of Hostile Mechs'
-    if (Array.isArray(this.Count)) return this.Count.join('/')
-    return this.Count as string
+    return this.CountLabel()
   }
 
-  public Create(owner: CombatantData, layerName: string): DeployableInstance {
-    const deployableData = {
-      name: `${layerName} Shard`,
-      type: 'shard',
-      detail: this.Detail,
-      activation: ActivationType.None,
-      size: 1,
-      id: `${layerName} Shard`,
-      description: this.Detail,
-    }
-    const deployable = new DeployableInstance(deployableData, owner)
-    deployable.SetStats()
+  public CountLabel(tier?: number): string {
+    if (this.Count === PER_HOSTILE) return i18n.global.t('gm.eidolon.shardsPerHostile')
+    if (!Array.isArray(this.Count)) return String(this.Count)
+    return tier ? String(this.Count[tier - 1]) : this.Count.join('/')
+  }
 
-    return deployable
+  public CountFor(tier: number, hostileCount: number): number {
+    if (this.Count === PER_HOSTILE) return hostileCount
+    if (Array.isArray(this.Count)) return this.Count[tier - 1] ?? 0
+    return Number(this.Count) || 0
+  }
+
+  public StatBlock(tier: number): IStatContainer {
+    const block = {} as IStatContainer
+    const { sizes, ...stats } = this.Stats.AllStats(tier)
+    block.StatController = new StatController(block, true)
+    block.StatController.setStats({ ...stats, size: sizes })
+    return block
+  }
+
+  public Create(owner: CombatantData, layerName: string, tier: number): DeployableInstance {
+    const stat = (key: string) => this.Stats.Stat(key, tier) as number
+    return new DeployableInstance(
+      {
+        id: `${layerName} Shard`,
+        name: `${layerName} Shard`,
+        type: SHARD_TYPE,
+        detail: this.Detail,
+        description: this.Detail,
+        activation: ActivationType.None,
+        size: stat('sizes'),
+        hp: stat('hp'),
+        armor: stat('armor'),
+        evasion: stat('evasion'),
+        edef: stat('edef'),
+        heatcap: stat('heatcap'),
+        speed: stat('speed'),
+        save: stat('saveTarget'),
+        sensor_range: stat('sensorRange'),
+      },
+      owner
+    )
   }
 }
 
-export { EidolonShard }
+export { EidolonShard, SHARD_TYPE }
 export type { IEidolonShardData }

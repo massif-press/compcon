@@ -150,10 +150,10 @@
                   <div class="heading h3">{{ n.actor.Name }}</div>
                   <div class="text-cc-overline">
                     <span
-                      v-if="n.actor.NpcClassController?.Tier"
+                      v-if="n.actor.Tier"
                       class="pr-1"
                     >
-                      {{ $t('common.tierN', { n: n.actor.NpcClassController?.Tier }) }}
+                      {{ $t('common.tierN', { n: n.actor.Tier }) }}
                     </span>
                     <span
                       v-if="n.actor.NpcClassController?.Class"

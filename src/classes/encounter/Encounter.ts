@@ -1,3 +1,4 @@
+import { isOutOfAction } from '../components/combat/ActorIdentity'
 import { i18n } from '@/i18n'
 import {
   CloudController,
@@ -409,7 +410,7 @@ function statusGroupKey(c: CombatantData): string | null {
   const cc = c.actor.CombatController
   const isPilot = c.actor.ItemType === 'Pilot'
   if (isPilot && cc.IsDead) return PilotStatus.KIA
-  if (cc.IsDestroyed) return NpcStatus.Destroyed
+  if (isOutOfAction(cc)) return NpcStatus.Destroyed
   const label = isPilot ? c.pilotStatus : c.status
   if (!label || ACTIVE_STATUSES.has(label)) return null
   return label
@@ -420,4 +421,4 @@ function isOutOfCombat(c: CombatantData): boolean {
 }
 
 export { Encounter, makeCombatant, statusGroupKey, isOutOfCombat }
-export type { IEncounterData, CombatantSaveData, CombatantSide }
+export type { IEncounterData, CombatantSaveData, CombatantSide, CombatantType }

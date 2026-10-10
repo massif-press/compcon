@@ -66,7 +66,7 @@
     >
       <v-tab
         v-for="(layer, idx) in item.Layers"
-        :key="layer.ID"
+        :key="layer.Key"
       >
         <v-tooltip
           v-if="idx > 1"
@@ -87,7 +87,7 @@
           v-else
           class="mx-3"
         />
-        {{ layer.Layer?.Name }}
+        {{ idx }}: {{ layer.Layer?.Name }}
         <v-tooltip
           v-if="idx && idx < item.Layers.length - 1"
           location="top"
@@ -112,7 +112,7 @@
     <v-window v-model="tab">
       <v-window-item
         v-for="(layer, index) in item.Layers"
-        :key="layer.ID"
+        :key="layer.Key"
       >
         <v-card
           variant="outlined"
@@ -139,15 +139,15 @@
               :tier="item.Tier"
             >
               <template
-                v-if="layer.Layer?.Shards?.Count !== 0"
+                v-if="layer.Layer?.Shards?.Count"
                 #extra
               >
                 <v-card-text class="mt-n2 pt-0">
-                  <!-- <stat-editor
-                    :item="layer.Layer.Shards"
-                    :controller="layer.Layer.Shards.StatController"
-                    prefix="Shard"
-                    readonly /> -->
+                  <stat-editor
+                    :item="<any>layer.Layer.Shards.StatBlock(item.Tier)"
+                    prefix="shard"
+                    readonly
+                  />
                 </v-card-text>
               </template>
             </cc-dense-card>
@@ -160,7 +160,7 @@
               variant="outlined"
               color="error"
               prepend-icon="mdi-delete"
-              :disabled="layer.ID === 'el_core' || index === 0"
+              :disabled="index === 0"
               @click="removeLayer(index)"
             >
               {{ $t('common.remove') }}

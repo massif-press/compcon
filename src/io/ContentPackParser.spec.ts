@@ -169,7 +169,7 @@ describe('parseContentPack NPC collections', () => {
 })
 
 describe('parseContentPack eidolon layers', () => {
-  it('appends the core layer only when the pack ships layers', async () => {
+  it('reads only the layers the pack ships', async () => {
     const without = await parseContentPack(await lcp({ 'lcp_manifest.json': manifest }))
     expect(without.data.eidolonLayers).toHaveLength(0)
 
@@ -179,7 +179,7 @@ describe('parseContentPack eidolon layers', () => {
         'eidolon_layers.json': [{ id: 'el_test', name: 'Test Layer' }],
       })
     )
-    expect(withLayers.data.eidolonLayers).toHaveLength(2)
+    expect(withLayers.data.eidolonLayers.map(l => l.id)).toEqual(['el_test'])
   })
 })
 

@@ -2,7 +2,10 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { Encounter } from './Encounter'
 import { EncounterInstance, applyPlayMode } from './EncounterInstance'
 import { Placeholder } from './Placeholder'
-import { makePilot, makeMech } from '@/__tests__/factories'
+import { makePilot, makeMech, makeNpc, makeEidolon } from '@/__tests__/factories'
+import { Doodad } from '@/classes/npc/doodad/Doodad'
+import { DamageType } from '@/classes/enums'
+import { reduceEvents } from '@/classes/components/combat/log/telemetry'
 import type { Pilot } from '@/classes/pilot/Pilot'
 
 const makeEncounter = (name = 'Test Encounter') => {
@@ -284,5 +287,67 @@ describe('EncounterInstance play mode', () => {
 
     instance.SetPlayMode('simple')
     expect(mech.CombatController.PendingChecks).toEqual([])
+  })
+})
+
+describe('EncounterInstance player counts', () => {
+  it('gates reinforcements on every pilot and placeholder, and counts players more narrowly', () => {
+    const encounter = makeEncounter()
+    encounter.AddCombatant(makeNpc('Test NPC 1'))
+    encounter.Combatants[0].playerCount = 2
+
+    const instance = new EncounterInstance(
+      undefined,
+      encounter,
+      [pilot],
+      [placeholder('enemy', 'Test Placeholder 1')]
+    )
+
+    expect(instance.Combatants.some(c => c.type === 'unit')).toBe(true)
+    expect(instance.PlayerCount).toBe(1)
+  })
+})
+
+describe('EncounterInstance.AddFromRoster', () => {
+  const instanceWith = () => new EncounterInstance(undefined, makeEncounter(), [pilot])
+
+  it.each([
+    ['unit', () => makeNpc('Test NPC 1')],
+    ['doodad', () => Object.assign(new Doodad(), { Name: 'Test Doodad 1' })],
+    ['eidolon', () => makeEidolon()],
+  ] as const)('adds a %s as a copy that remembers its roster entry', (type, make) => {
+    const rosterItem = make()
+    const instance = instanceWith()
+
+    const combatant = instance.AddFromRoster(rosterItem, 'enemy')
+
+    expect(combatant.type).toBe(type)
+    expect(instance.Combatants).toContain(combatant)
+    expect(combatant.actor.ID).not.toBe(rosterItem.ID)
+    expect((combatant.actor as { OriginId?: string }).OriginId).toBe(rosterItem.ID)
+    expect(combatant.id).toBe(combatant.actor.ID)
+  })
+
+  it('numbers a second copy of the same roster entry', () => {
+    const rosterItem = makeNpc('Test NPC 1')
+    const instance = instanceWith()
+
+    instance.AddFromRoster(rosterItem, 'enemy')
+
+    expect(instance.AddFromRoster(rosterItem, 'enemy').number).toBe(2)
+  })
+
+  it('joins the copy to its log and its roster entry in the stream', () => {
+    const rosterItem = makeNpc('Test NPC 1')
+    const instance = instanceWith()
+    const combatant = instance.AddFromRoster(rosterItem, 'enemy')
+    combatant.actor.SetStats()
+
+    combatant.actor.CombatController.TakeDamage(DamageType.Kinetic, 2)
+
+    const stream = instance.Stream
+    const ref = stream.participants.find(p => p.originId === rosterItem.ID)!
+    expect(ref.id).toBe(combatant.id)
+    expect(reduceEvents(stream.events, ref.id).totalTaken).toBe(2)
   })
 })

@@ -3,6 +3,7 @@ import type { IFlowStep } from './Flow'
 import { DiceRoller } from '@/classes/dice/DiceRoller'
 import type { BlockedReason } from '../log/events'
 import { combatLogHooks } from './logHooks'
+import { isOutOfAction } from '../ActorIdentity'
 
 export type HitResult = '' | 'miss' | 'hit' | 'crit'
 export type TargetDefense = 'edef' | 'evasion'
@@ -181,7 +182,7 @@ export function applyAttackDamage(target: any, damageEvent: any, event: any): vo
 
   const attacker = event.Initiator.actor.CombatController
   const defender = target.Combatant?.actor.CombatController
-  const wasDestroyed = !!defender?.IsDestroyed
+  const wasDestroyed = !!defender && isOutOfAction(defender)
 
   attacker.Record('damage', {
     targetId: defender?.RootActor?.ID,
@@ -199,7 +200,7 @@ export function applyAttackDamage(target: any, damageEvent: any, event: any): vo
   if (target.TookDamage) defender?.ApplyDamage(damageEvent.DamageType, target.FinalDamageValue)
   if (damageEvent.OverkillHeat) attacker.ApplyHeat(damageEvent.OverkillHeat)
 
-  if (defender && !wasDestroyed && defender.IsDestroyed)
+  if (defender && !wasDestroyed && isOutOfAction(defender))
     attacker.Record('actor.destroy', { targetId: defender.RootActor?.ID })
 }
 
