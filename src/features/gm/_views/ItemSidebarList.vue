@@ -1,68 +1,38 @@
 <template>
-  <v-list
-    v-for="key in Object.keys(groupings)"
-    :key="key"
-    class="mb-4 mt-n2"
-    slim
-    density="compact"
+  <sortable
+    :list="sortableKeys"
+    :item-key="(k: string) => k"
+    :options="{
+      animation: 200,
+      easing: 'cubic-bezier(1, 0, 0, 1)',
+      handle: '.folder-sort-handle',
+      group: { name: 'gm-folders', pull: false, put: false },
+      ...drawerAutoScroll,
+    }"
+    @end="onFolderReorder"
   >
-    <v-row
-      dense
-      align="center"
-      style="cursor: pointer"
-      @click="toggleCollapsed(key)"
-    >
-      <v-col
-        cols="auto"
-        style="width: 2vw"
-      >
-        <v-divider />
-      </v-col>
-      <v-col
-        cols="auto"
-        class="heading h3"
-      >
-        {{ key === '0' ? $t('common.all') : key }}
-        <span class="text-caption text-disabled">
-          ({{ groupedItems(groupings[key]).length }}/{{ items.length }})
-        </span>
-      </v-col>
-      <v-col>
-        <v-divider />
-      </v-col>
-      <v-col cols="auto">
-        <v-icon
-          size="small"
-          :icon="collapsed.includes(key) ? 'mdi-chevron-right' : 'mdi-chevron-down'"
-        />
-      </v-col>
-    </v-row>
-    <div
-      v-if="!items.length"
-      class="text-center text-disabled"
-    >
-      <i>{{ $t('common.noData') }}</i>
-    </div>
-    <v-expand-transition>
-      <div v-show="!collapsed.includes(key)">
-        <gm-item-list-element
-          v-for="item in groupedItems(groupings[key])"
-          :key="(item as any).ID"
-          :item="<any>item"
-          :grouping="grouping"
-          :sorting="sorting"
-          :selected-id="selectedId"
-          @open="$emit('open', item)"
-        />
-      </div>
-    </v-expand-transition>
-  </v-list>
+    <template #item="{ element }">
+      <item-sidebar-group
+        v-bind="groupProps(element as string)"
+        @open="$emit('open', $event)"
+        @item-transferred="onItemTransferred"
+      />
+    </template>
+  </sortable>
+  <item-sidebar-group
+    v-if="byFolder && (groupings as any)['N/A']"
+    v-bind="groupProps('N/A')"
+    @open="$emit('open', $event)"
+    @item-transferred="onItemTransferred"
+  />
 </template>
 
 <script setup lang="ts">
   import { computed, ref } from 'vue'
+  import { Sortable } from 'sortablejs-vue3'
   import { computeItemGroupings } from '@/composables/useItemGrouping'
-  import GmItemListElement from './_components/GMItemListElement.vue'
+  import { drawerAutoScroll } from '@/composables/useFolderDrop'
+  import ItemSidebarGroup from './_components/ItemSidebarGroup.vue'
   import * as _ from 'lodash-es'
 
   const props = withDefaults(
@@ -79,6 +49,8 @@
       sortDir?: 'asc' | 'desc'
       allFolders?: any[]
       disabled?: boolean
+      unfilteredItems?: any[]
+      draggable?: boolean
     }>(),
     {
       search: '',
@@ -87,19 +59,31 @@
       sortDir: 'asc',
       allFolders: () => [],
       disabled: false,
+      unfilteredItems: () => [],
+      draggable: false,
     }
   )
 
   const emit = defineEmits<{
     open: [payload: any]
     'add-new': []
+    'folder-order': [folders: string[]]
+    'item-transferred': []
   }>()
 
-  const collapsed = ref([] as string[])
+  const transferKey = ref(0)
 
+  const byFolder = computed(() => props.grouping === 'Folder')
+  const everyRowIsDisplayed = computed(
+    () => !props.search && props.items.length === props.unfilteredItems.length
+  )
+  const drag = computed(() => props.draggable && byFolder.value && everyRowIsDisplayed.value)
   const groupings = computed(() => {
     return computeItemGroupings(props.items as any[], props.grouping, props.allFolders as string[])
   })
+  const sortableKeys = computed<string[]>(() =>
+    byFolder.value ? (props.allFolders as string[]) : Object.keys(groupings.value)
+  )
   const searchedItems = computed(() => {
     if (!props.search) return sort(props.items)
     return sort(
@@ -109,10 +93,34 @@
     )
   })
 
-  function toggleCollapsed(key: string) {
-    const i = collapsed.value.indexOf(key)
-    if (i === -1) collapsed.value.push(key)
-    else collapsed.value.splice(i, 1)
+  function groupProps(key: string) {
+    return {
+      name: key,
+      folder: byFolder.value && key !== 'N/A' ? key : '',
+      rows: groupedItems(groupings.value[key]),
+      total: props.items.length,
+      unfilteredItems: props.unfilteredItems,
+      drag: drag.value,
+      manual: props.sorting === 'Manual',
+      transferKey: transferKey.value,
+      grouping: props.grouping,
+      sorting: props.sorting,
+      selectedId: props.selectedId,
+    }
+  }
+  function onFolderReorder(event: any) {
+    if (event.oldIndex === event.newIndex) return
+    const order = [...sortableKeys.value]
+    const [moved] = order.splice(event.oldIndex, 1)
+    order.splice(event.newIndex, 0, moved)
+    emit('folder-order', order)
+  }
+  function onItemTransferred() {
+    transferKey.value++
+    emit('item-transferred')
+  }
+  function savedOrderWithinFolder(item: any) {
+    return byFolder.value ? item.FolderController.SortIndex : 0
   }
   function groupedItems(group) {
     if (props.grouping === 'None') return sort(searchedItems.value)
@@ -123,6 +131,7 @@
     )
   }
   function sort(items) {
+    if (props.sorting === 'Manual') return _.orderBy(items, [savedOrderWithinFolder, 'Name'])
     return _.orderBy(
       items,
       (x: any) => {

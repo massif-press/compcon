@@ -68,7 +68,7 @@
           <v-col>
             <cc-select
               v-model="sorting"
-              :items="sortings"
+              :items="draggable ? ['Manual', ...sortings] : sortings"
               small
               :label="$t('common.sortOrder')"
               class="ml-1"
@@ -92,6 +92,8 @@
         <item-sidebar-list
           :item-type="itemType"
           :items="filteredItems"
+          :unfiltered-items="items"
+          :draggable="draggable"
           :search="search"
           :big="view === 'big-grid'"
           :list="view === 'list'"
@@ -102,6 +104,8 @@
           :all-folders="folders"
           :disabled="!canAdd"
           @open="$emit('open', $event)"
+          @folder-order="storeWithFolderOrder?.ReorderFolders($event)"
+          @item-transferred="onItemTransferred"
         />
 
         <div
@@ -240,13 +244,6 @@
   const showNoFolder = ref(true)
   const showNav = ref(true)
 
-  const user = UserStore().User
-  if (user?.View) {
-    sorting.value = user.View(props.itemType.toLowerCase() + 'Sorting', 'Name')
-    grouping.value = user.View(props.itemType.toLowerCase() + 'Grouping', 'Folder')
-    filters.value = user.View(props.itemType.toLowerCase() + 'Filters', []) as any[]
-  }
-
   const folderStore = computed(() => {
     switch (props.itemType.toLowerCase()) {
       case 'npc':
@@ -258,6 +255,22 @@
         return NarrativeStore()
     }
   })
+  const storeWithFolderOrder = computed(() => {
+    const store = folderStore.value
+    return 'ReorderFolders' in store ? store : null
+  })
+  const draggable = computed(() => !!storeWithFolderOrder.value)
+
+  const user = UserStore().User
+  if (user?.View) {
+    sorting.value = user.View(
+      props.itemType.toLowerCase() + 'Sorting',
+      draggable.value ? 'Manual' : 'Name'
+    )
+    grouping.value = user.View(props.itemType.toLowerCase() + 'Grouping', 'Folder')
+    filters.value = user.View(props.itemType.toLowerCase() + 'Filters', []) as any[]
+  }
+
   const canAdd = computed(() => {
     if (props.itemType.toLowerCase() === 'npc') {
       return CompendiumStore().hasNpcAccess
@@ -292,6 +305,11 @@
   const hidden = computed(() => {
     return props.items.length - filteredItems.value.length
   })
+
+  function onItemTransferred() {
+    const store = storeWithFolderOrder.value
+    store?.SetFolderOrder(store.getFolders)
+  }
 
   function minimize() {
     showNav.value = false

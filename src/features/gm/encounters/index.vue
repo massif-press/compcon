@@ -91,25 +91,39 @@
         </v-row>
       </v-toolbar>
 
-      <gm-collection-folder
-        v-for="folder in folders"
-        :key="folder"
-        :folder="folder"
-        :filtered-items="filteredItems"
-        :items="items"
-        item-type="Encounter"
-        :search="search"
-        :view="view"
-        :grouping="grouping"
-        :sorting="sorting"
-        :all-folders="folders"
-        :transfer-key="folderTransferKey"
-        folder-drag
-        @set-folder-name="setFolderName(folder, $event)"
-        @remove-folder="removeFolder($event)"
-        @open="openItem($event)"
-        @item-transferred="folderTransferKey++"
-      />
+      <sortable
+        :list="folders"
+        :item-key="(f: string) => f"
+        :options="{
+          animation: 200,
+          easing: 'cubic-bezier(1, 0, 0, 1)',
+          handle: '.folder-sort-handle',
+          group: { name: 'gm-folders', pull: false, put: false },
+          scroll: false,
+        }"
+        @start="startDragScroll"
+        @end="onFolderReorder"
+      >
+        <template #item="{ element }">
+          <gm-collection-folder
+            :folder="element as string"
+            :filtered-items="filteredItems"
+            :items="items"
+            item-type="Encounter"
+            :search="search"
+            :view="view"
+            :grouping="grouping"
+            :sorting="sorting"
+            :all-folders="folders"
+            :transfer-key="folderTransferKey"
+            folder-drag
+            @set-folder-name="setFolderName(element as string, $event)"
+            @remove-folder="removeFolder($event)"
+            @open="openItem($event)"
+            @item-transferred="onItemTransferred"
+          />
+        </template>
+      </sortable>
 
       <v-card
         v-if="filteredItems.filter((x: any) => !x.FolderController?.Folder).length > 0"
@@ -151,7 +165,7 @@
                 handle: '.folder-drag-handle',
                 group: { name: 'gm-folder-items', pull: true, put: true },
               }"
-              @start="onNoFolderItemDragStart"
+              @start="startDragScroll"
               @end="onNoFolderItemReorder"
               @add="onNoFolderItemAdded"
             >
@@ -372,19 +386,25 @@
   function removeFolder(folder: string) {
     EncounterStore().RemoveFolder(folder)
   }
+  function onFolderReorder(event: any) {
+    stopDragScroll()
+    if (event.oldIndex === event.newIndex) return
+    const order = [...folders.value]
+    const [moved] = order.splice(event.oldIndex, 1)
+    order.splice(event.newIndex, 0, moved)
+    EncounterStore().SetFolderOrder(order)
+  }
+  function onItemTransferred() {
+    folderTransferKey.value++
+    EncounterStore().SetFolderOrder(folders.value)
+  }
   function openItem(item: any) {
     selected.value = item
     editDialog.value = true
   }
-  function onNoFolderItemDragStart(event: any) {
-    startDragScroll()
-    const itemId = event.item.dataset.itemId
-    if (event.originalEvent?.dataTransfer && itemId) {
-      event.originalEvent.dataTransfer.setData('text/encounter-id', itemId)
-    }
-  }
   function onNoFolderItemReorder(event: any) {
     stopDragScroll()
+    if (event.item.dataset.claimedByHeader) return
     if (event.from !== event.to) return
     if (event.oldIndex === event.newIndex) return
     const itemsList = [...sortedNoFolderItems.value] as any[]
@@ -395,6 +415,7 @@
     })
   }
   async function onNoFolderItemAdded(event: any) {
+    if (event.item.dataset.claimedByHeader) return
     const itemId = event.item.dataset.itemId
     const item = items.value.find((x: any) => x.ID === itemId)
     if (!item) return

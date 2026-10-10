@@ -1,7 +1,8 @@
 #!/usr/bin/env node
+/* eslint-disable no-undef */
 
 /*!
-Build LCP language patches (.llp). Two modes:
+Build LCP language patches (.llp). Three modes:
 
   extract <lcp-dir> [--lang <code>] [--out <file>]
     Walk an unpacked LCP's JSON collections and emit an English base .llp holding every
@@ -10,6 +11,9 @@ Build LCP language patches (.llp). Two modes:
   pack <flat.json> --target <pack-id> [--lang <code>] [--out <file>]
     Wrap an already-translated flat `<id>.<field>` map (like a Weblate content/<c>/<lang>.json)
     in a .llp header.
+
+  bundle <file.lcp> <patch.llp> [more.llp ...] [--out <file>]
+    Add finished .llp patches to a .lcp so the pack and its translations ship as one file.
 
 Keys match exactly what the localize() resolver reads, so authors don't need to guess paths.
 */
@@ -207,6 +211,8 @@ async function main() {
       console.error('bundle: usage: bundle <file.lcp> <patch.llp> [more.llp ...] [--out <file>]')
       process.exit(1)
     }
+    // ponytail: dead once jszip is inlined; keep until the locales.yml change reaches master,
+    // since workflow_run uses master's steps and would still ship a bundle with jszip external
     const JSZip = await import('jszip')
       .then(m => m.default)
       .catch(() => {

@@ -2,7 +2,7 @@ import { Eidolon, EidolonData } from '@/classes/npc/eidolon/Eidolon'
 import { GetAll, SetItem, RemoveItem, saveAll } from '@/io/Storage'
 import { defineStore } from 'pinia'
 import { toRaw } from 'vue'
-import { useFolderManagement } from '@/composables/useFolderManagement'
+import { useFolderManagement, orderFolders } from '@/composables/useFolderManagement'
 import { Doodad, DoodadData } from '@/classes/npc/doodad/Doodad'
 import { Unit, UnitData } from '@/classes/npc/unit/Unit'
 import * as _ from 'lodash-es'
@@ -16,6 +16,7 @@ export const NpcStore = defineStore('npc', {
   state: () => ({
     Npcs: [] as Npc[],
     Folders: [] as string[],
+    FolderOrder: [] as string[],
   }),
   getters: {
     getNpcByID: state => (id: string) => {
@@ -30,15 +31,16 @@ export const NpcStore = defineStore('npc', {
         'title'
       )
     },
-    getFolders: (state): string[] =>
-      _.uniq(
-        [
-          ...state.Folders,
-          ...state.Npcs.filter(x => !x.SaveController.IsDeleted).flatMap(
-            (x: any) => x.FolderController.Folder
-          ),
-        ].filter(x => !!x)
-      ) as string[],
+    getFolders: (state): string[] => {
+      const live = state.Npcs.filter(x => !x.SaveController.IsDeleted) as any[]
+      return orderFolders(
+        _.uniq(
+          [...state.Folders, ...live.map(x => x.FolderController.Folder)].filter(x => !!x)
+        ) as string[],
+        live,
+        state.FolderOrder
+      )
+    },
     getMissingDataNpcs: state => {
       return state.Npcs.filter(x => x.BrewController.MissingContent)
     },
@@ -120,6 +122,22 @@ export const NpcStore = defineStore('npc', {
 
     EditFolder(payload: { old: string; newName: string }): void {
       useFolderManagement(this.Npcs as any[], this.Folders).EditFolder(payload)
+      this.FolderOrder = this.FolderOrder.map(x => (x === payload.old ? payload.newName : x))
+    },
+
+    SetFolderOrder(order: string[]): void {
+      this.FolderOrder = order
+      useFolderManagement(
+        this.Npcs.filter(x => !x.SaveController.IsDeleted) as any[],
+        this.Folders
+      ).SetFolderOrder(order)
+    },
+
+    ReorderFolders(reorderedSubset: string[]): void {
+      const queue = [...reorderedSubset]
+      this.SetFolderOrder(
+        this.getFolders.map(f => (reorderedSubset.includes(f) ? queue.shift()! : f))
+      )
     },
 
     RemoveFolder(payload: string): void {

@@ -77,31 +77,31 @@ describe('useDragMode', () => {
 })
 
 describe('useFolderManagement', () => {
-  const item = (folder: string) => ({ FolderController: { Folder: folder } })
+  const item = (folder: string) => ({ FolderController: { Folder: folder, FolderIndex: -1 } })
 
   it('adds a folder', () => {
     const folders: string[] = []
-    useFolderManagement([], folders).AddFolder('Squad A')
+    useFolderManagement([], folders).AddFolder('TEST A')
 
-    expect(folders).toEqual(['Squad A'])
+    expect(folders).toEqual(['TEST A'])
   })
 
   it('renames a folder and everything filed in it', () => {
-    const items = [item('Squad A'), item('Squad B')]
-    const folders = ['Squad A', 'Squad B']
+    const items = [item('TEST A'), item('TEST B')]
+    const folders = ['TEST A', 'TEST B']
 
-    useFolderManagement(items, folders).EditFolder({ old: 'Squad A', newName: 'Vanguard' })
+    useFolderManagement(items, folders).EditFolder({ old: 'TEST A', newName: 'TEST RENAMED' })
 
-    expect(items[0].FolderController.Folder).toBe('Vanguard')
-    expect(items[1].FolderController.Folder).toBe('Squad B')
-    expect(folders).toContain('Vanguard')
+    expect(items[0].FolderController.Folder).toBe('TEST RENAMED')
+    expect(items[1].FolderController.Folder).toBe('TEST B')
+    expect(folders).toContain('TEST RENAMED')
   })
 
   it('removes a folder and unfiles its contents', () => {
-    const items = [item('Squad A')]
-    const folders = ['Squad A']
+    const items = [item('TEST A')]
+    const folders = ['TEST A']
 
-    useFolderManagement(items, folders).RemoveFolder('Squad A')
+    useFolderManagement(items, folders).RemoveFolder('TEST A')
 
     expect(items[0].FolderController.Folder).toBe('')
     expect(folders).toEqual([])

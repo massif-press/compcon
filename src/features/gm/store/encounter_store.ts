@@ -1,7 +1,7 @@
 import { GetAll, SetItem, RemoveItem, SetValue, GetValue, saveAll } from '@/io/Storage'
 import { defineStore } from 'pinia'
 import { toRaw } from 'vue'
-import { useFolderManagement } from '@/composables/useFolderManagement'
+import { useFolderManagement, orderFolders } from '@/composables/useFolderManagement'
 import * as _ from 'lodash-es'
 import { Encounter, IEncounterData } from '@/classes/encounter/Encounter'
 import { NavStore } from '@/stores/nav'
@@ -19,6 +19,7 @@ export const EncounterStore = defineStore('encounter', {
     ActiveEncounters: [] as EncounterInstance[],
     ArchivedEncounters: [] as EncounterArchive[],
     Folders: [] as string[],
+    FolderOrder: [] as string[],
     CurrentActiveID: '' as string,
   }),
   getters: {
@@ -31,14 +32,16 @@ export const EncounterStore = defineStore('encounter', {
         'title'
       )
     },
-    getFolders: (state): string[] =>
-      _.uniq(
-        state.Folders.concat(
-          state.Encounters.filter(x => !x.SaveController.IsDeleted).flatMap(
-            (x: any) => x.FolderController.Folder
-          )
-        ).filter(x => !!x)
-      ) as string[],
+    getFolders: (state): string[] => {
+      const live = state.Encounters.filter(x => !x.SaveController.IsDeleted) as any[]
+      return orderFolders(
+        _.uniq(
+          state.Folders.concat(live.map(x => x.FolderController.Folder)).filter(x => !!x)
+        ) as string[],
+        live,
+        state.FolderOrder
+      )
+    },
     encounterIndexes: (state): IndexItem[] => {
       const encounters = state.Encounters.filter((x: any) => x && !x.SaveController.IsDeleted)
       return encounters.map((x: any) => ({
@@ -94,6 +97,15 @@ export const EncounterStore = defineStore('encounter', {
 
     EditFolder(payload: { old: string; newName: string }): void {
       useFolderManagement(this.Encounters, this.Folders).EditFolder(payload)
+      this.FolderOrder = this.FolderOrder.map(x => (x === payload.old ? payload.newName : x))
+    },
+
+    SetFolderOrder(order: string[]): void {
+      this.FolderOrder = order
+      useFolderManagement(
+        this.Encounters.filter(x => !x.SaveController.IsDeleted),
+        this.Folders
+      ).SetFolderOrder(order)
     },
 
     RemoveFolder(payload: string): void {
