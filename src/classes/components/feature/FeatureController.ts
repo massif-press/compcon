@@ -66,12 +66,22 @@ class FeatureController {
     this.Containers = containers
   }
 
-  private collectAll<T>(collection: string): T[] {
+  private collectAll<T>(collection: string, live = false): T[] {
     if (!this.Containers.length) {
       return []
     }
 
-    return this.Containers.flatMap(container => Collect(collection, container.FeatureSource))
+    return this.Containers.flatMap(container =>
+      Collect(
+        collection,
+        live ? FeatureController.liveSources(container.FeatureSource) : container.FeatureSource
+      )
+    )
+  }
+
+  private static liveSources(sources: any[]): any[] {
+    const deadMods = sources.filter(x => x?.Destroyed && x.Mod).map(x => x.Mod)
+    return sources.filter(x => !x || (!x.Destroyed && !x.IsCascading && !deadMods.includes(x)))
   }
 
   private getRootEntity(node: object): object {
@@ -144,10 +154,28 @@ class FeatureController {
     return (this.Parent as any).CombatController?.CoreActive || false
   }
 
+  private conditionMet(condition: string): boolean {
+    const cc = (this.Parent as any).CombatController
+    return !!this.EvaluateSpecial(
+      condition.replace(/\{([\w-]+)\}/g, (token, id) => (cc?.HasStatus?.(id) ? '1' : token))
+    )
+  }
+
+  private get effectBonuses(): Bonus[] {
+    const core = this.isCoreActive ? this.collectAll<ActiveEffect>('CoreActiveEffects', true) : []
+    return this.collectAll<ActiveEffect>('ActiveEffects', true)
+      .concat(this.collectAll('PassiveEffects', true))
+      .flatMap(e => e.Bonuses.filter(b => b.Condition || !e.Condition))
+      .concat(core.flatMap(e => e.Bonuses))
+  }
+
   public get Bonuses(): Bonus[] {
-    return this.collectAll('Bonuses')
-      .concat(this.collectAll('PassiveBonuses'))
-      .concat(this.isCoreActive ? this.collectAll('ActiveBonuses') : []) as Bonus[]
+    return (
+      this.collectAll('Bonuses', true)
+        .concat(this.collectAll('PassiveBonuses', true))
+        .concat(this.isCoreActive ? this.collectAll('ActiveBonuses', true) : [])
+        .concat(this.effectBonuses) as Bonus[]
+    ).filter(b => !b.Condition || this.conditionMet(b.Condition))
   }
 
   public get Synergies(): Synergy[] {

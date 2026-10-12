@@ -281,6 +281,7 @@ import TrackableStatsComplex from './_components/TrackableStatsComplex.vue'
 import TrackableStatsSimple from './_components/TrackableStatsSimple.vue'
 import { ICombatant } from '@/classes/components/combat/ICombatant'
 import { PilotStatus, NpcStatus, MechStatus } from '@/classes/enums'
+import { Stats } from '@/classes/components/combat/stats/Stats'
 import { useLayoutOptions, filterStats } from '@/features/active_mode/layoutOptions'
 
 const _TrackableStatsComplex = markRaw(TrackableStatsComplex)
@@ -420,10 +421,8 @@ const trackableStatsComponent = computed(() =>
 )
 
 function getBonuses(statKey) {
-  if (statKey === 'agi') statKey = 'agility'
-  if (statKey === 'sys') statKey = 'systems'
-  if (statKey === 'eng') statKey = 'engineering'
-  return props.item.CombatController.Bonuses.filter(b => b.ID === statKey)
+  const key = Stats.cleanKey(statKey)
+  return props.item.CombatController.Bonuses.filter(b => Stats.cleanKey(b.ID) === key)
 }
 function getStatusColor() {
   const status = (owner.value as any)[statusField.value]

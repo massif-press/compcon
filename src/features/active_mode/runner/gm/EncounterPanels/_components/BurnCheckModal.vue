@@ -120,7 +120,7 @@
 
   function seed() {
     bonus.value = props.cc.getCheckBonus('Eng')
-    acc.value = 0
+    acc.value = props.cc.HaseAccuracy('eng', 'check')
     detail.value = ''
     outcome.value = undefined
     rolled.value = undefined

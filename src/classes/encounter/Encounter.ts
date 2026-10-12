@@ -404,8 +404,6 @@ const ACTIVE_STATUSES = new Set<string>([
   MechStatus.Cascade,
 ])
 
-// null == still in combat; otherwise the out-of-combat group key (a status label).
-// A destroyed or reactor-melted actor (both zero structure => IsDestroyed) groups as Destroyed.
 function statusGroupKey(c: CombatantData): string | null {
   const cc = c.actor.CombatController
   const isPilot = c.actor.ItemType === 'Pilot'
@@ -420,5 +418,5 @@ function isOutOfCombat(c: CombatantData): boolean {
   return statusGroupKey(c) !== null
 }
 
-export { Encounter, makeCombatant, statusGroupKey, isOutOfCombat }
+export { Encounter, makeCombatant, statusGroupKey, isOutOfCombat, DESERIALIZE_ACTOR }
 export type { IEncounterData, CombatantSaveData, CombatantSide, CombatantType }

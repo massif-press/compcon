@@ -77,6 +77,7 @@
   const checked = ref<number[]>([])
 
   const AiSystems = computed(() => {
+    if (props.mech.FeatureController.Bonuses.some(b => b.ID === 'no_cascade')) return []
     return props.mech.MechLoadoutController.ActiveLoadout.Equipment.filter(
       x => x.IsAI && !x.NoCascade && !x.Destroyed
     )
@@ -84,7 +85,9 @@
 
   function checkCascade(roll: number, index: number) {
     checked.value.push(index)
-    if (roll === 1) AiSystems.value[index].IsCascading = true
-    else AiSystems.value[index].IsCascading = false
+    const system = AiSystems.value[index]
+    props.mech.CombatController.RefreshMaxStats(() => {
+      system.IsCascading = roll === 1
+    })
   }
 </script>

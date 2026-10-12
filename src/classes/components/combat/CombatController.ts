@@ -425,6 +425,11 @@ class CombatController implements ICounterContainer, IStatContainer {
     return this.Parent.FeatureController?.Bonuses || []
   }
 
+  public get MechScaleBonuses(): Bonus[] {
+    const active = this.ActiveActor?.CombatController
+    return !active || active.IsPilot ? [] : active.Bonuses
+  }
+
   public get Name(): string {
     if (this.Parent.Callsign) return `${this.Parent.Callsign} (${this.Parent.Name})`
     return this.Parent.Name
@@ -521,7 +526,28 @@ class CombatController implements ICounterContainer, IStatContainer {
     this.DamageController.ApplyDamage(DamageType.AppliedBurn, burn)
   }
 
-  private static readonly BRACE_RESIST = ['kinetic', 'energy', 'explosive', 'heat', 'burn']
+  public static readonly BRACE_RESIST = ['kinetic', 'energy', 'explosive', 'heat', 'burn']
+
+  public ApplyPassiveResistances(): void {
+    const all = (t: string) => (t === 'all' ? CombatController.BRACE_RESIST : [t])
+    for (const effect of this.ActiveEffects ?? []) {
+      if (!effect.IsAutoSelfResist) continue
+      effect.AddResist.forEach(r =>
+        all(r.Resist.toLowerCase()).forEach(t => this.SetResistance(t, r.ResistType, true))
+      )
+    }
+    if (this.IsPilot) return
+    for (const condition of ['resistance', 'immunity']) {
+      this.Bonuses.filter(b => b.ID === condition)
+        .flatMap(b => [b.Value].flat().flatMap(v => all(String(v).toLowerCase())))
+        .filter(t => CombatController.BRACE_RESIST.includes(t))
+        .filter(
+          t =>
+            condition === 'immunity' || !this.StatusController.Resistances.some(r => r.type === t)
+        )
+        .forEach(t => this.SetResistance(t, condition, true))
+    }
+  }
 
   public ApplyBraceEffects(): void {
     this.Braced = true
@@ -788,6 +814,25 @@ class CombatController implements ICounterContainer, IStatContainer {
     this.StatController.resetCurrentStats()
   }
 
+  public RefreshMaxStats(change: () => void): void {
+    const provider = (this.Parent as any).StatProvider ?? (this.Parent as any).PilotStatController
+    const before: { key: string; val: number }[] = provider?.StatValues ?? []
+    change()
+    const after: { key: string; val: number }[] = provider?.StatValues ?? []
+    const stats = this.StatController
+    const pools = ['hp', 'structure', 'stress', 'repcap']
+    before.forEach((b, i) => {
+      const delta = after[i].val - b.val
+      const max = stats.getMax(b.key)
+      if (!delta || typeof max !== 'number') return
+      stats.setMax(b.key, max + delta)
+      const current = stats.getCurrent(b.key)
+      if (typeof current !== 'number' || b.key === 'heatcap') return
+      if (!pools.includes(b.key)) stats.setCurrentStat(b.key, current + delta, { silent: true })
+      else if (current > max + delta) stats.setCurrentStat(b.key, max + delta, { silent: true })
+    })
+  }
+
   public get BonusController(): BonusController {
     return this.Parent.FeatureController.BonusController
   }
@@ -962,6 +1007,18 @@ class CombatController implements ICounterContainer, IStatContainer {
     if (!this.IsNpc) return this.AttackBonus
     const key = actionId.includes('ram') ? StatKey.RAM : StatKey.GRAPPLE
     return this.StatController.getCurrent(key) || 0
+  }
+
+  public HaseAccuracy(stat: string | undefined, kind: 'save' | 'check'): number {
+    const id =
+      { hull: 'hull', agi: 'agility', sys: 'systems', eng: 'engineering' }[
+        String(stat).toLowerCase()
+      ] ?? ''
+    return Bonus.AccuracyFor([kind, id, `${id}_${kind}`], this.MechScaleBonuses)
+  }
+
+  public MeleeActionAccuracy(actionId: string): number {
+    return Bonus.AccuracyFor([actionId.includes('ram') ? 'ram' : 'grapple'], this.MechScaleBonuses)
   }
 
   public ActivationFor(actionId: string): string | undefined {
@@ -1371,6 +1428,7 @@ class CombatController implements ICounterContainer, IStatContainer {
     this.AIControl = false
     this.RechargeRolledRound = -1
 
+    this.ApplyPassiveResistances()
     this.CombatLog.Clear()
     this.Round = 1
     this.Turn = 1

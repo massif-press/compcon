@@ -53,9 +53,6 @@ function skipKeysFor(root: any): Set<string> {
   return SKIP_KEYS[root?.itemType] ?? BOOKKEEPING_KEYS
 }
 
-// derives a stable per-element key within an entity array: the first element of
-// a given content id keeps the bare id (so legacy singletons are untouched),
-// later duplicates get an occurrence suffix so the merge can keep all copies
 function nextEntityKey(id: string, seen: Map<string, number>): string {
   const n = seen.get(id) ?? 0
   seen.set(id, n + 1)

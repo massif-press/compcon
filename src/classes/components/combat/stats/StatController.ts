@@ -218,7 +218,10 @@ class StatController {
     if (key === StatKey.SIZE) {
       let sizes = this.getMax(StatKey.SIZES) as number | number[]
       if (!Array.isArray(sizes)) sizes = [sizes]
-      return sizes
+      const p = this.Parent as any
+      const bc =
+        p?.FeatureController?.BonusController ?? p?.Parent?.FeatureController?.BonusController
+      return bc ? bc.sizes(sizes) : sizes
     }
     return []
   }

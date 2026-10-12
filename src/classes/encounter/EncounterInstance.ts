@@ -9,7 +9,14 @@ import {
   ISaveable,
   SaveController,
 } from '../components'
-import { CombatantData, Encounter, IEncounterData, isOutOfCombat, makeCombatant } from './Encounter'
+import {
+  CombatantData,
+  DESERIALIZE_ACTOR,
+  Encounter,
+  IEncounterData,
+  isOutOfCombat,
+  makeCombatant,
+} from './Encounter'
 import type { CombatantSide, CombatantType } from './Encounter'
 import type { Unit } from '../npc/unit/Unit'
 import type { Doodad } from '../npc/doodad/Doodad'
@@ -21,6 +28,7 @@ import { Placeholder } from './Placeholder'
 import { deployToCombatant } from '../components/feature/deployable/DeployableInstance'
 import { Eidolon } from '../npc/eidolon/Eidolon'
 import { combatantRef } from '../components/combat/log/refs'
+import { combatControllers } from '../components/combat/ActorIdentity'
 import { buildStream } from '../components/combat/log/stream'
 import { eventsFor, recordersFor } from '../components/combat/log/CombatLogRecorder'
 import { commitOutcome } from '../components/combat/log/outcome'
@@ -258,19 +266,17 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
   }
 
   public AddFromRoster(rosterItem: Unit | Doodad | Eidolon, side: CombatantSide): CombatantData {
-    const actor = rosterItem.Clone(false) as Unit | Doodad | Eidolon
-    actor.OriginId = rosterItem.ID
+    const type = rosterItem.ItemType.toLowerCase() as CombatantType
+    const actor = DESERIALIZE_ACTOR[type](JSON.parse(JSON.stringify(rosterItem.CreateInstance())))
 
-    const combatant = makeCombatant(
-      actor as unknown as ICombatant,
-      actor.ItemType.toLowerCase() as CombatantType,
-      {
-        id: actor.ID,
-        index: this.Combatants.length,
-        number: this.Combatants.filter(c => c.actor.Name === actor.Name).length + 1,
-        side,
-      }
-    )
+    const combatant = makeCombatant(actor, type, {
+      id: actor.ID,
+      index: this.Combatants.length,
+      number: this.Combatants.filter(c => c.actor.Name === actor.Name).length + 1,
+      side,
+    })
+    combatant.actor.IsEncounterInstance = true
+    this._markStaticControllers(combatant.actor)
     this.Combatants.push(combatant)
     return combatant
   }
@@ -291,13 +297,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
 
   public ApplyPassiveResistances(): void {
     for (const c of this.Combatants) {
-      for (const cc of [c.actor?.CombatController, c.actor?.ActiveMech?.CombatController]) {
-        if (!cc) continue
-        for (const effect of cc.ActiveEffects ?? []) {
-          if (!effect.IsAutoSelfResist) continue
-          effect.AddResist.forEach((r: any) => cc.SetResistance(r.ResistType, r.Resist))
-        }
-      }
+      combatControllers(c.actor).forEach(cc => cc.ApplyPassiveResistances())
     }
   }
 
@@ -347,8 +347,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
   public EndEncounter(result = '', outcomes: Record<string, IOutcome> = {}): void {
     for (const c of this.Combatants) if (outcomes[c.id]) commitOutcome(c, outcomes[c.id])
     for (const c of this.Combatants) {
-      c.actor.CombatController.EndEncounter()
-      if (c.actor.ActiveMech) c.actor.ActiveMech.CombatController.EndEncounter()
+      combatControllers(c.actor).forEach(cc => cc.EndEncounter())
       c.actor.CombatController.Record('encounter.end', { result, rounds: this.Round })
     }
   }
@@ -445,17 +444,13 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
         if (b.id === self_id) return 1
       }
 
-      // Sort by side first
       if (a.side !== b.side) {
-        // Prioritize the target side
         if (a.side === targetSide) return -1
         if (b.side === targetSide) return 1
 
-        // Then sort remaining sides alphabetically
         return a.side.localeCompare(b.side)
       }
 
-      // If same side, sort by name
       return a.actor.Name.localeCompare(b.actor.Name)
     })
   }

@@ -40,23 +40,7 @@
       </v-tooltip>
     </v-col>
   </v-row>
-  <v-card
-    v-if="!item.Layers.length"
-    variant="outlined"
-    color="primary"
-    class="pa-2"
-  >
-    {{ $t('gm.eidolon.noLayers') }}
-  </v-card>
-  <v-card
-    v-else-if="!item.Layers.some(x => x.Layer)"
-    variant="outlined"
-    color="primary"
-    class="pa-2"
-  >
-    {{ $t('gm.eidolon.noLayers') }}
-  </v-card>
-  <div v-else>
+  <div>
     <v-tabs
       v-model="tab"
       density="compact"
@@ -69,7 +53,7 @@
         :key="layer.Key"
       >
         <v-tooltip
-          v-if="idx > 1"
+          v-if="!readonly && idx > 1"
           location="top"
         >
           <template #activator="{ props }">
@@ -89,7 +73,7 @@
         />
         {{ idx }}: {{ layer.Layer?.Name }}
         <v-tooltip
-          v-if="idx && idx < item.Layers.length - 1"
+          v-if="!readonly && idx && idx < item.Layers.length - 1"
           location="top"
         >
           <template #activator="{ props }">
@@ -144,7 +128,7 @@
               >
                 <v-card-text class="mt-n2 pt-0">
                   <stat-editor
-                    :item="<any>layer.Layer.Shards.StatBlock(item.Tier)"
+                    :item="<any>shardStats[index]"
                     prefix="shard"
                     readonly
                   />
@@ -152,8 +136,11 @@
               </template>
             </cc-dense-card>
           </v-card-text>
-          <v-divider />
-          <v-card-actions class="my-n2">
+          <v-divider v-if="!readonly" />
+          <v-card-actions
+            v-if="!readonly"
+            class="my-n2"
+          >
             <v-spacer />
             <cc-button
               size="small"
@@ -191,7 +178,7 @@
 
 <script setup lang="ts">
   import type { Eidolon } from '@/classes/npc/eidolon/Eidolon'
-  import { ref } from 'vue'
+  import { computed, ref } from 'vue'
   import StatEditor from '@/features/gm/_components/StatEditor.vue'
   import LayerSelector from './LayerSelector.vue'
 
@@ -209,6 +196,9 @@
 
   const tab = ref(0)
   const layerSelector = ref(false)
+  const shardStats = computed(() =>
+    props.item.Layers.map(l => l.Layer.Shards?.StatBlock(props.item.Tier))
+  )
 
   function removeLayer(index: number) {
     props.item.RemoveLayer(index)

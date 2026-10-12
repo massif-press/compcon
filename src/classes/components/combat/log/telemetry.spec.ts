@@ -50,7 +50,6 @@ describe('telemetry as a fold', () => {
     expect(mine.coreEnergySpent).toBe(1)
     expect(mine.rounds).toBe(1)
 
-    // one round.end per actor must not inflate the whole-encounter rollup
     expect(reduceEvents(events).rounds).toBe(1)
   })
 

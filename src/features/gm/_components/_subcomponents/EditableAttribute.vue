@@ -119,7 +119,7 @@
 <script setup lang="ts">
   import { computed, ref } from 'vue'
   import CCBonusTooltip from '@/ui/components/CCBonusTooltip.vue'
-  import type { ResolvedBonus } from '@/classes/components/feature/bonus/Bonus'
+  import { Bonus, type ResolvedBonus } from '@/classes/components/feature/bonus/Bonus'
 
   const props = withDefaults(
     defineProps<{
@@ -158,18 +158,17 @@
 
   model.value = props.val as number
 
-  const sumVals = (arr: ResolvedBonus[]) => arr.reduce((acc, x) => acc + (Number(x.Value) || 0), 0)
-
   const overwriteVal = computed(() => {
-    const overwrite = props.bonuses.find(x => x.Overwrite && !x.Replace)
+    const overwrite = props.bonuses.find(x => x.Overwrite && x.Replace)
     if (overwrite) return overwrite.Value
     return ''
   })
   const totalWithBonus = computed(() => {
-    const active = props.bonuses.filter(x => !x.PerPc)
-    const replaces = active.filter(x => x.Replace)
-    const base = replaces.length ? sumVals(replaces) : props.val
-    return base + sumVals(active.filter(x => !x.Replace))
+    return Bonus.Resolve(
+      props.val as number,
+      props.bonuses.filter(x => !x.PerPc),
+      x => Number(x.Value) || 0
+    )
   })
 </script>
 

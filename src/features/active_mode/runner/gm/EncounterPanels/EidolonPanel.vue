@@ -192,35 +192,21 @@
       </v-expansion-panel>
     </v-expansion-panels>
 
-    <cc-masonry-grid
-      :items="features"
-      :xl-columns="xlColumns"
+    <template
+      v-for="(items, i) in [features, shardFeatures]"
+      :key="i"
     >
-      <template #default="{ item }">
-        <fieldset
+      <template v-if="i && items.length">
+        <div class="text-cc-overline mt-2">
+          {{ $t('active.eidolon.shardFeatures', { n: items.length }) }}
+        </div>
+        <p
+          v-html-safe="layer.Layer.Shards.Detail"
           class="px-2 pb-2"
-          style="border-color: rgba(155, 155, 155, 0.6)"
-        >
-          <unit-feature-card
-            :key="item.ID"
-            :item="item"
-            :unit="layer"
-            @deploy="deploy($event)"
-          />
-        </fieldset>
+        />
       </template>
-    </cc-masonry-grid>
-
-    <div v-if="shardFeatures.length">
-      <div class="text-cc-overline mt-2">
-        {{ $t('active.eidolon.shardFeatures', { n: shardFeatures.length }) }}
-      </div>
-      <p
-        v-html-safe="layer.Layer.Shards.Detail"
-        class="px-2 pb-2"
-      />
       <cc-masonry-grid
-        :items="shardFeatures"
+        :items="items"
         :xl-columns="xlColumns"
       >
         <template #default="{ item }">
@@ -237,7 +223,7 @@
           </fieldset>
         </template>
       </cc-masonry-grid>
-    </div>
+    </template>
   </panel-base>
 </template>
 

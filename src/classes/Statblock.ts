@@ -23,7 +23,6 @@ function linebreak(i: number, length: number): string {
   }
 }
 
-// Discord emoji range/damage suffix, shared by every weapon line.
 function emojiWeaponStats(w: MechWeapon | PilotWeapon): string {
   let out = ''
   if (w.Range && w.Range.length)
@@ -46,7 +45,6 @@ function addWeaponToOutput(output: string, discordEmoji: boolean, w: MechWeapon 
   return output
 }
 
-// NPC "..., Tier N " / "..., Custom " + tag suffix, shared by NPC headers.
 function npcSubtitle(npc: Unit): string {
   const tier =
     typeof npc.NpcClassController.Tier === 'number'
@@ -55,7 +53,6 @@ function npcSubtitle(npc: Unit): string {
   return `${tier}${npc.Tag}`
 }
 
-// "LABEL: max | LABEL: max ..." stat grid row.
 function maxStats(npc: Unit, cols: [string, string][], withBonuses = false): string {
   const sc = npc.StatController
   return cols
@@ -174,9 +171,9 @@ class Statblock {
           }
         }
         for (const mount of loadout.AllEquippableMounts(
-          pilot && pilot.has('CoreBonus', 'cb_improved_armament'),
-          pilot && pilot.has('CoreBonus', 'cb_integrated_weapon'),
-          pilot && pilot.has('CoreBonus', 'cb_superheavy_mounting')
+          loadout.HasImprovedArmament,
+          loadout.HasIntegratedWeapon,
+          loadout.HasSuperheavyMounting
         )) {
           output += `  ${mount.Name}: `
           if (mount.IsLocked) {
@@ -252,9 +249,9 @@ ${hdr('active.mechLoadout.weapons')}
       }\n  `
   ).join('')}${mechLoadout
     .AllEquippableMounts(
-      pilot.has('CoreBonus', 'cb_improved_armament'),
-      pilot.has('CoreBonus', 'cb_integrated_weapon'),
-      pilot.has('CoreBonus', 'cb_superheavy_mounting')
+      mechLoadout.HasImprovedArmament,
+      mechLoadout.HasIntegratedWeapon,
+      mechLoadout.HasSuperheavyMounting
     )
     .map(mount => {
       let out = `${mount.Name}: `

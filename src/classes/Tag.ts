@@ -243,13 +243,6 @@ class Tag implements ILcpTracked {
 
   public get IsCombatTag(): boolean {
     const nonCombatRelevant = [
-      // 'tg_quick',
-      // 'tg_full',
-      // 'tg_free',
-      // 'tg_full',
-      // 'tg_tech_quick',
-      // 'tg_tech_full',
-      // 'tg_protocol',
       'tg_gear',
       'tg_mod',
       'tg_modded',

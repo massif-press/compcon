@@ -330,7 +330,8 @@
   const npcLoadout = computed(() => {
     if (!showLoadout.value) return ''
     let out = ''
-    const features = (props.actor as any).NpcFeatureController?.Features || []
+    const actor = props.actor as any
+    const features = actor.NpcFeatureController?.Features ?? actor.ActiveLayer?.FeatureSource ?? []
     features.forEach((feature: any) => {
       const arr = [feature.Name]
       if (feature.RangeData) {

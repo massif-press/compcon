@@ -6,6 +6,7 @@ import { EffectSpecial } from '../../feature/active_effects/effect_subtype/Effec
 import { Frequency } from '@/classes/Frequency'
 import { DiceRoller } from '@/classes/dice/DiceRoller'
 import { itemRef } from '../log/refs'
+import { Bonus, BonusId } from '../../feature/bonus/Bonus'
 
 interface IPerformOpts {
   target?: any
@@ -37,8 +38,14 @@ type StabilizeChoice =
   | 'npc'
 
 function boost(cc: CombatController): boolean {
-  const bonus = Number(cc.StatController.getMax(StatKey.SPEED)) || 0
-  if (bonus <= 0) return false
+  const speed = Number(cc.StatController.getMax(StatKey.SPEED)) || 0
+  if (speed <= 0) return false
+  const bonus =
+    speed +
+    cc.MechScaleBonuses.filter(b => b.ID === BonusId.BOOST).reduce(
+      (sum, b) => sum + Bonus.Evaluate(b, cc.Parent),
+      0
+    )
   cc.BoostBonus += bonus
   cc.StatController.bumpCurrentStat(StatKey.SPEED, bonus, { silent: true })
   cc.Record('move', { spent: 0, mode: 'boost', granted: bonus })

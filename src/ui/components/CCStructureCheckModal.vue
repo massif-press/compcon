@@ -313,7 +313,7 @@
       r.steps.forEach(s => {
         if (s.kind === 'save' && saveBonus[s.path] === undefined) {
           saveBonus[s.path] = props.cc.getCheckBonus(CHECK_STAT[s.check || ''] || 'Hull')
-          saveAcc[s.path] = 0
+          saveAcc[s.path] = props.cc.HaseAccuracy(s.check || 'hull', 'check')
         }
       })
     },

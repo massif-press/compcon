@@ -132,7 +132,7 @@ describe('WeaponUseFlow', () => {
   it.each([
     ['destroyed', { Destroyed: true }],
     ['already used', { Used: true }],
-    // Uses counts what has been spent, so exhausted is Uses >= MaxUses
+    // exhausted is Uses >= MaxUses
     ['out of limited uses', { IsLimited: true, Uses: 2, MaxUses: 2 }],
   ])('hides a weapon that is %s until the table asks for it', (_label, broken) => {
     const unusable = weapon({ InstanceID: 'bad', ...broken })
@@ -164,7 +164,6 @@ describe('WeaponUseFlow', () => {
 
     WeaponUseFlow.Begin(s)
     const first = s.entries[0].event
-    // the player has filled the first weapon's inputs in by now
     ;(first as any).rolled = 17
 
     // choosing a second weapon re-runs the flow

@@ -152,6 +152,15 @@
           </template>
         </panel-base>
 
+        <cc-switch
+          v-if="combatant.ResistBonus"
+          :model-value="combatant.BonusResist.length > 0"
+          :label="`${combatant.ResistBonus.Source}: ${combatant.ResistBonus.Detail}`"
+          color="primary"
+          class="mt-2"
+          @update:model-value="combatant.SetBonusResist(!!$event)"
+        />
+
         <cc-button
           v-if="recall"
           size="small"

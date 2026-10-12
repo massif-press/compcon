@@ -3,6 +3,7 @@ import { EffectSave } from './EffectSave'
 interface IEffectResistData {
   resist?: string
   vulnerable?: string
+  vulnerability?: string
   immunity?: string
   save?: string | { stat: string; aoe?: boolean }
   aoe?: boolean
@@ -21,9 +22,9 @@ class EffectResist {
   public readonly Attack?: 'melee' | 'ranged' | 'tech'
 
   public constructor(data: IEffectResistData) {
-    if (data.vulnerable) {
+    if (data.vulnerable || data.vulnerability) {
       this.ResistType = 'Vulnerability'
-      this.Resist = data.vulnerable
+      this.Resist = (data.vulnerable || data.vulnerability) as string
     } else if (data.immunity) {
       this.ResistType = 'Immunity'
       this.Resist = data.immunity

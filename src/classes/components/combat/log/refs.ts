@@ -12,11 +12,12 @@ function actorRef(cc: any, side?: string): IActorRef {
   const parent = identityActor(cc) ?? {}
   const templates = parent.NpcTemplateController?.Templates ?? []
   const npcClass = parent.NpcClassController?.Class ?? null
+  const byItem = typeFromItemType(parent.ItemType)
 
   const ref: IActorRef = {
     id: parent.ID ?? '',
     name: cc.CombatName ?? parent.Name ?? 'Unknown',
-    type: refType(cc, parent),
+    type: byItem === 'eidolon' ? byItem : (KIND_TO_TYPE[cc.Kind] ?? byItem),
   }
 
   if (parent.OriginId) ref.originId = parent.OriginId
@@ -34,12 +35,6 @@ function actorRef(cc: any, side?: string): IActorRef {
   }
 
   return ref
-}
-
-function refType(cc: any, actor: { ItemType?: string }): ActorRefType {
-  const byItem = typeFromItemType(actor.ItemType)
-  if (byItem === 'eidolon') return byItem
-  return KIND_TO_TYPE[cc.Kind] ?? byItem
 }
 
 function typeFromItemType(itemType?: string): ActorRefType {

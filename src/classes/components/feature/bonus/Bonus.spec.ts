@@ -31,10 +31,9 @@ describe('Bonus.Serialize/new Bonus', () => {
     assertDataRoundTrip(bonusDataArb, Bonus.Serialize, de)
   })
 
-  it('drops accuracy, which Serialize does not write', () => {
+  it('keeps accuracy', () => {
     const data = Bonus.Serialize(de({ id: 'range', val: 1, accuracy: 2 }))
-    expect(data).not.toHaveProperty('accuracy')
-    expect(de(data).Accuracy).toBe(0)
+    expect(de(data).Accuracy).toBe(2)
   })
 
   it('omits condition when there is none', () => {
@@ -71,7 +70,7 @@ describe('Bonus.Symbol', () => {
   })
 
   it('is = when the bonus overwrites', () => {
-    expect(de({ id: 'range', val: 1, overwrite: true }).Symbol).toBe('=')
+    expect(de({ id: 'range', val: 1, overwrite: true, replace: true }).Symbol).toBe('=')
   })
 
   it('is empty for a non-numeric value', () => {

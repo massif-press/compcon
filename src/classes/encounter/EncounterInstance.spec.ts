@@ -311,11 +311,13 @@ describe('EncounterInstance player counts', () => {
 describe('EncounterInstance.AddFromRoster', () => {
   const instanceWith = () => new EncounterInstance(undefined, makeEncounter(), [pilot])
 
-  it.each([
+  const rosterItems = [
     ['unit', () => makeNpc('Test NPC 1')],
     ['doodad', () => Object.assign(new Doodad(), { Name: 'Test Doodad 1' })],
     ['eidolon', () => makeEidolon()],
-  ] as const)('adds a %s as a copy that remembers its roster entry', (type, make) => {
+  ] as const
+
+  it.each(rosterItems)('adds a %s as a copy that remembers its roster entry', (type, make) => {
     const rosterItem = make()
     const instance = instanceWith()
 
@@ -326,6 +328,19 @@ describe('EncounterInstance.AddFromRoster', () => {
     expect(combatant.actor.ID).not.toBe(rosterItem.ID)
     expect((combatant.actor as { OriginId?: string }).OriginId).toBe(rosterItem.ID)
     expect(combatant.id).toBe(combatant.actor.ID)
+  })
+
+  it.each(rosterItems)('adds a %s as an instance that never saves to the roster', (_type, make) => {
+    const combatant = instanceWith().AddFromRoster(make(), 'enemy')
+    const reloaded = Encounter.DeserializeCombatant(
+      JSON.parse(JSON.stringify(Encounter.SerializeCombatant(combatant)))
+    )
+
+    const isInstance = (c: typeof combatant) => (c.actor as { IsInstance?: boolean }).IsInstance
+
+    expect(isInstance(combatant)).toBe(true)
+    expect(combatant.actor.IsEncounterInstance).toBe(true)
+    expect(isInstance(reloaded)).toBe(true)
   })
 
   it('numbers a second copy of the same roster entry', () => {

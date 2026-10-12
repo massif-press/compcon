@@ -442,9 +442,9 @@
 
   const mounts = computed(() => {
     return props.mech.MechLoadoutController.ActiveLoadout.AllMounts(
-      props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-      props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
-      props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
+      props.mech.MechLoadoutController.ActiveLoadout.HasImprovedArmament,
+      props.mech.MechLoadoutController.ActiveLoadout.HasIntegratedWeapon,
+      props.mech.MechLoadoutController.ActiveLoadout.HasSuperheavyMounting
     )
   })
 </script>

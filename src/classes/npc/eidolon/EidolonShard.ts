@@ -22,15 +22,15 @@ interface IEidolonShardData {
 const SHARD_TYPE = 'shard'
 const PER_HOSTILE = 'hostile_characters'
 
-const shard_stats = {
+const layer_stats = {
   hull: [1, 2, 3],
   agility: [1, 2, 3],
   systems: [1, 2, 3],
   engineering: [1, 2, 3],
-  hp: [5, 6, 8],
+  hp: [10, 15, 20],
   armor: 0,
-  size: 0.5,
-  heatcap: 5,
+  size: 2,
+  heatcap: 10,
   evade: [10, 12, 14],
   edef: [10, 12, 14],
   save: [12, 14, 16],
@@ -38,6 +38,8 @@ const shard_stats = {
   sensor: 20,
   activations: 1,
 }
+
+const shard_stats = { ...layer_stats, hp: [5, 6, 8], size: 0.5, heatcap: 5 }
 
 class EidolonShard implements ILcpTracked {
   public readonly ItemType: ItemType = ItemType.EidolonShard
@@ -66,10 +68,6 @@ class EidolonShard implements ILcpTracked {
 
   public get Detail(): string {
     return localize(this._layerId, 'shard_detail', this._detail)
-  }
-
-  public get CountString(): string {
-    return this.CountLabel()
   }
 
   public CountLabel(tier?: number): string {
@@ -117,5 +115,5 @@ class EidolonShard implements ILcpTracked {
   }
 }
 
-export { EidolonShard, SHARD_TYPE }
+export { EidolonShard, SHARD_TYPE, layer_stats }
 export type { IEidolonShardData }

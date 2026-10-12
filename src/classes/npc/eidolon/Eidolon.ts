@@ -69,17 +69,16 @@ class Eidolon extends Npc implements ICombatant, IInstanceable {
 
     this._layers = []
 
-    if (data) {
+    const loaded = (data?.layer_data ?? []).flatMap(l => {
       try {
-        if (data.layer_data?.length) {
-          this._layers = data.layer_data.map(l => new EidolonLayerInstance(l, this))
-        }
+        return [new EidolonLayerInstance(l, this)]
       } catch (e) {
         Npc.LoadError(this, e, 'Eidolon Layer data')
+        return []
       }
-    }
-
-    if (this._layers.length === 0) this._layers.push(this.newLayer(CORE_LAYER_ID))
+    })
+    const core = loaded.find(l => l.Layer.IsCore) ?? this.newLayer(CORE_LAYER_ID)
+    this._layers = [core, ...loaded.filter(l => !l.Layer.IsCore)]
 
     this.ActiveLayerIndex = data?.activeLayer ?? this.OutermostLayerIndex
 
@@ -169,6 +168,8 @@ class Eidolon extends Npc implements ICombatant, IInstanceable {
 
   public PrepareForEncounter(playerCount: number, hostileCount: number, encounter?: unknown): void {
     const activations = Eidolon.ActivationsFor(hostileCount)
+    this.ActiveLayerIndex = this.OutermostLayerIndex
+    this.Manifesting = false
     this._layers.forEach(l => l.PrepareForEncounter(playerCount, activations, encounter))
   }
 
@@ -259,11 +260,11 @@ class Eidolon extends Npc implements ICombatant, IInstanceable {
     this.layersChanged()
   }
 
-  public static Serialize(eidolon: Eidolon): EidolonData {
+  public static Serialize(eidolon: Eidolon, asInstance = false): EidolonData {
     const data = {
       npcType: 'eidolon',
       id: eidolon.ID,
-      is_instance: eidolon.IsInstance,
+      is_instance: eidolon.IsInstance || asInstance,
       instanceId: eidolon.InstanceID,
       originId: eidolon.OriginId,
       name: eidolon.Name,
@@ -287,8 +288,8 @@ class Eidolon extends Npc implements ICombatant, IInstanceable {
     return data as EidolonData
   }
 
-  public Serialize<EidolonData>(): EidolonData {
-    return Eidolon.Serialize(this) as EidolonData
+  public Serialize<EidolonData>(asInstance = false): EidolonData {
+    return Eidolon.Serialize(this, asInstance) as EidolonData
   }
 
   public static Deserialize(data: EidolonData): Eidolon {

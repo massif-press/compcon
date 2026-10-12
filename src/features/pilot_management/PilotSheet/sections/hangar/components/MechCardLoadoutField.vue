@@ -51,9 +51,9 @@
   const loadoutWeapons = computed(() => {
     const output = [] as string[]
     for (const mount of props.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
-      props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-      props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
-      props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
+      props.mech.MechLoadoutController.ActiveLoadout.HasImprovedArmament,
+      props.mech.MechLoadoutController.ActiveLoadout.HasIntegratedWeapon,
+      props.mech.MechLoadoutController.ActiveLoadout.HasSuperheavyMounting
     )) {
       if (!mount.IsLocked) {
         let str = `<i style="opacity:0.8">${mount.Name}</i>:`

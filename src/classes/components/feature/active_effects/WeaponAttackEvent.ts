@@ -8,7 +8,7 @@ import { PilotWeapon } from '../../../pilot/components/Loadout/equipment/PilotWe
 import { Pilot } from '../../../pilot/Pilot'
 import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon'
 import { ActiveEffectEvent } from './ActiveEffectEvent'
-import { WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon'
+import { MechWeapon, WeaponProfile } from '@/classes/mech/components/equipment/MechWeapon'
 import { ActiveEventTarget } from './effect_events/eventTarget'
 import {
   routesTo,
@@ -41,14 +41,15 @@ class WeaponAttackEvent {
     weapon: WeaponProfile | NpcWeapon | PilotWeapon,
     owner: CombatantData,
     instance: EncounterInstance,
-    attackActionString: string
+    attackActionString: string,
+    mechWeapon?: MechWeapon
   ) {
     this.ID = crypto.randomUUID()
     this.AttackActionString = attackActionString
     this.Weapon = weapon
     let effectData
     if (weapon instanceof WeaponProfile) {
-      effectData = weapon.toActiveEffectData(owner.actor as Mech)
+      effectData = weapon.toActiveEffectData(owner.actor as Mech, mechWeapon)
     } else if (weapon instanceof NpcWeapon) {
       effectData = weapon.toActiveEffectData(owner.actor as any)
     } else {

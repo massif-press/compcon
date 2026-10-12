@@ -152,21 +152,55 @@ describe('Eidolon layers', () => {
     ])
   })
 
-  it('removes a stray second core but never the innermost layer', () => {
+  const ids = (e: Eidolon) => e.Layers.map(l => l.ID)
+  const saved = () => JSON.parse(JSON.stringify(Eidolon.Serialize(makeEidolon()))) as EidolonData
+  const layerIds = ['el_core', 'test_elayer_1', 'test_elayer_2', 'test_elayer_3']
+
+  it('never removes the innermost layer', () => {
     const e = makeEidolon()
+
+    e.RemoveLayer(0)
+
+    expect(ids(e)).toEqual(layerIds)
+  })
+
+  it('loads with one core, innermost, whatever the save holds', () => {
+    const strayCore = saved()
+    strayCore.layer_data.push({ ...strayCore.layer_data[0] })
+    const coreLast = saved()
+    coreLast.layer_data.push(coreLast.layer_data.shift()!)
+    const noCore = saved()
+    noCore.layer_data.shift()
+
+    for (const data of [strayCore, coreLast, noCore])
+      expect(ids(Eidolon.Deserialize(data))).toEqual(layerIds)
+  })
+
+  it('keeps the damage on a core that loads out of place', () => {
+    const e = makeEidolon()
+    e.Layers[0].StatController.setCurrentStat(StatKey.HP, 4)
     const data = JSON.parse(JSON.stringify(Eidolon.Serialize(e))) as EidolonData
-    data.layer_data.push({ ...data.layer_data[0] })
-    const back = Eidolon.Deserialize(data)
+    data.layer_data.push(data.layer_data.shift()!)
 
-    back.RemoveLayer(0)
-    back.RemoveLayer(4)
+    expect(hp(Eidolon.Deserialize(data), 0)).toBe(4)
+  })
 
-    expect(back.Layers.map(l => l.ID)).toEqual([
-      'el_core',
-      'test_elayer_1',
-      'test_elayer_2',
-      'test_elayer_3',
-    ])
+  it('loads the readable layers when one is unreadable', () => {
+    const data = saved()
+    data.layer_data.splice(2, 0, { id: 'test_elayer_missing', description: '' } as never)
+
+    expect(ids(Eidolon.Deserialize(data))).toEqual(layerIds)
+  })
+
+  it('opens an encounter on the outermost layer, restored and not manifesting', () => {
+    const e = makeEidolon()
+    e.DestroyActiveLayer(combatantFor(e))
+
+    e.PrepareForEncounter(1, 1)
+
+    expect(e.ActiveLayerIndex).toBe(e.OutermostLayerIndex)
+    expect(e.CombatController.IsDestroyed).toBe(false)
+    expect(e.Manifesting).toBe(false)
   })
 
   it('keeps the outermost layer active as layers are added', () => {

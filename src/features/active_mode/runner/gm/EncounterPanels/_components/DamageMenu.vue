@@ -173,7 +173,7 @@
                 class="text-center my-1 px-2"
               >
                 <v-col cols="auto">
-                  <v-icon :icon="`cc:${damage.type.toLowerCase()}`" />
+                  <v-icon :icon="resistIcon(damage.type)" />
                 </v-col>
                 <v-col class="text-cc-overline mt-1">
                   {{ damage.type }} {{ damage.condition }}
@@ -363,6 +363,11 @@
     const { type, dmg, ap, irreducible } = damageArgs()
     props.controller.TakeDamage(type, dmg, ap, irreducible, true)
     if (isActive) isActive.value = false
+  }
+  function resistIcon(type) {
+    return CombatController.BRACE_RESIST.includes(type.toLowerCase())
+      ? `cc:${type.toLowerCase()}`
+      : 'mdi-shield-outline'
   }
   function damageClass(damage) {
     if (damage.condition === 'immunity') {

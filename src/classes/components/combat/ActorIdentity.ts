@@ -20,6 +20,16 @@ export function isOutOfAction(cc: CombatController): boolean {
   return rootActor(cc)?.IsDefeated ?? cc.IsDestroyed
 }
 
+export function combatControllers(actor: any): CombatController[] {
+  return [
+    ...new Set<CombatController>([
+      actor?.CombatController,
+      actor?.ActiveMech?.CombatController,
+      ...(actor?.Layers ?? []).map((l: any) => l.CombatController),
+    ]),
+  ].filter(Boolean)
+}
+
 export function activeActor(cc: CombatController): any {
   if ((cc.Parent as Pilot).ActiveMech && cc.Mounted) return (cc.Parent as Pilot).ActiveMech
   return cc.Parent

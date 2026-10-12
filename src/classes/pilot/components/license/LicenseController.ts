@@ -9,6 +9,7 @@ import { AchievementEventSystem } from '@/user/achievements/AchievementEvent'
 import logger from '@/user/logger'
 import { assertController } from '../../../utility/assertController'
 import { RankedCollectionController } from '../RankedCollectionController'
+import { Bonus, BonusId } from '../../../components/feature/bonus/Bonus'
 
 interface ILicenseSaveData {
   licenses: IRankedData[]
@@ -83,10 +84,7 @@ class LicenseController extends RankedCollectionController<License, PilotLicense
   }
 
   public get MaxPoints(): number {
-    const bonus = this.Parent.ReservesController.Reserves.filter(
-      x => x.ID === 'reserve_license'
-    ).length
-    return this.Parent.Level + bonus
+    return Bonus.Int(this.Parent.Level, BonusId.LICENSE_POINT, this.Parent)
   }
 
   public get Licenses(): PilotLicense[] {

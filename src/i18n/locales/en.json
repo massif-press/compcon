@@ -4832,7 +4832,12 @@
     },
     "addMount": {
       "title": "Add Mount",
-      "detail": "Adds a new {value} mount to this mech, if there are less than {max} mounts"
+      "detail": "Adds a new {value} mount to this mech, if there are less than {max} mounts",
+      "detailUnlimited": "Adds a new {value} mount to this mech"
+    },
+    "superheavyMounting": {
+      "title": "Superheavy Mounting",
+      "detail": "Adds a Superheavy mount to this mech, if there are less than 3 mounts"
     },
     "noMods": {
       "title": "Not Modifiable",
@@ -4840,7 +4845,7 @@
     },
     "armorMax": {
       "title": "Maximum Armor",
-      "detail": "{direction} the maximum armor value of the mech to {value}"
+      "detail": "{direction} the maximum armor value of the mech by {value}"
     },
     "boost": {
       "title": "Boost Speed",
@@ -4866,6 +4871,7 @@
       "target": "Knockback value"
     },
     "attack": {
+      "title": "@:{'common.attackBonus'}",
       "target": "@:{'ui.flow.request.attackRoll'}"
     },
     "noCascade": {

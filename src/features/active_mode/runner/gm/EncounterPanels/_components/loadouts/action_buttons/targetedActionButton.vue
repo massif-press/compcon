@@ -117,7 +117,10 @@
       ),
       encounterInstance.value
     )
-    if (melee.value) built.AttackBonus = controller.value.MeleeActionBonus(props.action.ID)
+    if (melee.value) {
+      built.AttackBonus = controller.value.MeleeActionBonus(props.action.ID)
+      built.Accuracy += controller.value.MeleeActionAccuracy(props.action.ID)
+    }
     return built
   }
 

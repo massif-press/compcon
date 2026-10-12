@@ -97,6 +97,15 @@ class ActiveEventTarget {
     )
   }
 
+  public get SaveAccuracy(): number {
+    return (
+      this.Combatant?.actor?.CombatController?.HaseAccuracy(
+        this.SaveType ?? this.Event.Save,
+        'save'
+      ) ?? 0
+    )
+  }
+
   public get HitResult(): string {
     if (this.MissedFromInvisibility) return 'miss'
     if (this.HitResultOverride === 'miss') return 'miss'

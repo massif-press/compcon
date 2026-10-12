@@ -39,8 +39,11 @@ class MechStatProvider {
   }
 
   public get Armor(): number {
-    const armor = Bonus.Int(this._frame.Armor, BonusId.ARMOR, this._mech)
-    return armor > Rules.MaxMechArmor ? Rules.MaxMechArmor : armor
+    return Math.min(Bonus.Int(this._frame.Armor, BonusId.ARMOR, this._mech), this.MaxArmor)
+  }
+
+  public get MaxArmor(): number {
+    return Bonus.Int(Rules.MaxMechArmor, BonusId.ARMOR_MAX, this._mech)
   }
 
   public get ArmorContributors(): string[] {
@@ -143,12 +146,12 @@ class MechStatProvider {
   }
 
   public get AttackBonus(): number {
-    return Bonus.Int(this._pilot.Grit, BonusId.ATTACK, this._mech)
+    return Bonus.Int(this._pilot.Grit, BonusId.ATTACK, this._mech, b => !b.IsFiltered)
   }
 
   public get AttackBonusContributors(): string[] {
     const output = [`Pilot GRIT Bonus: ${this._pilot.Grit}`]
-    Bonus.Contributors(BonusId.ATTACK, this._mech).forEach(b => {
+    Bonus.Contributors(BonusId.ATTACK, this._mech, x => !x.IsFiltered).forEach(b => {
       const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
@@ -361,9 +364,9 @@ class MechStatProvider {
     }
   }
 
-  public SetStats(): void {
+  public get StatValues(): { key: string; val: number }[] {
     const m = this._mech
-    const kvps = [
+    return [
       { key: 'size', val: this.Size },
       { key: 'armor', val: this.Armor },
       { key: 'save', val: this.SaveTarget },
@@ -392,8 +395,10 @@ class MechStatProvider {
       { key: 'overshield', val: 0 },
       { key: 'overcharge', val: 0 },
     ]
+  }
 
-    m.CombatController.setStats(kvps)
+  public SetStats(): void {
+    this._mech.CombatController.setStats(this.StatValues)
   }
 }
 

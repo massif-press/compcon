@@ -173,6 +173,7 @@ class Stats {
     techattack: 'techAttack',
     limitedbonus: 'limitedBonus',
     attackbonus: 'attackBonus',
+    attack: 'attackBonus',
     heatcapacity: 'heatcap',
   }
 

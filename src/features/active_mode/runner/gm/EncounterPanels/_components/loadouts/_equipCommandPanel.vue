@@ -380,7 +380,9 @@
   }
   function toggleDestroyed() {
     snapshotItemEdit()
-    props.item.Destroyed = !props.item.Destroyed
+    props.controller.RefreshMaxStats(() => {
+      props.item.Destroyed = !props.item.Destroyed
+    })
     recordEquipment(props.item.Destroyed ? 'destroyed' : 'repaired')
   }
   function toggleUsed() {

@@ -139,23 +139,19 @@ class EidolonLayerInstance implements IFeatureContainer, ICombatant {
       })
   }
 
-  public static Serialize(layer: EidolonLayerInstance): IEidolonLayerInstanceData {
+  public Serialize(): IEidolonLayerInstanceData {
     const data: IEidolonLayerInstanceData = {
-      id: layer.Layer.ID,
-      data: layer.Layer.Data,
-      description: layer.Description,
+      id: this.Layer.ID,
+      data: this.Layer.Data,
+      description: this.Description,
       combat_data: {} as CombatData,
-      player_hp: layer._playerHp || undefined,
-      ui_state: Object.keys(layer.UIState).length ? { ...layer.UIState } : undefined,
+      player_hp: this._playerHp || undefined,
+      ui_state: Object.keys(this.UIState).length ? { ...this.UIState } : undefined,
     }
 
-    CombatController.Serialize(layer.CombatController, data.combat_data)
+    CombatController.Serialize(this.CombatController, data.combat_data)
 
     return data
-  }
-
-  public Serialize(): IEidolonLayerInstanceData {
-    return EidolonLayerInstance.Serialize(this)
   }
 }
 

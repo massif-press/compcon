@@ -4,7 +4,7 @@ import { applyLcpTracking, type ILcpTracked } from '@/classes/LcpItemMixin'
 import { INpcClassStats, NpcClassStats } from '../class/NpcClassStats'
 import { INpcFeatureData, NpcFeature } from '../feature/NpcFeature'
 import { NpcFeatureFactory } from '../feature/NpcFeatureFactory'
-import { EidolonShard, IEidolonShardData } from './EidolonShard'
+import { EidolonShard, IEidolonShardData, layer_stats } from './EidolonShard'
 import logger from '@/user/logger'
 import { ByTier } from '@/util/tierFormat'
 import { localize } from '@/i18n/localize'
@@ -24,23 +24,6 @@ interface IEidolonLayerData {
 }
 
 const CORE_LAYER_ID = 'el_core'
-
-const layer_stats = {
-  hull: [1, 2, 3],
-  agility: [1, 2, 3],
-  systems: [1, 2, 3],
-  engineering: [1, 2, 3],
-  hp: [10, 15, 20],
-  armor: 0,
-  size: 2,
-  heatcap: 10,
-  evade: [10, 12, 14],
-  edef: [10, 12, 14],
-  save: [12, 14, 16],
-  speed: 5,
-  sensor: 20,
-  activations: 1,
-}
 
 class EidolonLayer implements ILcpTracked {
   public readonly ItemType: ItemType = ItemType.EidolonLayer
@@ -113,7 +96,7 @@ class EidolonLayer implements ILcpTracked {
   }
 
   public get ShardCount(): string {
-    return this.Shards?.CountString || '0'
+    return this.Shards?.CountLabel() || '0'
   }
 
   public get Icon(): string {

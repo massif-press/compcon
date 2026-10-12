@@ -240,7 +240,7 @@
   const { smAndDown: mobile } = useDisplay()
 
   function getBonuses(key: string): any[] {
-    return (props.mech as Mech).FeatureController.Bonuses.filter(x => x.ID === key)
+    return (props.mech as Mech).FeatureController.Bonuses.filter(x => x.ID === key && !x.IsFiltered)
   }
 </script>
 

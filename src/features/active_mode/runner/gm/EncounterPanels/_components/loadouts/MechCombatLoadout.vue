@@ -132,7 +132,7 @@
       })
     })
 
-    if (props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'))
+    if (props.mech.MechLoadoutController.ActiveLoadout.HasIntegratedWeapon)
       items.push({
         mount: props.mech.MechLoadoutController.ActiveLoadout.IntegratedWeaponMount,
         isIntegrated: false,
@@ -141,26 +141,30 @@
         isSuperheavy: false,
       })
 
-    if (props.mech.MechLoadoutController.ActiveLoadout.EquippableMounts.length < 3) {
-      if (props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting'))
-        items.push({
-          mount: props.mech.MechLoadoutController.ActiveLoadout.SuperheavyMount,
-          isIntegrated: false,
-          isIntWeapon: false,
-          isImpArm: false,
-          isSuperheavy: true,
-        })
-      else if (props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'))
-        items.push({
-          mount: props.mech.MechLoadoutController.ActiveLoadout.ImprovedArmamentMount,
-          isIntegrated: false,
-          isIntWeapon: false,
-          isImpArm: true,
-          isSuperheavy: false,
-        })
-    }
+    if (
+      props.mech.MechLoadoutController.ActiveLoadout.EquippableMounts.length < 3 &&
+      props.mech.MechLoadoutController.ActiveLoadout.HasSuperheavyMounting
+    )
+      items.push({
+        mount: props.mech.MechLoadoutController.ActiveLoadout.SuperheavyMount,
+        isIntegrated: false,
+        isIntWeapon: false,
+        isImpArm: false,
+        isSuperheavy: true,
+      })
+    else if (props.mech.MechLoadoutController.ActiveLoadout.HasImprovedArmament)
+      items.push({
+        mount: props.mech.MechLoadoutController.ActiveLoadout.ImprovedArmamentMount,
+        isIntegrated: false,
+        isIntWeapon: false,
+        isImpArm: true,
+        isSuperheavy: false,
+      })
 
-    for (const m of props.mech.MechLoadoutController.ActiveLoadout.EquippableMounts) {
+    for (const m of [
+      ...props.mech.MechLoadoutController.ActiveLoadout.EquippableMounts,
+      ...props.mech.MechLoadoutController.ActiveLoadout.SyncBonusMounts(),
+    ]) {
       // if (m.Bonuses.some((b) => b.ID === 'cb_mount_retrofitting')) continue;
       items.push({
         mount: m,

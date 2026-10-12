@@ -535,10 +535,12 @@ function applyCheckEffects(cc: CombatController, actions: TerminalAction[]): voi
         cc.Record('mech.status', { to: 'reactor_destroyed' })
       }
     } else if (a.kind === 'destroy_equipment') {
-      a.items.forEach(it => {
-        it.Destroyed = true
-        cc.Record('equipment', { item: itemRef(it), state: 'destroyed' })
-      })
+      cc.RefreshMaxStats(() =>
+        a.items.forEach(it => {
+          it.Destroyed = true
+          cc.Record('equipment', { item: itemRef(it), state: 'destroyed' })
+        })
+      )
     } else if (a.kind === 'damage') {
       cc.TakeDamage(a.damageType, a.value)
     }

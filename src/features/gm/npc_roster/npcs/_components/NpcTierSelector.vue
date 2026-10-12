@@ -29,63 +29,18 @@
       </v-col>
     </v-row>
 
-    <cc-dialog
+    <tier-change-dialog
       v-model="showConfirmation"
-      :title="$t('gm.npcTierSelector.confirmTierChange')"
-      icon="mdi-alert"
-      min-width="600px"
-      :close-on-click="false"
-    >
-      <div class="heading h3">{{ $t('gm.tier.changeTo', { n: stagedTier }) }}</div>
-      <v-card-text>{{ $t('gm.tier.detectedEdits') }}</v-card-text>
-      <v-card-actions class="flex-column align-stretch pa-4 ga-2">
-        <cc-button
-          block
-          size="small"
-          prepend-icon="mdi-delta"
-          color="accent"
-          :tooltip="$t('gm.npcTierSelector.tierChangeAdjustEdited')"
-          @click="changeTier('project')"
-        >
-          {{ $t('gm.tier.projectEdits') }}
-        </cc-button>
-        <cc-button
-          block
-          size="small"
-          prepend-icon="mdi-pin"
-          color="primary"
-          :tooltip="$t('gm.npcTierSelector.tierChangeKeepEdited')"
-          @click="changeTier('preserve')"
-        >
-          {{ $t('gm.tier.preserveEdits') }}
-        </cc-button>
-        <cc-button
-          block
-          size="small"
-          prepend-icon="mdi-refresh"
-          :tooltip="$t('gm.npcTierSelector.tierChangeDiscardEdited')"
-          color="warning"
-          @click="changeTier('reset')"
-        >
-          {{ $t('gm.tier.resetStats') }}
-        </cc-button>
-
-        <cc-button
-          block
-          size="small"
-          color="panel"
-          @click="cancel()"
-        >
-          {{ $t('common.cancel') }}
-        </cc-button>
-      </v-card-actions>
-    </cc-dialog>
+      :tier="stagedTier"
+      @keep="changeTier"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
   import type { Unit } from '@/classes/npc/unit/Unit'
   import { ref } from 'vue'
+  import TierChangeDialog from './TierChangeDialog.vue'
   import { statEdits, restoreEdits, type StatTable, type TierEdits } from '@/classes/npc/tierChange'
 
   const props = withDefaults(
@@ -124,10 +79,6 @@
     props.item.NpcClassController.Tier = stagedTier.value
     restoreEdits(props.item.StatController, edits, keep)
     props.item.SaveController.save()
-    cancel()
-  }
-  function cancel() {
-    stagedTier.value = 0
     showConfirmation.value = false
   }
 </script>

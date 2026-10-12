@@ -516,7 +516,6 @@ describe('lock on across an attack', () => {
     event.Targets[0].ConsumingLockOn = true
     event.Targets[0].AttackRolledValue = 15
 
-    // the choice survives the roll, so a reroll keeps the accuracy it was made with
     expect(target.HasStatus('lockon')).toBe(true)
 
     event.ApplyAll()

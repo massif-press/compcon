@@ -186,7 +186,11 @@
     tiles.push({
       key: 'reaction',
       icon: 'cc:reaction',
-      label: t('enums.activationType.reaction'),
+      label:
+        t('enums.activationType.reaction') +
+        (c.ActionPoolController.ExtraActionsLeft('reaction') > 0
+          ? ` +${c.ActionPoolController.ExtraActionsLeft('reaction')}`
+          : ''),
       color: 'action--reaction',
       available: c.CanActivate('reaction'),
       toggle: () => c.toggleCombatAction('reaction'),

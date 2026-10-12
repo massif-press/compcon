@@ -279,7 +279,8 @@
         weapon.SelectedProfile as WeaponProfile,
         self,
         encounterInstance.value,
-        label
+        label,
+        weapon
       ),
   })
 

@@ -19,62 +19,18 @@
     </v-col>
   </v-row>
 
-  <cc-dialog
+  <tier-change-dialog
     v-model="showConfirmation"
-    :title="$t('gm.npcTierSelector.confirmTierChange')"
-    icon="mdi-alert"
-    min-width="600px"
-    :close-on-click="false"
-  >
-    <div class="heading h3">{{ $t('gm.tier.changeTo', { n: stagedTier }) }}</div>
-    <v-card-text>{{ $t('gm.tier.detectedEdits') }}</v-card-text>
-    <v-card-actions class="flex-column align-stretch pa-4 ga-2">
-      <cc-button
-        block
-        size="small"
-        prepend-icon="mdi-delta"
-        color="accent"
-        :tooltip="$t('gm.npcTierSelector.tierChangeAdjustEdited')"
-        @click="changeTier('project')"
-      >
-        {{ $t('gm.tier.projectEdits') }}
-      </cc-button>
-      <cc-button
-        block
-        size="small"
-        prepend-icon="mdi-pin"
-        color="primary"
-        :tooltip="$t('gm.npcTierSelector.tierChangeKeepEdited')"
-        @click="changeTier('preserve')"
-      >
-        {{ $t('gm.tier.preserveEdits') }}
-      </cc-button>
-      <cc-button
-        block
-        size="small"
-        prepend-icon="mdi-refresh"
-        :tooltip="$t('gm.npcTierSelector.tierChangeDiscardEdited')"
-        color="warning"
-        @click="changeTier('reset')"
-      >
-        {{ $t('gm.tier.resetStats') }}
-      </cc-button>
-      <cc-button
-        block
-        size="small"
-        color="panel"
-        @click="cancel()"
-      >
-        {{ $t('common.cancel') }}
-      </cc-button>
-    </v-card-actions>
-  </cc-dialog>
+    :tier="stagedTier"
+    @keep="changeTier"
+  />
 </template>
 
 <script setup lang="ts">
   import type { Eidolon } from '@/classes/npc/eidolon/Eidolon'
   import type { TierEdits } from '@/classes/npc/tierChange'
   import { ref } from 'vue'
+  import TierChangeDialog from '@/features/gm/npc_roster/npcs/_components/TierChangeDialog.vue'
 
   defineOptions({ name: 'LayerTierSelector' })
 
@@ -93,10 +49,6 @@
   }
   function changeTier(keep: TierEdits) {
     props.item.ChangeTier(stagedTier.value, keep)
-    cancel()
-  }
-  function cancel() {
-    stagedTier.value = 0
     showConfirmation.value = false
   }
 </script>

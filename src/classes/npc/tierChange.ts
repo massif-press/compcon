@@ -18,4 +18,4 @@ function restoreEdits(stats: StatController, edits: StatEdit[], keep: TierEdits)
 }
 
 export { statEdits, restoreEdits }
-export type { TierEdits, StatTable, StatEdit }
+export type { TierEdits, StatTable }

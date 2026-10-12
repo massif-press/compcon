@@ -35,7 +35,6 @@ enum MountType {
   Superheavy = 'Superheavy',
 }
 
-// governs what can be added to a mount (weapon slot)
 enum FittingSize {
   Auxiliary = 'Auxiliary',
   Main = 'Main',
