@@ -58,7 +58,7 @@
             :disabled="!mech.CombatController.CorePower"
             :custom-disabled-text="$t('ui.corePanel.corePowerDepleted')"
             @activate="mech.CombatController.SetCore(true)"
-            @reset="mech.CombatController.CoreActive = false"
+            @reset="mech.CombatController.UndoCore()"
           >
             <template #icon>
               <v-tooltip

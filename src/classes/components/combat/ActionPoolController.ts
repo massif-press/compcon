@@ -126,6 +126,11 @@ class ActionPoolController {
     this.CombatActions.InOvercharge = value
   }
 
+  private get _speed(): number {
+    if (!this._parent.TracksMovement) return Infinity
+    return this._parent.StatController.getCurrent(StatKey.SPEED)
+  }
+
   public get HasRemainingActions(): boolean {
     return (
       this._parent.CanActivate('protocol') ||
@@ -153,14 +158,14 @@ class ActionPoolController {
           this.CombatActions.Quick1 &&
           this.CombatActions.Quick2 &&
           this.CombatActions.Full &&
-          this._parent.StatController.getCurrent(StatKey.SPEED) >= this._parent.BoostedSpeed
+          this._speed >= this._parent.BoostedSpeed
         )
       case 'ordnance':
         return (
           this.CombatActions.Quick1 &&
           this.CombatActions.Quick2 &&
           this.CombatActions.Full &&
-          this._parent.StatController.getCurrent(StatKey.SPEED) >= this._parent.BoostedSpeed
+          this._speed >= this._parent.BoostedSpeed
         )
       case 'full':
       case 'fulltech':
@@ -179,10 +184,10 @@ class ActionPoolController {
       case 'reaction':
         return this.CombatActions.Reaction
       case 'move':
-        return this._parent.StatController.getCurrent(StatKey.SPEED) > 0
+        return this._speed > 0
       case 'boost':
         return (
-          this._parent.StatController.getCurrent(StatKey.SPEED) > 0 &&
+          this._speed > 0 &&
           (this.OverchargeApplies || this.CombatActions.Quick1 || this.CombatActions.Quick2)
         )
       case 'fight':

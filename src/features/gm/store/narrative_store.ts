@@ -1,7 +1,7 @@
 import { Character, CharacterData } from '@/classes/narrative/Character'
 import { Faction, FactionData } from '@/classes/narrative/Faction'
 import { Location, LocationData } from '@/classes/narrative/Location'
-import { GetAll, RemoveItem, saveAll } from '@/io/Storage'
+import { GetAll, RemoveItem, SetItem, saveAll } from '@/io/Storage'
 import { NavStore } from '@/stores/nav'
 import type { IndexItem } from '@/stores/nav'
 import logger from '@/user/logger'
@@ -93,13 +93,13 @@ export const NarrativeStore = defineStore('narrative', {
       this.CollectionItems.push(payload)
       NavStore().updateNarrativeEntry(payload)
 
-      await this.SaveItemData()
+      await SetItem('narrative', payload.Serialize())
     },
 
     async SetItem(index: number, payload: Character | Location | Faction): Promise<void> {
       if (!this.CollectionItems[index]) return
       this.CollectionItems.splice(index, 1, payload)
-      await this.SaveItemData()
+      await SetItem('narrative', payload.Serialize())
     },
 
     async CloneItem(payload: Character | Location | Faction): Promise<void> {

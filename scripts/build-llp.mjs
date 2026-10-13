@@ -29,6 +29,7 @@ import {
   eidolonTraitId,
   bondEntries,
   bondPowerEntries,
+  tableRowEntries,
   normalizeMarkup,
   markupFault,
 } from '../src/i18n/contentKeys.mjs'
@@ -109,6 +110,7 @@ function extractFromLcp(dir) {
       if (!nested) continue
       for (const { prefix, fields: nf } of nestedEntries(collection, item))
         for (const [field, val] of Object.entries(nf)) put(`${prefix}.${field}`, val)
+      if (collection === 'tables') for (const [key, val] of tableRowEntries(item)) put(key, val)
     }
   }
 

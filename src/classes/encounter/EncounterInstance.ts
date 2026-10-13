@@ -58,12 +58,17 @@ interface IEncounterInstanceData {
   max_masonry_columns?: number
 }
 
-function applyPlayMode(actor: any, mode: PlayMode): void {
+function applyPlayMode(actor: any, mode: PlayMode, layouts?: InstanceLayouts): void {
   const roots = [
     actor?.CombatController,
     ...(actor?.Layers ?? []).map((l: any) => l.CombatController),
   ]
-  for (const cc of roots) if (cc) cc.ManualPlay = mode === 'simple'
+  const trackMovement = layouts?.[mode]?.trackMovement ?? true
+  for (const cc of roots) {
+    if (!cc) continue
+    cc.ManualPlay = mode === 'simple'
+    cc.TrackMovement = trackMovement
+  }
   if (mode !== 'simple') return
   for (const cc of [...roots, actor?.ActiveMech?.CombatController]) if (cc) cc.PendingChecks = []
 }
@@ -218,7 +223,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
 
   public SetPlayMode(mode: PlayMode): void {
     this.PlayMode = mode
-    for (const c of this.Combatants) applyPlayMode(c.actor, mode)
+    for (const c of this.Combatants) applyPlayMode(c.actor, mode, this.Layout)
   }
 
   private _markStaticControllers(actor: any): void {

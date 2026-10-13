@@ -137,6 +137,16 @@
         </template>
       </cc-dialog>
     </v-col>
+    <v-col
+      v-if="showDetails"
+      cols="12"
+      class="pt-0 text-caption"
+    >
+      <action-base
+        :action="action"
+        :tier="tier"
+      />
+    </v-col>
   </v-row>
 </template>
 
@@ -146,6 +156,7 @@
   import MenuInput from './_activeeffect/_ae_menu_input.vue'
   import CombatActionIndicator from './_CombatActionIndicator.vue'
   import ActionInfoButton from '../items/features/actions/_actionInfoButton.vue'
+  import ActionBase from '../items/features/actions/_actionBase.vue'
   import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
   import type { CombatantData } from '@/classes/encounter/Encounter'
 
@@ -169,6 +180,10 @@
     activate: [...args: any[]]
     reset: [...args: any[]]
   }>()
+
+  const showDetails = computed(
+    () => !!props.encounterInstance?.Layout?.[props.encounterInstance.PlayMode]?.showActionDetails
+  )
 
   const isDeployable = computed((): boolean => !!props.action.Deployable)
 

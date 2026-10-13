@@ -1,6 +1,6 @@
 {
   "lancerDataVersion": "4.0.11",
-  "extractedAt": "2026-10-09T13:59:05.895Z",
+  "extractedAt": "2026-10-13T15:57:49.207Z",
   "collections": {
     "actions": {
       "items": 44,
@@ -69,6 +69,10 @@
     "downtime_actions": {
       "items": 9,
       "keys": 34
+    },
+    "tables": {
+      "items": 3,
+      "keys": 32
     },
     "glossary": {
       "items": 39,

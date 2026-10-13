@@ -32,10 +32,11 @@ import Notifications from '@kyvg/vue3-notification'
 import { flushNotifyQueue } from '@/util/notify'
 
 import Startup from './io/Startup'
+import { LocalizationStore } from './stores/localization'
 import { reportWebVitals } from '@/util/performance'
 
 import { Amplify } from 'aws-amplify'
-import VueSecureHTML from 'vue-html-secure' // provides v-html-safe
+import VueSecureHTML from 'vue-html-secure' // v-html-safe
 
 Amplify.configure({
   Auth: {
@@ -66,7 +67,9 @@ Amplify.configure({
 
 const compcon = createApp(App)
 
-compcon.use(createPinia())
+const pinia = createPinia()
+compcon.use(pinia)
+LocalizationStore(pinia)
 compcon.use(i18n)
 compcon.use(vuetify)
 compcon.use(router)
@@ -86,7 +89,7 @@ compcon.config.globalProperties.$appVersion = version
 compcon.config.globalProperties.$lancerVersion = lancerData.info.version
 compcon.config.globalProperties.$enum = enumLabel
 
-// Enable Vue component-level timing in DevTools (dev only)
+// Enable Vue component-level timing in devtools
 if (import.meta.env.DEV) {
   compcon.config.performance = true
 }

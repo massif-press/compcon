@@ -1,7 +1,17 @@
-import { computed, inject, type ComputedRef, type InjectionKey, type Ref } from 'vue'
+import {
+  computed,
+  inject,
+  provide,
+  ref,
+  watch,
+  type ComputedRef,
+  type InjectionKey,
+  type Ref,
+} from 'vue'
 import type { CombatantData } from '@/classes/encounter/Encounter'
 import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { ItemType } from '@/classes/enums'
+import type { CheckType } from '@/classes/components/combat/stats/Stats'
 
 export interface EncounterRunnerContext {
   owner: Ref<CombatantData>
@@ -11,6 +21,20 @@ export interface EncounterRunnerContext {
 
 export const EncounterContextKey: InjectionKey<EncounterRunnerContext> =
   Symbol('EncounterRunnerContext')
+
+export const RollCheckKey: InjectionKey<(type: CheckType) => void> = Symbol('RunnerRollCheck')
+
+export function provideRollCheck(diceDialog: Ref<boolean>): Ref<CheckType | null> {
+  const check = ref<CheckType | null>(null)
+  provide(RollCheckKey, type => {
+    check.value = type
+    diceDialog.value = true
+  })
+  watch(diceDialog, open => {
+    if (!open) check.value = null
+  })
+  return check
+}
 
 export function useEncounterContext(): EncounterRunnerContext & {
   ownerController: ComputedRef<any>

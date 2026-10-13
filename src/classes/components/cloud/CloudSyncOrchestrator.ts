@@ -16,13 +16,61 @@ import { ICloudSyncable } from './ICloudSyncable'
 import { CloudController } from './CloudController'
 import type { dbItemMeta } from './CloudTypes'
 
+const SYNC_CONCURRENCY = 4
+
+async function forEachPooled<T>(items: T[], fn: (item: T) => Promise<void>): Promise<void> {
+  let next = 0
+  const worker = async () => {
+    while (next < items.length) await fn(items[next++])
+  }
+  await Promise.all(Array.from({ length: Math.min(SYNC_CONCURRENCY, items.length) }, worker))
+}
+
+async function forEachSplit<T>(
+  items: T[],
+  sizes: number[],
+  run: (chunk: T[]) => Promise<void>,
+  onFail: (item: T, error: any) => void,
+  halted: () => Error | null
+): Promise<void> {
+  const [size, ...smaller] = sizes
+  for (let i = 0; i < items.length; i += size) {
+    const chunk = items.slice(i, i + size)
+    try {
+      const halt = halted()
+      if (halt) throw halt
+      await run(chunk)
+    } catch (e: any) {
+      const blocked = !!halted() || e?.name === 'RateLimitError' || e?.name === 'UnauthorizedError'
+      const next = blocked ? [] : smaller.filter(x => x < chunk.length)
+      if (next.length) await forEachSplit(chunk, next, run, onFail, halted)
+      else chunk.forEach(x => onFail(x, e))
+    }
+  }
+}
+
 class CloudSyncOrchestrator {
   public static async BatchUpdateCloud(items: ICloudSyncable[], force = false): Promise<any[]> {
     const UPLOAD_CONCURRENCY = 5
-    const BATCH_SIZE = 5
+    const BATCH_SIZE = 25
+    const RETRY_SIZES = [10, 5, 1]
+    const MAX_FAIL_STREAK = 5
 
     const toUpload: ICloudSyncable[] = []
+    const toPull: ICloudSyncable[] = []
     const failures: any[] = []
+
+    const stopError = new Error('Sync stopped: cloud unreachable')
+    const streak = { count: 0, stopped: false }
+    const halted = () => (streak.stopped ? stopError : null)
+    const fail = (item: ICloudSyncable, error: any) => {
+      failures.push({ item, error })
+      if (++streak.count < MAX_FAIL_STREAK || streak.stopped) return
+      streak.stopped = true
+      logger.warn(
+        `BatchUpdateCloud: ${MAX_FAIL_STREAK} items failed in a row, assuming the cloud is unreachable. Stopping upload.`
+      )
+    }
 
     for (const item of items) {
       if (!force && item.CloudController._lastContentHash && item.CloudController.isSynced) {
@@ -54,13 +102,7 @@ class CloudSyncOrchestrator {
         const hasPriorSync = Object.keys(item.CloudController._fieldTs).length > 0
         const hasServerRecord = !!item.CloudController.Metadata?.Updated
         if (hasPriorSync || hasServerRecord) {
-          if (!toRaw(item).SaveController?.IsDeleted) {
-            try {
-              await item.CloudController.syncFromCloud()
-            } catch (syncErr) {
-              failures.push({ item, error: syncErr })
-            }
-          }
+          if (!toRaw(item).SaveController?.IsDeleted) toPull.push(item)
           continue
         }
       }
@@ -68,11 +110,7 @@ class CloudSyncOrchestrator {
       const prepared = CloudController.prepareUpload(item, force, force)
       if (!prepared) {
         if (item.CloudController.serverVersionChanged && !toRaw(item).SaveController?.IsDeleted) {
-          try {
-            await item.CloudController.syncFromCloud()
-          } catch (syncErr) {
-            failures.push({ item, error: syncErr })
-          }
+          toPull.push(item)
         } else {
           const _sc1 = toRaw(item).SaveController
           item.CloudController._lastUploadedItemModified = _sc1.LastModified || _sc1.Created
@@ -86,6 +124,14 @@ class CloudSyncOrchestrator {
       toUpload.push(item)
     }
 
+    await forEachPooled(toPull, async item => {
+      try {
+        await item.CloudController.syncFromCloud()
+      } catch (syncErr) {
+        failures.push({ item, error: syncErr })
+      }
+    })
+
     if (toUpload.length === 0) {
       logger.info('BatchUpdateCloud: no items to sync (all unchanged)')
       return failures
@@ -93,6 +139,10 @@ class CloudSyncOrchestrator {
 
     try {
       for (let i = 0; i < toUpload.length; i += BATCH_SIZE) {
+        if (streak.stopped) {
+          toUpload.slice(i).forEach(item => fail(item, stopError))
+          break
+        }
         const chunk = toUpload.slice(i, i + BATCH_SIZE)
 
         const chunkData = chunk.map(item => {
@@ -116,12 +166,16 @@ class CloudSyncOrchestrator {
           presigns = await getUploadPresigns(chunkData.map(p => p.meta.uri))
         } catch (e: any) {
           logger.error(`BatchUpdateCloud: presign failed (${e?.message})`)
-          chunk.forEach(item => failures.push({ item, error: e }))
+          chunk.forEach(item => fail(item, e))
           continue
         }
 
         const uploaded: typeof chunkData = []
         for (let j = 0; j < chunkData.length; j += UPLOAD_CONCURRENCY) {
+          if (streak.stopped) {
+            chunkData.slice(j).forEach(task => fail(task.item, stopError))
+            break
+          }
           const uploadBatch = chunkData.slice(j, j + UPLOAD_CONCURRENCY)
           const results = await Promise.allSettled(
             uploadBatch.map(async task => {
@@ -136,7 +190,7 @@ class CloudSyncOrchestrator {
             const task = uploadBatch[rIdx]
             if (r.status === 'rejected') {
               logger.error(`BatchUpdateCloud upload failed: ${task.item.Name}`, r.reason)
-              failures.push({ item: task.item, error: r.reason })
+              fail(task.item, r.reason)
             } else {
               uploaded.push(task)
             }
@@ -148,40 +202,41 @@ class CloudSyncOrchestrator {
           continue
         }
 
-        let response: any
-        try {
-          response = await batchUpsert(uploaded.map(p => p.meta))
-        } catch (e: any) {
-          logger.error(
-            `BatchUpdateCloud: chunk failed (${e?.message})`,
-            uploaded.map(p => (p.meta as any).sortkey)
-          )
-          uploaded.forEach(p => failures.push({ item: p.item, error: e }))
-          chunkData.length = 0
-          continue
-        }
+        await forEachSplit(
+          uploaded,
+          [BATCH_SIZE, ...RETRY_SIZES],
+          async tasks => {
+            let response: any
+            try {
+              response = await batchUpsert(tasks.map(p => p.meta))
+              if (!Array.isArray(response?.results)) throw new Error('Bad batch response')
+            } catch (e: any) {
+              logger.error(
+                `BatchUpdateCloud: batch of ${tasks.length} failed (${e?.message})`,
+                tasks.map(p => (p.meta as any).sortkey)
+              )
+              throw e
+            }
 
-        if (!response.results || !Array.isArray(response.results)) {
-          logger.error('BatchUpdateCloud: unexpected batch response', response)
-          uploaded.forEach(p => failures.push({ item: p.item, error: 'Bad batch response' }))
-          chunkData.length = 0
-          continue
-        }
-
-        uploaded.forEach((task, idx) => {
-          const result = response.results[idx]
-          if (!result?.data) {
-            failures.push({ item: task.item, error: 'No metadata returned for uploaded item' })
-            return
-          }
-          CloudController.commitUpload(
-            task.item.CloudController,
-            task.savedata,
-            (task.item as any).__pendingTs,
-            (task.item as any).__pendingHash,
-            result.data
-          )
-        })
+            tasks.forEach((task, idx) => {
+              const result = response.results[idx]
+              if (!result?.data) {
+                fail(task.item, 'No metadata returned for uploaded item')
+                return
+              }
+              streak.count = 0
+              CloudController.commitUpload(
+                task.item.CloudController,
+                task.savedata,
+                (task.item as any).__pendingTs,
+                (task.item as any).__pendingHash,
+                result.data
+              )
+            })
+          },
+          (task, error) => fail(task.item, error),
+          halted
+        )
 
         chunkData.length = 0
       }
@@ -336,4 +391,4 @@ class CloudSyncOrchestrator {
   }
 }
 
-export { CloudSyncOrchestrator }
+export { CloudSyncOrchestrator, forEachPooled }

@@ -105,7 +105,7 @@
             <template #activator="{ open }">
               <cc-button
                 v-if="landscape"
-                :loading="startingUp"
+                :loading="cloudBusy"
                 size="small"
                 class="mx-2"
                 :variant="isLoggedIn ? '' : 'outlined'"
@@ -117,7 +117,7 @@
 
               <cc-button
                 v-else
-                :loading="startingUp"
+                :loading="cloudBusy"
                 size="small"
                 class="mx-2"
                 :variant="isLoggedIn ? '' : 'outlined'"
@@ -265,8 +265,8 @@
   const isLoggedIn = computed(() => {
     return UserStore().IsLoggedIn
   })
-  const startingUp = computed(() => {
-    return UserStore().IsLoading
+  const cloudBusy = computed(() => {
+    return UserStore().IsLoading || UserStore().IsSyncing
   })
   const appVersion = computed(() => {
     return APP_VERSION || 'dev'

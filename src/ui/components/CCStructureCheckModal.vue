@@ -1,13 +1,13 @@
 <template>
   <cc-dialog
     v-model="open"
-    :title="table?.Title"
+    :title="shownTable?.Title"
     :close-on-click="false"
     @update:model-value="onToggle"
   >
     <p
-      v-if="table?.Description"
-      v-html-safe="table.Description"
+      v-if="shownTable?.Description"
+      v-html-safe="shownTable.Description"
       class="body-text text-text mb-3 pa-2"
     />
 
@@ -65,9 +65,9 @@
       </div>
 
       <v-divider class="my-2" />
-      <div class="heading h2 text-accent">{{ result.row?.title }}</div>
+      <div class="heading h2 text-accent">{{ shownRow?.title }}</div>
       <p
-        v-html-safe="result.row?.result"
+        v-html-safe="shownRow?.result"
         class="body-text text-text mt-1"
       />
 
@@ -235,6 +235,7 @@
   import { DiceRoller } from '@/classes/dice/DiceRoller'
   import AccuracyDifficultyRow from '@/ui/components/chips/_activeeffect/_shared/AccuracyDifficultyRow.vue'
   import type { CombatController } from '@/classes/components/combat/CombatController'
+  import { CHECK_STAT } from '@/classes/components/combat/stats/Stats'
   import type {
     ICheckRollResult,
     IPendingCheck,
@@ -252,6 +253,7 @@
     requestFor,
   } from '@/classes/components/combat/StructureCheck'
   import { withLogGroup } from '@/classes/components/combat/log/CombatLogRecorder'
+  import { localizeTable, localizeTableRow } from '@/i18n/localize'
 
   const props = defineProps<{
     modelValue: boolean
@@ -268,6 +270,10 @@
 
   const table = computed(() => getCheckTable(props.pending.kind, props.cc))
   const marked = computed(() => markedPoints(props.cc, props.pending.kind))
+  const shownTable = computed(() => table.value && localizeTable(table.value))
+  const shownRow = computed(() =>
+    table.value && result.value?.row ? localizeTableRow(table.value.ID, result.value.row) : null
+  )
 
   const result = ref<ICheckRollResult | null>(null)
   const effects = ref<Effect[]>([])
@@ -293,13 +299,6 @@
   )
 
   const hasActions = computed(() => resolution.value.actions.length > 0)
-
-  const CHECK_STAT: Record<string, 'Hull' | 'Agi' | 'Sys' | 'Eng'> = {
-    hull: 'Hull',
-    agi: 'Agi',
-    sys: 'Sys',
-    eng: 'Eng',
-  }
 
   function clearChoices() {
     ;[saveChoices, equipChoices, saveRolls, saveBonus, saveAcc].forEach(rec =>

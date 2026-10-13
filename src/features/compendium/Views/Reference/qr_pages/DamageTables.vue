@@ -24,10 +24,10 @@
       grow
     >
       <v-tab
-        v-for="item in tables.map(t => t.ID)"
-        :key="item"
-        @click="scrollTo(item)"
-        v-text="item"
+        v-for="t in tables"
+        :key="t.ID"
+        @click="scrollTo(t.ID)"
+        v-text="t.Title"
       />
     </v-tabs>
   </v-footer>
@@ -47,17 +47,18 @@
   import { computed } from 'vue'
   import { CompendiumStore } from '@/stores'
   import _scrollTo from '@/util/scrollTo'
+  import { localizeTable } from '@/i18n/localize'
 
   const props = defineProps<{
     isModal?: boolean
   }>()
 
   const tables = computed(() => {
-    return CompendiumStore().Tables
+    return CompendiumStore().Tables.map(localizeTable)
   })
 
-  function scrollTo(item: any) {
-    const el = document.getElementById(`${item.replace(/\W/g, '')}`)
+  function scrollTo(id: string) {
+    const el = document.getElementById(id)
     if (el) _scrollTo(el, props.isModal)
   }
 </script>

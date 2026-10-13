@@ -6,7 +6,7 @@ import { Mech } from '../../mech/Mech'
 import { Pilot } from '../../pilot/Pilot'
 import { ICombatant } from './ICombatant'
 import { IStatData, StatController } from './stats/StatController'
-import { StatKey } from './stats/Stats'
+import { StatKey, type CheckType } from './stats/Stats'
 import { CounterController, ICounterCollection } from './counters/CounterController'
 import { SaveController } from '../save/SaveController'
 import { ICounterContainer } from './counters/ICounterContainer'
@@ -250,6 +250,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   public CombatLogVersion: number = 0
   public Round: number = 1
   public ManualPlay: boolean = false
+  public TrackMovement: boolean = true
   public Turn: number = 1
 
   public SaveLock: boolean = false
@@ -314,6 +315,11 @@ class CombatController implements ICounterContainer, IStatContainer {
 
   public get Automated(): boolean {
     return !this.RootActor?.CombatController?.ManualPlay
+  }
+
+  public get TracksMovement(): boolean {
+    const root = (this.Parent as any).Owner?.actor ?? this.RootActor
+    return root?.CombatController?.TrackMovement !== false
   }
 
   public get ActiveActor(): any {
@@ -406,7 +412,7 @@ class CombatController implements ICounterContainer, IStatContainer {
   }
 
   public SpendMovement(spent: number, mode: 'move' | 'boost' | 'other' = 'move'): void {
-    if (spent <= 0) return
+    if (spent <= 0 || !this.TracksMovement) return
     const from = this.StatController.getCurrent(StatKey.SPEED)
     this.StatController.setCurrentStat(StatKey.SPEED, Math.max(0, from - spent), { silent: true })
     this.Record('move', { spent: Math.min(spent, from), mode })
@@ -1228,8 +1234,9 @@ class CombatController implements ICounterContainer, IStatContainer {
     this.ActionPoolController.IncreaseOverchargeLevel()
   }
 
-  public getCheckBonus(type: 'Hull' | 'Agi' | 'Sys' | 'Eng'): number {
-    if (this.IsPilot) return (this.Parent as Pilot).ActiveMech![type]
+  public getCheckBonus(type: CheckType): number {
+    if (type === 'Grit') return this.Grit
+    if (this.IsPilot) return (this.Parent as Pilot).ActiveMech?.[type] || 0
     return this.StatController.getMax(type.toLowerCase()) || 0
   }
 
@@ -1303,6 +1310,11 @@ class CombatController implements ICounterContainer, IStatContainer {
   public SetCore(active: boolean): void {
     if (active) this.CorePower = false
     this.CoreActive = active
+  }
+
+  public UndoCore(): void {
+    this.CoreActive = false
+    this.CorePower = true
   }
 
   public Overcharge(heat?: number): number {

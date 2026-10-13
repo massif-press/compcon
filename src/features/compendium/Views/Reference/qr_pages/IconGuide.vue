@@ -3,21 +3,21 @@
     <h1 class="heading">{{ $t('compendium.reference.iconGuide') }}</h1>
 
     <div
-      v-for="category in Object.keys(content)"
-      :key="category"
+      v-for="category in content"
+      :key="category.id"
       class="mt-2 mb-6"
     >
       <h2
-        :id="String(category)"
+        :id="category.id"
         class="heading h3 text-accent"
       >
-        {{ category }}
+        {{ category.title }}
       </h2>
       <v-divider class="mt-1 mb-4" />
       <v-row dense>
         <v-col
-          v-for="item in content[category]"
-          :key="item.name"
+          v-for="(item, i) in category.items"
+          :key="i"
           cols="12"
           sm="6"
           xl="4"
@@ -32,8 +32,8 @@
                 v-html-safe="cleanSvg(item.Svg)"
                 class="d-inline-block"
                 :style="{
-                  width: item.IconSize(),
-                  height: item.IconSize(),
+                  width: '40px',
+                  height: '40px',
                   filter: `invert(${$vuetify.theme.current.dark ? 1 : 0})`,
                 }"
               />
@@ -70,10 +70,10 @@
       grow
     >
       <v-tab
-        v-for="item in Object.keys(content)"
-        :key="'footer_' + item"
-        @click="scrollTo(item)"
-        v-text="item"
+        v-for="category in content"
+        :key="'footer_' + category.id"
+        @click="scrollTo(category.id)"
+        v-text="category.title"
       />
     </v-tabs>
   </v-footer>
@@ -83,7 +83,7 @@
     color="primary"
     variant="plain"
     style="position: fixed; bottom: 35px; right: 0; margin: 8px; z-index: 999"
-    @click="scrollTo(content[0])"
+    @click="scrollTo(content[0].id)"
   >
     <v-icon size="30">mdi-arrow-up</v-icon>
   </v-btn>
@@ -104,322 +104,356 @@
   function cleanSvg(svg: string) {
     return DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true, svgFilters: true } })
   }
-  const content = computed(() => {
-    return {
-      'Damage Types': [
+  const content = computed((): any[] => [
+    {
+      id: 'iconguide_damage_types',
+      title: t('compendium.iconGuide.damageTypes'),
+      items: [
         {
-          name: 'Kinetic Damage',
+          name: t('compendium.iconGuide.kineticDamage'),
           icon: 'cc:kinetic',
           color: 'damage--kinetic',
         },
         {
-          name: 'Energy Damage',
+          name: t('compendium.iconGuide.energyDamage'),
           icon: 'cc:energy',
           color: 'damage--energy',
         },
         {
-          name: 'Explosive Damage',
+          name: t('compendium.iconGuide.explosiveDamage'),
           icon: 'cc:explosive',
           color: 'damage--explosive',
         },
         {
-          name: 'Heat',
+          name: t('enums.damageType.heat'),
           icon: 'cc:heat',
           color: 'damage--heat',
         },
         {
-          name: 'Burn',
+          name: t('enums.damageType.burn'),
           icon: 'cc:burn',
           color: 'damage--burn',
         },
         {
-          name: 'Variable/Other',
+          name: t('compendium.iconGuide.variableOrOther'),
           icon: 'cc:variable',
           color: 'damage--variable',
           text: t('compendium.iconGuide.variableDamageTypeHint'),
         },
       ],
-      'Range / Attack Types': [
+    },
+    {
+      id: 'iconguide_range_attack_types',
+      title: t('compendium.iconGuide.rangeAttackTypes'),
+      items: [
         {
-          name: 'Melee Attack',
+          name: t('compendium.iconGuide.meleeAttack'),
           icon: 'cc:melee',
         },
         {
-          name: 'Ranged Attack',
+          name: t('compendium.iconGuide.rangedAttack'),
           icon: 'cc:range',
         },
         {
-          name: 'Thrown',
+          name: t('enums.rangeType.thrown'),
           icon: 'cc:thrown',
         },
         {
-          name: 'Threat',
+          name: t('enums.rangeType.threat'),
           icon: 'cc:threat',
           text: t('compendium.iconGuide.weaponThreatRange'),
         },
         {
-          name: 'Burst',
+          name: t('enums.rangeType.burst'),
           icon: 'cc:burst',
           text: t('compendium.iconGuide.burstAreaOfEffect'),
         },
         {
-          name: 'Blast',
+          name: t('enums.rangeType.blast'),
           icon: 'cc:blast',
           text: t('compendium.iconGuide.blastAreaOfEffect'),
         },
         {
-          name: 'Line',
+          name: t('enums.rangeType.line'),
           icon: 'cc:line',
           text: t('compendium.iconGuide.lineAreaOfEffect'),
         },
         {
-          name: 'Cone',
+          name: t('enums.rangeType.cone'),
           icon: 'cc:cone',
           text: t('compendium.iconGuide.coneAreaOfEffect'),
         },
       ],
-      'Tracked Stats': [
+    },
+    {
+      id: 'iconguide_tracked_stats',
+      title: t('compendium.iconGuide.trackedStats'),
+      items: [
         {
-          name: 'HP',
+          name: t('stats.hp'),
           icon: 'mdi-heart',
-          text: t('active.stats.hitPoints'),
           color: 'hp',
+          text: t('active.stats.hitPoints'),
         },
         {
-          name: 'Armor',
+          name: t('stats.armor'),
           icon: 'mdi-shield',
           color: 'armor',
         },
         {
-          name: 'Structure',
+          name: t('stats.structure'),
           icon: 'cc:structure',
           color: 'structure',
         },
         {
-          name: 'Overshield',
+          name: t('common.overshield'),
           icon: 'mdi-hexagon-multiple-outline',
           color: 'overshield',
         },
         {
-          name: 'Heat',
+          name: t('enums.damageType.heat'),
           icon: 'cc:heat',
           color: 'damage--heat',
         },
         {
-          name: 'Reactor Stress',
+          name: t('compendium.iconGuide.reactorStress'),
           icon: 'cc:reactor',
           color: 'stress',
         },
         {
-          name: 'Repair Capacity',
+          name: t('common.repairCapacity'),
           icon: 'cc:repair',
           color: 'system',
         },
         {
-          name: 'Speed',
+          name: t('stats.speed'),
           icon: 'mdi-arrow-right-bold-hexagon-outline',
           color: 'action--move',
         },
       ],
-      Stats: [
+    },
+    {
+      id: 'iconguide_stats',
+      title: t('common.statsLabel'),
+      items: [
         {
-          name: 'Evasion',
+          name: t('stats.evasion'),
           icon: 'cc:evasion',
         },
         {
-          name: 'Tech Attack',
+          name: t('stats.techAttack'),
           icon: 'cc:quick_tech',
         },
         {
-          name: 'E-Defense',
+          name: t('stats.edefense'),
           icon: 'cc:edef',
         },
         {
-          name: 'Sensor Range',
+          name: t('common.sensorRange'),
           icon: 'cc:sensor',
         },
         {
-          name: 'Save Roll',
+          name: t('compendium.iconGuide.saveRoll'),
           icon: 'cc:save',
         },
         {
-          name: 'System Point',
+          name: t('compendium.iconGuide.systemPoint'),
           icon: 'cc:system_point',
         },
       ],
-      Actions: [
+    },
+    {
+      id: 'iconguide_actions',
+      title: t('common.actions'),
+      items: [
         {
-          name: 'Protocol',
+          name: t('enums.activationType.protocol'),
           icon: 'cc:protocol',
           color: 'action--protocol',
         },
         {
-          name: 'Full Action',
+          name: t('compendium.reference.fullAction'),
           icon: 'mdi-hexagon-slice-6',
           color: 'action--full',
         },
         {
-          name: 'Full Tech',
+          name: t('enums.activationType.full_tech'),
           icon: 'cc:full_tech',
           color: 'action--full',
         },
         {
-          name: 'Quick Action',
+          name: t('compendium.iconGuide.quickAction'),
           icon: 'mdi-hexagon-slice-3',
           color: 'action--quick',
         },
         {
-          name: 'Quick Tech',
+          name: t('enums.activationType.quick_tech'),
           icon: 'cc:quick_tech',
           color: 'action--quick',
         },
         {
-          name: 'Overcharge',
+          name: t('enums.activationType.overcharge'),
           icon: 'cc:overcharge',
           color: 'action--overcharge',
         },
         {
-          name: 'Move',
+          name: t('enums.activationType.move'),
           icon: 'mdi-arrow-right-bold-hexagon-outline',
           color: 'action--move',
         },
         {
-          name: 'Reaction',
+          name: t('enums.activationType.reaction'),
           icon: 'cc:reaction',
           color: 'action--reaction',
         },
         {
-          name: 'Free Action',
+          name: t('compendium.iconGuide.freeAction'),
           icon: 'cc:free_action',
           color: 'action--free',
         },
       ],
-      'Item Types': [
+    },
+    {
+      id: 'iconguide_item_types',
+      title: t('compendium.iconGuide.itemTypes'),
+      items: [
         {
-          name: 'Weapon',
+          name: t('common.weapon'),
           icon: 'cc:weapon',
         },
         {
-          name: 'System',
+          name: t('enums.systemType.system'),
           icon: 'cc:system',
         },
         {
-          name: 'Weapon Mod',
+          name: t('compendium.iconGuide.weaponMod'),
           icon: 'cc:weaponmod',
         },
         {
-          name: 'Trait',
+          name: t('compendium.iconGuide.trait'),
           icon: 'cc:trait',
         },
         {
-          name: 'Core Bonus',
+          name: t('compendium.iconGuide.coreBonus'),
           icon: 'cc:corebonus',
         },
         {
-          name: 'Talent',
+          name: t('compendium.iconGuide.talent'),
           icon: 'cc:talent',
         },
         {
-          name: 'Skill Trigger',
+          name: t('compendium.iconGuide.skillTrigger'),
           icon: 'cc:skill',
         },
         {
-          name: 'Reserve (Tactical)',
+          name: t('compendium.iconGuide.reserveTactical'),
           icon: 'cc:reserve_tactical',
         },
         {
-          name: 'Reserve (Mech)',
+          name: t('compendium.iconGuide.reserveMech'),
           icon: 'cc:reserve_mech',
         },
         {
-          name: 'Reserve (Resource)',
+          name: t('compendium.iconGuide.reserveResource'),
           icon: 'cc:reserve_resource',
         },
         {
-          name: 'Pilot',
+          name: t('common.pilot'),
           icon: 'cc:pilot',
         },
         {
-          name: 'Mech',
+          name: t('common.mech'),
           icon: 'cc:frame',
         },
         {
-          name: 'Vehicle',
+          name: t('compendium.iconGuide.vehicle'),
           icon: 'cc:vehicle',
         },
         {
-          name: 'Ship',
+          name: t('compendium.iconGuide.ship'),
           icon: 'cc:ship',
         },
         {
-          name: 'Biological',
+          name: t('compendium.iconGuide.biological'),
           icon: 'mdi-heart-multiple-outline',
         },
         {
-          name: 'Squad',
+          name: t('compendium.iconGuide.squad'),
           icon: 'cc:squad',
         },
         {
-          name: 'Deployable',
+          name: t('enums.systemType.deployable'),
           icon: 'cc:drone',
         },
         {
-          name: 'Mine',
+          name: t('enums.systemType.mine'),
           icon: 'cc:mine',
         },
       ],
-      'NPC Classes': [
+    },
+    {
+      id: 'iconguide_npc_classes',
+      title: t('compendium.categories.npcClasses'),
+      items: [
         {
-          name: 'Artillery',
+          name: t('enums.mechType.artillery'),
           icon: 'cc:role_artillery',
         },
         {
-          name: 'Biological',
+          name: t('compendium.iconGuide.biological'),
           icon: 'mdi-heart-outline',
         },
         {
-          name: 'Controller',
+          name: t('enums.mechType.controller'),
           icon: 'cc:role_controller',
         },
         {
-          name: 'Defender',
+          name: t('enums.mechType.defender'),
           icon: 'cc:role_defender',
         },
         {
-          name: 'Striker',
+          name: t('enums.mechType.striker'),
           icon: 'cc:role_striker',
         },
         {
-          name: 'Support',
+          name: t('enums.mechType.support'),
           icon: 'cc:role_support',
         },
       ],
-      'Statuses and Conditions': CompendiumStore().Statuses.map((s: Status) => ({
+    },
+    {
+      id: 'iconguide_statuses',
+      title: t('compendium.categories.statusesConditions'),
+      items: CompendiumStore().Statuses.map((s: Status) => ({
         name: s.Name,
-        svg: s.Svg,
+        Svg: s.Svg,
         icon: s.Icon,
         text: s.Terse,
       })),
-      Other: [
+    },
+    {
+      id: 'iconguide_other',
+      title: t('compendium.iconGuide.other'),
+      items: [
         {
-          name: 'Accuracy',
+          name: t('common.accuracy'),
           icon: 'cc:accuracy',
         },
         {
-          name: 'Difficulty',
+          name: t('common.difficulty'),
           icon: 'cc:difficulty',
         },
         {
-          name: 'Content Pack',
+          name: t('common.contentPack'),
           icon: 'cc:compendium',
           text: t('compendium.iconGuide.lcpContentHint'),
         },
       ],
-    }
-  })
+    },
+  ])
 
-  function scrollTo(item: any) {
-    const el = document.getElementById(`${item}`)
+  function scrollTo(id: string) {
+    const el = document.getElementById(id)
     if (el) _scrollTo(el, props.isModal)
   }
 </script>

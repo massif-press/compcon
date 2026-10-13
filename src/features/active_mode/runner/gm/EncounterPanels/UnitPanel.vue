@@ -1,8 +1,5 @@
 <template>
-  <scan-menu
-    v-if="encounterInstance.PlayMode !== 'simple'"
-    :item="actor"
-  />
+  <scan-menu :item="actor" />
 
   <panel-base
     :item="actor"
@@ -41,6 +38,13 @@
 
     <template #actions>
       <npc-actions-panel @deploy="deploy($event)" />
+    </template>
+
+    <template #action-menu="{ tile }">
+      <npc-actions-panel
+        :tile="tile"
+        @deploy="deploy($event)"
+      />
     </template>
   </panel-base>
 </template>

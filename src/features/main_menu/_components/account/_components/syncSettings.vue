@@ -131,7 +131,7 @@
       block
       color="primary"
       class="mt-4 mx-6"
-      :loading="syncing"
+      :loading="syncing || storeSyncing"
       :disabled="!itemsPendingSync || cloudStorageFull"
       prepend-icon="mdi-sync"
       @click="runSync()"
@@ -189,6 +189,7 @@
   const settingsDirty = ref(false)
   const loadingSync = ref(false)
   const syncing = ref(false)
+  const storeSyncing = computed(() => UserStore().IsSyncing)
   const selectedItems = ref([] as string[])
   const forceCustom = ref(false)
 
@@ -301,6 +302,7 @@
     loadingSync.value = false
   }
   async function runSync(override?: 'upload' | 'download') {
+    if (UserStore().IsSyncing) return
     const total =
       override === 'upload'
         ? UserStore().SyncEligibleItems.filter(x => !x.IsCloudOnly).length

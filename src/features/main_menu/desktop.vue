@@ -96,7 +96,7 @@
               <cc-button
                 size="small"
                 :color="isLoggedIn ? 'success' : ''"
-                :loading="startingUp"
+                :loading="cloudBusy"
                 :prepend-icon="isLoggedIn ? 'mdi-cloud-sync' : 'mdi-cloud-off-outline'"
                 class="mr-2"
                 @click="open"
@@ -268,8 +268,8 @@
   const isLoggedIn = computed(() => {
     return UserStore().IsLoggedIn
   })
-  const startingUp = computed(() => {
-    return UserStore().IsLoading
+  const cloudBusy = computed(() => {
+    return UserStore().IsLoading || UserStore().IsSyncing
   })
   const hasV2Backups = computed(() => {
     return v2BackupCount.value > 0

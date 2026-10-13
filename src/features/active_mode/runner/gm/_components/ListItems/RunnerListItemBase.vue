@@ -49,7 +49,7 @@
                     "
                   />
                   <v-img
-                    v-if="portrait && layout.showPortraits"
+                    v-if="portrait"
                     height="100%"
                     :width="`${size.portrait}px`"
                     cover
@@ -102,14 +102,17 @@
                               class="text-no-wrap"
                             >
                               <v-icon
-                                v-if="layout.showIcon"
+                                v-if="layout.sidebarShowIcon"
                                 :size="size.statIcon"
                                 class="mx-1 mt-n1"
                                 :icon="stat.icon"
                               />
                               <span
-                                v-if="layout.showLabel"
-                                class="text-cc-overline text-disabled mr-1"
+                                :class="
+                                  layout.sidebarShowLabel
+                                    ? 'text-cc-overline text-disabled mr-1'
+                                    : 'd-sr-only'
+                                "
                               >
                                 {{ stat.title }}
                               </span>
@@ -153,14 +156,17 @@
                               class="text-no-wrap"
                             >
                               <v-icon
-                                v-if="layout.showIcon"
+                                v-if="layout.sidebarShowIcon"
                                 :size="size.statIcon"
                                 class="mx-1 mt-n1"
                                 :icon="stat.icon"
                               />
                               <span
-                                v-if="layout.showLabel"
-                                class="text-cc-overline text-disabled mr-1"
+                                :class="
+                                  layout.sidebarShowLabel
+                                    ? 'text-cc-overline text-disabled mr-1'
+                                    : 'd-sr-only'
+                                "
                               >
                                 {{ stat.title }}
                               </span>
@@ -226,7 +232,7 @@
 
                   <v-row
                     v-if="!infoless && actor.CombatController.Resistances.length > 0"
-                    :style="layout.showLabel ? '' : 'line-height: 0'"
+                    :style="layout.sidebarShowLabel ? '' : 'line-height: 0'"
                     no-gutters
                     justify="center"
                     class="text-center my-1"
@@ -241,23 +247,23 @@
                           v-bind="props"
                           class="align-center resist-mark"
                           :class="
-                            layout.showLabel
+                            layout.sidebarShowLabel
                               ? 'd-flex resist-block my-1'
                               : 'd-inline-flex flex-column justify-center mr-4'
                           "
                         >
                           <v-icon
-                            v-if="layout.showIcon"
+                            v-if="layout.sidebarShowIcon"
                             :icon="
                               isDamageType(damage.type)
                                 ? `cc:${damage.type.toLowerCase()}`
                                 : 'mdi-shield-outline'
                             "
-                            :class="[damageClass(damage), { 'mr-2': layout.showLabel }]"
+                            :class="[damageClass(damage), { 'mr-2': layout.sidebarShowLabel }]"
                             style="border-bottom-right-radius: 5px"
                           />
                           <span
-                            v-if="layout.showLabel"
+                            v-if="layout.sidebarShowLabel"
                             class="text-cc-overline resist-label flex-grow-1 text-start"
                             :class="damageClass(damage)"
                           >

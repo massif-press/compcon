@@ -17,6 +17,31 @@
       <template #item.Name="{ item }">
         {{ item.Name }}
         <v-menu
+          v-if="issuesFor(item).length"
+          :close-on-content-click="false"
+          location="bottom start"
+          max-width="500"
+        >
+          <template #activator="{ props }">
+            <v-chip
+              v-bind="props"
+              size="x-small"
+              class="ml-1"
+              variant="elevated"
+              prepend-icon="mdi-alert"
+              :color="item.Issues.length ? 'error' : 'warning'"
+              :title="$t('nav.packIssues.badgeTitle')"
+            >
+              {{ issuesFor(item).length }}
+            </v-chip>
+          </template>
+          <v-card>
+            <v-card-text>
+              <pack-issues :issues="issuesFor(item)" />
+            </v-card-text>
+          </v-card>
+        </v-menu>
+        <v-menu
           v-if="patchesFor(item).length"
           :close-on-content-click="false"
           location="bottom start"
@@ -183,6 +208,8 @@
   import { notify } from '@/util/notify'
   import { ContentPack } from '@/classes/ContentPack'
   import PackInfoCard from './components/PackInfoCard.vue'
+  import PackIssues from './components/PackIssues.vue'
+  import { collectIssues } from '@/io/ContentPackValidator'
   import { CompendiumStore, ContentPackStore } from '@/stores'
   import { LocalizationStore } from '@/stores/localization'
   import { packPatches, removePatch, patchIsStale } from '@/i18n/translationPatch'
@@ -219,6 +246,14 @@
       return a.Name.localeCompare(b.Name)
     })
   )
+
+  const issuesByPack = computed(
+    () => new Map(contentPacks.value.map(x => [x.Key, collectIssues(x.Issues, x.Data)]))
+  )
+
+  function issuesFor(pack: ContentPack) {
+    return issuesByPack.value.get(pack.Key) || []
+  }
 
   async function toggleActive(packID: string, state: boolean): Promise<void> {
     try {

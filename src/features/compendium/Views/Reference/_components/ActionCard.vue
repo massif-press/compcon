@@ -78,6 +78,9 @@
   import { ActivationType } from '@/classes/enums'
   import { CompendiumStore } from '@/stores'
   import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
 
   const subActivations: Record<string, ActivationType> = {
     act_jockey: ActivationType.Jockey,
@@ -104,7 +107,8 @@
     return activation ? CompendiumStore().Actions.filter(a => a.Activation === activation) : []
   })
   const exclusive = computed(() => {
-    if (props.action.IsPilotAction && !props.action.IsMechAction) return ' (Pilot Only)'
+    if (props.action.IsPilotAction && !props.action.IsMechAction)
+      return ` (${t('compendium.reference.pilotOnly')})`
     return ''
   })
 </script>

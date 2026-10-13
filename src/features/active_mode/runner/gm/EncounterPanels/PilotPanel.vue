@@ -51,6 +51,13 @@
       <pilot-actions-panel @deploy="deploy($event)" />
     </template>
 
+    <template #action-menu="{ tile }">
+      <pilot-actions-panel
+        :tile="tile"
+        @deploy="deploy($event)"
+      />
+    </template>
+
     <v-expansion-panels
       class="mt-2"
       multiple

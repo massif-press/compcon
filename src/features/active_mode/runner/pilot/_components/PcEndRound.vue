@@ -235,6 +235,7 @@
     return controller.value.HasRemainingActions
   })
   const remainingMovement = computed(() => {
+    if (!controller.value.TracksMovement) return 0
     return controller.value.StatController.getCurrent(StatKey.SPEED) || 0
   })
 

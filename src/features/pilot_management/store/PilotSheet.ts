@@ -90,7 +90,7 @@ class PilotSheet implements ISaveable, ICloudSyncable {
 
   public SetPlayMode(mode: PlayMode): void {
     this.PlayMode = mode
-    applyPlayMode(this.Combatant.actor, mode)
+    applyPlayMode(this.Combatant.actor, mode, this.Layout)
   }
 
   public get PilotID(): string {

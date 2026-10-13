@@ -51,6 +51,7 @@
   <deploy-button
     v-else-if="action.Deployable"
     action-only
+    :simple="inMenu"
     :deployable="toDeployable(action)"
     :actor="actor"
     @deploy="$emit('deploy', $event)"
@@ -59,12 +60,12 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
+  import { computed, inject } from 'vue'
   import type { Action } from '@/classes/Action'
   import type { CombatController } from '@/classes/components/combat/CombatController'
   import { Deployable } from '@/classes/components/feature/deployable/Deployable'
   import { useEncounterContext } from '../encounterContext'
-  import { isActionAvailable } from './actionPalette'
+  import { isActionAvailable, MenuButtonsKey } from './actionPalette'
   import DeployButton from './loadouts/_deployButton.vue'
   import ActionInfoButton from '@/ui/components/items/features/actions/_actionInfoButton.vue'
 
@@ -79,6 +80,7 @@
   defineEmits<{ deploy: [event: any] }>()
 
   const { simple } = useEncounterContext()
+  const inMenu = inject(MenuButtonsKey, false)
 
   const available = computed(() => isActionAvailable(props.controller, props.action))
 

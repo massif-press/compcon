@@ -251,7 +251,9 @@ const actionsPanel = computed(() => {
   return null
 })
 
-const speed = computed<number>(() => controller.value.StatController.CurrentStats['speed'] || 0)
+const speed = computed<number>(() =>
+  controller.value.TracksMovement ? controller.value.StatController.CurrentStats['speed'] || 0 : 0
+)
 const canMove = computed(() => controller.value.CanActivate('move'))
 const showBlockedMove = ref(false)
 const moveSpaces = ref(1)

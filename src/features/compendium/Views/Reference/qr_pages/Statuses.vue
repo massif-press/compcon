@@ -36,9 +36,9 @@
     >
       <v-tab
         v-for="item in content"
-        :key="item"
-        @click="scrollTo(item)"
-        v-text="item"
+        :key="item.id"
+        @click="scrollTo(item.id)"
+        v-text="$t(item.label)"
       />
     </v-tabs>
   </v-footer>
@@ -49,14 +49,14 @@
     color="primary"
     variant="plain"
     style="position: fixed; bottom: 35px; right: 0; margin: 8px; z-index: 999"
-    @click="scrollTo(content[0])"
+    @click="scrollTo(content[0].id)"
   >
     <v-icon size="30">mdi-arrow-up</v-icon>
   </v-btn>
 </template>
 
 <script setup lang="ts">
-  import { computed, ref } from 'vue'
+  import { computed } from 'vue'
   import { useDisplay } from 'vuetify'
   import _scrollTo from '@/util/scrollTo'
   import * as _ from 'lodash-es'
@@ -72,7 +72,10 @@
     isModal?: boolean
   }>()
 
-  const content = ref(['statuses', 'conditions'])
+  const content = [
+    { id: 'statuses', label: 'compendium.reference.statuses' },
+    { id: 'conditions', label: 'compendium.reference.statusConditions' },
+  ]
 
   const widescreen = computed(() => {
     return _display.xlAndUp.value
@@ -90,8 +93,8 @@
     )
   })
 
-  function scrollTo(item: any) {
-    const el = document.getElementById(`${item.replace(/\W/g, '')}`)
+  function scrollTo(id: string) {
+    const el = document.getElementById(id)
     if (el) _scrollTo(el, props.isModal)
   }
 </script>

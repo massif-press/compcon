@@ -92,7 +92,7 @@
   <v-row class="mb-3">
     <v-col>
       <cc-tickbar
-        v-if="item.StatController.MaxStats['speed']"
+        v-if="item.CombatController.TracksMovement && item.StatController.MaxStats['speed']"
         v-model="item.StatController.CurrentStats['speed']"
         color="primary"
         min-width="150px"

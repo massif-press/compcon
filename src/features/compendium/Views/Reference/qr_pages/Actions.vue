@@ -81,9 +81,9 @@
     >
       <v-tab
         v-for="item in content"
-        :key="item"
-        @click="scrollTo(item)"
-        v-text="item"
+        :key="item.id"
+        @click="scrollTo(item.id)"
+        v-text="$t(item.label)"
       />
     </v-tabs>
   </v-footer>
@@ -93,7 +93,7 @@
     color="primary"
     variant="plain"
     style="position: fixed; bottom: 35px; right: 0; margin: 8px; z-index: 999"
-    @click="scrollTo(content[0])"
+    @click="scrollTo(content[0].id)"
   >
     <v-icon size="30">mdi-arrow-up</v-icon>
   </v-btn>
@@ -116,7 +116,11 @@
     isModal?: boolean
   }>()
 
-  const content = ref(['mech actions', 'pilot actions', 'downtime actions'])
+  const content = [
+    { id: 'mechactions', label: 'compendium.reference.mechActions' },
+    { id: 'pilotactions', label: 'compendium.reference.pilotActions' },
+    { id: 'downtimeactions', label: 'compendium.categories.downtimeActions' },
+  ]
   const actionTypes = ref([
     { action: 'move', icon: 'mdi-arrow-right-bold-hexagon-outline' },
     { action: 'overcharge', icon: 'cc:overcharge' },
@@ -179,8 +183,8 @@
     return CompendiumStore().DowntimeActions
   })
 
-  function scrollTo(item: any) {
-    const el = document.getElementById(`${item.replace(/\W/g, '')}`)
+  function scrollTo(id: string) {
+    const el = document.getElementById(id)
     if (el) _scrollTo(el, props.isModal)
   }
 </script>

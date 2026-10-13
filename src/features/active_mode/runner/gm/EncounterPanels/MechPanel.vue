@@ -62,6 +62,14 @@
       />
     </template>
 
+    <template #action-menu="{ tile }">
+      <mech-actions-panel
+        :tile="tile"
+        :controller="mech.CombatController"
+        @deploy="deploy($event)"
+      />
+    </template>
+
     <v-expansion-panels
       class="mt-2"
       multiple

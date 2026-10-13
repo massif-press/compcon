@@ -36,7 +36,8 @@
             @select="selectActor($event)" />
         </div>
 
-        <v-main tabindex="0"
+        <v-main ref="mainEl"
+          tabindex="0"
           style="overflow-y: auto"
           :style="`padding-left:${mainLeftOffset}`">
           <runner-undo-bar>
@@ -119,6 +120,7 @@
       max-height="80vh"
       max-width="80vw">
       <gm-dice-roller :encounter-instance="instance"
+        :check="pendingCheck"
         :selected="selected"
         @close="diceDialog = false" />
     </v-dialog>
@@ -172,6 +174,7 @@ import CombatStatblockExport from './EncounterPanels/_components/CombatStatblock
 import ActorTelemetry from './EncounterPanels/_components/ActorTelemetry.vue'
 import RunnerLeaveDialog from '../_shared/_RunnerLeaveDialog.vue'
 import { consumeLeaveGuardBypass } from '../_shared/useRunnerOptions'
+import { provideRollCheck } from './EncounterPanels/encounterContext'
 import { useRunnerUndo } from '../_shared/useRunnerUndo'
 import RunnerUndoBar from '../_shared/_RunnerUndoBar.vue'
 import TurnWizard from '../_shared/TurnWizard.vue'
@@ -180,6 +183,7 @@ import {
   LayoutModeKey,
   LayoutTargetKey,
   seedActiveSettings,
+  targetLayout,
 } from '@/features/active_mode/layoutOptions'
 
 const panelMap: Record<string, any> = {
@@ -207,7 +211,9 @@ const route = useRoute()
 const router = useRouter()
 
 const selected = ref<any>(null)
+const mainEl = ref<any>(null)
 const diceDialog = ref(false)
+const pendingCheck = provideRollCheck(diceDialog)
 const wizardDialog = ref(false)
 const tableDialog = ref(false)
 const leaveDialog = ref(false)
@@ -295,8 +301,12 @@ async function sortBy(key: string) {
 }
 
 function selectActor(actor: any) {
+  const changed = actor?.id !== selected.value?.id
   selected.value = actor
   panel.value = undefined
+  if (!changed || !instance.value) return
+  if (targetLayout(instance.value, instance.value.PlayMode).scrollOnSelect === 'top')
+    mainEl.value?.$el?.scrollTo?.({ top: 0 })
 }
 
 function selectPanel(p: string) {

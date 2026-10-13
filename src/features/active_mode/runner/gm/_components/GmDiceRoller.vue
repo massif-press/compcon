@@ -315,8 +315,9 @@
 
 <script setup lang="ts">
   import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-  import { computed, ref } from 'vue'
+  import { computed, ref, watch } from 'vue'
   import { DiceRoller } from '@/classes/dice/DiceRoller'
+  import type { CheckType } from '@/classes/components/combat/stats/Stats'
   import { useI18n } from 'vue-i18n'
 
   const { t } = useI18n()
@@ -325,9 +326,11 @@
     defineProps<{
       selected?: { actor?: any } | false
       encounterInstance: EncounterInstance
+      check?: CheckType | null
     }>(),
     {
       selected: false,
+      check: null,
     }
   )
 
@@ -401,4 +404,12 @@
     if (history.length > 200) history.length = 200
     rollType.value = ''
   }
+
+  watch(
+    () => props.check,
+    type => {
+      if (type && actor.value) setCheck(type)
+    },
+    { immediate: true }
+  )
 </script>

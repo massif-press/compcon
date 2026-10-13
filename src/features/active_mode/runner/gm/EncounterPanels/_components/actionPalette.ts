@@ -1,3 +1,4 @@
+import type { InjectionKey } from 'vue'
 import type { Action } from '@/classes/Action'
 import type { ActivationType } from '@/classes/enums'
 import type { CombatController } from '@/classes/components/combat/CombatController'
@@ -43,6 +44,26 @@ export const TYPE_ORDER = [
 export const EXHAUSTIBLE = TYPE_ORDER.filter(t => t !== 'Free')
 
 export const MARKABLE = ['Quick', 'Full']
+
+export const MenuButtonsKey: InjectionKey<boolean> = Symbol('ActionMenuButtons')
+
+export type PaletteTile = 'protocol' | 'full' | 'quick' | 'reaction' | 'overcharge' | 'free'
+
+const TILE_TYPES: Record<string, string[]> = {
+  protocol: ['Protocol'],
+  full: ['Full', 'Full Tech', 'Jockey'],
+  quick: ['Quick', 'Quick Tech', 'Invade'],
+  reaction: ['Reaction'],
+}
+
+const TILED = Object.values(TILE_TYPES).flat()
+
+export function inTile(a: Action, tile: PaletteTile): boolean {
+  if (a.ID === 'act_overcharge') return tile === 'overcharge'
+  if (tile === 'overcharge') return false
+  if (tile === 'free') return !TILED.includes(a.Activation)
+  return TILE_TYPES[tile].includes(a.Activation)
+}
 
 export function isActionAvailable(controller: CombatController, a: Action): boolean {
   return (

@@ -163,6 +163,7 @@
     >
       <gm-dice-roller
         :encounter-instance="encounterInstance"
+        :check="pendingCheck"
         :selected="combatant"
         @close="diceDialog = false"
       />
@@ -219,6 +220,7 @@
   import PcEndEncounter from './_components/PcEndEncounter.vue'
   import RunnerLeaveDialog from '../_shared/_RunnerLeaveDialog.vue'
   import { consumeLeaveGuardBypass } from '../_shared/useRunnerOptions'
+  import { provideRollCheck } from '../gm/EncounterPanels/encounterContext'
   import { useRunnerUndo } from '../_shared/useRunnerUndo'
   import RunnerUndoBar from '../_shared/_RunnerUndoBar.vue'
   import TurnWizard from '../_shared/TurnWizard.vue'
@@ -247,6 +249,7 @@
   const showRight = ref(false)
   const panel = ref('pc')
   const diceDialog = ref(false)
+  const pendingCheck = provideRollCheck(diceDialog)
   const wizardDialog = ref(false)
   const endRoundDialog = ref(false)
   const tableDialog = ref(false)

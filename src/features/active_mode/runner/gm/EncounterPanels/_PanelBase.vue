@@ -131,6 +131,7 @@
               "
                 cols="auto">
                 <static-stat icon="mdi-star-four-points-outline"
+                  check="Grit"
                   :label="$t('active.panelBase.pilotGrit')"
                   :value="(item as any).Grit || (item as any).Parent?.Grit || 0" />
               </v-col>
@@ -141,6 +142,7 @@
                 <v-col v-else
                   cols="auto">
                   <static-stat :icon="stat.icon"
+                    :check="CHECK_STAT[stat.key]"
                     :label="stat.title"
                     :value="item.CombatController.StatController.MaxStats[stat.key] || 0" />
                   <cc-bonus :bonuses="getBonuses(stat.key)" />
@@ -162,19 +164,19 @@
               </v-col>
             </v-row>
 
-            <active-effect-panel v-if="!simple && item.CombatController.ActiveEffects.length"
+            <active-effect-panel v-if="layout.showActiveEffects && item.CombatController.ActiveEffects.length"
               :item="item" />
 
-            <v-row v-if="!hidePalette"
+            <v-row v-if="!hidePalette && (layout.showTurnStates || layout.showCover)"
               align="center"
               dense
               class="border-sm my-2"
               justify="space-evenly">
-              <v-col>
+              <v-col v-if="layout.showTurnStates">
                 <slot name="action-palette" />
               </v-col>
 
-              <v-col v-if="!simple"
+              <v-col v-if="layout.showCover"
                 cols="auto"
                 :class="mobile ? '' : 'ml-auto'"
                 align-self="center">
@@ -197,9 +199,16 @@
             <slot name="stat-block" />
             <div v-if="!noActions && item.CombatController.StatController.MaxStats['activations']">
               <combat-action-panel :controller="item.CombatController"
-                :hide-overcharge="item.ItemType !== 'mech'" />
+                :hide-overcharge="item.ItemType !== 'mech'">
+                <template v-if="$slots['action-menu']"
+                  #menu="{ tile }">
+                  <slot name="action-menu"
+                    :tile="tile" />
+                </template>
+              </combat-action-panel>
             </div>
-            <slot name="actions" />
+            <slot v-if="!menuActions"
+              name="actions" />
 
             <div v-if="!noConditions"
               :class="`mt-${layout.padX * 2}`">
@@ -258,7 +267,7 @@
 
 <script setup lang="ts">
 import { useEncounterContext } from './encounterContext'
-import { computed, markRaw, ref } from 'vue'
+import { computed, markRaw, ref, useSlots } from 'vue'
 import { useDisplay } from 'vuetify'
 import ImageCrop from '@/ui/components/selectors/components/_ImageCrop.vue'
 import { PilotStore } from '@/features/pilot_management/store'
@@ -281,7 +290,7 @@ import TrackableStatsComplex from './_components/TrackableStatsComplex.vue'
 import TrackableStatsSimple from './_components/TrackableStatsSimple.vue'
 import { ICombatant } from '@/classes/components/combat/ICombatant'
 import { PilotStatus, NpcStatus, MechStatus } from '@/classes/enums'
-import { Stats } from '@/classes/components/combat/stats/Stats'
+import { Stats, CHECK_STAT } from '@/classes/components/combat/stats/Stats'
 import { useLayoutOptions, filterStats } from '@/features/active_mode/layoutOptions'
 
 const _TrackableStatsComplex = markRaw(TrackableStatsComplex)
@@ -381,6 +390,15 @@ const props = withDefaults(
     noConditions: false,
     onePanel: false,
   }
+)
+
+const slots = useSlots()
+const menuActions = computed(
+  () =>
+    layout.value.actionGrouping === 'menus' &&
+    !props.noActions &&
+    !!props.item.CombatController.StatController.MaxStats['activations'] &&
+    !!slots['action-menu']
 )
 
 const xlPanels = computed(() => {

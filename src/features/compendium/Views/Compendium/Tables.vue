@@ -34,10 +34,11 @@
   import { useDisplay } from 'vuetify'
   import { CompendiumStore } from '@/stores'
   import { sortBy } from 'lodash-es'
+  import { localizeTable } from '@/i18n/localize'
 
   const { smAndDown: mobile, xs: portrait } = useDisplay()
 
   const tables = computed(() => {
-    return sortBy(CompendiumStore().Tables, 'LcpName', 'Title').reverse()
+    return sortBy(CompendiumStore().Tables.map(localizeTable), 'LcpName', 'Title').reverse()
   })
 </script>

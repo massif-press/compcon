@@ -104,12 +104,12 @@ export const PilotStore = defineStore('pilot', {
       }
 
       await PilotGroupStore().TransferPilot(pilot, groupID)
-      await this.SavePilotData()
+      await this.SavePilotData([pilot.ID])
     },
     async SetPilot(index: number, pilot: Pilot): Promise<void> {
       if (!this.Pilots[index]) return
       this.Pilots.splice(index, 1, pilot)
-      await this.SavePilotData()
+      await this.SavePilotData([pilot.ID])
     },
     async ClonePilot(payload: Pilot): Promise<void> {
       await this.AddPilot(payload.Clone(), PilotGroupStore().getGroupByPilotID(payload.ID)?.ID)
@@ -144,9 +144,10 @@ export const PilotStore = defineStore('pilot', {
     async SavePilotData(pilotIds?: string[]): Promise<void> {
       try {
         const groups = PilotGroupStore().PilotGroups
+        const pilotsById = new Map(this.Pilots.map(p => [p.ID, p]))
         groups.forEach(group => {
           group.Pilots.forEach((pi, idx) => {
-            const p = this.Pilots.find(p => p.ID === pi.id)
+            const p = pilotsById.get(pi.id)
             if (p) p.SortIndex = idx
           })
         })

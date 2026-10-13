@@ -2,8 +2,6 @@ import { defineStore } from 'pinia'
 import { SetItem, RemoveItem, GetAll, saveAll } from '@/io/Storage'
 
 import { Campaign, ICampaignData } from '@/classes/campaign/Campaign'
-import { cloudDelete } from '@/io/apis/account'
-import { UserStore } from '@/stores'
 import { NavStore } from '@/stores/nav'
 import { CloudController } from '@/classes/components/cloud/CloudController'
 import logger from '@/user/logger'
@@ -61,7 +59,7 @@ export const CampaignStore = defineStore('campaign', {
         this.Campaigns.push(payload)
       }
       NavStore().updateCampaignEntry(payload)
-      await this.SaveCampaigns()
+      await this.SaveCampaign(payload)
     },
     async AddCollectionCampaign(payload: ICampaignData): Promise<void> {
       if (this.CampaignCollection.find(x => x.id === payload.id)) {

@@ -259,6 +259,14 @@
           >
             <pack-info :pack="contentPack" />
             <v-alert
+              v-if="issuesFor(contentPack).length"
+              flat
+              tile
+              color="warning"
+            >
+              <pack-issues :issues="issuesFor(contentPack)" />
+            </v-alert>
+            <v-alert
               v-show="packAlreadyInstalled(contentPack) && !installing"
               flat
               tile
@@ -336,7 +344,9 @@
   import { validatePatch } from '@/i18n/validatePatch'
   import { CompendiumStore, ContentPackStore } from '@/stores'
   import PackInfo from './PackInfo.vue'
+  import PackIssues from './components/PackIssues.vue'
   import { IContentPack, ContentPackDependency } from '@/classes/ContentPack'
+  import { collectIssues } from '@/io/ContentPackValidator'
   import { compare, coerce } from 'semver'
   import logger from '@/user/logger'
   import { notify } from '@/util/notify'
@@ -350,6 +360,24 @@
   const contentPacks = ref<IContentPack[]>([])
   const stagedPatches = ref<LanguagePatch[]>([])
   const error = ref('')
+
+  const stagedIssues = computed(
+    () =>
+      new Map(
+        contentPacks.value.map(pack => [
+          pack.id,
+          collectIssues(
+            [],
+            pack.data,
+            contentPacks.value.filter(x => x !== pack).map(x => x.data)
+          ),
+        ])
+      )
+  )
+
+  function issuesFor(pack: IContentPack) {
+    return stagedIssues.value.get(pack.id) || []
+  }
 
   const hasAlreadyInstalled = computed(() =>
     contentPacks.value.some(pack => packAlreadyInstalled(pack))
@@ -441,6 +469,11 @@
       }
     } catch (err) {
       logger.error(`Error reading file: ${err}`, null, err)
+      notify({
+        title: t('common.error'),
+        text: t('notify.lcp.readErrorText', { file: file.name, error: String(err) }),
+        color: 'error',
+      })
     }
   }
 
@@ -496,7 +529,23 @@
     contentPacks.value = resolveInstallable(contentPacks.value)
     contentPacks.value = orderByDependencies(contentPacks.value)
 
-    ContentPackStore().installContentPacks(contentPacks.value)
+    await ContentPackStore().installContentPacks(contentPacks.value)
+
+    for (const staged of contentPacks.value) {
+      const installed = CompendiumStore().ContentPacks.find(x => x.ID === staged.id)
+      if (installed && !installed.Issues.length) continue
+      notify({
+        title: t('common.error'),
+        text: installed
+          ? t(
+              'notify.lcp.installSkippedText',
+              { pack: staged.manifest.name, count: installed.Issues.length },
+              installed.Issues.length
+            )
+          : t('notify.lcp.installErrorText', { pack: staged.manifest.name }),
+        color: 'error',
+      })
+    }
 
     for (const patch of stagedPatches.value) {
       try {

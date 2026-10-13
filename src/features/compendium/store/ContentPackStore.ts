@@ -6,6 +6,16 @@ import { GetItem, GetKeys, RemoveItem, SetItem } from '@/io/Storage'
 import { NavStore } from '@/stores/nav'
 import logger from '@/user/logger'
 
+function logIssues(pack: ContentPack): void {
+  if (!pack.Issues.length) return
+  const items = pack.Issues.slice(0, 5)
+    .map(x => `${x.collection}/${x.item}`)
+    .join(', ')
+  logger.error(
+    `Content pack ${pack.Name} loaded with ${pack.Issues.length} invalid item(s) skipped: ${items}`
+  )
+}
+
 export const ContentPackStore = defineStore('content_packs', {
   state: () => ({
     ContentPacks: [] as ContentPack[],
@@ -38,7 +48,9 @@ export const ContentPackStore = defineStore('content_packs', {
         }
 
         try {
-          this.ContentPacks.push(markRaw(new ContentPack(c)))
+          const pack = markRaw(new ContentPack(c))
+          logIssues(pack)
+          this.ContentPacks.push(pack)
         } catch (err) {
           logger.error(
             `Error loading content pack ${c?.manifest?.name || c?.id}: ${err}`,
@@ -60,6 +72,7 @@ export const ContentPackStore = defineStore('content_packs', {
       }
       try {
         const pack = markRaw(new ContentPack(packData))
+        logIssues(pack)
         this.ContentPacks = [...this.ContentPacks, pack]
       } catch (err) {
         logger.error(
@@ -84,6 +97,7 @@ export const ContentPackStore = defineStore('content_packs', {
             await this.deleteContentPack(packData.id, true)
           }
           const pack = markRaw(new ContentPack(packData))
+          logIssues(pack)
           pack.SetActive(true)
           this.ContentPacks.push(pack)
           NavStore().addToIndex(pack.GetIndexItems())

@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { CloudController, DbItemMetadata } from '@/classes/components/cloud/CloudController'
+import { forEachPooled } from '@/classes/components/cloud/CloudSyncOrchestrator'
 import type { ICloudSyncable } from '@/classes/components/cloud/ICloudSyncable'
 import { normalizeItemType } from '@/classes/components/cloud/ItemTypeMap'
 import { setSyncTimer as setSyncTimerService } from './SyncService'
@@ -163,19 +164,26 @@ export const SyncStore = defineStore('sync', {
           : this.AllItemsToSync
       const failures: any[] = []
 
-      if (overrideTo === 'download') {
-        for (const item of items) {
-          try {
-            if (item.IsCloudOnly) {
-              await CloudController.ForceDownload(item)
-            } else {
-              await item.CloudController.syncFromCloud()
-            }
-          } catch (e) {
-            logger.error('AutoSync force-download error:', e)
-            failures.push({ item, error: e })
-          }
+      const pull = async (item: SyncableItem) => {
+        try {
+          if (item.IsCloudOnly) await CloudController.ForceDownload(item)
+          else await item.CloudController.syncFromCloud()
+        } catch (e) {
+          logger.error('AutoSync pull error:', e)
+          failures.push({ item, error: e })
         }
+      }
+      const pullAll = async (list: SyncableItem[]) => {
+        const isGroup = (x: SyncableItem) => normalizeItemType(x.ItemType) === 'pilotgroup'
+        for (const item of list.filter(isGroup)) await pull(item)
+        await forEachPooled(
+          list.filter(x => !isGroup(x)),
+          pull
+        )
+      }
+
+      if (overrideTo === 'download') {
+        await pullAll(items)
       } else if (overrideTo === 'upload') {
         try {
           const batchFailures = await CloudController.BatchUpdateCloud(
@@ -188,37 +196,13 @@ export const SyncStore = defineStore('sync', {
           items.forEach(item => failures.push({ item, error: e }))
         }
       } else {
-        const cloudOnly = items.filter(x => x.IsCloudOnly)
+        await pullAll(items.filter(x => x.IsCloudOnly))
+
         const localItems = items.filter(x => !x.IsCloudOnly)
+        const toMerge = localItems.filter(x => x.CloudController.serverVersionChanged)
+        const toUpload = localItems.filter(x => !x.CloudController.serverVersionChanged)
 
-        for (const item of cloudOnly) {
-          try {
-            await CloudController.ForceDownload(item)
-          } catch (e) {
-            logger.error('AutoSync cloud-only download error:', e)
-            failures.push({ item, error: e })
-          }
-        }
-
-        const toMerge: any[] = []
-        const toUpload: any[] = []
-
-        for (const item of localItems) {
-          if (item.CloudController.serverVersionChanged) {
-            toMerge.push(item)
-          } else {
-            toUpload.push(item)
-          }
-        }
-
-        for (const item of toMerge) {
-          try {
-            await item.CloudController.syncFromCloud()
-          } catch (e) {
-            logger.error('AutoSync merge error:', e)
-            failures.push({ item, error: e })
-          }
-        }
+        await pullAll(toMerge)
 
         if (toUpload.length > 0) {
           try {
@@ -234,16 +218,16 @@ export const SyncStore = defineStore('sync', {
       }
 
       const remoteStore = RemoteItemStore()
-      for (const item of this.AllRemoteItems) {
+      await forEachPooled([...this.AllRemoteItems], async item => {
         const code = (item as any).SaveController?.RemoteCode
-        if (code && remoteStore.BrokenRemoteCodes.includes(code)) continue
+        if (code && remoteStore.BrokenRemoteCodes.includes(code)) return
         try {
           await CloudController.UpdateRemote(item)
         } catch (e) {
           logger.error('AutoSync remote update error:', e)
           failures.push({ item, error: e })
         }
-      }
+      })
 
       await CloudDataStore().setMetadataFromDynamo()
 

@@ -78,6 +78,9 @@ export default async function (skipSync = false): Promise<void> {
     UserStore().refreshV2BackupIds(),
   ])
 
+  AchievementManager.Instantiate()
+  UserStore().IsLoading = false
+
   if (UserStore().IsLoggedIn) {
     try {
       await UserStore().AutoSync(undefined, true, skipSync)
@@ -148,8 +151,4 @@ export default async function (skipSync = false): Promise<void> {
       window.addEventListener('pagehide', () => UserStore().OnUnload())
     }
   }
-
-  AchievementManager.Instantiate()
-
-  UserStore().IsLoading = false
 }

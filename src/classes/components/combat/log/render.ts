@@ -1,5 +1,6 @@
 import { ActivationType } from '@/classes/enums'
-import { slug } from '@/i18n/contentKeys.mjs'
+import { slug, tableRowPrefix } from '@/i18n/contentKeys.mjs'
+import { localize } from '@/i18n/localize'
 import { defenseLabel } from '@/i18n/enumLabel'
 import { LOG_EVENT_KEYS, resolveActor } from './events'
 import { fromEventStatus } from './outcome'
@@ -167,7 +168,9 @@ function renderBody(event: ILogEvent, stream: StreamContext, t: Translate): stri
         who,
         dice: p.dice?.join(', ') ?? '',
         lowest: p.lowest,
-        row: p.row ?? '',
+        row: p.row
+          ? localize(tableRowPrefix(p.table, { title: p.row, min: 0, max: 0 }), 'title', p.row)
+          : '',
       })
 
     case 'status.gain':

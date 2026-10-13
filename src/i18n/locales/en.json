@@ -669,6 +669,16 @@
       "missingDependencies": "This pack is missing one or more dependencies and cannot be activated.",
       "packActive": "Active"
     },
+    "packIssues": {
+      "badgeTitle": "Content pack data problems",
+      "skippedCount": "{count} item could not be loaded and was skipped. | {count} items could not be loaded and were skipped.",
+      "warningCount": "{count} data problem may cause incorrect behavior. | {count} data problems may cause incorrect behavior.",
+      "loadError": "Failed to load: {detail}",
+      "invalidField": "Missing or invalid field: {field}",
+      "unknownValue": "Unrecognized {field} value: {value}",
+      "notArray": "File contents are not a list. Nothing in it was loaded.",
+      "authorHint": "These problems are in the content pack's data and can only be fixed by its author."
+    },
     "v2ImportNotify": {
       "reimportSuccessText": "{count} item imported successfully. | {count} items imported successfully.",
       "reimportPendingText": "{count} item still pending missing content. | {count} items still pending missing content.",
@@ -1585,7 +1595,8 @@
       "resistances": "Resistances",
       "statusesConditions": "Statuses/Conditions",
       "counters": "Counters",
-      "pilotGrit": "Pilot Grit"
+      "pilotGrit": "Pilot Grit",
+      "rollCheck": "Roll {stat} check"
     },
     "damageMenu": {
       "takeDamage": "Take Damage",
@@ -1932,6 +1943,7 @@
         "iconText": "Icons with text",
         "text": "Text only"
       },
+      "sidebarLabels": "Initiative Sidebar Labels",
       "density": "Density",
       "densities": {
         "compact": "Compact",
@@ -1948,7 +1960,8 @@
       "actionGroupings": {
         "none": "No Grouping",
         "standard": "Standard",
-        "byType": "By Action Type"
+        "byType": "By Action Type",
+        "menus": "Action Menus"
       },
       "statSet": "Stat Display",
       "statSets": {
@@ -1959,9 +1972,30 @@
       "columnsLabel": "Split panels into columns",
       "content": "Content",
       "showPortraits": "Show portraits",
-      "showPortraitsTooltip": "Hide combatant portrait images to fit more information on screen.",
+      "showPortraitsTooltip": "Hide portrait images on combatant panels to fit more information on screen. The initiative sidebar is not affected.",
       "showFlavor": "Show flavor text",
       "showFlavorTooltip": "Show descriptive and lore text on equipment and feature cards. Turn off for a rules-only view.",
+      "showTurnStates": "Show turn state toggles",
+      "showTurnStatesTooltip": "Show the Mounted, Braced, Overwatch and Prepared toggles on combatant panels.",
+      "showCover": "Show cover",
+      "showCoverTooltip": "Show the cover selector on combatant panels.",
+      "showActiveEffects": "Show active effects",
+      "showActiveEffectsTooltip": "Show the active effects granted by equipment, talents and traits on combatant panels.",
+      "showActionDetails": "Show action details",
+      "showActionDetailsTooltip": "Show the full rules text of each action and deployable directly on equipment and feature cards.",
+      "trackMovement": "Track movement",
+      "trackMovementTooltip": "Track movement spent each turn. When off, movement is not managed and is not flagged at the end of a turn.",
+      "scrollOnSelect": "When Selecting a Combatant",
+      "scrollModes": {
+        "top": "Return to top",
+        "keep": "Keep scroll position"
+      },
+      "sectionDisplay": "Display",
+      "sectionActions": "Actions",
+      "sectionBehavior": "Behavior",
+      "saveAsDefault": "Save as My Default",
+      "saveAsDefaultTooltip": "Use this layout as the starting layout for new encounters and pilot sheets in this play mode.",
+      "savedAsDefault": "Layout saved as your default.",
       "resetToDefault": "Reset to Default"
     },
     "pcEndEncounter": {
@@ -3326,6 +3360,7 @@
       "damageTables": "Damage Tables",
       "mechActions": "Mech Actions",
       "pilotActions": "Pilot Actions",
+      "pilotOnly": "Pilot Only",
       "perTurn": "Per Turn",
       "fullAction": "Full Action",
       "or": "or",
@@ -3384,12 +3419,12 @@
       "reference": "Reference",
       "eidolonLayers": "Eidolon Layers",
       "pilotBackgrounds": "Pilot Backgrounds",
-      "referencePilots": "Reference: Pilots",
-      "referenceMechs": "Reference: Mechs",
-      "referenceCombat": "Reference: Combat",
-      "referenceNarrativePlay": "Reference: Narrative Play",
-      "referenceErrata": "Reference: Errata",
-      "referenceGlossary": "Reference: Glossary",
+      "referencePilots": "Pilots",
+      "referenceMechs": "Mechs",
+      "referenceCombat": "Combat",
+      "referenceNarrativePlay": "Narrative Play",
+      "referenceErrata": "Errata",
+      "referenceGlossary": "Glossary",
       "lists": "Lists"
     },
     "campaignBookshelf": {
@@ -3423,7 +3458,35 @@
       "blastAreaOfEffect": "\"Blast\" Area of Effect",
       "lineAreaOfEffect": "\"Line\" Area of Effect",
       "coneAreaOfEffect": "\"Cone\" Area of Effect",
-      "lcpContentHint": "Denotes content added by a Lancer Content Pack (.lcp) file"
+      "lcpContentHint": "Denotes content added by a Lancer Content Pack (.lcp) file",
+      "damageTypes": "Damage Types",
+      "rangeAttackTypes": "Range / Attack Types",
+      "trackedStats": "Tracked Stats",
+      "itemTypes": "Item Types",
+      "other": "Other",
+      "kineticDamage": "Kinetic Damage",
+      "energyDamage": "Energy Damage",
+      "explosiveDamage": "Explosive Damage",
+      "variableOrOther": "Variable/Other",
+      "meleeAttack": "Melee Attack",
+      "rangedAttack": "Ranged Attack",
+      "reactorStress": "Reactor Stress",
+      "saveRoll": "Save Roll",
+      "systemPoint": "System Point",
+      "quickAction": "Quick Action",
+      "freeAction": "Free Action",
+      "weaponMod": "Weapon Mod",
+      "trait": "Trait",
+      "coreBonus": "Core Bonus",
+      "talent": "Talent",
+      "skillTrigger": "Skill Trigger",
+      "reserveTactical": "Reserve (Tactical)",
+      "reserveMech": "Reserve (Mech)",
+      "reserveResource": "Reserve (Resource)",
+      "vehicle": "Vehicle",
+      "ship": "Ship",
+      "biological": "Biological",
+      "squad": "Squad"
     },
     "searchBar": {
       "searchTheCompendium": "Search the Compendium",
@@ -4228,6 +4291,9 @@
     },
     "lcp": {
       "removedInvalidVersionText": "Removed {name} from import -- invalid version string breaks semver",
+      "readErrorText": "Unable to read {file}: {error}",
+      "installErrorText": "Unable to install {pack}. See the error log for details.",
+      "installSkippedText": "{pack}: {count} item could not be loaded and was skipped. | {pack}: {count} items could not be loaded and were skipped.",
       "lcpUpdatedTitle": "LCP Updated",
       "lcpUpdatedText": "The latest version of {pack} has been downloaded and installed.",
       "lcpUpdateErrorTitle": "Error Updating LCP",

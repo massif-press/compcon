@@ -142,6 +142,7 @@
     class="mb-3"
   >
     <v-col
+      v-if="item.CombatController.TracksMovement"
       cols="12"
       md=""
     >

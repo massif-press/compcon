@@ -80,7 +80,10 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
   }
 
   function generateIDs<T extends ICompendiumItemData>(data: T[], dataPrefix: string): T[] {
-    return data.map(x => ({ ...x, id: x.id || generateItemID(dataPrefix, x.name) }))
+    if (!Array.isArray(data)) return data
+    return data.map(x =>
+      x?.id || typeof x?.name !== 'string' ? x : { ...x, id: generateItemID(dataPrefix, x.name) }
+    )
   }
 
   const files = await getZipFiles(zip)

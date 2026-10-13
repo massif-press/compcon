@@ -26,6 +26,7 @@ export const ALLOWLIST = {
   talents: ['name', 'terse', 'description'],
   weapons: ['name', 'description', 'effect'],
   downtime_actions: ['name', 'terse', 'detail'],
+  tables: ['title', 'description'],
 }
 
 export const LCP_FIELDS = {
@@ -51,6 +52,19 @@ export function bondPowerEntries(power, origin = power.origin) {
     `${bondPowerPrefix(origin, power.name)}.${f}`,
     String(power[f]),
   ])
+}
+
+export function tableRowPrefix(tableId, row) {
+  const s = row.title ? slug(row.title) : 'x'
+  return `${tableId}.row_${s === 'x' ? `${row.min}_${row.max}` : s}`
+}
+
+export function tableRowEntries(table) {
+  return (table.results ?? []).flatMap(row =>
+    ['title', 'result']
+      .filter(f => row[f] != null && String(row[f]).trim())
+      .map(f => [`${tableRowPrefix(table.id, row)}.${f}`, String(row[f])])
+  )
 }
 
 export function bondEntries(bond) {

@@ -26,3 +26,10 @@ export function bondPowerPrefix(origin: unknown, name: unknown): string
 export function bondPowerEntries(power: any, origin?: string): Array<[string, string]>
 
 export function bondEntries(bond: any): Array<[string, string]>
+
+export function tableRowPrefix(
+  tableId: string,
+  row: { title?: string; min: number; max: number }
+): string
+
+export function tableRowEntries(table: any): Array<[string, string]>

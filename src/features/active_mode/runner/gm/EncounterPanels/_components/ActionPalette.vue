@@ -1,8 +1,8 @@
 <template>
-  <div :class="grouping === 'none' ? 'mt-4' : 'mt-1'">
-    <div v-if="grouping === 'none' || hiding"
+  <div :class="tile ? '' : grouping === 'none' ? 'mt-4' : 'mt-1'">
+    <div v-if="(grouping === 'none' && !tile) || hiding"
       class="d-flex align-center mb-n2">
-      <div v-if="grouping === 'none'"
+      <div v-if="grouping === 'none' && !tile"
         class="text-cc-overline text-disabled mb-2">
         {{ $t('active.runner.allActions') }}
       </div>
@@ -19,8 +19,8 @@
       <v-col v-for="e in shown"
         :key="entryKey(e)"
         cols="12"
-        sm="6"
-        md="4">
+        :sm="tile ? 12 : 6"
+        :md="tile ? 12 : 4">
         <action-palette-item :action="e.action"
           :controller="controller"
           :actor="actor"
@@ -147,7 +147,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, provide, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { CombatController } from '@/classes/components/combat/CombatController'
 import { enumLabel } from '@/i18n/enumLabel'
@@ -158,6 +158,8 @@ import { useLayoutOptions } from '@/features/active_mode/layoutOptions'
 import { useEncounterContext } from '../encounterContext'
 import {
   groupByActivation,
+  inTile,
+  MenuButtonsKey,
   isActionAvailable,
   isActionLegal,
   entryKey,
@@ -168,6 +170,7 @@ import {
   standardRows,
   type PaletteActionIds,
   type PaletteEntry,
+  type PaletteTile,
 } from './actionPalette'
 import ActionPaletteItem from './ActionPaletteItem.vue'
 import UnavailableToggle from './loadouts/action_buttons/_unavailableToggle.vue'
@@ -179,6 +182,7 @@ const props = defineProps<{
   actor: any
   ids: PaletteActionIds
   weaponActions?: boolean
+  tile?: PaletteTile
 }>()
 
 defineEmits<{ deploy: [event: any] }>()
@@ -188,7 +192,11 @@ const { t } = useI18n()
 const { simple, wizard } = useEncounterContext()
 const { layout } = useLayoutOptions()
 
-const grouping = computed(() => (wizard ? 'byType' : layout.value.actionGrouping))
+provide(MenuButtonsKey, !!props.tile)
+
+const grouping = computed(() =>
+  props.tile ? 'none' : wizard ? 'byType' : layout.value.actionGrouping
+)
 const hiding = computed(() => simple.value || wizard)
 const showUnavailable = ref(false)
 
@@ -199,7 +207,9 @@ const entries = computed(() =>
   [
     ...(props.weaponActions ? weaponEntries(props.controller, actionById.value) : []),
     ...paletteEntries(props.controller, props.ids, simple.value, actionById.value),
-  ].filter(e => !wizard || e.action.ID !== 'act_self_destruct')
+  ]
+    .filter(e => !wizard || e.action.ID !== 'act_self_destruct')
+    .filter(e => !props.tile || inTile(e.action, props.tile))
 )
 const availableEntries = computed(() =>
   entries.value.filter(e =>
