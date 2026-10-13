@@ -1,6 +1,6 @@
 <template>
   <srd-view
-    :title="$t('compendium.reference.combat')"
+    :title="$t('compendium.shared.referenceCombat')"
     :content="combat"
     :pre-scroll="preScroll"
   />

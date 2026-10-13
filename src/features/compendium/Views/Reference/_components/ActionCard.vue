@@ -108,7 +108,7 @@
   })
   const exclusive = computed(() => {
     if (props.action.IsPilotAction && !props.action.IsMechAction)
-      return ` (${t('compendium.reference.pilotOnly')})`
+      return ` (${t('pm.statblockDialog.pilotOnly')})`
     return ''
   })
 </script>

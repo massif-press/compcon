@@ -901,7 +901,7 @@
       "allAvailableFeatures": "Todas las Características Disponibles",
       "allAssignedFeatures": "Todas las Características Asignadas",
       "selectedClass": "Clase seleccionada",
-      "selectedTemplate": "Plantilla seleccionada | Plantillas seleccionadas | Plantillas seleccionadas",
+      "selectedTemplate": "Plantilla seleccionada | Plantillas seleccionadas | Plantillas seleccionadas | Plantillas seleccionadas",
       "otherNpcClasses": "Otras Clases de PNJ",
       "otherNpcTemplates": "Otras Plantillas de PNJ",
       "otherFeatures": "Otras Características",
@@ -3450,7 +3450,7 @@
       "modification": "Modificación",
       "canBeAppliedTo": "Puede ser aplicado a",
       "weaponAttacks": "Esta arma puede hacer {count} ataques a la vez. Se pueden realizar múltiples ataques contra el mismo o diferentes objetivos.",
-      "systemPoints": "Punto de sistema | Puntos de sistema | Puntos de sistema",
+      "systemPoints": "Punto de sistema | Puntos de sistema | Puntos de sistema | Puntos de sistema",
       "kit": "Kit"
     },
     "combat": {

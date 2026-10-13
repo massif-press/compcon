@@ -209,10 +209,10 @@ const routes = [
     path: 'compendium/glossary',
     component: Glossary,
     searchData: {
-      title: 'compendium.reference.glossary',
+      title: 'compendium.shared.referenceGlossary',
       icon: 'mdi-book-variant',
     },
-    meta: { title: 'compendium.reference.glossary' },
+    meta: { title: 'compendium.shared.referenceGlossary' },
   },
   {
     path: 'compendium/reserves',
@@ -302,10 +302,10 @@ const routes = [
     component: Pilots,
     props: route => ({ preScroll: route.query.preScroll }),
     searchData: {
-      title: 'compendium.shared.referencePilots',
+      title: 'common.pilots',
       icon: 'mdi-book-open-variant-outline',
     },
-    meta: { title: 'compendium.shared.referencePilots' },
+    meta: { title: 'common.pilots' },
   },
   {
     path: 'reference/mechs',

@@ -12,7 +12,7 @@
     "search": "Rechercher",
     "add": "Ajouter",
     "yes": "Oui",
-    "submit": "Soumettre",
+    "submit": "Valider",
     "editAction": "Modifier",
     "resetAction": "Réinitialiser",
     "continue": "Continuer",
@@ -57,7 +57,7 @@
     "lcpDirectory": "Répertoire des LCP",
     "addContent": "Ajouter un contenu",
     "updateAll": "Tout mettre à jour",
-    "deletePilot": "Effacer le pilote",
+    "deletePilot": "Supprimer le pilote",
     "about": "À propos",
     "addName": "Ajouter {name}",
     "armorBonus": "Bonus de blindage",
@@ -67,7 +67,7 @@
     "overcharge": "Surmener le réacteur",
     "overshield": "Surarmure",
     "pilotSheet": "Fiche de pilote",
-    "removeName": "Enlever {name}",
+    "removeName": "Retirer {name}",
     "reserves": "Réserves tactiques",
     "setCustomDescription": "Saisir une description personnalisée",
     "setCustomName": "Saisir un nom personnalisé",
@@ -132,7 +132,7 @@
     "changelog": "Nouveautés",
     "alert": "Alerte",
     "ok": "Ok",
-    "skipToMainContent": "Sauter jusqu'au contenu principal",
+    "skipToMainContent": "Avancer jusqu'au contenu principal",
     "pilotGroup": "Groupe de pilotes",
     "statsLabel": "Caractéristiques",
     "appShortName": "C/C",
@@ -150,7 +150,7 @@
     "created": "Créé le",
     "logLevel": "Filtre de journal",
     "pilotTalents": "Talents de pilote",
-    "sensorRange": "Portée de capteurs",
+    "sensorRange": "Portée des capteurs",
     "pilotSkillTriggers": "Spécialités de pilote",
     "pilotTalent": "Talent de pilote",
     "all": "Tout",
@@ -207,7 +207,14 @@
     "reportedAppearances": "Apparitions signalées",
     "hints": "Indices",
     "rules": "Règles",
-    "tactics": "Tactiques"
+    "tactics": "Tactiques",
+    "status": "Statut",
+    "destroyed": "Détruit",
+    "equipmentNotes": "Notes d'équipement",
+    "selectTarget": "Sélectionner une cible",
+    "deselectAll": "Tout déselectionner",
+    "updated": "Mis à jour",
+    "none": "Aucun"
   },
   "gm": {
     "import": {
@@ -566,7 +573,8 @@
     "selectLanguage": "Langue",
     "components": {
       "ui": "Interface",
-      "lancer-data": "Compendium"
+      "lancer-data": "Compendium",
+      "lancer-srd": "Référentiel de règles"
     },
     "experimentalNote": "Les traductions sont réalisées par la communauté et sont un travail en cours. Des phrases peuvent ne pas être traduites ou présenter des incohérences."
   },
@@ -590,8 +598,8 @@
     "newEnvironmentDescription": "Un nouvel environnement",
     "unknownLicense": "Licence inconnue",
     "newDoodad": "Nouveau bidule",
-    "aStandardEnvironmentWithNoSpecial": "Un environnement standard avec aucune particularité spéciale de combat",
-    "standardEncounterDescription": "Une simple affaire, avec deux camps l'un contre l'autre jusqu'à ce que l'un d'entre eux soit vaincu ou détruit.",
+    "aStandardEnvironmentWithNoSpecial": "Un environnement standard sans particularité d'affrontement",
+    "standardEncounterDescription": "Une simple affaire, avec deux camps l'un contre l'autre jusqu'à ce que l'un d'eux soit vaincu ou détruit.",
     "titlePage": "Titre de page",
     "contributors": "Contributeurs"
   },
@@ -622,16 +630,16 @@
       "compendium": "@:{'common.compendium'}",
       "pilotManagement": "Gestion de pilote",
       "activeMode": "@:{'common.activeMode'}",
-      "storageLimitReachedNotice": "Aucun nouvel élément ne sera sauvegardé avant que la limite ne soit augmenté ou des données supprimées",
+      "storageLimitReachedNotice": "Aucun nouvel élément ne sera sauvegardé avant que la limite ne soit augmenté ou des données supprimées.",
       "storageWarningTooltip": "@:{'common.appName'} a dépassé un seuil de stockage. Plus de détails disponibles dans l'onglet Stockage dans le menu des Options.",
       "storageAlertTooltip": "@:{'common.appName'} a dépassé la limite maximum de stockage.",
-      "storageDetails": "Plus de détails sont disponibles dans l'onglet <b>Stockage</b> dans le menu des options.",
+      "storageDetails": "Plus d'informations sont disponibles dans l'onglet <b>Stockage</b> dans le menu des options.",
       "cloudAccount": "@:{'common.cloudAccount'}",
       "achievements": "Succès",
       "manageContent": "@:{'common.manageContent'}",
       "options": "@:{'common.options'}",
       "credits": "@:{'common.credits'}",
-      "quickReference": "Pense-bête",
+      "quickReference": "Aide-mémoire",
       "supportCompcon": "Support @:{'common.appName'}"
     },
     "packConfig": {
@@ -724,7 +732,7 @@
       "importAll": "Tout importer",
       "importAllTooltip": "Tentative d'importer tous les éléments en attente. Les éléments aux dépendances manquantes resteront en attente.",
       "forceImportAll": "Forcer toutes les importations",
-      "forceImportAllTooltip": "Forcer l'importation de tous les éléments en attente, retirant toutes les dépendances ne pouvant être résolues. Utilisez ceci si vous voulez tout importer quelque soit le contenu manquant, mais soyez conscients que les éléments importés seront purgés des données manquantes et peuvent nécessiter d'être corrigés manuellement après l'importation.",
+      "forceImportAllTooltip": "Forcer l'importation de tous les éléments en attente, retirant toutes les dépendances ne pouvant être résolues. Utilisez ceci si vous voulez tout importer quelque soit le contenu manquant, mais soyez conscients que les éléments importés seront expurgés des données manquantes et peuvent nécessiter d'être corrigés manuellement après l'importation.",
       "forceImport": "Forcer l'importation (Retire les éléments manquants)",
       "forceImportPanelTitle": "@:{'common.forceImport'}",
       "attemptReimport": "Nouvelle tentative d'importation",
@@ -737,8 +745,8 @@
     },
     "about": {
       "title": "@:{'common.appName'}",
-      "ccVersion": "Version de C/C",
-      "lancerCoreVersion": "Version Core de @:{'common.gameName'}",
+      "ccVersion": "C/C version",
+      "lancerCoreVersion": "@:{'common.gameName'} CORE version de",
       "description": "@:{'common.appName'} est un assistant de jeu, libre et gratuit, pour préparer et jouer à des parties du jeu de rôle @:{'common.gameName'}.",
       "coreBookInfo": "Le livre de règles de @:{'common.gameName'}, @:{'common.appName'}, et les contenus associés peuvent être trouvés sur"
     },
@@ -751,21 +759,21 @@
       "projectWiki": "Wiki du projet",
       "quickFaq": "FAQ brève",
       "whereAreNpcs": "Où sont les PNJs ?",
-      "howToAddContent": "Comment j'ajoute le contenu des suppléments de Lancer à @:{'common.appName'}?",
+      "howToAddContent": "Comment j'ajoute le contenu des suppléments de Lancer sur @:{'common.appName'}?",
       "howToSeeExotics": "Où puis-je voir les équipements exotiques dans le Compendium ?",
       "cloudAccountFaq": "Dois-je payer pour créer un profil @:{'common.appName'} en ligne?",
       "additionalHelp": "Pour plus d'aide",
-      "whereAreNpcsBody": "Si vous avez acheté le Lancer Core Book, vous trouverez un fichier téléchargeable qui contient toutes les données des PNJs sur la page itch.io du Lancer Core Book, auquel vous pouvez accéder via le gestionnaire de contenu. Vous pouvez utiliser l'onglet {installLcp} dans le gestionnaire de contenu pour importer le fichier et commencer à créer et mener des affrontements.",
+      "whereAreNpcsBody": "Si vous avez acheté le Lancer Core Book, vous trouverez un fichier téléchargeable qui contient toutes les données des PNJs sur la page itch.io du Lancer Core Book, auquel vous pouvez accéder via le gestionnaire de contenu. Vous pouvez utiliser l'onglet {installLcp} dans la gestion du contenu pour importer le fichier et commencer à créer et mener des engagements.",
       "installLcpTab": "Installer un LCP",
-      "howToAddContentBody": "Le contenu officiel de @:{'common.gameName'} peut être trouvé sur {itchLink}. Le LCP des contenus des joueurs pour @:{'common.appName'} peut être trouvé dans la section {downloadDemo} de toutes les publications de Massif Press; Le contenu du MJ (i.e. les PNJs) peut être acheté avec la version PDF. Les liens vers ces contenus (et d'autres contenus de la communauté mises en avant ) peuvent être trouvé dans l'onglet {lcpDirectory} du gestionnaire de contenu.",
-      "itchPageText": "Page itch.io de Massif Press",
+      "howToAddContentBody": "Le contenu officiel de @:{'common.gameName'} peut être trouvé sur {itchLink}. Les LCP de contenu des joueurs pour @:{'common.appName'} peuvent être trouvé dans la section {downloadDemo} de toutes les publications de Massif Press; Les contenus du MJ (i.e. les PNJs) peuvent être acheté avec le PDF de Lancer. Les liens vers ces contenus (et autres contenus de la communauté mises en avant ) peuvent être trouvé dans l'onglet {lcpDirectory} du gestionnaire de contenu.",
+      "itchPageText": "la page itch.io de Massif Press",
       "downloadDemo": "Télécharger la démo",
       "lcpDirectory": "@:{'common.lcpDirectory'}",
-      "howToSeeExoticsBody": "Pour éviter de divulgâcher les joueurs, @:{'common.appName'} masque par défaut les équipements exotiques. Pour les rendre visible, vous pouvez utiliser le menu {options} de @:{'common.appName'} et l'activer avec le bouton {showExoticsToggle}.",
+      "howToSeeExoticsBody": "Pour éviter de divulgâcher les joueurs, @:{'common.appName'} masque par défaut les équipements exotiques. Pour les rendre visible, vous pouvez vous rendre dans le menu {options} de @:{'common.appName'} et enclencher le bouton {showExoticsToggle}.",
       "optionsLabel": "@:{'common.options'}",
-      "additionalHelpBody": "La {faqLink} peut avoir la réponse à vos questions! Si malgré tout vous ne trouvez pas ce que vous cherchez, n'hésitez pas à passer sur {discordLink} (et spécifiquement le canal #comp-con channel) avec vos questions ou commentaires pour les développeurs.",
+      "additionalHelpBody": "La {faqLink} peut avoir la réponse à vos questions! Si malgré tout vous ne trouvez pas ce que vous cherchez, n'hésitez pas à passer sur {discordLink} (et spécifiquement le canal #comp-con) avec vos questions ou commentaires pour les développeurs.",
       "faqLinkText": "FAQ @:{'common.appName'}",
-      "discordLinkText": "Le discord non officel de @:{'common.gameName'}"
+      "discordLinkText": "le discord non officiel de @:{'common.gameName'}"
     },
     "credits": {
       "lancerBy": "@:{'common.gameName'} par",
@@ -774,7 +782,7 @@
       "graphicDesignBy": "Design graphique par",
       "additionalArtBy": "Illustrations supplémentaires par",
       "patronThanks": "Le développement continu de @:{'common.appName'} ne serait pas possible sans les généreuses {support} de",
-      "tier": "@:{'common.tier'}",
+      "tier": "{patreonTierName} Tier",
       "anonymousPatron": "Donateurs anonymes",
       "support": "contributions"
     },
@@ -793,20 +801,20 @@
       "none": "@:{'common.none'}",
       "name": "@:{'common.name'}",
       "rarity": "Rareté",
-      "dateUnlocked": "Date de déblocage",
+      "dateUnlocked": "Date",
       "createBackup": "Créer une sauvegarde des succès",
       "loadBackup": "Charger une sauvegarde des succès",
-      "overwriteAllWarning": "Tout écraser",
+      "overwriteAllWarning": "écrasera",
       "eraseAllWarning": "effacera",
-      "selectExportFile": "Sélectionner le fichier d'exportation des succès @:{'common.appName'}",
+      "selectExportFile": "Sélectionner un fichier d'exportation des succès @:{'common.appName'}",
       "resetAchievements": "Réinitialiser les succès",
       "cannotAddTitle": "Ne peut pas ajouter de succès",
       "cannotAddText": "Code invalide ou déjà débloqué",
       "progress": "{count} sur {total} débloqué",
       "othersCount": "(+{count} autres)",
-      "hiddenCount": "{count} succès masqué | {count}succès masqués | {count}succès masqués",
+      "hiddenCount": "{count} succès masqué | {count} succès masqués | {count} succès masqués",
       "cannot": "ne peut pas",
-      "displayOptions": "Aperçu",
+      "displayOptions": "Montrer",
       "warningDataFull": "Cela {emphasis} les données de succès de l'utilisateur.",
       "cannotBeUndoneFull": "Cela {emphasis} être annulé. Il est fortement recommandé de créer une sauvegarde au préalable."
     },
@@ -814,7 +822,7 @@
       "showUpdateMessages": "Montrer les notes de mise à jour",
       "showExoticsLabel": "Montrer les équipements exotiques dans le Compendium",
       "showDesktopTablesLabel": "Forcer l'affichage de bureau des tables du Compendium",
-      "showDesktopTablesTooltip": "Par défaut, @:{'common.appName'} montre une version simplifié des tables du Compendium sur les appareils mobiles pour améliorer leur lisibilité et leur performance. Activer cette option forcera l'affichage en mode bureau sur tous les appareils. Cela peut rendre certaines tables difficiles à lire ou causer des problèmes de performances sur les appareils mobiles.",
+      "showDesktopTablesTooltip": "Par défaut, @:{'common.appName'} montre une version simplifiée des tables du Compendium sur les appareils mobiles pour améliorer leur lisibilité et leur performance. Activer cette option forcera l'affichage en mode bureau sur tous les appareils. Cela peut rendre certaines tables difficiles à lire ou causer des problèmes de performances sur les appareils mobiles.",
       "showExoticsTooltip": "Activer cette option peut divulgâcher une campagne et il est recommandé de laisser ce paramètre DÉSACTIVÉ si vous n'êtes pas le MJ",
       "theme": "Thème",
       "font": "Police de caractère",
@@ -825,34 +833,41 @@
       "disabled": "désactivé",
       "errorReportingTooltip": "Les rapports d'erreurs permettent l'envoi de données d'erreur anonymes au développeur pour identifier et résoudre des bugs et autres problèmes.",
       "errorReportingPiiNote": "Aucune information personnelle identifiable n'est collecté à ce niveau.",
-      "enhancedReportingTooltip": "Les rapports d'erreur avancés envoient au développeur des données supplémentaires, incluant {nonAnon}. Toutes les autres informations personnelles identifiables sont expurgées avant la transmission. Ceci est {notNecessary} à moins que vous ne travailliez activement avec le développeur pour résoudre un problème spécifique et avez été demandé d'activer ce paramètre.",
-      "enhancedReportingPiiNote": "informations non anonyme, spécifiquement l'adresse IP et l'identifiant d'utilisateur",
-      "enhancedReportingNotNecessary": "non nécessaire",
+      "enhancedReportingTooltip": "Les rapports d'erreur avancés envoient au développeur des données supplémentaires, incluant {nonAnon}. Toutes les autres données personnelles d'identification sont expurgées avant la transmission. Ceci n'est {notNecessary} à moins que vous ne travailliez activement avec le développeur pour résoudre un problème spécifique et qu'il vous ait été demandé d'activer ce paramètre.",
+      "enhancedReportingPiiNote": "des informations non anonymes, spécifiquement l'adresse IP et l'identifiant d'utilisateur",
+      "enhancedReportingNotNecessary": "pas nécessaire",
       "enhancedReportingStatus": "Rapport d'erreur avancé {status}",
       "communityThemesBy": "Thèmes communautaires par {vialra}{asger}{thecrystalwoods} et {suji}",
       "importStrategy": "Stratégie d'importation",
       "createBackup": "Créer une sauvegarde des données",
-      "createBackupTooltip": "@:{'common.appName'} repose sur le stockage sécurisé de votre navigateur pour sauvegarder et charger ses données. Généralement, ces données sont à l'abri d'une suppression, mais certains paramètres de navigateurs peuvent parfois les effacer, résultant en la perte des vos données @:{'common.appName'}. Il est de bon usage de sauvegarder régulièrement vos données de temps en temps.",
+      "createBackupTooltip": "@:{'common.appName'} repose sur le stockage sécurisé de votre navigateur pour stocker et charger ses données. Généralement, ces données sont à l'abri d'une suppression, mais certains paramètres de navigateurs peuvent parfois les effacer, résultant en la perte des vos données @:{'common.appName'}. Il est de bon usage régulièrement créer une sauvegarde locale de vos données de temps en temps.",
       "downloadV2Backup": "Télécharger la sauvegarde des données V2",
-      "downloadV2Tooltip": "@:{'common.appName'} a créé une sauvegarde complète de vos données @:{'common.appName'} V2. Ils peuvent être importé dans la version V2 sur old.compcon.app.",
+      "downloadV2Tooltip": "@:{'common.appName'} a créé une sauvegarde complète de vos données de @:{'common.appName'} V2. Ils peuvent être importé dans la version V2 sur old.compcon.app.",
       "loadBackup": "Charger une sauvegarde des données",
-      "loadBackupTooltip": "Les fichiers .compcon sont des fichiers d'exportations de @:{'common.appName'} contenant l'intégralité de vos données locales en un seul fichier. Vous pouvez créer un fichier de sauvegarde .compcon en utilisant le bouton \"Créer une sauvegarde des données\". Utilisez cette option pour charger un fichier de sauvegarde .compcon que vous avez créé ou obtenu d'une autre source. Il est recommandé de créer une sauvegarde avant de charger un fichier .compcon, surtout si le fichier d'une autre source.",
+      "loadBackupTooltip": "Les fichiers .compcon sont des fichiers d'exportations de @:{'common.appName'} contenant l'intégralité de vos données locales en un seul fichier. Vous pouvez créer un fichier de sauvegarde .compcon en utilisant le bouton \"Créer une sauvegarde des données\". Utilisez cette option pour charger un fichier de sauvegarde .compcon que vous avez créé ou obtenu d'une autre source. Il est recommandé de créer une sauvegarde locale avant de charger un fichier .compcon, surtout si le fichier d'une autre source.",
       "mergeStrategy": "Fusionner avec les données existantes",
       "overwriteStrategy": "Écraser toutes les données existantes",
       "mergeWarning": "@:{'common.appName'} va essayer de fusionner les données importées avec vos données existantes.",
-      "overwriteWarning": "Écraser remplacera toutes les données locales existantes avec les données du fichier importé et ne peut pas être annulé. Il est fortement recommandé de créer une sauvegarde avant d'utiliser cette option.",
+      "overwriteWarning": "Écraser remplacera toutes les données locales existantes avec les données du fichier importé et ne peut pas être annulé. Il est fortement recommandé de créer une sauvegarde locale avant d'utiliser cette option.",
       "selectBulkFile": "Sélectionner le fichier d'export .compcon",
       "v2BackupDetected": "Sauvegarde de données V2 détectée",
       "importV2Backup": "Importer une sauvegarde de données V2",
       "confirmImport": "@:{'common.confirmImport'}",
-      "errorReportingStatus": "Rapport d'erreur {status}"
+      "errorReportingStatus": "Rapport d'erreur {status}",
+      "resetV2Migration": "Réinitialiser le statut de migration V2",
+      "resetV2Tooltip": "Réinitialise le statut de migration V2, permettant au bouton des données V2 d'apparaître à nouveau si il fût masqué.",
+      "turnWizardClosePolicy": {
+        "ask": "Demander à garder ou annuler des actions",
+        "keep": "Garder les actions",
+        "undo": "Annuler les actions"
+      }
     },
     "storage": {
       "storageUsageFull": "@:{'common.appName'} utilise actuellement {used} sur {total}, ou {percent} de votre stockage disponible. Cela inclut l'espace réservé par @:{'common.appName'} pour la gestion de l'aplication.",
       "neverAutoDeleteFull": "@:{'common.appName'} ne supprimera {never} automatiquement les données marqué pour suppression.",
       "autoDeleteFull": "@:{'common.appName'} supprimera définitivement les données marquées comme supprimées depuis au moins {days}. Cela n'affectera pas les éléments non marqués pour suppression.",
-      "daysCount": "{count} jours. | {count} jours. | {count} jours.",
-      "deleteAllConfirm": "TOUT",
+      "daysCount": "{count} jour. | {count} jours. | {count} jours.",
+      "deleteAllConfirm": "TOUTES",
       "storageSettings": "Paramètres de stockage",
       "storageThresholds": "Limites de stockage",
       "maxThresholdPct": "Limite maximale (%)",
@@ -865,7 +880,7 @@
       "userData": "Données d'utilisateur",
       "clearAllData": "@:{'common.clearAllData'}",
       "deleteWarningBanner": "Alerte // alerte // alerte",
-      "areYouSure": "Êtes vous certain de vouloir continuer ?",
+      "areYouSure": "Êtes vous certain de vouloir continuer?",
       "deleteAllUserData": "Supprimer toutes les données d'utilisateur",
       "warningThresholdPct": "Seuil d'avertissement (%)",
       "warningThresholdMb": "Seuil d'avertissement (MB)",
@@ -875,7 +890,10 @@
       "x1Month": "1 mois",
       "x3Months": "3 mois",
       "x6Months": "6 mois",
-      "x1Year": "1 an"
+      "x1Year": "1 an",
+      "deleteConfirmIntro": "Cela supprimera {confirm} les données locales de {'common.appName'}.",
+      "cannotBeUndone": "ne peut être annulé.",
+      "deleteConfirmUndone": "Cela"
     },
     "log": {
       "logLevel": "@:{'common.logLevel'}",
@@ -886,16 +904,19 @@
       "caller": "Origine",
       "exportThisSession": "Exporter le journal de cette session",
       "exportAllSessions": "Exporter les journaux de toutes les sessions",
-      "clearLog": "Effacer le journal"
+      "clearLog": "Effacer le journal",
+      "clearAllLogs": "Effacer tous les journaux",
+      "clearAllLogsConfirm": "Cela supprimera définitivement toutes les entrées de journal de toutes les sessions, y compris les sessions enregistrées de visites précédentes."
     },
     "deletedItems": {
       "noItemsFound": "Aucun élément trouvé",
-      "itemType": "",
+      "itemType": "Type",
       "deletedOn": "Supprimé le",
       "restore": "@:{'common.restoreAction'}",
       "permanentlyDelete": "Supprimer définitivement",
       "restoreAll": "Tout restaurer",
-      "permanentlyDeleteAll": "Tout supprimer définitivement"
+      "permanentlyDeleteAll": "Tout supprimer définitivement",
+      "itemName": "Nom de l'élément"
     },
     "userDataViewer": {
       "description": "Ce sont les données d'utilisateur sauvegardées localement. Ces éléments ne devraient généralement pas être réinitialisées, mais peuvent être utiles pour débugguer ou résoudre des problèmes persistants de chargement.",
@@ -906,14 +927,15 @@
     "packInstall": {
       "selectFile": "Sélectionner un fichier .LCP",
       "install": "Installer",
-      "willReplace": "Il va être remplacé par cette copie.",
+      "willReplace": "Il sera remplacé par cette copie.",
       "requiresContent": "Ce LCP requiert le contenu suivant pour être installé avant d'être ajouté",
       "byAuthorVersion": "par {author} {'@'} {version}",
       "byAuthorRequires": "Par {author} requiert",
-      "upgradeFromTo": "",
-      "noChange": "Aucun changement {from} à {to}",
+      "upgradeFromTo": "Mettre à jour de la {from} à la {to}",
+      "noChange": "Aucun changement ({from} à {to})",
       "willUpgradeTo": "Il va être mis à jour à la v.{version}",
-      "willDowngradeTo": "Il va être mis à jour à la v.{version}"
+      "willDowngradeTo": "Il va être rétrogradé à la v.{version}",
+      "downgradeTo": "Rétrograder à la {version}"
     },
     "packsDirectory": {
       "officialContent": "Contenu officiel",
@@ -951,7 +973,7 @@
       "importedSuccessfully": "Importé avec succès.",
       "importFailedText": "Importation échoué: {error}",
       "forceImportComplete": "Forcer l'importation complète.",
-      "forceImportFailedText": "Importation forcé échoué: {error}"
+      "forceImportFailedText": "Importation forcée échoué: {error}"
     },
     "alt": {
       "netlifyStatus": "Statut Netlify",
@@ -987,7 +1009,8 @@
       "saveSuccessful": "Sauvegarde réussie",
       "saveFailed": "Sauvegarde échouée",
       "copiedToClipboard": "Copiée dans le presse-papier",
-      "nominal": "Nominal"
+      "nominal": "Nominal",
+      "invalidJsonFile": "Fichier JSON invalide"
     },
     "roster": {
       "addFromRoster": "Ajouter depuis le tableau de service",
@@ -1997,7 +2020,8 @@
       "serverErrorTooManyRequests": "Erreur serveur - Trop de requêtes"
     },
     "common": {
-      "installName": "Installer {name}"
+      "installName": "Installer {name}",
+      "unknownBackground": "Historique inconnu"
     },
     "a11y": {
       "dragToReorderGroup": "Glisser pour réorganiser le groupe"

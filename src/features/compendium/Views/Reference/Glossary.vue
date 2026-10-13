@@ -7,7 +7,7 @@
   >
     <template #header>
       <div class="heading h3 text-center text-accent">
-        {{ $t('compendium.reference.glossary') }}
+        {{ $t('compendium.shared.referenceGlossary') }}
       </div>
     </template>
   </cc-compendium-browser>

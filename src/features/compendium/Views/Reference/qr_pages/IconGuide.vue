@@ -110,17 +110,17 @@
       title: t('compendium.iconGuide.damageTypes'),
       items: [
         {
-          name: t('compendium.iconGuide.kineticDamage'),
+          name: t('ui.compendiumBrowser.kineticDamage'),
           icon: 'cc:kinetic',
           color: 'damage--kinetic',
         },
         {
-          name: t('compendium.iconGuide.energyDamage'),
+          name: t('ui.compendiumBrowser.energyDamage'),
           icon: 'cc:energy',
           color: 'damage--energy',
         },
         {
-          name: t('compendium.iconGuide.explosiveDamage'),
+          name: t('ui.compendiumBrowser.explosiveDamage'),
           icon: 'cc:explosive',
           color: 'damage--explosive',
         },
@@ -216,7 +216,7 @@
           color: 'damage--heat',
         },
         {
-          name: t('compendium.iconGuide.reactorStress'),
+          name: t('combat.structureCheck.stress'),
           icon: 'cc:reactor',
           color: 'stress',
         },
@@ -282,7 +282,7 @@
           color: 'action--full',
         },
         {
-          name: t('compendium.iconGuide.quickAction'),
+          name: t('active.actionChips.quickAction'),
           icon: 'mdi-hexagon-slice-3',
           color: 'action--quick',
         },
@@ -315,7 +315,7 @@
     },
     {
       id: 'iconguide_item_types',
-      title: t('compendium.iconGuide.itemTypes'),
+      title: t('mainMenu.syncSettings.itemTypes'),
       items: [
         {
           name: t('common.weapon'),
@@ -433,7 +433,7 @@
     },
     {
       id: 'iconguide_other',
-      title: t('compendium.iconGuide.other'),
+      title: t('ui.widget.other'),
       items: [
         {
           name: t('common.accuracy'),

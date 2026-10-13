@@ -41,7 +41,7 @@
       <compendium-page-button
         color="exotic"
         icon="cc:pilot"
-        :name="$t('compendium.shared.referencePilots')"
+        :name="$t('common.pilots')"
         to="srd/reference/pilots"
       />
       <compendium-page-button
