@@ -126,7 +126,8 @@
                     <v-divider v-if="si"
                       class="my-1" />
                     <v-col v-for="e in seg"
-                      :key="entryKey(e)">
+                      :key="entryKey(e)"
+                      :style="`flex: 1 0 ${25 * row.length}%`">
                       <action-palette-item :action="e.action"
                         :controller="controller"
                         :actor="actor"
