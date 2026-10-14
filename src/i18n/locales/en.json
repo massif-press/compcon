@@ -1006,7 +1006,6 @@
       "layers": "Layers",
       "addLayer": "add layer",
       "addRandomLayer": "Add random layer",
-      "noLayers": "no layers",
       "orderLower": "Order Lower",
       "orderHigher": "Order Higher",
       "layerDescription": "Layer Description",
@@ -3820,8 +3819,7 @@
         "burn": "Burn Check",
         "structureOrStressCheck": "Structure or Stress Check",
         "attackInputs": "Attack Inputs",
-        "attackRoll": "Attack Roll",
-        "damage": "Damage Roll"
+        "attackRoll": "Attack Roll"
       }
     },
     "coreSystem": {

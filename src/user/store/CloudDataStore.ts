@@ -55,7 +55,7 @@ export const CloudDataStore = defineStore('cloudData', {
     MaxCloudStorage(): number {
       const tier =
         UserMetadataStore().UserMetadata?.PatreonData?.profile?.tierData?.title?.toLowerCase() ?? ''
-      let baseMbVal = 100
+      let baseMbVal = 250
       if (tier === 'diasporan') baseMbVal = 1000
       else if (tier === 'cosmopolitan') baseMbVal = 5000
       else if (tier === 'lancer' || tier === 'nhp' || tier === 'monist') baseMbVal = 10000
